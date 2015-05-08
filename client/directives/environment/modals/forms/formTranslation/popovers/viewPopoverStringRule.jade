@@ -8,7 +8,7 @@
     h3.popover-title(
       ng-if = "true"
     ) New String Replace Rule
-      small.small 🐶 Rules are case-sensitive and trailing whitespace is not trimmed. Regular expressions are not supported.
+      small.small 🐶 Rules are case-sensitive and trailing whitespace is not trimmed. Regular expressions are not supported. Or use an elastic URL to create an association.
 
     //- if existing rule
     h3.popover-title(
@@ -26,7 +26,7 @@
 
 
     .label-row
-      label.label-col Find
+      label.label-col Find string
         input.input.input-sm.monospace(
           spellcheck = "false"
         )
@@ -35,7 +35,13 @@
         input.input.input-sm.monospace(
           spellcheck = "false"
         )
+        button.btn.btn-sm.btn-icon.gray
+          svg.iconnables
+            use(
+              xlink:href = "#icons-container-association"
+            )
 
+    //- if string
     small.small.table-details(
       ng-if = "data.saving"
     ) 2 matches in 1 file (excludes ignored files)
@@ -45,6 +51,17 @@
       ng-if = "data.saving"
       ng-include = "'viewRuleString'"
     )
+
+    //- //- if association
+    //- small.small.table-details(
+    //-   ng-if = "data.saving"
+    //- ) 1 association
+
+    //- //- association verification table
+    //- .table.table-diff(
+    //-   ng-if = "data.saving"
+    //-   ng-include = "'viewRuleAssociation'"
+    //- )
 
   .popover-footer.clearfix
     button.btn.green.btn-spinner(

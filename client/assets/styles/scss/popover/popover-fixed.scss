@@ -1,17 +1,11 @@
 .popover-fixed {
   left: 0 !important;
   margin: 0 auto;
-  max-width: 540px;
+  max-width: 630px;
   position: fixed;
   right: 0 !important;
   top: calc(9% + 90px) !important;
   z-index: $z-popover-fixed;
-
-  .popover-content {
-    max-height: 375px;
-    overflow-y: auto;
-    padding: 15px 15px 30px;
-  }
 
   .popover-title {
     margin: 6px 0 21px;
@@ -35,9 +29,35 @@
     }
   }
 
+  .popover-content {
+    max-height: 375px;
+    overflow-y: auto;
+    padding: 15px 15px 30px;
+  }
+
+  .label-col {
+    position: relative;
+
+    .btn-icon {
+      bottom: 4px;
+      height: 28px;
+      position: absolute;
+      right: 4px;
+      width: 28px;
+    }
+
+    .iconnables {
+      height: 18px;
+      right: -1px;
+      top: -7px;
+    }
+  }
+
   // monospace inputs
   .input.monospace {
     color: $gray-darker;
     font-size: 13px;
+    letter-spacing: -.25px;
+    padding-right: 33px;
   }
 }

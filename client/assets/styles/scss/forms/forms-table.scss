@@ -2,14 +2,36 @@
   background: $white;
   border: 1px solid $gray-lighter;
   border-radius: 3px;
+
+  // space out tables
+  + .table {
+    margin-top: 9px;
+  }
+}
+
+// merge tables
+.table-merge {
+  border-radius: 3px 3px 0 0;
+
+  .tr:last-child {
+    border-radius: 0;
+    padding-bottom: 0;
+  }
+}
+
+.table-merge + .table-merge {
+  border-radius: 0 0 3px 3px;
+  border-top: 0;
+  margin-top: 0;
+
+  .tr:first-child {
+    border-radius: 0;
+    padding-top: 0;
+  }
 }
 
 // diff
 .table-diff {
-
-  + .table-diff {
-    margin-top: 9px;
-  }
 
   .thead {
     border-bottom: 1px solid $gray-lighter;
@@ -142,15 +164,20 @@
   .cell {
     height: 30px;
     line-height: 30px;
+  }
 
-    &:only-child {
-      width: 100%;
-    }
+  .btn {
+    float: right;
+    top: 3px;
+  }
 
-    .btn {
-      float: right;
-      top: 3px;
-    }
+  .btn-status {
+    color: $gray;
+    cursor: default;
+    float: none;
+    font-size: 13px;
+    margin-left: 6px;
+    top: 0;
   }
 }
 
@@ -266,32 +293,22 @@
   }
 
   // actions
+  // does this need to be direct child selector?
   > .btn {
     float: left;
+  }
 
-    // second action
-    + .btn {
-      color: $gray;
-      float: right;
-      font-size: 13px;
+  .btn-status {
+    color: $gray;
+    cursor: default;
+    float: right;
+    font-size: 13px;
+    top: 0;
 
-      // tag
-      &:hover,
-      &:active {
-        color: $purple-light;
-
-        .tag {
-          background: $purple-light;
-        }
-      }
-
-      .tag {
-        background: $gray;
-        color: $gray-lighter;
-        cursor: pointer;
-        float: right;
-      }
-    }
+    // &:hover,
+    // &:active {
+    //   color: $purple-light;
+    // }
   }
 
   .label {

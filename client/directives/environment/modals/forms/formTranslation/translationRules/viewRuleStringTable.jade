@@ -1,5 +1,8 @@
 .tr.thead.clearfix
   .cell Strings
+    button.btn.btn-xs.btn-status(
+      title = "{{linkedEnvResults.servers.length || 0 }} associations from translation rules"
+    ) 0 associations
     button.btn.btn-xs.white(
       pop-over
       pop-over-actions = "actions"
@@ -12,6 +15,7 @@
   ng-if = ""
 )
   .cell (empty)
+
 //- when dragging:
   - add .disabled to the .tr to be dragged
   - clone .tr that's being dragged
@@ -34,12 +38,13 @@
   //- note: the title attribute
   .cell.cell-action.monospace.disabled(
     ng-class = "{disabled: noWarning}"
-    title = "0 strings being replaced"
+    title = "0 strings replaced"
   )
     svg.iconnables.icons-warning
       use(
         xlink:href = "#icons-warning"
       )
+
 .tr.tr-action.clearfix
   .cell.cell-action
     svg.iconnables.icons-drag
@@ -58,50 +63,9 @@
     - the title attribute should only appear if the warning also appears
   .cell.cell-action.monospace(
     ng-class = "{disabled: noWarning}"
-    title = "0 strings being replaced"
+    title = "0 strings replaced"
   )
     svg.iconnables.icons-warning(
-    )
-      use(
-        xlink:href = "#icons-warning"
-      )
-.tr.thead.clearfix
-  .cell Filenames
-    button.btn.btn-xs.white(
-      pop-over
-      pop-over-actions = "actions"
-      pop-over-data = "data"
-      pop-over-options = "{\"left\":0,\"top\":0}"
-      pop-over-template = "viewPopoverFilenameRule"
-    ) New filename rule
-.tr.tr-action.clearfix
-  //- hide drag if there is only one rule of that type
-    - .disabled will hide the action visually
-    - .no-touching will stop pointer events
-  .cell.cell-action.disabled.no-touching(
-    ng-class = "{\
-      disabled: ifOnlyRuleOfType,\
-      'no-touching': ifOnlyRuleOfType\
-    "
-  )
-    svg.iconnables.icons-drag
-      use(
-        xlink:href = "#icons-drag"
-      )
-  .cell.monospace.text-overflow.cell-arrow(
-    ng-class = "{disabled: noWarning}"
-    title = "./client/assets/js/primus-client.js"
-  ) primus-client.js
-  .cell.monospace.text-overflow(
-    title = "./client/assets/js/primus-client-prod.js"
-  ) primus-client-prod.js
-  //- add .disabled if no warning
-  .cell.cell-action.monospace.disabled(
-    ng-class = "{disabled: noWarning}"
-  )
-    //- note: the title attribute
-    svg.iconnables.icons-warning(
-      title = "0 strings being replaced"
     )
       use(
         xlink:href = "#icons-warning"
