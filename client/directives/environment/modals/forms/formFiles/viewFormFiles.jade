@@ -1,19 +1,4 @@
 .label.clearfix
-  .label-col Branch
+  .label-col Container Files
 
   .input-col
-    fancy-select(
-      ng-required = "true"
-      value = "state.branch"
-    )
-      li.list-item.popover-list-item.small Select branch
-      fancy-option(
-        ng-repeat = "branch in $parent.branches.models"
-        value = "branch"
-      )
-        svg.iconnables.icons-branch
-          use(
-            xlink:href = "#icons-branch"
-          )
-        | {{ $parent.branch.attrs.name }}
-    small.small Set the default branch for {{ server.instance.getDisplayName() }}.
