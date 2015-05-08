@@ -41,6 +41,7 @@
               xlink:href = "#icons-container-association"
             )
 
+    //- if string
     small.small.table-details(
       ng-if = "data.saving"
     ) 2 matches in 1 file (excludes ignored files)
@@ -50,6 +51,17 @@
       ng-if = "data.saving"
       ng-include = "'viewRuleString'"
     )
+
+    //- //- if association
+    //- small.small.table-details(
+    //-   ng-if = "data.saving"
+    //- ) 1 association
+
+    //- //- association verification table
+    //- .table.table-diff(
+    //-   ng-if = "data.saving"
+    //-   ng-include = "'viewRuleAssociation'"
+    //- )
 
   .popover-footer.clearfix
     button.btn.green.btn-spinner(
