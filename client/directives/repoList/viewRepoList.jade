@@ -12,7 +12,7 @@
   button.btn.btn-xs.orange.sub-header-action(
     ng-click = "triggerInstanceUpdateOnRepoCommitChange()"
     ng-if = "showUpdateButton()"
-    tooltip = "Update your server to see your changes"
+    tooltip = "Update your container to see your changes"
     tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
   )
     svg.iconnables.icons-update
@@ -21,16 +21,6 @@
       )
     | Update
 
-//- show .guide if instance.setup && no repositories have been added yet
-.guide.guide-image.guide-pointer(
-  ng-click = "data.show = !data.show"
-  ng-if = "!$storage.repoListIsClosed && showAddFirstRepoMessage && unsavedAcvs.length === 0"
-)
-  svg.iconnables.icons-git
-    use(
-      xlink:href = "#icons-git"
-    )
-  p.guide-text Add a repository to your server.
 ul.list.repository-group(
   ng-if = "!$storage.repoListIsClosed"
 )
@@ -44,7 +34,7 @@ ul.list.repository-group(
   )
     label.label-checkbox.btn-sm.btn-checkbox(
       ng-if = "showAutoDeploy"
-      tooltip = "Disabling auto-deploy will stop your server from automatically updating with new changes to your repositories."
+      tooltip = "Disabling auto-deploy will stop your container from automatically updating with new changes to your repositories."
       tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":3,\"top\":27}"
     )
       input.input-checkbox(

@@ -3,7 +3,7 @@
 var VersionFileModel = require('runnable/lib/models/context/version/file');
 
 describe.skip('serviceOpenItems'.bold.underline.blue, function () {
-  var $localStorage, keypather, pluck, equals, async, OpenItems;
+  var $localStorage, keypather, OpenItems;
   var fileObj = {"path":"/home","name":"defined","isDir":false,"body":"adsf","state":{"from":"File"}};
   var fileModel = new VersionFileModel(fileObj, { noStore: true });
 
