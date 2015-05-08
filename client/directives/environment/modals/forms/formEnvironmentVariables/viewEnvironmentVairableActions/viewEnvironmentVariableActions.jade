@@ -7,16 +7,13 @@ button.btn.btn-xs.gray(
 ) Insert elastic url
 
 button.btn.btn-xs.btn-status(
-  ng-class = "{\
-    'no-touching': !linkedEnvResults.servers.length && !linkedEnvResults.others.length\
-  }"
   ng-if = "!state.showHostName"
-  pop-over
-  pop-over-data = "linkedEnvResults"
-  pop-over-options = "{\"left\":-100,\"top\":-85}"
-  pop-over-template = "viewPopoverLinkHelper"
   title = "{{linkedEnvResults.servers.length || 0 }} associations from environment variables"
 ) {{linkedEnvResults.servers.length || 0 }} associations
+  //- pop-over
+  //- pop-over-data = "linkedEnvResults"
+  //- pop-over-options = "{\"left\":-100,\"top\":-85}"
+  //- pop-over-template = "viewPopoverLinkHelper"
 
 
 //- if inserting host names

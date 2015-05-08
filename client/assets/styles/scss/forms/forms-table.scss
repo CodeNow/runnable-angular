@@ -173,10 +173,11 @@
 
   .btn-status {
     color: $gray;
+    cursor: default;
     float: none;
     font-size: 13px;
-    top: 0;
     margin-left: 6px;
+    top: 0;
   }
 }
 
@@ -299,15 +300,15 @@
 
   .btn-status {
     color: $gray;
+    cursor: default;
     float: right;
     font-size: 13px;
     top: 0;
 
-    // tag
-    &:hover,
-    &:active {
-      color: $purple-light;
-    }
+    // &:hover,
+    // &:active {
+    //   color: $purple-light;
+    // }
   }
 
   .label {
