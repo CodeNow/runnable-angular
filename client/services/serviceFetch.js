@@ -15,29 +15,27 @@ require('app')
   .factory('integrationsCache', integrationsCache)
   .factory('fetchInstancesByPod', fetchInstancesByPod);
 
-function fetchUser(keypather, user, $q, $state) {
+function fetchUser(keypather, user, $q, $state, promisify) {
   var fetchedUser = null;
   var socket = null;
   // For consistency with other promise fetchers
   return function () {
     if (!fetchedUser) {
-      // Promise version of serviceFetchUser
-      // http://stackoverflow.com/a/22655010/1216976
-      var deferred = $q.defer();
-      fetchedUser = deferred.promise;
-      user.fetchUser('me', function (err) {
-        if (err) {
-          if (keypather.get(err, 'data.statusCode') === 401 &&
-              !keypather.get($state, 'current.data.anon')) {
-            $state.go('home');
-          }
-          deferred.reject(err);
-        } else {
-          if (!socket) {
-            socket = user.createSocket();
-          }
-          deferred.resolve(user);
+      fetchedUser = promisify(user, 'fetchUser')('me')
+      .then(function (_user) {
+        if (!socket) {
+          socket = _user.createSocket();
         }
+        return _user;
+      })
+      .catch(function (err) {
+        // Catch an unauth'd request and send 'em back
+        if (keypather.get(err, 'data.statusCode') === 401 &&
+            !keypather.get($state, 'current.data.anon')) {
+          $state.go('home');
+        }
+        // Allow other .catch blocks to grab it
+        return $q.reject(err);
       });
     }
     return fetchedUser;

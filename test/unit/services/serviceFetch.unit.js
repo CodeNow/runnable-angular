@@ -82,7 +82,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
         user.fetchGithubOrgs = sinon.spy(function (cb) {
           setTimeout(cb);
           return 'some value, perhaps';
-        })
+        });
       });
     });
 
