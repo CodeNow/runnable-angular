@@ -15,7 +15,7 @@ function cardBuildStatusTitle(
     var statusMap = {
       'stopped': 'Stopped',
       'crashed': 'Crashed',
-      'running': 'Running',
+      'running': 'Running for',
       'buildFailed': 'Failed',
       'building': 'Building for',
       'unknown': 'unknown'
@@ -41,7 +41,7 @@ function cardBuildStatusTitle(
         time = keypather.get(instance, 'containers.models[0].attrs.inspect.State.StartedAt');
         break;
       default:
-        return 'Unknown';
+        return 'Processing';
     }
 
     return statusMap[status] + ' ' + moment(time).fromNow(noAgo);
