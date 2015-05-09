@@ -48,7 +48,7 @@
 
   // colors
   &.gray {
-    background: $gray-lightest;
+    background: $gray-lighterest;
     border-color: $gray-lighter;
   }
 
@@ -129,15 +129,6 @@
   display: flex;
   flex-direction: column;
   margin: 0 15px 6px;
-
-  // proxy url
-  .input {
-    border: 0;
-    display: block;
-    font-size: 13px;
-    letter-spacing: -.25px;
-    text-align: center;
-  }
 }
 
 // title group
@@ -285,6 +276,16 @@
   border-top: 1px solid rgba($black,.1);
   flex: 0 0 auto;
   padding: 6px;
+
+  // proxy url
+  .input {
+    border: 0;
+    display: block;
+    height: 24px;
+    letter-spacing: -.25px;
+    line-height: 24px;
+    text-align: center;
+  }
 }
 
 // template

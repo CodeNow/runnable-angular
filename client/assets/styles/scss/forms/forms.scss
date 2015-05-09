@@ -112,7 +112,7 @@ input,
 
   &[disabled],
   &[readonly] {
-    background-color: $gray-lightest;
+    background-color: $gray-lighterest;
     border-color: $gray-lighter !important; // override any validation
     color: $gray-lighter;
   }

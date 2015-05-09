@@ -10,12 +10,6 @@
     pop-over-options = "{\"right\":0,\"top\":47}"
     pop-over-template = "serverOptionsCardPopover"
   )
-  input.input.input-sm.monospace(
-    ng-if = "!showSpinner()"
-    readonly
-    select-all
-    value = "{{ server.instance.getElasticHostname() }}"
-  )
 
 ul.card-body.card-loading(
   ng-if = "showSpinner()"
@@ -139,3 +133,11 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-arrow-down"
       )
+
+.card-footer
+  input.input.input-sm.small.monospace(
+    ng-if = "!showSpinner()"
+    readonly
+    select-all
+    value = "{{ server.instance.getElasticHostname() }}"
+  )

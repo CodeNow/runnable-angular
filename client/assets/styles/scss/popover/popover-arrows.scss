@@ -25,7 +25,7 @@
 
 .popover.right .arrow:after {
   border-left-width: 0;
-  border-right-color: $gray-lightest;
+  border-right-color: $gray-lighterest;
   bottom: -10px;
   content: '';
   left: 1px;
@@ -99,7 +99,7 @@
   }
 
   &.bottom > .arrow::after {
-    border-bottom-color: $gray-lightest;
+    border-bottom-color: $gray-lighterest;
   }
 
   &.top {
