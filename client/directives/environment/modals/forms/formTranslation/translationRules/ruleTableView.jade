@@ -1,6 +1,6 @@
 ul.table(
   dnd-list = "state.list"
-  dnd-allowed-types = "type"
+  dnd-allowed-types = "allowedTableTypes"
 )
   li.tr.thead.clearfix(
     dnd-disable-if = "true"
@@ -8,14 +8,14 @@ ul.table(
     .cell {{ header.title }}
       button.btn.btn-xs.white(
         pop-over
-        pop-over-actions = "actions"
-        pop-over-data = "data"
+        pop-over-actions = "popoverData.actions"
+        pop-over-data = "popoverData.data"
         pop-over-options = "{\"left\":0,\"top\":0}"
-        pop-over-template = "viewPopoverStringRule"
+        pop-over-template = "popoverData.template"
       ) {{ header.description }}
   li.tr.tr-action.clearfix(
     ng-repeat = "item in state.list"
-    dnd-type = "type"
+    dnd-type = "tableType"
     dnd-draggable = "item"
     dnd-effect-allowed = "move"
     dnd-moved = "state.list.splice($index, 1)"
@@ -46,7 +46,7 @@ ul.table(
     //- note: the title attribute
     .cell.cell-action.monospace.disabled(
       ng-class = "{disabled: noWarning}"
-      title = "0 {{ type }} being replaced"
+      title = "0 {{ tableType }} being replaced"
     )
       svg.iconnables.icons-warning
         use(
