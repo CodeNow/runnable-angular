@@ -4,13 +4,13 @@ require('app')
   .factory('copySourceInstance', copySourceInstance);
 
 function copySourceInstance(
-  pFetchUser,
+  fetchUser,
   promisify,
   createNewInstance
 ) {
   return function (activeAccount, sourceInstance) {
     var thisUser;
-    return pFetchUser().then(function copyContextVersion(user) {
+    return fetchUser().then(function copyContextVersion(user) {
       thisUser = user;
       return promisify(sourceInstance.contextVersion, 'deepCopy')({
         owner: {

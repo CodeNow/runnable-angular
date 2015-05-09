@@ -50,7 +50,7 @@ describe('ControllerInstanceLayout'.bold.underline.blue, function () {
           instanceName: 'active-instance'
         }
       });
-      $provide.factory('pFetchUser', mockUserFetch.fetch());
+      $provide.factory('fetchUser', mockUserFetch.fetch());
       $provide.factory('fetchInstancesByPod', mockFetch.fetch());
     });
     angular.mock.inject(function (_$controller_,
