@@ -1,4 +1,4 @@
-ul.table(
+ul(
   dnd-list = "state.list"
   dnd-allowed-types = "allowedTableTypes"
 )
@@ -27,8 +27,8 @@ ul.table(
     .cell.cell-action(
       dnd-handle
       ng-class = "{\
-                    disabled: !state.list.length,\
-                    'no-touching': !state.list.length\
+                    disabled: state.list.length < 2,\
+                    'no-touching': state.list.length < 2\
                   }"
     )
       svg.iconnables.icons-drag
