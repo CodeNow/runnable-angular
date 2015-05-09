@@ -277,7 +277,7 @@
 }
 
 .gray {
-  background: $gray-lightest;
+  background: $gray-lighterest;
   border-color: $gray-lighter;
   color: $gray-dark;
 
@@ -457,7 +457,7 @@
 
     &[disabled],
     &.disabled {
-      background: $gray-lightest;
+      background: $gray-lighterest;
       border-color: $gray-lighter;
       color: $gray-light;
       opacity: 1;
@@ -465,7 +465,7 @@
       &:hover,
       &:active,
       &.active {
-        background: $gray-lightest;
+        background: $gray-lighterest;
         border-color: $gray-lighter;
       }
     }
