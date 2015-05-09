@@ -19,6 +19,17 @@
     small.small Set the default branch for {{ server.instance.getDisplayName() }}.
 
 label.label.clearfix
+  .label-col Build Commands
+
+  .input-col
+    //- we only have suggestions for build commands on the main repository
+    textarea.textarea.monospace(
+      placeholder = "Build commands"
+      spellcheck = "false"
+    )
+    small.small Specify the commands that need to be executed when your container is built and before it is launched that support your application (e.g. installing the packages that your code needs).
+
+label.label.clearfix
   .label-col Container CMD
 
   .input-col
@@ -40,14 +51,3 @@ label.label.clearfix
         href = "//docs.docker.com/reference/builder/#cmd"
         target = "_blank"
       ) More about the container cmd
-
-label.label.clearfix
-  .label-col Build Commands
-
-  .input-col
-    //- we only have suggestions for build commands on the main repository
-    textarea.textarea.monospace(
-      placeholder = "Build commands"
-      spellcheck = "false"
-    )
-    small.small Specify the commands that need to be executed when your container is built and before it is launched that support your application (e.g. installing the packages that your code needs).
