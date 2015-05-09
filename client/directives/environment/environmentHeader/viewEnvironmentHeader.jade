@@ -8,6 +8,10 @@
 //-     )
 //-   | To Sandbox
 
+.help-step-container
+  .help.help-step-item
+    | Use Translation Rules or Environment Variables to create an association for runnable-web.
+
 //- help center button
 button.btn.btn-icon.blue(
   ng-class = "{active: state.helpButton.active}"
@@ -20,10 +24,6 @@ button.btn.btn-icon.blue(
   pop-over-template = "viewHelpPopover"
   title = "Help Center"
 )
-
-.help-step-container
-  .help.help-step-item
-    | Use Translation Rules or Environment Variables to create an association for runnable-web.
 
 //- new server button
 button.btn.green(

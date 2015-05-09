@@ -10,6 +10,7 @@
   // overwrite current alerts :(
   &.alert {
     animation: alert-help .3s ease-in forwards;
+    border-width: 2px;
     bottom: 15px;
     height: 36px;
     left: 0;
@@ -38,6 +39,8 @@
 
 .help-step-item {
   margin: 0 auto;
-  padding: 0 15px;
+  padding: 0 24px;
   display: inline-block;
+  height: 45px;
+  line-height: 45px;
 }
