@@ -7,16 +7,33 @@
       use(
         xlink:href = "#icons-git-repository"
       )
-    input.input.input-sm(
-      placeholder = "repository"
-    )
-    a.btn.btn-xs Delete
+    label.btn.btn-sm.btn-select.white(
+      for = "select-repository"
+    ) Choose repository
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+      //- exclude main repository
+      select#select-repository(
+        required
+      )
+        option(
+          disabled
+        ) Choose repository
+        option repo1
+        option repo2
+        option repo3
+    a.btn.btn-sm.orange Delete
 
   .popover-content
     label.label.clearfix
       .label-col Destination
       .input-col
-        input.input.input-sm
+        input.input.input-sm(
+          placeholder = "required"
+          required
+        )
 
     label.label.clearfix
       .label-col Build Commands
