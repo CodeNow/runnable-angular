@@ -71,7 +71,7 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       userName: activeAccountUsername || 'user'
     };
     angular.mock.module('app', function ($provide) {
-      $provide.factory('pFetchUser', mockFetchUser);
+      $provide.factory('fetchUser', mockFetchUser);
       $provide.factory('fetchInstancesByPod', mockFetch.fetch());
       $provide.value('favico', {
         reset : sinon.spy(),

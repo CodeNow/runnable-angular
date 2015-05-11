@@ -16,6 +16,6 @@
   actions = "actions"
   data = "data"
   instance = "instance"
-  ng-repeat = "instance in data.instances.models"
+  ng-repeat = "instance in data.instances.models | orderBy:'attrs.name'"
   server-card
 )

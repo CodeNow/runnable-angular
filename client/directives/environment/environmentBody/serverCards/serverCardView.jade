@@ -5,26 +5,26 @@
     - if building succeeded, and stopped: text says "Stopped"; title attribute shows when the server was stopped "Stopped 2 minutes ago"
     - if building succeeded, and run fails: text says "Crashed"; title attribute shows when the server crashed "Crashed 2 minutes ago"
   server-status-card-header.btn.btn-sm.btn-title.white(
-    ng-attr-no-touching = "{{ server.building || !server.build }}"
+    ng-attr-no-touching = "{{ showSpinner() }}"
     pop-over-options = "{\"right\":0,\"top\":47}"
     pop-over-template = "serverOptionsCardPopover"
   )
   input.input.input-sm.monospace(
-    ng-if = "!server.building && server.build"
+    ng-if = "!showSpinner()"
     readonly
     select-all
     value = "{{ server.instance.getElasticHostname() }}"
   )
 
 ul.card-body.card-loading(
-  ng-if = "server.building || !server.build"
+  ng-if = "showSpinner()"
 )
   .spinner-wrapper.spinner-md.spinner-gray.in(
     ng-include = "'spinner'"
   )
 
 ul.card-body.load(
-  ng-if = "!server.building && server.build"
+  ng-if = "!showSpinner()"
 )
   li.btn.white(
     modal
@@ -134,7 +134,7 @@ ul.card-body.load(
         xlink:href = "#icons-environment-variable"
       )
     h3.h3 Environment Variables
-    p.p.text-overflow {{ numberOfDependencies }}
+    p.p.text-overflow {{ server.getDependecyInfo() }}
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
