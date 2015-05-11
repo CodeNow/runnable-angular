@@ -1,0 +1,28 @@
+.popover-rules {
+
+  .label-col {
+    position: relative;
+
+    .btn-icon {
+      bottom: 4px;
+      height: 28px;
+      position: absolute;
+      right: 4px;
+      width: 28px;
+    }
+
+    .iconnables {
+      height: 18px;
+      right: -1px;
+      top: -7px;
+    }
+  }
+
+  // monospace inputs
+  .input.monospace {
+    color: $gray-darker;
+    font-size: 13px;
+    letter-spacing: -.25px;
+    padding-right: 33px;
+  }
+}
