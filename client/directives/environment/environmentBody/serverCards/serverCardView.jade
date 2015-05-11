@@ -143,7 +143,9 @@ ul.card-body.load(
         xlink:href = "#icons-arrow-down"
       )
 
-.card-footer
+.card-footer(
+  ng-if = "!showSpinner()"
+)
   small.small Elastic URL
   input.input.input-sm.small(
     ng-if = "!showSpinner()"
