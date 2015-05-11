@@ -1,0 +1,39 @@
+.popover-files {
+  max-width: 390px;
+
+  .popover-header {
+
+    // header icon
+    > .iconnables {
+      float: left;
+      height: 100%;
+      margin-right: 6px;
+    }
+
+    // repo input
+    > .input {
+      flex: 1 1 auto;
+      float: left;
+      width: auto;
+    }
+
+    // delete button
+    > .btn {
+      float: right;
+      height: 36px;
+      line-height: 36px;
+      margin-left: 9px;
+    }
+
+    .icons-trash {
+      float: left;
+      height: 100%;
+    }
+  }
+
+  // forms
+  .label-col,
+  .input-col {
+    width: 100%;
+  }
+}

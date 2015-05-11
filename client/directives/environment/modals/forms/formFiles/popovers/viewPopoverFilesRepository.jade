@@ -1,49 +1,27 @@
-.popover.popover-fixed.popover-rules(
+.popover.popover-fixed.popover-files(
   ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
 )
-  .popover-content
-
-    //- if new rule
-    h3.popover-title(
-      ng-if = "true"
-    ) New Filename Replace Rule
-      small.small 🐶 Rules are case-sensitive and trailing whitespace is not trimmed. Regular expressions are not supported.
-
-    //- if existing rule
-    h3.popover-title(
-      ng-if = "false"
-    ) Filename Replace Rule
-      small.small 🐶 Rules are case-sensitive and trailing whitespace is not trimmed. Regular expressions are not supported.
-      button.btn.btn-xs.gray(
-        ng-if = ""
+  .popover-header
+    svg.iconnables
+      use(
+        xlink:href = "#icons-git-repository"
       )
-        svg.iconnables.icons-trash
-          use(
-            xlink:href = "#icons-trash"
-          )
-        | Delete Rule
-
-    .label-row
-      label.label-col Source
-        input.input.input-sm.monospace(
-          spellcheck = "false"
-        )
-      .span-col →
-      label.label-col Destination
-        input.input.input-sm.monospace(
-          spellcheck = "false"
-        )
-
-    small.small.table-details(
-      ng-if = "data.saving"
-    ) 1 match (excludes ignored files)
-
-    //- filename verification table
-    .table.table-diff(
-      ng-if = "data.saving"
-      ng-include = "'viewRuleFilename'"
+    input.input.input-sm(
+      placeholder = "repository"
     )
+    a.btn.btn-xs Delete
+
+  .popover-content
+    label.label.clearfix
+      .label-col Destination
+      .input-col
+        input.input.input-sm
+
+    label.label.clearfix
+      .label-col Build Commands
+      .input-col
+        textarea.textarea.monospace
 
   .popover-footer.clearfix
     button.btn.green.btn-spinner(
@@ -58,10 +36,10 @@
       )
       span(
         ng-if = "!data.saving"
-      ) Search for matches
+      ) Add File
       span(
         ng-if = "data.saving"
-      ) Searching
+      ) Uploading
     button.btn.green(
       ng-if = "data.searched"
     ) Create rule
