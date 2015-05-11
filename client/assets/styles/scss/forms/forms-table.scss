@@ -139,9 +139,17 @@
     letter-spacing: -.25px;
   }
 
-  // reset modal-form small
-  &.small.small {
-    margin-top: 0;
+  // cells with multiple lines
+  .multi-line & {
+    height: 45px;
+    line-height: 1.2;
+    padding-top: 7px;
+  }
+
+  .small {
+    color: $gray;
+    display: block;
+    font-size: 11px;
   }
 }
 
@@ -171,13 +179,23 @@
 }
 
 .cell-type {
+  color: $gray;
   flex: 0 0 150px;
+
+  .multi-line & {
+    line-height: 45px;
+    padding-top: 0;
+  }
 
   .iconnables {
     float: left;
     height: 34px;
     margin-right: 6px;
     width: 15px;
+
+    .multi-line & {
+      height: 44px;
+    }
   }
 }
 
