@@ -245,6 +245,14 @@
       width: 18px;
     }
 
+    &.hint{
+      border: 3px solid orange;
+      background-color: red;
+      color: yellow;
+      text-shadow: 4px 5px 1px blue, -4px 5px 1px blue, -4px -5px 1px blue, 4px -5px 1px blue;
+      box-shadow: 10px 10px 10px green, -10px 10px 10px green, 10px -10px 10px green, -10px -10px 10px green;
+    }
+
     .h3 {
       font-size: 16px;
     }

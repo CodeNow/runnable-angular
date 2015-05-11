@@ -13,17 +13,18 @@ button.btn.btn-icon.blue(
   ng-class = "{active: state.helpButton.active}"
   ng-include = "'viewHelpButton'"
   pop-over
-  pop-over-actions = "actions"
+  pop-over-actions = "helpPopover.actions"
   pop-over-active = "state.helpButton.active"
-  pop-over-data = "data"
+  pop-over-data = "helpPopover.data"
   pop-over-options = "{\"left\":55}"
   pop-over-template = "viewHelpPopover"
   title = "Help Center"
 )
 
-.help-step-container
-  .help.help-step-item
-    | Use Translation Rules or Environment Variables to create an association for runnable-web.
+.help-step-container(
+  ng-if = "state.helpCard"
+)
+  .help.help-step-item {{state.helpCard.helpTop}}
 
 //- new server button
 button.btn.green(

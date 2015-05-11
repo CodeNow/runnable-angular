@@ -34,6 +34,7 @@ ul.card-body.load(
     modal-state-model = "'buildfiles'"
     modal-template = "editServerModalOpen"
     ng-if = "server.advanced"
+    ng-class = "{hint: isHelpCardActive && helpCard.targets.buildFiles}"
   )
     svg.iconnables
       use(
@@ -53,6 +54,7 @@ ul.card-body.load(
     modal-state-model = "'stack'"
     modal-template = "editServerModalOpen"
     ng-if = "server.repo && !server.advanced"
+    ng-class = "{hint: isHelpCardActive && helpCard.targets.stackType}"
   )
     svg.iconnables
       use(
@@ -72,6 +74,7 @@ ul.card-body.load(
     modal-state-model = "'command'"
     modal-template = "editServerModalOpen"
     ng-if = "server.repo && !server.advanced"
+    ng-class = "{hint: isHelpCardActive && helpCard.targets.buildCommand}"
   )
     svg.iconnables
       use(
@@ -91,6 +94,7 @@ ul.card-body.load(
     modal-data = "data"
     modal-state-model = "'ports'"
     modal-template = "editServerModalOpen"
+    ng-class = "{hint: isHelpCardActive && helpCard.targets.exposedPorts}"
   )
     svg.iconnables
       use(
@@ -110,6 +114,7 @@ ul.card-body.load(
     modal-state-model = "'repositories'"
     modal-template = "editServerModalOpen"
     ng-if = "server.repo && !server.advanced"
+    ng-class = "{hint: isHelpCardActive && helpCard.targets.repositories}"
   )
     svg.iconnables
       use(
@@ -128,6 +133,7 @@ ul.card-body.load(
     modal-data = "data"
     modal-state-model = "'env'"
     modal-template = "editServerModalOpen"
+    ng-class = "{hint: isHelpCardActive && helpCard.targets.environmentVariables}"
   )
     svg.iconnables
       use(

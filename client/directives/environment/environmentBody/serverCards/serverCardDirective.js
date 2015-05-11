@@ -18,7 +18,8 @@ function serverCard(
     scope: {
       data: '=',
       actions: '=',
-      instance: '='
+      instance: '=',
+      helpCard: '=?'
     },
     link: function ($scope, elem, attrs) {
       $scope.server = {};
@@ -94,6 +95,11 @@ function serverCard(
         }
         return 'none';
       };
+
+      $scope.isHelpCardActive = false;
+      $scope.$watch('helpCard', function (helpCard) {
+        $scope.isHelpCardActive = helpCard && helpCard.type === 'triggered' && helpCard.data.instance === $scope.instance;
+      });
     }
   };
 }

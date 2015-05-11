@@ -4,40 +4,30 @@
 )
   .popover-content
     ul.triggered-help-list
-      li.triggered-help-item
-        button.btn.btn-icon.btn-icon-sm
+      li.triggered-help-item(
+        ng-repeat = "helpItem in data.triggered"
+      )
+        button.btn.btn-icon.btn-icon-sm(
+          ng-click = "actions.ignoreHelp(helpItem)"
+        )
           svg.iconnables
             use(
               xlink:href = "#icons-close"
             )
-        p.p
-          | It looks like runnable-web should be associated with mongoDB.
-        button.btn.btn-sm
-          | Show Me
-      li.triggered-help-item
-          button.btn.btn-icon.btn-icon-sm
-            svg.iconnables
-              use(
-                xlink:href = "#icons-close"
-              )
-          p.p
-            | It looks like runnable-web should be associated with mongoDB.
-          button.btn.btn-sm
-            | Show Me
-    ul.general-help-list
-      | General Help
-      li.general-help-item
-        | Change language or framework
-      li.general-help-item
-        | Add a library
-      li.general-help-item
-        | Configure OAuth callback
-      li.general-help-item
-        | Connect to external service
-      li.general-help-item
-        | Seed database
-    button.btn.more-help
-      | More Help
+        p.p {{helpItem.label}}
+        button.btn.btn-sm(
+          ng-click = "actions.getHelp(helpItem)"
+        ) Show Me
+
+
+    ul.general-help-list General Help
+      li.general-help-item(
+        ng-repeat = "help in data.general"
+        ng-hide = "!showMore && $index > 5"
+      ) {{help.label}}
+    button.btn.more-help(
+      ng-click = "closePopover()"
+    ) Less Help
       svg.iconnables
         use(
           xlink:href = "#icons-arrow-down"
