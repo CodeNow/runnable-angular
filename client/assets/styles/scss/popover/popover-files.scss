@@ -3,27 +3,33 @@
 
   .popover-header {
 
-    // header icon
-    > .iconnables {
-      float: left;
-      height: 100%;
-      margin-right: 6px;
-      width: 18px;
+    // repo name
+    > .span {
+      flex: 1 1 auto;
+      line-height: 35px;
+      text-align: center;
     }
 
-    // repo input
+    // buttons
+    > .btn {
+      font-size: 13px;
+      padding: 0 6px;
+    }
+
+    // back button
     > .white {
-      flex: 1 1 auto;
-      float: left;
-      width: auto;
+      padding: 0 9px 0 3px;
+    }
+
+    .icons-arrow-back {
+      height: 100%;
+      margin-right: 3px;
+      width: 15px;
     }
 
     // delete button
     > .orange {
-      float: right;
-      font-size: 13px;
       margin-left: 6px;
-      padding: 0 6px;
     }
   }
 

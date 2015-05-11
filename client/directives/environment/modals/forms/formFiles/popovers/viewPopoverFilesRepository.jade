@@ -3,28 +3,14 @@
   ng-style = "popoverStyle.getStyle()"
 )
   .popover-header
-    svg.iconnables
-      use(
-        xlink:href = "#icons-git-repository"
-      )
-    label.btn.btn-sm.btn-select.white(
-      for = "select-repository"
-    ) Choose repository
-      svg.iconnables.icons-arrow-down
+    button.btn.btn-sm.white.pull-left
+      svg.iconnables.icons-arrow-back
         use(
-          xlink:href = "#icons-arrow-down"
+          xlink:href = "#icons-arrow-back"
         )
-      //- exclude main repository
-      select#select-repository(
-        required
-      )
-        option(
-          disabled
-        ) Choose repository
-        option repo1
-        option repo2
-        option repo3
-    a.btn.btn-sm.orange Delete
+      | Change
+    span.span repository-name
+    button.btn.btn-sm.orange.pull-right Delete
 
   .popover-content
     label.label.clearfix
@@ -41,7 +27,7 @@
         textarea.textarea.monospace
 
   .popover-footer.clearfix
-    button.btn.green.btn-spinner(
+    button.btn.btn-sm.green.btn-spinner(
       ng-class = "{in: data.saving}"
       ng-click = "data.saving = true"
       ng-disabled = "data.saving"
@@ -57,7 +43,4 @@
       span(
         ng-if = "data.saving"
       ) Uploading
-    button.btn.green(
-      ng-if = "data.searched"
-    ) Create rule
-    button.btn.gray.btn-cancel Cancel
+    button.btn.btn-sm.gray.btn-cancel Cancel
