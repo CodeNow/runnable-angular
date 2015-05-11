@@ -43,14 +43,24 @@
       }
     }
 
-    // don't stretch if btn-xs
-    > .btn-xs {
+    // don't stretch if btn-xs/xxs
+    > .btn-xs,
+    > .btn-xxs {
+      font-size: 13px;
       padding: 0 6px;
       width: auto;
 
       &:only-child {
         float: right;
         margin-top: 6px;
+      }
+
+      &.float-right {
+        margin: 6px 0 0; // center buttons
+      }
+
+      &.float-right + .float-right {
+        margin-right: 6px;
       }
     }
 
