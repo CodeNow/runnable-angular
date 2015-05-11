@@ -1,27 +1,31 @@
 .popover-files {
-  max-width: 390px;
+  max-width: 420px;
 
   .popover-header {
 
     // repo name
-    > .span {
+    > .strong {
       flex: 1 1 auto;
+      font-size: 15px;
       line-height: 35px;
       text-align: center;
     }
 
     // buttons
     > .btn {
+      flex: 0 0 auto;
       font-size: 13px;
       padding: 0 6px;
     }
 
     // back button
     > .white {
+      margin-right: 6px;
       padding: 0 9px 0 3px;
     }
 
     .icons-arrow-back {
+      float: left;
       height: 100%;
       margin-right: 3px;
       width: 15px;
