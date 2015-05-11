@@ -134,6 +134,7 @@
   flex: 0 0 auto;
 
   &:first-child {
+    flex: 0 0 21px;
     cursor: grab;
     padding: 0 3px 0 9px;
 
@@ -152,6 +153,10 @@
     opacity: .3;
     width: 9px;
   }
+}
+
+.cell-type {
+  flex: 0 0 150px;
 }
 
 .cell-checkbox {
