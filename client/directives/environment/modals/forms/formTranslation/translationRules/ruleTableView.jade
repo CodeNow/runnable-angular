@@ -1,24 +1,22 @@
-ul.table(
+.tr.thead.clearfix
+  .cell {{ header.title }}
+    button.btn.btn-xs.white(
+    pop-over
+    pop-over-actions = "popoverData.actions"
+    pop-over-data = "popoverData.data"
+    pop-over-options = "{\"left\":0,\"top\":0}"
+    pop-over-template = "popoverData.template"
+    ) {{ header.description }}
+ul(
   dnd-list = "state.list"
-  dnd-allowed-types = "string"
+  dnd-allowed-types = "allowedTableTypes"
 )
-  li.tr.thead.clearfix(
-    dnd-disable-if = "true"
-  )
-    .cell Strings
-      button.btn.btn-xs.white(
-        pop-over
-        pop-over-actions = "actions"
-        pop-over-data = "data"
-        pop-over-options = "{\"left\":0,\"top\":0}"
-        pop-over-template = "viewPopoverStringRule"
-      ) New string rule
   li.tr.tr-action.clearfix(
-    ng-repeat = "item in itemList"
-    dnd-type = "string"
+    ng-repeat = "item in state.list"
+    dnd-type = "tableType"
     dnd-draggable = "item"
     dnd-effect-allowed = "move"
-    dnd-moved = "itemList.splice($index, 1)"
+    dnd-moved = "state.list.splice($index, 1)"
     dnd-dragstart = "models.selected"
     ng-class="{\
                 'disabled': models.selected === item\
@@ -27,8 +25,8 @@ ul.table(
     .cell.cell-action(
       dnd-handle
       ng-class = "{\
-                    disabled: !fileList.length,\
-                    'no-touching': !fileList.length\
+                    disabled: state.list.length < 2,\
+                    'no-touching': state.list.length < 2\
                   }"
     )
       svg.iconnables.icons-drag
@@ -46,7 +44,7 @@ ul.table(
     //- note: the title attribute
     .cell.cell-action.monospace.disabled(
       ng-class = "{disabled: noWarning}"
-      title = "0 strings being replaced"
+      title = "0 {{ tableType }} being replaced"
     )
       svg.iconnables.icons-warning
         use(
