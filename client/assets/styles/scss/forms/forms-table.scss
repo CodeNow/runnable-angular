@@ -61,6 +61,16 @@
   font-weight: 500;
   padding: 3px 0;
 
+  &.thead-sm {
+    color: $gray;
+    font-weight: 400;
+
+    .cell {
+      height: 21px;
+      line-height: 24px;
+    }
+  }
+
   .cell {
     height: 30px;
     line-height: 30px;
@@ -128,14 +138,19 @@
     font-size: 13px;
     letter-spacing: -.25px;
   }
+
+  // reset modal-form small
+  &.small.small {
+    margin-top: 0;
+  }
 }
 
 .cell-action {
   flex: 0 0 auto;
 
   &:first-child {
-    flex: 0 0 21px;
     cursor: grab;
+    flex: 0 0 21px;
     padding: 0 3px 0 9px;
 
     &:active {
@@ -157,6 +172,13 @@
 
 .cell-type {
   flex: 0 0 150px;
+
+  .iconnables {
+    float: left;
+    height: 34px;
+    margin-right: 6px;
+    width: 15px;
+  }
 }
 
 .cell-checkbox {
