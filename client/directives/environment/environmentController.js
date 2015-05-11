@@ -1,5 +1,7 @@
 'use strict';
 
+var helpCards = require('../../config/helpCards.js');
+
 require('app')
   .controller('EnvironmentController', EnvironmentController);
 /**
@@ -22,7 +24,8 @@ function EnvironmentController(
   promisify,
   $rootScope,
   $q,
-  user
+  user,
+  $interpolate
 ) {
   favico.reset();
   pageName.setTitle('Configure - Runnable');
@@ -32,8 +35,42 @@ function EnvironmentController(
   $scope.state = {
     validation: {
       env: {}
+    },
+    helpCard: null
+  };
+
+  $scope.help = {
+    general: helpCards.general,
+    triggered: []
+  };
+
+  $scope.helpPopover = {
+    data: $scope.help,
+    actions: {
+      ignoreHelp: function (help) {
+        console.log('TODO: Ignore help', help);
+        $rootScope.$broadcast('close-popovers');
+      },
+      getHelp: function (help) {
+        $scope.state.helpCard = help;
+        $rootScope.$broadcast('close-popovers');
+      }
     }
   };
+
+  function triggerHelp(id, data){
+    var helpCard = angular.copy(helpCards.triggered[id]);
+    helpCard.label = $interpolate(helpCard.label)(data);
+    helpCard.helpTop = $interpolate(helpCard.helpTop)(data);
+    Object.keys(helpCard.helpPopover).forEach(function (key) {
+      helpCard.helpPopover[key] = $interpolate(helpCard.helpPopover[key])(data);
+    });
+
+    helpCard.data = data;
+    $scope.help.triggered.push(helpCard);
+  }
+
+
 
   $scope.actions = {
     deleteServer: function (server) {
@@ -83,6 +120,14 @@ function EnvironmentController(
     instances: fetchInstances({ masterPod: true })
   })
     .then(function (data) {
+
+      data.instances.forEach(function (instance) {
+        triggerHelp('association', {
+          instance: instance,
+          association: 'MongoDB'
+        });
+      });
+
       $scope.data.stacks = data.stacks;
       $scope.data.allDependencies = data.deps;
       $scope.data.sourceContexts = data.sourceContexts;
