@@ -109,11 +109,22 @@
   &:first-child {
     border-radius: 2px 2px 0 0;
     padding-top: 3px;
+
+    &.tr-addition,
+    &.tr-deletion {
+      border-radius: 0;
+      padding-top: 0;
+    }
   }
 
   &:last-child {
-    border-radius: 0 0 3px 3px;
+    border-radius: 0 0 2px 2px;
     padding-bottom: 3px;
+
+    &.tr-addition,
+    &.tr-deletion {
+      padding-bottom: 0;
+    }
   }
 
   &:only-child {

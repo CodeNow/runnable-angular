@@ -15,16 +15,20 @@
         option build/index2.html
         option build/assets/img.img
 
-.table.table-diff(
-  ng-include = "'viewRuleFilename'"
-)
+//.table.table-diff(
+//  ng-include = "'viewRuleFilename'"
+//)
+//
+//.table.table-diff(
+//  ng-include = "'viewRuleString'"
+//)
 
 .table.table-diff(
-  ng-include = "'viewRuleString'"
-)
-
-.table.table-diff(
-  ng-include = "'viewRuleString'"
+  ng-repeat = "fileDiff in fileDiffs"
+  diff-display
+  file-diff = "fileDiff"
+  instance = "server.instance"
+  preview-all = "true"
 )
 
 //- if no preview to show
