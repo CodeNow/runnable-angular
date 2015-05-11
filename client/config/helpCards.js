@@ -47,7 +47,7 @@ helpCards.triggered = triggeredHash;
 
 module.exports = helpCards;
 
-
+//POSSIBLE TARGETS:
 //buildFiles
 //buildCommand
 //stackType
