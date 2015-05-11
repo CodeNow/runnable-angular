@@ -78,6 +78,12 @@
   }
 }
 
+// hide if upload
+#input-upload {
+  position: absolute;
+  visibility: hidden;
+}
+
 .input {
   height: 45px;
   line-height: 45px;
