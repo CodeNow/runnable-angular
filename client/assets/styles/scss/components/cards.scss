@@ -134,7 +134,7 @@
 // title group
 .btn-title {
   display: flex;
-  margin: 12px auto;
+  margin: 12px auto 0;
   max-width: 100%;
   padding-right: 30px;
 
@@ -275,16 +275,27 @@
   background: $gray-lightest;
   border-top: 1px solid rgba($black,.1);
   flex: 0 0 auto;
-  padding: 6px;
+  padding: 3px 15px;
+
+  .small {
+    color: $gray;
+    font-weight: 500;
+
+    &:first-child {
+      font-size: 12px;
+    }
+  }
 
   // proxy url
-  .input {
+  .input[readonly] {
+    background: transparent;
     border: 0;
     display: block;
+    font-weight: 400;
     height: 24px;
     letter-spacing: -.25px;
     line-height: 24px;
-    text-align: center;
+    padding: 0;
   }
 }
 
