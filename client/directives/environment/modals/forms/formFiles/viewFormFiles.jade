@@ -1,7 +1,11 @@
 .clearfix
   .label-col Container Files
   .input-col
-    button.btn.btn-xs.white.float-right Add Repository
+    button.btn.btn-xs.white.float-right(
+      pop-over
+      pop-over-options = "{\"left\":0,\"top\":0}"
+      pop-over-template = "viewPopoverFilesRepository"
+    ) Add Repository
     label.btn.btn-xs.white.float-right(
       for = "input-upload"
     ) Upload File
