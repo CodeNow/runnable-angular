@@ -8,9 +8,9 @@
 .container-link-external {
   color: $gray;
   cursor: pointer;
-  left: -9px;
+  left: -12px;
   position: relative;
-  top: -36px;
+  top: -27px;
 
   &:hover {
     color: $purple-light;
@@ -37,10 +37,28 @@
   }
 }
 
+.container-url-section {
+  position: relative;
+  top: -9px;
+}
+
+.container-url-label {
+  display: inline-block;
+  float: left;
+  font-size: 15px;
+  font-weight: 500;
+  margin-right: 6px;
+}
+
+.container-url {
+  display: inline-block;
+  float: left;
+}
+
 // text + status wrapper
 .server-name {
   font-size: 24px;
-  height: 51px;
+  // height: 51px;
   line-height: 51px;
 
   .branch-name {
@@ -63,7 +81,7 @@
   line-height: 1;
   padding: 0;
   position: relative;
-  top: -9px;
+  // top: -9px;
   white-space: nowrap;
   width: 100%;
 

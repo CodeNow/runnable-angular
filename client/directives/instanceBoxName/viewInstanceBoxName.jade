@@ -7,19 +7,24 @@
   status-icon(
     instance = "instance"
   )
-input.server-url(
-  ng-if = "instance.attrs.name"
-  readonly
-  select-all
-  value = "{{ instance.getContainerHostname() }}{{defaultPort}}"
-)
-//- sets width
-span.server-name-ghost.no-touching {{ instance.getContainerHostname() }}{{defaultPort}}
-a.container-link-external(
-  target = "_blank"
-  ng-href = "http://{{ instance.getContainerHostname() }}{{defaultPort}}"
-)
-  svg.iconnables.icons-link-external
-    use(
-      xlink:href = "#icons-link-external"
+
+.container-url-section
+  .container-url-label
+    | Container URL:
+  .container-url
+    input.server-url(
+      ng-if = "instance.attrs.name"
+      readonly
+      select-all
+      value = "{{ instance.getContainerHostname() }}{{defaultPort}}"
     )
+    //- sets width
+    span.server-name-ghost.no-touching {{ instance.getContainerHostname() }}{{defaultPort}}
+    a.container-link-external(
+      target = "_blank"
+      ng-href = "http://{{ instance.getContainerHostname() }}{{defaultPort}}"
+    )
+      svg.iconnables.icons-link-external
+        use(
+          xlink:href = "#icons-link-external"
+        )
