@@ -8,6 +8,10 @@
   &.view-3 .popover-view {
     transform: translate3d(-200%,0,0);
   }
+
+  .popover-content {
+    max-height: none;
+  }
 }
 
 .popover-view {

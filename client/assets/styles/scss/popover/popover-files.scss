@@ -1,7 +1,7 @@
 .popover-files {
   background: $white;
   // fix width and height for popover-views
-  height: 361px;
+  height: 450px;
   width: 420px;
 
   .popover-view {
@@ -45,8 +45,20 @@
   }
 
   .popover-content {
-    height: 238px;
+    height: 328px; // calc(450px - 122px);
     padding-bottom: 15px;
+  }
+
+  // commit button
+  .btn-block {
+    font-size: 13px;
+    line-height: 1.2;
+    padding: 6px 24px 6px 6px;
+    text-align: left;
+
+    .icons-arrow-down {
+      transform: rotate3d(0,0,1,-90deg);
+    }
   }
 
   // forms

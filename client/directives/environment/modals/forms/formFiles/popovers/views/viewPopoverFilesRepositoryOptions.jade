@@ -13,6 +13,17 @@
 
 .popover-content
   label.label.clearfix
+    .input-col
+      .btn.btn-block.gray.text-overflow(
+        ng-click = "state.view3 = true"
+      ) commit msg
+        small.small joe authored 18 days ago
+        svg.iconnables.icons-arrow-down
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
+
+  label.label.clearfix
     .label-col Destination
     .input-col
       input.input.input-sm(
