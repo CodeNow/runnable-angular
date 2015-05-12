@@ -83,7 +83,9 @@ helpCards.triggered = triggeredHash;
 function helpCardsFactory(
   $interpolate,
   keypather,
-  $localStorage
+  fetchSettings,
+  errs,
+  promisify
 ) {
   function getCardHash(card) {
     var cardClone = {
@@ -116,22 +118,27 @@ function helpCardsFactory(
       return this.activeCard && (this.activeCard.type === 'general' || angular.equals(container, keypather.get(this, 'activeCard.data.instance')));
     },
     triggerCard: function (cardId, data) {
-      var helpCard = helpCards.triggered[cardId];
-      if (!helpCard) {
-        return;
-      }
-      helpCard = angular.copy(helpCard);
-      helpCard.label = $interpolate(helpCard.label)(data);
-      helpCard.helpTop = $interpolate(helpCard.helpTop)(data);
-      Object.keys(helpCard.helpPopover).forEach(function (key) {
-        helpCard.helpPopover[key] = $interpolate(helpCard.helpPopover[key])(data);
-      });
+      fetchSettings().then(function (settings) {
+        var ignoredHelpCards = settings.attrs.ignoredHelpCards || [];
 
-      helpCard.data = data;
+        var helpCard = helpCards.triggered[cardId];
+        if (!helpCard) {
+          return;
+        }
+        helpCard = angular.copy(helpCard);
+        helpCard.label = $interpolate(helpCard.label)(data);
+        helpCard.helpTop = $interpolate(helpCard.helpTop)(data);
+        Object.keys(helpCard.helpPopover).forEach(function (key) {
+          helpCard.helpPopover[key] = $interpolate(helpCard.helpPopover[key])(data);
+        });
 
-      if(!keypather.get($localStorage, 'helpCards.'+getCardHash(helpCard))){
-        cards.triggered.push(helpCard);
-      }
+        helpCard.data = data;
+
+        if (ignoredHelpCards.indexOf(getCardHash(helpCard)) === -1) {
+          cards.triggered.push(helpCard);
+        }
+      })
+        .catch(errs.handler);
     },
     ignoreCard: function (card) {
       var index = this.cards.triggered.indexOf(card);
@@ -139,7 +146,17 @@ function helpCardsFactory(
       if (this.activeCard === card) {
         this.activeCard = null;
       }
-      keypather.set($localStorage, 'helpCards.'+getCardHash(card), true);
+      fetchSettings().then(function (settings) {
+        var ignoredHelpCards = settings.attrs.ignoredHelpCards || [];
+        ignoredHelpCards.push(getCardHash(card));
+
+        return promisify(settings, 'update')({
+          json: {
+            ignoredHelpCards: ignoredHelpCards
+          }
+        });
+      })
+        .catch(errs.handler);
     }
   };
 }
