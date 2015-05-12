@@ -10,7 +10,8 @@ function serverCard(
   getInstanceClasses,
   keypather,
   parseDockerfileForCardInfoFromInstance,
-  promisify
+  promisify,
+  helpCards
 ) {
   return {
     restrict: 'A',
@@ -22,6 +23,7 @@ function serverCard(
       helpCard: '=?'
     },
     link: function ($scope, elem, attrs) {
+      $scope.helpCards = helpCards;
       $scope.server = {};
       $scope.activeAccount = $rootScope.dataApp.data.activeAccount;
 
@@ -96,10 +98,6 @@ function serverCard(
         return 'none';
       };
 
-      $scope.isHelpCardActive = false;
-      $scope.$watch('helpCard', function (helpCard) {
-        $scope.isHelpCardActive = helpCard && helpCard.type === 'triggered' && helpCard.data.instance === $scope.instance;
-      });
     }
   };
 }

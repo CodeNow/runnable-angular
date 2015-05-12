@@ -1,10 +1,14 @@
 //- alerts
-.alert.help
-  svg.iconnables.icons-check
+.alert.help(
+  ng-if = "alert"
+)
+  svg.iconnables.icons-check(
+    ng-if = "alert.type === 'success'"
+  )
     use(
       xlink:href = "#icons-check"
     )
-  | Container added successfully
+  | {{alert.text}}
 
 .environment-header.clearfix(
   ng-include = "'viewEnvironmentHeader'"
