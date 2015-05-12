@@ -1,5 +1,10 @@
 .popover-files {
-  max-width: 420px;
+  height: 356px;
+  width: 420px;
+
+  .popover-view {
+    width: 416px;
+  }
 
   .popover-header {
 

@@ -1,47 +1,141 @@
-.popover.popover-fixed.popover-files(
+.popover.popover-fixed.popover-files.popover-views(
   ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
 )
-  .popover-header
-    button.btn.btn-sm.white.pull-left
-      svg.iconnables.icons-arrow-back
-        use(
-          xlink:href = "#icons-arrow-back"
-        )
-      | Change
-    strong.strong.text-overflow repository-name
-    //- if this is not a new thing
-    button.btn.btn-sm.orange.pull-right Delete
+  //- view one
+  .popover-view
+    .popover-header
+      button.btn.btn-sm.white.pull-left
+        svg.iconnables.icons-arrow-back
+          use(
+            xlink:href = "#icons-arrow-back"
+          )
+        | Change
+      strong.strong.text-overflow repository-name
+      //- if this is not a new thing
+      button.btn.btn-sm.orange.pull-right Delete
 
-  .popover-content
-    label.label.clearfix
-      .label-col Destination
-      .input-col
-        input.input.input-sm(
-          placeholder = "required"
-          required
-        )
+    .popover-content
+      label.label.clearfix
+        .label-col Destination
+        .input-col
+          input.input.input-sm(
+            placeholder = "required"
+            required
+          )
 
-    label.label.clearfix
-      .label-col Build Commands
-      .input-col
-        textarea.textarea.monospace
+      label.label.clearfix
+        .label-col Build Commands
+        .input-col
+          textarea.textarea.monospace
 
-  .popover-footer.clearfix
-    button.btn.btn-sm.green.btn-spinner(
-      ng-class = "{in: data.saving}"
-      ng-click = "data.saving = true"
-      ng-disabled = "data.saving"
-    )
-      //- spinner
-      .spinner-wrapper.spinner-sm.spinner-white.in(
-        ng-if = "data.saving"
-        ng-include = "'spinner'"
+    .popover-footer.clearfix
+      button.btn.btn-sm.green.btn-spinner(
+        ng-class = "{in: data.saving}"
+        ng-click = "data.saving = true"
+        ng-disabled = "data.saving"
       )
-      span(
-        ng-if = "!data.saving"
-      ) Add File
-      span(
-        ng-if = "data.saving"
-      ) Uploading
-    button.btn.btn-sm.gray.btn-cancel Cancel
+        //- spinner
+        .spinner-wrapper.spinner-sm.spinner-white.in(
+          ng-if = "data.saving"
+          ng-include = "'spinner'"
+        )
+        span(
+          ng-if = "!data.saving"
+        ) Add File
+        span(
+          ng-if = "data.saving"
+        ) Uploading
+      button.btn.btn-sm.gray.btn-cancel Cancel
+
+  //- view 2
+  .popover-view
+    .popover-header
+      button.btn.btn-sm.white.pull-left
+        svg.iconnables.icons-arrow-back
+          use(
+            xlink:href = "#icons-arrow-back"
+          )
+        | Change
+      strong.strong.text-overflow repository-name
+      //- if this is not a new thing
+      button.btn.btn-sm.orange.pull-right Delete
+
+    .popover-content
+      label.label.clearfix
+        .label-col Destination
+        .input-col
+          input.input.input-sm(
+            placeholder = "required"
+            required
+          )
+
+      label.label.clearfix
+        .label-col Build Commands
+        .input-col
+          textarea.textarea.monospace
+
+    .popover-footer.clearfix
+      button.btn.btn-sm.green.btn-spinner(
+        ng-class = "{in: data.saving}"
+        ng-click = "data.saving = true"
+        ng-disabled = "data.saving"
+      )
+        //- spinner
+        .spinner-wrapper.spinner-sm.spinner-white.in(
+          ng-if = "data.saving"
+          ng-include = "'spinner'"
+        )
+        span(
+          ng-if = "!data.saving"
+        ) Add File
+        span(
+          ng-if = "data.saving"
+        ) Uploading
+      button.btn.btn-sm.gray.btn-cancel Cancel
+
+  //- view 3
+  .popover-view
+    .popover-header
+      button.btn.btn-sm.white.pull-left
+        svg.iconnables.icons-arrow-back
+          use(
+            xlink:href = "#icons-arrow-back"
+          )
+        | Change
+      strong.strong.text-overflow repository-name
+      //- if this is not a new thing
+      button.btn.btn-sm.orange.pull-right Delete
+
+    .popover-content
+      label.label.clearfix
+        .label-col Destination
+        .input-col
+          input.input.input-sm(
+            placeholder = "required"
+            required
+          )
+
+      label.label.clearfix
+        .label-col Build Commands
+        .input-col
+          textarea.textarea.monospace
+
+    .popover-footer.clearfix
+      button.btn.btn-sm.green.btn-spinner(
+        ng-class = "{in: data.saving}"
+        ng-click = "data.saving = true"
+        ng-disabled = "data.saving"
+      )
+        //- spinner
+        .spinner-wrapper.spinner-sm.spinner-white.in(
+          ng-if = "data.saving"
+          ng-include = "'spinner'"
+        )
+        span(
+          ng-if = "!data.saving"
+        ) Add File
+        span(
+          ng-if = "data.saving"
+        ) Uploading
+      button.btn.btn-sm.gray.btn-cancel Cancel
