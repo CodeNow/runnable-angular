@@ -10,6 +10,9 @@
   max-width: none; // overwrites max-width set in popover.scss
   font-size: 15px;
   line-height: 18px;
+  transition: none;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
 
   .popover-content {
     padding: 0 12px; // overwrites padding for popover-content set in popover.scss
@@ -23,10 +26,10 @@
 .triggered-help-item {
   padding: 15px 0;
   overflow: auto;
-  border-bottom: 1px solid $blue-light;
+  border-bottom: 1px solid rgba($blue-light,.25);
   position: relative;
 
-  // dismiss button for triggerd help items
+  // dismiss button for triggered help items
   .btn-icon {
     position: absolute;
     left: -7px;
@@ -49,21 +52,32 @@
   .btn-sm {
     background-color: white;
     float: right;
-    border: 2px solid $blue-light;
+    border: 2px solid $blue;
+    padding: 0 14px;
     margin-right: 6px;
     font-weight: 500;
+    font-size: 15px; //
   }
 }
 
 .general-help-list {
-  border-bottom: 1px solid $blue-light;
+  border-bottom: 1px solid rgba($blue-light,.3);
+  padding: 15px 18px;
+  line-height: 27px;
 }
 
 .general-help-item {
-  margin-left: 18px;
+  // margin-left: 18px;
 }
 
 .more-help {
   height: 30px;
   width: 100%;
+  font-size: 13px;
+  font-weight: 500;
+
+  .iconnables {
+    width: 15px;
+    height: 15px;
+  }
 }

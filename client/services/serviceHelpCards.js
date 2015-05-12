@@ -26,7 +26,7 @@ var helpCards = {
   'triggered': [
     {
       id: 'association',
-      'label': 'It looks like {{instance.getDisplayName()}} should be associated with {{association}}',
+      'label': 'It looks like <b>{{instance.getDisplayName()}}</b> should be associated with <b>{{association}}</b>',
       'targets': [
         'environmentVariables',
         'translationRules'
@@ -71,6 +71,7 @@ helpCards.triggered.forEach(function (card) {
 
 helpCards.triggered = triggeredHash;
 
+//POSSIBLE TARGETS:
 //newContainer
 //buildFiles
 //buildCommand
