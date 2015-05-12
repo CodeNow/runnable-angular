@@ -61,6 +61,11 @@
     width: 100%;
   }
 
+  .label-col .small {
+    display: inline-block;
+    margin-left: 6px;
+  }
+
   // upload button
   .btn-upload {
     padding-right: 75px;

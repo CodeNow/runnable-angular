@@ -33,13 +33,13 @@
     .label-col Destination
     .input-col.input-root
       input.input.input-sm(
-        placeholder = "required"
         required
         spellcheck = "false"
       )
 
   label.label.clearfix
     .label-col Build Commands
+      small.small (optional)
     .input-col
       textarea.textarea.monospace(
         spellcheck = "false"
@@ -50,20 +50,5 @@
   button.btn.btn-xs.orange Remove Repository
 
 .popover-footer.clearfix
-  button.btn.btn-sm.green.btn-spinner(
-    ng-class = "{in: data.saving}"
-    ng-click = "data.saving = true"
-    ng-disabled = "data.saving"
-  )
-    //- spinner
-    .spinner-wrapper.spinner-sm.spinner-white.in(
-      ng-if = "data.saving"
-      ng-include = "'spinner'"
-    )
-    span(
-      ng-if = "!data.saving"
-    ) Add Repository
-    span(
-      ng-if = "data.saving"
-    ) Uploading
+  button.btn.btn-sm.green Add Repository
   button.btn.btn-sm.gray.btn-cancel Cancel
