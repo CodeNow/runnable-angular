@@ -1,3 +1,9 @@
+//- spinner for JUST instance
+.spinner-wrapper.spinner-backdrop.spinner-lg.spinner-purple.in(
+  ng-if = "isLoading.main"
+  ng-include = "'spinner'"
+)
+
 //- show if server build is being swapped out
   - orange when build is updating or has failed
   - green if build is successfully built
