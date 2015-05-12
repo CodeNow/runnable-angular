@@ -15,7 +15,9 @@
             use(
               xlink:href = "#icons-close"
             )
-        p.p {{helpItem.label}}
+        p.p(
+          ng-bind-html= "helpItem.label"
+        )
         button.btn.btn-sm(
           ng-click = "actions.getHelp(helpItem)"
         ) Show Me
@@ -26,7 +28,8 @@
         ng-repeat = "helpItem in data.general"
         ng-hide = "!showMore && $index > 5"
         ng-click = "actions.getHelp(helpItem)"
-      ) {{helpItem.label}}
+        ng-bind-html= "helpItem.label"
+      )
     button.btn.more-help(
       ng-click = "closePopover()"
     ) Less Help

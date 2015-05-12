@@ -136,6 +136,9 @@ function helpCardsFactory(
     ignoreCard: function (card) {
       var index = this.cards.triggered.indexOf(card);
       this.cards.triggered.splice(index, 1);
+      if (this.activeCard === card) {
+        this.activeCard = null;
+      }
       keypather.set($localStorage, 'helpCards.'+getCardHash(card), true);
     }
   };
