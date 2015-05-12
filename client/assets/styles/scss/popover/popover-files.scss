@@ -20,7 +20,7 @@
 
     // buttons
     > .btn {
-      flex: 0 0 auto;
+      flex: 0 0 78px;
       font-size: 13px;
       padding: 0 6px;
     }
@@ -60,6 +60,11 @@
     .icons-arrow-down {
       transform: rotate3d(0,0,1,-90deg);
     }
+  }
+
+  // filter
+  .label-jump {
+    text-align: center;
   }
 
   // forms
