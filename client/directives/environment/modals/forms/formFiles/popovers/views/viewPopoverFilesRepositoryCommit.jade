@@ -6,10 +6,10 @@
       use(
         xlink:href = "#icons-arrow-down"
       )
-    | Back
+    | Done
   strong.strong.text-overflow Commit
-  //- this button is empty on purchase
-  button.btn.btn-sm.pull-right
+  //- this button is empty on purpose
+  button.btn.btn-sm.pull-right.no-touching
 
 .popover-content
   label.label.label-jump
@@ -20,3 +20,32 @@
       ) Choose a branch
       option branch1
       option branch2
+
+  ul.list
+    li.list-item
+      .toggle-group-title commit msg
+      .toggle-group-detail.clearfix
+        small.small joe authored 2 days ago
+        a.small.link.link-text.monospace(
+          href = "//google.com"
+          ng-click = "$event.stopPropagation()"
+          target = "_blank"
+        ) 1234567
+    li.list-item
+      .toggle-group-title commit msg
+      .toggle-group-detail.clearfix
+        small.small joe authored 2 days ago
+        a.small.link.link-text.monospace(
+          href = "//google.com"
+          ng-click = "$event.stopPropagation()"
+          target = "_blank"
+        ) 1234567
+    li.list-item
+      .toggle-group-title commit msg
+      .toggle-group-detail.clearfix
+        small.small joe authored 2 days ago
+        a.small.link.link-text.monospace(
+          href = "//google.com"
+          ng-click = "$event.stopPropagation()"
+          target = "_blank"
+        ) 1234567

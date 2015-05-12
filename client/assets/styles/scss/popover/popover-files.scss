@@ -1,11 +1,11 @@
 .popover-files {
   background: $white;
   // fix width and height for popover-views
-  height: 450px;
-  width: 420px;
+  height: 420px;
+  width: 360px;
 
   .popover-view {
-    width: 416px;
+    width: 356px;
   }
 
   .popover-header {
@@ -20,7 +20,7 @@
 
     // buttons
     > .btn {
-      flex: 0 0 78px;
+      flex: 0 0 66px;
       font-size: 13px;
       padding: 0 6px;
     }
@@ -45,11 +45,15 @@
   }
 
   .popover-content {
-    height: 328px; // calc(450px - 122px);
+    height: 298px; // calc(450px - 122px);
     padding-bottom: 15px;
   }
 
   // forms
+  .label {
+    margin-bottom: 12px;
+  }
+
   .label-col,
   .input-col {
     width: 100%;
@@ -71,9 +75,19 @@
     padding: 6px 24px 6px 6px;
     text-align: left;
 
+    &:active .small {
+      color: currentColor;
+    }
+
     .icons-arrow-down {
       transform: rotate3d(0,0,1,-90deg);
     }
+  }
+
+  // delete button
+  .orange {
+    display: table;
+    margin: 0 auto;
   }
 
   // view 3

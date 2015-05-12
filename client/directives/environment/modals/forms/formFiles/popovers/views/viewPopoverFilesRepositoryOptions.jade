@@ -6,15 +6,15 @@
       use(
         xlink:href = "#icons-arrow-down"
       )
-    | Change
+    | Back
   strong.strong.text-overflow repository-name
-  //- if this is not a new thing
-  button.btn.btn-sm.orange.pull-right Delete
+  //- this button is empty on purpose
+  button.btn.btn-sm.pull-right.no-touching
 
 .popover-content
   label.label.clearfix
     .input-col
-      .btn.btn-block.gray.text-overflow(
+      .btn.btn-block.white.text-overflow(
         ng-click = "state.view3 = true"
       ) commit msg
         small.small joe authored 18 days ago
@@ -29,12 +29,18 @@
       input.input.input-sm(
         placeholder = "required"
         required
+        spellcheck = "false"
       )
 
   label.label.clearfix
     .label-col Build Commands
     .input-col
-      textarea.textarea.monospace
+      textarea.textarea.monospace(
+        spellcheck = "false"
+      )
+      small.small Commands to be executed when your container is built and before it is launched.
+
+  button.btn.btn-xs.orange Remove Repository
 
 .popover-footer.clearfix
   button.btn.btn-sm.green.btn-spinner(
