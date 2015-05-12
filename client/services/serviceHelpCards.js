@@ -1,5 +1,8 @@
 'use strict';
 
+require('app')
+  .factory('helpCards', helpCardsFactory);
+
 var helpCards = {
   'general': [
     {
@@ -45,8 +48,6 @@ helpCards.triggered.forEach(function (card) {
 
 helpCards.triggered = triggeredHash;
 
-module.exports = helpCards;
-
 
 //buildFiles
 //buildCommand
@@ -54,3 +55,38 @@ module.exports = helpCards;
 //exposedPorts
 //repositories
 //environmentVariables
+
+function helpCardsFactory(
+  $interpolate,
+  keypather
+) {
+  var cards = {
+    general: helpCards.general,
+    triggered: []
+  };
+  return {
+    cards: cards,
+    activeCard: null,
+    cardIsActiveOnThisContainer: function (container) {
+      return this.activeCard && angular.equals(container, keypather.get(this, 'activeCard.data.instance'));
+    },
+    triggerCard: function (cardId, data) {
+      var helpCard = helpCards.triggered[cardId];
+      if (!helpCard) {
+        return;
+      }
+      helpCard = angular.copy(helpCard);
+      helpCard.label = $interpolate(helpCard.label)(data);
+      helpCard.helpTop = $interpolate(helpCard.helpTop)(data);
+      Object.keys(helpCard.helpPopover).forEach(function (key) {
+        helpCard.helpPopover[key] = $interpolate(helpCard.helpPopover[key])(data);
+      });
+
+      helpCard.data = data;
+      cards.triggered.push(helpCard);
+    },
+    ignoreCard: function (card) {
+      console.log('Hide card', card);
+    }
+  };
+}

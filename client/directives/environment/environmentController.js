@@ -1,7 +1,5 @@
 'use strict';
 
-var helpCards = require('../../config/helpCards.js');
-
 require('app')
   .controller('EnvironmentController', EnvironmentController);
 /**
@@ -25,7 +23,8 @@ function EnvironmentController(
   $rootScope,
   $q,
   user,
-  $interpolate
+  $interpolate,
+  helpCards
 ) {
   favico.reset();
   pageName.setTitle('Configure - Runnable');
@@ -39,38 +38,31 @@ function EnvironmentController(
     helpCard: null
   };
 
-  $scope.help = {
-    general: helpCards.general,
-    triggered: []
-  };
+  $scope.help = helpCards.cards;
+  $scope.helpCards = helpCards;
+
+  $scope.alert = null;
+
+  $scope.$on('alert', function (evt, data) {
+    $scope.alert = data;
+    $timeout(function () {
+      $scope.alert = null;
+    }, 5000);
+  });
 
   $scope.helpPopover = {
     data: $scope.help,
     actions: {
       ignoreHelp: function (help) {
-        console.log('TODO: Ignore help', help);
+        helpCards.ignoreCard(help);
         $rootScope.$broadcast('close-popovers');
       },
       getHelp: function (help) {
-        $scope.state.helpCard = help;
+        helpCards.activeCard = help;
         $rootScope.$broadcast('close-popovers');
       }
     }
   };
-
-  function triggerHelp(id, data){
-    var helpCard = angular.copy(helpCards.triggered[id]);
-    helpCard.label = $interpolate(helpCard.label)(data);
-    helpCard.helpTop = $interpolate(helpCard.helpTop)(data);
-    Object.keys(helpCard.helpPopover).forEach(function (key) {
-      helpCard.helpPopover[key] = $interpolate(helpCard.helpPopover[key])(data);
-    });
-
-    helpCard.data = data;
-    $scope.help.triggered.push(helpCard);
-  }
-
-
 
   $scope.actions = {
     deleteServer: function (server) {
@@ -103,6 +95,12 @@ function EnvironmentController(
             instance
           );
         })
+        .then(function () {
+          $rootScope.$broadcast('alert', {
+            type: 'success',
+            text: 'Container added successfully.'
+          });
+        })
         .catch(function (err) {
           errs.handler(err);
           // Remove it from the servers list
@@ -122,7 +120,7 @@ function EnvironmentController(
     .then(function (data) {
 
       data.instances.forEach(function (instance) {
-        triggerHelp('association', {
+        helpCards.triggerCard('association', {
           instance: instance,
           association: 'MongoDB'
         });
