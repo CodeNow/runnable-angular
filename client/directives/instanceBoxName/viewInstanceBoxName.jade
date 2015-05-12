@@ -1,33 +1,31 @@
-.server-name
-  span.sever-name {{ instance.getRepoName() || instance.getDisplayName() }}
+.container-label
+  span.container-name {{ instance.getRepoName() || instance.getDisplayName() }}
   span.branch-name(
     ng-if = "instance.getBranchName()"
   ) /{{ instance.getBranchName() }}
-
   status-icon(
     instance = "instance"
   )
 
-.container-url-section
-  .container-url-label(
+.container-url-label(
     tooltip = "Use Container URLs for debugging or navigating to the container for a specific branch."
     tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-7,\"top\":15}"
   )
     | Container URL:
-  .container-url
-    input.server-url(
-      ng-if = "instance.attrs.name"
-      readonly
-      select-all
-      value = "{{ instance.getContainerHostname() }}{{defaultPort}}"
-    )
-    //- sets width
-    span.server-name-ghost.no-touching {{ instance.getContainerHostname() }}{{defaultPort}}
-    a.container-link-external(
-      target = "_blank"
-      ng-href = "http://{{ instance.getContainerHostname() }}{{defaultPort}}"
-    )
-      svg.iconnables.icons-link-external
-        use(
-          xlink:href = "#icons-link-external"
-        )
+.container-url-wrapper
+  input.container-url(
+    ng-if = "instance.attrs.name"
+    readonly
+    select-all
+    value = "{{ instance.getContainerHostname() }}{{defaultPort}}"
+  )
+  //- sets width
+  span.container-url-ghost.no-touching {{ instance.getContainerHostname() }}{{defaultPort}}
+  a.container-url-link(
+    target = "_blank"
+    ng-href = "http://{{ instance.getContainerHostname() }}{{defaultPort}}"
+  )
+    svg.iconnables
+      use(
+        xlink:href = "#icons-link-external"
+      )

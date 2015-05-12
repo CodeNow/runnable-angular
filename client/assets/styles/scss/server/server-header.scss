@@ -5,8 +5,77 @@
   padding: 0 6px 0 15px;
 }
 
-.container-link-external {
+// h1.server-info
+.server-info {
+  float: left;
+  height: 72px;
+}
+
+// wrapper for container name, branch name, and status icon
+.container-label {
+  font-size: 24px;
+  height: 51px;
+  line-height: 51px;
+
+  .branch-name {
+    font-weight: 400;
+  }
+
+  .icons-status {
+    left: 9px;
+    top: -3px;
+  }
+}
+
+.container-url-label {
+  display: inline-block;
+  float: left;
   color: $gray;
+  cursor: default;
+  font-size: 15px;
+  font-weight: 500;
+  position: relative;
+  top: -9px;
+  margin-right: 3px;
+}
+
+.container-url-wrapper {
+  float: left;
+  color: $gray;
+  position: relative;
+  top: -9px;
+}
+
+// [readonly] specifity to override default [readonly] background-color
+.container-url[readonly] {
+  background: none;
+  border: 0;
+  box-shadow: none;
+  color: currentColor;
+  cursor: default;
+  display: block;
+  font-size: 15px;
+  font-weight: 400;
+  height: auto;
+  line-height: 1;
+  padding: 0;
+  position: relative;
+  white-space: nowrap;
+  width: 100%;
+
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+// sets width
+.container-url-ghost {
+  font-size: 15px;
+  visibility: hidden;
+}
+
+.container-url-link {
+  color: currentColor;
   cursor: pointer;
   left: -9px;
   position: relative;
@@ -20,89 +89,10 @@
     color: $purple-dark;
   }
 
-  .icons-link-external {
+  .iconnables {
     height: 21px;
     width: 20px;
   }
-}
-
-// h1.server-info
-.server-info {
-  float: left;
-  height: 72px;
-
-  .icons-status {
-    left: 9px;
-    top: -4px;
-  }
-}
-
-.container-url-section {
-  position: relative;
-  top: -9px;
-}
-
-.container-url-label {
-  display: inline-block;
-  float: left;
-  font-size: 15px;
-  font-weight: 500;
-  margin-right: 3px;
-}
-
-.container-url {
-  display: inline-block;
-  float: left;
-}
-
-// text + status wrapper
-.server-name {
-  font-size: 24px;
-  // height: 51px;
-  line-height: 51px;
-
-  .branch-name {
-    color: inherit;
-    font-weight: 400;
-  }
-}
-
-// [readonly] specifity to override default [readonly] background-color
-.server-url[readonly] {
-  background: none;
-  border: 0;
-  box-shadow: none;
-  color: $gray;
-  cursor: default;
-  display: block;
-  font-size: 15px;
-  font-weight: 400;
-  height: auto;
-  line-height: 1;
-  padding: 0;
-  position: relative;
-  // top: -9px;
-  white-space: nowrap;
-  width: 100%;
-
-  &:focus {
-    box-shadow: none;
-  }
-}
-
-// sets width
-.server-name-ghost {
-  font-size: 15px;
-  visibility: hidden;
-}
-
-// span.text-status
-.text-status {
-  color: $orange;
-  float: right;
-  font-size: 12px;
-  left: 14px;
-  position: relative;
 }
 
 // header.server-header actions
