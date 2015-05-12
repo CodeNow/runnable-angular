@@ -29,6 +29,7 @@ var views = require('./build/views/viewBundle');
  */
 app.config(function ($httpProvider) {
   $httpProvider.defaults.withCredentials = true;
+  $httpProvider.defaults.headers.delete = { 'Content-Type' : 'application/json' };
 });
 
 /**
