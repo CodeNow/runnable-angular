@@ -13,7 +13,7 @@
 .popover-view {
   float: left;
   position: absolute;
-  transition: transform .2s ease-in;
+  transition: transform .2s ease-in-out;
 
   + .popover-view {
     left: 100%;

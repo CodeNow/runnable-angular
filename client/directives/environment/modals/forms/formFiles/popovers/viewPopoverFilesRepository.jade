@@ -1,9 +1,13 @@
 .popover.popover-fixed.popover-files.popover-views(
   ng-class = "{\
     in: active,\
-    'view-2': false,\
-    'view-3': false\
+    'view-2': state.view2,\
+    'view-3': state.view3\
   }"
+  ng-init = "\
+    state.view2 = null;\
+    state.view3 = null;\
+  "
   ng-style = "popoverStyle.getStyle()"
 )
   //- choose repository
