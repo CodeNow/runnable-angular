@@ -31,7 +31,7 @@
       padding: 0 9px 0 3px;
     }
 
-    .icons-arrow-back {
+    .icons-arrow-backward {
       float: left;
       height: 100%;
       margin-right: 3px;
@@ -49,6 +49,20 @@
     padding-bottom: 15px;
   }
 
+  // forms
+  .label-col,
+  .input-col {
+    width: 100%;
+  }
+
+  // view 1
+  // list
+  .list-servers > .list-item {
+    font-size: 16px;
+    padding-left: 12px;
+  }
+
+  // view 2
   // commit button
   .btn-block {
     font-size: 15px;
@@ -62,14 +76,9 @@
     }
   }
 
+  // view 3
   // filter
   .label-jump {
     text-align: center;
-  }
-
-  // forms
-  .label-col,
-  .input-col {
-    width: 100%;
   }
 }
