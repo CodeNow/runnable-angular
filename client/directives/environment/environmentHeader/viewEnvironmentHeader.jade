@@ -25,9 +25,9 @@ button.btn.btn-icon.blue(
   title = "Help Center"
 )
 .help-step-container(
-  ng-if = "state.helpCard"
+  ng-if = "helpCards.activeCard"
 )
-  .help.help-step-item {{state.helpCard.helpTop}}
+  .help.help-step-item {{helpCards.activeCard.helpTop}}
 
 //- new server button
 button.btn.green(
