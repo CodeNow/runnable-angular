@@ -55,7 +55,6 @@ function EnvironmentController(
     actions: {
       ignoreHelp: function (help) {
         helpCards.ignoreCard(help);
-        $rootScope.$broadcast('close-popovers');
       },
       getHelp: function (help) {
         helpCards.activeCard = help;
@@ -69,12 +68,14 @@ function EnvironmentController(
       $rootScope.$broadcast('close-popovers');
       $timeout(function () {
         if (confirm('Are you sure you want to delete this container?')) {
+          helpCards.activeCard = null;
           promisify(server.instance, 'destroy')()
             .catch(errs.handler);
         }
       });
     },
     createAndBuild: function (createPromise, name) {
+      helpCards.activeCard = null;
       $rootScope.$broadcast('close-modal');
 
       eventTracking.triggeredBuild(false);
