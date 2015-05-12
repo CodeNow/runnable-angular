@@ -102,6 +102,10 @@
     padding-bottom: 3px;
   }
 
+  &.disabled {
+    cursor: not-allowed;
+  }
+
   + .tr {
     border-top: 1px solid $gray-lighter;
     font-weight: 500;
