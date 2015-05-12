@@ -6,9 +6,9 @@ require('app')
 function loading(
   $timeout,
   $rootScope,
-  keypather,
   exists
 ) {
+  $rootScope.isLoading = {};
   var loadingStatusHash = {};
   var timeoutTime = 0;
   $timeout(function () {
@@ -31,11 +31,11 @@ function loading(
     if (loadingStatusHash[namespace] > 0) {
       $timeout(function () {
         if (loadingStatusHash[namespace] > 0) {
-          keypather.set($rootScope, 'isLoading.'+namespace, true);
+          $rootScope.isLoading[namespace] = true;
         }
       }, timeoutTime);
     } else {
-      keypather.set($rootScope, 'isLoading.'+namespace, false);
+      $rootScope.isLoading[namespace] = false;
     }
   };
 }
