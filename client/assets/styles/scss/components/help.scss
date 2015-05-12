@@ -44,3 +44,14 @@
   height: 45px;
   line-height: 45px; // testing
 }
+
+.help-badge {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: $blue;
+  color: $white;
+  font-weight: 500;
+  font-size: 12px;
+  text-align: center;
+}
