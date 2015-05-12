@@ -141,4 +141,18 @@
   .toggle-group-detail .link {
     color: $gray;
   }
+
+  // always update check
+  .label-checkbox {
+    color: $gray;
+    line-height: 24px;
+    text-align: center;
+  }
+
+  .input-checkbox {
+    float: none;
+    height: 12px;
+    margin: 0 3px 0 0;
+    width: 15px;
+  }
 }

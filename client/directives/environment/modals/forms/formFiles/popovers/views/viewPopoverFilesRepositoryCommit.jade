@@ -21,10 +21,20 @@
       option branch1
       option branch2
 
+  label.label-checkbox.small.clearfix(
+    ng-if = "data.latestCommitActive"
+  )
+    input.input-checkbox.small.clearfix(
+      type = "checkbox"
+    )
+    | Always update to latest on new builds
+
   ul.list.list-servers
     //- apply .active to currently selected commit (or latest)
-    li.list-item.btn.btn-sm.btn-block.gray.text-overflow Always use latest commit on this branch
-    li.list-item.text-overflow commit msg
+    li.list-item.text-overflow(
+      ng-class = "{active: data.latestCommitActive}"
+      ng-click = "data.latestCommitActive = true"
+    ) commit msg
       .toggle-group-detail.clearfix
         small.small joe authored 2 days ago
         a.small.link.link-text.monospace(
