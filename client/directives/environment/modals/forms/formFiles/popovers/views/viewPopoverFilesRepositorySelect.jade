@@ -2,6 +2,10 @@
   strong.strong.text-overflow Choose Repository
 
 .popover-content
+  input.input.input-xs.input-search(
+    placeholder = "Filter by name"
+    required
+  )
   ul.list.list-servers
     li.list-item.multi-line(
       ng-click = "state.view2 = true"
