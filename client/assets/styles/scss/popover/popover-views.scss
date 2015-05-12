@@ -16,6 +16,8 @@
 
 .popover-view {
   box-shadow: 0 1px 1px $gray-lighter;
+  display: flex;
+  flex-direction: column;
   float: left;
   position: absolute;
   transition: transform .3s ease-in-out;
@@ -26,5 +28,17 @@
     + .popover-view {
       left: 200%;
     }
+  }
+
+  .popover-header {
+    flex: 0 0 auto;
+  }
+
+  .popover-content {
+    flex: 1 1 auto;
+  }
+
+  .popover-footer {
+    flex: 0 0 auto;
   }
 }

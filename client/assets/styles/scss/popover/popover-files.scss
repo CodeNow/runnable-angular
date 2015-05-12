@@ -5,6 +5,8 @@
   width: 360px;
 
   .popover-view {
+    // minus 4px for borders
+    height: 416px;
     width: 356px;
   }
 
@@ -62,7 +64,7 @@
   // view 1
   // list
   .list-servers > .list-item {
-    font-size: 16px;
+    font-size: 15px;
     padding-left: 12px;
     padding-right: 24px;
 
@@ -98,6 +100,11 @@
   // view 3
   // filter
   .label-jump {
+    margin-bottom: 15px;
     text-align: center;
+  }
+
+  .toggle-group-detail .link {
+    color: $gray;
   }
 }
