@@ -120,6 +120,10 @@ function EnvironmentController(
     .then(function (data) {
 
       data.instances.forEach(function (instance) {
+        helpCards.triggerCard('missingDependency', {
+          instance: instance,
+          dependency: 'MongoDB'
+        });
         helpCards.triggerCard('association', {
           instance: instance,
           association: 'MongoDB'
