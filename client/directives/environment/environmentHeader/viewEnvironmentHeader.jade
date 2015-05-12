@@ -46,7 +46,9 @@ button.btn.btn-icon.blue(
 .help-step-container(
   ng-if = "helpCards.activeCard"
 )
-  .help.help-step-item {{helpCards.activeCard.helpTop}}
+  .help.help-step-item(
+    ng-bind-html= "helpCards.activeCard.helpTop"
+  )
 
 //- new server button
 button.btn.green(
