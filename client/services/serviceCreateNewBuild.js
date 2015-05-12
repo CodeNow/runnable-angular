@@ -4,7 +4,7 @@ require('app')
   .factory('createNewBuild', createNewBuild);
 
 function createNewBuild(
-  pFetchUser,
+  fetchUser,
   promisify,
   $q,
   uuid
@@ -50,7 +50,7 @@ function createNewBuild(
         });
     }
 
-    return pFetchUser()
+    return fetchUser()
       .then(function (user) {
         thisUser = user;
         return context || createContext(user);

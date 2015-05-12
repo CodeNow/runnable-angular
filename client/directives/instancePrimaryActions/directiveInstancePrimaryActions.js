@@ -55,6 +55,31 @@ function instancePrimaryActions(
           stopSavingCb.next();
         });
       };
+
+      function modInstance(action, opts) {
+        $scope.saving = true;
+        $scope.starting = action === 'start';
+
+        $scope.$broadcast('close-popovers');
+        promisify($scope.instance, action)(
+          opts
+        ).then(function () {
+            return promisify($scope.instance, 'fetch')();
+          }).catch(
+          errs.handler
+        ).finally(function () {
+            $scope.saving = false;
+          });
+      }
+
+      $scope.actions = {
+        stopInstance: function () {
+          modInstance('stop');
+        },
+        startInstance: function () {
+          modInstance('start');
+        }
+      };
     }
   };
 }

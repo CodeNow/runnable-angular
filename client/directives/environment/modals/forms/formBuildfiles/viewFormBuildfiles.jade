@@ -2,7 +2,7 @@
   .label-col Build Files
 
 //- table of current environment variables
-.ace-container.ace-build-files
+.ace-container.ace-build-files.ace-runnable-dark
   .sidebar(
     edit-explorer = "true"
     explorer
@@ -13,18 +13,15 @@
     show-repo-folder = "true"
   )
 
-  .ace_editor.ace-runnable-dark(
-    ng-repeat = "item in openItems.models"
+  .ace_editor(
+    file = "item"
+    file-editor
+    loading = "loading"
+    ng-if = "item.state.type === 'File'"
+    ng-repeat = "item in openItems.models track by item.id()"
     ng-show = "item === openItems.activeHistory.last()"
+    use-auto-update = "true"
   )
-    //- files
-    div(
-      file = "item"
-      file-editor
-      loading = "loading"
-      ng-if = "item.state.type === 'File'"
-      use-auto-update = "true"
-    )
 
 //- small.small 😌🐻✌️ #{''}
 //-   a.link(

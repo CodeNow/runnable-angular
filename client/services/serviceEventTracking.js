@@ -26,7 +26,6 @@ function EventTracking (
   $stateParams,
   $window,
   assign,
-  isFunction,
   keypather
 ) {
   _keypather = keypather;
@@ -55,7 +54,7 @@ function EventTracking (
       state: $state.$current.name,
       href: $window.location.href
     };
-    if (isFunction(keypather.get(this._user, 'oauthName'))) {
+    if (angular.isFunction(keypather.get(this._user, 'oauthName'))) {
       baseData.userName = this._user.oauthName();
     }
     if ($stateParams.userName) {
@@ -85,7 +84,7 @@ function EventTracking (
    * @params [1..n] optional arguments passed to mixpanel SDK
    */
   this._mixpanel = function () {
-    if (!isFunction(keypather.get($window, 'mixpanel.'+arguments[0]))) {
+    if (!angular.isFunction(keypather.get($window, 'mixpanel.'+arguments[0]))) {
       // $log.info('Mixpanel JS SDK stubbed');
       // $log.info(arguments);
       return;

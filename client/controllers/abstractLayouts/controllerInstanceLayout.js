@@ -11,13 +11,13 @@ function ControllerInstanceLayout(
   keypather,
   $scope,
   errs,
-  pFetchUser,
+  fetchUser,
   fetchInstancesByPod,
   loading
 ) {
 
   var currentUser;
-  pFetchUser().then(function(user) {
+  fetchUser().then(function(user) {
     currentUser = user;
   });
 

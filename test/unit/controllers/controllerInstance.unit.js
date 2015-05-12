@@ -8,7 +8,6 @@ var $controller,
     $state,
     $stateParams,
     $window,
-    async,
     OpenItems,
     eventTracking,
     keypather,
@@ -31,7 +30,7 @@ describe('controllerInstance'.bold.underline.blue, function () {
         setImage: sinon.spy(),
         setInstanceState: sinon.spy()
       });
-      $provide.factory('pFetchUser', mockUserFetch.fetch());
+      $provide.factory('fetchUser', mockUserFetch.fetch());
       $provide.factory('fetchCommitData', function () {
         return {
           activeCommit: sinon.spy(function () {
@@ -69,7 +68,6 @@ describe('controllerInstance'.bold.underline.blue, function () {
       _$state_,
       _$window_,
       _OpenItems_,
-      _async_,
       _eventTracking_,
       _keypather_,
       _user_
@@ -81,7 +79,6 @@ describe('controllerInstance'.bold.underline.blue, function () {
       $stateParams = _$stateParams_;
       $window = _$window_;
       OpenItems = _OpenItems_;
-      async = _async_;
       eventTracking = _eventTracking_;
       keypather = _keypather_;
       user = _user_;
