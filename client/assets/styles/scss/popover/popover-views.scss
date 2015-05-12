@@ -11,9 +11,10 @@
 }
 
 .popover-view {
+  box-shadow: 0 1px 1px $gray-lighter;
   float: left;
   position: absolute;
-  transition: transform .2s ease-in-out;
+  transition: transform .3s ease-in-out;
 
   + .popover-view {
     left: 100%;
