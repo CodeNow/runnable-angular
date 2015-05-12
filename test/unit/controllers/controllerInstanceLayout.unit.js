@@ -92,7 +92,7 @@ describe('ControllerInstanceLayout'.bold.underline.blue, function () {
     expect($scope).to.have.deep.property('dataInstanceLayout.state');
     expect($scope).to.have.deep.property('dataInstanceLayout.data.logoutURL');
     $rootScope.$digest();
-    expect($rootScope.dataApp.state.loadingInstances).to.be.true;
+    expect($rootScope.isLoading.sidebar).to.not.be.ok;
     expect($rootScope.dataApp.data.instancesByPod).to.be.null;
     var many = runnable.newInstances(
       [apiMocks.instances.running, apiMocks.instances.stopped],
@@ -102,7 +102,7 @@ describe('ControllerInstanceLayout'.bold.underline.blue, function () {
     mockFetch.triggerPromise(many);
     $rootScope.$digest();
     $scope.$apply();
-    expect($rootScope.dataApp.state.loadingInstances, 'loadingInstances').to.be.false;
+    expect($rootScope.isLoading.sidebar, 'loadingInstances').to.be.false;
     expect($rootScope.dataApp.data.instancesByPod, 'instancesByPod').to.equal(many);
 
     $scope.$apply();
@@ -125,13 +125,13 @@ describe('ControllerInstanceLayout'.bold.underline.blue, function () {
       mockFetch.triggerPromise(many);
       $rootScope.$digest();
       $scope.$apply();
-      expect($rootScope.dataApp.state.loadingInstances).to.be.false;
+      expect($rootScope.isLoading.sidebar).to.not.be.ok;
       expect($rootScope.dataApp.data.instancesByPod).to.equal(many);
 
       $rootScope.$broadcast('INSTANCE_LIST_FETCH');
       $rootScope.$digest();
 
-      expect($rootScope.dataApp.state.loadingInstances).to.not.be.ok;
+      expect($rootScope.isLoading.sidebar).to.not.be.ok;
       expect($rootScope.dataApp.data.instancesByPod).to.be.ok;
 
       $scope.$apply();
@@ -146,7 +146,6 @@ describe('ControllerInstanceLayout'.bold.underline.blue, function () {
       keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.userList.org2);
       $rootScope.$broadcast('INSTANCE_LIST_FETCH', 'org2');
       $rootScope.$digest();
-      expect($rootScope.dataApp.state.loadingInstances).to.be.true;
       expect($rootScope.dataApp.data.instancesByPod).to.be.null;
       var many = runnable.newInstances(
         [apiMocks.instances.running, apiMocks.instances.stopped],
@@ -156,7 +155,6 @@ describe('ControllerInstanceLayout'.bold.underline.blue, function () {
       mockFetch.triggerPromise(many);
       $rootScope.$digest();
       $scope.$apply();
-      expect($rootScope.dataApp.state.loadingInstances).to.be.false;
       expect($rootScope.dataApp.data.instancesByPod).to.equal(many);
     });
   });
