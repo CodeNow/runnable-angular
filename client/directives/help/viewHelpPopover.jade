@@ -22,9 +22,10 @@
 
     ul.general-help-list General Help
       li.general-help-item(
-        ng-repeat = "help in data.general"
+        ng-repeat = "helpItem in data.general"
         ng-hide = "!showMore && $index > 5"
-      ) {{help.label}}
+        ng-click = "actions.getHelp(helpItem)"
+      ) {{helpItem.label}}
     button.btn.more-help(
       ng-click = "closePopover()"
     ) Less Help
