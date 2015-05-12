@@ -68,12 +68,26 @@
     padding-left: 6px;
     padding-right: 6px;
 
-    &:active {
+    &:active,
+    &.active {
       color: $purple-light;
     }
 
     &.multi-line {
       padding-right: 24px;
+    }
+
+    &.btn-block {
+      border-color: $gray-lighter;
+      height: 36px;
+      line-height: 32px;
+      padding-bottom: 0;
+      padding-top: 0;
+      text-align: center;
+
+      &:active {
+        border-color: currentColor;
+      }
     }
   }
 

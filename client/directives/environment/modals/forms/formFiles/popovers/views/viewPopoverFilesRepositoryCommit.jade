@@ -6,7 +6,7 @@
       use(
         xlink:href = "#icons-arrow-down"
       )
-    | Done
+    | Back
   strong.strong.text-overflow Commit
   //- this button is empty on purpose
   button.btn.btn-sm.pull-right.no-touching
@@ -22,6 +22,8 @@
       option branch2
 
   ul.list.list-servers
+    //- apply .active to currently selected commit (or latest)
+    li.list-item.btn.btn-sm.btn-block.gray.text-overflow Always use latest commit
     li.list-item.text-overflow commit msg
       .toggle-group-detail.clearfix
         small.small joe authored 2 days ago
