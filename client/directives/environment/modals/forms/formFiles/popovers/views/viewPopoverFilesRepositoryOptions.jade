@@ -1,4 +1,5 @@
 .popover-header
+  //- if adding a new repository
   button.btn.btn-sm.white.pull-left(
     ng-click = "state.view2 = false"
   )
@@ -7,6 +8,11 @@
         xlink:href = "#icons-arrow-down"
       )
     | Back
+  //- if editing an existing repository
+  //- this button is empty on purpose
+  button.btn.btn-sm.pull-right.no-touching(
+    ng-if = "false"
+  )
   strong.strong.text-overflow repository-name
   //- this button is empty on purpose
   button.btn.btn-sm.pull-right.no-touching
@@ -55,7 +61,7 @@
     )
     span(
       ng-if = "!data.saving"
-    ) Add File
+    ) Add Repository
     span(
       ng-if = "data.saving"
     ) Uploading
