@@ -28,20 +28,20 @@
 }
 
 .container-url-label {
-  display: inline-block;
-  float: left;
   color: $gray;
   cursor: default;
+  display: inline-block;
+  float: left;
   font-size: 15px;
   font-weight: 500;
+  margin-right: 3px;
   position: relative;
   top: -9px;
-  margin-right: 3px;
 }
 
 .container-url-wrapper {
-  float: left;
   color: $gray;
+  float: left;
   position: relative;
   top: -9px;
 }
