@@ -103,9 +103,7 @@ function helpCardsFactory(
         }
       });
     }
-    var hash = jsonHash.digest(cardClone);
-    console.log(hash);
-    return hash;
+    return jsonHash.digest(cardClone);
   }
   var cards = {
     general: helpCards.general,
