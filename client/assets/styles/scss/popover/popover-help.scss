@@ -10,6 +10,7 @@
   max-width: none; // overwrites max-width set in popover.scss
   font-size: 15px;
   line-height: 18px;
+  transition: none;
 
   .popover-content {
     padding: 0 12px; // overwrites padding for popover-content set in popover.scss
@@ -26,7 +27,7 @@
   border-bottom: 1px solid rgba($blue-light,.25);
   position: relative;
 
-  // dismiss button for triggerd help items
+  // dismiss button for triggered help items
   .btn-icon {
     position: absolute;
     left: -7px;
