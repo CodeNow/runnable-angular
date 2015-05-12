@@ -21,20 +21,13 @@ nav.sidebar.nav-sidebar(
       .btn.btn-xs.btn-help ?
       | Documentation
 
-//- 2nd level views (viewInstance, viewInstanceEdit...)
+//- 2nd level views (viewInstance)
 main.content(
   ui-view
-  ng-hide = "isLoading.main"
 )
 
 //- spinner for both instance AND sidebar
-.spinner-wrapper.spinner-lg.spinner-purple.in(
+.spinner-wrapper.spinner-backdrop.spinner-lg.spinner-purple.in(
   ng-if = "isLoading.main && isLoading.sidebar"
-  ng-include = "'spinner'"
-)
-
-//- spinner for JUST instance
-.spinner-wrapper.spinner-lg.spinner-purple.in(
-  ng-if = "isLoading.main && !isLoading.sidebar"
   ng-include = "'spinner'"
 )
