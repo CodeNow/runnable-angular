@@ -65,11 +65,15 @@
   // list
   .list-servers > .list-item {
     font-size: 15px;
-    padding-left: 12px;
-    padding-right: 24px;
+    padding-left: 6px;
+    padding-right: 6px;
 
     &:active {
       color: $purple-light;
+    }
+
+    &.multi-line {
+      padding-right: 24px;
     }
   }
 
