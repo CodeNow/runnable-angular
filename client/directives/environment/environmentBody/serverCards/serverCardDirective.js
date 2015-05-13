@@ -13,7 +13,8 @@ function serverCard(
   helpCards,
   fetchStackAnalysis,
   errs,
-  $anchorScroll
+  $anchorScroll,
+  $location
 ) {
   return {
     restrict: 'A',
@@ -30,7 +31,8 @@ function serverCard(
       $scope.activeAccount = $rootScope.dataApp.data.activeAccount;
 
       function scrollIntoView(){
-        $anchorScroll('server-' + $scope.server.instance.attrs.shortHash);
+        $location.hash('server-' + $scope.server.instance.attrs.shortHash);
+        $anchorScroll();
       }
 
       function createServerObjectFromInstance(instance) {
