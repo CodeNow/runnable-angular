@@ -8,6 +8,13 @@
 //-     )
 //-   | To Sandbox
 
+.help-step-container(
+  ng-if = "helpCards.getActiveCard()"
+)
+  .help.help-step-item(
+    ng-bind-html= "helpCards.getActiveCard().helpTop"
+  )
+
 //- help center button
 button.btn.btn-icon.blue(
   ng-class = "{active: state.helpButton.active}"
@@ -42,13 +49,6 @@ button.btn.btn-icon.blue(
 //-     button.btn.btn-sm(
 //-       ng-click = "helpPopover.actions.getHelp(helpCards.cards.triggered[0])"
 //-     ) Show Me
-
-.help-step-container(
-  ng-if = "helpCards.getActiveCard()"
-)
-  .help.help-step-item(
-    ng-bind-html= "helpCards.getActiveCard().helpTop"
-  )
 
 //- new server button
 button.btn.green(
