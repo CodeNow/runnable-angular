@@ -9,7 +9,10 @@ ul.table-drag-drop(
         pop-over-actions = "popoverData.actions"
         pop-over-data = "popoverData.data"
         pop-over-options = "{\"left\":0,\"top\":0}"
-        pop-over-template = "popoverData.template"
+        pop-over-template = "popoverTemplate"
+        pop-over-active = "popoverData.active"
+        pop-over-trigger = "activeAttr"
+        ng-click = "openRulePopover()"
       ) {{ header.description }}
   li.tr.tr-action.clearfix(
     dnd-draggable = "item"
@@ -20,6 +23,7 @@ ul.table-drag-drop(
     ng-class="{\
       'disabled': models.selected === item\
     }"
+    ng-click = "openRulePopover(item)"
     ng-repeat = "item in state.list"
   )
     .cell.cell-action(
@@ -34,12 +38,12 @@ ul.table-drag-drop(
           xlink:href = "#icons-drag"
         )
     .cell.monospace.text-overflow.cell-arrow(
-      ng-attr-title = "{ item.path }}"
+      ng-attr-title = "{{ item.oldValue }}"
       ng-class = "{disabled: noWarning}"
-    ) {{ item.path }}
+    ) {{ item.oldValue }}
     .cell.monospace.text-overflow(
-      ng-attr-title = "{ item.newPath }}"
-    ) {{ item.newPath }}
+      ng-attr-title = "{{ item.newValue }}"
+    ) {{ item.newValue }}
     //- add .disabled if no warning
     //- note: the title attribute
     .cell.cell-action.monospace.disabled(
