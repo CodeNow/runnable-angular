@@ -16,7 +16,8 @@ function activePanel(
   updateInstanceWithNewBuild,
   errs,
   $rootScope,
-  promisify
+  promisify,
+  loading
 ) {
   return {
     restrict: 'A',
@@ -74,7 +75,7 @@ function activePanel(
       $scope.actions = {
         buildWithoutCache: function () {
           shouldShowBuildFailurePrompt = false;
-          keypather.set($rootScope, 'dataApp.data.loading', true);
+          loading('main', true);
           promisify($scope.instance.build, 'deepCopy')()
             .then(function (build) {
               updateInstanceWithNewBuild(
@@ -84,7 +85,7 @@ function activePanel(
               )
                 .catch(errs.handler)
                 .finally(function () {
-                  keypather.set($rootScope, 'dataApp.data.loading', false);
+                  loading('main', false);
                 });
             });
         },

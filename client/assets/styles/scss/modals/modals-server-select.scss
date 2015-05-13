@@ -33,6 +33,11 @@
 
 // repository/template list
 .list-servers {
+  max-width: 600px;
+
+  @include media(sm) {
+    max-width: none;
+  }
 
   > .list-item {
     border: 2px solid transparent;
@@ -41,7 +46,7 @@
     font-size: 18px;
     font-weight: 500;
     margin: 3px 0 0;
-    padding: 6px 15px;
+    padding: 6px 130px 6px 15px;
 
     @include media(sm) {
       padding-left: 6px;
@@ -73,6 +78,10 @@
         cursor: default;
       }
     }
+
+    .gravatar ~ .small {
+      padding-left: 36px;
+    }
   }
 
   // anchor image
@@ -85,11 +94,6 @@
     margin-right: 9px;
     margin-top: 3px;
     width: 24px;
-  }
-
-  // title
-  .text-overflow {
-    padding-right: 120px;
   }
 
   // add button

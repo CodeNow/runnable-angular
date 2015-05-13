@@ -10,11 +10,12 @@ require('app')
  */
 function ControllerHome(
   errs,
-  pFetchUser,
+  fetchUser,
   keypather,
   $scope,
   $location,
-  $state
+  $state,
+  loading
 ) {
 
   var dataHome = $scope.dataHome = {
@@ -25,10 +26,10 @@ function ControllerHome(
   dataHome.data.hasPass = !!$location.search().password;
 
   if ($location.search().auth) {
-    $scope.dataApp.data.loading = true;
+    loading('main', true);
   }
 
-  pFetchUser().then(function(user) {
+  fetchUser().then(function(user) {
     var lastOrg = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.org');
     if (lastOrg) {
       $state.go('instance.home', {
@@ -37,8 +38,9 @@ function ControllerHome(
     } else {
       $state.go('orgSelect', {}, {location: 'replace'});
     }
+    loading('main', false);
   }).catch(function (err) {
-    $scope.dataApp.data.loading = false;
+    loading('main', false);
     errs.handler(err);
   });
 

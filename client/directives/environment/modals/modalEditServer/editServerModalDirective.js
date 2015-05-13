@@ -15,7 +15,7 @@ function editServerModal(
   findLinkedServerVariables,
   keypather,
   OpenItems,
-  pFetchUser,
+  fetchUser,
   populateDockerfile,
   promisify,
   $rootScope,
@@ -104,7 +104,7 @@ function editServerModal(
             if (contextVersion.appCodeVersions.models.length) {
               $scope.acv = contextVersion.appCodeVersions.models[0];
             }
-            return pFetchUser();
+            return fetchUser();
           })
           .then(function (user) {
             return promisify(user, 'createBuild')({

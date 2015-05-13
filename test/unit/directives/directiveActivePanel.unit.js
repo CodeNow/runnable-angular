@@ -5,6 +5,7 @@ describe('directiveActivePanel'.bold.underline.blue, function () {
   var mockUpdateInstanceWithNewBuild;
   var $rootScope;
   var $q;
+  var $timeout;
 
   var $scope,
       $elScope;
@@ -62,8 +63,10 @@ describe('directiveActivePanel'.bold.underline.blue, function () {
     angular.mock.inject(function(
       $compile,
       _$rootScope_,
-      _$q_
+      _$q_,
+      _$timeout_
     ) {
+      $timeout = _$timeout_;
       $rootScope = _$rootScope_;
       $q = _$q_;
       $scope = $rootScope.$new();
@@ -269,7 +272,8 @@ describe('directiveActivePanel'.bold.underline.blue, function () {
     mockUpdateInstanceWithNewBuild.returns(deferred.promise);
 
     $elScope.actions.buildWithoutCache();
-    expect($rootScope.dataApp.data.loading, 'Loading on root scope').to.equal(true);
+    $timeout.flush();
+    expect($rootScope.isLoading.main, 'Loading on root scope').to.equal(true);
     expect(deepCopy.calledOnce, 'deep copy called').to.equal(true);
     $elScope.$digest();
     expect(mockUpdateInstanceWithNewBuild.calledOnce, 'Update Instance called').to.equal(true);
@@ -277,7 +281,7 @@ describe('directiveActivePanel'.bold.underline.blue, function () {
     deferred.resolve();
     $elScope.$digest();
 
-    expect($rootScope.dataApp.data.loading, 'Loading on root scope').to.equal(false);
+    expect($rootScope.isLoading.main, 'Loading on root scope').to.equal(false);
   });
 
   it('should have a hide build failure action', function () {

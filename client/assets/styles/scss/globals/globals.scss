@@ -21,6 +21,17 @@ body {
   }
 }
 
+// main
+.content {
+  position: relative;
+
+  > .spinner-wrapper {
+    height: 100%;
+    position: absolute;
+    width: 100%;
+  }
+}
+
 // svg files
 .svg-defs {
   display: none !important;
