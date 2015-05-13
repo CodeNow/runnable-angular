@@ -16,7 +16,7 @@
   )
 
 //- help center button
-button.btn.btn-icon.blue(
+button.btn.btn-icon.help-button.blue(
   ng-class = "{active: state.helpButton.active}"
   ng-click = "state.helpButton.active = true"
   pop-over
@@ -37,27 +37,27 @@ button.btn.btn-icon.blue(
       xlink:href = "#icons-help"
       )
 
-ul.triggered-help-list(
-  ng-if = "!state.helpButton.active && helpCards.cards.triggered.length > 0"
-)
-  li.triggered-help-item
-    button.btn.btn-icon.btn-icon-sm(
-      ng-click = "helpPopover.actions.ignoreHelp(helpCards.cards.triggered[0])"
-    )
-      svg.iconnables
-        use(
-          xlink:href = "#icons-close"
-        )
-    p.p(
-      ng-bind-html = "helpCards.cards.triggered[0].label"
-    )
-    button.btn.btn-sm(
-      ng-click = "helpPopover.actions.getHelp(helpCards.cards.triggered[0])"
-    ) Show Me
-
-  li(
-    ng-click = "state.helpButton.active = true"
-  ) Show More
+.triggered-help
+  ul.triggered-help-list(
+    ng-if = "!state.helpButton.active && helpCards.cards.triggered.length > 0"
+  )
+    li.triggered-help-item
+      button.btn.btn-icon.btn-icon-sm(
+        ng-click = "helpPopover.actions.ignoreHelp(helpCards.cards.triggered[0])"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-close"
+          )
+      p.p(
+        ng-bind-html = "helpCards.cards.triggered[0].label"
+      )
+      button.btn.btn-sm(
+        ng-click = "helpPopover.actions.getHelp(helpCards.cards.triggered[0])"
+      ) Show Me
+    li(
+      ng-click = "state.helpButton.active = true"
+    ) Show More
 
 //- new server button
 button.btn.green(
@@ -66,7 +66,7 @@ button.btn.green(
   pop-over-data = "data"
   pop-over-options = "{\"right\":0,\"top\":56}"
   pop-over-template = "viewPopoverNewServer"
-  ng-class = "{help: helpCards.getActiveCard().targets.newContainer}"
+  ng-class = "{hint: helpCards.getActiveCard().targets.newContainer}"
 )
   svg.iconnables.icons-add.icons-round
     use(
