@@ -246,11 +246,18 @@
     }
 
     &.hint{
-      border: 3px solid orange;
-      background-color: red;
-      color: yellow;
-      text-shadow: 4px 5px 1px blue, -4px 5px 1px blue, -4px -5px 1px blue, 4px -5px 1px blue;
-      box-shadow: 10px 10px 10px green, -10px 10px 10px green, 10px -10px 10px green, -10px -10px 10px green;
+      border-color: $blue;
+      color: $blue;
+      // border-top-width: 2px;
+      box-shadow: inset 0 1px 0 $blue;
+
+      .p {
+        color: rgba($blue,.6);
+      }
+
+      .icons-arrow-down {
+        color: $blue;
+      }
     }
 
     .h3 {
