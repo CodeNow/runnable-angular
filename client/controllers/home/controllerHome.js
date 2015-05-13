@@ -14,7 +14,8 @@ function ControllerHome(
   keypather,
   $scope,
   $location,
-  $state
+  $state,
+  loading
 ) {
 
   var dataHome = $scope.dataHome = {
@@ -25,7 +26,7 @@ function ControllerHome(
   dataHome.data.hasPass = !!$location.search().password;
 
   if ($location.search().auth) {
-    $scope.dataApp.data.loading = true;
+    loading('main', true);
   }
 
   fetchUser().then(function(user) {
@@ -37,8 +38,9 @@ function ControllerHome(
     } else {
       $state.go('orgSelect', {}, {location: 'replace'});
     }
+    loading('main', false);
   }).catch(function (err) {
-    $scope.dataApp.data.loading = false;
+    loading('main', false);
     errs.handler(err);
   });
 
