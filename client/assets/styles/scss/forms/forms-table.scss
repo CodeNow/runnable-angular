@@ -238,6 +238,10 @@
 
     &:active {
       cursor: grabbing;
+
+      .icons-drag {
+        color: $purple-light;
+      }
     }
   }
 
@@ -252,8 +256,8 @@
 
   // dragging icon
   .icons-drag {
+    color: $gray-lighter;
     height: 100%;
-    opacity: .3;
     width: 9px;
   }
 
