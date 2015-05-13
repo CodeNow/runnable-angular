@@ -16,7 +16,7 @@
             xlink:href = "#icons-branch"
           )
         | {{ $parent.branch.attrs.name }}
-    small.small Set the default branch for {{ server.instance.getDisplayName() }}.
+    small.small Set the default branch for {{ server.instance.getDisplayName() || state.opts.name }}.
 
 label.label.clearfix
   .label-col Build Commands

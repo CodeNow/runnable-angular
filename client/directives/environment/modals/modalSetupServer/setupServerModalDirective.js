@@ -65,6 +65,15 @@ function setupServerModal(
               );
             })
             .then(function () {
+              if ($scope.acv.attrs.branch !== $scope.state.branch.attrs.name) {
+                return promisify($scope.acv, 'update')({
+                  repo: $scope.state.repo.attrs.full_name,
+                  branch: $scope.state.branch.attrs.name,
+                  commit: $scope.state.branch.attrs.commit.sha
+                });
+              }
+            })
+            .then(function () {
               return $scope.state;
             }),
           $scope.state.opts.name
@@ -79,7 +88,6 @@ function setupServerModal(
         $scope.state.opts.name = repo.attrs.name.replace(/[^a-zA-Z0-9]/g, '-');
         return $scope.fetchStackData(repo)
           .then(function () {
-            $scope.state.repo = repo;
             return createNewBuild($rootScope.dataApp.data.activeAccount);
           })
           .then(function (buildWithVersion) {
@@ -88,21 +96,27 @@ function setupServerModal(
             return promisify(repo.branches, 'fetch')();
           })
           .then(function (branches) {
-            var masterBranch = branches.models.find(hasKeypaths({'attrs.name': 'master'}));
+            var masterBranch = branches.models.find(hasKeypaths({'attrs.name': repo.attrs.default_branch}));
+            $scope.branches = branches;
+            $scope.state.branch = masterBranch;
+            // Set the repo here so the page change happens after all of these fetches
+            $scope.state.repo = repo;
             return promisify($scope.state.contextVersion.appCodeVersions, 'create', true)({
               repo: repo.attrs.full_name,
               branch: masterBranch.attrs.name,
               commit: masterBranch.attrs.commit.sha
             });
           })
-          .catch(function (err) {
-            errs.handler(err);
+          .then(function () {
+            $scope.acv = $scope.state.contextVersion.appCodeVersions.models[0];
           })
+          .catch(errs.handler)
           .finally(function () {
             repo.loading = false;
             $scope.repoSelected = false;
           });
       };
+
       $scope.fetchStackData = function (repo) {
         function setStackSelectedVersion(stack, versions) {
           if (versions[stack.key]) {
