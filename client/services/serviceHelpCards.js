@@ -9,15 +9,15 @@ var helpCards = {
     {
       'label': 'Change language or framework',
       'targets': ['stackType'],
-      'helpTop': 'Use the stack type button to change the language or framework.',
+      'helpTop': 'Use the <b>stack type</b> tool to change the language or framework.',
       'helpPopover': {
-        'stackType': 'Use the stack type button to change the language or framework.'
+        'stackType': 'Use the <b>stack type</b> tool to change the language or framework.'
       }
     },
     {
       'label': 'Connect to an external service',
       'targets': ['environmentVariables'],
-      'helpTop': 'Add the external service in an environment variable.',
+      'helpTop': 'Add the external service in an <b>environment variable</b>.',
       'helpPopover': {
         'environmentVariables': 'Add your external service here so you can reference it in your code.'
       }
@@ -31,19 +31,19 @@ var helpCards = {
         'environmentVariables',
         'translationRules'
       ],
-      'helpTop': 'Use Translation Rules or Environment Variables to create an association for {{instance.getDisplayName()}}.',
+      'helpTop': 'Use <b>Translation Rules</b> or <b>Environment Variables</b> to create an association for <b>{{instance.getDisplayName()}}</b>.',
       'helpPopover': {
-        'environmentVariables': 'You can add an association by setting an environment variable pointing to your {{association}} container.',
-        'translationRules': 'You can add an association by setting a translation rule for your {{association}} container.'
+        'environmentVariables': 'You can add an association by setting an environment variable pointing to your <b>{{association}}</b> container.',
+        'translationRules': 'You can add an association by setting a translation rule for your <b>{{association}}</b> container.'
       }
     },
     {
       id: 'missingDependency',
-      'label': 'It looks like {{instance.getDisplayName()}} needs a {{dependency}} service and you don\'t have one configured.',
+      'label': 'It looks like <b>{{instance.getDisplayName()}}</b> needs a <b>{{dependency}}</b> service and you don\'t have one configured.',
       'targets': [
         'newContainer'
       ],
-      'helpTop': 'Add a new {{dependency}} service.',
+      'helpTop': 'Add a new <b>{{dependency}}</b> service.',
       'helpPopover': {}
     }
   ]
