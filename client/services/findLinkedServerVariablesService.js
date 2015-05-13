@@ -3,10 +3,10 @@
 require('app')
   .factory('findLinkedServerVariables', findLinkedServerVariables);
 
-var urlRegex = /(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?/g;
 
 function findLinkedServerVariables($state, configUserContentDomain) {
   return function (input) {
+    var urlRegex = /(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?/g;
     if (typeof input === 'string') {
       input = input.split('\n');
     } else if (!Array.isArray(input)) {
@@ -18,7 +18,8 @@ function findLinkedServerVariables($state, configUserContentDomain) {
       other: []
     };
     input.forEach(function (line, index) {
-      if (urlRegex.test(line)) {
+      var check = urlRegex.test(line);
+      if (check) {
         var result = {
           line: index + 1,
           url: line.split('=')[1]
