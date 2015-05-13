@@ -61,6 +61,8 @@ require('app')
 
                 if (fullRepoName) {
                   fetchStackAnalysis(fullRepoName).then(function (stackAnalysis) {
+                    if (!stackAnalysis.serviceDependencies) { return; }
+
                     stackAnalysis.serviceDependencies.forEach(function (dependency) {
 
                       var matchedInstance = $scope.data.instances.models.find(function (instance) {
