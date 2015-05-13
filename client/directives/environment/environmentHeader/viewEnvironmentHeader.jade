@@ -37,10 +37,10 @@ button.btn.btn-icon.help-button.blue(
       xlink:href = "#icons-help"
       )
 
-.triggered-help(
-  ng-if = "!state.helpButton.active && helpCards.cards.triggered.length > 0"
-)
-  ul.triggered-help-list
+.triggered-help
+  ul.triggered-help-list(
+    ng-if = "!state.helpButton.active && helpCards.cards.triggered.length > 0"
+  )
     li.triggered-help-item
       button.btn.btn-icon.btn-icon-sm(
         ng-click = "helpPopover.actions.ignoreHelp(helpCards.cards.triggered[0])"
