@@ -1,6 +1,6 @@
 .help(
-  ng-if = "helpCard.helpPopover.environmentVariables"
-) {{helpCard.helpPopover.environmentVariables}}
+  ng-if = "helpCards.getActiveCard().helpPopover.environmentVariables"
+) {{helpCards.getActiveCard().helpPopover.environmentVariables}}
 
 .clearfix
   .label-col Environment Variables
