@@ -1,3 +1,9 @@
+//- spinner for JUST instance
+.spinner-wrapper.spinner-backdrop.spinner-lg.spinner-purple.in(
+  ng-if = "isLoading.main"
+  ng-include = "'spinner'"
+)
+
 //- show if server build is being swapped out
   - orange when build is updating or has failed
   - green if build is successfully built
@@ -86,37 +92,19 @@ header.server-header
 
   instance-primary-actions(
     instance = "dataInstance.data.instance"
-    loading = "dataApp.data.loading"
+    loading = "isLoading.main"
     open-items = "dataInstance.data.openItems"
     saving = "dataInstance.data.saving"
   )
 
-  .secondary-actions(
-    instance = "dataInstance.data.instance"
-    instances = "dataApp.data.instances"
-    instance-secondary-actions
-    ng-if = "dataInstance.data.instance"
-    ng-if = "!dataInstance.data.isDemo"
-    saving = "dataInstance.data.saving"
-  )
-
-  instance-anon-secondary-actions(
-    ng-if = "dataInstance.data.isDemo"
-  )
-
 //- sidebar with repositories and urls
-section.sidebar.server-sidebar.load(
-  coach-mark-style = "{\"left\": 7, \"top\": 108}"
-  coach-mark-template = "viewCoachMarksRepoPopover"
-  coach-mark-type = "repoList"
-  show-coach-marks
-)
+section.sidebar.server-sidebar.load
   section.row.repo-list(
     ng-class = "{closed: $storage.repoListIsClosed}"
     auto-build-on-acv-change = "true"
     build = "dataInstance.data.instance.build"
     instance = "dataInstance.data.instance"
-    loading = "dataApp.data.loading"
+    loading = "isLoading.main"
     ng-if = "dataInstance.data.instance.build.contextVersions.models[0].appCodeVersions.models.length"
     repo-list
     show-auto-deploy = "true"

@@ -92,7 +92,7 @@ describe('directiveRepoList'.bold.underline.blue, function () {
           branchCommits: sinon.spy()
         };
       });
-      $provide.factory('pFetchUser', fixtures.mockFetchUser);
+      $provide.factory('fetchUser', fixtures.mockFetchUser);
       $provide.factory('fetchOwnerRepos', fixtures.mockFetchOwnerRepos);
     });
     angular.mock.inject(function ($compile, _$rootScope_, $timeout, user){
@@ -137,11 +137,6 @@ describe('directiveRepoList'.bold.underline.blue, function () {
     });
     beforeEach(function () {
       $rootScope.$digest();
-    });
-
-    it('should show guide', function () {
-      expect($elScope.unsavedAcvs.length, 'Unsaved Acvs').to.equal(0);
-      expect(element[0].querySelector('.guide'), 'RepoList Guide').to.be.ok;
     });
 
     it('should attempt to update the acv object on acv-change', function () {

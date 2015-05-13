@@ -7,34 +7,25 @@ require('app')
  */
 function getInstanceClasses(
   $state,
-  keypather
+  instanceStatus
 ) {
   return function (instance) {
     if (!instance) {
       return {}; //async loading handling
     }
-    var container = keypather.get(instance, 'containers.models[0]');
-    var build = keypather.get(instance, 'build');
     var h = {};
     h.active = (instance.attrs.name === $state.params.instanceName);
 
-    if (container) {
-      if (container.running()) {
-        // Running
-        h.green = true;
-      } else {
-        //Crashed
-        h.red = true;
-      }
-    } else if (build) {
-      if (build.failed()) {
-        // Build Failure
-        h.red = true;
-      } else {
-        // Building
-        h.orange = true;
-      }
-    }
+    var status = instanceStatus(instance);
+    var statusMap = {
+      'stopped': 'red',
+      'crashed': 'red',
+      'running': 'green',
+      'buildFailed': 'red',
+      'building': 'orange',
+      'unknown': 'orange'
+    };
+    h[statusMap[status]] = true;
 
     return h;
   };

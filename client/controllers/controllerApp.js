@@ -24,14 +24,14 @@ function ControllerApp(
   fetchOrgs,
   fetchUser,
   keypather,
-  pageName
+  pageName,
+  loading
 ) {
 
+  loading('main', true);
   var thisUser;
   var dataApp = $rootScope.dataApp = $scope.dataApp = {
-    data: {
-      loading: true
-    },
+    data: {},
     actions: {},
     state: {}
   };
@@ -88,7 +88,7 @@ function ControllerApp(
       setActiveAccount(toParams.userName);
     }
     eventTracking.update();
-    dataApp.data.loading = false;
+    loading('main', false);
   });
 
   $scope.$watch(function () {
@@ -116,37 +116,33 @@ function ControllerApp(
     }
   };
 
-  fetchUser(function(err, results) {
-    if (!err && results) {
-      thisUser = results;
-      dataApp.data.user = results;
-      fetchOrgs(function (err, results) {
-        if (err) {
-          return errs.handler(err);
-        }
-        dataApp.data.orgs = results;
-        dataApp.data.allAccounts = [dataApp.data.user].concat(results.models);
-        if ($window.heap) {
-          $window.heap.identify({
-            // unique heap user identifier
-            // we use githubId with prefix
-            handle: 'github-' + thisUser.oauthId(),
-            name:  thisUser.oauthName(),
-            email: thisUser.attrs.email,
-            runnableId: thisUser.id(),
-            orgs:  $window.JSON.stringify(results)
-          });
-        }
-        // Intercom && Mixpanel
-        eventTracking.boot(thisUser);
-        if ($window.olark) {
-          $window.olark('api.visitor.updateEmailAddress', { emailAddress: thisUser.attrs.email });
-          $window.olark('api.visitor.updateFullName', { fullName: thisUser.oauthName() });
-          $window.olark('api.box.show');
-        }
+  fetchUser()
+  .then(function (results) {
+    thisUser = results;
+    dataApp.data.user = results;
+    return fetchOrgs();
+  })
+  .then(function (orgs) {
+    dataApp.data.orgs = orgs;
+    dataApp.data.allAccounts = [dataApp.data.user].concat(orgs.models);
+    if ($window.heap) {
+      $window.heap.identify({
+        // unique heap user identifier
+        // we use githubId with prefix
+        handle: 'github-' + thisUser.oauthId(),
+        name:  thisUser.oauthName(),
+        email: thisUser.attrs.email,
+        runnableId: thisUser.id(),
+        orgs:  $window.JSON.stringify(orgs)
       });
-    } else {
-      return errs.handler(err);
     }
-  });
+    // Intercom && Mixpanel
+    eventTracking.boot(thisUser);
+    if ($window.olark) {
+      $window.olark('api.visitor.updateEmailAddress', { emailAddress: thisUser.attrs.email });
+      $window.olark('api.visitor.updateFullName', { fullName: thisUser.oauthName() });
+      $window.olark('api.box.show');
+    }
+  })
+  .catch(errs.handler);
 }

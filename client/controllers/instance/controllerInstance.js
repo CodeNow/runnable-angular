@@ -22,9 +22,10 @@ function ControllerInstance(
   fetchInstances,
   fetchSettings,
   keypather,
-  pFetchUser,
+  fetchUser,
   pageName,
-  setLastInstance
+  setLastInstance,
+  loading
 ) {
   var dataInstance = $scope.dataInstance = {
     data: {
@@ -34,7 +35,7 @@ function ControllerInstance(
   };
   var data = dataInstance.data;
   $scope.$storage = $localStorage;
-  $scope.dataApp.data.loading = true;
+  loading('main', true);
 
   data.openItems = new OpenItems();
 
@@ -63,8 +64,8 @@ function ControllerInstance(
     $location.search('chat', '');
   }
 
-  // The error handling for pFetchUser will re-direct for us, so we don't need to handle that case
-  pFetchUser().then(function (user) {
+  // The error handling for fetchUser will re-direct for us, so we don't need to handle that case
+  fetchUser().then(function (user) {
     $scope.user = user;
     // product team - track visits to instance page & referrer
     eventTracking.boot(user).visitedState();
@@ -80,11 +81,11 @@ function ControllerInstance(
 
       data.hasToken = keypather.get(results, 'settings.attrs.notifications.slack.apiToken');
       setLastInstance($stateParams.instanceName);
-      $scope.dataApp.data.loading = false;
+      loading('main', false);
     })
     .catch(function (err) { // We ONLY want to handle errors related to fetching instances so this catch is nested.
       errs.handler(err);
-      $scope.dataApp.data.loading = false;
+      loading('main', false);
       setLastInstance(false);
       $state.go('instance.home', {
         userName: $stateParams.userName

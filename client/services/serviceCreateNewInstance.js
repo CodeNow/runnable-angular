@@ -4,7 +4,7 @@ require('app')
   .factory('createNewInstance', createNewInstance);
 
 function createNewInstance(
-  pFetchUser,
+  fetchUser,
   promisify
 ) {
   return function (activeAccount, build, opts, instanceModel) {
@@ -20,7 +20,7 @@ function createNewInstance(
           opts
         );
       } else {
-        return pFetchUser().then(function (user) {
+        return fetchUser().then(function (user) {
           return promisify(user, 'createInstance')(
             opts
           );

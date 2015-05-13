@@ -32,7 +32,7 @@ section.modal-body.clearfix
         orderBy: '-attrs.updated_at'\
       "
     )
-      .text-overflow {{ repo.attrs.name}}
+      | {{ repo.attrs.name}}
       small.small Updated {{ repo.attrs.updated_at | timeFrom }}
       button.btn.btn-xs(
         ng-class = "{\

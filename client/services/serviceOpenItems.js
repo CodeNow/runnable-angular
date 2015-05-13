@@ -14,8 +14,6 @@ require('app')
 function openItemsFactory(
   $localStorage,
   keypather,
-  pluck,
-  equals,
   user
 ) {
 
@@ -217,7 +215,7 @@ function openItemsFactory(
       data = {};
     }
     if (!data.name) {
-      data.name = 'Server Logs';
+      data.name = 'Run Logs';
     }
     if (this.hasOpen('LogView')) {
       var currStream = this.getFirst('LogView');
