@@ -24,7 +24,7 @@
   border-top: 0;
   margin-top: 0;
 
-  .tr:first-child {
+  .tr:first-child:not(.thead) {
     border-radius: 0;
     padding-top: 0;
   }
@@ -390,5 +390,14 @@
 
   .green {
     float: right;
+  }
+}
+
+// drag and drop styles
+.table-drag-drop .thead {
+  border-bottom: 1px solid $gray-lighter;
+
+  + .tr {
+    border-top: 0;
   }
 }

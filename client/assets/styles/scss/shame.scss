@@ -17,3 +17,13 @@
 %webkit-flicker {
   -webkit-backface-visibility: hidden;
 }
+
+
+// thrown in here to stop lint errors in forms-table.scss
+.table-drag-drop {
+
+  .dndPlaceholder:first-child,
+  .thead + .dndPlaceholder {
+    display: none !important;
+  }
+}

@@ -1,16 +1,16 @@
-.tr.thead.clearfix
-  .cell {{ header.title }}
-    button.btn.btn-xs.white(
-      pop-over
-      pop-over-actions = "popoverData.actions"
-      pop-over-data = "popoverData.data"
-      pop-over-options = "{\"left\":0,\"top\":0}"
-      pop-over-template = "popoverData.template"
-    ) {{ header.description }}
-ul(
+ul.table-drag-drop(
   dnd-list = "state.list"
   dnd-allowed-types = "allowedTableTypes"
 )
+  li.tr.thead.clearfix
+    .cell {{ header.title }}
+      button.btn.btn-xs.white(
+        pop-over
+        pop-over-actions = "popoverData.actions"
+        pop-over-data = "popoverData.data"
+        pop-over-options = "{\"left\":0,\"top\":0}"
+        pop-over-template = "popoverData.template"
+      ) {{ header.description }}
   li.tr.tr-action.clearfix(
     ng-repeat = "item in state.list"
     dnd-type = "tableType"
