@@ -18,37 +18,46 @@
 //- help center button
 button.btn.btn-icon.blue(
   ng-class = "{active: state.helpButton.active}"
+  ng-click = "state.helpButton.active = true"
   pop-over
   pop-over-actions = "helpPopover.actions"
   pop-over-active = "state.helpButton.active"
   pop-over-data = "helpPopover.data"
   pop-over-options = "{\"left\":55}"
   pop-over-template = "viewHelpPopover"
+  pop-over-trigger = "activeAttr"
   title = "Help Center"
 )
-  .help-badge 3
+  .help-badge(
+    ng-if = "helpCards.cards.triggered.length > 0"
+  ) {{helpCards.cards.triggered.length}}
+
   svg.iconnables.icons-help
     use(
       xlink:href = "#icons-help"
       )
 
-//- ul.triggered-help-list(
-//-   ng-if = "!state.helpButton.active"
-//- )
-//-   li.triggered-help-item(
-//-   ng-if = "helpCards.cards.triggered.length > 0"
-//-   )
-//-     button.btn.btn-icon.btn-icon-sm(
-//-       ng-click = "helpPopover.actions.ignoreHelp(helpCards.cards.triggered[0])"
-//-     )
-//-       svg.iconnables
-//-         use(
-//-           xlink:href = "#icons-close"
-//-         )
-//-     p.p {{helpCards.cards.triggered[0].label}}
-//-     button.btn.btn-sm(
-//-       ng-click = "helpPopover.actions.getHelp(helpCards.cards.triggered[0])"
-//-     ) Show Me
+ul.triggered-help-list(
+  ng-if = "!state.helpButton.active && helpCards.cards.triggered.length > 0"
+)
+  li.triggered-help-item
+    button.btn.btn-icon.btn-icon-sm(
+      ng-click = "helpPopover.actions.ignoreHelp(helpCards.cards.triggered[0])"
+    )
+      svg.iconnables
+        use(
+          xlink:href = "#icons-close"
+        )
+    p.p(
+      ng-bind-html = "helpCards.cards.triggered[0].label"
+    )
+    button.btn.btn-sm(
+      ng-click = "helpPopover.actions.getHelp(helpCards.cards.triggered[0])"
+    ) Show Me
+
+  li(
+    ng-click = "state.helpButton.active = true"
+  ) Show More
 
 //- new server button
 button.btn.green(
