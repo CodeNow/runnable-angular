@@ -1,6 +1,6 @@
 ul.table-drag-drop(
-  dnd-list = "state.list"
   dnd-allowed-types = "allowedTableTypes"
+  dnd-list = "state.list"
 )
   li.tr.thead.clearfix
     .cell {{ header.title }}
@@ -12,30 +12,30 @@ ul.table-drag-drop(
         pop-over-template = "popoverData.template"
       ) {{ header.description }}
   li.tr.tr-action.clearfix(
-    ng-repeat = "item in state.list"
-    dnd-type = "tableType"
     dnd-draggable = "item"
+    dnd-dragstart = "models.selected"
     dnd-effect-allowed = "move"
     dnd-moved = "state.list.splice($index, 1)"
-    dnd-dragstart = "models.selected"
+    dnd-type = "tableType"
     ng-class="{\
-        'disabled': models.selected === item\
-      }"
+      'disabled': models.selected === item\
+    }"
+    ng-repeat = "item in state.list"
   )
     .cell.cell-action(
       dnd-handle
       ng-class = "{\
-          disabled: state.list.length < 2,\
-          'no-touching': state.list.length < 2\
-        }"
+        disabled: state.list.length < 2,\
+        'no-touching': state.list.length < 2\
+      }"
     )
       svg.iconnables.icons-drag
         use(
           xlink:href = "#icons-drag"
         )
     .cell.monospace.text-overflow.cell-arrow(
-      ng-class = "{disabled: noWarning}"
       ng-attr-title = "{ item.path }}"
+      ng-class = "{disabled: noWarning}"
     ) {{ item.path }}
     .cell.monospace.text-overflow(
       ng-attr-title = "{ item.newPath }}"
