@@ -87,7 +87,7 @@ function helpCardsFactory(
   fetchSettings,
   errs,
   promisify,
-  $q
+  $rootScope
 ) {
   function getCardHash(card) {
     var cardClone = {
@@ -131,6 +131,9 @@ function helpCardsFactory(
         if (newEvented) {
           newEvented.emit('activate');
         }
+        $rootScope.$broadcast('helpCardScroll:enable');
+      } else {
+        $rootScope.$broadcast('helpCardScroll:disable');
       }
 
       activeCard = newCard;

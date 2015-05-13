@@ -31,10 +31,15 @@
 }
 
 .help-step-container {
-  position: fixed;
+  position: absolute;
   text-align: center;
   right: 0;
   left: 0;
+  z-index: 1000;
+  &.undocked{
+    position: fixed;
+    top: 10px;
+  }
 }
 
 .help-step-item {

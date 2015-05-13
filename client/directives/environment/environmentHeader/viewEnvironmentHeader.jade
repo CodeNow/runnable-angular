@@ -10,6 +10,7 @@
 
 .help-step-container(
   ng-if = "helpCards.getActiveCard()"
+  ng-class = "{undocked: helpUndock}"
 )
   .help.help-step-item(
     ng-bind-html= "helpCards.getActiveCard().helpTop"
@@ -38,7 +39,7 @@ button.btn.btn-icon.help-button.blue(
       )
 
 .triggered-help(
-  ng-if = "!state.helpButton.active && helpCards.cards.triggered.length > 0"
+  ng-if = "!state.helpButton.active && helpCards.cards.triggered.length > 0 && !helpCards.getActiveCard()"
 )
   ul.triggered-help-list
     li.triggered-help-item

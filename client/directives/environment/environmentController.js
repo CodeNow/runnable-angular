@@ -23,7 +23,8 @@ function EnvironmentController(
   $rootScope,
   $q,
   user,
-  helpCards
+  helpCards,
+  $window
 ) {
   favico.reset();
   pageName.setTitle('Configure - Runnable');
@@ -39,6 +40,29 @@ function EnvironmentController(
 
   $scope.help = helpCards.cards;
   $scope.helpCards = helpCards;
+
+  $scope.helpUndock = false;
+
+  var scrollHelper = function () {
+    var newVal = false;
+    if ($window.scrollY > 96) {
+      newVal = true;
+    }
+    if ($scope.helpUndock !== newVal) {
+      $scope.helpUndock = newVal;
+      $timeout(angular.noop);
+    }
+  };
+  $scope.$on('helpCardScroll:enable', function () {
+    $window.addEventListener('scroll', scrollHelper);
+  });
+  $scope.$on('helpCardScroll:disable', function () {
+    $window.removeEventListener('scroll', scrollHelper);
+  });
+
+  $scope.$on('$destroy', function () {
+    $window.removeEventListener('scroll', scrollHelper);
+  });
 
   $scope.alert = null;
 
