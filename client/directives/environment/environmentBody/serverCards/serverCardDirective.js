@@ -12,7 +12,6 @@ require('app')
     promisify,
     helpCards,
     fetchStackAnalysis,
-    errs,
     $anchorScroll,
     $location
   ) {
@@ -55,7 +54,7 @@ require('app')
             }
             return $q.all(qAll)
               .catch(errs.handler)
-              .finally(function () {
+              .finally(function (data) {
                 $scope.server.building = false;
 
                 var fullRepoName = keypather.get($scope.server.instance, 'contextVersion.appCodeVersions.models[0].attrs.repo');
@@ -104,6 +103,7 @@ require('app')
                     });
                   })
                     .catch(errs.handler);
+                }
               });
           }
         }
