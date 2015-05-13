@@ -73,6 +73,7 @@ function editServerModal(
         $scope.state = {
           advanced: server.advanced || false,
           startCommand: server.startCommand,
+          commands: server.commands,
           selectedStack: server.selectedStack,
           opts: {
             // Don't save envs here, since EnvVars will add them.
@@ -148,7 +149,7 @@ function editServerModal(
         $rootScope.$broadcast('close-popovers');
         $scope.building = true;
         $scope.state.ports = convertTagToPortList();
-        var unwatch = $scope.$watch('openItems.isClean', function (n) {
+        var unwatch = $scope.$watch('openItems.isClean()', function (n) {
           if (!n) {
             return;
           }

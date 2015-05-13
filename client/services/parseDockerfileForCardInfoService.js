@@ -70,6 +70,20 @@ function parseDockerfileForPorts(dockerfile) {
   }
 }
 
+function parseDockerfileForRunCommands(dockerfile) {
+  // JS doesn't have easy lookbehind, so I just created two capturing groups.
+  // The second group needs to be [\s\S] over . as that also matches newlines
+  var reg = /(WORKDIR.*\n)([\s\S]*)(?=#End)/;
+  var results = reg.exec(dockerfile.attrs.body);
+
+  if (results && results[2]) {
+    var parsedResults = results[2].split('\n').map(function (str) {
+      return str.replace('RUN ', '');
+    }).join('\n');
+    return parsedResults;
+  }
+}
+
 function parseDockerfileForCardInfoFromInstance(
   parseDockerfileForStack,
   promisify
@@ -82,6 +96,7 @@ function parseDockerfileForCardInfoFromInstance(
       .then(function (dockerfile) {
         server.ports = parseDockerfileForPorts(dockerfile);
         server.startCommand = parseDockerfileForStartCommand(dockerfile);
+        server.commands = parseDockerfileForRunCommands(dockerfile);
         return parseDockerfileForStack(dockerfile, stackData);
       })
       .then(function (stack) {
