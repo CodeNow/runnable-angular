@@ -1,5 +1,6 @@
 'use strict';
 var jsonHash = require('json-hash');
+var EventEmitter = require('events').EventEmitter;
 
 require('app')
   .factory('helpCards', helpCardsFactory);
@@ -118,17 +119,31 @@ function helpCardsFactory(
       return activeCard;
     },
     setActiveCard: function (newCard) {
+      if (activeCard && activeCard !== newCard) {
+        var currentEvented = currentCardHash[getCardHash(activeCard)];
+        if (currentEvented) {
+          currentEvented.emit('deactivate');
+        }
+      }
+
+      if (newCard) {
+        var newEvented = currentCardHash[getCardHash(newCard)];
+        if (newEvented) {
+          newEvented.emit('activate');
+        }
+      }
+
       activeCard = newCard;
     },
     refreshActiveCard: function () {
       if (this.getActiveCard()) {
-        currentCardHash[getCardHash(this.getActiveCard())].resolve();
+        currentCardHash[getCardHash(this.getActiveCard())].emit('refresh');
         this.setActiveCard(null);
       }
     },
     refreshAllCards: function () {
       this.cards.triggered.forEach(function (card) {
-        currentCardHash[getCardHash(card)].resolve();
+        currentCardHash[getCardHash(card)].emit('refresh');
       });
       currentCardHash = {};
       this.cards.triggered = [];
@@ -144,7 +159,7 @@ function helpCardsFactory(
 
         var helpCard = helpCards.triggered[cardId];
         if (!helpCard) {
-          return;
+          throw new Error('Attempt to create a help card with invalid ID.');
         }
         helpCard = angular.copy(helpCard);
         helpCard.label = $interpolate(helpCard.label)(data);
@@ -158,9 +173,9 @@ function helpCardsFactory(
         var cardHash = getCardHash(helpCard);
         if (!currentCardHash[cardHash] && ignoredHelpCards.indexOf(cardHash) === -1) {
           cards.triggered.push(helpCard);
-          currentCardHash[cardHash] = $q.defer();
+          currentCardHash[cardHash] = new EventEmitter();
         }
-        return currentCardHash[cardHash].promise;
+        return currentCardHash[cardHash];
       })
         .catch(errs.handler);
     },

@@ -12,7 +12,8 @@ function serverCard(
   promisify,
   helpCards,
   fetchStackAnalysis,
-  errs
+  errs,
+  $anchorScroll
 ) {
   return {
     restrict: 'A',
@@ -27,6 +28,10 @@ function serverCard(
       $scope.helpCards = helpCards;
       $scope.server = {};
       $scope.activeAccount = $rootScope.dataApp.data.activeAccount;
+
+      function scrollIntoView(){
+        $anchorScroll('server-' + $scope.server.instance.attrs.shortHash);
+      }
 
       function createServerObjectFromInstance(instance) {
         // This may be a newInstance... just a placeholder
@@ -78,17 +83,29 @@ function serverCard(
                         helpCards.triggerCard('missingAssociation', {
                           instance: $scope.server.instance,
                           association: matchedInstance.attrs.name
-                        }).then(function () {
-                          createServerObjectFromInstance($scope.server.instance);
-                        });
+                        })
+                          .then(function (helpCard) {
+                            helpCard
+                              .on('refresh', function () {
+                                createServerObjectFromInstance($scope.server.instance);
+                              })
+                              .on('activate', function () {
+                                scrollIntoView();
+                              });
+                          });
+
                       }
                     } else {
                       helpCards.triggerCard('missingDependency', {
                         instance: $scope.server.instance,
                         dependency: dependency
-                      }).then(function () {
-                        createServerObjectFromInstance($scope.server.instance);
-                      });
+                      })
+                        .then(function (helpCard) {
+                          helpCard
+                            .on('refresh', function () {
+                              createServerObjectFromInstance($scope.server.instance);
+                            });
+                        });
                     }
                   });
                 })
