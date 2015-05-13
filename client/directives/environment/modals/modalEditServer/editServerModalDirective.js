@@ -33,7 +33,7 @@ function editServerModal(
     },
     link: function ($scope, elem, attrs) {
       if (helpCards.cardIsActiveOnThisContainer($scope.server.instance)) {
-        $scope.helpCard = helpCards.activeCard;
+        $scope.helpCards = helpCards;
       }
       $scope.portTagOptions = {
         breakCodes: [
@@ -148,7 +148,7 @@ function editServerModal(
       };
 
       $scope.cancel = function () {
-        helpCards.activeCard = null;
+        helpCards.setActiveCard(null);
         $scope.defaultActions.cancel();
       };
 
@@ -176,7 +176,7 @@ function editServerModal(
               return promisify($scope.instance, 'update')(state.opts);
             })
             .then(function () {
-              helpCards.activeCard = null;
+              helpCards.refreshActiveCard();
               $scope.defaultActions.close();
               if (keypather.get($scope.instance, 'container.running()')) {
                 return promisify($scope.instance, 'redeploy')();

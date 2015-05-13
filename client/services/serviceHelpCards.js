@@ -25,7 +25,7 @@ var helpCards = {
   ],
   'triggered': [
     {
-      id: 'association',
+      id: 'missingAssociation',
       'label': 'It looks like <b>{{instance.getDisplayName()}}</b> should be associated with <b>{{association}}</b>',
       'targets': [
         'environmentVariables',
@@ -85,7 +85,8 @@ function helpCardsFactory(
   keypather,
   fetchSettings,
   errs,
-  promisify
+  promisify,
+  $q
 ) {
   function getCardHash(card) {
     var cardClone = {
@@ -109,14 +110,36 @@ function helpCardsFactory(
     general: helpCards.general,
     triggered: []
   };
+  var currentCardHash = {};
+  var activeCard = null;
   return {
     cards: cards,
-    activeCard: null,
+    getActiveCard: function () {
+      return activeCard;
+    },
+    setActiveCard: function (newCard) {
+      activeCard = newCard;
+    },
+    refreshActiveCard: function () {
+      if (this.getActiveCard()) {
+        currentCardHash[getCardHash(this.getActiveCard())].resolve();
+        this.setActiveCard(null);
+      }
+    },
+    refreshAllCards: function () {
+      this.cards.triggered.forEach(function (card) {
+        currentCardHash[getCardHash(card)].resolve();
+      });
+      currentCardHash = {};
+      this.cards.triggered = [];
+      this.setActiveCard(null);
+    },
     cardIsActiveOnThisContainer: function (container) {
-      return this.activeCard && (this.activeCard.type === 'general' || angular.equals(container, keypather.get(this, 'activeCard.data.instance')));
+      activeCard = this.getActiveCard();
+      return activeCard && (activeCard.type === 'general' || angular.equals(container, keypather.get(activeCard, 'data.instance')));
     },
     triggerCard: function (cardId, data) {
-      fetchSettings().then(function (settings) {
+      return fetchSettings().then(function (settings) {
         var ignoredHelpCards = settings.attrs.ignoredHelpCards || [];
 
         var helpCard = helpCards.triggered[cardId];
@@ -132,17 +155,20 @@ function helpCardsFactory(
 
         helpCard.data = data;
 
-        if (ignoredHelpCards.indexOf(getCardHash(helpCard)) === -1) {
+        var cardHash = getCardHash(helpCard);
+        if (!currentCardHash[cardHash] && ignoredHelpCards.indexOf(cardHash) === -1) {
           cards.triggered.push(helpCard);
+          currentCardHash[cardHash] = $q.defer();
         }
+        return currentCardHash[cardHash].promise;
       })
         .catch(errs.handler);
     },
     ignoreCard: function (card) {
       var index = this.cards.triggered.indexOf(card);
       this.cards.triggered.splice(index, 1);
-      if (this.activeCard === card) {
-        this.activeCard = null;
+      if (this.getActiveCard() === card) {
+        this.setActiveCard(null);
       }
       fetchSettings().then(function (settings) {
         var ignoredHelpCards = settings.attrs.ignoredHelpCards || [];

@@ -44,10 +44,10 @@ button.btn.btn-icon.blue(
 //-     ) Show Me
 
 .help-step-container(
-  ng-if = "helpCards.activeCard"
+  ng-if = "helpCards.getActiveCard()"
 )
   .help.help-step-item(
-    ng-bind-html= "helpCards.activeCard.helpTop"
+    ng-bind-html= "helpCards.getActiveCard().helpTop"
   )
 
 //- new server button
@@ -57,7 +57,7 @@ button.btn.green(
   pop-over-data = "data"
   pop-over-options = "{\"right\":0,\"top\":56}"
   pop-over-template = "viewPopoverNewServer"
-  ng-class = "{help: helpCards.activeCard.targets.newContainer}"
+  ng-class = "{help: helpCards.getActiveCard().targets.newContainer}"
 )
   svg.iconnables.icons-add.icons-round
     use(

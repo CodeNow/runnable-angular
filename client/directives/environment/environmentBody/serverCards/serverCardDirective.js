@@ -6,12 +6,13 @@ require('app')
 function serverCard(
   $q,
   $rootScope,
-  $timeout,
   getInstanceClasses,
   keypather,
   parseDockerfileForCardInfoFromInstance,
   promisify,
-  helpCards
+  helpCards,
+  fetchStackAnalysis,
+  errs
 ) {
   return {
     restrict: 'A',
@@ -57,7 +58,42 @@ function serverCard(
                 $scope.numberOfDependencies = 'no associations defined';
               }
               $scope.server.building = false;
-              $timeout(angular.noop);
+
+              var fullRepoName = keypather.get($scope.server.instance, 'contextVersion.appCodeVersions.models[0].attrs.repo');
+
+              if (fullRepoName) {
+                fetchStackAnalysis(fullRepoName).then(function (stackAnalysis) {
+                  stackAnalysis.serviceDependencies.forEach(function (dependency) {
+
+                    var matchedInstance = $scope.data.instances.models.find(function (instance) {
+                      return instance.attrs.lowerName === dependency;
+                    });
+
+                    if (matchedInstance) {
+                      var matchedDependency = data.dependencies.find(function (dep) {
+                        return dep.attrs.shortHash === matchedInstance.attrs.shortHash;
+                      });
+
+                      if (!matchedDependency) {
+                        helpCards.triggerCard('missingAssociation', {
+                          instance: $scope.server.instance,
+                          association: matchedInstance.attrs.name
+                        }).then(function () {
+                          createServerObjectFromInstance($scope.server.instance);
+                        });
+                      }
+                    } else {
+                      helpCards.triggerCard('missingDependency', {
+                        instance: $scope.server.instance,
+                        dependency: dependency
+                      }).then(function () {
+                        createServerObjectFromInstance($scope.server.instance);
+                      });
+                    }
+                  });
+                })
+                  .catch(errs.handler);
+              }
             });
         }
       }
@@ -79,7 +115,6 @@ function serverCard(
                 $scope.server.startCommand = data.startCommand;
               }
               $scope.server.building = false;
-              $timeout(angular.noop);
             });
         }
       });

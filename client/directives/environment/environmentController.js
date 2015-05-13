@@ -23,7 +23,6 @@ function EnvironmentController(
   $rootScope,
   $q,
   user,
-  $interpolate,
   helpCards
 ) {
   favico.reset();
@@ -57,7 +56,7 @@ function EnvironmentController(
         helpCards.ignoreCard(help);
       },
       getHelp: function (help) {
-        helpCards.activeCard = help;
+        helpCards.setActiveCard(help);
         $rootScope.$broadcast('close-popovers');
       }
     }
@@ -68,14 +67,13 @@ function EnvironmentController(
       $rootScope.$broadcast('close-popovers');
       $timeout(function () {
         if (confirm('Are you sure you want to delete this container?')) {
-          helpCards.activeCard = null;
+          helpCards.refreshAllCards();
           promisify(server.instance, 'destroy')()
             .catch(errs.handler);
         }
       });
     },
     createAndBuild: function (createPromise, name) {
-      helpCards.activeCard = null;
       $rootScope.$broadcast('close-modal');
 
       eventTracking.triggeredBuild(false);
@@ -97,6 +95,8 @@ function EnvironmentController(
           );
         })
         .then(function () {
+          helpCards.refreshAllCards();
+
           $rootScope.$broadcast('alert', {
             type: 'success',
             text: 'Container added successfully.'
@@ -119,18 +119,6 @@ function EnvironmentController(
     instances: fetchInstances({ masterPod: true })
   })
     .then(function (data) {
-
-      data.instances.forEach(function (instance) {
-        helpCards.triggerCard('missingDependency', {
-          instance: instance,
-          dependency: 'MongoDB'
-        });
-        helpCards.triggerCard('association', {
-          instance: instance,
-          association: 'MongoDB'
-        });
-      });
-
       $scope.data.stacks = data.stacks;
       $scope.data.allDependencies = data.deps;
       $scope.data.sourceContexts = data.sourceContexts;
