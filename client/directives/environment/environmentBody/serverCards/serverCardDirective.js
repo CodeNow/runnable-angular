@@ -54,7 +54,7 @@ require('app')
             }
             return $q.all(qAll)
               .catch(errs.handler)
-              .finally(function (data) {
+              .then(function (data) {
                 $scope.server.building = false;
 
                 var fullRepoName = keypather.get($scope.server.instance, 'contextVersion.appCodeVersions.models[0].attrs.repo');
