@@ -2,6 +2,7 @@
 
 require('app')
   .directive('translationRules', function translationRules(
+    $timeout
   ) {
     return {
       restrict: 'A',
@@ -9,9 +10,13 @@ require('app')
       link: function ($scope, elem, attrs) {
         $scope.fileDiffs = [{
           path: 'build/index.html',
-          newPath: 'build/index.sass'
+          newPath: 'build/index.sass',
+          type: 'filenames'
         }, {
           path: 'build/dddv.html',
+          type: 'strings',
+          originalString: 'hello',
+          newString: 'good bye',
           association: 'associatedContainer',
           changes: [{
             deletions: [{
@@ -34,6 +39,9 @@ require('app')
           }]
         }, {
           path: 'build/aaaa.html',
+          type: 'strings',
+          originalString: 'karma',
+          newString: 'bugatti',
           changes: [{
             deletions: [{
               lineNumber: 1,

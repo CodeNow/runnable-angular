@@ -8,7 +8,7 @@ require('app')
       templateUrl: 'diffDisplayView',
       scope: {
         fileDiff: '=',
-        instance: '=',
+        instance: '=?',
         previewAll: '=?'
       },
       link: function ($scope, element, attrs) {
