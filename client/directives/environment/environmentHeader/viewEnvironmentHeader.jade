@@ -14,13 +14,12 @@ button.btn.btn-icon.blue(
   .help-badge(
     ng-if = "helpCards.cards.triggered.length > 0"
   ) {{helpCards.cards.triggered.length}}
-
   svg.iconnables
     use(
       xlink:href = "#icons-help"
       )
 
-.triggered-help(
+.help.triggered-help(
   ng-if = "featureFlags.helpCards && !state.helpButton.active && helpCards.cards.triggered.length > 0 && !helpCards.getActiveCard()"
 )
   .help-lists-wrapper
