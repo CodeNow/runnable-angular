@@ -121,7 +121,7 @@ function helpCardsFactory(
 
   var currentCardHash = {};
   var activeCard = null;
-  return {
+  var helpCardManager = {
     cards: {
       general: helpCards.general,
       triggered: []
@@ -142,6 +142,10 @@ function helpCardsFactory(
       }
 
       activeCard = newCard;
+    },
+    clearAllCards: function () {
+      this.cards.triggered = [];
+      activeCard = null;
     },
     refreshActiveCard: function () {
       if (this.getActiveCard()) {
@@ -229,4 +233,5 @@ function helpCardsFactory(
         .catch(errs.handler);
     }
   };
+  return helpCardManager;
 }
