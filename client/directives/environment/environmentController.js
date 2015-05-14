@@ -41,6 +41,8 @@ function EnvironmentController(
   $scope.help = helpCards.cards;
   $scope.helpCards = helpCards;
 
+  helpCards.clearAllCards();
+
   $scope.helpUndock = false;
 
   var scrollHelper = function () {
