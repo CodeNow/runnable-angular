@@ -15,32 +15,15 @@
 
   // panels
   > div {
+    background-color: $purple-darker;
     height: calc(100% - 45px);
+    padding-bottom: 21px;
     width: 100%;
   }
 
   // except ace
   > div > pre {
     height: 100%;
-  }
-}
-
-// .logs
-.logs {
-
-  // light theme
-  .pre {
-    background: $white;
-    color: $gray-darker;
-  }
-
-  // dark theme
-  .ace-runnable-dark & {
-
-    .pre {
-      background-color: $purple-darker;
-      color: $white;
-    }
   }
 }
 
@@ -56,22 +39,9 @@
 
 div.terminal { // div specifity required b/c there's a term.terminal
   @extend .pre;
-  background: $white !important; // override term
-  color: $gray-darker !important;
+  background: $purple-darker !important; // override term
+  color: $white !important;
   padding: 9px;
-
-  .ace-runnable-dark & {
-    background: $purple-darker !important; // override term
-    color: $white !important;
-  }
-}
-
-.terminal-cursor {
-  background: $gray-dark !important;
-
-  .ace-runnable-dark & {
-    background: $gray-lighter !important;
-  }
 }
 
 .term-container,
@@ -108,8 +78,6 @@ div.terminal { // div specifity required b/c there's a term.terminal
 
   .iconnables {
     display: block;
-    height: 30px;
     margin: 0 auto 6px;
-    width: 30px;
   }
 }
