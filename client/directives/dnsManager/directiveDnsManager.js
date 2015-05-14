@@ -113,7 +113,6 @@ function dnsManager(
 
       $scope.actions = {
         setDependency: function (instance) {
-          console.log('SET DEPENDENCY', instance);
           var masterInstance = $scope.directlyRelatedMasterInstances.find(function (master) {
             return master.attrs.contextVersion.context === instance.attrs.contextVersion.context;
           });
