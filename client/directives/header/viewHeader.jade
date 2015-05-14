@@ -7,9 +7,9 @@ a.logo.logo-icon
 .btn-group
   button.btn.btn-sm.purple(
     ng-class = "{\
-      active: dataApp.isInstancePage\
+      active: dataApp.isInstancePage,\
+      'no-touching': !dataApp.data.activeAccount\
     }"
-    ng-class = "{'no-touching': !dataApp.data.activeAccount}"
     ui-sref = "instance.home({ userName: dataApp.data.activeAccount.oauthName() })"
   )
     svg.iconnables
