@@ -10,6 +10,7 @@
 
 //- help center button
 button.btn.btn-icon.blue(
+  ng-if = "featureFlags.helpCards"
   ng-class = "{active: state.helpButton.active}"
   ng-click = "state.helpButton.active = true"
   pop-over
@@ -31,7 +32,7 @@ button.btn.btn-icon.blue(
       )
 
 .triggered-help(
-  ng-if = "!state.helpButton.active && helpCards.cards.triggered.length > 0 && !helpCards.getActiveCard()"
+  ng-if = "featureFlags.helpCards && !state.helpButton.active && helpCards.cards.triggered.length > 0 && !helpCards.getActiveCard()"
 )
   .help-lists-wrapper
     ul.triggered-help-list

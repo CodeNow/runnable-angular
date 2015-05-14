@@ -34,17 +34,55 @@ function helpCardsFactory(
       },
       {
         'label': 'Connect to an external service',
-        'targets': ['environmentVariables'],
-        'helpTop': 'Add the external service in an <b>environment variable</b>.',
+        'targets': [
+          'environmentVariables',
+          'translationRules'
+        ],
+        'helpTop': 'Configure your external service by using an <b>Environment Variable</b> or <b>Translation Rule</b>.',
         'helpPopover': {
-          'environmentVariables': 'Add your external service here so you can reference it in your code.'
+          'environmentVariables': 'Reference your external service here by adding or modifying an <b>environment variable</b>.',
+          'translationRules': 'Reference your external service here by creating a <b>new rule</b>.'
+        }
+      },
+      {
+        'label': 'Add a library',
+        'targets': [
+          'repositories',
+          'containerFiles'
+        ],
+        'helpTop': 'Add <b>Build Commands</b> to install libraries from the <b>Repositories</b> or <b>Container Files</b> tool.',
+        'helpPopover': {
+          'repositories': 'Add a <b>Build Command</a> to install a library. Example: apt-get install -y git',
+          'containerFiles': 'Add a <b>Build Command</a> to install a library. Example: apt-get install -y git'
+        }
+      },
+      {
+        'label': 'Configure an OAuth callback',
+        'targets': [
+          'repositories',
+          'containerFiles'
+        ],
+        'helpTop': 'Add <b>Build Commands</b> to install libraries from the <b>Repositories</b> or <b>Container Files</b> tool.',
+        'helpPopover': {
+          'repositories': 'Add a <b>Build Command</a> to install a library. Example: apt-get install -y git',
+          'containerFiles': 'Add a <b>Build Command</a> to install a library. Example: apt-get install -y git'
+        }
+      },
+      {
+        'label': 'Seed a database',
+        'targets': [
+          'containerFiles'
+        ],
+        'helpTop': 'Use <b>Container Files</b> to upload seed data and run scripts using <b>Build Commands</b>.',
+        'helpPopover': {
+          'containerFiles': 'Add a <b>Build Command</a> to install a library. Example: apt-get install -y git'
         }
       }
     ],
     'triggered': [
       {
         id: 'missingAssociation',
-        'label': 'It looks like <b>{{instance.getDisplayName()}}</b> should be associated with <b>{{association}}</b>',
+        'label': '<b>{{instance.getDisplayName()}}</b> may need to be associated with <b>{{association}}</b>',
         'targets': [
           'environmentVariables',
           'translationRules'
@@ -52,20 +90,21 @@ function helpCardsFactory(
         'helpTop': 'Use <b>Translation Rules</b> or <b>Environment Variables</b> to create an association for <b>{{instance.getDisplayName()}}</b>.',
         'helpPopover': {
           'environmentVariables': 'Add an association by setting an environment variable to your <b>{{association}}</b> container\'s elastic url.',
-          'translationRules': 'Add an association by setting a translation rule for your <b>{{association}}</b> container\'s elastic url..'
+          'translationRules': 'Add an association by setting a translation rule for your <b>{{association}}</b> container\'s elastic url.'
         }
       },
       {
         id: 'missingDependency',
-        'label': 'It looks like <b>{{instance.getDisplayName()}}</b> needs a <b>{{dependency}}</b> service and you don\'t have one.',
+        'label': '<b>{{instance.getDisplayName()}}</b> may need a <b>{{dependency}}</b> container.',
         'targets': [
           'newContainer'
         ],
-        'helpTop': 'Add a new <b>{{dependency}}</b> service.',
+        'helpTop': 'Click on <b>New Container</b> to add a <b>{{dependency}}</b> service.',
         'helpPopover': {}
       }
     ]
   };
+
 
   var HelpCard = function (config) {
     var self = this;
