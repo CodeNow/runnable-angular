@@ -30,15 +30,15 @@ form.modal-dialog.modal-edit(
           )
         span.btn-text Stack Type
       button.btn.btn-radio(
-        ng-class = "{active: selectedTab === 'command'}"
-        ng-click = "changeTab('command')"
+        ng-class = "{active: selectedTab === 'repository'}"
+        ng-click = "changeTab('repository')"
         ng-if = "!state.advanced"
       )
         svg.iconnables
           use(
-            xlink:href = "#icons-start-cmd"
+            xlink:href = "#icons-git-repository"
           )
-        span.btn-text Container Command
+        span.btn-text Repository
       button.btn.btn-radio(
         ng-class = "{active: selectedTab === 'ports'}"
         ng-click = "changeTab('ports')"
@@ -49,16 +49,17 @@ form.modal-dialog.modal-edit(
             xlink:href = "#icons-ports"
           )
         span.btn-text Exposed Ports
-      button.btn.btn-radio(
-        ng-class = "{active: selectedTab === 'repositories'}"
-        ng-click = "changeTab('repositories')"
-        ng-if = "state.repo"
-      )
+      //- will use in the second half of build commands
+      //- button.btn.btn-radio(
+      //-   ng-class = "{active: selectedTab === 'files'}"
+      //-   ng-click = "changeTab('files')"
+      //-   ng-if = "state.repo"
+      //- )
         svg.iconnables
           use(
             xlink:href = "#icons-git-repository"
           )
-        span.btn-text Repositories
+        span.btn-text Files
       button.btn.btn-radio(
         ng-class = "{active: selectedTab === 'env'}"
         ng-click = "changeTab('env')"
@@ -101,16 +102,16 @@ form.modal-dialog.modal-edit(
       state = "state"
     )
     .modal-form(
-      ng-if = "selectedTab === 'command'"
-      ng-include = "'viewFormStartCommand'"
+      ng-if = "selectedTab === 'repository'"
+      ng-include = "'viewFormRepository'"
     )
     .modal-form(
       ng-if = "selectedTab === 'ports'"
       ng-include = "'viewFormPorts'"
     )
     .modal-form(
-      ng-if = "selectedTab === 'repositories'"
-      ng-include = "'viewFormRepositories'"
+      ng-if = "selectedTab === 'files'"
+      ng-include = "'viewFormFiles'"
     )
     .modal-form(
       ng-if = "selectedTab === 'env'"
