@@ -6,6 +6,7 @@ a.logo.logo-icon
 
 .btn-group
   button.btn.btn-sm.purple.active(
+    ng-class = "{'no-touching': !dataApp.data.activeAccount}"
     ui-sref = "instance.home({ userName: dataApp.data.activeAccount.oauthName() })"
   )
     svg.iconnables
@@ -14,6 +15,7 @@ a.logo.logo-icon
       )
     | Containers
   button.btn.btn-sm.purple(
+    ng-class = "{'no-touching': !dataApp.data.activeAccount}"
     ui-sref = "instance.config({ userName: data.activeAccount.oauthName() })"
   )
     svg.iconnables
