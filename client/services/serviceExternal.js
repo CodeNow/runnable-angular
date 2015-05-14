@@ -40,5 +40,8 @@ require('app')
   .service('uuid', function () {
     return require('node-uuid');
   })
+  .service('jsonHash', function (){
+    return require('json-hash');
+  })
   .value('modelStore', require('runnable/lib/stores/model-store'))
   .value('collectionStore', require('runnable/lib/stores/collection-store'));

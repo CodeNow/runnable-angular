@@ -1,10 +1,18 @@
 'use strict';
-var jsonHash = require('json-hash');
 var EventEmitter = require('events').EventEmitter;
 
 require('app')
   .factory('helpCards', helpCardsFactory);
 
+function helpCardsFactory(
+  $interpolate,
+  keypather,
+  fetchSettings,
+  errs,
+  promisify,
+  $rootScope,
+  jsonHash
+) {
 
 //POSSIBLE TARGETS:
 //newContainer
@@ -14,111 +22,102 @@ require('app')
 //exposedPorts
 //repositories
 //environmentVariables
-var helpCards = {
-  'general': [
-    {
-      'label': 'Change language or framework',
-      'targets': ['stackType'],
-      'helpTop': 'Use the <b>stack type</b> tool to change the language or framework.',
-      'helpPopover': {
-        'stackType': 'Use the <b>stack type</b> tool to change the language or framework.'
+  var helpCards = {
+    'general': [
+      {
+        'label': 'Change language or framework',
+        'targets': ['stackType'],
+        'helpTop': 'Use the <b>stack type</b> tool to change the language or framework.',
+        'helpPopover': {
+          'stackType': 'Use the <b>stack type</b> tool to change the language or framework.'
+        }
+      },
+      {
+        'label': 'Connect to an external service',
+        'targets': ['environmentVariables'],
+        'helpTop': 'Add the external service in an <b>environment variable</b>.',
+        'helpPopover': {
+          'environmentVariables': 'Add your external service here so you can reference it in your code.'
+        }
       }
-    },
-    {
-      'label': 'Connect to an external service',
-      'targets': ['environmentVariables'],
-      'helpTop': 'Add the external service in an <b>environment variable</b>.',
-      'helpPopover': {
-        'environmentVariables': 'Add your external service here so you can reference it in your code.'
+    ],
+    'triggered': [
+      {
+        id: 'missingAssociation',
+        'label': 'It looks like <b>{{instance.getDisplayName()}}</b> should be associated with <b>{{association}}</b>',
+        'targets': [
+          'environmentVariables',
+          'translationRules'
+        ],
+        'helpTop': 'Use <b>Translation Rules</b> or <b>Environment Variables</b> to create an association for <b>{{instance.getDisplayName()}}</b>.',
+        'helpPopover': {
+          'environmentVariables': 'You can add an association by setting an environment variable pointing to your <b>{{association}}</b> container.',
+          'translationRules': 'You can add an association by setting a translation rule for your <b>{{association}}</b> container.'
+        }
+      },
+      {
+        id: 'missingDependency',
+        'label': 'It looks like <b>{{instance.getDisplayName()}}</b> needs a <b>{{dependency}}</b> service and you don\'t have one.',
+        'targets': [
+          'newContainer'
+        ],
+        'helpTop': 'Add a new <b>{{dependency}}</b> service.',
+        'helpPopover': {}
       }
-    }
-  ],
-  'triggered': [
-    {
-      id: 'missingAssociation',
-      'label': 'It looks like <b>{{instance.getDisplayName()}}</b> should be associated with <b>{{association}}</b>',
-      'targets': [
-        'environmentVariables',
-        'translationRules'
-      ],
-      'helpTop': 'Use <b>Translation Rules</b> or <b>Environment Variables</b> to create an association for <b>{{instance.getDisplayName()}}</b>.',
-      'helpPopover': {
-        'environmentVariables': 'You can add an association by setting an environment variable pointing to your <b>{{association}}</b> container.',
-        'translationRules': 'You can add an association by setting a translation rule for your <b>{{association}}</b> container.'
-      }
-    },
-    {
-      id: 'missingDependency',
-      'label': 'It looks like <b>{{instance.getDisplayName()}}</b> needs a <b>{{dependency}}</b> service and you don\'t have one.',
-      'targets': [
-        'newContainer'
-      ],
-      'helpTop': 'Add a new <b>{{dependency}}</b> service.',
-      'helpPopover': {}
-    }
-  ]
-};
-
-var HelpCard = function (config) {
-  var self = this;
-  Object.keys(config).forEach(function (key) {
-    self[key] = config[key];
-  });
-
-  var cardClone = {
-    id: this.id,
-    type: this.type
+    ]
   };
-  if (this.data && this.data.instance && this.data.instance.attrs) {
-    cardClone.data = { instance: this.data.instance.attrs.shortHash };
-  }
 
-  if(this.data){
-    Object.keys(this.data).forEach(function (key) {
-      if (key !== 'instance'){
-        cardClone.data[key] = self.data[key];
-      }
+  var HelpCard = function (config) {
+    var self = this;
+    Object.keys(config).forEach(function (key) {
+      self[key] = config[key];
     });
-  }
-  this.hash = jsonHash.digest(cardClone);
-};
 
-HelpCard.prototype = Object.create(EventEmitter.prototype);
+    var cardClone = {
+      id: this.id,
+      type: this.type
+    };
+    if (this.data && this.data.instance && this.data.instance.attrs) {
+      cardClone.data = { instance: this.data.instance.attrs.shortHash };
+    }
 
+    if(this.data){
+      Object.keys(this.data).forEach(function (key) {
+        if (key !== 'instance'){
+          cardClone.data[key] = self.data[key];
+        }
+      });
+    }
+    this.hash = jsonHash.digest(cardClone);
+  };
 
+  HelpCard.prototype = Object.create(EventEmitter.prototype);
 
-helpCards.general.forEach(function (cardConfig) {
-  cardConfig.type = 'general';
-  var card = new HelpCard(cardConfig);
-  var targetHash = {};
-  card.targets.forEach(function (target) {
-    targetHash[target] = true;
+  helpCards.general.forEach(function (cardConfig) {
+    cardConfig.type = 'general';
+    var card = new HelpCard(cardConfig);
+    var targetHash = {};
+    card.targets.forEach(function (target) {
+      targetHash[target] = true;
+    });
+    card.targets = targetHash;
   });
-  card.targets = targetHash;
-});
 
-var triggeredHash = {};
-helpCards.triggered.forEach(function (cardConfig) {
-  cardConfig.type = 'triggered';
-  var card = new HelpCard(cardConfig);
-  var targetHash = {};
-  card.targets.forEach(function (target) {
-    targetHash[target] = true;
+  var triggeredHash = {};
+  helpCards.triggered.forEach(function (cardConfig) {
+    cardConfig.type = 'triggered';
+    var card = new HelpCard(cardConfig);
+    var targetHash = {};
+    card.targets.forEach(function (target) {
+      targetHash[target] = true;
+    });
+    card.targets = targetHash;
+    triggeredHash[card.id] = card;
   });
-  card.targets = targetHash;
-  triggeredHash[card.id] = card;
-});
 
-helpCards.triggered = triggeredHash;
+  helpCards.triggered = triggeredHash;
 
-function helpCardsFactory(
-  $interpolate,
-  keypather,
-  fetchSettings,
-  errs,
-  promisify,
-  $rootScope
-) {
+
   var currentCardHash = {};
   var activeCard = null;
   return {
