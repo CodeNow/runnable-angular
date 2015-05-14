@@ -100,7 +100,7 @@
     "grunt-jsbeautifier": "^0.2.7",
     "grunt-newer": "^1.1.0",
     "grunt-nodemon": "~0.4.0",
-    "karma": "~0.12.31",
+    "karma": "0.12.30",
     "karma-browserify": "^4.0.0",
     "karma-chrome-launcher": "~0.1.4",
     "karma-coverage": "0.2.6",

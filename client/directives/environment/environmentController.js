@@ -109,6 +109,11 @@ function EnvironmentController(
       }, { warn: false });
       $scope.data.instances.add(instance);
 
+      $rootScope.$broadcast('alert', {
+        type: 'success',
+        text: 'Your new container is building.'
+      });
+
       createPromise
         .then(function (newServerModel) {
           return createNewInstance(
@@ -120,11 +125,6 @@ function EnvironmentController(
         })
         .then(function () {
           helpCards.refreshAllCards();
-
-          $rootScope.$broadcast('alert', {
-            type: 'success',
-            text: 'Container added successfully.'
-          });
         })
         .catch(function (err) {
           errs.handler(err);
