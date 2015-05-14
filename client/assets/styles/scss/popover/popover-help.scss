@@ -52,6 +52,14 @@
     left: -7px;
     top: 13px;
 
+    &:hover {
+      color: rgba($blue,.7);
+    }
+
+    &:active {
+      color: $blue;
+    }
+
     .iconnables {
       width: 18px;
       height: 18px;
@@ -75,6 +83,14 @@
     font-weight: 500;
     font-size: 15px;
     color: $blue;
+
+    &:hover {
+      border-color: rgba($blue,.7);
+    }
+
+    &:active {
+      border-color: $blue;
+    }
   }
 }
 
@@ -95,9 +111,18 @@
 }
 
 .general-help-item {
-  // margin-left: 18px;
   cursor: pointer;
   color: rgba($blue,.8);
+  margin: 0 -30px;
+  padding: 0 30px;
+
+  &:hover {
+    background-color: rgba($blue-light,.15);
+  }
+
+  &:active {
+    background-color: rgba($blue-light,.25);
+  }
 }
 
 .less-help, .more-help {
@@ -113,6 +138,14 @@
   background-color: $blue-lighter;
   border-top: 1px solid rgba($blue-light,.4);
   line-height: 18px;
+
+  &:hover {
+    color: rgba($blue,.7);
+  }
+
+  &:active {
+    color: $blue;
+  }
 
   .iconnables {
     width: 15px;

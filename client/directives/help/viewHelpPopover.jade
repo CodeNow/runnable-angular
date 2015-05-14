@@ -2,40 +2,36 @@
   ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
 )
-  //- .arrow.blue
-  .popover-content
-    .help-container
-      ul.triggered-help-list
-        li.triggered-help-item(
-          ng-repeat = "helpItem in data.triggered"
+  .help-container
+    ul.triggered-help-list
+      li.triggered-help-item(
+        ng-repeat = "helpItem in data.triggered"
+      )
+        button.btn.btn-icon.btn-icon-sm(
+          ng-click = "actions.ignoreHelp(helpItem)"
         )
-          button.btn.btn-icon.btn-icon-sm(
-            ng-click = "actions.ignoreHelp(helpItem)"
-          )
-            svg.iconnables
-              use(
-                xlink:href = "#icons-close"
-              )
-          p.p(
-            ng-bind-html= "helpItem.label"
-          )
-          button.btn.btn-sm(
-            ng-click = "actions.getHelp(helpItem)"
-          ) Show Me
-
-
-      ul.general-help-list
-        span General Help
-        li.general-help-item(
-          ng-repeat = "helpItem in data.general"
-          ng-hide = "!showMore && $index > 5"
-          ng-click = "actions.getHelp(helpItem)"
+          svg.iconnables
+            use(
+              xlink:href = "#icons-close"
+            )
+        p.p(
           ng-bind-html= "helpItem.label"
         )
-    button.btn.less-help(
-      ng-click = "closePopover()"
-    ) Less Help
-      svg.iconnables
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
+        button.btn.btn-sm(
+          ng-click = "actions.getHelp(helpItem)"
+        ) Show Me
+    ul.general-help-list
+      span General Help
+      li.general-help-item(
+        ng-repeat = "helpItem in data.general"
+        ng-hide = "!showMore && $index > 5"
+        ng-click = "actions.getHelp(helpItem)"
+        ng-bind-html= "helpItem.label"
+      )
+  button.btn.less-help(
+    ng-click = "closePopover()"
+  ) Less Help
+    svg.iconnables
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
