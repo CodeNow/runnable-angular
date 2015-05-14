@@ -8,14 +8,6 @@
   ng-if = "data.activeAccount && !isLoading.sidebar"
 )
   | Containers
-  a.btn.btn-xs.white(
-    ui-sref = "instance.config({ userName: data.activeAccount.oauthName() })"
-  )
-    svg.iconnables.icons-gear
-      use(
-        xlink:href = "#icons-gear"
-      )
-    | Configure
 
 ul.server-category-list(
   ng-if = "data.activeAccount && !isLoading.sidebar"
