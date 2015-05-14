@@ -27,9 +27,9 @@ function helpCardsFactory(
       {
         'label': 'Change language or framework',
         'targets': ['stackType'],
-        'helpTop': 'Use the <b>stack type</b> tool to change the language or framework.',
+        'helpTop': 'Use the <b>Stack Type</b> tool to change the language or framework.',
         'helpPopover': {
-          'stackType': 'Use the <b>stack type</b> tool to change the language or framework.'
+          'stackType': 'Change the language, framework or versions below.'
         }
       },
       {
@@ -57,25 +57,23 @@ function helpCardsFactory(
         }
       },
       {
-        'label': 'Configure an OAuth callback',
+        'label': 'Configure an OAuth service',
         'targets': [
-          'repositories',
-          'containerFiles'
+          'environmentVariables',
+          'translationRules'
         ],
-        'helpTop': 'Add <b>Build Commands</b> to install libraries from the <b>Repositories</b> or <b>Container Files</b> tool.',
+        'helpTop': 'Update your OAuth credentials using the <b>Environment Variables</b> or <b>Translation Rules</b> tool.',
         'helpPopover': {
-          'repositories': 'Add a <b>Build Command</a> to install a library. Example: apt-get install -y git',
-          'containerFiles': 'Add a <b>Build Command</a> to install a library. Example: apt-get install -y git'
+          'environmentVariables': 'Update the environment variables that you use to specify OAuth credentials.',
+          'translationRules': 'Add a translation rule to update your OAuth credentials in your code.'
         }
       },
       {
         'label': 'Seed a database',
-        'targets': [
-          'containerFiles'
-        ],
-        'helpTop': 'Use <b>Container Files</b> to upload seed data and run scripts using <b>Build Commands</b>.',
+        'targets': ['containerFiles'],
+        'helpTop': 'Use <b>Container Files</b> to upload seed data and specify <b>Build Commands</b> to run scripts.',
         'helpPopover': {
-          'containerFiles': 'Add a <b>Build Command</a> to install a library. Example: apt-get install -y git'
+          'containerFiles': 'Upload seed data files and input shell commands to import the data using <b>Build Commands</b>.'
         }
       }
     ],
@@ -104,6 +102,7 @@ function helpCardsFactory(
       }
     ]
   };
+
 
 
   var HelpCard = function (config) {
