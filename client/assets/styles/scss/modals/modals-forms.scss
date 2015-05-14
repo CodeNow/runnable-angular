@@ -96,6 +96,36 @@
     margin: 6px 0 0;
   }
 
+  // label help
+  .label-help {
+    margin: 12px auto 0;
+    text-align: center;
+
+    .btn-xxs {
+      background: $gray;
+      border-radius: 50%;
+      color: $white;
+      float: left;
+      height: 15px;
+      margin-right: 3px;
+      padding: 0 4px;
+      width: 15px;
+    }
+
+    .icons-help {
+      height: 100%;
+      width: 100%;
+    }
+
+    .input {
+      background: $white;
+      color: $gray-light;
+      font-size: 13px;
+      margin-left: 6px;
+      width: 300px;
+    }
+  }
+
   // label-footer
   .label-footer {
     border-top: 1px solid rgba($black,.1);

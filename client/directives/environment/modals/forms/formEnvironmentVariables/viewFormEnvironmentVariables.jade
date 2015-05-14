@@ -15,12 +15,19 @@ pre.ace-container.ace-environment-variables.ace-runnable-dark(
   validation = "validation.env"
 )
 
-label.small Elastic URL
-  input(
+label.label.label-help
+  small.small(
+    tooltip = "Use this URL when configuring callback services to this container."
+    tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-5,\"top\":15}"
+  )
+    button.btn.btn-xxs
+      svg.iconnables.icons-help
+        use(
+          xlink:href = "#icons-help"
+        )
+    | Elastic URL
+  input.input.input-xs(
     readonly
     select-all
     value = "api-staging-codenow.runnableapp.com"
   )
-
-small.small Use this URL when configuring callback services to this container. (More about URLs)
-small.small Define environment variables that are used as part of the container build process, as well as being made available to your application in a running container.
