@@ -61,6 +61,12 @@ module.exports = [
     templateUrl: 'viewInstanceLayout',
     controller: 'ControllerApp'
   }, {
+    state: 'config.home',
+    abstract: false,
+    url: '^/:userName/configure',
+    templateUrl: 'environmentView',
+    controller: 'EnvironmentController'
+  }, {
     state: 'instance',
     abstract: true,
     templateUrl: 'viewInstanceLayout',
@@ -105,12 +111,6 @@ module.exports = [
     onExit: function ($rootScope, keypather) {
       keypather.set($rootScope, 'layoutOptions.hideSidebar', false);
     }
-  }, {
-    state: 'config.home',
-    abstract: false,
-    url: '^/:userName/configure',
-    templateUrl: 'environmentView',
-    controller: 'EnvironmentController'
   }
 ];
 Object.freeze(module.exports);
