@@ -43,7 +43,7 @@ button.btn.btn-icon.blue(
 )
   .help-container
     ul.triggered-help-list
-      li.triggered-help-item
+      li.triggered-help-item.clearfix
         button.btn.btn-icon.btn-icon-sm(
           ng-click = "helpPopover.actions.ignoreHelp(helpCards.cards.triggered[0])"
         )
@@ -57,6 +57,7 @@ button.btn.btn-icon.blue(
         button.btn.btn-sm(
           ng-click = "helpPopover.actions.getHelp(helpCards.cards.triggered[0])"
         ) Show Me
+
   button.btn.more-help(
     ng-click = "state.helpButton.active = true"
   ) More Help
