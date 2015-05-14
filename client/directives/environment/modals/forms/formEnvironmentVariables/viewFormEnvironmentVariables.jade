@@ -15,8 +15,12 @@ pre.ace-container.ace-environment-variables.ace-runnable-dark(
   validation = "validation.env"
 )
 
-small.small Define environment variables that are used as part of the container build process, as well as being made available to your application in a running container. #{''}
-  //- a.link(
-  //-   href = "//google.com"
-  //-   target = "_blank"
-  //- ) More about environment variables 🐉🐉🐉
+label.small Elastic URL
+  input(
+    readonly
+    select-all
+    value = "api-staging-codenow.runnableapp.com"
+  )
+
+small.small Use this URL when configuring callback services to this container. (More about URLs)
+small.small Define environment variables that are used as part of the container build process, as well as being made available to your application in a running container.
