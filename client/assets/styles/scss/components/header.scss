@@ -47,10 +47,13 @@
     }
 
     .gravatar {
-      border: 1px solid $white;
       float: left;
       margin-right: 6px;
       margin-top: 5px;
+
+      @include retina() {
+        border: 1px solid $white;
+      }
     }
   }
 
