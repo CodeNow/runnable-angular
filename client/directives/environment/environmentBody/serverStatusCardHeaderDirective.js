@@ -6,7 +6,8 @@ require('app')
  * @ngInject
  */
 function serverStatusCardHeader(
-  $rootScope
+  $rootScope,
+  keypather
 ) {
   return {
     restrict: 'E',
@@ -26,7 +27,7 @@ function serverStatusCardHeader(
                   'switch back without losing changes.')) {
               $scope.state.advanced = !$scope.state.advanced;
             }
-            $scope.advanced = $scope.state.advanced;
+            $scope.popOverServerData.advanced = $scope.state.advanced;
           }
         }
       };
@@ -36,6 +37,10 @@ function serverStatusCardHeader(
           $scope.popOverServerData.server = n;
         }
       });
+      if ($scope.state) {
+        $scope.popOverServerData.advanced = $scope.state.advanced;
+      }
+
       $scope.$watch(function () {
         return attrs.noTouching === 'true';
       }, function (n) {
