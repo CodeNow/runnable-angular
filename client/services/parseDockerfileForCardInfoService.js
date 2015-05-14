@@ -58,19 +58,26 @@ function parseDockerfileForStack(
 
 }
 
-function parseDockerfileForDefaults(dockerfile, key) {
+function parseDockerfileForDefaults(dockerfile, keys) {
   if (dockerfile) {
-    var regex = new RegExp('#default ' + key + ':([^\n]+)', 'gmi');
-    var defaults;
-    var results = [];
-    do {
-      defaults = regex.exec(dockerfile.attrs.body);
-      if (defaults) {
-        results.push(defaults[1]);
-      }
-    } while (defaults);
+    if (!Array.isArray(keys)) {
+      keys = [keys];
+    }
+    var result = {};
+    keys.forEach(function (key) {
+      var regex = new RegExp('#default ' + key + ':([^\n]+)', 'gmi');
+      var defaults;
+      var totals = [];
+      do {
+        defaults = regex.exec(dockerfile.attrs.body);
+        if (defaults) {
+          totals.push(defaults[1]);
+        }
+      } while (defaults);
+      result[key] = totals;
+    });
 
-    return results;
+    return result;
   }
 }
 function parseDockerfileForStartCommand(dockerfile) {
