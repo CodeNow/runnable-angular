@@ -58,7 +58,7 @@ button.btn.btn-icon.help-button.blue(
           ng-click = "helpPopover.actions.getHelp(helpCards.cards.triggered[0])"
         ) Show Me
       button.btn.less-help(
-        ng-click = "closePopover()"
+        ng-click = "state.helpButton.active = true"
       ) More Help
         svg.iconnables
           use(
