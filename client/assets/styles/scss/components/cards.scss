@@ -250,6 +250,11 @@
       color: $blue;
       // border-top-width: 2px;
       box-shadow: inset 0 1px 0 $blue;
+      z-index: 1;
+
+      &:first-child {
+        box-shadow: none;
+      }
 
       .p {
         color: rgba($blue,.6);
