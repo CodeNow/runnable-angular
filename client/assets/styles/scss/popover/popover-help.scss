@@ -12,19 +12,53 @@
   padding: 0 12px 29px;
   transition: none;
   width: 390px;
+
+  // "more help" and "less help" buttons
+  > .btn {
+    background-color: $blue-lighter;
+    border-top: 1px solid rgba($blue-light,.4);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    bottom: 0;
+    flex: 0 0 auto;
+    font-size: 13px;
+    font-weight: 500;
+    height: 30px;
+    left: 0;
+    line-height: 18px;
+    position: absolute;
+    width: 100%;
+
+    &:hover {
+      color: rgba($blue,.7);
+    }
+
+    &:active {
+      color: $blue;
+    }
+
+    .iconnables {
+      height: 15px;
+      top: 4px;
+      width: 15px;
+    }
+  }
 }
 
 .popover-help {
   display: flex;
   flex-direction: column;
   max-height: calc(100vh - 120px);
-  // padding-bottom: 30px;
+
+  // rotates arrow for "more help" button
+  > .btn .iconnables {
+    transform: rotate(180deg);
+  }
 }
 
 .triggered-help-item {
   border-bottom: 1px solid rgba($blue-light,.4);
   color: rgba($blue,.8);
-  overflow: auto;
   padding: 14px 0 13px;
   position: relative;
 
@@ -113,39 +147,4 @@
   &:active {
     background-color: rgba($blue-light,.25);
   }
-}
-
-.less-help,
-.more-help {
-  background-color: $blue-lighter;
-  border-top: 1px solid rgba($blue-light,.4);
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  bottom: 0;
-  flex: 0 0 auto;
-  font-size: 13px;
-  font-weight: 500;
-  height: 30px;
-  left: 0;
-  line-height: 18px;
-  position: absolute;
-  width: 100%;
-
-  &:hover {
-    color: rgba($blue,.7);
-  }
-
-  &:active {
-    color: $blue;
-  }
-
-  .iconnables {
-    height: 15px;
-    top: 4px;
-    width: 15px;
-  }
-}
-
-.less-help .iconnables {
-  transform: rotate(180deg);
 }

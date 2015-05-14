@@ -30,7 +30,6 @@ button.btn.btn-icon.blue(
       xlink:href = "#icons-help"
       )
 
-//- TODO: rename this
 .triggered-help(
   ng-if = "!state.helpButton.active && helpCards.cards.triggered.length > 0 && !helpCards.getActiveCard()"
 )
@@ -51,7 +50,7 @@ button.btn.btn-icon.blue(
           ng-click = "helpPopover.actions.getHelp(helpCards.cards.triggered[0])"
         ) Show Me
 
-  button.btn.more-help(
+  button.btn(
     ng-click = "state.helpButton.active = true"
   ) More Help
     svg.iconnables
