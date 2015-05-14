@@ -2,7 +2,7 @@
   ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
 )
-  .help-container
+  .help-lists-wrapper
     ul.triggered-help-list
       li.triggered-help-item(
         ng-repeat = "helpItem in data.triggered"
@@ -21,6 +21,7 @@
           ng-click = "actions.getHelp(helpItem)"
         ) Show Me
     ul.general-help-list
+      //- TODO: move ths span out of ul.general-help-list
       span General Help
       li.general-help-item(
         ng-repeat = "helpItem in data.general"
@@ -28,6 +29,7 @@
         ng-click = "actions.getHelp(helpItem)"
         ng-bind-html= "helpItem.label"
       )
+  //- TODO: remove less-help class
   button.btn.less-help(
     ng-click = "closePopover()"
   ) Less Help

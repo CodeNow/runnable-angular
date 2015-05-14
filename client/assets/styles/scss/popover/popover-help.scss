@@ -1,10 +1,9 @@
-.popover-help, .triggered-help {
+.popover-help, .triggered-help-top-card {
   // duplicated from .help in help.scss
   background: $blue-lighter;
   border: 1px solid $blue-light;
   border-radius: 3px;
   box-shadow: 0 2px 3px rgba($blue,.2);
-  // color: rgba($blue,.8);
   color: $blue;
   //
   width: 390px;
@@ -13,30 +12,25 @@
   line-height: 18px;
   transition: none;
   padding: 0 12px;
-  // max-height: calc(100vh - 120px);
-  // overflow-y: auto;
 
-  b {
-    font-weight: 500;
-  }
+  // b {
+  //   font-weight: 500;
+  // }
 
-  .popover-content {
-    padding: 0; // overwrites padding for popover-content set in popover.scss
-  }
+  // .popover-content {
+  //   padding: 0; // overwrites padding for popover-content set in popover.scss
+  // }
 }
 
-.triggered-help {
-  position: absolute;
-  left: 86px;
-  z-index: 1; // TODO: variable-ize this
-}
-
-.triggered-help-list {
-
+.popover-help {
+  max-height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 30px;
 }
 
 .triggered-help-item {
-  padding: 14px 0;
+  padding: 14px 0 13px;;
   overflow: auto;
   border-bottom: 1px solid rgba($blue-light,.4);
   position: relative;
@@ -46,7 +40,7 @@
     color: $blue;
   }
 
-  // dismiss button for triggered help items
+  // "x" button for triggered help items
   .btn-icon {
     position: absolute;
     left: -7px;
@@ -94,16 +88,17 @@
   }
 }
 
-.help-container {
+.help-lists-wrapper {
   overflow-y: auto;
-  max-height: calc(100vh - 120px);
-  padding: 0 12px 29px;
+  // max-height: calc(100vh - 120px);
+  padding: 0 12px;
   margin: 0 -12px;
 }
 
 .general-help-list {
   padding: 12px 18px;
   line-height: 27px;
+  flex: 0 0 auto;
 
   > span {
     font-weight: 500;
@@ -138,6 +133,7 @@
   background-color: $blue-lighter;
   border-top: 1px solid rgba($blue-light,.4);
   line-height: 18px;
+  flex: 0 0 auto;
 
   &:hover {
     color: rgba($blue,.7);

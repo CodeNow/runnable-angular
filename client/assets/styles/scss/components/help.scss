@@ -6,11 +6,6 @@
   box-shadow: 0 2px 3px rgba($blue,.2);
   color: rgba($blue,.8);
 
-  b {
-    font-weight: 500;
-    color: $blue;
-  }
-
   // alert help things
   // overwrite current alerts :(
   &.alert {
@@ -33,6 +28,17 @@
       margin-right: 6px;
     }
   }
+
+  b {
+    // font-weight: 500;
+    color: $blue;
+  }
+}
+
+.triggered-help-top-card {
+  position: absolute;
+  left: 86px;
+  z-index: 1; // TODO: variable-ize this
 }
 
 .help-step-container {

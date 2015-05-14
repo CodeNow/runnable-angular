@@ -8,14 +8,6 @@
 //-     )
 //-   | To Sandbox
 
-.help-step-container(
-  ng-if = "helpCards.getActiveCard()"
-  ng-class = "{undocked: helpUndock}"
-)
-  .help.help-step-item(
-    ng-bind-html= "helpCards.getActiveCard().helpTop"
-  )
-
 //- help center button
 button.btn.btn-icon.blue(
   ng-class = "{active: state.helpButton.active}"
@@ -33,12 +25,13 @@ button.btn.btn-icon.blue(
     ng-if = "helpCards.cards.triggered.length > 0"
   ) {{helpCards.cards.triggered.length}}
 
-  svg.iconnables.icons-help
+  svg.iconnables
     use(
       xlink:href = "#icons-help"
       )
 
-.triggered-help(
+//- rename this
+.triggered-help-top-card(
   ng-if = "!state.helpButton.active && helpCards.cards.triggered.length > 0 && !helpCards.getActiveCard()"
 )
   .help-container
@@ -64,6 +57,15 @@ button.btn.btn-icon.blue(
       use(
         xlink:href = "#icons-arrow-down"
       )
+
+//- this shows up after the user clicks "show me" in the help center
+.help-step-container(
+  ng-if = "helpCards.getActiveCard()"
+  ng-class = "{undocked: helpUndock}"
+)
+  .help.help-step-item(
+    ng-bind-html= "helpCards.getActiveCard().helpTop"
+  )
 
 //- new server button
 button.btn.green(
