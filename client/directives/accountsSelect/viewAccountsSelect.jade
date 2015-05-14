@@ -16,7 +16,7 @@ a.btn.btn-sm.purple.btn-accounts(
     ng-src = "{{ data.activeAccount.gravitar() }}"
     width = "21"
   )
-  | {{ data.activeAccount.oauthName() }}
+  span.span {{ data.activeAccount.oauthName() }}
   svg.iconnables.icons-arrow-down
     use(
       xlink:href = "#icons-arrow-down"
