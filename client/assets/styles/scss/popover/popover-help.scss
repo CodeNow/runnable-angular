@@ -26,8 +26,9 @@
   padding: 14px 0 13px;;
   overflow: auto;
   border-bottom: 1px solid rgba($blue-light,.4);
-  position: relative;
   color: rgba($blue,.8);
+  padding: 14px 0;
+  position: relative;
 
   b {
     color: $blue;
@@ -35,12 +36,16 @@
 
   // "x" button for triggered help items
   .btn-icon {
+    color: rgba($blue,.45);
+    height: 24px;
+    left: -9px;
+    line-height: 1;
     position: absolute;
-    left: -7px;
     top: 13px;
+    width: 24px;
 
     &:hover {
-      color: rgba($blue,.7);
+      color: rgba($blue,.75);
     }
 
     &:active {
@@ -48,8 +53,8 @@
     }
 
     .iconnables {
-      width: 18px;
       height: 18px;
+      width: 18px;
     }
   }
 
