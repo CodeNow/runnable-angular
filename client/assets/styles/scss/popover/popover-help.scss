@@ -39,13 +39,9 @@
   }
 }
 
-.popover.help {
-  max-height: calc(100vh - 120px);
-
-  // rotates arrow for "more help" button
-  > .btn .iconnables {
-    transform: rotate(180deg);
-  }
+// rotates arrow for "more help" button
+.popover.help > .btn .iconnables {
+  transform: rotate(180deg);
 }
 
 .triggered-help-item {
@@ -111,7 +107,7 @@
 }
 
 .help-lists-wrapper {
-  // margin: 0 -12px;
+  max-height: calc(100vh - 120px);
   overflow-y: auto;
   padding: 0 12px;
 }
