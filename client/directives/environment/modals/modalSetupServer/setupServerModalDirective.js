@@ -82,7 +82,7 @@ function setupServerModal(
         );
       };
 
-      $scope.watch('state.selectedStack', function (n) {
+      $scope.$watch('state.selectedStack', function (n) {
         if (n) {
           return fetchDockerfileFromSource(
             n.key,
@@ -92,7 +92,7 @@ function setupServerModal(
               return parseDockerfileForDefaults(dockerfile, 'run');
             })
             .then(function (commands) {
-              $scope.state.commands = commands;
+              $scope.state.commands = commands.join('\n');
             });
         }
       });

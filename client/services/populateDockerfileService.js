@@ -20,26 +20,18 @@ function populateDockerfile(
     function populateDockerFile(dockerfileBody) {
       // first, add the ports
       var ports = state.ports.join(' ');
+      var commands = state.commands.split('\n')
+        .map(function(str) {
+          return 'RUN ' + str.trim();
+        })
+        .join('\n');
       dockerfileBody = replaceStackVersion(dockerfileBody, state.selectedStack)
         .replace(/<user-specified-ports>/gm, ports)
         .replace(/<before-main-repo>/gm, '')
         .replace(/<after-main-repo>/gm, '')
-        .replace(/<main-build-commands>/gm, state.commands.join('\n'))
         .replace(/<dst>/gm, '/' + state.repo.attrs.name)
         .replace(/<repo-name>/gm, state.repo.attrs.name)
-        .replace(/(WORKDIR.*\n)([\s\S]*)(?=#End)/gm,
-          function (str, workdir, commands) {
-            if (!state.commands) {
-              return str;
-            }
-            return workdir + state.commands.split('\n').map(function(str) {
-              console.log('str', str);
-              if (str && str.trim().indexOf('#') !== 0) {
-                return 'RUN ' + str + '\n';
-              }
-              return str + '\n';
-            }).join('');
-          })
+        .replace(/<main-build-commands>/gm, commands)
         .replace(/<start-command>/gm, state.startCommand);
       if (!state.ports.length) {
         dockerfileBody = dockerfileBody.replace('EXPOSE', '');

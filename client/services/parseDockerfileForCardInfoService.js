@@ -5,7 +5,9 @@ require('app')
 
 
 require('app')
-  .factory('parseDockerfileForDefaults', parseDockerfileForDefaults);
+  .factory('parseDockerfileForDefaults', function () {
+    return parseDockerfileForDefaults;
+  });
 
 
 require('app')
@@ -89,17 +91,32 @@ function parseDockerfileForPorts(dockerfile) {
   }
 }
 
-function parseDockerfileForRunCommands(dockerfile) {
+function parseDockerfileForRunCommands(dockerfile, repoName) {
   // JS doesn't have easy lookbehind, so I just created two capturing groups.
   // The second group needs to be [\s\S] over . as that also matches newlines
   var reg = /(WORKDIR.*\n)([\s\S]*)(?=#End)/;
-  var results = reg.exec(dockerfile.attrs.body);
-
-  if (results && results[2]) {
-    var parsedResults = results[2].split('\n').map(function (str) {
-      return str.replace('RUN ', '');
-    }).join('\n');
-    return parsedResults;
+  if (dockerfile) {
+    // Should be the beginning bit before any as the 1st, so remove it
+    var addChunks = dockerfile.attrs.body.split('ADD');
+    addChunks.shift();
+    var missingChunk = addChunks.find(function (chunk) {
+      return chunk.indexOf('./' + repoName.toLowerCase());
+    });
+    var results = reg.exec(missingChunk);
+    if (results && results[2]) {
+      var parsedResults = results[2].split('\n')
+        .map(function (str) {
+          return str.trim()
+            .replace('RUN ', '')
+            .replace(/#.+/, ''); //Remove all comments
+        })
+        .filter(function (command) {
+          // filter out empties
+          return command.length;
+        })
+        .join('\n');
+      return parsedResults;
+    }
   }
 }
 
@@ -115,7 +132,7 @@ function parseDockerfileForCardInfoFromInstance(
       .then(function (dockerfile) {
         server.ports = parseDockerfileForPorts(dockerfile);
         server.startCommand = parseDockerfileForStartCommand(dockerfile);
-        server.commands = parseDockerfileForRunCommands(dockerfile);
+        server.commands = parseDockerfileForRunCommands(dockerfile, instance.getRepoName());
         return parseDockerfileForStack(dockerfile, stackData);
       })
       .then(function (stack) {
