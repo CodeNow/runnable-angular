@@ -61,6 +61,17 @@ module.exports = [
     templateUrl: 'viewInstanceLayout',
     controller: 'ControllerApp'
   }, {
+    state: 'config',
+    abstract: true,
+    templateUrl: 'viewInstanceLayout',
+    controller: 'ControllerInstanceLayout',
+    onEnter: function ($rootScope, keypather) {
+      keypather.set($rootScope, 'layoutOptions.hideSidebar', true);
+    },
+    onExit: function ($rootScope, keypather) {
+      keypather.set($rootScope, 'layoutOptions.hideSidebar', false);
+    }
+  }, {
     state: 'config.home',
     abstract: false,
     url: '^/:userName/configure',
@@ -100,17 +111,6 @@ module.exports = [
     url: '^/:userName/:instanceName',
     templateUrl: 'viewInstance',
     controller: 'ControllerInstance'
-  }, {
-    state: 'config',
-    abstract: true,
-    templateUrl: 'viewInstanceLayout',
-    controller: 'ControllerInstanceLayout',
-    onEnter: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'layoutOptions.hideSidebar', true);
-    },
-    onExit: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'layoutOptions.hideSidebar', false);
-    }
   }
 ];
 Object.freeze(module.exports);
