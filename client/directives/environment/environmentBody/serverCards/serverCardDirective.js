@@ -72,6 +72,7 @@ require('app')
                   $scope.server.selectedStack = data.selectedStack;
                   $scope.server.ports = data.ports;
                   $scope.server.startCommand = data.startCommand;
+                  $scope.server.commands = data.commands;
                 }
               })
               .catch(errs.handler)
