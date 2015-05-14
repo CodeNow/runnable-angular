@@ -11,7 +11,7 @@ var $q;
 var mockGetInstanceMaster = require('../fixtures/mockGetInstanceMaster');
 
 // Skipping until we bring this directive back (Kahn)
-describe.only('directiveDnsManager'.bold.underline.blue, function() {
+describe('directiveDnsManager'.bold.underline.blue, function() {
   var ctx;
   var masterPods;
   var masterChildMapping;
