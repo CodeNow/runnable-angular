@@ -30,14 +30,13 @@
   }
 
   b {
-    // font-weight: 500;
     color: $blue;
   }
 }
 
 .triggered-help {
-  position: absolute;
   left: 86px;
+  position: absolute;
   z-index: 1; // TODO: variable-ize this
 }
 
@@ -56,24 +55,24 @@
 }
 
 .help-step-item {
-  margin: 0 auto;
-  padding: 9px 24px;
   display: inline-block;
   line-height: 21px; // testing
+  margin: 0 auto;
+  padding: 9px 24px;
   text-align: center;
 }
 
 .help-badge {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
   background: $blue;
+  border-radius: 50%;
   color: $white;
-  font-weight: 500;
   font-size: 12px;
-  text-align: center;
+  font-weight: 500;
+  height: 18px;
   line-height: 18px;
   position: absolute;
-  top: -9px;
   right: -9px;
+  text-align: center;
+  top: -9px;
+  width: 18px;
 }

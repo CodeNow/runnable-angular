@@ -6,28 +6,26 @@
   border-radius: 3px;
   box-shadow: 0 2px 3px rgba($blue,.2);
   color: $blue;
-  //
-  width: 390px;
-  max-width: none; // overwrites max-width set in popover.scss
   font-size: 15px;
   line-height: 18px;
-  transition: none;
+  max-width: none; // overwrites max-width set in popover.scss
   padding: 0 12px 29px;
+  transition: none;
+  width: 390px;
 }
 
 .popover-help {
-  max-height: calc(100vh - 120px);
   display: flex;
   flex-direction: column;
+  max-height: calc(100vh - 120px);
   // padding-bottom: 30px;
 }
 
 .triggered-help-item {
-  padding: 14px 0 13px;;
-  overflow: auto;
   border-bottom: 1px solid rgba($blue-light,.4);
   color: rgba($blue,.8);
-  padding: 14px 0;
+  overflow: auto;
+  padding: 14px 0 13px;
   position: relative;
 
   b {
@@ -60,21 +58,21 @@
 
   // triggered help text
   .p {
-    width: 230px;
     float: left;
     margin-left: 18px;
+    width: 230px;
   }
 
   // "show me" button
   .btn-sm {
-    background-color: white;
-    float: right;
+    background-color: $white;
     border: 2px solid $blue;
-    padding: 0 13px;
-    margin-right: 6px;
-    font-weight: 500;
-    font-size: 15px;
     color: $blue;
+    float: right;
+    font-size: 15px;
+    font-weight: 500;
+    margin-right: 6px;
+    padding: 0 13px;
 
     &:hover {
       border-color: rgba($blue,.7);
@@ -87,15 +85,15 @@
 }
 
 .help-lists-wrapper {
+  margin: 0 -12px;
   overflow-y: auto;
   padding: 0 12px;
-  margin: 0 -12px;
 }
 
 .general-help-list {
-  padding: 12px 18px;
-  line-height: 27px;
   flex: 0 0 auto;
+  line-height: 27px;
+  padding: 12px 18px;
 
   > span {
     font-weight: 500;
@@ -103,8 +101,8 @@
 }
 
 .general-help-item {
-  cursor: pointer;
   color: rgba($blue,.8);
+  cursor: pointer;
   margin: 0 -30px;
   padding: 0 30px;
 
@@ -119,19 +117,19 @@
 
 .less-help,
 .more-help {
-  height: 30px;
-  width: 100%;
-  font-size: 13px;
-  font-weight: 500;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  border-top-right-radius: 0;
-  border-top-left-radius: 0;
   background-color: $blue-lighter;
   border-top: 1px solid rgba($blue-light,.4);
-  line-height: 18px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  bottom: 0;
   flex: 0 0 auto;
+  font-size: 13px;
+  font-weight: 500;
+  height: 30px;
+  left: 0;
+  line-height: 18px;
+  position: absolute;
+  width: 100%;
 
   &:hover {
     color: rgba($blue,.7);
@@ -142,9 +140,9 @@
   }
 
   .iconnables {
-    width: 15px;
     height: 15px;
     top: 4px;
+    width: 15px;
   }
 }
 
