@@ -43,7 +43,7 @@ require('app')
             return $q.all(qAll)
               .catch(errs.handler)
               .then(function (data) {
-                if (data.dependencies.models.length) {
+                if (keypather.get(data, 'dependencies.models.length')) {
                   if (data.dependencies.models.length === 1) {
                     $scope.dependencyInfo = '1 association';
                   } else {
