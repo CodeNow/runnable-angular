@@ -5,6 +5,15 @@ var EventEmitter = require('events').EventEmitter;
 require('app')
   .factory('helpCards', helpCardsFactory);
 
+
+//POSSIBLE TARGETS:
+//newContainer
+//buildFiles
+//buildCommand
+//stackType
+//exposedPorts
+//repositories
+//environmentVariables
 var helpCards = {
   'general': [
     {
@@ -50,8 +59,37 @@ var helpCards = {
   ]
 };
 
-helpCards.general.forEach(function (card) {
-  card.type = 'general';
+var HelpCard = function (config) {
+  var self = this;
+  Object.keys(config).forEach(function (key) {
+    self[key] = config[key];
+  });
+
+  var cardClone = {
+    id: this.id,
+    type: this.type
+  };
+  if (this.data && this.data.instance && this.data.instance.attrs) {
+    cardClone.data = { instance: this.data.instance.attrs.shortHash };
+  }
+
+  if(this.data){
+    Object.keys(this.data).forEach(function (key) {
+      if (key !== 'instance'){
+        cardClone.data[key] = self.data[key];
+      }
+    });
+  }
+  this.hash = jsonHash.digest(cardClone);
+};
+
+HelpCard.prototype = Object.create(EventEmitter.prototype);
+
+
+
+helpCards.general.forEach(function (cardConfig) {
+  cardConfig.type = 'general';
+  var card = new HelpCard(cardConfig);
   var targetHash = {};
   card.targets.forEach(function (target) {
     targetHash[target] = true;
@@ -60,8 +98,9 @@ helpCards.general.forEach(function (card) {
 });
 
 var triggeredHash = {};
-helpCards.triggered.forEach(function (card) {
-  card.type = 'triggered';
+helpCards.triggered.forEach(function (cardConfig) {
+  cardConfig.type = 'triggered';
+  var card = new HelpCard(cardConfig);
   var targetHash = {};
   card.targets.forEach(function (target) {
     targetHash[target] = true;
@@ -72,15 +111,6 @@ helpCards.triggered.forEach(function (card) {
 
 helpCards.triggered = triggeredHash;
 
-//POSSIBLE TARGETS:
-//newContainer
-//buildFiles
-//buildCommand
-//stackType
-//exposedPorts
-//repositories
-//environmentVariables
-
 function helpCardsFactory(
   $interpolate,
   keypather,
@@ -89,48 +119,23 @@ function helpCardsFactory(
   promisify,
   $rootScope
 ) {
-  function getCardHash(card) {
-    var cardClone = {
-      data: {
-        instance: keypather.get(card, 'data.instance.id')
-      },
-      id: card.id,
-      type: card.type
-    };
-    var data = card.data;
-    if(data){
-      Object.keys(data).forEach(function (key) {
-        if (key !== 'instance'){
-          cardClone.data[key] = card.data[key];
-        }
-      });
-    }
-    return jsonHash.digest(cardClone);
-  }
-  var cards = {
-    general: helpCards.general,
-    triggered: []
-  };
   var currentCardHash = {};
   var activeCard = null;
   return {
-    cards: cards,
+    cards: {
+      general: helpCards.general,
+      triggered: []
+    },
     getActiveCard: function () {
       return activeCard;
     },
     setActiveCard: function (newCard) {
       if (activeCard && activeCard !== newCard) {
-        var currentEvented = currentCardHash[getCardHash(activeCard)];
-        if (currentEvented) {
-          currentEvented.emit('deactivate');
-        }
+        activeCard.emit('deactivate');
       }
 
       if (newCard) {
-        var newEvented = currentCardHash[getCardHash(newCard)];
-        if (newEvented) {
-          newEvented.emit('activate');
-        }
+        newCard.emit('activate');
         $rootScope.$broadcast('helpCardScroll:enable');
       } else {
         $rootScope.$broadcast('helpCardScroll:disable');
@@ -140,13 +145,13 @@ function helpCardsFactory(
     },
     refreshActiveCard: function () {
       if (this.getActiveCard()) {
-        currentCardHash[getCardHash(this.getActiveCard())].emit('refresh');
+        this.getActiveCard().emit('refresh');
         this.setActiveCard(null);
       }
     },
     refreshAllCards: function () {
       this.cards.triggered.forEach(function (card) {
-        currentCardHash[getCardHash(card)].emit('refresh');
+        card.emit('refresh');
       });
       currentCardHash = {};
       this.cards.triggered = [];
@@ -156,29 +161,52 @@ function helpCardsFactory(
       activeCard = this.getActiveCard();
       return activeCard && (activeCard.type === 'general' || angular.equals(container, keypather.get(activeCard, 'data.instance')));
     },
+    refreshForInstance: function (instance) {
+      this.cards.triggered
+        .filter(function (card) {
+          return keypather.get(card, 'data.instance.attrs.shortHash') === instance.attrs.shortHash;
+        })
+        .forEach(function (card) {
+          card.emit('remove');
+        });
+    },
     triggerCard: function (cardId, data) {
+      var self = this;
       return fetchSettings().then(function (settings) {
         var ignoredHelpCards = settings.attrs.ignoredHelpCards || [];
 
-        var helpCard = helpCards.triggered[cardId];
-        if (!helpCard) {
+        var cardConfig = helpCards.triggered[cardId];
+        if (!cardConfig) {
           throw new Error('Attempt to create a help card with invalid ID.');
         }
-        helpCard = angular.copy(helpCard);
-        helpCard.label = $interpolate(helpCard.label)(data);
-        helpCard.helpTop = $interpolate(helpCard.helpTop)(data);
-        Object.keys(helpCard.helpPopover).forEach(function (key) {
-          helpCard.helpPopover[key] = $interpolate(helpCard.helpPopover[key])(data);
+        cardConfig = angular.copy(cardConfig);
+
+
+        cardConfig.label = $interpolate(cardConfig.label)(data);
+        cardConfig.helpTop = $interpolate(cardConfig.helpTop)(data);
+        Object.keys(cardConfig.helpPopover).forEach(function (key) {
+          cardConfig.helpPopover[key] = $interpolate(cardConfig.helpPopover[key])(data);
         });
 
-        helpCard.data = data;
+        cardConfig.data = data;
 
-        var cardHash = getCardHash(helpCard);
-        if (!currentCardHash[cardHash] && ignoredHelpCards.indexOf(cardHash) === -1) {
-          cards.triggered.push(helpCard);
-          currentCardHash[cardHash] = new EventEmitter();
+        var helpCard = new HelpCard(cardConfig);
+
+        if (!currentCardHash[helpCard.hash] && ignoredHelpCards.indexOf(helpCard.hash) === -1) {
+          self.cards.triggered.push(helpCard);
+          currentCardHash[helpCard.hash] = helpCard;
+          helpCard.on('remove', function () {
+            if (self.getActiveCard() === helpCard) {
+              self.setActiveCard(null);
+            }
+            var index = self.cards.triggered.indexOf(helpCard);
+            self.cards.triggered.splice(index, 1);
+          });
+          helpCard.on('refresh', function () {
+            helpCard.emit('remove');
+          });
         }
-        return currentCardHash[cardHash];
+        return currentCardHash[helpCard.hash];
       })
         .catch(errs.handler);
     },
@@ -190,7 +218,7 @@ function helpCardsFactory(
       }
       fetchSettings().then(function (settings) {
         var ignoredHelpCards = settings.attrs.ignoredHelpCards || [];
-        ignoredHelpCards.push(getCardHash(card));
+        ignoredHelpCards.push(card.hash);
 
         return promisify(settings, 'update')({
           json: {

@@ -36,6 +36,7 @@ require('app')
 
         function createServerObjectFromInstance(instance) {
           // This may be a newInstance... just a placeholder
+          helpCards.refreshForInstance(instance);
           $scope.server.instance = instance;
           $scope.server.build = instance.build;
           $scope.server.opts = {

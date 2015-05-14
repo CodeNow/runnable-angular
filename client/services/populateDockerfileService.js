@@ -20,6 +20,7 @@ function populateDockerfile(
     function populateDockerFile(dockerfileBody) {
       // first, add the ports
       var ports = state.ports.join(' ');
+      state.commands = state.commands || '';
       var commands = state.commands.split('\n')
         .map(function(str) {
           return 'RUN ' + str.trim();
