@@ -1,8 +1,8 @@
 'use strict';
 
-describe.only('serverCardDirective'.bold.underline.blue, function () {
+describe('serverCardDirective'.bold.underline.blue, function () {
   var ctx;
-
+  var $timeout;
   var $scope;
   var $compile;
   var $elScope;
@@ -26,9 +26,11 @@ describe.only('serverCardDirective'.bold.underline.blue, function () {
     });
     angular.mock.inject(function (
       _$compile_,
+      _$timeout_,
       _$rootScope_,
       _keypather_
     ) {
+      $timeout = _$timeout_;
       $compile = _$compile_;
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
@@ -107,10 +109,9 @@ describe.only('serverCardDirective'.bold.underline.blue, function () {
     });
 
     it('server object creation, fake instance at start', function() {
-      var instance = runnable.newInstance(
-        apiMocks.instances.running,
-        {noStore: true}
-      );
+      var instance = {
+        attrs: apiMocks.instances.running
+      };
 
       instance.attrs.env = ['hello=asdfasd', 'aasdasd=asdasd'];
       var scope = {
@@ -143,11 +144,13 @@ describe.only('serverCardDirective'.bold.underline.blue, function () {
         apiMocks.builds.built,
         {noStore: true}
       );
-      instance.fetchDependencies = sinon.mock().returns({
-        models: [apiMocks.instances.running, apiMocks.instances.stopped]
-      });
+      instance.fetchDependencies = function (cb) {
+        $timeout(function () {
+          cb(null, {models: [apiMocks.instances.running, apiMocks.instances.stopped]});
+        });
+        return {models: [apiMocks.instances.running, apiMocks.instances.stopped]};
+      };
 
-      $scope.instance = instance;
       instance.contextVersion = {
         attrs: {
           advanced: false,
@@ -169,7 +172,10 @@ describe.only('serverCardDirective'.bold.underline.blue, function () {
           }]
         }
       };
+      $scope.instance = instance;
 
+      $scope.$digest();
+      expect($elScope.server.instance, 'instance').to.equal(instance);
       $scope.$digest();
       parseDockMock.triggerPromise({
         selectedStack: 'CHEESE',
@@ -177,6 +183,7 @@ describe.only('serverCardDirective'.bold.underline.blue, function () {
         startCommand: 'star command'
       });
       $scope.$digest();
+      $timeout.flush();
       expect($elScope.server.opts.env, 'env').to.equal(instance.attrs.env);
       expect($elScope.dependencyInfo, 'dependencyInfo').to.equal('2 associations');
       expect($elScope.server.selectedStack, 'selectedStack').to.equal('CHEESE');
@@ -209,8 +216,9 @@ describe.only('serverCardDirective'.bold.underline.blue, function () {
         {noStore: true}
       );
 
-      instance.fetchDependencies = sinon.mock().returns({
-        models: []
+      instance.fetchDependencies = sinon.spy(function (cb) {
+        cb();
+        return [];
       });
       instance.contextVersion = {
         attrs: {

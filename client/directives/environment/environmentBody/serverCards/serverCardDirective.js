@@ -35,7 +35,7 @@ require('app')
             $scope.server.advanced = keypather.get(instance, 'contextVersion.attrs.advanced');
             $scope.server.repo = keypather.get(instance, 'contextVersion.appCodeVersions.models[0].githubRepo');
             var qAll = {
-              dependencies: promisify(instance, 'fetchDependencies')()
+              dependencies: promisify(instance, 'fetchDependencies', true)()
             };
             if ($scope.server.repo) {
               qAll.branches = promisify($scope.server.repo.branches, 'fetch')();
@@ -53,7 +53,6 @@ require('app')
                   $scope.dependencyInfo = 'no associations defined';
                 }
                 $scope.server.building = false;
-                $timeout(angular.noop);
               });
           }
         }
@@ -78,7 +77,6 @@ require('app')
               .catch(errs.handler)
               .finally(function () {
                 $scope.server.parsing = false;
-                $timeout(angular.noop);
               });
           }
         });

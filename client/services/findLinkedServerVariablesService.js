@@ -6,7 +6,6 @@ require('app')
 
 function findLinkedServerVariables($state, configUserContentDomain) {
   return function (input) {
-    var urlRegex = /(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?/g;
     if (typeof input === 'string') {
       input = input.split('\n');
     } else if (!Array.isArray(input)) {
@@ -18,7 +17,7 @@ function findLinkedServerVariables($state, configUserContentDomain) {
       other: []
     };
     input.forEach(function (line, index) {
-      if (urlRegex.test(line)) {
+      if (/(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?/g.test(line)) {
         var result = {
           line: index + 1,
           url: line.split('=')[1]
