@@ -41,29 +41,30 @@ button.btn.btn-icon.help-button.blue(
 .triggered-help(
   ng-if = "!state.helpButton.active && helpCards.cards.triggered.length > 0 && !helpCards.getActiveCard()"
 )
-  .help-container
-    ul.triggered-help-list
-      li.triggered-help-item
-        button.btn.btn-icon.btn-icon-sm(
-          ng-click = "helpPopover.actions.ignoreHelp(helpCards.cards.triggered[0])"
-        )
-          svg.iconnables
-            use(
-              xlink:href = "#icons-close"
-            )
-        p.p(
-          ng-bind-html = "helpCards.cards.triggered[0].label"
-        )
-        button.btn.btn-sm(
-          ng-click = "helpPopover.actions.getHelp(helpCards.cards.triggered[0])"
-        ) Show Me
-      button.btn.more-help(
-        ng-click = "state.helpButton.active = true"
-      ) More Help
-        svg.iconnables
-          use(
-            xlink:href = "#icons-arrow-down"
+  .popover-content
+    .help-container
+      ul.triggered-help-list
+        li.triggered-help-item
+          button.btn.btn-icon.btn-icon-sm(
+            ng-click = "helpPopover.actions.ignoreHelp(helpCards.cards.triggered[0])"
           )
+            svg.iconnables
+              use(
+                xlink:href = "#icons-close"
+              )
+          p.p(
+            ng-bind-html = "helpCards.cards.triggered[0].label"
+          )
+          button.btn.btn-sm(
+            ng-click = "helpPopover.actions.getHelp(helpCards.cards.triggered[0])"
+          ) Show Me
+    button.btn.more-help(
+      ng-click = "state.helpButton.active = true"
+    ) More Help
+      svg.iconnables
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
 
 //- new server button
 button.btn.green(
