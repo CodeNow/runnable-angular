@@ -24,6 +24,7 @@ function populateDockerfile(
         .replace(/<user-specified-ports>/gm, ports)
         .replace(/<before-main-repo>/gm, '')
         .replace(/<after-main-repo>/gm, '')
+        .replace(/<main-build-commands>/gm, state.commands.join('\n'))
         .replace(/<dst>/gm, '/' + state.repo.attrs.name)
         .replace(/<repo-name>/gm, state.repo.attrs.name)
         .replace(/(WORKDIR.*\n)([\s\S]*)(?=#End)/gm,

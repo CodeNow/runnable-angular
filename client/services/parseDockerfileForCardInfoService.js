@@ -5,6 +5,10 @@ require('app')
 
 
 require('app')
+  .factory('parseDockerfileForDefaults', parseDockerfileForDefaults);
+
+
+require('app')
   .factory('parseDockerfileForCardInfoFromInstance', parseDockerfileForCardInfoFromInstance);
 
 function parseDockerfileForStack(
@@ -52,6 +56,21 @@ function parseDockerfileForStack(
 
 }
 
+function parseDockerfileForDefaults(dockerfile, key) {
+  if (dockerfile) {
+    var regex = new RegExp('#default ' + key + ':([^\n]+)', 'gmi');
+    var defaults;
+    var results = [];
+    do {
+      defaults = regex.exec(dockerfile.attrs.body);
+      if (defaults) {
+        results.push(defaults[1]);
+      }
+    } while (defaults);
+
+    return results;
+  }
+}
 function parseDockerfileForStartCommand(dockerfile) {
   if (dockerfile) {
     var cmdValue = /cmd ([^\n]+)/i.exec(dockerfile.attrs.body);

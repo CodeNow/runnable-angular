@@ -7,6 +7,8 @@ require('app')
  */
 function setupServerModal(
   createDockerfileFromSource,
+  fetchDockerfileFromSource,
+  parseDockerfileForDefaults,
   createNewBuild,
   $rootScope,
   errs,
@@ -80,6 +82,21 @@ function setupServerModal(
         );
       };
 
+      $scope.watch('state.selectedStack', function (n) {
+        if (n) {
+          return fetchDockerfileFromSource(
+            n.key,
+            $scope.data.sourceContexts
+          )
+            .then(function (dockerfile) {
+              return parseDockerfileForDefaults(dockerfile, 'run');
+            })
+            .then(function (commands) {
+              $scope.state.commands = commands;
+            });
+        }
+      });
+
       $scope.selectRepo = function (repo) {
         if ($scope.repoSelected) { return; }
         $scope.repoSelected = true;
@@ -109,6 +126,9 @@ function setupServerModal(
           })
           .then(function () {
             $scope.acv = $scope.state.contextVersion.appCodeVersions.models[0];
+          })
+          .then(function (dockerfile) {
+            $scope.state.dockerfile = dockerfile;
           })
           .catch(errs.handler)
           .finally(function () {
