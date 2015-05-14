@@ -51,8 +51,8 @@ function helpCardsFactory(
         ],
         'helpTop': 'Use <b>Translation Rules</b> or <b>Environment Variables</b> to create an association for <b>{{instance.getDisplayName()}}</b>.',
         'helpPopover': {
-          'environmentVariables': 'You can add an association by setting an environment variable pointing to your <b>{{association}}</b> container.',
-          'translationRules': 'You can add an association by setting a translation rule for your <b>{{association}}</b> container.'
+          'environmentVariables': 'Add an association by setting an environment variable to your <b>{{association}}</b> container\'s elastic url.',
+          'translationRules': 'Add an association by setting a translation rule for your <b>{{association}}</b> container\'s elastic url..'
         }
       },
       {
