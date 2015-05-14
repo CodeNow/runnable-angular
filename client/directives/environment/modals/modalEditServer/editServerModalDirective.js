@@ -18,8 +18,9 @@ function editServerModal(
   fetchUser,
   populateDockerfile,
   promisify,
-  $rootScope,
-  helpCards
+  watchWhenTruthyPromise,
+  helpCards,
+  $rootScope
 ) {
   return {
     restrict: 'A',
@@ -50,10 +51,9 @@ function editServerModal(
         tags: new JSTagsCollection(($scope.server.ports || '').split(' '))
       };
 
-      $scope.linkedEnvResults = findLinkedServerVariables($scope.server.opts.env);
-      $scope.$watchCollection('state.opts.env', function (n) {
+      $scope.$watch('state.opts.env.join()', function (n) {
         if (n) {
-          $scope.linkedEnvResults = findLinkedServerVariables(n);
+          $scope.linkedEnvResults = findLinkedServerVariables($scope.state.opts.env);
         }
       });
 
@@ -76,9 +76,10 @@ function editServerModal(
         $scope.state = {
           advanced: server.advanced || false,
           startCommand: server.startCommand,
+          commands: server.commands,
           selectedStack: server.selectedStack,
           opts: {
-            // Don't save envs here, since EnvVars will add them.
+            env: keypather.get(server, 'opts.env')
           },
           repo: server.repo,
           server: server
@@ -156,46 +157,44 @@ function editServerModal(
         $rootScope.$broadcast('close-popovers');
         $scope.building = true;
         $scope.state.ports = convertTagToPortList();
-        var unwatch = $scope.$watch('openItems.isClean', function (n) {
-          if (!n) {
-            return;
-          }
-          unwatch();
-          return $q.when($scope.state)
-            .then(function (state) {
-              if (state.advanced) {
-                return buildBuild(state);
-              } else if (state.server.startCommand !== state.startCommand ||
-                  state.server.ports !== state.ports ||
-                  !angular.equals(state.server.selectedStack, state.selectedStack)) {
-                return updateDockerfile(state);
-              }
-              return state;
-            })
-            .then(function (state) {
-              return promisify($scope.instance, 'update')(state.opts);
-            })
-            .then(function () {
-              helpCards.refreshActiveCard();
-              $scope.defaultActions.close();
-              if (keypather.get($scope.instance, 'container.running()')) {
-                return promisify($scope.instance, 'redeploy')();
-              }
-            })
-            .then(function () {
-              $rootScope.$broadcast('alert', {
-                type: 'success',
-                text: 'Container updated successfully.'
-              });
-            })
-            .catch(function (err) {
-              errs.handler(err);
-              resetState($scope.state)
+        return watchWhenTruthyPromise($scope, 'state.contextVersion')
+          .then(function () {
+            var state = $scope.state;
+            if (state.advanced) {
+              return watchWhenTruthyPromise($scope, 'openItems.isClean()')
                 .then(function () {
-                  $scope.building = false;
+                  return buildBuild(state);
                 });
+            } else if (state.server.startCommand !== state.startCommand ||
+                state.server.ports !== state.ports ||
+                !angular.equals(state.server.selectedStack, state.selectedStack)) {
+              return updateDockerfile(state);
+            }
+            return state;
+          })
+          .then(function (state) {
+            return promisify($scope.instance, 'update')(state.opts);
+          })
+          .then(function () {
+            helpCards.refreshActiveCard();
+            $scope.defaultActions.close();
+            if (keypather.get($scope.instance, 'container.running()')) {
+              return promisify($scope.instance, 'redeploy')();
+            }
+          })
+          .then(function () {
+            $rootScope.$broadcast('alert', {
+              type: 'success',
+              text: 'Container updated successfully.'
             });
-        });
+          })
+          .catch(function (err) {
+            errs.handler(err);
+            resetState($scope.state)
+              .then(function () {
+                $scope.building = false;
+              });
+          });
       };
 
       function buildBuild(state) {
@@ -243,8 +242,6 @@ function editServerModal(
             }
           });
       }
-
-
 
       // Only start watching this after the context version has
       $scope.$watch('state.advanced', function (advanced, previousAdvanced) {
