@@ -30,11 +30,11 @@ button.btn.btn-icon.blue(
       xlink:href = "#icons-help"
       )
 
-//- rename this
-.triggered-help-top-card(
+//- TODO: rename this
+.triggered-help(
   ng-if = "!state.helpButton.active && helpCards.cards.triggered.length > 0 && !helpCards.getActiveCard()"
 )
-  .help-container
+  .help-lists-wrapper
     ul.triggered-help-list
       li.triggered-help-item
         button.btn.btn-icon.btn-icon-sm(

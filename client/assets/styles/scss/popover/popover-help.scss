@@ -1,4 +1,5 @@
-.popover-help, .triggered-help-top-card {
+.popover-help,
+.triggered-help {
   // duplicated from .help in help.scss
   background: $blue-lighter;
   border: 1px solid $blue-light;
@@ -11,22 +12,14 @@
   font-size: 15px;
   line-height: 18px;
   transition: none;
-  padding: 0 12px;
-
-  // b {
-  //   font-weight: 500;
-  // }
-
-  // .popover-content {
-  //   padding: 0; // overwrites padding for popover-content set in popover.scss
-  // }
+  padding: 0 12px 29px;
 }
 
 .popover-help {
   max-height: calc(100vh - 120px);
   display: flex;
   flex-direction: column;
-  padding-bottom: 30px;
+  // padding-bottom: 30px;
 }
 
 .triggered-help-item {
@@ -90,7 +83,6 @@
 
 .help-lists-wrapper {
   overflow-y: auto;
-  // max-height: calc(100vh - 120px);
   padding: 0 12px;
   margin: 0 -12px;
 }
@@ -120,7 +112,8 @@
   }
 }
 
-.less-help, .more-help {
+.less-help,
+.more-help {
   height: 30px;
   width: 100%;
   font-size: 13px;
