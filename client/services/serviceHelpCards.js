@@ -40,7 +40,7 @@ var helpCards = {
     },
     {
       id: 'missingDependency',
-      'label': 'It looks like <b>{{instance.getDisplayName()}}</b> needs a <b>{{dependency}}</b> service and you don\'t have one configured.',
+      'label': 'It looks like <b>{{instance.getDisplayName()}}</b> needs a <b>{{dependency}}</b> service and you don\'t have one.',
       'targets': [
         'newContainer'
       ],

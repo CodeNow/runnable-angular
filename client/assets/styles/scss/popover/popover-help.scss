@@ -20,12 +20,18 @@
   }
 }
 
+.triggered-help {
+  position: absolute;
+  left: 86px;
+  z-index: 1; // TODO: variable-ize this
+}
+
 .triggered-help-list {
 
 }
 
 .triggered-help-item {
-  padding: 15px 0;
+  padding: 14px 0;
   overflow: auto;
   border-bottom: 1px solid rgba($blue-light,.25);
   position: relative;
@@ -64,7 +70,7 @@
 .help-container {
   overflow-y: auto;
   max-height: calc(100vh - 120px);
-  padding: 0 12px 30px;
+  padding: 0 12px 29px;
   margin: 0 -12px;
 }
 
