@@ -402,19 +402,18 @@
   color: $purple-light;
 
   &.btn {
+    background: $purple;
+    color: $white;
 
     &:hover,
     &.hover {
-      background: $white;
-      border-color: $purple-light;
-      color: $purple-light;
+      background: rgba($white,.1);
     }
 
     &:active,
     &.active {
       background: $white;
-      border-color: currentColor;
-      color: $green;
+      color: $purple-light;
     }
   }
 }
