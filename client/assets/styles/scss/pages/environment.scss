@@ -32,6 +32,10 @@
     right: 0;
     border: 2px solid;
 
+    &:active, &.active {
+      color: $blue;
+    }
+
     .iconnables {
       height: 100%;
       width: 100%;

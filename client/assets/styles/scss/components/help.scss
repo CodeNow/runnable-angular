@@ -4,7 +4,12 @@
   border: 1px solid $blue-light;
   border-radius: 3px;
   box-shadow: 0 2px 3px rgba($blue,.2);
-  color: $blue;
+  color: rgba($blue,.8);
+
+  b {
+    font-weight: 500;
+    color: $blue;
+  }
 
   // alert help things
   // overwrite current alerts :(

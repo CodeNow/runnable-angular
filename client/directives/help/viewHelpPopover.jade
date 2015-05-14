@@ -24,7 +24,8 @@
           ) Show Me
 
 
-      ul.general-help-list General Help
+      ul.general-help-list
+        span General Help
         li.general-help-item(
           ng-repeat = "helpItem in data.general"
           ng-hide = "!showMore && $index > 5"
