@@ -26,7 +26,8 @@ function fancySelect(
       placeholder: '@?',
       type: '@?',
       showDropdown: '=?',
-      trackBy: '@?'
+      trackBy: '@?',
+      onUpdate: '=?'
     },
     link: function ($scope, element, attrs, controller, transcludeFn){
       var type = 'button';
@@ -107,7 +108,18 @@ function fancySelect(
           }
         },
         clickedOption: function (clickedOption) {
+          var newValue = clickedOption.value;
+          var originalValue = $scope.value;
+          if ($scope.trackBy) {
+            newValue = keypather.get(newValue, $scope.trackBy);
+            originalValue = keypather.get(originalValue, $scope.trackBy);
+          }
+
           $scope.value = clickedOption.value;
+
+          if (originalValue !== newValue && $scope.onUpdate) {
+            $scope.onUpdate(clickedOption.value);
+          }
           closeDropdown();
         }
       };

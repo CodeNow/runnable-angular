@@ -116,7 +116,9 @@
 }
 
 input,
-.input {
+.input,
+textarea,
+.textarea {
   background: transparent;
 
   &[type=radio] {

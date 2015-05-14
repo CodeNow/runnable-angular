@@ -29,10 +29,11 @@ function populateDockerfile(
         .replace(/<user-specified-ports>/gm, ports)
         .replace(/<before-main-repo>/gm, '')
         .replace(/<after-main-repo>/gm, '')
-        .replace(/<dst>/gm, '/' + state.repo.attrs.name)
+        .replace(/<dst>/gm, '/' + state.dst)
         .replace(/<repo-name>/gm, state.repo.attrs.name)
         .replace(/<main-build-commands>/gm, commands)
-        .replace(/<start-command>/gm, state.startCommand);
+        .replace(/<start-command>/gm, state.startCommand)
+        .replace(/#default.+/gm, ''); // Remove all default comments that are not
       if (!state.ports.length) {
         dockerfileBody = dockerfileBody.replace('EXPOSE', '');
       }
