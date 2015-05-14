@@ -215,7 +215,7 @@ function openItemsFactory(
       data = {};
     }
     if (!data.name) {
-      data.name = 'Run Logs';
+      data.name = 'CMD Logs';
     }
     if (this.hasOpen('LogView')) {
       var currStream = this.getFirst('LogView');

@@ -61,28 +61,39 @@ module.exports = [
     templateUrl: 'viewInstanceLayout',
     controller: 'ControllerApp'
   }, {
-    state: 'instance',
+    state: 'config',
     abstract: true,
     templateUrl: 'viewInstanceLayout',
-    controller: 'ControllerInstanceLayout'
-  }, {
-    state: 'instance.home',
-    abstract: false,
-    url: '^/:userName',
-    templateUrl: 'viewInstanceHome',
-    controller: 'ControllerInstanceHome'
-  }, {
-    state: 'instance.config',
-    abstract: false,
-    url: '^/:userName/configure',
-    templateUrl: 'environmentView',
-    controller: 'EnvironmentController',
+    controller: 'ControllerInstanceLayout',
     onEnter: function ($rootScope, keypather) {
       keypather.set($rootScope, 'layoutOptions.hideSidebar', true);
     },
     onExit: function ($rootScope, keypather) {
       keypather.set($rootScope, 'layoutOptions.hideSidebar', false);
     }
+  }, {
+    state: 'config.home',
+    abstract: false,
+    url: '^/:userName/configure',
+    templateUrl: 'environmentView',
+    controller: 'EnvironmentController'
+  }, {
+    state: 'instance',
+    abstract: true,
+    templateUrl: 'viewInstanceLayout',
+    controller: 'ControllerInstanceLayout',
+    onEnter: function ($rootScope, keypather) {
+      keypather.set($rootScope, 'dataApp.isInstancePage', true);
+    },
+    onExit: function ($rootScope, keypather) {
+      keypather.set($rootScope, 'dataApp.isInstancePage', false);
+    }
+  }, {
+    state: 'instance.home',
+    abstract: false,
+    url: '^/:userName',
+    templateUrl: 'viewInstanceHome',
+    controller: 'ControllerInstanceHome'
   }, {
     state: '404',
     abstract: false,

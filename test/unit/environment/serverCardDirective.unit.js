@@ -2,18 +2,15 @@
 
 describe('serverCardDirective'.bold.underline.blue, function () {
   var ctx;
-
-  var $scope,
-      $compile,
-      $elScope,
-      $rootScope,
-      $q,
-      $timeout;
+  var $timeout;
+  var $scope;
+  var $compile;
+  var $elScope;
+  var $rootScope;
   var keypather;
   var parseDockMock = new (require('../fixtures/mockFetch'))();
 
   var apiMocks = require('../apiMocks/index');
-  var thisUser = runnable.newUser(apiMocks.user);
   function setup(scope) {
 
     ctx = {};
@@ -29,14 +26,12 @@ describe('serverCardDirective'.bold.underline.blue, function () {
     });
     angular.mock.inject(function (
       _$compile_,
-      _$rootScope_,
-      _keypather_,
       _$timeout_,
-      _$q_
+      _$rootScope_,
+      _keypather_
     ) {
-      $compile = _$compile_;
-      $q = _$q_;
       $timeout = _$timeout_;
+      $compile = _$compile_;
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
       keypather = _keypather_;
@@ -114,10 +109,9 @@ describe('serverCardDirective'.bold.underline.blue, function () {
     });
 
     it('server object creation, fake instance at start', function() {
-      var instance = runnable.newInstance(
-        apiMocks.instances.running,
-        {noStore: true}
-      );
+      var instance = {
+        attrs: apiMocks.instances.running
+      };
 
       instance.attrs.env = ['hello=asdfasd', 'aasdasd=asdasd'];
       var scope = {
@@ -150,17 +144,13 @@ describe('serverCardDirective'.bold.underline.blue, function () {
         apiMocks.builds.built,
         {noStore: true}
       );
-      var depInstances = runnable.newInstances(
-        [apiMocks.instances.running, apiMocks.instances.stopped],
-        {noStore: true}
-      );
-      sinon.stub(instance, 'fetchDependencies', function (cb) {
-        expect($elScope.showSpinner(), 'showSpinner').to.be.ok;
-        cb(null, depInstances);
-        return depInstances;
-      });
-      $scope.instance = instance;
-      instance.dependencies = depInstances;
+      instance.fetchDependencies = function (cb) {
+        $timeout(function () {
+          cb(null, {models: [apiMocks.instances.running, apiMocks.instances.stopped]});
+        });
+        return {models: [apiMocks.instances.running, apiMocks.instances.stopped]};
+      };
+
       instance.contextVersion = {
         attrs: {
           advanced: false,
@@ -182,7 +172,10 @@ describe('serverCardDirective'.bold.underline.blue, function () {
           }]
         }
       };
+      $scope.instance = instance;
 
+      $scope.$digest();
+      expect($elScope.server.instance, 'instance').to.equal(instance);
       $scope.$digest();
       parseDockMock.triggerPromise({
         selectedStack: 'CHEESE',
@@ -190,9 +183,9 @@ describe('serverCardDirective'.bold.underline.blue, function () {
         startCommand: 'star command'
       });
       $scope.$digest();
+      $timeout.flush();
       expect($elScope.server.opts.env, 'env').to.equal(instance.attrs.env);
-      expect($elScope.getDependecyInfo(), 'getDependecyInfo').to.equal('2 associations');
-
+      expect($elScope.dependencyInfo, 'dependencyInfo').to.equal('2 associations');
       expect($elScope.server.selectedStack, 'selectedStack').to.equal('CHEESE');
       expect($elScope.server.ports, 'ports').to.equal('kajflkajsf');
       expect($elScope.server.startCommand, 'startCommand').to.equal('star command');
@@ -223,9 +216,9 @@ describe('serverCardDirective'.bold.underline.blue, function () {
         {noStore: true}
       );
 
-      sinon.stub(instance, 'fetchDependencies', function (cb) {
+      instance.fetchDependencies = sinon.spy(function (cb) {
         cb();
-        return;
+        return [];
       });
       instance.contextVersion = {
         attrs: {
@@ -256,7 +249,7 @@ describe('serverCardDirective'.bold.underline.blue, function () {
       parseDockMock.triggerPromise(null);
       $scope.$digest();
       expect($elScope.server.opts.env, 'env').to.equal(instance.attrs.env);
-      expect($elScope.getDependecyInfo(), 'getDependecyInfo').to.equal('no associations defined');
+      expect($elScope.dependencyInfo, 'dependencyInfo').to.equal('no associations defined');
 
       expect($elScope.server.selectedStack, 'selectedStack').to.not.be.ok;
       expect($elScope.server.ports, 'ports').to.not.be.ok;

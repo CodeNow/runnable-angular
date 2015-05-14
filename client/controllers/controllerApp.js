@@ -24,14 +24,14 @@ function ControllerApp(
   fetchOrgs,
   fetchUser,
   keypather,
-  pageName
+  pageName,
+  loading
 ) {
 
+  loading('main', true);
   var thisUser;
   var dataApp = $rootScope.dataApp = $scope.dataApp = {
-    data: {
-      loading: true
-    },
+    data: {},
     actions: {},
     state: {}
   };
@@ -88,7 +88,7 @@ function ControllerApp(
       setActiveAccount(toParams.userName);
     }
     eventTracking.update();
-    dataApp.data.loading = false;
+    loading('main', false);
   });
 
   $scope.$watch(function () {

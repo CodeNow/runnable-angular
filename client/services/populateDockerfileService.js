@@ -20,10 +20,18 @@ function populateDockerfile(
     function populateDockerFile(dockerfileBody) {
       // first, add the ports
       var ports = state.ports.join(' ');
+      var commands = state.commands.split('\n')
+        .map(function(str) {
+          return 'RUN ' + str.trim();
+        })
+        .join('\n');
       dockerfileBody = replaceStackVersion(dockerfileBody, state.selectedStack)
         .replace(/<user-specified-ports>/gm, ports)
+        .replace(/<before-main-repo>/gm, '')
+        .replace(/<after-main-repo>/gm, '')
+        .replace(/<dst>/gm, '/' + state.repo.attrs.name)
         .replace(/<repo-name>/gm, state.repo.attrs.name)
-        .replace(/<add-dependencies>/gm, '')
+        .replace(/<main-build-commands>/gm, commands)
         .replace(/<start-command>/gm, state.startCommand);
       if (!state.ports.length) {
         dockerfileBody = dockerfileBody.replace('EXPOSE', '');
