@@ -93,7 +93,7 @@ function helpCardsFactory(
 
   HelpCard.prototype = Object.create(EventEmitter.prototype);
 
-  helpCards.general.forEach(function (cardConfig) {
+  helpCards.general = helpCards.general.map(function (cardConfig) {
     cardConfig.type = 'general';
     var card = new HelpCard(cardConfig);
     var targetHash = {};
@@ -101,6 +101,7 @@ function helpCardsFactory(
       targetHash[target] = true;
     });
     card.targets = targetHash;
+    return card;
   });
 
   var triggeredHash = {};
