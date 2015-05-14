@@ -36,14 +36,14 @@
 }
 
 .help-step-container {
-  position: absolute;
-  text-align: center;
-  right: 0;
-  left: 0;
-  z-index: 1000;
+  left: 15px;
   pointer-events: none;
+  position: absolute;
+  right: 15px;
+  text-align: center;
+  z-index: 1000;
 
-  &.undocked{
+  &.undocked {
     position: fixed;
     top: 10px;
   }
