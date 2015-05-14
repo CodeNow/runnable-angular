@@ -18,8 +18,7 @@ function findLinkedServerVariables($state, configUserContentDomain) {
       other: []
     };
     input.forEach(function (line, index) {
-      var check = urlRegex.test(line);
-      if (check) {
+      if (urlRegex.test(line)) {
         var result = {
           line: index + 1,
           url: line.split('=')[1]

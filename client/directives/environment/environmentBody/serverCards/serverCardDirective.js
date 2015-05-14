@@ -42,7 +42,16 @@ require('app')
             }
             return $q.all(qAll)
               .catch(errs.handler)
-              .finally(function () {
+              .then(function (data) {
+                if (data.dependencies.models.length) {
+                  if (data.dependencies.models.length === 1) {
+                    $scope.dependencyInfo = '1 association';
+                  } else {
+                    $scope.dependencyInfo = data.dependencies.models.length + ' associations';
+                  }
+                } else {
+                  $scope.dependencyInfo = 'no associations defined';
+                }
                 $scope.server.building = false;
                 $timeout(angular.noop);
               });
@@ -89,12 +98,6 @@ require('app')
         };
         $scope.showSpinner = function () {
           return !$scope.server.build || $scope.server.building || $scope.server.parsing;
-        };
-        $scope.getDependecyInfo = function () {
-          if (keypather.get($scope.instance, 'dependencies.models.length')) {
-            return $scope.instance.dependencies.models.length + ' associations';
-          }
-          return 'no associations defined';
         };
       }
     };
