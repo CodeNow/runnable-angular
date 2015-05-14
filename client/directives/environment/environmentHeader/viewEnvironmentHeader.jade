@@ -1,14 +1,13 @@
 //- group/pod/server/instance/box page
-//- a.btn.gray(
-//-   ui-sref = "instance.home({ userName: dataApp.data.activeAccount.oauthName() })"
-//- )
-//-   svg.iconnables.icons-arrow-back.icons-round
-//-     use(
-//-       xlink:href = "#icons-arrow-back"
-//-     )
-//-   | To Sandbox
+a.btn.gray(
+  ui-sref = "instance.home({ userName: dataApp.data.activeAccount.oauthName() })"
+)
+  svg.iconnables.icons-arrow-back.icons-round
+    use(
+      xlink:href = "#icons-arrow-back"
+    )
+  | To Sandbox
 
-//- help center button
 button.btn.btn-icon.blue(
   ng-if = "featureFlags.helpCards"
   ng-class = "{active: state.helpButton.active}"
