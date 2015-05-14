@@ -5,13 +5,17 @@ a.logo.logo-icon
     )
 
 .btn-group
-  button.btn.btn-sm.purple.active
+  button.btn.btn-sm.purple.active(
+    ui-sref = "instance.home({ userName: dataApp.data.activeAccount.oauthName() })"
+  )
     svg.iconnables
       use(
         xlink:href = "#icons-server"
       )
     | Containers
-  button.btn.btn-sm.purple
+  button.btn.btn-sm.purple(
+    ui-sref = "instance.config({ userName: data.activeAccount.oauthName() })"
+  )
     svg.iconnables
       use(
         xlink:href = "#icons-gear"
