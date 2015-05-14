@@ -10,7 +10,7 @@
 
   status-icon(
     ng-if = "isDnsSetup && $storage.dnsManagementIsClosed"
-    ng-repeat = "relatedInstance in getRelatedInstancesList()"
+    ng-repeat = "relatedInstance in getRelatedInstancesList() track by relatedInstance.attrs.shortHash"
     instance = "relatedInstance"
   )
 
@@ -31,10 +31,12 @@ fancy-select.well(
   ng-repeat = "masterInstance in masterInstancesWithChildren"
   value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
+  track-by = "attrs.shortHash"
+  on-update = "actions.setDependency"
 )
 
   fancy-option(
-    value = "$parent.masterInstance.attrs.shortHash"
+    value = "$parent.masterInstance"
   )
     status-icon(
       instance = "$parent.$parent.masterInstance"
@@ -44,7 +46,7 @@ fancy-select.well(
 
   fancy-option(
     ng-repeat = "childInstance in $parent.masterInstance.children.models"
-    value = "childInstance.attrs.shortHash"
+    value = "childInstance"
   )
     status-icon(
       instance = "$parent.childInstance"
