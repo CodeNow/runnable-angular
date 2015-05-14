@@ -1,4 +1,4 @@
-a.btn.purple.btn-accounts(
+a.btn.btn-sm.purple.btn-accounts(
   ng-class = "{\
     active: state.active,\
     'no-touching': data.accountsDisabled()\
@@ -6,15 +6,15 @@ a.btn.purple.btn-accounts(
   ng-show = "data.activeAccount"
   pop-over
   pop-over-actions = "popoverAccountMenu.actions"
-  pop-over-data = "popoverAccountMenu.data"
-  pop-over-options = "{\"left\":-16,\"top\":58}"
-  pop-over-template = "viewPopoverAccountMenu"
   pop-over-active = "state.active"
+  pop-over-data = "popoverAccountMenu.data"
+  pop-over-options = "{\"right\":-2,\"top\":48}"
+  pop-over-template = "viewPopoverAccountMenu"
 )
   img.gravatar(
-    height = "24"
+    height = "21"
     ng-src = "{{ data.activeAccount.gravitar() }}"
-    width = "24"
+    width = "21"
   )
   | {{ data.activeAccount.oauthName() }}
   svg.iconnables.icons-arrow-down

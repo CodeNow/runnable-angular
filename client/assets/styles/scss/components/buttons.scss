@@ -402,7 +402,8 @@
   color: $purple-light;
 
   &.btn {
-    background: $purple;
+    background: $purple-light;
+    border-color: $white;
     color: $white;
 
     &:hover,
@@ -414,6 +415,18 @@
     &.active {
       background: $white;
       color: $purple-light;
+    }
+  }
+
+  &.btn-group {
+    border: 2px solid $white;
+    border-radius: 3px;
+
+    > .btn {
+      border: 0;
+      border-radius: 0;
+      line-height: 36px;
+      margin: 0;
     }
   }
 }

@@ -1,5 +1,5 @@
 .header {
-  background: $purple;
+  background: $purple-light;
   height: 60px;
   padding: 7px 15px 6px; // 7px + 6px = 15px (60px - 45px)
 
@@ -12,20 +12,14 @@
 
   // header button styles
   .btn-group {
-    border: 2px solid $white;
-    border-radius: 3px;
-    display: table;
-    margin: 3px auto;
+    left: 0;
+    margin: 5px auto;
+    position: absolute;
+    right: 0;
+    width: 270px;
 
-    > .btn.btn {
-      border: 0;
-      border-radius: 0;
-      line-height: 36px;
-      margin: 0;
-
-      + .btn {
-        margin-right: -1px;
-      }
+    > .btn {
+      width: 135px;
     }
 
     .iconnables {
@@ -37,15 +31,26 @@
   }
 
   .btn-accounts {
+    border-color: transparent;
     float: right;
-    line-height: 40px;
-    padding-right: 30px;
+    margin: 5px 0;
+    padding: 0 27px 0 12px;
     position: relative;
 
+    &:hover {
+      background: transparent;
+    }
+
+    &:active,
+    &.active {
+      background: $white;
+    }
+
     .gravatar {
+      border: 1px solid $white;
       float: left;
       margin-right: 6px;
-      margin-top: 9px;
+      margin-top: 5px;
     }
   }
 
