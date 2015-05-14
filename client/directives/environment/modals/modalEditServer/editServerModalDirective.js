@@ -47,10 +47,9 @@ function editServerModal(
         tags: new JSTagsCollection(($scope.server.ports || '').split(' '))
       };
 
-      $scope.linkedEnvResults = findLinkedServerVariables($scope.server.opts.env);
-      $scope.$watchCollection('state.opts.env', function (n) {
+      $scope.$watch('state.opts.env.join()', function (n) {
         if (n) {
-          $scope.linkedEnvResults = findLinkedServerVariables(n);
+          $scope.linkedEnvResults = findLinkedServerVariables($scope.state.opts.env);
         }
       });
 
@@ -75,7 +74,7 @@ function editServerModal(
           startCommand: server.startCommand,
           selectedStack: server.selectedStack,
           opts: {
-            // Don't save envs here, since EnvVars will add them.
+            env: keypather.get(server, 'opts.env')
           },
           repo: server.repo,
           server: server
