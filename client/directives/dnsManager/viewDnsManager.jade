@@ -28,7 +28,7 @@
     |  has no associated containers.
 
 fancy-select.well(
-  ng-repeat = "masterInstance in masterInstancesWithChildren"
+  ng-repeat = "masterInstance in masterInstancesWithChildren track by masterInstance.attrs.shortHash"
   value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
   track-by = "attrs.shortHash"
