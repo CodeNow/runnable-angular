@@ -70,8 +70,8 @@ function parseDockerfileForDefaults(dockerfile, keys) {
       var totals = [];
       do {
         defaults = regex.exec(dockerfile.attrs.body);
-        if (defaults) {
-          totals.push(defaults[1]);
+        if (defaults && defaults[1]) {
+          totals.push(defaults[1].trim());
         }
       } while (defaults);
       result[key] = totals;
@@ -113,9 +113,9 @@ function parseDockerfileForRunCommands(dockerfile, repoName) {
     if (results && results[2]) {
       var parsedResults = results[2].split('\n')
         .map(function (str) {
-          return str.trim()
-            .replace('RUN ', '')
-            .replace(/#.+/, ''); //Remove all comments
+          return str.replace('RUN ', '')
+            .replace(/#.+/, '')
+            .trim(); //Remove all comments
         })
         .filter(function (command) {
           // filter out empties
