@@ -32,7 +32,7 @@ label.label.label-help
         )
     | Container's Elastic URL
   input.input.input-xs(
-    ng-model = "instance.getElasticHostname()"
+    ng-attr-value = "{{ instance.getElasticHostname() }}"
     readonly
     select-all
   )
