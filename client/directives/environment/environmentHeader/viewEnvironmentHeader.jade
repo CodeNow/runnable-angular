@@ -38,7 +38,6 @@ button.btn.btn-icon.blue(
         button.btn.btn-sm(
           ng-click = "helpPopover.actions.getHelp(helpCards.cards.triggered[0])"
         ) Show Me
-
   button.btn(
     ng-click = "state.helpButton.active = true"
   ) More Help
@@ -46,15 +45,6 @@ button.btn.btn-icon.blue(
       use(
         xlink:href = "#icons-arrow-down"
       )
-
-//- this shows up after the user clicks "show me" in the help center
-.help-step-container(
-  ng-if = "helpCards.getActiveCard()"
-  ng-class = "{undocked: helpUndock}"
-)
-  .help.help-step-item(
-    ng-bind-html= "helpCards.getActiveCard().helpTop"
-  )
 
 //- new server button
 button.btn.green(
