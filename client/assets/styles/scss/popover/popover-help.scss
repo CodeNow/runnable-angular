@@ -1,19 +1,137 @@
-.popover-help {
-  padding-bottom: 15px;
-  text-align: center;
-  width: 300px;
+.popover.help,
+.triggered-help {
+  font-size: 15px;
+  line-height: 18px;
+  max-width: none; // overwrites max-width set in popover.scss
+  // padding: 0 12px 29px;
+  padding-bottom: 29px;
+  transition: none;
+  width: 390px;
 
-  .img {
-    display: block;
-    margin: 15px auto;
+  // "more help" and "less help" buttons
+  > .btn {
+    background-color: $blue-lighter;
+    border-top: 1px solid rgba($blue-light,.4);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    bottom: 0;
+    font-size: 13px;
+    font-weight: 500;
+    height: 30px;
+    left: 0;
+    line-height: 18px;
+    position: absolute;
+    width: 100%;
+
+    &:hover {
+      color: rgba($blue,.7);
+    }
+
+    &:active {
+      color: $blue;
+    }
+
+    .iconnables {
+      height: 15px;
+      top: 4px;
+      width: 15px;
+    }
+  }
+}
+
+// rotates arrow for "more help" button
+.popover.help > .btn .iconnables {
+  transform: rotate(180deg);
+}
+
+.triggered-help-item {
+  border-bottom: 1px solid rgba($blue-light,.4);
+  color: rgba($blue,.8);
+  padding: 14px 0 13px;
+  position: relative;
+
+  b {
+    color: $blue;
   }
 
+  // "x" button for triggered help items
+  .btn-icon {
+    color: rgba($blue,.45);
+    height: 24px;
+    left: -9px;
+    line-height: 1;
+    position: absolute;
+    top: 13px;
+    width: 24px;
+
+    &:hover {
+      color: rgba($blue,.75);
+    }
+
+    &:active {
+      color: $blue;
+    }
+
+    .iconnables {
+      height: 18px;
+      width: 18px;
+    }
+  }
+
+  // text in triggered help items
   .p {
-    color: $gray;
-    margin-bottom: 9px;
+    float: left;
+    margin-left: 18px;
+    width: 230px;
   }
 
-  .small {
-    display: block;
+  // "show me" button
+  .btn-sm {
+    background-color: $white;
+    border: 2px solid $blue;
+    color: $blue;
+    float: right;
+    font-size: 15px;
+    font-weight: 500;
+    margin-right: 6px;
+    padding: 0 13px;
+
+    &:hover {
+      border-color: rgba($blue,.7);
+    }
+
+    &:active {
+      border-color: $blue;
+    }
+  }
+}
+
+.help-lists-wrapper {
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  padding: 0 12px;
+}
+
+.general-help-list {
+  line-height: 27px;
+  padding: 12px 18px;
+
+  > span {
+    font-weight: 500;
+  }
+}
+
+.general-help-item {
+  color: rgba($blue,.8);
+  cursor: pointer;
+  margin: 0 -30px;
+  padding: 0 30px;
+
+  &:hover {
+    background-color: rgba($blue-light,.15);
+  }
+
+  &:active {
+    background-color: rgba($blue-light,.25);
   }
 }

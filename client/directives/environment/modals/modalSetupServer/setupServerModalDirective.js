@@ -149,7 +149,7 @@ function setupServerModal(
             });
           }
         }
-        return fetchStackAnalysis(repo).then(function (data) {
+        return fetchStackAnalysis(repo.attrs.full_name).then(function (data) {
           if (!data.languageFramework) {
             $log.warn('No language detected');
             return;

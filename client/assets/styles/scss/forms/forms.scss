@@ -134,7 +134,7 @@ textarea,
   }
 
   &[disabled] {
-    cursor: not-allowed;
+    cursor: default;
   }
 
   &[readonly] {

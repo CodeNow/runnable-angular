@@ -10,7 +10,6 @@ function editServerModal(
   errs,
   JSTagsCollection,
   hasKeypaths,
-  getInstanceClasses,
   eventTracking,
   fetchDockerfileFromSource,
   findLinkedServerVariables,
@@ -20,6 +19,7 @@ function editServerModal(
   populateDockerfile,
   promisify,
   watchWhenTruthyPromise,
+  helpCards,
   $rootScope
 ) {
   return {
@@ -33,6 +33,9 @@ function editServerModal(
       selectedTab: '= stateModel'
     },
     link: function ($scope, elem, attrs) {
+      if (helpCards.cardIsActiveOnThisContainer($scope.server.instance)) {
+        $scope.helpCards = helpCards;
+      }
       $scope.portTagOptions = {
         breakCodes: [
           13, // return
@@ -145,6 +148,11 @@ function editServerModal(
         $rootScope.$broadcast('eventPasteLinkedInstance', hostName);
       };
 
+      $scope.cancel = function () {
+        helpCards.setActiveCard(null);
+        $scope.defaultActions.cancel();
+      };
+
       $scope.getUpdatePromise = function () {
         $rootScope.$broadcast('close-popovers');
         $scope.building = true;
@@ -168,10 +176,17 @@ function editServerModal(
             return promisify($scope.instance, 'update')(state.opts);
           })
           .then(function () {
+            helpCards.refreshActiveCard();
             $scope.defaultActions.close();
             if (keypather.get($scope.instance, 'container.running()')) {
               return promisify($scope.instance, 'redeploy')();
             }
+          })
+          .then(function () {
+            $rootScope.$broadcast('alert', {
+              type: 'success',
+              text: 'Container updated successfully.'
+            });
           })
           .catch(function (err) {
             errs.handler(err);

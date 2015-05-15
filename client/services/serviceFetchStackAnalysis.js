@@ -13,13 +13,13 @@ function fetchStackAnalysis(
   $q,
   user
 ) {
-  return function (repo) {
+  return function (fullRepoName) {
     var d = $q.defer();
     function callback(err, res, body) {
       if (err) { return d.reject(err); }
       d.resolve(body);
     }
-    user.client.get('/actions/analyze?repo=' + repo.attrs.full_name, callback);
+    user.client.get('/actions/analyze?repo=' + fullRepoName, callback);
     return d.promise;
   };
 }

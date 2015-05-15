@@ -22,7 +22,9 @@ function EnvironmentController(
   promisify,
   $rootScope,
   $q,
-  user
+  user,
+  helpCards,
+  $window
 ) {
   favico.reset();
   pageName.setTitle('Configure - Runnable');
@@ -32,6 +34,57 @@ function EnvironmentController(
   $scope.state = {
     validation: {
       env: {}
+    },
+    helpCard: null
+  };
+
+  $scope.help = helpCards.cards;
+  $scope.helpCards = helpCards;
+
+  helpCards.clearAllCards();
+
+  $scope.helpUndock = false;
+
+  var scrollHelper = function () {
+    var newVal = false;
+    if ($window.scrollY > 96) {
+      newVal = true;
+    }
+    if ($scope.helpUndock !== newVal) {
+      $scope.helpUndock = newVal;
+      $timeout(angular.noop);
+    }
+  };
+  $scope.$on('helpCardScroll:enable', function () {
+    $window.addEventListener('scroll', scrollHelper);
+  });
+  $scope.$on('helpCardScroll:disable', function () {
+    $window.removeEventListener('scroll', scrollHelper);
+  });
+
+  $scope.$on('$destroy', function () {
+    $window.removeEventListener('scroll', scrollHelper);
+  });
+
+  $scope.alert = null;
+
+  $scope.$on('alert', function (evt, data) {
+    $scope.alert = data;
+    $timeout(function () {
+      $scope.alert = null;
+    }, 5000);
+  });
+
+  $scope.helpPopover = {
+    data: $scope.help,
+    actions: {
+      ignoreHelp: function (help) {
+        helpCards.ignoreCard(help);
+      },
+      getHelp: function (help) {
+        helpCards.setActiveCard(help);
+        $rootScope.$broadcast('close-popovers');
+      }
     }
   };
 
@@ -40,6 +93,7 @@ function EnvironmentController(
       $rootScope.$broadcast('close-popovers');
       $timeout(function () {
         if (confirm('Are you sure you want to delete this container?')) {
+          helpCards.refreshAllCards();
           promisify(server.instance, 'destroy')()
             .catch(errs.handler);
         }
@@ -57,6 +111,11 @@ function EnvironmentController(
       }, { warn: false });
       $scope.data.instances.add(instance);
 
+      $rootScope.$broadcast('alert', {
+        type: 'success',
+        text: 'Your new container is building.'
+      });
+
       createPromise
         .then(function (newServerModel) {
           return createNewInstance(
@@ -65,6 +124,9 @@ function EnvironmentController(
             newServerModel.opts,
             instance
           );
+        })
+        .then(function () {
+          helpCards.refreshAllCards();
         })
         .catch(function (err) {
           errs.handler(err);
