@@ -143,13 +143,13 @@ textarea,
 
   &[disabled],
   &[readonly] {
-    background-color: $gray-lightest;
+    background-color: $gray-lighterest;
     border-color: $gray-lighter !important; // override any validation
     color: $gray-lighter;
   }
 
   &[disabled] {
-    cursor: not-allowed;
+    cursor: default;
   }
 
   &[readonly] {

@@ -215,7 +215,6 @@ function fetchSettings(
       return $q.when(integrationsCache[username].settings);
     }
 
-    var settings;
     return fetchUser().then(function(user) {
       return promisify(user, 'fetchSettings')({
         githubUsername: $state.params.userName

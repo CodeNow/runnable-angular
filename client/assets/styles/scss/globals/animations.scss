@@ -11,6 +11,22 @@
   }
 }
 
+@keyframes alert-help {
+  0% {
+    opacity: 0;
+    transform: scale3d(.8,.8,.8) translate3d(0,100%,0);
+  }
+
+  80% {
+    opacity: 1;
+    transform: scale3d(1.05,1.05,1.05) translate3d(0,0,0);
+  }
+
+  100% {
+    transform: scale3d(1,1,1) translate3d(0,0,0);
+  }
+}
+
 @keyframes btn-spinner {
   0% {
     padding-left: 15px;
@@ -31,31 +47,18 @@
 
 @keyframes card-blink {
   0% {
-    background-color: $purple-lightest;
-  }
-
-  24% {
-    background-color: $purple-lightest;
-  }
-
-  25% {
-    background-color: $white;
-  }
-
-  49% {
-    background-color: $white;
+    border-color: $gray-lighter;
+    box-shadow: none;
   }
 
   50% {
-    background-color: $white;
-  }
-
-  51% {
-    background-color: $purple-lightest;
+    border-color: rgba($blue,.6);
+    box-shadow: 0 0 3px rgba($blue,.3);
   }
 
   100% {
-    background-color: $white;
+    border-color: $gray-lighter;
+    box-shadow: none;
   }
 }
 

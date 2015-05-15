@@ -99,6 +99,29 @@
   margin: 15px 0 6px;
 }
 
+// table row header usage:
+// .tr.thead
+.thead {
+  background: $gray-lightest;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 3px 0;
+
+  .cell {
+    height: 30px;
+    line-height: 30px;
+
+    &:only-child {
+      width: 100%;
+    }
+
+    .btn {
+      float: right;
+      top: 3px;
+    }
+  }
+}
+
 // layout
 // always use .clearfix with .tr:
 // .tr.clearfix

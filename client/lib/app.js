@@ -14,5 +14,6 @@ module.exports = angular.module('app', [
   ngStorage,
   'jsTag',
   'angularFileUpload',
-  'dndLists'
+  'dndLists',
+  require('angular-sanitize')
 ]);
