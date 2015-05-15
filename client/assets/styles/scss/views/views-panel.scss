@@ -16,9 +16,14 @@
 
   // panels
   > div {
-    height: calc(100% - 45px);
+    height: 100%;
     padding-bottom: 21px;
     width: 100%;
+
+    // only if a view
+    .views & {
+      height: calc(100% - 45px);
+    }
   }
 
   // except ace
