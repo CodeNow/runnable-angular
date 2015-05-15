@@ -33,6 +33,11 @@
 
 // repository/template list
 .list-servers {
+  max-width: 600px;
+
+  @include media(sm) {
+    max-width: none;
+  }
 
   > .list-item {
     border: 2px solid transparent;

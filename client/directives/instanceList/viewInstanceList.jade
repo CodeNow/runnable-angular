@@ -1,24 +1,16 @@
 //- spinner for sidebar
 .spinner-wrapper.spinner-md.spinner-gray.in(
-  ng-if = "isLoading()"
+  ng-if = "!data.activeAccount || isLoading.sidebar"
   ng-include = "'spinner'"
 )
 
 .row-heading(
-  ng-if = "!isLoading()"
+  ng-if = "data.activeAccount && !isLoading.sidebar"
 )
   | Containers
-  a.btn.btn-xs.white(
-    ui-sref = "instance.config({ userName: data.activeAccount.oauthName() })"
-  )
-    svg.iconnables.icons-gear
-      use(
-        xlink:href = "#icons-gear"
-      )
-    | Configure
 
 ul.server-category-list(
-  ng-if = "!isLoading()"
+  ng-if = "data.activeAccount && !isLoading.sidebar"
 )
   li.server-category-list-item(
     ng-repeat = "masterInstance in data.instancesByPod.models | orderBy:'attrs.name' | orderBy: 'attrs.contextVersion.appCodeVersions.length === 0' "

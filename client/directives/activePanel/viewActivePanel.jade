@@ -52,29 +52,29 @@
   ng-if= "openItems.models.length === 0 && showBackgroundButtons"
 )
   ul.blank-panel-group
-    li.btn.white(
+    li.btn.btn-sm.purple(
       ng-click = "openItems.addTerminal()"
       ng-if = "showBackgroundButtons.term"
     )
-      svg.iconnables.iconnables-lg.icons-terminal
+      svg.iconnables.icons-terminal
         use(
           xlink:href = "#icons-terminal"
         )
       | Terminal
-    li.btn.white(
+    li.btn.btn-sm.purple(
       ng-click = "openItems.addBuildStream()"
       ng-if = "showBackgroundButtons.build"
     )
-      svg.iconnables.iconnables-lg.icons-logs
+      svg.iconnables.icons-logs
         use(
           xlink:href = "#icons-logs"
         )
       | Build Log
-    li.btn.white(
+    li.btn.btn-sm.purple(
       ng-click = "openItems.addLogs()"
       ng-if = "showBackgroundButtons.server"
     )
-      svg.iconnables.iconnables-lg.icons-server
+      svg.iconnables.icons-server
         use(
           xlink:href = "#icons-server"
         )

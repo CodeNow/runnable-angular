@@ -1,13 +1,3 @@
-//- group/pod/server/instance/box page
-a.btn.gray(
-  ui-sref = "instance.home({ userName: dataApp.data.activeAccount.oauthName() })"
-)
-  svg.iconnables.icons-arrow-back.icons-round
-    use(
-      xlink:href = "#icons-arrow-back"
-    )
-  | To Sandbox
-
 button.btn.btn-icon.blue(
   ng-class = "{active: state.helpButton.active}"
   ng-include = "'viewHelpButton'"
