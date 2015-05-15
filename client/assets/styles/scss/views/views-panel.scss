@@ -1,5 +1,6 @@
 // .active-panel
 .active-panel {
+  background-color: $purple-darker;
   height: 100%;
   position: relative;
   z-index: $z-views-active-panel;
@@ -15,7 +16,6 @@
 
   // panels
   > div {
-    background-color: $purple-darker;
     height: calc(100% - 45px);
     padding-bottom: 21px;
     width: 100%;
