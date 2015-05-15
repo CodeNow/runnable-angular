@@ -40,17 +40,24 @@
   z-index: 1; // TODO: variable-ize this
 }
 
+.help-step-container {
+  height: 60px;
+}
+
 .help-step-item {
   display: inline-block;
+  left: 15px;
   line-height: 21px; // testing
   margin-bottom: 15px;
   padding: 9px 24px;
+  position: absolute;
+  right: 15px;
   text-align: center;
-  width: 100%;
+  z-index: 1; // TODO: variable-ize this
 
   &.undocked {
     position: fixed;
-    top: 10px;
+    top: 15px;
   }
 }
 

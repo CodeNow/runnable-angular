@@ -16,10 +16,11 @@
 )
 
 .environment-body.clearfix
-  .help-section.clearfix
-    //- shows up when help is activated
+  //- shows up when help is activated
+  .help-step-container.clearfix(
+    ng-if = "helpCards.getActiveCard()"
+  )
     .help.help-step-item(
-      ng-if = "helpCards.getActiveCard()"
       ng-class = "{undocked: helpUndock}"
       ng-bind-html= "helpCards.getActiveCard().helpTop"
     )
