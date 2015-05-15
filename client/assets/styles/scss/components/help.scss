@@ -52,6 +52,16 @@
     position: fixed;
     top: 10px;
   }
+
+  .modal-form & {
+    position: relative;
+    top: -9px;
+    left: 0;
+
+    .help-step-item {
+      width: 100%;
+    }
+  }
 }
 
 .help-step-item {
