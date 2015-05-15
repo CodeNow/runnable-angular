@@ -111,6 +111,10 @@
     margin: 12px auto 0;
     text-align: center;
 
+    .small {
+      display: inline-block;
+    }
+
     .btn-xxs {
       background: $gray;
       border-radius: 50%;
