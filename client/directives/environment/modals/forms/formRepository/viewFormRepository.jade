@@ -29,6 +29,7 @@ label.label.clearfix
   .input-col
     //- we only have suggestions for build commands on the main repository
     textarea.textarea.monospace(
+      ng-disabled = "startCommandCanDisable && !state.selectedStack"
       ng-model = "state.commands"
       placeholder = "Build commands"
       spellcheck = "false"

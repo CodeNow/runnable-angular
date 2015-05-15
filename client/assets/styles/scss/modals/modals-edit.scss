@@ -157,29 +157,25 @@
 .ace-environment-variables {
   border-bottom: 0;
   border-radius: 3px;
-  height: 675px;
+  height: 650px;
 
   @media (max-height: 1200px) {
-    height: 550px;
+    height: 525px;
   }
 
   @media (max-height: 1100px) {
-    height: 475px;
+    height: 425px;
   }
 
   @media (max-height: 1000px) {
-    height: 375px;
+    height: 325px;
   }
 
   @media (max-height: 900px) {
-    height: 275px;
+    height: 225px;
   }
 
   @media (max-height: 800px) {
-    height: 250px;
-  }
-
-  @media (max-height: 700px) {
     height: 200px;
   }
 

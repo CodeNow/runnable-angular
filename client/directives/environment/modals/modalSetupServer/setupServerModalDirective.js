@@ -89,10 +89,11 @@ function setupServerModal(
             $scope.data.sourceContexts
           )
             .then(function (dockerfile) {
-              return parseDockerfileForDefaults(dockerfile, 'run');
+              return parseDockerfileForDefaults(dockerfile, ['run', 'dst']);
             })
-            .then(function (commands) {
-              $scope.state.commands = commands.join('\n');
+            .then(function (defaults) {
+              $scope.state.commands = defaults.run.join('\n');
+              $scope.state.dst = defaults.dst.length ? defaults.dst[0] : $scope.state.opts.name;
             });
         }
       });
