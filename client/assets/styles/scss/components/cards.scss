@@ -245,11 +245,10 @@
       width: 18px;
     }
 
-    &.hint{
+    &.hint {
       border-color: $blue;
-      color: $blue;
-      // border-top-width: 2px;
       box-shadow: inset 0 1px 0 $blue;
+      color: $blue;
       z-index: 1;
 
       &:first-child {
