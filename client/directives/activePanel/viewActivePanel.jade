@@ -52,7 +52,7 @@
   ng-if= "openItems.models.length === 0 && showBackgroundButtons"
 )
   ul.blank-panel-group
-    li.btn.btn-sm.purple(
+    li.btn.btn-sm(
       ng-click = "openItems.addTerminal()"
       ng-if = "showBackgroundButtons.term"
     )
@@ -61,7 +61,7 @@
           xlink:href = "#icons-terminal"
         )
       | Terminal
-    li.btn.btn-sm.purple(
+    li.btn.btn-sm(
       ng-click = "openItems.addBuildStream()"
       ng-if = "showBackgroundButtons.build"
     )
@@ -69,8 +69,8 @@
         use(
           xlink:href = "#icons-logs"
         )
-      | Build Log
-    li.btn.btn-sm.purple(
+      | Build Logs
+    li.btn.btn-sm(
       ng-click = "openItems.addLogs()"
       ng-if = "showBackgroundButtons.server"
     )
@@ -78,7 +78,7 @@
         use(
           xlink:href = "#icons-server"
         )
-      | Run Log
+      | CMD Logs
 
 //- can .views-prompt go in its own template file?
 .views-prompt.theme-dark.hide(

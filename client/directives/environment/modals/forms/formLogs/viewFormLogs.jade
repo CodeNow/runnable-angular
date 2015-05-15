@@ -6,6 +6,7 @@
     ng-click = "page = 'build'"
   ) Build Logs
   button.btn.btn-xs.white(
+    ng-disabled = "!instance.containers.models.length"
     ng-class = "{active: page === 'run'}"
     ng-click = "page = 'run'"
   ) CMD Logs
