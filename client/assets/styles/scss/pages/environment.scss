@@ -2,8 +2,8 @@
 .environment-header {
   border-bottom: 1px solid #ccc;
   color: $gray-light;
-  margin: 15px;
-  padding: 15px 0;
+  margin: 21px;
+  padding: 21px 0;
 
   // new server button
   .green {
@@ -24,18 +24,28 @@
   }
 
   // help button
-  .btn-icon {
+  > .btn-icon {
+    border: 2px solid;
     left: 0;
-    margin: 0 auto;
+    margin: 0 21px;
     padding: 0 12px;
     position: absolute;
     right: 0;
+
+    &:active, &.active {
+      color: $blue;
+    }
 
     .iconnables {
       height: 100%;
       width: 100%;
     }
   }
+
+  .btn.green.hint {
+    border-color: $blue;
+  }
+
 }
 
 // body—form elements/cards

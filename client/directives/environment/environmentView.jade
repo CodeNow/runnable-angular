@@ -1,3 +1,15 @@
+//- alerts
+.alert.help(
+  ng-if = "alert"
+)
+  svg.iconnables.icons-check(
+    ng-if = "alert.type === 'success'"
+  )
+    use(
+      xlink:href = "#icons-check"
+    )
+  | {{alert.text}}
+
 .environment-header.clearfix(
   ng-include = "'viewEnvironmentHeader'"
   ng-init = "state.helpButton = {active: false}"

@@ -44,6 +44,10 @@ function ControllerApp(
 
   // used in dev-info box
   dataApp.data.configEnvironment = configEnvironment;
+  $rootScope.featureFlags = {
+    helpCards: configEnvironment === 'development'
+  };
+
   dataApp.data.configAPIHost = configAPIHost;
   dataApp.data.minimizeNav = false;
   dataApp.data.loginURL = configLoginURL();

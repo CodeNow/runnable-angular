@@ -24,10 +24,6 @@
     color: $purple-light;
   }
 
-  &.focus {
-    animation: card-blink .5s ease-out;
-  }
-
   // sizes
   &.card-sm {
     border-width: 2px;
@@ -44,6 +40,10 @@
       margin-right: 6px;
       position: relative;
     }
+  }
+
+  &.focus {
+    animation: card-blink 2s ease-in-out;
   }
 
   // colors
@@ -243,6 +243,26 @@
       float: left;
       margin-right: 6px;
       width: 18px;
+    }
+
+    &.hint{
+      border-color: $blue;
+      color: $blue;
+      // border-top-width: 2px;
+      box-shadow: inset 0 1px 0 $blue;
+      z-index: 1;
+
+      &:first-child {
+        box-shadow: none;
+      }
+
+      .p {
+        color: rgba($blue,.6);
+      }
+
+      .icons-arrow-down {
+        color: $blue;
+      }
     }
 
     .h3 {
