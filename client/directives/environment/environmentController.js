@@ -29,13 +29,17 @@ function EnvironmentController(
   favico.reset();
   pageName.setTitle('Configure - Runnable');
   $scope.data = {
-    instances: null
+    instances: null,
+    helpCards: helpCards
   };
   $scope.state = {
     validation: {
       env: {}
     },
-    helpCard: null
+    helpCard: null,
+    newServerButton: {
+      active: false
+    }
   };
 
   $scope.help = helpCards.cards;
@@ -64,6 +68,12 @@ function EnvironmentController(
 
   $scope.$on('$destroy', function () {
     $window.removeEventListener('scroll', scrollHelper);
+  });
+
+  $scope.$watch('helpCards.getActiveCard().targets.newContainer', function (n) {
+    if (n) {
+      $scope.state.newServerButton.active = true;
+    }
   });
 
   $scope.alert = null;
