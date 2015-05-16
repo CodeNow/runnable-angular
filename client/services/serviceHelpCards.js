@@ -80,15 +80,15 @@ function helpCardsFactory(
     'triggered': [
       {
         id: 'missingAssociation',
-        'label': '<b>{{instance.getDisplayName()}}</b> may need to be updated with <b>{{association}}'s</b> hostname.</b>',
+        'label': '<b>{{instance.getDisplayName()}}</b> may need to be updated with <b>{{association}}\'s</b> hostname.</b>',
         'targets': [
           'environmentVariables',
           'translationRules'
         ],
-        'helpTop': 'Update <b>{{instance.getDisplayName()}}'s</b> code by using <b>Translation Rules</b> or <b>Environment Variables</b> to update the hostname for <b>{{association}}</b>.',
+        'helpTop': 'Update <b>{{instance.getDisplayName()}}\'s</b> code by using <b>Translation Rules</b> or <b>Environment Variables</b> to update the hostname for <b>{{association}}</b>.',
         'helpPopover': {
-          'environmentVariables': 'Add/update the correct environment variable with <b>{{association}}'s</b> elastic hostname.',
-          'translationRules': 'Add a translation rule to modify your code to connect with <b>{{association}}'s</b> elastic hostname.'
+          'environmentVariables': 'Add/update the correct environment variable with <b>{{association}}\'s</b> elastic hostname.',
+          'translationRules': 'Add a translation rule to modify your code to connect with <b>{{association}}\'s</b> elastic hostname.'
         }
       },
       {
@@ -119,9 +119,9 @@ function helpCardsFactory(
       cardClone.data = { instance: this.data.instance.attrs.shortHash };
     }
 
-    if(this.data){
+    if (this.data) {
       Object.keys(this.data).forEach(function (key) {
-        if (key !== 'instance'){
+        if (key !== 'instance') {
           cardClone.data[key] = self.data[key];
         }
       });
