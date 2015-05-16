@@ -27,7 +27,7 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
       reset: sinon.spy(),
       startBlink: sinon.spy(),
       off: sinon.spy(),
-      blur: sinon.spy()
+      refresh: sinon.spy()
     };
     ctx.resizeHandlerCb = null;
     ctx.setupTermMock = sinon.spy(function (a, b, c, cb) {
