@@ -4,7 +4,7 @@ button.btn.btn-xs.gray(
   ng-click = "state.showHostName = true"
   ng-init = "state.showHostName = false"
   ng-hide = "state.showHostName"
-) Insert an Elastic URL
+) Insert an Elastic Hostname
 
 button.btn.btn-xs(
   ng-if = "!state.showHostName"
@@ -34,9 +34,9 @@ button.btn.btn-xs(
     ) http://
   fancy-select.input-sm.monospace.text-overflow(
     value = "$parent.state.newLink.server"
-    placeholder = "Elastic Url"
+    placeholder = "Elastic Hostname"
   )
-    li.list-item.popover-list-item.small Select elastic url
+    li.list-item.popover-list-item.small Select Elastic Hostname
     fancy-option.monospace(
       value = "instance"
       ng-repeat = "instance in $parent.data.instances.models"
@@ -63,4 +63,4 @@ button.btn.btn-xs(
   ) Cancel
   button.btn.btn-xs.green(
     ng-click = "state.showHostName = false; insertHostName(state.newLink);"
-  ) Insert elastic url
+  ) Insert Elastic Hostname
