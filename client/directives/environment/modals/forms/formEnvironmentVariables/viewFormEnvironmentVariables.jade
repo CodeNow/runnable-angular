@@ -1,7 +1,9 @@
-.help.help-step-item(
+.help-step-container(
   ng-if = "helpCards.getActiveCard().helpPopover.environmentVariables"
-  ng-bind-html = "helpCards.getActiveCard().helpPopover.environmentVariables"
 )
+  .help.help-step-item(
+    ng-bind-html = "helpCards.getActiveCard().helpPopover.environmentVariables"
+  )
 
 .clearfix
   .label-col Environment Variables
