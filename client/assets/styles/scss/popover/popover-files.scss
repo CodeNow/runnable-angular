@@ -155,4 +155,10 @@
     margin: 0 3px 0 0;
     width: 15px;
   }
+
+  // textarea for build commands
+  .textarea {
+    max-height: 150px;
+    resize: vertical;
+  }
 }
