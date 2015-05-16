@@ -17,6 +17,7 @@
     ng-controller = "BuildLogController"
     ng-if = "item.state.type === 'BuildStream'"
   )
+
   .logs(
     log-term
     ng-controller = "BoxLogController"
@@ -38,6 +39,7 @@
     use-auto-update = "useAutoUpdate"
     loading = "loading"
   )
+
   div(
     current-model = "instance.attrs"
     env-vars
