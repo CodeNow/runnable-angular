@@ -35,11 +35,13 @@ ul.server-category-list(
           )
         span.server-category-name.text-overflow(
           ng-if = "masterInstance.getRepoName()"
+          title = "{{ masterInstance.getRepoName() }}/{{ masterInstance.getBranchName() }}"
         ) {{ masterInstance.getRepoName() }}
           span.branch-name /{{ masterInstance.getBranchName() }}
 
         span.server-category-name.text-overflow(
           ng-if = "!masterInstance.getRepoName()"
+          title = "{{ masterInstance.attrs.name }}"
         ) {{ masterInstance.attrs.name }}
 
         status-icon(
@@ -52,7 +54,9 @@ ul.server-category-list(
         ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
                      instanceName: branchFork.attrs.name })"
       )
-        span.branch-name.text-overflow {{ branchFork.getDisplayName() }}
+        span.branch-name.text-overflow(
+          title = "{{ branchFork.getDisplayName() }}"
+        ) {{ branchFork.getDisplayName() }}
         status-icon(
           instance = "branchFork"
         )

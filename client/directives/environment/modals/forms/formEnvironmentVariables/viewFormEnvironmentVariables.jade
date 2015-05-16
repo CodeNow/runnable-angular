@@ -32,9 +32,9 @@ label.label.label-help
         use(
           xlink:href = "#icons-help"
         )
-    | Container's Elastic URL
+    | Container's Elastic Hostname
   input.input.input-xs(
+    ng-attr-value = "{{ instance.getElasticHostname() }}"
     readonly
     select-all
-    value = "api-staging-codenow.runnableapp.com"
   )
