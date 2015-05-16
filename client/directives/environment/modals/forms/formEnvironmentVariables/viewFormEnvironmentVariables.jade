@@ -1,7 +1,9 @@
-.help.help-step-item(
+.help-step-container(
   ng-if = "helpCards.getActiveCard().helpPopover.environmentVariables"
-  ng-bind-html = "helpCards.getActiveCard().helpPopover.environmentVariables"
 )
+  .help.help-step-item(
+    ng-bind-html = "helpCards.getActiveCard().helpPopover.environmentVariables"
+  )
 
 .clearfix
   .label-col Environment Variables
@@ -30,9 +32,9 @@ label.label.label-help
         use(
           xlink:href = "#icons-help"
         )
-    | Container's Elastic URL
+    | Container's Elastic Hostname
   input.input.input-xs(
+    ng-attr-value = "{{ instance.getElasticHostname() }}"
     readonly
     select-all
-    value = "api-staging-codenow.runnableapp.com"
   )

@@ -1,5 +1,6 @@
 // .active-panel
 .active-panel {
+  background-color: $purple-darker;
   height: 100%;
   position: relative;
   z-index: $z-views-active-panel;
@@ -15,10 +16,14 @@
 
   // panels
   > div {
-    background-color: $purple-darker;
-    height: calc(100% - 45px);
+    height: 100%;
     padding-bottom: 21px;
     width: 100%;
+
+    // only if a view
+    .views & {
+      height: calc(100% - 45px);
+    }
   }
 
   // except ace

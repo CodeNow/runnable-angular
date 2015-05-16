@@ -243,7 +243,8 @@
         background: $gray-dark;
         color: $gray-lighter;
         cursor: pointer;
-        float: right;
+        position: relative;
+        top: -1px;
       }
     }
   }

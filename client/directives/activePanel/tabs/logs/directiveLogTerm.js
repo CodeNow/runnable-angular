@@ -111,7 +111,7 @@ function logTerm(
           terminal.cursorSpinner = false;
           terminal.cursorState = 0;
           // Blur so that the cursor disappears
-          terminal.blur();
+          terminal.refresh(terminal.y, terminal.y);
         }
       }
       function writeToTerm(output) {
