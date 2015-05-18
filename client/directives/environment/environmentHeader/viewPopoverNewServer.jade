@@ -1,5 +1,8 @@
 .popover.menu.bottom.popover-new-server(
-  ng-class = "{in: active}"
+  ng-class = "{\
+    hint: data.helpCards.getActiveCard().targets.newContainer,\
+    in: active\
+  }"
   ng-style = "popoverStyle.getStyle()"
 )
   .arrow.white(

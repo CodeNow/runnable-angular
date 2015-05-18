@@ -35,31 +35,30 @@
 }
 
 .triggered-help {
-  left: 86px;
+  left: 75px;
   position: absolute;
   z-index: 1; // TODO: variable-ize this
 }
 
 .help-step-container {
-  left: 15px;
-  pointer-events: none;
-  position: absolute;
-  right: 15px;
-  text-align: center;
-  z-index: 1000;
-
-  &.undocked {
-    position: fixed;
-    top: 10px;
-  }
+  height: 60px;
 }
 
 .help-step-item {
   display: inline-block;
+  left: 15px;
   line-height: 21px; // testing
-  margin: 0 auto;
+  margin-bottom: 15px;
   padding: 9px 24px;
+  position: absolute;
+  right: 15px;
   text-align: center;
+  z-index: 1; // TODO: variable-ize this
+
+  &.undocked {
+    position: fixed;
+    top: 15px;
+  }
 }
 
 .help-badge {
