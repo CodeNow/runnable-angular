@@ -144,7 +144,7 @@ function parseDockerfileForCardInfoFromInstance(
       .then(function (dockerfile) {
         server.ports = parseDockerfileForPorts(dockerfile);
         server.startCommand = parseDockerfileForStartCommand(dockerfile);
-        server.commands = parseDockerfileForRunCommands(dockerfile);
+        server.commands = parseDockerfileForRunCommands(dockerfile, instance.getRepoName());
         return parseDockerfileForStack(dockerfile, stackData);
       })
       .then(function (stack) {
