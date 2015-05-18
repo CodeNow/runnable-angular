@@ -2,6 +2,8 @@
 
 require('app')
   .directive('ruleTable', function ruleTable(
+    createTransformRule,
+    deleteTransformRule
   ) {
     return {
       restrict: 'A',
@@ -28,17 +30,21 @@ require('app')
               $scope.popoverData.active = false;
             },
             deleteRule: function (rule) {
-              var index = $scope.state.list.indexOf(rule);
-              if (~index) {
-                $scope.state.list.splice(index, 1);
-              }
               $scope.popoverData.active = false;
-              $scope.deleteRule(rule);
+              return deleteTransformRule(rule)
+                .then(function () {
+                  var index = $scope.state.list.indexOf(rule);
+                  if (~index) {
+                    $scope.state.list.splice(index, 1);
+                  }
+                });
             },
             createRule: function (rule) {
               $scope.popoverData.active = false;
-              $scope.addRule(rule);
-              $scope.state.list.push(rule);
+              return createTransformRule(rule)
+                .then(function () {
+                  $scope.state.list.push(rule);
+                });
             },
             performCheck: function (rule, currentState) {
               currentState.processing = true;

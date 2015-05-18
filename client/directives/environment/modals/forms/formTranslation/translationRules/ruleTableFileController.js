@@ -4,7 +4,8 @@ require('app')
   .controller('RuleTableFileController', function RuleTableFileController(
     $q,
     $scope,
-    $timeout
+    $timeout,
+    testRenameTransformRule
   ) {
     $scope.header = {
       description: 'New filename rule',
@@ -25,25 +26,6 @@ require('app')
     $scope.popoverTemplate = 'viewPopoverFilenameRule';
 
 
-    $scope.deleteRule = function () {
-
-    };
-
-
-    $scope.addRule = function () {
-
-    };
-
-    $scope.performCheck = function (rule) {
-      var defer = $q.defer();
-      $timeout(function () {
-        rule.diff = {
-          path: 'build/index.html',
-          newPath: 'build/index.sass'
-        };
-        defer.resolve();
-      }, 1000);
-      return defer.promise;
-    };
+    $scope.performCheck = testRenameTransformRule;
 
   });
