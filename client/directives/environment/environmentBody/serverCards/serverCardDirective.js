@@ -127,7 +127,7 @@ require('app')
         });
 
         $scope.$watch('instance.contextVersion.attrs.infraCodeVersion', function (n) {
-          if (n && keypather.get($scope, 'instance.contextVersion.attrs.advanced')) {
+          if (n && !keypather.get($scope, 'instance.contextVersion.attrs.advanced')) {
             $scope.server.parsing = true;
             return parseDockerfileForCardInfoFromInstance($scope.instance, $scope.data.stacks)
               .then(function (data) {
