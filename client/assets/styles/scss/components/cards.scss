@@ -33,7 +33,7 @@
 
     .card-header {
       justify-content: center;
-      text-align: center;
+      // text-align: center;
     }
 
     .img {
@@ -128,7 +128,25 @@
 .card-header {
   display: flex;
   flex-direction: column;
+  font-size: 20px;
+  // height: 90px;
   margin: 0 15px 6px;
+  padding: 21px 0;
+  text-align: center;
+}
+
+.card-status {
+  font-size: 14px;
+  color: #D1C592;
+
+  .iconnables {
+    height: 21px;
+    top: 6px;
+  }
+}
+
+.card-status-text {
+  display: inline;
 }
 
 // title group
