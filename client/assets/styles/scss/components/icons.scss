@@ -48,22 +48,13 @@
   }
 
   &.filetypes {
-    height: 14px;
-    top: 2px;
-    width: 14px;
+    height: 18px;
+    top: 4px;
+    width: 18px;
   }
 
   &.icons-round {
     border-radius: 50%;
-  }
-
-  // icons with stroke
-  &.icons-file,
-  &.icons-file-open,
-  &.icons-file-tree,
-  &.icons-folder {
-    fill: none;
-    stroke: currentColor;
   }
 
   // flip
