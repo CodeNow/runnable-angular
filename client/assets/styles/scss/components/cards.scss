@@ -128,20 +128,26 @@
 .card-header {
   display: flex;
   flex-direction: column;
-  font-size: 20px;
-  // height: 90px;
-  margin: 0 15px 6px;
+  font-size: 18px;
+  margin: 0 15px;
   padding: 21px 0;
   text-align: center;
+
+  .iconnables {
+    height: 18px;
+    top: 3px;
+    width: 21px;
+  }
 }
 
 .card-status {
-  font-size: 14px;
   color: #D1C592;
+  font-size: 15px;
 
   .iconnables {
-    height: 21px;
-    top: 6px;
+    margin-right: 4px;
+    top: 3px;
+    width: 15px;
   }
 }
 
@@ -150,10 +156,19 @@
 }
 
 .card-footer {
-  padding: 21px 15px;
+  color: $gray;
+  font-size: 14px;
+  font-weight: 400;
+  padding: 15px;
 
-  .advanced-mode {
+  .label-checkbox {
     float: left;
+
+    .input-checkbox {
+      height: 18px;
+      margin-right: 6px;
+      margin-top: 3px;
+    }
   }
 
   .containers-count {

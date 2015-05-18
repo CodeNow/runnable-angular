@@ -1,3 +1,19 @@
+//- span.text-overflow(
+//-   ng-attr-title = "{{ server.opts.name || server.instance.getDisplayName() }}"
+//- ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
+
 span.text-overflow(
+  ng-class = "{\
+    'no-touching': noTouching\
+  }"
+  pop-over
+  pop-over-actions = "actions"
+  pop-over-data = "popOverServerData"
   ng-attr-title = "{{ server.opts.name || server.instance.getDisplayName() }}"
 ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
+  svg.iconnables.icons-arrow-down(
+    ng-if = "!noTouching"
+  )
+    use(
+      xlink:href = "#icons-arrow-down"
+    )

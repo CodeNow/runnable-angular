@@ -1,9 +1,13 @@
 .card-header
-  server-status-card-header
+  server-status-card-header(
+    ng-attr-no-touching = "{{ showSpinner() }}"
+    pop-over-options = "{\"right\":0,\"top\":47}"
+    pop-over-template = "serverOptionsCardPopover"
+  )
   .card-status
     svg.iconnables
       use(
-        xlink:href = "#icons-warning"
+        xlink:href = "#icons-warn"
       )
     .card-status-text Build Failed
 
@@ -139,5 +143,9 @@ ul.card-body.load(
       )
 
 .card-footer
-  .advanced-mode Advanced Mode
+  label.label-checkbox
+    input.input-checkbox(
+      type = "checkbox"
+    )
+    | Advanced Mode
   .containers-count 15 Branch Containers
