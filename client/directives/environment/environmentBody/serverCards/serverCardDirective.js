@@ -132,10 +132,9 @@ require('app')
             return parseDockerfileForCardInfoFromInstance($scope.instance, $scope.data.stacks)
               .then(function (data) {
                 if (data) {
-                  $scope.server.selectedStack = data.selectedStack;
-                  $scope.server.ports = data.ports;
-                  $scope.server.startCommand = data.startCommand;
-                  $scope.server.commands = data.commands;
+                  Object.keys(data).forEach(function (key) {
+                    $scope.server[key] = data[key];
+                  });
                 }
               })
               .catch(errs.handler)

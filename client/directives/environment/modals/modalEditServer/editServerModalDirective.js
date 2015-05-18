@@ -81,12 +81,12 @@ function editServerModal(
           },
           save: function () {
             // Push to parent container files
-            $rootScope.broadcast('close-popovers');
+            $rootScope.$broadcast('close-popovers');
           },
           cancel: function () {
             // Using our own cancel in order to delete file
             // TODO: handle halfway-uploaded files
-            $rootScope.broadcast('close-popovers');
+            $rootScope.$broadcast('close-popovers');
             if (!$scope.fileUpload.data.file.length) { return; }
             var uploadURL = configAPIHost + '/' + $scope.state.contextVersion.urlPath +
                 '/' + $scope.state.contextVersion.id() + '/files';
