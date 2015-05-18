@@ -12,19 +12,23 @@
       .input-col
         .btn.btn-block.white.text-overflow.btn-upload(
           ng-click = "state.view3 = true"
-        ) filename.ext
-          small.small Uploaded 32 days ago
+        ) {{ data.file[0].name }}
+          small.small {{ data.progress ? data.progress + '% uploaded' : 'Select a file' }}
           label.btn.btn-xs.gray(
-            for = "input-upload"
-          ) Choose
+              for = "input-upload"
+            ) Choose
             input#input-upload(
-              type = "file"
+              type = "file",
+              ngf-select
+              ngf-change = "actions.uploadFile()"
+              ng-model = "data.file"
             )
 
     label.label.clearfix
       .label-col Destination
       .input-col.input-root
         input.input.input-sm(
+          ng-model = "data.filePath"
           required
           spellcheck = "false"
         )
@@ -44,7 +48,7 @@
   .popover-footer.clearfix
     button.btn.btn-sm.green.btn-spinner(
       ng-class = "{in: data.saving}"
-      ng-click = "data.saving = true"
+      ng-click = "actions.save()"
       ng-disabled = "data.saving"
     )
       //- spinner
@@ -58,4 +62,6 @@
       span(
         ng-if = "data.saving"
       ) Uploading
-    button.btn.btn-sm.gray.btn-cancel Cancel
+    button.btn.btn-sm.gray.btn-cancel(
+      ng-click = "actions.cancel()"
+    ) Cancel
