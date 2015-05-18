@@ -127,11 +127,11 @@
     border: 2px solid $purple-darker;
     display: flex;
     min-height: 210px;
+  }
 
-    .ace_editor {
-      display: flex;
-      flex: 1 1 auto;
-    }
+  .ace_editor {
+    display: flex;
+    flex: 1 1 auto;
 
     .spinner-wrapper {
       background: #311d40;
