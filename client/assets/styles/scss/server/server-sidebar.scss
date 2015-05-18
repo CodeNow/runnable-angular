@@ -6,7 +6,8 @@
   height: calc(100vh - 132px);
   width: 300px;
 
-  .iconnables {
+  // only removes transition from disclose icon
+  .icons-disclose {
     transition: none;
   }
 
