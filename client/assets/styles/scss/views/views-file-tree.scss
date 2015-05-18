@@ -141,7 +141,7 @@
   line-height: 22px;
   padding: 0 3px;
   position: absolute;
-  top: 4px;
+  top: 3px;
 
   &[readonly] {
     border: 1px solid transparent;
@@ -161,7 +161,7 @@
 }
 
 .item-name {
-  margin-left: 5px;
+  margin-left: 3px;
   pointer-events: none;
   position: relative;
   top: -1px;
