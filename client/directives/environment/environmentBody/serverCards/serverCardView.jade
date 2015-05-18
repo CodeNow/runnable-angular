@@ -4,12 +4,16 @@
     pop-over-options = "{\"right\":0,\"top\":47}"
     pop-over-template = "serverOptionsCardPopover"
   )
-  .card-status
-    svg.iconnables
-      use(
-        xlink:href = "#icons-warn"
-      )
-    .card-status-text Build Failed
+  .card-status.validating
+    span.span Validating [Build or Container CMD]…
+  //- .card-status.failed
+  //-   svg.iconnables
+  //-     use(
+  //-       xlink:href = "#icons-warn"
+  //-     )
+  //-   span.span [Build or Container CMD] Failed
+  //- .card-status.validated
+  //-   span.span Template Validated
 
 ul.card-body.card-loading(
   ng-if = "showSpinner()"

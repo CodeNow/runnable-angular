@@ -141,18 +141,21 @@
 }
 
 .card-status {
-  color: #D1C592;
-  font-size: 15px;
+  color: $gray;
+  font-size: 14px;
+  font-weight: 400;
 
+  // warning icon for failed state
   .iconnables {
     margin-right: 4px;
     top: 3px;
     width: 15px;
   }
-}
 
-.card-status-text {
-  display: inline;
+  &.failed {
+    color: #D1C592;
+    font-weight: 500;
+  }
 }
 
 .card-footer {
@@ -177,42 +180,42 @@
 }
 
 // title group
-.btn-title {
-  display: flex;
-  margin: 12px auto 0;
-  max-width: 100%;
-  padding-right: 30px;
+// .btn-title {
+//   display: flex;
+//   margin: 12px auto 0;
+//   max-width: 100%;
+//   padding-right: 30px;
 
-  // hide arrow space
-  &.no-touching {
-    padding-right: 15px;
-  }
+//   // hide arrow space
+//   &.no-touching {
+//     padding-right: 15px;
+//   }
 
-  .btn-text {
+//   .btn-text {
 
-    &:first-child {
-      flex: 1 1 auto;
-    }
+//     &:first-child {
+//       flex: 1 1 auto;
+//     }
 
-    + .btn-text {
-      flex: 0 0 auto;
-      opacity: .5;
-      padding-left: 3px; // replaces a standard space (flexbox doesn't include it in the calculation)
-    }
-  }
+//     + .btn-text {
+//       flex: 0 0 auto;
+//       opacity: .5;
+//       padding-left: 3px; // replaces a standard space (flexbox doesn't include it in the calculation)
+//     }
+//   }
 
-  // status
-  .icons-status {
-    margin-right: 6px;
-    margin-top: 12px; // 'vertical center'
-  }
+//   // status
+//   .icons-status {
+//     margin-right: 6px;
+//     margin-top: 12px; // 'vertical center'
+//   }
 
-  // arrow down
-  .icons-arrow-down {
-    flex: 0 0 18px;
-    margin: 0 0 0 6px;
-  }
-}
+//   // arrow down
+//   .icons-arrow-down {
+//     flex: 0 0 18px;
+//     margin: 0 0 0 6px;
+//   }
+// }
 
 // body
 .card-body,
