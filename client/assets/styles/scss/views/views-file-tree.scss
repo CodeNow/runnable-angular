@@ -25,17 +25,17 @@
 
     // states
     &.not-toggleable {
+      cursor: default;
 
       // hide arrow
       &::after {
-        display: none;
+        opacity: 0;
       }
 
       > a {
         background: transparent !important;
         border-color: transparent !important;
         color: $gray-darker !important;
-        cursor: default;
       }
     }
 
@@ -89,10 +89,12 @@
       margin-bottom: 2px;
 
       &::after {
-        @extend .arrow-right;
+        @extend %arrow-right;
         border-left-color: rgba($black,.2) !important;
         content: '';
+        display: block;
         pointer-events: none;
+        position: absolute;
         top: 10px;
         transform-origin: 3px 4px;
         transition: transform .15s;
@@ -133,18 +135,18 @@
 .tree-input,
 .tree-input:focus {
   background: $white;
-  border-color: rgba($purple-light,.3);
+  border: 1px solid rgba($black,.15);
+  border-radius: 2px;
   box-shadow: none;
   cursor: text;
   display: inline-block;
-  height: 22px;
-  line-height: 22px;
+  height: 20px;
+  line-height: 20px;
   padding: 0 3px;
   position: absolute;
   top: 4px;
 
   &[readonly] {
-    border: 1px solid transparent;
     opacity: 0;
     pointer-events: none;
 
@@ -161,7 +163,7 @@
 }
 
 .item-name {
-  margin-left: 5px;
+  margin-left: 4px;
   pointer-events: none;
   position: relative;
   top: -1px;
