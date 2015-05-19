@@ -1,5 +1,8 @@
 .popover-views {
-  overflow: hidden; // popover-views must be fixed width & height
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
 
   &.view-2 .popover-view {
     transform: translate3d(-100%,0,0);
@@ -14,6 +17,7 @@
   }
 }
 
+// popover-views must be fixed width & height
 .popover-view {
   box-shadow: 0 1px 1px $gray-lighter;
   display: flex;

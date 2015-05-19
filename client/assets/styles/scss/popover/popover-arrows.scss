@@ -17,7 +17,7 @@
 
 .popover.right .arrow {
   border-right-color: $gray-lighter;
-  left: -26px;
+  left: -25px;
   margin-top: -11px;
   top: 50%;
 
@@ -80,6 +80,7 @@
 
   .arrow {
     border-width: 13px;
+    z-index: $z-popover-arrow;
 
     &:hover {
       background: none;
