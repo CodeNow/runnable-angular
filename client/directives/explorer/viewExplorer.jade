@@ -1,8 +1,10 @@
-div.explorer-menu-bar-container(
+//- on container sidebar
+.explorer-menu-bar-container(
   ng-if = "!editExplorer"
   ng-include = "'explorerMenuBar'"
 )
 
+//- on configure modal
 .sidebar-actions(
   ng-if = "editExplorer"
 )
