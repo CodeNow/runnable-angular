@@ -194,6 +194,12 @@
   padding: 6px;
   position: relative;
   z-index: $z-popover-content;
+
+  // filter
+  .label-jump {
+    margin-bottom: 9px;
+    text-align: center;
+  }
 }
 
 //- footer.popover-footer
