@@ -99,6 +99,11 @@ input ~ small {
 }
 
 // links
+a {
+  color: currentColor;
+  text-decoration: none;
+}
+
 .link {
   color: $gray-dark;
   cursor: pointer;
