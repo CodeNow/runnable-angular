@@ -44,9 +44,16 @@ li.folder(
       a
         svg.iconnables.filetypes.icons-repository
           use(
-            xlink:href = "#icons-git-repository"
+            xlink:href = "#icons-repository"
           )
-        span.item-name {{ acv.attrs.repo.split('/')[1] }}
+        span.item-name {{ acv.attrs.repo.split('/')[1] }} (main)
+    li.file.no-touching
+      a
+        svg.iconnables.filetypes.icons-repository
+          use(
+            xlink:href = "#icons-repository-additional"
+          )
+        span.item-name other-repository
   ul(
     ng-if = "dir.contents.models.length"
     ng-include = "'viewFileTreeDirItem'"
