@@ -7,11 +7,10 @@ var $elScope;
 var $rootScope;
 var instances = require('../apiMocks').instances;
 var runnable = new (require('runnable'))(window.host);
-var $q;
 var mockGetInstanceMaster = require('../fixtures/mockGetInstanceMaster');
 
 // Skipping until we bring this directive back (Kahn)
-describe('directiveDnsManager'.bold.underline.blue, function() {
+describe.only('directiveDnsManager'.bold.underline.blue, function() {
   var ctx;
   var masterPods;
   var masterChildMapping;
@@ -44,6 +43,7 @@ describe('directiveDnsManager'.bold.underline.blue, function() {
         noStore: true
       });
 
+
       childInstances.models[0].attrs.contextVersion = {
         context: instance.attrs.contextVersion.context
       };
@@ -56,6 +56,10 @@ describe('directiveDnsManager'.bold.underline.blue, function() {
 
       childInstances.models[0].attrs.parent = instance.attrs.shortHash;
       childInstances.models[1].attrs.parent = instance.attrs.shortHash;
+
+
+      childInstances.models[0].destroy = sinon.spy();
+      childInstances.models[1].destroy = sinon.spy();
 
       masterChildMapping[instance.attrs.shortHash] = childInstances.models;
 
@@ -71,13 +75,11 @@ describe('directiveDnsManager'.bold.underline.blue, function() {
 
     angular.mock.inject(function (
       _$rootScope_,
-      _$compile_,
-      _$q_
+      _$compile_
     ) {
       $scope = _$rootScope_.$new();
       $compile = _$compile_;
       $rootScope = _$rootScope_;
-      $q = _$q_;
     });
 
 
@@ -138,19 +140,23 @@ describe('directiveDnsManager'.bold.underline.blue, function() {
     injectSetupCompile();
 
     $elScope.actions.setDependency(masterPods[1]);
+    $elScope.$digest();
     sinon.assert.calledOnce(instanceDependencies.models[0].destroy);
+    sinon.assert.calledOnce(instanceDependencies.create);
   });
 
   it('should handle setDependency on a master instance when one does not already exist', function () {
     injectSetupCompile();
 
     $elScope.actions.setDependency(masterPods[2]);
-    sinon.assert.notCalled(instanceDependencies.models[0].destroy);
+    $elScope.$digest();
+    sinon.assert.calledOnce(instanceDependencies.create);
   });
 
   it('should handle setDependency on a non master instance', function () {
     injectSetupCompile();
     $elScope.actions.setDependency(masterChildMapping[masterPods[1].attrs.shortHash][1]);
+    $elScope.$digest();
     sinon.assert.calledOnce(instanceDependencies.create);
   });
 });

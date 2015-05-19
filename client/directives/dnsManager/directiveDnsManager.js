@@ -121,9 +121,9 @@ function dnsManager(
             return dependency.attrs.contextVersion.context === masterInstance.attrs.contextVersion.context;
           });
 
-          var cleanedUpPromise = $q.resolve();
+          var cleanedUpPromise = $q.when();
           if (dependency) {
-            cleanedUpPromise.then(promisify($scope.dependencies, 'destroy'));
+            cleanedUpPromise.then(promisify(dependency, 'destroy'));
           }
           cleanedUpPromise
             .then(function () {
