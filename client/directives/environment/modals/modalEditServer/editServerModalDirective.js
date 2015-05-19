@@ -74,7 +74,7 @@ function editServerModal(
               .then(function (fileResponse) {
                 console.log(fileResponse);
               })
-              .catch(console.log.bind(console, 'uploadfile catch'))
+              .catch(errs.handler)
               .finally(function () {
                 $scope.fileUpload.saving = false;
               });
