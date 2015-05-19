@@ -55,6 +55,10 @@
   // forms
   .label {
     margin-bottom: 12px;
+
+    &.label-jump {
+      margin-bottom: 9px;
+    }
   }
 
   .label-col,
@@ -133,12 +137,6 @@
   }
 
   // view 3
-  // filter
-  .label-jump {
-    margin-bottom: 15px;
-    text-align: center;
-  }
-
   .toggle-group-detail .link {
     color: $gray;
   }
