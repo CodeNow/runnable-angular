@@ -128,7 +128,7 @@
 
   &:active,
   &.active {
-    background: $purple-lightest;
+    background: rgba($purple-lightest,.75);
   }
 }
 
