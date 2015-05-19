@@ -25,6 +25,8 @@ require('app')
         helpCard: '=?'
       },
       link: function ($scope) {
+        var watchers = [];
+
         $scope.helpCards = helpCards;
         $scope.server = {};
         $scope.activeAccount = $rootScope.dataApp.data.activeAccount;
@@ -36,7 +38,7 @@ require('app')
 
         function createServerObjectFromInstance(instance) {
           // This may be a newInstance... just a placeholder
-          helpCards.refreshForInstance(instance);
+          helpCards.removeByInstance(instance);
           $scope.server.instance = instance;
           $scope.server.build = instance.build;
           $scope.server.opts = {
@@ -90,13 +92,22 @@ require('app')
                             association: matchedInstance.attrs.name
                           })
                             .then(function (helpCard) {
+                              var refreshServerObj = function () {
+                                createServerObjectFromInstance($scope.server.instance);
+                              };
+                              watchers.push({
+                                obj: helpCard,
+                                key: 'refresh',
+                                value: refreshServerObj
+                              });
+                              watchers.push({
+                                obj: helpCard,
+                                key: 'activate',
+                                value: scrollIntoView
+                              });
                               helpCard
-                                .on('refresh', function () {
-                                  createServerObjectFromInstance($scope.server.instance);
-                                })
-                                .on('activate', function () {
-                                  scrollIntoView();
-                                });
+                                .on('refresh', refreshServerObj)
+                                .on('activate', scrollIntoView);
                             });
 
                         }
@@ -106,10 +117,16 @@ require('app')
                           dependency: dependency
                         })
                           .then(function (helpCard) {
+                            var refreshServerObj = function () {
+                              createServerObjectFromInstance($scope.server.instance);
+                            };
+                            watchers.push({
+                              obj: helpCard,
+                              key: 'refresh',
+                              value: refreshServerObj
+                            });
                             helpCard
-                              .on('refresh', function () {
-                                createServerObjectFromInstance($scope.server.instance);
-                              });
+                              .on('refresh', refreshServerObj);
                           });
                       }
                     });
@@ -161,6 +178,13 @@ require('app')
         $scope.showSpinner = function () {
           return !$scope.server.build || $scope.server.building || $scope.server.parsing;
         };
+
+        $scope.$on('$destroy', function () {
+          watchers.forEach(function (watcher) {
+            watcher.obj.removeListener(watcher.key, watcher.value);
+          });
+          helpCards.removeByInstance($scope.server.instance);
+        });
       }
     };
   });

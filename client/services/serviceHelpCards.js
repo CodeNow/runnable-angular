@@ -203,7 +203,7 @@ function helpCardsFactory(
       activeCard = this.getActiveCard();
       return activeCard && (activeCard.type === 'general' || angular.equals(container, keypather.get(activeCard, 'data.instance')));
     },
-    refreshForInstance: function (instance) {
+    removeByInstance: function (instance) {
       this.cards.triggered
         .filter(function (card) {
           return keypather.get(card, 'data.instance.attrs.shortHash') === instance.attrs.shortHash;
