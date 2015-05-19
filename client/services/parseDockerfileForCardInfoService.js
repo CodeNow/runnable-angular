@@ -98,9 +98,17 @@ function parseDockerfileForRunCommands(dockerfile, repoName) {
   // Should be the beginning bit before any as the 1st, so remove it
   var addChunks = dockerfile.attrs.body.split('ADD');
   addChunks.shift();
-  var missingChunk = addChunks.find(function (chunk) {
-    return chunk.indexOf('./' + repoName.toLowerCase());
-  });
+  var missingChunk;
+  // Should be the beginning bit before any as the 1st, so remove it
+  if (repoName) {
+    var addChunks = dockerfile.attrs.body.split('ADD');
+    addChunks.shift();
+    missingChunk = addChunks.find(function (chunk) {
+      return chunk.indexOf('./' + repoName.toLowerCase());
+    });
+  } else {
+    missingChunk = dockerfile.attrs.body;
+  }
   var results = reg.exec(missingChunk);
   if (results && results[2]) {
     var parsedResults = results[2].split('\n')
@@ -136,6 +144,7 @@ function parseDockerfileForContainerFiles(dockerfile) {
   }
   return containerFiles;
 }
+
 
 function parseDockerfileForCardInfoFromInstance(
   parseDockerfileForStack,

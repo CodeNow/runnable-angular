@@ -121,15 +121,6 @@
     }
   }
 
-  // repository icon
-  .icons-repository {
-    height: 18px;
-    left: 2px;
-    margin-left: -6px;
-    top: 4px;
-    width: 21px;
-  }
-
   // spinners
   .spinner-wrapper {
     display: inline-block;
@@ -172,6 +163,8 @@
 .item-name {
   margin-left: 5px;
   pointer-events: none;
+  position: relative;
+  top: -1px;
 }
 
 .btn-file-errors,
