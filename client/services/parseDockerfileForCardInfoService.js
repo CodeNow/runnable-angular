@@ -142,6 +142,60 @@ function parseDockerfileForContainerFiles(dockerfile) {
 }
 
 
+
+function ContainerFile(contents){
+  var commandList = contents.split('\n');
+  var commands = /^ADD ((?:\\\s|[^\s])*) ((?:\\\s|[^\s])*)/.exec(commandList[0]);
+
+  this.name = commands[1].replace('./');
+  this.path = commands[2];
+  this.commands = commandList.splice(0,1).map(function (item) {
+    return item.replace('RUN ');
+  });
+  this.type = 'File';
+
+  this.toString = function () {
+    return '#Start Container File\n'+
+      'ADD ./' + this.name + ' ' + this.path + '\n'+
+      this.commands
+        .filter(function (command) {
+          return command.trim().length;
+        })
+        .map(function (command) {
+          return 'RUN '+command;
+        })
+        .join('\n') +
+      '#End';
+  };
+}
+
+var types = {
+  'Container File': ContainerFile
+};
+
+function parseDockerfile (dockerfile) {
+  var regex = /#Start: (.*)\n([\s\S]*?)#End/g;
+  var currentBlock = regex.exec(dockerfile);
+  var chunks = [];
+
+  var CustomType;
+  var content;
+  while (currentBlock) {
+    CustomType = types[currentBlock[1]];
+    content = currentBlock[2];
+    if (CustomType) {
+      chunks.push( new CustomType(content) );
+    } else {
+      console.log('Type "' + currentBlock[1] + '" not found.');
+    }
+    currentBlock = regex.exec(dockerfile);
+  }
+
+  return chunks;
+}
+
+
+
 function parseDockerfileForCardInfoFromInstance(
   parseDockerfileForStack,
   promisify,
