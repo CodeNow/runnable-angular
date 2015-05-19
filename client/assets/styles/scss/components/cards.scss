@@ -135,7 +135,7 @@
 
   .iconnables {
     height: 18px;
-    top: 3px;
+    top: 2px;
     width: 21px;
   }
 }
@@ -153,8 +153,13 @@
   }
 
   &.failed {
-    color: #D1C592;
+    color: rgba($orange,.75);
     font-weight: 500;
+  }
+
+  .logs-link {
+    cursor: pointer;
+    text-decoration: underline;
   }
 }
 
