@@ -1,23 +1,21 @@
-.help(
-  ng-if = "helpCards.getActiveCard().helpPopover.repositories"
-) {{helpCards.getActiveCard().helpPopover.repositories}}
-
-.label.clearfix
-  .label-col Branch
-
+.clearfix
+  .label-col Container Files
   .input-col
-    fancy-select(
-      ng-required = "true"
-      value = "state.branch"
-    )
-      li.list-item.popover-list-item.small Select branch
-      fancy-option(
-        ng-repeat = "branch in $parent.branches.models"
-        value = "branch"
-      )
-        svg.iconnables.icons-branch
-          use(
-            xlink:href = "#icons-branch"
-          )
-        | {{ $parent.branch.attrs.name }}
-    small.small Set the default branch for {{ server.instance.getDisplayName() }}.
+    button.btn.btn-xs.white.float-right(
+      pop-over
+      pop-over-actions = "fileRepository.actions"
+      pop-over-data = "fileRepository.data"
+      pop-over-template = "viewPopoverFilesRepository"
+    ) Add Repository
+    button.btn.btn-xs.white.float-right(
+      pop-over
+      pop-over-actions = "fileUpload.actions"
+      pop-over-data = "fileUpload.data"
+      pop-over-template = "viewPopoverFilesUpload"
+    ) Upload File
+
+.table(
+  ng-include = "'viewFormFilesTable'"
+)
+
+small.small Copy files to the file system of this container (e.g. seed data for a database, or other files that your application expects to have available).

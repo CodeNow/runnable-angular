@@ -1,0 +1,54 @@
+.popover-header
+  //- if adding a new repository
+  button.btn.btn-sm.white.pull-left(
+    ng-click = "state.view2 = false"
+  )
+    svg.iconnables.icons-arrow-backward
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+    | Back
+  //- if editing an existing repository
+  //- this button is empty on purpose
+  button.btn.btn-sm.pull-right.no-touching(
+    ng-if = "false"
+  )
+  strong.strong.text-overflow repository-name
+  //- this button is empty on purpose
+  button.btn.btn-sm.pull-right.no-touching
+
+.popover-content
+  label.label.clearfix
+    .input-col
+      .btn.btn-block.white.text-overflow(
+        ng-click = "state.view3 = true"
+      ) commit msg
+        small.small joe authored 18 days ago
+        svg.iconnables.icons-arrow-down
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
+
+  label.label.clearfix
+    .label-col Destination
+    .input-col.input-root
+      input.input.input-sm(
+        required
+        spellcheck = "false"
+      )
+
+  label.label.clearfix
+    .label-col Build Commands
+      small.small (optional)
+    .input-col
+      textarea.textarea.monospace(
+        spellcheck = "false"
+      )
+      small.small Commands to be executed when your container is built and before it is launched.
+
+  //- not shown if new repo
+  button.btn.btn-xs.orange Remove Repository
+
+.popover-footer.clearfix
+  button.btn.btn-sm.green Add Repository
+  button.btn.btn-sm.gray.btn-cancel Cancel

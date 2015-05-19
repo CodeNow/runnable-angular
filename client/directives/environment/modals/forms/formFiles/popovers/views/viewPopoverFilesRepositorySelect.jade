@@ -1,0 +1,28 @@
+.popover-header
+  strong.strong.text-overflow Choose Repository
+
+.popover-content
+  input.input.input-xs.input-search(
+    placeholder = "Filter by name"
+    required
+  )
+  ul.list.list-servers
+    li.list-item.multi-line(
+      ng-click = "state.view2 = true"
+    ) reponame
+      small.small Updated just now
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+    li.list-item.multi-line(
+      ng-click = "state.view2 = true"
+    ) reponame2
+      small.small Updated 9 minutes ago
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+
+.popover-footer.clearfix
+  button.btn.btn-sm.gray.btn-cancel Cancel

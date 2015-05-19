@@ -20,7 +20,10 @@ function editServerModal(
   promisify,
   watchWhenTruthyPromise,
   helpCards,
-  $rootScope
+  $rootScope,
+  $http,
+  uploadFile,
+  configAPIHost
 ) {
   return {
     restrict: 'A',
@@ -49,6 +52,51 @@ function editServerModal(
           onlyDigits: true
         },
         tags: new JSTagsCollection(($scope.server.ports || '').split(' '))
+      };
+
+      $scope.fileRepository = {
+        actions: {},
+        data: {}
+      };
+
+      $scope.fileUpload = {
+        actions: {
+          uploadFile: function () {
+            if (!$scope.fileUpload.data.file.length) { return; }
+            console.log('data.file', $scope.fileUpload.data.file);
+            $scope.fileUpload.saving = true;
+            var uploadURL = configAPIHost + '/' + $scope.state.contextVersion.urlPath +
+                '/' + $scope.state.contextVersion.id() + '/files';
+            uploadFile($scope.fileUpload.data.file, uploadURL)
+              .progress(function (evt) {
+                $scope.fileUpload.data.progress = parseInt(100.0 * evt.loaded / evt.total, 10);
+              })
+              .then(function (fileResponse) {
+                console.log(fileResponse);
+              })
+              .catch(console.log.bind(console, 'uploadfile catch'))
+              .finally(function () {
+                $scope.fileUpload.saving = false;
+              });
+          },
+          save: function () {
+            // Push to parent container files
+            $rootScope.$broadcast('close-popovers');
+          },
+          cancel: function () {
+            // Using our own cancel in order to delete file
+            // TODO: handle halfway-uploaded files
+            $rootScope.$broadcast('close-popovers');
+            if (!$scope.fileUpload.data.file.length) { return; }
+            var uploadURL = configAPIHost + '/' + $scope.state.contextVersion.urlPath +
+                '/' + $scope.state.contextVersion.id() + '/files';
+            $http.delete({
+              url: uploadURL,
+              withCredentials: true
+            }).catch(errs.handler);
+          }
+        },
+        data: {}
       };
 
       $scope.$watch('state.opts.env.join()', function (n) {

@@ -32,6 +32,7 @@
 @import "components/icons";
 @import "components/lists";
 @import "components/logo";
+@import "components/select";
 @import "components/spinner";
 @import "components/tags";
 @import "components/tooltips";
@@ -84,11 +85,13 @@
 @import "popover/popover-fixed";
 @import "popover/popover-guides";
 @import "popover/popover-select";
+@import "popover/popover-views";
 
 // popover specific
 @import "popover/popover-account-menu";
 @import "popover/popover-actions";
 @import "popover/popover-add-tab";
+@import "popover/popover-files";
 @import "popover/popover-guides";
 @import "popover/popover-help";
 @import "popover/popover-invite";
@@ -96,6 +99,7 @@
 @import "popover/popover-new-server";
 @import "popover/popover-primary-options";
 @import "popover/popover-repository-toggle";
+@import "popover/popover-rules";
 
 // pages
 @import "pages/environment";

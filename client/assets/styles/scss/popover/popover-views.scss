@@ -1,0 +1,44 @@
+.popover-views {
+  overflow: hidden; // popover-views must be fixed width & height
+
+  &.view-2 .popover-view {
+    transform: translate3d(-100%,0,0);
+  }
+
+  &.view-3 .popover-view {
+    transform: translate3d(-200%,0,0);
+  }
+
+  .popover-content {
+    max-height: none;
+  }
+}
+
+.popover-view {
+  box-shadow: 0 1px 1px $gray-lighter;
+  display: flex;
+  flex-direction: column;
+  float: left;
+  position: absolute;
+  transition: transform .3s ease-in-out;
+
+  + .popover-view {
+    left: 100%;
+
+    + .popover-view {
+      left: 200%;
+    }
+  }
+
+  .popover-header {
+    flex: 0 0 auto;
+  }
+
+  .popover-content {
+    flex: 1 1 auto;
+  }
+
+  .popover-footer {
+    flex: 0 0 auto;
+  }
+}

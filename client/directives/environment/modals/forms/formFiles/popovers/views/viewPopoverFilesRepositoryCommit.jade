@@ -1,0 +1,84 @@
+.popover-header
+  button.btn.btn-sm.white.pull-left(
+    ng-click = "state.view3 = false"
+  )
+    svg.iconnables.icons-arrow-backward
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+    | Done
+  strong.strong.text-overflow Commit
+  //- this button is empty on purpose
+  button.btn.btn-sm.pull-right.no-touching
+
+.popover-content
+  label.label.label-jump
+    small.small Branch
+    select.select
+      option(
+        disabled
+      ) Choose a branch
+      option branch1
+      option branch2
+
+  label.label-checkbox.small.clearfix(
+    ng-if = "data.latestCommitActive"
+  )
+    input.input-checkbox(
+      type = "checkbox"
+    )
+    | Always update to latest on new builds
+
+  ul.list.list-servers
+    //- apply .active to currently selected commit (or latest)
+    li.list-item.text-overflow(
+      ng-class = "{active: data.latestCommitActive}"
+      ng-click = "data.latestCommitActive = true"
+    ) commit msg
+      .toggle-group-detail.clearfix
+        small.small joe authored 2 days ago
+        a.small.link.link-text.monospace(
+          href = "//google.com"
+          ng-click = "$event.stopPropagation()"
+          target = "_blank"
+        ) 1234567
+    li.list-item commit msg
+      .toggle-group-detail.clearfix
+        small.small joe authored 2 days ago
+        a.small.link.link-text.monospace(
+          href = "//google.com"
+          ng-click = "$event.stopPropagation()"
+          target = "_blank"
+        ) 1234567
+    li.list-item commit msg
+      .toggle-group-detail.clearfix
+        small.small joe authored 2 days ago
+        a.small.link.link-text.monospace(
+          href = "//google.com"
+          ng-click = "$event.stopPropagation()"
+          target = "_blank"
+        ) 1234567
+    li.list-item commit msg
+      .toggle-group-detail.clearfix
+        small.small joe authored 2 days ago
+        a.small.link.link-text.monospace(
+          href = "//google.com"
+          ng-click = "$event.stopPropagation()"
+          target = "_blank"
+        ) 1234567
+    li.list-item commit msg
+      .toggle-group-detail.clearfix
+        small.small joe authored 2 days ago
+        a.small.link.link-text.monospace(
+          href = "//google.com"
+          ng-click = "$event.stopPropagation()"
+          target = "_blank"
+        ) 1234567
+    li.list-item commit msg
+      .toggle-group-detail.clearfix
+        small.small joe authored 2 days ago
+        a.small.link.link-text.monospace(
+          href = "//google.com"
+          ng-click = "$event.stopPropagation()"
+          target = "_blank"
+        ) 1234567

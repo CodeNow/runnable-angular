@@ -73,9 +73,16 @@
   }
 
   &.input-xs {
+    font-size: 13px;
     height: 24px;
-    line-height: 24px;
+    line-height: 1;
   }
+}
+
+// hide if upload
+#input-upload {
+  position: absolute;
+  visibility: hidden;
 }
 
 .input {
@@ -286,5 +293,39 @@
     line-height: 24px;
     padding-left: 27px;
     transition: all .15s ease-in;
+  }
+
+  &.input-xs {
+    background-position: 110px 0;
+    background-size: 21px 18px;
+    padding-left: 130px;
+
+    &:focus,
+    &:valid {
+      background-position: 0 0;
+    }
+  }
+}
+
+// icons
+.input-root {
+  position: relative;
+
+  &::after {
+    color: $gray;
+    content: '/';
+    display: block;
+    font-weight: 500;
+    height: 36px;
+    left: 0;
+    line-height: 36px;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 21px;
+  }
+
+  .input {
+    padding-left: 15px;
   }
 }

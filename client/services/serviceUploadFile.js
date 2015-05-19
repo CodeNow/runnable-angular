@@ -1,30 +1,18 @@
 'use strict';
 
 require('app')
-  .factory('uploadFiles', uploadFiles);
+  .factory('uploadFile', uploadFile);
 
-function uploadFiles(
-  $http,
-  $q,
-  configAPIHost
+function uploadFile(
+  Upload
 ) {
-
-  return function (files, urlPath) {
-    var uploadPromises = [];
-
-    Array.prototype.forEach.call(files, function (file, index) {
-      var formData = new FormData();
-      formData.append('file', file);
-      return uploadPromises.push($http({
-        method: 'POST',
-        data: formData,
-        url: configAPIHost + '/' + urlPath,
-        headers: {
-          'Content-Type': undefined
-        }
-      }));
+  return function (file, urlPath) {
+    return Upload.upload({
+      url: urlPath,
+      file: file,
+      method: 'POST',
+      fileFormDataName: 'file',
+      withCredentials: true
     });
-
-    return $q.all(uploadPromises);
   };
 }
