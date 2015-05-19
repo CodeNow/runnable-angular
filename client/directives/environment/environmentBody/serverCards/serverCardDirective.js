@@ -25,7 +25,7 @@ require('app')
         helpCard: '=?'
       },
       link: function ($scope) {
-        var watchers = [];
+        var listeners = [];
 
         $scope.helpCards = helpCards;
         $scope.server = {};
@@ -95,12 +95,12 @@ require('app')
                               var refreshServerObj = function () {
                                 createServerObjectFromInstance($scope.server.instance);
                               };
-                              watchers.push({
+                              listeners.push({
                                 obj: helpCard,
                                 key: 'refresh',
                                 value: refreshServerObj
                               });
-                              watchers.push({
+                              listeners.push({
                                 obj: helpCard,
                                 key: 'activate',
                                 value: scrollIntoView
@@ -120,7 +120,7 @@ require('app')
                             var refreshServerObj = function () {
                               createServerObjectFromInstance($scope.server.instance);
                             };
-                            watchers.push({
+                            listeners.push({
                               obj: helpCard,
                               key: 'refresh',
                               value: refreshServerObj
@@ -180,7 +180,7 @@ require('app')
         };
 
         $scope.$on('$destroy', function () {
-          watchers.forEach(function (watcher) {
+          listeners.forEach(function (watcher) {
             watcher.obj.removeListener(watcher.key, watcher.value);
           });
           helpCards.removeByInstance($scope.server.instance);

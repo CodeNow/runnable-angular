@@ -105,9 +105,7 @@ function EnvironmentController(
         if (confirm('Are you sure you want to delete this container?')) {
           promisify(server.instance, 'destroy')()
             .then(function () {
-              $timeout(function () {
-                helpCards.refreshAllCards();
-              });
+              helpCards.refreshAllCards();
             })
             .catch(errs.handler);
         }
