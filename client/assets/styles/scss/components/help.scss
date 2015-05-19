@@ -81,6 +81,7 @@
 
 .help-step-container {
   height: 60px;
+  position: relative;
 }
 
 .help-step-item {
@@ -98,6 +99,11 @@
   &.undocked {
     position: fixed;
     top: 15px;
+  }
+
+  .modal-form & {
+    left: 0px;
+    right: 0px;
   }
 }
 
