@@ -95,9 +95,6 @@ function parseDockerfileForRunCommands(dockerfile, repoName) {
   // JS doesn't have easy lookbehind, so I just created two capturing groups.
   // The second group needs to be [\s\S] over . as that also matches newlines
   var reg = /(WORKDIR.*\n)([\s\S]*)(?=#End)/;
-  // Should be the beginning bit before any as the 1st, so remove it
-  var addChunks = dockerfile.attrs.body.split('ADD');
-  addChunks.shift();
   var missingChunk;
   // Should be the beginning bit before any as the 1st, so remove it
   if (repoName) {
@@ -111,7 +108,7 @@ function parseDockerfileForRunCommands(dockerfile, repoName) {
   }
   var results = reg.exec(missingChunk);
   if (results && results[2]) {
-    var parsedResults = results[2].split('\n')
+    return results[2].split('\n')
       .map(function (str) {
         return str.replace('RUN ', '')
           .replace(/#.+/, '')
@@ -122,7 +119,6 @@ function parseDockerfileForRunCommands(dockerfile, repoName) {
         return command.length;
       })
       .join('\n');
-    return parsedResults;
   }
 }
 
