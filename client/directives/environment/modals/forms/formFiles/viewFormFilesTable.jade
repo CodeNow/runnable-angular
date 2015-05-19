@@ -4,31 +4,19 @@
   .cell Name
   .cell.cell-type Type
 //- main repo is not actionable
-div(
+ul(
   dnd-list = "server.containerFiles"
 )
-  .tr.tr-action.multi-line.clearfix
-    .cell.cell-action
-      svg.iconnables.icons-drag
-        use(
-          xlink:href = "#icons-drag"
-        )
-    .cell.text-overflow(
-      title = "{{ server.instance.attrs.name }}"
-    ) {{ server.instance.attrs.name }}
-      small.small(
-        title = "path/to/thing"
-      ) path/to/thing
-    .cell.cell-type.small
-      svg.iconnables.icons-server
-        use(
-          xlink:href = "#icons-server"
-        )
-      | Main Repository
-  .tr.multi-line.disabled.clearfix(
+  li.tr.multi-line.clearfix(
+    dnd-draggable = "containerFile"
+    dnd-dragstart = "actions.dragstart()"
+    dnd-effect-allowed = "move"
+    dnd-moved = "server.containerFiles.splice($index, 1)"
     ng-repeat = "containerFile in server.containerFiles"
   )
-    .cell.cell-action
+    .cell.cell-action(
+      dnd-handle
+    )
       svg.iconnables.icons-drag
         use(
           xlink:href = "#icons-drag"
