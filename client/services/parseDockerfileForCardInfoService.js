@@ -77,6 +77,7 @@ function parseDockerfileForDefaults(dockerfile, keys) {
 
   return result;
 }
+
 function parseDockerfileForStartCommand(dockerfile) {
   var cmdValue = /cmd ([^\n]+)/i.exec(dockerfile.attrs.body);
   if (cmdValue) {
@@ -122,25 +123,11 @@ function parseDockerfileForRunCommands(dockerfile, repoName) {
   }
 }
 
-function parseDockerfileForContainerFiles(dockerfile) {
-  var containerFiles = [];
-  var reg = /#Add file: (.*)\n([\s\S]*)(?=#end file)/;
-  var currentFile = reg.exec(dockerfile);
-  while(currentFile) {
-    containerFiles.push({
-      name: currentFile[1],
-      path: currentFile[2],
-      commands: currentFile[3].split('\n').map(function (item) {
-        return item.replace('RUN ');
-      }),
-      //FIXME
-      type: 'File'
-    });
-    currentFile = reg.exec(dockerfile);
-  }
-  return containerFiles;
+function wrapWithType(content, type){
+  return '#Start ' + type + '\n' +
+    content + '\n' +
+    '#End';
 }
-
 
 
 function ContainerFile(contents){
@@ -155,8 +142,7 @@ function ContainerFile(contents){
   this.type = 'File';
 
   this.toString = function () {
-    return '#Start Container File\n'+
-      'ADD ./' + this.name + ' ' + this.path + '\n'+
+    var contents = 'ADD ./' + this.name + ' ' + this.path + '\n'+
       this.commands
         .filter(function (command) {
           return command.trim().length;
@@ -164,13 +150,38 @@ function ContainerFile(contents){
         .map(function (command) {
           return 'RUN '+command;
         })
-        .join('\n') +
-      '#End';
+        .join('\n');
+    return wrapWithType(contents, this.type);
   };
 }
 
+//function ContainerRepo(contents){
+//
+//}
+
+
+
+//function Ports(contents){
+//  contents = contents || '';
+//  this.ports = contents.replace('expose ').split(' ');
+//  this.type = 'Ports';
+//  this.toString = function () {
+//    return wrapWithType(this.ports.join(' '), this.type);
+//  };
+//}
+//
+//function StartCommand(contents){
+//  this.command = contents.replace('CMD ');
+//  this.type = 'Start Command';
+//  this.toString = function () {
+//    return wrapWithType(this.type, 'CMD ' + this.command);
+//  };
+//}
+
 var types = {
   'Container File': ContainerFile
+  //'Ports': Ports,
+  //'Start Command': StartCommand
 };
 
 function parseDockerfile (dockerfile) {
@@ -207,12 +218,23 @@ function parseDockerfileForCardInfoFromInstance(
         if (!dockerfile) {
           return $q.reject(new Error('Dockerfile empty or not found'));
         }
+
+        var allSections = parseDockerfile(dockerfile);
+        function findByType(type){
+          return allSections.find(function (section) {
+            return section.type === type;
+          });
+        }
+
+        var containerFiles = findByType('Container File');
+
         return {
+          allSections: allSections,
           instance: instance,
           ports: parseDockerfileForPorts(dockerfile),
           startCommand: parseDockerfileForStartCommand(dockerfile),
           commands: parseDockerfileForRunCommands(dockerfile, instance.getRepoName()),
-          containerFiles: parseDockerfileForContainerFiles(dockerfile),
+          containerFiles: containerFiles,
           selectedStack: parseDockerfileForStack(dockerfile, stackData)
         };
       });
