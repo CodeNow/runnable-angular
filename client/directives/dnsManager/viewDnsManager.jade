@@ -8,11 +8,11 @@
       )
   | Associations
 
-  status-icon(
-    ng-if = "isDnsSetup && $storage.dnsManagementIsClosed"
-    ng-repeat = "relatedInstance in getRelatedInstancesList()"
-    instance = "relatedInstance"
-  )
+  //status-icon(
+  //  ng-if = "isDnsSetup && $storage.dnsManagementIsClosed"
+  //  ng-repeat = "relatedInstance in getRelatedInstancesList() track by relatedInstance.attrs.shortHash"
+  //  instance = "relatedInstance"
+  //)
 
   //- spinner for sidebar
   .spinner-wrapper.spinner-sm.spinner-gray.in(
@@ -23,33 +23,35 @@
 .empty-state.well(
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0 && indirectlyRelatedInstances.length === 0"
 )
-  | {{ instance.getRepoName() || instance.getDisplayName() }}
+  span.span {{ instance.getRepoName() || instance.getDisplayName() }}
   span.branch-name
     |  has no associated containers.
 
 fancy-select.well(
-  ng-repeat = "masterInstance in masterInstancesWithChildren"
+  ng-repeat = "masterInstance in masterInstancesWithChildren track by masterInstance.attrs.shortHash"
   value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
+  track-by = "attrs.shortHash"
+  on-update = "actions.setDependency"
 )
 
   fancy-option(
-    value = "$parent.masterInstance.attrs.shortHash"
+    value = "$parent.masterInstance"
   )
     status-icon(
       instance = "$parent.$parent.masterInstance"
     )
-    | {{ $parent.$parent.masterInstance.repoName() || $parent.$parent.masterInstance.attrs.name }}
+    span.span {{ $parent.$parent.masterInstance.repoName() || $parent.$parent.masterInstance.attrs.name }}
     span.branch-name /{{ $parent.$parent.masterInstance.getBranchName() }}
 
   fancy-option(
     ng-repeat = "childInstance in $parent.masterInstance.children.models"
-    value = "childInstance.attrs.shortHash"
+    value = "childInstance"
   )
     status-icon(
       instance = "$parent.childInstance"
     )
-    | {{ $parent.childInstance.getRepoName() || $parent.childInstance.attrs.name }}
+    span.span {{ $parent.childInstance.getRepoName() || $parent.childInstance.attrs.name }}
     span.branch-name /{{ $parent.childInstance.getBranchName() }}
 
 //- non-repo containers, or repo containers with only one branch, that are linked directly
@@ -60,7 +62,7 @@ fancy-select.well(
   status-icon(
     instance = "masterInstance"
   )
-  | {{ masterInstance.repoName() || masterInstance.attrs.name }}
+  span.span {{ masterInstance.repoName() || masterInstance.attrs.name }}
   span.branch-name(
     ng-if = "masterInstance.getBranchName().length"
   ) /{{ masterInstance.getBranchName() }}

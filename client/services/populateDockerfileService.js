@@ -20,11 +20,24 @@ function populateDockerfile(
     function populateDockerFile(dockerfileBody) {
       // first, add the ports
       var ports = state.ports.join(' ');
+      state.commands = state.commands || '';
+      var commands = state.commands.split('\n')
+        .filter(function (str) {
+          return str.trim().length;
+        })
+        .map(function(str) {
+          return 'RUN ' + str.trim();
+        })
+        .join('\n');
       dockerfileBody = replaceStackVersion(dockerfileBody, state.selectedStack)
         .replace(/<user-specified-ports>/gm, ports)
+        .replace(/<before-main-repo>/gm, '')
+        .replace(/<after-main-repo>/gm, '')
+        .replace(/<dst>/gm, '/' + state.dst)
         .replace(/<repo-name>/gm, state.repo.attrs.name)
-        .replace(/<add-dependencies>/gm, '')
-        .replace(/<start-command>/gm, state.startCommand);
+        .replace(/<main-build-commands>/gm, commands)
+        .replace(/<start-command>/gm, state.startCommand)
+        .replace(/#default.+/gm, ''); // Remove all default comments that are not
       if (!state.ports.length) {
         dockerfileBody = dockerfileBody.replace('EXPOSE', '');
       }

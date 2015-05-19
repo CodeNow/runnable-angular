@@ -1,32 +1,61 @@
-//- group/pod/server/instance/box page
-a.btn.gray(
-  ui-sref = "instance.home({ userName: dataApp.data.activeAccount.oauthName() })"
-)
-  svg.iconnables.icons-arrow-back.icons-round
-    use(
-      xlink:href = "#icons-arrow-back"
-    )
-  | To Sandbox
-
 button.btn.btn-icon.blue(
+  ng-if = "featureFlags.helpCards"
   ng-class = "{active: state.helpButton.active}"
-  ng-include = "'viewHelpButton'"
+  ng-click = "state.helpButton.active = true"
   pop-over
-  pop-over-actions = "actions"
+  pop-over-actions = "helpPopover.actions"
   pop-over-active = "state.helpButton.active"
-  pop-over-data = "data"
-  pop-over-options = "{\"left\":-129,\"top\":47}"
+  pop-over-data = "helpPopover.data"
+  pop-over-options = "{\"left\":60}"
   pop-over-template = "viewHelpPopover"
+  pop-over-trigger = "activeAttr"
   title = "Help Center"
 )
+  .help-badge(
+    ng-if = "helpCards.cards.triggered.length > 0"
+  ) {{helpCards.cards.triggered.length}}
+  svg.iconnables
+    use(
+      xlink:href = "#icons-help"
+      )
+
+.help.triggered-help(
+  ng-if = "featureFlags.helpCards && !state.helpButton.active && helpCards.cards.triggered.length > 0 && !helpCards.getActiveCard()"
+)
+  .help-lists-wrapper
+    ul.triggered-help-list
+      li.triggered-help-item.clearfix
+        button.btn.btn-icon.btn-icon-sm(
+          ng-click = "helpPopover.actions.ignoreHelp(helpCards.cards.triggered[0])"
+        )
+          svg.iconnables
+            use(
+              xlink:href = "#icons-close"
+            )
+        p.p(
+          ng-bind-html = "helpCards.cards.triggered[0].label"
+        )
+        button.btn.btn-sm(
+          ng-click = "helpPopover.actions.getHelp(helpCards.cards.triggered[0])"
+        ) Show Me
+  button.btn(
+    ng-click = "state.helpButton.active = true"
+  ) More Help
+    svg.iconnables
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
 
 //- new server button
 button.btn.green(
+  ng-click = "state.newServerButton.active = true"
   pop-over
   pop-over-actions = "actions"
+  pop-over-active = "state.newServerButton.active"
   pop-over-data = "data"
   pop-over-options = "{\"right\":0,\"top\":56}"
   pop-over-template = "viewPopoverNewServer"
+  pop-over-trigger = "activeAttr"
 )
   svg.iconnables.icons-add.icons-round
     use(

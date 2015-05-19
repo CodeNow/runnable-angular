@@ -1,0 +1,77 @@
+// help things
+.help.help {
+  background: $blue-lighter;
+  border: 1px solid $blue-light;
+  border-radius: 3px;
+  box-shadow: 0 2px 3px rgba($blue,.2);
+  color: rgba($blue,.8);
+
+  // alert help things
+  // overwrite current alerts :(
+  &.alert {
+    animation: alert-help .3s ease-in forwards;
+    border-width: 2px;
+    bottom: 15px;
+    height: 36px;
+    left: 0;
+    line-height: 32px;
+    margin: 0 auto;
+    min-width: 0;
+    padding: 0 15px;
+    right: 0;
+    width: 290px;
+
+    // anchor icon
+    .iconnables {
+      float: left;
+      height: 100%;
+      margin-right: 6px;
+    }
+  }
+
+  b {
+    color: $blue;
+  }
+}
+
+.triggered-help {
+  left: 75px;
+  position: absolute;
+  z-index: 1; // TODO: variable-ize this
+}
+
+.help-step-container {
+  height: 60px;
+}
+
+.help-step-item {
+  display: inline-block;
+  left: 15px;
+  line-height: 21px; // testing
+  margin-bottom: 15px;
+  padding: 9px 24px;
+  position: absolute;
+  right: 15px;
+  text-align: center;
+  z-index: 1; // TODO: variable-ize this
+
+  &.undocked {
+    position: fixed;
+    top: 15px;
+  }
+}
+
+.help-badge {
+  background: $blue;
+  border-radius: 50%;
+  color: $white;
+  font-size: 12px;
+  font-weight: 500;
+  height: 18px;
+  line-height: 18px;
+  position: absolute;
+  right: -9px;
+  text-align: center;
+  top: -9px;
+  width: 18px;
+}

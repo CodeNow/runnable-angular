@@ -17,6 +17,7 @@
     ng-controller = "BuildLogController"
     ng-if = "item.state.type === 'BuildStream'"
   )
+
   .logs(
     log-term
     ng-controller = "BoxLogController"
@@ -38,6 +39,7 @@
     use-auto-update = "useAutoUpdate"
     loading = "loading"
   )
+
   div(
     current-model = "instance.attrs"
     env-vars
@@ -52,33 +54,33 @@
   ng-if= "openItems.models.length === 0 && showBackgroundButtons"
 )
   ul.blank-panel-group
-    li.btn.white(
+    li.btn.btn-sm(
       ng-click = "openItems.addTerminal()"
       ng-if = "showBackgroundButtons.term"
     )
-      svg.iconnables.iconnables-lg.icons-terminal
+      svg.iconnables.icons-terminal
         use(
           xlink:href = "#icons-terminal"
         )
       | Terminal
-    li.btn.white(
+    li.btn.btn-sm(
       ng-click = "openItems.addBuildStream()"
       ng-if = "showBackgroundButtons.build"
     )
-      svg.iconnables.iconnables-lg.icons-logs
+      svg.iconnables.icons-logs
         use(
           xlink:href = "#icons-logs"
         )
-      | Build Log
-    li.btn.white(
+      | Build Logs
+    li.btn.btn-sm(
       ng-click = "openItems.addLogs()"
       ng-if = "showBackgroundButtons.server"
     )
-      svg.iconnables.iconnables-lg.icons-server
+      svg.iconnables.icons-server
         use(
           xlink:href = "#icons-server"
         )
-      | Run Log
+      | CMD Logs
 
 //- can .views-prompt go in its own template file?
 .views-prompt.theme-dark.hide(

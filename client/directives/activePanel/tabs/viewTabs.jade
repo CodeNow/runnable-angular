@@ -9,8 +9,10 @@ ul.tabs
       'always-open': item.state.alwaysOpen,\
       'dirty': (item.state.isDirty)\
     }"
-    ng-click = "openItems.activeHistory.add(item); \
-      openItems.saveState();"
+    ng-click = "\
+      openItems.activeHistory.add(item);\
+      openItems.saveState();\
+    "
     ng-repeat = "item in openItems.models"
   )
     .tab-name(
@@ -32,9 +34,9 @@ ul.tabs
 button.btn.btn-sm.btn-icon.btn-add-tab(
   ng-class = "{active: popoverAddTab.data.show}"
   ng-disabled = "!instance.containers.models[0].running()"
+  ng-if = "showAddButtons"
   pop-over
   pop-over-actions = "popoverAddTab.actions"
-  ng-if = "showAddButtons"
   pop-over-active = "popoverAddTab.data.show"
   pop-over-data = "popoverAddTab.data"
   pop-over-options = "{\"right\":0,\"top\":45}"

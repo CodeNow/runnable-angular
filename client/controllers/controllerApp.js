@@ -24,14 +24,14 @@ function ControllerApp(
   fetchOrgs,
   fetchUser,
   keypather,
-  pageName
+  pageName,
+  loading
 ) {
 
+  loading('main', true);
   var thisUser;
   var dataApp = $rootScope.dataApp = $scope.dataApp = {
-    data: {
-      loading: true
-    },
+    data: {},
     actions: {},
     state: {}
   };
@@ -44,6 +44,10 @@ function ControllerApp(
 
   // used in dev-info box
   dataApp.data.configEnvironment = configEnvironment;
+  $rootScope.featureFlags = {
+    helpCards: true
+  };
+
   dataApp.data.configAPIHost = configAPIHost;
   dataApp.data.minimizeNav = false;
   dataApp.data.loginURL = configLoginURL();
@@ -88,7 +92,7 @@ function ControllerApp(
       setActiveAccount(toParams.userName);
     }
     eventTracking.update();
-    dataApp.data.loading = false;
+    loading('main', false);
   });
 
   $scope.$watch(function () {

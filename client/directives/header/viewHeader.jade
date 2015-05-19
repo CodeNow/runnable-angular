@@ -1,8 +1,32 @@
-a.logo
+a.logo.logo-icon
   svg
     use(
-      xlink:href = "#runnable-logo"
+      xlink:href = "#runnable-icon"
     )
+
+.btn-group
+  a.btn.btn-sm.purple(
+    ng-class = "{\
+      active: dataApp.isInstancePage,\
+      'no-touching': !dataApp.data.activeAccount\
+    }"
+    ui-sref = "instance.home({ userName: dataApp.data.activeAccount.oauthName() })"
+  )
+    svg.iconnables
+      use(
+        xlink:href = "#icons-server"
+      )
+    | Containers
+  a.btn.btn-sm.purple(
+    ng-class = "{'no-touching': !dataApp.data.activeAccount}"
+    ui-sref-active = 'active'
+    ui-sref = "config.home({ userName: dataApp.data.activeAccount.oauthName() })"
+  )
+    svg.iconnables
+      use(
+        xlink:href = "#icons-gear"
+      )
+    | Configure
 
 //- menu
 accounts-select(

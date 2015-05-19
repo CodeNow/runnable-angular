@@ -1,0 +1,60 @@
+.help.help-step-item(
+  ng-if = "helpCards.getActiveCard().helpPopover.repositories"
+  ng-bind-html = "helpCards.getActiveCard().helpPopover.repositories"
+)
+
+.label.clearfix
+  .label-col Branch
+
+  .input-col
+    fancy-select(
+      ng-required = "true"
+      value = "state.branch"
+    )
+      li.list-item.popover-list-item.small Select branch
+      fancy-option(
+        ng-repeat = "branch in $parent.branches.models"
+        value = "branch"
+      )
+        svg.iconnables.icons-branch
+          use(
+            xlink:href = "#icons-branch"
+          )
+        | {{ $parent.branch.attrs.name }}
+    small.small Set the default branch for {{ server.instance.getDisplayName() || state.opts.name }}.
+
+label.label.clearfix
+  .label-col Build Commands
+
+  .input-col
+    //- we only have suggestions for build commands on the main repository
+    textarea.textarea.monospace(
+      ng-disabled = "startCommandCanDisable && !state.selectedStack"
+      ng-model = "state.commands"
+      placeholder = "Build commands"
+      spellcheck = "false"
+    )
+    small.small Specify the commands that need to be executed when your container is built and before it is launched that support your application (e.g. installing the packages that your code needs).
+
+label.label.clearfix
+  .label-col Container CMD
+
+  .input-col
+    fancy-select(
+      ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
+      ng-required = "true"
+      placeholder = "Container command"
+      show-dropdown = "state.selectedStack.startCommand"
+      type = "text"
+      value = "state.startCommand"
+    )
+      li.list-item.popover-list-item.small Suggested container cmd
+      fancy-option(
+        value = "$parent.state.selectedStack.startCommand"
+      ) {{$parent.$parent.state.selectedStack.startCommand}}
+
+    small.small This is the command that will be executed when your container is launched, to start running your code. This must be the long-running process your code requires (e.g. apache, NPM start, Python server).  When this process terminates, your container will also stop running. #{''}
+      a.link(
+        href = "//docs.docker.com/reference/builder/#cmd"
+        target = "_blank"
+      ) More about the container cmd

@@ -6,13 +6,10 @@
   }
 
   .well-code {
+    font-size: 14px;
     height: auto;
     line-height: 1.2;
     max-height: none;
     padding: 12px;
-
-    + .well-code {
-      margin-top: 6px;
-    }
   }
 }

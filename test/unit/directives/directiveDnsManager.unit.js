@@ -131,26 +131,26 @@ describe('directiveDnsManager'.bold.underline.blue, function() {
     sinon.assert.calledOnce($scope.instance.fetchDependencies);
 
     var dependentInstanceContext = instanceDependencies.models[0].attrs.contextVersion.context;
-    expect($elScope.instanceDependencyMap[dependentInstanceContext]).to.equal(instanceDependencies.models[0].attrs.shortHash);
+    expect($elScope.instanceDependencyMap[dependentInstanceContext]).to.equal(instanceDependencies.models[0]);
   });
 
   it('should handle setDependency on a master instance', function () {
     injectSetupCompile();
 
-    $elScope.actions.setDependency(masterPods[1], masterPods[1].attrs.shortHash);
+    $elScope.actions.setDependency(masterPods[1]);
     sinon.assert.calledOnce(instanceDependencies.models[0].destroy);
   });
 
   it('should handle setDependency on a master instance when one does not already exist', function () {
     injectSetupCompile();
 
-    $elScope.actions.setDependency(masterPods[2], masterPods[2].attrs.shortHash);
+    $elScope.actions.setDependency(masterPods[2]);
     sinon.assert.notCalled(instanceDependencies.models[0].destroy);
   });
 
   it('should handle setDependency on a non master instance', function () {
     injectSetupCompile();
-    $elScope.actions.setDependency(masterPods[1], masterChildMapping[masterPods[1].attrs.shortHash][1].attrs.shortHash);
+    $elScope.actions.setDependency(masterChildMapping[masterPods[1].attrs.shortHash][1]);
     sinon.assert.calledOnce(instanceDependencies.create);
   });
 });

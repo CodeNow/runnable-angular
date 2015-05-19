@@ -12,5 +12,6 @@ module.exports = angular.module('app', [
   uiAce,
   ngStorage,
   'jsTag',
-  'angularFileUpload'
+  'angularFileUpload',
+  require('angular-sanitize')
 ]);

@@ -10,7 +10,7 @@ function instanceList(
   getInstanceAltTitle,
   getTeamMemberClasses,
   $state,
-  keypather
+  $rootScope
 ) {
   return {
     restrict: 'A',
@@ -21,10 +21,7 @@ function instanceList(
       actions: '='
     },
     link: function ($scope) {
-
-      $scope.isLoading = function () {
-        return !$scope.data.activeAccount || !keypather.get($scope, 'data.instancesByPod.models.length');
-      };
+      $scope.isLoading = $rootScope.isLoading;
 
       $scope.stateToInstance = function (instance, $event) {
         if ($event && $event.preventDefault) {

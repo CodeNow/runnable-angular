@@ -1,3 +1,10 @@
+.help-step-container(
+  ng-if = "helpCards.getActiveCard().helpPopover.environmentVariables"
+)
+  .help.help-step-item(
+    ng-bind-html = "helpCards.getActiveCard().helpPopover.environmentVariables"
+  )
+
 .clearfix
   .label-col Environment Variables
 
@@ -15,8 +22,19 @@ pre.ace-container.ace-environment-variables.ace-runnable-dark(
   validation = "validation.env"
 )
 
-small.small Define environment variables that are used as part of the container build process, as well as being made available to your application in a running container. #{''}
-  //- a.link(
-  //-   href = "//google.com"
-  //-   target = "_blank"
-  //- ) More about environment variables 🐉🐉🐉
+label.label.label-help
+  small.small(
+    tooltip = "Use this URL when configuring callback services to this container."
+    tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-5,\"top\":15}"
+  )
+    button.btn.btn-xxs
+      svg.iconnables.icons-help
+        use(
+          xlink:href = "#icons-help"
+        )
+    | Container's Elastic Hostname
+  input.input.input-xs(
+    ng-attr-value = "{{ instance.getElasticHostname() }}"
+    readonly
+    select-all
+  )

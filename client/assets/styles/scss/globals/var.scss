@@ -2,7 +2,8 @@
 $black: #000;
 $white: #fff;
 
-$gray-lightest: #f7f7f7;
+$gray-lighterest: #f7f7f7;
+$gray-lightest: #f0f0f0;
 $gray-lighter: #dbdbdb;
 $gray-light: #bbb;
 $gray: #888;
@@ -17,7 +18,7 @@ $green-darker: darken($green,12%);
 
 $purple: #5b3777;
 $purple-logo: #ccadd2;
-$purple-light: saturate(lighten($purple,15%),15%);
+$purple-light: #834fab;
 $purple-lighter: #b6a6bd;
 $purple-lightest: #eee1f7; // was #f3ecf9 in SAN-1069-setup
 $purple-dark: darken($purple,10%);
@@ -34,8 +35,10 @@ $red-light: #ef737f;
 $red-lighter: #fde6e9;
 $red-dark: desaturate(darken($red,10),7);
 
-$blue: #2ab0f6;
-$blue-dark: darken($blue,6%);
+$blue: #0ca6f2; // previously #2ab0f6;
+$blue-light: #8bd5f9; // previously #86cff6;
+$blue-lighter: #f5fcff; // previously #f1faff;
+$blue-dark: #1e7daf;
 
 // spinner vars
 $spinner-offset: 187;

@@ -112,12 +112,6 @@ html(
       ng-include = "'svgDefs'"
     )
 
-    //- spinner
-    .spinner-wrapper.spinner-backdrop.spinner-lg.spinner-purple.in(
-      ng-if = "dataApp.data.loading"
-      ng-include = "'spinner'"
-    )
-
     //- modals
     div(
       modal-manager
@@ -138,7 +132,7 @@ html(
         header.modal-header
           h1.modal-heading Something went wrong.
         section.modal-body.clearfix
-          .modal-description.well.well-code.gray.monospace(
+          .modal-description.well.well-code.monospace(
           ng-repeat = "error in dataApp.data.modalError.data.errors track by $index"
           ) {{ error.message }}
 

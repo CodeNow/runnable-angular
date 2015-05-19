@@ -39,6 +39,8 @@ ul.list.repository-group(
     )
       input.input-checkbox(
         ng-model = "data.autoDeploy"
+        ng-true-value="false"
+        ng-false-value="true"
         type = "checkbox"
       )
-      | Disable auto-deploy
+      | auto-deploy

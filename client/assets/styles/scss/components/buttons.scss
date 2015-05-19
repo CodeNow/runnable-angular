@@ -171,9 +171,7 @@
   }
 
   &.btn-xs .icons-close {
-    height: 24px;
     top: 0;
-    width: 24px;
   }
 }
 
@@ -277,7 +275,7 @@
 }
 
 .gray {
-  background: $gray-lightest;
+  background: $gray-lighterest;
   border-color: $gray-lighter;
   color: $gray-dark;
 
@@ -402,19 +400,31 @@
   color: $purple-light;
 
   &.btn {
+    background: $purple-light;
+    border-color: $white;
+    color: $white;
 
     &:hover,
     &.hover {
-      background: $white;
-      border-color: $purple-light;
-      color: $purple-light;
+      background: rgba($white,.1);
     }
 
     &:active,
     &.active {
       background: $white;
-      border-color: currentColor;
-      color: $green;
+      color: $purple-light;
+    }
+  }
+
+  &.btn-group {
+    border: 2px solid $white;
+    border-radius: 3px;
+
+    > .btn {
+      border: 0;
+      border-radius: 0;
+      line-height: 36px;
+      margin: 0;
     }
   }
 }
@@ -457,7 +467,7 @@
 
     &[disabled],
     &.disabled {
-      background: $gray-lightest;
+      background: $gray-lighterest;
       border-color: $gray-lighter;
       color: $gray-light;
       opacity: 1;
@@ -465,7 +475,7 @@
       &:hover,
       &:active,
       &.active {
-        background: $gray-lightest;
+        background: $gray-lighterest;
         border-color: $gray-lighter;
       }
     }
