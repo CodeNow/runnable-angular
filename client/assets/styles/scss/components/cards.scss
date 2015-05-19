@@ -164,13 +164,60 @@
   font-weight: 400;
   padding: 15px;
 
-  .label-checkbox {
-    float: left;
+  .input-toggle {
+    // height: 18px;
+    // margin-right: 6px;
+    // margin-top: 3px;
+    position: absolute;
+    margin-left: -9999px;
+    visibility: hidden;
 
-    .input-checkbox {
-      height: 18px;
-      margin-right: 6px;
-      margin-top: 3px;
+    &:checked + .label-toggle::before {
+      background-color: #8ce196;
+    }
+
+    &:checked + .label-toggle::after {
+      margin-left: 60px;
+    }
+  }
+
+  .label-toggle {
+    // float: left;
+    display: block;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    user-select: none;
+    //
+    padding: 2px;
+    width: 120px;
+    height: 60px;
+    background-color: #dddddd;
+    border-radius: 60px;
+
+    &::before,
+    &::after {
+      display: block;
+      position: absolute;
+      top: 1px;
+      left: 1px;
+      bottom: 1px;
+      content: "";
+    }
+
+    &::before {
+      right: 1px;
+      background-color: #f1f1f1;
+      border-radius: 60px;
+      transition: background 0.4s;
+    }
+
+    &::after {
+      width: 58px;
+      background-color: #fff;
+      border-radius: 100%;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      transition: margin 0.4s;
     }
   }
 

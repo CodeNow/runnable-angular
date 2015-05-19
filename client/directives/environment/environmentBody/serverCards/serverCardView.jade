@@ -147,9 +147,11 @@ ul.card-body.load(
       )
 
 .card-footer
-  label.label-checkbox
-    input.input-checkbox(
-      type = "checkbox"
-    )
-    | Advanced Mode
+  input.input-toggle(
+    id = "advanced-toggle"
+    type = "checkbox"
+  )
+  label.label-toggle(
+    for = "advanced-toggle"
+  )
   .containers-count 15 Branch Containers
