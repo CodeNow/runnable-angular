@@ -16,11 +16,14 @@
 }
 
 .popover.right .arrow {
-  border-left-width: 0;
   border-right-color: $gray-lighter;
-  left: -11px;
+  left: -26px;
   margin-top: -11px;
   top: 50%;
+
+  &.white {
+    border-right-color: $white;
+  }
 }
 
 .popover.right .arrow:after {

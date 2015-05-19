@@ -1,0 +1,20 @@
+.popover.right.popover-files.popover-views(
+  ng-class = "{\
+    in: active,\
+    'view-2': state.view2,\
+  }"
+  ng-init = "state.view2 = null;"
+  ng-style = "popoverStyle.getStyle()"
+  style = "overflow: visible; transform-origin: 0 50%;"
+)
+  .arrow.white
+
+  //- choose repository
+  .popover-view(
+    ng-include = "'viewPopoverFilesRepositorySelect'"
+  )
+
+  //- commits/branch
+  .popover-view(
+    ng-include = "'viewPopoverFilesRepositoryCommit'"
+  )

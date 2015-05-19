@@ -47,13 +47,23 @@ li.folder(
             xlink:href = "#icons-repository"
           )
         span.item-name {{ acv.attrs.repo.split('/')[1] }} (main)
-    li.file.no-touching
-      a
+    li.file
+      //- popover is a very similar file to the original, should this be a template?
+      a(
+        ng-class = "{active: state.viewPopoverFilesRepositoryCommitToggle.active}"
+        ng-click = "state.viewPopoverFilesRepositoryCommitToggle.active = true"
+        pop-over
+        pop-over-actions = "viewPopoverFilesRepositoryCommitToggle.actions"
+        pop-over-active = "state.viewPopoverFilesRepositoryCommitToggle.active"
+        pop-over-data = "viewPopoverFilesRepositoryCommitToggle.data"
+        pop-over-options = "{\"left\":210,\"top\":-198}"
+        pop-over-template = "viewPopoverFilesRepositoryCommitToggle"
+      )
         svg.iconnables.filetypes.icons-repository
           use(
             xlink:href = "#icons-repository-additional"
           )
-        span.item-name other-repository
+        span.item-name …
   ul(
     ng-if = "dir.contents.models.length"
     ng-include = "'viewFileTreeDirItem'"
