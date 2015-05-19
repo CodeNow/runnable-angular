@@ -3,7 +3,7 @@
   background: $blue-lighter;
   border: 1px solid $blue-light;
   border-radius: 3px;
-  box-shadow: 0 2px 3px rgba($blue,.2);
+  box-shadow: 0 1px 3px rgba($blue,.25);
   color: rgba($blue,.8);
 
   // alert help things
@@ -42,7 +42,7 @@
   left: 75px;
   line-height: 18px;
   max-width: none; // overwrites max-width set in popover.scss
-  padding-bottom: 29px;
+  padding-bottom: 26px;
   position: absolute;
   transition: none;
   width: 390px;
@@ -57,9 +57,10 @@
     bottom: 0;
     font-size: 13px;
     font-weight: 500;
-    height: 30px;
+    height: 27px;
     left: 0;
     line-height: 18px;
+    padding-bottom: 3px;
     position: absolute;
     width: 100%;
 
@@ -86,12 +87,12 @@
 
 .help-step-item {
   display: inline-block;
-  left: 15px;
+  left: 0px;
   line-height: 21px; // testing
   margin-bottom: 15px;
   padding: 9px 24px;
   position: absolute;
-  right: 15px;
+  right: 0px;
   text-align: center;
   z-index: 1; // TODO: variable-ize this
 
@@ -101,10 +102,10 @@
     top: 15px;
   }
 
-  .modal-form & {
-    left: 0px;
-    right: 0px;
-  }
+  // .modal-form & {
+  //   left: 0px;
+  //   right: 0px;
+  // }
 }
 
 // badge on help button
@@ -126,7 +127,9 @@
 .triggered-help-item {
   border-bottom: 1px solid rgba($blue-light,.4);
   color: rgba($blue,.8);
-  padding: 14px 0 13px;
+  font-size: 16px;
+  line-height: 19px;
+  padding: 10px 0 12px;
   position: relative;
 
   // "x" button for triggered help items
@@ -136,7 +139,7 @@
     left: -9px;
     line-height: 1;
     position: absolute;
-    top: 13px;
+    top: 10px;
     width: 24px;
 
     &:hover {
@@ -166,10 +169,8 @@
     border: 2px solid $blue;
     color: $blue;
     float: right;
-    font-size: 15px;
     font-weight: 500;
-    margin-right: 6px;
-    padding: 0 13px;
+    margin: 3px 3px 0 0;
 
     &:hover {
       border-color: rgba($blue,.7);
