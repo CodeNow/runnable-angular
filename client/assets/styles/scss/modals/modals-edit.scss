@@ -201,11 +201,7 @@
   }
 
   @media (max-height: 800px) {
-    height: 200px;
-  }
-
-  @media (max-height: 600px) {
-    height: 175px;
+    height: calc(100vh - 412px);
     min-height: none;
   }
 
@@ -237,15 +233,7 @@
   }
 
   @media (max-height: 800px) {
-    height: 250px;
-  }
-
-  @media (max-height: 700px) {
-    height: 200px;
-  }
-
-  @media (max-height: 600px) {
-    height: 175px;
+    height: calc(100vh - 342px);
     min-height: none;
   }
 
@@ -262,12 +250,7 @@
     height: auto;
     margin: -2px 0 -2px -2px;
     padding: 0;
-    width: 180px;
-
-    .tree-input {
-      background: transparent;
-      max-width: 133px;
-    }
+    width: 210px;
   }
 
   .sidebar-actions {
@@ -313,15 +296,7 @@
     }
 
     @media (max-height: 800px) {
-      height: 250px;
-    }
-
-    @media (max-height: 700px) {
-      height: 200px;
-    }
-
-    @media (max-height: 600px) {
-      height: 175px;
+      height: calc(100vh - 342px);
       min-height: none;
     }
 
