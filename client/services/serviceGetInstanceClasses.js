@@ -18,7 +18,7 @@ function getInstanceClasses(
 
     var status = instanceStatus(instance);
     var statusMap = {
-      'stopped': 'red',
+      'stopped': '',
       'crashed': 'red',
       'running': 'green',
       'buildFailed': 'red',

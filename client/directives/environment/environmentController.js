@@ -76,10 +76,7 @@ function EnvironmentController(
     }
   });
 
-  $scope.alert = {
-    type: 'success',
-    text: 'Container updated successfully.'
-  };
+  $scope.alert = null;
 
   $scope.$on('alert', function (evt, data) {
     $scope.alert = data;
