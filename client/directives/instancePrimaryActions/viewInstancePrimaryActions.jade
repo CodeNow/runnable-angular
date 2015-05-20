@@ -5,7 +5,7 @@
     button.btn.green.btn-save.btn-spinner(
       ng-class = "{in: saving}"
       ng-click = "saveChanges()"
-      ng-disabled = "!instance.containers.models[0].running() || loading || saving || modifyingInstance"
+      ng-disabled = "!instance.containers.models[0].running() || loading || saving || modifyingInstance || !canSave()"
       type = "button"
     )
       .spinner-wrapper.spinner-sm.spinner-white.in(
@@ -20,7 +20,7 @@
       ) #{''} and Restart
     button.btn.green.btn-icon.btn-icon-sm.btn-save-options(
       ng-class = "{active: popoverSaveOptions.data.show}"
-      ng-disabled = "!instance.containers.models[0].running() || loading || saving || modifyingInstance"
+      ng-disabled = "!instance.containers.models[0].running() || loading || saving || modifyingInstance || !canSave()"
       type = "button"
       pop-over
       pop-over-active = "popoverSaveOptions.data.show"
