@@ -85,14 +85,6 @@ describe('directiveDnsManager'.bold.underline.blue, function() {
 
     $rootScope.$apply();
 
-    // Make sure we can fetch the dependencies of the master instance
-    masterPods[0].fetchDependencies = sinon.mock().returns({
-      models: [
-        masterPods[1],
-        masterChildMapping[masterPods[2].attrs.shortHash][1]
-      ]
-    });
-
     // Setup our instance to be a child of the master instance
     $scope.instance = masterChildMapping[masterPods[0].attrs.shortHash][0];
 
@@ -128,7 +120,7 @@ describe('directiveDnsManager'.bold.underline.blue, function() {
 
     expect($elScope.isDnsSetup, 'DNS is setup!').to.equal(true);
 
-    expect($elScope.directlyRelatedMasterInstances.length, 'Directly related master instances length').to.equal(2);
+    expect($elScope.directlyRelatedMasterInstances.length, 'Directly related master instances length').to.equal(1);
 
     sinon.assert.calledOnce($scope.instance.fetchDependencies);
 
@@ -142,14 +134,6 @@ describe('directiveDnsManager'.bold.underline.blue, function() {
     $elScope.actions.setDependency(masterPods[1]);
     $elScope.$digest();
     sinon.assert.calledOnce(instanceDependencies.models[0].update);
-  });
-
-  it('should handle setDependency on a master instance when one does not already exist', function () {
-    injectSetupCompile();
-
-    $elScope.actions.setDependency(masterPods[2]);
-    $elScope.$digest();
-    sinon.assert.calledOnce(instanceDependencies.create);
   });
 
   it('should handle setDependency on a non master instance', function () {
