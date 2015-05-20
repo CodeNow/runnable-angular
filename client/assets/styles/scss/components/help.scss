@@ -94,7 +94,6 @@
     position: absolute;
     text-align: center;
     transform: translate(-50%,0);
-    // z-index: 1; // TODO: variable-ize this
 
     // anchor icon
     .iconnables {
@@ -103,25 +102,6 @@
     }
   }
 }
-
-// .help-step-item {
-//   padding: 6px 24px;
-//   position: absolute;
-//   left: 50%;
-//   transform: translate(-50%,0);
-//   z-index: 1; // TODO: variable-ize this
-//   display: table;
-//   margin: 0 auto 15px;
-
-//   // on scroll class for sticking to top of window.
-
-    // // on scroll class for sticking to top of window.
-    // &.undocked {
-    //   position: fixed;
-    //   top: 15px;
-    // }
-  
-// }
 
 // badge on help button
 .help-badge {
