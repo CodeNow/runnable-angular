@@ -103,7 +103,7 @@
   }
 
   // info
-  &.list-info {
+  &.no-action {
     color: $gray-light;
     cursor: default;
     font-size: 13px;
@@ -121,6 +121,24 @@
     min-height: 36px;
     padding: 6px 9px;
     white-space: normal;
+
+    &.list-info {
+      font-size: 14px;
+      padding: 9px;
+
+      .iconnables {
+        height: 18px;
+      }
+
+      .row {
+        height: 18px;
+        line-height: 18px;
+
+        + .row {
+          margin-top: 9px;
+        }
+      }
+    }
 
     .small {
       color: $gray;

@@ -8,7 +8,7 @@ li.folder(
 )
 
   a(
-    ng-class = "{ 'no-touching': isRootDir}"
+    ng-class = "{'no-touching': isRootDir}"
     ng-click = "dir.state.open = (!!showRepoFolder) || !dir.state.open"
     pop-over
     pop-over-actions = "popoverFileExplorerFolder.actions"
@@ -47,7 +47,14 @@ li.folder(
             xlink:href = "#icons-repository"
           )
         span.item-name {{ acv.attrs.repo.split('/')[1] }}
-    li.file
+    li.file(
+      pop-over
+      pop-over-actions = "popoverFileExplorerRepository.actions"
+      pop-over-data = "popoverFileExplorerRepository.data"
+      pop-over-template = "viewFileTreePopoverFileExplorerRepositoryMenu"
+      pop-over-options = "popoverFileExplorerRepository.options"
+      pop-over-trigger = "rightClick"
+    )
       //- popover is a very similar file to the original, should this be a template?
       a(
         ng-class = "{active: state.viewPopoverFilesRepositoryCommitToggle.active}"
