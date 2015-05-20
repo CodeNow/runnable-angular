@@ -1,84 +1,112 @@
 'use strict';
 
 require('app')
-  .factory('fetchTransformRules', fetchTransformRules);
+  .factory('deleteTransformRule', deleteTransformRule);
 
-function fetchTransformRules(
-  $q,
-  $timeout
+require('app')
+  .factory('createTransformRule', createTransformRule);
+
+require('app')
+  .factory('testRenameTransformRule', testRenameTransformRule);
+require('app')
+  .factory('testReplaceTransformRule', testReplaceTransformRule);
+
+require('app')
+  .factory('parseDiffResponse', parseDiffResponse);
+
+function parseDiffResponse(
+  diffParse
 ) {
-  return function () {
-    var defer = $q.defer;
-    $timeout(function () {
-      defer.resolve({
-        exclude: ['/cheese/butter.js', '/hello/operator.jade'],
-        replace: [
-          {
-            action: 'replace',
-            search: 'this.username()',
-            replace: 'My name, bitch',
-            exclude: ['/butter/scotch.jsp']
-          },
-          {
-            action: 'replace',
-            search: 'localhost',
-            replace: 'staging-codenow.runnableapp.com',
-            exclude: []
-          }
-        ],
-        rename: [
-          {
-            action: 'rename',
-            source: '/this/mellow.jpg',
-            dest: './hello/have.js'
-          }
-        ]
+  return function (fullDiff) {
+    var totalParse = diffParse(fullDiff);
+    var groupByLineNumbers = {};
+    return Object.keys(totalParse).map(function (fileKey) {
+      var parsed = totalParse[fileKey];
+      parsed.modifications.forEach(function (modification) {
+        if (!groupByLineNumbers[modification.ln]) {
+          groupByLineNumbers[modification.ln] = {
+            additions: [],
+            deletions: []
+          };
+        }
+        if (modification.del) {
+          groupByLineNumbers[modification.ln].deletions.push(modification);
+        } else {
+          groupByLineNumbers[modification.ln].additions.push(modification);
+        }
       });
-    }, 1000);
-    return defer.promise;
+      parsed.changes = Object.keys(groupByLineNumbers).map(function (key) {
+        return groupByLineNumbers[key];
+      });
+      if (parsed.from === parsed.to) {
+        delete parsed.to;
+      } else {
+        parsed.to = parsed.to.replace('+++ ', '');
+      }
+      parsed.from = parsed.from.replace('--- ', '');
+      return parsed;
+    });
   };
 }
 
 function createTransformRule(
-  $q,
-  $timeout
+  promisify
 ) {
-  return function (rule) {
-    var defer = $q.defer;
-    $timeout(function () {
-      var value;
-      if (rule.action === 'replace') {
-        value = {
-          action: 'replace',
-          search: 'this.username()',
-          replace: 'My name, bitch',
-          exclude: ['/butter/scotch.jsp']
-        };
-      } else {
-        value = {
-          action: 'rename',
-          source: '/this/mellow.jpg',
-          dest: './hello/have.js'
-        };
+  return function (appCodeVersionModel, rule, oldRule) {
+    var rules = appCodeVersionModel.attrs.transformRules || {};
+    if (rule.action === 'replace') {
+      if (oldRule) {
+        rules.replace = rules.replace.filter(function (needle) {
+          return !angular.equals(needle, rule);
+        });
       }
-      defer.resolve(value);
-    }, 1000);
-    return defer.promise;
+      rules.replace = rules.replace.push({
+        action: 'replace',
+        search: rule.oldValue,
+        replace: rule.newValue
+      });
+    } else if (rule.action === 'rename') {
+      if (oldRule) {
+        rules.rename = rules.rename.filter(function (needle) {
+          return !angular.equals(needle, rule);
+        });
+      }
+      rules.rename = rules.rename.push({
+        action: 'rename',
+        source: rule.oldValue,
+        dest: rule.newValue
+      });
+    } else {
+      rules.exclude = rule;
+    }
+
+    return promisify(appCodeVersionModel, 'update')({
+      transformRules: rules
+    });
+
   };
 }
 
 function testRenameTransformRule(
   $q,
-  $timeout
+  user
 ) {
-  return function (rule) {
-    var defer = $q.defer;
-    $timeout(function () {
-      defer.resolve([{
-        from: 'build/index.html',
-        to: 'build/index.sass'
-      }]);
-    }, 1000);
+  return function (appCodeVersionModel, rule) {
+    var defer = $q.defer();
+    function callback(err, res, body) {
+      if (err) { return defer.reject(err); }
+      console.log(body);
+      defer.resolve(body.results);
+    }
+    rule.action = 'rename';
+    user.client.post(appCodeVersionModel.urlPath + '/' + appCodeVersionModel.id() +
+      '/actions/applyTransformRules', {
+        json: {
+          action: 'rename',
+          source: rule.oldValue,
+          dest: rule.newValue
+        }
+      }, callback);
     return defer.promise;
   };
 }
@@ -86,83 +114,58 @@ function testRenameTransformRule(
 
 function testReplaceTransformRule(
   $q,
-  $timeout
+  parseDiffResponse,
+  user
 ) {
-  return function (rule) {
-    var defer = $q.defer;
-    $timeout(function () {
-      defer.resolve([{
-        path: 'build/index.html',
-        changes: [{
-          deletions: [{
-            lineNumber: 1,
-            value: '- userName: username'
-          }],
-          additions: [{
-            lineNumber: 1,
-            value: '+ userName: account.oauthName()'
-          }]
-        }, {
-          deletions: [{
-            lineNumber: 5123,
-            value: '- userName: username'
-          }],
-          additions: [{
-            lineNumber: 5123,
-            value: '+ userName: account.oauthName()'
-          }]
-        }]
-      }]);
-    }, 1000);
+  return function (appCodeVersionModel, rule) {
+    var defer = $q.defer();
+
+    function callback(err, res, body) {
+      if (err) { return defer.reject(err); }
+      var parsed = parseDiffResponse(body.diff);
+      console.log(parsed);
+      defer.resolve(parsed);
+    }
+
+    user.client.post(appCodeVersionModel.urlPath + '/' + appCodeVersionModel.id() +
+      '/actions/applyTransformRules', {
+        json: {
+          action: 'replace',
+          search: rule.oldValue,
+          replace: rule.newValue
+        }
+      }, callback);
     return defer.promise;
   };
 }
 
 function deleteTransformRule(
   $q,
-  $timeout
+  promisify
 ) {
-  return function (rule) {
-    var defer = $q.defer;
-    $timeout(function () {
-      defer.resolve(true);
-    }, 1000);
+  return function (appCodeVersionModel, rule) {
+    var defer = $q.defer();
+    var rules = appCodeVersionModel.attrs.transformRules;
+    if (rules) {
+      if (rule.action === 'replace') {
+        rules.replace = rules.replace.filter(function (needle) {
+          return !angular.equals(needle, rule);
+        });
+      } else if (rule.action === 'rename') {
+        rules.rename = rules.rename.filter(function (needle) {
+          return !angular.equals(needle, rule);
+        });
+      } else {
+        rules.exclude = rules.exclude.filter(function (needle) {
+          return !angular.equals(needle, rule);
+        });
+      }
+
+      return promisify(appCodeVersionModel, 'update')({
+        transformRules: rules
+      });
+    }
+    defer.reject(new Error('No rules to delete'));
     return defer.promise;
   };
 }
-/**
- *
- diff -u -r /Users/ryan/Projects/fs-transform/test/fixtures/test/A /tmp/.test.fs-work.0.05125921848230064/A
- --- /Users/ryan/Projects/fs-transform/test/fixtures/test/A	2015-05-11 13:35:04.000000000 -0700
- +++ /tmp/.test.fs-work.0.05125921848230064/A	2015-05-11 13:35:04.000000000 -0700
- @@ -4,4 +4,4 @@
- Exampel
- Interesting
-
- -/some/path/foo
- +/path/"bar"
- diff -u -r /Users/ryan/Projects/fs-transform/test/fixtures/test/sub/C /tmp/.test.fs-work.0.05125921848230064/sub/C
- --- /Users/ryan/Projects/fs-transform/test/fixtures/test/sub/C	2015-05-11 13:35:04.000000000 -0700
- +++ /tmp/.test.fs-work.0.05125921848230064/sub/C	2015-05-11 13:35:04.000000000 -0700
- @@ -1,5 +1,5 @@
- File C
- -\sum_{i=10}^{100} i^2
- +\prod_{i=10}^{100} i^2
-
- Mew
- Mew
- diff -u -r /Users/ryan/Projects/fs-transform/test/fixtures/test/sub/subsub/D /tmp/.test.fs-work.0.05125921848230064/sub/subsub/D
- --- /Users/ryan/Projects/fs-transform/test/fixtures/test/sub/subsub/D	2015-05-11 13:35:04.000000000 -0700
- +++ /tmp/.test.fs-work.0.05125921848230064/sub/subsub/D	2015-05-11 13:35:04.000000000 -0700
- @@ -4,4 +4,4 @@
- File B is good
- Neato
-
- -"cool"
- +"neat"
- * @param fullDiff
- */
-function parseDiff(fullDiff) {
-
-}
-

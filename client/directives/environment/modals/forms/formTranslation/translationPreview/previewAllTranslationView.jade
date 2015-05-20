@@ -14,7 +14,13 @@
       )
         option build/index2.html
         option build/assets/img.img
-
+input-col.input-spinner(
+  ng-if = "loading"
+)
+  small.small Updating
+  .spinner-wrapper.spinner-sm.spinner-gray.in(
+    ng-include = "'spinner'"
+  )
 //.table.table-diff(
 //  ng-include = "'viewRuleFilename'"
 //)

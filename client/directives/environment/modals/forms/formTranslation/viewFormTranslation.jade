@@ -20,11 +20,12 @@ div(
 )
 
 div(
-  ng-include = "'viewFormTranslationIgnored'"
-  ng-show = "page === 'ignored'"
+  ignored-translation
+  ng-if = "page === 'ignored'"
 )
 
 div(
-  ng-include = "'viewFormTranslationPreview'"
-  ng-show = "page === 'preview'"
+  preview-all-translation
+  state = "state"
+  ng-if = "page === 'preview'"
 )

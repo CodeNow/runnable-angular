@@ -54,9 +54,9 @@
 
     //- association verification table
     .table.table-diff(
-      ng-if = "data.state.diff"
+      ng-repeat = "diff in data.state.diff"
       diff-display
-      file-diff = "data.state.diff"
+      file-diff = "diff"
     )
 
   .popover-footer.clearfix

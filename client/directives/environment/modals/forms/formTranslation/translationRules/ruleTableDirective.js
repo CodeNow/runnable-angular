@@ -3,15 +3,20 @@
 require('app')
   .directive('ruleTable', function ruleTable(
     createTransformRule,
-    deleteTransformRule
+    deleteTransformRule,
+    keypather,
+    promisify
   ) {
     return {
       restrict: 'A',
       templateUrl: 'ruleTableView',
       link: function ($scope, elem, attrs) {
         $scope.openRulePopover = function (rule) {
-          $scope.popoverData.data.state = rule || {};
+          $scope.popoverData.data.state = rule ? angular.copy(rule) : {};
           $scope.popoverData.data.isUpdating = !!rule;
+          if ($scope.popoverData.data.isUpdating) {
+            $scope.popoverData.data.state.oldRule = rule;
+          }
           $scope.popoverData.active = true;
         };
 
@@ -21,9 +26,7 @@ require('app')
           data: {
             parentData: $scope.data,
             state: {},
-            getMatchDisplay: function () {
-              return 'FAKE match in 1 file (1 new association)';
-            }
+            getMatchDisplay: $scope.getMatchDisplay
           },
           actions: {
             cancel: function () {
@@ -31,8 +34,14 @@ require('app')
             },
             deleteRule: function (rule) {
               $scope.popoverData.active = false;
-              return deleteTransformRule(rule)
+              return deleteTransformRule(
+                keypather.get($scope.state, 'contextVersion.appCodeVersions.models[0]'),
+                rule
+              )
                 .then(function () {
+                  return promisify($scope.state.contextVersion, 'fetch')();
+                })
+                .then(function (contextVersion) {
                   var index = $scope.state.list.indexOf(rule);
                   if (~index) {
                     $scope.state.list.splice(index, 1);
@@ -41,9 +50,15 @@ require('app')
             },
             createRule: function (rule) {
               $scope.popoverData.active = false;
-              return createTransformRule(rule)
+              return createTransformRule(
+                keypather.get($scope.state, 'contextVersion.appCodeVersions.models[0]'),
+                rule
+              )
                 .then(function () {
-                  $scope.state.list.push(rule);
+                  return promisify($scope.state.contextVersion, 'fetch')();
+                })
+                .then(function () {
+                  $scope.list.push(rule);
                 });
             },
             performCheck: function (rule, currentState) {

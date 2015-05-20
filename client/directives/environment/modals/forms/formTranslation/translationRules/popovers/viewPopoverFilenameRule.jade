@@ -31,13 +31,13 @@
 
     small.small.table-details(
       ng-if = "currentState.searched"
-    ) {{ data.state.diff ? 'Match found' : 'No matches found' }}
+    ) {{ data.state.results.nameChanges.length ? 'Match found' : 'No matches found' }}
 
     //- filename verification table
     .table.table-diff(
-      ng-if = "data.state.diff"
+      ng-if = "data.state.results.nameChanges.length"
       diff-display
-      file-diff = "data.state.diff"
+      file-diff = "data.state.results.nameChanges[0]"
     )
 
   .popover-footer.clearfix

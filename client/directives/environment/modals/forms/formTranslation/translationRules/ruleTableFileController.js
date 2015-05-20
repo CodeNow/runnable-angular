@@ -5,6 +5,7 @@ require('app')
     $q,
     $scope,
     $timeout,
+    keypather,
     testRenameTransformRule
   ) {
     $scope.header = {
@@ -13,19 +14,26 @@ require('app')
     };
     $scope.allowedTableTypes = ['filenames'];
 
-    $scope.state = {
-      list: [{
-        oldValue: 'config/environment',
-        newValue: './client/config/environment.js'
-      }, {
-        oldValue: './client/assets/js/primus-client.js',
-        newValue: './client/assets/js/primus-client-prod.js'
-      }]
-    };
+    $scope.tableType = 'filenames';
+
+    $scope.list = [{
+      oldValue: 'config/environment',
+      newValue: './client/config/environment.js'
+    }, {
+      oldValue: './client/assets/js/primus-client.js',
+      newValue: './client/assets/js/primus-client-prod.js'
+    }];
 
     $scope.popoverTemplate = 'viewPopoverFilenameRule';
 
-
-    $scope.performCheck = testRenameTransformRule;
+    $scope.performCheck = function (state) {
+      return testRenameTransformRule(
+        keypather.get($scope.state, 'contextVersion.appCodeVersions.models[0]'),
+        state
+      )
+        .then(function (results) {
+          state.results = results;
+        });
+    };
 
   });

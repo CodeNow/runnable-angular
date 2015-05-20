@@ -5,6 +5,7 @@ require('app')
     $q,
     $scope,
     $timeout,
+    keypather,
     testReplaceTransformRule
   ) {
 
@@ -13,17 +14,24 @@ require('app')
       title: 'Strings'
     };
     $scope.allowedTableTypes = ['strings'];
+    $scope.tableType = 'strings';
 
-    $scope.state = {
-      list: [{
-        oldValue: 'cheese',
-        newValue: 'cottage cheese'
-      }]
-    };
+    $scope.list = [{
+      oldValue: 'cheese',
+      newValue: 'cottage cheese'
+    }];
 
 
     $scope.popoverTemplate = 'viewPopoverStringRule';
 
-    $scope.performCheck = testReplaceTransformRule;
+    $scope.performCheck = function (state) {
+      return testReplaceTransformRule(
+        keypather.get($scope.state, 'contextVersion.appCodeVersions.models[0]'),
+        state
+      )
+        .then(function (diff) {
+          state.diff = diff;
+        });
+    };
 
   });

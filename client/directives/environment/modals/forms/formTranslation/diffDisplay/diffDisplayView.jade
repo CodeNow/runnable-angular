@@ -3,11 +3,11 @@
     a.link(
       href = "//github.com"
       target = "_blank"
-    ) {{ fileDiff.path }}
+    ) {{ fileDiff.from }}
     span(
-      ng-if = "fileDiff.newPath"
+      ng-if = "fileDiff.to"
     )
-      | #{''} → {{ fileDiff.newPath }}
+      | #{''} → {{ fileDiff.to }}
     small.small(
       ng-if = "!previewAll && fileDiff.association"
     ) {{ instance.attrs.name }} → {{ fileDiff.association }}
@@ -20,13 +20,13 @@ div(
   .tr.tr-deletion.clearfix(
     ng-repeat = "changeLine in change.deletions"
   )
-    .cell.monospace.cell-line {{ changeLine.lineNumber }}
-    .cell.monospace.text-overflow {{ changeLine.value }}
+    .cell.monospace.cell-line {{ changeLine.ln }}
+    .cell.monospace.text-overflow {{ changeLine.content }}
   .tr.tr-addition.clearfix(
     ng-repeat = "changeLine in change.additions"
   )
-    .cell.monospace.cell-line {{ changeLine.lineNumber }}
-    .cell.monospace.text-overflow {{ changeLine.value }}
+    .cell.monospace.cell-line {{ changeLine.ln }}
+    .cell.monospace.text-overflow {{ changeLine.content }}
   .tr.tr-gap.clearfix(
     ng-if = "!$last"
   )
