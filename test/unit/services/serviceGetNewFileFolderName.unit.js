@@ -22,63 +22,70 @@ describe('serviceGetNewFileFolderName'.bold.underline.blue, function () {
   });
 
 
-  it('should return `newfile` with an empty array', function () {
+  it('should return `newFile` with an empty array', function () {
     var models = modelify([]);
 
     var results = getNewFileFolderName(models);
-    expect(results).to.equal('newfile');
+    expect(results).to.equal('newFile');
   });
 
-  it('should return `newfile 0` with an unnumbered file', function () {
+  it('should return `newFolder` with an empty array and if it\'s a directory', function () {
+    var models = modelify([]);
+
+    var results = getNewFileFolderName(models, true);
+    expect(results).to.equal('newDirectory');
+  });
+
+  it('should return `newFile 0` with an unnumbered file', function () {
     var models = modelify([
       'asdf',
-      'newfile',
+      'newFile',
       'dfadfdsfds',
       'filenew'
     ]);
 
     var results = getNewFileFolderName(models);
-    expect(results).to.equal('newfile 0');
+    expect(results).to.equal('newFile 0');
   });
 
-  it('should return `newfile 2` when 0 and 1 exist', function () {
+  it('should return `newFile 2` when 0 and 1 exist', function () {
     var models = modelify([
       'asdf',
-      'newfile',
-      'newfile 0',
-      'newfile 1',
+      'newFile',
+      'newFile 0',
+      'newFile 1',
       'dfadfdsfds',
       'filenew'
     ]);
 
     var results = getNewFileFolderName(models);
-    expect(results).to.equal('newfile 2');
+    expect(results).to.equal('newFile 2');
   });
 
-  it('should return `newfile 0` when 1 exists but not zero', function () {
+  it('should return `newFile 0` when 1 exists but not zero', function () {
     var models = modelify([
       'asdf',
-      'newfile',
-      'newfile 1',
+      'newFile',
+      'newFile 1',
       'dfadfdsfds',
       'filenew'
     ]);
 
     var results = getNewFileFolderName(models);
-    expect(results).to.equal('newfile 0');
+    expect(results).to.equal('newFile 0');
   });
 
-  it('should return `newfile` only numbered files', function () {
+  it('should return `newFile` only numbered files', function () {
     var models = modelify([
       'asdf',
-      'newfile 0',
-      'newfile 3',
+      'newFile 0',
+      'newFile 3',
       'dfadfdsfds',
       'filenew'
     ]);
 
     var results = getNewFileFolderName(models);
-    expect(results).to.equal('newfile');
+    expect(results).to.equal('newFile');
   });
 
 });

@@ -5,17 +5,22 @@
     button.btn.green.btn-save.btn-spinner(
       ng-class = "{in: saving}"
       ng-click = "saveChanges()"
-      ng-disabled = "!instance.containers.models[0].running() || loading"
+      ng-disabled = "!instance.containers.models[0].running() || loading || saving || modifyingInstance"
       type = "button"
     )
-      span.btn-text Save
+      .spinner-wrapper.spinner-sm.spinner-white.in(
+        ng-if = "saving"
+        ng-include = "'spinner'"
+      )
+
+      span.btn-text {{ saving ? 'Saving' : 'Save'}}
       //- show if restart is checked
       span.btn-text(
         ng-if = "popoverSaveOptions.data.restartOnSave"
       ) #{''} and Restart
     button.btn.green.btn-icon.btn-icon-sm.btn-save-options(
       ng-class = "{active: popoverSaveOptions.data.show}"
-      ng-disabled = "!instance.containers.models[0].running() || loading"
+      ng-disabled = "!instance.containers.models[0].running() || loading || saving || modifyingInstance"
       type = "button"
       pop-over
       pop-over-active = "popoverSaveOptions.data.show"
@@ -33,17 +38,17 @@
 .secondary-actions
   button.btn.gray(
     ng-click = "actions.stopInstance()"
-    ng-if = "!saving && instance.build.attrs.completed && instance.containers.models[0].running()"
+    ng-if = "!modifyingInstance && instance.build.attrs.completed && instance.containers.models[0].running()"
   ) Stop Container
 
   button.btn.gray(
     ng-click = "actions.startInstance()"
-    ng-if = "!saving && instance.build.attrs.completed && !instance.containers.models[0].running()"
-    ng-disabled = "saving"
+    ng-if = "!modifyingInstance && instance.build.attrs.completed && !instance.containers.models[0].running()"
+    ng-disabled = "modifyingInstance"
   ) Start Container
 
   button.btn.gray.btn-spinner.in(
-    ng-if = "saving"
+    ng-if = "modifyingInstance"
     disabled
   )
     .spinner-wrapper.spinner-sm.spinner-purple.in(
