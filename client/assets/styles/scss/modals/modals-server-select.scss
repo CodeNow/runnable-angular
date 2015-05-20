@@ -16,7 +16,8 @@
   // search
   .input-search {
     background-color: $white;
-    background-position: calc(50% - 52px) 2px;
+    background-position: calc(50% - 52px) 8px;
+    border-width: 1px;
     color: $gray;
     line-height: 30px;
     padding-left: calc(50% - 42px);
@@ -24,7 +25,7 @@
 
     &:focus,
     &:valid {
-      background-position: 5px;
+      background-position: 8px;
       border-color: $green;
       padding-left: 30px;
     }
