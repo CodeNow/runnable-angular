@@ -160,11 +160,11 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
     };
     $scope.$digest();
     $elScope.actions.stopInstance();
-    expect($elScope.saving).to.be.true;
+    expect($elScope.modifyingInstance).to.be.true;
     expect($elScope.starting).to.be.false;
     $scope.$digest();
     sinon.assert.calledOnce($scope.instance.stop);
-    expect($elScope.saving).to.be.false;
+    expect($elScope.modifyingInstance).to.be.false;
   });
 
   it('should allow the user to start the instance', function () {
@@ -177,11 +177,11 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
     };
     $scope.$digest();
     $elScope.actions.startInstance();
-    expect($elScope.saving).to.be.true;
+    expect($elScope.modifyingInstance).to.be.true;
     expect($elScope.starting).to.be.true;
     $scope.$digest();
     sinon.assert.calledOnce($scope.instance.start);
-    expect($elScope.saving).to.be.false;
+    expect($elScope.modifyingInstance).to.be.false;
   });
 
 });

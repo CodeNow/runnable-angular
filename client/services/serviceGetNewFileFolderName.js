@@ -16,8 +16,8 @@ function getNewFileFolderName() {
     var filenames = dir.contents.models.map(function (model) { return model.attrs.name; });
 
     while (filenames.indexOf(newFileName) > -1){
-      newFileName = key + count;
-      count++;
+      newFileName = key + ' ' + count;
+      count += 1;
     }
 
     return newFileName;
