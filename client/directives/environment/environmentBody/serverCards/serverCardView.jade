@@ -5,17 +5,17 @@
     pop-over-template = "serverOptionsCardPopover"
   )
     
-  .card-status-content.failed
+  .card-status.failed
     svg.iconnables
       use(
         xlink:href = "#icons-warn"
       )
     | Build Failed. 
-    span.span View Logs
+    a.a View Logs
 
-  //- .card-status-content Validating Build…
+  //- .card-status Validating Build…
   
-  //- .card-status-content Template Validated
+  //- .card-status Template Validated
 
 ul.card-body.card-loading(
   ng-if = "showSpinner()"
