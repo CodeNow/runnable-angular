@@ -53,7 +53,7 @@
   }
 
   &.help {
-    @extend .help-top-card; // in popover-help.scss
+    @extend %help-top-card; // in help.scss
 
     > .btn .iconnables {
       transform: rotate(180deg); // rotates arrow for "more help" button

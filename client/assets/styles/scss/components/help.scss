@@ -36,8 +36,8 @@
   }
 }
 
-// .popover.help (in popover.scss) extends this class
-.help-top-card {
+.help-top-card,
+%help-top-card {
   font-size: 15px;
   left: 75px;
   line-height: 18px;
@@ -101,11 +101,6 @@
     position: fixed;
     top: 15px;
   }
-
-  // .modal-form & {
-  //   left: 0px;
-  //   right: 0px;
-  // }
 }
 
 // badge on help button
