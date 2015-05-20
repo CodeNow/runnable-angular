@@ -17,11 +17,11 @@
 )
   //- if successful, .green; if fail, .orange
   .btn.btn-xxs.btn-icon.btn-state.no-touching(
-    ng-if = ""
     ng-class = "{\
       green: dataInstance.data.showUpdatedMessage,\
       orange: dataInstance.data.showUpdatingMessage\
     }"
+    ng-if = ""
   )
     //- if successful
     svg.iconnables.icons-fat-check(
@@ -60,8 +60,8 @@
       if failed: Failed Build
   h4.h4 Updating {{ dataInstance.data.instance.attrs.name }}
   a(
-    target = "_blank"
     ng-if = "dataInstance.data.showUpdatedMessage"
+    target = "_blank"
   ) {{ dataInstance.data.commit.attrs.author.login }} pushed #{''}
     a.link(
       ng-href = "{{ dataInstance.data.commit.attrs.html_url }}"
@@ -99,32 +99,33 @@ header.server-header
 
 //- sidebar with repositories and urls
 section.sidebar.server-sidebar.load
+
   section.row.repo-list(
-    ng-class = "{closed: $storage.repoListIsClosed}"
     auto-build-on-acv-change = "true"
     build = "dataInstance.data.instance.build"
     instance = "dataInstance.data.instance"
     loading = "isLoading.main"
+    ng-class = "{closed: $storage.repoListIsClosed}"
     ng-if = "dataInstance.data.instance.build.contextVersions.models[0].appCodeVersions.models.length"
     repo-list
     show-auto-deploy = "true"
   )
 
   section.row.linked-servers(
-    ng-class = "{closed: $storage.dnsManagementIsClosed}"
-    ng-if = "dataInstance.data.instance"
     dns-manager
     instance = "dataInstance.data.instance"
+    ng-class = "{closed: $storage.dnsManagementIsClosed}"
+    ng-if = "dataInstance.data.instance"
   )
 
   section.row.explorer(
-    ng-class = "{closed: $storage.explorerIsClosed}"
-    explorer
     edit-explorer = "false"
+    explorer
+    explorer-title = "File Explorer"
     file-model = "dataInstance.data.instance.containers.models[0]"
     open-items = "dataInstance.data.openItems"
+    ng-class = "{closed: $storage.explorerIsClosed}"
     root-dir = "dataInstance.data.instance.containers.models[0].rootDir"
-    explorer-title = "File Explorer"
   )
 
 //- in / out control presence of header-bar

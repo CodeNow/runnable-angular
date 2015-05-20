@@ -103,8 +103,10 @@ function EnvironmentController(
       $rootScope.$broadcast('close-popovers');
       $timeout(function () {
         if (confirm('Are you sure you want to delete this container?')) {
-          helpCards.refreshAllCards();
           promisify(server.instance, 'destroy')()
+            .then(function () {
+              helpCards.refreshAllCards();
+            })
             .catch(errs.handler);
         }
       });

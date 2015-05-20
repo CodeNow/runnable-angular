@@ -15,11 +15,11 @@ ul.server-category-list(
   li.server-category-list-item(
     ng-repeat = "masterInstance in data.instancesByPod.models | orderBy:'attrs.name' | orderBy: 'attrs.contextVersion.appCodeVersions.length === 0' "
   )
-    ul.server-list
-      li.server-list-item(
+    .server-list
+      a.server-list-item(
         ng-class = "{selected: isSelected(masterInstance)}"
         ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
-                       instanceName: masterInstance.attrs.name })"
+          instanceName: masterInstance.attrs.name })"
       )
         svg.iconnables.icons-repository(
           ng-if = "masterInstance.getRepoName()"
@@ -48,11 +48,11 @@ ul.server-category-list(
           instance = "masterInstance"
         )
 
-      li.server-list-item(
-        ng-repeat = "branchFork in masterInstance.children.models | orderBy:'attrs.name'"
+      a.server-list-item(
         ng-class = "{selected: isSelected(branchFork)}"
+        ng-repeat = "branchFork in masterInstance.children.models | orderBy:'attrs.name'"
         ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
-                     instanceName: branchFork.attrs.name })"
+          instanceName: branchFork.attrs.name })"
       )
         span.branch-name.text-overflow(
           title = "{{ branchFork.getDisplayName() }}"
