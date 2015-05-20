@@ -1,8 +1,8 @@
 .help-step-container(
-  ng-if = "helpCards.getActiveCard().helpPopover.environmentVariables"
+  ng-if = "activeCard.helpPopover.environmentVariables"
 )
   .help.help-step-item(
-    ng-bind-html = "helpCards.getActiveCard().helpPopover.environmentVariables"
+    ng-bind-html = "activeCard.helpPopover.environmentVariables"
   )
 
 .clearfix
