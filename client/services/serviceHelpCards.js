@@ -67,15 +67,15 @@ function helpCardsFactory(
           'environmentVariables': 'Update the environment variables that you use to specify OAuth credentials.',
           'translationRules': 'Add a translation rule to update your OAuth credentials in your code.'
         }
-      },
-      {
-        'label': 'Seed a database',
-        'targets': ['containerFiles'],
-        'helpTop': 'Use <b>Container Files</b> to upload seed data and specify <b>Build Commands</b> to run scripts.',
-        'helpPopover': {
-          'containerFiles': 'Upload seed data files and input shell commands to import the data using <b>Build Commands</b>.'
-        }
       }
+      //{
+      //  'label': 'Seed a database',
+      //  'targets': ['containerFiles'],
+      //  'helpTop': 'Use <b>Container Files</b> to upload seed data and specify <b>Build Commands</b> to run scripts.',
+      //  'helpPopover': {
+      //    'containerFiles': 'Upload seed data files and input shell commands to import the data using <b>Build Commands</b>.'
+      //  }
+      //}
     ],
     'triggered': [
       {
@@ -203,7 +203,7 @@ function helpCardsFactory(
       activeCard = this.getActiveCard();
       return activeCard && (activeCard.type === 'general' || angular.equals(container, keypather.get(activeCard, 'data.instance')));
     },
-    refreshForInstance: function (instance) {
+    removeByInstance: function (instance) {
       this.cards.triggered
         .filter(function (card) {
           return keypather.get(card, 'data.instance.attrs.shortHash') === instance.attrs.shortHash;
