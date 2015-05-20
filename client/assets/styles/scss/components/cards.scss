@@ -126,11 +126,12 @@
 // card layout
 // header
 .card-header {
-  display: flex;
-  flex-direction: column;
-  font-size: 18px;
+  // display: flex;
+  // flex-direction: column;
+  font-size: 20px;
+  line-height: 30px;
   margin: 0 15px;
-  padding: 21px 0;
+  padding: 12px 0 15px;
   text-align: center;
 
   .iconnables {
@@ -140,10 +141,23 @@
   }
 }
 
-.card-status {
+.card-status-wrapper {
+  position: relative;
+  left: 0;
+  right: 0;
+  margin-top: 3px;
+}
+
+.card-status-content {
+  height: 30px;
+  padding: 0 24px;
+  display: inline-block;
   color: $gray;
   font-size: 14px;
   font-weight: 400;
+  border-radius: 3px;
+  border: 1px solid rgba($white,0);
+  line-height: 27px;
 
   // warning icon for failed state
   .iconnables {
@@ -153,11 +167,13 @@
   }
 
   &.failed {
-    color: rgba($orange,.75);
+    background-color: #FAF7EB;
+    border-color: #E8DEC8;
+    color: #E3BA84;
     font-weight: 500;
   }
 
-  .logs-link {
+  .span {
     cursor: pointer;
     text-decoration: underline;
   }
@@ -167,7 +183,7 @@
   color: $gray;
   font-size: 14px;
   font-weight: 400;
-  padding: 15px;
+  padding: 9px 15px;
 
   .label-checkbox {
     float: left;
