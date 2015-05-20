@@ -87,12 +87,12 @@
 
 .help-step-item {
   display: inline-block;
-  left: 0px;
+  left: 0;
   line-height: 21px; // testing
   margin-bottom: 15px;
   padding: 9px 24px;
   position: absolute;
-  right: 0px;
+  right: 0;
   text-align: center;
   z-index: 1; // TODO: variable-ize this
 
