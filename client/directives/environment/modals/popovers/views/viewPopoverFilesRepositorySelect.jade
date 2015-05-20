@@ -25,4 +25,6 @@
         )
 
 .popover-footer.clearfix
-  button.btn.btn-sm.gray.btn-cancel Cancel
+  button.btn.btn-sm.gray.btn-cancel(
+    ng-click = "closePopover()"
+  ) Cancel

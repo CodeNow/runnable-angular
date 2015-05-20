@@ -1,36 +1,27 @@
-.popover.popover-fixed.popover-files(
+//- TODO: When data.name is truthy, initialize to view2
+.popover.popover-fixed.popover-files.popover-views(
   ng-class = "{\
     in: active,\
-    'view-2': state.view2,\
+    'view-2': state.view2 || data.state.view2,\
     'view-3': state.view3\
   }"
   ng-init = "\
-    state.view2 = null;\
+    state.view2 = data.name || null;\
     state.view3 = null;\
   "
   ng-style = "popoverStyle.getStyle()"
 )
-  .popover-views(
-    ng-class = "{\
-      'view-2': state.view2,\
-      'view-3': state.view3\
-    }"
-    ng-init = "\
-      state.view2 = null;\
-      state.view3 = null;\
-    "
+  //- choose repository
+  .popover-view(
+    ng-include = "'viewPopoverFilesRepositorySelect'"
   )
-    //- choose repository
-    .popover-view(
-      ng-include = "'viewPopoverFilesRepositorySelect'"
-    )
 
-    //- repository options
-    .popover-view(
-      ng-include = "'viewPopoverFilesRepositoryOptions'"
-    )
+  //- repository options
+  .popover-view(
+    ng-include = "'viewPopoverFilesRepositoryOptions'"
+  )
 
-    //- commits/branch
-    .popover-view(
-      ng-include = "'viewPopoverFilesRepositoryCommit'"
-    )
+  //- commits/branch
+  .popover-view(
+    ng-include = "'viewPopoverFilesRepositoryCommit'"
+  )

@@ -12,7 +12,7 @@
       .input-col
         .btn.btn-block.white.text-overflow.btn-upload(
           ng-click = "state.view3 = true"
-        ) {{ data.file[0].name }}
+        ) {{ data.file[0].name || data.name }}
           small.small {{ data.progress ? data.progress + '% uploaded' : 'Select a file' }}
           label.btn.btn-xs.gray(
               for = "input-upload"
@@ -28,7 +28,7 @@
       .label-col Destination
       .input-col.input-root
         input.input.input-sm(
-          ng-model = "data.filePath"
+          ng-model = "data.path"
           required
           spellcheck = "false"
         )
@@ -38,12 +38,15 @@
         small.small (optional)
       .input-col
         textarea.textarea.monospace(
+          ng-model = "data.commands"
           spellcheck = "false"
         )
         small.small Commands to be executed when your container is built and before it is launched.
 
     //- not shown if new repo
-    button.btn.btn-xs.orange Delete File
+    button.btn.btn-xs.orange(
+      ng-click = "actions.deleteFile()"
+    ) Delete File
 
   .popover-footer.clearfix
     button.btn.btn-sm.green.btn-spinner(

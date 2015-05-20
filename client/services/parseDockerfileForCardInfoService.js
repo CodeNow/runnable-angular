@@ -160,6 +160,11 @@ function ContainerFile(contents){
 //}
 
 
+// TODO: Make container repo distinct from main repo
+// Possibly just different types, same func
+
+// TODO: put datums back in dockerfile on save
+
 
 //function Ports(contents){
 //  contents = contents || '';
@@ -227,7 +232,27 @@ function parseDockerfileForCardInfoFromInstance(
         }
 
         var containerFiles = findByType('Container File');
-
+        // BLARG
+        // IF YOU SEE THIS COMMENT, RANDALL FORGOT TO REMOVE THISq
+        containerFiles = [{
+            name: 'a',
+            path: '/asdf',
+            type: 'file',
+            commands: ['EAT food']
+        }, {
+            name: 'repo',
+            path: '/repo',
+            type: 'mainrepo'
+        }, {
+            name: 'otherrepo',
+            path: '/otherrepo',
+            type: 'repo',
+            commands: ['LOAD datums', 'FORGET datums']
+        }, {
+            name: 'b',
+            path: '/zxcv',
+            type: 'file'
+        }];
         return {
           allSections: allSections,
           instance: instance,

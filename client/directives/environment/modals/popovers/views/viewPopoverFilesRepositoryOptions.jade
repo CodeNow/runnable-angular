@@ -2,6 +2,7 @@
   //- if adding a new repository
   button.btn.btn-sm.white.pull-left(
     ng-click = "state.view2 = false"
+    ng-if = "!data.state.fromServer"
   )
     svg.iconnables.icons-arrow-backward
       use(
@@ -13,7 +14,7 @@
   button.btn.btn-sm.pull-right.no-touching(
     ng-if = "false"
   )
-  strong.strong.text-overflow repository-name
+  strong.strong.text-overflow {{ data.name }}
   //- this button is empty on purpose
   button.btn.btn-sm.pull-right.no-touching
 
@@ -33,6 +34,7 @@
     .label-col Destination
     .input-col.input-root
       input.input.input-sm(
+        ng-model = "data.path"
         required
         spellcheck = "false"
       )
@@ -42,6 +44,7 @@
       small.small (optional)
     .input-col
       textarea.textarea.monospace(
+        ng-model = "data.commands"
         spellcheck = "false"
       )
       small.small Commands to be executed when your container is built and before it is launched.
@@ -51,4 +54,6 @@
 
 .popover-footer.clearfix
   button.btn.btn-sm.green Add Repository
-  button.btn.btn-sm.gray.btn-cancel Cancel
+  button.btn.btn-sm.gray.btn-cancel(
+    ng-click = "closePopover()"
+  ) Cancel

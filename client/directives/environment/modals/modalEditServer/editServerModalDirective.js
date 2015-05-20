@@ -59,6 +59,15 @@ function editServerModal(
         data: {}
       };
 
+      // TODO: create new ContainerFile object
+      //  - expose ContainerFile
+      $scope.server.containerFiles.forEach(function (file) {
+        file.state = {
+          view2: true,
+          fromServer: true
+        };
+      });
+
       $scope.fileUpload = {
         actions: {
           uploadFile: function () {
@@ -87,12 +96,18 @@ function editServerModal(
             // Using our own cancel in order to delete file
             // TODO: handle halfway-uploaded files
             $rootScope.$broadcast('close-popovers');
-            if (!$scope.fileUpload.data.file.length) { return; }
-            var uploadURL = configAPIHost + '/' + $scope.state.contextVersion.urlPath +
+            if (!keypather.get($scope, 'fileUpload.data.file.length') ||
+              keypather.get($scope, 'fileUpload.data.state.fromServer')) { console.log('return early from cancel'); return; }
+            $scope.fileUpload.actions.deleteFile();
+          },
+          deleteFile: function () {
+            var fileURL = configAPIHost + '/' + $scope.state.contextVersion.urlPath +
                 '/' + $scope.state.contextVersion.id() + '/files';
             $http.delete({
-              url: uploadURL,
+              url: fileURL,
               withCredentials: true
+            }).then(function () {
+              console.log('deleteFile then');
             }).catch(errs.handler);
           }
         },

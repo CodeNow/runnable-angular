@@ -22,6 +22,22 @@ ul.table-drag-drop(
           xlink:href = "#icons-drag"
         )
     .cell.text-overflow(
+      ng-if = "containerFile.type === 'file'"
+      pop-over
+      pop-over-actions = "fileUpload.actions"
+      pop-over-data = "containerFile"
+      pop-over-template = "viewPopoverFilesUpload"
+      title = "{{ containerFile.name }}"
+    ) {{ containerFile.name }}
+      small.small(
+        title = "{{ containerFile.path }}"
+      ) {{ containerFile.path }}
+    .cell.text-overflow(
+      ng-if = "containerFile.type === 'repo' || containerFile.type === 'mainrepo'"
+      pop-over
+      pop-over-actions = "fileUpload.actions"
+      pop-over-data = "containerFile"
+      pop-over-template = "viewPopoverFilesRepository"
       title = "{{ containerFile.name }}"
     ) {{ containerFile.name }}
       small.small(
