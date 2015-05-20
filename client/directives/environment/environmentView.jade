@@ -15,6 +15,15 @@
   ng-init = "state.helpButton = {active: false}"
 )
 
-.environment-body.card-grid.clearfix(
-  ng-include = "'viewEnvironmentBody'"
-)
+.environment-body.clearfix
+  //- shows up when help is activated
+  .help-step-container.clearfix(
+    ng-if = "helpCards.getActiveCard()"
+  )
+    .help.help-step-item(
+      ng-class = "{undocked: helpUndock}"
+      ng-bind-html= "helpCards.getActiveCard().helpTop"
+    )
+  .card-grid.clearfix(
+    ng-include = "'viewCardGrid'"
+  )

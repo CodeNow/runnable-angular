@@ -52,8 +52,8 @@ function helpCardsFactory(
         ],
         'helpTop': 'Add <b>Build Commands</b> to install libraries from the <b>Repositories</b> or <b>Container Files</b> tool.',
         'helpPopover': {
-          'repositories': 'Add a <b>Build Command</a> to install a library. Example: apt-get install -y git',
-          'containerFiles': 'Add a <b>Build Command</a> to install a library. Example: apt-get install -y git'
+          'repositories': 'Add a <b>Build Command</b> to install a library. Example: apt-get install -y git',
+          'containerFiles': 'Add a <b>Build Command</b> to install a library. Example: apt-get install -y git'
         }
       },
       {
@@ -67,28 +67,28 @@ function helpCardsFactory(
           'environmentVariables': 'Update the environment variables that you use to specify OAuth credentials.',
           'translationRules': 'Add a translation rule to update your OAuth credentials in your code.'
         }
-      },
-      {
-        'label': 'Seed a database',
-        'targets': ['containerFiles'],
-        'helpTop': 'Use <b>Container Files</b> to upload seed data and specify <b>Build Commands</b> to run scripts.',
-        'helpPopover': {
-          'containerFiles': 'Upload seed data files and input shell commands to import the data using <b>Build Commands</b>.'
-        }
       }
+      //{
+      //  'label': 'Seed a database',
+      //  'targets': ['containerFiles'],
+      //  'helpTop': 'Use <b>Container Files</b> to upload seed data and specify <b>Build Commands</b> to run scripts.',
+      //  'helpPopover': {
+      //    'containerFiles': 'Upload seed data files and input shell commands to import the data using <b>Build Commands</b>.'
+      //  }
+      //}
     ],
     'triggered': [
       {
         id: 'missingAssociation',
-        'label': '<b>{{instance.getDisplayName()}}</b> may need to be associated with <b>{{association}}</b>',
+        'label': '<b>{{instance.getDisplayName()}}</b> may need to be updated with <b>{{association}}\'s</b> hostname.</b>',
         'targets': [
           'environmentVariables',
           'translationRules'
         ],
-        'helpTop': 'Use <b>Translation Rules</b> or <b>Environment Variables</b> to create an association for <b>{{instance.getDisplayName()}}</b>.',
+        'helpTop': 'Update <b>{{instance.getDisplayName()}}\'s</b> code by using <b>Translation Rules</b> or <b>Environment Variables</b> to update the hostname for <b>{{association}}</b>.',
         'helpPopover': {
-          'environmentVariables': 'Add an association by setting an environment variable to your <b>{{association}}</b> container\'s elastic url.',
-          'translationRules': 'Add an association by setting a translation rule for your <b>{{association}}</b> container\'s elastic url.'
+          'environmentVariables': 'Add/update the correct environment variable with <b>{{association}}\'s</b> elastic hostname.',
+          'translationRules': 'Add a translation rule to modify your code to connect with <b>{{association}}\'s</b> elastic hostname.'
         }
       },
       {
@@ -119,9 +119,9 @@ function helpCardsFactory(
       cardClone.data = { instance: this.data.instance.attrs.shortHash };
     }
 
-    if(this.data){
+    if (this.data) {
       Object.keys(this.data).forEach(function (key) {
-        if (key !== 'instance'){
+        if (key !== 'instance') {
           cardClone.data[key] = self.data[key];
         }
       });
@@ -203,7 +203,7 @@ function helpCardsFactory(
       activeCard = this.getActiveCard();
       return activeCard && (activeCard.type === 'general' || angular.equals(container, keypather.get(activeCard, 'data.instance')));
     },
-    refreshForInstance: function (instance) {
+    removeByInstance: function (instance) {
       this.cards.triggered
         .filter(function (card) {
           return keypather.get(card, 'data.instance.attrs.shortHash') === instance.attrs.shortHash;

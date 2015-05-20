@@ -6,7 +6,8 @@
   height: calc(100vh - 132px);
   width: 300px;
 
-  .iconnables {
+  // only removes transition from disclose icon
+  .icons-disclose {
     transition: none;
   }
 
@@ -147,16 +148,12 @@
     font-size: 13px;
     height: 36px;
     margin-bottom: 6px;
-    padding: 5px 0 0 10px;
+    padding: 5px 0 0 24px;
     text-align: left;
     width: 100%;
 
     &:last-child {
       margin-bottom: 15px;
-    }
-
-    .icons-status {
-      float: left;
     }
 
     &.empty-state {
@@ -165,6 +162,10 @@
       line-height: 17px;
       padding: 6px 10px;
     }
+
+    .icons-status {
+      left: 9px;
+    }
   }
 
   // modifying fancy-select elements for container selection
@@ -172,10 +173,6 @@
     border-width: 2px;
     line-height: 24px;
     padding: 0 0 0 24px;
-
-    .icons-status {
-      left: 9px;
-    }
 
     .icons-arrow-down {
       color: $gray;

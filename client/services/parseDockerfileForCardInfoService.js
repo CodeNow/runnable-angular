@@ -70,8 +70,8 @@ function parseDockerfileForDefaults(dockerfile, keys) {
       var totals = [];
       do {
         defaults = regex.exec(dockerfile.attrs.body);
-        if (defaults) {
-          totals.push(defaults[1]);
+        if (defaults && defaults[1]) {
+          totals.push(defaults[1].trim());
         }
       } while (defaults);
       result[key] = totals;
@@ -103,19 +103,24 @@ function parseDockerfileForRunCommands(dockerfile, repoName) {
   // The second group needs to be [\s\S] over . as that also matches newlines
   var reg = /(WORKDIR.*\n)([\s\S]*)(?=#End)/;
   if (dockerfile) {
+    var missingChunk;
     // Should be the beginning bit before any as the 1st, so remove it
-    var addChunks = dockerfile.attrs.body.split('ADD');
-    addChunks.shift();
-    var missingChunk = addChunks.find(function (chunk) {
-      return chunk.indexOf('./' + repoName.toLowerCase());
-    });
+    if (repoName) {
+      var addChunks = dockerfile.attrs.body.split('ADD');
+      addChunks.shift();
+      missingChunk = addChunks.find(function (chunk) {
+        return chunk.indexOf('./' + repoName.toLowerCase());
+      });
+    } else {
+      missingChunk = dockerfile.attrs.body;
+    }
     var results = reg.exec(missingChunk);
     if (results && results[2]) {
       var parsedResults = results[2].split('\n')
         .map(function (str) {
-          return str.trim()
-            .replace('RUN ', '')
-            .replace(/#.+/, ''); //Remove all comments
+          return str.replace('RUN ', '')
+            .replace(/#.+/, '') //Remove all comments
+            .trim();
         })
         .filter(function (command) {
           // filter out empties

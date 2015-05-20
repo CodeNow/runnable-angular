@@ -117,22 +117,22 @@ function dnsManager(
             return master.attrs.contextVersion.context === instance.attrs.contextVersion.context;
           });
 
-          var hostName = createInstanceUrl(masterInstance);
-          if (instance.attrs.shortHash !== masterInstance.attrs.shortHash) {
-            promisify($scope.dependencies, 'create')({
-              hostname: hostName,
-              instance: instance.attrs.shortHash
-            })
-              .catch(errs.handler);
-          } else {
-            var dependency = $scope.dependencies.models.find(function (dependency) {
-              return dependency.attrs.contextVersion.context === masterInstance.attrs.contextVersion.context;
-            });
+          var dependency = $scope.dependencies.models.find(function (dependency) {
+            return dependency.attrs.contextVersion.context === masterInstance.attrs.contextVersion.context;
+          });
 
-            if (dependency) {
-              dependency.destroy(errs.handler);
-            }
+          var cleanedUpPromise = $q.when();
+          if (dependency) {
+            cleanedUpPromise.then(promisify(dependency, 'destroy'));
           }
+          cleanedUpPromise
+            .then(function () {
+              return promisify($scope.dependencies, 'create')({
+                hostname: createInstanceUrl(masterInstance),
+                instance: instance.attrs.shortHash
+              });
+            })
+            .catch(errs.handler);
         }
       };
     }

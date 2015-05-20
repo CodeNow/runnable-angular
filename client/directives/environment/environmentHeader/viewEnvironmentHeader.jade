@@ -6,7 +6,7 @@ button.btn.btn-icon.blue(
   pop-over-actions = "helpPopover.actions"
   pop-over-active = "state.helpButton.active"
   pop-over-data = "helpPopover.data"
-  pop-over-options = "{\"left\":55}"
+  pop-over-options = "{\"left\":60}"
   pop-over-template = "viewHelpPopover"
   pop-over-trigger = "activeAttr"
   title = "Help Center"
@@ -38,7 +38,6 @@ button.btn.btn-icon.blue(
         button.btn.btn-sm(
           ng-click = "helpPopover.actions.getHelp(helpCards.cards.triggered[0])"
         ) Show Me
-
   button.btn(
     ng-click = "state.helpButton.active = true"
   ) More Help
@@ -47,23 +46,16 @@ button.btn.btn-icon.blue(
         xlink:href = "#icons-arrow-down"
       )
 
-//- this shows up after the user clicks "show me" in the help center
-.help-step-container(
-  ng-if = "helpCards.getActiveCard()"
-  ng-class = "{undocked: helpUndock}"
-)
-  .help.help-step-item(
-    ng-bind-html= "helpCards.getActiveCard().helpTop"
-  )
-
 //- new server button
 button.btn.green(
+  ng-click = "state.newServerButton.active = true"
   pop-over
   pop-over-actions = "actions"
+  pop-over-active = "state.newServerButton.active"
   pop-over-data = "data"
   pop-over-options = "{\"right\":0,\"top\":56}"
   pop-over-template = "viewPopoverNewServer"
-  ng-class = "{hint: helpCards.getActiveCard().targets.newContainer}"
+  pop-over-trigger = "activeAttr"
 )
   svg.iconnables.icons-add.icons-round
     use(
