@@ -58,8 +58,8 @@ describe('directiveDnsManager'.bold.underline.blue, function() {
       childInstances.models[1].attrs.parent = instance.attrs.shortHash;
 
 
-      childInstances.models[0].destroy = sinon.spy();
-      childInstances.models[1].destroy = sinon.spy();
+      childInstances.models[0].update = sinon.spy();
+      childInstances.models[1].update = sinon.spy();
 
       masterChildMapping[instance.attrs.shortHash] = childInstances.models;
 
@@ -98,7 +98,7 @@ describe('directiveDnsManager'.bold.underline.blue, function() {
 
     // Setup our instance dependency override
     var instanceDependency = masterChildMapping[masterPods[1].attrs.shortHash][1];
-    instanceDependency.destroy = sinon.spy();
+    instanceDependency.update = sinon.spy();
     instanceDependencies = {
       create: sinon.spy(),
       models: [ instanceDependency ]
@@ -141,8 +141,7 @@ describe('directiveDnsManager'.bold.underline.blue, function() {
 
     $elScope.actions.setDependency(masterPods[1]);
     $elScope.$digest();
-    sinon.assert.calledOnce(instanceDependencies.models[0].destroy);
-    sinon.assert.calledOnce(instanceDependencies.create);
+    sinon.assert.calledOnce(instanceDependencies.models[0].update);
   });
 
   it('should handle setDependency on a master instance when one does not already exist', function () {
@@ -157,6 +156,6 @@ describe('directiveDnsManager'.bold.underline.blue, function() {
     injectSetupCompile();
     $elScope.actions.setDependency(masterChildMapping[masterPods[1].attrs.shortHash][1]);
     $elScope.$digest();
-    sinon.assert.calledOnce(instanceDependencies.create);
+    sinon.assert.calledOnce(instanceDependencies.models[0].update);
   });
 });
