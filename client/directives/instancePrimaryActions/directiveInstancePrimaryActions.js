@@ -57,7 +57,7 @@ function instancePrimaryActions(
       };
 
       function modInstance(action, opts) {
-        $scope.saving = true;
+        $scope.modifyingInstance = true;
         $scope.starting = action === 'start';
 
         $scope.$broadcast('close-popovers');
@@ -68,7 +68,7 @@ function instancePrimaryActions(
           }).catch(
           errs.handler
         ).finally(function () {
-            $scope.saving = false;
+            $scope.modifyingInstance = false;
           });
       }
 
