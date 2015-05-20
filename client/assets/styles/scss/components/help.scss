@@ -82,19 +82,26 @@
 
 .help-step-container {
   height: 60px;
-  position: relative;
+  // position: relative;
+  // text-align: center;
 }
 
 .help-step-item {
-  display: inline-block;
-  left: 0;
-  line-height: 21px; // testing
-  margin-bottom: 15px;
-  padding: 9px 24px;
+  // display: inline-block;
+  // left: 0;
+  // line-height: 21px; // testing
+  // margin-bottom: 15px;
+  // padding: 6px 24px;
+  // position: fixed;
   position: absolute;
-  right: 0;
-  text-align: center;
+  left: 50%;
+  transform: translate(-50%,0);
+  // right: 0;
+  // text-align: center;
   z-index: 1; // TODO: variable-ize this
+  display: table;
+  margin: 0 auto 15px;
+  // position: relative;
 
   // on scroll class for sticking to top of window.
   &.undocked {
@@ -184,10 +191,8 @@
   padding: 0 12px;
 }
 
-// TODO: consider making something global for this
-.heavy {
+.strong {
   color: $blue;
-  font-weight: 500;
 }
 
 .general-help-container {
