@@ -1,9 +1,14 @@
-.help-step-container(
-  ng-if = "activeCard.helpPopover.environmentVariables"
+.help-container(
+  ng-if = "helpCards.getActiveCard().helpPopover.environmentVariables"
 )
-  .help.help-step-item(
-    ng-bind-html = "activeCard.helpPopover.environmentVariables"
+  .help(
+    ng-bind-html = "helpCards.getActiveCard().helpPopover.environmentVariables"
   )
+
+.help-padding(
+  ng-if = "helpCards.getActiveCard().helpPopover.environmentVariables"
+  ng-bind-html = "helpCards.getActiveCard().helpPopover.environmentVariables"
+) 
 
 .clearfix
   .label-col Environment Variables
