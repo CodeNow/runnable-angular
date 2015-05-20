@@ -32,6 +32,12 @@ function instancePrimaryActions(
 
       $scope.saving = false;
 
+      $scope.canSave = function () {
+        return !!$scope.openItems.models.find(function (model) {
+          return model.state.isDirty;
+        });
+      };
+
       $scope.saveChanges = function () {
         $scope.saving = true;
         var stopSavingCb = callbackCount(2, function () {
