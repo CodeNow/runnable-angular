@@ -28,11 +28,12 @@ describe('serviceGetNewFileFolderName'.bold.underline.blue, function () {
     var results = getNewFileFolderName(models);
     expect(results).to.equal('newFile');
   });
+
   it('should return `newFolder` with an empty array and if it\'s a directory', function () {
     var models = modelify([]);
 
     var results = getNewFileFolderName(models, true);
-    expect(results).to.equal('newFile');
+    expect(results).to.equal('newDirectory');
   });
 
   it('should return `newFile 0` with an unnumbered file', function () {
