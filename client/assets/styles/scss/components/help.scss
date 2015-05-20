@@ -6,29 +6,6 @@
   box-shadow: 0 1px 3px rgba($blue,.25);
   color: rgba($blue,.8);
 
-  // alert help things
-  // overwrite current alerts :(
-  &.alert {
-    animation: alert-help .3s ease-in forwards;
-    border-width: 2px;
-    bottom: 15px;
-    height: 36px;
-    left: 0;
-    line-height: 32px;
-    margin: 0 auto;
-    min-width: 0;
-    padding: 0 15px;
-    right: 0;
-    width: 290px;
-
-    // anchor icon
-    .iconnables {
-      float: left;
-      height: 100%;
-      margin-right: 6px;
-    }
-  }
-
   // bolded text in serviceHelpCards.js
   // TODO: class this
   b {
@@ -80,35 +57,71 @@
   }
 }
 
-.help-step-container {
-  height: 60px;
-  // position: relative;
-  // text-align: center;
+.help-padding {
+  color: transparent;
+  padding: 15px 25px;
 }
 
-.help-step-item {
-  // display: inline-block;
-  // left: 0;
-  // line-height: 21px; // testing
-  // margin-bottom: 15px;
-  // padding: 6px 24px;
-  // position: fixed;
+.help-container {
   position: absolute;
-  left: 50%;
-  transform: translate(-50%,0);
-  // right: 0;
-  // text-align: center;
+  left: 15px;
+  right: 15px;
   z-index: 1; // TODO: variable-ize this
-  display: table;
-  margin: 0 auto 15px;
-  // position: relative;
 
-  // on scroll class for sticking to top of window.
-  &.undocked {
+  &.fixed {
     position: fixed;
+  }
+
+  &.top {
     top: 15px;
   }
+
+  &.bottom {
+    bottom: 55px;
+  }
+
+  .modal-form & {
+    left: auto;
+    position: relative;
+    right: auto;
+  }
+
+  .help {
+    display: table;
+    left: 50%;
+    margin: 0 auto;
+    padding: 6px 24px;
+    position: absolute;
+    text-align: center;
+    transform: translate(-50%,0);
+    // z-index: 1; // TODO: variable-ize this
+
+    // anchor icon
+    .iconnables {
+      float: left;
+      margin-right: 3px;
+    }
+  }
 }
+
+// .help-step-item {
+//   padding: 6px 24px;
+//   position: absolute;
+//   left: 50%;
+//   transform: translate(-50%,0);
+//   z-index: 1; // TODO: variable-ize this
+//   display: table;
+//   margin: 0 auto 15px;
+
+//   // on scroll class for sticking to top of window.
+
+    // // on scroll class for sticking to top of window.
+    // &.undocked {
+    //   position: fixed;
+    //   top: 15px;
+    // }
+  
+// }
 
 // badge on help button
 .help-badge {

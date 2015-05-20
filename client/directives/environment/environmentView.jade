@@ -1,14 +1,15 @@
 //- alerts
-.alert.help(
-  ng-if = "alert"
-)
-  svg.iconnables.icons-check(
-    ng-if = "alert.type === 'success'"
+.help-container.fixed.bottom
+  .help(
+    ng-if = "alert"
   )
-    use(
-      xlink:href = "#icons-check"
+    svg.iconnables.icons-check(
+      ng-if = "alert.type === 'success'"
     )
-  | {{alert.text}}
+      use(
+        xlink:href = "#icons-check"
+      )
+    | {{alert.text}}
 
 .environment-header.clearfix(
   ng-include = "'viewEnvironmentHeader'"
@@ -16,13 +17,17 @@
 )
 
 .environment-body.clearfix
-  .help-step-container(
+  .help-container(
+    ng-class = "{fixed: helpUndock, top: helpUndock}"
     ng-if = "helpCards.getActiveCard()"
   )
-    .help.help-step-item(
-      ng-class = "{undocked: helpUndock}"
+    .help(
       ng-bind-html= "helpCards.getActiveCard().helpTop"
     )
+  .help-padding.no-touching(
+    ng-bind-html= "helpCards.getActiveCard().helpTop"
+    ng-if = "helpCards.getActiveCard()"
+  )
   .card-grid.clearfix(
     ng-include = "'viewCardGrid'"
   )

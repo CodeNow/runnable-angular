@@ -1,9 +1,14 @@
-.help-step-container(
+
+.help-container(
   ng-if = "helpCards.getActiveCard().helpPopover.repositories"
 )
-  .help.help-step-item(
+  .help(
     ng-bind-html = "helpCards.getActiveCard().helpPopover.repositories"
   )
+.help-padding(
+  ng-if = "helpCards.getActiveCard().helpPopover.repositories"
+  ng-bind-html = "helpCards.getActiveCard().helpPopover.repositories"
+) 
 
 .label.clearfix
   .label-col Branch
