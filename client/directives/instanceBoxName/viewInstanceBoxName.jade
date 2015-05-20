@@ -7,13 +7,14 @@
     instance = "instance"
   )
 
-a.container-url-label(
+.container-url-label(
     tooltip = "More about Container URLs"
     tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":15}"
     href = "http://support.runnable.io"
     target = "_blank"
   )
-    | Container URL:
+    a.a Container URL
+    | :
 .container-url-wrapper
   input.container-url(
     ng-if = "instance.attrs.name"
