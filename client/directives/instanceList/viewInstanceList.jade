@@ -48,7 +48,7 @@ ul.server-category-list(
           instance = "masterInstance"
         )
 
-      li.server-list-item(
+      a.server-list-item(
         ng-class = "{selected: isSelected(branchFork)}"
         ng-repeat = "branchFork in masterInstance.children.models | orderBy:'attrs.name'"
         ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
