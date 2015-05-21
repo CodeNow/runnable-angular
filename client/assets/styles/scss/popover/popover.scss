@@ -60,6 +60,15 @@
     }
   }
 
+  &.hint .list-item:last-child {
+    background: $blue-lighter;
+    color: $blue;
+
+    .small {
+      color: rgba($blue,.6);
+    }
+  }
+
   // .list
   .list + .list {
     border-top: 1px solid rgba($black,.1);
