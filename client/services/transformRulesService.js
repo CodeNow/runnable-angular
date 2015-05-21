@@ -10,6 +10,8 @@ require('app')
   .factory('testRenameTransformRule', testRenameTransformRule);
 require('app')
   .factory('testReplaceTransformRule', testReplaceTransformRule);
+require('app')
+  .factory('testAllTransformRules', testAllTransformRules);
 
 require('app')
   .factory('parseDiffResponse', parseDiffResponse);
@@ -38,12 +40,11 @@ function parseDiffResponse(
       parsed.changes = Object.keys(groupByLineNumbers).map(function (key) {
         return groupByLineNumbers[key];
       });
+      parsed.to = parsed.to.replace('+++ ', '');
+      parsed.from = parsed.from.replace('--- ', '');
       if (parsed.from === parsed.to) {
         delete parsed.to;
-      } else {
-        parsed.to = parsed.to.replace('+++ ', '');
       }
-      parsed.from = parsed.from.replace('--- ', '');
       return parsed;
     });
   };
@@ -54,28 +55,13 @@ function createTransformRule(
 ) {
   return function (appCodeVersionModel, rule, oldRule) {
     var rules = appCodeVersionModel.attrs.transformRules || {};
-    if (rule.action === 'replace') {
+    if (rule.action) {
       if (oldRule) {
-        rules.replace = rules.replace.filter(function (needle) {
+        rules[rule.action] = rules[rule.action].filter(function (needle) {
           return !angular.equals(needle, rule);
         });
       }
-      rules.replace = rules.replace.push({
-        action: 'replace',
-        search: rule.oldValue,
-        replace: rule.newValue
-      });
-    } else if (rule.action === 'rename') {
-      if (oldRule) {
-        rules.rename = rules.rename.filter(function (needle) {
-          return !angular.equals(needle, rule);
-        });
-      }
-      rules.rename = rules.rename.push({
-        action: 'rename',
-        source: rule.oldValue,
-        dest: rule.newValue
-      });
+      rules[rule.action].push(rule);
     } else {
       rules.exclude = rule;
     }
@@ -84,6 +70,23 @@ function createTransformRule(
       transformRules: rules
     });
 
+  };
+}
+
+function testAllTransformRules(
+  $q,
+  user
+) {
+  return function (appCodeVersionModel) {
+    var defer = $q.defer();
+    function callback(err, res, body) {
+      if (err) { return defer.reject(err); }
+      console.log(body);
+      defer.resolve(body);
+    }
+    user.client.post(appCodeVersionModel.urlPath + '/' + appCodeVersionModel.id() +
+      '/actions/applyTransformRules', callback);
+    return defer.promise;
   };
 }
 
@@ -101,11 +104,7 @@ function testRenameTransformRule(
     rule.action = 'rename';
     user.client.post(appCodeVersionModel.urlPath + '/' + appCodeVersionModel.id() +
       '/actions/applyTransformRules', {
-        json: {
-          action: 'rename',
-          source: rule.oldValue,
-          dest: rule.newValue
-        }
+        json: rule
       }, callback);
     return defer.promise;
   };
@@ -126,14 +125,10 @@ function testReplaceTransformRule(
       console.log(parsed);
       defer.resolve(parsed);
     }
-
+    rule.action = 'replace';
     user.client.post(appCodeVersionModel.urlPath + '/' + appCodeVersionModel.id() +
       '/actions/applyTransformRules', {
-        json: {
-          action: 'replace',
-          search: rule.oldValue,
-          replace: rule.newValue
-        }
+        json: rule
       }, callback);
     return defer.promise;
   };

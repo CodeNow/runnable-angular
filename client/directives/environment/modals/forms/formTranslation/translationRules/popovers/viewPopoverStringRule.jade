@@ -21,13 +21,13 @@
     .label-row
       label.label-col Find string
         input.input.input-sm.monospace(
-          ng-model = "data.state.oldValue"
+          ng-model = "data.state.search"
           spellcheck = "false"
         )
       .span-col →
       label.label-col Translate to
         input.input.input-sm.monospace(
-          ng-model = "data.state.newValue"
+          ng-model = "data.state.replace"
           spellcheck = "false"
         )
         button.btn.btn-sm.btn-icon.gray

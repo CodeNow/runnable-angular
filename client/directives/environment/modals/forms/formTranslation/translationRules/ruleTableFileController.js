@@ -16,13 +16,11 @@ require('app')
 
     $scope.tableType = 'filenames';
 
-    $scope.list = [{
-      oldValue: 'config/environment',
-      newValue: './client/config/environment.js'
-    }, {
-      oldValue: './client/assets/js/primus-client.js',
-      newValue: './client/assets/js/primus-client-prod.js'
-    }];
+    $scope.$watch('state.contextVersion.appCodeVersions.models[0]', function (n) {
+      if (n) {
+        $scope.list = n.attrs.transformRules.rename;
+      }
+    });
 
     $scope.popoverTemplate = 'viewPopoverFilenameRule';
 

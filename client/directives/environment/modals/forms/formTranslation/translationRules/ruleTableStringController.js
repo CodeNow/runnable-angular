@@ -16,15 +16,17 @@ require('app')
     $scope.allowedTableTypes = ['strings'];
     $scope.tableType = 'strings';
 
-    $scope.list = [{
-      oldValue: 'cheese',
-      newValue: 'cottage cheese'
-    }];
+    $scope.$watch('state.contextVersion.appCodeVersions.models[0]', function (n) {
+      if (n) {
+        $scope.list = n.attrs.transformRules.replace;
+      }
+    });
 
 
     $scope.popoverTemplate = 'viewPopoverStringRule';
 
     $scope.performCheck = function (state) {
+      state.action = 'replace';
       return testReplaceTransformRule(
         keypather.get($scope.state, 'contextVersion.appCodeVersions.models[0]'),
         state

@@ -2,7 +2,9 @@
 
 require('app')
   .directive('previewAllTranslation', function previewAllTranslation(
-    promisify
+    parseDiffResponse,
+    promisify,
+    testAllTransformRules
   ) {
     return {
       restrict: 'A',
@@ -14,12 +16,11 @@ require('app')
         $scope.$watch('state.contextVersion', function (contextVersion) {
           if (contextVersion) {
             $scope.loading = true;
-            return promisify(contextVersion, 'fetch')()
-              .then(function (cv) {
-                var diffs = cv.appCodeVersions.models[0].attrs.transformRules;
-                console.log('PREVIEW', diffs);
+            return testAllTransformRules(contextVersion.appCodeVersions.models[0])
+              .then(function (body) {
+                $scope.diffs = parseDiffResponse(body.diff);
               })
-              .finally(function () {
+              .finally(function (body) {
                 $scope.loading = false;
               });
           }
