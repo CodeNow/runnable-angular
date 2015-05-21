@@ -7,7 +7,6 @@ require('app')
  * @ngInject
  */
 function dnsManager(
-  createInstanceUrl,
   errs,
   getInstanceClasses,
   $localStorage,
