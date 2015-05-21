@@ -97,7 +97,7 @@ function dnsManager(
           });
 
           return promisify(dependency, 'update')({
-            hostname: createInstanceUrl(masterInstance),
+            hostname: masterInstance.getElasticUrl(),
             instance: instance.attrs.shortHash
           })
           .catch(errs.handler);
