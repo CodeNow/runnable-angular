@@ -138,12 +138,13 @@ function ContainerFile(contents){
   this.path = commands[2];
   this.commands = commandList.splice(0,1).map(function (item) {
     return item.replace('RUN ');
-  });
+  }).join('\n');
   this.type = 'File';
 
   this.toString = function () {
     var contents = 'ADD ./' + this.name + ' ' + this.path + '\n'+
       this.commands
+        .spit('\n')
         .filter(function (command) {
           return command.trim().length;
         })
@@ -215,6 +216,8 @@ function parseDockerfile (dockerfile) {
 function parseDockerfileForCardInfoFromInstance(
   parseDockerfileForStack,
   promisify,
+  keypather,
+  hasKeypaths,
   $q
 ) {
   return function (instance, stackData) {
@@ -238,21 +241,33 @@ function parseDockerfileForCardInfoFromInstance(
             name: 'a',
             path: '/asdf',
             type: 'file',
-            commands: ['EAT food']
+            commands: 'EAT food'
         }, {
-            name: 'repo',
+            name: 'SomeKittens/Node-Blog-Engine',
             path: '/repo',
             type: 'mainrepo'
         }, {
             name: 'otherrepo',
             path: '/otherrepo',
             type: 'repo',
-            commands: ['LOAD datums', 'FORGET datums']
+            commands: 'LOAD datums\nFORGET datums'
         }, {
             name: 'b',
             path: '/zxcv',
             type: 'file'
         }];
+
+        var acvs = keypather.get(instance, 'build.contextVersions.models[0].appCodeVersions');
+        containerFiles = containerFiles.map(function (item) {
+          if (item.type === 'file') { return item; }
+          var matchingAcv = acvs.models.find(hasKeypaths({
+            'attrs.repo': item.name
+          }));
+          if (matchingAcv) {
+            item.acv = matchingAcv;
+          }
+          return item;
+        });
         return {
           allSections: allSections,
           instance: instance,
