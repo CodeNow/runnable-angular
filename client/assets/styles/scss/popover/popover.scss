@@ -61,11 +61,14 @@
   }
 
   &.hint .list-item:last-child {
-    background: $blue-lighter;
     color: $blue;
 
+    &:hover {
+      background: $blue-lighter;
+    }
+
     .small {
-      color: rgba($blue,.6);
+      color: rgba($blue,.8);
     }
   }
 
