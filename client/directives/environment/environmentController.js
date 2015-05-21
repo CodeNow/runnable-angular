@@ -70,12 +70,6 @@ function EnvironmentController(
     $window.removeEventListener('scroll', scrollHelper);
   });
 
-  $scope.$watch('helpCards.getActiveCard().targets.newContainer', function (n) {
-    if (n) {
-      $scope.state.newServerButton.active = true;
-    }
-  });
-
   $scope.alert = null;
 
   $scope.$on('alert', function (evt, data) {
