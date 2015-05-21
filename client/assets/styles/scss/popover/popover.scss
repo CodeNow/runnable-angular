@@ -52,6 +52,14 @@
     }
   }
 
+  &.help {
+    @extend %help-top-card; // in help.scss
+
+    > .btn .iconnables {
+      transform: rotate(180deg); // rotates arrow for "more help" button
+    }
+  }
+
   // .list
   .list + .list {
     border-top: 1px solid rgba($black,.1);

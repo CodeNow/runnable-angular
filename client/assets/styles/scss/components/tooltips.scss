@@ -5,6 +5,10 @@
   pointer-events: none;
   position: absolute;
   z-index: $z-tooltip;
+  // Position tooltips to the top left of the screen instead of their current position.
+  //   This prevents the flashing of the scrollbar.
+  top: -100000px;
+  left: -100000px;
 
   // .bottom
   &.bottom {
@@ -39,7 +43,7 @@
     max-width: 300px;
 
     .tooltip-text {
-      line-height: 1.6;
+      line-height: 1.4;
       white-space: normal;
     }
   }

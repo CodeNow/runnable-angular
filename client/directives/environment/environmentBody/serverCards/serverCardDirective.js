@@ -25,6 +25,8 @@ require('app')
         helpCard: '=?'
       },
       link: function ($scope) {
+        var listeners = [];
+
         $scope.helpCards = helpCards;
         $scope.server = {};
         $scope.activeAccount = $rootScope.dataApp.data.activeAccount;
@@ -36,7 +38,7 @@ require('app')
 
         function createServerObjectFromInstance(instance) {
           // This may be a newInstance... just a placeholder
-          helpCards.refreshForInstance(instance);
+          helpCards.removeByInstance(instance);
           $scope.server.instance = instance;
           $scope.server.build = instance.build;
           $scope.server.opts = {
@@ -73,46 +75,60 @@ require('app')
                   fetchStackAnalysis(fullRepoName).then(function (stackAnalysis) {
                     if (!stackAnalysis.serviceDependencies) { return; }
 
-                    stackAnalysis.serviceDependencies.forEach(function (dependency) {
+                    function calculateHelpCards () {
+                      // This may be a newInstance... just a placeholder
+                      helpCards.removeByInstance(instance);
 
-                      var matchedInstance = $scope.data.instances.models.find(function (instance) {
-                        return instance.attrs.lowerName === dependency;
-                      });
-
-                      if (matchedInstance) {
-                        var matchedDependency = data.dependencies.find(function (dep) {
-                          return dep.attrs.shortHash === matchedInstance.attrs.shortHash;
+                      stackAnalysis.serviceDependencies.forEach(function (dependency) {
+                        var matchedInstance = $scope.data.instances.models.find(function (instance) {
+                          return instance.attrs.lowerName === dependency;
                         });
 
-                        if (!matchedDependency) {
-                          helpCards.triggerCard('missingAssociation', {
+                        if (matchedInstance) {
+                          var matchedDependency = data.dependencies.find(function (dep) {
+                            return dep.attrs.shortHash === matchedInstance.attrs.shortHash;
+                          });
+
+                          if (!matchedDependency) {
+                            helpCards.triggerCard('missingAssociation', {
+                              instance: $scope.server.instance,
+                              association: matchedInstance.attrs.name
+                            })
+                              .then(function (helpCard) {
+                                listeners.push({
+                                  obj: helpCard,
+                                  key: 'refresh',
+                                  value: calculateHelpCards
+                                });
+                                listeners.push({
+                                  obj: helpCard,
+                                  key: 'activate',
+                                  value: scrollIntoView
+                                });
+                                helpCard
+                                  .on('refresh', calculateHelpCards)
+                                  .on('activate', scrollIntoView);
+                              });
+
+                          }
+                        } else {
+                          helpCards.triggerCard('missingDependency', {
                             instance: $scope.server.instance,
-                            association: matchedInstance.attrs.name
+                            dependency: dependency
                           })
                             .then(function (helpCard) {
-                              helpCard
-                                .on('refresh', function () {
-                                  createServerObjectFromInstance($scope.server.instance);
-                                })
-                                .on('activate', function () {
-                                  scrollIntoView();
-                                });
-                            });
-
-                        }
-                      } else {
-                        helpCards.triggerCard('missingDependency', {
-                          instance: $scope.server.instance,
-                          dependency: dependency
-                        })
-                          .then(function (helpCard) {
-                            helpCard
-                              .on('refresh', function () {
-                                createServerObjectFromInstance($scope.server.instance);
+                              listeners.push({
+                                obj: helpCard,
+                                key: 'refresh',
+                                value: calculateHelpCards
                               });
-                          });
-                      }
-                    });
+                              helpCard
+                                .on('refresh', calculateHelpCards);
+                            });
+                        }
+                      });
+                    }
+                    calculateHelpCards();
                   })
                     .catch(errs.handler);
                 }
@@ -160,6 +176,13 @@ require('app')
         $scope.showSpinner = function () {
           return !$scope.server.build || $scope.server.building || $scope.server.parsing;
         };
+
+        $scope.$on('$destroy', function () {
+          listeners.forEach(function (watcher) {
+            watcher.obj.removeListener(watcher.key, watcher.value);
+          });
+          helpCards.removeByInstance($scope.server.instance);
+        });
       }
     };
   });
