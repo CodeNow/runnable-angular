@@ -23,7 +23,8 @@ function editServerModal(
   $rootScope,
   $http,
   uploadFile,
-  configAPIHost
+  configAPIHost,
+  cardInfoTypes
 ) {
   return {
     restrict: 'A',
@@ -72,48 +73,65 @@ function editServerModal(
       $scope.fileUpload = {
         actions: {
           file: {
-            uploadFile: function () {
-              if (!$scope.fileUpload.data.file.length) { return; }
-              console.log('data.file', $scope.fileUpload.data.file);
-              $scope.fileUpload.saving = true;
+            uploadFile: function (containerFile) {
+              if (!containerFile.file.length) { return; }
+              containerFile.saving = true;
+
               var uploadURL = configAPIHost + '/' + $scope.state.contextVersion.urlPath +
                   '/' + $scope.state.contextVersion.id() + '/files';
-              uploadFile($scope.fileUpload.data.file, uploadURL)
+              var files = containerFile.file;
+              containerFile.name = files[0].name;
+
+              containerFile.fileUpload = uploadFile(files, uploadURL)
                 .progress(function (evt) {
-                  $scope.fileUpload.data.progress = parseInt(100.0 * evt.loaded / evt.total, 10);
+                  containerFile.progress = parseInt(100.0 * evt.loaded / evt.total, 10);
                 })
                 .then(function (fileResponse) {
-                  console.log(fileResponse);
+                  containerFile.name = fileResponse.data.name;
                 })
                 .catch(errs.handler)
                 .finally(function () {
-                  $scope.fileUpload.saving = false;
+                  containerFile.saving = false;
                 });
             },
-            save: function () {
+            save: function (containerFile) {
               // Push to parent container files
               $rootScope.$broadcast('close-popovers');
+              var ContainerFile = cardInfoTypes()['Container File'];
+              var myFile = new ContainerFile();
+              myFile.name = containerFile.file[0].name;
+              myFile.commands = containerFile.commands;
+              myFile.path = containerFile.path;
+              console.log(myFile);
+              console.log(myFile.toString());
+              $scope.server.containerFiles.push(myFile);
+
             },
-            cancel: function () {
+            cancel: function (containerFile) {
               // Using our own cancel in order to delete file
-              // TODO: handle halfway-uploaded files
               $rootScope.$broadcast('close-popovers');
-              if (!keypather.get($scope, 'fileUpload.data.file.length') ||
-                keypather.get($scope, 'fileUpload.data.state.fromServer')) { console.log('return early from cancel'); return; }
-              $scope.fileUpload.actions.file.deleteFile();
+              if (containerFile.fileUpload) {
+                $scope.fileUpload.actions.file.deleteFile();
+              }
             },
-            deleteFile: function () {
-              var fileURL = configAPIHost + '/' + $scope.state.contextVersion.urlPath +
-                  '/' + $scope.state.contextVersion.id() + '/files';
-              $http.delete(fileURL, {
-                withCredentials: true
-              }).then(function () {
-                console.log('deleteFile then');
-              })
-              .catch(errs.handler)
-              .finally(function () {
-                $rootScope.$broadcast('close-popovers');
-              });
+            deleteFile: function (containerFile) {
+              $rootScope.$broadcast('close-popovers');
+              if (containerFile.fileUpload) {
+                $scope.server.containerFiles.splice($scope.server.containerFiles.indexOf(containerFile), 1);
+
+                return $scope.data.fileUpload.then(function () {
+                  var fileURL = configAPIHost + '/' + $scope.state.contextVersion.urlPath +
+                    '/' + $scope.state.contextVersion.id() + '/files';
+                  $http.delete(fileURL, {
+                    withCredentials: true
+                  })
+                    .catch(errs.handler);
+                });
+              }
+              if ($scope.data.name) {
+                console.log($scope.data.name);
+              }
+
             }
           },
           repo: {

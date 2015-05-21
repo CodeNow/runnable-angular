@@ -13,6 +13,9 @@ require('app')
 require('app')
   .factory('parseDockerfileForCardInfoFromInstance', parseDockerfileForCardInfoFromInstance);
 
+require('app')
+  .factory('cardInfoTypes', getCardInfoTypes);
+
 function parseDockerfileForStack(
   $log,
   hasKeypaths
@@ -131,20 +134,25 @@ function wrapWithType(content, type){
 
 
 function ContainerFile(contents){
-  var commandList = contents.split('\n');
-  var commands = /^ADD ((?:\\\s|[^\s])*) ((?:\\\s|[^\s])*)/.exec(commandList[0]);
+  this.type = 'Container File';
 
-  this.name = commands[1].replace('./');
-  this.path = commands[2];
-  this.commands = commandList.splice(0,1).map(function (item) {
-    return item.replace('RUN ');
-  }).join('\n');
-  this.type = 'File';
+  if (contents) {
+    var commandList = contents.split('\n');
+    var commands = /^ADD ((?:\\\s|[^\s])*) ((?:\\\s|[^\s])*)/.exec(commandList[0]);
 
+    this.name = commands[1].replace('./');
+    this.path = commands[2];
+    this.commands = commandList.splice(0,1).map(function (item) {
+      return item.replace('RUN ');
+    }).join('\n');
+  }
+
+  var self = this;
   this.toString = function () {
-    var contents = 'ADD ./' + this.name + ' ' + this.path + '\n'+
-      this.commands
-        .spit('\n')
+    self.commands = self.commands || '';
+    var contents = 'ADD ./' + self.name + ' ' + self.path + '\n'+
+      self.commands
+        .split('\n')
         .filter(function (command) {
           return command.trim().length;
         })
@@ -152,7 +160,7 @@ function ContainerFile(contents){
           return 'RUN '+command;
         })
         .join('\n');
-    return wrapWithType(contents, this.type);
+    return wrapWithType(contents, self.type);
   };
 }
 
@@ -189,6 +197,13 @@ var types = {
   //'Ports': Ports,
   //'Start Command': StartCommand
 };
+
+
+function getCardInfoTypes() {
+  return function () {
+    return types;
+  };
+}
 
 function parseDockerfile (dockerfile) {
   var regex = /#Start: (.*)\n([\s\S]*?)#End/g;
@@ -240,7 +255,7 @@ function parseDockerfileForCardInfoFromInstance(
         containerFiles = [{
             name: 'a',
             path: '/asdf',
-            type: 'file',
+            type: 'Container File',
             commands: 'EAT food'
         }, {
             name: 'SomeKittens/Node-Blog-Engine',
@@ -254,7 +269,7 @@ function parseDockerfileForCardInfoFromInstance(
         }, {
             name: 'b',
             path: '/zxcv',
-            type: 'file'
+            type: 'Container File'
         }];
 
         var acvs = keypather.get(instance, 'build.contextVersions.models[0].appCodeVersions');

@@ -12,7 +12,7 @@
       .input-col
         .btn.btn-block.white.text-overflow.btn-upload(
           ng-click = "state.view3 = true"
-        ) {{ data.file[0].name || data.name }}
+        ) {{ data.name }}
           small.small {{ data.progress ? data.progress + '% uploaded' : 'Select a file' }}
           label.btn.btn-xs.gray(
               for = "input-upload"
@@ -20,7 +20,7 @@
             input#input-upload(
               type = "file",
               ngf-select
-              ngf-change = "actions.uploadFile()"
+              ngf-change = "actions.uploadFile(data)"
               ng-model = "data.file"
             )
 
@@ -45,14 +45,14 @@
 
     //- not shown if new repo
     button.btn.btn-xs.orange(
-      ng-click = "actions.deleteFile()"
+      ng-click = "actions.deleteFile(data)"
     ) Delete File
 
   .popover-footer.clearfix
     button.btn.btn-sm.green.btn-spinner(
       ng-class = "{in: data.saving}"
-      ng-click = "actions.save()"
-      ng-disabled = "data.saving"
+      ng-click = "actions.save(data)"
+      ng-disabled = "data.saving || (!data.file && !data.name)"
     )
       //- spinner
       .spinner-wrapper.spinner-sm.spinner-white.in(
@@ -60,11 +60,14 @@
         ng-include = "'spinner'"
       )
       span(
-        ng-if = "!data.saving"
+        ng-if = "!data.saving && !data.file && !data.name"
       ) Add File
+      span(
+        ng-if = "!data.saving && (data.file || data.name)"
+      ) Save
       span(
         ng-if = "data.saving"
       ) Uploading
     button.btn.btn-sm.gray.btn-cancel(
-      ng-click = "actions.cancel()"
+      ng-click = "actions.cancel(data)"
     ) Cancel
