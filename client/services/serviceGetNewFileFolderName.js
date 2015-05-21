@@ -6,14 +6,18 @@ require('app')
  * @ngInject
  */
 function getNewFileFolderName() {
-  return function (dir) {
-    var newFileName = 'newfile';
+  return function (dir, isDir) {
+    var key = 'newFile';
+    if (isDir) {
+      key = 'newDirectory';
+    }
+    var newFileName = key;
     var count = 0;
     var filenames = dir.contents.models.map(function (model) { return model.attrs.name; });
 
     while (filenames.indexOf(newFileName) > -1){
-      newFileName = 'newfile ' + count;
-      count++;
+      newFileName = key + ' ' + count;
+      count += 1;
     }
 
     return newFileName;

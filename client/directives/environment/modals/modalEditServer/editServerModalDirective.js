@@ -35,6 +35,7 @@ function editServerModal(
     link: function ($scope, elem, attrs) {
       if (helpCards.cardIsActiveOnThisContainer($scope.server.instance)) {
         $scope.helpCards = helpCards;
+        $scope.activeCard = helpCards.getActiveCard();
       }
       $scope.portTagOptions = {
         breakCodes: [
