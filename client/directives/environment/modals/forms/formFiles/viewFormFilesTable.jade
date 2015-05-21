@@ -44,8 +44,19 @@ ul.table-drag-drop(
         title = "{{ containerFile.path }}"
       ) {{ containerFile.path }}
     .cell.cell-type.small
-      svg.iconnables.icons-server
+      //- if repo (main)
+      //- svg.iconnables
+      //-   use(
+      //-     xlink:href = "#icons-repository"
+      //-   )
+      //- if repo (additional)
+      //- svg.iconnables
+      //-   use(
+      //-     xlink:href = "#icons-repository-additional"
+      //-   )
+      //- if file
+      svg.iconnables
         use(
-          xlink:href = "#icons-server"
+          xlink:href = "#icons-file"
         )
       | {{ containerFile.type }}
