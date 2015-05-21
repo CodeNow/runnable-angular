@@ -96,21 +96,11 @@ function dnsManager(
             return dependency.attrs.contextVersion.context === masterInstance.attrs.contextVersion.context;
           });
 
-          $q.when()
-            .then(function () {
-              if (dependency) {
-                return promisify(dependency, 'update')({
-                  hostname: createInstanceUrl(masterInstance),
-                  instance: instance.attrs.shortHash
-                });
-              } else {
-                return promisify($scope.dependencies, 'create')({
-                  hostname: createInstanceUrl(masterInstance),
-                  instance: instance.attrs.shortHash
-                });
-              }
-            })
-            .catch(errs.handler);
+          return promisify(dependency, 'update')({
+            hostname: createInstanceUrl(masterInstance),
+            instance: instance.attrs.shortHash
+          })
+          .catch(errs.handler);
         }
       };
     }
