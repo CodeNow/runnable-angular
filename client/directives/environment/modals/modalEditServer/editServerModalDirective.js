@@ -247,8 +247,10 @@ function editServerModal(
             var file = $scope.state.contextVersion.rootDir.contents.models.find(function (fileModel) {
               return fileModel.attrs.name === containerFile.name;
             });
-            promisify(file, 'destroy')()
-              .catch(errs.handler);
+            if (file) {
+              promisify(file, 'destroy')()
+                .catch(errs.handler);
+            }
 
             $scope.server.containerFiles.splice($scope.server.containerFiles.indexOf(containerFile), 1);
           }
