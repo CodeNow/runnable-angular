@@ -1,7 +1,7 @@
 .card-header
   server-status-card-header(
     ng-attr-no-touching = "{{ showSpinner() }}"
-    pop-over-options = "{\"right\":149,\"top\":30}"
+    pop-over-options = "{\"right\":10,\"top\":30}"
     pop-over-template = "serverOptionsCardPopover"
   )
   
@@ -142,6 +142,7 @@ ul.card-body.load(
     modal-data = "data"
     modal-state-model = "'env'"
     modal-template = "editServerModalOpen"
+    modal-open-flag = "openConfigurationModal"
     ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.environmentVariables}"
   )
     svg.iconnables
@@ -156,7 +157,10 @@ ul.card-body.load(
       )
 
 .card-footer
-  label.label-checkbox
+  label.label-checkbox(
+    tooltip = "Enable direct access to your container files."
+    tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-3,\"top\":15}"
+  )
     input.input-checkbox(
       ng-click = "changeAdvancedFlag()"
       ng-model = "state.advanced"
