@@ -1,0 +1,79 @@
+.popover.popover-fixed.popover-rules(
+  ng-class = "{in: active}"
+  ng-style = "popoverStyle.getStyle()"
+  ng-form = "popoverRuleForm"
+  ng-init = "currentState = {};"
+)
+  .popover-content
+
+    //- if new rule
+    h3.popover-title {{ data.state._id ? '': 'New '}}String Replace Rule
+      small.small 🐶 Rules are case-sensitive and trailing whitespace is not trimmed. Regular expressions are not supported. Or use an elastic URL to create an association.
+      button.btn.btn-xs.gray(
+        ng-if = "data.state._id"
+        ng-click = "actions.deleteRule(data.state)"
+      )
+        svg.iconnables.icons-trash
+          use(
+            xlink:href = "#icons-trash"
+          )
+        | Delete Rule
+
+
+    .label-row
+      label.label-col Find string
+        input.input.input-sm.monospace(
+          name = "fromTextBox"
+          required
+          ng-model = "data.state.search"
+          ng-change = "currentState.searched = false"
+          spellcheck = "false"
+        )
+      .span-col →
+      label.label-col Translate to
+        input.input.input-sm.monospace(
+          name = "toTextBox"
+          required
+          ng-model = "data.state.replace"
+          ng-change = "currentState.searched = false"
+          spellcheck = "false"
+        )
+        button.btn.btn-sm.btn-icon.gray
+          svg.iconnables
+            use(
+              xlink:href = "#icons-container-association"
+            )
+
+    //- if association
+    small.small.table-details(
+      ng-if = "data.state.diffs"
+    ) {{ data.getMatchDisplay(data.state) }}
+
+    //- association verification table
+    .table.table-diff(
+      ng-repeat = "diff in data.state.diffs"
+      diff-display
+      file-diff = "diff"
+      rule = "data.state"
+    )
+
+  .popover-footer.clearfix
+    button.btn.green.btn-spinner(
+      ng-if = "!currentState.searched"
+      ng-class = "{in: currentState.processing}"
+      ng-click = "actions.performCheck(data.state, currentState)"
+      ng-disabled = "!popoverRuleForm.$valid || popoverRuleForm.$pristine || currentState.processing"
+    )
+      //- spinner
+      .spinner-wrapper.spinner-sm.spinner-white.in(
+        ng-if = "currentState.processing"
+        ng-include = "'spinner'"
+      )
+      span {{ currentState.processing ? 'Searching' : 'Search for matches' }}
+    button.btn.green(
+      ng-if = "currentState.searched"
+      ng-click = "actions.createRule(data.state)"
+    ) Create rule
+    button.btn.gray.btn-cancel(
+      ng-click = "actions.cancel()"
+    ) Cancel

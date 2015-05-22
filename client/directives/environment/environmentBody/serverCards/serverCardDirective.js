@@ -95,6 +95,7 @@ require('app')
                               association: matchedInstance.attrs.name
                             })
                               .then(function (helpCard) {
+                                if (!helpCard) { return; }
                                 listeners.push({
                                   obj: helpCard,
                                   key: 'refresh',
@@ -108,7 +109,8 @@ require('app')
                                 helpCard
                                   .on('refresh', calculateHelpCards)
                                   .on('activate', scrollIntoView);
-                              });
+                              })
+                              .catch(errs.handler);
 
                           }
                         } else {
@@ -117,6 +119,7 @@ require('app')
                             dependency: dependency
                           })
                             .then(function (helpCard) {
+                              if (!helpCard) { return; }
                               listeners.push({
                                 obj: helpCard,
                                 key: 'refresh',
@@ -124,7 +127,8 @@ require('app')
                               });
                               helpCard
                                 .on('refresh', calculateHelpCards);
-                            });
+                            })
+                            .catch(errs.handler);
                         }
                       });
                     }
@@ -176,6 +180,21 @@ require('app')
         };
         $scope.showSpinner = function () {
           return !$scope.server.build || $scope.server.building || $scope.server.parsing;
+        };
+        $scope.getTranslationDisplay = function () {
+          var ruleObject = keypather.get(
+            $scope,
+            'server.contextVersion.appCodeVersions.models[0].attrs.transformRules'
+          );
+          var total = 0;
+          if (ruleObject) {
+            total = ruleObject.replace.length + ruleObject.rename.length;
+          }
+          var result = (!total ? 'no' : total) + ' rule' + (total === 1 ? '' : 's');
+          if (keypather.get(ruleObject, 'exclude.length')) {
+            result += ' (' + ruleObject.exclude.length + ' files ignored)';
+          }
+          return result;
         };
 
         $scope.$on('$destroy', function () {

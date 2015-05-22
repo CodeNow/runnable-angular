@@ -1,0 +1,31 @@
+.tr.thead.clearfix
+  .cell
+    a.link(
+      href = "//github.com"
+      target = "_blank"
+    ) {{ fileDiff.from }}
+    span(
+      ng-if = "fileDiff.to"
+    )
+      | #{''} → {{ fileDiff.to }}
+    button.btn.btn-xs.white(
+      ng-if = "previewAll"
+      ng-click = "ignore.toggleIgnoreFile(fileDiff)"
+    ) {{ ignore.checkFileIgnored(fileDiff) ? 'Do not' : '' }} Ignore File
+div(
+  ng-repeat = "change in fileDiff.changes"
+)
+  .tr.tr-deletion.clearfix(
+    ng-repeat = "changeLine in change.deletions"
+  )
+    .cell.monospace.cell-line {{ changeLine.ln }}
+    .cell.monospace.text-overflow {{ changeLine.content }}
+  .tr.tr-addition.clearfix(
+    ng-repeat = "changeLine in change.additions"
+  )
+    .cell.monospace.cell-line {{ changeLine.ln }}
+    .cell.monospace.text-overflow {{ changeLine.content }}
+  .tr.tr-gap.clearfix(
+    ng-if = "!$last"
+  )
+    .cell.monospace.cell-line ...

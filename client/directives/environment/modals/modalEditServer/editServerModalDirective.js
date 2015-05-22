@@ -104,7 +104,7 @@ function editServerModal(
               openDockerfile();
             }
             if (contextVersion.appCodeVersions.models.length) {
-              $scope.acv = contextVersion.appCodeVersions.models[0];
+              $scope.state.acv = contextVersion.appCodeVersions.models[0];
             }
             return fetchUser();
           })
@@ -268,7 +268,7 @@ function editServerModal(
       $scope.$watch('state.branch', function (newBranch, oldBranch) {
         if (newBranch && oldBranch && newBranch.attrs.name !== oldBranch.attrs.name) {
           waitForStateContextVersion($scope, function () {
-            promisify($scope.acv, 'update')({
+            promisify($scope.state.acv, 'update')({
               repo: $scope.server.repo.attrs.full_name,
               branch: newBranch.attrs.name,
               commit: newBranch.attrs.commit.sha

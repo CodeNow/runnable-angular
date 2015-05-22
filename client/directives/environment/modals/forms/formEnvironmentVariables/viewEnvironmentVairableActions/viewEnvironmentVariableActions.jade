@@ -2,30 +2,23 @@
 //- prefer ng-hide > ng-if for this button
 button.btn.btn-xs.gray(
   ng-click = "state.showHostName = true"
-  ng-init = "state.showHostName = false"
   ng-hide = "state.showHostName"
+  ng-init = "state.showHostName = false"
 ) Insert an Elastic Hostname
 
-button.btn.btn-xs(
+button.btn.btn-xs.btn-status(
   ng-if = "!state.showHostName"
-  ng-class = "{\
-    'no-touching': !linkedEnvResults.servers.length && !linkedEnvResults.others.length\
-  }"
-  pop-over
-  pop-over-data = "linkedEnvResults"
-  pop-over-options = "{\"left\":-100,\"top\":-85}"
-  pop-over-template = "viewPopoverLinkHelper"
-) Associations
-  .tag.monospace {{linkedEnvResults.servers.length || 0 }}
+  title = "{{linkedEnvResults.servers.length || 0 }} associations from environment variables"
+) {{linkedEnvResults.servers.length || 0 }} associations
 
 //- if inserting host names
 .label.label-row.clearfix(
   ng-if = "state.showHostName"
 )
   fancy-select.input-sm.monospace.text-overflow(
-    value = "$parent.state.newLink.protocol"
-    type = "text"
     placeholder = "Protocol"
+    type = "text"
+    value = "$parent.state.newLink.protocol"
   )
     li.list-item.popover-list-item.small(
     ) Select Protocol (optional)
@@ -33,26 +26,26 @@ button.btn.btn-xs(
       value = "'http://'"
     ) http://
   fancy-select.input-sm.monospace.text-overflow(
+    placeholder = "Elastic Url"
     value = "$parent.state.newLink.server"
-    placeholder = "Elastic Hostname"
   )
     li.list-item.popover-list-item.small Select Elastic Hostname
     fancy-option.monospace(
-      value = "instance"
-      ng-repeat = "instance in $parent.data.instances.models"
       ng-if = "instance.attrs.shortHash !== $parent.$parent.$parent.state.server.instance.attrs.shortHash"
+      ng-repeat = "instance in $parent.data.instances.models"
+      value = "instance"
     ) {{ $parent.instance.getElasticHostname() }}
 
   fancy-select.input-sm.monospace.text-overflow(
-    value = "$parent.state.newLink.port"
     placeholder = "Port"
     type = "text"
+    value = "$parent.state.newLink.port"
   )
     li.list-item.popover-list-item.small(
     ) Select Port (optional)
     fancy-option(
-      value = "port"
       ng-repeat = "port in $parent.$parent.state.newLink.server | extractInstancePorts"
+      value = "port"
     ) :{{ $parent.port }}
 
 .table-footer.clearfix(
