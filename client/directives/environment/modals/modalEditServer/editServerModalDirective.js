@@ -59,9 +59,9 @@ function editServerModal(
       };
 
       $scope.triggerEditRepo = function (repo) {
+        console.log(repo);
         $scope.repositoryPopover.data.repoObj = repo;
         $scope.repositoryPopover.data.state.fromServer = true;
-        $scope.repositoryPopover.data.repo.attrs.name = repo.name;
         $scope.repositoryPopover.data.repo = repo.repo;
         $scope.repositoryPopover.data.branch = repo.branch;
         $scope.repositoryPopover.data.commit = repo.commit;

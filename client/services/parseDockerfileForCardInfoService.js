@@ -232,7 +232,7 @@ function getCardInfoTypes() {
   };
 }
 
-function parseDockerfile (dockerfile, instance) {
+function parseDockerfile (dockerfile) {
   var regex = new RegExp('#Start: (.*)\n([\\s\\S]*?)#End', 'gm');
   var currentBlock = regex.exec(dockerfile);
   var chunks = [];
@@ -244,8 +244,7 @@ function parseDockerfile (dockerfile, instance) {
     content = currentBlock[2];
     if (CustomType) {
       chunks.push( new CustomType(content, {
-        isMainRepo: currentBlock === 'Main Repo',
-        instance: instance
+        isMainRepo: currentBlock === 'Main Repo'
       }));
     } else {
       console.log('Type "' + currentBlock[1] + '" not found.');
@@ -262,7 +261,6 @@ function parseDockerfileForCardInfoFromInstance(
   parseDockerfileForStack,
   promisify,
   keypather,
-  hasKeypaths,
   $q,
   fetchCommitData
 ) {
@@ -273,7 +271,7 @@ function parseDockerfileForCardInfoFromInstance(
         if (!dockerfileBody) {
           return $q.reject(new Error('Dockerfile empty or not found'));
         }
-        var allSections = parseDockerfile(dockerfileBody, instance);
+        var allSections = parseDockerfile(dockerfileBody);
 
         var containerFiles = allSections.filter(function (section) {
           return ['Container File', 'Repo', 'Main Repo'].indexOf(section.type) !== -1;
@@ -281,15 +279,15 @@ function parseDockerfileForCardInfoFromInstance(
 
         var acvs = keypather.get(instance, 'build.contextVersions.models[0].appCodeVersions');
         containerFiles = containerFiles.map(function (item) {
-          if (item.type === 'file') { return item; }
-          var matchingAcv = acvs.models.find(hasKeypaths({
-            'attrs.repo': item.name
-          }));
+          if (item.type === 'Container File') { return item; }
+          var matchingAcv = acvs.models.find(function (acv) {
+            return acv.attrs.repo.split('/')[1] === item.name;
+          });
           if (matchingAcv) {
-            item.acv = matchingAcv;
-            item.activeBranch = fetchCommitData.activeBranch(matchingAcv);
-            item.activeCommit = fetchCommitData.activeCommit(matchingAcv);
-            fetchCommitData.branchCommits(item.activeBranch);
+            item.repo = matchingAcv.githubRepo;
+            item.branch = fetchCommitData.activeBranch(matchingAcv);
+            item.commit = fetchCommitData.activeCommit(matchingAcv);
+            fetchCommitData.branchCommits(item.branch);
           }
           return item;
         });
