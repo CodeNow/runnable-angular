@@ -45,6 +45,7 @@
 
     //- not shown if new repo
     button.btn.btn-xs.orange(
+      ng-if = "data.fromServer"
       ng-click = "actions.deleteFile(data)"
     ) Delete File
 

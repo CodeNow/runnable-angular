@@ -146,6 +146,7 @@ function ContainerFile(contents){
     this.commands = commandList.map(function (item) {
       return item.replace('RUN ', '');
     }).join('\n');
+    this.fromServer = true;
   }
 }
 
@@ -177,6 +178,7 @@ function Repo(contents, opts){
     this.commands = commandList.map(function (item) {
       return item.replace('RUN ', '');
     }).join('\n');
+    this.fromServer = true;
   }
 }
 
