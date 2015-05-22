@@ -70,13 +70,12 @@ form.modal-dialog.modal-edit(
           )
         span.btn-text Environment Variables
       button.btn.btn-radio(
-        ng-class = "{active: selectedTab === 'replace'}"
-        ng-click = "changeTab('replace')"
-        ng-if = "god === 'exists'"
+        ng-class = "{active: selectedTab === 'translation'}"
+        ng-click = "changeTab('translation')"
       )
         svg.iconnables
           use(
-            xlink:href = "#icons-ports"
+            xlink:href = "#icons-translation"
           )
         span.btn-text Translation Rules
       button.btn.btn-radio(
@@ -118,8 +117,8 @@ form.modal-dialog.modal-edit(
       ng-include = "'viewFormEnvironmentVariables'"
     )
     .modal-form(
-      ng-if = "selectedTab === 'replace'"
-      ng-include = "'viewFormReplace'"
+      ng-if = "selectedTab === 'translation'"
+      translation-rules
     )
     .modal-form.modal-logs(
       ng-if = "selectedTab === 'logs'"

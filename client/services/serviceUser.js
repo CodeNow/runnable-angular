@@ -46,7 +46,7 @@ methods.forEach(function (method) {
     opts.data = opts.json || opts.body;
     delete opts.json;
     delete opts.body;
-    if (opts.qs) {
+    if (opts.qs && qs.stringify(opts.qs)) {
       opts.url += '?' + qs.stringify(opts.qs);
     }
     delete opts.qs;

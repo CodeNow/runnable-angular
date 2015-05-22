@@ -110,15 +110,30 @@
   .cell.monospace {
     position: relative;
 
-    &:first-child::after {
-      color: $green;
-      content: '→';
-      display: block;
-      font-size: 16px;
-      position: absolute;
-      right: 0;
-      top: 0;
+    &.cell-arrow:nth-child(2) {
+      padding-right: 15px;
+
+      &.disabled::after {
+        color: $orange;
+      }
+
+      &::after {
+        color: $green;
+        content: '→';
+        display: block;
+        font-size: 18px;
+        line-height: 34px;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
     }
+  }
+
+  .table + .clearfix {
+    border-top: 1px solid $gray-lighter;
+    margin-top: 27px;
+    padding-top: 21px;
   }
 
   // active panel & ace container
@@ -127,11 +142,16 @@
     border: 2px solid $purple-darker;
     display: flex;
     min-height: 210px;
-  }
 
-  .ace_editor {
-    display: flex;
-    flex: 1 1 auto;
+    // translation rules
+    &.ace-ignored-files {
+      border-radius: 3px;
+    }
+
+    .ace_editor {
+      display: flex;
+      flex: 1 1 auto;
+    }
 
     .spinner-wrapper {
       background: #311d40;
@@ -147,6 +167,14 @@
       min-height: 210px; // to match env vars
       white-space: nowrap;
     }
+  }
+
+  // empty p tag
+  .p.empty {
+    color: $gray-light;
+    font-weight: 500;
+    margin: 60px 0 30px;
+    text-align: center;
   }
 }
 
@@ -215,8 +243,8 @@
 
   // override sidebar
   .sidebar {
-    border: 2px solid $gray-light;
-    border-radius: 3px 0 0 3px;
+    border: 1px solid $gray-lighter;
+    border-radius: 2px 0 0 2px;
     border-right: 0;
     color: $gray-dark;
     height: auto;
@@ -226,9 +254,9 @@
   }
 
   .sidebar-actions {
-    background: $gray-lighter;
-    height: 30px;
-    padding: 2px;
+    background: #f0f0f0;
+    border-bottom: 1px solid $gray-lighter;
+    padding: 6px;
 
     .btn-xs {
       float: right;

@@ -1,0 +1,34 @@
+.btn-group(
+  ng-init = "page = 'rules'"
+)
+  button.btn.btn-xs.white.active(
+    ng-class = "{active: page === 'rules'}"
+    ng-click = "page = 'rules'"
+  ) Rules
+  button.btn.btn-xs.white(
+    ng-class = "{active: page === 'ignored'}"
+    ng-click = "page = 'ignored'"
+  ) Ignored Files
+  button.btn.btn-xs.white(
+    ng-class = "{active: page === 'preview'}"
+    ng-click = "page = 'preview'"
+  ) Preview All
+
+div(
+  ng-include = "'translationRulesTableForm'"
+  ng-show = "page === 'rules'"
+)
+
+div(
+  ignored-translation
+  state = "state"
+  actions = "actions"
+  ng-show = "page === 'ignored'"
+)
+
+div(
+  preview-all-translation
+  state = "state"
+  actions = "actions"
+  ng-show = "page === 'preview'"
+)
