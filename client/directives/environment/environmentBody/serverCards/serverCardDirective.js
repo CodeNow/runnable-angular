@@ -27,6 +27,29 @@ require('app')
       link: function ($scope) {
         var listeners = [];
 
+        $scope.getContainerFilesDisplay = function () {
+          var repos = 0;
+          var files = 0;
+          $scope.server.containerFiles.forEach(function (containerFile) {
+            if (containerFile.type === 'Repo') {
+              repos += 1;
+            } else if (containerFile.type === 'Container File') {
+              files += 1;
+            }
+          });
+          var messages = [];
+          if (repos === 1) {
+            messages.push('1 Repository');
+          } else if (repos) {
+            messages.push(repos + ' Repositories');
+          }
+          if (files === 1) {
+            messages.push('1 File');
+          } else if (files) {
+            messages.push(files + ' Files');
+          }
+          return messages.join('; ');
+        };
         $scope.helpCards = helpCards;
         $scope.server = {};
         $scope.activeAccount = $rootScope.dataApp.data.activeAccount;
