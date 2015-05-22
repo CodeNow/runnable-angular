@@ -22,7 +22,7 @@ function parseDockerfileForStack(
 ) {
   return function (dockerfile, stackData) {
     if (stackData) {
-      var fromValue = /from ([^\n]+)/i.exec(dockerfile.attrs.body);
+      var fromValue = /from ([^\n]+)/i.exec(dockerfile);
       if (fromValue) {
         // it should be at index 1, since the full string is the 0th element
         var stack;
@@ -36,7 +36,7 @@ function parseDockerfileForStack(
         } else if (stackKey === 'ruby') {
           // Check for RAILS_VERSION
 
-          var railsVersion = /ENV RAILS_VERSION ([^\n]+)/.exec(dockerfile.attrs.body);
+          var railsVersion = /ENV RAILS_VERSION ([^\n]+)/.exec(dockerfile);
           if (railsVersion) {
             rubyVersion = stackVersion;
             stackKey = 'rails';
@@ -82,14 +82,14 @@ function parseDockerfileForDefaults(dockerfile, keys) {
 }
 
 function parseDockerfileForStartCommand(dockerfile) {
-  var cmdValue = /cmd ([^\n]+)/i.exec(dockerfile.attrs.body);
+  var cmdValue = /cmd ([^\n]+)/i.exec(dockerfile);
   if (cmdValue) {
     return cmdValue[1];
   }
 }
 
 function parseDockerfileForPorts(dockerfile) {
-  var portsValue = /expose ([^\n]+)/i.exec(dockerfile.attrs.body);
+  var portsValue = /expose ([^\n]+)/i.exec(dockerfile);
   if (portsValue) {
     return portsValue[1].replace(/expose/gi, '');
   }
@@ -102,13 +102,13 @@ function parseDockerfileForRunCommands(dockerfile, repoName) {
   var missingChunk;
   // Should be the beginning bit before any as the 1st, so remove it
   if (repoName) {
-    var addChunks = dockerfile.attrs.body.split('ADD');
+    var addChunks = dockerfile.split('ADD');
     addChunks.shift();
     missingChunk = addChunks.find(function (chunk) {
       return chunk.indexOf('./' + repoName.toLowerCase());
     });
   } else {
-    missingChunk = dockerfile.attrs.body;
+    missingChunk = dockerfile;
   }
   var results = reg.exec(missingChunk);
   if (results && results[2]) {
@@ -127,7 +127,7 @@ function parseDockerfileForRunCommands(dockerfile, repoName) {
 }
 
 function wrapWithType(content, type){
-  return '#Start ' + type + '\n' +
+  return '#Start: ' + type + '\n' +
     content + '\n' +
     '#End';
 }
@@ -140,8 +140,8 @@ function ContainerFile(contents){
     var commandList = contents.split('\n');
     var commands = /^ADD ((?:\\\s|[^\s])*) ((?:\\\s|[^\s])*)/.exec(commandList[0]);
 
-    this.name = commands[1].replace('./');
-    this.path = commands[2];
+    this.name = commands[1].replace('./', '');
+    this.path = commands[2].replace('/', '');
     this.commands = commandList.splice(0,1).map(function (item) {
       return item.replace('RUN ');
     }).join('\n');
@@ -150,7 +150,7 @@ function ContainerFile(contents){
   var self = this;
   this.toString = function () {
     self.commands = self.commands || '';
-    var contents = 'ADD ./' + self.name + ' ' + self.path + '\n'+
+    var contents = 'ADD ./' + self.name.trim() + ' /' + self.path.trim() + '\n'+
       self.commands
         .split('\n')
         .filter(function (command) {
@@ -164,9 +164,35 @@ function ContainerFile(contents){
   };
 }
 
-//function ContainerRepo(contents){
-//
-//}
+function Repo(contents, main){
+  this.type = main ? 'Main Repo' : 'Repo';
+  if (contents) {
+    var commandList = contents.split('\n');
+    var commands = /^ADD ((?:\\\s|[^\s])*) ((?:\\\s|[^\s])*)/.exec(commandList[0]);
+    this.name = commands[1].replace('./', '');
+    this.path = commands[2].replace('/', '');
+    commandList.splice(0,1);
+    this.commands = commandList.map(function (item) {
+      return item.replace('RUN ', '');
+    }).join('\n');
+  }
+
+  var self = this;
+  this.toString = function () {
+    self.commands = self.commands || '';
+    var contents = 'ADD ./' + self.name.trim() + ' /' + self.path.trim() + '\n'+
+      self.commands
+        .split('\n')
+        .filter(function (command) {
+          return command.trim().length;
+        })
+        .map(function (command) {
+          return 'RUN '+command;
+        })
+        .join('\n');
+    return wrapWithType(contents, self.type);
+  };
+}
 
 
 // TODO: Make container repo distinct from main repo
@@ -193,9 +219,9 @@ function ContainerFile(contents){
 //}
 
 var types = {
-  'Container File': ContainerFile
-  //'Ports': Ports,
-  //'Start Command': StartCommand
+  'Container File': ContainerFile,
+  'Main Repo': Repo,
+  'Repo': Repo
 };
 
 
@@ -206,7 +232,7 @@ function getCardInfoTypes() {
 }
 
 function parseDockerfile (dockerfile) {
-  var regex = /#Start: (.*)\n([\s\S]*?)#End/g;
+  var regex = new RegExp('#Start: (.*)\n([\\s\\S]*?)#End', 'gm');
   var currentBlock = regex.exec(dockerfile);
   var chunks = [];
 
@@ -216,7 +242,8 @@ function parseDockerfile (dockerfile) {
     CustomType = types[currentBlock[1]];
     content = currentBlock[2];
     if (CustomType) {
-      chunks.push( new CustomType(content) );
+      var isMainRepo = currentBlock === 'Main Repo';
+      chunks.push( new CustomType(content, isMainRepo) );
     } else {
       console.log('Type "' + currentBlock[1] + '" not found.');
     }
@@ -238,39 +265,15 @@ function parseDockerfileForCardInfoFromInstance(
   return function (instance, stackData) {
     return promisify(instance.contextVersion, 'fetchFile', true)('/Dockerfile')
       .then(function (dockerfile) {
-        if (!dockerfile) {
+        var dockerfileBody = keypather.get(dockerfile, 'attrs.body');
+        if (!dockerfileBody) {
           return $q.reject(new Error('Dockerfile empty or not found'));
         }
+        var allSections = parseDockerfile(dockerfileBody);
 
-        var allSections = parseDockerfile(dockerfile);
-        function findByType(type){
-          return allSections.find(function (section) {
-            return section.type === type;
-          });
-        }
-
-        var containerFiles = findByType('Container File');
-        // BLARG
-        // IF YOU SEE THIS COMMENT, RANDALL FORGOT TO REMOVE THISq
-        containerFiles = [{
-            name: 'a',
-            path: '/asdf',
-            type: 'Container File',
-            commands: 'EAT food'
-        }, {
-            name: 'SomeKittens/Node-Blog-Engine',
-            path: '/repo',
-            type: 'mainrepo'
-        }, {
-            name: 'otherrepo',
-            path: '/otherrepo',
-            type: 'repo',
-            commands: 'LOAD datums\nFORGET datums'
-        }, {
-            name: 'b',
-            path: '/zxcv',
-            type: 'Container File'
-        }];
+        var containerFiles = allSections.filter(function (section) {
+          return ['Container File', 'Repo', 'Main Repo'].indexOf(section.type) !== -1;
+        });
 
         var acvs = keypather.get(instance, 'build.contextVersions.models[0].appCodeVersions');
         containerFiles = containerFiles.map(function (item) {
@@ -286,9 +289,9 @@ function parseDockerfileForCardInfoFromInstance(
         return {
           allSections: allSections,
           instance: instance,
-          ports: parseDockerfileForPorts(dockerfile),
-          startCommand: parseDockerfileForStartCommand(dockerfile),
-          commands: parseDockerfileForRunCommands(dockerfile, instance.getRepoName()),
+          ports: parseDockerfileForPorts(dockerfileBody),
+          startCommand: parseDockerfileForStartCommand(dockerfileBody),
+          commands: parseDockerfileForRunCommands(dockerfileBody, instance.getRepoName()),
           containerFiles: containerFiles,
           selectedStack: parseDockerfileForStack(dockerfile, stackData)
         };

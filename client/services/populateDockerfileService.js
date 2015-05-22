@@ -5,7 +5,8 @@ require('app')
 
 function populateDockerfile(
   promisify,
-  regexpQuote
+  regexpQuote,
+  keypather
 ) {
   return function (sourceDockerfile, state, destDockerfile) {
     function replaceStackVersion(dockerfileBody, stack) {
@@ -20,27 +21,32 @@ function populateDockerfile(
     function populateDockerFile(dockerfileBody) {
       // first, add the ports
       var ports = state.ports.join(' ');
-      state.commands = state.commands || '';
-      var commands = state.commands.split('\n')
-        .filter(function (str) {
-          return str.trim().length;
-        })
-        .map(function(str) {
-          return 'RUN ' + str.trim();
-        })
-        .join('\n');
-      dockerfileBody = replaceStackVersion(dockerfileBody, state.selectedStack)
+
+      var containerFilesString = '';
+      var containerFiles = keypather.get(state, 'server.containerFiles') || [];
+      console.log(containerFiles);
+      containerFiles.forEach(function (containerFile) {
+        containerFilesString += '\n' + containerFile.toString() + '\n';
+      });
+
+      dockerfileBody = replaceStackVersion(dockerfileBody, state.selectedStack);
+
+      var beforeIndex = dockerfileBody.indexOf('<before-main-repo>');
+      var afterIndex = dockerfileBody.indexOf('<after-main-repo>');
+
+      dockerfileBody = dockerfileBody.slice(0, beforeIndex) + containerFilesString + dockerfileBody.slice(afterIndex + '<after-main-repo>'.length);
+
+      dockerfileBody = dockerfileBody
         .replace(/<user-specified-ports>/gm, ports)
-        .replace(/<before-main-repo>/gm, '')
-        .replace(/<after-main-repo>/gm, '')
         .replace(/<dst>/gm, '/' + state.dst)
-        .replace(/<repo-name>/gm, state.repo.attrs.name)
-        .replace(/<main-build-commands>/gm, commands)
+        .replace(/<container-files>/gm, containerFilesString)
         .replace(/<start-command>/gm, state.startCommand)
         .replace(/#default.+/gm, ''); // Remove all default comments that are not
+
       if (!state.ports.length) {
         dockerfileBody = dockerfileBody.replace('EXPOSE', '');
       }
+      console.log('Generated dockerfile \n', dockerfileBody);
       return dockerfileBody;
     }
 

@@ -18,7 +18,8 @@ function setupServerModal(
   keypather,
   populateDockerfile,
   promisify,
-  $log
+  $log,
+  cardInfoTypes
 ) {
   return {
     restrict: 'A',
@@ -61,6 +62,26 @@ function setupServerModal(
           )
             .then(function (dockerfile) {
               $scope.state.dockerfile = dockerfile;
+
+              var Repo = cardInfoTypes()['Main Repo'];
+
+              $scope.state.server = {
+                containerFiles: []
+              };
+              var repo = new Repo(null, true);
+
+              var commands = ($scope.state.commands || '').split('\n')
+                .filter(function (str) {
+                  return str.trim().length;
+                })
+                .join('\n');
+
+              repo.name = $scope.state.repo.attrs.name;
+              repo.path = $scope.state.dst.replace('/', '');
+              repo.commands = commands;
+
+              $scope.state.server.containerFiles.push(repo);
+
               return populateDockerfile(
                 dockerfile,
                 $scope.state
