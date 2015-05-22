@@ -1,4 +1,5 @@
 header.modal-header
+
   h1.modal-heading New Container from Repository
 
 section.modal-body.clearfix
@@ -8,14 +9,16 @@ section.modal-body.clearfix
     ng-include = "'spinner'"
   )
 
-  input.input.input-sm.input-search(
+  input.input.input-xs.input-search(
     ng-disabled = "repoSelected"
     ng-if = "data.githubRepos.models"
     ng-model = "data.repoFilter"
     placeholder = "Filter by name"
     required
     select-on = "showFilter"
+    type = "search"
   )
+
   ul.list.list-servers(
     ng-if = "data.githubRepos.models"
   )
