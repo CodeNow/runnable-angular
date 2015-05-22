@@ -4,6 +4,7 @@ require('app')
   .directive('ruleTable', function ruleTable(
     createTransformRule,
     deleteTransformRule,
+    errs,
     keypather,
     moveTransformRules
   ) {
@@ -39,7 +40,8 @@ require('app')
                 keypather.get($scope.state, 'contextVersion.appCodeVersions.models[0]'),
                 rule
               )
-                .then($scope.actions.recalculateRules);
+                .then($scope.actions.recalculateRules)
+                .catch(errs.handler);
             },
             createRule: function (rule) {
               $scope.popoverData.active = false;
@@ -49,6 +51,7 @@ require('app')
                 rule
               )
                 .then($scope.actions.recalculateRules)
+                .catch(errs.handler)
                 .finally(function () {
                   $scope.tableProcessing = false;
                 });
@@ -60,6 +63,9 @@ require('app')
               $scope.performCheck(rule)
                 .then(function () {
                   currentState.searched = true;
+                })
+                .catch(errs.handler)
+                .finally(function () {
                   currentState.processing = false;
                 });
             }

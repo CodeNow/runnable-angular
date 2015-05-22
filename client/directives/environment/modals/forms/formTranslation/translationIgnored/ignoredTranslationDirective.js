@@ -3,9 +3,7 @@
 require('app')
   .directive('ignoredTranslation', function ignoredTranslation(
     createTransformRule,
-    debounce,
-    keypather,
-    promisify
+    keypather
   ) {
     return {
       restrict: 'A',
