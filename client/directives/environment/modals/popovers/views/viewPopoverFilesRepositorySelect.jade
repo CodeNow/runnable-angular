@@ -24,6 +24,7 @@
       ng-repeat = "\
           repo in data.githubRepos.models | \
           repos: data.repoFilter | \
+          allBut: data.containerFiles | \
           orderBy: '-attrs.updated_at'\
         "
     ) {{ repo.attrs.name}}
