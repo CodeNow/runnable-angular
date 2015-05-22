@@ -29,7 +29,9 @@
   )
 
   //- when toggled, all other .active commits removed
-  label.label-checkbox.small.clearfix
+  label.label-checkbox.small.clearfix(
+    ng-if = "false"
+  )
     input.input-checkbox(
       type = "checkbox"
       ng-model = "data.latestCommit"
@@ -37,11 +39,13 @@
     )
     | Update to latest commit on new builds
 
-  ul.list.list-servers
-    //- apply .active to currently selected commit (or latest)
+  ul.list.list-servers(
+    ng-if = "!data.latestCommit"
+  )
     li.list-item.text-overflow(
       ng-repeat = "commit in data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
       ng-click = "actions.selectCommit(commit)"
+      ng-class = "{active: data.commit === commit}"
     ) {{commit.attrs.commit.message}}
       .toggle-group-detail.clearfix
         small.small {{commit.attrs.commit.committer.name}} authored {{commit.attrs.commit.committer.date | timeFrom}}
