@@ -243,22 +243,14 @@ function editServerModal(
           },
           deleteFile: function (containerFile) {
             $rootScope.$broadcast('close-popovers');
-            if (containerFile.fileUpload) {
-              $scope.server.containerFiles.splice($scope.server.containerFiles.indexOf(containerFile), 1);
 
-              return $scope.data.fileUpload.then(function () {
-                var fileURL = configAPIHost + '/' + $scope.state.contextVersion.urlPath +
-                  '/' + $scope.state.contextVersion.id() + '/files';
-                $http.delete(fileURL, {
-                  withCredentials: true
-                })
-                  .catch(errs.handler);
-              });
-            }
-            if ($scope.data.name) {
-              console.log($scope.data.name);
-            }
+            var file = $scope.state.contextVersion.rootDir.contents.models.find(function (fileModel) {
+              return fileModel.attrs.name === containerFile.name;
+            });
+            promisify(file, 'destroy')()
+              .catch(errs.handler);
 
+            $scope.server.containerFiles.splice($scope.server.containerFiles.indexOf(containerFile), 1);
           }
         },
         data: {}
