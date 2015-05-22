@@ -22,9 +22,9 @@
   label.label.clearfix
     .input-col
       .btn.btn-block.white.text-overflow(
-        ng-click = "data.state.view = 3"
-      ) {{data.commit.attrs.commit.message}}
-        small.small {{data.commit.attrs.commit.committer.name}} authored {{data.commit.attrs.commit.committer.date | timeFrom}}
+        ng-click = "state.view3 = true"
+      ) {{ data.activeCommit.attrs.commit.message }}
+        small.small {{ data.activeCommit.attrs.author.login }} authored {{ data.activeCommit.attrs.commit.author.date | timeFrom }}
         svg.iconnables.icons-arrow-down
           use(
             xlink:href = "#icons-arrow-down"

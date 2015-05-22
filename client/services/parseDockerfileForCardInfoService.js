@@ -263,7 +263,8 @@ function parseDockerfileForCardInfoFromInstance(
   promisify,
   keypather,
   hasKeypaths,
-  $q
+  $q,
+  fetchCommitData
 ) {
   return function (instance, stackData) {
     return promisify(instance.contextVersion, 'fetchFile', true)('/Dockerfile')
@@ -286,9 +287,13 @@ function parseDockerfileForCardInfoFromInstance(
           }));
           if (matchingAcv) {
             item.acv = matchingAcv;
+            item.activeBranch = fetchCommitData.activeBranch(matchingAcv);
+            item.activeCommit = fetchCommitData.activeCommit(matchingAcv);
+            fetchCommitData.branchCommits(item.activeBranch);
           }
           return item;
         });
+
         return {
           allSections: allSections,
           instance: instance,
