@@ -69,11 +69,11 @@
     position: relative;
 
     .iconnables {
-      height: 17px;
-      left: 4px;
+      height: 14px;
+      left: 6px;
       position: absolute;
       top: 4px;
-      width: 17px;
+      width: 14px;
     }
   }
 
@@ -86,6 +86,7 @@
 
   .repository-group-text {
     border-width: 2px;
+    color: $gray;
     cursor: pointer;
 
     &:hover {
@@ -95,14 +96,14 @@
 
     &:active,
     &.active {
-      background: rgba($purple-light,.15);
+      background: $white;
+      border-color: currentColor;
       color: $purple-light;
     }
 
     .icons-arrow-down {
       height: 100%;
       left: auto;
-      opacity: .6;
       position: absolute;
       right: 3px;
       top: 0;
@@ -191,7 +192,7 @@
   padding-bottom: 9px;
 
   .well {
-    padding: 5px 3px 6px;
+    padding: 6px;
   }
 
   .label-checkbox {
@@ -201,22 +202,21 @@
 }
 
 .repository-description {
-  font-weight: 500;
+  font-weight: 400;
   line-height: 24px;
-  padding: 0 23px;
+  padding: 0 27px;
   position: relative;
   word-break: break-word;
 
-  + .repository-description {
-    color: $gray;
-    font-weight: 400;
+  &:first-child {
+    font-weight: 500;
   }
 }
 
 .repository-detail {
   display: block;
-  font-size: 12px;
-  margin-top: -1px;
+  font-size: 11px;
+  margin-top: -6px;
   white-space: nowrap;
 
   .link {

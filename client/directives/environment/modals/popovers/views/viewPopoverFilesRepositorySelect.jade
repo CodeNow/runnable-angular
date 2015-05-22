@@ -1,0 +1,41 @@
+.popover-header
+  strong.strong.text-overflow Choose Repository
+
+.popover-content
+  input.input.input-sm.input-search(
+    ng-disabled = "repoSelected"
+    ng-if = "data.githubRepos.models"
+    ng-model = "data.repoFilter"
+    placeholder = "Filter by name"
+    required
+    select-on = "showFilter"
+  )
+  .spinner-wrapper.spinner-md.in(
+    ng-if = "!data.githubRepos.models"
+    ng-include = "'spinner'"
+  )
+
+  ul.list.list-servers(
+    ng-if = "data.githubRepos.models"
+  )
+    li.list-item.multi-line(
+      ng-disabled = "data.loading"
+      ng-click = "actions.selectRepo(repo)"
+      ng-repeat = "\
+          repo in data.githubRepos.models | \
+          repos: data.repoFilter | \
+          allBut: data.containerFiles | \
+          orderBy: '-attrs.updated_at'\
+        "
+    ) {{ repo.attrs.name}}
+      small.small Updated {{ repo.attrs.updated_at | timeFrom }}
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+
+.popover-footer.clearfix
+  button.btn.btn-sm.gray.btn-cancel(
+    ng-click = "closePopover()"
+    ng-disabled = "data.loading"
+  ) Cancel

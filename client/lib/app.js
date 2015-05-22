@@ -5,7 +5,7 @@ var uiRouter = require('angular-ui-router');
 var uiAce = require('angular-ui-ace');
 var ngStorage = require('ngStorage');
 require('jsTag/jsTag/compiled/jsTag.min');
-require('ng-file-upload/dist/angular-file-upload');
+require('ng-file-upload/dist/ng-file-upload');
 require('angular-drag-and-drop-lists/angular-drag-and-drop-lists');
 
 module.exports = angular.module('app', [
@@ -13,7 +13,7 @@ module.exports = angular.module('app', [
   uiAce,
   ngStorage,
   'jsTag',
-  'angularFileUpload',
+  'ngFileUpload',
   'dndLists',
   require('angular-sanitize')
 ]);

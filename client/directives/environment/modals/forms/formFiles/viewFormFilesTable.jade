@@ -1,0 +1,62 @@
+.tr.thead.thead-sm.clearfix
+  .cell.cell-action
+    svg.iconnables
+  .cell Name
+  .cell.cell-type Type
+//- main repo is not actionable
+ul.table-drag-drop(
+  dnd-list = "server.containerFiles"
+)
+  li.tr.multi-line.clearfix(
+    dnd-draggable = "containerFile"
+    dnd-dragstart = "actions.dragstart()"
+    dnd-effect-allowed = "move"
+    dnd-moved = "server.containerFiles.splice($index, 1)"
+    ng-repeat = "containerFile in server.containerFiles"
+  )
+    .cell.cell-action(
+      dnd-handle
+    )
+      svg.iconnables.icons-drag
+        use(
+          xlink:href = "#icons-drag"
+        )
+    .cell.text-overflow(
+      ng-if = "containerFile.type === 'Container File'"
+      pop-over
+      pop-over-actions = "fileUpload.actions"
+      pop-over-data = "containerFile"
+      pop-over-template = "viewPopoverFilesUpload"
+      title = "{{ containerFile.name }}"
+    ) {{ containerFile.name }}
+      small.small(
+        title = "{{ containerFile.path }}"
+      ) {{ containerFile.path }}
+    .cell.text-overflow(
+      ng-if = "containerFile.type === 'Repo' || containerFile.type === 'Main Repo'"
+      ng-click = "triggerEditRepo(containerFile)"
+      title = "{{ containerFile.name }}"
+    ) {{ containerFile.name }}
+      small.small(
+        title = "{{ containerFile.path }}"
+      ) {{ containerFile.path }}
+    .cell.cell-type.small
+      svg.iconnables(
+        ng-if = "containerFile.type === 'Container File'"
+      )
+        use(
+          xlink:href = "#icons-file"
+        )
+      svg.iconnables(
+        ng-if = "containerFile.type === 'Main Repo'"
+      )
+        use(
+          xlink:href = "#icons-repository"
+        )
+      svg.iconnables(
+          ng-if = "containerFile.type === 'Repo'"
+        )
+        use(
+          xlink:href = "#icons-repository-additional"
+        )
+      | {{ containerFile.type }}
