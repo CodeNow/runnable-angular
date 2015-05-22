@@ -18,7 +18,7 @@ function findLinkedServerVariables($state, configUserContentDomain) {
     };
     var linkMap = {};
     input.forEach(function (line, index) {
-      if (/(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?/g.test(line)) {
+      if (/=(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?/g.test(line)) {
         var result = {
           line: index + 1,
           url: line.split('=')[1]
@@ -26,14 +26,16 @@ function findLinkedServerVariables($state, configUserContentDomain) {
         if (line.toLowerCase().indexOf(
             ($state.params.userName + '.' + configUserContentDomain).toLowerCase()
           ) > -1) {
-          linkMap[result] = true;
+          linkMap[result.url] = result;
         } else {
           linkResults.other.push(result);
         }
       }
     });
 
-    linkResults.servers = Object.keys(linkMap);
+    linkResults.servers = Object.keys(linkMap).map(function(key) {
+      return linkMap[key];
+    });
     return linkResults;
   };
 }
