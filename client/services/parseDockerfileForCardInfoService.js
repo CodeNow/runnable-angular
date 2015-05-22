@@ -284,6 +284,7 @@ function parseDockerfileForCardInfoFromInstance(
             return acv.attrs.repo.split('/')[1] === item.name;
           });
           if (matchingAcv) {
+            console.log(matchingAcv);
             item.repo = matchingAcv.githubRepo;
             item.branch = fetchCommitData.activeBranch(matchingAcv);
             item.commit = fetchCommitData.activeCommit(matchingAcv);
