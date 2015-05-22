@@ -5,6 +5,8 @@ require('app')
     createTransformRule,
     deleteTransformRule,
     keypather,
+    moveTransformRules,
+    populateRulesWithWarnings,
     promisify
   ) {
     return {
@@ -20,6 +22,13 @@ require('app')
           $scope.popoverData.active = true;
         };
 
+        $scope.moveRule = function () {
+          moveTransformRules($scope.list, $scope.properties.action);
+        };
+
+        $scope.checkRuleWarnings = function (rules) {
+          populateRulesWithWarnings(rules, $scope.state.transformResults);
+        };
 
         $scope.popoverData = {
           active: false,
@@ -38,15 +47,7 @@ require('app')
                 keypather.get($scope.state, 'contextVersion.appCodeVersions.models[0]'),
                 rule
               )
-                .then(function () {
-                  return promisify($scope.state.contextVersion, 'fetch')();
-                })
-                .then(function (contextVersion) {
-                  var index = $scope.state.list.indexOf(rule);
-                  if (~index) {
-                    $scope.state.list.splice(index, 1);
-                  }
-                });
+                .then($scope.actions.recalculateRules);
             },
             createRule: function (rule) {
               $scope.popoverData.active = false;
@@ -54,20 +55,16 @@ require('app')
                 keypather.get($scope.state, 'contextVersion.appCodeVersions.models[0]'),
                 rule
               )
-                .then(function () {
-                  return promisify($scope.state.contextVersion, 'fetch')();
-                })
-                .then(function () {
-                  $scope.list.push(rule);
-                });
+                .then($scope.actions.recalculateRules);
             },
-            performCheck: function (rule, currentState) {
+            performCheck: function (rule, currentState, cb) {
               currentState.processing = true;
 
               $scope.performCheck(rule)
                 .then(function () {
                   currentState.searched = true;
                   currentState.processing = false;
+                  if (typeof cb === 'function') { cb(); }
                 });
             }
           }

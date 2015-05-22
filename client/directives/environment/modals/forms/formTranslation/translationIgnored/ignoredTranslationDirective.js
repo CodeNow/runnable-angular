@@ -11,6 +11,7 @@ require('app')
       restrict: 'A',
       templateUrl: 'ignoredTranslationView',
       scope: {
+        actions: '=',
         state: '='
       },
       link: function ($scope, element, attrs) {
@@ -33,19 +34,23 @@ require('app')
               return v.length;
             });
             if (!angular.equals(acv.attrs.transformRules.exclude, newArray)) {
-              createTransformRule(acv, newArray);
+              createTransformRule(acv, newArray)
+                .then($scope.actions.recalculateRules);
             }
           }
         };
 
 
-        $scope.$watch('state.contextVersion.appCodeVersions.models[0]', function (n) {
-          if (n) {
-            $scope.ignoredFilesList = n.attrs.translationRules.exclude.reduce(function (stringList, rule) {
-              return stringList + rule + '\n';
-            }, '');
+        $scope.$watchCollection(
+          'state.contextVersion.appCodeVersions.models[0].attrs.transformRules.exclude',
+          function (n) {
+            if (n) {
+              $scope.ignoredFilesList = n.reduce(function (stringList, rule) {
+                return stringList + rule + '\n';
+              }, '');
+            }
           }
-        });
+        );
 
         $scope.$on('$destroy', function () {
           editor.session.$stopWorker();

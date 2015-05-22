@@ -2,7 +2,7 @@
   .label-col Ignored Files
 
 pre.ace-container.ace-runnable-dark.ace-ignored-files(
-  ng-model = "environmentalVars"
-  ui-ace = "{ useWrapMode: false, onLoad: aceLoaded, onBlur: aceBlurred}"
+  ng-model = "ignoredFilesList"
+  ui-ace = "{ useWrapMode: false, onLoad: aceLoaded, onBlur: aceBlurred }"
 )
 small.small Add the names of files you want to ignore, separated by linebreaks. We don't support regex, wildcard matches (*), or folder names.

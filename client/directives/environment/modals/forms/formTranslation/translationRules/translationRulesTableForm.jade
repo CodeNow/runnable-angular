@@ -1,6 +1,8 @@
 .clearfix
   .label-col Translation Rules
-  .input-col.input-spinner
+  .input-col.input-spinner(
+    ng-if = "state.recalculating"
+  )
     small.small Updating
     .spinner-wrapper.spinner-sm.spinner-gray.in(
       ng-include = "'spinner'"

@@ -8,12 +8,10 @@
       ng-if = "fileDiff.to"
     )
       | #{''} → {{ fileDiff.to }}
-    small.small(
-      ng-if = "!previewAll && fileDiff.association"
-    ) {{ instance.attrs.name }} → {{ fileDiff.association }}
     button.btn.btn-xs.white(
       ng-if = "previewAll"
-    ) Ignore File
+      ng-click = "ignore.toggleIgnoreFile(fileDiff)"
+    ) {{ ignore.checkFileIgnored(fileDiff) ? 'Do not' : '' }} Ignore File
 div(
   ng-repeat = "change in fileDiff.changes"
 )

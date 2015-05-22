@@ -1,5 +1,5 @@
 ul.table-drag-drop(
-  dnd-allowed-types = "allowedTableTypes"
+  dnd-allowed-types = "properties.allowedTableTypes"
   dnd-list = "list"
 )
   li.tr.thead.clearfix
@@ -23,8 +23,8 @@ ul.table-drag-drop(
     dnd-draggable = "item"
     dnd-dragstart = "models.selected"
     dnd-effect-allowed = "move"
-    dnd-moved = "list.splice($index, 1)"
-    dnd-type = "tableType"
+    dnd-moved = "list.splice($index, 1); moveRule($index, item); "
+    dnd-type = "item.action"
     ng-class="{\
       'disabled': models.selected === item\
     }"
@@ -51,8 +51,8 @@ ul.table-drag-drop(
     ) {{ item.replace || item.dest }}
     //- add .disabled if no warning
     //- note: the title attribute
-    .cell.cell-action.monospace.disabled(
-      ng-class = "{disabled: item.warnings.length}"
+    .cell.cell-action.monospace(
+      ng-class = "{disabled: !item.warnings.length}"
       title = "{{ item.warnings[0].message }}"
     )
       svg.iconnables.icons-warning

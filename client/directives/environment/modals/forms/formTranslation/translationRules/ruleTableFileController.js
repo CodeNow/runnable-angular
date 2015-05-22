@@ -6,21 +6,25 @@ require('app')
     $scope,
     $timeout,
     keypather,
+    populateRulesWithWarnings,
     testRenameTransformRule
   ) {
     $scope.header = {
       description: 'New filename rule',
       title: 'Filenames'
     };
-    $scope.allowedTableTypes = ['filenames'];
-
-    $scope.tableType = 'filenames';
-
-    $scope.$watch('state.contextVersion.appCodeVersions.models[0]', function (n) {
-      if (n) {
-        $scope.list = n.attrs.transformRules.rename;
+    $scope.properties = {
+      allowedTableTypes: ['rename'],
+      action: 'rename'
+    };
+    $scope.$watchCollection(
+      'state.contextVersion.appCodeVersions.models[0].attrs.transformRules.rename',
+      function (n) {
+        if (n) {
+          $scope.list = populateRulesWithWarnings(n, $scope.state.transformResults);
+        }
       }
-    });
+    );
 
     $scope.popoverTemplate = 'viewPopoverFilenameRule';
 

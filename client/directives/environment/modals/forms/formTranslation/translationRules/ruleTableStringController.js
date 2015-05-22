@@ -6,6 +6,7 @@ require('app')
     $scope,
     $timeout,
     keypather,
+    populateRulesWithWarnings,
     testReplaceTransformRule
   ) {
 
@@ -13,15 +14,28 @@ require('app')
       description: 'New string rule',
       title: 'Strings'
     };
-    $scope.allowedTableTypes = ['strings'];
-    $scope.tableType = 'strings';
+    $scope.properties = {
+      allowedTableTypes: ['replace'],
+      action: 'replace'
+    };
 
-    $scope.$watch('state.contextVersion.appCodeVersions.models[0]', function (n) {
-      if (n) {
-        $scope.list = n.attrs.transformRules.replace;
+    $scope.$watchCollection(
+      'state.contextVersion.appCodeVersions.models[0].attrs.transformRules.replace',
+      function (n) {
+        if (n) {
+          $scope.list = populateRulesWithWarnings(n, $scope.state.transformResults);
+        }
       }
-    });
+    );
 
+    $scope.getMatchDisplay = function (rule) {
+      var totalMatches = rule.diffs.reduce(function (total, diff) {
+        return total + diff.changes.length;
+      }, 0);
+      return (!totalMatches) ?
+          'No matches found' :
+          totalMatches + ' matches in ' + rule.diffs.length + ' files';
+    };
 
     $scope.popoverTemplate = 'viewPopoverStringRule';
 
@@ -32,7 +46,7 @@ require('app')
         state
       )
         .then(function (diff) {
-          state.diff = diff;
+          state.diffs = diff;
         });
     };
 

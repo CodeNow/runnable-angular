@@ -7,6 +7,9 @@ require('app')
   .factory('createTransformRule', createTransformRule);
 
 require('app')
+  .factory('moveTransformRules', moveTransformRules);
+
+require('app')
   .factory('testRenameTransformRule', testRenameTransformRule);
 require('app')
   .factory('testReplaceTransformRule', testReplaceTransformRule);
@@ -15,6 +18,10 @@ require('app')
 
 require('app')
   .factory('parseDiffResponse', parseDiffResponse);
+
+
+require('app')
+  .factory('populateRulesWithWarnings', populateRulesWithWarnings);
 
 function parseDiffResponse(
   diffParse
@@ -73,6 +80,21 @@ function createTransformRule(
   };
 }
 
+function moveTransformRules(
+  promisify
+) {
+  return function (appCodeVersionModel, newRules, action) {
+    var rules = appCodeVersionModel.attrs.transformRules || {};
+    rules[action] = newRules;
+
+    return promisify(appCodeVersionModel, 'update')({
+      transformRules: rules
+    });
+
+  };
+}
+
+
 function testAllTransformRules(
   $q,
   user
@@ -84,8 +106,12 @@ function testAllTransformRules(
       console.log(body);
       defer.resolve(body);
     }
-    user.client.post(appCodeVersionModel.urlPath + '/' + appCodeVersionModel.id() +
-      '/actions/applyTransformRules', callback);
+    if (appCodeVersionModel) {
+      user.client.post(appCodeVersionModel.urlPath + '/' + appCodeVersionModel.id() +
+        '/actions/applyTransformRules', callback);
+    } else {
+      defer.resolve();
+    }
     return defer.promise;
   };
 }
@@ -103,7 +129,7 @@ function testRenameTransformRule(
     }
     rule.action = 'rename';
     user.client.post(appCodeVersionModel.urlPath + '/' + appCodeVersionModel.id() +
-      '/actions/applyTransformRules', {
+      '/actions/testTransformRule', {
         json: rule
       }, callback);
     return defer.promise;
@@ -121,16 +147,40 @@ function testReplaceTransformRule(
 
     function callback(err, res, body) {
       if (err) { return defer.reject(err); }
-      var parsed = parseDiffResponse(body.diff);
-      console.log(parsed);
-      defer.resolve(parsed);
+      if (body.diffs) {
+        var parsed = parseDiffResponse(Object.keys(body.diffs).reduce(function (total, key) {
+          return total + body.diffs[key];
+        }, ''));
+        console.log(parsed);
+        defer.resolve(parsed);
+      } else {
+        defer.reject();
+      }
     }
     rule.action = 'replace';
     user.client.post(appCodeVersionModel.urlPath + '/' + appCodeVersionModel.id() +
-      '/actions/applyTransformRules', {
+      '/actions/testTransformRule', {
         json: rule
       }, callback);
     return defer.promise;
+  };
+}
+
+function populateRulesWithWarnings(
+  hasKeypaths
+) {
+  return function (ruleList, transformResults) {
+    if (ruleList) {
+      ruleList.forEach(function (replaceRule) {
+        var found = transformResults.find(hasKeypaths({
+          'rule._id': replaceRule._id
+        }));
+        if (found) {
+          replaceRule.warnings = found.warnings;
+        }
+      });
+      return ruleList;
+    }
   };
 }
 
