@@ -59,9 +59,8 @@ function editServerModal(
       };
 
       $scope.triggerEditRepo = function (repo) {
-        console.log(repo);
         $scope.repositoryPopover.data.repoObj = repo;
-        $scope.repositoryPopover.data.state.fromServer = true;
+        $scope.repositoryPopover.data.fromServer = true;
         $scope.repositoryPopover.data.repo = repo.repo;
         $scope.repositoryPopover.data.branch = repo.branch;
         $scope.repositoryPopover.data.commit = repo.commit;
@@ -76,6 +75,7 @@ function editServerModal(
       };
 
       $scope.triggerAddRepository = function () {
+        $scope.repositoryPopover.data.fromServer = false;
         $scope.repositoryPopover.data.state.view = 1;
         $scope.repositoryPopover.active = true;
 
@@ -130,9 +130,23 @@ function editServerModal(
           },
           save: function () {
             var myRepo;
-            if ($scope.repositoryPopover.data.repoObj) {
+            if ($scope.repositoryPopover.data.fromServer) {
               myRepo = $scope.repositoryPopover.data.repoObj;
               $scope.repositoryPopover.data.repoObj = null;
+
+              var acv = $scope.state.contextVersion.appCodeVersions.models.find(function (acv) {
+                return acv.attrs.repo === myRepo.acv.attrs.repo;
+              });
+
+              promisify(acv, 'update')({
+                branch: $scope.repositoryPopover.data.branch.attrs.name,
+                commit: $scope.repositoryPopover.data.commit.attrs.sha
+              })
+                .then(function (acv) {
+                  myRepo.acv = acv;
+                })
+                .catch(errs.handler);
+
             } else {
               var Repo = cardInfoTypes().Repo;
               myRepo = new Repo();
@@ -143,8 +157,12 @@ function editServerModal(
                 branch: $scope.repositoryPopover.data.branch.attrs.name,
                 commit: $scope.repositoryPopover.data.commit.attrs.sha
               })
+                .then(function (acv) {
+                  myRepo.acv = acv;
+                })
                 .catch(errs.handler);
             }
+
             myRepo.name = $scope.repositoryPopover.data.repo.attrs.name;
             myRepo.repo = $scope.repositoryPopover.data.repo;
             myRepo.branch = $scope.repositoryPopover.data.branch;

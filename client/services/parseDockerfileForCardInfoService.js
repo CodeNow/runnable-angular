@@ -166,6 +166,7 @@ ContainerFile.renderForDockerfile = function (repo) {
 
 
 function Repo(contents, opts){
+  opts = opts || {};
   this.type = opts.isMainRepo ? 'Main Repo' : 'Repo';
   if (contents) {
     var commandList = contents.split('\n');
@@ -244,7 +245,7 @@ function parseDockerfile (dockerfile) {
     content = currentBlock[2];
     if (CustomType) {
       chunks.push( new CustomType(content, {
-        isMainRepo: currentBlock === 'Main Repo'
+        isMainRepo: currentBlock[1] === 'Main Repo'
       }));
     } else {
       console.log('Type "' + currentBlock[1] + '" not found.');
@@ -284,7 +285,7 @@ function parseDockerfileForCardInfoFromInstance(
             return acv.attrs.repo.split('/')[1] === item.name;
           });
           if (matchingAcv) {
-            console.log(matchingAcv);
+            item.acv = matchingAcv;
             item.repo = matchingAcv.githubRepo;
             item.branch = fetchCommitData.activeBranch(matchingAcv);
             item.commit = fetchCommitData.activeCommit(matchingAcv);
