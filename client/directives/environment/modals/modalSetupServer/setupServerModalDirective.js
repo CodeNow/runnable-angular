@@ -68,7 +68,7 @@ function setupServerModal(
               $scope.state.server = {
                 containerFiles: []
               };
-              var repo = new Repo(null, {isMainRep: true});
+              var repo = new Repo(null, {isMainRepo: true});
 
               var commands = ($scope.state.commands || '').split('\n')
                 .filter(function (str) {
