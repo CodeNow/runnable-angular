@@ -82,15 +82,6 @@ require('app')
             return $q.all(qAll)
               .catch(errs.handler)
               .then(function (data) {
-                if (keypather.get(data, 'dependencies.models.length')) {
-                  if (data.dependencies.models.length === 1) {
-                    $scope.dependencyInfo = '1 association';
-                  } else {
-                    $scope.dependencyInfo = data.dependencies.models.length + ' associations';
-                  }
-                } else {
-                  $scope.dependencyInfo = 'no associations defined';
-                }
                 $scope.server.building = false;
 
                 var fullRepoName = keypather.get($scope.server.instance, 'contextVersion.appCodeVersions.models[0].attrs.repo');
