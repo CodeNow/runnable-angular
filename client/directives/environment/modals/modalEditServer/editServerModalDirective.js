@@ -95,16 +95,18 @@ function editServerModal(
                 });
             },
             save: function (containerFile) {
+              if (!containerFile.type) {
+                var ContainerFile = cardInfoTypes()['Container File'];
+                var myFile = new ContainerFile();
+                if (containerFile.file) {
+                  myFile.name = containerFile.file[0].name;
+                }
+                myFile.commands = containerFile.commands;
+                myFile.path = containerFile.path;
+                $scope.server.containerFiles.push(myFile);
+              }
               // Push to parent container files
               $rootScope.$broadcast('close-popovers');
-              var ContainerFile = cardInfoTypes()['Container File'];
-              var myFile = new ContainerFile();
-              myFile.name = containerFile.file[0].name;
-              myFile.commands = containerFile.commands;
-              myFile.path = containerFile.path;
-              console.log(myFile);
-              console.log(myFile.toString());
-              $scope.server.containerFiles.push(myFile);
 
             },
             cancel: function (containerFile) {

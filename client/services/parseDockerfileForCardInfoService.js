@@ -22,7 +22,7 @@ function parseDockerfileForStack(
 ) {
   return function (dockerfile, stackData) {
     if (stackData) {
-      var fromValue = /from ([^\n]+)/i.exec(dockerfile);
+      var fromValue = /from ([^\n]+)/i.exec(dockerfile.attrs.body);
       if (fromValue) {
         // it should be at index 1, since the full string is the 0th element
         var stack;
@@ -142,27 +142,28 @@ function ContainerFile(contents){
 
     this.name = commands[1].replace('./', '');
     this.path = commands[2].replace('/', '');
-    this.commands = commandList.splice(0,1).map(function (item) {
-      return item.replace('RUN ');
+    commandList.splice(0,1);
+    this.commands = commandList.map(function (item) {
+      return item.replace('RUN ', '');
     }).join('\n');
   }
-
-  var self = this;
-  this.toString = function () {
-    self.commands = self.commands || '';
-    var contents = 'ADD ./' + self.name.trim() + ' /' + self.path.trim() + '\n'+
-      self.commands
-        .split('\n')
-        .filter(function (command) {
-          return command.trim().length;
-        })
-        .map(function (command) {
-          return 'RUN '+command;
-        })
-        .join('\n');
-    return wrapWithType(contents, self.type);
-  };
 }
+
+ContainerFile.renderForDockerfile = function (repo) {
+  repo.commands = repo.commands || '';
+  var contents = 'ADD ./' + repo.name.trim() + ' /' + repo.path.trim() + '\n'+
+    repo.commands
+      .split('\n')
+      .filter(function (command) {
+        return command.trim().length;
+      })
+      .map(function (command) {
+        return 'RUN '+command;
+      })
+      .join('\n');
+  return wrapWithType(contents, repo.type);
+};
+
 
 function Repo(contents, main){
   this.type = main ? 'Main Repo' : 'Repo';
@@ -176,23 +177,22 @@ function Repo(contents, main){
       return item.replace('RUN ', '');
     }).join('\n');
   }
-
-  var self = this;
-  this.toString = function () {
-    self.commands = self.commands || '';
-    var contents = 'ADD ./' + self.name.trim() + ' /' + self.path.trim() + '\n'+
-      self.commands
-        .split('\n')
-        .filter(function (command) {
-          return command.trim().length;
-        })
-        .map(function (command) {
-          return 'RUN '+command;
-        })
-        .join('\n');
-    return wrapWithType(contents, self.type);
-  };
 }
+
+Repo.renderForDockerfile = function (repo) {
+  repo.commands = repo.commands || '';
+  var contents = 'ADD ./' + repo.name.trim() + ' /' + repo.path.trim() + '\n'+
+    repo.commands
+      .split('\n')
+      .filter(function (command) {
+        return command.trim().length;
+      })
+      .map(function (command) {
+        return 'RUN '+command;
+      })
+      .join('\n');
+  return wrapWithType(contents, repo.type);
+};
 
 
 // TODO: Make container repo distinct from main repo
