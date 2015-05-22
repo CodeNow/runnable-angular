@@ -30,16 +30,6 @@ form.modal-dialog.modal-edit(
           )
         span.btn-text Stack Type
       button.btn.btn-radio(
-        ng-class = "{active: selectedTab === 'repository'}"
-        ng-click = "changeTab('repository')"
-        ng-if = "!state.advanced"
-      )
-        svg.iconnables
-          use(
-            xlink:href = "#icons-git-repository"
-          )
-        span.btn-text Repository
-      button.btn.btn-radio(
         ng-class = "{active: selectedTab === 'ports'}"
         ng-click = "changeTab('ports')"
         ng-if = "!state.advanced"
@@ -49,17 +39,6 @@ form.modal-dialog.modal-edit(
             xlink:href = "#icons-ports"
           )
         span.btn-text Exposed Ports
-      //- will use in the second half of build commands
-      //- button.btn.btn-radio(
-      //-   ng-class = "{active: selectedTab === 'files'}"
-      //-   ng-click = "changeTab('files')"
-      //-   ng-if = "state.repo"
-      //- )
-        svg.iconnables
-          use(
-            xlink:href = "#icons-git-repository"
-          )
-        span.btn-text Files
       button.btn.btn-radio(
         ng-class = "{active: selectedTab === 'env'}"
         ng-click = "changeTab('env')"
@@ -70,6 +49,16 @@ form.modal-dialog.modal-edit(
           )
         span.btn-text Environment Variables
       button.btn.btn-radio(
+        ng-class = "{active: selectedTab === 'repository'}"
+        ng-click = "changeTab('repository')"
+        ng-if = "!state.advanced"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-repository"
+          )
+        span.btn-text Primary Repository
+      button.btn.btn-radio(
         ng-class = "{active: selectedTab === 'replace'}"
         ng-click = "changeTab('replace')"
         ng-if = "god === 'exists'"
@@ -79,6 +68,17 @@ form.modal-dialog.modal-edit(
             xlink:href = "#icons-ports"
           )
         span.btn-text Translation Rules
+      //- will use in the second half of build commands
+      button.btn.btn-radio(
+        ng-class = "{active: selectedTab === 'files'}"
+        ng-click = "changeTab('files')"
+        ng-if = "state.repo"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-ports"
+          )
+        span.btn-text Container Files
       button.btn.btn-radio(
         ng-class = "{active: selectedTab === 'logs'}"
         ng-click = "changeTab('logs')"
@@ -102,24 +102,24 @@ form.modal-dialog.modal-edit(
       state = "state"
     )
     .modal-form(
-      ng-if = "selectedTab === 'repository'"
-      ng-include = "'viewFormRepository'"
-    )
-    .modal-form(
       ng-if = "selectedTab === 'ports'"
       ng-include = "'viewFormPorts'"
-    )
-    .modal-form(
-      ng-if = "selectedTab === 'files'"
-      ng-include = "'viewFormFiles'"
     )
     .modal-form(
       ng-if = "selectedTab === 'env'"
       ng-include = "'viewFormEnvironmentVariables'"
     )
     .modal-form(
+      ng-if = "selectedTab === 'repository'"
+      ng-include = "'viewFormRepository'"
+    )
+    .modal-form(
       ng-if = "selectedTab === 'replace'"
       ng-include = "'viewFormReplace'"
+    )
+    .modal-form(
+      ng-if = "selectedTab === 'files'"
+      ng-include = "'viewFormFiles'"
     )
     .modal-form.modal-logs(
       ng-if = "selectedTab === 'logs'"

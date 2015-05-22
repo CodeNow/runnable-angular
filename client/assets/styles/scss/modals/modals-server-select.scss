@@ -100,6 +100,15 @@
     top: 15px;
   }
 
+  // next arrow
+  .icons-arrow-down {
+    height: 100%;
+    position: absolute;
+    right: 3px;
+    top: 0;
+    transform: rotate3d(0,0,1,-90deg);
+  }
+
   // spinner
   .spinner-wrapper {
     position: absolute;

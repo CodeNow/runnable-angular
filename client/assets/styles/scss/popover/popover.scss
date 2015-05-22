@@ -74,7 +74,6 @@
 
   // form elements in popovers:
   .btn-block {
-    margin: 3px 6px 6px;
     width: 100%;
   }
 
@@ -203,6 +202,12 @@
   padding: 6px;
   position: relative;
   z-index: $z-popover-content;
+
+  // filter
+  .label-jump {
+    margin-bottom: 9px;
+    text-align: center;
+  }
 }
 
 //- footer.popover-footer

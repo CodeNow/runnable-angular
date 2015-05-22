@@ -1,0 +1,162 @@
+.popover-files {
+  background: $white;
+  // fix width and height for popover-views
+  height: 420px;
+  width: 360px;
+
+  .popover-view {
+    // minus 4px for borders
+    height: 416px;
+    width: 356px;
+  }
+
+  .popover-header {
+
+    // repo name
+    > .strong {
+      flex: 1 1 auto;
+      font-size: 15px;
+      line-height: 35px;
+      text-align: center;
+    }
+
+    // buttons
+    > .btn {
+      flex: 0 0 66px;
+      font-size: 13px;
+      padding: 0 6px;
+    }
+
+    // back button
+    > .white {
+      margin-right: 6px;
+      padding: 0 9px 0 3px;
+    }
+
+    .icons-arrow-backward {
+      float: left;
+      height: 100%;
+      margin-right: 3px;
+      width: 15px;
+    }
+
+    // delete button
+    > .orange {
+      margin-left: 6px;
+    }
+  }
+
+  .popover-content {
+    height: 298px; // calc(450px - 122px);
+    padding-bottom: 15px;
+  }
+
+  // forms
+  .label {
+    margin-bottom: 12px;
+
+    &.label-jump {
+      margin-bottom: 9px;
+    }
+  }
+
+  .label-col,
+  .input-col {
+    width: 100%;
+  }
+
+  .label-col .small {
+    display: inline-block;
+    margin-left: 6px;
+  }
+
+  // upload button
+  .btn-upload {
+    padding-right: 75px;
+  }
+
+  [for="input-upload"] {
+    position: absolute;
+    right: 12px;
+    top: 13px;
+  }
+
+  // view 1
+  // list
+  .list-servers > .list-item {
+    font-size: 15px;
+    padding-left: 6px;
+    padding-right: 6px;
+
+    &:active,
+    &.active {
+      color: $purple-light;
+    }
+
+    &.multi-line {
+      padding-right: 24px;
+    }
+
+    &.btn-block {
+      border-color: $gray-lighter;
+      height: 36px;
+      line-height: 32px;
+      padding-bottom: 0;
+      padding-top: 0;
+      text-align: center;
+
+      &:active {
+        border-color: currentColor;
+      }
+    }
+  }
+
+  // view 2
+  // commit button
+  .btn-block {
+    font-size: 15px;
+    height: 54px;
+    line-height: 1.4;
+    padding: 6px 24px 6px 6px;
+    text-align: left;
+
+    &:active .small {
+      color: currentColor;
+    }
+
+    .icons-arrow-down {
+      transform: rotate3d(0,0,1,-90deg);
+    }
+  }
+
+  // delete button
+  .orange {
+    display: table;
+    margin: 0 auto;
+  }
+
+  // view 3
+  .toggle-group-detail .link {
+    color: $gray;
+  }
+
+  // always update check
+  .label-checkbox {
+    color: $gray;
+    line-height: 24px;
+    text-align: center;
+  }
+
+  .input-checkbox {
+    float: none;
+    height: 12px;
+    margin: 0 3px 0 0;
+    width: 15px;
+  }
+
+  // textarea for build commands
+  .textarea {
+    max-height: 150px;
+    resize: vertical;
+  }
+}
