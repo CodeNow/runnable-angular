@@ -6,7 +6,6 @@ require('app')
     deleteTransformRule,
     keypather,
     moveTransformRules,
-    populateRulesWithWarnings,
     promisify
   ) {
     return {
@@ -15,21 +14,12 @@ require('app')
       link: function ($scope, elem, attrs) {
         $scope.openRulePopover = function (rule) {
           $scope.popoverData.data.state = rule ? angular.copy(rule) : {};
-          $scope.popoverData.data.isUpdating = !!rule;
-          if ($scope.popoverData.data.isUpdating) {
-            $scope.popoverData.data.state.oldRule = rule;
-          }
           $scope.popoverData.active = true;
         };
 
         $scope.moveRule = function () {
           moveTransformRules($scope.list, $scope.properties.action);
         };
-
-        $scope.checkRuleWarnings = function (rules) {
-          populateRulesWithWarnings(rules, $scope.state.transformResults);
-        };
-
         $scope.popoverData = {
           active: false,
           data: {
@@ -57,14 +47,14 @@ require('app')
               )
                 .then($scope.actions.recalculateRules);
             },
-            performCheck: function (rule, currentState, cb) {
+            performCheck: function (rule, currentState) {
+              if (angular.equals(rule, {})) { return; }
               currentState.processing = true;
 
               $scope.performCheck(rule)
                 .then(function () {
                   currentState.searched = true;
                   currentState.processing = false;
-                  if (typeof cb === 'function') { cb(); }
                 });
             }
           }

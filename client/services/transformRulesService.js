@@ -21,7 +21,7 @@ require('app')
 
 
 require('app')
-  .factory('populateRulesWithWarnings', populateRulesWithWarnings);
+  .factory('populateRulesWithWarningsAndDiffs', populateRulesWithWarningsAndDiffs);
 
 function parseDiffResponse(
   diffParse
@@ -166,11 +166,11 @@ function testReplaceTransformRule(
   };
 }
 
-function populateRulesWithWarnings(
+function populateRulesWithWarningsAndDiffs(
   hasKeypaths
 ) {
   return function (ruleList, transformResults) {
-    if (ruleList) {
+    if (Array.isArray(ruleList)) {
       ruleList.forEach(function (replaceRule) {
         var found = transformResults.find(hasKeypaths({
           'rule._id': replaceRule._id

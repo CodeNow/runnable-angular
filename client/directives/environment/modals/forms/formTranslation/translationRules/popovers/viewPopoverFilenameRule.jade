@@ -1,13 +1,14 @@
 .popover.popover-fixed.popover-rules(
   ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
+  ng-form = "popoverRuleForm"
   ng-init = "currentState = {}"
 )
   .popover-content
     h3.popover-title {{ data.isUpdating ? 'New ' : ''}}Filename Replace Rule
       small.small 🐶 Rules are case-sensitive and trailing whitespace is not trimmed. Regular expressions are not supported.
       button.btn.btn-xs.orange(
-        ng-if = "data.isUpdating"
+        ng-if = "data.state._id"
         ng-click = "actions.deleteRule(data.state)"
       )
         svg.iconnables.icons-trash
@@ -19,13 +20,17 @@
     .label-row
       label.label-col Source
         input.input.input-sm.monospace(
-          ng-model = "data.state.oldValue"
+          name = "sourceTextBox"
+          ng-model = "data.state.source"
+          ng-change = "currentState.searched = false"
           spellcheck = "false"
         )
       .span-col →
       label.label-col Destination
         input.input.input-sm.monospace(
-          ng-model = "data.state.newValue"
+          name = "destTextBox"
+          ng-model = "data.state.dest"
+          ng-change = "currentState.searched = false"
           spellcheck = "false"
         )
 
@@ -45,7 +50,7 @@
       ng-if = "!currentState.searched"
       ng-class = "{in: currentState.processing}"
       ng-click = "actions.performCheck(data.state, currentState)"
-      ng-disabled = "currentState.processing"
+      ng-disabled = "!popoverRuleForm.$valid || popoverRuleForm.$pristine || currentState.processing"
     )
       //- spinner
       .spinner-wrapper.spinner-sm.spinner-white.in(

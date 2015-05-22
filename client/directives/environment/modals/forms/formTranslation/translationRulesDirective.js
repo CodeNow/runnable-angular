@@ -2,10 +2,9 @@
 
 require('app')
   .directive('translationRules', function translationRules(
-    $timeout,
+    errs,
     keypather,
     parseDiffResponse,
-    populateRulesWithWarnings,
     promisify,
     testAllTransformRules
   ) {
@@ -28,16 +27,7 @@ require('app')
                 $scope.state.transformResults = body.results;
                 return promisify($scope.state.contextVersion, 'fetch')();
               })
-              .then(function () {
-                // Now fill in all of the warnings in the rules on the ACV
-                populateRulesWithWarnings(
-                  keypather.get(
-                    $scope,
-                    'state.contextVersion.appCodeVersions.models[0].attrs.transformRules'
-                  ),
-                  $scope.state.transformResults
-                );
-              })
+              .catch(errs.handler)
               .finally(function () {
                 $scope.state.recalculating = false;
               });

@@ -6,7 +6,7 @@ require('app')
     $scope,
     $timeout,
     keypather,
-    populateRulesWithWarnings,
+    populateRulesWithWarningsAndDiffs,
     testRenameTransformRule
   ) {
     $scope.header = {
@@ -21,7 +21,7 @@ require('app')
       'state.contextVersion.appCodeVersions.models[0].attrs.transformRules.rename',
       function (n) {
         if (n) {
-          $scope.list = populateRulesWithWarnings(n, $scope.state.transformResults);
+          $scope.list = populateRulesWithWarningsAndDiffs(n, $scope.state.transformResults);
         }
       }
     );

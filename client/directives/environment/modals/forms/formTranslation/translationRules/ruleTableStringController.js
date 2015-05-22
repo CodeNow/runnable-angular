@@ -6,7 +6,7 @@ require('app')
     $scope,
     $timeout,
     keypather,
-    populateRulesWithWarnings,
+    populateRulesWithWarningsAndDiffs,
     testReplaceTransformRule
   ) {
 
@@ -23,7 +23,7 @@ require('app')
       'state.contextVersion.appCodeVersions.models[0].attrs.transformRules.replace',
       function (n) {
         if (n) {
-          $scope.list = populateRulesWithWarnings(n, $scope.state.transformResults);
+          $scope.list = populateRulesWithWarningsAndDiffs(n, $scope.state.transformResults);
         }
       }
     );
@@ -40,7 +40,6 @@ require('app')
     $scope.popoverTemplate = 'viewPopoverStringRule';
 
     $scope.performCheck = function (state) {
-      state.action = 'replace';
       return testReplaceTransformRule(
         keypather.get($scope.state, 'contextVersion.appCodeVersions.models[0]'),
         state
