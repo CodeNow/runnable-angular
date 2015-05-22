@@ -185,7 +185,6 @@ describe('serverCardDirective'.bold.underline.blue, function () {
       $scope.$digest();
       $timeout.flush();
       expect($elScope.server.opts.env, 'env').to.equal(instance.attrs.env);
-      expect($elScope.dependencyInfo, 'dependencyInfo').to.equal('2 associations');
       expect($elScope.server.selectedStack, 'selectedStack').to.equal('CHEESE');
       expect($elScope.server.ports, 'ports').to.equal('kajflkajsf');
       expect($elScope.server.startCommand, 'startCommand').to.equal('star command');
@@ -249,7 +248,6 @@ describe('serverCardDirective'.bold.underline.blue, function () {
       parseDockMock.triggerPromise(null);
       $scope.$digest();
       expect($elScope.server.opts.env, 'env').to.equal(instance.attrs.env);
-      expect($elScope.dependencyInfo, 'dependencyInfo').to.equal('no associations defined');
 
       expect($elScope.server.selectedStack, 'selectedStack').to.not.be.ok;
       expect($elScope.server.ports, 'ports').to.not.be.ok;
