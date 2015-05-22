@@ -5,8 +5,7 @@ require('app')
     createTransformRule,
     deleteTransformRule,
     keypather,
-    moveTransformRules,
-    promisify
+    moveTransformRules
   ) {
     return {
       restrict: 'A',

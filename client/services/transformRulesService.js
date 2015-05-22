@@ -103,7 +103,6 @@ function testAllTransformRules(
     var defer = $q.defer();
     function callback(err, res, body) {
       if (err) { return defer.reject(err); }
-      console.log(body);
       defer.resolve(body);
     }
     if (appCodeVersionModel) {
@@ -151,7 +150,6 @@ function testReplaceTransformRule(
         var parsed = parseDiffResponse(Object.keys(body.diffs).reduce(function (total, key) {
           return total + body.diffs[key];
         }, ''));
-        console.log(parsed);
         defer.resolve(parsed);
       } else {
         defer.reject();
