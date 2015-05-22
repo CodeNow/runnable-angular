@@ -5,13 +5,9 @@
 )
   .popover-views(
     ng-class = "{\
-      'view-2': state.view2 || data.state.view2,\
-      'view-3': state.view3\
+      'view-2': data.state.view === 2,\
+      'view-3': data.state.view === 3\
     }"
-    ng-init = "\
-      state.view2 = data.name || null;\
-      state.view3 = null;\
-    "
   )
     //- choose repository
     .popover-view(

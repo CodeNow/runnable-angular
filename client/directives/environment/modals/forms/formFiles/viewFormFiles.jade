@@ -6,14 +6,17 @@
   .label-col Container Files
   .input-col
     button.btn.btn-xs.white.float-right(
+      ng-click = "triggerAddRepository()"
       pop-over
-      pop-over-actions = "fileRepository.actions.repo"
-      pop-over-data = "fileRepository.data"
+      pop-over-active = "repositoryPopover.active"
+      pop-over-actions = "repositoryPopover.actions"
+      pop-over-data = "repositoryPopover.data"
       pop-over-template = "viewPopoverFilesRepository"
+      pop-over-trigger = "activeAttr"
     ) Add Repository
     button.btn.btn-xs.white.float-right(
       pop-over
-      pop-over-actions = "fileUpload.actions.file"
+      pop-over-actions = "fileUpload.actions"
       pop-over-data = "fileUpload.data"
       pop-over-template = "viewPopoverFilesUpload"
     ) Upload File

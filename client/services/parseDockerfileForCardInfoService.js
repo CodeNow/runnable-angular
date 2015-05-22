@@ -165,8 +165,8 @@ ContainerFile.renderForDockerfile = function (repo) {
 };
 
 
-function Repo(contents, main){
-  this.type = main ? 'Main Repo' : 'Repo';
+function Repo(contents, opts){
+  this.type = opts.isMainRepo ? 'Main Repo' : 'Repo';
   if (contents) {
     var commandList = contents.split('\n');
     var commands = /^ADD ((?:\\\s|[^\s])*) ((?:\\\s|[^\s])*)/.exec(commandList[0]);
@@ -181,6 +181,7 @@ function Repo(contents, main){
 
 Repo.renderForDockerfile = function (repo) {
   repo.commands = repo.commands || '';
+  repo.path = repo.path || '';
   var contents = 'ADD ./' + repo.name.trim() + ' /' + repo.path.trim() + '\n'+
     repo.commands
       .split('\n')
@@ -231,7 +232,7 @@ function getCardInfoTypes() {
   };
 }
 
-function parseDockerfile (dockerfile) {
+function parseDockerfile (dockerfile, instance) {
   var regex = new RegExp('#Start: (.*)\n([\\s\\S]*?)#End', 'gm');
   var currentBlock = regex.exec(dockerfile);
   var chunks = [];
@@ -242,8 +243,10 @@ function parseDockerfile (dockerfile) {
     CustomType = types[currentBlock[1]];
     content = currentBlock[2];
     if (CustomType) {
-      var isMainRepo = currentBlock === 'Main Repo';
-      chunks.push( new CustomType(content, isMainRepo) );
+      chunks.push( new CustomType(content, {
+        isMainRepo: currentBlock === 'Main Repo',
+        instance: instance
+      }));
     } else {
       console.log('Type "' + currentBlock[1] + '" not found.');
     }
@@ -269,7 +272,7 @@ function parseDockerfileForCardInfoFromInstance(
         if (!dockerfileBody) {
           return $q.reject(new Error('Dockerfile empty or not found'));
         }
-        var allSections = parseDockerfile(dockerfileBody);
+        var allSections = parseDockerfile(dockerfileBody, instance);
 
         var containerFiles = allSections.filter(function (section) {
           return ['Container File', 'Repo', 'Main Repo'].indexOf(section.type) !== -1;

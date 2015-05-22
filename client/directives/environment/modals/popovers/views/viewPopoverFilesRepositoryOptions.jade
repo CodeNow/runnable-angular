@@ -1,7 +1,7 @@
 .popover-header
   //- if adding a new repository
   button.btn.btn-sm.white.pull-left(
-    ng-click = "state.view2 = false"
+    ng-click = "data.state.view = 1"
     ng-if = "!data.state.fromServer"
   )
     svg.iconnables.icons-arrow-backward
@@ -22,9 +22,9 @@
   label.label.clearfix
     .input-col
       .btn.btn-block.white.text-overflow(
-        ng-click = "state.view3 = true"
-      ) commit msg
-        small.small joe authored 18 days ago
+        ng-click = "data.state.view = 3"
+      ) {{data.commit.attrs.commit.message}}
+        small.small {{data.commit.attrs.commit.committer.name}} authored {{data.commit.attrs.commit.committer.date | timeFrom}}
         svg.iconnables.icons-arrow-down
           use(
             xlink:href = "#icons-arrow-down"
@@ -53,7 +53,9 @@
   button.btn.btn-xs.orange Remove Repository
 
 .popover-footer.clearfix
-  button.btn.btn-sm.green Add Repository
+  button.btn.btn-sm.green(
+    ng-click = "actions.save()"
+  ) Add Repository
   button.btn.btn-sm.gray.btn-cancel(
     ng-click = "closePopover()"
   ) Cancel

@@ -24,7 +24,7 @@ ul.table-drag-drop(
     .cell.text-overflow(
       ng-if = "containerFile.type === 'Container File'"
       pop-over
-      pop-over-actions = "fileUpload.actions.file"
+      pop-over-actions = "fileUpload.actions"
       pop-over-data = "containerFile"
       pop-over-template = "viewPopoverFilesUpload"
       title = "{{ containerFile.name }}"
@@ -33,30 +33,30 @@ ul.table-drag-drop(
         title = "{{ containerFile.path }}"
       ) {{ containerFile.path }}
     .cell.text-overflow(
-      ng-if = "containerFile.type === 'repo' || containerFile.type === 'mainrepo'"
-      pop-over
-      pop-over-actions = "fileUpload.actions.repo"
-      pop-over-data = "containerFile"
-      pop-over-template = "viewPopoverFilesRepository"
+      ng-if = "containerFile.type === 'Repo' || containerFile.type === 'Main Repo'"
+      ng-click = "triggerEditRepo(containerFile)"
       title = "{{ containerFile.name }}"
     ) {{ containerFile.name }}
       small.small(
         title = "{{ containerFile.path }}"
       ) {{ containerFile.path }}
     .cell.cell-type.small
-      //- if repo (main)
-      //- svg.iconnables
-      //-   use(
-      //-     xlink:href = "#icons-repository"
-      //-   )
-      //- if repo (additional)
-      //- svg.iconnables
-      //-   use(
-      //-     xlink:href = "#icons-repository-additional"
-      //-   )
-      //- if file
-      svg.iconnables
+      svg.iconnables(
+        ng-if = "containerFile.type === 'Container File'"
+      )
         use(
           xlink:href = "#icons-file"
+        )
+      svg.iconnables(
+        ng-if = "containerFile.type === 'Main Repo'"
+      )
+        use(
+          xlink:href = "#icons-repository"
+        )
+      svg.iconnables(
+          ng-if = "containerFile.type === 'Repo'"
+        )
+        use(
+          xlink:href = "#icons-repository-additional"
         )
       | {{ containerFile.type }}
