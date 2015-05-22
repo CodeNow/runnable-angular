@@ -27,6 +27,21 @@ require('app')
       link: function ($scope) {
         var listeners = [];
 
+        $scope.changeAdvancedFlag = function () {
+          if (confirm($scope.state.advanced ?
+              'If you make changes to the build files, you will not be able to ' +
+              'switch back without losing changes.'
+              : 'You will lose all changes you\'ve made to your dockerfile (ever).')) {
+            $scope.server.advanced = !$scope.server.advanced;
+            $scope.openConfigurationModal = true;
+            $timeout(function () {
+              $scope.openConfigurationModal = false;
+              $scope.server.advanced = !$scope.server.advanced;
+            });
+          }
+          $scope.state.advanced = !$scope.state.advanced;
+        };
+
         $scope.helpCards = helpCards;
         $scope.server = {};
         $scope.activeAccount = $rootScope.dataApp.data.activeAccount;
@@ -48,6 +63,9 @@ require('app')
             $scope.server.building = true;
             $scope.server.contextVersion = instance.contextVersion;
             $scope.server.advanced = keypather.get(instance, 'contextVersion.attrs.advanced');
+            $scope.state = {
+              advanced: $scope.server.advanced
+            };
             $scope.server.repo = keypather.get(instance, 'contextVersion.appCodeVersions.models[0].githubRepo');
             var qAll = {
               dependencies: promisify(instance, 'fetchDependencies', true)()

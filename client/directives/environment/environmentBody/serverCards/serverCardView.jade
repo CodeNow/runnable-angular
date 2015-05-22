@@ -158,6 +158,8 @@ ul.card-body.load(
 .card-footer
   label.label-checkbox
     input.input-checkbox(
+      ng-click = "changeAdvancedFlag()"
+      ng-model = "state.advanced"
       type = "checkbox"
     )
     | Advanced Mode
