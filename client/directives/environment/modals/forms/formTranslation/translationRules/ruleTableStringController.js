@@ -29,9 +29,12 @@ require('app')
     );
 
     $scope.getMatchDisplay = function (rule) {
-      var totalMatches = rule.diffs.reduce(function (total, diff) {
-        return total + diff.changes.length;
-      }, 0);
+      var totalMatches = null;
+      if (!rule.diffs) {
+        totalMatches = rule.diffs.reduce(function (total, diff) {
+          return total + diff.changes.length;
+        }, 0);
+      }
       return (!totalMatches) ?
           'No matches found' :
           totalMatches + ' matches in ' + rule.diffs.length + ' files';
