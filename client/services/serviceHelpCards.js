@@ -6,6 +6,7 @@ require('app')
 
 function helpCardsFactory(
   $interpolate,
+  $q,
   keypather,
   fetchSettings,
   errs,
@@ -248,7 +249,7 @@ function helpCardsFactory(
             helpCard.emit('remove');
           });
         }
-        return currentCardHash[helpCard.hash];
+        return $q.when(currentCardHash[helpCard.hash]);
       })
         .catch(errs.handler);
     },

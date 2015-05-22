@@ -72,6 +72,7 @@ form.modal-dialog.modal-edit(
       button.btn.btn-radio(
         ng-class = "{active: selectedTab === 'translation'}"
         ng-click = "changeTab('translation')"
+        ng-if = "!state.repo"
       )
         svg.iconnables
           use(
