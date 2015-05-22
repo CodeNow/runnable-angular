@@ -77,6 +77,7 @@ function editServerModal(
       $scope.triggerAddRepository = function () {
         $scope.repositoryPopover.data.fromServer = false;
         $scope.repositoryPopover.data.state.view = 1;
+        $scope.repositoryPopover.data.containerFiles = $scope.server.containerFiles;
         $scope.repositoryPopover.active = true;
 
         fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
