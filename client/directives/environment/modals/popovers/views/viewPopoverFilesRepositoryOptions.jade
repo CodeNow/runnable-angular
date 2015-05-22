@@ -50,7 +50,10 @@
       small.small Commands to be executed when your container is built and before it is launched.
 
   //- not shown if new repo
-  button.btn.btn-xs.orange Remove Repository
+  button.btn.btn-xs.orange(
+    ng-if = "data.fromServer"
+    ng-click = "actions.remove()"
+  ) Remove Repository
 
 .popover-footer.clearfix
   button.btn.btn-sm.green(

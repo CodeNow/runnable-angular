@@ -92,6 +92,20 @@ function editServerModal(
 
       $scope.repositoryPopover = {
         actions: {
+          remove: function () {
+            var repo = $scope.repositoryPopover.data.repo;
+
+            var acv = $scope.state.contextVersion.appCodeVersions.models.find(function (acv) {
+              return acv.attrs.repo.split('/')[1] === repo.attrs.name;
+            });
+
+            promisify(acv, 'destroy')()
+              .catch(errs.handler);
+
+            $scope.server.containerFiles.splice($scope.server.containerFiles.indexOf(repo), 1);
+
+            $rootScope.$broadcast('close-popovers');
+          },
           selectRepo: function (repo) {
             $scope.repositoryPopover.data.repo = repo;
             $scope.repositoryPopover.data.loading = true;
