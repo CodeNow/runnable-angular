@@ -63,9 +63,9 @@ function createTransformRule(
   return function (appCodeVersionModel, rule, oldRule) {
     var rules = appCodeVersionModel.attrs.transformRules || {};
     if (rule.action) {
-      if (oldRule) {
+      if (rule.oldRule) {
         rules[rule.action] = rules[rule.action].filter(function (needle) {
-          return !angular.equals(needle, rule);
+          return needle._id === rule._id;
         });
       }
       rules[rule.action].push(rule);
@@ -177,6 +177,9 @@ function populateRulesWithWarningsAndDiffs(
         }));
         if (found) {
           replaceRule.warnings = found.warnings;
+          replaceRule.diffs = parseDiffResponse(Object.keys(found.diffs).reduce(function (total, key) {
+            return total + found.diffs[key];
+          }, ''));
         }
       });
       return ruleList;

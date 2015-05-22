@@ -14,6 +14,9 @@ require('app')
       link: function ($scope, elem, attrs) {
         $scope.openRulePopover = function (rule) {
           $scope.popoverData.data.state = rule ? angular.copy(rule) : {};
+          if (rule) {
+            $scope.popoverData.data.state.oldRule = rule;
+          }
           $scope.popoverData.active = true;
         };
 
@@ -41,11 +44,15 @@ require('app')
             },
             createRule: function (rule) {
               $scope.popoverData.active = false;
+              $scope.tableProcessing = true;
               return createTransformRule(
                 keypather.get($scope.state, 'contextVersion.appCodeVersions.models[0]'),
                 rule
               )
-                .then($scope.actions.recalculateRules);
+                .then($scope.actions.recalculateRules)
+                .finally(function () {
+                  $scope.tableProcessing = false;
+                });
             },
             performCheck: function (rule, currentState) {
               if (angular.equals(rule, {})) { return; }

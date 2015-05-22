@@ -2,9 +2,6 @@
 
 require('app')
   .directive('previewAllTranslation', function previewAllTranslation(
-    parseDiffResponse,
-    promisify,
-    testAllTransformRules
   ) {
     return {
       restrict: 'A',
