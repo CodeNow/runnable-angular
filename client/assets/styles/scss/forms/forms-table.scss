@@ -336,7 +336,7 @@
 
 // table actions
 .table-actions {
-  background: #f0f0f0;
+  background: $gray-lightest;
   border: 1px solid $gray-lighter;
   border-bottom: 0;
   border-radius: 3px 3px 0 0;
@@ -353,7 +353,6 @@
 
     // second action
     + .btn {
-      color: $gray-dark;
       float: right;
       font-size: 14px;
 
@@ -432,6 +431,15 @@
   .icons-arrow-down {
     position: absolute;
     right: 6px;
+    top: 0;
+  }
+
+  .btn-status {
+    color: $gray;
+    cursor: default;
+    float: none;
+    font-size: 13px;
+    margin-left: 6px;
     top: 0;
   }
 }

@@ -6,7 +6,7 @@ button.btn.btn-xs.gray(
   ng-init = "state.showHostName = false"
 ) Insert an Elastic Hostname
 
-button.btn.btn-xs.btn-status(
+button.btn.btn-xs.btn-status.no-touching(
   ng-if = "!state.showHostName"
   title = "{{linkedEnvResults.servers.length || 0 }} associations from environment variables"
 ) {{linkedEnvResults.servers.length || 0 }} associations
