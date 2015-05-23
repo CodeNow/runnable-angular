@@ -33,8 +33,8 @@ require('app')
         keypather.get($scope.state, 'contextVersion.appCodeVersions.models[0]'),
         state
       )
-        .then(function (results) {
-          state.results = results;
+        .then(function (nameChanges) {
+          state.nameChanges = nameChanges;
         });
     };
 

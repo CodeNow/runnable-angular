@@ -123,8 +123,7 @@ function testRenameTransformRule(
     var defer = $q.defer();
     function callback(err, res, body) {
       if (err) { return defer.reject(err); }
-      console.log(body);
-      defer.resolve(body.results);
+      defer.resolve(body.nameChanges);
     }
     rule.action = 'rename';
     user.client.post(appCodeVersionModel.urlPath + '/' + appCodeVersionModel.id() +
@@ -175,6 +174,7 @@ function populateRulesWithWarningsAndDiffs(
         }));
         if (found) {
           replaceRule.warnings = found.warnings;
+          replaceRule.nameChanges = found.nameChanges;
           replaceRule.diffs = parseDiffResponse(Object.keys(found.diffs).reduce(function (total, key) {
             return total + found.diffs[key];
           }, ''));
@@ -190,28 +190,16 @@ function deleteTransformRule(
   promisify
 ) {
   return function (appCodeVersionModel, rule) {
-    var defer = $q.defer();
     var rules = appCodeVersionModel.attrs.transformRules;
     if (rules) {
-      if (rule.action === 'replace') {
-        rules.replace = rules.replace.filter(function (needle) {
-          return !angular.equals(needle, rule);
-        });
-      } else if (rule.action === 'rename') {
-        rules.rename = rules.rename.filter(function (needle) {
-          return !angular.equals(needle, rule);
-        });
-      } else {
-        rules.exclude = rules.exclude.filter(function (needle) {
-          return !angular.equals(needle, rule);
-        });
-      }
+      rules[rule.action] = rules[rule.action].filter(function (needle) {
+        return needle._id !== rule._id;
+      });
 
       return promisify(appCodeVersionModel, 'update')({
         transformRules: rules
       });
     }
-    defer.reject(new Error('No rules to delete'));
-    return defer.promise;
+    return $q.reject(new Error('No rules to delete'));
   };
 }

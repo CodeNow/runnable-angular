@@ -35,15 +35,20 @@
         )
 
     small.small.table-details(
-      ng-if = "currentState.searched"
-    ) {{ data.state.results.nameChanges.length ? 'Match found' : 'No matches found' }}
+      ng-if = "data.state.nameChanges"
+    ) {{ data.state.nameChanges.length ? 'Match found' : 'No matches found' }}
 
     //- filename verification table
     .table.table-diff(
-      ng-if = "data.state.results.nameChanges.length"
-      diff-display
-      file-diff = "data.state.results.nameChanges[0]"
+      ng-if = "data.state.nameChanges.length"
     )
+      .tr.thead.clearfix
+        .cell
+          a.link(
+            ng-href = "{{ data.state.nameChanges[0].from | fileGithubLinkUrl: data.parentState.contextVersion}}"
+            target = "_blank"
+          ) {{ data.state.nameChanges[0].from }}
+            | #{''} → {{ data.state.nameChanges[0].to }}
 
   .popover-footer.clearfix
     button.btn.green.btn-spinner(

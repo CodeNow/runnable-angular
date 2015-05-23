@@ -27,6 +27,7 @@ require('app')
           active: false,
           data: {
             parentData: $scope.data,
+            parentState: $scope.state,
             state: {},
             getMatchDisplay: $scope.getMatchDisplay
           },

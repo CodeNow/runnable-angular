@@ -1,7 +1,7 @@
 .tr.thead.clearfix
   .cell
     a.link(
-      href = "//github.com"
+      ng-href = "{{ fileDiff.from | fileGithubLinkUrl: state.contextVersion}}"
       target = "_blank"
     ) {{ fileDiff.from }}
     span(
