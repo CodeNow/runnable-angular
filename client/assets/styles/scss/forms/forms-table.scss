@@ -1,27 +1,3 @@
-// TODO: TONY! SORRY! We had merge conflicts. We did our best to resolve them, but there are definitely some issues in here.
-// TODO: TONY! SORRY! We had merge conflicts. We did our best to resolve them, but there are definitely some issues in here.
-// TODO: TONY! SORRY! We had merge conflicts. We did our best to resolve them, but there are definitely some issues in here.
-// TODO: TONY! SORRY! We had merge conflicts. We did our best to resolve them, but there are definitely some issues in here.
-// TODO: TONY! SORRY! We had merge conflicts. We did our best to resolve them, but there are definitely some issues in here.
-// TODO: TONY! SORRY! We had merge conflicts. We did our best to resolve them, but there are definitely some issues in here.
-// TODO: TONY! SORRY! We had merge conflicts. We did our best to resolve them, but there are definitely some issues in here.
-// TODO: TONY! SORRY! We had merge conflicts. We did our best to resolve them, but there are definitely some issues in here.
-// TODO: TONY! SORRY! We had merge conflicts. We did our best to resolve them, but there are definitely some issues in here.
-// TODO: TONY! SORRY! We had merge conflicts. We did our best to resolve them, but there are definitely some issues in here.
-// TODO: TONY! SORRY! We had merge conflicts. We did our best to resolve them, but there are definitely some issues in here.
-// TODO: TONY! SORRY! We had merge conflicts. We did our best to resolve them, but there are definitely some issues in here.
-// TODO: TONY! SORRY! We had merge conflicts. We did our best to resolve them, but there are definitely some issues in here.
-// TODO: TONY! SORRY! We had merge conflicts. We did our best to resolve them, but there are definitely some issues in here.
-// TODO: TONY! SORRY! We had merge conflicts. We did our best to resolve them, but there are definitely some issues in here.
-// TODO: TONY! SORRY! We had merge conflicts. We did our best to resolve them, but there are definitely some issues in here.
-// TODO: TONY! SORRY! We had merge conflicts. We did our best to resolve them, but there are definitely some issues in here.
-// TODO: TONY! SORRY! We had merge conflicts. We did our best to resolve them, but there are definitely some issues in here.
-// TODO: TONY! SORRY! We had merge conflicts. We did our best to resolve them, but there are definitely some issues in here.
-// TODO: TONY! SORRY! We had merge conflicts. We did our best to resolve them, but there are definitely some issues in here.
-// TODO: TONY! SORRY! We had merge conflicts. We did our best to resolve them, but there are definitely some issues in here.
-// TODO: TONY! SORRY! We had merge conflicts. We did our best to resolve them, but there are definitely some issues in here.
-// TODO: TONY! SORRY! We had merge conflicts. We did our best to resolve them, but there are definitely some issues in here.
-
 .table {
   background: $white;
   border: 1px solid $gray-lighter;
@@ -30,27 +6,6 @@
   // space out tables
   + .table {
     margin-top: 9px;
-  }
-}
-
-// merge tables
-.table-merge {
-  border-radius: 3px 3px 0 0;
-
-  .tr:last-child {
-    border-radius: 0;
-    padding-bottom: 0;
-  }
-}
-
-.table-merge + .table-merge {
-  border-radius: 0 0 3px 3px;
-  border-top: 0;
-  margin-top: 0;
-
-  .tr:first-child:not(.thead) {
-    border-radius: 0;
-    padding-top: 0;
   }
 }
 
@@ -125,52 +80,32 @@
   }
 }
 
+// merge tables
+.table-merge {
+  border-radius: 3px 3px 0 0;
+
+  .tr:last-child {
+    border-radius: 0;
+    padding-bottom: 0;
+  }
+}
+
+.table-merge + .table-merge {
+  border-radius: 0 0 3px 3px;
+  border-top: 0;
+  margin-top: 0;
+
+  .tr:first-child:not(.thead) {
+    border-radius: 0;
+    padding-top: 0;
+  }
+}
+
 // table details
 .table-details {
   color: $gray;
   display: block;
   margin: 15px 0 6px;
-}
-
-// table row header usage:
-// .tr.thead
-.thead {
-  background: $gray-lightest;
-  font-size: 13px;
-  font-weight: 500;
-  padding: 3px 0;
-
-  &.thead-sm {
-    color: $gray;
-    font-weight: 400;
-
-    .cell {
-      height: 21px;
-      line-height: 24px;
-    }
-  }
-
-  .cell {
-    height: 30px;
-    line-height: 30px;
-
-    &:only-child {
-      width: 100%;
-    }
-  }
-
-  .btn {
-    float: right;
-    top: 3px;
-  }
-  .btn-status {
-    color: $gray;
-    cursor: default;
-    float: none;
-    font-size: 13px;
-    margin-left: 6px;
-    top: 0;
-  }
 }
 
 // layout
@@ -219,9 +154,9 @@
 
   // element that's left behind
   &.disabled {
-    cursor: not-allowed;
     background: $gray-lightest;
     color: $gray-light;
+    cursor: not-allowed;
 
     .cell-action {
       opacity: .5;
@@ -237,6 +172,48 @@
     &.tr-deletion {
       border-top: 0;
     }
+  }
+}
+
+// table row header usage:
+// .tr.thead
+.thead {
+  background: $gray-lightest;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 3px 0;
+
+  &.thead-sm {
+    color: $gray;
+    font-weight: 400;
+
+    .cell {
+      height: 21px;
+      line-height: 24px;
+    }
+  }
+
+  .cell {
+    height: 30px;
+    line-height: 30px;
+
+    &:only-child {
+      width: 100%;
+    }
+  }
+
+  .btn {
+    float: right;
+    top: 3px;
+  }
+
+  .btn-status {
+    color: $gray;
+    cursor: default;
+    float: none;
+    font-size: 13px;
+    margin-left: 6px;
+    top: 0;
   }
 }
 
@@ -272,6 +249,7 @@
     font-size: 13px;
     letter-spacing: -.25px;
   }
+
   // cells with multiple lines
   .multi-line & {
     height: 45px;
@@ -280,9 +258,9 @@
   }
 
   .small {
-    float: right;
     color: $gray;
     display: block;
+    float: right;
     font-size: 11px;
   }
 }
@@ -315,9 +293,9 @@
 
   // dragging icon
   .icons-drag {
-    opacity: .3;
     color: $gray-lighter;
     height: 100%;
+    opacity: .3;
     width: 9px;
   }
 
