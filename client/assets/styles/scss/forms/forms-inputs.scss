@@ -294,26 +294,6 @@
     padding-left: 27px !important; // override all other position
     transition: all .15s ease-in;
   }
-
-  &.input-search-sm {
-    background-position: 6px 2px !important; // no transition for .input-search-sm
-    background-size: 18px;
-    height: 24px;
-    line-height: 24px;
-    padding-left: 27px;
-    transition: all .15s ease-in;
-  }
-
-  &.input-xs {
-    background-position: 110px 0;
-    background-size: 21px 18px;
-    padding-left: 130px;
-
-    &:focus,
-    &:valid {
-      background-position: 0 0;
-    }
-  }
 }
 
 // icons

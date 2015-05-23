@@ -52,6 +52,18 @@
   }
 
   // forms
+  .input-search {
+    background-position: calc(50% - 45px) center;
+    margin-bottom: 15px;
+    padding-left: calc(50% - 48px);
+    width: calc(100% - 30px);
+
+    &:focus,
+    &:valid {
+      background-position: 8px center;
+    }
+  }
+
   .label {
     margin-bottom: 12px;
 
