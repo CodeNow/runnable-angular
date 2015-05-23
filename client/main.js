@@ -22,6 +22,8 @@ require('./lib/router');
  */
 var views = require('./build/views/viewBundle');
 
+console.log('Find ME!');
+
 /**
  * Decorator, CORS setting
  * to pass authentication cookie
