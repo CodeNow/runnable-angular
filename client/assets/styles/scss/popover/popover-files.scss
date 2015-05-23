@@ -70,17 +70,6 @@
     margin-left: 6px;
   }
 
-  // upload button
-  .btn-upload {
-    padding-right: 75px;
-  }
-
-  [for="input-upload"] {
-    position: absolute;
-    right: 12px;
-    top: 13px;
-  }
-
   // view 1
   // list
   .list-servers > .list-item {
@@ -133,6 +122,17 @@
   .orange {
     display: table;
     margin: 0 auto;
+  }
+
+  // upload button
+  .btn-upload {
+    padding-right: 75px;
+  }
+
+  [for="input-upload"] {
+    position: absolute;
+    right: 12px;
+    top: 13px;
   }
 
   // view 3

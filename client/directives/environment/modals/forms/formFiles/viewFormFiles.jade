@@ -20,9 +20,7 @@
       pop-over-data = "fileUpload.data"
       pop-over-template = "viewPopoverFilesUpload"
     ) Upload File
-  .table(
-    style = "clear: both;"
-  )(
+  .table.table-drag-drop.clearfix(
     ng-include = "'viewFormFilesTable'"
   )
   small.small Copy files to the file system of this container (e.g. seed data for a database, or other files that your application expects to have available).
