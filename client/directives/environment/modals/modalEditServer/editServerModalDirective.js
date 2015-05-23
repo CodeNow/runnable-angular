@@ -352,7 +352,7 @@ function editServerModal(
         if (opts.port) {
           hostName += ':' + opts.port;
         }
-        $rootScope.$broadcast('eventPasteLinkedInstance', hostName);
+        $rootScope.$broadcast('eventPasteLinkedInstance', 'VAR=' + hostName);
       };
 
       $scope.cancel = function () {
