@@ -6,12 +6,12 @@
 //- main repo is not actionable
 ul.table-drag-drop(
   dnd-list = "server.containerFiles"
+  dnd-drop = "dropContainerFile(event, index, item, type)"
 )
   li.tr.multi-line.clearfix(
-    dnd-draggable = "containerFile"
+    dnd-draggable = "containerFile.id"
     dnd-dragstart = "actions.dragstart()"
     dnd-effect-allowed = "move"
-    dnd-moved = "server.containerFiles.splice($index, 1)"
     ng-repeat = "containerFile in server.containerFiles"
   )
     .cell.cell-action(

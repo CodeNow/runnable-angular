@@ -21,7 +21,6 @@ function editServerModal(
   watchWhenTruthyPromise,
   helpCards,
   $rootScope,
-  $http,
   uploadFile,
   configAPIHost,
   cardInfoTypes,
@@ -89,6 +88,16 @@ function editServerModal(
         $timeout(function () {
           $scope.repositoryPopover.active = false;
         });
+      };
+
+      $scope.dropContainerFile = function (event, newIndex, containerFileId) {
+        var currentIndex = 0;
+        var containerFile = $scope.server.containerFiles.find(function (containerFile, index) {
+          currentIndex = index;
+          return containerFile.id === containerFileId;
+        });
+        $scope.server.containerFiles.splice(currentIndex, 1);
+        $scope.server.containerFiles.splice(newIndex, 0, containerFile);
       };
 
       $scope.repositoryPopover = {

@@ -6,8 +6,7 @@ require('app')
 function populateDockerfile(
   promisify,
   regexpQuote,
-  keypather,
-  cardInfoTypes
+  keypather
 ) {
   return function (sourceDockerfile, state, destDockerfile) {
     function replaceStackVersion(dockerfileBody, stack) {
@@ -25,9 +24,8 @@ function populateDockerfile(
 
       var containerFilesString = '';
       var containerFiles = keypather.get(state, 'server.containerFiles') || [];
-      console.log(containerFiles);
       containerFiles.forEach(function (containerFile) {
-        containerFilesString += '\n' + cardInfoTypes()[containerFile.type].renderForDockerfile(containerFile) + '\n';
+        containerFilesString += '\n' + containerFile.toString() + '\n';
       });
 
       dockerfileBody = replaceStackVersion(dockerfileBody, state.selectedStack);

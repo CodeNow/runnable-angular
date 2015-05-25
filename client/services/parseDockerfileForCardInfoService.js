@@ -126,83 +126,6 @@ function parseDockerfileForRunCommands(dockerfile, repoName) {
   }
 }
 
-function wrapWithType(content, type){
-  return '#Start: ' + type + '\n' +
-    content + '\n' +
-    '#End';
-}
-
-
-function ContainerFile(contents){
-  this.type = 'Container File';
-
-  if (contents) {
-    var commandList = contents.split('\n');
-    var commands = /^ADD ((?:\\\s|[^\s])*) ((?:\\\s|[^\s])*)/.exec(commandList[0]);
-
-    this.name = commands[1].replace('./', '');
-    this.path = commands[2].replace('/', '');
-    commandList.splice(0,1);
-    this.commands = commandList.map(function (item) {
-      return item.replace('RUN ', '');
-    }).join('\n');
-    this.fromServer = true;
-  }
-}
-
-ContainerFile.renderForDockerfile = function (repo) {
-  repo.commands = repo.commands || '';
-  var contents = 'ADD ./' + repo.name.trim() + ' /' + repo.path.trim() + '\n'+
-    repo.commands
-      .split('\n')
-      .filter(function (command) {
-        return command.trim().length;
-      })
-      .map(function (command) {
-        return 'RUN '+command;
-      })
-      .join('\n');
-  return wrapWithType(contents, repo.type);
-};
-
-
-function Repo(contents, opts){
-  opts = opts || {};
-  this.type = opts.isMainRepo ? 'Main Repo' : 'Repo';
-  if (contents) {
-    var commandList = contents.split('\n');
-    var commands = /^ADD ((?:\\\s|[^\s])*) ((?:\\\s|[^\s])*)/.exec(commandList[0]);
-    this.name = commands[1].replace('./', '');
-    this.path = commands[2].replace('/', '');
-    commandList.splice(0,1);
-    this.commands = commandList.map(function (item) {
-      return item.replace('RUN ', '');
-    }).join('\n');
-    this.fromServer = true;
-  }
-}
-
-Repo.renderForDockerfile = function (repo) {
-  repo.commands = repo.commands || '';
-  repo.path = repo.path || '';
-  var contents = 'ADD ./' + repo.name.trim() + ' /' + repo.path.trim() + '\n'+
-    repo.commands
-      .split('\n')
-      .filter(function (command) {
-        return command.trim().length;
-      })
-      .map(function (command) {
-        return 'RUN '+command;
-      })
-      .join('\n');
-  return wrapWithType(contents, repo.type);
-};
-
-
-// TODO: Make container repo distinct from main repo
-// Possibly just different types, same func
-
-// TODO: put datums back in dockerfile on save
 
 
 //function Ports(contents){
@@ -222,42 +145,96 @@ Repo.renderForDockerfile = function (repo) {
 //  };
 //}
 
-var types = {
-  'Container File': ContainerFile,
-  'Main Repo': Repo,
-  'Repo': Repo
-};
 
 
-function getCardInfoTypes() {
-  return function () {
-    return types;
-  };
-}
+function getCardInfoTypes(
+  uuid
+) {
 
-function parseDockerfile (dockerfile) {
-  var regex = new RegExp('#Start: (.*)\n([\\s\\S]*?)#End', 'gm');
-  var currentBlock = regex.exec(dockerfile);
-  var chunks = [];
-
-  var CustomType;
-  var content;
-  while (currentBlock) {
-    CustomType = types[currentBlock[1]];
-    content = currentBlock[2];
-    if (CustomType) {
-      chunks.push( new CustomType(content, {
-        isMainRepo: currentBlock[1] === 'Main Repo'
-      }));
-    } else {
-      console.log('Type "' + currentBlock[1] + '" not found.');
-    }
-    currentBlock = regex.exec(dockerfile);
+  function wrapWithType(content, type){
+    return '#Start: ' + type + '\n' +
+      content + '\n' +
+      '#End';
   }
 
-  return chunks;
-}
 
+  function ContainerFile(contents){
+    this.type = 'Container File';
+    this.id = uuid.v4();
+
+    if (contents) {
+      var commandList = contents.split('\n');
+      var commands = /^ADD ((?:\\\s|[^\s])*) ((?:\\\s|[^\s])*)/.exec(commandList[0]);
+
+      this.name = commands[1].replace('./', '');
+      this.path = commands[2].replace('/', '');
+      commandList.splice(0,1);
+      this.commands = commandList.map(function (item) {
+        return item.replace('RUN ', '');
+      }).join('\n');
+      this.fromServer = true;
+    }
+
+    var self = this;
+    this.toString = function () {
+      self.commands = self.commands || '';
+      var contents = 'ADD ./' + self.name.trim() + ' /' + self.path.trim() + '\n'+
+        self.commands
+          .split('\n')
+          .filter(function (command) {
+            return command.trim().length;
+          })
+          .map(function (command) {
+            return 'RUN '+command;
+          })
+          .join('\n');
+      return wrapWithType(contents, self.type);
+    };
+  }
+
+  function Repo(contents, opts){
+    opts = opts || {};
+    this.type = opts.isMainRepo ? 'Main Repo' : 'Repo';
+    this.id = uuid.v4();
+
+    if (contents) {
+      var commandList = contents.split('\n');
+      var commands = /^ADD ((?:\\\s|[^\s])*) ((?:\\\s|[^\s])*)/.exec(commandList[0]);
+      this.name = commands[1].replace('./', '');
+      this.path = commands[2].replace('/', '');
+      commandList.splice(0,1);
+      this.commands = commandList.map(function (item) {
+        return item.replace('RUN ', '');
+      }).join('\n');
+      this.fromServer = true;
+    }
+
+
+    var self = this;
+    this.toString = function () {
+      self.commands = self.commands || '';
+      self.path = self.path || '';
+      var contents = 'ADD ./' + self.name.trim() + ' /' + self.path.trim() + '\n'+
+        self.commands
+          .split('\n')
+          .filter(function (command) {
+            return command.trim().length;
+          })
+          .map(function (command) {
+            return 'RUN '+command;
+          })
+          .join('\n');
+      return wrapWithType(contents, self.type);
+    };
+  }
+  return function () {
+    return {
+      'Container File': ContainerFile,
+      'Main Repo': Repo,
+      'Repo': Repo
+    };
+  };
+}
 
 
 function parseDockerfileForCardInfoFromInstance(
@@ -265,8 +242,35 @@ function parseDockerfileForCardInfoFromInstance(
   promisify,
   keypather,
   $q,
-  fetchCommitData
+  fetchCommitData,
+  cardInfoTypes
 ) {
+
+  function parseDockerfile (dockerfile) {
+    var types = cardInfoTypes();
+    var regex = new RegExp('#Start: (.*)\n([\\s\\S]*?)#End', 'gm');
+    var currentBlock = regex.exec(dockerfile);
+    var chunks = [];
+
+    var CustomType;
+    var content;
+    while (currentBlock) {
+      CustomType = types[currentBlock[1]];
+      content = currentBlock[2];
+      if (CustomType) {
+        chunks.push( new CustomType(content, {
+          isMainRepo: currentBlock[1] === 'Main Repo'
+        }));
+      } else {
+        console.log('Type "' + currentBlock[1] + '" not found.');
+      }
+      currentBlock = regex.exec(dockerfile);
+    }
+
+    return chunks;
+  }
+
+
   return function (instance, stackData) {
     return promisify(instance.contextVersion, 'fetchFile', true)('/Dockerfile')
       .then(function (dockerfile) {
