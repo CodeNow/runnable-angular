@@ -167,7 +167,7 @@ function populateRulesWithWarningsAndDiffs(
   hasKeypaths
 ) {
   return function (ruleList, transformResults) {
-    if (Array.isArray(ruleList)) {
+    if (Array.isArray(ruleList) && Array.isArray(transformResults)) {
       ruleList.forEach(function (replaceRule) {
         var found = transformResults.find(hasKeypaths({
           'rule._id': replaceRule._id
