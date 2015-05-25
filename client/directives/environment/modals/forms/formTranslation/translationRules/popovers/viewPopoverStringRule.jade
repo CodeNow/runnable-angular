@@ -31,14 +31,30 @@
         )
       .span-col →
       label.label-col Translate to
-        input.input.input-sm.monospace(
-          name = "toTextBox"
-          required
-          ng-model = "data.state.replace"
-          ng-change = "currentState.searched = false"
-          spellcheck = "false"
+        fancy-select(
+          type = "text"
+          value = "data.state.replace"
+          toggle-object = "data.state"
+          toggle-attribute = "showDropdown"
+          placeholder = "Translate to"
         )
-        button.btn.btn-sm.btn-icon.gray
+          fancy-option(
+            value = "'foo'"
+          ) Foo
+          fancy-option(
+            value = "'bar'"
+          ) Bar
+
+        //input.input.input-sm.monospace(
+        //  name = "toTextBox"
+        //  required
+        //  ng-model = "data.state.replace"
+        //  ng-change = "currentState.searched = false"
+        //  spellcheck = "false"
+        //)
+        button.btn.btn-sm.btn-icon.gray(
+          ng-click = "data.state.showDropdown = !data.state.showDropdown; $event.stopPropagation();"
+        )
           svg.iconnables
             use(
               xlink:href = "#icons-container-association"
