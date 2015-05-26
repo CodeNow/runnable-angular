@@ -163,7 +163,7 @@
     text-align: center;
   }
 
-  .spinner-wrapper {
+  .spinner-wrapper:not(.spinner-backdrop) {
     display: inline-block;
     height: 12px;
     margin-right: 6px;

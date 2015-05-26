@@ -191,6 +191,9 @@ function getCardInfoTypes(
           .join('\n');
       return wrapWithType(contents, self.type);
     };
+    this.clone = function () {
+      return new ContainerFile(contents);
+    };
   }
 
   function Repo(contents, opts){
@@ -236,6 +239,9 @@ function getCardInfoTypes(
           .join('\n');
       return wrapWithType(contents, self.type);
     };
+    this.clone = function () {
+      return new Repo(contents, opts);
+    };
   }
   return function () {
     return {
@@ -252,6 +258,7 @@ function parseDockerfileForCardInfoFromInstance(
   promisify,
   keypather,
   $q,
+  $log,
   fetchCommitData,
   cardInfoTypes
 ) {
@@ -272,7 +279,7 @@ function parseDockerfileForCardInfoFromInstance(
           isMainRepo: currentBlock[1] === 'Main Repo'
         }));
       } else {
-        console.log('Type "' + currentBlock[1] + '" not found.');
+        $log.error('Type "' + currentBlock[1] + '" not found.');
       }
       currentBlock = regex.exec(dockerfile);
     }

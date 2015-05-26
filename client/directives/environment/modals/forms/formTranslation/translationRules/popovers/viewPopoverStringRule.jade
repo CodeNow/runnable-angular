@@ -1,8 +1,8 @@
 .popover.popover-fixed.popover-rules(
   ng-class = "{in: active}"
-  ng-style = "popoverStyle.getStyle()"
   ng-form = "popoverRuleForm"
   ng-init = "currentState = {};"
+  ng-style = "popoverStyle.getStyle()"
 )
   .popover-content
 
@@ -10,8 +10,8 @@
     h3.popover-title {{ data.state._id ? '': 'New '}}String Replace Rule
       small.small 🐶 Rules are case-sensitive and trailing whitespace is not trimmed. Regular expressions are not supported. Or use an elastic URL to create an association.
       button.btn.btn-xs.gray(
-        ng-if = "data.state._id"
         ng-click = "actions.deleteRule(data.state)"
+        ng-if = "data.state._id"
       )
         svg.iconnables.icons-trash
           use(
@@ -24,38 +24,39 @@
       label.label-col Find string
         input.input.input-sm.monospace(
           name = "fromTextBox"
-          required
-          ng-model = "data.state.search"
           ng-change = "currentState.searched = false"
-          spellcheck = "false"
+          ng-model = "data.state.search"
+          required
           placeholder = "localhost:27017"
+          spellcheck = "false"
         )
       .span-col →
       label.label-col Translate to
         fancy-select.input.input-sm.monospace(
           name = "toTextBox"
-          type = "text"
           ng-required = "true"
-          value = "data.state.replace"
-          toggle-object = "currentState"
-          toggle-attribute = "showDropdown"
           placeholder = "sample-user.runnableapp.com:27017"
+          toggle-attribute = "showDropdown"
+          toggle-object = "currentState"
+          type = "text"
+          value = "data.state.replace"
         )
           li.list-item.popover-list-item.small(
             ng-click = "$event.stopPropagation()"
-          ) Select Elastic Hostname
+          ) Select hostname
           fancy-option.monospace(
             ng-repeat = "instance in $parent.data.parentData.instances.models | filter:$parent.$parent.data.instanceFilter()"
             value = "instance.getElasticHostname()"
           ) {{ $parent.instance.getElasticHostname() }}
         button.btn.btn-sm.btn-icon.gray(
-          ng-if = "data.parentData.instances.models.length > 1"
           ng-click = "currentState.showDropdown = !currentState.showDropdown; $event.stopPropagation();"
+          ng-if = "data.parentData.instances.models.length > 1"
+          title = "Show list of hostnames"
         )
           //^ check if greater than 1 to account for itself ^
           svg.iconnables
             use(
-              xlink:href = "#icons-container-association"
+              xlink:href = "#icons-server-link"
             )
 
     //- if association
@@ -65,19 +66,19 @@
 
     //- association verification table
     .table.table-diff(
-      ng-repeat = "diff in data.state.diffs"
       diff-display
       file-diff = "diff"
+      ng-repeat = "diff in data.state.diffs"
       rule = "data.state"
       state = "data.parentState"
     )
 
   .popover-footer.clearfix
     button.btn.green.btn-spinner(
-      ng-if = "!currentState.searched"
       ng-class = "{in: currentState.processing}"
       ng-click = "actions.performCheck(data.state, currentState)"
       ng-disabled = "!popoverRuleForm.$valid || popoverRuleForm.$pristine || currentState.processing"
+      ng-if = "!currentState.searched"
     )
       //- spinner
       .spinner-wrapper.spinner-sm.spinner-white.in(
@@ -86,8 +87,8 @@
       )
       span {{ currentState.processing ? 'Searching' : 'Search for matches' }}
     button.btn.green(
-      ng-if = "currentState.searched"
       ng-click = "actions.createRule(data.state)"
+      ng-if = "currentState.searched"
     ) {{ data.state._id ? 'Update': 'Create'}} rule
     button.btn.gray.btn-cancel(
       ng-click = "actions.cancel()"
