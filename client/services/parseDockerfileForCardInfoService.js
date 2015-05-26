@@ -179,6 +179,7 @@ function getCardInfoTypes(
     this.toString = function () {
       self.commands = self.commands || '';
       var contents = 'ADD ./' + self.name.trim() + ' /' + self.path.trim() + '\n'+
+        'WORKDIR /' + self.path.trim() + '\n'+
         self.commands
           .split('\n')
           .filter(function (command) {
@@ -215,6 +216,7 @@ function getCardInfoTypes(
       self.commands = self.commands || '';
       self.path = self.path || '';
       var contents = 'ADD ./' + self.name.trim() + ' /' + self.path.trim() + '\n'+
+        'WORKDIR /' + self.path.trim() + '\n'+
         self.commands
           .split('\n')
           .filter(function (command) {
