@@ -56,7 +56,7 @@
   .btn {
     float: right;
 
-    .icons-gear {
+    .icons-advanced {
       float: left;
       height: 100%;
       margin-right: 3px;
@@ -98,13 +98,13 @@
   // configure shortcut button
   > .btn {
     height: 33px;
-    opacity: .25;
+    opacity: .5;
     position: absolute;
     right: -12px;
     width: 30px;
     z-index: 1;
 
-    .icons-gear {
+    .iconnables {
       height: 17px;
       position: absolute;
       right: 9px;
@@ -113,12 +113,12 @@
     }
 
     &:hover {
-      opacity: .6;
+      opacity: .75;
     }
 
     &:active {
       color: $purple-light;
-      opacity: .9;
+      opacity: 1;
     }
   }
 }
