@@ -18,8 +18,10 @@ a.logo.logo-icon
       )
     | Containers
   a.btn.btn-sm.purple(
-    ng-class = "{'no-touching': !dataApp.data.activeAccount || !dataApp.isInstancePage}"
-    ui-sref-active = 'active'
+    ng-class = "{\
+      'active': dataApp.isConfigPage,\
+      'no-touching': !dataApp.data.activeAccount || dataApp.isConfigPage\
+    }"
     ui-sref = "config.home({ userName: dataApp.data.activeAccount.oauthName() })"
   )
     svg.iconnables
