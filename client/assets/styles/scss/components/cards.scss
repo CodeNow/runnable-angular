@@ -165,59 +165,55 @@
   padding: 15px;
 
   .input-toggle {
-    // height: 18px;
-    // margin-right: 6px;
-    // margin-top: 3px;
-    position: absolute;
     margin-left: -9999px;
+    position: absolute;
     visibility: hidden;
 
-    &:checked + .label-toggle::before {
-      background-color: #8ce196;
-    }
+    &:checked + .label-toggle {
+      background: $purple-light;
+      color: $purple-light;
 
-    &:checked + .label-toggle::after {
-      margin-left: 60px;
+      &::after {
+        left: 17px;
+        right: 1px;
+      }
+
+      &:active::after {
+        left: 15px;
+      }
     }
   }
 
   .label-toggle {
-    // float: left;
-    display: block;
-    position: relative;
-    cursor: pointer;
-    outline: none;
-    user-select: none;
-    //
-    padding: 2px;
-    width: 120px;
-    height: 60px;
-    background-color: #dddddd;
+    background: $gray;
+    color: $gray;
     border-radius: 60px;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: block;
+    height: 14px;
+    outline: none;
+    padding: 1px;
+    position: relative;
+    transition: all 0.4s;
+    user-select: none;
+    width: 30px;
 
-    &::before,
     &::after {
-      display: block;
-      position: absolute;
-      top: 1px;
-      left: 1px;
-      bottom: 1px;
+      background: #fff;
+      border-radius: 6px;
       content: "";
+      display: inline;
+      height: 12px;
+      left: 1px;
+      position: absolute;
+      right: 17px;
+      top: 1px;
+      transition: all .25s ease;
     }
 
-    &::before {
-      right: 1px;
-      background-color: #f1f1f1;
-      border-radius: 60px;
-      transition: background 0.4s;
-    }
-
-    &::after {
-      width: 58px;
-      background-color: #fff;
-      border-radius: 100%;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-      transition: margin 0.4s;
+    &:active::after {
+      right: 15px;
     }
   }
 

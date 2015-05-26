@@ -148,10 +148,10 @@ ul.card-body.load(
 
 .card-footer
   input.input-toggle(
-    id = "advanced-toggle"
+    id = "{{ (server.instance.getRepoName() || server.instance.attrs.name) }}"
     type = "checkbox"
   )
   label.label-toggle(
-    for = "advanced-toggle"
-  )
+    for = "{{ (server.instance.getRepoName() || server.instance.attrs.name) }}"
+  ) Advanced Mode
   .containers-count 15 Branch Containers
