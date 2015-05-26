@@ -12,14 +12,8 @@
   button.btn.btn-xs.orange.sub-header-action(
     ng-click = "triggerInstanceUpdateOnRepoCommitChange()"
     ng-if = "showUpdateButton()"
-    tooltip = "Update your container to see your changes"
-    tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
   )
-    svg.iconnables.icons-update
-      use(
-        xlink:href = "#icons-update"
-      )
-    | Update
+    | Confirm Changes
 
 ul.list.repository-group(
   ng-if = "!$storage.repoListIsClosed"

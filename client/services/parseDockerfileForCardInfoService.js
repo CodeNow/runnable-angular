@@ -191,12 +191,16 @@ function getCardInfoTypes(
           .join('\n');
       return wrapWithType(contents, self.type);
     };
+    this.clone = function () {
+      return new ContainerFile(contents);
+    };
   }
 
   function Repo(contents, opts){
     opts = opts || {};
     this.type = opts.isMainRepo ? 'Main Repo' : 'Repo';
     this.id = uuid.v4();
+    this.hasFindReplace = false;
 
     if (contents) {
       var commandList = contents.split('\n');
@@ -204,6 +208,10 @@ function getCardInfoTypes(
       this.name = commands[1].replace('./', '');
       this.path = commands[2].replace('/', '');
       commandList.splice(0, 2); //Remove the ADD and the WORKDIR
+      if(commandList[0] === 'RUN ./translation_rules.sh'){
+        this.hasFindReplace = true;
+        commandList.splice(0,1);
+      }
       this.commands = commandList.map(function (item) {
         return item.replace('RUN ', '');
       }).join('\n');
@@ -214,6 +222,9 @@ function getCardInfoTypes(
     var self = this;
     this.toString = function () {
       self.commands = self.commands || '';
+      if (self.hasFindReplace) {
+        self.commands.unshift('./translation_rules.sh');
+      }
       self.path = self.path || '';
       var contents = 'ADD ./' + self.name.trim() + ' /' + self.path.trim() + '\n'+
         'WORKDIR /' + self.path.trim() + '\n'+
@@ -227,6 +238,9 @@ function getCardInfoTypes(
           })
           .join('\n');
       return wrapWithType(contents, self.type);
+    };
+    this.clone = function () {
+      return new Repo(contents, opts);
     };
   }
   return function () {

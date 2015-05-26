@@ -18,7 +18,7 @@ function findLinkedServerVariables($state, configUserContentDomain) {
     };
     var linkMap = {};
     input.forEach(function (line, index) {
-      if (/=(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?/g.test(line)) {
+      if (/=[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?/ig.test(line)) {
         var result = {
           line: index + 1,
           url: line.split('=')[1]

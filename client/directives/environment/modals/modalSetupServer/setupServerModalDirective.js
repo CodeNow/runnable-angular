@@ -80,7 +80,7 @@ function setupServerModal(
               repo.path = $scope.state.dst.replace('/', '');
               repo.commands = commands;
 
-              $scope.state.server.containerFiles.push(repo);
+              $scope.state.containerFiles.push(repo);
 
               return populateDockerfile(
                 dockerfile,
