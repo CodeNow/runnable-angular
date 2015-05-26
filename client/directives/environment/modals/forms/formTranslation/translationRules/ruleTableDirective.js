@@ -29,7 +29,12 @@ require('app')
             parentData: $scope.data,
             parentState: $scope.state,
             state: {},
-            getMatchDisplay: $scope.getMatchDisplay
+            getMatchDisplay: $scope.getMatchDisplay,
+            instanceFilter: {
+              attrs: {
+                shortHash: '!' + $scope.state.server.instance.attrs.shortHash
+              }
+            }
           },
           actions: {
             cancel: function () {

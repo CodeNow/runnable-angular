@@ -24,6 +24,7 @@
           ng-model = "data.state.source"
           ng-change = "currentState.searched = false"
           spellcheck = "false"
+          placeholder = "index.html"
         )
       .span-col →
       label.label-col Destination
@@ -32,6 +33,7 @@
           ng-model = "data.state.dest"
           ng-change = "currentState.searched = false"
           spellcheck = "false"
+          placeholder = "index.prod.html"
         )
 
     small.small.table-details(
@@ -66,7 +68,7 @@
     button.btn.green(
       ng-if = "currentState.searched"
       ng-click = "actions.createRule(data.state)"
-    ) Create rule
+    ) {{ data.state._id ? 'Update': 'Create'}} rule
     button.btn.gray.btn-cancel(
       ng-click = "actions.cancel()"
     ) Cancel

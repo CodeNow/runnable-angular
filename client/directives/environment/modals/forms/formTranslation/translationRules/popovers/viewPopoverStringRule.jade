@@ -28,33 +28,30 @@
           ng-model = "data.state.search"
           ng-change = "currentState.searched = false"
           spellcheck = "false"
+          placeholder = "localhost:27017"
         )
       .span-col →
       label.label-col Translate to
-        fancy-select(
+        fancy-select.input.input-sm.monospace(
+          name = "toTextBox"
           type = "text"
+          ng-required = "true"
+          ng-change = "currentState.searched = false"
           value = "data.state.replace"
-          toggle-object = "data.state"
+          toggle-object = "currentState"
           toggle-attribute = "showDropdown"
-          placeholder = "Translate to"
+          placeholder = "sample-user.runnableapp.com:27017"
         )
-          fancy-option(
-            value = "'foo'"
-          ) Foo
-          fancy-option(
-            value = "'bar'"
-          ) Bar
-
-        //input.input.input-sm.monospace(
-        //  name = "toTextBox"
-        //  required
-        //  ng-model = "data.state.replace"
-        //  ng-change = "currentState.searched = false"
-        //  spellcheck = "false"
-        //)
+          li.list-item.popover-list-item.small Select Elastic Hostname
+          fancy-option.monospace(
+            ng-repeat = "instance in $parent.data.parentData.instances.models | filter:$parent.$parent.data.instanceFilter"
+            value = "instance.getElasticHostname()"
+          ) {{ $parent.instance.getElasticHostname() }}
         button.btn.btn-sm.btn-icon.gray(
-          ng-click = "data.state.showDropdown = !data.state.showDropdown; $event.stopPropagation();"
+          ng-if = "data.parentData.instances.models.length > 1"
+          ng-click = "currentState.showDropdown = !currentState.showDropdown; $event.stopPropagation();"
         )
+          //^ check if greater than 1 to account for itself ^
           svg.iconnables
             use(
               xlink:href = "#icons-container-association"
@@ -90,7 +87,7 @@
     button.btn.green(
       ng-if = "currentState.searched"
       ng-click = "actions.createRule(data.state)"
-    ) Create rule
+    ) {{ data.state._id ? 'Update': 'Create'}} rule
     button.btn.gray.btn-cancel(
       ng-click = "actions.cancel()"
     ) Cancel

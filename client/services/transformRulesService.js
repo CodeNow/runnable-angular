@@ -29,8 +29,8 @@ function parseDiffResponse(
   return function (fullDiff) {
     var totalParse = diffParse(fullDiff);
     var groupByLineNumbers = {};
-    return Object.keys(totalParse).map(function (fileKey) {
-      var parsed = totalParse[fileKey];
+    return totalParse.map(function (parsed) {
+      //var parsed = totalParse[fileKey];
       parsed.modifications.forEach(function (modification) {
         if (!groupByLineNumbers[modification.ln]) {
           groupByLineNumbers[modification.ln] = {
@@ -65,7 +65,7 @@ function createTransformRule(
     if (rule.action) {
       if (rule.oldRule) {
         rules[rule.action] = rules[rule.action].filter(function (needle) {
-          return needle._id === rule._id;
+          return needle._id !== rule.oldRule._id;
         });
       }
       rules[rule.action].push(rule);
@@ -164,7 +164,8 @@ function testReplaceTransformRule(
 }
 
 function populateRulesWithWarningsAndDiffs(
-  hasKeypaths
+  hasKeypaths,
+  parseDiffResponse
 ) {
   return function (ruleList, transformResults) {
     if (Array.isArray(ruleList) && Array.isArray(transformResults)) {
@@ -175,9 +176,10 @@ function populateRulesWithWarningsAndDiffs(
         if (found) {
           replaceRule.warnings = found.warnings;
           replaceRule.nameChanges = found.nameChanges;
-          replaceRule.diffs = parseDiffResponse(Object.keys(found.diffs).reduce(function (total, key) {
+          var combinedDiff = Object.keys(found.diffs).reduce(function (total, key) {
             return total + found.diffs[key];
-          }, ''));
+          }, '');
+          replaceRule.diffs = parseDiffResponse(combinedDiff);
         }
       });
       return ruleList;

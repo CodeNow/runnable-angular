@@ -30,7 +30,7 @@ require('app')
 
     $scope.getMatchDisplay = function (rule) {
       var totalMatches = null;
-      if (!rule.diffs) {
+      if (rule.diffs) {
         totalMatches = rule.diffs.reduce(function (total, diff) {
           return total + diff.changes.length;
         }, 0);

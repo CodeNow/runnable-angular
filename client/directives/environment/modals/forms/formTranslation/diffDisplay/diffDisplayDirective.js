@@ -17,11 +17,16 @@ require('app')
       link: function ($scope, element, attrs) {
         $scope.ignore = {
           toggleIgnoreFile: function (fileDiff) {
+            if (fileDiff.ignoring) { return; }
             var acv = keypather.get($scope, 'state.contextVersion.appCodeVersions.models[0]');
+            fileDiff.ignoring = true;
             if (acv) {
               var newArray = acv.attrs.transformRules.exclude.concat(fileDiff.from);
               createTransformRule(acv, newArray)
-                .then($scope.actions.recalculateRules);
+                .then($scope.actions.recalculateRules)
+                .finally(function () {
+                  fileDiff.ignoring = false;
+                });
             }
           },
           checkFileIgnored: function (fileDiff) {
