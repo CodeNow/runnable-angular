@@ -56,6 +56,4 @@ function populateDockerfile(
       }
     });
   };
-
-
 }

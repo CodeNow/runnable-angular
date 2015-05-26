@@ -38,7 +38,7 @@ ul.table-drag-drop(
       ) {{ containerFile.path }}
     .cell.text-overflow(
       ng-if = "containerFile.type === 'Repo' || containerFile.type === 'Main Repo'"
-      ng-click = "containerFile.type === 'Main Repo' || triggerEditRepo(containerFile)"
+      ng-click = "triggerEditRepo(containerFile)"
       title = "{{ containerFile.name }}"
     ) {{ containerFile.name }}
       small.small(
