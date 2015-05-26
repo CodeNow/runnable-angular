@@ -33,9 +33,9 @@ require('app')
           var files = 0;
           $scope.server.containerFiles = $scope.server.containerFiles || [];
           $scope.server.containerFiles.forEach(function (containerFile) {
-            if (containerFile.type === 'Repo') {
+            if (containerFile.type === 'Repository') {
               repos += 1;
-            } else if (containerFile.type === 'Container File') {
+            } else if (containerFile.type === 'File') {
               files += 1;
             }
           });

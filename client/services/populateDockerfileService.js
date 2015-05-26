@@ -28,7 +28,7 @@ function populateDockerfile(
         keypather.get(state, 'contextVersion.appCodeVersions.models[0].attrs.transformRules.exclude.length')
       ) {
         var mainRepo = state.server.allSections.find(function (section) {
-          return section.type === 'Main Repo';
+          return section.type === 'Main Repository';
         });
         mainRepo.hasFindReplace = true;
       }
