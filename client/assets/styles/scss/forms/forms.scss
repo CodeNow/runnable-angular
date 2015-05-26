@@ -53,17 +53,13 @@
     text-align: right;
 
     .small.small {
+      color: $gray;
       margin: 0;
     }
   }
 
   .spinner-wrapper {
-    animation: none !important;
-    float: right;
-    height: 12px;
-    margin-left: 6px;
     margin-top: 5px;
-    width: 12px;
   }
 }
 
