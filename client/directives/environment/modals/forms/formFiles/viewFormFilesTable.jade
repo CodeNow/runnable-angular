@@ -12,6 +12,7 @@ ul.table-drag-drop(
     dnd-draggable = "containerFile.id"
     dnd-dragstart = "actions.dragstart()"
     dnd-effect-allowed = "move"
+    ng-class = "{ disabled: containerFile.type === 'Main Repo' }"
     ng-repeat = "containerFile in state.containerFiles"
   )
     .cell.cell-action(

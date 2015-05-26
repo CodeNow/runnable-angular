@@ -58,6 +58,7 @@ function editServerModal(
       };
 
       $scope.triggerEditRepo = function (repo) {
+        if (repo.type === 'Main Repo') { return; }
         $scope.repositoryPopover.data.repoObj = repo;
         $scope.repositoryPopover.data.fromServer = true;
         $scope.repositoryPopover.data.repo = repo.repo;
@@ -298,12 +299,16 @@ function editServerModal(
           opts: {
             env: keypather.get(server, 'opts.env')
           },
-          containerFiles: server.containerFiles.map(function (model) {
-            return model.clone();
-          }),
           repo: server.repo,
           server: server
         };
+
+        watchWhenTruthyPromise($scope, 'server.containerFiles')
+          .then(function (containerFiles) {
+            $scope.state.containerFiles = containerFiles.map(function (model) {
+              return model.clone();
+            });
+          });
 
         if (server.repo) {
           $scope.branches = server.repo.branches;
