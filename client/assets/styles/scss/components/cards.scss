@@ -151,8 +151,8 @@
 }
 
 .card-status {
-  border-radius: 3px;
   border: 1px solid rgba($white,0);
+  border-radius: 3px;
   color: $gray;
   display: inline-block;
   font-size: 14px;
@@ -164,9 +164,8 @@
   // warning icon for failed state
   .iconnables {
     float: left;
-    margin-right: 4px;
-    top: 1px;
-    width: 14px;
+    height: 30px;
+    width: 21px;
   }
 
   &.failed {
