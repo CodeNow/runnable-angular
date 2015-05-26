@@ -36,7 +36,7 @@ label.label.clearfix
     //- we only have suggestions for build commands on the main repository
     textarea.textarea.monospace(
       ng-disabled = "startCommandCanDisable && !state.selectedStack"
-      ng-model = "state.commands"
+      ng-model = "data.mainRepo.commands"
       placeholder = "Build commands"
       spellcheck = "false"
     )
