@@ -118,7 +118,7 @@ function fileTreeDir(
           return false;
         }
 
-        var newModel = $scope.fileModel['new' + modelType](modelId, { warn: false, noStore: true });
+        var newModel = $scope.fileModel['new' + modelType](modelId, { warn: false });
         var droppedFileOrigDir =
             $scope.fileModel.newDir(oldParentDirId, { warn: false, noStore: true });
 
