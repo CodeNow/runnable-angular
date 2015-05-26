@@ -8,7 +8,7 @@ a.logo.logo-icon
   a.btn.btn-sm.purple(
     ng-class = "{\
       active: dataApp.isInstancePage,\
-      'no-touching': !dataApp.data.activeAccount\
+      'no-touching': !dataApp.data.activeAccount || dataApp.isInstancePage\
     }"
     ui-sref = "instance.home({ userName: dataApp.data.activeAccount.oauthName() })"
   )
@@ -18,7 +18,7 @@ a.logo.logo-icon
       )
     | Containers
   a.btn.btn-sm.purple(
-    ng-class = "{'no-touching': !dataApp.data.activeAccount}"
+    ng-class = "{'no-touching': !dataApp.data.activeAccount || !dataApp.isInstancePage}"
     ui-sref-active = 'active'
     ui-sref = "config.home({ userName: dataApp.data.activeAccount.oauthName() })"
   )
