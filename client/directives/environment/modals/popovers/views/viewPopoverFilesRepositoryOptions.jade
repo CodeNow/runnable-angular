@@ -12,7 +12,7 @@
   //- if editing an existing repository
   //- this button is empty on purpose
   button.btn.btn-sm.pull-right.no-touching(
-    ng-if = "false"
+    ng-if = "data.fromServer"
   )
   strong.strong.text-overflow {{ data.name }}
   //- this button is empty on purpose
@@ -50,10 +50,11 @@
       small.small Commands to be executed when your container is built and before it is launched.
 
   //- not shown if new repo
-  button.btn.btn-xs.orange(
-    ng-if = "data.fromServer && data.repoObj.type !== 'Main Repo'"
-    ng-click = "actions.remove()"
-  ) Remove Repository
+  label.label
+    button.btn.btn-xs.orange(
+      ng-click = "actions.remove()"
+      ng-if = "data.fromServer && data.repoObj.type !== 'Main Repo'"
+    ) Remove Repository
 
 .popover-footer.clearfix
   button.btn.btn-sm.green(
