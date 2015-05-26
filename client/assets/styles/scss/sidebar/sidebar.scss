@@ -4,7 +4,7 @@
   border-right: 1px solid $gray-lighter;
   display: flex;
   flex-direction: column;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   height: calc(100vh - 60px);
   line-height: 24px;
@@ -36,8 +36,8 @@
   }
 
   .icons-status {
+    left: 12px;
     position: absolute;
-    right: 15px;
     top: 12px;
   }
 }
@@ -47,6 +47,7 @@
 }
 
 .row-heading {
+  font-size: 14px;
   height: 60px;
   padding: 19px 12px 0;
   position: relative;
@@ -87,19 +88,48 @@
 
 .server-category-list-item {
   border-bottom: 1px solid $gray-lighter; // lines below categories
-  padding: 15px 0 13px;
+  padding: 15px 0;
+  position: relative;
 
   &:first-child {
     border-top: 1px solid $gray-lighter; // line above first category
+  }
+
+  // configure shortcut button
+  > .btn {
+    height: 33px;
+    opacity: .25;
+    position: absolute;
+    right: -12px;
+    width: 30px;
+    z-index: 1;
+
+    .icons-gear {
+      height: 17px;
+      position: absolute;
+      right: 9px;
+      top: 8px;
+      width: 17px;
+    }
+
+    &:hover {
+      opacity: .6;
+    }
+
+    &:active {
+      color: $purple-light;
+      opacity: .9;
+    }
   }
 }
 
 .server-list-item {
   cursor: pointer;
   display: block;
-  height: 34px;
+  height: 33px;
+  line-height: 31px;
   margin: 0 -12px;
-  padding: 4px 9px 0 30px;
+  padding: 0 9px 0 30px;
   position: relative;
 
   &:hover {
@@ -122,13 +152,5 @@
     .branch-name {
       color: $purple-light;
     }
-  }
-
-  .iconnables {
-    height: 17px;
-    left: 12px;
-    position: absolute;
-    top: 7px;
-    width: 17px;
   }
 }

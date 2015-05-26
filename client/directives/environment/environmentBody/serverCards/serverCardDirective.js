@@ -13,7 +13,8 @@ require('app')
     helpCards,
     fetchStackAnalysis,
     $anchorScroll,
-    $location
+    $location,
+    $state
   ) {
     return {
       restrict: 'A',
@@ -44,6 +45,11 @@ require('app')
           $scope.server.opts = {
             env: instance.attrs.env
           };
+
+          if ($state.params.instanceName === $scope.server.instance.attrs.name ){
+            scrollIntoView();
+          }
+
           if (instance.contextVersion) {
             $scope.server.building = true;
             $scope.server.contextVersion = instance.contextVersion;
