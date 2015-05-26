@@ -49,7 +49,12 @@ require('app')
           } else if (files) {
             messages.push(files + ' Files');
           }
-          return messages.join('; ');
+
+          if(messages.length){
+            return messages.join('; ');
+          }
+          return 'no container files';
+
         };
         $scope.helpCards = helpCards;
         $scope.server = {};
