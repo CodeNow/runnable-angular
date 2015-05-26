@@ -151,15 +151,15 @@
 }
 
 .card-status {
-  height: 30px;
-  padding: 0 24px;
-  display: inline-block;
-  color: $gray;
-  font-size: 14px;
-  font-weight: 400;
   border-radius: 3px;
   border: 1px solid rgba($white,0);
+  color: $gray;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  height: 30px;
   line-height: 27px;
+  padding: 0 24px;
 
   // warning icon for failed state
   .iconnables {
@@ -191,82 +191,84 @@
   }
 }
 
+// Advanced Mode toggle and container count
 .card-footer {
   color: $gray;
   font-size: 14px;
   font-weight: 400;
   padding: 12px 15px;
+}
 
-  .input-toggle {
-    margin-left: -9999px;
-    position: absolute;
-    visibility: hidden;
+// fancy toggle (replaces checkbox)
+.input-toggle {
+  margin-left: -9999px;
+  position: absolute;
+  visibility: hidden;
 
-    &:checked + .label-toggle {
-      background: rgba($purple-light,.93);
-      color: rgba($purple-light,.93);
+  // purple styling when advanced mode is on
+  &:checked + .label-toggle {
+    background: rgba($purple-light,.9);
+    color: rgba($purple-light,.9);
 
-      &::after {
-        left: 17px;
-        right: 1px;
-      }
-
-      &:active::after {
-        left: 15px;
-      }
-    }
-  }
-
-  .label-toggle {
-    background: $gray;
-    color: $gray;
-    border-radius: 60px;
-    box-sizing: border-box;
-    cursor: pointer;
-    display: block;
-    float: left;
-    height: 14px;
-    outline: none;
-    top: 1px;
-    padding: 1px;
-    position: relative;
-    transition: all .3s;
-    user-select: none;
-    width: 30px;
-
+    // position of switch when advanced mode is on
     &::after {
-      background: $white;
-      border-radius: 6px;
-      content: "";
-      display: inline;
-      height: 12px;
-      left: 1px;
-      position: absolute;
-      right: 17px;
-      top: 1px;
-      transition: all .3s;
+      left: 15px;
+      right: 1px;
     }
 
+    // affects switch width during active state
     &:active::after {
-      right: 15px;
-    }
-
-    .label-text {
-      display: block;
-      left: 33px;
-      position: relative;
-      top: -2px;
-      width: 120px;
+      left: 13px;
     }
   }
+}
 
+// toggle background
+.label-toggle {
+  background: $gray;
+  border-radius: 7px;
+  color: $gray;
+  cursor: pointer;
+  float: left;
+  height: 13px;
+  position: relative;
+  top: 2px;
+  transition: all .25s;
+  width: 27px;
+
+  // white switch inside toggle
+  &::after {
+    background: $white;
+    border-radius: 6px;
+    content: '';
+    display: inline;
+    height: 11px;
+    left: 1px;
+    position: absolute;
+    right: 15px;
+    top: 1px;
+    transition: all .25s;
+  }
+
+  // affects switch width during active state
+  &:active::after {
+    right: 13px;
+  }
+
+  // toggle is locked for non-repo cards
   &.no-touching {
     opacity: .6;
   }
+}
 
-  .containers-count {
-    float: right;
-  }
+.label-text {
+  left: 33px;
+  position: relative;
+  top: -2px;
+}
+
+.containers-count {
+  float: right;
 }
 
 // body
