@@ -51,7 +51,7 @@
 
   //- not shown if new repo
   button.btn.btn-xs.orange(
-    ng-if = "data.fromServer"
+    ng-if = "data.fromServer && data.repoObj.type !== 'Main Repo'"
     ng-click = "actions.remove()"
   ) Remove Repository
 

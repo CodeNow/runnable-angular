@@ -30,10 +30,12 @@ require('app')
             parentState: $scope.state,
             state: {},
             getMatchDisplay: $scope.getMatchDisplay,
-            instanceFilter: {
-              attrs: {
-                shortHash: '!' + $scope.state.server.instance.attrs.shortHash
-              }
+            instanceFilter: function () {
+              return {
+                attrs: {
+                  shortHash: '!' + $scope.state.server.instance.attrs.shortHash
+                }
+              };
             }
           },
           actions: {

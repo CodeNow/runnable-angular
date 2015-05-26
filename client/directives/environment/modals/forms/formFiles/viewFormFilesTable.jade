@@ -15,6 +15,10 @@ ul.table-drag-drop(
     ng-repeat = "containerFile in server.containerFiles"
   )
     .cell.cell-action(
+      ng-class = "{\
+        disabled: server.containerFiles.length < 2,\
+        'no-touching': server.containerFiles.length < 2\
+      }"
       dnd-handle
     )
       svg.iconnables.icons-drag
@@ -34,7 +38,7 @@ ul.table-drag-drop(
       ) {{ containerFile.path }}
     .cell.text-overflow(
       ng-if = "containerFile.type === 'Repo' || containerFile.type === 'Main Repo'"
-      ng-click = "triggerEditRepo(containerFile)"
+      ng-click = "containerFile.type === 'Main Repo' || triggerEditRepo(containerFile)"
       title = "{{ containerFile.name }}"
     ) {{ containerFile.name }}
       small.small(

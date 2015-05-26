@@ -65,6 +65,7 @@ function editServerModal(
         $scope.repositoryPopover.data.commit = repo.commit;
         $scope.repositoryPopover.data.commands = repo.commands;
         $scope.repositoryPopover.data.path = repo.path;
+        $scope.repositoryPopover.data.name = repo.name;
         $scope.repositoryPopover.data.state.view = 2;
         $scope.repositoryPopover.active = true;
 

@@ -168,7 +168,7 @@ function getCardInfoTypes(
 
       this.name = commands[1].replace('./', '');
       this.path = commands[2].replace('/', '');
-      commandList.splice(0,1);
+      commandList.splice(0, 2); //Remove the ADD and the WORKDIR
       this.commands = commandList.map(function (item) {
         return item.replace('RUN ', '');
       }).join('\n');
@@ -203,7 +203,7 @@ function getCardInfoTypes(
       var commands = /^ADD ((?:\\\s|[^\s])*) ((?:\\\s|[^\s])*)/.exec(commandList[0]);
       this.name = commands[1].replace('./', '');
       this.path = commands[2].replace('/', '');
-      commandList.splice(0,1);
+      commandList.splice(0, 2); //Remove the ADD and the WORKDIR
       this.commands = commandList.map(function (item) {
         return item.replace('RUN ', '');
       }).join('\n');
