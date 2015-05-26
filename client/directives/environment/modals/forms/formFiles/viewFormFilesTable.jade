@@ -5,19 +5,19 @@
   .cell.cell-type Type
 //- main repo is not actionable
 ul.table-drag-drop(
-  dnd-list = "server.containerFiles"
+  dnd-list = "state.containerFiles"
   dnd-drop = "dropContainerFile(event, index, item, type)"
 )
   li.tr.tr-action.multi-line.clearfix(
     dnd-draggable = "containerFile.id"
     dnd-dragstart = "actions.dragstart()"
     dnd-effect-allowed = "move"
-    ng-repeat = "containerFile in server.containerFiles"
+    ng-repeat = "containerFile in state.containerFiles"
   )
     .cell.cell-action(
       ng-class = "{\
-        disabled: server.containerFiles.length < 2,\
-        'no-touching': server.containerFiles.length < 2\
+        disabled: state.containerFiles.length < 2,\
+        'no-touching': state.containerFiles.length < 2\
       }"
       dnd-handle
     )
@@ -38,7 +38,7 @@ ul.table-drag-drop(
       ) {{ containerFile.path }}
     .cell.text-overflow(
       ng-if = "containerFile.type === 'Repo' || containerFile.type === 'Main Repo'"
-      ng-click = "containerFile.type === 'Main Repo' || triggerEditRepo(containerFile)"
+      ng-click = "triggerEditRepo(containerFile)"
       title = "{{ containerFile.name }}"
     ) {{ containerFile.name }}
       small.small(

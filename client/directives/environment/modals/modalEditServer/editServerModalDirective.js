@@ -77,7 +77,7 @@ function editServerModal(
       $scope.triggerAddRepository = function () {
         $scope.repositoryPopover.data.fromServer = false;
         $scope.repositoryPopover.data.state.view = 1;
-        $scope.repositoryPopover.data.containerFiles = $scope.state.server.containerFiles;
+        $scope.repositoryPopover.data.containerFiles = $scope.state.containerFiles;
         $scope.repositoryPopover.active = true;
 
         fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
@@ -93,12 +93,12 @@ function editServerModal(
 
       $scope.dropContainerFile = function (event, newIndex, containerFileId) {
         var currentIndex = 0;
-        var containerFile = $scope.state.server.containerFiles.find(function (containerFile, index) {
+        var containerFile = $scope.state.containerFiles.find(function (containerFile, index) {
           currentIndex = index;
           return containerFile.id === containerFileId;
         });
-        $scope.state.server.containerFiles.splice(currentIndex, 1);
-        $scope.state.server.containerFiles.splice(newIndex, 0, containerFile);
+        $scope.state.containerFiles.splice(currentIndex, 1);
+        $scope.state.containerFiles.splice(newIndex, 0, containerFile);
       };
 
       $scope.repositoryPopover = {
@@ -113,7 +113,7 @@ function editServerModal(
             promisify(acv, 'destroy')()
               .catch(errs.handler);
 
-            $scope.state.server.containerFiles.splice($scope.state.server.containerFiles.indexOf(repo), 1);
+            $scope.state.containerFiles.splice($scope.state.containerFiles.indexOf(repo), 1);
 
             $rootScope.$broadcast('close-popovers');
           },
@@ -175,7 +175,7 @@ function editServerModal(
             } else {
               var Repo = cardInfoTypes().Repo;
               myRepo = new Repo();
-              $scope.state.server.containerFiles.push(myRepo);
+              $scope.state.containerFiles.push(myRepo);
 
               promisify($scope.state.contextVersion.appCodeVersions, 'create', true)({
                 repo: $scope.repositoryPopover.data.repo.attrs.full_name,
@@ -238,7 +238,7 @@ function editServerModal(
               }
               myFile.commands = containerFile.commands;
               myFile.path = containerFile.path;
-              $scope.state.server.containerFiles.push(myFile);
+              $scope.state.containerFiles.push(myFile);
             }
             // Push to parent container files
             $rootScope.$broadcast('close-popovers');
@@ -262,7 +262,7 @@ function editServerModal(
                 .catch(errs.handler);
             }
 
-            $scope.state.server.containerFiles.splice($scope.state.server.containerFiles.indexOf(containerFile), 1);
+            $scope.state.containerFiles.splice($scope.state.containerFiles.indexOf(containerFile), 1);
           }
         },
         data: {}
@@ -298,6 +298,9 @@ function editServerModal(
           opts: {
             env: keypather.get(server, 'opts.env')
           },
+          containerFiles: server.containerFiles.map(function (model) {
+            return model.clone();
+          }),
           repo: server.repo,
           server: server
         };
