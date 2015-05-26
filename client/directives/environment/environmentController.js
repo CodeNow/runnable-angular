@@ -24,8 +24,10 @@ function EnvironmentController(
   $q,
   user,
   helpCards,
-  $window
+  $window,
+  $state
 ) {
+  $scope.$state = $state;
   favico.reset();
   pageName.setTitle('Configure - Runnable');
   $scope.data = {
