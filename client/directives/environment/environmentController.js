@@ -99,8 +99,10 @@ function EnvironmentController(
       $rootScope.$broadcast('close-popovers');
       $timeout(function () {
         if (confirm('Are you sure you want to delete this container?')) {
-          helpCards.refreshAllCards();
           promisify(server.instance, 'destroy')()
+            .then(function () {
+              helpCards.refreshAllCards();
+            })
             .catch(errs.handler);
         }
       });
@@ -116,6 +118,8 @@ function EnvironmentController(
         }
       }, { warn: false });
       $scope.data.instances.add(instance);
+
+      helpCards.hideActiveCard();
 
       $rootScope.$broadcast('alert', {
         type: 'success',
