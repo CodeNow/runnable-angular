@@ -35,7 +35,7 @@ function tooltip(
       $scope.toolTip.getStyle = function () {
         var rect = element[0].getBoundingClientRect();
         return {
-          'top': (rect.top + options.top) + 'px',
+          'top': (rect.top + options.top + $document.find('body')[0].scrollTop) + 'px',
           'left': (rect.left + options.left) + 'px'
         };
       };

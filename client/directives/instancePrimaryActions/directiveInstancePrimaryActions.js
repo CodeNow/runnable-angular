@@ -32,6 +32,12 @@ function instancePrimaryActions(
 
       $scope.saving = false;
 
+      $scope.canSave = function () {
+        return !!$scope.openItems.models.find(function (model) {
+          return model.state.isDirty;
+        });
+      };
+
       $scope.saveChanges = function () {
         $scope.saving = true;
         var stopSavingCb = callbackCount(2, function () {
@@ -57,7 +63,7 @@ function instancePrimaryActions(
       };
 
       function modInstance(action, opts) {
-        $scope.saving = true;
+        $scope.modifyingInstance = true;
         $scope.starting = action === 'start';
 
         $scope.$broadcast('close-popovers');
@@ -68,7 +74,7 @@ function instancePrimaryActions(
           }).catch(
           errs.handler
         ).finally(function () {
-            $scope.saving = false;
+            $scope.modifyingInstance = false;
           });
       }
 
