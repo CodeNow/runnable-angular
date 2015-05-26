@@ -72,7 +72,7 @@ form.modal-dialog.modal-edit(
       button.btn.btn-radio(
         ng-class = "{active: selectedTab === 'files'}"
         ng-click = "changeTab('files')"
-        ng-if = "state.repo"
+        ng-if = "state.repo && !state.advanced"
       )
         svg.iconnables
           use(
