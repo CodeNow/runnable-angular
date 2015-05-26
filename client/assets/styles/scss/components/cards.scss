@@ -33,7 +33,7 @@
 
     .card-header {
       justify-content: center;
-      // text-align: center;
+      text-align: center;
     }
 
     .img {
@@ -131,7 +131,7 @@
   padding: 12px 15px 15px;
   text-align: center;
 
-  span {
+  .card-title {
     cursor: pointer;
 
      &:hover {
@@ -144,9 +144,9 @@
   }
 
   .icons-arrow-down {
-    height: 18px;
-    top: 2px;
-    width: 18px;
+    height: 21px;
+    top: 3px;
+    width: 21px;
   }
 }
 
@@ -169,7 +169,6 @@
   }
 
   &.failed {
-    //TODO: variable-ize these
     background-color: $orange-lightest;
     border-color: rgba($orange-darker,.25);
     color: rgba($orange-darker,.6);
