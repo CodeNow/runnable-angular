@@ -183,15 +183,68 @@
   color: $gray;
   font-size: 14px;
   font-weight: 400;
-  padding: 9px 15px;
+  padding: 12px 15px;
 
-  .label-checkbox {
+  .input-toggle {
+    margin-left: -9999px;
+    position: absolute;
+    visibility: hidden;
+
+    &:checked + .label-toggle {
+      background: $purple-light;
+      color: $purple-light;
+
+      &::after {
+        left: 17px;
+        right: 1px;
+      }
+
+      &:active::after {
+        left: 15px;
+      }
+    }
+  }
+
+  .label-toggle {
+    background: $gray;
+    color: $gray;
+    border-radius: 60px;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: block;
     float: left;
+    height: 14px;
+    outline: none;
+    top: 1px;
+    padding: 1px;
+    position: relative;
+    transition: all .25s ease;
+    user-select: none;
+    width: 30px;
 
-    .input-checkbox {
-      height: 18px;
-      margin-right: 6px;
-      margin-top: 3px;
+    &::after {
+      background: $white;
+      border-radius: 6px;
+      content: "";
+      display: inline;
+      height: 12px;
+      left: 1px;
+      position: absolute;
+      right: 17px;
+      top: 1px;
+      transition: all .25s ease;
+    }
+
+    &:active::after {
+      right: 15px;
+    }
+
+    .label-text {
+      display: block;
+      left: 33px;
+      position: relative;
+      top: -2px;
+      width: 120px;
     }
   }
 
