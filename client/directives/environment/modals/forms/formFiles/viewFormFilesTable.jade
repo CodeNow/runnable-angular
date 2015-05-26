@@ -8,11 +8,14 @@ ul.table-drag-drop(
   dnd-list = "state.containerFiles"
   dnd-drop = "dropContainerFile(event, index, item, type)"
 )
-  li.tr.tr-action.multi-line.clearfix(
+  li.tr.multi-line.clearfix(
     dnd-draggable = "containerFile.id"
     dnd-dragstart = "actions.dragstart()"
     dnd-effect-allowed = "move"
-    ng-class = "{ disabled: containerFile.type === 'Main Repo' }"
+    ng-class = "{\
+      disabled: containerFile.type === 'Main Repo',\
+      'tr-action': containerFile.type !== 'Main Repo'\
+    }"
     ng-repeat = "containerFile in state.containerFiles"
   )
     .cell.cell-action(
@@ -36,7 +39,7 @@ ul.table-drag-drop(
     ) {{ containerFile.name }}
       small.small(
         title = "{{ containerFile.path }}"
-      ) {{ containerFile.path }}
+      ) /{{ containerFile.path }}
     .cell.text-overflow(
       ng-if = "containerFile.type === 'Repo' || containerFile.type === 'Main Repo'"
       ng-click = "triggerEditRepo(containerFile)"
@@ -44,7 +47,7 @@ ul.table-drag-drop(
     ) {{ containerFile.name }}
       small.small(
         title = "{{ containerFile.path }}"
-      ) {{ containerFile.path }}
+      ) /{{ containerFile.path }}
     .cell.cell-type.small
       svg.iconnables(
         ng-if = "containerFile.type === 'Container File'"
