@@ -98,9 +98,9 @@ function helpCardsFactory(
         'targets': [
           'newContainer'
         ],
-        'helpTop': 'Click on <b>New Container</b> to add a <b>{{dependency}}</b> service.',
+        'helpTop': 'Click on the <b>New Container</b> button to add a <b>{{dependency}}</b> service.',
         'helpPopover': {
-          'newContainer': 'Click on <b>Non-repository</b> to add a <b>{{dependency}}</b> service.'
+          'newContainer': 'Click <b>Non-repository</b> to add a <b>{{dependency}}</b> service.'
         }
       }
     ]
