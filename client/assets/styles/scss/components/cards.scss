@@ -230,7 +230,7 @@
     top: 1px;
     padding: 1px;
     position: relative;
-    transition: all .25s ease;
+    transition: all .3s;
     user-select: none;
     width: 30px;
 
@@ -244,7 +244,7 @@
       position: absolute;
       right: 17px;
       top: 1px;
-      transition: all .25s ease;
+      transition: all .3s;
     }
 
     &:active::after {
