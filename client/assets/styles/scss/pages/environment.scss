@@ -128,7 +128,7 @@
       }
     }
 
-    @include media(xs) {
+    @media (max-width: 690px) {
       width: 100%;
 
       // on the 6th card + 5 thereafter
