@@ -57,9 +57,11 @@ function editServerModal(
         tags: new JSTagsCollection(($scope.server.ports || '').split(' '))
       };
 
-      $scope.data.mainRepo = $scope.server.containerFiles.find(hasKeypaths({
-        type: 'Main Repository'
-      }));
+      if (keypather.get($scope, 'server.containerFiles')) {
+        $scope.data.mainRepo = $scope.server.containerFiles.find(hasKeypaths({
+          type: 'Main Repository'
+        }));
+      }
 
       $scope.triggerEditRepo = function (repo) {
         if (repo.type === 'Main Repository') { return; }
