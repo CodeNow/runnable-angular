@@ -203,8 +203,8 @@
     visibility: hidden;
 
     &:checked + .label-toggle {
-      background: rgba($purple-light,.9);
-      color: rgba($purple-light,.9);
+      background: rgba($purple-light,.93);
+      color: rgba($purple-light,.93);
 
       &::after {
         left: 17px;
