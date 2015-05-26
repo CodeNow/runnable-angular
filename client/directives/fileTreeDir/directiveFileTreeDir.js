@@ -40,6 +40,10 @@ function fileTreeDir(
       $scope.editFileName = false;
       $scope.data = {};
 
+      $scope.normalizeRepoNames = function (repo) {
+        return repo.replace(/[a-zA-Z0-9]+\//, '');
+      };
+
 
       $scope.actions.shouldCloseFolderNameInput = function (event) {
         if (event.keyCode === 13) {
