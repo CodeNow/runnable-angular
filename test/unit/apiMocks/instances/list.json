@@ -2,6 +2,7 @@
   {
     "_id": "54bebef2d8d6450e00b86607",
     "name": "asd",
+    "masterPod": true,
     "owner": {
       "username": "SomeKittens",
       "github": 1616464
@@ -339,6 +340,7 @@
   {
     "_id": "54bebe90d8d6450e00b865d7",
     "name": "1",
+    "masterPod": true,
     "owner": {
       "username": "SomeKittens",
       "github": 1616464
@@ -662,6 +664,7 @@
   {
     "_id": "54c02c4bd961210e002a131f",
     "name": "rep",
+    "masterPod": true,
     "owner": {
       "username": "SomeKittens",
       "github": 1616464
@@ -806,6 +809,7 @@
   {
     "_id": "54c97179ba46fc0e00f20994",
     "name": "node_hello_world",
+    "masterPod": true,
     "owner": {
       "username": "SomeKittens",
       "github": 1616464
@@ -1258,6 +1262,7 @@
     "dependencies": {
       "54c97179ba46fc0e00f20994": {
         "name": "node_hello_world",
+        "masterPod": true,
         "lowerName": "node_hello_world",
         "owner": {
           "github": 1616464
@@ -1268,6 +1273,7 @@
     },
     "_id": "54c9718dba46fc0e00f209b3",
     "name": "commonality",
+    "masterPod": true,
     "owner": {
       "username": "SomeKittens",
       "github": 1616464
@@ -1681,6 +1687,7 @@
   {
     "_id": "54cbe3f6c4ff880f0067a8df",
     "name": "FON",
+    "masterPod": true,
     "owner": {
       "username": "SomeKittens",
       "github": 1616464

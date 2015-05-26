@@ -15,19 +15,14 @@
 
   // search
   .input-search {
-    background-color: $white;
-    background-position: calc(50% - 52px) 8px;
-    border-width: 1px;
-    color: $gray;
-    line-height: 30px;
-    padding-left: calc(50% - 42px);
-    width: 100%;
+    background-position: calc(50% - 45px) center;
+    margin-bottom: 15px;
+    padding-left: calc(50% - 48px);
+    width: calc(100% - 30px);
 
     &:focus,
     &:valid {
-      background-position: 8px;
-      border-color: $green;
-      padding-left: 30px;
+      background-position: 8px center;
     }
   }
 }
