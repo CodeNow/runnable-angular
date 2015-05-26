@@ -6,7 +6,9 @@ var $scope;
 var $elScope;
 var $rootScope;
 var instances = require('../apiMocks').instances;
-var runnable = new (require('runnable'))(window.host);
+var clone = require('101/clone');
+var apiOpts = clone(require('../../../client/config/json/api.json'));
+var runnable = new (require('runnable'))(window.host, apiOpts);
 var mockGetInstanceMaster = require('../fixtures/mockGetInstanceMaster');
 
 // Skipping until we bring this directive back (Kahn)
@@ -58,8 +60,8 @@ describe('directiveDnsManager'.bold.underline.blue, function() {
       childInstances.models[1].attrs.parent = instance.attrs.shortHash;
 
 
-      childInstances.models[0].destroy = sinon.spy();
-      childInstances.models[1].destroy = sinon.spy();
+      childInstances.models[0].update = sinon.spy();
+      childInstances.models[1].update = sinon.spy();
 
       masterChildMapping[instance.attrs.shortHash] = childInstances.models;
 
@@ -85,20 +87,12 @@ describe('directiveDnsManager'.bold.underline.blue, function() {
 
     $rootScope.$apply();
 
-    // Make sure we can fetch the dependencies of the master instance
-    masterPods[0].fetchDependencies = sinon.mock().returns({
-      models: [
-        masterPods[1],
-        masterChildMapping[masterPods[2].attrs.shortHash][1]
-      ]
-    });
-
     // Setup our instance to be a child of the master instance
     $scope.instance = masterChildMapping[masterPods[0].attrs.shortHash][0];
 
     // Setup our instance dependency override
     var instanceDependency = masterChildMapping[masterPods[1].attrs.shortHash][1];
-    instanceDependency.destroy = sinon.spy();
+    instanceDependency.update = sinon.spy();
     instanceDependencies = {
       create: sinon.spy(),
       models: [ instanceDependency ]
@@ -128,7 +122,7 @@ describe('directiveDnsManager'.bold.underline.blue, function() {
 
     expect($elScope.isDnsSetup, 'DNS is setup!').to.equal(true);
 
-    expect($elScope.directlyRelatedMasterInstances.length, 'Directly related master instances length').to.equal(2);
+    expect($elScope.directlyRelatedMasterInstances.length, 'Directly related master instances length').to.equal(1);
 
     sinon.assert.calledOnce($scope.instance.fetchDependencies);
 
@@ -141,22 +135,13 @@ describe('directiveDnsManager'.bold.underline.blue, function() {
 
     $elScope.actions.setDependency(masterPods[1]);
     $elScope.$digest();
-    sinon.assert.calledOnce(instanceDependencies.models[0].destroy);
-    sinon.assert.calledOnce(instanceDependencies.create);
-  });
-
-  it('should handle setDependency on a master instance when one does not already exist', function () {
-    injectSetupCompile();
-
-    $elScope.actions.setDependency(masterPods[2]);
-    $elScope.$digest();
-    sinon.assert.calledOnce(instanceDependencies.create);
+    sinon.assert.calledOnce(instanceDependencies.models[0].update);
   });
 
   it('should handle setDependency on a non master instance', function () {
     injectSetupCompile();
     $elScope.actions.setDependency(masterChildMapping[masterPods[1].attrs.shortHash][1]);
     $elScope.$digest();
-    sinon.assert.calledOnce(instanceDependencies.create);
+    sinon.assert.calledOnce(instanceDependencies.models[0].update);
   });
 });

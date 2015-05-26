@@ -7,7 +7,6 @@ require('app')
  * @ngInject
  */
 function dnsManager(
-  createInstanceUrl,
   errs,
   getInstanceClasses,
   $localStorage,
@@ -42,59 +41,34 @@ function dnsManager(
 
       $scope.readOnly = $scope.instance.masterPod;
 
-      /*
-       * We need to fetch our dependencies. They are stored in a complicated way:
-       *
-       * 1. Get our master instance
-       * 2. Fetch it's dependencies
-       *    a. Fetch their children
-       * 3. Set those as our dependencies
-       * 4. Fetch our actual dependencies
-       * 5. Merge our actual dependencies with those from the master
-       *
-       * This should result in our actual dependencies showing
-       */
-
-      getInstanceMaster($scope.instance).then(function (master) {
-        return promisify(master, 'fetchDependencies')()
-          .then(function (_masterDeps) {
-            var promiseFetchMasters = _masterDeps.models.map(function (dep) {
-              return getInstanceMaster(dep)
-                .then(function (masterInstance) {
-                  return promisify(masterInstance.children, 'fetch')()
-                    .then(function () {
-                      return masterInstance;
-                    });
-                });
-            });
-            return $q.all(promiseFetchMasters)
-              .then(function (masters) {
-                $scope.directlyRelatedMasterInstances = masters;
-                // Set the dependency to be defaulted to the master
-                $scope.directlyRelatedMasterInstances.forEach(function (instance) {
-                  $scope.instanceDependencyMap[instance.attrs.contextVersion.context] = instance;
-                });
-                return promisify($scope.instance, 'fetchDependencies')();
-              })
-              .then(function (_dependencies) {
-                $scope.dependencies = _dependencies;
-                $scope.dependencies.models.forEach(function (dependency) {
-                  $scope.instanceDependencyMap[dependency.attrs.contextVersion.context] = dependency;
-                });
-                $scope.masterInstancesWithChildren = $scope.directlyRelatedMasterInstances.filter(function (instance) {
-                  return instance.children.models.length !== 0;
-                });
-                $scope.masterInstancesWithoutChildren = $scope.directlyRelatedMasterInstances.filter(function (instance) {
-                  return instance.children.models.length === 0;
-                });
+      promisify($scope.instance, 'fetchDependencies')()
+        .then(function (_dependencies) {
+          $scope.dependencies = _dependencies;
+          var promiseFetchMasters = _dependencies.models.map(function (dependency) {
+            $scope.instanceDependencyMap[dependency.attrs.contextVersion.context] = dependency;
+            return getInstanceMaster(dependency)
+              .then(function (masterInstance) {
+                return promisify(masterInstance.children, 'fetch')()
+                  .then(function () {
+                    return masterInstance;
+                  });
               });
           });
-      })
-        .catch(errs.handler)
-        .finally(function () {
-          $scope.isDnsSetup = true;
-        });
-
+          return $q.all(promiseFetchMasters);
+        })
+          .then(function (masters) {
+            $scope.directlyRelatedMasterInstances = masters;
+            $scope.masterInstancesWithChildren = $scope.directlyRelatedMasterInstances.filter(function (instance) {
+              return instance.children.models.length !== 0;
+            });
+            $scope.masterInstancesWithoutChildren = $scope.directlyRelatedMasterInstances.filter(function (instance) {
+              return instance.children.models.length === 0;
+            });
+          })
+          .catch(errs.handler)
+          .finally(function () {
+            $scope.isDnsSetup = true;
+          });
 
       $scope.getRelatedInstancesList = function () {
         return Object.keys($scope.instanceDependencyMap).map(function (key) {
@@ -121,18 +95,11 @@ function dnsManager(
             return dependency.attrs.contextVersion.context === masterInstance.attrs.contextVersion.context;
           });
 
-          var cleanedUpPromise = $q.when();
-          if (dependency) {
-            cleanedUpPromise.then(promisify(dependency, 'destroy'));
-          }
-          cleanedUpPromise
-            .then(function () {
-              return promisify($scope.dependencies, 'create')({
-                hostname: createInstanceUrl(masterInstance),
-                instance: instance.attrs.shortHash
-              });
-            })
-            .catch(errs.handler);
+          return promisify(dependency, 'update')({
+            hostname: masterInstance.getElasticHostname(),
+            instance: instance.attrs.shortHash
+          })
+          .catch(errs.handler);
         }
       };
     }
