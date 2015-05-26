@@ -35,7 +35,7 @@ function populateDockerfile(
 
 
       var dockerSectionArray = [];
-      var containerFiles = keypather.get(state, 'server.containerFiles') || [];
+      var containerFiles = keypather.get(state, 'containerFiles') || [];
       dockerSectionArray = dockerSectionArray.concat(containerFiles);
 
       var dockerSectionsString = '';

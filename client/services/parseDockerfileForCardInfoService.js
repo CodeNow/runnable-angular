@@ -240,7 +240,11 @@ function getCardInfoTypes(
       return wrapWithType(contents, self.type);
     };
     this.clone = function () {
-      return new Repo(contents, opts);
+      var myRepo = new Repo(contents, opts);
+      Object.keys(self).forEach(function (key) {
+        myRepo[key] = self[key];
+      });
+      return myRepo;
     };
   }
   return function () {

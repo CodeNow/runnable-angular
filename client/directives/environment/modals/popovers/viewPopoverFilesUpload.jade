@@ -1,4 +1,4 @@
-.popover.popover-fixed.popover-files.popover-view(
+.popover.popover-fixed.popover-files(
   ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
 )
@@ -44,10 +44,11 @@
         small.small Commands to be executed when your container is built and before it is launched.
 
     //- not shown if new repo
-    button.btn.btn-xs.orange(
-      ng-if = "data.fromServer"
-      ng-click = "actions.deleteFile(data)"
-    ) Delete File
+    label.label
+      button.btn.btn-xs.orange(
+        ng-click = "actions.deleteFile(data)"
+        ng-if = "data.fromServer"
+      ) Delete File
 
   .popover-footer.clearfix
     button.btn.btn-sm.green.btn-spinner(

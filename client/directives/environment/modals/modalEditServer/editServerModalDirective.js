@@ -127,6 +127,7 @@ function editServerModal(
           selectRepo: function (repo) {
             $scope.repositoryPopover.data.repo = repo;
             $scope.repositoryPopover.data.loading = true;
+            $scope.repositoryPopover.data.repo.loading = true;
 
             promisify(repo.branches, 'fetch')()
               .then(function (branches) {
@@ -138,6 +139,7 @@ function editServerModal(
               })
               .then(function (commits) {
                 $scope.repositoryPopover.data.loading = false;
+                $scope.repositoryPopover.data.repo.loading = false;
                 $scope.repositoryPopover.data.state.view = 2;
                 $scope.repositoryPopover.data.commit = commits.models[0];
               })

@@ -65,9 +65,8 @@ function setupServerModal(
 
               var Repo = cardInfoTypes()['Main Repo'];
 
-              $scope.state.server = {
-                containerFiles: []
-              };
+              $scope.state.containerFiles = [];
+
               var repo = new Repo(null, {isMainRepo: true});
 
               var commands = ($scope.state.commands || '').split('\n')

@@ -11,7 +11,7 @@
     select-on = "showFilter"
     type = "search"
   )
-  .spinner-wrapper.spinner-md.in(
+  .spinner-wrapper.spinner-backdrop.spinner-gray.spinner-md.in(
     ng-if = "!data.githubRepos.models"
     ng-include = "'spinner'"
   )
@@ -20,7 +20,10 @@
     ng-if = "data.githubRepos.models"
   )
     li.list-item.multi-line(
-      ng-disabled = "data.loading"
+      ng-class = "{\
+        active: repo.loading,\
+        'no-touching': data.loading\
+      }"
       ng-click = "actions.selectRepo(repo)"
       ng-repeat = "\
           repo in data.githubRepos.models | \
@@ -30,10 +33,16 @@
         "
     ) {{ repo.attrs.name}}
       small.small Updated {{ repo.attrs.updated_at | timeFrom }}
-      svg.iconnables.icons-arrow-down
+      svg.iconnables.icons-arrow-down(
+        ng-if = "!repo.loading"
+      )
         use(
           xlink:href = "#icons-arrow-down"
         )
+      .spinner-wrapper.spinner-sm.spinner-purple.in(
+        ng-if = "repo.loading"
+        ng-include = "'spinner'"
+      )
 
 .popover-footer.clearfix
   button.btn.btn-sm.gray.btn-cancel(
