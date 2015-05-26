@@ -191,6 +191,9 @@ function getCardInfoTypes(
           .join('\n');
       return wrapWithType(contents, self.type);
     };
+    this.clone = function () {
+      return new ContainerFile(contents);
+    };
   }
 
   function Repo(contents, opts){
@@ -227,6 +230,9 @@ function getCardInfoTypes(
           })
           .join('\n');
       return wrapWithType(contents, self.type);
+    };
+    this.clone = function () {
+      return new Repo(contents, opts);
     };
   }
   return function () {

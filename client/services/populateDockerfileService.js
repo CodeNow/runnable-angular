@@ -23,7 +23,7 @@ function populateDockerfile(
       var ports = state.ports.join(' ');
 
       var containerFilesString = '';
-      var containerFiles = keypather.get(state, 'server.containerFiles') || [];
+      var containerFiles = keypather.get(state, 'containerFiles') || [];
       containerFiles.forEach(function (containerFile) {
         containerFilesString += '\n' + containerFile.toString() + '\n';
       });
