@@ -43,7 +43,7 @@
         )
           li.list-item.popover-list-item.small(
             ng-click = "$event.stopPropagation()"
-          ) Select Elastic Hostname
+          ) Select hostname
           fancy-option.monospace(
             ng-repeat = "instance in $parent.data.parentData.instances.models | filter:$parent.$parent.data.instanceFilter()"
             value = "instance.getElasticHostname()"

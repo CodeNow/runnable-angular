@@ -8,7 +8,7 @@
 .help-padding(
   ng-if = "helpCards.getActiveCard().helpPopover.environmentVariables"
   ng-bind-html = "helpCards.getActiveCard().helpPopover.environmentVariables"
-) 
+)
 
 .clearfix
   .label-col Environment Variables
@@ -29,7 +29,7 @@ pre.ace-container.ace-environment-variables.ace-runnable-dark(
 
 label.label.label-help
   small.small(
-    tooltip = "Use this URL when configuring callback services to this container."
+    tooltip = "Use this hostname when configuring callback services to this container."
     tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-5,\"top\":15}"
   )
     button.btn.btn-xxs
@@ -37,7 +37,7 @@ label.label.label-help
         use(
           xlink:href = "#icons-help"
         )
-    | Container's Elastic Hostname
+    | Container's hostname
   input.input.input-xs(
     ng-attr-value = "{{ instance.getElasticHostname() }}"
     readonly
