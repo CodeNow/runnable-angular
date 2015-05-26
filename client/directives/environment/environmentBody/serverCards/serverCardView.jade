@@ -1,7 +1,7 @@
 .card-header
   server-status-card-header(
     ng-attr-no-touching = "{{ showSpinner() }}"
-    pop-over-options = "{\"right\":10,\"top\":30}"
+    pop-over-options = "{\"right\":-10,\"top\":30}"
     pop-over-template = "serverOptionsCardPopover"
   )
   
@@ -158,15 +158,15 @@ ul.card-body.load(
 
 .card-footer
   input.input-toggle(
-    id = "{{ (server.instance.getRepoName() || server.instance.attrs.name) }}"
+    id = "toggle-{{ (server.instance.getRepoName() || server.instance.attrs.name) }}"
     ng-click = "changeAdvancedFlag()"
     ng-model = "state.advanced"
     type = "checkbox"
   )
   label.label-toggle(
-    for = "{{ (server.instance.getRepoName() || server.instance.attrs.name) }}"
+    for = "toggle-{{ (server.instance.getRepoName() || server.instance.attrs.name) }}"
     tooltip = "Enable direct access to your container files."
-    tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-3,\"top\":15}"
+    tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"top\":15}"
   )
     span.label-text Advanced Mode
   .containers-count 15 Branch Containers

@@ -135,7 +135,11 @@
     cursor: pointer;
 
      &:hover {
-      color: $blue;
+      color: $purple-light;
+     }
+
+     &:active {
+      color: $purple;
      }
   }
 
@@ -167,15 +171,23 @@
 
   &.failed {
     //TODO: variable-ize these
-    background-color: #FAF7EB;
-    border-color: #E8DEC8;
-    color: #E3BA84;
+    background-color: $orange-lightest;
+    border-color: rgba($orange-darker,.25);
+    color: rgba($orange-darker,.6);
     font-weight: 500;
   }
 
   .a {
     cursor: pointer;
     text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    &:active {
+      color: rgba($orange-darker,.7);
+    }
   }
 }
 
@@ -191,8 +203,8 @@
     visibility: hidden;
 
     &:checked + .label-toggle {
-      background: $purple-light;
-      color: $purple-light;
+      background: rgba($purple-light,.9);
+      color: rgba($purple-light,.9);
 
       &::after {
         left: 17px;
