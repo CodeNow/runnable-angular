@@ -22,10 +22,25 @@ function populateDockerfile(
       // first, add the ports
       var ports = state.ports.join(' ');
 
-      var containerFilesString = '';
+      if (
+        keypather.get(state, 'contextVersion.appCodeVersions.models[0].attrs.transformRules.rename.length') ||
+        keypather.get(state, 'contextVersion.appCodeVersions.models[0].attrs.transformRules.replace.length') ||
+        keypather.get(state, 'contextVersion.appCodeVersions.models[0].attrs.transformRules.exclude.length')
+      ) {
+        var mainRepo = state.server.allSections.find(function (section) {
+          return section.type === 'Main Repo';
+        });
+        mainRepo.hasFindReplace = true;
+      }
+
+
+      var dockerSectionArray = [];
       var containerFiles = keypather.get(state, 'containerFiles') || [];
-      containerFiles.forEach(function (containerFile) {
-        containerFilesString += '\n' + containerFile.toString() + '\n';
+      dockerSectionArray = dockerSectionArray.concat(containerFiles);
+
+      var dockerSectionsString = '';
+      dockerSectionArray.forEach(function (containerFile) {
+        dockerSectionsString += '\n' + containerFile.toString() + '\n';
       });
 
       dockerfileBody = replaceStackVersion(dockerfileBody, state.selectedStack);
@@ -33,12 +48,11 @@ function populateDockerfile(
       var beforeIndex = dockerfileBody.indexOf('<before-main-repo>');
       var afterIndex = dockerfileBody.indexOf('<after-main-repo>');
 
-      dockerfileBody = dockerfileBody.slice(0, beforeIndex) + containerFilesString + dockerfileBody.slice(afterIndex + '<after-main-repo>'.length);
+      dockerfileBody = dockerfileBody.slice(0, beforeIndex) + dockerSectionsString + dockerfileBody.slice(afterIndex + '<after-main-repo>'.length);
 
       dockerfileBody = dockerfileBody
         .replace(/<user-specified-ports>/gm, ports)
         .replace(/<dst>/gm, '/' + state.dst)
-        .replace(/<container-files>/gm, containerFilesString)
         .replace(/<start-command>/gm, state.startCommand)
         .replace(/#default.+/gm, ''); // Remove all default comments that are not
 
