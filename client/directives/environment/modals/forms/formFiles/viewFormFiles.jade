@@ -1,6 +1,13 @@
-.help(
-  ng-if = "activeCard.helpPopover.repositories"
-) {{activeCard.helpPopover.repositories}}
+.help-container(
+  ng-if = "helpCards.getActiveCard().helpPopover.containerFiles"
+)
+  .help(
+    ng-bind-html = "helpCards.getActiveCard().helpPopover.containerFiles"
+  )
+.help-padding(
+  ng-if = "helpCards.getActiveCard().helpPopover.containerFiles"
+  ng-bind-html = "helpCards.getActiveCard().helpPopover.containerFiles"
+)
 
 .clearfix
   div Container Files
