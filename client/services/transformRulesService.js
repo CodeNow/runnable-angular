@@ -182,8 +182,8 @@ function populateRulesWithWarningsAndDiffs(
           replaceRule.diffs = parseDiffResponse(combinedDiff);
         }
       });
-      return ruleList;
     }
+    return ruleList;
   };
 }
 

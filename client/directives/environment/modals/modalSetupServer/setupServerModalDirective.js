@@ -64,7 +64,7 @@ function setupServerModal(
               $scope.state.dockerfile = dockerfile;
 
               var Repo = cardInfoTypes()['Main Repository'];
-
+              
               $scope.state.containerFiles = [];
 
               var repo = new Repo(null, {isMainRepo: true});
@@ -146,7 +146,7 @@ function setupServerModal(
             });
           })
           .then(function () {
-            $scope.acv = $scope.state.contextVersion.appCodeVersions.models[0];
+            $scope.acv = $scope.state.contextVersion.getMainAppCodeVersion();
           })
           .then(function (dockerfile) {
             $scope.state.dockerfile = dockerfile;

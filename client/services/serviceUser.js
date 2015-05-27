@@ -54,8 +54,14 @@ methods.forEach(function (method) {
 
     this.$http(opts)
       .success(callback)
-      .error(callback);
-
+      .error(errorCallback);
+    function errorCallback(data, status, headers, config) {
+      if (status === 0) {
+        // CORS failed
+        return cb(new Error('Could not reach server'));
+      }
+      return cb(new Error(data.message));
+    }
     function callback(data, status, headers, config) {
       if (status === 0) {
         // CORS failed

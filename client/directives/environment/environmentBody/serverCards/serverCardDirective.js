@@ -83,7 +83,7 @@ require('app')
             $scope.server.building = true;
             $scope.server.contextVersion = instance.contextVersion;
             $scope.server.advanced = keypather.get(instance, 'contextVersion.attrs.advanced');
-            $scope.server.repo = keypather.get(instance, 'contextVersion.appCodeVersions.models[0].githubRepo');
+            $scope.server.repo = keypather.get(instance, 'contextVersion.getMainAppCodeVersion().githubRepo');
             var qAll = {
               dependencies: promisify(instance, 'fetchDependencies', true)()
             };
@@ -95,7 +95,7 @@ require('app')
               .then(function (data) {
                 $scope.server.building = false;
 
-                var fullRepoName = keypather.get($scope.server.instance, 'contextVersion.appCodeVersions.models[0].attrs.repo');
+                var fullRepoName = keypather.get($scope.server.instance, 'contextVersion.getMainAppCodeVersion().attrs.repo');
 
                 if (fullRepoName) {
                   fetchStackAnalysis(fullRepoName).then(function (stackAnalysis) {
@@ -209,7 +209,7 @@ require('app')
         $scope.getTranslationDisplay = function () {
           var ruleObject = keypather.get(
             $scope,
-            'server.contextVersion.appCodeVersions.models[0].attrs.transformRules'
+            'server.contextVersion.getMainAppCodeVersion().attrs.transformRules'
           );
           var total = 0;
           if (ruleObject) {

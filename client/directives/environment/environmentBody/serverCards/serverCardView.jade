@@ -120,8 +120,8 @@ ul.card-body.load(
     h3.h3 Main Repository
     //- \\n for new line
     p.p.text-overflow(
-      title = "{{ server.instance.contextVersion.appCodeVersions.models[0].attrs.branch }}\\nnpm start\\nbuild commands"
-    ) {{ server.instance.contextVersion.appCodeVersions.models[0].attrs.branch }}
+      title = "{{ server.instance.contextVersion.getMainAppCodeVersion().attrs.branch }}\\nnpm start\\nbuild commands"
+    ) {{ server.instance.contextVersion.getMainAppCodeVersion().attrs.branch }}
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"

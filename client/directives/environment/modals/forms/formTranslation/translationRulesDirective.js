@@ -20,7 +20,7 @@ require('app')
         $scope.actions = {
           recalculateRules: function () {
             $scope.state.recalculating = true;
-            var acv = keypather.get($scope, 'state.contextVersion.appCodeVersions.models[0]');
+            var acv = keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion()');
             return testAllTransformRules(acv)
               .then(function (body) {
                 $scope.state.diffs = parseDiffResponse(body.diff);

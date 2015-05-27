@@ -36,7 +36,7 @@ label.label.clearfix
     //- we only have suggestions for build commands on the main repository
     textarea.textarea.monospace(
       ng-disabled = "startCommandCanDisable && !state.selectedStack"
-      ng-model = "data.mainRepo.commands"
+      ng-model = "state.commands"
       placeholder = "Build commands"
       spellcheck = "false"
     )
@@ -46,7 +46,7 @@ label.label.clearfix
   .label-col Container CMD
 
   .input-col
-    fancy-select(
+    fancy-select.monospace(
       ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
       ng-required = "true"
       placeholder = "Container command"

@@ -9,7 +9,7 @@ function createGithubUrlForFiles(
   return function (contextVersion, filePath) {
     var url = keypather.get(
       contextVersion,
-      'appCodeVersions.models[0].githubRepo.branches.models[0].attrs.commit.url'
+      'mainAppCodeVersion().githubRepo.branches.models[0].attrs.commit.url'
     );
     if (filePath && filePath[0] !== '/') {
       filePath = '/' + filePath;

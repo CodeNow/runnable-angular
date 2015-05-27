@@ -18,7 +18,7 @@ require('app')
         $scope.ignore = {
           toggleIgnoreFile: function (fileDiff) {
             if (fileDiff.ignoring) { return; }
-            var acv = keypather.get($scope, 'state.contextVersion.appCodeVersions.models[0]');
+            var acv = keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion()');
             fileDiff.ignoring = true;
             if (acv) {
               var newArray = acv.attrs.transformRules.exclude.concat(fileDiff.from);
@@ -30,7 +30,7 @@ require('app')
             }
           },
           checkFileIgnored: function (fileDiff) {
-            var acv = keypather.get($scope, 'state.contextVersion.appCodeVersions.models[0]');
+            var acv = keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion()');
             if (acv) {
               return acv.attrs.transformRules.exclude.indexOf(fileDiff.from) >= 0;
             }
