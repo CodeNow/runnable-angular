@@ -7,14 +7,6 @@
     instance = "instance"
   )
 
-.container-url-label(
-    tooltip = "More about Container URLs"
-    tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":15}"
-    href = "http://support.runnable.io"
-    target = "_blank"
-  )
-    a.a Container URL
-    | :
 .container-url-wrapper
   input.container-url(
     ng-if = "instance.attrs.name"
@@ -24,11 +16,21 @@
   )
   //- sets width
   span.container-url-ghost.no-touching {{ instance.getContainerHostname() }}{{defaultPort}}
-  a.container-url-link(
-    target = "_blank"
+  a.link-button.container-url-link(
     ng-href = "http://{{ instance.getContainerHostname() }}{{defaultPort}}"
+    target = "_blank"
   )
     svg.iconnables
       use(
         xlink:href = "#icons-link-external"
       )
+  a.link-button.documentation-link(
+    href = "http://support.runnable.io"
+    target = "_blank"
+    tooltip = "Learn about Container URLs"
+    tooltip-options = "{\"class\":\"bottom\",\"top\":21}"
+  )
+    svg.iconnables
+      use(
+        xlink:href = "#icons-question"
+        )

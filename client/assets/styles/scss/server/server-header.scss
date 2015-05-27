@@ -27,22 +27,6 @@
   }
 }
 
-.container-url-label {
-  color: $gray;
-  cursor: pointer;
-  display: inline-block;
-  float: left;
-  font-size: 14px;
-  font-weight: 500;
-  margin-right: 2px;
-  position: relative;
-  top: -8px;
-
-  .a {
-    text-decoration: underline;
-  }
-}
-
 .container-url-wrapper {
   color: $gray;
   float: left;
@@ -78,12 +62,15 @@
   visibility: hidden;
 }
 
-.container-url-link {
+.link-button {
   color: currentColor;
   cursor: pointer;
-  left: -12px;
+  display: inline-block;
+  height: 24px;
+  left: -9px;
   position: relative;
   top: -26px;
+  width: 24px;
 
   &:hover {
     color: $purple-light;
@@ -94,9 +81,23 @@
   }
 
   .iconnables {
-    height: 21px;
-    width: 20px;
+    color: currentColor;
+    position: absolute;
   }
+}
+
+.container-url-link .iconnables {
+  top: 6px;
+  left: 6px;
+  height: 12px;
+  width: 12px;
+}
+
+.documentation-link .iconnables {
+  top: 3px;
+  left: 3px;
+  height: 16px;
+  width: 16px;
 }
 
 // header.server-header actions
