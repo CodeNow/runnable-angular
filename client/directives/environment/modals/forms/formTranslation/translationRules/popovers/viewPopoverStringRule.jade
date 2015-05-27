@@ -8,6 +8,16 @@
 
     //- if new rule
     h3.popover-title {{ data.state._id ? '': 'New '}}String Replace Rule
+      button.btn.btn-xs.orange(
+        ng-click = "actions.deleteRule(data.state)"
+        ng-if = "data.state._id"
+      )
+        svg.iconnables.icons-trash
+          use(
+            xlink:href = "#icons-trash"
+          )
+        | Delete Rule
+
       ul.list.small
         li.list-item Case-sensitive
         li.list-item Trailing whitespace is not trimmed
@@ -18,16 +28,6 @@
               xlink:href = "#icons-server-link"
             )
           | hostnames to refer to other containers
-      button.btn.btn-xs.gray(
-        ng-click = "actions.deleteRule(data.state)"
-        ng-if = "data.state._id"
-      )
-        svg.iconnables.icons-trash
-          use(
-            xlink:href = "#icons-trash"
-          )
-        | Delete Rule
-
 
     .label-row
       label.label-col Find string
