@@ -14,8 +14,8 @@
 // wrapper for container name, branch name, and status icon
 .container-label {
   font-size: 24px;
-  height: 51px;
-  line-height: 51px;
+  height: 48px;
+  line-height: 48px;
 
   .branch-name {
     font-weight: 400;
@@ -29,7 +29,7 @@
 
 .container-url-wrapper {
   color: $gray;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 400;
   float: left;
   position: relative;
@@ -44,8 +44,8 @@
   color: currentColor;
   cursor: default;
   display: block;
-  height: auto;
-  line-height: 1;
+  height: 20px;
+  line-height: 20px;
   padding: 0;
   position: relative;
   white-space: nowrap;
@@ -58,7 +58,7 @@
 
 // sets width
 .container-url-ghost {
-  font-size: 15px;
+  // font-size: 15px;
   visibility: hidden;
 }
 
@@ -69,7 +69,7 @@
   height: 24px;
   left: 3px;
   position: relative;
-  top: -20px;
+  top: -22px;
   width: 20px;
 
   &:hover {
