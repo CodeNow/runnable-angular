@@ -37,12 +37,12 @@ function helpCardsFactory(
         'label': 'Connect to an external service',
         'targets': [
           'environmentVariables',
-          'translationRules'
+          'findAndReplace'
         ],
         'helpTop': 'Configure your external service by using an <b>Environment Variable</b> or <b>Translation Rule</b>.',
         'helpPopover': {
           'environmentVariables': 'Reference your external service here by adding or modifying an <b>environment variable</b>.',
-          'translationRules': 'Reference your external service here by creating a <b>new rule</b>.'
+          'findAndReplace': 'Reference your external service here by creating a <b>new rule</b>.'
         }
       },
       {
@@ -61,22 +61,22 @@ function helpCardsFactory(
         'label': 'Configure an OAuth service',
         'targets': [
           'environmentVariables',
-          'translationRules'
+          'findAndReplace'
         ],
         'helpTop': 'Update your OAuth credentials using the <b>Environment Variables</b> or <b>Translation Rules</b> tool.',
         'helpPopover': {
           'environmentVariables': 'Update the environment variables that you use to specify OAuth credentials.',
-          'translationRules': 'Add a translation rule to update your OAuth credentials in your code.'
+          'findAndReplace': 'Add a translation rule to update your OAuth credentials in your code.'
+        }
+      },
+      {
+        'label': 'Seed a database',
+        'targets': ['containerFiles'],
+        'helpTop': 'Use <b>Container Files</b> to upload seed data and specify <b>Build Commands</b> to run scripts.',
+        'helpPopover': {
+          'containerFiles': 'Upload seed data files and input shell commands to import the data using <b>Build Commands</b>.'
         }
       }
-      //{
-      //  'label': 'Seed a database',
-      //  'targets': ['containerFiles'],
-      //  'helpTop': 'Use <b>Container Files</b> to upload seed data and specify <b>Build Commands</b> to run scripts.',
-      //  'helpPopover': {
-      //    'containerFiles': 'Upload seed data files and input shell commands to import the data using <b>Build Commands</b>.'
-      //  }
-      //}
     ],
     'triggered': [
       {
@@ -84,12 +84,12 @@ function helpCardsFactory(
         'label': '<b>{{instance.getDisplayName()}}</b> may need to be updated with <b>{{association}}\'s</b> hostname.</b>',
         'targets': [
           'environmentVariables',
-          'translationRules'
+          'findAndReplace'
         ],
         'helpTop': 'Update <b>{{instance.getDisplayName()}}\'s</b> code by using <b>Translation Rules</b> or <b>Environment Variables</b> to update the hostname for <b>{{association}}</b>.',
         'helpPopover': {
           'environmentVariables': 'Add/update the correct environment variable with <b>{{association}}\'s</b> elastic hostname.',
-          'translationRules': 'Add a translation rule to modify your code to connect with <b>{{association}}\'s</b> elastic hostname.'
+          'findAndReplace': 'Add a translation rule to modify your code to connect with <b>{{association}}\'s</b> elastic hostname.'
         }
       },
       {
