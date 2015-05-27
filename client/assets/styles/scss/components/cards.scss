@@ -239,26 +239,9 @@
     }
 
     &.hint {
-      border-color: $blue;
-      box-shadow: inset 0 1px 0 $blue;
-      color: $blue;
+      border-color: rgba($blue,.45);
+      box-shadow: 0 0 6px rgba($blue,.45);
       z-index: 1;
-
-      &:hover {
-        background: $blue-lighter;
-      }
-
-      &:first-child {
-        box-shadow: none;
-      }
-
-      .p {
-        color: rgba($blue,.8);
-      }
-
-      .icons-arrow-down {
-        color: $blue;
-      }
     }
 
     .h3 {

@@ -126,6 +126,17 @@
   }
 }
 
+@keyframes scale {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.15);
+  }
+}
+
 @keyframes scale-in {
   0% {
     opacity: 0;
