@@ -9,7 +9,8 @@ function fancySelect(
   $document,
   $timeout,
   $compile,
-  keypather
+  keypather,
+  exists
 ) {
   return {
     replace: true,
@@ -27,7 +28,9 @@ function fancySelect(
       type: '@?',
       showDropdown: '=?',
       trackBy: '@?',
-      onUpdate: '=?'
+      onUpdate: '=?',
+      toggleObject: '=?',
+      toggleAttribute: '@?'
     },
     link: function ($scope, element, attrs, controller, transcludeFn){
       var type = 'button';
@@ -60,6 +63,7 @@ function fancySelect(
         unbindDocumentClick = $scope.$on('app-document-click', function (event, target) {
           if(!target || (target && $document.find('body')[0].contains(target) && !list[0].contains(target) && list[0] !== target) && !element[0].contains(target) && element[0] !== target){
             closeDropdown();
+            unbindDocumentClick();
           }
         });
       }
@@ -98,9 +102,22 @@ function fancySelect(
         };
       };
 
+      if (exists($scope.toggleObject) && exists($scope.toggleAttribute)) {
+        $scope.$watch('toggleObject.' + $scope.toggleAttribute, function (newValue) {
+          if (newValue){
+            openDropdown();
+          } else {
+            closeDropdown();
+          }
+        });
+      }
 
       $scope.actions = {
         toggleSelect: function () {
+          if (exists($scope.toggleObject)) {
+            return;
+          }
+
           if ($scope.isOpen) {
             closeDropdown();
           } else {
@@ -119,6 +136,9 @@ function fancySelect(
 
           if (originalValue !== newValue && $scope.onUpdate) {
             $scope.onUpdate(clickedOption.value);
+          }
+          if (exists($scope.toggleObject) && exists($scope.toggleAttribute)) {
+            $scope.toggleObject[$scope.toggleAttribute] = false;
           }
           closeDropdown();
         }

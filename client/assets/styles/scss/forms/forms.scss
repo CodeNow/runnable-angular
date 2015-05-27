@@ -30,6 +30,16 @@
     text-align: left;
     width: 100%;
   }
+
+  > .small.small {
+    line-height: 1;
+    margin-top: -6px;
+
+    @include media(xs) {
+      display: inline;
+      margin-left: 6px;
+    }
+  }
 }
 
 // input column (right)
@@ -45,6 +55,21 @@
   @include media(xs) {
     float: none;
     width: 100%;
+  }
+
+  // spinner
+  &.input-spinner {
+    margin: 6px 0 0;
+    text-align: right;
+
+    .small.small {
+      color: $gray;
+      margin: 0;
+    }
+  }
+
+  .spinner-wrapper {
+    margin-top: 5px;
   }
 }
 
@@ -87,6 +112,20 @@
       margin-right: 3px;
       width: 21px;
     }
+  }
+}
+
+// jump
+.label-jump {
+  margin-bottom: 15px;
+
+  .small.small {
+    display: inline-block;
+  }
+
+  .select {
+    margin-left: 6px;
+    max-width: 150px;
   }
 }
 

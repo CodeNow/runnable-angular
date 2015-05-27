@@ -13,7 +13,18 @@
     width: 200px;
 
     &.hint {
-      border-color: $blue;
+      animation: scale .4s ease 1;
+    }
+
+    @keyframes scale {
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.15);
+      }
     }
   }
 
@@ -48,7 +59,7 @@
 
   .card {
     float: left;
-    height: 281px;
+    height: 385px;
     margin-bottom: 15px;
     min-width: 0;
 

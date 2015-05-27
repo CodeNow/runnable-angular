@@ -1,0 +1,22 @@
+.clearfix
+  .label-col Find and Replace
+  .input-col.input-spinner(
+    ng-if = "state.recalculating"
+  )
+    .spinner-wrapper.spinner-sm.spinner-gray.in(
+      ng-include = "'spinner'"
+    )
+    small.small Updating
+
+//- table
+.table.table-merge(
+  ng-controller = "RuleTableStringController"
+  rule-table
+)
+
+.table.table-merge(
+  ng-controller = "RuleTableFileController"
+  rule-table
+)
+
+small.small Find and Replace dynamically translates strings or filenames in your code. You can modify connection strings or server names in your code so containers in your sandbox can communicate with each other, or rename files when they're copied to your container without modifying your source code.

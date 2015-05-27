@@ -2,22 +2,52 @@
   background: $white;
   border: 1px solid $gray-lighter;
   border-radius: 3px;
+
+  // space out tables
+  + .table {
+    margin-top: 9px;
+  }
 }
 
 // diff
 .table-diff {
-
-  + .table-diff {
-    margin-top: 15px;
-  }
 
   .thead {
     border-bottom: 1px solid $gray-lighter;
 
     // github link
     .link {
-      float: right;
+      float: left;
     }
+
+    &:only-child {
+      border-bottom: 0;
+    }
+  }
+
+  // cell line number
+  .cell-line {
+    background: $white;
+    border-right: 1px solid $gray-lighter;
+    flex: 0 0 50px;
+    margin-left: -1px; // padding offset
+    text-align: right;
+  }
+
+  .tr:last-child .cell-line {
+    border-bottom-left-radius: 3px;
+  }
+
+  .tr-gap {
+    background: rgba($blue,.05);
+
+    .cell-line {
+      background: rgba($blue,.05);
+    }
+  }
+
+  .link {
+    float: right;
   }
 
   // diff colors
@@ -30,8 +60,12 @@
   }
 
   // extra padding-bottom is weird when colored
-  .tr:last-child {
-    padding-bottom: 0;
+  .tr-deletion,
+  .tr-addition {
+
+    &:last-child {
+      padding-bottom: 0;
+    }
   }
 
   // reduce cell height
@@ -46,11 +80,81 @@
   }
 }
 
+// merge tables
+.table-merge {
+  border-radius: 3px 3px 0 0;
+
+  .tr:last-child {
+    border-radius: 0;
+    padding-bottom: 0;
+  }
+}
+
+.table-merge + .table-merge {
+  border-radius: 0 0 3px 3px;
+  border-top: 0;
+  margin-top: 0;
+
+  .tr:first-child:not(.thead) {
+    border-radius: 0;
+    padding-top: 0;
+  }
+}
+
 // table details
 .table-details {
   color: $gray;
   display: block;
   margin: 15px 0 6px;
+}
+
+// layout
+// always use .clearfix with .tr:
+// .tr.clearfix
+.tr {
+  background: $white;
+  display: flex;
+
+  &:first-child {
+    border-radius: 2px 2px 0 0;
+    padding-top: 3px;
+
+    &.tr-addition,
+    &.tr-deletion {
+      border-radius: 0;
+      padding-top: 0;
+    }
+  }
+
+  &:last-child {
+    border-radius: 0 0 2px 2px;
+    padding-bottom: 3px;
+
+    &.tr-addition,
+    &.tr-deletion {
+      padding-bottom: 0;
+    }
+  }
+
+  &:only-child {
+    border-radius: 3px;
+    padding: 3px 0;
+  }
+
+  // element that's left behind
+  &.disabled {
+    cursor: not-allowed;
+  }
+
+  + .tr {
+    border-top: 1px solid $gray-lighter;
+
+    .table-diff &,
+    &.tr-addition,
+    &.tr-deletion {
+      border-top: 0;
+    }
+  }
 }
 
 // table row header usage:
@@ -61,6 +165,16 @@
   font-weight: 500;
   padding: 3px 0;
 
+  &.thead-sm {
+    color: $gray;
+    font-weight: 400;
+
+    .cell {
+      height: 21px;
+      line-height: 24px;
+    }
+  }
+
   .cell {
     height: 30px;
     line-height: 30px;
@@ -68,44 +182,28 @@
     &:only-child {
       width: 100%;
     }
-
-    .btn {
-      float: right;
-      top: 3px;
-    }
-  }
-}
-
-// layout
-// always use .clearfix with .tr:
-// .tr.clearfix
-.tr {
-  display: flex;
-
-  &:first-child {
-    border-radius: 2px 2px 0 0;
-    padding-top: 3px;
   }
 
-  &:last-child {
-    border-radius: 0 0 3px 3px;
-    padding-bottom: 3px;
+  .btn {
+    float: right;
+    top: 3px;
   }
 
-  + .tr {
-    border-top: 1px solid $gray-lighter;
-    font-weight: 500;
-
-    &.tr-addition,
-    &.tr-deletion {
-      border-top: 0;
-    }
+  .btn-status {
+    color: $gray;
+    cursor: default;
+    float: none;
+    font-size: 13px;
+    margin-left: 6px;
+    top: 0;
   }
 }
 
 // tr that's clickable
 .tr-action {
   cursor: pointer;
+  position: relative; // for the dragging indicator
+  user-select: none;
 
   &:hover {
     background: rgba($purple-lightest,.5);
@@ -113,25 +211,105 @@
 
   &:active,
   &.active {
-    background: $purple-lightest;
+    background: rgba($purple-lightest,.75);
   }
+}
+
+// empty state
+.tr-empty {
+  color: $gray-light;
 }
 
 .cell {
   flex: 1 1 50%;
   float: left;
   height: 36px;
-  line-height: 36px;
+  line-height: 35px;
   padding: 0 9px;
 
   &.monospace {
     font-size: 13px;
     letter-spacing: -.25px;
   }
+
+  // cells with multiple lines
+  .multi-line & {
+    height: 45px;
+    line-height: 1.2;
+    padding-top: 7px;
+  }
+
+  .small {
+    color: $gray;
+    display: block;
+    // float: right;
+    font-size: 11px;
+  }
 }
 
 .cell-action {
   flex: 0 0 auto;
+
+  &:first-child {
+    cursor: grab;
+    flex: 0 0 21px;
+    max-width: 21px;
+    padding: 0 3px 0 9px;
+
+    &:active {
+      cursor: grabbing;
+
+      .icons-drag {
+        color: $purple-light;
+      }
+    }
+  }
+
+  &:last-child {
+    padding: 0;
+    width: 24px;
+  }
+
+  &.disabled {
+    visibility: hidden;
+  }
+
+  // dragging icon
+  .icons-drag {
+    color: $gray-lighter;
+    height: 100%;
+    opacity: .3;
+    width: 9px;
+  }
+
+  // warning icon
+  .icons-warning {
+    color: $orange;
+    height: 18px;
+    top: 6px;
+    width: 18px;
+  }
+}
+
+.cell-type {
+  flex: 0 0 150px;
+
+  .multi-line & {
+    color: $gray;
+    line-height: 45px;
+    padding-top: 0;
+  }
+
+  .iconnables {
+    float: left;
+    height: 34px;
+    margin-right: 6px;
+    width: 18px;
+
+    .multi-line & {
+      height: 44px;
+    }
+  }
 }
 
 .cell-checkbox {
@@ -140,21 +318,23 @@
 
 // table actions
 .table-actions {
-  background: $gray-lighter;
+  background: $gray-lightest;
+  border: 1px solid $gray-lighter;
+  border-bottom: 0;
   border-radius: 3px 3px 0 0;
-  padding: 6px 6px 4px;
+  padding: 6px;
 
   + .ace-container {
     border-radius: 0 0 3px 3px;
   }
 
   // actions
+  // does this need to be direct child selector?
   > .btn {
     float: left;
 
     // second action
     + .btn {
-      color: $gray-dark;
       float: right;
       font-size: 14px;
 
@@ -195,6 +375,11 @@
       padding: 0 24px 0 6px;
       text-align: left;
       width: 100%;
+
+      &:active,
+      &.active {
+        border-color: $gray-lighter;
+      }
     }
 
     // 3 action thing
@@ -230,6 +415,15 @@
     right: 6px;
     top: 0;
   }
+
+  .btn-status {
+    color: $gray;
+    cursor: default;
+    float: none;
+    font-size: 13px;
+    margin-left: 6px;
+    top: 0;
+  }
 }
 
 .table-footer {
@@ -237,5 +431,14 @@
 
   .green {
     float: right;
+  }
+}
+
+// drag and drop styles
+.table-drag-drop .thead {
+  border-bottom: 1px solid $gray-lighter;
+
+  + .tr {
+    border-top: 0;
   }
 }

@@ -45,7 +45,9 @@ function ControllerApp(
   // used in dev-info box
   dataApp.data.configEnvironment = configEnvironment;
   $rootScope.featureFlags = {
-    helpCards: true
+    helpCards: true,
+    findAndReplace: configEnvironment === 'development',
+    additionalRepos: configEnvironment === 'development'
   };
 
   dataApp.data.configAPIHost = configAPIHost;

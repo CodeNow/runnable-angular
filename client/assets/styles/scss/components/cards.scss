@@ -57,14 +57,20 @@
     background: transparent;
     border-color: transparent;
     color: $gray;
-    height: 281px;
-    line-height: 281px;
+    height: 333px;
+    line-height: 333px;
     text-align: center;
 
     .spinner-wrapper {
       align-items: center;
       height: 100%;
     }
+  }
+
+  // when linked to from Containers view
+  &.highlight {
+    background: rgba($purple-lightest,.5);
+    border-color: rgba($purple-light,.3);
   }
 
   // list columns
@@ -242,12 +248,16 @@
       color: $blue;
       z-index: 1;
 
+      &:hover {
+        background: $blue-lighter;
+      }
+
       &:first-child {
         box-shadow: none;
       }
 
       .p {
-        color: rgba($blue,.6);
+        color: rgba($blue,.8);
       }
 
       .icons-arrow-down {
