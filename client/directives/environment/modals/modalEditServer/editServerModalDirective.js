@@ -58,7 +58,7 @@ function editServerModal(
       };
 
       $scope.triggerEditRepo = function (repo) {
-        if (repo.type === 'Main Repo') { return; }
+        if (repo.type === 'Main Repository') { return; }
         $scope.repositoryPopover.data.repoObj = repo;
         $scope.repositoryPopover.data.fromServer = true;
         $scope.repositoryPopover.data.repo = repo.repo;
@@ -76,9 +76,13 @@ function editServerModal(
       };
 
       $scope.triggerAddRepository = function () {
-        $scope.repositoryPopover.data.fromServer = false;
-        $scope.repositoryPopover.data.state.view = 1;
-        $scope.repositoryPopover.data.containerFiles = $scope.state.containerFiles;
+        $scope.repositoryPopover.data = {
+          fromServer: false,
+          containerFiles: $scope.state.containerFiles,
+          state: {
+            view: 1
+          }
+        };
         $scope.repositoryPopover.active = true;
 
         fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
@@ -89,6 +93,14 @@ function editServerModal(
 
         $timeout(function () {
           $scope.repositoryPopover.active = false;
+        });
+      };
+
+      $scope.triggerUploadFile = function () {
+        $scope.fileUpload.data = {};
+        $scope.fileUpload.active = true;
+        $timeout(function () {
+          $scope.fileUpload.active = false;
         });
       };
 
@@ -176,7 +188,7 @@ function editServerModal(
                 .catch(errs.handler);
 
             } else {
-              var Repo = cardInfoTypes().Repo;
+              var Repo = cardInfoTypes().Repository;
               myRepo = new Repo();
               $scope.state.containerFiles.push(myRepo);
 
@@ -234,7 +246,7 @@ function editServerModal(
           },
           save: function (containerFile) {
             if (!containerFile.type) {
-              var ContainerFile = cardInfoTypes()['Container File'];
+              var ContainerFile = cardInfoTypes().File;
               var myFile = new ContainerFile();
               if (containerFile.file) {
                 myFile.name = containerFile.file[0].name;

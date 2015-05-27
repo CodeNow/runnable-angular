@@ -3,7 +3,6 @@
     svg.iconnables
   .cell Name
   .cell.cell-type Type
-//- main repo is not actionable
 ul.table-drag-drop(
   dnd-list = "state.containerFiles"
   dnd-drop = "dropContainerFile(event, index, item, type)"
@@ -13,8 +12,8 @@ ul.table-drag-drop(
     dnd-dragstart = "actions.dragstart()"
     dnd-effect-allowed = "move"
     ng-class = "{\
-      disabled: containerFile.type === 'Main Repo',\
-      'tr-action': containerFile.type !== 'Main Repo'\
+      disabled: containerFile.type === 'Main Repository',\
+      'tr-action': containerFile.type !== 'Main Repository'\
     }"
     ng-repeat = "containerFile in state.containerFiles"
   )
@@ -30,7 +29,7 @@ ul.table-drag-drop(
           xlink:href = "#icons-drag"
         )
     .cell.text-overflow(
-      ng-if = "containerFile.type === 'Container File'"
+      ng-if = "containerFile.type === 'File'"
       pop-over
       pop-over-actions = "fileUpload.actions"
       pop-over-data = "containerFile"
@@ -41,7 +40,7 @@ ul.table-drag-drop(
         title = "{{ containerFile.path }}"
       ) /{{ containerFile.path }}
     .cell.text-overflow(
-      ng-if = "containerFile.type === 'Repo' || containerFile.type === 'Main Repo'"
+      ng-if = "containerFile.type === 'Repository' || containerFile.type === 'Main Repository'"
       ng-click = "triggerEditRepo(containerFile)"
       title = "{{ containerFile.name }}"
     ) {{ containerFile.name }}
@@ -50,19 +49,19 @@ ul.table-drag-drop(
       ) /{{ containerFile.path }}
     .cell.cell-type.small
       svg.iconnables(
-        ng-if = "containerFile.type === 'Container File'"
+        ng-if = "containerFile.type === 'File'"
       )
         use(
           xlink:href = "#icons-file"
         )
       svg.iconnables(
-        ng-if = "containerFile.type === 'Main Repo'"
+        ng-if = "containerFile.type === 'Main Repository'"
       )
         use(
           xlink:href = "#icons-repository"
         )
       svg.iconnables(
-          ng-if = "containerFile.type === 'Repo'"
+          ng-if = "containerFile.type === 'Repository'"
         )
         use(
           xlink:href = "#icons-repository-additional"

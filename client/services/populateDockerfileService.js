@@ -21,15 +21,15 @@ function populateDockerfile(
     function populateDockerFile(dockerfileBody) {
       // first, add the ports
       var ports = state.ports.join(' ');
+      var mainRepo = state.server.allSections.find(function (section) {
+        return section.type === 'Main Repository';
+      });
 
       if (
         keypather.get(state, 'contextVersion.appCodeVersions.models[0].attrs.transformRules.rename.length') ||
         keypather.get(state, 'contextVersion.appCodeVersions.models[0].attrs.transformRules.replace.length') ||
         keypather.get(state, 'contextVersion.appCodeVersions.models[0].attrs.transformRules.exclude.length')
       ) {
-        var mainRepo = state.server.allSections.find(function (section) {
-          return section.type === 'Main Repo';
-        });
         mainRepo.hasFindReplace = true;
       }
 
@@ -42,6 +42,10 @@ function populateDockerfile(
       dockerSectionArray.forEach(function (containerFile) {
         dockerSectionsString += '\n' + containerFile.toString() + '\n';
       });
+
+      if (mainRepo) {
+        dockerSectionsString += '\nWORKDIR /'+mainRepo.path+'\n';
+      }
 
       dockerfileBody = replaceStackVersion(dockerfileBody, state.selectedStack);
 

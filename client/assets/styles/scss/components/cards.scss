@@ -248,12 +248,16 @@
       color: $blue;
       z-index: 1;
 
+      &:hover {
+        background: $blue-lighter;
+      }
+
       &:first-child {
         box-shadow: none;
       }
 
       .p {
-        color: rgba($blue,.6);
+        color: rgba($blue,.8);
       }
 
       .icons-arrow-down {
