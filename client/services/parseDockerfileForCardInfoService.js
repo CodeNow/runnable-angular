@@ -159,7 +159,7 @@ function getCardInfoTypes(
 
 
   function ContainerFile(contents){
-    this.type = 'Container File';
+    this.type = 'File';
     this.id = uuid.v4();
 
     if (contents) {
@@ -178,6 +178,7 @@ function getCardInfoTypes(
     var self = this;
     this.toString = function () {
       self.commands = self.commands || '';
+      self.path = self.path || '';
       var contents = 'ADD ./' + self.name.trim() + ' /' + self.path.trim() + '\n'+
         'WORKDIR /' + self.path.trim() + '\n'+
         self.commands
@@ -198,7 +199,7 @@ function getCardInfoTypes(
 
   function Repo(contents, opts){
     opts = opts || {};
-    this.type = opts.isMainRepo ? 'Main Repo' : 'Repo';
+    this.type = opts.isMainRepo ? 'Main Repository' : 'Repository';
     this.id = uuid.v4();
     this.hasFindReplace = false;
 
@@ -225,7 +226,7 @@ function getCardInfoTypes(
       if (self.hasFindReplace) {
         self.commands.unshift('./translation_rules.sh');
       }
-      self.path = self.path || '';
+      self.path = self.path || self.name.trim();
       var contents = 'ADD ./' + self.name.trim() + ' /' + self.path.trim() + '\n'+
         'WORKDIR /' + self.path.trim() + '\n'+
         self.commands
@@ -240,14 +241,18 @@ function getCardInfoTypes(
       return wrapWithType(contents, self.type);
     };
     this.clone = function () {
-      return new Repo(contents, opts);
+      var myRepo = new Repo(contents, opts);
+      Object.keys(self).forEach(function (key) {
+        myRepo[key] = self[key];
+      });
+      return myRepo;
     };
   }
   return function () {
     return {
-      'Container File': ContainerFile,
-      'Main Repo': Repo,
-      'Repo': Repo
+      'File': ContainerFile,
+      'Main Repository': Repo,
+      'Repository': Repo
     };
   };
 }
@@ -276,7 +281,7 @@ function parseDockerfileForCardInfoFromInstance(
       content = currentBlock[2];
       if (CustomType) {
         chunks.push( new CustomType(content, {
-          isMainRepo: currentBlock[1] === 'Main Repo'
+          isMainRepo: currentBlock[1] === 'Main Repository'
         }));
       } else {
         $log.error('Type "' + currentBlock[1] + '" not found.');
@@ -298,12 +303,12 @@ function parseDockerfileForCardInfoFromInstance(
         var allSections = parseDockerfile(dockerfileBody);
 
         var containerFiles = allSections.filter(function (section) {
-          return ['Container File', 'Repo', 'Main Repo'].indexOf(section.type) !== -1;
+          return ['File', 'Repository', 'Main Repository'].indexOf(section.type) !== -1;
         });
 
         var acvs = keypather.get(instance, 'build.contextVersions.models[0].appCodeVersions');
         containerFiles = containerFiles.map(function (item) {
-          if (item.type === 'Container File') { return item; }
+          if (item.type === 'File') { return item; }
           var matchingAcv = acvs.models.find(function (acv) {
             return acv.attrs.repo.split('/')[1] === item.name;
           });

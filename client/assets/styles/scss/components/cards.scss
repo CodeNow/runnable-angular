@@ -67,6 +67,12 @@
     }
   }
 
+  // when linked to from Containers view
+  &.highlight {
+    background: rgba($purple-lightest,.5);
+    border-color: rgba($purple-light,.3);
+  }
+
   // list columns
   .list-col {
     margin: 0;
@@ -242,12 +248,16 @@
       color: $blue;
       z-index: 1;
 
+      &:hover {
+        background: $blue-lighter;
+      }
+
       &:first-child {
         box-shadow: none;
       }
 
       .p {
-        color: rgba($blue,.6);
+        color: rgba($blue,.8);
       }
 
       .icons-arrow-down {

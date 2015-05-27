@@ -24,8 +24,10 @@ function EnvironmentController(
   $q,
   user,
   helpCards,
-  $window
+  $window,
+  $state
 ) {
+  $scope.$state = $state;
   favico.reset();
   pageName.setTitle('Configure - Runnable');
   $scope.data = {
@@ -70,12 +72,6 @@ function EnvironmentController(
     $window.removeEventListener('scroll', scrollHelper);
   });
 
-  $scope.$watch('helpCards.getActiveCard().targets.newContainer', function (n) {
-    if (n) {
-      $scope.state.newServerButton.active = true;
-    }
-  });
-
   $scope.alert = null;
 
   $scope.$on('alert', function (evt, data) {
@@ -103,8 +99,10 @@ function EnvironmentController(
       $rootScope.$broadcast('close-popovers');
       $timeout(function () {
         if (confirm('Are you sure you want to delete this container?')) {
-          helpCards.refreshAllCards();
           promisify(server.instance, 'destroy')()
+            .then(function () {
+              helpCards.refreshAllCards();
+            })
             .catch(errs.handler);
         }
       });
@@ -120,6 +118,8 @@ function EnvironmentController(
         }
       }, { warn: false });
       $scope.data.instances.add(instance);
+
+      helpCards.hideActiveCard();
 
       $rootScope.$broadcast('alert', {
         type: 'success',

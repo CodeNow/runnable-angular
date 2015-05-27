@@ -57,12 +57,14 @@ function editServerModal(
         tags: new JSTagsCollection(($scope.server.ports || '').split(' '))
       };
 
-      $scope.data.mainRepo = $scope.server.containerFiles.find(hasKeypaths({
-        type: 'Main Repo'
-      }));
+      if (keypather.get($scope, 'server.containerFiles')) {
+        $scope.data.mainRepo = $scope.server.containerFiles.find(hasKeypaths({
+          type: 'Main Repository'
+        }));
+      }
 
       $scope.triggerEditRepo = function (repo) {
-        if (repo.type === 'Main Repo') { return; }
+        if (repo.type === 'Main Repository') { return; }
         $scope.repositoryPopover.data.repoObj = repo;
         $scope.repositoryPopover.data.fromServer = true;
         $scope.repositoryPopover.data.repo = repo.repo;
@@ -180,7 +182,7 @@ function editServerModal(
                 .catch(errs.handler);
 
             } else {
-              var Repo = cardInfoTypes().Repo;
+              var Repo = cardInfoTypes().Repository;
               myRepo = new Repo();
               $scope.state.containerFiles.push(myRepo);
 
@@ -238,7 +240,7 @@ function editServerModal(
           },
           save: function (containerFile) {
             if (!containerFile.type) {
-              var ContainerFile = cardInfoTypes()['Container File'];
+              var ContainerFile = cardInfoTypes().File;
               var myFile = new ContainerFile();
               if (containerFile.file) {
                 myFile.name = containerFile.file[0].name;
