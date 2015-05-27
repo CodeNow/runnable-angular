@@ -8,8 +8,12 @@ button.btn.btn-xs.gray(
 
 button.btn.btn-xs.btn-status.no-touching(
   ng-if = "!state.showHostName"
-  title = "{{linkedEnvResults.servers.length || 0 }} hostnames from environment variables"
-) {{linkedEnvResults.servers.length || 0 }} hostnames
+  title = "Toggle hostname sidebar"
+) Hostnames
+  svg.iconnables
+    use(
+      xlink:href = "#icons-sidebar"
+    )
 
 //- if inserting host names
 .label.label-row.clearfix(
