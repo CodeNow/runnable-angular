@@ -100,10 +100,8 @@ function EnvironmentController(
       $timeout(function () {
         if (confirm('Are you sure you want to delete this container?')) {
           promisify(server.instance, 'destroy')()
-            .then(function () {
-              helpCards.refreshAllCards();
-            })
             .catch(errs.handler);
+          helpCards.refreshAllCards();
         }
       });
     },
