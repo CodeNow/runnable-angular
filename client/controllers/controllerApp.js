@@ -142,11 +142,6 @@ function ControllerApp(
     }
     // Intercom && Mixpanel
     eventTracking.boot(thisUser);
-    if ($window.olark) {
-      $window.olark('api.visitor.updateEmailAddress', { emailAddress: thisUser.attrs.email });
-      $window.olark('api.visitor.updateFullName', { fullName: thisUser.oauthName() });
-      $window.olark('api.box.show');
-    }
   })
   .catch(errs.handler);
 }
