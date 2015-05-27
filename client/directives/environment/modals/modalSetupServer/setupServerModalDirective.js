@@ -69,11 +69,7 @@ function setupServerModal(
 
               var repo = new Repo(null, {isMainRepo: true});
 
-              var commands = ($scope.state.commands || '').split('\n')
-                .filter(function (str) {
-                  return str.trim().length;
-                })
-                .join('\n');
+              var commands = $scope.state.commands || '';
 
               repo.name = $scope.state.repo.attrs.name;
               repo.path = $scope.state.dst.replace('/', '');
