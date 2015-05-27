@@ -4,7 +4,7 @@ require('app')
   .factory('favico', function (
     favicojs,
     $timeout,
-    getInstanceClasses
+    instanceStatus
   ) {
     var favico = favicojs({
       animation: 'none'
@@ -18,7 +18,8 @@ require('app')
       building: createImage('/build/images/favicon-orange.png'),
       running: createImage('/build/images/favicon-green.png'),
       stopped: createImage('/build/images/favicon-gray.png'),
-      failed: createImage('/build/images/favicon-red.png')
+      buildFailed: createImage('/build/images/favicon-red.png'),
+      crashed: createImage('/build/images/favicon-red.png')
     };
     var currentState;
     var reset = function () {
@@ -30,20 +31,15 @@ require('app')
     };
     var setInstanceState = function (instance) {
       if (instance) {
-        var state = '';
-        var classes = getInstanceClasses(instance);
-        if (classes.running) {
-          state = 'running';
-        } else if (classes.building) {
-          state = 'building';
-        } else if (classes.failed) {
-          state = 'failed';
-        } else if (classes.stopped) {
-          state = 'stopped';
-        }
+        var state = instanceStatus(instance);
         if (state !== currentState) {
+          var icon = icons[state];
+          if (icon) {
+            favico.image(icon);
+          } else {
+            reset();
+          }
           currentState = state;
-          favico.image(icons[state]);
           $timeout(angular.noop);
         }
       }

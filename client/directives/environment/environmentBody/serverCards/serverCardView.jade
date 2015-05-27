@@ -138,10 +138,10 @@ ul.card-body.load(
   )
     svg.iconnables
       use(
-        xlink:href = "#icons-ports"
+        xlink:href = "#icons-environment-variable"
       )
-    h3.h3 Container Files
-    p.p.text-overflow 1 repository; 2 files
+    h3.h3 Environment Variables
+    p.p.text-overflow {{ server.opts.env.length ? server.opts.env.length : 'no' }} variable{{server.opts.env.length === 1 ? '' : 's'}}
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"

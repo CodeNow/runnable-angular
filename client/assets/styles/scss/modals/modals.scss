@@ -49,21 +49,8 @@
 
   // search
   .input-search {
-    background-position: 114px 3px;
     display: block;
-    height: 30px;
-    line-height: 30px;
-    margin: 0 auto 12px;
-    padding-left: 136px;
-    position: relative;
-    top: 8px;
-    width: calc(100% - 12px);
-
-    &:hover,
-    &:focus,
-    &:valid {
-      background-color: $white;
-    }
+    margin: 0 auto;
   }
 
   // validation in modals:
