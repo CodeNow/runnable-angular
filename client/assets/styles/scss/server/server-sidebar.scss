@@ -64,7 +64,6 @@
   .well {
     background-color: $gray-lighterest;
     border: 1px solid $gray-lighter;
-    border-radius: 3px;
     margin: 0;
     position: relative;
 
@@ -116,35 +115,39 @@
 }
 
 // repository group "well"
-.repository-group-item + .repository-group-item {
-  margin-top: 6px;
-}
+.repository-group-item {
 
-.repository-group-text {
-  border-width: 2px;
-  color: $gray;
-  cursor: pointer;
-
-  &:hover {
-    background: $white;
-    border-color: $gray-light;
+  + .repository-group-item {
+    margin-top: 6px;
   }
 
-  &:active,
-  &.active {
-    background: $white;
-    border-color: currentColor;
-    color: $purple-light;
-  }
+  .repository-group-text {
+    border-width: 2px;
+    color: $gray;
+    cursor: pointer;
+    padding: 6px;
 
-  .icons-arrow-down {
-    height: 100%;
-    left: auto;
-    position: absolute;
-    right: 3px;
-    top: 0;
-    transform: rotate3d(0,0,1,-90deg);
-    width: 27px;
+    &:hover {
+      background: $white;
+      border-color: $gray-light;
+    }
+
+    &:active,
+    &.active {
+      background: $white;
+      border-color: currentColor;
+      color: $purple-light;
+    }
+
+    .icons-arrow-down {
+      height: 100%;
+      left: auto;
+      position: absolute;
+      right: 3px;
+      top: 0;
+      transform: rotate3d(0,0,1,-90deg);
+      width: 27px;
+    }
   }
 }
 
@@ -196,10 +199,6 @@
   overflow-y: auto;
   padding-bottom: 9px;
 
-  .well {
-    padding: 6px;
-  }
-
   .label-checkbox {
     margin: 0;
     padding: 3px 0;
@@ -208,14 +207,9 @@
 
 .repository-description {
   font-weight: 400;
-  line-height: 24px;
   padding: 0 27px;
   position: relative;
   word-break: break-word;
-
-  &:first-child {
-    font-weight: 500;
-  }
 }
 
 .repository-detail {
