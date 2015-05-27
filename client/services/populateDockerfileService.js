@@ -6,7 +6,8 @@ require('app')
 function populateDockerfile(
   promisify,
   regexpQuote,
-  keypather
+  keypather,
+  $log
 ) {
   return function (sourceDockerfile, state, destDockerfile) {
     function replaceStackVersion(dockerfileBody, stack) {
@@ -63,7 +64,7 @@ function populateDockerfile(
       if (!state.ports.length) {
         dockerfileBody = dockerfileBody.replace('EXPOSE', '');
       }
-      console.log('Generated dockerfile \n', dockerfileBody);
+      $log.log('Generated dockerfile \n', dockerfileBody);
       return dockerfileBody;
     }
 
