@@ -21,7 +21,7 @@ function populateDockerfile(
     function populateDockerFile(dockerfileBody) {
       // first, add the ports
       var ports = state.ports.join(' ');
-      var mainRepo = state.server.allSections.find(function (section) {
+      var mainRepo = state.containerFiles.find(function (section) {
         return section.type === 'Main Repository';
       });
 
