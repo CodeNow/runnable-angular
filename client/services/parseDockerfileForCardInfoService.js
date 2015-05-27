@@ -127,26 +127,6 @@ function parseDockerfileForRunCommands(dockerfile, repoName) {
 }
 
 
-
-//function Ports(contents){
-//  contents = contents || '';
-//  this.ports = contents.replace('expose ').split(' ');
-//  this.type = 'Ports';
-//  this.toString = function () {
-//    return wrapWithType(this.ports.join(' '), this.type);
-//  };
-//}
-//
-//function StartCommand(contents){
-//  this.command = contents.replace('CMD ');
-//  this.type = 'Start Command';
-//  this.toString = function () {
-//    return wrapWithType(this.type, 'CMD ' + this.command);
-//  };
-//}
-
-
-
 function getCardInfoTypes(
   uuid
 ) {

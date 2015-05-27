@@ -255,7 +255,6 @@ function editServerModal(
               myFile.path = containerFile.path;
               $scope.state.containerFiles.push(myFile);
             }
-            // Push to parent container files
             $rootScope.$broadcast('close-popovers');
 
           },
