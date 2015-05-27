@@ -17,11 +17,12 @@ function helpCardsFactory(
 
 //POSSIBLE TARGETS:
 //newContainer
-//buildFiles
+//containerFiles
 //buildCommand
 //stackType
 //exposedPorts
 //repositories
+//findAndReplace
 //environmentVariables
   var helpCards = {
     'general': [
