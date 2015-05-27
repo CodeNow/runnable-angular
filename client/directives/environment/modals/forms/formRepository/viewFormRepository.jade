@@ -7,17 +7,17 @@
 .help-padding(
   ng-if = "helpCards.getActiveCard().helpPopover.repositories"
   ng-bind-html = "helpCards.getActiveCard().helpPopover.repositories"
-) 
+)
 
 .label.clearfix
-  .label-col Branch
+  .label-col Initial Branch
 
   .input-col
     fancy-select(
       ng-required = "true"
       value = "state.branch"
     )
-      li.list-item.popover-list-item.small Select branch
+      li.list-item.popover-list-item.small Select initial branch
       fancy-option(
         ng-repeat = "branch in $parent.branches.models"
         value = "branch"
@@ -27,10 +27,11 @@
             xlink:href = "#icons-branch"
           )
         | {{ $parent.branch.attrs.name }}
-    small.small Set the default branch for {{ server.instance.getDisplayName() || state.opts.name }}.
+    small.small We’ll build the first container with the code on this branch. We recommend choosing a stable branch.
 
 label.label.clearfix
   .label-col Build Commands
+    small.small (optional)
 
   .input-col
     //- we only have suggestions for build commands on the main repository
@@ -40,7 +41,7 @@ label.label.clearfix
       placeholder = "Build commands"
       spellcheck = "false"
     )
-    small.small Specify the commands that need to be executed when your container is built and before it is launched that support your application (e.g. installing the packages that your code needs).
+    small.small Specify the commands that need to be executed when your container is built and before it’s launched that support your application (e.g. installing packages).
 
 label.label.clearfix
   .label-col Container CMD
@@ -54,13 +55,13 @@ label.label.clearfix
       type = "text"
       value = "state.startCommand"
     )
-      li.list-item.popover-list-item.small Suggested container cmd
+      li.list-item.popover-list-item.small Suggested Container CMD
       fancy-option(
         value = "$parent.state.selectedStack.startCommand"
       ) {{$parent.$parent.state.selectedStack.startCommand}}
 
-    small.small This is the command that will be executed when your container is launched, to start running your code. This must be the long-running process your code requires (e.g. apache, NPM start, Python server).  When this process terminates, your container will also stop running. #{''}
+    small.small This is the command that’ll be executed when your container is launched, to start running your code. This is the long-running process your code requires (e.g. ‘apache’, ‘NPM start’, ‘Python server’).  When this process terminates, your container will also stop running. #{''}
       a.link(
         href = "//docs.docker.com/reference/builder/#cmd"
         target = "_blank"
-      ) More about the container cmd
+      ) More about the Container CMD
