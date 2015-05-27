@@ -32,8 +32,7 @@ require('app')
               return v.length;
             });
             if (!angular.equals(acv.attrs.transformRules.exclude, newArray)) {
-              createTransformRule(acv, newArray)
-                .then($scope.actions.recalculateRules);
+              createTransformRule(acv, newArray);
             }
           }
         };

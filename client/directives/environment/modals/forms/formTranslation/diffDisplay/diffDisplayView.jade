@@ -11,7 +11,7 @@
     button.btn.btn-xs.white(
       ng-if = "previewAll"
       ng-click = "ignore.toggleIgnoreFile(fileDiff)"
-    ) {{ ignore.checkFileIgnored(fileDiff) ? 'Do not' : '' }} Ignore File
+    ) Ignore File
 div(
   ng-repeat = "change in fileDiff.changes"
 )

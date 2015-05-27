@@ -27,6 +27,7 @@ div.modal-form-spinner(
   diff-display
   file-diff = "diff"
   ng-repeat = "diff in state.diffs"
+  ng-if = "!state.recalculating && !actions.checkFileIgnored(diff)"
   preview-all = "true"
   state = "state"
 )

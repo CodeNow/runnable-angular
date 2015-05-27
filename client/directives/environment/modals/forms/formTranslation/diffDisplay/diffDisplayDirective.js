@@ -22,23 +22,16 @@ require('app')
             fileDiff.ignoring = true;
             if (acv) {
               var newArray;
-              if (this.checkFileIgnored(fileDiff)) {
+              if ($scope.actions.checkFileIgnored(fileDiff)) {
                 newArray = acv.attrs.transformRules.exclude;
                 newArray.splice(newArray.indexOf(fileDiff.from), 1);
               } else {
                 newArray = acv.attrs.transformRules.exclude.concat(fileDiff.from);
               }
               createTransformRule(acv, newArray)
-                .then($scope.actions.recalculateRules)
                 .finally(function () {
                   fileDiff.ignoring = false;
                 });
-            }
-          },
-          checkFileIgnored: function (fileDiff) {
-            var acv = keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion()');
-            if (acv) {
-              return acv.attrs.transformRules.exclude.indexOf(fileDiff.from) >= 0;
             }
           }
         };

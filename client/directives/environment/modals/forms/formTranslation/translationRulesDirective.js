@@ -31,6 +31,12 @@ require('app')
               .finally(function () {
                 $scope.state.recalculating = false;
               });
+          },
+          checkFileIgnored: function (fileDiff) {
+            var acv = keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion()');
+            if (acv) {
+              return acv.attrs.transformRules.exclude.indexOf(fileDiff.from) >= 0;
+            }
           }
 
         };
