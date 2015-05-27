@@ -21,7 +21,13 @@ require('app')
             var acv = keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion()');
             fileDiff.ignoring = true;
             if (acv) {
-              var newArray = acv.attrs.transformRules.exclude.concat(fileDiff.from);
+              var newArray;
+              if (this.checkFileIgnored(fileDiff)) {
+                newArray = acv.attrs.transformRules.exclude;
+                newArray.splice(newArray.indexOf(fileDiff.from), 1);
+              } else {
+                newArray = acv.attrs.transformRules.exclude.concat(fileDiff.from);
+              }
               createTransformRule(acv, newArray)
                 .then($scope.actions.recalculateRules)
                 .finally(function () {

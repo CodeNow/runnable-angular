@@ -224,7 +224,7 @@ function getCardInfoTypes(
       var self = this;
       self.commands = self.commands || '';
       if (self.hasFindReplace) {
-        self.commands.unshift('./translation_rules.sh');
+        self.commands = './translation_rules.sh\n'.concat(self.commands);
       }
       self.path = self.path || self.name.trim();
       var contents = 'ADD ./' + self.name.trim() + ' /' + self.path.trim() + '\n'+

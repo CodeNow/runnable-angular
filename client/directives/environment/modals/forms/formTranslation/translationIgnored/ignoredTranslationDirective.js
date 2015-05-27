@@ -43,9 +43,7 @@ require('app')
           'state.contextVersion.getMainAppCodeVersion().attrs.transformRules.exclude',
           function (n) {
             if (n) {
-              $scope.ignoredFilesList = n.reduce(function (stringList, rule) {
-                return stringList + rule + '\n';
-              }, '');
+              $scope.ignoredFilesList = n.join('\n');
             }
           }
         );
