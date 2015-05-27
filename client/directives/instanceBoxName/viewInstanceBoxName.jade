@@ -19,6 +19,7 @@
   a.link-button.container-url-link(
     ng-href = "http://{{ instance.getContainerHostname() }}{{defaultPort}}"
     target = "_blank"
+    title = "Open Container URL"
   )
     svg.iconnables
       use(
@@ -27,8 +28,7 @@
   a.link-button.documentation-link(
     href = "http://support.runnable.io"
     target = "_blank"
-    tooltip = "Learn about Container URLs"
-    tooltip-options = "{\"class\":\"bottom\",\"top\":21}"
+    title = "Learn about Container URLs"
   )
     svg.iconnables
       use(
