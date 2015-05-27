@@ -26,26 +26,23 @@ require('app')
         };
 
         $scope.aceBlurred = function () {
-          var acv = keypather.get($scope, 'state.contextVersion.appCodeVersions.models[0]');
+          var acv = keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion()');
           if (acv) {
             var newArray = $scope.ignoredFilesList.split('\n').filter(function (v) {
               return v.length;
             });
             if (!angular.equals(acv.attrs.transformRules.exclude, newArray)) {
-              createTransformRule(acv, newArray)
-                .then($scope.actions.recalculateRules);
+              createTransformRule(acv, newArray);
             }
           }
         };
 
 
         $scope.$watchCollection(
-          'state.contextVersion.appCodeVersions.models[0].attrs.transformRules.exclude',
+          'state.contextVersion.getMainAppCodeVersion().attrs.transformRules.exclude',
           function (n) {
             if (n) {
-              $scope.ignoredFilesList = n.reduce(function (stringList, rule) {
-                return stringList + rule + '\n';
-              }, '');
+              $scope.ignoredFilesList = n.join('\n');
             }
           }
         );

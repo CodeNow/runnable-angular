@@ -20,7 +20,7 @@ require('app')
     };
 
     $scope.$watchCollection(
-      'state.contextVersion.appCodeVersions.models[0].attrs.transformRules.replace',
+      'state.contextVersion.getMainAppCodeVersion().attrs.transformRules.replace',
       function (n) {
         if (n) {
           $scope.list = populateRulesWithWarningsAndDiffs(n, $scope.state.transformResults);
@@ -44,7 +44,7 @@ require('app')
 
     $scope.performCheck = function (state) {
       return testReplaceTransformRule(
-        keypather.get($scope.state, 'contextVersion.appCodeVersions.models[0]'),
+        keypather.get($scope.state, 'contextVersion.getMainAppCodeVersion()'),
         state
       )
         .then(function (diff) {

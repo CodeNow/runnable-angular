@@ -20,7 +20,7 @@ require('app')
         $scope.actions = {
           recalculateRules: function () {
             $scope.state.recalculating = true;
-            var acv = keypather.get($scope, 'state.contextVersion.appCodeVersions.models[0]');
+            var acv = keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion()');
             return testAllTransformRules(acv)
               .then(function (body) {
                 $scope.state.diffs = parseDiffResponse(body.diff);
@@ -31,6 +31,12 @@ require('app')
               .finally(function () {
                 $scope.state.recalculating = false;
               });
+          },
+          checkFileIgnored: function (fileDiff) {
+            var acv = keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion()');
+            if (acv) {
+              return acv.attrs.transformRules.exclude.indexOf(fileDiff.from) >= 0;
+            }
           }
 
         };

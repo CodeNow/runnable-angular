@@ -155,8 +155,8 @@ function getCardInfoTypes(
       this.fromServer = true;
     }
 
-    var self = this;
     this.toString = function () {
+      var self = this;
       self.commands = self.commands || '';
       self.path = self.path || '';
       var contents = 'ADD ./' + self.name.trim() + ' /' + self.path.trim() + '\n'+
@@ -200,11 +200,11 @@ function getCardInfoTypes(
     }
 
 
-    var self = this;
     this.toString = function () {
+      var self = this;
       self.commands = self.commands || '';
       if (self.hasFindReplace) {
-        self.commands.unshift('./translation_rules.sh');
+        self.commands = './translation_rules.sh\n'.concat(self.commands);
       }
       self.path = self.path || self.name.trim();
       var contents = 'ADD ./' + self.name.trim() + ' /' + self.path.trim() + '\n'+
@@ -221,6 +221,7 @@ function getCardInfoTypes(
       return wrapWithType(contents, self.type);
     };
     this.clone = function () {
+      var self = this;
       var myRepo = new Repo(contents, opts);
       Object.keys(self).forEach(function (key) {
         myRepo[key] = self[key];

@@ -18,7 +18,7 @@ require('app')
       action: 'rename'
     };
     $scope.$watchCollection(
-      'state.contextVersion.appCodeVersions.models[0].attrs.transformRules.rename',
+      'state.contextVersion.getMainAppCodeVersion().attrs.transformRules.rename',
       function (n) {
         if (n) {
           $scope.list = populateRulesWithWarningsAndDiffs(n, $scope.state.transformResults);
@@ -30,7 +30,7 @@ require('app')
 
     $scope.performCheck = function (state) {
       return testRenameTransformRule(
-        keypather.get($scope.state, 'contextVersion.appCodeVersions.models[0]'),
+        keypather.get($scope.state, 'contextVersion.getMainAppCodeVersion()'),
         state
       )
         .then(function (nameChanges) {

@@ -27,9 +27,9 @@ function populateDockerfile(
       });
 
       if (
-        keypather.get(state, 'contextVersion.appCodeVersions.models[0].attrs.transformRules.rename.length') ||
-        keypather.get(state, 'contextVersion.appCodeVersions.models[0].attrs.transformRules.replace.length') ||
-        keypather.get(state, 'contextVersion.appCodeVersions.models[0].attrs.transformRules.exclude.length')
+        keypather.get(state, 'contextVersion.getMainAppCodeVersion().attrs.transformRules.rename.length') ||
+        keypather.get(state, 'contextVersion.getMainAppCodeVersion().attrs.transformRules.replace.length') ||
+        keypather.get(state, 'contextVersion.getMainAppCodeVersion().attrs.transformRules.exclude.length')
       ) {
         mainRepo.hasFindReplace = true;
       }

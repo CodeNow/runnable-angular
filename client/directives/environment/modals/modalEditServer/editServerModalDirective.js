@@ -57,6 +57,7 @@ function editServerModal(
         tags: new JSTagsCollection(($scope.server.ports || '').split(' '))
       };
 
+
       $scope.triggerEditRepo = function (repo) {
         if (repo.type === 'Main Repository') { return; }
         $scope.repositoryPopover.data.repoObj = repo;
@@ -195,7 +196,8 @@ function editServerModal(
               promisify($scope.state.contextVersion.appCodeVersions, 'create', true)({
                 repo: $scope.repositoryPopover.data.repo.attrs.full_name,
                 branch: $scope.repositoryPopover.data.branch.attrs.name,
-                commit: $scope.repositoryPopover.data.commit.attrs.sha
+                commit: $scope.repositoryPopover.data.commit.attrs.sha,
+                additionalRepo: true
               })
                 .then(function (acv) {
                   myRepo.acv = acv;
@@ -312,6 +314,7 @@ function editServerModal(
           opts: {
             env: keypather.get(server, 'opts.env')
           },
+          containerFiles: [],
           repo: server.repo,
           server: server
         };
@@ -319,7 +322,11 @@ function editServerModal(
         watchWhenTruthyPromise($scope, 'server.containerFiles')
           .then(function (containerFiles) {
             $scope.state.containerFiles = containerFiles.map(function (model) {
-              return model.clone();
+              var cloned = model.clone();
+              if (model.type === 'Main Repository') {
+                $scope.state.mainRepoContainerFile = cloned;
+              }
+              return cloned;
             });
             $scope.data.mainRepo = $scope.server.containerFiles.find(hasKeypaths({
               type: 'Main Repo'
@@ -331,7 +338,7 @@ function editServerModal(
           $scope.state.branch =
             server.repo.branches.models.find(hasKeypaths({'attrs.name': keypather.get(
               server,
-              'instance.contextVersion.appCodeVersions.models[0].attrs.branch'
+              'instance.contextVersion.getMainAppCodeVersion().attrs.branch'
             )}));
         }
         return promisify(server.contextVersion, 'deepCopy')()
@@ -343,8 +350,8 @@ function editServerModal(
             if (contextVersion.attrs.advanced) {
               openDockerfile();
             }
-            if (contextVersion.appCodeVersions.models.length) {
-              $scope.state.acv = contextVersion.appCodeVersions.models[0];
+            if (contextVersion.getMainAppCodeVersion()) {
+              $scope.state.acv = contextVersion.getMainAppCodeVersion();
             }
             return fetchUser();
           })
@@ -448,6 +455,9 @@ function editServerModal(
       }
 
       function updateDockerfile(state) {
+        if ($scope.state.mainRepoContainerFile) {
+          $scope.state.mainRepoContainerFile.commands = $scope.state.commands;
+        }
         return promisify(state.contextVersion, 'fetchFile')('/Dockerfile')
           .then(function (newDockerfile) {
             state.dockerfile = newDockerfile;

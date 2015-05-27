@@ -1,26 +1,13 @@
 'use strict';
 
 require('app')
-  .factory('deleteTransformRule', deleteTransformRule);
-
-require('app')
-  .factory('createTransformRule', createTransformRule);
-
-require('app')
-  .factory('moveTransformRules', moveTransformRules);
-
-require('app')
-  .factory('testRenameTransformRule', testRenameTransformRule);
-require('app')
-  .factory('testReplaceTransformRule', testReplaceTransformRule);
-require('app')
-  .factory('testAllTransformRules', testAllTransformRules);
-
-require('app')
-  .factory('parseDiffResponse', parseDiffResponse);
-
-
-require('app')
+  .factory('deleteTransformRule', deleteTransformRule)
+  .factory('createTransformRule', createTransformRule)
+  .factory('moveTransformRules', moveTransformRules)
+  .factory('testRenameTransformRule', testRenameTransformRule)
+  .factory('testReplaceTransformRule', testReplaceTransformRule)
+  .factory('testAllTransformRules', testAllTransformRules)
+  .factory('parseDiffResponse', parseDiffResponse)
   .factory('populateRulesWithWarningsAndDiffs', populateRulesWithWarningsAndDiffs);
 
 function parseDiffResponse(
@@ -100,18 +87,17 @@ function testAllTransformRules(
   user
 ) {
   return function (appCodeVersionModel) {
-    var defer = $q.defer();
-    function callback(err, res, body) {
-      if (err) { return defer.reject(err); }
-      defer.resolve(body);
-    }
-    if (appCodeVersionModel) {
-      user.client.post(appCodeVersionModel.urlPath + '/' + appCodeVersionModel.id() +
-        '/actions/applyTransformRules', callback);
-    } else {
-      defer.resolve();
-    }
-    return defer.promise;
+    return $q(function (resolve, reject) {
+      if (appCodeVersionModel) {
+        user.client.post(appCodeVersionModel.urlPath + '/' + appCodeVersionModel.id() +
+          '/actions/applyTransformRules', function callback(err, res, body) {
+            if (err) { return reject(err); }
+            resolve(body);
+          });
+      } else {
+        resolve();
+      }
+    });
   };
 }
 
@@ -120,17 +106,18 @@ function testRenameTransformRule(
   user
 ) {
   return function (appCodeVersionModel, rule) {
-    var defer = $q.defer();
-    function callback(err, res, body) {
-      if (err) { return defer.reject(err); }
-      defer.resolve(body.nameChanges);
-    }
-    rule.action = 'rename';
-    user.client.post(appCodeVersionModel.urlPath + '/' + appCodeVersionModel.id() +
-      '/actions/testTransformRule', {
-        json: rule
-      }, callback);
-    return defer.promise;
+    return $q(function (resolve, reject) {
+      rule.action = 'rename';
+      user.client.post(appCodeVersionModel.urlPath + '/' + appCodeVersionModel.id() +
+        '/actions/testTransformRule', {
+          json: rule
+        }, function callback(err, res, body) {
+          if (err) {
+            return reject(err);
+          }
+          resolve(body.nameChanges);
+        });
+    });
   };
 }
 
@@ -141,25 +128,23 @@ function testReplaceTransformRule(
   user
 ) {
   return function (appCodeVersionModel, rule) {
-    var defer = $q.defer();
-
-    function callback(err, res, body) {
-      if (err) { return defer.reject(err); }
-      if (body.diffs) {
-        var parsed = parseDiffResponse(Object.keys(body.diffs).reduce(function (total, key) {
-          return total + body.diffs[key];
-        }, ''));
-        defer.resolve(parsed);
-      } else {
-        defer.reject();
-      }
-    }
-    rule.action = 'replace';
-    user.client.post(appCodeVersionModel.urlPath + '/' + appCodeVersionModel.id() +
-      '/actions/testTransformRule', {
-        json: rule
-      }, callback);
-    return defer.promise;
+    return $q(function (resolve, reject) {
+      rule.action = 'replace';
+      user.client.post(appCodeVersionModel.urlPath + '/' + appCodeVersionModel.id() +
+        '/actions/testTransformRule', {
+          json: rule
+        }, function callback(err, res, body) {
+          if (err) { return reject(err); }
+          if (body.diffs) {
+            var parsed = parseDiffResponse(Object.keys(body.diffs).reduce(function (total, key) {
+              return total + body.diffs[key];
+            }, ''));
+            resolve(parsed);
+          } else {
+            reject();
+          }
+        });
+    });
   };
 }
 
@@ -182,8 +167,8 @@ function populateRulesWithWarningsAndDiffs(
           replaceRule.diffs = parseDiffResponse(combinedDiff);
         }
       });
-      return ruleList;
     }
+    return ruleList;
   };
 }
 

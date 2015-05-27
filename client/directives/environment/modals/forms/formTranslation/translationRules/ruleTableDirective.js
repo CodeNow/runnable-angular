@@ -45,7 +45,7 @@ require('app')
             deleteRule: function (rule) {
               $scope.popoverData.active = false;
               return deleteTransformRule(
-                keypather.get($scope.state, 'contextVersion.appCodeVersions.models[0]'),
+                keypather.get($scope.state, 'contextVersion.getMainAppCodeVersion()'),
                 rule
               )
                 .then($scope.actions.recalculateRules)
@@ -55,7 +55,7 @@ require('app')
               $scope.popoverData.active = false;
               $scope.tableProcessing = true;
               return createTransformRule(
-                keypather.get($scope.state, 'contextVersion.appCodeVersions.models[0]'),
+                keypather.get($scope.state, 'contextVersion.getMainAppCodeVersion()'),
                 rule
               )
                 .then($scope.actions.recalculateRules)
