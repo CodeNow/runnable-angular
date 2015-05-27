@@ -82,9 +82,13 @@ function editServerModal(
       };
 
       $scope.triggerAddRepository = function () {
-        $scope.repositoryPopover.data.fromServer = false;
-        $scope.repositoryPopover.data.state.view = 1;
-        $scope.repositoryPopover.data.containerFiles = $scope.state.containerFiles;
+        $scope.repositoryPopover.data = {
+          fromServer: false,
+          containerFiles: $scope.state.containerFiles,
+          state: {
+            view: 1
+          }
+        };
         $scope.repositoryPopover.active = true;
 
         fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
@@ -95,6 +99,14 @@ function editServerModal(
 
         $timeout(function () {
           $scope.repositoryPopover.active = false;
+        });
+      };
+
+      $scope.triggerUploadFile = function () {
+        $scope.fileUpload.data = {};
+        $scope.fileUpload.active = true;
+        $timeout(function () {
+          $scope.fileUpload.active = false;
         });
       };
 
@@ -129,7 +141,7 @@ function editServerModal(
             $scope.repositoryPopover.data.loading = true;
             $scope.repositoryPopover.data.repo.loading = true;
 
-            promisify(repo.branches, 'fetch')()
+            promisify(repo.branches, 'fe`tch')()
               .then(function (branches) {
                 return branches.models.find(hasKeypaths({'attrs.name': repo.attrs.default_branch}));
               })
