@@ -1,26 +1,13 @@
 'use strict';
 
 require('app')
-  .factory('deleteTransformRule', deleteTransformRule);
-
-require('app')
-  .factory('createTransformRule', createTransformRule);
-
-require('app')
-  .factory('moveTransformRules', moveTransformRules);
-
-require('app')
-  .factory('testRenameTransformRule', testRenameTransformRule);
-require('app')
-  .factory('testReplaceTransformRule', testReplaceTransformRule);
-require('app')
-  .factory('testAllTransformRules', testAllTransformRules);
-
-require('app')
-  .factory('parseDiffResponse', parseDiffResponse);
-
-
-require('app')
+  .factory('deleteTransformRule', deleteTransformRule)
+  .factory('createTransformRule', createTransformRule)
+  .factory('moveTransformRules', moveTransformRules)
+  .factory('testRenameTransformRule', testRenameTransformRule)
+  .factory('testReplaceTransformRule', testReplaceTransformRule)
+  .factory('testAllTransformRules', testAllTransformRules)
+  .factory('parseDiffResponse', parseDiffResponse)
   .factory('populateRulesWithWarningsAndDiffs', populateRulesWithWarningsAndDiffs);
 
 function parseDiffResponse(
