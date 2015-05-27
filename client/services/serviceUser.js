@@ -52,16 +52,11 @@ methods.forEach(function (method) {
     delete opts.qs;
     opts.cache = false;
 
+    // Both use the same callback as api-client handles the errors
     this.$http(opts)
       .success(callback)
-      .error(errorCallback);
-    function errorCallback(data, status, headers, config) {
-      if (status === 0) {
-        // CORS failed
-        return cb(new Error('Could not reach server'));
-      }
-      return cb(new Error(data.message));
-    }
+      .error(callback);
+
     function callback(data, status, headers, config) {
       if (status === 0) {
         // CORS failed
