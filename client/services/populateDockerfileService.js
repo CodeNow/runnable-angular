@@ -39,10 +39,7 @@ function populateDockerfile(
       var containerFiles = keypather.get(state, 'containerFiles') || [];
       dockerSectionArray = dockerSectionArray.concat(containerFiles);
 
-      var dockerSectionsString = '';
-      dockerSectionArray.forEach(function (containerFile) {
-        dockerSectionsString += '\n' + containerFile.toString() + '\n';
-      });
+      var dockerSectionsString = dockerSectionArray.join('\n\n');
 
       if (mainRepo) {
         dockerSectionsString += '\nWORKDIR /'+mainRepo.path+'\n';
