@@ -9,11 +9,11 @@ require('app')
 function fileTreeDir(
   $rootScope,
   keypather,
+  uploadFile,
   errs,
   $q,
   promisify,
   helperCreateFS,
-  $upload,
   configAPIHost
 ) {
   return {
@@ -39,6 +39,10 @@ function fileTreeDir(
       $scope.editFolderName = false;
       $scope.editFileName = false;
       $scope.data = {};
+
+      $scope.normalizeRepoNames = function (repo) {
+        return repo.replace(/[a-zA-Z0-9]+\//, '');
+      };
 
 
       $scope.actions.shouldCloseFolderNameInput = function (event) {
@@ -196,13 +200,7 @@ function fileTreeDir(
                 };
 
                 $scope.dir.contents.models.push(myFile);
-                return $upload.upload({
-                  url: uploadURL,
-                  file: file,
-                  method: 'POST',
-                  fileFormDataName: 'file',
-                  withCredentials: true
-                })
+                return uploadFile(file, uploadURL)
                   .progress(function (evt) {
                     myFile.state.progress = parseInt(100.0 * evt.loaded / evt.total, 10);
                   })

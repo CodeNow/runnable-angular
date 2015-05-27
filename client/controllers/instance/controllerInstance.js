@@ -124,8 +124,8 @@ function ControllerInstance(
       return;
     }
 
-    if (data.instance.contextVersion.appCodeVersions.models.length) {
-      data.commit = fetchCommitData.activeCommit(data.instance.contextVersion.appCodeVersions.models[0]);
+    if (data.instance.contextVersion.getMainAppCodeVersion()) {
+      data.commit = fetchCommitData.activeCommit(data.instance.contextVersion.getMainAppCodeVersion());
     }
     data.showUpdatingMessage = false;
     data.showUpdatedMessage = true;

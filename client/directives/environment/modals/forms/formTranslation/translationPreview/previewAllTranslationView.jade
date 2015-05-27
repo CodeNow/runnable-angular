@@ -1,0 +1,37 @@
+//- do not show if no preview
+  .clearfix(
+    ng-if = "!state.recalculating && state.diffs.length"
+  )
+    label.label.label-jump
+      small.small Jump to
+      select.select
+        optgroup(
+          label = "Filename rule"
+        )
+          option build/index.html
+        optgroup(
+          label = "String rule"
+        )
+          option build/index2.html
+          option build/assets/img.img
+div.modal-form-spinner(
+  ng-if = "state.recalculating"
+)
+  .spinner-wrapper.spinner-sm.spinner-gray.in(
+    ng-include = "'spinner'"
+  )
+  small.small Updating
+
+.table.table-diff(
+  actions = "actions"
+  diff-display
+  file-diff = "diff"
+  ng-repeat = "diff in state.diffs"
+  preview-all = "true"
+  state = "state"
+)
+
+//- if no preview to show
+p.p.empty(
+  ng-if = "!state.recalculating && state.diffs.length === 0"
+) There's nothing to see here

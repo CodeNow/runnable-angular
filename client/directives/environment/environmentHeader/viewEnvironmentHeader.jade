@@ -48,14 +48,13 @@ button.btn.btn-icon.blue(
 
 //- new server button
 button.btn.green(
-  ng-click = "state.newServerButton.active = true"
+  ng-class = "{ hint: helpCards.getActiveCard().targets.newContainer }"
   pop-over
   pop-over-actions = "actions"
   pop-over-active = "state.newServerButton.active"
   pop-over-data = "data"
   pop-over-options = "{\"right\":0,\"top\":56}"
   pop-over-template = "viewPopoverNewServer"
-  pop-over-trigger = "activeAttr"
 )
   svg.iconnables.icons-add.icons-round
     use(

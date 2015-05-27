@@ -46,7 +46,7 @@ methods.forEach(function (method) {
     opts.data = opts.json || opts.body;
     delete opts.json;
     delete opts.body;
-    if (opts.qs) {
+    if (opts.qs && qs.stringify(opts.qs)) {
       opts.url += '?' + qs.stringify(opts.qs);
     }
     delete opts.qs;
@@ -54,8 +54,14 @@ methods.forEach(function (method) {
 
     this.$http(opts)
       .success(callback)
-      .error(callback);
-
+      .error(errorCallback);
+    function errorCallback(data, status, headers, config) {
+      if (status === 0) {
+        // CORS failed
+        return cb(new Error('Could not reach server'));
+      }
+      return cb(new Error(data.message));
+    }
     function callback(data, status, headers, config) {
       if (status === 0) {
         // CORS failed

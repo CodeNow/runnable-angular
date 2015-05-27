@@ -46,6 +46,21 @@
     float: none;
     width: 100%;
   }
+
+  // spinner
+  &.input-spinner {
+    margin: 6px 0 0;
+    text-align: right;
+
+    .small.small {
+      color: $gray;
+      margin: 0;
+    }
+  }
+
+  .spinner-wrapper {
+    margin-top: 5px;
+  }
 }
 
 // .label-row: override .label-col for 2 or more inputs on a row
@@ -87,6 +102,20 @@
       margin-right: 3px;
       width: 21px;
     }
+  }
+}
+
+// jump
+.label-jump {
+  margin-bottom: 15px;
+
+  .small.small {
+    display: inline-block;
+  }
+
+  .select {
+    margin-left: 6px;
+    max-width: 150px;
   }
 }
 

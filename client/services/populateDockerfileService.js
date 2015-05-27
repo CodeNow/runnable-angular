@@ -5,7 +5,8 @@ require('app')
 
 function populateDockerfile(
   promisify,
-  regexpQuote
+  regexpQuote,
+  keypather
 ) {
   return function (sourceDockerfile, state, destDockerfile) {
     function replaceStackVersion(dockerfileBody, stack) {
@@ -20,27 +21,49 @@ function populateDockerfile(
     function populateDockerFile(dockerfileBody) {
       // first, add the ports
       var ports = state.ports.join(' ');
-      state.commands = state.commands || '';
-      var commands = state.commands.split('\n')
-        .filter(function (str) {
-          return str.trim().length;
-        })
-        .map(function(str) {
-          return 'RUN ' + str.trim();
-        })
-        .join('\n');
-      dockerfileBody = replaceStackVersion(dockerfileBody, state.selectedStack)
+      var mainRepo = state.containerFiles.find(function (section) {
+        return section.type === 'Main Repository';
+      });
+
+      if (
+        keypather.get(state, 'contextVersion.getMainAppCodeVersion().attrs.transformRules.rename.length') ||
+        keypather.get(state, 'contextVersion.getMainAppCodeVersion().attrs.transformRules.replace.length') ||
+        keypather.get(state, 'contextVersion.getMainAppCodeVersion().attrs.transformRules.exclude.length')
+      ) {
+        mainRepo.hasFindReplace = true;
+      }
+
+
+      var dockerSectionArray = [];
+      var containerFiles = keypather.get(state, 'containerFiles') || [];
+      dockerSectionArray = dockerSectionArray.concat(containerFiles);
+
+      var dockerSectionsString = '';
+      dockerSectionArray.forEach(function (containerFile) {
+        dockerSectionsString += '\n' + containerFile.toString() + '\n';
+      });
+
+      if (mainRepo) {
+        dockerSectionsString += '\nWORKDIR /'+mainRepo.path+'\n';
+      }
+
+      dockerfileBody = replaceStackVersion(dockerfileBody, state.selectedStack);
+
+      var beforeIndex = dockerfileBody.indexOf('<before-main-repo>');
+      var afterIndex = dockerfileBody.indexOf('<after-main-repo>');
+
+      dockerfileBody = dockerfileBody.slice(0, beforeIndex) + dockerSectionsString + dockerfileBody.slice(afterIndex + '<after-main-repo>'.length);
+
+      dockerfileBody = dockerfileBody
         .replace(/<user-specified-ports>/gm, ports)
-        .replace(/<before-main-repo>/gm, '')
-        .replace(/<after-main-repo>/gm, '')
         .replace(/<dst>/gm, '/' + state.dst)
-        .replace(/<repo-name>/gm, state.repo.attrs.name)
-        .replace(/<main-build-commands>/gm, commands)
         .replace(/<start-command>/gm, state.startCommand)
         .replace(/#default.+/gm, ''); // Remove all default comments that are not
+
       if (!state.ports.length) {
         dockerfileBody = dockerfileBody.replace('EXPOSE', '');
       }
+      console.log('Generated dockerfile \n', dockerfileBody);
       return dockerfileBody;
     }
 
@@ -51,6 +74,4 @@ function populateDockerfile(
       }
     });
   };
-
-
 }

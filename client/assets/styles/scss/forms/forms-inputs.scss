@@ -85,6 +85,17 @@
   }
 }
 
+// hide if upload
+#input-upload {
+  position: absolute;
+  visibility: hidden;
+}
+
+.input {
+  height: 45px;
+  line-height: 45px;
+}
+
 .textarea {
   padding: 3px 6px;
 }
@@ -283,13 +294,27 @@
     padding-left: 27px !important; // override all other position
     transition: all .15s ease-in;
   }
+}
 
-  &.input-search-sm {
-    background-position: 6px 2px !important; // no transition for .input-search-sm
-    background-size: 18px;
-    height: 24px;
-    line-height: 24px;
-    padding-left: 27px;
-    transition: all .15s ease-in;
+// icons
+.input-root {
+  position: relative;
+
+  &::after {
+    color: $gray;
+    content: '/';
+    display: block;
+    font-weight: 500;
+    height: 36px;
+    left: 0;
+    line-height: 36px;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 21px;
+  }
+
+  .input {
+    padding-left: 15px;
   }
 }

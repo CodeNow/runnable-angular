@@ -6,6 +6,7 @@ require('app')
 
 function helpCardsFactory(
   $interpolate,
+  $q,
   keypather,
   fetchSettings,
   errs,
@@ -97,8 +98,10 @@ function helpCardsFactory(
         'targets': [
           'newContainer'
         ],
-        'helpTop': 'Click on <b>New Container</b> to add a <b>{{dependency}}</b> service.',
-        'helpPopover': {}
+        'helpTop': 'Click on the <b>New Container</b> button to add a <b>{{dependency}}</b> service.',
+        'helpPopover': {
+          'newContainer': 'Click <b>Non-repository</b> to add a <b>{{dependency}}</b> service.'
+        }
       }
     ]
   };
@@ -185,6 +188,14 @@ function helpCardsFactory(
       this.cards.triggered = [];
       activeCard = null;
     },
+    hideActiveCard: function () {
+      if (this.getActiveCard()) {
+        var helpCard = this.getActiveCard();
+        this.setActiveCard(null);
+        var index = this.cards.triggered.indexOf(helpCard);
+        this.cards.triggered.splice(index, 1);
+      }
+    },
     refreshActiveCard: function () {
       if (this.getActiveCard()) {
         this.getActiveCard().emit('refresh');
@@ -193,7 +204,9 @@ function helpCardsFactory(
     },
     refreshAllCards: function () {
       this.cards.triggered.forEach(function (card) {
-        card.emit('refresh');
+        if (!card.removed) {
+          card.emit('refresh');
+        }
       });
       currentCardHash = {};
       this.cards.triggered = [];
@@ -209,7 +222,9 @@ function helpCardsFactory(
           return keypather.get(card, 'data.instance.attrs.shortHash') === instance.attrs.shortHash;
         })
         .forEach(function (card) {
-          card.emit('remove');
+          if (!card.removed) {
+            card.emit('remove');
+          }
         });
     },
     triggerCard: function (cardId, data) {
@@ -241,14 +256,17 @@ function helpCardsFactory(
             if (self.getActiveCard() === helpCard) {
               self.setActiveCard(null);
             }
+            helpCard.removed = true;
             var index = self.cards.triggered.indexOf(helpCard);
             self.cards.triggered.splice(index, 1);
           });
           helpCard.on('refresh', function () {
-            helpCard.emit('remove');
+            if (!helpCard.removed) {
+              helpCard.emit('remove');
+            }
           });
         }
-        return currentCardHash[helpCard.hash];
+        return $q.when(currentCardHash[helpCard.hash]);
       })
         .catch(errs.handler);
     },

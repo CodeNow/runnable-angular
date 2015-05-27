@@ -15,24 +15,24 @@ ul.server-category-list(
   li.server-category-list-item(
     ng-repeat = "masterInstance in data.instancesByPod.models |orderBy: ['attrs.contextVersion.appCodeVersions.length === 0', 'attrs.name'] "
   )
+    button.btn.btn-xs.btn-icon(
+      title = "configure"
+      ui-sref = "config.instance({ userName: data.activeAccount.oauthName(), \
+        instanceName: masterInstance.attrs.name })"
+    )
+      svg.iconnables
+        use(
+          xlink:href = "#icons-advanced"
+          )
     .server-list
       a.server-list-item(
         ng-class = "{selected: isSelected(masterInstance)}"
         ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
           instanceName: masterInstance.attrs.name })"
       )
-        svg.iconnables.icons-repository(
-          ng-if = "masterInstance.getRepoName()"
+        status-icon(
+          instance = "masterInstance"
         )
-          use(
-            xlink:href = "#icons-repository"
-          )
-        svg.iconnables.icons-container(
-          ng-if = "!masterInstance.getRepoName()"
-        )
-          use(
-            xlink:href = "#icons-container"
-          )
         span.server-category-name.text-overflow(
           ng-if = "masterInstance.getRepoName()"
           title = "{{ masterInstance.getRepoName() }}/{{ masterInstance.getBranchName() }}"
@@ -43,10 +43,6 @@ ul.server-category-list(
           ng-if = "!masterInstance.getRepoName()"
           title = "{{ masterInstance.attrs.name }}"
         ) {{ masterInstance.attrs.name }}
-
-        status-icon(
-          instance = "masterInstance"
-        )
 
       a.server-list-item(
         ng-class = "{selected: isSelected(branchFork)}"

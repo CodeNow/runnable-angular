@@ -4,7 +4,6 @@
     - if building succeeded, and running: text says "Running"; title attribute shows time running "82 seconds" "50 minutes" etc.
     - if building succeeded, and stopped: text says "Stopped"; title attribute shows when the server was stopped "Stopped 2 minutes ago"
     - if building succeeded, and run fails: text says "Crashed"; title attribute shows when the server crashed "Crashed 2 minutes ago"
-
   server-status-card-header.btn.btn-sm.btn-title.white(
     ng-attr-no-touching = "{{ showSpinner() }}"
     pop-over-options = "{\"right\":0,\"top\":47}"
@@ -17,9 +16,11 @@ ul.card-body.card-loading(
   .spinner-wrapper.spinner-md.spinner-gray.in(
     ng-include = "'spinner'"
   )
+
 ul.card-body.load(
   ng-if = "!showSpinner()"
 )
+  //- advanced config
   li.btn.white(
     modal
     modal-actions = "actions"
@@ -39,6 +40,7 @@ ul.card-body.load(
       use(
       xlink:href = "#icons-arrow-down"
       )
+  //- stack type
   li.btn.white(
     modal
     modal-actions = "actions"
@@ -59,29 +61,7 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-arrow-down"
       )
-  li.btn.white(
-    modal
-    modal-actions = "actions"
-    modal-current-model = "server"
-    modal-data = "data"
-    modal-state-model = "'repository'"
-    modal-template = "editServerModalOpen"
-    ng-if = "server.repo && !server.advanced"
-    ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.repositories}"
-  )
-    svg.iconnables
-      use(
-        xlink:href = "#icons-git-repository"
-      )
-    h3.h3 Repository
-    //- \\n for new line
-    p.p.text-overflow(
-      title = "{{ server.instance.contextVersion.appCodeVersions.models[0].attrs.branch }}\\nnpm start\\nbuild commands"
-    ) {{ server.instance.contextVersion.appCodeVersions.models[0].attrs.branch }}
-    svg.iconnables.icons-arrow-down
-      use(
-        xlink:href = "#icons-arrow-down"
-      )
+  //- exposed ports
   li.btn.white(
     ng-if = "server.repo && !server.advanced"
     modal
@@ -90,7 +70,8 @@ ul.card-body.load(
     modal-data = "data"
     modal-state-model = "'ports'"
     modal-template = "editServerModalOpen"
-    ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.exposedPorts}"
+    ng-if = "server.repo && !server.advanced"
+    ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.repositories}"
   )
     svg.iconnables
       use(
@@ -102,22 +83,65 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-arrow-down"
       )
-  //- will use in the second half of build commands
-  //- li.btn.white(
-  //-   modal
-  //-   modal-actions = "actions"
-  //-   modal-current-model = "server"
-  //-   modal-data = "data"
-  //-   modal-state-model = "'files'"
-  //-   modal-template = "editServerModalOpen"
-  //-   ng-if = "server.repo && !server.advanced"
-  //- )
+  //- environment variables
+  li.btn.white(
+    modal
+    modal-actions = "actions"
+    modal-current-model = "server"
+    modal-data = "data"
+    modal-state-model = "'env'"
+    modal-template = "editServerModalOpen"
+    ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.exposedPorts}"
+  )
     svg.iconnables
       use(
-        xlink:href = "#icons-git-repository"
+        xlink:href = "#icons-environment-variable"
       )
-    h3.h3 Additional Files
-    p.p.text-overflow {{ server.instance.contextVersion.appCodeVersions.models[0].attrs.branch }}
+    h3.h3 Environment Variables
+    p.p.text-overflow {{ server.opts.env.length ? server.opts.env.length : 'no' }} variable{{server.opts.env.length === 1 ? '' : 's'}}
+    svg.iconnables.icons-arrow-down
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+  //- repository
+  li.btn.white(
+    modal
+    modal-actions = "actions"
+    modal-current-model = "server"
+    modal-data = "data"
+    modal-state-model = "'repository'"
+    modal-template = "editServerModalOpen"
+    ng-if = "server.repo && !server.advanced"
+  )
+    svg.iconnables
+      use(
+        xlink:href = "#icons-repository"
+      )
+    h3.h3 Main Repository
+    //- \\n for new line
+    p.p.text-overflow(
+      title = "{{ server.instance.contextVersion.getMainAppCodeVersion().attrs.branch }}\\n{{server.commands}}"
+    ) {{ server.instance.contextVersion.getMainAppCodeVersion().attrs.branch }}
+    svg.iconnables.icons-arrow-down
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+  //- container files
+  li.btn.white(
+    modal
+    modal-actions = "actions"
+    modal-current-model = "server"
+    modal-data = "data"
+    modal-state-model = "'files'"
+    modal-template = "editServerModalOpen"
+    ng-if = "server.repo && !server.advanced"
+  )
+    svg.iconnables
+      use(
+        xlink:href = "#icons-container-files"
+      )
+    h3.h3 Container Files
+    p.p.text-overflow {{ getContainerFilesDisplay() }}
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
@@ -127,16 +151,16 @@ ul.card-body.load(
     modal-actions = "actions"
     modal-current-model = "server"
     modal-data = "data"
-    modal-state-model = "'env'"
+    modal-state-model = "'translation'"
     modal-template = "editServerModalOpen"
-    ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.environmentVariables}"
+    ng-if = "server.repo"
   )
     svg.iconnables
       use(
-        xlink:href = "#icons-environment-variable"
+        xlink:href = "#icons-translation"
       )
-    h3.h3 Environment Variables
-    p.p.text-overflow {{ server.opts.env.length ? server.opts.env.length : 'no' }} variable{{server.opts.env.length === 1 ? '' : 's'}}
+    h3.h3 Find and Replace
+    p.p.text-overflow {{ getTranslationDisplay() }}
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"

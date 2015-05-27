@@ -43,14 +43,24 @@
       }
     }
 
-    // don't stretch if btn-xs
-    > .btn-xs {
+    // don't stretch if btn-xs/xxs
+    > .btn-xs,
+    > .btn-xxs {
+      font-size: 13px;
       padding: 0 6px;
       width: auto;
 
       &:only-child {
         float: right;
         margin-top: 6px;
+      }
+
+      &.float-right {
+        margin: 6px 0 0; // center buttons
+      }
+
+      &.float-right + .float-right {
+        margin-right: 6px;
       }
     }
 
@@ -90,7 +100,7 @@
   }
 
   // label info
-  .small {
+  > .small {
     color: $gray;
     display: inline-block;
     margin: 6px 0 0;
@@ -100,6 +110,10 @@
   .label-help {
     margin: 12px auto 0;
     text-align: center;
+
+    .small {
+      display: inline-block;
+    }
 
     .btn-xxs {
       background: $gray;
@@ -140,5 +154,19 @@
       margin-top: 9px;
       text-align: center;
     }
+  }
+
+  // spinner
+  .modal-form-spinner {
+    color: $gray;
+    margin: 60px 0 30px;
+    text-align: center;
+  }
+
+  .spinner-wrapper:not(.spinner-backdrop) {
+    display: inline-block;
+    height: 12px;
+    margin-right: 6px;
+    width: 12px;
   }
 }
