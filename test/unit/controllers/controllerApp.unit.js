@@ -14,7 +14,7 @@ var user = require('../apiMocks').user;
 
 describe('controllerApp'.bold.underline.blue, function () {
   var ctx = {};
-  function setup(stateParams, heap, intercom, olark) {
+  function setup(stateParams, heap, intercom) {
     angular.mock.module('app');
     ctx.fakeuser = new User(angular.copy(apiMocks.user));
     ctx.fakeOrg1 = {
@@ -64,9 +64,7 @@ describe('controllerApp'.bold.underline.blue, function () {
     if ($window.Intercom) {
       sinon.stub($window, 'Intercom', noop);
     }
-    if ($window.olark) {
-      sinon.stub($window, 'olark', noop);
-    }
+
     var ca = $controller('ControllerApp', {
       '$scope': $scope
     });
@@ -76,7 +74,6 @@ describe('controllerApp'.bold.underline.blue, function () {
 
   function tearDown () {
     keypather.get($window, 'Intercom.restore()');
-    keypather.get($window, 'olark.restore()');
   }
 
   describe('basics'.blue, function () {
