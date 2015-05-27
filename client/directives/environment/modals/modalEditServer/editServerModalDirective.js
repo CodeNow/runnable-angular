@@ -141,7 +141,7 @@ function editServerModal(
             $scope.repositoryPopover.data.loading = true;
             $scope.repositoryPopover.data.repo.loading = true;
 
-            promisify(repo.branches, 'fe`tch')()
+            promisify(repo.branches, 'fetch')()
               .then(function (branches) {
                 return branches.models.find(hasKeypaths({'attrs.name': repo.attrs.default_branch}));
               })
