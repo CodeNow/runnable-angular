@@ -6,7 +6,10 @@
 )
   .popover-content
     h3.popover-title {{ data.isUpdating ? 'New ' : ''}}Filename Replace Rule
-      small.small 🐶 Rules are case-sensitive and trailing whitespace is not trimmed. Regular expressions are not supported.
+      ul.list.small
+        li.list-item Case-sensitive
+        li.list-item Trailing whitespace is not trimmed
+        li.list-item Regular expressions are not supported
       button.btn.btn-xs.orange(
         ng-if = "data.state._id"
         ng-click = "actions.deleteRule(data.state)"
