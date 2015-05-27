@@ -57,12 +57,6 @@ function editServerModal(
         tags: new JSTagsCollection(($scope.server.ports || '').split(' '))
       };
 
-      if (keypather.get($scope, 'server.containerFiles')) {
-        $scope.data.mainRepo = $scope.server.containerFiles.find(hasKeypaths({
-          type: 'Main Repository'
-        }));
-      }
-
       $scope.triggerEditRepo = function (repo) {
         if (repo.type === 'Main Repository') { return; }
         $scope.repositoryPopover.data.repoObj = repo;
@@ -328,6 +322,9 @@ function editServerModal(
             $scope.state.containerFiles = containerFiles.map(function (model) {
               return model.clone();
             });
+            $scope.data.mainRepo = $scope.server.containerFiles.find(hasKeypaths({
+              type: 'Main Repo'
+            }));
           });
 
         if (server.repo) {
