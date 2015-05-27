@@ -173,7 +173,12 @@ function getCardInfoTypes(
       return wrapWithType(contents, self.type);
     };
     this.clone = function () {
-      return new ContainerFile(contents);
+      var self = this;
+      var myContainerFile = new ContainerFile(contents);
+      Object.keys(self).forEach(function (key) {
+        myContainerFile[key] = self[key];
+      });
+      return myContainerFile;
     };
   }
 
