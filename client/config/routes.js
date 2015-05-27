@@ -67,16 +67,40 @@ module.exports = [
     controller: 'ControllerInstanceLayout',
     onEnter: function ($rootScope, keypather) {
       keypather.set($rootScope, 'layoutOptions.hideSidebar', true);
+      keypather.set($rootScope, 'dataApp.isConfigPage', true);
     },
     onExit: function ($rootScope, keypather) {
       keypather.set($rootScope, 'layoutOptions.hideSidebar', false);
+      keypather.set($rootScope, 'dataApp.isConfigPage', false);
     }
   }, {
     state: 'config.home',
     abstract: false,
     url: '^/:userName/configure',
     templateUrl: 'environmentView',
-    controller: 'EnvironmentController'
+    controller: 'EnvironmentController',
+    onEnter: function ($rootScope, keypather) {
+      keypather.set($rootScope, 'layoutOptions.hideSidebar', true);
+      keypather.set($rootScope, 'dataApp.isConfigPage', true);
+    },
+    onExit: function ($rootScope, keypather) {
+      keypather.set($rootScope, 'layoutOptions.hideSidebar', false);
+      keypather.set($rootScope, 'dataApp.isConfigPage', false);
+    }
+  }, {
+    state: 'config.instance',
+    abstract: false,
+    url: '^/:userName/configure/:instanceName',
+    templateUrl: 'environmentView',
+    controller: 'EnvironmentController',
+    onEnter: function ($rootScope, keypather) {
+      keypather.set($rootScope, 'layoutOptions.hideSidebar', true);
+      keypather.set($rootScope, 'dataApp.isConfigPage', true);
+    },
+    onExit: function ($rootScope, keypather) {
+      keypather.set($rootScope, 'layoutOptions.hideSidebar', false);
+      keypather.set($rootScope, 'dataApp.isConfigPage', false);
+    }
   }, {
     state: 'instance',
     abstract: true,

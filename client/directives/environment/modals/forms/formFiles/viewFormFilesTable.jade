@@ -3,18 +3,25 @@
     svg.iconnables
   .cell Name
   .cell.cell-type Type
-//- main repo is not actionable
-ul(
-  dnd-list = "server.containerFiles"
+ul.table-drag-drop(
+  dnd-list = "state.containerFiles"
+  dnd-drop = "dropContainerFile(event, index, item, type)"
 )
   li.tr.multi-line.clearfix(
-    dnd-draggable = "containerFile"
+    dnd-draggable = "containerFile.id"
     dnd-dragstart = "actions.dragstart()"
     dnd-effect-allowed = "move"
-    dnd-moved = "server.containerFiles.splice($index, 1)"
-    ng-repeat = "containerFile in server.containerFiles"
+    ng-class = "{\
+      disabled: containerFile.type === 'Main Repository',\
+      'tr-action': containerFile.type !== 'Main Repository'\
+    }"
+    ng-repeat = "containerFile in state.containerFiles"
   )
     .cell.cell-action(
+      ng-class = "{\
+        disabled: state.containerFiles.length < 2,\
+        'no-touching': state.containerFiles.length < 2\
+      }"
       dnd-handle
     )
       svg.iconnables.icons-drag
@@ -22,14 +29,41 @@ ul(
           xlink:href = "#icons-drag"
         )
     .cell.text-overflow(
+      ng-if = "containerFile.type === 'File'"
+      pop-over
+      pop-over-actions = "fileUpload.actions"
+      pop-over-data = "containerFile"
+      pop-over-template = "viewPopoverFilesUpload"
       title = "{{ containerFile.name }}"
     ) {{ containerFile.name }}
       small.small(
         title = "{{ containerFile.path }}"
-      ) {{ containerFile.path }}
+      ) /{{ containerFile.path }}
+    .cell.text-overflow(
+      ng-if = "containerFile.type === 'Repository' || containerFile.type === 'Main Repository'"
+      ng-click = "triggerEditRepo(containerFile)"
+      title = "{{ containerFile.name }}"
+    ) {{ containerFile.name }}
+      small.small(
+        title = "{{ containerFile.path }}"
+      ) /{{ containerFile.path }}
     .cell.cell-type.small
-      svg.iconnables.icons-server
+      svg.iconnables(
+        ng-if = "containerFile.type === 'File'"
+      )
         use(
-          xlink:href = "#icons-server"
+          xlink:href = "#icons-file"
+        )
+      svg.iconnables(
+        ng-if = "containerFile.type === 'Main Repository'"
+      )
+        use(
+          xlink:href = "#icons-repository"
+        )
+      svg.iconnables(
+          ng-if = "containerFile.type === 'Repository'"
+        )
+        use(
+          xlink:href = "#icons-repository-additional"
         )
       | {{ containerFile.type }}

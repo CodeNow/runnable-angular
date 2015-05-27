@@ -1,0 +1,77 @@
+.popover.popover-fixed.popover-rules(
+  ng-class = "{in: active}"
+  ng-style = "popoverStyle.getStyle()"
+  ng-form = "popoverRuleForm"
+  ng-init = "currentState = {}"
+)
+  .popover-content
+    h3.popover-title {{ data.isUpdating ? 'New ' : ''}}Filename Replace Rule
+      button.btn.btn-xs.orange(
+        ng-if = "data.state._id"
+        ng-click = "actions.deleteRule(data.state)"
+      )
+        svg.iconnables.icons-trash
+          use(
+            xlink:href = "#icons-trash"
+          )
+        | Delete Rule
+      ul.list.small
+        li.list-item Case-sensitive
+        li.list-item Trailing whitespace is not trimmed
+        li.list-item Regular expressions are not supported
+
+    .label-row
+      label.label-col Source
+        input.input.input-sm.monospace(
+          name = "sourceTextBox"
+          ng-model = "data.state.source"
+          ng-change = "currentState.searched = false"
+          spellcheck = "false"
+          placeholder = "index.html"
+        )
+      .span-col →
+      label.label-col Destination
+        input.input.input-sm.monospace(
+          name = "destTextBox"
+          ng-model = "data.state.dest"
+          ng-change = "currentState.searched = false"
+          spellcheck = "false"
+          placeholder = "index.prod.html"
+        )
+
+    small.small.table-details(
+      ng-if = "data.state.nameChanges"
+    ) {{ data.state.nameChanges.length ? 'Match found' : 'No matches found' }}
+
+    //- filename verification table
+    .table.table-diff(
+      ng-if = "data.state.nameChanges.length"
+    )
+      .tr.thead.clearfix
+        .cell
+          a.link(
+            ng-href = "{{ data.state.nameChanges[0].from | fileGithubLinkUrl: data.parentState.contextVersion}}"
+            target = "_blank"
+          ) {{ data.state.nameChanges[0].from }}
+            | #{''} → {{ data.state.nameChanges[0].to }}
+
+  .popover-footer.clearfix
+    button.btn.green.btn-spinner(
+      ng-if = "!currentState.searched"
+      ng-class = "{in: currentState.processing}"
+      ng-click = "actions.performCheck(data.state, currentState)"
+      ng-disabled = "!popoverRuleForm.$valid || popoverRuleForm.$pristine || currentState.processing"
+    )
+      //- spinner
+      .spinner-wrapper.spinner-sm.spinner-white.in(
+        ng-if = "currentState.processing"
+        ng-include = "'spinner'"
+      )
+      span {{ currentState.processing ? 'Searching' : 'Search for matches' }}
+    button.btn.green(
+      ng-if = "currentState.searched"
+      ng-click = "actions.createRule(data.state)"
+    ) {{ data.state._id ? 'Update': 'Create'}} rule
+    button.btn.gray.btn-cancel(
+      ng-click = "actions.cancel()"
+    ) Cancel

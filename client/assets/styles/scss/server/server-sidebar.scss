@@ -70,9 +70,9 @@
 
     .iconnables {
       height: 14px;
-      left: 3px;
+      left: 6px;
       position: absolute;
-      top: 5px;
+      top: 4px;
       width: 14px;
     }
   }
@@ -82,33 +82,6 @@
     height: auto;
     line-height: 17px;
     padding: 6px 10px;
-  }
-
-  .repository-group-text {
-    border-width: 2px;
-    cursor: pointer;
-
-    &:hover {
-      background: $white;
-      border-color: $gray-light;
-    }
-
-    &:active,
-    &.active {
-      background: rgba($purple-light,.15);
-      color: $purple-light;
-    }
-
-    .icons-arrow-down {
-      height: 100%;
-      left: auto;
-      opacity: .6;
-      position: absolute;
-      right: 3px;
-      top: 0;
-      transform: rotate3d(0,0,1,-90deg);
-      width: 27px;
-    }
   }
 
   .branch {
@@ -139,6 +112,39 @@
     float: right;
     margin-right: 15px;
     margin-top: 5px;
+  }
+}
+
+// repository group "well"
+.repository-group-item + .repository-group-item {
+  margin-top: 6px;
+}
+
+.repository-group-text {
+  border-width: 2px;
+  color: $gray;
+  cursor: pointer;
+
+  &:hover {
+    background: $white;
+    border-color: $gray-light;
+  }
+
+  &:active,
+  &.active {
+    background: $white;
+    border-color: currentColor;
+    color: $purple-light;
+  }
+
+  .icons-arrow-down {
+    height: 100%;
+    left: auto;
+    position: absolute;
+    right: 3px;
+    top: 0;
+    transform: rotate3d(0,0,1,-90deg);
+    width: 27px;
   }
 }
 
@@ -191,7 +197,7 @@
   padding-bottom: 9px;
 
   .well {
-    padding: 5px 3px 6px;
+    padding: 6px;
   }
 
   .label-checkbox {
@@ -201,23 +207,21 @@
 }
 
 .repository-description {
-  font-weight: 500;
+  font-weight: 400;
   line-height: 24px;
-  padding: 0 23px;
+  padding: 0 27px;
   position: relative;
   word-break: break-word;
 
-  + .repository-description {
-    color: $gray;
-    font-weight: 400;
+  &:first-child {
+    font-weight: 500;
   }
 }
 
 .repository-detail {
   display: block;
-  font-size: 12px;
-  margin-top: -1px;
-  white-space: nowrap;
+  font-size: 11px;
+  margin-top: -6px;
 
   .link {
     color: $purple-light;

@@ -21,9 +21,11 @@ function editServerModal(
   watchWhenTruthyPromise,
   helpCards,
   $rootScope,
-  $http,
   uploadFile,
-  configAPIHost
+  configAPIHost,
+  cardInfoTypes,
+  $timeout,
+  fetchOwnerRepos
 ) {
   return {
     restrict: 'A',
@@ -55,46 +57,228 @@ function editServerModal(
         tags: new JSTagsCollection(($scope.server.ports || '').split(' '))
       };
 
-      $scope.fileRepository = {
-        actions: {},
-        data: {}
+
+      $scope.triggerEditRepo = function (repo) {
+        if (repo.type === 'Main Repository') { return; }
+        $scope.repositoryPopover.data.repoObj = repo;
+        $scope.repositoryPopover.data.fromServer = true;
+        $scope.repositoryPopover.data.repo = repo.repo;
+        $scope.repositoryPopover.data.branch = repo.branch;
+        $scope.repositoryPopover.data.commit = repo.commit;
+        $scope.repositoryPopover.data.commands = repo.commands;
+        $scope.repositoryPopover.data.path = repo.path;
+        $scope.repositoryPopover.data.name = repo.name;
+        $scope.repositoryPopover.data.state.view = 2;
+        $scope.repositoryPopover.active = true;
+
+        $timeout(function () {
+          $scope.repositoryPopover.active = false;
+        });
+      };
+
+      $scope.triggerAddRepository = function () {
+        $scope.repositoryPopover.data = {
+          fromServer: false,
+          containerFiles: $scope.state.containerFiles,
+          state: {
+            view: 1
+          }
+        };
+        $scope.repositoryPopover.active = true;
+
+        fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
+          .then(function (repoList) {
+            $scope.repositoryPopover.data.githubRepos = repoList;
+          })
+          .catch(errs.handler);
+
+        $timeout(function () {
+          $scope.repositoryPopover.active = false;
+        });
+      };
+
+      $scope.triggerUploadFile = function () {
+        $scope.fileUpload.data = {};
+        $scope.fileUpload.active = true;
+        $timeout(function () {
+          $scope.fileUpload.active = false;
+        });
+      };
+
+      $scope.dropContainerFile = function (event, newIndex, containerFileId) {
+        var currentIndex = 0;
+        var containerFile = $scope.state.containerFiles.find(function (containerFile, index) {
+          currentIndex = index;
+          return containerFile.id === containerFileId;
+        });
+        $scope.state.containerFiles.splice(currentIndex, 1);
+        $scope.state.containerFiles.splice(newIndex, 0, containerFile);
+      };
+
+      $scope.repositoryPopover = {
+        actions: {
+          remove: function () {
+            var repo = $scope.repositoryPopover.data.repo;
+
+            var acv = $scope.state.contextVersion.appCodeVersions.models.find(function (acv) {
+              return acv.attrs.repo.split('/')[1] === repo.attrs.name;
+            });
+
+            promisify(acv, 'destroy')()
+              .catch(errs.handler);
+
+            $scope.state.containerFiles.splice($scope.state.containerFiles.indexOf(repo), 1);
+
+            $rootScope.$broadcast('close-popovers');
+          },
+          selectRepo: function (repo) {
+            $scope.repositoryPopover.data.repo = repo;
+            $scope.repositoryPopover.data.loading = true;
+            $scope.repositoryPopover.data.repo.loading = true;
+
+            promisify(repo.branches, 'fetch')()
+              .then(function (branches) {
+                return branches.models.find(hasKeypaths({'attrs.name': repo.attrs.default_branch}));
+              })
+              .then(function (branch) {
+                $scope.repositoryPopover.data.branch = branch;
+                return promisify(branch.commits, 'fetch')();
+              })
+              .then(function (commits) {
+                $scope.repositoryPopover.data.loading = false;
+                $scope.repositoryPopover.data.repo.loading = false;
+                $scope.repositoryPopover.data.state.view = 2;
+                $scope.repositoryPopover.data.commit = commits.models[0];
+              })
+              .catch(errs.handler);
+          },
+          toggleSelectLatestCommit: function () {
+            if ($scope.repositoryPopover.data.latestCommit) {
+              $scope.repositoryPopover.data.commit = $scope.repositoryPopover.data.branch.commits.models[0];
+              $scope.repositoryPopover.data.state.view = 2;
+            }
+          },
+          selectBranch: function (branch) {
+            $scope.repositoryPopover.data.latestCommit = false;
+            $scope.repositoryPopover.data.branch = branch;
+            promisify(branch.commits, 'fetch')()
+              .catch(errs.handler);
+          },
+          selectCommit: function (commit){
+            $scope.repositoryPopover.data.latestCommit = false;
+            $scope.repositoryPopover.data.commit = commit;
+            $scope.repositoryPopover.data.state.view = 2;
+          },
+          save: function () {
+            var myRepo;
+            if ($scope.repositoryPopover.data.fromServer) {
+              myRepo = $scope.repositoryPopover.data.repoObj;
+              $scope.repositoryPopover.data.repoObj = null;
+
+              var acv = $scope.state.contextVersion.appCodeVersions.models.find(function (acv) {
+                return acv.attrs.repo === myRepo.acv.attrs.repo;
+              });
+
+              promisify(acv, 'update')({
+                branch: $scope.repositoryPopover.data.branch.attrs.name,
+                commit: $scope.repositoryPopover.data.commit.attrs.sha
+              })
+                .then(function (acv) {
+                  myRepo.acv = acv;
+                })
+                .catch(errs.handler);
+
+            } else {
+              var Repo = cardInfoTypes().Repository;
+              myRepo = new Repo();
+              $scope.state.containerFiles.push(myRepo);
+
+              promisify($scope.state.contextVersion.appCodeVersions, 'create', true)({
+                repo: $scope.repositoryPopover.data.repo.attrs.full_name,
+                branch: $scope.repositoryPopover.data.branch.attrs.name,
+                commit: $scope.repositoryPopover.data.commit.attrs.sha,
+                additionalRepo: true
+              })
+                .then(function (acv) {
+                  myRepo.acv = acv;
+                })
+                .catch(errs.handler);
+            }
+
+            myRepo.name = $scope.repositoryPopover.data.repo.attrs.name;
+            myRepo.repo = $scope.repositoryPopover.data.repo;
+            myRepo.branch = $scope.repositoryPopover.data.branch;
+            myRepo.commit = $scope.repositoryPopover.data.commit;
+            myRepo.commands = $scope.repositoryPopover.data.commands;
+            myRepo.path = $scope.repositoryPopover.data.path;
+
+            $rootScope.$broadcast('close-popovers');
+          }
+        },
+        data: {
+          state: {
+            view: 2
+          }
+        },
+        active: false
       };
 
       $scope.fileUpload = {
         actions: {
-          uploadFile: function () {
-            if (!$scope.fileUpload.data.file.length) { return; }
-            console.log('data.file', $scope.fileUpload.data.file);
-            $scope.fileUpload.saving = true;
+          uploadFile: function (containerFile) {
+            if (!containerFile.file.length) { return; }
+            containerFile.saving = true;
+
             var uploadURL = configAPIHost + '/' + $scope.state.contextVersion.urlPath +
                 '/' + $scope.state.contextVersion.id() + '/files';
-            uploadFile($scope.fileUpload.data.file, uploadURL)
+            var files = containerFile.file;
+            containerFile.name = files[0].name;
+
+            containerFile.fileUpload = uploadFile(files, uploadURL)
               .progress(function (evt) {
-                $scope.fileUpload.data.progress = parseInt(100.0 * evt.loaded / evt.total, 10);
+                containerFile.progress = parseInt(100.0 * evt.loaded / evt.total, 10);
               })
               .then(function (fileResponse) {
-                console.log(fileResponse);
+                containerFile.name = fileResponse.data.name;
               })
               .catch(errs.handler)
               .finally(function () {
-                $scope.fileUpload.saving = false;
+                containerFile.saving = false;
               });
           },
-          save: function () {
-            // Push to parent container files
+          save: function (containerFile) {
+            if (!containerFile.type) {
+              var ContainerFile = cardInfoTypes().File;
+              var myFile = new ContainerFile();
+              if (containerFile.file) {
+                myFile.name = containerFile.file[0].name;
+              }
+              myFile.commands = containerFile.commands;
+              myFile.path = containerFile.path;
+              $scope.state.containerFiles.push(myFile);
+            }
             $rootScope.$broadcast('close-popovers');
+
           },
-          cancel: function () {
+          cancel: function (containerFile) {
             // Using our own cancel in order to delete file
-            // TODO: handle halfway-uploaded files
             $rootScope.$broadcast('close-popovers');
-            if (!$scope.fileUpload.data.file.length) { return; }
-            var uploadURL = configAPIHost + '/' + $scope.state.contextVersion.urlPath +
-                '/' + $scope.state.contextVersion.id() + '/files';
-            $http.delete({
-              url: uploadURL,
-              withCredentials: true
-            }).catch(errs.handler);
+            if (containerFile.fileUpload) {
+              $scope.fileUpload.actions.file.deleteFile();
+            }
+          },
+          deleteFile: function (containerFile) {
+            $rootScope.$broadcast('close-popovers');
+
+            var file = $scope.state.contextVersion.rootDir.contents.models.find(function (fileModel) {
+              return fileModel.attrs.name === containerFile.name;
+            });
+            if (file) {
+              promisify(file, 'destroy')()
+                .catch(errs.handler);
+            }
+
+            $scope.state.containerFiles.splice($scope.state.containerFiles.indexOf(containerFile), 1);
           }
         },
         data: {}
@@ -130,16 +314,31 @@ function editServerModal(
           opts: {
             env: keypather.get(server, 'opts.env')
           },
+          containerFiles: [],
           repo: server.repo,
           server: server
         };
+
+        watchWhenTruthyPromise($scope, 'server.containerFiles')
+          .then(function (containerFiles) {
+            $scope.state.containerFiles = containerFiles.map(function (model) {
+              var cloned = model.clone();
+              if (model.type === 'Main Repository') {
+                $scope.state.mainRepoContainerFile = cloned;
+              }
+              return cloned;
+            });
+            $scope.data.mainRepo = $scope.server.containerFiles.find(hasKeypaths({
+              type: 'Main Repo'
+            }));
+          });
 
         if (server.repo) {
           $scope.branches = server.repo.branches;
           $scope.state.branch =
             server.repo.branches.models.find(hasKeypaths({'attrs.name': keypather.get(
               server,
-              'instance.contextVersion.appCodeVersions.models[0].attrs.branch'
+              'instance.contextVersion.getMainAppCodeVersion().attrs.branch'
             )}));
         }
         return promisify(server.contextVersion, 'deepCopy')()
@@ -151,8 +350,8 @@ function editServerModal(
             if (contextVersion.attrs.advanced) {
               openDockerfile();
             }
-            if (contextVersion.appCodeVersions.models.length) {
-              $scope.acv = contextVersion.appCodeVersions.models[0];
+            if (contextVersion.getMainAppCodeVersion()) {
+              $scope.state.acv = contextVersion.getMainAppCodeVersion();
             }
             return fetchUser();
           })
@@ -194,7 +393,7 @@ function editServerModal(
         if (opts.port) {
           hostName += ':' + opts.port;
         }
-        $rootScope.$broadcast('eventPasteLinkedInstance', hostName);
+        $rootScope.$broadcast('eventPasteLinkedInstance', 'VAR=' + hostName);
       };
 
       $scope.cancel = function () {
@@ -256,6 +455,9 @@ function editServerModal(
       }
 
       function updateDockerfile(state) {
+        if ($scope.state.mainRepoContainerFile) {
+          $scope.state.mainRepoContainerFile.commands = $scope.state.commands;
+        }
         return promisify(state.contextVersion, 'fetchFile')('/Dockerfile')
           .then(function (newDockerfile) {
             state.dockerfile = newDockerfile;
@@ -316,7 +518,7 @@ function editServerModal(
       $scope.$watch('state.branch', function (newBranch, oldBranch) {
         if (newBranch && oldBranch && newBranch.attrs.name !== oldBranch.attrs.name) {
           waitForStateContextVersion($scope, function () {
-            promisify($scope.acv, 'update')({
+            promisify($scope.state.acv, 'update')({
               repo: $scope.server.repo.attrs.full_name,
               branch: newBranch.attrs.name,
               commit: newBranch.attrs.commit.sha

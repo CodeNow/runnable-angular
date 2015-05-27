@@ -1,7 +1,8 @@
 .popover-header
   //- if adding a new repository
   button.btn.btn-sm.white.pull-left(
-    ng-click = "state.view2 = false"
+    ng-click = "data.state.view = 1"
+    ng-if = "!data.fromServer"
   )
     svg.iconnables.icons-arrow-backward
       use(
@@ -11,9 +12,9 @@
   //- if editing an existing repository
   //- this button is empty on purpose
   button.btn.btn-sm.pull-right.no-touching(
-    ng-if = "false"
+    ng-if = "data.fromServer"
   )
-  strong.strong.text-overflow repository-name
+  strong.strong.text-overflow {{ data.name }}
   //- this button is empty on purpose
   button.btn.btn-sm.pull-right.no-touching
 
@@ -21,9 +22,9 @@
   label.label.clearfix
     .input-col
       .btn.btn-block.white.text-overflow(
-        ng-click = "state.view3 = true"
-      ) commit msg
-        small.small joe authored 18 days ago
+        ng-click = "data.state.view = 3"
+      ) {{ data.commit.attrs.commit.message }}
+        small.small {{ data.commit.attrs.author.login }} authored {{ data.commit.attrs.commit.author.date | timeFrom }}
         svg.iconnables.icons-arrow-down
           use(
             xlink:href = "#icons-arrow-down"
@@ -33,6 +34,7 @@
     .label-col Destination
     .input-col.input-root
       input.input.input-sm(
+        ng-model = "data.path"
         required
         spellcheck = "false"
       )
@@ -42,13 +44,22 @@
       small.small (optional)
     .input-col
       textarea.textarea.monospace(
+        ng-model = "data.commands"
         spellcheck = "false"
       )
       small.small Commands to be executed when your container is built and before it is launched.
 
   //- not shown if new repo
-  button.btn.btn-xs.orange Remove Repository
+  label.label
+    button.btn.btn-xs.orange(
+      ng-click = "actions.remove()"
+      ng-if = "data.fromServer && data.repoObj.type !== 'Main Repository'"
+    ) Remove Repository
 
 .popover-footer.clearfix
-  button.btn.btn-sm.green Add Repository
-  button.btn.btn-sm.gray.btn-cancel Cancel
+  button.btn.btn-sm.green(
+    ng-click = "actions.save()"
+  ) {{ data.fromServer ? 'Save' : 'Add Repository' }}
+  button.btn.btn-sm.gray.btn-cancel(
+    ng-click = "closePopover()"
+  ) Cancel

@@ -3,23 +3,28 @@
 ) {{activeCard.helpPopover.repositories}}
 
 .clearfix
-  .label-col Container Files
+  div Container Files
   .input-col
     button.btn.btn-xs.white.float-right(
+      ng-click = "triggerAddRepository()"
       pop-over
-      pop-over-actions = "fileRepository.actions"
-      pop-over-data = "fileRepository.data"
+      pop-over-active = "repositoryPopover.active"
+      pop-over-actions = "repositoryPopover.actions"
+      pop-over-data = "repositoryPopover.data"
       pop-over-template = "viewPopoverFilesRepository"
+      pop-over-trigger = "activeAttr"
     ) Add Repository
     button.btn.btn-xs.white.float-right(
+      ng-click = "triggerUploadFile()"
       pop-over
       pop-over-actions = "fileUpload.actions"
       pop-over-data = "fileUpload.data"
       pop-over-template = "viewPopoverFilesUpload"
+      pop-over-active = "fileUpload.active"
+      pop-over-trigger = "activeAttr"
     ) Upload File
 
-.table(
+.table.table-drag-drop.clearfix(
   ng-include = "'viewFormFilesTable'"
 )
-
 small.small Copy files to the file system of this container (e.g. seed data for a database, or other files that your application expects to have available).

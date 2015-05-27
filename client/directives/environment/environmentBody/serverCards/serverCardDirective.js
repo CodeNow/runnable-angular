@@ -13,7 +13,8 @@ require('app')
     helpCards,
     fetchStackAnalysis,
     $anchorScroll,
-    $location
+    $location,
+    $state
   ) {
     return {
       restrict: 'A',
@@ -27,6 +28,35 @@ require('app')
       link: function ($scope) {
         var listeners = [];
 
+        $scope.getContainerFilesDisplay = function () {
+          var repos = 0;
+          var files = 0;
+          $scope.server.containerFiles = $scope.server.containerFiles || [];
+          $scope.server.containerFiles.forEach(function (containerFile) {
+            if (containerFile.type === 'Repository') {
+              repos += 1;
+            } else if (containerFile.type === 'File') {
+              files += 1;
+            }
+          });
+          var messages = [];
+          if (repos === 1) {
+            messages.push('1 Repository');
+          } else if (repos) {
+            messages.push(repos + ' Repositories');
+          }
+          if (files === 1) {
+            messages.push('1 File');
+          } else if (files) {
+            messages.push(files + ' Files');
+          }
+
+          if(messages.length){
+            return messages.join('; ');
+          }
+          return 'no container files';
+
+        };
         $scope.helpCards = helpCards;
         $scope.server = {};
         $scope.activeAccount = $rootScope.dataApp.data.activeAccount;
@@ -44,11 +74,16 @@ require('app')
           $scope.server.opts = {
             env: instance.attrs.env
           };
+
+          if ($state.params.instanceName === $scope.server.instance.attrs.name ){
+            scrollIntoView();
+          }
+
           if (instance.contextVersion) {
             $scope.server.building = true;
             $scope.server.contextVersion = instance.contextVersion;
             $scope.server.advanced = keypather.get(instance, 'contextVersion.attrs.advanced');
-            $scope.server.repo = keypather.get(instance, 'contextVersion.appCodeVersions.models[0].githubRepo');
+            $scope.server.repo = keypather.get(instance, 'contextVersion.getMainAppCodeVersion().githubRepo');
             var qAll = {
               dependencies: promisify(instance, 'fetchDependencies', true)()
             };
@@ -60,7 +95,7 @@ require('app')
               .then(function (data) {
                 $scope.server.building = false;
 
-                var fullRepoName = keypather.get($scope.server.instance, 'contextVersion.appCodeVersions.models[0].attrs.repo');
+                var fullRepoName = keypather.get($scope.server.instance, 'contextVersion.getMainAppCodeVersion().attrs.repo');
 
                 if (fullRepoName) {
                   fetchStackAnalysis(fullRepoName).then(function (stackAnalysis) {
@@ -86,6 +121,7 @@ require('app')
                               association: matchedInstance.attrs.name
                             })
                               .then(function (helpCard) {
+                                if (!helpCard) { return; }
                                 listeners.push({
                                   obj: helpCard,
                                   key: 'refresh',
@@ -99,7 +135,8 @@ require('app')
                                 helpCard
                                   .on('refresh', calculateHelpCards)
                                   .on('activate', scrollIntoView);
-                              });
+                              })
+                              .catch(errs.handler);
 
                           }
                         } else {
@@ -108,6 +145,7 @@ require('app')
                             dependency: dependency
                           })
                             .then(function (helpCard) {
+                              if (!helpCard) { return; }
                               listeners.push({
                                 obj: helpCard,
                                 key: 'refresh',
@@ -115,7 +153,8 @@ require('app')
                               });
                               helpCard
                                 .on('refresh', calculateHelpCards);
-                            });
+                            })
+                            .catch(errs.handler);
                         }
                       });
                     }
@@ -166,6 +205,21 @@ require('app')
         };
         $scope.showSpinner = function () {
           return !$scope.server.build || $scope.server.building || $scope.server.parsing;
+        };
+        $scope.getTranslationDisplay = function () {
+          var ruleObject = keypather.get(
+            $scope,
+            'server.contextVersion.getMainAppCodeVersion().attrs.transformRules'
+          );
+          var total = 0;
+          if (ruleObject) {
+            total = ruleObject.replace.length + ruleObject.rename.length;
+          }
+          var result = (!total ? 'no' : total) + ' rule' + (total === 1 ? '' : 's');
+          if (keypather.get(ruleObject, 'exclude.length')) {
+            result += ' (' + ruleObject.exclude.length + ' files ignored)';
+          }
+          return result;
         };
 
         $scope.$on('$destroy', function () {

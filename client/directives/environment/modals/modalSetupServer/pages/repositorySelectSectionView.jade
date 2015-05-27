@@ -44,7 +44,7 @@ section.modal-body.clearfix
         ng-disabled = "repoSelected"
         ng-if = "!repo.loading"
       ) {{ repo.isAdded ? 'Already Added' : 'Add Container' }}
-      .spinner-wrapper.spinner-md.spinner-green.in(
+      .spinner-wrapper.spinner-sm.spinner-green.in(
         ng-if = "repo.loading"
         ng-include = "'spinner'"
       )

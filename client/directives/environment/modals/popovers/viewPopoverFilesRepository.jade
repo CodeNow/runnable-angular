@@ -1,19 +1,11 @@
 .popover.popover-fixed.popover-files(
-  ng-class = "{\
-    in: active,\
-    'view-2': state.view2,\
-    'view-3': state.view3\
-  }"
-  ng-init = "\
-    state.view2 = null;\
-    state.view3 = null;\
-  "
+  ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
 )
   .popover-views(
     ng-class = "{\
-      'view-2': state.view2,\
-      'view-3': state.view3\
+      'view-2': data.state.view === 2,\
+      'view-3': data.state.view === 3\
     }"
     ng-init = "\
       state.view2 = null;\

@@ -44,11 +44,10 @@ function createDockerfileFromSource(
       }
     if (sourceContexts !== null) {
       return findAndCreateFromSource(sourceContexts);
-    } else {
-      return fetchContexts({
-        isSource: true
-      }).then(findAndCreateFromSource);
     }
+    return fetchContexts({
+      isSource: true
+    }).then(findAndCreateFromSource);
   };
 }
 
@@ -74,7 +73,6 @@ function fetchDockerfileFromSource(
       var fetchContextVersion = promisify(source, 'fetchVersions');
       return fetchContextVersion({ qs: { sort: '-created' }})
         .then(function (versions) {
-          var sourceInfraCodeVersion = versions.models[0].attrs.infraCodeVersion;
           sourceContextVersion = versions.models[0];
 
           var fetchDockerfile = promisify(sourceContextVersion, 'fetchFile');

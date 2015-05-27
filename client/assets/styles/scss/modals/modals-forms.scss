@@ -155,4 +155,18 @@
       text-align: center;
     }
   }
+
+  // spinner
+  .modal-form-spinner {
+    color: $gray;
+    margin: 60px 0 30px;
+    text-align: center;
+  }
+
+  .spinner-wrapper:not(.spinner-backdrop) {
+    display: inline-block;
+    height: 12px;
+    margin-right: 6px;
+    width: 12px;
+  }
 }

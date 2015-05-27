@@ -1,6 +1,6 @@
 .popover-header
   button.btn.btn-sm.white.pull-left(
-    ng-click = "state.view3 = false"
+    ng-click = "data.state.view = 2"
   )
     svg.iconnables.icons-arrow-backward
       use(
@@ -14,67 +14,43 @@
 .popover-content
   label.label.label-jump
     small.small Branch
-    select.select
+    select.select(
+      ng-change = "actions.selectBranch(data.branch)"
+      ng-model = "data.branch"
+      ng-options = "branch as branch.attrs.name for branch in data.repo.branches.models"
+    )
       option(
         disabled
       ) Choose a branch
-      option branch1
-      option branch2
+
+  .spinner-wrapper.spinner-md.in(
+    ng-if = "!data.branch.commits.models.length"
+    ng-include = "'spinner'"
+  )
 
   //- when toggled, all other .active commits removed
-  label.label-checkbox.small.clearfix
+  label.label-checkbox.small.clearfix(
+    ng-if = "false"
+  )
     input.input-checkbox(
       type = "checkbox"
+      ng-model = "data.latestCommit"
+      ng-click = "actions.toggleSelectLatestCommit()"
     )
     | Update to latest commit on new builds
 
-  ul.list.list-servers
-    //- apply .active to currently selected commit (or latest)
-    li.list-item.text-overflow commit msg
+  ul.list.list-servers(
+    ng-if = "!data.latestCommit"
+  )
+    li.list-item.text-overflow(
+      ng-repeat = "commit in data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
+      ng-click = "actions.selectCommit(commit)"
+      ng-class = "{active: data.commit === commit}"
+    ) {{commit.attrs.commit.message}}
       .toggle-group-detail.clearfix
-        small.small joe authored 2 days ago
+        small.small {{commit.attrs.commit.committer.name}} authored {{commit.attrs.commit.committer.date | timeFrom}}
         a.small.link.link-text.monospace(
-          href = "//google.com"
+          ng-href = "{{ commit.attrs.html_url }}"
           ng-click = "$event.stopPropagation()"
           target = "_blank"
-        ) 1234567
-    li.list-item commit msg
-      .toggle-group-detail.clearfix
-        small.small joe authored 2 days ago
-        a.small.link.link-text.monospace(
-          href = "//google.com"
-          ng-click = "$event.stopPropagation()"
-          target = "_blank"
-        ) 1234567
-    li.list-item commit msg
-      .toggle-group-detail.clearfix
-        small.small joe authored 2 days ago
-        a.small.link.link-text.monospace(
-          href = "//google.com"
-          ng-click = "$event.stopPropagation()"
-          target = "_blank"
-        ) 1234567
-    li.list-item commit msg
-      .toggle-group-detail.clearfix
-        small.small joe authored 2 days ago
-        a.small.link.link-text.monospace(
-          href = "//google.com"
-          ng-click = "$event.stopPropagation()"
-          target = "_blank"
-        ) 1234567
-    li.list-item commit msg
-      .toggle-group-detail.clearfix
-        small.small joe authored 2 days ago
-        a.small.link.link-text.monospace(
-          href = "//google.com"
-          ng-click = "$event.stopPropagation()"
-          target = "_blank"
-        ) 1234567
-    li.list-item commit msg
-      .toggle-group-detail.clearfix
-        small.small joe authored 2 days ago
-        a.small.link.link-text.monospace(
-          href = "//google.com"
-          ng-click = "$event.stopPropagation()"
-          target = "_blank"
-        ) 1234567
+        ) {{ ::commit.attrs.sha | limitTo:7 }}

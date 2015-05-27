@@ -66,7 +66,7 @@ function serverSelection (
     $scope.loading = true;
     var copiedCv = instance.build.contextVersions.models[0].deepCopy(function (err) {
       if (err) { return errs.handler(err); }
-      copiedCv.appCodeVersions.models[0].update({
+      copiedCv.getMainAppCodeVersion().update({
         repo: fullRepoName,
         branch: searchObject.branch,
         commit: searchObject.commit
