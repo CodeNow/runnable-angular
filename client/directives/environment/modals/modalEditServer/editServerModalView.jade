@@ -91,6 +91,10 @@ form.modal-dialog.modal-edit(
   section.modal-body
 
     .modal-form(
+      ng-show = "selectedTab === 'buildfiles'"
+      ng-include = "'viewFormBuildfiles'"
+    )
+    .modal-form(
       ng-show = "selectedTab === 'stack'"
       stack-selector-form
       data = "data"
