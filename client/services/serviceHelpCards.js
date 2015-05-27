@@ -66,7 +66,7 @@ function helpCardsFactory(
         'helpTop': 'Update your OAuth credentials using the <b>Environment Variables</b> or <b>Translation Rules</b> tool.',
         'helpPopover': {
           'environmentVariables': 'Update the environment variables that you use to specify OAuth credentials.',
-          'findAndReplace': 'Add a translation rule to update your OAuth credentials in your code.'
+          'findAndReplace': 'Add a find and replace rule to update your OAuth credentials in your code.'
         }
       },
       {
@@ -86,10 +86,10 @@ function helpCardsFactory(
           'environmentVariables',
           'findAndReplace'
         ],
-        'helpTop': 'Update <b>{{instance.getDisplayName()}}\'s</b> code by using <b>Translation Rules</b> or <b>Environment Variables</b> to update the hostname for <b>{{association}}</b>.',
+        'helpTop': 'Update <b>{{instance.getDisplayName()}}\'s</b> code by using <b>Find and Replace</b> or <b>Environment Variables</b> to update the hostname for <b>{{association}}</b>.',
         'helpPopover': {
           'environmentVariables': 'Add/update the correct environment variable with <b>{{association}}\'s</b> elastic hostname.',
-          'findAndReplace': 'Add a translation rule to modify your code to connect with <b>{{association}}\'s</b> elastic hostname.'
+          'findAndReplace': 'Add a string rule to modify your code to connect with <b>{{association}}\'s</b> elastic hostname.'
         }
       },
       {
