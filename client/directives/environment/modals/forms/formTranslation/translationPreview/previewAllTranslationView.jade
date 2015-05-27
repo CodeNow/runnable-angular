@@ -14,6 +14,7 @@
         )
           option build/index2.html
           option build/assets/img.img
+
 div.modal-form-spinner(
   ng-if = "state.recalculating"
 )
@@ -31,7 +32,25 @@ div.modal-form-spinner(
   state = "state"
 )
 
-//- if no preview to show
+//- if no rules
 p.p.empty(
-  ng-if = "!state.recalculating && state.diffs.length === 0"
-) There's nothing to see here
+  ng-if = "\
+    !state.recalculating && \
+    state.diffs.length === 0\
+  "
+)
+  //- if no rules
+  span(
+    ng-if = "\
+      !state.contextVersion.appCodeVersions.models[0].attrs.transformRules.replace.length && \
+      !state.contextVersion.appCodeVersions.models[0].attrs.transformRules.rename.length\
+    "
+  ) Add ‘Rules’ to see a preview of changes
+
+  //- if rules, but no diffs produced
+  span(
+    ng-if = "\
+      state.contextVersion.appCodeVersions.models[0].attrs.transformRules.replace.length || \
+      state.contextVersion.appCodeVersions.models[0].attrs.transformRules.rename.length\
+    "
+  ) No patterns matched your rules
