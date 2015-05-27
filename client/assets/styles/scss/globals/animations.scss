@@ -45,23 +45,6 @@
   }
 }
 
-@keyframes card-blink {
-  0% {
-    border-color: $gray-lighter;
-    box-shadow: none;
-  }
-
-  50% {
-    border-color: rgba($blue,.6);
-    box-shadow: 0 0 3px rgba($blue,.3);
-  }
-
-  100% {
-    border-color: $gray-lighter;
-    box-shadow: none;
-  }
-}
-
 @keyframes cursor-blink {
   0% {
     opacity: 1;

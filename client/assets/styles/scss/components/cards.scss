@@ -42,14 +42,16 @@
     }
   }
 
-  &.focus {
-    animation: card-blink 2s ease-in-out;
-  }
-
   // colors
   &.gray {
     background: $gray-lighterest;
     border-color: $gray-lighter;
+  }
+
+  // focus state
+  &.focus {
+    border-color: rgba($blue,.45);
+    box-shadow: 0 0 6px rgba($blue,.45);
   }
 
   // empty state
@@ -65,12 +67,6 @@
       align-items: center;
       height: 100%;
     }
-  }
-
-  // when linked to from Containers view
-  &.highlight {
-    background: rgba($purple-lightest,.5);
-    border-color: rgba($purple-light,.3);
   }
 
   // list columns
