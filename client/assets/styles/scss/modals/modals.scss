@@ -131,29 +131,6 @@
     transition: padding .15s ease-in;
   }
 
-  // guides in modals:
-  .guide {
-    background: #e9f7fe;
-    border: 1px solid rgba($blue,.2);
-    margin: 6px;
-    padding: 15px 36px 15px 21px;
-
-    .guide-header {
-      margin-bottom: 15px;
-    }
-
-    .guide-text {
-      margin: 9px 0;
-    }
-
-    .btn-close {
-      padding: 0;
-      position: absolute;
-      right: 9px;
-      top: 9px;
-    }
-  }
-
   // nested footer
   .modal-footer {
     margin: 12px 0 0;
