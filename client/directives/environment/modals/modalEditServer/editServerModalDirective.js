@@ -57,12 +57,6 @@ function editServerModal(
         tags: new JSTagsCollection(($scope.server.ports || '').split(' '))
       };
 
-      if (keypather.get($scope, 'server.containerFiles')) {
-        $scope.data.mainRepo = $scope.server.containerFiles.find(hasKeypaths({
-          type: 'Main Repository'
-        }));
-      }
-
       $scope.triggerEditRepo = function (repo) {
         if (repo.type === 'Main Repository') { return; }
         $scope.repositoryPopover.data.repoObj = repo;
@@ -82,9 +76,13 @@ function editServerModal(
       };
 
       $scope.triggerAddRepository = function () {
-        $scope.repositoryPopover.data.fromServer = false;
-        $scope.repositoryPopover.data.state.view = 1;
-        $scope.repositoryPopover.data.containerFiles = $scope.state.containerFiles;
+        $scope.repositoryPopover.data = {
+          fromServer: false,
+          containerFiles: $scope.state.containerFiles,
+          state: {
+            view: 1
+          }
+        };
         $scope.repositoryPopover.active = true;
 
         fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
@@ -95,6 +93,14 @@ function editServerModal(
 
         $timeout(function () {
           $scope.repositoryPopover.active = false;
+        });
+      };
+
+      $scope.triggerUploadFile = function () {
+        $scope.fileUpload.data = {};
+        $scope.fileUpload.active = true;
+        $timeout(function () {
+          $scope.fileUpload.active = false;
         });
       };
 
@@ -316,6 +322,9 @@ function editServerModal(
             $scope.state.containerFiles = containerFiles.map(function (model) {
               return model.clone();
             });
+            $scope.data.mainRepo = $scope.server.containerFiles.find(hasKeypaths({
+              type: 'Main Repo'
+            }));
           });
 
         if (server.repo) {

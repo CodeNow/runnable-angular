@@ -15,10 +15,13 @@
       pop-over-trigger = "activeAttr"
     ) Add Repository
     button.btn.btn-xs.white.float-right(
+      ng-click = "triggerUploadFile()"
       pop-over
       pop-over-actions = "fileUpload.actions"
       pop-over-data = "fileUpload.data"
       pop-over-template = "viewPopoverFilesUpload"
+      pop-over-active = "fileUpload.active"
+      pop-over-trigger = "activeAttr"
     ) Upload File
 
 .table.table-drag-drop.clearfix(

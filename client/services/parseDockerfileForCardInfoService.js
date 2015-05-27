@@ -300,9 +300,8 @@ function parseDockerfileForCardInfoFromInstance(
         if (!dockerfileBody) {
           return $q.reject(new Error('Dockerfile empty or not found'));
         }
-        var allSections = parseDockerfile(dockerfileBody);
 
-        var containerFiles = allSections.filter(function (section) {
+        var containerFiles = parseDockerfile(dockerfileBody).filter(function (section) {
           return ['File', 'Repository', 'Main Repository'].indexOf(section.type) !== -1;
         });
 
@@ -323,7 +322,6 @@ function parseDockerfileForCardInfoFromInstance(
         });
 
         return {
-          allSections: allSections,
           instance: instance,
           ports: parseDockerfileForPorts(dockerfileBody),
           startCommand: parseDockerfileForStartCommand(dockerfileBody),
