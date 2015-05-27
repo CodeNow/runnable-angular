@@ -3,9 +3,7 @@
   ng-style = "popoverStyle.getStyle()"
 )
   .popover-header
-    strong.strong.text-overflow Upload File
-    //- if existing file:
-    //- strong.strong.text-overflow filename.ext
+    strong.strong.text-overflow {{ data.fromServer ? data.name : 'Upload File' }}
 
   .popover-content
     label.label.clearfix

@@ -173,6 +173,8 @@ function editServerModal(
             var myRepo;
             if ($scope.repositoryPopover.data.fromServer) {
               myRepo = $scope.repositoryPopover.data.repoObj;
+
+              // Clean up pointer
               $scope.repositoryPopover.data.repoObj = null;
 
               var acv = $scope.state.contextVersion.appCodeVersions.models.find(function (acv) {
