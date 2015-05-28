@@ -1,5 +1,11 @@
 .ace-container {
   position: relative;
+
+  // override sidebar
+  .sidebar {
+    height: auto;
+    width: 210px;
+  }
 }
 
 // specific ace styles for:
@@ -35,6 +41,15 @@
 
   @include media(sm) {
     height: calc(100vh - 450px);
+  }
+
+  // override sidebar
+  .sidebar {
+    border: 1px solid $gray-lighter;
+    border-left: 0;
+    border-radius: 0 0 2px;
+    color: $gray-dark;
+    margin: -2px -2px -2px 0;
   }
 }
 
@@ -75,10 +90,7 @@
     border-radius: 2px 0 0 2px;
     border-right: 0;
     color: $gray-dark;
-    height: auto;
     margin: -2px 0 -2px -2px;
-    padding: 0;
-    width: 210px;
   }
 
   .sidebar-actions {

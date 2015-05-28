@@ -22,12 +22,18 @@
 )
 
 //- table of current environment variables
-pre.ace-container.ace-environment-variables.ace-runnable-dark(
-  current-model = "server.opts"
-  env-vars
-  state-model = "state.opts"
-  validation = "validation.env"
-)
+.ace-container.ace-runnable-dark
+
+  .ace-environment-variables(
+    current-model = "server.opts"
+    env-vars
+    state-model = "state.opts"
+    validation = "validation.env"
+  )
+
+  .sidebar(
+    ng-include = "'viewFormEnvironmentVariablesSidebar'"
+  )
 
 //- detailed text
 label.label.label-help
