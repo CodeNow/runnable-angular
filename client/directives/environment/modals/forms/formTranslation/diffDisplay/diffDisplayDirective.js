@@ -11,8 +11,6 @@ require('app')
         fileDiff: '=',
         previewAll: '=?',
         state: '='
-      },
-      link: function ($scope, element, attrs) {
       }
     };
   });
