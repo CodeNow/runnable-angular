@@ -45,7 +45,8 @@ function ControllerApp(
   // used in dev-info box
   dataApp.data.configEnvironment = configEnvironment;
   $rootScope.featureFlags = {
-    helpCards: true
+    findAndReplace: configEnvironment === 'development',
+    additionalRepos: configEnvironment === 'development'
   };
 
   dataApp.data.configAPIHost = configAPIHost;
@@ -142,11 +143,6 @@ function ControllerApp(
     }
     // Intercom && Mixpanel
     eventTracking.boot(thisUser);
-    if ($window.olark) {
-      $window.olark('api.visitor.updateEmailAddress', { emailAddress: thisUser.attrs.email });
-      $window.olark('api.visitor.updateFullName', { fullName: thisUser.oauthName() });
-      $window.olark('api.box.show');
-    }
   })
   .catch(errs.handler);
 }

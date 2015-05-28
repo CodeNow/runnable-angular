@@ -10,6 +10,16 @@ require('app')
   .factory('parseDiffResponse', parseDiffResponse)
   .factory('populateRulesWithWarningsAndDiffs', populateRulesWithWarningsAndDiffs);
 
+function checkErrorCallback(reject, cb) {
+  return function (err, res, body) {
+    if (body.message) {
+      reject(new Error(body.message));
+    } else {
+      cb(res, body);
+    }
+  };
+}
+
 function parseDiffResponse(
   diffParse
 ) {
@@ -47,7 +57,7 @@ function parseDiffResponse(
 function createTransformRule(
   promisify
 ) {
-  return function (appCodeVersionModel, rule, oldRule) {
+  return function (appCodeVersionModel, rule) {
     var rules = appCodeVersionModel.attrs.transformRules || {};
     if (rule.action) {
       if (rule.oldRule) {
@@ -90,10 +100,10 @@ function testAllTransformRules(
     return $q(function (resolve, reject) {
       if (appCodeVersionModel) {
         user.client.post(appCodeVersionModel.urlPath + '/' + appCodeVersionModel.id() +
-          '/actions/applyTransformRules', function callback(err, res, body) {
-            if (err) { return reject(err); }
+          '/actions/applyTransformRules',
+          checkErrorCallback(reject, function callback(res, body) {
             resolve(body);
-          });
+          }));
       } else {
         resolve();
       }
@@ -111,12 +121,9 @@ function testRenameTransformRule(
       user.client.post(appCodeVersionModel.urlPath + '/' + appCodeVersionModel.id() +
         '/actions/testTransformRule', {
           json: rule
-        }, function callback(err, res, body) {
-          if (err) {
-            return reject(err);
-          }
+        }, checkErrorCallback(reject, function callback(res, body) {
           resolve(body.nameChanges);
-        });
+        }));
     });
   };
 }
@@ -133,8 +140,7 @@ function testReplaceTransformRule(
       user.client.post(appCodeVersionModel.urlPath + '/' + appCodeVersionModel.id() +
         '/actions/testTransformRule', {
           json: rule
-        }, function callback(err, res, body) {
-          if (err) { return reject(err); }
+        }, checkErrorCallback(reject, function callback(res, body) {
           if (body.diffs) {
             var parsed = parseDiffResponse(Object.keys(body.diffs).reduce(function (total, key) {
               return total + body.diffs[key];
@@ -143,7 +149,7 @@ function testReplaceTransformRule(
           } else {
             reject();
           }
-        });
+        }));
     });
   };
 }

@@ -9,8 +9,9 @@
     )
       | #{''} → {{ fileDiff.to }}
     button.btn.btn-xs.white(
+      ng-disabled = "state.processing"
       ng-if = "previewAll"
-      ng-click = "ignore.toggleIgnoreFile(fileDiff)"
+      ng-click = "actions.ignoreFile(fileDiff)"
     ) Ignore File
 div(
   ng-repeat = "change in fileDiff.changes"

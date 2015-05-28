@@ -27,9 +27,11 @@
     transition: none;
   }
 
-  // lighter color for readonly
+  // readonly
   &[readonly] {
-    color: $gray;
+    background: $gray-light;
+    border: 0;
+    color: $gray-lighterest;
   }
 
   // remove box-shadow for these states
@@ -82,6 +84,16 @@
 
     &[type="search"] {
       border-radius: 24px;
+    }
+  }
+
+  &.input-xxs {
+    font-size: 13px;
+    height: 18px;
+    line-height: 1;
+
+    &[type="search"] {
+      border-radius: 18px;
     }
   }
 }
