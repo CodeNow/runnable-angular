@@ -227,21 +227,30 @@
       border-radius: 0 0 3px 3px;
     }
 
+    &.hint {
+      border-color: rgba($blue,.45);
+      box-shadow: 0 0 6px rgba($blue,.35);
+      z-index: 1;
+
+      &:hover {
+        border-color: rgba($blue,.6);
+        box-shadow: none;
+      }
+    }
+
     + .btn {
       border-top-width: 1px;
       margin-top: -2px;
+
+      &.hint {
+        border-top-width: 2px;
+      }
     }
 
     > .iconnables:first-child {
       float: left;
       margin-right: 6px;
       width: 18px;
-    }
-
-    &.hint {
-      border-color: rgba($blue,.45);
-      box-shadow: 0 0 6px rgba($blue,.35);
-      z-index: 1;
     }
 
     .h3 {
