@@ -27,7 +27,7 @@ function validateEnvVars() {
         return;
       }
       // Check for syntactic validity
-      if (!/^([A-z]+[A-z0-9]*)=.*$/.test(line)) {
+      if (!/^([A-z]+[A-z0-9_]*)=.*$/.test(line)) {
         response.valid = false;
         response.errors.push(index);
         return;
