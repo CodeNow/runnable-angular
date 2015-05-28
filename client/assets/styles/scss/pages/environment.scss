@@ -13,18 +13,7 @@
     width: 200px;
 
     &.hint {
-      animation: scale .4s ease 1;
-    }
-
-    @keyframes scale {
-      0%,
-      100% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.15);
-      }
+      animation: scale .4s ease;
     }
   }
 

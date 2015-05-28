@@ -60,18 +60,6 @@
     }
   }
 
-  &.hint .list-item:last-child {
-    color: $blue;
-
-    &:hover {
-      background: $blue-lighter;
-    }
-
-    .small {
-      color: rgba($blue,.8);
-    }
-  }
-
   // .list
   .list + .list {
     border-top: 1px solid rgba($black,.1);
@@ -148,6 +136,18 @@
       background: $white;
       border-color: currentColor;
       color: $purple-light;
+    }
+  }
+
+  &.hint {
+    color: $blue;
+
+    &:hover {
+      background: $blue-lighter;
+    }
+
+    .small {
+      color: rgba($blue,.8);
     }
   }
 
