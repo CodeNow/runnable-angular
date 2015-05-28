@@ -274,14 +274,6 @@
     visibility: hidden;
   }
 
-  // dragging icon
-  .icons-drag {
-    color: $gray-lighter;
-    height: 100%;
-    opacity: .3;
-    width: 9px;
-  }
-
   // status icons
   .iconnables {
     height: 38px;
@@ -297,6 +289,14 @@
       color: $purple-light;
       width: 15px;
     }
+  }
+
+  // dragging icon
+  .icons-drag {
+    color: $gray-lighter;
+    height: 100%;
+    opacity: .3;
+    width: 9px;
   }
 }
 
