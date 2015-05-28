@@ -2,7 +2,7 @@ ul.table-drag-drop(
   dnd-allowed-types = "properties.allowedTableTypes"
   dnd-list = "list"
   ng-class = "{\
-    'no-touching': tableProcessing\
+    'no-touching': tableProcessing || state.recalculating\
   }"
 )
   li.tr.thead.clearfix

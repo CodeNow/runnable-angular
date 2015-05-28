@@ -2,6 +2,7 @@
 
 require('app')
   .directive('translationRules', function translationRules(
+    $q,
     errs,
     keypather,
     parseDiffResponse,
@@ -32,11 +33,8 @@ require('app')
                 $scope.state.recalculating = false;
               });
           },
-          checkFileIgnored: function (fileDiff) {
-            var acv = keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion()');
-            if (acv) {
-              return acv.attrs.transformRules.exclude.indexOf(fileDiff.from) >= 0;
-            }
+          ignoreFile: function (fileDiff) {
+            $scope.$broadcast('IGNOREDFILE::toggle', fileDiff);
           }
 
         };
