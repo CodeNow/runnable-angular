@@ -114,7 +114,7 @@ EventTracking.prototype.boot = function (user) {
   var data = {
     name: user.oauthName(),
     email: user.attrs.email,
-    created_at: +new Date(user.attrs.created) / 1000 | 0,
+    created_at: new Date(user.attrs.created) / 1000 | 0,
     app_id: INTERCOM_APP_ID
   };
   this._Intercom('boot', data);
