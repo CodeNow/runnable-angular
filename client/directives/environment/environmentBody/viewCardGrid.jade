@@ -17,7 +17,6 @@
   data = "data"
   help-card = "state.helpCard"
   instance = "instance"
-  ng-attr-id = "{{ 'server-' + instance.attrs.shortHash }}"
   ng-class = "{focus: instance.attrs.name === $state.params.instanceName}"
   ng-repeat = "instance in data.instances.models | orderBy:'attrs.name'"
   server-card
