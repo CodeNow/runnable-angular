@@ -1,18 +1,12 @@
-.sidebar-section-heading(
+.sidebar-section-heading.strong(
   ng-click = "$storage.dnsManagementIsClosed = !$storage.dnsManagementIsClosed"
   ng-class = "{ closed: $storage.dnsManagementIsClosed }"
 )
   svg.iconnables.icons-disclose
-      use(
-        xlink:href = "#icons-disclose"
-      )
-  | Associations
-
-  //status-icon(
-  //  ng-if = "isDnsSetup && $storage.dnsManagementIsClosed"
-  //  ng-repeat = "relatedInstance in getRelatedInstancesList() track by relatedInstance.attrs.shortHash"
-  //  instance = "relatedInstance"
-  //)
+    use(
+      xlink:href = "#icons-disclose"
+    )
+  | DNS Mapping
 
   //- spinner for sidebar
   .spinner-wrapper.spinner-sm.spinner-gray.in(
@@ -23,9 +17,12 @@
 .empty-state.well.in(
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0 && indirectlyRelatedInstances.length === 0"
 )
-  span.span {{ instance.getRepoName() || instance.getDisplayName() }}
-  span.branch-name
-    |  has no associated containers.
+  span.strong {{ instance.getRepoName() || instance.getDisplayName() }}
+  |  has no associated containers.
+
+.well-label.text-overflow
+  span.strong runnable-web
+  | -staging-codenow.runnableapp.com
 
 fancy-select.well.in(
   ng-repeat = "masterInstance in masterInstancesWithChildren track by masterInstance.attrs.shortHash"
@@ -41,8 +38,8 @@ fancy-select.well.in(
     status-icon(
       instance = "$parent.$parent.masterInstance"
     )
-    span.span {{ $parent.$parent.masterInstance.repoName() || $parent.$parent.masterInstance.attrs.name }}
-    span.branch-name /{{ $parent.$parent.masterInstance.getBranchName() }}
+    //- span.span {{ $parent.$parent.masterInstance.repoName() || $parent.$parent.masterInstance.attrs.name }}
+    | {{ $parent.$parent.masterInstance.getBranchName() }}
 
   fancy-option(
     ng-repeat = "childInstance in $parent.masterInstance.children.models"
@@ -51,45 +48,44 @@ fancy-select.well.in(
     status-icon(
       instance = "$parent.childInstance"
     )
-    span.span {{ $parent.childInstance.getRepoName() || $parent.childInstance.attrs.name }}
-    span.branch-name /{{ $parent.childInstance.getBranchName() }}
+    | {{ $parent.childInstance.getBranchName() }}
 
 //- non-repo containers, or repo containers with only one branch, that are linked directly
-.well.in.non-configurable(
-  ng-repeat = "masterInstance in masterInstancesWithoutChildren"
-  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
-)
-  status-icon(
-    instance = "masterInstance"
-  )
-  span.span {{ masterInstance.repoName() || masterInstance.attrs.name }}
-  span.branch-name(
-    ng-if = "masterInstance.getBranchName().length"
-  ) /{{ masterInstance.getBranchName() }}
+//- .well.in.non-configurable(
+//-   ng-repeat = "masterInstance in masterInstancesWithoutChildren"
+//-   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
+//- )
+//-   status-icon(
+//-     instance = "masterInstance"
+//-   )
+//-   span.span {{ masterInstance.repoName() || masterInstance.attrs.name }}
+//-   span.branch-name(
+//-     ng-if = "masterInstance.getBranchName().length"
+//-   ) /{{ masterInstance.getBranchName() }}
 
-.well.in.indirect(
-  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && indirectlyRelatedInstances.length"
-)
-  .well-item
-    svg.iconnables.icons-disclose
-      use(
-        xlink:href = "#icons-disclose"
-      )
-    span Indirect Links
-    status-icon(
-      instance = "dep"
-      ng-repeat = "dep in indirectlyRelatedInstances"
-    )
-  ul
-    li.well-item(
-      ng-repeat = "indirectInstance in indirectlyRelatedInstances"
-    )
-      svg.iconnables.icons-repository
-        use(
-          xlink:href = "#icons-repository"
-        )
-      span.server-category-name.text-overflow {{ indirectInstance.attrs.name }}
-        span.branch-name /master
-      status-icon(
-        instance = "indirectInstance"
-      )
+//- .well.in.indirect(
+//-   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && indirectlyRelatedInstances.length"
+//- )
+//-   .well-item
+//-     svg.iconnables.icons-disclose
+//-       use(
+//-         xlink:href = "#icons-disclose"
+//-       )
+//-     span Indirect Links
+//-     status-icon(
+//-       instance = "dep"
+//-       ng-repeat = "dep in indirectlyRelatedInstances"
+//-     )
+//-   ul
+//-     li.well-item(
+//-       ng-repeat = "indirectInstance in indirectlyRelatedInstances"
+//-     )
+//-       svg.iconnables.icons-repository
+//-         use(
+//-           xlink:href = "#icons-repository"
+//-         )
+//-       span.server-category-name.text-overflow {{ indirectInstance.attrs.name }}
+//-         span.branch-name /master
+//-       status-icon(
+//-         instance = "indirectInstance"
+//-       )

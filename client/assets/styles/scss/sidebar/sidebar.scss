@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   float: left;
-  font-size: 14px;
+  font-size: 15px;
   // font-weight: 500;
   height: calc(100vh - 60px);
   line-height: 24px;
@@ -13,31 +13,12 @@
   transition: none;
   width: 240px;
   z-index: $z-sidebar;
-
-  // if sidebar is present
-  > .content {
-    float: right;
-    width: calc(100% - 240px);
-  }
-
-  .branch-name {
-    color: $gray;
-    font-weight: 400;
-  }
-
-  .icons-status {
-    left: 12px;
-    position: absolute;
-    top: 11px;
-  }
 }
 
 .sidebar-section-heading {
   cursor: pointer;
-  font-size: 15px;
-  font-weight: 500;
   height: 60px;
-  padding: 19px 12px 0;
+  padding: 18px 12px;
   position: relative;
   // padding-right: 0;
 
@@ -75,6 +56,12 @@
   .spinner-wrapper {
     margin-top: 30px;
   }
+
+  .icons-status {
+    left: 12px;
+    position: absolute;
+    top: 11px;
+  }
 }
 
 .server-sidebar {
@@ -96,14 +83,7 @@
   .well {
     margin: 0;
     position: relative;
-
-    .iconnables {
-      height: 14px;
-      left: 6px;
-      position: absolute;
-      top: 4px;
-      width: 14px;
-    }
+    color: $gray;
   }
 
   .empty-state {
@@ -224,4 +204,13 @@
 
 .server-category-name {
   padding-right: 21px;
+}
+
+.well-label {
+  font-size: 13px;
+  color: $gray;
+
+  .strong {
+    color: $gray-darker;
+  }
 }

@@ -1,8 +1,9 @@
 .linked-servers {
 
   .well {
-    font-size: 13px;
-    height: 36px;
+    // color: $gray;
+    font-size: 14px;
+    height: 33px;
     margin-bottom: 6px;
     padding: 5px 0 0 24px;
     text-align: left;
@@ -13,7 +14,7 @@
     }
 
     &.empty-state {
-      color: $gray;
+      // color: $gray;
       height: auto;
       line-height: 17px;
       padding: 6px 10px;
@@ -27,14 +28,8 @@
   // modifying fancy-select elements for container selection
   .btn {
     border-width: 2px;
+    font-weight: 400;
     line-height: 24px;
-    padding: 0 0 0 24px;
-
-    .icons-arrow-down {
-      color: $gray;
-      left: auto;
-      right: 6px;
-      top: 8px;
-    }
+    padding: 0 0 1px 24px;
   }
 }
