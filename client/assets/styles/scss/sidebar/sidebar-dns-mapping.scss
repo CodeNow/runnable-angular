@@ -1,0 +1,40 @@
+.linked-servers {
+
+  .well {
+    font-size: 13px;
+    height: 36px;
+    margin-bottom: 6px;
+    padding: 5px 0 0 24px;
+    text-align: left;
+    width: 100%;
+
+    &:last-child {
+      margin-bottom: 15px;
+    }
+
+    &.empty-state {
+      color: $gray;
+      height: auto;
+      line-height: 17px;
+      padding: 6px 10px;
+    }
+
+    .icons-status {
+      left: 9px;
+    }
+  }
+
+  // modifying fancy-select elements for container selection
+  .btn {
+    border-width: 2px;
+    line-height: 24px;
+    padding: 0 0 0 24px;
+
+    .icons-arrow-down {
+      color: $gray;
+      left: auto;
+      right: 6px;
+      top: 8px;
+    }
+  }
+}
