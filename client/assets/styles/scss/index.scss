@@ -24,9 +24,7 @@
 @import "components/alerts";
 @import "components/buttons";
 @import "components/cards";
-@import "components/embeds";
 @import "components/fancy-select";
-@import "components/guides";
 @import "components/header";
 @import "components/help";
 @import "components/icons";
@@ -37,15 +35,16 @@
 @import "components/tags";
 @import "components/tooltips";
 @import "components/wells";
-@import "components/intercom";
 
 // external componenets
+@import "components/external/intercom";
 @import "components/external/jstag";
 
 // forms
 @import "forms/forms";
 @import "forms/forms-inputs";
 @import "forms/forms-table";
+@import "forms/forms-table-actions";
 @import "forms/forms-toggles";
 @import "forms/forms-validation";
 
@@ -75,6 +74,7 @@
 
 // modal specific
 @import "modals/modals-edit";
+@import "modals/modals-edit-ace";
 @import "modals/modals-error";
 @import "modals/modals-integrations";
 @import "modals/modals-server-select";
@@ -83,18 +83,13 @@
 @import "popover/popover";
 @import "popover/popover-arrows";
 @import "popover/popover-fixed";
-@import "popover/popover-guides";
 @import "popover/popover-select";
 @import "popover/popover-views";
 
 // popover specific
 @import "popover/popover-account-menu";
-@import "popover/popover-actions";
 @import "popover/popover-add-tab";
 @import "popover/popover-files";
-@import "popover/popover-guides";
-@import "popover/popover-invite";
-@import "popover/popover-link-servers";
 @import "popover/popover-new-server";
 @import "popover/popover-primary-options";
 @import "popover/popover-repository-toggle";
