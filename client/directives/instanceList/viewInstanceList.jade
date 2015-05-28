@@ -33,13 +33,13 @@ ul.server-category-list(
         status-icon(
           instance = "masterInstance"
         )
-        span.server-category-name.text-overflow(
+        .server-category-name.text-overflow(
           ng-if = "masterInstance.getRepoName()"
           title = "{{ masterInstance.getRepoName() }}/{{ masterInstance.getBranchName() }}"
         ) {{ masterInstance.getRepoName() }}
           span.branch-name /{{ masterInstance.getBranchName() }}
 
-        span.server-category-name.text-overflow(
+        .server-category-name.text-overflow(
           ng-if = "!masterInstance.getRepoName()"
           title = "{{ masterInstance.attrs.name }}"
         ) {{ masterInstance.attrs.name }}
