@@ -4,6 +4,7 @@
   // override sidebar
   .sidebar {
     height: auto;
+    transition: width .2s ease-in-out;
     width: 210px;
   }
 }
@@ -45,11 +46,10 @@
 
   // override sidebar
   .sidebar {
-    border: 1px solid $gray-lighter;
-    border-left: 0;
-    border-radius: 0 0 2px;
-    color: $gray-dark;
-    margin: -2px -2px -2px 0;
+    background: $purple-dark;
+    border: 0;
+    border-left: 1px solid $purple-darker;
+    border-radius: 0 0 3px;
   }
 }
 
