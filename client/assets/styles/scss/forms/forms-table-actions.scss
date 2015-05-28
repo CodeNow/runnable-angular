@@ -11,7 +11,6 @@
   }
 
   // actions
-  // does this need to be direct child selector?
   > .btn {
     float: left;
 
@@ -19,75 +18,10 @@
     + .btn {
       float: right;
       font-size: 14px;
-
-      // tag
-      &:hover,
-      &:active {
-        color: $purple-light;
-
-        .tag {
-          background: $purple-light;
-        }
-      }
-
-      .tag {
-        background: $gray-dark;
-        color: $gray-lighter;
-        cursor: pointer;
-        position: relative;
-        top: -1px;
-      }
-    }
-  }
-
-  .label {
-    border: 2px solid $gray-light;
-    border-radius: 3px;
-    margin-bottom: 0;
-
-    // host name button
-    .btn-sm {
-      background: $white;
-      border: 0;
-      border-left: 1px solid $gray-lighter;
-      border-radius: 0;
-      border-right: 1px solid $gray-lighter;
-      font-size: 14px;
-      line-height: 36px;
-      padding: 0 24px 0 6px;
-      text-align: left;
-      width: 100%;
-
-      &:active,
-      &.active {
-        border-color: $gray-lighter;
-      }
     }
 
-    // 3 action thing
-    .monospace {
-      color: $gray-darker;
-      font-size: 14px;
-      line-height: 27px;
-
-      &.input {
-        border: 0;
-
-        &:focus {
-          box-shadow: none;
-        }
-      }
-
-      &:first-child {
-        border-radius: 2px 0 0 2px;
-        flex: 0 0 90px;
-        margin-left: -1px;
-      }
-
-      &:last-child {
-        border-radius: 0 2px 2px 0;
-        flex: 0 0 90px;
-      }
+    .iconnables {
+      width: 14px;
     }
   }
 
@@ -97,13 +31,15 @@
     right: 6px;
     top: 0;
   }
+}
 
-  .btn-status {
-    color: $gray;
-    cursor: default;
-    float: none;
-    font-size: 13px;
-    margin-left: 6px;
-    top: 0;
+// unique button action happening
+.btn-sidebar {
+  color: $gray;
+
+  &:hover,
+  &:active,
+  &.active {
+    color: $purple-light;
   }
 }

@@ -6,10 +6,12 @@ button.btn.btn-xs.gray(
   ng-init = "state.showHostName = false"
 ) Insert a hostname
 
-button.btn.btn-xs.btn-status.no-touching(
+button.btn.btn-xs.btn-sidebar(
+  ng-class = "{active: data.toggleSidebar}"
+  ng-click = "data.toggleSidebar = !data.toggleSidebar"
   ng-if = "!state.showHostName"
   title = "Toggle hostname sidebar"
-) Hostnames
+)
   svg.iconnables
     use(
       xlink:href = "#icons-sidebar"
