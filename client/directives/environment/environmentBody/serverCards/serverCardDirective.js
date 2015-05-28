@@ -4,7 +4,6 @@ require('app')
   .directive('serverCard', function serverCard(
     $q,
     $rootScope,
-    $timeout,
     errs,
     getInstanceClasses,
     keypather,
@@ -12,9 +11,8 @@ require('app')
     promisify,
     helpCards,
     fetchStackAnalysis,
-    $anchorScroll,
-    $location,
-    $state
+    $state,
+    $document
   ) {
     return {
       restrict: 'A',
@@ -25,7 +23,7 @@ require('app')
         instance: '=',
         helpCard: '=?'
       },
-      link: function ($scope) {
+      link: function ($scope, ele) {
         var listeners = [];
 
         $scope.getContainerFilesDisplay = function () {
@@ -62,8 +60,7 @@ require('app')
         $scope.activeAccount = $rootScope.dataApp.data.activeAccount;
 
         function scrollIntoView(){
-          $location.hash('server-' + $scope.server.instance.attrs.shortHash);
-          $anchorScroll();
+          $document.scrollToElement(ele, 100, 200);
         }
 
         function createServerObjectFromInstance(instance) {
