@@ -40,7 +40,7 @@
           spellcheck = "false"
         )
       .span-col →
-      label.label-col Translate to
+      label.label-col Replace
         fancy-select.input.input-sm.monospace(
           name = "toTextBox"
           ng-required = "true"
@@ -55,6 +55,7 @@
           ) Select hostname
           fancy-option.monospace(
             ng-repeat = "instance in $parent.data.parentData.instances.models | filter:$parent.$parent.data.instanceFilter()"
+            title = "{{ instance.getElasticHostname() }}"
             value = "instance.getElasticHostname()"
           ) {{ $parent.instance.getElasticHostname() }}
         button.btn.btn-sm.btn-icon.gray(
