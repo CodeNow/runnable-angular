@@ -88,51 +88,15 @@
 }
 
 // header.server-header actions
-.primary-actions,
-.secondary-actions {
+.primary-actions {
   float: right;
   height: 72px;
   line-height: 72px;
+  padding-left: 9px;
   position: relative;
-
-  // offset for vertical-align: middle
-  .btn-group {
-    top: -4px;
-  }
 
   .btn[disabled],
   .btn.disabled {
     margin: 0;
-  }
-}
-
-.primary-actions {
-  padding-left: 9px;
-
-  .btn-icon-sm {
-    min-width: 36px;
-
-    .icons-arrow-down {
-      float: none;
-      margin: 0 auto;
-      transition: transform .15s ease-in;
-    }
-  }
-}
-
-.secondary-actions {
-
-  .white {
-    margin-left: 3px;
-  }
-
-  .btn-action .iconnables {
-    margin-right: 4px;
-    top: 6px;
-    width: 21px;
-
-    &.icons-gear {
-      margin: 0;
-    }
   }
 }
