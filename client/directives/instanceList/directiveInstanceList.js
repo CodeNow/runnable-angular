@@ -10,7 +10,8 @@ function instanceList(
   getInstanceAltTitle,
   getTeamMemberClasses,
   $state,
-  $rootScope
+  $rootScope,
+  $timeout
 ) {
   return {
     restrict: 'A',
@@ -20,7 +21,7 @@ function instanceList(
       state: '=',
       actions: '='
     },
-    link: function ($scope) {
+    link: function ($scope, ele) {
       $scope.isLoading = $rootScope.isLoading;
 
       $scope.stateToInstance = function (instance, $event) {
@@ -33,9 +34,15 @@ function instanceList(
         });
       };
 
-      $scope.isSelected = function (instance) {
-        return instance.attrs.name === $state.params.instanceName;
-      };
+      var isLoadingWatch = $scope.$watch('isLoading.sidebar', function (newVal) {
+        if (newVal === false) {
+          isLoadingWatch();
+          $timeout(function () {
+            var instanceLink = angular.element(ele[0].querySelectorAll('a.selected'));
+            ele.find('ul').scrollToElement(instanceLink, 33*3, 200);
+          });
+        }
+      });
 
       $scope.getInstanceClasses = getInstanceClasses;
       $scope.getInstanceAltTitle = getInstanceAltTitle;
