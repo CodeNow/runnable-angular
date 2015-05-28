@@ -93,23 +93,24 @@ function ControllerInstance(
     });
   });
 
-  $scope.$watch('dataInstance.data.instance.build.attrs.started', function (n, p) {
-    if (data.showUpdatingMessage || !n || !p || n === p) { return; }
+  // Removed until we get a "new build" event
+  // $scope.$watch('dataInstance.data.instance.build.attrs.started', function (n, p) {
+  //   if (data.showUpdatingMessage || !n || !p || n === p) { return; }
 
-    // If the build was triggered by me manually we don't want to show toasters.
-    var isManual = $scope.dataInstance.data.instance.contextVersion.attrs.build.triggeredAction.manual;
-    var isTriggeredByMe = $scope.dataInstance.data.instance.contextVersion.attrs.build.triggeredBy.github === $scope.user.oauthId();
+  //   // If the build was triggered by me manually we don't want to show toasters.
+  //   var isManual = $scope.dataInstance.data.instance.contextVersion.attrs.build.triggeredAction.manual;
+  //   var isTriggeredByMe = $scope.dataInstance.data.instance.contextVersion.attrs.build.triggeredBy.github === $scope.user.oauthId();
 
-    if (isManual && isTriggeredByMe){
-      data.showUpdatedMessage = false;
-      data.showUpdatingMessage = false;
-      return;
-    }
+  //   if (isManual && isTriggeredByMe){
+  //     data.showUpdatedMessage = false;
+  //     data.showUpdatingMessage = false;
+  //     return;
+  //   }
 
 
-    data.showUpdatedMessage = false;
-    data.showUpdatingMessage = true;
-  });
+  //   data.showUpdatedMessage = false;
+  //   data.showUpdatingMessage = true;
+  // });
   $scope.$watch('dataInstance.data.instance.build.attrs.completed', function (n, p) {
     // p should be null since during a build, the completed field is nulled out
     if (!data.showUpdatingMessage || data.showUpdatedMessage || !n || p) { return; }
