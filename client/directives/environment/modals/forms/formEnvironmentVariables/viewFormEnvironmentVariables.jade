@@ -15,6 +15,7 @@
 
 //- table actions
 .table-actions.clearfix(
+  ng-class = "{in: state.showHostName}"
   ng-if = "data.instances.models.length >= 2"
   ng-include = "'viewEnvironmentVariableActions'"
 )

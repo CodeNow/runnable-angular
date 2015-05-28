@@ -78,7 +78,7 @@
   .well {
     background: $purple-darker;
     border: 1px solid $purple-light;
-    color: $purple-lighter;
+    color: #7d6692; // to match line numbers in ace
     cursor: pointer;
     font-size: 11px;
     line-height: 1.2;
