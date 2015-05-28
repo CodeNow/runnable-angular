@@ -1,8 +1,5 @@
 .popover.menu.bottom.popover-new-server(
-  ng-class = "{\
-    hint: data.helpCards.getActiveCard().targets.newContainer,\
-    in: active\
-  }"
+  ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
 )
   .arrow.white(
@@ -28,6 +25,7 @@
         modal-actions = "actions"
         modal-data = "data"
         modal-template = "setupTemplateModalOpen"
+        ng-class = "{ hint: data.helpCards.getActiveCard().targets.newContainer }"
       )
         svg.iconnables
           use(
