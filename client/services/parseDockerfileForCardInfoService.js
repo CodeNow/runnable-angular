@@ -21,41 +21,42 @@ function parseDockerfileForStack(
   hasKeypaths
 ) {
   return function (dockerfile, stackData) {
-    if (stackData) {
-      var fromValue = /from ([^\n]+)/i.exec(dockerfile.attrs.body);
-      if (fromValue) {
-        // it should be at index 1, since the full string is the 0th element
-        var stack;
-        var splitFrom = fromValue[1].split(':');
-        var stackKey = splitFrom[0];
-        var stackVersion = splitFrom.length > 1 ? splitFrom[1] : 'latest';
-        var rubyVersion = null;
+    if (!stackData) {
+      return $log.warn('Stack data should not be empty!');
+    }
 
-        if (stackKey === 'node') {
-          stackKey = 'nodejs';
-        } else if (stackKey === 'ruby') {
-          // Check for RAILS_VERSION
+    var fromValue = /from ([^\n]+)/i.exec(dockerfile.attrs.body);
+    if (!fromValue) {
+      return $log.warn('FROM value not found');
+    }
+    // it should be at index 1, since the full string is the 0th element
+    var stack;
+    var splitFrom = fromValue[1].split(':');
+    var stackKey = splitFrom[0];
+    var stackVersion = splitFrom.length > 1 ? splitFrom[1] : 'latest';
+    var rubyVersion = null;
 
-          var railsVersion = /ENV RAILS_VERSION ([^\n]+)/.exec(dockerfile);
-          if (railsVersion) {
-            rubyVersion = stackVersion;
-            stackKey = 'rails';
-            stackVersion = railsVersion[1];
-          }
-        }
-        stack = angular.copy(stackData.find(hasKeypaths({
-          'key': stackKey
-        })));
-        if (stack) {
-          stack.selectedVersion = stackVersion;
-          if (rubyVersion) {
-            stack.dependencies[0].selectedVersion = rubyVersion;
-          }
-          return stack;
-        }
+    if (stackKey === 'node') {
+      stackKey = 'nodejs';
+    } else if (stackKey === 'ruby') {
+      // Check for RAILS_VERSION
+
+      var railsVersion = /ENV RAILS_VERSION ([^\n]+)/.exec(dockerfile.attrs.body);
+      if (railsVersion) {
+        rubyVersion = stackVersion;
+        stackKey = 'rails';
+        stackVersion = railsVersion[1];
       }
-    } else if (!stackData) {
-      $log.warn('Stack data should not be empty!');
+    }
+    stack = angular.copy(stackData.find(hasKeypaths({
+      'key': stackKey
+    })));
+    if (stack) {
+      stack.selectedVersion = stackVersion;
+      if (rubyVersion) {
+        stack.dependencies[0].selectedVersion = rubyVersion;
+      }
+      return stack;
     }
   };
 }

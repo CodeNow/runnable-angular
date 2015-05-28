@@ -45,9 +45,20 @@ function setupServerModal(
           $scope.loading = false;
         });
 
+      function normalizeRepoName(repo) {
+        return repo.attrs.name.replace(/[^a-zA-Z0-9-]/g, '-');
+      }
+
       $scope.isRepoAdded = function (repo) {
         // Since the newServers may have faked repos (just containing names), just check the name
-        return !!$scope.data.instances.find(hasKeypaths({'getRepoName()': repo.attrs.name}));
+        return !!$scope.data.instances.find(function (instance) {
+          var repoName = instance.getRepoName();
+          if (repoName) {
+            return repo.attrs.name === repoName;
+          } else {
+            return normalizeRepoName(repo) === instance.attrs.name;
+          }
+        });
       };
 
       $scope.createServer = function () {
@@ -119,7 +130,7 @@ function setupServerModal(
         $scope.repoSelected = true;
         repo.loading = true;
         // Replace any non-word character with a -
-        $scope.state.opts.name = repo.attrs.name.replace(/[^a-zA-Z0-9]/g, '-');
+        $scope.state.opts.name = normalizeRepoName(repo);
         return $scope.fetchStackData(repo)
           .then(function () {
             return createNewBuild($rootScope.dataApp.data.activeAccount);
