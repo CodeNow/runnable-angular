@@ -83,6 +83,16 @@
       border-radius: 24px;
     }
   }
+
+  &.input-xxs {
+    font-size: 13px;
+    height: 18px;
+    line-height: 1;
+
+    &[type="search"] {
+      border-radius: 18px;
+    }
+  }
 }
 
 // hide if upload
