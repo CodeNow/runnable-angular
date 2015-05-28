@@ -27,8 +27,8 @@ div.modal-form-spinner(
   actions = "actions"
   diff-display
   file-diff = "diff"
-  ng-repeat = "diff in state.diffs"
-  ng-if = "!state.recalculating && !actions.checkFileIgnored(diff)"
+  ng-repeat = "diff in state.diffs | ignoredDiffs:state.contextVersion.getMainAppCodeVersion() as diffsWithIgnore"
+  ng-if = "!state.recalculating"
   preview-all = "true"
   state = "state"
 )
@@ -37,21 +37,21 @@ div.modal-form-spinner(
 p.p.empty(
   ng-if = "\
     !state.recalculating && \
-    state.diffs.length === 0\
+    diffsWithIgnore.length === 0\
   "
 )
   //- if no rules
   span(
     ng-if = "\
-      !state.contextVersion.appCodeVersions.models[0].attrs.transformRules.replace.length && \
-      !state.contextVersion.appCodeVersions.models[0].attrs.transformRules.rename.length\
+      !state.contextVersion.getMainAppCodeVersion().attrs.transformRules.replace.length && \
+      !state.contextVersion.getMainAppCodeVersion().attrs.transformRules.rename.length\
     "
   ) Add ‘Rules’ to see a preview of changes
 
   //- if rules, but no diffs produced
   span(
     ng-if = "\
-      state.contextVersion.appCodeVersions.models[0].attrs.transformRules.replace.length || \
-      state.contextVersion.appCodeVersions.models[0].attrs.transformRules.rename.length\
+      state.contextVersion.getMainAppCodeVersion().attrs.transformRules.replace.length || \
+      state.contextVersion.getMainAppCodeVersion().attrs.transformRules.rename.length\
     "
   ) No patterns matched your rules
