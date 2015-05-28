@@ -5,8 +5,8 @@
   display: flex;
   flex-direction: column;
   float: left;
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 14px;
+  // font-weight: 500;
   height: calc(100vh - 60px);
   line-height: 24px;
   position: relative;
@@ -14,9 +14,10 @@
   width: 240px;
   z-index: $z-sidebar;
 
-  .text-overflow {
-    display: block;
-    padding-right: 24px;
+  // if sidebar is present
+  > .content {
+    float: right;
+    width: calc(100% - 240px);
   }
 
   .branch-name {
@@ -27,21 +28,17 @@
   .icons-status {
     left: 12px;
     position: absolute;
-    top: 12px;
+    top: 11px;
   }
 }
 
-// .closed .icons-disclose {
-//   transform: rotate3d(0,0,1,-90deg);
-//   transition: none;
-// }
-
-.row-heading {
-  font-size: 14px;
+.sidebar-section-heading {
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
   height: 60px;
   padding: 19px 12px 0;
   position: relative;
-  cursor: pointer;
   // padding-right: 0;
 
   &.closed {
@@ -81,12 +78,10 @@
 }
 
 .server-sidebar {
-  font-size: 13px; // TODO: change this to 14px
   height: calc(100vh - 132px);
   width: 300px;
 
-  // class given to sections like Repositories, DNS Mapping, and File Explorer. Is there a better name for this?
-  .row {
+  .sidebar-section {
     border-bottom: 1px solid $gray-lighter;
     flex: 0 0 auto;
     overflow-x: hidden;
@@ -155,6 +150,7 @@
 }
 
 .server-category-list {
+  font-size: 15px;
   height: 100%;
   overflow-y: auto;
   padding: 0 12px 5px;
@@ -162,7 +158,7 @@
 
 .server-category-list-item {
   border-bottom: 1px solid $gray-lighter; // lines below categories
-  padding: 15px 0;
+  padding: 12px 0;
   position: relative;
 
   &:first-child {
@@ -171,7 +167,7 @@
 
   // configure shortcut button
   > .btn {
-    height: 33px;
+    height: 30px;
     opacity: .5;
     position: absolute;
     right: -12px;
@@ -179,11 +175,8 @@
     z-index: 1;
 
     .iconnables {
-      height: 17px;
-      position: absolute;
-      right: 9px;
-      top: 8px;
-      width: 17px;
+      right: 3px;
+      width: 15px;
     }
 
     &:hover {
@@ -200,10 +193,10 @@
 .server-list-item {
   cursor: pointer;
   display: block;
-  height: 33px;
-  line-height: 31px;
+  height: 30px;
+  line-height: 29px; // height -1 because of Helvetica baseline issue
   margin: 0 -12px;
-  padding: 0 9px 0 30px;
+  padding: 0 12px 0 27px;
   position: relative;
 
   &:hover {
@@ -227,4 +220,8 @@
       color: $purple-light;
     }
   }
+}
+
+.server-category-name {
+  padding-right: 21px;
 }

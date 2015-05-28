@@ -1,3 +1,16 @@
+.repo-list {
+  flex: 0 0 auto;
+  max-height: 50%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-bottom: 9px;
+
+  .label-checkbox {
+    margin: 0;
+    padding: 3px 0;
+  }
+}
+
 // repository group "well"
 .repository-group-item {
 
@@ -6,7 +19,6 @@
   }
 
   .repository-group-text {
-    border-width: 2px;
     color: $gray;
     cursor: pointer;
     padding: 6px;
@@ -35,19 +47,6 @@
   }
 }
 
-.repo-list {
-  flex: 0 0 auto;
-  max-height: 50%;
-  overflow-x: hidden;
-  overflow-y: auto;
-  padding-bottom: 9px;
-
-  .label-checkbox {
-    margin: 0;
-    padding: 3px 0;
-  }
-}
-
 .repository-description {
   font-weight: 400;
   padding: 0 27px;
@@ -57,8 +56,8 @@
 
 .repository-detail {
   display: block;
-  font-size: 11px;
-  margin-top: -6px;
+  font-size: 12px;
+  margin-top: -3px;
 
   .link {
     color: $purple-light;

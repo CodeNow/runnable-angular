@@ -4,7 +4,7 @@
   ng-include = "'spinner'"
 )
 
-.row-heading(
+.sidebar-section-heading(
   ng-if = "data.activeAccount && !isLoading.sidebar"
 )
   | Containers
@@ -23,7 +23,7 @@ ul.server-category-list(
       svg.iconnables
         use(
           xlink:href = "#icons-advanced"
-          )
+        )
     .server-list
       a.server-list-item(
         ng-class = "{selected: isSelected(masterInstance)}"
@@ -33,13 +33,13 @@ ul.server-category-list(
         status-icon(
           instance = "masterInstance"
         )
-        span.server-category-name.text-overflow(
+        .server-category-name.strong.text-overflow(
           ng-if = "masterInstance.getRepoName()"
           title = "{{ masterInstance.getRepoName() }}/{{ masterInstance.getBranchName() }}"
         ) {{ masterInstance.getRepoName() }}
           span.branch-name /{{ masterInstance.getBranchName() }}
 
-        span.server-category-name.text-overflow(
+        .server-category-name.strong.text-overflow(
           ng-if = "!masterInstance.getRepoName()"
           title = "{{ masterInstance.attrs.name }}"
         ) {{ masterInstance.attrs.name }}
@@ -50,7 +50,7 @@ ul.server-category-list(
         ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
           instanceName: branchFork.attrs.name })"
       )
-        span.branch-name.text-overflow(
+        .branch-name.text-overflow(
           title = "{{ branchFork.getDisplayName() }}"
         ) {{ branchFork.getDisplayName() }}
         status-icon(
