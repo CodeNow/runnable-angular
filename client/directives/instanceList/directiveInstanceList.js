@@ -38,7 +38,7 @@ function instanceList(
         if (newVal === false) {
           isLoadingWatch();
           $timeout(function () {
-            var instanceLink = angular.element(ele[0].querySelectorAll('a.selected'));
+            var instanceLink = angular.element(ele[0].querySelector('a.selected'));
             ele.find('ul').scrollToElement(instanceLink, 33*3, 200);
           });
         }
