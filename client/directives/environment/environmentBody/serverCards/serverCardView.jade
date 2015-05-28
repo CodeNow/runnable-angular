@@ -71,7 +71,7 @@ ul.card-body.load(
     modal-state-model = "'ports'"
     modal-template = "editServerModalOpen"
     ng-if = "server.repo && !server.advanced"
-    ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.repositories}"
+    ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.exposedPorts}"
   )
     svg.iconnables
       use(
@@ -91,7 +91,7 @@ ul.card-body.load(
     modal-data = "data"
     modal-state-model = "'env'"
     modal-template = "editServerModalOpen"
-    ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.exposedPorts}"
+    ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.environmentVariables}"
   )
     svg.iconnables
       use(
@@ -112,6 +112,7 @@ ul.card-body.load(
     modal-state-model = "'repository'"
     modal-template = "editServerModalOpen"
     ng-if = "server.repo && !server.advanced"
+    ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.repositories}"
   )
     svg.iconnables
       use(
@@ -135,6 +136,7 @@ ul.card-body.load(
     modal-state-model = "'files'"
     modal-template = "editServerModalOpen"
     ng-if = "server.repo && !server.advanced"
+    ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.containerFiles}"
   )
     svg.iconnables
       use(
@@ -154,6 +156,7 @@ ul.card-body.load(
     modal-state-model = "'translation'"
     modal-template = "editServerModalOpen"
     ng-if = "server.repo && $root.featureFlags.findAndReplace"
+    ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.findAndReplace}"
   )
     svg.iconnables
       use(
