@@ -4,6 +4,7 @@
   border-right: 1px solid $gray-lighter;
   display: flex;
   flex-direction: column;
+  float: left;
   font-size: 15px;
   font-weight: 500;
   height: calc(100vh - 60px);
@@ -12,18 +13,6 @@
   transition: none;
   width: 240px;
   z-index: $z-sidebar;
-
-  // width if sidebar is present
-  + .content {
-    float: right;
-    width: calc(100% - 240px);
-  }
-
-  // environment button
-  > .btn {
-    flex: 0 0 auto;
-    margin: 6px;
-  }
 
   .text-overflow {
     display: block;
@@ -42,33 +31,49 @@
   }
 }
 
-.closed .icons-disclose {
-  transform: rotate3d(0,0,1,-90deg);
-}
+// .closed .icons-disclose {
+//   transform: rotate3d(0,0,1,-90deg);
+//   transition: none;
+// }
 
 .row-heading {
   font-size: 14px;
   height: 60px;
   padding: 19px 12px 0;
   position: relative;
+  cursor: pointer;
+  // padding-right: 0;
+
+  &.closed {
+    color: $gray;
+
+    &:hover {
+      color: $gray-darker;
+    }
+  }
+
+  .icons-disclose {
+    height: 15px;
+    left: -3px;
+    position: absolute;
+    top: 24px;
+    transition: none;
+    width: 15px;
+
+    .closed & {
+      transform: rotate3d(0,0,1,-90deg);
+    }
+  }
 
   // for add buttons next to section headings, like in File Explorer
   .btn {
     float: right;
-
-    .icons-advanced {
-      float: left;
-      height: 100%;
-      margin-right: 3px;
-      width: 18px;
-    }
   }
 }
 
 // main sidebar
 .nav-sidebar {
   background: $gray-lighterest;
-  float: left;
 
   .spinner-wrapper {
     margin-top: 30px;
@@ -76,18 +81,11 @@
 }
 
 .server-sidebar {
-  display: flex;
-  flex-direction: column;
-  float: left;
-  font-size: 13px;
+  font-size: 13px; // TODO: change this to 14px
   height: calc(100vh - 132px);
   width: 300px;
 
-  // only removes transition from disclose icon
-  .icons-disclose {
-    transition: none;
-  }
-
+  // class given to sections like Repositories, DNS Mapping, and File Explorer. Is there a better name for this?
   .row {
     border-bottom: 1px solid $gray-lighter;
     flex: 0 0 auto;
@@ -96,51 +94,11 @@
     padding: 0 12px;
 
     &.closed {
-      flex: 0 0 61px;
-    }
-  }
-
-  .explorer {
-    display: flex;
-    flex: 1 1 auto;
-    flex-direction: column;
-
-    .explorer-menu-bar-container {
-      flex: 0 0 60px;
-    }
-
-    .file-tree {
-      flex: 1 1 auto;
-      margin: 0 -12px;
-      overflow-y: auto;
-      padding: 0 18px;
-    }
-  }
-
-  .row-heading {
-    cursor: pointer;
-    padding-right: 0;
-
-    &.closed {
-      color: $gray;
-
-      &:hover {
-        color: $gray-darker;
-      }
-    }
-
-    .icons-disclose {
-      height: 15px;
-      left: -3px;
-      position: absolute;
-      top: 24px;
-      width: 15px;
+      flex: 0 0 61px; // TODO: do some stuff to make this 60px
     }
   }
 
   .well {
-    background-color: $gray-lighterest;
-    border: 1px solid $gray-lighter;
     margin: 0;
     position: relative;
 

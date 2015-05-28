@@ -20,14 +20,14 @@
     ng-include = "'spinner'"
   )
 
-.empty-state.well(
+.empty-state.well.in(
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0 && indirectlyRelatedInstances.length === 0"
 )
   span.span {{ instance.getRepoName() || instance.getDisplayName() }}
   span.branch-name
     |  has no associated containers.
 
-fancy-select.well(
+fancy-select.well.in(
   ng-repeat = "masterInstance in masterInstancesWithChildren track by masterInstance.attrs.shortHash"
   value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
@@ -55,7 +55,7 @@ fancy-select.well(
     span.branch-name /{{ $parent.childInstance.getBranchName() }}
 
 //- non-repo containers, or repo containers with only one branch, that are linked directly
-.well.non-configurable(
+.well.in.non-configurable(
   ng-repeat = "masterInstance in masterInstancesWithoutChildren"
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
 )
@@ -67,7 +67,7 @@ fancy-select.well(
     ng-if = "masterInstance.getBranchName().length"
   ) /{{ masterInstance.getBranchName() }}
 
-.well.indirect(
+.well.in.indirect(
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && indirectlyRelatedInstances.length"
 )
   .well-item
