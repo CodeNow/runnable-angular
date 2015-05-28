@@ -16,33 +16,33 @@
 .ace-environment-variables {
   border-bottom: 0;
   border-radius: 3px;
-  height: 650px;
+  height: 625px;
   overflow: hidden;
   position: relative;
 
   @media (max-height: 1200px) {
-    height: 525px;
+    height: 500px;
   }
 
   @media (max-height: 1100px) {
-    height: 425px;
+    height: 400px;
   }
 
   @media (max-height: 1000px) {
-    height: 325px;
+    height: 300px;
   }
 
   @media (max-height: 900px) {
-    height: 225px;
+    height: 200px;
   }
 
   @media (max-height: 800px) {
-    height: calc(100vh - 412px);
+    height: calc(100vh - 420px);
     min-height: none;
   }
 
   @include media(sm) {
-    height: calc(100vh - 450px);
+    height: calc(100vh - 460px);
   }
 
   // override sidebar

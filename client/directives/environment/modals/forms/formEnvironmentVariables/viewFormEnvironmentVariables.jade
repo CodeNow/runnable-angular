@@ -38,18 +38,10 @@
 
 //- detailed text
 label.label.label-help
-  small.small(
-    tooltip = "Use this hostname when configuring callback services to this container."
-    tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-5,\"top\":15}"
-  )
-    button.btn.btn-xxs
-      svg.iconnables.icons-help
-        use(
-          xlink:href = "#icons-help"
-        )
-    | Elastic hostname
+  small.small.strong Elastic hostname:
   input.input.input-xxs(
     ng-attr-value = "{{ instance.getElasticHostname() }}"
     readonly
     select-all
   )
+  .small Use this hostname when configuring callback services to this container.
