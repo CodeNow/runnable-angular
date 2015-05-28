@@ -27,9 +27,11 @@
     transition: none;
   }
 
-  // lighter color for readonly
+  // readonly
   &[readonly] {
-    color: $gray;
+    background: $gray-light;
+    border: 0;
+    color: $gray-lighterest;
   }
 
   // remove box-shadow for these states
