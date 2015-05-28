@@ -1,3 +1,4 @@
+//- help things
 .help-container(
   ng-if = "helpCards.getActiveCard().helpPopover.environmentVariables"
 )
@@ -6,10 +7,11 @@
   )
 
 .help-padding(
-  ng-if = "helpCards.getActiveCard().helpPopover.environmentVariables"
   ng-bind-html = "helpCards.getActiveCard().helpPopover.environmentVariables"
+  ng-if = "helpCards.getActiveCard().helpPopover.environmentVariables"
 )
 
+//- begin form
 .clearfix
   .label-col Environment Variables
 
@@ -21,12 +23,13 @@
 
 //- table of current environment variables
 pre.ace-container.ace-environment-variables.ace-runnable-dark(
-  env-vars
   current-model = "server.opts"
+  env-vars
   state-model = "state.opts"
   validation = "validation.env"
 )
 
+//- detailed text
 label.label.label-help
   small.small(
     tooltip = "Use this hostname when configuring callback services to this container."
