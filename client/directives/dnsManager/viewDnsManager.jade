@@ -22,7 +22,7 @@
 
 .well-label.text-overflow(
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
-  title = "Elastic URL: runnable-web-staging-codenow.runnableapp.com"
+  title = "Elastic hostname: runnable-web-staging-codenow.runnableapp.com"
 )
   span.strong runnable-web
   | -staging-codenow.runnableapp.com
@@ -36,11 +36,12 @@ fancy-select.well.in(
 
 .well-label.text-overflow(
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
-  title = "Elastic URL: runnable-web-staging-codenow.runnableapp.com"
+  title = "Elastic hostname: runnable-web-staging-codenow.runnableapp.com"
 )
   span.strong runnable-web
   | -staging-codenow.runnableapp.com
 
+//-remove logic to exclude 
 fancy-select.well.in(
   ng-repeat = "masterInstance in masterInstancesWithChildren track by masterInstance.attrs.shortHash"
   value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
@@ -55,7 +56,6 @@ fancy-select.well.in(
     status-icon(
       instance = "$parent.$parent.masterInstance"
     )
-    //- span.span {{ $parent.$parent.masterInstance.repoName() || $parent.$parent.masterInstance.attrs.name }}
     | {{ $parent.$parent.masterInstance.getBranchName() }}
 
   fancy-option(
