@@ -70,7 +70,11 @@
 
     > .small:first-child {
       color: $purple-lighter;
-      padding: 0 12px 3px;
+      padding: 0 12px 6px;
+    }
+
+    .input-checkbox {
+      margin: 0 6px 0 0;
     }
   }
 
