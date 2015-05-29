@@ -1,9 +1,15 @@
 //- tabs
-.views-toolbar(
+.views-tabs(
   open-items = "openItems"
   instance = "instance"
   show-add-buttons = "showBackgroundButtons"
   tabs
+)
+
+//- toolbar
+.views-toolbar(
+  ng-if = "showBuildFailurePrompt() || shouldShowUpdateConfigsPrompt"
+  ng-include = "'viewToolbar'"
 )
 
 //- active panel
@@ -81,21 +87,3 @@
           xlink:href = "#icons-server"
         )
       | CMD Logs
-
-//- can .views-prompt go in its own template file?
-.views-prompt.theme-dark.hide(
-  ng-class = "{hide: !showBuildFailurePrompt()}"
-)
-  p.p.monospace Having build problems?
-  .btn-container
-    button.btn(
-      ng-class = "{white: !highlightRebuildWithoutCache, orange: highlightRebuildWithoutCache}"
-      ng-click = "actions.buildWithoutCache()"
-    ) Rebuild w/o cache
-    button.btn.btn-close-prompt(
-      ng-click = "actions.hideBuildFailurePrompt()"
-    )
-      svg.iconnables.icons-close
-        use(
-          xlink:href = "#icons-close"
-        )
