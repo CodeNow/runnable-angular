@@ -29,9 +29,9 @@
 
 .container-url-wrapper {
   color: $gray;
+  float: left;
   font-size: 16px;
   font-weight: 400;
-  float: left;
   position: relative;
   top: -9px;
 }
@@ -58,7 +58,6 @@
 
 // sets width
 .container-url-ghost {
-  // font-size: 15px;
   visibility: hidden;
 }
 
@@ -87,16 +86,16 @@
 }
 
 .container-url-link .iconnables {
-  top: 6px;
-  left: 4px;
   height: 12px;
+  left: 4px;
+  top: 6px;
   width: 12px;
 }
 
 .documentation-link .iconnables {
-  top: 3px;
-  left: 2px;
   height: 16px;
+  left: 2px;
+  top: 3px;
   width: 16px;
 }
 
