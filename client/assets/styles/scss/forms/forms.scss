@@ -128,37 +128,3 @@
     max-width: 150px;
   }
 }
-
-// label.btn.btn-checkbox
-.btn-checkbox {
-  font-size: 13px;
-}
-
-// input.checkbox
-.checkbox {
-  float: right;
-  margin-left: 12px;
-}
-
-input,
-.input,
-textarea,
-.textarea {
-  background: transparent;
-
-  &[type=radio] {
-    -webkit-appearance: radio;
-    cursor: pointer;
-  }
-
-  &[disabled],
-  &[readonly] {
-    background-color: $gray-lighterest;
-    border-color: $gray-lighter !important; // override any validation
-    color: $gray-lighter;
-  }
-
-  &[disabled] {
-    cursor: default;
-  }
-}
