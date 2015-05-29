@@ -174,13 +174,14 @@
 
   .well {
     color: $gray;
+    font-size: 14px;
     margin: 0;
-  }
 
-  .empty-state {
-    height: auto;
-    line-height: 17px;
-    padding: 6px 10px;
+    &.empty-state {
+      height: auto;
+      line-height: 17px;
+      padding: 6px 10px;
+    }
   }
 
   .spinner-wrapper {
