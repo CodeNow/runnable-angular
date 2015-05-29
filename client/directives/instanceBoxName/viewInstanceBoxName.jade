@@ -1,25 +1,37 @@
-.server-name
-  span.sever-name {{ instance.getRepoName() || instance.getDisplayName() }}
+.container-label
+  span.container-name {{ instance.getRepoName() || instance.getDisplayName() }}
   span.branch-name(
     ng-if = "instance.getBranchName()"
   ) /{{ instance.getBranchName() }}
-
   status-icon(
     instance = "instance"
   )
-input.server-url(
-  ng-if = "instance.attrs.name"
-  readonly
-  select-all
-  value = "{{ instance.getContainerHostname() }}{{defaultPort}}"
-)
-//- sets width
-span.server-name-ghost.no-touching {{ instance.getContainerHostname() }}{{defaultPort}}
-a.container-link-external(
-  target = "_blank"
-  ng-href = "http://{{ instance.getContainerHostname() }}{{defaultPort}}"
-)
-  svg.iconnables.icons-link-external
-    use(
-      xlink:href = "#icons-link-external"
-    )
+
+.container-url-wrapper
+  input.container-url(
+    ng-if = "instance.attrs.name"
+    readonly
+    select-all
+    title = "Container URL"
+    value = "{{ instance.getContainerHostname() }}{{defaultPort}}"
+  )
+  //- sets width
+  span.container-url-ghost.no-touching {{ instance.getContainerHostname() }}{{defaultPort}}
+  a.link-button.container-url-link(
+    ng-href = "http://{{ instance.getContainerHostname() }}{{defaultPort}}"
+    target = "_blank"
+    title = "Open Container URL"
+  )
+    svg.iconnables
+      use(
+        xlink:href = "#icons-link-external"
+      )
+  a.link-button.documentation-link(
+    href = "http://support.runnable.io"
+    target = "_blank"
+    title = "Learn about Container URLs"
+  )
+    svg.iconnables
+      use(
+        xlink:href = "#icons-question"
+        )

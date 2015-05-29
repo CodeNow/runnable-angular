@@ -5,65 +5,49 @@
   padding: 0 6px 0 15px;
 }
 
-.container-link-external {
-  color: $gray;
-  cursor: pointer;
-  left: -9px;
-  position: relative;
-  top: -36px;
-
-  &:hover {
-    color: $purple-light;
-  }
-
-  &:active {
-    color: $purple-dark;
-  }
-
-  .icons-link-external {
-    height: 21px;
-    width: 20px;
-  }
-}
-
 // h1.server-info
 .server-info {
   float: left;
   height: 72px;
+}
+
+// wrapper for container name, branch name, and status icon
+.container-label {
+  font-size: 24px;
+  height: 48px;
+  line-height: 48px;
+
+  .branch-name {
+    font-weight: 400;
+  }
 
   .icons-status {
     left: 9px;
-    top: -4px;
+    top: -3px;
   }
 }
 
-// text + status wrapper
-.server-name {
-  font-size: 24px;
-  height: 51px;
-  line-height: 51px;
-
-  .branch-name {
-    color: inherit;
-    font-weight: 400;
-  }
+.container-url-wrapper {
+  color: $gray;
+  font-size: 16px;
+  font-weight: 400;
+  float: left;
+  position: relative;
+  top: -9px;
 }
 
 // [readonly] specifity to override default [readonly] background-color
-.server-url[readonly] {
+.container-url[readonly] {
   background: none;
   border: 0;
   box-shadow: none;
-  color: $gray;
+  color: currentColor;
   cursor: default;
   display: block;
-  font-size: 15px;
-  font-weight: 400;
-  height: auto;
-  line-height: 1;
+  height: 20px;
+  line-height: 20px;
   padding: 0;
   position: relative;
-  top: -9px;
   white-space: nowrap;
   width: 100%;
 
@@ -73,18 +57,47 @@
 }
 
 // sets width
-.server-name-ghost {
-  font-size: 15px;
+.container-url-ghost {
+  // font-size: 15px;
   visibility: hidden;
 }
 
-// span.text-status
-.text-status {
-  color: $orange;
-  float: right;
-  font-size: 12px;
-  left: 14px;
+.link-button {
+  color: currentColor;
+  cursor: pointer;
+  display: inline-block;
+  height: 24px;
+  left: 3px;
   position: relative;
+  top: -22px;
+  width: 21px;
+
+  &:hover {
+    color: $purple-light;
+  }
+
+  &:active {
+    color: $purple-dark;
+  }
+
+  .iconnables {
+    color: currentColor;
+    position: absolute;
+  }
+}
+
+.container-url-link .iconnables {
+  top: 6px;
+  left: 4px;
+  height: 12px;
+  width: 12px;
+}
+
+.documentation-link .iconnables {
+  top: 3px;
+  left: 2px;
+  height: 16px;
+  width: 16px;
 }
 
 // header.server-header actions
