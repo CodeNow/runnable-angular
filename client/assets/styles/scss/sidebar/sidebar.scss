@@ -13,6 +13,12 @@
   width: 240px;
   z-index: $z-sidebar;
 
+  // width if sidebar is present
+  + .content {
+    float: right;
+    width: calc(100% - 240px);
+  }
+
   .icons-status {
     left: 12px;
     position: absolute;
@@ -59,6 +65,7 @@
 // main sidebar
 .nav-sidebar {
   background: $gray-lighterest;
+  float: left;
 
   .spinner-wrapper {
     margin-top: 30px;
