@@ -20,7 +20,24 @@
   span.strong {{ instance.getRepoName() || instance.getDisplayName() }}
   |  has no associated containers.
 
-.well-label.text-overflow
+.well-label.text-overflow(
+  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
+  title = "Elastic URL: runnable-web-staging-codenow.runnableapp.com"
+)
+  span.strong runnable-web
+  | -staging-codenow.runnableapp.com
+
+//- this is fake, just for testing
+fancy-select.well.in(
+  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
+)
+  .status-icon.green
+  | master
+
+.well-label.text-overflow(
+  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
+  title = "Elastic URL: runnable-web-staging-codenow.runnableapp.com"
+)
   span.strong runnable-web
   | -staging-codenow.runnableapp.com
 

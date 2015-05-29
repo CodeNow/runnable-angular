@@ -22,7 +22,6 @@
 
 .sidebar-section-heading {
   cursor: pointer;
-  height: 60px;
   padding: 18px 12px;
   position: relative;
   // padding-right: 0;
@@ -33,6 +32,11 @@
     &:hover {
       color: $gray-darker;
     }
+  }
+
+  // first dns pointer, if present
+  + .well-label {
+    margin-top: -9px;
   }
 
   .icons-disclose {
@@ -188,14 +192,6 @@
 
   &.closed {
     flex: 0 0 60px;
-  }
-}
-
-.well-label {
-  color: $gray;
-  font-size: 13px;
-
-  .strong {
-    color: $gray-darker;
+    overflow-y: hidden;
   }
 }
