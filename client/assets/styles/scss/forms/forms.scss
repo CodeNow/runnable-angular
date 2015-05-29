@@ -161,8 +161,4 @@ textarea,
   &[disabled] {
     cursor: default;
   }
-
-  &[readonly] {
-    cursor: pointer;
-  }
 }

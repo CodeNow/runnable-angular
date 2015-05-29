@@ -98,8 +98,6 @@ function fetchInstances(
         });
     }
     return fetchCache[fetchKey];
-
-
   };
 }
 

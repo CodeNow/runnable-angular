@@ -360,6 +360,20 @@
   }
 }
 
+// ace search
+.ace_search {
+  border-radius: 1px 1px 1px 3px !important;
+}
+
+.ace_search_field {
+  color: $black;
+}
+
+.ace_search_form.ace_nomatch {
+  border-color: $red;
+  outline: 0 !important;
+}
+
 // ace icons
 .ace_gutter-cell {
   background-position: 5px 4px !important;
