@@ -93,29 +93,7 @@ function ControllerInstance(
     });
   });
 
-  $scope.$watch('dataInstance.data.instance.build.attrs.completed', function (n, p) {
-    // p should be null since during a build, the completed field is nulled out
-    if (!data.showUpdatingMessage || data.showUpdatedMessage || !n || p) { return; }
-
-    // If the build was triggered by me manually we don't want to show toasters.
-    var isManual = $scope.dataInstance.data.instance.contextVersion.attrs.build.triggeredAction.manual;
-    var isTriggeredByMe = $scope.dataInstance.data.instance.contextVersion.attrs.build.triggeredBy.github === $scope.user.oauthId();
-
-    if (isManual && isTriggeredByMe){
-      data.showUpdatedMessage = false;
-      data.showUpdatingMessage = false;
-      return;
-    }
-
-    if (data.instance.contextVersion.getMainAppCodeVersion()) {
-      data.commit = fetchCommitData.activeCommit(data.instance.contextVersion.getMainAppCodeVersion());
-    }
-    data.showUpdatingMessage = false;
-    data.showUpdatedMessage = true;
-  });
-
-  $scope.$watch('dataInstance.data.instance.backgroundContextVersionBuilding', function (n) {
-    // p should be null since during a build, the completed field is nulled out
+  $scope.$watch('dataInstance.data.instance.backgroundContextVersionFinished', function (n) {
     if (n) {
       // If the build was triggered by me manually we don't want to show toasters.
       var isManual = n.triggeredAction.manual;
@@ -123,6 +101,27 @@ function ControllerInstance(
 
       if (isManual && isTriggeredByMe) {
         data.showUpdatedMessage = false;
+        return;
+      }
+      data.showUpdatedMessage = true;
+      if (data.instance.contextVersion.getMainAppCodeVersion()) {
+        data.commit = fetchCommitData.activeCommit(
+          data.instance.contextVersion.getMainAppCodeVersion(),
+          keypather.get(n, 'build.triggeredAction.appCodeVersion.commit')
+        );
+      }
+    } else {
+      data.showUpdatedMessage = false;
+    }
+  });
+
+  $scope.$watch('dataInstance.data.instance.backgroundContextVersionBuilding', function (n) {
+    if (n) {
+      // If the build was triggered by me manually we don't want to show toasters.
+      var isManual = n.triggeredAction.manual;
+      var isTriggeredByMe = n.triggeredBy.github === $scope.user.oauthId();
+
+      if (isManual && isTriggeredByMe) {
         data.showUpdatingMessage = false;
         return;
       }
@@ -133,6 +132,8 @@ function ControllerInstance(
           keypather.get(n, 'build.triggeredAction.appCodeVersion.commit')
         );
       }
+    } else {
+      data.showUpdatingMessage = false;
     }
   });
 
