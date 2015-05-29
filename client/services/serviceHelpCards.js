@@ -40,7 +40,7 @@ function helpCardsFactory(
           'environmentVariables',
           'findAndReplace'
         ],
-        'helpTop': 'Configure your external service by using an <b>Environment Variable</b> or <b>Translation Rule</b>.',
+        'helpTop': 'Configure your external service by using an <b>Environment Variable</b> or the <b>Find and Replace</b> tool.',
         'helpPopover': {
           'environmentVariables': 'Reference your external service here by adding or modifying an <b>environment variable</b>.',
           'findAndReplace': 'Reference your external service here by creating a <b>new rule</b>.'
@@ -54,8 +54,8 @@ function helpCardsFactory(
         ],
         'helpTop': 'Add <b>Build Commands</b> to install libraries from the <b>Repositories</b> or <b>Container Files</b> tool.',
         'helpPopover': {
-          'repositories': 'Add a <b>Build Command</b> to install a library. Example: apt-get install -y git',
-          'containerFiles': 'Add a <b>Build Command</b> to install a library. Example: apt-get install -y git'
+          'repositories': 'Use <b>Build Commands</b> to install a library. Example: apt-get install -y git',
+          'containerFiles': 'Use <b>Build Commands</b> to install a library. Example: apt-get install -y git'
         }
       },
       {
@@ -64,18 +64,18 @@ function helpCardsFactory(
           'environmentVariables',
           'findAndReplace'
         ],
-        'helpTop': 'Update your OAuth credentials using the <b>Environment Variables</b> or <b>Translation Rules</b> tool.',
+        'helpTop': 'Update your OAuth credentials using the <b>Environment Variables</b> or <b>Find and Replace</b> tool.',
         'helpPopover': {
           'environmentVariables': 'Update the environment variables that you use to specify OAuth credentials.',
-          'findAndReplace': 'Add a find and replace rule to update your OAuth credentials in your code.'
+          'findAndReplace': 'Add a rule to update your OAuth credentials in your code.'
         }
       },
       {
         'label': 'Seed a database',
         'targets': ['containerFiles'],
-        'helpTop': 'Use <b>Container Files</b> to upload seed data and specify <b>Build Commands</b> to run scripts.',
+        'helpTop': 'Use <b>Container Files</b> to upload seed data and run commands to import it.',
         'helpPopover': {
-          'containerFiles': 'Upload seed data files and input shell commands to import the data using <b>Build Commands</b>.'
+          'containerFiles': 'Click <b>Upload File</b> to select and upload seed data. Specify <b>Build Commands</b> to run shell commands after import.'
         }
       }
     ],
@@ -99,9 +99,9 @@ function helpCardsFactory(
         'targets': [
           'newContainer'
         ],
-        'helpTop': 'Click on the <b>New Container</b> button to add a <b>{{dependency}}</b> service.',
+        'helpTop': 'Click on the <b>New Container</b> button to add a <b>{{dependency}}</b> container.',
         'helpPopover': {
-          'newContainer': 'Click <b>Non-repository</b> to add a <b>{{dependency}}</b> service.'
+          'newContainer': 'Click <b>Non-repository</b> to add a <b>{{dependency}}</b> container.'
         }
       }
     ]
