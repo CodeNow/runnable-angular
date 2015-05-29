@@ -1,5 +1,5 @@
 // toolbar
-.views-toolbar {
+.views-tabs {
   @extend %webkit-flicker;
   background: $white;
   flex: 0 0 45px;
@@ -21,16 +21,20 @@
 }
 
 // editor toolbar
-.editor-toolbar {
+.views-toolbar {
+  align-items: center;
   background: $purple-dark;
   border-bottom: 1px solid $purple-darker;
   border-top: 1px solid $purple-darker;
-  height: 38px;
-  padding: 6px 6px 6px 12px;
+  display: flex;
+  padding: 6px 6px 6px 10px;
 
-  // path
+  // path/title
   .small {
     color: $purple-lighter;
+    flex: 1 1 auto;
+    line-height: 24px;
+    margin-right: 6px;
   }
 
   // save buttons
