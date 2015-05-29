@@ -114,6 +114,25 @@ function ControllerInstance(
     data.showUpdatedMessage = true;
   });
 
+  $scope.$watch('dataInstance.data.instance.backgroundContextVersionBuilding', function (n) {
+    // p should be null since during a build, the completed field is nulled out
+    if (n) {
+      // If the build was triggered by me manually we don't want to show toasters.
+      var isManual = n.triggeredAction.manual;
+      var isTriggeredByMe = n.triggeredBy.github === $scope.user.oauthId();
+
+      if (isManual && isTriggeredByMe){
+        data.showUpdatedMessage = false;
+        data.showUpdatingMessage = false;
+        return;
+      }
+      data.showUpdatingMessage = true;
+      if (data.instance.contextVersion.getMainAppCodeVersion()) {
+        data.commit = fetchCommitData.activeCommit(data.instance.contextVersion.getMainAppCodeVersion());
+      }
+    }
+  });
+
   // watch showExplorer (toggle when user clicks file menu)
   // if no running container, return early (user shouldn't be able to even click
   // button in this situation)
