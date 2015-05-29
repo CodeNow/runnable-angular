@@ -20,52 +20,53 @@
   span.strong {{ instance.getRepoName() || instance.getDisplayName() }}
   |  has no associated containers.
 
-.well-label.text-overflow(
-  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
-  title = "Elastic hostname: runnable-web-staging-codenow.runnableapp.com"
-)
-  span.strong runnable-web
-  | -staging-codenow.runnableapp.com
+//- //- this is fake, just for testing
+//- .well-label.text-overflow(
+//-   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
+//-   title = "Elastic hostname: runnable-web-staging-codenow.runnableapp.com"
+//- )
+//-   span.strong runnable-web
+//-   | -staging-codenow.runnableapp.com
 
-//- this is fake, just for testing
-fancy-select.well.in(
-  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
-)
-  .status-icon.green
-  | master
+//- fancy-select.well.in(
+//-   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
+//- )
+//-   .status-icon.green
+//-   | master
+//- //-
 
-.well-label.text-overflow(
-  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
-  title = "Elastic hostname: runnable-web-staging-codenow.runnableapp.com"
-)
-  span.strong runnable-web
-  | -staging-codenow.runnableapp.com
-
-//-remove logic to exclude 
-fancy-select.well.in(
+.dns-parent(
   ng-repeat = "masterInstance in masterInstancesWithChildren track by masterInstance.attrs.shortHash"
-  value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
-  track-by = "attrs.shortHash"
-  on-update = "actions.setDependency"
 )
-
-  fancy-option(
-    value = "$parent.masterInstance"
+  .well-label.text-overflow(
+    title = "Elastic hostname: runnable-web-staging-codenow.runnableapp.com"
   )
-    status-icon(
-      instance = "$parent.$parent.masterInstance"
-    )
-    | {{ $parent.$parent.masterInstance.getBranchName() }}
+    span.strong {{ masterInstance.getRepoName() }}
+    | -staging-codenow.runnableapp.com
 
-  fancy-option(
-    ng-repeat = "childInstance in $parent.masterInstance.children.models"
-    value = "childInstance"
+  //-remove logic to exclude 
+  fancy-select.well.in(
+    value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
+    track-by = "attrs.shortHash"
+    on-update = "actions.setDependency"
   )
-    status-icon(
-      instance = "$parent.childInstance"
+    fancy-option(
+      value = "$parent.masterInstance"
     )
-    | {{ $parent.childInstance.getBranchName() }}
+      status-icon(
+        instance = "$parent.$parent.masterInstance"
+      )
+      | {{ $parent.$parent.masterInstance.getBranchName() }}
+
+    fancy-option(
+      ng-repeat = "childInstance in $parent.masterInstance.children.models"
+      value = "childInstance"
+    )
+      status-icon(
+        instance = "$parent.childInstance"
+      )
+      | {{ $parent.childInstance.getBranchName() }}
 
 //- non-repo containers, or repo containers with only one branch, that are linked directly
 //- .well.in.non-configurable(
