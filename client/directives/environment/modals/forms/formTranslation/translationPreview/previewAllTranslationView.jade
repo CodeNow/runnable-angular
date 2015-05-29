@@ -1,0 +1,57 @@
+//- do not show if no preview
+  .clearfix(
+    ng-if = "!state.recalculating && state.diffs.length"
+  )
+    label.label.label-jump
+      small.small Jump to
+      select.select
+        optgroup(
+          label = "Filename rule"
+        )
+          option build/index.html
+        optgroup(
+          label = "String rule"
+        )
+          option build/index2.html
+          option build/assets/img.img
+
+div.modal-form-spinner(
+  ng-if = "state.recalculating"
+)
+  .spinner-wrapper.spinner-sm.spinner-gray.in(
+    ng-include = "'spinner'"
+  )
+  small.small Updating
+
+.table.table-diff(
+  actions = "actions"
+  diff-display
+  file-diff = "diff"
+  ng-repeat = "diff in state.diffs | ignoredDiffs:state.contextVersion.getMainAppCodeVersion() as diffsWithIgnore"
+  ng-if = "!state.recalculating"
+  preview-all = "true"
+  state = "state"
+)
+
+//- if no rules
+p.p.empty(
+  ng-if = "\
+    !state.recalculating && \
+    diffsWithIgnore.length === 0\
+  "
+)
+  //- if no rules
+  span(
+    ng-if = "\
+      !state.contextVersion.getMainAppCodeVersion().attrs.transformRules.replace.length && \
+      !state.contextVersion.getMainAppCodeVersion().attrs.transformRules.rename.length\
+    "
+  ) Add ‘Rules’ to see a preview of changes
+
+  //- if rules, but no diffs produced
+  span(
+    ng-if = "\
+      state.contextVersion.getMainAppCodeVersion().attrs.transformRules.replace.length || \
+      state.contextVersion.getMainAppCodeVersion().attrs.transformRules.rename.length\
+    "
+  ) No patterns matched your rules

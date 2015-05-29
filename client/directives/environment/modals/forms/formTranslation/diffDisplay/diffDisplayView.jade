@@ -1,0 +1,32 @@
+.tr.thead.clearfix
+  .cell
+    a.link(
+      ng-href = "{{ fileDiff.from | fileGithubLinkUrl: state.contextVersion}}"
+      target = "_blank"
+    ) {{ fileDiff.from }}
+    span(
+      ng-if = "fileDiff.to"
+    )
+      | #{''} → {{ fileDiff.to }}
+    button.btn.btn-xs.white(
+      ng-disabled = "state.processing"
+      ng-if = "previewAll"
+      ng-click = "actions.ignoreFile(fileDiff)"
+    ) Ignore File
+div(
+  ng-repeat = "change in fileDiff.changes"
+)
+  .tr.tr-deletion.clearfix(
+    ng-repeat = "changeLine in change.deletions"
+  )
+    .cell.monospace.cell-line {{ changeLine.ln }}
+    .cell.monospace.text-overflow {{ changeLine.content }}
+  .tr.tr-addition.clearfix(
+    ng-repeat = "changeLine in change.additions"
+  )
+    .cell.monospace.cell-line {{ changeLine.ln }}
+    .cell.monospace.text-overflow {{ changeLine.content }}
+  .tr.tr-gap.clearfix(
+    ng-if = "!$last"
+  )
+    .cell.monospace.cell-line ...

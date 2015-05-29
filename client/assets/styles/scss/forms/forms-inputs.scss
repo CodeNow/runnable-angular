@@ -27,9 +27,11 @@
     transition: none;
   }
 
-  // lighter color for readonly
+  // readonly
   &[readonly] {
-    color: $gray;
+    background: $gray-light;
+    border: 0;
+    color: $gray-lighterest;
   }
 
   // remove box-shadow for these states
@@ -83,6 +85,27 @@
       border-radius: 24px;
     }
   }
+
+  &.input-xxs {
+    font-size: 13px;
+    height: 18px;
+    line-height: 1;
+
+    &[type="search"] {
+      border-radius: 18px;
+    }
+  }
+}
+
+// hide if upload
+#input-upload {
+  position: absolute;
+  visibility: hidden;
+}
+
+.input {
+  height: 45px;
+  line-height: 45px;
 }
 
 .textarea {
@@ -283,13 +306,27 @@
     padding-left: 27px !important; // override all other position
     transition: all .15s ease-in;
   }
+}
 
-  &.input-search-sm {
-    background-position: 6px 2px !important; // no transition for .input-search-sm
-    background-size: 18px;
-    height: 24px;
-    line-height: 24px;
-    padding-left: 27px;
-    transition: all .15s ease-in;
+// icons
+.input-root {
+  position: relative;
+
+  &::after {
+    color: $gray;
+    content: '/';
+    display: block;
+    font-weight: 500;
+    height: 36px;
+    left: 0;
+    line-height: 36px;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 21px;
+  }
+
+  .input {
+    padding-left: 15px;
   }
 }

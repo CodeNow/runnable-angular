@@ -34,8 +34,7 @@ section.modal-body.clearfix
         repos: data.repoFilter | \
         orderBy: '-attrs.updated_at'\
       "
-    )
-      | {{ repo.attrs.name}}
+    ) {{ repo.attrs.name}}
       small.small Updated {{ repo.attrs.updated_at | timeFrom }}
       button.btn.btn-xs(
         ng-class = "{\
@@ -45,7 +44,7 @@ section.modal-body.clearfix
         ng-disabled = "repoSelected"
         ng-if = "!repo.loading"
       ) {{ repo.isAdded ? 'Already Added' : 'Add Container' }}
-      .spinner-wrapper.spinner-md.spinner-green.in(
+      .spinner-wrapper.spinner-sm.spinner-green.in(
         ng-if = "repo.loading"
         ng-include = "'spinner'"
       )

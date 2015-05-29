@@ -1,10 +1,20 @@
+// override default popover behavior
 .popover-fixed {
   left: 0 !important;
   margin: 0 auto;
-  max-width: 540px;
-  position: fixed;
+  max-width: 630px;
+  position: fixed !important;
   right: 0 !important;
+  top: calc(9% + 90px) !important;
   z-index: $z-popover-fixed;
+
+  .popover-header {
+    background: $gray-lighterest;
+    border-bottom: 1px solid $gray-lighter;
+    display: flex;
+    height: 54px;
+    padding: 9px 15px;
+  }
 
   .popover-content {
     max-height: 375px;
@@ -34,9 +44,8 @@
     }
   }
 
-  // monospace inputs
-  .input.monospace {
-    color: $gray-darker;
-    font-size: 13px;
+  // spinner
+  .spinner-backdrop {
+    position: relative;
   }
 }

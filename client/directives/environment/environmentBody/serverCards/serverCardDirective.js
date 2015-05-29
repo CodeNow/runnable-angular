@@ -4,7 +4,6 @@ require('app')
   .directive('serverCard', function serverCard(
     $q,
     $rootScope,
-    $timeout,
     errs,
     getInstanceClasses,
     keypather,
@@ -12,8 +11,8 @@ require('app')
     promisify,
     helpCards,
     fetchStackAnalysis,
-    $anchorScroll,
-    $location
+    $state,
+    $document
   ) {
     return {
       restrict: 'A',
@@ -24,31 +23,59 @@ require('app')
         instance: '=',
         helpCard: '=?'
       },
-      link: function ($scope) {
+      link: function ($scope, ele) {
         var listeners = [];
 
-        $scope.changeAdvancedFlag = function () {
-          if (confirm($scope.state.advanced ?
-              'If you make changes to the build files, you will not be able to ' +
-              'switch back without losing changes.'
-              : 'You will lose all changes you\'ve made to your dockerfile (ever).')) {
-            $scope.server.advanced = !$scope.server.advanced;
-            $scope.openConfigurationModal = true;
-            $timeout(function () {
-              $scope.openConfigurationModal = false;
-              $scope.server.advanced = !$scope.server.advanced;
-            });
-          }
-          $scope.state.advanced = !$scope.state.advanced;
-        };
+        // $scope.changeAdvancedFlag = function () {
+        //   if (confirm($scope.state.advanced ?
+        //       'If you make changes to the build files, you will not be able to ' +
+        //       'switch back without losing changes.'
+        //       : 'You will lose all changes you\'ve made to your dockerfile (ever).')) {
+        //     $scope.server.advanced = !$scope.server.advanced;
+        //     $scope.openConfigurationModal = true;
+        //     $timeout(function () {
+        //       $scope.openConfigurationModal = false;
+        //       $scope.server.advanced = !$scope.server.advanced;
+        //     });
+        //   }
+        //   $scope.state.advanced = !$scope.state.advanced;
+        // };
 
+        $scope.getContainerFilesDisplay = function () {
+          var repos = 0;
+          var files = 0;
+          $scope.server.containerFiles = $scope.server.containerFiles || [];
+          $scope.server.containerFiles.forEach(function (containerFile) {
+            if (containerFile.type === 'Repository') {
+              repos += 1;
+            } else if (containerFile.type === 'File') {
+              files += 1;
+            }
+          });
+          var messages = [];
+          if (repos === 1) {
+            messages.push('1 Repository');
+          } else if (repos) {
+            messages.push(repos + ' Repositories');
+          }
+          if (files === 1) {
+            messages.push('1 File');
+          } else if (files) {
+            messages.push(files + ' Files');
+          }
+
+          if(messages.length){
+            return messages.join('; ');
+          }
+          return 'no container files';
+
+        };
         $scope.helpCards = helpCards;
         $scope.server = {};
         $scope.activeAccount = $rootScope.dataApp.data.activeAccount;
 
         function scrollIntoView(){
-          $location.hash('server-' + $scope.server.instance.attrs.shortHash);
-          $anchorScroll();
+          $document.scrollToElement(ele, 100, 200);
         }
 
         function createServerObjectFromInstance(instance) {
@@ -59,6 +86,11 @@ require('app')
           $scope.server.opts = {
             env: instance.attrs.env
           };
+
+          if ($state.params.instanceName === $scope.server.instance.attrs.name ){
+            scrollIntoView();
+          }
+
           if (instance.contextVersion) {
             $scope.server.building = true;
             $scope.server.contextVersion = instance.contextVersion;
@@ -78,7 +110,7 @@ require('app')
               .then(function (data) {
                 $scope.server.building = false;
 
-                var fullRepoName = keypather.get($scope.server.instance, 'contextVersion.appCodeVersions.models[0].attrs.repo');
+                var fullRepoName = keypather.get($scope.server.instance, 'contextVersion.getMainAppCodeVersion().attrs.repo');
 
                 if (fullRepoName) {
                   fetchStackAnalysis(fullRepoName).then(function (stackAnalysis) {
@@ -104,6 +136,7 @@ require('app')
                               association: matchedInstance.attrs.name
                             })
                               .then(function (helpCard) {
+                                if (!helpCard) { return; }
                                 listeners.push({
                                   obj: helpCard,
                                   key: 'refresh',
@@ -117,7 +150,8 @@ require('app')
                                 helpCard
                                   .on('refresh', calculateHelpCards)
                                   .on('activate', scrollIntoView);
-                              });
+                              })
+                              .catch(errs.handler);
 
                           }
                         } else {
@@ -126,6 +160,7 @@ require('app')
                             dependency: dependency
                           })
                             .then(function (helpCard) {
+                              if (!helpCard) { return; }
                               listeners.push({
                                 obj: helpCard,
                                 key: 'refresh',
@@ -133,7 +168,8 @@ require('app')
                               });
                               helpCard
                                 .on('refresh', calculateHelpCards);
-                            });
+                            })
+                            .catch(errs.handler);
                         }
                       });
                     }
@@ -157,10 +193,9 @@ require('app')
             return parseDockerfileForCardInfoFromInstance($scope.instance, $scope.data.stacks)
               .then(function (data) {
                 if (data) {
-                  $scope.server.selectedStack = data.selectedStack;
-                  $scope.server.ports = data.ports;
-                  $scope.server.startCommand = data.startCommand;
-                  $scope.server.commands = data.commands;
+                  Object.keys(data).forEach(function (key) {
+                    $scope.server[key] = data[key];
+                  });
                 }
               })
               .catch(errs.handler)
@@ -185,6 +220,21 @@ require('app')
         };
         $scope.showSpinner = function () {
           return !$scope.server.build || $scope.server.building || $scope.server.parsing;
+        };
+        $scope.getTranslationDisplay = function () {
+          var ruleObject = keypather.get(
+            $scope,
+            'server.contextVersion.getMainAppCodeVersion().attrs.transformRules'
+          );
+          var total = 0;
+          if (ruleObject) {
+            total = ruleObject.replace.length + ruleObject.rename.length;
+          }
+          var result = (!total ? 'no' : total) + ' rule' + (total === 1 ? '' : 's');
+          if (keypather.get(ruleObject, 'exclude.length')) {
+            result += ' (' + ruleObject.exclude.length + ' files ignored)';
+          }
+          return result;
         };
 
         $scope.$on('$destroy', function () {

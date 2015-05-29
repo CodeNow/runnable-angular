@@ -28,13 +28,13 @@ $orange: #f2ae24;
 $orange-light: #f7c457;
 $orange-lighter: #ffd87d;
 $orange-lightest: #faf7eb;
-$orange-dark: darken($orange,9%);
+$orange-dark: #db970d; // darken($orange,9%);
 $orange-darker: darken($orange,12%);
 
 $red: #f25058;
 $red-light: #ef737f;
 $red-lighter: #fde6e9;
-$red-dark: desaturate(darken($red,10),7);
+$red-dark: #e62932; // desaturate(darken($red,10),7);
 
 $blue: #0ca6f2; // previously #2ab0f6;
 $blue-light: #8bd5f9; // previously #86cff6;
@@ -60,10 +60,7 @@ $z-hero-list-content: 1003;
 $z-views: 2000;
 $z-views-explorer: 2001;
 $z-views-toggle: 2002;
-$z-views-embed-video: 2003;
-$z-views-embed-guide: 2004;
-$z-views-embed-close: 2005;
-$z-views-active-panel: 2006;
+$z-views-active-panel: 2003;
 
 // sidebars
 $z-sidebar: 3000;
@@ -71,28 +68,26 @@ $z-sidebar-content: 3001; // header and footer are higher for box-shadows
 $z-sidebar-header: 3002;
 $z-sidebar-footer: 3003;
 
-// guides
-$z-guide: 4000;
-
 // modals
-$z-modal-backdrop: 5000;
-$z-modal-aside: 5001;
-$z-modal: 5002;
+$z-modal-backdrop: 4000;
+$z-modal-aside: 4001;
+$z-modal: 4002;
 
 // popovers
-$z-popover: 6000;
-$z-popover-title-filter: 6001;
-$z-popover-context-menu: 6002;
-$z-popover-content: 6003;
-$z-popover-title: 6004;
-$z-popover-overlay: 6005;
-$z-popover-fixed: 6006;
+$z-popover: 5000;
+$z-popover-title-filter: 5001;
+$z-popover-context-menu: 5002;
+$z-popover-content: 5003;
+$z-popover-title: 5004;
+$z-popover-overlay: 5005;
+$z-popover-fixed: 5006;
+$z-popover-arrow: 5007;
 
 // alerts
-$z-alert: 7000;
+$z-alert: 6000;
 
 // tooltips
-$z-tooltip: 8000;
+$z-tooltip: 7000;
 
 // spinners
-$z-spinner: 9000;
+$z-spinner: 8000;
