@@ -195,9 +195,9 @@ function getCardInfoTypes(
       this.name = commands[1].replace('./', '');
       this.path = commands[2].replace('/', '');
       commandList.splice(0, 2); //Remove the ADD and the WORKDIR
-      if(commandList[0] === 'RUN ./translation_rules.sh'){
+      if(commandList[0] === 'ADD ./translation_rules.sh /translation_rules.sh'){
         this.hasFindReplace = true;
-        commandList.splice(0,1);
+        commandList.splice(0,2);
       }
       this.commands = commandList.map(function (item) {
         return item.replace('RUN ', '');
@@ -210,7 +210,8 @@ function getCardInfoTypes(
       var self = this;
       self.commands = self.commands || '';
       if (self.hasFindReplace) {
-        self.commands = './translation_rules.sh\n'.concat(self.commands);
+        self.commands = 'ADD ./translation_rules.sh /translation_rules.sh\n' +
+            '/translation_rules.sh\n'.concat(self.commands);
       }
       self.path = self.path || self.name.trim();
       var contents = 'ADD ./' + self.name.trim() + ' /' + self.path.trim() + '\n'+
@@ -221,6 +222,9 @@ function getCardInfoTypes(
             return command.trim().length;
           })
           .map(function (command) {
+            if (command.indexOf('ADD') === 0) {
+              return command;
+            }
             return 'RUN '+command;
           })
           .join('\n');
