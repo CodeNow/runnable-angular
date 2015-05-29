@@ -4,6 +4,29 @@
   ng-include = "'spinner'"
 )
 
+.editor-toolbar
+  small.small /node-hello-world/server.js
+  button.btn.btn-xs.green.btn-spinner.float-right(
+    ng-class = "{in: saving}"
+    ng-click = "saveChanges()"
+  )
+    //- ng-disabled = "!instance.containers.models[0].running() || loading || saving || modifyingInstance || !canSave()"
+    .spinner-wrapper.spinner-sm.spinner-white.in(
+      ng-if = "saving"
+      ng-include = "'spinner'"
+    )
+    span.btn-text {{ saving ? 'Saving' : 'Save'}}
+  button.btn.btn-xs.green.btn-spinner.float-right(
+    ng-class = "{in: saving}"
+    ng-click = "saveChanges()"
+  )
+    //- ng-disabled = "!instance.containers.models[0].running() || loading || saving || modifyingInstance || !canSave()"
+    .spinner-wrapper.spinner-sm.spinner-white.in(
+      ng-if = "saving"
+      ng-include = "'spinner'"
+    )
+    span.btn-text {{ saving ? 'Saving' : 'Save and Restart'}}
+
 pre.pre(
   ng-model = "file.state.body"
   ui-ace = "{\

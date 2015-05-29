@@ -32,6 +32,25 @@
   }
 }
 
+// editor toolbar
+.editor-toolbar {
+  background: $purple-dark;
+  border-bottom: 1px solid $purple-darker;
+  border-top: 1px solid $purple-darker;
+  height: 38px;
+  padding: 6px 6px 6px 12px;
+
+  // path
+  .small {
+    color: $purple-lighter;
+  }
+
+  // save buttons
+  .btn + .btn {
+    margin-right: 6px;
+  }
+}
+
 // keeps log on bottom (iterm)
 #log {
   height: 10px;
@@ -43,7 +62,7 @@
 }
 
 div.terminal { // div specifity required b/c there's a term.terminal
-  @extend .pre;
+  @extend %pre;
   background: $purple-darker !important; // override term
   color: $white !important;
   padding: 9px;
