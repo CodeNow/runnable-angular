@@ -17,7 +17,6 @@ function ControllerApp(
   configAPIHost,
   configEnvironment,
   configLoginURL,
-  configLogoutURL,
   debounce,
   errs,
   eventTracking,
@@ -52,7 +51,6 @@ function ControllerApp(
   dataApp.data.configAPIHost = configAPIHost;
   dataApp.data.minimizeNav = false;
   dataApp.data.loginURL = configLoginURL();
-  dataApp.data.logoutURL = configLogoutURL();
 
   dataApp.state = $state;
 

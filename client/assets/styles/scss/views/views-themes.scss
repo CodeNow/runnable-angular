@@ -8,7 +8,6 @@
   letter-spacing: .3px !important;
   padding: 6px 9px !important;
   position: absolute !important;
-  // transform: translate3d(-540px, -130px, 0); // fix weird ace offset
 }
 
 .ace_gutter,
@@ -25,11 +24,13 @@
   line-height: 22px;
 }
 
+// light theme
 .ace-tm .pre {
   background-color: $white;
   color: $gray-darker;
   position: relative;
 
+  // readonly styles
   &.readonly {
     background-color: $gray-lighter;
 
@@ -214,11 +215,13 @@
   }
 }
 
+// dark theme
 .ace-runnable-dark .pre,
 .ace-container.ace-runnable-dark {
   background-color: #311d40;
   color: $white;
 
+  // readonly styles
   &.readonly, {
     background-color: rgba(#311d40,.6);
 
@@ -231,12 +234,6 @@
     .ace_gutter-active-line {
       background: none;
     }
-  }
-
-  ~ .editor-status {
-    background: rgba($white,.25);
-    border-color: rgba($white,.3);
-    color: $white;
   }
 
   .ace_tooltip {
@@ -360,5 +357,40 @@
 
   .ace_scroller.ace_scroll-left {
     box-shadow: 17px 0 16px -16px rgba($black,.4) inset;
+  }
+}
+
+// ace search
+.ace_search {
+  border-radius: 1px 1px 1px 3px !important;
+}
+
+.ace_search_field {
+  color: $black;
+}
+
+.ace_search_form.ace_nomatch {
+  border-color: $red;
+  outline: 0 !important;
+}
+
+// ace icons
+.ace_gutter-cell {
+  background-position: 5px 4px !important;
+  background-size: 12px 12px !important;
+
+  // error (red x)
+  &.ace_error {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAMAAADW3miqAAAAV1BMVEUAAADyUFjyUFjyUFjyUFjyUFioQlCtQ1GtTlu2RVK4ZXG7RlK7UFy+cXzJiZLNSVTdbHXkTVfohIvtT1jv3N7yUFjzW2L0cXf68/T809X93uD+9PX////JXtJKAAAABnRSTlMAQFBgr8+Xy+RdAAAA0ElEQVR42sXUyQ6EIBBF0UIFx3ZGHPj/72yDj7igIu5867PhVgIRJVI/LBN0LtWRpURCR5dQFkeS9It9iMy2aGzZDI/MYfcFZreHCZEz9lQw1qkA9at1CsauPYO6Cgqm6jikoGAUh6YSCqacQgTFGKBb/S70g+GKT818obmBCRHejhI88n1Qgke+TxUoCoxSXjFohCl9iZEr3qIPerX8WVpnULVVHBpyVTjjVKHyIUBOOQMF49Gt6tNA1TBAkX2BZNxklMSRePeJEYnsiciE6A8BLGeBTRmiNQAAAABJRU5ErkJggg==) !important;
+  }
+
+  // warning (orange triangle)
+  &.ace_warning {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAMAAADW3miqAAAAS1BMVEUAAADopCropCropCropCropCropCropCropCropCropCropCropCropCropCropCqZYhGziU3UlCTbnTPjoCjopCrpqjfuu1/////fhZVFAAAAEHRSTlMAECAwQFBgcICPn6+/z9/vIxqCigAAAMZJREFUeNqtk9sOgkAMBbnfWRQd8f+/1A0xTaUUjHGe52HSPZv8RpaeGWk7wdSmh87Iynhk9bzpfadAKFwpIATPaQCWyANonOoJ4BlZgGm/vUNLdE61SG77uJVG69RsJWpbbSTb3mEk056zJ5F/SMO+NGinYl+i0tVWMu0tnkQrg8WXyKTalaS9RHON3FCUa3VAc4nMKEK6Tg3NHLmjaVS1T7Y+mhcuT8i5xB+lAM6dhCADsHfSU+jcO+l91oEDQi1/ziX5mhdJPT9vFQaplQAAAABJRU5ErkJggg==) !important;
+  }
+
+  // info (i)
+  &.ace_info {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAMAAADW3miqAAAAM1BMVEUAAAD///////////////////////////////////////////////////////////////+3leKCAAAAEHRSTlMAECAwQFBgcICPn6+/z9/vIxqCigAAAJNJREFUeAHN0TESwiAUhOEFAkHyAnv/0+rLaMmKVfyaNDvwT8DNgpE9QTv5ckDKvECqdAPSzoXr4vCDErR0WIv4M2k3skCItdNVTG0HL+Kk6BPrdGn+G88S0PWztM2nK89S6HZI7Z2k6CS3mpRXkh4rSedCUvgxKZSvSbkNxsnI6Jp/esYEP7pfJkejJQhGWk242RMLCwsROuxo1gAAAABJRU5ErkJggg==) !important;
   }
 }
