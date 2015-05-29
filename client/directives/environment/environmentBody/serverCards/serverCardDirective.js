@@ -26,7 +26,7 @@ require('app')
         instance: '=',
         helpCard: '=?'
       },
-      link: function ($scope) {
+      link: function ($scope, ele) {
         var listeners = [];
 
         $scope.changeAdvancedFlag = function () {
