@@ -6,7 +6,6 @@
   flex-direction: column;
   float: left;
   font-size: 15px;
-  // font-weight: 500;
   height: calc(100vh - 60px);
   line-height: 24px;
   position: relative;
@@ -62,6 +61,102 @@
   }
 }
 
+.servers {
+  height: calc(100vh - 120px);
+  padding-bottom: 45px;
+
+  // "Containers" label
+  > .sidebar-section-heading {
+    border-bottom: 1px solid $gray-lighter;
+    cursor: default;
+    margin: 0 12px;
+    padding: 18px 0;
+  }
+}
+
+.server-category-list {
+  color: $gray;
+  font-size: 15px;
+  height: 100%;
+  overflow-y: auto;
+  padding: 0 12px 5px;
+
+  .strong {
+    color: $gray-darker;
+  }
+}
+
+.server-category-list-item {
+  border-bottom: 1px solid $gray-lighter; // lines below categories
+  padding: 12px 0;
+  position: relative;
+
+  // &:first-child {
+  //   border-top: 1px solid $gray-lighter; // line above first category
+  // }
+
+  // configure shortcut button
+  > .btn {
+    height: 30px;
+    opacity: .5;
+    position: absolute;
+    right: -12px;
+    width: 30px;
+    z-index: 1;
+
+    .iconnables {
+      right: 3px;
+      width: 15px;
+    }
+
+    &:hover {
+      opacity: .75;
+    }
+
+    &:active {
+      color: $purple-light;
+      opacity: 1;
+    }
+  }
+}
+
+.server-list-item {
+  cursor: pointer;
+  display: block;
+  height: 30px;
+  line-height: 29px; // height -1 because of Helvetica baseline weirdness
+  margin: 0 -12px;
+  padding: 0 12px 0 27px;
+  position: relative;
+
+  &:hover {
+    background: rgba($gray-light,.1);
+  }
+
+  &:active {
+    color: $purple-light;
+
+    .strong {
+      color: $purple-light;
+    }
+  }
+
+  &.selected {
+    background: $purple-lightest;
+    color: $purple-light;
+    cursor: default;
+
+    .strong {
+      color: $purple-light;
+    }
+  }
+}
+
+.server-category-name {
+  padding-right: 21px;
+}
+
+// sidebar within container view
 .server-sidebar {
   height: calc(100vh - 132px);
   width: 300px;
@@ -96,91 +191,9 @@
   }
 }
 
-.servers {
-  height: calc(100vh - 120px);
-  padding-bottom: 45px;
-}
-
-.server-category-list {
-  font-size: 15px;
-  height: 100%;
-  overflow-y: auto;
-  padding: 0 12px 5px;
-}
-
-.server-category-list-item {
-  border-bottom: 1px solid $gray-lighter; // lines below categories
-  padding: 12px 0;
-  position: relative;
-
-  &:first-child {
-    border-top: 1px solid $gray-lighter; // line above first category
-  }
-
-  // configure shortcut button
-  > .btn {
-    height: 30px;
-    opacity: .5;
-    position: absolute;
-    right: -12px;
-    width: 30px;
-    z-index: 1;
-
-    .iconnables {
-      right: 3px;
-      width: 15px;
-    }
-
-    &:hover {
-      opacity: .75;
-    }
-
-    &:active {
-      color: $purple-light;
-      opacity: 1;
-    }
-  }
-}
-
-.server-list-item {
-  cursor: pointer;
-  display: block;
-  height: 30px;
-  line-height: 29px; // height -1 because of Helvetica baseline issue
-  margin: 0 -12px;
-  padding: 0 12px 0 27px;
-  position: relative;
-
-  &:hover {
-    background: rgba($gray-light,.1);
-  }
-
-  &:active {
-    color: $purple-light;
-
-    .branch-name {
-      color: $purple-light;
-    }
-  }
-
-  &.selected {
-    background: $purple-lightest;
-    color: $purple-light;
-    cursor: default;
-
-    .branch-name {
-      color: $purple-light;
-    }
-  }
-}
-
-.server-category-name {
-  padding-right: 21px;
-}
-
 .well-label {
-  font-size: 13px;
   color: $gray;
+  font-size: 13px;
 
   .strong {
     color: $gray-darker;
