@@ -6,13 +6,14 @@
 
 .editor-toolbar
   small.small /node-hello-world/server.js
+  //- disable save buttons until a change a made
   button.btn.btn-xs.green.btn-spinner.float-right(
-    ng-class = "{in: saving}"
-    ng-click = "saveChanges()"
+    ng-class = "{in: data.saving}"
+    ng-click = "data.saving = !data.saving"
   )
     //- ng-disabled = "!instance.containers.models[0].running() || loading || saving || modifyingInstance || !canSave()"
     .spinner-wrapper.spinner-sm.spinner-white.in(
-      ng-if = "saving"
+      ng-if = "data.saving"
       ng-include = "'spinner'"
     )
     span.btn-text {{ saving ? 'Saving' : 'Save'}}
