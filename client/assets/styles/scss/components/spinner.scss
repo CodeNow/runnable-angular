@@ -67,6 +67,15 @@
 
   &.in {
     padding-left: 30px !important;
+
+    &.btn-xs {
+      padding-left: 18px !important;
+
+      .spinner {
+        left: 3px;
+        width: 12px;
+      }
+    }
   }
 
   .spinner {
