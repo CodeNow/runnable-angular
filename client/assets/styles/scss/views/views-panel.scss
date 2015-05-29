@@ -17,18 +17,14 @@
   // panels
   > div {
     height: 100%;
-    padding-bottom: 21px;
-    width: 100%;
 
-    // only if a view
+    // extra space if terminal in views
     .views & {
-      height: calc(100% - 45px);
-    }
-  }
 
-  // except ace
-  > div > pre {
-    height: 100%;
+      &.logs {
+        height: calc(100% - 45px);
+      }
+    }
   }
 }
 
