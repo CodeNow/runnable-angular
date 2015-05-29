@@ -19,3 +19,22 @@
     top: 1px;
   }
 }
+
+// editor toolbar
+.editor-toolbar {
+  background: $purple-dark;
+  border-bottom: 1px solid $purple-darker;
+  border-top: 1px solid $purple-darker;
+  height: 38px;
+  padding: 6px 6px 6px 12px;
+
+  // path
+  .small {
+    color: $purple-lighter;
+  }
+
+  // save buttons
+  .btn + .btn {
+    margin-right: 6px;
+  }
+}
