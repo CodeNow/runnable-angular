@@ -17,23 +17,17 @@
   ng-if = "(dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage) && dataInstance.data.userIsOrg()"
 )
   //- if successful, .green; if fail, .orange
-  .btn.btn-xxs.btn-icon.btn-state.no-touching(
-    ng-class = "{\
-      green: dataInstance.data.showUpdatedMessage,\
-      orange: dataInstance.data.showUpdatingMessage\
-    }"
-    ng-if = ""
-  )
-    //- if successful
+  .btn.btn-xxs.btn-icon.btn-state.no-touching
+    //- if updated
     svg.iconnables.icons-fat-check(
-      ng-if = ""
+      ng-if = "dataInstance.data.showUpdatedMessage"
     )
       use(
         xlink:href = "#icons-fat-check"
       )
-    //- if failed
+    //- if updating
     svg.iconnables.icons-warning(
-      ng-if = ""
+      ng-if = "dataInstance.data.showUpdatingMessage"
     )
       use(
         xlink:href = "#icons-warning"
@@ -61,7 +55,7 @@
       if failed: Failed Build
   h4.h4.text-overflow(
     ng-if = "dataInstance.data.showUpdatedMessage"
-    title = "Updating {{ dataInstance.data.instance.attrs.name }}"
+    title = "{{ dataInstance.data.instance.attrs.name }}"
   ) Updating {{ dataInstance.data.instance.attrs.name }}
   small.small {{ dataInstance.data.commit.attrs.author.login }} pushed #{''}
     a.link(
