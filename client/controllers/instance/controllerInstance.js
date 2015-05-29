@@ -128,7 +128,10 @@ function ControllerInstance(
       }
       data.showUpdatingMessage = true;
       if (data.instance.contextVersion.getMainAppCodeVersion()) {
-        data.commit = fetchCommitData.activeCommit(data.instance.contextVersion.getMainAppCodeVersion());
+        data.commit = fetchCommitData.activeCommit(
+          data.instance.contextVersion.getMainAppCodeVersion(),
+          keypather.get(n, 'build.triggeredAction.appCodeVersion.commit')
+        );
       }
     }
   });
