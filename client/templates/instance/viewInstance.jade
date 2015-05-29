@@ -59,11 +59,11 @@
       if updating: Updating {{ serverName }}
       if success: Successful Build
       if failed: Failed Build
-  h4.h4 Updating {{ dataInstance.data.instance.attrs.name }}
-  a(
+  h4.h4.text-overflow(
     ng-if = "dataInstance.data.showUpdatedMessage"
-    target = "_blank"
-  ) {{ dataInstance.data.commit.attrs.author.login }} pushed #{''}
+    title = "Updating {{ dataInstance.data.instance.attrs.name }}"
+  ) Updating {{ dataInstance.data.instance.attrs.name }}
+  small.small {{ dataInstance.data.commit.attrs.author.login }} pushed #{''}
     a.link(
       ng-href = "{{ dataInstance.data.commit.attrs.html_url }}"
       target = "_blank"

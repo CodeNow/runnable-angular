@@ -121,7 +121,7 @@ function ControllerInstance(
       var isManual = n.triggeredAction.manual;
       var isTriggeredByMe = n.triggeredBy.github === $scope.user.oauthId();
 
-      if (isManual && isTriggeredByMe){
+      if (isManual && isTriggeredByMe) {
         data.showUpdatedMessage = false;
         data.showUpdatingMessage = false;
         return;
