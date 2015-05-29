@@ -6,7 +6,6 @@ require('app')
  * @ngInject
  */
 function ControllerInstanceLayout(
-  configLogoutURL,
   $rootScope,
   keypather,
   $scope,
@@ -26,7 +25,6 @@ function ControllerInstanceLayout(
     state: {},
     actions: {}
   };
-  dataInstanceLayout.data.logoutURL = configLogoutURL();
   var unwatch = $scope.$watch('dataApp.data.activeAccount.oauthName()', function (n) {
     if (!n) { return; }
     unwatch();
