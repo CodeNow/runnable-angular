@@ -99,3 +99,19 @@
         use(
           xlink:href = "#icons-close"
         )
+//- can .views-prompt go in its own template file?
+.views-prompt.theme-dark.hide(
+  ng-class = "{hide: !shouldShowUpdateConfigsPrompt}"
+)
+  p.p.monospace The Master container was updated with new configurations, and this one is out of date
+  .btn-container
+    button.orange.btn(
+      ng-click = "actions.updateConfigToMatchMaster()"
+    ) Recreate with new configurations
+    button.btn.btn-close-prompt(
+      ng-click = "shouldShowUpdateConfigsPrompt = false"
+    )
+      svg.iconnables.icons-close
+        use(
+          xlink:href = "#icons-close"
+        )

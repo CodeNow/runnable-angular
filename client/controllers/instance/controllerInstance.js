@@ -24,6 +24,7 @@ function ControllerInstance(
   keypather,
   fetchUser,
   pageName,
+  promisify,
   setLastInstance,
   loading
 ) {
@@ -73,24 +74,24 @@ function ControllerInstance(
       instance: fetchInstances({ name: $stateParams.instanceName }),
       settings: fetchSettings()
     })
-    .then(function (results) {
-      var instance = results.instance;
-      data.instance = instance;
-      pageName.setTitle(instance.attrs.name);
-      data.instance.state = {};
+      .then(function (results) {
+        var instance = results.instance;
+        data.instance = instance;
+        pageName.setTitle(instance.attrs.name);
+        data.instance.state = {};
 
-      data.hasToken = keypather.get(results, 'settings.attrs.notifications.slack.apiToken');
-      setLastInstance($stateParams.instanceName);
-      loading('main', false);
-    })
-    .catch(function (err) { // We ONLY want to handle errors related to fetching instances so this catch is nested.
-      errs.handler(err);
-      loading('main', false);
-      setLastInstance(false);
-      $state.go('instance.home', {
-        userName: $stateParams.userName
+        data.hasToken = keypather.get(results, 'settings.attrs.notifications.slack.apiToken');
+        setLastInstance($stateParams.instanceName);
+        loading('main', false);
+      })
+      .catch(function (err) { // We ONLY want to handle errors related to fetching instances so this catch is nested.
+        errs.handler(err);
+        loading('main', false);
+        setLastInstance(false);
+        $state.go('instance.home', {
+          userName: $stateParams.userName
+        });
       });
-    });
   });
 
   $scope.$watch('dataInstance.data.instance.build.attrs.completed', function (n, p) {

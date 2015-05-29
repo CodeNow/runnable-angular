@@ -12,9 +12,11 @@ require('app')
  */
 function activePanel(
   $sce,
+  $q,
   keypather,
   updateInstanceWithNewBuild,
   errs,
+  instanceStatus,
   promisify,
   loading
 ) {
@@ -49,10 +51,24 @@ function activePanel(
       $scope.useAutoUpdate = !!attrs.useAutoUpdate;
 
       var shouldShowBuildFailurePrompt = false;
+      $scope.shouldShowUpdateConfigsPrompt = false;
 
       $scope.$watch('instance.build.attrs.failed', function (newVal) {
         shouldShowBuildFailurePrompt = newVal;
       });
+
+      if (!$scope.isEditModal) {
+        $scope.$watch('instance.configStatusValid', function (configStatusValid) {
+          if (configStatusValid === false) {
+            promisify($scope.instance, 'getParentConfigStatus')()
+              .then(function (instance) {
+                console.log('status', instance.cachedConfigStatus);
+                $scope.shouldShowUpdateConfigsPrompt = !instance.cachedConfigStatus;
+              })
+              .catch(errs.handler);
+          }
+        });
+      }
 
       $scope.highlightRebuildWithoutCache = false;
       $scope.$watch('instance.contextVersion.attrs.build.triggeredAction.manual', function (newVal) {
@@ -77,15 +93,56 @@ function activePanel(
           loading('main', true);
           promisify($scope.instance.build, 'deepCopy')()
             .then(function (build) {
-              updateInstanceWithNewBuild(
+              return updateInstanceWithNewBuild(
                 $scope.instance,
                 build,
                 true
-              )
-                .catch(errs.handler)
-                .finally(function () {
-                  loading('main', false);
-                });
+              );
+            })
+            .catch(errs.handler)
+            .finally(function () {
+              loading('main', false);
+            });
+        },
+        updateConfigToMatchMaster: function () {
+          $scope.shouldShowUpdateConfigsPrompt = false;
+          $scope.updatingToMatchMaster = true;
+          loading('main', true);
+          var instanceUpdates = {};
+          promisify($scope.instance, 'fetchMasterPod', true)()
+            .then(function (masterPodInstances) {
+              var masterPodInstance = masterPodInstances.models[0];
+              instanceUpdates.masterPodInstance = masterPodInstance;
+              instanceUpdates.opts = {
+                env: masterPodInstance.attrs.env
+              };
+              return promisify(instanceUpdates.masterPodInstance.build, 'deepCopy')();
+            })
+            .then(function (build) {
+              instanceUpdates.build = build;
+              instanceUpdates.contextVersion = build.contextVersions.models[0];
+              return promisify(instanceUpdates.contextVersion, 'fetch')();
+            })
+            .then(function () {
+              var currentAcvAttrs = $scope.instance.contextVersion.getMainAppCodeVersion().attrs;
+              // Delete the transformRules, since we don't want to update what Master had
+              delete currentAcvAttrs.transformRules;
+              return promisify(
+                instanceUpdates.contextVersion.getMainAppCodeVersion(),
+                'update'
+              )($scope.instance.contextVersion.getMainAppCodeVersion().attrs);
+            })
+            .then(function () {
+              return updateInstanceWithNewBuild(
+                $scope.instance,
+                instanceUpdates.build,
+                true
+              );
+            })
+            .catch(errs.handler)
+            .finally(function () {
+              loading('main', false);
+              $scope.updatingToMatchMaster = false;
             });
         },
         hideBuildFailurePrompt: function () {
