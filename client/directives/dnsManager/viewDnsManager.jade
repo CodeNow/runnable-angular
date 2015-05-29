@@ -6,7 +6,7 @@
       use(
         xlink:href = "#icons-disclose"
       )
-  | Associations
+  | DNS Mapping
 
   //status-icon(
   //  ng-if = "isDnsSetup && $storage.dnsManagementIsClosed"
@@ -25,7 +25,7 @@
 )
   span.span {{ instance.getRepoName() || instance.getDisplayName() }}
   span.branch-name
-    |  has no associated containers.
+    |  has no DNS mappings.
 
 fancy-select.well(
   ng-repeat = "masterInstance in masterInstancesWithChildren track by masterInstance.attrs.shortHash"
