@@ -36,6 +36,9 @@ require('app')
   .factory('validateDockerfile', function () {
     return require('validate-dockerfile');
   })
+  .factory('diffParse', function () {
+    return require('diff-parse');
+  })
   .service('keypather', [require('keypather')])
   .service('uuid', function () {
     return require('node-uuid');

@@ -15,9 +15,9 @@
 .card.gray.disabled.load(
   actions = "actions"
   data = "data"
-  instance = "instance"
-  ng-repeat = "instance in data.instances.models | orderBy:'attrs.name'"
   help-card = "state.helpCard"
+  instance = "instance"
+  ng-class = "{focus: instance.attrs.name === $state.params.instanceName}"
+  ng-repeat = "instance in data.instances.models | orderBy:'attrs.name'"
   server-card
-  ng-attr-id = "{{ 'server-' + instance.attrs.shortHash }}"
 )

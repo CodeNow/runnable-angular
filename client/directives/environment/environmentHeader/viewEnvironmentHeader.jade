@@ -1,5 +1,4 @@
 button.btn.btn-icon.blue(
-  ng-if = "featureFlags.helpCards"
   ng-class = "{active: state.helpButton.active}"
   ng-click = "state.helpButton.active = true"
   pop-over
@@ -20,7 +19,7 @@ button.btn.btn-icon.blue(
       )
 
 .help.help-top-card(
-  ng-if = "featureFlags.helpCards && !state.helpButton.active && helpCards.cards.triggered.length > 0 && !helpCards.getActiveCard()"
+  ng-if = "!state.helpButton.active && helpCards.cards.triggered.length > 0 && !helpCards.getActiveCard()"
 )
   .help-lists-wrapper
     ul.triggered-help-list
@@ -48,14 +47,13 @@ button.btn.btn-icon.blue(
 
 //- new server button
 button.btn.green(
-  ng-click = "state.newServerButton.active = true"
+  ng-class = "{ hint: helpCards.getActiveCard().targets.newContainer }"
   pop-over
   pop-over-actions = "actions"
   pop-over-active = "state.newServerButton.active"
   pop-over-data = "data"
   pop-over-options = "{\"right\":0,\"top\":56}"
   pop-over-template = "viewPopoverNewServer"
-  pop-over-trigger = "activeAttr"
 )
   svg.iconnables.icons-add.icons-round
     use(

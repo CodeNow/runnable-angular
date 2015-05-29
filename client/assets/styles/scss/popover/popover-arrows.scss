@@ -18,9 +18,13 @@
 .popover.right .arrow {
   border-left-width: 0;
   border-right-color: $gray-lighter;
-  left: -11px;
+  left: -25px;
   margin-top: -11px;
   top: 50%;
+
+  &.white {
+    border-right-color: $white;
+  }
 }
 
 .popover.right .arrow:after {
@@ -77,6 +81,7 @@
 
   .arrow {
     border-width: 13px;
+    z-index: $z-popover-arrow;
 
     &:hover {
       background: none;

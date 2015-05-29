@@ -12,7 +12,6 @@ function accountsSelect (
   $rootScope,
   $state,
   $timeout,
-  configLogoutURL,
   configEnvironment,
   errs,
   keypather,
@@ -30,7 +29,7 @@ function accountsSelect (
         actions: {
           logout: function () {
             promisify($scope.data.user, 'logout')().then(function () {
-              window.location = '/';
+              window.location = '/?password';
             }).catch(errs.handler);
           },
           selectActiveAccount: function (userOrOrg) {
@@ -53,7 +52,6 @@ function accountsSelect (
       };
 
       keypather.set($scope, 'popoverAccountMenu.data.dataModalIntegrations', $scope.data);
-      keypather.set($scope, 'popoverAccountMenu.data.logoutURL', configLogoutURL());
 
       if (configEnvironment !== 'production') {
         keypather.set($scope, 'popoverAccountMenu.data.inDev', true);

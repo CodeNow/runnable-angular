@@ -22,6 +22,11 @@
     ng-if = "helpCards.getActiveCard()"
   )
     .help(
+      ng-if = "helpCards.getActiveCard().targets.newContainer && state.newServerButton.active"
+      ng-bind-html = "helpCards.getActiveCard().helpPopover.newContainer"
+    )
+    .help(
+      ng-if = "!(helpCards.getActiveCard().targets.newContainer && state.newServerButton.active)"
       ng-bind-html = "helpCards.getActiveCard().helpTop"
     )
   .help-padding.no-touching(

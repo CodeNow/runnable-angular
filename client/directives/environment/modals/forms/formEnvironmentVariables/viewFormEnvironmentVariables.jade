@@ -8,13 +8,14 @@
 .help-padding(
   ng-if = "helpCards.getActiveCard().helpPopover.environmentVariables"
   ng-bind-html = "helpCards.getActiveCard().helpPopover.environmentVariables"
-) 
+)
 
 .clearfix
   .label-col Environment Variables
 
 //- table actions
 .table-actions.clearfix(
+  ng-class = "{in: state.showHostName}"
   ng-if = "data.instances.models.length >= 2"
   ng-include = "'viewEnvironmentVariableActions'"
 )
@@ -28,18 +29,10 @@ pre.ace-container.ace-environment-variables.ace-runnable-dark(
 )
 
 label.label.label-help
-  small.small(
-    tooltip = "Use this URL when configuring callback services to this container."
-    tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-5,\"top\":15}"
-  )
-    button.btn.btn-xxs
-      svg.iconnables.icons-help
-        use(
-          xlink:href = "#icons-help"
-        )
-    | Container's Elastic Hostname
-  input.input.input-xs(
+  small.small.strong Elastic hostname:
+  input.input.input-xxs(
     ng-attr-value = "{{ instance.getElasticHostname() }}"
     readonly
     select-all
   )
+  .small Use this hostname when configuring callback services to this container.

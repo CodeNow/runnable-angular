@@ -42,14 +42,16 @@
     }
   }
 
-  &.focus {
-    animation: card-blink 2s ease-in-out;
-  }
-
   // colors
   &.gray {
     background: $gray-lighterest;
     border-color: $gray-lighter;
+  }
+
+  // focus state
+  &.focus {
+    border-color: rgba($blue,.45);
+    box-shadow: 0 0 6px rgba($blue,.45);
   }
 
   // empty state
@@ -57,8 +59,8 @@
     background: transparent;
     border-color: transparent;
     color: $gray;
-    height: 281px;
-    line-height: 281px;
+    height: 333px;
+    line-height: 333px;
     text-align: center;
 
     .spinner-wrapper {
@@ -225,34 +227,30 @@
       border-radius: 0 0 3px 3px;
     }
 
+    &.hint {
+      border-color: rgba($blue,.45);
+      box-shadow: 0 0 6px rgba($blue,.35);
+      z-index: 1;
+
+      &:hover {
+        border-color: rgba($blue,.6);
+        box-shadow: none;
+      }
+    }
+
     + .btn {
       border-top-width: 1px;
       margin-top: -2px;
+
+      &.hint {
+        border-top-width: 2px;
+      }
     }
 
     > .iconnables:first-child {
       float: left;
       margin-right: 6px;
       width: 18px;
-    }
-
-    &.hint {
-      border-color: $blue;
-      box-shadow: inset 0 1px 0 $blue;
-      color: $blue;
-      z-index: 1;
-
-      &:first-child {
-        box-shadow: none;
-      }
-
-      .p {
-        color: rgba($blue,.6);
-      }
-
-      .icons-arrow-down {
-        color: $blue;
-      }
     }
 
     .h3 {
