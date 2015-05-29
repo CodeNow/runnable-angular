@@ -92,7 +92,6 @@ function ControllerInstance(
       });
     });
   });
-  //
 
   $scope.$watch('dataInstance.data.instance.backgroundContextVersionFinished', function (n) {
     if (n) {
