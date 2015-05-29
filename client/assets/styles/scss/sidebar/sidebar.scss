@@ -77,30 +77,6 @@
     padding: 6px 10px;
   }
 
-  .branch {
-    border-left: 2px solid $gray-lighter;
-    color: $gray;
-    cursor: pointer;
-    font-weight: 400;
-    height: 100%;
-    padding: 4px 3px 0 12px;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 50%;
-
-    &:hover {
-      background-color: $white;
-    }
-
-    .icons-arrow-down {
-      left: 0;
-      position: relative;
-      top: -3px;
-      width: 14px;
-    }
-  }
-
   .spinner-wrapper {
     float: right;
     margin-right: 15px;
@@ -116,7 +92,7 @@
   padding: 0 12px;
 
   &.closed {
-    flex: 0 0 61px; // TODO: do some stuff to make this 60px
+    flex: 0 0 60px;
   }
 }
 

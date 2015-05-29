@@ -1,6 +1,6 @@
 .container-label
-  span.container-name {{ instance.getRepoName() || instance.getDisplayName() }}
-  span.branch-name(
+  span.strong {{ instance.getRepoName() || instance.getDisplayName() }}
+  span(
     ng-if = "instance.getBranchName()"
   ) /{{ instance.getBranchName() }}
   status-icon(
