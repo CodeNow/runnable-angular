@@ -199,10 +199,16 @@ input[type="number"]::-webkit-outer-spin-button {
 input,
 textarea {
   -webkit-appearance: none;
+  background: transparent;
   border: 0;
 
   &:focus {
     outline: none;
+  }
+
+  &[type=radio] {
+    -webkit-appearance: radio;
+    cursor: pointer;
   }
 }
 
