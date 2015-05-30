@@ -205,7 +205,6 @@ function getCardInfoTypes(
       this.fromServer = true;
     }
 
-
     this.toString = function () {
       var self = this;
       self.commands = self.commands || '';
