@@ -198,7 +198,7 @@ function getCardInfoTypes(
       if (commandList[0].indexOf('ADD ./translation_rules.sh') > -1){
         this.hasFindReplace = true;
         // Remove add/chmod/run
-        commandList.splice(0,3);
+        commandList.splice(0,2);
       }
       this.commands = commandList.map(function (item) {
         return item.replace('RUN ', '');
@@ -214,8 +214,7 @@ function getCardInfoTypes(
       if (self.hasFindReplace) {
         var scriptPath = '/' + self.path + '/translation_rules.sh';
         self.commands = 'ADD ./translation_rules.sh ' + scriptPath + '\n' +
-          'chmod 777 ' + scriptPath + ' \n' +
-          scriptPath + '\n'.concat(self.commands);
+          'sh ' + scriptPath + '\n'.concat(self.commands);
       }
       var contents = 'ADD ./' + self.name.trim() + ' /' + self.path.trim() + '\n'+
         'WORKDIR /' + self.path + '\n'+
