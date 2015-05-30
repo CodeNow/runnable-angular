@@ -36,24 +36,13 @@
   top: -9px;
 }
 
-// [readonly] specifity to override default [readonly] background-color
+// clear input for urls
 .container-url[readonly] {
   background: none;
-  border: 0;
-  box-shadow: none;
   color: currentColor;
-  cursor: default;
-  display: block;
   height: 20px;
   line-height: 20px;
   padding: 0;
-  position: relative;
-  white-space: nowrap;
-  width: 100%;
-
-  &:focus {
-    box-shadow: none;
-  }
 }
 
 // sets width
