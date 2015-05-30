@@ -1,6 +1,6 @@
 .sidebar-section-heading.strong(
-  ng-click = "$storage.dnsManagementIsClosed = !$storage.dnsManagementIsClosed"
   ng-class = "{ closed: $storage.dnsManagementIsClosed }"
+  ng-click = "$storage.dnsManagementIsClosed = !$storage.dnsManagementIsClosed"
 )
   svg.iconnables.icons-disclose
     use(
@@ -21,19 +21,19 @@
   |  has no DNS mappings.
 
 .dns-parent(
-  ng-repeat = "masterInstance in masterInstancesWithChildren track by masterInstance.attrs.shortHash"
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
+  ng-repeat = "masterInstance in masterInstancesWithChildren track by masterInstance.attrs.shortHash"
 )
   .well-label.text-overflow(
-    title = "Elastic hostname: runnable-web-staging-codenow.runnableapp.com"
+    title = "Elastic hostname: {{ masterInstance.getRepoName() }}-staging-{{ masterInstance.attrs.owner.username }}.runnableapp.com"
   )
-    span.strong {{ masterInstance.getRepoName() }}
-    | -staging-codenow.runnableapp.com
+    strong.strong {{ masterInstance.getRepoName() }}
+    | -staging-{{ masterInstance.attrs.owner.username }}.runnableapp.com
 
   fancy-select.well.in(
-    value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
-    track-by = "attrs.shortHash"
     on-update = "actions.setDependency"
+    track-by = "attrs.shortHash"
+    value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
   )
     fancy-option(
       value = "$parent.masterInstance"
