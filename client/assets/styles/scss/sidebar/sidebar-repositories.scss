@@ -13,7 +13,6 @@
 
 // repository group "well"
 .repository-group-item {
-  // font-size: 14px;
 
   + .repository-group-item {
     margin-top: 9px;
@@ -28,7 +27,6 @@
   }
 
   .repository-group-text {
-    // color: $gray;
     cursor: pointer;
     font-weight: 400;
     padding: 6px;
@@ -58,7 +56,6 @@
 }
 
 .repository-description {
-  // font-weight: 400;
   padding: 0 27px;
   position: relative;
   word-break: break-word;

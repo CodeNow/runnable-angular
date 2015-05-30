@@ -183,6 +183,24 @@
     margin-right: 15px;
     margin-top: 5px;
   }
+
+  // file explorer section
+  .explorer {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+
+    .explorer-menu-bar-container {
+      flex: 0 0 60px;
+    }
+
+    .file-tree {
+      flex: 1 1 auto;
+      margin: 0 -12px;
+      overflow-y: auto;
+      padding: 0 18px;
+    }
+  }
 }
 
 .sidebar-section {
