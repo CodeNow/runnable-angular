@@ -197,7 +197,8 @@ function getCardInfoTypes(
       commandList.splice(0, 2); //Remove the ADD and the WORKDIR
       if(commandList[0] === 'ADD ./translation_rules.sh /translation_rules.sh'){
         this.hasFindReplace = true;
-        commandList.splice(0,2);
+        // Remove add/chmod/run
+        commandList.splice(0,3);
       }
       this.commands = commandList.map(function (item) {
         return item.replace('RUN ', '');
@@ -211,6 +212,7 @@ function getCardInfoTypes(
       self.commands = self.commands || '';
       if (self.hasFindReplace) {
         self.commands = 'ADD ./translation_rules.sh /translation_rules.sh\n' +
+            'chmod 777 /translation_rules.sh \n' +
             '/translation_rules.sh\n'.concat(self.commands);
       }
       self.path = self.path || self.name.trim();
