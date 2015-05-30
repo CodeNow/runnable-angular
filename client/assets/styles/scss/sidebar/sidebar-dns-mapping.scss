@@ -1,7 +1,12 @@
 .linked-servers {
 
+  // temporary padding fix for first item
   > .dns-parent {
     margin-top: -9px;
+  }
+
+  .dns-parent:last-child {
+    margin-bottom: 12px;
   }
 
   .well {
@@ -29,13 +34,6 @@
     font-weight: 400;
     line-height: 24px;
     padding: 0 0 0 24px;
-  }
-}
-
-.dns-parent {
-
-  &:last-child {
-    margin-bottom: 12px;
   }
 }
 
