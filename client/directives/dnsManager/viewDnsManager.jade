@@ -15,25 +15,10 @@
   )
 
 .empty-state.well.in(
-  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0 && indirectlyRelatedInstances.length === 0"
+  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && masterInstancesWithChildren.length === 0"
 )
   span.strong {{ instance.getRepoName() || instance.getDisplayName() }}
   |  has no associated containers.
-
-//- //- this is fake, just for testing
-//- .well-label.text-overflow(
-//-   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
-//-   title = "Elastic hostname: runnable-web-staging-codenow.runnableapp.com"
-//- )
-//-   span.strong runnable-web
-//-   | -staging-codenow.runnableapp.com
-
-//- fancy-select.well.in(
-//-   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
-//- )
-//-   .status-icon.green
-//-   | master
-//- //-
 
 .dns-parent(
   ng-repeat = "masterInstance in masterInstancesWithChildren track by masterInstance.attrs.shortHash"
@@ -45,7 +30,6 @@
     span.strong {{ masterInstance.getRepoName() }}
     | -staging-codenow.runnableapp.com
 
-  //-remove logic to exclude 
   fancy-select.well.in(
     value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
     track-by = "attrs.shortHash"
@@ -67,43 +51,3 @@
         instance = "$parent.childInstance"
       )
       | {{ $parent.childInstance.getBranchName() }}
-
-//- non-repo containers, or repo containers with only one branch, that are linked directly
-//- .well.in.non-configurable(
-//-   ng-repeat = "masterInstance in masterInstancesWithoutChildren"
-//-   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
-//- )
-//-   status-icon(
-//-     instance = "masterInstance"
-//-   )
-//-   span.span {{ masterInstance.repoName() || masterInstance.attrs.name }}
-//-   span.branch-name(
-//-     ng-if = "masterInstance.getBranchName().length"
-//-   ) /{{ masterInstance.getBranchName() }}
-
-//- .well.in.indirect(
-//-   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && indirectlyRelatedInstances.length"
-//- )
-//-   .well-item
-//-     svg.iconnables.icons-disclose
-//-       use(
-//-         xlink:href = "#icons-disclose"
-//-       )
-//-     span Indirect Links
-//-     status-icon(
-//-       instance = "dep"
-//-       ng-repeat = "dep in indirectlyRelatedInstances"
-//-     )
-//-   ul
-//-     li.well-item(
-//-       ng-repeat = "indirectInstance in indirectlyRelatedInstances"
-//-     )
-//-       svg.iconnables.icons-repository
-//-         use(
-//-           xlink:href = "#icons-repository"
-//-         )
-//-       span.server-category-name.text-overflow {{ indirectInstance.attrs.name }}
-//-         span.branch-name /master
-//-       status-icon(
-//-         instance = "indirectInstance"
-//-       )
