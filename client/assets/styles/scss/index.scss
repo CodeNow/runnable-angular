@@ -51,12 +51,13 @@
 // sidebar
 @import "sidebar/sidebar";
 @import "sidebar/sidebar-header";
-@import "sidebar/sidebar-repositories";
-@import "sidebar/sidebar-dns-mapping";
 @import "sidebar/sidebar-footer";
 
 // server
 @import "server/server-header";
+@import "server/server-sidebar";
+@import "server/server-sidebar-dns-mapping";
+@import "server/server-sidebar-repositories";
 
 // views
 @import "views/views";

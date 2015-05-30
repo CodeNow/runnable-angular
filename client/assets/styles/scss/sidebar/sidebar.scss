@@ -157,48 +157,6 @@
   padding-right: 21px;
 }
 
-// sidebar within container view
-.server-sidebar {
-  height: calc(100vh - 132px);
-  width: 300px;
-
-  .well {
-    color: $gray;
-    font-size: 14px;
-    margin: 0;
-
-    &.empty-state {
-      height: auto;
-      line-height: 17px;
-      padding: 6px 10px;
-    }
-  }
-
-  .spinner-wrapper {
-    float: right;
-    margin-right: 15px;
-    margin-top: 5px;
-  }
-
-  // file explorer section
-  .explorer {
-    display: flex;
-    flex: 1 1 auto;
-    flex-direction: column;
-
-    .explorer-menu-bar-container {
-      flex: 0 0 60px;
-    }
-
-    .file-tree {
-      flex: 1 1 auto;
-      margin: 0 -12px;
-      overflow-y: auto;
-      padding: 0 18px;
-    }
-  }
-}
-
 .sidebar-section {
   border-bottom: 1px solid $gray-lighter;
   flex: 0 0 auto;
