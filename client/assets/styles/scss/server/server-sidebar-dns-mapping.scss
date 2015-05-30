@@ -3,10 +3,14 @@
   // temporary padding fix for first item
   > .dns-parent {
     margin-top: -9px;
-  }
 
-  .dns-parent:last-child {
-    margin-bottom: 12px;
+    &:last-child {
+      margin-bottom: 9px;
+    }
+
+    + .dns-parent {
+      margin-top: 0;
+    }
   }
 
   .well {
