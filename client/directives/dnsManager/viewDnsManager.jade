@@ -18,7 +18,7 @@
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && masterInstancesWithChildren.length === 0"
 )
   span.strong {{ instance.getRepoName() || instance.getDisplayName() }}
-  |  has no associated containers.
+  |  has no DNS mappings.
 
 .dns-parent(
   ng-repeat = "masterInstance in masterInstancesWithChildren track by masterInstance.attrs.shortHash"
