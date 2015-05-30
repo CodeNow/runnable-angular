@@ -276,7 +276,6 @@ function parseDockerfileForCardInfoFromInstance(
     return chunks;
   }
 
-
   return function (instance, stackData) {
     return promisify(instance.contextVersion, 'fetchFile', true)('/Dockerfile')
       .then(function (dockerfile) {
