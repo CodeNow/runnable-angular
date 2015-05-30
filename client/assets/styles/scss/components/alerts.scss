@@ -74,17 +74,18 @@
     .iconnables {
       animation: scale-in-bounce .3s ease-in;
       height: 18px;
-      left: 2px;
       top: -7px;
       width: 18px;
     }
 
     .icons-warning {
       color: $orange;
+      left: 2px;
     }
 
     .icons-fat-check {
       color: $green;
+      left: 0;
     }
   }
 
