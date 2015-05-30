@@ -96,38 +96,6 @@ function parseDockerfileForPorts(dockerfile) {
   }
 }
 
-function parseDockerfileForRunCommands(dockerfile, repoName) {
-  // JS doesn't have easy lookbehind, so I just created two capturing groups.
-  // The second group needs to be [\s\S] over . as that also matches newlines
-  var reg = /(WORKDIR.*\n)([\s\S]*)(?=#End)/;
-  var missingChunk;
-  // Should be the beginning bit before any as the 1st, so remove it
-  if (repoName) {
-    var addChunks = dockerfile.split('ADD');
-    addChunks.shift();
-    missingChunk = addChunks.find(function (chunk) {
-      return chunk.indexOf('./' + repoName.toLowerCase());
-    });
-  } else {
-    missingChunk = dockerfile;
-  }
-  var results = reg.exec(missingChunk);
-  if (results && results[2]) {
-    return results[2].split('\n')
-      .map(function (str) {
-        return str.replace('RUN ', '')
-          .replace(/#.+/, '')
-          .trim(); //Remove all comments
-      })
-      .filter(function (command) {
-        // filter out empties
-        return command.length;
-      })
-      .join('\n');
-  }
-}
-
-
 function getCardInfoTypes(
   uuid
 ) {
@@ -299,11 +267,15 @@ function parseDockerfileForCardInfoFromInstance(
         });
 
         var acvs = keypather.get(instance, 'build.contextVersions.models[0].appCodeVersions');
+        var mainCommands = '';
         containerFiles = containerFiles.map(function (item) {
           if (item.type === 'File') { return item; }
           var matchingAcv = acvs.models.find(function (acv) {
             return acv.attrs.repo.split('/')[1] === item.name;
           });
+          if (item.type === 'Main Repository') {
+            mainCommands = item.commands;
+          }
           if (matchingAcv) {
             item.acv = matchingAcv;
             item.repo = matchingAcv.githubRepo;
@@ -318,7 +290,7 @@ function parseDockerfileForCardInfoFromInstance(
           instance: instance,
           ports: parseDockerfileForPorts(dockerfileBody),
           startCommand: parseDockerfileForStartCommand(dockerfileBody),
-          commands: parseDockerfileForRunCommands(dockerfileBody, instance.getRepoName()),
+          commands: mainCommands,
           containerFiles: containerFiles,
           selectedStack: parseDockerfileForStack(dockerfile, stackData)
         };

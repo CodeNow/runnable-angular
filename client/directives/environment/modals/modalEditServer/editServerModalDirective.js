@@ -331,7 +331,7 @@ function editServerModal(
               return cloned;
             });
             $scope.data.mainRepo = $scope.server.containerFiles.find(hasKeypaths({
-              type: 'Main Repo'
+              type: 'Main Repository'
             }));
           });
 
