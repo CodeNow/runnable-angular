@@ -195,7 +195,7 @@ function getCardInfoTypes(
       this.name = commands[1].replace('./', '');
       this.path = commands[2].replace('/', '');
       commandList.splice(0, 2); //Remove the ADD and the WORKDIR
-      if(commandList[0] === 'ADD ./translation_rules.sh /translation_rules.sh'){
+      if (commandList[0].indexOf('ADD ./translation_rules.sh') > -1){
         this.hasFindReplace = true;
         // Remove add/chmod/run
         commandList.splice(0,3);
@@ -210,14 +210,15 @@ function getCardInfoTypes(
     this.toString = function () {
       var self = this;
       self.commands = self.commands || '';
+      self.path = (self.path || self.name).trim();
       if (self.hasFindReplace) {
-        self.commands = 'ADD ./translation_rules.sh /translation_rules.sh\n' +
-            'chmod 777 /translation_rules.sh \n' +
-            '/translation_rules.sh\n'.concat(self.commands);
+        var scriptPath = '/' + self.path + '/translation_rules.sh';
+        self.commands = 'ADD ./translation_rules.sh ' + scriptPath + '\n' +
+          'chmod 777 ' + scriptPath + ' \n' +
+          scriptPath + '\n'.concat(self.commands);
       }
-      self.path = self.path || self.name.trim();
       var contents = 'ADD ./' + self.name.trim() + ' /' + self.path.trim() + '\n'+
-        'WORKDIR /' + self.path.trim() + '\n'+
+        'WORKDIR /' + self.path + '\n'+
         self.commands
           .split('\n')
           .filter(function (command) {
