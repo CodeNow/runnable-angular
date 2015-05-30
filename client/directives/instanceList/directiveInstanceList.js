@@ -43,7 +43,6 @@ function instanceList(
           });
         }
       });
-      //
 
       $scope.getInstanceClasses = getInstanceClasses;
       $scope.getInstanceAltTitle = getInstanceAltTitle;
