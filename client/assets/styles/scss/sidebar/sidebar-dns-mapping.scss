@@ -28,20 +28,20 @@
     }
   }
 
+  .well-label {
+    color: $gray;
+    font-size: 13px;
+
+    .strong {
+      color: $gray-dark;
+    }
+  }
+
   // modifying fancy-select elements for container selection
   .btn {
     border-width: 2px;
     font-weight: 400;
     line-height: 24px;
     padding: 0 0 0 24px;
-  }
-}
-
-.well-label {
-  color: $gray;
-  font-size: 13px;
-
-  .strong {
-    color: $gray-dark;
   }
 }
