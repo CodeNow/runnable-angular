@@ -1,0 +1,51 @@
+.linked-servers {
+
+  // temporary padding fix for first item
+  > .dns-parent {
+    margin-top: -9px;
+
+    &:last-child {
+      margin-bottom: 9px;
+    }
+
+    + .dns-parent {
+      margin-top: 0;
+    }
+  }
+
+  .well {
+    height: 33px;
+    margin-bottom: 6px;
+    padding: 5px 0 0 24px;
+    text-align: left;
+    width: 100%;
+
+    &.empty-state {
+      height: auto;
+      line-height: 17px;
+      margin-bottom: 18px;
+      padding: 6px 10px;
+    }
+
+    .icons-status {
+      left: 9px;
+    }
+  }
+
+  .well-label {
+    color: $gray;
+    font-size: 13px;
+
+    .strong {
+      color: $gray-dark;
+    }
+  }
+
+  // modifying fancy-select elements for container selection
+  .btn {
+    border-width: 2px;
+    font-weight: 400;
+    line-height: 24px;
+    padding: 0 0 0 24px;
+  }
+}
