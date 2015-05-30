@@ -111,8 +111,6 @@ function ControllerInstance(
           keypather.get(n, 'build.triggeredAction.appCodeVersion.commit')
         );
       }
-    } else {
-      data.showUpdatedMessage = false;
     }
   });
 
@@ -134,8 +132,6 @@ function ControllerInstance(
           keypather.get(n, 'build.triggeredAction.appCodeVersion.commit')
         );
       }
-    } else {
-      data.showUpdatingMessage = false;
     }
   });
 
