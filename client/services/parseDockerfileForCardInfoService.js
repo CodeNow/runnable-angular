@@ -242,6 +242,7 @@ function getCardInfoTypes(
   };
 }
 
+
 function parseDockerfileForCardInfoFromInstance(
   parseDockerfileForStack,
   promisify,
