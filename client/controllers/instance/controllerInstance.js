@@ -93,8 +93,9 @@ function ControllerInstance(
     });
   });
 
-  $scope.$watch('dataInstance.data.instance.backgroundContextVersionFinished', function (n) {
-    if (n) {
+  $scope.$watch('dataInstance.data.instance.backgroundContextVersionFinished', function (n, p) {
+    if (n && n !== p) {
+      dataInstance.data.instance.backgroundContextVersionFinished = false;
       // If the build was triggered by me manually we don't want to show toasters.
       var isManual = n.triggeredAction.manual;
       var isTriggeredByMe = n.triggeredBy.github === $scope.user.oauthId();
@@ -115,8 +116,9 @@ function ControllerInstance(
     }
   });
 
-  $scope.$watch('dataInstance.data.instance.backgroundContextVersionBuilding', function (n) {
-    if (n) {
+  $scope.$watch('dataInstance.data.instance.backgroundContextVersionBuilding', function (n, p) {
+    if (n && n !== p) {
+      dataInstance.data.instance.backgroundContextVersionBuilding = false;
       // If the build was triggered by me manually we don't want to show toasters.
       var isManual = n.triggeredAction.manual;
       var isTriggeredByMe = n.triggeredBy.github === $scope.user.oauthId();
