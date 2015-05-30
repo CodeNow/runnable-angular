@@ -1,9 +1,24 @@
+.logo-anchor {
+  position: relative;
+
+  .sup {
+    color: #bea1d4; // sup color from runnable.com
+    font-size: 11px;
+    line-height: 54px;
+    position: absolute;
+    text-shadow: 0 -1px 0 rgba(0,0,0,.2);
+    top: 0;
+    user-select: none;
+  }
+}
+
 .logo {
   height: 45px;
+  margin-left: 12px;
   width: 180px;
 
   &.logo-icon {
     height: 45px;
-    width: 45px;
+    width: 30px;
   }
 }

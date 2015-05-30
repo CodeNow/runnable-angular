@@ -5,11 +5,13 @@ main.home
 
     //- header
     header.home-header
-      img.logo.float-left(
-        height = "45"
-        src = "/build/images/runnable-logo.svg"
-        width = "240"
-      )
+      a.logo-anchor
+        img.logo.float-left(
+          height = "45"
+          src = "/build/images/runnable-logo.svg"
+          width = "240"
+        )
+        sup.sup &lt;beta&gt;
       nav.home-nav
         a.link(
           ng-href = "{{ dataHome.data.hasPass ? dataApp.data.loginURL : 'mailto:support@runnable.com?subject=Send me an invite, or else!' }}"
