@@ -94,7 +94,9 @@ function ControllerInstance(
   });
 
   $scope.$watch('dataInstance.data.instance.backgroundContextVersionFinished', function (n, p) {
+    // (n !== p) <- Never open this up the first time you arrive on this page
     if (n && n !== p) {
+      console.log(n);
       dataInstance.data.instance.backgroundContextVersionFinished = false;
       // If the build was triggered by me manually we don't want to show toasters.
       var isManual = n.triggeredAction.manual;
@@ -104,6 +106,7 @@ function ControllerInstance(
         data.showUpdatedMessage = false;
         return;
       }
+      data.showUpdatingMessage = false;
       data.showUpdatedMessage = true;
       if (data.instance.contextVersion.getMainAppCodeVersion()) {
         data.commit = fetchCommitData.activeCommit(
@@ -116,6 +119,7 @@ function ControllerInstance(
 
   $scope.$watch('dataInstance.data.instance.backgroundContextVersionBuilding', function (n, p) {
     if (n && n !== p) {
+      console.log(n);
       dataInstance.data.instance.backgroundContextVersionBuilding = false;
       // If the build was triggered by me manually we don't want to show toasters.
       var isManual = n.triggeredAction.manual;
@@ -125,6 +129,7 @@ function ControllerInstance(
         data.showUpdatingMessage = false;
         return;
       }
+      data.showUpdatedMessage = false;
       data.showUpdatingMessage = true;
       if (data.instance.contextVersion.getMainAppCodeVersion()) {
         data.commit = fetchCommitData.activeCommit(

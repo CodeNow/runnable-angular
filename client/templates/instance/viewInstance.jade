@@ -14,7 +14,7 @@
     green: dataInstance.data.showUpdatedMessage,\
     orange: dataInstance.data.showUpdatingMessage\
   }"
-  ng-if = "(dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage) && dataInstance.data.userIsOrg()"
+  ng-if = "(dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage)"
 )
   //- if successful, .green; if fail, .orange
   .btn.btn-xxs.btn-icon.btn-state.no-touching
@@ -43,7 +43,7 @@
       green: dataInstance.data.showUpdatedMessage,\
       orange: dataInstance.data.showUpdatingMessage\
     }"
-    ng-click = "dataInstance.data.showUpdatedMessage = false;dataInstance.data.showUpdatingMessage = false"
+    ng-click = "dataInstance.data.showUpdatedMessage = false; dataInstance.data.showUpdatingMessage = false"
   )
     svg.iconnables.icons-close
       use(
