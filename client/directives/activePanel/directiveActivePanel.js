@@ -61,11 +61,8 @@ function activePanel(
         $scope.$watch('instance.configStatusValid', function (configStatusValid) {
           if ($scope.instance) {
             if (configStatusValid === false) {
-              promisify($scope.instance, 'fetchParentConfigStatus')()
-                .then(function (instance) {
-                  console.log('status', instance.cachedConfigStatus);
-                  $scope.shouldShowUpdateConfigsPrompt = !instance.cachedConfigStatus;
-                })
+              // This will cause the valid flag to flip, recalling this watcher
+              return promisify($scope.instance, 'fetchParentConfigStatus')()
                 .catch(errs.handler);
             } else {
               $scope.shouldShowUpdateConfigsPrompt = !$scope.instance.cachedConfigStatus;
