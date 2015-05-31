@@ -55,7 +55,7 @@
       if failed: Failed Build
   h4.h4.text-overflow(
     title = "{{ dataInstance.data.instance.attrs.name }}"
-  ) {{dataInstance.data.showUpdatedMessage ? 'Updating' : 'Building' }} {{ dataInstance.data.instance.attrs.name }}
+  ) {{dataInstance.data.showUpdatedMessage ? 'Updated' : 'Updating' }} {{ dataInstance.data.instance.attrs.name }}
   small.small {{ dataInstance.data.commit.attrs.author.login }} pushed #{''}
     a.link(
       ng-href = "{{ dataInstance.data.commit.attrs.html_url }}"
