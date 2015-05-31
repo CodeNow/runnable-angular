@@ -59,13 +59,17 @@ function activePanel(
 
       if (!$scope.isEditModal) {
         $scope.$watch('instance.configStatusValid', function (configStatusValid) {
-          if (configStatusValid === false) {
-            promisify($scope.instance, 'getParentConfigStatus')()
-              .then(function (instance) {
-                console.log('status', instance.cachedConfigStatus);
-                $scope.shouldShowUpdateConfigsPrompt = !instance.cachedConfigStatus;
-              })
-              .catch(errs.handler);
+          if ($scope.instance) {
+            if (configStatusValid === false) {
+              promisify($scope.instance, 'fetchParentConfigStatus')()
+                .then(function (instance) {
+                  console.log('status', instance.cachedConfigStatus);
+                  $scope.shouldShowUpdateConfigsPrompt = !instance.cachedConfigStatus;
+                })
+                .catch(errs.handler);
+            } else {
+              $scope.shouldShowUpdateConfigsPrompt = !$scope.instance.cachedConfigStatus;
+            }
           }
         });
       }
