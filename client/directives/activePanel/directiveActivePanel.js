@@ -137,7 +137,8 @@ function activePanel(
               return updateInstanceWithNewBuild(
                 $scope.instance,
                 instanceUpdates.build,
-                true
+                true,
+                instanceUpdates.opts
               );
             })
             .catch(errs.handler)
