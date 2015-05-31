@@ -95,7 +95,7 @@ header.server-header
 //- sidebar with repositories and urls
 section.sidebar.server-sidebar.load
 
-  section.row.repo-list(
+  section.sidebar-section.repo-list(
     auto-build-on-acv-change = "true"
     build = "dataInstance.data.instance.build"
     instance = "dataInstance.data.instance"
@@ -106,14 +106,14 @@ section.sidebar.server-sidebar.load
     show-auto-deploy = "true"
   )
 
-  section.row.linked-servers(
+  section.sidebar-section.linked-servers(
     dns-manager
     instance = "dataInstance.data.instance"
     ng-class = "{closed: $storage.dnsManagementIsClosed}"
     ng-if = "dataInstance.data.instance"
   )
 
-  section.row.explorer(
+  section.sidebar-section.explorer(
     edit-explorer = "false"
     explorer
     explorer-title = "File Explorer"
