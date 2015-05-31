@@ -1,18 +1,12 @@
-.row-heading(
-  ng-click = "$storage.dnsManagementIsClosed = !$storage.dnsManagementIsClosed"
+.sidebar-section-heading.strong(
   ng-class = "{ closed: $storage.dnsManagementIsClosed }"
+  ng-click = "$storage.dnsManagementIsClosed = !$storage.dnsManagementIsClosed"
 )
   svg.iconnables.icons-disclose
-      use(
-        xlink:href = "#icons-disclose"
-      )
-  | Associations
-
-  //status-icon(
-  //  ng-if = "isDnsSetup && $storage.dnsManagementIsClosed"
-  //  ng-repeat = "relatedInstance in getRelatedInstancesList() track by relatedInstance.attrs.shortHash"
-  //  instance = "relatedInstance"
-  //)
+    use(
+      xlink:href = "#icons-disclose"
+    )
+  | DNS Mappings
 
   //- spinner for sidebar
   .spinner-wrapper.spinner-sm.spinner-gray.in(
@@ -20,76 +14,40 @@
     ng-include = "'spinner'"
   )
 
-.empty-state.well(
-  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0 && indirectlyRelatedInstances.length === 0"
+.empty-state.well.in(
+  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && masterInstancesWithChildren.length === 0"
 )
-  span.span {{ instance.getRepoName() || instance.getDisplayName() }}
-  span.branch-name
-    |  has no associated containers.
+  span.strong {{ instance.getRepoName() || instance.getDisplayName() }}
+  |  has no DNS mappings.
 
-fancy-select.well(
+.dns-parent(
+  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
   ng-repeat = "masterInstance in masterInstancesWithChildren track by masterInstance.attrs.shortHash"
-  value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
-  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
-  track-by = "attrs.shortHash"
-  on-update = "actions.setDependency"
 )
-
-  fancy-option(
-    value = "$parent.masterInstance"
+  .well-label.text-overflow(
+    title = "Elastic hostname: {{ masterInstance.getRepoName() }}-staging-{{ masterInstance.attrs.owner.username }}.runnableapp.com"
   )
-    status-icon(
-      instance = "$parent.$parent.masterInstance"
-    )
-    span.span {{ $parent.$parent.masterInstance.repoName() || $parent.$parent.masterInstance.attrs.name }}
-    span.branch-name /{{ $parent.$parent.masterInstance.getBranchName() }}
+    strong.strong {{ masterInstance.getRepoName() }}
+    | -staging-{{ masterInstance.attrs.owner.username }}.runnableapp.com
 
-  fancy-option(
-    ng-repeat = "childInstance in $parent.masterInstance.children.models"
-    value = "childInstance"
+  fancy-select.well.in(
+    on-update = "actions.setDependency"
+    track-by = "attrs.shortHash"
+    value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
   )
-    status-icon(
-      instance = "$parent.childInstance"
+    fancy-option(
+      value = "$parent.masterInstance"
     )
-    span.span {{ $parent.childInstance.getRepoName() || $parent.childInstance.attrs.name }}
-    span.branch-name /{{ $parent.childInstance.getBranchName() }}
-
-//- non-repo containers, or repo containers with only one branch, that are linked directly
-.well.non-configurable(
-  ng-repeat = "masterInstance in masterInstancesWithoutChildren"
-  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
-)
-  status-icon(
-    instance = "masterInstance"
-  )
-  span.span {{ masterInstance.repoName() || masterInstance.attrs.name }}
-  span.branch-name(
-    ng-if = "masterInstance.getBranchName().length"
-  ) /{{ masterInstance.getBranchName() }}
-
-.well.indirect(
-  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && indirectlyRelatedInstances.length"
-)
-  .well-item
-    svg.iconnables.icons-disclose
-      use(
-        xlink:href = "#icons-disclose"
-      )
-    span Indirect Links
-    status-icon(
-      instance = "dep"
-      ng-repeat = "dep in indirectlyRelatedInstances"
-    )
-  ul
-    li.well-item(
-      ng-repeat = "indirectInstance in indirectlyRelatedInstances"
-    )
-      svg.iconnables.icons-repository
-        use(
-          xlink:href = "#icons-repository"
-        )
-      span.server-category-name.text-overflow {{ indirectInstance.attrs.name }}
-        span.branch-name /master
       status-icon(
-        instance = "indirectInstance"
+        instance = "$parent.$parent.masterInstance"
       )
+      | {{ $parent.$parent.masterInstance.getBranchName() }}
+
+    fancy-option(
+      ng-repeat = "childInstance in $parent.masterInstance.children.models"
+      value = "childInstance"
+    )
+      status-icon(
+        instance = "$parent.childInstance"
+      )
+      | {{ $parent.childInstance.getBranchName() }}

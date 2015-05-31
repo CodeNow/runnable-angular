@@ -35,9 +35,11 @@ function ControllerInstanceHome(
       var flattenedInstances = [];
       instances.forEach(function (instance) {
         flattenedInstances.push(instance);
-        instance.children.models.forEach(function (childInstance) {
-          flattenedInstances.push(childInstance);
-        });
+        if (instance.children) {
+          instance.children.models.forEach(function (childInstance) {
+            flattenedInstances.push(childInstance);
+          });
+        }
       });
 
       var currentUserOrOrg =
