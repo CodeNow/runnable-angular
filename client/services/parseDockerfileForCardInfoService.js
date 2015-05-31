@@ -173,8 +173,6 @@ function getCardInfoTypes(
       }).join('\n');
       this.fromServer = true;
     }
-
-
     this.toString = function () {
       var self = this;
       self.commands = self.commands || '';
@@ -218,7 +216,6 @@ function getCardInfoTypes(
   };
 }
 
-
 function parseDockerfileForCardInfoFromInstance(
   parseDockerfileForStack,
   promisify,
@@ -252,7 +249,6 @@ function parseDockerfileForCardInfoFromInstance(
 
     return chunks;
   }
-
 
   return function (instance, stackData) {
     return promisify(instance.contextVersion, 'fetchFile', true)('/Dockerfile')

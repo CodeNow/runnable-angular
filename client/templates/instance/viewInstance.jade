@@ -14,26 +14,20 @@
     green: dataInstance.data.showUpdatedMessage,\
     orange: dataInstance.data.showUpdatingMessage\
   }"
-  ng-if = "(dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage) && dataInstance.data.userIsOrg()"
+  ng-if = "(dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage)"
 )
   //- if successful, .green; if fail, .orange
-  .btn.btn-xxs.btn-icon.btn-state.no-touching(
-    ng-class = "{\
-      green: dataInstance.data.showUpdatedMessage,\
-      orange: dataInstance.data.showUpdatingMessage\
-    }"
-    ng-if = ""
-  )
-    //- if successful
+  .btn.btn-xxs.btn-icon.btn-state.no-touching
+    //- if updated
     svg.iconnables.icons-fat-check(
-      ng-if = ""
+      ng-if = "dataInstance.data.showUpdatedMessage"
     )
       use(
         xlink:href = "#icons-fat-check"
       )
-    //- if failed
+    //- if updating
     svg.iconnables.icons-warning(
-      ng-if = ""
+      ng-if = "dataInstance.data.showUpdatingMessage"
     )
       use(
         xlink:href = "#icons-warning"
@@ -49,7 +43,7 @@
       green: dataInstance.data.showUpdatedMessage,\
       orange: dataInstance.data.showUpdatingMessage\
     }"
-    ng-click = "dataInstance.data.showUpdatedMessage = false;dataInstance.data.showUpdatingMessage = false"
+    ng-click = "dataInstance.data.showUpdatedMessage = false; dataInstance.data.showUpdatingMessage = false"
   )
     svg.iconnables.icons-close
       use(
@@ -59,15 +53,14 @@
       if updating: Updating {{ serverName }}
       if success: Successful Build
       if failed: Failed Build
-  h4.h4 Updating {{ dataInstance.data.instance.attrs.name }}
-  a(
-    ng-if = "dataInstance.data.showUpdatedMessage"
-    target = "_blank"
-  ) {{ dataInstance.data.commit.attrs.author.login }} pushed #{''}
+  h4.h4.text-overflow(
+    title = "{{ dataInstance.data.instance.attrs.name }}"
+  ) {{dataInstance.data.showUpdatedMessage ? 'Updated' : 'Updating' }} {{ dataInstance.data.instance.attrs.name }}
+  small.small {{ dataInstance.data.commit.attrs.author.login }} pushed #{''}
     a.link(
       ng-href = "{{ dataInstance.data.commit.attrs.html_url }}"
       target = "_blank"
-    ) {{ dataInstance.data.commit.attrs.sha  | limitTo:6 }}
+    ) {{ dataInstance.data.commit.attrs.sha  | limitTo:7 }}
   //- do not show if integration is already setup
   p.p(
     ng-if = "!dataInstance.data.hasToken"
