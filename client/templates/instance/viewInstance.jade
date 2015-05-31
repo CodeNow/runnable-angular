@@ -54,14 +54,13 @@
       if success: Successful Build
       if failed: Failed Build
   h4.h4.text-overflow(
-    ng-if = "dataInstance.data.showUpdatedMessage"
     title = "{{ dataInstance.data.instance.attrs.name }}"
-  ) Updating {{ dataInstance.data.instance.attrs.name }}
+  ) {{dataInstance.data.showUpdatedMessage ? 'Updating' : 'Building' }} {{ dataInstance.data.instance.attrs.name }}
   small.small {{ dataInstance.data.commit.attrs.author.login }} pushed #{''}
     a.link(
       ng-href = "{{ dataInstance.data.commit.attrs.html_url }}"
       target = "_blank"
-    ) {{ dataInstance.data.commit.attrs.sha  | limitTo:6 }}
+    ) {{ dataInstance.data.commit.attrs.sha  | limitTo:7 }}
   //- do not show if integration is already setup
   p.p(
     ng-if = "!dataInstance.data.hasToken"
