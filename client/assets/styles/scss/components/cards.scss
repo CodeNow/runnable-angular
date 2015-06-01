@@ -141,6 +141,8 @@
     cursor: pointer;
     flex-direction: 0 0 30px;
     margin-top: -3px;
+    display: table;
+    margin: 0 auto;
 
      &:hover {
       color: $purple-light;
@@ -158,17 +160,22 @@
   }
 }
 
+.card-status-test {
+  height: 27px;
+  padding-top: 6px;
+}
+
 .card-status {
-  border: 1px solid rgba($white,0);
   border-radius: 3px;
+  border: 1px solid rgba($white,0);
   color: $gray;
   display: table;
+  flex: 0 0 27px;
   font-size: 14px;
-  margin: 0 auto;
   font-weight: 400;
   line-height: 24px;
+  margin: 0 auto;
   padding: 0 15px;
-  flex: 0 0 27px;
 
   // warning icon for failed state
   .iconnables {

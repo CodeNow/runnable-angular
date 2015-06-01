@@ -10,6 +10,7 @@
   //- Text says "Build Failed", and "View Logs" links to build logs
   //- If it failed to run:
   //- Text says "Container CMD Failed", and "View Logs" links to CMD logs
+  
   .card-status.failed Build Failed.
     strong.strong  View Logs
 
@@ -17,7 +18,12 @@
   //- While building, it says "Validating Build…"
   //- If it builds successfully, it changes to "Validating Container CMD"
   //- If it runs for 5 seconds, then it changes to "Template Validated"
+  
   //- .card-status Validating Build…
+
+  //- .card-status-test.spinner-wrapper.spinner-sm.spinner-gray.in(
+  //-   ng-include = "'spinner'"
+  //- )
 
 ul.card-body.card-loading(
   ng-if = "showSpinner()"
