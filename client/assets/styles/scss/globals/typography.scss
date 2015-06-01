@@ -83,7 +83,8 @@ input ~ small {
 }
 
 // override ace
-.pre {
+.pre,
+%pre {
   background: none;
   font-family: 'Source Code Pro', monospace !important;
   font-size: 14px !important;
