@@ -5,14 +5,16 @@ main.home
 
     //- header
     header.home-header
-      a.logo
-        svg
-          use(
-            xlink:href = "#runnable-logo"
-          )
+      a.logo-anchor
+        img.logo.float-left(
+          height = "45"
+          src = "/build/images/runnable-logo.svg"
+          width = "240"
+        )
+        sup.sup &lt;beta&gt;
       nav.home-nav
         a.link(
-          ng-href = "{{ dataHome.data.hasPass ? dataApp.data.loginURL : 'mailto:support@runnable.com?subject=Send me an invite, or else!' }}"
+          ng-href = "{{ dataHome.data.hasPass ? dataApp.data.loginURL : 'mailto:support@runnable.com?subject=Please send me an invite for the beta' }}"
         ) {{ dataHome.data.hasPass ? 'Sign In' : 'Request Invite' }}
 
     h1.h1.header-thin Stop worrying about servers
@@ -63,7 +65,7 @@ main.home
       )
 
     a.btn.btn-xl.green(
-      ng-href = "{{ dataHome.data.hasPass ? dataApp.data.loginURL : 'mailto:support@runnable.com?subject=Send me an invite, or else!' }}"
+      ng-href = "{{ dataHome.data.hasPass ? dataApp.data.loginURL : 'mailto:support@runnable.com?subject=Please send me an invite for the beta' }}"
     ) {{ dataHome.data.hasPass ? 'Sign In' : 'Request Invite' }}
 
   footer.home-footer

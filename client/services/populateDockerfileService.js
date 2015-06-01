@@ -7,6 +7,7 @@ function populateDockerfile(
   promisify,
   regexpQuote,
   keypather,
+  configEnvironment,
   $log
 ) {
   return function (sourceDockerfile, state, destDockerfile) {
@@ -61,7 +62,9 @@ function populateDockerfile(
       if (!state.ports.length) {
         dockerfileBody = dockerfileBody.replace('EXPOSE', '');
       }
-      $log.log('Generated dockerfile \n', dockerfileBody);
+      if (configEnvironment !== 'production') {
+        $log.log('Generated dockerfile \n', dockerfileBody);
+      }
       return dockerfileBody;
     }
 
