@@ -20,12 +20,10 @@
     ng-click = "actions.updateConfigToMatchMaster()"
   ) Update and Rebuild
 
-//- ***********************
-//- * if update container *
-//- ***********************
-.views-toolbar(
-
-)
+//- ***********
+//- * if file *
+//- ***********
+.views-toolbar
   small.small /node-hello-world/server.js
   //- disable save buttons until a change a made
   button.btn.btn-xs.green.btn-spinner.float-right(
