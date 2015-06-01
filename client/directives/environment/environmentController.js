@@ -116,6 +116,7 @@ function EnvironmentController(
         }
       }, { warn: false });
       $scope.data.instances.add(instance);
+      $rootScope.dataApp.creatingInstance = true;
 
       helpCards.hideActiveCard();
 
@@ -141,6 +142,9 @@ function EnvironmentController(
           // Remove it from the servers list
           instance.dealloc();
           //dealloc
+        })
+        .finally(function () {
+          $rootScope.dataApp.creatingInstance = false;
         });
     }
   };
