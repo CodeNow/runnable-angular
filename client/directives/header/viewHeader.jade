@@ -8,7 +8,7 @@ a.logo.logo-icon
   a.btn.btn-sm.purple(
     ng-class = "{\
       active: dataApp.isInstancePage,\
-      'no-touching': !dataApp.data.activeAccount || dataApp.isInstancePage\
+      'no-touching': !dataApp.data.activeAccount || dataApp.isInstancePage || dataApp.creatingInstance\
     }"
     ui-sref = "instance.home({ userName: dataApp.data.activeAccount.oauthName() })"
   )
