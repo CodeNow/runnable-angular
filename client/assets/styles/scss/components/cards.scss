@@ -60,8 +60,9 @@
     border-color: transparent;
     color: $gray;
     height: 333px;
-    line-height: 333px;
+    justify-content: center;
     text-align: center;
+    white-space: nowrap;
 
     .spinner-wrapper {
       align-items: center;
