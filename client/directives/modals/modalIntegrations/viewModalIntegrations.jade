@@ -47,7 +47,7 @@ form.modal-dialog.modal-integrations(
         ng-if = "!data.loading"
       )
 
-        .label-col API Token
+        .label-col Bot API token
 
         .input-col
           input.input.input-sm.input-validate.monospace(
@@ -56,10 +56,14 @@ form.modal-dialog.modal-integrations(
             ng-model = "data.settings.attrs.notifications.slack.apiToken"
             spellcheck = "false"
           )
-          a.small.link.float-left(
+          small.small(
+            ng-if = "!data.verified"
+          ) Setup a bot to tell you when your containers have been updated.
+          a.small.link(
             href = "https://slack.com/services/new/bot"
+            ng-if = "!data.verified"
             target = "_blank"
-          ) Get your API Token from Slack
+          ) Add a bot integration on Slack to get your API token
           //- not working?
           //- .validate-wrapper.btn-sm.orange(
           //-   ng-class = "{\
@@ -230,7 +234,7 @@ form.modal-dialog.modal-integrations(
         ng-include = "'spinner'"
         ng-show = "data.verifying"
       )
-      | Verify
+      | Verify Token
     button.btn.white(
       ng-click = "defaultActions.close()"
     ) Cancel
