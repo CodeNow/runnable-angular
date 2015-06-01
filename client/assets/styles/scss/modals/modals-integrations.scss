@@ -1,50 +1,40 @@
 .modal-integrations {
-  height: 100%;
-  max-height: 660px;
-  transition: max-height .15s ease-in, width .15s ease-in;
-  width: 660px;
-
-  @include media(sm) {
-    width: calc(100% - 30px);
-  }
-
+  height: auto;
+  max-width: 660px;
+  transition: max-height .15s ease-in;
 
   // uninitiated state
-  &.no-data {
-    max-height: 300px;
-    width: 370px;
+  // &.no-data {
+  //   max-height: 300px;
+  //   width: 370px;
 
-    // header
-    .modal-header {
-      background: none;
-      border-color: transparent;
-      height: auto;
-    }
+  //   // header
+  //   .modal-header {
+  //     background: none;
+  //     border-color: transparent;
+  //     height: auto;
+  //   }
 
-    .modal-heading {
-      // reset default
-      float: none;
-      text-align: center;
-    }
+  //   .modal-heading {
+  //     // reset default
+  //     float: none;
+  //     text-align: center;
+  //   }
 
-    .modal-header-actions {
-      justify-content: center;
-    }
+  //   .modal-header-actions {
+  //     justify-content: center;
+  //   }
 
-    // small footer
-    .footer-link {
-      line-height: 45px;
-      text-align: center;
-    }
-  }
+  //   // small footer
+  //   .footer-link {
+  //     line-height: 45px;
+  //     text-align: center;
+  //   }
+  // }
 
   // unverified state
   &.no-verify {
-    max-height: 351px;
-
-    @include media(xs) {
-      max-height: 367px;
-    }
+    max-height: 400px;
   }
 
   // default state
@@ -61,36 +51,18 @@
   }
 
   // api token
-  .input {
+  .input.monospace {
     font-size: 13px;
     letter-spacing: -.25px;
-
-    &[disabled],
-    &.disabled {
-      background: none;
-      border-color: rgba($black,.15);
-      box-shadow: none;
-      color: $gray-dark;
-    }
   }
 
-  // verify and cancel buttons
+  // change api button
   .input-col > .btn-xxs {
-    float: right;
-    font-size: 13px;
     padding: 0 3px;
-    width: auto;
-
-    + .btn {
-      margin-right: 6px;
-    }
-  }
-
-  .list {
-    background: $white;
   }
 
   .list-item {
+    background: $gray-lighterest;
     color: $gray;
     height: 45px;
     line-height: 45px;
@@ -100,7 +72,9 @@
     transition: height .15s ease-in;
 
     &:hover,
-    &:active {
+    &:active,
+    &.active {
+      background: $white;
       color: $gray-dark;
 
       .gravatar {
@@ -108,30 +82,37 @@
       }
     }
 
-    &.active {
-      color: $gray-darker;
-
-      .gravatar {
-        opacity: 1;
-      }
+    &.active .gravatar {
+      opacity: 1;
     }
 
     &.expanded {
       height: 145px;
     }
 
-    &.disabled {
-      color: $gray-light;
+    &.disabled,
+    &.disabled:hover,
+    &.disabled:active {
+      background: $gray-lighterest;
+      color: $gray;
       cursor: not-allowed;
-      height: 45px;
 
-      .gravatar {
-        opacity: .3;
-      }
-
+      .gravatar,
       .well {
-        opacity: .3;
+        opacity: .45;
       }
+    }
+
+    &:first-child {
+      border-radius: 3px 3px 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 3px 3px;
+    }
+
+    &:only-child {
+      border-radius: 3px;
     }
 
     .gravatar {
@@ -191,28 +172,8 @@
   .select {
     cursor: pointer;
     display: block;
-  }
-
-  // disabled state
-  .well-state {
-    background: $white;
-    border-radius: 3px;
-    flex: 0 0 auto;
-    height: 45px;
-    line-height: 45px;
-    margin: 0 auto 45px;
-    padding: 0 15px;
-
-    @include media(xs) {
-      font-size: 14px;
-      margin: 0 0 30px;
-      padding: 0 9px;
-      white-space: nowrap;
-    }
-
-    .green {
-      float: right;
-      margin-top: 10px;
-    }
+    font-size: 13px;
+    font-weight: 400;
+    margin-top: 6px;
   }
 }
