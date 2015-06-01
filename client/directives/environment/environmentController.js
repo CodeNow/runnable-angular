@@ -115,8 +115,19 @@ function EnvironmentController(
           username: $rootScope.dataApp.data.activeAccount.oauthName()
         }
       }, { warn: false });
+      $rootScope.dataApp.creatingInstance = !$scope.data.instances.length;
       $scope.data.instances.add(instance);
-
+      var deallocCalled = false;
+      var unwatch;
+      function cleanUp() {
+        $rootScope.dataApp.creatingInstance = false;
+        if (!deallocCalled) {
+          unwatch();
+          deallocCalled = true;
+          instance.dealloc();
+        }
+      }
+      unwatch = $scope.$on('$destroy', cleanUp);
       helpCards.hideActiveCard();
 
       $rootScope.$broadcast('alert', {
@@ -129,8 +140,7 @@ function EnvironmentController(
           return createNewInstance(
             $rootScope.dataApp.data.activeAccount,
             newServerModel.build,
-            newServerModel.opts,
-            instance
+            newServerModel.opts
           );
         })
         .then(function () {
@@ -139,9 +149,9 @@ function EnvironmentController(
         .catch(function (err) {
           errs.handler(err);
           // Remove it from the servers list
-          instance.dealloc();
           //dealloc
-        });
+        })
+        .finally(cleanUp);
     }
   };
 

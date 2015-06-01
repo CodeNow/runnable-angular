@@ -1,31 +1,25 @@
-.logo {
-  color: $white;
-  display: block;
+.logo-anchor {
+  display: inline-block;
   position: relative;
-  user-select: none;
 
-  &.logo-alt {
-    color: $gray-lighter;
+  .sup {
+    color: #bea1d4; // sup color from runnable.com
+    font-size: 11px;
+    position: absolute;
+    text-shadow: 0 -1px 0 rgba(0,0,0,.2);
+    top: 12px;
+    user-select: none;
   }
+}
 
-  svg {
-    display: block;
-    fill: currentColor;
-    height: 100%;
-    margin: 0 auto;
-    width: 240px;
-
-    @include media(xxs) {
-      width: 210px;
-    }
-  }
+.logo {
+  height: 45px;
+  margin-left: 12px;
+  width: 180px;
 
   &.logo-icon {
-    margin: 0;
+    height: 45px;
+    margin-left: 0;
     width: 30px;
-
-    svg {
-      width: 100%;
-    }
   }
 }
