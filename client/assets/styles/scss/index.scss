@@ -56,6 +56,8 @@
 // server
 @import "server/server-header";
 @import "server/server-sidebar";
+@import "server/server-sidebar-dns-mapping";
+@import "server/server-sidebar-repositories";
 
 // views
 @import "views/views";

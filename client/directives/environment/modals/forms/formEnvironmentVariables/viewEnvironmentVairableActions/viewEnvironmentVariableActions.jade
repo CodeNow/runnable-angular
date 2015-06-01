@@ -4,12 +4,12 @@ button.btn.btn-xs.gray(
   ng-click = "state.showHostName = true"
   ng-hide = "state.showHostName"
   ng-init = "state.showHostName = false"
-) Insert a hostname
+) Insert an elastic hostname
 
 button.btn.btn-xs.btn-status.no-touching(
   ng-if = "!state.showHostName"
-  title = "{{linkedEnvResults.servers.length || 0 }} hostnames from environment variables"
-) {{linkedEnvResults.servers.length || 0 }} hostnames
+  title = "{{linkedEnvResults.length || 0 }} hostnames from environment variables"
+) {{linkedEnvResults.length || 0 }} hostnames
 
 //- if inserting host names
 .label.label-row.clearfix(

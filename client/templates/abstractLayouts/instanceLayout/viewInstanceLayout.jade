@@ -7,15 +7,15 @@ nav.sidebar.nav-sidebar(
   ng-hide = "isLoading.main && isLoading.sidebar"
 )
 
-  section.row.servers(
+  section.servers(
     instance-list
     is-main-page = "true"
     data = "dataApp.data"
   )
 
-  footer.row.nav-footer
+  footer.nav-footer
     a.small.link.link-gray.link-text(
-      href = "//support.runnable.io"
+      href = "http://support.runnable.io"
       target = "_blank"
     )
       .btn.btn-xs.btn-help ?
