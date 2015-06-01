@@ -24,6 +24,13 @@ form.modal-dialog.modal-integrations(
   //-   ng-click = "defaultActions.close()"
   //- ) Cancel
 
+  .modal-alert.orange(
+    ng-if = "!data.settings.attrs.notifications.slack.enabled && data.verified"
+  ) Slack integration has been disabled
+    button.btn.btn-xxs.white(
+      ng-click = "data.settings.attrs.notifications.slack.enabled = true"
+    ) Enable
+
   //- show if integration is initiated
   //- ng-if = "!data.showHipchat && data.showSlack"
   section.modal-body
@@ -33,15 +40,9 @@ form.modal-dialog.modal-integrations(
       ng-include = "'spinner'"
     )
 
-    .modal-form
+    //- show alert if integration disabled
 
-      //- show alert if integration disabled
-      .well.gray.well-state(
-        ng-if = "!data.settings.attrs.notifications.slack.enabled && data.verified"
-      ) Slack integration has been disabled
-        button.btn.btn-xs.green(
-          ng-click = "data.settings.attrs.notifications.slack.enabled = true"
-        ) Re-enable
+    .modal-form
 
       label.label.clearfix(
         ng-if = "!data.loading"
@@ -50,9 +51,8 @@ form.modal-dialog.modal-integrations(
         .label-col Bot API token
 
         .input-col
-          input.input.input-sm.input-validate.monospace(
-            ng-class = "{disabled: !data.settings.attrs.notifications.slack.enabled}"
-            ng-disabled = "data.verified"
+          input.input.input-sm.monospace(
+            ng-readonly = "data.verified"
             ng-model = "data.settings.attrs.notifications.slack.apiToken"
             spellcheck = "false"
           )
@@ -112,6 +112,7 @@ form.modal-dialog.modal-integrations(
                 type = "checkbox"
               )
               .well.gray(
+                ng-class = "{'no-touching': !data.settings.attrs.notifications.slack.enabled}"
                 ng-click = "$event.preventDefault();"
                 ng-if = "!member.found && member.slackOn"
               )
@@ -229,7 +230,10 @@ form.modal-dialog.modal-integrations(
     button.btn.green.btn-spinner(
       ng-class = "{in: data.verifying}"
       ng-click = "actions.verifySlack()"
-      ng-disabled = "!data.settings.attrs.notifications.slack.apiToken.length"
+      ng-disabled = "\
+        data.verifying || \
+        !data.settings.attrs.notifications.slack.apiToken.length\
+      "
     )
       .spinner-wrapper.spinner-sm.spinner-white.in(
         ng-include = "'spinner'"
