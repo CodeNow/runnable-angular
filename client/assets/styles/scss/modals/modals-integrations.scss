@@ -40,17 +40,17 @@
 
   // unverified state
   &.no-verify {
-    max-height: 300px;
+    max-height: 351px;
 
     @include media(xs) {
-      max-height: 360px;
+      max-height: 367px;
     }
   }
 
   // default state
   // header slack logo
   .modal-header .img {
-    margin-right: 6px;
+    margin-right: 9px;
     position: relative;
     top: 5px;
   }
