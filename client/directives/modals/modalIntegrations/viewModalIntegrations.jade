@@ -11,12 +11,12 @@ form.modal-dialog.modal-integrations(
   //- ) Choose Integration
   header.modal-header
     h1.modal-heading
-        img.img(
-          height = "24"
-          src = "/build/images/logos/logo-icon-slack.svg"
-          width = "24"
-        )
-        | Slack Integration
+      img.img(
+        height = "24"
+        src = "/build/images/logos/logo-icon-slack.svg"
+        width = "24"
+      )
+      | Slack Integration
 
   //- do not show if integration is initiated
   //- a.small.link.footer-link(
@@ -40,13 +40,11 @@ form.modal-dialog.modal-integrations(
       ng-include = "'spinner'"
     )
 
-    //- show alert if integration disabled
+    .modal-form(
+      ng-if = "!data.loading"
+    )
 
-    .modal-form
-
-      label.label.clearfix(
-        ng-if = "!data.loading"
-      )
+      label.label.clearfix
 
         .label-col Bot API token
 
