@@ -75,7 +75,7 @@ function setupServerModal(
               $scope.state.dockerfile = dockerfile;
 
               var Repo = cardInfoTypes()['Main Repository'];
-              
+
               $scope.state.containerFiles = [];
 
               var repo = new Repo(null, {isMainRepo: true});

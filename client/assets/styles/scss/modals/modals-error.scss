@@ -1,3 +1,8 @@
+// always has highest z-index
+.modal-backdrop-error {
+  z-index: $z-show;
+}
+
 .modal-error {
 
   .modal-body {

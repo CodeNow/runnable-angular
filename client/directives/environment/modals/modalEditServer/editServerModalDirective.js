@@ -331,7 +331,7 @@ function editServerModal(
               return cloned;
             });
             $scope.data.mainRepo = $scope.server.containerFiles.find(hasKeypaths({
-              type: 'Main Repo'
+              type: 'Main Repository'
             }));
           });
 
@@ -377,7 +377,7 @@ function editServerModal(
 
       $scope.changeTab = function (tabname) {
         if ($scope.editServerForm.$invalid ||
-            (!$scope.state.advanced && $scope.state.isStackInfoEmpty($scope.state.selectedStack))) {
+            (!$scope.state.advanced && $scope.isStackInfoEmpty($scope.state.selectedStack))) {
           return;
         }
         $scope.selectedTab = tabname;
@@ -531,13 +531,13 @@ function editServerModal(
       });
 
 
-      $scope.state.isStackInfoEmpty = function (selectedStack) {
+      $scope.isStackInfoEmpty = function (selectedStack) {
         if (!selectedStack || !selectedStack.selectedVersion) {
           return true;
         }
         if (selectedStack.dependencies) {
           var depsEmpty = !selectedStack.dependencies.find(function (dep) {
-            return !$scope.state.isStackInfoEmpty(dep);
+            return !$scope.isStackInfoEmpty(dep);
           });
           return !!depsEmpty;
         }

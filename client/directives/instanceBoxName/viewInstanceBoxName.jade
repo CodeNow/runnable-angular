@@ -1,6 +1,6 @@
 .container-label
-  span.container-name {{ instance.getRepoName() || instance.getDisplayName() }}
-  span.branch-name(
+  span.strong {{ instance.getRepoName() || instance.getDisplayName() }}
+  span(
     ng-if = "instance.getBranchName()"
   ) /{{ instance.getBranchName() }}
   status-icon(
@@ -8,7 +8,7 @@
   )
 
 .container-url-wrapper
-  input.container-url(
+  input.input.container-url(
     ng-if = "instance.attrs.name"
     readonly
     select-all
@@ -27,7 +27,7 @@
         xlink:href = "#icons-link-external"
       )
   a.link-button.documentation-link(
-    href = "http://support.runnable.io"
+    href = "https://runnable.zendesk.com/hc/en-us/articles/204522249-What-are-Container-URLs-"
     target = "_blank"
     title = "Learn about Container URLs"
   )
