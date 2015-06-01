@@ -30,6 +30,11 @@
     margin-right: 12px;
   }
 
+  // title
+  .h4 {
+    font-size: 16px;
+  }
+
   // link
   .link {
     color: $white;
@@ -59,26 +64,28 @@
   // success animation
   .btn-state {
     background: $white;
-    border: 0;
     border-radius: 50%;
-    margin: 21px 0 0 21px;
+    height: 19px;
+    left: 9px;
     position: absolute;
-    width: 18px;
-
-    &.green {
-      color: $green;
-    }
-
-    &.orange {
-      color: $red;
-    }
+    top: 36px;
+    width: 19px;
 
     .iconnables {
       animation: scale-in-bounce .3s ease-in;
-      border-radius: 50%;
-      height: 100%;
-      top: 0;
-      width: 100%;
+      height: 18px;
+      top: -7px;
+      width: 18px;
+    }
+
+    .icons-warning {
+      color: $orange;
+      left: 2px;
+    }
+
+    .icons-fat-check {
+      color: $green;
+      left: 0;
     }
   }
 
