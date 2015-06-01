@@ -126,9 +126,10 @@
 
   // spinners
   .spinner-wrapper {
+    background: none !important;
     display: inline-block;
     position: relative !important; // override default position
-    top: 2px;
+    top: -1px;
   }
 }
 

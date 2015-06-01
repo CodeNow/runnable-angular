@@ -1,3 +1,15 @@
+// initial styles
+input,
+textarea {
+
+  &[disabled] {
+    background-color: $gray-lighterest;
+    border-color: $gray-lighter !important; // override any validation
+    color: $gray-lighter;
+  }
+}
+
+
 // defaults
 .input,
 .textarea {
@@ -32,6 +44,7 @@
     background: $gray-light;
     border: 0;
     color: $gray-lighterest;
+    cursor: default;
   }
 
   // remove box-shadow for these states
@@ -98,6 +111,16 @@
   }
 }
 
+// label.btn.btn-checkbox
+.btn-checkbox {
+  font-size: 13px;
+    // input.checkbox
+  .checkbox {
+    float: right;
+    margin-left: 12px;
+  }
+}
+
 // hide if upload
 #input-upload {
   position: absolute;
@@ -111,6 +134,10 @@
 
 .textarea {
   padding: 3px 6px;
+
+  &.monospace {
+    white-space: pre;
+  }
 }
 
 // description text

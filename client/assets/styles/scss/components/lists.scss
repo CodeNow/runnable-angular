@@ -203,7 +203,6 @@
     left: 0;
     opacity: 0;
     position: absolute;
-    text-indent: -9999px; // Hack to get the button to move underneath the fold. We can't style it directly because browsers are silly.
   }
 
 }
@@ -255,8 +254,7 @@
       transform: scale3d(0,0,0);
     }
 
-    .icons-check,
-    .icons-link {
+    .icons-check {
       transform: scale3d(1,1,1);
     }
   }
