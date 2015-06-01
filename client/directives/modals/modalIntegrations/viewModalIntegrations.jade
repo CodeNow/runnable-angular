@@ -56,12 +56,13 @@ form.modal-dialog.modal-integrations(
           )
           small.small(
             ng-if = "!data.verified"
-          ) If you would like to receive notifications about container status via Slack, you can enable this by providing a Slack API token for a bot.  You can either use the API token from an existing bot, or create a #{''}
+          ) Get container status updates in Slack. You can use the API token from an existing bot, or #{''}
+
             a.link(
               href = "https://slack.com/services/new/bot"
               ng-if = "!data.verified"
               target = "_blank"
-            ) new bot to obtain an API token
+            ) create a new bot to obtain an API token
             | .
           //- not working?
           //- .validate-wrapper.btn-sm.orange(
