@@ -193,6 +193,7 @@
 .general-help-item {
   color: rgba($blue,.8);
   cursor: pointer;
+  display: block;
   margin: 0 -30px;
   padding: 0 30px;
 
@@ -202,5 +203,18 @@
 
   &:active {
     background-color: rgba($blue-light,.25);
+  }
+
+  .iconnables {
+    width: 13px;
+    height: 13px;
+    left: 6px;
+  }
+
+  // reset
+  .link {
+    color: currentColor;
+    display: block;
+    text-decoration: none;
   }
 }
