@@ -129,12 +129,18 @@
 // header
 .card-header {
   font-size: 20px;
-  line-height: 30px;
-  padding: 12px 15px 15px;
+  height: 81px;
+  line-height: 33px;
+  padding: 0 15px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
   .card-title {
     cursor: pointer;
+    flex-direction: 0 0 30px;
+    margin-top: -3px;
 
      &:hover {
       color: $purple-light;
@@ -156,12 +162,13 @@
   border: 1px solid rgba($white,0);
   border-radius: 3px;
   color: $gray;
-  display: inline-block;
+  display: table;
   font-size: 14px;
+  margin: 0 auto;
   font-weight: 400;
-  height: 30px;
-  line-height: 27px;
-  padding: 0 24px;
+  line-height: 24px;
+  padding: 0 15px;
+  flex: 0 0 27px;
 
   // warning icon for failed state
   .iconnables {
@@ -174,16 +181,10 @@
     background-color: $orange-lightest;
     border-color: rgba($orange-darker,.25);
     color: rgba($orange-darker,.6);
-    font-weight: 500;
   }
 
-  .a {
+  .strong {
     cursor: pointer;
-    text-decoration: underline;
-
-    &:hover {
-      text-decoration: none;
-    }
 
     &:active {
       color: rgba($orange-darker,.7);
@@ -196,10 +197,10 @@
   color: $gray;
   font-size: 14px;
   font-weight: 400;
-  padding: 12px 15px;
+  padding: 6px 15px;
 }
 
-// fancy toggle (replaces checkbox)
+// hides checkbox to be replaced by fancy toggle
 .input-toggle {
   margin-left: -9999px;
   position: absolute;
@@ -262,13 +263,20 @@
 }
 
 .label-text {
-  left: 33px;
+  left: 30px;
   position: relative;
   top: -2px;
 }
 
 .containers-count {
   float: right;
+
+  .iconnables {
+    float: right;
+    margin-left: 6px;
+    top: -2px;
+    width: 18px;
+  }
 }
 
 // body

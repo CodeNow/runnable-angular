@@ -10,13 +10,8 @@
   //- Text says "Build Failed", and "View Logs" links to build logs
   //- If it failed to run:
   //- Text says "Container CMD Failed", and "View Logs" links to CMD logs
-  .card-status.failed
-    svg.iconnables
-      use(
-        xlink:href = "#icons-warning"
-      )
-    | Build Failed. 
-    a.a View Logs
+  .card-status.failed Build Failed.
+    strong.strong  View Logs
 
   //- This element displays while the card is validating.
   //- While building, it says "Validating Build…"
@@ -197,7 +192,9 @@ ul.card-body.load(
     tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"top\":15}"
   )
     span.label-text Advanced
-  .containers-count 15
+  .containers-count(
+    title = "15 branch containers"
+  ) 15
     svg.iconnables.icons-server-branch
       use(
         xlink:href = "#icons-server-branch"
