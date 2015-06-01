@@ -508,6 +508,6 @@ module.exports = function(grunt) {
     'jade2js',
     'autoBundleDependencies',
     'generateConfigs:production',
-    'browserify:once'
+    'browserify:deploy'
   ]);
 };
