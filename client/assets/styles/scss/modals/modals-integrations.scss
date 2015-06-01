@@ -48,9 +48,11 @@
   }
 
   // default state
-  // header
-  .modal-header {
-    height: 84px;
+  // header slack logo
+  .modal-header .img {
+    margin-right: 6px;
+    position: relative;
+    top: 5px;
   }
 
   .modal-header-actions {

@@ -5,53 +5,29 @@ form.modal-dialog.modal-integrations(
     'no-verify': !data.verified\
   }"
 )
-  header.modal-header
-    //- do not show if integration is initiated
-    h1.modal-heading(
-      ng-if = "!data.showHipchat && !data.showSlack"
-    ) Choose Integration
-    .modal-header-actions
-      //- button.btn-radio(
-      //-   ng-class = "{active: data.showHipchat}"
-      //-   ng-click = "\
-      //-     data.showHipchat = true;\
-      //-     data.showSlack = false;\
-      //-   "
-      //-   type = "button"
-      //- )
-      //-   img.img(
-      //-     height = "36"
-      //-     src = "/build/images/logos/logo-icon-hipchat.svg"
-      //-     width = "36"
-      //-   )
-        | Hipchat
-      button.btn-radio(
-        ng-class = "{\
-          active: data.showSlack,\
-          'btn-lg': !data.showHipchat && !data.showSlack,\
-        }"
-        ng-click = "\
-          data.showSlack = true;\
-          data.showHipchat = false;\
-        "
-        type = "button"
-      )
-        img.img(
-          height = "36"
-          src = "/build/images/logos/logo-icon-slack.svg"
-          width = "36"
-        )
-        span.btn-text Slack
   //- do not show if integration is initiated
-  a.small.link.footer-link(
-    ng-if = "!data.showHipchat && !data.showSlack"
-    ng-click = "defaultActions.close()"
-  ) Cancel
+  //- h1.modal-heading(
+  //-   ng-if = "!data.showHipchat && !data.showSlack"
+  //- ) Choose Integration
+  header.modal-header
+    h1.modal-heading
+        img.img(
+          height = "24"
+          src = "/build/images/logos/logo-icon-slack.svg"
+          width = "24"
+        )
+        | Slack Integration
+
+  //- do not show if integration is initiated
+  //- a.small.link.footer-link(
+  //-   ng-if = "!data.showHipchat && !data.showSlack"
+  //-   ng-click = "defaultActions.close()"
+  //- ) Cancel
 
   //- show if integration is initiated
-  section.modal-body(
-    ng-if = "!data.showHipchat && data.showSlack"
-  )
+  //- ng-if = "!data.showHipchat && data.showSlack"
+  section.modal-body
+
     .spinner-wrapper.spinner-md.in(
       ng-if = "data.loading"
       ng-include = "'spinner'"
@@ -71,26 +47,27 @@ form.modal-dialog.modal-integrations(
         ng-if = "!data.loading"
       )
 
-        .label-col.label-details API Token
+        .label-col API Token
 
         .input-col
-          a.small.link(
-            href = "https://slack.com/services/new/bot"
-            target = "_blank"
-          ) Get your API Token from Slack
           input.input.input-sm.input-validate.monospace(
             ng-class = "{disabled: !data.settings.attrs.notifications.slack.enabled}"
             ng-disabled = "data.verified"
             ng-model = "data.settings.attrs.notifications.slack.apiToken"
             spellcheck = "false"
           )
-          .validate-wrapper.btn-sm.orange(
-            ng-class = "{\
-              'invalid-pattern': false\
-            }"
-          )
+          a.small.link.float-left(
+            href = "https://slack.com/services/new/bot"
+            target = "_blank"
+          ) Get your API Token from Slack
+          //- not working?
+          //- .validate-wrapper.btn-sm.orange(
+          //-   ng-class = "{\
+          //-     'invalid-pattern': false\
+          //-   }"
+          //- )
             span.validate-rules.invalid-pattern Invalid Auth
-          button.btn.btn-xxs.white(
+          button.btn.btn-xxs.white.float-right(
             ng-click = "data.verified = !data.verified"
             ng-if = "data.verified"
           ) Change Token
