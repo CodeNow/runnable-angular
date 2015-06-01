@@ -59,13 +59,14 @@ function activePanel(
 
       if (!$scope.isEditModal) {
         $scope.$watch('instance.configStatusValid', function (configStatusValid) {
-          if (configStatusValid === false) {
-            promisify($scope.instance, 'getParentConfigStatus')()
-              .then(function (instance) {
-                console.log('status', instance.cachedConfigStatus);
-                $scope.shouldShowUpdateConfigsPrompt = !instance.cachedConfigStatus;
-              })
-              .catch(errs.handler);
+          if ($scope.instance) {
+            if (configStatusValid === false) {
+              // This will cause the valid flag to flip, recalling this watcher
+              return promisify($scope.instance, 'fetchParentConfigStatus')()
+                .catch(errs.handler);
+            } else {
+              $scope.shouldShowUpdateConfigsPrompt = !$scope.instance.cachedConfigStatus;
+            }
           }
         });
       }
@@ -136,7 +137,8 @@ function activePanel(
               return updateInstanceWithNewBuild(
                 $scope.instance,
                 instanceUpdates.build,
-                true
+                true,
+                instanceUpdates.opts
               );
             })
             .catch(errs.handler)

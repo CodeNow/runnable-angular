@@ -96,38 +96,6 @@ function parseDockerfileForPorts(dockerfile) {
   }
 }
 
-function parseDockerfileForRunCommands(dockerfile, repoName) {
-  // JS doesn't have easy lookbehind, so I just created two capturing groups.
-  // The second group needs to be [\s\S] over . as that also matches newlines
-  var reg = /(WORKDIR.*\n)([\s\S]*)(?=#End)/;
-  var missingChunk;
-  // Should be the beginning bit before any as the 1st, so remove it
-  if (repoName) {
-    var addChunks = dockerfile.split('ADD');
-    addChunks.shift();
-    missingChunk = addChunks.find(function (chunk) {
-      return chunk.indexOf('./' + repoName.toLowerCase());
-    });
-  } else {
-    missingChunk = dockerfile;
-  }
-  var results = reg.exec(missingChunk);
-  if (results && results[2]) {
-    return results[2].split('\n')
-      .map(function (str) {
-        return str.replace('RUN ', '')
-          .replace(/#.+/, '')
-          .trim(); //Remove all comments
-      })
-      .filter(function (command) {
-        // filter out empties
-        return command.length;
-      })
-      .join('\n');
-  }
-}
-
-
 function getCardInfoTypes(
   uuid
 ) {
@@ -195,32 +163,36 @@ function getCardInfoTypes(
       this.name = commands[1].replace('./', '');
       this.path = commands[2].replace('/', '');
       commandList.splice(0, 2); //Remove the ADD and the WORKDIR
-      if(commandList[0] === 'RUN ./translation_rules.sh'){
+      if (commandList[0].indexOf('ADD ./translation_rules.sh') > -1){
         this.hasFindReplace = true;
-        commandList.splice(0,1);
+        // Remove add/chmod/run
+        commandList.splice(0,2);
       }
       this.commands = commandList.map(function (item) {
         return item.replace('RUN ', '');
       }).join('\n');
       this.fromServer = true;
     }
-
-
     this.toString = function () {
       var self = this;
       self.commands = self.commands || '';
+      self.path = (self.path || self.name).trim();
       if (self.hasFindReplace) {
-        self.commands = './translation_rules.sh\n'.concat(self.commands);
+        var scriptPath = '/' + self.path + '/translation_rules.sh';
+        self.commands = 'ADD ./translation_rules.sh ' + scriptPath + '\n' +
+          'sh ' + scriptPath + '\n'.concat(self.commands);
       }
-      self.path = self.path || self.name.trim();
       var contents = 'ADD ./' + self.name.trim() + ' /' + self.path.trim() + '\n'+
-        'WORKDIR /' + self.path.trim() + '\n'+
+        'WORKDIR /' + self.path + '\n'+
         self.commands
           .split('\n')
           .filter(function (command) {
             return command.trim().length;
           })
           .map(function (command) {
+            if (command.indexOf('ADD') === 0) {
+              return command;
+            }
             return 'RUN '+command;
           })
           .join('\n');
@@ -243,7 +215,6 @@ function getCardInfoTypes(
     };
   };
 }
-
 
 function parseDockerfileForCardInfoFromInstance(
   parseDockerfileForStack,
@@ -279,7 +250,6 @@ function parseDockerfileForCardInfoFromInstance(
     return chunks;
   }
 
-
   return function (instance, stackData) {
     return promisify(instance.contextVersion, 'fetchFile', true)('/Dockerfile')
       .then(function (dockerfile) {
@@ -293,11 +263,15 @@ function parseDockerfileForCardInfoFromInstance(
         });
 
         var acvs = keypather.get(instance, 'build.contextVersions.models[0].appCodeVersions');
+        var mainCommands = '';
         containerFiles = containerFiles.map(function (item) {
           if (item.type === 'File') { return item; }
           var matchingAcv = acvs.models.find(function (acv) {
             return acv.attrs.repo.split('/')[1] === item.name;
           });
+          if (item.type === 'Main Repository') {
+            mainCommands = item.commands;
+          }
           if (matchingAcv) {
             item.acv = matchingAcv;
             item.repo = matchingAcv.githubRepo;
@@ -312,7 +286,7 @@ function parseDockerfileForCardInfoFromInstance(
           instance: instance,
           ports: parseDockerfileForPorts(dockerfileBody),
           startCommand: parseDockerfileForStartCommand(dockerfileBody),
-          commands: parseDockerfileForRunCommands(dockerfileBody, instance.getRepoName()),
+          commands: mainCommands,
           containerFiles: containerFiles,
           selectedStack: parseDockerfileForStack(dockerfile, stackData)
         };
