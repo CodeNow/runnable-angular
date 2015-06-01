@@ -1,6 +1,10 @@
 .modal-form {
   padding: 15px 30px;
 
+  @include media(xs) {
+    padding: 15px;
+  }
+
   // label (row)
   .label {
     flex: 0 0 auto;
