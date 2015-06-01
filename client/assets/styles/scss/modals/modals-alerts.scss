@@ -1,0 +1,13 @@
+// modal alert
+.modal-alert {
+  align-items: center;
+  display: flex;
+  flex: 0 0 36px;
+  font-size: 13px;
+  justify-content: center;
+  margin: -2px -2px 0;
+
+  .btn-xxs {
+    margin-left: 6px;
+  }
+}
