@@ -144,7 +144,9 @@ function EnvironmentController(
           //dealloc
         })
         .finally(function () {
-          $rootScope.dataApp.creatingInstance = false;
+          $timeout(function () {
+            $rootScope.dataApp.creatingInstance = false;
+          }, 100);
         });
     }
   };
