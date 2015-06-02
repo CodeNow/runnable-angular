@@ -74,7 +74,7 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
       $scope.saving = true;
       $scope.openItems = mockOpenItems;
 
-      var template = directiveTemplate('instance-primary-actions', {
+      var template = directiveTemplate.attribute('instance-primary-actions', {
         loading: 'loading',
         instance: 'instance',
         saving: 'saving',
