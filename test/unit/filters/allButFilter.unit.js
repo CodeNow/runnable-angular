@@ -33,4 +33,22 @@ describe('allButFilter', function () {
       }
     }]);
   });
+
+  it('should handle a length of 0 on input data', function () {
+    var results = allButFilter([]);
+    expect(results.length).to.equal(0);
+    expect(results).to.be.instanceof(Array);
+  });
+
+  it('should handle no input data', function () {
+    var results = allButFilter();
+    expect(results.length).to.equal(0);
+    expect(results).to.be.instanceof(Array);
+  });
+
+  it('should handle no repo filter', function () {
+    var results = allButFilter([{}]);
+    expect(results.length).to.equal(0);
+    expect(results).to.be.instanceof(Array);
+  });
 });
