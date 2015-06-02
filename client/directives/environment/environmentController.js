@@ -18,6 +18,7 @@ function EnvironmentController(
   fetchContexts,
   fetchStackInfo,
   fetchInstances,
+  keypather,
   pageName,
   promisify,
   $rootScope,
@@ -31,12 +32,12 @@ function EnvironmentController(
   favico.reset();
   pageName.setTitle('Configure - Runnable');
   $scope.data = {
-    helpCards: helpCards,
-    stacks: $rootScope.dataApp.data.stacks
+    helpCards: helpCards
   };
   // Prevent the instances list from being populated until the stacks are filled in
-  if ($rootScope.dataApp.data.stacks) {
+  if (keypather.get($rootScope, 'dataApp.data.stacks')) {
     $scope.data.instances = $rootScope.dataApp.data.instancesByPod;
+    $scope.data.stacks = $rootScope.dataApp.data.stacks;
   } else {
     fetchStackInfo()
       .then(function (stacks) {
@@ -170,13 +171,11 @@ function EnvironmentController(
   $scope.data.loadingNewServers = true;
   $q.all({
     deps: fetchInstances({ githubUsername: 'HelloRunnable' }),
-    sourceContexts: fetchContexts({ isSource: true }),
-    instances: fetchInstances({ masterPod: true })
+    sourceContexts: fetchContexts({ isSource: true })
   })
     .then(function (data) {
       $scope.data.allDependencies = data.deps;
       $scope.data.sourceContexts = data.sourceContexts;
-      $scope.data.instances = data.instances;
       $scope.data.loadingNewServers = false;
     })
     .catch(errs.handler);

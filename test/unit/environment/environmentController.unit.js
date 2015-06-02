@@ -16,7 +16,7 @@ var createNewInstanceMock = new (require('../fixtures/mockFetch'))();
 var stacks = angular.copy(apiMocks.stackInfo);
 var thisUser = runnable.newUser(apiMocks.user);
 
-describe('environmentController'.bold.underline.blue, function () {
+describe.only('environmentController'.bold.underline.blue, function () {
   var ctx = {};
   function setup() {
     ctx = {};
@@ -73,7 +73,8 @@ describe('environmentController'.bold.underline.blue, function () {
     });
 
     var ca = $controller('EnvironmentController', {
-      '$scope': $scope
+      '$scope': $scope,
+      '$rootScope': $rootScope
     });
   }
 
@@ -81,9 +82,15 @@ describe('environmentController'.bold.underline.blue, function () {
     it('should attempt all of the required fetches, plus add its actions to the scope', function () {
 
       setup();
+      var masterPods = runnable.newInstances(
+        [apiMocks.instances.building, apiMocks.instances.runningWithContainers],
+        {noStore: true}
+      );
+      masterPods.githubUsername = thisUser.oauthName();
+      keypather.set($rootScope, 'dataApp.data.instancesByPod', masterPods);
       $rootScope.$digest();
       expect($scope).to.have.property('data');
-      expect($scope.data).to.have.property('instances');
+      //expect($scope.data).to.have.property('instances');
       expect($scope).to.have.property('state');
       expect($scope.state).to.have.property('validation');
       expect($scope.state.validation).to.have.property('env');
@@ -101,12 +108,7 @@ describe('environmentController'.bold.underline.blue, function () {
       templateInstances.githubUsername = 'HelloRunnable';
       fetchInstancesMock.triggerPromise(templateInstances);
       fetchStackInfoMock.triggerPromise(stacks);
-      var masterPods = runnable.newInstances(
-        [apiMocks.instances.building, apiMocks.instances.runningWithContainers],
-        {noStore: true}
-      );
-      masterPods.githubUsername = thisUser.oauthName();
-      fetchInstancesMock.triggerPromise(templateInstances);
+      fetchInstancesMock.triggerPromise(masterPods);
       var sourceContexts = [{
         attrs: 'awesome'
       }];
@@ -116,7 +118,7 @@ describe('environmentController'.bold.underline.blue, function () {
       fetchContextsMock.triggerPromise(sourceContexts);
       $rootScope.$digest();
       expect($scope.data.allDependencies, 'allDependencies').to.equal(templateInstances);
-      expect($scope.data.instances, 'masterPods').to.equal(templateInstances);
+      expect($scope.data.instances, 'masterPods').to.equal(masterPods);
       expect($scope.data.loadingNewServers, 'loadingNewServers').to.be.false;
       expect($scope.data.stacks, 'stacks').to.equal(stacks);
       expect($scope.data.sourceContexts).to.equal(sourceContexts);
