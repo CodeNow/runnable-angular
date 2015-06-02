@@ -141,7 +141,7 @@ function helpCardsFactory(
     var card = new HelpCard(cardConfig);
     var targetHash = {};
     card.targets.forEach(function (target) {
-      if (!$rootScope.featureFlags[target]) {
+      if (!keypather.get($rootScope, 'featureFlags.' + target)) {
         targetHash[target] = true;
       }
     });
@@ -155,7 +155,7 @@ function helpCardsFactory(
     var card = new HelpCard(cardConfig);
     var targetHash = {};
     card.targets.forEach(function (target) {
-      if (!$rootScope.featureFlags[target]) {
+      if (!keypather.get($rootScope, 'featureFlags.' + target)) {
         targetHash[target] = true;
       }
     });
