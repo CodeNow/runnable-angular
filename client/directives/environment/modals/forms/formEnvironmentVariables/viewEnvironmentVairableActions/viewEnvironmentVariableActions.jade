@@ -9,7 +9,10 @@ button.btn.btn-xs.gray(
 button.btn.btn-xs.gray(
   ng-class = "{active: data.toggleSidebar}"
   ng-click = "data.toggleSidebar = !data.toggleSidebar"
-  ng-if = "!state.showHostName"
+  ng-if = "\
+    $root.featureFlags.hostnameTool && \
+    !state.showHostName\
+  "
   title = "Toggle hostname sidebar"
 )
   svg.iconnables.icons-sidebar
