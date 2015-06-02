@@ -223,7 +223,8 @@ function parseDockerfileForCardInfoFromInstance(
   $q,
   $log,
   fetchCommitData,
-  cardInfoTypes
+  cardInfoTypes,
+  fetchStackInfo
 ) {
 
   function parseDockerfile (dockerfile) {
@@ -250,9 +251,13 @@ function parseDockerfileForCardInfoFromInstance(
     return chunks;
   }
 
-  return function (instance, stackData) {
-    return promisify(instance.contextVersion, 'fetchFile', true)('/Dockerfile')
-      .then(function (dockerfile) {
+  return function (instance) {
+    return $q.all({
+      dockerfile: promisify(instance.contextVersion, 'fetchFile', true)('/Dockerfile'),
+      stacks: fetchStackInfo()
+    })
+      .then(function (data) {
+        var dockerfile = data.dockerfile;
         var dockerfileBody = keypather.get(dockerfile, 'attrs.body');
         if (!dockerfileBody) {
           return $q.reject(new Error('Dockerfile empty or not found'));
@@ -288,7 +293,7 @@ function parseDockerfileForCardInfoFromInstance(
           startCommand: parseDockerfileForStartCommand(dockerfileBody),
           commands: mainCommands,
           containerFiles: containerFiles,
-          selectedStack: parseDockerfileForStack(dockerfile, stackData)
+          selectedStack: parseDockerfileForStack(dockerfile, data.stacks)
         };
       });
   };
