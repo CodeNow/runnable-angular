@@ -40,8 +40,6 @@ function editRepoCommit(
         data: {},
         actions: {}
       };
-      $scope.popoverRepositoryToggle.data.toggleFilter = false;
-      $scope.popoverRepositoryToggle.data.commitFilter = '';
 
       $scope.popoverRepositoryToggle.actions.selectBranch = function (activeBranch) {
         $scope.activeBranch = activeBranch;
@@ -76,8 +74,6 @@ function editRepoCommit(
           // was open, is now closed
           $scope.activeBranch = fetchCommitData.activeBranch($scope.model.acv, $scope.model.unsavedAcv.branch);
         } else if (!n) { return; }
-        $scope.popoverRepositoryToggle.data.toggleFilter = false;
-        $scope.popoverRepositoryToggle.data.commitFilter = '';
       });
 
       $scope.popoverRepoActions = {

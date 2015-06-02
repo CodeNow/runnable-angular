@@ -2,7 +2,6 @@
 
 // injector-provided
 var $compile,
-    $filter,
     $provide,
     $rootScope,
     $scope,
@@ -18,7 +17,6 @@ var runnable = new (require('runnable'))('http://example.com/');
 
 describe('directiveEditRepoCommit'.bold.underline.blue, function() {
   var ctx;
-  var json_commit = eval(apiMocks.commit.bitcoinRepoCommit1);
   function injectSetupCompile (state, stateParams, nullAcv) {
     ctx = {};
     ctx.branch = {attrs: apiMocks.branches.bitcoinRepoBranches[0]};
@@ -48,7 +46,6 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
 
     angular.mock.inject(function (
       _$compile_,
-      _$filter_,
       _$rootScope_,
       _$state_,
       _$stateParams_,
@@ -56,7 +53,6 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
       _user_
     ) {
       $compile = _$compile_;
-      $filter = _$filter_;
       $rootScope = _$rootScope_;
       $state = _$state_;
       $stateParams = _$stateParams_;
@@ -111,8 +107,6 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
      expect($elScope.popoverRepositoryToggle).to.have.property('data');
      expect($elScope.popoverRepositoryToggle.data).to.have.property('acv', ctx.acv);
      expect($elScope.popoverRepositoryToggle.data).to.have.property('unsavedAcv', ctx.unsavedAcv);
-     expect($elScope.popoverRepositoryToggle.data).to.have.property('toggleFilter', false);
-     expect($elScope.popoverRepositoryToggle.data).to.have.property('commitFilter', '');
 
      expect($elScope.popoverRepositoryToggle).to.have.property('actions');
      expect($elScope.popoverRepositoryToggle.actions.selectBranch).to.be.okay;
@@ -170,10 +164,6 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
       // var $children = $parentElement.children;
       sinon.assert.calledWith(ctx.fetchCommitData.activeBranch, ctx.acv);
       sinon.assert.calledWith(ctx.fetchCommitData.activeCommit, ctx.acv);
-
-      // expect($children[2].innerText).to.equal(json_branches[0].name);
-      // expect($children[3].childNodes[1].data).to.equal(json_commit.commit.message);
-      // expect($children[3].childNodes[2].innerText).to.match(/\d+ months ago/);
     });
 
     it('should use the current branch and commit from a null acv', function () {
@@ -214,8 +204,6 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
       sinon.assert.neverCalledWith(ctx.fetchCommitData.activeBranch, ctx.acv, ctx.acv.attrs.branch);
       $elScope.popoverRepositoryToggle.data.show = true;
       $scope.$apply();
-      expect($elScope.popoverRepositoryToggle.data.toggleFilter).to.equal(false);
-      expect($elScope.popoverRepositoryToggle.data.commitFilter).to.equal('');
 
       $elScope.popoverRepositoryToggle.data.show = false;
       $scope.$apply();
