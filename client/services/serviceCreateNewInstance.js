@@ -15,7 +15,7 @@ function createNewInstance(
         github: activeAccount.oauthId()
       };
       opts.build = build.id();
-      if (instanceModel) {
+      if (instanceModel && !instanceModel.destroyed) {
         return promisify(instanceModel, 'create')(
           opts
         );

@@ -2,7 +2,7 @@ li(
   file-tree-dir
   ng-repeat = "\
     fs in dir.contents.models \
-   | isDir \
+   | filter: { attrs: { isDir: true } } \
    | orderBy:actions.normalizeMixedDataValue\
   "
   dir = "fs"
@@ -17,7 +17,7 @@ li.file(
   draggable
   ng-repeat = "\
     fs in dir.contents.models \
-    | isFile \
+    | filter: { attrs: { isDir: false } } \
     | orderBy:actions.normalizeMixedDataValue\
   "
   ng-class = "{\

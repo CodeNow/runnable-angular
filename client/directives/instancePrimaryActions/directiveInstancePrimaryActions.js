@@ -14,7 +14,7 @@ function instancePrimaryActions(
   $timeout
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewInstancePrimaryActions',
     scope: {
       loading: '=',

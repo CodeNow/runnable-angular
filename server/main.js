@@ -39,7 +39,9 @@ app.use('/build', express.static(path.join(__dirname + '/../client/build')));
 require('client/config/routes').forEach(function (item, index, arr) {
   if (!item.url) { return; }
   app.route(item.url).get(function (req, res, next) {
-    res.render('layout');
+    res.render('layout', {
+      debug: (req.query.debug !== undefined) ? true : false
+    });
   });
 });
 
