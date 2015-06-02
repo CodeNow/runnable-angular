@@ -1,0 +1,22 @@
+.popover.menu.more-containers(
+  ng-class = "{in: active}"
+  ng-style = "popoverStyle.getStyle()"
+)
+  .popover-content
+    | api containers
+    input.input.input-xs.input-search(
+      placeholder = "Filter by branch name"
+    )
+    ul.popover-list
+      li.list-item.popover-list-item.multi-line
+        .icons-status.green
+        | branch-name
+        small.small updated 6 hours ago
+      li.list-item.popover-list-item.multi-line
+        .icons-status.green
+        | branch-name
+        small.small updated 6 hours ago
+      li.list-item.popover-list-item.multi-line
+        .icons-status.green
+        | branch-name
+        small.small updated 6 hours ago

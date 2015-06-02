@@ -59,6 +59,10 @@ ul.server-category-list(
         status-icon(
           instance = "branchFork"
         )
-      a.more-servers
+      a.more-servers(
+        pop-over
+        pop-over-options = "{\"left\":120}"
+        pop-over-template = "viewMoreContainersPopover"
+      )
         | 8 
         span.small more…
