@@ -11,6 +11,7 @@ var fetchUserMock = new (require('../fixtures/mockFetch'))();
 var fetchStackInfoMock = new (require('../fixtures/mockFetch'))();
 var fetchContextsMock = new (require('../fixtures/mockFetch'))();
 var fetchInstancesMock = new (require('../fixtures/mockFetch'))();
+var fetchInstancesByPodMock = new (require('../fixtures/mockFetch'))();
 var createNewInstanceMock = new (require('../fixtures/mockFetch'))();
 
 var stacks = angular.copy(apiMocks.stackInfo);
@@ -25,7 +26,6 @@ describe('environmentController'.bold.underline.blue, function () {
       {noStore: true}
     );
     ctx.masterPods.githubUsername = thisUser.oauthName();
-    keypather.set($rootScope, 'dataApp.data.instancesByPod', ctx.masterPods);
   }
   function setup() {
     ctx = {};
@@ -61,6 +61,7 @@ describe('environmentController'.bold.underline.blue, function () {
       $provide.value('user', thisUser);
       $provide.factory('fetchStackInfo', fetchStackInfoMock.fetch());
       $provide.factory('fetchInstances', fetchInstancesMock.fetch());
+      $provide.factory('fetchInstancesByPod', fetchInstancesByPodMock.fetch());
       $provide.factory('fetchContexts', fetchContextsMock.fetch());
       $provide.factory('createNewInstance', createNewInstanceMock.fetch());
       $provide.value('$log', ctx.$log);
@@ -114,6 +115,7 @@ describe('environmentController'.bold.underline.blue, function () {
       templateInstances.githubUsername = 'HelloRunnable';
       fetchInstancesMock.triggerPromise(templateInstances);
       fetchStackInfoMock.triggerPromise(stacks);
+      fetchInstancesByPodMock.triggerPromise(ctx.masterPods);
       var sourceContexts = [{
         attrs: 'awesome'
       }];
@@ -232,7 +234,6 @@ describe('environmentController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(ctx.eventTracking.triggeredBuild);
       sinon.assert.calledWith(ctx.errs.handler, error);
       sinon.assert.calledOnce($scope.data.instances.add);
-      sinon.assert.calledOnce(closeModalSpy);
       sinon.assert.calledOnce(closeModalSpy);
 
       sinon.assert.calledOnce(instance.dealloc);

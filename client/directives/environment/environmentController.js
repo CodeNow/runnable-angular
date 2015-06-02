@@ -18,6 +18,7 @@ function EnvironmentController(
   fetchContexts,
   fetchInstances,
   fetchInstancesByPod,
+  fetchStackInfo,
   keypather,
   pageName,
   promisify,
@@ -163,10 +164,12 @@ function EnvironmentController(
   $scope.data.loadingNewServers = true;
   $q.all({
     deps: fetchInstances({ githubUsername: 'HelloRunnable' }),
-    sourceContexts: fetchContexts({ isSource: true })
+    sourceContexts: fetchContexts({ isSource: true }),
+    stacks: fetchStackInfo()
   })
     .then(function (data) {
       $scope.data.allDependencies = data.deps;
+      $scope.data.stacks = data.stacks;
       $scope.data.sourceContexts = data.sourceContexts;
       $scope.data.loadingNewServers = false;
     })
