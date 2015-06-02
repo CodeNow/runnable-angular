@@ -105,8 +105,6 @@ describe('environmentController'.bold.underline.blue, function () {
       expect($scope.actions.deleteServer, 'deleteServer').to.be.ok;
       expect($scope.actions.createAndBuild, 'createAndBuild').to.be.ok;
 
-      expect($scope.data.loadingNewServers, 'loadingNewServers').to.be.true;
-
       expect($scope.data.allDependencies, 'allDependencies').to.not.be.ok;
       var templateInstances = runnable.newInstances(
         [apiMocks.instances.running, apiMocks.instances.stopped],
@@ -128,7 +126,6 @@ describe('environmentController'.bold.underline.blue, function () {
       expect($scope.data.allDependencies, 'allDependencies').to.equal(templateInstances);
       // this should now be loaded
       expect($scope.data.instances, 'masterPods').to.equal(ctx.masterPods);
-      expect($scope.data.loadingNewServers, 'loadingNewServers').to.be.false;
       expect($scope.data.stacks, 'stacks').to.equal(stacks);
       expect($scope.data.sourceContexts).to.equal(sourceContexts);
     });

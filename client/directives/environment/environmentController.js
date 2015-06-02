@@ -161,7 +161,6 @@ function EnvironmentController(
     }
   };
 
-  $scope.data.loadingNewServers = true;
   $q.all({
     deps: fetchInstances({ githubUsername: 'HelloRunnable' }),
     sourceContexts: fetchContexts({ isSource: true }),
@@ -171,7 +170,6 @@ function EnvironmentController(
       $scope.data.allDependencies = data.deps;
       $scope.data.stacks = data.stacks;
       $scope.data.sourceContexts = data.sourceContexts;
-      $scope.data.loadingNewServers = false;
     })
     .catch(errs.handler);
 
