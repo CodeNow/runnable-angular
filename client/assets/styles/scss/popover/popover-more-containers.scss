@@ -4,7 +4,7 @@
   width: 300px;
 
   .popover-header {
-    border-bottom: 1px solid $gray-lightest;
+    border-bottom: 1px solid $gray-lighter;
     font-size: 18px;
     height: 60px;
     padding: 18px;
@@ -18,6 +18,10 @@
 
   .search-wrapper {
     padding: 12px;
+  }
+
+  .popover-list {
+    padding: 0 0 6px;
   }
 
   .popover-list-item {
