@@ -1,0 +1,37 @@
+.more-containers-popover {
+  max-height: 450px;
+  padding-bottom: 3px;
+  width: 300px;
+
+  .popover-header {
+    border-bottom: 1px solid $gray-lightest;
+    font-size: 18px;
+    height: 60px;
+    padding: 18px;
+    text-align: center;
+  }
+
+  .popover-content.popover-content {
+    max-height: 386px;
+    overflow-y: auto;
+  }
+
+  .search-wrapper {
+    padding: 12px;
+  }
+
+  .popover-list-item {
+    
+    .icons-status {
+      margin-right: 6px;
+    }
+
+    .small {
+      padding-left: 15px;
+    }
+
+    &.multi-line {
+      padding: 6px 12px;
+    }
+  }
+}
