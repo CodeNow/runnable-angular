@@ -12,25 +12,14 @@ function findLinkedServerVariables($state, configUserContentDomain) {
       return {};
     }
 
-    var linkResults = {
-      servers: [],
-      other: []
-    };
+    var domain = ($state.params.userName + '.' + configUserContentDomain).toLowerCase();
+    var servers = [];
     input.forEach(function (line, index) {
-      if (/(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?/g.test(line)) {
-        var result = {
-          line: index + 1,
-          url: line.split('=')[1]
-        };
-        if (line.toLowerCase().indexOf(
-            ($state.params.userName + '.' + configUserContentDomain).toLowerCase()
-          ) > -1) {
-          linkResults.servers.push(result);
-        } else {
-          linkResults.other.push(result);
-        }
+      if (line.toLowerCase().indexOf(domain) > -1) {
+        servers.push(line.replace(/.*?=/, ''));
       }
     });
-    return linkResults;
+
+    return servers;
   };
 }

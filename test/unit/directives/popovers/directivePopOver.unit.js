@@ -53,7 +53,7 @@ describe('directivePopOver'.bold.underline.blue, function() {
         'pop-over-no-broadcast': options.noBroadcast || false,
         'pop-over-actions':  'popOverActions',
         'pop-over-active': 'popOverActive',
-        'pop-over-template': 'viewPopoverInvite',
+        'pop-over-template': 'viewPopoverFileExplorerFileMenu',
         'pop-over-options': 'popOverOptions'
       };
 

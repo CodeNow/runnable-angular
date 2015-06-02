@@ -8,7 +8,8 @@
 
   // bolded text in serviceHelpCards.js
   // TODO: class this
-  b {
+  b,
+  .strong {
     color: $blue;
   }
 }
@@ -166,7 +167,7 @@
     color: $blue;
     float: right;
     font-weight: 500;
-    margin: 1px 3px 0 0;
+    margin: 1px 3px;
 
     &:hover {
       border-color: rgba($blue,.7);
@@ -184,10 +185,6 @@
   padding: 0 12px;
 }
 
-.strong {
-  color: $blue;
-}
-
 .general-help-container {
   line-height: 27px;
   padding: 12px 18px;
@@ -196,6 +193,7 @@
 .general-help-item {
   color: rgba($blue,.8);
   cursor: pointer;
+  display: block;
   margin: 0 -30px;
   padding: 0 30px;
 
@@ -205,5 +203,18 @@
 
   &:active {
     background-color: rgba($blue-light,.25);
+  }
+
+  .iconnables {
+    height: 13px;
+    left: 6px;
+    width: 13px;
+  }
+
+  // reset
+  .link {
+    color: currentColor;
+    display: block;
+    text-decoration: none;
   }
 }

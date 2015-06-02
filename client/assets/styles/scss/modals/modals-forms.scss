@@ -1,6 +1,10 @@
 .modal-form {
   padding: 15px 30px;
 
+  @include media(xs) {
+    padding: 15px;
+  }
+
   // label (row)
   .label {
     flex: 0 0 auto;
@@ -43,14 +47,24 @@
       }
     }
 
-    // don't stretch if btn-xs
-    > .btn-xs {
+    // don't stretch if btn-xs/xxs
+    > .btn-xs,
+    > .btn-xxs {
+      font-size: 13px;
       padding: 0 6px;
       width: auto;
 
       &:only-child {
         float: right;
         margin-top: 6px;
+      }
+
+      &.float-right {
+        margin: 6px 0 0; // center buttons
+      }
+
+      &.float-right + .float-right {
+        margin-right: 6px;
       }
     }
 
@@ -90,7 +104,7 @@
   }
 
   // label info
-  .small {
+  > .small {
     color: $gray;
     display: inline-block;
     margin: 6px 0 0;
@@ -101,25 +115,11 @@
     margin: 12px auto 0;
     text-align: center;
 
-    .btn-xxs {
-      background: $gray;
-      border-radius: 50%;
-      color: $white;
-      float: left;
-      height: 15px;
-      margin-right: 3px;
-      padding: 0 4px;
-      width: 15px;
-    }
-
-    .icons-help {
-      height: 100%;
-      width: 100%;
+    .strong {
+      display: inline-block;
     }
 
     .input {
-      background: $white;
-      font-size: 13px;
       margin-left: 6px;
       width: 300px;
     }
@@ -140,5 +140,19 @@
       margin-top: 9px;
       text-align: center;
     }
+  }
+
+  // spinner
+  .modal-form-spinner {
+    color: $gray;
+    margin: 60px 0 30px;
+    text-align: center;
+  }
+
+  .spinner-wrapper:not(.spinner-backdrop) {
+    display: inline-block;
+    height: 12px;
+    margin-right: 6px;
+    width: 12px;
   }
 }

@@ -17,18 +17,29 @@
   // panels
   > div {
     height: 100%;
-    padding-bottom: 21px;
-    width: 100%;
 
-    // only if a view
+    // extra space if terminal in views
     .views & {
-      height: calc(100% - 45px);
+
+      &.logs {
+        height: calc(100% - 60px);
+      }
     }
   }
+}
 
-  // except ace
-  > div > pre {
-    height: 100%;
+// crazy shit
+.views-toolbar-wrapper ~ .active-panel {
+
+  // panels
+  > div {
+
+    .views & {
+
+      &.logs {
+        height: calc(100% - 90px);
+      }
+    }
   }
 }
 
@@ -43,7 +54,7 @@
 }
 
 div.terminal { // div specifity required b/c there's a term.terminal
-  @extend .pre;
+  @extend %pre;
   background: $purple-darker !important; // override term
   color: $white !important;
   padding: 9px;

@@ -1,0 +1,64 @@
+ul.table-drag-drop(
+  dnd-allowed-types = "properties.allowedTableTypes"
+  dnd-list = "list"
+  ng-class = "{\
+    'no-touching': tableProcessing || state.recalculating\
+  }"
+)
+  li.tr.thead.clearfix
+    .cell {{ header.title }}
+      button.btn.btn-xs.white(
+        pop-over
+        pop-over-actions = "popoverData.actions"
+        pop-over-data = "popoverData.data"
+        pop-over-options = "{\"left\":0,\"top\":0}"
+        pop-over-template = "popoverTemplate"
+        pop-over-active = "popoverData.active"
+        pop-over-trigger = "activeAttr"
+        ng-click = "openRulePopover()"
+      ) {{ header.description }}
+  //- if no rules of this type
+  li.tr.tr-empty.clearfix(
+    ng-if = "!list.length"
+  )
+    .cell (empty)
+  li.tr.tr-action.clearfix(
+    dnd-draggable = "item"
+    dnd-dragstart = "models.selected"
+    dnd-effect-allowed = "move"
+    dnd-moved = "list.splice($index, 1); moveRule($index, item); "
+    dnd-type = "item.action"
+    ng-class="{\
+      'disabled': models.selected === item\
+    }"
+    ng-click = "openRulePopover(item)"
+    ng-repeat = "item in list"
+  )
+    .cell.cell-action(
+      dnd-handle
+      ng-class = "{\
+        disabled: list.length < 2,\
+        'no-touching': list.length < 2\
+      }"
+    )
+      svg.iconnables.icons-drag
+        use(
+          xlink:href = "#icons-drag"
+        )
+    .cell.monospace.text-overflow.cell-arrow(
+      ng-attr-title = "{{ item.search || item.source }}"
+      ng-class = "{disabled: item.rule.warnings.length}"
+    ) {{ item.search || item.source }}
+    .cell.monospace.text-overflow(
+      ng-attr-title = "{{ item.replace || item.dest }}"
+    ) {{ item.replace || item.dest }}
+    //- add .disabled if no warning
+    //- note: the title attribute
+    .cell.cell-action.monospace(
+      ng-class = "{disabled: !item.warnings.length}"
+      title = "{{ item.warnings[0].message }}"
+    )
+      svg.iconnables.icons-warning
+        use(
+          xlink:href = "#icons-warning"
+        )

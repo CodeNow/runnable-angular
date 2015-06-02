@@ -74,7 +74,6 @@
 
   // form elements in popovers:
   .btn-block {
-    margin: 3px 6px 6px;
     width: 100%;
   }
 
@@ -140,6 +139,18 @@
     }
   }
 
+  &.hint {
+    color: $blue;
+
+    &:hover {
+      background: $blue-lighter;
+    }
+
+    .small {
+      color: rgba($blue,.8);
+    }
+  }
+
   .gravatar,
   .iconnables {
     color: $gray;
@@ -170,6 +181,30 @@
   font-weight: 500;
   margin: 0;
   padding: 0;
+
+  .list-item {
+    padding-left: 15px;
+    position: relative;
+
+    &::after {
+      background: $gray-lighter;
+      border-radius: 50%;
+      content: '';
+      display: block;
+      height: 5px;
+      left: 3px;
+      position: absolute;
+      top: 7px;
+      width: 5px;
+    }
+
+    .iconnables {
+      height: 12px;
+      margin: 0 3px 0 5px;
+      top: 2px;
+      width: 12px;
+    }
+  }
 }
 
 // flex for multiple buttons
@@ -203,6 +238,12 @@
   padding: 6px;
   position: relative;
   z-index: $z-popover-content;
+
+  // filter
+  .label-jump {
+    margin-bottom: 9px;
+    text-align: center;
+  }
 }
 
 //- footer.popover-footer

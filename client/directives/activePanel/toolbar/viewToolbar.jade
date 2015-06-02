@@ -1,0 +1,21 @@
+//- ****************************
+//- * if rebuild without cache *
+//- ****************************
+.views-toolbar(
+  ng-if = "showBuildFailurePrompt() && !shouldShowUpdateConfigsPrompt"
+)
+  small.small Having build problems? Some build errors can be resolved by rebuilding the container without cache.
+  button.btn.btn-xs.orange(
+    ng-click = "actions.buildWithoutCache()"
+  ) Rebuild without Cache
+
+//- ***********************
+//- * if update container *
+//- ***********************
+.views-toolbar(
+  ng-if = "shouldShowUpdateConfigsPrompt"
+)
+  small.small This container's configuration has been changed since it was last built. #{''}
+  button.btn.btn-xs.orange(
+    ng-click = "actions.updateConfigToMatchMaster()"
+  ) Update and Rebuild

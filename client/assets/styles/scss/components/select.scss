@@ -1,0 +1,15 @@
+.btn-select {
+  padding-left: 6px;
+  text-align: left;
+
+  select {
+    background: transparent;
+    cursor: pointer;
+    height: 36px;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: -2px;
+    width: 100%;
+  }
+}

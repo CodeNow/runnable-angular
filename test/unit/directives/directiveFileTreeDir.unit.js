@@ -40,7 +40,7 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
     angular.mock.module(function ($provide) {
       $provide.value('helperCreateFS', createFsMock);
       $provide.value('errs', errs);
-      $provide.value('$upload', uploadMock);
+      $provide.value('Upload', uploadMock);
     });
 
     angular.mock.inject(function (

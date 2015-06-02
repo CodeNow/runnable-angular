@@ -25,7 +25,8 @@ function fancySelect(
       };
 
       $scope.actions = {
-        clickedOption: function () {
+        clickedOption: function (event) {
+          event.stopPropagation();
           $scope.$parent.actions.clickedOption($scope.config);
         }
       };

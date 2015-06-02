@@ -1,3 +1,14 @@
+.help-container(
+  ng-if = "helpCards.getActiveCard().helpPopover.containerFiles"
+)
+  .help(
+    ng-bind-html = "helpCards.getActiveCard().helpPopover.containerFiles"
+  )
+.help-padding(
+  ng-if = "helpCards.getActiveCard().helpPopover.containerFiles"
+  ng-bind-html = "helpCards.getActiveCard().helpPopover.containerFiles"
+)
+
 .clearfix
   .label-col Container Files
 

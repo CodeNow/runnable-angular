@@ -18,7 +18,8 @@ function setupServerModal(
   keypather,
   populateDockerfile,
   promisify,
-  $log
+  $log,
+  cardInfoTypes
 ) {
   return {
     restrict: 'A',
@@ -44,9 +45,20 @@ function setupServerModal(
           $scope.loading = false;
         });
 
+      function normalizeRepoName(repo) {
+        return repo.attrs.name.replace(/[^a-zA-Z0-9-]/g, '-');
+      }
+
       $scope.isRepoAdded = function (repo) {
         // Since the newServers may have faked repos (just containing names), just check the name
-        return !!$scope.data.instances.find(hasKeypaths({'getRepoName()': repo.attrs.name}));
+        return !!$scope.data.instances.find(function (instance) {
+          var repoName = instance.getRepoName();
+          if (repoName) {
+            return repo.attrs.name === repoName;
+          } else {
+            return normalizeRepoName(repo) === instance.attrs.name;
+          }
+        });
       };
 
       $scope.createServer = function () {
@@ -61,6 +73,21 @@ function setupServerModal(
           )
             .then(function (dockerfile) {
               $scope.state.dockerfile = dockerfile;
+
+              var Repo = cardInfoTypes()['Main Repository'];
+
+              $scope.state.containerFiles = [];
+
+              var repo = new Repo(null, {isMainRepo: true});
+
+              var commands = $scope.state.commands || '';
+
+              repo.name = $scope.state.repo.attrs.name;
+              repo.path = $scope.state.dst.replace('/', '');
+              repo.commands = commands;
+
+              $scope.state.containerFiles.push(repo);
+
               return populateDockerfile(
                 dockerfile,
                 $scope.state
@@ -103,7 +130,7 @@ function setupServerModal(
         $scope.repoSelected = true;
         repo.loading = true;
         // Replace any non-word character with a -
-        $scope.state.opts.name = repo.attrs.name.replace(/[^a-zA-Z0-9]/g, '-');
+        $scope.state.opts.name = normalizeRepoName(repo);
         return $scope.fetchStackData(repo)
           .then(function () {
             return createNewBuild($rootScope.dataApp.data.activeAccount);
@@ -126,7 +153,7 @@ function setupServerModal(
             });
           })
           .then(function () {
-            $scope.acv = $scope.state.contextVersion.appCodeVersions.models[0];
+            $scope.acv = $scope.state.contextVersion.getMainAppCodeVersion();
           })
           .then(function (dockerfile) {
             $scope.state.dockerfile = dockerfile;

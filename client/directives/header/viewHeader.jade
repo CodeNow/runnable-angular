@@ -1,30 +1,32 @@
-a.logo.logo-icon
-  svg
-    use(
-      xlink:href = "#runnable-icon"
-    )
+img.logo.logo-icon.float-left(
+  height = "45"
+  src = "/build/images/runnable-icon-white.svg"
+  width = "45"
+)
 
 .btn-group
   a.btn.btn-sm.purple(
     ng-class = "{\
       active: dataApp.isInstancePage,\
-      'no-touching': !dataApp.data.activeAccount\
+      'no-touching': !dataApp.data.activeAccount || dataApp.isInstancePage || dataApp.creatingInstance\
     }"
     ui-sref = "instance.home({ userName: dataApp.data.activeAccount.oauthName() })"
   )
     svg.iconnables
       use(
-        xlink:href = "#icons-server"
+        xlink:href = "#icons-server-dark"
       )
     | Containers
   a.btn.btn-sm.purple(
-    ng-class = "{'no-touching': !dataApp.data.activeAccount}"
-    ui-sref-active = 'active'
+    ng-class = "{\
+      'active': dataApp.isConfigPage,\
+      'no-touching': !dataApp.data.activeAccount || dataApp.isConfigPage\
+    }"
     ui-sref = "config.home({ userName: dataApp.data.activeAccount.oauthName() })"
   )
     svg.iconnables
       use(
-        xlink:href = "#icons-gear"
+        xlink:href = "#icons-advanced-dark"
       )
     | Configure
 

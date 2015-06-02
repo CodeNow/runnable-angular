@@ -16,22 +16,30 @@ function EnvironmentController(
   eventTracking,
   favico,
   fetchContexts,
-  fetchStackInfo,
   fetchInstances,
+  fetchInstancesByPod,
+  fetchStackInfo,
+  keypather,
   pageName,
   promisify,
   $rootScope,
   $q,
   user,
   helpCards,
-  $window
+  $window,
+  $state
 ) {
+  $scope.$state = $state;
   favico.reset();
   pageName.setTitle('Configure - Runnable');
   $scope.data = {
-    instances: null,
     helpCards: helpCards
   };
+  fetchInstancesByPod($state.userName)
+    .then(function (instances) {
+      $scope.data.instances = instances;
+    });
+
   $scope.state = {
     validation: {
       env: {}
@@ -70,12 +78,6 @@ function EnvironmentController(
     $window.removeEventListener('scroll', scrollHelper);
   });
 
-  $scope.$watch('helpCards.getActiveCard().targets.newContainer', function (n) {
-    if (n) {
-      $scope.state.newServerButton.active = true;
-    }
-  });
-
   $scope.alert = null;
 
   $scope.$on('alert', function (evt, data) {
@@ -103,9 +105,9 @@ function EnvironmentController(
       $rootScope.$broadcast('close-popovers');
       $timeout(function () {
         if (confirm('Are you sure you want to delete this container?')) {
-          helpCards.refreshAllCards();
           promisify(server.instance, 'destroy')()
             .catch(errs.handler);
+          helpCards.refreshAllCards();
         }
       });
     },
@@ -119,7 +121,16 @@ function EnvironmentController(
           username: $rootScope.dataApp.data.activeAccount.oauthName()
         }
       }, { warn: false });
+      $rootScope.dataApp.creatingInstance = !keypather.get($scope, 'data.instances.models.length');
       $scope.data.instances.add(instance);
+      var unwatch = $scope.$on('$destroy', function cleanUp() {
+        $rootScope.dataApp.creatingInstance = false;
+        if (!instance.destroyed) {
+          unwatch();
+          instance.dealloc();
+        }
+      });
+      helpCards.hideActiveCard();
 
       $rootScope.$broadcast('alert', {
         type: 'success',
@@ -142,24 +153,23 @@ function EnvironmentController(
           errs.handler(err);
           // Remove it from the servers list
           instance.dealloc();
-          //dealloc
+        })
+        .finally(function () {
+          $rootScope.dataApp.creatingInstance = false;
+          unwatch();
         });
     }
   };
 
-  $scope.data.loadingNewServers = true;
   $q.all({
-    stacks: fetchStackInfo(),
     deps: fetchInstances({ githubUsername: 'HelloRunnable' }),
     sourceContexts: fetchContexts({ isSource: true }),
-    instances: fetchInstances({ masterPod: true })
+    stacks: fetchStackInfo()
   })
     .then(function (data) {
-      $scope.data.stacks = data.stacks;
       $scope.data.allDependencies = data.deps;
+      $scope.data.stacks = data.stacks;
       $scope.data.sourceContexts = data.sourceContexts;
-      $scope.data.instances = data.instances;
-      $scope.data.loadingNewServers = false;
     })
     .catch(errs.handler);
 

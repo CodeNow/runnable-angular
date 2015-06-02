@@ -38,7 +38,12 @@
         modal-template = "viewOpenModalIntegrations"
         ng-if = "data.showIntegrations"
       )
-        | Integrations
+        img.iconnables(
+          height = "24"
+          src = "/build/images/logos/logo-icon-slack.svg"
+          width = "24"
+        )
+        | Slack Integration
       li.list-item.popover-list-item
         a.list-link(
           ng-click = "actions.logout();"

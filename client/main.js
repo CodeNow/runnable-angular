@@ -1,4 +1,5 @@
 'use strict';
+require('es6-symbol/implement');
 
 var app = require('app');
 require('angular');

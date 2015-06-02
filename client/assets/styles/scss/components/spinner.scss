@@ -66,7 +66,16 @@
 .btn-spinner {
 
   &.in {
-    padding-left: 30px;
+    padding-left: 30px !important;
+
+    &.btn-xs {
+      padding-left: 18px !important;
+
+      .spinner {
+        left: 3px;
+        width: 12px;
+      }
+    }
   }
 
   .spinner {
@@ -81,7 +90,7 @@
 .progress {
   background: rgba($blue,.2);
   border-color: rgba($blue,.2);
-  border-radius: 3px 0 0 3px;
+  border-radius: 2px 0 0 2px;
   display: block;
   height: 28px;
   left: 0;

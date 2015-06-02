@@ -6,6 +6,7 @@ require('app')
 
 function helpCardsFactory(
   $interpolate,
+  $q,
   keypather,
   fetchSettings,
   errs,
@@ -16,11 +17,12 @@ function helpCardsFactory(
 
 //POSSIBLE TARGETS:
 //newContainer
-//buildFiles
+//containerFiles
 //buildCommand
 //stackType
 //exposedPorts
 //repositories
+//findAndReplace
 //environmentVariables
   var helpCards = {
     'general': [
@@ -36,12 +38,12 @@ function helpCardsFactory(
         'label': 'Connect to an external service',
         'targets': [
           'environmentVariables',
-          'translationRules'
+          'findAndReplace'
         ],
-        'helpTop': 'Configure your external service by using an <b>Environment Variable</b> or <b>Translation Rule</b>.',
+        'helpTop': 'Configure your external service by using an <b>Environment Variable</b>',// or the <b>Find and Replace</b> tool.',
         'helpPopover': {
           'environmentVariables': 'Reference your external service here by adding or modifying an <b>environment variable</b>.',
-          'translationRules': 'Reference your external service here by creating a <b>new rule</b>.'
+          'findAndReplace': 'Reference your external service here by creating a <b>new rule</b>.'
         }
       },
       {
@@ -52,30 +54,30 @@ function helpCardsFactory(
         ],
         'helpTop': 'Add <b>Build Commands</b> to install libraries from the <b>Repositories</b> or <b>Container Files</b> tool.',
         'helpPopover': {
-          'repositories': 'Add a <b>Build Command</b> to install a library. Example: apt-get install -y git',
-          'containerFiles': 'Add a <b>Build Command</b> to install a library. Example: apt-get install -y git'
+          'repositories': 'Use <b>Build Commands</b> to install a library. Example: apt-get install -y git',
+          'containerFiles': 'Use <b>Build Commands</b> to install a library. Example: apt-get install -y git'
         }
       },
       {
         'label': 'Configure an OAuth service',
         'targets': [
           'environmentVariables',
-          'translationRules'
+          'findAndReplace'
         ],
-        'helpTop': 'Update your OAuth credentials using the <b>Environment Variables</b> or <b>Translation Rules</b> tool.',
+        'helpTop': 'Update your OAuth credentials using the <b>Environment Variables</b>', //or <b>Find and Replace</b> tool.',
         'helpPopover': {
           'environmentVariables': 'Update the environment variables that you use to specify OAuth credentials.',
-          'translationRules': 'Add a translation rule to update your OAuth credentials in your code.'
+          'findAndReplace': 'Add a rule to update your OAuth credentials in your code.'
+        }
+      },
+      {
+        'label': 'Seed a database',
+        'targets': ['containerFiles'],
+        'helpTop': 'Use <b>Container Files</b> to upload seed data and run commands to import it.',
+        'helpPopover': {
+          'containerFiles': 'Click <b>Upload File</b> to select and upload seed data. Specify <b>Build Commands</b> to run shell commands after import.'
         }
       }
-      //{
-      //  'label': 'Seed a database',
-      //  'targets': ['containerFiles'],
-      //  'helpTop': 'Use <b>Container Files</b> to upload seed data and specify <b>Build Commands</b> to run scripts.',
-      //  'helpPopover': {
-      //    'containerFiles': 'Upload seed data files and input shell commands to import the data using <b>Build Commands</b>.'
-      //  }
-      //}
     ],
     'triggered': [
       {
@@ -83,12 +85,13 @@ function helpCardsFactory(
         'label': '<b>{{instance.getDisplayName()}}</b> may need to be updated with <b>{{association}}\'s</b> hostname.</b>',
         'targets': [
           'environmentVariables',
-          'translationRules'
+          'findAndReplace'
         ],
-        'helpTop': 'Update <b>{{instance.getDisplayName()}}\'s</b> code by using <b>Translation Rules</b> or <b>Environment Variables</b> to update the hostname for <b>{{association}}</b>.',
+        'helpTop': 'Update <b>{{instance.getDisplayName()}}\'s</b> code by using <b>Environment Variables</b> to update the hostname for <b>{{association}}</b>.',
+        'helpTopFR': 'Update <b>{{instance.getDisplayName()}}\'s</b> code by using *<b>Find and Replace</b>*/ or <b>Environment Variables</b> to update the hostname for <b>{{association}}</b>.',
         'helpPopover': {
           'environmentVariables': 'Add/update the correct environment variable with <b>{{association}}\'s</b> elastic hostname.',
-          'translationRules': 'Add a translation rule to modify your code to connect with <b>{{association}}\'s</b> elastic hostname.'
+          'findAndReplace': 'Add a string rule to modify your code to connect with <b>{{association}}\'s</b> elastic hostname.'
         }
       },
       {
@@ -97,8 +100,10 @@ function helpCardsFactory(
         'targets': [
           'newContainer'
         ],
-        'helpTop': 'Click on <b>New Container</b> to add a <b>{{dependency}}</b> service.',
-        'helpPopover': {}
+        'helpTop': 'Click on the <b>New Container</b> button to add a <b>{{dependency}}</b> container.',
+        'helpPopover': {
+          'newContainer': 'Click <b>Non-repository</b> to add a <b>{{dependency}}</b> container.'
+        }
       }
     ]
   };
@@ -136,7 +141,9 @@ function helpCardsFactory(
     var card = new HelpCard(cardConfig);
     var targetHash = {};
     card.targets.forEach(function (target) {
-      targetHash[target] = true;
+      if (!keypather.get($rootScope, 'featureFlags.' + target)) {
+        targetHash[target] = true;
+      }
     });
     card.targets = targetHash;
     return card;
@@ -148,7 +155,9 @@ function helpCardsFactory(
     var card = new HelpCard(cardConfig);
     var targetHash = {};
     card.targets.forEach(function (target) {
-      targetHash[target] = true;
+      if (!keypather.get($rootScope, 'featureFlags.' + target)) {
+        targetHash[target] = true;
+      }
     });
     card.targets = targetHash;
     triggeredHash[card.id] = card;
@@ -185,6 +194,14 @@ function helpCardsFactory(
       this.cards.triggered = [];
       activeCard = null;
     },
+    hideActiveCard: function () {
+      if (this.getActiveCard()) {
+        var helpCard = this.getActiveCard();
+        this.setActiveCard(null);
+        var index = this.cards.triggered.indexOf(helpCard);
+        this.cards.triggered.splice(index, 1);
+      }
+    },
     refreshActiveCard: function () {
       if (this.getActiveCard()) {
         this.getActiveCard().emit('refresh');
@@ -193,7 +210,9 @@ function helpCardsFactory(
     },
     refreshAllCards: function () {
       this.cards.triggered.forEach(function (card) {
-        card.emit('refresh');
+        if (!card.removed) {
+          card.emit('refresh');
+        }
       });
       currentCardHash = {};
       this.cards.triggered = [];
@@ -209,7 +228,9 @@ function helpCardsFactory(
           return keypather.get(card, 'data.instance.attrs.shortHash') === instance.attrs.shortHash;
         })
         .forEach(function (card) {
-          card.emit('remove');
+          if (!card.removed) {
+            card.emit('remove');
+          }
         });
     },
     triggerCard: function (cardId, data) {
@@ -241,14 +262,17 @@ function helpCardsFactory(
             if (self.getActiveCard() === helpCard) {
               self.setActiveCard(null);
             }
+            helpCard.removed = true;
             var index = self.cards.triggered.indexOf(helpCard);
             self.cards.triggered.splice(index, 1);
           });
           helpCard.on('refresh', function () {
-            helpCard.emit('remove');
+            if (!helpCard.removed) {
+              helpCard.emit('remove');
+            }
           });
         }
-        return currentCardHash[helpCard.hash];
+        return $q.when(currentCardHash[helpCard.hash]);
       })
         .catch(errs.handler);
     },
