@@ -1,7 +1,6 @@
-main.home
-
-  //- header
-  header.home-header
+//- header
+header.header.home-header
+  .container
     a.logo-anchor
       img.logo.float-left(
         height = "45"
@@ -14,23 +13,23 @@ main.home
         ng-href = "{{ dataHome.data.hasPass ? dataApp.data.loginURL : 'mailto:support@runnable.com?subject=Please send me an invite for the beta' }}"
       ) {{ dataHome.data.hasPass ? 'Sign In' : 'Request Invite' }}
 
-  footer.home-footer
-    .hr
-      img.hr-image(
-        height = "30"
-        src = "/build/images/runnable-icon.svg"
-        width = "30"
-      )
-    nav.footer-nav
-      a.link(
-        href = "mailto:support@runnable.com"
-      ) Email Us
-      a.link(
-        href = "http://support.runnable.io"
-        target = "_blank"
-      ) Documentation
-      a.link(
-        ng-href = "{{ dataApp.data.loginURL }}"
-        ng-if = "dataHome.data.hasPass"
-      )
-        b Sign In
+footer.home-footer
+  .hr
+    img.hr-image(
+      height = "30"
+      src = "/build/images/runnable-icon.svg"
+      width = "30"
+    )
+  nav.footer-nav
+    a.link(
+      href = "mailto:support@runnable.com"
+    ) Email Us
+    a.link(
+      href = "http://support.runnable.io"
+      target = "_blank"
+    ) Documentation
+    a.link(
+      ng-href = "{{ dataApp.data.loginURL }}"
+      ng-if = "dataHome.data.hasPass"
+    )
+      b Sign In

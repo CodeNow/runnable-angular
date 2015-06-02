@@ -100,8 +100,11 @@
 
 // pages
 @import "pages/environment";
-@import "pages/home";
 @import "pages/server-selection";
+
+// home
+@import "home/home";
+@import "home/home-grid";
 
 // shame
 @import "shame";
