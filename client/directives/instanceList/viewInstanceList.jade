@@ -7,11 +7,7 @@
 .sidebar-section-heading.strong(
   ng-if = "data.activeAccount && !isLoading.sidebar"
 ) Containers
-  button.btn.btn-xs.btn-icon
-    svg.iconnables.icons-add
-      use(
-        xlink:href = "#icons-add"
-      )
+
 ul.server-category-list(
   ng-if = "data.activeAccount && !isLoading.sidebar"
 )
@@ -63,3 +59,6 @@ ul.server-category-list(
         status-icon(
           instance = "branchFork"
         )
+      a.more-servers
+        | 8 
+        span.small more…

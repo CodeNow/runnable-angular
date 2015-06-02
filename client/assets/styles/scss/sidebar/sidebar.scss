@@ -93,7 +93,7 @@
 
 .server-category-list-item {
   border-bottom: 1px solid $gray-lighter; // lines below categories
-  padding: 12px 0;
+  padding: 12px 0 6px;
   position: relative;
 
   // configure shortcut button
@@ -151,6 +151,10 @@
       color: $purple-light;
     }
   }
+
+  &:last-child {
+    margin-bottom: 6px;
+  }
 }
 
 .server-category-name {
@@ -167,5 +171,25 @@
   &.closed {
     flex: 0 0 60px;
     overflow-y: hidden;
+  }
+}
+
+.more-servers {
+  cursor: pointer;
+  font-size: 13px;
+  font-style: italic;
+  opacity: .75;
+  padding-left: 15px;
+
+  .small {
+    font-size: 14px;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &:active {
+    color: $purple-light;
   }
 }
