@@ -16,8 +16,8 @@ function EnvironmentController(
   eventTracking,
   favico,
   fetchContexts,
-  fetchStackInfo,
   fetchInstances,
+  fetchInstancesByPod,
   keypather,
   pageName,
   promisify,
@@ -34,11 +34,9 @@ function EnvironmentController(
   $scope.data = {
     helpCards: helpCards
   };
-  // Prevent the instances list from being populated until the stacks are filled in
-  fetchStackInfo()
-    .then(function (stacks) {
-      $scope.data.stacks = stacks;
-      $scope.data.instances = $rootScope.dataApp.data.instancesByPod;
+  fetchInstancesByPod($state.userName)
+    .then(function (instances) {
+      $scope.data.instances = instances;
     });
 
   $scope.state = {
