@@ -35,17 +35,12 @@ function EnvironmentController(
     helpCards: helpCards
   };
   // Prevent the instances list from being populated until the stacks are filled in
-  if (keypather.get($rootScope, 'dataApp.data.stacks')) {
-    $scope.data.instances = $rootScope.dataApp.data.instancesByPod;
-    $scope.data.stacks = $rootScope.dataApp.data.stacks;
-  } else {
-    fetchStackInfo()
-      .then(function (stacks) {
-        $rootScope.dataApp.data.stacks = stacks;
-        $scope.data.stacks = stacks;
-        $scope.data.instances = $rootScope.dataApp.data.instancesByPod;
-      });
-  }
+  fetchStackInfo()
+    .then(function (stacks) {
+      $scope.data.stacks = stacks;
+      $scope.data.instances = $rootScope.dataApp.data.instancesByPod;
+    });
+
   $scope.state = {
     validation: {
       env: {}
@@ -127,7 +122,7 @@ function EnvironmentController(
           username: $rootScope.dataApp.data.activeAccount.oauthName()
         }
       }, { warn: false });
-      $rootScope.dataApp.creatingInstance = !$scope.data.instances.models.length;
+      $rootScope.dataApp.creatingInstance = !keypather.get($scope, 'data.instances.models.length');
       $scope.data.instances.add(instance);
       var unwatch = $scope.$on('$destroy', function cleanUp() {
         $rootScope.dataApp.creatingInstance = false;
@@ -145,7 +140,6 @@ function EnvironmentController(
 
       createPromise
         .then(function (newServerModel) {
-          instance.attrs.opts = newServerModel.opts;
           return createNewInstance(
             $rootScope.dataApp.data.activeAccount,
             newServerModel.build,

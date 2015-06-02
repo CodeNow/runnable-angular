@@ -14,26 +14,27 @@ function fetchStackInfo(
   $q,
   user
 ) {
+  var stacks;
   return function () {
-    var d = $q.defer();
-    function callback(err, res, body) {
-      if (err) { return d.reject(err); }
-      var stacks = [];
-      Object.keys(body).forEach(function (key) {
-        var stack = body[key];
-        stack.key = key;
-        stack.suggestedVersion = stack.defaultVersion;
-        stacks.push(stack);
-        if (stack.dependencies) {
-          stack.dependencies = stack.dependencies.map(function (dep) {
-            return body[dep];
-          });
-        }
-      });
-      d.resolve(stacks);
-    }
-    user.client.get('/actions/analyze/info', callback);
+    return $q(function (resolve, reject) {
+      if (stacks) { return resolve(stacks); }
 
-    return d.promise;
+      user.client.get('/actions/analyze/info', function callback(err, res, body) {
+        if (err) { return reject(err); }
+        stacks = [];
+        Object.keys(body).forEach(function (key) {
+          var stack = body[key];
+          stack.key = key;
+          stack.suggestedVersion = stack.defaultVersion;
+          stacks.push(stack);
+          if (stack.dependencies) {
+            stack.dependencies = stack.dependencies.map(function (dep) {
+              return body[dep];
+            });
+          }
+        });
+        resolve(stacks);
+      });
+    });
   };
 }
