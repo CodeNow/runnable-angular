@@ -23,7 +23,9 @@
 //- ***********
 //- * if file *
 //- ***********
-.views-toolbar
+.views-toolbar(
+  ng-if = "!$root.featureFlags.saveToolbar"
+)
   small.small /node-hello-world/server.js
   //- disable save buttons until a change a made
   button.btn.btn-xs.green.btn-spinner.float-right(

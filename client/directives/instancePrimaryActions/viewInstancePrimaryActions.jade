@@ -24,6 +24,8 @@ button.btn.gray.btn-spinner.in(
     ng-if = "!starting"
   ) Stopping Container
 
+//- ***********************
+//- deprecated button, remove with $root.featureFlags.saveToolbar
 //- save button
 .btn-group
   //- apply .with-restart if save restarts Server
@@ -32,6 +34,7 @@ button.btn.gray.btn-spinner.in(
     ng-class = "{in: saving}"
     ng-click = "saveChanges()"
     ng-disabled = "!instance.containers.models[0].running() || loading || saving || modifyingInstance || !canSave()"
+    ng-if = "!$root.featureFlags.saveToolbar"
     type = "button"
   )
     .spinner-wrapper.spinner-sm.spinner-white.in(
@@ -59,3 +62,5 @@ button.btn.gray.btn-spinner.in(
       use(
         xlink:href = "#icons-arrow-down"
       )
+//- end button, remove with $root.featureFlags.saveToolbar
+//- ***********************
