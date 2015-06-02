@@ -1,8 +1,8 @@
 doctype html
 html(
   lang = "en"
-  ng-controller = "ControllerApp"
   ng-class = "dataApp.state.current.data.bodyClass"
+  ng-controller = "ControllerApp"
 )
   head
     meta(
@@ -101,7 +101,10 @@ html(
 
 
   body.clearfix(
-    ng-class = "{minimize: dataApp.data.minimizeNav, 'modal-open': dataApp.data.modalOpen || dataApp.data.modalError.data.in}"
+    ng-class = "{\
+      minimize: dataApp.data.minimizeNav,\
+      'modal-open': dataApp.data.modalOpen || dataApp.data.modalError.data.in\
+    }"
     ng-click = "dataApp.documentClickEventHandler($event)"
     ng-keydown = "dataApp.documentKeydownEventHandler($event)"
   )
@@ -122,14 +125,14 @@ html(
     )
 
     //- page
-    div.clearfix(
+    .clearfix(
       ui-view
     )
 
     //- error modal
     .modal-backdrop.modal-backdrop-error.in(
-      ng-if = "dataApp.data.modalError.data.in"
       ng-click = "$event.stopPropagation()"
+      ng-if = "dataApp.data.modalError.data.in"
     )
       .modal-dialog.modal-error
         header.modal-header
@@ -138,7 +141,6 @@ html(
           .modal-description.well.well-code.monospace(
           ng-repeat = "error in dataApp.data.modalError.data.errors track by $index"
           ) {{ error.message }}
-
         footer.modal-footer
           button.btn.white.btn-cancel(
           ng-click = "dataApp.data.modalError.actions.close(defaultActions.cancel);"

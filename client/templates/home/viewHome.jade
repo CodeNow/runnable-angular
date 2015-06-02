@@ -1,72 +1,18 @@
 main.home
 
-  //- hero
-  section.home-hero
-
-    //- header
-    header.home-header
-      a.logo-anchor
-        img.logo.float-left(
-          height = "45"
-          src = "/build/images/runnable-logo.svg"
-          width = "240"
-        )
-        sup.sup &lt;beta&gt;
-      nav.home-nav
-        a.link(
-          ng-href = "{{ dataHome.data.hasPass ? dataApp.data.loginURL : 'mailto:support@runnable.com?subject=Please send me an invite for the beta' }}"
-        ) {{ dataHome.data.hasPass ? 'Sign In' : 'Request Invite' }}
-
-    h1.h1.header-thin Stop worrying about servers
-    h3.h3.header-thin Runnable is a sandbox service that replaces Staging, QA, and Test servers
-
-  //- feature
-  section.home-feature
-
-    //- new server configuration
-    section.feature.feature-configuration.row.clearfix(
-      ng-include = "'viewConfiguration'"
-    )
-
-    .hr.hr-single
-
-    //- commits
-    section.feature.feature-commits.row.clearfix(
-      ng-include = "'viewCommits'"
-    )
-
-    .hr.hr-single
-
-    //- protype
-    section.feature.feature-fork.clearfix(
-      ng-include = "'viewFork'"
-    )
-
-    .hr.hr-single
-
-    //- protype
-    section.feature.feature-prototype.clearfix(
-      ng-include = "'viewPrototype'"
-    )
-
-    .hr.hr-single
-
-    //- github
-    section.feature.feature-github.row.clearfix(
-      ng-include = "'viewGithub'"
-    )
-
-    .hr.hr-single
-
-    //- coming soon
-    section.home-feature
-      section.feature.feature-soon.clearfix(
-        ng-include = "'viewSoon'"
+  //- header
+  header.home-header
+    a.logo-anchor
+      img.logo.float-left(
+        height = "45"
+        src = "/build/images/runnable-logo.svg"
+        width = "240"
       )
-
-    a.btn.btn-xl.green(
-      ng-href = "{{ dataHome.data.hasPass ? dataApp.data.loginURL : 'mailto:support@runnable.com?subject=Please send me an invite for the beta' }}"
-    ) {{ dataHome.data.hasPass ? 'Sign In' : 'Request Invite' }}
+      sup.sup &lt;beta&gt;
+    nav.home-nav
+      a.link(
+        ng-href = "{{ dataHome.data.hasPass ? dataApp.data.loginURL : 'mailto:support@runnable.com?subject=Please send me an invite for the beta' }}"
+      ) {{ dataHome.data.hasPass ? 'Sign In' : 'Request Invite' }}
 
   footer.home-footer
     .hr
