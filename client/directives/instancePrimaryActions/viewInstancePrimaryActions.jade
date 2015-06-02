@@ -27,14 +27,15 @@ button.btn.gray.btn-spinner.in(
 //- ***********************
 //- deprecated button, remove with $root.featureFlags.saveToolbar
 //- save button
-.btn-group
+.btn-group(
+  ng-if = "!$root.featureFlags.saveToolbar"
+)
   //- apply .with-restart if save restarts Server
   //- add title = "Save and Restart Server" if save restarts Server
   button.btn.green.btn-save.btn-spinner(
     ng-class = "{in: saving}"
     ng-click = "saveChanges()"
     ng-disabled = "!instance.containers.models[0].running() || loading || saving || modifyingInstance || !canSave()"
-    ng-if = "!$root.featureFlags.saveToolbar"
     type = "button"
   )
     .spinner-wrapper.spinner-sm.spinner-white.in(
