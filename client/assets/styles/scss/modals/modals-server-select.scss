@@ -75,6 +75,10 @@
       }
     }
 
+    &.multi-line {
+      min-height: 60px;
+    }
+
     .gravatar ~ .small {
       padding-left: 36px;
     }
