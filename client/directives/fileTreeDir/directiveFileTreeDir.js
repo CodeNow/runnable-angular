@@ -147,13 +147,13 @@ function fileTreeDir(
         var newModel = $scope.fileModel['new' + modelType](modelId, { warn: false });
         var fromDir = findDir($scope.fileModel.rootDir, oldPath);
 
-        var fetches = [
-          promisify(toDir.contents, 'fetch')()
-        ];
-        if (fromDir) {
-          fetches.push(promisify(fromDir.contents, 'fetch')());
-        }
         promisify(newModel, 'moveToDir')(toDir).then(function () {
+          var fetches = [
+            promisify(toDir.contents, 'fetch')()
+          ];
+          if (fromDir) {
+            fetches.push(promisify(fromDir.contents, 'fetch')());
+          }
           return $q.all(fetches);
         });
       };
