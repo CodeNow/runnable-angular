@@ -16,7 +16,7 @@ unknown
 
  */
 function instanceStatus(keypather) {
-  var jesusBirthday = new Date('0001-01-01T00:00:00Z').valueOf();
+  var jesusBirthday = '0001-01-01T00:00:00Z';
   return function (instance) {
     var container = keypather.get(instance, 'containers.models[0]');
     var build = keypather.get(instance, 'build');
@@ -25,7 +25,7 @@ function instanceStatus(keypather) {
         if (keypather.get(container, 'attrs.inspect.State.ExitCode') === -1) {
           return 'stopped';
         }
-        if (new Date(keypather.get(container, 'attrs.inspect.State.StartedAt')).valueOf() === jesusBirthday) {
+        if (keypather.get(container, 'attrs.inspect.State.StartedAt') === jesusBirthday) {
           // container has been deployed but not yet started
           return 'building';
         }
