@@ -38,7 +38,7 @@ function popOver(
       var unbindDocumentClick = angular.noop;
       var unbindPopoverOpened = angular.noop;
       $scope.popoverOptions = $scope.popoverOptions || {};
-      $scope.active = false;
+      $scope.active = $scope.active || false;
 
       var popoverElement;
       var popoverElementScope;
@@ -47,6 +47,7 @@ function popOver(
         $scope.active = false;
         // trigger a digest because we are setting active to false!
         $timeout(angular.noop);
+
         unbindDocumentClick();
         unbindPopoverOpened();
 

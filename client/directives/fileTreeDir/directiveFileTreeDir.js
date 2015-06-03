@@ -27,7 +27,8 @@ function fileTreeDir(
       readOnly: '=',
       editExplorer: '=',
       showRepoFolder: '=',
-      isRootDir: '=?'
+      isRootDir: '=?',
+      state: '=?'
     },
     templateUrl: 'viewFileTreeDir',
     link: function ($scope, element, attrs) {
@@ -255,6 +256,15 @@ function fileTreeDir(
             });
             $scope.$broadcast('close-popovers');
           }
+        }
+      };
+
+      $scope.popoverFilesRepositoryCommitToggle = {
+        actions: {
+
+        },
+        data: {
+
         }
       };
 
