@@ -48,7 +48,7 @@ li.folder(
           )
         span.item-name {{ normalizeRepoNames(acv.attrs.repo) }}
     li.file(
-      ng-if = "$root.featureFlags.saveToolbar"
+      ng-if = "$root.featureFlags.advancedRepositories"
       pop-over
       pop-over-actions = "popoverFileExplorerRepository.actions"
       pop-over-data = "popoverFileExplorerRepository.data"
