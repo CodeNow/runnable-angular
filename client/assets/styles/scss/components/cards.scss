@@ -160,6 +160,12 @@
   }
 }
 
+.loading-bar {
+  height: 4px;
+  background-color: $gray-lighter;
+  width: 50%;
+}
+
 .card-status-test {
   height: 27px;
   padding-top: 6px;

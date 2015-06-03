@@ -1,3 +1,5 @@
+.loading-bar
+
 .card-header
   server-status-card-header(
     ng-attr-no-touching = "{{ showSpinner() }}"
@@ -11,8 +13,8 @@
   //- If it failed to run:
   //- Text says "Container CMD Failed", and "View Logs" links to CMD logs
   
-  .card-status.failed Build Failed.
-    strong.strong  View Logs
+  //- .card-status.failed Build Failed.
+  //-   strong.strong  View Logs
 
   //- This element displays while the card is validating.
   //- While building, it says "Validating Build…"
