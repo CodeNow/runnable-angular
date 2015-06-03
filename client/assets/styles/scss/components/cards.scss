@@ -199,80 +199,11 @@
   }
 }
 
-// Advanced Mode toggle and container count
 .card-footer {
   color: $gray;
   font-size: 14px;
   font-weight: 400;
   padding: 6px 15px;
-}
-
-// hides checkbox to be replaced by fancy toggle
-.input-toggle {
-  margin-left: -9999px;
-  position: absolute;
-  visibility: hidden;
-
-  // purple styling when advanced mode is on
-  &:checked + .label-toggle {
-    background: rgba($purple-light,.9);
-    color: rgba($purple-light,.9);
-
-    // position of switch when advanced mode is on
-    &::after {
-      left: 15px;
-      right: 1px;
-    }
-
-    // affects switch width during active state
-    &:active::after {
-      left: 13px;
-    }
-  }
-}
-
-// toggle background
-.label-toggle {
-  background: $gray;
-  border-radius: 7px;
-  color: $gray;
-  cursor: pointer;
-  float: left;
-  height: 13px;
-  position: relative;
-  top: 2px;
-  transition: all .25s;
-  width: 27px;
-
-  // white switch inside toggle
-  &::after {
-    background: $white;
-    border-radius: 6px;
-    content: '';
-    display: inline;
-    height: 11px;
-    left: 1px;
-    position: absolute;
-    right: 15px;
-    top: 1px;
-    transition: all .25s;
-  }
-
-  // affects switch width during active state
-  &:active::after {
-    right: 13px;
-  }
-
-  // toggle is locked for non-repo cards
-  &.no-touching {
-    opacity: .6;
-  }
-}
-
-.label-text {
-  left: 30px;
-  position: relative;
-  top: -2px;
 }
 
 .containers-count {

@@ -186,18 +186,6 @@ ul.card-body.load(
       )
 
 .card-footer
-  input.input-toggle(
-    id = "toggle-{{ (server.instance.getRepoName() || server.instance.attrs.name) }}"
-    ng-click = "changeAdvancedFlag()"
-    ng-model = "state.advanced"
-    type = "checkbox"
-  )
-  label.label-toggle(
-    for = "toggle-{{ (server.instance.getRepoName() || server.instance.attrs.name) }}"
-    tooltip = "Enable direct access to your container files."
-    tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"top\":15}"
-  )
-    span.label-text Advanced
   .containers-count(
     title = "15 branch containers"
   ) 15
