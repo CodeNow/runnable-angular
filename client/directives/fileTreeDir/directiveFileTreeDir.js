@@ -114,7 +114,7 @@ function fileTreeDir(
         var modelId = dataTransfer.getData('modelId');
         var modelName = dataTransfer.getData('modelName');
 
-        var oldPath = dataTransfer.getData('oldPath') + '/';
+        var oldPath = dataTransfer.getData('oldPath');
         var thisPath = toDir.id();
         if (oldPath === thisPath || (modelType === 'Dir' &&
             thisPath.indexOf(modelName + '/') >= 0)) {
@@ -122,12 +122,13 @@ function fileTreeDir(
         }
 
         var newModel = $scope.fileModel['new' + modelType](modelId, { warn: false });
-        var droppedFileOrigDir =
-            $scope.fileModel.newDir(oldPath, { warn: false, noStore: true });
+        var fromDir = $scope.fileModel.rootDir.contents.models.find(function (item) {
+          return item.attrs.name == oldPath;
+        });
 
         promisify(newModel, 'moveToDir')(toDir).then(function () {
           return $q.all([
-            promisify(droppedFileOrigDir.contents, 'fetch')(),
+            promisify(fromDir.contents, 'fetch')(),
             promisify(toDir.contents, 'fetch')()
           ]);
         });
