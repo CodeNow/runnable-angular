@@ -46,7 +46,6 @@ describe('environmentController'.bold.underline.blue, function () {
     };
     ctx.favicoMock = {
       reset : sinon.spy(),
-      setImage: sinon.spy(),
       setInstanceState: sinon.spy()
     };
     ctx.pageNameMock = {
