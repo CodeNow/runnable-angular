@@ -91,6 +91,7 @@
   flex: 0 0 auto;
   height: 72px;
   line-height: 72px;
+  padding-left: 9px;
   position: relative;
 
   // offset for vertical-align: middle
@@ -102,15 +103,5 @@
   .btn[disabled],
   .btn.disabled {
     margin: 0;
-  }
-
-  .btn-icon-sm {
-    min-width: 36px;
-
-    .icons-arrow-down {
-      float: none;
-      margin: 0 auto;
-      transition: transform .15s ease-in;
-    }
   }
 }

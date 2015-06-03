@@ -131,6 +131,11 @@
   }
 
   &.btn-icon-sm {
+    min-width: 36px;
+    width: auto;
+  }
+
+  &.btn-icon-xs {
     min-width: 24px;
     width: auto;
   }
