@@ -46,6 +46,7 @@ function ControllerApp(
   $rootScope.featureFlags = {
     findAndReplace: configEnvironment === 'development',
     saveToolbar: configEnvironment === 'development'
+    advancedRepositories: configEnvironment === 'development'
   };
 
   dataApp.data.configAPIHost = configAPIHost;
