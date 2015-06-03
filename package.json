@@ -83,7 +83,7 @@
     "primus": "^2.3.0",
     "qs": "^2.2.4",
     "regexp-quote": "0.0.0",
-    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#1fd15fb147637f51e6026c7696f9daf7bceef476",
+    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#9e6cc6a843885f9c2a7e500e20323dea53cbdb15",
     "term.js": "git://github.com/Runnable/term.js.git#f0376add1c2e79a556834d724022ceb585b5eade",
     "through": "^2.3.6",
     "validate-dockerfile": "1.5.x",
