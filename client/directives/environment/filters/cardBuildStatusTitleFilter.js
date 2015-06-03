@@ -7,11 +7,10 @@ require('app')
  */
 function cardBuildStatusTitle(
   keypather,
-  moment,
-  instanceStatus
+  moment
 ) {
   return function (instance) {
-    var status = instanceStatus(instance);
+    var status = instance.status();
     var statusMap = {
       'stopped': 'Stopped',
       'crashed': 'Crashed',

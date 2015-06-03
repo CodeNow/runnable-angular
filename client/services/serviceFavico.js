@@ -3,8 +3,7 @@
 require('app')
   .factory('favico', function (
     favicojs,
-    $timeout,
-    instanceStatus
+    $timeout
   ) {
     var favico = favicojs({
       animation: 'none'
@@ -28,7 +27,7 @@ require('app')
     };
     var setInstanceState = function (instance) {
       if (instance) {
-        var state = instanceStatus(instance);
+        var state = instance.status();
         if (state !== currentState) {
           var icon = icons[state];
           if (icon) {

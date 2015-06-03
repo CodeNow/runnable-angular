@@ -6,8 +6,7 @@ require('app')
  * @njInject
  */
 function getInstanceClasses(
-  $state,
-  instanceStatus
+  $state
 ) {
   return function (instance) {
     if (!instance) {
@@ -16,13 +15,14 @@ function getInstanceClasses(
     var h = {};
     h.active = (instance.attrs.name === $state.params.instanceName);
 
-    var status = instanceStatus(instance);
+    var status = instance.status();
     var statusMap = {
       'stopped': '',
       'crashed': 'red',
       'running': 'green',
       'buildFailed': 'red',
       'building': 'orange',
+      'neverStarted': 'orange',
       'unknown': 'orange'
     };
     h[statusMap[status]] = true;

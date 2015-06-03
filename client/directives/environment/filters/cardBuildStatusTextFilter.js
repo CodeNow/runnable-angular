@@ -6,10 +6,9 @@ require('app')
  * @ngInject
  */
 function cardBuildStatusText(
-  instanceStatus
 ) {
   return function (instance, includeDash) {
-    var status = instanceStatus(instance);
+    var status = instance.status();
 
     var statusMap = {
       'stopped': 'Stopped',
