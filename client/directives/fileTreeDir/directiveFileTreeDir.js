@@ -109,12 +109,38 @@ function fileTreeDir(
         }
       };
 
+      function findDir (searchDir, dirPath) {
+        var dirs = searchDir.contents.models.filter(function (item) {
+          return item.attrs.isDir;
+        });
+        console.log('find dirs', dirs);
+        var finalDir = dirs.find(function (item) {
+          console.log('seach it', item.id(), dirPath);
+          return item.id() === dirPath;
+        });
+        console.log('final dir', dirPath);
+        if (finalDir) {
+          return finalDir;
+        }
+        var searchDirPath = searchDir.id();
+        var dirPathWithoutParent = dirPath.substr(searchDirPath.length);
+        var nextSearchDirName = dirPathWithoutParent.split('/')[0];
+        var nextSearchDirPath = searchDirPath + nextSearchDirName + '/';
+        var nextSearchDir = dirs.find(function (item) {
+          return item.id() === nextSearchDirPath;
+        });
+        if (nextSearchDir) {
+          return findDir(nextSearchDir, dirPath);
+        }
+        return null;
+      }
+
       $scope.actions.drop = function (dataTransfer, toDir) {
         var modelType = dataTransfer.getData('modelType');
         var modelId = dataTransfer.getData('modelId');
         var modelName = dataTransfer.getData('modelName');
 
-        var oldPath = dataTransfer.getData('oldPath');
+        var oldPath = dataTransfer.getData('oldPath') + '/';
         var thisPath = toDir.id();
         if (oldPath === thisPath || (modelType === 'Dir' &&
             thisPath.indexOf(modelName + '/') >= 0)) {
@@ -122,9 +148,7 @@ function fileTreeDir(
         }
 
         var newModel = $scope.fileModel['new' + modelType](modelId, { warn: false });
-        var fromDir = $scope.fileModel.rootDir.contents.models.find(function (item) {
-          return item.attrs.name == oldPath;
-        });
+        var fromDir = findDir($scope.fileModel.rootDir, oldPath);
 
         promisify(newModel, 'moveToDir')(toDir).then(function () {
           return $q.all([
