@@ -2,14 +2,13 @@
   ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
 )
-  .popover-header
-      strong.strong api Containers
+  .modal-header
+      h1.modal-heading api Containers
   .popover-content
-    .search-wrapper
-      input.input.input-xs.input-search(
-        placeholder = "Filter by branch name"
-        type = "search"
-      )
+    input.input.input-xs.input-search(
+      placeholder = "Filter by branch name"
+      type = "search"
+    )
     ul.popover-list
       li.list-item.popover-list-item.multi-line
         .icons-status.green
