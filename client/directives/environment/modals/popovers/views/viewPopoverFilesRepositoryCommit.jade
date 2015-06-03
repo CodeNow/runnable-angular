@@ -15,9 +15,9 @@
   label.label.label-jump
     small.small Branch
     select.select(
-      ng-model = "data.branch"
-      ng-options="branch as branch.attrs.name for branch in data.repo.branches.models"
       ng-change = "actions.selectBranch(data.branch)"
+      ng-model = "data.branch"
+      ng-options = "branch as branch.attrs.name for branch in data.repo.branches.models"
     )
       option(
         disabled
