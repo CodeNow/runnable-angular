@@ -113,12 +113,9 @@ function fileTreeDir(
         var dirs = searchDir.contents.models.filter(function (item) {
           return item.attrs.isDir;
         });
-        console.log('find dirs', dirs);
         var finalDir = dirs.find(function (item) {
-          console.log('seach it', item.id(), dirPath);
           return item.id() === dirPath;
         });
-        console.log('final dir', dirPath);
         if (finalDir) {
           return finalDir;
         }
@@ -150,11 +147,14 @@ function fileTreeDir(
         var newModel = $scope.fileModel['new' + modelType](modelId, { warn: false });
         var fromDir = findDir($scope.fileModel.rootDir, oldPath);
 
+        var fetches = [
+          promisify(toDir.contents, 'fetch')()
+        ];
+        if (fromDir) {
+          fetches.push(promisify(fromDir.contents, 'fetch')());
+        }
         promisify(newModel, 'moveToDir')(toDir).then(function () {
-          return $q.all([
-            promisify(fromDir.contents, 'fetch')(),
-            promisify(toDir.contents, 'fetch')()
-          ]);
+          return $q.all(fetches);
         });
       };
 
