@@ -25,8 +25,7 @@ function instanceStatus(keypather) {
         if (keypather.get(container, 'attrs.inspect.State.ExitCode') === -1) {
           return 'stopped';
         }
-        if (keypather.get(container, 'attrs.inspect.State.ExitCode') === 0 &&
-            new Date(keypather.get(container, 'attrs.inspect.State.StartedAt')).valueOf() === jesusBirthday) {
+        if (new Date(keypather.get(container, 'attrs.inspect.State.StartedAt')).valueOf() === jesusBirthday) {
           // container has been deployed but not yet started
           return 'building';
         }
