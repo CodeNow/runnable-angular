@@ -1,20 +1,12 @@
 'use strict';
 
 require('app')
-  .factory('parseDockerfileForStack', parseDockerfileForStack);
-
-
-require('app')
+  .factory('parseDockerfileForStack', parseDockerfileForStack)
+  .factory('parseDockerfileForCardInfoFromInstance', parseDockerfileForCardInfoFromInstance)
+  .factory('cardInfoTypes', getCardInfoTypes)
   .factory('parseDockerfileForDefaults', function () {
     return parseDockerfileForDefaults;
   });
-
-
-require('app')
-  .factory('parseDockerfileForCardInfoFromInstance', parseDockerfileForCardInfoFromInstance);
-
-require('app')
-  .factory('cardInfoTypes', getCardInfoTypes);
 
 function parseDockerfileForStack(
   $log,
