@@ -75,12 +75,6 @@ function repositorySelector(
             })
             .catch(errs.handler);
         },
-        toggleSelectLatestCommit: function () {
-          if ($scope.repoSelector.data.latestCommit) {
-            $scope.repoSelector.data.commit = $scope.repoSelector.data.branch.commits.models[0];
-            $scope.state.view = 2;
-          }
-        },
         selectBranch: function (branch) {
           $scope.repoSelector.data.latestCommit = false;
           $scope.repoSelector.data.branch = branch;

@@ -29,17 +29,6 @@
     ng-include = "'spinner'"
   )
 
-  //- when toggled, all other .active commits removed
-  label.label-checkbox.small.clearfix(
-    ng-if = "false"
-  )
-    input.input-checkbox(
-      type = "checkbox"
-      ng-model = "repoSelector.data.latestCommit"
-      ng-click = "repoSelector.actions.toggleSelectLatestCommit()"
-    )
-    | Update to latest commit on new builds
-
   ul.list.list-servers(
     ng-if = "!repoSelector.data.latestCommit"
   )
