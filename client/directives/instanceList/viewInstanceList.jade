@@ -20,8 +20,6 @@ ul.server-category-list(
     .server-list
       .server-list-item(
         ui-sref-active = "selected"
-        ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
-          instanceName: masterInstance.attrs.name })"
       )
         status-icon(
           instance = "masterInstance"
@@ -39,6 +37,8 @@ ul.server-category-list(
         .server-name.text-overflow(
           ng-if = "masterInstance.getRepoName()"
           title = "{{ masterInstance.getRepoName() }}/{{ masterInstance.getBranchName() }}"
+          ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
+          instanceName: masterInstance.attrs.name })"
         )
           strong.strong {{ masterInstance.getRepoName() }}
           | /{{ masterInstance.getBranchName() }}
@@ -46,17 +46,19 @@ ul.server-category-list(
         .server-name.text-overflow(
           ng-if = "!masterInstance.getRepoName()"
           title = "{{ masterInstance.attrs.name }}"
+          ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
+          instanceName: masterInstance.attrs.name })"
         )
           strong.strong {{ masterInstance.attrs.name }}
 
       .server-list-item(
         ng-repeat = "branchFork in masterInstance.children.models | orderBy:'attrs.name'"
         ui-sref-active = "selected"
-        ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
-          instanceName: branchFork.attrs.name })"
       )
-        .text-overflow(
+        .server-name.text-overflow(
           title = "{{ branchFork.getDisplayName() }}"
+          ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
+          instanceName: branchFork.attrs.name })"
         ) {{ branchFork.getDisplayName() }}
         status-icon(
           instance = "branchFork"

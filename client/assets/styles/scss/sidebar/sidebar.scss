@@ -111,10 +111,6 @@
   }
 }
 
-.hide-button {
-  visibility: hidden;
-}
-
 .server-list-item {
   cursor: pointer;
   display: block;
@@ -168,6 +164,14 @@
     .iconnables {
       right: 3px;
       width: 15px;
+    }
+  }
+
+  .hide-button {
+    visibility: hidden;
+
+    .iconnables {
+      width: 17px;
     }
   }
 }
