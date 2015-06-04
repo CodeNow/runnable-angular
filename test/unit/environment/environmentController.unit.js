@@ -11,6 +11,7 @@ var fetchUserMock = new (require('../fixtures/mockFetch'))();
 var fetchStackInfoMock = new (require('../fixtures/mockFetch'))();
 var fetchContextsMock = new (require('../fixtures/mockFetch'))();
 var fetchInstancesMock = new (require('../fixtures/mockFetch'))();
+var fetchInstancesByPodMock = new (require('../fixtures/mockFetch'))();
 var createNewInstanceMock = new (require('../fixtures/mockFetch'))();
 
 var stacks = angular.copy(apiMocks.stackInfo);
@@ -18,6 +19,14 @@ var thisUser = runnable.newUser(apiMocks.user);
 
 describe('environmentController'.bold.underline.blue, function () {
   var ctx = {};
+
+  function createMasterPods() {
+    ctx.masterPods = runnable.newInstances(
+      [apiMocks.instances.building, apiMocks.instances.runningWithContainers],
+      {noStore: true}
+    );
+    ctx.masterPods.githubUsername = thisUser.oauthName();
+  }
   function setup() {
     ctx = {};
     ctx.$log = {
@@ -37,7 +46,6 @@ describe('environmentController'.bold.underline.blue, function () {
     };
     ctx.favicoMock = {
       reset : sinon.spy(),
-      setImage: sinon.spy(),
       setInstanceState: sinon.spy()
     };
     ctx.pageNameMock = {
@@ -52,6 +60,7 @@ describe('environmentController'.bold.underline.blue, function () {
       $provide.value('user', thisUser);
       $provide.factory('fetchStackInfo', fetchStackInfoMock.fetch());
       $provide.factory('fetchInstances', fetchInstancesMock.fetch());
+      $provide.factory('fetchInstancesByPod', fetchInstancesByPodMock.fetch());
       $provide.factory('fetchContexts', fetchContextsMock.fetch());
       $provide.factory('createNewInstance', createNewInstanceMock.fetch());
       $provide.value('$log', ctx.$log);
@@ -73,9 +82,12 @@ describe('environmentController'.bold.underline.blue, function () {
     });
 
     var ca = $controller('EnvironmentController', {
-      '$scope': $scope
+      '$scope': $scope,
+      '$rootScope': $rootScope
     });
+    createMasterPods();
   }
+
 
   describe('basics', function () {
     it('should attempt all of the required fetches, plus add its actions to the scope', function () {
@@ -83,15 +95,14 @@ describe('environmentController'.bold.underline.blue, function () {
       setup();
       $rootScope.$digest();
       expect($scope).to.have.property('data');
-      expect($scope.data).to.have.property('instances');
+      // this isn't loaded until stacks
+      expect($scope.data).to.not.have.property('instances');
       expect($scope).to.have.property('state');
       expect($scope.state).to.have.property('validation');
       expect($scope.state.validation).to.have.property('env');
       expect($scope).to.have.property('actions');
       expect($scope.actions.deleteServer, 'deleteServer').to.be.ok;
       expect($scope.actions.createAndBuild, 'createAndBuild').to.be.ok;
-
-      expect($scope.data.loadingNewServers, 'loadingNewServers').to.be.true;
 
       expect($scope.data.allDependencies, 'allDependencies').to.not.be.ok;
       var templateInstances = runnable.newInstances(
@@ -101,23 +112,19 @@ describe('environmentController'.bold.underline.blue, function () {
       templateInstances.githubUsername = 'HelloRunnable';
       fetchInstancesMock.triggerPromise(templateInstances);
       fetchStackInfoMock.triggerPromise(stacks);
-      var masterPods = runnable.newInstances(
-        [apiMocks.instances.building, apiMocks.instances.runningWithContainers],
-        {noStore: true}
-      );
-      masterPods.githubUsername = thisUser.oauthName();
-      fetchInstancesMock.triggerPromise(templateInstances);
+      fetchInstancesByPodMock.triggerPromise(ctx.masterPods);
       var sourceContexts = [{
         attrs: 'awesome'
       }];
+
       sinon.assert.calledWith(ctx.pageNameMock.setTitle, 'Configure - Runnable');
       sinon.assert.calledOnce(ctx.favicoMock.reset);
 
       fetchContextsMock.triggerPromise(sourceContexts);
       $rootScope.$digest();
       expect($scope.data.allDependencies, 'allDependencies').to.equal(templateInstances);
-      expect($scope.data.instances, 'masterPods').to.equal(templateInstances);
-      expect($scope.data.loadingNewServers, 'loadingNewServers').to.be.false;
+      // this should now be loaded
+      expect($scope.data.instances, 'masterPods').to.equal(ctx.masterPods);
       expect($scope.data.stacks, 'stacks').to.equal(stacks);
       expect($scope.data.sourceContexts).to.equal(sourceContexts);
     });
@@ -223,7 +230,6 @@ describe('environmentController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(ctx.eventTracking.triggeredBuild);
       sinon.assert.calledWith(ctx.errs.handler, error);
       sinon.assert.calledOnce($scope.data.instances.add);
-      sinon.assert.calledOnce(closeModalSpy);
       sinon.assert.calledOnce(closeModalSpy);
 
       sinon.assert.calledOnce(instance.dealloc);

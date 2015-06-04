@@ -1,21 +1,18 @@
-.popover.popover-fixed.popover-files(
+.popover.right.popover-files(
   ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
+  style = "transform-origin: 0 50%;"
 )
+  .arrow.white
+
   .popover-views(
-    ng-class = "{\
-      'view-2': data.state.view === 2,\
-      'view-3': data.state.view === 3\
-    }"
+    ng-class = "{'view-2': state.view2}"
+    ng-init = "state.view2 = null"
   )
     //- choose repository
+    //- footer and "done" button should not exist for this popover
     .popover-view(
       ng-include = "'viewPopoverFilesRepositorySelect'"
-    )
-
-    //- repository options
-    .popover-view(
-      ng-include = "'viewPopoverFilesRepositoryOptions'"
     )
 
     //- commits/branch

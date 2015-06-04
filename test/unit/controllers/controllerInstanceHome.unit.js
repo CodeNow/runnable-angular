@@ -75,7 +75,6 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       $provide.factory('fetchInstancesByPod', mockFetch.fetch());
       $provide.value('favico', {
         reset : sinon.spy(),
-        setImage: sinon.spy(),
         setInstanceState: sinon.spy()
       });
       $provide.value('$stateParams', ctx.stateParams);
