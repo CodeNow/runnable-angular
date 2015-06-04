@@ -10,7 +10,7 @@
   //- If it builds successfully, it changes to "Validating Container CMD"
   //- If it runs for 5 seconds, then it changes to "Template Validated"
   
-  //- .loading-bar
+  .card-status-building
   
   //- This element displays the card failed to build and/or run for 5 seconds.
   //- If it failed to build:
@@ -18,8 +18,8 @@
   //- If it failed to run:
   //- Text says "Container CMD Failed", and "View Logs" links to CMD logs
   
-  .card-failed Build Failed.
-    strong.strong  View Logs
+  //- .card-status-failed Build Failed.
+  //-   strong.strong  View Logs
 
 ul.card-body.card-loading(
   ng-if = "showSpinner()"
