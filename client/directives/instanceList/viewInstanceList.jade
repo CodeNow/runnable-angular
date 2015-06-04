@@ -27,7 +27,7 @@ ul.server-category-list(
           xlink:href = "#icons-advanced"
         )
     .server-list
-      a.server-list-item(
+      .server-list-item(
         ui-sref-active = "selected"
         ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
           instanceName: masterInstance.attrs.name })"
@@ -35,19 +35,19 @@ ul.server-category-list(
         status-icon(
           instance = "masterInstance"
         )
-        .server-category-name.text-overflow(
+        .server-name.text-overflow(
           ng-if = "masterInstance.getRepoName()"
           title = "{{ masterInstance.getRepoName() }}/{{ masterInstance.getBranchName() }}"
         )
-          span.strong {{ masterInstance.getRepoName() }}
+          strong.strong {{ masterInstance.getRepoName() }}
           | /{{ masterInstance.getBranchName() }}
 
-        .server-category-name.strong.text-overflow(
+        .server-name.strong.text-overflow(
           ng-if = "!masterInstance.getRepoName()"
           title = "{{ masterInstance.attrs.name }}"
         ) {{ masterInstance.attrs.name }}
 
-      a.server-list-item(
+      .server-list-item(
         ng-repeat = "branchFork in masterInstance.children.models | orderBy:'attrs.name'"
         ui-sref-active = "selected"
         ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
@@ -59,20 +59,29 @@ ul.server-category-list(
         status-icon(
           instance = "branchFork"
         )
-      //- fake content, for testing only
-      .server-list-item-wrapper
-        a.server-list-item
-          .text-overflow my-branch
-          status-icon.green
+      //--fake content, for testing only--//
+      .server-list-item
+        .text-overflow.server-name my-branch
+        status-icon.green
         button.btn.btn-xs.btn-icon.hide-button(
-        title = "hide"
-      )
+          title = "hide"
+        )
           svg.iconnables
             use(
               xlink:href = "#icons-close"
             )
-      //-
-      a.more-containers(
+      .server-list-item
+        .text-overflow.server-name my-branch
+        status-icon.green
+        button.btn.btn-xs.btn-icon.hide-button(
+          title = "hide"
+        )
+          svg.iconnables
+            use(
+              xlink:href = "#icons-close"
+            )
+      //----------------------------------//
+      .more-containers(
         pop-over
         pop-over-options = "{\"top\":-30,\"left\":120}"
         pop-over-template = "viewMoreContainersPopover"
