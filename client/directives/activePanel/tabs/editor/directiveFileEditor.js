@@ -116,7 +116,7 @@ function fileEditor(
                     });
                     session.setAnnotations(annotations);
                     if ($scope.state) {
-                      $scope.state.invalidDockerfile = validation.errors.find(hasKeypaths({
+                      $scope.state.invalidDockerfile = validation.errors.some(hasKeypaths({
                         priority: 0
                       }));
                     }
