@@ -119,12 +119,12 @@
 
   // states
   &:hover {
-    background: rgba($purple-light,.1);
+    background: rgba($purple-lightest,.45);
   }
 
   &:active,
   &.active {
-    background: rgba($purple-light,.15);
+    background: rgba($purple-lightest,.6);
     color: $purple-light;
 
     .iconnables,
