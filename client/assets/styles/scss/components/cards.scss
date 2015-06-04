@@ -163,7 +163,7 @@
 }
 
 .card:first-child .card-status-building {
-  animation: building 2.25s cubic-bezier(.165, .84, .44, 1) infinite;
+  animation: building 1.75s ease-in-out infinite;
   background-color: $gray-lighter;
   height: 3px;
   left: 0%;
@@ -178,7 +178,7 @@
     right: 100%;
   }
 
-  60%, 100% {
+  90%, 100% {
     left: 120%;
     right: -25%;
   }
