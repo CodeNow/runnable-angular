@@ -59,12 +59,21 @@ ul.server-category-list(
         status-icon(
           instance = "branchFork"
         )
+        button.btn.btn-xs.btn-icon.hide-button(
+          title = "hide"
+          ng-if = "$root.featureFlags.navListFilter"
+        )
+          svg.iconnables
+            use(
+              xlink:href = "#icons-close"
+            )
       //--fake content, for testing only--//
       .server-list-item
         .text-overflow.server-name my-branch
         status-icon.green
         button.btn.btn-xs.btn-icon.hide-button(
           title = "hide"
+          ng-if = "$root.featureFlags.navListFilter"
         )
           svg.iconnables
             use(
@@ -75,6 +84,7 @@ ul.server-category-list(
         status-icon.green
         button.btn.btn-xs.btn-icon.hide-button(
           title = "hide"
+          ng-if = "$root.featureFlags.navListFilter"
         )
           svg.iconnables
             use(
@@ -85,6 +95,6 @@ ul.server-category-list(
         pop-over
         pop-over-options = "{\"top\":-30,\"left\":120}"
         pop-over-template = "viewMoreContainersPopover"
-      )
-        | 8 
+        ng-if = "$root.featureFlags.navListFilter"
+      ) 8 
         span.small more…

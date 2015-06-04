@@ -100,6 +100,7 @@
   > .btn {
     height: 30px;
     opacity: .5;
+    overflow: hidden;
     position: absolute;
     right: -12px;
     width: 30px;
@@ -122,13 +123,14 @@
 }
 
 .hide-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 30px;
+  color: $gray;
   height: 30px;
   opacity: 0;
-  color: $gray;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 30px;
 
   &:hover {
     opacity: 1;
@@ -139,15 +141,15 @@
   }
 
   .iconnables {
-    width: 15px;
     right: 3px;
+    width: 15px;
   }
 }
 
 .server-name {
-  width: calc(100% - 30px);
-  padding-left: 27px;
   height: 100%;
+  padding-left: 27px;
+  width: calc(100% - 30px);
 
   &:active {
     color: $purple-light;
@@ -164,7 +166,6 @@
   height: 30px;
   line-height: 29px; // height -1 because of Helvetica baseline weirdness
   margin: 0 -12px;
-  // padding: 0 0 0 27px;
   position: relative;
 
   &:hover {
@@ -189,10 +190,6 @@
     margin-bottom: 6px;
   }
 }
-
-// .server-category-name {
-//   padding-right: 21px;
-// }
 
 .sidebar-section {
   border-bottom: 1px solid $gray-lighter;
