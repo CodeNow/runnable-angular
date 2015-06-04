@@ -24,11 +24,17 @@
     // second action
     + .btn {
       float: right;
-      font-size: 14px;
     }
 
     .iconnables {
       width: 14px;
+    }
+
+    .icons-sidebar {
+      float: left;
+      height: 100%;
+      margin-right: 6px;
+      width: 15px;
     }
   }
 
@@ -89,16 +95,5 @@
     position: absolute;
     right: 6px;
     top: 0;
-  }
-}
-
-// unique button action happening
-.btn-sidebar {
-  color: $gray;
-
-  &:hover,
-  &:active,
-  &.active {
-    color: $purple-light;
   }
 }

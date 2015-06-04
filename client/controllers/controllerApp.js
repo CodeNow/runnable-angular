@@ -45,7 +45,11 @@ function ControllerApp(
   dataApp.data.configEnvironment = configEnvironment;
   $rootScope.featureFlags = {
     findAndReplace: configEnvironment === 'development',
-    navListFilter: configEnvironment === 'development'
+    navListFilter: configEnvironment === 'development',
+    advancedRepositories: configEnvironment === 'development',
+    findAndReplace: configEnvironment === 'development',
+    hostnameTool: configEnvironment === 'development',
+    saveToolbar: configEnvironment === 'development'
   };
 
   dataApp.data.configAPIHost = configAPIHost;

@@ -207,6 +207,15 @@
   }
 }
 
+// header
+.popover-header {
+  background: $gray-lighterest;
+  border-bottom: 1px solid $gray-lighter;
+  display: flex;
+  height: 54px;
+  padding: 9px 15px;
+}
+
 // flex for multiple buttons
 .popover-content-header {
   display: flex;

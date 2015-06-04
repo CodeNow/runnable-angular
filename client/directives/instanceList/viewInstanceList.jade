@@ -42,10 +42,11 @@ ul.server-category-list(
           strong.strong {{ masterInstance.getRepoName() }}
           | /{{ masterInstance.getBranchName() }}
 
-        .server-name.strong.text-overflow(
+        .server-name.text-overflow(
           ng-if = "!masterInstance.getRepoName()"
           title = "{{ masterInstance.attrs.name }}"
-        ) {{ masterInstance.attrs.name }}
+        )
+          strong.strong {{ masterInstance.attrs.name }}
 
       .server-list-item(
         ng-repeat = "branchFork in masterInstance.children.models | orderBy:'attrs.name'"
