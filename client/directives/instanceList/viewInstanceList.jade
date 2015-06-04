@@ -59,6 +59,19 @@ ul.server-category-list(
         status-icon(
           instance = "branchFork"
         )
+      //- fake content, for testing only
+      .server-list-item-wrapper
+        a.server-list-item
+          .text-overflow my-branch
+          status-icon.green
+        button.btn.btn-xs.btn-icon.hide-button(
+        title = "hide"
+      )
+          svg.iconnables
+            use(
+              xlink:href = "#icons-close"
+            )
+      //-
       a.more-containers(
         pop-over
         pop-over-options = "{\"top\":-30,\"left\":120}"

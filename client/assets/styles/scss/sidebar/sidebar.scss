@@ -121,17 +121,45 @@
   }
 }
 
+.server-list-item-wrapper {
+  height: 30px;
+  margin: 0 -12px;
+  position: relative;
+}
+
+.hide-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  opacity: 0;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  .iconnables {
+    width: 17px;
+    right: 3px;
+  }
+}
+
 .server-list-item {
   cursor: pointer;
   display: block;
   height: 30px;
   line-height: 29px; // height -1 because of Helvetica baseline weirdness
-  margin: 0 -12px;
+  // margin: 0 -12px;
   padding: 0 12px 0 27px;
   position: relative;
 
   &:hover {
     background: rgba($gray-light,.1);
+
+    & + .hide-button {
+      opacity: 1;
+    }
   }
 
   &:active {
