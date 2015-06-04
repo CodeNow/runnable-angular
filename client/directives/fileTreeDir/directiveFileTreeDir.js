@@ -260,12 +260,11 @@ function fileTreeDir(
       };
 
       $scope.popoverFilesRepositoryCommitToggle = {
+        data: {},
         actions: {
-        },
-        data: {
-          fromServer: false,
-          state: {
-            view: 1
+          create: function (repo) {
+            console.log('Create repo', repo);
+            return $q.when();
           }
         }
       };

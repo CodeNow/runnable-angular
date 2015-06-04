@@ -24,7 +24,8 @@ function editServerModal(
   uploadFile,
   configAPIHost,
   cardInfoTypes,
-  $timeout
+  $timeout,
+  loading
 ) {
   return {
     restrict: 'A',
@@ -37,6 +38,7 @@ function editServerModal(
       selectedTab: '= stateModel'
     },
     link: function ($scope, elem, attrs) {
+      $scope.isLoading = $rootScope.isLoading;
       if (helpCards.cardIsActiveOnThisContainer($scope.server.instance)) {
         $scope.helpCards = helpCards;
         $scope.activeCard = helpCards.getActiveCard();
@@ -61,14 +63,14 @@ function editServerModal(
         if (repo.type === 'Main Repository') { return; }
         $scope.repositoryPopover.data = {
           repo: repo.clone(),
-          containerFiles: $scope.state.containerFiles
+          appCodeVersions: $scope.state.contextVersion.appCodeVersions.models
         };
         $scope.repositoryPopover.active = true;
       };
 
       $scope.triggerAddRepository = function () {
         $scope.repositoryPopover.data = {
-          containerFiles: $scope.state.containerFiles
+          appCodeVersions: $scope.state.contextVersion.appCodeVersions.models
         };
         $scope.repositoryPopover.active = true;
       };
@@ -233,6 +235,7 @@ function editServerModal(
       $scope.build = $scope.server.build;
 
       function resetState(server) {
+        loading('editServerModal', true);
         $scope.state = {
           advanced: server.advanced || false,
           startCommand: server.startCommand,
@@ -292,6 +295,7 @@ function editServerModal(
           })
           .then(function (build) {
             $scope.state.build = build;
+            loading('editServerModal', false);
           })
           .catch(function (err) {
             errs.handler(err);

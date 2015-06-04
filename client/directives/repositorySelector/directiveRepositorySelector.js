@@ -10,7 +10,7 @@ require('app')
  * Those actions must return a promise that gets resolved when the action is finished.
  *
  * There also needs to be a data attribute containing at minimum:
- * containerFiles (This is used to filter out the repo list)
+ * appCodeVersions (This is used to filter out the repo list)
  * repo (Optional, this is if you want to edit an existing repo)
  */
 function repositorySelector(
