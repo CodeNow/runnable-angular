@@ -1,6 +1,7 @@
 .popover-header
   button.btn.btn-sm.white.pull-left(
-    ng-click = "data.state.view = 2"
+    ng-click = "state.view = 2"
+    ng-disabled = "state.saving"
   )
     svg.iconnables.icons-arrow-backward
       use(
@@ -15,16 +16,16 @@
   label.label.label-jump
     small.small Branch
     select.select(
-      ng-change = "actions.selectBranch(data.branch)"
-      ng-model = "data.branch"
-      ng-options = "branch as branch.attrs.name for branch in data.repo.branches.models"
+      ng-change = "repoSelector.actions.selectBranch(repoSelector.data.branch)"
+      ng-model = "repoSelector.data.branch"
+      ng-options = "branch as branch.attrs.name for branch in repoSelector.data.repo.branches.models"
     )
       option(
         disabled
       ) Choose a branch
 
   .spinner-wrapper.spinner-md.in(
-    ng-if = "!data.branch.commits.models.length"
+    ng-if = "!repoSelector.data.branch.commits.models.length"
     ng-include = "'spinner'"
   )
 
@@ -34,18 +35,18 @@
   )
     input.input-checkbox(
       type = "checkbox"
-      ng-model = "data.latestCommit"
-      ng-click = "actions.toggleSelectLatestCommit()"
+      ng-model = "repoSelector.data.latestCommit"
+      ng-click = "repoSelector.actions.toggleSelectLatestCommit()"
     )
     | Update to latest commit on new builds
 
   ul.list.list-servers(
-    ng-if = "!data.latestCommit"
+    ng-if = "!repoSelector.data.latestCommit"
   )
     li.list-item.text-overflow(
-      ng-repeat = "commit in data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
-      ng-click = "actions.selectCommit(commit)"
-      ng-class = "{active: data.commit === commit}"
+      ng-repeat = "commit in repoSelector.data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
+      ng-click = "repoSelector.actions.selectCommit(commit)"
+      ng-class = "{active: repoSelector.data.commit === commit}"
     ) {{commit.attrs.commit.message}}
       .toggle-group-detail.clearfix
         small.small {{commit.attrs.commit.committer.name}} authored {{commit.attrs.commit.committer.date | timeFrom}}

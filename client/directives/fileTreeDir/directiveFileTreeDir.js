@@ -261,10 +261,12 @@ function fileTreeDir(
 
       $scope.popoverFilesRepositoryCommitToggle = {
         actions: {
-
         },
         data: {
-
+          fromServer: false,
+          state: {
+            view: 1
+          }
         }
       };
 
