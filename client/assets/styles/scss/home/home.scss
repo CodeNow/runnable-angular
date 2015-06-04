@@ -7,12 +7,24 @@
 .home-header {
   background: transparent;
 
+  .logo {
+    margin-left: 0;
+
+    @include media(sm) {
+      width: 150px;
+    }
+  }
+
   // vertically center
   .btn {
     border: 0;
     color: $white;
     line-height: 36px;
     margin: 6px;
+
+    @include media(sm) {
+      font-size: 14px;
+    }
 
     &:hover,
     &:active {
@@ -25,6 +37,10 @@
 // hero
 .home-hero {
   padding-top: 120px;
+
+  @include media(sm) {
+    padding-top: 90px;
+  }
 
   .h1,
   .p,
@@ -40,8 +56,36 @@
     margin-bottom: 15px;
     width: 810px;
 
+    @include media(md) {
+      font-size: 36px;
+      width: 686px;
+    }
+
+    @include media(sm) {
+      font-size: 30px;
+      width: 572px;
+    }
+
+    @include media(xs) {
+      width: 380px;
+    }
+
     ~ .p {
       width: 701px;
+
+      @include media(md) {
+        font-size: 16px;
+        width: 626px;
+      }
+
+      @include media(sm) {
+        font-size: 15px;
+        width: 585px;
+      }
+
+      @include media(xs) {
+        width: 382px;
+      }
     }
   }
 
@@ -74,6 +118,10 @@
     .input {
       margin-right: 6px;
       width: 300px;
+
+      @include media(xs) {
+        width: 210px;
+      }
     }
 
     .p {
@@ -85,6 +133,10 @@
   .form-container {
     margin: 0 auto;
     width: 446px;
+
+    @include media(xs) {
+      width: 356px;
+    }
   }
 
   // modal
