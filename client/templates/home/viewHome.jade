@@ -1,35 +1,82 @@
-//- header
-header.header.home-header
-  .container
-    a.logo-anchor
-      img.logo.float-left(
-        height = "45"
-        src = "/build/images/runnable-logo.svg"
-        width = "240"
-      )
-      sup.sup &lt;beta&gt;
-    nav.home-nav
-      a.link(
+.home(
+  ng-init = "data.embedActive = null"
+)
+  //- header
+  header.header.home-header
+    .container
+      a.logo-anchor
+        img.logo.float-left(
+          height = "45"
+          src = "/build/images/runnable-logo.svg"
+          width = "240"
+        )
+        sup.sup &lt;beta&gt;
+      a.btn.btn-sm.purple.float-right(
         ng-href = "{{ dataHome.data.hasPass ? dataApp.data.loginURL : 'mailto:support@runnable.com?subject=Please send me an invite for the beta' }}"
       ) {{ dataHome.data.hasPass ? 'Sign In' : 'Request Invite' }}
+      a.btn.btn-sm.float-right(
+        href = "mailto:info@runnable.com"
+      ) Email Us
+      a.btn.btn-sm.float-right(
+        href = "http://support.runnable.io/"
+        target = "_blank"
+      ) Support
 
-footer.home-footer
-  .hr
-    img.hr-image(
-      height = "30"
-      src = "/build/images/runnable-icon.svg"
-      width = "30"
+  section.home-hero
+    h1.h1 Runnable lets you create Sandboxes (collections of one or more servers) to run the code in your GitHub repositories, on-demand.
+    p.p We integrate with the tools you're already using, like GitHub and Slack, to automatically deploy commits and launch containers in your Sandbox when you create branches and notify you when they are updated via Slack. It's easy to share Sandboxes in a team as you develop and test your application—and you can continue to use your existing tools and processes for deployment without having to change the way you work.
+    .embed-wrapper
+      .embed.embed-placeholder(
+        ng-click = "data.embedActive = true"
+      )
+        svg.svg(
+          xmlns = 'http://www.w3.org/2000/svg'
+          viewbox = '0 0 24 24'
+        )
+          path(
+            d = 'M9.7,17.5L9.7,17.5c-0.4,0-0.7-0.3-0.7-0.8l0-9.4C9,7,9.1,6.8,9.2,6.7c0.3-0.3,0.7-0.3,1,0l6.4,4.6c0.3,0.2,0.4,0.5,0.4,0.8c0,0.3-0.1,0.6-0.4,0.7l-6.4,4.5C10.1,17.4,9.9,17.5,9.7,17.5z M10,7.7l0,8.5l6-4.2L10,7.7z'
+          )
+          path(
+            d = 'M12,1c6.1,0,11,4.9,11,11s-4.9,11-11,11S1,18.1,1,12S5.9,1,12,1 M12,0C5.4,0,0,5.4,0,12s5.4,12,12,12s12-5.4,12-12S18.6,0,12,0L12,0z'
+          )
+    //- error modal
+    .modal-backdrop.in(
+      ng-click = "$event.stopPropagation()"
+      ng-if = "data.embedActive"
     )
-  nav.footer-nav
-    a.link(
-      href = "mailto:support@runnable.com"
-    ) Email Us
-    a.link(
-      href = "http://support.runnable.io"
-      target = "_blank"
-    ) Documentation
-    a.link(
-      ng-href = "{{ dataApp.data.loginURL }}"
-      ng-if = "dataHome.data.hasPass"
-    )
-      b Sign In
+      button.btn.btn-sm(
+        ng-click = "data.embedActive = false"
+      )
+        svg.iconnables.icons-close.float-left
+          use(
+            xlink:href = "#icons-close"
+          )
+        | Close
+      .embed.embed-video
+        iframe.iframe(
+          allowfullscreen
+          frameborder = "0"
+          height = "720"
+          src = "https://www.youtube-nocookie.com/embed/_uwPKIH990E?rel=0&amp;showinfo=0;autoplay=1"
+          width = "1280"
+        )
+
+    small.small Check out our demo video, and if you'd like an invite, let us know.
+    form.form
+      .form-container
+        input.input.input-sm(
+          placeholder = "Your email"
+          required
+          type = "email"
+        )
+        button.btn.btn-sm.green Request Invite
+        p.p or #{''}
+          a.link(
+            ng-href = "dataApp.data.loginURL"
+          ) Sign in
+          | , if you've already been invited.
+        small.small Looking for #{''}
+          a.link(
+            href = "//code.runnable.com"
+          ) Runnable CodeSnippets
+          | ?

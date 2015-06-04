@@ -5,6 +5,7 @@ html {
 }
 
 body {
+  background: $purple-dark; // for osx overscroll
   color: $gray-darker;
   font-family: 'Helvetica Neue', 'Segoe UI', sans-serif;
   font-feature-settings: 'kern';

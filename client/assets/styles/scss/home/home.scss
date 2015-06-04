@@ -1,0 +1,175 @@
+// home
+.home {
+  background: linear-gradient($purple-dark, $purple);
+}
+
+// header
+.home-header {
+  background: transparent;
+
+  // vertically center
+  .btn {
+    border: 0;
+    color: $white;
+    line-height: 36px;
+    margin: 6px;
+
+    &:hover,
+    &:active {
+      background: $white;
+      color: $purple-light;
+    }
+  }
+}
+
+// hero
+.home-hero {
+  padding-top: 120px;
+
+  .h1,
+  .p,
+  .small {
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .h1 {
+    color: $white;
+    font-size: 42px;
+    font-weight: 200;
+    margin-bottom: 15px;
+    width: 810px;
+
+    ~ .p {
+      width: 701px;
+    }
+  }
+
+  .p,
+  .small,
+  .link {
+    color: $purple-lighter;
+    font-weight: 300px;
+  }
+
+  .p {
+    font-size: 18px;
+    margin-bottom: 30px;
+  }
+
+  .small {
+    display: block;
+    margin-top: 9px;
+  }
+
+  // request form
+  .form {
+    background: $purple-darker;
+    bottom: 0;
+    box-shadow: 0 2px 3px rgba($black,.1);
+    margin-top: 45px;
+    padding: 15px 0;
+    width: 100%;
+
+    .input {
+      margin-right: 6px;
+      width: 300px;
+    }
+
+    .p {
+      font-size: 15px;
+      margin-top: 9px;
+    }
+  }
+
+  .form-container {
+    margin: 0 auto;
+    width: 446px;
+  }
+
+  // modal
+  .modal-backdrop .btn-sm {
+    align-self: flex-start;
+    color: $purple;
+    line-height: 36px;
+
+    &:hover,
+    &:active {
+      color: $purple-light;
+    }
+  }
+
+  .icons-close {
+    height: 100%;
+  }
+}
+
+// embed
+.embed-wrapper {
+  height: 180px;
+  position: relative;
+}
+
+.embed {
+  background-image: url(/build/images/home/video-bg.png);
+  background-size: 100%;
+  border: 2px solid $white;
+  border-radius: 6px;
+  box-shadow: 0 2px 3px rgba($black,.1), inset 0 0 6px rgba($black,.3);
+  cursor: pointer;
+  display: block;
+  height: 180px;
+  left: 0;
+  margin: 0 auto;
+  position: absolute;
+  right: 0;
+  transition: all .15s ease-in;
+  width: 320px;
+}
+
+.embed-placeholder {
+
+  &:hover {
+    transform: scale3d(1.04,1.04,1);
+
+    .svg {
+      background: rgba($purple-light,.9);
+    }
+  }
+
+  &:active {
+    transform: scale3d(1,1,1);
+
+    .svg {
+      background: $purple-light;
+    }
+  }
+
+  .svg {
+    background: rgba($purple-light,.75);
+    border-radius: 50%;
+    box-shadow: 0 2px 3px rgba($black,.1);
+    display: block;
+    fill: $white;
+    height: 45px;
+    margin: 0 auto;
+    position: relative;
+    top: calc(50% - 23px);
+    width: 45px;
+  }
+}
+
+.embed-video {
+  animation: scale-in-modal .2s ease-in forwards;
+  height: 576px;
+  width: 1024px;
+  z-index: $z-modal;
+
+  .iframe {
+    border-radius: 6px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+}
