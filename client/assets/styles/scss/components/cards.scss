@@ -183,6 +183,10 @@
   }
 }
 
+.card:first-child .card-status-failed {
+  display: none;
+}
+
 .card-status-failed {
   background-color: $orange-lightest;
   border: 1px solid rgba($orange-darker,.25);
