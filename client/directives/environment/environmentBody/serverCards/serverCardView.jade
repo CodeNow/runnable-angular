@@ -1,32 +1,25 @@
-.loading-bar-bg
-  .loading-bar
-
 .card-header
   server-status-card-header(
     ng-attr-no-touching = "{{ showSpinner() }}"
     pop-over-options = "{\"right\":-10,\"top\":30}"
     pop-over-template = "serverOptionsCardPopover"
   )
-  
-  //- This element displays the card failed to build or run for 5 seconds.
-  //- If it failed to build:
-  //- Text says "Build Failed", and "View Logs" links to build logs
-  //- If it failed to run:
-  //- Text says "Container CMD Failed", and "View Logs" links to CMD logs
-  
-  //- .card-status.failed Build Failed.
-  //-   strong.strong  View Logs
 
   //- This element displays while the card is validating.
   //- While building, it says "Validating Build…"
   //- If it builds successfully, it changes to "Validating Container CMD"
   //- If it runs for 5 seconds, then it changes to "Template Validated"
   
-  //- .card-status Validating Build…
-
-  //- .card-status-test.spinner-wrapper.spinner-sm.spinner-gray.in(
-  //-   ng-include = "'spinner'"
-  //- )
+  //- .loading-bar
+  
+  //- This element displays the card failed to build and/or run for 5 seconds.
+  //- If it failed to build:
+  //- Text says "Build Failed", and "View Logs" links to build logs
+  //- If it failed to run:
+  //- Text says "Container CMD Failed", and "View Logs" links to CMD logs
+  
+  .card-failed Build Failed.
+    strong.strong  View Logs
 
 ul.card-body.card-loading(
   ng-if = "showSpinner()"

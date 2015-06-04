@@ -161,16 +161,8 @@
   }
 }
 
-.loading-bar-bg {
-  // height: 3px;
-  position: absolute;
-  width: 100%;
-  background-color: rgba($gray-lighter,.33);
-}
-
 .loading-bar {
   animation: loading 1.75s linear infinite;
-  // background-color: rgba($purple-light,.7);
   background-color: $gray-lighter;
   height: 3px;
   left: 0%;
@@ -185,26 +177,17 @@
     right: 100%;
   }
 
-  // 50% {
-  //   left: 17.5%;
-  //   right: 17.5%;
-  // }
-
   100% {
     left: 100%;
     right: -65%;
   }
 }
 
-.card-status-test {
-  height: 27px;
-  padding-top: 6px;
-}
-
-.card-status {
+.card-failed {
+  background-color: $orange-lightest;
+  border: 1px solid rgba($orange-darker,.25);
   border-radius: 3px;
-  border: 1px solid rgba($white,0);
-  color: $gray;
+  color: rgba($orange-darker,.6);
   display: table;
   flex: 0 0 27px;
   font-size: 14px;
@@ -213,24 +196,15 @@
   margin: 0 auto;
   padding: 0 15px;
 
-  // warning icon for failed state
-  .iconnables {
-    float: left;
-    height: 30px;
-    width: 21px;
-  }
-
-  &.failed {
-    background-color: $orange-lightest;
-    border-color: rgba($orange-darker,.25);
-    color: rgba($orange-darker,.6);
-  }
-
   .strong {
     cursor: pointer;
 
-    &:active {
+    &:hover {
       color: rgba($orange-darker,.7);
+    }    
+
+    &:active {
+      color: rgba($orange-darker,.6);
     }
   }
 }
