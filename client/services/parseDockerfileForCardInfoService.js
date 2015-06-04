@@ -170,9 +170,8 @@ function getCardInfoTypes(
       self.commands = self.commands || '';
       self.path = (self.path || self.name).trim();
       if (self.hasFindReplace) {
-        var scriptPath = '/' + self.path + '/translation_rules.sh';
-        self.commands = 'ADD ./translation_rules.sh ' + scriptPath + '\n' +
-          'sh ' + scriptPath + '\n'.concat(self.commands);
+        self.commands = 'ADD ./translation_rules.sh translation_rules.sh\n' +
+          'bash translation_rules.sh\n'.concat(self.commands);
       }
       var contents = 'ADD ./' + self.name.trim() + ' /' + self.path.trim() + '\n'+
         'WORKDIR /' + self.path + '\n'+
