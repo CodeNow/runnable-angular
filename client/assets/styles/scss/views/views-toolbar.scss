@@ -29,6 +29,11 @@
   display: flex;
   padding: 6px 6px 6px 10px;
 
+  // when there are multiple
+  + .views-toolbar {
+    margin-top: -1px;
+  }
+
   // path/title
   .small {
     color: $purple-lighter;
@@ -39,6 +44,6 @@
 
   // save buttons
   .btn + .btn {
-    margin-right: 6px;
+    margin-left: 6px;
   }
 }

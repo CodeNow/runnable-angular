@@ -26,9 +26,6 @@ require('app')
       currentState = null;
       favico.reset();
     };
-    var setImage = function (image) {
-      favico.image(image);
-    };
     var setInstanceState = function (instance) {
       if (instance) {
         var state = instanceStatus(instance);
@@ -47,7 +44,6 @@ require('app')
 
     return {
       reset : reset,
-      setImage: setImage,
       setInstanceState: setInstanceState
     };
   });

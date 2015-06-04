@@ -122,6 +122,16 @@ module.exports = function(grunt) {
         files: {
           'client/build/js/bundle.js': ['client/main.js']
         }
+      },
+      'deploy-debug': {
+        files: {
+          'client/build/js/bundle-debug.js': ['client/main.js']
+        },
+        options: {
+          browserifyOptions: {
+            debug: true // source maps
+          }
+        }
       }
     },
     jade2js: {
@@ -508,6 +518,7 @@ module.exports = function(grunt) {
     'jade2js',
     'autoBundleDependencies',
     'generateConfigs:production',
-    'browserify:once'
+    'browserify:deploy',
+    'browserify:deploy-debug'
   ]);
 };

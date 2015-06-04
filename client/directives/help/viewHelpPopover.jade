@@ -7,7 +7,7 @@
       li.triggered-help-item.clearfix(
         ng-repeat = "helpItem in data.triggered"
       )
-        button.btn.btn-icon.btn-icon-sm(
+        button.btn.btn-icon.btn-icon-xs(
           ng-click = "actions.ignoreHelp(helpItem)"
         )
           svg.iconnables
@@ -29,6 +29,24 @@
           ng-click = "actions.getHelp(helpItem)"
           ng-bind-html= "helpItem.label"
         )
+        li.general-help-item
+          a.link(
+            target = "_blank"
+            href = "http://www.youtube.com/watch?v=_uwPKIH990E"
+          ) View our Getting Started video
+            svg.iconnables
+              use(
+                xlink:href = "#icons-link-external"
+              )
+        li.general-help-item
+          a.link(
+            target = "_blank"
+            href = "http://support.runnable.io"
+          ) Documentation
+            svg.iconnables
+              use(
+                xlink:href = "#icons-link-external"
+              )
   //- TODO: remove less-help class
   button.btn(
     ng-click = "closePopover()"

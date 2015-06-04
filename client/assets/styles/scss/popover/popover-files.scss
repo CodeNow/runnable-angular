@@ -2,6 +2,7 @@
   background: $white;
   // fix width and height for popover-views
   height: 420px;
+  max-width: none;
   width: 360px;
 
   .popover-view {

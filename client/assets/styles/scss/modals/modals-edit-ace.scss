@@ -68,9 +68,26 @@
       width: 100%;
     }
 
-    > .small:first-child {
+    // checkbox
+    .label-checkbox {
       color: $purple-lighter;
-      padding: 0 12px 3px;
+      padding: 0 12px 6px;
+      white-space: nowrap;
+    }
+
+    .input-checkbox {
+      float: none;
+      height: 13px;
+      margin: 0 6px 0 0;
+    }
+
+    // empty state
+    .empty {
+      color: $purple-lighter;
+      font-weight: 400;
+      line-height: 1.4;
+      margin: 0;
+      padding: 15px;
     }
   }
 

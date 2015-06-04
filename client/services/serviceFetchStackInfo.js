@@ -3,37 +3,32 @@
 require('app')
   .factory('fetchStackInfo', fetchStackInfo);
 
-/**
- * @name fetchStackInfo
- * @alias fetchStackInfo
- * @param $q
- * @param user
- * @returns {Function}
- */
 function fetchStackInfo(
   $q,
-  user
+  $http,
+  configAPIHost
 ) {
+  var stacks;
   return function () {
-    var d = $q.defer();
-    function callback(err, res, body) {
-      if (err) { return d.reject(err); }
-      var stacks = [];
-      Object.keys(body).forEach(function (key) {
-        var stack = body[key];
-        stack.key = key;
-        stack.suggestedVersion = stack.defaultVersion;
-        stacks.push(stack);
-        if (stack.dependencies) {
-          stack.dependencies = stack.dependencies.map(function (dep) {
-            return body[dep];
-          });
-        }
-      });
-      d.resolve(stacks);
-    }
-    user.client.get('/actions/analyze/info', callback);
+    if (stacks) { return $q.when(stacks); }
 
-    return d.promise;
+    return $http.get(configAPIHost + '/actions/analyze/info')
+      .then(function (data) {
+        // we don't care about metadata
+        data = data.data;
+        stacks = [];
+        Object.keys(data).forEach(function (key) {
+          var stack = data[key];
+          stack.key = key;
+          stack.suggestedVersion = stack.defaultVersion;
+          stacks.push(stack);
+          if (stack.dependencies) {
+            stack.dependencies = stack.dependencies.map(function (dep) {
+              return data[dep];
+            });
+          }
+        });
+        return stacks;
+      });
   };
 }

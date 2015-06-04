@@ -1,6 +1,6 @@
 //- spinner
 .card.gray.disabled.load.empty(
-  ng-if = "data.loadingNewServers"
+  ng-if = "!data.instances || $root.isLoading.sidebar"
 )
   .spinner-wrapper.spinner-md.spinner-gray.in(
     ng-include = "'spinner'"
@@ -8,8 +8,12 @@
 
 //- empty state
 .card.gray.disabled.load.empty(
-  ng-if = "!data.loadingNewServers && !data.instances.models.length"
-) Add a new container to get started
+  ng-if = "data.instances && !isLoading.sidebar && !data.instances.models.length"
+) Add a new container to get started. Need help?
+  a.link(
+    href = "https://youtu.be/_uwPKIH990E"
+    target = "_blank"
+  ) View our Getting Started video
 
 //- server card
 .card.gray.disabled.load(

@@ -1,3 +1,4 @@
+//- help things
 .help-container(
   ng-if = "helpCards.getActiveCard().helpPopover.environmentVariables"
 )
@@ -6,10 +7,11 @@
   )
 
 .help-padding(
-  ng-if = "helpCards.getActiveCard().helpPopover.environmentVariables"
   ng-bind-html = "helpCards.getActiveCard().helpPopover.environmentVariables"
+  ng-if = "helpCards.getActiveCard().helpPopover.environmentVariables"
 )
 
+//- begin form
 .clearfix
   .label-col Environment Variables
 
@@ -21,13 +23,22 @@
 )
 
 //- table of current environment variables
-pre.ace-container.ace-environment-variables.ace-runnable-dark(
-  env-vars
-  current-model = "server.opts"
-  state-model = "state.opts"
-  validation = "validation.env"
-)
+.ace-container.ace-environment-variables.ace-runnable-dark
 
+  .ace_editor(
+    current-model = "server.opts"
+    env-vars
+    state-model = "state.opts"
+    validation = "validation.env"
+  )
+
+  .sidebar(
+    ng-class = "{in: data.toggleSidebar}"
+    ng-include = "'viewFormEnvironmentVariablesSidebar'"
+    ng-if = "$root.featureFlags.hostnameTool"
+  )
+
+//- detailed text
 label.label.label-help
   small.small.strong Elastic hostname:
   input.input.input-xxs(

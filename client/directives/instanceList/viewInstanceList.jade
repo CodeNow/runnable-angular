@@ -14,6 +14,9 @@ ul.server-category-list(
 )
   li.server-category-list-item(
     ng-repeat = "masterInstance in data.instancesByPod.models |orderBy: ['attrs.contextVersion.appCodeVersions.length === 0', 'attrs.name'] "
+    ng-class = "{\
+      'no-touching': !masterInstance.opts\
+    }"
   )
     button.btn.btn-xs.btn-icon(
       title = "configure"
@@ -37,13 +40,14 @@ ul.server-category-list(
           ng-if = "masterInstance.getRepoName()"
           title = "{{ masterInstance.getRepoName() }}/{{ masterInstance.getBranchName() }}"
         )
-          span.strong {{ masterInstance.getRepoName() }}
+          strong.strong {{ masterInstance.getRepoName() }}
           | /{{ masterInstance.getBranchName() }}
 
-        .server-category-name.strong.text-overflow(
+        .server-category-name.text-overflow(
           ng-if = "!masterInstance.getRepoName()"
           title = "{{ masterInstance.attrs.name }}"
-        ) {{ masterInstance.attrs.name }}
+        )
+          strong.strong {{ masterInstance.attrs.name }}
 
       a.server-list-item(
         ng-repeat = "branchFork in masterInstance.children.models | orderBy:'attrs.name'"

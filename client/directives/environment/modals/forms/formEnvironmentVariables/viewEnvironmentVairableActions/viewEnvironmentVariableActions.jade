@@ -6,10 +6,32 @@ button.btn.btn-xs.gray(
   ng-init = "state.showHostName = false"
 ) Insert an elastic hostname
 
-button.btn.btn-xs.btn-status.no-touching(
-  ng-if = "!state.showHostName"
+//- ***********************
+//- deprecated button, remove with $root.featureFlags.hostnameTool
+button.btn.btn-xs.no-touching(
+  ng-if = "\
+    !$root.featureFlags.hostnameTool && \
+    !state.showHostName\
+  "
   title = "{{linkedEnvResults.length || 0 }} hostnames from environment variables"
 ) {{linkedEnvResults.length || 0 }} hostnames
+//- end deprecated button
+//- ***********************
+
+button.btn.btn-xs.gray(
+  ng-class = "{active: data.toggleSidebar}"
+  ng-click = "data.toggleSidebar = !data.toggleSidebar"
+  ng-if = "\
+    $root.featureFlags.hostnameTool && \
+    !state.showHostName\
+  "
+  title = "Toggle hostname sidebar"
+)
+  svg.iconnables.icons-sidebar
+    use(
+      xlink:href = "#icons-sidebar"
+    )
+  | Hostnames
 
 //- if inserting host names
 .label.label-row.clearfix(
@@ -56,4 +78,4 @@ button.btn.btn-xs.btn-status.no-touching(
   ) Cancel
   button.btn.btn-xs.green(
     ng-click = "state.showHostName = false; insertHostName(state.newLink);"
-  ) Insert hostname
+  ) Insert elastic hostname

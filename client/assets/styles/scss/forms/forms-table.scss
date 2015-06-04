@@ -274,20 +274,29 @@
     visibility: hidden;
   }
 
+  // status icons
+  .iconnables {
+    height: 38px;
+    width: 18px;
+
+    // warning icon
+    &.icons-warning {
+      color: $orange;
+    }
+
+    // link icon
+    &.icons-link {
+      color: $purple-light;
+      width: 15px;
+    }
+  }
+
   // dragging icon
   .icons-drag {
     color: $gray-lighter;
     height: 100%;
     opacity: .3;
     width: 9px;
-  }
-
-  // warning icon
-  .icons-warning {
-    color: $orange;
-    height: 18px;
-    top: 6px;
-    width: 18px;
   }
 }
 
