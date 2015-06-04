@@ -95,55 +95,6 @@
   border-bottom: 1px solid $gray-lighter; // lines below categories
   padding: 12px 0 6px;
   position: relative;
-
-  // configure shortcut button
-  > .btn {
-    height: 30px;
-    opacity: .5;
-    overflow: hidden;
-    position: absolute;
-    right: -12px;
-    width: 30px;
-    z-index: 1;
-
-    .iconnables {
-      right: 3px;
-      width: 15px;
-    }
-
-    &:hover {
-      opacity: .75;
-    }
-
-    &:active {
-      color: $purple-light;
-      opacity: 1;
-    }
-  }
-}
-
-.hide-button {
-  color: $gray;
-  height: 30px;
-  opacity: 0;
-  overflow: hidden;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 30px;
-
-  &:hover {
-    opacity: 1;
-  }
-
-  &:active {
-    color: $purple-light;
-  }
-
-  .iconnables {
-    right: 3px;
-    width: 15px;
-  }
 }
 
 .server-name {
@@ -160,6 +111,10 @@
   }
 }
 
+.hide-button {
+  visibility: hidden;
+}
+
 .server-list-item {
   cursor: pointer;
   display: block;
@@ -172,8 +127,12 @@
     background: rgba($gray-light,.1);
 
     .hide-button {
-      opacity: 1;
+      visibility: visible;
     }
+  }
+
+  &:last-child {
+    margin-bottom: 6px;
   }
 
   &.selected {
@@ -186,8 +145,30 @@
     }
   }
 
-  &:last-child {
-    margin-bottom: 6px;
+  // container config and hide buttons
+  > .btn {
+    color: $gray;
+    height: 30px;
+    opacity: .5;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 30px;
+
+    &:hover {
+      opacity: .8;
+    }
+
+    &:active {
+      color: $purple-light;
+      opacity: 1;
+    }
+
+    .iconnables {
+      right: 3px;
+      width: 15px;
+    }
   }
 }
 
@@ -208,15 +189,11 @@
   cursor: pointer;
   font-size: 13px;
   font-style: italic;
-  opacity: .75;
+  opacity: .6;
   padding-left: 15px;
 
-  .small {
-    font-size: 14px;
-  }
-
   &:hover {
-    opacity: 1;
+    opacity: .8;
   }
 
   &:active {

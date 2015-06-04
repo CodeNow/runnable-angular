@@ -17,15 +17,6 @@ ul.server-category-list(
       'no-touching': !masterInstance.opts\
     }"
   )
-    button.btn.btn-xs.btn-icon(
-      title = "configure"
-      ui-sref = "config.instance({ userName: data.activeAccount.oauthName(), \
-        instanceName: masterInstance.attrs.name })"
-    )
-      svg.iconnables
-        use(
-          xlink:href = "#icons-advanced"
-        )
     .server-list
       .server-list-item(
         ui-sref-active = "selected"
@@ -35,6 +26,16 @@ ul.server-category-list(
         status-icon(
           instance = "masterInstance"
         )
+        //- configure button
+        button.btn.btn-xs.btn-icon(
+          title = "configure"
+          ui-sref = "config.instance({ userName: data.activeAccount.oauthName(), \
+            instanceName: masterInstance.attrs.name })"
+        )
+          svg.iconnables
+            use(
+              xlink:href = "#icons-advanced"
+              )
         .server-name.text-overflow(
           ng-if = "masterInstance.getRepoName()"
           title = "{{ masterInstance.getRepoName() }}/{{ masterInstance.getBranchName() }}"
@@ -68,6 +69,7 @@ ul.server-category-list(
             use(
               xlink:href = "#icons-close"
             )
+
       //--fake content, for testing only--//
       .server-list-item
         .text-overflow.server-name my-branch
@@ -92,10 +94,10 @@ ul.server-category-list(
               xlink:href = "#icons-close"
             )
       //----------------------------------//
+
       .more-containers(
         pop-over
         pop-over-options = "{\"top\":-30,\"left\":120}"
         pop-over-template = "viewMoreContainersPopover"
         ng-if = "$root.featureFlags.navListFilter"
-      ) 8 
-        span.small more…
+      ) 8 more…
