@@ -8,8 +8,10 @@
   }
 
   .input-search {
+    background-position: calc(50% - 45px) center;
     display: block;
     margin: 9px auto 6px;
+    padding-left: calc(50% - 48px);
     width: calc(100% - 18px);
   }
 
