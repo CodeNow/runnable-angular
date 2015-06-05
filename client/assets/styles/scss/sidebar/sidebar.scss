@@ -103,19 +103,6 @@
   }
 }
 
-.server-name {
-  flex: 1 1 auto;
-  padding-right: 3px;
-
-  &:active {
-    color: $purple-light;
-
-    .strong {
-      color: $purple-light;
-    }
-  }
-}
-
 .server-list-item {
   cursor: pointer;
   display: flex;
@@ -165,19 +152,32 @@
       width: 15px;
     }
   }
+}
 
-  .button-configure {
-    display: block;
-    flex: 0 0 30px;
-    height: 30px;
-  }
+.server-name {
+  flex: 1 1 auto;
+  padding-right: 3px;
 
-  .button-hide {
-    display: none;
-    flex: 0 0 auto;
-    font-style: italic;
-    margin: 6px 5px 0 -9px;
+  &:active {
+    color: $purple-light;
+
+    .strong {
+      color: $purple-light;
+    }
   }
+}
+
+.button-configure {
+  display: block;
+  flex: 0 0 30px;
+  height: 30px;
+}
+
+.button-hide {
+  display: none;
+  flex: 0 0 auto;
+  font-style: italic;
+  margin: 6px 5px 0 -6px;
 }
 
 .sidebar-section {
