@@ -277,7 +277,7 @@ function fileTreeDir(
             acv.editing = true;
           },
           deleteRepo: function (acv) {
-            return promisify(acv, 'destroy')()
+            promisify(acv, 'destroy')()
               .catch(errs.handler)
               .finally(function () {
                 $scope.$broadcast('close-popovers');
