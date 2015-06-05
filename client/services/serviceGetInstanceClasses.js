@@ -6,7 +6,8 @@ require('app')
  * @njInject
  */
 function getInstanceClasses(
-  $state
+  $state,
+  keypather
 ) {
   return function (instance) {
     if (!instance) {
@@ -15,7 +16,7 @@ function getInstanceClasses(
     var h = {};
     h.active = (instance.attrs.name === $state.params.instanceName);
 
-    var status = instance.status();
+    var status = keypather.get(instance, 'status()');
     var statusMap = {
       'stopped': '',
       'crashed': 'red',

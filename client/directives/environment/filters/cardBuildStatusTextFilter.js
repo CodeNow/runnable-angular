@@ -6,15 +6,17 @@ require('app')
  * @ngInject
  */
 function cardBuildStatusText(
+  keypather
 ) {
   return function (instance, includeDash) {
-    var status = instance.status();
+    var status = keypather.get(instance, 'status()');
 
     var statusMap = {
       'stopped': 'Stopped',
       'crashed': 'Crashed',
       'buildFailed': 'Build Failed',
-      'building': 'Building'
+      'building': 'Building',
+      'neverStarted': 'Building'
     };
 
     if (~['running', 'unknown'].indexOf(status)) {
