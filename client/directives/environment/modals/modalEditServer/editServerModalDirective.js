@@ -25,7 +25,8 @@ function editServerModal(
   configAPIHost,
   cardInfoTypes,
   $timeout,
-  loading
+  loading,
+  loadingPromsies
 ) {
   return {
     restrict: 'A',
@@ -38,6 +39,7 @@ function editServerModal(
       selectedTab: '= stateModel'
     },
     link: function ($scope, elem, attrs) {
+      loadingPromsies.clear('editServerModal');
       $scope.isLoading = $rootScope.isLoading;
       if (helpCards.cardIsActiveOnThisContainer($scope.server.instance)) {
         $scope.helpCards = helpCards;
@@ -100,7 +102,7 @@ function editServerModal(
               return acv.attrs.repo.split('/')[1] === repo.repo.attrs.name;
             });
 
-            return promisify(acv, 'destroy')()
+            loadingPromsies.add('editServerModal', promisify(acv, 'destroy')()
               .then(function () {
                 var myIndex = 0;
                 $scope.state.containerFiles.find(function (containerFile, index) {
@@ -110,10 +112,11 @@ function editServerModal(
 
                 $scope.state.containerFiles.splice(myIndex, 1);
               })
-              .catch(errs.handler);
+              .catch(errs.handler)
+            );
           },
           create: function (repo) {
-            return promisify($scope.state.contextVersion.appCodeVersions, 'create', true)({
+            loadingPromsies.add('editServerModal', promisify($scope.state.contextVersion.appCodeVersions, 'create', true)({
               repo: repo.repo.attrs.full_name,
               branch: repo.branch.attrs.name,
               commit: repo.commit.attrs.sha,
@@ -123,14 +126,15 @@ function editServerModal(
                 $scope.state.containerFiles.push(repo);
                 repo.acv = acv;
               })
-              .catch(errs.handler);
+              .catch(errs.handler)
+            );
           },
           update: function (repo) {
             var acv = $scope.state.contextVersion.appCodeVersions.models.find(function (acv) {
               return acv.attrs.repo === repo.acv.attrs.repo;
             });
 
-            return promisify(acv, 'update')({
+            loadingPromsies.add('editServerModal', promisify(acv, 'update')({
               branch: repo.branch.attrs.name,
               commit: repo.commit.attrs.sha
             })
@@ -145,7 +149,8 @@ function editServerModal(
 
                 myRepo.acv = acv;
               })
-              .catch(errs.handler);
+              .catch(errs.handler)
+            );
           }
         },
         data: {},
@@ -174,6 +179,8 @@ function editServerModal(
               .finally(function () {
                 containerFile.saving = false;
               });
+
+            loadingPromsies.add('editServerModal', containerFile.fileUpload);
           },
           save: function (containerFile) {
             if (!containerFile.type) {
@@ -203,8 +210,10 @@ function editServerModal(
               return fileModel.attrs.name === containerFile.name;
             });
             if (file) {
-              promisify(file, 'destroy')()
-                .catch(errs.handler);
+              loadingPromsies.add('editServerModal',
+                promisify(file, 'destroy')()
+                  .catch(errs.handler)
+              );
             }
 
             $scope.state.containerFiles.splice($scope.state.containerFiles.indexOf(containerFile), 1);
@@ -271,7 +280,7 @@ function editServerModal(
               'instance.contextVersion.getMainAppCodeVersion().attrs.branch'
             )}));
         }
-        return promisify(server.contextVersion, 'deepCopy')()
+        return loadingPromsies.add('editServerModal', promisify(server.contextVersion, 'deepCopy')()
           .then(function (contextVersion) {
             $scope.state.contextVersion = contextVersion;
             return promisify(contextVersion, 'fetch')();
@@ -299,7 +308,8 @@ function editServerModal(
           })
           .catch(function (err) {
             errs.handler(err);
-          });
+          })
+        );
       }
 
       resetState($scope.server);
@@ -336,7 +346,8 @@ function editServerModal(
         $rootScope.$broadcast('close-popovers');
         $scope.building = true;
         $scope.state.ports = convertTagToPortList();
-        return watchWhenTruthyPromise($scope, 'state.contextVersion')
+        return loadingPromsies.finished('editServerModal')
+          .then(watchWhenTruthyPromise($scope, 'state.contextVersion'))
           .then(function () {
             var state = $scope.state;
             if (state.advanced) {

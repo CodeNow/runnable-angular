@@ -16,7 +16,8 @@ function fileTreeDir(
   helperCreateFS,
   configAPIHost,
   fetchCommitData,
-  cardInfoTypes
+  cardInfoTypes,
+  loadingPromsies
 ) {
   return {
     restrict: 'A',
@@ -306,31 +307,34 @@ function fileTreeDir(
         },
         actions: {
           create: function (repo) {
-            return promisify($scope.fileModel.appCodeVersions, 'create', true)({
+            loadingPromsies.add('editServerModal', promisify($scope.fileModel.appCodeVersions, 'create', true)({
               repo: repo.repo.attrs.full_name,
               branch: repo.branch.attrs.name,
               commit: repo.commit.attrs.sha,
               additionalRepo: true
             })
-              .catch(errs.handler);
+              .catch(errs.handler)
+            );
           },
           remove: function(repo){
             var acv = $scope.fileModel.appCodeVersions.models.find(function (acv) {
               return acv.attrs.repo.split('/')[1] === repo.repo.attrs.name;
             });
-            return promisify(acv, 'destroy')()
-              .catch(errs.handler);
+            loadingPromsies.add('editServerModal', promisify(acv, 'destroy')()
+              .catch(errs.handler)
+            );
           },
           update: function(repo){
             var acv = $scope.fileModel.appCodeVersions.models.find(function (acv) {
               return acv.attrs.repo === repo.acv.attrs.repo;
             });
 
-            return promisify(acv, 'update')({
-              branch: repo.branch.attrs.name,
-              commit: repo.commit.attrs.sha
-            })
-              .catch(errs.handler);
+            loadingPromsies.add('editServerModal', promisify(acv, 'update')({
+                branch: repo.branch.attrs.name,
+                commit: repo.commit.attrs.sha
+              })
+                .catch(errs.handler)
+            );
           }
         }
       };
