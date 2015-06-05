@@ -22,7 +22,6 @@ require('app')
           branches: watchOncePromise($scope, 'state.repo.branches', true)
         })
           .then(function (data) {
-            console.log('data', data);
             if (!keypather.get(data, 'branches.models.length')) {
               return promisify(data.branches, 'fetch')();
             }
