@@ -1,24 +1,36 @@
-.more-containers-popover {
-  max-height: 450px;
-  width: 300px;
+.popover-more-containers {
+  width: 270px;
+  font-size: 15px;
 
   .popover-content.popover-content {
-    max-height: 386px;
+    max-height: 300px;
     overflow-y: auto;
   }
 
+  .popover-header .strong {
+    flex: 1 1 auto;
+    line-height: 35px;
+    text-align: center;
+  }
+
   .input-search {
-    background-position: calc(50% - 45px) center;
+    background-position: calc(50% - 70px) center;
     display: block;
-    margin: 9px auto 6px;
-    padding-left: calc(50% - 48px);
+    margin: 12px auto 9px;
+    padding-left: calc(50% - 67px);
     width: calc(100% - 18px);
+
+    &:focus {
+      background-position: 8px center;
+    }
   }
 
   .icons-status {
-    margin-right: 6px;
+    position: absolute;
+    margin: 6px 6px 0 0;
   }
 
+  .span,
   .small {
     padding-left: 15px;
   }

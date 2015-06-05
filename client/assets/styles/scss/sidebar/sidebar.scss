@@ -20,9 +20,11 @@
   }
 
   .icons-status {
-    left: 12px;
-    position: absolute;
-    top: 11px;
+    // left: 12px;
+    // position: absolute;
+    // top: 11px;
+    flex: 0 0 auto;
+    margin: 11px 6px 0 12px
   }
 }
 
@@ -98,9 +100,8 @@
 }
 
 .server-name {
-  height: 100%;
-  padding-left: 27px;
-  width: calc(100% - 30px);
+  flex: 1 1 auto;
+  padding-right: 3px;
 
   &:active {
     color: $purple-light;
@@ -113,7 +114,7 @@
 
 .server-list-item {
   cursor: pointer;
-  display: block;
+  display: flex;
   height: 30px;
   line-height: 29px; // height -1 because of Helvetica baseline weirdness
   margin: 0 -12px;
@@ -122,8 +123,8 @@
   &:hover {
     background: rgba($gray-light,.1);
 
-    .hide-button {
-      visibility: visible;
+    .button-hide {
+      display: block;
     }
   }
 
@@ -141,38 +142,37 @@
     }
   }
 
-  // container config and hide buttons
+  // .button-configure and .button-hide
   > .btn {
-    color: $gray;
-    height: 30px;
-    opacity: .5;
+    color: currentColor;
+    opacity: .6;
     overflow: hidden;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 30px;
 
     &:hover {
       opacity: .8;
     }
 
     &:active {
-      color: $purple-light;
       opacity: 1;
     }
 
     .iconnables {
-      right: 3px;
+      right: 5px;
       width: 15px;
     }
   }
 
-  .hide-button {
-    visibility: hidden;
+  .button-configure {
+    display: block;
+    flex: 0 0 30px;
+    height: 30px;
+  }
 
-    .iconnables {
-      width: 17px;
-    }
+  .button-hide {
+    display: none;
+    flex: 0 0 auto;
+    font-style: italic;
+    margin: 6px 5px 0 0;
   }
 }
 
@@ -201,6 +201,6 @@
   }
 
   &:active {
-    color: $purple-light;
+    opacity: 1;
   }
 }
