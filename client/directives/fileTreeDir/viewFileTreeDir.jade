@@ -78,6 +78,11 @@ li.folder(
       )
         svg.iconnables.filetypes.icons-repository
           use(
+            ng-if = "fileModel.appCodeVersions.models[0] !== acv"
+            xlink:href = "#icons-repository-additional"
+          )
+          use(
+            ng-if = "fileModel.appCodeVersions.models[0] === acv"
             xlink:href = "#icons-repository"
           )
         span.item-name {{ normalizeRepoNames(acv.attrs.repo) }}
