@@ -43,7 +43,7 @@
       ng-class = "{active: repoSelector.data.commit === commit, disabled: state.saving}"
     ) {{commit.attrs.commit.message}}
       .toggle-group-detail.clearfix
-        small.small {{commit.attrs.commit.committer.name}} authored {{commit.attrs.commit.committer.date | timeFrom}}
+        small.small {{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}
         a.small.link.link-text.monospace(
           ng-href = "{{ commit.attrs.html_url }}"
           ng-click = "$event.stopPropagation()"
