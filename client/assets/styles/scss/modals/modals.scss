@@ -88,6 +88,23 @@
     line-height: 36px;
   }
 
+  // direct-child specificity to avoid targeting .card-title inside .btn when $root.featureFlags.saveToolbar is off (see editServerModalVew.jade)
+  > .card-title {
+    color: $gray-dark;
+    display: inline-block;
+    font-size: 18px;
+    height: 24px;
+    margin: 18px 0 3px;
+
+    .card-status-failed {
+      background-color: transparent;
+      border: none;
+      font-size: 17px;
+      display: inline-block;
+      padding: 0 9px;
+    }
+  }
+
   // tabs
   .modal-tabs {
     display: flex;

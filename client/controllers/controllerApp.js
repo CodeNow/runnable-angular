@@ -47,7 +47,8 @@ function ControllerApp(
     advancedRepositories: configEnvironment === 'development',
     findAndReplace: configEnvironment === 'development',
     hostnameTool: configEnvironment === 'development',
-    saveToolbar: configEnvironment === 'development'
+    saveToolbar: configEnvironment === 'development',
+    cardStatus: configEnvironment === 'development'
   };
 
   dataApp.data.configAPIHost = configAPIHost;

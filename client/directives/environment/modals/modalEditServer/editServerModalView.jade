@@ -3,11 +3,17 @@ form.modal-dialog.modal-edit(
   ng-class = "{disabled: building}"
 )
   header.modal-header
+    //- ***********************
+    //- deprecated, remove with $root.featureFlags.saveToolbar
     server-status-card-header.btn.btn-sm.btn-title(
-      pop-over-options = "{\"right\":-7,\"top\":36}"
-      pop-over-template = "serverOptionsModalPopover"
       ng-attr-no-touching = "{{ !state.repo }}"
+      ng-if = "!$root.featureFlags.saveToolbar"
     )
+    //- ***********************
+    span.card-title.clearfix.text-overflow(
+      ng-if = "$root.featureFlags.saveToolbar"
+    ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
+      .card-status-failed Build Failed
     .row.modal-tabs
       button.btn.btn-radio(
         ng-class = "{active: selectedTab === 'buildfiles'}"
