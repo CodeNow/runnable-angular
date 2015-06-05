@@ -97,6 +97,10 @@
   border-bottom: 1px solid $gray-lighter; // lines below categories
   padding: 12px 0 6px;
   position: relative;
+
+  &:not(:first-child) .server-name {
+    padding-right: 9px;
+  }
 }
 
 .server-name {
@@ -172,7 +176,7 @@
     display: none;
     flex: 0 0 auto;
     font-style: italic;
-    margin: 6px 5px 0 0;
+    margin: 6px 5px 0 -9px;
   }
 }
 

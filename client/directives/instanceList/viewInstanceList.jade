@@ -58,7 +58,9 @@ ul.server-category-list(
           ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
           instanceName: branchFork.attrs.name })"
         ) {{ branchFork.getDisplayName() }}
-        .btn.btn-xs.button-hide hide
+        .btn.btn-xs.button-hide(
+          ng-if = "$root.featureFlags.navListFilter"
+        ) hide
       .more-containers(
         pop-over
         pop-over-options = "{\"top\":-33,\"left\":215}"
