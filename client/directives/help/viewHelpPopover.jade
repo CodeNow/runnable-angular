@@ -41,12 +41,22 @@
         li.general-help-item
           a.link(
             target = "_blank"
+            href = "https://runnable.zendesk.com/hc/en-us/articles/205184275-How-can-containers-in-my-Runnable-Sandbox-communicate-with-each-other-"
+          ) How to connect to 2 containers together
+            svg.iconnables
+              use(
+                xlink:href = "#icons-link-external"
+              )
+        li.general-help-item
+          a.link(
+            target = "_blank"
             href = "http://support.runnable.io"
           ) Documentation
             svg.iconnables
               use(
                 xlink:href = "#icons-link-external"
               )
+              
   //- TODO: remove less-help class
   button.btn(
     ng-click = "closePopover()"
