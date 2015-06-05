@@ -106,7 +106,7 @@ function getCardInfoTypes(
 
     if (contents) {
       var commandList = contents.split('\n');
-      var /*blame it on my*/ add = /^ADD (.*)/.exec(commandList[0]);
+      var add = /^ADD (.*)/.exec(commandList[0]);
 
       try {
         // ADD paramaters are in array syntax
