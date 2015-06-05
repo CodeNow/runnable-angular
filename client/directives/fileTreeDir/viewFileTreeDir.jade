@@ -38,18 +38,25 @@ li.folder(
   )
     li.file(
       ng-repeat = "acv in fileModel.appCodeVersions.models"
-      tooltip = "Your repository lives here"
-      tooltip-options = "{\"class\":\"bottom\",\"left\":21,\"top\":28}"
-
       ng-if = "$root.featureFlags.advancedRepositories"
       pop-over
       pop-over-actions = "popoverFileExplorerRepository.actions"
-      pop-over-data = "popoverFileExplorerRepository.data"
+      pop-over-data = "acv"
       pop-over-template = "viewFileTreePopoverFileExplorerRepositoryMenu"
       pop-over-options = "popoverFileExplorerRepository.options"
       pop-over-trigger = "rightClick"
     )
-      a
+      a(
+        ng-class = "{active: acv.editing}"
+        ng-click = "popoverFileExplorerRepository.actions.editRepo(acv)"
+        pop-over
+        pop-over-actions = "popoverFilesRepositoryCommitToggle.actions"
+        pop-over-active = "acv.editing"
+        pop-over-data = "popoverEditRepoCommit.data"
+        pop-over-options = "{\"left\":210,\"top\":-198}"
+        pop-over-template = "viewPopoverFilesRepositoryCommitToggle"
+        pop-over-trigger = "activeAttr"
+      )
         svg.iconnables.filetypes.icons-repository
           use(
             xlink:href = "#icons-repository"

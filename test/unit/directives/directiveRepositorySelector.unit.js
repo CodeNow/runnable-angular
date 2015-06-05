@@ -167,6 +167,13 @@ describe('directiveRepoSelect'.bold.underline.blue, function () {
       sinon.assert.calledOnce(currentConfig.actions.create);
       sinon.assert.notCalled(currentConfig.actions.update);
     });
+
+    it('should set view to 2 when leaving commit select', function () {
+      $scope.repoSelector.actions.leaveCommitSelect();
+      $scope.$digest();
+
+      expect($scope.state.view).to.equal(2);
+    });
   });
 
   describe('with data', function () {
@@ -191,6 +198,34 @@ describe('directiveRepoSelect'.bold.underline.blue, function () {
       $scope.$digest();
 
       sinon.assert.calledOnce(currentConfig.actions.remove);
+    });
+  });
+
+  describe('when is gitDataOnly', function () {
+    beforeEach(function () {
+      initState({
+        data:{
+          gitDataOnly: true
+        }
+      });
+    });
+
+    it('should trigger save when a commit is selected', function () {
+      var commit = {
+        test: '1234'
+      };
+      $scope.repoSelector.actions.selectCommit(commit);
+      $scope.$digest();
+
+      expect($scope.repoSelector.data.commit).to.equal(commit);
+      sinon.assert.calledOnce(currentConfig.actions.create);
+    });
+
+    it('should set view to 1 when leaving commit select', function () {
+      $scope.repoSelector.actions.leaveCommitSelect();
+      $scope.$digest();
+
+      expect($scope.state.view).to.equal(1);
     });
   });
 });

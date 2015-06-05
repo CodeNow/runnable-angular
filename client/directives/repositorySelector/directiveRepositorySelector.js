@@ -12,6 +12,7 @@ require('app')
  * There also needs to be a data attribute containing at minimum:
  * appCodeVersions (This is used to filter out the repo list)
  * repo (Optional, this is if you want to edit an existing repo)
+ * gitDataOnly (Optional, this makes it so no destination or build commands will be set, it skips view 2)
  */
 function repositorySelector(
   errs,
@@ -84,7 +85,11 @@ function repositorySelector(
         selectCommit: function (commit){
           $scope.repoSelector.data.latestCommit = false;
           $scope.repoSelector.data.commit = commit;
-          $scope.state.view = 2;
+          if ($scope.data.gitDataOnly) {
+            $scope.repoSelector.actions.save();
+          } else {
+            $scope.state.view = 2;
+          }
         },
         save: function () {
           $scope.state.saving = true;
@@ -106,6 +111,9 @@ function repositorySelector(
             .then(function () {
               $rootScope.$broadcast('close-popovers');
             });
+        },
+        leaveCommitSelect: function () {
+          $scope.state.view = $scope.data.gitDataOnly ? 1 : 2;
         }
       };
     }

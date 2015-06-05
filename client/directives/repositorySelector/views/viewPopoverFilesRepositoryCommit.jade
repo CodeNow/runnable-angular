@@ -1,13 +1,14 @@
 .popover-header
   button.btn.btn-sm.white.pull-left(
-    ng-click = "state.view = 2"
+    ng-click = "repoSelector.actions.leaveCommitSelect()"
     ng-disabled = "state.saving"
+    ng-if = "!(data.gitDataOnly && state.fromServer)"
   )
     svg.iconnables.icons-arrow-backward
       use(
         xlink:href = "#icons-arrow-down"
       )
-    | Done
+    | Back
   strong.strong.text-overflow Commit
   //- this button is empty on purpose
   button.btn.btn-sm.pull-right.no-touching
@@ -44,3 +45,15 @@
           ng-click = "$event.stopPropagation()"
           target = "_blank"
         ) {{ ::commit.attrs.sha | limitTo:7 }}
+
+.popover-footer.clearfix
+  button.btn.btn-sm.green(
+    ng-if = "data.gitDataOnly"
+    ng-click = "repoSelector.actions.save()"
+    ng-disabled = "state.saving"
+  ) {{ state.fromServer ? 'Save' : 'Add Repository' }}
+
+  button.btn.btn-sm.gray.btn-cancel(
+    ng-click = "closePopover()"
+    ng-disabled = "state.saving"
+  ) Cancel
