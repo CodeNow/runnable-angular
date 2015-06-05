@@ -111,7 +111,8 @@ form.modal-dialog.modal-edit(
     )
     .modal-form(
       ng-if = "selectedTab === 'repository'"
-      ng-include = "'viewFormRepository'"
+      repository-form
+      state = "state"
     )
     .modal-form(
       ng-if = "selectedTab === 'replace'"

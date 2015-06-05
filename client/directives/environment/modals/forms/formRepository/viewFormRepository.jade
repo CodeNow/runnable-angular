@@ -19,8 +19,9 @@
     )
       li.list-item.popover-list-item.small Select initial branch
       fancy-option(
-        ng-repeat = "branch in $parent.branches.models"
+        ng-repeat = "branch in $parent.state.repo.branches.models"
         value = "branch"
+        track-by = "attrs.name"
       )
         svg.iconnables.icons-branch
           use(

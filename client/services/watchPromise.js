@@ -5,13 +5,27 @@ require('app')
     $q
   ) {
     return function ($scope, watchMe) {
-      var defer = $q.defer();
-      var unWatch = $scope.$watch(watchMe, function (n) {
-        if (n) {
-          unWatch();
-          defer.resolve(n);
-        }
+      return $q(function (resolve) {
+        var unWatch = $scope.$watch(watchMe, function (n) {
+          if (n) {
+            unWatch();
+            resolve(n);
+          }
+        });
       });
-      return defer.promise;
+    };
+  })
+  .factory('watchWhenFalsyPromise', function watchWhenFalsePromise(
+    $q
+  ) {
+    return function ($scope, watchMe) {
+      return $q(function (resolve) {
+        var unWatch = $scope.$watch(watchMe, function (n) {
+          if (!n) {
+            unWatch();
+            resolve(n);
+          }
+        });
+      });
     };
   });

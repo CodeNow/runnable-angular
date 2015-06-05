@@ -19,6 +19,7 @@ function editServerModal(
   populateDockerfile,
   promisify,
   watchWhenTruthyPromise,
+  watchWhenFalsyPromise,
   helpCards,
   $rootScope,
   uploadFile,
@@ -263,14 +264,6 @@ function editServerModal(
             }));
           });
 
-        if (server.repo) {
-          $scope.branches = server.repo.branches;
-          $scope.state.branch =
-            server.repo.branches.models.find(hasKeypaths({'attrs.name': keypather.get(
-              server,
-              'instance.contextVersion.getMainAppCodeVersion().attrs.branch'
-            )}));
-        }
         return promisify(server.contextVersion, 'deepCopy')()
           .then(function (contextVersion) {
             $scope.state.contextVersion = contextVersion;
@@ -337,6 +330,9 @@ function editServerModal(
         $scope.building = true;
         $scope.state.ports = convertTagToPortList();
         return watchWhenTruthyPromise($scope, 'state.contextVersion')
+          .then(function () {
+            return watchWhenFalsyPromise($scope, 'state.acv.isDirty()');
+          })
           .then(function () {
             var state = $scope.state;
             if (state.advanced) {
@@ -445,20 +441,6 @@ function editServerModal(
           });
         }
       });
-
-      $scope.$watch('state.branch', function (newBranch, oldBranch) {
-        if (newBranch && oldBranch && newBranch.attrs.name !== oldBranch.attrs.name) {
-          waitForStateContextVersion($scope, function () {
-            promisify($scope.state.acv, 'update')({
-              repo: $scope.server.repo.attrs.full_name,
-              branch: newBranch.attrs.name,
-              commit: newBranch.attrs.commit.sha
-            })
-              .catch(errs.handler);
-          });
-        }
-      });
-
 
       $scope.isStackInfoEmpty = function (selectedStack) {
         if (!selectedStack || !selectedStack.selectedVersion) {

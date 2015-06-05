@@ -18,6 +18,7 @@ function setupServerModal(
   keypather,
   populateDockerfile,
   promisify,
+  watchWhenFalsyPromise,
   $log,
   cardInfoTypes
 ) {
@@ -65,48 +66,42 @@ function setupServerModal(
         if (keypather.get($scope.state, 'selectedStack.ports.length')) {
           $scope.state.ports = $scope.state.selectedStack.ports.replace(/ /g, '').split(',');
         }
-        $scope.actions.createAndBuild(
-          createDockerfileFromSource(
-            $scope.state.contextVersion,
-            $scope.state.selectedStack.key,
-            $scope.data.sourceContexts
-          )
-            .then(function (dockerfile) {
-              $scope.state.dockerfile = dockerfile;
+        return watchWhenFalsyPromise($scope, 'state.acv.isDirty()')
+          .then(function () {
+            return $scope.actions.createAndBuild(
+              createDockerfileFromSource(
+                $scope.state.contextVersion,
+                $scope.state.selectedStack.key,
+                $scope.data.sourceContexts
+              )
+                .then(function (dockerfile) {
+                  $scope.state.dockerfile = dockerfile;
 
-              var Repo = cardInfoTypes()['Main Repository'];
+                  var Repo = cardInfoTypes()['Main Repository'];
 
-              $scope.state.containerFiles = [];
+                  $scope.state.containerFiles = [];
 
-              var repo = new Repo(null, {isMainRepo: true});
+                  var repo = new Repo(null, {isMainRepo: true});
 
-              var commands = $scope.state.commands || '';
+                  var commands = $scope.state.commands || '';
 
-              repo.name = $scope.state.repo.attrs.name;
-              repo.path = $scope.state.dst.replace('/', '');
-              repo.commands = commands;
+                  repo.name = $scope.state.repo.attrs.name;
+                  repo.path = $scope.state.dst.replace('/', '');
+                  repo.commands = commands;
 
-              $scope.state.containerFiles.push(repo);
+                  $scope.state.containerFiles.push(repo);
 
-              return populateDockerfile(
-                dockerfile,
-                $scope.state
-              );
-            })
-            .then(function () {
-              if ($scope.acv.attrs.branch !== $scope.state.branch.attrs.name) {
-                return promisify($scope.acv, 'update')({
-                  repo: $scope.state.repo.attrs.full_name,
-                  branch: $scope.state.branch.attrs.name,
-                  commit: $scope.state.branch.attrs.commit.sha
-                });
-              }
-            })
-            .then(function () {
-              return $scope.state;
-            }),
-          $scope.state.opts.name
-        );
+                  return populateDockerfile(
+                    dockerfile,
+                    $scope.state
+                  );
+                })
+                .then(function () {
+                  return $scope.state;
+                }),
+              $scope.state.opts.name
+            );
+          });
       };
 
       $scope.$watch('state.selectedStack', function (n) {
@@ -153,7 +148,7 @@ function setupServerModal(
             });
           })
           .then(function () {
-            $scope.acv = $scope.state.contextVersion.getMainAppCodeVersion();
+            $scope.state.acv = $scope.state.contextVersion.getMainAppCodeVersion();
           })
           .then(function (dockerfile) {
             $scope.state.dockerfile = dockerfile;
