@@ -1,9 +1,9 @@
 .popover-more-containers {
-  width: 270px;
   font-size: 15px;
+  width: 270px;
 
   .popover-content.popover-content {
-    max-height: 300px;
+    max-height: 333px;
     overflow-y: auto;
   }
 
@@ -25,13 +25,19 @@
     }
   }
 
+  .popover-list-item {
+    display: flex;
+    flex-direction: column;
+  }
+
   .icons-status {
-    position: absolute;
     margin: 6px 6px 0 0;
+    position: absolute;
   }
 
   .span,
   .small {
+    flex: 1 1 auto;
     padding-left: 15px;
   }
 }
