@@ -4,14 +4,14 @@ form.modal-dialog.modal-edit(
 )
   header.modal-header
     //- ***********************
-    //- deprecated, remove with $root.featureFlags.saveToolbar
+    //- deprecated, remove with $root.featureFlags.cardStatus
     server-status-card-header.btn.btn-sm.btn-title(
       ng-attr-no-touching = "{{ !state.repo }}"
-      ng-if = "!$root.featureFlags.saveToolbar"
+      ng-if = "!$root.featureFlags.cardStatus"
     )
     //- ***********************
     span.card-title.clearfix.text-overflow(
-      ng-if = "$root.featureFlags.saveToolbar"
+      ng-if = "$root.featureFlags.cardStatus"
     ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
       .card-status-failed Build Failed
     .row.modal-tabs

@@ -48,7 +48,7 @@ function ControllerApp(
     findAndReplace: configEnvironment === 'development',
     hostnameTool: configEnvironment === 'development',
     saveToolbar: configEnvironment === 'development',
-    cardStatus: configEnvironment === 'development'
+    cardStatus: false,//configEnvironment === 'development'
   };
 
   dataApp.data.configAPIHost = configAPIHost;
