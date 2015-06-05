@@ -6,6 +6,7 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
   var mockOpenItems = {};
   var mockFileModel;
   var mockParentDir = {};
+  var fetchCommitDataMock;
   var uploadMock = {
     upload: angular.noop
   };
@@ -16,6 +17,8 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
   var errs;
   var $rootScope;
   var $q;
+  var keypather;
+
 
   function injectSetupCompile() {
     mockDir = {
@@ -29,11 +32,20 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
     };
     mockFileModel = {
       urlPath: 'foo',
-      id: sinon.stub().returns('123')
+      id: sinon.stub().returns('123'),
+      appCodeVersions: {
+        create: sinon.spy()
+      }
     };
     ctx = {};
     errs = {
       handler: sinon.spy()
+    };
+
+    fetchCommitDataMock = {
+      activeBranch: sinon.spy(),
+      activeCommit: sinon.spy(),
+      branchCommits: sinon.spy()
     };
     createFsMock = sinon.spy();
     angular.mock.module('app');
@@ -41,17 +53,20 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       $provide.value('helperCreateFS', createFsMock);
       $provide.value('errs', errs);
       $provide.value('Upload', uploadMock);
+      $provide.value('fetchCommitData', fetchCommitDataMock);
     });
 
     angular.mock.inject(function (
       _$rootScope_,
       _$compile_,
-      _$q_
+      _$q_,
+      _keypather_
     ) {
       $scope = _$rootScope_.$new();
       $compile = _$compile_;
       $rootScope = _$rootScope_;
       $q = _$q_;
+      keypather = _keypather_;
     });
     $scope.mockDir = mockDir;
     $scope.mockOpenItems = mockOpenItems;
@@ -448,5 +463,92 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       expect($elScope.actions.fetchDirFiles.calledOnce, 'fetch dir files called once').to.equal(true);
       expect($elScope.$broadcast.calledWith('close-popovers'), 'Broadcasted close-popovers').to.equal(true);
     });
+  });
+
+  describe('popoverFileExplorerRepository actions', function () {
+    it('should support deleting a repo', function () {
+      var acv = {
+        destroy: sinon.stub().callsArg(0)
+      };
+      $elScope.popoverFileExplorerRepository.actions.deleteRepo(acv);
+      $scope.$digest();
+      sinon.assert.calledOnce(acv.destroy);
+      sinon.assert.calledWith($elScope.$broadcast, 'close-popovers');
+    });
+    it('should support editing a repo', function () {
+      var acv = {};
+      $elScope.popoverFileExplorerRepository.actions.editRepo(acv);
+      $scope.$digest();
+      sinon.assert.calledOnce(fetchCommitDataMock.activeBranch);
+      sinon.assert.calledOnce(fetchCommitDataMock.activeCommit);
+      sinon.assert.calledOnce(fetchCommitDataMock.branchCommits);
+    });
+  });
+
+  describe('popoverFilesRepositoryCommitToggle actions', function () {
+    it('should support creating a new repo', function () {
+      var repo = {};
+      keypather.set(repo, 'repo.attrs.full_name', 'fullName');
+      keypather.set(repo, 'branch.attrs.name', 'branchName');
+      keypather.set(repo, 'commit.attrs.sha', 'commitSha');
+
+      $elScope.popoverFilesRepositoryCommitToggle.actions.create(repo);
+      $scope.$digest();
+
+      sinon.assert.calledOnce(mockFileModel.appCodeVersions.create);
+      sinon.assert.calledWith(mockFileModel.appCodeVersions.create, {
+        repo: 'fullName',
+        branch: 'branchName',
+        commit: 'commitSha',
+        additionalRepo: true
+      });
+    });
+    it('should support removing a repo', function () {
+      var repo = {};
+      keypather.set(repo, 'repo.attrs.name', 'RepoName');
+      mockFileModel.appCodeVersions.models = [{
+        attrs: {
+          repo: 'CodeNow/RepoName'
+        },
+        destroy: sinon.stub().callsArg(0)
+      }];
+
+      $elScope.popoverFilesRepositoryCommitToggle.actions.remove(repo);
+      $scope.$digest();
+
+      sinon.assert.calledOnce(mockFileModel.appCodeVersions.models[0].destroy);
+    });
+    it('should support updating a repo', function () {
+      var repo = {};
+      keypather.set(repo, 'acv.attrs.repo', 'CodeNow/RepoName');
+      keypather.set(repo, 'branch.attrs.name', 'branchName');
+      keypather.set(repo, 'commit.attrs.sha', 'commitSha');
+      mockFileModel.appCodeVersions.models = [{
+        attrs: {
+          repo: 'CodeNow/RepoName'
+        },
+        update: sinon.stub().callsArg(1)
+      }];
+
+      $elScope.popoverFilesRepositoryCommitToggle.actions.update(repo);
+      $scope.$digest();
+
+      sinon.assert.calledOnce(mockFileModel.appCodeVersions.models[0].update);
+      sinon.assert.calledWith(mockFileModel.appCodeVersions.models[0].update, {
+        branch: 'branchName',
+        commit: 'commitSha'
+      });
+    });
+  });
+
+  it('should return true if we are editing a repository', function () {
+    mockFileModel.appCodeVersions.models = [{
+      editing: true
+    }];
+    expect($elScope.isEditingRepo()).to.be.ok;
+  });
+  it('should return false if we arent editing a repository', function () {
+    mockFileModel.appCodeVersions.models = [{}];
+    expect($elScope.isEditingRepo()).to.not.be.ok;
   });
 });
