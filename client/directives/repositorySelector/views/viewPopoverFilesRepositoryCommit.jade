@@ -16,7 +16,9 @@
   )
 
 .popover-content
-  label.label.label-jump
+  label.label.label-jump(
+    ng-if = "repoSelector.data.branch.commits.models.length"
+  )
     small.small Branch
     select.select(
       ng-change = "repoSelector.actions.selectBranch(repoSelector.data.branch)"
@@ -27,8 +29,8 @@
         disabled
       ) Choose a branch
 
-  .spinner-wrapper.spinner-md.in(
-    ng-if = "!repoSelector.data.branch.commits.models.length"
+  .spinner-wrapper.spinner-backdrop.spinner-gray.spinner-md.in(
+    ng-if = "repoSelector.data.branch && !repoSelector.data.branch.commits.models.length"
     ng-include = "'spinner'"
   )
 
