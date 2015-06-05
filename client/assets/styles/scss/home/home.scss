@@ -47,6 +47,10 @@
   .small {
     margin: 0 auto;
     text-align: center;
+
+    @include media(xxs) {
+      padding: 0 15px;
+    }
   }
 
   .h1 {
@@ -116,12 +120,12 @@
     width: 100%;
 
     .input {
+      flex: 1 1 auto;
       margin-right: 6px;
-      width: 300px;
+    }
 
-      @include media(xs) {
-        width: 210px;
-      }
+    .btn {
+      flex: 0 0 auto;
     }
 
     .p {
@@ -131,11 +135,17 @@
   }
 
   .form-container {
+    display: flex;
     margin: 0 auto;
-    width: 446px;
+    max-width: 450px;
+    padding: 0 15px;
 
     @include media(xs) {
-      width: 356px;
+      max-width: 360px;
+    }
+
+    @include media(xxs) {
+      max-width: none;
     }
   }
 
