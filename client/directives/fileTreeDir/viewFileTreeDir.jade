@@ -37,7 +37,26 @@ li.folder(
     ng-if = "(isRootDir && showRepoFolder)"
   )
     li.file(
-      ng-repeat = "acv in fileModel.appCodeVersions.models"
+      ng-if = "state.showAddRepo"
+    )
+      //- popover is a very similar file to the original, should this be a template?
+      a.active(
+        pop-over
+        pop-over-actions = "popoverFilesRepositoryCommitToggle.actions"
+        pop-over-active = "state.showAddRepo"
+        pop-over-data = "popoverFilesRepositoryCommitToggle.data"
+        pop-over-options = "{\"left\":210,\"top\":-198}"
+        pop-over-template = "viewPopoverFilesRepositoryCommitToggle"
+        pop-over-trigger = "activeAttr"
+      )
+        svg.iconnables.filetypes.icons-repository
+          use(
+            xlink:href = "#icons-repository-additional"
+          )
+        span.item-name …
+
+    li.file(
+      ng-repeat = "acv in fileModel.appCodeVersions.models | orderBy:'attrs.repo'"
       ng-if = "$root.featureFlags.advancedRepositories"
       pop-over
       pop-over-actions = "popoverFileExplorerRepository.actions"
@@ -62,25 +81,6 @@ li.folder(
             xlink:href = "#icons-repository"
           )
         span.item-name {{ normalizeRepoNames(acv.attrs.repo) }}
-
-    li.file(
-      ng-if = "state.showAddRepo"
-    )
-      //- popover is a very similar file to the original, should this be a template?
-      a.active(
-        pop-over
-        pop-over-actions = "popoverFilesRepositoryCommitToggle.actions"
-        pop-over-active = "state.showAddRepo"
-        pop-over-data = "popoverFilesRepositoryCommitToggle.data"
-        pop-over-options = "{\"left\":210,\"top\":-198}"
-        pop-over-template = "viewPopoverFilesRepositoryCommitToggle"
-        pop-over-trigger = "activeAttr"
-      )
-        svg.iconnables.filetypes.icons-repository
-          use(
-            xlink:href = "#icons-repository-additional"
-          )
-        span.item-name …
   ul(
     ng-if = "dir.contents.models.length"
     ng-include = "'viewFileTreeDirItem'"

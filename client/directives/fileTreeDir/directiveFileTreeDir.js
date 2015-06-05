@@ -261,6 +261,12 @@ function fileTreeDir(
         }
       };
 
+      $scope.isEditingRepo = function () {
+        return $scope.fileModel.appCodeVersions.models.find(function (acv) {
+          return acv.editing;
+        });
+      };
+
       $scope.popoverFileExplorerRepository = {
         actions: {
           editRepo: function (acv) {

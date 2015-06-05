@@ -11,7 +11,9 @@
     | Back
   strong.strong.text-overflow Commit
   //- this button is empty on purpose
-  button.btn.btn-sm.pull-right.no-touching
+  button.btn.btn-sm.pull-right.no-touching(
+    ng-if = "!(data.gitDataOnly && state.fromServer)"
+  )
 
 .popover-content
   label.label.label-jump
@@ -36,7 +38,7 @@
     li.list-item.text-overflow(
       ng-repeat = "commit in repoSelector.data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
       ng-click = "repoSelector.actions.selectCommit(commit)"
-      ng-class = "{active: repoSelector.data.commit === commit}"
+      ng-class = "{active: repoSelector.data.commit === commit, disabled: state.saving}"
     ) {{commit.attrs.commit.message}}
       .toggle-group-detail.clearfix
         small.small {{commit.attrs.commit.committer.name}} authored {{commit.attrs.commit.committer.date | timeFrom}}

@@ -83,6 +83,10 @@ function repositorySelector(
             .catch(errs.handler);
         },
         selectCommit: function (commit){
+          if ($scope.state.saving) {
+            return;
+          }
+
           $scope.repoSelector.data.latestCommit = false;
           $scope.repoSelector.data.commit = commit;
           if ($scope.data.gitDataOnly) {

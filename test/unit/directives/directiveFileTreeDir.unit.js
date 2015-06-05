@@ -540,4 +540,15 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       });
     });
   });
+
+  it('should return true if we are editing a repository', function () {
+    mockFileModel.appCodeVersions.models = [{
+      editing: true
+    }];
+    expect($elScope.isEditingRepo()).to.be.ok;
+  });
+  it('should return false if we arent editing a repository', function () {
+    mockFileModel.appCodeVersions.models = [{}];
+    expect($elScope.isEditingRepo()).to.not.be.ok;
+  });
 });

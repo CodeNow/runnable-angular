@@ -221,6 +221,16 @@ describe('directiveRepoSelect'.bold.underline.blue, function () {
       sinon.assert.calledOnce(currentConfig.actions.create);
     });
 
+    it('should not allow me to select a new commit if I am already saving', function () {
+      var commit = {
+        test: '1234'
+      };
+      $scope.state.saving = true;
+      $scope.repoSelector.actions.selectCommit(commit);
+      $scope.$digest();
+      sinon.assert.notCalled(currentConfig.actions.create);
+    });
+
     it('should set view to 1 when leaving commit select', function () {
       $scope.repoSelector.actions.leaveCommitSelect();
       $scope.$digest();
