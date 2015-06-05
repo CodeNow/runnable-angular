@@ -18,6 +18,11 @@
         margin-top: 15px;
       }
     }
+
+    // for rows (full-width) with only small text
+    > .small:only-child {
+      margin: 6px;
+    }
   }
 
   // input column (right)

@@ -68,7 +68,8 @@
         border-color: rgba($gray-darker,.15);
       }
 
-      &:active {
+      &:active,
+      &.active {
         background: rgba($purple-light,.15);
         border-color: rgba($purple-light,.15);
         color: $purple-light;

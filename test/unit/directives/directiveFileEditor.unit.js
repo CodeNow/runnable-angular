@@ -18,7 +18,7 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
   var editorMock = {};
 
 
-  function initState(addFileToScope, autoUpdate) {
+  function initState(addFileToScope, autoUpdate, state) {
     var updatedBody = null;
     fileMock.fetch = sinon.spy(function (cb) {
       if (updatedBody !== null) {
@@ -64,6 +64,10 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
       };
       if (autoUpdate) {
         attrs['use-auto-update'] = 'true';
+      }
+      if (state) {
+        attrs.state = 'state';
+        $scope.state = state;
       }
       var tpl = directiveTemplate.attribute('file-editor', attrs);
 
@@ -230,5 +234,40 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
       expect(fileMock.state.isDirty, 'fileMock.state.isDirty').to.not.be.ok;
     });
 
+  });
+
+  describe('state', function () {
+    it('should set invalidDockerfile on state with p0 error', function () {
+      initState(true, false, {});
+      fileFetchCb();
+      $scope.$apply();
+
+      fileMock.state.body = '';
+      $scope.$apply();
+
+      expect($elScope.state).to.have.property('invalidDockerfile', true);
+    });
+
+    it('should set invalidDockerfile to false with only p1 error', function () {
+      initState(true, false, {});
+      fileFetchCb();
+      $scope.$apply();
+
+      fileMock.state.body = 'FROM nodejs\nADD asdffdsa';
+      $scope.$apply();
+
+      expect($elScope.state).to.have.property('invalidDockerfile', false);
+    });
+
+    it('should set invalidDockerfile to false with no err', function () {
+      initState(true, false, {});
+      fileFetchCb();
+      $scope.$apply();
+
+      fileMock.state.body = 'FROM nodejs\nCMD npm start';
+      $scope.$apply();
+
+      expect($elScope.state).to.have.property('invalidDockerfile', false);
+    });
   });
 });

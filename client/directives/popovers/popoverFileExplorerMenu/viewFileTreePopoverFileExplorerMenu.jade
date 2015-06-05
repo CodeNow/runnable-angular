@@ -38,3 +38,16 @@
             xlink:href = "#icons-folder-new"
           )
         | New Folder
+      //- if the user can add a repository…
+      li.divider(
+        ng-if = "$root.featureFlags.advancedRepositories"
+      )
+      li.list-item.popover-list-item(
+        ng-if = "$root.featureFlags.advancedRepositories"
+        ng-click = "actions.addRepository()"
+      )
+        svg.iconnables.icons-file-tree
+          use(
+            xlink:href = "#icons-repository-new"
+          )
+        | Add Repository…

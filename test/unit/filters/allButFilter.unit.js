@@ -2,34 +2,33 @@
 
 describe('allButFilter', function () {
   var allButFilter;
-  var keypather;
   beforeEach(function() {
     angular.mock.module('app');
     // Needs to have 'Filter' on the end to be properly injected
-    angular.mock.inject(function(_allButFilter_, _keypather_) {
+    angular.mock.inject(function(_allButFilter_) {
       allButFilter = _allButFilter_;
-      keypather = _keypather_;
     });
   });
 
   it('it should filter out repos it is given', function () {
     var originalRepos = [{
       attrs: {
-        name: 'a'
+        full_name: 'a'
       }
     }, {
       attrs: {
-        name: 'b'
+        full_name: 'b'
       }
     }];
-    // Container file structure, no attrs
-    var toBeFiltered = [{
-      name: 'a'
+    var appCodeVersions = [{
+      attrs: {
+        repo: 'a'
+      }
     }];
-    var results = allButFilter(originalRepos, toBeFiltered);
+    var results = allButFilter(originalRepos, appCodeVersions);
     expect(results).to.deep.equal([{
       attrs: {
-        name: 'b'
+        full_name: 'b'
       }
     }]);
   });

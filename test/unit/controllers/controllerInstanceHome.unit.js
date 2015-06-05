@@ -75,7 +75,6 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       $provide.factory('fetchInstancesByPod', mockFetch.fetch());
       $provide.value('favico', {
         reset : sinon.spy(),
-        setImage: sinon.spy(),
         setInstanceState: sinon.spy()
       });
       $provide.value('$stateParams', ctx.stateParams);
@@ -132,10 +131,43 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
         };
       });
       many.githubUsername = 'SomeKittens';
+      sinon.stub($state, 'is', function () {
+        return true;
+      });
       mockFetch.triggerPromise(many);
       $rootScope.$digest();
-      expect($scope.loading).to.be.false;
+      expect($scope.loading, 'loading').to.be.false;
+      $rootScope.$digest();
       sinon.assert.calledWith(ctx.fakeGo, 'instance.instance', {
+        userName: 'SomeKittens',
+        instanceName: 'spaaace'
+      });
+    });
+
+    it('should not navigate when the state changes before the instances return ', function () {
+      setup('SomeKittens');
+      expect($scope.loading).to.be.true;
+      $rootScope.$digest();
+      var userInstance = runnable.newInstance(apiMocks.instances.running, {noStore: true});
+      userInstance.attrs.createdBy.username = 'SomeKittens';
+      var many = runnable.newInstances(
+        [userInstance, apiMocks.instances.stopped],
+        {noStore: true}
+      );
+      many.forEach(function (instance) {
+        instance.children = {
+          models: [],
+          fetch: sinon.stub().callsArg(1)
+        };
+      });
+      many.githubUsername = 'SomeKittens';
+      sinon.stub($state, 'is', function () {
+        return false;
+      });
+      mockFetch.triggerPromise(many);
+      $rootScope.$digest();
+      expect($scope.loading, 'loading').to.be.false;
+      sinon.assert.neverCalledWith(ctx.fakeGo, 'instance.instance', {
         userName: 'SomeKittens',
         instanceName: 'spaaace'
       });
