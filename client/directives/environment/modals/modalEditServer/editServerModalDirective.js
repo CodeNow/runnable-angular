@@ -26,7 +26,7 @@ function editServerModal(
   cardInfoTypes,
   $timeout,
   loading,
-  loadingPromsies
+  loadingPromises
 ) {
   return {
     restrict: 'A',
@@ -39,7 +39,7 @@ function editServerModal(
       selectedTab: '= stateModel'
     },
     link: function ($scope, elem, attrs) {
-      loadingPromsies.clear('editServerModal');
+      loadingPromises.clear('editServerModal');
       $scope.isLoading = $rootScope.isLoading;
       if (helpCards.cardIsActiveOnThisContainer($scope.server.instance)) {
         $scope.helpCards = helpCards;
@@ -110,13 +110,13 @@ function editServerModal(
               return acv.attrs.repo.split('/')[1] === repo.repo.attrs.name;
             });
 
-            loadingPromsies.add('editServerModal', promisify(acv, 'destroy')()
+            loadingPromises.add('editServerModal', promisify(acv, 'destroy')()
               .catch(errs.handler)
             );
           },
           create: function (repo) {
             $scope.state.containerFiles.push(repo);
-            loadingPromsies.add('editServerModal', promisify($scope.state.contextVersion.appCodeVersions, 'create', true)({
+            loadingPromises.add('editServerModal', promisify($scope.state.contextVersion.appCodeVersions, 'create', true)({
               repo: repo.repo.attrs.full_name,
               branch: repo.branch.attrs.name,
               commit: repo.commit.attrs.sha,
@@ -141,7 +141,7 @@ function editServerModal(
               return acv.attrs.repo === repo.acv.attrs.repo;
             });
 
-            loadingPromsies.add('editServerModal', promisify(acv, 'update')({
+            loadingPromises.add('editServerModal', promisify(acv, 'update')({
               branch: repo.branch.attrs.name,
               commit: repo.commit.attrs.sha
             })
@@ -179,7 +179,7 @@ function editServerModal(
                 containerFile.saving = false;
               });
 
-            loadingPromsies.add('editServerModal', containerFile.fileUpload);
+            loadingPromises.add('editServerModal', containerFile.fileUpload);
           },
           save: function (containerFile) {
             if (!containerFile.type) {
@@ -209,7 +209,7 @@ function editServerModal(
               return fileModel.attrs.name === containerFile.name;
             });
             if (file) {
-              loadingPromsies.add('editServerModal',
+              loadingPromises.add('editServerModal',
                 promisify(file, 'destroy')()
                   .catch(errs.handler)
               );
@@ -344,7 +344,7 @@ function editServerModal(
         $rootScope.$broadcast('close-popovers');
         $scope.building = true;
         $scope.state.ports = convertTagToPortList();
-        return loadingPromsies.finished('editServerModal')
+        return loadingPromises.finished('editServerModal')
           .then(watchWhenTruthyPromise($scope, 'state.contextVersion'))
           .then(function () {
             var state = $scope.state;

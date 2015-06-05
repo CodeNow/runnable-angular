@@ -25,7 +25,8 @@ function explorer(
       explorerTitle: '@',
       toggleTheme: '=',
       showRepoFolder: '=',
-      editExplorer: '=?'
+      editExplorer: '=?',
+      loadingPromisesTarget: '@?'
     },
     link: function ($scope, elem, attrs) {
       $scope.$storage = $localStorage.$default({

@@ -17,7 +17,7 @@ function fileTreeDir(
   configAPIHost,
   fetchCommitData,
   cardInfoTypes,
-  loadingPromsies
+  loadingPromises
 ) {
   return {
     restrict: 'A',
@@ -31,7 +31,8 @@ function fileTreeDir(
       editExplorer: '=',
       showRepoFolder: '=',
       isRootDir: '=?',
-      state: '=?'
+      state: '=?',
+      loadingPromisesTarget: '='
     },
     templateUrl: 'viewFileTreeDir',
     link: function ($scope, element, attrs) {
@@ -307,7 +308,7 @@ function fileTreeDir(
         },
         actions: {
           create: function (repo) {
-            loadingPromsies.add('editServerModal', promisify($scope.fileModel.appCodeVersions, 'create', true)({
+            loadingPromises.add($scope.loadingPromisesTarget, promisify($scope.fileModel.appCodeVersions, 'create', true)({
               repo: repo.repo.attrs.full_name,
               branch: repo.branch.attrs.name,
               commit: repo.commit.attrs.sha,
@@ -320,7 +321,7 @@ function fileTreeDir(
             var acv = $scope.fileModel.appCodeVersions.models.find(function (acv) {
               return acv.attrs.repo.split('/')[1] === repo.repo.attrs.name;
             });
-            loadingPromsies.add('editServerModal', promisify(acv, 'destroy')()
+            loadingPromises.add($scope.loadingPromisesTarget, promisify(acv, 'destroy')()
               .catch(errs.handler)
             );
           },
@@ -329,7 +330,7 @@ function fileTreeDir(
               return acv.attrs.repo === repo.acv.attrs.repo;
             });
 
-            loadingPromsies.add('editServerModal', promisify(acv, 'update')({
+            loadingPromises.add($scope.loadingPromisesTarget, promisify(acv, 'update')({
                 branch: repo.branch.attrs.name,
                 commit: repo.commit.attrs.sha
               })

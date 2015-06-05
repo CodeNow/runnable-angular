@@ -1,9 +1,9 @@
 'use strict';
 
 require('app')
-  .factory('loadingPromsies', loadingPromsies);
+  .factory('loadingPromises', loadingPromises);
 
-function loadingPromsies(
+function loadingPromises(
   $q
 ) {
   var promiseHash = {};
