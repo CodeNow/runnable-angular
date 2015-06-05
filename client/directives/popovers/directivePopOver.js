@@ -14,7 +14,8 @@ function popOver(
   $timeout,
   keypather,
   $log,
-  exists
+  exists,
+  $localStorage
 ) {
   return {
     restrict: 'A',
@@ -27,6 +28,7 @@ function popOver(
       template: '= popOverTemplate'
     },
     link: function ($scope, element, attrs) {
+      $scope.$localStorage = $localStorage;
       if (!$scope.template) {
         // Check if the string is set by checking the attrs
         if (attrs.popOverTemplate) {
