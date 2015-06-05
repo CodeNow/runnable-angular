@@ -47,15 +47,3 @@
           ng-click = "$event.stopPropagation()"
           target = "_blank"
         ) {{ ::commit.attrs.sha | limitTo:7 }}
-
-.popover-footer.clearfix
-  button.btn.btn-sm.green(
-    ng-if = "data.gitDataOnly"
-    ng-click = "repoSelector.actions.save()"
-    ng-disabled = "state.saving"
-  ) {{ state.fromServer ? 'Save' : 'Add Repository' }}
-
-  button.btn.btn-sm.gray.btn-cancel(
-    ng-click = "closePopover()"
-    ng-disabled = "state.saving"
-  ) Cancel
