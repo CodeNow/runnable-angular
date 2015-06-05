@@ -1,6 +1,9 @@
 // home
 .home {
-  background: linear-gradient($purple-dark, $purple);
+
+  body {
+    background: $purple-dark;
+  }
 
   .content-wrapper {
     display: flex;
@@ -172,14 +175,25 @@
   }
 
   // modal
-  .modal-backdrop .btn-sm {
-    align-self: flex-start;
-    color: $purple;
-    line-height: 36px;
+  .modal-backdrop {
+    background: $black;
+    padding: 60px;
 
-    &:hover,
-    &:active {
-      color: $purple-light;
+    @include media(xs) {
+      padding: 60px 0;
+    }
+
+    .btn-sm {
+      color: $gray-lighter;
+      left: -15px;
+      line-height: 36px;
+      position: absolute;
+      top: -45px;
+
+      &:hover,
+      &:active {
+        color: $white;
+      }
     }
   }
 
@@ -245,8 +259,8 @@
 
 .embed-video {
   animation: scale-in-modal .2s ease-in forwards;
-  height: 576px;
-  width: 1024px;
+  height: 100%;
+  width: 100%;
   z-index: $z-modal;
 
   .iframe {

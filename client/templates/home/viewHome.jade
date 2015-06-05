@@ -41,18 +41,17 @@ section.home-hero
         )
   //- error modal
   .modal-backdrop.in(
-    ng-click = "$event.stopPropagation()"
     ng-if = "data.embedActive"
   )
-    button.btn.btn-sm(
-      ng-click = "data.embedActive = false"
-    )
-      svg.iconnables.icons-close.float-left
-        use(
-          xlink:href = "#icons-close"
-        )
-      | Close
-    .embed.embed-video
+    .embed-video
+      button.btn.btn-sm(
+        ng-click = "data.embedActive = false"
+      )
+        svg.iconnables.icons-close.float-left
+          use(
+            xlink:href = "#icons-close"
+          )
+        | Close
       iframe.iframe(
         allowfullscreen
         frameborder = "0"
