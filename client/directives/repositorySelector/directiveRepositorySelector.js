@@ -71,7 +71,9 @@ function repositorySelector(
               $scope.repoSelector.data.loading = false;
               $scope.repoSelector.data.repo.loading = false;
               $scope.state.view = 2;
-              $scope.repoSelector.data.commit = commits.models[0];
+              if (!$scope.data.gitDataOnly) {
+                $scope.repoSelector.data.commit = commits.models[0];
+              }
               $scope.repoSelector.data.name = $scope.repoSelector.data.repo.attrs.name;
             })
             .catch(errs.handler);
