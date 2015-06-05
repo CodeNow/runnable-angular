@@ -4,11 +4,11 @@
   position: relative;
   width: 100%;
 
-  &.view-2 .popover-view {
+  .view-2 .popover-view {
     transform: translate3d(-100%,0,0);
   }
 
-  &.view-3 .popover-view {
+  .view-3 .popover-view {
     transform: translate3d(-200%,0,0);
   }
 
