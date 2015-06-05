@@ -20,11 +20,21 @@
   }
 
   .icons-status {
-    // left: 12px;
-    // position: absolute;
-    // top: 11px;
     flex: 0 0 auto;
-    margin: 11px 6px 0 12px
+    margin: 11px 6px 0 12px;
+  }
+}
+
+.sidebar-section {
+  border-bottom: 1px solid $gray-lighter;
+  flex: 0 0 auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 0 12px;
+
+  &.closed {
+    flex: 0 0 60px;
+    overflow-y: hidden;
   }
 }
 
@@ -98,8 +108,22 @@
   padding: 12px 0 6px;
   position: relative;
 
-  &:not(:first-child) .server-name {
-    padding-right: 9px;
+  // less padding when next to the .button-configure
+  &:first-child .server-name {
+    padding-right: 3px;
+  }
+}
+
+.server-name {
+  flex: 1 1 auto;
+  padding-right: 9px;
+
+  &:active {
+    color: $purple-light;
+
+    .strong {
+      color: $purple-light;
+    }
   }
 }
 
@@ -119,6 +143,7 @@
     }
   }
 
+  // for when the more containers button isn't present
   &:last-child {
     margin-bottom: 6px;
   }
@@ -135,7 +160,6 @@
 
   // .button-configure and .button-hide
   > .btn {
-    color: currentColor;
     opacity: .6;
     overflow: hidden;
 
@@ -146,24 +170,6 @@
     &:active {
       opacity: 1;
     }
-
-    .iconnables {
-      right: 5px;
-      width: 15px;
-    }
-  }
-}
-
-.server-name {
-  flex: 1 1 auto;
-  padding-right: 3px;
-
-  &:active {
-    color: $purple-light;
-
-    .strong {
-      color: $purple-light;
-    }
   }
 }
 
@@ -171,26 +177,19 @@
   display: block;
   flex: 0 0 30px;
   height: 30px;
+
+  .iconnables {
+    right: 5px;
+    width: 15px;
+  }
 }
 
 .button-hide {
+  color: currentColor;
   display: none;
   flex: 0 0 auto;
   font-style: italic;
   margin: 6px 5px 0 -6px;
-}
-
-.sidebar-section {
-  border-bottom: 1px solid $gray-lighter;
-  flex: 0 0 auto;
-  overflow-x: hidden;
-  overflow-y: auto;
-  padding: 0 12px;
-
-  &.closed {
-    flex: 0 0 60px;
-    overflow-y: hidden;
-  }
 }
 
 .more-containers {
