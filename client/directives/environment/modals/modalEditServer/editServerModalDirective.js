@@ -18,8 +18,7 @@ function editServerModal(
   fetchUser,
   populateDockerfile,
   promisify,
-  watchWhenTruthyPromise,
-  watchWhenFalsyPromise,
+  watchOncePromise,
   helpCards,
   $rootScope,
   uploadFile,
@@ -250,7 +249,7 @@ function editServerModal(
           server: server
         };
 
-        watchWhenTruthyPromise($scope, 'server.containerFiles')
+        watchOncePromise($scope, 'server.containerFiles', true)
           .then(function (containerFiles) {
             $scope.state.containerFiles = containerFiles.map(function (model) {
               var cloned = model.clone();
@@ -329,14 +328,14 @@ function editServerModal(
         $rootScope.$broadcast('close-popovers');
         $scope.building = true;
         $scope.state.ports = convertTagToPortList();
-        return watchWhenTruthyPromise($scope, 'state.contextVersion')
-          .then(function () {
-            return watchWhenFalsyPromise($scope, 'state.acv.isDirty()');
-          })
+        return $q.all([
+          watchOncePromise($scope, 'state.contextVersion', true),
+          watchOncePromise($scope, 'state.acv.isDirty()', false)
+        ])
           .then(function () {
             var state = $scope.state;
             if (state.advanced) {
-              return watchWhenTruthyPromise($scope, 'openItems.isClean()')
+              return watchOncePromise($scope, 'openItems.isClean()', true)
                 .then(function () {
                   return buildBuild(state);
                 });

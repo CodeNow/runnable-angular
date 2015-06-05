@@ -1,31 +1,27 @@
 'use strict';
 
 require('app')
-  .factory('watchWhenTruthyPromise', function watchWhenTruthyPromise(
+  .factory('watchOncePromise', function watchOncePromise(
     $q
   ) {
-    return function ($scope, watchMe) {
+    var unWatch;
+    return function ($scope, watchMe, returnWhen) {
       return $q(function (resolve) {
-        var unWatch = $scope.$watch(watchMe, function (n) {
+        function whenTrue(n) {
+
+          console.log('watchMe', watchMe, n);
           if (n) {
             unWatch();
             resolve(n);
           }
-        });
-      });
-    };
-  })
-  .factory('watchWhenFalsyPromise', function watchWhenFalsePromise(
-    $q
-  ) {
-    return function ($scope, watchMe) {
-      return $q(function (resolve) {
-        var unWatch = $scope.$watch(watchMe, function (n) {
+        }
+        function whenFalse(n) {
           if (!n) {
             unWatch();
             resolve(n);
           }
-        });
+        }
+        unWatch = $scope.$watch(watchMe, returnWhen ? whenTrue : whenFalse);
       });
     };
   });

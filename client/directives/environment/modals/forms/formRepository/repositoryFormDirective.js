@@ -2,11 +2,12 @@
 
 require('app')
   .directive('repositoryForm', function repositoryForm(
+    $q,
     errs,
     hasKeypaths,
     keypather,
     promisify,
-    watchWhenTruthyPromise
+    watchOncePromise
   ) {
     return {
       restrict: 'A',
@@ -16,15 +17,16 @@ require('app')
         startCommandCanDisable: '=?'
       },
       link: function ($scope) {
-        watchWhenTruthyPromise($scope, 'state.acv')
-          .then(function () {
-            return watchWhenTruthyPromise($scope, 'state.repo.branches');
-          })
-          .then(function (branches) {
-            if (!keypather.get(branches, 'models.length')) {
-              return promisify(branches, 'fetch')();
+        $q.all({
+          acv: watchOncePromise($scope, 'state.acv', true),
+          branches: watchOncePromise($scope, 'state.repo.branches', true)
+        })
+          .then(function (data) {
+            console.log('data', data);
+            if (!keypather.get(data, 'branches.models.length')) {
+              return promisify(data.branches, 'fetch')();
             }
-            return branches;
+            return data.branches;
           })
           .then(function (branches) {
             if ($scope.state.branch) { return; }
@@ -35,7 +37,7 @@ require('app')
 
         $scope.$watch('state.branch', function (newBranch, oldBranch) {
           if (newBranch && oldBranch && newBranch.attrs.name !== oldBranch.attrs.name) {
-            return watchWhenTruthyPromise($scope, 'state.acv')
+            return watchOncePromise($scope, 'state.acv', true)
               .then(function (mainAcv) {
                 var newState = {
                   branch: newBranch.attrs.name,

@@ -1,6 +1,6 @@
 'use strict';
 
-describe('repositoryFormDirective'.bold.underline.blue, function () {
+describe.only('repositoryFormDirective'.bold.underline.blue, function () {
   var ctx;
   var $timeout;
   var $scope;
@@ -112,12 +112,13 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
       $elScope = ctx.element.isolateScope();
       $scope.$digest();
 
-      $scope.state.acv = ctx.acv;
       $scope.state.repo = ctx.repo1;
       $scope.$digest();
+      $scope.state.acv = ctx.acv;
+      $scope.$digest();
+      $rootScope.$apply();
 
       sinon.assert.called(ctx.repo1.branches.fetch);
-      $scope.$digest();
       $scope.$digest();
       expect($scope.state.branch, 'branch').to.be.ok;
       expect($scope.state.branch.attrs.name, 'branch name').to.equal('master');

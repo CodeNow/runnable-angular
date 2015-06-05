@@ -18,7 +18,7 @@ function setupServerModal(
   keypather,
   populateDockerfile,
   promisify,
-  watchWhenFalsyPromise,
+  watchOncePromise,
   $log,
   cardInfoTypes
 ) {
@@ -66,7 +66,7 @@ function setupServerModal(
         if (keypather.get($scope.state, 'selectedStack.ports.length')) {
           $scope.state.ports = $scope.state.selectedStack.ports.replace(/ /g, '').split(',');
         }
-        return watchWhenFalsyPromise($scope, 'state.acv.isDirty()')
+        return watchOncePromise($scope, 'state.acv.isDirty()', false)
           .then(function () {
             return $scope.actions.createAndBuild(
               createDockerfileFromSource(
