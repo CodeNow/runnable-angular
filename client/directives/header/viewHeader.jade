@@ -2,7 +2,7 @@ img.logo.logo-icon.float-left(
   height = "45"
   src = "/build/images/runnable-icon-white.svg"
   width = "45"
-  ng-click = "editFeatureFlags = dataApp.data.configEnvironment === 'development' || dataApp.data.configEnvironment === 'staging'"
+  ng-click = "editFeatureFlags = dataApp.data.activeAccount.oauthName() === 'CodeNow'"
   pop-over
   pop-over-active = "editFeatureFlags"
   pop-over-template = "viewPopoverFeatureFlags"
