@@ -1,6 +1,6 @@
 'use strict';
 
-describe.only('repositoryFormDirective'.bold.underline.blue, function () {
+describe('repositoryFormDirective'.bold.underline.blue, function () {
   var ctx;
   var $timeout;
   var $scope;
