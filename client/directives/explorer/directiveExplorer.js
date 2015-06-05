@@ -12,7 +12,8 @@ function explorer(
   errs,
   helperCreateFS,
   promisify,
-  $localStorage
+  $localStorage,
+  $timeout
 ) {
   return {
     restrict: 'A',
@@ -30,6 +31,7 @@ function explorer(
       $scope.$storage = $localStorage.$default({
         explorerIsClosed: false
       });
+      $scope.state = {};
 
       $scope.filePopover = {
         data: {
@@ -42,6 +44,13 @@ function explorer(
               isDir: false
             }, errs.handler);
             $scope.$broadcast('close-popovers');
+          },
+          addRepository: function () {
+            $scope.$broadcast('close-popovers');
+            $scope.showAddRepo = false;
+            $timeout(function () {
+              $scope.state.showAddRepo = true;
+            });
           },
           createFolder: function() {
             helperCreateFS($scope.rootDir, {

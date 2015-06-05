@@ -1,0 +1,196 @@
+'use strict';
+
+describe('directiveRepoSelect'.bold.underline.blue, function () {
+  var element;
+  var $scope;
+  var $rootScope;
+  var keypather;
+  var $q;
+
+  var currentConfig;
+  var fetchOwnerRepoStub;
+
+  function initState(config) {
+    angular.mock.module('app');
+    angular.mock.module(function ($provide) {
+      $provide.factory('fetchOwnerRepos', function ($q) {
+        runnable.reset(mocks.user);
+        fetchOwnerRepoStub = sinon.stub().returns(
+          $q.when(
+            runnable.newGithubRepos(
+              mocks.repoList, {
+                noStore: true
+              })
+          )
+        );
+        return fetchOwnerRepoStub;
+      });
+    });
+
+    angular.mock.inject(function (
+      $compile,
+      _$rootScope_,
+      _keypather_,
+      _$q_
+    ) {
+      keypather = _keypather_;
+      $rootScope = _$rootScope_;
+      $q = _$q_;
+
+      keypather.set($rootScope, 'dataApp.data.activeAccount.oauthName', sinon.mock().returns('myOauthName'));
+
+      $scope = $rootScope.$new();
+
+      if(!config){
+        config = {};
+      }
+
+      if (!config.actions) {
+        config.actions = {
+          create: sinon.mock().returns($q.when()),
+          remove: sinon.mock().returns($q.when()),
+          update: sinon.mock().returns($q.when())
+        };
+      }
+
+      if (!keypather.get(config, 'data.appCodeVersions')) {
+        keypather.set(config, 'data.appCodeVersions', []);
+      }
+
+
+      currentConfig = config;
+      $scope.actions = config.actions;
+      $scope.data = config.data;
+      var tpl = directiveTemplate.attribute('repository-selector', {
+        'actions': 'actions',
+        'data': 'data'
+      });
+      element = $compile(tpl)($scope);
+      $scope.$digest();
+    });
+  }
+
+  describe('with no data passed in', function () {
+    beforeEach(function () {
+      initState();
+    });
+
+    it('should load repo list and default it\'s state to view 1', function () {
+      sinon.assert.called($rootScope.dataApp.data.activeAccount.oauthName);
+      sinon.assert.calledOnce(fetchOwnerRepoStub);
+      expect($scope.repoSelector.data.githubRepos.models).to.exist;
+      expect($scope.state.view).to.equal(1);
+    });
+
+    it('should load the default branch and its commits when a repo is selected', function () {
+      var commits = [
+        {
+          name: 'This is a commit message!'
+        }
+      ];
+      var branches = [
+        {
+          attrs: {
+            name: 'master'
+          }
+        },
+        {
+          attrs: {
+            name: 'default'
+          },
+          commits: {
+            fetch: sinon.stub().returns({
+              models: commits
+            })
+          }
+        }
+      ];
+      var repo = {
+        attrs: {
+          name: 'My Repo Name',
+          default_branch: 'default'
+        },
+        branches: {
+          fetch: sinon.stub().returns({
+            models: branches
+          })
+        }
+      };
+
+      $scope.repoSelector.actions.selectRepo(repo);
+      $scope.$digest();
+
+      sinon.assert.calledOnce(repo.branches.fetch);
+      sinon.assert.calledOnce(branches[1].commits.fetch);
+      expect($scope.repoSelector.data.commit).to.equal(commits[0]);
+      expect($scope.repoSelector.data.name).to.equal('My Repo Name');
+    });
+
+    it('should load the commits when a branch is selected', function () {
+      var commits = [
+        {
+          name: 'This is a commit message!'
+        }
+      ];
+      var branch = {
+        attrs: {
+          name: 'default'
+        },
+        commits: {
+          fetch: sinon.stub().returns({
+            models: commits
+          })
+        }
+      };
+
+      $scope.repoSelector.actions.selectBranch(branch);
+      $scope.$digest();
+
+      sinon.assert.calledOnce(branch.commits.fetch);
+      expect($scope.repoSelector.data.branch).to.equal(branch);
+    });
+
+    it('should change the view when a commit is selected', function () {
+      var commit = {
+        test: '1234'
+      };
+      $scope.repoSelector.actions.selectCommit(commit);
+
+      expect($scope.state.view).to.equal(2);
+      expect($scope.repoSelector.data.commit).to.equal(commit);
+    });
+
+    it('should trigger create on save', function () {
+      $scope.repoSelector.actions.save();
+      $scope.$digest();
+
+      sinon.assert.calledOnce(currentConfig.actions.create);
+      sinon.assert.notCalled(currentConfig.actions.update);
+    });
+  });
+
+  describe('with data', function () {
+    beforeEach(function () {
+      initState({
+        data:{
+          repo: {}
+        }
+      });
+    });
+
+    it('should trigger update on save', function () {
+      $scope.repoSelector.actions.save();
+      $scope.$digest();
+
+      sinon.assert.notCalled(currentConfig.actions.create);
+      sinon.assert.calledOnce(currentConfig.actions.update);
+    });
+
+    it('should trigger remove on remove function', function () {
+      $scope.repoSelector.actions.remove();
+      $scope.$digest();
+
+      sinon.assert.calledOnce(currentConfig.actions.remove);
+    });
+  });
+});
