@@ -1,11 +1,20 @@
 // home
 .home {
   background: linear-gradient($purple-dark, $purple);
+
+  .content-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
 }
 
 // header
 .home-header {
   background: transparent;
+  display: 0 0 auto;
+  height: auto;
 
   .logo {
     margin-left: 0;
@@ -36,6 +45,9 @@
 
 // hero
 .home-hero {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
   padding-top: 120px;
 
   @include media(sm) {
@@ -124,6 +136,7 @@
     background: $purple-darker;
     bottom: 0;
     box-shadow: 0 2px 3px rgba($black,.1);
+    flex: 1 1 auto;
     margin-top: 45px;
     padding: 15px 0;
     width: 100%;
