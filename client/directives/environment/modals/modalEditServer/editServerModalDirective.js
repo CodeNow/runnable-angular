@@ -279,7 +279,7 @@ function editServerModal(
               'instance.contextVersion.getMainAppCodeVersion().attrs.branch'
             )}));
         }
-        return loadingPromsies.add('editServerModal', promisify(server.contextVersion, 'deepCopy')()
+        return promisify(server.contextVersion, 'deepCopy')()
           .then(function (contextVersion) {
             $scope.state.contextVersion = contextVersion;
             return promisify(contextVersion, 'fetch')();
@@ -307,8 +307,7 @@ function editServerModal(
           })
           .catch(function (err) {
             errs.handler(err);
-          })
-        );
+          });
       }
 
       resetState($scope.server);
