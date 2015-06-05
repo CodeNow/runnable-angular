@@ -1,6 +1,6 @@
 form.modal-dialog.modal-edit(
   name = "editServerForm"
-  ng-class = "{disabled: building}"
+  ng-class = "{disabled: building || isLoading.editServerModal}"
 )
   header.modal-header
     server-status-card-header.btn.btn-sm.btn-title(
@@ -88,8 +88,9 @@ form.modal-dialog.modal-edit(
           )
         span.btn-text Logs
 
-  section.modal-body
-
+  section.modal-body(
+    ng-if = "!isLoading.editServerModal"
+  )
     .modal-form(
       ng-show = "selectedTab === 'buildfiles'"
       ng-include = "'viewFormBuildfiles'"
@@ -127,6 +128,13 @@ form.modal-dialog.modal-edit(
     .modal-form.modal-logs(
       ng-if = "selectedTab === 'logs'"
       ng-include = "'viewFormLogs'"
+    )
+
+  section.modal-body(
+    ng-if = "isLoading.editServerModal"
+  )
+    .spinner-wrapper.spinner-md.spinner-gray.in(
+      ng-include = "'spinner'"
     )
 
   footer.modal-footer.clearfix
