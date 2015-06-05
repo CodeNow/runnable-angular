@@ -11,13 +11,14 @@ header.header.home-header
     a.btn.btn-sm.purple.float-right(
       ng-href = "{{ dataHome.data.hasPass ? dataApp.data.loginURL : 'mailto:support@runnable.com?subject=Please send me an invite for the beta' }}"
     ) {{ dataHome.data.hasPass ? 'Sign In' : 'Request Invite' }}
-    a.btn.btn-sm.float-right(
-      href = "mailto:info@runnable.com"
-    ) Email Us
-    a.btn.btn-sm.float-right(
-      href = "http://support.runnable.io/"
-      target = "_blank"
-    ) Support
+    .float-right.clearfix
+      a.btn.btn-sm.float-right(
+        href = "mailto:info@runnable.com"
+      ) Email Us
+      a.btn.btn-sm.float-right(
+        href = "http://support.runnable.io/"
+        target = "_blank"
+      ) Support
 
 section.home-hero
   h1.h1 Runnable lets you create Sandboxes (collections of one or more servers) to run the code in your GitHub repositories, on&#8209;demand.
