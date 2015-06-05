@@ -89,6 +89,7 @@ function parseDockerfileForPorts(dockerfile) {
 }
 
 function getCardInfoTypes(
+  errs,
   uuid
 ) {
 
@@ -105,10 +106,17 @@ function getCardInfoTypes(
 
     if (contents) {
       var commandList = contents.split('\n');
-      var commands = /^ADD ((?:\\\s|[^\s])*) ((?:\\\s|[^\s])*)/.exec(commandList[0]);
+      var /*blame it on my*/ add = /^ADD (.*)/.exec(commandList[0]);
 
-      this.name = commands[1].replace('./', '');
-      this.path = commands[2].replace('/', '');
+      try {
+        // ADD paramaters are in array syntax
+        var params = JSON.parse(add[1]);
+
+        this.name = params[0].replace('./', '');
+        this.path = params[1].replace('/', '');
+      } catch (e) {
+        errs.handler('ADD command not in array syntax, please remove and reupload file');
+      }
       commandList.splice(0, 2); //Remove the ADD and the WORKDIR
       this.commands = commandList.map(function (item) {
         return item.replace('RUN ', '');
@@ -120,7 +128,7 @@ function getCardInfoTypes(
       var self = this;
       self.commands = self.commands || '';
       self.path = self.path || '';
-      var contents = 'ADD ./' + self.name.trim() + ' /' + self.path.trim() + '\n'+
+      var contents = 'ADD ["./' + self.name.trim() + '", "/' + self.path.trim() + '"]\n'+
         'WORKDIR /' + self.path.trim() + '\n'+
         self.commands
           .split('\n')
@@ -128,7 +136,7 @@ function getCardInfoTypes(
             return command.trim().length;
           })
           .map(function (command) {
-            return 'RUN '+command;
+            return 'RUN ' + command;
           })
           .join('\n');
       return wrapWithType(contents, self.type);
