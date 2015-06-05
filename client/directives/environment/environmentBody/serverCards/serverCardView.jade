@@ -18,21 +18,16 @@
     pop-over-template = "serverOptionsCardPopover"
   )
 
-  //- This element displays while the card is validating.
-  //- While building, it says "Validating Build…"
-  //- If it builds successfully, it changes to "Validating Container CMD"
-  //- If it runs for 5 seconds, then it changes to "Template Validated"
-  
+  //- This element displays while the card building.
   .card-status-building(
     ng-if = "$root.featureFlags.cardStatus"
   )
   
-  //- This element displays the card failed to build and/or run for 5 seconds.
+  //- This element displays if the card failed to build and/or run for 5 seconds.
   //- If it failed to build:
   //- Text says "Build Failed", and "View Logs" links to build logs
   //- If it failed to run:
   //- Text says "Container CMD Failed", and "View Logs" links to CMD logs
-  
   .card-status-failed(
     ng-if = "$root.featureFlags.cardStatus"
   ) Build Failed.
