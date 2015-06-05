@@ -61,15 +61,17 @@ function ControllerInstanceHome(
     .catch(errs.handler);
   function goToInstance(username, instanceName) {
     setLastOrg(username);
-    if (instanceName) {
-      $state.go('instance.instance', {
-        instanceName: instanceName,
-        userName: username
-      }, {location: 'replace'});
-    } else {
-      $state.go('config.home', {
-        userName: username
-      }, {location: 'replace'});
+    if ($filter('isState')('instance')) {
+      if (instanceName) {
+        $state.go('instance.instance', {
+          instanceName: instanceName,
+          userName: username
+        }, {location: 'replace'});
+      } else {
+        $state.go('config.home', {
+          userName: username
+        }, {location: 'replace'});
+      }
     }
   }
 
