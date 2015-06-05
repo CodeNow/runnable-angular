@@ -2,6 +2,12 @@ img.logo.logo-icon.float-left(
   height = "45"
   src = "/build/images/runnable-icon-white.svg"
   width = "45"
+  ng-click = "editFeatureFlags = dataApp.data.configEnvironment === 'development' || dataApp.data.configEnvironment === 'staging'"
+  pop-over
+  pop-over-active = "editFeatureFlags"
+  pop-over-template = "viewPopoverFeatureFlags"
+  pop-over-trigger = "activeAttr"
+  pop-over-options = "{\"left\":40}"
 )
 
 .btn-group
