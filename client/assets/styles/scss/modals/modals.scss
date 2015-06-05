@@ -88,8 +88,7 @@
     line-height: 36px;
   }
 
-  // direct-child specificity to avoid targeting .card-title inside .btn when $root.featureFlags.saveToolbar is off (see editServerModalVew.jade)
-  > .card-title {
+  .card-title {
     color: $gray-dark;
     display: inline-block;
     font-size: 18px;

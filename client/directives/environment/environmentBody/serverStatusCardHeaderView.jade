@@ -1,4 +1,4 @@
-span.card-title.clearfix.text-overflow(
+span.clearfix.text-overflow(
   ng-class = "{\
     'no-touching': noTouching\
   }"
@@ -6,9 +6,31 @@ span.card-title.clearfix.text-overflow(
   pop-over-actions = "actions"
   pop-over-data = "popOverServerData"
   ng-attr-title = "{{ server.opts.name || server.instance.getDisplayName() }}"
-) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
+)
+  span.card-title(
+    ng-if = "$root.featureFlags.cardStatus"
+  ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
+    svg.iconnables.icons-arrow-down(
+      ng-if = "!noTouching"
+    )
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+  status-icon(
+    instance = "server.instance"
+    ng-if = "!$root.featureFlags.cardStatus"
+  )
+  span.btn-text.text-overflow(
+    ng-attr-title = "{{ server.opts.name || server.instance.getDisplayName() }}"
+    ng-if = "!$root.featureFlags.cardStatus"
+  ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
+  span.btn-text(
+    ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
+    ng-if = "!$root.featureFlags.cardStatus"
+  ) {{ server.instance | cardBuildStatusText:true}}
   svg.iconnables.icons-arrow-down(
     ng-if = "!noTouching"
+    ng-if = "!$root.featureFlags.cardStatus"
   )
     use(
       xlink:href = "#icons-arrow-down"

@@ -135,7 +135,6 @@
   height: 81px;
   justify-content: center;
   padding: 0 15px;
-  text-align: center;
 
   .card-title {
     cursor: pointer;
@@ -143,15 +142,15 @@
     flex-direction: 0 0 30px;
     font-size: 20px;
     line-height: 33px;
-    margin: -3px auto 0;
+    margin: 0 auto;
 
-     &:hover {
-      color: $purple-light;
-     }
+   &:hover {
+    color: $purple-light;
+   }
 
-     &:active {
-      color: $purple;
-     }
+   &:active {
+    color: $purple;
+   }
   }
 
   .icons-arrow-down {
@@ -212,6 +211,57 @@
     }
   }
 }
+
+// ***********************
+// deprecated styles, remove with $root.featureFlags.cardStatus
+
+.card-header {
+  margin: 0 15px 6px;   
+}
+
+// title group
+.btn-title {
+  display: flex;
+  margin: 12px auto 0;
+  max-width: 100%;
+  padding-right: 30px;
+
+  // hide arrow space
+  &.no-touching {
+    padding-right: 15px;
+  }
+
+  .btn-text {
+
+    &:first-child {
+      flex: 1 1 auto;
+    }
+
+    + .btn-text {
+      flex: 0 0 auto;
+      opacity: .5;
+      padding-left: 3px; // replaces a standard space (flexbox doesn't include it in the calculation)
+    }
+  }
+
+  // status
+  .icons-status {
+    margin-right: 6px;
+    margin-top: 12px; // 'vertical center'
+  }
+
+  // arrow down
+  .icons-arrow-down {
+    flex: 0 0 18px;
+    margin: 0 0 0 6px;
+    height: 100%;
+    top: 0;
+    width: 24px;
+  }
+}
+
+// end deprecated styles
+// ***********************
 
 // body
 .card-body,
