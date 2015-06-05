@@ -98,24 +98,24 @@ function editServerModal(
       $scope.repositoryPopover = {
         actions: {
           remove: function (repo) {
+            var myIndex = 0;
+            $scope.state.containerFiles.find(function (containerFile, index) {
+              myIndex = index;
+              return containerFile.id === repo.id;
+            });
+
+            $scope.state.containerFiles.splice(myIndex, 1);
+
             var acv = $scope.state.contextVersion.appCodeVersions.models.find(function (acv) {
               return acv.attrs.repo.split('/')[1] === repo.repo.attrs.name;
             });
 
             loadingPromsies.add('editServerModal', promisify(acv, 'destroy')()
-              .then(function () {
-                var myIndex = 0;
-                $scope.state.containerFiles.find(function (containerFile, index) {
-                  myIndex = index;
-                  return containerFile.id === repo.id;
-                });
-
-                $scope.state.containerFiles.splice(myIndex, 1);
-              })
               .catch(errs.handler)
             );
           },
           create: function (repo) {
+            $scope.state.containerFiles.push(repo);
             loadingPromsies.add('editServerModal', promisify($scope.state.contextVersion.appCodeVersions, 'create', true)({
               repo: repo.repo.attrs.full_name,
               branch: repo.branch.attrs.name,
@@ -123,13 +123,20 @@ function editServerModal(
               additionalRepo: true
             })
               .then(function (acv) {
-                $scope.state.containerFiles.push(repo);
                 repo.acv = acv;
               })
               .catch(errs.handler)
             );
           },
           update: function (repo) {
+            var myRepo = $scope.state.containerFiles.find(function (containerFile) {
+              return containerFile.id === repo.id;
+            });
+
+            Object.keys(repo).forEach(function (key) {
+              myRepo[key] = repo[key];
+            });
+
             var acv = $scope.state.contextVersion.appCodeVersions.models.find(function (acv) {
               return acv.attrs.repo === repo.acv.attrs.repo;
             });
@@ -139,14 +146,6 @@ function editServerModal(
               commit: repo.commit.attrs.sha
             })
               .then(function (acv) {
-                var myRepo = $scope.state.containerFiles.find(function (containerFile) {
-                  return containerFile.id === repo.id;
-                });
-
-                Object.keys(repo).forEach(function (key) {
-                  myRepo[key] = repo[key];
-                });
-
                 myRepo.acv = acv;
               })
               .catch(errs.handler)
