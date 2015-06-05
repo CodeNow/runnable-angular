@@ -3,16 +3,11 @@
 describe('serviceFavico'.bold.underline.blue, function () {
   var favico;
   var favjsMock;
-  var instanceStatusMock;
-  var instanceStatusValue;
   function initState () {
     favjsMock = {
       reset: sinon.spy(),
       image: sinon.spy()
     };
-    instanceStatusMock = sinon.spy(function () {
-      return instanceStatusValue;
-    });
     angular.mock.module('app', function ($provide) {
       $provide.value('favicojs', function (obj) {
         expect(obj).to.deep.equal({
@@ -20,7 +15,6 @@ describe('serviceFavico'.bold.underline.blue, function () {
         });
         return favjsMock;
       });
-      $provide.value('instanceStatus', instanceStatusMock);
     });
 
     angular.mock.inject(function (_favico_) {
@@ -60,7 +54,6 @@ describe('serviceFavico'.bold.underline.blue, function () {
   });
 
   it('should reset on weird states', function () {
-    instanceStatusValue = 'HARGBLARGEN';
     favico.setInstanceState({
       status: function () {
         return 'I like turtles';
