@@ -1,5 +1,4 @@
 .popover-more-containers {
-  font-size: 15px;
   width: 270px;
 
   .popover-content.popover-content {
@@ -25,18 +24,13 @@
   }
 
   .popover-list-item {
-    display: flex;
-    flex-direction: column;
+    font-size: 15px;
+    padding-left: 24px;
   }
 
   .icons-status {
-    margin: 6px 6px 0 0;
+    left: 9px;
     position: absolute;
-  }
-
-  .span,
-  .small {
-    flex: 1 1 auto;
-    padding-left: 15px;
+    top: 12px;
   }
 }
