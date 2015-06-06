@@ -55,15 +55,17 @@ ul.server-category-list(
         )
         .server-name.text-overflow(
           title = "{{ branchFork.getDisplayName() }}"
-          ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
-          instanceName: branchFork.attrs.name })"
+          ui-sref = "\
+            instance.instance({ userName: data.activeAccount.oauthName(), \
+            instanceName: branchFork.attrs.name })\
+          "
         ) {{ branchFork.getDisplayName() }}
         .btn.btn-xs.button-hide(
           ng-if = "$root.featureFlags.navListFilter"
         ) hide
       .more-containers(
+        ng-if = "$root.featureFlags.navListFilter"
         pop-over
         pop-over-options = "{\"top\":-33,\"left\":215}"
         pop-over-template = "viewMoreContainersPopover"
-        ng-if = "$root.featureFlags.navListFilter"
       ) 8 more…
