@@ -45,7 +45,6 @@ function ControllerApp(
   // used in dev-info box
   dataApp.data.configEnvironment = configEnvironment;
   $rootScope.featureFlags = {
-    advancedRepositories: true,
     findAndReplace: configEnvironment === 'development',
     hostnameTool: configEnvironment === 'development',
     saveToolbar: configEnvironment === 'development'

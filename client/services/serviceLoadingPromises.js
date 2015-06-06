@@ -8,17 +8,22 @@ function loadingPromises(
 ) {
   var promiseHash = {};
 
-  function add (namespace, promise) {
+  function add(namespace, promise) {
+    if (!namespace) {
+      return promise.then(function () {
+        return $q.reject('LoadingPromises received a falsy namespace!!!');
+      });
+    }
     if (!promiseHash[namespace]) {
       promiseHash[namespace] = [];
     }
     promiseHash[namespace].push(promise);
     return promise;
   }
-  function clear (namespace) {
+  function clear(namespace) {
     promiseHash[namespace] = [];
   }
-  function finished (namespace) {
+  function finished(namespace) {
     return $q.all(promiseHash[namespace]);
   }
 

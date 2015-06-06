@@ -57,7 +57,6 @@ li.folder(
 
     li.file(
       ng-repeat = "acv in fileModel.appCodeVersions.models | orderBy:'attrs.repo'"
-      ng-if = "$root.featureFlags.advancedRepositories"
       pop-over
       pop-over-actions = "popoverFileExplorerRepository.actions"
       pop-over-data = "acv"
