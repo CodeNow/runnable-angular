@@ -56,6 +56,7 @@ li.folder(
         span.item-name …
 
     li.file(
+      ng-class = "{active: acv.editing}"
       ng-repeat = "acv in fileModel.appCodeVersions.models | orderBy:'attrs.repo'"
       pop-over
       pop-over-actions = "popoverFileExplorerRepository.actions"
