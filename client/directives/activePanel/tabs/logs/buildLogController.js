@@ -2,7 +2,7 @@
 
 require('app')
   .controller('BuildLogController', BuildLogController);
-var DEFAULT_ERROR_MESSAGE = '\x1b[33;1mbuild failed\x1b[0m';
+var DEFAULT_ERROR_MESSAGE = '\x1b[33;1mLogs are unavailable at this time\x1b[0m';
 /**
  * @ngInject
  */
@@ -29,7 +29,7 @@ function BuildLogController(
             $scope.$emit('WRITE_TO_TERM', cbBuild.log, true);
           } else {
             // defaulting behavior selects best avail error msg
-            var errorMsg = cbBuild.log + '\n' + (keypather.get(cbBuild, 'error.message') || DEFAULT_ERROR_MESSAGE);
+            var errorMsg = cbBuild.log || DEFAULT_ERROR_MESSAGE;
             $scope.$emit('WRITE_TO_TERM', errorMsg, true);
           }
         }).catch(errs.handler);
