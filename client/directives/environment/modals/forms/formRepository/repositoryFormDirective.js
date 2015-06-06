@@ -6,6 +6,7 @@ require('app')
     errs,
     hasKeypaths,
     keypather,
+    loadingPromises,
     promisify,
     watchOncePromise
   ) {
@@ -14,7 +15,8 @@ require('app')
       templateUrl: 'viewFormRepository',
       scope: {
         state: '=',
-        startCommandCanDisable: '=?'
+        startCommandCanDisable: '=?',
+        loadingPromisesTarget: '@?'
       },
       link: function ($scope) {
         $q.all({
@@ -43,7 +45,16 @@ require('app')
                   commit: newBranch.attrs.commit.sha
                 };
                 mainAcv.setState(newState);
-                return promisify(mainAcv, 'update')(newState);
+                var promise;
+                if ($scope.loadingPromisesTarget) {
+                  promise = loadingPromises.add(
+                    $scope.loadingPromisesTarget,
+                    promisify(mainAcv, 'update')
+                  );
+                } else {
+                  promise = promisify(mainAcv, 'update');
+                }
+                promise(newState);
               })
               .catch(errs.handler)
               .finally(function () {

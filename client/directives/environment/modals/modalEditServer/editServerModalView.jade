@@ -113,6 +113,7 @@ form.modal-dialog.modal-edit(
       ng-if = "selectedTab === 'repository'"
       repository-form
       state = "state"
+      loading-promises-target = "editServerModal"
     )
     .modal-form(
       ng-if = "selectedTab === 'replace'"

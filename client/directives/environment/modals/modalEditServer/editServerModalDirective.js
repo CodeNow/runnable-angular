@@ -337,7 +337,7 @@ function editServerModal(
         $scope.building = true;
         $scope.state.ports = convertTagToPortList();
         return loadingPromises.finished('editServerModal')
-          .then(watchWhenTruthyPromise($scope, 'state.contextVersion'))
+          .then(watchOncePromise($scope, 'state.contextVersion', true))
           .then(function () {
             var state = $scope.state;
             if (state.advanced) {
