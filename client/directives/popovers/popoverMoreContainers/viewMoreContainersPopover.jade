@@ -1,15 +1,15 @@
-.popover.right.popover-more-containers.menu(
+.popover.popover-more-containers.menu(
   ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
 )
   .popover-header.popover-header-sm.strong.text-overflow api Containers
   .popover-content
     input.input.input-xs.input-search(
-      placeholder = "Filter by branch name"
-      type = "search"
-      required
-      select-on = "showFilter"
       ng-model = "data.repoFilter"
+      placeholder = "Filter by branch name"
+      required
+      type = "search"
+      select-on = "showFilter"
     )
     ul.popover-list
       li.list-item.popover-list-item.multi-line(
