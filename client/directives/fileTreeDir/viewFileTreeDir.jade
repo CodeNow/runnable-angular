@@ -40,8 +40,6 @@ li.folder(
       ng-repeat = "acv in fileModel.appCodeVersions.models"
       tooltip = "Your repository lives here"
       tooltip-options = "{\"class\":\"bottom\",\"left\":21,\"top\":28}"
-
-      ng-if = "$root.featureFlags.advancedRepositories"
       pop-over
       pop-over-actions = "popoverFileExplorerRepository.actions"
       pop-over-data = "popoverFileExplorerRepository.data"
