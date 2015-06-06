@@ -47,6 +47,7 @@ function ControllerApp(
   $rootScope.featureFlags = {
     findAndReplace: configEnvironment === 'development',
     hostnameTool: configEnvironment === 'development',
+    navListFilter: configEnvironment === 'development',
     saveToolbar: configEnvironment === 'development'
   };
 
