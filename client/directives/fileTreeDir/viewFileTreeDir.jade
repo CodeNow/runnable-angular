@@ -56,6 +56,10 @@ li.folder(
         span.item-name …
 
     li.file(
+      ng-class = "{\
+        active: acv.editing,\
+        disabled: !acv.id()\
+      }"
       ng-repeat = "acv in fileModel.appCodeVersions.models | orderBy:'attrs.repo'"
       pop-over
       pop-over-actions = "popoverFileExplorerRepository.actions"
@@ -65,7 +69,10 @@ li.folder(
       pop-over-trigger = "rightClick"
     )
       a(
-        ng-class = "{active: acv.editing}"
+        ng-class = "{\
+          active: acv.editing,\
+          disabled: !acv.id()\
+        }"
         ng-click = "popoverFileExplorerRepository.actions.editRepo(acv)"
         pop-over
         pop-over-actions = "popoverFilesRepositoryCommitToggle.actions"
@@ -75,13 +82,19 @@ li.folder(
         pop-over-template = "viewPopoverFilesRepositoryCommitToggle"
         pop-over-trigger = "activeAttr"
       )
-        svg.iconnables.filetypes.icons-repository
+        .spinner-wrapper.spinner-sm.in(
+          ng-if = "!acv.id()"
+          ng-include = "'spinner'"
+        )
+        svg.iconnables.filetypes.icons-repository(
+          ng-if = "acv.id()"
+        )
           use(
-            ng-if = "fileModel.appCodeVersions.models[0] !== acv"
+            ng-if = "acv.attrs.additionalRepo"
             xlink:href = "#icons-repository-additional"
           )
           use(
-            ng-if = "fileModel.appCodeVersions.models[0] === acv"
+            ng-if = "!acv.attrs.additionalRepo"
             xlink:href = "#icons-repository"
           )
         span.item-name {{ normalizeRepoNames(acv.attrs.repo) }}
