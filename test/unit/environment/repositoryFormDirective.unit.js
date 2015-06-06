@@ -1,12 +1,13 @@
 'use strict';
 
-describe('repositoryFormDirective'.bold.underline.blue, function () {
+describe.only('repositoryFormDirective'.bold.underline.blue, function () {
   var ctx;
   var $timeout;
   var $scope;
   var $compile;
   var $elScope;
   var $rootScope;
+  var loadingPromises;
   var keypather;
 
   var apiMocks = require('../apiMocks/index');
@@ -56,6 +57,7 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
       _$compile_,
       _$timeout_,
       _$rootScope_,
+      _loadingPromises_,
       _keypather_
     ) {
       $timeout = _$timeout_;
@@ -63,6 +65,7 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
       keypather = _keypather_;
+      loadingPromises = _loadingPromises_;
     });
 
 
@@ -73,7 +76,8 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
 
     ctx.template = directiveTemplate.attribute('repository-form', {
       'state': 'state',
-      'start-command-can-disable': 'startCommandCanDisable'
+      'start-command-can-disable': 'startCommandCanDisable',
+      'loading-promises-target': 'loadingPromisesTarget'
     });
     ctx.element = $compile(ctx.template)($scope);
   }
@@ -171,6 +175,50 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
       };
       sinon.assert.calledWithMatch($scope.state.acv.setState, newState);
       sinon.assert.calledWithMatch($scope.state.acv.update, newState);
+      $scope.$digest();
+      sinon.assert.calledOnce($scope.state.acv.resetState);
+      $rootScope.$destroy();
+    });
+
+    it('with a loadingPromise target', function () {
+      setup({
+        state: {},
+        loadingPromisesTarget: 'helloEverybody'
+      });
+      var loadingStub = sinon.spy(loadingPromises, 'add');
+      $scope.state.acv = ctx.acv;
+      $scope.state.repo = ctx.repo1;
+      $scope.state.branch = {
+        attrs: apiMocks.branches.bitcoinRepoBranches[0]
+      };
+
+      ctx.repo1.branches.fetch();
+      ctx.repo1.branches.fetch.reset();
+      $scope.$digest();
+      $elScope = ctx.element.isolateScope();
+      $scope.$digest();
+
+      sinon.assert.notCalled(ctx.repo1.branches.fetch);
+      $scope.$digest();
+      sinon.assert.notCalled(ctx.acv.update);
+      sinon.assert.notCalled(ctx.acv.setState);
+
+      // Now make a change
+      var newBranch = ctx.repo1.branches.models[1];
+      $elScope.state.branch = newBranch;
+      $scope.$digest();
+
+      loadingPromises.finished();
+      $scope.$digest();
+      $scope.$digest();
+
+      var newState = {
+        branch: newBranch.attrs.name,
+        commit: newBranch.attrs.commit.sha
+      };
+      sinon.assert.calledWithMatch($scope.state.acv.update, newState);
+      sinon.assert.called(loadingStub);
+
       $scope.$digest();
       sinon.assert.calledOnce($scope.state.acv.resetState);
       $rootScope.$destroy();

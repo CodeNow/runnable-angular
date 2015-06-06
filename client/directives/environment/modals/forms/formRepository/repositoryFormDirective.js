@@ -54,7 +54,7 @@ require('app')
                 } else {
                   promise = promisify(mainAcv, 'update');
                 }
-                promise(newState);
+                return promise(newState);
               })
               .catch(errs.handler)
               .finally(function () {
