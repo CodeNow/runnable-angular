@@ -61,7 +61,7 @@ function ControllerInstanceHome(
     .catch(errs.handler);
   function goToInstance(username, instanceName) {
     setLastOrg(username);
-    if ($filter('isState')('instance')) {
+    if ($state.includes('instance')) {
       if (instanceName) {
         $state.go('instance.instance', {
           instanceName: instanceName,
