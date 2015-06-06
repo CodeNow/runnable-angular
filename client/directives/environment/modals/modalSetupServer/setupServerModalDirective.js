@@ -74,11 +74,11 @@ function setupServerModal(
             .then(function (dockerfile) {
               $scope.state.dockerfile = dockerfile;
 
-              var Repo = cardInfoTypes()['Main Repository'];
+              var MainRepo = cardInfoTypes.MainRepository;
 
               $scope.state.containerFiles = [];
 
-              var repo = new Repo(null, {isMainRepo: true});
+              var repo = new MainRepo();
 
               var commands = $scope.state.commands || '';
 

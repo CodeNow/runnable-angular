@@ -39,6 +39,12 @@ require('app')
   .factory('diffParse', function () {
     return require('diff-parse');
   })
+  .factory('cardInfoTypes', function (errs) {
+    var types = require('card-info-types');
+    // Legacy
+    types['Main Repository'] = types.MainRepository;
+    return types;
+  })
   .service('keypather', [require('keypather')])
   .service('uuid', function () {
     return require('node-uuid');
