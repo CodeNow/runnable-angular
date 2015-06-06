@@ -16,7 +16,7 @@
     cursor: not-allowed !important;
 
     .ace-container,
-    .btn,
+    .btn:not(.btn-cancel),
     .input,
     .label,
     .textarea {

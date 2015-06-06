@@ -43,9 +43,3 @@
         ng-if = "repo.loading"
         ng-include = "'spinner'"
       )
-
-.popover-footer.clearfix
-  button.btn.btn-sm.gray.btn-cancel(
-    ng-click = "closePopover()"
-    ng-disabled = "repoSelector.data.loading"
-  ) Cancel

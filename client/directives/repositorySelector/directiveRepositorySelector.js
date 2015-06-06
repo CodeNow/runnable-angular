@@ -12,6 +12,7 @@ require('app')
  * There also needs to be a data attribute containing at minimum:
  * appCodeVersions (This is used to filter out the repo list)
  * repo (Optional, this is if you want to edit an existing repo)
+ * gitDataOnly (Optional, this makes it so no destination or build commands will be set, it skips view 2)
  */
 function repositorySelector(
   errs,
@@ -70,7 +71,9 @@ function repositorySelector(
               $scope.repoSelector.data.loading = false;
               $scope.repoSelector.data.repo.loading = false;
               $scope.state.view = 2;
-              $scope.repoSelector.data.commit = commits.models[0];
+              if (!$scope.data.gitDataOnly) {
+                $scope.repoSelector.data.commit = commits.models[0];
+              }
               $scope.repoSelector.data.name = $scope.repoSelector.data.repo.attrs.name;
             })
             .catch(errs.handler);
@@ -82,30 +85,35 @@ function repositorySelector(
             .catch(errs.handler);
         },
         selectCommit: function (commit){
+          if ($scope.state.saving) {
+            return;
+          }
+
           $scope.repoSelector.data.latestCommit = false;
           $scope.repoSelector.data.commit = commit;
-          $scope.state.view = 2;
+          if ($scope.data.gitDataOnly) {
+            $scope.repoSelector.actions.save();
+          } else {
+            $scope.state.view = 2;
+          }
         },
         save: function () {
           $scope.state.saving = true;
           if ($scope.state.fromServer) {
-            $scope.actions.update($scope.repoSelector.data)
-              .then(function () {
-                $rootScope.$broadcast('close-popovers');
-              });
+            $scope.actions.update($scope.repoSelector.data);
+            $rootScope.$broadcast('close-popovers');
           } else {
-            $scope.actions.create($scope.repoSelector.data)
-              .then(function () {
-                $rootScope.$broadcast('close-popovers');
-              });
+            $scope.actions.create($scope.repoSelector.data);
+            $rootScope.$broadcast('close-popovers');
           }
         },
         remove: function () {
           $scope.state.saving = true;
-          $scope.actions.remove($scope.repoSelector.data)
-            .then(function () {
-              $rootScope.$broadcast('close-popovers');
-            });
+          $scope.actions.remove($scope.repoSelector.data);
+          $rootScope.$broadcast('close-popovers');
+        },
+        leaveCommitSelect: function () {
+          $scope.state.view = $scope.data.gitDataOnly ? 1 : 2;
         }
       };
     }

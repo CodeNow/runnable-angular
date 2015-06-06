@@ -109,9 +109,10 @@ describe('serverCardDirective'.bold.underline.blue, function () {
     });
 
     it('server object creation, fake instance at start', function() {
-      var instance = {
-        attrs: apiMocks.instances.running
-      };
+      var instance = runnable.newInstance(
+        apiMocks.instances.running,
+        {noStore: true}
+      );
 
       instance.attrs.env = ['hello=asdfasd', 'aasdasd=asdasd'];
       var scope = {

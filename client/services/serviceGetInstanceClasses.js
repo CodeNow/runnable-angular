@@ -7,7 +7,7 @@ require('app')
  */
 function getInstanceClasses(
   $state,
-  instanceStatus
+  keypather
 ) {
   return function (instance) {
     if (!instance) {
@@ -16,13 +16,14 @@ function getInstanceClasses(
     var h = {};
     h.active = (instance.attrs.name === $state.params.instanceName);
 
-    var status = instanceStatus(instance);
+    var status = keypather.get(instance, 'status()');
     var statusMap = {
       'stopped': '',
       'crashed': 'red',
       'running': 'green',
       'buildFailed': 'red',
       'building': 'orange',
+      'neverStarted': 'orange',
       'unknown': 'orange'
     };
     h[statusMap[status]] = true;
