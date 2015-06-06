@@ -2,20 +2,5 @@
   ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
   style = "transform-origin: 0 50%;"
+  repository-selector
 )
-  .arrow.white
-
-  .popover-views(
-    ng-class = "{'view-2': state.view2}"
-    ng-init = "state.view2 = null"
-  )
-    //- choose repository
-    //- footer and "done" button should not exist for this popover
-    .popover-view(
-      ng-include = "'viewPopoverFilesRepositorySelect'"
-    )
-
-    //- commits/branch
-    .popover-view(
-      ng-include = "'viewPopoverFilesRepositoryCommit'"
-    )

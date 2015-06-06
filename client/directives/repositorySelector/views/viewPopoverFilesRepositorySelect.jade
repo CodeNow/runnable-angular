@@ -4,31 +4,31 @@
 .popover-content
   input.input.input-xs.input-search(
     ng-disabled = "repoSelected"
-    ng-if = "data.githubRepos.models"
-    ng-model = "data.repoFilter"
+    ng-if = "repoSelector.data.githubRepos.models"
+    ng-model = "repoSelector.data.repoFilter"
     placeholder = "Filter by name"
     required
     select-on = "showFilter"
     type = "search"
   )
   .spinner-wrapper.spinner-backdrop.spinner-gray.spinner-md.in(
-    ng-if = "!data.githubRepos.models"
+    ng-if = "!repoSelector.data.githubRepos.models"
     ng-include = "'spinner'"
   )
 
   ul.list.list-servers(
-    ng-if = "data.githubRepos.models"
+    ng-if = "repoSelector.data.githubRepos.models"
   )
     li.list-item.multi-line(
       ng-class = "{\
         active: repo.loading,\
-        'no-touching': data.loading\
+        'no-touching': repoSelector.data.loading\
       }"
-      ng-click = "actions.selectRepo(repo)"
+      ng-click = "repoSelector.actions.selectRepo(repo)"
       ng-repeat = "\
-          repo in data.githubRepos.models | \
-          repos: data.repoFilter | \
-          allBut: data.containerFiles | \
+          repo in repoSelector.data.githubRepos.models | \
+          repos: repoSelector.data.repoFilter | \
+          allBut: data.appCodeVersions | \
           orderBy: '-attrs.updated_at'\
         "
     ) {{ repo.attrs.name}}
@@ -47,5 +47,5 @@
 .popover-footer.clearfix
   button.btn.btn-sm.gray.btn-cancel(
     ng-click = "closePopover()"
-    ng-disabled = "data.loading"
+    ng-disabled = "state.saving || repoSelector.data.loading"
   ) Cancel

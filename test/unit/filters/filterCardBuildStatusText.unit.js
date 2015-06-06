@@ -3,6 +3,7 @@
 describe('filteCardbuildStatusText', function () {
   var filterCardBuildStatusText;
   var keypather;
+  var instance;
   beforeEach(function() {
     angular.mock.module('app');
     // Needs to have 'Filter' on the end to be properly injected
@@ -13,10 +14,12 @@ describe('filteCardbuildStatusText', function () {
   });
 
   describe('crashed instance', function () {
-    var instance;
     beforeEach(function () {
-      instance = {};
-      keypather.set(instance, 'containers.models[0].running', function (){return false;});
+      instance = {
+        status: function () {
+          return 'crashed';
+        }
+      };
     });
     it('returns crashed', function() {
       expect(filterCardBuildStatusText(instance)).to.equal('Crashed');
@@ -29,11 +32,12 @@ describe('filteCardbuildStatusText', function () {
 
 
   describe('stopped instance', function () {
-    var instance;
     beforeEach(function () {
-      instance = {};
-      keypather.set(instance, 'containers.models[0].running', function (){return false;});
-      keypather.set(instance, 'containers.models[0].attrs.inspect.State.ExitCode', -1);
+      instance = {
+        status: function () {
+          return 'stopped';
+        }
+      };
     });
     it('returns stopped', function() {
       expect(filterCardBuildStatusText(instance)).to.equal('Stopped');
@@ -46,10 +50,12 @@ describe('filteCardbuildStatusText', function () {
 
 
   describe('failed build instance', function () {
-    var instance;
     beforeEach(function () {
-      instance = {};
-      keypather.set(instance, 'build.failed', function (){return true;});
+      instance = {
+        status: function () {
+          return 'buildFailed';
+        }
+      };
     });
     it('returns Build Failed', function () {
       expect(filterCardBuildStatusText(instance)).to.equal('Build Failed');
@@ -61,17 +67,38 @@ describe('filteCardbuildStatusText', function () {
   });
 
   describe('building instance', function () {
-    var instance;
-    beforeEach(function () {
-      instance = {};
-      keypather.set(instance, 'build.failed', function (){return false;});
-    });
-    it('returns Building', function() {
-      expect(filterCardBuildStatusText(instance)).to.equal('Building');
+    describe('building', function () {
+      beforeEach(function () {
+        instance = {
+          status: function () {
+            return 'building';
+          }
+        };
+      });
+      it('returns Building', function () {
+        expect(filterCardBuildStatusText(instance)).to.equal('Building');
+      });
+
+      it('prepends a dash when set', function () {
+        expect(filterCardBuildStatusText(instance, true)).to.equal('— Building');
+      });
     });
 
-    it('prepends a dash when set', function() {
-      expect(filterCardBuildStatusText(instance, true)).to.equal('— Building');
+    describe('neverStarted', function () {
+      beforeEach(function () {
+        instance = {
+          status: function () {
+            return 'neverStarted';
+          }
+        };
+      });
+      it('returns Building', function () {
+        expect(filterCardBuildStatusText(instance)).to.equal('Building');
+      });
+
+      it('prepends a dash when set', function () {
+        expect(filterCardBuildStatusText(instance, true)).to.equal('— Building');
+      });
     });
   });
 

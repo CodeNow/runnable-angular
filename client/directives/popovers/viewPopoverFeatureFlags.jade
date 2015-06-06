@@ -1,0 +1,19 @@
+.popover.bottom.menu(
+  ng-class = "{in: active}"
+  ng-style = "popoverStyle.getStyle()"
+)
+  .popover-content(
+    style = "padding: 30px;"
+  )
+    h3 Feature Flags
+    label.label-checkbox(
+      ng-repeat = "(flag, value) in $root.featureFlags"
+      style = "padding-left: 10px; margin: 5px 10px;"
+    )
+      input.input-checkbox(
+        ng-model = "$root.featureFlags[flag]"
+        ng-change = "$localStorage.featureFlags[flag] = $root.featureFlags[flag]"
+        type = "checkbox"
+        style = "position: relative; left: -17px; top: 7px;"
+      )
+      | {{flag}}
