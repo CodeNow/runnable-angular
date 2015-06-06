@@ -120,7 +120,7 @@ describe('BuildLogController'.bold.underline.blue, function () {
       };
       $scope.$on('WRITE_TO_TERM', function (event, message, clear) {
         expect(clear, 'clear').to.be.true;
-        expect(message, 'message').to.equal(cv.attrs.build.log + '\n' + 'ERROR');
+        expect(message, 'message').to.equal(cv.attrs.build.log);
         done();
       });
       ctx.buildPassed = false;
