@@ -16,7 +16,9 @@
   )
 
 .popover-content
-  label.label.label-jump
+  label.label.label-jump(
+    ng-if = "repoSelector.data.branch.commits.models.length"
+  )
     small.small Branch
     select.select(
       ng-change = "repoSelector.actions.selectBranch(repoSelector.data.branch)"
@@ -27,8 +29,8 @@
         disabled
       ) Choose a branch
 
-  .spinner-wrapper.spinner-md.in(
-    ng-if = "!repoSelector.data.branch.commits.models.length"
+  .spinner-wrapper.spinner-backdrop.spinner-gray.spinner-md.in(
+    ng-if = "repoSelector.data.branch && !repoSelector.data.branch.commits.models.length"
     ng-include = "'spinner'"
   )
 
@@ -41,21 +43,9 @@
       ng-class = "{active: repoSelector.data.commit === commit, disabled: state.saving}"
     ) {{commit.attrs.commit.message}}
       .toggle-group-detail.clearfix
-        small.small {{commit.attrs.commit.committer.name}} authored {{commit.attrs.commit.committer.date | timeFrom}}
+        small.small {{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}
         a.small.link.link-text.monospace(
           ng-href = "{{ commit.attrs.html_url }}"
           ng-click = "$event.stopPropagation()"
           target = "_blank"
         ) {{ ::commit.attrs.sha | limitTo:7 }}
-
-.popover-footer.clearfix
-  button.btn.btn-sm.green(
-    ng-if = "data.gitDataOnly"
-    ng-click = "repoSelector.actions.save()"
-    ng-disabled = "state.saving"
-  ) {{ state.fromServer ? 'Save' : 'Add Repository' }}
-
-  button.btn.btn-sm.gray.btn-cancel(
-    ng-click = "closePopover()"
-    ng-disabled = "state.saving"
-  ) Cancel
