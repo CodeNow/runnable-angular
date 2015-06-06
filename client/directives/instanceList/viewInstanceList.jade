@@ -22,25 +22,31 @@ ul.server-category-list(
         status-icon(
           instance = "masterInstance"
         )
-        .server-name.text-overflow(
+        a.server-name.text-overflow(
           ng-if = "masterInstance.getRepoName()"
           title = "{{ masterInstance.getRepoName() }}/{{ masterInstance.getBranchName() }}"
-          ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
-          instanceName: masterInstance.attrs.name })"
+          ui-sref = "\
+            instance.instance({ userName: data.activeAccount.oauthName(), \
+            instanceName: masterInstance.attrs.name })\
+          "
         )
           strong.strong {{ masterInstance.getRepoName() }}
           | /{{ masterInstance.getBranchName() }}
-        .server-name.text-overflow(
+        a.server-name.text-overflow(
           ng-if = "!masterInstance.getRepoName()"
           title = "{{ masterInstance.attrs.name }}"
-          ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
-          instanceName: masterInstance.attrs.name })"
+          ui-sref = "\
+            instance.instance({ userName: data.activeAccount.oauthName(), \
+            instanceName: masterInstance.attrs.name })\
+          "
         )
           strong.strong {{ masterInstance.attrs.name }}
-        button.btn.btn-xs.btn-icon.button-configure(
+        a.btn.btn-xs.btn-icon.button-configure(
           title = "configure"
-          ui-sref = "config.instance({ userName: data.activeAccount.oauthName(), \
-            instanceName: masterInstance.attrs.name })"
+          ui-sref = "\
+            config.instance({ userName: data.activeAccount.oauthName(), \
+            instanceName: masterInstance.attrs.name })\
+          "
         )
           svg.iconnables
             use(
@@ -53,7 +59,7 @@ ul.server-category-list(
         status-icon(
           instance = "branchFork"
         )
-        .server-name.text-overflow(
+        a.server-name.text-overflow(
           title = "{{ branchFork.getDisplayName() }}"
           ui-sref = "\
             instance.instance({ userName: data.activeAccount.oauthName(), \
