@@ -61,6 +61,7 @@ li.folder(
         disabled: !acv.id()\
       }"
       ng-repeat = "acv in fileModel.appCodeVersions.models | orderBy:'attrs.repo'"
+      ng-if = "$root.featureFlags.advancedRepositories"
       pop-over
       pop-over-actions = "popoverFileExplorerRepository.actions"
       pop-over-data = "acv"
