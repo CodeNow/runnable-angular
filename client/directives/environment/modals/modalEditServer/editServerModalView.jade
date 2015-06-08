@@ -4,11 +4,12 @@ form.modal-dialog.modal-edit(
 )
   header.modal-header
     //- ***********************
-    //- deprecated, remove with $root.featureFlags.cardStatus
+    //- deprecated element, remove with $root.featureFlags.cardStatus
     server-status-card-header.btn.btn-sm.btn-title(
       ng-attr-no-touching = "{{ !state.repo }}"
       ng-if = "!$root.featureFlags.cardStatus"
     )
+    //- end deprecated element
     //- ***********************
     span.card-title.clearfix.strong.text-overflow(
       ng-if = "$root.featureFlags.cardStatus"
