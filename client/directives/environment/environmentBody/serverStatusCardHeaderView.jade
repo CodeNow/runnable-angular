@@ -1,22 +1,22 @@
+//- ************
+//- deprecated template, remove this file with $root.featureFlags.cardStatus
 div(
   ng-class = "{\
     'no-touching': noTouching\
   }"
+  ng-if = "!$root.featureFlags.cardStatus"
   pop-over
   pop-over-actions = "actions"
   pop-over-data = "popOverServerData"
 )
   status-icon(
     instance = "server.instance"
-    ng-if = "!$root.featureFlags.cardStatus"
   )
   span.btn-text.text-overflow(
     ng-attr-title = "{{ server.opts.name || server.instance.getDisplayName() }}"
-    ng-if = "!$root.featureFlags.cardStatus"
   ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
   span.btn-text(
     ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
-    ng-if = "!$root.featureFlags.cardStatus"
   ) {{ server.instance | cardBuildStatusText:true}}
   svg.iconnables.icons-arrow-down(
     ng-if = "!noTouching"
@@ -24,3 +24,5 @@ div(
     use(
       xlink:href = "#icons-arrow-down"
     )
+//- end deprecated template
+//- ************

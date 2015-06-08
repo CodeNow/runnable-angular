@@ -1,3 +1,5 @@
+//- ************
+//- deprecated element, remove with $root.featureFlags.cardStatus
 .card-header.deprecated(
   ng-if = "!$root.featureFlags.cardStatus"
 )
@@ -11,6 +13,8 @@
     pop-over-options = "{\"right\":0,\"top\":47}"
     pop-over-template = "serverOptionsCardPopover"
   )
+//- end deprecated element
+//- ************
 .card-header(
   ng-if = "$root.featureFlags.cardStatus"
   ng-attr-no-touching = "{{ showSpinner() }}"
@@ -37,7 +41,6 @@
       use(
         xlink:href = "#icons-arrow-down"
       )
-
   //- This element displays if the card failed to build and/or run for 5 seconds.
     - If it failed to build:
     - Text says "Build Failed", and "View Logs" links to build logs
