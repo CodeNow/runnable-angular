@@ -1,16 +1,14 @@
 // ***********************
 // $root.featureFlags.cardStatus
 
-.deprecated {
-
-  // &.card-header {
-  //   margin: 0 15px 6px;
-  // }
+.card-header.deprecated {
+  height: auto;
+  margin: 0 15px;
 
   // title group
-  &.btn-title {
+  .btn-title {
     display: flex;
-    margin: 12px auto 0;
+    margin: 15px auto 12px;
     max-width: 100%;
     padding-right: 30px;
 
@@ -41,13 +39,13 @@
     // arrow down
     .icons-arrow-down {
       flex: 0 0 18px;
-      margin: 0 0 0 6px;
       height: 100%;
+      margin: 0 0 0 6px;
       top: 0;
       width: 24px;
     }
   }
 }
 
-// end deprecated styles
+// end $root.featureFlags.cardStatus
 // ***********************

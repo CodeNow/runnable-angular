@@ -90,17 +90,29 @@
 
   .card-title {
     color: $gray-dark;
+    cursor: pointer;
     display: inline-block;
     font-size: 18px;
-    height: 24px;
-    margin: 18px 0 6px;
+    margin: 15px 0 3px;
 
-    .card-status-failed {
-      background-color: transparent;
-      border: none;
-      display: inline-block;
+    &:hover {
+      color: $gray-darker;
+    }
+
+    &:active {
+      color: $purple-light;
+    }
+
+    .icons-arrow-down {
+      top: 5px;
+    }
+
+    // Failed status
+    .span {
+      color: rgba($orange-darker,.66);
       font-size: 17px;
-      padding: 0 9px;
+      font-weight: 400;
+      margin-left: 6px;
     }
   }
 

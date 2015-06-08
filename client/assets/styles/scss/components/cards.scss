@@ -4,7 +4,6 @@
   display: flex;
   flex-direction: column;
   min-width: 360px;
-  overflow: hidden;
   position: relative;
   transition: none;
 
@@ -140,7 +139,7 @@
   .card-title {
     cursor: pointer;
     font-size: 21px;
-    line-height: 30px;
+    line-height: 33px;
 
     &:hover {
       color: $gray-darker;

@@ -7,7 +7,7 @@ div(
   pop-over-data = "popOverServerData"
   ng-attr-title = "{{ server.opts.name || server.instance.getDisplayName() }}"
 )
-  //- This element displays only while the card is building.
+  //- This element should display only while the card is building.
   .spinner-wrapper.spinner-sm.spinner-gray.in(
     ng-include = "'spinner'"
     ng-if = "$root.featureFlags.cardStatus"
