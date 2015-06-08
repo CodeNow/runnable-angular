@@ -18,16 +18,6 @@ div(
     ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
     ng-if = "!$root.featureFlags.cardStatus"
   ) {{ server.instance | cardBuildStatusText:true}}
-  //- This element should display only while the card is building.
-  .spinner-wrapper.spinner-sm.spinner-gray.in(
-    ng-include = "'spinner'"
-    ng-if = "$root.featureFlags.cardStatus"
-  )
-  //- While the card is building, this element should get the text "(Building…)" in
-  //- its title attribute after the name of the container.
-  span.card-title(
-    ng-if = "$root.featureFlags.cardStatus"
-  ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
   svg.iconnables.icons-arrow-down(
     ng-if = "!noTouching"
   )

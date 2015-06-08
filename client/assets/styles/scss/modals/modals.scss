@@ -88,12 +88,15 @@
     line-height: 36px;
   }
 
+  .card-title-wrapper {
+    margin: 15px 0 3px;
+  }
+
   .card-title {
     color: $gray-dark;
     cursor: pointer;
     display: inline-block;
     font-size: 18px;
-    margin: 15px 0 3px;
 
     &:hover {
       color: $gray-darker;

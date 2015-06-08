@@ -13,18 +13,36 @@
   )
 .card-header(
   ng-if = "$root.featureFlags.cardStatus"
+  ng-attr-no-touching = "{{ showSpinner() }}"
 )
-  server-status-card-header(
-    ng-attr-no-touching = "{{ showSpinner() }}"
-    pop-over-options = "{\"right\":43,\"top\":38}"
-    pop-over-template = "serverOptionsCardPopover"
-  )
+  .card-title-wrapper
+    //- This element should display only while the card is building.
+    .spinner-wrapper.spinner-sm.spinner-gray.in(
+      ng-include = "'spinner'"
+      ng-if = "$root.featureFlags.cardStatus"
+    )
+    //- While the card is building, this element should get the text "(Building…)" in
+    //- its title attribute after the name of the container.
+    span.card-title(
+      ng-if = "$root.featureFlags.cardStatus"
+      pop-over-options = "{\"right\":-102,\"top\":36}"
+      pop-over-template = "serverOptionsCardPopover"
+      pop-over
+      pop-over-actions = "actions"
+      pop-over-data = "popOverServerData"
+    ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
+    svg.iconnables.icons-arrow-down(
+      ng-if = "!noTouching"
+    )
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
 
   //- This element displays if the card failed to build and/or run for 5 seconds.
-  //- If it failed to build:
-  //- Text says "Build Failed", and "View Logs" links to build logs
-  //- If it failed to run:
-  //- Text says "Container CMD Failed", and "View Logs" links to CMD logs
+    - If it failed to build:
+    - Text says "Build Failed", and "View Logs" links to build logs
+    - If it failed to run:
+    - Text says "Container CMD Failed", and "View Logs" links to CMD logs
   .card-status-failed(
     ng-if = "$root.featureFlags.cardStatus"
   ) Build Failed.

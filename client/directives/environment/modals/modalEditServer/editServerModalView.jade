@@ -13,27 +13,25 @@ form.modal-dialog.modal-edit(
     )
     //- end deprecated element
     //- ***********************
-    span.card-title.clearfix.strong.text-overflow(
-      ng-class = "{\
-        'no-touching': noTouching\
-      }"
-      ng-if = "$root.featureFlags.cardStatus"
-      pop-over
-      pop-over-actions = "actions"
-      pop-over-data = "popOverServerData"
-      pop-over-options = "{\"right\":-42,\"top\":36}"
-      pop-over-template = "serverOptionsModalPopover"
-    ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
-      svg.iconnables.icons-arrow-down(
-        ng-if = "!noTouching"
-      )
-        use(
-          xlink:href = "#icons-arrow-down"
+    .card-title-wrapper
+      span.card-title.strong(
+        ng-class = "{\
+          'no-touching': noTouching\
+        }"
+        ng-if = "$root.featureFlags.cardStatus"
+        pop-over
+        pop-over-actions = "actions"
+        pop-over-data = "popOverServerData"
+        pop-over-options = "{\"right\":-46,\"top\":36}"
+        pop-over-template = "serverOptionsModalPopover"
+      ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
+        svg.iconnables.icons-arrow-down(
+          ng-if = "!noTouching"
         )
-      span.span Build Failed
-    //- .card-status-failed(
-    //-   ng-if = "$root.featureFlags.cardStatus"
-    //- ) Build Failed.
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
+        span.span Build Failed
     .row.modal-tabs
       button.btn.btn-radio(
         ng-class = "{active: selectedTab === 'buildfiles'}"
