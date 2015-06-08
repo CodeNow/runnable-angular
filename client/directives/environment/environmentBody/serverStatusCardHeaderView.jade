@@ -20,8 +20,6 @@ div(
   ) {{ server.instance | cardBuildStatusText:true}}
   //- This element should display only while the card is building.
   .spinner-wrapper.spinner-sm.spinner-gray.in(
-    pop-over-options = "{\"right\":-7,\"top\":36}"
-    pop-over-template = "serverOptionsModalPopover"
     ng-include = "'spinner'"
     ng-if = "$root.featureFlags.cardStatus"
   )

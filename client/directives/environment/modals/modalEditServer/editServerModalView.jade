@@ -8,11 +8,21 @@ form.modal-dialog.modal-edit(
     server-status-card-header.btn.btn-sm.btn-title(
       ng-attr-no-touching = "{{ !state.repo }}"
       ng-if = "!$root.featureFlags.cardStatus"
+      pop-over-options = "{\"right\":-7,\"top\":36}"
+      pop-over-template = "serverOptionsModalPopover"
     )
     //- end deprecated element
     //- ***********************
     span.card-title.clearfix.strong.text-overflow(
+      ng-class = "{\
+        'no-touching': noTouching\
+      }"
       ng-if = "$root.featureFlags.cardStatus"
+      pop-over
+      pop-over-actions = "actions"
+      pop-over-data = "popOverServerData"
+      pop-over-options = "{\"right\":-42,\"top\":36}"
+      pop-over-template = "serverOptionsModalPopover"
     ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
       svg.iconnables.icons-arrow-down(
         ng-if = "!noTouching"
