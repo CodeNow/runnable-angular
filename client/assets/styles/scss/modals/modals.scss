@@ -90,20 +90,19 @@
 
   // tabs
   .modal-tabs {
-    display: flex;
-    justify-content: center;
+    margin: 0 -15px;
+    overflow-x: auto;
+    white-space: nowrap;
   }
 
   .btn-radio {
-    height: 81px;
-    line-height: 1;
-    margin-bottom: 6px;
-    padding: 0 9px;
+    margin-bottom: 9px;
+    padding: 0 3px;
     white-space: normal;
-    width: 105px;
+    width: 102px;
 
     .btn-text {
-      display: inline-block;
+      display: block;
       font-size: 13px;
       height: 30px;
       line-height: 1.2;

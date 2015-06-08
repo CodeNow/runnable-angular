@@ -8,7 +8,7 @@ form.modal-dialog.modal-edit(
       pop-over-template = "serverOptionsModalPopover"
       ng-attr-no-touching = "{{ !state.repo }}"
     )
-    .row.modal-tabs
+    .row.modal-tabs.cearfix
       button.btn.btn-radio(
         ng-class = "{active: selectedTab === 'buildfiles'}"
         ng-click = "changeTab('buildfiles')"
