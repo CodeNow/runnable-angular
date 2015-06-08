@@ -89,7 +89,7 @@
   }
 
   .card-title-wrapper {
-    margin: 15px 0 3px;
+    margin: 12px 0 3px;
   }
 
   .card-title {
@@ -111,7 +111,7 @@
     }
 
     // Failed status
-    .span {
+    + .span {
       color: rgba($orange-darker,.66);
       font-size: 17px;
       font-weight: 400;
