@@ -48,6 +48,7 @@ function ControllerApp(
     advancedRepositories: configEnvironment === 'development',
     findAndReplace: configEnvironment === 'development',
     hostnameTool: configEnvironment === 'development',
+    navListFilter: configEnvironment === 'development',
     saveToolbar: configEnvironment === 'development'
   };
 

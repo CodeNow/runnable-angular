@@ -43,7 +43,7 @@ function repositorySelector(
         $scope.state.view = 2;
         $scope.state.fromServer = true;
       } else {
-        var Repo = cardInfoTypes().Repository;
+        var Repo = cardInfoTypes.Repository;
         $scope.repoSelector.data = new Repo();
 
         fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
@@ -71,7 +71,9 @@ function repositorySelector(
               $scope.repoSelector.data.loading = false;
               $scope.repoSelector.data.repo.loading = false;
               $scope.state.view = 2;
-              $scope.repoSelector.data.commit = commits.models[0];
+              if (!$scope.data.gitDataOnly) {
+                $scope.repoSelector.data.commit = commits.models[0];
+              }
               $scope.repoSelector.data.name = $scope.repoSelector.data.repo.attrs.name;
             })
             .catch(errs.handler);
@@ -98,23 +100,17 @@ function repositorySelector(
         save: function () {
           $scope.state.saving = true;
           if ($scope.state.fromServer) {
-            $scope.actions.update($scope.repoSelector.data)
-              .then(function () {
-                $rootScope.$broadcast('close-popovers');
-              });
+            $scope.actions.update($scope.repoSelector.data);
+            $rootScope.$broadcast('close-popovers');
           } else {
-            $scope.actions.create($scope.repoSelector.data)
-              .then(function () {
-                $rootScope.$broadcast('close-popovers');
-              });
+            $scope.actions.create($scope.repoSelector.data);
+            $rootScope.$broadcast('close-popovers');
           }
         },
         remove: function () {
           $scope.state.saving = true;
-          $scope.actions.remove($scope.repoSelector.data)
-            .then(function () {
-              $rootScope.$broadcast('close-popovers');
-            });
+          $scope.actions.remove($scope.repoSelector.data);
+          $rootScope.$broadcast('close-popovers');
         },
         leaveCommitSelect: function () {
           $scope.state.view = $scope.data.gitDataOnly ? 1 : 2;

@@ -65,48 +65,49 @@ function setupServerModal(
         if (keypather.get($scope.state, 'selectedStack.ports.length')) {
           $scope.state.ports = $scope.state.selectedStack.ports.replace(/ /g, '').split(',');
         }
-        $scope.actions.createAndBuild(
-          createDockerfileFromSource(
-            $scope.state.contextVersion,
-            $scope.state.selectedStack.key,
-            $scope.data.sourceContexts
-          )
-            .then(function (dockerfile) {
-              $scope.state.dockerfile = dockerfile;
 
-              var Repo = cardInfoTypes()['Main Repository'];
+        var createPromise = createDockerfileFromSource(
+          $scope.state.contextVersion,
+          $scope.state.selectedStack.key,
+          $scope.data.sourceContexts
+        )
+          .then(function (dockerfile) {
+            $scope.state.dockerfile = dockerfile;
 
-              $scope.state.containerFiles = [];
+            var MainRepo = cardInfoTypes.MainRepository;
 
-              var repo = new Repo(null, {isMainRepo: true});
+            $scope.state.containerFiles = [];
 
-              var commands = $scope.state.commands || '';
+            var repo = new MainRepo();
 
-              repo.name = $scope.state.repo.attrs.name;
-              repo.path = $scope.state.dst.replace('/', '');
-              repo.commands = commands;
+            var commands = $scope.state.commands || '';
 
-              $scope.state.containerFiles.push(repo);
+            repo.name = $scope.state.repo.attrs.name;
+            repo.path = $scope.state.dst.replace('/', '');
+            repo.commands = commands;
 
-              return populateDockerfile(
-                dockerfile,
-                $scope.state
-              );
-            })
-            .then(function () {
-              if ($scope.acv.attrs.branch !== $scope.state.branch.attrs.name) {
-                return promisify($scope.acv, 'update')({
-                  repo: $scope.state.repo.attrs.full_name,
-                  branch: $scope.state.branch.attrs.name,
-                  commit: $scope.state.branch.attrs.commit.sha
-                });
-              }
-            })
-            .then(function () {
-              return $scope.state;
-            }),
-          $scope.state.opts.name
-        );
+            $scope.state.containerFiles.push(repo);
+
+            return populateDockerfile(
+              dockerfile,
+              $scope.state
+            );
+          })
+          .then(function () {
+            if ($scope.acv.attrs.branch !== $scope.state.branch.attrs.name) {
+              return promisify($scope.acv, 'update')({
+                repo: $scope.state.repo.attrs.full_name,
+                branch: $scope.state.branch.attrs.name,
+                commit: $scope.state.branch.attrs.commit.sha
+              });
+            }
+          })
+          .then(function () {
+            return $scope.state;
+          });
+
+
+        $scope.actions.createAndBuild(createPromise, $scope.state.opts.name);
       };
 
       $scope.$watch('state.selectedStack', function (n) {
