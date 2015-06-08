@@ -183,7 +183,7 @@ function editServerModal(
           },
           save: function (containerFile) {
             if (!containerFile.type) {
-              var ContainerFile = cardInfoTypes().File;
+              var ContainerFile = cardInfoTypes.File;
               var myFile = new ContainerFile();
               if (containerFile.file) {
                 myFile.name = containerFile.file[0].name;

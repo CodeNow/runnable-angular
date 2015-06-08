@@ -272,7 +272,7 @@ function fileTreeDir(
       $scope.popoverFileExplorerRepository = {
         actions: {
           editRepo: function (acv) {
-            var Repository = cardInfoTypes().Repository;
+            var Repository = cardInfoTypes.Repository;
             var repo = new Repository();
 
             repo.acv = acv;

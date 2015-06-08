@@ -43,7 +43,7 @@ function repositorySelector(
         $scope.state.view = 2;
         $scope.state.fromServer = true;
       } else {
-        var Repo = cardInfoTypes().Repository;
+        var Repo = cardInfoTypes.Repository;
         $scope.repoSelector.data = new Repo();
 
         fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
