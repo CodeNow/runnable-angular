@@ -1,37 +1,59 @@
-span.clearfix.text-overflow(
-  ng-class = "{\
-    'no-touching': noTouching\
-  }"
-  pop-over
-  pop-over-actions = "actions"
-  pop-over-data = "popOverServerData"
-  ng-attr-title = "{{ server.opts.name || server.instance.getDisplayName() }}"
-)
-  span.card-title(
+//- This element is only here because this template can only have one root element,
+//- and we need two versions of span.text-overflow for feature flagging. When we
+//- remove $root.featureFlags.cardStatus, we should remove this along with it. If
+//- possible, it would be great to just remove the one-root-element restriction
+//- now, and this div along with it.
+div
+  //- While the card is building, this element should get the text "(Building…)" in
+  //- its title attribute after the name of the container.
+  span.text-overflow(
+    ng-class = "{\
+      'no-touching': noTouching\
+    }"
+    pop-over
     ng-if = "$root.featureFlags.cardStatus"
-  ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
+    pop-over-actions = "actions"
+    pop-over-data = "popOverServerData"
+    ng-attr-title = "{{ server.opts.name || server.instance.getDisplayName() }}"
+  )
+    //- This element displays only while the card is building.
+    .spinner-wrapper.spinner-sm.spinner-gray.in(
+      ng-include = "'spinner'"
+    )
+    span.card-title(
+    ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
+      svg.iconnables.icons-arrow-down(
+        ng-if = "!noTouching"
+      )
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+  //- ************
+  //- Deprecated elements, to be removed with $root.featureFlags.cardStatus
+  span.text-overflow(
+    ng-class = "{\
+      'no-touching': noTouching\
+    }"
+    pop-over
+    ng-if = "!$root.featureFlags.cardStatus"
+    pop-over-actions = "actions"
+    pop-over-data = "popOverServerData"
+    ng-attr-title = "{{ server.opts.name || server.instance.getDisplayName() }}"
+  )
+    status-icon(
+      instance = "server.instance"
+    )
+    span.btn-text.text-overflow(
+      ng-attr-title = "{{ server.opts.name || server.instance.getDisplayName() }}"
+    ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
+    span.btn-text(
+      ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
+    ) {{ server.instance | cardBuildStatusText:true}}
     svg.iconnables.icons-arrow-down(
       ng-if = "!noTouching"
     )
       use(
         xlink:href = "#icons-arrow-down"
       )
-  status-icon(
-    instance = "server.instance"
-    ng-if = "!$root.featureFlags.cardStatus"
-  )
-  span.btn-text.text-overflow(
-    ng-attr-title = "{{ server.opts.name || server.instance.getDisplayName() }}"
-    ng-if = "!$root.featureFlags.cardStatus"
-  ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
-  span.btn-text(
-    ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
-    ng-if = "!$root.featureFlags.cardStatus"
-  ) {{ server.instance | cardBuildStatusText:true}}
-  svg.iconnables.icons-arrow-down(
-    ng-if = "!noTouching"
-    ng-if = "!$root.featureFlags.cardStatus"
-  )
-    use(
-      xlink:href = "#icons-arrow-down"
-    )
+  //- End deprecated elements
+  //- ************

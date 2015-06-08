@@ -18,11 +18,6 @@
     pop-over-template = "serverOptionsCardPopover"
   )
 
-  //- This element displays while the card building.
-  .card-status-building(
-    ng-if = "$root.featureFlags.cardStatus"
-  )
-  
   //- This element displays if the card failed to build and/or run for 5 seconds.
   //- If it failed to build:
   //- Text says "Build Failed", and "View Logs" links to build logs
@@ -31,7 +26,7 @@
   .card-status-failed(
     ng-if = "$root.featureFlags.cardStatus"
   ) Build Failed.
-    strong.strong  View Logs
+    strong.strong View Logs
 
 ul.card-body.card-loading(
   ng-if = "showSpinner()"

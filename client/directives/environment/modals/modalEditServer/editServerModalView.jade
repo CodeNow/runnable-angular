@@ -10,7 +10,7 @@ form.modal-dialog.modal-edit(
       ng-if = "!$root.featureFlags.cardStatus"
     )
     //- ***********************
-    span.card-title.clearfix.text-overflow(
+    span.card-title.clearfix.strong.text-overflow(
       ng-if = "$root.featureFlags.cardStatus"
     ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
       .card-status-failed Build Failed
