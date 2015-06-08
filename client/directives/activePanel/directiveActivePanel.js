@@ -16,7 +16,6 @@ function activePanel(
   keypather,
   updateInstanceWithNewBuild,
   errs,
-  instanceStatus,
   promisify,
   loading
 ) {

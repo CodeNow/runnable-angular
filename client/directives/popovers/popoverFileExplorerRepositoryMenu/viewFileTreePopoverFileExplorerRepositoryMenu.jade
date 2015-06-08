@@ -20,8 +20,11 @@
               xlink:href = "#icons-commit"
             )
           | {{ data.attrs.commit | limitTo:7 }}
-      li.divider
+      li.divider(
+        ng-if = "data.attrs.additionalRepo"
+      )
       li.list-item.popover-list-item(
+        ng-if = "data.attrs.additionalRepo"
         ng-click = "actions.deleteRepo(data)"
       )
         svg.iconnables.icons-file-tree
