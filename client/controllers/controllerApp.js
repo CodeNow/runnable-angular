@@ -45,11 +45,12 @@ function ControllerApp(
   // used in dev-info box
   dataApp.data.configEnvironment = configEnvironment;
   $rootScope.featureFlags = {
-    advancedRepositories: configEnvironment === 'development',
+    cardStatus: configEnvironment === 'development',
     findAndReplace: configEnvironment === 'development',
     hostnameTool: configEnvironment === 'development',
-    saveToolbar: configEnvironment === 'development',
-    cardStatus: configEnvironment === 'development'
+    navListFilter: configEnvironment === 'development',
+    saveToolbar: configEnvironment === 'development'
+>>>>>>> b377deca79b0fd1c2de00f9312a2a369a44ff877
   };
 
   if($localStorage.featureFlags){

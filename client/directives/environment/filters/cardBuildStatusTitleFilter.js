@@ -7,17 +7,17 @@ require('app')
  */
 function cardBuildStatusTitle(
   keypather,
-  moment,
-  instanceStatus
+  moment
 ) {
   return function (instance) {
-    var status = instanceStatus(instance);
+    var status = keypather.get(instance, 'status()');
     var statusMap = {
       'stopped': 'Stopped',
       'crashed': 'Crashed',
       'running': 'Running for',
       'buildFailed': 'Failed',
       'building': 'Building for',
+      'neverStarted': 'Building for',
       'unknown': 'unknown'
     };
 
@@ -32,6 +32,7 @@ function cardBuildStatusTitle(
       case 'buildFailed':
         time = keypather.get(instance, 'build.attrs.completed');
         break;
+      case 'neverStarted':
       case 'building':
         noAgo = true;
         time = keypather.get(instance, 'build.attrs.started');
