@@ -37,41 +37,68 @@ li.folder(
     ng-if = "(isRootDir && showRepoFolder)"
   )
     li.file(
-      ng-repeat = "acv in fileModel.appCodeVersions.models"
-      tooltip = "Your repository lives here"
-      tooltip-options = "{\"class\":\"bottom\",\"left\":21,\"top\":28}"
-    )
-      a
-        svg.iconnables.filetypes.icons-repository
-          use(
-            xlink:href = "#icons-repository"
-          )
-        span.item-name {{ normalizeRepoNames(acv.attrs.repo) }}
-    li.file(
-      ng-if = "$root.featureFlags.advancedRepositories"
-      pop-over
-      pop-over-actions = "popoverFileExplorerRepository.actions"
-      pop-over-data = "popoverFileExplorerRepository.data"
-      pop-over-template = "viewFileTreePopoverFileExplorerRepositoryMenu"
-      pop-over-options = "popoverFileExplorerRepository.options"
-      pop-over-trigger = "rightClick"
+      ng-if = "state.showAddRepo"
     )
       //- popover is a very similar file to the original, should this be a template?
-      a(
-        ng-class = "{active: state.viewPopoverFilesRepositoryCommitToggle.active}"
-        ng-click = "state.viewPopoverFilesRepositoryCommitToggle.active = true"
+      a.active(
         pop-over
-        pop-over-actions = "viewPopoverFilesRepositoryCommitToggle.actions"
-        pop-over-active = "state.viewPopoverFilesRepositoryCommitToggle.active"
-        pop-over-data = "viewPopoverFilesRepositoryCommitToggle.data"
+        pop-over-actions = "popoverFilesRepositoryCommitToggle.actions"
+        pop-over-active = "state.showAddRepo"
+        pop-over-data = "popoverFilesRepositoryCommitToggle.data"
         pop-over-options = "{\"left\":210,\"top\":-198}"
         pop-over-template = "viewPopoverFilesRepositoryCommitToggle"
+        pop-over-trigger = "activeAttr"
       )
         svg.iconnables.filetypes.icons-repository
           use(
             xlink:href = "#icons-repository-additional"
           )
         span.item-name …
+
+    li.file(
+      ng-class = "{\
+        active: acv.editing,\
+        disabled: !acv.id()\
+      }"
+      ng-repeat = "acv in fileModel.appCodeVersions.models | orderBy:'attrs.repo'"
+      ng-if = "$root.featureFlags.advancedRepositories"
+      pop-over
+      pop-over-actions = "popoverFileExplorerRepository.actions"
+      pop-over-data = "acv"
+      pop-over-template = "viewFileTreePopoverFileExplorerRepositoryMenu"
+      pop-over-options = "popoverFileExplorerRepository.options"
+      pop-over-trigger = "rightClick"
+    )
+      a(
+        ng-class = "{\
+          active: acv.editing,\
+          disabled: !acv.id()\
+        }"
+        ng-click = "popoverFileExplorerRepository.actions.editRepo(acv)"
+        pop-over
+        pop-over-actions = "popoverFilesRepositoryCommitToggle.actions"
+        pop-over-active = "acv.editing"
+        pop-over-data = "popoverEditRepoCommit.data"
+        pop-over-options = "{\"left\":210,\"top\":-198}"
+        pop-over-template = "viewPopoverFilesRepositoryCommitToggle"
+        pop-over-trigger = "activeAttr"
+      )
+        .spinner-wrapper.spinner-sm.in(
+          ng-if = "!acv.id()"
+          ng-include = "'spinner'"
+        )
+        svg.iconnables.filetypes.icons-repository(
+          ng-if = "acv.id()"
+        )
+          use(
+            ng-if = "acv.attrs.additionalRepo"
+            xlink:href = "#icons-repository-additional"
+          )
+          use(
+            ng-if = "!acv.attrs.additionalRepo"
+            xlink:href = "#icons-repository"
+          )
+        span.item-name {{ normalizeRepoNames(acv.attrs.repo) }}
   ul(
     ng-if = "dir.contents.models.length"
     ng-include = "'viewFileTreeDirItem'"

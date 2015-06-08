@@ -14,7 +14,10 @@ function fileTreeDir(
   $q,
   promisify,
   helperCreateFS,
-  configAPIHost
+  configAPIHost,
+  fetchCommitData,
+  cardInfoTypes,
+  loadingPromises
 ) {
   return {
     restrict: 'A',
@@ -27,7 +30,9 @@ function fileTreeDir(
       readOnly: '=',
       editExplorer: '=',
       showRepoFolder: '=',
-      isRootDir: '=?'
+      isRootDir: '=?',
+      state: '=?',
+      loadingPromisesTarget: '='
     },
     templateUrl: 'viewFileTreeDir',
     link: function ($scope, element, attrs) {
@@ -254,6 +259,83 @@ function fileTreeDir(
               $scope.actions.fetchDirFiles();
             });
             $scope.$broadcast('close-popovers');
+          }
+        }
+      };
+
+      $scope.isEditingRepo = function () {
+        return $scope.fileModel.appCodeVersions.models.find(function (acv) {
+          return acv.editing;
+        });
+      };
+
+      $scope.popoverFileExplorerRepository = {
+        actions: {
+          editRepo: function (acv) {
+            var Repository = cardInfoTypes().Repository;
+            var repo = new Repository();
+
+            repo.acv = acv;
+            repo.repo = acv.githubRepo;
+            repo.branch = fetchCommitData.activeBranch(acv);
+            repo.commit = fetchCommitData.activeCommit(acv);
+            fetchCommitData.branchCommits(repo.branch);
+
+            $scope.popoverEditRepoCommit.data.repo = repo;
+            acv.editing = true;
+          },
+          deleteRepo: function (acv) {
+            promisify(acv, 'destroy')()
+              .catch(errs.handler)
+              .finally(function () {
+                $scope.$broadcast('close-popovers');
+              });
+          }
+        }
+      };
+
+      $scope.popoverEditRepoCommit = {
+        data: {
+          appCodeVersions: $scope.fileModel.appCodeVersions,
+          gitDataOnly: true
+        }
+      };
+
+      $scope.popoverFilesRepositoryCommitToggle = {
+        data: {
+          appCodeVersions: $scope.fileModel.appCodeVersions,
+          gitDataOnly: true
+        },
+        actions: {
+          create: function (repo) {
+            loadingPromises.add($scope.loadingPromisesTarget, promisify($scope.fileModel.appCodeVersions, 'create', true)({
+              repo: repo.repo.attrs.full_name,
+              branch: repo.branch.attrs.name,
+              commit: repo.commit.attrs.sha,
+              additionalRepo: true
+            })
+              .catch(errs.handler)
+            );
+          },
+          remove: function(repo){
+            var acv = $scope.fileModel.appCodeVersions.models.find(function (acv) {
+              return acv.attrs.repo.split('/')[1] === repo.repo.attrs.name;
+            });
+            loadingPromises.add($scope.loadingPromisesTarget, promisify(acv, 'destroy')()
+              .catch(errs.handler)
+            );
+          },
+          update: function(repo){
+            var acv = $scope.fileModel.appCodeVersions.models.find(function (acv) {
+              return acv.attrs.repo === repo.acv.attrs.repo;
+            });
+
+            loadingPromises.add($scope.loadingPromisesTarget, promisify(acv, 'update')({
+                branch: repo.branch.attrs.name,
+                commit: repo.commit.attrs.sha
+              })
+                .catch(errs.handler)
+            );
           }
         }
       };

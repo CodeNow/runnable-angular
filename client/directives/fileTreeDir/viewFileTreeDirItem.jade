@@ -21,7 +21,7 @@ li.file(
     | orderBy:actions.normalizeMixedDataValue\
   "
   ng-class = "{\
-    active: fs.state.active,\
+    active: fs.state.active && !state.showAddRepo && !isEditingRepo(),\
     dirty: (fs.state.body !== fs.attrs.body),\
     'in-progress': fs.state.uploading\
   }"

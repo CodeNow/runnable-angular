@@ -52,6 +52,12 @@
       font-weight: 500;
     }
 
+    // if still loading repository
+    &.disabled,
+    &.disabled > a {
+      @extend %no-touching;
+    }
+
     a {
       border: 2px solid transparent;
       border-radius: 3px;

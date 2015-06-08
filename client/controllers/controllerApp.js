@@ -24,7 +24,8 @@ function ControllerApp(
   fetchUser,
   keypather,
   pageName,
-  loading
+  loading,
+  $localStorage
 ) {
 
   loading('main', true);
@@ -47,8 +48,15 @@ function ControllerApp(
     advancedRepositories: configEnvironment === 'development',
     findAndReplace: configEnvironment === 'development',
     hostnameTool: configEnvironment === 'development',
+    navListFilter: configEnvironment === 'development',
     saveToolbar: configEnvironment === 'development'
   };
+
+  if($localStorage.featureFlags){
+    Object.keys($localStorage.featureFlags).forEach(function (flag) {
+      $rootScope.featureFlags[flag] = $localStorage.featureFlags[flag];
+    });
+  }
 
   dataApp.data.configAPIHost = configAPIHost;
   dataApp.data.minimizeNav = false;
