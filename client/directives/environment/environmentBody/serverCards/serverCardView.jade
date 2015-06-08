@@ -1,6 +1,11 @@
 .card-header.deprecated(
   ng-if = "!$root.featureFlags.cardStatus"
 )
+  //- if building: text says "Building"; title attribute shows time building "82 seconds" "50 minutes" etc.
+    - if building failed: text says "Build Failed"; title attribute shows when the build failed "Failed 2 minutes ago"
+    - if building succeeded, and running: text says "Running"; title attribute shows time running "82 seconds" "50 minutes" etc.
+    - if building succeeded, and stopped: text says "Stopped"; title attribute shows when the server was stopped "Stopped 2 minutes ago"
+    - if building succeeded, and run fails: text says "Crashed"; title attribute shows when the server crashed "Crashed 2 minutes ago"
   server-status-card-header.btn.btn-sm.btn-title.white(
     ng-attr-no-touching = "{{ showSpinner() }}"
     pop-over-options = "{\"right\":0,\"top\":47}"

@@ -1,6 +1,3 @@
-// ***********************
-// $root.featureFlags.cardStatus
-
 .card-header.deprecated {
   height: auto;
   margin: 0 15px;
@@ -40,12 +37,7 @@
   // arrow down
   .icons-arrow-down {
     flex: 0 0 18px;
-    height: 100%;
     margin: 0 0 0 6px;
     top: 0;
-    width: 24px;
   }
 }
-
-// end $root.featureFlags.cardStatus
-// ***********************
