@@ -136,8 +136,14 @@
   padding: 0 15px 3px;
   text-align: center;
 
+  .card-title-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
   .card-title {
     cursor: pointer;
+    flex: 0 1 auto;
     font-size: 21px;
     line-height: 33px;
 
@@ -151,12 +157,13 @@
   }
 
   .icons-arrow-down {
-    top: 4px;
+    flex: 0 0 auto;
+    margin-top: 4px;
   }
 
   .spinner-wrapper.in {
-    display: inline-block;
-    margin-right: 6px;
+    flex: 0 0 auto;
+    margin: 9px 6px 0 0;
   }
 }
 

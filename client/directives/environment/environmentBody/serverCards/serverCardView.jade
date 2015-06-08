@@ -19,15 +19,15 @@
   ng-if = "$root.featureFlags.cardStatus"
   ng-attr-no-touching = "{{ showSpinner() }}"
 )
-  .card-title-wrapper
+  .card-title-wrapper(
+    title = "card-title (Building…)"
+  )
     //- This element should display only while the card is building.
     .spinner-wrapper.spinner-sm.spinner-gray.in(
       ng-include = "'spinner'"
       ng-if = "$root.featureFlags.cardStatus"
     )
-    //- While the card is building, this element should get the text "(Building…)" in
-    //- its title attribute after the name of the container.
-    span.card-title(
+    span.card-title.text-overflow(
       ng-if = "$root.featureFlags.cardStatus"
       pop-over-options = "{\"right\":-102,\"top\":36}"
       pop-over-template = "serverOptionsCardPopover"
