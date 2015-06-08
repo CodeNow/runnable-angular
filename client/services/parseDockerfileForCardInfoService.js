@@ -93,6 +93,7 @@ function parseDockerfileForCardInfoFromInstance(
   keypather,
   $q,
   $log,
+  errs,
   fetchCommitData,
   cardInfoTypes,
   fetchStackInfo
@@ -109,9 +110,11 @@ function parseDockerfileForCardInfoFromInstance(
       CustomType = cardInfoTypes[currentBlock[1]];
       content = currentBlock[2];
       if (CustomType) {
-        chunks.push( new CustomType(content, {
-          isMainRepo: currentBlock[1] === 'Main Repository'
-        }));
+        var newChunk = new CustomType(content);
+        if (newChunk.legacyAdd && currentBlock[1] === 'File') {
+          errs.handler('ADD command not in array syntax, please remove and reupload file');
+        }
+        chunks.push(newChunk);
       } else {
         $log.error('Type "' + currentBlock[1] + '" not found.');
       }
