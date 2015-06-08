@@ -31,6 +31,9 @@ form.modal-dialog.modal-edit(
           xlink:href = "#icons-arrow-down"
         )
       span.span Build Failed
+    //- .card-status-failed(
+    //-   ng-if = "$root.featureFlags.cardStatus"
+    //- ) Build Failed.
     .row.modal-tabs
       button.btn.btn-radio(
         ng-class = "{active: selectedTab === 'buildfiles'}"
