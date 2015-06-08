@@ -50,7 +50,6 @@ function ControllerApp(
     hostnameTool: configEnvironment === 'development',
     navListFilter: configEnvironment === 'development',
     saveToolbar: configEnvironment === 'development'
->>>>>>> b377deca79b0fd1c2de00f9312a2a369a44ff877
   };
 
   if($localStorage.featureFlags){
