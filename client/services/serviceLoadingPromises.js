@@ -24,7 +24,10 @@ function loadingPromises(
     promiseHash[namespace] = [];
   }
   function finished(namespace) {
-    return $q.all(promiseHash[namespace]);
+    return $q.all(promiseHash[namespace])
+      .then(function (promiseArray) {
+        return promiseArray.length;
+      });
   }
 
   return {

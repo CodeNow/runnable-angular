@@ -13,7 +13,7 @@ function fileTreeDir(
   errs,
   $q,
   promisify,
-  helperCreateFS,
+  helperCreateFSpromise,
   configAPIHost,
   fetchCommitData,
   cardInfoTypes,
@@ -131,12 +131,19 @@ function fileTreeDir(
         var droppedFileOrigDir =
             $scope.fileModel.newDir(oldParentDirId, { warn: false, noStore: true });
 
-        promisify(newModel, 'moveToDir')(toDir).then(function () {
-          return $q.all([
-            promisify(droppedFileOrigDir.contents, 'fetch')(),
-            promisify(toDir.contents, 'fetch')()
-          ]);
-        });
+        loadingPromises.add($scope.loadingPromisesTarget, promisify(newModel, 'moveToDir')(toDir))
+          .then(function () {
+            return $q.all([
+              loadingPromises.add(
+                $scope.loadingPromisesTarget,
+                promisify(droppedFileOrigDir.contents, 'fetch')()
+              ),
+              loadingPromises.add(
+                $scope.loadingPromisesTarget,
+                promisify(toDir.contents, 'fetch')()
+              )
+            ]);
+          });
       };
 
       actions.closeOpenModals = function () {
@@ -167,15 +174,17 @@ function fileTreeDir(
         },
         actions: {
           createFile: function () {
-            helperCreateFS($scope.dir, {
+            loadingPromises.add($scope.loadingPromisesTarget, helperCreateFSpromise($scope.dir, {
               isDir: false
-            }, errs.handler);
+            }))
+              .catch(errs.handler);
             $scope.$broadcast('close-popovers');
           },
           createFolder: function () {
-            helperCreateFS($scope.dir, {
+            loadingPromises.add($scope.loadingPromisesTarget, helperCreateFSpromise($scope.dir, {
               isDir: true
-            }, errs.handler);
+            }))
+              .catch(errs.handler);
             $scope.$broadcast('close-popovers');
           },
           renameFolder: function () {
@@ -185,7 +194,8 @@ function fileTreeDir(
             $scope.$broadcast('close-popovers');
           },
           deleteFolder: function () {
-            $scope.dir.destroy(errs.handler);
+            loadingPromises.add($scope.loadingPromisesTarget, promisify($scope.dir, 'destroy'))
+              .catch(errs.handler);
             $scope.$broadcast('close-popovers');
           },
           uploadFiles: function (files) {
@@ -264,9 +274,10 @@ function fileTreeDir(
       };
 
       $scope.isEditingRepo = function () {
-        return $scope.fileModel.appCodeVersions.models.find(function (acv) {
-          return acv.editing;
-        });
+        return $scope.fileModel.appCodeVersions &&
+          $scope.fileModel.appCodeVersions.models.find(function (acv) {
+            return acv.editing;
+          });
       };
 
       $scope.popoverFileExplorerRepository = {
@@ -285,7 +296,7 @@ function fileTreeDir(
             acv.editing = true;
           },
           deleteRepo: function (acv) {
-            promisify(acv, 'destroy')()
+            loadingPromises.add($scope.loadingPromisesTarget, promisify(acv, 'destroy')())
               .catch(errs.handler)
               .finally(function () {
                 $scope.$broadcast('close-popovers');
