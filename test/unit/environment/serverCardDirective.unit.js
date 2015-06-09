@@ -1,6 +1,6 @@
 'use strict';
 
-describe('serverCardDirective'.bold.underline.blue, function () {
+describe.only('serverCardDirective'.bold.underline.blue, function () {
   var ctx;
   var $timeout;
   var $scope;
@@ -42,6 +42,8 @@ describe('serverCardDirective'.bold.underline.blue, function () {
     Object.keys(scope).forEach(function (key) {
       $scope[key] = scope[key];
     });
+
+    keypather.set($scope, 'data.instances', []);
 
     ctx.template = directiveTemplate.attribute('server-card', {
       'data': 'data',
