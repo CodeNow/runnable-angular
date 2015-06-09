@@ -114,6 +114,8 @@ function popOver(
               right: width - offset.right
             };
 
+            console.log(offset.bottom, element);
+
             if ($scope.popoverElement[0].offsetHeight + newOffset.top > $document.find('body')[0].offsetHeight) {
               newOffset.top =  $document.find('body')[0].offsetHeight - $scope.popoverElement[0].offsetHeight;
             }
@@ -127,7 +129,7 @@ function popOver(
 
             if (keypather.get($scope, 'popoverOptions.centered')) {
               style.right = null;
-              style.left = (offset.right - offset.left) / 2;
+              style.left = (-$scope.popoverElement[0].offsetWidth / 2 + offset.left + (offset.right - offset.left) / 2 ) + 'px';
             }
 
             return style;
