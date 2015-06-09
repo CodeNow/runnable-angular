@@ -25,9 +25,8 @@ function parseDiffResponse(
 ) {
   return function (fullDiff) {
     var totalParse = diffParse(fullDiff);
-    var groupByLineNumbers = {};
     return totalParse.map(function (parsed) {
-      //var parsed = totalParse[fileKey];
+      var groupByLineNumbers = {};
       parsed.modifications.forEach(function (modification) {
         if (!groupByLineNumbers[modification.ln]) {
           groupByLineNumbers[modification.ln] = {
