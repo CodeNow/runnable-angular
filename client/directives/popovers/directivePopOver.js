@@ -124,6 +124,12 @@ function popOver(
               var keyOption = keypather.get($scope, 'popoverOptions.'+key);
               style[key] = !exists(keyOption) ? 'auto' : newOffset[key] + keyOption + 'px';
             });
+
+            if (keypather.get($scope, 'popoverOptions.centered')) {
+              style.right = null;
+              style.left = (offset.right - offset.left) / 2;
+            }
+
             return style;
           }
         };
