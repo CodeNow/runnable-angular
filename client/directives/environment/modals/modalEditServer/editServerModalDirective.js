@@ -241,6 +241,7 @@ function editServerModal(
 
       function resetState(server) {
         loadingPromises.clear('editServerModal');
+        loading.reset('editServerModal');
         loading('editServerModal', true);
         $scope.state = {
           advanced: server.advanced || false,
@@ -269,7 +270,7 @@ function editServerModal(
             }));
           });
 
-        return promisify(server.contextVersion, 'deepCopy')()
+        return loadingPromises.add('editServerModal', promisify(server.contextVersion, 'deepCopy')())
           .then(function (contextVersion) {
             $scope.state.contextVersion = contextVersion;
             return promisify(contextVersion, 'fetch')();
@@ -278,9 +279,8 @@ function editServerModal(
             if (contextVersion.attrs.advanced) {
               openDockerfile();
             }
-            if (contextVersion.getMainAppCodeVersion()) {
-              $scope.state.acv = contextVersion.getMainAppCodeVersion();
-            }
+            $scope.state.acv = contextVersion.getMainAppCodeVersion();
+            loading('editServerModal', false);
             return fetchUser();
           })
           .then(function (user) {
@@ -293,7 +293,6 @@ function editServerModal(
           })
           .then(function (build) {
             $scope.state.build = build;
-            loading('editServerModal', false);
           })
           .catch(function (err) {
             errs.handler(err);
