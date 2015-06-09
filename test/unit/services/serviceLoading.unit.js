@@ -1,6 +1,6 @@
 'use strict';
 
-describe.only('loading'.bold.underline.blue, function () {
+describe('loading'.bold.underline.blue, function () {
   var loading;
   var $rootScope;
   function initState () {
