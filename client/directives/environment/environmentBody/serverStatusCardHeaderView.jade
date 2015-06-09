@@ -1,10 +1,7 @@
-//- ************
-//- deprecated template, remove this file with $root.featureFlags.cardStatus
 div(
   ng-class = "{\
     'no-touching': noTouching\
   }"
-  ng-if = "!$root.featureFlags.cardStatus"
   pop-over
   pop-over-actions = "actions"
   pop-over-data = "popOverServerData"
@@ -24,5 +21,3 @@ div(
     use(
       xlink:href = "#icons-arrow-down"
     )
-//- end deprecated template
-//- ************

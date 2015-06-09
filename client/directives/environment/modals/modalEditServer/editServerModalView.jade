@@ -3,35 +3,11 @@ form.modal-dialog.modal-edit(
   ng-class = "{disabled: building || isLoading.editServerModal}"
 )
   header.modal-header
-    //- ***********************
-    //- deprecated element, remove with $root.featureFlags.cardStatus
     server-status-card-header.btn.btn-sm.btn-title(
-      ng-attr-no-touching = "{{ !state.repo }}"
-      ng-if = "!$root.featureFlags.cardStatus"
       pop-over-options = "{\"right\":-7,\"top\":36}"
       pop-over-template = "serverOptionsModalPopover"
+      ng-attr-no-touching = "{{ !state.repo }}"
     )
-    //- end deprecated element
-    //- ***********************
-    .card-title-wrapper
-      span.card-title.strong(
-        ng-class = "{\
-          'no-touching': noTouching\
-        }"
-        ng-if = "$root.featureFlags.cardStatus"
-        pop-over
-        pop-over-actions = "actions"
-        pop-over-data = "popOverServerData"
-        pop-over-options = "{\"right\":-138,\"top\":36}"
-        pop-over-template = "serverOptionsModalPopover"
-      ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
-        svg.iconnables.icons-arrow-down(
-          ng-if = "!noTouching"
-        )
-          use(
-            xlink:href = "#icons-arrow-down"
-          )
-      span.span Build Failed
     .row.modal-tabs
       button.btn.btn-radio(
         ng-class = "{active: selectedTab === 'buildfiles'}"
@@ -135,7 +111,9 @@ form.modal-dialog.modal-edit(
     )
     .modal-form(
       ng-if = "selectedTab === 'repository'"
-      ng-include = "'viewFormRepository'"
+      repository-form
+      state = "state"
+      loading-promises-target = "editServerModal"
     )
     .modal-form(
       ng-if = "selectedTab === 'replace'"

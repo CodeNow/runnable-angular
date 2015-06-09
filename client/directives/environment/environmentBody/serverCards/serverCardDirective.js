@@ -4,7 +4,6 @@ require('app')
   .directive('serverCard', function serverCard(
     $q,
     $rootScope,
-    $timeout,
     errs,
     getInstanceClasses,
     keypather,
@@ -12,8 +11,6 @@ require('app')
     promisify,
     helpCards,
     fetchStackAnalysis,
-    $anchorScroll,
-    $location,
     $state,
     $document
   ) {
@@ -28,21 +25,6 @@ require('app')
       },
       link: function ($scope, ele) {
         var listeners = [];
-
-        $scope.changeAdvancedFlag = function () {
-          if (confirm($scope.state.advanced ?
-              'If you make changes to the build files, you will not be able to ' +
-              'switch back without losing changes.'
-              : 'You will lose all changes you\'ve made to your dockerfile (ever).')) {
-            $scope.server.advanced = !$scope.server.advanced;
-            $scope.openConfigurationModal = true;
-            $timeout(function () {
-              $scope.openConfigurationModal = false;
-              $scope.server.advanced = !$scope.server.advanced;
-            });
-          }
-          $scope.state.advanced = !$scope.state.advanced;
-        };
 
         $scope.getContainerFilesDisplay = function () {
           var repos = 0;
@@ -98,16 +80,10 @@ require('app')
             $scope.server.building = true;
             $scope.server.contextVersion = instance.contextVersion;
             $scope.server.advanced = keypather.get(instance, 'contextVersion.attrs.advanced');
-            $scope.state = {
-              advanced: $scope.server.advanced
-            };
-            $scope.server.repo = keypather.get(instance, 'contextVersion.appCodeVersions.models[0].githubRepo');
+            $scope.server.repo = keypather.get(instance, 'contextVersion.getMainAppCodeVersion().githubRepo');
             var qAll = {
               dependencies: promisify(instance, 'fetchDependencies', true)()
             };
-            if ($scope.server.repo) {
-              qAll.branches = promisify($scope.server.repo.branches, 'fetch')();
-            }
             return $q.all(qAll)
               .catch(errs.handler)
               .then(function (data) {

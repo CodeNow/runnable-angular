@@ -88,37 +88,6 @@
     line-height: 36px;
   }
 
-  .card-title-wrapper {
-    margin: 12px 0 6px;
-  }
-
-  .card-title {
-    color: $gray-dark;
-    cursor: pointer;
-    display: inline-block;
-    font-size: 18px;
-
-    &:hover {
-      color: $gray-darker;
-    }
-
-    &:active {
-      color: $purple-light;
-    }
-
-    .icons-arrow-down {
-      top: 5px;
-    }
-
-    // Failed status
-    + .span {
-      color: rgba($orange-darker,.66);
-      font-size: 17px;
-      font-weight: 400;
-      margin-left: 3px;
-    }
-  }
-
   // tabs
   .modal-tabs {
     display: flex;
