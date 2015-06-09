@@ -18,7 +18,7 @@ function editServerModal(
   fetchUser,
   populateDockerfile,
   promisify,
-  watchWhenTruthyPromise,
+  watchOncePromise,
   helpCards,
   $rootScope,
   uploadFile,
@@ -255,7 +255,7 @@ function editServerModal(
           server: server
         };
 
-        watchWhenTruthyPromise($scope, 'server.containerFiles')
+        watchOncePromise($scope, 'server.containerFiles', true)
           .then(function (containerFiles) {
             $scope.state.containerFiles = containerFiles.map(function (model) {
               var cloned = model.clone();
@@ -269,14 +269,6 @@ function editServerModal(
             }));
           });
 
-        if (server.repo) {
-          $scope.branches = server.repo.branches;
-          $scope.state.branch =
-            server.repo.branches.models.find(hasKeypaths({'attrs.name': keypather.get(
-              server,
-              'instance.contextVersion.getMainAppCodeVersion().attrs.branch'
-            )}));
-        }
         return promisify(server.contextVersion, 'deepCopy')()
           .then(function (contextVersion) {
             $scope.state.contextVersion = contextVersion;
@@ -347,7 +339,7 @@ function editServerModal(
           .then(function (promiseArrayLength) {
             toRebuild = promiseArrayLength > 0;
           })
-          .then(watchWhenTruthyPromise($scope, 'state.contextVersion'))
+          .then(watchOncePromise($scope, 'state.contextVersion', true))
           .then(function () {
             var state = $scope.state;
             if (!state.advanced &&
@@ -459,20 +451,6 @@ function editServerModal(
           });
         }
       });
-
-      $scope.$watch('state.branch', function (newBranch, oldBranch) {
-        if (newBranch && oldBranch && newBranch.attrs.name !== oldBranch.attrs.name) {
-          waitForStateContextVersion($scope, function () {
-            promisify($scope.state.acv, 'update')({
-              repo: $scope.server.repo.attrs.full_name,
-              branch: newBranch.attrs.name,
-              commit: newBranch.attrs.commit.sha
-            })
-              .catch(errs.handler);
-          });
-        }
-      });
-
 
       $scope.isStackInfoEmpty = function (selectedStack) {
         if (!selectedStack || !selectedStack.selectedVersion) {
