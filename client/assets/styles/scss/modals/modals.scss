@@ -83,6 +83,10 @@
   padding: 0 15px;
   text-align: center;
 
+  .card-status-failed {
+    max-width: none;
+  }
+
   .container-title-wrapper {
     margin: 12px 0 6px;
   }
