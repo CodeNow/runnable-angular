@@ -147,23 +147,17 @@
 .card-header {
   display: flex;
   flex-direction: column;
-  height: 81px;
   justify-content: center;
-  padding: 15px;
+  padding: 18px 15px;
   text-align: center;
-  // font-weight: 400;
 
   .card-title-wrapper {
+    color: $gray-dark;
+    cursor: pointer;
     display: flex;
     justify-content: center;
-    cursor: pointer;
-  }
-
-  .card-title {
-    // cursor: pointer;
-    flex: 0 1 auto;
-    font-size: 21px;
-    line-height: 33px;
+    margin: 0 auto;
+    max-width: 100%;
 
     &:hover {
       color: $gray-darker;
@@ -174,50 +168,28 @@
     }
   }
 
-  .icons-warning {
+  .card-title {
     flex: 0 0 auto;
-    // margin-top: 4px;
-    top: 7px;
-    color: rgba($orange-dark,.9);
+    font-size: 21px;
+    line-height: 22px;
+    padding-left: 3px;
   }
 
-  .icons-arrow-down {
-    flex: 0 0 auto;
-    // margin-top: 4px;
-    top: 4px;
+  .icons-warning,
+  .icons-arrow-down,
+  .spinner-wrapper.in {
+    flex: 0 0 21px;
+    height: 21px;
   }
 
   .spinner-wrapper.in {
-    flex: 0 0 auto;
-    margin: 9px 6px 0 0;
+    padding: 3px; //positions it to replace .icons-warning
+  }
+
+  .icons-warning {
+    color: rgba($orange-dark,.9);
   }
 }
-
-// .card-status-failed {
-//   background-color: $orange-lightest;
-//   border: 1px solid rgba($orange-darker,.25);
-//   border-radius: 3px;
-//   color: rgba($orange-darker,.6);
-//   display: table;
-//   flex: 0 0 27px;
-//   font-size: 14px;
-//   font-weight: 400;
-//   line-height: 24px;
-//   margin: 0 auto;
-//   padding: 0 15px;
-
-//   .strong {
-//     cursor: pointer;
-
-//     &:hover {
-//       color: rgba($orange-darker,.7);
-//     }
-
-//     &:active {
-//       color: rgba($orange-darker,.6);
-//     }
-//   }
-// }
 
 // body
 .card-body,
