@@ -71,10 +71,12 @@ function repoList(
           });
       });
 
-      $scope.$watch('instance.attrs.locked', function (n) {
-        $scope.instance.update({
-          locked: n
-        }, angular.noop);
+      $scope.$watch('instance.attrs.locked', function (n, p) {
+        if (n !== p) {
+          $scope.instance.update({
+            locked: n
+          }, angular.noop);
+        }
       });
     }
   };

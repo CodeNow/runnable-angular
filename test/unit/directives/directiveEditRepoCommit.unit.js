@@ -35,7 +35,9 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
     $scope = $rootScope.$new();
 
     $scope.model = {
-      commit: 'commitSha'
+      attrs: {
+        commit: 'commitSha'
+      }
     };
     ctx.changeCommitSpy = sinon.spy();
     $scope.$on('change-commit', ctx.changeCommitSpy);
@@ -72,7 +74,7 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
       sinon.assert.calledOnce(ctx.changeCommitSpy);
       expect(ctx.changeCommitSpy.lastCall.args[1]).to.equal(sha);
 
-      expect($scope.model.commit).to.equal(sha);
+      expect($scope.model.attrs.commit).to.equal(sha);
     });
   });
 });

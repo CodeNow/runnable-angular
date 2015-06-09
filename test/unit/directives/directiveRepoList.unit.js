@@ -1,24 +1,40 @@
 'use strict';
 
-describe.only('directiveRepoList'.bold.underline.blue, function() {
+describe('directiveRepoList'.bold.underline.blue, function() {
   var $compile;
   var $scope;
   var $elScope;
   var ctx;
   var $rootScope;
+  var keypather;
   function setup() {
+    angular.mock.module('app');
+
+    angular.mock.module(function ($provide) {
+      $provide.factory('promisify', function ($q) {
+        return function (obj, key) {
+          return function () {
+            return $q.when(obj[key].apply(this, arguments));
+          };
+        };
+      });
+    });
+
+
     ctx = {};
     angular.mock.inject(function (
       _$compile_,
-      _$rootScope_
+      _$rootScope_,
+      _keypather_
     ) {
       $compile = _$compile_;
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
+      keypather = _keypather_;
     });
 
     ctx.mainAcv = {
-      update: sinon.spy()
+      update: sinon.stub()
     };
     ctx.ctxVersion = {
       getMainAppCodeVersion: sinon.stub().returns(ctx.mainAcv)
@@ -41,7 +57,7 @@ describe.only('directiveRepoList'.bold.underline.blue, function() {
       build: {
         deepCopy: sinon.stub().returns(ctx.deepCopyBuild)
       },
-      update: sinon.spy()
+      update: sinon.stub()
     };
 
     $scope.instance = ctx.instance;
@@ -51,10 +67,6 @@ describe.only('directiveRepoList'.bold.underline.blue, function() {
     ctx.element = $compile(ctx.template)($scope);
     $scope.$digest();
     $elScope = ctx.element.isolateScope();
-
-
-    console.log(ctx.element);
-    console.log($elScope);
   }
 
   beforeEach(function () {
@@ -70,6 +82,7 @@ describe.only('directiveRepoList'.bold.underline.blue, function() {
     sinon.assert.calledOnce(ctx.instance.build.deepCopy);
     sinon.assert.calledOnce(ctx.deepCopyBuild.contextVersions.models[0].fetch);
     sinon.assert.calledOnce(ctx.ctxVersion.getMainAppCodeVersion);
+
     sinon.assert.calledOnce(ctx.mainAcv.update);
     sinon.assert.calledWith(ctx.mainAcv.update, {
       commit: newCommitSha
@@ -80,6 +93,16 @@ describe.only('directiveRepoList'.bold.underline.blue, function() {
 
     sinon.assert.calledOnce(ctx.instance.update);
     sinon.assert.calledWith(ctx.instance.update, {build: ctx.buildId});
+  });
+
+
+  it('should trigger update on change of locked attribute', function () {
+    keypather.set($scope, 'instance.attrs.locked', true);
+
+    $scope.$digest();
+
+    sinon.assert.calledOnce(ctx.instance.update);
+    sinon.assert.calledWith(ctx.instance.update, {locked: true});
   });
 
 });
