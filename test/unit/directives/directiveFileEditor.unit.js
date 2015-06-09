@@ -8,6 +8,7 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
   var apiMocks = require('../apiMocks/index');
   var getModeForPathSpy;
   var setModeSpy;
+  var loadingPromises;
   var fileMock = {
     attrs: apiMocks.files.dockerfile,
     fetch: null,
@@ -55,12 +56,13 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
         return fn;
       });
     });
-    angular.mock.inject(function ($compile, _$rootScope_) {
+    angular.mock.inject(function ($compile, _$rootScope_, _loadingPromises_) {
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
-
+      loadingPromises = _loadingPromises_;
       var attrs = {
-        'file': 'file'
+        'file': 'file',
+        'loading-promises-target': 'loadingPromisesTarget'
       };
       if (autoUpdate) {
         attrs['use-auto-update'] = 'true';

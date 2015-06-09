@@ -31,9 +31,9 @@ describe('loadingPromises'.bold.underline.blue, function () {
         };
       }));
       loadingPromises.finished('hello')
-        .then(function (hey) {
+        .then(function (length) {
           expect(temp).to.equal(2);
-          expect(hey).to.deep.equal(['hi']);
+          expect(length).to.deep.equal(1);
           done();
         });
       $rootScope.$apply();
@@ -55,9 +55,9 @@ describe('loadingPromises'.bold.underline.blue, function () {
         };
       }));
       loadingPromises.finished('hello')
-        .then(function (hey) {
+        .then(function (length) {
           expect(temp).to.equal(2);
-          expect(hey).to.deep.equal(['hi']);
+          expect(length).to.deep.equal(1);
           done();
         });
       $rootScope.$apply();
