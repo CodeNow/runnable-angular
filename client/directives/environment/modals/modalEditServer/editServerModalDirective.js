@@ -279,19 +279,17 @@ function editServerModal(
             if (contextVersion.attrs.advanced) {
               openDockerfile();
             }
-            if (contextVersion.getMainAppCodeVersion()) {
-              $scope.state.acv = contextVersion.getMainAppCodeVersion();
-            }
+            $scope.state.acv = contextVersion.getMainAppCodeVersion();
             loading('editServerModal', false);
             return fetchUser();
           })
           .then(function (user) {
-            return promisify(user, 'createBuild')({
+            return loadingPromises.add('editServerModal', promisify(user, 'createBuild')({
               contextVersions: [$scope.state.contextVersion.id()],
               owner: {
                 github: $rootScope.dataApp.data.activeAccount.oauthId()
               }
-            });
+            }));
           })
           .then(function (build) {
             $scope.state.build = build;

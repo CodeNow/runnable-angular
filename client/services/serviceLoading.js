@@ -26,6 +26,7 @@ function loading(
   };
   loadingFunc.reset = function (namespace) {
     loadingStatusHash[namespace] = 0;
+    $rootScope.isLoading[namespace] = false;
   };
   return loadingFunc;
 }
