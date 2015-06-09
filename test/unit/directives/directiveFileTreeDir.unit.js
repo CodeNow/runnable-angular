@@ -18,6 +18,7 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
   var $rootScope;
   var $q;
   var keypather;
+  var loadingPromisesMock;
 
 
   function injectSetupCompile() {
@@ -37,6 +38,11 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
         create: sinon.spy()
       }
     };
+    loadingPromisesMock = {
+      add: sinon.spy(function () {
+        return $q.when(1);
+      })
+    };
     ctx = {};
     errs = {
       handler: sinon.spy()
@@ -50,17 +56,19 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
     createFsMock = sinon.spy();
     angular.mock.module('app');
     angular.mock.module(function ($provide) {
-      $provide.value('helperCreateFS', createFsMock);
+      $provide.value('helperCreateFSpromise', createFsMock);
       $provide.value('errs', errs);
       $provide.value('Upload', uploadMock);
       $provide.value('fetchCommitData', fetchCommitDataMock);
+      $provide.value('loadingPromises', loadingPromisesMock);
     });
 
     angular.mock.inject(function (
       _$rootScope_,
       _$compile_,
       _$q_,
-      _keypather_
+      _keypather_,
+      _loadingPromises_
     ) {
       $scope = _$rootScope_.$new();
       $compile = _$compile_;
@@ -72,6 +80,7 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
     $scope.mockOpenItems = mockOpenItems;
     $scope.mockFileModel = mockFileModel;
     $scope.mockParentDir = mockParentDir;
+    $scope.loadingPromisesTarget = 'test';
 
     ctx.template = directiveTemplate.attribute('file-tree-dir', {
       'dir': 'mockDir',
@@ -79,7 +88,8 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       'read-only': 'true',
       'parent-dir': 'mockParentDir',
       'file-model': 'mockFileModel', // This is either a contextVersion or a container
-      'edit-explorer': 'false'
+      'edit-explorer': 'false',
+      'loading-promises-target': 'loadingPromisesTarget'
     });
 
     ctx.element = $compile(ctx.template)($scope);
@@ -308,7 +318,10 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
 
     it('should support creating a new file', function () {
       createFsMock.reset();
+      $scope.loadingPromisesTarget = 'createFile';
+      $scope.$digest();
       $elScope.popoverFileExplorerFolder.actions.createFile();
+      expect(loadingPromisesMock.add.lastCall.args[0], 'Added to loading promise').to.equal('createFile');
       expect(createFsMock.calledOnce, 'Called create FS mock').to.equal(true);
       expect(createFsMock.lastCall.args[1].isDir, 'Is Directory').to.equal(false);
       expect($elScope.$broadcast.calledWith('close-popovers'), 'Broadcasted close-popovers').to.equal(true);
@@ -316,7 +329,10 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
 
     it('should support creating a new folder', function () {
       createFsMock.reset();
+      $scope.loadingPromisesTarget = 'create';
+      $scope.$digest();
       $elScope.popoverFileExplorerFolder.actions.createFolder();
+      expect(loadingPromisesMock.add.lastCall.args[0], 'Added to loading promise').to.equal('create');
       expect(createFsMock.calledOnce, 'Called create FS mock').to.equal(true);
       expect(createFsMock.lastCall.args[1].isDir, 'Is Directory').to.equal(true);
       expect($elScope.$broadcast.calledWith('close-popovers'), 'Broadcasted close-popovers').to.equal(true);
@@ -324,8 +340,11 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
 
     it('should support deleting a folder', function () {
       $elScope.dir.destory = sinon.spy();
+      $scope.loadingPromisesTarget = 'delete';
+      $scope.$digest();
       $elScope.popoverFileExplorerFolder.actions.deleteFolder();
-      expect($elScope.dir.destroy.calledWith(errs.handler), 'Destroy called').to.equal(true);
+      expect(loadingPromisesMock.add.lastCall.args[0], 'Added to loading promise').to.equal('delete');
+      expect($elScope.dir.destroy.calledOnce, 'Destroy called').to.equal(true);
       expect($elScope.$broadcast.calledWith('close-popovers'), 'Broadcasted close-popovers').to.equal(true);
     });
 
@@ -470,7 +489,11 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       var acv = {
         destroy: sinon.stub().callsArg(0)
       };
+
+      $scope.loadingPromisesTarget = 'deleteRepo';
+      $scope.$digest();
       $elScope.popoverFileExplorerRepository.actions.deleteRepo(acv);
+      expect(loadingPromisesMock.add.lastCall.args[0], 'Added to loading promise').to.equal('deleteRepo');
       $scope.$digest();
       sinon.assert.calledOnce(acv.destroy);
       sinon.assert.calledWith($elScope.$broadcast, 'close-popovers');
@@ -492,9 +515,13 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       keypather.set(repo, 'branch.attrs.name', 'branchName');
       keypather.set(repo, 'commit.attrs.sha', 'commitSha');
 
+      $scope.loadingPromisesTarget = 'create';
+      $scope.$digest();
       $elScope.popoverFilesRepositoryCommitToggle.actions.create(repo);
       $scope.$digest();
 
+      sinon.assert.calledOnce(loadingPromisesMock.add);
+      expect(loadingPromisesMock.add.lastCall.args[0], 'Added to loading promise').to.equal('create');
       sinon.assert.calledOnce(mockFileModel.appCodeVersions.create);
       sinon.assert.calledWith(mockFileModel.appCodeVersions.create, {
         repo: 'fullName',
@@ -513,9 +540,13 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
         destroy: sinon.stub().callsArg(0)
       }];
 
+      $scope.loadingPromisesTarget = 'remove';
+      $scope.$digest();
       $elScope.popoverFilesRepositoryCommitToggle.actions.remove(repo);
       $scope.$digest();
 
+      sinon.assert.calledOnce(loadingPromisesMock.add);
+      expect(loadingPromisesMock.add.lastCall.args[0], 'Added to loading promise').to.equal('remove');
       sinon.assert.calledOnce(mockFileModel.appCodeVersions.models[0].destroy);
     });
     it('should support updating a repo', function () {
@@ -530,9 +561,13 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
         update: sinon.stub().callsArg(1)
       }];
 
+      $scope.loadingPromisesTarget = 'update';
+      $scope.$digest();
       $elScope.popoverFilesRepositoryCommitToggle.actions.update(repo);
       $scope.$digest();
 
+      sinon.assert.calledOnce(loadingPromisesMock.add);
+      expect(loadingPromisesMock.add.lastCall.args[0], 'Added to loading promise').to.equal('update');
       sinon.assert.calledOnce(mockFileModel.appCodeVersions.models[0].update);
       sinon.assert.calledWith(mockFileModel.appCodeVersions.models[0].update, {
         branch: 'branchName',

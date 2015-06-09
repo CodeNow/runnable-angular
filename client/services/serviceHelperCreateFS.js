@@ -1,7 +1,8 @@
 'use strict';
 
 require('app')
-  .factory('helperCreateFS', helperCreateFS);
+  .factory('helperCreateFS', helperCreateFS)
+  .factory('helperCreateFSpromise', helperCreateFSpromise);
 /**
  * @ngInject
  */
@@ -18,5 +19,21 @@ function helperCreateFS(
       cb.apply(this, arguments);
     });
     return fs;
+  };
+}
+
+function helperCreateFSpromise(
+  errs,
+  getNewFileFolderName,
+  keypather,
+  promisify
+) {
+  return function (dir, props) {
+    props.name = (props.name) ? props.name : getNewFileFolderName(dir, props.isDir);
+    return promisify(dir.contents, 'create')(props)
+      .then(function (fs) {
+        keypather.set(fs, 'state.renaming', true);
+        return promisify(dir.contents, 'fetch');
+      });
   };
 }

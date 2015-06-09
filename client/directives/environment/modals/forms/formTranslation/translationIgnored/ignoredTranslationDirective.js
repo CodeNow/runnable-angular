@@ -4,7 +4,8 @@ require('app')
   .directive('ignoredTranslation', function ignoredTranslation(
     createTransformRule,
     regexpQuote,
-    keypather
+    keypather,
+    loadingPromises
   ) {
     return {
       restrict: 'A',
@@ -31,11 +32,15 @@ require('app')
           editor.focus();
         };
         var updateIgnoreRules = function () {
+          if ($scope.ignoredFilesList ===
+              keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion().attrs.transformRules.exclude').join('\n')) {
+            return;
+          }
           $scope.state.processing = true;
-          return createTransformRule(
+          return loadingPromises.add('editServerModal', createTransformRule(
             keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion()'),
             getIgnoredFileListArray()
-          )
+          ))
             .then(function () {
               $scope.state.processing = false;
             });
@@ -54,7 +59,8 @@ require('app')
         });
 
         $scope.aceBlurred = function () {
-          if (keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion()')) {
+          if (keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion()') &&
+              $scope.ignoredFilesList.length) {
             updateIgnoreRules();
           }
         };
