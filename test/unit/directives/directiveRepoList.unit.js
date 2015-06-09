@@ -1,230 +1,108 @@
 'use strict';
 
-var MockFetch = require('../fixtures/mockFetch');
-describe('directiveRepoList'.bold.underline.blue, function () {
-  var element;
+describe('directiveRepoList'.bold.underline.blue, function() {
+  var $compile;
   var $scope;
   var $elScope;
+  var ctx;
   var $rootScope;
-  var thisUser;
-  var apiMocks = require('../apiMocks/index');
-  var createNewBuildMock = new MockFetch();
-
-  function createBuildObject(json, numberOfAcv) {
-    return {
-      attrs: json,
-      build: sinon.spy(function (opts, cb) {
-        cb(null, this);
-      }),
-      contextVersions: {
-        models: [
-          createContextVersionObjects(numberOfAcv)
-        ]
-      },
-      id: function () { return 'adsfsd'},
-      contexts: {
-        models: [
-          {
-            attrs: {
-              name: 'hi'
-            }
-          }
-        ]
-      }
-    };
-  }
-  function createContextVersionObjects(numberOfAcv) {
-    return {
-      attrs: apiMocks.contextVersions.running,
-      fetch: sinon.spy(function (cb) {
-        cb();
-      }),
-      appCodeVersions: {
-        models: createAppCodeVersionObjects(numberOfAcv),
-        findIndex: sinon.spy(function () {
-          return;
-        })
-      }
-    };
-  }
-  function createAppCodeVersionObjects(numberOfAcv) {
-    if (numberOfAcv === undefined) {
-      numberOfAcv = 1;
-    }
-    var models = [];
-    function cbFunc(cb) {
-      cb();
-    }
-    var x;
-    for (x = 0; x < numberOfAcv; x++) {
-      models.push({
-        attrs: (x % 2 === 0) ?
-            apiMocks.appCodeVersions.bitcoinAppCodeVersion : apiMocks.appCodeVersions.differentBitcoinAppCodeVersion,
-        fetch: sinon.spy(cbFunc),
-        update: sinon.spy(cbFunc)
-      });
-    }
-    return models;
-  }
-  function createInstanceObject(json) {
-    return {
-      attrs: json,
-      update: sinon.spy(function (opts, cb) {
-        cb(null, this);
-      })
-    };
-  }
-
-  function initGlobalState(provideValues, scope) {
+  var keypather;
+  function setup() {
     angular.mock.module('app');
 
     angular.mock.module(function ($provide) {
-      $provide.factory('createNewBuild', createNewBuildMock.fetch());
-      $provide.factory('fetchCommitData', function () {
-        return {
-          activeBranch: sinon.spy(function (acv) {
-            return null;
-          }),
-          activeCommit: sinon.spy(function (acv) {
-            return null;
-          }),
-          offset: sinon.spy(),
-          branchCommits: sinon.spy()
+      $provide.factory('promisify', function ($q) {
+        return function (obj, key) {
+          return function () {
+            return $q.when(obj[key].apply(this, arguments));
+          };
         };
       });
-      $provide.factory('fetchUser', fixtures.mockFetchUser);
-      $provide.factory('fetchOwnerRepos', fixtures.mockFetchOwnerRepos);
     });
-    angular.mock.inject(function ($compile, _$rootScope_, $timeout, user){
+
+
+    ctx = {};
+    angular.mock.inject(function (
+      _$compile_,
+      _$rootScope_,
+      _keypather_
+    ) {
+      $compile = _$compile_;
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
-      thisUser = user;
-      thisUser.reset(mocks.user);
-
-      $rootScope.dataApp = {
-        user: thisUser,
-        data: {},
-        stateParams: {}
-      };
-      var attrs = {
-        'loading': 'loading',
-        'build': 'build',
-        'instance': 'instance'
-      };
-      if (provideValues) {
-        Object.keys(provideValues).forEach(function (key) {
-          attrs[key] = provideValues[key];
-        });
-      }
-      var tpl = directiveTemplate.attribute('repo-list', attrs);
-      Object.keys(scope).forEach(function (key) {
-        $scope[key] = scope[key];
-      });
-      element = $compile(tpl)($scope);
-      $scope.$digest();
-      $elScope = element.isolateScope();
+      keypather = _keypather_;
     });
+
+    ctx.mainAcv = {
+      update: sinon.stub()
+    };
+    ctx.ctxVersion = {
+      getMainAppCodeVersion: sinon.stub().returns(ctx.mainAcv)
+    };
+    ctx.buildId = 'buildId1234';
+    ctx.build = {
+      id: sinon.stub().returns(ctx.buildId)
+    };
+    ctx.deepCopyBuild = {
+      contextVersions: {
+        models: [
+          {
+            fetch: sinon.stub().returns(ctx.ctxVersion)
+          }
+        ]
+      },
+      build: sinon.stub().returns(ctx.build)
+    };
+    ctx.instance = {
+      build: {
+        deepCopy: sinon.stub().returns(ctx.deepCopyBuild)
+      },
+      update: sinon.stub()
+    };
+
+    $scope.instance = ctx.instance;
+    ctx.template = directiveTemplate.attribute('repo-list', {
+      'instance': 'instance'
+    });
+    ctx.element = $compile(ctx.template)($scope);
+    $scope.$digest();
+    $elScope = ctx.element.isolateScope();
   }
 
-  describe('build only'.bold.blue, function () {
-    beforeEach(function () {
-      initGlobalState({
-        'show-add-repo': 'true',
-        'show-add-first-repo-message': 'true'
-      }, {
-        build: createBuildObject(mocks.builds.new, 0)
-      });
-    });
-    beforeEach(function () {
-      $rootScope.$digest();
-    });
-
-    it('should attempt to update the acv object on acv-change', function () {
-
-      var acv = {
-        attrs: apiMocks.appCodeVersions.bitcoinAppCodeVersion,
-        update: sinon.spy(function (opts, cb) {
-          cb();
-        })
-      };
-      var triggerInstanceUpdateOnRepoCommitChange = $elScope.triggerInstanceUpdateOnRepoCommitChange;
-      $elScope.triggerInstanceUpdateOnRepoCommitChange =
-          sinon.spy(triggerInstanceUpdateOnRepoCommitChange);
-      var updateOpts = 'Hello';
-      $scope.$broadcast('acv-change', { acv: acv, updateOpts: updateOpts });
-      $scope.$apply();
-      sinon.assert.calledWith(acv.update, updateOpts);
-      sinon.assert.notCalled($elScope.triggerInstanceUpdateOnRepoCommitChange);
-      expect(element[0].querySelector('.btn.btn-xs.orange'), 'Update Button').to.not.be.ok;
-    });
+  beforeEach(function () {
+    setup();
   });
 
-  describe('running instance with repo'.bold.blue, function () {
-    beforeEach(function () {
-      initGlobalState({
-        'show-auto-deploy': 'true',
-        'auto-build-on-acv-change': 'true'
-      }, {
-        build: createBuildObject(mocks.builds.built),
-        instance: createInstanceObject(mocks.instances.building)
-      });
-    });
-    beforeEach(function () {
-      $rootScope.$digest();
-    });
+  it('should rebuild the instance on update-commit', function () {
+    var newCommitSha = 'newCommitSha123';
 
-    it('should not display the guide', function() {
-      expect(element.find('.guide').length, 'RepoList Guide').to.not.be.ok;
+    $scope.$broadcast('change-commit', newCommitSha);
+    $scope.$digest();
+
+    sinon.assert.calledOnce(ctx.instance.build.deepCopy);
+    sinon.assert.calledOnce(ctx.deepCopyBuild.contextVersions.models[0].fetch);
+    sinon.assert.calledOnce(ctx.ctxVersion.getMainAppCodeVersion);
+
+    sinon.assert.calledOnce(ctx.mainAcv.update);
+    sinon.assert.calledWith(ctx.mainAcv.update, {
+      commit: newCommitSha
     });
 
-    it('should not show plus', function() {
-      expect(element[0].querySelector('.icons-add')).to.not.be.ok;
-    });
+    sinon.assert.calledOnce(ctx.deepCopyBuild.build);
 
-    it('should attempt to trigger a whole new build with 1 ACV', function () {
-      var triggerInstanceUpdateOnRepoCommitChange = $elScope.triggerInstanceUpdateOnRepoCommitChange;
-      $elScope.triggerInstanceUpdateOnRepoCommitChange =
-        sinon.spy(triggerInstanceUpdateOnRepoCommitChange);
 
-      expect($elScope.unsavedAcvs.length, 'Unsaved Acvs').to.equal(1);
-      $elScope.unsavedAcvs[0].unsavedAcv = { name: 'hello '};
-
-      $scope.$broadcast('acv-change', { acv: $elScope.unsavedAcvs[0].acv, updateOpts: {} });
-      $scope.$apply();
-      sinon.assert.notCalled($elScope.unsavedAcvs[0].acv.update);
-      sinon.assert.calledOnce($elScope.triggerInstanceUpdateOnRepoCommitChange);
-      expect($elScope.loading).to.be.true;
-      expect(element[0].querySelector('.btn.btn-xs.orange'), 'Update Button').to.not.be.ok;
-
-      var newBuild = createBuildObject(apiMocks.builds.new);
-      createNewBuildMock.triggerPromise(newBuild);
-      $scope.$apply();
-      sinon.assert.calledOnce(newBuild.build);
-      $scope.$apply();
-      sinon.assert.calledOnce($elScope.instance.update);
-      $scope.$apply();
-      expect($elScope.loading, 'Loading').to.be.false;
-
-    });
-    it('should show the update button with 2 acvs', function () {
-      $scope.build = createBuildObject(mocks.builds.built, 2);
-      $scope.$apply();
-
-      var triggerInstanceUpdateOnRepoCommitChange = $elScope.triggerInstanceUpdateOnRepoCommitChange;
-      $elScope.triggerInstanceUpdateOnRepoCommitChange =
-        sinon.spy(triggerInstanceUpdateOnRepoCommitChange);
-
-      expect($elScope.unsavedAcvs.length, 'Unsaved Acvs').to.equal(2);
-      $elScope.unsavedAcvs[0].unsavedAcv = { name: 'hello '};
-      $scope.$apply();
-      expect(element[0].querySelector('.btn.btn-xs.orange'), 'Update Button').to.be.ok;
-
-      $scope.$broadcast('acv-change', { acv: $elScope.unsavedAcvs[0].acv, updateOpts: {} });
-      $scope.$apply();
-      sinon.assert.notCalled($elScope.unsavedAcvs[0].acv.update);
-      sinon.assert.notCalled($elScope.triggerInstanceUpdateOnRepoCommitChange);
-      expect($elScope.loading, 'loading').to.not.be.ok;
-
-    });
+    sinon.assert.calledOnce(ctx.instance.update);
+    sinon.assert.calledWith(ctx.instance.update, {build: ctx.buildId});
   });
+
+
+  it('should trigger update on change of locked attribute', function () {
+    keypather.set($scope, 'instance.attrs.locked', true);
+
+    $scope.$digest();
+
+    sinon.assert.calledOnce(ctx.instance.update);
+    sinon.assert.calledWith(ctx.instance.update, {locked: true});
+  });
+
 });

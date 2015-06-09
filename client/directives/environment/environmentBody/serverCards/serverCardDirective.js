@@ -84,9 +84,6 @@ require('app')
             var qAll = {
               dependencies: promisify(instance, 'fetchDependencies', true)()
             };
-            if ($scope.server.repo) {
-              qAll.branches = promisify($scope.server.repo.branches, 'fetch')();
-            }
             return $q.all(qAll)
               .catch(errs.handler)
               .then(function (data) {
