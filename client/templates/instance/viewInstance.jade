@@ -96,14 +96,10 @@ header.server-header
 section.sidebar.server-sidebar.load
 
   section.sidebar-section.repo-list(
-    auto-build-on-acv-change = "true"
-    build = "dataInstance.data.instance.build"
     instance = "dataInstance.data.instance"
-    loading = "isLoading.main"
     ng-class = "{closed: $storage.repoListIsClosed}"
     ng-if = "dataInstance.data.instance.build.contextVersions.models[0].appCodeVersions.models.length"
     repo-list
-    show-auto-deploy = "true"
   )
 
   section.sidebar-section.linked-servers(
