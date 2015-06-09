@@ -115,6 +115,10 @@ function fileTreeDir(
       };
 
       function findDir (searchDir, dirPath) {
+        // searchDir is rootDir
+        if (dirPath === '/') {
+          return searchDir;
+        }
         var dirs = searchDir.contents.models.filter(function (item) {
           return item.attrs.isDir;
         });
