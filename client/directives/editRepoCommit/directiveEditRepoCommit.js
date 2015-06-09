@@ -15,7 +15,12 @@ function editRepoCommit(
       acv: '= model'
     },
     link: function ($scope) {
-      $scope.activeCommit = fetchCommitData.activeCommit($scope.acv);
+      $scope.$watch('acv', function (newAcv) {
+        if (newAcv) {
+          $scope.activeCommit = fetchCommitData.activeCommit($scope.acv);
+        }
+      });
+
 
       $scope.actions = {
         toggleEditCommits: function () {
@@ -31,7 +36,7 @@ function editRepoCommit(
         },
         actions: {
           selectCommit: function (commitSha) {
-            $scope.acv.commit = commitSha;
+            $scope.acv.attrs.commit = commitSha;
             $scope.$emit('change-commit', commitSha);
             $scope.$broadcast('close-popovers');
           }

@@ -10,7 +10,6 @@ function repoList(
   loading,
   errs
 ) {
-  console.log('Hell OH');
   return {
     restrict: 'A',
     templateUrl: 'viewRepoList',
@@ -18,8 +17,6 @@ function repoList(
       instance: '='
     },
     link: function ($scope) {
-      console.log('HELL no');
-
       $scope.$storage = $localStorage.$default({
         repoListIsClosed: false
       });

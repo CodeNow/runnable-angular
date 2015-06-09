@@ -15,6 +15,7 @@ describe.only('directiveRepoList'.bold.underline.blue, function() {
       $compile = _$compile_;
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
+    });
 
     ctx.mainAcv = {
       update: sinon.spy()
@@ -44,17 +45,16 @@ describe.only('directiveRepoList'.bold.underline.blue, function() {
     };
 
     $scope.instance = ctx.instance;
-      ctx.template = directiveTemplate.attribute('repo-list', {
-        'instance': 'instance'
-      });
-      ctx.element = $compile(ctx.template)($scope);
-      $scope.$digest();
-      $elScope = ctx.element.isolateScope();
-
-
-      console.log(ctx.element);
-      console.log($elScope);
+    ctx.template = directiveTemplate.attribute('repo-list', {
+      'instance': 'instance'
     });
+    ctx.element = $compile(ctx.template)($scope);
+    $scope.$digest();
+    $elScope = ctx.element.isolateScope();
+
+
+    console.log(ctx.element);
+    console.log($elScope);
   }
 
   beforeEach(function () {
