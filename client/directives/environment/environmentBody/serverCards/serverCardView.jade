@@ -11,14 +11,13 @@
     pop-over-options = "{\"right\":0,\"top\":47}"
     pop-over-template = "serverOptionsCardPopover"
   )
-.card-header(
+div(
+  ng-attr-no-touching = "{{ showSpinner() }}"
   ng-if = "$root.featureFlags.cardStatus"
+  pop-over-options = "{\"centered\":true,\"top\":36}"
+  pop-over-template = "serverOptionsCardPopover"
+  server-status-card-header
 )
-  server-status-card-header(
-    ng-attr-no-touching = "{{ showSpinner() }}"
-    pop-over-options = "{\"centered\":true,\"top\":36}"
-    pop-over-template = "serverOptionsCardPopover"
-  )
 ul.card-body.card-loading(
   ng-if = "showSpinner()"
 )

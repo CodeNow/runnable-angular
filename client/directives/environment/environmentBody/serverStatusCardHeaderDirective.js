@@ -10,7 +10,7 @@ function serverStatusCardHeader(
   keypather
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     replace: true,
     templateUrl: 'serverStatusCardHeaderView',
     link: function ($scope, elem, attrs) {
