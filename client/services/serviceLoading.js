@@ -10,7 +10,7 @@ function loading(
   $rootScope.isLoading = {};
   var loadingStatusHash = {};
 
-  return function (namespace, startLoading) {
+  var loadingFunc = function (namespace, startLoading) {
     if (!exists(loadingStatusHash[namespace])) {
       loadingStatusHash[namespace] = 0;
     }
@@ -24,4 +24,8 @@ function loading(
     }
     $rootScope.isLoading[namespace] = loadingStatusHash[namespace] > 0;
   };
+  loadingFunc.reset = function (namespace) {
+    loadingStatusHash[namespace] = 0;
+  };
+  return loadingFunc;
 }

@@ -241,6 +241,7 @@ function editServerModal(
 
       function resetState(server) {
         loadingPromises.clear('editServerModal');
+        loading.reset('editServerModal');
         loading('editServerModal', true);
         $scope.state = {
           advanced: server.advanced || false,
@@ -281,6 +282,7 @@ function editServerModal(
             if (contextVersion.getMainAppCodeVersion()) {
               $scope.state.acv = contextVersion.getMainAppCodeVersion();
             }
+            loading('editServerModal', false);
             return fetchUser();
           })
           .then(function (user) {
@@ -293,7 +295,6 @@ function editServerModal(
           })
           .then(function (build) {
             $scope.state.build = build;
-            loading('editServerModal', false);
           })
           .catch(function (err) {
             errs.handler(err);
