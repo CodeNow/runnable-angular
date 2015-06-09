@@ -126,6 +126,26 @@
   }
 }
 
+.server-title-popover .popover-list-item {
+  padding: 0 12px;
+}
+
+.failed-status {
+  background-color: $orange-lightest;
+  border-radius: 3px;
+  border: 1px solid rgba($orange-dark,.3);
+  color: rgba($orange-dark,.75);
+  font-size: 15px;
+  line-height: 18px;
+  margin: 12px 12px 0;
+  max-width: 210px;
+  padding: 9px 15px;
+
+  .strong {
+    color: rgba($orange-dark,.9);
+  }
+}
+
 // card layout
 // header
 .card-header {
@@ -135,14 +155,16 @@
   justify-content: center;
   padding: 0 15px 3px;
   text-align: center;
+  // font-weight: 400;
 
   .card-title-wrapper {
     display: flex;
     justify-content: center;
+    cursor: pointer;
   }
 
   .card-title {
-    cursor: pointer;
+    // cursor: pointer;
     flex: 0 1 auto;
     font-size: 21px;
     line-height: 33px;
@@ -156,9 +178,17 @@
     }
   }
 
+  .icons-warning {
+    flex: 0 0 auto;
+    // margin-top: 4px;
+    top: 7px;
+    color: rgba($orange-dark,.9);
+  }
+
   .icons-arrow-down {
     flex: 0 0 auto;
-    margin-top: 4px;
+    // margin-top: 4px;
+    top: 4px;
   }
 
   .spinner-wrapper.in {
