@@ -56,11 +56,11 @@ describe('serviceEventTracking'.bold.underline.blue, function () {
     eventTracking.boot(new User(angular.copy(apiMocks.user)));
     eventTracking.triggeredBuild();
     expect(eventTracking._Intercom.callCount).to.equal(2);
-    expect(eventTracking._mixpanel.callCount).to.equal(3);
+    expect(eventTracking._mixpanel.callCount).to.equal(4);
     expect(eventTracking._Intercom.args[1][1]).to.equal('triggered-build');
-    expect(eventTracking._mixpanel.args[2][1]).to.equal('triggered-build');
+    expect(eventTracking._mixpanel.args[3][1]).to.equal('triggered-build');
     // both analytics SDK event reporting methods should be passed same event data
-    expect(eventTracking._Intercom.args[1][2]).to.deep.equal(eventTracking._mixpanel.args[2][2]);
+    expect(eventTracking._Intercom.args[1][2]).to.deep.equal(eventTracking._mixpanel.args[3][2]);
     expect(Object.keys(eventTracking._Intercom.args[1][2])).to.contain('state');
     expect(Object.keys(eventTracking._Intercom.args[1][2])).to.contain('href');
     eventTracking._Intercom.restore();
