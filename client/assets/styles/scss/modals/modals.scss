@@ -83,6 +83,15 @@
   padding: 0 15px;
   text-align: center;
 
+  .card-title-wrapper {
+    margin: 12px 0 6px;
+  }
+
+  .card-title {
+    font-size: 18px;
+    line-height: 21px;
+  }
+
   .p {
     color: $gray-light;
     line-height: 36px;

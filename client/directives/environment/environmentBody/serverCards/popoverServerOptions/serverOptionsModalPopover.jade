@@ -3,7 +3,12 @@
   ng-style = "popoverStyle.getStyle()"
 )
   .arrow.white(
+    ng-if = "!$root.featureFlags.cardStatus"
     style = "left: auto; right: 4px;"
+  )
+  .arrow.white(
+    ng-if = "$root.featureFlags.cardStatus"
+    style = "left: 50%;"
   )
   .popover-content
     //- This element displays when the contianer has failed to build or run

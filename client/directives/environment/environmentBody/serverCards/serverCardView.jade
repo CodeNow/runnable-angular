@@ -17,11 +17,10 @@
 //- ************
 .card-header(
   ng-if = "$root.featureFlags.cardStatus"
-  ng-attr-no-touching = "{{ showSpinner() }}"
 )
   server-status-card-header(
     ng-attr-no-touching = "{{ showSpinner() }}"
-    pop-over-options = "{\"centered\":true,\"top\":37}"
+    pop-over-options = "{\"centered\":true,\"top\":36}"
     pop-over-template = "serverOptionsCardPopover"
   )
   //- .card-title-wrapper(

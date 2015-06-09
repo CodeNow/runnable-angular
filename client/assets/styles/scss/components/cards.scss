@@ -128,14 +128,13 @@
 
 .card-status-failed {
   background-color: $orange-lightest;
-  border-radius: 3px;
   border: 1px solid rgba($orange-dark,.3);
+  border-radius: 3px;
   color: rgba($orange-dark,.75);
   font-size: 15px;
   line-height: 18px;
   margin: 9px 9px 0;
-  max-width: 210px;
-  padding: 9px 15px;
+  padding: 9px 12px;
 
   .strong {
     color: rgba($orange-dark,.9);
@@ -150,6 +149,10 @@
   justify-content: center;
   padding: 18px 15px;
   text-align: center;
+}
+
+.card-header,
+.modal-header {
 
   .card-title-wrapper {
     color: $gray-dark;
@@ -171,6 +174,7 @@
   .card-title {
     flex: 0 0 auto;
     font-size: 21px;
+    font-weight: 500;
     line-height: 22px;
     padding-left: 3px;
   }

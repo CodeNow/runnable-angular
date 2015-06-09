@@ -27,6 +27,7 @@ div(
     )
   //-----
   .card-title-wrapper(
+    ng-if = "$root.featureFlags.cardStatus"
   )
     //- This element should display while the card is building.
     //- .spinner-wrapper.spinner-sm.spinner-gray.in(
