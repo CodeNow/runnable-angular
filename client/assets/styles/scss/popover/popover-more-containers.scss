@@ -1,0 +1,36 @@
+.popover-more-containers {
+  width: 270px;
+
+  .popover-content.popover-content {
+    max-height: 333px;
+    overflow-y: auto;
+  }
+
+  .popover-header {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .input-search {
+    background-position: calc(50% - 70px) center;
+    margin: 12px 9px 9px;
+    padding-left: calc(50% - 67px);
+    width: calc(100% - 18px);
+
+    &:focus {
+      background-position: 8px center;
+    }
+  }
+
+  .popover-list-item {
+    font-size: 15px;
+    padding-left: 24px;
+  }
+
+  .icons-status {
+    left: 9px;
+    position: absolute;
+    top: 12px;
+  }
+}

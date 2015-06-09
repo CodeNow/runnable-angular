@@ -1,7 +1,7 @@
 // popovers
 .popover {
-   // top & left offset to move popovers offscreen to prevent them
-   // from appearing before calculating their actual position
+  // top & left offset to move popovers offscreen to prevent them
+  // from appearing before calculating their actual position
   background: $white;
   border: 2px solid $gray-lighter;
   border-radius: 3px;
@@ -119,12 +119,12 @@
 
   // states
   &:hover {
-    background: rgba($purple-light,.1);
+    background: rgba($purple-lightest,.45);
   }
 
   &:active,
   &.active {
-    background: rgba($purple-light,.15);
+    background: rgba($purple-lightest,.9);
     color: $purple-light;
 
     .iconnables,
@@ -214,6 +214,10 @@
   display: flex;
   height: 54px;
   padding: 9px 15px;
+
+  &.popover-header-sm {
+    height: 45px;
+  }
 }
 
 // flex for multiple buttons

@@ -3,7 +3,6 @@
 require('app')
   .factory('parseDockerfileForStack', parseDockerfileForStack)
   .factory('parseDockerfileForCardInfoFromInstance', parseDockerfileForCardInfoFromInstance)
-  .factory('cardInfoTypes', getCardInfoTypes)
   .factory('parseDockerfileForDefaults', function () {
     return parseDockerfileForDefaults;
   });
@@ -88,139 +87,19 @@ function parseDockerfileForPorts(dockerfile) {
   }
 }
 
-function getCardInfoTypes(
-  uuid
-) {
-
-  function wrapWithType(content, type){
-    return '#Start: ' + type + '\n' +
-      content + '\n' +
-      '#End';
-  }
-
-
-  function ContainerFile(contents){
-    this.type = 'File';
-    this.id = uuid.v4();
-
-    if (contents) {
-      var commandList = contents.split('\n');
-      var commands = /^ADD ((?:\\\s|[^\s])*) ((?:\\\s|[^\s])*)/.exec(commandList[0]);
-
-      this.name = commands[1].replace('./', '');
-      this.path = commands[2].replace('/', '');
-      commandList.splice(0, 2); //Remove the ADD and the WORKDIR
-      this.commands = commandList.map(function (item) {
-        return item.replace('RUN ', '');
-      }).join('\n');
-      this.fromServer = true;
-    }
-
-    this.toString = function () {
-      var self = this;
-      self.commands = self.commands || '';
-      self.path = self.path || '';
-      var contents = 'ADD ./' + self.name.trim() + ' /' + self.path.trim() + '\n'+
-        'WORKDIR /' + self.path.trim() + '\n'+
-        self.commands
-          .split('\n')
-          .filter(function (command) {
-            return command.trim().length;
-          })
-          .map(function (command) {
-            return 'RUN '+command;
-          })
-          .join('\n');
-      return wrapWithType(contents, self.type);
-    };
-    this.clone = function () {
-      var self = this;
-      var myContainerFile = new ContainerFile(contents);
-      Object.keys(self).forEach(function (key) {
-        myContainerFile[key] = self[key];
-      });
-      return myContainerFile;
-    };
-  }
-
-  function Repo(contents, opts){
-    opts = opts || {};
-    this.type = opts.isMainRepo ? 'Main Repository' : 'Repository';
-    this.id = uuid.v4();
-    this.hasFindReplace = false;
-
-    if (contents) {
-      var commandList = contents.split('\n');
-      var commands = /^ADD ((?:\\\s|[^\s])*) ((?:\\\s|[^\s])*)/.exec(commandList[0]);
-      this.name = commands[1].replace('./', '');
-      this.path = commands[2].replace('/', '');
-      commandList.splice(0, 2); //Remove the ADD and the WORKDIR
-      if (commandList[0].indexOf('ADD ./translation_rules.sh') > -1){
-        this.hasFindReplace = true;
-        // Remove add/chmod/run
-        commandList.splice(0,2);
-      }
-      this.commands = commandList.map(function (item) {
-        return item.replace('RUN ', '');
-      }).join('\n');
-      this.fromServer = true;
-    }
-    this.toString = function () {
-      var self = this;
-      self.commands = self.commands || '';
-      self.path = (self.path || self.name).trim();
-      if (self.hasFindReplace) {
-        var scriptPath = '/' + self.path + '/translation_rules.sh';
-        self.commands = 'ADD ./translation_rules.sh ' + scriptPath + '\n' +
-          'sh ' + scriptPath + '\n'.concat(self.commands);
-      }
-      var contents = 'ADD ./' + self.name.trim() + ' /' + self.path.trim() + '\n'+
-        'WORKDIR /' + self.path + '\n'+
-        self.commands
-          .split('\n')
-          .filter(function (command) {
-            return command.trim().length;
-          })
-          .map(function (command) {
-            if (command.indexOf('ADD') === 0) {
-              return command;
-            }
-            return 'RUN '+command;
-          })
-          .join('\n');
-      return wrapWithType(contents, self.type);
-    };
-    this.clone = function () {
-      var self = this;
-      var myRepo = new Repo(contents, opts);
-      Object.keys(self).forEach(function (key) {
-        myRepo[key] = self[key];
-      });
-      return myRepo;
-    };
-  }
-  return function () {
-    return {
-      'File': ContainerFile,
-      'Main Repository': Repo,
-      'Repository': Repo
-    };
-  };
-}
-
 function parseDockerfileForCardInfoFromInstance(
   parseDockerfileForStack,
   promisify,
   keypather,
   $q,
   $log,
+  errs,
   fetchCommitData,
   cardInfoTypes,
   fetchStackInfo
 ) {
 
   function parseDockerfile (dockerfile) {
-    var types = cardInfoTypes();
     var regex = new RegExp('#Start: (.*)\n([\\s\\S]*?)#End', 'gm');
     var currentBlock = regex.exec(dockerfile);
     var chunks = [];
@@ -228,12 +107,14 @@ function parseDockerfileForCardInfoFromInstance(
     var CustomType;
     var content;
     while (currentBlock) {
-      CustomType = types[currentBlock[1]];
+      CustomType = cardInfoTypes[currentBlock[1]];
       content = currentBlock[2];
       if (CustomType) {
-        chunks.push( new CustomType(content, {
-          isMainRepo: currentBlock[1] === 'Main Repository'
-        }));
+        var newChunk = new CustomType(content);
+        if (newChunk.legacyAdd && currentBlock[1] === 'File') {
+          errs.handler('ADD command not in array syntax, please remove and reupload file');
+        }
+        chunks.push(newChunk);
       } else {
         $log.error('Type "' + currentBlock[1] + '" not found.');
       }

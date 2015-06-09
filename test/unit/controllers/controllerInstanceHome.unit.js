@@ -131,7 +131,7 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
         };
       });
       many.githubUsername = 'SomeKittens';
-      sinon.stub($state, 'is', function () {
+      sinon.stub($state, 'includes', function () {
         return true;
       });
       mockFetch.triggerPromise(many);
@@ -161,7 +161,7 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
         };
       });
       many.githubUsername = 'SomeKittens';
-      sinon.stub($state, 'is', function () {
+      sinon.stub($state, 'includes', function () {
         return false;
       });
       mockFetch.triggerPromise(many);
