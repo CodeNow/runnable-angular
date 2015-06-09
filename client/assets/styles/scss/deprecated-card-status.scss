@@ -1,0 +1,43 @@
+.card-header.deprecated {
+  height: auto;
+  margin: 0 15px;
+}
+
+// title group
+.btn-title {
+  display: flex;
+  margin: 15px auto 12px;
+  max-width: 100%;
+  padding-right: 30px;
+
+  // hide arrow space
+  &.no-touching {
+    padding-right: 15px;
+  }
+
+  .btn-text {
+
+    &:first-child {
+      flex: 1 1 auto;
+    }
+
+    + .btn-text {
+      flex: 0 0 auto;
+      opacity: .5;
+      padding-left: 3px; // replaces a standard space (flexbox doesn't include it in the calculation)
+    }
+  }
+
+  // status
+  .icons-status {
+    margin-right: 6px;
+    margin-top: 12px; // 'vertical center'
+  }
+
+  // arrow down
+  .icons-arrow-down {
+    flex: 0 0 18px;
+    margin: 0 0 0 6px;
+    top: 0;
+  }
+}
