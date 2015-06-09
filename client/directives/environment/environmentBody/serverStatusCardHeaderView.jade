@@ -8,16 +8,44 @@ div(
 )
   status-icon(
     instance = "server.instance"
+    ng-if = "!$root.featureFlags.cardStatus"
   )
   span.btn-text.text-overflow(
     ng-attr-title = "{{ server.opts.name || server.instance.getDisplayName() }}"
+    ng-if = "!$root.featureFlags.cardStatus"
   ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
   span.btn-text(
     ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
+    ng-if = "!$root.featureFlags.cardStatus"
   ) {{ server.instance | cardBuildStatusText:true}}
   svg.iconnables.icons-arrow-down(
     ng-if = "!noTouching"
+    ng-if = "!$root.featureFlags.cardStatus"
   )
     use(
       xlink:href = "#icons-arrow-down"
     )
+  //-----
+  .card-title-wrapper(
+  )
+    //- This element should display while the card is building.
+    //- .spinner-wrapper.spinner-sm.spinner-gray.in(
+    //-   ng-include = "'spinner'"
+    //-   ng-if = "$root.featureFlags.cardStatus"
+    //- )
+    //- This element should replace the spinner if the build has failed
+    svg.iconnables.icons-warning(
+      ng-if = "!noTouching"
+    )
+      use(
+        xlink:href = "#icons-warning"
+      )
+    span.card-title.text-overflow(
+      ng-if = "$root.featureFlags.cardStatus"
+    ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
+    svg.iconnables.icons-arrow-down(
+        ng-if = "!noTouching"
+      )
+        use(
+          xlink:href = "#icons-arrow-down"
+        )

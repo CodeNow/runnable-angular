@@ -6,6 +6,13 @@
     style = "left: auto; right: 4px;"
   )
   .popover-content
+    //- This element displays when the contianer has failed to build or run
+    .card-status-failed(
+      ng-if = "$root.featureFlags.cardStatus"
+    )
+      | The
+      strong.strong  container CMD
+      |  failed on the master container.
     ul.popover-list
       //- trigger build files confirm modal
       li.list-item.popover-list-item.multi-line

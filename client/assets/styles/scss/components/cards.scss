@@ -126,49 +126,68 @@
   }
 }
 
+.card-status-failed {
+  background-color: $orange-lightest;
+  border-radius: 3px;
+  border: 1px solid rgba($orange-dark,.3);
+  color: rgba($orange-dark,.75);
+  font-size: 15px;
+  line-height: 18px;
+  margin: 9px 9px 0;
+  max-width: 210px;
+  padding: 9px 15px;
+
+  .strong {
+    color: rgba($orange-dark,.9);
+  }
+}
+
 // card layout
 // header
 .card-header {
   display: flex;
   flex-direction: column;
-  margin: 0 15px 6px;
-}
+  justify-content: center;
+  padding: 18px 15px;
+  text-align: center;
 
-// title group
-.btn-title {
-  display: flex;
-  margin: 12px auto 0;
-  max-width: 100%;
-  padding-right: 30px;
+  .card-title-wrapper {
+    color: $gray-dark;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    max-width: 100%;
 
-  // hide arrow space
-  &.no-touching {
-    padding-right: 15px;
-  }
-
-  .btn-text {
-
-    &:first-child {
-      flex: 1 1 auto;
+    &:hover {
+      color: $gray-darker;
     }
 
-    + .btn-text {
-      flex: 0 0 auto;
-      opacity: .5;
-      padding-left: 3px; // replaces a standard space (flexbox doesn't include it in the calculation)
+    &:active {
+      color: $purple-light;
     }
   }
 
-  // status
-  .icons-status {
-    margin-right: 6px;
-    margin-top: 12px; // 'vertical center'
+  .card-title {
+    flex: 0 0 auto;
+    font-size: 21px;
+    line-height: 22px;
+    padding-left: 3px;
   }
 
-  // arrow down
-  .icons-arrow-down {
-    flex: 0 0 18px;
-    margin: 0 0 0 6px;
+  .icons-warning,
+  .icons-arrow-down,
+  .spinner-wrapper.in {
+    flex: 0 0 21px;
+    height: 21px;
+  }
+
+  .spinner-wrapper.in {
+    padding: 3px; //positions it to replace .icons-warning
+  }
+
+  .icons-warning {
+    color: rgba($orange-dark,.9);
   }
 }
 
@@ -286,35 +305,6 @@
   padding: 12px 0;
   text-align: left;
   transition: none;
-}
-
-// footer
-.card-footer {
-  background: $gray-lightest;
-  border-top: 1px solid rgba($black,.1);
-  flex: 0 0 auto;
-  padding: 3px 15px;
-
-  .small {
-    color: $gray;
-    font-weight: 500;
-
-    &:first-child {
-      font-size: 12px;
-    }
-  }
-
-  // proxy url
-  .input[readonly] {
-    background: transparent;
-    border: 0;
-    display: block;
-    font-weight: 400;
-    height: 24px;
-    letter-spacing: -.25px;
-    line-height: 24px;
-    padding: 0;
-  }
 }
 
 // template
