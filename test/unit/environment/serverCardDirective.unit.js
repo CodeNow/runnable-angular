@@ -1,10 +1,10 @@
 'use strict';
-
 describe.only('serverCardDirective'.bold.underline.blue, function () {
   var ctx;
   var $timeout;
   var $scope;
   var $compile;
+  var $q;
   var $elScope;
   var $rootScope;
   var keypather;
@@ -20,9 +20,11 @@ describe.only('serverCardDirective'.bold.underline.blue, function () {
         return 'org1';
       }
     };
+
     runnable.reset(apiMocks.user);
     angular.mock.module('app', function ($provide) {
       $provide.factory('parseDockerfileForCardInfoFromInstance', parseDockMock.fetch());
+      $provide.factory('helpCards', helpCardsMock.create(ctx));
     });
     angular.mock.inject(function (
       _$compile_,
