@@ -6,6 +6,8 @@ div(
   pop-over-actions = "actions"
   pop-over-data = "popOverServerData"
 )
+  //- ************
+  //- deprecated content, remove with $root.featureFlags.cardStatus
   status-icon(
     instance = "server.instance"
     ng-if = "!$root.featureFlags.cardStatus"
@@ -25,7 +27,8 @@ div(
     use(
       xlink:href = "#icons-arrow-down"
     )
-  //-----
+  //- end deprecated content
+  //- ************
   .card-title-wrapper(
     ng-if = "$root.featureFlags.cardStatus"
   )
@@ -34,7 +37,7 @@ div(
     //-   ng-include = "'spinner'"
     //-   ng-if = "$root.featureFlags.cardStatus"
     //- )
-    //- This element should replace the spinner if the build has failed
+    //- This element should replace the spinner if the container has failed to build or run or 5 seconds
     svg.iconnables.icons-warning(
       ng-if = "!noTouching"
     )

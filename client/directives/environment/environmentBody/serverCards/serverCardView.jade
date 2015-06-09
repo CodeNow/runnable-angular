@@ -1,5 +1,3 @@
-//- ************
-//- deprecated element, remove with $root.featureFlags.cardStatus
 .card-header.deprecated(
   ng-if = "!$root.featureFlags.cardStatus"
 )
@@ -13,8 +11,6 @@
     pop-over-options = "{\"right\":0,\"top\":47}"
     pop-over-template = "serverOptionsCardPopover"
   )
-//- end deprecated element
-//- ************
 .card-header(
   ng-if = "$root.featureFlags.cardStatus"
 )
@@ -23,35 +19,6 @@
     pop-over-options = "{\"centered\":true,\"top\":36}"
     pop-over-template = "serverOptionsCardPopover"
   )
-  //- .card-title-wrapper(
-  //-   pop-over
-  //-   pop-over-actions = "actions"
-  //-   pop-over-active = "popOverServerData.active"
-  //-   pop-over-data = "popOverServerData"
-  //-   pop-over-options = "{\"centered\":true,\"top\":37}"
-  //-   pop-over-template = "serverOptionsCardPopover"
-  //- )
-  //-   //- This element should display while the card is building.
-  //-   //- .spinner-wrapper.spinner-sm.spinner-gray.in(
-  //-   //-   ng-include = "'spinner'"
-  //-   //-   ng-if = "$root.featureFlags.cardStatus"
-  //-   //- )
-  //-   //- This element should replace the spinner if the build has failed
-  //-   svg.iconnables.icons-warning(
-  //-     ng-if = "!noTouching"
-  //-   )
-  //-     use(
-  //-       xlink:href = "#icons-warning"
-  //-     )
-  //-   span.card-title.text-overflow(
-  //-     ng-if = "$root.featureFlags.cardStatus"
-  //-   ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
-  //-   svg.iconnables.icons-arrow-down(
-  //-       ng-if = "!noTouching"
-  //-     )
-  //-       use(
-  //-         xlink:href = "#icons-arrow-down"
-  //-       )
 ul.card-body.card-loading(
   ng-if = "showSpinner()"
 )
