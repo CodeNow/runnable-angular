@@ -63,12 +63,14 @@ section.home-hero
   small.small Check out our demo video, and if you'd like an invite, let us know.
   form.form
     .form-container
-      input.input.input-sm(
-        placeholder = "Your email"
-        required
-        type = "email"
-      )
-      button.btn.btn-sm.green Request Invite
+      //- input.input.input-sm(
+      //-   placeholder = "Your email"
+      //-   required
+      //-   type = "email"
+      //- )
+      a.btn.btn-sm.green(
+        href = "mailto:support@runnable.com?subject=Please send me an invite for the beta"
+      ) Request Invite
     .container
       p.p or #{''}
         a.link(
