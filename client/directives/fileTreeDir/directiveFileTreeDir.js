@@ -194,7 +194,7 @@ function fileTreeDir(
             $scope.$broadcast('close-popovers');
           },
           deleteFolder: function () {
-            loadingPromises.add($scope.loadingPromisesTarget, promisify($scope.dir, 'destroy'))
+            loadingPromises.add($scope.loadingPromisesTarget, promisify($scope.dir, 'destroy')())
               .catch(errs.handler);
             $scope.$broadcast('close-popovers');
           },
@@ -324,17 +324,15 @@ function fileTreeDir(
               branch: repo.branch.attrs.name,
               commit: repo.commit.attrs.sha,
               additionalRepo: true
-            })
-              .catch(errs.handler)
-            );
+            }))
+              .catch(errs.handler);
           },
           remove: function(repo){
             var acv = $scope.fileModel.appCodeVersions.models.find(function (acv) {
               return acv.attrs.repo.split('/')[1] === repo.repo.attrs.name;
             });
-            loadingPromises.add($scope.loadingPromisesTarget, promisify(acv, 'destroy')()
-              .catch(errs.handler)
-            );
+            loadingPromises.add($scope.loadingPromisesTarget, promisify(acv, 'destroy')())
+              .catch(errs.handler);
           },
           update: function(repo){
             var acv = $scope.fileModel.appCodeVersions.models.find(function (acv) {
@@ -342,11 +340,10 @@ function fileTreeDir(
             });
 
             loadingPromises.add($scope.loadingPromisesTarget, promisify(acv, 'update')({
-                branch: repo.branch.attrs.name,
-                commit: repo.commit.attrs.sha
-              })
-                .catch(errs.handler)
-            );
+              branch: repo.branch.attrs.name,
+              commit: repo.commit.attrs.sha
+            }))
+              .catch(errs.handler);
           }
         }
       };
