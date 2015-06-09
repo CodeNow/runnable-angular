@@ -30,7 +30,6 @@
     background: $white;
     border-right: 1px solid $gray-lighter;
     flex: 0 0 50px;
-    margin-left: -1px; // padding offset
     text-align: right;
   }
 
@@ -61,7 +60,8 @@
 
   // extra padding-bottom is weird when colored
   .tr-deletion,
-  .tr-addition {
+  .tr-addition,
+  .tr-gap {
 
     &:last-child {
       padding-bottom: 0;

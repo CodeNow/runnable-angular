@@ -1,24 +1,25 @@
 .well.gray.repository-group-text(
-  ng-class = "{active: popoverRepositoryToggle.data.show}"
+  ng-class = "{active: popoverRepositoryToggle.show}"
+  ng-click = "actions.toggleEditCommits()"
   pop-over
   pop-over-actions = "popoverRepositoryToggle.actions"
   pop-over-data = "popoverRepositoryToggle.data"
   pop-over-options = "{\"left\":270,\"top\":0}"
   pop-over-template = "viewPopoverRepositoryToggle"
-  pop-over-active = "popoverRepositoryToggle.data.show"
+  pop-over-active = "popoverRepositoryToggle.show"
 )
   p.repository-description.strong.text-overflow
     svg.iconnables.icons-repository
       use(
         xlink:href = "#icons-repository"
       )
-    | {{ model.acv.attrs.repo }}
+    | {{ acv.attrs.repo }}
   p.repository-description.text-overflow.clearfix.js-repository-branch
     svg.iconnables.icons-branch
       use(
         xlink:href = "#icons-branch"
       )
-    | {{ activeBranch.attrs.name }}
+    | {{ acv.attrs.branch }}
   p.repository-description.clearfix.js-repository-commit
     svg.iconnables.icons-commit
       use(

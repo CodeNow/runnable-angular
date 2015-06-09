@@ -18,7 +18,7 @@ function editServerModal(
   fetchUser,
   populateDockerfile,
   promisify,
-  watchWhenTruthyPromise,
+  watchOncePromise,
   helpCards,
   $rootScope,
   uploadFile,
@@ -39,7 +39,6 @@ function editServerModal(
       selectedTab: '= stateModel'
     },
     link: function ($scope, elem, attrs) {
-      loadingPromises.clear('editServerModal');
       $scope.isLoading = $rootScope.isLoading;
       if (helpCards.cardIsActiveOnThisContainer($scope.server.instance)) {
         $scope.helpCards = helpCards;
@@ -110,9 +109,8 @@ function editServerModal(
               return acv.attrs.repo.split('/')[1] === repo.repo.attrs.name;
             });
 
-            loadingPromises.add('editServerModal', promisify(acv, 'destroy')()
-              .catch(errs.handler)
-            );
+            loadingPromises.add('editServerModal', promisify(acv, 'destroy')())
+              .catch(errs.handler);
           },
           create: function (repo) {
             $scope.state.containerFiles.push(repo);
@@ -121,12 +119,11 @@ function editServerModal(
               branch: repo.branch.attrs.name,
               commit: repo.commit.attrs.sha,
               additionalRepo: true
-            })
+            }))
               .then(function (acv) {
                 repo.acv = acv;
               })
-              .catch(errs.handler)
-            );
+              .catch(errs.handler);
           },
           update: function (repo) {
             var myRepo = $scope.state.containerFiles.find(function (containerFile) {
@@ -243,6 +240,8 @@ function editServerModal(
       $scope.build = $scope.server.build;
 
       function resetState(server) {
+        loadingPromises.clear('editServerModal');
+        loading.reset('editServerModal');
         loading('editServerModal', true);
         $scope.state = {
           advanced: server.advanced || false,
@@ -257,7 +256,7 @@ function editServerModal(
           server: server
         };
 
-        watchWhenTruthyPromise($scope, 'server.containerFiles')
+        watchOncePromise($scope, 'server.containerFiles', true)
           .then(function (containerFiles) {
             $scope.state.containerFiles = containerFiles.map(function (model) {
               var cloned = model.clone();
@@ -271,15 +270,7 @@ function editServerModal(
             }));
           });
 
-        if (server.repo) {
-          $scope.branches = server.repo.branches;
-          $scope.state.branch =
-            server.repo.branches.models.find(hasKeypaths({'attrs.name': keypather.get(
-              server,
-              'instance.contextVersion.getMainAppCodeVersion().attrs.branch'
-            )}));
-        }
-        return promisify(server.contextVersion, 'deepCopy')()
+        return loadingPromises.add('editServerModal', promisify(server.contextVersion, 'deepCopy')())
           .then(function (contextVersion) {
             $scope.state.contextVersion = contextVersion;
             return promisify(contextVersion, 'fetch')();
@@ -288,9 +279,8 @@ function editServerModal(
             if (contextVersion.attrs.advanced) {
               openDockerfile();
             }
-            if (contextVersion.getMainAppCodeVersion()) {
-              $scope.state.acv = contextVersion.getMainAppCodeVersion();
-            }
+            $scope.state.acv = contextVersion.getMainAppCodeVersion();
+            loading('editServerModal', false);
             return fetchUser();
           })
           .then(function (user) {
@@ -303,7 +293,6 @@ function editServerModal(
           })
           .then(function (build) {
             $scope.state.build = build;
-            loading('editServerModal', false);
           })
           .catch(function (err) {
             errs.handler(err);
@@ -343,20 +332,27 @@ function editServerModal(
       $scope.getUpdatePromise = function () {
         $rootScope.$broadcast('close-popovers');
         $scope.building = true;
+        var toRebuild = false;
         $scope.state.ports = convertTagToPortList();
         return loadingPromises.finished('editServerModal')
-          .then(watchWhenTruthyPromise($scope, 'state.contextVersion'))
+          .then(function (promiseArrayLength) {
+            toRebuild = promiseArrayLength > 0;
+          })
+          .then(watchOncePromise($scope, 'state.contextVersion', true))
           .then(function () {
             var state = $scope.state;
-            if (state.advanced) {
-              return watchWhenTruthyPromise($scope, 'openItems.isClean()')
-                .then(function () {
-                  return buildBuild(state);
-                });
-            } else if (state.server.startCommand !== state.startCommand ||
+            if (!state.advanced &&
+                (state.server.startCommand !== state.startCommand ||
                 state.server.ports !== state.ports ||
-                !angular.equals(state.server.selectedStack, state.selectedStack)) {
+                !angular.equals(state.server.selectedStack, state.selectedStack))) {
+              toRebuild = true;
               return updateDockerfile(state);
+            }
+            return state;
+          })
+          .then(function (state) {
+            if (toRebuild) {
+              return buildBuild(state);
             }
             return state;
           })
@@ -414,7 +410,7 @@ function editServerModal(
             );
           })
           .then(function () {
-            return buildBuild($scope.state);
+            return state;
           });
       }
 
@@ -454,20 +450,6 @@ function editServerModal(
           });
         }
       });
-
-      $scope.$watch('state.branch', function (newBranch, oldBranch) {
-        if (newBranch && oldBranch && newBranch.attrs.name !== oldBranch.attrs.name) {
-          waitForStateContextVersion($scope, function () {
-            promisify($scope.state.acv, 'update')({
-              repo: $scope.server.repo.attrs.full_name,
-              branch: newBranch.attrs.name,
-              commit: newBranch.attrs.commit.sha
-            })
-              .catch(errs.handler);
-          });
-        }
-      });
-
 
       $scope.isStackInfoEmpty = function (selectedStack) {
         if (!selectedStack || !selectedStack.selectedVersion) {

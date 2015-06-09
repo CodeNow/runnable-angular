@@ -19,6 +19,7 @@ function fileEditor(
   modelist,
   promisify,
   hasKeypaths,
+  loadingPromises,
   validateDockerfile
 ) {
   return {
@@ -27,7 +28,8 @@ function fileEditor(
     scope: {
       file: '=',
       state: '=?',
-      useAutoUpdate: '='
+      useAutoUpdate: '=',
+      loadingPromisesTarget: '@?'
     },
     link: function ($scope, element, attrs) {
       var useValidation = false;
@@ -71,7 +73,7 @@ function fileEditor(
 
       function updateFile() {
         var thisBodyChange = $scope.file.state.body;
-        return promisify($scope.file, 'update')({
+        return loadingPromises.add($scope.loadingPromisesTarget, promisify($scope.file, 'update'))({
           json: {
             body: $scope.file.state.body
           }
