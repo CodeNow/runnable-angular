@@ -82,7 +82,6 @@ describe('controllerInstance'.bold.underline.blue, function () {
       keypather = _keypather_;
       user = _user_;
     });
-    $window.heap = null;
   });
 
   beforeEach(function () {

@@ -56,15 +56,6 @@ function ControllerInstance(
     return $scope.user.oauthName() !== $state.params.userName;
   };
 
-  // Trigger Heap event
-  if ($window.heap && $location.search().chat) {
-    $window.heap.track('box-selection-chat-click', {
-      type: $location.search().chat
-    });
-    // Remove query so copypasta doesn't interfere
-    $location.search('chat', '');
-  }
-
   // The error handling for fetchUser will re-direct for us, so we don't need to handle that case
   fetchUser().then(function (user) {
     $scope.user = user;
