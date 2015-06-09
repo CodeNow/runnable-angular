@@ -20,6 +20,33 @@ ul.card-body.card-loading(
 ul.card-body.load(
   ng-if = "!showSpinner()"
 )
+  li.btn.gray
+    //- p.p Edit Dockerfile
+    label.toggle-wrapper
+      input.toggle-input(
+        type = "checkbox"
+      )
+      .toggle-group
+  //- dockerfile
+  li.btn.white(
+    modal
+    modal-actions = "actions"
+    modal-current-model = "server"
+    modal-data = "data"
+    modal-state-model = "'buildfiles'"
+    modal-template = "editServerModalOpen"
+    ng-if = "server.advanced"
+  )
+    svg.iconnables
+      use(
+      xlink:href = "#icons-advanced"
+      )
+    h3.h3 Dockerfile
+    p.p.text-overflow
+    svg.iconnables.icons-arrow-down
+      use(
+      xlink:href = "#icons-arrow-down"
+      )
   //- stack type
   li.btn.white(
     modal
@@ -147,24 +174,4 @@ ul.card-body.load(
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
-      )
-  //- dockerfile
-  li.btn.white(
-    modal
-    modal-actions = "actions"
-    modal-current-model = "server"
-    modal-data = "data"
-    modal-state-model = "'buildfiles'"
-    modal-template = "editServerModalOpen"
-  )
-    //- ng-if = "server.advanced"
-    svg.iconnables
-      use(
-      xlink:href = "#icons-advanced"
-      )
-    h3.h3 Dockerfile
-    p.p.text-overflow
-    svg.iconnables.icons-arrow-down
-      use(
-      xlink:href = "#icons-arrow-down"
       )

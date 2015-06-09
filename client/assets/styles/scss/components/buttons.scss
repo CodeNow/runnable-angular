@@ -261,7 +261,8 @@
   }
 }
 
-.blue {
+.blue,
+%blue {
   color: $gray-light;
 
   &.btn {
@@ -278,7 +279,8 @@
   }
 }
 
-.gray {
+.gray,
+%gray {
   background: $gray-lighterest;
   border-color: $gray-lighter;
   color: $gray-dark;
@@ -328,7 +330,8 @@
 }
 
 
-.green {
+.green,
+%green {
   background: #5fd377; // rgba($green,.81);
   border-color: $green;
 
@@ -367,7 +370,8 @@
   }
 }
 
-.orange {
+.orange,
+%orange {
   background: $orange-light;
   border-color: $orange;
 
@@ -399,7 +403,8 @@
   }
 }
 
-.purple {
+.purple,
+%purple {
   color: $purple-light;
 
   &.btn {
@@ -432,7 +437,8 @@
   }
 }
 
-.red {
+.red,
+%red {
   color: $red;
 
   &.btn {
@@ -451,7 +457,8 @@
   }
 }
 
-.white {
+.white,
+%white {
   border-color: $gray-lighter;
   color: $gray-dark;
 

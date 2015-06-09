@@ -1,0 +1,102 @@
+// reset checkbox input
+.toggle-input {
+  position: absolute; // no effect on layout
+  visibility: hidden; // not visible, but functional
+}
+
+// toggle
+.toggle-wrapper {
+  display: inline-block;
+}
+
+.toggle-group {
+  background: $gray-lighter;
+  border: 2px solid $gray-light;
+  border-radius: 26px;
+  cursor: pointer;
+  height: 26px;
+  position: relative;
+  width: 40px;
+
+  &:hover {
+    background: #e6e6e6; // warning: unique color
+  }
+
+  &:active {
+    background: $gray-light;
+  }
+
+  &.toggle-sm {
+    border-radius: 21px;
+    height: 21px;
+    width: 33px;
+
+    &::after {
+      height: 17px;
+      width: 17px;
+    }
+  }
+
+  &::after {
+    background: $white;
+    border-radius: 50%;
+    box-shadow: 1px 1px 3px rgba($black,.05);
+    content: '';
+    display: block;
+    height: 22px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transition: transform .15s ease-in-out;
+    width: 22px;
+  }
+}
+
+// logic
+.toggle-input:checked ~ .toggle-group {
+  @extend %green;
+
+  // states from .green.btn
+  &:hover {
+    background: #8ae09c; // rgba($green,.6);
+  }
+
+  &:active {
+    background: $green;
+  }
+
+  &::after {
+    box-shadow: -1px 1px 3px rgba($black,.05);
+    transform: translate3d(14px,0,0);
+  }
+
+  // other sizes
+  &.toggle-sm::after {
+    transform: translate3d(12px,0,0);
+  }
+}
+
+// disabled state
+.toggle-input[disabled] {
+
+  ~ .toggle-group {
+    cursor: not-allowed;
+    opacity: .5;
+
+    &:hover,
+    &:active {
+      background: $gray-lighter;
+      border: 2px solid $gray-light;
+    }
+  }
+
+  // if checked
+  &:checked ~ .toggle-group {
+
+    &:hover,
+    &:active {
+      background: #5fd377; // rgba($green,.81);
+      border-color: $green;
+    }
+  }
+}
