@@ -147,31 +147,27 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 18px 15px;
+  margin: 18px 15px;
   text-align: center;
 }
 
-.card-header,
-.modal-header {
+.container-title-wrapper {
+  color: $gray-dark;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 100%;
 
-  .card-title-wrapper {
-    color: $gray-dark;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    margin: 0 auto;
-    max-width: 100%;
-
-    &:hover {
-      color: $gray-darker;
-    }
-
-    &:active {
-      color: $purple-light;
-    }
+  &:hover {
+    color: $gray-darker;
   }
 
-  .card-title {
+  &:active {
+    color: $purple-light;
+  }
+
+  .container-title {
     flex: 0 0 auto;
     font-size: 21px;
     font-weight: 500;
@@ -187,7 +183,7 @@
   }
 
   .spinner-wrapper.in {
-    padding: 3px; //positions it to replace .icons-warning
+    padding: 3px; //sizes element to replace .icons-warning
   }
 
   .icons-warning {

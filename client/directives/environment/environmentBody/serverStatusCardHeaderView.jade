@@ -29,7 +29,7 @@ div(
     )
   //- end deprecated content
   //- ************
-  .card-title-wrapper(
+  .container-title-wrapper(
     ng-if = "$root.featureFlags.cardStatus"
   )
     //- This element should display while the card is building.
@@ -44,7 +44,7 @@ div(
       use(
         xlink:href = "#icons-warning"
       )
-    span.card-title.text-overflow(
+    span.container-title.text-overflow(
       ng-if = "$root.featureFlags.cardStatus"
     ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
     svg.iconnables.icons-arrow-down(
