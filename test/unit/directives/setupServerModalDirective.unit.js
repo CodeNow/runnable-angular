@@ -197,7 +197,7 @@ describe('setupServerModalDirective'.bold.underline.blue, function () {
       $scope.$digest();
 
 
-      sinon.assert.calledOnce(repo.branches.fetch);
+      sinon.assert.called(repo.branches.fetch);
       sinon.assert.calledOnce(newBuild.contextVersion.appCodeVersions.create);
       sinon.assert.calledOnce(newBuild.contextVersion.getMainAppCodeVersion);
 
@@ -206,7 +206,7 @@ describe('setupServerModalDirective'.bold.underline.blue, function () {
       expect($elScope.branches).to.equal(branches);
       expect($elScope.state.branch).to.equal(branches.models[0]);
       expect($elScope.state.repo).to.equal(repo);
-      expect($elScope.acv).to.equal(mainACV);
+      expect($elScope.state.acv).to.equal(mainACV);
       expect(repo.loading).to.equal(false);
       expect($elScope.repoSelected).to.equal(false);
 
@@ -220,7 +220,7 @@ describe('setupServerModalDirective'.bold.underline.blue, function () {
           default_branch: 'master'
         }
       };
-      $elScope.acv = {
+      $elScope.state.acv = {
         attrs: {
           branch: 'branchName'
         }
