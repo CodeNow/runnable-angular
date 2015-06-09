@@ -142,7 +142,10 @@ function fileTreeDir(
         var modelId = dataTransfer.getData('modelId');
         var modelName = dataTransfer.getData('modelName');
 
-        var oldPath = dataTransfer.getData('oldPath') + '/';
+        var oldPath = dataTransfer.getData('oldPath');
+        if (oldPath !== '/') {
+          oldPath += '/';
+        }
         var thisPath = toDir.id();
         if (oldPath === thisPath || (modelType === 'Dir' &&
             thisPath.indexOf(modelName + '/') >= 0)) {
