@@ -270,7 +270,7 @@ function editServerModal(
             }));
           });
 
-        return promisify(server.contextVersion, 'deepCopy')()
+        return loadingPromises.add('editServerModal', promisify(server.contextVersion, 'deepCopy')())
           .then(function (contextVersion) {
             $scope.state.contextVersion = contextVersion;
             return promisify(contextVersion, 'fetch')();
@@ -284,12 +284,12 @@ function editServerModal(
             return fetchUser();
           })
           .then(function (user) {
-            return loadingPromises.add('editServerModal', promisify(user, 'createBuild')({
+            return promisify(user, 'createBuild')({
               contextVersions: [$scope.state.contextVersion.id()],
               owner: {
                 github: $rootScope.dataApp.data.activeAccount.oauthId()
               }
-            }));
+            });
           })
           .then(function (build) {
             $scope.state.build = build;
