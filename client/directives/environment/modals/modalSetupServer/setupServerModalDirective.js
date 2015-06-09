@@ -95,8 +95,8 @@ function setupServerModal(
             );
           })
           .then(function () {
-            if ($scope.acv.attrs.branch !== $scope.state.branch.attrs.name) {
-              return promisify($scope.acv, 'update')({
+            if ($scope.state.acv.attrs.branch !== $scope.state.branch.attrs.name) {
+              return promisify($scope.state.acv, 'update')({
                 repo: $scope.state.repo.attrs.full_name,
                 branch: $scope.state.branch.attrs.name,
                 commit: $scope.state.branch.attrs.commit.sha
