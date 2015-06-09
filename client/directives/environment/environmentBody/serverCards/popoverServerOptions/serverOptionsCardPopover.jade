@@ -12,7 +12,7 @@
   )
   .popover-content
     //- This element should display when the container has failed to build or run for 5 seconds.
-    .card-status-failed(
+    .well.well-popover(
       ng-if = "$root.featureFlags.cardStatus"
     )
       | The

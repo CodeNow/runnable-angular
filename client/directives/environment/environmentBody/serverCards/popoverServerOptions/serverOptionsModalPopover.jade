@@ -12,7 +12,7 @@
   )
   .popover-content
     //- This element should display when the container has failed to build or run for 5 seconds.
-    .card-status-failed(
+    .well.well-popover(
       ng-if = "$root.featureFlags.cardStatus"
     )
       | The
@@ -21,6 +21,7 @@
       |  failed on the master container.
     ul.popover-list
       //- trigger build files confirm modal
+      li.divider
       li.list-item.popover-list-item.multi-line
         label.label-checkbox
           input.input-checkbox(

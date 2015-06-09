@@ -126,24 +126,8 @@
   }
 }
 
-.card-status-failed {
-  background-color: $orange-lightest;
-  border: 1px solid rgba($orange-dark,.3);
-  border-radius: 3px;
-  color: rgba($orange-dark,.75);
-  font-size: 15px;
-  line-height: 18px;
-  margin: 9px 9px 0;
-  padding: 9px 12px;
-
-  .strong {
-    color: rgba($orange-dark,.9);
-  }
-}
-
 // card layout
 // header
-
 .card-header {
   display: flex;
   justify-content: center;
@@ -151,6 +135,7 @@
 }
 
 .container-title-wrapper {
+  align-items: center;
   color: $gray-dark;
   cursor: pointer;
   display: flex;
@@ -170,23 +155,22 @@
     flex: 0 0 auto;
     font-size: 21px;
     font-weight: 500;
-    line-height: 22px;
     padding-left: 3px;
   }
 
   .icons-warning,
   .icons-arrow-down,
-  .spinner-wrapper.in {
+  .spinner-wrapper {
     flex: 0 0 21px;
     height: 21px;
   }
 
-  .spinner-wrapper.in {
+  .spinner-wrapper {
     padding: 3px; //sizes element to replace .icons-warning
   }
 
   .icons-warning {
-    color: rgba($orange-dark,.9);
+    color: $orange;
   }
 }
 
