@@ -1,4 +1,4 @@
-.popover.menu.bottom.server-title-popover(
+.popover.menu.bottom(
   ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
 )
@@ -11,7 +11,10 @@
     style = "left: 50%;"
   )
   .popover-content
-    .failed-status
+    //- This element displays when the contianer has failed to build or run
+    .card-status-failed(
+      ng-if = "$root.featureFlags.cardStatus"
+    )
       | The
       strong.strong  container CMD
       |  failed on the master container.

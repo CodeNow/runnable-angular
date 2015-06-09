@@ -19,27 +19,28 @@
   ng-if = "$root.featureFlags.cardStatus"
   ng-attr-no-touching = "{{ showSpinner() }}"
 )
-  .card-title-wrapper
+  .card-title-wrapper(
+    pop-over
+    pop-over-actions = "actions"
+    pop-over-active = "popOverServerData.active"
+    pop-over-data = "popOverServerData"
+    pop-over-options = "{\"centered\":true,\"top\":42}"
+    pop-over-template = "serverOptionsCardPopover"
+  )
     //- This element should display only while the card is building.
     //- .spinner-wrapper.spinner-sm.spinner-gray.in(
     //-   ng-include = "'spinner'"
     //-   ng-if = "$root.featureFlags.cardStatus"
     //- )
-
-    //- This element should display if the build has failed
+    //- This element should replace the spinner if the build has failed
     svg.iconnables.icons-warning(
-          ng-if = "!noTouching"
-        )
-          use(
-            xlink:href = "#icons-warning"
-          )
+      ng-if = "!noTouching"
+    )
+      use(
+        xlink:href = "#icons-warning"
+      )
     span.card-title.text-overflow(
       ng-if = "$root.featureFlags.cardStatus"
-      pop-over-options = "{\"centered\":true,\"top\":44}"
-      pop-over-template = "serverOptionsCardPopover"
-      pop-over
-      pop-over-actions = "actions"
-      pop-over-data = "popOverServerData"
     ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
       svg.iconnables.icons-arrow-down(
           ng-if = "!noTouching"
@@ -47,16 +48,6 @@
           use(
             xlink:href = "#icons-arrow-down"
           )
-  //- This element displays if the card failed to build and/or run for 5 seconds.
-    - If it failed to build:
-    - Text says "Build Failed", and "View Logs" links to build logs
-    - If it failed to run:
-    - Text says "Container CMD Failed", and "View Logs" links to CMD logs
-  //- .card-status-failed(
-  //-   ng-if = "$root.featureFlags.cardStatus"
-  //- ) Build Failed.
-  //-   strong.strong  View Logs
-
 ul.card-body.card-loading(
   ng-if = "showSpinner()"
 )

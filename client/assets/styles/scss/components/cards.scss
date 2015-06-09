@@ -126,18 +126,14 @@
   }
 }
 
-.server-title-popover .popover-list-item {
-  padding: 0 12px;
-}
-
-.failed-status {
+.card-status-failed {
   background-color: $orange-lightest;
   border-radius: 3px;
   border: 1px solid rgba($orange-dark,.3);
   color: rgba($orange-dark,.75);
   font-size: 15px;
   line-height: 18px;
-  margin: 12px 12px 0;
+  margin: 9px 9px 0;
   max-width: 210px;
   padding: 9px 15px;
 
@@ -153,7 +149,7 @@
   flex-direction: column;
   height: 81px;
   justify-content: center;
-  padding: 0 15px 3px;
+  padding: 15px;
   text-align: center;
   // font-weight: 400;
 
@@ -197,31 +193,31 @@
   }
 }
 
-.card-status-failed {
-  background-color: $orange-lightest;
-  border: 1px solid rgba($orange-darker,.25);
-  border-radius: 3px;
-  color: rgba($orange-darker,.6);
-  display: table;
-  flex: 0 0 27px;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 24px;
-  margin: 0 auto;
-  padding: 0 15px;
+// .card-status-failed {
+//   background-color: $orange-lightest;
+//   border: 1px solid rgba($orange-darker,.25);
+//   border-radius: 3px;
+//   color: rgba($orange-darker,.6);
+//   display: table;
+//   flex: 0 0 27px;
+//   font-size: 14px;
+//   font-weight: 400;
+//   line-height: 24px;
+//   margin: 0 auto;
+//   padding: 0 15px;
 
-  .strong {
-    cursor: pointer;
+//   .strong {
+//     cursor: pointer;
 
-    &:hover {
-      color: rgba($orange-darker,.7);
-    }
+//     &:hover {
+//       color: rgba($orange-darker,.7);
+//     }
 
-    &:active {
-      color: rgba($orange-darker,.6);
-    }
-  }
-}
+//     &:active {
+//       color: rgba($orange-darker,.6);
+//     }
+//   }
+// }
 
 // body
 .card-body,
