@@ -261,11 +261,10 @@
       font-size: 16px;
     }
 
-    .p {
+    .small {
       color: $gray;
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 20px;
+      display: block;
+      line-height: 21px;
       padding-right: 15px; // for arrow
     }
 

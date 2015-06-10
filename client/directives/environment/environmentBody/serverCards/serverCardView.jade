@@ -45,7 +45,7 @@ ul.card-body.load(
         xlink:href = "#icons-stack"
       )
     h3.h3 Stack Type
-    p.p.text-overflow {{ getFlattenedSelectedStacks(server.selectedStack) }}
+    small.small.text-overflow {{ getFlattenedSelectedStacks(server.selectedStack) }}
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
@@ -67,7 +67,7 @@ ul.card-body.load(
         xlink:href = "#icons-ports"
       )
     h3.h3 Exposed Ports
-    p.p.text-overflow {{ server.ports || 'None'}}
+    small.small.text-overflow {{ server.ports || 'None'}}
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
@@ -87,7 +87,7 @@ ul.card-body.load(
         xlink:href = "#icons-environment-variable"
       )
     h3.h3 Environment Variables
-    p.p.text-overflow {{ server.opts.env.length ? server.opts.env.length : 'no' }} variable{{server.opts.env.length === 1 ? '' : 's'}}
+    small.small.text-overflow {{ server.opts.env.length ? server.opts.env.length : 'no' }} variable{{server.opts.env.length === 1 ? '' : 's'}}
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
@@ -109,7 +109,7 @@ ul.card-body.load(
       )
     h3.h3 Main Repository
     //- \\n for new line
-    p.p.text-overflow(
+    small.small.text-overflow(
       title = "{{ server.instance.contextVersion.getMainAppCodeVersion().attrs.branch }}\\n{{server.commands}}"
     ) {{ server.instance.contextVersion.getMainAppCodeVersion().attrs.branch }}
     svg.iconnables.icons-arrow-down
@@ -132,7 +132,7 @@ ul.card-body.load(
         xlink:href = "#icons-container-files"
       )
     h3.h3 Container Files
-    p.p.text-overflow {{ getContainerFilesDisplay() }}
+    small.small.text-overflow {{ getContainerFilesDisplay() }}
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
@@ -153,7 +153,7 @@ ul.card-body.load(
         xlink:href = "#icons-translation"
       )
     h3.h3 Find and Replace
-    p.p.text-overflow {{ getTranslationDisplay() }}
+    small.small.text-overflow {{ getTranslationDisplay() }}
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
@@ -173,7 +173,7 @@ ul.card-body.load(
       xlink:href = "#icons-advanced"
       )
     h3.h3 Dockerfile
-    p.p.text-overflow Modified on May 25, 2015 at 10:35 AM
+    small.small.text-overflow Modified on May 25, 2015 at 10:35 AM
     svg.iconnables.icons-arrow-down
       use(
       xlink:href = "#icons-arrow-down"
@@ -183,7 +183,7 @@ ul.card-body.load(
   )
     strong.small.strong Dockerfile Modified
       span.icons-help(
-        tooltip = "Editing the Dockerfile will disable Container CMD, Main Repository, Exposed Ports, and Container Files. We save your current configuration when you enable editing and restore it if you choose to disable editing."
+        tooltip = "Modifying the Dockerfile will disable Container CMD, Main Repository, Exposed Ports, and Container Files. We save your configuration when you make a modification and can restore it if you choose to."
         tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-7,\"top\":12}"
       )
       small.small Some settings are unavailable.
