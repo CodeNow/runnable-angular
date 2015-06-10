@@ -33,7 +33,8 @@ div(
   .container-title-wrapper(
     ng-if = "$root.featureFlags.cardStatus"
   )
-    //- This element should display while the card is building.
+    //- This element should display while the container is building, but not while the card is loading.
+    //- i.e. if the card has a spinner in the middle instead of buttons, this spinner should not show.
     //- .spinner-wrapper.spinner-sm.spinner-gray.in(
     //-   ng-include = "'spinner'"
     //-   ng-if = "$root.featureFlags.cardStatus"
