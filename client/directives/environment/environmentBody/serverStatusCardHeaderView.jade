@@ -22,8 +22,7 @@ div(
     ng-if = "!$root.featureFlags.cardStatus"
   ) {{ server.instance | cardBuildStatusText:true}}
   svg.iconnables.icons-arrow-down(
-    ng-if = "!noTouching"
-    ng-if = "!$root.featureFlags.cardStatus"
+    ng-if = "!$root.featureFlags.cardStatus && !noTouching"
   )
     use(
       xlink:href = "#icons-arrow-down"

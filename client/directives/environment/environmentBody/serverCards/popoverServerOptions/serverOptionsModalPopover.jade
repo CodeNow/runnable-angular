@@ -21,7 +21,9 @@
       |  failed on the master container.
     ul.popover-list
       //- trigger build files confirm modal
-      li.divider
+      li.divider(
+        ng-if = "$root.featureFlags.cardStatus"
+      )
       li.list-item.popover-list-item.multi-line
         label.label-checkbox
           input.input-checkbox(
