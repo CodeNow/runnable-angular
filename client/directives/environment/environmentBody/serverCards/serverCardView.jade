@@ -67,7 +67,7 @@ ul.card-body.load(
         xlink:href = "#icons-ports"
       )
     h3.h3 Exposed Ports
-    small.small.text-overflow {{ server.ports || 'None'}}
+    small.small.text-overflow {{ server.ports || '—'}}
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
@@ -87,7 +87,7 @@ ul.card-body.load(
         xlink:href = "#icons-environment-variable"
       )
     h3.h3 Environment Variables
-    small.small.text-overflow {{ server.opts.env.length ? server.opts.env.length : 'no' }} variable{{server.opts.env.length === 1 ? '' : 's'}}
+    small.small.text-overflow {{ server.opts.env.length ? server.opts.env.length + ' variable' : '—' }}{{server.opts.env.length > 1 ? 's' : ''}}
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
