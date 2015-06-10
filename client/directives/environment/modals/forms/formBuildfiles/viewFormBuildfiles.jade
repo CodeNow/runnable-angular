@@ -5,15 +5,24 @@
     ng-bind-html = "helpCards.getActiveCard().helpPopover.containerFiles"
   )
 .help-padding(
-  ng-if = "helpCards.getActiveCard().helpPopover.containerFiles"
   ng-bind-html = "helpCards.getActiveCard().helpPopover.containerFiles"
+  ng-if = "helpCards.getActiveCard().helpPopover.containerFiles"
 )
 
 //- .clearfix
 //-   .label-col Container Files
 
+small.small Modifying your Dockerfile will disable #{''}
+  em.underline some tools
+  | . We'll save your configuration when you begin modifying the Dockerfile so you can restore it if you choose to.
+  button.btn.btn-xs.gray(
+    ng-click = "state.readOnly = false"
+  ) Modify Dockerfile
+
 //- table of current environment variables
-.ace-container.ace-build-files.ace-runnable-dark
+.ace-container.ace-build-files.ace-runnable-dark(
+  ng-init = "state.readOnly = true"
+)
 
   .sidebar(
     edit-explorer = "true"
@@ -21,9 +30,10 @@
     explorer-title = "Build Files"
     file-model = "state.contextVersion"
     open-items = "openItems"
+    loading-promises-target = "editServerModal"
     root-dir = "state.contextVersion.rootDir"
     show-repo-folder = "true"
-    loading-promises-target = "editServerModal"
+    read-only = "state.readOnly"
   )
 
   .ace_editor(

@@ -64,6 +64,7 @@ h4 {
   font-size: 18px;
 }
 
+// inline styles
 .small {
   font-size: 13px; // percentage was unreliable
   font-weight: 400; // reset if within header tags
@@ -71,6 +72,12 @@ h4 {
 
 .strong {
   font-weight: 500;
+}
+
+.underline {
+  border-bottom: 1px dotted;
+  cursor: pointer;
+  font-style: normal; // remove italics if em
 }
 
 input ~ small {
