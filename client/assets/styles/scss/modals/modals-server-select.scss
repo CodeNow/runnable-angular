@@ -75,6 +75,14 @@
       }
     }
 
+    &.multi-line {
+
+      // only if in modal (for templates without descriptions)
+      .modal-dialog & {
+        min-height: 60px;
+      }
+    }
+
     .gravatar ~ .small {
       padding-left: 36px;
     }

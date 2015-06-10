@@ -3,22 +3,5 @@
   ng-style = "popoverStyle.getStyle()"
 )
   .popover-views(
-    ng-class = "{\
-      'view-2': data.state.view === 2,\
-      'view-3': data.state.view === 3\
-    }"
+    repository-selector
   )
-    //- choose repository
-    .popover-view(
-      ng-include = "'viewPopoverFilesRepositorySelect'"
-    )
-
-    //- repository options
-    .popover-view(
-      ng-include = "'viewPopoverFilesRepositoryOptions'"
-    )
-
-    //- commits/branch
-    .popover-view(
-      ng-include = "'viewPopoverFilesRepositoryCommit'"
-    )

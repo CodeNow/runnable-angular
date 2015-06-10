@@ -1,5 +1,4 @@
 button.btn.btn-icon.blue(
-  ng-if = "featureFlags.helpCards"
   ng-class = "{active: state.helpButton.active}"
   ng-click = "state.helpButton.active = true"
   pop-over
@@ -20,12 +19,12 @@ button.btn.btn-icon.blue(
       )
 
 .help.help-top-card(
-  ng-if = "featureFlags.helpCards && !state.helpButton.active && helpCards.cards.triggered.length > 0 && !helpCards.getActiveCard()"
+  ng-if = "!state.helpButton.active && helpCards.cards.triggered.length > 0 && !helpCards.getActiveCard()"
 )
   .help-lists-wrapper
     ul.triggered-help-list
       li.triggered-help-item.clearfix
-        button.btn.btn-icon.btn-icon-sm(
+        button.btn.btn-icon.btn-icon-xs(
           ng-click = "helpPopover.actions.ignoreHelp(helpCards.cards.triggered[0])"
         )
           svg.iconnables

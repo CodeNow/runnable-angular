@@ -30,7 +30,6 @@
     background: $white;
     border-right: 1px solid $gray-lighter;
     flex: 0 0 50px;
-    margin-left: -1px; // padding offset
     text-align: right;
   }
 
@@ -61,7 +60,8 @@
 
   // extra padding-bottom is weird when colored
   .tr-deletion,
-  .tr-addition {
+  .tr-addition,
+  .tr-gap {
 
     &:last-child {
       padding-bottom: 0;
@@ -274,20 +274,29 @@
     visibility: hidden;
   }
 
+  // status icons
+  .iconnables {
+    height: 38px;
+    width: 18px;
+
+    // warning icon
+    &.icons-warning {
+      color: $orange;
+    }
+
+    // link icon
+    &.icons-link {
+      color: $purple-light;
+      width: 15px;
+    }
+  }
+
   // dragging icon
   .icons-drag {
     color: $gray-lighter;
     height: 100%;
     opacity: .3;
     width: 9px;
-  }
-
-  // warning icon
-  .icons-warning {
-    color: $orange;
-    height: 18px;
-    top: 6px;
-    width: 18px;
   }
 }
 
@@ -314,116 +323,6 @@
 
 .cell-checkbox {
   cursor: pointer;
-}
-
-// table actions
-.table-actions {
-  background: $gray-lightest;
-  border: 1px solid $gray-lighter;
-  border-bottom: 0;
-  border-radius: 3px 3px 0 0;
-  padding: 6px;
-
-  + .ace-container {
-    border-radius: 0 0 3px 3px;
-  }
-
-  // actions
-  // does this need to be direct child selector?
-  > .btn {
-    float: left;
-
-    // second action
-    + .btn {
-      float: right;
-      font-size: 14px;
-
-      // tag
-      &:hover,
-      &:active {
-        color: $purple-light;
-
-        .tag {
-          background: $purple-light;
-        }
-      }
-
-      .tag {
-        background: $gray-dark;
-        color: $gray-lighter;
-        cursor: pointer;
-        position: relative;
-        top: -1px;
-      }
-    }
-  }
-
-  .label {
-    border: 2px solid $gray-light;
-    border-radius: 3px;
-    margin-bottom: 0;
-
-    // host name button
-    .btn-sm {
-      background: $white;
-      border: 0;
-      border-left: 1px solid $gray-lighter;
-      border-radius: 0;
-      border-right: 1px solid $gray-lighter;
-      font-size: 14px;
-      line-height: 36px;
-      padding: 0 24px 0 6px;
-      text-align: left;
-      width: 100%;
-
-      &:active,
-      &.active {
-        border-color: $gray-lighter;
-      }
-    }
-
-    // 3 action thing
-    .monospace {
-      color: $gray-darker;
-      font-size: 14px;
-      line-height: 27px;
-
-      &.input {
-        border: 0;
-
-        &:focus {
-          box-shadow: none;
-        }
-      }
-
-      &:first-child {
-        border-radius: 2px 0 0 2px;
-        flex: 0 0 90px;
-        margin-left: -1px;
-      }
-
-      &:last-child {
-        border-radius: 0 2px 2px 0;
-        flex: 0 0 90px;
-      }
-    }
-  }
-
-  // icons
-  .icons-arrow-down {
-    position: absolute;
-    right: 6px;
-    top: 0;
-  }
-
-  .btn-status {
-    color: $gray;
-    cursor: default;
-    float: none;
-    font-size: 13px;
-    margin-left: 6px;
-    top: 0;
-  }
 }
 
 .table-footer {

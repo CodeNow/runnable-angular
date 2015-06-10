@@ -1,3 +1,15 @@
+// initial styles
+input,
+textarea {
+
+  &[disabled] {
+    background-color: $gray-lighterest;
+    border-color: $gray-lighter !important; // override any validation
+    color: $gray-lighter;
+  }
+}
+
+
 // defaults
 .input,
 .textarea {
@@ -27,9 +39,12 @@
     transition: none;
   }
 
-  // lighter color for readonly
+  // readonly
   &[readonly] {
-    color: $gray;
+    background: $gray-light;
+    border: 0;
+    color: $gray-lighterest;
+    cursor: default;
   }
 
   // remove box-shadow for these states
@@ -76,12 +91,33 @@
   }
 
   &.input-xs {
+    font-size: 13px;
     height: 24px;
-    line-height: 23px;
+    line-height: 1;
 
     &[type="search"] {
       border-radius: 24px;
     }
+  }
+
+  &.input-xxs {
+    font-size: 13px;
+    height: 18px;
+    line-height: 1;
+
+    &[type="search"] {
+      border-radius: 18px;
+    }
+  }
+}
+
+// label.btn.btn-checkbox
+.btn-checkbox {
+  font-size: 13px;
+    // input.checkbox
+  .checkbox {
+    float: right;
+    margin-left: 12px;
   }
 }
 
@@ -98,6 +134,10 @@
 
 .textarea {
   padding: 3px 6px;
+
+  &.monospace {
+    white-space: pre;
+  }
 }
 
 // description text

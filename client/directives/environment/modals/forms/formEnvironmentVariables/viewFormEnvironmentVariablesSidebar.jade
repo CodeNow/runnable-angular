@@ -1,0 +1,70 @@
+//- empty state
+//- p.p.small.empty Add hostnames to your environment variables file to see them here
+
+label.label-checkbox.small
+  //- unchecked by default
+  input.input-checkbox(
+    type = "checkbox"
+  )
+  | Include elastic hostnames
+
+//- clicks on .well takes user to line number
+.well.small(
+  title = "Jump to url.thug.life’"
+) Line 1
+  a.link.float-right Jump
+  .small.monospace.text-overflow api-staging-CodeNow.runnableapp.com
+.well.small(
+  title = "Jump to url.thug.life’"
+) Line 2
+  a.link.float-right Jump
+  .small.monospace.text-overflow api-staging-CodeNow.runnableapp.com
+.well.small(
+  title = "Jump to url.thug.life’"
+) Line 200
+  a.link.float-right Jump
+  .small.monospace.text-overflow api-staging-CodeNow.runnableapp.com
+.well.small(
+  title = "Jump to url.thug.life’"
+) Line 200
+  a.link.float-right Jump
+  .small.monospace.text-overflow api-staging-CodeNow.runnableapp.com
+.well.small(
+  title = "Jump to url.thug.life’"
+) Line 200
+  a.link.float-right Jump
+  .small.monospace.text-overflow whoreisland
+
+//-
+//- previous popover:
+//-
+//- .popover.in.menu.top(
+//-   ng-class = "{in: active}"
+//-   ng-style = "popoverStyle.getStyle()"
+//- )
+//-   .arrow.white
+//-   .popover-content
+//-     ul.popover-list
+//-       li.list-item.popover-list-item.small(
+//-         ng-if = "data.servers.length"
+//-       ) Linked containers (by line)
+//-       li.list-item.popover-list-item.monospace.text-overflow(
+//-         ng-repeat = "link in data.servers"
+//-       )
+//-         button.btn.btn-xxs.gray(
+//-           ng-attr-title = "Go to line {{ link.line }}"
+//-         ) L {{ link.line }}
+//-         | {{ link.url }}
+//-       li.list-item.popover-list-item.divider(
+//-         ng-if = "data.others.length && data.servers.length"
+//-       )
+//-       li.list-item.popover-list-item.small(
+//-         ng-if = "data.others.length"
+//-       ) Other links
+//-       li.list-item.popover-list-item.monospace.text-overflow(
+//-         ng-repeat = "link in data.others"
+//-       )
+//-         button.btn.btn-xxs.gray(
+//-         ng-attr-title = "Go to line {{ link.line }}"
+//-         ) L {{ link.line }}
+//-         | {{ link.url }}

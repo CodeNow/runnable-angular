@@ -1,0 +1,51 @@
+.popover-header
+  button.btn.btn-sm.white.pull-left(
+    ng-click = "repoSelector.actions.leaveCommitSelect()"
+    ng-disabled = "state.saving"
+    ng-if = "!(data.gitDataOnly && state.fromServer)"
+  )
+    svg.iconnables.icons-arrow-backward
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+    | Back
+  strong.strong.text-overflow Commit
+  //- this button is empty on purpose
+  button.btn.btn-sm.pull-right.no-touching(
+    ng-if = "!(data.gitDataOnly && state.fromServer)"
+  )
+
+.popover-content
+  label.label.label-jump(
+    ng-if = "repoSelector.data.branch.commits.models.length"
+  )
+    small.small Branch
+    select.select(
+      ng-change = "repoSelector.actions.selectBranch(repoSelector.data.branch)"
+      ng-model = "repoSelector.data.branch"
+      ng-options = "branch as branch.attrs.name for branch in repoSelector.data.repo.branches.models"
+    )
+      option(
+        disabled
+      ) Choose a branch
+
+  .spinner-wrapper.spinner-backdrop.spinner-gray.spinner-md.in(
+    ng-if = "repoSelector.data.branch && !repoSelector.data.branch.commits.models.length"
+    ng-include = "'spinner'"
+  )
+
+  ul.list.list-servers(
+    ng-if = "!repoSelector.data.latestCommit"
+  )
+    li.list-item.text-overflow(
+      ng-repeat = "commit in repoSelector.data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
+      ng-click = "repoSelector.actions.selectCommit(commit)"
+      ng-class = "{active: repoSelector.data.commit === commit, disabled: state.saving}"
+    ) {{commit.attrs.commit.message}}
+      .toggle-group-detail.clearfix
+        small.small {{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}
+        a.small.link.link-text.monospace(
+          ng-href = "{{ commit.attrs.html_url }}"
+          ng-click = "$event.stopPropagation()"
+          target = "_blank"
+        ) {{ ::commit.attrs.sha | limitTo:7 }}

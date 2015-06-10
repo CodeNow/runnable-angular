@@ -1,0 +1,69 @@
+.popover-header
+  //- if adding a new repository
+  button.btn.btn-sm.white.pull-left(
+    ng-click = "state.view = 1"
+    ng-disabled = "state.saving"
+    ng-if = "!state.fromServer"
+  )
+    svg.iconnables.icons-arrow-backward
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+    | Back
+  //- if editing an existing repository
+  //- this button is empty on purpose
+  button.btn.btn-sm.pull-right.no-touching(
+    ng-if = "repoSelector.data.fromServer"
+  )
+  strong.strong.text-overflow {{ repoSelector.data.name }}
+  //- this button is empty on purpose
+  button.btn.btn-sm.pull-right.no-touching
+
+.popover-content
+  label.label.clearfix
+    .input-col
+      .btn.btn-block.white.text-overflow(
+        ng-click = "state.view = 3"
+      ) {{ repoSelector.data.commit.attrs.commit.message }}
+        small.small {{ repoSelector.data.commit.attrs.author.login }} authored {{ repoSelector.data.commit.attrs.commit.author.date | timeFrom }}
+        svg.iconnables.icons-arrow-down
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
+
+  label.label.clearfix
+    .label-col Destination
+    .input-col.input-root
+      input.input.input-sm(
+        ng-model = "repoSelector.data.path"
+        required
+        spellcheck = "false"
+      )
+
+  label.label.clearfix
+    .label-col Build Commands
+      small.small (optional)
+    .input-col
+      textarea.textarea.monospace(
+        ng-model = "repoSelector.data.commands"
+        spellcheck = "false"
+      )
+      small.small Commands to be executed when your container is built and before it is launched.
+
+  //- not shown if new repo
+  label.label
+    button.btn.btn-xs.orange(
+      ng-click = "repoSelector.actions.remove()"
+      ng-disabled = "state.saving"
+      ng-if = "state.fromServer"
+    ) Remove Repository
+
+.popover-footer.clearfix
+  button.btn.btn-sm.green(
+    ng-click = "repoSelector.actions.save()"
+    ng-disabled = "state.saving"
+  ) {{ repoSelector.data.fromServer ? 'Save' : 'Add Repository' }}
+  button.btn.btn-sm.gray.btn-cancel(
+    ng-disabled = "state.saving"
+    ng-click = "closePopover()"
+  ) Cancel

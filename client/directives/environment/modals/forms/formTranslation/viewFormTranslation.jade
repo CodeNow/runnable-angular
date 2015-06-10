@@ -1,3 +1,16 @@
+.help-container(
+  ng-if = "helpCards.getActiveCard().helpPopover.findAndReplace"
+)
+  .help(
+    ng-bind-html = "helpCards.getActiveCard().helpPopover.findAndReplace"
+  )
+.help-padding(
+  ng-if = "helpCards.getActiveCard().helpPopover.findAndReplace"
+  ng-bind-html = "helpCards.getActiveCard().helpPopover.findAndReplace"
+)
+
+
+
 .btn-group(
   ng-init = "page = 'rules'"
 )
@@ -28,5 +41,5 @@ div(
 
 div(
   ng-include = "'previewAllTranslationView'"
-  ng-if = "page === 'preview'"
+  ng-show = "page === 'preview'"
 )

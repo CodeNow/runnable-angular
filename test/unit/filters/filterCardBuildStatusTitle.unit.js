@@ -15,8 +15,11 @@ describe('filterCardBuildStatusTitle', function () {
   describe('crashed instance', function () {
     var instance;
     beforeEach(function () {
-      instance = {};
-      keypather.set(instance, 'containers.models[0].running', function (){return false;});
+      instance = {
+        status: function () {
+          return 'crashed';
+        }
+      };
     });
     it('returns crashed', function() {
       expect(filterCardBuildStatusTitle(instance)).to.equal('Crashed a few seconds ago');
@@ -27,9 +30,11 @@ describe('filterCardBuildStatusTitle', function () {
   describe('stopped instance', function () {
     var instance;
     beforeEach(function () {
-      instance = {};
-      keypather.set(instance, 'containers.models[0].running', function (){return false;});
-      keypather.set(instance, 'containers.models[0].attrs.inspect.State.ExitCode', -1);
+      instance = {
+        status: function () {
+          return 'stopped';
+        }
+      };
     });
     it('returns stopped', function() {
       expect(filterCardBuildStatusTitle(instance)).to.equal('Stopped a few seconds ago');
@@ -37,11 +42,28 @@ describe('filterCardBuildStatusTitle', function () {
   });
 
 
+  describe('running instance', function () {
+    var instance;
+    beforeEach(function () {
+      instance = {
+        status: function () {
+          return 'running';
+        }
+      };
+    });
+    it('returns running', function () {
+      expect(filterCardBuildStatusTitle(instance)).to.equal('Running for a few seconds');
+    });
+  });
+
   describe('failed build instance', function () {
     var instance;
     beforeEach(function () {
-      instance = {};
-      keypather.set(instance, 'build.failed', function (){return true;});
+      instance = {
+        status: function () {
+          return 'buildFailed';
+        }
+      };
     });
     it('returns Build Failed', function () {
       expect(filterCardBuildStatusTitle(instance)).to.equal('Failed a few seconds ago');
@@ -49,13 +71,32 @@ describe('filterCardBuildStatusTitle', function () {
   });
 
   describe('building instance', function () {
-    var instance;
-    beforeEach(function () {
-      instance = {};
-      keypather.set(instance, 'build.failed', function (){return false;});
+    describe('building', function () {
+      var instance;
+      beforeEach(function () {
+        instance = {
+          status: function () {
+            return 'building';
+          }
+        };
+      });
+      it('returns Building', function() {
+        expect(filterCardBuildStatusTitle(instance)).to.equal('Building for a few seconds');
+      });
     });
-    it('returns Building', function() {
-      expect(filterCardBuildStatusTitle(instance)).to.equal('Building for a few seconds');
+
+    describe('neverStarted', function () {
+      var instance;
+      beforeEach(function () {
+        instance = {
+          status: function () {
+            return 'neverStarted';
+          }
+        };
+      });
+      it('returns Building', function() {
+        expect(filterCardBuildStatusTitle(instance)).to.equal('Building for a few seconds');
+      });
     });
   });
 

@@ -3,7 +3,9 @@
 require('app')
   .directive('ignoredTranslation', function ignoredTranslation(
     createTransformRule,
-    keypather
+    regexpQuote,
+    keypather,
+    loadingPromises
   ) {
     return {
       restrict: 'A',
@@ -14,6 +16,11 @@ require('app')
       },
       link: function ($scope, element, attrs) {
         $scope.ignoredFilesList = '';
+        function getIgnoredFileListArray() {
+          return $scope.ignoredFilesList.split('\n').filter(function (v) {
+            return v.length;
+          });
+        }
         var editor;
         $scope.aceLoaded = function (_editor) {
           // Editor part
@@ -24,21 +31,42 @@ require('app')
           }
           editor.focus();
         };
+        var updateIgnoreRules = function () {
+          if ($scope.ignoredFilesList ===
+              keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion().attrs.transformRules.exclude').join('\n')) {
+            return;
+          }
+          $scope.state.processing = true;
+          return loadingPromises.add('editServerModal', createTransformRule(
+            keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion()'),
+            getIgnoredFileListArray()
+          ))
+            .then(function () {
+              $scope.state.processing = false;
+            });
+        };
+
+        $scope.$on('IGNOREDFILE::toggle', function (eventName, ignoreFileDiff) {
+          if ($scope.ignoredFilesList.indexOf(ignoreFileDiff.from) > -1) {
+            $scope.ignoredFilesList = $scope.ignoredFilesList.replace(
+              new RegExp(regexpQuote('^' + ignoreFileDiff.from + '$'), 'm'),
+              ''
+            );
+          } else {
+            $scope.ignoredFilesList += '\n' + ignoreFileDiff.from + '\n';
+          }
+          return updateIgnoreRules();
+        });
 
         $scope.aceBlurred = function () {
-          var acv = keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion()');
-          if (acv) {
-            var newArray = $scope.ignoredFilesList.split('\n').filter(function (v) {
-              return v.length;
-            });
-            if (!angular.equals(acv.attrs.transformRules.exclude, newArray)) {
-              createTransformRule(acv, newArray);
-            }
+          if (keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion()') &&
+              $scope.ignoredFilesList.length) {
+            updateIgnoreRules();
           }
         };
 
 
-        $scope.$watchCollection(
+        $scope.$watch(
           'state.contextVersion.getMainAppCodeVersion().attrs.transformRules.exclude',
           function (n) {
             if (n) {

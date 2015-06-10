@@ -4,8 +4,8 @@
   border-right: 1px solid $gray-lighter;
   display: flex;
   flex-direction: column;
+  float: left;
   font-size: 15px;
-  font-weight: 500;
   height: calc(100vh - 60px);
   line-height: 24px;
   position: relative;
@@ -19,49 +19,52 @@
     width: calc(100% - 240px);
   }
 
-  // environment button
-  > .btn {
-    flex: 0 0 auto;
-    margin: 6px;
-  }
-
-  .text-overflow {
-    display: block;
-    padding-right: 24px;
-  }
-
-  .branch-name {
-    color: $gray;
-    font-weight: 400;
-  }
-
   .icons-status {
-    left: 12px;
-    position: absolute;
-    top: 12px;
+    flex: 0 0 auto;
+    margin: 11px 6px 0 12px;
   }
 }
 
-.closed .icons-disclose {
-  transform: rotate3d(0,0,1,-90deg);
+.sidebar-section {
+  border-bottom: 1px solid $gray-lighter;
+  flex: 0 0 auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 0 12px;
+
+  &.closed {
+    flex: 0 0 60px;
+    overflow-y: hidden;
+  }
 }
 
-.row-heading {
-  font-size: 14px;
-  height: 60px;
-  padding: 19px 12px 0;
+.sidebar-section-heading {
+  cursor: pointer;
+  padding: 18px 0 18px 12px;
   position: relative;
+
+  &.closed {
+    color: $gray;
+
+    &:hover {
+      color: $gray-darker;
+    }
+  }
+
+  .icons-disclose {
+    left: -3px;
+    position: absolute;
+    transition: none;
+    width: 15px;
+
+    .closed & {
+      transform: rotate3d(0,0,1,-90deg);
+    }
+  }
 
   // for add buttons next to section headings, like in File Explorer
   .btn {
     float: right;
-
-    .icons-advanced {
-      float: left;
-      height: 100%;
-      margin-right: 3px;
-      width: 18px;
-    }
   }
 }
 
@@ -78,70 +81,71 @@
 .servers {
   height: calc(100vh - 120px);
   padding-bottom: 45px;
+
+  // "Containers" label
+  > .sidebar-section-heading {
+    border-bottom: 1px solid $gray-lighter;
+    cursor: default;
+    margin: 0 12px;
+    padding: 18px 0;
+  }
 }
 
 .server-category-list {
+  color: $gray;
+  font-size: 15px;
   height: 100%;
   overflow-y: auto;
   padding: 0 12px 5px;
+
+  .strong {
+    color: $gray-darker;
+  }
 }
 
 .server-category-list-item {
   border-bottom: 1px solid $gray-lighter; // lines below categories
-  padding: 15px 0;
+  padding: 12px 0 6px;
   position: relative;
 
-  &:first-child {
-    border-top: 1px solid $gray-lighter; // line above first category
+  // less padding when next to the .button-configure
+  &:first-child .server-name {
+    padding-right: 3px;
   }
+}
 
-  // configure shortcut button
-  > .btn {
-    height: 33px;
-    opacity: .5;
-    position: absolute;
-    right: -12px;
-    width: 30px;
-    z-index: 1;
+.server-name {
+  flex: 1 1 auto;
+  padding-right: 9px;
 
-    .iconnables {
-      height: 17px;
-      position: absolute;
-      right: 9px;
-      top: 8px;
-      width: 17px;
-    }
+  &:active {
+    color: $purple-light;
 
-    &:hover {
-      opacity: .75;
-    }
-
-    &:active {
+    .strong {
       color: $purple-light;
-      opacity: 1;
     }
   }
 }
 
 .server-list-item {
   cursor: pointer;
-  display: block;
-  height: 33px;
-  line-height: 31px;
+  display: flex;
+  height: 30px;
+  line-height: 29px; // height -1 because of Helvetica baseline weirdness
   margin: 0 -12px;
-  padding: 0 9px 0 30px;
   position: relative;
 
   &:hover {
     background: rgba($gray-light,.1);
+
+    .button-hide {
+      display: block;
+    }
   }
 
-  &:active {
-    color: $purple-light;
-
-    .branch-name {
-      color: $purple-light;
-    }
+  // for when the more containers button isn't present
+  &:last-child {
+    margin-bottom: 6px;
   }
 
   &.selected {
@@ -149,8 +153,57 @@
     color: $purple-light;
     cursor: default;
 
-    .branch-name {
+    .strong {
       color: $purple-light;
     }
+  }
+
+  // .button-configure and .button-hide
+  > .btn {
+    opacity: .6;
+    overflow: hidden;
+
+    &:hover {
+      opacity: .8;
+    }
+
+    &:active {
+      opacity: 1;
+    }
+  }
+}
+
+.button-configure {
+  display: block;
+  flex: 0 0 30px;
+  height: 30px;
+
+  .iconnables {
+    right: 5px;
+    width: 15px;
+  }
+}
+
+.button-hide {
+  color: currentColor;
+  display: none;
+  flex: 0 0 auto;
+  font-style: italic;
+  margin: 6px 5px 0 -6px;
+}
+
+.more-containers {
+  cursor: pointer;
+  font-size: 13px;
+  font-style: italic;
+  opacity: .6;
+  padding-left: 15px;
+
+  &:hover {
+    opacity: .8;
+  }
+
+  &:active {
+    opacity: 1;
   }
 }

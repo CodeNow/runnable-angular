@@ -1,14 +1,20 @@
-a.logo.logo-icon
-  svg
-    use(
-      xlink:href = "#runnable-icon"
-    )
+img.logo.logo-icon.float-left(
+  height = "45"
+  src = "/build/images/runnable-icon-white.svg"
+  width = "45"
+  ng-click = "editFeatureFlags = dataApp.data.activeAccount.oauthName() === 'CodeNow'"
+  pop-over
+  pop-over-active = "editFeatureFlags"
+  pop-over-template = "viewPopoverFeatureFlags"
+  pop-over-trigger = "activeAttr"
+  pop-over-options = "{\"left\":40}"
+)
 
 .btn-group
   a.btn.btn-sm.purple(
     ng-class = "{\
       active: dataApp.isInstancePage,\
-      'no-touching': !dataApp.data.activeAccount || dataApp.isInstancePage\
+      'no-touching': !dataApp.data.activeAccount || dataApp.isInstancePage || dataApp.creatingInstance\
     }"
     ui-sref = "instance.home({ userName: dataApp.data.activeAccount.oauthName() })"
   )

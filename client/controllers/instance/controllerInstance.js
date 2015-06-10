@@ -24,6 +24,7 @@ function ControllerInstance(
   keypather,
   fetchUser,
   pageName,
+  promisify,
   setLastInstance,
   loading
 ) {
@@ -55,15 +56,6 @@ function ControllerInstance(
     return $scope.user.oauthName() !== $state.params.userName;
   };
 
-  // Trigger Heap event
-  if ($window.heap && $location.search().chat) {
-    $window.heap.track('box-selection-chat-click', {
-      type: $location.search().chat
-    });
-    // Remove query so copypasta doesn't interfere
-    $location.search('chat', '');
-  }
-
   // The error handling for fetchUser will re-direct for us, so we don't need to handle that case
   fetchUser().then(function (user) {
     $scope.user = user;
@@ -73,62 +65,69 @@ function ControllerInstance(
       instance: fetchInstances({ name: $stateParams.instanceName }),
       settings: fetchSettings()
     })
-    .then(function (results) {
-      var instance = results.instance;
-      data.instance = instance;
-      pageName.setTitle(instance.attrs.name);
-      data.instance.state = {};
+      .then(function (results) {
+        var instance = results.instance;
+        data.instance = instance;
+        pageName.setTitle(instance.attrs.name);
+        data.instance.state = {};
 
-      data.hasToken = keypather.get(results, 'settings.attrs.notifications.slack.apiToken');
-      setLastInstance($stateParams.instanceName);
-      loading('main', false);
-    })
-    .catch(function (err) { // We ONLY want to handle errors related to fetching instances so this catch is nested.
-      errs.handler(err);
-      loading('main', false);
-      setLastInstance(false);
-      $state.go('instance.home', {
-        userName: $stateParams.userName
+        data.hasToken = keypather.get(results, 'settings.attrs.notifications.slack.apiToken');
+        setLastInstance($stateParams.instanceName);
+        loading('main', false);
+      })
+      .catch(function (err) { // We ONLY want to handle errors related to fetching instances so this catch is nested.
+        errs.handler(err);
+        loading('main', false);
+        setLastInstance(false);
+        $state.go('instance.home', {
+          userName: $stateParams.userName
+        });
       });
-    });
   });
 
-  $scope.$watch('dataInstance.data.instance.build.attrs.started', function (n, p) {
-    if (data.showUpdatingMessage || !n || !p || n === p) { return; }
+  $scope.$watch('dataInstance.data.instance.backgroundContextVersionFinished', function (n, p) {
+    // (n !== p) <- Never open this up the first time you arrive on this page
+    if (n && n !== p) {
+      dataInstance.data.instance.backgroundContextVersionFinished = false;
+      // If the build was triggered by me manually we don't want to show toasters.
+      var isManual = n.triggeredAction.manual;
+      var isTriggeredByMe = n.triggeredBy.github === $scope.user.oauthId();
 
-    // If the build was triggered by me manually we don't want to show toasters.
-    var isManual = $scope.dataInstance.data.instance.contextVersion.attrs.build.triggeredAction.manual;
-    var isTriggeredByMe = $scope.dataInstance.data.instance.contextVersion.attrs.build.triggeredBy.github === $scope.user.oauthId();
-
-    if (isManual && isTriggeredByMe){
-      data.showUpdatedMessage = false;
-      data.showUpdatingMessage = false;
-      return;
+      if (isManual && isTriggeredByMe) {
+        data.showUpdatedMessage = false;
+        return;
+      }
+      if (data.instance.contextVersion.getMainAppCodeVersion()) {
+        data.commit = fetchCommitData.activeCommit(
+          data.instance.contextVersion.getMainAppCodeVersion(),
+          keypather.get(n, 'triggeredAction.appCodeVersion.commit')
+        );
+        data.showUpdatingMessage = false;
+        data.showUpdatedMessage = true;
+      }
     }
-
-
-    data.showUpdatedMessage = false;
-    data.showUpdatingMessage = true;
   });
-  $scope.$watch('dataInstance.data.instance.build.attrs.completed', function (n, p) {
-    // p should be null since during a build, the completed field is nulled out
-    if (!data.showUpdatingMessage || data.showUpdatedMessage || !n || p) { return; }
 
-    // If the build was triggered by me manually we don't want to show toasters.
-    var isManual = $scope.dataInstance.data.instance.contextVersion.attrs.build.triggeredAction.manual;
-    var isTriggeredByMe = $scope.dataInstance.data.instance.contextVersion.attrs.build.triggeredBy.github === $scope.user.oauthId();
+  $scope.$watch('dataInstance.data.instance.backgroundContextVersionBuilding', function (n, p) {
+    if (n && n !== p) {
+      dataInstance.data.instance.backgroundContextVersionBuilding = false;
+      // If the build was triggered by me manually we don't want to show toasters.
+      var isManual = n.triggeredAction.manual;
+      var isTriggeredByMe = n.triggeredBy.github === $scope.user.oauthId();
 
-    if (isManual && isTriggeredByMe){
-      data.showUpdatedMessage = false;
-      data.showUpdatingMessage = false;
-      return;
+      if (isManual && isTriggeredByMe) {
+        data.showUpdatingMessage = false;
+        return;
+      }
+      if (data.instance.contextVersion.getMainAppCodeVersion()) {
+        data.commit = fetchCommitData.activeCommit(
+          data.instance.contextVersion.getMainAppCodeVersion(),
+          keypather.get(n, 'triggeredAction.appCodeVersion.commit')
+        );
+        data.showUpdatedMessage = false;
+        data.showUpdatingMessage = true;
+      }
     }
-
-    if (data.instance.contextVersion.getMainAppCodeVersion()) {
-      data.commit = fetchCommitData.activeCommit(data.instance.contextVersion.getMainAppCodeVersion());
-    }
-    data.showUpdatingMessage = false;
-    data.showUpdatedMessage = true;
   });
 
   // watch showExplorer (toggle when user clicks file menu)

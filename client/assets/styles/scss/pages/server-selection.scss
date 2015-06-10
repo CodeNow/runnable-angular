@@ -2,17 +2,6 @@
   margin: 0 auto;
   max-width: 960px;
 
-  .logo {
-    height: 45px;
-    margin-top: 15px;
-    width: 240px;
-
-    @include media(xs) {
-      overflow: hidden;
-      width: 72px;
-    }
-  }
-
   // instruction text
   > .h3.header-thin {
     margin: 90px auto 0;

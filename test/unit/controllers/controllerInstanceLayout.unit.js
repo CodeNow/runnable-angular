@@ -90,9 +90,8 @@ describe('ControllerInstanceLayout'.bold.underline.blue, function () {
     expect($scope).to.have.deep.property('dataInstanceLayout.actions');
     expect($scope).to.have.deep.property('dataInstanceLayout.data');
     expect($scope).to.have.deep.property('dataInstanceLayout.state');
-    expect($scope).to.have.deep.property('dataInstanceLayout.data.logoutURL');
     $rootScope.$digest();
-    expect($rootScope.isLoading.sidebar).to.not.be.ok;
+    expect($rootScope.isLoading.sidebar).to.be.ok;
     expect($rootScope.dataApp.data.instancesByPod).to.be.null;
     var many = runnable.newInstances(
       [apiMocks.instances.running, apiMocks.instances.stopped],

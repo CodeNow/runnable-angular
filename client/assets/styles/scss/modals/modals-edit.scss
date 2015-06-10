@@ -16,7 +16,7 @@
     cursor: not-allowed !important;
 
     .ace-container,
-    .btn,
+    .btn:not(.btn-cancel),
     .input,
     .label,
     .textarea {
@@ -55,39 +55,17 @@
     }
   }
 
-  .modal-tabs {
-    display: flex;
-    justify-content: center;
-  }
-
-  .btn-radio {
-    height: 81px;
-    line-height: 1;
-    margin-bottom: 6px;
-    padding: 0 9px;
-    white-space: normal;
-    width: 105px;
-
-    .btn-text {
-      display: inline-block;
-      font-size: 13px;
-      height: 30px;
-      line-height: 1.2;
-    }
-  }
-
   // forms
   // ports
   .textarea {
     cursor: text;
     display: block;
     font-size: 14px;
-    height: 90px;
     max-height: 150px;
+    min-height: 90px;
     overflow-y: auto;
     padding: 6px;
     resize: vertical;
-    white-space: nowrap;
 
     .btn {
       border-width: 1px;
@@ -177,101 +155,6 @@
     font-weight: 500;
     margin: 60px 0 30px;
     text-align: center;
-  }
-}
-
-// environment variables
-.ace-environment-variables {
-  border-bottom: 0;
-  border-radius: 3px;
-  height: 650px;
-
-  @media (max-height: 1200px) {
-    height: 525px;
-  }
-
-  @media (max-height: 1100px) {
-    height: 425px;
-  }
-
-  @media (max-height: 1000px) {
-    height: 325px;
-  }
-
-  @media (max-height: 900px) {
-    height: 225px;
-  }
-
-  @media (max-height: 800px) {
-    height: calc(100vh - 412px);
-    min-height: none;
-  }
-
-  @include media(sm) {
-    height: calc(100vh - 450px);
-  }
-}
-
-// build files
-.ace-build-files {
-  background: $white;
-  border-radius: 3px;
-  height: 700px;
-
-  @media (max-height: 1200px) {
-    height: 600px;
-  }
-
-  @media (max-height: 1100px) {
-    height: 500px;
-  }
-
-  @media (max-height: 1000px) {
-    height: 400px;
-  }
-
-  @media (max-height: 900px) {
-    height: 300px;
-  }
-
-  @media (max-height: 800px) {
-    height: calc(100vh - 342px);
-    min-height: none;
-  }
-
-  @include media(sm) {
-    height: calc(100vh - 342px);
-  }
-
-  // override sidebar
-  .sidebar {
-    border: 1px solid $gray-lighter;
-    border-radius: 2px 0 0 2px;
-    border-right: 0;
-    color: $gray-dark;
-    height: auto;
-    margin: -2px 0 -2px -2px;
-    padding: 0;
-    width: 210px;
-  }
-
-  .sidebar-actions {
-    background: #f0f0f0;
-    border-bottom: 1px solid $gray-lighter;
-    padding: 6px;
-
-    .btn-xs {
-      float: right;
-      padding: 0;
-    }
-
-    .iconnables {
-      height: 100%;
-    }
-  }
-
-  .file-tree {
-    margin: 3px;
   }
 }
 

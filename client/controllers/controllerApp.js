@@ -17,7 +17,6 @@ function ControllerApp(
   configAPIHost,
   configEnvironment,
   configLoginURL,
-  configLogoutURL,
   debounce,
   errs,
   eventTracking,
@@ -25,7 +24,8 @@ function ControllerApp(
   fetchUser,
   keypather,
   pageName,
-  loading
+  loading,
+  $localStorage
 ) {
 
   loading('main', true);
@@ -45,15 +45,23 @@ function ControllerApp(
   // used in dev-info box
   dataApp.data.configEnvironment = configEnvironment;
   $rootScope.featureFlags = {
-    helpCards: true,
+    advancedRepositories: true,
+    cardStatus: configEnvironment === 'development',
     findAndReplace: configEnvironment === 'development',
-    additionalRepos: configEnvironment === 'development'
+    hostnameTool: configEnvironment === 'development',
+    navListFilter: configEnvironment === 'development',
+    saveToolbar: configEnvironment === 'development'
   };
+
+  if($localStorage.featureFlags){
+    Object.keys($localStorage.featureFlags).forEach(function (flag) {
+      $rootScope.featureFlags[flag] = $localStorage.featureFlags[flag];
+    });
+  }
 
   dataApp.data.configAPIHost = configAPIHost;
   dataApp.data.minimizeNav = false;
   dataApp.data.loginURL = configLoginURL();
-  dataApp.data.logoutURL = configLogoutURL();
 
   dataApp.state = $state;
 
@@ -131,24 +139,8 @@ function ControllerApp(
   .then(function (orgs) {
     dataApp.data.orgs = orgs;
     dataApp.data.allAccounts = [dataApp.data.user].concat(orgs.models);
-    if ($window.heap) {
-      $window.heap.identify({
-        // unique heap user identifier
-        // we use githubId with prefix
-        handle: 'github-' + thisUser.oauthId(),
-        name:  thisUser.oauthName(),
-        email: thisUser.attrs.email,
-        runnableId: thisUser.id(),
-        orgs:  $window.JSON.stringify(orgs)
-      });
-    }
     // Intercom && Mixpanel
     eventTracking.boot(thisUser);
-    if ($window.olark) {
-      $window.olark('api.visitor.updateEmailAddress', { emailAddress: thisUser.attrs.email });
-      $window.olark('api.visitor.updateFullName', { fullName: thisUser.oauthName() });
-      $window.olark('api.box.show');
-    }
   })
   .catch(errs.handler);
 }

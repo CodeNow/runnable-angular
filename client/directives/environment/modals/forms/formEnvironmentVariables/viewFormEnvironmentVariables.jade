@@ -1,3 +1,4 @@
+//- help things
 .help-container(
   ng-if = "helpCards.getActiveCard().helpPopover.environmentVariables"
 )
@@ -6,40 +7,43 @@
   )
 
 .help-padding(
-  ng-if = "helpCards.getActiveCard().helpPopover.environmentVariables"
   ng-bind-html = "helpCards.getActiveCard().helpPopover.environmentVariables"
+  ng-if = "helpCards.getActiveCard().helpPopover.environmentVariables"
 )
 
+//- begin form
 .clearfix
   .label-col Environment Variables
 
 //- table actions
 .table-actions.clearfix(
+  ng-class = "{in: state.showHostName}"
   ng-if = "data.instances.models.length >= 2"
   ng-include = "'viewEnvironmentVariableActions'"
 )
 
 //- table of current environment variables
-pre.ace-container.ace-environment-variables.ace-runnable-dark(
-  env-vars
-  current-model = "server.opts"
-  state-model = "state.opts"
-  validation = "validation.env"
-)
+.ace-container.ace-environment-variables.ace-runnable-dark
 
-label.label.label-help
-  small.small(
-    tooltip = "Use this hostname when configuring callback services to this container."
-    tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-5,\"top\":15}"
+  .ace_editor(
+    current-model = "server.opts"
+    env-vars
+    state-model = "state.opts"
+    validation = "validation.env"
   )
-    button.btn.btn-xxs
-      svg.iconnables.icons-help
-        use(
-          xlink:href = "#icons-help"
-        )
-    | Container's hostname
-  input.input.input-xs(
+
+  .sidebar(
+    ng-class = "{in: data.toggleSidebar}"
+    ng-include = "'viewFormEnvironmentVariablesSidebar'"
+    ng-if = "$root.featureFlags.hostnameTool"
+  )
+
+//- detailed text
+label.label.label-help
+  small.small.strong Elastic hostname:
+  input.input.input-xxs(
     ng-attr-value = "{{ instance.getElasticHostname() }}"
     readonly
     select-all
   )
+  .small Use this hostname when configuring callback services to this container.

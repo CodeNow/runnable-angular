@@ -114,11 +114,18 @@ EventTracking.prototype.boot = function (user) {
   var data = {
     name: user.oauthName(),
     email: user.attrs.email,
-    created_at: +(new Date(user.attrs.created)),
+    created_at: new Date(user.attrs.created) / 1000 | 0,
     app_id: INTERCOM_APP_ID
   };
+  // Mixpanel uses a string GUID to track anon users
+  // If we're still tracking the user via GUID, we need to alias
+  // Otherwise, we can just identify ourselves
+  if (angular.isString(this._mixpanel('get_distinct_id'))) {
+    this._mixpanel('alias', user.oauthId());
+  } else {
+    this._mixpanel('identify', user.oauthId());
+  }
   this._Intercom('boot', data);
-  this._mixpanel('identify', user.oauthId());
   var userJSON = user.toJSON();
   var firstName = '';
   var lastName = '';

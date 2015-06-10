@@ -3,56 +3,75 @@
   ng-if = "!data.activeAccount || isLoading.sidebar"
   ng-include = "'spinner'"
 )
-
-.row-heading(
+.sidebar-section-heading.strong(
   ng-if = "data.activeAccount && !isLoading.sidebar"
-)
-  | Containers
-
+) Containers
 ul.server-category-list(
   ng-if = "data.activeAccount && !isLoading.sidebar"
 )
   li.server-category-list-item(
     ng-repeat = "masterInstance in data.instancesByPod.models |orderBy: ['attrs.contextVersion.appCodeVersions.length === 0', 'attrs.name'] "
+    ng-class = "{\
+      'no-touching': !masterInstance.opts\
+    }"
   )
-    button.btn.btn-xs.btn-icon(
-      title = "configure"
-      ui-sref = "config.instance({ userName: data.activeAccount.oauthName(), \
-        instanceName: masterInstance.attrs.name })"
-    )
-      svg.iconnables
-        use(
-          xlink:href = "#icons-advanced"
-          )
     .server-list
-      a.server-list-item(
-        ng-class = "{selected: isSelected(masterInstance)}"
-        ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
-          instanceName: masterInstance.attrs.name })"
+      .server-list-item(
+        ui-sref-active = "selected"
       )
         status-icon(
           instance = "masterInstance"
         )
-        span.server-category-name.text-overflow(
+        a.server-name.text-overflow(
           ng-if = "masterInstance.getRepoName()"
           title = "{{ masterInstance.getRepoName() }}/{{ masterInstance.getBranchName() }}"
-        ) {{ masterInstance.getRepoName() }}
-          span.branch-name /{{ masterInstance.getBranchName() }}
-
-        span.server-category-name.text-overflow(
+          ui-sref = "\
+            instance.instance({ userName: data.activeAccount.oauthName(), \
+            instanceName: masterInstance.attrs.name })\
+          "
+        )
+          strong.strong {{ masterInstance.getRepoName() }}
+          | /{{ masterInstance.getBranchName() }}
+        a.server-name.text-overflow(
           ng-if = "!masterInstance.getRepoName()"
           title = "{{ masterInstance.attrs.name }}"
-        ) {{ masterInstance.attrs.name }}
-
-      a.server-list-item(
-        ng-class = "{selected: isSelected(branchFork)}"
+          ui-sref = "\
+            instance.instance({ userName: data.activeAccount.oauthName(), \
+            instanceName: masterInstance.attrs.name })\
+          "
+        )
+          strong.strong {{ masterInstance.attrs.name }}
+        a.btn.btn-xs.btn-icon.button-configure(
+          title = "configure"
+          ui-sref = "\
+            config.instance({ userName: data.activeAccount.oauthName(), \
+            instanceName: masterInstance.attrs.name })\
+          "
+        )
+          svg.iconnables
+            use(
+              xlink:href = "#icons-advanced"
+              )
+      .server-list-item(
         ng-repeat = "branchFork in masterInstance.children.models | orderBy:'attrs.name'"
-        ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
-          instanceName: branchFork.attrs.name })"
+        ui-sref-active = "selected"
       )
-        span.branch-name.text-overflow(
-          title = "{{ branchFork.getDisplayName() }}"
-        ) {{ branchFork.getDisplayName() }}
         status-icon(
           instance = "branchFork"
         )
+        a.server-name.text-overflow(
+          title = "{{ branchFork.getDisplayName() }}"
+          ui-sref = "\
+            instance.instance({ userName: data.activeAccount.oauthName(), \
+            instanceName: branchFork.attrs.name })\
+          "
+        ) {{ branchFork.getDisplayName() }}
+        .btn.btn-xs.button-hide(
+          ng-if = "$root.featureFlags.navListFilter"
+        ) hide
+      .more-containers(
+        ng-if = "$root.featureFlags.navListFilter"
+        pop-over
+        pop-over-options = "{\"top\":-33,\"left\":215}"
+        pop-over-template = "viewMoreContainersPopover"
+      ) 8 more…

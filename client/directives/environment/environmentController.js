@@ -16,8 +16,10 @@ function EnvironmentController(
   eventTracking,
   favico,
   fetchContexts,
-  fetchStackInfo,
   fetchInstances,
+  fetchInstancesByPod,
+  fetchStackInfo,
+  keypather,
   pageName,
   promisify,
   $rootScope,
@@ -31,9 +33,13 @@ function EnvironmentController(
   favico.reset();
   pageName.setTitle('Configure - Runnable');
   $scope.data = {
-    instances: null,
     helpCards: helpCards
   };
+  fetchInstancesByPod($state.userName)
+    .then(function (instances) {
+      $scope.data.instances = instances;
+    });
+
   $scope.state = {
     validation: {
       env: {}
@@ -109,14 +115,23 @@ function EnvironmentController(
       $rootScope.$broadcast('close-modal');
 
       eventTracking.triggeredBuild(false);
+      // Save this in case it changes
+      var cachedActiveAccount = $rootScope.dataApp.data.activeAccount;
       var instance = user.newInstance({
         name: name,
         owner: {
-          username: $rootScope.dataApp.data.activeAccount.oauthName()
+          username: cachedActiveAccount.oauthName()
         }
       }, { warn: false });
+      $rootScope.dataApp.creatingInstance = !keypather.get($scope, 'data.instances.models.length');
       $scope.data.instances.add(instance);
-
+      var unwatch = $scope.$on('$destroy', function cleanUp() {
+        $rootScope.dataApp.creatingInstance = false;
+        if (!instance.destroyed) {
+          unwatch();
+          instance.dealloc();
+        }
+      });
       helpCards.hideActiveCard();
 
       $rootScope.$broadcast('alert', {
@@ -127,7 +142,7 @@ function EnvironmentController(
       createPromise
         .then(function (newServerModel) {
           return createNewInstance(
-            $rootScope.dataApp.data.activeAccount,
+            cachedActiveAccount,
             newServerModel.build,
             newServerModel.opts,
             instance
@@ -140,24 +155,23 @@ function EnvironmentController(
           errs.handler(err);
           // Remove it from the servers list
           instance.dealloc();
-          //dealloc
+        })
+        .finally(function () {
+          $rootScope.dataApp.creatingInstance = false;
+          unwatch();
         });
     }
   };
 
-  $scope.data.loadingNewServers = true;
   $q.all({
-    stacks: fetchStackInfo(),
     deps: fetchInstances({ githubUsername: 'HelloRunnable' }),
     sourceContexts: fetchContexts({ isSource: true }),
-    instances: fetchInstances({ masterPod: true })
+    stacks: fetchStackInfo()
   })
     .then(function (data) {
-      $scope.data.stacks = data.stacks;
       $scope.data.allDependencies = data.deps;
+      $scope.data.stacks = data.stacks;
       $scope.data.sourceContexts = data.sourceContexts;
-      $scope.data.instances = data.instances;
-      $scope.data.loadingNewServers = false;
     })
     .catch(errs.handler);
 

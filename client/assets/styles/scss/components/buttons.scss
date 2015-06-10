@@ -131,6 +131,11 @@
   }
 
   &.btn-icon-sm {
+    min-width: 36px;
+    width: auto;
+  }
+
+  &.btn-icon-xs {
     min-width: 24px;
     width: auto;
   }
@@ -208,8 +213,7 @@
       transform: scale3d(0,0,0);
     }
 
-    .icons-check,
-    .icons-link {
+    .icons-check {
       transform: scale3d(1,1,1);
     }
   }
@@ -325,21 +329,20 @@
 
 
 .green {
-  background: rgba($green,.75);
-  border-color: rgba($green,.9);
+  background: #5fd377; // rgba($green,.81);
+  border-color: $green;
 
   &.btn {
 
     // states
     &:hover,
     &.hover {
-      background: rgba($green,.6);
+      background: #8ae09c; // rgba($green,.6);
     }
 
     &:active,
     &.active {
       background: $green;
-      border-color: $green;
       transition: none;
     }
 
@@ -350,7 +353,7 @@
       &:hover,
       &:active,
       &.active {
-        background: rgba($green,.75);
+        background: #6dd883; // rgba($green,.75);
         border-color: transparent;
       }
     }

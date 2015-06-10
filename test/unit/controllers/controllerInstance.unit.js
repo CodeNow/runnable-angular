@@ -27,7 +27,6 @@ describe('controllerInstance'.bold.underline.blue, function () {
     angular.mock.module(function ($provide) {
       $provide.value('favico', {
         reset : sinon.spy(),
-        setImage: sinon.spy(),
         setInstanceState: sinon.spy()
       });
       $provide.factory('fetchUser', mockUserFetch.fetch());
@@ -83,7 +82,6 @@ describe('controllerInstance'.bold.underline.blue, function () {
       keypather = _keypather_;
       user = _user_;
     });
-    $window.heap = null;
   });
 
   beforeEach(function () {

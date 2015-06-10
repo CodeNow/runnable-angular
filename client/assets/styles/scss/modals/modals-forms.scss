@@ -1,6 +1,10 @@
 .modal-form {
   padding: 15px 30px;
 
+  @include media(xs) {
+    padding: 15px;
+  }
+
   // label (row)
   .label {
     flex: 0 0 auto;
@@ -13,6 +17,11 @@
       @include media(xs) {
         margin-top: 15px;
       }
+    }
+
+    // for rows (full-width) with only small text
+    > .small:only-child {
+      margin: 6px;
     }
   }
 
@@ -111,29 +120,11 @@
     margin: 12px auto 0;
     text-align: center;
 
-    .small {
+    .strong {
       display: inline-block;
     }
 
-    .btn-xxs {
-      background: $gray;
-      border-radius: 50%;
-      color: $white;
-      float: left;
-      height: 15px;
-      margin-right: 3px;
-      padding: 0 4px;
-      width: 15px;
-    }
-
-    .icons-help {
-      height: 100%;
-      width: 100%;
-    }
-
     .input {
-      background: $white;
-      font-size: 13px;
       margin-left: 6px;
       width: 300px;
     }

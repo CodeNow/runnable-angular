@@ -18,6 +18,8 @@ function fileEditor(
   keypather,
   modelist,
   promisify,
+  hasKeypaths,
+  loadingPromises,
   validateDockerfile
 ) {
   return {
@@ -25,7 +27,9 @@ function fileEditor(
     templateUrl: 'viewFileEditor',
     scope: {
       file: '=',
-      useAutoUpdate: '='
+      state: '=?',
+      useAutoUpdate: '=',
+      loadingPromisesTarget: '@?'
     },
     link: function ($scope, element, attrs) {
       var useValidation = false;
@@ -69,7 +73,7 @@ function fileEditor(
 
       function updateFile() {
         var thisBodyChange = $scope.file.state.body;
-        return promisify($scope.file, 'update')({
+        return loadingPromises.add($scope.loadingPromisesTarget, promisify($scope.file, 'update'))({
           json: {
             body: $scope.file.state.body
           }
@@ -105,16 +109,24 @@ function fileEditor(
                       return error.line;
                     });
                     $scope.file.validation = validation;
-                    var annotations =  validation.errors.map(function (error) {
+                    var annotations = validation.errors.map(function (error) {
                       return {
                         text: error.message,
-                        type: 'warning',
+                        type: error.priority === 0 ? 'error' : 'warning',
                         row: error.line - 1
                       };
                     });
                     session.setAnnotations(annotations);
+                    if ($scope.state) {
+                      $scope.state.invalidDockerfile = validation.errors.some(hasKeypaths({
+                        priority: 0
+                      }));
+                    }
                   } else {
                     $scope.file.validation = {};
+                    if ($scope.state) {
+                      $scope.state.invalidDockerfile = false;
+                    }
                   }
                 }
                 keypather.set($scope.file, 'state.isDirty', true);

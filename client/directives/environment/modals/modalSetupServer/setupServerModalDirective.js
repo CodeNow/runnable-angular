@@ -18,6 +18,7 @@ function setupServerModal(
   keypather,
   populateDockerfile,
   promisify,
+  watchOncePromise,
   $log,
   cardInfoTypes
 ) {
@@ -45,57 +46,69 @@ function setupServerModal(
           $scope.loading = false;
         });
 
+      function normalizeRepoName(repo) {
+        return repo.attrs.name.replace(/[^a-zA-Z0-9-]/g, '-');
+      }
+
       $scope.isRepoAdded = function (repo) {
         // Since the newServers may have faked repos (just containing names), just check the name
-        return !!$scope.data.instances.find(hasKeypaths({'getRepoName()': repo.attrs.name}));
+        return !!$scope.data.instances.find(function (instance) {
+          var repoName = instance.getRepoName();
+          if (repoName) {
+            return repo.attrs.name === repoName;
+          } else {
+            return normalizeRepoName(repo) === instance.attrs.name;
+          }
+        });
       };
 
       $scope.createServer = function () {
         if (keypather.get($scope.state, 'selectedStack.ports.length')) {
           $scope.state.ports = $scope.state.selectedStack.ports.replace(/ /g, '').split(',');
         }
-        $scope.actions.createAndBuild(
-          createDockerfileFromSource(
-            $scope.state.contextVersion,
-            $scope.state.selectedStack.key,
-            $scope.data.sourceContexts
-          )
-            .then(function (dockerfile) {
-              $scope.state.dockerfile = dockerfile;
 
-              var Repo = cardInfoTypes()['Main Repository'];
-              
-              $scope.state.containerFiles = [];
+        var createPromise = createDockerfileFromSource(
+          $scope.state.contextVersion,
+          $scope.state.selectedStack.key,
+          $scope.data.sourceContexts
+        )
+          .then(function (dockerfile) {
+            $scope.state.dockerfile = dockerfile;
 
-              var repo = new Repo(null, {isMainRepo: true});
+            var MainRepo = cardInfoTypes.MainRepository;
 
-              var commands = $scope.state.commands || '';
+            $scope.state.containerFiles = [];
 
-              repo.name = $scope.state.repo.attrs.name;
-              repo.path = $scope.state.dst.replace('/', '');
-              repo.commands = commands;
+            var repo = new MainRepo();
 
-              $scope.state.containerFiles.push(repo);
+            var commands = $scope.state.commands || '';
 
-              return populateDockerfile(
-                dockerfile,
-                $scope.state
-              );
-            })
-            .then(function () {
-              if ($scope.acv.attrs.branch !== $scope.state.branch.attrs.name) {
-                return promisify($scope.acv, 'update')({
-                  repo: $scope.state.repo.attrs.full_name,
-                  branch: $scope.state.branch.attrs.name,
-                  commit: $scope.state.branch.attrs.commit.sha
-                });
-              }
-            })
-            .then(function () {
-              return $scope.state;
-            }),
-          $scope.state.opts.name
-        );
+            repo.name = $scope.state.repo.attrs.name;
+            repo.path = $scope.state.dst.replace('/', '');
+            repo.commands = commands;
+
+            $scope.state.containerFiles.push(repo);
+
+            return populateDockerfile(
+              dockerfile,
+              $scope.state
+            );
+          })
+          .then(function () {
+            if ($scope.state.acv.attrs.branch !== $scope.state.branch.attrs.name) {
+              return promisify($scope.state.acv, 'update')({
+                repo: $scope.state.repo.attrs.full_name,
+                branch: $scope.state.branch.attrs.name,
+                commit: $scope.state.branch.attrs.commit.sha
+              });
+            }
+          })
+          .then(function () {
+            return $scope.state;
+          });
+
+
+        $scope.actions.createAndBuild(createPromise, $scope.state.opts.name);
       };
 
       $scope.$watch('state.selectedStack', function (n) {
@@ -119,7 +132,7 @@ function setupServerModal(
         $scope.repoSelected = true;
         repo.loading = true;
         // Replace any non-word character with a -
-        $scope.state.opts.name = repo.attrs.name.replace(/[^a-zA-Z0-9]/g, '-');
+        $scope.state.opts.name = normalizeRepoName(repo);
         return $scope.fetchStackData(repo)
           .then(function () {
             return createNewBuild($rootScope.dataApp.data.activeAccount);
@@ -142,7 +155,7 @@ function setupServerModal(
             });
           })
           .then(function () {
-            $scope.acv = $scope.state.contextVersion.getMainAppCodeVersion();
+            $scope.state.acv = $scope.state.contextVersion.getMainAppCodeVersion();
           })
           .then(function (dockerfile) {
             $scope.state.dockerfile = dockerfile;

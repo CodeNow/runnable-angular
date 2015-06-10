@@ -1,12 +1,19 @@
 form.modal-dialog.modal-edit(
   name = "editServerForm"
-  ng-class = "{disabled: building}"
+  ng-class = "{disabled: building || isLoading.editServerModal}"
 )
   header.modal-header
     server-status-card-header.btn.btn-sm.btn-title(
       pop-over-options = "{\"right\":-7,\"top\":36}"
       pop-over-template = "serverOptionsModalPopover"
       ng-attr-no-touching = "{{ !state.repo }}"
+      ng-if = "!$root.featureFlags.cardStatus"
+    )
+    server-status-card-header(
+      pop-over-options = "{\"centered\":true,\"top\":36}"
+      pop-over-template = "serverOptionsModalPopover"
+      ng-attr-no-touching = "{{ !state.repo }}"
+      ng-if = "$root.featureFlags.cardStatus"
     )
     .row.modal-tabs
       button.btn.btn-radio(
@@ -61,7 +68,7 @@ form.modal-dialog.modal-edit(
       button.btn.btn-radio(
         ng-class = "{active: selectedTab === 'translation'}"
         ng-click = "changeTab('translation')"
-        ng-if = "state.repo && featureFlags.findAndReplace"
+        ng-if = "state.repo && $root.featureFlags.findAndReplace"
       )
         svg.iconnables
           use(
@@ -88,8 +95,9 @@ form.modal-dialog.modal-edit(
           )
         span.btn-text Logs
 
-  section.modal-body
-
+  section.modal-body(
+    ng-if = "!isLoading.editServerModal"
+  )
     .modal-form(
       ng-show = "selectedTab === 'buildfiles'"
       ng-include = "'viewFormBuildfiles'"
@@ -110,7 +118,9 @@ form.modal-dialog.modal-edit(
     )
     .modal-form(
       ng-if = "selectedTab === 'repository'"
-      ng-include = "'viewFormRepository'"
+      repository-form
+      state = "state"
+      loading-promises-target = "editServerModal"
     )
     .modal-form(
       ng-if = "selectedTab === 'replace'"
@@ -129,12 +139,19 @@ form.modal-dialog.modal-edit(
       ng-include = "'viewFormLogs'"
     )
 
+  section.modal-body(
+    ng-if = "isLoading.editServerModal"
+  )
+    .spinner-wrapper.spinner-md.in(
+      ng-include = "'spinner'"
+    )
+
   footer.modal-footer.clearfix
     //- disabled if no changes
     button.btn.green.btn-spinner(
       ng-class = "{in: building}"
       ng-click = "editServerForm.$invalid || getUpdatePromise()"
-      ng-disabled = "!state.advanced && state.isStackInfoEmpty(state.selectedStack)"
+      ng-disabled = "!state.advanced && isStackInfoEmpty(state.selectedStack) || state.invalidDockerfile"
       type = "submit"
     )
       //- spinner
@@ -150,5 +167,6 @@ form.modal-dialog.modal-edit(
       ) Saving
     button.btn.white.btn-cancel(
       ng-click = "cancel()"
+      ng-disabled = "building"
       type = "button"
     ) Cancel

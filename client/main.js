@@ -1,4 +1,5 @@
 'use strict';
+require('es6-symbol/implement');
 
 var app = require('app');
 require('angular');
@@ -30,6 +31,7 @@ var views = require('./build/views/viewBundle');
 app.config(function ($httpProvider) {
   $httpProvider.defaults.withCredentials = true;
   $httpProvider.defaults.headers.delete = { 'Content-Type' : 'application/json' };
+  $httpProvider.useApplyAsync(true);
 });
 
 /**

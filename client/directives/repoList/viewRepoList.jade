@@ -1,4 +1,4 @@
-.row-heading(
+.sidebar-section-heading.strong(
   ng-class = "{closed: $storage.repoListIsClosed}"
   ng-click = "$storage.repoListIsClosed = !$storage.repoListIsClosed"
 )
@@ -8,32 +8,21 @@
     )
   | Repositories
 
-  //- update / build button
-  button.btn.btn-xs.orange.sub-header-action(
-    ng-click = "triggerInstanceUpdateOnRepoCommitChange()"
-    ng-if = "showUpdateButton()"
-  )
-    | Confirm Changes
-
 ul.list.repository-group(
   ng-if = "!$storage.repoListIsClosed"
 )
   li.list-item.repository-group-item(
     edit-repo-commit
-    model = "model"
-    ng-repeat = "model in unsavedAcvs"
+    model = "instance.contextVersion.getMainAppCodeVersion()"
   )
-  li.list-details(
-    ng-show = "unsavedAcvs.length && !showAddFirstRepoMessage"
-  )
+  li.list-details
     label.label-checkbox.btn-sm.btn-checkbox(
-      ng-if = "showAutoDeploy"
       tooltip = "Disabling auto-deploy will stop your container from automatically updating with new changes to your repositories."
       tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-6,\"top\":24}"
     )
       input.input-checkbox(
         ng-false-value="true"
-        ng-model = "data.autoDeploy"
+        ng-model = "instance.attrs.locked"
         ng-true-value="false"
         type = "checkbox"
       )

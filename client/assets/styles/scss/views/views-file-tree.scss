@@ -39,6 +39,10 @@
       }
     }
 
+    &.context-click a {
+      border-color: rgba($purple-light,.3);
+    }
+
     &.active a,
     &.active a:hover {
       background: rgba($purple-light,.15);
@@ -46,6 +50,12 @@
       color: $purple-light;
       cursor: default;
       font-weight: 500;
+    }
+
+    // if still loading repository
+    &.disabled,
+    &.disabled > a {
+      @extend %no-touching;
     }
 
     a {
@@ -64,7 +74,8 @@
         border-color: rgba($gray-darker,.15);
       }
 
-      &:active {
+      &:active,
+      &.active {
         background: rgba($purple-light,.15);
         border-color: rgba($purple-light,.15);
         color: $purple-light;
@@ -125,9 +136,10 @@
 
   // spinners
   .spinner-wrapper {
+    background: none !important;
     display: inline-block;
     position: relative !important; // override default position
-    top: 2px;
+    top: -1px;
   }
 }
 
@@ -182,7 +194,7 @@
   font-size: 14px;
   height: 18px;
   line-height: 18px;
-  margin: 5px;
+  margin: 3px 5px;
   pointer-events: none;
   text-align: center;
   text-indent: 0;

@@ -3,8 +3,7 @@
 require('app')
   .factory('favico', function (
     favicojs,
-    $timeout,
-    instanceStatus
+    $timeout
   ) {
     var favico = favicojs({
       animation: 'none'
@@ -14,8 +13,10 @@ require('app')
       img.src = url;
       return img;
     }
+    var buildingImage = createImage('/build/images/favicon-orange.png');
     var icons = {
-      building: createImage('/build/images/favicon-orange.png'),
+      building: buildingImage,
+      neverStarted: buildingImage,
       running: createImage('/build/images/favicon-green.png'),
       stopped: createImage('/build/images/favicon-gray.png'),
       buildFailed: createImage('/build/images/favicon-red.png'),
@@ -26,12 +27,9 @@ require('app')
       currentState = null;
       favico.reset();
     };
-    var setImage = function (image) {
-      favico.image(image);
-    };
     var setInstanceState = function (instance) {
       if (instance) {
-        var state = instanceStatus(instance);
+        var state = instance.status();
         if (state !== currentState) {
           var icon = icons[state];
           if (icon) {
@@ -47,7 +45,6 @@ require('app')
 
     return {
       reset : reset,
-      setImage: setImage,
       setInstanceState: setInstanceState
     };
   });

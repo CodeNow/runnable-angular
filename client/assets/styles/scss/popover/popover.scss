@@ -1,7 +1,7 @@
 // popovers
 .popover {
-   // top & left offset to move popovers offscreen to prevent them
-   // from appearing before calculating their actual position
+  // top & left offset to move popovers offscreen to prevent them
+  // from appearing before calculating their actual position
   background: $white;
   border: 2px solid $gray-lighter;
   border-radius: 3px;
@@ -57,18 +57,6 @@
 
     > .btn .iconnables {
       transform: rotate(180deg); // rotates arrow for "more help" button
-    }
-  }
-
-  &.hint .list-item:last-child {
-    color: $blue;
-
-    &:hover {
-      background: $blue-lighter;
-    }
-
-    .small {
-      color: rgba($blue,.8);
     }
   }
 
@@ -131,12 +119,12 @@
 
   // states
   &:hover {
-    background: rgba($purple-light,.1);
+    background: rgba($purple-lightest,.45);
   }
 
   &:active,
   &.active {
-    background: rgba($purple-light,.15);
+    background: rgba($purple-lightest,.9);
     color: $purple-light;
 
     .iconnables,
@@ -148,6 +136,18 @@
       background: $white;
       border-color: currentColor;
       color: $purple-light;
+    }
+  }
+
+  &.hint {
+    color: $blue;
+
+    &:hover {
+      background: $blue-lighter;
+    }
+
+    .small {
+      color: rgba($blue,.8);
     }
   }
 
@@ -204,6 +204,19 @@
       top: 2px;
       width: 12px;
     }
+  }
+}
+
+// header
+.popover-header {
+  background: $gray-lighterest;
+  border-bottom: 1px solid $gray-lighter;
+  display: flex;
+  height: 54px;
+  padding: 9px 15px;
+
+  &.popover-header-sm {
+    height: 45px;
   }
 }
 

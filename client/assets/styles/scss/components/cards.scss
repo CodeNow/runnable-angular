@@ -42,14 +42,16 @@
     }
   }
 
-  &.focus {
-    animation: card-blink 2s ease-in-out;
-  }
-
   // colors
   &.gray {
     background: $gray-lighterest;
     border-color: $gray-lighter;
+  }
+
+  // focus state
+  &.focus {
+    border-color: rgba($blue,.45);
+    box-shadow: 0 0 6px rgba($blue,.45);
   }
 
   // empty state
@@ -58,19 +60,14 @@
     border-color: transparent;
     color: $gray;
     height: 333px;
-    line-height: 333px;
+    justify-content: center;
     text-align: center;
+    white-space: nowrap;
 
     .spinner-wrapper {
       align-items: center;
       height: 100%;
     }
-  }
-
-  // when linked to from Containers view
-  &.highlight {
-    background: rgba($purple-lightest,.5);
-    border-color: rgba($purple-light,.3);
   }
 
   // list columns
@@ -133,45 +130,48 @@
 // header
 .card-header {
   display: flex;
-  flex-direction: column;
-  margin: 0 15px 6px;
+  justify-content: center;
+  margin: 18px 15px;
 }
 
-// title group
-.btn-title {
+.container-title-wrapper {
+  align-items: center;
+  color: $gray-dark;
+  cursor: pointer;
   display: flex;
-  margin: 12px auto 0;
+  justify-content: center;
+  margin: 0 auto;
   max-width: 100%;
-  padding-right: 30px;
 
-  // hide arrow space
-  &.no-touching {
-    padding-right: 15px;
+  &:hover {
+    color: $gray-darker;
   }
 
-  .btn-text {
-
-    &:first-child {
-      flex: 1 1 auto;
-    }
-
-    + .btn-text {
-      flex: 0 0 auto;
-      opacity: .5;
-      padding-left: 3px; // replaces a standard space (flexbox doesn't include it in the calculation)
-    }
+  &:active {
+    color: $purple-light;
   }
 
-  // status
-  .icons-status {
-    margin-right: 6px;
-    margin-top: 12px; // 'vertical center'
+  .container-title {
+    flex: 0 0 auto;
+    font-size: 21px;
+    font-weight: 500;
+    padding-left: 3px;
   }
 
-  // arrow down
-  .icons-arrow-down {
-    flex: 0 0 18px;
-    margin: 0 0 0 6px;
+  .icons-warning,
+  .icons-arrow-down,
+  .spinner-wrapper {
+    flex: 0 0 21px;
+    height: 21px;
+  }
+
+  .spinner-wrapper {
+    color: $gray-light;
+    padding: 3px; //sizes element to replace .icons-warning
+  }
+
+  .icons-warning {
+    color: $orange;
   }
 }
 
@@ -231,38 +231,30 @@
       border-radius: 0 0 3px 3px;
     }
 
+    &.hint {
+      border-color: rgba($blue,.45);
+      box-shadow: 0 0 6px rgba($blue,.35);
+      z-index: 1;
+
+      &:hover {
+        border-color: rgba($blue,.6);
+        box-shadow: none;
+      }
+    }
+
     + .btn {
       border-top-width: 1px;
       margin-top: -2px;
+
+      &.hint {
+        border-top-width: 2px;
+      }
     }
 
     > .iconnables:first-child {
       float: left;
       margin-right: 6px;
       width: 18px;
-    }
-
-    &.hint {
-      border-color: $blue;
-      box-shadow: inset 0 1px 0 $blue;
-      color: $blue;
-      z-index: 1;
-
-      &:hover {
-        background: $blue-lighter;
-      }
-
-      &:first-child {
-        box-shadow: none;
-      }
-
-      .p {
-        color: rgba($blue,.8);
-      }
-
-      .icons-arrow-down {
-        color: $blue;
-      }
     }
 
     .h3 {
@@ -297,35 +289,6 @@
   padding: 12px 0;
   text-align: left;
   transition: none;
-}
-
-// footer
-.card-footer {
-  background: $gray-lightest;
-  border-top: 1px solid rgba($black,.1);
-  flex: 0 0 auto;
-  padding: 3px 15px;
-
-  .small {
-    color: $gray;
-    font-weight: 500;
-
-    &:first-child {
-      font-size: 12px;
-    }
-  }
-
-  // proxy url
-  .input[readonly] {
-    background: transparent;
-    border: 0;
-    display: block;
-    font-weight: 400;
-    height: 24px;
-    letter-spacing: -.25px;
-    line-height: 24px;
-    padding: 0;
-  }
 }
 
 // template
