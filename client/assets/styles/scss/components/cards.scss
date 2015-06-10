@@ -279,7 +279,7 @@
   }
 
   // for toggle
-  .gray {
+  > .gray {
     background: $gray-lightest;
     border-radius: 0 0 3px 3px;
     border-top: 0;
@@ -310,7 +310,7 @@
     }
 
     // toggle
-    .toggle-wrapper {
+    .btn-xs {
       position: absolute;
       right: 9px;
       top: 10px;
