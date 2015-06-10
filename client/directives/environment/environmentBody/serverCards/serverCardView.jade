@@ -67,7 +67,7 @@ ul.card-body.load(
         xlink:href = "#icons-ports"
       )
     h3.h3 Exposed Ports
-    small.small.text-overflow {{ server.ports || '—'}}
+    small.small.text-overflow {{ server.ports || 'None'}}
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
@@ -159,6 +159,7 @@ ul.card-body.load(
         xlink:href = "#icons-arrow-down"
       )
   //- dockerfile
+  //- remove ng-if with $rootScope.featureFlags.dockerfileTool
   li.btn.white(
     modal
     modal-actions = "actions"
@@ -166,6 +167,7 @@ ul.card-body.load(
     modal-data = "data"
     modal-state-model = "'buildfiles'"
     modal-template = "editServerModalOpen"
+    ng-if = "server.advanced || $root.featureFlags.dockerfileTool"
   )
     svg.iconnables
       use(
@@ -178,7 +180,7 @@ ul.card-body.load(
       xlink:href = "#icons-arrow-down"
       )
   li.gray(
-    ng-if = "server.advanced"
+    ng-if = "server.advanced || $root.featureFlags.dockerfileTool"
   )
     strong.small.strong Dockerfile Modified
       span.icons-help(
@@ -186,4 +188,8 @@ ul.card-body.load(
         tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-7,\"top\":12}"
       )
       small.small Some tools are unavailable.
-    button.btn.btn-xs.gray.float-right Restore
+    label.toggle-wrapper
+      input.toggle-input(
+        type = "checkbox"
+      )
+      .toggle-group
