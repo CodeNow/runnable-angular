@@ -139,17 +139,6 @@ function ControllerApp(
   .then(function (orgs) {
     dataApp.data.orgs = orgs;
     dataApp.data.allAccounts = [dataApp.data.user].concat(orgs.models);
-    if ($window.heap) {
-      $window.heap.identify({
-        // unique heap user identifier
-        // we use githubId with prefix
-        handle: 'github-' + thisUser.oauthId(),
-        name:  thisUser.oauthName(),
-        email: thisUser.attrs.email,
-        runnableId: thisUser.id(),
-        orgs:  $window.JSON.stringify(orgs)
-      });
-    }
     // Intercom && Mixpanel
     eventTracking.boot(thisUser);
   })
