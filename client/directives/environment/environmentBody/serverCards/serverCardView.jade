@@ -29,13 +29,6 @@ ul.card-body.card-loading(
 ul.card-body.load(
   ng-if = "!showSpinner()"
 )
-  li.gray
-    strong.small.strong Dockerfile Editing
-    label.toggle-wrapper.float-right
-      input.toggle-input(
-        type = "checkbox"
-      )
-      .toggle-group.toggle-sm
   //- dockerfile
   li.btn.white(
     modal
@@ -185,3 +178,15 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-arrow-down"
       )
+  li.gray
+    strong.small.strong Dockerfile
+      span.icons-help(
+        tooltip = "Editing the Dockerfile will disable Container CMD, Main Repository, Exposed Ports, and Container Files. We save your current configuration when you enable editing and restore it if you choose to disable editing."
+        tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-7,\"top\":12}"
+      )
+      small.small Enable editing of your Dockerfile
+    label.toggle-wrapper.float-right
+      input.toggle-input(
+        type = "checkbox"
+      )
+      .toggle-group.toggle-sm
