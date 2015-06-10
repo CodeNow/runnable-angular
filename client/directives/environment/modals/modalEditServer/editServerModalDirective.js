@@ -427,6 +427,7 @@ function editServerModal(
             if (file) {
               $scope.openItems.add(file);
             }
+            $scope.state.dockerfile = file;
           });
       }
 
@@ -434,22 +435,31 @@ function editServerModal(
       $scope.$watch('state.advanced', function (advanced, previousAdvanced) {
         // This is so we don't fire the first time with no changes
         if (advanced !== previousAdvanced) {
-          waitForStateContextVersion($scope, function () {
-            $rootScope.$broadcast('close-popovers');
-            $scope.selectedTab = advanced ? 'buildfiles' : 'stack';
-            if (advanced) {
-              openDockerfile();
-            }
-            return promisify($scope.state.contextVersion, 'update')({
-              advanced: advanced
+          watchOncePromise($scope, 'state.contextVersion', true)
+            .then(function () {
+              $rootScope.$broadcast('close-popovers');
+              $scope.selectedTab = advanced ? 'buildfiles' : 'stack';
+              if (advanced) {
+                openDockerfile();
+              }
+              return loadingPromises.add('editServerModal', promisify($scope.state.contextVersion, 'update')({
+                advanced: advanced
+              }));
             })
-              .catch(function (err) {
-                errs.handler(err);
-                $scope.state.advanced = $scope.server.advanced;
-              });
-          });
+            .catch(function (err) {
+              errs.handler(err);
+              $scope.state.advanced = $scope.server.advanced;
+            });
         }
       });
+      $scope.isDockerfileValid = function () {
+        if (!$scope.state.advanced || !keypather.get($scope, 'state.dockerfile.validation.errors.length')) {
+          return true;
+        }
+        return !$scope.state.dockerfile.validation.errors.find(hasKeypaths({
+          message: 'Missing or misplaced FROM'
+        }));
+      };
 
       $scope.isStackInfoEmpty = function (selectedStack) {
         if (!selectedStack || !selectedStack.selectedVersion) {
@@ -464,13 +474,4 @@ function editServerModal(
       };
     }
   };
-}
-
-function waitForStateContextVersion($scope, cb) {
-  var unWatch = $scope.$watch('state.contextVersion', function (n) {
-    if (n) {
-      unWatch();
-      cb();
-    }
-  });
 }

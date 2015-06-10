@@ -18,7 +18,6 @@ function fileEditor(
   keypather,
   modelist,
   promisify,
-  hasKeypaths,
   loadingPromises,
   validateDockerfile
 ) {
@@ -27,7 +26,6 @@ function fileEditor(
     templateUrl: 'viewFileEditor',
     scope: {
       file: '=',
-      state: '=?',
       useAutoUpdate: '=',
       loadingPromisesTarget: '@?'
     },
@@ -117,16 +115,8 @@ function fileEditor(
                       };
                     });
                     session.setAnnotations(annotations);
-                    if ($scope.state) {
-                      $scope.state.invalidDockerfile = validation.errors.some(hasKeypaths({
-                        priority: 0
-                      }));
-                    }
                   } else {
                     $scope.file.validation = {};
-                    if ($scope.state) {
-                      $scope.state.invalidDockerfile = false;
-                    }
                   }
                 }
                 keypather.set($scope.file, 'state.isDirty', true);
