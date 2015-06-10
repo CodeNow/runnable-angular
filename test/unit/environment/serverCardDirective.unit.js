@@ -1,10 +1,9 @@
 'use strict';
-describe.only('serverCardDirective'.bold.underline.blue, function () {
+describe('serverCardDirective'.bold.underline.blue, function () {
   var ctx;
   var $timeout;
   var $scope;
   var $compile;
-  var $q;
   var $elScope;
   var $rootScope;
   var keypather;
@@ -44,8 +43,6 @@ describe.only('serverCardDirective'.bold.underline.blue, function () {
     Object.keys(scope).forEach(function (key) {
       $scope[key] = scope[key];
     });
-
-    keypather.set($scope, 'data.instances', []);
 
     ctx.template = directiveTemplate.attribute('server-card', {
       'data': 'data',
@@ -258,6 +255,136 @@ describe.only('serverCardDirective'.bold.underline.blue, function () {
       expect($elScope.server.ports, 'ports').to.not.be.ok;
       expect($elScope.server.startCommand, 'startCommand').to.not.be.ok;
       expect($elScope.showSpinner(), 'showSpinner').to.not.be.ok;
+    });
+  });
+
+  describe('help cards', function () {
+    describe('Non repo instance', function () {
+      it('should find a help card a missing dependency to a non repo container', function () {
+        var instance = runnable.newInstance(
+          apiMocks.instances.running,
+          {noStore: true}
+        );
+
+        instance.attrs.env = ['hello=asdfasd', 'aasdasd=asdasd'];
+
+        instance.fetchDependencies = sinon.spy(function (cb) {
+          $timeout(cb);
+          return [];
+        });
+
+        var scope = {
+          data: {
+            stacks: apiMocks.stackInfo,
+            instances: [
+              instance,
+              {
+                fetchDependencies: sinon.spy(function (cb) {
+                  $timeout(cb);
+                  return [];
+                })
+              }
+            ]
+          },
+          actions: {
+            iunno: angular.noop
+          },
+          instance: instance
+        };
+
+        instance.build = runnable.newBuild(
+          apiMocks.builds.built,
+          {noStore: true}
+        );
+        instance.contextVersion = {
+          attrs: {
+            advanced: false,
+            infraCodeVersion: 'asdasd'
+          },
+          appCodeVersions: {
+            models: []
+          }
+        };
+        setup(scope);
+        parseDockMock.triggerPromise(null);
+        $scope.$digest();
+        $timeout.flush();
+
+        sinon.assert.calledOnce(ctx.helpCards.triggerCard);
+        sinon.assert.calledWith(ctx.helpCards.triggerCard, 'missingMapping', {
+          mapping: instance.attrs.name
+        });
+      });
+      it('should not trigger if there is a dependency that matches', function () {
+        var instance = runnable.newInstance(
+          apiMocks.instances.running,
+          {noStore: true}
+        );
+
+        instance.attrs.env = ['hello=asdfasd', 'aasdasd=asdasd'];
+
+        instance.fetchDependencies = sinon.spy(function (cb) {
+          $timeout(cb);
+          return [];
+        });
+
+        var dependencies = {
+          models: [
+            {
+              attrs: {
+                name: instance.attrs.name
+              }
+            }
+          ]
+        };
+
+        dependencies.filter = function (fn) {
+          return dependencies.models.filter(fn);
+        };
+        dependencies.map = function (fn) {
+          return dependencies.models.map(fn);
+        };
+        dependencies.find = function (fn) {
+          return dependencies.models.find(fn);
+        };
+
+
+        var scope = {
+          data: {
+            stacks: apiMocks.stackInfo,
+            instances: [
+              instance,
+              {
+                dependencies: dependencies
+              }
+            ]
+          },
+          actions: {
+            iunno: angular.noop
+          },
+          instance: instance
+        };
+
+        instance.build = runnable.newBuild(
+          apiMocks.builds.built,
+          {noStore: true}
+        );
+        instance.contextVersion = {
+          attrs: {
+            advanced: false,
+            infraCodeVersion: 'asdasd'
+          },
+          appCodeVersions: {
+            models: []
+          }
+        };
+        setup(scope);
+        parseDockMock.triggerPromise(null);
+        $scope.$digest();
+        $timeout.flush();
+
+        sinon.assert.notCalled(ctx.helpCards.triggerCard);
+      });
     });
   });
 });

@@ -157,22 +157,18 @@ require('app')
                     .catch(errs.handler);
                 } else {
                   var calculateHelpCards = function () {
-                    console.log(1);
                     var instancePromises = $scope.data.instances
                       .filter(function (instance) {
-                        console.log(2);
                         return instance !== $scope.server.instance;
                       })
                       .map(function (instance) {
-                        console.log(3);
-                        if (instance.dependencies.models.length) {
+                        if (keypather.get(instance, 'dependencies.models.length')) {
                           return $q.when(instance.dependencies);
                         }
                         return promisify(instance, 'fetchDependencies')();
                       });
                     $q.all(instancePromises)
                       .then(function (dependencyList) {
-                        console.log(4);
                         return dependencyList.find(function (depList) {
                           return depList.find(function (dep) {
                             return dep.attrs.name === $scope.server.instance.attrs.name;
@@ -180,15 +176,11 @@ require('app')
                         });
                       })
                       .then(function (foundMatch) {
-                        console.log(6);
                         if (!foundMatch) {
-
-                          console.log(7);
                           helpCards.triggerCard('missingMapping', {
                             mapping: $scope.server.instance.attrs.name
                           })
                             .then(function (helpCard) {
-                              console.log(8);
                               if (!helpCard) { return; }
                               listeners.push({
                                 obj: helpCard,
