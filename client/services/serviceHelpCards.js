@@ -40,7 +40,7 @@ function helpCardsFactory(
           'environmentVariables',
           'findAndReplace'
         ],
-        'helpTop': 'Configure your external service by using an <b>Environment Variable</b>',// or the <b>Find and Replace</b> tool.',
+        'helpTop': 'Configure your external service by using an <b>Environment Variable</b> or the <b>Find and Replace</b> tool.',
         'helpPopover': {
           'environmentVariables': 'Reference your external service here by adding or modifying an <b>environment variable</b>.',
           'findAndReplace': 'Reference your external service here by creating a <b>new rule</b>.'
@@ -64,7 +64,7 @@ function helpCardsFactory(
           'environmentVariables',
           'findAndReplace'
         ],
-        'helpTop': 'Update your OAuth credentials using the <b>Environment Variables</b>', //or <b>Find and Replace</b> tool.',
+        'helpTop': 'Update your OAuth credentials using the <b>Environment Variables</b> or <b>Find and Replace</b> tool.',
         'helpPopover': {
           'environmentVariables': 'Update the environment variables that you use to specify OAuth credentials.',
           'findAndReplace': 'Add a rule to update your OAuth credentials in your code.'
@@ -87,8 +87,7 @@ function helpCardsFactory(
           'environmentVariables',
           'findAndReplace'
         ],
-        'helpTop': 'Update <b>{{instance.getDisplayName()}}\'s</b> code by using <b>Environment Variables</b> to update the hostname for <b>{{association}}</b>.',
-        'helpTopFR': 'Update <b>{{instance.getDisplayName()}}\'s</b> code by using *<b>Find and Replace</b>*/ or <b>Environment Variables</b> to update the hostname for <b>{{association}}</b>.',
+        'helpTop': 'Update <b>{{instance.getDisplayName()}}\'s</b> code by using *<b>Find and Replace</b>*/ or <b>Environment Variables</b> to update the hostname for <b>{{association}}</b>.',
         'helpPopover': {
           'environmentVariables': 'Add/update the correct environment variable with <b>{{association}}\'s</b> elastic hostname.',
           'findAndReplace': 'Add a string rule to modify your code to connect with <b>{{association}}\'s</b> elastic hostname.'
