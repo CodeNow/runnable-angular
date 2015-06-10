@@ -6,7 +6,8 @@ require('app')
     deleteTransformRule,
     errs,
     keypather,
-    moveTransformRules
+    moveTransformRules,
+    loadingPromises
   ) {
     return {
       restrict: 'A',
@@ -21,7 +22,10 @@ require('app')
         };
 
         $scope.moveRule = function () {
-          moveTransformRules($scope.list, $scope.properties.action);
+          return loadingPromises.add('editServerModal', moveTransformRules(
+            $scope.list,
+            $scope.properties.action
+          ));
         };
         $scope.popoverData = {
           active: false,
@@ -44,20 +48,20 @@ require('app')
             },
             deleteRule: function (rule) {
               $scope.popoverData.active = false;
-              return deleteTransformRule(
+              return loadingPromises.add('editServerModal', deleteTransformRule(
                 keypather.get($scope.state, 'contextVersion.getMainAppCodeVersion()'),
                 rule
-              )
+              ))
                 .then($scope.actions.recalculateRules)
                 .catch(errs.handler);
             },
             createRule: function (rule) {
               $scope.popoverData.active = false;
               $scope.tableProcessing = true;
-              return createTransformRule(
+              return loadingPromises.add('editServerModal', createTransformRule(
                 keypather.get($scope.state, 'contextVersion.getMainAppCodeVersion()'),
                 rule
-              )
+              ))
                 .then($scope.actions.recalculateRules)
                 .catch(errs.handler)
                 .finally(function () {

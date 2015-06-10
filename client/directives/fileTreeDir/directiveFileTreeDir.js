@@ -13,7 +13,7 @@ function fileTreeDir(
   errs,
   $q,
   promisify,
-  helperCreateFS,
+  helperCreateFSpromise,
   configAPIHost,
   fetchCommitData,
   cardInfoTypes,
@@ -159,15 +159,18 @@ function fileTreeDir(
         var newModel = $scope.fileModel['new' + modelType](modelId, { warn: false });
         var fromDir = findDir($scope.fileModel.rootDir, oldPath);
 
-        promisify(newModel, 'moveToDir')(toDir).then(function () {
-          var fetches = [
-            promisify(toDir.contents, 'fetch')()
-          ];
-          if (fromDir) {
-            fetches.push(promisify(fromDir.contents, 'fetch')());
-          }
-          return $q.all(fetches);
-        });
+        loadingPromises.add($scope.loadingPromisesTarget, promisify(newModel, 'moveToDir')(toDir))
+          .then(function () {
+            var toDirFetch = loadingPromises.add(
+              $scope.loadingPromisesTarget, promisify(toDir.contents, 'fetch')());
+            var fetches = [ toDirFetch ];
+            if (fromDir) {
+              var fromDirFetch = loadingPromises.add(
+                $scope.loadingPromisesTarget, promisify(fromDir.contents, 'fetch')());
+              fetches.push(fromDirFetch);
+            }
+            return $q.all(fetches);
+          });
       };
 
       actions.closeOpenModals = function () {
@@ -198,15 +201,17 @@ function fileTreeDir(
         },
         actions: {
           createFile: function () {
-            helperCreateFS($scope.dir, {
+            loadingPromises.add($scope.loadingPromisesTarget, helperCreateFSpromise($scope.dir, {
               isDir: false
-            }, errs.handler);
+            }))
+              .catch(errs.handler);
             $scope.$broadcast('close-popovers');
           },
           createFolder: function () {
-            helperCreateFS($scope.dir, {
+            loadingPromises.add($scope.loadingPromisesTarget, helperCreateFSpromise($scope.dir, {
               isDir: true
-            }, errs.handler);
+            }))
+              .catch(errs.handler);
             $scope.$broadcast('close-popovers');
           },
           renameFolder: function () {
@@ -216,7 +221,8 @@ function fileTreeDir(
             $scope.$broadcast('close-popovers');
           },
           deleteFolder: function () {
-            $scope.dir.destroy(errs.handler);
+            loadingPromises.add($scope.loadingPromisesTarget, promisify($scope.dir, 'destroy')())
+              .catch(errs.handler);
             $scope.$broadcast('close-popovers');
           },
           uploadFiles: function (files) {
@@ -227,7 +233,8 @@ function fileTreeDir(
               var fileUploadPromises = files.map(function (file) {
                 var myFile = {
                   attrs: {
-                    name: file.name
+                    name: file.name,
+                    isDir: false
                   },
                   state: {
                     uploading: true,
@@ -295,9 +302,10 @@ function fileTreeDir(
       };
 
       $scope.isEditingRepo = function () {
-        return $scope.fileModel.appCodeVersions.models.find(function (acv) {
-          return acv.editing;
-        });
+        return $scope.fileModel.appCodeVersions &&
+          $scope.fileModel.appCodeVersions.models.find(function (acv) {
+            return acv.editing;
+          });
       };
 
       $scope.popoverFileExplorerRepository = {
@@ -316,7 +324,7 @@ function fileTreeDir(
             acv.editing = true;
           },
           deleteRepo: function (acv) {
-            promisify(acv, 'destroy')()
+            loadingPromises.add($scope.loadingPromisesTarget, promisify(acv, 'destroy')())
               .catch(errs.handler)
               .finally(function () {
                 $scope.$broadcast('close-popovers');
@@ -344,17 +352,15 @@ function fileTreeDir(
               branch: repo.branch.attrs.name,
               commit: repo.commit.attrs.sha,
               additionalRepo: true
-            })
-              .catch(errs.handler)
-            );
+            }))
+              .catch(errs.handler);
           },
           remove: function(repo){
             var acv = $scope.fileModel.appCodeVersions.models.find(function (acv) {
               return acv.attrs.repo.split('/')[1] === repo.repo.attrs.name;
             });
-            loadingPromises.add($scope.loadingPromisesTarget, promisify(acv, 'destroy')()
-              .catch(errs.handler)
-            );
+            loadingPromises.add($scope.loadingPromisesTarget, promisify(acv, 'destroy')())
+              .catch(errs.handler);
           },
           update: function(repo){
             var acv = $scope.fileModel.appCodeVersions.models.find(function (acv) {
@@ -362,11 +368,10 @@ function fileTreeDir(
             });
 
             loadingPromises.add($scope.loadingPromisesTarget, promisify(acv, 'update')({
-                branch: repo.branch.attrs.name,
-                commit: repo.commit.attrs.sha
-              })
-                .catch(errs.handler)
-            );
+              branch: repo.branch.attrs.name,
+              commit: repo.commit.attrs.sha
+            }))
+              .catch(errs.handler);
           }
         }
       };

@@ -115,10 +115,12 @@ function EnvironmentController(
       $rootScope.$broadcast('close-modal');
 
       eventTracking.triggeredBuild(false);
+      // Save this in case it changes
+      var cachedActiveAccount = $rootScope.dataApp.data.activeAccount;
       var instance = user.newInstance({
         name: name,
         owner: {
-          username: $rootScope.dataApp.data.activeAccount.oauthName()
+          username: cachedActiveAccount.oauthName()
         }
       }, { warn: false });
       $rootScope.dataApp.creatingInstance = !keypather.get($scope, 'data.instances.models.length');
@@ -140,7 +142,7 @@ function EnvironmentController(
       createPromise
         .then(function (newServerModel) {
           return createNewInstance(
-            $rootScope.dataApp.data.activeAccount,
+            cachedActiveAccount,
             newServerModel.build,
             newServerModel.opts,
             instance

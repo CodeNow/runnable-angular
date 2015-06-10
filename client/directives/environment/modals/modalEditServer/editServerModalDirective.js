@@ -39,7 +39,6 @@ function editServerModal(
       selectedTab: '= stateModel'
     },
     link: function ($scope, elem, attrs) {
-      loadingPromises.clear('editServerModal');
       $scope.isLoading = $rootScope.isLoading;
       if (helpCards.cardIsActiveOnThisContainer($scope.server.instance)) {
         $scope.helpCards = helpCards;
@@ -110,9 +109,8 @@ function editServerModal(
               return acv.attrs.repo.split('/')[1] === repo.repo.attrs.name;
             });
 
-            loadingPromises.add('editServerModal', promisify(acv, 'destroy')()
-              .catch(errs.handler)
-            );
+            loadingPromises.add('editServerModal', promisify(acv, 'destroy')())
+              .catch(errs.handler);
           },
           create: function (repo) {
             $scope.state.containerFiles.push(repo);
@@ -121,12 +119,11 @@ function editServerModal(
               branch: repo.branch.attrs.name,
               commit: repo.commit.attrs.sha,
               additionalRepo: true
-            })
+            }))
               .then(function (acv) {
                 repo.acv = acv;
               })
-              .catch(errs.handler)
-            );
+              .catch(errs.handler);
           },
           update: function (repo) {
             var myRepo = $scope.state.containerFiles.find(function (containerFile) {
@@ -243,6 +240,8 @@ function editServerModal(
       $scope.build = $scope.server.build;
 
       function resetState(server) {
+        loadingPromises.clear('editServerModal');
+        loading.reset('editServerModal');
         loading('editServerModal', true);
         $scope.state = {
           advanced: server.advanced || false,
@@ -271,7 +270,7 @@ function editServerModal(
             }));
           });
 
-        return promisify(server.contextVersion, 'deepCopy')()
+        return loadingPromises.add('editServerModal', promisify(server.contextVersion, 'deepCopy')())
           .then(function (contextVersion) {
             $scope.state.contextVersion = contextVersion;
             return promisify(contextVersion, 'fetch')();
@@ -280,9 +279,8 @@ function editServerModal(
             if (contextVersion.attrs.advanced) {
               openDockerfile();
             }
-            if (contextVersion.getMainAppCodeVersion()) {
-              $scope.state.acv = contextVersion.getMainAppCodeVersion();
-            }
+            $scope.state.acv = contextVersion.getMainAppCodeVersion();
+            loading('editServerModal', false);
             return fetchUser();
           })
           .then(function (user) {
@@ -295,7 +293,6 @@ function editServerModal(
           })
           .then(function (build) {
             $scope.state.build = build;
-            loading('editServerModal', false);
           })
           .catch(function (err) {
             errs.handler(err);
@@ -335,20 +332,27 @@ function editServerModal(
       $scope.getUpdatePromise = function () {
         $rootScope.$broadcast('close-popovers');
         $scope.building = true;
+        var toRebuild = false;
         $scope.state.ports = convertTagToPortList();
         return loadingPromises.finished('editServerModal')
+          .then(function (promiseArrayLength) {
+            toRebuild = promiseArrayLength > 0;
+          })
           .then(watchOncePromise($scope, 'state.contextVersion', true))
           .then(function () {
             var state = $scope.state;
-            if (state.advanced) {
-              return watchOncePromise($scope, 'openItems.isClean()', true)
-                .then(function () {
-                  return buildBuild(state);
-                });
-            } else if (state.server.startCommand !== state.startCommand ||
+            if (!state.advanced &&
+                (state.server.startCommand !== state.startCommand ||
                 state.server.ports !== state.ports ||
-                !angular.equals(state.server.selectedStack, state.selectedStack)) {
+                !angular.equals(state.server.selectedStack, state.selectedStack))) {
+              toRebuild = true;
               return updateDockerfile(state);
+            }
+            return state;
+          })
+          .then(function (state) {
+            if (toRebuild) {
+              return buildBuild(state);
             }
             return state;
           })
@@ -406,7 +410,7 @@ function editServerModal(
             );
           })
           .then(function () {
-            return buildBuild($scope.state);
+            return state;
           });
       }
 

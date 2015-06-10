@@ -104,6 +104,20 @@ function helpCardsFactory(
         'helpPopover': {
           'newContainer': 'Click <b>Non-repository</b> to add a <b>{{dependency}}</b> container.'
         }
+      },
+      {
+        id: 'missingMapping',
+        label: 'Some of your repository containers may need to be updated with a mapping to <b>{{mapping}}\'s</b> elastic hostname.',
+        targets: [
+          'environmentVariables',
+          'findAndReplace'
+        ],
+        helpTop: 'Connect one of more of your repository containers to <b>{{mapping}}\'s</b> elastic hostname by using <b>Environment Variables</b>.',
+        helpPopover: {
+          environmentVariables: 'Add/update the correct environment variable with <b>{{mapping}}\'s</b> elastic hostname.',
+          findAndReplace: 'Add a string rule to modify your code to connect with <b>{{mapping}}\'s</b> elastic hostname.'
+        },
+        highlightRepoContainers: true
       }
     ]
   };
@@ -118,7 +132,8 @@ function helpCardsFactory(
 
     var cardClone = {
       id: this.id,
-      type: this.type
+      type: this.type,
+      data: {}
     };
     if (this.data && this.data.instance && this.data.instance.attrs) {
       cardClone.data = { instance: this.data.instance.attrs.shortHash };
@@ -220,7 +235,13 @@ function helpCardsFactory(
     },
     cardIsActiveOnThisContainer: function (container) {
       activeCard = this.getActiveCard();
-      return activeCard && (activeCard.type === 'general' || angular.equals(container, keypather.get(activeCard, 'data.instance')));
+
+      return activeCard &&
+        (
+          activeCard.type === 'general' ||
+          angular.equals(container, keypather.get(activeCard, 'data.instance')) ||
+          ( activeCard.highlightRepoContainers && container.contextVersion.getMainAppCodeVersion() )
+        );
     },
     removeByInstance: function (instance) {
       this.cards.triggered
