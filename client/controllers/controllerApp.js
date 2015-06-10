@@ -47,7 +47,7 @@ function ControllerApp(
   $rootScope.featureFlags = {
     advancedRepositories: true,
     cardStatus: configEnvironment === 'development',
-    findAndReplace: configEnvironment === 'development',
+    findAndReplace: true,
     hostnameTool: configEnvironment === 'development',
     navListFilter: configEnvironment === 'development',
     saveToolbar: configEnvironment === 'development'
