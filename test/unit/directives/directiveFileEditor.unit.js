@@ -1,6 +1,6 @@
 'use strict';
 
-describe.only('directiveFileEditor'.bold.underline.blue, function () {
+describe('directiveFileEditor'.bold.underline.blue, function () {
   var element;
   var $scope;
   var $elScope;
