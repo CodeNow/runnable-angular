@@ -125,13 +125,6 @@ function EnvironmentController(
       }, { warn: false });
       $rootScope.dataApp.creatingInstance = !keypather.get($scope, 'data.instances.models.length');
       $scope.data.instances.add(instance);
-      var unwatch = $scope.$on('$destroy', function cleanUp() {
-        $rootScope.dataApp.creatingInstance = false;
-        if (!instance.destroyed) {
-          unwatch();
-          instance.dealloc();
-        }
-      });
       helpCards.hideActiveCard();
 
       $rootScope.$broadcast('alert', {
@@ -158,7 +151,6 @@ function EnvironmentController(
         })
         .finally(function () {
           $rootScope.dataApp.creatingInstance = false;
-          unwatch();
         });
     }
   };
