@@ -20,13 +20,13 @@ ul.card-body.card-loading(
 ul.card-body.load(
   ng-if = "!showSpinner()"
 )
-  li.btn.gray
-    //- p.p Edit Dockerfile
-    label.toggle-wrapper
+  li.gray
+    strong.small.strong Dockerfile Editing
+    label.toggle-wrapper.float-right
       input.toggle-input(
         type = "checkbox"
       )
-      .toggle-group
+      .toggle-group.toggle-sm
   //- dockerfile
   li.btn.white(
     modal
