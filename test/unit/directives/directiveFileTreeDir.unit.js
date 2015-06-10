@@ -155,6 +155,35 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
     });
   });
 
+  describe('drop', function () {
+    it('should not work if path is the same', function () {
+      var dataTransfer = {
+        getData: function (prop) {
+          if (prop === 'modelType') {
+            return 'Dir';
+          }
+          if (prop === 'modelId') {
+            return 'some-id';
+          }
+          if (prop === 'modelName') {
+            return 'some-name';
+          }
+          if (prop === 'oldPath') {
+            return '/some/dir';
+          }
+          return null;
+        }
+      };
+      var toDir = {
+        id: function () {
+          return '/some/dir/'
+        }
+      };
+      var result = $elScope.actions.drop(dataTransfer, toDir);
+      expect(result).to.equal(false);
+    });
+  });
+
   describe('file rename', function () {
     it('should work', function () {
       var file = {

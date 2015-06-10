@@ -151,8 +151,7 @@ function fileTreeDir(
           oldPath += '/';
         }
         var thisPath = toDir.id();
-        if (oldPath === thisPath || (modelType === 'Dir' &&
-            thisPath.indexOf(modelName + '/') >= 0)) {
+        if (oldPath === thisPath) {
           return false;
         }
 
