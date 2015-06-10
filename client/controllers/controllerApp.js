@@ -46,6 +46,7 @@ function ControllerApp(
   dataApp.data.configEnvironment = configEnvironment;
   $rootScope.featureFlags = {
     advancedRepositories: true,
+    cardStatus: configEnvironment === 'development',
     findAndReplace: configEnvironment === 'development',
     hostnameTool: configEnvironment === 'development',
     navListFilter: configEnvironment === 'development',

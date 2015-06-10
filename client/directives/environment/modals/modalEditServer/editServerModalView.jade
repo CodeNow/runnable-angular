@@ -7,6 +7,13 @@ form.modal-dialog.modal-edit(
       pop-over-options = "{\"right\":-7,\"top\":36}"
       pop-over-template = "serverOptionsModalPopover"
       ng-attr-no-touching = "{{ !state.repo }}"
+      ng-if = "!$root.featureFlags.cardStatus"
+    )
+    server-status-card-header(
+      pop-over-options = "{\"centered\":true,\"top\":36}"
+      pop-over-template = "serverOptionsModalPopover"
+      ng-attr-no-touching = "{{ !state.repo }}"
+      ng-if = "$root.featureFlags.cardStatus"
     )
     .row.modal-tabs.cearfix
       button.btn.btn-radio(

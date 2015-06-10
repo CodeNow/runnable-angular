@@ -83,6 +83,23 @@
   padding: 0 15px;
   text-align: center;
 
+  .container-title-wrapper {
+    color: $gray;
+    margin: 12px 0 6px;
+
+    .container-title {
+      font-size: 15px;
+      font-weight: 400;
+    }
+
+    .icons-warning,
+    .icons-arrow-down,
+    .spinner-wrapper {
+      flex: 0 0 18px;
+      height: 18px;
+    }
+  }
+
   .p {
     color: $gray-light;
     line-height: 36px;
