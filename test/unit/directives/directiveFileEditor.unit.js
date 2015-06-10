@@ -1,6 +1,6 @@
 'use strict';
 
-describe('directiveFileEditor'.bold.underline.blue, function () {
+describe.only('directiveFileEditor'.bold.underline.blue, function () {
   var element;
   var $scope;
   var $elScope;
@@ -247,7 +247,8 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
       fileMock.state.body = '';
       $scope.$apply();
 
-      expect($elScope.state).to.have.property('invalidDockerfile', true);
+      expect(fileMock.validation.criticals).to.have.property('length', 1);
+      expect(fileMock.validation.errors).to.have.property('length', 1);
     });
 
     it('should set invalidDockerfile to false with only p1 error', function () {
@@ -258,7 +259,8 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
       fileMock.state.body = 'FROM nodejs\nADD asdffdsa';
       $scope.$apply();
 
-      expect($elScope.state).to.have.property('invalidDockerfile', false);
+      expect(fileMock.validation.errors).to.have.property('length', 1);
+      expect(fileMock.validation.criticals).to.have.property('length', 0);
     });
 
     it('should set invalidDockerfile to false with no err', function () {
@@ -269,7 +271,8 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
       fileMock.state.body = 'FROM nodejs\nCMD npm start';
       $scope.$apply();
 
-      expect($elScope.state).to.have.property('invalidDockerfile', false);
+      expect(fileMock.validation.errors).to.not.be.ok;
+      expect(fileMock.validation.criticals).to.not.be.ok;
     });
   });
 });

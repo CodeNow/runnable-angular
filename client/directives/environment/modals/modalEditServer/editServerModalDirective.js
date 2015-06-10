@@ -453,10 +453,10 @@ function editServerModal(
         }
       });
       $scope.isDockerfileValid = function () {
-        if (!$scope.state.advanced || !keypather.get($scope, 'state.dockerfile.validation.errors.length')) {
+        if (!$scope.state.advanced || !keypather.get($scope, 'state.dockerfile.validation.criticals.length')) {
           return true;
         }
-        return !$scope.state.dockerfile.validation.errors.find(hasKeypaths({
+        return !$scope.state.dockerfile.validation.criticals.find(hasKeypaths({
           message: 'Missing or misplaced FROM'
         }));
       };

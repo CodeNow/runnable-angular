@@ -106,6 +106,9 @@ function fileEditor(
                     validation.errors = validation.errors.filter(function (error) {
                       return error.line;
                     });
+                    validation.criticals = validation.errors.filter(function (error) {
+                      return error.priority === 0;
+                    });
                     $scope.file.validation = validation;
                     var annotations = validation.errors.map(function (error) {
                       return {
