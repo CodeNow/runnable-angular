@@ -6,18 +6,52 @@ div(
   pop-over-actions = "actions"
   pop-over-data = "popOverServerData"
 )
+
+  //- ************
+  //- deprecated content, remove with $root.featureFlags.cardStatus
   status-icon(
     instance = "server.instance"
+    ng-if = "!$root.featureFlags.cardStatus"
   )
   span.btn-text.text-overflow(
     ng-attr-title = "{{ server.opts.name || server.instance.getDisplayName() }}"
+    ng-if = "!$root.featureFlags.cardStatus"
   ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
   span.btn-text(
     ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
+    ng-if = "!$root.featureFlags.cardStatus"
   ) {{ server.instance | cardBuildStatusText:true}}
   svg.iconnables.icons-arrow-down(
-    ng-if = "!noTouching"
+    ng-if = "!$root.featureFlags.cardStatus && !noTouching"
   )
     use(
       xlink:href = "#icons-arrow-down"
     )
+  //- end deprecated content
+  //- ************
+
+  .container-title-wrapper(
+    ng-if = "$root.featureFlags.cardStatus"
+  )
+    //- This element should display while the container is building, but not while the card is loading.
+    //- i.e. if the card has a spinner in the middle instead of buttons, this spinner should not show.
+    //- .spinner-wrapper.spinner-sm.spinner-gray.in(
+    //-   ng-include = "'spinner'"
+    //-   ng-if = "$root.featureFlags.cardStatus"
+    //- )
+    //- This element should replace the spinner if the container has failed to build or run or 5 seconds
+    svg.iconnables.icons-warning(
+      ng-if = "!noTouching"
+    )
+      use(
+        xlink:href = "#icons-warning"
+      )
+    span.container-title.text-overflow(
+      ng-if = "$root.featureFlags.cardStatus"
+    ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
+    svg.iconnables.icons-arrow-down(
+        ng-if = "!noTouching"
+      )
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
