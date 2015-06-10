@@ -90,7 +90,6 @@ require('app')
                 $scope.server.building = false;
 
                 var fullRepoName = keypather.get($scope.server.instance, 'contextVersion.getMainAppCodeVersion().attrs.repo');
-
                 if (fullRepoName) {
                   fetchStackAnalysis(fullRepoName).then(function (stackAnalysis) {
                     if (!stackAnalysis.serviceDependencies) { return; }

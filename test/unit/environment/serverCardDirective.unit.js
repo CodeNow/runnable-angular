@@ -8,9 +8,14 @@ describe('serverCardDirective'.bold.underline.blue, function () {
   var $rootScope;
   var keypather;
   var parseDockMock = new (require('../fixtures/mockFetch'))();
+  var fetchStackAnalysisMock;
+  var $q;
 
   var apiMocks = require('../apiMocks/index');
-  function setup(scope) {
+  function setup(scope, stackAnalysisData) {
+    stackAnalysisData = stackAnalysisData || {};
+
+    fetchStackAnalysisMock = sinon.stub();
 
     ctx = {};
     ctx.fakeOrg1 = {
@@ -24,18 +29,23 @@ describe('serverCardDirective'.bold.underline.blue, function () {
     angular.mock.module('app', function ($provide) {
       $provide.factory('parseDockerfileForCardInfoFromInstance', parseDockMock.fetch());
       $provide.factory('helpCards', helpCardsMock.create(ctx));
+      $provide.factory('fetchStackAnalysis', function ($q) {
+        return fetchStackAnalysisMock.returns($q.when(stackAnalysisData));
+      });
     });
     angular.mock.inject(function (
       _$compile_,
       _$timeout_,
       _$rootScope_,
-      _keypather_
+      _keypather_,
+      _$q_
     ) {
       $timeout = _$timeout_;
       $compile = _$compile_;
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
       keypather = _keypather_;
+      $q = _$q_;
     });
 
 
@@ -63,7 +73,8 @@ describe('serverCardDirective'.bold.underline.blue, function () {
       );
       var scope = {
         data: {
-          stacks: apiMocks.stackInfo
+          stacks: apiMocks.stackInfo,
+          instances: []
         },
         actions: {
           iunno: angular.noop
@@ -90,7 +101,8 @@ describe('serverCardDirective'.bold.underline.blue, function () {
       );
       var scope = {
         data: {
-          stacks: apiMocks.stackInfo
+          stacks: apiMocks.stackInfo,
+          instances: []
         },
         actions: {
           iunno: angular.noop
@@ -118,7 +130,8 @@ describe('serverCardDirective'.bold.underline.blue, function () {
       instance.attrs.env = ['hello=asdfasd', 'aasdasd=asdasd'];
       var scope = {
         data: {
-          stacks: apiMocks.stackInfo
+          stacks: apiMocks.stackInfo,
+          instances: []
         },
         actions: {
           iunno: angular.noop
@@ -204,7 +217,8 @@ describe('serverCardDirective'.bold.underline.blue, function () {
       instance.attrs.env = ['hello=asdfasd', 'aasdasd=asdasd'];
       var scope = {
         data: {
-          stacks: apiMocks.stackInfo
+          stacks: apiMocks.stackInfo,
+          instances: []
         },
         actions: {
           iunno: angular.noop
@@ -384,6 +398,172 @@ describe('serverCardDirective'.bold.underline.blue, function () {
         $timeout.flush();
 
         sinon.assert.notCalled(ctx.helpCards.triggerCard);
+      });
+    });
+
+    describe('repo backed instance', function () {
+      it('should not find any help cards if there are no service dependencies in the stackAnalysis', function () {
+        var instance = runnable.newInstance(
+          apiMocks.instances.running,
+          {noStore: true}
+        );
+
+        instance.attrs.env = ['hello=asdfasd', 'aasdasd=asdasd'];
+
+        instance.fetchDependencies = sinon.spy(function (cb) {
+          $timeout(cb);
+          return [];
+        });
+
+        var scope = {
+          data: {
+            stacks: apiMocks.stackInfo,
+            instances: [
+              instance,
+              {
+                fetchDependencies: sinon.spy(function (cb) {
+                  $timeout(cb);
+                  return [];
+                })
+              }
+            ]
+          },
+          actions: {
+            iunno: angular.noop
+          },
+          instance: instance
+        };
+
+        instance.build = runnable.newBuild(
+          apiMocks.builds.built,
+          {noStore: true}
+        );
+        instance.contextVersion = {
+          attrs: {
+            advanced: false,
+            infraCodeVersion: 'asdasd'
+          },
+          appCodeVersions: {
+            models: []
+          },
+          getMainAppCodeVersion: function () {
+            return {
+              attrs: {
+                repo: 'fullRepoName'
+              }
+            };
+          }
+        };
+
+        var analysisMockData = {
+          languageFramework: 'ruby_ror',
+          version: {
+            rails: '4.1.8',
+            ruby: '0.8'
+          }
+        };
+        setup(scope, analysisMockData);
+        parseDockMock.triggerPromise(null);
+
+        $scope.$digest();
+        $timeout.flush();
+
+        sinon.assert.notCalled(ctx.helpCards.triggerCard);
+      });
+
+      it('should not find a missingAssociation and a missingDependency', function () {
+        var instance = runnable.newInstance(
+          apiMocks.instances.running,
+          {noStore: true}
+        );
+
+        instance.attrs.env = ['hello=asdfasd', 'aasdasd=asdasd'];
+
+
+        instance.fetchDependencies = sinon.spy(function (cb) {
+          $timeout(cb);
+          return [{
+            attrs: {
+              shortHash: 'shortHash1'
+            }
+          }];
+        });
+        var scope = {
+          data: {
+            stacks: apiMocks.stackInfo,
+            instances: [
+              instance,
+              {
+                attrs: {
+                  lowerName: 'mongo',
+                  name: 'Mongo'
+                }
+              },
+              {
+                attrs: {
+                  shortHash: 'shortHash1',
+                  lowerName: 'foo'
+                }
+              }
+            ]
+          },
+          actions: {
+            iunno: angular.noop
+          },
+          instance: instance
+        };
+
+        instance.build = runnable.newBuild(
+          apiMocks.builds.built,
+          {noStore: true}
+        );
+        instance.contextVersion = {
+          attrs: {
+            advanced: false,
+            infraCodeVersion: 'asdasd'
+          },
+          appCodeVersions: {
+            models: []
+          },
+          getMainAppCodeVersion: function () {
+            return {
+              attrs: {
+                repo: 'fullRepoName'
+              }
+            };
+          }
+        };
+
+        var analysisMockData = {
+          languageFramework: 'ruby_ror',
+          version: {
+            rails: '4.1.8',
+            ruby: '0.8'
+          },
+          serviceDependencies: [
+            'mongo',
+            'mysql',
+            'foo'
+          ]
+        };
+
+        setup(scope, analysisMockData);
+        parseDockMock.triggerPromise(null);
+
+        $scope.$digest();
+        $timeout.flush();
+
+        sinon.assert.called(ctx.helpCards.triggerCard);
+
+        sinon.assert.calledWith(ctx.helpCards.triggerCard, 'missingAssociation', {
+          association: 'Mongo',
+          instance: instance
+        });
+
+        sinon.assert.calledWith(ctx.helpCards.triggerCard, 'missingDependency', {
+          dependency: 'mysql',
+          instance: instance
+        });
       });
     });
   });
