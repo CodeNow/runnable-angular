@@ -1,4 +1,4 @@
-.div(
+div(
   ng-class = "{\
     'no-touching': noTouching\
   }"
@@ -6,6 +6,7 @@
   pop-over-actions = "actions"
   pop-over-data = "popOverServerData"
 )
+
   //- ************
   //- deprecated content, remove with $root.featureFlags.cardStatus
   status-icon(
@@ -29,6 +30,7 @@
     )
   //- end deprecated content
   //- ************
+
   .container-title-wrapper(
     ng-if = "$root.featureFlags.cardStatus"
   )
