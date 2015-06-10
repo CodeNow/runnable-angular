@@ -87,7 +87,7 @@ function helpCardsFactory(
           'environmentVariables',
           'findAndReplace'
         ],
-        'helpTop': 'Update <b>{{instance.getDisplayName()}}\'s</b> code by using *<b>Find and Replace</b>*/ or <b>Environment Variables</b> to update the hostname for <b>{{association}}</b>.',
+        'helpTop': 'Update <b>{{instance.getDisplayName()}}\'s</b> code by using <b>Find and Replace</b> or <b>Environment Variables</b> to update the hostname for <b>{{association}}</b>.',
         'helpPopover': {
           'environmentVariables': 'Add/update the correct environment variable with <b>{{association}}\'s</b> elastic hostname.',
           'findAndReplace': 'Add a string rule to modify your code to connect with <b>{{association}}\'s</b> elastic hostname.'
