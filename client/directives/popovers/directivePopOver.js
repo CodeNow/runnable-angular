@@ -114,8 +114,6 @@ function popOver(
               right: width - offset.right
             };
 
-            console.log(offset.bottom, element);
-
             if ($scope.popoverElement[0].offsetHeight + newOffset.top > $document.find('body')[0].offsetHeight) {
               newOffset.top =  $document.find('body')[0].offsetHeight - $scope.popoverElement[0].offsetHeight;
             }
