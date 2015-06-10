@@ -3,9 +3,22 @@
   ng-style = "popoverStyle.getStyle()"
 )
   .arrow.white(
+    ng-if = "!$root.featureFlags.cardStatus"
     style = "left: auto; right: 4px;"
   )
+  .arrow.white(
+    ng-if = "$root.featureFlags.cardStatus"
+    style = "left: 50%;"
+  )
   .popover-content
+    //- This element should display when the container has failed to build or run for 5 seconds.
+    .well.well-popover(
+      ng-if = "$root.featureFlags.cardStatus"
+    )
+      | The
+      //- This should say "build" or "container CMD", depending on what failed.
+      strong.strong  container CMD
+      |  failed on the master container.
     ul.popover-list
       li.list-item.popover-list-item(
         modal
@@ -19,7 +32,7 @@
           use(
             xlink:href = "#icons-log"
           )
-        | {{ data.server.instance.containers.models[0].running() ? 'CMD' : 'Build'}} Logs
+        | View {{ data.server.instance.containers.models[0].running() ? 'CMD' : 'Build'}} Logs
       li.divider
       //- trigger delete confirm modal
       li.list-item.popover-list-item(

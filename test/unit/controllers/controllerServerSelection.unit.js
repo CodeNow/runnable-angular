@@ -52,8 +52,6 @@ describe('controllerServerSelection'.underline.bold.blue, function () {
       $scope = $rootScope.$new();
     });
 
-    $window.heap = null;
-
     ctx.controller = $controller('ControllerServerSelection', {
       '$scope': $scope
     });

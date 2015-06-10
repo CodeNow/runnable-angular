@@ -206,7 +206,8 @@ function fileTreeDir(
               var fileUploadPromises = files.map(function (file) {
                 var myFile = {
                   attrs: {
-                    name: file.name
+                    name: file.name,
+                    isDir: false
                   },
                   state: {
                     uploading: true,

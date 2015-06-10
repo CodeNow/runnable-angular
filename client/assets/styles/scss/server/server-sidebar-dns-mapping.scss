@@ -16,7 +16,6 @@
   .well {
     height: 33px;
     margin-bottom: 6px;
-    padding: 5px 0 0 24px;
     text-align: left;
     width: 100%;
 
@@ -28,7 +27,7 @@
     }
 
     .icons-status {
-      left: 9px;
+      margin: 9px 6px 0;
     }
   }
 
@@ -47,6 +46,5 @@
     border-width: 2px;
     font-weight: 400;
     line-height: 24px;
-    padding: 0 0 0 24px;
   }
 }

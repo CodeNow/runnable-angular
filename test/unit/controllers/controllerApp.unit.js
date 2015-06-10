@@ -14,7 +14,7 @@ var user = require('../apiMocks').user;
 
 describe('controllerApp'.bold.underline.blue, function () {
   var ctx = {};
-  function setup(stateParams, heap, intercom) {
+  function setup(stateParams, intercom) {
     angular.mock.module('app');
     ctx.fakeuser = new User(angular.copy(apiMocks.user));
     ctx.fakeOrg1 = {
@@ -56,11 +56,6 @@ describe('controllerApp'.bold.underline.blue, function () {
       keypather = _keypather_;
       $window = _$window_;
     });
-    if (heap) {
-      $window.heap = {
-        identify: sinon.spy()
-      };
-    }
     if ($window.Intercom) {
       sinon.stub($window, 'Intercom', noop);
     }
@@ -140,7 +135,7 @@ describe('controllerApp'.bold.underline.blue, function () {
         $rootScope.$digest();
       });
       it('should select org1, matching it from the stateParams', function (done) {
-        setup({}, false, false, true);
+        setup({}, false, true);
         var listFetchSpy = sinon.spy(function(event, name) {
           expect(name).to.equal(ctx.fakeOrg1.oauthName());
           expect($scope.dataApp.data.activeAccount).to.be.an.Object;
@@ -170,7 +165,7 @@ describe('controllerApp'.bold.underline.blue, function () {
       sinon.assert.notCalled(listFetchSpy);
     });
     it('should switch accounts if active account does not match url', function () {
-      setup({}, false, true);
+      setup({}, true);
       var listFetchSpy = sinon.spy(function(event, name) {
         expect(name).to.equal(ctx.fakeOrg2.oauthName());
         expect($scope.dataApp.data.activeAccount).to.be.an.Object;
