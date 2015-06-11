@@ -9,14 +9,16 @@
   ng-if = "helpCards.getActiveCard().helpPopover.containerFiles"
 )
 
-//- .clearfix
-//-   .label-col Container Files
-
 .table-actions.table-toggle
 
   small.small
     strong.strong Allow Dockerfile Editing
-    | Your configuration will be saved when you enable editing. If you choose to disable editing, we'll restore your saved configuration.
+    small.small.multi-line When enabled, #{''}
+      em.underline(
+        tooltip = "Modified Dockerfiles do not have Container CMD, Main Repository, Exposed Ports, and Container Files tools."
+        tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-3,\"top\":15}"
+      ) some tools
+      | #{''} will be unavailable.
 
   label.toggle-wrapper
     input.toggle-input(
