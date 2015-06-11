@@ -12,13 +12,22 @@
 .table-actions.table-toggle
 
   small.small
-    strong.strong Allow Dockerfile Editing
+    strong.strong Allow Dockerfile Access
     small.small.multi-line When enabled, #{''}
       em.underline(
         tooltip = "Modified Dockerfiles do not have Container CMD, Main Repository, Exposed Ports, and Container Files tools."
         tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-3,\"top\":15}"
       ) some tools
       | #{''} will be unavailable.
+
+      //- ************
+      //- this link is only for triggering the modal for locking the dockerfile. remove in production.
+      //- ************
+      a.link(
+        modal
+        modal-template = "viewModalLockDockerfile"
+        style = "color: red; margin-left: 3px;"
+      ) Test Link
 
   label.toggle-wrapper
     input.toggle-input(
