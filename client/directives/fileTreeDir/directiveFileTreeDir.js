@@ -144,7 +144,6 @@ function fileTreeDir(
       $scope.actions.drop = function (dataTransfer, toDir) {
         var modelType = dataTransfer.getData('modelType');
         var modelId = dataTransfer.getData('modelId');
-        var modelName = dataTransfer.getData('modelName');
 
         var oldPath = dataTransfer.getData('oldPath');
         if (oldPath !== '/') {
@@ -157,7 +156,6 @@ function fileTreeDir(
 
         var newModel = $scope.fileModel['new' + modelType](modelId, { warn: false });
         var fromDir = findDir($scope.fileModel.rootDir, oldPath);
-
         loadingPromises.add($scope.loadingPromisesTarget, promisify(newModel, 'moveToDir')(toDir))
           .then(function () {
             var toDirFetch = loadingPromises.add(
