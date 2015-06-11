@@ -18,15 +18,6 @@ describe('directiveExplorer'.bold.underline.blue, function () {
     angular.mock.module(function($provide) {
       $provide.value('helperCreateFS', createFsMock);
       $provide.value('errs', errs);
-      $provide.factory('fileTreeDirDirective', function () {
-        return {
-          priority: 100000,
-          terminal: true,
-          link: function () {
-            // do nothing
-          }
-        };
-      });
     });
 
     angular.mock.inject(function($compile, $rootScope) {
