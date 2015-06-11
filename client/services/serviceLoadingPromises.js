@@ -11,7 +11,7 @@ function loadingPromises(
 
   function add(namespace, promise) {
     if (!namespace) {
-      $log.warn('loadingPromises should have a namespace, so just returning the promise')
+      $log.warn('loadingPromises should have a namespace, so just returning the promise');
       return promise;
     }
     if (!promiseHash[namespace]) {
