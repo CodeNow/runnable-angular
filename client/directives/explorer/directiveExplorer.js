@@ -34,6 +34,8 @@ function explorer(
       });
       $scope.state = {};
 
+      //console.log($scope.$eval('editExplorer || (!$storage.explorerIsClosed && fileModel && fileModel.running())'));
+
       $scope.filePopover = {
         data: {
           show: false,

@@ -9,7 +9,7 @@
   | {{ explorerTitle }}
   button.btn.btn-xs.btn-icon.sub-header-action(
     ng-class = "{active: filePopover.data.show}"
-    ng-if = "!$storage.explorerIsClosed && fileModel.running()"
+    ng-if = "!$storage.explorerIsClosed && fileModel && fileModel.running()"
     pop-over
     pop-over-actions = "filePopover.actions"
     pop-over-data = "filePopover.data"
