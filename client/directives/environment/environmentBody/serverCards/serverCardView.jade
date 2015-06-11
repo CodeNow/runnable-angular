@@ -161,35 +161,44 @@ ul.card-body.load(
   //- dockerfile
   //- remove ng-if with $rootScope.featureFlags.dockerfileTool
   li.btn.white(
-    modal
-    modal-actions = "actions"
-    modal-current-model = "server"
-    modal-data = "data"
-    modal-state-model = "'buildfiles'"
-    modal-template = "editServerModalOpen"
     ng-if = "server.advanced || $root.featureFlags.dockerfileTool"
   )
     svg.iconnables
       use(
       xlink:href = "#icons-advanced"
       )
-    h3.h3 Dockerfile
-    small.small.text-overflow Modified on May 25, 2015 at 10:35 AM
-    svg.iconnables.icons-arrow-down
-      use(
-      xlink:href = "#icons-arrow-down"
-      )
-  li.gray(
-    ng-if = "server.advanced || $root.featureFlags.dockerfileTool"
-  )
-    strong.small.strong Dockerfile Modified
+    h3.h3 Allow Dockerfile Changes
+    small.small.multi-line When enabled, #{''}
+      em.underline(
+        tooltip = "Modified Dockerfiles do not have Container CMD, Main Repository, Exposed Ports, and Container Files tools."
+        tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-3,\"top\":15}"
+      ) some tools
+      | #{''} will be unavailable.
+    small.small.text-overflow(
+      ng-if = "server.advanced"
+    ) Last modified on May 25, 2015 at 10:35 AM
       span.icons-help(
-        tooltip = "Modifying the Dockerfile will disable Container CMD, Main Repository, Exposed Ports, and Container Files. We save your configuration when you make a modification and can restore it if you choose to."
+        tooltip = "We save your configuration when you make your first modification and can restore it."
         tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-7,\"top\":12}"
       )
-      small.small Some tools are unavailable.
-    label.toggle-wrapper
+    button.btn.btn-xxs(
+      modal
+      modal-actions = "actions"
+      modal-current-model = "server"
+      modal-data = "data"
+      modal-state-model = "'buildfiles'"
+      modal-template = "editServerModalOpen"
+    ) Dockerfile
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+    label.toggle-wrapper(
+      ng-attr-title = "{{ !server.repo ? 'Disabled on non-repository containers' : '' }}"
+    )
       input.toggle-input(
+        ng-checked = "server.advanced"
+        ng-disabled = "!server.repo"
         type = "checkbox"
       )
-      .toggle-group
+      .toggle-group.toggle-sm
