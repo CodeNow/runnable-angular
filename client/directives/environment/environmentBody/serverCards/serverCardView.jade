@@ -173,11 +173,13 @@ ul.card-body.load(
         tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-7,\"top\":12}"
       )
     small.small.multi-line When enabled, #{''}
-      em.underline(
-        tooltip = "Modified Dockerfiles do not have Container CMD, Main Repository, Exposed Ports, and Container Files tools."
-        tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-3,\"top\":15}"
-      ) some tools
+      em.underline.tooltip-plus-wrapper some tools
+        .tooltip-plus.tooltip-tools.top(
+          ng-include = "'viewTooltipTools'"
+          style = "bottom: 24px; left: -58px;"
+        )
       | #{''} will be unavailable.
+
     small.small.text-overflow(
       ng-if = "server.advanced"
     ) Last modified on May 25, 2015 at 10:35 AM

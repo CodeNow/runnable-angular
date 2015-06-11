@@ -84,3 +84,70 @@
   top: 1px;
   width: 12px;
 }
+
+// tooltip-plus, lol
+.tooltip-plus-wrapper {
+  position: relative;
+
+  &:hover .tooltip-plus {
+    animation: tooltip .1s ease-in forwards;
+    display: block;
+  }
+}
+
+.tooltip-plus {
+  background: $gray-darker;
+  border-radius: 3px;
+  color: $white;
+  display: none;
+  font-size: 13px;
+  line-height: 1;
+  opacity: 0;
+  padding: 15px;
+  position: absolute;
+  white-space: nowrap;
+
+  &::before {
+    content: '';
+    display: block;
+    left: 0;
+    margin: 0 auto;
+    position: absolute;
+    right: 0;
+    width: 18px;
+  }
+
+  // arrow pointing down
+  &.top::before {
+    border-bottom: 0;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 9px solid $gray-darker;
+    bottom: -9px;
+  }
+
+  // arrow pointing up
+  &.bottom::before {
+    border-bottom: 9px solid $gray-darker;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 0;
+    top: -9px;
+  }
+
+  // content specific
+  &.tooltip-tools {
+    width: 180px;
+
+    .list-item {
+      height: 24px;
+      line-height: 24px;
+    }
+
+    .iconnables {
+      height: 100%;
+      margin-right: 10px;
+      width: 14px;
+    }
+  }
+}
