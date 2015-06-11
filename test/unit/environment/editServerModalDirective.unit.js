@@ -25,14 +25,17 @@ describe.only('editServerModalDirective'.bold.underline.blue, function () {
       }
     };
     ctx.fetchDockerfileFromSourceMock = new MockFetch();
+    ctx.populateDockerfile = new MockFetch();
     runnable.reset(apiMocks.user);
     angular.mock.module('app', function ($provide) {
       $provide.factory('helpCards', helpCardsMock.create(ctx));
-      $provide.factory('fetchDockerfileFromSourceMock', ctx.fetchDockerfileFromSourceMock.fetch());
+      $provide.factory('fetchDockerfileFromSource', ctx.fetchDockerfileFromSourceMock.fetch());
+      $provide.factory('populateDockerfile', ctx.populateDockerfile.fetch());
       $provide.factory('loadingPromises', function ($q) {
         ctx.loadingPromiseMock = {
           finishedValue: 0,
           add: sinon.spy(function (namespace, promise) {
+            console.log('ADD!!!!');
             return promise;
           }),
           clear: sinon.spy(),
@@ -99,7 +102,7 @@ describe.only('editServerModalDirective'.bold.underline.blue, function () {
         apiMocks.contextVersions.setup
       );
       sinon.stub(ctx.contextVersion, 'deepCopy', function (cb) {
-        setTimeout(function () {
+        $rootScope.$evalAsync(function () {
           cb(null, ctx.newContextVersion);
         });
         return ctx.newContextVersion;
@@ -108,7 +111,7 @@ describe.only('editServerModalDirective'.bold.underline.blue, function () {
         attrs: apiMocks.files.dockerfile
       };
       ctx.newContextVersion.fetchFile = sinon.spy(function (opts, cb) {
-        setTimeout(function () {
+        $rootScope.$evalAsync(function () {
           cb(null, ctx.dockerfile);
         });
         return ctx.dockerfile;
@@ -127,7 +130,12 @@ describe.only('editServerModalDirective'.bold.underline.blue, function () {
       };
 
       setup({
-        currentModel: ctx.server
+        currentModel: ctx.server,
+        data: {
+          sourceContexts: {
+            models: []
+          }
+        }
       });
     });
     it('should only update the instance if nothing has changed', function () {

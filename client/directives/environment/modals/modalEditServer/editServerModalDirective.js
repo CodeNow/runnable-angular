@@ -240,6 +240,7 @@ function editServerModal(
       $scope.build = $scope.server.build;
 
       function resetState(server) {
+
         loadingPromises.clear('editServerModal');
         loading.reset('editServerModal');
         loading('editServerModal', true);
@@ -272,7 +273,6 @@ function editServerModal(
 
         return loadingPromises.add('editServerModal', promisify(server.contextVersion, 'deepCopy')())
           .then(function (contextVersion) {
-            console.log('*****', contextVersion);
             $scope.state.contextVersion = contextVersion;
             return promisify(contextVersion, 'fetch')();
           })
@@ -347,6 +347,7 @@ function editServerModal(
                 (state.server.startCommand !== state.startCommand ||
                 state.server.ports !== state.ports ||
                 !angular.equals(state.server.selectedStack, state.selectedStack))) {
+              console.log();
               toRebuild = true;
               return updateDockerfile(state);
             }
