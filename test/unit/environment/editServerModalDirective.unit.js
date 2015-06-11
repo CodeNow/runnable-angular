@@ -29,6 +29,12 @@ describe.only('editServerModalDirective'.bold.underline.blue, function () {
     runnable.reset(apiMocks.user);
     angular.mock.module('app', function ($provide) {
       $provide.factory('helpCards', helpCardsMock.create(ctx));
+      $provide.value('JSTagsCollection', function (ports) {
+        console.log('PEJKJKASJK', ports);
+        return {
+          tags: ports
+        };
+      });
       $provide.factory('fetchDockerfileFromSource', ctx.fetchDockerfileFromSourceMock.fetch());
       $provide.factory('populateDockerfile', ctx.populateDockerfile.fetch());
       $provide.factory('loadingPromises', function ($q) {

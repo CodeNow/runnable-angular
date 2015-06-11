@@ -40,6 +40,7 @@ function editServerModal(
     },
     link: function ($scope, elem, attrs) {
       $scope.isLoading = $rootScope.isLoading;
+      console.log('Ddsfasdfs', $scope.server.ports);
       if (helpCards.cardIsActiveOnThisContainer($scope.server.instance)) {
         $scope.helpCards = helpCards;
         $scope.activeCard = helpCards.getActiveCard();
@@ -347,7 +348,9 @@ function editServerModal(
                 (state.server.startCommand !== state.startCommand ||
                 state.server.ports !== state.ports ||
                 !angular.equals(state.server.selectedStack, state.selectedStack))) {
-              console.log();
+              console.log('state.server.startCommand', state.server.startCommand,  state.startCommand);
+              console.log('state.server.selectedStack', state.server.selectedStack, state.selectedStack);
+              console.log('state.server.ports', state.server.ports, state.ports);
               toRebuild = true;
               return updateDockerfile(state);
             }
