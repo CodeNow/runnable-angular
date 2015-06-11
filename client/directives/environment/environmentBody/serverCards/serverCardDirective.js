@@ -90,17 +90,16 @@ require('app')
                 $scope.server.building = false;
 
                 var fullRepoName = keypather.get($scope.server.instance, 'contextVersion.getMainAppCodeVersion().attrs.repo');
-
                 if (fullRepoName) {
                   fetchStackAnalysis(fullRepoName).then(function (stackAnalysis) {
                     if (!stackAnalysis.serviceDependencies) { return; }
 
-                    function calculateHelpCards () {
+                    var calculateHelpCards = function () {
                       // This may be a newInstance... just a placeholder
                       helpCards.removeByInstance(instance);
 
                       stackAnalysis.serviceDependencies.forEach(function (dependency) {
-                        var matchedInstance = $scope.data.instances.models.find(function (instance) {
+                        var matchedInstance = $scope.data.instances.find(function (instance) {
                           return instance.attrs.lowerName === dependency;
                         });
 
@@ -151,10 +150,52 @@ require('app')
                             .catch(errs.handler);
                         }
                       });
-                    }
+                    };
                     calculateHelpCards();
                   })
                     .catch(errs.handler);
+                } else {
+                  var calculateHelpCards = function () {
+                    var instancePromises = $scope.data.instances
+                      .filter(function (instance) {
+                        return instance !== $scope.server.instance;
+                      })
+                      .map(function (instance) {
+                        if (keypather.get(instance, 'dependencies.models.length')) {
+                          return $q.when(instance.dependencies);
+                        }
+                        return promisify(instance, 'fetchDependencies')();
+                      });
+                    $q.all(instancePromises)
+                      .then(function (dependencyList) {
+                        return dependencyList.find(function (depList) {
+                          return depList.find(function (dep) {
+                            return dep.attrs.name === $scope.server.instance.attrs.name;
+                          });
+                        });
+                      })
+                      .then(function (foundMatch) {
+                        if (!foundMatch) {
+                          helpCards.triggerCard('missingMapping', {
+                            mapping: $scope.server.instance.attrs.name
+                          })
+                            .then(function (helpCard) {
+                              if (!helpCard) { return; }
+                              listeners.push({
+                                obj: helpCard,
+                                key: 'refresh',
+                                value: calculateHelpCards
+                              });
+                              helpCard
+                                .on('refresh', calculateHelpCards);
+                            })
+                            .catch(errs.handler);
+                        }
+                      });
+                  };
+
+                  calculateHelpCards();
+
                 }
               });
           }
