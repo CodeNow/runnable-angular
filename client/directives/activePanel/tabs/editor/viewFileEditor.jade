@@ -4,7 +4,9 @@
   ng-include = "'spinner'"
 )
 
+//- readonly doesn't work?!
 pre.pre(
+  ng-readonly = "state.readOnly"
   ng-model = "file.state.body"
   ui-ace = "{\
     onFocus: actions.onFocus,\

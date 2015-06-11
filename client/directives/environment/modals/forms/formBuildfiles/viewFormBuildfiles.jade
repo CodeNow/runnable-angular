@@ -40,20 +40,21 @@
     open-items = "openItems"
     loading-promises-target = "editServerModal"
     root-dir = "state.contextVersion.rootDir"
-    show-repo-folder = "true"
     read-only = "state.readOnly"
+    show-repo-folder = "true"
   )
 
   .ace_editor(
     file = "item"
     file-editor
     loading = "loading"
+    loading-promises-target = "editServerModal"
     ng-if = "item.state.type === 'File'"
     ng-repeat = "item in openItems.models track by item.id()"
     ng-show = "item === openItems.activeHistory.last()"
+    read-only = "state.readOnly"
     state = "state"
     use-auto-update = "true"
-    loading-promises-target = "editServerModal"
   )
 
 //- small.small Last modified on May 25, 2014 at 10:35 AM
