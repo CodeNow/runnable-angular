@@ -16,9 +16,19 @@
     )
   strong.small.strong Allow Dockerfile Editing
     span.tooltip-icon(
-      tooltip = "Your configuration is saved when you allow access and will be restored if you lock your Dockerfile again."
+      tooltip = "Your configuration is saved when you allow editing and will be restored if you lock your Dockerfile again."
       tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-7,\"top\":12}"
     )
+
+    //- ************
+    //- this link is only for triggering the modal for locking the dockerfile. remove in production.
+    //- ************
+    a.link.float-right(
+      modal
+      modal-template = "viewModalLockDockerfile"
+      style = "color: red; margin-left: 3px;"
+    ) Test
+
   small.small When enabled, #{''}
     em.underline.tooltip-plus-wrapper some tools
       .tooltip-plus.tooltip-tools.bottom(
@@ -26,15 +36,6 @@
         style = "left: -58px; top: 27px;"
       )
     | #{''} will be unavailable.
-
-    //- ************
-    //- this link is only for triggering the modal for locking the dockerfile. remove in production.
-    //- ************
-    a.link(
-      modal
-      modal-template = "viewModalLockDockerfile"
-      style = "color: red; margin-left: 3px;"
-    ) Test
 
   label.toggle-wrapper
     input.toggle-input(

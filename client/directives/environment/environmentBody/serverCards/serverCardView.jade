@@ -169,7 +169,7 @@ ul.card-body.load(
       )
     h3.h3 Allow Dockerfile Editing
       span.tooltip-icon(
-        tooltip = "Your configuration is saved when you allow access and will be restored if you lock your Dockerfile again."
+        tooltip = "Your configuration is saved when you allow editing and will be restored if you lock your Dockerfile again."
         tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-7,\"top\":12}"
       )
     small.small.multi-line When enabled, #{''}
@@ -180,6 +180,7 @@ ul.card-body.load(
         )
       | #{''} will be unavailable.
 
+    //- only appears if advanced mode
     small.small.text-overflow(
       ng-if = "server.advanced"
     ) Last modified on May 25, 2015 at 10:35 AM
