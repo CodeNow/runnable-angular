@@ -257,11 +257,11 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       var result = $elScope.actions.drop(dataTransfer, toDir);
       sinon.assert.calledOnce(loadingPromisesMock.add);
       $scope.$digest();
-      expect($elScope.fileModel.newFile.calledOnce).to.equal(true);
-      expect(moveToDirSpy.calledOnce).to.equal(true);
+      sinon.assert.calledOnce($elScope.fileModel.newFile);
+      sinon.assert.calledOnce(moveToDirSpy);
       expect(moveToDirSpy.lastCall.args[0].id()).to.equal('/dir1');
-      expect($elScope.fileModel.rootDir.contents.fetch.calledOnce).to.equal(true);
-      expect(toDir.contents.fetch.calledOnce).to.equal(true);
+      sinon.assert.calledOnce($elScope.fileModel.rootDir.contents.fetch);
+      sinon.assert.calledOnce(toDir.contents.fetch);
     });
 
     it('should be able to move file from nested dir', function () {
@@ -325,11 +325,11 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       var result = $elScope.actions.drop(dataTransfer, toDir);
       sinon.assert.calledOnce(loadingPromisesMock.add);
       $scope.$digest();
-      expect($elScope.fileModel.newFile.calledOnce).to.equal(true);
-      expect(moveToDirSpy.calledOnce).to.equal(true);
+      sinon.assert.calledOnce($elScope.fileModel.newFile);
+      sinon.assert.calledOnce(moveToDirSpy);
       expect(moveToDirSpy.lastCall.args[0].id()).to.equal('/dir1');
-      expect($elScope.fileModel.rootDir.contents.models[0].contents.fetch.calledOnce).to.equal(true);
-      expect(toDir.contents.fetch.calledOnce).to.equal(true);
+      sinon.assert.calledOnce($elScope.fileModel.rootDir.contents.models[0].contents.fetch);
+      sinon.assert.calledOnce(toDir.contents.fetch);
     });
 
     it('should be able to move file from super nested dir', function () {
@@ -407,11 +407,11 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       var result = $elScope.actions.drop(dataTransfer, toDir);
       sinon.assert.calledOnce(loadingPromisesMock.add);
       $scope.$digest();
-      expect($elScope.fileModel.newFile.calledOnce).to.equal(true);
-      expect(moveToDirSpy.calledOnce).to.equal(true);
+      sinon.assert.calledOnce($elScope.fileModel.newFile);
+      sinon.assert.calledOnce(moveToDirSpy);
       expect(moveToDirSpy.lastCall.args[0].id()).to.equal('/dir1');
-      expect($elScope.fileModel.rootDir.contents.models[0].contents.models[0].contents.fetch.calledOnce).to.equal(true);
-      expect(toDir.contents.fetch.calledOnce).to.equal(true);
+      sinon.assert.calledOnce($elScope.fileModel.rootDir.contents.models[0].contents.models[0].contents.fetch);
+      sinon.assert.calledOnce(toDir.contents.fetch);
     });
     it('should not call fetch on folder that wasnot found', function () {
       var dataTransfer = {
@@ -488,11 +488,11 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       var result = $elScope.actions.drop(dataTransfer, toDir);
       sinon.assert.calledOnce(loadingPromisesMock.add);
       $scope.$digest();
-      expect($elScope.fileModel.newFile.calledOnce).to.equal(true);
-      expect(moveToDirSpy.calledOnce).to.equal(true);
+      sinon.assert.calledOnce($elScope.fileModel.newFile);
+      sinon.assert.calledOnce(moveToDirSpy);
       expect(moveToDirSpy.lastCall.args[0].id()).to.equal('/dir1');
       expect($elScope.fileModel.rootDir.contents.models[0].contents.models[0].contents.fetch.calledOnce).to.equal(false);
-      expect(toDir.contents.fetch.calledOnce).to.equal(true);
+      sinon.assert.calledOnce(toDir.contents.fetch);
     });
 
   });
