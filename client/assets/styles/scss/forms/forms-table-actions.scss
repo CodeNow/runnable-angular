@@ -47,7 +47,7 @@
     color: $gray;
     height: 56px;
     overflow: visible;
-    padding: 9px 45px 9px 15px;
+    padding: 9px 45px 9px 9px;
     position: relative;
     z-index: $z-sidebar + 1; // for tooltip…
 
@@ -55,8 +55,19 @@
       height: 72px;
     }
 
+    // anchor image
+    > .iconnables {
+      margin-right: 6px;
+      width: 18px;
+    }
+
     .small {
       display: block;
+      line-height: 1;
+
+      + .small {
+        margin: 3px 0;
+      }
     }
 
     .toggle-wrapper {

@@ -10,29 +10,31 @@
 )
 
 .table-actions.table-toggle
-
-  small.small
-    strong.strong Allow Dockerfile Editing
-      span.tooltip-icon(
-        tooltip = "Your configuration is saved when you allow access and will be restored if you lock your Dockerfile again."
-        tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-7,\"top\":12}"
+  svg.iconnables.float-left
+    use(
+      xlink:href = "#icons-dockerfile"
+    )
+  strong.small.strong Allow Dockerfile Editing
+    span.tooltip-icon(
+      tooltip = "Your configuration is saved when you allow access and will be restored if you lock your Dockerfile again."
+      tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-7,\"top\":12}"
+    )
+  small.small When enabled, #{''}
+    em.underline.tooltip-plus-wrapper some tools
+      .tooltip-plus.tooltip-tools.bottom(
+        ng-include = "'viewTooltipTools'"
+        style = "left: -58px; top: 27px;"
       )
-    small.small When enabled, #{''}
-      em.underline.tooltip-plus-wrapper some tools
-        .tooltip-plus.tooltip-tools.bottom(
-          ng-include = "'viewTooltipTools'"
-          style = "left: -58px; top: 27px;"
-        )
-      | #{''} will be unavailable.
+    | #{''} will be unavailable.
 
-      //- ************
-      //- this link is only for triggering the modal for locking the dockerfile. remove in production.
-      //- ************
-      a.link(
-        modal
-        modal-template = "viewModalLockDockerfile"
-        style = "color: red; margin-left: 3px;"
-      ) Test Link
+    //- ************
+    //- this link is only for triggering the modal for locking the dockerfile. remove in production.
+    //- ************
+    a.link(
+      modal
+      modal-template = "viewModalLockDockerfile"
+      style = "color: red; margin-left: 3px;"
+    ) Test
 
   label.toggle-wrapper
     input.toggle-input(
