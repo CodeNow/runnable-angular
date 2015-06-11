@@ -17,7 +17,8 @@ function fileTreeDir(
   configAPIHost,
   fetchCommitData,
   cardInfoTypes,
-  loadingPromises
+  loadingPromises,
+  watchOncePromise
 ) {
   return {
     restrict: 'A',
@@ -306,48 +307,53 @@ function fileTreeDir(
         }
       };
 
-      $scope.popoverEditRepoCommit = {
-        data: {
-          appCodeVersions: $scope.fileModel.appCodeVersions,
-          gitDataOnly: true
-        }
-      };
+      if ($scope.editExplorer) {
+        watchOncePromise($scope, 'fileModel.appCodeVersions', true)
+          .then(function () {
+            $scope.popoverEditRepoCommit = {
+              data: {
+                appCodeVersions: $scope.fileModel.appCodeVersions,
+                gitDataOnly: true
+              }
+            };
 
-      $scope.popoverFilesRepositoryCommitToggle = {
-        data: {
-          appCodeVersions: $scope.fileModel.appCodeVersions,
-          gitDataOnly: true
-        },
-        actions: {
-          create: function (repo) {
-            loadingPromises.add($scope.loadingPromisesTarget, promisify($scope.fileModel.appCodeVersions, 'create', true)({
-              repo: repo.repo.attrs.full_name,
-              branch: repo.branch.attrs.name,
-              commit: repo.commit.attrs.sha,
-              additionalRepo: true
-            }))
-              .catch(errs.handler);
-          },
-          remove: function(repo){
-            var acv = $scope.fileModel.appCodeVersions.models.find(function (acv) {
-              return acv.attrs.repo.split('/')[1] === repo.repo.attrs.name;
-            });
-            loadingPromises.add($scope.loadingPromisesTarget, promisify(acv, 'destroy')())
-              .catch(errs.handler);
-          },
-          update: function(repo){
-            var acv = $scope.fileModel.appCodeVersions.models.find(function (acv) {
-              return acv.attrs.repo === repo.acv.attrs.repo;
-            });
+            $scope.popoverFilesRepositoryCommitToggle = {
+              data: {
+                appCodeVersions: $scope.fileModel.appCodeVersions,
+                gitDataOnly: true
+              },
+              actions: {
+                create: function (repo) {
+                  loadingPromises.add($scope.loadingPromisesTarget, promisify($scope.fileModel.appCodeVersions, 'create', true)({
+                    repo: repo.repo.attrs.full_name,
+                    branch: repo.branch.attrs.name,
+                    commit: repo.commit.attrs.sha,
+                    additionalRepo: true
+                  }))
+                    .catch(errs.handler);
+                },
+                remove: function(repo){
+                  var acv = $scope.fileModel.appCodeVersions.models.find(function (acv) {
+                    return acv.attrs.repo.split('/')[1] === repo.repo.attrs.name;
+                  });
+                  loadingPromises.add($scope.loadingPromisesTarget, promisify(acv, 'destroy')())
+                    .catch(errs.handler);
+                },
+                update: function(repo){
+                  var acv = $scope.fileModel.appCodeVersions.models.find(function (acv) {
+                    return acv.attrs.repo === repo.acv.attrs.repo;
+                  });
 
-            loadingPromises.add($scope.loadingPromisesTarget, promisify(acv, 'update')({
-              branch: repo.branch.attrs.name,
-              commit: repo.commit.attrs.sha
-            }))
-              .catch(errs.handler);
-          }
-        }
-      };
+                  loadingPromises.add($scope.loadingPromisesTarget, promisify(acv, 'update')({
+                    branch: repo.branch.attrs.name,
+                    commit: repo.commit.attrs.sha
+                  }))
+                    .catch(errs.handler);
+                }
+              }
+            };
+          });
+      }
 
       // http://www.bennadel.com/blog/2495-user-friendly-sort-of-alpha-numeric-data-in-javascript.htm
       function normalizeMixedDataValue(file) {

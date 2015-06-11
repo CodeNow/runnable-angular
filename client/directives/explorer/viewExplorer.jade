@@ -10,7 +10,6 @@
 )
   button.btn.btn-xs.gray(
     ng-class = "{active: filePopover.data.show}"
-    ng-if = "editExplorer || (!$storage.explorerIsClosed && fileModel.running())"
     pop-over
     pop-over-actions = "filePopover.actions"
     pop-over-data = "filePopover.data"
@@ -24,7 +23,7 @@
       )
 
 ul.file-tree(
-  ng-if = "editExplorer || (!$storage.explorerIsClosed && fileModel.running())"
+  ng-if = "editExplorer || (!$storage.explorerIsClosed && fileModel && fileModel.running())"
 )
   //- this is the root dir; there can be only one.
   li(
