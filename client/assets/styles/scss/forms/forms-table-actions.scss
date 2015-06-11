@@ -38,6 +38,18 @@
     }
   }
 
+  // toggle
+  &.table-toggle {
+    align-items: center;
+    color: $gray-dark;
+    display: flex;
+    justify-content: center;
+
+    .toggle-wrapper {
+      margin-left: 9px;
+    }
+  }
+
   // hostname insert
   .label {
     border: 1px solid $gray-lighter;

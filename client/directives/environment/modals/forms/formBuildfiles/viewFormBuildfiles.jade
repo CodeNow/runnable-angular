@@ -12,12 +12,18 @@
 //- .clearfix
 //-   .label-col Container Files
 
-small.small Modifying your Dockerfile will disable #{''}
-  em.underline some tools
-  | . We'll save your configuration when you begin modifying the Dockerfile so you can restore it if you choose to.
-  button.btn.btn-xs.gray(
-    ng-click = "state.readOnly = false"
-  ) Modify Dockerfile
+.table-actions.table-toggle
+
+  small.small
+    strong.strong Allow Dockerfile Changes
+    | #{''} We'll save your current configuration.
+
+  label.toggle-wrapper
+    input.toggle-input(
+      ng-model = "state.readOnly"
+      type = "checkbox"
+    )
+    .toggle-group.toggle-sm
 
 //- table of current environment variables
 .ace-container.ace-build-files.ace-runnable-dark(
@@ -48,8 +54,5 @@ small.small Modifying your Dockerfile will disable #{''}
     loading-promises-target = "editServerModal"
   )
 
-//- small.small 😌🐻✌️ #{''}
-//-   a.link(
-//-     href = "//google.com"
-//-     target = "_blank"
-//-   ) More about build files
+//- small.small Last modified on May 25, 2014 at 10:35 AM
+  button.btn.btn-xxs.gray Restore
