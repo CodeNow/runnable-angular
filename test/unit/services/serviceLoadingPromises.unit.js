@@ -42,6 +42,7 @@ describe('loadingPromises'.bold.underline.blue, function () {
       $rootScope.$apply();
       $rootScope.$apply();
     });
+
     it('should clear previous', function (done) {
       var cb = null;
       var temp = 1;
@@ -63,24 +64,6 @@ describe('loadingPromises'.bold.underline.blue, function () {
       $rootScope.$apply();
       temp = 2;
       cb('hi');
-      $rootScope.$apply();
-      $rootScope.$apply();
-    });
-  });
-  describe('failures'.bold, function () {
-    it('should error on bad namespace', function (done) {
-      loadingPromises.add(null, $q(function (resolve) {
-        resolve();
-      }))
-        .then(function () {
-          // We should not get here
-          expect(false).to.be.true;
-        })
-        .catch(function (err) {
-          expect(err).to.equal('LoadingPromises received a falsy namespace!!!');
-          done();
-        });
-
       $rootScope.$apply();
       $rootScope.$apply();
     });

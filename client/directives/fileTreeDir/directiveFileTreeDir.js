@@ -131,7 +131,7 @@ function fileTreeDir(
         var searchDirPath = searchDir.id();
         var dirPathWithoutParent = dirPath.substr(searchDirPath.length);
         var nextSearchDirName = dirPathWithoutParent.split('/')[0];
-        var nextSearchDirPath = searchDirPath + nextSearchDirName + '/';
+        var nextSearchDirPath = searchDirPath + nextSearchDirName  + '/';
         var nextSearchDir = dirs.find(function (item) {
           return item.id() === nextSearchDirPath;
         });

@@ -4,13 +4,15 @@ require('app')
   .factory('loadingPromises', loadingPromises);
 
 function loadingPromises(
+  $log,
   $q
 ) {
   var promiseHash = {};
 
   function add(namespace, promise) {
     if (!namespace) {
-      return $q.reject('LoadingPromises received a falsy namespace!!!');
+      $log.warn('loadingPromises should have a namespace, so just returning the promise')
+      return promise;
     }
     if (!promiseHash[namespace]) {
       promiseHash[namespace] = [];
