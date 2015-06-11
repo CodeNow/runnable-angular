@@ -272,6 +272,7 @@ function editServerModal(
 
         return loadingPromises.add('editServerModal', promisify(server.contextVersion, 'deepCopy')())
           .then(function (contextVersion) {
+            console.log('*****', contextVersion);
             $scope.state.contextVersion = contextVersion;
             return promisify(contextVersion, 'fetch')();
           })
@@ -336,7 +337,8 @@ function editServerModal(
         $scope.state.ports = convertTagToPortList();
         return loadingPromises.finished('editServerModal')
           .then(function (promiseArrayLength) {
-            toRebuild = promiseArrayLength > 0;
+            // Since the initial deepCopy should be in here, we only care about > 1
+            toRebuild = promiseArrayLength > 1;
           })
           .then(watchOncePromise($scope, 'state.contextVersion', true))
           .then(function () {
