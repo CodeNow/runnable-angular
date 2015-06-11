@@ -101,10 +101,11 @@
 
 // pages
 @import "pages/environment";
-@import "pages/home";
-@import "pages/home-images";
-@import "pages/home-ui";
 @import "pages/server-selection";
+
+// home
+@import "home/home";
+@import "home/home-grid";
 
 //deprecated
 @import "deprecated/card-status";

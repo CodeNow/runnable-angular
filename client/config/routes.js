@@ -9,18 +9,7 @@ module.exports = [
     controller: 'ControllerHome',
     data: {
       bodyClass: {
-        'vertical': true
-      },
-      anon: true
-    }
-  }, {
-    state: 'invite',
-    abstract: false,
-    url: '^/invite',
-    templateUrl: 'viewInvite',
-    data: {
-      bodyClass: {
-        'vertical': true
+        'home': true
       },
       anon: true
     }
@@ -37,9 +26,6 @@ module.exports = [
     templateUrl: 'viewServerSelection',
     controller: 'ControllerServerSelection',
     data: {
-      bodyClass: {
-        'vertical': true
-      },
       anon: true
     }
   }, {
@@ -49,9 +35,6 @@ module.exports = [
     templateUrl: 'viewBranchSelection',
     controller: 'ControllerBranchSelection',
     data: {
-      bodyClass: {
-        'vertical': true
-      },
       anon: true
     }
   }, {

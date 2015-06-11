@@ -20,6 +20,23 @@ function checkErrorCallback(reject, cb) {
   };
 }
 
+function cleanJunkFromRule(rule) {
+  return {
+    action: rule.action,
+    search: rule.search,
+    replace: rule.replace,
+    source: rule.source,
+    dest: rule.dest
+  };
+}
+
+function cleanJunkFromRules(rules) {
+  return {
+    exclude: rules.exclude,
+    replace: rules.replace.map(cleanJunkFromRule),
+    rename: rules.rename.map(cleanJunkFromRule)
+  };
+}
 function parseDiffResponse(
   diffParse
 ) {
@@ -70,7 +87,7 @@ function createTransformRule(
     }
 
     return promisify(appCodeVersionModel, 'update')({
-      transformRules: rules
+      transformRules: cleanJunkFromRules(rules)
     });
 
   };
@@ -84,7 +101,7 @@ function moveTransformRules(
     rules[action] = newRules;
 
     return promisify(appCodeVersionModel, 'update')({
-      transformRules: rules
+      transformRules: cleanJunkFromRules(rules)
     });
 
   };
@@ -189,7 +206,7 @@ function deleteTransformRule(
       });
 
       return promisify(appCodeVersionModel, 'update')({
-        transformRules: rules
+        transformRules: cleanJunkFromRules(rules)
       });
     }
     return $q.reject(new Error('No rules to delete'));
