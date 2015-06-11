@@ -15,12 +15,14 @@
 .table-actions.table-toggle
 
   small.small
-    strong.strong Allow Dockerfile Changes
-    | #{''} We'll save your current configuration.
+    strong.strong Allow Dockerfile Editing
+    | Your configuration will be saved when you enable editing. If you choose to disable editing, we'll restore your saved configuration.
 
   label.toggle-wrapper
     input.toggle-input(
+      ng-false-value = "true"
       ng-model = "state.readOnly"
+      ng-true-value = "false"
       type = "checkbox"
     )
     .toggle-group.toggle-sm
