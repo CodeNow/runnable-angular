@@ -12,7 +12,11 @@
 .table-actions.table-toggle
 
   small.small
-    strong.strong Allow Dockerfile Access
+    strong.strong Allow Dockerfile Editing
+      span.tooltip-icon(
+        tooltip = "Your configuration is saved when you allow access and will be restored if you lock your Dockerfile again."
+        tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-7,\"top\":12}"
+      )
     small.small.multi-line When enabled, #{''}
       em.underline(
         tooltip = "Modified Dockerfiles do not have Container CMD, Main Repository, Exposed Ports, and Container Files tools."
