@@ -7,6 +7,8 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
   var $elScope;
   var $rootScope;
   var keypather;
+
+  var $httpBackend;
   var $q;
 
   var apiClientMockFactory = require('../../unit/apiMocks/apiClientMockFactory');
@@ -24,6 +26,9 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         return 'org1';
       }
     };
+    ctx.eventTracking = {
+      triggeredBuild: sinon.spy()
+    };
     ctx.fetchDockerfileFromSourceMock = new MockFetch();
     ctx.populateDockerfile = new MockFetch();
     runnable.reset(apiMocks.user);
@@ -36,6 +41,11 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     angular.mock.module('app', function ($provide) {
       $provide.factory('helpCards', helpCardsMock.create(ctx));
       $provide.value('OpenItems', ctx.openItemsMock);
+      $provide.value('findLinkedServerVariables', sinon.spy());
+      $provide.value('cardInfoTypes', {});
+      $provide.value('eventTracking', ctx.eventTracking);
+      $provide.value('configAPIHost', '');
+      $provide.value('uploadFile', sinon.spy());
       $provide.factory('fetchDockerfileFromSource', ctx.fetchDockerfileFromSourceMock.fetch());
       $provide.factory('populateDockerfile', ctx.populateDockerfile.fetch());
       $provide.factory('loadingPromises', function ($q) {
@@ -57,6 +67,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       _$timeout_,
       _$rootScope_,
       _keypather_,
+      _$httpBackend_,
       _$q_
     ) {
       $timeout = _$timeout_;
@@ -65,6 +76,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       $scope = $rootScope.$new();
       keypather = _keypather_;
       $q = _$q_;
+      $httpBackend = _$httpBackend_;
     });
     $scope.defaultActions = {
       close: sinon.spy()
