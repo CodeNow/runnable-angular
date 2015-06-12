@@ -62,7 +62,7 @@ function ControllerInstance(
     // product team - track visits to instance page & referrer
     eventTracking.boot(user).visitedState();
     return $q.all({
-      instance: fetchInstances({ name: $stateParams.instanceName }, true),
+      instance: fetchInstances({ name: $stateParams.instanceName }),
       settings: fetchSettings()
     })
       .then(function (results) {
