@@ -10,7 +10,7 @@ function loadingPromises(
 
   function add(namespace, promise) {
     if (!namespace) {
-      return $q.reject('LoadingPromises received a falsy namespace!!!');
+      return promise;
     }
     if (!promiseHash[namespace]) {
       promiseHash[namespace] = [];
@@ -34,3 +34,4 @@ function loadingPromises(
     finished: finished
   };
 }
+
