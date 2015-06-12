@@ -21,6 +21,10 @@
 }
 
 // editor toolbar
+.views-toolbar-wrapper {
+  flex: 0 0 auto;
+}
+
 .views-toolbar {
   align-items: center;
   background: $purple-dark;
