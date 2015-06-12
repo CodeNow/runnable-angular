@@ -7,6 +7,32 @@
 // toggle
 .toggle-wrapper {
   display: inline-block;
+  position: relative;
+
+  &.show-icons {
+
+    &::before,
+    &::after {
+      background-size: 100% 100%;
+      content: '';
+      display: block;
+      height: 12px;
+      opacity: .3;
+      position: absolute;
+      top: 5px;
+      width: 12px;
+    }
+
+    &::before {
+      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKJJREFUeNpiYMAOBIB4PhD/R8PzoXJEg/1A/B6IE4DYAYoToGL7iTUkAWq7ARY5A6hcAjEGrYdikuSZcNh6EI9BB3G4FgP8h4YJLuAAVUPQRWQBqhnEgpRuEpDSSDwe78lD6QYg/gDEC0A0I1RwPtSgAyQ6BGTZBCAuRE6A/WT4qB+WQJHD6CMZBn0cvLE2uA3SJ0M/hp4ALIUYsRiklwEgwABo+i70TLjerQAAAABJRU5ErkJggg==);
+      left: -15px;
+    }
+
+    &::after {
+      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAJJJREFUeNpiYCAeNADxfSD+j4TPA3EACWYwzIdq7AdiByQME08gxhAHAooboPJEueY8ATVEeQ8ULgUMVAD/od7DC5gIyAtA6Q+UusaB2IBkAWIDPIEljxQz6OAAFIMBIxC/hzr9AQkuFYA6QBFZ33+ksCA7EpioFZhMDFQCI8AgAxL1YVV/Hq2wIhbfR042AAEGAD7ILRFjehfpAAAAAElFTkSuQmCC);
+      right: -15px;
+    }
+  }
 }
 
 .toggle-group {

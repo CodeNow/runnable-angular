@@ -74,6 +74,10 @@
       position: absolute;
       right: 9px;
       top: 9px;
+
+      &.show-icons {
+        right: 24px;
+      }
     }
   }
 
