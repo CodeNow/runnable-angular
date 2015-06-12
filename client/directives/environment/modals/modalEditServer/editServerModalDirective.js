@@ -59,7 +59,6 @@ function editServerModal(
         tags: new JSTagsCollection(($scope.server.ports || '').split(' '))
       };
 
-
       $scope.triggerEditRepo = function (repo) {
         if (repo.type === 'Main Repository') { return; }
         $scope.repositoryPopover.data = {
@@ -240,6 +239,7 @@ function editServerModal(
       $scope.build = $scope.server.build;
 
       function resetState(server) {
+
         loadingPromises.clear('editServerModal');
         loading.reset('editServerModal');
         loading('editServerModal', true);
@@ -336,14 +336,15 @@ function editServerModal(
         $scope.state.ports = convertTagToPortList();
         return loadingPromises.finished('editServerModal')
           .then(function (promiseArrayLength) {
-            toRebuild = promiseArrayLength > 0;
+            // Since the initial deepCopy should be in here, we only care about > 1
+            toRebuild = promiseArrayLength > 1;
           })
           .then(watchOncePromise($scope, 'state.contextVersion', true))
           .then(function () {
             var state = $scope.state;
             if (!state.advanced &&
                 (state.server.startCommand !== state.startCommand ||
-                state.server.ports !== state.ports ||
+                state.server.ports !== state.ports.join(' ') ||
                 !angular.equals(state.server.selectedStack, state.selectedStack))) {
               toRebuild = true;
               return updateDockerfile(state);
@@ -415,18 +416,12 @@ function editServerModal(
       }
 
       function openDockerfile() {
-        var rootDir = keypather.get($scope.state, 'contextVersion.rootDir');
-        if (!rootDir) {
-          return $q.reject(new Error('rootDir not found'));
-        }
-        return promisify(rootDir.contents, 'fetch')()
-          .then(function () {
-            var file = rootDir.contents.models.find(function (file) {
-              return (file.attrs.name === 'Dockerfile');
-            });
-            if (file) {
-              $scope.openItems.add(file);
+        return promisify($scope.state.contextVersion, 'fetchFile')('/Dockerfile')
+          .then(function (dockerfile) {
+            if (dockerfile) {
+              $scope.openItems.add(dockerfile);
             }
+            $scope.state.dockerfile = dockerfile;
           });
       }
 
@@ -434,22 +429,31 @@ function editServerModal(
       $scope.$watch('state.advanced', function (advanced, previousAdvanced) {
         // This is so we don't fire the first time with no changes
         if (advanced !== previousAdvanced) {
-          waitForStateContextVersion($scope, function () {
-            $rootScope.$broadcast('close-popovers');
-            $scope.selectedTab = advanced ? 'buildfiles' : 'stack';
-            if (advanced) {
-              openDockerfile();
-            }
-            return promisify($scope.state.contextVersion, 'update')({
-              advanced: advanced
+          watchOncePromise($scope, 'state.contextVersion', true)
+            .then(function () {
+              $rootScope.$broadcast('close-popovers');
+              $scope.selectedTab = advanced ? 'buildfiles' : 'stack';
+              if (advanced) {
+                openDockerfile();
+              }
+              return loadingPromises.add('editServerModal', promisify($scope.state.contextVersion, 'update')({
+                advanced: advanced
+              }));
             })
-              .catch(function (err) {
-                errs.handler(err);
-                $scope.state.advanced = $scope.server.advanced;
-              });
-          });
+            .catch(function (err) {
+              errs.handler(err);
+              $scope.state.advanced = $scope.server.advanced;
+            });
         }
       });
+      $scope.isDockerfileValid = function () {
+        if (!$scope.state.advanced || !keypather.get($scope, 'state.dockerfile.validation.criticals.length')) {
+          return true;
+        }
+        return !$scope.state.dockerfile.validation.criticals.find(hasKeypaths({
+          message: 'Missing or misplaced FROM'
+        }));
+      };
 
       $scope.isStackInfoEmpty = function (selectedStack) {
         if (!selectedStack || !selectedStack.selectedVersion) {
@@ -464,13 +468,4 @@ function editServerModal(
       };
     }
   };
-}
-
-function waitForStateContextVersion($scope, cb) {
-  var unWatch = $scope.$watch('state.contextVersion', function (n) {
-    if (n) {
-      unWatch();
-      cb();
-    }
-  });
 }
