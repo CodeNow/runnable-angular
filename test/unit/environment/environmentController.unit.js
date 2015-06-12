@@ -171,7 +171,9 @@ describe('environmentController'.bold.underline.blue, function () {
       $scope.data.instances = {
         add: sinon.spy()
       };
-      sinon.stub(thisUser, 'newInstance');
+      ctx.fakeOrg1.newInstance = sinon.spy(function () {
+        return instance;
+      });
       keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.fakeOrg1);
       var server = {
         instance: instance
@@ -179,7 +181,7 @@ describe('environmentController'.bold.underline.blue, function () {
       $scope.actions.createAndBuild($q.when(server), 'newName');
       $rootScope.$digest();
 
-      sinon.assert.calledWith(thisUser.newInstance, {
+      sinon.assert.calledWith(ctx.fakeOrg1.newInstance, {
         name: 'newName',
         owner: {
           username: ctx.fakeOrg1.oauthName()
@@ -210,7 +212,7 @@ describe('environmentController'.bold.underline.blue, function () {
       $scope.data.instances = {
         add: sinon.spy()
       };
-      thisUser.newInstance = sinon.spy(function () {
+      ctx.fakeOrg1.newInstance = sinon.spy(function () {
         return instance;
       });
       keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.fakeOrg1);
@@ -219,7 +221,7 @@ describe('environmentController'.bold.underline.blue, function () {
       $scope.actions.createAndBuild($q.reject(error), 'newName');
       $rootScope.$digest();
 
-      sinon.assert.calledWith(thisUser.newInstance, {
+      sinon.assert.calledWith(ctx.fakeOrg1.newInstance, {
         name: 'newName',
         owner: {
           username: ctx.fakeOrg1.oauthName()
