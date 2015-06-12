@@ -1,0 +1,23 @@
+.error-content
+  img.runnabear-head(
+    src = "/build/images/runnabear_head.jpg"
+  )
+  .error-text
+    h1.h1 Oops!
+    p.p We can't reach the container for
+      strong.strong  api/my-cool-branch
+      |  even though it's running and this port is exposed.
+    p.p Make sure your service is listening on all interfaces.
+    p.p Other exposed ports:
+      | #{''}
+      a.link(
+        href='#'
+      ) 80
+      | , #{''}
+      a.link(
+        href='#'
+      ) 3000
+      | , #{''}
+      a.link(
+        href='#'
+      ) 8080

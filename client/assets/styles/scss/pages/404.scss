@@ -1,0 +1,53 @@
+.error-content {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  overflow: auto;
+
+  //img.runnabear-head
+  .runnabear-head {
+    left: 50%;
+    position: absolute;
+    top: 0;
+    transform: translate3d(-50%,0,0);
+    width: 135px;
+  }
+
+  .error-text {
+    margin: 0 30px 45px;
+    max-width: 500px;
+  }
+
+  .h1,
+  .p,
+  .link {
+    margin-bottom: 18px;
+  }
+
+  .h1 {
+    font-size: 27px;
+
+    @include media(xs) {
+      font-size: 24px;
+    }
+  }
+
+  .p,
+  .link {
+    font-size: 21px;
+
+    @include media(xs) {
+      font-size: 18px;
+    }
+  }
+
+  .link {
+    color: $purple-light;
+
+    &:active {
+      color: $purple;
+    }
+  }
+}
