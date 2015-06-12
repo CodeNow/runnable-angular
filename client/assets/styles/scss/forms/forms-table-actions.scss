@@ -45,9 +45,9 @@
   // toggle
   &.table-toggle {
     color: $gray;
-    height: 54px;
+    height: 51px;
     overflow: visible;
-    padding: 9px 45px 9px 9px;
+    padding: 9px 45px 0 9px;
     position: relative;
     z-index: $z-sidebar + 1; // for tooltip…
 
