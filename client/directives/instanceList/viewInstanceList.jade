@@ -10,7 +10,7 @@ ul.server-category-list(
   ng-if = "data.activeAccount && !isLoading.sidebar"
 )
   li.server-category-list-item(
-    ng-repeat = "masterInstance in data.instancesByPod.models |orderBy: ['attrs.contextVersion.appCodeVersions.length === 0', 'attrs.name'] "
+    ng-repeat = "masterInstance in data.instancesByPod.models |orderBy: ['attrs.contextVersion.appCodeVersions.length === 0', 'attrs.name'] track by masterInstance.attrs.name"
     ng-class = "{\
       'no-touching': !masterInstance.opts\
     }"
