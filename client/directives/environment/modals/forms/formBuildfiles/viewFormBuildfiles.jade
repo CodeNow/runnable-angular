@@ -9,7 +9,9 @@
   ng-if = "helpCards.getActiveCard().helpPopover.containerFiles"
 )
 
-.table-actions.table-toggle
+.table-actions.table-toggle(
+  ng-if = "$root.featureFlags.dockerfileTool"
+)
   svg.iconnables.float-left
     use(
       xlink:href = "#icons-dockerfile"

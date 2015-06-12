@@ -137,6 +137,7 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-arrow-down"
       )
+  //- FnR
   li.btn.white(
     modal
     modal-actions = "actions"
@@ -159,9 +160,27 @@ ul.card-body.load(
         xlink:href = "#icons-arrow-down"
       )
   //- dockerfile
-  //- remove ng-if with $rootScope.featureFlags.dockerfileTool
   li.btn.white(
-    ng-if = "server.advanced || $root.featureFlags.dockerfileTool"
+    modal
+    modal-actions = "actions"
+    modal-current-model = "server"
+    modal-data = "data"
+    modal-state-model = "'buildfiles'"
+    modal-template = "editServerModalOpen"
+    ng-if = "server.advanced && !$root.featureFlags.dockerfileTool"
+  )
+    svg.iconnables
+      use(
+        xlink:href = "#icons-dockerfile"
+      )
+    h3.h3 Dockerfile
+    small.small.text-overflow
+    svg.iconnables.icons-arrow-down
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+  li.btn.white(
+    ng-if = "$root.featureFlags.dockerfileTool"
   )
     svg.iconnables
       use(
@@ -179,11 +198,6 @@ ul.card-body.load(
           style = "bottom: 24px; left: -58px;"
         )
       | #{''} will be unavailable.
-
-    //- only appears if advanced mode
-    small.small.text-overflow(
-      ng-if = "server.advanced"
-    ) Last modified on May 25, 2015 at 10:35 AM
     button.btn.btn-xxs(
       modal
       modal-actions = "actions"
