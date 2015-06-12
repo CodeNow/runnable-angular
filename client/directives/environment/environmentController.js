@@ -59,7 +59,7 @@ function EnvironmentController(
 
   var scrollHelper = function () {
     var newVal = false;
-    if ($window.scrollY > 150) {
+    if ($window.scrollY > 153) {
       newVal = true;
     }
     if ($scope.helpUndock !== newVal) {

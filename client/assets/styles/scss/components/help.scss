@@ -60,41 +60,48 @@
 
 .help-padding {
   color: transparent;
-  padding: 15px 25px;
+  padding: 16px 25px;
 }
 
 .help-container {
-  position: absolute;
   left: 15px;
+  position: absolute;
   right: 15px;
   z-index: 1; // TODO: variable-ize this
 
   &.fixed {
     position: fixed;
+
+    .help {
+      box-shadow: 0 1px 3px rgba($blue,.25);
+    }
   }
 
   &.top {
-    top: 15px;
+    top: 18px;
   }
 
   &.bottom {
-    bottom: 55px;
+    bottom: 18px;
   }
 
   .modal-form & {
-    left: auto;
     position: relative;
+    left: auto;
     right: auto;
+    margin-bottom: 15px;
+
+    .help {
+      box-shadow: none;
+    }
   }
 
   .help {
     display: table;
-    left: 50%;
     margin: 0 auto;
     padding: 6px 24px;
-    position: absolute;
     text-align: center;
-    transform: translate(-50%,0);
+    box-shadow: none;
 
     // anchor icon
     .iconnables {
