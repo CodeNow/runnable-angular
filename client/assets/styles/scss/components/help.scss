@@ -86,10 +86,10 @@
   }
 
   .modal-form & {
-    position: relative;
     left: auto;
-    right: auto;
     margin-bottom: 15px;
+    position: relative;
+    right: auto;
 
     .help {
       box-shadow: none;
@@ -97,11 +97,11 @@
   }
 
   .help {
+    box-shadow: none;
     display: table;
     margin: 0 auto;
     padding: 6px 24px;
     text-align: center;
-    box-shadow: none;
 
     // anchor icon
     .iconnables {
