@@ -4,12 +4,16 @@
   ng-include = "'spinner'"
 )
 
-//- readonly doesn't work?!
 pre.pre(
-  ng-readonly = "state.readOnly"
+  ng-attr-readonly = "{{state.readOnly}}"
   ng-model = "file.state.body"
   ui-ace = "{\
     onFocus: actions.onFocus,\
     onLoad: actions.setAceMode\
   }"
 )
+
+//- readonly button
+button.btn.btn-xs(
+  ng-if = "state.readOnly"
+) Read only
