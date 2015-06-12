@@ -18,9 +18,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
   beforeEach(function () {
     ctx = {};
   });
-  //afterEach(function () {
-  //  $httpBackend.flush();
-  //});
   function setup(scope) {
 
     ctx.fakeOrg1 = {
