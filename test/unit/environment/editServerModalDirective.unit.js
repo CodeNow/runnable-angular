@@ -29,19 +29,12 @@ describe.only('editServerModalDirective'.bold.underline.blue, function () {
     runnable.reset(apiMocks.user);
     angular.mock.module('app', function ($provide) {
       $provide.factory('helpCards', helpCardsMock.create(ctx));
-      $provide.value('JSTagsCollection', function (ports) {
-        console.log('PEJKJKASJK', ports);
-        return {
-          tags: ports
-        };
-      });
       $provide.factory('fetchDockerfileFromSource', ctx.fetchDockerfileFromSourceMock.fetch());
       $provide.factory('populateDockerfile', ctx.populateDockerfile.fetch());
       $provide.factory('loadingPromises', function ($q) {
         ctx.loadingPromiseMock = {
           finishedValue: 0,
           add: sinon.spy(function (namespace, promise) {
-            console.log('ADD!!!!');
             return promise;
           }),
           clear: sinon.spy(),
@@ -147,13 +140,11 @@ describe.only('editServerModalDirective'.bold.underline.blue, function () {
     it('should only update the instance if nothing has changed', function () {
       var closePopoverSpy = sinon.spy();
       $rootScope.$on('close-popovers', closePopoverSpy);
-      keypather.set($elScope, 'portTagOptions.tags.tags', {
-        hello: 'cheese'
-      });
 
       $elScope.getUpdatePromise();
       $scope.$digest();
       sinon.assert.called(closePopoverSpy);
+      sinon.assert.called(ctx.loadingPromiseMock.finished);
       expect($elScope.building).to.be.true;
       expect($elScope.state.ports).to.be.ok;
 

@@ -40,7 +40,6 @@ function editServerModal(
     },
     link: function ($scope, elem, attrs) {
       $scope.isLoading = $rootScope.isLoading;
-      console.log('Ddsfasdfs', $scope.server.ports);
       if (helpCards.cardIsActiveOnThisContainer($scope.server.instance)) {
         $scope.helpCards = helpCards;
         $scope.activeCard = helpCards.getActiveCard();
@@ -60,6 +59,7 @@ function editServerModal(
         tags: new JSTagsCollection(($scope.server.ports || '').split(' '))
       };
 
+      console.log('gsasdgadfsgadsfg', $scope.portTagOptions.tags);
 
       $scope.triggerEditRepo = function (repo) {
         if (repo.type === 'Main Repository') { return; }
@@ -228,7 +228,7 @@ function editServerModal(
       $scope.openItems = new OpenItems();
 
       function convertTagToPortList() {
-        return Object.keys($scope.portTagOptions.tags.tags).map(function (key) {
+        return Object.keys($scope.portTagOptions.tags.tags).reduce(function (key) {
           return $scope.portTagOptions.tags.tags[key].value;
         });
       }
@@ -336,6 +336,7 @@ function editServerModal(
         $scope.building = true;
         var toRebuild = false;
         $scope.state.ports = convertTagToPortList();
+        console.log('$scope.state.ports', $scope.state.ports);
         return loadingPromises.finished('editServerModal')
           .then(function (promiseArrayLength) {
             // Since the initial deepCopy should be in here, we only care about > 1
