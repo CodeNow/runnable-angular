@@ -88,7 +88,7 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       'read-only': 'true',
       'parent-dir': 'mockParentDir',
       'file-model': 'mockFileModel', // This is either a contextVersion or a container
-      'edit-explorer': 'false',
+      'edit-explorer': 'editExplorer',
       'loading-promises-target': 'loadingPromisesTarget'
     });
 
@@ -499,6 +499,9 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       sinon.assert.calledWith($elScope.$broadcast, 'close-popovers');
     });
     it('should support editing a repo', function () {
+      $scope.editExplorer = true;
+      $scope.$digest();
+
       var acv = {};
       $elScope.popoverFileExplorerRepository.actions.editRepo(acv);
       $scope.$digest();
@@ -509,6 +512,10 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
   });
 
   describe('popoverFilesRepositoryCommitToggle actions', function () {
+    beforeEach(function () {
+      $scope.editExplorer = true;
+      $scope.$digest();
+    });
     it('should support creating a new repo', function () {
       var repo = {};
       keypather.set(repo, 'repo.attrs.full_name', 'fullName');

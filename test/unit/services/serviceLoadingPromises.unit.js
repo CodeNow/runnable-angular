@@ -67,17 +67,13 @@ describe('loadingPromises'.bold.underline.blue, function () {
       $rootScope.$apply();
     });
   });
-  describe('failures'.bold, function () {
-    it('should error on bad namespace', function (done) {
+  describe('Without namespace'.bold, function () {
+    it('should just return without adding anything to the hash', function (done) {
       loadingPromises.add(null, $q(function (resolve) {
         resolve();
       }))
         .then(function () {
           // We should not get here
-          expect(false).to.be.true;
-        })
-        .catch(function (err) {
-          expect(err).to.equal('LoadingPromises received a falsy namespace!!!');
           done();
         });
 
