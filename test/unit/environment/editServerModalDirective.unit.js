@@ -1,5 +1,5 @@
 'use strict';
-describe.only('editServerModalDirective'.bold.underline.blue, function () {
+describe('editServerModalDirective'.bold.underline.blue, function () {
   var ctx;
   var $timeout;
   var $scope;
@@ -27,8 +27,15 @@ describe.only('editServerModalDirective'.bold.underline.blue, function () {
     ctx.fetchDockerfileFromSourceMock = new MockFetch();
     ctx.populateDockerfile = new MockFetch();
     runnable.reset(apiMocks.user);
+
+    ctx.openItemsMock = function () {
+      this.models = [];
+      this.add = sinon.spy();
+    };
+
     angular.mock.module('app', function ($provide) {
       $provide.factory('helpCards', helpCardsMock.create(ctx));
+      $provide.value('OpenItems', ctx.openItemsMock);
       $provide.factory('fetchDockerfileFromSource', ctx.fetchDockerfileFromSourceMock.fetch());
       $provide.factory('populateDockerfile', ctx.populateDockerfile.fetch());
       $provide.factory('loadingPromises', function ($q) {
@@ -85,52 +92,62 @@ describe.only('editServerModalDirective'.bold.underline.blue, function () {
   }
   describe('basic', function () {
   });
+  beforeEach(function () {
+    ctx.instance = runnable.newInstance(
+      apiMocks.instances.running,
+      {noStore: true}
+    );
+    sinon.stub(ctx.instance, 'update', function (opts, cb) {
+      return cb();
+    });
+    ctx.contextVersion = apiClientMockFactory.contextVersion(
+      runnable,
+      apiMocks.contextVersions.running
+    );
+    ctx.newContextVersion = apiClientMockFactory.contextVersion(
+      runnable,
+      apiMocks.contextVersions.setup
+    );
+    sinon.stub(ctx.contextVersion, 'deepCopy', function (cb) {
+      $rootScope.$evalAsync(function () {
+        cb(null, ctx.newContextVersion);
+      });
+      return ctx.newContextVersion;
+    });
+    ctx.dockerfile = {
+      attrs: apiMocks.files.dockerfile
+    };
+    sinon.stub(ctx.newContextVersion, 'fetchFile', function (opts, cb) {
+      $rootScope.$evalAsync(function () {
+        cb(null, ctx.dockerfile);
+      });
+      return ctx.dockerfile;
+    });
+    sinon.stub(ctx.newContextVersion, 'update', function (opts, cb) {
+      $rootScope.$evalAsync(function () {
+        cb(null, ctx.newContextVersion);
+      });
+      return ctx.newContextVersion;
+    });
+    ctx.build = apiClientMockFactory.build(runnable, apiMocks.contextVersions.running);
+    sinon.stub(ctx.build, 'build', function (opts, cb) {
+      return cb();
+    });
+    ctx.server = {
+      advanced: false,
+      startCommand: 'hello',
+      ports: '80 900 90',
+      selectedStack: {
+        hello: 'cheese'
+      },
+      instance: ctx.instance,
+      contextVersion: ctx.contextVersion,
+      build: ctx.build
+    };
 
+  });
   describe('getUpdatePromise', function () {
     beforeEach(function () {
-      ctx.instance = runnable.newInstance(
-        apiMocks.instances.running,
-        {noStore: true}
-      );
-      ctx.contextVersion = apiClientMockFactory.contextVersion(
-        runnable,
-        apiMocks.contextVersions.running
-      );
-      ctx.newContextVersion = apiClientMockFactory.contextVersion(
-        runnable,
-        apiMocks.contextVersions.setup
-      );
-      sinon.stub(ctx.contextVersion, 'deepCopy', function (cb) {
-        $rootScope.$evalAsync(function () {
-          cb(null, ctx.newContextVersion);
-        });
-        return ctx.newContextVersion;
-      });
-      ctx.dockerfile = {
-        attrs: apiMocks.files.dockerfile
-      };
-      sinon.stub(ctx.newContextVersion, 'fetchFile', function (opts, cb) {
-        $rootScope.$evalAsync(function () {
-          cb(null, ctx.dockerfile);
-        });
-        return ctx.dockerfile;
-      });
-      ctx.build = apiClientMockFactory.build(runnable, apiMocks.contextVersions.running);
-      sinon.stub(ctx.build, 'build', function (opts, cb) {
-        return cb();
-      });
-      ctx.server = {
-        advanced: false,
-        startCommand: 'hello',
-        ports: '80 900 90',
-        selectedStack: {
-          hello: 'cheese'
-        },
-        instance: ctx.instance,
-        contextVersion: ctx.contextVersion,
-        build: ctx.build
-      };
-
       setup({
         currentModel: ctx.server,
         data: {
@@ -140,9 +157,17 @@ describe.only('editServerModalDirective'.bold.underline.blue, function () {
         }
       });
     });
-    it('should only update the instance if nothing has changed', function () {
+    it('should only update the instance if nothing has changed', function (done) {
+      var alertSpy = sinon.spy();
       var closePopoverSpy = sinon.spy();
       $rootScope.$on('close-popovers', closePopoverSpy);
+      $rootScope.$on('alert', function (event, opts) {
+        expect(opts).to.be.deep.equal({
+          type: 'success',
+          text: 'Container updated successfully.'
+        });
+        done();
+      });
 
       $elScope.getUpdatePromise();
       $scope.$digest();
@@ -151,7 +176,45 @@ describe.only('editServerModalDirective'.bold.underline.blue, function () {
       sinon.assert.notCalled(ctx.newContextVersion.fetchFile);
       expect($elScope.building).to.be.true;
       expect($elScope.state.ports).to.be.ok;
+      $scope.$digest();
+      sinon.assert.notCalled(ctx.build.build);
+      $scope.$digest();
+      sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
+      $scope.$digest();
+      sinon.assert.calledOnce($scope.defaultActions.close);
 
+    });
+  });
+  describe('advanced flag', function () {
+    beforeEach(function () {
+      setup({
+        currentModel: ctx.server,
+        data: {
+          sourceContexts: {
+            models: []
+          }
+        }
+      });
+    });
+    it('should save the change immediately', function () {
+      var closePopoverSpy = sinon.spy();
+      $rootScope.$on('close-popovers', closePopoverSpy);
+
+      $scope.$digest();
+      ctx.loadingPromiseMock.add.reset();
+      sinon.assert.notCalled(ctx.loadingPromiseMock.add);
+      expect($elScope.state.advanced).to.not.be.ok;
+      $elScope.state.advanced = true;
+      $scope.$digest();
+
+      sinon.assert.called(closePopoverSpy);
+      sinon.assert.called(ctx.loadingPromiseMock.add);
+      $scope.$digest();
+      sinon.assert.called(ctx.newContextVersion.fetchFile);
+      sinon.assert.called(ctx.loadingPromiseMock.add);
+      sinon.assert.calledWith(ctx.newContextVersion.update, {
+        advanced: true
+      });
     });
   });
 });

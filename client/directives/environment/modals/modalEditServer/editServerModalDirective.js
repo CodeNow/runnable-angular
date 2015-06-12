@@ -59,8 +59,6 @@ function editServerModal(
         tags: new JSTagsCollection(($scope.server.ports || '').split(' '))
       };
 
-      console.log('gsasdgadfsgadsfg', $scope.portTagOptions.tags);
-
       $scope.triggerEditRepo = function (repo) {
         if (repo.type === 'Main Repository') { return; }
         $scope.repositoryPopover.data = {
@@ -418,19 +416,12 @@ function editServerModal(
       }
 
       function openDockerfile() {
-        var rootDir = keypather.get($scope.state, 'contextVersion.rootDir');
-        if (!rootDir) {
-          return $q.reject(new Error('rootDir not found'));
-        }
-        return promisify(rootDir.contents, 'fetch')()
-          .then(function () {
-            var file = rootDir.contents.models.find(function (file) {
-              return (file.attrs.name === 'Dockerfile');
-            });
-            if (file) {
-              $scope.openItems.add(file);
+        return promisify($scope.state.contextVersion, 'fetchFile')('/Dockerfile')
+          .then(function (dockerfile) {
+            if (dockerfile) {
+              $scope.openItems.add(dockerfile);
             }
-            $scope.state.dockerfile = file;
+            $scope.state.dockerfile = dockerfile;
           });
       }
 
