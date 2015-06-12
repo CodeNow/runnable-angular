@@ -193,7 +193,7 @@
     display: block;
     height: 54px;
     line-height: 1.4;
-    padding: 7px 9px;
+    padding: 7px 24px 7px 9px;
     text-align: left;
 
     &:hover,
@@ -234,6 +234,7 @@
       cursor: default;
       height: auto;
       min-height: 54px;
+      padding-right: 51px; // increased padding for toggle
       position: relative;
 
       &:hover,
@@ -242,7 +243,7 @@
         box-shadow: none;
         color: $gray;
 
-        .small {
+        > .small {
           color: $gray;
         }
       }
@@ -250,8 +251,6 @@
       // descriptive text
       .small {
         display: block;
-        padding-left: 24px;
-        padding-right: 51px; // increased padding for toggle
 
         &.multi-line {
           line-height: 1.4;
@@ -316,15 +315,14 @@
       width: 18px;
     }
 
-    .h3 {
-      font-size: 16px;
-    }
-
-    .small {
+    > .small {
       color: $gray;
       display: block;
       line-height: 21px;
-      padding-right: 15px; // for arrow
+    }
+
+    .h3 {
+      font-size: 16px;
     }
 
     .icons-arrow-down {

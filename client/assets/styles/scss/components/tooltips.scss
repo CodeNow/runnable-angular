@@ -137,7 +137,8 @@
 
   // content specific
   &.tooltip-tools {
-    width: 180px;
+    white-space: normal;
+    width: 240px;
 
     .list-item {
       height: 24px;
@@ -149,5 +150,17 @@
       margin-right: 10px;
       width: 14px;
     }
+
+    .p.p {
+      border-top: 1px solid $gray-dark;
+      line-height: 1.2;
+      margin-top: 6px;
+      padding-top: 6px;
+    }
+  }
+
+  .small {
+    color: $gray-light;
+    padding: 0; // overrides…until tooltips are refactored
   }
 }

@@ -67,7 +67,7 @@ ul.card-body.load(
         xlink:href = "#icons-ports"
       )
     h3.h3 Exposed Ports
-    small.small.text-overflow {{ server.ports || 'None'}}
+    small.small.text-overflow {{ server.ports || '—'}}
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
@@ -187,15 +187,11 @@ ul.card-body.load(
         xlink:href = "#icons-dockerfile"
       )
     h3.h3 Allow Dockerfile Editing
-      span.tooltip-icon(
-        tooltip = "Your configuration is saved when you allow editing and will be restored if you lock your Dockerfile again."
-        tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-7,\"top\":12}"
-      )
     small.small.multi-line When enabled, #{''}
       em.underline.tooltip-plus-wrapper some tools
         .tooltip-plus.tooltip-tools.top(
           ng-include = "'viewTooltipTools'"
-          style = "bottom: 24px; left: -58px;"
+          style = "bottom: 24px; left: -88px;"
         )
       | #{''} will be unavailable.
     button.btn.btn-xxs(

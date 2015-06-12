@@ -17,28 +17,25 @@
       xlink:href = "#icons-dockerfile"
     )
   strong.small.strong Allow Dockerfile Editing
-    span.tooltip-icon(
-      tooltip = "Your configuration is saved when you allow editing and will be restored if you lock your Dockerfile again."
-      tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-7,\"top\":12}"
-    )
 
-    //- ************
-    //- this link is only for triggering the modal for locking the dockerfile. remove in production.
-    //- ************
-    //- a.link.float-right(
-    //-   modal
-    //-   modal-template = "viewModalLockDockerfile"
-    //-   style = "color: red; margin-left: 3px;"
-    //- ) Test
+  //- ************
+  //- this link is only for triggering the modal for locking the dockerfile. remove in production.
+  //- ************
+  //- a.link.float-right(
+  //-   modal
+  //-   modal-template = "viewModalLockDockerfile"
+  //-   style = "color: red; margin-left: 3px;"
+  //- ) Test
 
   small.small When enabled, #{''}
     em.underline.tooltip-plus-wrapper some tools
       .tooltip-plus.tooltip-tools.bottom(
         ng-include = "'viewTooltipTools'"
-        style = "left: -58px; top: 27px;"
+        style = "left: -88px; top: 27px;"
       )
     | #{''} will be unavailable.
 
+  //- when locking the dockerfile, prompt with modal template: viewModalLockDockerfile
   label.toggle-wrapper
     input.toggle-input(
       ng-false-value = "true"
