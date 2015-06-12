@@ -117,7 +117,7 @@ function EnvironmentController(
       eventTracking.triggeredBuild(false);
       // Save this in case it changes
       var cachedActiveAccount = $rootScope.dataApp.data.activeAccount;
-      var instance = cachedActiveAccount.newInstance({
+      var instance = $rootScope.dataApp.data.user.newInstance({
         name: name,
         owner: {
           username: cachedActiveAccount.oauthName()
