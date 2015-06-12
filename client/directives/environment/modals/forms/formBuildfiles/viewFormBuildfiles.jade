@@ -14,9 +14,9 @@
 )
   svg.iconnables.float-left
     use(
-      xlink:href = "#icons-dockerfile"
+      xlink:href = "#icons-lock"
     )
-  strong.small.strong Unlock Dockerfile
+  strong.small.strong Allow Write Access
 
   //- ************
   //- this link is only for triggering the modal for locking the dockerfile. remove in production.
@@ -27,16 +27,16 @@
   //-   style = "color: red; margin-left: 3px;"
   //- ) Test
 
-  small.small When unlocked, #{''}
-    em.underline.tooltip-plus-wrapper some tools
+  small.small
+    em.underline.tooltip-plus-wrapper Some tools
       .tooltip-plus.tooltip-tools.bottom(
         ng-include = "'viewTooltipTools'"
         style = "left: -88px; top: 27px;"
       )
-    | #{''} will be unavailable.
+    | #{''} are not available with write access.
 
   //- when locking the dockerfile, prompt with modal template: viewModalLockDockerfile
-  label.toggle-wrapper
+  label.toggle-wrapper.show-icons
     input.toggle-input(
       ng-false-value = "true"
       ng-model = "state.readOnly"

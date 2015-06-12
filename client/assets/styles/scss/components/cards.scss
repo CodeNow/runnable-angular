@@ -228,68 +228,16 @@
     }
 
     &:last-child {
-      background-color: $gray-lightest;
       border-radius: 0 0 3px 3px;
-      color: $gray;
-      cursor: default;
-      height: auto;
-      min-height: 54px;
-      padding-right: 51px; // increased padding for toggle
-      position: relative;
 
-      &:hover,
-      &:active {
-        border-color: $gray-lighter;
-        box-shadow: none;
-        color: $gray;
-
-        > .small {
-          color: $gray;
-        }
-      }
-
-      // descriptive text
-      .small {
-        display: block;
-
-        &.multi-line {
-          line-height: 1.4;
-          margin-top: 3px;
-          white-space: normal;
-        }
-      }
-
-      // toggle
-      .toggle-wrapper {
+      .icons-lock,
+      .icons-unlock {
+        height: 100%;
+        pointer-events: auto;
         position: absolute;
-        right: 9px;
-        top: 9px;
-
-        &.show-icons {
-          right: 24px;
-        }
-      }
-
-      // open button
-      .btn-xxs {
-        background: $white;
-        display: block;
-        font-weight: 500;
-        margin: 6px 0 3px 21px;
-        padding-right: 15px;
-
-        &:hover {
-          color: $gray-dark;
-        }
-
-        &:active {
-          color: $purple-light;
-        }
-      }
-
-      .icons-arrow-down {
-        opacity: .5;
-        right: -3px;
+        right: 30px;
+        top: 0;
+        width: 14px;
       }
     }
 
