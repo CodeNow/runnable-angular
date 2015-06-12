@@ -109,13 +109,16 @@ describe.only('editServerModalDirective'.bold.underline.blue, function () {
       ctx.dockerfile = {
         attrs: apiMocks.files.dockerfile
       };
-      ctx.newContextVersion.fetchFile = sinon.spy(function (opts, cb) {
+      sinon.stub(ctx.newContextVersion, 'fetchFile', function (opts, cb) {
         $rootScope.$evalAsync(function () {
           cb(null, ctx.dockerfile);
         });
         return ctx.dockerfile;
       });
       ctx.build = apiClientMockFactory.build(runnable, apiMocks.contextVersions.running);
+      sinon.stub(ctx.build, 'build', function (opts, cb) {
+        return cb();
+      });
       ctx.server = {
         advanced: false,
         startCommand: 'hello',
@@ -145,6 +148,7 @@ describe.only('editServerModalDirective'.bold.underline.blue, function () {
       $scope.$digest();
       sinon.assert.called(closePopoverSpy);
       sinon.assert.called(ctx.loadingPromiseMock.finished);
+      sinon.assert.notCalled(ctx.newContextVersion.fetchFile);
       expect($elScope.building).to.be.true;
       expect($elScope.state.ports).to.be.ok;
 

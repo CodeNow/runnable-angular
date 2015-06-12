@@ -228,7 +228,7 @@ function editServerModal(
       $scope.openItems = new OpenItems();
 
       function convertTagToPortList() {
-        return Object.keys($scope.portTagOptions.tags.tags).reduce(function (key) {
+        return Object.keys($scope.portTagOptions.tags.tags).map(function (key) {
           return $scope.portTagOptions.tags.tags[key].value;
         });
       }
@@ -336,7 +336,6 @@ function editServerModal(
         $scope.building = true;
         var toRebuild = false;
         $scope.state.ports = convertTagToPortList();
-        console.log('$scope.state.ports', $scope.state.ports);
         return loadingPromises.finished('editServerModal')
           .then(function (promiseArrayLength) {
             // Since the initial deepCopy should be in here, we only care about > 1
@@ -347,11 +346,8 @@ function editServerModal(
             var state = $scope.state;
             if (!state.advanced &&
                 (state.server.startCommand !== state.startCommand ||
-                state.server.ports !== state.ports ||
+                state.server.ports !== state.ports.join(' ') ||
                 !angular.equals(state.server.selectedStack, state.selectedStack))) {
-              console.log('state.server.startCommand', state.server.startCommand,  state.startCommand);
-              console.log('state.server.selectedStack', state.server.selectedStack, state.selectedStack);
-              console.log('state.server.ports', state.server.ports, state.ports);
               toRebuild = true;
               return updateDockerfile(state);
             }
