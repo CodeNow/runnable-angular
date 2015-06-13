@@ -16,7 +16,7 @@
     use(
       xlink:href = "#icons-lock"
     )
-  strong.small.strong Allow Write Access
+  strong.small.strong Enable Write Access
 
   //- ************
   //- this link is only for triggering the modal for locking the dockerfile. remove in production.
@@ -31,9 +31,9 @@
     em.underline.tooltip-plus-wrapper Some tools
       .tooltip-plus.tooltip-tools.bottom(
         ng-include = "'viewTooltipTools'"
-        style = "left: -88px; top: 27px;"
+        style = "left: -69px; top: 27px;"
       )
-    | #{''} are not available with write access.
+    | #{''} are not available with write access enabled.
 
   //- when locking the dockerfile, prompt with modal template: viewModalLockDockerfile
   label.toggle-wrapper.show-icons

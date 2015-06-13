@@ -106,15 +106,37 @@
   padding: 15px;
   position: absolute;
   white-space: nowrap;
+  z-index: $z-tooltip;
 
   &::before {
     content: '';
     display: block;
-    left: 0;
     margin: 0 auto;
     position: absolute;
-    right: 0;
     width: 18px;
+  }
+
+  // arrow pointing up
+  &.bottom::before {
+    border-bottom: 9px solid $gray-darker;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 0;
+    left: 0;
+    right: 0;
+    top: -9px;
+  }
+
+  // arrow pointing left
+  &.right::before {
+    border-bottom: 9px solid transparent;
+    border-left: 0;
+    border-right: 9px solid $gray-darker;
+    border-top: 9px solid transparent;
+    float: left;
+    left: -18px;
+    margin-top: -9px;
+    top: 50%;
   }
 
   // arrow pointing down
@@ -124,15 +146,8 @@
     border-right: 9px solid transparent;
     border-top: 9px solid $gray-darker;
     bottom: -9px;
-  }
-
-  // arrow pointing up
-  &.bottom::before {
-    border-bottom: 9px solid $gray-darker;
-    border-left: 9px solid transparent;
-    border-right: 9px solid transparent;
-    border-top: 0;
-    top: -9px;
+    left: 0;
+    right: 0;
   }
 
   // content specific

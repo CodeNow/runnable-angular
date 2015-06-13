@@ -199,24 +199,24 @@ ul.card-body.load(
     small.small(
       ng-if = "server.advanced"
     )
-      em.underline.tooltip-plus-wrapper Some tools
-        .tooltip-plus.tooltip-tools.top(
+      em.underline.tooltip-plus-wrapper Tools
+        .tooltip-plus.tooltip-tools.right(
           ng-include = "'viewTooltipTools'"
-          style = "bottom: 24px; left: -88px;"
+          style = "left: 42px; top: -95px;"
         )
-      | #{''} are not available with write access.
+      | #{''} not available with write access.
 
     //- lock/unlock icon to show status of container's dockerfile
     svg.iconnables.icons-lock(
       ng-if = "!server.advanced"
-      title = "Allow write access in the Dockerfile tool"
+      title = "Enable write access in the Dockerfile tool"
     )
       use(
         xlink:href = "#icons-lock"
       )
     svg.iconnables.icons-unlock(
       ng-if = "server.advanced"
-      title = "You have write access in the Dockerfile tool"
+      title = "You have write access enabled in the Dockerfile tool"
     )
       use(
         xlink:href = "#icons-unlock"
@@ -226,24 +226,3 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-arrow-down"
       )
-    //- button.btn.btn-xxs(
-    //-   modal
-    //-   modal-actions = "actions"
-    //-   modal-current-model = "server"
-    //-   modal-data = "data"
-    //-   modal-state-model = "'buildfiles'"
-    //-   modal-template = "editServerModalOpen"
-    //- ) Dockerfile
-      svg.iconnables.icons-arrow-down
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
-    //- label.toggle-wrapper(
-    //-   ng-attr-title = "{{ !server.repo ? 'Disabled on non-repository containers' : '' }}"
-    //- )
-      input.toggle-input(
-        ng-checked = "server.advanced"
-        ng-disabled = "!server.repo"
-        type = "checkbox"
-      )
-      .toggle-group.toggle-sm
