@@ -106,7 +106,7 @@ function helpCardsFactory(
       },
       {
         id: 'missingMapping',
-        label: 'Some of your repository containers may need to be updated with a mapping to <b>{{mapping}}\'s</b> elastic hostname.',
+        label: 'You may need to add a mapping to <b>{{mapping}}\'s</b> elastic hostname for some repository containers.',
         targets: [
           'environmentVariables',
           'findAndReplace'
