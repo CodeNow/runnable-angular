@@ -69,7 +69,7 @@
   white-space: nowrap;
 }
 
-// tooltip icon
+// tooltip icon (i)
 .tooltip-icon {
   background-color: $gray-light;
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAMAAADW3miqAAAAM1BMVEUAAAD///////////////////////////////////////////////////////////////+3leKCAAAAEHRSTlMAECAwQFBgcICPn6+/z9/vIxqCigAAAJNJREFUeAHN0TESwiAUhOEFAkHyAnv/0+rLaMmKVfyaNDvwT8DNgpE9QTv5ckDKvECqdAPSzoXr4vCDErR0WIv4M2k3skCItdNVTG0HL+Kk6BPrdGn+G88S0PWztM2nK89S6HZI7Z2k6CS3mpRXkh4rSedCUvgxKZSvSbkNxsnI6Jp/esYEP7pfJkejJQhGWk242RMLCwsROuxo1gAAAABJRU5ErkJggg==);
@@ -116,7 +116,7 @@
     width: 18px;
   }
 
-  // arrow pointing up
+  // arrow pointing up 🔼
   &.bottom::before {
     border-bottom: 9px solid $gray-darker;
     border-left: 9px solid transparent;
@@ -127,19 +127,18 @@
     top: -9px;
   }
 
-  // arrow pointing left
+  // arrow pointing left ◀️
   &.right::before {
     border-bottom: 9px solid transparent;
     border-left: 0;
     border-right: 9px solid $gray-darker;
     border-top: 9px solid transparent;
-    float: left;
     left: -18px;
     margin-top: -9px;
     top: 50%;
   }
 
-  // arrow pointing down
+  // arrow pointing down 🔽
   &.top::before {
     border-bottom: 0;
     border-left: 9px solid transparent;
@@ -150,7 +149,7 @@
     right: 0;
   }
 
-  // content specific
+  // content specific (from configure "unavailable tools")
   &.tooltip-tools {
     white-space: normal;
     width: 240px;
@@ -174,6 +173,7 @@
     }
   }
 
+  // don't inherit these from parent styles
   .small {
     color: $gray-light;
     display: block;

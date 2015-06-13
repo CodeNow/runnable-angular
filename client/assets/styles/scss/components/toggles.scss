@@ -4,11 +4,12 @@
   visibility: hidden; // not visible, but functional
 }
 
-// toggle
+// toggle wrapper
 .toggle-wrapper {
   display: inline-block;
   position: relative;
 
+  // if you want icons (optional)
   &.show-icons {
 
     &::before,
@@ -23,11 +24,13 @@
       width: 12px;
     }
 
+    // lock icon
     &::before {
       background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKJJREFUeNpiYMAOBIB4PhD/R8PzoXJEg/1A/B6IE4DYAYoToGL7iTUkAWq7ARY5A6hcAjEGrYdikuSZcNh6EI9BB3G4FgP8h4YJLuAAVUPQRWQBqhnEgpRuEpDSSDwe78lD6QYg/gDEC0A0I1RwPtSgAyQ6BGTZBCAuRE6A/WT4qB+WQJHD6CMZBn0cvLE2uA3SJ0M/hp4ALIUYsRiklwEgwABo+i70TLjerQAAAABJRU5ErkJggg==);
       left: -15px;
     }
 
+    // unlock icon
     &::after {
       background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAJJJREFUeNpiYCAeNADxfSD+j4TPA3EACWYwzIdq7AdiByQME08gxhAHAooboPJEueY8ATVEeQ8ULgUMVAD/od7DC5gIyAtA6Q+UusaB2IBkAWIDPIEljxQz6OAAFIMBIxC/hzr9AQkuFYA6QBFZ33+ksCA7EpioFZhMDFQCI8AgAxL1YVV/Hq2wIhbfR042AAEGAD7ILRFjehfpAAAAAElFTkSuQmCC);
       right: -15px;
@@ -35,6 +38,7 @@
   }
 }
 
+// actual toggle
 .toggle-group {
   background: $gray-lighter;
   border: 2px solid $gray-light;
@@ -52,6 +56,7 @@
     background: $gray-light;
   }
 
+  // smaller size
   &.toggle-sm {
     border-radius: 21px;
     height: 21px;
@@ -63,6 +68,7 @@
     }
   }
 
+  // the toggle (white circle)
   &::after {
     background: $white;
     border-radius: 50%;
@@ -91,6 +97,7 @@
     background: $green;
   }
 
+  // shift toggle & shadow
   &::after {
     box-shadow: -1px 1px 3px rgba($black,.05);
     transform: translate3d(14px,0,0);

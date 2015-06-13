@@ -15,7 +15,7 @@
   strong.small.strong Enable Write Access
 
   //- ************
-  //- this link is only for triggering the modal for locking the dockerfile. remove in production.
+  //- this link is only for triggering the modal for locking the dockerfile.
   //- ************
   //- a.link.float-right(
   //-   modal
@@ -42,6 +42,8 @@
     .toggle-group.toggle-sm
 
 //- table of current environment variables
+//- if dockerfile tool feature flag:
+//- state.readOnly = true
 .ace-container.ace-build-files.ace-runnable-dark(
   ng-init = "state.readOnly = $root.featureFlags.dockerfileTool || !$root.featureFlags.dev"
 )
