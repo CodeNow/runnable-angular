@@ -37,6 +37,11 @@ function parseDockerfileForStack(
         rubyVersion = stackVersion;
         stackKey = 'rails';
         stackVersion = railsVersion[1];
+      } else if (stackVersion.trim() === '1.9') {
+        var rubyEnv = /ENV RUBY_VERSION ([^\n]+)/.exec(dockerfile.attrs.body);
+        if (rubyEnv) {
+          stackVersion = rubyEnv[1].trim();
+        }
       }
     }
     stack = angular.copy(stackData.find(hasKeypaths({
@@ -44,7 +49,7 @@ function parseDockerfileForStack(
     })));
     if (stack) {
       stack.selectedVersion = stackVersion;
-      if (rubyVersion) {
+      if (stackKey === 'rails') {
         stack.dependencies[0].selectedVersion = rubyVersion;
       }
       return stack;
