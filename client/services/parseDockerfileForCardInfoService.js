@@ -39,7 +39,7 @@ function parseDockerfileForStack(
         stackVersion = railsVersion[1];
       } else if (stackVersion.trim() === '1.9') {
         var rubyEnv = /ENV RUBY_VERSION ([^\n]+)/.exec(dockerfile.attrs.body);
-        if (rubyEnv) {
+        if (rubyEnv && rubyEnv.length) {
           stackVersion = rubyEnv[1].trim();
         }
       }
