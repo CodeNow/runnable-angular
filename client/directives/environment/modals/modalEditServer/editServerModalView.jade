@@ -87,8 +87,8 @@ form.modal-dialog.modal-edit(
       button.btn.btn-radio(
         ng-class = "{active: selectedTab === 'buildfiles'}"
         ng-click = "changeTab('buildfiles')"
+        ng-if = "state.advanced || $root.featureFlags.dockerfileTool"
       )
-        //- ng-if = "state.advanced"
         svg.iconnables
           use(
             xlink:href = "#icons-dockerfile"

@@ -47,7 +47,7 @@
 
 //- table of current environment variables
 .ace-container.ace-build-files.ace-runnable-dark(
-  ng-init = "state.readOnly = true"
+  ng-init = "state.readOnly = $root.featureFlags.dockerfileTool || !$root.featureFlags.dev"
 )
 
   .sidebar(
@@ -55,8 +55,8 @@
     explorer
     explorer-title = "Build Files"
     file-model = "state.contextVersion"
-    open-items = "openItems"
     loading-promises-target = "editServerModal"
+    open-items = "openItems"
     root-dir = "state.contextVersion.rootDir"
     read-only = "state.readOnly"
     show-repo-folder = "true"
@@ -74,6 +74,3 @@
     state = "state"
     use-auto-update = "true"
   )
-
-//- small.small Last modified on May 25, 2014 at 10:35 AM
-  button.btn.btn-xxs.gray Restore

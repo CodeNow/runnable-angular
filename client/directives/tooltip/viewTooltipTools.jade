@@ -24,4 +24,6 @@ ul.list
         xlink:href = "#icons-container-files"
       )
     | Container Files
-small.p.small Your configuration is saved when the Dockerfile is unlocked and will be restored if you lock again.
+small.p.small(
+  ng-if = "$root.featureFlags.dockerfileTool"
+) Your configuration is saved when you enable write access and will be restored if you disable access.

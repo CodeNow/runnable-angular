@@ -174,11 +174,20 @@ ul.card-body.load(
         xlink:href = "#icons-dockerfile"
       )
     h3.h3 Dockerfile
-    small.small.text-overflow
+    small.small(
+      ng-if = "server.advanced"
+    )
+      em.underline.tooltip-plus-wrapper Tools
+        .tooltip-plus.tooltip-tools.right(
+          ng-include = "'viewTooltipTools'"
+          style = "left: 42px; top: -67px;"
+        )
+      | #{''} not available in advanced mode.
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
       )
+  //- new dockerfile
   li.btn.white(
     modal
     modal-actions = "actions"
