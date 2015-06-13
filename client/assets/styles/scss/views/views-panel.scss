@@ -5,6 +5,11 @@
   position: relative;
   z-index: $z-views-active-panel;
 
+  // for tabs when in views
+  .views & {
+    height: calc(100% - 45px);
+  }
+
   // ace overrides
   .ace_scrollbar {
     overflow: hidden;
@@ -22,22 +27,7 @@
     .views & {
 
       &.logs {
-        height: calc(100% - 60px);
-      }
-    }
-  }
-}
-
-// crazy shit
-.views-toolbar-wrapper ~ .active-panel {
-
-  // panels
-  > div {
-
-    .views & {
-
-      &.logs {
-        height: calc(100% - 90px);
+        height: calc(100% - 30px);
       }
     }
   }
