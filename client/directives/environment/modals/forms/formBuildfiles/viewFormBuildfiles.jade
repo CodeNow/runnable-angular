@@ -4,10 +4,6 @@
   .help(
     ng-bind-html = "helpCards.getActiveCard().helpPopover.containerFiles"
   )
-.help-padding(
-  ng-bind-html = "helpCards.getActiveCard().helpPopover.containerFiles"
-  ng-if = "helpCards.getActiveCard().helpPopover.containerFiles"
-)
 
 .table-actions.table-toggle(
   ng-if = "$root.featureFlags.dockerfileTool"
