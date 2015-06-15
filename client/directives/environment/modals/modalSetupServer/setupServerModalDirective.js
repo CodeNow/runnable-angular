@@ -145,7 +145,6 @@ function setupServerModal(
           .then(function (masterBranch) {
             $scope.state.branch = masterBranch;
             // Set the repo here so the page change happens after all of these fetches
-            $scope.state.repo = repo;
             return promisify($scope.state.contextVersion.appCodeVersions, 'create', true)({
               repo: repo.attrs.full_name,
               branch: masterBranch.attrs.name,
@@ -154,6 +153,7 @@ function setupServerModal(
           })
           .then(function () {
             $scope.state.acv = $scope.state.contextVersion.getMainAppCodeVersion();
+            $scope.state.repo = repo;
           })
           .then(function (dockerfile) {
             $scope.state.dockerfile = dockerfile;

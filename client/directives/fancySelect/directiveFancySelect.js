@@ -131,7 +131,11 @@ function fancySelect(
             newValue = keypather.get(newValue, $scope.trackBy);
             originalValue = keypather.get(originalValue, $scope.trackBy);
           }
-
+          if ($scope.option) {
+            $scope.option.selected = false;
+          }
+          $scope.option = clickedOption;
+          $scope.option.selected = true;
           $scope.value = clickedOption.value;
 
           if (originalValue !== newValue && $scope.onUpdate) {
@@ -156,8 +160,7 @@ function fancySelect(
           options.splice(index, 1);
         }
         if (option.selected) {
-          $scope.option = null;
-          selectOption($scope.value);
+          selectNewOption(null);
         }
       };
 
@@ -167,6 +170,16 @@ function fancySelect(
         transclusionScope = innerScope;
       });
 
+      function selectNewOption(newOption) {
+        if ($scope.option) {
+          $scope.option.selected = false;
+        }
+        $scope.option = newOption;
+        if (newOption) {
+          $scope.option.selected = true;
+          $scope.value = newOption.value;
+        }
+      }
       function checkNewOption(newOption, value) {
         if (!$scope.option && newOption && value) {
           var matchValue = newOption.value;
@@ -176,23 +189,19 @@ function fancySelect(
           }
           var found = angular.equals(matchValue, value);
           if (found) {
-            if ($scope.option) {
-              $scope.option.selected = false;
-            }
-            $scope.option = newOption;
-            newOption.selected = true;
-            angular.element(element[0].querySelector('.display')).html(newOption.element.html());
+            selectNewOption(newOption);
+
+            $scope.$evalAsync(function () {
+              angular.element(element[0].querySelector('.display')).html(newOption.element.html());
+            });
           }
           return found;
         }
       }
 
       function selectOption (value) {
-        $timeout(function () {
-
-          options.find(function (option) {
-            return checkNewOption(option, value);
-          });
+        options.find(function (option) {
+          return checkNewOption(option, value);
         });
       }
 

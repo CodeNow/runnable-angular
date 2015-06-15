@@ -37,13 +37,11 @@ require('app')
               $scope.state.branch = selectedBranch;
             }
             if (!keypather.get($scope.state, 'repo.branches.models.length')) {
-              $scope.state.repo.branches.add(selectedBranch);
-              //return fetchRepoBranches($scope.state.repo);
-            }
-          })
-          .then(function () {
-            if (!keypather.get($scope.state, 'repo.branches.models.length')) {
-              return fetchRepoBranches($scope.state.repo);
+              $scope.state.repo.branches.add($scope.state.branch);
+              // Don't fetch until the next digest cycle so the fancy select has enough time to draw
+              $scope.$evalAsync(function () {
+                return fetchRepoBranches($scope.state.repo);
+              });
             }
           });
 
