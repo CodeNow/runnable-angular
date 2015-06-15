@@ -180,9 +180,10 @@ ul.card-body.load(
       em.underline.tooltip-plus-wrapper Tools
         .tooltip-plus.tooltip-tools.right(
           ng-include = "'viewTooltipTools'"
-          style = "left: 42px; top: -67px;"
+          style = "left: 42px; top: -95px;"
         )
-      | #{''} not available in advanced mode.
+      //- must use &nbsp; instead of #{''}
+      span.text-overflow &nbsp;not available with write access.
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
