@@ -1,13 +1,13 @@
 button.btn.btn-sm.white.text-overflow.btn-validate(
   ng-click = "actions.toggleSelect($event)"
-  ng-disabled = "state.spinning"
+  ng-disabled = "spinnerFlag"
 )
   .placeholder(
     ng-if = "!value"
   ) {{placeholder}}
   .display.text-overflow
   svg.iconnables.icons-arrow-down(
-    ng-if = "!state.spinning"
+    ng-if = "!spinnerFlag"
   )
     use(
       xmlns:xlink = "http://www.w3.org/1999/xlink"
@@ -15,5 +15,5 @@ button.btn.btn-sm.white.text-overflow.btn-validate(
     )
   .spinner-wrapper.spinner-sm.in(
     ng-include = "'spinner'"
-    ng-if = "state.spinning"
+    ng-if = "spinnerFlag"
   )
