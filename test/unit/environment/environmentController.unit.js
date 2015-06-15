@@ -44,6 +44,12 @@ describe('environmentController'.bold.underline.blue, function () {
         return 'org1';
       }
     };
+    ctx.fakeUser = {
+      attrs: angular.copy(apiMocks.user),
+      oauthName: function () {
+        return 'user';
+      }
+    };
     ctx.favicoMock = {
       reset : sinon.spy(),
       setInstanceState: sinon.spy()
@@ -171,7 +177,10 @@ describe('environmentController'.bold.underline.blue, function () {
       $scope.data.instances = {
         add: sinon.spy()
       };
-      sinon.stub(thisUser, 'newInstance');
+      ctx.fakeUser.newInstance = sinon.spy(function () {
+        return instance;
+      });
+      keypather.set($rootScope, 'dataApp.data.user', ctx.fakeUser);
       keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.fakeOrg1);
       var server = {
         instance: instance
@@ -179,7 +188,7 @@ describe('environmentController'.bold.underline.blue, function () {
       $scope.actions.createAndBuild($q.when(server), 'newName');
       $rootScope.$digest();
 
-      sinon.assert.calledWith(thisUser.newInstance, {
+      sinon.assert.calledWith(ctx.fakeUser.newInstance, {
         name: 'newName',
         owner: {
           username: ctx.fakeOrg1.oauthName()
@@ -210,16 +219,17 @@ describe('environmentController'.bold.underline.blue, function () {
       $scope.data.instances = {
         add: sinon.spy()
       };
-      thisUser.newInstance = sinon.spy(function () {
+      ctx.fakeUser.newInstance = sinon.spy(function () {
         return instance;
       });
+      keypather.set($rootScope, 'dataApp.data.user', ctx.fakeUser);
       keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.fakeOrg1);
 
       var error = new Error('Oops');
       $scope.actions.createAndBuild($q.reject(error), 'newName');
       $rootScope.$digest();
 
-      sinon.assert.calledWith(thisUser.newInstance, {
+      sinon.assert.calledWith(ctx.fakeUser.newInstance, {
         name: 'newName',
         owner: {
           username: ctx.fakeOrg1.oauthName()

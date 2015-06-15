@@ -59,7 +59,7 @@ function EnvironmentController(
 
   var scrollHelper = function () {
     var newVal = false;
-    if ($window.scrollY > 150) {
+    if ($window.scrollY > 153) {
       newVal = true;
     }
     if ($scope.helpUndock !== newVal) {
@@ -117,7 +117,7 @@ function EnvironmentController(
       eventTracking.triggeredBuild(false);
       // Save this in case it changes
       var cachedActiveAccount = $rootScope.dataApp.data.activeAccount;
-      var instance = user.newInstance({
+      var instance = $rootScope.dataApp.data.user.newInstance({
         name: name,
         owner: {
           username: cachedActiveAccount.oauthName()
@@ -125,13 +125,6 @@ function EnvironmentController(
       }, { warn: false });
       $rootScope.dataApp.creatingInstance = !keypather.get($scope, 'data.instances.models.length');
       $scope.data.instances.add(instance);
-      var unwatch = $scope.$on('$destroy', function cleanUp() {
-        $rootScope.dataApp.creatingInstance = false;
-        if (!instance.destroyed) {
-          unwatch();
-          instance.dealloc();
-        }
-      });
       helpCards.hideActiveCard();
 
       $rootScope.$broadcast('alert', {
@@ -158,7 +151,6 @@ function EnvironmentController(
         })
         .finally(function () {
           $rootScope.dataApp.creatingInstance = false;
-          unwatch();
         });
     }
   };
