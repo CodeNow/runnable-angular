@@ -21,6 +21,19 @@
 }
 
 // editor toolbar
+.views-toolbar-wrapper {
+  flex: 0 0 auto;
+
+  &.toolbar-lg ~ .active-panel {
+    height: calc(100% - 120px); // tabs + double toolbar
+
+  }
+
+  ~ .active-panel {
+    height: calc(100% - 83px); // tabs + toolbar
+  }
+}
+
 .views-toolbar {
   align-items: center;
   background: $purple-dark;

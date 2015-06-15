@@ -8,9 +8,17 @@
 
 //- toolbar
 .views-toolbar-wrapper(
+  ng-class = "{'toolbar-lg': \
+    (showBuildFailurePrompt() || shouldShowUpdateConfigsPrompt) && \
+    $root.featureFlags.saveToolbar\
+  }"
+  ng-if = "\
+    showBuildFailurePrompt() || \
+    shouldShowUpdateConfigsPrompt || \
+    $root.featureFlags.saveToolbar\
+  "
   ng-include = "'viewToolbar'"
 )
-//- ng-if = "showBuildFailurePrompt() || shouldShowUpdateConfigsPrompt"
 
 //- active panel
 .active-panel.ace-runnable-dark(

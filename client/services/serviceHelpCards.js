@@ -82,15 +82,15 @@ function helpCardsFactory(
     'triggered': [
       {
         id: 'missingAssociation',
-        'label': '<b>{{instance.getDisplayName()}}</b> may need to be updated with <b>{{association}}\'s</b> hostname.</b>',
+        'label': '<b>{{instance.getDisplayName()}}</b> may need to be updated with <b>{{association}}\’s</b> hostname.</b>',
         'targets': [
           'environmentVariables',
           'findAndReplace'
         ],
-        'helpTop': 'Update <b>{{instance.getDisplayName()}}\'s</b> code by using <b>Find and Replace</b> or <b>Environment Variables</b> to update the hostname for <b>{{association}}</b>.',
+        'helpTop': 'Update <b>{{instance.getDisplayName()}}\’s</b> code by using <b>Find and Replace</b> or <b>Environment Variables</b> to update the hostname for <b>{{association}}</b>.',
         'helpPopover': {
-          'environmentVariables': 'Add/update the correct environment variable with <b>{{association}}\'s</b> elastic hostname.',
-          'findAndReplace': 'Add a string rule to modify your code to connect with <b>{{association}}\'s</b> elastic hostname.'
+          'environmentVariables': 'Add/update the correct environment variable with <b>{{association}}\’s</b> elastic hostname.',
+          'findAndReplace': 'Add a string rule to modify your code to connect with <b>{{association}}\’s</b> elastic hostname.'
         }
       },
       {
@@ -106,15 +106,15 @@ function helpCardsFactory(
       },
       {
         id: 'missingMapping',
-        label: 'Some of your repository containers may need to be updated with a mapping to <b>{{mapping}}\'s</b> elastic hostname.',
+        label: 'You may need to add a mapping to <b>{{mapping}}\’s</b> elastic hostname for some repository containers.',
         targets: [
           'environmentVariables',
           'findAndReplace'
         ],
-        helpTop: 'Connect one of more of your repository containers to <b>{{mapping}}\'s</b> elastic hostname by using <b>Environment Variables</b>.',
+        helpTop: 'Connect one of more of your repository containers to <b>{{mapping}}\’s</b> elastic hostname by using <b>Environment Variables</b>.',
         helpPopover: {
-          environmentVariables: 'Add/update the correct environment variable with <b>{{mapping}}\'s</b> elastic hostname.',
-          findAndReplace: 'Add a string rule to modify your code to connect with <b>{{mapping}}\'s</b> elastic hostname.'
+          environmentVariables: 'Add/update the correct environment variable with <b>{{mapping}}\’s</b> elastic hostname.',
+          findAndReplace: 'Add a string rule to modify your code to connect with <b>{{mapping}}\’s</b> elastic hostname.'
         },
         highlightRepoContainers: true
       }
