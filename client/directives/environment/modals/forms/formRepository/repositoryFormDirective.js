@@ -4,6 +4,7 @@ require('app')
   .directive('repositoryForm', function repositoryForm(
     $q,
     errs,
+    fetchRepoBranches,
     hasKeypaths,
     keypather,
     loadingPromises,
@@ -23,17 +24,27 @@ require('app')
           acv: watchOncePromise($scope, 'state.acv', true),
           branches: watchOncePromise($scope, 'state.repo.branches', true)
         })
-          .then(function (data) {
-            if (!keypather.get(data, 'branches.models.length')) {
-              return promisify(data.branches, 'fetch')();
+          .then(function () {
+            if (!$scope.state.branch) {
+              return promisify(
+                $scope.state.repo,
+                'fetchBranch'
+              )($scope.state.acv.attrs.branch);
             }
-            return data.branches;
           })
-          .then(function (branches) {
-            if ($scope.state.branch) { return; }
-            $scope.state.branch = branches.models.find(hasKeypaths({
-              'attrs.name': $scope.state.acv.attrs.branch
-            }));
+          .then(function (selectedBranch) {
+            if (selectedBranch) {
+              $scope.state.branch = selectedBranch;
+            }
+            if (!keypather.get($scope.state, 'repo.branches.models.length')) {
+              $scope.state.repo.branches.add(selectedBranch);
+              //return fetchRepoBranches($scope.state.repo);
+            }
+          })
+          .then(function () {
+            if (!keypather.get($scope.state, 'repo.branches.models.length')) {
+              return fetchRepoBranches($scope.state.repo);
+            }
           });
 
         $scope.$watch('state.branch', function (newBranch, oldBranch) {

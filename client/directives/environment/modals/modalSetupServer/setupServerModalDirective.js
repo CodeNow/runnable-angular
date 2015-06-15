@@ -140,11 +140,9 @@ function setupServerModal(
           .then(function (buildWithVersion) {
             $scope.state.build = buildWithVersion;
             $scope.state.contextVersion = buildWithVersion.contextVersion;
-            return promisify(repo.branches, 'fetch')();
+            return promisify(repo, 'fetchBranch')(repo.attrs.default_branch);
           })
-          .then(function (branches) {
-            var masterBranch = branches.models.find(hasKeypaths({'attrs.name': repo.attrs.default_branch}));
-            $scope.branches = branches;
+          .then(function (masterBranch) {
             $scope.state.branch = masterBranch;
             // Set the repo here so the page change happens after all of these fetches
             $scope.state.repo = repo;

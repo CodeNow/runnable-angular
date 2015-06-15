@@ -148,7 +148,17 @@ function fancySelect(
 
       $scope.registerOption = function (option) {
         options.push(option);
-        selectOption($scope.value);
+        checkNewOption(option, $scope.value);
+      };
+      $scope.deregisterOption = function (option) {
+        var index = options.indexOf(option);
+        if (~index) {
+          options.splice(index, 1);
+        }
+        if (option.selected) {
+          $scope.option = null;
+          selectOption($scope.value);
+        }
       };
 
       transcludeFn($scope, function(clone, innerScope ){
@@ -157,26 +167,32 @@ function fancySelect(
         transclusionScope = innerScope;
       });
 
-      function selectOption (value) {
-        $timeout(function () {
+      function checkNewOption(newOption, value) {
+        if (!$scope.option && newOption && value) {
+          var matchValue = newOption.value;
           if ($scope.trackBy) {
+            matchValue = keypather.get(matchValue, $scope.trackBy);
             value = keypather.get(value, $scope.trackBy);
           }
-          var matchedOption = options.find(function (option) {
-            var matchValue = option.value;
-            if ($scope.trackBy) {
-              matchValue = keypather.get(matchValue, $scope.trackBy);
+          var found = angular.equals(matchValue, value);
+          if (found) {
+            if ($scope.option) {
+              $scope.option.selected = false;
             }
-            return angular.equals(matchValue, value);
-          });
-
-          if (matchedOption) {
-            options.forEach(function (option) {
-              option.selected = false;
-            });
-            matchedOption.selected = true;
-            angular.element(element[0].querySelector('.display')).html(matchedOption.element.html());
+            $scope.option = newOption;
+            newOption.selected = true;
+            angular.element(element[0].querySelector('.display')).html(newOption.element.html());
           }
+          return found;
+        }
+      }
+
+      function selectOption (value) {
+        $timeout(function () {
+
+          options.find(function (option) {
+            return checkNewOption(option, value);
+          });
         });
       }
 
