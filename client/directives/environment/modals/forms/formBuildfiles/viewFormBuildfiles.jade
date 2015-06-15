@@ -4,10 +4,6 @@
   .help(
     ng-bind-html = "helpCards.getActiveCard().helpPopover.containerFiles"
   )
-.help-padding(
-  ng-if = "helpCards.getActiveCard().helpPopover.containerFiles"
-  ng-bind-html = "helpCards.getActiveCard().helpPopover.containerFiles"
-)
 
 .clearfix
   .label-col Container Files
@@ -33,7 +29,6 @@
     ng-if = "item.state.type === 'File'"
     ng-repeat = "item in openItems.models track by item.id()"
     ng-show = "item === openItems.activeHistory.last()"
-    state = "state"
     use-auto-update = "true"
     loading-promises-target = "editServerModal"
   )

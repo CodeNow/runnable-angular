@@ -22,6 +22,6 @@
   help-card = "state.helpCard"
   instance = "instance"
   ng-class = "{focus: instance.attrs.name === $state.params.instanceName}"
-  ng-repeat = "instance in data.instances.models | orderBy:'attrs.name'"
+  ng-repeat = "instance in data.instances.models | orderBy:'attrs.name' track by instance.attrs.name"
   server-card
 )

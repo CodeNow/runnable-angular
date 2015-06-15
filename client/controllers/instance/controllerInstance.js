@@ -25,6 +25,7 @@ function ControllerInstance(
   fetchUser,
   pageName,
   promisify,
+  watchOncePromise,
   setLastInstance,
   loading
 ) {
@@ -62,7 +63,7 @@ function ControllerInstance(
     // product team - track visits to instance page & referrer
     eventTracking.boot(user).visitedState();
     return $q.all({
-      instance: fetchInstances({ name: $stateParams.instanceName }),
+      instance: fetchInstances({ name: $stateParams.instanceName }, true),
       settings: fetchSettings()
     })
       .then(function (results) {
@@ -87,7 +88,9 @@ function ControllerInstance(
 
   $scope.$watch('dataInstance.data.instance.backgroundContextVersionFinished', function (n, p) {
     // (n !== p) <- Never open this up the first time you arrive on this page
+    var unwatchNewCv = angular.noop;
     if (n && n !== p) {
+      unwatchNewCv();
       dataInstance.data.instance.backgroundContextVersionFinished = false;
       // If the build was triggered by me manually we don't want to show toasters.
       var isManual = n.triggeredAction.manual;
@@ -102,8 +105,17 @@ function ControllerInstance(
           data.instance.contextVersion.getMainAppCodeVersion(),
           keypather.get(n, 'triggeredAction.appCodeVersion.commit')
         );
-        data.showUpdatingMessage = false;
-        data.showUpdatedMessage = true;
+        var updateBuildHash = n.hash;
+        unwatchNewCv = $scope.$watch(function () {
+          return keypather.get($scope, 'dataInstance.data.instance.contextVersion.attrs.build.hash') === updateBuildHash &&
+            keypather.get($scope, 'dataInstance.data.instance.containers.models[0].running()');
+        }, function (n) {
+          if (n) {
+            unwatchNewCv();
+            data.showUpdatingMessage = false;
+            data.showUpdatedMessage = true;
+          }
+        });
       }
     }
   });

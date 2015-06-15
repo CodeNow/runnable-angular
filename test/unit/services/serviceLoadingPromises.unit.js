@@ -42,7 +42,6 @@ describe('loadingPromises'.bold.underline.blue, function () {
       $rootScope.$apply();
       $rootScope.$apply();
     });
-
     it('should clear previous', function (done) {
       var cb = null;
       var temp = 1;
@@ -64,6 +63,20 @@ describe('loadingPromises'.bold.underline.blue, function () {
       $rootScope.$apply();
       temp = 2;
       cb('hi');
+      $rootScope.$apply();
+      $rootScope.$apply();
+    });
+  });
+  describe('Without namespace'.bold, function () {
+    it('should just return without adding anything to the hash', function (done) {
+      loadingPromises.add(null, $q(function (resolve) {
+        resolve();
+      }))
+        .then(function () {
+          // We should not get here
+          done();
+        });
+
       $rootScope.$apply();
       $rootScope.$apply();
     });

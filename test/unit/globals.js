@@ -31,6 +31,7 @@ window.fixtures = {
 window.runnable = new (require('runnable'))(window.host, {
   socket: true
 });
+window.apiClientMockFactory = require('../unit/apiMocks/apiClientMockFactory');
 window.helpCardsMock = require('../unit/apiMocks/HelpCardServiceMock');
 window.noop = function () {};
 window.helpers = {
