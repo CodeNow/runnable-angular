@@ -30,7 +30,8 @@ function fancySelect(
       trackBy: '@?',
       onUpdate: '=?',
       toggleObject: '=?',
-      toggleAttribute: '@?'
+      toggleAttribute: '@?',
+      spinnerFlag: '=?'
     },
     link: function ($scope, element, attrs, controller, transcludeFn){
       var type = 'button';

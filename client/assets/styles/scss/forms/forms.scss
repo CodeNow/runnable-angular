@@ -68,6 +68,19 @@
     }
   }
 
+  // fancy select spinner
+  .btn {
+    position: relative;
+
+    .spinner-wrapper {
+      color: $gray-light;
+      position: absolute;
+      right: 6px;
+      top: 4px;
+    }
+  }
+
+  // table spinner
   .spinner-wrapper {
     margin-top: 5px;
   }
