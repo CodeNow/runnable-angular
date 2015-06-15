@@ -14,10 +14,10 @@ module.exports = [
       anon: true
     }
   }, {
-    state: 'error404',
+    state: '404',
     abstract: false,
-    url: '^/error404',
-    templateUrl: 'view404InvalidUrl',
+    url: '^/404',
+    templateUrl: 'view404',
     data: {
       anon: true
     }
@@ -109,11 +109,6 @@ module.exports = [
     url: '^/:userName',
     templateUrl: 'viewInstanceHome',
     controller: 'ControllerInstanceHome'
-  }, {
-    state: '404',
-    abstract: false,
-    templateUrl: 'view404',
-    controller: 'ControllerError'
   }, {
     state: 'error',
     abstract: false,

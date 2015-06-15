@@ -1,9 +1,23 @@
-.modal.error.in
-  .modal-dialog
-    .modal-body
-      h1.modal-title 404
-      p.modal-text Check the URL or #{''}
-        a.modal-link(
-          href = "/"
-        ) go back
-        | .
+.error-wrapper
+  img.runnabear-head(
+    src = "/build/images/runnabear_head.jpg"
+  )
+  .error-content(
+    ng-include = "'view404NotSignedIn'"
+  )
+  .error-content(
+    ng-if = "404InvalidUrl"
+    ng-include = "'view404InvalidUrl'"
+  )
+  .error-content(
+    ng-if = "404ContainerDown"
+    ng-include = "'view404ContainerDown'"
+  )
+  .error-content(
+    ng-if = "404PortClosed"
+    ng-include = "'view404PortClosed'"
+  )
+  .error-content(
+    ng-if = "404Other"
+    ng-include = "'view404Other'"
+  )

@@ -1,0 +1,11 @@
+//- h1 and p elements should say whether container is building, stopped, or crashed.
+h1.h1 Container is building
+p.p The container for
+  strong.strong  api/my-cool-branch
+  |  is building.
+//- link goes to the relevant container in the containers view,
+//- with build logs open if container is building
+//- and CMD logs open if container is stopped or crashed
+a.link(
+  href='#'
+) View build logs in Runnable
