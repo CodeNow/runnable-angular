@@ -153,7 +153,9 @@ function fancySelect(
 
       $scope.registerOption = function (option) {
         options.push(option);
-        checkNewOption(option, $scope.value);
+        if (!$scope.option) {
+          checkNewOption(option, $scope.value);
+        }
       };
       $scope.deregisterOption = function (option) {
         var index = options.indexOf(option);
@@ -182,7 +184,7 @@ function fancySelect(
         }
       }
       function checkNewOption(newOption, value) {
-        if (!$scope.option && newOption && value) {
+        if (newOption && value) {
           var matchValue = newOption.value;
           if ($scope.trackBy) {
             matchValue = keypather.get(matchValue, $scope.trackBy);
