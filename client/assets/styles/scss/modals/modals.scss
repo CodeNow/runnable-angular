@@ -129,14 +129,14 @@
   .btn-radio {
     margin-bottom: 9px;
     padding: 0 3px;
-    white-space: normal;
     width: 102px;
 
     .btn-text {
-      display: block;
       font-size: 13px;
       height: 30px;
       line-height: 1.2;
+      overflow: hidden;
+      white-space: normal;
     }
   }
 }
