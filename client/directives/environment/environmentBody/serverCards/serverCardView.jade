@@ -44,7 +44,7 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-stack"
       )
-    h3.h3 Stack Type
+    h3.h3.text-overflow Stack Type
     small.small.text-overflow {{ getFlattenedSelectedStacks(server.selectedStack) }}
     svg.iconnables.icons-arrow-down
       use(
@@ -66,7 +66,7 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-ports"
       )
-    h3.h3 Exposed Ports
+    h3.h3.text-overflow Exposed Ports
     small.small.text-overflow {{ server.ports || '—'}}
     svg.iconnables.icons-arrow-down
       use(
@@ -86,7 +86,7 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-environment-variable"
       )
-    h3.h3 Environment Variables
+    h3.h3.text-overflow Environment Variables
     small.small.text-overflow {{ server.opts.env.length ? server.opts.env.length + ' variable' : '—' }}{{server.opts.env.length > 1 ? 's' : ''}}
     svg.iconnables.icons-arrow-down
       use(
@@ -107,7 +107,7 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-repository"
       )
-    h3.h3 Main Repository
+    h3.h3.text-overflow Main Repository
     //- \\n for new line
     small.small.text-overflow(
       title = "{{ server.instance.contextVersion.getMainAppCodeVersion().attrs.branch }}\\n{{server.commands}}"
@@ -131,7 +131,7 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-container-files"
       )
-    h3.h3 Container Files
+    h3.h3.text-overflow Container Files
     small.small.text-overflow {{ getContainerFilesDisplay() }}
     svg.iconnables.icons-arrow-down
       use(
@@ -153,7 +153,7 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-translation"
       )
-    h3.h3 Find and Replace
+    h3.h3.text-overflow Find and Replace
     small.small.text-overflow {{ getTranslationDisplay() }}
     svg.iconnables.icons-arrow-down
       use(
@@ -173,7 +173,7 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-dockerfile"
       )
-    h3.h3 Dockerfile
+    h3.h3.text-overflow Dockerfile
     small.small(
       ng-if = "server.advanced"
     )
@@ -201,7 +201,7 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-dockerfile"
       )
-    h3.h3 Dockerfile
+    h3.h3.text-overflow Dockerfile
     small.small(
       ng-if = "!server.advanced"
     ) —
