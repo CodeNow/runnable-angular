@@ -39,8 +39,13 @@ require('app')
             if (!keypather.get($scope.state, 'repo.branches.models.length')) {
               $scope.state.repo.branches.add($scope.state.branch);
               // Don't fetch until the next digest cycle so the fancy select has enough time to draw
+              $scope.branchFetching = true;
               $scope.$evalAsync(function () {
-                return fetchRepoBranches($scope.state.repo);
+                return fetchRepoBranches($scope.state.repo)
+                  .catch(errs.handler)
+                  .finally(function () {
+                    $scope.branchFetching = false;
+                  });
               });
             }
           });
