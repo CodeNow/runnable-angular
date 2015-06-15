@@ -45,9 +45,10 @@
   // toggle
   &.table-toggle {
     color: $gray;
-    height: 51px;
+    height: auto;
+    min-height: 51px;
     overflow: visible;
-    padding: 9px 45px 0 9px;
+    padding: 9px 72px 9px 9px;
     position: relative;
     z-index: $z-sidebar + 1; // for tooltip…
 
@@ -63,11 +64,8 @@
 
     .small {
       display: block;
-      line-height: 1;
-
-      + .small {
-        margin: 3px 0;
-      }
+      line-height: 1.2;
+      margin-left: 24px;
     }
 
     .toggle-wrapper {
