@@ -230,6 +230,7 @@
     &:last-child {
       border-radius: 0 0 3px 3px;
 
+      // icons for dockerfile tool
       .icons-lock,
       .icons-unlock {
         height: 100%;
@@ -261,22 +262,31 @@
       }
     }
 
+    // anchor icon of tool
     > .iconnables:first-child {
       float: left;
       margin-right: 6px;
       width: 18px;
     }
 
+    // title of tool
+    > .h3 {
+      font-size: 16px;
+    }
+
+    // description of tool
     > .small {
       color: $gray;
       display: block;
       line-height: 21px;
     }
 
-    .h3 {
-      font-size: 16px;
+    // tooltip in tool description
+    .underline {
+      cursor: pointer;
     }
 
+    // right facing arrow
     .icons-arrow-down {
       color: $gray;
       position: absolute;
