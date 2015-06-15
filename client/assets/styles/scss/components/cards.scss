@@ -232,14 +232,19 @@
       padding-right: 45px; // larger padding for lock icon
 
       // icons for dockerfile tool
-      .icons-lock,
-      .icons-unlock {
+      // wrapper needed for title text
+      .iconnables-wrapper {
         height: 100%;
-        pointer-events: auto;
         position: absolute;
         right: 30px;
         top: 0;
         width: 14px;
+      }
+
+      .icons-unlock,
+      .icons-lock {
+        height: 100%;
+        width: 100%;
       }
     }
 

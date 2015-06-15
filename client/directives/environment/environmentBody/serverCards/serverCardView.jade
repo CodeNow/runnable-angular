@@ -217,20 +217,23 @@ ul.card-body.load(
       span.text-overflow &nbsp;not available with write access.
 
     //- lock/unlock icon to show status of container's dockerfile
-    svg.iconnables.icons-lock(
+    //- wrapper needed for title text
+    .iconnables-wrapper(
       ng-if = "!server.advanced"
-      title = "Enable write access in the Dockerfile tool"
+      title = "Write access disabled"
     )
-      use(
-        xlink:href = "#icons-lock"
-      )
-    svg.iconnables.icons-unlock(
+      svg.iconnables.icons-lock
+        use(
+          xlink:href = "#icons-lock"
+        )
+    .iconnables-wrapper(
       ng-if = "server.advanced"
-      title = "You have write access enabled in the Dockerfile tool"
+      title = "Write access enabled"
     )
-      use(
-        xlink:href = "#icons-unlock"
-      )
+      svg.iconnables.icons-unlock
+        use(
+          xlink:href = "#icons-unlock"
+        )
 
     svg.iconnables.icons-arrow-down
       use(
