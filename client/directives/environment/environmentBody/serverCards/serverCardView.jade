@@ -213,7 +213,8 @@ ul.card-body.load(
           ng-include = "'viewTooltipTools'"
           style = "left: 42px; top: -95px;"
         )
-      | #{''} not available with write access.
+      //- must use &nbsp; instead of #{''}
+      span.text-overflow &nbsp;not available with write access.
 
     //- lock/unlock icon to show status of container's dockerfile
     svg.iconnables.icons-lock(

@@ -229,6 +229,7 @@
 
     &:last-child {
       border-radius: 0 0 3px 3px;
+      padding-right: 45px; // larger padding for lock icon
 
       // icons for dockerfile tool
       .icons-lock,
@@ -284,6 +285,15 @@
     // tooltip in tool description
     .underline {
       cursor: pointer;
+      float: left;
+      line-height: 1.2;
+      margin-top: 3px;
+
+      // text after a tool
+      ~ .text-overflow {
+        display: inline-block;
+        width: calc(100% - 54px);
+      }
     }
 
     // right facing arrow
