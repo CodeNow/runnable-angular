@@ -114,35 +114,59 @@ function fileTreeDir(
         }
       };
 
+      function findDir (searchDir, dirPath) {
+        // searchDir is rootDir
+        if (dirPath === '/') {
+          return searchDir;
+        }
+        var dirs = searchDir.contents.models.filter(function (item) {
+          return item.attrs.isDir;
+        });
+        var finalDir = dirs.find(function (item) {
+          return item.id() === dirPath;
+        });
+        if (finalDir) {
+          return finalDir;
+        }
+        var searchDirPath = searchDir.id();
+        var dirPathWithoutParent = dirPath.substr(searchDirPath.length);
+        var nextSearchDirName = dirPathWithoutParent.split('/')[0];
+        var nextSearchDirPath = searchDirPath + nextSearchDirName  + '/';
+        var nextSearchDir = dirs.find(function (item) {
+          return item.id() === nextSearchDirPath;
+        });
+        if (nextSearchDir) {
+          return findDir(nextSearchDir, dirPath);
+        }
+        return null;
+      }
+
       $scope.actions.drop = function (dataTransfer, toDir) {
         var modelType = dataTransfer.getData('modelType');
         var modelId = dataTransfer.getData('modelId');
-        var modelName = dataTransfer.getData('modelName');
 
-        var oldParentDirId = dataTransfer.getData('oldParentDirId');
         var oldPath = dataTransfer.getData('oldPath');
+        if (oldPath !== '/') {
+          oldPath += '/';
+        }
         var thisPath = toDir.id();
-        if (oldPath === thisPath || (modelType === 'Dir' &&
-            thisPath.indexOf(modelName + '/') >= 0)) {
+        if (oldPath === thisPath) {
           return false;
         }
 
-        var newModel = $scope.fileModel['new' + modelType](modelId, { warn: false, noStore: true });
-        var droppedFileOrigDir =
-            $scope.fileModel.newDir(oldParentDirId, { warn: false, noStore: true });
-
+        var newModel = $scope.fileModel['new' + modelType](modelId, { warn: false });
+        var fromDir = findDir($scope.fileModel.rootDir, oldPath);
         loadingPromises.add($scope.loadingPromisesTarget, promisify(newModel, 'moveToDir')(toDir))
           .then(function () {
-            return $q.all([
-              loadingPromises.add(
-                $scope.loadingPromisesTarget,
-                promisify(droppedFileOrigDir.contents, 'fetch')()
-              ),
-              loadingPromises.add(
-                $scope.loadingPromisesTarget,
-                promisify(toDir.contents, 'fetch')()
-              )
-            ]);
+            var toDirFetch = loadingPromises.add(
+              $scope.loadingPromisesTarget, promisify(toDir.contents, 'fetch')());
+            var fetches = [ toDirFetch ];
+            if (fromDir) {
+              var fromDirFetch = loadingPromises.add(
+                $scope.loadingPromisesTarget, promisify(fromDir.contents, 'fetch')());
+              fetches.push(fromDirFetch);
+            }
+            return $q.all(fetches);
           });
       };
 

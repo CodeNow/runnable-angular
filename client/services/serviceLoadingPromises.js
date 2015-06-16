@@ -34,4 +34,3 @@ function loadingPromises(
     finished: finished
   };
 }
-
