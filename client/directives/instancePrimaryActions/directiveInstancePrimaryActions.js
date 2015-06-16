@@ -41,7 +41,7 @@ function instancePrimaryActions(
       var overwriteStatus = null;
 
       $scope.changingText = function () {
-        var status = $scope.instance.status();
+        var status = keypather.get($scope, 'instance.status()');
 
         status = overwriteStatus || status;
 
@@ -54,7 +54,8 @@ function instancePrimaryActions(
       };
 
       $scope.isChanging = function () {
-        return overwriteStatus || ['starting', 'building', 'stopping'].indexOf($scope.instance.status()) !== -1;
+        var status = keypather.get($scope, 'instance.status()');
+        return overwriteStatus || ['starting', 'building', 'stopping'].indexOf(status) !== -1;
       };
 
       $scope.saveChanges = function () {
