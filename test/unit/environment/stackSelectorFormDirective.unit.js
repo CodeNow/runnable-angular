@@ -28,9 +28,7 @@ function makeDefaultScope() {
     }
   };
 }
-// Skipping for now, component doesn't exist
-// Address complaints to Nate
-describe.only('stackSelectorForm'.bold.underline.blue, function () {
+describe('stackSelectorForm'.bold.underline.blue, function () {
   beforeEach(function() {
     ctx = {};
   });
