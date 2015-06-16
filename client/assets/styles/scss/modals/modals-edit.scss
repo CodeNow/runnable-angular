@@ -12,8 +12,7 @@
     max-width: 720px;
   }
 
-  &.xl {
-    flex: 1 1 auto;
+  &.ace-active {
 
     @include media(xxl) {
       max-width: 1800px;
@@ -154,7 +153,6 @@
     padding: 0;
 
     .terminal {
-      min-height: 210px; // to match env vars
       white-space: nowrap;
     }
   }
@@ -165,77 +163,5 @@
     font-weight: 500;
     margin: 60px 0 30px;
     text-align: center;
-  }
-}
-
-// logs
-.modal-logs {
-
-  .active-panel {
-    height: 700px;
-
-    @media (max-height: 1200px) {
-      height: 600px;
-    }
-
-    @media (max-height: 1100px) {
-      height: 500px;
-    }
-
-    @media (max-height: 1000px) {
-      height: 400px;
-    }
-
-    @media (max-height: 900px) {
-      height: 300px;
-    }
-
-    @media (max-height: 800px) {
-      height: calc(100vh - 342px);
-      min-height: none;
-    }
-
-    @include media(sm) {
-      height: calc(100vh - 342px);
-    }
-  }
-}
-
-// WIP
-// layout
-.modal-body {
-  display: flex;
-  flex-direction: column;
-
-  .modal-form {
-    display: flex;
-    flex: 1 1 auto;
-    flex-direction: column;
-  }
-
-  .ace-container {
-    display: flex;
-    flex: 1 1 auto;
-
-    > .sidebar {
-      flex: 0 0 auto;
-    }
-
-    > .ace_editor {
-      display: flex;
-      flex-direction: column;
-      height: auto;
-    }
-
-    // .ace_editor,
-    // .ace_editor > .ace_editor
-    .ace_editor {
-      flex: 1 1 auto;
-    }
-  }
-
-  .table-actions,
-  .label {
-    flex: 0 0 auto;
   }
 }

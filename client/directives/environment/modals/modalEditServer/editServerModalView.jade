@@ -1,8 +1,9 @@
 form.modal-dialog.modal-edit(
   name = "editServerForm"
   ng-class = "{\
+    'ace-active': (selectedTab === 'buildfiles' || selectedTab === 'env'),\
     'disabled': building || isLoading.editServerModal,\
-    'xl': (selectedTab === 'buildfiles' || selectedTab === 'env')\
+    'xl': (selectedTab === 'buildfiles' || selectedTab === 'env' || selectedTab === 'logs')\
   }"
 )
   header.modal-header
@@ -120,10 +121,10 @@ form.modal-dialog.modal-edit(
       ng-include = "'viewFormEnvironmentVariables'"
     )
     .modal-form(
+      loading-promises-target = "editServerModal"
       ng-if = "selectedTab === 'repository'"
       repository-form
       state = "state"
-      loading-promises-target = "editServerModal"
     )
     .modal-form(
       ng-if = "selectedTab === 'replace'"
