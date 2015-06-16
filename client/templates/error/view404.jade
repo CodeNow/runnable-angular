@@ -1,31 +1,31 @@
 .error-wrapper(
   ng-init = "\
-  NotSignedIn = true;\
-  InvalidUrl = null;\
-  ContainerDown = null;\
-  PortClosed = null;\
-  Other = null"
+  notSignedIn = true;\
+  invalidUrl = null;\
+  containerDown = null;\
+  portClosed = null;\
+  other = null"
 )
   img.runnabear-head(
     src = "/build/images/runnabear_head.jpg"
   )
   .error-content(
-    ng-if = "NotSignedIn"
+    ng-if = "notSignedIn"
     ng-include = "'view404NotSignedIn'"
   )
   .error-content(
-    ng-if = "InvalidUrl"
+    ng-if = "invalidUrl"
     ng-include = "'view404InvalidUrl'"
   )
   .error-content(
-    ng-if = "ContainerDown"
+    ng-if = "containerDown"
     ng-include = "'view404ContainerDown'"
   )
   .error-content(
-    ng-if = "PortClosed"
+    ng-if = "portClosed"
     ng-include = "'view404PortClosed'"
   )
   .error-content(
-    ng-if = "Other"
+    ng-if = "other"
     ng-include = "'view404Other'"
   )
