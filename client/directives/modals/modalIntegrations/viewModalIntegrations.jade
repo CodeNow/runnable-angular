@@ -36,8 +36,8 @@ form.modal-dialog.modal-integrations(
 
         .input-col
           input.input.input-sm.monospace(
-            ng-readonly = "data.verified"
             ng-model = "data.settings.attrs.notifications.slack.apiToken"
+            ng-readonly = "data.verified"
             required
             spellcheck = "false"
           )
@@ -51,7 +51,7 @@ form.modal-dialog.modal-integrations(
               target = "_blank"
             ) create a new bot to obtain an API token
             | .
-          button.btn.btn-xxs.white.float-right(
+          button.btn.btn-xs.white.float-right(
             ng-click = "data.verified = !data.verified"
             ng-if = "data.verified"
             type = "button"
@@ -70,12 +70,16 @@ form.modal-dialog.modal-integrations(
             ng-class = "{\
               active: member.slackOn,\
               disabled: !data.settings.attrs.notifications.slack.enabled,\
-              expanded: !member.found && member.slackOn,\
+              expanded: !member.found && member.slackOn\
             }"
             ng-repeat = "member in data.slackMembers"
           )
             .badge-warning(
-              ng-if = "!member.found && member.slackOn && !member.ghName"
+              ng-if = "\
+                !member.found && \
+                member.slackOn && \
+                !member.ghName && data.settings.attrs.notifications.slack.enabled\
+              "
             )
               svg.iconnables.icons-warning
                 use(
@@ -87,11 +91,15 @@ form.modal-dialog.modal-integrations(
               width = "21"
             )
             | @{{ member.name }}
-            input.input-checkbox(
-              ng-disabled = "!data.settings.attrs.notifications.slack.enabled"
-              ng-model = "member.slackOn"
-              type = "checkbox"
-            )
+            label.toggle-wrapper.float-right
+              input.toggle-input(
+                ng-disabled = "!data.settings.attrs.notifications.slack.enabled"
+                ng-model = "member.slackOn"
+                type = "checkbox"
+              )
+              .toggle-group.toggle-sm(
+                ng-class = "{invalid: !member.found && member.slackOn && !member.ghName}"
+              )
             .well.small(
               ng-class = "{'no-touching': !data.settings.attrs.notifications.slack.enabled}"
               ng-click = "$event.preventDefault();"
@@ -119,11 +127,11 @@ form.modal-dialog.modal-integrations(
       .label.label-footer(
         ng-if = "data.verified"
       )
-        button.btn.btn-sm.orange(
+        button.btn.btn-xs.orange(
           ng-click = "data.settings.attrs.notifications.slack.enabled = false"
           ng-if = "data.settings.attrs.notifications.slack.enabled"
         ) Disable Slack Integration
-        button.btn.btn-sm.green(
+        button.btn.btn-xs.green(
           ng-click = "data.settings.attrs.notifications.slack.enabled = true"
           ng-if = "!data.settings.attrs.notifications.slack.enabled"
         ) Enable Slack Integration
@@ -131,14 +139,8 @@ form.modal-dialog.modal-integrations(
           br.br
           | but your API Token and user settings will be preserved.
 
-  footer.modal-footer(
-    ng-if = "(data.showHipchat || data.showSlack) && data.verified"
-  )
-    button.btn.green(
-      ng-click = "defaultActions.close(actions.saveSlack)"
-      ng-if = "data.verified"
-    ) Save
-
+  footer.modal-footer
+    //- before API token verified
     button.btn.green.btn-spinner(
       ng-class = "{in: data.verifying}"
       ng-click = "actions.verifySlack()"
@@ -153,6 +155,12 @@ form.modal-dialog.modal-integrations(
         ng-show = "data.verifying"
       )
       | Verify API Token
+
+    //- if API token has been verified
+    button.btn.green(
+      ng-click = "defaultActions.close(actions.saveSlack)"
+      ng-if = "data.verified"
+    ) Save
 
     button.btn.white.btn-cancel(
       ng-click = "defaultActions.close()"
