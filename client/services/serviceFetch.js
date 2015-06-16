@@ -199,7 +199,7 @@ function fetchRepoBranches(fetchUser, promisify) {
     var allRepos = [];
 
     function fetchPage(page) {
-      return promisify(repo, 'fetchBranches')({
+      return promisify(repo.branches, 'fetch')({
         page: page,
       }).then(function (branches) {
         allRepos = allRepos.concat(branches.models);

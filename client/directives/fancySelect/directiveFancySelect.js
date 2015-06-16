@@ -173,26 +173,28 @@ function fancySelect(
         transclusionScope = innerScope;
       });
 
-      function selectNewOption(newOption) {
+      function selectNewOption(newOption, originalValue) {
         if ($scope.option) {
           $scope.option.selected = false;
         }
         $scope.option = newOption;
         if (newOption) {
+          newOption.value = originalValue;
           $scope.option.selected = true;
-          $scope.value = newOption.value;
+          $scope.value = originalValue;
         }
       }
-      function checkNewOption(newOption, value) {
-        if (newOption && value) {
+      function checkNewOption(newOption, originalValue) {
+        if (newOption && originalValue) {
           var matchValue = newOption.value;
+          var value = originalValue;
           if ($scope.trackBy) {
             matchValue = keypather.get(matchValue, $scope.trackBy);
-            value = keypather.get(value, $scope.trackBy);
+            value = keypather.get(originalValue, $scope.trackBy);
           }
           var found = angular.equals(matchValue, value);
           if (found) {
-            selectNewOption(newOption);
+            selectNewOption(newOption, originalValue);
 
             $scope.$evalAsync(function () {
               angular.element(element[0].querySelector('.display')).html(newOption.element.html());
