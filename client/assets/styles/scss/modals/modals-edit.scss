@@ -13,6 +13,7 @@
   }
 
   &.xl {
+    flex: 1 1 auto;
 
     @include media(xxl) {
       max-width: 1800px;
@@ -136,17 +137,10 @@
   .active-panel,
   .ace-container {
     border: 2px solid $purple-darker;
-    display: flex;
-    min-height: 210px;
 
     // translation rules
     &.ace-ignored-files {
       border-radius: 3px;
-    }
-
-    .ace_editor {
-      display: flex;
-      flex: 1 1 auto;
     }
 
     .spinner-wrapper {
@@ -204,5 +198,44 @@
     @include media(sm) {
       height: calc(100vh - 342px);
     }
+  }
+}
+
+// WIP
+// layout
+.modal-body {
+  display: flex;
+  flex-direction: column;
+
+  .modal-form {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+  }
+
+  .ace-container {
+    display: flex;
+    flex: 1 1 auto;
+
+    > .sidebar {
+      flex: 0 0 auto;
+    }
+
+    > .ace_editor {
+      display: flex;
+      flex-direction: column;
+      height: auto;
+    }
+
+    // .ace_editor,
+    // .ace_editor > .ace_editor
+    .ace_editor {
+      flex: 1 1 auto;
+    }
+  }
+
+  .table-actions,
+  .label {
+    flex: 0 0 auto;
   }
 }

@@ -102,13 +102,13 @@ form.modal-dialog.modal-edit(
     ng-if = "!isLoading.editServerModal"
   )
     .modal-form(
-      ng-show = "selectedTab === 'buildfiles'"
       ng-include = "'viewFormBuildfiles'"
+      ng-if = "selectedTab === 'buildfiles'"
     )
     .modal-form(
-      ng-show = "selectedTab === 'stack'"
-      stack-selector-form
       data = "data"
+      ng-if = "selectedTab === 'stack'"
+      stack-selector-form
       state = "state"
     )
     .modal-form(

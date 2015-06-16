@@ -27,8 +27,9 @@ function fileEditor(
     templateUrl: 'viewFileEditor',
     scope: {
       file: '=',
-      useAutoUpdate: '=',
-      loadingPromisesTarget: '@?'
+      loadingPromisesTarget: '@?',
+      readOnly: '=?',
+      useAutoUpdate: '='
     },
     link: function ($scope, element, attrs) {
       var useValidation = false;
