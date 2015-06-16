@@ -17,14 +17,13 @@ function stackSelectorForm(
     },
     link: function ($scope, elem, attrs) {
       $scope.temp = {
-        stack: angular.copy(keypather.get($scope, 'state.selectedStack'))
+        stack: keypather.get($scope, 'state.selectedStack')
       };
 
       // Since we are adding info to the stack object, and those objects are going to get reused,
       // we should listen to the model changes, and copy the result
-      $scope.$watch('temp.stack', function (stack, previousStack) {
-        if (stack && stack !== previousStack &&
-            keypather.get($scope, 'state.selectedStack.key') !== stack.key) {
+      $scope.$watch('temp.stack', function (stack) {
+        if (stack) {
           $scope.state.selectedStack = angular.copy(stack);
         }
       });
