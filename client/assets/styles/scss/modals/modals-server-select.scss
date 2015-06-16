@@ -1,16 +1,7 @@
 .modal-server-select {
-  max-width: 450px;
 
   .modal-body {
-    max-height: 60vh;
-
-    @include media(sm) {
-      max-height: none;
-    }
-
-    @media (max-height: 768px) {
-      max-height: none;
-    }
+    display: block;
   }
 
   // search
@@ -29,7 +20,7 @@
 
 // repository/template list
 .list-servers {
-  max-width: 600px;
+  max-width: 540px;
 
   @include media(sm) {
     max-width: none;
@@ -42,7 +33,7 @@
     font-size: 18px;
     font-weight: 500;
     margin: 3px 0 0;
-    padding: 6px 130px 6px 15px;
+    padding: 6px 150px 6px 15px;
 
     @include media(sm) {
       padding-left: 6px;
@@ -84,7 +75,7 @@
     }
 
     .gravatar ~ .small {
-      padding-left: 36px;
+      margin-left: 36px;
     }
   }
 
