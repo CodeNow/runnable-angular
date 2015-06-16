@@ -16,34 +16,8 @@
 .ace-environment-variables {
   border-bottom: 0;
   border-radius: 3px;
-  height: 625px;
   overflow: hidden;
   position: relative;
-
-  @media (max-height: 1200px) {
-    height: 500px;
-  }
-
-  @media (max-height: 1100px) {
-    height: 400px;
-  }
-
-  @media (max-height: 1000px) {
-    height: 300px;
-  }
-
-  @media (max-height: 900px) {
-    height: 200px;
-  }
-
-  @media (max-height: 800px) {
-    height: calc(100vh - 420px);
-    min-height: none;
-  }
-
-  @include media(sm) {
-    height: calc(100vh - 460px);
-  }
 
   // override sidebar
   .sidebar {
@@ -133,32 +107,6 @@
 .ace-build-files {
   background: $white;
   border-radius: 3px;
-  height: 700px;
-
-  @media (max-height: 1200px) {
-    height: 600px;
-  }
-
-  @media (max-height: 1100px) {
-    height: 500px;
-  }
-
-  @media (max-height: 1000px) {
-    height: 400px;
-  }
-
-  @media (max-height: 900px) {
-    height: 300px;
-  }
-
-  @media (max-height: 800px) {
-    height: calc(100vh - 342px);
-    min-height: none;
-  }
-
-  @include media(sm) {
-    height: calc(100vh - 342px);
-  }
 
   // override sidebar
   .sidebar {

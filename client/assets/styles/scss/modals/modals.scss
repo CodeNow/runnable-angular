@@ -40,6 +40,10 @@
     width: 100%;
   }
 
+  &.xl {
+    flex: 1 1 auto;
+  }
+
   // sizing for confirmation modals
   &.modal-confirm {
     max-width: 540px;
@@ -155,15 +159,17 @@
   }
 }
 
-// h1.modal-heading
+// .modal-heading
 .modal-heading {
   font-size: 18px;
   line-height: 60px;
 }
 
-// main.modal-body
+// .modal-body
 .modal-body {
+  display: flex;
   flex: 1 1 auto;
+  flex-direction: column;
   overflow-y: auto;
   padding: 15px;
 
@@ -171,7 +177,7 @@
   > .spinner-wrapper {
     align-items: center;
     color: $gray-light;
-    min-height: 115px;
+    flex: 1 1 auto;
   }
 
   .btn-checkbox {
@@ -190,7 +196,7 @@
   }
 }
 
-// footer.modal-footer
+// .modal-footer
 .modal-footer {
   border-radius: 0 0 3px 3px;
   border-top: 1px solid $gray-lighter;
