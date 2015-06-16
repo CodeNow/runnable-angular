@@ -5,7 +5,6 @@ require('app')
     $q,
     errs,
     fetchRepoBranches,
-    hasKeypaths,
     keypather,
     loadingPromises,
     promisify,
@@ -32,9 +31,13 @@ require('app')
           })
           .then(function (selectedBranch) {
             if (selectedBranch || !keypather.get($scope.state, 'repo.branches.models.length')) {
-              // Don't fetch until the next digest cycle so the fancy select has enough time to draw
-              $scope.$evalAsync(function () {
-                return fetchRepoBranches($scope.state.repo);
+              return $q(function (resolve, reject) {
+                // Don't fetch until the next digest cycle so the fancy select has enough time to draw
+                $scope.$evalAsync(function () {
+                  return fetchRepoBranches($scope.state.repo)
+                    .then(resolve)
+                    .catch(reject);
+                });
               });
             }
           })
