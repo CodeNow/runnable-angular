@@ -37,6 +37,14 @@ describe('setupServerModalDirective'.bold.underline.blue, function () {
         createDockerfileFromSourceStub = sinon.stub().returns($q.when(dockerfile));
         return createDockerfileFromSourceStub;
       });
+      $provide.factory('repositoryFormDirective', function () {
+        return {
+          priority: 100000,
+          link: function () {
+            // do nothing
+          }
+        };
+      });
 
       $provide.factory('fetchDockerfileFromSource', function ($q) {
         fetchDockerfileFromSourceStub = sinon.stub().returns($q.when(dockerfile));
@@ -169,6 +177,20 @@ describe('setupServerModalDirective'.bold.underline.blue, function () {
             cb(null, branches.models[0]);
           });
           return branches.models[0];
+        }),
+        newBranch: sinon.spy(function (opts) {
+          repo.fakeBranch = {
+            attrs: {
+              name: opts
+            },
+            fetch: sinon.spy(function (cb) {
+              $rootScope.$evalAsync(function () {
+                cb(null, repo.fakeBranch);
+              });
+              return repo.fakeBranch;
+            })
+          };
+          return repo.fakeBranch;
         })
       };
       var analysisMockData = {

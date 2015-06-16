@@ -5,7 +5,6 @@ require('app')
     $q,
     errs,
     fetchRepoBranches,
-    hasKeypaths,
     keypather,
     loadingPromises,
     promisify,
@@ -20,34 +19,31 @@ require('app')
         loadingPromisesTarget: '@?'
       },
       link: function ($scope) {
-        $q.all({
-          acv: watchOncePromise($scope, 'state.acv', true),
-          branches: watchOncePromise($scope, 'state.repo.branches', true)
-        })
+        $scope.branchFetching = true;
+        watchOncePromise($scope, 'state.acv', true)
           .then(function () {
             if (!$scope.state.branch) {
-              return promisify(
-                $scope.state.repo,
-                'fetchBranch'
-              )($scope.state.acv.attrs.branch);
+              $scope.state.branch = $scope.state.repo.newBranch($scope.state.acv.attrs.branch);
+              $scope.state.repo.branches.add($scope.state.branch);
+              return promisify($scope.state.branch, 'fetch')();
             }
+            return null;
           })
           .then(function (selectedBranch) {
-            if (selectedBranch) {
-              $scope.state.branch = selectedBranch;
-            }
-            if (!keypather.get($scope.state, 'repo.branches.models.length')) {
-              $scope.state.repo.branches.add($scope.state.branch);
-              // Don't fetch until the next digest cycle so the fancy select has enough time to draw
-              $scope.branchFetching = true;
-              $scope.$evalAsync(function () {
-                return fetchRepoBranches($scope.state.repo)
-                  .catch(errs.handler)
-                  .finally(function () {
-                    $scope.branchFetching = false;
-                  });
+            if (selectedBranch || !keypather.get($scope.state, 'repo.branches.models.length')) {
+              return $q(function (resolve, reject) {
+                // Don't fetch until the next digest cycle so the fancy select has enough time to draw
+                $scope.$evalAsync(function () {
+                  return fetchRepoBranches($scope.state.repo)
+                    .then(resolve)
+                    .catch(reject);
+                });
               });
             }
+          })
+          .catch(errs.handler)
+          .finally(function () {
+            $scope.branchFetching = false;
           });
 
         $scope.$watch('state.branch', function (newBranch, oldBranch) {
