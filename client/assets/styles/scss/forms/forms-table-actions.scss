@@ -15,6 +15,10 @@
 
   + .ace-container {
     border-radius: 0 0 3px 3px;
+
+    > .sidebar {
+      border-top-left-radius: 0;
+    }
   }
 
   // actions
@@ -35,6 +39,43 @@
       height: 100%;
       margin-right: 6px;
       width: 15px;
+    }
+  }
+
+  // toggle
+  &.table-toggle {
+    color: $gray;
+    height: auto;
+    min-height: 51px;
+    overflow: visible;
+    padding: 9px 72px 9px 9px;
+    position: relative;
+    z-index: $z-sidebar + 1; // for tooltip…
+
+    &.in {
+      height: 72px;
+    }
+
+    // anchor image
+    > .iconnables {
+      margin-right: 6px;
+      width: 18px;
+    }
+
+    .small {
+      display: block;
+      line-height: 1.2;
+      margin-left: 24px;
+    }
+
+    .toggle-wrapper {
+      position: absolute;
+      right: 9px;
+      top: 9px;
+
+      &.show-icons {
+        right: 24px;
+      }
     }
   }
 

@@ -66,7 +66,7 @@ protractor ./test/protractor.conf.js --params.user SomeKittens --params.password
 ```
 
 Contributors
--------------
+------------
 <img src="https://avatars3.githubusercontent.com/u/7440805?s=64" width="64">&nbsp;
 [Taylor Dolan (taylordolan)](https://github.com/taylordolan)
 San Francisco, CA, USA  

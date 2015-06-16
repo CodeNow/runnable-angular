@@ -7,6 +7,7 @@ require('app')
   .factory('fetchInstances', fetchInstances)
   .factory('fetchBuild', fetchBuild)
   .factory('fetchOwnerRepos', fetchOwnerRepos)
+  .factory('fetchRepoBranches', fetchRepoBranches)
   .factory('fetchContexts', fetchContexts)
   .factory('fetchSettings', fetchSettings)
   .factory('fetchSlackMembers', fetchSlackMembers)
@@ -186,6 +187,38 @@ function fetchOwnerRepos(fetchUser, promisify) {
       repos.ownerUsername = userName;
       return repos;
     });
+  };
+}
+
+
+function fetchRepoBranches(fetchUser, promisify) {
+  return function (repo) {
+    var user;
+    var repoType;
+
+    var allRepos = [];
+
+    function fetchPage(page) {
+      return promisify(repo.branches, 'fetch')({
+        page: page,
+      }).then(function (branches) {
+        allRepos = allRepos.concat(branches.models);
+        // recursive until result set returns fewer than
+        // 100 repos, indicating last paginated result
+        if (branches.models.length < 100) {
+          return allRepos;
+        }
+        return fetchPage(page + 1);
+      });
+    }
+    return fetchPage(1)
+      .then(function (reposArr) {
+        var branches = repo.newBranches(reposArr, {
+          noStore: true
+        });
+        repo.branches = branches;
+        return branches;
+      });
   };
 }
 

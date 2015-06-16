@@ -1,20 +1,20 @@
 // .tooltip
 .tooltip {
+  // Position tooltips to the top left of the screen instead of their current position.
+  // This prevents the flashing of the scrollbar.
   animation: tooltip .1s ease-in forwards;
+  left: -100000px;
   opacity: 0;
   pointer-events: none;
   position: absolute;
-  z-index: $z-tooltip;
-  // Position tooltips to the top left of the screen instead of their current position.
-  //   This prevents the flashing of the scrollbar.
   top: -100000px;
-  left: -100000px;
+  z-index: $z-tooltip;
 
   // .bottom
   &.bottom {
 
     &::before {
-      border-bottom: 6px solid rgba($black,.75);
+      border-bottom: 6px solid $gray-darker;
       border-left: 6px solid transparent;
       border-right: 6px solid transparent;
       border-top: 0;
@@ -28,7 +28,7 @@
     &::before {
       border-bottom: 6px solid transparent;
       border-left: 0;
-      border-right: 6px solid rgba($black,.75);
+      border-right: 6px solid $gray-darker;
       border-top: 6px solid transparent;
       float: left;
       margin-top: 7px;
@@ -53,20 +53,131 @@
   content: '';
   display: block;
   height: 0;
-  // opacity: 0;
   pointer-events: none;
-  // position: absolute;
   transition: all .1s ease-in-out;
   width: 0;
 }
 
 .tooltip-text {
-  background: rgba($black,.75);
+  background: $gray-darker;
   border-radius: 3px;
   color: $white;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1;
-  padding: 6px 9px;
+  padding: 12px;
   text-shadow: none;
   white-space: nowrap;
+}
+
+// tooltip icon (i)
+.tooltip-icon {
+  background-color: $gray-light;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAMAAADW3miqAAAAM1BMVEUAAAD///////////////////////////////////////////////////////////////+3leKCAAAAEHRSTlMAECAwQFBgcICPn6+/z9/vIxqCigAAAJNJREFUeAHN0TESwiAUhOEFAkHyAnv/0+rLaMmKVfyaNDvwT8DNgpE9QTv5ckDKvECqdAPSzoXr4vCDErR0WIv4M2k3skCItdNVTG0HL+Kk6BPrdGn+G88S0PWztM2nK89S6HZI7Z2k6CS3mpRXkh4rSedCUvgxKZSvSbkNxsnI6Jp/esYEP7pfJkejJQhGWk242RMLCwsROuxo1gAAAABJRU5ErkJggg==);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 10px 10px;
+  border-radius: 50%;
+  display: inline-block;
+  height: 12px;
+  margin-left: 5px;
+  position: relative;
+  top: 1px;
+  width: 12px;
+}
+
+// tooltip-plus, lol
+.tooltip-plus-wrapper {
+  cursor: default;
+  position: relative;
+
+  &:hover .tooltip-plus {
+    animation: tooltip .1s ease-in forwards;
+    display: block;
+  }
+}
+
+.tooltip-plus {
+  background: $gray-darker;
+  border-radius: 3px;
+  color: $white;
+  display: none;
+  font-size: 13px;
+  line-height: 1;
+  opacity: 0;
+  padding: 15px;
+  position: absolute;
+  white-space: nowrap;
+  z-index: $z-tooltip;
+
+  &::before {
+    content: '';
+    display: block;
+    margin: 0 auto;
+    position: absolute;
+    width: 18px;
+  }
+
+  // arrow pointing up 🔼
+  &.bottom::before {
+    border-bottom: 9px solid $gray-darker;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 0;
+    left: 0;
+    right: 0;
+    top: -9px;
+  }
+
+  // arrow pointing left ◀️
+  &.right::before {
+    border-bottom: 9px solid transparent;
+    border-left: 0;
+    border-right: 9px solid $gray-darker;
+    border-top: 9px solid transparent;
+    left: -18px;
+    margin-top: -9px;
+    top: 50%;
+  }
+
+  // arrow pointing down 🔽
+  &.top::before {
+    border-bottom: 0;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 9px solid $gray-darker;
+    bottom: -9px;
+    left: 0;
+    right: 0;
+  }
+
+  // content specific (from configure "unavailable tools")
+  &.tooltip-tools {
+    white-space: normal;
+    width: 240px;
+
+    .list-item {
+      height: 24px;
+      line-height: 24px;
+    }
+
+    .iconnables {
+      height: 100%;
+      margin-right: 10px;
+      width: 14px;
+    }
+
+    .p.p {
+      border-top: 1px solid $gray-dark;
+      line-height: 1.2;
+      margin-top: 6px;
+      padding-top: 6px;
+    }
+  }
+
+  // don't inherit these from parent styles
+  .small {
+    color: $gray-light;
+    display: block;
+    padding: 0; // overrides…until tooltips are refactored
+  }
 }

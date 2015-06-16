@@ -22,9 +22,14 @@
     ul.popover-list
       //- trigger build files confirm modal
       li.divider(
-        ng-if = "$root.featureFlags.cardStatus"
+        ng-if = "\
+          $root.featureFlags.cardStatus && \
+          !$root.featureFlags.dockerfileTool\
+        "
       )
-      li.list-item.popover-list-item.multi-line
+      li.list-item.popover-list-item.multi-line(
+        ng-if = "!$root.featureFlags.dockerfileTool"
+      )
         label.label-checkbox
           input.input-checkbox(
             ng-model = "data.advanced"
@@ -32,4 +37,4 @@
             type = "checkbox"
           )
           | Advanced Options
-          small.small Modify your container through its build files
+          small.small Modify your container through its Dockerfile

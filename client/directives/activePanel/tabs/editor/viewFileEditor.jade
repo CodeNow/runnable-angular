@@ -5,9 +5,15 @@
 )
 
 pre.pre(
+  ng-attr-readonly = "{{state.readOnly}}"
   ng-model = "file.state.body"
   ui-ace = "{\
     onFocus: actions.onFocus,\
     onLoad: actions.setAceMode\
   }"
 )
+
+//- readonly button
+button.btn.btn-xs(
+  ng-if = "state.readOnly"
+) Read only

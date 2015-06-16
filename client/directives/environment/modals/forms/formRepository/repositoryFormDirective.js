@@ -4,7 +4,7 @@ require('app')
   .directive('repositoryForm', function repositoryForm(
     $q,
     errs,
-    hasKeypaths,
+    fetchRepoBranches,
     keypather,
     loadingPromises,
     promisify,
@@ -19,21 +19,31 @@ require('app')
         loadingPromisesTarget: '@?'
       },
       link: function ($scope) {
-        $q.all({
-          acv: watchOncePromise($scope, 'state.acv', true),
-          branches: watchOncePromise($scope, 'state.repo.branches', true)
-        })
-          .then(function (data) {
-            if (!keypather.get(data, 'branches.models.length')) {
-              return promisify(data.branches, 'fetch')();
+        $scope.branchFetching = true;
+        watchOncePromise($scope, 'state.acv', true)
+          .then(function () {
+            if (!$scope.state.branch) {
+              $scope.state.branch = $scope.state.repo.newBranch($scope.state.acv.attrs.branch);
+              $scope.state.repo.branches.add($scope.state.branch);
+              return promisify($scope.state.branch, 'fetch')();
             }
-            return data.branches;
+            return null;
           })
-          .then(function (branches) {
-            if ($scope.state.branch) { return; }
-            $scope.state.branch = branches.models.find(hasKeypaths({
-              'attrs.name': $scope.state.acv.attrs.branch
-            }));
+          .then(function (selectedBranch) {
+            if (selectedBranch || !keypather.get($scope.state, 'repo.branches.models.length')) {
+              return $q(function (resolve, reject) {
+                // Don't fetch until the next digest cycle so the fancy select has enough time to draw
+                $scope.$evalAsync(function () {
+                  return fetchRepoBranches($scope.state.repo)
+                    .then(resolve)
+                    .catch(reject);
+                });
+              });
+            }
+          })
+          .catch(errs.handler)
+          .finally(function () {
+            $scope.branchFetching = false;
           });
 
         $scope.$watch('state.branch', function (newBranch, oldBranch) {

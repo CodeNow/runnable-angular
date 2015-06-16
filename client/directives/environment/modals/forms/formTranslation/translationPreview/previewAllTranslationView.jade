@@ -1,20 +1,3 @@
-//- do not show if no preview
-  .clearfix(
-    ng-if = "!state.recalculating && state.diffs.length"
-  )
-    label.label.label-jump
-      small.small Jump to
-      select.select
-        optgroup(
-          label = "Filename rule"
-        )
-          option build/index.html
-        optgroup(
-          label = "String rule"
-        )
-          option build/index2.html
-          option build/assets/img.img
-
 div.modal-form-spinner(
   ng-if = "state.recalculating"
 )
@@ -22,6 +5,21 @@ div.modal-form-spinner(
     ng-include = "'spinner'"
   )
   small.small Updating
+
+.clearfix(
+  ng-if = "!state.recalculating && state.diffs.length"
+)
+  label.label.label-jump
+    fancy-select(
+      on-update = "actions.jumpTo"
+      track-by = "from"
+      placeholder = "Jump to"
+      value = "jumpToModel"
+    )
+      fancy-option(
+        ng-repeat = "diff in $parent.$parent.state.diffs"
+        value = "diff"
+      ) {{ $parent.diff.from }}
 
 .table.table-diff(
   actions = "actions"
@@ -31,6 +29,7 @@ div.modal-form-spinner(
   ng-if = "!state.recalculating"
   preview-all = "true"
   state = "state"
+  ng-attr-id = "{{'diff-' + diff.$$hashKey}}"
 )
 
 //- if no rules

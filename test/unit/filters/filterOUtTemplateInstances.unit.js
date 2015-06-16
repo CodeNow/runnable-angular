@@ -33,7 +33,6 @@ describe('removeTemplateInstances', function () {
       }
     ];
     var filtered = removeTemplateInstances(instances);
-    console.log(filtered);
     expect(filtered.length).to.equal(1);
     expect(filtered[0].attrs.name).to.equal('MyTEMPLATE-foo');
   });

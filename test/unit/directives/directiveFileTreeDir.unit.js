@@ -155,6 +155,348 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
     });
   });
 
+  describe('drop', function () {
+    it('should not work if old path is the same', function () {
+      var dataTransfer = {
+        getData: function (prop) {
+          if (prop === 'modelType') {
+            return 'Dir';
+          }
+          if (prop === 'modelId') {
+            return 'some-id';
+          }
+          if (prop === 'modelName') {
+            return 'some-name';
+          }
+          if (prop === 'oldPath') {
+            return '/some/dir';
+          }
+          return null;
+        }
+      };
+      var toDir = {
+        id: function () {
+          return '/some/dir/'
+        }
+      };
+      var result = $elScope.actions.drop(dataTransfer, toDir);
+      expect(result).to.equal(false);
+    });
+    it('should not work if both pathes are root', function () {
+      var dataTransfer = {
+        getData: function (prop) {
+          if (prop === 'modelType') {
+            return 'Dir';
+          }
+          if (prop === 'modelId') {
+            return 'some-id';
+          }
+          if (prop === 'modelName') {
+            return 'some-name';
+          }
+          if (prop === 'oldPath') {
+            return '/';
+          }
+          return null;
+        }
+      };
+      var toDir = {
+        id: function () {
+          return '/'
+        }
+      };
+      var result = $elScope.actions.drop(dataTransfer, toDir);
+      expect(result).to.equal(false);
+    });
+
+    it('should be able to move file from root', function () {
+      var dataTransfer = {
+        getData: function (prop) {
+          if (prop === 'modelType') {
+            return 'File';
+          }
+          if (prop === 'modelId') {
+            return '/some-id.txt';
+          }
+          if (prop === 'modelName') {
+            return 'some-name';
+          }
+          if (prop === 'oldPath') {
+            return '/';
+          }
+          return null;
+        }
+      };
+      var toDir = {
+        id: function () {
+          return '/dir1'
+        },
+        contents: {
+          fetch: sinon.spy()
+        }
+      };
+      var FileModel = function () {};
+      FileModel.prototype.moveToDir = function (toDir, cb) {
+        cb();
+      };
+      $elScope.fileModel = {
+        newFile: function (id, opts) {
+          var fm = new FileModel();
+          return fm;
+        },
+        rootDir: {
+          contents: {
+            fetch: sinon.spy()
+          }
+        }
+      };
+      $scope.loadingPromisesTarget = 'moveToDir';
+      $scope.$digest();
+      sinon.spy($elScope.fileModel, 'newFile');
+      var moveToDirSpy = sinon.spy(FileModel.prototype, 'moveToDir');
+      var result = $elScope.actions.drop(dataTransfer, toDir);
+      sinon.assert.calledOnce(loadingPromisesMock.add);
+      $scope.$digest();
+      sinon.assert.calledOnce($elScope.fileModel.newFile);
+      sinon.assert.calledOnce(moveToDirSpy);
+      expect(moveToDirSpy.lastCall.args[0].id()).to.equal('/dir1');
+      sinon.assert.calledOnce($elScope.fileModel.rootDir.contents.fetch);
+      sinon.assert.calledOnce(toDir.contents.fetch);
+    });
+
+    it('should be able to move file from nested dir', function () {
+      var dataTransfer = {
+        getData: function (prop) {
+          if (prop === 'modelType') {
+            return 'File';
+          }
+          if (prop === 'modelId') {
+            return '/dir2/some-id.txt';
+          }
+          if (prop === 'modelName') {
+            return 'some-name';
+          }
+          if (prop === 'oldPath') {
+            return '/dir2';
+          }
+          return null;
+        }
+      };
+      var toDir = {
+        id: function () {
+          return '/dir1'
+        },
+        contents: {
+          fetch: sinon.spy()
+        }
+      };
+      var FileModel = function () {};
+      FileModel.prototype.moveToDir = function (toDir, cb) {
+        cb();
+      };
+      $elScope.fileModel = {
+        newFile: function (id, opts) {
+          var fm = new FileModel();
+          return fm;
+        },
+        rootDir: {
+          contents: {
+            fetch: sinon.spy(),
+            models: [
+              {
+                attrs: {
+                  isDir: true
+                },
+                id: function () {
+                  return '/dir2/'
+                },
+                contents: {
+                  fetch: sinon.spy()
+                }
+              }
+            ]
+          }
+        }
+      };
+      $scope.loadingPromisesTarget = 'moveToDir';
+      $scope.$digest();
+      sinon.spy($elScope.fileModel, 'newFile');
+      var moveToDirSpy = sinon.spy(FileModel.prototype, 'moveToDir');
+      var result = $elScope.actions.drop(dataTransfer, toDir);
+      sinon.assert.calledOnce(loadingPromisesMock.add);
+      $scope.$digest();
+      sinon.assert.calledOnce($elScope.fileModel.newFile);
+      sinon.assert.calledOnce(moveToDirSpy);
+      expect(moveToDirSpy.lastCall.args[0].id()).to.equal('/dir1');
+      sinon.assert.calledOnce($elScope.fileModel.rootDir.contents.models[0].contents.fetch);
+      sinon.assert.calledOnce(toDir.contents.fetch);
+    });
+
+    it('should be able to move file from super nested dir', function () {
+      var dataTransfer = {
+        getData: function (prop) {
+          if (prop === 'modelType') {
+            return 'File';
+          }
+          if (prop === 'modelId') {
+            return '/dir2/dir3/some-id.txt';
+          }
+          if (prop === 'modelName') {
+            return 'some-name';
+          }
+          if (prop === 'oldPath') {
+            return '/dir2/dir3';
+          }
+          return null;
+        }
+      };
+      var toDir = {
+        id: function () {
+          return '/dir1'
+        },
+        contents: {
+          fetch: sinon.spy()
+        }
+      };
+      var FileModel = function () {};
+      FileModel.prototype.moveToDir = function (toDir, cb) {
+        cb();
+      };
+      $elScope.fileModel = {
+        newFile: function (id, opts) {
+          var fm = new FileModel();
+          return fm;
+        },
+        rootDir: {
+          id: function () {
+            return '/';
+          },
+          contents: {
+            models: [
+              {
+                attrs: {
+                  isDir: true
+                },
+                id: function () {
+                  return '/dir2/'
+                },
+                contents: {
+                  models: [
+                    {
+                      attrs: {
+                        isDir: true
+                      },
+                      id: function () {
+                        return '/dir2/dir3/'
+                      },
+                      contents: {
+                        fetch: sinon.spy()
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      };
+      $scope.loadingPromisesTarget = 'moveToDir';
+      $scope.$digest();
+      sinon.spy($elScope.fileModel, 'newFile');
+      var moveToDirSpy = sinon.spy(FileModel.prototype, 'moveToDir');
+      var result = $elScope.actions.drop(dataTransfer, toDir);
+      sinon.assert.calledOnce(loadingPromisesMock.add);
+      $scope.$digest();
+      sinon.assert.calledOnce($elScope.fileModel.newFile);
+      sinon.assert.calledOnce(moveToDirSpy);
+      expect(moveToDirSpy.lastCall.args[0].id()).to.equal('/dir1');
+      sinon.assert.calledOnce($elScope.fileModel.rootDir.contents.models[0].contents.models[0].contents.fetch);
+      sinon.assert.calledOnce(toDir.contents.fetch);
+    });
+    it('should not call fetch on folder that wasnot found', function () {
+      var dataTransfer = {
+        getData: function (prop) {
+          if (prop === 'modelType') {
+            return 'File';
+          }
+          if (prop === 'modelId') {
+            return '/dir2/dir3/some-id.txt';
+          }
+          if (prop === 'modelName') {
+            return 'some-name';
+          }
+          if (prop === 'oldPath') {
+            return '/dir2/dir3';
+          }
+          return null;
+        }
+      };
+      var toDir = {
+        id: function () {
+          return '/dir1'
+        },
+        contents: {
+          fetch: sinon.spy()
+        }
+      };
+      var FileModel = function () {};
+      FileModel.prototype.moveToDir = function (toDir, cb) {
+        cb();
+      };
+      $elScope.fileModel = {
+        newFile: function (id, opts) {
+          var fm = new FileModel();
+          return fm;
+        },
+        rootDir: {
+          id: function () {
+            return '/';
+          },
+          contents: {
+            models: [
+              {
+                attrs: {
+                  isDir: true
+                },
+                id: function () {
+                  return '/dir2/'
+                },
+                contents: {
+                  models: [
+                    {
+                      attrs: {
+                        isDir: true
+                      },
+                      id: function () {
+                        return '/dir2/dir4/'
+                      },
+                      contents: {
+                        fetch: sinon.spy()
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      };
+      $scope.loadingPromisesTarget = 'moveToDir';
+      $scope.$digest();
+      sinon.spy($elScope.fileModel, 'newFile');
+      var moveToDirSpy = sinon.spy(FileModel.prototype, 'moveToDir');
+      var result = $elScope.actions.drop(dataTransfer, toDir);
+      sinon.assert.calledOnce(loadingPromisesMock.add);
+      $scope.$digest();
+      sinon.assert.calledOnce($elScope.fileModel.newFile);
+      sinon.assert.calledOnce(moveToDirSpy);
+      expect(moveToDirSpy.lastCall.args[0].id()).to.equal('/dir1');
+      expect($elScope.fileModel.rootDir.contents.models[0].contents.models[0].contents.fetch.calledOnce).to.equal(false);
+      sinon.assert.calledOnce(toDir.contents.fetch);
+    });
+
+  });
+
   describe('file rename', function () {
     it('should work', function () {
       var file = {

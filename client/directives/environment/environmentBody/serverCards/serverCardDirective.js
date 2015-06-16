@@ -50,9 +50,9 @@ require('app')
           }
 
           if(messages.length){
-            return messages.join('; ');
+            return messages.join(', ');
           }
-          return 'no container files';
+          return '—';
 
         };
         $scope.helpCards = helpCards;
@@ -236,7 +236,7 @@ require('app')
             }
             return flattened;
           }
-          return 'none';
+          return '—';
         };
         $scope.showSpinner = function () {
           return !$scope.server.build || $scope.server.building || $scope.server.parsing;
@@ -250,7 +250,7 @@ require('app')
           if (ruleObject) {
             total = ruleObject.replace.length + ruleObject.rename.length;
           }
-          var result = (!total ? 'no' : total) + ' rule' + (total === 1 ? '' : 's');
+          var result = (!total ? '—' : total + ' rule') + (total > 1 ? 's' : '');
           if (keypather.get(ruleObject, 'exclude.length')) {
             result += ' (' + ruleObject.exclude.length + ' files ignored)';
           }
