@@ -66,7 +66,7 @@ form.modal-dialog.modal-integrations(
         .list.list-bordered(
           ng-if = "data.verified"
         )
-          label.list-item.label-checkbox.text-overflow(
+          label.list-item.text-overflow(
             ng-class = "{\
               active: member.slackOn,\
               disabled: !data.settings.attrs.notifications.slack.enabled,\
@@ -91,7 +91,7 @@ form.modal-dialog.modal-integrations(
               width = "21"
             )
             | @{{ member.name }}
-            label.toggle-wrapper.float-right
+            .toggle-wrapper.float-right
               input.toggle-input(
                 ng-disabled = "!data.settings.attrs.notifications.slack.enabled"
                 ng-model = "member.slackOn"

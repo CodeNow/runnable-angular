@@ -33,13 +33,15 @@
   .list-item {
     background: $white;
     color: $gray-dark;
+    cursor: pointer;
+    display: block;
     line-height: 45px;
     margin: 0;
     max-height: 45px;
     min-height: 45px;
     padding: 0 9px;
     position: relative;
-    transition: max-height .15s ease-in;
+    transition: max-height .15s ease-in-out;
 
     &.expanded {
       max-height: 150px;
@@ -71,6 +73,8 @@
     }
 
     .toggle-wrapper {
+      position: absolute;
+      right: 12px;
       top: 12px;
     }
   }
@@ -115,6 +119,7 @@
   }
 
   .select {
+    color: $gray-darker;
     cursor: pointer;
     display: block;
     font-size: 16px;
