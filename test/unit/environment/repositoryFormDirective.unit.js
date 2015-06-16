@@ -36,14 +36,28 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
     };
     ctx.repo1 = {
       attrs: angular.copy(apiMocks.gh.repos[0]),
+      fetchBranch: sinon.spy(function (opts, cb) {
+        var branch = {
+          attrs: {
+            name: opts
+          }
+        };
+        $rootScope.$evalAsync(function () {
+          cb(null, branch);
+        });
+        return branch;
+      }),
       branches: {
+        add: sinon.spy(),
         fetch: sinon.spy(function (cb) {
           ctx.repo1.branches.models = apiMocks.branches.bitcoinRepoBranches.map(function (branch) {
             return {
               attrs: branch
             };
           });
-          if (cb) { cb(null, ctx.repo1.branches); }
+          $rootScope.$evalAsync(function () {
+            if (cb) { cb(null, ctx.repo1.branches); }
+          });
           return ctx.repo1.branches;
         }),
         models: []
@@ -52,6 +66,13 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
     runnable.reset(apiMocks.user);
     angular.mock.module('app', function ($provide) {
       $provide.value('errs', ctx.errsMock);
+      $provide.factory('fetchRepoBranches', function ($q) {
+        return function (repo) {
+          return $q(function (resolve) {
+            repo.branches.fetch(resolve);
+          });
+        };
+      });
     });
     angular.mock.inject(function (
       _$compile_,
@@ -122,9 +143,12 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
       $scope.$digest();
       $rootScope.$apply();
 
+      sinon.assert.called(ctx.repo1.fetchBranch);
+      expect($scope.state.branch, 'branch').to.be.ok;
+      $scope.$digest();
+
       sinon.assert.called(ctx.repo1.branches.fetch);
       $scope.$digest();
-      expect($scope.state.branch, 'branch').to.be.ok;
       expect($scope.state.branch.attrs.name, 'branch name').to.equal('master');
       $scope.$digest();
       sinon.assert.notCalled(ctx.acv.update);
@@ -159,7 +183,8 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
       $scope.$digest();
       $elScope = ctx.element.isolateScope();
       $scope.$digest();
-
+      sinon.assert.notCalled(ctx.repo1.fetchBranch);
+      expect($scope.state.branch, 'branch').to.be.ok;
       sinon.assert.notCalled(ctx.repo1.branches.fetch);
       $scope.$digest();
       sinon.assert.notCalled(ctx.acv.update);
@@ -178,6 +203,37 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
       $scope.$digest();
       sinon.assert.calledOnce($scope.state.acv.resetState);
       $rootScope.$destroy();
+    });
+    it('should fetch the branches, but not fetch the main branch ', function () {
+
+      var scope = {
+        state: {
+          branch: {
+            attrs: {
+              name: 'master'
+            }
+          }
+        }
+      };
+      setup(scope);
+      $scope.$digest();
+      $elScope = ctx.element.isolateScope();
+      $scope.$digest();
+
+      $scope.state.repo = ctx.repo1;
+      $scope.$digest();
+      $scope.state.acv = ctx.acv;
+      $scope.$digest();
+      $rootScope.$apply();
+
+      sinon.assert.notCalled(ctx.repo1.fetchBranch);
+      expect($scope.state.branch, 'branch').to.be.ok;
+      $scope.$digest();
+
+      sinon.assert.called(ctx.repo1.branches.fetch);
+      $scope.$digest();
+      expect($scope.state.branch.attrs.name, 'branch name').to.equal('master');
+      $scope.$digest();
     });
 
     it('with a loadingPromise target', function () {

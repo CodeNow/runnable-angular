@@ -37,6 +37,10 @@ function fancySelect(
         $scope.config.value = newVal;
       });
 
+      $scope.$on('$destroy', function () {
+        $scope.$parent.deregisterOption($scope.config);
+      });
+
       transcludeFn($scope, function(clone){
         element.find('li').append(clone);
       });

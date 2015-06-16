@@ -111,16 +111,27 @@ describe('directiveRepoSelect'.bold.underline.blue, function () {
           default_branch: 'default'
         },
         branches: {
-          fetch: sinon.stub().returns({
-            models: branches
+          fetch: sinon.spy(function (opts, cb) {
+            $rootScope.$evalAsync(function () {
+              cb(null, {
+                models: branches
+              });
+            });
+            return {
+              models: branches
+            };
           })
-        }
+        },
+        newBranches: sinon.spy(function (branches) {
+          return {
+            models: branches
+          };
+        })
       };
 
       $scope.repoSelector.actions.selectRepo(repo);
       $scope.$digest();
 
-      sinon.assert.calledOnce(repo.branches.fetch);
       sinon.assert.calledOnce(branches[1].commits.fetch);
       expect($scope.repoSelector.data.commit).to.equal(commits[0]);
       expect($scope.repoSelector.data.name).to.equal('My Repo Name');

@@ -19,6 +19,7 @@ function repositorySelector(
   hasKeypaths,
   promisify,
   fetchOwnerRepos,
+  fetchRepoBranches,
   $rootScope,
   cardInfoTypes
 ) {
@@ -59,7 +60,8 @@ function repositorySelector(
           $scope.repoSelector.data.loading = true;
           $scope.repoSelector.data.repo.loading = true;
 
-          promisify(repo.branches, 'fetch')()
+
+          fetchRepoBranches(repo)
             .then(function (branches) {
               return branches.models.find(hasKeypaths({'attrs.name': repo.attrs.default_branch}));
             })

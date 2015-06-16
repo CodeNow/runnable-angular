@@ -68,15 +68,19 @@ section.home-hero
       //-   required
       //-   type = "email"
       //- )
-      a.btn.btn-sm.green(
-        href = "mailto:support@runnable.com?subject=Please send me an invite for the beta"
-      ) Request Invite
-    .container
-      p.p or #{''}
+      //- a.btn.btn-xs.green(
+      //-   href = "mailto:support@runnable.com?subject=Please send me an invite for the beta"
+      //- ) Request Invite
+      p.p
+        a.link(
+          href = "mailto:support@runnable.com?subject=Please send me an invite for the beta"
+        ) Send us an email
+        | #{''} to request beta access, or #{''}
         a.link(
           ng-href = "{{dataApp.data.loginURL}}"
         ) Sign in
-        | , if you've already been invited.
+        | .
+    .container
       small.small Looking for #{''}
         a.link(
           href = "http://code.runnable.com"
