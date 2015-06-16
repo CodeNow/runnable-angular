@@ -1,6 +1,7 @@
 .modal-edit {
   max-width: 900px;
   min-height: 360px;
+  transition: max-width .3s ease-in-out;
   width: 100%;
 
   @include media(md) {
@@ -9,6 +10,21 @@
 
   @include media(sm) {
     max-width: 720px;
+  }
+
+  &.xl {
+
+    @include media(xxl) {
+      max-width: 1800px;
+    }
+
+    @include media(xl) {
+      max-width: 1600px;
+    }
+
+    @include media(lg) {
+      max-width: 1200px;
+    }
   }
 
   // css override for server building state
