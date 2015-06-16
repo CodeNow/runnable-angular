@@ -20,12 +20,6 @@ function fetchStackInfo(
         Object.keys(data).forEach(function (key) {
           var stack = data[key];
           stack.key = key;
-          if (key === 'ruby') {
-            if (stack.versions.indexOf('1.8.6-p420') < 0) {
-              stack.versions.unshift('1.8.7-p374');
-              stack.versions.unshift('1.8.6-p420');
-            }
-          }
           stack.suggestedVersion = stack.defaultVersion;
           stacks.push(stack);
           if (stack.dependencies) {
