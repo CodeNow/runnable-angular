@@ -3,51 +3,16 @@
   max-width: 660px;
   transition: max-height .15s ease-in;
 
-  // uninitiated state
-  // &.no-data {
-  //   max-height: 300px;
-  //   width: 370px;
-
-  //   // header
-  //   .modal-header {
-  //     background: none;
-  //     border-color: transparent;
-  //     height: auto;
-  //   }
-
-  //   .modal-heading {
-  //     // reset default
-  //     float: none;
-  //     text-align: center;
-  //   }
-
-  //   .modal-header-actions {
-  //     justify-content: center;
-  //   }
-
-  //   // small footer
-  //   .footer-link {
-  //     line-height: 45px;
-  //     text-align: center;
-  //   }
-  // }
-
   // unverified state
-  &.no-verify {
+  &.unverified {
     max-height: 400px;
   }
 
-  // default state
   // header slack logo
-  .modal-header .img {
+  .modal-heading .img {
     margin-right: 9px;
     position: relative;
     top: 5px;
-  }
-
-  .modal-header-actions {
-    display: flex;
-    justify-content: flex-start;
   }
 
   // api token
