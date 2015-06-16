@@ -2,12 +2,12 @@
 
 require('app')
   .directive('translationRules', function translationRules(
-    $q,
     errs,
     keypather,
     parseDiffResponse,
     promisify,
-    testAllTransformRules
+    testAllTransformRules,
+    $document
   ) {
     return {
       restrict: 'A',
@@ -19,6 +19,10 @@ require('app')
           }
         });
         $scope.actions = {
+          jumpTo: function (diff) {
+            var fileLink = angular.element($document[0].getElementById('diff-'+diff.$$hashKey));
+            angular.element($document[0].querySelector('form[name="editServerForm"] .modal-body')).scrollToElement(fileLink, 10, 200);
+          },
           recalculateRules: function () {
             $scope.state.recalculating = true;
             var acv = keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion()');
