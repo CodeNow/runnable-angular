@@ -5,36 +5,70 @@
     ng-bind-html = "helpCards.getActiveCard().helpPopover.containerFiles"
   )
 
-.clearfix
-  .label-col Container Files
+.table-actions.table-toggle(
+  ng-if = "$root.featureFlags.dockerfileTool"
+)
+  svg.iconnables.float-left
+    use(
+      xlink:href = "#icons-lock"
+    )
+  strong.small.strong Enable Write Access
+
+  //- ************
+  //- this link is only for triggering the modal for locking the dockerfile.
+  //- ************
+  //- a.link.float-right(
+  //-   modal
+  //-   modal-template = "viewModalLockDockerfile"
+  //-   style = "color: red; margin-left: 3px;"
+  //- ) Test
+
+  small.small
+    em.underline.tooltip-plus-wrapper Some tools
+      .tooltip-plus.tooltip-tools.bottom(
+        ng-include = "'viewTooltipTools'"
+        style = "left: -69px; top: 27px;"
+      )
+    | #{''} are not available with write access enabled.
+
+  //- when locking the dockerfile, prompt with modal template: viewModalLockDockerfile
+  label.toggle-wrapper.show-icons
+    input.toggle-input(
+      ng-false-value = "true"
+      ng-model = "state.readOnly"
+      ng-true-value = "false"
+      type = "checkbox"
+    )
+    .toggle-group.toggle-sm
 
 //- table of current environment variables
-.ace-container.ace-build-files.ace-runnable-dark
+//- if dockerfile tool feature flag:
+//- state.readOnly = true
+.ace-container.ace-build-files.ace-runnable-dark(
+  ng-init = "state.readOnly = $root.featureFlags.dockerfileTool || !$root.featureFlags.dev"
+)
 
   .sidebar(
     edit-explorer = "true"
     explorer
     explorer-title = "Build Files"
     file-model = "state.contextVersion"
+    loading-promises-target = "editServerModal"
     open-items = "openItems"
     root-dir = "state.contextVersion.rootDir"
+    read-only = "state.readOnly"
     show-repo-folder = "true"
-    loading-promises-target = "editServerModal"
   )
 
   .ace_editor(
     file = "item"
     file-editor
     loading = "loading"
+    loading-promises-target = "editServerModal"
     ng-if = "item.state.type === 'File'"
     ng-repeat = "item in openItems.models track by item.id()"
     ng-show = "item === openItems.activeHistory.last()"
+    read-only = "state.readOnly"
+    state = "state"
     use-auto-update = "true"
-    loading-promises-target = "editServerModal"
   )
-
-//- small.small 😌🐻✌️ #{''}
-//-   a.link(
-//-     href = "//google.com"
-//-     target = "_blank"
-//-   ) More about build files
