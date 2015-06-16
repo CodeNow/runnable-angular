@@ -38,8 +38,23 @@ function instancePrimaryActions(
         });
       };
 
+      var overwriteStatus = null;
+
+      $scope.changingText = function () {
+        var status = $scope.instance.status();
+
+        status = overwriteStatus || status;
+
+        var statusMap = {
+          starting: 'Starting container',
+          stopping: 'Stopping Container',
+          building: 'Building'
+        };
+        return statusMap[status];
+      };
+
       $scope.isChanging = function () {
-        return ['starting', 'building', 'stopping'].indexOf($scope.instance.status()) !== -1;
+        return overwriteStatus || ['starting', 'building', 'stopping'].indexOf($scope.instance.status()) !== -1;
       };
 
       $scope.saveChanges = function () {
@@ -74,15 +89,20 @@ function instancePrimaryActions(
           .then(function () {
             return promisify($scope.instance, 'fetch')();
           })
-          .catch(errs.handler);
+          .catch(errs.handler)
+          .finally(function () {
+            overwriteStatus = null;
+          });
       }
 
       $scope.actions = {
         stopInstance: function () {
           modInstance('stop');
+          overwriteStatus = 'stopping';
         },
         startInstance: function () {
           modInstance('start');
+          overwriteStatus = 'starting';
         }
       };
     }
