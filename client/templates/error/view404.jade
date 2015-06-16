@@ -1,11 +1,6 @@
 .error-wrapper(
-    ng-init = "error='notSignedIn'"
+  ng-init = "error='notSignedIn'"
 )
-  img.runnabear-head(
-    height = "112"
-    src = "/build/images/runnabear_head.png"
-    width = "135"
-  )
   .error-content(
     ng-if = "error === 'notSignedIn'"
     ng-include = "'view404NotSignedIn'"

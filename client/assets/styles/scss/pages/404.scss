@@ -1,5 +1,9 @@
 .error-wrapper {
   align-items: center;
+  background-image: url(/build/images/runnabear_head.png);
+  background-position: center 0;
+  background-repeat: no-repeat;
+  background-size: 135px 112px;
   display: flex;
   height: 100vh;
   justify-content: center;
@@ -11,7 +15,6 @@
   position: absolute;
   top: 0;
   transform: translate3d(-50%,0,0);
-  width: 135px;
 }
 
 .error-content {
