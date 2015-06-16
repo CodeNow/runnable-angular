@@ -140,14 +140,11 @@ function setupServerModal(
           .then(function (buildWithVersion) {
             $scope.state.build = buildWithVersion;
             $scope.state.contextVersion = buildWithVersion.contextVersion;
-            return promisify(repo.branches, 'fetch')();
+            return promisify(repo, 'fetchBranch')(repo.attrs.default_branch);
           })
-          .then(function (branches) {
-            var masterBranch = branches.models.find(hasKeypaths({'attrs.name': repo.attrs.default_branch}));
-            $scope.branches = branches;
+          .then(function (masterBranch) {
             $scope.state.branch = masterBranch;
             // Set the repo here so the page change happens after all of these fetches
-            $scope.state.repo = repo;
             return promisify($scope.state.contextVersion.appCodeVersions, 'create', true)({
               repo: repo.attrs.full_name,
               branch: masterBranch.attrs.name,
@@ -156,6 +153,7 @@ function setupServerModal(
           })
           .then(function () {
             $scope.state.acv = $scope.state.contextVersion.getMainAppCodeVersion();
+            $scope.state.repo = repo;
           })
           .then(function (dockerfile) {
             $scope.state.dockerfile = dockerfile;

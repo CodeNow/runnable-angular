@@ -5,8 +5,14 @@ button.btn.btn-sm.white.text-overflow.btn-validate(
     ng-if = "!value"
   ) {{placeholder}}
   .display.text-overflow
-  svg.iconnables.icons-arrow-down
+  svg.iconnables.icons-arrow-down(
+    ng-if = "!spinnerFlag"
+  )
     use(
       xmlns:xlink = "http://www.w3.org/1999/xlink"
       xlink:href = "#icons-arrow-down"
     )
+  .spinner-wrapper.spinner-sm.in(
+    ng-include = "'spinner'"
+    ng-if = "spinnerFlag"
+  )

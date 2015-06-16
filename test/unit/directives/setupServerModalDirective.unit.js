@@ -164,9 +164,12 @@ describe('setupServerModalDirective'.bold.underline.blue, function () {
           full_name: 'foo',
           default_branch: 'master'
         },
-        branches: {
-          fetch: sinon.stub().returns(branches)
-        }
+        fetchBranch: sinon.spy(function (opts, cb) {
+          $rootScope.$evalAsync(function () {
+            cb(null, branches.models[0]);
+          });
+          return branches.models[0];
+        })
       };
       var analysisMockData = {
         languageFramework: 'ruby_ror',
@@ -197,13 +200,15 @@ describe('setupServerModalDirective'.bold.underline.blue, function () {
       $scope.$digest();
 
 
-      sinon.assert.called(repo.branches.fetch);
+      sinon.assert.called(repo.fetchBranch);
+      $scope.$digest();
+
       sinon.assert.calledOnce(newBuild.contextVersion.appCodeVersions.create);
+      $scope.$digest();
       sinon.assert.calledOnce(newBuild.contextVersion.getMainAppCodeVersion);
 
       expect($elScope.state.build).to.equal(newBuild);
       expect($elScope.state.contextVersion).to.equal(newBuild.contextVersion);
-      expect($elScope.branches).to.equal(branches);
       expect($elScope.state.branch).to.equal(branches.models[0]);
       expect($elScope.state.repo).to.equal(repo);
       expect($elScope.state.acv).to.equal(mainACV);

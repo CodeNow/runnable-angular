@@ -4,6 +4,7 @@ require('app')
   .directive('repositoryForm', function repositoryForm(
     $q,
     errs,
+    fetchRepoBranches,
     hasKeypaths,
     keypather,
     loadingPromises,
@@ -23,17 +24,30 @@ require('app')
           acv: watchOncePromise($scope, 'state.acv', true),
           branches: watchOncePromise($scope, 'state.repo.branches', true)
         })
-          .then(function (data) {
-            if (!keypather.get(data, 'branches.models.length')) {
-              return promisify(data.branches, 'fetch')();
+          .then(function () {
+            if (!$scope.state.branch) {
+              return promisify(
+                $scope.state.repo,
+                'fetchBranch'
+              )($scope.state.acv.attrs.branch);
             }
-            return data.branches;
           })
-          .then(function (branches) {
-            if ($scope.state.branch) { return; }
-            $scope.state.branch = branches.models.find(hasKeypaths({
-              'attrs.name': $scope.state.acv.attrs.branch
-            }));
+          .then(function (selectedBranch) {
+            if (selectedBranch) {
+              $scope.state.branch = selectedBranch;
+            }
+            if (!keypather.get($scope.state, 'repo.branches.models.length')) {
+              $scope.state.repo.branches.add($scope.state.branch);
+              // Don't fetch until the next digest cycle so the fancy select has enough time to draw
+              $scope.branchFetching = true;
+              $scope.$evalAsync(function () {
+                return fetchRepoBranches($scope.state.repo)
+                  .catch(errs.handler)
+                  .finally(function () {
+                    $scope.branchFetching = false;
+                  });
+              });
+            }
           });
 
         $scope.$watch('state.branch', function (newBranch, oldBranch) {
