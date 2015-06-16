@@ -30,7 +30,8 @@ function fancySelect(
       trackBy: '@?',
       onUpdate: '=?',
       toggleObject: '=?',
-      toggleAttribute: '@?'
+      toggleAttribute: '@?',
+      spinnerFlag: '=?'
     },
     link: function ($scope, element, attrs, controller, transcludeFn){
       var type = 'button';
@@ -131,7 +132,11 @@ function fancySelect(
             newValue = keypather.get(newValue, $scope.trackBy);
             originalValue = keypather.get(originalValue, $scope.trackBy);
           }
-
+          if ($scope.option) {
+            $scope.option.selected = false;
+          }
+          $scope.option = clickedOption;
+          $scope.option.selected = true;
           $scope.value = clickedOption.value;
 
           if (originalValue !== newValue && $scope.onUpdate) {
@@ -148,7 +153,18 @@ function fancySelect(
 
       $scope.registerOption = function (option) {
         options.push(option);
-        selectOption($scope.value);
+        if (!$scope.option) {
+          checkNewOption(option, $scope.value);
+        }
+      };
+      $scope.deregisterOption = function (option) {
+        var index = options.indexOf(option);
+        if (~index) {
+          options.splice(index, 1);
+        }
+        if (option.selected) {
+          selectNewOption(null);
+        }
       };
 
       transcludeFn($scope, function(clone, innerScope ){
@@ -157,26 +173,40 @@ function fancySelect(
         transclusionScope = innerScope;
       });
 
-      function selectOption (value) {
-        $timeout(function () {
+      function selectNewOption(newOption, originalValue) {
+        if ($scope.option) {
+          $scope.option.selected = false;
+        }
+        $scope.option = newOption;
+        if (newOption) {
+          newOption.value = originalValue;
+          $scope.option.selected = true;
+          $scope.value = originalValue;
+        }
+      }
+      function checkNewOption(newOption, originalValue) {
+        if (newOption && originalValue) {
+          var matchValue = newOption.value;
+          var value = originalValue;
           if ($scope.trackBy) {
-            value = keypather.get(value, $scope.trackBy);
+            matchValue = keypather.get(matchValue, $scope.trackBy);
+            value = keypather.get(originalValue, $scope.trackBy);
           }
-          var matchedOption = options.find(function (option) {
-            var matchValue = option.value;
-            if ($scope.trackBy) {
-              matchValue = keypather.get(matchValue, $scope.trackBy);
-            }
-            return angular.equals(matchValue, value);
-          });
+          var found = angular.equals(matchValue, value);
+          if (found) {
+            selectNewOption(newOption, originalValue);
 
-          if (matchedOption) {
-            options.forEach(function (option) {
-              option.selected = false;
+            $scope.$evalAsync(function () {
+              angular.element(element[0].querySelector('.display')).html(newOption.element.html());
             });
-            matchedOption.selected = true;
-            angular.element(element[0].querySelector('.display')).html(matchedOption.element.html());
           }
+          return found;
+        }
+      }
+
+      function selectOption (value) {
+        options.find(function (option) {
+          return checkNewOption(option, value);
         });
       }
 

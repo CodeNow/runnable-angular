@@ -1,13 +1,19 @@
-// modal alert
 .modal-alert {
-  align-items: center;
-  display: flex;
-  flex: 0 0 36px;
-  font-size: 13px;
-  justify-content: center;
-  margin: -2px -2px 0;
+  max-width: 420px;
+  top: 10%;
 
-  .btn-xxs {
-    margin-left: 6px;
+  .modal-body {
+    padding: 30px;
+  }
+
+  // text
+  .p {
+    font-size: 15px;
+  }
+
+  // title
+  .strong {
+    font-size: 18px;
+    margin-bottom: 6px;
   }
 }

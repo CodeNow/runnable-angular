@@ -9,7 +9,7 @@
   - green if build is successfully built
 //- Orange is currently not used
 //- will be re-enabled when API opens up that event
-.alert.in(
+.notification.in(
   ng-class = "{\
     green: dataInstance.data.showUpdatedMessage,\
     orange: dataInstance.data.showUpdatingMessage\
@@ -37,7 +37,7 @@
     ng-src = "{{ dataInstance.data.commit.attrs.author.avatar_url }}"
     width = "36"
   )
-  //- inherit green/orange from .alert
+  //- inherit green/orange from .notification
   button.btn.btn-xs.btn-close(
     ng-class = "{\
       green: dataInstance.data.showUpdatedMessage,\

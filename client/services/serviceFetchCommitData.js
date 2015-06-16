@@ -13,8 +13,6 @@ function fetchCommitData (
       // $scope.activeBranch will === acv.githubRepo.branches.models[x]
       // after the fetch
       var activeBranch = acv.githubRepo.newBranch(branch || acv.attrs.branch, {warn: false});
-      acv.githubRepo.branches.add(activeBranch);
-      acv.githubRepo.branches.fetch(errs.handler);
       return activeBranch;
     },
 
