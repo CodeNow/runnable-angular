@@ -36,16 +36,20 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
     };
     ctx.repo1 = {
       attrs: angular.copy(apiMocks.gh.repos[0]),
-      fetchBranch: sinon.spy(function (opts, cb) {
-        var branch = {
-          attrs: {
-            name: opts
-          }
-        };
-        $rootScope.$evalAsync(function () {
-          cb(null, branch);
-        });
-        return branch;
+      fakeBranch: {
+        attrs: {
+          name: null
+        },
+        fetch: sinon.spy(function (cb) {
+          $rootScope.$evalAsync(function () {
+            cb(null, ctx.repo1.fakeBranch);
+          });
+          return ctx.repo1.fakeBranch;
+        })
+      },
+      newBranch: sinon.spy(function (opts) {
+        ctx.repo1.fakeBranch.attrs.name = opts;
+        return ctx.repo1.fakeBranch;
       }),
       branches: {
         add: sinon.spy(),
@@ -143,9 +147,10 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
       $scope.$digest();
       $rootScope.$apply();
 
-      sinon.assert.called(ctx.repo1.fetchBranch);
+      sinon.assert.called(ctx.repo1.newBranch);
       expect($scope.state.branch, 'branch').to.be.ok;
       $scope.$digest();
+      sinon.assert.called(ctx.repo1.fakeBranch.fetch);
 
       sinon.assert.called(ctx.repo1.branches.fetch);
       $scope.$digest();
@@ -183,10 +188,14 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
       $scope.$digest();
       $elScope = ctx.element.isolateScope();
       $scope.$digest();
-      sinon.assert.notCalled(ctx.repo1.fetchBranch);
+
+      sinon.assert.notCalled(ctx.repo1.newBranch);
       expect($scope.state.branch, 'branch').to.be.ok;
-      sinon.assert.notCalled(ctx.repo1.branches.fetch);
       $scope.$digest();
+      sinon.assert.notCalled(ctx.repo1.branches.fetch);
+      sinon.assert.notCalled(ctx.repo1.fakeBranch.fetch);
+      $scope.$digest();
+
       sinon.assert.notCalled(ctx.acv.update);
       sinon.assert.notCalled(ctx.acv.setState);
 
@@ -226,8 +235,12 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
       $scope.$digest();
       $rootScope.$apply();
 
-      sinon.assert.notCalled(ctx.repo1.fetchBranch);
+
+      sinon.assert.notCalled(ctx.repo1.newBranch);
       expect($scope.state.branch, 'branch').to.be.ok;
+      $scope.$digest();
+      sinon.assert.notCalled(ctx.repo1.fakeBranch.fetch);
+      $scope.$digest();
       $scope.$digest();
 
       sinon.assert.called(ctx.repo1.branches.fetch);

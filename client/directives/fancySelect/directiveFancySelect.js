@@ -196,7 +196,7 @@ function fancySelect(
           if (found) {
             selectNewOption(newOption, originalValue);
 
-            $scope.$evalAsync(function () {
+            $timeout(function () {
               angular.element(element[0].querySelector('.display')).html(newOption.element.html());
             });
           }
