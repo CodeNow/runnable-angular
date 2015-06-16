@@ -61,6 +61,19 @@
     padding: 0 3px;
   }
 
+  // label for messages
+  .label-list > .label-col {
+    float: none;
+  }
+
+  .list {
+    margin-bottom: 6px;
+
+    ~ .small {
+      margin: 6px;
+    }
+  }
+
   .list-item {
     background: $gray-lighterest;
     color: $gray;
@@ -76,18 +89,10 @@
     &.active {
       background: $white;
       color: $gray-dark;
-
-      .gravatar {
-        opacity: .6;
-      }
-    }
-
-    &.active .gravatar {
-      opacity: 1;
     }
 
     &.expanded {
-      height: 145px;
+      height: 120px;
     }
 
     &.disabled,
@@ -117,11 +122,10 @@
 
     .gravatar {
       margin: 12px 9px 0 0;
-      opacity: .45;
     }
 
     + .list-item {
-      border-top: 1px solid rgba($black,.1);
+      border-top: 1px solid $gray-lighter;
     }
   }
 
@@ -142,38 +146,47 @@
   .icons-warning {
     height: 21px;
     top: -8px;
-    width: 21px;
+    width: 18px;
   }
 
   .input-checkbox {
+    cursor: pointer;
     height: 45px;
     margin: 0;
     position: absolute;
-    right: 8px;
+    right: 15px;
     top: 0;
   }
 
   // well
   .well {
-    border-width: 1px;
+    border: 0;
+    border-left: 2px solid $gray-lightest;
+    border-radius: 0;
     cursor: default;
-    margin: 0 -3px;
+    line-height: 1.2;
+    margin-left: 9px;
     max-height: none;
-    padding: 6px;
-    position: relative;
+    padding-left: 12px;
+    white-space: normal;
 
-    .small {
-      line-height: 1.2;
-      margin: 0;
-      white-space: normal;
+    @include media(xxs) {
+      .br {
+        display: none;
+      }
     }
   }
 
   .select {
     cursor: pointer;
     display: block;
-    font-size: 13px;
     font-weight: 400;
     margin-top: 6px;
+  }
+
+  @include media(xxs) {
+    .label-footer .br {
+      display: none;
+    }
   }
 }

@@ -46,7 +46,7 @@ form.modal-dialog.modal-integrations(
 
       label.label.clearfix
 
-        .label-col Bot API token
+        .label-col Bot API Token
 
         .input-col
           input.input.input-sm.monospace(
@@ -77,56 +77,60 @@ form.modal-dialog.modal-integrations(
           ) Change Token
 
       //- validation for special cahrs
-      .label.clearfix(
+      .label.label-list.clearfix(
         ng-if = "data.verified"
       )
-        .label-col.label-details Messaging
+        .label-col Messaging
 
-        .input-col
-          .list.list-bordered
-            label.list-item.label-checkbox.text-overflow(
-              ng-class = "{\
-                active: member.slackOn,\
-                disabled: !data.settings.attrs.notifications.slack.enabled,\
-                expanded: !member.found && member.slackOn,\
-              }"
-              ng-repeat = "member in data.slackMembers"
+        .list.list-bordered(
+          ng-if = "data.verified"
+        )
+          label.list-item.label-checkbox.text-overflow(
+            ng-class = "{\
+              active: member.slackOn,\
+              disabled: !data.settings.attrs.notifications.slack.enabled,\
+              expanded: !member.found && member.slackOn,\
+            }"
+            ng-repeat = "member in data.slackMembers"
+          )
+            .badge-warning(
+              ng-if = "!member.found && member.slackOn && !member.ghName"
             )
-              .badge-warning(
-                ng-if = "!member.found && member.slackOn && !member.ghName"
-              )
-                svg.iconnables.icons-warning
-                  use(
-                    xlink:href = "#icons-warning"
-                  )
-              img.gravatar(
-                height = "21"
-                ng-src = "{{ member.profile.image_24 }}"
-                width = "21"
-              )
-              | @{{ member.name }}
-              input.input-checkbox(
-                ng-disabled = "!data.settings.attrs.notifications.slack.enabled"
-                ng-model = "member.slackOn"
-                type = "checkbox"
-              )
-              .well.gray(
-                ng-class = "{'no-touching': !data.settings.attrs.notifications.slack.enabled}"
-                ng-click = "$event.preventDefault();"
-                ng-if = "!member.found && member.slackOn"
-              )
-                small.small We couldn't match this Slack user to a Github username. Select their username to enable messaging.
-                select.select(
-                  ng-if = "!member.found"
-                  ng-model = "member.ghName"
-                  ng-options = "ghMember for ghMember in data.ghMembers"
+              svg.iconnables.icons-warning
+                use(
+                  xlink:href = "#icons-warning"
                 )
-                  option(
-                    disabled
-                    selected = "selected"
-                    value = ""
-                  ) Select Github username
-          small.small Members will receive messages from your bot when their containers are updated.
+            img.gravatar(
+              height = "21"
+              ng-src = "{{ member.profile.image_24 }}"
+              width = "21"
+            )
+            | @{{ member.name }}
+            input.input-checkbox(
+              ng-disabled = "!data.settings.attrs.notifications.slack.enabled"
+              ng-model = "member.slackOn"
+              type = "checkbox"
+            )
+            .well.small(
+              ng-class = "{'no-touching': !data.settings.attrs.notifications.slack.enabled}"
+              ng-click = "$event.preventDefault();"
+              ng-if = "!member.found && member.slackOn"
+            ) We couldn't match this Slack user to a Github username. #{''}
+              br.br
+              | Select their username to enable messaging.
+              select.select(
+                ng-if = "!member.found"
+                ng-model = "member.ghName"
+                ng-options = "ghMember for ghMember in data.ghMembers"
+              )
+                option(
+                  disabled
+                  selected = "selected"
+                  value = ""
+                ) Select Github username
+        small.small(
+          ng-if = "data.verified"
+        ) Members will receive messages from your bot when their containers are updated.
 
       //- disabling integration:
         - removes all .active class on labels
@@ -143,7 +147,7 @@ form.modal-dialog.modal-integrations(
           ng-if = "!data.settings.attrs.notifications.slack.enabled"
         ) Enable Slack Integration
         small.small No messages will be sent while integration is disabled,
-          br
+          br.br
           | but your API Token and user settings will be preserved.
 
   //- hipchat
@@ -151,7 +155,7 @@ form.modal-dialog.modal-integrations(
   //-   ng-if = "data.showHipchat && !data.showSlack"
   //- )
     label.label.clearfix
-      .label-col.label-details API Token
+      .label-col API Token
         a.small.link(
           href = "//www2.warnerbros.com/spacejam/movie/jam.htm"
           target = "_blank"
@@ -186,7 +190,7 @@ form.modal-dialog.modal-integrations(
     .label.clearfix(
       ng-if = "data.verified"
     )
-      .label-col.label-details Messaging
+      .label-col Messaging
         .small Members will receive notifications from Runnabot when their servers are updated
       .input-col
         .list.list-bordered
@@ -218,7 +222,7 @@ form.modal-dialog.modal-integrations(
     button.btn.green(
       ng-click = "defaultActions.close(actions.saveSlack)"
     ) Save
-    button.btn.white(
+    button.btn.white.btn-cancel(
       ng-click = "defaultActions.close()"
     ) Cancel
 
@@ -239,6 +243,6 @@ form.modal-dialog.modal-integrations(
         ng-show = "data.verifying"
       )
       | Verify Token
-    button.btn.white(
+    button.btn.white.btn-cancel(
       ng-click = "defaultActions.close()"
     ) Cancel
