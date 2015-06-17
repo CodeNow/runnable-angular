@@ -13,6 +13,9 @@ require('app')
       description: 'New Filename Rule',
       title: 'Filenames'
     };
+    $scope.emptyText = {
+      description: 'Rename files in your code by creating a rule.'
+    };
     $scope.properties = {
       allowedTableTypes: ['rename'],
       action: 'rename'
@@ -37,5 +40,4 @@ require('app')
           state.nameChanges = nameChanges;
         });
     };
-
   });

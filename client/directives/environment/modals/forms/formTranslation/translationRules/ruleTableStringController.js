@@ -14,6 +14,9 @@ require('app')
       description: 'New String Rule',
       title: 'Strings'
     };
+    $scope.emptyText = {
+      description: 'Replace strings in your code by creating a rule.'
+    };
     $scope.properties = {
       allowedTableTypes: ['replace'],
       action: 'replace'

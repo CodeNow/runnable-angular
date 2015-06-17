@@ -8,20 +8,22 @@ ul.table-drag-drop(
   li.tr.thead.clearfix
     .cell {{ header.title }}
       button.btn.btn-xs.white(
+        ng-click = "openRulePopover()"
         pop-over
         pop-over-actions = "popoverData.actions"
+        pop-over-active = "popoverData.active"
         pop-over-data = "popoverData.data"
         pop-over-options = "{\"left\":0,\"top\":0}"
         pop-over-template = "popoverTemplate"
-        pop-over-active = "popoverData.active"
         pop-over-trigger = "activeAttr"
-        ng-click = "openRulePopover()"
       ) {{ header.description }}
   //- if no rules of this type
   li.tr.tr-empty.clearfix(
     ng-if = "!list.length"
   )
-    .cell (empty)
+    .cell(
+      ng-click = "openRulePopover()"
+    ) {{ emptyText.description }}
   li.tr.tr-action.clearfix(
     dnd-draggable = "item"
     dnd-dragstart = "models.selected"
