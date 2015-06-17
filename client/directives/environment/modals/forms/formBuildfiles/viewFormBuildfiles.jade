@@ -45,7 +45,7 @@
 //- if dockerfile tool feature flag:
 //- state.readOnly = true
 .ace-container.ace-build-files.ace-runnable-dark(
-  ng-init = "state.readOnly = $root.featureFlags.dockerfileTool || !$root.featureFlags.dev"
+  ng-init = "state.readOnly = ($root.featureFlags.dockerfileTool || $root.featureFlags.dev)"
 )
 
   .sidebar(
