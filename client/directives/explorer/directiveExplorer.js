@@ -111,9 +111,8 @@ function explorer(
         }
       };
 
-      var unwatch = $scope.$watch('rootDir', function (rootDir) {
+      $scope.$watch('rootDir', function (rootDir) {
         if (!rootDir) { return; }
-        unwatch();
         initRootDirState(rootDir);
       });
 
