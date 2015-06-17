@@ -1,14 +1,8 @@
 form.modal-dialog.modal-integrations(
   name = "slackForm"
-  ng-class = "{\
-    'no-data': !data.showHipchat && !data.showSlack,\
-    'no-verify': !data.verified\
-  }"
+  ng-class = "{'unverified': !data.verified}"
 )
-  //- do not show if integration is initiated
-  //- h1.modal-heading(
-  //-   ng-if = "!data.showHipchat && !data.showSlack"
-  //- ) Choose Integration
+
   header.modal-header
     h1.modal-heading
       img.img(
@@ -18,12 +12,6 @@ form.modal-dialog.modal-integrations(
       )
       | Slack Integration
 
-  //- do not show if integration is initiated
-  //- a.small.link.footer-link(
-  //-   ng-if = "!data.showHipchat && !data.showSlack"
-  //-   ng-click = "defaultActions.close()"
-  //- ) Cancel
-
   .alert.orange(
     ng-if = "!data.settings.attrs.notifications.slack.enabled && data.verified"
   ) Slack integration has been disabled
@@ -31,8 +19,6 @@ form.modal-dialog.modal-integrations(
       ng-click = "data.settings.attrs.notifications.slack.enabled = true"
     ) Enable
 
-  //- show if integration is initiated
-  //- ng-if = "!data.showHipchat && data.showSlack"
   section.modal-body
 
     .spinner-wrapper.spinner-md.in(
@@ -46,12 +32,13 @@ form.modal-dialog.modal-integrations(
 
       label.label.clearfix
 
-        .label-col Bot API token
+        .label-col Bot API Token
 
         .input-col
           input.input.input-sm.monospace(
-            ng-readonly = "data.verified"
             ng-model = "data.settings.attrs.notifications.slack.apiToken"
+            ng-readonly = "data.verified"
+            required
             spellcheck = "false"
           )
           small.small(
@@ -64,69 +51,75 @@ form.modal-dialog.modal-integrations(
               target = "_blank"
             ) create a new bot to obtain an API token
             | .
-          //- not working?
-          //- .validate-wrapper.btn-sm.orange(
-          //-   ng-class = "{\
-          //-     'invalid-pattern': false\
-          //-   }"
-          //- )
-            span.validate-rules.invalid-pattern Invalid Auth
-          button.btn.btn-xxs.white.float-right(
+          button.btn.btn-xs.white.float-right(
             ng-click = "data.verified = !data.verified"
             ng-if = "data.verified"
+            type = "button"
           ) Change Token
 
-      //- validation for special cahrs
-      .label.clearfix(
+      .label(
         ng-if = "data.verified"
       )
-        .label-col.label-details Messaging
+        .clearfix
+          .label-col Messaging
 
-        .input-col
-          .list.list-bordered
-            label.list-item.label-checkbox.text-overflow(
-              ng-class = "{\
-                active: member.slackOn,\
-                disabled: !data.settings.attrs.notifications.slack.enabled,\
-                expanded: !member.found && member.slackOn,\
-              }"
-              ng-repeat = "member in data.slackMembers"
+        .list.list-bordered(
+          ng-if = "data.verified"
+        )
+          label.list-item.text-overflow(
+            ng-class = "{\
+              active: member.slackOn,\
+              disabled: !data.settings.attrs.notifications.slack.enabled,\
+              expanded: !member.found && member.slackOn\
+            }"
+            ng-repeat = "member in data.slackMembers"
+          )
+            .badge-warning(
+              ng-if = "\
+                !member.found && \
+                member.slackOn && \
+                !member.ghName && data.settings.attrs.notifications.slack.enabled\
+              "
             )
-              .badge-warning(
-                ng-if = "!member.found && member.slackOn && !member.ghName"
-              )
-                svg.iconnables.icons-warning
-                  use(
-                    xlink:href = "#icons-warning"
-                  )
-              img.gravatar(
-                height = "21"
-                ng-src = "{{ member.profile.image_24 }}"
-                width = "21"
-              )
-              | @{{ member.name }}
-              input.input-checkbox(
+              svg.iconnables.icons-warning
+                use(
+                  xlink:href = "#icons-warning"
+                )
+            img.gravatar(
+              height = "21"
+              ng-src = "{{ member.profile.image_24 }}"
+              width = "21"
+            )
+            | @{{ member.name }}
+            .toggle-wrapper.float-right
+              input.toggle-input(
                 ng-disabled = "!data.settings.attrs.notifications.slack.enabled"
                 ng-model = "member.slackOn"
                 type = "checkbox"
               )
-              .well.gray(
-                ng-class = "{'no-touching': !data.settings.attrs.notifications.slack.enabled}"
-                ng-click = "$event.preventDefault();"
-                ng-if = "!member.found && member.slackOn"
+              .toggle-group.toggle-sm(
+                ng-class = "{invalid: !member.found && member.slackOn && !member.ghName}"
               )
-                small.small We couldn't match this Slack user to a Github username. Select their username to enable messaging.
-                select.select(
-                  ng-if = "!member.found"
-                  ng-model = "member.ghName"
-                  ng-options = "ghMember for ghMember in data.ghMembers"
-                )
-                  option(
-                    disabled
-                    selected = "selected"
-                    value = ""
-                  ) Select Github username
-          small.small Members will receive messages from your bot when their containers are updated.
+            .well.small(
+              ng-class = "{'no-touching': !data.settings.attrs.notifications.slack.enabled}"
+              ng-click = "$event.preventDefault();"
+              ng-if = "!member.found && member.slackOn"
+            ) We couldn't match this Slack user to a Github username. #{''}
+              br.br
+              | Select their username to enable messaging.
+              select.select(
+                ng-if = "!member.found"
+                ng-model = "member.ghName"
+                ng-options = "ghMember for ghMember in data.ghMembers"
+              )
+                option(
+                  disabled
+                  selected = "selected"
+                  value = ""
+                ) Select Github username
+        small.small(
+          ng-if = "data.verified"
+        ) Members will receive messages from your bot when their containers are updated.
 
       //- disabling integration:
         - removes all .active class on labels
@@ -134,98 +127,20 @@ form.modal-dialog.modal-integrations(
       .label.label-footer(
         ng-if = "data.verified"
       )
-        button.btn.btn-sm.orange(
+        button.btn.btn-xs.orange(
           ng-click = "data.settings.attrs.notifications.slack.enabled = false"
           ng-if = "data.settings.attrs.notifications.slack.enabled"
         ) Disable Slack Integration
-        button.btn.btn-sm.green(
+        button.btn.btn-xs.green(
           ng-click = "data.settings.attrs.notifications.slack.enabled = true"
           ng-if = "!data.settings.attrs.notifications.slack.enabled"
         ) Enable Slack Integration
         small.small No messages will be sent while integration is disabled,
-          br
+          br.br
           | but your API Token and user settings will be preserved.
 
-  //- hipchat
-  //- .modal-body(
-  //-   ng-if = "data.showHipchat && !data.showSlack"
-  //- )
-    label.label.clearfix
-      .label-col.label-details API Token
-        a.small.link(
-          href = "//www2.warnerbros.com/spacejam/movie/jam.htm"
-          target = "_blank"
-        ) Get your API Token from Hipchat
-      .input-col
-        input.input.input-sm.input-validate(
-          ng-disabled = "data.verified"
-          required
-          spellcheck = "false"
-        )
-        .validate-wrapper.btn-sm.orange(
-          ng-class = "{\
-            'invalid-pattern': false,\
-          }"
-        )
-          span.validate-rules.invalid-pattern Invalid Auth
-        button.btn.btn-sm.green.btn-spinner(
-          ng-click = "data.verified = true"
-          ng-if = "!data.verified"
-        )
-          .spinner-wrapper.spinner-sm.spinner-white.in(
-            ng-if = "{in: false}"
-            ng-include = "'spinner'"
-          )
-          | Verify
-        button.btn.btn-sm.white(
-          ng-click = ""
-          ng-if = "!data.verified"
-        ) Cancel
-      //- validation for special cahrs
-
-    .label.clearfix(
-      ng-if = "data.verified"
-    )
-      .label-col.label-details Messaging
-        .small Members will receive notifications from Runnabot when their servers are updated
-      .input-col
-        .list.list-bordered
-        //-
-            - auto detect users with a matching name on github AND slack
-            - if no match, show select with options for unmathed github usernames
-            - if an unmatched github username is selected, remove username from the list of available usernames
-            - add .active to label if messaging is active for that user
-
-    //- disabling integration:
-      - removes all .active class on labels
-      - disables all inputs, but preserves their states
-    .label.label-footer(
-      ng-if = "data.verified"
-    )
-      button.btn.btn-sm.orange(
-        ng-click = "data.hipChatOn = false"
-        ng-if = "data.hipChatOn"
-      ) Disable Hipchat Integration
-      button.btn.btn-sm.green(
-        ng-click = "data.hipChatOn = true"
-        ng-if = "!data.hipChatOn"
-      ) Enable Hipchat Integration
-      small.small No messages will be sent while disabled
-
-  footer.modal-footer(
-    ng-if = "(data.showHipchat || data.showSlack) && data.verified"
-  )
-    button.btn.green(
-      ng-click = "defaultActions.close(actions.saveSlack)"
-    ) Save
-    button.btn.white(
-      ng-click = "defaultActions.close()"
-    ) Cancel
-
-  footer.modal-footer(
-    ng-if = "!data.verified"
-  )
-    //- if input was invalid and the user presses verify again, remove ng-invalid from input until the input is checked again
+  footer.modal-footer
+    //- before API token verified
     button.btn.green.btn-spinner(
       ng-class = "{in: data.verifying}"
       ng-click = "actions.verifySlack()"
@@ -233,12 +148,20 @@ form.modal-dialog.modal-integrations(
         data.verifying || \
         !data.settings.attrs.notifications.slack.apiToken.length\
       "
+      ng-if = "!data.verified"
     )
       .spinner-wrapper.spinner-sm.spinner-white.in(
         ng-include = "'spinner'"
         ng-show = "data.verifying"
       )
-      | Verify Token
-    button.btn.white(
+      | Verify API Token
+
+    //- if API token has been verified
+    button.btn.green(
+      ng-click = "defaultActions.close(actions.saveSlack)"
+      ng-if = "data.verified"
+    ) Save
+
+    button.btn.white.btn-cancel(
       ng-click = "defaultActions.close()"
     ) Cancel
