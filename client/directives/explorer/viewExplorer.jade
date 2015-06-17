@@ -1,6 +1,6 @@
 //- on container sidebar
 .explorer-menu-bar-container(
-  ng-if = "!editExplorer && !$storage.explorerIsClosed && fileModel.running()"
+  ng-if = "!editExplorer && fileModel.running()"
   ng-include = "'explorerMenuBar'"
 )
 
