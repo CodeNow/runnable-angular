@@ -104,34 +104,40 @@ form.modal-dialog.modal-edit(
   )
     .modal-form(
       ng-include = "'viewFormBuildfiles'"
-      ng-if = "selectedTab === 'buildfiles'"
+      ng-show = "selectedTab === 'buildfiles'"
+      ng-if = "state.advanced"
     )
     .modal-form(
       data = "data"
-      ng-if = "selectedTab === 'stack'"
+      ng-show = "selectedTab === 'stack'"
+      ng-if = "!state.advanced"
       stack-selector-form
       state = "state"
     )
     .modal-form(
-      ng-if = "selectedTab === 'ports'"
+      ng-show = "selectedTab === 'ports'"
+      ng-if = "!state.advanced"
       ng-include = "'viewFormPorts'"
     )
     .modal-form(
-      ng-if = "selectedTab === 'env'"
+      ng-show = "selectedTab === 'env'"
       ng-include = "'viewFormEnvironmentVariables'"
     )
     .modal-form(
       loading-promises-target = "editServerModal"
-      ng-if = "selectedTab === 'repository'"
+      ng-show = "selectedTab === 'repository'"
+      ng-if = "!state.advanced"
       repository-form
       state = "state"
     )
     .modal-form(
-      ng-if = "selectedTab === 'replace'"
+      ng-show = "selectedTab === 'replace'"
+      ng-if = "state.repo"
       ng-include = "'viewFormReplace'"
     )
     .modal-form(
-      ng-if = "selectedTab === 'files'"
+      ng-show = "selectedTab === 'files'"
+      ng-if = "!state.advanced"
       ng-include = "'viewFormFiles'"
     )
     .modal-form(
