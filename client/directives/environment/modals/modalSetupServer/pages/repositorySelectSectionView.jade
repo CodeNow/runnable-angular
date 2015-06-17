@@ -22,9 +22,9 @@ section.modal-body.clearfix
   ul.list.list-servers(
     ng-if = "data.githubRepos.models"
   )
-    li.list-item.multi-line(
+    li.list-item.multi-line.text-overflow(
       ng-class = "{\
-        active: repo.loading,\
+        'active': repo.loading,\
         'no-touching': repo.isAdded || repoSelected\
       }"
       ng-click = "selectRepo(repo)"
