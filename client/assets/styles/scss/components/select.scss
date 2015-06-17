@@ -1,6 +1,13 @@
 .btn-select {
-  padding-left: 6px;
   text-align: left;
+
+  &.btn-xs {
+    padding-right: 21px;
+  }
+
+  > .icons-arrow-down {
+    width: 15px;
+  }
 
   select {
     background: transparent;

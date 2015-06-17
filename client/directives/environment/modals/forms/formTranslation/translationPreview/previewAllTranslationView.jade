@@ -9,14 +9,15 @@
 .clearfix(
   ng-if = "!state.recalculating && state.diffs.length"
 )
-  label.label.label-jump
-    fancy-select(
+  label.label.label-select
+    fancy-select.btn.btn-xs.btn-select(
       on-update = "actions.jumpTo"
+      placeholder = "Jump to"
       track-by = "from"
       placeholder = "Jump to"
       value = "jumpToModel"
     )
-      fancy-option(
+      fancy-option.fancy-select-sm(
         ng-repeat = "diff in $parent.$parent.state.diffs"
         value = "diff"
       ) {{ $parent.diff.from }}
