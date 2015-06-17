@@ -208,10 +208,10 @@ function fetchRepoBranches(fetchUser, promisify) {
         if (branches.models.length < 100) {
           return allRepos;
         }
-        return fetchPage(page + 1);
+        return fetchPage(page ? page + 1 : 2);
       });
     }
-    return fetchPage(1)
+    return fetchPage(0)
       .then(function (reposArr) {
         var branches = repo.newBranches(reposArr, {
           noStore: true

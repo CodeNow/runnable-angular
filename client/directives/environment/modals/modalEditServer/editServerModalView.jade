@@ -100,12 +100,11 @@ form.modal-dialog.modal-edit(
         .btn-text Dockerfile
 
   section.modal-body(
-    ng-if = "!isLoading.editServerModal"
+    ng-if = "!isLoading.editServerModal && state.contextVersion"
   )
     .modal-form(
       ng-include = "'viewFormBuildfiles'"
       ng-show = "selectedTab === 'buildfiles'"
-      ng-if = "state.advanced"
     )
     .modal-form(
       data = "data"
@@ -131,21 +130,17 @@ form.modal-dialog.modal-edit(
       state = "state"
     )
     .modal-form(
-      ng-show = "selectedTab === 'replace'"
-      ng-if = "state.repo"
-      ng-include = "'viewFormReplace'"
-    )
-    .modal-form(
       ng-show = "selectedTab === 'files'"
       ng-if = "!state.advanced"
       ng-include = "'viewFormFiles'"
     )
     .modal-form(
-      ng-if = "selectedTab === 'translation'"
+      ng-show = "selectedTab === 'translation'"
+      ng-if = "state.repo"
       translation-rules
     )
     .modal-form.modal-logs(
-      ng-if = "selectedTab === 'logs'"
+      ng-show = "selectedTab === 'logs'"
       ng-include = "'viewFormLogs'"
     )
 
