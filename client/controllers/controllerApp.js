@@ -105,6 +105,9 @@ function ControllerApp(
     eventTracking.update();
     loading('main', false);
   });
+  $scope.$on('$stateChangeError', function () {
+    $state.go('404');
+  });
 
   $scope.$watch(function () {
     return errs.errors.length;
