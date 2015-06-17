@@ -14,14 +14,6 @@ module.exports = [
       anon: true
     }
   }, {
-    state: '404',
-    abstract: false,
-    url: '^/404',
-    templateUrl: 'view404',
-    data: {
-      anon: true
-    }
-  }, {
     state: 'orgSelect',
     abstract: false,
     url: '^/orgSelect',
