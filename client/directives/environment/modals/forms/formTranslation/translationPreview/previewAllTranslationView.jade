@@ -9,12 +9,12 @@
 .clearfix(
   ng-if = "!state.recalculating && state.diffs.length"
 )
-  label.label.label-select
+  label.label.label-select Jump to #{''}
     fancy-select.btn.btn-xs.btn-select(
       on-update = "actions.jumpTo"
       placeholder = "Jump to"
       track-by = "from"
-      placeholder = "Jump to"
+      placeholder = "Select a diff"
       value = "jumpToModel"
     )
       fancy-option.fancy-select-sm(
