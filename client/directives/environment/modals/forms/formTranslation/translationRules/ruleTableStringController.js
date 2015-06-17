@@ -11,7 +11,7 @@ require('app')
   ) {
 
     $scope.header = {
-      description: 'New string rule',
+      description: 'New String Rule',
       title: 'Strings'
     };
     $scope.properties = {

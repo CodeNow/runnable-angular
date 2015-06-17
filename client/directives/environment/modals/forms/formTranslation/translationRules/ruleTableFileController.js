@@ -10,7 +10,7 @@ require('app')
     testRenameTransformRule
   ) {
     $scope.header = {
-      description: 'New filename rule',
+      description: 'New Filename Rule',
       title: 'Filenames'
     };
     $scope.properties = {
