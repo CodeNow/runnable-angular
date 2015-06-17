@@ -40,6 +40,10 @@
   .tr-gap {
     background: rgba($blue,.05);
 
+    &:last-child .cell-line {
+      border-radius: 0;
+    }
+
     .cell-line {
       background: rgba($blue,.05);
     }
@@ -84,20 +88,27 @@
 .table-merge {
   border-radius: 3px 3px 0 0;
 
+  + .table-merge {
+    border-radius: 0 0 3px 3px;
+    border-top: 0;
+    margin-top: 0;
+
+    .tr:not(.thead) {
+
+      &:first-child {
+        border-radius: 0;
+        padding-top: 0;
+      }
+
+      &:last-child {
+        border-radius: 0 0 3px 3px;
+      }
+    }
+  }
+
   .tr:last-child {
     border-radius: 0;
     padding-bottom: 0;
-  }
-}
-
-.table-merge + .table-merge {
-  border-radius: 0 0 3px 3px;
-  border-top: 0;
-  margin-top: 0;
-
-  .tr:first-child:not(.thead) {
-    border-radius: 0;
-    padding-top: 0;
   }
 }
 
@@ -218,6 +229,12 @@
 // empty state
 .tr-empty {
   color: $gray-light;
+  text-align: center;
+
+  .cell {
+    height: 60px;
+    line-height: 60px;
+  }
 }
 
 .cell {
