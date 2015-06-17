@@ -34,6 +34,7 @@
         input.input.input-sm.monospace(
           name = "fromTextBox"
           ng-change = "currentState.searched = false"
+          ng-disabled = "currentState.processing"
           ng-model = "data.state.search"
           required
           placeholder = "localhost:27017"
@@ -43,6 +44,7 @@
       label.label-col Replace
         fancy-select.input.input-sm.monospace(
           name = "toTextBox"
+          ng-disabled = "currentState.processing"
           ng-required = "true"
           placeholder = "sample-user.runnableapp.com:27017"
           toggle-attribute = "showDropdown"
