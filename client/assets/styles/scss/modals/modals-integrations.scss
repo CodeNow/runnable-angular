@@ -1,106 +1,55 @@
 .modal-integrations {
-  height: auto;
-  max-width: 660px;
+  max-width: 642px;
   transition: max-height .15s ease-in;
 
-  // uninitiated state
-  // &.no-data {
-  //   max-height: 300px;
-  //   width: 370px;
-
-  //   // header
-  //   .modal-header {
-  //     background: none;
-  //     border-color: transparent;
-  //     height: auto;
-  //   }
-
-  //   .modal-heading {
-  //     // reset default
-  //     float: none;
-  //     text-align: center;
-  //   }
-
-  //   .modal-header-actions {
-  //     justify-content: center;
-  //   }
-
-  //   // small footer
-  //   .footer-link {
-  //     line-height: 45px;
-  //     text-align: center;
-  //   }
-  // }
-
   // unverified state
-  &.no-verify {
+  &.unverified {
     max-height: 400px;
   }
 
-  // default state
   // header slack logo
-  .modal-header .img {
+  .modal-heading .img {
     margin-right: 9px;
     position: relative;
     top: 5px;
   }
 
-  .modal-header-actions {
-    display: flex;
-    justify-content: flex-start;
-  }
-
   // api token
   .input.monospace {
+    color: $gray-darker;
     font-size: 13px;
     letter-spacing: -.25px;
+
+    &[readonly] {
+      color: $white;
+    }
   }
 
-  // change api button
-  .input-col > .btn-xxs {
-    padding: 0 3px;
+  // list
+  .list ~ .small {
+    margin: 6px;
   }
 
   .list-item {
-    background: $gray-lighterest;
-    color: $gray;
-    height: 45px;
+    background: $white;
+    color: $gray-dark;
+    cursor: pointer;
+    display: block;
     line-height: 45px;
     margin: 0;
+    max-height: 45px;
+    min-height: 45px;
     padding: 0 9px;
     position: relative;
-    transition: height .15s ease-in;
-
-    &:hover,
-    &:active,
-    &.active {
-      background: $white;
-      color: $gray-dark;
-
-      .gravatar {
-        opacity: .6;
-      }
-    }
-
-    &.active .gravatar {
-      opacity: 1;
-    }
+    transition: max-height .15s ease-in-out;
 
     &.expanded {
-      height: 145px;
+      max-height: 150px;
     }
 
-    &.disabled,
-    &.disabled:hover,
-    &.disabled:active {
-      background: $gray-lighterest;
-      color: $gray;
+    &.disabled {
       cursor: not-allowed;
-
-      .gravatar,
-      .well {
-        opacity: .45;
-      }
+      max-height: 45px;
     }
 
     &:first-child {
@@ -115,13 +64,18 @@
       border-radius: 3px;
     }
 
-    .gravatar {
-      margin: 12px 9px 0 0;
-      opacity: .45;
+    + .list-item {
+      border-top: 1px solid $gray-lighter;
     }
 
-    + .list-item {
-      border-top: 1px solid rgba($black,.1);
+    .gravatar {
+      margin: 12px 9px 0 0;
+    }
+
+    .toggle-wrapper {
+      position: absolute;
+      right: 12px;
+      top: 12px;
     }
   }
 
@@ -142,38 +96,39 @@
   .icons-warning {
     height: 21px;
     top: -8px;
-    width: 21px;
-  }
-
-  .input-checkbox {
-    height: 45px;
-    margin: 0;
-    position: absolute;
-    right: 8px;
-    top: 0;
+    width: 18px;
   }
 
   // well
   .well {
-    border-width: 1px;
+    border: 0;
+    border-left: 2px solid $gray-lightest;
+    border-radius: 0;
     cursor: default;
-    margin: 0 -3px;
+    line-height: 1.2;
+    margin-left: 9px;
     max-height: none;
-    padding: 6px;
-    position: relative;
+    padding-left: 12px;
+    white-space: normal;
 
-    .small {
-      line-height: 1.2;
-      margin: 0;
-      white-space: normal;
+    @include media(xxs) {
+      .br {
+        display: none;
+      }
     }
   }
 
   .select {
+    color: $gray-darker;
     cursor: pointer;
     display: block;
-    font-size: 13px;
-    font-weight: 400;
-    margin-top: 6px;
+    font-size: 16px;
+    margin: 6px 0 15px;
+  }
+
+  @include media(xxs) {
+    .label-footer .br {
+      display: none;
+    }
   }
 }
