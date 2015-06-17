@@ -47,7 +47,6 @@ function ControllerApp(
   $rootScope.featureFlags = {
     advancedRepositories: true,
     cardStatus: configEnvironment === 'development',
-    dev: configEnvironment === 'development',
     dockerfileTool: configEnvironment === 'development',
     findAndReplace: true,
     hostnameTool: configEnvironment === 'development',
@@ -105,6 +104,9 @@ function ControllerApp(
     }
     eventTracking.update();
     loading('main', false);
+  });
+  $scope.$on('$stateChangeError', function () {
+    $state.go('404');
   });
 
   $scope.$watch(function () {
