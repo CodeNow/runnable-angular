@@ -1,14 +1,12 @@
 ul.table-drag-drop(
   dnd-allowed-types = "properties.allowedTableTypes"
   dnd-list = "list"
-  ng-class = "{\
-    'no-touching': tableProcessing || state.recalculating\
-  }"
 )
   li.tr.thead.clearfix
     .cell {{ header.title }}
       button.btn.btn-xs.white(
         ng-click = "openRulePopover()"
+        ng-disabled = "tableProcessing || state.recalculating"
         pop-over
         pop-over-actions = "popoverData.actions"
         pop-over-active = "popoverData.active"
@@ -23,6 +21,7 @@ ul.table-drag-drop(
   )
     .cell(
       ng-click = "openRulePopover()"
+      ng-class = "{'no-touching': tableProcessing || state.recalculating}"
     ) {{ emptyText.description }}
   li.tr.tr-action.clearfix(
     dnd-draggable = "item"
@@ -31,7 +30,8 @@ ul.table-drag-drop(
     dnd-moved = "list.splice($index, 1); moveRule($index, item); "
     dnd-type = "item.action"
     ng-class="{\
-      'disabled': models.selected === item\
+      'disabled': models.selected === item,\
+      'no-touching': (tableProcessing || state.recalculating)\
     }"
     ng-click = "openRulePopover(item)"
     ng-repeat = "item in list"
