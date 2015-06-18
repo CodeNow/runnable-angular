@@ -72,6 +72,15 @@ require('app')
               });
           }
         });
+
+        // Clear out the start command (only in setup, but this will change)
+        if ($scope.startCommandCanDisable) {
+          $scope.$watch('state.selectedStack.key', function (newStackKey, oldStackKey) {
+            if (newStackKey && newStackKey !== oldStackKey) {
+              delete $scope.state.startCommand;
+            }
+          });
+        }
       }
     };
   });
