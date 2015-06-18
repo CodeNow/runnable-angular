@@ -89,6 +89,24 @@
     }
   }
 
+  // select label
+  .label-select {
+    color: $gray;
+    display: inline-block;
+    font-size: 13px;
+    line-height: 24px;
+    margin-bottom: 15px;
+
+    > .btn-xs {
+      margin-left: 6px;
+    }
+
+    // text within button
+    .display {
+      max-width: 150px;
+    }
+  }
+
   // input column (right)
   .input-col {
     margin-bottom: 6px;

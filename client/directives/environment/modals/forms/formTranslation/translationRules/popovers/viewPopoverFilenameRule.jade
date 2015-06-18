@@ -24,19 +24,21 @@
       label.label-col Source
         input.input.input-sm.monospace(
           name = "sourceTextBox"
-          ng-model = "data.state.source"
           ng-change = "currentState.searched = false"
-          spellcheck = "false"
+          ng-disabled = "currentState.processing"
+          ng-model = "data.state.source"
           placeholder = "index.html"
+          spellcheck = "false"
         )
       .span-col →
       label.label-col Destination
         input.input.input-sm.monospace(
           name = "destTextBox"
-          ng-model = "data.state.dest"
           ng-change = "currentState.searched = false"
-          spellcheck = "false"
+          ng-disabled = "currentState.processing"
+          ng-model = "data.state.dest"
           placeholder = "index.prod.html"
+          spellcheck = "false"
         )
 
     small.small.table-details(
@@ -71,7 +73,7 @@
     button.btn.green(
       ng-if = "currentState.searched"
       ng-click = "actions.createRule(data.state)"
-    ) {{ data.state._id ? 'Update': 'Create'}} rule
+    ) {{ data.state._id ? 'Update': 'Create'}} Rule
     button.btn.gray.btn-cancel(
       ng-click = "actions.cancel()"
     ) Cancel
