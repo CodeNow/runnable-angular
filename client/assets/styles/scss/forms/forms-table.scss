@@ -12,6 +12,11 @@
 // diff
 .table-diff {
 
+  &:last-child,
+  &:only-child {
+    margin-bottom: 9px;
+  }
+
   .thead {
     border-bottom: 1px solid $gray-lighter;
 

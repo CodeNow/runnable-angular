@@ -132,6 +132,11 @@ a {
   white-space: nowrap;
 }
 
+.text-rtl {
+  direction: rtl;
+  text-align: left;
+}
+
 // ul.list-text
 .list-text {
   list-style-type: circle;
