@@ -91,7 +91,7 @@ html.home(
     script(type = "text/javascript").
       var app = angular.module('homeApp', []);
       app.controller('MainCtrl', function ($scope, $window, $http) {
-        $scope.loginUrl = '#{locals.apiHost}/auth/github?redirect=//' + $window.location.host + '/?auth'
+        $scope.loginUrl = '#{locals.apiHost}/auth/github?redirect=//' + $window.location.host + '/?auth';
         $scope.data = {
           embedActive: false
         };
