@@ -2,7 +2,7 @@
 
 var User = require('runnable/lib/models/user');
 var user = require('../apiMocks').user;
-var runnable = new (require('runnable'))(window.host);
+var runnable = window.runnable;
 
 module.exports = function ($q) {
   return function () {

@@ -7,7 +7,7 @@ var $controller,
     $timeout;
 var keypather;
 var apiMocks = require('../apiMocks/index');
-var fetchUserMock = new (require('../fixtures/mockFetch'))();
+var runnable = window.runnable;
 var fetchStackInfoMock = new (require('../fixtures/mockFetch'))();
 var fetchContextsMock = new (require('../fixtures/mockFetch'))();
 var fetchInstancesMock = new (require('../fixtures/mockFetch'))();
@@ -22,7 +22,7 @@ describe('environmentController'.bold.underline.blue, function () {
 
   function createMasterPods() {
     ctx.masterPods = runnable.newInstances(
-      [apiMocks.instances.building, apiMocks.instances.runningWithContainers],
+      [apiMocks.instances.building, apiMocks.instances.runningWithContainers[0]],
       {noStore: true}
     );
     ctx.masterPods.githubUsername = thisUser.oauthName();

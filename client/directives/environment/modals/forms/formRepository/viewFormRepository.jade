@@ -55,10 +55,11 @@ label.label.clearfix
       type = "text"
       value = "state.startCommand"
     )
-      li.list-item.popover-list-item.small Suggested Container CMD
+      li.list-item.popover-list-item.small Suggested Container CMDs
       fancy-option(
-        value = "$parent.state.selectedStack.startCommand"
-      ) {{$parent.$parent.state.selectedStack.startCommand}}
+        ng-repeat = "startCmd in $parent.state.selectedStack.startCommand"
+        value = "startCmd"
+      ) {{$parent.startCmd}}
 
     small.small This is the command that’ll be executed when your container is launched, to start running your code. This is the long-running process your code requires (e.g. ‘apache’, ‘NPM start’, ‘Python server’).  When this process terminates, your container will also stop running. #{''}
       a.link(

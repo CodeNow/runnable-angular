@@ -11,6 +11,8 @@ var $controller,
 var apiMocks = require('../apiMocks/index');
 var mockFetch = new (require('../fixtures/mockFetch'))();
 var mockFetchUser = require('../fixtures/mockFetchUser');
+var runnable = window.runnable;
+
 /**
  * Things to test:
  * Since this controller is pretty simple, we only need to test it's redirection
@@ -79,6 +81,9 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       });
       $provide.value('$stateParams', ctx.stateParams);
       $provide.value('$localStorage', localStorageData || {});
+      $provide.factory('setLastOrg', function ($q) {
+        return sinon.stub().returns($q.when());
+      });
     });
     angular.mock.inject(function (
       _$controller_,

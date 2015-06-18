@@ -132,14 +132,14 @@
     padding-top: 21px;
   }
 
-  // active panel & ace container
-  .active-panel,
+  // ace container
   .ace-container {
     border: 2px solid $purple-darker;
 
     // translation rules
     &.ace-ignored-files {
       border-radius: 3px;
+      min-height: 210px;
     }
 
     .spinner-wrapper {
@@ -148,13 +148,10 @@
     }
   }
 
-  .active-panel {
+  // logs
+  .logs {
     border-radius: 3px;
-    padding: 0;
-
-    .terminal {
-      white-space: nowrap;
-    }
+    overflow: hidden;
   }
 
   // empty p tag

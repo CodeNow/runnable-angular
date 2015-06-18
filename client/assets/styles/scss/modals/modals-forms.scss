@@ -55,7 +55,9 @@
   > .table-actions,
   > .label,
   > .btn-group,
-  > .label {
+  > .label,
+  > .clearfix,
+  > .help-container {
     flex: 0 0 auto;
   }
 
@@ -81,9 +83,32 @@
       }
     }
 
+    // child labels (for verify modal)
+    > .label {
+      margin-bottom: 6px;
+    }
+
     // for rows (full-width) with only small text
     > .small:only-child {
       margin: 6px;
+    }
+  }
+
+  // select label
+  .label-select {
+    color: $gray;
+    display: inline-block;
+    font-size: 13px;
+    line-height: 24px;
+    margin-bottom: 15px;
+
+    > .btn-xs {
+      margin-left: 6px;
+    }
+
+    // text within button
+    .display {
+      max-width: 150px;
     }
   }
 
@@ -139,6 +164,11 @@
       position: absolute;
       right: 3px;
       top: 0;
+    }
+
+    // labels
+    .label {
+      margin-bottom: 6px;
     }
 
     // small labels

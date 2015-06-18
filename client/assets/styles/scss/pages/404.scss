@@ -1,0 +1,59 @@
+.error-wrapper {
+  align-items: center;
+  background-image: url(/build/images/runnabear_head.png);
+  background-position: center 0;
+  background-repeat: no-repeat;
+  background-size: 135px 112px;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+}
+
+//img.runnabear-head
+.runnabear-head {
+  left: 50%;
+  position: absolute;
+  top: 0;
+  transform: translate3d(-50%,0,0);
+}
+
+.error-content {
+  margin: 0 30px 45px; // margin bottom for optical alignment
+  max-width: 500px;
+
+  .h1,
+  .p,
+  .link {
+    margin-bottom: 18px;
+  }
+
+  .h1 {
+    font-size: 27px;
+
+    @include media(xs) {
+      font-size: 24px;
+    }
+  }
+
+  .p,
+  .link {
+    font-size: 21px;
+
+    @include media(xs) {
+      font-size: 18px;
+    }
+  }
+
+  .span {
+    font-style: italic;
+    color: $gray-light;
+  }
+
+  .link {
+    color: $purple-light;
+
+    &:active {
+      color: $purple;
+    }
+  }
+}

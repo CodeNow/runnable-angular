@@ -11,8 +11,8 @@
   opacity: 0;
   position: absolute;
   top: -10000px;
-  transform: scale3d(.6,.6,1);
-  transition: opacity .1s ease-in, transform .1s ease-in;
+  transform: scale3d(.9,.9,1);
+  transition: opacity .075s ease-in, transform .075s ease-in;
   z-index: $z-popover;
 
   &.in {

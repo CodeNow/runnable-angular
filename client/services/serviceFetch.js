@@ -195,25 +195,24 @@ function fetchRepoBranches(fetchUser, promisify) {
   return function (repo) {
     var user;
     var repoType;
-
-    var allRepos = [];
+    var allBranches = [];
 
     function fetchPage(page) {
-      return promisify(repo.branches, 'fetch')({
+      return promisify(repo, 'fetchBranches')({
         page: page,
       }).then(function (branches) {
-        allRepos = allRepos.concat(branches.models);
+        allBranches = allBranches.concat(branches.models);
         // recursive until result set returns fewer than
         // 100 repos, indicating last paginated result
         if (branches.models.length < 100) {
-          return allRepos;
+          return allBranches;
         }
-        return fetchPage(page ? page + 1 : 2);
+        return fetchPage(page + 1);
       });
     }
-    return fetchPage(0)
-      .then(function (reposArr) {
-        var branches = repo.newBranches(reposArr, {
+    return fetchPage(1)
+      .then(function (branchArray) {
+        var branches = repo.newBranches(branchArray, {
           noStore: true
         });
         repo.branches = branches;

@@ -7,6 +7,7 @@ require('app')
  */
 function editServerModal(
   $q,
+  $filter,
   errs,
   JSTagsCollection,
   hasKeypaths,
@@ -302,7 +303,7 @@ function editServerModal(
       resetState($scope.server);
 
       $scope.changeTab = function (tabname) {
-        if (!$scope.state.advanced && $scope.isStackInfoEmpty($scope.state.selectedStack)) {
+        if (!$scope.state.advanced && $filter('selectedStackInvalid')($scope.state.selectedStack)) {
           tabname = 'stack';
         } else if ($scope.editServerForm.$invalid) {
           if (keypather.get($scope, 'editServerForm.$error.required.length')) {

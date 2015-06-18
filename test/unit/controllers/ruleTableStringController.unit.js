@@ -56,7 +56,7 @@ describe('RuleTableStringController'.bold.underline.blue, function () {
     it('should set up everything on the scope', function () {
       $rootScope.$digest();
       expect($scope.header, 'header').to.be.ok;
-      expect($scope.header.description, 'description').to.equal('New string rule');
+      expect($scope.header.description, 'description').to.equal('New String Rule');
       expect($scope.header.title, 'title').to.equal('Strings');
       expect($scope.properties, 'properties').to.be.ok;
       expect($scope.properties.allowedTableTypes, 'allowedTableTypes').to.deep.equal(['replace']);

@@ -7,8 +7,7 @@ var $elScope;
 var $rootScope;
 var instances = require('../apiMocks').instances;
 var clone = require('101/clone');
-var apiOpts = clone(require('../../../client/config/json/api.json'));
-var runnable = new (require('runnable'))(window.host, apiOpts);
+var runnable = window.runnable
 var mockGetInstanceMaster = require('../fixtures/mockGetInstanceMaster');
 
 // Skipping until we bring this directive back (Kahn)
