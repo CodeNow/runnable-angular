@@ -10,6 +10,7 @@ var http        = require('http');
 var https       = require('https');
 var path        = require('path');
 var version     = require('../package').version;
+var jade        = require('jade');
 
 app.set('port', process.env.PORT || 3000);
 app.set('https_port', process.env.HTTPS_PORT || 443);
@@ -36,20 +37,33 @@ app.use(compression());
 
 app.use('/build', express.static(path.join(__dirname + '/../client/build')));
 
+var homePath = path.join(__dirname + '/views/home.jade');
+
+var compiledHomeWithPassword = jade.renderFile(homePath, { hasPassword: true, locals: app.locals });
+var compiledHomeWithoutPassword = jade.renderFile(homePath, { hasPassword: false, locals: app.locals });
+
 app.route('/').get(function (req, res, next) {
-  res.render('home', {
-    hasPassord: req.query.password !== undefined
-  });
+  if (req.query.password ) {
+    res.send(compiledHomeWithPassword);
+  } else {
+    res.send(compiledHomeWithoutPassword);
+  }
 });
 
+
+var layoutPath = path.join(__dirname + '/views/layout.jade');
+var compiledLayoutDebug = jade.renderFile(layoutPath, { debug: true, locals: app.locals });
+var compiledLayout = jade.renderFile(layoutPath, { debug: false, locals: app.locals });
 
 // load same base view for all valid client-routes
 require('client/config/routes').forEach(function (item, index, arr) {
   if (!item.url) { return; }
   app.route(item.url).get(function (req, res, next) {
-    res.render('layout', {
-      debug: (req.query.debug !== undefined) ? true : false
-    });
+    if (req.query.debug) {
+      res.send(compiledLayoutDebug);
+    } else {
+      res.send(compiledLayout);
+    }
   });
 });
 
