@@ -16,11 +16,8 @@ app.set('port', process.env.PORT || 3000);
 app.set('https_port', process.env.HTTPS_PORT || 443);
 app.set('config', config);
 app.set('view engine', 'jade');
-app.locals.version = version;
-app.locals.env = config.env;
-app.locals.commitHash = require('../client/config/json/commit.json').commitHash;
-app.locals.commitTime = require('../client/config/json/commit.json').commitTime;
-app.locals.apiHost = require('../client/config/json/api.json').host;
+
+
 app.set('views', path.join(__dirname + '/views'));
 
 // Redirect to https
@@ -39,8 +36,17 @@ app.use('/build', express.static(path.join(__dirname + '/../client/build')));
 
 var homePath = path.join(__dirname + '/views/home.jade');
 
-var compiledHomeWithPassword = jade.renderFile(homePath, { hasPassword: true, locals: app.locals });
-var compiledHomeWithoutPassword = jade.renderFile(homePath, { hasPassword: false, locals: app.locals });
+
+var locals = {
+  version: version,
+  env: config.env,
+  commitHash: require('../client/config/json/commit.json').commitHash,
+  commitTime: require('../client/config/json/commit.json').commitTime,
+  apiHost: require('../client/config/json/api.json').host
+};
+
+var compiledHomeWithPassword = jade.compileFile(homePath, { hasPassword: true })(locals);
+var compiledHomeWithoutPassword = jade.compileFile(homePath, { hasPassword: false })(locals);
 
 app.route('/').get(function (req, res, next) {
   if (req.query.password ) {
@@ -52,8 +58,8 @@ app.route('/').get(function (req, res, next) {
 
 
 var layoutPath = path.join(__dirname + '/views/layout.jade');
-var compiledLayoutDebug = jade.renderFile(layoutPath, { debug: true, locals: app.locals });
-var compiledLayout = jade.renderFile(layoutPath, { debug: false, locals: app.locals });
+var compiledLayoutDebug = jade.compileFile(layoutPath, { debugging: true })(locals);
+var compiledLayout = jade.compileFile(layoutPath, { debugging: false })(locals);
 
 // load same base view for all valid client-routes
 require('client/config/routes').forEach(function (item, index, arr) {
