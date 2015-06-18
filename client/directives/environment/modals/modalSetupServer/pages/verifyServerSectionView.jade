@@ -3,8 +3,7 @@ header.modal-header
 
 section.modal-body
   .modal-form(
-    name = "verifyServerForm"
-    ng-form
+    ng-form = "verifyServerForm"
   )
     .label(
       data = "data"
@@ -20,7 +19,7 @@ section.modal-body
 footer.modal-footer.clearfix
   //- disabled if there is no value in the command input
   button.btn.green(
-    ng-disabled = "verifyServerForm.$invalid"
+    ng-disabled = "verifyServerForm.$invalid || (state.selectedStack | selectedStackInvalid)"
     ng-click = "createServer(state)"
   ) Create Container
   button.btn.white.btn-cancel(
