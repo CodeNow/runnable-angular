@@ -276,7 +276,7 @@ function helpCardsFactory(
         var helpCard = new HelpCard(cardConfig);
 
         if (!currentCardHash[helpCard.hash] && ignoredHelpCards.indexOf(helpCard.hash) === -1) {
-          self.cards.triggered.push(helpCard);
+          self.cards.triggered.unshift(helpCard);
           currentCardHash[helpCard.hash] = helpCard;
           helpCard.on('remove', function () {
             if (self.getActiveCard() === helpCard) {
