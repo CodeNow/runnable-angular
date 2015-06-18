@@ -3,9 +3,6 @@
 // injector-provided
 var
   $compile,
-  getInstanceClasses,
-  getInstanceAltTitle,
-  getTeamMemberClasses,
   $state,
   keypather,
   regexpQuote,
@@ -87,18 +84,12 @@ describe('directiveInstanceList'.bold.underline.blue, function() {
   function injectSetupCompile (type) {
     angular.mock.module('app');
     angular.mock.inject(function (
-      _getInstanceClasses_,
-      _getInstanceAltTitle_,
-      _getTeamMemberClasses_,
       _$state_,
       _keypather_,
       _regexpQuote_,
       _$rootScope_,
       _$compile_
     ) {
-      getInstanceClasses = _getInstanceClasses_;
-      getInstanceAltTitle = _getInstanceAltTitle_;
-      getTeamMemberClasses = _getTeamMemberClasses_;
       $state = _$state_;
       keypather = _keypather_;
       regexpQuote = _regexpQuote_;
@@ -123,25 +114,7 @@ describe('directiveInstanceList'.bold.underline.blue, function() {
     beforeEach(function () {
       injectSetupCompile();
     });
-
-    it('should render grouped on master pods');
-    it('should show auto forked instances underneath the master pod');
-
-    it('should be able to transition to an instance when clicked', function(){
-      $state.go = sinon.spy();
-      var event = {
-        preventDefault: sinon.spy()
-      };
-      var instance = $scope.dataApp.data.instances.models[0];
-      $elScope.stateToInstance(instance, event);
-      expect(event.preventDefault.calledOnce).to.equal(true);
-      expect($state.go.calledWithExactly('instance.instance',
-        {
-          instanceName: instance.attrs.name,
-          userName: instance.attrs.owner.username
-        }
-      )).to.equal(true);
-    })
+    // TODO: Kick can
   });
 
 });

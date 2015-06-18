@@ -6,33 +6,24 @@ require('app')
  * @ngInject
  */
 function instanceList(
-  getInstanceClasses,
-  getInstanceAltTitle,
-  getTeamMemberClasses,
-  $state,
   $rootScope,
-  $timeout
+  $timeout,
+  createServerObjectFromInstance,
+  fetchStackInfo,
+  fetchContexts,
+  parseDockerfileForCardInfoFromInstance,
+  errs,
+  watchOncePromise,
+  keypather
 ) {
   return {
     restrict: 'A',
     templateUrl: 'viewInstanceList',
     scope: {
-      data: '=',
-      state: '=',
-      actions: '='
+      data: '='
     },
     link: function ($scope, ele) {
       $scope.isLoading = $rootScope.isLoading;
-
-      $scope.stateToInstance = function (instance, $event) {
-        if ($event && $event.preventDefault) {
-          $event.preventDefault();
-        }
-        $state.go('instance.instance', {
-          instanceName: instance.attrs.name,
-          userName: instance.attrs.owner.username
-        });
-      };
 
       var isLoadingWatch = $scope.$watch('isLoading.sidebar', function (newVal) {
         if (newVal === false) {
@@ -44,17 +35,41 @@ function instanceList(
         }
       });
 
-      $scope.getInstanceClasses = getInstanceClasses;
-      $scope.getInstanceAltTitle = getInstanceAltTitle;
-      $scope.getTeamMemberClasses = getTeamMemberClasses;
+      $scope.$watch('data.instancesByPod.models.length', function (n) {
+        if (!n) { return; }
+        // This is so dumb
+        // model === model.server.instance
+        // Needed because the modal code was written late at night on crazy deadline
+        $scope.data.instancesByPod.models.forEach(function (model) {
+          model.server = createServerObjectFromInstance(model);
+          if (keypather.get(model, 'contextVersion.attrs.advanced')) { return; }
 
-      $scope.popoverInvite = {
-        data: {
-          getTeamName: function () {
-            return $state.params.userName;
-          }
-        }
-      };
+          model.server.parsing = true;
+          parseDockerfileForCardInfoFromInstance(model)
+            .then(function (data) {
+              if (!data) { return; }
+              Object.keys(data).forEach(function (key) {
+                model.server[key] = data[key];
+              });
+            })
+            .catch(errs.handler)
+            .finally(function () {
+              model.server.parsing = false;
+            });
+        });
+      });
+
+      $scope.data = {};
+      $scope.actions = {};
+
+      fetchStackInfo()
+      .then(function (stackInfo) {
+        $scope.data.stacks = stackInfo;
+      });
+      fetchContexts({ isSource: true })
+      .then(function (contexts) {
+        $scope.data.sourceContexts = contexts;
+      });
     }
   };
 }
