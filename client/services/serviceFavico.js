@@ -13,16 +13,23 @@ require('app')
       img.src = url;
       return img;
     }
-    var buildingImage = createImage('/build/images/favicon-orange.png');
+
+    var images = {
+      orange: createImage('/build/images/favicon-orange.png'),
+      green: createImage('/build/images/favicon-green.png'),
+      gray: createImage('/build/images/favicon-gray.png'),
+      red: createImage('/build/images/favicon-red.png')
+    };
+
     var icons = {
-      building: buildingImage,
-      neverStarted: buildingImage,
-      running: createImage('/build/images/favicon-green.png'),
-      stopped: createImage('/build/images/favicon-gray.png'),
-      buildFailed: createImage('/build/images/favicon-red.png'),
-      crashed: createImage('/build/images/favicon-red.png'),
-      starting: createImage('/build/images/favicon-orange.png'),
-      stopping: createImage('/build/images/favicon-green.png')
+      building: images.orange,
+      neverStarted: images.orange,
+      running: images.green,
+      stopped: images.gray,
+      buildFailed: images.red,
+      crashed: images.red,
+      starting: images.orange,
+      stopping: images.green
     };
     var currentState;
     var reset = function () {
