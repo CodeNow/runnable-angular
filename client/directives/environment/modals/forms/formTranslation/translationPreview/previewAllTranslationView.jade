@@ -20,7 +20,8 @@
       fancy-option.fancy-select-sm.text-rtl(
         ng-repeat = "diff in $parent.$parent.state.diffs"
         value = "diff"
-      ) {{ $parent.diff.from }}
+      )
+        .text-overflow {{ $parent.diff.from }}
 
 .table.table-diff(
   actions = "actions"
