@@ -110,18 +110,17 @@ describe('directiveRepoSelect'.bold.underline.blue, function () {
           name: 'My Repo Name',
           default_branch: 'default'
         },
-        branches: {
-          fetch: sinon.spy(function (opts, cb) {
-            $rootScope.$evalAsync(function () {
-              cb(null, {
-                models: branches
-              });
-            });
-            return {
+        fetchBranches: sinon.spy(function (opts, cb) {
+          $rootScope.$evalAsync(function () {
+            cb(null, {
               models: branches
-            };
-          })
-        },
+            });
+          });
+          repo.branches = {
+            models: branches
+          };
+          return repo.branches;
+        }),
         newBranches: sinon.spy(function (branches) {
           return {
             models: branches

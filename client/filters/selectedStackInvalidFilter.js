@@ -12,5 +12,6 @@ require('app')
         });
         return !!depsEmpty;
       }
+      return false;
     };
   });
