@@ -102,12 +102,6 @@ module.exports = [
     templateUrl: 'viewInstanceHome',
     controller: 'ControllerInstanceHome'
   }, {
-    state: 'error',
-    abstract: false,
-    url: '^/error/:err',
-    templateUrl: 'viewError',
-    controller: 'ControllerError'
-  }, {
     state: 'instance.instance',
     abstract: false,
     url: '^/:userName/:instanceName',
