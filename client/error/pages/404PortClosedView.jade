@@ -7,16 +7,16 @@ p.p Exposed ports:
   //- show this element if there are no ports exposed
   //- span.span (none)
   a.link(
-    href='#'
-  ) 80
-  | , #{''}
-  a.link(
-    href='#'
-  ) 3000
-  | , #{''}
-  a.link(
-    href='#'
-  ) 8080
+    ng-repeat = "port in ports"
+    ng-href = "{{containerUrl}}:{{port}}"
+  ) {{ port }}
+    span(
+      ng-if = "!$last"
+    ) , #{''}
+
 a.link(
-  href = '#'
+  ui-sref = "\
+               config.instance({ userName: ownerName, \
+               instanceName: instanceName })\
+            "
 ) Expose a port in Runnable

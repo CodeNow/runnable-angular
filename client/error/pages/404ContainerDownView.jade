@@ -7,5 +7,8 @@ p.p The container for
   - with build logs open if container is building
   - with CMD logs open if container is stopped or crashed
 a.link(
-  href='#'
+  ui-sref = "\
+               config.instance({ userName: ownerName, \
+               instanceName: instanceName })\
+            "
 ) View build logs in Runnable

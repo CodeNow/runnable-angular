@@ -8,13 +8,9 @@ p.p Other exposed ports:
   //- show this element if there are no ports exposed
   //- span.span (none)
   a.link(
-    href='#'
-  ) 80
-  | , #{''}
-  a.link(
-    href='#'
-  ) 3000
-  | , #{''}
-  a.link(
-    href='#'
-  ) 8080
+    ng-repeat = "port in ports"
+    ng-href = "{{containerUrl}}:{{port}}"
+  ) {{ port }}:
+    span(
+      ng-if = "!$last"
+    ) ,
