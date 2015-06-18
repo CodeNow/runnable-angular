@@ -42,17 +42,18 @@
       width: 100%;
     }
 
-    // checkbox
-    .label-checkbox {
+    // toggle
+    .label {
       color: $purple-lighter;
-      padding: 0 12px 6px;
+      margin-bottom: 6px;
+      padding: 0 12px;
       white-space: nowrap;
     }
 
-    .input-checkbox {
-      float: none;
-      height: 13px;
-      margin: 0 6px 0 0;
+    .toggle-wrapper {
+      position: absolute;
+      right: 12px;
+      top: 4px;
     }
 
     // empty state
