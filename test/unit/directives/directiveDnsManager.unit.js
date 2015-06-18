@@ -45,6 +45,9 @@ describe('directiveDnsManager'.bold.underline.blue, function() {
         noStore: true
       });
 
+      instance.contextVersion.getMainAppCodeVersion = function () {
+        return instance.attrs.contextVersions[0];
+      };
 
       childInstances.models[0].attrs.contextVersion = {
         context: instance.attrs.contextVersion.context
