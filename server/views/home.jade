@@ -92,6 +92,9 @@ html.home(
       var app = angular.module('homeApp', []);
       app.controller('MainCtrl', function ($scope, $window, $http) {
         $scope.loginUrl = '#{locals.apiHost}/auth/github?redirect=//' + $window.location.host + '/?auth'
+        $scope.data = {
+          embedActive: false
+        };
 
         $http.get('#{locals.apiHost}/users/me', {
           withCredentials: true
@@ -103,8 +106,8 @@ html.home(
 
 
   body.clearfix(
-    ng-app="homeApp"
-    ng-controller="MainCtrl"
+    ng-app = "homeApp"
+    ng-controller = "MainCtrl"
   )
     //
       TIME: #{locals.commitTime}
@@ -146,9 +149,7 @@ html.home(
               href = "http://support.runnable.io/"
               target = "_blank"
             ) Support
-      section.home-hero(
-        ng-init = "data = {embedActive: false}"
-      )
+      section.home-hero
         .modal-backdrop.in(
           ng-if = "data.embedActive"
         )
