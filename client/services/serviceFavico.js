@@ -20,7 +20,9 @@ require('app')
       running: createImage('/build/images/favicon-green.png'),
       stopped: createImage('/build/images/favicon-gray.png'),
       buildFailed: createImage('/build/images/favicon-red.png'),
-      crashed: createImage('/build/images/favicon-red.png')
+      crashed: createImage('/build/images/favicon-red.png'),
+      starting: createImage('/build/images/favicon-orange.png'),
+      stopping: createImage('/build/images/favicon-green.png')
     };
     var currentState;
     var reset = function () {
