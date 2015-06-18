@@ -7,6 +7,7 @@ require('app')
  */
 function editServerModal(
   $q,
+  $filter,
   errs,
   JSTagsCollection,
   hasKeypaths,
@@ -303,7 +304,7 @@ function editServerModal(
 
       $scope.changeTab = function (tabname) {
         if ($scope.editServerForm.$invalid ||
-            (!$scope.state.advanced && $scope.isStackInfoEmpty($scope.state.selectedStack))) {
+            (!$scope.state.advanced && $filter('selectedStackInvalid')($scope.state.selectedStack))) {
           return;
         }
         $scope.selectedTab = tabname;
@@ -452,18 +453,6 @@ function editServerModal(
         return !$scope.state.dockerfile.validation.criticals.find(hasKeypaths({
           message: 'Missing or misplaced FROM'
         }));
-      };
-
-      $scope.isStackInfoEmpty = function (selectedStack) {
-        if (!selectedStack || !selectedStack.selectedVersion) {
-          return true;
-        }
-        if (selectedStack.dependencies) {
-          var depsEmpty = !selectedStack.dependencies.find(function (dep) {
-            return !$scope.isStackInfoEmpty(dep);
-          });
-          return !!depsEmpty;
-        }
       };
     }
   };

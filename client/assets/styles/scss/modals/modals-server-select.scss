@@ -98,6 +98,10 @@
     line-height: 1;
     right: 9px;
     top: 15px;
+
+    &.disabled {
+      opacity: .3;
+    }
   }
 
   // next arrow
