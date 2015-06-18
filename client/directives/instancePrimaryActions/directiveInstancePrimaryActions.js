@@ -38,12 +38,8 @@ function instancePrimaryActions(
         });
       };
 
-      var overwriteStatus = null;
-
       $scope.changingText = function () {
         var status = keypather.get($scope, 'instance.status()');
-
-        status = overwriteStatus || status;
 
         var statusMap = {
           starting: 'Starting container',
@@ -55,7 +51,7 @@ function instancePrimaryActions(
 
       $scope.isChanging = function () {
         var status = keypather.get($scope, 'instance.status()');
-        return overwriteStatus || ['starting', 'building', 'stopping'].indexOf(status) !== -1;
+        return ['starting', 'building', 'stopping'].indexOf(status) !== -1;
       };
 
       $scope.saveChanges = function () {
@@ -90,20 +86,15 @@ function instancePrimaryActions(
           .then(function () {
             return promisify($scope.instance, 'fetch')();
           })
-          .catch(errs.handler)
-          .finally(function () {
-            overwriteStatus = null;
-          });
+          .catch(errs.handler);
       }
 
       $scope.actions = {
         stopInstance: function () {
           modInstance('stop');
-          overwriteStatus = 'stopping';
         },
         startInstance: function () {
           modInstance('start');
-          overwriteStatus = 'starting';
         }
       };
     }
