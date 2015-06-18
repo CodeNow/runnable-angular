@@ -89,12 +89,14 @@ function fancySelect(
         var boundingRect = element[0].getBoundingClientRect();
 
         var padding = 24;
+        var windowHeight = window.innerHeight || $document.clientHeight;
         var top = boundingRect.top + element[0].offsetHeight;
-        if (list[0].offsetHeight + top > $document.find('body')[0].offsetHeight - padding) {
-          top =  $document.find('body')[0].offsetHeight - padding - list[0].offsetHeight;
+
+        if (list[0].offsetHeight + top > windowHeight - padding) {
+          top =  windowHeight - padding - list[0].offsetHeight;
         }
 
-        top += $document.find('body')[0].scrollTop;
+        top += $document.find('body')[0].scrollTop || $document.find('html')[0].scrollTop;
 
         return {
           top: top + 'px',
