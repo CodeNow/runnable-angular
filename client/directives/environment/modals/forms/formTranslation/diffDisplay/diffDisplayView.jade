@@ -16,17 +16,17 @@
 div(
   ng-repeat = "change in fileDiff.changes"
 )
-  .tr.tr-deletion.clearfix(
+  .tr.tr-deletion(
     ng-repeat = "changeLine in change.deletions"
   )
     .cell.monospace.cell-line {{ changeLine.ln }}
     .cell.monospace.text-overflow {{ changeLine.content }}
-  .tr.tr-addition.clearfix(
+  .tr.tr-addition(
     ng-repeat = "changeLine in change.additions"
   )
     .cell.monospace.cell-line {{ changeLine.ln }}
     .cell.monospace.text-overflow {{ changeLine.content }}
-  .tr.tr-gap.clearfix(
+  .tr.tr-gap(
     ng-if = "!$last"
   )
     .cell.monospace.cell-line ...

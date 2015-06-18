@@ -1,23 +1,27 @@
 form.modal-dialog.modal-edit(
   name = "editServerForm"
-  ng-class = "{disabled: building || isLoading.editServerModal}"
+  ng-class = "{\
+    'ace-active': (selectedTab === 'buildfiles' || selectedTab === 'env'),\
+    'disabled': building || isLoading.editServerModal,\
+    'xl': (selectedTab === 'buildfiles' || selectedTab === 'env' || selectedTab === 'logs')\
+  }"
 )
   header.modal-header
     server-status-card-header.btn.btn-sm.btn-title(
-      pop-over-options = "{\"right\":-7,\"top\":36}"
-      pop-over-template = "serverOptionsModalPopover"
       ng-attr-no-touching = "{{ !state.repo }}"
       ng-if = "!$root.featureFlags.cardStatus"
+      pop-over-options = "{\"right\":-7,\"top\":36}"
+      pop-over-template = "serverOptionsModalPopover"
     )
     server-status-card-header(
-      pop-over-options = "{\"centered\":true,\"top\":36}"
-      pop-over-template = "serverOptionsModalPopover"
       ng-attr-no-touching = "{{ !state.repo }}"
       ng-if = "$root.featureFlags.cardStatus"
+      pop-over-options = "{\"centered\":true,\"top\":36}"
+      pop-over-template = "serverOptionsModalPopover"
     )
     .row.modal-tabs.cearfix
       button.btn.btn-radio(
-        ng-class = "{active: selectedTab === 'stack'}"
+        ng-class = "{'active': selectedTab === 'stack'}"
         ng-click = "changeTab('stack')"
         ng-if = "!state.advanced"
       )
@@ -27,7 +31,7 @@ form.modal-dialog.modal-edit(
           )
         .btn-text Stack Type
       button.btn.btn-radio(
-        ng-class = "{active: selectedTab === 'ports'}"
+        ng-class = "{'active': selectedTab === 'ports'}"
         ng-click = "changeTab('ports')"
         ng-if = "!state.advanced"
       )
@@ -37,7 +41,7 @@ form.modal-dialog.modal-edit(
           )
         .btn-text Exposed Ports
       button.btn.btn-radio(
-        ng-class = "{active: selectedTab === 'env'}"
+        ng-class = "{'active': selectedTab === 'env'}"
         ng-click = "changeTab('env')"
       )
         svg.iconnables
@@ -46,7 +50,7 @@ form.modal-dialog.modal-edit(
           )
         .btn-text Environment Variables
       button.btn.btn-radio(
-        ng-class = "{active: selectedTab === 'repository'}"
+        ng-class = "{'active': selectedTab === 'repository'}"
         ng-click = "changeTab('repository')"
         ng-if = "!state.advanced"
       )
@@ -56,7 +60,7 @@ form.modal-dialog.modal-edit(
           )
         .btn-text Main Repository
       button.btn.btn-radio(
-        ng-class = "{active: selectedTab === 'translation'}"
+        ng-class = "{'active': selectedTab === 'translation'}"
         ng-click = "changeTab('translation')"
         ng-if = "state.repo && $root.featureFlags.findAndReplace"
       )
@@ -66,7 +70,7 @@ form.modal-dialog.modal-edit(
           )
         .btn-text Find and Replace
       button.btn.btn-radio(
-        ng-class = "{active: selectedTab === 'files'}"
+        ng-class = "{'active': selectedTab === 'files'}"
         ng-click = "changeTab('files')"
         ng-if = "state.repo && !state.advanced"
       )
@@ -76,7 +80,7 @@ form.modal-dialog.modal-edit(
           )
         .btn-text Container Files
       button.btn.btn-radio(
-        ng-class = "{active: selectedTab === 'logs'}"
+        ng-class = "{'active': selectedTab === 'logs'}"
         ng-click = "changeTab('logs')"
       )
         svg.iconnables
@@ -85,7 +89,7 @@ form.modal-dialog.modal-edit(
           )
         .btn-text Logs
       button.btn.btn-radio(
-        ng-class = "{active: selectedTab === 'buildfiles'}"
+        ng-class = "{'active': selectedTab === 'buildfiles'}"
         ng-click = "changeTab('buildfiles')"
         ng-if = "state.advanced || $root.featureFlags.dockerfileTool"
       )
@@ -99,13 +103,13 @@ form.modal-dialog.modal-edit(
     ng-if = "!isLoading.editServerModal"
   )
     .modal-form(
-      ng-show = "selectedTab === 'buildfiles'"
       ng-include = "'viewFormBuildfiles'"
+      ng-if = "selectedTab === 'buildfiles'"
     )
     .modal-form(
-      ng-show = "selectedTab === 'stack'"
-      stack-selector-form
       data = "data"
+      ng-if = "selectedTab === 'stack'"
+      stack-selector-form
       state = "state"
     )
     .modal-form(
@@ -117,10 +121,10 @@ form.modal-dialog.modal-edit(
       ng-include = "'viewFormEnvironmentVariables'"
     )
     .modal-form(
+      loading-promises-target = "editServerModal"
       ng-if = "selectedTab === 'repository'"
       repository-form
       state = "state"
-      loading-promises-target = "editServerModal"
     )
     .modal-form(
       ng-if = "selectedTab === 'replace'"
@@ -149,9 +153,9 @@ form.modal-dialog.modal-edit(
   footer.modal-footer.clearfix
     //- disabled if no changes
     button.btn.green.btn-spinner(
-      ng-class = "{in: building}"
+      ng-class = "{'in': building}"
       ng-click = "editServerForm.$invalid || getUpdatePromise()"
-      ng-disabled = "(!state.advanced && isStackInfoEmpty(state.selectedStack)) || !isDockerfileValid()"
+      ng-disabled = "(!state.advanced && (state.selectedStack | selectedStackInvalid)) || !isDockerfileValid()"
       type = "submit"
     )
       //- spinner

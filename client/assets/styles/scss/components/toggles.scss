@@ -97,6 +97,18 @@
     background: $green;
   }
 
+  &.invalid {
+    @extend %orange;
+
+    &:hover {
+      background: $orange-lighter;
+    }
+
+    &:active {
+      background: $orange;
+    }
+  }
+
   // shift toggle & shadow
   &::after {
     box-shadow: -1px 1px 3px rgba($black,.05);
@@ -130,6 +142,15 @@
     &:active {
       background: #5fd377; // rgba($green,.81);
       border-color: $green;
+    }
+
+    // if invalid
+    &.invalid {
+
+      &:hover,
+      &:active {
+        @extend %orange;
+      }
     }
   }
 }

@@ -1,0 +1,22 @@
+h1.h1 Port not exposed
+p.p The container for
+  strong.strong  api/my-cool-branch
+  |  is running, but this port is not exposed.
+p.p Exposed ports:
+  | #{''}
+  //- show this element if there are no ports exposed
+  //- span.span (none)
+  a.link(
+    href='#'
+  ) 80
+  | , #{''}
+  a.link(
+    href='#'
+  ) 3000
+  | , #{''}
+  a.link(
+    href='#'
+  ) 8080
+a.link(
+  href = '#'
+) Expose a port in Runnable

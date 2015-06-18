@@ -43,6 +43,23 @@
     padding: 0;
   }
 
+  // list-item
+  .list-item {
+    height: auto;
+    line-height: 1;
+    overflow: visible;
+    padding: 12px;
+    white-space: normal;
+
+    &.active,
+    &:active {
+
+      .small {
+        color: $purple-light;
+      }
+    }
+  }
+
   // older/newer buttons
   .btn-group:last-child {
     display: block;
@@ -55,22 +72,6 @@
       &:only-child {
         width: 100%;
       }
-    }
-  }
-}
-
-// li.toggle-group-item
-.toggle-group-item {
-  height: auto;
-  line-height: 1;
-  overflow: visible;
-  padding: 12px;
-  white-space: normal;
-
-  &.active,
-  &:active {
-    .small {
-      color: $purple-light;
     }
   }
 }

@@ -72,6 +72,7 @@
     color: $white;
     font-size: 42px;
     font-weight: 200;
+    line-height: 1.2;
     margin-bottom: 15px;
     width: 829px;
 
@@ -95,6 +96,7 @@
     }
 
     ~ .p {
+      line-height: 1.5;
       width: 702px;
 
       @include media(md) {
@@ -207,6 +209,7 @@
 // embed
 .embed-wrapper {
   height: 180px;
+  margin-bottom: 15px;
   position: relative;
 }
 

@@ -1,6 +1,7 @@
 .modal-edit {
   max-width: 900px;
   min-height: 360px;
+  transition: max-width .3s ease-in-out;
   width: 100%;
 
   @include media(md) {
@@ -9,6 +10,21 @@
 
   @include media(sm) {
     max-width: 720px;
+  }
+
+  &.ace-active {
+
+    @include media(xxl) {
+      max-width: 1800px;
+    }
+
+    @include media(xl) {
+      max-width: 1600px;
+    }
+
+    @include media(lg) {
+      max-width: 1200px;
+    }
   }
 
   // css override for server building state
@@ -116,21 +132,14 @@
     padding-top: 21px;
   }
 
-  // active panel & ace container
-  .active-panel,
+  // ace container
   .ace-container {
     border: 2px solid $purple-darker;
-    display: flex;
-    min-height: 210px;
 
     // translation rules
     &.ace-ignored-files {
       border-radius: 3px;
-    }
-
-    .ace_editor {
-      display: flex;
-      flex: 1 1 auto;
+      min-height: 210px;
     }
 
     .spinner-wrapper {
@@ -139,14 +148,10 @@
     }
   }
 
-  .active-panel {
+  // logs
+  .logs {
     border-radius: 3px;
-    padding: 0;
-
-    .terminal {
-      min-height: 210px; // to match env vars
-      white-space: nowrap;
-    }
+    overflow: hidden;
   }
 
   // empty p tag
@@ -155,38 +160,5 @@
     font-weight: 500;
     margin: 60px 0 30px;
     text-align: center;
-  }
-}
-
-// logs
-.modal-logs {
-
-  .active-panel {
-    height: 700px;
-
-    @media (max-height: 1200px) {
-      height: 600px;
-    }
-
-    @media (max-height: 1100px) {
-      height: 500px;
-    }
-
-    @media (max-height: 1000px) {
-      height: 400px;
-    }
-
-    @media (max-height: 900px) {
-      height: 300px;
-    }
-
-    @media (max-height: 800px) {
-      height: calc(100vh - 342px);
-      min-height: none;
-    }
-
-    @include media(sm) {
-      height: calc(100vh - 342px);
-    }
   }
 }
