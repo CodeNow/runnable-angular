@@ -83,6 +83,11 @@
       }
     }
 
+    // child labels (for verify modal)
+    > .label {
+      margin-bottom: 6px;
+    }
+
     // for rows (full-width) with only small text
     > .small:only-child {
       margin: 6px;
@@ -159,6 +164,11 @@
       position: absolute;
       right: 3px;
       top: 0;
+    }
+
+    // labels
+    .label {
+      margin-bottom: 6px;
     }
 
     // small labels
