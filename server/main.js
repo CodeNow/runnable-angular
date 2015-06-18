@@ -19,7 +19,6 @@ app.locals.version = version;
 app.locals.env = config.env;
 app.locals.commitHash = require('../client/config/json/commit.json').commitHash;
 app.locals.commitTime = require('../client/config/json/commit.json').commitTime;
-app.locals.apiHost = require('../client/config/json/api.json').host;
 app.set('views', path.join(__dirname + '/views'));
 
 // Redirect to https
@@ -35,13 +34,6 @@ if (process.env.HTTPS) {
 app.use(compression());
 
 app.use('/build', express.static(path.join(__dirname + '/../client/build')));
-
-app.route('/').get(function (req, res, next) {
-  res.render('home', {
-    hasPassord: req.query.password !== undefined
-  });
-});
-
 
 // load same base view for all valid client-routes
 require('client/config/routes').forEach(function (item, index, arr) {
