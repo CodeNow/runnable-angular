@@ -7,24 +7,31 @@ describe('serviceFetch'.bold.underline.blue, function () {
     var user;
     var $rootScope;
     var fetchUser;
+    var windowMock;
 
     beforeEach(function () {
       user = {
         createSocket: sinon.spy(),
         fetchUser: sinon.spy()
       };
+      windowMock = {
+        location: 'foo'
+      };
       angular.mock.module('app');
       angular.mock.module(function ($provide) {
         $provide.value('user', user);
+        $provide.value('$window', windowMock);
       });
       angular.mock.inject(function (
         _$state_,
         _fetchUser_,
-        _$rootScope_
+        _$rootScope_,
+        _$window_
       ) {
         $state = _$state_;
         fetchUser = _fetchUser_;
         $rootScope = _$rootScope_;
+        $window = _$window_;
       });
     });
 
@@ -46,10 +53,11 @@ describe('serviceFetch'.bold.underline.blue, function () {
           statusCode: 401
         }
       };
+      var startLocation = windowMock.location;
       user.fetchUser = sinon.stub().callsArgWith(1, err);
       fetchUser().catch(function (myErr) {
         expect(myErr, 'Returned err').to.equal(err);
-        expect($state.go.calledWith('home'), 'Called go home on the state').to.equal(true);
+        expect(windowMock.location).to.equal('/?password');
         done();
       });
       $rootScope.$apply();
