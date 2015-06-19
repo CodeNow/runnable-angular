@@ -160,11 +160,8 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
     };
     $scope.$digest();
     $elScope.actions.stopInstance();
-    expect($elScope.modifyingInstance).to.be.true;
-    expect($elScope.starting).to.be.false;
     $scope.$digest();
     sinon.assert.calledOnce($scope.instance.stop);
-    expect($elScope.modifyingInstance).to.be.false;
   });
 
   it('should allow the user to start the instance', function () {
@@ -177,11 +174,32 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
     };
     $scope.$digest();
     $elScope.actions.startInstance();
-    expect($elScope.modifyingInstance).to.be.true;
-    expect($elScope.starting).to.be.true;
     $scope.$digest();
     sinon.assert.calledOnce($scope.instance.start);
-    expect($elScope.modifyingInstance).to.be.false;
+  });
+
+  it('should show the instance as busy if its starting', function () {
+    $scope.instance.status = sinon.stub().returns('starting');
+    expect($elScope.isChanging()).to.be.true;
+    sinon.assert.calledOnce($scope.instance.status);
+  });
+
+  it('should show the instance as busy if its stopping', function () {
+    $scope.instance.status = sinon.stub().returns('stopping');
+    expect($elScope.isChanging()).to.be.true;
+    sinon.assert.calledOnce($scope.instance.status);
+  });
+
+  it('should show the instance as busy if its building', function () {
+    $scope.instance.status = sinon.stub().returns('building');
+    expect($elScope.isChanging()).to.be.true;
+    sinon.assert.calledOnce($scope.instance.status);
+  });
+
+  it('should show the instance as not busy if its Started', function () {
+    $scope.instance.status = sinon.stub().returns('started');
+    expect($elScope.isChanging()).to.be.false;
+    sinon.assert.calledOnce($scope.instance.status);
   });
 
 });

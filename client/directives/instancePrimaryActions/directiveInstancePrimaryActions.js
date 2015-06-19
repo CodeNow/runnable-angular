@@ -38,6 +38,22 @@ function instancePrimaryActions(
         });
       };
 
+      $scope.changingText = function () {
+        var status = keypather.get($scope, 'instance.status()');
+
+        var statusMap = {
+          starting: 'Starting container',
+          stopping: 'Stopping Container',
+          building: 'Building'
+        };
+        return statusMap[status];
+      };
+
+      $scope.isChanging = function () {
+        var status = keypather.get($scope, 'instance.status()');
+        return ['starting', 'building', 'stopping'].indexOf(status) !== -1;
+      };
+
       $scope.saveChanges = function () {
         $scope.saving = true;
         var stopSavingCb = callbackCount(2, function () {
@@ -63,19 +79,14 @@ function instancePrimaryActions(
       };
 
       function modInstance(action, opts) {
-        $scope.modifyingInstance = true;
-        $scope.starting = action === 'start';
-
         $scope.$broadcast('close-popovers');
         promisify($scope.instance, action)(
           opts
-        ).then(function () {
+        )
+          .then(function () {
             return promisify($scope.instance, 'fetch')();
-          }).catch(
-          errs.handler
-        ).finally(function () {
-            $scope.modifyingInstance = false;
-          });
+          })
+          .catch(errs.handler);
       }
 
       $scope.actions = {
