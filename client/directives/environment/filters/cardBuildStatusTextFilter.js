@@ -12,11 +12,13 @@ function cardBuildStatusText(
     var status = keypather.get(instance, 'status()');
 
     var statusMap = {
-      'stopped': 'Stopped',
-      'crashed': 'Crashed',
-      'buildFailed': 'Build Failed',
-      'building': 'Building',
-      'neverStarted': 'Building'
+      stopped: 'Stopped',
+      crashed: 'Crashed',
+      buildFailed: 'Build Failed',
+      building: 'Building',
+      neverStarted: 'Building',
+      starting: 'Starting',
+      stopping: 'Stopping',
     };
 
     if (~['running', 'unknown'].indexOf(status)) {
