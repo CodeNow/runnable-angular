@@ -2,17 +2,16 @@ extends ../errorTemplate.jade
 block content
   h1.h1 Oops!
   p.p We can’t reach the container for
-    strong.strong  api/my-cool-branch
+    strong.strong  #{branchName}
     |  even though it’s running and this port is exposed.
   p.p Make sure your service is listening on all interfaces.
   p.p Other exposed ports:
-    | #{''}
-    //- show this element if there are no ports exposed
-    //- span.span (none)
-    a.link(
-      ng-repeat = "port in ports"
-      ng-href = "{{containerUrl}}:{{port}}"
-    ) {{ port }}:
-      span(
-        ng-if = "!$last"
-      ) ,
+    if (ports.length === 0)
+      span.span (none)
+    else
+      each port, index in ports
+        if (index !== 0)
+          span ,
+        a.link(
+          href = "#{containerUrl}:#{port}"
+        ) #{port}

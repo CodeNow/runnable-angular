@@ -9,8 +9,5 @@ block content
     - with build logs open if container is building
     - with CMD logs open if container is stopped or crashed
   a.link(
-    href = "\
-                 config.instance({ userName: ownerName, \
-                 instanceName: instanceName })\
-              "
+    href = "/#{ownerName}/#{instanceName}"
   ) View build logs in Runnable

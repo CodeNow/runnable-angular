@@ -5,20 +5,17 @@ block content
     strong.strong  api/my-cool-branch
     |  is running, but this port is not exposed.
   p.p Exposed ports:
-    | #{''}
-    //- show this element if there are no ports exposed
-    //- span.span (none)
-    a.link(
-      ng-repeat = "port in ports"
-      ng-href = "{{containerUrl}}:{{port}}"
-    ) {{ port }}
-      span(
-        ng-if = "!$last"
-      ) , #{''}
+    if (ports.length === 0)
+      span.span (none)
+    else
+      each port, index in ports
+        if (index !== 0)
+          span ,
+        a.link(
+          href = "#{containerUrl}:#{port}"
+        ) #{port}
+
 
   a.link(
-    ui-sref = "\
-                 config.instance({ userName: ownerName, \
-                 instanceName: instanceName })\
-              "
+    href = "/#{ownerName}/configure/#{instanceName}"
   ) Expose a port in Runnable
