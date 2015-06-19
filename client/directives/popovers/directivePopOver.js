@@ -98,7 +98,7 @@ function popOver(
           getStyle: function () {
             var offset = {};
 
-            var scrollTop = $document.find('body')[0].scrollTop;
+            var scrollTop = $document.find('body')[0].scrollTop || $document.find('html')[0].scrollTop;
             if (keypather.get($scope,'popoverOptions.mouse')) {
               scrollTop = -scrollTop;
               offset = options.mouse;
