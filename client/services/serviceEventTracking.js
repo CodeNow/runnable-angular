@@ -11,9 +11,8 @@ require('app')
 var User = require('runnable/lib/models/user');
 var _keypather;
 var _$location;
+var INTERCOM_APP_ID;
 
-// constants
-var INTERCOM_APP_ID = 'wqzm3rju';
 
 /**
  * EventTracking
@@ -26,8 +25,14 @@ function EventTracking (
   $stateParams,
   $window,
   assign,
-  keypather
+  keypather,
+  configEnvironment
 ) {
+  if (configEnvironment === 'production') {
+    INTERCOM_APP_ID = 'wqzm3rju'; // production ID
+  } else {
+    INTERCOM_APP_ID = 'xs5g95pd'; // test ID
+  }
   _keypather = keypather;
   _$location = $location;
 

@@ -20,27 +20,56 @@
   }
 }
 
+// standard mixin, overriden when intercom is open
 @mixin media($point) {
   @if $point == xxs {
-    @media (max-width: 400px) { @content; }
+    @media (max-width: $xxs) { @content; }
+
+    .intercom-messenger-open & {
+      @media (max-width: $xxs + $intercom-width) { @content; }
+    }
   }
   @else if $point == xs {
-    @media (max-width: 600px) { @content; }
+    @media (max-width: $xs) { @content; }
+
+    .intercom-messenger-open & {
+      @media (max-width: $xs + $intercom-width) { @content; }
+    }
   }
   @else if $point == sm {
-    @media (max-width: 768px) { @content; }
+    @media (max-width: $sm) { @content; }
+
+    .intercom-messenger-open & {
+      @media (max-width: $sm + $intercom-width) { @content; }
+    }
   }
   @else if $point == md {
-    @media (max-width: 1024px) { @content; }
+    @media (max-width: $md) { @content; }
+
+    .intercom-messenger-open & {
+      @media (max-width: $md + $intercom-width) { @content; }
+    }
   }
   @else if $point == lg {
-    @media (max-width: 1440px) { @content; }
+    @media (max-width: $lg) { @content; }
+
+    .intercom-messenger-open & {
+      @media (max-width: $lg + $intercom-width) { @content; }
+    }
   }
   @else if $point == xl {
-    @media (max-width: 1920px) { @content; }
+    @media (max-width: $xl) { @content; }
+
+    .intercom-messenger-open & {
+      @media (max-width: $xl + $intercom-width) { @content; }
+    }
   }
   @else if $point == xxl {
-    @media (min-width: 1920px) { @content; }
+    @media (min-width: $xxl) { @content; }
+
+    .intercom-messenger-open & {
+      @media (max-width: $xxl + $intercom-width) { @content; }
+    }
   }
 }
 
