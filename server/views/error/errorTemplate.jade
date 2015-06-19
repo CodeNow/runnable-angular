@@ -1,0 +1,37 @@
+doctype html
+html(
+  lang = "en"
+)
+  head
+    meta(
+      charset = "utf-8"
+    )
+    meta(
+      content = "width=device-width, initial-scale=1"
+      name = "viewport"
+    )
+    title Uh oh
+    //- css
+    link(
+      href = "/build/css/index.css?v=#{locals.version}"
+      media = "screen"
+      rel = "stylesheet"
+    )
+    //- favicon
+    link(
+      href = "/build/images/favicon.png"
+      rel = "shortcut icon"
+    )
+    //- ios and safari icons
+    link(
+      href = "/build/images/icons-ios.png"
+      rel = "apple-touch-icon"
+    )
+    meta(
+      console = "Runnable"
+      name = "apple-mobile-web-app-title"
+    )
+
+  body.error-wrapper
+    .error-content
+      block content

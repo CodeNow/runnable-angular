@@ -56,6 +56,14 @@ app.route('/').get(function (req, res, next) {
   }
 });
 
+app.route('/error/:page').get(function (req, res, next) {
+  if (req.params.page) {
+    var errorPath = path.join(__dirname + '/views/error/pages/' + req.params.page + '.jade');
+    var compiledError = jade.compileFile(errorPath, req.query)(locals);
+    res.send(compiledError);
+  }
+});
+
 
 var layoutPath = path.join(__dirname + '/views/layout.jade');
 var compiledLayoutDebug = jade.compileFile(layoutPath, { debugging: true })(locals);

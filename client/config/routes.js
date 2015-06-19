@@ -2,12 +2,6 @@
 
 module.exports = [
   {
-    state: '404',
-    abstract: false,
-    url: '^/error/:err',
-    templateUrl: '404View',
-    controller: 'ErrorController'
-  }, {
     state: 'orgSelect',
     abstract: false,
     url: '^/orgSelect',
