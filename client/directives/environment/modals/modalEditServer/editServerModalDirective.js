@@ -27,24 +27,46 @@ function editServerModal(
   cardInfoTypes,
   $timeout,
   loading,
-  loadingPromises
+  loadingPromises,
+  fetchStackInfo,
+  fetchContexts,
+  parseDockerfileForCardInfoFromInstance
 ) {
   return {
     restrict: 'A',
     templateUrl: 'editServerModalView',
     scope: {
-      actions: '=',
-      data: '=',
-      defaultActions: '=',
-      server: '= currentModel',
-      selectedTab: '= stateModel'
+      modalActions: '= modalActions',
+      selectedTab: '= selectedTab',
+      instance: '= instance'
     },
     link: function ($scope, elem, attrs) {
       $scope.isLoading = $rootScope.isLoading;
-      if (helpCards.cardIsActiveOnThisContainer($scope.server.instance)) {
+
+      // temp fix
+      $scope.data = {};
+
+      loadingPromises.add('editServerModal', fetchStackInfo())
+      .then(function (stackInfo) {
+        $scope.data.stacks = stackInfo;
+      });
+      loadingPromises.add('editServerModal', fetchContexts({ isSource: true }))
+      .then(function (contexts) {
+        $scope.data.sourceContexts = contexts;
+      });
+      loadingPromises.add('editServerModal', parseDockerfileForCardInfoFromInstance($scope.instance))
+      .then(function (data) {
+        Object.keys(data).forEach(function (key) {
+          $scope.instance[key] = data[key];
+        });
+        resetState($scope.instance);
+      });
+
+      if (helpCards.cardIsActiveOnThisContainer($scope.instance)) {
         $scope.helpCards = helpCards;
         $scope.activeCard = helpCards.getActiveCard();
       }
+
       $scope.portTagOptions = {
         breakCodes: [
           13, // return
@@ -57,7 +79,7 @@ function editServerModal(
           maxInputLength: 5,
           onlyDigits: true
         },
-        tags: new JSTagsCollection(($scope.server.ports || '').split(' '))
+        tags: new JSTagsCollection(($scope.instance.ports || '').split(' '))
       };
 
       $scope.triggerEditRepo = function (repo) {
@@ -236,28 +258,27 @@ function editServerModal(
       };
 
       // For the build and server logs
-      $scope.instance = $scope.server.instance;
-      $scope.build = $scope.server.build;
+      $scope.build = $scope.instance.build;
 
-      function resetState(server) {
+      function resetState(instance) {
 
         loadingPromises.clear('editServerModal');
         loading.reset('editServerModal');
         loading('editServerModal', true);
         $scope.state = {
-          advanced: server.advanced || false,
-          startCommand: server.startCommand,
-          commands: server.commands,
-          selectedStack: server.selectedStack,
+          advanced: keypather.get(instance, 'contextVersion.attrs.advanced') || false,
+          startCommand: instance.startCommand,
+          commands: instance.commands,
+          selectedStack: instance.selectedStack,
           opts: {
-            env: keypather.get(server, 'opts.env')
+            env: keypather.get(instance, 'opts.env')
           },
           containerFiles: [],
-          repo: server.repo,
-          server: server
+          repo: keypather.get(instance, 'contextVersion.getMainAppCodeVersion().githubRepo'),
+          instance: instance
         };
 
-        watchOncePromise($scope, 'server.containerFiles', true)
+        watchOncePromise($scope, 'instance.containerFiles', true)
           .then(function (containerFiles) {
             $scope.state.containerFiles = containerFiles.map(function (model) {
               var cloned = model.clone();
@@ -266,12 +287,12 @@ function editServerModal(
               }
               return cloned;
             });
-            $scope.data.mainRepo = $scope.server.containerFiles.find(hasKeypaths({
+            $scope.data.mainRepo = $scope.instance.containerFiles.find(hasKeypaths({
               type: 'Main Repository'
             }));
           });
 
-        return loadingPromises.add('editServerModal', promisify(server.contextVersion, 'deepCopy')())
+        return loadingPromises.add('editServerModal', promisify(instance.contextVersion, 'deepCopy')())
           .then(function (contextVersion) {
             $scope.state.contextVersion = contextVersion;
             return promisify(contextVersion, 'fetch')();
@@ -300,8 +321,6 @@ function editServerModal(
           });
       }
 
-      resetState($scope.server);
-
       $scope.changeTab = function (tabname) {
         if ($scope.editServerForm.$invalid ||
             (!$scope.state.advanced && $filter('selectedStackInvalid')($scope.state.selectedStack))) {
@@ -327,7 +346,7 @@ function editServerModal(
 
       $scope.cancel = function () {
         helpCards.setActiveCard(null);
-        $scope.defaultActions.cancel();
+        $scope.modalActions.cancel();
       };
 
       $scope.getUpdatePromise = function () {
@@ -362,7 +381,7 @@ function editServerModal(
           })
           .then(function () {
             helpCards.refreshActiveCard();
-            $scope.defaultActions.close();
+            $scope.modalActions.close();
             if (keypather.get($scope.instance, 'container.running()')) {
               return promisify($scope.instance, 'redeploy')();
             }
@@ -442,7 +461,7 @@ function editServerModal(
             })
             .catch(function (err) {
               errs.handler(err);
-              $scope.state.advanced = $scope.server.advanced;
+              $scope.state.advanced = keypather.get($scope.instance, 'contextVersion.attrs.advanced');
             });
         }
       });

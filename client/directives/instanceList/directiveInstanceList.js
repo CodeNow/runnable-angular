@@ -9,8 +9,6 @@ function instanceList(
   $rootScope,
   $timeout,
   createServerObjectFromInstance,
-  fetchStackInfo,
-  fetchContexts,
   parseDockerfileForCardInfoFromInstance,
   errs,
   watchOncePromise,
@@ -33,42 +31,6 @@ function instanceList(
             ele.find('ul').scrollToElement(instanceLink, 33*3, 200);
           });
         }
-      });
-
-      $scope.$watch('data.instancesByPod.models.length', function (n) {
-        if (!n) { return; }
-        // This is so dumb
-        // model === model.server.instance
-        // Needed because the modal code was written late at night on crazy deadline
-        $scope.data.instancesByPod.models.forEach(function (model) {
-          model.server = createServerObjectFromInstance(model);
-          if (keypather.get(model, 'contextVersion.attrs.advanced')) { return; }
-
-          model.server.parsing = true;
-          parseDockerfileForCardInfoFromInstance(model)
-            .then(function (data) {
-              if (!data) { return; }
-              Object.keys(data).forEach(function (key) {
-                model.server[key] = data[key];
-              });
-            })
-            .catch(errs.handler)
-            .finally(function () {
-              model.server.parsing = false;
-            });
-        });
-      });
-
-      $scope.data = {};
-      $scope.actions = {};
-
-      fetchStackInfo()
-      .then(function (stackInfo) {
-        $scope.data.stacks = stackInfo;
-      });
-      fetchContexts({ isSource: true })
-      .then(function (contexts) {
-        $scope.data.sourceContexts = contexts;
       });
     }
   };
