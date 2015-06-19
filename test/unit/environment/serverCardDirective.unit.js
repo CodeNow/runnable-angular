@@ -407,6 +407,9 @@ describe('serverCardDirective'.bold.underline.blue, function () {
           apiMocks.instances.running,
           {noStore: true}
         );
+        instance.contextVersion = {
+          getMainAppCodeVersion: sinon.stub().returns({})
+        };
 
         instance.attrs.env = ['hello=asdfasd', 'aasdasd=asdasd'];
 
