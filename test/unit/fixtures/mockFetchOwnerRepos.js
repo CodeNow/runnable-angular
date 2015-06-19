@@ -1,6 +1,6 @@
 'use strict';
 
-var runnable = new (require('runnable'))(window.host);
+var runnable = window.runnable;
 
 module.exports = function ($q) {
   return function () {

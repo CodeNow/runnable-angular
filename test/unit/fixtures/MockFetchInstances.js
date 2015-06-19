@@ -2,7 +2,7 @@
 
 var instances = require('../apiMocks').instances;
 
-var runnable = new (require('runnable'))(window.host);
+var runnable = window.runnable;
 
 var keypather = require('keypather')();
 

@@ -14,6 +14,18 @@ require('es6-symbol/implement');
 // Must use window here due to Browserify's encapsulation
 window.host = require('../../client/config/json/api.json').host.toLowerCase();
 window.userContentDomain = require('../../client/config/json/api.json').userContentDomain.toLowerCase();
+
+window.testingMode = true;
+
+window.runnable = new (require('runnable'))(window.host, {
+  socket: true,
+  warn: false,
+  requestDefaults: {
+    testing: true
+  },
+  host: '//example.com',
+  userContentDomain: window.userContentDomain
+});
 window.expect = require('chai').expect;
 window.sinon = require('sinon'); // Stuff to create spyable functions
 window.mocks = require('./apiMocks'); // JSON mocks for API responses
@@ -28,9 +40,7 @@ window.fixtures = {
   mockFetchOwnerRepos: require('./fixtures/mockFetchOwnerRepos')
   //mockFetch: require('./fixtures/mockFetch')
 };
-window.runnable = new (require('runnable'))(window.host, {
-  socket: true
-});
+
 window.apiClientMockFactory = require('../unit/apiMocks/apiClientMockFactory');
 window.helpCardsMock = require('../unit/apiMocks/HelpCardServiceMock');
 window.noop = function () {};
@@ -55,8 +65,6 @@ window.helpers = {
     event.initEvent('contextmenu', true, false);
     event.pageY = 10;
     event.pageX = 10;
-    event.currentTarget = 12;
-    event.target = 12;
     if (augmentCb) {
       augmentCb(event);
     }
