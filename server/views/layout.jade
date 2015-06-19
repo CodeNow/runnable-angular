@@ -1,7 +1,7 @@
 doctype html
 html(
   lang = "en"
-  ng-class = "dataApp.state.current.data.bodyClass"
+  ng-class = "{'intercom-messenger-open': $root.featureFlags.intercomShift}"
   ng-controller = "ControllerApp"
 )
   head
