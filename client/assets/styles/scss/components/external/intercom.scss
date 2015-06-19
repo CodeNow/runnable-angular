@@ -12,6 +12,6 @@
 
   .content-wrapper,
   .modal-backdrop {
-    width: calc(100vw - 370px);
+    width: calc(100vw - #{$intercom-width});
   }
 }
