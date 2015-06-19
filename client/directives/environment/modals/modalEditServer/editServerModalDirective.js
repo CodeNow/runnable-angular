@@ -339,9 +339,15 @@ function editServerModal(
           .then(function (promiseArrayLength) {
             // Since the initial deepCopy should be in here, we only care about > 1
             toRebuild = promiseArrayLength > 1 ||
-              ($scope.state.server.startCommand !== $scope.state.startCommand ||
-              $scope.state.server.ports !== $scope.state.ports.join(' ') ||
-              !angular.equals($scope.state.server.selectedStack, $scope.state.selectedStack));
+              (
+                $scope.state.server.startCommand !== $scope.state.startCommand ||
+                (
+                  $scope.state.mainRepoContainerFile &&
+                  $scope.state.mainRepoContainerFile.commands !== $scope.state.commands
+                ) ||
+                $scope.state.server.ports !== $scope.state.ports.join(' ') ||
+                !angular.equals($scope.state.server.selectedStack, $scope.state.selectedStack)
+              );
           })
           .then(watchOncePromise($scope, 'state.contextVersion', true))
           .then(function () {
