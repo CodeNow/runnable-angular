@@ -16,7 +16,13 @@ require('app')
   .factory('integrationsCache', integrationsCache)
   .factory('fetchInstancesByPod', fetchInstancesByPod);
 
-function fetchUser(keypather, user, $q, $state, promisify) {
+function fetchUser(
+  keypather,
+  user,
+  $q,
+  $window,
+  promisify
+) {
   var fetchedUser = null;
   var socket = null;
   // For consistency with other promise fetchers
@@ -31,9 +37,8 @@ function fetchUser(keypather, user, $q, $state, promisify) {
       })
       .catch(function (err) {
         // Catch an unauth'd request and send 'em back
-        if (keypather.get(err, 'data.statusCode') === 401 &&
-            !keypather.get($state, 'current.data.anon')) {
-          $state.go('home');
+        if (keypather.get(err, 'data.statusCode') === 401) {
+          $window.location = '/';
         }
         // Allow other .catch blocks to grab it
         return $q.reject(err);
