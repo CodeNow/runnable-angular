@@ -26,12 +26,16 @@
     }
   }
 
+  .logo-anchor {
+    padding-right: 45px;
+  }
+
   // vertically center
   .btn {
     border: 0;
     color: $white;
     line-height: 36px;
-    margin: 6px;
+    margin: 6px 3px;
 
     @include media(sm) {
       font-size: 14px;

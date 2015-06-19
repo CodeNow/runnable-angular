@@ -129,16 +129,15 @@ html.home(
               width = "240"
             )
             sup.sup &lt;beta&gt;
-          if hasPassword
-            a.btn.btn-sm.purple.float-right(
-              ng-href = "{{loginUrl}}"
-            ) Sign In
-          else
+
             a.btn.btn-sm.purple.float-right(
               href = "mailto:info@runnable.com?subject=Please send me an invite for the beta"
             ) Request Invite
 
           .float-right.clearfix
+            a.btn.btn-sm.float-right(
+              ng-href = "{{loginUrl}}"
+            ) Sign In
             a.btn.btn-sm.float-right(
               href = "mailto:info@runnable.com"
             ) Email Us
@@ -148,7 +147,7 @@ html.home(
             ) Support
       section.home-hero
         h1.h1 Runnable lets you create Sandboxes (collections of one or more servers) to run the code in your GitHub repositories, on&#8209;demand.
-        p.p We integrate with the tools you're already using, like GitHub and Slack, to automatically deploy commits and launch containers in your Sandbox when you create branches and notify you when they are updated via Slack. It's easy to share Sandboxes in a team as you develop and test your application—and you can continue to use your existing tools and processes for deployment without having to change the way you work.
+        p.p We integrate with the tools you’re already using, like GitHub and Slack, to automatically deploy commits and launch containers in your Sandbox when you create branches and notify you when they are updated via Slack. It’s easy to share Sandboxes in a team as you develop and test your application—and you can continue to use your existing tools and processes for deployment without having to change the way you work.
         .embed-wrapper
           .embed.embed-placeholder(
             ng-click = "data.embedActive = true"
@@ -184,7 +183,7 @@ html.home(
               width = "1280"
             )
 
-        small.small Check out our demo video, and if you'd
+        small.small Check out our demo video, and if you’d
           br
           | like an invite, #{''}
           a.link(
