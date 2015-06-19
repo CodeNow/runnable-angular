@@ -45,8 +45,10 @@ var locals = {
   apiHost: require('../client/config/json/api.json').host
 };
 
-var compiledHomeWithPassword = jade.compileFile(homePath, { hasPassword: true })(locals);
-var compiledHomeWithoutPassword = jade.compileFile(homePath, { hasPassword: false })(locals);
+locals.hasPassword = true;
+var compiledHomeWithPassword = jade.compileFile(homePath)(locals);
+locals.hasPassword = false;
+var compiledHomeWithoutPassword = jade.compileFile(homePath)(locals);
 
 app.route('/').get(function (req, res, next) {
   if (req.query.password ) {
@@ -58,8 +60,10 @@ app.route('/').get(function (req, res, next) {
 
 
 var layoutPath = path.join(__dirname + '/views/layout.jade');
-var compiledLayoutDebug = jade.compileFile(layoutPath, { debugging: true })(locals);
-var compiledLayout = jade.compileFile(layoutPath, { debugging: false })(locals);
+locals.debugging = true;
+var compiledLayoutDebug = jade.compileFile(layoutPath)(locals);
+locals.debugging = false;
+var compiledLayout = jade.compileFile(layoutPath)(locals);
 
 // load same base view for all valid client-routes
 require('client/config/routes').forEach(function (item, index, arr) {
