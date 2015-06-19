@@ -7,12 +7,7 @@ require('app')
  */
 function instanceList(
   $rootScope,
-  $timeout,
-  createServerObjectFromInstance,
-  parseDockerfileForCardInfoFromInstance,
-  errs,
-  watchOncePromise,
-  keypather
+  $timeout
 ) {
   return {
     restrict: 'A',
