@@ -6,7 +6,7 @@ module.exports = [
     abstract: false,
     url: '^/error/:err',
     templateUrl: '404View',
-    controller: 'errorController'
+    controller: 'ErrorController'
   }, {
     state: 'home',
     abstract: false,

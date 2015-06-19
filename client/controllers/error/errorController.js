@@ -1,13 +1,11 @@
 'use strict';
 
 require('app')
-  .controller('errorController', function errorController(
+  .controller('ErrorController', function ErrorController(
     $location,
     $scope,
     $state
   ) {
-    console.log($state.params);
-    console.log(JSON.stringify([123, 123123, 12334]));
     $scope.err = $state.params.err;
     var locationSearch = $location.search();
     if (locationSearch.containerUrl) {
