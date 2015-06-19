@@ -24,7 +24,9 @@ function getInstanceClasses(
       'buildFailed': 'red',
       'building': 'orange',
       'neverStarted': 'orange',
-      'unknown': 'orange'
+      'unknown': '',
+      'starting': 'orange',
+      'stopping': 'green'
     };
     h[statusMap[status]] = true;
 
