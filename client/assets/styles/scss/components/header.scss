@@ -30,7 +30,7 @@
     padding: 0 27px 0 12px;
     position: relative;
 
-    @include media(sm) {
+    @include media(md) {
       .span {
         display: none;
       }
