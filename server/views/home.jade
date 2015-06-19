@@ -99,7 +99,13 @@ html.home(
           withCredentials: true
         })
           .then(function (user) {
-            $window.location = '/' + user.data.accounts.github.username
+            var org;
+            try {
+              org = user.data.userOptions.uiState.previousLocation.org;
+            } catch (e) {
+              org = user.data.accounts.github.username;
+            }
+            $window.location = '/' + org;
           });
       });
 
