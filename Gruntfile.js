@@ -60,7 +60,8 @@ module.exports = function(grunt) {
           browsers: ['last 2 versions']
         },
         files: {
-          'client/build/css/index.css' : 'client/build/css/index.css'
+          'client/build/css/index.css' : 'client/build/css/index.css',
+          'client/build/css/home.css' : 'client/build/css/home.css'
         }
       }
     },
@@ -158,14 +159,14 @@ module.exports = function(grunt) {
         dest: 'client/build/images/',
         flatten: false,
         filter: 'isFile'
-      },
-      fonts: {
-        expand: true,
-        cwd: 'client/assets/fonts/',
-        src: '**',
-        dest: 'client/build/fonts/',
-        flatten: false,
-        filter: 'isFile'
+      // },
+      // fonts: {
+      //   expand: true,
+      //   cwd: 'client/assets/fonts/',
+      //   src: '**',
+      //   dest: 'client/build/fonts/',
+      //   flatten: false,
+      //   filter: 'isFile'
       }
     },
     watch: {
