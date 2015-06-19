@@ -61,6 +61,8 @@ app.route('/error/:page').get(function (req, res, next) {
   if (req.params.page) {
     var options = {};
     [
+      'status',
+      'branchName',
       'redirectUrl',
       'containerUrl',
       'ownerName',
@@ -68,12 +70,11 @@ app.route('/error/:page').get(function (req, res, next) {
       'ports'
     ].forEach(function (option) {
       var value = req.query[option];
-      if (value && value.indexOf('[') > -1) {
+      if (value && value.indexOf('[') === 0) {
         value = JSON.parse(value);
       }
       options[option] = value;
     });
-    console.log(options.ports);
     res.render('error/pages/' + req.params.page, options);
   } else {
     res.render('error/pages/invalid');
