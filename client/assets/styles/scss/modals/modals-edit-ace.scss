@@ -43,17 +43,26 @@
     }
 
     // toggle
-    .label {
-      color: $purple-lighter;
-      margin-bottom: 6px;
-      padding: 0 12px;
-      white-space: nowrap;
+    // unique darker theme
+    .btn-group {
+      margin: 6px 6px 12px;
     }
 
-    .toggle-wrapper {
-      position: absolute;
-      right: 12px;
-      top: 4px;
+    .btn-xs {
+      background: $purple-dark;
+      border-color: $purple-light;
+      margin: 0;
+      width: 50%;
+
+      &:hover {
+        background: $purple;
+      }
+
+      &:active,
+      &.active {
+        background: $purple-light;
+        color: $white;
+      }
     }
 
     // empty state
