@@ -57,12 +57,8 @@ function dnsManager(
           return $q.all(promiseFetchMasters);
         })
           .then(function (masters) {
-            $scope.directlyRelatedMasterInstances = masters;
-            $scope.masterInstancesWithChildren = $scope.directlyRelatedMasterInstances.filter(function (instance) {
-              return instance.contextVersion.appCodeVersions.models.length > 0;
-            });
-            $scope.masterInstancesWithoutChildren = $scope.directlyRelatedMasterInstances.filter(function (instance) {
-              return false;
+            $scope.directlyRelatedMasterInstances = masters.filter(function (instance) {
+              return instance.contextVersion.getMainAppCodeVersion();
             });
           })
           .catch(errs.handler)

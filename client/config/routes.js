@@ -8,18 +8,6 @@ module.exports = [
     templateUrl: '404View',
     controller: 'ErrorController'
   }, {
-    state: 'home',
-    abstract: false,
-    url: '^/',
-    templateUrl: 'viewHome',
-    controller: 'ControllerHome',
-    data: {
-      bodyClass: {
-        'home': true
-      },
-      anon: true
-    }
-  }, {
     state: 'orgSelect',
     abstract: false,
     url: '^/orgSelect',
