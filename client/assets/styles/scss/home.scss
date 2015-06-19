@@ -16,26 +16,16 @@
 @import "globals/globals";
 
 @import "globals/animations";
-@import "globals/images";
-@import "globals/loader";
 @import "globals/typography";
 
 // components
 @import "components/buttons";
 @import "components/icons";
 @import "components/logo";
-@import "components/spinner";
-
-// external componenets
-@import "components/external/intercom";
 
 // forms
 @import "forms/forms";
-@import "forms/forms-inputs";
 
 // home
 @import "home/home-layout";
 @import "home/home-grid";
-
-// shame
-@import "shame";
