@@ -26,12 +26,16 @@
     }
   }
 
+  .logo-anchor {
+    padding-right: 45px;
+  }
+
   // vertically center
   .btn {
     border: 0;
     color: $white;
     line-height: 36px;
-    margin: 6px;
+    margin: 6px 3px;
 
     @include media(sm) {
       font-size: 14px;
@@ -53,7 +57,7 @@
   padding-top: 120px;
 
   @include media(sm) {
-    padding-top: 90px;
+    padding-top: 60px;
   }
 
   .h1,
@@ -135,46 +139,19 @@
     padding-bottom: 15px;
   }
 
-  // request form
-  .form {
+  // code snipplets bar
+  .link-bar {
     background: $purple-darker;
     bottom: 0;
     box-shadow: 0 2px 3px rgba($black,.1);
+    color: $purple-lighter;
+    display: block;
     flex: 1 1 auto;
+    font-size: 14px;
     margin-top: 45px;
     padding: 15px 0;
+    text-align: center;
     width: 100%;
-
-    .input {
-      flex: 1 1 auto;
-      margin-right: 6px;
-    }
-
-    .btn {
-      display: table;
-      flex: 0 0 auto;
-      margin: 0 auto;
-    }
-
-    .p {
-      font-size: 15px;
-      margin-top: 9px;
-    }
-  }
-
-  .form-container {
-    display: flex;
-    margin: 0 auto;
-    max-width: 450px;
-    padding: 0 15px;
-
-    @include media(xs) {
-      max-width: 360px;
-    }
-
-    @include media(xxs) {
-      max-width: none;
-    }
   }
 
   // modal
@@ -264,6 +241,7 @@
 .embed-video {
   animation: scale-in-modal .2s ease-in forwards;
   height: 100%;
+  position: relative;
   width: 100%;
   z-index: $z-modal;
 
