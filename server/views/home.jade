@@ -130,14 +130,16 @@ html.home(
             )
             sup.sup &lt;beta&gt;
 
-            a.btn.btn-sm.purple.float-right(
-              href = "mailto:info@runnable.com?subject=Please send me an invite for the beta"
-            ) Request Invite
+          if hasPassword
+             a.btn.btn-sm.purple.float-right(
+               ng-href = "{{loginUrl}}"
+             ) Sign In
+          else
+             a.btn.btn-sm.purple.float-right(
+               href = "mailto:info@runnable.com?subject=Please send me an invite for the beta"
+             ) Request Invite
 
           .float-right.clearfix
-            a.btn.btn-sm.float-right(
-              ng-href = "{{loginUrl}}"
-            ) Sign In
             a.btn.btn-sm.float-right(
               href = "mailto:info@runnable.com"
             ) Email Us
