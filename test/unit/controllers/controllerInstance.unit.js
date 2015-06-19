@@ -10,17 +10,13 @@ var $controller,
     $window,
     OpenItems,
     eventTracking,
-    keypather,
-    user;
-var runnable = new (require('runnable'))(window.host);
+    keypather;
+var runnable = window.runnable;
 
-var User = require('runnable/lib/models/user');
 var mockUserFetch = new (require('../fixtures/mockFetch'))();
 var user = require('../apiMocks').user;
 
 describe('controllerInstance'.bold.underline.blue, function () {
-  var ctx = {};
-
   beforeEach(angular.mock.module('app'));
 
   beforeEach(function () {
@@ -143,7 +139,7 @@ describe('controllerInstance'.bold.underline.blue, function () {
 
     $scope.$apply();
 
-    mockUserFetch.triggerPromise(new User(user));
+    mockUserFetch.triggerPromise(user);
     $rootScope.$digest();
 
     // mixpanel tracking user visit to instance page
