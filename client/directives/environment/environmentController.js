@@ -69,6 +69,7 @@ function EnvironmentController(
   };
   $scope.$on('helpCardScroll:enable', function () {
     $window.addEventListener('scroll', scrollHelper);
+    scrollHelper();
   });
   $scope.$on('helpCardScroll:disable', function () {
     $window.removeEventListener('scroll', scrollHelper);

@@ -176,6 +176,12 @@ require('app')
                       })
                       .then(function (foundMatch) {
                         if (!foundMatch) {
+                          var foundInstanceWithMainACV = $scope.data.instances.find(function (instance) {
+                            return instance.contextVersion.getMainAppCodeVersion();
+                          });
+                          if (!foundInstanceWithMainACV) {
+                            return;
+                          }
                           helpCards.triggerCard('missingMapping', {
                             mapping: $scope.server.instance.attrs.name
                           })
