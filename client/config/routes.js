@@ -1,19 +1,7 @@
 'use strict';
 
 module.exports = [
-  {
-    state: 'home',
-    abstract: false,
-    url: '^/',
-    templateUrl: 'viewHome',
-    controller: 'ControllerHome',
-    data: {
-      bodyClass: {
-        'home': true
-      },
-      anon: true
-    }
-  }, {
+   {
     state: 'orgSelect',
     abstract: false,
     url: '^/orgSelect',
@@ -101,12 +89,6 @@ module.exports = [
     url: '^/:userName',
     templateUrl: 'viewInstanceHome',
     controller: 'ControllerInstanceHome'
-  }, {
-    state: 'error',
-    abstract: false,
-    url: '^/error/:err',
-    templateUrl: 'viewError',
-    controller: 'ControllerError'
   }, {
     state: 'instance.instance',
     abstract: false,

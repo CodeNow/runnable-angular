@@ -19,19 +19,19 @@ button.btn.btn-xs.no-touching(
 //- ***********************
 
 button.btn.btn-xs.gray(
-  ng-class = "{active: data.toggleSidebar}"
+  ng-class = "{'active': data.toggleSidebar}"
   ng-click = "data.toggleSidebar = !data.toggleSidebar"
   ng-if = "\
     $root.featureFlags.hostnameTool && \
     !state.showHostName\
   "
-  title = "Toggle hostname sidebar"
+  title = "Toggle list of Non-Elastic Hostnames"
 )
   svg.iconnables.icons-sidebar
     use(
       xlink:href = "#icons-sidebar"
     )
-  | Hostnames
+  | Non-Elastic Hostnames
 
 //- if inserting host names
 .label.label-row.clearfix(

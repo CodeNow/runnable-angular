@@ -118,52 +118,45 @@ require('app')
                               .on('refresh', calculateHelpCards)
                               .on('activate', scrollIntoView);
                           })
-                          .catch(errs.handler);
-                      } else {
-                        helpCards.triggerCard('missingDependency', {
-                          instance: $scope.server.instance,
-                          dependency: dependency
-                        })
-                          .then(function (helpCard) {
-                            if (!helpCard) { return; }
-                            listeners.push({
-                              obj: helpCard,
-                              key: 'refresh',
-                              value: calculateHelpCards
-                            });
-                            helpCard
-                              .on('refresh', calculateHelpCards);
-                          })
-                          .catch(errs.handler);
-                      }
-                    });
-                  };
-                  calculateHelpCards();
-                }).catch(errs.handler);
-              } else {
-                var calculateHelpCards = function () {
-                  var instancePromises = $scope.data.instances
-                    .filter(function (instance) {
-                      return instance !== $scope.server.instance;
-                    })
-                    .map(function (instance) {
-                      if (keypather.get(instance, 'dependencies.models.length')) {
-                        return $q.when(instance.dependencies);
-                      }
-                      return promisify(instance, 'fetchDependencies')();
-                    });
-                  $q.all(instancePromises)
-                    .then(function (dependencyList) {
-                      return dependencyList.find(function (depList) {
-                        return depList.find(function (dep) {
-                          return dep.attrs.name === $scope.server.instance.attrs.name;
-                        });
+                            .then(function (helpCard) {
+                              if (!helpCard) { return; }
+                              listeners.push({
+                                obj: helpCard,
+                                key: 'refresh',
+                                value: calculateHelpCards
+                              });
+                              helpCard
+                                .on('refresh', calculateHelpCards);
+                            }).catch(errs.handler);
+                        }
                       });
-                    })
-                    .then(function (foundMatch) {
-                      if (!foundMatch) {
-                        helpCards.triggerCard('missingMapping', {
-                          mapping: $scope.server.instance.attrs.name
+                    };
+                    calculateHelpCards();
+                  }).catch(errs.handler);
+                } else {
+                  var calculateHelpCards = function () {
+                    var instancePromises = $scope.data.instances
+                      .filter(function (instance) {
+                        return instance !== $scope.server.instance;
+                      })
+                      .map(function (instance) {
+                        if (keypather.get(instance, 'dependencies.models.length')) {
+                          return $q.when(instance.dependencies);
+                        }
+                        return promisify(instance, 'fetchDependencies')();
+                      });
+                    $q.all(instancePromises)
+                      .then(function (dependencyList) {
+                        return dependencyList.find(function (depList) {
+                          return depList.find(function (dep) {
+                            return dep.attrs.name === $scope.server.instance.attrs.name;
+                          });
+                        });
+                      })
+                      .then(function (foundMatch) {
+                        if (!foundMatch) {
+                          helpCards.triggerCard('missingMapping', {
+                            mapping: $scope.server.instance.attrs.name
                         })
                           .then(function (helpCard) {
                             if (!helpCard) { return; }

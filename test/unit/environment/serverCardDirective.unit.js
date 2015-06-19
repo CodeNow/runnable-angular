@@ -294,6 +294,9 @@ describe('serverCardDirective'.bold.underline.blue, function () {
             instances: [
               instance,
               {
+                contextVersion: {
+                  getMainAppCodeVersion: sinon.stub().returns({})
+                },
                 fetchDependencies: sinon.spy(function (cb) {
                   $timeout(cb);
                   return [];
@@ -312,6 +315,7 @@ describe('serverCardDirective'.bold.underline.blue, function () {
           {noStore: true}
         );
         instance.contextVersion = {
+          getMainAppCodeVersion: sinon.stub().returns({}),
           attrs: {
             advanced: false,
             infraCodeVersion: 'asdasd'
@@ -408,6 +412,9 @@ describe('serverCardDirective'.bold.underline.blue, function () {
           apiMocks.instances.running,
           {noStore: true}
         );
+        instance.contextVersion = {
+          getMainAppCodeVersion: sinon.stub().returns({})
+        };
 
         instance.attrs.env = ['hello=asdfasd', 'aasdasd=asdasd'];
 
