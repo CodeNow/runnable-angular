@@ -303,7 +303,6 @@ function editServerModal(
       resetState($scope.server);
 
       $scope.changeTab = function (tabname) {
-        console.log(tabname);
         if (!$scope.state.advanced) {
           if ($filter('selectedStackInvalid')($scope.state.selectedStack)) {
             tabname = 'stack';
@@ -316,8 +315,6 @@ function editServerModal(
             tabname = firstRequiredError.split('.')[0];
           }
         }
-
-        console.log(tabname);
         $scope.selectedTab = tabname;
       };
 
