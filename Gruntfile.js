@@ -12,6 +12,7 @@ module.exports = function(grunt) {
 
   var sassDir   = 'client/assets/styles/scss';
   var sassIndex = path.join(sassDir, 'index.scss');
+  var sassHome = path.join(sassDir, 'home.scss');
   var jshintFiles = [
     'Gruntfile.js',
     'client/**/*.js',
@@ -69,7 +70,8 @@ module.exports = function(grunt) {
           style: 'compressed'
         },
         files: {
-          'client/build/css/index.css': sassIndex
+          'client/build/css/index.css': sassIndex,
+          'client/build/css/home.css': sassHome
         }
       },
       dev: {
@@ -78,7 +80,8 @@ module.exports = function(grunt) {
           style: 'expanded'
         },
         files: {
-          'client/build/css/index.css': sassIndex
+          'client/build/css/index.css': sassIndex,
+          'client/build/css/home.css': sassHome
         }
       }
     },
