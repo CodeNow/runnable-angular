@@ -11,6 +11,7 @@ var https       = require('https');
 var path        = require('path');
 var version     = require('../package').version;
 var jade        = require('jade');
+var assign = require('101/assign');
 
 app.set('port', process.env.PORT || 3000);
 app.set('https_port', process.env.HTTPS_PORT || 443);
@@ -36,7 +37,6 @@ app.use('/build', express.static(path.join(__dirname + '/../client/build')));
 
 var homePath = path.join(__dirname + '/views/home.jade');
 
-
 var locals = {
   version: version,
   env: config.env,
@@ -45,27 +45,26 @@ var locals = {
   apiHost: require('../client/config/json/api.json').host
 };
 
-var compiledHomeWithPassword = jade.compileFile(homePath, { hasPassword: true })(locals);
-var compiledHomeWithoutPassword = jade.compileFile(homePath, { hasPassword: false })(locals);
+var compiledHomeWithPassword = jade.renderFile(homePath, assign({hasPassword: true}, locals));
+var compiledHomeWithoutPassword = jade.renderFile(homePath, assign({hasPassword: false}, locals));
 
 app.route('/').get(function (req, res, next) {
-  if (req.query.password ) {
+  if ( req.query.password !== undefined ) {
     res.send(compiledHomeWithPassword);
   } else {
     res.send(compiledHomeWithoutPassword);
   }
 });
 
-
 var layoutPath = path.join(__dirname + '/views/layout.jade');
-var compiledLayoutDebug = jade.compileFile(layoutPath, { debugging: true })(locals);
-var compiledLayout = jade.compileFile(layoutPath, { debugging: false })(locals);
+var compiledLayoutDebug = jade.renderFile(layoutPath, assign({debugging: true}, locals));
+var compiledLayout = jade.renderFile(layoutPath, assign({debugging: false}, locals));
 
 // load same base view for all valid client-routes
 require('client/config/routes').forEach(function (item, index, arr) {
   if (!item.url) { return; }
   app.route(item.url).get(function (req, res, next) {
-    if (req.query.debug) {
+    if ( req.query.debug !== undefined ) {
       res.send(compiledLayoutDebug);
     } else {
       res.send(compiledLayout);
