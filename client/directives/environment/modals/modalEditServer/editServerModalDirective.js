@@ -303,14 +303,21 @@ function editServerModal(
       resetState($scope.server);
 
       $scope.changeTab = function (tabname) {
-        if (!$scope.state.advanced && $filter('selectedStackInvalid')($scope.state.selectedStack)) {
-          tabname = 'stack';
+        console.log(tabname);
+        if (!$scope.state.advanced) {
+          if ($filter('selectedStackInvalid')($scope.state.selectedStack)) {
+            tabname = 'stack';
+          } else if (!$scope.state.startCommand) {
+            tabname = 'repository';
+          }
         } else if ($scope.editServerForm.$invalid) {
           if (keypather.get($scope, 'editServerForm.$error.required.length')) {
-            var firstRequiredError = $scope.editServerForm.$error.required[0].name;
+            var firstRequiredError = $scope.editServerForm.$error.required[0].$name;
             tabname = firstRequiredError.split('.')[0];
           }
         }
+
+        console.log(tabname);
         $scope.selectedTab = tabname;
       };
 

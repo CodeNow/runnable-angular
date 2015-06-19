@@ -100,7 +100,7 @@ form.modal-dialog.modal-edit(
         .btn-text Dockerfile
 
   section.modal-body(
-    ng-if = "!isLoading.editServerModal && state.contextVersion"
+    ng-if = "!isLoading.editServerModal"
   )
     .modal-form(
       ng-include = "'viewFormBuildfiles'"

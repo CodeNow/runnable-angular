@@ -102,7 +102,8 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
     ctx.template = directiveTemplate.attribute('repository-form', {
       'state': 'state',
       'start-command-can-disable': 'startCommandCanDisable',
-      'loading-promises-target': 'loadingPromisesTarget'
+      'loading-promises-target': 'loadingPromisesTarget',
+      'ng-show': 'true'
     });
     ctx.element = $compile(ctx.template)($scope);
   }
