@@ -29,9 +29,9 @@ function EventTracking (
   configEnvironment
 ) {
   if (configEnvironment === 'production') {
-    INTERCOM_APP_ID = 'wqzm3rju';
+    INTERCOM_APP_ID = 'wqzm3rju'; // production ID
   } else {
-    INTERCOM_APP_ID = 'xs5g95pd';
+    INTERCOM_APP_ID = 'xs5g95pd'; // test ID
   }
   _keypather = keypather;
   _$location = $location;

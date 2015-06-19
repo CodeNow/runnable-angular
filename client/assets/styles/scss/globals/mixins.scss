@@ -20,7 +20,7 @@
   }
 }
 
-// standard mixin + mixin for when intercom is open
+// standard mixin, overriden when intercom is open
 @mixin media($point) {
   @if $point == xxs {
     @media (max-width: $xxs) { @content; }
