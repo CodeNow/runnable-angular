@@ -102,6 +102,10 @@
       }
     }
 
+    &:active .link {
+      color: $purple-lighter;
+    }
+
     + .well {
       margin-top: 6px;
     }

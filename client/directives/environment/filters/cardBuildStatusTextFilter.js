@@ -18,7 +18,7 @@ function cardBuildStatusText(
       building: 'Building',
       neverStarted: 'Building',
       starting: 'Starting',
-      stopping: 'Stopping',
+      stopping: 'Stopping'
     };
 
     if (~['running', 'unknown'].indexOf(status)) {

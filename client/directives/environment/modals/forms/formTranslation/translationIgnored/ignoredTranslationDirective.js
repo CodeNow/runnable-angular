@@ -29,7 +29,6 @@ require('app')
           if (_renderer.lineHeight === 0) {
             _renderer.lineHeight = 19;
           }
-          editor.focus();
         };
         var updateIgnoreRules = function () {
           if ($scope.ignoredFilesList ===
