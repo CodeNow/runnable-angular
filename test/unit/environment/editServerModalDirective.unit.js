@@ -8,12 +8,11 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
   var $elScope;
   var $rootScope;
   var keypather;
-
-  var $httpBackend;
   var $q;
 
   var apiClientMockFactory = require('../../unit/apiMocks/apiClientMockFactory');
   var apiMocks = require('../apiMocks/index');
+  var mockUserFetch = new (require('../fixtures/mockFetch'))();
 
   var MockFetch = require('../fixtures/mockFetch');
   beforeEach(function () {
@@ -25,7 +24,16 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       attrs: angular.copy(apiMocks.user),
       oauthName: function () {
         return 'org1';
-      }
+      },
+      oauthId: function () {
+        return 'org1';
+      },
+      createBuild: sinon.spy(function (opts, cb) {
+        $rootScope.$evalAsync(function () {
+          cb(null, ctx.build);
+        });
+        return ctx.build;
+      })
     };
     ctx.eventTracking = {
       triggeredBuild: sinon.spy()
@@ -46,9 +54,18 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       $provide.value('cardInfoTypes', {});
       $provide.value('eventTracking', ctx.eventTracking);
       $provide.value('configAPIHost', '');
+      $provide.factory('fetchUser', mockUserFetch.autoTrigger(ctx.fakeOrg1));
       $provide.value('uploadFile', sinon.spy());
 
       $provide.factory('serverStatusCardHeaderDirective', function () {
+        return {
+          priority: 100000,
+          terminal: true,
+          link: angular.noop
+        };
+      });
+      // Yah, I'm mocking this out. Too many templates are being loaded
+      $provide.factory('ngIncludeDirective', function () {
         return {
           priority: 100000,
           terminal: true,
@@ -100,6 +117,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       _$rootScope_,
       _keypather_,
       _$httpBackend_,
+      _$templateCache_,
       _$q_
     ) {
       $timeout = _$timeout_;
@@ -108,13 +126,11 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       $scope = $rootScope.$new();
       keypather = _keypather_;
       $q = _$q_;
-      $httpBackend = _$httpBackend_;
     });
     $scope.defaultActions = {
       close: sinon.spy()
     };
     $scope.stateModel = 'hello';
-
 
     keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.fakeOrg1);
     Object.keys(scope).forEach(function (key) {
@@ -144,16 +160,16 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     sinon.stub(ctx.instance, 'update', function (opts, cb) {
       return cb();
     });
+    sinon.stub(ctx.instance, 'getElasticHostname', function () {
+      return '';
+    });
+    sinon.stub(ctx.instance, 'redeploy', function (cb) {
+      return cb();
+    });
     ctx.contextVersion = apiClientMockFactory.contextVersion(
       runnable,
       apiMocks.contextVersions.running
     );
-    sinon.stub(ctx.contextVersion, 'fetch', function (cb) {
-      $rootScope.$evalAsync(function () {
-        cb(null, ctx.contextVersion);
-      });
-      return ctx.contextVersion;
-    });
     ctx.newContextVersion = apiClientMockFactory.contextVersion(
       runnable,
       apiMocks.contextVersions.setup
@@ -167,6 +183,12 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     ctx.dockerfile = {
       attrs: apiMocks.files.dockerfile
     };
+    sinon.stub(ctx.newContextVersion, 'fetch', function (cb) {
+      $rootScope.$evalAsync(function () {
+        cb(null, ctx.newContextVersion);
+      });
+      return ctx.newContextVersion;
+    });
     sinon.stub(ctx.newContextVersion, 'fetchFile', function (opts, cb) {
       $rootScope.$evalAsync(function () {
         cb(null, ctx.dockerfile);
