@@ -1,6 +1,6 @@
 'use strict';
 
-describe.skip('editServerModalDirective'.bold.underline.blue, function () {
+describe('editServerModalDirective'.bold.underline.blue, function () {
   var ctx;
   var $timeout;
   var $scope;
@@ -148,6 +148,12 @@ describe.skip('editServerModalDirective'.bold.underline.blue, function () {
       runnable,
       apiMocks.contextVersions.running
     );
+    sinon.stub(ctx.contextVersion, 'fetch', function (cb) {
+      $rootScope.$evalAsync(function () {
+        cb(null, ctx.contextVersion);
+      });
+      return ctx.contextVersion;
+    });
     ctx.newContextVersion = apiClientMockFactory.contextVersion(
       runnable,
       apiMocks.contextVersions.setup
@@ -259,6 +265,86 @@ describe.skip('editServerModalDirective'.bold.underline.blue, function () {
       sinon.assert.calledWith(ctx.newContextVersion.update, {
         advanced: true
       });
+    });
+  });
+
+  describe('change Tab', function () {
+    beforeEach(function () {
+      setup({
+        currentModel: ctx.server,
+        data: {
+          sourceContexts: {
+            models: []
+          }
+        }
+      });
+    });
+    it('should navigate since everything is ok', function () {
+      $scope.$digest();
+
+      keypather.set($elScope, 'state.advanced', false);
+      keypather.set($elScope, 'state.selectedStack', {
+        selectedVersion: 'adsfasdfsdf'
+      });
+      keypather.set($elScope, 'state.startCommand', 'adsasdasd');
+
+      $elScope.changeTab('files');
+      $scope.$digest();
+
+      expect($elScope.selectedTab).to.equal('files');
+    });
+    it('should navigate to stack since it has errors', function () {
+      $scope.$digest();
+
+      keypather.set($elScope, 'state.advanced', false);
+      keypather.set($elScope, 'state.selectedStack', {});
+      keypather.set($elScope, 'state.startCommand', 'adsasdasd');
+
+      $elScope.changeTab('files');
+      $scope.$digest();
+
+      expect($elScope.selectedTab).to.equal('stack');
+    });
+    it('should navigate to stack since it has errors', function () {
+      $scope.$digest();
+
+      keypather.set($elScope, 'state.advanced', false);
+      keypather.set($elScope, 'state.selectedStack', {});
+      keypather.set($elScope, 'state.startCommand', 'adsasdasd');
+
+      $elScope.changeTab('files');
+      $scope.$digest();
+
+      expect($elScope.selectedTab).to.equal('stack');
+    });
+    it('should navigate to repositories since it has errors', function () {
+      $scope.$digest();
+
+      keypather.set($elScope, 'state.advanced', false);
+      keypather.set($elScope, 'state.selectedStack', {
+        selectedVersion: 'adsfasdfsdf'
+      });
+      keypather.set($elScope, 'state.startCommand', null);
+
+      $elScope.changeTab('files');
+      $scope.$digest();
+
+      expect($elScope.selectedTab).to.equal('repository');
+    });
+
+    it('should navigate fine with advanced mode', function () {
+      $scope.$digest();
+
+      keypather.set($elScope, 'state.advanced', true);
+      // Digest here since the state.advanced change will trigger a change
+      $scope.$digest();
+      keypather.set($elScope, 'state.selectedStack', {});
+      keypather.set($elScope, 'state.startCommand', null);
+
+      $elScope.changeTab('files');
+      $scope.$digest();
+
+      expect($elScope.selectedTab).to.equal('files');
     });
   });
 });

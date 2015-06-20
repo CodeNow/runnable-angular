@@ -303,9 +303,17 @@ function editServerModal(
       resetState($scope.server);
 
       $scope.changeTab = function (tabname) {
-        if ($scope.editServerForm.$invalid ||
-            (!$scope.state.advanced && $filter('selectedStackInvalid')($scope.state.selectedStack))) {
-          return;
+        if (!$scope.state.advanced) {
+          if ($filter('selectedStackInvalid')($scope.state.selectedStack)) {
+            tabname = 'stack';
+          } else if (!$scope.state.startCommand) {
+            tabname = 'repository';
+          }
+        } else if ($scope.editServerForm.$invalid) {
+          if (keypather.get($scope, 'editServerForm.$error.required.length')) {
+            var firstRequiredError = $scope.editServerForm.$error.required[0].$name;
+            tabname = firstRequiredError.split('.')[0];
+          }
         }
         $scope.selectedTab = tabname;
       };
@@ -459,6 +467,18 @@ function editServerModal(
         return !$scope.state.dockerfile.validation.criticals.find(hasKeypaths({
           message: 'Missing or misplaced FROM'
         }));
+      };
+
+      $scope.isStackInfoEmpty = function (selectedStack) {
+        if (!selectedStack || !selectedStack.selectedVersion) {
+          return true;
+        }
+        if (selectedStack.dependencies) {
+          var depsEmpty = !selectedStack.dependencies.find(function (dep) {
+            return !$scope.isStackInfoEmpty(dep);
+          });
+          return !!depsEmpty;
+        }
       };
     }
   };
