@@ -131,13 +131,26 @@
   }
 
   &.btn-icon-sm {
+    line-height: 36px;
     min-width: 36px;
     width: auto;
   }
 
   &.btn-icon-xs {
+    line-height: 24px;
     min-width: 24px;
     width: auto;
+  }
+
+  &.btn-icon-xxs {
+    height: 18px;
+    line-height: 18px;
+    width: 18px;
+  }
+
+  .iconnables {
+    height: 100%;
+    width: 100%;
   }
 }
 

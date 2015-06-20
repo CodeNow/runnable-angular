@@ -27,7 +27,7 @@
     validation = "validation.env"
   )
 
-  .sidebar(
+  .sidebar.ace-sidebar(
     ng-class = "{in: data.toggleSidebar}"
     ng-include = "'viewFormEnvironmentVariablesSidebar'"
     ng-if = "$root.featureFlags.hostnameTool"
