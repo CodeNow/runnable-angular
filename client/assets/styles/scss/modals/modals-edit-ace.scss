@@ -45,6 +45,7 @@
     // toggle
     // unique darker theme
     .btn-group {
+      flex: 0 0 auto;
       margin: 6px 6px 12px;
     }
 
@@ -81,6 +82,7 @@
     border: 1px solid $purple-light;
     color: #7d6692; // to match line numbers in ace
     cursor: pointer;
+    flex: 0 0 auto;
     font-size: 11px;
     line-height: 1.2;
     padding: 6px;

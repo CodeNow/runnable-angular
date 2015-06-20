@@ -1,39 +1,66 @@
+.btn-group(
+  ng-init = "data.viewIgnored = true"
+)
+  .btn.btn-xs.purple(
+    ng-class = "{active: !data.viewIgnored}"
+    ng-click = "data.viewIgnored = false"
+  ) Hostnames
+  .btn.btn-xs.purple(
+    ng-class = "{active: data.viewIgnored}"
+    ng-click = "data.viewIgnored = true"
+  ) Ignored
+
 //- empty state
-//- p.p.small.empty Add hostnames to your environment variables file to see them here
-
-//- .small.label Show Ignored Hostnames
-  label.toggle-wrapper.float-right
-    input.toggle-input(
-      type = "checkbox"
-    )
-    .toggle-group.toggle-xs
-
-.btn-group
-  .btn.btn-xs.purple.active Hostnames
-  .btn.btn-xs.purple Ignored
+p.p.small.empty(
+  ng-if = "data.viewIgnored"
+) You haven't ignored any hostnames…yet.
+//- p.p.small.empty Add hostnames to your environment variables file to see them here.
 
 //- clicks on .well takes user to line number
 .well.small(
+  ng-if = "!data.viewIgnored"
   title = "Jump to url.thug.life’"
 ) Line 1
   a.link.float-right Jump
   .small.monospace.text-overflow api-staging-CodeNow.runnableapp.com
 .well.small(
+  ng-if = "!data.viewIgnored"
   title = "Jump to url.thug.life’"
 ) Line 2
   a.link.float-right Jump
   .small.monospace.text-overflow api-staging-CodeNow.runnableapp.com
 .well.small(
+  ng-if = "!data.viewIgnored"
   title = "Jump to url.thug.life’"
 ) Line 200
   a.link.float-right Jump
   .small.monospace.text-overflow api-staging-CodeNow.runnableapp.com
 .well.small(
+  ng-if = "!data.viewIgnored"
   title = "Jump to url.thug.life’"
 ) Line 200
   a.link.float-right Jump
   .small.monospace.text-overflow api-staging-CodeNow.runnableapp.com
 .well.small(
+  ng-if = "!data.viewIgnored"
+  title = "Jump to url.thug.life’"
+) Line 200
+  a.link.float-right Jump
+  .small.monospace.text-overflow api-staging-CodeNow.runnableapp.com
+.well.small(
+  ng-if = "!data.viewIgnored"
+  title = "Jump to url.thug.life’"
+) Line 200
+  a.link.float-right Jump
+  .small.monospace.text-overflow api-staging-CodeNow.runnableapp.com
+.well.small(
+  ng-if = "!data.viewIgnored"
+  title = "Jump to url.thug.life’"
+) Line 200
+  a.link.float-right Jump
+  .small.monospace.text-overflow api-staging-CodeNow.runnableapp.com
+.well.small(
+  ng-if = "!data.viewIgnored"
   title = "Jump to url.thug.life’"
 ) Line 200
   a.link.float-right Jump
