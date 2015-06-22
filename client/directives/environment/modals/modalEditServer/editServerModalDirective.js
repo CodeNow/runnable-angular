@@ -43,6 +43,9 @@ function editServerModal(
     link: function ($scope, elem, attrs) {
       $scope.isLoading = $rootScope.isLoading;
 
+      loading.reset('editServerModal');
+      loading('editServerModal', true);
+
       // temp fix
       $scope.data = {};
 
