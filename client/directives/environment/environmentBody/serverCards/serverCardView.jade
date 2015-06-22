@@ -88,7 +88,7 @@ ul.card-body.load(
       )
     h3.h3.text-overflow Environment Variables
     small.small.text-overflow {{ server.opts.env.length ? server.opts.env.length + ' variable' : '—' }}{{server.opts.env.length > 1 ? 's' : ''}}
-    button.btn.btn-xxs(
+    button.btn.btn-xxs.btn-badge(
       ng-if = "$root.featureFlags.hostnameNotifications"
       title = "999 new non-elastic hostnames"
     ) 999
