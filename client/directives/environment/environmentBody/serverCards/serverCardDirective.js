@@ -109,6 +109,9 @@ require('app')
                           });
 
                           if (!matchedDependency) {
+                            if (instance.attrs.owner.username !== $state.params.userName) {
+                              return;
+                            }
                             helpCards.triggerCard('missingAssociation', {
                               instance: $scope.server.instance,
                               association: matchedInstance.attrs.name
@@ -133,6 +136,9 @@ require('app')
 
                           }
                         } else {
+                          if (instance.attrs.owner.username !== $state.params.userName) {
+                            return;
+                          }
                           helpCards.triggerCard('missingDependency', {
                             instance: $scope.server.instance,
                             dependency: dependency
@@ -176,6 +182,16 @@ require('app')
                       })
                       .then(function (foundMatch) {
                         if (!foundMatch) {
+                          var foundInstanceWithMainACV = $scope.data.instances.find(function (instance) {
+                            return instance.contextVersion.getMainAppCodeVersion();
+                          });
+                          if (!foundInstanceWithMainACV) {
+                            return;
+                          }
+
+                          if (instance.attrs.owner.username !== $state.params.userName) {
+                            return;
+                          }
                           helpCards.triggerCard('missingMapping', {
                             mapping: $scope.server.instance.attrs.name
                           })

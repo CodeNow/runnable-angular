@@ -12,19 +12,24 @@ function cardBuildStatusTitle(
   return function (instance) {
     var status = keypather.get(instance, 'status()');
     var statusMap = {
-      'stopped': 'Stopped',
-      'crashed': 'Crashed',
-      'running': 'Running for',
-      'buildFailed': 'Failed',
-      'building': 'Building for',
-      'neverStarted': 'Building for',
-      'unknown': 'unknown'
+      stopped: 'Stopped',
+      starting: 'Starting',
+      stopping: 'Stopping',
+      crashed: 'Crashed',
+      running: 'Running for',
+      buildFailed: 'Failed',
+      building: 'Building for',
+      neverStarted: 'Building for',
+      unknown: 'unknown'
     };
 
     var time = 0;
     var noAgo = false;
 
     switch (status) {
+      case 'starting':
+      case 'stopping':
+        return statusMap[status];
       case 'stopped':
       case 'crashed':
         time = keypather.get(instance, 'containers.models[0].attrs.inspect.State.FinishedAt');

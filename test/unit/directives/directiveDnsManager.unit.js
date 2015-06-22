@@ -44,6 +44,7 @@ describe('directiveDnsManager'.bold.underline.blue, function() {
         noStore: true
       });
 
+      instance.contextVersion.getMainAppCodeVersion = sinon.stub().returns({});
 
       childInstances.models[0].attrs.contextVersion = {
         context: instance.attrs.contextVersion.context

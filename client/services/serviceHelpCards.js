@@ -206,11 +206,13 @@ function helpCardsFactory(
     },
     clearAllCards: function () {
       this.cards.triggered = [];
+      currentCardHash = {};
       activeCard = null;
     },
     hideActiveCard: function () {
       if (this.getActiveCard()) {
         var helpCard = this.getActiveCard();
+        currentCardHash[helpCard.hash] = null;
         this.setActiveCard(null);
         var index = this.cards.triggered.indexOf(helpCard);
         this.cards.triggered.splice(index, 1);
@@ -276,7 +278,7 @@ function helpCardsFactory(
         var helpCard = new HelpCard(cardConfig);
 
         if (!currentCardHash[helpCard.hash] && ignoredHelpCards.indexOf(helpCard.hash) === -1) {
-          self.cards.triggered.push(helpCard);
+          self.cards.triggered.unshift(helpCard);
           currentCardHash[helpCard.hash] = helpCard;
           helpCard.on('remove', function () {
             if (self.getActiveCard() === helpCard) {
@@ -285,6 +287,7 @@ function helpCardsFactory(
             helpCard.removed = true;
             var index = self.cards.triggered.indexOf(helpCard);
             self.cards.triggered.splice(index, 1);
+            currentCardHash[helpCard.hash] = null;
           });
           helpCard.on('refresh', function () {
             if (!helpCard.removed) {

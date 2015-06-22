@@ -1,28 +1,23 @@
 //- state buttons
 button.btn.gray(
   ng-click = "actions.stopInstance()"
-  ng-if = "!modifyingInstance && instance.build.attrs.completed && instance.containers.models[0].running()"
+  ng-if = "!isChanging() && instance.build.attrs.completed && instance.containers.models[0].running()"
 ) Stop Container
 
 button.btn.gray(
   ng-click = "actions.startInstance()"
-  ng-if = "!modifyingInstance && instance.build.attrs.completed && !instance.containers.models[0].running()"
-  ng-disabled = "modifyingInstance"
+  ng-if = "!isChanging() && instance.build.attrs.completed && !instance.containers.models[0].running()"
+  ng-disabled = "isChanging()"
 ) Start Container
 
 button.btn.gray.btn-spinner.in(
   disabled
-  ng-if = "modifyingInstance"
+  ng-if = "isChanging()"
 )
   .spinner-wrapper.spinner-sm.spinner-gray.in(
     ng-include = "'spinner'"
   )
-  span.btn-text(
-    ng-if = "starting"
-  ) Starting Container
-  span.btn-text(
-    ng-if = "!starting"
-  ) Stopping Container
+  span.btn-text {{changingText()}}
 
 //- ***********************
 //- deprecated button, remove with $root.featureFlags.saveToolbar
