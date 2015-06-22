@@ -59,9 +59,7 @@ function envVars(
         }
         // Save them to the state model
         if (newEnv !== oldEnv) {
-          keypather.set($scope, 'stateModel.env', newEnv.split('\n').filter(function (v) {
-            return v.length;
-          }));
+          keypather.set($scope, 'stateModel.env', newEnv.split('\n').filter(Boolean));
         }
       }
 

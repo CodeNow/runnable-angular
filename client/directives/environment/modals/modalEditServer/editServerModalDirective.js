@@ -63,6 +63,20 @@ function editServerModal(
           $scope.instance[key] = data[key];
         });
         resetState($scope.instance);
+        $scope.portTagOptions = {
+          breakCodes: [
+            13, // return
+            32, // space
+            44, // comma (opera)
+            188 // comma (mozilla)
+          ],
+          texts: {
+            'inputPlaceHolder': 'Add ports here',
+            maxInputLength: 5,
+            onlyDigits: true
+          },
+          tags: new JSTagsCollection(($scope.instance.ports || '').split(' '))
+        };
       });
 
       if (helpCards.cardIsActiveOnThisContainer($scope.instance)) {
@@ -70,20 +84,6 @@ function editServerModal(
         $scope.activeCard = helpCards.getActiveCard();
       }
 
-      $scope.portTagOptions = {
-        breakCodes: [
-          13, // return
-          32, // space
-          44, // comma (opera)
-          188 // comma (mozilla)
-        ],
-        texts: {
-          'inputPlaceHolder': 'Add ports here',
-          maxInputLength: 5,
-          onlyDigits: true
-        },
-        tags: new JSTagsCollection(($scope.instance.ports || '').split(' '))
-      };
 
       $scope.triggerEditRepo = function (repo) {
         if (repo.type === 'Main Repository') { return; }
@@ -244,9 +244,8 @@ function editServerModal(
       };
 
       $scope.$watch('state.opts.env.join()', function (n) {
-        if (n) {
-          $scope.linkedEnvResults = findLinkedServerVariables($scope.state.opts.env);
-        }
+        if (!n) { return; }
+        $scope.linkedEnvResults = findLinkedServerVariables($scope.state.opts.env);
       });
 
       $scope.openItems = new OpenItems();
@@ -274,7 +273,7 @@ function editServerModal(
           commands: instance.commands,
           selectedStack: instance.selectedStack,
           opts: {
-            env: keypather.get(instance, 'opts.env') || []
+            env: keypather.get(instance, 'attrs.env') || []
           },
           containerFiles: [],
           repo: keypather.get(instance, 'contextVersion.getMainAppCodeVersion().githubRepo'),
