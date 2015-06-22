@@ -567,11 +567,6 @@ describe('serverCardDirective'.bold.underline.blue, function () {
           association: 'Mongo',
           instance: instance
         });
-
-        sinon.assert.calledWith(ctx.helpCards.triggerCard, 'missingDependency', {
-          dependency: 'mysql',
-          instance: instance
-        });
       });
     });
   });
