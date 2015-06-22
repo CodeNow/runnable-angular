@@ -346,6 +346,7 @@ function editServerModal(
         return loadingPromises.finished('editServerModal')
           .then(function (promiseArrayLength) {
             // Since the initial deepCopy should be in here, we only care about > 1
+            console.log('dsfgdsfg', promiseArrayLength);
             toRebuild = promiseArrayLength > 1 ||
               (!$scope.state.advanced &&
                 ($scope.state.server.startCommand !== $scope.state.startCommand ||
@@ -377,7 +378,9 @@ function editServerModal(
           .then(function () {
             helpCards.refreshActiveCard();
             $scope.defaultActions.close();
-            return promisify($scope.instance, 'redeploy')();
+            if (!toRebuild) {
+              return promisify($scope.instance, 'redeploy')();
+            }
           })
           .then(function () {
             $rootScope.$broadcast('alert', {

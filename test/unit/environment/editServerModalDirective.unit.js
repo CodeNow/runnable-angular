@@ -1,6 +1,6 @@
 'use strict';
 
-describe('editServerModalDirective'.bold.underline.blue, function () {
+describe.only('editServerModalDirective'.bold.underline.blue, function () {
   var ctx;
   var $timeout;
   var $scope;
@@ -77,18 +77,19 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         };
       });
 
+      ctx.loadingPromiseFinishedValue = 0;
 
       $provide.factory('fetchDockerfileFromSource', ctx.fetchDockerfileFromSourceMock.fetch());
       $provide.factory('populateDockerfile', ctx.populateDockerfile.fetch());
       $provide.factory('loadingPromises', function ($q) {
         ctx.loadingPromiseMock = {
-          finishedValue: 0,
           add: sinon.spy(function (namespace, promise) {
             return promise;
           }),
           clear: sinon.spy(),
           finished: sinon.spy(function () {
-            return $q.when(ctx.loadingPromiseMock.finishedValue);
+            console.log(ctx.loadingPromiseMock.finishedValue);
+            return $q.when(ctx.loadingPromiseFinishedValue);
           })
         };
         return ctx.loadingPromiseMock;
@@ -268,6 +269,38 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
 
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.calledOnce(ctx.instance.redeploy);
+      });
+
+      it('should build when promises have been made', function () {
+        var alertSpy = sinon.spy();
+        var closePopoverSpy = sinon.spy();
+        $rootScope.$on('close-popovers', closePopoverSpy);
+        $rootScope.$on('alert', function (event, opts) {
+          expect(opts).to.be.deep.equal({
+            type: 'success',
+            text: 'Container updated successfully.'
+          });
+        });
+        ctx.loadingPromiseFinishedValue = 2;
+
+        $elScope.state.opts.env = ['asdasd', 'sadfsdfasdfasdf'];
+        $elScope.getUpdatePromise();
+        $scope.$digest();
+        sinon.assert.called(closePopoverSpy);
+        sinon.assert.called(ctx.loadingPromiseMock.finished);
+        expect($elScope.building).to.be.true;
+        expect($elScope.state.ports).to.be.ok;
+        $scope.$digest();
+        sinon.assert.calledOnce(ctx.build.build);
+        $scope.$digest();
+        expect($elScope.state.opts.build).to.be.ok;
+        $scope.$digest();
+        sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
+        $scope.$digest();
+        sinon.assert.calledOnce($scope.defaultActions.close);
+
+        sinon.assert.calledOnce(ctx.instance.update);
+        sinon.assert.notCalled(ctx.instance.redeploy);
       });
     });
     describe('advanced mode', function () {
