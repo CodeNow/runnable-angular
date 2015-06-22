@@ -274,7 +274,7 @@ function editServerModal(
           commands: instance.commands,
           selectedStack: instance.selectedStack,
           opts: {
-            env: keypather.get(instance, 'opts.env')
+            env: keypather.get(instance, 'opts.env') || []
           },
           containerFiles: [],
           repo: keypather.get(instance, 'contextVersion.getMainAppCodeVersion().githubRepo'),
@@ -370,16 +370,16 @@ function editServerModal(
             // Since the initial deepCopy should be in here, we only care about > 1
             toRebuild = promiseArrayLength > 1 ||
               (!$scope.state.advanced &&
-                ($scope.state.server.startCommand !== $scope.state.startCommand ||
+                ($scope.state.instance.startCommand !== $scope.state.startCommand ||
                 ($scope.state.mainRepoContainerFile &&
                     $scope.state.mainRepoContainerFile.commands !== $scope.state.commands) ||
-                ($scope.state.server.ports &&
-                    $scope.state.server.ports !== $scope.state.ports.join(' ')) ||
-                !angular.equals($scope.state.server.selectedStack, $scope.state.selectedStack)
+                ($scope.state.ports &&
+                    $scope.state.ports !== $scope.state.ports.join(' ')) ||
+                !angular.equals($scope.state.instance.selectedStack, $scope.state.selectedStack)
                 )
               );
+            return watchOncePromise($scope, 'state.contextVersion', true);
           })
-          .then(watchOncePromise($scope, 'state.contextVersion', true))
           .then(function () {
             var state = $scope.state;
             if (!state.advanced && toRebuild) {
