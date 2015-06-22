@@ -27,10 +27,15 @@ button.btn.btn-xs.gray(
   "
   title = "Toggle list of Non-Elastic Hostnames"
 )
-  svg.iconnables.icons-sidebar
-    use(
-      xlink:href = "#icons-sidebar"
-    )
+  //- show button if notifications
+  .btn.btn-xxs.btn-badge(
+    title = "999 new non-elastic hostnames"
+  ) 999
+  //- show icon if no notifications
+  //- svg.iconnables.icons-sidebar
+  //-   use(
+  //-     xlink:href = "#icons-sidebar"
+  //-   )
   | Non-Elastic Hostnames
 
 //- if inserting host names
