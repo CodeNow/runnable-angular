@@ -8,10 +8,9 @@
 var util = require('./helpers/util');
 
 var users = require('./helpers/users');
-var SetupPage = require('./pages/SetupPage');
-var InstancePage = require('./pages/InstancePage');
-var GettingStarted = require('./modals/GettingStarted');
-var sidebar = require('./helpers/sidebar');
+var NewContainer = require('./popovers/NewContainer');
+var RepoSelect = require('./modals/RepoSelect');
+var VerifyServerSelection = require('./modals/VerifyServerSelection');
 
 var instances = [{
   name: 'RailsProject',
@@ -27,42 +26,20 @@ var instances = [{
 
 describe('project creation workflow', users.doMultipleUsers(function (username) {
   instances.forEach(function (instanceData) {
-    it('runs through the GS modal', function () {
-      // Getting started modal should be open by default
-      var gettingStarted = new GettingStarted();
-
-      gettingStarted.modalElem.get().isPresent().then(function (gsShowing) {
-        if (!gsShowing) {
-          sidebar.newButton().click();
-        }
-      });
-
-      gettingStarted.filter(instanceData.filter);
-
-      gettingStarted.selectRepo(0);
-
-      gettingStarted.clickButton('Next Step');
-
-      gettingStarted.clickButton('Build Server');
-
-      util.waitForUrl(new RegExp(instanceData.name));
+    beforeEach(function () {
+      return util.waitForUrl(new RegExp(username+'/configure'));
     });
+    it('should create new container', function () {
+      var newContainer = new NewContainer();
+      var repoSelect = new RepoSelect();
+      var verifyServerSelection = new VerifyServerSelection();
+      newContainer.selectRepository();
 
-    it('loads a building instance', function () {
-      var instance = new InstancePage(instanceData.name);
+      repoSelect.selectRepo('web');
 
-      instance.get();
 
-      util.waitForUrl(InstancePage.urlRegex());
+      verifyServerSelection.selectSuggestedStackType();
 
-      // Removing until backend fixes key issue
-      browser.wait(function () {
-        return util.hasClass(instance.statusIcon, 'running');
-      });
-
-      instance.activePanel.setActiveTab('Server Logs');
-
-      expect(instance.activePanel.getContents()).toMatch(instanceData.startCommand);
     });
   });
 }, true));

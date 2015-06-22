@@ -5,6 +5,46 @@ var AccountsSelect = require('../popovers/AccountsSelect');
 module.exports = {
   userList: [browser.params.user, browser.params.org],
   changeUser: function (username, manuallySwitch) {
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
+    console.log('Switching user to', username, manuallySwitch);
     util.setCurrentUser(username);
     if (manuallySwitch) {
       return browser.get('/' + username);
