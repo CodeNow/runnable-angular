@@ -92,7 +92,7 @@
       border-color: $purple-lighter;
 
       // show hide button
-      .btn-xxs {
+      .btn-ignore {
         display: block;
       }
     }
@@ -115,7 +115,6 @@
       bottom: 6px;
       box-shadow: -3px 0 6px $purple-darker;
       color: $purple-lighter;
-      display: none;
       font-size: 11px;
       height: 15px;
       line-height: 13px;
@@ -132,6 +131,11 @@
         border-color: $purple-light;
         color: $purple-lightest;
       }
+
+    }
+
+    .btn-ignore {
+      display: none;
     }
   }
 }
