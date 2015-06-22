@@ -1,6 +1,6 @@
 'use strict';
 
-describe.only('editServerModalDirective'.bold.underline.blue, function () {
+describe('editServerModalDirective'.bold.underline.blue, function () {
   var ctx;
   var $timeout;
   var $scope;
