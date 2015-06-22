@@ -457,7 +457,8 @@ function editServerModal(
           watchOncePromise($scope, 'state.contextVersion', true)
             .then(function () {
               $rootScope.$broadcast('close-popovers');
-              $scope.selectedTab = advanced ? 'buildfiles' : 'stack';
+              // Nate: what's the purpose of this line?
+              // $scope.selectedTab = advanced ? 'buildfiles' : 'stack';
               if (advanced) {
                 openDockerfile();
               }
