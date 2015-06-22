@@ -105,7 +105,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
           }),
           clear: sinon.spy(),
           finished: sinon.spy(function () {
-            console.log(ctx.loadingPromiseMock.finishedValue);
             return $q.when(ctx.loadingPromiseFinishedValue);
           })
         };
