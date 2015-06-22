@@ -1,110 +1,94 @@
 .btn-group(
-  ng-init = "data.viewIgnored = true"
+  ng-init = "data.viewHidden = true"
 )
   .btn.btn-xs.purple(
-    ng-class = "{active: !data.viewIgnored}"
-    ng-click = "data.viewIgnored = false"
+    ng-class = "{active: !data.viewHidden}"
+    ng-click = "data.viewHidden = false"
   ) Hostnames
   .btn.btn-xs.purple(
-    ng-class = "{active: data.viewIgnored}"
-    ng-click = "data.viewIgnored = true"
-  ) Ignored
+    ng-class = "{active: data.viewHidden}"
+    ng-click = "data.viewHidden = true"
+  ) Hidden
 
 //- empty state
 p.p.small.empty(
-  ng-if = "data.viewIgnored"
-) You haven't ignored any hostnames…yet.
+  ng-if = "data.viewHidden"
+) You haven't hidden any hostnames…yet.
 //- p.p.small.empty Add hostnames to your environment variables file to see them here.
 
 //- clicks on .well takes user to line number
 .well.small(
-  ng-if = "!data.viewIgnored"
-) Line 1
-  a.link.float-right Jump
+  ng-if = "!data.viewHidden"
+) Jump to Line 1
   .small.monospace.text-overflow(
     title = "api-staging-CodeNow.runnableapp.com"
   ) api-staging-CodeNow.runnableapp.com
   button.btn.btn-xxs(
     ng-click = "$event.stopPropagation()"
-    title = "Ignore"
-  ) Ignore
+  ) Hide
 .well.small(
-  ng-if = "!data.viewIgnored"
-) Line 2
-  a.link.float-right Jump
+  ng-if = "!data.viewHidden"
+) Jump to Line 2
   .small.monospace.text-overflow(
     title = "api-staging-CodeNow.runnableapp.com"
   ) api-staging-CodeNow.runnableapp.com
   button.btn.btn-xxs(
     ng-click = "$event.stopPropagation()"
-    title = "Ignore"
-  ) Ignore
+  ) Hide
 .well.small(
-  ng-if = "!data.viewIgnored"
-) Line 200
-  a.link.float-right Jump
+  ng-if = "!data.viewHidden"
+) Jump to Line 200
   .small.monospace.text-overflow(
     title = "api-staging-CodeNow.runnableapp.com"
   ) api-staging-CodeNow.runnableapp.com
   button.btn.btn-xxs(
     ng-click = "$event.stopPropagation()"
-    title = "Ignore"
-  ) Ignore
+  ) Hide
 .well.small(
-  ng-if = "!data.viewIgnored"
-) Line 200
-  a.link.float-right Jump
+  ng-if = "!data.viewHidden"
+) Jump to Line 200
   .small.monospace.text-overflow(
     title = "api-staging-CodeNow.runnableapp.com"
   ) api-staging-CodeNow.runnableapp.com
   button.btn.btn-xxs(
     ng-click = "$event.stopPropagation()"
-    title = "Ignore"
-  ) Ignore
+  ) Hide
 .well.small(
-  ng-if = "!data.viewIgnored"
-) Line 200
-  a.link.float-right Jump
+  ng-if = "!data.viewHidden"
+) Jump to Line 200
   .small.monospace.text-overflow(
     title = "api-staging-CodeNow.runnableapp.com"
   ) api-staging-CodeNow.runnableapp.com
   button.btn.btn-xxs(
     ng-click = "$event.stopPropagation()"
-    title = "Ignore"
-  ) Ignore
+  ) Hide
 .well.small(
-  ng-if = "!data.viewIgnored"
-) Line 200
-  a.link.float-right Jump
+  ng-if = "!data.viewHidden"
+) Jump to Line 200
   .small.monospace.text-overflow(
     title = "api-staging-CodeNow.runnableapp.com"
   ) api-staging-CodeNow.runnableapp.com
   button.btn.btn-xxs(
     ng-click = "$event.stopPropagation()"
-    title = "Ignore"
-  ) Ignore
+  ) Hide
 .well.small(
-  ng-if = "!data.viewIgnored"
-) Line 200
-  a.link.float-right Jump
+  ng-if = "!data.viewHidden"
+) Jump to Line 200
   .small.monospace.text-overflow(
     title = "api-staging-CodeNow.runnableapp.com"
   ) api-staging-CodeNow.runnableapp.com
   button.btn.btn-xxs(
     ng-click = "$event.stopPropagation()"
-    title = "Ignore"
-  ) Ignore
+  ) Hide
 .well.small(
-  ng-if = "!data.viewIgnored"
-) Line 200
-  a.link.float-right Jump
+  ng-if = "!data.viewHidden"
+) Jump to Line 200
   .small.monospace.text-overflow(
     title = "api-staging-CodeNow.runnableapp.com"
   ) whoreisland
   button.btn.btn-xxs(
     ng-click = "$event.stopPropagation()"
-    title = "Ignore"
-  ) Ignore
+  ) Hide
 
 //-
 //- previous popover:

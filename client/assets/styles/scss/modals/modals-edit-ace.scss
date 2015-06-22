@@ -91,30 +91,14 @@
     &:hover {
       border-color: $purple-lighter;
 
-      .link {
-        opacity: 1;
-        text-decoration: none;
-      }
-
-      // ignore button
+      // show hide button
       .btn-xxs {
         display: block;
       }
     }
 
-    &:active .link {
-      color: $purple-lighter;
-    }
-
     + .well {
       margin-top: 6px;
-    }
-
-    .link {
-      color: currentColor;
-      margin-right: 4px;
-      opacity: .5;
-      text-decoration: none;
     }
 
     .monospace {
@@ -124,7 +108,7 @@
       margin-top: 6px;
     }
 
-    // ignore button
+    // hide button
     .btn-xxs {
       background: $purple-darker;
       border: 1px solid #7d6692;
@@ -136,7 +120,8 @@
       height: 15px;
       line-height: 13px;
       position: absolute;
-      right: 6px;
+      right: 5px;
+      top: 5px;
 
       &:hover {
         border-color: currentColor;
