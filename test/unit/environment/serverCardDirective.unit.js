@@ -9,7 +9,7 @@ describe('serverCardDirective'.bold.underline.blue, function () {
   var keypather;
   var parseDockMock = new (require('../fixtures/mockFetch'))();
   var fetchStackAnalysisMock;
-  var $q;
+  var mockState;
 
   var apiMocks = require('../apiMocks/index');
   function setup(scope, stackAnalysisData) {
@@ -24,11 +24,17 @@ describe('serverCardDirective'.bold.underline.blue, function () {
         return 'org1';
       }
     };
+    mockState = {
+      params: {
+        userName: 'SomeKittens'
+      }
+    };
 
     runnable.reset(apiMocks.user);
     angular.mock.module('app', function ($provide) {
       $provide.factory('parseDockerfileForCardInfoFromInstance', parseDockMock.fetch());
       $provide.factory('helpCards', helpCardsMock.create(ctx));
+      $provide.value('$state', mockState);
       $provide.factory('fetchStackAnalysis', function ($q) {
         return fetchStackAnalysisMock.returns($q.when(stackAnalysisData));
       });
@@ -37,15 +43,13 @@ describe('serverCardDirective'.bold.underline.blue, function () {
       _$compile_,
       _$timeout_,
       _$rootScope_,
-      _keypather_,
-      _$q_
+      _keypather_
     ) {
       $timeout = _$timeout_;
       $compile = _$compile_;
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
       keypather = _keypather_;
-      $q = _$q_;
     });
 
 
@@ -280,7 +284,6 @@ describe('serverCardDirective'.bold.underline.blue, function () {
           apiMocks.instances.running,
           {noStore: true}
         );
-
         instance.attrs.env = ['hello=asdfasd', 'aasdasd=asdasd'];
 
         instance.fetchDependencies = sinon.spy(function (cb) {
@@ -412,6 +415,7 @@ describe('serverCardDirective'.bold.underline.blue, function () {
           apiMocks.instances.running,
           {noStore: true}
         );
+
         instance.contextVersion = {
           getMainAppCodeVersion: sinon.stub().returns({})
         };
@@ -486,7 +490,6 @@ describe('serverCardDirective'.bold.underline.blue, function () {
         );
 
         instance.attrs.env = ['hello=asdfasd', 'aasdasd=asdasd'];
-
 
         instance.fetchDependencies = sinon.spy(function (cb) {
           $timeout(cb);

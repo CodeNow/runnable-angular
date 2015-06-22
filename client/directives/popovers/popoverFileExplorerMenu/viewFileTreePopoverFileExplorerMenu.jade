@@ -40,10 +40,10 @@
         | New Folder
       //- if the user can add a repository…
       li.divider(
-        ng-if = "$root.featureFlags.advancedRepositories"
+        ng-if = "$root.featureFlags.advancedRepositories && data.canAddRepo"
       )
       li.list-item.popover-list-item(
-        ng-if = "$root.featureFlags.advancedRepositories"
+        ng-if = "$root.featureFlags.advancedRepositories && data.canAddRepo"
         ng-click = "actions.addRepository()"
       )
         svg.iconnables.icons-file-tree

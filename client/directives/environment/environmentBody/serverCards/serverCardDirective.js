@@ -92,12 +92,16 @@ require('app')
                         return instance.attrs.lowerName === dependency;
                       });
 
+// <<<<<<< HEAD
                       if (matchedInstance) {
                         var matchedDependency = dependencies.find(function (dep) {
                           return dep.attrs.shortHash === matchedInstance.attrs.shortHash;
                         });
 
                         if (matchedDependency) { return; }
+                        if (instance.attrs.owner.username !== $state.params.userName) {
+                          return;
+                        }
                         helpCards.triggerCard('missingAssociation', {
                           instance: $scope.server.instance,
                           association: matchedInstance.attrs.name
@@ -117,17 +121,26 @@ require('app')
                             helpCard
                               .on('refresh', calculateHelpCards)
                               .on('activate', scrollIntoView);
-                          })
-                            .then(function (helpCard) {
-                              if (!helpCard) { return; }
-                              listeners.push({
-                                obj: helpCard,
-                                key: 'refresh',
-                                value: calculateHelpCards
-                              });
-                              helpCard
-                                .on('refresh', calculateHelpCards);
                             }).catch(errs.handler);
+// =======
+                      } else {
+                        if (instance.attrs.owner.username !== $state.params.userName) {
+                          return;
+                        }
+                        helpCards.triggerCard('missingDependency', {
+                          instance: $scope.server.instance,
+                          dependency: dependency
+                        })
+                          .then(function (helpCard) {
+                            if (!helpCard) { return; }
+                            listeners.push({
+                              obj: helpCard,
+                              key: 'refresh',
+                              value: calculateHelpCards
+                            });
+                            helpCard
+                              .on('refresh', calculateHelpCards);
+                          }).catch(errs.handler);
                         }
                       });
                     };
@@ -155,6 +168,16 @@ require('app')
                       })
                       .then(function (foundMatch) {
                         if (!foundMatch) {
+                          var foundInstanceWithMainACV = $scope.data.instances.find(function (instance) {
+                            return instance.contextVersion.getMainAppCodeVersion();
+                          });
+                          if (!foundInstanceWithMainACV) {
+                            return;
+                          }
+
+                          if (instance.attrs.owner.username !== $state.params.userName) {
+                            return;
+                          }
                           helpCards.triggerCard('missingMapping', {
                             mapping: $scope.server.instance.attrs.name
                         })

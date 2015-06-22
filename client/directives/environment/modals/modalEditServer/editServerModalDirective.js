@@ -325,9 +325,17 @@ function editServerModal(
       }
 
       $scope.changeTab = function (tabname) {
-        if ($scope.editServerForm.$invalid ||
-            (!$scope.state.advanced && $filter('selectedStackInvalid')($scope.state.selectedStack))) {
-          return;
+        if (!$scope.state.advanced) {
+          if ($filter('selectedStackInvalid')($scope.state.selectedStack)) {
+            tabname = 'stack';
+          } else if (!$scope.state.startCommand) {
+            tabname = 'repository';
+          }
+        } else if ($scope.editServerForm.$invalid) {
+          if (keypather.get($scope, 'editServerForm.$error.required.length')) {
+            var firstRequiredError = $scope.editServerForm.$error.required[0].$name;
+            tabname = firstRequiredError.split('.')[0];
+          }
         }
         $scope.selectedTab = tabname;
       };
@@ -361,14 +369,14 @@ function editServerModal(
           .then(function (promiseArrayLength) {
             // Since the initial deepCopy should be in here, we only care about > 1
             toRebuild = promiseArrayLength > 1 ||
-              (
-                $scope.state.server.startCommand !== $scope.state.startCommand ||
-                (
-                  $scope.state.mainRepoContainerFile &&
-                  $scope.state.mainRepoContainerFile.commands !== $scope.state.commands
-                ) ||
-                $scope.state.server.ports !== $scope.state.ports.join(' ') ||
+              (!$scope.state.advanced &&
+                ($scope.state.server.startCommand !== $scope.state.startCommand ||
+                ($scope.state.mainRepoContainerFile &&
+                    $scope.state.mainRepoContainerFile.commands !== $scope.state.commands) ||
+                ($scope.state.server.ports &&
+                    $scope.state.server.ports !== $scope.state.ports.join(' ')) ||
                 !angular.equals($scope.state.server.selectedStack, $scope.state.selectedStack)
+                )
               );
           })
           .then(watchOncePromise($scope, 'state.contextVersion', true))
@@ -391,9 +399,7 @@ function editServerModal(
           .then(function () {
             helpCards.refreshActiveCard();
             $scope.modalActions.close();
-            if (keypather.get($scope.instance, 'container.running()')) {
-              return promisify($scope.instance, 'redeploy')();
-            }
+            return promisify($scope.instance, 'redeploy')();
           })
           .then(function () {
             $rootScope.$broadcast('alert', {
@@ -481,6 +487,18 @@ function editServerModal(
         return !$scope.state.dockerfile.validation.criticals.find(hasKeypaths({
           message: 'Missing or misplaced FROM'
         }));
+      };
+
+      $scope.isStackInfoEmpty = function (selectedStack) {
+        if (!selectedStack || !selectedStack.selectedVersion) {
+          return true;
+        }
+        if (selectedStack.dependencies) {
+          var depsEmpty = !selectedStack.dependencies.find(function (dep) {
+            return !$scope.isStackInfoEmpty(dep);
+          });
+          return !!depsEmpty;
+        }
       };
     }
   };
