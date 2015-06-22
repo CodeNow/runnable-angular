@@ -221,6 +221,10 @@
       .icons-arrow-down {
         color: currentColor;
       }
+
+      .btn-xxs {
+        background: $purple-light;
+      }
     }
 
     &:first-child {
@@ -287,6 +291,15 @@
       line-height: 21px;
     }
 
+    // notifications
+    .btn-xxs {
+      background: $gray-light;
+      color: $white;
+      position: absolute;
+      right: 30px;
+      top: 16px;
+    }
+
     // tooltip in tool description
     .underline {
       cursor: pointer;
@@ -309,40 +322,6 @@
       top: 0;
       transform: rotate3d(0,0,1,-90deg);
     }
-  }
-}
-
-// card body as button
-.card-button {
-  border: 1px solid transparent;
-  border-radius: 3px;
-  cursor: pointer;
-  height: auto;
-  margin: 0 12px 12px;
-  padding: 12px 0;
-  text-align: left;
-  transition: none;
-}
-
-// template
-.card-white {
-  background: $white;
-  border-color: transparent;
-  color: $purple-lighter;
-  font-size: 18px;
-  justify-content: center;
-  text-align: center;
-  user-select: none;
-
-  &:hover,
-  &:active {
-    border-color: $purple-lighter;
-    color: $purple-light;
-  }
-
-  .icons-add {
-    height: 90px;
-    width: 270px;
   }
 }
 

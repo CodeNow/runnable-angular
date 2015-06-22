@@ -88,6 +88,9 @@ ul.card-body.load(
       )
     h3.h3.text-overflow Environment Variables
     small.small.text-overflow {{ server.opts.env.length ? server.opts.env.length + ' variable' : '—' }}{{server.opts.env.length > 1 ? 's' : ''}}
+    button.btn.btn-xxs(
+      title = "999 new non-elastic hostnames"
+    ) 999
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
