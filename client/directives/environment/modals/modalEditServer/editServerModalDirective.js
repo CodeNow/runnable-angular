@@ -456,12 +456,11 @@ function editServerModal(
       // Only start watching this after the context version has
       $scope.$watch('state.advanced', function (advanced, previousAdvanced) {
         // This is so we don't fire the first time with no changes
-        if (advanced !== previousAdvanced) {
+        if (previousAdvanced === Boolean(previousAdvanced) && advanced !== previousAdvanced) {
           watchOncePromise($scope, 'state.contextVersion', true)
             .then(function () {
               $rootScope.$broadcast('close-popovers');
-              // Nate: what's the purpose of this line?
-              // $scope.selectedTab = advanced ? 'buildfiles' : 'stack';
+              $scope.selectedTab = advanced ? 'buildfiles' : 'stack';
               if (advanced) {
                 openDockerfile();
               }
