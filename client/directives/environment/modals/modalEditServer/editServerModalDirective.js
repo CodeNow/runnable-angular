@@ -346,7 +346,6 @@ function editServerModal(
         return loadingPromises.finished('editServerModal')
           .then(function (promiseArrayLength) {
             // Since the initial deepCopy should be in here, we only care about > 1
-            console.log('dsfgdsfg', promiseArrayLength);
             toRebuild = promiseArrayLength > 1 ||
               (!$scope.state.advanced &&
                 ($scope.state.server.startCommand !== $scope.state.startCommand ||

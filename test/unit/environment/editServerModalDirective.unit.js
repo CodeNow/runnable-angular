@@ -310,6 +310,15 @@ describe.only('editServerModalDirective'.bold.underline.blue, function () {
         expect($elScope.building).to.be.true;
         expect($elScope.state.ports).to.be.ok;
         $scope.$digest();
+        $scope.$digest();
+        sinon.assert.calledOnce(ctx.newContextVersion.fetchFile);
+        ctx.fetchDockerfileFromSourceMock.triggerPromise({attrs: 'dockerfile'});
+        $scope.$digest();
+        sinon.assert.calledOnce(ctx.fetchDockerfileFromSourceMock.getFetchSpy());
+        ctx.populateDockerfile.triggerPromise({attrs: 'dockerfile'});
+        $scope.$digest();
+        sinon.assert.calledOnce(ctx.populateDockerfile.getFetchSpy());
+        $scope.$digest();
         sinon.assert.calledOnce(ctx.build.build);
         $scope.$digest();
         expect($elScope.state.opts.build).to.be.ok;
