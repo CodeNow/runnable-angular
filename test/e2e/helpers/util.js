@@ -22,7 +22,7 @@ util.waitForUrl = function (url) {
       }
       return currentUrl === url;
     });
-  });
+  }, 20 * 1000);
 };
 
 util.containsText = function (elem, expected) {

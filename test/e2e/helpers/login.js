@@ -9,7 +9,7 @@ describe('login', function() {
     // Using browser.driver to skip over Protractor because GH doesn't use Angular
     browser.driver.get(browser.baseUrl + '?password=e2e');
 
-    browser.driver.findElement(by.css('header .link')).click();
+    browser.driver.findElement(by.css('header a[href]')).click();
 
     util.waitForUrl(/github/);
 
