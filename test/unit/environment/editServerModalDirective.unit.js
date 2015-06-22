@@ -160,9 +160,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     sinon.stub(ctx.instance, 'update', function (opts, cb) {
       return cb();
     });
-    sinon.stub(ctx.instance, 'redeploy', function (cb) {
-      return cb();
-    });
     sinon.stub(ctx.instance, 'getElasticHostname', function () {
       return '';
     });
