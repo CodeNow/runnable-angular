@@ -9,14 +9,6 @@
   justify-content: center;
 }
 
-//img.runnabear-head
-.runnabear-head {
-  left: 50%;
-  position: absolute;
-  top: 0;
-  transform: translate3d(-50%,0,0);
-}
-
 .error-content {
   margin: 0 30px 45px; // margin bottom for optical alignment
   max-width: 500px;
@@ -44,6 +36,7 @@
     }
   }
 
+  // "(none)" text for when there are no ports to list
   .span {
     color: $gray-light;
     font-style: italic;
