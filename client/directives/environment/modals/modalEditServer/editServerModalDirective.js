@@ -342,7 +342,6 @@ function editServerModal(
         var stateListLength = keypather.get($scope, 'state.containerFiles.length') || 0;
 
         if (serverListLength !== stateListLength) {
-          console.log('sdafs', serverListLength, stateListLength);
           return true;
         }
         return $scope.state.containerFiles.some(function (stateFile, index) {
@@ -362,7 +361,6 @@ function editServerModal(
           $scope.state.mainRepoContainerFile.commands = $scope.state.commands;
         }
         var statePorts = keypather.get($scope, 'state.ports.join(" ")');
-        console.log('dsfasdf', $scope.state.server.ports, statePorts);
         // Check state.server instead of server so you don't recreate the dockerfile again on a
         // failure (and they didn't change it in between)
         var toRecreateDockerfile = !$scope.state.advanced &&
@@ -372,7 +370,6 @@ function editServerModal(
               $scope.state.server.startCommand !== $scope.state.startCommand ||
               !angular.equals($scope.state.server.selectedStack, $scope.state.selectedStack));
 
-        console.log('dfasdf', keypather.get($scope, 'server.contextVersion.getMainAppCodeVersion()'));
         var toRebuild = toRecreateDockerfile;
         var toRedeploy = !toRecreateDockerfile &&
               keypather.get($scope, 'server.opts.env') !== keypather.get($scope, 'state.opts.env');
