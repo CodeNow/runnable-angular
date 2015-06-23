@@ -14,7 +14,7 @@ div(
     ng-if = "!$root.featureFlags.cardStatus"
   )
   span.btn-text.text-overflow(
-    ng-attr-title = "{{ instance.attrs.env.name || instance.getDisplayName() }}"
+    ng-attr-title = "{{ instance.getDisplayName() }}"
     ng-if = "!$root.featureFlags.cardStatus"
   ) {{ (instance.getRepoName() || instance.attrs.name) }}
   span.btn-text(
