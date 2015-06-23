@@ -372,12 +372,16 @@ function editServerModal(
             return state;
           })
           .then(function (state) {
-            return promisify($scope.instance, 'update')(state.opts);
+            if (toRebuild ||
+              keypather.get($scope, 'state.server.opts.env') !== keypather.get($scope, 'state.opts.env')) {
+              return promisify($scope.instance, 'update')(state.opts);
+            }
           })
           .then(function () {
             helpCards.refreshActiveCard();
             $scope.defaultActions.close();
-            if (!toRebuild) {
+            if (!toRebuild &&
+                keypather.get($scope, 'state.server.opts.env') !== keypather.get($scope, 'state.opts.env')) {
               return promisify($scope.instance, 'redeploy')();
             }
           })

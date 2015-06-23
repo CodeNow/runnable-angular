@@ -230,7 +230,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
           }
         });
       });
-      it('should only update the instance if nothing has changed', function () {
+      it('should do nothing if nothing has changed', function () {
         var alertSpy = sinon.spy();
         var closePopoverSpy = sinon.spy();
         $rootScope.$on('close-popovers', closePopoverSpy);
@@ -255,8 +255,8 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.calledOnce($scope.defaultActions.close);
 
-        sinon.assert.calledOnce(ctx.instance.update);
-        sinon.assert.calledOnce(ctx.instance.redeploy);
+        sinon.assert.notCalled(ctx.instance.update);
+        sinon.assert.notCalled(ctx.instance.redeploy);
       });
 
       it('should only update the instance when only envs have changed', function () {
