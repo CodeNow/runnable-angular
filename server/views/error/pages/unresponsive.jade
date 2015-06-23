@@ -5,13 +5,13 @@ block content
     strong.strong  #{branchName}
     |  even though it’s running and this port is exposed.
   p.p Make sure your service is listening on all interfaces.
-  p.p Other exposed ports:
+  p.p Other exposed ports: #{''}
     if (ports.length === 0)
       span.span (none)
     else
       each port, index in ports
         if (index !== 0)
-          span ,
+          span , #{''}
         a.link(
           href = "#{containerUrl}:#{port}"
         ) #{port}

@@ -4,13 +4,13 @@ block content
   p.p The container for
     strong.strong  #{branchName}
     |  is running, but this port is not exposed.
-  p.p Exposed ports:
+  p.p Exposed ports: #{''}
     if (!ports || ports.length === 0)
       span.span (none)
     else
       each port, index in ports
         if (index !== 0)
-          span ,
+          span , #{''}
         a.link(
           href = "#{containerUrl}:#{port}"
         ) #{port}
