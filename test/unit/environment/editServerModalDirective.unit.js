@@ -243,18 +243,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     sinon.stub(ctx.build, 'build', function (opts, cb) {
       return cb();
     });
-    // ctx.server = {
-    //   advanced: false,
-    //   startCommand: 'hello',
-    //   ports: '80 900 90',
-    //   selectedStack: {
-    //     hello: 'cheese'
-    //   },
-    //   instance: ctx.instance,
-    //   contextVersion: ctx.contextVersion,
-    //   build: ctx.build
-    // };
-
   });
   describe('getUpdatePromise', function () {
     describe('basic mode', function () {

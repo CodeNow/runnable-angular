@@ -365,14 +365,14 @@ function editServerModal(
         $scope.modalActions.cancel();
       };
       function areContainerFilesDifferent() {
-        var serverListLength = keypather.get($scope, 'server.containerFiles.length') || 0;
+        var serverListLength = keypather.get($scope, 'instance.containerFiles.length') || 0;
         var stateListLength = keypather.get($scope, 'state.containerFiles.length') || 0;
 
         if (serverListLength !== stateListLength) {
           return true;
         }
         return $scope.state.containerFiles.some(function (stateFile, index) {
-          var serverFile = $scope.server.containerFiles[index];
+          var serverFile = $scope.instance.containerFiles[index];
           return stateFile.commands !== serverFile.commands ||
                 stateFile.path !== serverFile.path ||
                 stateFile.name !== serverFile.name ||
@@ -388,26 +388,25 @@ function editServerModal(
           $scope.state.mainRepoContainerFile.commands = $scope.state.commands;
         }
         var statePorts = keypather.get($scope, 'state.ports.join(" ")');
-        // Check state.server instead of server so you don't recreate the dockerfile again on a
+        // Check state.instance instead of instance so you don't recreate the dockerfile again on a
         // failure (and they didn't change it in between)
         // true if not advanced, has a repo, and one of the following:
         var toRecreateDockerfile = !$scope.state.advanced &&
-              keypather.get($scope, 'server.contextVersion.getMainAppCodeVersion()') &&
+              keypather.get($scope, 'instance.contextVersion.getMainAppCodeVersion()') &&
               (
                 // The container files have been changed
                 areContainerFilesDifferent() ||
                 // The ports have changed
-                !angular.equals($scope.state.server.ports, statePorts) ||
+                !angular.equals($scope.state.instance.ports, statePorts) ||
                 // We have a new start command
-                $scope.state.server.startCommand !== $scope.state.startCommand ||
+                $scope.state.instance.startCommand !== $scope.state.startCommand ||
                 // Completely new stack
-                !angular.equals($scope.state.server.selectedStack, $scope.state.selectedStack)
+                !angular.equals($scope.state.instance.selectedStack, $scope.state.selectedStack)
               );
 
         var toRebuild = toRecreateDockerfile;
         var toRedeploy = !toRecreateDockerfile &&
-              keypather.get($scope, 'server.opts.env') !== keypather.get($scope, 'state.opts.env');
-
+              keypather.get($scope, 'instance.attrs.env') !== keypather.get($scope, 'state.opts.env');
         return loadingPromises.finished('editServerModal')
           .then(function (promiseArrayLength) {
             // Since the initial deepCopy should be in here, we only care about > 1
@@ -442,7 +441,7 @@ function editServerModal(
           })
           .then(function () {
             helpCards.refreshActiveCard();
-            $scope.defaultActions.close();
+            $scope.modalActions.close();
             $rootScope.$broadcast('alert', {
               type: 'success',
               text: 'Container updated successfully.'
