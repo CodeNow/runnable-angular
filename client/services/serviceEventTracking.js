@@ -13,7 +13,6 @@ var _keypather;
 var _$location;
 var INTERCOM_APP_ID;
 
-
 /**
  * EventTracking
  * @class
@@ -122,15 +121,6 @@ EventTracking.prototype.boot = function (user) {
     created_at: new Date(user.attrs.created) / 1000 | 0,
     app_id: INTERCOM_APP_ID
   };
-
-  Intercom('onShow', function() { // Do stuff
-    $root.featureFlags.intercomShift = true;
-  });
-
-  Intercom('onHide', function() { // Do stuff
-    $root.featureFlags.intercomShift = false;
-  });
-
 
   // Mixpanel uses a string GUID to track anon users
   // If we're still tracking the user via GUID, we need to alias

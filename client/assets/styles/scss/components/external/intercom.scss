@@ -3,6 +3,11 @@
   z-index: $z-modal !important; // lower z-index under notifications
 }
 
+// hide minimize button
+.intercom-sheet-header-minimize-button {
+  display: none !important;
+}
+
 // classes on body (active window)
 .intercom-messenger-active {
 
