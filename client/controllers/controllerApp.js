@@ -51,7 +51,6 @@ function ControllerApp(
     findAndReplace: true,
     hostnameTool: configEnvironment === 'development',
     hostnameNotifications: configEnvironment === 'development',
-    intercomShift: configEnvironment === 'development',
     navListFilter: configEnvironment === 'development',
     saveToolbar: configEnvironment === 'development'
   };
