@@ -415,7 +415,11 @@ function fileTreeDir(
           if (file) {
             keypather.set(file, 'state.renaming', true);
           }
-        }).catch(errs.handler);
+        }).catch(function (err) {
+          if (err.message !== 'Container not found') {
+            return errs.handler(err);
+          }
+        });
       }
       actions.fetchDirFiles = fetchDirFiles;
       $scope.$watch('dir.state.open', function (newVal) {
