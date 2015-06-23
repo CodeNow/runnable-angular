@@ -92,7 +92,6 @@ require('app')
                         return instance.attrs.lowerName === dependency;
                       });
 
-// <<<<<<< HEAD
                       if (matchedInstance) {
                         var matchedDependency = dependencies.find(function (dep) {
                           return dep.attrs.shortHash === matchedInstance.attrs.shortHash;
@@ -122,7 +121,6 @@ require('app')
                               .on('refresh', calculateHelpCards)
                               .on('activate', scrollIntoView);
                             }).catch(errs.handler);
-// =======
                       } else {
                         if (instance.attrs.owner.username !== $state.params.userName) {
                           return;
