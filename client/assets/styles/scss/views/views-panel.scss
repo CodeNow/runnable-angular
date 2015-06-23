@@ -33,38 +33,6 @@
   }
 }
 
-// keeps log on bottom (iterm)
-#log {
-  height: 10px;
-}
-
-// terminal
-.term-container {
-  cursor: text;
-}
-
-div.terminal { // div specifity required b/c there's a term.terminal
-  @extend %pre;
-  background: $purple-darker !important; // override term
-  color: $white !important;
-  padding: 9px;
-}
-
-.term-container,
-.terminal {
-  height: 100%;
-  width: 100%;
-}
-
-// web view
-.web-container {
-
-  .iframe {
-    height: 100%;
-    width: 100%;
-  }
-}
-
 // .blank-panel
 .blank-panel {
   align-items: center;
