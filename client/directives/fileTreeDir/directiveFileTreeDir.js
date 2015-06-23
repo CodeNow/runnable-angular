@@ -415,7 +415,14 @@ function fileTreeDir(
           if (file) {
             keypather.set(file, 'state.renaming', true);
           }
-        }).catch(errs.handler);
+        }).catch(function (err) {
+          // We want to filter out this message because it's unhelpful to the user, and usually this
+          // only happens if the instance is (temporarily) out of sync with the database.  If this
+          // error happens, it's being taken care of at a higher level up from here
+          if (err.message !== 'Container not found') {
+            return errs.handler(err);
+          }
+        });
       }
       actions.fetchDirFiles = fetchDirFiles;
       $scope.$watch('dir.state.open', function (newVal) {
