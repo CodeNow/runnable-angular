@@ -38,7 +38,8 @@ function explorer(
       $scope.filePopover = {
         data: {
           show: false,
-          canUpload: $scope.editExplorer
+          canUpload: $scope.editExplorer,
+          canAddRepo: $scope.editExplorer
         },
         actions: {
           createFile: function () {

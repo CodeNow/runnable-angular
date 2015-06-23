@@ -16,9 +16,10 @@ require('app')
       scope: {
         state: '=',
         startCommandCanDisable: '=?',
-        loadingPromisesTarget: '@?'
+        loadingPromisesTarget: '@?',
+        ngShow: '&'
       },
-      link: function ($scope) {
+      link: function ($scope, element, attrs) {
         $scope.branchFetching = true;
         watchOncePromise($scope, 'state.acv', true)
           .then(function () {
