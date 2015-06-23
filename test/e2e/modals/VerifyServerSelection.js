@@ -8,16 +8,6 @@ function VerifyServerSelection () {
   this.newContainerHeader = util.createGetter(by.cssContainingText('.modal-heading', 'New Container:'));
   this.button = util.createGetter(by.cssContainingText('.placeholder', 'Select language/framework'));
 
-  //this.isAdded = function (item) {
-  //  return item.element(by.css('.disabled')).isPresent();
-  //};
-  //
-  //this.filter = function(text) {
-  //  var searchBox = this.search.get();
-  //  searchBox.click();
-  //  searchBox.sendKeys(text);
-  //};
-
   this.waitForLoaded = function () {
     var self = this;
     return browser.wait(function () {

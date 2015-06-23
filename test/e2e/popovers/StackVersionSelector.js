@@ -7,8 +7,9 @@ function VerifyServerSelection () {
   this.listItems = util.createGetterAll(by.css('fancy-select fancy-option li'));
 
   this.waitForLoaded = function () {
+    var self = this;
     return browser.wait(function () {
-      return this.button.get().isPresent();
+      return self.button.get().isPresent();
     });
   };
 
@@ -32,9 +33,10 @@ function VerifyServerSelection () {
   this.selectOption = function (index) {
     var self = this;
     return self.openIfClosed().then(function () {
-      var option = self.listItems.get(index);
-      expect(option.isPresent()).to.equal(true);
-      option.click();
+      self.listItems.get(index).then(function (option) {
+        expect(option.isPresent()).toEqual(true);
+        return option.click();
+      });
     });
   };
 }

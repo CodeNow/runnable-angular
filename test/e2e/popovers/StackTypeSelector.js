@@ -7,34 +7,40 @@ function VerifyServerSelection () {
   this.listItems = util.createGetterAll(by.css('fancy-select fancy-option li'));
 
   this.waitForLoaded = function () {
+    var self = this;
     return browser.wait(function () {
-      return this.button.get().isPresent();
+      return self.button.get().isPresent();
     });
   };
 
   this.isOpen = function () {
-    return this.listItems.get().isPresent();
+    return this.listItems.get().then(function (listItems) {
+      return listItems.isPresent();
+    });
   };
 
   this.openIfClosed = function () {
     var self = this;
-    return this.isOpen().then(function (isOpen) {
-      if (!isOpen) {
-        return self.button.get().click();
-      }
-    }).then(function () {
-      return browser.wait(function () {
-        return self.isOpen();
+    return this.isOpen()
+      .then(function (isOpen) {
+        if (!isOpen) {
+          return self.button.get().click();
+        }
+      })
+      .then(function () {
+        return browser.wait(function () {
+          return self.isOpen();
+        });
       });
-    });
   };
 
   this.selectOption = function (index) {
     var self = this;
     return self.openIfClosed().then(function () {
-      var option = self.listItems.get(index);
-      expect(option.isPresent()).to.equal(true);
-      option.click();
+      self.listItems.get(index).then(function (option) {
+        expect(option.isPresent()).toEqual(true);
+        return option.click();
+      });
     });
   };
 }
