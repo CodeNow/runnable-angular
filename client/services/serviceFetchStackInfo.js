@@ -27,7 +27,7 @@ function fetchStackInfo(
               return data[dep];
             });
             if (stack.dependencies[0].name == "Ruby") {
-              stack.dependencies[0].versions = stack.dependencies[0].versions.slic(2);
+              stack.dependencies[0].versions = stack.dependencies[0].versions.slice(2);
             }
           }
         });
