@@ -27,7 +27,15 @@ button.btn.btn-xs.gray(
   "
   title = "Toggle list of Non-Elastic Hostnames"
 )
-  svg.iconnables.icons-sidebar
+  //- show button if notifications
+  .btn.btn-xxs.btn-badge(
+    ng-if = "$root.featureFlags.hostnameNotifications"
+    title = "999 new non-elastic hostnames"
+  ) 999
+  //- show icon if no notifications
+  svg.iconnables.icons-sidebar(
+    ng-if = "!$root.featureFlags.hostnameNotifications"
+  )
     use(
       xlink:href = "#icons-sidebar"
     )

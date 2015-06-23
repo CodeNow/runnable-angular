@@ -364,52 +364,85 @@ function editServerModal(
         helpCards.setActiveCard(null);
         $scope.modalActions.cancel();
       };
+      function areContainerFilesDifferent() {
+        var serverListLength = keypather.get($scope, 'server.containerFiles.length') || 0;
+        var stateListLength = keypather.get($scope, 'state.containerFiles.length') || 0;
+
+        if (serverListLength !== stateListLength) {
+          return true;
+        }
+        return $scope.state.containerFiles.some(function (stateFile, index) {
+          var serverFile = $scope.server.containerFiles[index];
+          return stateFile.commands !== serverFile.commands ||
+                stateFile.path !== serverFile.path ||
+                stateFile.name !== serverFile.name ||
+                stateFile.type !== serverFile.type;
+        });
+      }
 
       $scope.getUpdatePromise = function () {
         $rootScope.$broadcast('close-popovers');
         $scope.building = true;
-        var toRebuild = false;
         $scope.state.ports = convertTagToPortList();
+        if ($scope.state.mainRepoContainerFile) {
+          $scope.state.mainRepoContainerFile.commands = $scope.state.commands;
+        }
+        var statePorts = keypather.get($scope, 'state.ports.join(" ")');
+        // Check state.server instead of server so you don't recreate the dockerfile again on a
+        // failure (and they didn't change it in between)
+        // true if not advanced, has a repo, and one of the following:
+        var toRecreateDockerfile = !$scope.state.advanced &&
+              keypather.get($scope, 'server.contextVersion.getMainAppCodeVersion()') &&
+              (
+                // The container files have been changed
+                areContainerFilesDifferent() ||
+                // The ports have changed
+                !angular.equals($scope.state.server.ports, statePorts) ||
+                // We have a new start command
+                $scope.state.server.startCommand !== $scope.state.startCommand ||
+                // Completely new stack
+                !angular.equals($scope.state.server.selectedStack, $scope.state.selectedStack)
+              );
+
+        var toRebuild = toRecreateDockerfile;
+        var toRedeploy = !toRecreateDockerfile &&
+              keypather.get($scope, 'server.opts.env') !== keypather.get($scope, 'state.opts.env');
+
         return loadingPromises.finished('editServerModal')
           .then(function (promiseArrayLength) {
             // Since the initial deepCopy should be in here, we only care about > 1
-            toRebuild = promiseArrayLength > 1 ||
-              // Not advanced, and one of the following:
-            (!$scope.state.advanced &&
-              // We have a new start command
-              ($scope.state.instance.startCommand !== $scope.state.startCommand) ||
-              // The main repo has new commands
-              ($scope.state.mainRepoContainerFile && $scope.state.mainRepoContainerFile.commands !== $scope.state.commands) ||
-              // The ports have changed
-              ($scope.state.ports && $scope.instance.ports !== $scope.state.ports.join(' ')) ||
-              // There's a new selected stack
-              !angular.equals($scope.state.instance.selectedStack, $scope.state.selectedStack)
-            );
-            console.log(promiseArrayLength);
-            return watchOncePromise($scope, 'state.contextVersion', true);
+            toRebuild = toRebuild || promiseArrayLength > 1;
+            toRedeploy = toRedeploy && !toRebuild;
+            return watchOncePromise($scope, 'state.contextVersion', true)
+              .then(function () {
+                return $scope.state;
+              });
           })
-          .then(function () {
-            var state = $scope.state;
-            if (!state.advanced && toRebuild) {
+          .then(function (state) {
+            if (toRecreateDockerfile) {
               return updateDockerfile(state);
             }
             return state;
           })
           .then(function (state) {
-            if (toRebuild) {
+            if (toRecreateDockerfile || toRebuild) {
               return buildBuild(state);
             }
             return state;
           })
           .then(function (state) {
-            return promisify($scope.instance, 'update')(state.opts);
+            if (toRebuild || toRedeploy) {
+              return promisify($scope.instance, 'update')(state.opts);
+            }
+          })
+          .then(function () {
+            if (toRedeploy) {
+              return promisify($scope.instance, 'redeploy')();
+            }
           })
           .then(function () {
             helpCards.refreshActiveCard();
-            $scope.modalActions.close();
-            return promisify($scope.instance, 'redeploy')();
-          })
-          .then(function () {
+            $scope.defaultActions.close();
             $rootScope.$broadcast('alert', {
               type: 'success',
               text: 'Container updated successfully.'
@@ -434,9 +467,6 @@ function editServerModal(
       }
 
       function updateDockerfile(state) {
-        if ($scope.state.mainRepoContainerFile) {
-          $scope.state.mainRepoContainerFile.commands = $scope.state.commands;
-        }
         return promisify(state.contextVersion, 'fetchFile')('/Dockerfile')
           .then(function (newDockerfile) {
             state.dockerfile = newDockerfile;
