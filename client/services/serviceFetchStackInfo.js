@@ -26,7 +26,9 @@ function fetchStackInfo(
             stack.dependencies = stack.dependencies.map(function (dep) {
               return data[dep];
             });
-            console.log(stack.dependencies);
+            if (stack.dependencies[0].name == "Ruby") {
+              stack.dependencies[0].versions = stack.dependencies[0].versions.slic(2);
+            }
           }
         });
         return stacks;
