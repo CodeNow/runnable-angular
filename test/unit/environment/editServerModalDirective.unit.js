@@ -11,6 +11,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
   var $q;
 
   var apiClientMockFactory = require('../../unit/apiMocks/apiClientMockFactory');
+  var sourceMocks = runnable.newContexts(require('../../unit/apiMocks/sourceContexts'), {noStore: true});
   var apiMocks = require('../apiMocks/index');
   var mockUserFetch = new (require('../fixtures/mockFetch'))();
 
@@ -56,6 +57,34 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       $provide.value('configAPIHost', '');
       $provide.factory('fetchUser', mockUserFetch.autoTrigger(ctx.fakeOrg1));
       $provide.value('uploadFile', sinon.spy());
+
+      $provide.factory('fetchStackInfo', function ($q) {
+        return function () {
+          return $q.when({"languageFramework":"nodejs","version":{"nodejs":"0.10.35","npm":"0.2.0"},"serviceDependencies":[]});
+        };
+      });
+      $provide.factory('fetchContexts', function ($q) {
+        return function () {
+          return $q.when(sourceMocks);
+        };
+      });
+      $provide.factory('fetchInstancesByPod', function ($q) {
+        return function () {
+          return $q.when([]);
+        };
+      });
+      $provide.factory('parseDockerfileForCardInfoFromInstance', function ($q) {
+        return function () {
+          return $q.when({
+            ports: '80 900 90',
+            startCommand: 'hello',
+            containerFiles: [],
+            selectedStack: {
+              hello: 'cheese'
+            }
+          });
+        };
+      });
 
       $provide.factory('serverStatusCardHeaderDirective', function () {
         return {
@@ -138,20 +167,16 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     });
 
     ctx.template = directiveTemplate.attribute('edit-server-modal', {
-      'data': 'data',
-      'actions': 'actions',
-      'current-model': 'currentModel',
-      'state-model': 'stateModel',
-      'default-actions': 'defaultActions'
-
+      'instance': 'currentModel',
+      'selected-tab': 'stateModel',
+      'modal-actions': 'defaultActions'
     });
     ctx.element = $compile(ctx.template)($scope);
     $scope.$digest();
     $elScope = ctx.element.isolateScope();
     $scope.$digest();
   }
-  describe('basic', function () {
-  });
+
   beforeEach(function () {
     ctx.instance = runnable.newInstance(
       apiMocks.instances.running,
@@ -180,6 +205,9 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       });
       return ctx.newContextVersion;
     });
+
+    ctx.instance.contextVersion = ctx.contextVersion;
+
     ctx.dockerfile = {
       attrs: apiMocks.files.dockerfile
     };
@@ -205,29 +233,25 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     sinon.stub(ctx.build, 'build', function (opts, cb) {
       return cb();
     });
-    ctx.server = {
-      advanced: false,
-      startCommand: 'hello',
-      ports: '80 900 90',
-      selectedStack: {
-        hello: 'cheese'
-      },
-      instance: ctx.instance,
-      contextVersion: ctx.contextVersion,
-      build: ctx.build
-    };
+    // ctx.server = {
+    //   advanced: false,
+    //   startCommand: 'hello',
+    //   ports: '80 900 90',
+    //   selectedStack: {
+    //     hello: 'cheese'
+    //   },
+    //   instance: ctx.instance,
+    //   contextVersion: ctx.contextVersion,
+    //   build: ctx.build
+    // };
 
   });
   describe('getUpdatePromise', function () {
     describe('basic mode', function () {
       beforeEach(function () {
         setup({
-          currentModel: ctx.server,
-          data: {
-            sourceContexts: {
-              models: []
-            }
-          }
+          currentModel: ctx.instance,
+          selectedTab: 'env'
         });
       });
       it('should only update the instance if nothing has changed', function () {
@@ -292,18 +316,10 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     describe('advanced mode', function () {
       beforeEach(function () {
         setup({
-          currentModel: {
-            advanced: true,
-            instance: ctx.instance,
-            contextVersion: ctx.contextVersion,
-            build: ctx.build
-          },
-          data: {
-            sourceContexts: {
-              models: []
-            }
-          }
+          currentModel: ctx.instance,
+          selectedTab: 'env'
         });
+        ctx.contextVersion.attrs.advanced = true;
       });
       it('should only update the instance when only envs have changed', function () {
         var alertSpy = sinon.spy();
@@ -338,12 +354,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
   describe('advanced flag', function () {
     beforeEach(function () {
       setup({
-        currentModel: ctx.server,
-        data: {
-          sourceContexts: {
-            models: []
-          }
-        }
+        currentModel: ctx.instance
       });
     });
     it('should save the change immediately', function () {
@@ -371,12 +382,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
   describe('change Tab', function () {
     beforeEach(function () {
       setup({
-        currentModel: ctx.server,
-        data: {
-          sourceContexts: {
-            models: []
-          }
-        }
+        currentModel: ctx.instance
       });
     });
     it('should navigate since everything is ok', function () {

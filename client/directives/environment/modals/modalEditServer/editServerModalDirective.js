@@ -44,46 +44,46 @@ function editServerModal(
     link: function ($scope, elem, attrs) {
       $scope.isLoading = $rootScope.isLoading;
 
+      loading.reset('editServerModal');
+      loading('editServerModal', true);
+
       fetchInstancesByPod()
         .then(function (instances) {
           $scope.instances = instances;
         });
 
-      loading.reset('editServerModal');
-      loading('editServerModal', true);
-
       // temp fix
       $scope.data = {};
 
-      loadingPromises.add('editServerModal', fetchStackInfo())
-      .then(function (stackInfo) {
-        $scope.data.stacks = stackInfo;
-      });
-      loadingPromises.add('editServerModal', fetchContexts({ isSource: true }))
-      .then(function (contexts) {
-        $scope.data.sourceContexts = contexts;
-      });
-      loadingPromises.add('editServerModal', parseDockerfileForCardInfoFromInstance($scope.instance))
-      .then(function (data) {
-        Object.keys(data).forEach(function (key) {
-          $scope.instance[key] = data[key];
+      fetchStackInfo()
+        .then(function (stackInfo) {
+          $scope.data.stacks = stackInfo;
         });
-        resetState($scope.instance);
-        $scope.portTagOptions = {
-          breakCodes: [
-            13, // return
-            32, // space
-            44, // comma (opera)
-            188 // comma (mozilla)
-          ],
-          texts: {
-            'inputPlaceHolder': 'Add ports here',
-            maxInputLength: 5,
-            onlyDigits: true
-          },
-          tags: new JSTagsCollection(($scope.instance.ports || '').split(' '))
-        };
-      });
+      fetchContexts({ isSource: true })
+        .then(function (contexts) {
+          $scope.data.sourceContexts = contexts;
+        });
+      parseDockerfileForCardInfoFromInstance($scope.instance)
+        .then(function (data) {
+          Object.keys(data).forEach(function (key) {
+            $scope.instance[key] = data[key];
+          });
+          resetState($scope.instance);
+          $scope.portTagOptions = {
+            breakCodes: [
+              13, // return
+              32, // space
+              44, // comma (opera)
+              188 // comma (mozilla)
+            ],
+            texts: {
+              'inputPlaceHolder': 'Add ports here',
+              maxInputLength: 5,
+              onlyDigits: true
+            },
+            tags: new JSTagsCollection(($scope.instance.ports || '').split(' '))
+          };
+        });
 
       if (helpCards.cardIsActiveOnThisContainer($scope.instance)) {
         $scope.helpCards = helpCards;
@@ -374,15 +374,18 @@ function editServerModal(
           .then(function (promiseArrayLength) {
             // Since the initial deepCopy should be in here, we only care about > 1
             toRebuild = promiseArrayLength > 1 ||
-              (!$scope.state.advanced &&
-                ($scope.state.instance.startCommand !== $scope.state.startCommand ||
-                ($scope.state.mainRepoContainerFile &&
-                    $scope.state.mainRepoContainerFile.commands !== $scope.state.commands) ||
-                ($scope.state.ports &&
-                    $scope.state.ports !== $scope.state.ports.join(' ')) ||
-                !angular.equals($scope.state.instance.selectedStack, $scope.state.selectedStack)
-                )
-              );
+              // Not advanced, and one of the following:
+            (!$scope.state.advanced &&
+              // We have a new start command
+              ($scope.state.instance.startCommand !== $scope.state.startCommand) ||
+              // The main repo has new commands
+              ($scope.state.mainRepoContainerFile && $scope.state.mainRepoContainerFile.commands !== $scope.state.commands) ||
+              // The ports have changed
+              ($scope.state.ports && $scope.instance.ports !== $scope.state.ports.join(' ')) ||
+              // There's a new selected stack
+              !angular.equals($scope.state.instance.selectedStack, $scope.state.selectedStack)
+            );
+            console.log(promiseArrayLength);
             return watchOncePromise($scope, 'state.contextVersion', true);
           })
           .then(function () {
