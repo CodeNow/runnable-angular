@@ -23,7 +23,7 @@ function RepoSelect () {
       return count.then(function (count) {
         return count > 0;
       });
-    }, 1000 * 10);
+    }, 1000 * 20);
   };
 
   this.selectRepo = function (repoName) {
@@ -31,7 +31,7 @@ function RepoSelect () {
     return this.waitForLoaded().then(function () {
       var repoItem = element(by.cssContainingText('.list-servers .list-item', repoName));
       return self.isAdded(repoItem).then(function (isAdded) {
-        expect(isAdded).to.equal(false);
+        expect(isAdded).toEqual(false);
         return repoItem.click();
       });
     });

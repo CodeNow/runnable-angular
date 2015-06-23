@@ -14,10 +14,7 @@ var VerifyServerSelection = require('./modals/VerifyServerSelection');
 
 describe('project creation workflow', function () {
   beforeEach(function () {
-    browser.get('/' + browser.params.user + '/configure');
-    return util.waitForUrl(new RegExp(browser.params.user + '/configure'), 10 * 1000).then(function () {
-      browser.driver.sleep(1000 * 3);
-    });
+    return util.goToUrl('/' + browser.params.user + '/configure');
   });
   it('should create new container', function () {
     var newContainer = new NewContainer();
@@ -29,6 +26,9 @@ describe('project creation workflow', function () {
       })
       .then(function () {
         return verifyServerSelection.selectSuggestedStackType();
+      })
+      .then(function () {
+        return browser.driver.sleep(1000 * 5);
       });
   });
 });

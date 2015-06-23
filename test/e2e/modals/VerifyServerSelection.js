@@ -22,27 +22,29 @@ function VerifyServerSelection () {
     var self = this;
     return browser.wait(function () {
       return self.newContainerHeader.get().isPresent();
-    });
+    }, 1000 * 30);
   };
 
   this.selectSuggestedStackType = function () {
-    return this.waitForLoaded().then(function () {
-      console.log('Selecting stack type!');
+    var stackVersionSelector = new StackVersionSelector();
+    return this.waitForLoaded()
+      .then(function () {
+        return stackVersionSelector.button.get();
+      })
+      .then(function (versionSelectButton) {
+        expect(versionSelectButton.isPresent()).toEqual(true);
+        expect(versionSelectButton.getAttribute('disabled')).toEqual('disabled');
 
-      var stackVersionSelector = new StackVersionSelector();
-      var versionSelectButton = stackVersionSelector.button.get();
-
-
-      expect(versionSelectButton.isPresent()).to.equal(true);
-      expect(versionSelectButton.getAttribute('disabled')).to.equal('disabled');
-
-      var stackTypeSelector = new StackTypeSelector();
-      stackTypeSelector.selectOption(0);
-
-
-      expect(versionSelectButton.isPresent()).to.equal(true);
-      expect(versionSelectButton.getAttribute('disabled')).to.not.exist;
-    });
+        var stackTypeSelector = new StackTypeSelector();
+        return stackTypeSelector.selectOption(0);
+      })
+      .then(function () {
+        return stackVersionSelector.button.get();
+      })
+      .then(function (versionSelectButton) {
+        expect(versionSelectButton.isPresent()).toEqual(true);
+        expect(versionSelectButton.getAttribute('disabled')).toEqual(undefined);
+      });
   };
 }
 

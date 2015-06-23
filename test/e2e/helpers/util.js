@@ -109,6 +109,24 @@ util.refreshCache = function() {
   });
 };
 
+var counts = {};
+util.goToUrl = function (url) {
+  counts[url] = counts[url] || 0;
+  counts[url] += 1;
+  browser.driver.get(browser.baseUrl + url);
+  if (counts[url] > 6) {
+    return;
+  }
+  browser.driver.sleep(1000 * 5);
+  return element.all(by.css('.modal-error .modal-description'))
+    .count()
+    .then(function (errorCount) {
+      if (errorCount > 0) {
+        return util.goToUrl(url);
+      }
+    });
+};
+
 util.regex = {};
 
 // Regexes are strings here because they will be concatenated later
