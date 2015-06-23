@@ -26,6 +26,7 @@ function fetchStackInfo(
             stack.dependencies = stack.dependencies.map(function (dep) {
               return data[dep];
             });
+            console.log(stack.dependencies);
           }
         });
         return stacks;
