@@ -91,11 +91,11 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
     expect($elScope.loading).to.be.true;
 
     expect($elScope.popoverSaveOptions).to.deep.equal({
-      actions: {},
       data: {
         show: false,
         restartOnSave: false
-      }
+      },
+      actions: {}
     });
 
     expect($elScope.saveChanges).to.be.a.Function;
