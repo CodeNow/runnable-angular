@@ -24,6 +24,6 @@ describe('login', function() {
     signInButton.click();
 
     // We're being redirected
-    util.waitForUrl(/runnable-doobie/);
+    util.waitForUrl(/\?auth/);
   });
 });

@@ -19,19 +19,29 @@ function VerifyServerSelection () {
   //};
 
   this.waitForLoaded = function () {
+    var self = this;
     return browser.wait(function () {
-      return this.newContainerHeader.get().isPresent();
+      return self.newContainerHeader.get().isPresent();
     });
   };
 
   this.selectSuggestedStackType = function () {
     return this.waitForLoaded().then(function () {
-      var stackTypeSelector = new StackTypeSelector();
-      stackTypeSelector.selectOption(0);
+      console.log('Selecting stack type!');
+
       var stackVersionSelector = new StackVersionSelector();
       var versionSelectButton = stackVersionSelector.button.get();
+
+
       expect(versionSelectButton.isPresent()).to.equal(true);
       expect(versionSelectButton.getAttribute('disabled')).to.equal('disabled');
+
+      var stackTypeSelector = new StackTypeSelector();
+      stackTypeSelector.selectOption(0);
+
+
+      expect(versionSelectButton.isPresent()).to.equal(true);
+      expect(versionSelectButton.getAttribute('disabled')).to.not.exist;
     });
   };
 }

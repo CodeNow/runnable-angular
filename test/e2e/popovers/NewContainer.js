@@ -37,7 +37,8 @@ function NewContainer(parentElement) {
     var self = this;
     return this.openIfClosed(
     ).then(function () {
-      return  self.repoButton.get().click();
+      var repoButton = self.repoButton.get();
+      return repoButton.click();
     });
   };
 }

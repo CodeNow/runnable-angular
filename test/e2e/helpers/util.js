@@ -13,7 +13,8 @@ util.processUrl = function (middle) {
   return browser.baseUrl + middle + '/';
 };
 
-util.waitForUrl = function (url) {
+util.waitForUrl = function (url, duration) {
+  duration = duration || 1000 * 2;
   return browser.wait(function () {
     return browser.driver.getCurrentUrl().then(function (currentUrl) {
       if (typeof url === 'object' && typeof url.test === 'function') {
@@ -22,7 +23,7 @@ util.waitForUrl = function (url) {
       }
       return currentUrl === url;
     });
-  }, 20 * 1000);
+  }, duration);
 };
 
 util.containsText = function (elem, expected) {

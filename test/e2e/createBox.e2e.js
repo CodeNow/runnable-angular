@@ -12,34 +12,23 @@ var NewContainer = require('./popovers/NewContainer');
 var RepoSelect = require('./modals/RepoSelect');
 var VerifyServerSelection = require('./modals/VerifyServerSelection');
 
-var instances = [{
-  name: 'RailsProject',
-  filter: 'rails',
-  env: [],
-  startCommand: '/bin/sh -c rails server'
-}, {
-  name: 'SPACESHIPS',
-  filter: 'SPACE',
-  env: ['a=b', 'basd=asasdasdasd'],
-  startCommand: '/bin/sh -c npm start'
-}];
-
-describe('project creation workflow', users.doMultipleUsers(function (username) {
-  instances.forEach(function (instanceData) {
-    beforeEach(function () {
-      return util.waitForUrl(new RegExp(username+'/configure'));
-    });
-    it('should create new container', function () {
-      var newContainer = new NewContainer();
-      var repoSelect = new RepoSelect();
-      var verifyServerSelection = new VerifyServerSelection();
-      newContainer.selectRepository();
-
-      repoSelect.selectRepo('web');
-
-
-      verifyServerSelection.selectSuggestedStackType();
-
+describe('project creation workflow', function () {
+  beforeEach(function () {
+    browser.get('/' + browser.params.user + '/configure');
+    return util.waitForUrl(new RegExp(browser.params.user + '/configure'), 10 * 1000).then(function () {
+      browser.driver.sleep(1000 * 3);
     });
   });
-}, true));
+  it('should create new container', function () {
+    var newContainer = new NewContainer();
+    var repoSelect = new RepoSelect();
+    var verifyServerSelection = new VerifyServerSelection();
+    return newContainer.selectRepository()
+      .then(function () {
+        return repoSelect.selectRepo('web');
+      })
+      .then(function () {
+        return verifyServerSelection.selectSuggestedStackType();
+      });
+  });
+});

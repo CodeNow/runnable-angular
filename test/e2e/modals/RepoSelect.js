@@ -19,18 +19,21 @@ function RepoSelect () {
   this.waitForLoaded = function () {
     var self = this;
     return browser.wait(function () {
-      return self.repoItems.get().count() > 0;
-    });
+      var count = element.all(by.css('.list-servers .list-item')).count();
+      return count.then(function (count) {
+        return count > 0;
+      });
+    }, 1000 * 10);
   };
 
   this.selectRepo = function (repoName) {
     var self = this;
-    this.waitForLoaded().then(function () {
-      var repoItem = self.repoItems.get().element(by.cssContainingText('.list-item', repoName));
-      expect(self.isAdded(repoItem)).to.equal(false);
-      console.log('Clicking 1.');
-      expect(repoItem).to.equal(false);
-      return repoItem.click();
+    return this.waitForLoaded().then(function () {
+      var repoItem = element(by.cssContainingText('.list-servers .list-item', repoName));
+      return self.isAdded(repoItem).then(function (isAdded) {
+        expect(isAdded).to.equal(false);
+        return repoItem.click();
+      });
     });
   };
 }
