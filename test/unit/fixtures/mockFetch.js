@@ -23,6 +23,18 @@ mockFetch.prototype.fetch = function () {
     return self.fetchSpy;
   };
 };
+
+mockFetch.prototype.autoTrigger = function (valueToReturn) {
+  var self = this;
+  return function ($q) {
+    self.fetchSpy = sinon.spy(function () {
+      return $q(function (resolve) {
+        resolve(valueToReturn);
+      });
+    });
+    return self.fetchSpy;
+  };
+};
 mockFetch.prototype.clearDeferer = function () {
   this.deferer = [];
 };

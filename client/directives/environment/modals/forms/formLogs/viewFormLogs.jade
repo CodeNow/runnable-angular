@@ -1,5 +1,5 @@
 .btn-group(
-  ng-init = "page = instance.containers.models[0].running() ? 'run' : 'build'"
+  ng-init = "page = (['building', 'buildFailed', 'neverStarted'].indexOf(instance.status()) === -1) ? 'run' : 'build'"
 )
   button.btn.btn-xs.white(
     ng-class = "{active: page === 'build'}"
@@ -20,5 +20,6 @@ pre.pre.log-wrapper
   .logs(
     log-term
     ng-controller = "BoxLogController"
+    ng-if = "instance.containers.models.length"
     ng-show = "page === 'run'"
   )

@@ -32,7 +32,7 @@
           use(
             xlink:href = "#icons-log"
           )
-        | View {{ data.server.instance.containers.models[0].running() ? 'CMD' : 'Build'}} Logs
+        | View {{ (['building', 'buildFailed', 'neverStarted'].indexOf(data.server.instance.status()) === -1) ? 'CMD' : 'Build' }} Logs
       li.divider
       //- trigger delete confirm modal
       li.list-item.popover-list-item(

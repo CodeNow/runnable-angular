@@ -99,7 +99,13 @@ html.home(
           withCredentials: true
         })
           .then(function (user) {
-            $window.location = '/' + user.data.accounts.github.username
+            var org;
+            try {
+              org = user.data.userOptions.uiState.previousLocation.org;
+            } catch (e) {
+              org = user.data.accounts.github.username;
+            }
+            $window.location = '/' + org;
           });
       });
 
@@ -136,12 +142,12 @@ html.home(
              ) Sign In
           else
              a.btn.btn-sm.purple.float-right(
-               href = "mailto:info@runnable.com?subject=Please send me an invite for the beta"
+               href = "mailto:support@runnable.com?subject=Please send me an invite for the beta"
              ) Request Invite
 
           .float-right.clearfix
             a.btn.btn-sm.float-right(
-              href = "mailto:info@runnable.com"
+              href = "mailto:support@runnable.com"
             ) Email Us
             a.btn.btn-sm.float-right(
               href = "http://support.runnable.io/"
@@ -189,7 +195,7 @@ html.home(
           br
           | like an invite, #{''}
           a.link(
-            href = "mailto:info@runnable.com?subject=Please send me an invite for the beta"
+            href = "mailto:support@runnable.com?subject=Please send me an invite for the beta"
           ) send us an email.
         a.link-bar(
           href = "http://code.runnable.com"

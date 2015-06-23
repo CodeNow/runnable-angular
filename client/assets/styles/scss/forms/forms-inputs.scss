@@ -66,6 +66,11 @@ textarea {
     }
   }
 
+  // monospace
+  &.monospace {
+    letter-spacing: -.25px;
+  }
+
   // placeholder
   &::placeholder {
     color: $gray-light;
@@ -134,10 +139,6 @@ textarea {
 
 .textarea {
   padding: 3px 6px;
-
-  &.monospace {
-    white-space: pre;
-  }
 }
 
 // description text
