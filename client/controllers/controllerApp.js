@@ -50,6 +50,7 @@ function ControllerApp(
     dockerfileTool: configEnvironment === 'development',
     findAndReplace: true,
     hostnameTool: configEnvironment === 'development',
+    hostnameNotifications: configEnvironment === 'development',
     navListFilter: configEnvironment === 'development',
     saveToolbar: configEnvironment === 'development'
   };
