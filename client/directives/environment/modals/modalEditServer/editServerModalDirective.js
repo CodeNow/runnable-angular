@@ -30,6 +30,7 @@ function editServerModal(
   loadingPromises,
   fetchStackInfo,
   fetchContexts,
+  fetchInstancesByPod,
   parseDockerfileForCardInfoFromInstance
 ) {
   return {
@@ -42,6 +43,11 @@ function editServerModal(
     },
     link: function ($scope, elem, attrs) {
       $scope.isLoading = $rootScope.isLoading;
+
+      fetchInstancesByPod()
+        .then(function (instances) {
+          $scope.instances = instances;
+        });
 
       loading.reset('editServerModal');
       loading('editServerModal', true);
