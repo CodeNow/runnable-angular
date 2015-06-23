@@ -10,7 +10,7 @@
 
 div.terminal { // div specifity required b/c there's a term.terminal
   @extend %pre;
-  background: $purple-darker !important; // override term
+  background: $ace-bg !important; // override term
   color: $white !important;
   padding: 9px;
 }
