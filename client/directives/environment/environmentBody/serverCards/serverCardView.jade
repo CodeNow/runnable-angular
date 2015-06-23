@@ -80,7 +80,10 @@ ul.card-body.load(
     modal-data = "data"
     modal-state-model = "'env'"
     modal-template = "editServerModalOpen"
-    ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.environmentVariables}"
+    ng-class = "{\
+      'hint': helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.environmentVariables,\
+      'active-notification': $root.featureFlags.hostnameNotifications\
+    }"
   )
     svg.iconnables
       use(

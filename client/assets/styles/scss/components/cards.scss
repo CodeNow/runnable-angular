@@ -272,6 +272,10 @@
       }
     }
 
+    &.active-notification {
+      padding-right: 60px;
+    }
+
     // anchor icon of tool
     > .iconnables:first-child {
       float: left;
