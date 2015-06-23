@@ -200,7 +200,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       return ctx.newContextVersion;
     });
     sinon.stub(ctx.newContextVersion, 'fetchFile', function (opts, cb) {
-      console.log('****');
       $rootScope.$evalAsync(function () {
         cb(null, ctx.dockerfile);
       });
