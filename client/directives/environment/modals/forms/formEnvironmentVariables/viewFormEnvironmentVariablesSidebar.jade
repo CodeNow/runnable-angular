@@ -1,32 +1,104 @@
+.btn-group(
+  ng-if = "$root.featureFlags.hostnameNotifications"
+  ng-init = "data.viewHidden = true"
+)
+  .btn.btn-xs.purple(
+    ng-class = "{active: !data.viewHidden}"
+    ng-click = "data.viewHidden = false"
+  ) Hostnames
+  .btn.btn-xs.purple(
+    ng-class = "{active: data.viewHidden}"
+    ng-click = "data.viewHidden = true"
+  ) Hidden
+
 //- empty state
-//- p.p.small.empty Add hostnames to your environment variables file to see them here
+p.p.small.empty(
+  ng-if = "data.viewHidden && $root.featureFlags.hostnameNotifications"
+) You haven’t hidden any hostnames…yet.
+//- p.p.small.empty Add hostnames to your environment variables file to see them here.
 
 //- clicks on .well takes user to line number
-.well.small(
-  title = "Jump to url.thug.life’"
-) Line 1
-  a.link.float-right Jump
-  .small.monospace.text-overflow api-staging-CodeNow.runnableapp.com
-.well.small(
-  title = "Jump to url.thug.life’"
-) Line 2
-  a.link.float-right Jump
-  .small.monospace.text-overflow api-staging-CodeNow.runnableapp.com
-.well.small(
-  title = "Jump to url.thug.life’"
-) Line 200
-  a.link.float-right Jump
-  .small.monospace.text-overflow api-staging-CodeNow.runnableapp.com
-.well.small(
-  title = "Jump to url.thug.life’"
-) Line 200
-  a.link.float-right Jump
-  .small.monospace.text-overflow api-staging-CodeNow.runnableapp.com
-.well.small(
-  title = "Jump to url.thug.life’"
-) Line 200
-  a.link.float-right Jump
-  .small.monospace.text-overflow whoreisland
+ul.list
+  li.well.small(
+    ng-if = "!data.viewHidden"
+  ) Jump to Line 1
+    .small.monospace.text-overflow(
+      title = "api-staging-CodeNow.runnableapp.com"
+    ) api-staging-CodeNow.runnableapp.com
+    button.btn.btn-xxs.btn-ignore(
+      ng-click = "$event.stopPropagation()"
+      ng-if = "$root.featureFlags.hostnameNotifications"
+    ) Hide
+  li.well.small(
+    ng-if = "!data.viewHidden"
+  ) Jump to Line 2
+    .small.monospace.text-overflow(
+      title = "api-staging-CodeNow.runnableapp.com"
+    ) api-staging-CodeNow.runnableapp.com
+    button.btn.btn-xxs.btn-ignore(
+      ng-click = "$event.stopPropagation()"
+      ng-if = "$root.featureFlags.hostnameNotifications"
+    ) Hide
+  li.well.small(
+    ng-if = "!data.viewHidden"
+  ) Jump to Line 200
+    .small.monospace.text-overflow(
+      title = "api-staging-CodeNow.runnableapp.com"
+    ) api-staging-CodeNow.runnableapp.com
+    button.btn.btn-xxs.btn-ignore(
+      ng-click = "$event.stopPropagation()"
+      ng-if = "$root.featureFlags.hostnameNotifications"
+    ) Hide
+  li.well.small(
+    ng-if = "!data.viewHidden"
+  ) Jump to Line 200
+    .small.monospace.text-overflow(
+      title = "api-staging-CodeNow.runnableapp.com"
+    ) api-staging-CodeNow.runnableapp.com
+    button.btn.btn-xxs.btn-ignore(
+      ng-click = "$event.stopPropagation()"
+      ng-if = "$root.featureFlags.hostnameNotifications"
+    ) Hide
+  li.well.small(
+    ng-if = "!data.viewHidden"
+  ) Jump to Line 200
+    .small.monospace.text-overflow(
+      title = "api-staging-CodeNow.runnableapp.com"
+    ) api-staging-CodeNow.runnableapp.com
+    button.btn.btn-xxs.btn-ignore(
+      ng-click = "$event.stopPropagation()"
+      ng-if = "$root.featureFlags.hostnameNotifications"
+    ) Hide
+  li.well.small(
+    ng-if = "!data.viewHidden"
+  ) Jump to Line 200
+    .small.monospace.text-overflow(
+      title = "api-staging-CodeNow.runnableapp.com"
+    ) api-staging-CodeNow.runnableapp.com
+    button.btn.btn-xxs.btn-ignore(
+      ng-click = "$event.stopPropagation()"
+      ng-if = "$root.featureFlags.hostnameNotifications"
+    ) Hide
+  li.well.small(
+    ng-if = "!data.viewHidden"
+  ) Jump to Line 200
+    .small.monospace.text-overflow(
+      title = "api-staging-CodeNow.runnableapp.com"
+    ) api-staging-CodeNow.runnableapp.com
+    button.btn.btn-xxs.btn-ignore(
+      ng-click = "$event.stopPropagation()"
+      ng-if = "$root.featureFlags.hostnameNotifications"
+    ) Hide
+  li.well.small(
+    ng-if = "!data.viewHidden"
+  ) Jump to Line 200
+    .small.monospace.text-overflow(
+      title = "api-staging-CodeNow.runnableapp.com"
+    ) whoreisland
+    button.btn.btn-xxs.btn-ignore(
+      ng-click = "$event.stopPropagation()"
+      ng-if = "$root.featureFlags.hostnameNotifications"
+    ) Hide
 
 //-
 //- previous popover:

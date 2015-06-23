@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = [
-   {
+  {
     state: 'orgSelect',
     abstract: false,
     url: '^/orgSelect',

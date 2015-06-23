@@ -31,7 +31,7 @@ ul.tabs
 
 //- add tab popover
 //- apply [disabled] attribute when server is not running EXCEPT on build logs tab
-button.btn.btn-sm.btn-icon.btn-add-tab(
+button.btn.btn-xs.btn-icon.btn-add-tab(
   ng-class = "{active: popoverAddTab.data.show}"
   ng-disabled = "!instance.containers.models[0].running()"
   ng-if = "showAddButtons"
@@ -39,7 +39,7 @@ button.btn.btn-sm.btn-icon.btn-add-tab(
   pop-over-actions = "popoverAddTab.actions"
   pop-over-active = "popoverAddTab.data.show"
   pop-over-data = "popoverAddTab.data"
-  pop-over-options = "{\"right\":0,\"top\":45}"
+  pop-over-options = "{\"right\":4,\"top\":45}"
   pop-over-template = "viewPopoverAddTab"
 )
   svg.iconnables.icons-add
