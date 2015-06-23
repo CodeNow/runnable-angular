@@ -6,8 +6,8 @@ button.btn.gray(
 
 button.btn.gray(
   ng-click = "actions.startInstance()"
-  ng-if = "!isChanging() && instance.build.attrs.completed && !instance.containers.models[0].running()"
   ng-disabled = "isChanging()"
+  ng-if = "!isChanging() && instance.build.attrs.completed && !instance.containers.models[0].running() && instance.status() !== 'buildFailed'"
 ) Start Container
 
 button.btn.gray.btn-spinner.in(
@@ -19,18 +19,23 @@ button.btn.gray.btn-spinner.in(
   )
   span.btn-text {{changingText()}}
 
+button.btn.gray(
+  disabled
+  ng-if = "instance.status() === 'buildFailed'"
+) Build Failed
+
 //- ***********************
 //- deprecated button, remove with $root.featureFlags.saveToolbar
 //- save button
 .btn-group(
-  ng-if = "!$root.featureFlags.saveToolbar"
+  ng-if = "!$root.featureFlags.saveToolbar && instance.containers.models[0].running() && canSave()"
 )
   //- apply .with-restart if save restarts Server
   //- add title = "Save and Restart Server" if save restarts Server
   button.btn.green.btn-save.btn-spinner(
     ng-class = "{in: saving}"
     ng-click = "saveChanges()"
-    ng-disabled = "!instance.containers.models[0].running() || loading || saving || modifyingInstance || !canSave()"
+    ng-disabled = "loading || saving || modifyingInstance"
     type = "button"
   )
     .spinner-wrapper.spinner-sm.spinner-white.in(
@@ -38,14 +43,14 @@ button.btn.gray.btn-spinner.in(
       ng-include = "'spinner'"
     )
 
-    span.btn-text {{ saving ? 'Saving' : 'Save'}}
+    span.btn-text {{ saving ? 'Saving' : 'Save Changes'}}
     //- show if restart is checked
     span.btn-text(
       ng-if = "popoverSaveOptions.data.restartOnSave"
     ) #{''} and Restart
   button.btn.green.btn-icon.btn-icon-sm.btn-save-options(
     ng-class = "{active: popoverSaveOptions.data.show}"
-    ng-disabled = "!instance.containers.models[0].running() || loading || saving || modifyingInstance || !canSave()"
+    ng-disabled = "loading || saving || modifyingInstance"
     pop-over
     pop-over-active = "popoverSaveOptions.data.show"
     pop-over-actions = "popoverSaveOptions.actions"
