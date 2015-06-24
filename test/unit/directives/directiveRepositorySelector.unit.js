@@ -206,7 +206,9 @@ describe('directiveRepoSelect'.bold.underline.blue, function () {
     beforeEach(function () {
       initState({
         data: {
-          repo: ctx.repo
+          repo: {
+            repo: ctx.repo
+          }
         }
       });
     });
