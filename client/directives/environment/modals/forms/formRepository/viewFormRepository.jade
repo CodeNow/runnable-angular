@@ -28,7 +28,7 @@
 //-         | {{ $parent.branch.attrs.name }}
 //-     small.small We’ll build the first container with the code on this branch. We recommend choosing a stable branch.
 
-.label.clearfix
+label.label.clearfix
   .label-col Container CMD
 
   .input-col
@@ -53,7 +53,7 @@
         target = "_blank"
       ) More about the Container CMD
 
-.label.clearfix
+label.label.clearfix
   .label-col Build Commands
     small.small (optional)
 
@@ -67,18 +67,14 @@
     )
     small.small These will be run when your container is built but before it’s launched.
 
-.label.clearfix(
+label.label.clearfix(
   ng-if = "$root.featureFlags.packagesField"
 )
   .label-col Packages
     small.small (optional)
 
   .input-col
-    //- we only have suggestions for build commands on the main repository
     textarea.textarea.monospace(
-      ng-disabled = "startCommandCanDisable && !state.selectedStack"
-      ng-model = "state.commands"
-      placeholder = "Build commands"
       spellcheck = "false"
     )
     small.small Specify the packages you need using the aptitude syntax. This container is running &#32;
