@@ -42,9 +42,9 @@ ul.card-body.load(
   )
     svg.iconnables
       use(
-        xlink:href = "#icons-stack"
+        xlink:href = "#icons-repository"
       )
-    h3.h3.text-overflow Stack Type
+    h3.h3.text-overflow Repository Settings
     small.small.text-overflow {{ getFlattenedSelectedStacks(server.selectedStack) }}
     svg.iconnables.icons-arrow-down
       use(
@@ -112,9 +112,9 @@ ul.card-body.load(
   )
     svg.iconnables
       use(
-        xlink:href = "#icons-repository"
+        xlink:href = "#icons-start-cmd"
       )
-    h3.h3.text-overflow Main Repository
+    h3.h3.text-overflow Commands and Packages
     //- \\n for new line
     small.small.text-overflow(
       title = "{{ server.instance.contextVersion.getMainAppCodeVersion().attrs.branch }}\\n{{server.commands}}"

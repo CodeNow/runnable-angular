@@ -27,9 +27,9 @@ form.modal-dialog.modal-edit(
       )
         svg.iconnables
           use(
-            xlink:href = "#icons-stack"
+            xlink:href = "#icons-repository"
           )
-        .btn-text Stack Type
+        .btn-text Repository Settings
       button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'ports'}"
         ng-click = "changeTab('ports')"
@@ -56,9 +56,9 @@ form.modal-dialog.modal-edit(
       )
         svg.iconnables
           use(
-            xlink:href = "#icons-repository"
+            xlink:href = "#icons-start-cmd"
           )
-        .btn-text Main Repository
+        .btn-text Commands and Packages
       button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'translation'}"
         ng-click = "changeTab('translation')"
