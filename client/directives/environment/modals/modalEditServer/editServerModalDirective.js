@@ -353,6 +353,17 @@ function editServerModal(
         });
       }
 
+      function shouldFnrCreateDockerfile() {
+        var serverFnRObject = keypather.get($scope, 'server.contextVersion.getMainAppCodeVersion().transformRules');
+        var serverFnRCount = serverFnRObject ?
+            serverFnRObject.exclude.length + serverFnRObject.rename.length + serverFnRObject.replace.length : 0;
+        var stateFnRObject = keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion().transformRules');
+        var stateFnRCount = stateFnRObject ?
+            stateFnRObject.exclude.length + stateFnRObject.rename.length + stateFnRObject.replace.length : 0;
+        // This should be true if the one of the counts is greater than zero, but the other is zero
+        return (serverFnRCount || stateFnRCount) && (serverFnRCount === 0 || stateFnRCount === 0);
+      }
+
       $scope.getUpdatePromise = function () {
         $rootScope.$broadcast('close-popovers');
         $scope.building = true;
@@ -360,15 +371,16 @@ function editServerModal(
         if ($scope.state.mainRepoContainerFile) {
           $scope.state.mainRepoContainerFile.commands = $scope.state.commands;
         }
+        var hasMainRepo = !!keypather.get($scope, 'server.contextVersion.getMainAppCodeVersion()');
         var statePorts = keypather.get($scope, 'state.ports.join(" ")');
         // Check state.server instead of server so you don't recreate the dockerfile again on a
         // failure (and they didn't change it in between)
-        var toRecreateDockerfile = !$scope.state.advanced &&
-              keypather.get($scope, 'server.contextVersion.getMainAppCodeVersion()') &&
-              (areContainerFilesDifferent() ||
-              !angular.equals($scope.state.server.ports, statePorts) ||
-              $scope.state.server.startCommand !== $scope.state.startCommand ||
-              !angular.equals($scope.state.server.selectedStack, $scope.state.selectedStack));
+        var toRecreateDockerfile = !$scope.state.advanced && hasMainRepo &&
+            (areContainerFilesDifferent() ||
+            shouldFnrCreateDockerfile() ||
+            !angular.equals($scope.state.server.ports, statePorts) ||
+            $scope.state.server.startCommand !== $scope.state.startCommand ||
+            !angular.equals($scope.state.server.selectedStack, $scope.state.selectedStack));
 
         var toRebuild = toRecreateDockerfile;
         var toRedeploy = !toRecreateDockerfile &&
