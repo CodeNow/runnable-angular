@@ -25,7 +25,7 @@
   }
 }
 
-.container-url-wrapper {
+.container-url {
   color: $gray;
   font-size: 15px;
   font-weight: 400;
@@ -34,53 +34,47 @@
 // clear input for urls
 .container-url[readonly] {
   background: none;
-  color: currentColor;
+  color: $gray;
+  display: block;
   height: 20px;
   line-height: 20px;
   padding: 0;
 }
 
-// sets width
 .container-url-ghost {
-  visibility: hidden;
-}
+  height: 20px;
+  line-height: 0;
+  margin-top: -20px; // line up with container-url
 
-.link-button {
-  color: currentColor;
-  cursor: pointer;
-  display: inline-block;
-  height: 24px;
-  left: 3px;
-  position: relative;
-  top: -23px;
-  width: 21px;
-
-  &:hover {
-    color: $purple-light;
+  // matches width of url input
+  .no-touching {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 20px;
+    visibility: hidden;
   }
 
-  &:active {
-    color: $purple-dark;
+  // external link
+  .link {
+    color: $gray;
+    height: 21px;
+    margin-left: 6px;
+    text-decoration: none;
+    width: 15px;
+
+    &:hover {
+      color: $gray-dark;
+    }
+
+    &:active {
+      color: $purple-light;
+    }
+
+    .iconnables {
+      height: 100%;
+      width: 100%;
+    }
   }
-
-  .iconnables {
-    color: currentColor;
-    position: absolute;
-  }
-}
-
-.container-url-link .iconnables {
-  height: 13px;
-  left: 4px;
-  top: 5px;
-  width: 13px;
-}
-
-.documentation-link .iconnables {
-  height: 16px;
-  left: 2px;
-  top: 3px;
-  width: 16px;
 }
 
 // header.server-header actions
