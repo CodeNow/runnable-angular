@@ -1,12 +1,16 @@
 'use strict';
 
 var util = require('../helpers/util');
-var StackTypeSelector = require('../popovers/StackTypeSelector');
-var StackVersionSelector = require('../popovers/StackVersionSelector');
+var FancySelect = require('../helpers/FancySelect');
 
 function VerifyServerSelection () {
   this.newContainerHeader = util.createGetter(by.cssContainingText('.modal-heading', 'New Container:'));
-  this.button = util.createGetter(by.cssContainingText('.placeholder', 'Select language/framework'));
+  this.buildCommandsButton = util.createGetter(by.model('state.commands'));
+  this.createContainerButton = util.createGetter(by.buttonText('Create Container'));
+
+  var stackTypeSelector = new FancySelect(by.css('button[placeholder^="Select language/framework"]'));
+  var stackVersionSelector = new FancySelect(by.css('button[placeholder^="Select Version"]'));
+  var containerCommandSelector = new FancySelect(by.css('input[placeholder^="Container command"]'));
 
   this.waitForLoaded = function () {
     var self = this;
@@ -15,28 +19,45 @@ function VerifyServerSelection () {
     }, 1000 * 30 * 1000);
   };
 
-  this.selectSuggestedStackType = function () {
-    var stackVersionSelector = new StackVersionSelector();
+  this.selectSuggestedStackType = function (options) {
+    options = options || {};
+    options.firstTime = options.firstTime || false;
+
     return this.waitForLoaded()
       .then(function () {
-        return stackVersionSelector.button.get();
-      })
-      .then(function (versionSelectButton) {
-        expect(versionSelectButton.isPresent()).toEqual(true);
-        console.log(versionSelectButton.getAttribute('disabled'), versionSelectButton);
-        //expect(versionSelectButton.getAttribute('disabled')).toEqual();
-
-        var stackTypeSelector = new StackTypeSelector();
+        return stackVersionSelector.isDisabled();
+      }).then(function (isDisabled){
+        expect(isDisabled).toBe(options.firstTime);
         return stackTypeSelector.selectOption(0);
       })
       .then(function () {
-        return stackVersionSelector.button.get();
+        return stackVersionSelector.isDisabled();
       })
-      .then(function (versionSelectButton) {
-        expect(versionSelectButton.isPresent()).toEqual(true);
-        expect(versionSelectButton.getAttribute('disabled')).toEqual(undefined);
+      .then(function (isDisabled) {
+        expect(isDisabled).toBe(false);
       });
   };
+
+  this.selectSuggestedVersion = function () {
+    return this.waitForLoaded()
+      .then(function () {
+        expect(stackVersionSelector.isDisabled()).toBe(false);
+        return stackVersionSelector.selectOption(0);
+      });
+  };
+
+  this.getBuildCommands = function () {
+    return this.buildCommandsButton.get().getAttribute('value');
+  };
+
+  this.selectSuggestedContainerCommand = function () {
+    return this.waitForLoaded()
+      .then(function () {
+        expect(containerCommandSelector.isDisabled()).toBe(false);
+        return containerCommandSelector.selectOption(0);
+      });
+  };
+
 }
 
 module.exports = VerifyServerSelection;

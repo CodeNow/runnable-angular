@@ -2,9 +2,9 @@
 
 var util = require('../helpers/util');
 
-function VerifyServerSelection () {
-  this.button = util.createGetter(by.cssContainingText('.placeholder', 'Select language/framework'));
-  this.listItems = util.createGetterAll(by.css('fancy-select fancy-option li'));
+function FancySelect (buttonBy) {
+  this.button = util.createGetter(buttonBy);
+  this.listItems = util.createGetterAll(by.css('.fancy-select fancy-option li'));
 
   this.waitForLoaded = function () {
     var self = this;
@@ -14,8 +14,17 @@ function VerifyServerSelection () {
   };
 
   this.isOpen = function () {
-    return this.listItems.get().then(function (listItems) {
-      return listItems.isPresent();
+    return this.listItems.get().count()
+      .then(function (count) {
+        return count > 0;
+      });
+  };
+
+  this.isDisabled = function () {
+    var button = this.button.get();
+    expect(button.isPresent()).toEqual(true);
+    return button.isEnabled().then(function (isEnabled) {
+      return !isEnabled;
     });
   };
 
@@ -30,19 +39,18 @@ function VerifyServerSelection () {
       .then(function () {
         return browser.wait(function () {
           return self.isOpen();
-        });
+        }, 1000 * 2);
       });
   };
 
   this.selectOption = function (index) {
     var self = this;
     return self.openIfClosed().then(function () {
-      self.listItems.get(index).then(function (option) {
-        expect(option.isPresent()).toEqual(true);
-        return option.click();
-      });
+      var option = self.listItems.get(index);
+      expect(option.isPresent()).toEqual(true);
+      return option.click();
     });
   };
 }
 
-module.exports = VerifyServerSelection;
+module.exports = FancySelect;

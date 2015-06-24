@@ -114,18 +114,14 @@ util.goToUrl = function (url) {
   counts[url] = counts[url] || 0;
   counts[url] += 1;
   browser.driver.get(browser.baseUrl + url);
-  if (counts[url] > 100) {
+  if (counts[url] > 20) {
     return;
   }
-  console.log(counts[url]);
-  //browser.driver.sleep(1000 * 5);
   return element.all(by.css('.modal-error .modal-description'))
     .count()
     .then(function (errorCount) {
-      if (errorCount === 0) {
+      if (errorCount > 0) {
         return util.goToUrl(url);
-      } else {
-        return browser.driver.sleep(1000 * 500000);
       }
     });
 };
