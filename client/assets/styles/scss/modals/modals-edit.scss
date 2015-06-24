@@ -161,7 +161,10 @@
     }
 
     .views-toolbar {
+      border-left: 2px solid $purple-darker;
       border-radius: 3px 3px 0 0;
+      border-right: 2px solid $purple-darker;
+      border-top-width: 2px;
     }
 
     .btn-xxs {
