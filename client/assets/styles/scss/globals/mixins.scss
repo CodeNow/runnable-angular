@@ -65,10 +65,10 @@
     }
   }
   @else if $point == xxl {
-    @media (min-width: $xxl) { @content; }
+    @media (min-width: $xl) { @content; }
 
     .intercom-messenger-active & {
-      @media (max-width: $xxl + $intercom-width) { @content; }
+      @media (max-width: $xl + $intercom-width) { @content; }
     }
   }
 }
