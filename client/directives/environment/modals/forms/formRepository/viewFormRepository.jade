@@ -67,7 +67,9 @@
     )
     small.small These will be run when your container is built but before it’s launched.
 
-.label.clearfix
+.label.clearfix(
+  ng-if = "$root.featureFlags.packagesField"
+)
   .label-col Packages
     small.small (optional)
 

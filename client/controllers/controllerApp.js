@@ -52,6 +52,7 @@ function ControllerApp(
     hostnameTool: configEnvironment === 'development',
     hostnameNotifications: configEnvironment === 'development',
     navListFilter: configEnvironment === 'development',
+    packagesField: configEnvironment === 'development',
     saveToolbar: configEnvironment === 'development'
   };
 
