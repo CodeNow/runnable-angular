@@ -77,6 +77,6 @@
           ng-if = "$parent.depStack.suggestedVersion"
         )
         fancy-option(
-          ng-repeat = "version in $parent.depStack.versions | filter: '!'+ $parent.depStack.suggestedVersion"
+          ng-repeat = "version in $parent.depStack.versions | filter: '!'+ $parent.depStack.suggestedVersion | filter: 'v1.8.6-420'"
           value = "version"
         ) v{{$parent.version}}
