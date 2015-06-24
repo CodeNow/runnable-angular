@@ -11,9 +11,7 @@ require('app')
 var User = require('runnable/lib/models/user');
 var _keypather;
 var _$location;
-
-// constants
-var INTERCOM_APP_ID = 'wqzm3rju';
+var INTERCOM_APP_ID;
 
 /**
  * EventTracking
@@ -26,8 +24,14 @@ function EventTracking (
   $stateParams,
   $window,
   assign,
-  keypather
+  keypather,
+  configEnvironment
 ) {
+  if (configEnvironment === 'production') {
+    INTERCOM_APP_ID = 'wqzm3rju'; // production ID
+  } else {
+    INTERCOM_APP_ID = 'xs5g95pd'; // test ID
+  }
   _keypather = keypather;
   _$location = $location;
 
@@ -117,6 +121,7 @@ EventTracking.prototype.boot = function (user) {
     created_at: new Date(user.attrs.created) / 1000 | 0,
     app_id: INTERCOM_APP_ID
   };
+
   // Mixpanel uses a string GUID to track anon users
   // If we're still tracking the user via GUID, we need to alias
   // Otherwise, we can just identify ourselves
