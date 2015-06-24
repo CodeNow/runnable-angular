@@ -47,7 +47,7 @@
         value = "startCmd"
       ) {{$parent.startCmd}}
 
-    small.small This is the command that’ll be executed when your container is launched, to start running your code. This is the long-running process your code requires (e.g. ‘apache’, ‘NPM start’, ‘Python server’).  When this process terminates, your container will also stop running. #{''}
+    small.small This is the long-running process that’ll run when your container is launched (e.g. ‘apache’, ‘NPM start’). Your container will stop running if this process terminates. #{''}
       a.link(
         href = "//docs.docker.com/reference/builder/#cmd"
         target = "_blank"
@@ -65,12 +65,11 @@
       placeholder = "Build commands"
       spellcheck = "false"
     )
-    small.small Specify the commands that need to be executed when your container is built and before it’s launched that support your application (e.g. installing packages).
+    small.small These will be run when your container is built but before it’s launched.
 
 .label.clearfix
   .label-col Packages
-    //- this should reflect the os that the container uses, as determined by the stack type
-    small.small Ubuntu 13.04
+    small.small (optional)
 
   .input-col
     //- we only have suggestions for build commands on the main repository
@@ -80,4 +79,4 @@
       placeholder = "Build commands"
       spellcheck = "false"
     )
-    small.small Specify the commands that need to be executed when your container is built and before it’s launched that support your application (e.g. installing packages).
+    small.small Specify the packages you need from the aptitude library. The aptitude syntax will be respected.
