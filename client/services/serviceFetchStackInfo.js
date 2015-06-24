@@ -26,7 +26,7 @@ function fetchStackInfo(
             stack.dependencies = stack.dependencies.map(function (dep) {
               return data[dep];
             });
-            if (stack.dependencies[0].name == "Ruby") {
+            if (stack.name == "Rails" && stack.dependencies[0].name == "Ruby") {
               console.log("PRANA ", stack);
               stack.dependencies[0].versions = stack.dependencies[0].versions.slice(2);
             }
