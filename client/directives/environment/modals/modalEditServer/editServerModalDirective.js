@@ -360,7 +360,7 @@ function editServerModal(
         var stateFnRObject = keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion().transformRules');
         var stateFnRCount = stateFnRObject ?
             stateFnRObject.exclude.length + stateFnRObject.rename.length + stateFnRObject.replace.length : 0;
-        // This should be true if the one of the counts is greater than one, but the other is zero
+        // This should be true if the one of the counts is greater than zero, but the other is zero
         return (serverFnRCount || stateFnRCount) && (serverFnRCount === 0 || stateFnRCount === 0);
       }
 
