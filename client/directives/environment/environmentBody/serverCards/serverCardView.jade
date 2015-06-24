@@ -35,7 +35,7 @@ ul.card-body.load(
     modal-actions = "actions"
     modal-current-model = "server"
     modal-data = "data"
-    modal-state-model = "'repository'"
+    modal-state-model = "'stack'"
     modal-template = "editServerModalOpen"
     ng-if = "server.repo && !server.advanced"
     ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.stackType}"
@@ -103,13 +103,13 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-arrow-down"
       )
-  //- commands and packages
+  //- repository
   li.btn.white(
     modal
     modal-actions = "actions"
     modal-current-model = "server"
     modal-data = "data"
-    modal-state-model = "'commands'"
+    modal-state-model = "'repository'"
     modal-template = "editServerModalOpen"
     ng-if = "server.repo && !server.advanced"
     ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.repositories}"

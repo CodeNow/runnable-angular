@@ -21,8 +21,8 @@ form.modal-dialog.modal-edit(
     )
     .row.modal-tabs.cearfix
       button.btn.btn-radio(
-        ng-class = "{'active': selectedTab === 'repository'}"
-        ng-click = "changeTab('repository')"
+        ng-class = "{'active': selectedTab === 'stack'}"
+        ng-click = "changeTab('stack')"
         ng-if = "!state.advanced"
       )
         svg.iconnables
@@ -50,8 +50,8 @@ form.modal-dialog.modal-edit(
           )
         .btn-text Environment Variables
       button.btn.btn-radio(
-        ng-class = "{'active': selectedTab === 'commands'}"
-        ng-click = "changeTab('commands')"
+        ng-class = "{'active': selectedTab === 'repository'}"
+        ng-click = "changeTab('repository')"
         ng-if = "!state.advanced"
       )
         svg.iconnables
