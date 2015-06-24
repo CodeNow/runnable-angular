@@ -192,8 +192,7 @@
     border-radius: 0;
     display: block;
     height: 54px;
-    line-height: 1.4;
-    padding: 7px 24px 7px 9px;
+    padding: 6px 24px 6px 9px;
     text-align: left;
 
     &:hover,
@@ -286,13 +285,14 @@
     // title of tool
     > .h3 {
       font-size: 16px;
+      line-height: 20px;
     }
 
     // description of tool
     > .small {
       color: $gray;
       display: block;
-      line-height: 21px;
+      line-height: 15px;
     }
 
     // notifications
@@ -308,8 +308,6 @@
     .underline {
       cursor: pointer;
       float: left;
-      line-height: 1.2;
-      margin-top: 3px;
 
       // text after a tool
       ~ .text-overflow {
