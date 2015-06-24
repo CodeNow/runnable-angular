@@ -41,8 +41,12 @@ function repositorySelector(
       // If we are given an object to start configure our states for edit mode
       if ($scope.data.repo) {
         $scope.repoSelector.data = $scope.data.repo;
+        $scope.fetchingBranches = true;
         fetchRepoBranches($scope.data.repo.repo)
-          .catch(errs.handler);
+          .catch(errs.handler)
+          .finally(function () {
+            $scope.fetchingBranches = false;
+          });
         $scope.state.view = 2;
         $scope.state.fromServer = true;
       } else {
