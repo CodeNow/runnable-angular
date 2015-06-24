@@ -152,6 +152,11 @@
     height: 100%;
     width: 100%;
   }
+
+  // if .arrow-down
+  > .icons-arrow-down {
+    width: 24px;
+  }
 }
 
 // help
@@ -581,6 +586,7 @@
 .btn-group > .btn,
 .btn-group > button {
   float: left;
+  min-width: 33px;
   position: relative;
 }
 

@@ -1,3 +1,22 @@
+// intercom button
 .intercom-launcher-active {
   z-index: $z-modal !important; // lower z-index under notifications
+}
+
+// hide minimize button
+.intercom-sheet-header-minimize-button {
+  display: none !important;
+}
+
+// classes on body (active window)
+.intercom-messenger-active {
+
+  .content-wrapper {
+    position: relative;
+  }
+
+  .content-wrapper,
+  .modal-backdrop {
+    width: calc(100vw - #{$intercom-width});
+  }
 }

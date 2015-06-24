@@ -44,6 +44,7 @@ var locals = {
   commitTime: require('../client/config/json/commit.json').commitTime,
   apiHost: require('../client/config/json/api.json').host
 };
+app.locals = locals;
 
 var compiledHomeWithPassword = jade.renderFile(homePath, assign({hasPassword: true}, locals));
 var compiledHomeWithoutPassword = jade.renderFile(homePath, assign({hasPassword: false}, locals));
@@ -55,6 +56,31 @@ app.route('/').get(function (req, res, next) {
     res.send(compiledHomeWithoutPassword);
   }
 });
+
+app.route('/error/:page').get(function (req, res, next) {
+  if (req.params.page) {
+    var options = {};
+    [
+      'status',
+      'branchName',
+      'redirectUrl',
+      'containerUrl',
+      'ownerName',
+      'instanceName',
+      'ports'
+    ].forEach(function (option) {
+      var value = req.query[option];
+      if (value && value.indexOf('[') === 0) {
+        value = JSON.parse(value);
+      }
+      options[option] = value;
+    });
+    res.render('error/pages/' + req.params.page, options);
+  } else {
+    res.render('error/pages/invalid');
+  }
+});
+
 
 var layoutPath = path.join(__dirname + '/views/layout.jade');
 var compiledLayoutDebug = jade.renderFile(layoutPath, assign({debugging: true}, locals));
