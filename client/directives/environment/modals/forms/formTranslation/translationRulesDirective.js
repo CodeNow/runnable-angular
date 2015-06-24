@@ -1,9 +1,10 @@
 'use strict';
 
 require('app')
-  .directive('translationRules', function translationRules(
+  .directive('translationRules', function translationRules($q,
     errs,
     keypather,
+    loadingPromises,
     parseDiffResponse,
     promisify,
     testAllTransformRules,
@@ -25,8 +26,7 @@ require('app')
           },
           recalculateRules: function () {
             $scope.state.recalculating = true;
-            var acv = keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion()');
-            return testAllTransformRules(acv)
+            return $scope.actions.recalculateSilently()
               .then(function (body) {
                 $scope.state.diffs = parseDiffResponse(body.diff);
                 $scope.state.transformResults = body.results;
@@ -36,6 +36,10 @@ require('app')
               .finally(function () {
                 $scope.state.recalculating = false;
               });
+          },
+          recalculateSilently: function () {
+            var acv = keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion()');
+            return testAllTransformRules(acv);
           },
           ignoreFile: function (fileDiff) {
             $scope.$broadcast('IGNOREDFILE::toggle', fileDiff);
