@@ -23,9 +23,9 @@ function populateDockerfile(
         var versionBroken = stack.selectedVersion.split('.');
         var normalVersion = stack.selectedVersion;
         if (versionBroken.length > 1 && versionBroken[0] === '1' && parseInt(versionBroken[1]) < 9) {
-          dockerfileBody = dockerfileBody.replace('<ruby-major>', versionBroken[0] + '.' + versionBroken[1]);
           normalVersion = '1.9';
         }
+        dockerfileBody = dockerfileBody.replace('<ruby-major>', versionBroken[0] + '.' + versionBroken[1]);
         dockerfileBody = dockerfileBody.replace('<ruby-version-normalized>', normalVersion);
       }
       return dockerfileBody.replace(regexp, stack.selectedVersion);
