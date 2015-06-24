@@ -68,7 +68,7 @@
     @media (min-width: $xl) { @content; }
 
     .intercom-messenger-active & {
-      @media (max-width: $xl + $intercom-width) { @content; }
+      @media (min-width: $xl + $intercom-width) { @content; }
     }
   }
 }
