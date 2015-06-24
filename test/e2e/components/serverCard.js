@@ -1,9 +1,11 @@
 'use strict';
 
 var util = require('../helpers/util');
+var CardHeader = require('../popovers/CardHeader');
 
 function ServerCard (instanceName) {
-  this.serverCardTitle = util.createGetter(by.cssContainingText('.card span', instanceName));
+  this.by = by.cssContainingText('.card span', instanceName);
+  this.serverCardTitle = util.createGetter(this.by);
 
   this.waitForLoaded = function () {
     var self = this;
@@ -26,44 +28,33 @@ function ServerCard (instanceName) {
     });
   };
 
-  //this.isOpen = function () {
-  //  return this.listItems.get().count()
-  //    .then(function (count) {
-  //      return count > 0;
-  //    });
-  //};
-  //
-  //this.isDisabled = function () {
-  //  var button = this.button.get();
-  //  expect(button.isPresent()).toEqual(true);
-  //  return button.isEnabled().then(function (isEnabled) {
-  //    return !isEnabled;
-  //  });
-  //};
-  //
-  //this.openIfClosed = function () {
-  //  var self = this;
-  //  return this.isOpen()
-  //    .then(function (isOpen) {
-  //      if (!isOpen) {
-  //        return self.button.get().click();
-  //      }
-  //    })
-  //    .then(function () {
-  //      return browser.wait(function () {
-  //        return self.isOpen();
-  //      }, 1000 * 2);
-  //    });
-  //};
-  //
-  //this.selectOption = function (index) {
-  //  var self = this;
-  //  return self.openIfClosed().then(function () {
-  //    var option = self.listItems.get(index);
-  //    expect(option.isPresent()).toEqual(true);
-  //    return option.click();
-  //  });
-  //};
+  this.deleteContainer = function () {
+    var self = this;
+    var cardHeader = new CardHeader(this.serverCardTitle.get().element(by.xpath('..')).element(by.xpath('..')));
+    return self.waitForLoaded()
+      .then(function () {
+        return cardHeader.selectDeleteContainer();
+      })
+      .then(function () {
+        return browser.switchTo().alert();
+      })
+      .then(function (alertDialog) {
+        expect(alertDialog.getText()).toContain('Are you sure');
+        return alertDialog.accept();
+      })
+      .then(function () {
+        return browser.wait(function () {
+          return element(self.by).isPresent()
+            .then(function (present) {
+              console.log('Is present?', present);
+              return !present;
+            });
+        }, 1000 * 45);
+      })
+      .then(function () {
+        return browser.waitForAngular();
+      });
+  };
 }
 
 module.exports = ServerCard;

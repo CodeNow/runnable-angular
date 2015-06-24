@@ -22,7 +22,7 @@ var containers = [{
 }];
 
 describe('project creation workflow', function () {
-  var originalTimeout;
+  var originalTimeout = 1000 * 10;
   beforeEach(function () {
     jasmine.getEnv().defaultTimeoutInterval  = 1000 * 60 * 3;
     return util.goToUrl('/' + browser.params.user + '/configure');
@@ -31,8 +31,7 @@ describe('project creation workflow', function () {
     jasmine.getEnv().defaultTimeoutInterval = originalTimeout;
   });
   containers.forEach(function (container) {
-    it('should create new container', function () {
-
+    it('should create new container '+container.repo, function () {
       var newContainer = new NewContainer();
       var repoSelect = new RepoSelect();
       var verifyServerSelection = new VerifyServerSelection();
@@ -58,7 +57,7 @@ describe('project creation workflow', function () {
         })
         .then(function () {
           var serverCard = new ServerCard(container.repo);
-          return serverCard.waitForStatusEquals('running');
+          return serverCard.waitForStatusEquals('building');
         });
     });
   });

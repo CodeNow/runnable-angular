@@ -111,19 +111,25 @@ util.refreshCache = function() {
 
 var counts = {};
 util.goToUrl = function (url) {
-  counts[url] = counts[url] || 0;
-  counts[url] += 1;
-  browser.driver.get(browser.baseUrl + url);
-  if (counts[url] > 20) {
-    return;
-  }
-  return element.all(by.css('.modal-error .modal-description'))
-    .count()
-    .then(function (errorCount) {
-      if (errorCount > 0) {
-        return util.goToUrl(url);
-      }
-    });
+  var newUrl = browser.baseUrl + url;
+  return browser.driver.getCurrentUrl().then(function (oldUrl) {
+    if (oldUrl === newUrl) {
+      return;
+    }
+    counts[url] = counts[url] || 0;
+    counts[url] += 1;
+    browser.driver.get(browser.baseUrl + url);
+    if (counts[url] > 20) {
+      return;
+    }
+    return element.all(by.css('.modal-error .modal-description'))
+      .count()
+      .then(function (errorCount) {
+        if (errorCount > 0) {
+          return util.goToUrl(url);
+        }
+      });
+  });
 };
 
 util.regex = {};
