@@ -155,6 +155,7 @@
   .sidebar-actions {
     background: #f0f0f0;
     border-bottom: 1px solid $gray-lighter;
+    flex: 0 0 auto;
     padding: 6px;
 
     .btn-xs {
@@ -169,5 +170,6 @@
 
   .file-tree {
     margin: 3px;
+    overflow-y: auto;
   }
 }
