@@ -1,6 +1,6 @@
 'use strict';
 
-describe('directiveRepoSelect'.bold.underline.blue, function () {
+describe.only('directiveRepoSelect'.bold.underline.blue, function () {
   var element;
   var $scope;
   var $rootScope;
@@ -9,8 +9,59 @@ describe('directiveRepoSelect'.bold.underline.blue, function () {
 
   var currentConfig;
   var fetchOwnerRepoStub;
+  var fetchRepoBranchesStub;
 
+  var ctx;
   function initState(config) {
+    ctx = {};
+    ctx.commits = [
+      {
+        name: 'This is a commit message!'
+      }
+    ];
+    ctx.branches = {
+      models: [
+        {
+          attrs: {
+            name: 'master'
+          }
+        },
+        {
+          attrs: {
+            name: 'default'
+          },
+          commits: {
+            fetch: sinon.stub().returns({
+              models: ctx.commits
+            }),
+            models: ctx.commits
+          }
+        }
+      ]
+    };
+    ctx.repo = {
+      attrs: {
+        name: 'My Repo Name',
+        default_branch: 'default'
+      },
+      fetchBranches: sinon.spy(function (opts, cb) {
+        $rootScope.$evalAsync(function () {
+          cb(null, {
+            models: ctx.branches
+          });
+        });
+        ctx.repo.branches = {
+          models: ctx.branches
+        };
+        return ctx.repo.branches;
+      }),
+      newBranches: sinon.spy(function (branches) {
+        return {
+          models: branches
+        };
+      })
+    };
+
     angular.mock.module('app');
     angular.mock.module(function ($provide) {
       $provide.factory('fetchOwnerRepos', function ($q) {
@@ -20,10 +71,20 @@ describe('directiveRepoSelect'.bold.underline.blue, function () {
             runnable.newGithubRepos(
               mocks.repoList, {
                 noStore: true
-              })
+              }
+            )
           )
         );
         return fetchOwnerRepoStub;
+      });
+      $provide.factory('fetchRepoBranches', function ($q) {
+        runnable.reset(mocks.user);
+        fetchRepoBranchesStub = sinon.stub().returns(
+          $q.when(
+            ctx.branches
+          )
+        );
+        return fetchRepoBranchesStub;
       });
     });
 
@@ -57,7 +118,6 @@ describe('directiveRepoSelect'.bold.underline.blue, function () {
         keypather.set(config, 'data.appCodeVersions', []);
       }
 
-
       currentConfig = config;
       $scope.actions = config.actions;
       $scope.data = config.data;
@@ -83,56 +143,12 @@ describe('directiveRepoSelect'.bold.underline.blue, function () {
     });
 
     it('should load the default branch and its commits when a repo is selected', function () {
-      var commits = [
-        {
-          name: 'This is a commit message!'
-        }
-      ];
-      var branches = [
-        {
-          attrs: {
-            name: 'master'
-          }
-        },
-        {
-          attrs: {
-            name: 'default'
-          },
-          commits: {
-            fetch: sinon.stub().returns({
-              models: commits
-            })
-          }
-        }
-      ];
-      var repo = {
-        attrs: {
-          name: 'My Repo Name',
-          default_branch: 'default'
-        },
-        fetchBranches: sinon.spy(function (opts, cb) {
-          $rootScope.$evalAsync(function () {
-            cb(null, {
-              models: branches
-            });
-          });
-          repo.branches = {
-            models: branches
-          };
-          return repo.branches;
-        }),
-        newBranches: sinon.spy(function (branches) {
-          return {
-            models: branches
-          };
-        })
-      };
-
-      $scope.repoSelector.actions.selectRepo(repo);
+      $scope.repoSelector.actions.selectRepo(ctx.repo);
       $scope.$digest();
 
-      sinon.assert.calledOnce(branches[1].commits.fetch);
-      expect($scope.repoSelector.data.commit).to.equal(commits[0]);
+      sinon.assert.calledOnce(fetchRepoBranchesStub);
+      sinon.assert.calledOnce(ctx.branches.models[1].commits.fetch);
+      expect($scope.repoSelector.data.commit).to.equal(ctx.commits[0]);
       expect($scope.repoSelector.data.name).to.equal('My Repo Name');
     });
 
@@ -189,15 +205,21 @@ describe('directiveRepoSelect'.bold.underline.blue, function () {
   describe('with data', function () {
     beforeEach(function () {
       initState({
-        data:{
-          repo: {}
+        data: {
+          repo: ctx.repo
         }
       });
+    });
+
+    it('should fetch branches on startup', function () {
+      $scope.$digest();
+      sinon.assert.calledOnce(fetchRepoBranchesStub);
     });
 
     it('should trigger update on save', function () {
       $scope.repoSelector.actions.save();
       $scope.$digest();
+      sinon.assert.calledOnce(fetchRepoBranchesStub);
 
       sinon.assert.notCalled(currentConfig.actions.create);
       sinon.assert.calledOnce(currentConfig.actions.update);
