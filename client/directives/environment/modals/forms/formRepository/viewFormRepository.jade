@@ -5,42 +5,28 @@
     ng-bind-html = "helpCards.getActiveCard().helpPopover.repositories"
   )
 
-.label.clearfix
-  .label-col Initial Branch
+//- .label.clearfix
+//-   .label-col Initial Branch
 
-  .input-col
-    fancy-select(
-      ng-disabled = "branchFetching"
-      ng-required = "true"
-      value = "state.branch"
-      track-by = "attrs.name"
-      spinner-flag = "branchFetching"
-    )
-      li.list-item.popover-list-item.small Select initial branch
-      fancy-option(
-        ng-repeat = "branch in $parent.state.repo.branches.models"
-        value = "branch"
-      )
-        svg.iconnables.icons-branch
-          use(
-            xlink:href = "#icons-branch"
-          )
-        | {{ $parent.branch.attrs.name }}
-    small.small We’ll build the first container with the code on this branch. We recommend choosing a stable branch.
-
-label.label.clearfix
-  .label-col Build Commands
-    small.small (optional)
-
-  .input-col
-    //- we only have suggestions for build commands on the main repository
-    textarea.textarea.monospace(
-      ng-disabled = "startCommandCanDisable && !state.selectedStack"
-      ng-model = "state.commands"
-      placeholder = "Build commands"
-      spellcheck = "false"
-    )
-    small.small Specify the commands that need to be executed when your container is built and before it’s launched that support your application (e.g. installing packages).
+//-   .input-col
+//-     fancy-select(
+//-       ng-disabled = "branchFetching"
+//-       ng-required = "true"
+//-       value = "state.branch"
+//-       track-by = "attrs.name"
+//-       spinner-flag = "branchFetching"
+//-     )
+//-       li.list-item.popover-list-item.small Select initial branch
+//-       fancy-option(
+//-         ng-repeat = "branch in $parent.state.repo.branches.models"
+//-         value = "branch"
+//-       )
+//-         svg.iconnables.icons-branch
+//-           use(
+//-             xlink:href = "#icons-branch"
+//-           )
+//-         | {{ $parent.branch.attrs.name }}
+//-     small.small We’ll build the first container with the code on this branch. We recommend choosing a stable branch.
 
 label.label.clearfix
   .label-col Container CMD
@@ -66,3 +52,17 @@ label.label.clearfix
         href = "//docs.docker.com/reference/builder/#cmd"
         target = "_blank"
       ) More about the Container CMD
+
+label.label.clearfix
+  .label-col Build Commands
+    small.small (optional)
+
+  .input-col
+    //- we only have suggestions for build commands on the main repository
+    textarea.textarea.monospace(
+      ng-disabled = "startCommandCanDisable && !state.selectedStack"
+      ng-model = "state.commands"
+      placeholder = "Build commands"
+      spellcheck = "false"
+    )
+    small.small Specify the commands that need to be executed when your container is built and before it’s launched that support your application (e.g. installing packages).

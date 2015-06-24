@@ -29,7 +29,7 @@ ul.card-body.card-loading(
 ul.card-body.load(
   ng-if = "!showSpinner()"
 )
-  //- stack type
+  //- repository settings
   li.btn.white(
     modal
     modal-actions = "actions"
@@ -45,7 +45,11 @@ ul.card-body.load(
         xlink:href = "#icons-repository"
       )
     h3.h3.text-overflow Repository Settings
-    small.small.text-overflow {{ getFlattenedSelectedStacks(server.selectedStack) }}
+    //- small.small.text-overflow {{ getFlattenedSelectedStacks(server.selectedStack) }}
+    //- \\n for new line
+    small.small.text-overflow(
+      title = "{{ server.instance.contextVersion.getMainAppCodeVersion().attrs.branch }}\\n{{server.commands}}"
+    ) {{ server.instance.contextVersion.getMainAppCodeVersion().attrs.branch }}
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
@@ -116,9 +120,10 @@ ul.card-body.load(
       )
     h3.h3.text-overflow Commands and Packages
     //- \\n for new line
-    small.small.text-overflow(
-      title = "{{ server.instance.contextVersion.getMainAppCodeVersion().attrs.branch }}\\n{{server.commands}}"
-    ) {{ server.instance.contextVersion.getMainAppCodeVersion().attrs.branch }}
+    //- small.small.text-overflow(
+    //-   title = "{{ server.instance.contextVersion.getMainAppCodeVersion().attrs.branch }}\\n{{server.commands}}"
+    //- ) {{ server.instance.contextVersion.getMainAppCodeVersion().attrs.branch }}
+    small.small.text-overflow —
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
