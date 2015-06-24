@@ -46,9 +46,8 @@ ul.card-body.load(
       )
     h3.h3.text-overflow Repository Settings
     //- small.small.text-overflow {{ getFlattenedSelectedStacks(server.selectedStack) }}
-    //- \\n for new line
     small.small.text-overflow(
-      title = "{{ server.instance.contextVersion.getMainAppCodeVersion().attrs.branch }}\\n{{server.commands}}"
+      title = "{{ server.instance.contextVersion.getMainAppCodeVersion().attrs.branch }}"
     ) {{ server.instance.contextVersion.getMainAppCodeVersion().attrs.branch }}
     svg.iconnables.icons-arrow-down
       use(
@@ -118,12 +117,10 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-start-cmd"
       )
-    h3.h3.text-overflow Commands and Packages
-    //- \\n for new line
-    //- small.small.text-overflow(
-    //-   title = "{{ server.instance.contextVersion.getMainAppCodeVersion().attrs.branch }}\\n{{server.commands}}"
-    //- ) {{ server.instance.contextVersion.getMainAppCodeVersion().attrs.branch }}
-    small.small.text-overflow —
+    h3.h3.text-overflow Commands
+    small.small.text-overflow(
+      title = "{{server.startCommand}}"
+    ) {{server.startCommand}}
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
