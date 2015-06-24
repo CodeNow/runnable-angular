@@ -1,6 +1,6 @@
 'use strict';
 
-describe.only('directiveRepoSelect'.bold.underline.blue, function () {
+describe('directiveRepoSelect'.bold.underline.blue, function () {
   var element;
   var $scope;
   var $rootScope;
