@@ -168,6 +168,8 @@
       background: $purple-darker;
       border: 1px solid #7d6692;
       color: $purple-lighter;
+      line-height: 16px; // this button has 1px borders
+      padding-right: 15px;
 
       &:hover {
         border-color: currentColor;
@@ -178,6 +180,12 @@
         border-color: $purple-light;
         color: $purple-lightest;
       }
+
+    }
+
+    .icons-arrow-down {
+      right: 0;
+      width: 15px;
     }
   }
 
