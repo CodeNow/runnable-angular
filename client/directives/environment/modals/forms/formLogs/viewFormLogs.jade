@@ -1,3 +1,4 @@
+//- tabs
 .btn-group(
   ng-init = "page = (['building', 'buildFailed', 'neverStarted'].indexOf(instance.status()) === -1) ? 'run' : 'build'"
 )
@@ -11,6 +12,13 @@
     ng-click = "page = 'run'"
   ) CMD Logs
 
+//- toolbar
+.views-toolbar-wrapper(
+  ng-if = "$root.featureFlags.debugMode"
+  ng-include = "'viewToolbar'"
+)
+
+//- logs
 pre.pre.log-wrapper
   .logs(
     log-term

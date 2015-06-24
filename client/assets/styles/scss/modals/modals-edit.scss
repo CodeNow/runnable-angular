@@ -147,10 +147,38 @@
   }
 
   // logs
-  .logs {
+  .log-wrapper {
     border: 2px solid $purple-darker;
     border-radius: 3px;
-    overflow: hidden;
+    padding: 0;
+  }
+
+  .views-toolbar-wrapper {
+
+    + .log-wrapper {
+      border-radius: 0 0 3px 3px;
+      border-top: 0;
+    }
+
+    .views-toolbar {
+      border-radius: 3px 3px 0 0;
+    }
+
+    .btn-xxs {
+      background: $purple-darker;
+      border: 1px solid #7d6692;
+      color: $purple-lighter;
+
+      &:hover {
+        border-color: currentColor;
+      }
+
+      &:active {
+        background: $purple-light;
+        border-color: $purple-light;
+        color: $purple-lightest;
+      }
+    }
   }
 
   // empty p tag
