@@ -2,11 +2,21 @@
 
 require('app')
   .directive('editServerModal', editServerModal);
+
+var tabVisibility = {
+  buildfiles: ['advanced', 'nonRepo'],
+  stack: ['basic'],
+  ports: ['basic'],
+  env: ['basic', 'advanced', 'nonRepo'],
+  repository: ['basic'],
+  files: ['basic'],
+  translation: ['basic', 'advanced'],
+  logs: ['basic', 'advanced', 'nonRepo']
+};
 /**
  * @ngInject
  */
 function editServerModal(
-  $q,
   $filter,
   errs,
   JSTagsCollection,
@@ -344,6 +354,26 @@ function editServerModal(
         }
         $scope.selectedTab = tabname;
       };
+      $scope.isTabVisible = function (tabname) {
+        if (!tabVisibility[tabname]) {
+          return new Error('This tab shouldn\'t exist');
+        }
+        var currentStatuses = [];
+        var currentContextVersion = keypather.get($scope, 'instance.contextVersion');
+        var stateAdvanced = keypather.get($scope, 'state.advanced');
+        if (stateAdvanced ||
+            (stateAdvanced === null && keypather.get(currentContextVersion, 'attrs.advanced'))) {
+          currentStatuses.push('advanced');
+        } else {
+          currentStatuses.push('basic');
+        }
+        if (!currentContextVersion.getMainAppCodeVersion()) {
+          currentStatuses.push('nonRepo');
+        }
+        return currentStatuses.every(function (status) {
+          return tabVisibility[tabname].indexOf(status) > -1;
+        });
+      };
 
 
       $scope.insertHostName = function (opts) {
@@ -539,6 +569,7 @@ function editServerModal(
           message: 'Missing or misplaced FROM'
         }));
       };
+
 
       $scope.isStackInfoEmpty = function (selectedStack) {
         if (!selectedStack || !selectedStack.selectedVersion) {
