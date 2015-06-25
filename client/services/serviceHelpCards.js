@@ -29,7 +29,7 @@ function helpCardsFactory(
       {
         'label': 'Change language or framework',
         'targets': ['stackType'],
-        'helpTop': 'Use the <b>Stack Type</b> tool to change the language or framework.',
+        'helpTop': 'Use the <b>Repository</b> tool to change the language or framework.',
         'helpPopover': {
           'stackType': 'Change the language, framework or versions below.'
         }
