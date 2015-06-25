@@ -1,7 +1,7 @@
 'use strict';
 
 require('app')
-  .directive('translationRules', function translationRules($q,
+  .directive('translationRules', function translationRules(
     errs,
     keypather,
     parseDiffResponse,
