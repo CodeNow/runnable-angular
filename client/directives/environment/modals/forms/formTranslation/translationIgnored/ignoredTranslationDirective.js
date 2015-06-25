@@ -42,9 +42,8 @@ require('app')
             getIgnoredFileListArray()
           )
             .then(function () {
-              // Don't return this
               $scope.state.processing = false;
-              return $scope.actions.recalculateSilently;
+              return $scope.actions.recalculateSilently();
             }));
         };
 
