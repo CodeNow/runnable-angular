@@ -29,7 +29,7 @@ ul.card-body.card-loading(
 ul.card-body.load(
   ng-if = "!showSpinner()"
 )
-  //- repository settings
+  //- repository
   li.btn.white(
     modal
     modal-actions = "actions"
@@ -45,7 +45,6 @@ ul.card-body.load(
         xlink:href = "#icons-repository"
       )
     h3.h3.text-overflow Repository
-    //- small.small.text-overflow {{ getFlattenedSelectedStacks(server.selectedStack) }}
     small.small.text-overflow(
       title = "{{ server.instance.contextVersion.getMainAppCodeVersion().attrs.branch }}"
     ) {{ server.instance.contextVersion.getMainAppCodeVersion().attrs.branch }}
@@ -102,7 +101,7 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-arrow-down"
       )
-  //- repository
+  //- commands
   li.btn.white(
     modal
     modal-actions = "actions"
