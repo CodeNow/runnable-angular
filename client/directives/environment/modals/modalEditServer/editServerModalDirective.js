@@ -3,15 +3,16 @@
 require('app')
   .directive('editServerModal', editServerModal);
 
+// something can't be both basic and advanced, they are if/else
 var tabVisibility = {
-  buildfiles: ['advanced', 'nonRepo'],
-  stack: ['basic'],
-  ports: ['basic'],
-  env: ['basic', 'advanced', 'nonRepo'],
-  repository: ['basic'],
-  files: ['basic'],
-  translation: ['basic', 'advanced'],
-  logs: ['basic', 'advanced', 'nonRepo']
+  buildfiles: { advanced: true, nonRepo: true, basic: false },
+  stack:  { advanced: false, nonRepo: false, basic: true },
+  ports:  { advanced: false, nonRepo: false, basic: true },
+  env:  { advanced: true, nonRepo: true, basic: true },
+  repository:  { advanced: false, nonRepo: false, basic: true },
+  files:  { advanced: false, nonRepo: false, basic: true },
+  translation:  { advanced: true, nonRepo: false, basic: true },
+  logs:  { advanced: true, nonRepo: true, basic: true }
 };
 /**
  * @ngInject
@@ -39,7 +40,7 @@ function editServerModal(
   loading,
   loadingPromises,
   fetchStackInfo,
-  fetchContexts,
+  fetchSourceContexts,
   fetchInstancesByPod,
   parseDockerfileForCardInfoFromInstance
 ) {
@@ -69,7 +70,7 @@ function editServerModal(
         .then(function (stackInfo) {
           $scope.data.stacks = stackInfo;
         });
-      fetchContexts({ isSource: true })
+      fetchSourceContexts()
         .then(function (contexts) {
           $scope.data.sourceContexts = contexts;
         });
@@ -354,6 +355,17 @@ function editServerModal(
         }
         $scope.selectedTab = tabname;
       };
+      /**
+       * This function determines if a tab chooser should be shown
+       *
+       * Possibilities for currentStatuses are:
+       *  advanced
+       *  basic
+       *  basic + nonRepo (Not used)
+       *  advanced + nonRepo
+       * @param tabname
+       * @returns {*}
+       */
       $scope.isTabVisible = function (tabname) {
         if (!tabVisibility[tabname]) {
           return new Error('This tab shouldn\'t exist');
@@ -361,17 +373,18 @@ function editServerModal(
         var currentStatuses = [];
         var currentContextVersion = keypather.get($scope, 'instance.contextVersion');
         var stateAdvanced = keypather.get($scope, 'state.advanced');
+
+        if (!currentContextVersion.getMainAppCodeVersion()) {
+          currentStatuses.push('nonRepo');
+        }
         if (stateAdvanced ||
-            (stateAdvanced === null && keypather.get(currentContextVersion, 'attrs.advanced'))) {
+            (!keypather.get($scope, 'state.contextVerison.attrs.advanced') && keypather.get(currentContextVersion, 'attrs.advanced'))) {
           currentStatuses.push('advanced');
         } else {
           currentStatuses.push('basic');
         }
-        if (!currentContextVersion.getMainAppCodeVersion()) {
-          currentStatuses.push('nonRepo');
-        }
         return currentStatuses.every(function (status) {
-          return tabVisibility[tabname].indexOf(status) > -1;
+          return tabVisibility[tabname][status];
         });
       };
 
