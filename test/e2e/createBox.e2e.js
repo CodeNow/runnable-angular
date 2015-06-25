@@ -67,7 +67,7 @@ describe('project creation workflow', function () {
         })
         .then(function () {
           var serverCard = new ServerCard(container.repo);
-          return serverCard.waitForStatusEquals('building');
+          return serverCard.waitForStatusEquals('running');
         });
     });
   });
@@ -97,7 +97,7 @@ describe('project creation workflow', function () {
       .then(function () {
         return helpCardText.get().isPresent()
           .then(function (isPresent) {
-            expect(isPresent).to.equal(true);
+            expect(isPresent).toEqual(true);
           });
       })
       .then(function () {
@@ -108,7 +108,7 @@ describe('project creation workflow', function () {
       })
       .then(function () {
         var serverCard = new ServerCard('MongoDB');
-        return serverCard.waitForStatusEquals('building');
+        return serverCard.waitForStatusEquals('running');
       });
   });
 });

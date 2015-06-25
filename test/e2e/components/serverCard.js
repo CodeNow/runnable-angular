@@ -21,7 +21,6 @@ function ServerCard (instanceName) {
         return self.serverCardTitle.get()
           .evaluate('instance.status()')
           .then(function (results) {
-            console.log('Instance Status: ', results);
             return results === status;
           });
       }, 1000 * 45);
