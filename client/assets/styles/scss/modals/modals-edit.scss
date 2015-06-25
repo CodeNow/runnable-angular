@@ -169,10 +169,11 @@
 
     .btn-xxs {
       background: $purple-light;
-      border: 0;
+      border-width: 1px;
       color: $purple-lightest;
-      margin-top: -2px;
-      padding-right: 15px;
+      line-height: 18px;
+      margin: -2px 0 0;
+      min-width: 18px;
 
       &:hover {
         color: $white;
@@ -181,6 +182,14 @@
       &:active {
         background: $white;
         color: $purple-light;
+      }
+
+      &:first-child {
+        padding: 0 18px 0 6px;
+      }
+
+      + .btn-xxs {
+        border-left: 1px solid $purple;
       }
     }
 
@@ -194,6 +203,11 @@
 
     .icons-link-external {
       padding: 2px 2px 1px;
+      right: 1px;
+    }
+
+    .icons-arrow-down {
+      margin: 0 1px;
     }
   }
 
