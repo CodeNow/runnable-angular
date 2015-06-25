@@ -1,4 +1,43 @@
-section.sidebar.server-sidebar.load
+header.server-header
+
+  h1.server-info.load
+    //- instance box name template
+    .container-label
+      span.strong repoName
+      span /branchName
+      //- status icon template
+      .icons-status.running
+
+    .container-url-wrapper
+      input.input.container-url(
+        readonly
+        select-all
+        value = "url-for-things"
+      )
+
+      //- sets width
+      .container-url-ghost
+        span.float-left.no-touching {{ instance.getContainerHostname() }}{{defaultPort}}
+
+        a.link.float-left(
+          ng-href = "http://{{ instance.getContainerHostname() }}{{defaultPort}}"
+          target = "_blank"
+          title = "Open in a new tab: http://{{ instance.getContainerHostname() }}{{defaultPort}}"
+        )
+          svg.iconnables
+            use(
+              xlink:href = "#icons-link-external"
+            )
+
+  .primary-actions(
+    instance = "dataInstance.data.instance"
+    instance-primary-actions
+    loading = "isLoading.main"
+    open-items = "dataInstance.data.openItems"
+    saving = "dataInstance.data.saving"
+  )
+
+section.sidebar.server-sidebar.full-height.load
 
   //- explorer template
   section.sidebar-section.explorer
@@ -46,7 +85,7 @@ section.sidebar.server-sidebar.load
               span.item-name fileName
 
 //- active panel template
-section.views
+section.views.full-height
 
   //- tabs template
   .views-tabs

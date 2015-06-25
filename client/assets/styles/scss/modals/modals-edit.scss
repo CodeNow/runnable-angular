@@ -168,20 +168,19 @@
     }
 
     .btn-xxs {
-      background: $purple-darker;
-      border: 1px solid #7d6692;
-      color: $purple-lighter;
-      line-height: 16px; // this button has 1px borders
+      background: $purple-light;
+      border: 0;
+      color: $purple-lightest;
+      margin-top: -2px;
       padding-right: 15px;
 
       &:hover {
-        border-color: currentColor;
+        color: $white;
       }
 
       &:active {
-        background: $purple-light;
-        border-color: $purple-light;
-        color: $purple-lightest;
+        background: $white;
+        color: $purple-light;
       }
     }
 
