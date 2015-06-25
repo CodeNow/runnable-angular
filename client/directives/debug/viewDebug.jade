@@ -39,6 +39,7 @@ header.server-header
 
 section.sidebar.server-sidebar.full-height.load
 
+  //- show container files even if there's a build error
   //- explorer template
   section.sidebar-section.explorer
     //- explorer menu bar template
@@ -87,10 +88,23 @@ section.sidebar.server-sidebar.full-height.load
 //- active panel template
 section.views.full-height
 
+  //- open terminal, build logs, and cmd logs (if applicable) by default
   //- tabs template
   .views-tabs
     ul.tabs
       li.tab-wrapper.active
+        .tab-name Build Log
+        button.btn.white.btn-icon.btn-close
+          svg.iconnables.icons-close
+            use(
+              xlink:href = "#icons-close"
+            )
+        .tab-name CMD Log
+        button.btn.white.btn-icon.btn-close
+          svg.iconnables.icons-close
+            use(
+              xlink:href = "#icons-close"
+            )
         .tab-name Terminal
         button.btn.white.btn-icon.btn-close
           svg.iconnables.icons-close
@@ -113,6 +127,6 @@ section.views.full-height
         )
 
   .active-panel.ace-runnable-dark
-    .logs
+    .term-js
       //- log term template
       .terminal

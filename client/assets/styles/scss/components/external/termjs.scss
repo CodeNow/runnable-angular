@@ -14,19 +14,22 @@
   cursor: text;
 }
 
-div.terminal { // div specifity required b/c there's a term.terminal
+.terminal {
   @extend %pre;
   background: $ace-bg !important; // override term
   color: $white !important;
   padding: 9px 0;
 
-  // row
   > div {
     padding: 0 9px;
+  }
+}
 
-    &:hover,
-    &:active {
-      background: $purple-darker;
-    }
+// hover states
+.term-log .terminal > div {
+
+  &:hover,
+  &:active {
+    background: $purple-darker;
   }
 }

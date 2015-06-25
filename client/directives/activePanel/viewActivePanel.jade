@@ -26,32 +26,32 @@
   ng-show = "item === openItems.activeHistory.last()"
 )
   //- logs
-  .logs(
+  .term-js.term-log(
     log-term
     ng-controller = "BuildLogController"
     ng-if = "item.state.type === 'BuildStream'"
   )
 
-  .logs(
+  .term-js.term-log(
     log-term
     ng-controller = "BoxLogController"
     ng-if = "item.state.type === 'LogView'"
   )
 
   //- terminal
-  .logs(
-    ng-if = "item.state.type === 'Terminal'"
-    ng-controller = "TermController"
+  .term-js(
     log-term
+    ng-controller = "TermController"
+    ng-if = "item.state.type === 'Terminal'"
   )
 
   //- files
   div(
     file = "item"
     file-editor
+    loading = "loading"
     ng-if = "item.state.type === 'File'"
     use-auto-update = "useAutoUpdate"
-    loading = "loading"
   )
 
   div(
