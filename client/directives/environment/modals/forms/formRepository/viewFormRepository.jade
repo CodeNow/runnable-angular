@@ -47,13 +47,14 @@ label.label.clearfix
 label.label.clearfix(
   ng-if = "$root.featureFlags.packagesField"
 )
-  .label-col Package Commands
+  .label-col Packages
     small.small (optional)
 
   .input-col
     textarea.textarea.monospace(
+      placeholder = "Packages"
       spellcheck = "false"
     )
-    small.small Specify the packages you need using the aptitude syntax. This container is running &#32;
+    small.small Specify any packages you would like to install via apt-get, separated with spaces (e.g. ‘curl git gcc-4.1=4.1.2’). This container is based on &#32;
       //- this should specify the OS that the container is running, based on the stack type.
       strong.strong Ubuntu 13.04.
