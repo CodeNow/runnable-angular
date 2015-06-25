@@ -6,7 +6,7 @@ module.exports = [
     state: 'debug',
     abstract: false,
     url: '^/debug',
-    templateUrl: 'viewInstance',
+    templateUrl: 'viewDebug',
     data: {
       anon: true
     }

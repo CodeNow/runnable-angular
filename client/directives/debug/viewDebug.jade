@@ -1,0 +1,79 @@
+section.sidebar.server-sidebar.load
+
+  //- explorer template
+  section.sidebar-section.explorer
+    //- explorer menu bar template
+    .explorer-menu-bar-container
+      .sidebar-section-heading.strong File Explorer
+        button.btn.btn-xs.btn-icon.sub-header-action(
+          ng-class = "{active: filePopover.data.show}"
+          pop-over
+          pop-over-actions = "filePopover.actions"
+          pop-over-data = "filePopover.data"
+          pop-over-options = "{\"left\":-68,\"top\":40}"
+          pop-over-template = "viewFileTreePopoverFileExplorerMenu"
+          pop-over-active = "filePopover.data.show"
+        )
+          svg.iconnables.icons-add
+            use(
+              xlink:href = "#icons-add"
+            )
+    ul.file-tree
+      //- file tree dir template
+      li.folder.in
+        a.no-touching
+          svg.iconnables.filetypes.icons-folder
+            use(
+              xlink:href = "#icons-folder"
+            )
+          span.item-name /
+        ul
+          li.file
+            a
+              svg.iconnables.filetypes.icons-repository
+                use(
+                  xlink:href = "#icons-repository"
+                )
+              span.item-name repository
+        //- file tree dir item template
+        ul
+          li.file
+            a
+              svg.iconnables.filetypes.icons-file
+                use(
+                  xlink:href = "#icons-file"
+                )
+              span.item-name fileName
+
+//- active panel template
+section.views
+
+  //- tabs template
+  .views-tabs
+    ul.tabs
+      li.tab-wrapper.active
+        .tab-name Terminal
+        button.btn.white.btn-icon.btn-close
+          svg.iconnables.icons-close
+            use(
+              xlink:href = "#icons-close"
+            )
+
+    button.btn.btn-xs.btn-icon.btn-add-tab(
+      ng-class = "{active: popoverAddTab.data.show}"
+      pop-over
+      pop-over-actions = "popoverAddTab.actions"
+      pop-over-active = "popoverAddTab.data.show"
+      pop-over-data = "popoverAddTab.data"
+      pop-over-options = "{\"right\":4,\"top\":45}"
+      pop-over-template = "viewPopoverAddTab"
+    )
+      svg.iconnables.icons-add
+        use(
+          xlink:href = "#icons-add"
+        )
+
+  .active-panel.ace-runnable-dark
+    .logs
+      //- log term template
+      .terminal
