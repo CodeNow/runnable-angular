@@ -19,6 +19,11 @@
   font-weight: 400;
   margin-top: 12px;
 
+  &.centered {
+    line-height: 70px;
+    margin-top: 0;
+  }
+
   .icons-status {
     left: 6px;
     top: -3px;

@@ -2,40 +2,54 @@ header.server-header
 
   h1.server-info.load
     //- instance box name template
-    .container-label
+    .container-label.centered
       span.strong repoName
-      span /branchName
+      span &#32;(debug)
       //- status icon template
       .icons-status.running
 
-    .container-url-wrapper
-      input.input.container-url(
-        readonly
-        select-all
-        value = "url-for-things"
+  .primary-actions
+    //- ***********************
+    //- deprecated button, remove with $root.featureFlags.saveToolbar
+    //- save button
+    //- ng-if = "!$root.featureFlags.saveToolbar && instance.containers.models[0].running() && canSave()"
+    .btn-group(
+    )
+      //- apply .with-restart if save restarts Server
+      //- add title = "Save and Restart Server" if save restarts Server
+      button.btn.green.btn-save.btn-spinner(
+        ng-class = "{in: saving}"
+        ng-click = "saveChanges()"
+        ng-disabled = "loading || saving || modifyingInstance"
+        type = "button"
       )
-
-      //- sets width
-      .container-url-ghost
-        span.float-left.no-touching {{ instance.getContainerHostname() }}{{defaultPort}}
-
-        a.link.float-left(
-          ng-href = "http://{{ instance.getContainerHostname() }}{{defaultPort}}"
-          target = "_blank"
-          title = "Open in a new tab: http://{{ instance.getContainerHostname() }}{{defaultPort}}"
+        .spinner-wrapper.spinner-sm.spinner-white.in(
+          ng-if = "saving"
+          ng-include = "'spinner'"
         )
-          svg.iconnables
-            use(
-              xlink:href = "#icons-link-external"
-            )
 
-  .primary-actions(
-    instance = "dataInstance.data.instance"
-    instance-primary-actions
-    loading = "isLoading.main"
-    open-items = "dataInstance.data.openItems"
-    saving = "dataInstance.data.saving"
-  )
+        span.btn-text {{ saving ? 'Saving' : 'Save'}}
+        //- show if restart is checked
+        span.btn-text(
+          ng-if = "popoverSaveOptions.data.restartOnSave"
+        ) #{''} and Restart
+      button.btn.green.btn-icon.btn-icon-sm.btn-save-options(
+        ng-class = "{active: popoverSaveOptions.data.show}"
+        ng-disabled = "loading || saving || modifyingInstance"
+        pop-over
+        pop-over-active = "popoverSaveOptions.data.show"
+        pop-over-actions = "popoverSaveOptions.actions"
+        pop-over-data = "popoverSaveOptions.data"
+        pop-over-options = "{\"left\":-146,\"top\":56}"
+        pop-over-template = "viewInstancePopoverSaveOptions"
+        type = "button"
+      )
+        svg.iconnables.icons-arrow-down
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
+    //- end button, remove with $root.featureFlags.saveToolbar
+    //- ***********************
 
 section.sidebar.server-sidebar.full-height.load
 
@@ -45,12 +59,12 @@ section.sidebar.server-sidebar.full-height.load
     //- explorer menu bar template
     .explorer-menu-bar-container
       .sidebar-section-heading.strong File Explorer
-        button.btn.btn-xs.btn-icon.sub-header-action(
+        button.btn.btn-xs.btn-icon.float-right(
           ng-class = "{active: filePopover.data.show}"
           pop-over
           pop-over-actions = "filePopover.actions"
           pop-over-data = "filePopover.data"
-          pop-over-options = "{\"left\":-68,\"top\":40}"
+          pop-over-options = "{\"left\":-68,\"top\":50}"
           pop-over-template = "viewFileTreePopoverFileExplorerMenu"
           pop-over-active = "filePopover.data.show"
         )
@@ -99,12 +113,14 @@ section.views.full-height
             use(
               xlink:href = "#icons-close"
             )
+      li.tab-wrapper
         .tab-name CMD Log
         button.btn.white.btn-icon.btn-close
           svg.iconnables.icons-close
             use(
               xlink:href = "#icons-close"
             )
+      li.tab-wrapper
         .tab-name Terminal
         button.btn.white.btn-icon.btn-close
           svg.iconnables.icons-close
