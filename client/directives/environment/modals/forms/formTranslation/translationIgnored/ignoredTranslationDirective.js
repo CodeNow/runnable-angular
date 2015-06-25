@@ -30,6 +30,7 @@ require('app')
             _renderer.lineHeight = 19;
           }
         };
+
         var updateIgnoreRules = function () {
           if ($scope.ignoredFilesList ===
               keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion().attrs.transformRules.exclude').join('\n')) {
@@ -39,10 +40,11 @@ require('app')
           return loadingPromises.add('editServerModal', createTransformRule(
             keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion()'),
             getIgnoredFileListArray()
-          ))
+          )
             .then(function () {
               $scope.state.processing = false;
-            });
+              return $scope.actions.recalculateSilently();
+            }));
         };
 
         $scope.$on('IGNOREDFILE::toggle', function (eventName, ignoreFileDiff) {
@@ -59,7 +61,7 @@ require('app')
 
         $scope.aceBlurred = function () {
           if (keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion()') &&
-              $scope.ignoredFilesList.length) {
+              $scope.ignoredFilesList) {
             updateIgnoreRules();
           }
         };
