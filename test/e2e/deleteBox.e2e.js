@@ -10,7 +10,11 @@ var util = require('./helpers/util');
 var users = require('./helpers/users');
 var ServerCard = require('./components/serverCard');
 
-var containers = ['web'];
+var containers = [
+  'web',
+  'api',
+  'MongoDB'
+];
 
 describe('project deletion workflow', function () {
   var originalTimeout = 1000 * 10;

@@ -21,7 +21,7 @@ function ServerCard (instanceName) {
         return self.serverCardTitle.get()
           .evaluate('instance.status()')
           .then(function (results) {
-            console.log(results);
+            console.log('Instance Status: ', results);
             return results === status;
           });
       }, 1000 * 45);
@@ -46,7 +46,6 @@ function ServerCard (instanceName) {
         return browser.wait(function () {
           return element(self.by).isPresent()
             .then(function (present) {
-              console.log('Is present?', present);
               return !present;
             });
         }, 1000 * 45);

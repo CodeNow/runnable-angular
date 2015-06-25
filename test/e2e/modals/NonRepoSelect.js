@@ -2,18 +2,9 @@
 
 var util = require('../helpers/util');
 
-function RepoSelect () {
-  this.nonRepoItems = util.createGetterAll(by.css('.list-servers .list-item'));
-  this.search = util.createGetter(by.model('data.repoFilter'));
-
+function NonRepoSelect () {
   this.isAdded = function (item) {
     return item.element(by.css('.disabled')).isPresent();
-  };
-
-  this.filter = function(text) {
-    var searchBox = this.search.get();
-    searchBox.click();
-    searchBox.sendKeys(text);
   };
 
   this.waitForLoaded = function () {
@@ -26,7 +17,7 @@ function RepoSelect () {
     }, 1000 * 20);
   };
 
-  this.selectRepo = function (repoName) {
+  this.selectNonRepo = function (repoName) {
     var self = this;
     return this.waitForLoaded().then(function () {
       var repoItem = element(by.cssContainingText('.list-servers .list-item', repoName));
@@ -38,4 +29,4 @@ function RepoSelect () {
   };
 }
 
-module.exports = RepoSelect;
+module.exports = NonRepoSelect;

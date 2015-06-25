@@ -27,19 +27,18 @@ function NewContainer(parentElement) {
 
   this.selectNonRepository = function () {
     var self = this;
-    return this.openIfClosed(
-    ).then(function () {
-        return  self.repoButton.get().click();
+    return this.openIfClosed()
+      .then(function () {
+        return self.nonRepoButton.get().click();
       });
   };
 
   this.selectRepository = function () {
     var self = this;
-    return this.openIfClosed(
-    ).then(function () {
-      var repoButton = self.repoButton.get();
-      return repoButton.click();
-    });
+    return this.openIfClosed()
+      .then(function () {
+        return self.repoButton.get().click();
+      });
   };
 }
 

@@ -10,16 +10,26 @@ var util = require('./helpers/util');
 var users = require('./helpers/users');
 var NewContainer = require('./popovers/NewContainer');
 var RepoSelect = require('./modals/RepoSelect');
+var NonRepoSelect = require('./modals/NonRepoSelect');
 var VerifyServerSelection = require('./modals/VerifyServerSelection');
 var ServerCard = require('./components/serverCard');
 
-var containers = [{
-  repo: 'web',
-  stackType: 'Node.js',
-  version: 'v0.10.35',
-  buildCommandsButton: 'npm install',
-  containerCommand: 'npm start'
-}];
+var containers = [
+  {
+    repo: 'web',
+    stackType: 'Node.js',
+    version: 'v0.10.35',
+    buildCommandsButton: 'npm install',
+    containerCommand: 'npm start'
+  },
+  {
+    repo: 'api',
+    stackType: 'Node.js',
+    version: 'v0.10.35',
+    buildCommandsButton: 'npm install',
+    containerCommand: 'npm start'
+  }
+];
 
 describe('project creation workflow', function () {
   var originalTimeout = 1000 * 10;
@@ -60,5 +70,45 @@ describe('project creation workflow', function () {
           return serverCard.waitForStatusEquals('building');
         });
     });
+  });
+  it('should have a help card to create a mongodb container', function () {
+    var helpCardButton = util.createGetter(by.cssContainingText('.triggered-help-item button', 'Show Me'));
+    var helpCardText = util.createGetter(by.cssContainingText('.help-container .help', 'Click on the '));
+    var newContainer = new NewContainer();
+    var nonRepoSelect = new NonRepoSelect();
+
+    var serverCard = new ServerCard('api');
+    return serverCard.waitForStatusEquals('running')
+      .then(function () {
+        return browser.wait(function () {
+          return helpCardButton.get().isPresent();
+        }, 1000 * 30 * 1000);
+      })
+      .then(function () {
+        return helpCardButton.get().click();
+      })
+      .then(function () {
+        // Verify help text shows up and new container button gets a class
+        return helpCardButton.get().isPresent()
+          .then(function (isPresent) {
+            expect(isPresent).toEqual(false);
+          });
+      })
+      .then(function () {
+        return helpCardText.get().isPresent()
+          .then(function (isPresent) {
+            expect(isPresent).to.equal(true);
+          });
+      })
+      .then(function () {
+        return newContainer.selectNonRepository();
+      })
+      .then(function () {
+        return nonRepoSelect.selectNonRepo('MongoDB');
+      })
+      .then(function () {
+        var serverCard = new ServerCard('MongoDB');
+        return serverCard.waitForStatusEquals('building');
+      });
   });
 });

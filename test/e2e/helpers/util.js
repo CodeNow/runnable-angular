@@ -113,19 +113,21 @@ var counts = {};
 util.goToUrl = function (url) {
   var newUrl = browser.baseUrl + url;
   return browser.driver.getCurrentUrl().then(function (oldUrl) {
-    if (oldUrl === newUrl) {
-      return;
+    if (newUrl.slice(-1) !== '/') {
+      newUrl = newUrl + '/';
     }
+
     counts[url] = counts[url] || 0;
     counts[url] += 1;
-    browser.driver.get(browser.baseUrl + url);
     if (counts[url] > 20) {
       return;
     }
     return element.all(by.css('.modal-error .modal-description'))
       .count()
       .then(function (errorCount) {
-        if (errorCount > 0) {
+        if (errorCount > 0 || oldUrl !== newUrl) {
+          console.log('Redirecting!', errorCount, oldUrl, newUrl);
+          browser.driver.get(newUrl);
           return util.goToUrl(url);
         }
       });
