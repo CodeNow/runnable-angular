@@ -30,7 +30,7 @@
       ) Choose a branch
 
   .spinner-wrapper.spinner-backdrop.spinner-gray.spinner-md.in(
-    ng-if = "repoSelector.data.branch && !repoSelector.data.branch.commits.models.length"
+    ng-if = "(repoSelector.data.branch && !repoSelector.data.branch.commits.models.length) || fetchingBranches"
     ng-include = "'spinner'"
   )
 
