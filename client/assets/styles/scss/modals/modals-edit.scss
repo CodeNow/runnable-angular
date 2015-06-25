@@ -183,12 +183,18 @@
         border-color: $purple-light;
         color: $purple-lightest;
       }
-
     }
 
-    .icons-arrow-down {
+    .iconnables {
+      height: 100%;
+      position: absolute;
       right: 0;
+      top: 0;
       width: 15px;
+    }
+
+    .icons-link-external {
+      padding: 2px 2px 1px;
     }
   }
 

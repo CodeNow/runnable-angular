@@ -64,9 +64,15 @@
     pop-over-actions = "popoverDebug.actions"
     pop-over-active = "state.active"
     pop-over-data = "popoverDebug.data"
-    pop-over-options = "{\"right\":-10,\"top\":31}"
+    pop-over-options = "{\"right\":-7,\"top\":31}"
     pop-over-template = "viewPopoverDebug"
   ) Debug
+    //- if CMD logs
+    //- svg.iconnables.icons-link-external
+      use(
+        xlink:href = "#icons-link-external"
+      )
+    //- if build logs
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
