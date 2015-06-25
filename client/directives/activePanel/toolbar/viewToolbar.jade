@@ -15,7 +15,7 @@
 .views-toolbar(
   ng-if = "shouldShowUpdateConfigsPrompt"
 )
-  small.small This container's configuration has been changed since it was last built. #{''}
+  small.small This container’s configuration has been changed since it was last built. #{''}
   button.btn.btn-xs.orange(
     ng-click = "actions.updateConfigToMatchMaster()"
   ) Update and Rebuild

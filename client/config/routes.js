@@ -1,6 +1,17 @@
 'use strict';
 
 module.exports = [
+  // TEST
+  {
+    state: 'debug',
+    abstract: false,
+    url: '^/debug',
+    templateUrl: 'viewInstance',
+    data: {
+      anon: true
+    }
+  },
+  // TEST
   {
     state: 'orgSelect',
     abstract: false,
