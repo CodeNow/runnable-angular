@@ -9,10 +9,10 @@
       ) Feature Flags
       label.list-item.popover-list-item(
         ng-repeat = "(flag, value) in $root.featureFlags"
-        style = "border-top: 1px solid #f0f0f0; color: $gray-dark; display: block; padding-left: 15px;"
+        style = "border-top: 1px solid #f0f0f0; color: $gray-dark; display: block; padding: 0 90px 0 15px;"
       ) {{flag}}
-        .toggle-wrapper.float-right(
-          style = "margin: 11px 0 0 45px;"
+        .toggle-wrapper(
+          style = "position: absolute; right: 15px; top: 11px;"
         )
           input.toggle-input(
             ng-model = "$root.featureFlags[flag]"
