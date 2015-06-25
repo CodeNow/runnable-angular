@@ -80,6 +80,16 @@ form.modal-dialog.modal-edit(
           )
         .btn-text Container Files
       button.btn.btn-radio(
+        ng-class = "{'active': selectedTab === 'translation'}"
+        ng-click = "changeTab('translation')"
+        ng-if = "state.repo && $root.featureFlags.findAndReplace"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-translation"
+          )
+        .btn-text Find and Replace
+      button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'logs'}"
         ng-click = "changeTab('logs')"
       )
