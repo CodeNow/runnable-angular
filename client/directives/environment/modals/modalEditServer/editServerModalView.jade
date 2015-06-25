@@ -19,7 +19,9 @@ form.modal-dialog.modal-edit(
       pop-over-options = "{\"centered\":true,\"top\":36}"
       pop-over-template = "serverOptionsModalPopover"
     )
-    .row.modal-tabs.cearfix
+    .row.modal-tabs.cearfix(
+      ng-if = "!isLoading.editServerModal"
+    )
       button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'stack'}"
         ng-click = "changeTab('stack')"
