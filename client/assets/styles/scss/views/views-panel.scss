@@ -51,7 +51,7 @@
   cursor: text;
 }
 
-div.terminal { // div specifity required b/c there's a term.terminal
+div.terminal { // div specificity required b/c there's a term.terminal
   @extend %pre;
   padding: 9px;
 
