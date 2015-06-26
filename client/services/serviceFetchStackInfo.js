@@ -25,6 +25,8 @@ function fetchStackInfo(
           if (stack.dependencies) {
             stack.dependencies = stack.dependencies.map(function (dep) {
               var depObject = angular.copy(data[dep]);
+              depObject.key = dep;
+              depObject.suggestedVersion = depObject.defaultVersion;
               if (dep === 'ruby') {
                 // Fucking hacks.....
                 ['1.8.6-p420', '1.8.7-p374'].forEach(function (thingThatDoesntBelong) {
