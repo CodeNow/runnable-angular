@@ -58,13 +58,13 @@ function editServerModal(
       loading.reset('editServerModal');
       loading('editServerModal', true);
 
-      fetchInstancesByPod()
-        .then(function (instances) {
-          $scope.instances = instances;
-        });
-
       // temp fix
       $scope.data = {};
+
+      fetchInstancesByPod()
+        .then(function (instances) {
+          $scope.data.instances = instances;
+        });
 
       fetchStackInfo()
         .then(function (stackInfo) {
@@ -279,7 +279,7 @@ function editServerModal(
       // For the build and server logs
       $scope.build = $scope.instance.build;
 
-      function resetState(instance) {
+      function resetState(instance, fromError) {
 
         loadingPromises.clear('editServerModal');
         loading.reset('editServerModal');
@@ -289,13 +289,14 @@ function editServerModal(
           startCommand: instance.startCommand,
           commands: instance.commands,
           selectedStack: instance.selectedStack,
-          opts: {
-            env: keypather.get(instance, 'attrs.env') || []
-          },
+          opts: {},
           containerFiles: [],
           repo: keypather.get(instance, 'contextVersion.getMainAppCodeVersion().githubRepo'),
           instance: instance
         };
+
+        $scope.state.opts.env = (fromError ?
+            keypather.get(instance, 'opts.env') : keypather.get(instance, 'attrs.env')) || [];
 
         watchOncePromise($scope, 'instance.containerFiles', true)
           .then(function (containerFiles) {
@@ -510,7 +511,7 @@ function editServerModal(
           })
           .catch(function (err) {
             errs.handler(err);
-            resetState($scope.state)
+            resetState($scope.state, true)
               .then(function () {
                 $scope.building = false;
               });
