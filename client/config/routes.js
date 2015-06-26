@@ -1,17 +1,17 @@
 'use strict';
 
 module.exports = [
-  // TEST
-  {
-    state: 'debug',
-    abstract: false,
-    url: '^/debug',
-    templateUrl: 'viewDebug',
-    data: {
-      anon: true
-    }
-  },
-  // TEST
+  // TEST $root.featureFlags.debugMode
+  // {
+  //   state: 'debug',
+  //   abstract: false,
+  //   url: '^/debug',
+  //   templateUrl: 'viewDebug',
+  //   data: {
+  //     anon: true
+  //   }
+  // },
+  // TEST $root.featureFlags.debugMode
   {
     state: 'orgSelect',
     abstract: false,
