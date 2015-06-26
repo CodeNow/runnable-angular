@@ -132,7 +132,16 @@
 
   // ace container
   .ace-container {
-    border: 2px solid $purple-darker;
+
+    // dark theme
+    &.ace-runnable-dark {
+      border: 2px solid $purple-darker;
+    }
+
+    // light theme
+    &.ace-runnable-light {
+      border: 1px solid $gray-lighter;
+    }
 
     // translation rules
     &.ace-ignored-files {
