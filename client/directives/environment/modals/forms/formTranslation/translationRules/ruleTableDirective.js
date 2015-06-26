@@ -23,6 +23,7 @@ require('app')
 
         $scope.moveRule = function () {
           return loadingPromises.add('editServerModal', moveTransformRules(
+            keypather.get($scope.state, 'contextVersion.getMainAppCodeVersion()'),
             $scope.list,
             $scope.properties.action
           ));
