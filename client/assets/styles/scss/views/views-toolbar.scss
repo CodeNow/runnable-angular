@@ -52,11 +52,17 @@
     color: $purple-lighter;
     flex: 1 1 auto;
     line-height: 37px;
+    padding-right: 9px;
 
     .span {
       color: $white;
       padding-left: 9px;
     }
+  }
+
+  // buttons
+  .btn-xs {
+    flex: 0 0 auto;
   }
 
   // save buttons
