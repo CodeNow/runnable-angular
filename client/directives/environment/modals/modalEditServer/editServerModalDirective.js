@@ -369,7 +369,7 @@ function editServerModal(
        */
       $scope.isTabVisible = function (tabname) {
         if (!tabVisibility[tabname]) {
-          return new Error('This tab shouldn\'t exist');
+          return false;
         }
         var currentStatuses = [];
         var currentContextVersion = keypather.get($scope, 'instance.contextVersion');
