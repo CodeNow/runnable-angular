@@ -1,0 +1,148 @@
+header.server-header
+
+  h1.server-info.load
+    //- instance box name template
+    .container-label.centered
+      span.strong repoName
+      span &#32;(debug)
+      //- status icon template
+      .icons-status.running
+
+  .primary-actions
+    //- ***********************
+    //- deprecated button, remove with $root.featureFlags.saveToolbar
+    //- save button
+    //- ng-if = "!$root.featureFlags.saveToolbar && instance.containers.models[0].running() && canSave()"
+    .btn-group(
+    )
+      //- apply .with-restart if save restarts Server
+      //- add title = "Save and Restart Server" if save restarts Server
+      button.btn.green.btn-save.btn-spinner(
+        ng-class = "{in: saving}"
+        ng-click = "saveChanges()"
+        ng-disabled = "loading || saving || modifyingInstance"
+        type = "button"
+      )
+        .spinner-wrapper.spinner-sm.spinner-white.in(
+          ng-if = "saving"
+          ng-include = "'spinner'"
+        )
+
+        span.btn-text {{ saving ? 'Saving' : 'Save'}}
+        //- show if restart is checked
+        span.btn-text(
+          ng-if = "popoverSaveOptions.data.restartOnSave"
+        ) #{''} and Restart
+      button.btn.green.btn-icon.btn-icon-sm.btn-save-options(
+        ng-class = "{active: popoverSaveOptions.data.show}"
+        ng-disabled = "loading || saving || modifyingInstance"
+        pop-over
+        pop-over-active = "popoverSaveOptions.data.show"
+        pop-over-actions = "popoverSaveOptions.actions"
+        pop-over-data = "popoverSaveOptions.data"
+        pop-over-options = "{\"left\":-146,\"top\":56}"
+        pop-over-template = "viewInstancePopoverSaveOptions"
+        type = "button"
+      )
+        svg.iconnables.icons-arrow-down
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
+    //- end button, remove with $root.featureFlags.saveToolbar
+    //- ***********************
+
+section.sidebar.server-sidebar.full-height.load
+
+  //- show container files even if there's a build error
+  //- explorer template
+  section.sidebar-section.explorer
+    //- explorer menu bar template
+    .explorer-menu-bar-container
+      .sidebar-section-heading.strong File Explorer
+        button.btn.btn-xs.btn-icon.float-right(
+          ng-class = "{active: filePopover.data.show}"
+          pop-over
+          pop-over-actions = "filePopover.actions"
+          pop-over-data = "filePopover.data"
+          pop-over-options = "{\"left\":-68,\"top\":50}"
+          pop-over-template = "viewFileTreePopoverFileExplorerMenu"
+          pop-over-active = "filePopover.data.show"
+        )
+          svg.iconnables.icons-add
+            use(
+              xlink:href = "#icons-add"
+            )
+    ul.file-tree
+      //- file tree dir template
+      li.folder.in
+        a.no-touching
+          svg.iconnables.filetypes.icons-folder
+            use(
+              xlink:href = "#icons-folder"
+            )
+          span.item-name /
+        ul
+          li.file
+            a
+              svg.iconnables.filetypes.icons-repository
+                use(
+                  xlink:href = "#icons-repository"
+                )
+              span.item-name repository
+        //- file tree dir item template
+        ul
+          li.file
+            a
+              svg.iconnables.filetypes.icons-file
+                use(
+                  xlink:href = "#icons-file"
+                )
+              span.item-name fileName
+
+//- active panel template
+section.views.full-height
+
+  //- open terminal, build logs, and cmd logs (if applicable) by default
+  //- tabs template
+  .views-tabs
+    ul.tabs
+      li.tab-wrapper.active
+        .tab-name Build Log
+        button.btn.white.btn-icon.btn-close
+          svg.iconnables.icons-close
+            use(
+              xlink:href = "#icons-close"
+            )
+      li.tab-wrapper
+        .tab-name CMD Log
+        button.btn.white.btn-icon.btn-close
+          svg.iconnables.icons-close
+            use(
+              xlink:href = "#icons-close"
+            )
+      li.tab-wrapper
+        .tab-name Terminal
+        button.btn.white.btn-icon.btn-close
+          svg.iconnables.icons-close
+            use(
+              xlink:href = "#icons-close"
+            )
+
+    button.btn.btn-xs.btn-icon.btn-add-tab(
+      ng-class = "{active: popoverAddTab.data.show}"
+      pop-over
+      pop-over-actions = "popoverAddTab.actions"
+      pop-over-active = "popoverAddTab.data.show"
+      pop-over-data = "popoverAddTab.data"
+      pop-over-options = "{\"right\":4,\"top\":45}"
+      pop-over-template = "viewPopoverAddTab"
+    )
+      svg.iconnables.icons-add
+        use(
+          xlink:href = "#icons-add"
+        )
+
+  .active-panel.ace-runnable-dark
+    .term-js
+      //- log term template
+      .terminal
