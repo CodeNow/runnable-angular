@@ -10,8 +10,8 @@
 
 // li.tab-wrapper
 .tab-wrapper {
-  border-left: 1px solid #e6e6e6; // rgba($black,.1);
-  border-right: 1px solid #e6e6e6; // rgba($black,.1);
+  border-left: 1px solid $gray-lighter;
+  border-right: 1px solid $gray-lighter;
   cursor: pointer;
   display: inline-block;
   margin-left: -1px;
@@ -80,6 +80,7 @@
   }
 
   .btn-close {
+    border-color: transparent;
     float: right;
     height: 15px;
     margin: 15px 6px 15px 9px;

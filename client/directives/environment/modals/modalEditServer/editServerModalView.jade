@@ -60,16 +60,6 @@ form.modal-dialog.modal-edit(
           )
         .btn-text Main Repository
       button.btn.btn-radio(
-        ng-class = "{'active': selectedTab === 'translation'}"
-        ng-click = "changeTab('translation')"
-        ng-if = "state.repo && $root.featureFlags.findAndReplace"
-      )
-        svg.iconnables
-          use(
-            xlink:href = "#icons-translation"
-          )
-        .btn-text Find and Replace
-      button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'files'}"
         ng-click = "changeTab('files')"
         ng-if = "state.repo && !state.advanced"
@@ -79,6 +69,16 @@ form.modal-dialog.modal-edit(
             xlink:href = "#icons-container-files"
           )
         .btn-text Container Files
+      button.btn.btn-radio(
+        ng-class = "{'active': selectedTab === 'translation'}"
+        ng-click = "changeTab('translation')"
+        ng-if = "state.repo && $root.featureFlags.findAndReplace"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-translation"
+          )
+        .btn-text Find and Replace
       button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'logs'}"
         ng-click = "changeTab('logs')"
