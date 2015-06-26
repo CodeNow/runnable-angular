@@ -1,7 +1,7 @@
 'use strict';
 
 var util = require('../../helpers/util');
-var FancySelect = require('../../helpers/FancySelect123');
+var FancySelect = require('../../helpers/FancySelect');
 
 function ExposedPorts (modal) {
   var wrappingElement = util.createGetter(by.css('div[ng-include="\'viewFormEnvironmentVariables\'"]'));

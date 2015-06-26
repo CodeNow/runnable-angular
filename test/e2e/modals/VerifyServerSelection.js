@@ -1,7 +1,7 @@
 'use strict';
 
 var util = require('../helpers/util');
-var FancySelect = require('../helpers/FancySelect123');
+var FancySelect = require('../helpers/FancySelect');
 
 function VerifyServerSelection () {
   this.newContainerHeader = util.createGetter(by.cssContainingText('.modal-heading', 'New Container:'));
