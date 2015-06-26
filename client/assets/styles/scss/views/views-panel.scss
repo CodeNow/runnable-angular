@@ -1,9 +1,17 @@
 // .active-panel
 .active-panel {
-  background-color: $purple-darker;
   height: 100%;
   position: relative;
   z-index: $z-views-active-panel;
+
+  &.ace-runnable-dark {
+    background-color: $purple-darker;
+  }
+
+  &.ace-runnable-light {
+    background-color: $gray-lighterest;
+    border-top: 1px solid $gray-lighter;
+  }
 
   // for tabs when in views
   .views & {
@@ -43,11 +51,27 @@
   cursor: text;
 }
 
-div.terminal { // div specifity required b/c there's a term.terminal
+div.terminal { // div specificity required b/c there's a term.terminal
   @extend %pre;
-  background: $purple-darker !important; // override term
-  color: $white !important;
   padding: 9px;
+
+  .ace-runnable-dark & {
+    background: $purple-darker !important; // override term
+    color: $white !important;
+
+    .terminal-cursor {
+      background: $purple-light;
+    }
+  }
+
+  .ace-runnable-light & {
+    background: $gray-lighterest !important;
+    color: $gray-dark !important;
+
+    .terminal-cursor {
+      background: $gray-light;
+    }
+  }
 }
 
 .term-container,

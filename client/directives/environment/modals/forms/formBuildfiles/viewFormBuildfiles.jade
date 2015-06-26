@@ -44,7 +44,11 @@
 //- table of current environment variables
 //- if dockerfile tool feature flag:
 //- state.readOnly = true
-.ace-container.ace-build-files.ace-runnable-dark(
+.ace-container.ace-build-files(
+  ng-class = "{\
+    'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+    'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+  }"
   ng-init = "state.readOnly = $root.featureFlags.dockerfileTool"
 )
 

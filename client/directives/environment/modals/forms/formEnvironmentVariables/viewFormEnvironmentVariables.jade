@@ -18,7 +18,12 @@
 )
 
 //- table of current environment variables
-.ace-container.ace-environment-variables.ace-runnable-dark
+.ace-container.ace-environment-variables(
+  ng-class = "{\
+    'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+    'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+  }"
+)
 
   .ace_editor(
     current-model = "instance.attrs"

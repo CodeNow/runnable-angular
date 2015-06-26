@@ -464,15 +464,19 @@ function editServerModal(
         var toRebuild = toRecreateDockerfile;
         var toRedeploy = !toRecreateDockerfile &&
               keypather.get($scope, 'instance.attrs.env') !== keypather.get($scope, 'state.opts.env');
-        return loadingPromises.finished('editServerModal')
+
+        // So we should do this watchPromise step first so that any tab that relies on losing focus
+        // to change something will have enough time to add its promises to LoadingPromises
+        return watchOncePromise($scope, 'state.contextVersion', true)
+          .then(function () {
+            return loadingPromises.finished('editServerModal');
+          })
           .then(function (promiseArrayLength) {
             // Since the initial deepCopy should be in here, we only care about > 1
             toRebuild = toRebuild || promiseArrayLength > 1;
             toRedeploy = toRedeploy && !toRebuild;
-            return watchOncePromise($scope, 'state.contextVersion', true)
-              .then(function () {
-                return $scope.state;
-              });
+            return $scope.state;
+
           })
           .then(function (state) {
             if (toRecreateDockerfile) {
