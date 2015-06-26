@@ -378,7 +378,7 @@ function editServerModal(
           currentStatuses.push('nonRepo');
         }
         if (stateAdvanced ||
-            (!keypather.get($scope, 'state.contextVerison.attrs.advanced') && keypather.get(currentContextVersion, 'attrs.advanced'))) {
+            (!keypather.get($scope, 'state.contextVersion') && keypather.get(currentContextVersion, 'attrs.advanced'))) {
           currentStatuses.push('advanced');
         } else {
           currentStatuses.push('basic');
