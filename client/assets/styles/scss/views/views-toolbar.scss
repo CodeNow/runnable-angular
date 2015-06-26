@@ -69,4 +69,49 @@
   .btn + .btn {
     margin-left: 6px;
   }
+
+  // debug buttons
+  .btn-xs.purple {
+    background: $purple-light;
+    border: 0;
+    color: $purple-lightest;
+    line-height: 24px;
+    margin: -2px 0 0;
+    min-width: 24px;
+
+    &:hover {
+      color: $white;
+    }
+
+    &:active {
+      background: $white;
+      color: $purple-light;
+    }
+
+    &:first-child {
+      padding: 0 21px 0 6px;
+    }
+
+    + .btn-xs {
+      border-left: 1px solid $purple;
+      margin-left: 0;
+    }
+
+    .iconnables {
+      height: 100%;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 15px;
+    }
+
+    .icons-link-external {
+      padding: 2px 1px 1px;
+      right: 1px;
+    }
+
+    .icons-arrow-down {
+      margin: 0 5px;
+    }
+  }
 }
