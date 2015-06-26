@@ -41,70 +41,74 @@
       | &#32; a line
       input.toggle-input(
         type = "checkbox"
-        ng-model = "expandMe"
+        ng-model = "cache"
       )
       .toggle-group.toggle-xs.float-right(
         style = "margin: 2px 1px 0px 6px;"
       )
     .build-cmd-wrapper
-      .content-editable.monospace(
-        contentEditable = "true"
-      )
-        div npm install
-        div npm install
-        div npm install
-        div npm install
-        div npm install
-        div npm install
-        div npm install
-        div npm install
-        div npm install
-        div npm install
-      .cache-column(
-        ng-class = "{\
-          in: expandMe\
-        }"
-      )
-        input.input-radio(
-          type = "radio"
-          name = "cache"
+      .div
+        .content-editable.monospace(
+          contentEditable = "true"
+          ng-class = "{\
+            narrow: cache\
+          }"
         )
-        input.input-radio(
-          type = "radio"
-          name = "cache"
+          div npm install
+          div npm install
+          div npm install
+          div npm install
+          div npm install
+          div npm install
+          div npm install
+          div npm install
+          div npm install
+          div npm install
+        .cache-column(
+          ng-class = "{\
+            in: cache\
+          }"
         )
-        input.input-radio(
-          type = "radio"
-          name = "cache"
-        )
-        input.input-radio(
-          type = "radio"
-          name = "cache"
-        )
-        input.input-radio(
-          type = "radio"
-          name = "cache"
-        )
-        input.input-radio(
-          type = "radio"
-          name = "cache"
-        )
-        input.input-radio(
-          type = "radio"
-          name = "cache"
-        )
-        input.input-radio(
-          type = "radio"
-          name = "cache"
-        )
-        input.input-radio(
-          type = "radio"
-          name = "cache"
-        )
-        input.input-radio(
-          type = "radio"
-          name = "cache"
-        )
+          input.input-radio(
+            type = "radio"
+            name = "cache"
+          )
+          input.input-radio(
+            type = "radio"
+            name = "cache"
+          )
+          input.input-radio(
+            type = "radio"
+            name = "cache"
+          )
+          input.input-radio(
+            type = "radio"
+            name = "cache"
+          )
+          input.input-radio(
+            type = "radio"
+            name = "cache"
+          )
+          input.input-radio(
+            type = "radio"
+            name = "cache"
+          )
+          input.input-radio(
+            type = "radio"
+            name = "cache"
+          )
+          input.input-radio(
+            type = "radio"
+            name = "cache"
+          )
+          input.input-radio(
+            type = "radio"
+            name = "cache"
+          )
+          input.input-radio(
+            type = "radio"
+            name = "cache"
+          )
     small.small Specify the commands that need to be executed when your container is built and before it’s launched that support your application (e.g. installing packages).
 
 label.label.clearfix

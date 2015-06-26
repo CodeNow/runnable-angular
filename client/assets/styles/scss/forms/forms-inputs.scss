@@ -361,24 +361,38 @@ textarea {
 }
 
 // move everything below to a different file if you keep it
-
 .build-cmd-wrapper {
-  background-color: white;
+  background-color: $white;
   border-radius: 3px;
   border: 2px solid $gray-lighter;
-  color: #444;
   font-size: 14px;
   line-height: 21px;
-  min-height: 105px;
-  overflow: auto;
-  padding: 0;
+  min-height: 90px;
+  max-height: 12px;
+  overflow-x: hidden;
+  overflow-y: auto;
   position: relative;
+  display: flex;
+  flex-direction: column;
+
+  // flex container
+  .div {
+    display: flex;
+    align-items: stretch;
+    flex: 1 1 auto;
+  }
 
   .content-editable {
-    padding: 6px 0;
-    position: absolute;
+    padding: 3px 0;
+    position: relative;
     width: 100%;
     outline: none;
+    overflow-x: auto;
+    transition: width .15s ease-in-out;
+
+    &.narrow {
+      width: calc(100% - 36px);
+    }
 
     div {
       padding-left: 9px;
@@ -388,9 +402,11 @@ textarea {
 
 .cache-column {
   border-left: 1px solid $gray-lighter;
-  padding: 5px 12px;
+  padding: 2px 12px 4px;
   width: 36px;
   right: -36px;
+  top: 0;
+  background-color: $white;
   position: absolute;
   transform: translate3d(0,0,0);
   transition: transform .15s ease-in-out;
@@ -398,31 +414,4 @@ textarea {
   &.in {
     transform: translate3d(-36px,0,0);
   }
-
-  .input-checkbox {
-    clear: both;
-    height: auto;
-    margin: 0 0 9px;
-    position: relative;
-  }
-}
-
-.doc-link {
-  cursor: pointer;
-
-  &:hover {
-    color: $purple-light;
-  }
-
-  .iconnables {
-    height: 14px;
-    margin: 0 -3px 0 3px;
-    position: relative;
-    top: 3px;
-    width: 14px;
-  }
-}
-
-.ace-wrapper-test {
-  min-height: 120px;
 }
