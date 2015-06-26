@@ -28,18 +28,78 @@
         | {{ $parent.branch.attrs.name }}
     small.small We’ll build the first container with the code on this branch. We recommend choosing a stable branch.
 
-label.label.clearfix
+.label.clearfix
   .label-col Build Commands
     small.small (optional)
 
   .input-col
-    //- we only have suggestions for build commands on the main repository
-    textarea.textarea.monospace(
-      ng-disabled = "startCommandCanDisable && !state.selectedStack"
-      ng-model = "state.commands"
-      placeholder = "Build commands"
-      spellcheck = "false"
-    )
+    label.small.strong.text-right.toggle-wrapper cache a line
+      input.toggle-input(
+        type = "checkbox"
+        ng-model = "expandMe"
+      )
+      .toggle-group.toggle-xs.float-right(
+        style = "margin: 2px 1px 0px 6px;"
+      )
+    .build-cmd-wrapper
+      .content-editable.monospace(
+        contentEditable = "true"
+      )
+        div npm install
+        div npm install
+        div npm install
+        div npm install
+        div npm install
+        div npm install
+        div npm install
+        div npm install
+        div npm install
+        div npm install
+      .cache-column(
+        ng-class = "{\
+          in: expandMe\
+        }"
+      )
+        input.input-radio(
+          type = "radio"
+          name = "cache"
+        )
+        input.input-radio(
+          type = "radio"
+          name = "cache"
+        )
+        input.input-radio(
+          type = "radio"
+          name = "cache"
+        )
+        input.input-radio(
+          type = "radio"
+          name = "cache"
+        )
+        input.input-radio(
+          type = "radio"
+          name = "cache"
+        )
+        input.input-radio(
+          type = "radio"
+          name = "cache"
+        )
+        input.input-radio(
+          type = "radio"
+          name = "cache"
+        )
+        input.input-radio(
+          type = "radio"
+          name = "cache"
+        )
+        input.input-radio(
+          type = "radio"
+          name = "cache"
+        )
+        input.input-radio(
+          type = "radio"
+          name = "cache"
+        )
     small.small Specify the commands that need to be executed when your container is built and before it’s launched that support your application (e.g. installing packages).
 
 label.label.clearfix
