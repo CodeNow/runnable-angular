@@ -55,16 +55,13 @@
 .views-toolbar(
   ng-if = "$root.featureFlags.debugMode"
 )
-  small.small
-    span.monospace Step 2 of 7
-    span Build Failed
+  small.small Build Failed
+    span.span Step 2 : ADD ./["api-server", /"api-server"]
   .btn-group.float-right
     //- opens in new window
     a.btn.btn-xxs.float-right(
       href = "/debug"
       target = "_blank"
-      tooltip = "Launch from Step 2"
-      tooltip-options = "{\"class\":\"bottom tooltip-sm no-arrow\",\"left\":0,\"top\":24}"
     ) Debug Container
       svg.iconnables.icons-link-external
         use(

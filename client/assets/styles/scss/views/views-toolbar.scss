@@ -40,17 +40,11 @@
   border-top: 1px solid $purple-darker;
   display: flex;
   height: 36px;
-  padding: 0 11px; // match log padding
+  padding: 0 9px; // match log padding
 
   // when there are multiple
   + .views-toolbar {
     margin-top: -1px;
-  }
-
-  // step
-  .monospace {
-    color: $white;
-    margin-right: 9px;
   }
 
   // path/title
@@ -58,6 +52,11 @@
     color: $purple-lighter;
     flex: 1 1 auto;
     line-height: 37px;
+
+    .span {
+      color: $white;
+      padding-left: 9px;
+    }
   }
 
   // save buttons

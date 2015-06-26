@@ -167,6 +167,10 @@
     .list-item {
       height: 24px;
       line-height: 24px;
+
+      &.small {
+        margin-left: 0;
+      }
     }
 
     .iconnables {
