@@ -26,7 +26,7 @@ $purple-darker: #261731; // darken($purple,20%);
 
 // ace theme
 $ace-bg: #311d40;
-$ace-border: #261731;
+$ace-border: $purple-darker;
 
 $orange: #f2ae24;
 $orange-light: #f9b548;
