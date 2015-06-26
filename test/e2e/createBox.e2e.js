@@ -13,6 +13,9 @@ var NonRepoSelect = require('./modals/NonRepoSelect');
 var VerifyServerSelection = require('./modals/VerifyServerSelection');
 var ServerCard = require('./components/serverCard');
 
+var HelpCards = require('./components/HelpCards');
+var helpCards = new HelpCards();
+
 var containers = [
   {
     repo: 'web',
@@ -67,33 +70,13 @@ describe('project creation workflow', function () {
     });
   });
   it('should have a help card to create a mongodb container', function () {
-    var helpCardButton = util.createGetter(by.cssContainingText('.triggered-help-item button', 'Show Me'));
-    var helpCardText = util.createGetter(by.cssContainingText('.help-container .help', 'Click on the '));
     var newContainer = new NewContainer();
     var nonRepoSelect = new NonRepoSelect();
 
     var serverCard = new ServerCard('api');
     return serverCard.waitForStatusEquals('running')
       .then(function () {
-        return browser.wait(function () {
-          return helpCardButton.get().isPresent();
-        }, 1000 * 30 * 1000);
-      })
-      .then(function () {
-        return helpCardButton.get().click();
-      })
-      .then(function () {
-        // Verify help text shows up and new container button gets a class
-        return helpCardButton.get().isPresent()
-          .then(function (isPresent) {
-            expect(isPresent).toEqual(false);
-          });
-      })
-      .then(function () {
-        return helpCardText.get().isPresent()
-          .then(function (isPresent) {
-            expect(isPresent).toEqual(true);
-          });
+        helpCards.selectCardByText('api may need a mongodb container.');
       })
       .then(function () {
         return newContainer.selectNonRepository();
@@ -103,40 +86,17 @@ describe('project creation workflow', function () {
       })
       .then(function () {
         var serverCard = new ServerCard('MongoDB');
-        return serverCard.waitForStatusEquals(['running', 'building', 'starting']);
+        return serverCard.waitForStatusEquals('running');
       });
   });
 
   it('should have a help card to create a mapping to mongodb', function () {
-    var moreHelpButton = util.createGetter(by.cssContainingText('button','More Help'));
-    var helpCardButtonText = util.createGetter(by.cssContainingText('.triggered-help-item p', 'need to be updated with'));
-    var helpCardButton;
-
     var helpCardText = util.createGetter(by.cssContainingText('.help-container .help', 'to update the hostname for'));
 
     var serverCard = new ServerCard('api');
     return serverCard.waitForStatusEquals('running')
       .then(function () {
-        return browser.wait(function () {
-          return moreHelpButton.get().isPresent();
-        }, 1000 * 30 * 1000);
-      })
-      .then(function () {
-        moreHelpButton.get().click();
-        return browser.wait(function () {
-          return helpCardButtonText.get().isPresent();
-        }, 1000 * 30 * 1000);
-      })
-      .then(function () {
-        helpCardButton = helpCardButtonText.get().element(by.xpath('../following-sibling::button'));
-        return helpCardButton.click();
-      })
-      .then(function () {
-        // Verify help text shows up and new container button gets a class
-        return helpCardButton.get().isPresent()
-          .then(function (isPresent) {
-            expect(isPresent).toEqual(false);
-          });
+        helpCards.selectCardByText('need to be updated with');
       })
       .then(function () {
         return helpCardText.get().isPresent()
