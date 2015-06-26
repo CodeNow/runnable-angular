@@ -8,9 +8,10 @@
 
 //- toolbar
 .views-toolbar-wrapper(
-  ng-class = "{'toolbar-lg': \
-    (showBuildFailurePrompt() || shouldShowUpdateConfigsPrompt) && \
-    $root.featureFlags.saveToolbar\
+  ng-class = "{\
+    'toolbar-lg': (showBuildFailurePrompt() || shouldShowUpdateConfigsPrompt) && $root.featureFlags.saveToolbar,\
+    'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+    'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
   ng-if = "\
     showBuildFailurePrompt() || \
