@@ -25,15 +25,26 @@
 
   // read only button
   > .btn-xs {
-    background: $purple-darker;
-    border: 1px solid rgba($white,.15);
-    bottom: 3px;
+    bottom: 6px;
     cursor: default;
     font-family: 'Helvetica Neue', 'Segoe UI', sans-serif; // use default font stack
     position: absolute;
     right: 6px;
     transition: opacity .15s ease-in-out;
     z-index: $z-views-active-panel + 1; // on top of the active panel
+
+    // light theme
+    .ace-runnable-light & {
+      background: $gray-light;
+      border: 1px solid rgba($black,.15);
+      color: $white;
+    }
+
+    // dark theme
+    .ace-runnable-dark & {
+      background: $purple-darker;
+      border: 1px solid rgba($white,.15);
+    }
 
     &:hover,
     &:active {
