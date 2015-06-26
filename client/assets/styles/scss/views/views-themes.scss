@@ -262,15 +262,15 @@
 // dark theme
 .ace-runnable-dark .pre,
 .ace-container.ace-runnable-dark {
-  background-color: #311d40;
+  background-color: $ace-bg;
   color: $white;
 
   // readonly styles
   &.readonly, {
-    background-color: rgba(#311d40,.6);
+    background-color: rgba($ace-bg,.6);
 
     .ace_gutter {
-      background-color: rgba(#311d40,.6);
+      background-color: rgba($ace-bg,.6);
       color: lighten(#5e4d6e,30%);
     }
 
@@ -287,7 +287,7 @@
   }
 
   .ace_gutter {
-    background: darken(#311d40,3%);
+    background: darken($ace-bg,3%);
     color: lighten(#5e4d6e,12%);
   }
 
@@ -311,7 +311,7 @@
 
   &.ace_multiselect .ace_selection.ace_start {
     border-radius: 2px;
-    box-shadow: 0 0 3px 0 #311d40;
+    box-shadow: 0 0 3px 0 $ace-bg;
   }
 
   .ace_marker-layer .ace_step {

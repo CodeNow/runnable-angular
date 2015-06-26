@@ -1,0 +1,19 @@
+.popover-debug {
+  max-width: 240px;
+
+  .list-item {
+    display: block;
+    letter-spacing: -.25px;
+    line-height: 30px;
+    min-height: 30px;
+    padding-right: 30px;
+  }
+
+  .iconnables {
+    color: $purple-light;
+    max-height: 30px;
+    max-width: 11px;
+    position: absolute;
+    right: 0;
+  }
+}

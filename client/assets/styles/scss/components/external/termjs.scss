@@ -1,0 +1,35 @@
+// keeps log on bottom (iterm)
+#log {
+  height: 10px;
+}
+
+.term-container,
+.terminal {
+  height: 100%;
+  width: 100%;
+}
+
+// terminal
+.term-container {
+  cursor: text;
+}
+
+.terminal {
+  @extend %pre;
+  background: $ace-bg !important; // override term
+  color: $white !important;
+  padding: 9px 0;
+
+  > div {
+    padding: 0 9px;
+  }
+}
+
+// hover states
+.term-log .terminal > div {
+
+  &:hover,
+  &:active {
+    background: $purple-darker;
+  }
+}

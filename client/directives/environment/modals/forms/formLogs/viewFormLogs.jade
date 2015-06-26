@@ -1,3 +1,4 @@
+//- tabs
 .btn-group(
   ng-init = "page = (['building', 'buildFailed', 'neverStarted'].indexOf(instance.status()) === -1) ? 'run' : 'build'"
 )
@@ -11,13 +12,21 @@
     ng-click = "page = 'run'"
   ) CMD Logs
 
+//- toolbar
+//- does not appear for build errors at step 0 (FROM)
+.views-toolbar-wrapper(
+  ng-if = "$root.featureFlags.debugMode"
+  ng-include = "'viewToolbar'"
+)
+
+//- logs
 pre.pre.log-wrapper
-  .logs(
+  .term-js.term-log(
     log-term
     ng-controller = "BuildLogController"
     ng-show = "page === 'build'"
   )
-  .logs(
+  .term-js.term-log(
     log-term
     ng-controller = "BoxLogController"
     ng-if = "instance.containers.models.length"

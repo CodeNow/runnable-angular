@@ -26,7 +26,6 @@
 
   &.toolbar-lg ~ .active-panel {
     height: calc(100% - 120px); // tabs + double toolbar
-
   }
 
   // dark theme
@@ -57,14 +56,15 @@
   }
 
   ~ .active-panel {
-    height: calc(100% - 83px); // tabs + toolbar
+    height: calc(100% - 81px); // tabs + toolbar
   }
 }
 
 .views-toolbar {
   align-items: center;
   display: flex;
-  padding: 6px 6px 6px 10px;
+  height: 36px;
+  padding: 0 9px; // match log padding
 
   // when there are multiple
   + .views-toolbar {
@@ -74,12 +74,71 @@
   // path/title
   .small {
     flex: 1 1 auto;
-    line-height: 24px;
-    margin-right: 6px;
+    line-height: 37px;
+    padding-right: 9px;
+
+    .span {
+      color: $white;
+      padding-left: 9px;
+    }
+  }
+
+  // buttons
+  .btn-xs {
+    flex: 0 0 auto;
   }
 
   // save buttons
   .btn + .btn {
     margin-left: 6px;
+  }
+
+  // debug buttons
+  .btn-group {
+    min-width: 153px; // stop wrapping
+  }
+
+  .btn-xs.purple {
+    background: $purple-light;
+    border: 0;
+    color: $purple-lightest;
+    line-height: 24px;
+    margin: -2px 0 0;
+    min-width: 24px;
+
+    &:hover {
+      color: $white;
+    }
+
+    &:active {
+      background: $white;
+      color: $purple-light;
+    }
+
+    &:first-child {
+      padding: 0 21px 0 6px;
+    }
+
+    + .btn-xs {
+      border-left: 1px solid $purple;
+      margin-left: 0;
+    }
+
+    .iconnables {
+      height: 100%;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 15px;
+    }
+
+    .icons-link-external {
+      padding: 2px 1px 1px;
+      right: 1px;
+    }
+
+    .icons-arrow-down {
+      margin: 0 5px;
+    }
   }
 }

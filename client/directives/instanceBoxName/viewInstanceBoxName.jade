@@ -12,26 +12,21 @@
     ng-if = "instance.attrs.name"
     readonly
     select-all
-    title = "Container URL"
+    tooltip = "A URL is assigned to each container in a Sandbox and follows the naming pattern: [hash]-[repository]-[sandbox]-[GitHub-org].runnableapp.com."
+    tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":0,\"top\":18}"
     value = "{{ instance.getContainerHostname() }}{{defaultPort}}"
   )
+
   //- sets width
-  span.container-url-ghost.no-touching {{ instance.getContainerHostname() }}{{defaultPort}}
-  a.link-button.container-url-link(
-    ng-href = "http://{{ instance.getContainerHostname() }}{{defaultPort}}"
-    target = "_blank"
-    title = "Open Container URL"
-  )
-    svg.iconnables
-      use(
-        xlink:href = "#icons-link-external"
-      )
-  a.link-button.documentation-link(
-    href = "https://runnable.zendesk.com/hc/en-us/articles/204522249-What-are-Container-URLs-"
-    target = "_blank"
-    title = "Learn about Container URLs"
-  )
-    svg.iconnables
-      use(
-        xlink:href = "#icons-question"
+  .container-url-ghost
+    span.float-left.no-touching {{ instance.getContainerHostname() }}{{defaultPort}}
+
+    a.link.float-left(
+      ng-href = "http://{{ instance.getContainerHostname() }}{{defaultPort}}"
+      target = "_blank"
+      title = "Open in a new tab: http://{{ instance.getContainerHostname() }}{{defaultPort}}"
+    )
+      svg.iconnables
+        use(
+          xlink:href = "#icons-link-external"
         )

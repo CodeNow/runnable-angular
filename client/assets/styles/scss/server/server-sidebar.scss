@@ -16,8 +16,7 @@
 
   .spinner-wrapper {
     float: right;
-    margin-right: 15px;
-    margin-top: 5px;
+    margin-top: 22px;
   }
 
   // file explorer section
@@ -25,10 +24,6 @@
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
-
-    .explorer-menu-bar-container {
-      flex: 0 0 60px;
-    }
 
     .file-tree {
       flex: 1 1 auto;
