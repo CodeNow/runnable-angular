@@ -33,7 +33,12 @@
     small.small (optional)
 
   .input-col
-    label.small.strong.text-right.toggle-wrapper cache a line
+    label.small.strong.text-right.toggle-wrapper
+      span.underline(
+        tooltip = "Disabling Auto Deploy will stop your container from automatically updating with new changes to your repositories."
+        tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":9,\"top\":18}"
+      ) cache
+      | &#32; a line
       input.toggle-input(
         type = "checkbox"
         ng-model = "expandMe"
