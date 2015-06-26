@@ -84,7 +84,12 @@ function ControllerApp(
       // Intercom && Mixpanel
       eventTracking.boot(thisUser);
       return fetchOrgs();
-    });
+    })
+    .then(function (orgs) {
+      dataApp.data.orgs = orgs;
+      dataApp.data.allAccounts = [dataApp.data.user].concat(orgs.models);
+    })
+    .catch(errs.handler);
 
   function setActiveAccount(accountName) {
     if (accountName) {
@@ -146,11 +151,4 @@ function ControllerApp(
       $rootScope.$broadcast('close-modal');
     }
   };
-
-  fetchUserPromise
-    .then(function (orgs) {
-      dataApp.data.orgs = orgs;
-      dataApp.data.allAccounts = [dataApp.data.user].concat(orgs.models);
-    })
-    .catch(errs.handler);
 }
