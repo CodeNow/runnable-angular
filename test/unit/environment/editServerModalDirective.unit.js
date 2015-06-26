@@ -1,6 +1,6 @@
 'use strict';
 
-describe('editServerModalDirective'.bold.underline.blue, function () {
+describe.only('editServerModalDirective'.bold.underline.blue, function () {
   var ctx;
   var $timeout;
   var $scope;
@@ -691,23 +691,23 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
           });
         },
         nonRepoBasic: function () {
+          ctx.instance.contextVersion.appCodeVersions.models = [];
           setup({
             currentModel: ctx.instance
           });
-          ctx.instance.contextVersion.appCodeVersions.models = [];
         },
         nonRepoAdvanced: function () {
-          setup({
-            currentModel: ctx.instance
-          });
           ctx.instance.contextVersion.appCodeVersions.models = [];
           ctx.instance.contextVersion.attrs.advanced = true;
-        },
-        advanced: function () {
           setup({
             currentModel: ctx.instance
           });
+        },
+        advanced: function () {
           ctx.instance.contextVersion.attrs.advanced = true;
+          setup({
+            currentModel: ctx.instance
+          });
         }
       };
     });
