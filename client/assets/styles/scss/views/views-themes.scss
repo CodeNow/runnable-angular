@@ -19,6 +19,10 @@
   min-width: 42px;
 }
 
+.ace_scroller {
+  right: 0 !important; // fix extra spacing for scrollbar
+}
+
 .ace_editor {
   height: 100%;
   position: relative;
