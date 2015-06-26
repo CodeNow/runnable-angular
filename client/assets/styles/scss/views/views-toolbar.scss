@@ -71,6 +71,10 @@
   }
 
   // debug buttons
+  .btn-group {
+    min-width: 153px; // stop wrapping
+  }
+
   .btn-xs.purple {
     background: $purple-light;
     border: 0;
