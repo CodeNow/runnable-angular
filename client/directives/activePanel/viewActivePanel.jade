@@ -29,6 +29,16 @@
   ng-repeat = "item in openItems.models"
   ng-show = "item === openItems.activeHistory.last()"
 )
+
+  button.btn.btn-xs(
+    ng-click = "$root.featureFlags.imAfraidOfTheDark = !$root.featureFlags.imAfraidOfTheDark"
+    title = "Change Theme"
+  )
+    svg.iconnables.icons
+      use(
+        xlink:href = "#icons-theme"
+      )
+
   //- logs
   .logs(
     log-term
