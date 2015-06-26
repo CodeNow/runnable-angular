@@ -14,7 +14,7 @@ util.processUrl = function (middle) {
 };
 
 util.waitForUrl = function (url, duration) {
-  duration = duration || 1000 * 2;
+  duration = duration || 1000 * 5;
   return browser.wait(function () {
     return browser.driver.getCurrentUrl().then(function (currentUrl) {
       if (typeof url === 'object' && typeof url.test === 'function') {
@@ -55,6 +55,16 @@ util.createGetter = function (by, parentElement) {
     }
   };
 };
+
+util.testTimeout = function (timeout) {
+  var originalTimeout = 1000 * 10;
+  beforeEach(function () {
+    jasmine.getEnv().defaultTimeoutInterval  = timeout;
+  });
+  afterEach(function () {
+    jasmine.getEnv().defaultTimeoutInterval = originalTimeout;
+  });
+}
 
 util.createGetterAll = function(by, parentElement) {
   return {
@@ -116,6 +126,10 @@ util.goToUrl = function (url) {
     if (newUrl.slice(-1) !== '/') {
       newUrl = newUrl + '/';
     }
+    if (oldUrl !== newUrl) {
+      browser.driver.get(newUrl);
+      return util.goToUrl(url);
+    }
 
     counts[url] = counts[url] || 0;
     counts[url] += 1;
@@ -125,8 +139,7 @@ util.goToUrl = function (url) {
     return element.all(by.css('.modal-error .modal-description'))
       .count()
       .then(function (errorCount) {
-        if (errorCount > 0 || oldUrl !== newUrl) {
-          console.log('Redirecting!', errorCount, oldUrl, newUrl);
+        if (errorCount > 0) {
           browser.driver.get(newUrl);
           return util.goToUrl(url);
         }

@@ -7,7 +7,6 @@
 
 var util = require('./helpers/util');
 
-var users = require('./helpers/users');
 var NewContainer = require('./popovers/NewContainer');
 var RepoSelect = require('./modals/RepoSelect');
 var NonRepoSelect = require('./modals/NonRepoSelect');
@@ -32,13 +31,9 @@ var containers = [
 ];
 
 describe('project creation workflow', function () {
-  var originalTimeout = 1000 * 10;
+  util.testTimeout(1000 * 60 * 3);
   beforeEach(function () {
-    jasmine.getEnv().defaultTimeoutInterval  = 1000 * 60 * 3;
     return util.goToUrl('/' + browser.params.user + '/configure');
-  });
-  afterEach(function () {
-    jasmine.getEnv().defaultTimeoutInterval = originalTimeout;
   });
   containers.forEach(function (container) {
     it('should create new container '+container.repo, function () {
@@ -67,7 +62,7 @@ describe('project creation workflow', function () {
         })
         .then(function () {
           var serverCard = new ServerCard(container.repo);
-          return serverCard.waitForStatusEquals('running');
+          return serverCard.waitForStatusEquals(['running', 'building', 'starting']);
         });
     });
   });
@@ -108,7 +103,46 @@ describe('project creation workflow', function () {
       })
       .then(function () {
         var serverCard = new ServerCard('MongoDB');
-        return serverCard.waitForStatusEquals('running');
+        return serverCard.waitForStatusEquals(['running', 'building', 'starting']);
+      });
+  });
+
+  it('should have a help card to create a mapping to mongodb', function () {
+    var moreHelpButton = util.createGetter(by.cssContainingText('button','More Help'));
+    var helpCardButtonText = util.createGetter(by.cssContainingText('.triggered-help-item p', 'need to be updated with'));
+    var helpCardButton;
+
+    var helpCardText = util.createGetter(by.cssContainingText('.help-container .help', 'to update the hostname for'));
+
+    var serverCard = new ServerCard('api');
+    return serverCard.waitForStatusEquals('running')
+      .then(function () {
+        return browser.wait(function () {
+          return moreHelpButton.get().isPresent();
+        }, 1000 * 30 * 1000);
+      })
+      .then(function () {
+        moreHelpButton.get().click();
+        return browser.wait(function () {
+          return helpCardButtonText.get().isPresent();
+        }, 1000 * 30 * 1000);
+      })
+      .then(function () {
+        helpCardButton = helpCardButtonText.get().element(by.xpath('../following-sibling::button'));
+        return helpCardButton.click();
+      })
+      .then(function () {
+        // Verify help text shows up and new container button gets a class
+        return helpCardButton.get().isPresent()
+          .then(function (isPresent) {
+            expect(isPresent).toEqual(false);
+          });
+      })
+      .then(function () {
+        return helpCardText.get().isPresent()
+          .then(function (isPresent) {
+            expect(isPresent).toEqual(true);
+          });
       });
   });
 });

@@ -51,6 +51,14 @@ function FancySelect (buttonBy) {
       return option.click();
     });
   };
+
+  this.selectOptionByStartsWith = function (str) {
+    return this.openIfClosed().then(function () {
+      return element(by.cssContainingText('.fancy-select fancy-option li span', str))
+        .element(by.xpath('..'))
+        .click();
+    });
+  };
 }
 
 module.exports = FancySelect;

@@ -7,7 +7,6 @@
 
 var util = require('./helpers/util');
 
-var users = require('./helpers/users');
 var ServerCard = require('./components/serverCard');
 
 var containers = [
@@ -17,13 +16,9 @@ var containers = [
 ];
 
 describe('project deletion workflow', function () {
-  var originalTimeout = 1000 * 10;
+  util.testTimeout(1000 * 60 * 3);
   beforeEach(function () {
-    jasmine.getEnv().defaultTimeoutInterval  = 1000 * 60 * 3;
     return util.goToUrl('/' + browser.params.user + '/configure');
-  });
-  afterEach(function () {
-    jasmine.getEnv().defaultTimeoutInterval = originalTimeout;
   });
   containers.forEach(function (container) {
     it('should delete container '+container, function () {

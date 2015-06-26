@@ -7,6 +7,10 @@ function ServerCard (instanceName) {
   this.by = by.cssContainingText('.card span', instanceName);
   this.serverCardTitle = util.createGetter(this.by);
 
+  this.getCardWrapper = function () {
+    return element(this.by).element(by.xpath('../../..'));
+  };
+
   this.waitForLoaded = function () {
     var self = this;
     return browser.wait(function () {
@@ -15,13 +19,16 @@ function ServerCard (instanceName) {
   };
 
   this.waitForStatusEquals = function (status) {
+    if (typeof status === 'string') {
+      status = [status];
+    }
     var self = this;
     return self.waitForLoaded().then(function () {
       return browser.wait(function () {
         return self.serverCardTitle.get()
           .evaluate('instance.status()')
           .then(function (results) {
-            return results === status;
+            return status.indexOf(results) > -1;
           });
       }, 1000 * 45);
     });
@@ -29,7 +36,8 @@ function ServerCard (instanceName) {
 
   this.deleteContainer = function () {
     var self = this;
-    var cardHeader = new CardHeader(this.serverCardTitle.get().element(by.xpath('..')).element(by.xpath('..')));
+
+    var cardHeader = new CardHeader(self.getCardWrapper());
     return self.waitForLoaded()
       .then(function () {
         return cardHeader.selectDeleteContainer();
@@ -51,6 +59,29 @@ function ServerCard (instanceName) {
       })
       .then(function () {
         return browser.waitForAngular();
+      });
+  };
+
+  this.open = function (target) {
+    var self = this;
+    return self.waitForLoaded()
+      .then(function () {
+        return self.getCardWrapper()
+          .element(by.cssContainingText('.card li h3', target))
+          .element(by.xpath('..'))
+          .click();
+      });
+  };
+
+  this.getStatusText = function (target) {
+    var self = this;
+    return self.waitForLoaded()
+      .then(function () {
+        return self.getCardWrapper()
+          .element(by.cssContainingText('.card li h3', target))
+          .element(by.xpath('..'))
+          .element(by.css('small'))
+          .getText();
       });
   };
 }

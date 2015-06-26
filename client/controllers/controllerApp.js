@@ -43,6 +43,7 @@ function ControllerApp(
   }, 33));
 
   // used in dev-info box
+  configEnvironment = 'production';
   dataApp.data.configEnvironment = configEnvironment;
   $rootScope.featureFlags = {
     advancedRepositories: true,
