@@ -1,6 +1,6 @@
 'use strict';
 
-describe.only('ignoredTranslationDirective'.bold.underline.blue, function() {
+describe('ignoredTranslationDirective'.bold.underline.blue, function() {
   var element;
   var $scope;
   var $elScope;
