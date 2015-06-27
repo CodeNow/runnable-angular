@@ -67,6 +67,55 @@
   position: relative;
 }
 
+// theme toggle
+.active-panel,
+.ace-container {
+
+  &.ace-runnable-dark {
+    background-color: $ace-bg;
+
+    > .btn {
+      background: $purple-dark;
+      border-color: $purple;
+      color: $purple-lighter;
+      transform: rotate3d(0,0,1,180deg);
+    }
+  }
+
+  &.ace-runnable-light {
+    background-color: $gray-lighterest;
+    border-top: 1px solid $gray-lighter;
+
+    > .btn {
+      background: $gray-lighter;
+      border-color: $gray-light;
+      color: $gray-dark;
+    }
+  }
+
+  // controls
+  > .btn {
+    border: 1px solid;
+    opacity: .5;
+    padding: 0;
+    position: absolute;
+    right: 6px;
+    top: 6px;
+    width: 24px;
+    z-index: $z-views;
+
+    &:hover,
+    &:active {
+      opacity: 1;
+    }
+
+    .iconnables {
+      height: 100%; // vertically center
+      width: 12px;
+    }
+  }
+}
+
 // light theme
 .ace-runnable-light .pre,
 .ace-container.ace-runnable-light {

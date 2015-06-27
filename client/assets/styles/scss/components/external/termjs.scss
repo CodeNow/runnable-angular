@@ -16,9 +16,27 @@
 
 .terminal {
   @extend %pre;
-  background: $ace-bg !important; // override term
-  color: $white !important;
   padding: 9px 0;
+
+  // dark theme
+  .ace-runnable-dark & {
+    background: $ace-bg !important; // override term
+    color: $white !important;
+
+    .terminal-cursor {
+      background: $purple-light;
+    }
+  }
+
+  // light theme
+  .ace-runnable-light & {
+    background-color: $gray-lighterest !important; // override term
+    color: $gray-darker !important;
+
+    .terminal-cursor {
+      background: $gray-light;
+    }
+  }
 
   > div {
     padding: 0 9px;
@@ -28,8 +46,20 @@
 // hover states
 .term-log .terminal > div {
 
-  &:hover,
-  &:active {
-    background: $purple-darker;
+  // dark theme
+  .ace-runnable-dark & {
+
+    &:hover,
+    &:active {
+      background: $purple-darker;
+    }
+  }
+
+  .ace-runnable-light & {
+
+    &:hover,
+    &:active {
+      background: $gray-lightest;
+    }
   }
 }

@@ -76,3 +76,13 @@
     state = "state"
     use-auto-update = "true"
   )
+
+  button.btn.btn-xs(
+    ng-click = "$root.featureFlags.imAfraidOfTheDark = !$root.featureFlags.imAfraidOfTheDark"
+    ng-if = "$root.featureFlags.themeToggle"
+    title = "Change Theme"
+  )
+    svg.iconnables.icons
+      use(
+        xlink:href = "#icons-theme"
+      )
