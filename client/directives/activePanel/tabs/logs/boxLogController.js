@@ -10,6 +10,7 @@ function BoxLogController(
   dockerStreamCleanser,
   $scope,
   through,
+  $interval,
   primus
 ) {
 
@@ -60,15 +61,20 @@ function BoxLogController(
     var streamCleanser = dockerStreamCleanser('hex');
     primus.joinStreams(
       $scope.stream,
-      streamCleanser
-    ).pipe(through(
-      function write(data) {
-        this.emit('data', data.toString().replace(/\r?\n/gm, '\r\n'));
-      },
-      function end() {
-        // Do nothing, especially don't pass it along to the terminal (You'll get an error)
-      }
-    )).pipe(terminal);
+      terminal
+    );
+      //.pipe(through(
+    //  function write(data) {
+    //    var self = this;
+    //    console.log('After cleansing:', data);
+    //    $scope.$evalAsync(function () {
+    //      self.emit('data', data.toString());
+    //    });
+    //  },
+    //  function end() {
+    //    // Do nothing, especially don't pass it along to the terminal (You'll get an error)
+    //  }
+    //)).pipe(terminal);
   };
 
   $scope.streamEnded = function () {
