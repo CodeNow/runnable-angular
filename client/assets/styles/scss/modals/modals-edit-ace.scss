@@ -65,6 +65,11 @@
   &.in {
     width: 240px;
 
+    // theme toggle
+    + .btn {
+      transform: translate3d(-240px,0,0);
+    }
+
     // dark theme
     .ace-runnable-dark & {
       border-left-color: $purple-darker;

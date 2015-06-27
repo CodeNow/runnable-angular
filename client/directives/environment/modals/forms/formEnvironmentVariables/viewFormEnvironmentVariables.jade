@@ -38,6 +38,16 @@
     ng-if = "$root.featureFlags.hostnameTool"
   )
 
+  button.btn.btn-xs(
+    ng-click = "$root.featureFlags.imAfraidOfTheDark = !$root.featureFlags.imAfraidOfTheDark"
+    ng-if = "$root.featureFlags.themeToggle"
+    title = "Change Theme"
+  )
+    svg.iconnables.icons-theme
+      use(
+        xlink:href = "#icons-theme"
+      )
+
 //- detailed text
 label.label.label-help
   small.small.strong Elastic hostname:

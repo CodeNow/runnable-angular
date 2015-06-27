@@ -78,7 +78,10 @@
       background: $purple-dark;
       border-color: $purple;
       color: $purple-lighter;
-      transform: rotate3d(0,0,1,180deg);
+
+      .icons-theme {
+        transform: rotate3d(0,0,1,180deg);
+      }
     }
   }
 
@@ -101,6 +104,7 @@
     position: absolute;
     right: 6px;
     top: 6px;
+    transition: transform .2s ease-in-out;
     width: 24px;
     z-index: $z-views;
 
@@ -111,6 +115,7 @@
 
     .iconnables {
       height: 100%; // vertically center
+      transition: none;
       width: 12px;
     }
   }
