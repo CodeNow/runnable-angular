@@ -59,21 +59,32 @@ function BoxLogController(
 
   $scope.connectStreams = function (terminal) {
     var streamCleanser = dockerStreamCleanser('hex');
-    primus.joinStreams(
+    var jointStream = primus.joinStreams(
       $scope.stream,
-      terminal
-    );
+      streamCleanser
+    ).pause();
+    function readingFn() {
+      var data = jointStream.read();
+      terminal.write(data);
+    }
+    var intervalPromise = $interval(readingFn, 3000);
+    jointStream.on('end', function () {
+      readingFn();
+      $interval.cancel(intervalPromise);
+      jointStream.off('end');
+    });
+      //
       //.pipe(through(
-    //  function write(data) {
-    //    var self = this;
-    //    console.log('After cleansing:', data);
-    //    $scope.$evalAsync(function () {
-    //      self.emit('data', data.toString());
-    //    });
-    //  },
-    //  function end() {
-    //    // Do nothing, especially don't pass it along to the terminal (You'll get an error)
-    //  }
+      //function write(data) {
+      //  var self = this;
+      //  console.log('After cleansing:', data);
+      //  $scope.$evalAsync(function () {
+      //    self.emit('data', data.toString());
+      //  });
+      //},
+      //function end() {
+      //  // Do nothing, especially don't pass it along to the terminal (You'll get an error)
+      //}
     //)).pipe(terminal);
   };
 

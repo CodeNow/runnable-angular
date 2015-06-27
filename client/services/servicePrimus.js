@@ -140,26 +140,42 @@ function primus(
   return conn;
 }
 
-RunnablePrimus.prototype.joinStreams = function (src, des, $interval) {
-  var self = this;
-  var intervalPromise = self.$interval(function () {
-    var data = src.read();
+RunnablePrimus.prototype.joinStreams = function (src, des) {
+  src.on('data', function (data) {
     des.write(data);
-  }, 3000);
-  src.pause();
-  //src.on('data', function (data) {
-  //  $scope.$evalAsync(function () {
-  //    des.write(data);
-  //  });
-  //});
+  });
   src.on('end', function () {
     if (des.end) {
       des.end();
     }
-    self.$interval.cancel(intervalPromise);
   });
   return des;
 };
+
+//RunnablePrimus.prototype.joinStreams = function (src, des, $scope) {
+//  var self = this;
+//  var readBuffer = new Buffer(1000, 'hex');
+//
+//  var bufferLength = 0;
+//  src.on('data', function (data) {
+//    var length = data.length;
+//    if (length + bufferLength  < 1000 ) {
+//      readBuffer.write(data);
+//    } else {
+//      $scope.$evalAsync(function () {
+//        var bufferData = readBuffer.toString();
+//        readBuffer = new Buffer(1000, 'hex');
+//        des.write(bufferData);
+//      });
+//    }
+//  });
+//  src.on('end', function () {
+//    if (des.end) {
+//      des.end();
+//    }
+//  });
+//  return des;
+//};
 
 RunnablePrimus.prototype.reconnectWhenNeeded = function (stream, socketConnectionMessage) {
   var self = this;
