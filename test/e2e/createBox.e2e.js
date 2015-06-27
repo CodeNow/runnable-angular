@@ -74,7 +74,7 @@ describe('project creation workflow', function () {
     var nonRepoSelect = new NonRepoSelect();
 
     var serverCard = new ServerCard('api');
-    return serverCard.waitForStatusEquals('running')
+    return serverCard.waitForStatusEquals(['starting', 'running'])
       .then(function () {
         helpCards.selectCardByText('api may need a mongodb container.');
       })
@@ -86,7 +86,7 @@ describe('project creation workflow', function () {
       })
       .then(function () {
         var serverCard = new ServerCard('MongoDB');
-        return serverCard.waitForStatusEquals('running');
+        return serverCard.waitForStatusEquals('running', 'building', 'starting');
       });
   });
 
@@ -94,7 +94,11 @@ describe('project creation workflow', function () {
     var helpCardText = util.createGetter(by.cssContainingText('.help-container .help', 'to update the hostname for'));
 
     var serverCard = new ServerCard('api');
-    return serverCard.waitForStatusEquals('running')
+    return serverCard.waitForStatusEquals(['running', 'starting'])
+      .then(function () {
+        var mongoServerCard = new ServerCard('MongoDb');
+        return mongoServerCard.waitForStatusEquals(['running', 'starting']);
+      })
       .then(function () {
         helpCards.selectCardByText('need to be updated with');
       })
