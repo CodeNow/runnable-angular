@@ -79,6 +79,10 @@
       border-color: $purple;
       color: $purple-lighter;
 
+      &:active {
+        color: $purple-lightest;
+      }
+
       .icons-theme {
         transform: rotate3d(0,0,1,180deg);
       }
@@ -93,6 +97,10 @@
       background: $gray-lighter;
       border-color: $gray-light;
       color: $gray-dark;
+
+      &:active {
+        color: $gray-darker;
+      }
     }
   }
 
