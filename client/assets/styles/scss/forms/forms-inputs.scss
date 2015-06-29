@@ -360,17 +360,19 @@ textarea {
   }
 }
 
-.build-commands {
+.label-build-commands {
 
   .underline {
     cursor: default;
   }
 
+  // toggle for caching commands
   .toggle-group {
     margin: 2px -1px 0 5px;
   }
 }
 
+// containers text area for commands and radio buttons for caching
 .build-cmds-wrapper {
   background-color: $white;
   border: 2px solid $gray-lighter;
@@ -384,6 +386,7 @@ textarea {
   position: relative;
   transition: all .15s ease-in-out;
 
+  // lets the text area scroll horizontally without moving .cache-column
   .text-area-wrapper {
     overflow-x: auto;
   }
@@ -397,12 +400,13 @@ textarea {
   }
 }
 
+// column of radio buttons for caching
 .cache-column {
   align-items: flex-end;
   box-shadow: inset -33px 0 3px 0 $white;
   display: flex;
   flex-direction: column;
-  padding: 5px 9px;
+  padding: 5px 0;
   pointer-events: none;
   position: absolute;
   top: 0;
@@ -413,24 +417,23 @@ textarea {
   &.in {
     transform: translate3d(0,0,0);
   }
+
+  .input-radio {
+    margin: 0 9px 8px 0;
+    pointer-events: auto;
+
+    &:hover + .cache-row {
+      background-color: rgba($black,.03);
+    }
+  }
 }
 
+// highlights a line in text area. only appears when radio button is hovered.
 .cache-row {
-  background-color: rgba($black,.0);
   height: 21px;
-  left: 9px;
   margin-top: -21px;
   pointer-events: none;
   position: relative;
   top: -3px;
-  width: calc(100% + 18px);
-}
-
-.input-radio {
-  margin-bottom: 8px;
-  pointer-events: auto;
-
-  &:hover + .cache-row {
-    background-color: rgba($black,.03);
-  }
+  width: 100%;
 }

@@ -28,7 +28,7 @@
         | {{ $parent.branch.attrs.name }}
     small.small We’ll build the first container with the code on this branch. We recommend choosing a stable branch.
 
-.label.clearfix.build-commands
+.label.clearfix.label-build-commands
   .label-col Build Commands
     small.small (optional)
 
@@ -38,7 +38,7 @@
         tooltip = "Disabling Auto Deploy will stop your container from automatically updating with new changes to your repositories."
         tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":9,\"top\":18}"
       ) cache
-      | &#32; a line
+      | &#32; a command
       input.toggle-input(
         type = "checkbox"
         ng-model = "cache"
@@ -60,38 +60,36 @@
           div npm install
           div npm install
       .cache-column(
-        ng-class = "{\
-          in: cache\
-        }"
+        ng-class = "{in: cache}"
       )
         input.input-radio(
           checked
-          name = "cache"
+          name = "cache-radio"
           type = "radio"
         )
         .cache-row
         input.input-radio(
-          name = "cache"
+          name = "cache-radio"
           type = "radio"
         )
         .cache-row
         input.input-radio(
-          name = "cache"
+          name = "cache-radio"
           type = "radio"
         )
         .cache-row
         input.input-radio(
-          name = "cache"
+          name = "cache-radio"
           type = "radio"
         )
         .cache-row
         input.input-radio(
-          name = "cache"
+          name = "cache-radio"
           type = "radio"
         )
         .cache-row
         input.input-radio(
-          name = "cache"
+          name = "cache-radio"
           type = "radio"
         )
         .cache-row
