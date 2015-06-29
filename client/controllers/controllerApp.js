@@ -43,19 +43,18 @@ function ControllerApp(
   }, 33));
 
   // used in dev-info box
-  configEnvironment = 'production';
   dataApp.data.configEnvironment = configEnvironment;
   $rootScope.featureFlags = {
     advancedRepositories: true,
-    cardStatus: configEnvironment === 'development',
-    debugMode: configEnvironment === 'development',
-    dockerfileTool: configEnvironment === 'development',
+    cardStatus: false,
+    debugMode: false,
+    dockerfileTool: false,
     findAndReplace: true,
-    hostnameTool: configEnvironment === 'development',
-    hostnameNotifications: configEnvironment === 'development',
-    imAfraidOfTheDark: configEnvironment === 'development',
-    navListFilter: configEnvironment === 'development',
-    saveToolbar: configEnvironment === 'development'
+    hostnameTool: false,
+    hostnameNotifications: false,
+    imAfraidOfTheDark: false,
+    navListFilter: false,
+    saveToolbar: false
   };
 
   if($localStorage.featureFlags){
