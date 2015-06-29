@@ -46,6 +46,16 @@
       .toggle-group.toggle-xs.toggle-cache.float-right
     .build-commands-wrapper
       .text-area-wrapper
+        
+        //- this textarea needs to expand horizontally and vertically to contain its content, like the contentEditable
+        //- div below (I know, sorry). alternatively, we could use the contentEditable div, but we'd have to find a way
+        //- to fix its weird pasting behavior.
+        //- textarea.textarea.monospace(
+        //-   placeholder = "Build Commands"
+        //-   spellcheck = "false"
+        //- )
+
+        //- this element is only for demonstration. it behaves how the textarea should behave.
         .content-editable.monospace(
           contentEditable = "true"
         )
@@ -59,9 +69,13 @@
           div npm install
           div npm install
           div npm install
+
+      //- this element should start out empty. then, for each line that is added to the 
+      //- textarea, one radio button and one .cache-row should be added to it.
       .cache-column(
         ng-class = "{in: cache}"
       )
+        //- this content is just for demonstration.
         input.input-radio(
           checked
           name = "cache-radio"
@@ -103,7 +117,7 @@ label.label.clearfix
       ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
       ng-required = "ngShow()"
       name = "repository.startCommand"
-      placeholder = "Container command"
+      placeholder = "Container CMD"
       show-dropdown = "state.selectedStack.startCommand"
       type = "text"
       value = "state.startCommand"
