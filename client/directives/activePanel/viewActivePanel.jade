@@ -32,6 +32,16 @@
 )
 
   button.btn.btn-xs.ace-toggle(
+    ng-click = "$root.featureFlags.fullScreen = !$root.featureFlags.fullScreen"
+    ng-if = "$root.featureFlags.fullScreenToggle"
+    title = "Full Screen"
+  )
+    //- svg.iconnables.icons-theme
+    //-   use(
+    //-     xlink:href = "#icons-theme"
+    //-   )
+
+  button.btn.btn-xs.ace-toggle(
     ng-click = "$root.featureFlags.imAfraidOfTheDark = !$root.featureFlags.imAfraidOfTheDark"
     ng-if = "$root.featureFlags.themeToggle"
     title = "Change Theme"

@@ -188,7 +188,7 @@
   }
 }
 
-// toggle for themes
+// toggles for theme and full screen
 .ace-toggle {
   border: 1px solid;
   opacity: .5;
@@ -203,6 +203,10 @@
   &:hover,
   &:active {
     opacity: 1;
+  }
+
+  + .ace-toggle {
+    top: 36px;
   }
 
   .iconnables {
