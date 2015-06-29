@@ -1,32 +1,9 @@
 .ace-container {
-  position: relative;
 
   // override sidebar
   .sidebar {
     height: auto;
     transition: width .2s ease-in-out;
-  }
-
-  // toggles
-  > .btn {
-    border: 1px solid;
-    opacity: .5;
-    padding: 0;
-    position: absolute;
-    right: 6px;
-    top: 6px;
-    width: 24px;
-    z-index: $z-views;
-
-    &:hover,
-    &:active {
-      opacity: 1;
-    }
-
-    .iconnables {
-      height: 100%; // vertically center
-      width: 12px;
-    }
   }
 
   // light theme

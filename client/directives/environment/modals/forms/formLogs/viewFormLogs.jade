@@ -32,3 +32,13 @@ pre.pre.log-wrapper
     ng-if = "instance.containers.models.length"
     ng-show = "page === 'run'"
   )
+
+  button.btn.btn-xs(
+    ng-click = "$root.featureFlags.imAfraidOfTheDark = !$root.featureFlags.imAfraidOfTheDark"
+    ng-if = "$root.featureFlags.themeToggle"
+    title = "Change Theme"
+  )
+    svg.iconnables.icons-theme
+      use(
+        xlink:href = "#icons-theme"
+      )
