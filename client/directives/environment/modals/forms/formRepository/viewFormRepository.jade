@@ -55,9 +55,7 @@
       .toggle-group.toggle-xs.toggle-cache.float-right
     .build-commands-wrapper(
       ng-class = "{'cache-in': cache}"
-    )
-      //- .text-area-wrapper
-        
+    ) 
       //- this textarea needs to expand vertically to contain its content, like the contentEditable div below (I know, sorry).
       textarea.textarea.monospace(
         ng-disabled = "startCommandCanDisable && !state.selectedStack"
@@ -65,22 +63,6 @@
         placeholder = "Build Commands"
         spellcheck = "false"
       )
-
-        //- this element and its contents are only for demonstration. it behaves how the textarea should behave.
-        //- .content-editable.monospace(
-        //-   contentEditable = "true"
-        //-   spellcheck = "false"
-        //- )
-        //-   div npm install
-        //-   div npm install
-        //-   div npm install
-        //-   div npm install
-        //-   div npm install
-        //-   div npm install
-        //-   div npm install
-        //-   div npm install
-        //-   div npm install
-
       //- this element should start out empty. then, for each line that is added to the 
       //- textarea, one .radio-wrapper (with input) and one .cache-row should be added to it.
       .cache-column
