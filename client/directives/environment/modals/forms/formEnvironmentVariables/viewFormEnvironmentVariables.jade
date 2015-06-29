@@ -1,13 +1,16 @@
 //- help things
 .help-container(
   ng-if = "helpCards.getActiveCard().helpPopover.environmentVariables"
+  ng-hide = "$root.featureFlags.fullScreen"
 )
   .help(
     ng-bind-html = "helpCards.getActiveCard().helpPopover.environmentVariables"
   )
 
 //- begin form
-.clearfix
+.clearfix(
+  ng-hide = "$root.featureFlags.fullScreen"
+)
   .label-col Environment Variables
 
 //- table actions
@@ -43,7 +46,9 @@
   )
 
 //- detailed text
-label.label.label-help
+label.label.label-help(
+  ng-hide = "$root.featureFlags.fullScreen"
+)
   small.small.strong Elastic hostname:
   input.input.input-xxs(
     ng-attr-value = "{{ instance.getElasticHostname() }}"

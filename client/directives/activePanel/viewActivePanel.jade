@@ -32,6 +32,7 @@
 )
 
   .floating-controls(
+    ng-if = "$root.featureFlags.fullScreenToggle || $root.featureFlags.themeToggle"
     ng-include = "'viewFloatingControls'"
   )
 
