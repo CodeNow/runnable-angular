@@ -160,7 +160,7 @@ form.modal-dialog.modal-edit(
     button.btn.green.btn-spinner(
       ng-class = "{'in': building}"
       ng-click = "editServerForm.$invalid || getUpdatePromise()"
-      ng-disabled = "(!state.advanced && (state.selectedStack | selectedStackInvalid)) || !isDockerfileValid()"
+      ng-disabled = "(!state.advanced && (state.selectedStack | selectedStackInvalid)) || !isDockerfileValid() || !state.startCommand"
       type = "submit"
     )
       //- spinner
