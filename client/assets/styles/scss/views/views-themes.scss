@@ -75,6 +75,7 @@
 
   // light theme
   .ace-runnable-light .views-toolbar {
+    border-bottom: 1px solid $gray-lighter;
     border-top: 1px solid $gray-lighter;
   }
 
@@ -92,6 +93,11 @@
   .ace-runnable-light & {
     background: $white;
     border-color: $gray-lighter;
+
+    // gray in modals
+    .modal-dialog & {
+      background: $gray-lighterest;
+    }
 
     .small {
       color: $gray;
@@ -255,8 +261,12 @@
 .ace-runnable-light .pre,
 .ace-container.ace-runnable-light {
   background-color: $gray-lighterest;
-  // border-top: 1px solid $gray-lighter;
   color: $gray-darker;
+
+  // white in modals
+  .modal-dialog & {
+    background-color: $white;
+  }
 
   // readonly styles
   &.readonly {

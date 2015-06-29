@@ -18,16 +18,6 @@
   @extend %pre;
   padding: 9px 0;
 
-  // dark theme
-  .ace-runnable-dark & {
-    background: $ace-bg !important; // override term
-    color: $white !important;
-
-    .terminal-cursor {
-      background: $purple-light;
-    }
-  }
-
   // light theme
   .ace-runnable-light & {
     background-color: $gray-lighterest !important; // override term
@@ -35,6 +25,24 @@
 
     .terminal-cursor {
       background: $gray-light;
+    }
+  }
+
+  // light theme in a modal
+  .ace-runnable-light & {
+
+    .modal-dialog & {
+      background-color: $white !important; // override term
+    }
+  }
+
+  // dark theme
+  .ace-runnable-dark & {
+    background: $ace-bg !important; // override term
+    color: $white !important;
+
+    .terminal-cursor {
+      background: $purple-light;
     }
   }
 
@@ -47,20 +55,21 @@
 // hover states
 .term-log .terminal > div {
 
+  // light theme
+  .ace-runnable-light & {
+
+    &:hover,
+    &:active {
+      background: $gray-lightest;
+    }
+  }
+
   // dark theme
   .ace-runnable-dark & {
 
     &:hover,
     &:active {
       background: $purple-darker;
-    }
-  }
-
-  .ace-runnable-light & {
-
-    &:hover,
-    &:active {
-      background: $gray-lightest;
     }
   }
 }

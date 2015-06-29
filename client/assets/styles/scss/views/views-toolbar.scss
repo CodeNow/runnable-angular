@@ -29,6 +29,7 @@
   }
 
   ~ .active-panel {
+    border-top: 0;
     height: calc(100% - 81px); // tabs + toolbar
   }
 }
@@ -75,7 +76,7 @@
     border: 0;
     color: $purple-lightest;
     line-height: 24px;
-    margin: -2px 0 0;
+    margin: -1px 0 0;
     min-width: 24px;
 
     &:hover {
