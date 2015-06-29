@@ -6,8 +6,6 @@ var EnvironmentVariables = require('./EditModal/EnvironmentVariables');
 var FindAndReplace = require('./EditModal/FindAndReplace');
 
 function EditModal () {
-  var self = this;
-
   this.modalElem = util.createGetter(by.css('.modal-edit'));
 
   this.waitForLoaded = function() {
@@ -21,12 +19,10 @@ function EditModal () {
   };
 
   this.goTo = function (tab) {
-    return self.waitForLoaded()
-      .then(function () {
-        element(by.cssContainingText('header .modal-tabs button .btn-text', tab))
-          .element(by.xpath('..'))
-          .click();
-      });
+    this.waitForLoaded();
+    return element(by.cssContainingText('header .modal-tabs button .btn-text', tab))
+      .element(by.xpath('..'))
+      .click();
   };
 
   this.exposedPorts = new ExposedPorts(this);
@@ -34,10 +30,8 @@ function EditModal () {
   this.findAndReplace = new FindAndReplace(this);
 
   this.save = function () {
-    return self.waitForLoaded()
-      .then(function () {
-        return element(by.css('footer button.green')).click();
-      });
+    this.waitForLoaded();
+    return element(by.css('footer button.green')).click();
   };
 
 }

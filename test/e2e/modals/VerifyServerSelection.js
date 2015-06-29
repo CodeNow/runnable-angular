@@ -23,27 +23,16 @@ function VerifyServerSelection () {
     options = options || {};
     options.firstTime = options.firstTime || false;
 
-    return this.waitForLoaded()
-      .then(function () {
-        return stackVersionSelector.isDisabled();
-      }).then(function (isDisabled){
-        expect(isDisabled).toBe(options.firstTime);
-        return stackTypeSelector.selectOption(0);
-      })
-      .then(function () {
-        return stackVersionSelector.isDisabled();
-      })
-      .then(function (isDisabled) {
-        expect(isDisabled).toBe(false);
-      });
+    this.waitForLoaded();
+    expect(stackVersionSelector.isDisabled()).toBe(options.firstTime);
+    stackTypeSelector.selectOption(0);
+    return expect(stackVersionSelector.isDisabled()).toBe(false);
   };
 
   this.selectSuggestedVersion = function () {
-    return this.waitForLoaded()
-      .then(function () {
-        expect(stackVersionSelector.isDisabled()).toBe(false);
-        return stackVersionSelector.selectOption(0);
-      });
+    this.waitForLoaded();
+    expect(stackVersionSelector.isDisabled()).toBe(false);
+    return stackVersionSelector.selectOption(0);
   };
 
   this.getBuildCommands = function () {
@@ -51,11 +40,9 @@ function VerifyServerSelection () {
   };
 
   this.selectSuggestedContainerCommand = function () {
-    return this.waitForLoaded()
-      .then(function () {
-        expect(containerCommandSelector.isDisabled()).toBe(false);
-        return containerCommandSelector.selectOption(0);
-      });
+    this.waitForLoaded();
+    expect(containerCommandSelector.isDisabled()).toBe(false);
+    return containerCommandSelector.selectOption(0);
   };
 
 }

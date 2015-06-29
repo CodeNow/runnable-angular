@@ -27,13 +27,10 @@ function RepoSelect () {
 
   this.selectRepo = function (repoName) {
     var self = this;
-    return this.waitForLoaded().then(function () {
-      var repoItem = element(by.cssContainingText('.list-servers .list-item', repoName));
-      return self.isAdded(repoItem).then(function (isAdded) {
-        expect(isAdded).toEqual(false);
-        return repoItem.click();
-      });
-    });
+    this.waitForLoaded()
+    var repoItem = element(by.cssContainingText('.list-servers .list-item', repoName));
+    expect(self.isAdded(repoItem)).toEqual(false);
+    return repoItem.click();
   };
 }
 

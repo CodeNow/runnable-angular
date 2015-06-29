@@ -10,24 +10,15 @@ function ExposedPorts (modal) {
 
 
   this.addElastic =  function (varName, serverName) {
-    return modal.waitForLoaded()
-      .then(function () {
-        var insertButton = wrappingElement.get().element(insertButtonBy);
-        return modal.goTo('Environment Variables')
-          .then(function () {
-            return insertButton.click();
-          })
-          .then(function () {
-            return new FancySelect(by.css('button[placeholder^="hostname"]'))
-              .selectOptionByStartsWith(serverName+'-staging');
-          })
-          .then(function () {
-            return wrappingElement.get().element(by.css('.ace_editor textarea')).sendKeys(varName + '=');
-          })
-          .then(function () {
-            wrappingElement.get().element(by.buttonText('Insert Elastic Hostname')).click();
-          });
-      });
+    modal.waitForLoaded();
+
+    var insertButton = wrappingElement.get().element(insertButtonBy);
+    modal.goTo('Environment Variables')
+    insertButton.click();
+    new FancySelect(by.css('button[placeholder^="hostname"]'))
+      .selectOptionByStartsWith(serverName+'-staging');
+    wrappingElement.get().element(by.css('.ace_editor textarea')).sendKeys(varName + '=');
+    wrappingElement.get().element(by.buttonText('Insert Elastic Hostname')).click();
   };
 }
 
