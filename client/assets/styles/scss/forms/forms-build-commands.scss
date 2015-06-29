@@ -9,21 +9,33 @@
   overflow-x: hidden;
   overflow-y: auto;
   position: relative;
-  transition: all .15s ease-in-out;
+  transition: padding-right .15s ease-in-out;
+
+  &.narrow {
+    padding-right: 30px;
+  }
 
   // lets the text area scroll horizontally without moving .cache-column
-  .text-area-wrapper {
-    overflow-x: auto;
-  }
+  // .text-area-wrapper {
+  //   overflow-x: auto;
+  // }
 
   .textarea.textarea {
     border: 0;
     box-shadow: none;
     display: inline-block;
-    min-width: 100%;
-    padding-right: 33px;
+    // min-width: 100%;
+    // padding-right: 33px;
     resize: none;
     white-space: nowrap;
+    max-height: none; //override
+    min-height: 0; //override
+
+    &::after {
+      content: '';
+      width: 30px;
+      height: 100%;
+    }
   }
 
   .content-editable {
@@ -42,11 +54,11 @@
 // column of radio buttons for caching
 .cache-column {
   align-items: flex-end;
-  box-shadow: inset -33px 0 3px 0 $white;
+  // box-shadow: inset -33px 0 3px 0 $white;
   display: flex;
   flex-direction: column;
   font-size: 14px; // sets radio button size
-  padding: 9px 0 3px;
+  padding: 5px 0 3px;
   pointer-events: none;
   position: absolute;
   top: 0;
@@ -59,12 +71,33 @@
   }
 
   .input-radio {
-    margin: 0 9px 8px 0;
-    pointer-events: auto;
+    // margin: 0 9px 8px 0;
+    // pointer-events: auto;
+    // width: 13px;
+    // height: 13px;
 
-    &:hover + .cache-row {
-      background-color: rgba($black,.03);
-    }
+    // &:hover + .cache-row {
+    //   background-color: rgba($black,.03);
+    // }
+  }
+}
+
+.radio-wrapper {
+  // padding: 2px;
+  width: 30px;
+  height: 21px;
+  cursor: pointer;
+  pointer-events: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  // &:hover .input-radio + .cache-row {
+  //   background-color: rgba($black,.03);
+  // }
+
+  &:hover + .cache-row {
+    background-color: rgba($black,.03);
   }
 }
 
@@ -74,6 +107,6 @@
   margin-top: -21px;
   pointer-events: none;
   position: relative;
-  top: -3px;
+  // top: -3px;
   width: 100%;
 }
