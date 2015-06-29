@@ -17,7 +17,6 @@ function RepoSelect () {
   };
 
   this.waitForLoaded = function () {
-    var self = this;
     return browser.wait(function () {
       var count = element.all(by.css('.list-servers .list-item')).count();
       return count.then(function (count) {

@@ -5,7 +5,7 @@ var util = require('./helpers/util');
 var ServerCard = require('./components/serverCard');
 var EditModal = require('./modals/EditModal');
 
-describe('server card', function () {
+describe('setup boxes using server card', function () {
   util.testTimeout(1000 * 60 * 3);
   beforeEach(function () {
     return util.goToUrl('/' + browser.params.user + '/configure');
