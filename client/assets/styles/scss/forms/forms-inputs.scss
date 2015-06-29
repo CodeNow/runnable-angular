@@ -360,7 +360,18 @@ textarea {
   }
 }
 
-.build-cmd-wrapper {
+.build-commands {
+
+  .underline {
+    cursor: default;
+  }
+
+  .toggle-group {
+    margin: 2px -1px 0 5px;
+  }
+}
+
+.build-cmds-wrapper {
   background-color: $white;
   border: 2px solid $gray-lighter;
   border-radius: 3px;
@@ -373,15 +384,14 @@ textarea {
   position: relative;
   transition: all .15s ease-in-out;
 
-  // wrapper for text area
-  .div {
+  .text-area-wrapper {
     overflow-x: auto;
   }
 
   .content-editable {
-    outline: none;
     display: inline-block;
     min-width: 100%;
+    outline: none;
     padding: 3px 33px 2px 9px;
     transition: flex .15s ease-in-out;
   }
@@ -389,7 +399,7 @@ textarea {
 
 .cache-column {
   align-items: flex-end;
-  box-shadow: inset -33px 0 3px 0 #FFF;
+  box-shadow: inset -33px 0 3px 0 $white;
   display: flex;
   flex-direction: column;
   padding: 5px 9px;

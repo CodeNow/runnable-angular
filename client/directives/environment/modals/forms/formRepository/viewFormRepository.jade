@@ -28,7 +28,7 @@
         | {{ $parent.branch.attrs.name }}
     small.small We’ll build the first container with the code on this branch. We recommend choosing a stable branch.
 
-.label.clearfix
+.label.clearfix.build-commands
   .label-col Build Commands
     small.small (optional)
 
@@ -43,11 +43,9 @@
         type = "checkbox"
         ng-model = "cache"
       )
-      .toggle-group.toggle-xs.float-right(
-        style = "margin: 2px -1px 0 5px;"
-      )
-    .build-cmd-wrapper
-      .div
+      .toggle-group.toggle-xs.float-right
+    .build-cmds-wrapper
+      .text-area-wrapper
         .content-editable.monospace(
           contentEditable = "true"
         )
