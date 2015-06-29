@@ -360,20 +360,13 @@ textarea {
   }
 }
 
-.label-build-commands {
-
-  .underline {
-    cursor: default;
-  }
-
-  // toggle for caching commands
-  .toggle-group {
-    margin: 2px -1px 0 5px;
-  }
+// toggle for caching commands
+.toggle-cache {
+  margin: 2px -1px 0 5px;
 }
 
-// containers text area for commands and radio buttons for caching
-.build-cmds-wrapper {
+// wraps text area for commands and radio buttons for caching
+.build-commands-wrapper {
   background-color: $white;
   border: 2px solid $gray-lighter;
   border-radius: 3px;
@@ -381,7 +374,6 @@ textarea {
   line-height: 21px;
   max-height: 124px;
   min-height: 72px;
-  overflow-x: hidden;
   overflow-y: auto;
   position: relative;
   transition: all .15s ease-in-out;
