@@ -136,11 +136,21 @@
     // dark theme
     &.ace-runnable-dark {
       border: 2px solid $purple-darker;
+
+      .spinner-wrapper {
+        background: $ace-bg;
+        color: $purple-light;
+      }
     }
 
     // light theme
     &.ace-runnable-light {
       border: 2px solid $gray-lighter;
+
+      .spinner-wrapper {
+        background: $gray-lighterest;
+        color: $gray-light;
+      }
     }
 
     // translation rules
@@ -150,14 +160,13 @@
     }
 
     .spinner-wrapper {
-      background: #311d40;
       position: absolute;
     }
   }
 
   // logs
   .log-wrapper {
-    border: 2px solid $purple-darker;
+    border: 2px solid;
     border-radius: 3px;
     padding: 0;
   }
