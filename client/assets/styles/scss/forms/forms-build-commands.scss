@@ -3,9 +3,8 @@
   background-color: $white;
   border: 2px solid $gray-lighter;
   border-radius: 3px;
-  font-size: 14px;
   line-height: 21px;
-  max-height: 105px;
+  max-height: 126px;
   min-height: 81px;
   overflow-x: hidden;
   overflow-y: auto;
@@ -46,6 +45,7 @@
   box-shadow: inset -33px 0 3px 0 $white;
   display: flex;
   flex-direction: column;
+  font-size: 14px; // sets radio button size
   padding: 9px 0 3px;
   pointer-events: none;
   position: absolute;
@@ -68,7 +68,7 @@
   }
 }
 
-// highlights a line in text area. only appears when radio button is hovered.
+// highlights a line in text area. only appears when the corresponding radio button is hovered.
 .cache-row {
   height: 21px;
   margin-top: -21px;
