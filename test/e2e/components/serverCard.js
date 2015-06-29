@@ -79,8 +79,7 @@ function ServerCard (instanceName) {
       .then(function () {
         return self.getCardWrapper()
           .element(by.cssContainingText('.card li h3', target))
-          .element(by.xpath('..'))
-          .element(by.css('small'))
+          .element(by.xpath('../small'))
           .getText();
       });
   };

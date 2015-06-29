@@ -43,70 +43,37 @@ describe('project creation workflow', function () {
       var newContainer = new NewContainer();
       var repoSelect = new RepoSelect();
       var verifyServerSelection = new VerifyServerSelection();
-      return newContainer.selectRepository()
-        .then(function () {
-          return repoSelect.selectRepo(container.repo);
-        })
-        .then(function () {
-          return verifyServerSelection.selectSuggestedStackType({firstTime: true});
-        })
-        .then(function () {
-          return verifyServerSelection.selectSuggestedVersion();
-        })
-        .then(function () {
-          return verifyServerSelection.getBuildCommands();
-        })
-        .then(function (buildCommands) {
-          expect(buildCommands).toContain(container.buildCommandsButton);
-          return verifyServerSelection.selectSuggestedContainerCommand();
-        })
-        .then(function () {
-          return verifyServerSelection.createContainerButton.get().click();
-        })
-        .then(function () {
-          var serverCard = new ServerCard(container.repo);
-          return serverCard.waitForStatusEquals(['running', 'building', 'starting']);
-        });
+      newContainer.selectRepository();
+      repoSelect.selectRepo(container.repo);
+      verifyServerSelection.selectSuggestedStackType({firstTime: true});
+      verifyServerSelection.selectSuggestedVersion();
+      expect(verifyServerSelection.getBuildCommands()).toContain(container.buildCommandsButton);
+      verifyServerSelection.selectSuggestedContainerCommand();
+      verifyServerSelection.createContainerButton.get().click();
+      return new ServerCard(container.repo).waitForStatusEquals(['running', 'building', 'starting']);
     });
   });
   it('should have a help card to create a mongodb container', function () {
     var newContainer = new NewContainer();
     var nonRepoSelect = new NonRepoSelect();
-
-    var serverCard = new ServerCard('api');
-    return serverCard.waitForStatusEquals(['starting', 'running', 'building'])
+    new ServerCard('api').waitForStatusEquals(['starting', 'running', 'building'])
       .then(function () {
         helpCards.selectCardByText('api may need a mongodb container.');
-      })
-      .then(function () {
-        return newContainer.selectNonRepository();
-      })
-      .then(function () {
-        return nonRepoSelect.selectNonRepo('MongoDB');
-      })
-      .then(function () {
-        var serverCard = new ServerCard('MongoDB');
-        return serverCard.waitForStatusEquals('running', 'building', 'starting');
+        newContainer.selectNonRepository();
+        nonRepoSelect.selectNonRepo('MongoDB');
+        return new ServerCard('MongoDB').waitForStatusEquals('running', 'building', 'starting');
       });
   });
 
   it('should have a help card to create a mapping to mongodb', function () {
     var helpCardText = util.createGetter(by.cssContainingText('.help-container .help', 'to update the hostname for'));
-
-    var serverCard = new ServerCard('api');
-    return serverCard.waitForStatusEquals(['running', 'starting', 'building'])
+    new ServerCard('api').waitForStatusEquals(['running', 'starting', 'building'])
       .then(function () {
-        var mongoServerCard = new ServerCard('MongoDB');
-        return mongoServerCard.waitForStatusEquals(['running', 'starting', 'building']);
+        return new ServerCard('MongoDB').waitForStatusEquals(['running', 'starting', 'building']);
       })
       .then(function () {
         helpCards.selectCardByText('need to be updated with');
-      })
-      .then(function () {
-        return helpCardText.get().isPresent()
-          .then(function (isPresent) {
-            expect(isPresent).toEqual(true);
-          });
+        expect(helpCardText.get().isPresent()).toEqual(true);
       });
   });
 });

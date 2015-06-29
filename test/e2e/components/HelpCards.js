@@ -20,16 +20,10 @@ function HelpCards () {
       })
       .then(function () {
         helpCardButton = helpCardButtonText.get().element(by.xpath('following-sibling::button'));
-        return helpCardButton.click();
-      })
-      .then(function () {
+        helpCardButton.click();
         // Verify help text shows up and new container button gets a class
-        return helpCardButton.isPresent();
-      })
-      .then(function (isPresent) {
-        expect(isPresent).toEqual(false);
+        expect(helpCardButton.isPresent()).toEqual(false);
       });
-
   };
 }
 
