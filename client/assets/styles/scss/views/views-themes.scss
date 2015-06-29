@@ -34,7 +34,8 @@
 
 // theme toggle
 .active-panel,
-.ace-container {
+.ace-container,
+.blank-panel {
 
   &.ace-runnable-dark {
     background-color: $ace-bg;
@@ -137,6 +138,11 @@
     background: $ace-bg;
     color: $purple-light;
   }
+}
+
+// blank panel
+.blank-panel.ace-runnable-dark {
+  color: $purple-lighter;
 }
 
 // ace container
