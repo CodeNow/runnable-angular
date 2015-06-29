@@ -5,8 +5,8 @@
   border-radius: 3px;
   font-size: 14px;
   line-height: 21px;
-  max-height: 124px;
-  min-height: 72px;
+  max-height: 105px;
+  min-height: 81px;
   overflow-x: hidden;
   overflow-y: auto;
   position: relative;
@@ -46,7 +46,7 @@
   box-shadow: inset -33px 0 3px 0 $white;
   display: flex;
   flex-direction: column;
-  padding: 9px 0;
+  padding: 9px 0 3px;
   pointer-events: none;
   position: absolute;
   top: 0;
