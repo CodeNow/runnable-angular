@@ -48,15 +48,20 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       this.add = sinon.spy();
     };
 
+    ctx.errsMock = {
+      handler: sinon.spy()
+    };
+
     angular.mock.module('app', function ($provide) {
       $provide.factory('helpCards', helpCardsMock.create(ctx));
+      $provide.factory('fetchUser', mockUserFetch.autoTrigger(ctx.fakeOrg1));
       $provide.value('OpenItems', ctx.openItemsMock);
       $provide.value('findLinkedServerVariables', sinon.spy());
       $provide.value('cardInfoTypes', {});
       $provide.value('eventTracking', ctx.eventTracking);
       $provide.value('configAPIHost', '');
-      $provide.factory('fetchUser', mockUserFetch.autoTrigger(ctx.fakeOrg1));
       $provide.value('uploadFile', sinon.spy());
+      $provide.value('errs', ctx.errsMock);
 
       $provide.factory('fetchStackInfo', function ($q) {
         return function () {
@@ -601,6 +606,33 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         advanced: true
       });
     });
+  });
+
+  it('resets the state properly on error', function () {
+    setup({
+      currentModel: ctx.instance
+    });
+
+    var error = new Error('http://c2.staticflickr.com/8/7001/6509400855_aaaf915871_b.jpg');
+
+    $elScope.state.instance.attrs = {
+      env: ['quarblax=b']
+    };
+
+    ctx.loadingPromiseMock.finished = function () {
+      console.log('in close');
+      return $q.reject(error);
+    };
+
+    $elScope.getUpdatePromise();
+
+    $scope.$digest();
+    sinon.assert.called(ctx.errsMock.handler);
+    sinon.assert.calledWith(ctx.errsMock.handler, error);
+
+    $rootScope.$apply();
+    expect($elScope.building).to.be.false;
+    expect($elScope.state.opts.env.length).to.equal(0);
   });
 
   describe('change Tab', function () {

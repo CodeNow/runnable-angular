@@ -312,7 +312,7 @@ function editServerModal(
             }));
           });
 
-        return loadingPromises.add('editServerModal', promisify(instance.contextVersion, 'deepCopy')())
+        return loadingPromises.add('editServerModal', promisify($scope.instance.contextVersion, 'deepCopy')())
           .then(function (contextVersion) {
             $scope.state.contextVersion = contextVersion;
             return promisify(contextVersion, 'fetch')();
@@ -476,14 +476,11 @@ function editServerModal(
             // Since the initial deepCopy should be in here, we only care about > 1
             toRebuild = toRebuild || promiseArrayLength > 1;
             toRedeploy = toRedeploy && !toRebuild;
-            return $scope.state;
 
-          })
-          .then(function (state) {
             if (toRecreateDockerfile) {
-              return updateDockerfile(state);
+              return updateDockerfile($scope.state);
             }
-            return state;
+            return $scope.state;
           })
           .then(function (state) {
             if (toRecreateDockerfile || toRebuild) {
