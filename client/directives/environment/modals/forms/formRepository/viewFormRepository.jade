@@ -58,9 +58,7 @@
     )
       //- .text-area-wrapper
         
-      //- this textarea needs to expand horizontally and vertically to contain its content, like the contentEditable
-      //- div below (I know, sorry). alternatively, we could use the contentEditable div, but we'd have to find a way
-      //- to fix its weird pasting behavior.
+      //- this textarea needs to expand vertically to contain its content, like the contentEditable div below (I know, sorry).
       textarea.textarea.monospace(
         ng-disabled = "startCommandCanDisable && !state.selectedStack"
         ng-model = "state.commands"
