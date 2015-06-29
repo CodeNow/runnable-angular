@@ -147,8 +147,9 @@
 
   // logs
   .log-wrapper {
-    border: 2px solid;
     border-radius: 3px;
+    border-style: solid;
+    border-width: 2px;
     padding: 0;
     position: relative;
   }
