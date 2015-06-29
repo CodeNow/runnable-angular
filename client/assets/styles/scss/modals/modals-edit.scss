@@ -132,7 +132,7 @@
 
   // ace container
   .ace-container {
-    border: 2px solid $purple-darker;
+    position: relative;
 
     // translation rules
     &.ace-ignored-files {
@@ -141,16 +141,17 @@
     }
 
     .spinner-wrapper {
-      background: #311d40;
       position: absolute;
     }
   }
 
   // logs
   .log-wrapper {
-    border: 2px solid $purple-darker;
     border-radius: 3px;
+    border-style: solid;
+    border-width: 2px;
     padding: 0;
+    position: relative;
   }
 
   .views-toolbar-wrapper {
@@ -161,9 +162,11 @@
     }
 
     .views-toolbar {
-      border-left: 2px solid $purple-darker;
+      border-bottom-width: 1px;
+      border-left-width: 2px;
       border-radius: 3px 3px 0 0;
-      border-right: 2px solid $purple-darker;
+      border-right-width: 2px;
+      border-style: solid;
       border-top-width: 2px;
     }
   }

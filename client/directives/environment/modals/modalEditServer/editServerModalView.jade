@@ -140,6 +140,10 @@ form.modal-dialog.modal-edit(
       translation-rules
     )
     .modal-form.modal-logs(
+      ng-class = "{\
+        'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+        'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+      }"
       ng-show = "selectedTab === 'logs'"
       ng-include = "'viewFormLogs'"
     )
