@@ -57,7 +57,7 @@ describe('project creation workflow', function () {
           return verifyServerSelection.getBuildCommands();
         })
         .then(function (buildCommands) {
-          expect(buildCommands).toEqual(container.buildCommandsButton);
+          expect(buildCommands).toContain(container.buildCommandsButton);
           return verifyServerSelection.selectSuggestedContainerCommand();
         })
         .then(function () {
@@ -96,7 +96,7 @@ describe('project creation workflow', function () {
     var serverCard = new ServerCard('api');
     return serverCard.waitForStatusEquals(['running', 'starting', 'building'])
       .then(function () {
-        var mongoServerCard = new ServerCard('MongoDb');
+        var mongoServerCard = new ServerCard('MongoDB');
         return mongoServerCard.waitForStatusEquals(['running', 'starting', 'building']);
       })
       .then(function () {

@@ -10,13 +10,26 @@ describe('server card', function () {
   beforeEach(function () {
     return util.goToUrl('/' + browser.params.user + '/configure');
   });
-  describe('exposed ports', function () {
-    it('should be able to add a port to api', function () {
+
+  describe('configure api', function () {
+    it('should configure api', function () {
       var serverCard = new ServerCard('api');
       var editModal = new EditModal();
       return serverCard.open('Exposed Ports')
         .then(function () {
+          return editModal.exposedPorts.clearPorts();
+        })
+        .then(function () {
           return editModal.exposedPorts.addPort(3001);
+        })
+        .then(function () {
+          return editModal.environmentVariables.addElastic('mongo', 'mongodb');
+        })
+        .then(function () {
+          return editModal.findAndReplace.addStringRule('process.env.WEB_CLIENT_HOSTNAME', 'web', {
+            start: '"http://',
+            end: ':3000"'
+          });
         })
         .then(function () {
           editModal.save();
@@ -26,45 +39,12 @@ describe('server card', function () {
         })
         .then(function (statusText) {
           expect(statusText).toContain(3001);
-        });
-    });
-  });
-
-
-  describe('Environment Variables', function () {
-    it('should be able to add a mapping to the elastic hostname', function () {
-      var serverCard = new ServerCard('api');
-      var editModal = new EditModal();
-      return serverCard.open('Environment Variables')
-        .then(function () {
-          return editModal.environmentVariables.addElastic('mongo', 'mongodb');
-        })
-        .then(function () {
-          editModal.save();
         })
         .then(function () {
           return serverCard.getStatusText('Environment Variables');
         })
         .then(function (statusText) {
           expect(statusText).toEqual('1 variable');
-        });
-    });
-  });
-
-  describe('Find and Replace', function () {
-    it('should create a find and replace rule', function () {
-      var serverCard = new ServerCard('api');
-      var editModal = new EditModal();
-      return serverCard.open('Find and Replace')
-        .then(function () {
-
-          return editModal.findAndReplace.addStringRule('process.env.WEB_CLIENT_HOSTNAME', 'web', {
-            start: '"',
-            end: ':3000"'
-          });
-        })
-        .then(function () {
-          editModal.save();
         })
         .then(function () {
           return serverCard.getStatusText('Find and Replace');
@@ -72,7 +52,37 @@ describe('server card', function () {
         .then(function (statusText) {
           expect(statusText).toEqual('1 rule');
         });
-
+    });
+  });
+  describe('configure web', function () {
+    it('should configure the web server', function () {
+      var serverCard = new ServerCard('web');
+      var editModal = new EditModal();
+      return serverCard.open('Exposed Ports')
+        .then(function () {
+          return editModal.exposedPorts.clearPorts();
+        })
+        .then(function () {
+          return editModal.exposedPorts.addPort(3000);
+        })
+        .then(function () {
+          return editModal.findAndReplace.addStringRule('api-staging-runnabledemo.runnableapp.com', 'api');
+        })
+        .then(function () {
+          editModal.save();
+        })
+        .then(function () {
+          return serverCard.getStatusText('Exposed Ports');
+        })
+        .then(function (statusText) {
+          expect(statusText).toContain(3000);
+        })
+        .then(function () {
+          return serverCard.getStatusText('Find and Replace');
+        })
+        .then(function (statusText) {
+          expect(statusText).toEqual('1 rule');
+        });
     });
   });
 });
