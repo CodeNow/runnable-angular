@@ -24,11 +24,12 @@ function HelpCards () {
       })
       .then(function () {
         // Verify help text shows up and new container button gets a class
-        return helpCardButton.isPresent()
-          .then(function (isPresent) {
-            expect(isPresent).toEqual(false);
-          });
+        return helpCardButton.isPresent();
+      })
+      .then(function (isPresent) {
+        expect(isPresent).toEqual(false);
       });
+
   };
 }
 
