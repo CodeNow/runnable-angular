@@ -54,8 +54,12 @@
       if success: Successful Build
       if failed: Failed Build
   h4.h4.text-overflow(
-    title = "{{ dataInstance.data.instance.attrs.name }}"
-  ) {{dataInstance.data.showUpdatedMessage ? 'Deployed' : 'Building' }} {{ dataInstance.data.instance.attrs.name }}
+    title = "{{ dataInstance.data.instance.getRepoAndBranchName() }}"
+  ) {{dataInstance.data.showUpdatedMessage ? 'Deployed' : 'Building' }} #{''}
+    span.strong {{ dataInstance.data.instance.getRepoName() || dataInstance.data.instance.getDisplayName() }}
+    span(
+      ng-if = "dataInstance.data.instance.getBranchName()"
+    ) /{{ dataInstance.data.instance.getBranchName() }}
   small.small {{ dataInstance.data.commit.attrs.author.login }} pushed #{''}
     a.link(
       ng-href = "{{ dataInstance.data.commit.attrs.html_url }}"

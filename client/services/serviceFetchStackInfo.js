@@ -24,7 +24,19 @@ function fetchStackInfo(
           stacks.push(stack);
           if (stack.dependencies) {
             stack.dependencies = stack.dependencies.map(function (dep) {
-              return data[dep];
+              var depObject = angular.copy(data[dep]);
+              depObject.key = dep;
+              depObject.suggestedVersion = depObject.defaultVersion;
+              if (dep === 'ruby') {
+                // Fucking hacks.....
+                ['1.8.6-p420', '1.8.7-p374'].forEach(function (thingThatDoesntBelong) {
+                  var index = depObject.versions.indexOf(thingThatDoesntBelong);
+                  if (index > -1) {
+                    depObject.versions.splice(index, 1);
+                  }
+                });
+              }
+              return depObject;
             });
           }
         });

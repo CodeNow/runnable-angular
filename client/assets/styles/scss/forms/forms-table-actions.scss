@@ -25,9 +25,30 @@
   > .btn {
     float: left;
 
+    &:active,
+    &.active {
+
+      // badge
+      .btn-badge {
+        background: $purple-light;
+      }
+    }
+
     // second action
     + .btn {
       float: right;
+    }
+
+    // badge
+    .btn-badge {
+      background: $gray;
+      color: $white;
+      font-size: 11px;
+      height: 14px;
+      line-height: 14px;
+      margin-right: 4px;
+      padding: 0 2px;
+      top: -1px;
     }
 
     .iconnables {

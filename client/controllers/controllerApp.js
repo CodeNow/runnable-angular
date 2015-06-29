@@ -48,9 +48,12 @@ function ControllerApp(
   $rootScope.featureFlags = {
     advancedRepositories: true,
     cardStatus: configEnvironment === 'development',
+    debugMode: configEnvironment === 'development',
     dockerfileTool: configEnvironment === 'development',
     findAndReplace: true,
     hostnameTool: configEnvironment === 'development',
+    hostnameNotifications: configEnvironment === 'development',
+    imAfraidOfTheDark: configEnvironment === 'development',
     navListFilter: configEnvironment === 'development',
     saveToolbar: configEnvironment === 'development'
   };
@@ -76,6 +79,21 @@ function ControllerApp(
       }
     }
   };
+
+  var fetchUserPromise = fetchUser()
+    .then(function (results) {
+      thisUser = results;
+      dataApp.data.user = results;
+      // Intercom && Mixpanel
+      eventTracking.boot(thisUser);
+      return fetchOrgs();
+    })
+    .then(function (orgs) {
+      dataApp.data.orgs = orgs;
+      dataApp.data.allAccounts = [dataApp.data.user].concat(orgs.models);
+    })
+    .catch(errs.handler);
+
   function setActiveAccount(accountName) {
     if (accountName) {
       var unwatch = $scope.$watch('dataApp.data.orgs', function(n) {
@@ -103,11 +121,13 @@ function ControllerApp(
         toParams.userName !== dataApp.data.activeAccount.oauthName()) {
       setActiveAccount(toParams.userName);
     }
-    eventTracking.update();
+    // We need to make sure the eventTracking.boot was called before this, otherwise intercom will
+    // fail to show
+    fetchUserPromise
+      .then(function () {
+        eventTracking.update();
+      });
     loading('main', false);
-  });
-  $scope.$on('$stateChangeError', function () {
-    $state.go('404');
   });
 
   $scope.$watch(function () {
@@ -134,18 +154,4 @@ function ControllerApp(
       $rootScope.$broadcast('close-modal');
     }
   };
-
-  fetchUser()
-  .then(function (results) {
-    thisUser = results;
-    dataApp.data.user = results;
-    return fetchOrgs();
-  })
-  .then(function (orgs) {
-    dataApp.data.orgs = orgs;
-    dataApp.data.allAccounts = [dataApp.data.user].concat(orgs.models);
-    // Intercom && Mixpanel
-    eventTracking.boot(thisUser);
-  })
-  .catch(errs.handler);
 }

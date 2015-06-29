@@ -192,8 +192,7 @@
     border-radius: 0;
     display: block;
     height: 54px;
-    line-height: 1.4;
-    padding: 7px 24px 7px 9px;
+    padding: 6px 24px 6px 9px;
     text-align: left;
 
     &:hover,
@@ -220,6 +219,10 @@
       > .small,
       .icons-arrow-down {
         color: currentColor;
+      }
+
+      .btn-xxs {
+        background: $purple-light;
       }
     }
 
@@ -268,6 +271,10 @@
       }
     }
 
+    &.active-notification {
+      padding-right: 60px;
+    }
+
     // anchor icon of tool
     > .iconnables:first-child {
       float: left;
@@ -278,21 +285,29 @@
     // title of tool
     > .h3 {
       font-size: 16px;
+      line-height: 20px;
     }
 
     // description of tool
     > .small {
       color: $gray;
       display: block;
-      line-height: 21px;
+      line-height: 15px;
+    }
+
+    // notifications
+    .btn-badge {
+      background: $gray-light;
+      color: $white;
+      position: absolute;
+      right: 30px;
+      top: 16px;
     }
 
     // tooltip in tool description
     .underline {
       cursor: pointer;
       float: left;
-      line-height: 1.2;
-      margin-top: 3px;
 
       // text after a tool
       ~ .text-overflow {
@@ -309,40 +324,6 @@
       top: 0;
       transform: rotate3d(0,0,1,-90deg);
     }
-  }
-}
-
-// card body as button
-.card-button {
-  border: 1px solid transparent;
-  border-radius: 3px;
-  cursor: pointer;
-  height: auto;
-  margin: 0 12px 12px;
-  padding: 12px 0;
-  text-align: left;
-  transition: none;
-}
-
-// template
-.card-white {
-  background: $white;
-  border-color: transparent;
-  color: $purple-lighter;
-  font-size: 18px;
-  justify-content: center;
-  text-align: center;
-  user-select: none;
-
-  &:hover,
-  &:active {
-    border-color: $purple-lighter;
-    color: $purple-light;
-  }
-
-  .icons-add {
-    height: 90px;
-    width: 270px;
   }
 }
 

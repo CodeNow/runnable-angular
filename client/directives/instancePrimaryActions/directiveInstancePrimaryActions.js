@@ -25,7 +25,10 @@ function instancePrimaryActions(
     link: function ($scope, elem, attrs) {
 
       $scope.popoverSaveOptions = {
-        data: {},
+        data: {
+          show: false,
+          restartOnSave: false
+        },
         actions: {}
       };
       $scope.popoverSaveOptions.data.restartOnSave = false;

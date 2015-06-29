@@ -1,7 +1,11 @@
 label.clearfix
   .label-col Ignored Files
 
-.ace-container.ace-runnable-dark.ace-ignored-files(
+.ace-container.ace-ignored-files(
+  ng-class = "{\
+    'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+    'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+  }"
   ng-model = "ignoredFilesList"
   ui-ace = "{\
     onBlur: aceBlurred,\
