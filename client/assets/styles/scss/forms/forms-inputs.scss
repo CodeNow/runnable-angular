@@ -375,10 +375,10 @@ textarea {
   position: relative;
 
   // flex container
-  .div {
+  > .div {
     align-items: stretch;
     display: flex;
-    flex: 1 1 auto;
+    flex: 1 0 auto;
   }
 
   .content-editable {
@@ -386,15 +386,17 @@ textarea {
     overflow-x: auto;
     padding: 3px 0;
     position: relative;
-    transition: width .15s ease-in-out;
-    width: 100%;
+    transition: flex .15s ease-in-out;
+    // width: 100%;
+    flex: 1 0 100%;
+    height: 100%;
 
     &.narrow {
-      width: calc(100% - 36px);
+      flex: 0 0 calc(100% - 36px);
     }
 
     div {
-      padding-left: 9px;
+      padding: 0 9px;
     }
   }
 }
@@ -403,14 +405,32 @@ textarea {
   background-color: $white;
   border-left: 1px solid $gray-lighter;
   padding: 2px 12px 4px;
-  position: absolute;
-  right: -36px;
-  top: 0;
-  transform: translate3d(0,0,0);
-  transition: transform .15s ease-in-out;
+  // position: relative;
+  // right: -36px;
+  // top: 0;
+  // transform: translate3d(0,0,0);
+  // transition: transform .15s ease-in-out;
   width: 36px;
 
   &.in {
-    transform: translate3d(-36px,0,0);
+    // transform: translate3d(-36px,0,0);
+  }
+}
+
+.row-container {
+  padding: 3px 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.cache-row {
+  height: 21px;
+  width: 100%;
+  position: relative;
+  background-color: rgba($black,.0);
+
+  &:hover {
+    background-color: rgba($black,.07);    
   }
 }
