@@ -14,8 +14,8 @@
       ng-required = "true"
       value = "state.branch"
       track-by = "attrs.name"
+      spinner-flag = "branchFetching"
     )
-      //- spinner-flag = "branchFetching"
       li.list-item.popover-list-item.small Select initial branch
       fancy-option(
         ng-repeat = "branch in $parent.state.repo.branches.models"
@@ -51,6 +51,8 @@
         //- div below (I know, sorry). alternatively, we could use the contentEditable div, but we'd have to find a way
         //- to fix its weird pasting behavior.
         //- textarea.textarea.monospace(
+        //-   ng-disabled = "startCommandCanDisable && !state.selectedStack"
+        //-   ng-model = "state.commands"
         //-   placeholder = "Build Commands"
         //-   spellcheck = "false"
         //- )
