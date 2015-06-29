@@ -74,7 +74,7 @@ describe('project creation workflow', function () {
     var nonRepoSelect = new NonRepoSelect();
 
     var serverCard = new ServerCard('api');
-    return serverCard.waitForStatusEquals(['starting', 'running'])
+    return serverCard.waitForStatusEquals(['starting', 'running', 'building'])
       .then(function () {
         helpCards.selectCardByText('api may need a mongodb container.');
       })
@@ -94,10 +94,10 @@ describe('project creation workflow', function () {
     var helpCardText = util.createGetter(by.cssContainingText('.help-container .help', 'to update the hostname for'));
 
     var serverCard = new ServerCard('api');
-    return serverCard.waitForStatusEquals(['running', 'starting'])
+    return serverCard.waitForStatusEquals(['running', 'starting', 'building'])
       .then(function () {
         var mongoServerCard = new ServerCard('MongoDb');
-        return mongoServerCard.waitForStatusEquals(['running', 'starting']);
+        return mongoServerCard.waitForStatusEquals(['running', 'starting', 'building']);
       })
       .then(function () {
         helpCards.selectCardByText('need to be updated with');
