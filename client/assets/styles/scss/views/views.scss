@@ -11,21 +11,6 @@
     height: 100vh;
   }
 
-  .active-panel {
-
-    // light theme
-    &.ace-runnable-light .spinner-wrapper {
-      background: $gray-lighterest;
-      color: $gray-light;
-    }
-
-    // dark theme
-    &.ace-runnable-dark .spinner-wrapper {
-      background: $ace-bg;
-      color: $purple-light;
-    }
-  }
-
   .spinner-backdrop {
     position: absolute;
   }

@@ -1,28 +1,3 @@
-// ace tooltip overrides
-.ace_tooltip {
-  background-image: none !important;
-  border: 1px solid rgba($black,.1) !important;
-  border-radius: 3px !important;
-  box-shadow: 0 1px 10px rgba($black,.1) !important;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  letter-spacing: .3px !important;
-  padding: 6px 9px !important;
-  position: absolute !important;
-}
-
-.ace_gutter,
-.ace_gutter-layer, {
-  overflow: visible !important;
-}
-
-.ace_gutter-layer {
-  min-width: 42px;
-}
-
-.ace_scroller {
-  right: 0 !important; // fix extra spacing for scrollbar
-}
-
 .ace_editor {
   height: 100%;
   position: relative;
@@ -55,16 +30,6 @@
       opacity: 0;
     }
   }
-}
-
-// ace search
-.ace_search_field {
-  line-height: 22px;
-}
-
-// editor
-.ace-tm .pre {
-  position: relative;
 }
 
 // theme toggle
@@ -105,6 +70,69 @@
   }
 }
 
+// if parent is .views
+.views {
+
+  // light theme
+  .ace-runnable-light .views-toolbar {
+    border-top: 1px solid $gray-lighter;
+  }
+
+  // dark theme
+  .ace-runnable-dark .views-toolbar {
+    border-bottom: 1px solid $purple-darker;
+    border-top: 1px solid $purple-darker;
+  }
+}
+
+// toolbar themes
+.views-toolbar {
+
+  // light
+  .ace-runnable-light & {
+    background: $white;
+    border-color: $gray-lighter;
+
+    .small {
+      color: $gray;
+    }
+
+    .span {
+      color: $gray-light;
+    }
+  }
+
+  // dark
+  .ace-runnable-dark & {
+    background: $purple-dark;
+    border-color: $purple-darker;
+
+    .small {
+      color: $purple-lighter;
+    }
+
+    .span {
+      color: $white;
+    }
+  }
+}
+
+// active panel spinners
+.active-panel {
+
+  // light theme
+  &.ace-runnable-light .spinner-wrapper {
+    background: $gray-lighterest;
+    color: $gray-light;
+  }
+
+  // dark theme
+  &.ace-runnable-dark .spinner-wrapper {
+    background: $ace-bg;
+    color: $purple-light;
+  }
+}
+
 // ace container
 .ace-container {
 
@@ -130,7 +158,7 @@
 }
 
 // log wrapper
-// dark theme
+// dark theme logs
 .ace-runnable-dark .log-wrapper {
   border-color: $purple-darker;
 
@@ -145,7 +173,7 @@
   }
 }
 
-// light theme
+// light theme logs
 .ace-runnable-light .log-wrapper {
   border-color: $gray-lighter;
 
@@ -160,7 +188,7 @@
   }
 }
 
-// controls
+// toggle for themes
 .ace-toggle {
   border: 1px solid;
   opacity: .5;
@@ -182,6 +210,41 @@
     transition: none;
     width: 12px;
   }
+}
+
+// ace tooltip overrides
+.ace_tooltip {
+  background-image: none !important;
+  border: 1px solid rgba($black,.1) !important;
+  border-radius: 3px !important;
+  box-shadow: 0 1px 10px rgba($black,.1) !important;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  letter-spacing: .3px !important;
+  padding: 6px 9px !important;
+  position: absolute !important;
+}
+
+.ace_gutter,
+.ace_gutter-layer, {
+  overflow: visible !important;
+}
+
+.ace_gutter-layer {
+  min-width: 42px;
+}
+
+.ace_scroller {
+  right: 0 !important; // fix extra spacing for scrollbar
+}
+
+// ace search
+.ace_search_field {
+  line-height: 22px;
+}
+
+// editor
+.ace-tm .pre {
+  position: relative;
 }
 
 // light theme

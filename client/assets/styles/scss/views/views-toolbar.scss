@@ -28,33 +28,6 @@
     height: calc(100% - 120px); // tabs + double toolbar
   }
 
-  // dark theme
-  &.ace-runnable-dark {
-
-    .views-toolbar {
-      background: $purple-dark;
-      border-bottom: 1px solid $purple-darker;
-      border-top: 1px solid $purple-darker;
-    }
-
-    .small {
-      color: $purple-lighter;
-    }
-  }
-
-  // light theme
-  &.ace-runnable-light {
-
-    .views-toolbar {
-      background: $white;
-      border-top: 1px solid $gray-lighter;
-    }
-
-    .small {
-      color: $gray;
-    }
-  }
-
   ~ .active-panel {
     height: calc(100% - 81px); // tabs + toolbar
   }
@@ -64,7 +37,7 @@
   align-items: center;
   display: flex;
   height: 36px;
-  padding: 0 9px; // match log padding
+  padding: 0 6px 0 9px; // match toggle and log padding
 
   // when there are multiple
   + .views-toolbar {
@@ -78,7 +51,6 @@
     padding-right: 9px;
 
     .span {
-      color: $white;
       padding-left: 9px;
     }
   }
