@@ -392,7 +392,7 @@ textarea {
     height: 100%;
 
     &.narrow {
-      flex: 0 0 calc(100% - 36px);
+      flex: 0 0 calc(100% - 30px);
     }
 
     div {
@@ -402,18 +402,27 @@ textarea {
 }
 
 .cache-column {
-  background-color: $white;
-  border-left: 1px solid $gray-lighter;
-  padding: 2px 12px 4px;
+  // background-color: $white;
+  // border-left: 1px solid $gray-lighter;
+  // padding: 2px 12px 4px;
+  padding: 5px 9px;
   // position: relative;
   // right: -36px;
   // top: 0;
   // transform: translate3d(0,0,0);
-  // transition: transform .15s ease-in-out;
-  width: 36px;
+  transition: transform .15s ease-in-out;
+  // width: 36px;
+  width: 100%;
+  display: flex;
+  position: absolute;
+  left: 0;
+  flex-direction: column;
+  pointer-events: none;
+  align-items: flex-end;
+  transform: translate3d(36px,0,0);
 
   &.in {
-    // transform: translate3d(-36px,0,0);
+    transform: translate3d(0,0,0);
   }
 }
 
@@ -426,11 +435,36 @@ textarea {
 
 .cache-row {
   height: 21px;
-  width: 100%;
+  // width: 100%;
+  width: calc(100% + 18px);
   position: relative;
+  margin-top: -21px;
+  top: -3px;
+  left: 9px;
+  pointer-events: none;
   background-color: rgba($black,.0);
 
+  // &:hover {
+  //   background-color: rgba($black,.07);    
+  // }
+}
+
+.input-radio {
+  margin-bottom: 8px;
+  pointer-events: auto;
+
+  // &:hover + .cache-row {
+  //   background-color: rgba($white,.5);
+  // }
+
   &:hover {
-    background-color: rgba($black,.07);    
+
+    // & ~ .cache-row {
+    //   background-color: rgba($white,.5);
+    // }
+
+    & + .cache-row {
+      background-color: rgba($black,.04);
+    }
   }
 }
