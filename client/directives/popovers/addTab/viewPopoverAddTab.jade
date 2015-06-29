@@ -10,26 +10,26 @@
         ng-click = "actions.addTerminal()"
         ng-if = "data.options.term"
       )
-        svg.iconnables.icons-terminal
+        svg.iconnables
           use(
-            xlink:href = "#icons-terminal"
+            xlink:href = "#icons-start-cmd"
           )
         | Terminal
       li.list-item.popover-list-item(
         ng-click = "actions.addBuildStream()"
         ng-if = "data.options.build"
       )
-        svg.iconnables.icons-logs
+        svg.iconnables
           use(
-            xlink:href = "#icons-logs"
+            xlink:href = "#icons-build-logs"
           )
         | Build Logs
       li.list-item.popover-list-item(
         ng-click = "actions.addLogs()"
         ng-if = "data.options.server"
       )
-        svg.iconnables.icons-logs
+        svg.iconnables
           use(
-            xlink:href = "#icons-logs"
+            xlink:href = "#icons-cmd-logs"
           )
         | CMD Logs

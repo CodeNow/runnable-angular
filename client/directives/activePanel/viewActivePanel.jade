@@ -88,18 +88,18 @@
       ng-click = "openItems.addTerminal()"
       ng-if = "showBackgroundButtons.term"
     )
-      svg.iconnables.icons-terminal
+      svg.iconnables
         use(
-          xlink:href = "#icons-terminal"
+          xlink:href = "#icons-start-cmd"
         )
       | Terminal
     li.btn.btn-sm(
       ng-click = "openItems.addBuildStream()"
       ng-if = "showBackgroundButtons.build"
     )
-      svg.iconnables.icons-logs
+      svg.iconnables
         use(
-          xlink:href = "#icons-logs"
+          xlink:href = "#icons-build-logs"
         )
       | Build Logs
     li.btn.btn-sm(
@@ -108,6 +108,6 @@
     )
       svg.iconnables.icons-server
         use(
-          xlink:href = "#icons-server"
+          xlink:href = "#icons-cmd-logs"
         )
       | CMD Logs
