@@ -11,16 +11,20 @@
   position: relative;
   transition: padding-right .15s ease-in-out;
 
-  &.narrow {
-    padding-right: 30px;
+  &.cache-in {
+    padding-right: 30px; // so text doesn't flow behind .cache-column
+
+    .cache-column {
+      transform: translate3d(0,0,0);
+    }
   }
 
   .textarea.textarea {
     border: 0;
     box-shadow: none;
     display: inline-block;
-    max-height: none; //override
-    min-height: 0; //override
+    max-height: none; // override
+    min-height: 0; // override
     resize: none;
     white-space: nowrap;
 
@@ -57,10 +61,6 @@
   transform: translate3d(33px,0,0);
   transition: transform .15s ease-in-out;
   width: 100%;
-
-  &.in {
-    transform: translate3d(0,0,0);
-  }
 }
 
 .radio-wrapper {

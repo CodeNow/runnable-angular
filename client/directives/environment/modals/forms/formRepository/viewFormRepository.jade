@@ -54,7 +54,7 @@
       )
       .toggle-group.toggle-xs.toggle-cache.float-right
     .build-commands-wrapper(
-      ng-class = "{narrow: cache}"
+      ng-class = "{'cache-in': cache}"
     )
       //- .text-area-wrapper
         
@@ -82,10 +82,8 @@
         //-   div npm install
 
       //- this element should start out empty. then, for each line that is added to the 
-      //- textarea, one radio button and one .cache-row should be added to it.
-      .cache-column(
-        ng-class = "{in: cache}"
-      )
+      //- textarea, one .radio-wrapper (with input) and one .cache-row should be added to it.
+      .cache-column
         //- this content is just for demonstration.
         label.radio-wrapper
           input(
