@@ -147,9 +147,25 @@
   }
 
   // logs
-  .logs {
+  .log-wrapper {
+    border: 2px solid $purple-darker;
     border-radius: 3px;
-    overflow: hidden;
+    padding: 0;
+  }
+
+  .views-toolbar-wrapper {
+
+    + .log-wrapper {
+      border-radius: 0 0 3px 3px;
+      border-top: 0;
+    }
+
+    .views-toolbar {
+      border-left: 2px solid $purple-darker;
+      border-radius: 3px 3px 0 0;
+      border-right: 2px solid $purple-darker;
+      border-top-width: 2px;
+    }
   }
 
   // empty p tag

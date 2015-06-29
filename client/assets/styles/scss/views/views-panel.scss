@@ -5,7 +5,7 @@
   z-index: $z-views-active-panel;
 
   &.ace-runnable-dark {
-    background-color: $purple-darker;
+    background-color: $ace-bg;
   }
 
   &.ace-runnable-light {
@@ -34,58 +34,10 @@
     // extra space if terminal in views
     .views & {
 
-      &.logs {
+      &.term-js {
         height: calc(100% - 30px);
       }
     }
-  }
-}
-
-// keeps log on bottom (iterm)
-#log {
-  height: 10px;
-}
-
-// terminal
-.term-container {
-  cursor: text;
-}
-
-div.terminal { // div specificity required b/c there's a term.terminal
-  @extend %pre;
-  padding: 9px;
-
-  .ace-runnable-dark & {
-    background: $purple-darker !important; // override term
-    color: $white !important;
-
-    .terminal-cursor {
-      background: $purple-light;
-    }
-  }
-
-  .ace-runnable-light & {
-    background: $gray-lighterest !important;
-    color: $gray-dark !important;
-
-    .terminal-cursor {
-      background: $gray-light;
-    }
-  }
-}
-
-.term-container,
-.terminal {
-  height: 100%;
-  width: 100%;
-}
-
-// web view
-.web-container {
-
-  .iframe {
-    height: 100%;
-    width: 100%;
   }
 }
 

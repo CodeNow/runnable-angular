@@ -13,10 +13,19 @@
   width: 240px;
   z-index: $z-sidebar;
 
+  &.full-height {
+    height: 100vh;
+  }
+
   // width if sidebar is present
   + .content {
     float: right;
+    position: relative;
     width: calc(100% - 240px);
+
+    > .spinner-wrapper {
+      position: absolute;
+    }
   }
 
   .icons-status {
@@ -32,7 +41,8 @@
   overflow-y: auto;
   padding: 0 12px;
 
-  &.closed {
+  &.closed,
+  .explorer-menu-bar-container {
     flex: 0 0 60px;
     overflow-y: hidden;
   }
@@ -40,7 +50,7 @@
 
 .sidebar-section-heading {
   cursor: pointer;
-  padding: 18px 0 18px 12px;
+  line-height: 60px;
   position: relative;
 
   &.closed {
@@ -52,8 +62,9 @@
   }
 
   .icons-disclose {
+    float: left;
     left: -3px;
-    position: absolute;
+    top: 18px;
     transition: none;
     width: 15px;
 
@@ -64,7 +75,11 @@
 
   // for add buttons next to section headings, like in File Explorer
   .btn {
-    float: right;
+    height: 60px;
+
+    .iconnables {
+      width: 24px;
+    }
   }
 }
 
@@ -87,7 +102,6 @@
     border-bottom: 1px solid $gray-lighter;
     cursor: default;
     margin: 0 12px;
-    padding: 18px 0;
   }
 }
 

@@ -22,7 +22,11 @@ $purple-light: #834fab;
 $purple-lighter: #b6a6bd;
 $purple-lightest: #eee1f7;
 $purple-dark: darken($purple,10%);
-$purple-darker: darken($purple,20%);
+$purple-darker: #261731; // darken($purple,20%);
+
+// ace theme
+$ace-bg: #311d40;
+$ace-border: $purple-darker;
 
 $orange: #f2ae24;
 $orange-light: #f9b548;
