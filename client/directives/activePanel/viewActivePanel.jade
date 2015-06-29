@@ -31,33 +31,9 @@
   ng-show = "item === openItems.activeHistory.last()"
 )
 
-  button.btn.btn-xs.ace-toggle(
-    ng-click = "$root.featureFlags.fullScreen = !$root.featureFlags.fullScreen"
-    ng-if = "$root.featureFlags.fullScreenToggle"
-    title = "Full Screen"
+  .floating-controls(
+    ng-include = "'viewFloatingControls'"
   )
-    svg.iconnables(
-      ng-if = "!$root.featureFlags.fullScreen"
-    )
-      use(
-        xlink:href = "#icons-expand"
-      )
-    svg.iconnables(
-      ng-if = "$root.featureFlags.fullScreen"
-    )
-      use(
-        xlink:href = "#icons-minimize"
-      )
-
-  button.btn.btn-xs.ace-toggle(
-    ng-click = "$root.featureFlags.imAfraidOfTheDark = !$root.featureFlags.imAfraidOfTheDark"
-    ng-if = "$root.featureFlags.themeToggle"
-    title = "Change Theme"
-  )
-    svg.iconnables.icons-theme
-      use(
-        xlink:href = "#icons-theme"
-      )
 
   //- logs
   .term-js.term-log(

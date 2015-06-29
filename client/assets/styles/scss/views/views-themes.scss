@@ -39,7 +39,7 @@
   &.ace-runnable-dark {
     background-color: $ace-bg;
 
-    .ace-toggle {
+    .btn-control {
       background: $purple-dark;
       border-color: $purple;
       color: $purple-lighter;
@@ -58,7 +58,7 @@
     background-color: $gray-lighterest;
     border-top: 1px solid $gray-lighter;
 
-    .ace-toggle {
+    .btn-control {
       background: $gray-lighter;
       border-color: $gray-light;
       color: $gray-dark;
@@ -168,7 +168,7 @@
 .ace-runnable-dark .log-wrapper {
   border-color: $purple-darker;
 
-  .ace-toggle {
+  .btn-control {
     background: $purple-dark;
     border-color: $purple;
     color: $purple-lighter;
@@ -183,7 +183,7 @@
 .ace-runnable-light .log-wrapper {
   border-color: $gray-lighter;
 
-  .ace-toggle {
+  .btn-control {
     background: $gray-lighter;
     border-color: $gray-light;
     color: $gray-dark;
@@ -195,24 +195,29 @@
 }
 
 // toggles for theme and full screen
-.ace-toggle {
-  border: 1px solid;
-  opacity: .5;
-  padding: 0;
+.floating-controls {
   position: absolute;
   right: 6px;
   top: 6px;
   transition: transform .2s ease-in-out;
-  width: 24px;
   z-index: $z-views;
+
+}
+
+.btn-control {
+  border: 1px solid;
+  display: block;
+  opacity: .75;
+  padding: 0;
+  width: 24px;
 
   &:hover,
   &:active {
     opacity: 1;
   }
 
-  + .ace-toggle {
-    top: 36px;
+  + .btn-control {
+    top: 6px;
   }
 
   .iconnables {
