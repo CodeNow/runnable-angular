@@ -132,26 +132,7 @@
 
   // ace container
   .ace-container {
-
-    // dark theme
-    &.ace-runnable-dark {
-      border: 2px solid $purple-darker;
-
-      .spinner-wrapper {
-        background: $ace-bg;
-        color: $purple-light;
-      }
-    }
-
-    // light theme
-    &.ace-runnable-light {
-      border: 2px solid $gray-lighter;
-
-      .spinner-wrapper {
-        background: $gray-lighterest;
-        color: $gray-light;
-      }
-    }
+    position: relative;
 
     // translation rules
     &.ace-ignored-files {
@@ -169,16 +150,7 @@
     border: 2px solid;
     border-radius: 3px;
     padding: 0;
-  }
-
-  // dark theme
-  .ace-runnable-dark .log-wrapper {
-    border-color: $purple-darker;
-  }
-
-  // light theme
-  .ace-runnable-light .log-wrapper {
-    border-color: $gray-lighter;
+    position: relative;
   }
 
   .views-toolbar-wrapper {
@@ -202,32 +174,5 @@
     font-weight: 500;
     margin: 60px 0 30px;
     text-align: center;
-  }
-}
-
-.log-wrapper,
-.ace-container {
-  position: relative;
-
-  // toggles
-  > .btn {
-    border: 1px solid;
-    opacity: .5;
-    padding: 0;
-    position: absolute;
-    right: 6px;
-    top: 6px;
-    width: 24px;
-    z-index: $z-views;
-
-    &:hover,
-    &:active {
-      opacity: 1;
-    }
-
-    .iconnables {
-      height: 100%; // vertically center
-      width: 12px;
-    }
   }
 }

@@ -74,7 +74,7 @@
   &.ace-runnable-dark {
     background-color: $ace-bg;
 
-    > .btn {
+    .ace-toggle {
       background: $purple-dark;
       border-color: $purple;
       color: $purple-lighter;
@@ -93,7 +93,7 @@
     background-color: $gray-lighterest;
     border-top: 1px solid $gray-lighter;
 
-    > .btn {
+    .ace-toggle {
       background: $gray-lighter;
       border-color: $gray-light;
       color: $gray-dark;
@@ -103,29 +103,84 @@
       }
     }
   }
+}
 
-  // controls
-  > .btn {
-    border: 1px solid;
-    opacity: .5;
-    padding: 0;
-    position: absolute;
-    right: 6px;
-    top: 6px;
-    transition: transform .2s ease-in-out;
-    width: 24px;
-    z-index: $z-views;
+// ace container
+.ace-container {
 
-    &:hover,
+  // dark theme
+  &.ace-runnable-dark {
+    border: 2px solid $purple-darker;
+
+    .spinner-wrapper {
+      background: $ace-bg;
+      color: $purple-light;
+    }
+  }
+
+  // light theme
+  &.ace-runnable-light {
+    border: 2px solid $gray-lighter;
+
+    .spinner-wrapper {
+      background: $gray-lighterest;
+      color: $gray-light;
+    }
+  }
+}
+
+// log wrapper
+// dark theme
+.ace-runnable-dark .log-wrapper {
+  border-color: $purple-darker;
+
+  .ace-toggle {
+    background: $purple-dark;
+    border-color: $purple;
+    color: $purple-lighter;
+
     &:active {
-      opacity: 1;
+      color: $purple-lightest;
     }
+  }
+}
 
-    .iconnables {
-      height: 100%; // vertically center
-      transition: none;
-      width: 12px;
+// light theme
+.ace-runnable-light .log-wrapper {
+  border-color: $gray-lighter;
+
+  .ace-toggle {
+    background: $gray-lighter;
+    border-color: $gray-light;
+    color: $gray-dark;
+
+    &:active {
+      color: $gray-darker;
     }
+  }
+}
+
+// controls
+.ace-toggle {
+  border: 1px solid;
+  opacity: .5;
+  padding: 0;
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  transition: transform .2s ease-in-out;
+  width: 24px;
+  z-index: $z-views;
+
+  &:hover,
+  &:active {
+    opacity: 1;
+  }
+
+  .iconnables {
+    height: 100%; // vertically center
+    transition: none;
+    width: 12px;
   }
 }
 

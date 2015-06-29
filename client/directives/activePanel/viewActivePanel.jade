@@ -31,7 +31,7 @@
   ng-show = "item === openItems.activeHistory.last()"
 )
 
-  button.btn.btn-xs(
+  button.btn.btn-xs.ace-toggle(
     ng-click = "$root.featureFlags.imAfraidOfTheDark = !$root.featureFlags.imAfraidOfTheDark"
     ng-if = "$root.featureFlags.themeToggle"
     title = "Change Theme"
