@@ -38,6 +38,14 @@
     }
   }
 
+  // light theme in a modal
+  .ace-runnable-light & {
+
+    .modal-dialog & {
+      background-color: $white !important; // override term
+    }
+  }
+
   > div {
     padding: 0 9px;
     white-space: nowrap;
