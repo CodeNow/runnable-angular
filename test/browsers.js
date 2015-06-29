@@ -6,7 +6,7 @@
 exports.chrome = {
     name: 'Chrome',
     browserName: 'chrome',
-    'chromeOptions': {
+    chromeOptions: {
         args: ['user-agent=e2e-tests']
     }
 };
