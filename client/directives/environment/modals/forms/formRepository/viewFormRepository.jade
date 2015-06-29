@@ -42,7 +42,7 @@
       placeholder = "Build commands"
       spellcheck = "false"
     )
-    small.small These will be run when your container is built but before it’s launched.
+    small.small These commands will run before the Container CMD.`
 
   .input-col(
     ng-if = "$root.featureFlags.buildCommandCache"
@@ -110,7 +110,7 @@
             type = "radio"
           )
         .cache-row
-    small.small These will be run when your container is built but before it’s launched.
+    small.small These commands will run before the Container CMD.`
 
 label.label.clearfix
   .label-col Container CMD
