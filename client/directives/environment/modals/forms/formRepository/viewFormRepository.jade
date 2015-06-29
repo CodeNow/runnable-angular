@@ -44,15 +44,12 @@
         ng-model = "cache"
       )
       .toggle-group.toggle-xs.float-right(
-        style = "margin: 2px 1px 0px 6px;"
+        style = "margin: 2px -1px 0 5px;"
       )
     .build-cmd-wrapper
       .div
         .content-editable.monospace(
           contentEditable = "true"
-          ng-class = "{\
-            narrow: cache\
-          }"
         )
           div npm install
           div npm install
@@ -64,42 +61,42 @@
           div npm install
           div npm install
           div npm install
-        .cache-column(
-          ng-class = "{\
-            in: cache\
-          }"
+      .cache-column(
+        ng-class = "{\
+          in: cache\
+        }"
+      )
+        input.input-radio(
+          checked
+          name = "cache"
+          type = "radio"
         )
-          input.input-radio.clearfix(
-            checked
-            name = "cache"
-            type = "radio"
-          )
-          .cache-row
-          input.input-radio.clearfix(
-            name = "cache"
-            type = "radio"
-          )
-          .cache-row
-          input.input-radio.clearfix(
-            name = "cache"
-            type = "radio"
-          )
-          .cache-row
-          input.input-radio.clearfix(
-            name = "cache"
-            type = "radio"
-          )
-          .cache-row
-          input.input-radio.clearfix(
-            name = "cache"
-            type = "radio"
-          )
-          .cache-row
-          input.input-radio.clearfix(
-            name = "cache"
-            type = "radio"
-          )
-          .cache-row
+        .cache-row
+        input.input-radio(
+          name = "cache"
+          type = "radio"
+        )
+        .cache-row
+        input.input-radio(
+          name = "cache"
+          type = "radio"
+        )
+        .cache-row
+        input.input-radio(
+          name = "cache"
+          type = "radio"
+        )
+        .cache-row
+        input.input-radio(
+          name = "cache"
+          type = "radio"
+        )
+        .cache-row
+        input.input-radio(
+          name = "cache"
+          type = "radio"
+        )
+        .cache-row
     small.small Specify the commands that need to be executed when your container is built and before it’s launched that support your application (e.g. installing packages).
 
 label.label.clearfix
