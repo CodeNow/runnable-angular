@@ -36,7 +36,6 @@ label.label.clearfix
       ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
       ng-required = "ngShow()"
       name = "repository.startCommand"
-      placeholder = "Container CMD"
       show-dropdown = "state.selectedStack.startCommand"
       type = "text"
       value = "state.startCommand"
@@ -67,11 +66,12 @@ label.label.clearfix
       placeholder = "npm install&#10;grunt"
       spellcheck = "false"
     )
-    small.small These commands will be run before the Container CMD.
+    small.small Input any commands needed to support your application. They will be run before the Container CMD.
 
   .input-col(
     ng-if = "$root.featureFlags.buildCommandCache"
   )
+    //- this element should be disabled when the text field below it is disabled or empty.
     label.small.strong.text-right.toggle-wrapper Cache a command
       input.toggle-input(
         ng-disabled = "startCommandCanDisable && !state.selectedStack"
@@ -120,4 +120,4 @@ label.label.clearfix
             type = "radio"
           )
         .cache-row
-    small.small These commands will be run before the Container CMD.
+    small.small Input any commands needed to support your application. They will be run before the Container CMD.
