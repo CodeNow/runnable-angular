@@ -2,10 +2,10 @@
 
   // toggle for caching commands
   .toggle-group {
-    // margin: 2px 0 0 5px; 
     margin: 2px 6px 6px;
   }
 
+  // overrides so it can fit next to the cache label at narrow sizes
   .label-col {
     float: left;
     width: auto;
@@ -19,6 +19,7 @@
     @include media(xs) {
       margin-top: 10px;
 
+      // " a command" part of label
       .span {
         display: none;
       }
