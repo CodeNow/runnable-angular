@@ -55,7 +55,8 @@ function ControllerApp(
     hostnameNotifications: configEnvironment === 'development',
     imAfraidOfTheDark: configEnvironment === 'development',
     navListFilter: configEnvironment === 'development',
-    saveToolbar: configEnvironment === 'development'
+    saveToolbar: configEnvironment === 'development',
+    themeToggle: configEnvironment === 'development'
   };
 
   if($localStorage.featureFlags){

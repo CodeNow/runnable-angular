@@ -4,15 +4,6 @@
   position: relative;
   z-index: $z-views-active-panel;
 
-  &.ace-runnable-dark {
-    background-color: $ace-bg;
-  }
-
-  &.ace-runnable-light {
-    background-color: $gray-lighterest;
-    border-top: 1px solid $gray-lighter;
-  }
-
   // for tabs when in views
   .views & {
     height: calc(100% - 45px);
@@ -49,6 +40,7 @@
   justify-content: center;
 
   .btn {
+    font-size: 14px;
     height: auto;
     line-height: inherit;
     padding: 15px;

@@ -1,3 +1,223 @@
+.ace_editor {
+  height: 100%;
+  position: relative;
+
+  // read only button
+  > .btn-xs {
+    bottom: 6px;
+    cursor: default;
+    font-family: 'Helvetica Neue', 'Segoe UI', sans-serif; // use default font stack
+    position: absolute;
+    right: 6px;
+    transition: opacity .15s ease-in-out;
+    z-index: $z-views-active-panel + 1; // on top of the active panel
+
+    // light theme
+    .ace-runnable-light & {
+      background: $gray-light;
+      border: 1px solid rgba($black,.15);
+      color: $white;
+    }
+
+    // dark theme
+    .ace-runnable-dark & {
+      background: $purple-darker;
+      border: 1px solid rgba($white,.15);
+    }
+
+    &:hover,
+    &:active {
+      opacity: 0;
+    }
+  }
+}
+
+// theme toggle
+.active-panel,
+.ace-container {
+
+  &.ace-runnable-dark {
+    background-color: $ace-bg;
+
+    .ace-toggle {
+      background: $purple-dark;
+      border-color: $purple;
+      color: $purple-lighter;
+
+      &:active {
+        color: $purple-lightest;
+      }
+
+      .icons-theme {
+        transform: rotate3d(0,0,1,180deg);
+      }
+    }
+  }
+
+  &.ace-runnable-light {
+    background-color: $gray-lighterest;
+    border-top: 1px solid $gray-lighter;
+
+    .ace-toggle {
+      background: $gray-lighter;
+      border-color: $gray-light;
+      color: $gray-dark;
+
+      &:active {
+        color: $gray-darker;
+      }
+    }
+  }
+}
+
+// if parent is .views
+.views {
+
+  // light theme
+  .ace-runnable-light .views-toolbar {
+    border-bottom: 1px solid $gray-lighter;
+    border-top: 1px solid $gray-lighter;
+  }
+
+  // dark theme
+  .ace-runnable-dark .views-toolbar {
+    border-bottom: 1px solid $purple-darker;
+    border-top: 1px solid $purple-darker;
+  }
+}
+
+// toolbar themes
+.views-toolbar {
+
+  // light
+  .ace-runnable-light & {
+    background: $white;
+    border-color: $gray-lighter;
+
+    // gray in modals
+    .modal-dialog & {
+      background: $gray-lighterest;
+    }
+
+    .small {
+      color: $gray;
+    }
+
+    .span {
+      color: $gray-light;
+    }
+  }
+
+  // dark
+  .ace-runnable-dark & {
+    background: $purple-dark;
+    border-color: $purple-darker;
+
+    .small {
+      color: $purple-lighter;
+    }
+
+    .span {
+      color: $white;
+    }
+  }
+}
+
+// active panel spinners
+.active-panel {
+
+  // light theme
+  &.ace-runnable-light .spinner-wrapper {
+    background: $gray-lighterest;
+    color: $gray-light;
+  }
+
+  // dark theme
+  &.ace-runnable-dark .spinner-wrapper {
+    background: $ace-bg;
+    color: $purple-light;
+  }
+}
+
+// ace container
+.ace-container {
+
+  // dark theme
+  &.ace-runnable-dark {
+    border: 2px solid $purple-darker;
+
+    .spinner-wrapper {
+      background: $ace-bg;
+      color: $purple-light;
+    }
+  }
+
+  // light theme
+  &.ace-runnable-light {
+    border: 2px solid $gray-lighter;
+
+    .spinner-wrapper {
+      background: $gray-lighterest;
+      color: $gray-light;
+    }
+  }
+}
+
+// log wrapper
+// dark theme logs
+.ace-runnable-dark .log-wrapper {
+  border-color: $purple-darker;
+
+  .ace-toggle {
+    background: $purple-dark;
+    border-color: $purple;
+    color: $purple-lighter;
+
+    &:active {
+      color: $purple-lightest;
+    }
+  }
+}
+
+// light theme logs
+.ace-runnable-light .log-wrapper {
+  border-color: $gray-lighter;
+
+  .ace-toggle {
+    background: $gray-lighter;
+    border-color: $gray-light;
+    color: $gray-dark;
+
+    &:active {
+      color: $gray-darker;
+    }
+  }
+}
+
+// toggle for themes
+.ace-toggle {
+  border: 1px solid;
+  opacity: .5;
+  padding: 0;
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  transition: transform .2s ease-in-out;
+  width: 24px;
+  z-index: $z-views;
+
+  &:hover,
+  &:active {
+    opacity: 1;
+  }
+
+  .iconnables {
+    height: 100%; // vertically center
+    transition: none;
+    width: 12px;
+  }
+}
+
 // ace tooltip overrides
 .ace_tooltip {
   background-image: none !important;
@@ -19,27 +239,8 @@
   min-width: 42px;
 }
 
-.ace_editor {
-  height: 100%;
-  position: relative;
-
-  // read only button
-  > .btn-xs {
-    background: $purple-darker;
-    border: 1px solid rgba($white,.15);
-    bottom: 3px;
-    cursor: default;
-    font-family: 'Helvetica Neue', 'Segoe UI', sans-serif; // use default font stack
-    position: absolute;
-    right: 6px;
-    transition: opacity .15s ease-in-out;
-    z-index: $z-views-active-panel + 1; // on top of the active panel
-
-    &:hover,
-    &:active {
-      opacity: 0;
-    }
-  }
+.ace_scroller {
+  right: 0 !important; // fix extra spacing for scrollbar
 }
 
 // ace search
@@ -56,8 +257,12 @@
 .ace-runnable-light .pre,
 .ace-container.ace-runnable-light {
   background-color: $gray-lighterest;
-  // border-top: 1px solid $gray-lighter;
   color: $gray-darker;
+
+  // white in modals
+  .modal-dialog & {
+    background-color: $white;
+  }
 
   // readonly styles
   &.readonly {
