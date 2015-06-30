@@ -10,13 +10,12 @@
 
 // toolbar tabs
 .btn-add-tab {
-  box-shadow: -12px 0 12px rgba($white,.9);
+  height: 45px;
   position: absolute;
-  right: 6px;
-  top: 5px;
 
   .icons-add {
     top: 1px;
+    width: 24px;
   }
 }
 
@@ -29,18 +28,16 @@
   }
 
   ~ .active-panel {
+    border-top: 0;
     height: calc(100% - 81px); // tabs + toolbar
   }
 }
 
 .views-toolbar {
   align-items: center;
-  background: $purple-dark;
-  border-bottom: 1px solid $purple-darker;
-  border-top: 1px solid $purple-darker;
   display: flex;
   height: 36px;
-  padding: 0 9px; // match log padding
+  padding: 0 6px 0 9px; // match toggle and log padding
 
   // when there are multiple
   + .views-toolbar {
@@ -49,13 +46,11 @@
 
   // path/title
   .small {
-    color: $purple-lighter;
     flex: 1 1 auto;
     line-height: 37px;
     padding-right: 9px;
 
     .span {
-      color: $white;
       padding-left: 9px;
     }
   }
@@ -80,7 +75,7 @@
     border: 0;
     color: $purple-lightest;
     line-height: 24px;
-    margin: -2px 0 0;
+    margin: -1px 0 0;
     min-width: 24px;
 
     &:hover {

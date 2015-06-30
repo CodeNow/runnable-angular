@@ -1,8 +1,8 @@
 .modal-backdrop.in(
-  default-actions = "defaultActions"
-  actions = "actions"
-  data = "data"
-  current-model = "currentModel"
-  state-model = "stateModel"
   edit-server-modal
+  instance = "currentModel"
+  modal-actions = "defaultActions"
+  ng-class = "{'full-screen': $root.featureFlags.fullScreen}"
+  selected-tab = "stateModel"
+  state-model = "stateModel"
 )

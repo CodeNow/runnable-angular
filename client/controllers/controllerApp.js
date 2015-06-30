@@ -50,11 +50,14 @@ function ControllerApp(
     debugMode: configEnvironment === 'development',
     dockerfileTool: configEnvironment === 'development',
     findAndReplace: true,
+    fullScreen: configEnvironment === 'development',  // toggles full screen
+    fullScreenToggle: configEnvironment === 'development',  // toggles the button that toggles full screen
     hostnameTool: configEnvironment === 'development',
     hostnameNotifications: configEnvironment === 'development',
-    imAfraidOfTheDark: configEnvironment === 'development',
+    imAfraidOfTheDark: configEnvironment === 'development', // toggles theme
     navListFilter: configEnvironment === 'development',
-    saveToolbar: configEnvironment === 'development'
+    saveToolbar: configEnvironment === 'development',
+    themeToggle: configEnvironment === 'development' // toggles the button that toggles theme
   };
 
   if($localStorage.featureFlags){
