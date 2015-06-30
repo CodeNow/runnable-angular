@@ -25,4 +25,16 @@
     letter-spacing: -.25px;
     padding-right: 33px;
   }
+
+  // textareas
+  .textarea-wrapper {
+    border-radius: $input-border-radius 0 0 $input-border-radius;
+    float: left;
+    width: 50%;
+
+    + .textarea-wrapper {
+      border-radius: 0 $input-border-radius $input-border-radius 0;
+      margin-left: -2px;
+    }
+  }
 }

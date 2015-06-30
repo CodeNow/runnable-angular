@@ -4,34 +4,33 @@
   padding: 3px 6px; // reduce top/bottom padding vs inputs
 }
 
-// groups of textareas
-.textarea-group {
-  display: flex;
+.textarea-wrapper {
+  background: $gray-lighterest;
+  border: $input-border solid $gray-lighter;
+  border-radius: $input-border-radius;
   position: relative;
 
-  &.textarea-col-2 > .textarea {
-
-    &:first-child {
-      border-radius: $input-border-radius 0 0 $input-border-radius;
-      border-right-color: transparent;
-
-      &:focus {
-        border-color: $purple-light;
-        z-index: 1;
-      }
-    }
-
-    &:last-child {
-      border-radius: 0 $input-border-radius $input-border-radius 0;
-      margin-left: -2px;
-    }
+  &.focus {
+    border-color: $purple-light;
+    z-index: 1;
   }
 
   .textarea {
-    background: $gray-lighterest;
-    flex: 1 1 auto;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
     font-size: 13px;
-    min-height: 90px;
-    padding-top: 36px;
+    min-height: 120px;
   }
+}
+
+// groups of textareas
+.textarea-menu {
+  border-bottom: 1px solid $gray-lighter;
+  font-size: 13px;
+  font-weight: 500;
+  height: 36px;
+  line-height: 36px;
+  margin: 0 6px;
 }
