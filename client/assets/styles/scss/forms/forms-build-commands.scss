@@ -11,8 +11,12 @@
   position: relative;
   transition: padding-right .15s ease-in-out;
 
+  &.focus {
+    border-color: $purple-light;
+  }
+
   &.cache-in {
-    padding-right: 30px; // so text doesn't flow behind .cache-column
+    padding-right: 33px; // so text doesn't flow behind .cache-column
 
     .cache-column {
       transform: translate3d(0,0,0);
@@ -30,7 +34,7 @@
 
 // toggle for caching commands
 .toggle-cache {
-  margin: 2px -1px 0 6px;
+  margin: 2px 0 0 5px;
 }
 
 // column of radio buttons for caching
@@ -39,13 +43,23 @@
   display: flex;
   flex-direction: column;
   font-size: 14px; // sets radio button size
-  padding: 5px 0 3px;
+  min-height: 100%;
   pointer-events: none;
   position: absolute;
   top: 0;
   transform: translate3d(33px,0,0);
   transition: transform .15s ease-in-out;
   width: 100%;
+}
+
+.cache-border {
+  background-color: $white;
+  border-left: 1px solid $gray-lighter;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  width: 33px;
+  z-index: -1;
 }
 
 .radio-wrapper {
@@ -55,7 +69,11 @@
   height: 21px;
   justify-content: center;
   pointer-events: auto;
-  width: 30px;
+  width: 32px;
+
+  &:first-of-type {
+    margin-top: 5px;
+  }
 
   &:hover + .cache-row {
     background-color: rgba($black,.03);
