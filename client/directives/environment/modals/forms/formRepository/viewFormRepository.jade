@@ -55,34 +55,34 @@ label.label.clearfix
 .label.clearfix.label-build-commands
   .label-col Build Commands
     small.small (optional)
-
-  .input-col(
-    ng-if = "!$root.featureFlags.buildCommandCache"
-  )
+  //- this element should be disabled when the text field below it is disabled or empty.
+  label.small.strong.text-right.toggle-wrapper(
+    ng-if = "$root.featureFlags.buildCommandCache"
+  ) Cache
+    span.span &#32;a command
+    input.toggle-input(
+      ng-disabled = "startCommandCanDisable && !state.selectedStack"
+      ng-model = "data.cacheCommand"
+      type = "checkbox"
+    )
+    .toggle-group.toggle-xs.float-right
+  .input-col
+    //-************
+    //- deprecated element, remove with $root.featureFlags.buildCommandCache
     //- we only have suggestions for build commands on the main repository
     textarea.textarea.monospace(
       ng-disabled = "startCommandCanDisable && !state.selectedStack"
+      ng-if = "!$root.featureFlags.buildCommandCache"
       ng-model = "state.commands"
       placeholder = "npm install&#10;grunt"
       spellcheck = "false"
     )
-    small.small Add any commands needed to support your application. They'll be run before the Container CMD.
-
-  //- this element should be disabled when the text field below it is disabled or empty.
-  label.small.strong.text-right.toggle-wrapper Cache
-    span.span &#32;a command
-    input.toggle-input(
-      ng-disabled = "startCommandCanDisable && !state.selectedStack"
-      ng-model = "cache"
-      type = "checkbox"
-    )
-    .toggle-group.toggle-xs.float-right
-  .input-col(
-    ng-if = "$root.featureFlags.buildCommandCache"
-  )
+    //- end deprecated element
+    //-************
     //- this element should get the class .focus when the textarea it contains gets focused
     .build-commands-wrapper(
-      ng-class = "{'cache-in': cache}"
+      ng-class = "{'cache-in': data.cacheCommand}"
+      ng-if = "$root.featureFlags.buildCommandCache"
     ) 
       //- this textarea needs to expand vertically to contain its content, like the contentEditable div below (I know, sorry).
       textarea.textarea.monospace(
