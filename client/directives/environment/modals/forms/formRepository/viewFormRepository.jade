@@ -68,7 +68,7 @@ label.label.clearfix
     .toggle-group.toggle-xs.float-right
   .input-col
     //-************
-    //- deprecated element, remove with $root.featureFlags.buildCommandCache
+    //- deprecated textarea, remove with $root.featureFlags.buildCommandCache
     //- we only have suggestions for build commands on the main repository
     textarea.textarea.monospace(
       ng-disabled = "startCommandCanDisable && !state.selectedStack"
@@ -77,7 +77,7 @@ label.label.clearfix
       placeholder = "npm install&#10;grunt"
       spellcheck = "false"
     )
-    //- end deprecated element
+    //- end deprecated textarea
     //-************
     //- this element should get the class .focus when the textarea it contains gets focused
     .build-commands-wrapper(
