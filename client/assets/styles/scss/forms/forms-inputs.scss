@@ -47,6 +47,11 @@ textarea {
     cursor: default;
   }
 
+  // disabled
+  &[disabled] {
+    cursor: not-allowed;
+  }
+
   // remove box-shadow for these states
   &[readonly]:focus,
   &[required],
@@ -60,10 +65,6 @@ textarea {
     -webkit-appearance: checkbox;
     cursor: pointer;
     width: auto;
-
-    &[disabled] {
-      cursor: not-allowed;
-    }
   }
 
   // monospace

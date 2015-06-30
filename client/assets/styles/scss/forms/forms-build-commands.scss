@@ -22,17 +22,9 @@
   .textarea.textarea {
     border: 0;
     box-shadow: none;
-    display: inline-block;
     max-height: none; // override
-    min-height: 0; // override
+    min-height: 81px;
     resize: none;
-    white-space: nowrap;
-
-    &::after {
-      content: '';
-      width: 30px;
-      height: 100%;
-    }
   }
 }
 

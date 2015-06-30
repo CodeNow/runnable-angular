@@ -42,15 +42,16 @@
       placeholder = "Build commands"
       spellcheck = "false"
     )
-    small.small These commands will run before the Container CMD.`
+    small.small These commands will run before the Container CMD.
 
   .input-col(
     ng-if = "$root.featureFlags.buildCommandCache"
   )
     label.small.strong.text-right.toggle-wrapper Cache a command
       input.toggle-input(
-        type = "checkbox"
+        ng-disabled = "startCommandCanDisable && !state.selectedStack"
         ng-model = "cache"
+        type = "checkbox"
       )
       .toggle-group.toggle-xs.toggle-cache.float-right
     .build-commands-wrapper(
@@ -92,7 +93,7 @@
             type = "radio"
           )
         .cache-row
-    small.small These commands will run before the Container CMD.`
+    small.small These commands will run before the Container CMD.
 
 label.label.clearfix
   .label-col Container CMD
