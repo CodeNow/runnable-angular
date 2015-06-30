@@ -48,7 +48,7 @@ label.label.clearfix
   .input-col
     fancy-select.monospace(
       ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
-      ng-required = "ngShow()"
+      ng-required = "startCommandCanDisable || ngShow()"
       name = "repository.startCommand"
       placeholder = "Container command"
       show-dropdown = "state.selectedStack.startCommand"
