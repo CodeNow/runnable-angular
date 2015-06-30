@@ -580,7 +580,7 @@
 .btn-group .btn-group + .btn,
 .btn-group .btn-group + button,
 .btn-group .btn-group + .btn-group {
-  margin-left: $input-border;
+  margin-left: -$input-border;
 }
 
 .btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle),
