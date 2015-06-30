@@ -47,6 +47,10 @@ describe('BoxLogController'.bold.underline.blue, function () {
         this.put = sinon.spy();
         this.pipe = sinon.spy();
         this.destroySoon = sinon.spy();
+        this.off = sinon.spy();
+        this.on = sinon.spy(function (action, cb) {
+          cb();
+        });
         this.destroy = sinon.spy();
         ctx.streamBuffer = this;
       };
@@ -115,6 +119,11 @@ describe('BoxLogController'.bold.underline.blue, function () {
       $scope.instance = ctx.instance;
       $rootScope.$digest();
 
+      var term = mockPrimus.createBuildStream();
+      var stream = mockPrimus.createLogStream();
+      $scope.stream = stream;
+      expect($scope.connectStreams, 'connectStreams').to.be.ok;
+      $scope.connectStreams(term);
       $scope.$on('WRITE_TO_TERM', function (event, message) {
         expect(message, 'message').to.equal('Exited with code: 5');
         done();

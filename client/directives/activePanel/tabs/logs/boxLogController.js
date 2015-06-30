@@ -28,9 +28,14 @@ function BoxLogController(
    * 1) User stops container      - Running === false
    * 2) Container stops naturally - Running === true
    */
-  $scope.$watch('instance.containers.models[0].running()', function () {
+  $scope.$watch('instance.containers.models[0].running()', function (isRunning, wasRunning) {
     var container = keypather.get($scope, 'instance.containers.models[0]');
-    if (!container) { return; }
+    if (!container) {
+      if (!isRunning && wasRunning) {
+
+      }
+      return;
+    }
     if (container.attrs.error || keypather.get(container, 'attrs.inspect.error')) {
       var error = keypather.get(container, 'attrs.inspect.error') || container.attrs.error;
       $scope.$emit('WRITE_TO_TERM', '\x1b[33;1m' + error.message + '\x1b[0m');
@@ -50,7 +55,6 @@ function BoxLogController(
       // Send error to Rollbar?
     }
   });
-
 
   var buffer;
   $scope.createStream = function () {
@@ -87,11 +91,13 @@ function BoxLogController(
   $scope.streamEnded = function () {
     // if this is called, then the container must have exited
     var container = $scope.instance.containers.models[0];
-    var exitCode = container.attrs.inspect.State.ExitCode;
-    $scope.$emit('WRITE_TO_TERM', 'Exited with code: ' + exitCode);
-    buffer.destroy();
+    buffer.on('close', function () {
+      buffer.off('close');
+      $scope.$emit('WRITE_TO_TERM', 'Exited with code: ' +
+          keypather.get(container, 'attrs.inspect.State.ExitCode'));
+    });
+    buffer.destroySoon();
   };
-
 }
 
 
