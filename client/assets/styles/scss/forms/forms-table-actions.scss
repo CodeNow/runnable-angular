@@ -3,8 +3,8 @@
   background: $gray-lightest;
   border: 1px solid $gray-lighter;
   border-bottom: 0;
-  border-radius: 3px 3px 0 0;
-  height: 36px;
+  border-radius: $input-border-radius $input-border-radius 0 0;
+  height: $input-sm;
   overflow: hidden;
   padding: 6px;
   transition: height .15s ease-in-out;
@@ -14,7 +14,7 @@
   }
 
   + .ace-container {
-    border-radius: 0 0 3px 3px;
+    border-radius: 0 0 $input-border-radius $input-border-radius;
 
     > .sidebar {
       border-top-left-radius: 0;
@@ -140,12 +140,12 @@
       }
 
       &:first-child {
-        border-radius: 2px 0 0 2px;
+        border-radius: $input-border-radius-xxs 0 0 $input-border-radius-xxs;
         flex: 0 0 90px;
       }
 
       &:last-child {
-        border-radius: 0 2px 2px 0;
+        border-radius: 0 $input-border-radius-xxs $input-border-radius-xxs 0;
         flex: 0 0 90px;
       }
     }

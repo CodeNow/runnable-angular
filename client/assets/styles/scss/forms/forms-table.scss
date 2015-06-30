@@ -1,7 +1,7 @@
 .table {
   background: $white;
   border: 1px solid $gray-lighter;
-  border-radius: 3px;
+  border-radius: $input-border-radius;
 
   // space out tables
   + .table {
@@ -39,7 +39,7 @@
   }
 
   .tr:last-child .cell-line {
-    border-bottom-left-radius: 3px;
+    border-bottom-left-radius: $input-border-radius;
   }
 
   .tr-gap {
@@ -79,8 +79,8 @@
 
   // reduce cell height
   .cell {
-    height: 24px;
-    line-height: 24px;
+    height: $input-xs;
+    line-height: $input-xs;
   }
 
   // checkbox
@@ -91,10 +91,10 @@
 
 // merge tables
 .table-merge {
-  border-radius: 3px 3px 0 0;
+  border-radius: $input-border-radius $input-border-radius 0 0;
 
   + .table-merge {
-    border-radius: 0 0 3px 3px;
+    border-radius: 0 0 $input-border-radius $input-border-radius;
     border-top: 0;
     margin-top: 0;
 
@@ -106,7 +106,7 @@
       }
 
       &:last-child {
-        border-radius: 0 0 3px 3px;
+        border-radius: 0 0 $input-border-radius $input-border-radius;
       }
     }
   }
@@ -132,7 +132,7 @@
   display: flex;
 
   &:first-child {
-    border-radius: 2px 2px 0 0;
+    border-radius: $input-border-radius-xxs $input-border-radius-xxs 0 0;
     padding-top: 3px;
 
     &.tr-addition,
@@ -143,7 +143,7 @@
   }
 
   &:last-child {
-    border-radius: 0 0 2px 2px;
+    border-radius: 0 0 $input-border-radius-xxs $input-border-radius-xxs;
     padding-bottom: 3px;
 
     &.tr-addition,
@@ -153,7 +153,7 @@
   }
 
   &:only-child {
-    border-radius: 3px;
+    border-radius: $input-border-radius;
     padding: 3px 0;
   }
 
@@ -245,8 +245,8 @@
 .cell {
   flex: 1 1 50%;
   float: left;
-  height: 36px;
-  line-height: 35px;
+  height: $input-sm;
+  line-height: $input-sm - 1px;
   padding: 0 9px;
 
   &.monospace {

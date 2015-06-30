@@ -1,11 +1,11 @@
 // .label-group
 .label-group {
   border: 1px solid rgba($black,.1);
-  border-radius: 3px;
+  border-radius: $input-border-radius;
   margin: 0 6px 15px;
 
   .radio {
-    height: 45px;
+    height: $input-sm;
     margin: 0;
     position: absolute;
     right: 9px;
@@ -20,8 +20,8 @@
   color: $gray-dark;
   cursor: pointer;
   display: block;
-  height: 45px;
-  line-height: 45px;
+  height: $input-md;
+  line-height: $input-md;
   margin: 0;
   overflow: hidden;
   padding: 0 9px;
@@ -34,11 +34,11 @@
   }
 
   &.label-sm {
-    height: 36px;
-    line-height: 36px;
+    height: $input-sm;
+    line-height: $input-sm;
 
     .radio {
-      height: 36px;
+      height: $input-sm;
     }
   }
 
