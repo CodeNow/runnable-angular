@@ -126,7 +126,7 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
       $scope.$digest();
       expect($elScope.data).to.deep.equal({
         cacheCommand = false
-      }));
+      });
       expect($elScope.state).to.equal(scope.state);
       expect($elScope.startCommandCanDisable).to.be.true;
       $rootScope.$destroy();
