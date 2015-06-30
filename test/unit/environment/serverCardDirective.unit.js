@@ -148,6 +148,7 @@ describe('serverCardDirective'.bold.underline.blue, function () {
       };
       setup(scope);
       $scope.$digest();
+      $rootScope.$apply();
 
       expect($elScope.server, 'server').to.be.ok;
       expect($elScope.server.instance, 'instance').to.deep.equal({
@@ -158,7 +159,7 @@ describe('serverCardDirective'.bold.underline.blue, function () {
       expect($elScope.server.build, 'build').to.not.be.ok;
 
       expect($elScope.server.opts.env, 'env').to.not.be.ok;
-      expect($elScope.server.building, 'building').to.not.be.ok;
+      expect($elScope.server.building, 'building').to.be.undefined;
       instance.build = runnable.newBuild(
         apiMocks.builds.built,
         {noStore: true}
@@ -567,11 +568,6 @@ describe('serverCardDirective'.bold.underline.blue, function () {
 
         sinon.assert.calledWith(ctx.helpCards.triggerCard, 'missingAssociation', {
           association: 'Mongo',
-          instance: instance
-        });
-
-        sinon.assert.calledWith(ctx.helpCards.triggerCard, 'missingDependency', {
-          dependency: 'mysql',
           instance: instance
         });
       });
