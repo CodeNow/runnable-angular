@@ -10,13 +10,12 @@
 
 // toolbar tabs
 .btn-add-tab {
-  box-shadow: -12px 0 12px rgba($white,.9);
+  height: 45px;
   position: absolute;
-  right: 6px;
-  top: 5px;
 
   .icons-add {
     top: 1px;
+    width: 24px;
   }
 }
 

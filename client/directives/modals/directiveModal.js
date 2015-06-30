@@ -9,8 +9,8 @@ function modal() {
   return {
     restrict: 'A',
     scope: {
-      data: '=modalData', // Contains modal specific data
-      actions: '=modalActions', // Contains modal specific actions
+      data: '=?modalData', // Contains modal specific data
+      actions: '=?modalActions', // Contains modal specific actions
       template: '@modalTemplate',
       currentModel: '=?modalCurrentModel', // The object that contains the data to display
       stateModel: '=?modalStateModel', // The object that should receive the changes
