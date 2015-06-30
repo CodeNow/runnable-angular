@@ -40,7 +40,9 @@ function BuildLogController(
     }
   });
 
+  var buffer;
   $scope.streamEnded = function () {
+    buffer.destroy();
     $timeout(function () {
       $scope.build.fetch();
     }, 1000);
@@ -50,10 +52,9 @@ function BuildLogController(
     $scope.stream = primus.createBuildStream($scope.build);
   };
 
-  var buffer;
   $scope.$on('$destroy', function () {
-    if (buffer && buffer.end) {
-      buffer.end();
+    if (buffer && buffer.destroy) {
+      buffer.destroy();
     }
   });
   $scope.connectStreams = function (terminal) {

@@ -142,7 +142,10 @@ function primus(
 
 RunnablePrimus.prototype.joinStreams = function (src, des) {
   src.on('data', function (data) {
-    des.write(data);
+    if (des.write) {
+      des.write(data);
+    }
+
   });
   src.on('end', function () {
     if (des.end) {

@@ -10,7 +10,6 @@ function BoxLogController(
   dockerStreamCleanser,
   $scope,
   through,
-  $interval,
   streamBuffers,
   primus
 ) {
@@ -53,15 +52,15 @@ function BoxLogController(
   });
 
 
+  var buffer;
   $scope.createStream = function () {
     var container = keypather.get($scope, 'instance.containers.models[0]');
     $scope.stream = primus.createLogStream(container);
   };
 
-  var buffer;
   $scope.$on('$destroy', function () {
-    if (buffer && buffer.end) {
-      buffer.end();
+    if (buffer && buffer.destroy) {
+      buffer.destroy();
     }
   });
   $scope.connectStreams = function (terminal) {
@@ -90,6 +89,7 @@ function BoxLogController(
     var container = $scope.instance.containers.models[0];
     var exitCode = container.attrs.inspect.State.ExitCode;
     $scope.$emit('WRITE_TO_TERM', 'Exited with code: ' + exitCode);
+    buffer.destroy();
   };
 
 }
