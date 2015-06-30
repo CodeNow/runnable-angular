@@ -52,7 +52,7 @@ label.label.clearfix
         target = "_blank"
       ) More about the Container CMD
 
-.label.clearfix
+.label.clearfix.label-build-commands
   .label-col Build Commands
     small.small (optional)
 
@@ -68,17 +68,18 @@ label.label.clearfix
     )
     small.small Add any commands needed to support your application. They'll be run before the Container CMD.
 
+  //- this element should be disabled when the text field below it is disabled or empty.
+  label.small.strong.text-right.toggle-wrapper Cache
+    span.span &#32;a command
+    input.toggle-input(
+      ng-disabled = "startCommandCanDisable && !state.selectedStack"
+      ng-model = "cache"
+      type = "checkbox"
+    )
+    .toggle-group.toggle-xs.float-right
   .input-col(
     ng-if = "$root.featureFlags.buildCommandCache"
   )
-    //- this element should be disabled when the text field below it is disabled or empty.
-    label.small.strong.text-right.toggle-wrapper Cache a command
-      input.toggle-input(
-        ng-disabled = "startCommandCanDisable && !state.selectedStack"
-        ng-model = "cache"
-        type = "checkbox"
-      )
-      .toggle-group.toggle-xs.toggle-cache.float-right
     //- this element should get the class .focus when the textarea it contains gets focused
     .build-commands-wrapper(
       ng-class = "{'cache-in': cache}"

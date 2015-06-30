@@ -6,6 +6,7 @@ textarea {
     background-color: $gray-lighterest;
     border-color: $gray-lighter !important; // override any validation
     color: $gray-lighter;
+    cursor: not-allowed;
   }
 }
 
@@ -45,11 +46,6 @@ textarea {
     border: 0;
     color: $gray-lighterest;
     cursor: default;
-  }
-
-  // disabled
-  &[disabled] {
-    cursor: not-allowed;
   }
 
   // remove box-shadow for these states
