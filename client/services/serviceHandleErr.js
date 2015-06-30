@@ -7,7 +7,8 @@ function errs (
   configEnvironment,
   keypather,
   hasKeypaths,
-  $log
+  $log,
+  reportError
 ) {
   // codes that do not need to be displayed to user
   var noDisplayCodes = [401, 403];
@@ -21,6 +22,10 @@ function errs (
         }
         if (configEnvironment !== 'production') {
           $log.error(err);
+        } else {
+          reportError(err, {
+            emitter: 'Error Popup'
+          });
         }
       }
     },
