@@ -38,7 +38,7 @@ require('app')
             instanceFilter: function () {
               return {
                 attrs: {
-                  shortHash: '!' + $scope.state.server.instance.attrs.shortHash
+                  shortHash: '!' + $scope.state.instance.attrs.shortHash
                 }
               };
             }
