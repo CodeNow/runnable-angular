@@ -61,10 +61,11 @@ function BoxLogController(
   $scope.connectStreams = function (terminal) {
     var streamCleanser = dockerStreamCleanser('hex');
     var buffer = new streamBuffers.ReadableStreamBuffer({
-      frequency: 500      // in milliseconds.
-      //chunkSize: 2048     // in bytes.
+      frequency: 250,      // in milliseconds.
+      chunkSize: 2048     // in bytes.
     });
-    var jointStream = primus.joinStreams(
+    buffer.setEncoding('utf8');
+    primus.joinStreams(
       $scope.stream,
       streamCleanser
     )
@@ -75,42 +76,6 @@ function BoxLogController(
       ));
 
     buffer.pipe(terminal);
-    //).pipe(through(
-    //  function write(data) {
-    //    var self = this;
-    //    console.log('After cleansing:', data);
-    //    $scope.$evalAsync(function () {
-    //      self.emit('data', data.toString());
-    //    });
-    //  },
-    //  function end() {
-    //    // Do nothing, especially don't pass it along to the terminal (You'll get an error)
-    //  })
-    //);
-    //jointStream.pause();
-    //function readingFn() {
-    //  var data = jointStream.read();
-    //  terminal.write(data);
-    //}
-    //var intervalPromise = $interval(readingFn, 3000);
-    //jointStream.on('end', function () {
-    //  readingFn();
-    //  $interval.cancel(intervalPromise);
-    //  jointStream.off('end');
-    //});
-      //
-      //.pipe(through(
-      //function write(data) {
-      //  var self = this;
-      //  console.log('After cleansing:', data);
-      //  $scope.$evalAsync(function () {
-      //    self.emit('data', data.toString());
-      //  });
-      //},
-      //function end() {
-      //  // Do nothing, especially don't pass it along to the terminal (You'll get an error)
-      //}
-    //)).pipe(terminal);
   };
 
   $scope.streamEnded = function () {

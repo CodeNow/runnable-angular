@@ -53,10 +53,11 @@ function BuildLogController(
   $scope.connectStreams = function (terminal) {
     var streamCleanser = dockerStreamCleanser('hex');
     var buffer = new streamBuffers.ReadableStreamBuffer({
-      frequency: 500      // in milliseconds.
-      //chunkSize: 2048     // in bytes.
+      frequency: 250,      // in milliseconds.
+      chunkSize: 2048     // in bytes.
     });
-    var jointStream = primus.joinStreams(
+    buffer.setEncoding('utf8');
+    primus.joinStreams(
       $scope.stream,
       streamCleanser
     )
