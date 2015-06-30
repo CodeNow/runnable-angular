@@ -10,17 +10,17 @@ div(
   //- ************
   //- deprecated content, remove with $root.featureFlags.cardStatus
   status-icon(
-    instance = "server.instance"
+    instance = "instance"
     ng-if = "!$root.featureFlags.cardStatus"
   )
   span.btn-text.text-overflow(
-    ng-attr-title = "{{ server.opts.name || server.instance.getDisplayName() }}"
+    ng-attr-title = "{{ instance.getDisplayName() }}"
     ng-if = "!$root.featureFlags.cardStatus"
-  ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
+  ) {{ (instance.getRepoName() || instance.attrs.name) }}
   span.btn-text(
-    ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
+    ng-attr-title = "{{ instance | cardBuildStatusTitle}}"
     ng-if = "!$root.featureFlags.cardStatus"
-  ) {{ server.instance | cardBuildStatusText:true}}
+  ) {{ instance | cardBuildStatusText:true}}
   svg.iconnables.icons-arrow-down(
     ng-if = "!$root.featureFlags.cardStatus && !noTouching"
   )
@@ -48,7 +48,7 @@ div(
       )
     span.container-title.text-overflow(
       ng-if = "$root.featureFlags.cardStatus"
-    ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
+    ) {{ (instance.getRepoName() || instance.attrs.name) }}
     svg.iconnables.icons-arrow-down(
         ng-if = "!noTouching"
       )

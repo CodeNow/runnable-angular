@@ -10,13 +10,12 @@
 
 // toolbar tabs
 .btn-add-tab {
-  box-shadow: -12px 0 12px rgba($white,.9);
+  height: 45px;
   position: absolute;
-  right: 6px;
-  top: 5px;
 
   .icons-add {
     top: 1px;
+    width: 24px;
   }
 }
 
@@ -26,21 +25,19 @@
 
   &.toolbar-lg ~ .active-panel {
     height: calc(100% - 120px); // tabs + double toolbar
-
   }
 
   ~ .active-panel {
-    height: calc(100% - 83px); // tabs + toolbar
+    border-top: 0;
+    height: calc(100% - 81px); // tabs + toolbar
   }
 }
 
 .views-toolbar {
   align-items: center;
-  background: $purple-dark;
-  border-bottom: 1px solid $purple-darker;
-  border-top: 1px solid $purple-darker;
   display: flex;
-  padding: 6px 6px 6px 10px;
+  height: 36px;
+  padding: 0 6px 0 9px; // match toggle and log padding
 
   // when there are multiple
   + .views-toolbar {
@@ -49,14 +46,71 @@
 
   // path/title
   .small {
-    color: $purple-lighter;
     flex: 1 1 auto;
-    line-height: 24px;
-    margin-right: 6px;
+    line-height: 37px;
+    padding-right: 9px;
+
+    .span {
+      padding-left: 9px;
+    }
+  }
+
+  // buttons
+  .btn-xs {
+    flex: 0 0 auto;
   }
 
   // save buttons
   .btn + .btn {
     margin-left: 6px;
+  }
+
+  // debug buttons
+  .btn-group {
+    min-width: 153px; // stop wrapping
+  }
+
+  .btn-xs.purple {
+    background: $purple-light;
+    border: 0;
+    color: $purple-lightest;
+    line-height: 24px;
+    margin: -1px 0 0;
+    min-width: 24px;
+
+    &:hover {
+      color: $white;
+    }
+
+    &:active {
+      background: $white;
+      color: $purple-light;
+    }
+
+    &:first-child {
+      padding: 0 21px 0 6px;
+    }
+
+    + .btn-xs {
+      border-left: 1px solid $purple;
+      margin-left: 0;
+    }
+
+    .iconnables {
+      height: 100%;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 15px;
+    }
+
+    .icons-link-external {
+      padding: 2px 1px 1px;
+      right: 1px;
+    }
+
+    .icons-arrow-down {
+      margin: 0 5px;
+    }
   }
 }

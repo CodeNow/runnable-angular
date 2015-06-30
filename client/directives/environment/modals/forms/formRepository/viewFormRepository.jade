@@ -11,7 +11,7 @@ label.label.clearfix
   .input-col
     fancy-select.monospace(
       ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
-      ng-required = "ngShow()"
+      ng-required = "startCommandCanDisable || ngShow()"
       name = "repository.startCommand"
       placeholder = "Container command"
       show-dropdown = "state.selectedStack.startCommand"
@@ -55,6 +55,6 @@ label.label.clearfix(
       placeholder = "Packages"
       spellcheck = "false"
     )
-    small.small Specify any packages you would like to install via apt-get, separated with spaces (e.g. ‘curl git gcc-4.1=4.1.2’). This container is based on &#32;
+    small.small Add any packages you would like to install via apt-get, separated with spaces (e.g. ‘curl git gcc-4.1=4.1.2’). This container is based on &#32;
       //- this should specify the OS that the container is running, based on the stack type.
       strong.strong Ubuntu 13.04.

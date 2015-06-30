@@ -1,5 +1,5 @@
 //- spinner for JUST instance
-.spinner-wrapper.spinner-backdrop.spinner-lg.spinner-purple.in(
+.spinner-wrapper.spinner-backdrop.spinner-md.spinner-purple.in(
   ng-if = "isLoading.main"
   ng-include = "'spinner'"
 )
@@ -115,5 +115,6 @@ section.views(
   background-buttons = "build, server, term, web"
   build = "dataInstance.data.instance.build"
   instance = "dataInstance.data.instance"
+  ng-class = "{'full-screen': $root.featureFlags.fullScreen}"
   open-items = "dataInstance.data.openItems"
 )

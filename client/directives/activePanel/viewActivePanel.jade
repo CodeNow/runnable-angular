@@ -8,9 +8,10 @@
 
 //- toolbar
 .views-toolbar-wrapper(
-  ng-class = "{'toolbar-lg': \
-    (showBuildFailurePrompt() || shouldShowUpdateConfigsPrompt) && \
-    $root.featureFlags.saveToolbar\
+  ng-class = "{\
+    'toolbar-lg': (showBuildFailurePrompt() || shouldShowUpdateConfigsPrompt) && $root.featureFlags.saveToolbar,\
+    'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+    'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
   ng-if = "\
     showBuildFailurePrompt() || \
@@ -21,37 +22,47 @@
 )
 
 //- active panel
-.active-panel.ace-runnable-dark(
+.active-panel(
+  ng-class = "{\
+    'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+    'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+  }"
   ng-repeat = "item in openItems.models"
   ng-show = "item === openItems.activeHistory.last()"
 )
+
+  .floating-controls(
+    ng-if = "$root.featureFlags.fullScreenToggle || $root.featureFlags.themeToggle"
+    ng-include = "'viewFloatingControls'"
+  )
+
   //- logs
-  .logs(
+  .term-js.term-log(
     log-term
     ng-controller = "BuildLogController"
     ng-if = "item.state.type === 'BuildStream'"
   )
 
-  .logs(
+  .term-js.term-log(
     log-term
     ng-controller = "BoxLogController"
     ng-if = "item.state.type === 'LogView'"
   )
 
   //- terminal
-  .logs(
-    ng-if = "item.state.type === 'Terminal'"
-    ng-controller = "TermController"
+  .term-js(
     log-term
+    ng-controller = "TermController"
+    ng-if = "item.state.type === 'Terminal'"
   )
 
   //- files
   div(
     file = "item"
     file-editor
+    loading = "loading"
     ng-if = "item.state.type === 'File'"
     use-auto-update = "useAutoUpdate"
-    loading = "loading"
   )
 
   div(
@@ -65,25 +76,33 @@
 
 //- blank state
 .blank-panel(
+  ng-class = "{\
+    'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+    'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+  }"
   ng-if= "openItems.models.length === 0 && showBackgroundButtons"
 )
+  .floating-controls(
+    ng-include = "'viewFloatingControls'"
+  )
+
   ul.blank-panel-group
     li.btn.btn-sm(
       ng-click = "openItems.addTerminal()"
       ng-if = "showBackgroundButtons.term"
     )
-      svg.iconnables.icons-terminal
+      svg.iconnables
         use(
-          xlink:href = "#icons-terminal"
+          xlink:href = "#icons-start-cmd"
         )
       | Terminal
     li.btn.btn-sm(
       ng-click = "openItems.addBuildStream()"
       ng-if = "showBackgroundButtons.build"
     )
-      svg.iconnables.icons-logs
+      svg.iconnables
         use(
-          xlink:href = "#icons-logs"
+          xlink:href = "#icons-build-logs"
         )
       | Build Logs
     li.btn.btn-sm(
@@ -92,6 +111,6 @@
     )
       svg.iconnables.icons-server
         use(
-          xlink:href = "#icons-server"
+          xlink:href = "#icons-cmd-logs"
         )
       | CMD Logs

@@ -40,6 +40,7 @@
 // external componenets
 @import "components/external/intercom";
 @import "components/external/jstag";
+@import "components/external/termjs";
 
 // forms
 @import "forms/forms";
@@ -94,6 +95,7 @@
 // popover specific
 @import "popover/popover-account-menu";
 @import "popover/popover-add-tab";
+@import "popover/popover-debug";
 @import "popover/popover-files";
 @import "popover/popover-new-server";
 @import "popover/popover-primary-options";
