@@ -7,6 +7,15 @@
   position: relative;
   z-index: $z-views;
 
+  &.full-screen {
+    height: 100vh;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    z-index: $z-modal;
+  }
+
   &.full-height {
     height: 100vh;
   }

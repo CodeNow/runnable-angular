@@ -106,7 +106,6 @@
 
 .tooltip-plus {
   background: $gray-darker;
-  border: 1px solid rgba($white,.3);
   border-radius: 3px;
   color: $white;
   display: none;
@@ -135,6 +134,10 @@
     left: 0;
     right: 0;
     top: -9px;
+
+    .ace-runnable-dark & {
+      border-bottom-color: $white;
+    }
   }
 
   // arrow pointing left ◀️
@@ -146,6 +149,25 @@
     left: -18px;
     margin-top: -9px;
     top: 50%;
+
+    .ace-runnable-dark & {
+      border-right-color: $white;
+    }
+  }
+
+  // arrow pointing right ▶️
+  &.left::before {
+    border-bottom: 9px solid transparent;
+    border-left: 9px solid $gray-darker;
+    border-right: 0;
+    border-top: 9px solid transparent;
+    margin-top: -9px;
+    right: -18px;
+    top: 50%;
+
+    .ace-runnable-dark & {
+      border-left-color: $white;
+    }
   }
 
   // arrow pointing down 🔽
@@ -157,6 +179,10 @@
     bottom: -9px;
     left: 0;
     right: 0;
+
+    .ace-runnable-dark & {
+      border-top-color: $white;
+    }
   }
 
   // content specific (from configure "unavailable tools")
@@ -184,6 +210,19 @@
       line-height: 1.2;
       margin: 6px 0 0;
       padding-top: 6px;
+    }
+  }
+
+  // single line tooltips
+  &.tooltip-text {
+    font-family: 'Helvetica Neue', 'Segoe UI', sans-serif;
+    padding: 9px;
+
+    // reverse for dark theme
+    .ace-runnable-dark & {
+      background: $white;
+      border-radius: 3px;
+      color: $purple-dark;
     }
   }
 
