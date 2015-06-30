@@ -1,6 +1,7 @@
 // initial styles
 input,
 textarea {
+  cursor: text;
 
   &[disabled] {
     background-color: $gray-lighterest;
