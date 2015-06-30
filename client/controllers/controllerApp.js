@@ -54,7 +54,8 @@ function ControllerApp(
     hostnameNotifications: false,
     imAfraidOfTheDark: false,
     navListFilter: false,
-    saveToolbar: false
+    saveToolbar: false,
+    themeToggle: false
   };
 
   if($localStorage.featureFlags){

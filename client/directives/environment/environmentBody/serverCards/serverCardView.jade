@@ -32,9 +32,7 @@ ul.card-body.load(
   //- stack type
   li.btn.white(
     modal
-    modal-actions = "actions"
-    modal-current-model = "server"
-    modal-data = "data"
+    modal-current-model = "instance"
     modal-state-model = "'stack'"
     modal-template = "editServerModalOpen"
     ng-if = "server.repo && !server.advanced"
@@ -54,9 +52,7 @@ ul.card-body.load(
   li.btn.white(
     ng-if = "server.repo && !server.advanced"
     modal
-    modal-actions = "actions"
-    modal-current-model = "server"
-    modal-data = "data"
+    modal-current-model = "instance"
     modal-state-model = "'ports'"
     modal-template = "editServerModalOpen"
     ng-if = "server.repo && !server.advanced"
@@ -75,9 +71,7 @@ ul.card-body.load(
   //- environment variables
   li.btn.white(
     modal
-    modal-actions = "actions"
-    modal-current-model = "server"
-    modal-data = "data"
+    modal-current-model = "instance"
     modal-state-model = "'env'"
     modal-template = "editServerModalOpen"
     ng-class = "{\
@@ -102,9 +96,7 @@ ul.card-body.load(
   //- repository
   li.btn.white(
     modal
-    modal-actions = "actions"
-    modal-current-model = "server"
-    modal-data = "data"
+    modal-current-model = "instance"
     modal-state-model = "'repository'"
     modal-template = "editServerModalOpen"
     ng-if = "server.repo && !server.advanced"
@@ -126,9 +118,7 @@ ul.card-body.load(
   //- container files
   li.btn.white(
     modal
-    modal-actions = "actions"
-    modal-current-model = "server"
-    modal-data = "data"
+    modal-current-model = "instance"
     modal-state-model = "'files'"
     modal-template = "editServerModalOpen"
     ng-if = "server.repo && !server.advanced"
@@ -147,9 +137,7 @@ ul.card-body.load(
   //- FnR
   li.btn.white(
     modal
-    modal-actions = "actions"
-    modal-current-model = "server"
-    modal-data = "data"
+    modal-current-model = "instance"
     modal-state-model = "'translation'"
     modal-template = "editServerModalOpen"
     modal-open-flag = "openConfigurationModal"
@@ -169,9 +157,7 @@ ul.card-body.load(
   //- dockerfile
   li.btn.white(
     modal
-    modal-actions = "actions"
-    modal-current-model = "server"
-    modal-data = "data"
+    modal-current-model = "instance"
     modal-state-model = "'buildfiles'"
     modal-template = "editServerModalOpen"
     ng-if = "server.advanced && !$root.featureFlags.dockerfileTool"
@@ -198,9 +184,7 @@ ul.card-body.load(
   //- new dockerfile
   li.btn.white(
     modal
-    modal-actions = "actions"
-    modal-current-model = "server"
-    modal-data = "data"
+    modal-current-model = "instance"
     modal-state-model = "'buildfiles'"
     modal-template = "editServerModalOpen"
     ng-if = "$root.featureFlags.dockerfileTool"

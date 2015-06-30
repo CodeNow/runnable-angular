@@ -6,7 +6,12 @@ require('app')
 function promisify($exceptionHandler, $q) {
   return function promisify(model, fn, skipCache) {
     if (!model[fn]) {
-      throw new Error('Attempted to call a function of a model that doesn\'t exist');
+      var modelName = /^function\s+([\w\$]+)\s*\(/.exec( model.toString() );
+      if (modelName) {
+        throw new Error('Attempted to call function ' + fn + ' of model ' + modelName[1] + ' that doesn\'t exist');
+      } else {
+        throw new Error('Attempted to call function ' + fn + ' on a non-model');
+      }
     }
     if (fn.toLowerCase().indexOf('fetch') < 0) {
       skipCache = true;

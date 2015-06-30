@@ -61,7 +61,7 @@ button.btn.btn-xs.gray(
   )
     li.list-item.popover-list-item.small Select hostname
     fancy-option.monospace(
-      ng-if = "instance.attrs.shortHash !== $parent.$parent.$parent.state.server.instance.attrs.shortHash"
+      ng-if = "instance.attrs.shortHash !== $parent.$parent.$parent.instance.attrs.shortHash"
       ng-repeat = "instance in $parent.data.instances.models"
       value = "instance"
     ) {{ $parent.instance.getElasticHostname() }}

@@ -23,7 +23,7 @@ form.modal-dialog.modal-edit(
       button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'stack'}"
         ng-click = "changeTab('stack')"
-        ng-if = "!state.advanced"
+        ng-if = "isTabVisible('stack')"
       )
         svg.iconnables
           use(
@@ -33,7 +33,7 @@ form.modal-dialog.modal-edit(
       button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'ports'}"
         ng-click = "changeTab('ports')"
-        ng-if = "!state.advanced"
+        ng-if = "isTabVisible('ports')"
       )
         svg.iconnables
           use(
@@ -52,7 +52,7 @@ form.modal-dialog.modal-edit(
       button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'repository'}"
         ng-click = "changeTab('repository')"
-        ng-if = "!state.advanced"
+        ng-if = "isTabVisible('repository')"
       )
         svg.iconnables
           use(
@@ -62,7 +62,7 @@ form.modal-dialog.modal-edit(
       button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'files'}"
         ng-click = "changeTab('files')"
-        ng-if = "state.repo && !state.advanced"
+        ng-if = "isTabVisible('files')"
       )
         svg.iconnables
           use(
@@ -72,7 +72,7 @@ form.modal-dialog.modal-edit(
       button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'translation'}"
         ng-click = "changeTab('translation')"
-        ng-if = "state.repo && $root.featureFlags.findAndReplace"
+        ng-if = "isTabVisible('translation') && $root.featureFlags.findAndReplace"
       )
         svg.iconnables
           use(
@@ -91,7 +91,7 @@ form.modal-dialog.modal-edit(
       button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'buildfiles'}"
         ng-click = "changeTab('buildfiles')"
-        ng-if = "state.advanced || $root.featureFlags.dockerfileTool"
+        ng-if = "isTabVisible('buildfiles') || $root.featureFlags.dockerfileTool"
       )
         svg.iconnables
           use(
@@ -140,6 +140,10 @@ form.modal-dialog.modal-edit(
       translation-rules
     )
     .modal-form.modal-logs(
+      ng-class = "{\
+        'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+        'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+      }"
       ng-show = "selectedTab === 'logs'"
       ng-include = "'viewFormLogs'"
     )
