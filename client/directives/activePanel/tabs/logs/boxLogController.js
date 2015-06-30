@@ -58,9 +58,15 @@ function BoxLogController(
     $scope.stream = primus.createLogStream(container);
   };
 
+  var buffer;
+  $scope.$on('$destroy', function () {
+    if (buffer && buffer.end) {
+      buffer.end();
+    }
+  });
   $scope.connectStreams = function (terminal) {
     var streamCleanser = dockerStreamCleanser('hex');
-    var buffer = new streamBuffers.ReadableStreamBuffer({
+    buffer = new streamBuffers.ReadableStreamBuffer({
       frequency: 250,      // in milliseconds.
       chunkSize: 2048     // in bytes.
     });
@@ -72,7 +78,8 @@ function BoxLogController(
       .pipe(through(
         function write(data) {
           buffer.put(data.toString().replace(/\r?\n/gm, '\r\n'));
-        }
+        },
+        buffer.destroySoon
       ));
 
     buffer.pipe(terminal);
