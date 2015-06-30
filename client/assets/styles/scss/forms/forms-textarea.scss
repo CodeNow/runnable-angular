@@ -1,0 +1,5 @@
+// default styles are in forms-input.scss
+// overrides for those default styles:
+.textarea {
+  padding: 3px 6px; // reduce top/bottom padding vs inputs
+}

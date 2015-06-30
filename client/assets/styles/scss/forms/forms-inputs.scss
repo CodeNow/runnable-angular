@@ -9,6 +9,26 @@ textarea {
   }
 }
 
+input {
+
+  // remove box-shadow for these states
+  &[type="checkbox"],
+  &[type="radio"] {
+    box-shadow: none;
+  }
+
+  // appear as checkbox
+  &[type="checkbox"] {
+    -webkit-appearance: checkbox;
+    cursor: pointer;
+    width: auto;
+
+    &[disabled] {
+      cursor: not-allowed;
+    }
+  }
+}
+
 
 // defaults
 .input,
@@ -49,21 +69,8 @@ textarea {
 
   // remove box-shadow for these states
   &[readonly]:focus,
-  &[required],
-  &[type="checkbox"],
-  &[type="radio"] {
+  &[required] {
     box-shadow: none;
-  }
-
-  // appear as checkbox
-  &[type="checkbox"] {
-    -webkit-appearance: checkbox;
-    cursor: pointer;
-    width: auto;
-
-    &[disabled] {
-      cursor: not-allowed;
-    }
   }
 
   // monospace
@@ -119,7 +126,8 @@ textarea {
 // label.btn.btn-checkbox
 .btn-checkbox {
   font-size: 13px;
-    // input.checkbox
+
+  // input.checkbox
   .checkbox {
     float: right;
     margin-left: 12px;
@@ -130,15 +138,6 @@ textarea {
 #input-upload {
   position: absolute;
   visibility: hidden;
-}
-
-.input {
-  height: 45px;
-  line-height: 45px;
-}
-
-.textarea {
-  padding: 3px 6px;
 }
 
 // description text
@@ -236,81 +235,6 @@ textarea {
   .btn-sm.gray {
     right: 6px;
     top: 9px;
-  }
-}
-
-// textarea group
-.textarea-group {
-  background: $white;
-  border: 2px solid $gray-lighter;
-  border-radius: 3px;
-  margin: 0 15px;
-  padding-top: 6px;
-
-  .input-group {
-    background: none;
-    border: 0;
-    border-radius: 0;
-    margin: 0;
-
-    &:only-child {
-      border-radius: 3px;
-    }
-  }
-
-  // input sizes
-  .input {
-    border: 1px solid transparent;
-    font-size: 14px;
-    letter-spacing: -.5px;
-    margin: 0 6px;
-    padding: 0 6px;
-
-    &:focus {
-      background: rgba($blue,.1);
-      border-color: $blue;
-    }
-
-    &.input-key {
-      width: 210px;
-    }
-
-    &.input-value {
-      padding-right: 36px;
-      width: 470px;
-    }
-  }
-
-  .input-divider {
-    color: $gray-light;
-    flex: 0 0 auto;
-    line-height: 34px;
-  }
-}
-
-.textarea-group-controls {
-  background: $gray-lighter;
-  height: 45px;
-  padding: 6px 4px;
-
-  .btn {
-    background: $white;
-    color: $gray;
-    font-weight: 500;
-    transition: none;
-
-    &:hover {
-      background: $gray-lighterest;
-    }
-
-    &:active {
-      background: transparent;
-      color: $gray-dark;
-    }
-  }
-
-  .btn + .btn {
-    float: right;
   }
 }
 
