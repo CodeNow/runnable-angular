@@ -3,3 +3,35 @@
 .textarea {
   padding: 3px 6px; // reduce top/bottom padding vs inputs
 }
+
+// groups of textareas
+.textarea-group {
+  display: flex;
+  position: relative;
+
+  &.textarea-col-2 > .textarea {
+
+    &:first-child {
+      border-radius: $input-border-radius 0 0 $input-border-radius;
+      border-right-color: transparent;
+
+      &:focus {
+        border-color: $purple-light;
+        z-index: 1;
+      }
+    }
+
+    &:last-child {
+      border-radius: 0 $input-border-radius $input-border-radius 0;
+      margin-left: -2px;
+    }
+  }
+
+  .textarea {
+    background: $gray-lighterest;
+    flex: 1 1 auto;
+    font-size: 13px;
+    min-height: 90px;
+    padding-top: 36px;
+  }
+}
