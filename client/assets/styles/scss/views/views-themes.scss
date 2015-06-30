@@ -141,8 +141,27 @@
 }
 
 // blank panel
-.blank-panel.ace-runnable-dark {
-  color: $purple-lighter;
+.blank-panel {
+
+  // light theme
+  &.ace-runnable-light .btn-sm {
+    color: $gray-darker;
+
+    &:hover,
+    &:active {
+      color: $purple-light;
+    }
+  }
+
+  // dark theme
+  &.ace-runnable-dark .btn-sm {
+    color: $purple-lighter;
+
+    &:hover,
+    &:active {
+      color: $white;
+    }
+  }
 }
 
 // ace container
