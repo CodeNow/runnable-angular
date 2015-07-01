@@ -4,6 +4,7 @@
   padding: 3px 6px; // reduce top/bottom padding vs inputs
 }
 
+// wrapper for textarea takes focus state
 .textarea-wrapper {
   border: $input-border solid $gray-lighter;
   border-radius: $input-border-radius;
@@ -19,12 +20,13 @@
     }
   }
 
+  // actualy textarea
   .textarea {
     border: 0;
     border-radius: 0;
     box-shadow: none;
     font-size: 13px;
-    margin-bottom: -2px;
+    margin-bottom: -2px; // there's a weird space under this
     min-height: 120px;
 
     @include media(xs) {
@@ -33,7 +35,7 @@
   }
 }
 
-// groups of textareas
+// textarea menu
 .textarea-menu {
   border-bottom: 1px solid $gray-lighter;
   font-size: 13px;
