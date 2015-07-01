@@ -6,10 +6,10 @@ require('app')
 // something can't be both basic and advanced, they are if/else
 var tabVisibility = {
   buildfiles: { advanced: true, nonRepo: true, basic: false },
-  stack:  { advanced: false, nonRepo: false, basic: true },
+  repository:  { advanced: false, nonRepo: false, basic: true },
   ports:  { advanced: false, nonRepo: false, basic: true },
   env:  { advanced: true, nonRepo: true, basic: true },
-  repository:  { advanced: false, nonRepo: false, basic: true },
+  commands:  { advanced: false, nonRepo: false, basic: true },
   files:  { advanced: false, nonRepo: false, basic: true },
   translation:  { advanced: true, nonRepo: false, basic: true },
   logs:  { advanced: true, nonRepo: true, basic: true }
@@ -344,9 +344,9 @@ function editServerModal(
       $scope.changeTab = function (tabname) {
         if (!$scope.state.advanced) {
           if ($filter('selectedStackInvalid')($scope.state.selectedStack)) {
-            tabname = 'stack';
-          } else if (!$scope.state.startCommand) {
             tabname = 'repository';
+          } else if (!$scope.state.startCommand) {
+            tabname = 'commands';
           }
         } else if ($scope.editServerForm.$invalid) {
           if (keypather.get($scope, 'editServerForm.$error.required.length')) {
@@ -562,7 +562,7 @@ function editServerModal(
           watchOncePromise($scope, 'state.contextVersion', true)
             .then(function () {
               $rootScope.$broadcast('close-popovers');
-              $scope.selectedTab = advanced ? 'buildfiles' : 'stack';
+              $scope.selectedTab = advanced ? 'buildfiles' : 'repository';
               if (advanced) {
                 openDockerfile();
               }
