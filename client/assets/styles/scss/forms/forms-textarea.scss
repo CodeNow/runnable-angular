@@ -5,7 +5,6 @@
 }
 
 .textarea-wrapper {
-  background: $gray-lighterest;
   border: $input-border solid $gray-lighter;
   border-radius: $input-border-radius;
   position: relative;
@@ -21,7 +20,6 @@
   }
 
   .textarea {
-    background: transparent;
     border: 0;
     border-radius: 0;
     box-shadow: none;

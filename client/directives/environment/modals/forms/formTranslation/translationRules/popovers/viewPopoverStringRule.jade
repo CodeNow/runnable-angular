@@ -36,6 +36,7 @@
       textarea.textarea.monospace(
         ng-blur = "focus.textAreaFind = false"
         ng-focus = "focus.textAreaFind = true"
+        required
         spellcheck = "false"
       )
 
@@ -43,7 +44,7 @@
       ng-class = "{'focus': focus.textAreaReplace}"
     )
       .textarea-menu Replace
-        button.btn.btn-xxs.white.float-right Insert Hostname
+        button.btn.btn-xxs.gray.float-right Insert Hostname
           svg.iconnables.icons-arrow-down
             use(
               xlink:href = "#icons-arrow-down"
@@ -51,6 +52,7 @@
       textarea.textarea.monospace(
         ng-blur = "focus.textAreaReplace = false"
         ng-focus = "focus.textAreaReplace = true"
+        required
         spellcheck = "false"
       )
 
