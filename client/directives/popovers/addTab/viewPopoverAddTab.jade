@@ -7,7 +7,7 @@
     ul.list.popover-list
       li.list-item.popover-list-item.small Open Tab
       li.list-item.popover-list-item(
-        ng-click = "actions.addTerminal()"
+        ng-click = "actions.addTerminal(); closePopover()"
         ng-if = "data.options.term"
       )
         svg.iconnables
@@ -16,7 +16,7 @@
           )
         | Terminal
       li.list-item.popover-list-item(
-        ng-click = "actions.addBuildStream()"
+        ng-click = "actions.addBuildStream(); closePopover()"
         ng-if = "data.options.build"
       )
         svg.iconnables
@@ -25,7 +25,7 @@
           )
         | Build Logs
       li.list-item.popover-list-item(
-        ng-click = "actions.addLogs()"
+        ng-click = "actions.addLogs(); closePopover()"
         ng-if = "data.options.server"
       )
         svg.iconnables

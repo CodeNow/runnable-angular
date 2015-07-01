@@ -12,6 +12,7 @@ function BuildLogController(
   $scope,
   primus,
   promisify,
+  streamBuffers,
   through,
   errs,
   $timeout
@@ -39,7 +40,9 @@ function BuildLogController(
     }
   });
 
+  var buffer;
   $scope.streamEnded = function () {
+    buffer.destroy();
     $timeout(function () {
       $scope.build.fetch();
     }, 1000);
@@ -49,19 +52,30 @@ function BuildLogController(
     $scope.stream = primus.createBuildStream($scope.build);
   };
 
+  $scope.$on('$destroy', function () {
+    if (buffer && buffer.destroy) {
+      buffer.destroy();
+    }
+  });
   $scope.connectStreams = function (terminal) {
     var streamCleanser = dockerStreamCleanser('hex');
+    buffer = new streamBuffers.ReadableStreamBuffer({
+      frequency: 250,      // in milliseconds.
+      chunkSize: 2048     // in bytes.
+    });
+    buffer.setEncoding('utf8');
     primus.joinStreams(
       $scope.stream,
       streamCleanser
-    ).pipe(through(
-      function write(data) {
-        this.emit('data', data.toString().replace(/\r?\n/gm, '\r\n'));
-      },
-      function end() {
-        // Do nothing, especially don't pass it along to the terminal (You'll get an error)
-      }
-    )).pipe(terminal);
+    )
+      .pipe(through(
+        function write(data) {
+          buffer.put(data.toString().replace(/\r?\n/gm, '\r\n'));
+        },
+        buffer.destroySoon
+      ));
+
+    buffer.pipe(terminal);
   };
 }
 

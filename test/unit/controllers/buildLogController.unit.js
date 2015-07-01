@@ -6,6 +6,7 @@ var $controller,
     $window;
 var keypather;
 var apiMocks = require('../apiMocks/index');
+var streamBuffers;
 var mockPrimus = new fixtures.MockPrimus();
 
 function createCv() {
@@ -19,7 +20,9 @@ function createCv() {
 describe('BuildLogController'.bold.underline.blue, function () {
   var ctx = {};
   function setup() {
-    ctx.streamCleanserMock = sinon.spy();
+    ctx.streamCleanserMock = sinon.spy(function () {
+      return mockPrimus.createLogStream();
+    });
     ctx.$log = {
       error: sinon.spy()
     };
@@ -36,13 +39,23 @@ describe('BuildLogController'.bold.underline.blue, function () {
       _$controller_,
       _$rootScope_,
       _keypather_,
-      _$window_
+      _$window_,
+      _streamBuffers_
     ) {
       $controller = _$controller_;
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
       keypather = _keypather_;
       $window = _$window_;
+      streamBuffers = _streamBuffers_;
+      streamBuffers.ReadableStreamBuffer = function () {
+        this.setEncoding = sinon.spy();
+        this.put = sinon.spy();
+        this.pipe = sinon.spy();
+        this.destroySoon = sinon.spy();
+        this.destroy = sinon.spy();
+        ctx.streamBuffer = this;
+      };
     });
 
     ctx.buildPassed = true;
@@ -91,6 +104,23 @@ describe('BuildLogController'.bold.underline.blue, function () {
       expect($scope.connectStreams, 'connectStreams').to.be.ok;
       $scope.connectStreams(term);
       sinon.assert.calledWith(ctx.streamCleanserMock, 'hex');
+      sinon.assert.calledWith(ctx.streamBuffer.setEncoding, 'utf8');
+      sinon.assert.calledOnce(ctx.streamBuffer.pipe);
+    });
+    it('should receive data in stream buffer', function () {
+      $rootScope.$digest();
+      var stream = mockPrimus.createBuildStream();
+      $scope.stream = stream;
+      var term = mockPrimus.createBuildStream();
+      expect($scope.connectStreams, 'connectStreams').to.be.ok;
+      $scope.connectStreams(term);
+      $rootScope.$digest();
+      sinon.assert.calledWith(ctx.streamCleanserMock, 'hex');
+      sinon.assert.calledOnce(ctx.streamBuffer.pipe);
+      sinon.assert.calledWith(ctx.streamBuffer.setEncoding, 'utf8');
+      stream.write('Hello');
+      $rootScope.$digest();
+      sinon.assert.calledWith(ctx.streamBuffer.put, 'Hello');
     });
   });
 

@@ -103,17 +103,21 @@ RunnablePrimus.prototype.createUserStream = function(userId) {
 require('app')
   .factory('primus', primus);
 
+
+
 /**
  * @ngInject
  */
 function primus(
   $log,
   $rootScope,
+  $interval,
   configAPIHost
 ) {
   // TODO: make idempotent
   var url = configAPIHost;
   var conn = new RunnablePrimus(url);
+  conn.$interval = $interval;
 
   /**
    * TODO: script load timing
@@ -141,6 +145,7 @@ RunnablePrimus.prototype.joinStreams = function (src, des) {
     if (des.write) {
       des.write(data);
     }
+
   });
   src.on('end', function () {
     if (des.end) {
