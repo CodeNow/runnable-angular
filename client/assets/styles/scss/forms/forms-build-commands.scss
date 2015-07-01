@@ -1,0 +1,115 @@
+.label-build-commands {
+
+  // toggle for caching commands
+  .toggle-group {
+    margin: 2px 6px 6px;
+  }
+
+  // overrides so it can fit next to the cache label at narrow sizes
+  .label-col {
+    float: left;
+    width: auto;
+  }
+
+  // "Cache a command" label
+  > .small {
+    display: inline-block;
+    float: right;
+
+    @include media(xs) {
+      margin-top: 10px;
+
+      // " a command" part of label
+      .span {
+        display: none;
+      }
+    }
+  }
+}
+
+// wraps text area for commands and radio buttons for caching
+.build-commands-wrapper {
+  background-color: $white;
+  border: 2px solid $gray-lighter;
+  border-radius: 3px;
+  line-height: 21px;
+  max-height: 126px;
+  min-height: 81px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: relative;
+  transition: padding-right .15s ease-in-out;
+  width: 100%; // keeps it from collapsing when the labels above it are floated at the xs width
+
+  &.focus {
+    border-color: $purple-light;
+  }
+
+  &.cache-in {
+    padding-right: 33px; // so text doesn't flow behind .cache-column
+
+    .cache-column {
+      transform: translate3d(0,0,0);
+    }
+  }
+
+  .textarea.textarea {
+    border: 0;
+    box-shadow: none;
+    max-height: none; // override
+    min-height: 81px;
+    resize: none;
+  }
+}
+
+// column of radio buttons for caching
+.cache-column {
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px; // sets radio button size
+  min-height: 100%;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  transform: translate3d(33px,0,0);
+  transition: transform .15s ease-in-out;
+  width: 100%;
+}
+
+.cache-border {
+  background-color: $white;
+  border-left: 1px solid $gray-lighter;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  width: 33px;
+  z-index: -1;
+}
+
+.radio-wrapper {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  height: 21px;
+  justify-content: center;
+  pointer-events: auto;
+  width: 32px;
+
+  &:first-of-type {
+    margin-top: 5px;
+  }
+
+  &:hover + .cache-row {
+    background-color: rgba($black,.03);
+  }
+}
+
+// highlights a line in text area. only appears when the corresponding radio button is hovered.
+.cache-row {
+  height: 21px;
+  margin-top: -21px;
+  pointer-events: none;
+  position: relative;
+  width: 100%;
+}
