@@ -47,7 +47,6 @@ describe('BoxLogController'.bold.underline.blue, function () {
         this.put = sinon.spy();
         this.pipe = sinon.spy();
         this.destroySoon = sinon.spy();
-        this.off = sinon.spy();
         this.on = sinon.spy(function (action, cb) {
           cb();
         });

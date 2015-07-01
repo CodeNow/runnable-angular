@@ -75,7 +75,7 @@ function BuildLogController(
         buffer.destroySoon
       ));
 
-    buffer.pipe(terminal);
+    buffer.pipe(terminal, { end: false });
   };
 }
 
