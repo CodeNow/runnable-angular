@@ -5,10 +5,10 @@
   style = "z-index: 8001;"
 )
   .popover-content
-    a.link.float-right(
+    button.btn.btn-xxs.gray(
       ng-click = "$localStorage.featureFlags = {}; $root.resetFeatureFlags();"
-      style = "color: #f25058; font-size: 11px; right: 15px; line-height: 36px; position: absolute; top: 6px; z-index: 2;"
-    ) Reset (Reloads Page)
+      style = "font-size: 12px; right: 12px; position: absolute; top: 15px; z-index: 2;"
+    ) Reset Flags
     .list.popover-list
       .list-item.popover-list-item.small(
         style = "background: white; color: #aaa; font-weight: 500; padding-left: 15px; top: 1px; z-index: 1;"
