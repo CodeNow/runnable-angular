@@ -58,6 +58,7 @@ function ControllerApp(
     hostnameNotifications: false,
     imAfraidOfTheDark: false, // toggles theme
     navListFilter: false,
+    packagesField: false,
     saveToolbar: false,
     themeToggle: false // toggles the button that toggles theme
   };
