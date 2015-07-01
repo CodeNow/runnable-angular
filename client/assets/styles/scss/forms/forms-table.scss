@@ -79,8 +79,8 @@
 
   // reduce cell height
   .cell {
-    height: $input-xs;
-    line-height: $input-xs;
+    height: 24px;
+    line-height: 24px;
   }
 
   // checkbox
@@ -245,8 +245,8 @@
 .cell {
   flex: 1 1 50%;
   float: left;
-  height: $input-sm;
-  line-height: $input-sm - 1px;
+  height: 36px;
+  line-height: 35px;
   padding: 0 9px;
 
   &.monospace {
