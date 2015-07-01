@@ -44,24 +44,32 @@ function ControllerApp(
 
   // used in dev-info box
   dataApp.data.configEnvironment = configEnvironment;
-  $rootScope.featureFlags = {
+
+  var defaultFeatureFlags = {
     advancedRepositories: true,
-    buildCommandCache: configEnvironment === 'development',
-    cardStatus: configEnvironment === 'development',
-    debugMode: configEnvironment === 'development',
-    dockerfileTool: configEnvironment === 'development',
+    buildCommandCache: false,
+    cardStatus: false,
+    debugMode: false,
+    dockerfileTool: false,
     findAndReplace: true,
-    fullScreen: configEnvironment === 'development',  // toggles full screen
-    fullScreenToggle: configEnvironment === 'development',  // toggles the button that toggles full screen
-    hostnameTool: configEnvironment === 'development',
-    hostnameNotifications: configEnvironment === 'development',
-    imAfraidOfTheDark: configEnvironment === 'development', // toggles theme
-    multilineFnR: configEnvironment === 'development',
-    navListFilter: configEnvironment === 'development',
-    packagesField: configEnvironment === 'development',
-    saveToolbar: configEnvironment === 'development',
-    themeToggle: configEnvironment === 'development' // toggles the button that toggles theme
+    fullScreen: false,  // toggles full screen
+    fullScreenToggle: false,  // toggles the button that toggles full screen
+    hostnameTool: false,
+    hostnameNotifications: false,
+    imAfraidOfTheDark: false, // toggles theme
+    multilineFnR: false,
+    navListFilter: false,
+    packagesField: false,
+    saveToolbar: false,
+    themeToggle: false // toggles the button that toggles theme
   };
+  $rootScope.featureFlags = {};
+  $rootScope.resetFeatureFlags = function () {
+    Object.keys(defaultFeatureFlags).forEach(function (key) {
+      $rootScope.featureFlags[key] = defaultFeatureFlags[key];
+    });
+  };
+  $rootScope.resetFeatureFlags();
 
   if($localStorage.featureFlags){
     Object.keys($localStorage.featureFlags).forEach(function (flag) {

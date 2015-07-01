@@ -7,62 +7,73 @@
 
 var util = require('./helpers/util');
 
-var users = require('./helpers/users');
-var SetupPage = require('./pages/SetupPage');
-var InstancePage = require('./pages/InstancePage');
-var GettingStarted = require('./modals/GettingStarted');
-var sidebar = require('./helpers/sidebar');
+var NewContainer = require('./popovers/NewContainer');
+var RepoSelect = require('./modals/RepoSelect');
+var NonRepoSelect = require('./modals/NonRepoSelect');
+var VerifyServerSelection = require('./modals/VerifyServerSelection');
+var ServerCard = require('./components/serverCard');
 
-var instances = [{
-  name: 'RailsProject',
-  filter: 'rails',
-  env: [],
-  startCommand: '/bin/sh -c rails server'
-}, {
-  name: 'SPACESHIPS',
-  filter: 'SPACE',
-  env: ['a=b', 'basd=asasdasdasd'],
-  startCommand: '/bin/sh -c npm start'
-}];
+var HelpCards = require('./components/HelpCards');
+var helpCards = new HelpCards();
 
-describe('project creation workflow', users.doMultipleUsers(function (username) {
-  instances.forEach(function (instanceData) {
-    it('runs through the GS modal', function () {
-      // Getting started modal should be open by default
-      var gettingStarted = new GettingStarted();
+var containers = [
+  {
+    repo: 'web',
+    stackType: 'Node.js',
+    version: 'v0.10.35',
+    buildCommandsButton: 'npm install',
+    containerCommand: 'npm start'
+  },
+  {
+    repo: 'api',
+    stackType: 'Node.js',
+    version: 'v0.10.35',
+    buildCommandsButton: 'npm install',
+    containerCommand: 'npm start'
+  }
+];
 
-      gettingStarted.modalElem.get().isPresent().then(function (gsShowing) {
-        if (!gsShowing) {
-          sidebar.newButton().click();
-        }
-      });
-
-      gettingStarted.filter(instanceData.filter);
-
-      gettingStarted.selectRepo(0);
-
-      gettingStarted.clickButton('Next Step');
-
-      gettingStarted.clickButton('Build Server');
-
-      util.waitForUrl(new RegExp(instanceData.name));
-    });
-
-    it('loads a building instance', function () {
-      var instance = new InstancePage(instanceData.name);
-
-      instance.get();
-
-      util.waitForUrl(InstancePage.urlRegex());
-
-      // Removing until backend fixes key issue
-      browser.wait(function () {
-        return util.hasClass(instance.statusIcon, 'running');
-      });
-
-      instance.activePanel.setActiveTab('Server Logs');
-
-      expect(instance.activePanel.getContents()).toMatch(instanceData.startCommand);
+describe('project creation workflow', function () {
+  util.testTimeout(1000 * 60 * 3);
+  beforeEach(function () {
+    return util.goToUrl('/' + browser.params.user + '/configure');
+  });
+  containers.forEach(function (container) {
+    it('should create new container '+container.repo, function () {
+      var newContainer = new NewContainer();
+      var repoSelect = new RepoSelect();
+      var verifyServerSelection = new VerifyServerSelection();
+      newContainer.selectRepository();
+      repoSelect.selectRepo(container.repo);
+      verifyServerSelection.selectSuggestedStackType({firstTime: true});
+      verifyServerSelection.selectSuggestedVersion();
+      expect(verifyServerSelection.getBuildCommands()).toContain(container.buildCommandsButton);
+      verifyServerSelection.selectSuggestedContainerCommand();
+      verifyServerSelection.createContainerButton.get().click();
+      return new ServerCard(container.repo).waitForStatusEquals(['running', 'building', 'starting']);
     });
   });
-}, true));
+  it('should have a help card to create a mongodb container', function () {
+    var newContainer = new NewContainer();
+    var nonRepoSelect = new NonRepoSelect();
+    new ServerCard('api').waitForStatusEquals(['starting', 'running', 'building'])
+      .then(function () {
+        helpCards.selectCardByText('api may need a mongodb container.');
+        newContainer.selectNonRepository();
+        nonRepoSelect.selectNonRepo('MongoDB');
+        return new ServerCard('MongoDB').waitForStatusEquals('running', 'building', 'starting');
+      });
+  });
+
+  it('should have a help card to create a mapping to mongodb', function () {
+    var helpCardText = util.createGetter(by.cssContainingText('.help-container .help', 'to update the hostname for'));
+    new ServerCard('api').waitForStatusEquals(['running', 'starting', 'building'])
+      .then(function () {
+        return new ServerCard('MongoDB').waitForStatusEquals(['running', 'starting', 'building']);
+      })
+      .then(function () {
+        helpCards.selectCardByText('need to be updated with');
+        expect(helpCardText.get().isPresent()).toEqual(true);
+      });
+  });
+});
