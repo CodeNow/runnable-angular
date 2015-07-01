@@ -36,6 +36,7 @@
       textarea.textarea.monospace(
         ng-blur = "focus.textAreaFind = false"
         ng-focus = "focus.textAreaFind = true"
+        placeholder = "localhost:27017"
         required
         spellcheck = "false"
       )
@@ -52,6 +53,7 @@
       textarea.textarea.monospace(
         ng-blur = "focus.textAreaReplace = false"
         ng-focus = "focus.textAreaReplace = true"
+        placeholder = "sample-user.runnableapp.com:27017"
         required
         spellcheck = "false"
       )
@@ -124,7 +126,7 @@
         ng-if = "currentState.processing"
         ng-include = "'spinner'"
       )
-      span {{ currentState.processing ? 'Searching' : 'Search for matches' }}
+      span {{ currentState.processing ? 'Searching' : 'Search for Matches' }}
     button.btn.green(
       ng-click = "actions.createRule(data.state)"
       ng-if = "currentState.searched"
