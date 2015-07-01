@@ -52,10 +52,15 @@ ul.table-drag-drop(
     .cell.monospace.text-overflow.cell-arrow(
       ng-attr-title = "{{ item.search || item.source }}"
       ng-class = "{disabled: item.rule.warnings.length}"
-    ) {{ item.search || item.source }}
+    )
       //- $root.featureFlags.multilineFnR
       //- add these if the find / replace is multiline
-      span.more …
+      //- only show the first line change
+      //- only show the before ellipsis if the change is not the first line
+      //- only show the after ellipsis if the change is not the last line
+      //- span.more …&#32;
+      | {{ item.search || item.source }}
+      //- span.more &#32;…
     .cell.monospace.text-overflow(
       ng-attr-title = "{{ item.replace || item.dest }}"
     ) {{ item.replace || item.dest }}
