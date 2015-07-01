@@ -29,20 +29,6 @@
     small.small We’ll build the first container with the code on this branch. We recommend choosing a stable branch.
 
 label.label.clearfix
-  .label-col Build Commands
-    small.small (optional)
-
-  .input-col
-    //- we only have suggestions for build commands on the main repository
-    textarea.textarea.monospace(
-      ng-disabled = "startCommandCanDisable && !state.selectedStack"
-      ng-model = "state.commands"
-      placeholder = "Build commands"
-      spellcheck = "false"
-    )
-    small.small Specify the commands that need to be executed when your container is built and before it’s launched that support your application (e.g. installing packages).
-
-label.label.clearfix
   .label-col Container CMD
 
   .input-col
@@ -50,7 +36,6 @@ label.label.clearfix
       ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
       ng-required = "startCommandCanDisable || ngShow()"
       name = "repository.startCommand"
-      placeholder = "Container command"
       show-dropdown = "state.selectedStack.startCommand"
       type = "text"
       value = "state.startCommand"
@@ -61,8 +46,79 @@ label.label.clearfix
         value = "startCmd"
       ) {{$parent.startCmd}}
 
-    small.small This is the command that’ll be executed when your container is launched, to start running your code. This is the long-running process your code requires (e.g. ‘apache’, ‘npm start’, ‘python server.py’).  When this process terminates, your container will also stop running. #{''}
+    small.small This is the long-running process that’ll run when your container is launched (e.g. ‘apache’, ‘NPM start’). Your container will stop running if this process terminates. #{''}
       a.link(
         href = "//docs.docker.com/reference/builder/#cmd"
         target = "_blank"
       ) More about the Container CMD
+
+.label.clearfix.label-build-commands
+  .label-col Build Commands
+    small.small (optional)
+  //- this element should be disabled when the text field below it is disabled or empty.
+  label.small.strong.text-right.toggle-wrapper(
+    ng-if = "$root.featureFlags.buildCommandCache"
+  ) Cache
+    span.span &#32;a command
+    input.toggle-input(
+      ng-disabled = "startCommandCanDisable && !state.selectedStack"
+      ng-model = "data.cacheCommand"
+      type = "checkbox"
+    )
+    .toggle-group.toggle-xs.float-right
+  .input-col
+    //-************
+    //- deprecated textarea, remove with $root.featureFlags.buildCommandCache
+    //- we only have suggestions for build commands on the main repository
+    textarea.textarea.monospace(
+      ng-disabled = "startCommandCanDisable && !state.selectedStack"
+      ng-if = "!$root.featureFlags.buildCommandCache"
+      ng-model = "state.commands"
+      placeholder = "npm install&#10;grunt"
+      spellcheck = "false"
+    )
+    //- end deprecated textarea
+    //-************
+    //- this element should get the class .focus when the textarea it contains gets focused
+    .build-commands-wrapper(
+      ng-class = "{'cache-in': data.cacheCommand}"
+      ng-if = "$root.featureFlags.buildCommandCache"
+    ) 
+      //- this textarea needs to expand vertically to contain its content, like the contentEditable div below (I know, sorry).
+      textarea.textarea.monospace(
+        ng-disabled = "startCommandCanDisable && !state.selectedStack"
+        ng-model = "state.commands"
+        placeholder = "npm install&#10;grunt"
+        spellcheck = "false"
+      )
+      //- this element should start out empty. then, for each line that is added to the 
+      //- textarea, one .radio-wrapper (with input) and one .cache-row should be added to it.
+      .cache-column
+        .cache-border
+        //- this content is just for demonstration.
+        label.radio-wrapper
+          input(
+            checked
+            name = "cache-radio"
+            type = "radio"
+          )
+        .cache-row
+        label.radio-wrapper
+          input(
+            name = "cache-radio"
+            type = "radio"
+          )
+        .cache-row
+        label.radio-wrapper
+          input(
+            name = "cache-radio"
+            type = "radio"
+          )
+        .cache-row
+        label.radio-wrapper
+          input(
+            name = "cache-radio"
+            type = "radio"
+          )
+        .cache-row
+    small.small Input any commands needed to support your application. They will be run before the Container CMD.

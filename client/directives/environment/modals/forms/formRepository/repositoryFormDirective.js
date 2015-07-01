@@ -20,6 +20,9 @@ require('app')
         ngShow: '&'
       },
       link: function ($scope, element, attrs) {
+        $scope.data = {
+          cacheCommand: false
+        };
         $scope.branchFetching = true;
         watchOncePromise($scope, 'state.acv', true)
           .then(function () {

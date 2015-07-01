@@ -6,6 +6,7 @@ textarea {
     background-color: $gray-lighterest;
     border-color: $gray-lighter !important; // override any validation
     color: $gray-lighter;
+    cursor: not-allowed;
   }
 }
 
@@ -60,10 +61,6 @@ textarea {
     -webkit-appearance: checkbox;
     cursor: pointer;
     width: auto;
-
-    &[disabled] {
-      cursor: not-allowed;
-    }
   }
 
   // monospace
