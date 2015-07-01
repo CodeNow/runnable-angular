@@ -56,6 +56,7 @@ function ControllerApp(
     hostnameTool: configEnvironment === 'development',
     hostnameNotifications: configEnvironment === 'development',
     imAfraidOfTheDark: configEnvironment === 'development', // toggles theme
+    multilineFnR: configEnvironment === 'development',
     navListFilter: configEnvironment === 'development',
     saveToolbar: configEnvironment === 'development',
     themeToggle: configEnvironment === 'development' // toggles the button that toggles theme
