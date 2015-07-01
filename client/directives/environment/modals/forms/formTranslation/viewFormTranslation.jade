@@ -17,6 +17,10 @@
     ng-click = "page = 'ignored'"
   ) Ignored Files
   button.btn.btn-xs.white(
+    ng-disabled = "\
+      !state.contextVersion.getMainAppCodeVersion().attrs.transformRules.replace.length && \
+      !state.contextVersion.getMainAppCodeVersion().attrs.transformRules.rename.length\
+    "
     ng-class = "{active: page === 'preview'}"
     ng-click = "page = 'preview'"
   ) Preview All

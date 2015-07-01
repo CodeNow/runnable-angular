@@ -5,9 +5,7 @@ require('app')
 /**
  * @ngInject
  */
-function helperAddTab(
-  $state
-) {
+function helperAddTab() {
   return function (config, openItems) {
     var pat = {
       data: {
@@ -35,17 +33,6 @@ function helperAddTab(
           }
           pat.data.show = false;
           return openItems.addLogs();
-        },
-        addEnvVars: function () {
-          if (!openItems) {
-            return;
-          }
-          pat.data.show = false;
-          var envVars = openItems.addEnvVars();
-          if ($state.$current.name === 'instance.instance') {
-            envVars.state.readOnly = true;
-          }
-          return envVars;
         }
       }
     };

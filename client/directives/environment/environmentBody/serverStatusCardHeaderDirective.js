@@ -15,9 +15,7 @@ function serverStatusCardHeader(
     templateUrl: 'serverStatusCardHeaderView',
     link: function ($scope, elem, attrs) {
       $scope.popOverServerData = {
-        server: $scope.server,
-        parentData: $scope.data,
-        parentState: $scope.state,
+        instance: $scope.instance,
         actions: {
           changeAdvancedFlag: function () {
             $rootScope.$broadcast('close-popovers');
@@ -31,12 +29,6 @@ function serverStatusCardHeader(
           }
         }
       };
-      var unwatch = $scope.$watch('server', function (n) {
-        if (n) {
-          unwatch();
-          $scope.popOverServerData.server = n;
-        }
-      });
       if ($scope.state) {
         $scope.popOverServerData.advanced = $scope.state.advanced;
       }

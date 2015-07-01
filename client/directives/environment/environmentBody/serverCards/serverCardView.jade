@@ -29,21 +29,23 @@ ul.card-body.card-loading(
 ul.card-body.load(
   ng-if = "!showSpinner()"
 )
-  //- stack type
+  //- repository
   li.btn.white(
     modal
     modal-current-model = "instance"
-    modal-state-model = "'stack'"
+    modal-state-model = "'repository'"
     modal-template = "editServerModalOpen"
     ng-if = "server.repo && !server.advanced"
     ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.stackType}"
   )
     svg.iconnables
       use(
-        xlink:href = "#icons-stack"
+        xlink:href = "#icons-repository"
       )
-    h3.h3.text-overflow Stack Type
-    small.small.text-overflow {{ getFlattenedSelectedStacks(server.selectedStack) }}
+    h3.h3.text-overflow Repository
+    small.small.text-overflow(
+      title = "{{ server.instance.contextVersion.getMainAppCodeVersion().attrs.branch }}"
+    ) {{ server.instance.contextVersion.getMainAppCodeVersion().attrs.branch }}
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
@@ -93,24 +95,23 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-arrow-down"
       )
-  //- repository
+  //- commands
   li.btn.white(
     modal
     modal-current-model = "instance"
-    modal-state-model = "'repository'"
+    modal-state-model = "'commands'"
     modal-template = "editServerModalOpen"
     ng-if = "server.repo && !server.advanced"
     ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.repositories}"
   )
     svg.iconnables
       use(
-        xlink:href = "#icons-repository"
+        xlink:href = "#icons-start-cmd"
       )
-    h3.h3.text-overflow Main Repository
-    //- \\n for new line
+    h3.h3.text-overflow Commands
     small.small.text-overflow(
-      title = "{{ server.instance.contextVersion.getMainAppCodeVersion().attrs.branch }}\\n{{server.commands}}"
-    ) {{ server.instance.contextVersion.getMainAppCodeVersion().attrs.branch }}
+      title = "{{server.startCommand}}"
+    ) {{server.startCommand}}
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"

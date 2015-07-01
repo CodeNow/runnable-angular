@@ -27,6 +27,9 @@ require('app')
   .factory('dockerStreamCleanser', function () {
     return require('docker-stream-cleanser');
   })
+  .factory('streamBuffers', function () {
+    return require('stream-buffers');
+  })
   .factory('Termjs', function () {
     return require('term.js');
   })

@@ -10,6 +10,7 @@ function BoxLogController(
   dockerStreamCleanser,
   $scope,
   through,
+  streamBuffers,
   primus
 ) {
 
@@ -27,7 +28,7 @@ function BoxLogController(
    * 1) User stops container      - Running === false
    * 2) Container stops naturally - Running === true
    */
-  $scope.$watch('instance.containers.models[0].running()', function () {
+  $scope.$watch('instance.containers.models[0].running()', function (isRunning, wasRunning) {
     var container = keypather.get($scope, 'instance.containers.models[0]');
     if (!container) { return; }
     if (container.attrs.error || keypather.get(container, 'attrs.inspect.error')) {
@@ -50,34 +51,48 @@ function BoxLogController(
     }
   });
 
-
+  var buffer;
   $scope.createStream = function () {
     var container = keypather.get($scope, 'instance.containers.models[0]');
     $scope.stream = primus.createLogStream(container);
   };
 
+  $scope.$on('$destroy', function () {
+    if (buffer && buffer.destroy) {
+      buffer.destroy();
+    }
+  });
   $scope.connectStreams = function (terminal) {
     var streamCleanser = dockerStreamCleanser('hex');
+    buffer = new streamBuffers.ReadableStreamBuffer({
+      frequency: 250,      // in milliseconds.
+      chunkSize: 2048     // in bytes.
+    });
+    buffer.setEncoding('utf8');
     primus.joinStreams(
       $scope.stream,
       streamCleanser
-    ).pipe(through(
-      function write(data) {
-        this.emit('data', data.toString().replace(/\r?\n/gm, '\r\n'));
-      },
-      function end() {
-        // Do nothing, especially don't pass it along to the terminal (You'll get an error)
-      }
-    )).pipe(terminal);
+    )
+      .pipe(through(
+        function write(data) {
+          buffer.put(data.toString().replace(/\r?\n/gm, '\r\n'));
+        },
+        buffer.destroySoon
+      ));
+
+    buffer.pipe(terminal);
   };
 
   $scope.streamEnded = function () {
     // if this is called, then the container must have exited
     var container = $scope.instance.containers.models[0];
-    var exitCode = container.attrs.inspect.State.ExitCode;
-    $scope.$emit('WRITE_TO_TERM', 'Exited with code: ' + exitCode);
+    buffer.on('close', function () {
+      buffer.off('close');
+      $scope.$emit('WRITE_TO_TERM', 'Exited with code: ' +
+          keypather.get(container, 'attrs.inspect.State.ExitCode'));
+    });
+    buffer.destroySoon();
   };
-
 }
 
 
