@@ -44,7 +44,8 @@ function ControllerApp(
 
   // used in dev-info box
   dataApp.data.configEnvironment = configEnvironment;
-  $rootScope.featureFlags = {
+
+  var defaultFeatureFlags = {
     advancedRepositories: true,
     buildCommandCache: false,
     cardStatus: false,
@@ -61,6 +62,13 @@ function ControllerApp(
     saveToolbar: false,
     themeToggle: false // toggles the button that toggles theme
   };
+  $rootScope.featureFlags = {};
+  $rootScope.resetFeatureFlags = function () {
+    Object.keys(defaultFeatureFlags).forEach(function (key) {
+      $rootScope.featureFlags[key] = defaultFeatureFlags[key];
+    });
+  };
+  $rootScope.resetFeatureFlags();
 
   if($localStorage.featureFlags){
     Object.keys($localStorage.featureFlags).forEach(function (flag) {
