@@ -1,6 +1,6 @@
 .popover-more-containers {
   width: 270px;
-  z-index: $z-spinner + 1; // to keep popover from being covered by instance view spinner
+  z-index: $z-spinner + 1; // to appear above instance view spinner
 
   .popover-content.popover-content {
     max-height: 333px;
