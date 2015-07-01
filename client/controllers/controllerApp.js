@@ -57,6 +57,7 @@ function ControllerApp(
     hostnameNotifications: configEnvironment === 'development',
     imAfraidOfTheDark: configEnvironment === 'development', // toggles theme
     navListFilter: configEnvironment === 'development',
+    packagesField: configEnvironment === 'development',
     saveToolbar: configEnvironment === 'development',
     themeToggle: configEnvironment === 'development' // toggles the button that toggles theme
   };

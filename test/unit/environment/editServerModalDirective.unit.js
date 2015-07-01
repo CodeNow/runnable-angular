@@ -655,7 +655,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
 
       expect($elScope.selectedTab).to.equal('files');
     });
-    it('should navigate to stack since it has errors', function () {
+    it('should navigate to repository since it has errors', function () {
       $scope.$digest();
 
       keypather.set($elScope, 'state.advanced', false);
@@ -665,21 +665,9 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       $elScope.changeTab('files');
       $scope.$digest();
 
-      expect($elScope.selectedTab).to.equal('stack');
+      expect($elScope.selectedTab).to.equal('repository');
     });
-    it('should navigate to stack since it has errors', function () {
-      $scope.$digest();
-
-      keypather.set($elScope, 'state.advanced', false);
-      keypather.set($elScope, 'state.selectedStack', {});
-      keypather.set($elScope, 'state.startCommand', 'adsasdasd');
-
-      $elScope.changeTab('files');
-      $scope.$digest();
-
-      expect($elScope.selectedTab).to.equal('stack');
-    });
-    it('should navigate to repositories since it has errors', function () {
+    it('should navigate to commands since it has errors', function () {
       $scope.$digest();
 
       keypather.set($elScope, 'state.advanced', false);
@@ -691,7 +679,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       $elScope.changeTab('files');
       $scope.$digest();
 
-      expect($elScope.selectedTab).to.equal('repository');
+      expect($elScope.selectedTab).to.equal('commands');
     });
 
     it('should navigate fine with advanced mode', function () {
@@ -745,7 +733,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     });
     var testingObject = {
       basic: [
-        'stack', 'ports', 'env', 'repository', 'files', 'translation', 'logs'
+        'repository', 'ports', 'env', 'commands', 'files', 'translation', 'logs'
       ],
       nonRepoAdvanced: [
         'buildfiles', 'env', 'logs'
