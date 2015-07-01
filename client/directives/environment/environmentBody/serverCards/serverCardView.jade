@@ -33,7 +33,7 @@ ul.card-body.load(
   li.btn.white(
     modal
     modal-current-model = "instance"
-    modal-state-model = "'stack'"
+    modal-state-model = "'repository'"
     modal-template = "editServerModalOpen"
     ng-if = "server.repo && !server.advanced"
     ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.stackType}"
@@ -99,7 +99,7 @@ ul.card-body.load(
   li.btn.white(
     modal
     modal-current-model = "instance"
-    modal-state-model = "'repository'"
+    modal-state-model = "'commands'"
     modal-template = "editServerModalOpen"
     ng-if = "server.repo && !server.advanced"
     ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.repositories}"
