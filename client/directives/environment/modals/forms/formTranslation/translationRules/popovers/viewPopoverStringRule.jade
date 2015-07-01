@@ -29,13 +29,25 @@
             )
           | hostnames to refer to other containers
 
-    .textarea-wrapper
+    .textarea-wrapper(
+      ng-class = "{'focus': focus.textAreaFind}"
+    )
       .textarea-menu Find
-      textarea.textarea.monospace
+      textarea.textarea.monospace(
+        ng-blur = "focus.textAreaFind = false"
+        ng-focus = "focus.textAreaFind = true"
+        spellcheck = "false"
+      )
 
-    .textarea-wrapper
+    .textarea-wrapper(
+      ng-class = "{'focus': focus.textAreaReplace}"
+    )
       .textarea-menu Replace
-      textarea.textarea.monospace
+      textarea.textarea.monospace(
+        ng-blur = "focus.textAreaReplace = false"
+        ng-focus = "focus.textAreaReplace = true"
+        spellcheck = "false"
+      )
 
     //- .label-row
       label.label-col Find string
