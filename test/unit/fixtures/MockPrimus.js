@@ -71,7 +71,18 @@ MockPrimus.prototype.off = function () {
 };
 
 MockPrimus.prototype.joinStreams = function (src, des) {
-  return new MockReadWriteStream();
+  src.on('data', function (data) {
+    if (des.write) {
+      des.write(data);
+    }
+
+  });
+  src.on('end', function () {
+    if (des.end) {
+      des.end();
+    }
+  });
+  return des;
 };
 
 

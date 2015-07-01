@@ -58,6 +58,7 @@ function ControllerApp(
     imAfraidOfTheDark: configEnvironment === 'development', // toggles theme
     multilineFnR: configEnvironment === 'development',
     navListFilter: configEnvironment === 'development',
+    packagesField: configEnvironment === 'development',
     saveToolbar: configEnvironment === 'development',
     themeToggle: configEnvironment === 'development' // toggles the button that toggles theme
   };

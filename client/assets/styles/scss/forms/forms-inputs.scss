@@ -200,7 +200,7 @@ input {
   position: relative;
 
   &::after {
-    color: $gray;
+    color: $gray-light;
     content: '/';
     display: block;
     font-weight: 500;
@@ -214,6 +214,6 @@ input {
   }
 
   .input {
-    padding-left: 15px;
+    padding-left: 12px;
   }
 }

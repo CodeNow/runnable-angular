@@ -40,19 +40,4 @@ p.p.empty(
     !state.recalculating && \
     diffsWithIgnore.length === 0\
   "
-)
-  //- if no rules
-  span(
-    ng-if = "\
-      !state.contextVersion.getMainAppCodeVersion().attrs.transformRules.replace.length && \
-      !state.contextVersion.getMainAppCodeVersion().attrs.transformRules.rename.length\
-    "
-  ) Add ‘Rules’ to see a preview of changes
-
-  //- if rules, but no diffs produced
-  span(
-    ng-if = "\
-      state.contextVersion.getMainAppCodeVersion().attrs.transformRules.replace.length || \
-      state.contextVersion.getMainAppCodeVersion().attrs.transformRules.rename.length\
-    "
-  ) No patterns matched your rules
+) No patterns matched your rules
