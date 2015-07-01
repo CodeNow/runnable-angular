@@ -47,10 +47,15 @@ ul.table-drag-drop(
         use(
           xlink:href = "#icons-drag"
         )
+    //- $root.featureFlags.multilineFnR
+    //- title should be multiline
     .cell.monospace.text-overflow.cell-arrow(
       ng-attr-title = "{{ item.search || item.source }}"
       ng-class = "{disabled: item.rule.warnings.length}"
     ) {{ item.search || item.source }}
+      //- $root.featureFlags.multilineFnR
+      //- add these if the find / replace is multiline
+      span.more …
     .cell.monospace.text-overflow(
       ng-attr-title = "{{ item.replace || item.dest }}"
     ) {{ item.replace || item.dest }}

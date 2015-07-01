@@ -267,6 +267,13 @@
     // float: right;
     font-size: 11px;
   }
+
+  // if multiline rule
+  .more {
+    color: $gray-light;
+    display: inline-block;
+    margin-left: 6px;
+  }
 }
 
 .cell-action {
