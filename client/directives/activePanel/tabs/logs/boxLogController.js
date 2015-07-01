@@ -80,14 +80,14 @@ function BoxLogController(
         buffer.destroySoon
       ));
 
-    buffer.pipe(terminal);
+    buffer.pipe(terminal, { end: false });
   };
 
   $scope.streamEnded = function () {
     // if this is called, then the container must have exited
     var container = $scope.instance.containers.models[0];
     buffer.on('close', function () {
-      buffer.off('close');
+      buffer.removeListener('close');
       $scope.$emit('WRITE_TO_TERM', 'Exited with code: ' +
           keypather.get(container, 'attrs.inspect.State.ExitCode'));
     });
