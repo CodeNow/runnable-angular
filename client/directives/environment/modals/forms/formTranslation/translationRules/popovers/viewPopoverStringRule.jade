@@ -37,8 +37,10 @@
       ng-if = "$root.featureFlags.multilineFnR"
       ng-init = "focus.textAreaFind = true"
     )
-      .textarea-menu Find
-      textarea.textarea.monospace(
+      label.textarea-menu(
+        for = "textarea-find"
+      ) Find
+      textarea#textarea-find.textarea.monospace(
         ng-blur = "focus.textAreaFind = false"
         ng-focus = "focus.textAreaFind = true"
         placeholder = "localhost:27017"
@@ -51,14 +53,16 @@
       ng-class = "{'focus': focus.textAreaReplace}"
       ng-if = "$root.featureFlags.multilineFnR"
     )
-      .textarea-menu Replace
+      label.textarea-menu(
+        for = "textarea-replace"
+      ) Replace
         //- fancy select
         button.btn.btn-xxs.gray.float-right Insert Hostname
           svg.iconnables.icons-arrow-down
             use(
               xlink:href = "#icons-arrow-down"
             )
-      textarea.textarea.monospace(
+      textarea#textarea-replace.textarea.monospace(
         ng-blur = "focus.textAreaReplace = false"
         ng-focus = "focus.textAreaReplace = true"
         placeholder = "sample-user.runnableapp.com:27017"
