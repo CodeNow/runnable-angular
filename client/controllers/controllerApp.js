@@ -46,20 +46,20 @@ function ControllerApp(
   dataApp.data.configEnvironment = configEnvironment;
   $rootScope.featureFlags = {
     advancedRepositories: true,
-    buildCommandCache: configEnvironment === 'development',
-    cardStatus: configEnvironment === 'development',
-    debugMode: configEnvironment === 'development',
-    dockerfileTool: configEnvironment === 'development',
+    buildCommandCache: false,
+    cardStatus: false,
+    debugMode: false,
+    dockerfileTool: false,
     findAndReplace: true,
-    fullScreen: configEnvironment === 'development',  // toggles full screen
-    fullScreenToggle: configEnvironment === 'development',  // toggles the button that toggles full screen
-    hostnameTool: configEnvironment === 'development',
-    hostnameNotifications: configEnvironment === 'development',
-    imAfraidOfTheDark: configEnvironment === 'development', // toggles theme
-    navListFilter: configEnvironment === 'development',
-    packagesField: configEnvironment === 'development',
-    saveToolbar: configEnvironment === 'development',
-    themeToggle: configEnvironment === 'development' // toggles the button that toggles theme
+    fullScreen: false,  // toggles full screen
+    fullScreenToggle: false,  // toggles the button that toggles full screen
+    hostnameTool: false,
+    hostnameNotifications: false,
+    imAfraidOfTheDark: false, // toggles theme
+    navListFilter: false,
+    packagesField: false,
+    saveToolbar: false,
+    themeToggle: false // toggles the button that toggles theme
   };
 
   if($localStorage.featureFlags){
