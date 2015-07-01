@@ -35,6 +35,21 @@ app.config(function ($httpProvider) {
 });
 
 /**
+ * Override the default exception handler so we can report the error.
+ */
+app.config(function($provide) {
+  $provide.decorator('$exceptionHandler', function($delegate, reportError) {
+    return function(exception, cause) {
+      $delegate(exception, cause);
+      reportError(exception, {
+        cause: cause,
+        emitter: 'Global Exception Handler'
+      });
+    };
+  });
+});
+
+/**
  * Pre-load template cache with compiled
  * jade templates included in JS bundle
  */
