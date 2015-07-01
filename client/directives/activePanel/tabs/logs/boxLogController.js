@@ -87,7 +87,6 @@ function BoxLogController(
     // if this is called, then the container must have exited
     var container = $scope.instance.containers.models[0];
     buffer.on('close', function () {
-      buffer.removeListener('close');
       $scope.$emit('WRITE_TO_TERM', 'Exited with code: ' +
           keypather.get(container, 'attrs.inspect.State.ExitCode'));
     });
