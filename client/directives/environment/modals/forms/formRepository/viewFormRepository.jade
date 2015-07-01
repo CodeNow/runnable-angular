@@ -13,7 +13,6 @@ label.label.clearfix
       ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
       ng-required = "startCommandCanDisable || ngShow()"
       name = "repository.startCommand"
-      placeholder = "Container command"
       show-dropdown = "state.selectedStack.startCommand"
       type = "text"
       value = "state.startCommand"
@@ -30,19 +29,76 @@ label.label.clearfix
         target = "_blank"
       ) More about the Container CMD
 
-label.label.clearfix
+.label.clearfix.label-build-commands
   .label-col Build Commands
     small.small (optional)
-
+  //- this element should be disabled when the text field below it is disabled or empty.
+  label.small.strong.text-right.toggle-wrapper(
+    ng-if = "$root.featureFlags.buildCommandCache"
+  ) Cache
+    span.span &#32;a command
+    input.toggle-input(
+      ng-disabled = "startCommandCanDisable && !state.selectedStack"
+      ng-model = "data.cacheCommand"
+      type = "checkbox"
+    )
+    .toggle-group.toggle-xs.float-right
   .input-col
+    //-************
+    //- deprecated textarea, remove with $root.featureFlags.buildCommandCache
     //- we only have suggestions for build commands on the main repository
     textarea.textarea.monospace(
       ng-disabled = "startCommandCanDisable && !state.selectedStack"
+      ng-if = "!$root.featureFlags.buildCommandCache"
       ng-model = "state.commands"
-      placeholder = "Build commands"
+      placeholder = "npm install&#10;grunt"
       spellcheck = "false"
     )
-    small.small Input any commands needed to support your application. They will be run before the Container CMD.
+    //- end deprecated textarea
+    //-************
+    //- this element should get the class .focus when the textarea it contains gets focused
+    .build-commands-wrapper(
+      ng-class = "{'cache-in': data.cacheCommand}"
+      ng-if = "$root.featureFlags.buildCommandCache"
+    ) 
+      //- this textarea needs to expand vertically to contain its content, like the contentEditable div below (I know, sorry).
+      textarea.textarea.monospace(
+        ng-disabled = "startCommandCanDisable && !state.selectedStack"
+        ng-model = "state.commands"
+        placeholder = "npm install&#10;grunt"
+        spellcheck = "false"
+      )
+      //- this element should start out empty. then, for each line that is added to the 
+      //- textarea, one .radio-wrapper (with input) and one .cache-row should be added to it.
+      .cache-column
+        .cache-border
+        //- this content is just for demonstration.
+        label.radio-wrapper
+          input(
+            checked
+            name = "cache-radio"
+            type = "radio"
+          )
+        .cache-row
+        label.radio-wrapper
+          input(
+            name = "cache-radio"
+            type = "radio"
+          )
+        .cache-row
+        label.radio-wrapper
+          input(
+            name = "cache-radio"
+            type = "radio"
+          )
+        .cache-row
+        label.radio-wrapper
+          input(
+            name = "cache-radio"
+            type = "radio"
+          )
+        .cache-row
+    small.small Add any commands needed to support your application. They will be run before the Container CMD.
 
 label.label.clearfix(
   ng-if = "$root.featureFlags.packagesField"

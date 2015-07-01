@@ -14,7 +14,7 @@ function getInstanceClasses(
       return {}; //async loading handling
     }
     var h = {};
-    h.active = (instance.attrs.name === $state.params.instanceName);
+    h.active = (keypather.get(instance, 'attrs.name') === $state.params.instanceName);
 
     var status = keypather.get(instance, 'status()');
     var statusMap = {
