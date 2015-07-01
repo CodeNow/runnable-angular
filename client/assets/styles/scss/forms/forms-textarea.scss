@@ -24,8 +24,12 @@
     border-radius: 0;
     box-shadow: none;
     font-size: 13px;
-    margin-bottom: -5px;
+    margin-bottom: -2px;
     min-height: 120px;
+
+    @include media(xs) {
+      min-height: 60px;
+    }
   }
 }
 
