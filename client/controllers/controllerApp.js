@@ -46,6 +46,7 @@ function ControllerApp(
   dataApp.data.configEnvironment = configEnvironment;
   $rootScope.featureFlags = {
     advancedRepositories: true,
+    buildCommandCache: configEnvironment === 'development',
     cardStatus: configEnvironment === 'development',
     debugMode: configEnvironment === 'development',
     dockerfileTool: configEnvironment === 'development',
