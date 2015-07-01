@@ -179,3 +179,23 @@
     text-align: center;
   }
 }
+
+// full screen mode
+.modal-backdrop.full-screen {
+  padding: 0;
+
+  .modal-dialog {
+    border: 0;
+    max-width: none;
+  }
+
+  .modal-form {
+    height: 100vh;
+    left: 0;
+    padding: 0;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    z-index: $z-modal;
+  }
+}

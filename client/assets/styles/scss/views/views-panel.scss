@@ -38,14 +38,16 @@
   display: flex;
   height: calc(100% - 45px);
   justify-content: center;
+  margin-top: -1px;
+  position: relative;
 
-  .btn {
+  .btn-sm {
     font-size: 14px;
     height: auto;
     line-height: inherit;
     padding: 15px;
 
-    + .btn {
+    + .btn-sm {
       margin-left: 6px;
     }
   }

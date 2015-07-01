@@ -31,15 +31,10 @@
   ng-show = "item === openItems.activeHistory.last()"
 )
 
-  button.btn.btn-xs.ace-toggle(
-    ng-click = "$root.featureFlags.imAfraidOfTheDark = !$root.featureFlags.imAfraidOfTheDark"
-    ng-if = "$root.featureFlags.themeToggle"
-    title = "Change Theme"
+  .floating-controls(
+    ng-if = "$root.featureFlags.fullScreenToggle || $root.featureFlags.themeToggle"
+    ng-include = "'viewFloatingControls'"
   )
-    svg.iconnables.icons-theme
-      use(
-        xlink:href = "#icons-theme"
-      )
 
   //- logs
   .term-js.term-log(
@@ -81,8 +76,16 @@
 
 //- blank state
 .blank-panel(
+  ng-class = "{\
+    'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+    'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+  }"
   ng-if= "openItems.models.length === 0 && showBackgroundButtons"
 )
+  .floating-controls(
+    ng-include = "'viewFloatingControls'"
+  )
+
   ul.blank-panel-group
     li.btn.btn-sm(
       ng-click = "openItems.addTerminal()"

@@ -50,12 +50,14 @@ function ControllerApp(
     debugMode: false,
     dockerfileTool: false,
     findAndReplace: true,
+    fullScreen: false,  // toggles full screen
+    fullScreenToggle: false,  // toggles the button that toggles full screen
     hostnameTool: false,
     hostnameNotifications: false,
-    imAfraidOfTheDark: false,
+    imAfraidOfTheDark: false, // toggles theme
     navListFilter: false,
     saveToolbar: false,
-    themeToggle: false
+    themeToggle: false // toggles the button that toggles theme
   };
 
   if($localStorage.featureFlags){
