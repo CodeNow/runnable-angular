@@ -13,6 +13,11 @@
   &.focus {
     border-color: $purple-light;
     z-index: 1;
+
+    .textarea-menu {
+      border-bottom-color: $purple-light;
+      color: $purple-light;
+    }
   }
 
   .textarea {
@@ -21,6 +26,7 @@
     border-radius: 0;
     box-shadow: none;
     font-size: 13px;
+    margin-bottom: -5px;
     min-height: 120px;
   }
 }
@@ -30,7 +36,17 @@
   border-bottom: 1px solid $gray-lighter;
   font-size: 13px;
   font-weight: 500;
-  height: 36px;
-  line-height: 36px;
+  height: 30px;
+  line-height: 30px;
   margin: 0 6px;
+
+  .btn-xxs {
+    margin-top: 5px;
+    padding-right: 15px;
+
+    .icons-arrow-down {
+      right: 0;
+      width: 15px;
+    }
+  }
 }
