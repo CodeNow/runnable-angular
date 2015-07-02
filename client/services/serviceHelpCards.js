@@ -29,8 +29,10 @@ function helpCardsFactory(
       {
         'label': 'Change language or framework',
         'targets': ['stackType'],
-        'helpTop': 'Use the <b>Repository</b> tool to change the language or framework.',
+        // "settings"?
+        'helpTop': 'Use <b>Repository</b> settings to change the language or framework for a container.',
         'helpPopover': {
+          // do we need this?
           'stackType': 'Change the language, framework or versions below.'
         }
       },
@@ -40,10 +42,10 @@ function helpCardsFactory(
           'environmentVariables',
           'findAndReplace'
         ],
-        'helpTop': 'Configure your external service by using an <b>Environment Variable</b> or the <b>Find and Replace</b> tool.',
+        'helpTop': 'Configure your external service by using <b>Environment Variables</b> or <b>Find and Replace</b>.',
         'helpPopover': {
-          'environmentVariables': 'Reference your external service here by adding or modifying an <b>environment variable</b>.',
-          'findAndReplace': 'Reference your external service here by creating a <b>new rule</b>.'
+          'environmentVariables': 'Add or update an environment variable to reference your external service.',
+          'findAndReplace': 'Create a new string rule to connect with your external service.'
         }
       },
       {
@@ -52,45 +54,48 @@ function helpCardsFactory(
           'repositories',
           'containerFiles'
         ],
-        'helpTop': 'Install a library using a <b>Command</b> or the <b>Container Files</b> tool.',
+        'helpTop': 'Use <b>Commands and Packages</b> to add a library.',
         'helpPopover': {
-          'repositories': 'Use <b>Build Commands</b> to install a library. Example: apt-get install -y git',
-          'containerFiles': 'Add/update a file or repository and use <b>Scripts</b> to install a library. Example: apt-get install -y git'
+          // is this clear?
+          'repositories': 'List the libraries your container needs in the <b>Packages</b> field.',
         }
       },
       {
+        // is there a reason why we say "Connect to an external service" (above) and "Configure an OAuth service"?
         'label': 'Configure an OAuth service',
         'targets': [
           'environmentVariables',
           'findAndReplace'
         ],
-        'helpTop': 'Update your OAuth credentials using the <b>Environment Variables</b> or <b>Find and Replace</b> tool.',
+        'helpTop': 'Use <b>Environment Variables</b> or <b>Find and Replace</b> to update your OAuth credentials.',
         'helpPopover': {
-          'environmentVariables': 'Update the environment variables that you use to specify OAuth credentials.',
-          'findAndReplace': 'Add a rule to update your OAuth credentials in your code.'
+          'environmentVariables': 'Add or update the environment variables that you use to specify OAuth credentials.',
+          'findAndReplace': 'Add a string rule to update your OAuth credentials in your code.'
         }
       },
       {
         'label': 'Seed a database',
         'targets': ['containerFiles'],
-        'helpTop': 'Use <b>Container Files</b> to upload seed data and run Scripts to import it.',
+        'helpTop': 'Use <b>Container Files</b> to upload seed data and import it using scripts.',
         'helpPopover': {
-          'containerFiles': 'Click <b>Upload File</b> to select and upload seed data. Specify <b>Scripts</b> to run after import.'
+          // still needs work
+          'containerFiles': 'Click <b>Upload File</b> to select and upload seed data. Then enter the scripts you need to import it.'
         }
       }
     ],
     'triggered': [
       {
         id: 'missingAssociation',
-        'label': '<b>{{instance.getDisplayName()}}</b> may need to be updated with <b>{{association}}’s</b> hostname.</b>',
+        'label': '<b>You may need to update {{instance.getDisplayName()}}</b> with <b>{{association}}’s</b> elastic hostname.</b>',
         'targets': [
           'environmentVariables',
           'findAndReplace'
         ],
-        'helpTop': 'Update <b>{{instance.getDisplayName()}}’s</b> code by using <b>Find and Replace</b> or <b>Environment Variables</b> to update the hostname for <b>{{association}}</b>.',
+        // is there a reason why we refer to FnR first here?
+        'helpTop': 'Use <b>Environment Variables</b> or <b>Find and Replace</b> to update <b>{{instance.getDisplayName()}}</b> with <b>{{association}}’s</b> elastic hostname',
         'helpPopover': {
-          'environmentVariables': 'Add/update the correct environment variable with <b>{{association}}’s</b> elastic hostname.',
-          'findAndReplace': 'Add a string rule to modify your code to connect with <b>{{association}}’s</b> elastic hostname.'
+          'environmentVariables': 'Add or update an environment variable with <b>{{association}}’s</b> elastic hostname.',
+          'findAndReplace': 'Add a string rule to use <b>{{association}}’s</b> elastic hostname in your code.'
         }
       },
       {
@@ -106,15 +111,16 @@ function helpCardsFactory(
       },
       {
         id: 'missingMapping',
-        label: 'You may need to add a mapping to <b>{{mapping}}’s</b> elastic hostname for some repository containers.',
+        label: 'You may need to update some repository containers with a mapping to <b>{{mapping}}’s</b> elastic hostname.',
         targets: [
           'environmentVariables',
           'findAndReplace'
         ],
         helpTop: 'Connect one or more of your repository containers to <b>{{mapping}}’s</b> elastic hostname by using <b>Environment Variables</b> or <b>Find and Replace</b>.',
+        helpTop: 'Use <b>Environment Variables</b> or <b>Find and Replace</b> to connect one or more of your repository containers to <b>{{mapping}}</b>.',
         helpPopover: {
-          environmentVariables: 'Add/update the correct environment variable with <b>{{mapping}}’s</b> elastic hostname.',
-          findAndReplace: 'Add a string rule to modify your code to connect with <b>{{mapping}}’s</b> elastic hostname.'
+          environmentVariables: 'Add or update an environment variable with <b>{{mapping}}’s</b> elastic hostname.',
+          findAndReplace: 'Add a string rule to use <b>{{mapping}}’s</b> elastic hostname in your code.'
         },
         highlightRepoContainers: true
       }
