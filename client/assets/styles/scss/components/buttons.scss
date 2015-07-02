@@ -171,14 +171,12 @@
   width: 24px;
 
   &:hover {
-    // background: rgba($blue,.1);
     border-color: currentColor;
     color: rgba($blue,.6);
   }
 
   &:active,
   &.active {
-    // background: rgba($blue,.2);
     border-color: currentColor;
     color: $blue;
   }
