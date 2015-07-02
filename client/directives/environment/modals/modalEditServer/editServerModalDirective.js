@@ -220,8 +220,6 @@ function editServerModal(
               .finally(function () {
                 containerFile.saving = false;
               });
-
-            loadingPromises.add('editServerModal', containerFile.fileUpload);
           },
           save: function (containerFile) {
             if (!containerFile.type) {
