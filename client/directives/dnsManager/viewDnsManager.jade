@@ -20,7 +20,6 @@
   span.strong {{ instance.getRepoName() || instance.getDisplayName() }}
   |  has no DNS mappings.
 
-
 .dns-wrapper(
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
   ng-repeat = "masterInstance in directlyRelatedMasterInstances track by masterInstance.attrs.shortHash"
