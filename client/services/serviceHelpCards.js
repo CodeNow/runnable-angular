@@ -52,10 +52,10 @@ function helpCardsFactory(
           'repositories',
           'containerFiles'
         ],
-        'helpTop': 'Add <b>Build Commands</b> to install libraries from the <b>Repositories</b> or <b>Container Files</b> tool.',
+        'helpTop': 'Install a library using a <b>Command</b> or the <b>Container Files</b> tool.',
         'helpPopover': {
           'repositories': 'Use <b>Build Commands</b> to install a library. Example: apt-get install -y git',
-          'containerFiles': 'Use <b>Build Commands</b> to install a library. Example: apt-get install -y git'
+          'containerFiles': 'Add/update a file or repository and use <b>Scripts</b> to install a library. Example: apt-get install -y git'
         }
       },
       {
@@ -73,24 +73,24 @@ function helpCardsFactory(
       {
         'label': 'Seed a database',
         'targets': ['containerFiles'],
-        'helpTop': 'Use <b>Container Files</b> to upload seed data and run commands to import it.',
+        'helpTop': 'Use <b>Container Files</b> to upload seed data and run Scripts to import it.',
         'helpPopover': {
-          'containerFiles': 'Click <b>Upload File</b> to select and upload seed data. Specify <b>Build Commands</b> to run shell commands after import.'
+          'containerFiles': 'Click <b>Upload File</b> to select and upload seed data. Specify <b>Scripts</b> to run after import.'
         }
       }
     ],
     'triggered': [
       {
         id: 'missingAssociation',
-        'label': '<b>{{instance.getDisplayName()}}</b> may need to be updated with <b>{{association}}\’s</b> hostname.</b>',
+        'label': '<b>{{instance.getDisplayName()}}</b> may need to be updated with <b>{{association}}’s</b> hostname.</b>',
         'targets': [
           'environmentVariables',
           'findAndReplace'
         ],
-        'helpTop': 'Update <b>{{instance.getDisplayName()}}\’s</b> code by using <b>Find and Replace</b> or <b>Environment Variables</b> to update the hostname for <b>{{association}}</b>.',
+        'helpTop': 'Update <b>{{instance.getDisplayName()}}’s</b> code by using <b>Find and Replace</b> or <b>Environment Variables</b> to update the hostname for <b>{{association}}</b>.',
         'helpPopover': {
-          'environmentVariables': 'Add/update the correct environment variable with <b>{{association}}\’s</b> elastic hostname.',
-          'findAndReplace': 'Add a string rule to modify your code to connect with <b>{{association}}\’s</b> elastic hostname.'
+          'environmentVariables': 'Add/update the correct environment variable with <b>{{association}}’s</b> elastic hostname.',
+          'findAndReplace': 'Add a string rule to modify your code to connect with <b>{{association}}’s</b> elastic hostname.'
         }
       },
       {
@@ -106,15 +106,15 @@ function helpCardsFactory(
       },
       {
         id: 'missingMapping',
-        label: 'You may need to add a mapping to <b>{{mapping}}\’s</b> elastic hostname for some repository containers.',
+        label: 'You may need to add a mapping to <b>{{mapping}}’s</b> elastic hostname for some repository containers.',
         targets: [
           'environmentVariables',
           'findAndReplace'
         ],
-        helpTop: 'Connect one of more of your repository containers to <b>{{mapping}}\’s</b> elastic hostname by using <b>Environment Variables</b>.',
+        helpTop: 'Connect one or more of your repository containers to <b>{{mapping}}’s</b> elastic hostname by using <b>Environment Variables</b> or <b>Find and Replace</b>.',
         helpPopover: {
-          environmentVariables: 'Add/update the correct environment variable with <b>{{mapping}}\’s</b> elastic hostname.',
-          findAndReplace: 'Add a string rule to modify your code to connect with <b>{{mapping}}\’s</b> elastic hostname.'
+          environmentVariables: 'Add/update the correct environment variable with <b>{{mapping}}’s</b> elastic hostname.',
+          findAndReplace: 'Add a string rule to modify your code to connect with <b>{{mapping}}’s</b> elastic hostname.'
         },
         highlightRepoContainers: true
       }
