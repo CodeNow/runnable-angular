@@ -85,21 +85,21 @@ header.server-header
 //- sidebar with repositories and urls
 section.sidebar.server-sidebar.load
 
-  section.sidebar-section.repo-list(
+  section.sidebar-section.repository-section(
     instance = "dataInstance.data.instance"
     ng-class = "{closed: $storage.repoListIsClosed}"
     ng-if = "dataInstance.data.instance.contextVersion.getMainAppCodeVersion()"
     repo-list
   )
 
-  section.sidebar-section.linked-servers(
+  section.sidebar-section.dns-mappings-section(
     dns-manager
     instance = "dataInstance.data.instance"
     ng-class = "{closed: $storage.dnsManagementIsClosed}"
     ng-if = "dataInstance.data.instance"
   )
 
-  section.sidebar-section.explorer(
+  section.sidebar-section.explorer-section(
     edit-explorer = "false"
     explorer
     explorer-title = "File Explorer"

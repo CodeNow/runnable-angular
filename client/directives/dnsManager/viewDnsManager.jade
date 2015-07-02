@@ -20,19 +20,21 @@
   span.strong {{ instance.getRepoName() || instance.getDisplayName() }}
   |  has no DNS mappings.
 
-.dns-parent(
+
+.dns-wrapper(
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
   ng-repeat = "masterInstance in directlyRelatedMasterInstances track by masterInstance.attrs.shortHash"
 )
-  .well-label.text-overflow(
+  .small.text-overflow(
     title = "Elastic hostname: {{ masterInstance.getRepoName() }}-staging-{{ masterInstance.attrs.owner.username }}.runnableapp.com"
   )
     strong.strong {{ masterInstance.getRepoName() }}
     | -staging-{{ masterInstance.attrs.owner.username }}.runnableapp.com
 
-  fancy-select.well.in(
+  fancy-select.in(
     on-update = "actions.setDependency"
     track-by = "attrs.shortHash"
+    title = "{{ masterInstance.getBranchName() }}"
     value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
   )
     fancy-option(
