@@ -210,10 +210,12 @@ function editServerModal(
               .progress(function (evt) {
                 containerFile.progress = parseInt(100.0 * evt.loaded / evt.total, 10);
               })
-              .then(function (fileResponse) {
+              .error(errs.handler)
+              .success(function (fileResponse) {
+                containerFile.uploadFinished = true;
                 containerFile.name = fileResponse.data.name;
-              })
-              .catch(errs.handler)
+              });
+            containerFile.fileUpload
               .finally(function () {
                 containerFile.saving = false;
               });
@@ -227,6 +229,7 @@ function editServerModal(
               if (containerFile.file) {
                 myFile.name = containerFile.file[0].name;
               }
+              myFile.fromServer = true;
               myFile.commands = containerFile.commands;
               myFile.path = containerFile.path;
               $scope.state.containerFiles.push(myFile);
@@ -236,10 +239,19 @@ function editServerModal(
           },
           cancel: function (containerFile) {
             // Using our own cancel in order to delete file
-            $rootScope.$broadcast('close-popovers');
             if (containerFile.fileUpload) {
-              $scope.fileUpload.actions.file.deleteFile();
+              if (containerFile.uploadFinished) {
+                // If it has a name, then the file exists on the server
+                return containerFile.fileUpload
+                  .then(function () {
+                    $scope.fileUpload.actions.deleteFile(containerFile);
+                  });
+              } else {
+                containerFile.fileUpload.abort();
+              }
             }
+            // Don't close-popovers when deleting the file, since that function will call it as well
+            $rootScope.$broadcast('close-popovers');
           },
           deleteFile: function (containerFile) {
             $rootScope.$broadcast('close-popovers');
@@ -248,13 +260,17 @@ function editServerModal(
               return fileModel.attrs.name === containerFile.name;
             });
             if (file) {
-              loadingPromises.add('editServerModal',
+              var containerIndex = $scope.state.containerFiles.indexOf(containerFile);
+              if (containerIndex > -1) {
+                $scope.state.containerFiles.splice(containerIndex, 1);
+              }
+
+              return loadingPromises.add('editServerModal',
                 promisify(file, 'destroy')()
                   .catch(errs.handler)
               );
             }
 
-            $scope.state.containerFiles.splice($scope.state.containerFiles.indexOf(containerFile), 1);
           }
         },
         data: {}
