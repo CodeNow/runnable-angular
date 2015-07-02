@@ -312,6 +312,11 @@ function editServerModal(
             }));
           });
 
+        watchOncePromise($scope, 'instance.packages', true)
+          .then(function (packages) {
+            $scope.state.packages = packages.clone();
+          });
+
         return loadingPromises.add('editServerModal', promisify($scope.instance.contextVersion, 'deepCopy')())
           .then(function (contextVersion) {
             $scope.state.contextVersion = contextVersion;
@@ -424,6 +429,10 @@ function editServerModal(
         });
       }
 
+      function arePackagesDifferent() {
+        return keypather.get($scope, 'state.packages.packageList') !== keypather.get($scope, 'instance.packages.packageList');
+      }
+
       function shouldFnrCreateDockerfile() {
         var serverFnRObject = keypather.get($scope, 'instance.contextVersion.getMainAppCodeVersion().transformRules');
         var serverFnRCount = serverFnRObject ?
@@ -454,6 +463,8 @@ function editServerModal(
                 areContainerFilesDifferent() ||
                 // FnR has changed
                 shouldFnrCreateDockerfile() ||
+                // Packages have changed
+                arePackagesDifferent() ||
                 // The ports have changed
                 !angular.equals($scope.state.instance.ports, statePorts) ||
                 // We have a new start command

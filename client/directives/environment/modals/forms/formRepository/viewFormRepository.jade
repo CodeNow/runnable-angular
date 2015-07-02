@@ -60,7 +60,7 @@ label.label.clearfix
     .build-commands-wrapper(
       ng-class = "{'cache-in': data.cacheCommand}"
       ng-if = "$root.featureFlags.buildCommandCache"
-    ) 
+    )
       //- this textarea needs to expand vertically to contain its content, like the contentEditable div below (I know, sorry).
       textarea.textarea.monospace(
         ng-disabled = "startCommandCanDisable && !state.selectedStack"
@@ -68,7 +68,7 @@ label.label.clearfix
         placeholder = "npm install&#10;grunt"
         spellcheck = "false"
       )
-      //- this element should start out empty. then, for each line that is added to the 
+      //- this element should start out empty. then, for each line that is added to the
       //- textarea, one .radio-wrapper (with input) and one .cache-row should be added to it.
       .cache-column
         .cache-border
@@ -108,7 +108,9 @@ label.label.clearfix(
 
   .input-col
     textarea.textarea.monospace(
-      spellcheck = "false"
+      spellcheck = "false",
+      placeholder = "dnsutils ssh"
+      ng-model = "state.packages.packageList"
     )
     small.small Add any packages you would like to install via apt-get, separated with spaces (e.g. ‘curl git gcc-4.1=4.1.2’). This container is based on &#32;
       //- this should specify the OS that the container is running, based on the stack type.
