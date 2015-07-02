@@ -92,6 +92,7 @@ function editServerModal(
               maxInputLength: 5,
               onlyDigits: true
             },
+            minTagWidth: 120,
             tags: new JSTagsCollection(($scope.instance.ports || '').split(' '))
           };
         });
