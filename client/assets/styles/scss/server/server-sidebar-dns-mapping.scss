@@ -17,11 +17,9 @@
 
   // modifying fancy-select elements for container selection
   .btn {
-    background-color: $gray-lighterest;
+    background-color: $gray-lighterest; // override default fancy-select color
     color: $gray;
     font-weight: 400;
-    height: 33px;
-    line-height: 21px;
     padding: 0 24px 0 0;
     text-align: left;
     width: 100%;
