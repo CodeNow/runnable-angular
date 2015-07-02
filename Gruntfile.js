@@ -104,6 +104,14 @@ module.exports = function(grunt) {
         src: jshintFiles
       }
     },
+    exorcise: {
+      bundle: {
+        options: {},
+        files: {
+          'client/build/js/bundle.js.map': ['client/build/js/bundle.js']
+        }
+      }
+    },
     browserify: {
       watch: {
         files: {
@@ -112,28 +120,13 @@ module.exports = function(grunt) {
         options: {
           watch: true,
           browserifyOptions: {
-            debug: true // source maps
+            debug: true // source maps,
           }
         }
       },
       once: {
         files: {
           'client/build/js/bundle.js': ['client/main.js']
-        },
-        options: {
-          browserifyOptions: {
-            debug: true // source maps
-          }
-        }
-      },
-      deploy: {
-        files: {
-          'client/build/js/bundle.js': ['client/main.js']
-        }
-      },
-      'deploy-debug': {
-        files: {
-          'client/build/js/bundle-debug.js': ['client/main.js']
         },
         options: {
           browserifyOptions: {
@@ -217,7 +210,7 @@ module.exports = function(grunt) {
           '!client/build/**/*.*'
         ],
         tasks: [
-          'jade2js',
+          'jade2js'
         //  'bgShell:karma'
         ]
       },
@@ -475,6 +468,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-autoprefixer');
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-concurrent');
+  grunt.loadNpmTasks('grunt-exorcise');
 
   if (!envIs('production', 'staging')) {
     grunt.loadNpmTasks('grunt-newer');
@@ -517,7 +511,8 @@ module.exports = function(grunt) {
     'jade2js',
     'autoBundleDependencies',
     'generateConfigs',
-    'browserify:once'
+    'browserify:once',
+    'exorcise'
   ]);
   grunt.registerTask('deploy:prod', [
     'copy',
@@ -526,7 +521,7 @@ module.exports = function(grunt) {
     'jade2js',
     'autoBundleDependencies',
     'generateConfigs:production',
-    'browserify:deploy',
-    'browserify:deploy-debug'
+    'browserify:once',
+    'exorcise'
   ]);
 };
