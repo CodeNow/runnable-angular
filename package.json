@@ -78,7 +78,7 @@
     "json-hash": "^1.1.0",
     "keypather": "^1.7.1",
     "moment": "~2.9.0",
-    "ng-file-upload": "^4.2.1",
+    "ng-file-upload": "^5.0.9",
     "ngStorage": "git+https://github.com/Runnable/ngStorage.git#v0.4.0",
     "node-uuid": "^1.4.3",
     "primus": "^2.3.0",
