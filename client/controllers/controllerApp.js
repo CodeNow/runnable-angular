@@ -57,6 +57,7 @@ function ControllerApp(
     hostnameTool: false,
     hostnameNotifications: false,
     imAfraidOfTheDark: false, // toggles theme
+    multilineFnR: false,
     navListFilter: false,
     packagesField: false,
     saveToolbar: false,

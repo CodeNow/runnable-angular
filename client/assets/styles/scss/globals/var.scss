@@ -1,4 +1,6 @@
+// ******
 // colors
+// ******
 $black: #000;
 $white: #fff;
 
@@ -45,11 +47,15 @@ $blue-light: #8bd5f9; // previously #86cff6;
 $blue-lighter: #f5fcff; // previously #f1faff;
 $blue-dark: #1e7daf;
 
-// spinner vars
+// ********
+// spinners
+// ********
 $spinner-offset: 187;
 $spinner-duration: 1.4s;
 
-// z-indexes
+// *******
+// z-index
+// *******
 // overrides
 $z-hide: -10000;
 $z-show: 10000;
@@ -96,13 +102,33 @@ $z-tooltip: 7000;
 // spinners
 $z-spinner: 8000;
 
-// misc
+// **********
+// dimensions
+// **********
+// intercom
 $intercom-width: 370px;
 
-// mixin sizes
-$xxs: 400px;
-$xs: 600px;
-$sm: 768px;
-$md: 1024px;
-$lg: 1440px;
-$xl: 1920px;
+// screen sizes
+$screen-xxs: 400px;
+$screen-xs: 600px;
+$screen-sm: 768px;
+$screen-md: 1024px;
+$screen-lg: 1440px;
+$screen-xl: 1920px;
+
+// button/input sizes
+$input-border: 2px;
+$input-border-radius: 3px;
+$input-border-radius-xxs: 2px;
+
+$input-md: 45px;
+$input-line-height-md: $input-md - ($input-border*2);
+
+$input-sm: 36px;
+$input-line-height-sm: $input-sm - ($input-border*2);
+
+$input-xs: 24px;
+$input-line-height-xs: $input-xs - ($input-border*2);
+
+$input-xxs: 18px;
+$input-line-height-xxs: $input-xxs - ($input-border*2);

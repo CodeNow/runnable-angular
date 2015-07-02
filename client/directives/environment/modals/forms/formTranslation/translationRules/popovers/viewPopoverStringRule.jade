@@ -22,14 +22,61 @@
         li.list-item Case-sensitive
         li.list-item Trailing whitespace is not trimmed
         li.list-item Regular expressions are not supported
-        li.list-item Use
+        li.list-item(
+          ng-if = "!$root.featureFlags.multilineFnR"
+        ) Use
           svg.iconnables
             use(
               xlink:href = "#icons-server-link"
             )
           | hostnames to refer to other containers
 
-    .label-row
+    //- ghetto autofocus
+    .textarea-wrapper(
+      ng-class = "{'focus': focus.textAreaFind}"
+      ng-if = "$root.featureFlags.multilineFnR"
+      ng-init = "focus.textAreaFind = true"
+    )
+      label.textarea-menu(
+        for = "textarea-find"
+      ) Find
+      textarea#textarea-find.textarea.monospace(
+        ng-blur = "focus.textAreaFind = false"
+        ng-focus = "focus.textAreaFind = true"
+        placeholder = "localhost:27017"
+        required
+        spellcheck = "false"
+        tabindex = "1"
+      )
+
+    .textarea-wrapper(
+      ng-class = "{'focus': focus.textAreaReplace}"
+      ng-if = "$root.featureFlags.multilineFnR"
+    )
+      label.textarea-menu(
+        for = "textarea-replace"
+      ) Replace
+        //- fancy select
+        button.btn.btn-xxs.gray.float-right Insert Hostname
+          svg.iconnables.icons-arrow-down
+            use(
+              xlink:href = "#icons-arrow-down"
+            )
+      textarea#textarea-replace.textarea.monospace(
+        ng-blur = "focus.textAreaReplace = false"
+        ng-focus = "focus.textAreaReplace = true"
+        placeholder = "sample-user.runnableapp.com:27017"
+        required
+        spellcheck = "false"
+        tabindex = "1"
+      )
+
+    //- ****************************
+    //- forms for !$root.featureFlags.multilineFnR
+    //- ****************************
+    .label-row(
+      ng-if = "!$root.featureFlags.multilineFnR"
+    )
       label.label-col Find string
         input.input.input-sm.monospace(
           name = "fromTextBox"
@@ -97,7 +144,7 @@
         ng-if = "currentState.processing"
         ng-include = "'spinner'"
       )
-      span {{ currentState.processing ? 'Searching' : 'Search for matches' }}
+      span {{ currentState.processing ? 'Searching' : 'Search for Matches' }}
     button.btn.green(
       ng-click = "actions.createRule(data.state)"
       ng-if = "currentState.searched"

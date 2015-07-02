@@ -15,8 +15,8 @@
   color: $gray;
   float: left;
   font-weight: 500;
-  height: 36px;
-  line-height: 36px;
+  height: $input-sm;
+  line-height: $input-sm;
   padding-right: 15px;
   width: 270px;
   word-break: break-word;
@@ -99,7 +99,7 @@
   // equal sign between inputs
   .span-col {
     flex: 0 0 25px;
-    line-height: 36px;
+    line-height: $input-sm;
     padding-top: 36px;
     text-align: center;
     user-select: none;

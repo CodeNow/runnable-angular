@@ -1,0 +1,57 @@
+// default styles are in forms-input.scss
+// overrides for those default styles:
+.textarea {
+  padding: 3px 6px; // reduce top/bottom padding vs inputs
+}
+
+// wrapper for textarea takes focus state
+.textarea-wrapper {
+  border: $input-border solid $gray-lighter;
+  border-radius: $input-border-radius;
+  position: relative;
+
+  &.focus {
+    border-color: $purple-light;
+    z-index: 1;
+
+    .textarea-menu {
+      border-bottom-color: $purple-light;
+      color: $purple-light;
+    }
+  }
+
+  // actually textarea
+  .textarea {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    display: block;
+    font-size: 13px;
+    min-height: 120px;
+
+    @include media(xs) {
+      min-height: 60px;
+    }
+  }
+}
+
+// textarea menu
+.textarea-menu {
+  border-bottom: 1px solid $gray-lighter;
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  height: 30px;
+  line-height: 30px;
+  margin: 0 6px;
+
+  .btn-xxs {
+    margin-top: 5px;
+    padding-right: 15px;
+
+    .icons-arrow-down {
+      right: 0;
+      width: 15px;
+    }
+  }
+}
