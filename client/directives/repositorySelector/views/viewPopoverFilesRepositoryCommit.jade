@@ -17,7 +17,7 @@
 
 .popover-content
   label.label.label-jump(
-    ng-if = "repoSelector.data.branch.commits.models.length"
+    ng-if = "!fetchingBranches && repoSelector.data.branch.commits.models.length"
   )
     small.small Branch
     select.select(
@@ -35,7 +35,7 @@
   )
 
   ul.list.list-servers(
-    ng-if = "!repoSelector.data.latestCommit"
+    ng-if = "!repoSelector.data.latestCommit && !fetchingBranches"
   )
     li.list-item.text-overflow(
       ng-repeat = "commit in repoSelector.data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"

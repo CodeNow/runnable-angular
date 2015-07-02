@@ -8,5 +8,8 @@ function reportError() {
     if (window.NREUM) {
       window.NREUM.noticeError(err, options);
     }
+    if (window.Rollbar) {
+      window.Rollbar.error(err, options);
+    }
   };
 }

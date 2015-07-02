@@ -147,6 +147,11 @@
   // upload button
   .btn-upload {
     padding-right: 75px;
+
+    // center file name when there's no info to show
+    &.no-info {
+      line-height: 38px;
+    }
   }
 
   [for="input-upload"] {
