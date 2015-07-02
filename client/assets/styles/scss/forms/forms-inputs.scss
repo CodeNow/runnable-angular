@@ -339,7 +339,7 @@ textarea {
   position: relative;
 
   &::after {
-    color: $gray;
+    color: $gray-light;
     content: '/';
     display: block;
     font-weight: 500;
@@ -353,6 +353,6 @@ textarea {
   }
 
   .input {
-    padding-left: 15px;
+    padding-left: 12px;
   }
 }

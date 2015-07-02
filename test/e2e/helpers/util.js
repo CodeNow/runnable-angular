@@ -13,7 +13,8 @@ util.processUrl = function (middle) {
   return browser.baseUrl + middle + '/';
 };
 
-util.waitForUrl = function (url) {
+util.waitForUrl = function (url, duration) {
+  duration = duration || 1000 * 5;
   return browser.wait(function () {
     return browser.driver.getCurrentUrl().then(function (currentUrl) {
       if (typeof url === 'object' && typeof url.test === 'function') {
@@ -22,7 +23,7 @@ util.waitForUrl = function (url) {
       }
       return currentUrl === url;
     });
-  });
+  }, duration);
 };
 
 util.containsText = function (elem, expected) {
@@ -54,6 +55,16 @@ util.createGetter = function (by, parentElement) {
     }
   };
 };
+
+util.testTimeout = function (timeout) {
+  var originalTimeout = 1000 * 10;
+  beforeEach(function () {
+    jasmine.getEnv().defaultTimeoutInterval  = timeout;
+  });
+  afterEach(function () {
+    jasmine.getEnv().defaultTimeoutInterval = originalTimeout;
+  });
+}
 
 util.createGetterAll = function(by, parentElement) {
   return {
@@ -105,6 +116,34 @@ util.refreshCache = function() {
   toRefresh.forEach(function(key) {
     delete require.cache[key];
     require(key);
+  });
+};
+
+var counts = {};
+util.goToUrl = function (url) {
+  var newUrl = browser.baseUrl + url;
+  return browser.driver.getCurrentUrl().then(function (oldUrl) {
+    if (newUrl.slice(-1) !== '/') {
+      newUrl = newUrl + '/';
+    }
+    if (oldUrl !== newUrl) {
+      browser.driver.get(newUrl);
+      return util.goToUrl(url);
+    }
+
+    counts[url] = counts[url] || 0;
+    counts[url] += 1;
+    if (counts[url] > 20) {
+      return;
+    }
+    return element.all(by.css('.modal-error .modal-description'))
+      .count()
+      .then(function (errorCount) {
+        if (errorCount > 0) {
+          browser.driver.get(newUrl);
+          return util.goToUrl(url);
+        }
+      });
   });
 };
 

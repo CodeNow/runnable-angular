@@ -32,14 +32,14 @@
         )
 
     label.label.clearfix
-      .label-col Build Commands
+      .label-col Scripts
         small.small (optional)
       .input-col
         textarea.textarea.monospace(
           ng-model = "data.commands"
           spellcheck = "false"
         )
-        small.small Commands to be executed when your container is built and before it is launched.
+        small.small Add scripts to be run before your container is started.
 
     //- not shown if new repo
     label.label

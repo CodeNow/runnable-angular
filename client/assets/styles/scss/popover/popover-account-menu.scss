@@ -1,6 +1,7 @@
 .popover-account-menu {
   max-width: 180px;
   transform-origin: 95% 0 !important;
+  z-index: $z-spinner + 1; // to appear above instance view spinner
 
   .list {
     max-height: 50vh;

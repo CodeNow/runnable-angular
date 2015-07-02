@@ -5,29 +5,6 @@
     ng-bind-html = "helpCards.getActiveCard().helpPopover.repositories"
   )
 
-.label.clearfix
-  .label-col Initial Branch
-
-  .input-col
-    fancy-select(
-      ng-disabled = "branchFetching"
-      ng-required = "true"
-      value = "state.branch"
-      track-by = "attrs.name"
-      spinner-flag = "branchFetching"
-    )
-      li.list-item.popover-list-item.small Select initial branch
-      fancy-option(
-        ng-repeat = "branch in $parent.state.repo.branches.models"
-        value = "branch"
-      )
-        svg.iconnables.icons-branch
-          use(
-            xlink:href = "#icons-branch"
-          )
-        | {{ $parent.branch.attrs.name }}
-    small.small We’ll build the first container with the code on this branch. We recommend choosing a stable branch.
-
 label.label.clearfix
   .label-col Container CMD
 
@@ -121,4 +98,18 @@ label.label.clearfix
             type = "radio"
           )
         .cache-row
-    small.small Input any commands needed to support your application. They will be run before the Container CMD.
+    small.small Add any commands needed to support your application. They will be run before the Container CMD.
+
+label.label.clearfix(
+  ng-if = "$root.featureFlags.packagesField"
+)
+  .label-col Packages
+    small.small (optional)
+
+  .input-col
+    textarea.textarea.monospace(
+      spellcheck = "false"
+    )
+    small.small Add any packages you would like to install via apt-get, separated with spaces (e.g. ‘curl git gcc-4.1=4.1.2’). This container is based on &#32;
+      //- this should specify the OS that the container is running, based on the stack type.
+      strong.strong Ubuntu 13.04.

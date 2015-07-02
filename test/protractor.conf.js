@@ -7,7 +7,7 @@ exports.config = {
   // The address of a running selenium server.
   seleniumAddress: 'http://localhost:4444/wd/hub',
 
-  allScriptsTimeout: 20000,
+  allScriptsTimeout: 1000 * 60,
 
   // Order is important
   specs: specs,
@@ -28,6 +28,6 @@ exports.config = {
   baseUrl: 'http://localhost:3001',
 
   jasmineNodeOpts: {
-    defaultTimeoutInterval: 30000
+    defaultTimeoutInterval: 1000 * 60
   }
 };

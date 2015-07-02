@@ -5,13 +5,18 @@ var $controller,
     $scope,
     $window;
 var keypather;
+var streamBuffers;
 var apiMocks = require('../apiMocks/index');
 var mockPrimus = new fixtures.MockPrimus();
 
 describe('BoxLogController'.bold.underline.blue, function () {
   var ctx = {};
+
   function setup() {
-    ctx.streamCleanserMock = sinon.spy();
+    ctx = {};
+    ctx.streamCleanserMock = sinon.spy(function () {
+      return mockPrimus.createLogStream();
+    });
     ctx.$log = {
       error: sinon.spy()
     };
@@ -28,15 +33,28 @@ describe('BoxLogController'.bold.underline.blue, function () {
       _$controller_,
       _$rootScope_,
       _keypather_,
-      _$window_
+      _$window_,
+      _streamBuffers_
     ) {
       $controller = _$controller_;
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
       keypather = _keypather_;
       $window = _$window_;
+      streamBuffers = _streamBuffers_;
+      streamBuffers.ReadableStreamBuffer = function () {
+        this.setEncoding = sinon.spy();
+        this.put = sinon.spy();
+        this.pipe = sinon.spy();
+        this.destroySoon = sinon.spy();
+        this.on = sinon.spy(function (action, cb) {
+          cb();
+        });
+        this.destroy = sinon.spy();
+        ctx.streamBuffer = this;
+      };
     });
-    var container = eval(apiMocks.instances.runningWithContainers)[0].container;
+    var container = apiMocks.instances.runningWithContainers[0].container;
 
     ctx.instance = {
       attrs: apiMocks.instances.runningWithContainers,
@@ -78,11 +96,33 @@ describe('BoxLogController'.bold.underline.blue, function () {
       expect($scope.connectStreams, 'connectStreams').to.be.ok;
       $scope.connectStreams(term);
       sinon.assert.calledWith(ctx.streamCleanserMock, 'hex');
+      sinon.assert.calledWith(ctx.streamBuffer.setEncoding, 'utf8');
+      sinon.assert.calledOnce(ctx.streamBuffer.pipe);
+    });
+    it('should receive data in stream buffer', function () {
+      $rootScope.$digest();
+      var stream = mockPrimus.createLogStream();
+      $scope.stream = stream;
+      var term = mockPrimus.createBuildStream();
+      expect($scope.connectStreams, 'connectStreams').to.be.ok;
+      $scope.connectStreams(term);
+      $rootScope.$digest();
+      sinon.assert.calledWith(ctx.streamCleanserMock, 'hex');
+      sinon.assert.calledOnce(ctx.streamBuffer.pipe);
+      sinon.assert.calledWith(ctx.streamBuffer.setEncoding, 'utf8');
+      stream.write('Hello');
+      $rootScope.$digest();
+      sinon.assert.calledWith(ctx.streamBuffer.put, 'Hello');
     });
     it('should end the stream, and fetch, and post the exit code on the term', function (done) {
       $scope.instance = ctx.instance;
       $rootScope.$digest();
 
+      var term = mockPrimus.createBuildStream();
+      var stream = mockPrimus.createLogStream();
+      $scope.stream = stream;
+      expect($scope.connectStreams, 'connectStreams').to.be.ok;
+      $scope.connectStreams(term);
       $scope.$on('WRITE_TO_TERM', function (event, message) {
         expect(message, 'message').to.equal('Exited with code: 5');
         done();
@@ -97,6 +137,7 @@ describe('BoxLogController'.bold.underline.blue, function () {
       expect($scope.streamEnded, 'streamEnded').to.be.ok;
       $scope.streamEnded();
       $scope.$apply();
+      $rootScope.$destroy();
     });
   });
 

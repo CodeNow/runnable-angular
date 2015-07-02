@@ -5,7 +5,10 @@
 
 exports.chrome = {
     name: 'Chrome',
-    browserName: 'chrome'
+    browserName: 'chrome',
+    chromeOptions: {
+        args: ['user-agent=e2e-tests']
+    }
 };
 
 exports.firefox = {

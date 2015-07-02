@@ -1,8 +1,14 @@
+//- z-index to appear above instance view spinner
 .popover.bottom.menu(
   ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
+  style = "z-index: 8001;"
 )
   .popover-content
+    button.btn.btn-xxs.gray(
+      ng-click = "$localStorage.featureFlags = {}; $root.resetFeatureFlags();"
+      style = "font-size: 12px; right: 12px; position: absolute; top: 15px; z-index: 2;"
+    ) Reset Flags
     .list.popover-list
       .list-item.popover-list-item.small(
         style = "background: white; color: #aaa; font-weight: 500; padding-left: 15px; top: 1px; z-index: 1;"
