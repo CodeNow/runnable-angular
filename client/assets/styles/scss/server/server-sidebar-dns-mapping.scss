@@ -22,13 +22,13 @@
     font-size: 15px;
     font-weight: 400;
     height: 33px;
-    line-height: 0;
-    padding: 0 24px 9px 3px;
+    line-height: 15px;
+    padding: 0 24px 0 0;
     text-align: left;
     width: 100%;
+  }
 
-    .icons-status {
-      margin: 9px 6px 0;
-    }
+  .icons-status {
+    margin: 0 6px 0 9px;
   }
 }
