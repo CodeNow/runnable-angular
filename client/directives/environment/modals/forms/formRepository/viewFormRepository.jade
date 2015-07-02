@@ -73,29 +73,14 @@ label.label.clearfix
       .cache-column
         .cache-border
         //- this content is just for demonstration.
-        label.radio-wrapper
+        label.radio-wrapper(
+          ng-repeat = "command in commandsArr track by $index"
+        )
           input(
-            checked
-            name = "cache-radio"
             type = "radio"
-          )
-        .cache-row
-        label.radio-wrapper
-          input(
+            ng-click = "actions.updateCache(command)"
             name = "cache-radio"
-            type = "radio"
-          )
-        .cache-row
-        label.radio-wrapper
-          input(
-            name = "cache-radio"
-            type = "radio"
-          )
-        .cache-row
-        label.radio-wrapper
-          input(
-            name = "cache-radio"
-            type = "radio"
+            ng-show = "!!command"
           )
         .cache-row
     small.small Add any commands needed to support your application. They will be run before the Container CMD.

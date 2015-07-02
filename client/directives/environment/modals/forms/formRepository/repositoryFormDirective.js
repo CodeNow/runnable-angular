@@ -50,6 +50,24 @@ require('app')
             $scope.branchFetching = false;
           });
 
+        $scope.actions = {
+          updateCache: function (cmd) {
+            // There's probably a better way to do this
+            // Cache needs to be unique
+            $scope.state.commands = $scope.state.commands.map(function (command) {
+              command.cache = false;
+              return command;
+            });
+            cmd.cache = true;
+            // if (cmd.indexOf('#runnable-cache') > -1) {
+            //   $scope.commandsArr[idx] = $scope.commandsArr[idx].replace('#runnable-cache', '').trim();
+            // } else {
+            //   $scope.commandsArr[idx] += ' #runnable-cache';
+            // }
+            // $scope.state.commands = $scope.commandsArr.join('\n');
+          }
+        };
+
         $scope.$watch('state.branch', function (newBranch, oldBranch) {
           if (newBranch && oldBranch && newBranch.attrs.name !== oldBranch.attrs.name) {
             return watchOncePromise($scope, 'state.acv', true)
