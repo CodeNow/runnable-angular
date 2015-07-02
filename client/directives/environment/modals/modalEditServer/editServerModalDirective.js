@@ -213,7 +213,8 @@ function editServerModal(
               .error(errs.handler)
               .success(function (fileResponse) {
                 containerFile.uploadFinished = true;
-                containerFile.name = fileResponse.data.name;
+                containerFile.name = fileResponse.name;
+                containerFile.fileModel = $scope.state.contextVersion.newFile(fileResponse);
               });
             containerFile.fileUpload
               .finally(function () {
@@ -255,8 +256,9 @@ function editServerModal(
           },
           deleteFile: function (containerFile) {
             $rootScope.$broadcast('close-popovers');
+            if (!containerFile) { return; }
 
-            var file = $scope.state.contextVersion.rootDir.contents.models.find(function (fileModel) {
+            var file = containerFile.fileModel || $scope.state.contextVersion.rootDir.contents.models.find(function (fileModel) {
               return fileModel.attrs.name === containerFile.name;
             });
             if (file) {
