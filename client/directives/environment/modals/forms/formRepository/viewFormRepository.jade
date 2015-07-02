@@ -5,30 +5,6 @@
     ng-bind-html = "helpCards.getActiveCard().helpPopover.repositories"
   )
 
-label.label.clearfix
-  .label-col Container CMD
-
-  .input-col
-    fancy-select.monospace(
-      ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
-      ng-required = "startCommandCanDisable || ngShow()"
-      name = "repository.startCommand"
-      show-dropdown = "state.selectedStack.startCommand"
-      type = "text"
-      value = "state.startCommand"
-    )
-      li.list-item.popover-list-item.small Suggested Container CMDs
-      fancy-option(
-        ng-repeat = "startCmd in $parent.state.selectedStack.startCommand"
-        value = "startCmd"
-      ) {{$parent.startCmd}}
-
-    small.small This is the long-running process that’ll run when your container is launched (e.g. ‘apache’, ‘NPM start’). Your container will stop running if this process terminates. #{''}
-      a.link(
-        href = "//docs.docker.com/reference/builder/#cmd"
-        target = "_blank"
-      ) More about the Container CMD
-
 .label.clearfix.label-build-commands
   .label-col Build Commands
     small.small (optional)
@@ -108,8 +84,33 @@ label.label.clearfix(
 
   .input-col
     textarea.textarea.monospace(
+      ng-disabled = "startCommandCanDisable && !state.selectedStack"
       spellcheck = "false"
     )
     small.small Add any packages you would like to install via apt-get, separated with spaces (e.g. ‘curl git gcc-4.1=4.1.2’). This container is based on &#32;
       //- this should specify the OS that the container is running, based on the stack type.
       strong.strong Ubuntu 13.04.
+
+label.label.clearfix
+  .label-col Container CMD
+
+  .input-col
+    fancy-select.monospace(
+      ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
+      ng-required = "startCommandCanDisable || ngShow()"
+      name = "repository.startCommand"
+      show-dropdown = "state.selectedStack.startCommand"
+      type = "text"
+      value = "state.startCommand"
+    )
+      li.list-item.popover-list-item.small Suggested Container CMDs
+      fancy-option(
+        ng-repeat = "startCmd in $parent.state.selectedStack.startCommand"
+        value = "startCmd"
+      ) {{$parent.startCmd}}
+
+    small.small This is the long-running process that’ll run when your container is launched (e.g. ‘apache’, ‘NPM start’). Your container will stop running if this process terminates. #{''}
+      a.link(
+        href = "//docs.docker.com/reference/builder/#cmd"
+        target = "_blank"
+      ) More about the Container CMD
