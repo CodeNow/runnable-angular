@@ -1,12 +1,12 @@
 .btn {
   border: 0;
-  border-radius: 3px;
+  border-radius: $input-border-radius;
   cursor: pointer;
   display: inline-block;
   font-size: 18px;
   font-weight: 400;
-  height: 45px;
-  line-height: 43px; // 45 - 2px for border-top/bottom
+  height: $input-md;
+  line-height: $input-line-height-md;
   padding: 0 15px;
   position: relative;
   text-align: center;
@@ -89,8 +89,8 @@
 
 .btn-sm {
   font-size: 16px;
-  height: 36px;
-  line-height: 32px;
+  height: $input-sm;
+  line-height: $input-line-height-sm;
 
   > .img {
     float: left;
@@ -100,8 +100,8 @@
 
 .btn-xs {
   font-size: 13px;
-  height: 24px;
-  line-height: 20px;
+  height: $input-xs;
+  line-height: $input-line-height-xs;
   padding: 0 6px;
 
   .tag {
@@ -114,39 +114,39 @@
 
 // only for inline buttons
 .btn-xxs {
-  border-radius: 2px;
+  border-radius: $input-border-radius-xxs;
   font-size: 13px;
-  height: 18px;
-  line-height: 14px;
+  height: $input-xxs;
+  line-height: $input-line-height-xxs;
   padding: 0 3px;
 }
 
 // .btn-icon
 .btn-icon {
-  line-height: 45px;
+  line-height: $input-md;
   padding: 0;
-  width: 45px;
+  width: $input-md;
 
   &.btn-sm {
-    width: 36px;
+    width: $input-sm;
   }
 
   &.btn-icon-sm {
-    line-height: 36px;
-    min-width: 36px;
+    line-height: $input-sm;
+    min-width: $input-sm;
     width: auto;
   }
 
   &.btn-icon-xs {
-    line-height: 24px;
-    min-width: 24px;
+    line-height: $input-xs;
+    min-width: $input-xs;
     width: auto;
   }
 
   &.btn-icon-xxs {
-    height: 18px;
-    line-height: 18px;
-    width: 18px;
+    height: $input-xxs;
+    line-height: $input-xxs;
+    width: $input-xxs;
   }
 
   .iconnables {
@@ -171,14 +171,12 @@
   width: 24px;
 
   &:hover {
-    // background: rgba($blue,.1);
     border-color: currentColor;
     color: rgba($blue,.6);
   }
 
   &:active,
   &.active {
-    // background: rgba($blue,.2);
     border-color: currentColor;
     color: $blue;
   }
@@ -201,29 +199,6 @@
 
 .btn-badge {
   font-weight: 500;
-}
-
-.btn-help {
-  background: rgba($white,.6);
-  border: 1px solid $gray-light;
-  border-radius: 50%;
-  color: $gray;
-  height: 24px;
-  text-decoration: none;
-  width: 24px;
-
-  &:hover {
-    // background: rgba($blue,.1);
-    border-color: currentColor;
-    color: rgba($blue,.6);
-  }
-
-  &:active,
-  &.active {
-    // background: rgba($blue,.2);
-    border-color: currentColor;
-    color: $blue;
-  }
 }
 
 .btn-check {
@@ -265,7 +240,7 @@
 .purple,
 .red,
 .white {
-  border: 2px solid transparent;
+  border: $input-border solid transparent;
   color: $white;
   font-weight: 500;
   text-decoration: none;
@@ -526,8 +501,8 @@
 
 .btn-radio {
   background: $white;
-  border: 2px solid transparent;
-  border-radius: 3px;
+  border: $input-border solid transparent;
+  border-radius: $input-border-radius;
   box-shadow: none;
   cursor: pointer;
   display: inline-block;
@@ -603,7 +578,7 @@
 .btn-group .btn-group + .btn,
 .btn-group .btn-group + button,
 .btn-group .btn-group + .btn-group {
-  margin-left: -2px;
+  margin-left: -$input-border;
 }
 
 .btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle),

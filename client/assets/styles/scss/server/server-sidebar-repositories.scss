@@ -1,9 +1,8 @@
-.repo-list {
+.repository-section {
   flex: 0 0 auto;
   max-height: 50%;
   overflow-x: hidden;
   overflow-y: auto;
-  padding-bottom: 9px;
 
   .label-checkbox {
     margin: 0;
@@ -13,10 +12,6 @@
 
 // repository group "well"
 .repository-group-item {
-
-  + .repository-group-item {
-    margin-top: 9px;
-  }
 
   .iconnables {
     height: 14px;

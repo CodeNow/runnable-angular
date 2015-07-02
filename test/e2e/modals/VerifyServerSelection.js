@@ -10,7 +10,7 @@ function VerifyServerSelection () {
 
   var stackTypeSelector = new FancySelect(by.css('button[placeholder^="Select language/framework"]'));
   var stackVersionSelector = new FancySelect(by.css('button[placeholder^="Select Version"]'));
-  var containerCommandSelector = new FancySelect(by.css('input[placeholder^="Container command"]'));
+  var containerCommandSelector = new FancySelect(by.css('input[name="repository.startCommand"]'));
 
   this.waitForLoaded = function () {
     var self = this;

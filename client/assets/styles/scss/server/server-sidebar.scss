@@ -10,6 +10,7 @@
     &.empty-state {
       height: auto;
       line-height: 17px;
+      margin-bottom: 15px;
       padding: 6px 10px;
     }
   }
@@ -20,7 +21,7 @@
   }
 
   // file explorer section
-  .explorer {
+  .explorer-section {
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;

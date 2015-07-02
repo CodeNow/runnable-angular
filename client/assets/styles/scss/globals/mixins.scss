@@ -23,52 +23,52 @@
 // standard mixin, overriden when intercom is open
 @mixin media($point) {
   @if $point == xxs {
-    @media (max-width: $xxs) { @content; }
+    @media (max-width: $screen-xxs) { @content; }
 
     .intercom-messenger-active & {
-      @media (max-width: $xxs + $intercom-width) { @content; }
+      @media (max-width: $screen-xxs + $intercom-width) { @content; }
     }
   }
   @else if $point == xs {
-    @media (max-width: $xs) { @content; }
+    @media (max-width: $screen-xs) { @content; }
 
     .intercom-messenger-active & {
-      @media (max-width: $xs + $intercom-width) { @content; }
+      @media (max-width: $screen-xs + $intercom-width) { @content; }
     }
   }
   @else if $point == sm {
-    @media (max-width: $sm) { @content; }
+    @media (max-width: $screen-sm) { @content; }
 
     .intercom-messenger-active & {
-      @media (max-width: $sm + $intercom-width) { @content; }
+      @media (max-width: $screen-sm + $intercom-width) { @content; }
     }
   }
   @else if $point == md {
-    @media (max-width: $md) { @content; }
+    @media (max-width: $screen-md) { @content; }
 
     .intercom-messenger-active & {
-      @media (max-width: $md + $intercom-width) { @content; }
+      @media (max-width: $screen-md + $intercom-width) { @content; }
     }
   }
   @else if $point == lg {
-    @media (max-width: $lg) { @content; }
+    @media (max-width: $screen-lg) { @content; }
 
     .intercom-messenger-active & {
-      @media (max-width: $lg + $intercom-width) { @content; }
+      @media (max-width: $screen-lg + $intercom-width) { @content; }
     }
   }
   @else if $point == xl {
-    @media (max-width: $xl) { @content; }
+    @media (max-width: $screen-xl) { @content; }
 
     .intercom-messenger-active & {
-      @media (max-width: $xl + $intercom-width) { @content; }
+      @media (max-width: $screen-xl + $intercom-width) { @content; }
     }
   }
   @else if $point == xxl {
-    @media (min-width: $xl) { @content; }
+    @media (min-width: $screen-xl) { @content; }
 
     .intercom-messenger-active & {
-      @media (min-width: $xl + $intercom-width) { @content; }
+      @media (min-width: $screen-xl + $intercom-width) { @content; }
     }
   }
 }

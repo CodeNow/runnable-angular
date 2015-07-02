@@ -25,4 +25,33 @@
     letter-spacing: -.25px;
     padding-right: 33px;
   }
+
+  // textareas
+  .textarea-wrapper {
+    border-radius: $input-border-radius 0 0 $input-border-radius;
+    float: left;
+    width: 50%;
+
+    @include media(xs) {
+      border-radius: $input-border-radius $input-border-radius 0 0;
+      float: none;
+      width: 100%;
+    }
+
+    + .textarea-wrapper {
+      border-radius: 0 $input-border-radius $input-border-radius 0;
+      margin-left: -2px;
+
+      @include media(xs) {
+        border-radius: 0 0 $input-border-radius $input-border-radius;
+        margin: -2px 0 0;
+      }
+    }
+  }
+
+  .textarea {
+    @include media(xs) {
+      min-height: 60px;
+    }
+  }
 }

@@ -1,40 +1,13 @@
-.linked-servers {
+.dns-mappings-section {
 
-  // temporary padding fix for first item
-  > .dns-parent {
-    margin-top: -9px;
-
-    &:last-child {
-      margin-bottom: 9px;
-    }
-
-    + .dns-parent {
-      margin-top: 0;
-    }
-  }
-
-  .well {
-    height: 33px;
+  .dns-wrapper {
     margin-bottom: 6px;
-    text-align: left;
-    width: 100%;
-
-    &.empty-state {
-      height: auto;
-      line-height: 17px;
-      margin-bottom: 18px;
-      padding: 6px 10px;
-    }
-
-    .icons-status {
-      margin: 9px 6px 0;
-    }
+    position: relative;
+    top: -9px;
   }
 
-  .well-label {
+  .small {
     color: $gray;
-    font-size: 13px;
-    text-transform: lowercase;
 
     .strong {
       color: $gray-dark;
@@ -43,8 +16,15 @@
 
   // modifying fancy-select elements for container selection
   .btn {
-    border-width: 2px;
+    background-color: $gray-lighterest; // override default fancy-select color
+    color: $gray;
     font-weight: 400;
-    line-height: 24px;
+    padding: 0 24px 0 0;
+    text-align: left;
+    width: 100%;
+  }
+
+  .icons-status {
+    margin: 0 6px 0 9px;
   }
 }
