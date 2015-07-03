@@ -77,7 +77,7 @@ label.label.clearfix
         .cache-border
         //- this content is just for demonstration.
         label.radio-wrapper(
-          ng-repeat = "command in state.commands"
+          ng-repeat-start = "command in state.commands"
         )
           input(
             type = "radio"
@@ -85,7 +85,9 @@ label.label.clearfix
             ng-checked = "command.cache"
             name = "cache-radio"
           )
-        .cache-row
+        .cache-row(
+          ng-repeat-end
+        )
     small.small Add any commands needed to support your application. They will be run before the Container CMD.
 
 label.label.clearfix(
