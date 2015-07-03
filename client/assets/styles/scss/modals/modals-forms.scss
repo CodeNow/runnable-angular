@@ -49,6 +49,7 @@
 
   .terminal {
     flex: 1 1 auto;
+    padding: 0; // termjs stuff
   }
 
   // not flexible (height)
