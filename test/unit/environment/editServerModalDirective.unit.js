@@ -91,6 +91,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
             ports: '80 900 90',
             startCommand: 'hello',
             containerFiles: [],
+            commands: [],
             selectedStack: {
               hello: 'cheese'
             }

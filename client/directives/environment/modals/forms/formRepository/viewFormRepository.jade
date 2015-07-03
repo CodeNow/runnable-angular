@@ -38,6 +38,7 @@ label.label.clearfix
   ) Cache
     span.span &#32;a command
     input.toggle-input(
+      ng-click = "actions.toggleCache()"
       ng-disabled = "startCommandCanDisable && !state.selectedStack"
       ng-model = "data.cacheCommand"
       type = "checkbox"
@@ -48,6 +49,7 @@ label.label.clearfix
     //- deprecated textarea, remove with $root.featureFlags.buildCommandCache
     //- we only have suggestions for build commands on the main repository
     textarea.textarea.monospace(
+      command-editor
       ng-disabled = "startCommandCanDisable && !state.selectedStack"
       ng-if = "!$root.featureFlags.buildCommandCache"
       ng-model = "state.commands"
@@ -63,6 +65,7 @@ label.label.clearfix
     ) 
       //- this textarea needs to expand vertically to contain its content, like the contentEditable div below (I know, sorry).
       textarea.textarea.monospace(
+        command-editor
         ng-disabled = "startCommandCanDisable && !state.selectedStack"
         ng-model = "state.commands"
         placeholder = "npm install&#10;grunt"
@@ -74,13 +77,13 @@ label.label.clearfix
         .cache-border
         //- this content is just for demonstration.
         label.radio-wrapper(
-          ng-repeat = "command in commandsArr track by $index"
+          ng-repeat = "command in state.commands"
         )
           input(
             type = "radio"
             ng-click = "actions.updateCache(command)"
+            ng-checked = "command.cache"
             name = "cache-radio"
-            ng-show = "!!command"
           )
         .cache-row
     small.small Add any commands needed to support your application. They will be run before the Container CMD.

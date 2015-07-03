@@ -287,7 +287,7 @@ function editServerModal(
         $scope.state = {
           advanced: keypather.get(instance, 'contextVersion.attrs.advanced') || false,
           startCommand: instance.startCommand,
-          commands: instance.commands,
+          commands: instance.commands.map(function (cmd) { return cmd.clone(); }),
           selectedStack: instance.selectedStack,
           opts: {},
           containerFiles: [],
@@ -417,10 +417,7 @@ function editServerModal(
         }
         return $scope.state.containerFiles.some(function (stateFile, index) {
           var serverFile = $scope.instance.containerFiles[index];
-          return stateFile.commands !== serverFile.commands ||
-                stateFile.path !== serverFile.path ||
-                stateFile.name !== serverFile.name ||
-                stateFile.type !== serverFile.type;
+          return serverFile.toString() !== stateFile.toString();
         });
       }
 

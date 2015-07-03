@@ -21,7 +21,7 @@ require('app')
       },
       link: function ($scope, element, attrs) {
         $scope.data = {
-          cacheCommand: false
+          cacheCommand: $scope.state.commands.some(function (cmd) { return cmd.cache; })
         };
         $scope.branchFetching = true;
         watchOncePromise($scope, 'state.acv', true)
@@ -50,21 +50,30 @@ require('app')
             $scope.branchFetching = false;
           });
 
+        var lastActiveCacheIdx;
         $scope.actions = {
           updateCache: function (cmd) {
             // There's probably a better way to do this
             // Cache needs to be unique
-            $scope.state.commands = $scope.state.commands.map(function (command) {
+            $scope.state.commands.forEach(function (command) {
               command.cache = false;
-              return command;
             });
-            cmd.cache = true;
-            // if (cmd.indexOf('#runnable-cache') > -1) {
-            //   $scope.commandsArr[idx] = $scope.commandsArr[idx].replace('#runnable-cache', '').trim();
-            // } else {
-            //   $scope.commandsArr[idx] += ' #runnable-cache';
-            // }
-            // $scope.state.commands = $scope.commandsArr.join('\n');
+            if (cmd) {
+              cmd.cache = true;
+            }
+          },
+          toggleCache: function () {
+            if (!$scope.data.cacheCommand) {
+              $scope.state.commands.some(function (command, idx) {
+                if (command.cache) {
+                  lastActiveCacheIdx = idx;
+                  return true;
+                }
+              });
+              $scope.actions.updateCache();
+            } else {
+              $scope.state.commands[lastActiveCacheIdx].cache = true;
+            }
           }
         };
 

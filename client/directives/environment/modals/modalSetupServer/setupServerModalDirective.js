@@ -81,7 +81,7 @@ function setupServerModal(
 
             var repo = new MainRepo();
 
-            var commands = $scope.state.commands || '';
+            var commands = $scope.state.commands || [];
 
             repo.name = $scope.state.repo.attrs.name;
             repo.path = $scope.state.dst.replace('/', '');
@@ -121,7 +121,7 @@ function setupServerModal(
               return parseDockerfileForDefaults(dockerfile, ['run', 'dst']);
             })
             .then(function (defaults) {
-              $scope.state.commands = defaults.run.join('\n');
+              $scope.state.commands = defaults.run.map(function (run) { return new cardInfoTypes.Command('RUN ', run); });
               $scope.state.dst = defaults.dst.length ? defaults.dst[0] : $scope.state.opts.name;
             });
         }
