@@ -37,10 +37,15 @@
   )
 
   //- logs
-  .term-js.term-log(
-    log-term
-    ng-controller = "BuildLogController"
+  //- .term-js.term-log(
+  //-   log-term
+  //-   ng-controller = "BuildLogController"
+  //-   ng-if = "item.state.type === 'BuildStream'"
+  //- )
+
+  .pre.log(
     ng-if = "item.state.type === 'BuildStream'"
+    ng-include = "'viewBuildLogs'"
   )
 
   .term-js.term-log(
