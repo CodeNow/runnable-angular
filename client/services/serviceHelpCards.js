@@ -60,6 +60,7 @@ function helpCardsFactory(
       }
     ],
     'triggered': [
+      // when we detect that one existing container depends on another existing contianer
       {
         id: 'missingAssociation',
         label: '<b>You may need to update {{instance.getDisplayName()}}</b> with <b>{{association}}’s</b> elastic hostname.</b>',
@@ -73,6 +74,7 @@ function helpCardsFactory(
           'findAndReplace': 'Add a string rule to use <b>{{association}}’s</b> elastic hostname in your code.'
         }
       },
+      // when we detect that one existing container depends on service for which there is no existing container
       {
         id: 'missingDependency',
         label: '<b>{{instance.getDisplayName()}}</b> may need a <b>{{dependency}}</b> container.',
@@ -84,6 +86,7 @@ function helpCardsFactory(
           'newContainer': 'Click <b>Non-repository</b> to add a <b>{{dependency}}</b> container.'
         }
       },
+      // when the user adds a non-repo container, but we can't detect which containers depend on it
       {
         id: 'missingMapping',
         label: 'You may need to update some repository containers with a mapping to <b>{{mapping}}’s</b> elastic hostname.',
