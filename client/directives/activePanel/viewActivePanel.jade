@@ -43,7 +43,11 @@
   //-   ng-if = "item.state.type === 'BuildStream'"
   //- )
 
-  .log(
+  .logs(
+    ng-class = "{\
+      'logs-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+      'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+    }"
     ng-if = "item.state.type === 'BuildStream'"
     ng-include = "'viewBuildLogs'"
   )

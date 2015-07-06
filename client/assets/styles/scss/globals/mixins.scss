@@ -101,3 +101,39 @@
     }
   }
 }
+
+// log colors
+@mixin logs-runnable-color($theme) {
+
+  // 9 colors in total
+  @for $i from 1 to 9 {
+
+    // dark theme
+    @if $theme == dark {
+
+      // color
+      .code-#{nth($logs-runnable,$i)} {
+        color: nth($logs-runnable-dark,$i);
+      }
+
+      // background
+      .code-bg-#{nth($logs-runnable,$i)} {
+        background: nth($logs-runnable-dark,$i);
+      }
+    }
+
+    // light theme
+    @if $theme == light {
+
+      // color
+      .code-#{nth($logs-runnable,$i)} {
+        color: nth($logs-runnable-dark,$i);
+      }
+
+      // background
+      .code-bg-#{nth($logs-runnable,$i)} {
+        background: nth($logs-runnable-dark,$i);
+      }
+    }
+  }
+}

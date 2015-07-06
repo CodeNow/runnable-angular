@@ -1,6 +1,7 @@
 // ******
 // colors
 // ******
+
 $black: #000;
 $white: #fff;
 
@@ -26,7 +27,7 @@ $purple-lightest: #eee1f7;
 $purple-dark: darken($purple,10%);
 $purple-darker: #261731; // darken($purple,20%);
 
-// ace theme
+// purple ace theme
 $ace-bg: #311d40;
 $ace-border: $purple-darker;
 
@@ -47,15 +48,52 @@ $blue-light: #8bd5f9; // previously #86cff6;
 $blue-lighter: #f5fcff; // previously #f1faff;
 $blue-dark: #1e7daf;
 
+// **********
+// log themes
+// **********
+
+// list all colors (9)
+$logs-runnable: black red green yellow blue magenta cyan light-gray white;
+
+// dark colors
+$logs-runnable-dark-black: $black;
+$logs-runnable-dark-red: #df4f3e;
+$logs-runnable-dark-green: #8ae234;
+$logs-runnable-dark-yellow: #db970d;
+$logs-runnable-dark-blue: #729fcf;
+$logs-runnable-dark-magenta: #ad7fa8;
+$logs-runnable-dark-cyan: #34e2e2;
+$logs-runnable-dark-light-gray: #bbb;
+$logs-runnable-dark-white: $white;
+
+// dark list
+$logs-runnable-dark: $logs-runnable-dark-black $logs-runnable-dark-red $logs-runnable-dark-green $logs-runnable-dark-yellow $logs-runnable-dark-blue $logs-runnable-dark-magenta $logs-runnable-dark-cyan $logs-runnable-dark-light-gray $logs-runnable-dark-white;
+
+// light colors
+$logs-runnable-light-black: $black;
+$logs-runnable-light-red: #c00;
+$logs-runnable-light-green: #4e9a06;
+$logs-runnable-light-yellow: #c4a000;
+$logs-runnable-light-blue: #3465a4;
+$logs-runnable-light-magenta: #75507b;
+$logs-runnable-light-cyan: #06989a;
+$logs-runnable-light-light-gray: #bbb;
+$logs-runnable-light-white: $white;
+
+// light list
+$logs-runnable-light: $logs-runnable-light-black $logs-runnable-light-red $logs-runnable-light-green $logs-runnable-light-yellow $logs-runnable-light-blue $logs-runnable-light-magenta $logs-runnable-light-cyan $logs-runnable-light-light-gray $logs-runnable-light-white;
+
 // ********
 // spinners
 // ********
+
 $spinner-offset: 187;
 $spinner-duration: 1.4s;
 
 // *******
 // z-index
 // *******
+
 // overrides
 $z-hide: -10000;
 $z-show: 10000;
@@ -105,6 +143,7 @@ $z-spinner: 8000;
 // **********
 // dimensions
 // **********
+
 // intercom
 $intercom-width: 370px;
 

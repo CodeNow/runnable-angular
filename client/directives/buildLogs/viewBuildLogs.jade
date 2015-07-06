@@ -1,6 +1,6 @@
-.pre
+.pre.
   Cloning CodeNow/api into ./api
-  <b class="code-yellow">Building server...</b>
+  <span class="code-yellow">Building server...</span>
   Step 0 : FROM registry.runnable.code/runnable/node_base:latest
    ---> 1420be8d4ebf
   Step 1 : EXPOSE 80
@@ -9,18 +9,35 @@
   Removing intermediate container d4b395d19d23
   Step 2 : RUN npm install -g npm@2.1.18 &&     n 0.10.38
    ---> Running in 2f1d895adb79
-  <b class="code-red">npm http GET https://registry.npmjs.org/npm</b>
-  <b class="code-red">npm http 200 https://registry.npmjs.org/npm</b>
-  <b class="code-red">npm http GET https://registry.npmjs.org/npm/-/npm-2.1.18.tgz</b>
-  <b class="code-red">npm http 200 https://registry.npmjs.org/npm/-/npm-2.1.18.tgz</b>
+  <span class="code-red">npm http GET https://registry.npmjs.org/npm</span>
+  <span class="code-red">npm http 200 https://registry.npmjs.org/npm</span>
+  <span class="code-red">npm http GET https://registry.npmjs.org/npm/-/npm-2.1.18.tgz</span>
+  <span class="code-red">npm http 200 https://registry.npmjs.org/npm/-/npm-2.1.18.tgz</span>
   /usr/local/bin/npm -> /usr/local/lib/node_modules/npm/bin/npm-cli.js
   npm@2.1.18 /usr/local/lib/node_modules/npm
 
-       <b class="code-blue">install</b> : <b class="code-gray">node-v0.10.38</b>
+       <span class="code-blue">install</span> : <span class="code-gray">node-v0.10.38</span>
 
-    <b class="code-red">Error: invalid version 0.10.38</b>
+    <span class="code-red">Error: invalid version 0.10.38</span>
 
   Removing intermediate container 2f1d895adb79
   [Runnable (image-builder)] Hit an unexpected error: unknown
   The command [/bin/sh -c until grep -q ethwe /proc/net/dev; do sleep 1; done;npm
   install -g npm@2.1.18 &&     n 0.10.38] returned a non-zero code: 1
+  <span class="code-black">BLACK</span>
+  <span class="code-white">WHITE</span>
+  <span class="code-red">RED</span>
+  <span class="code-green">GREEN</span>
+  <span class="code-yellow">YELLOW</span>
+  <span class="code-blue">BLUE</span>
+  <span class="code-magenta">MAGENTA</span>
+  <span class="code-cyan">CYAN</span>
+  <span class="code-light-gray">LIGHT GRAY</span>
+  <span class="code-bold">BOLD</span>
+  <span class="code-underline">UNDERLINE</span>
+  <span class="code-dim">DIM</span>
+  <span class="code-red code-underline code-blink code-bold">RED & UNDERLINE & BLINK & BOLD</span>
+  <span class="code-red code-underline code-blink code-bold code-dim">RED & UNDERLINE & BLINK & BOLD & DIM</span>
+  <span class="code-bg-red">BACKGROUND RED</span>
+  <span class="code-hidden">HIDDEN</span>
+  <span class="code-blink">BLINK</span>

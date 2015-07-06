@@ -1,0 +1,58 @@
+// reference: http://misc.flogisoft.com/bash/tip_colors_and_formatting
+// Not currently supported:
+// - Reverse/inverted
+// - Light colors (and background light colors)
+
+.logs {
+  overflow: auto;
+  padding: 9px;
+}
+
+.logs-runnable-dark,
+.logs-runnable-light {
+
+  .code-bold {
+    font-weight: 600;
+  }
+
+  .code-dim {
+    opacity: .5;
+  }
+
+  .code-underline {
+    text-decoration: underline;
+  }
+
+  .code-blink {
+    animation: logs-blink 1s infinite;
+
+    &.code-dim {
+      animation-name: logs-dim-blink;
+    }
+  }
+
+  .code-hidden {
+    visibility: hidden;
+  }
+
+  // background colors
+  [class^='code-bg'] {
+    color: $white;
+  }
+}
+
+// dark theme
+.logs-runnable-dark {
+  background: $ace-bg;
+  color: $white;
+
+  @include logs-runnable-color(dark);
+}
+
+// light theme
+.logs-runnable-light {
+  background-color: $gray-lighterest;
+  color: $gray-darker;
+
+  @include logs-runnable-color(light);
+}
