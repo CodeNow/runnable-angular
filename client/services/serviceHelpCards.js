@@ -39,8 +39,7 @@ function helpCardsFactory(
         }
       },
       {
-        // is there a reason why we say "Connect to an external service" (above) and "Configure an OAuth service"?
-        'label': 'Configure an OAuth service',
+        'label': 'Connect to an OAuth service',
         'targets': [
           'environmentVariables',
           'findAndReplace'
