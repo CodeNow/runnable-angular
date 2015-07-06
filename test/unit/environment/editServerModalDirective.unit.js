@@ -372,16 +372,12 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         ctx.loadingPromiseFinishedValue = 2;
 
         keypather.set($elScope, 'portTagOptions.tags.tags', {0: '123'});
-        $elScope.state.opts.env = ['asdasd', 'sadfsdfasdfasdf'];
         $elScope.getUpdatePromise();
         $scope.$digest();
         sinon.assert.called(closePopoverSpy);
         sinon.assert.called(ctx.loadingPromiseMock.finished);
         expect($elScope.building).to.be.true;
         expect($elScope.state.ports).to.be.ok;
-        $scope.$digest();
-        $scope.$digest();
-        $scope.$digest();
         sinon.assert.calledOnce(ctx.newContextVersion.fetchFile);
         ctx.fetchDockerfileFromSourceMock.triggerPromise({attrs: 'dockerfile'});
         $scope.$digest();
@@ -389,15 +385,42 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         ctx.populateDockerfile.triggerPromise({attrs: 'dockerfile'});
         $scope.$digest();
         sinon.assert.calledOnce(ctx.populateDockerfile.getFetchSpy());
-        $scope.$digest();
         sinon.assert.calledOnce(ctx.build.build);
-        $scope.$digest();
         expect($elScope.state.opts.build).to.be.ok;
-        $scope.$digest();
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
-        $scope.$digest();
         sinon.assert.calledOnce($scope.defaultActions.close);
+        sinon.assert.calledOnce(ctx.instance.update);
+        sinon.assert.notCalled(ctx.instance.redeploy);
+      });
+      it('should create dockerfile when packages change', function () {
+        var closePopoverSpy = sinon.spy();
+        $rootScope.$on('close-popovers', closePopoverSpy);
+        $rootScope.$on('alert', function (event, opts) {
+          expect(opts).to.be.deep.equal({
+            type: 'success',
+            text: 'Container updated successfully.'
+          });
+        });
+        ctx.loadingPromiseFinishedValue = 2;
 
+        keypather.set($elScope, 'state.packages.packageList', 'asdf');
+        $elScope.getUpdatePromise();
+        $scope.$digest();
+        sinon.assert.called(closePopoverSpy);
+        sinon.assert.called(ctx.loadingPromiseMock.finished);
+        expect($elScope.building).to.be.true;
+        expect($elScope.state.ports).to.be.ok;
+        sinon.assert.calledOnce(ctx.newContextVersion.fetchFile);
+        ctx.fetchDockerfileFromSourceMock.triggerPromise({attrs: 'dockerfile'});
+        $scope.$digest();
+        sinon.assert.calledOnce(ctx.fetchDockerfileFromSourceMock.getFetchSpy());
+        ctx.populateDockerfile.triggerPromise({attrs: 'dockerfile'});
+        $scope.$digest();
+        sinon.assert.calledOnce(ctx.populateDockerfile.getFetchSpy());
+        sinon.assert.calledOnce(ctx.build.build);
+        expect($elScope.state.opts.build).to.be.ok;
+        sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
+        sinon.assert.calledOnce($scope.defaultActions.close);
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.notCalled(ctx.instance.redeploy);
       });

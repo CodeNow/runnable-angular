@@ -34,7 +34,6 @@
 @import "components/spinner";
 @import "components/tags";
 @import "components/tooltips";
-@import "components/toggles";
 @import "components/wells";
 
 // external componenets
@@ -48,6 +47,7 @@
 @import "forms/forms-inputs";
 @import "forms/forms-table";
 @import "forms/forms-table-actions";
+@import "forms/forms-textarea";
 @import "forms/forms-toggles";
 @import "forms/forms-validation";
 
@@ -64,7 +64,6 @@
 
 // views
 @import "views/views";
-@import "views/views-explorer";
 @import "views/views-file-tree";
 @import "views/views-panel";
 @import "views/views-prompt";
