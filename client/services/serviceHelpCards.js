@@ -60,6 +60,18 @@ function helpCardsFactory(
       }
     ],
     'triggered': [
+      // when we detect that one existing container depends on service for which there is no existing container
+      {
+        id: 'missingDependency',
+        label: '<b>{{instance.getDisplayName()}}</b> may need a <b>{{dependency}}</b> container.',
+        targets: [
+          'newContainer'
+        ],
+        helpTop: 'Click the <b>New Container</b> button to add a <b>{{dependency}}</b> container.',
+        helpPopover: {
+          'newContainer': 'Click <b>Non-repository</b> to add a <b>{{dependency}}</b> container.'
+        }
+      },
       // when we detect that one existing container depends on another existing contianer
       {
         id: 'missingAssociation',
@@ -72,18 +84,6 @@ function helpCardsFactory(
         helpPopover: {
           'environmentVariables': 'Add or update an environment variable with <b>{{association}}’s</b> elastic hostname.',
           'findAndReplace': 'Add a string rule to use <b>{{association}}’s</b> elastic hostname in your code.'
-        }
-      },
-      // when we detect that one existing container depends on service for which there is no existing container
-      {
-        id: 'missingDependency',
-        label: '<b>{{instance.getDisplayName()}}</b> may need a <b>{{dependency}}</b> container.',
-        targets: [
-          'newContainer'
-        ],
-        helpTop: 'Click the <b>New Container</b> button to add a <b>{{dependency}}</b> container.',
-        helpPopover: {
-          'newContainer': 'Click <b>Non-repository</b> to add a <b>{{dependency}}</b> container.'
         }
       },
       // when the user adds a non-repo container, but we can't detect which containers depend on it
