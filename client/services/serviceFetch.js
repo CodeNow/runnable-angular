@@ -97,7 +97,7 @@ function fetchInstances(
           }
 
           if (!instance) {
-            throw new Error('Instance not found');
+            throw new Error('Container not found');
           }
           instance.githubUsername = opts.githubUsername;
           return instance;
