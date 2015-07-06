@@ -89,7 +89,7 @@ function helpCardsFactory(
       // when the user adds a non-repo container, but we can't detect which containers depend on it
       {
         id: 'missingMapping',
-        label: 'You may need to update some repository containers with a mapping to <b>{{mapping}}’s</b> elastic hostname.',
+        label: 'You may need to update some repository containers with <b>{{mapping}}’s</b> elastic hostname.',
         targets: [
           'environmentVariables',
           'findAndReplace'
