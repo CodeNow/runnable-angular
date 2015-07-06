@@ -32,7 +32,7 @@ function helpCardsFactory(
           'environmentVariables',
           'findAndReplace'
         ],
-        helpTop: 'Use <b>Environment Variables</b> or <b>Find and Replace</b> to configure a service.',
+        helpTop: 'Use <b>Environment Variables</b> or <b>Find and Replace</b> to connect to a service.',
         helpPopover: {
           'environmentVariables': 'Add or update an environment variable to reference your external service.',
           'findAndReplace': 'Create a new string rule to connect with your external service.'
