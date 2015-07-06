@@ -83,18 +83,13 @@ app.route('/error/:page').get(function (req, res, next) {
 
 
 var layoutPath = path.join(__dirname + '/views/layout.jade');
-var compiledLayoutDebug = jade.renderFile(layoutPath, assign({debugging: true}, locals));
-var compiledLayout = jade.renderFile(layoutPath, assign({debugging: false}, locals));
+var compiledLayout = jade.renderFile(layoutPath, locals);
 
 // load same base view for all valid client-routes
 require('client/config/routes').forEach(function (item, index, arr) {
   if (!item.url) { return; }
   app.route(item.url).get(function (req, res, next) {
-    if ( req.query.debug !== undefined ) {
-      res.send(compiledLayoutDebug);
-    } else {
-      res.send(compiledLayout);
-    }
+    res.send(compiledLayout);
   });
 });
 
