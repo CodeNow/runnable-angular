@@ -4,28 +4,33 @@ require('app')
   .factory('reportError', reportError);
 
 function reportError(
-  keypather,
-  $rootScope
+  keypather
 ) {
-  return function (err, options) {
+  var errorReporter =  function (err, options) {
     if (window.NREUM) {
       window.NREUM.noticeError(err, options);
     }
     if (window.Rollbar) {
 
-      var user = {};
-      user.email = keypather.get($rootScope, 'dataApp.data.user.attrs.email');
-      user.username = keypather.get($rootScope, 'dataApp.data.user.oauthName()');
-      user.id = keypather.get($rootScope, 'dataApp.data.user.oauthId()');
-
-      window.Rollbar.configure({
-        payload: {
-          person: user
-        }
-      });
 
 
       window.Rollbar.error(err, options);
     }
   };
+  errorReporter.setUser = function (user) {
+    if (window.Rollbar) {
+      var setUser = {};
+      setUser.email = keypather.get(user, 'attrs.email');
+      setUser.username = keypather.get(user, 'oauthName()');
+      setUser.id = keypather.get(user, 'oauthId()');
+
+      window.Rollbar.configure({
+        payload: {
+          person: setUser
+        }
+      });
+    }
+  };
+
+  return errorReporter;
 }
