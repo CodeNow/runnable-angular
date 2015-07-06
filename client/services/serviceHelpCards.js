@@ -16,14 +16,14 @@ function helpCardsFactory(
 ) {
 
 //POSSIBLE TARGETS:
-//newContainer
-//containerFiles
-//buildCommand
-//stackType
+//repository
 //exposedPorts
-//repositories
-//findAndReplace
 //environmentVariables
+//commands
+//containerFiles
+//findAndReplace
+//newContainer
+//buildCommand
   var helpCards = {
     'general': [
       {
@@ -53,7 +53,7 @@ function helpCardsFactory(
       {
         label: 'Add a library',
         targets: [
-          'repositories',
+          'commands',
         ],
         helpTop: 'Use <b>Commands and Packages</b> to add a library.',
       },
