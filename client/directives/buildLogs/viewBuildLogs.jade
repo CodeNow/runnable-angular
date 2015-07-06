@@ -1,37 +1,26 @@
-//- <pre>
-//-   Cloning CodeNow/api into ./api
-//-   Step 1: <code class="pre-yellow">Building server...</code>
-//- </pre>
+.pre
+  Cloning CodeNow/api into ./api
+  <b class="code-yellow">Building server...</b>
+  Step 0 : FROM registry.runnable.code/runnable/node_base:latest
+   ---> 1420be8d4ebf
+  Step 1 : EXPOSE 80
+   ---> Running in d4b395d19d23
+   ---> 15e1e408c78f
+  Removing intermediate container d4b395d19d23
+  Step 2 : RUN npm install -g npm@2.1.18 &&     n 0.10.38
+   ---> Running in 2f1d895adb79
+  <b class="code-red">npm http GET https://registry.npmjs.org/npm</b>
+  <b class="code-red">npm http 200 https://registry.npmjs.org/npm</b>
+  <b class="code-red">npm http GET https://registry.npmjs.org/npm/-/npm-2.1.18.tgz</b>
+  <b class="code-red">npm http 200 https://registry.npmjs.org/npm/-/npm-2.1.18.tgz</b>
+  /usr/local/bin/npm -> /usr/local/lib/node_modules/npm/bin/npm-cli.js
+  npm@2.1.18 /usr/local/lib/node_modules/npm
 
-pre
-  | Cloning
-  | Step 1 #{code.pre-yellow Building server...}
+       <b class="code-blue">install</b> : <b class="code-gray">node-v0.10.38</b>
 
+    <b class="code-red">Error: invalid version 0.10.38</b>
 
-
-//- div
-//-   |Step 0 : FROM registry.runnable.com/runnable/node_base:latest
-//-   | ---> 1420be8d4ebf
-//- div
-//-   |Step 1 : EXPOSE 80
-//-   | ---> Running in d4b395d19d23
-//-   | ---> 15e1e408c78f
-//-   |Removing intermediate container d4b395d19d23
-//- div
-//-   | Step 2 : RUN npm install -g npm@2.1.18 &&     n 0.10.38
-//-   | ---> Running in 2f1d895adb79
-//-   span.pre-red npm http GET https://registry.npmjs.org/npm
-//-   span.pre-red npm http 200 https://registry.npmjs.org/npm
-//-   span.pre-red npm http GET https://registry.npmjs.org/npm/-/npm-2.1.18.tgz
-//-   span.pre-red npm http 200 https://registry.npmjs.org/npm/-/npm-2.1.18.tgz
-//-   span.pre-red /usr/local/bin/npm -> /usr/local/lib/node_modules/npm/bin/npm-cli.js
-//-   | npm@2.1.18 /usr/local/lib/node_modules/npm
-
-//-   |     install : node-v0.10.38
-
-//-   |  Error: invalid version 0.10.38
-
-//-   | Removing intermediate container 2f1d895adb79
-//-   | [Runnable (image-builder)] Hit an unexpected error: unknown
-//-   | The command [/bin/sh -c until grep -q ethwe /proc/net/dev; do sleep 1; done;npm install -g npm@2.1.1
-//-   | 8 &&     n 0.10.38] returned a non-zero code: 1
+  Removing intermediate container 2f1d895adb79
+  [Runnable (image-builder)] Hit an unexpected error: unknown
+  The command [/bin/sh -c until grep -q ethwe /proc/net/dev; do sleep 1; done;npm
+  install -g npm@2.1.18 &&     n 0.10.38] returned a non-zero code: 1
