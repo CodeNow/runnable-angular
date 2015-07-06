@@ -59,7 +59,7 @@ function ControllerApp(
     imAfraidOfTheDark: false, // toggles theme
     multilineFnR: false,
     navListFilter: false,
-    packagesField: false,
+    packagesField: true,
     saveToolbar: false,
     themeToggle: false // toggles the button that toggles theme
   };
