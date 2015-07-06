@@ -80,7 +80,7 @@ function helpCardsFactory(
         'targets': [
           'newContainer'
         ],
-        'helpTop': 'Click on the <b>New Container</b> button to add a <b>{{dependency}}</b> container.',
+        'helpTop': 'Click the <b>New Container</b> button to add a <b>{{dependency}}</b> container.',
         'helpPopover': {
           'newContainer': 'Click <b>Non-repository</b> to add a <b>{{dependency}}</b> container.'
         }
@@ -92,7 +92,6 @@ function helpCardsFactory(
           'environmentVariables',
           'findAndReplace'
         ],
-        helpTop: 'Connect one or more of your repository containers to <b>{{mapping}}’s</b> elastic hostname by using <b>Environment Variables</b> or <b>Find and Replace</b>.',
         helpTop: 'Use <b>Environment Variables</b> or <b>Find and Replace</b> to connect one or more of your repository containers to <b>{{mapping}}</b>.',
         helpPopover: {
           environmentVariables: 'Add or update an environment variable with <b>{{mapping}}’s</b> elastic hostname.',
