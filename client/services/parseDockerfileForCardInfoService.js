@@ -141,9 +141,16 @@ function parseDockerfileForCardInfoFromInstance(
           return $q.reject(new Error('Dockerfile empty or not found'));
         }
 
-        var containerFiles = parseDockerfile(dockerfileBody).filter(function (section) {
+        var sections = parseDockerfile(dockerfileBody);
+        var containerFiles = sections.filter(function (section) {
           return ['File', 'Repository', 'Main Repository'].indexOf(section.type) !== -1;
         });
+
+        var packages = sections.find(function (section) {
+          return section.type === 'Packages';
+        });
+
+        packages = packages || new cardInfoTypes.Packages();
 
         var acvs = keypather.get(instance, 'build.contextVersions.models[0].appCodeVersions');
         var mainCommands = '';
@@ -171,7 +178,8 @@ function parseDockerfileForCardInfoFromInstance(
           startCommand: parseDockerfileForStartCommand(dockerfileBody),
           commands: mainCommands,
           containerFiles: containerFiles,
-          selectedStack: parseDockerfileForStack(dockerfile, data.stacks)
+          selectedStack: parseDockerfileForStack(dockerfile, data.stacks),
+          packages: packages
         };
       });
   };

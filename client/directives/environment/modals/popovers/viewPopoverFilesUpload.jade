@@ -9,6 +9,9 @@
     label.label.clearfix
       .input-col
         .btn.btn-block.white.text-overflow.btn-upload(
+          ng-class = "{\
+            'no-info': data.fromServer && !data.progress\
+          }"
           ng-click = "state.view3 = true"
         ) {{ data.name }}
           small.small {{ data.progress ? data.progress + '% uploaded' : 'Select a file' }}

@@ -92,6 +92,7 @@ function editServerModal(
               maxInputLength: 5,
               onlyDigits: true
             },
+            minTagWidth: 120,
             tags: new JSTagsCollection(($scope.instance.ports || '').split(' '))
           };
         });
@@ -210,15 +211,16 @@ function editServerModal(
               .progress(function (evt) {
                 containerFile.progress = parseInt(100.0 * evt.loaded / evt.total, 10);
               })
-              .then(function (fileResponse) {
-                containerFile.name = fileResponse.data.name;
-              })
-              .catch(errs.handler)
+              .error(errs.handler)
+              .success(function (fileResponse) {
+                containerFile.uploadFinished = true;
+                containerFile.name = fileResponse.name;
+                containerFile.fileModel = $scope.state.contextVersion.newFile(fileResponse);
+              });
+            containerFile.fileUpload
               .finally(function () {
                 containerFile.saving = false;
               });
-
-            loadingPromises.add('editServerModal', containerFile.fileUpload);
           },
           save: function (containerFile) {
             if (!containerFile.type) {
@@ -227,6 +229,7 @@ function editServerModal(
               if (containerFile.file) {
                 myFile.name = containerFile.file[0].name;
               }
+              myFile.fromServer = true;
               myFile.commands = containerFile.commands;
               myFile.path = containerFile.path;
               $scope.state.containerFiles.push(myFile);
@@ -236,25 +239,39 @@ function editServerModal(
           },
           cancel: function (containerFile) {
             // Using our own cancel in order to delete file
-            $rootScope.$broadcast('close-popovers');
             if (containerFile.fileUpload) {
-              $scope.fileUpload.actions.file.deleteFile();
+              if (containerFile.uploadFinished) {
+                // If it has a name, then the file exists on the server
+                return containerFile.fileUpload
+                  .then(function () {
+                    $scope.fileUpload.actions.deleteFile(containerFile);
+                  });
+              } else {
+                containerFile.fileUpload.abort();
+              }
             }
+            // Don't close-popovers when deleting the file, since that function will call it as well
+            $rootScope.$broadcast('close-popovers');
           },
           deleteFile: function (containerFile) {
             $rootScope.$broadcast('close-popovers');
+            if (!containerFile) { return; }
 
-            var file = $scope.state.contextVersion.rootDir.contents.models.find(function (fileModel) {
+            var file = containerFile.fileModel || $scope.state.contextVersion.rootDir.contents.models.find(function (fileModel) {
               return fileModel.attrs.name === containerFile.name;
             });
             if (file) {
-              loadingPromises.add('editServerModal',
+              var containerIndex = $scope.state.containerFiles.indexOf(containerFile);
+              if (containerIndex > -1) {
+                $scope.state.containerFiles.splice(containerIndex, 1);
+              }
+
+              return loadingPromises.add('editServerModal',
                 promisify(file, 'destroy')()
                   .catch(errs.handler)
               );
             }
 
-            $scope.state.containerFiles.splice($scope.state.containerFiles.indexOf(containerFile), 1);
           }
         },
         data: {}
@@ -310,6 +327,11 @@ function editServerModal(
             $scope.data.mainRepo = $scope.instance.containerFiles.find(hasKeypaths({
               type: 'Main Repository'
             }));
+          });
+
+        watchOncePromise($scope, 'instance.packages', true)
+          .then(function (packages) {
+            $scope.state.packages = packages.clone();
           });
 
         return loadingPromises.add('editServerModal', promisify($scope.instance.contextVersion, 'deepCopy')())
@@ -424,6 +446,10 @@ function editServerModal(
         });
       }
 
+      function arePackagesDifferent() {
+        return keypather.get($scope, 'state.packages.packageList') !== keypather.get($scope, 'instance.packages.packageList');
+      }
+
       function shouldFnrCreateDockerfile() {
         var serverFnRObject = keypather.get($scope, 'instance.contextVersion.getMainAppCodeVersion().transformRules');
         var serverFnRCount = serverFnRObject ?
@@ -454,6 +480,8 @@ function editServerModal(
                 areContainerFilesDifferent() ||
                 // FnR has changed
                 shouldFnrCreateDockerfile() ||
+                // Packages have changed
+                arePackagesDifferent() ||
                 // The ports have changed
                 !angular.equals($scope.state.instance.ports, statePorts) ||
                 // We have a new start command

@@ -5,30 +5,6 @@
     ng-bind-html = "helpCards.getActiveCard().helpPopover.repositories"
   )
 
-label.label.clearfix
-  .label-col Container CMD
-
-  .input-col
-    fancy-select.monospace(
-      ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
-      ng-required = "startCommandCanDisable || ngShow()"
-      name = "repository.startCommand"
-      show-dropdown = "state.selectedStack.startCommand"
-      type = "text"
-      value = "state.startCommand"
-    )
-      li.list-item.popover-list-item.small Suggested Container CMDs
-      fancy-option(
-        ng-repeat = "startCmd in $parent.state.selectedStack.startCommand"
-        value = "startCmd"
-      ) {{$parent.startCmd}}
-
-    small.small This is the long-running process that’ll run when your container is launched (e.g. ‘apache’, ‘NPM start’). Your container will stop running if this process terminates. #{''}
-      a.link(
-        href = "//docs.docker.com/reference/builder/#cmd"
-        target = "_blank"
-      ) More about the Container CMD
-
 .label.clearfix.label-build-commands
   .label-col Build Commands
     small.small (optional)
@@ -51,7 +27,6 @@ label.label.clearfix
       ng-disabled = "startCommandCanDisable && !state.selectedStack"
       ng-if = "!$root.featureFlags.buildCommandCache"
       ng-model = "state.commands"
-      placeholder = "npm install&#10;grunt"
       spellcheck = "false"
     )
     //- end deprecated textarea
@@ -60,15 +35,14 @@ label.label.clearfix
     .build-commands-wrapper(
       ng-class = "{'cache-in': data.cacheCommand}"
       ng-if = "$root.featureFlags.buildCommandCache"
-    ) 
+    )
       //- this textarea needs to expand vertically to contain its content, like the contentEditable div below (I know, sorry).
       textarea.textarea.monospace(
         ng-disabled = "startCommandCanDisable && !state.selectedStack"
         ng-model = "state.commands"
-        placeholder = "npm install&#10;grunt"
         spellcheck = "false"
       )
-      //- this element should start out empty. then, for each line that is added to the 
+      //- this element should start out empty. then, for each line that is added to the
       //- textarea, one .radio-wrapper (with input) and one .cache-row should be added to it.
       .cache-column
         .cache-border
@@ -108,8 +82,34 @@ label.label.clearfix(
 
   .input-col
     textarea.textarea.monospace(
+      ng-disabled = "startCommandCanDisable && !state.selectedStack"
       spellcheck = "false"
+      ng-model = "state.packages.packageList"
+      placeholder = "dnsutils vim"
     )
     small.small Add any packages you would like to install via apt-get, separated with spaces (e.g. ‘curl git gcc-4.1=4.1.2’). This container is based on &#32;
-      //- this should specify the OS that the container is running, based on the stack type.
-      strong.strong Ubuntu 13.04.
+      strong.strong Ubuntu
+
+label.label.clearfix
+  .label-col Container CMD
+
+  .input-col
+    fancy-select.monospace(
+      ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
+      ng-required = "startCommandCanDisable || ngShow()"
+      name = "repository.startCommand"
+      show-dropdown = "state.selectedStack.startCommand"
+      type = "text"
+      value = "state.startCommand"
+    )
+      li.list-item.popover-list-item.small Suggested Container CMDs
+      fancy-option(
+        ng-repeat = "startCmd in $parent.state.selectedStack.startCommand"
+        value = "startCmd"
+      ) {{$parent.startCmd}}
+
+    small.small This is the long-running process that’ll run when your container is launched (e.g. ‘apache’, ‘NPM start’). Your container will stop running if this process terminates. #{''}
+      a.link(
+        href = "//docs.docker.com/reference/builder/#cmd"
+        target = "_blank"
+      ) More about the Container CMD
