@@ -75,7 +75,7 @@ function helpCardsFactory(
       // when we detect that one existing container depends on another existing contianer
       {
         id: 'missingAssociation',
-        label: '<b>You may need to update {{instance.getDisplayName()}}</b> with <b>{{association}}’s</b> elastic hostname.</b>',
+        label: 'You may need to update <b>{{instance.getDisplayName()}}</b> with <b>{{association}}’s</b> elastic hostname.</b>',
         targets: [
           'environmentVariables',
           'findAndReplace'
