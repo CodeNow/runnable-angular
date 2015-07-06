@@ -35,7 +35,7 @@ function helpCardsFactory(
         helpTop: 'Use <b>Environment Variables</b> or <b>Find and Replace</b> to connect to a service.',
         helpPopover: {
           'environmentVariables': 'Add or update an environment variable to reference your external service.',
-          'findAndReplace': 'Create a new string rule to connect with your external service.'
+          'findAndReplace': 'Create a new string rule to connect to your external service.'
         }
       },
       {
@@ -46,7 +46,7 @@ function helpCardsFactory(
         ],
         helpTop: 'Use <b>Environment Variables</b> or <b>Find and Replace</b> to update your OAuth credentials.',
         helpPopover: {
-          'environmentVariables': 'Add or update the environment variables that you use to specify OAuth credentials.',
+          'environmentVariables': 'Add or update the environment variables for your OAuth credentials.',
           'findAndReplace': 'Add a string rule to update your OAuth credentials in your code.'
         }
       },
