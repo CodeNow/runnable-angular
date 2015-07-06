@@ -86,7 +86,7 @@
     "primus": "^2.3.0",
     "qs": "^2.2.4",
     "regexp-quote": "0.0.0",
-    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v4.2.1",
+    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v4.2.2",
     "stream-buffers": "git://github.com/Runnable/node-stream-buffer.git#v2.2.1",
     "term.js": "git://github.com/Runnable/term.js.git#v0.1.7",
     "through": "^2.3.6",
