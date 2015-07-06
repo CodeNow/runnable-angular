@@ -33,8 +33,7 @@
   border: 2px solid $gray-lighter;
   border-radius: 3px;
   line-height: 21px;
-  max-height: 126px;
-  min-height: 81px;
+  height: 121px;
   overflow-x: hidden;
   overflow-y: auto;
   position: relative;
@@ -57,7 +56,7 @@
     border: 0;
     box-shadow: none;
     max-height: none; // override
-    min-height: 81px;
+    height: 117px;
     resize: none;
   }
 }
