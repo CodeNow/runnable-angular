@@ -20,6 +20,7 @@ require('app')
         ngShow: '&'
       },
       link: function ($scope, element, attrs) {
+        $scope.state.commands = $scope.state.commands || [];
         $scope.data = {
           cacheCommand: $scope.state.commands.some(function (cmd) { return cmd.cache; })
         };
@@ -72,10 +73,23 @@ require('app')
               });
               $scope.actions.updateCache();
             } else {
-              $scope.state.commands[lastActiveCacheIdx].cache = true;
+              if (lastActiveCacheIdx && $scope.state.commands[lastActiveCacheIdx]) {
+                $scope.state.commands[lastActiveCacheIdx].cache = true;
+              }
             }
           }
         };
+
+        // If any of the text is edited, disable cache
+        $scope.$watch(function () {
+          return $scope.state.commands.map(function (cmd) {
+            return cmd.body;
+          }).join('\n');
+        }, function (n, o) {
+          if (n !== o) {
+            $scope.data.cacheCommand = false;
+          }
+        }, true);
 
         $scope.$watch('state.branch', function (newBranch, oldBranch) {
           if (newBranch && oldBranch && newBranch.attrs.name !== oldBranch.attrs.name) {
