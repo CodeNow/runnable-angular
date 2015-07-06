@@ -27,37 +27,15 @@ function helpCardsFactory(
   var helpCards = {
     'general': [
       {
-        'label': 'Change language or framework',
-        'targets': ['stackType'],
-        // "settings"?
-        'helpTop': 'Use <b>Repository</b> settings to change the language or framework for a container.',
-        'helpPopover': {
-          // do we need this?
-          'stackType': 'Change the language, framework or versions below.'
-        }
-      },
-      {
         'label': 'Connect to an external service',
         'targets': [
           'environmentVariables',
           'findAndReplace'
         ],
-        'helpTop': 'Configure your external service by using <b>Environment Variables</b> or <b>Find and Replace</b>.',
+        'helpTop': 'Use <b>Environment Variables</b> or <b>Find and Replace</b> to configure a service.',
         'helpPopover': {
           'environmentVariables': 'Add or update an environment variable to reference your external service.',
           'findAndReplace': 'Create a new string rule to connect with your external service.'
-        }
-      },
-      {
-        'label': 'Add a library',
-        'targets': [
-          'repositories',
-          'containerFiles'
-        ],
-        'helpTop': 'Use <b>Commands and Packages</b> to add a library.',
-        'helpPopover': {
-          // is this clear?
-          'repositories': 'List the libraries your container needs in the <b>Packages</b> field.',
         }
       },
       {
@@ -90,7 +68,6 @@ function helpCardsFactory(
           'environmentVariables',
           'findAndReplace'
         ],
-        // is there a reason why we refer to FnR first here?
         'helpTop': 'Use <b>Environment Variables</b> or <b>Find and Replace</b> to update <b>{{instance.getDisplayName()}}</b> with <b>{{association}}’s</b> elastic hostname',
         'helpPopover': {
           'environmentVariables': 'Add or update an environment variable with <b>{{association}}’s</b> elastic hostname.',
