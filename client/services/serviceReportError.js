@@ -16,7 +16,7 @@ function reportError(
       var user = {};
       user.email = keypather.get($rootScope, 'dataApp.data.user.attrs.email');
       user.username = keypather.get($rootScope, 'dataApp.data.user.oauthName()');
-      user.id = keypather.get($rootScope, 'dataApp.data.user.attrs.id');
+      user.id = keypather.get($rootScope, 'dataApp.data.user.oauthId()');
 
       window.Rollbar.configure({
         payload: {
