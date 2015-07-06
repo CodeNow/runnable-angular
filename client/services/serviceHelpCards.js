@@ -51,6 +51,13 @@ function helpCardsFactory(
         }
       },
       {
+        label: 'Add a library',
+        targets: [
+          'repositories',
+        ],
+        helpTop: 'Use <b>Commands and Packages</b> to add a library.',
+      },
+      {
         label: 'Seed a database',
         targets: ['containerFiles'],
         helpTop: 'Use <b>Container Files</b> to upload seed data and import it using scripts.',
@@ -67,7 +74,7 @@ function helpCardsFactory(
         targets: [
           'newContainer'
         ],
-        helpTop: 'Click the <b>New Container</b> button to add a <b>{{dependency}}</b> container.',
+        helpTop: 'Click on the <b>New Container</b> button to add a <b>{{dependency}}</b> container.',
         helpPopover: {
           'newContainer': 'Click <b>Non-repository</b> to add a <b>{{dependency}}</b> container.'
         }
