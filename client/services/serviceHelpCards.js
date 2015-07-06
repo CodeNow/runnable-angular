@@ -27,34 +27,34 @@ function helpCardsFactory(
   var helpCards = {
     'general': [
       {
-        'label': 'Connect to an external service',
-        'targets': [
+        label: 'Connect to an external service',
+        targets: [
           'environmentVariables',
           'findAndReplace'
         ],
-        'helpTop': 'Use <b>Environment Variables</b> or <b>Find and Replace</b> to configure a service.',
-        'helpPopover': {
+        helpTop: 'Use <b>Environment Variables</b> or <b>Find and Replace</b> to configure a service.',
+        helpPopover: {
           'environmentVariables': 'Add or update an environment variable to reference your external service.',
           'findAndReplace': 'Create a new string rule to connect with your external service.'
         }
       },
       {
-        'label': 'Connect to an OAuth service',
-        'targets': [
+        label: 'Connect to an OAuth service',
+        targets: [
           'environmentVariables',
           'findAndReplace'
         ],
-        'helpTop': 'Use <b>Environment Variables</b> or <b>Find and Replace</b> to update your OAuth credentials.',
-        'helpPopover': {
+        helpTop: 'Use <b>Environment Variables</b> or <b>Find and Replace</b> to update your OAuth credentials.',
+        helpPopover: {
           'environmentVariables': 'Add or update the environment variables that you use to specify OAuth credentials.',
           'findAndReplace': 'Add a string rule to update your OAuth credentials in your code.'
         }
       },
       {
-        'label': 'Seed a database',
-        'targets': ['containerFiles'],
-        'helpTop': 'Use <b>Container Files</b> to upload seed data and import it using scripts.',
-        'helpPopover': {
+        label: 'Seed a database',
+        targets: ['containerFiles'],
+        helpTop: 'Use <b>Container Files</b> to upload seed data and import it using scripts.',
+        helpPopover: {
           'containerFiles': 'Click <b>Upload File</b> to select and upload your seed file. Then enter the scripts you need to import the data.'
         }
       }
@@ -62,25 +62,25 @@ function helpCardsFactory(
     'triggered': [
       {
         id: 'missingAssociation',
-        'label': '<b>You may need to update {{instance.getDisplayName()}}</b> with <b>{{association}}’s</b> elastic hostname.</b>',
-        'targets': [
+        label: '<b>You may need to update {{instance.getDisplayName()}}</b> with <b>{{association}}’s</b> elastic hostname.</b>',
+        targets: [
           'environmentVariables',
           'findAndReplace'
         ],
-        'helpTop': 'Use <b>Environment Variables</b> or <b>Find and Replace</b> to update <b>{{instance.getDisplayName()}}</b> with <b>{{association}}’s</b> elastic hostname',
-        'helpPopover': {
+        helpTop: 'Use <b>Environment Variables</b> or <b>Find and Replace</b> to update <b>{{instance.getDisplayName()}}</b> with <b>{{association}}’s</b> elastic hostname',
+        helpPopover: {
           'environmentVariables': 'Add or update an environment variable with <b>{{association}}’s</b> elastic hostname.',
           'findAndReplace': 'Add a string rule to use <b>{{association}}’s</b> elastic hostname in your code.'
         }
       },
       {
         id: 'missingDependency',
-        'label': '<b>{{instance.getDisplayName()}}</b> may need a <b>{{dependency}}</b> container.',
-        'targets': [
+        label: '<b>{{instance.getDisplayName()}}</b> may need a <b>{{dependency}}</b> container.',
+        targets: [
           'newContainer'
         ],
-        'helpTop': 'Click the <b>New Container</b> button to add a <b>{{dependency}}</b> container.',
-        'helpPopover': {
+        helpTop: 'Click the <b>New Container</b> button to add a <b>{{dependency}}</b> container.',
+        helpPopover: {
           'newContainer': 'Click <b>Non-repository</b> to add a <b>{{dependency}}</b> container.'
         }
       },
