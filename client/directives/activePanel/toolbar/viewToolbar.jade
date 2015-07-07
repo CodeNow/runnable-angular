@@ -65,26 +65,7 @@
     title = "Build Failed Step 2 : ADD ./[&ldquo;api-server&rdquo;, /&ldquo;api-server&rdquo;]"
   ) Build Failed
     span.span Step 2 : ADD ./["api-server", /"api-server"]
-  .btn-group.float-right
-    //- opens in new window
-    a.btn.btn-xs.purple.float-right(
-      href = "/debug"
-      target = "_blank"
-    ) Debug Container
-      svg.iconnables.icons-link-external
-        use(
-          xlink:href = "#icons-link-external"
-        )
-    button.btn.btn-xs.purple.float-right(
-      ng-class = "{active: state.active}"
-      pop-over
-      pop-over-actions = "popoverDebug.actions"
-      pop-over-active = "state.active"
-      pop-over-data = "popoverDebug.data"
-      pop-over-options = "{\"right\":-3,\"top\":35}"
-      pop-over-template = "viewPopoverDebug"
-    )
-      svg.iconnables.icons-arrow-down
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
+  .btn-group.float-right(
+    ng-include = "'viewDebugButton'"
+    ng-init = "viewToolbar = true"
+  )
