@@ -127,12 +127,12 @@
 
       // color
       .code-#{nth($logs-runnable,$i)} {
-        color: nth($logs-runnable-dark,$i);
+        color: nth($logs-runnable-light,$i);
       }
 
       // background
       .code-bg-#{nth($logs-runnable,$i)} {
-        background: nth($logs-runnable-dark,$i);
+        background: nth($logs-runnable-light,$i);
       }
     }
   }

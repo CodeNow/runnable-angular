@@ -4,47 +4,62 @@
 // - Light colors (and background light colors)
 
 .logs {
-  counter-reset: step -1; // start at zero
+  // counter-reset: step -1; // start at zero
   overflow: auto;
-  padding: 9px;
+  padding: 6px 9px;
 
   .pre {
     max-height: $terminal-line-height;
     overflow: hidden;
-    padding-left: 30px;
+    padding-left: 39px;
     position: relative;
 
-    // the first one doesn't count
-    &:first-child::before {
-      display: none;
-    }
+    // &:first-child {
+    //   // padding-top: 6px;
+
+    //   // the first one doesn't count
+    //   &::before {
+    //     display: none;
+    //   }
+    // }
+
+    // &:last-child {
+    //   // padding-bottom: 6px;
+    // }
 
     // number
-    &::before {
-      content: counter(step);
-      counter-increment: step;
-      display: block;
-      left: 0;
-      position: absolute;
-      top: 0;
-    }
+    // &::before {
+    //   background: $purple-light;
+    //   border: 1px solid $white;
+    //   border-radius: $input-border-radius;
+    //   content: counter(step);
+    //   counter-increment: step;
+    //   display: block;
+    //   left: 0;
+    //   line-height: 15px;
+    //   padding: 0 15px 0 6px;
+    //   position: absolute;
+    //   top: 1px;
+    // }
 
     &.in {
       max-height: none;
+      overflow: visible;
     }
 
     // toggle
-    .icons-arrow-down {
-      color: $purple-lightest;
-      height: $terminal-line-height;
-      left: 8px;
-      pointer-events: auto;
+    .caret {
+      border-bottom: 0;
+      border-left: 3px solid transparent;
+      border-right: 3px solid transparent;
+      border-top: 4px solid $white;
+      left: 18px;
       position: absolute;
-      top: 0;
+      top: 8px;
 
       &:hover,
       &:active {
-        color: $white;
+        border-top-color: $white;
       }
     }
   }
