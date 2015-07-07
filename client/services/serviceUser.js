@@ -41,7 +41,7 @@ methods.forEach(function (method) {
 
     var opts = args.opts;
     opts = angular.extend({}, opts, this.defaultOpts);
-    var cb = args.cb;
+    var cb = args.cb || angular.noop;
     opts.method = methodAliases[method] || method;
     opts.data = opts.json || opts.body;
     delete opts.json;
