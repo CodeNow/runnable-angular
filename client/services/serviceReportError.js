@@ -7,6 +7,9 @@ function reportError(
   keypather
 ) {
   var errorReporter =  function (err, options) {
+    if (!err) {
+      return;
+    }
     if (window.NREUM) {
       window.NREUM.noticeError(err, options);
     }
@@ -14,6 +17,7 @@ function reportError(
       window.Rollbar.error(err, options);
     }
   };
+
   errorReporter.setUser = function (user) {
     if (window.Rollbar) {
       var setUser = {};
