@@ -1,66 +1,73 @@
 //- steps with only one line are always shown and cannot be toggled
 //- pre steps
-.pre.in(
+.pre.build-log.in(
   ng-init = "\
     step0 = true;\
     step1 = true;\
     step2 = true;\
   "
 )
-  Cloning CodeNow/api into ./api
-  <span class="code-yellow">Building server...</span>
+  .build-log-content.
+    Cloning CodeNow/api into ./api
+    <span class="code-yellow">Building server...</span>
 //- step 0
-.pre.in.
-  <div class="pre-header">Step 0 : FROM registry.runnable.code/runnable/node_base:latest</div>
+.pre.build-log.in
+  .build-log-content.
+    <span class="code-magenta code-bold">FROM</span> registry.runnable.code/runnable/node_base:latest
 //- step 1
-.pre.in.
-  <div class="pre-header">Step 1 : EXPOSE 80</div>
+.pre.build-log.in
+  .build-log-content.
+    <span class="code-magenta code-bold">EXPOSE</span> 80
 //- step 2
-.pre.pre-toggle.in(
+.pre.build-log.build-log-toggle.in(
   ng-class = "{in: step2}"
-).
-  <div class="pre-header" ng-click="step2 = !step2">Step 2 : RUN npm install -g npm@2.1.18 &&     n 0.10.38</div>
-  <span class="code-red">npm http GET https://registry.npmjs.org/npm</span>
-  <span class="code-red">npm http 200 https://registry.npmjs.org/npm</span>
-  <span class="code-red">npm http GET https://registry.npmjs.org/npm/-/npm-2.1.18.tgz</span>
-  <span class="code-red">npm http 200 https://registry.npmjs.org/npm/-/npm-2.1.18.tgz</span>
-  /usr/local/bin/npm -> /usr/local/lib/node_modules/npm/bin/npm-cli.js
-  npm@2.1.18 /usr/local/lib/node_modules/npm
+)
+  .build-log-header(
+    ng-click = "step2 = !step2"
+  ) <span class="code-magenta code-bold">RUN</span> npm install -g npm@2.1.18 &&     n 0.10.38
+  .build-log-content.
+    <span class="code-red">npm http GET https://registry.npmjs.org/npm</span>
+    <span class="code-red">npm http 200 https://registry.npmjs.org/npm</span>
+    <span class="code-red">npm http GET https://registry.npmjs.org/npm/-/npm-2.1.18.tgz</span>
+    <span class="code-red">npm http 200 https://registry.npmjs.org/npm/-/npm-2.1.18.tgz</span>
+    /usr/local/bin/npm -> /usr/local/lib/node_modules/npm/bin/npm-cli.js
+    npm@2.1.18 /usr/local/lib/node_modules/npm
 
-       <span class="code-blue">install</span> : <span class="code-gray">node-v0.10.38</span>
+         <span class="code-blue">install</span> : <span class="code-gray">node-v0.10.38</span>
 
-    <span class="code-red">Error: invalid version 0.10.38</span>
+      <span class="code-red">Error: invalid version 0.10.38</span>
 
-  [Runnable (image-builder)] Hit an unexpected error: unknown
-  The command [/bin/sh -c until grep -q ethwe /proc/net/dev; do sleep 1; done;npm
-  install -g npm@2.1.18 &&     n 0.10.38] returned a non-zero code: 1
+    [Runnable (image-builder)] Hit an unexpected error: unknown
+    The command [/bin/sh -c until grep -q ethwe /proc/net/dev; do sleep 1; done;npm
+    install -g npm@2.1.18 &&     n 0.10.38] returned a non-zero code: 1
 //- sample of all styles
-.pre.in.
-  <span class="code-bold">BOLD</span>
-  <span class="code-dim">DIM</span>
-  <span class="code-underline">UNDERLINE</span>
-  <span class="code-blink">BLINK</span>
-  <span class="code-hidden">HIDDEN</span> (hidden)
+.pre.build-log.in
+  .build-log-content.
+    <span class="code-bold">BOLD</span>
+    <span class="code-dim">DIM</span>
+    <span class="code-underline">UNDERLINE</span>
+    <span class="code-blink">BLINK</span>
+    <span class="code-hidden">HIDDEN</span> (hidden)
 
-  <span class="code-black">BLACK</span>
-  <span class="code-bg-black">BACKGROUND BLACK</span>
-  <span class="code-white">WHITE</span>
-  <span class="code-bg-white">BACKGROUND WHITE</span>
-  <span class="code-red">RED</span>
-  <span class="code-bg-red">BACKGROUND RED</span>
-  <span class="code-green">GREEN</span>
-  <span class="code-bg-green">GREEN</span>
-  <span class="code-yellow">YELLOW</span>
-  <span class="code-bg-yellow">YELLOW</span>
-  <span class="code-blue">BLUE</span>
-  <span class="code-bg-blue">BLUE</span>
-  <span class="code-magenta">MAGENTA</span>
-  <span class="code-bg-magenta">MAGENTA</span>
-  <span class="code-cyan">CYAN</span>
-  <span class="code-bg-cyan">CYAN</span>
-  <span class="code-light-gray">LIGHT GRAY</span>
-  <span class="code-bg-light-gray">LIGHT GRAY</span>
+    <span class="code-black">BLACK</span>
+    <span class="code-bg-black">BACKGROUND BLACK</span>
+    <span class="code-white">WHITE</span>
+    <span class="code-bg-white">BACKGROUND WHITE</span>
+    <span class="code-red">RED</span>
+    <span class="code-bg-red">BACKGROUND RED</span>
+    <span class="code-green">GREEN</span>
+    <span class="code-bg-green">GREEN</span>
+    <span class="code-yellow">YELLOW</span>
+    <span class="code-bg-yellow">YELLOW</span>
+    <span class="code-blue">BLUE</span>
+    <span class="code-bg-blue">BLUE</span>
+    <span class="code-magenta">MAGENTA</span>
+    <span class="code-bg-magenta">MAGENTA</span>
+    <span class="code-cyan">CYAN</span>
+    <span class="code-bg-cyan">CYAN</span>
+    <span class="code-light-gray">LIGHT GRAY</span>
+    <span class="code-bg-light-gray">LIGHT GRAY</span>
 
-  <span class="code-bg-white code-red">RED & BACKGROUND WHITE</span>
-  <span class="code-red code-underline code-blink code-bold">RED & UNDERLINE & BLINK & BOLD</span>
-  <span class="code-red code-underline code-blink code-bold code-dim">RED & UNDERLINE & BLINK & BOLD & DIM</span>
+    <span class="code-bg-white code-red">RED & BACKGROUND WHITE</span>
+    <span class="code-red code-underline code-blink code-bold">RED & UNDERLINE & BLINK & BOLD</span>
+    <span class="code-red code-underline code-blink code-bold code-dim">RED & UNDERLINE & BLINK & BOLD & DIM</span>

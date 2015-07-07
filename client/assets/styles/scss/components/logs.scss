@@ -1,42 +1,54 @@
-// reference: http://misc.flogisoft.com/bash/tip_colors_and_formatting
-// Not currently supported:
-// - Reverse/inverted
-// - Light colors (and background light colors)
+// *********************
+// logs & terminal
+// build logs: html (this file)
+// cmd logs: termjs
+// terminal: termjs
+// *********************
 
-.logs {
+// build log specific
+.build-log-wrapper {
   overflow: auto;
   padding: 9px 9px 30px;
+}
 
-  .log-wrapper {
-    @extend %pre;
-    background: #372345; // rgba($white,.03) on $ace-bg
-    border: 1px solid $purple-darker;
-    border-radius: $input-border-radius;
-    max-height: 39px;
-    overflow: hidden;
-    padding: 9px 27px 9px 21px;
-    position: relative;
-    transition: max-height .3s ease-in-out;
+// per step
+.build-log {
+  background: #372345; // rgba($white,.03) on $ace-bg
+  border: 1px solid $purple-darker;
+  border-radius: $input-border-radius;
+  max-height: 39px;
+  min-height: 39px;
+  overflow: hidden;
+  position: relative;
+  transition: max-height .3s ease-in-out;
 
-    &.in {
-      max-height: 9999px;
-    }
+  &.in {
+    max-height: 9999px;
+  }
 
-    + .log-wrapper {
-      margin-top: 6px;
-    }
+  + .build-log {
+    margin-top: 6px;
   }
 }
 
-// header
-.pre-header {
+// .build-log-header
+.build-log-header {
   background: rgba($white,.03);
-  margin: -9px -27px -9px -21px;
-  padding: 9px 27px 9px 21px;
+  height: 39px;
+
+  // reduce padding of content if there's a header above it
+  + .build-log-content {
+    padding-top: 6px;
+  }
 }
 
-// toggle
-.pre-toggle {
+.build-log-header,
+.build-log-content {
+  padding: 9px 9px 9px 24px;
+}
+
+// .build-log-header.build-log-toggle
+.build-log-toggle {
 
   &.in::before {
     transform: rotate3d(0,0,1,0);
@@ -61,8 +73,8 @@
     }
   }
 
-  // toggleable .pre-header
-  .pre-header {
+  // toggleable .build-log-header
+  .build-log-header {
     border-bottom: 1px solid $purple-darker;
     cursor: pointer;
 
@@ -76,7 +88,14 @@
   }
 }
 
-// themes
+// ***************************
+// log themes
+// reference for code- styles:
+// http://misc.flogisoft.com/bash/tip_colors_and_formatting
+// Not currently supported:
+// - Reverse/inverted
+// - Light colors (and background light colors)
+// ***************************
 .logs-runnable-dark,
 .logs-runnable-light {
 
