@@ -73,7 +73,7 @@ require('app')
               });
               $scope.actions.updateCache();
             } else {
-              if (lastActiveCacheIdx && $scope.state.commands[lastActiveCacheIdx]) {
+              if (lastActiveCacheIdx !== undefined && $scope.state.commands[lastActiveCacheIdx]) {
                 $scope.state.commands[lastActiveCacheIdx].cache = true;
               }
             }
