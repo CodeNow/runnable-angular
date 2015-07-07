@@ -284,12 +284,12 @@
 }
 
 // editor
-.ace-tm .pre {
+.ace-tm .ace_editor {
   position: relative;
 }
 
 // light theme
-.ace-runnable-light .pre,
+.ace-runnable-light .ace_editor,
 .ace-container.ace-runnable-light {
   background-color: $gray-lighterest;
   color: $gray-darker;
@@ -485,7 +485,7 @@
 }
 
 // dark theme
-.ace-runnable-dark .pre,
+.ace-runnable-dark .ace_editor,
 .ace-container.ace-runnable-dark {
   background-color: $ace-bg;
   color: $white;

@@ -4,67 +4,79 @@
 // - Light colors (and background light colors)
 
 .logs {
-  // counter-reset: step -1; // start at zero
   overflow: auto;
-  padding: 6px 9px;
+  padding: 9px 9px 30px;
 
-  .pre {
-    max-height: $terminal-line-height;
+  .log-wrapper {
+    @extend %pre;
+    background: #372345; // rgba($white,.03) on $ace-bg
+    border: 1px solid $purple-darker;
+    border-radius: $input-border-radius;
+    max-height: 39px;
     overflow: hidden;
-    padding-left: 39px;
+    padding: 9px 27px 9px 21px;
     position: relative;
-
-    // &:first-child {
-    //   // padding-top: 6px;
-
-    //   // the first one doesn't count
-    //   &::before {
-    //     display: none;
-    //   }
-    // }
-
-    // &:last-child {
-    //   // padding-bottom: 6px;
-    // }
-
-    // number
-    // &::before {
-    //   background: $purple-light;
-    //   border: 1px solid $white;
-    //   border-radius: $input-border-radius;
-    //   content: counter(step);
-    //   counter-increment: step;
-    //   display: block;
-    //   left: 0;
-    //   line-height: 15px;
-    //   padding: 0 15px 0 6px;
-    //   position: absolute;
-    //   top: 1px;
-    // }
+    transition: max-height .3s ease-in-out;
 
     &.in {
-      max-height: none;
-      overflow: visible;
+      max-height: 9999px;
     }
 
-    // toggle
-    .caret {
-      border-bottom: 0;
-      border-left: 3px solid transparent;
-      border-right: 3px solid transparent;
-      border-top: 4px solid $white;
-      left: 18px;
-      position: absolute;
-      top: 8px;
-
-      &:hover,
-      &:active {
-        border-top-color: $white;
-      }
+    + .log-wrapper {
+      margin-top: 6px;
     }
   }
 }
 
+// header
+.pre-header {
+  background: rgba($white,.03);
+  margin: -9px -27px -9px -21px;
+  padding: 9px 27px 9px 21px;
+}
+
+// toggle
+.pre-toggle {
+
+  &.in::before {
+    transform: rotate3d(0,0,1,0);
+  }
+
+  &::before {
+    border-bottom: 0;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-top: 4px solid $white;
+    content: '';
+    display: block;
+    left: 8px;
+    position: absolute;
+    top: 16px;
+    transform: rotate3d(0,0,1,-90deg);
+    transition: transform .25s ease-in-out;
+
+    &:hover,
+    &:active {
+      border-top-color: $white;
+    }
+  }
+
+  // toggleable .pre-header
+  .pre-header {
+    border-bottom: 1px solid $purple-darker;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba($white,.045);
+    }
+
+    &:active {
+      background: rgba($white,.06);
+    }
+  }
+}
+
+// themes
 .logs-runnable-dark,
 .logs-runnable-light {
 

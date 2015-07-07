@@ -1,11 +1,41 @@
-//- the html comments are necessary to remove white space
+//- steps with only one line are always shown and cannot be toggled
+//- pre steps
 .pre.in(
   ng-init = "\
     step0 = true;\
     step1 = true;\
     step2 = true;\
   "
+)
+  Cloning CodeNow/api into ./api
+  <span class="code-yellow">Building server...</span>
+//- step 0
+.pre.in.
+  <div class="pre-header">Step 0 : FROM registry.runnable.code/runnable/node_base:latest</div>
+//- step 1
+.pre.in.
+  <div class="pre-header">Step 1 : EXPOSE 80</div>
+//- step 2
+.pre.pre-toggle.in(
+  ng-class = "{in: step2}"
 ).
+  <div class="pre-header" ng-click="step2 = !step2">Step 2 : RUN npm install -g npm@2.1.18 &&     n 0.10.38</div>
+  <span class="code-red">npm http GET https://registry.npmjs.org/npm</span>
+  <span class="code-red">npm http 200 https://registry.npmjs.org/npm</span>
+  <span class="code-red">npm http GET https://registry.npmjs.org/npm/-/npm-2.1.18.tgz</span>
+  <span class="code-red">npm http 200 https://registry.npmjs.org/npm/-/npm-2.1.18.tgz</span>
+  /usr/local/bin/npm -> /usr/local/lib/node_modules/npm/bin/npm-cli.js
+  npm@2.1.18 /usr/local/lib/node_modules/npm
+
+       <span class="code-blue">install</span> : <span class="code-gray">node-v0.10.38</span>
+
+    <span class="code-red">Error: invalid version 0.10.38</span>
+
+  [Runnable (image-builder)] Hit an unexpected error: unknown
+  The command [/bin/sh -c until grep -q ethwe /proc/net/dev; do sleep 1; done;npm
+  install -g npm@2.1.18 &&     n 0.10.38] returned a non-zero code: 1
+//- sample of all styles
+.pre.in.
   <span class="code-bold">BOLD</span>
   <span class="code-dim">DIM</span>
   <span class="code-underline">UNDERLINE</span>
@@ -34,38 +64,3 @@
   <span class="code-bg-white code-red">RED & BACKGROUND WHITE</span>
   <span class="code-red code-underline code-blink code-bold">RED & UNDERLINE & BLINK & BOLD</span>
   <span class="code-red code-underline code-blink code-bold code-dim">RED & UNDERLINE & BLINK & BOLD & DIM</span>
-
-  Cloning CodeNow/api into ./api
-  <span class="code-yellow">Building server...</span>
-//- step 0
-.pre.in(
-  ng-class = "{in: step0}"
-).
-  <div class="caret down" ng-click="step0 = !step0"></div><!--
-  -->Step 0 : FROM registry.runnable.code/runnable/node_base:latest
-//- step 1
-.pre.in(
-  ng-class = "{in: step1}"
-).
-  <div class="caret down" ng-click="step1 = !step1"></div><!--
-  -->Step 1 : EXPOSE 80
-//- step 2
-.pre.in(
-  ng-class = "{in: step2}"
-).
-  <div class="caret down" ng-click="step2 = !step2"></div><!--
-  -->Step 2 : RUN npm install -g npm@2.1.18 &&     n 0.10.38
-  <span class="code-red">npm http GET https://registry.npmjs.org/npm</span>
-  <span class="code-red">npm http 200 https://registry.npmjs.org/npm</span>
-  <span class="code-red">npm http GET https://registry.npmjs.org/npm/-/npm-2.1.18.tgz</span>
-  <span class="code-red">npm http 200 https://registry.npmjs.org/npm/-/npm-2.1.18.tgz</span>
-  /usr/local/bin/npm -> /usr/local/lib/node_modules/npm/bin/npm-cli.js
-  npm@2.1.18 /usr/local/lib/node_modules/npm
-
-       <span class="code-blue">install</span> : <span class="code-gray">node-v0.10.38</span>
-
-    <span class="code-red">Error: invalid version 0.10.38</span>
-
-  [Runnable (image-builder)] Hit an unexpected error: unknown
-  The command [/bin/sh -c until grep -q ethwe /proc/net/dev; do sleep 1; done;npm
-  install -g npm@2.1.18 &&     n 0.10.38] returned a non-zero code: 1
