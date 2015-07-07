@@ -1,4 +1,11 @@
-.pre.
+//- the html comments are necessary to remove white space
+.pre.in(
+  ng-init = "\
+    step0 = true;\
+    step1 = true;\
+    step2 = true;\
+  "
+).
   <span class="code-bold">BOLD</span>
   <span class="code-dim">DIM</span>
   <span class="code-underline">UNDERLINE</span>
@@ -30,13 +37,28 @@
 
   Cloning CodeNow/api into ./api
   <span class="code-yellow">Building server...</span>
-  Step 0 : FROM registry.runnable.code/runnable/node_base:latest
+//- step 0
+.pre.in(
+  ng-class = "{in: step0}"
+).
+  <svg class="iconnables icons-arrow-down" ng-click="step0 = !step0"><use xlink:href="#icons-arrow-down"></svg><!--
+  -->Step 0 : FROM registry.runnable.code/runnable/node_base:latest
    ---> 1420be8d4ebf
-  Step 1 : EXPOSE 80
+//- step 1
+.pre.in(
+  ng-class = "{in: step1}"
+).
+  <svg class="iconnables icons-arrow-down" ng-click="step1 = !step1"><use xlink:href="#icons-arrow-down"></svg><!--
+  -->Step 1 : EXPOSE 80
    ---> Running in d4b395d19d23
    ---> 15e1e408c78f
   Removing intermediate container d4b395d19d23
-  Step 2 : RUN npm install -g npm@2.1.18 &&     n 0.10.38
+//- step 2
+.pre.in(
+  ng-class = "{in: step2}"
+).
+  <svg class="iconnables icons-arrow-down" ng-click="step2 = !step2"><use xlink:href="#icons-arrow-down"></svg><!--
+  -->Step 2 : RUN npm install -g npm@2.1.18 &&     n 0.10.38
    ---> Running in 2f1d895adb79
   <span class="code-red">npm http GET https://registry.npmjs.org/npm</span>
   <span class="code-red">npm http 200 https://registry.npmjs.org/npm</span>

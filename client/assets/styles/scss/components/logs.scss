@@ -4,8 +4,50 @@
 // - Light colors (and background light colors)
 
 .logs {
+  counter-reset: step -1; // start at zero
   overflow: auto;
   padding: 9px;
+
+  .pre {
+    max-height: $terminal-line-height;
+    overflow: hidden;
+    padding-left: 30px;
+    position: relative;
+
+    // the first one doesn't count
+    &:first-child::before {
+      display: none;
+    }
+
+    // number
+    &::before {
+      content: counter(step);
+      counter-increment: step;
+      display: block;
+      left: 0;
+      position: absolute;
+      top: 0;
+    }
+
+    &.in {
+      max-height: none;
+    }
+
+    // toggle
+    .icons-arrow-down {
+      color: $purple-lightest;
+      height: $terminal-line-height;
+      left: 8px;
+      pointer-events: auto;
+      position: absolute;
+      top: 0;
+
+      &:hover,
+      &:active {
+        color: $white;
+      }
+    }
+  }
 }
 
 .logs-runnable-dark,
