@@ -6,9 +6,8 @@ require('app')
  * @ngInject
  */
 function instanceBoxName(
-  getInstanceAltTitle,
-  getInstanceClasses,
-  extractInstancePorts
+  extractInstancePorts,
+  $stateParams
 ) {
   return {
     restrict: 'A',
@@ -17,10 +16,7 @@ function instanceBoxName(
       instance: '='
     },
     link: function ($scope, elem, attrs) {
-      $scope.getInstanceClasses = getInstanceClasses;
-
-      $scope.getInstanceAltTitle = getInstanceAltTitle;
-
+      $scope.userName = $stateParams.userName;
       $scope.$watch('instance', function (newValue) {
         var ports = extractInstancePorts(newValue);
         $scope.defaultPort = '';
