@@ -1,4 +1,5 @@
 //- steps with only one line are always shown and cannot be toggled
+//- add image ID as html ID on .build-log
 //- pre steps
 .pre.build-log.in(
   ng-init = "\
@@ -11,15 +12,15 @@
     Cloning CodeNow/api into ./api
     <span class="code-yellow">Building server...</span>
 //- step 0
-.pre.build-log.in
-  .build-log-content.
+#1420be8d4ebf.pre.build-log.in
+  .build-log-header.
     <span class="code-magenta code-bold">FROM</span> registry.runnable.code/runnable/node_base:latest
 //- step 1
-.pre.build-log.in
-  .build-log-content.
+#15e1e408c78f.pre.build-log.in
+  .build-log-header.
     <span class="code-magenta code-bold">EXPOSE</span> 80
 //- step 2
-.pre.build-log.build-log-toggle.in(
+#2f1d895adb79.pre.build-log.build-log-toggle.in(
   ng-class = "{in: step2}"
 )
   .build-log-header(

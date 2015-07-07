@@ -22,6 +22,10 @@
   position: relative;
   transition: max-height .3s ease-in-out;
 
+  &:target {
+    background: $orange;
+  }
+
   &.in {
     max-height: 9999px;
   }
@@ -36,8 +40,9 @@
   background: rgba($white,.03);
   height: 39px;
 
-  // reduce padding of content if there's a header above it
+  // change padding if there's a header
   + .build-log-content {
+    padding-bottom: 15px;
     padding-top: 6px;
   }
 }
