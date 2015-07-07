@@ -19,7 +19,6 @@
   max-height: 39px;
   min-height: 39px;
   overflow: hidden;
-  position: relative;
   transition: max-height .3s ease-in-out;
 
   &:target {
@@ -56,24 +55,15 @@
 .build-log-toggle {
 
   // rotate arrow
-  &.in::before {
-    transform: rotate3d(0,0,1,0);
-  }
+  &.in .build-log-header {
 
-  // arrow
-  &::before {
-    border-bottom: 0;
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
-    border-top: 5px solid $purple-lighter;
-    content: '';
-    display: block;
-    left: 8px;
-    pointer-events: none;
-    position: absolute;
-    top: 17px;
-    transform: rotate3d(0,0,1,-90deg);
-    transition: transform .25s ease-in-out;
+    &:active::before {
+      transform: rotate3d(0,0,1,-90deg) scale3d(.6,.6,.6);
+    }
+
+    &::before {
+      transform: rotate3d(0,0,1,0);
+    }
   }
 
   // toggleable .build-log-header
@@ -81,6 +71,7 @@
     background: rgba($white,.03);
     border-bottom: 1px solid $purple-darker;
     cursor: pointer;
+    position: relative;
 
     &:hover {
       background: rgba($white,.045);
@@ -88,6 +79,26 @@
 
     &:active {
       background: rgba($white,.06);
+
+      &::before {
+        transform: rotate3d(0,0,1,0) scale3d(.6,.6,.6);
+      }
+    }
+
+    // arrow
+    &::before {
+      border-bottom: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 5px solid $purple-lighter;
+      content: '';
+      display: block;
+      left: 8px;
+      pointer-events: none;
+      position: absolute;
+      top: 17px;
+      transform: rotate3d(0,0,1,-90deg);
+      transition: transform .25s ease-in-out;
     }
 
     // arrow states
@@ -95,7 +106,7 @@
     &:active {
 
       &::before {
-        border-top-color: $white;
+        border-top-color: $purple-lightest;
       }
     }
   }
