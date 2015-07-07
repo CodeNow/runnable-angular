@@ -67,7 +67,7 @@ require('app')
         function handleNewInstance(instance) {
           // This may be a newInstance... just a placeholder
           helpCards.removeByInstance(instance);
-          angular.extend($scope.server, createServerObjectFromInstance(instance));
+          $scope.server = createServerObjectFromInstance(instance);
 
           if (!instance.contextVersion) { return; }
           $scope.server.building = true;

@@ -21,8 +21,7 @@ function fetchUser(
   user,
   $q,
   $window,
-  promisify,
-  reportError
+  promisify
 ) {
   var fetchedUser = null;
   var socket = null;
@@ -31,8 +30,9 @@ function fetchUser(
     if (!fetchedUser) {
       fetchedUser = promisify(user, 'fetchUser')('me')
       .then(function (_user) {
-        socket = _user.createSocket();
-        reportError.setUser(_user);
+        if (!socket) {
+          socket = _user.createSocket();
+        }
         return _user;
       })
       .catch(function (err) {

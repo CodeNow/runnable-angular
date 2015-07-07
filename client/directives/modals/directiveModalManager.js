@@ -25,10 +25,8 @@ function modalManager(
           $scope.modalOpen = false;
           currentModalScope.openFlag = false;
           $timeout(function () {
-            if (currentModalScope) {
-              currentModalScope.$destroy();
-              currentModalScope = null;
-            }
+            currentModalScope.$destroy();
+            currentModalScope = null;
             if (cb) {
               cb();
             }
