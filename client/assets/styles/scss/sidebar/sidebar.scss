@@ -86,6 +86,7 @@
 // main sidebar
 .nav-sidebar {
   background: $gray-lighterest;
+  // color: $gray-dark;
   float: left;
 
   .spinner-wrapper {
@@ -106,7 +107,7 @@
 }
 
 .server-category-list {
-  color: $gray;
+  color: $gray-darker;
   font-size: 15px;
   height: 100%;
   overflow-y: auto;
@@ -138,6 +139,16 @@
     .strong {
       color: $purple-light;
     }
+  }
+}
+
+.server-list {
+  
+  .strong {
+    color: $gray;
+    display: flex;
+    justify-content: space-between;
+    width: calc(100% + 12px);
   }
 }
 
@@ -173,28 +184,43 @@
   }
 
   // .button-configure and .button-hide
-  > .btn {
-    opacity: .6;
-    overflow: hidden;
+  // > .btn {
+  //   opacity: .6;
+  //   overflow: hidden;
 
-    &:hover {
-      opacity: .8;
-    }
+  //   &:hover {
+  //     opacity: .8;
+  //   }
 
-    &:active {
-      opacity: 1;
-    }
+  //   &:active {
+  //     opacity: 1;
+  //   }
+  // }
+}
+
+.button-configure,
+.button-hide {
+  opacity: .7;
+  overflow: hidden;
+
+  &:hover {
+    opacity: .85;
+  }
+
+  &:active {
+    opacity: 1;
   }
 }
 
+// remove this class
 .button-configure {
-  display: block;
+  // display: block;
   flex: 0 0 30px;
-  height: 30px;
+  // height: 30px;
 
   .iconnables {
-    right: 5px;
-    width: 15px;
+    right: 3px;
+    width: 12px;
   }
 }
 
