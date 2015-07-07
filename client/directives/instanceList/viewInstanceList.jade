@@ -32,69 +32,64 @@ ul.server-category-list(
             use(
               xlink:href = "#icons-advanced"
             )
-      //- buttons for default repo containers, and buttons for non-repository containers
-      .server-list-item(
+      //- default repo containers and non-repo containers
+      a.server-name.text-overflow(
+        ng-if = "masterInstance.getRepoName()"
+        title = "{{ masterInstance.getRepoName() }}/{{ masterInstance.getBranchName() }}"
+        ui-sref = "\
+          instance.instance({ userName: data.activeAccount.oauthName(), \
+          instanceName: masterInstance.attrs.name })\
+        "
         ui-sref-active = "selected"
       )
-        //- container name for default repo containers
-        a.server-name.text-overflow(
-          ng-if = "masterInstance.getRepoName()"
-          title = "{{ masterInstance.getRepoName() }}/{{ masterInstance.getBranchName() }}"
-          ui-sref = "\
-            instance.instance({ userName: data.activeAccount.oauthName(), \
-            instanceName: masterInstance.attrs.name })\
-          "
+        status-icon(
+          instance = "masterInstance"
         )
-          status-icon(
-            instance = "masterInstance"
-          )
-          | {{ masterInstance.getBranchName() }}
-        //- container name for non-repo containers
-        a.server-name.text-overflow(
+        | {{ masterInstance.getBranchName() }}
+      //- container name for non-repo containers
+      a.server-name.text-overflow(
+        ng-if = "!masterInstance.getRepoName()"
+        title = "{{ masterInstance.attrs.name }}"
+        ui-sref = "\
+          instance.instance({ userName: data.activeAccount.oauthName(), \
+          instanceName: masterInstance.attrs.name })\
+        "
+      ) 
+        status-icon(
+          instance = "masterInstance"
+        )
+        | {{ masterInstance.attrs.name }}
+        //- configure button for non-repo containers
+        a.btn.btn-xs.btn-icon.button-configure(
+          title = "configure"
+          modal
+          modal-current-model = "masterInstance"
+          modal-state-model = "masterInstance.contextVersion.attrs.advanced ? 'env' : 'repository'"
+          modal-template = "editServerModalOpen"
           ng-if = "!masterInstance.getRepoName()"
-          title = "{{ masterInstance.attrs.name }}"
-          ui-sref = "\
-            instance.instance({ userName: data.activeAccount.oauthName(), \
-            instanceName: masterInstance.attrs.name })\
-          "
-        ) 
-          status-icon(
-            instance = "masterInstance"
-          )
-          | {{ masterInstance.attrs.name }}
-          //- configure button for non-repo containers
-          a.btn.btn-xs.btn-icon.button-configure(
-            title = "configure"
-            modal
-            modal-current-model = "masterInstance"
-            modal-state-model = "masterInstance.contextVersion.attrs.advanced ? 'env' : 'repository'"
-            modal-template = "editServerModalOpen"
-            ng-if = "!masterInstance.getRepoName()"
-          )
-            svg.iconnables
-              use(
-                xlink:href = "#icons-advanced"
-              )
-      //- buttons for non-default repo containers
-      .server-list-item(
+        )
+          svg.iconnables
+            use(
+              xlink:href = "#icons-advanced"
+            )
+      //- non-default repo containers
+      a.server-name.text-overflow(
+        title = "{{ branchFork.getDisplayName() }}"
         ng-repeat = "branchFork in masterInstance.children.models | orderBy:'attrs.name'"
+        ui-sref = "\
+          instance.instance({ userName: data.activeAccount.oauthName(), \
+          instanceName: branchFork.attrs.name })\
+        "
         ui-sref-active = "selected"
       )
-        //- container name for non-default repo containers
-        a.server-name.text-overflow(
-          title = "{{ branchFork.getDisplayName() }}"
-          ui-sref = "\
-            instance.instance({ userName: data.activeAccount.oauthName(), \
-            instanceName: branchFork.attrs.name })\
-          "
+        status-icon(
+          instance = "branchFork"
         )
-          status-icon(
-            instance = "branchFork"
-          )
-          | {{ branchFork.getDisplayName() }}
-        .btn.btn-xs.button-hide(
-          ng-if = "$root.featureFlags.navListFilter"
-        ) hide
+        | {{ branchFork.getDisplayName() }}
+      .btn.btn-xs.button-hide(
+        ng-if = "$root.featureFlags.navListFilter"
+      ) hide
+      //- "X more…" popover link
       .more-containers(
         ng-if = "$root.featureFlags.navListFilter"
         pop-over
