@@ -20,7 +20,6 @@ function commandEditor(
         if (value === undefined) { return []; }
 
         return value.split('\n')
-        .filter(Boolean)
         .map(function (v) {
           return new cardInfoTypes.Command('RUN ' + v);
         });
