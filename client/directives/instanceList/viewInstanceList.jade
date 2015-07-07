@@ -16,10 +16,27 @@ ul.server-category-list(
     }"
   )
     .server-list
+      //- repo names
+      strong.strong.small(
+        ng-if = "masterInstance.getRepoName()"
+      ) {{ masterInstance.getRepoName() }}
+        //- configure button for repo container groups
+        a.btn.btn-xs.btn-icon.button-configure(
+          title = "configure"
+          modal
+          modal-current-model = "masterInstance"
+          modal-state-model = "masterInstance.contextVersion.attrs.advanced ? 'env' : 'repository'"
+          modal-template = "editServerModalOpen"
+        )
+          svg.iconnables
+            use(
+              xlink:href = "#icons-advanced"
+            )
+      //- buttons for default repo containers, and buttons for non-repository containers
       .server-list-item(
         ui-sref-active = "selected"
       )
-        //- lists only master branches of repo containers
+        //- container name for default repo containers
         a.server-name.text-overflow(
           ng-if = "masterInstance.getRepoName()"
           title = "{{ masterInstance.getRepoName() }}/{{ masterInstance.getBranchName() }}"
@@ -32,7 +49,7 @@ ul.server-category-list(
             instance = "masterInstance"
           )
           | {{ masterInstance.getBranchName() }}
-        //- lists non-repo containers
+        //- container name for non-repo containers
         a.server-name.text-overflow(
           ng-if = "!masterInstance.getRepoName()"
           title = "{{ masterInstance.attrs.name }}"
@@ -58,11 +75,12 @@ ul.server-category-list(
               use(
                 xlink:href = "#icons-advanced"
               )
+      //- buttons for non-default repo containers
       .server-list-item(
         ng-repeat = "branchFork in masterInstance.children.models | orderBy:'attrs.name'"
         ui-sref-active = "selected"
       )
-        //- I think this is non-master repo containers?
+        //- container name for non-default repo containers
         a.server-name.text-overflow(
           title = "{{ branchFork.getDisplayName() }}"
           ui-sref = "\
