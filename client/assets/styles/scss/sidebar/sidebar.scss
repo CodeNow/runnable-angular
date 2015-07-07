@@ -30,7 +30,7 @@
 
   .icons-status {
     flex: 0 0 auto;
-    margin: 11px 6px 0 12px;
+    margin: 0 6px 0 12px;
   }
 }
 
@@ -119,10 +119,10 @@
 
 .server-category-list-item {
   border-bottom: 1px solid $gray-lighter; // lines below categories
-  padding: 12px 0 6px;
+  padding: 9px 0 6px;
   position: relative;
 
-  // less padding when next to the .button-configure
+  // less padding when next to .button-configure
   &:first-child .server-name {
     padding-right: 3px;
   }
@@ -141,11 +141,26 @@
   }
 }
 
+.server-list {
+  
+  // repo names
+  .strong {
+    align-items: center;
+    color: $gray;
+    display: flex;
+    height: 21px;
+    justify-content: space-between;
+    line-height: 21px;
+    width: calc(100% + 12px);
+  }
+}
+
 .server-list-item {
+  align-items: center;
   cursor: pointer;
   display: flex;
-  height: 30px;
-  line-height: 29px; // height -1 because of Helvetica baseline weirdness
+  height: 27px;
+  line-height: 27px;
   margin: 0 -12px;
   position: relative;
 
@@ -188,13 +203,12 @@
 }
 
 .button-configure {
-  display: block;
-  flex: 0 0 30px;
-  height: 30px;
+  flex: 0 0 27px;
+  height: 27px;
 
   .iconnables {
     right: 5px;
-    width: 15px;
+    width: 12px;
   }
 }
 

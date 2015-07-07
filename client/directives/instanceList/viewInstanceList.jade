@@ -19,9 +19,7 @@ ul.server-category-list(
       .server-list-item(
         ui-sref-active = "selected"
       )
-        status-icon(
-          instance = "masterInstance"
-        )
+        //- lists only master branches of repo containers
         a.server-name.text-overflow(
           ng-if = "masterInstance.getRepoName()"
           title = "{{ masterInstance.getRepoName() }}/{{ masterInstance.getBranchName() }}"
@@ -30,8 +28,11 @@ ul.server-category-list(
             instanceName: masterInstance.attrs.name })\
           "
         )
-          strong.strong {{ masterInstance.getRepoName() }}
-          | /{{ masterInstance.getBranchName() }}
+          status-icon(
+            instance = "masterInstance"
+          )
+          | {{ masterInstance.getBranchName() }}
+        //- lists non-repo containers
         a.server-name.text-overflow(
           ng-if = "!masterInstance.getRepoName()"
           title = "{{ masterInstance.attrs.name }}"
@@ -39,33 +40,40 @@ ul.server-category-list(
             instance.instance({ userName: data.activeAccount.oauthName(), \
             instanceName: masterInstance.attrs.name })\
           "
-        )
-          strong.strong {{ masterInstance.attrs.name }}
-        a.btn.btn-xs.btn-icon.button-configure(
-          title = "configure"
-          modal
-          modal-current-model = "masterInstance"
-          modal-state-model = "masterInstance.contextVersion.attrs.advanced ? 'env' : 'repository'"
-          modal-template = "editServerModalOpen"
-        )
-          svg.iconnables
-            use(
-              xlink:href = "#icons-advanced"
-            )
+        ) 
+          status-icon(
+            instance = "masterInstance"
+          )
+          | {{ masterInstance.attrs.name }}
+          //- configure button for non-repo containers
+          a.btn.btn-xs.btn-icon.button-configure(
+            title = "configure"
+            modal
+            modal-current-model = "masterInstance"
+            modal-state-model = "masterInstance.contextVersion.attrs.advanced ? 'env' : 'repository'"
+            modal-template = "editServerModalOpen"
+            ng-if = "!masterInstance.getRepoName()"
+          )
+            svg.iconnables
+              use(
+                xlink:href = "#icons-advanced"
+              )
       .server-list-item(
         ng-repeat = "branchFork in masterInstance.children.models | orderBy:'attrs.name'"
         ui-sref-active = "selected"
       )
-        status-icon(
-          instance = "branchFork"
-        )
+        //- I think this is non-master repo containers?
         a.server-name.text-overflow(
           title = "{{ branchFork.getDisplayName() }}"
           ui-sref = "\
             instance.instance({ userName: data.activeAccount.oauthName(), \
             instanceName: branchFork.attrs.name })\
           "
-        ) {{ branchFork.getDisplayName() }}
+        )
+          status-icon(
+            instance = "branchFork"
+          )
+          | {{ branchFork.getDisplayName() }}
         .btn.btn-xs.button-hide(
           ng-if = "$root.featureFlags.navListFilter"
         ) hide
