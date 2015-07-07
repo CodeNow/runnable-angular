@@ -11,10 +11,10 @@
   padding: 9px 9px 30px;
 }
 
-// per step
+// wrapper per step
 .build-log {
   background: #372345; // rgba($white,.03) on $ace-bg
-  border: 1px solid $purple-darker;
+  border: 1px solid $purple-darkest;
   border-radius: $input-border-radius;
   max-height: 39px;
   min-height: 39px;
@@ -23,11 +23,12 @@
   transition: max-height .3s ease-in-out;
 
   &:target {
-    background: $orange;
+    border-color: $purple-light;
+    box-shadow: inset 1px 1px 0 $purple-light, inset -1px -1px 0 $purple-light;
   }
 
   &.in {
-    max-height: 9999px;
+    max-height: 9999px; // is this enough?
   }
 
   + .build-log {
@@ -37,7 +38,6 @@
 
 // .build-log-header
 .build-log-header {
-  background: rgba($white,.03);
   height: 39px;
 
   // change padding if there's a header
@@ -49,37 +49,36 @@
 
 .build-log-header,
 .build-log-content {
-  padding: 9px 9px 9px 24px;
+  padding: 10px 9px 9px 24px;
 }
 
 // .build-log-header.build-log-toggle
 .build-log-toggle {
 
+  // rotate arrow
   &.in::before {
     transform: rotate3d(0,0,1,0);
   }
 
+  // arrow
   &::before {
     border-bottom: 0;
-    border-left: 3px solid transparent;
-    border-right: 3px solid transparent;
-    border-top: 4px solid $white;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid $purple-lighter;
     content: '';
     display: block;
     left: 8px;
+    pointer-events: none;
     position: absolute;
-    top: 16px;
+    top: 17px;
     transform: rotate3d(0,0,1,-90deg);
     transition: transform .25s ease-in-out;
-
-    &:hover,
-    &:active {
-      border-top-color: $white;
-    }
   }
 
   // toggleable .build-log-header
   .build-log-header {
+    background: rgba($white,.03);
     border-bottom: 1px solid $purple-darker;
     cursor: pointer;
 
@@ -89,6 +88,15 @@
 
     &:active {
       background: rgba($white,.06);
+    }
+
+    // arrow states
+    &:hover,
+    &:active {
+
+      &::before {
+        border-top-color: $white;
+      }
     }
   }
 }
@@ -116,9 +124,11 @@
     text-decoration: underline;
   }
 
+  // blinking animation
   .code-blink {
     animation: logs-blink 1s infinite;
 
+    // dim blinking animation
     &.code-dim {
       animation-name: logs-dim-blink;
     }
@@ -128,7 +138,7 @@
     visibility: hidden;
   }
 
-  // background colors
+  // override color for background colors
   [class^='code-bg'] {
     color: $white;
   }
