@@ -8,7 +8,7 @@
 // build log specific
 .build-log-wrapper {
   overflow: auto;
-  padding: 9px 9px 30px;
+  padding: 9px 6px 3px 9px;
 }
 
 // wrapper per step
@@ -19,6 +19,7 @@
   max-height: 39px;
   min-height: 39px;
   overflow: hidden;
+  position: relative;
   transition: max-height .3s ease-in-out;
 
   &:target {
@@ -32,6 +33,15 @@
 
   + .build-log {
     margin-top: 6px;
+  }
+
+  // debug button
+  > .btn-debug {
+    font-family: 'Helvetica Neue', 'Segoe UI', sans-serif; // override monospace fonts
+    min-width: 0;
+    position: absolute;
+    right: 6px;
+    top: 8px;
   }
 }
 
@@ -71,7 +81,6 @@
     background: rgba($white,.03);
     border-bottom: 1px solid $purple-darker;
     cursor: pointer;
-    position: relative;
 
     &:hover {
       background: rgba($white,.045);

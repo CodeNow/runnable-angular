@@ -1,0 +1,61 @@
+// buttons
+.btn-toolbar {
+  border-radius: $input-border-radius-xxs;
+  border-width: 1px;
+  font-size: 12px;
+  line-height: 22px;
+
+  // toolbar theme
+  &.purple {
+    background: $purple;
+    border-color: $purple-darker;
+    color: $purple-lightest;
+
+    &:hover {
+      background: $purple-light;
+      color: $white;
+    }
+
+    &:active,
+    &.active {
+      background: $white;
+      color: $purple-light;
+    }
+  }
+
+  &.orange {
+    background: $orange;
+    border-color: $orange-darkest;
+    color: $orange-lightest;
+
+    &:hover {
+      background: $orange-lighter;
+      color: $white;
+    }
+
+    &:active,
+    &.active {
+      background: $white;
+      border-color: $white;
+      color: $orange;
+    }
+  }
+
+  &.green {
+    background: $green-dark;
+    border-color: $green-darkest;
+    color: $green-lighter;
+
+    &:hover {
+      background: $green;
+      color: $white;
+    }
+
+    &:active,
+    &.active {
+      background: $white;
+      border-color: $white;
+      color: $green;
+    }
+  }
+}

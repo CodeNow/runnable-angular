@@ -20,8 +20,12 @@
 @import "globals/loader";
 @import "globals/typography";
 
+// buttons
+@import "components/buttons/buttons";
+@import "components/buttons/buttons-debug";
+@import "components/buttons/buttons-toolbar";
+
 // components
-@import "components/buttons";
 @import "components/cards";
 @import "components/fancy-select";
 @import "components/header";

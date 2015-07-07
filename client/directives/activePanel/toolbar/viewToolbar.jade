@@ -7,7 +7,7 @@
   small.small.text-overflow(
     title = "Having build problems? Some errors can be resolved by rebuilding the container."
   ) Having build problems? Some errors can be resolved by rebuilding the container.
-  button.btn.btn-xs.orange(
+  button.btn.btn-xs.orange.btn-toolbar(
     ng-click = "actions.buildWithoutCache()"
   ) Rebuild Without Cache
 
@@ -20,7 +20,7 @@
   small.small.text-overflow(
     title = "This container’s configuration has been changed since it was last built."
   ) This container’s configuration has been changed since it was last built.
-  button.btn.btn-xs.orange(
+  button.btn.btn-xs.orange.btn-toolbar(
     ng-click = "actions.updateConfigToMatchMaster()"
   ) Update and Rebuild
 
@@ -34,7 +34,7 @@
     title = "/node-hello-world/server.js"
   ) /node-hello-world/server.js
   //- disable save buttons until a change a made
-  button.btn.btn-xs.green.btn-spinner.float-right(
+  button.btn.btn-xs.green.btn-spinner.btn-toolbar.float-right(
     ng-class = "{in: data.saving}"
     ng-click = "data.saving = !data.saving"
   )
@@ -44,7 +44,7 @@
       ng-include = "'spinner'"
     )
     span.btn-text {{ saving ? 'Saving' : 'Save and Restart'}}
-  button.btn.btn-xs.green.btn-spinner.float-right(
+  button.btn.btn-xs.green.btn-spinner.btn-toolbar.float-right(
     ng-class = "{in: data.saving}"
     ng-click = "data.saving = !data.saving"
   )
@@ -65,7 +65,7 @@
     title = "Build Failed Step 2 : ADD ./[&ldquo;api-server&rdquo;, /&ldquo;api-server&rdquo;]"
   ) Build Failed
     span.span Step 2 : ADD ./["api-server", /"api-server"]
-  .btn-group.float-right(
+  .btn-group.btn-debug.btn-toolbar.float-right(
     ng-include = "'viewDebugButton'"
     ng-init = "viewToolbar = true"
   )
