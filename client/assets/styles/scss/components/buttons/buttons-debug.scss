@@ -1,6 +1,6 @@
 // debug buttons
 .btn-debug {
-  min-width: 146px; // stop wrapping
+  min-width: 149px; // stop wrapping
 }
 
 .btn-debug > .btn {
@@ -8,10 +8,6 @@
   &:first-child {
     padding: 0 21px 0 6px;
   }
-
-  // + .btn {
-  //   border-left: 1px solid $purple-darker;
-  // }
 
   .iconnables {
     height: 100%;

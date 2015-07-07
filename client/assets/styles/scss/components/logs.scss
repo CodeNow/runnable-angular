@@ -46,19 +46,20 @@
 }
 
 // .build-log-header
+.build-log-header,
+.build-log-content {
+  padding: 10px 9px 9px 24px;
+}
+
 .build-log-header {
   height: 39px;
+  padding-right: 75px;
 
   // change padding if there's a header
   + .build-log-content {
     padding-bottom: 15px;
     padding-top: 6px;
   }
-}
-
-.build-log-header,
-.build-log-content {
-  padding: 10px 9px 9px 24px;
 }
 
 // .build-log-header.build-log-toggle

@@ -64,8 +64,10 @@
   small.small.text-overflow(
     title = "Build Failed Step 2 : ADD ./[&ldquo;api-server&rdquo;, /&ldquo;api-server&rdquo;]"
   ) Build Failed
-    span.span Step 2 : ADD ./["api-server", /"api-server"]
-  .btn-group.btn-debug.btn-toolbar.float-right(
+    span.span
+      strong.strong RUN&#32;
+      | npm install -g npm@2.1.18 &&     n 0.10.38
+  .btn-group.btn-debug.float-right(
     ng-include = "'viewDebugButton'"
     ng-init = "viewToolbar = true"
   )

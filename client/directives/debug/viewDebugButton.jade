@@ -1,15 +1,18 @@
 //- opens in new window
-a.btn.btn-xs.purple.float-right(
+a.btn.btn-xs.purple.btn-toolbar.float-right(
   href = "/debug"
   target = "_blank"
-) Debug Container
+) Debug&#32;
+  span(
+    ng-if = "viewToolbar"
+  ) Container
   svg.iconnables.icons-link-external
     use(
       xlink:href = "#icons-link-external"
     )
 
 //- button only appears if it in the toolbar
-button.btn.btn-xs.purple.float-right(
+button.btn.btn-xs.purple.btn-toolbar.float-right(
   ng-class = "{active: state.active}"
   ng-if = "viewToolbar"
   pop-over
