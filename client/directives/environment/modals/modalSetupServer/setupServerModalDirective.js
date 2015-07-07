@@ -121,7 +121,7 @@ function setupServerModal(
               return parseDockerfileForDefaults(dockerfile, ['run', 'dst']);
             })
             .then(function (defaults) {
-              $scope.state.commands = defaults.run.map(function (run) { return new cardInfoTypes.Command('RUN ', run); });
+              $scope.state.commands = defaults.run.map(function (run) { return new cardInfoTypes.Command('RUN ' + run); });
               $scope.state.dst = defaults.dst.length ? defaults.dst[0] : $scope.state.opts.name;
             });
         }
