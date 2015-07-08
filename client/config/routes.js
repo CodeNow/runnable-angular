@@ -68,18 +68,6 @@ module.exports = [
       keypather.set($rootScope, 'layoutOptions.hideSidebar', false);
     }
   }, {
-    state: 'config.instance',
-    abstract: false,
-    url: '^/:userName/configure/:instanceName',
-    templateUrl: 'environmentView',
-    controller: 'EnvironmentController',
-    onEnter: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'layoutOptions.hideSidebar', true);
-    },
-    onExit: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'layoutOptions.hideSidebar', false);
-    }
-  }, {
     state: 'instance',
     abstract: true,
     templateUrl: 'viewInstanceLayout',

@@ -6,7 +6,7 @@
 )
   .popover-content
     button.btn.btn-xxs.gray(
-      ng-click = "$localStorage.featureFlags = {}; $root.resetFeatureFlags();"
+      ng-click = "CIL.$localStorage.featureFlags = {}; CA.resetFeatureFlags();"
       style = "font-size: 12px; right: 12px; position: absolute; top: 15px; z-index: 2;"
     ) Reset Flags
     .list.popover-list
@@ -14,15 +14,15 @@
         style = "background: white; color: #aaa; font-weight: 500; padding-left: 15px; top: 1px; z-index: 1;"
       ) Feature Flags
       label.list-item.popover-list-item(
-        ng-repeat = "(flag, value) in $root.featureFlags"
+        ng-repeat = "(flag, value) in CA.featureFlags"
         style = "border-top: 1px solid #f0f0f0; color: $gray-dark; display: block; padding: 0 90px 0 15px;"
       ) {{flag}}
         .toggle-wrapper(
           style = "position: absolute; right: 15px; top: 11px;"
         )
           input.toggle-input(
-            ng-model = "$root.featureFlags[flag]"
-            ng-change = "$localStorage.featureFlags[flag] = $root.featureFlags[flag]"
+            ng-model = "CA.featureFlags[flag]"
+            ng-change = "CIL.$localStorage.featureFlags[flag] = CA.featureFlags[flag]"
             type = "checkbox"
           )
           .toggle-group.toggle-xs

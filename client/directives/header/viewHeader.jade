@@ -2,11 +2,9 @@ img.logo.logo-icon.float-left(
   height = "45"
   src = "/build/images/runnable-icon-white.svg"
   width = "45"
-  ng-click = "editFeatureFlags = CA.data.activeAccount.oauthName() === 'CodeNow'"
+  ng-disabled = "CA.state.params.userName !== 'CodeNow'"
   pop-over
-  pop-over-active = "editFeatureFlags"
   pop-over-template = "viewPopoverFeatureFlags"
-  pop-over-trigger = "activeAttr"
   pop-over-options = "{\"left\":40}"
 )
 
@@ -37,6 +35,23 @@ img.logo.logo-icon.float-left(
     | Configure
 
 //- menu
-accounts-select(
-  data = "CA.data"
+a.btn.btn-sm.purple.btn-accounts(
+  ng-class = "{\
+    active: state.active,\
+    'no-touching': CA.data.accountsDisabled()\
+  }"
+  ng-show = "CA.data.activeAccount"
+  pop-over
+  pop-over-options = "{\"right\":-2,\"top\":48}"
+  pop-over-template = "viewPopoverAccountMenu"
 )
+  img.gravatar(
+    height = "21"
+    ng-src = "{{ CA.data.activeAccount.gravitar() }}"
+    width = "21"
+  )
+  span.span {{ CA.data.activeAccount.oauthName() }}
+  svg.iconnables.icons-arrow-down
+    use(
+      xlink:href = "#icons-arrow-down"
+    )

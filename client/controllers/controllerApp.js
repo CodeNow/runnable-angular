@@ -63,8 +63,8 @@ function ControllerApp(
     saveToolbar: false,
     themeToggle: false // toggles the button that toggles theme
   };
-  $rootScope.featureFlags = {};
-  $rootScope.resetFeatureFlags = function () {
+  CA.featureFlags = $rootScope.featureFlags = {};
+  CA.resetFeatureFlags = $rootScope.resetFeatureFlags = function () {
     Object.keys(defaultFeatureFlags).forEach(function (key) {
       $rootScope.featureFlags[key] = defaultFeatureFlags[key];
     });

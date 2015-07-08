@@ -25,50 +25,7 @@ function accountsSelect (
     },
     link: function ($scope) {
 
-      $scope.popoverAccountMenu = {
-        actions: {
-          logout: function () {
-            promisify($scope.data.user, 'logout')().then(function () {
-              window.location = '/?password';
-            }).catch(errs.handler);
-          },
-          selectActiveAccount: function (userOrOrg) {
-            var username = userOrOrg.oauthName();
-            $rootScope.$broadcast('close-popovers');
-            $timeout(function () {
-              $state.go('^.home', {
-                userName: username
-              }).then(function () {
-                $scope.data.activeAccount = userOrOrg;
-                $scope.$emit('INSTANCE_LIST_FETCH', username);
-              });
-            });
-          }
-        },
-        data: $scope.data,
-        state: {
-          active: false
-        }
-      };
 
-      keypather.set($scope, 'popoverAccountMenu.data.dataModalIntegrations', $scope.data);
-
-      if (configEnvironment !== 'production') {
-        keypather.set($scope, 'popoverAccountMenu.data.inDev', true);
-      }
-      $scope.$watch('data.activeAccount', function (account) {
-        if (!account) { return; }
-        keypather.set($scope, 'popoverAccountMenu.data.activeAccount', account);
-        keypather.set($scope, 'popoverAccountMenu.data.orgs', $scope.data.orgs);
-        keypather.set($scope, 'popoverAccountMenu.data.user', $scope.data.user);
-
-        // Integrations modal
-        if ($scope.data.user.oauthName() === $state.params.userName) {
-          $scope.popoverAccountMenu.data.showIntegrations = false;
-        } else {
-          $scope.popoverAccountMenu.data.showIntegrations = true;
-        }
-      });
     }
   };
 }
