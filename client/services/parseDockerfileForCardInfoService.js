@@ -153,7 +153,7 @@ function parseDockerfileForCardInfoFromInstance(
         packages = packages || new cardInfoTypes.Packages();
 
         var acvs = keypather.get(instance, 'build.contextVersions.models[0].appCodeVersions');
-        var mainCommands = '';
+        var mainCommands = [];
         containerFiles = containerFiles.map(function (item) {
           if (item.type === 'File') { return item; }
           var matchingAcv = acvs.models.find(function (acv) {

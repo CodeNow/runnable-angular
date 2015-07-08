@@ -14,6 +14,7 @@
   ) Cache
     span.span &#32;a command
     input.toggle-input(
+      ng-click = "actions.toggleCache()"
       ng-disabled = "startCommandCanDisable && !state.selectedStack"
       ng-model = "data.cacheCommand"
       type = "checkbox"
@@ -24,6 +25,7 @@
     //- deprecated textarea, remove with $root.featureFlags.buildCommandCache
     //- we only have suggestions for build commands on the main repository
     textarea.textarea.monospace(
+      command-editor
       ng-disabled = "startCommandCanDisable && !state.selectedStack"
       ng-if = "!$root.featureFlags.buildCommandCache"
       ng-model = "state.commands"
@@ -38,6 +40,7 @@
     )
       //- this textarea needs to expand vertically to contain its content, like the contentEditable div below (I know, sorry).
       textarea.textarea.monospace(
+        command-editor
         ng-disabled = "startCommandCanDisable && !state.selectedStack"
         ng-model = "state.commands"
         spellcheck = "false"
@@ -46,32 +49,19 @@
       //- textarea, one .radio-wrapper (with input) and one .cache-row should be added to it.
       .cache-column
         .cache-border
-        //- this content is just for demonstration.
-        label.radio-wrapper
+        label.radio-wrapper(
+          ng-repeat-start = "command in state.commands"
+        )
           input(
-            checked
-            name = "cache-radio"
             type = "radio"
-          )
-        .cache-row
-        label.radio-wrapper
-          input(
+            ng-click = "actions.updateCache(command)"
+            ng-checked = "command.cache"
+            ng-show = "command.body"
             name = "cache-radio"
-            type = "radio"
           )
-        .cache-row
-        label.radio-wrapper
-          input(
-            name = "cache-radio"
-            type = "radio"
-          )
-        .cache-row
-        label.radio-wrapper
-          input(
-            name = "cache-radio"
-            type = "radio"
-          )
-        .cache-row
+        .cache-row(
+          ng-repeat-end
+        )
     small.small Add any commands needed to support your application. They’ll be run before the Container CMD from your repository’s root folder.
 
 label.label.clearfix(
@@ -85,10 +75,10 @@ label.label.clearfix(
       ng-disabled = "startCommandCanDisable && !state.selectedStack"
       spellcheck = "false"
       ng-model = "state.packages.packageList"
-      placeholder = "dnsutils vim"
+      placeholder = "dnsutils vim=7.3"
     )
-    small.small Add any packages you would like to install via apt-get, separated with spaces (e.g. ‘curl git gcc-4.1=4.1.2’). This container is based on &#32;
-      strong.strong Ubuntu
+    small.small Add any packages you would like to install via apt-get, separated with spaces (e.g. ‘dnsutils vim=7.3’). This container is based on &#32;
+      strong.strong Ubuntu.
 
 label.label.clearfix
   .label-col Container CMD

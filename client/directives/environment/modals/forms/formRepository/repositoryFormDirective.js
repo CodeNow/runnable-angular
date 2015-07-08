@@ -20,8 +20,9 @@ require('app')
         ngShow: '&'
       },
       link: function ($scope, element, attrs) {
+        $scope.state.commands = $scope.state.commands || [];
         $scope.data = {
-          cacheCommand: false
+          cacheCommand: $scope.state.commands.some(function (cmd) { return cmd.cache; })
         };
         $scope.branchFetching = true;
         watchOncePromise($scope, 'state.acv', true)
@@ -49,6 +50,46 @@ require('app')
           .finally(function () {
             $scope.branchFetching = false;
           });
+
+        var lastActiveCacheIdx;
+        $scope.actions = {
+          updateCache: function (cmd) {
+            // There's probably a better way to do this
+            // Cache needs to be unique
+            $scope.state.commands.forEach(function (command) {
+              command.cache = false;
+            });
+            if (cmd) {
+              cmd.cache = true;
+            }
+          },
+          toggleCache: function () {
+            if (!$scope.data.cacheCommand) {
+              $scope.state.commands.some(function (command, idx) {
+                if (command.cache) {
+                  lastActiveCacheIdx = idx;
+                  return true;
+                }
+              });
+              $scope.actions.updateCache();
+            } else {
+              if (lastActiveCacheIdx !== undefined && $scope.state.commands[lastActiveCacheIdx]) {
+                $scope.state.commands[lastActiveCacheIdx].cache = true;
+              }
+            }
+          }
+        };
+
+        // If any of the text is edited, disable cache
+        $scope.$watch(function () {
+          return $scope.state.commands.map(function (cmd) {
+            return cmd.body;
+          }).join('\n');
+        }, function (n, o) {
+          if (n !== o) {
+            $scope.data.cacheCommand = false;
+          }
+        }, true);
 
         $scope.$watch('state.branch', function (newBranch, oldBranch) {
           if (newBranch && oldBranch && newBranch.attrs.name !== oldBranch.attrs.name) {
