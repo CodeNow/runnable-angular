@@ -22,15 +22,6 @@
 // editor toolbar
 .views-toolbar-wrapper {
   flex: 0 0 auto;
-
-  &.toolbar-lg ~ .active-panel {
-    height: calc(100% - 120px); // tabs + double toolbar
-  }
-
-  ~ .active-panel {
-    border-top: 0;
-    height: calc(100% - 81px); // tabs + toolbar
-  }
 }
 
 .views-toolbar {

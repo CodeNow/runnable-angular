@@ -10,20 +10,24 @@
   height: 10px;
 }
 
-.term-container,
-.terminal {
-  height: 100%;
-  width: 100%;
-}
-
 // terminal
-.term-container {
-  cursor: text;
-}
 
-.terminal {
-  @extend %pre;
-  padding: 9px 0;
+// wrapper
+.term-js {
+  cursor: text;
+  display: flex;
+  padding: 9px 0 30px;
+  width: 100%;
+
+  // dark theme
+  .ace-runnable-dark & {
+    background: $ace-bg !important; // override term
+    color: $white !important;
+
+    .terminal-cursor {
+      background: $purple-light;
+    }
+  }
 
   // light theme
   .ace-runnable-light & {
@@ -36,22 +40,19 @@
   }
 
   // light theme in a modal
-  .ace-runnable-light & {
+  // .ace-runnable-light & {
 
-    .modal-dialog & {
-      background-color: $white !important; // override term
-    }
-  }
+  //   .modal-dialog & {
+  //     background-color: $white !important; // override term
+  //   }
+  // }
+}
 
-  // dark theme
-  .ace-runnable-dark & {
-    background: $ace-bg !important; // override term
-    color: $white !important;
-
-    .terminal-cursor {
-      background: $purple-light;
-    }
-  }
+.terminal {
+  @extend %pre;
+  background-color: transparent !important; // override termjs
+  flex: 1 1 auto;
+  width: 100%;
 
   > div {
     padding: 0 9px;

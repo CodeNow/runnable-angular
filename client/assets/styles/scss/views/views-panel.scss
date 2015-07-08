@@ -1,40 +1,30 @@
 // .active-panel
 .active-panel {
-  height: 100%;
+  display: flex;
+  flex: 1 1 auto;
+  overflow: auto;
   position: relative;
   z-index: $z-views-active-panel;
 
-  // for tabs when in views
-  .views & {
-    height: calc(100% - 45px);
-  }
-
-  // ace overrides
+  // hide scrollbar (still allows scrolling)
   .ace_scrollbar {
     overflow: hidden;
   }
 
+  // prevent mobile zoom
   .ace_text-input {
     font-size: 16px;
   }
 
-  // panels
-  > div {
-    height: 100%;
+  // ace container
+  > .ace-container {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
 
-    // extra space if terminal in views
-    .views & {
-
-      &.term-js {
-        height: calc(100% - 30px);
-      }
+    > .ace_editor {
+      flex: 1 1 auto;
     }
-  }
-
-  // pre
-  > .pre {
-    overflow: auto;
-    padding: 9px;
   }
 }
 
@@ -42,7 +32,6 @@
 .blank-panel {
   align-items: center;
   display: flex;
-  height: calc(100% - 45px);
   justify-content: center;
   margin-top: -1px;
   position: relative;
