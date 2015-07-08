@@ -7,7 +7,7 @@
 
 // build log specific
 .build-log-wrapper {
-  padding: 9px 6px 30px 9px;
+  padding: 9px;
   width: 100%;
 }
 
@@ -25,6 +25,10 @@
   &:target {
     border-color: $purple-light;
     box-shadow: inset 1px 1px 0 $purple-light, inset -1px -1px 0 $purple-light;
+  }
+
+  &:last-child {
+    margin-bottom: 30px;
   }
 
   &.in {
