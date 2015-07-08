@@ -1,37 +1,37 @@
 //- alerts
 .help-container.fixed.bottom
   .help(
-    ng-if = "alert"
+    ng-if = "EC.alert"
   )
     svg.iconnables.icons-check(
-      ng-if = "alert.type === 'success'"
+      ng-if = "EC.alert.type === 'success'"
     )
       use(
         xlink:href = "#icons-check"
       )
-    | {{alert.text}}
+    | {{EC.alert.text}}
 
 .environment-header.clearfix(
   ng-include = "'viewEnvironmentHeader'"
-  ng-init = "state.helpButton = {active: false}"
+  ng-init = "EC.state.helpButton = {active: false}"
 )
 
 .environment-body.clearfix
   .help-container(
-    ng-class = "{fixed: helpUndock, top: helpUndock}"
-    ng-if = "helpCards.getActiveCard()"
+    ng-class = "{fixed: EC.helpUndock, top: EC.helpUndock}"
+    ng-if = "EC.helpCards.getActiveCard()"
   )
     .help(
-      ng-if = "helpCards.getActiveCard().targets.newContainer && state.newServerButton.active"
-      ng-bind-html = "helpCards.getActiveCard().helpPopover.newContainer"
+      ng-if = "EC.helpCards.getActiveCard().targets.newContainer && EC.state.newServerButton.active"
+      ng-bind-html = "EC.helpCards.getActiveCard().helpPopover.newContainer"
     )
     .help(
-      ng-if = "!(helpCards.getActiveCard().targets.newContainer && state.newServerButton.active)"
-      ng-bind-html = "helpCards.getActiveCard().helpTop"
+      ng-if = "!(EC.helpCards.getActiveCard().targets.newContainer && EC.state.newServerButton.active)"
+      ng-bind-html = "EC.helpCards.getActiveCard().helpTop"
     )
   .help-padding.no-touching(
-    ng-bind-html = "helpCards.getActiveCard().helpTop"
-    ng-if = "helpCards.getActiveCard()"
+    ng-bind-html = "EC.helpCards.getActiveCard().helpTop"
+    ng-if = "EC.helpCards.getActiveCard()"
   )
   .card-grid.clearfix(
     ng-include = "'viewCardGrid'"

@@ -29,18 +29,20 @@ function EnvironmentController(
   $window,
   $state
 ) {
-  $scope.$state = $state;
+  var EC = this;
+
+  EC.$state = $state;
   favico.reset();
   pageName.setTitle('Configure - Runnable');
-  $scope.data = {
+  EC.data = {
     helpCards: helpCards
   };
   fetchInstancesByPod($state.userName)
     .then(function (instances) {
-      $scope.data.instances = instances;
+      EC.data.instances = instances;
     });
 
-  $scope.state = {
+  EC.state = {
     validation: {
       env: {}
     },
@@ -50,20 +52,20 @@ function EnvironmentController(
     }
   };
 
-  $scope.help = helpCards.cards;
-  $scope.helpCards = helpCards;
+  EC.help = helpCards.cards;
+  EC.helpCards = helpCards;
 
   helpCards.clearAllCards();
 
-  $scope.helpUndock = false;
+  EC.helpUndock = false;
 
   var scrollHelper = function () {
     var newVal = false;
     if ($window.scrollY > 153) {
       newVal = true;
     }
-    if ($scope.helpUndock !== newVal) {
-      $scope.helpUndock = newVal;
+    if (EC.helpUndock !== newVal) {
+      EC.helpUndock = newVal;
       $timeout(angular.noop);
     }
   };
@@ -79,17 +81,17 @@ function EnvironmentController(
     $window.removeEventListener('scroll', scrollHelper);
   });
 
-  $scope.alert = null;
+  EC.alert = null;
 
   $scope.$on('alert', function (evt, data) {
-    $scope.alert = data;
+    EC.alert = data;
     $timeout(function () {
-      $scope.alert = null;
+      EC.alert = null;
     }, 5000);
   });
 
-  $scope.helpPopover = {
-    data: $scope.help,
+  EC.helpPopover = {
+    data: EC.help,
     actions: {
       ignoreHelp: function (help) {
         helpCards.ignoreCard(help);
@@ -101,7 +103,7 @@ function EnvironmentController(
     }
   };
 
-  $scope.actions = {
+  EC.actions = {
     deleteServer: function (server) {
       $rootScope.$broadcast('close-popovers');
       $timeout(function () {
@@ -125,7 +127,7 @@ function EnvironmentController(
         }
       }, { warn: false });
       $rootScope.dataApp.creatingInstance = !keypather.get($scope, 'data.instances.models.length');
-      $scope.data.instances.add(instance);
+      EC.data.instances.add(instance);
       helpCards.hideActiveCard();
 
       $rootScope.$broadcast('alert', {
@@ -162,9 +164,9 @@ function EnvironmentController(
     stacks: fetchStackInfo()
   })
     .then(function (data) {
-      $scope.data.allDependencies = data.deps;
-      $scope.data.stacks = data.stacks;
-      $scope.data.sourceContexts = data.sourceContexts;
+      EC.data.allDependencies = data.deps;
+      EC.data.stacks = data.stacks;
+      EC.data.sourceContexts = data.sourceContexts;
     })
     .catch(errs.handler);
 

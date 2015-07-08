@@ -39,9 +39,13 @@ function popOver(
       var popoverElementScope;
 
       function closePopover () {
+        if (!active) { return; }
         active = false;
         if (popoverElementScope) {
           popoverElementScope.active = false;
+        }
+        if (attrs.popOverTrigger === 'activeAttr') {
+          keypather.set($scope, attrs.popOverActive, false);
         }
         // trigger a digest because we are setting active to false!
         $timeout(angular.noop);
@@ -72,12 +76,18 @@ function popOver(
         }
 
         $rootScope.$broadcast('close-popovers');
+        var firstClick = true;
         // If the click has no target we should close the popover.
         // If the click has a target and that target is on the page but not on our popover we should close the popover.
         // Otherwise we should keep the popover alive.
         unbindDocumentClick = $scope.$on('app-document-click', function (event, target) {
-          if(
-            !target ||
+          // Bit of a hack, allows us to trigger popovers both from click and flipping an attribute
+          // With the click, it'll think it needs to be closed from the original click
+          if (attrs.popOverTrigger === 'activeAttr' && firstClick) {
+            firstClick = false;
+            return;
+          }
+          if(!target ||
             (
               $document[0].contains(target) &&
               !popoverElement[0].contains(target)
@@ -193,7 +203,7 @@ function popOver(
           });
           break;
         case 'activeAttr':
-          $scope.$watch(attrs.popOverActiveAttr, function (newVal) {
+          $scope.$watch(attrs.popOverActive, function (newVal) {
             if (newVal) {
               openPopover();
             } else {

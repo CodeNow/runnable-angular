@@ -4,7 +4,7 @@ header.header(
 
 nav.sidebar.nav-sidebar(
   ng-if = "CA.state.current.name.indexOf('config') === -1"
-  ng-hide = "CIL.isLoading.main && CIL.isLoading.sidebar"
+  ng-hide = "CA.isLoading.main && CA.isLoading.sidebar"
 )
 
   section.servers(
@@ -12,14 +12,14 @@ nav.sidebar.nav-sidebar(
   )
     //- spinner for sidebar
     .spinner-wrapper.spinner-md.spinner-gray.in(
-      ng-if = "!CA.data.activeAccount || CIL.isLoading.sidebar"
+      ng-if = "!CA.data.activeAccount || CA.isLoading.sidebar"
       ng-include = "'spinner'"
     )
     .sidebar-section-heading.strong(
-      ng-if = "CA.data.activeAccount && !CIL.isLoading.sidebar"
+      ng-if = "CA.data.activeAccount && !CA.isLoading.sidebar"
     ) Containers
     ul.server-category-list(
-      ng-if = "CA.data.activeAccount && !CIL.isLoading.sidebar"
+      ng-if = "CA.data.activeAccount && !CA.isLoading.sidebar"
     )
       li.server-category-list-item(
         ng-repeat = "masterInstance in CIL.instancesByPod.models | \

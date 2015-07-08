@@ -22,7 +22,6 @@ function ControllerInstanceLayout(
   var CIL = this;
   CIL.data = {};
 
-  CIL.isLoading = $rootScope.isLoading;
   CIL.$localStorage = $localStorage;
 
   fetchUser().then(function(user) {

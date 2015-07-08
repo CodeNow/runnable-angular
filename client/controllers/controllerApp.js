@@ -32,6 +32,8 @@ function ControllerApp(
   CA.actions = {};
   CA.state = $state;
 
+  CA.isLoading = $rootScope.isLoading;
+
   loading('main', true);
   var thisUser;
   $rootScope.dataApp = CA;
