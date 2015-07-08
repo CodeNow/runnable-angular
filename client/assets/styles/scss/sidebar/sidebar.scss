@@ -34,7 +34,7 @@
   }
 }
 
-// these only appear in .server-sidebar. should the moved or renamed?
+// these only appear in .server-sidebar. should they be moved or renamed?
 .sidebar-section {
   border-bottom: 1px solid $gray-lighter;
   flex: 0 0 auto;
@@ -90,15 +90,15 @@
   background: $gray-lighterest;
   float: left;
 
+  .spinner-wrapper {
+    margin-top: 30px;
+  }
+
   // "Containers" label
-  > .sidebar-section-heading {
+  .sidebar-section-heading {
     border-bottom: 1px solid $gray-lighter;
     cursor: default;
     margin: 0 12px;
-  }
-
-  .spinner-wrapper {
-    margin-top: 30px;
   }
 }
 
@@ -128,20 +128,7 @@
 
   // less padding when next to .button-configure
   &:first-child .server-name {
-    padding-right: 3px;
-  }
-}
-
-.server-name {
-  flex: 1 1 auto;
-  padding-right: 9px;
-
-  &:active {
-    color: $purple-light;
-
-    .strong {
-      color: $purple-light;
-    }
+    // padding-right: 3px;
   }
 }
 
@@ -163,6 +150,7 @@
   align-items: center;
   cursor: pointer;
   display: flex;
+  flex: 1 1 auto;
   height: 27px;
   line-height: 27px;
   margin: 0 -12px;
@@ -176,6 +164,10 @@
     }
   }
 
+  &:active {
+    color: $purple-light;
+  }
+
   // for when the more containers button isn't present
   &:last-child {
     margin-bottom: 6px;
@@ -185,16 +177,13 @@
     background: $purple-lightest;
     color: $purple-light;
     cursor: default;
-
-    .strong {
-      color: $purple-light;
-    }
   }
+}
 
-  // .button-configure and .button-hide
-  > .btn {
-    opacity: .6;
-    overflow: hidden;
+.button-configure,
+.button-hide {
+  opacity: .7;
+  overflow: hidden;
 
     &:hover {
       opacity: .8;

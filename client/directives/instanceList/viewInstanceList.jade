@@ -1,7 +1,3 @@
-//- list of all containers
-//- ul.server-category-list(
-//-   ng-if = "data.activeAccount && !isLoading.sidebar"
-//- )
 .server-category-list-item(
   ng-if = "data.activeAccount && !isLoading.sidebar"
   ng-repeat = "masterInstance in data.instancesByPod.models |orderBy: ['attrs.contextVersion.appCodeVersions.length === 0', 'attrs.name'] track by masterInstance.attrs.name"
@@ -14,7 +10,7 @@
     ng-if = "masterInstance.getRepoName()"
   ) {{ masterInstance.getRepoName() }}
     //- configure button for repo container groups
-    a.btn.btn-xs.btn-icon.button-configure(
+    .btn.btn-xs.btn-icon.button-configure(
       title = "configure"
       modal
       modal-current-model = "masterInstance"
@@ -53,7 +49,7 @@
     )
     | {{ masterInstance.attrs.name }}
     //- configure button for non-repo containers
-    a.btn.btn-xs.btn-icon.button-configure(
+    .btn.btn-xs.btn-icon.button-configure(
       title = "configure"
       modal
       modal-current-model = "masterInstance"
