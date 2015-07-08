@@ -11,7 +11,6 @@
 }
 
 // terminal
-
 // wrapper
 .term-js {
   cursor: text;
@@ -21,8 +20,8 @@
 
   // dark theme
   .ace-runnable-dark & {
-    background: $ace-bg !important; // override term
-    color: $white !important;
+    background: $ace-bg;
+    color: $white;
 
     .terminal-cursor {
       background: $purple-light;
@@ -31,26 +30,22 @@
 
   // light theme
   .ace-runnable-light & {
-    background-color: $gray-lighterest !important; // override term
-    color: $gray-darker !important;
+    background-color: $gray-lighterest;
+    color: $gray-darker;
+
+    // light theme in a modal is white instead of gray
+    .modal-dialog & {
+      background-color: $white;
+    }
 
     .terminal-cursor {
       background: $gray-light;
     }
   }
-
-  // light theme in a modal
-  // .ace-runnable-light & {
-
-  //   .modal-dialog & {
-  //     background-color: $white !important; // override term
-  //   }
-  // }
 }
 
 .terminal {
   @extend %pre;
-  background-color: transparent !important; // override termjs
   flex: 1 1 auto;
   width: 100%;
 
