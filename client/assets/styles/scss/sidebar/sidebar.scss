@@ -34,6 +34,7 @@
   }
 }
 
+// these only appear in .server-sidebar. should the moved or renamed?
 .sidebar-section {
   border-bottom: 1px solid $gray-lighter;
   flex: 0 0 auto;
@@ -48,6 +49,7 @@
   }
 }
 
+// rename this, considering the header in the instance view
 .sidebar-section-heading {
   cursor: pointer;
   line-height: 60px;
@@ -88,6 +90,13 @@
   background: $gray-lighterest;
   float: left;
 
+  // "Containers" label
+  > .sidebar-section-heading {
+    border-bottom: 1px solid $gray-lighter;
+    cursor: default;
+    margin: 0 12px;
+  }
+
   .spinner-wrapper {
     margin-top: 30px;
   }
@@ -95,14 +104,9 @@
 
 .servers {
   height: calc(100vh - 120px);
-  padding-bottom: 45px;
-
-  // "Containers" label
-  > .sidebar-section-heading {
-    border-bottom: 1px solid $gray-lighter;
-    cursor: default;
-    margin: 0 12px;
-  }
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 0 12px 45px;
 }
 
 .server-category-list {

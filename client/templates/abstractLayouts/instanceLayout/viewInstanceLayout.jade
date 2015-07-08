@@ -6,12 +6,17 @@ nav.sidebar.nav-sidebar(
   ng-if = "!layoutOptions.hideSidebar"
   ng-hide = "isLoading.main && isLoading.sidebar"
 )
-
-  section.servers(
-    instance-list
-    data = "dataApp.data"
+  .spinner-wrapper.spinner-md.spinner-gray.in(
+    ng-if = "!dataApp.data.activeAccount || isLoading.sidebar"
+    ng-include = "'spinner'"
   )
-
+  .sidebar-section-heading.strong(
+    ng-if = "dataApp.data.activeAccount && !isLoading.sidebar"
+  ) Containers
+  section.servers(
+    data = "dataApp.data"
+    instance-list
+  )
   footer.nav-footer
     a.small.link.link-gray.link-text(
       href = "http://support.runnable.io"
