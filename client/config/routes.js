@@ -67,7 +67,8 @@ module.exports = [
     abstract: false,
     url: '^/:userName',
     templateUrl: 'viewInstanceHome',
-    controller: 'ControllerInstanceHome'
+    controller: 'ControllerInstanceHome',
+    containers: 'CIH'
   }, {
     state: 'instance.instance',
     abstract: false,
