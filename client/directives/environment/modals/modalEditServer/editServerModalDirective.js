@@ -301,8 +301,10 @@ function editServerModal(
         loadingPromises.clear('editServerModal');
         loading.reset('editServerModal');
         loading('editServerModal', true);
+        var advanced = keypather.get(instance, 'advanced') || keypather.get(instance, 'contextVersion.attrs.advanced') || false;
         $scope.state = {
-          advanced: keypather.get(instance, 'contextVersion.attrs.advanced') || false,
+          advanced: advanced,
+          readOnly: !advanced,
           startCommand: instance.startCommand,
           commands: instance.commands.map(function (cmd) { return cmd.clone(); }),
           selectedStack: instance.selectedStack,
@@ -581,18 +583,18 @@ function editServerModal(
       }
 
       // Only start watching this after the context version has
-      $scope.$watch('state.advanced', function (advanced, previousAdvanced) {
+      $scope.$watch('state.readOnly', function (readOnly, previousReadOnly) {
         // This is so we don't fire the first time with no changes
-        if (previousAdvanced === Boolean(previousAdvanced) && advanced !== previousAdvanced) {
+        if (previousReadOnly === Boolean(previousReadOnly) && readOnly !== previousReadOnly) {
           watchOncePromise($scope, 'state.contextVersion', true)
             .then(function () {
               $rootScope.$broadcast('close-popovers');
-              $scope.selectedTab = advanced ? 'buildfiles' : 'repository';
-              if (advanced) {
+              $scope.selectedTab = readOnly ? 'buildfiles' : 'repository';
+              if (readOnly) {
                 openDockerfile();
               }
               return loadingPromises.add('editServerModal', promisify($scope.state.contextVersion, 'update')({
-                advanced: advanced
+                advanced: !readOnly
               }));
             })
             .catch(function (err) {
