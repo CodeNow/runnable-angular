@@ -48,25 +48,13 @@ module.exports = [
     abstract: true,
     templateUrl: 'viewInstanceLayout',
     controller: 'ControllerInstanceLayout',
-    controllerAs: 'CIL',
-    onEnter: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'layoutOptions.hideSidebar', true);
-    },
-    onExit: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'layoutOptions.hideSidebar', false);
-    }
+    controllerAs: 'CIL'
   }, {
     state: 'config.home',
     abstract: false,
     url: '^/:userName/configure',
     templateUrl: 'environmentView',
-    controller: 'EnvironmentController',
-    onEnter: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'layoutOptions.hideSidebar', true);
-    },
-    onExit: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'layoutOptions.hideSidebar', false);
-    }
+    controller: 'EnvironmentController'
   }, {
     state: 'instance',
     abstract: true,

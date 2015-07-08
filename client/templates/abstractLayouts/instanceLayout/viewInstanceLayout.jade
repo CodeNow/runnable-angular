@@ -3,7 +3,7 @@ header.header(
 )
 
 nav.sidebar.nav-sidebar(
-  ng-if = "!layoutOptions.hideSidebar"
+  ng-if = "CA.state.current.name.indexOf('config') === -1"
   ng-hide = "CIL.isLoading.main && CIL.isLoading.sidebar"
 )
 
