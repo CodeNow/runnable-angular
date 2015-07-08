@@ -28,13 +28,38 @@
     left: 6px;
     top: -3px;
   }
-  a.github-icon {
+  .github-icon{
     display: inline-block;
     position: relative;
-    left: 15px;
-    top: 6px;
+    left: 20px;
+    .btn-state {
+      background: rgba(200,200,200,.7);
+      border-radius: 50%;
+      height: 19px;
+      left: -6px;
+      position: absolute;
+      top: 13px;
+      width: 19px;
+      .iconnables {
+        animation: scale-in-bounce .3s ease-in;
+        height: 19px;
+        top: -8px;
+        width: 19px;
+      }
+      .icons-warning {
+        color: $black;
+      }
+    }
+
+    &:hover{
+      .btn-state {
+        background: white;
+      }
+    }
   }
 }
+
+
 
 .container-url {
   color: $gray;

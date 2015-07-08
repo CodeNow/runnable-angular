@@ -6,15 +6,22 @@
   status-icon(
     instance = "instance"
   )
+
   a.github-icon(
     ng-href = "{{pr.html_url}}"
     target = "_blank"
     ng-if = "pr"
   )
-    svg.iconnables.icon-git
-      use(
-        xlink:href="#icons-git"
-      )
+    .btn.btn-xxs.btn-icon.btn-state.no-touching
+      svg.iconnables.icons-pull-request
+        use(
+        xlink:href = "#icons-pull-request"
+        )
+    img.gravatar(
+      height = "28"
+      width = "28"
+      ng-src = "{{pr.user.avatar_url}}"
+    )
 
 .container-url-wrapper
   input.input.container-url(
