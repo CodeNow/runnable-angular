@@ -6,6 +6,15 @@
   status-icon(
     instance = "instance"
   )
+  a.github-icon(
+    ng-href = "{{pr.html_url}}"
+    target = "_blank"
+    ng-if = "pr"
+  )
+    svg.iconnables.icon-git
+      use(
+        xlink:href="#icons-git"
+      )
 
 .container-url-wrapper
   input.input.container-url(
@@ -34,7 +43,7 @@
     span.no-touching(
       ng-if = "userName === 'CodeNow'"
       style = "visibility: unset"
-    ) {{ instance.containers.models[0].attrs.dockerHost }} | 
+    ) {{ instance.containers.models[0].attrs.dockerHost }}
       span(
         ng-repeat = "(key, value) in instance.containers.models[0].attrs.ports"
-      ) {{ key }}:{{ value[0].HostPort }} | 
+      ) {{ key }}:{{ value[0].HostPort }}

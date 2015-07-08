@@ -14,6 +14,7 @@ require('app')
   .factory('fetchGitHubMembers', fetchGitHubMembers)
   .factory('fetchGitHubUser', fetchGitHubUser)
   .factory('integrationsCache', integrationsCache)
+  .factory('fetchPullRequest', fetchPullRequest)
   .factory('fetchInstancesByPod', fetchInstancesByPod);
 
 function fetchUser(
@@ -315,6 +316,23 @@ function fetchGitHubUser (
       url: configAPIHost + '/github/users/' + memberName
     }).then(function (user) {
       return user.data;
+    });
+  };
+}
+
+function fetchPullRequest (
+  $http,
+  configAPIHost,
+  keypather
+) {
+  return function (instance) {
+    var branch = instance.getBranchName();
+    var repo = instance.contextVersion.getMainAppCodeVersion().attrs.repo;
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/github/repos/' + repo + '/pulls?head=' + repo.split('/')[0] + ':' + branch
+    }).then(function (pullRequests) {
+      return keypather.get(pullRequests, 'data[0]');
     });
   };
 }
