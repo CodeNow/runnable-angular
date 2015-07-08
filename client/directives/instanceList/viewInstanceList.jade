@@ -8,7 +8,8 @@
   //- repo names
   strong.strong.small(
     ng-if = "masterInstance.getRepoName()"
-  ) {{ masterInstance.getRepoName() }}
+  )
+    span.span {{ masterInstance.getRepoName() }}
     //- configure button for repo container groups
     .btn.btn-xs.btn-icon.button-configure(
       title = "configure"
@@ -47,7 +48,7 @@
     status-icon(
       instance = "masterInstance"
     )
-    | {{ masterInstance.attrs.name }}
+    span.span {{ masterInstance.attrs.name }}
     //- configure button for non-repo containers
     .btn.btn-xs.btn-icon.button-configure(
       title = "configure"

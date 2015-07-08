@@ -125,14 +125,6 @@
   border-bottom: 1px solid $gray-lighter; // lines below categories
   padding: 9px 0 6px;
   position: relative;
-
-  // less padding when next to .button-configure
-  &:first-child .server-name {
-    // padding-right: 3px;
-  }
-}
-
-.server-category-list-item {
   
   // repo names
   .strong {
@@ -140,9 +132,12 @@
     color: $gray;
     display: flex;
     height: 21px;
-    justify-content: space-between;
     line-height: 21px;
     width: calc(100% + 12px);
+
+    .span {
+      flex: 1 1 auto;
+    }
   }
 }
 
@@ -177,6 +172,10 @@
     background: $purple-lightest;
     color: $purple-light;
     cursor: default;
+  }
+
+  .span {
+    flex: 1 1 auto;
   }
 }
 
