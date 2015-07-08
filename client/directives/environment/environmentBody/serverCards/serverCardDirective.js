@@ -73,7 +73,6 @@ require('app')
           $scope.server.building = true;
 
           return promisify(instance, 'fetchDependencies', true)()
-            .catch(errs.handler)
             .then(function (dependencies) {
               $scope.server.building = false;
 
@@ -196,7 +195,8 @@ require('app')
 
                 calculateHelpCards();
               }
-            });
+            })
+            .catch(errs.handler);
         }
 
         $scope.$watchCollection('instance.attrs', function (n) {

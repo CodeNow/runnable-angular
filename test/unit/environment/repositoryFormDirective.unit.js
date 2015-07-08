@@ -98,6 +98,7 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
     Object.keys(scope).forEach(function (key) {
       $scope[key] = scope[key];
     });
+    $scope.state.commands = $scope.state.commands || [];
 
     ctx.template = directiveTemplate.attribute('repository-form', {
       'state': 'state',

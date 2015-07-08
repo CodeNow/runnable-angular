@@ -47,7 +47,7 @@ function ControllerApp(
 
   var defaultFeatureFlags = {
     advancedRepositories: true,
-    buildCommandCache: false,
+    buildCommandCache: true,
     cardStatus: false,
     debugMode: false,
     dockerfileTool: false,

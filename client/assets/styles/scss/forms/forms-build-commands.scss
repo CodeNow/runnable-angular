@@ -32,14 +32,13 @@
   background-color: $white;
   border: 2px solid $gray-lighter;
   border-radius: 3px;
+  clear: both; // keeps it from collapsing when the labels above it are floated at the xs width
+  height: 121px;
   line-height: 21px;
-  max-height: 126px;
-  min-height: 81px;
   overflow-x: hidden;
   overflow-y: auto;
   position: relative;
   transition: padding-right .15s ease-in-out;
-  clear: both; // keeps it from collapsing when the labels above it are floated at the xs width
 
   &.focus {
     border-color: $purple-light;
@@ -56,8 +55,8 @@
   .textarea.textarea {
     border: 0;
     box-shadow: none;
+    height: 117px;
     max-height: none; // override
-    min-height: 81px;
     resize: none;
   }
 }

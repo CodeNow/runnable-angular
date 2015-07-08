@@ -30,3 +30,11 @@
         use(
           xlink:href = "#icons-link-external"
         )
+
+    span.no-touching(
+      ng-if = "userName === 'CodeNow'"
+      style = "visibility: unset"
+    ) {{ instance.containers.models[0].attrs.dockerHost }} | 
+      span(
+        ng-repeat = "(key, value) in instance.containers.models[0].attrs.ports"
+      ) {{ key }}:{{ value[0].HostPort }} | 
