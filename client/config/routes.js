@@ -74,7 +74,8 @@ module.exports = [
     abstract: false,
     url: '^/:userName/:instanceName',
     templateUrl: 'viewInstance',
-    controller: 'ControllerInstance'
+    controller: 'ControllerInstance',
+    controllerAs: 'CI'
   }
 ];
 Object.freeze(module.exports);

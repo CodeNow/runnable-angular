@@ -29,14 +29,15 @@ function ControllerInstance(
   setLastInstance,
   loading
 ) {
-  var dataInstance = $scope.dataInstance = {
-    data: {
-      unsavedAcvs: []
-    },
-    actions: {}
+  var CI = this;
+
+  CI.data = {
+    unsavedAcvs: []
   };
-  var data = dataInstance.data;
-  $scope.$storage = $localStorage;
+  CI.actions = {};
+
+  var data = CI.data;
+  CI.$storage = $localStorage;
   loading('main', true);
 
   data.openItems = new OpenItems();
@@ -54,12 +55,12 @@ function ControllerInstance(
   };
 
   data.userIsOrg = function () {
-    return $scope.user.oauthName() !== $state.params.userName;
+    return CI.user.oauthName() !== $state.params.userName;
   };
 
   // The error handling for fetchUser will re-direct for us, so we don't need to handle that case
   fetchUser().then(function (user) {
-    $scope.user = user;
+    CI.user = user;
     // product team - track visits to instance page & referrer
     eventTracking.boot(user).visitedState();
     return $q.all({
@@ -86,15 +87,15 @@ function ControllerInstance(
       });
   });
 
-  $scope.$watch('dataInstance.data.instance.backgroundContextVersionFinished', function (n, p) {
+  $scope.$watch('CI.data.instance.backgroundContextVersionFinished', function (n, p) {
     // (n !== p) <- Never open this up the first time you arrive on this page
     var unwatchNewCv = angular.noop;
     if (n && n !== p) {
       unwatchNewCv();
-      dataInstance.data.instance.backgroundContextVersionFinished = false;
+      CI.data.instance.backgroundContextVersionFinished = false;
       // If the build was triggered by me manually we don't want to show toasters.
       var isManual = n.triggeredAction.manual;
-      var isTriggeredByMe = n.triggeredBy.github === $scope.user.oauthId();
+      var isTriggeredByMe = n.triggeredBy.github === CI.user.oauthId();
 
       if (isManual && isTriggeredByMe) {
         data.showUpdatedMessage = false;
@@ -107,8 +108,8 @@ function ControllerInstance(
         );
         var updateBuildHash = n.hash;
         unwatchNewCv = $scope.$watch(function () {
-          return keypather.get($scope, 'dataInstance.data.instance.contextVersion.attrs.build.hash') === updateBuildHash &&
-            keypather.get($scope, 'dataInstance.data.instance.containers.models[0].running()');
+          return keypather.get(CI, 'data.instance.contextVersion.attrs.build.hash') === updateBuildHash &&
+            keypather.get(CI, 'data.instance.containers.models[0].running()');
         }, function (n) {
           if (n) {
             unwatchNewCv();
@@ -120,12 +121,12 @@ function ControllerInstance(
     }
   });
 
-  $scope.$watch('dataInstance.data.instance.backgroundContextVersionBuilding', function (n, p) {
+  $scope.$watch('CI.data.instance.backgroundContextVersionBuilding', function (n, p) {
     if (n && n !== p) {
-      dataInstance.data.instance.backgroundContextVersionBuilding = false;
+      CI.data.instance.backgroundContextVersionBuilding = false;
       // If the build was triggered by me manually we don't want to show toasters.
       var isManual = n.triggeredAction.manual;
-      var isTriggeredByMe = n.triggeredBy.github === $scope.user.oauthId();
+      var isTriggeredByMe = n.triggeredBy.github === CI.user.oauthId();
 
       if (isManual && isTriggeredByMe) {
         data.showUpdatingMessage = false;
@@ -145,7 +146,7 @@ function ControllerInstance(
   // watch showExplorer (toggle when user clicks file menu)
   // if no running container, return early (user shouldn't be able to even click
   // button in this situation)
-  $scope.$watch('dataInstance.data.showExplorer', function (n) {
+  $scope.$watch('CI.data.showExplorer', function (n) {
     var runningContainer = keypather.get(data, 'instance.containers.models[0].running()');
     if (!runningContainer) {
       return;
@@ -169,12 +170,12 @@ function ControllerInstance(
   // after fetching instance, fetching container, and cointainer start
 
   function checkContainerState() {
-    var container = keypather.get($scope, 'dataInstance.data.instance.containers.models[0]');
+    var container = keypather.get(CI, 'data.instance.containers.models[0]');
     if (!container) {
-      if (keypather.get($scope, 'dataInstance.data.instance.build')) {
-        var completed = keypather.get($scope, 'dataInstance.data.instance.build.attrs.completed');
+      if (keypather.get(CI, 'data.instance.build')) {
+        var completed = keypather.get(CI, 'data.instance.build.attrs.completed');
         container = {
-          Building: (keypather.get($scope, 'dataInstance.data.instance.build.attrs.started'))
+          Building: (keypather.get(CI, 'data.instance.build.attrs.started'))
         };
       }
     } else {
@@ -186,7 +187,7 @@ function ControllerInstance(
 
   function displayTabsForContainerState(containerState) {
     $timeout(function () {
-      favico.setInstanceState(keypather.get($scope, 'dataInstance.data.instance'));
+      favico.setInstanceState(keypather.get(CI, 'data.instance'));
     });
     if (!containerState) {
       return;

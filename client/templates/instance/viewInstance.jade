@@ -1,6 +1,6 @@
 //- spinner for JUST instance
 .spinner-wrapper.spinner-backdrop.spinner-md.spinner-purple.in(
-  ng-if = "isLoading.main"
+  ng-if = "CA.isLoading.main"
   ng-include = "'spinner'"
 )
 
@@ -11,39 +11,39 @@
 //- will be re-enabled when API opens up that event
 .notification.in(
   ng-class = "{\
-    green: dataInstance.data.showUpdatedMessage,\
-    orange: dataInstance.data.showUpdatingMessage\
+    green: CI.data.showUpdatedMessage,\
+    orange: CI.data.showUpdatingMessage\
   }"
-  ng-if = "(dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage)"
+  ng-if = "(CI.data.showUpdatingMessage || CI.data.showUpdatedMessage)"
 )
   //- if successful, .green; if fail, .orange
   .btn.btn-xxs.btn-icon.btn-state.no-touching
     //- if updated
     svg.iconnables.icons-fat-check(
-      ng-if = "dataInstance.data.showUpdatedMessage"
+      ng-if = "CI.data.showUpdatedMessage"
     )
       use(
         xlink:href = "#icons-fat-check"
       )
     //- if updating
     svg.iconnables.icons-warning(
-      ng-if = "dataInstance.data.showUpdatingMessage"
+      ng-if = "CI.data.showUpdatingMessage"
     )
       use(
         xlink:href = "#icons-warning"
       )
   img.gravatar(
     height = "36"
-    ng-src = "{{ dataInstance.data.commit.attrs.author.avatar_url }}"
+    ng-src = "{{ CI.data.commit.attrs.author.avatar_url }}"
     width = "36"
   )
   //- inherit green/orange from .notification
   button.btn.btn-xs.btn-close(
     ng-class = "{\
-      green: dataInstance.data.showUpdatedMessage,\
-      orange: dataInstance.data.showUpdatingMessage\
+      green: CI.data.showUpdatedMessage,\
+      orange: CI.data.showUpdatingMessage\
     }"
-    ng-click = "dataInstance.data.showUpdatedMessage = false; dataInstance.data.showUpdatingMessage = false"
+    ng-click = "CI.data.showUpdatedMessage = false; CI.data.showUpdatingMessage = false"
   )
     svg.iconnables.icons-close
       use(
@@ -54,67 +54,67 @@
       if success: Successful Build
       if failed: Failed Build
   h4.h4.text-overflow(
-    title = "{{ dataInstance.data.instance.getRepoAndBranchName() }}"
-  ) {{dataInstance.data.showUpdatedMessage ? 'Deployed' : 'Building' }} #{''}
-    span.strong {{ dataInstance.data.instance.getRepoName() || dataInstance.data.instance.getDisplayName() }}
+    title = "{{ CI.data.instance.getRepoAndBranchName() }}"
+  ) {{CI.data.showUpdatedMessage ? 'Deployed' : 'Building' }} #{''}
+    span.strong {{ CI.data.instance.getRepoName() || CI.data.instance.getDisplayName() }}
     span(
-      ng-if = "dataInstance.data.instance.getBranchName()"
-    ) /{{ dataInstance.data.instance.getBranchName() }}
-  small.small {{ dataInstance.data.commit.attrs.author.login }} pushed #{''}
+      ng-if = "CI.data.instance.getBranchName()"
+    ) /{{ CI.data.instance.getBranchName() }}
+  small.small {{ CI.data.commit.attrs.author.login }} pushed #{''}
     a.link(
-      ng-href = "{{ dataInstance.data.commit.attrs.html_url }}"
+      ng-href = "{{ CI.data.commit.attrs.html_url }}"
       target = "_blank"
-    ) {{ dataInstance.data.commit.attrs.sha  | limitTo:7 }}
+    ) {{ CI.data.commit.attrs.sha  | limitTo:7 }}
 
 header.server-header
 
   h1.server-info.load(
-    instance = "dataInstance.data.instance"
+    instance = "CI.data.instance"
     instance-box-name
-    ng-show = "dataInstance.data.instance"
+    ng-show = "CI.data.instance"
   )
 
   .primary-actions(
-    instance = "dataInstance.data.instance"
+    instance = "CI.data.instance"
     instance-primary-actions
     loading = "isLoading.main"
-    open-items = "dataInstance.data.openItems"
-    saving = "dataInstance.data.saving"
+    open-items = "CI.data.openItems"
+    saving = "CI.data.saving"
   )
 
 //- sidebar with repositories and urls
 section.sidebar.server-sidebar.load
 
   section.sidebar-section.repository-section(
-    instance = "dataInstance.data.instance"
-    ng-class = "{closed: $storage.repoListIsClosed}"
-    ng-if = "dataInstance.data.instance.contextVersion.getMainAppCodeVersion()"
+    instance = "CI.data.instance"
+    ng-class = "{closed: CI.$storage.repoListIsClosed}"
+    ng-if = "CI.data.instance.contextVersion.getMainAppCodeVersion()"
     repo-list
   )
 
   section.sidebar-section.dns-mappings-section(
     dns-manager
-    instance = "dataInstance.data.instance"
-    ng-class = "{closed: $storage.dnsManagementIsClosed}"
-    ng-if = "dataInstance.data.instance"
+    instance = "CI.data.instance"
+    ng-class = "{closed: CI.$storage.dnsManagementIsClosed}"
+    ng-if = "CI.data.instance"
   )
 
   section.sidebar-section.explorer-section(
     edit-explorer = "false"
     explorer
     explorer-title = "File Explorer"
-    file-model = "dataInstance.data.instance.containers.models[0]"
-    open-items = "dataInstance.data.openItems"
-    ng-class = "{closed: $storage.explorerIsClosed}"
-    root-dir = "dataInstance.data.instance.containers.models[0].rootDir"
+    file-model = "CI.data.instance.containers.models[0]"
+    open-items = "CI.data.openItems"
+    ng-class = "{closed: CI.$storage.explorerIsClosed}"
+    root-dir = "CI.data.instance.containers.models[0].rootDir"
   )
 
 //- in / out control presence of header-bar
 section.views(
   active-panel
   background-buttons = "build, server, term, web"
-  build = "dataInstance.data.instance.build"
-  instance = "dataInstance.data.instance"
-  ng-class = "{'full-screen': $root.featureFlags.fullScreen}"
-  open-items = "dataInstance.data.openItems"
+  build = "CI.data.instance.build"
+  instance = "CI.data.instance"
+  ng-class = "{'full-screen': CA.featureFlags.fullScreen}"
+  open-items = "CI.data.openItems"
 )

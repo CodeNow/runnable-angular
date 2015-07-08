@@ -73,9 +73,9 @@ function repoList(
 
       $scope.$watch('instance.attrs.locked', function (n, p) {
         if (n !== p) {
-          $scope.instance.update({
+          promisify($scope.instance, 'update')({
             locked: n
-          }, angular.noop);
+          }).catch(errs.handler);
         }
       });
     }
