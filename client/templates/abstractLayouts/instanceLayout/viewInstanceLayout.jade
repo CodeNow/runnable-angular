@@ -4,13 +4,91 @@ header.header(
 
 nav.sidebar.nav-sidebar(
   ng-if = "!layoutOptions.hideSidebar"
-  ng-hide = "isLoading.main && isLoading.sidebar"
+  ng-hide = "CIL.isLoading.main && CIL.isLoading.sidebar"
 )
 
   section.servers(
-    instance-list
-    data = "dataApp.data"
+    scroll-to-instance
   )
+    //- spinner for sidebar
+    .spinner-wrapper.spinner-md.spinner-gray.in(
+      ng-if = "!CA.data.activeAccount || CIL.isLoading.sidebar"
+      ng-include = "'spinner'"
+    )
+    .sidebar-section-heading.strong(
+      ng-if = "CA.data.activeAccount && !CIL.isLoading.sidebar"
+    ) Containers
+    ul.server-category-list(
+      ng-if = "CA.data.activeAccount && !CIL.isLoading.sidebar"
+    )
+      li.server-category-list-item(
+        ng-repeat = "masterInstance in CIL.instancesByPod.models | \
+          orderBy: ['attrs.contextVersion.appCodeVersions.length === 0', 'attrs.name'] \
+          track by masterInstance.attrs.name"
+        ng-class = "{\
+          'no-touching': !masterInstance.opts\
+        }"
+      )
+        .server-list
+          .server-list-item(
+            ui-sref-active = "selected"
+          )
+            status-icon(
+              instance = "masterInstance"
+            )
+            a.server-name.text-overflow(
+              ng-if = "masterInstance.getRepoName()"
+              title = "{{ masterInstance.getRepoName() }}/{{ masterInstance.getBranchName() }}"
+              ui-sref = "\
+                instance.instance({ userName: CA.data.activeAccount.oauthName(), \
+                instanceName: masterInstance.attrs.name })\
+              "
+            )
+              strong.strong {{ masterInstance.getRepoName() }}
+              | /{{ masterInstance.getBranchName() }}
+            a.server-name.text-overflow(
+              ng-if = "!masterInstance.getRepoName()"
+              title = "{{ masterInstance.attrs.name }}"
+              ui-sref = "\
+                instance.instance({ userName: CA.data.activeAccount.oauthName(), \
+                instanceName: masterInstance.attrs.name })\
+              "
+            )
+              strong.strong {{ masterInstance.attrs.name }}
+            a.btn.btn-xs.btn-icon.button-configure(
+              title = "configure"
+              modal
+              modal-current-model = "masterInstance"
+              modal-state-model = "masterInstance.contextVersion.attrs.advanced ? 'env' : 'repository'"
+              modal-template = "editServerModalOpen"
+            )
+              svg.iconnables
+                use(
+                  xlink:href = "#icons-advanced"
+                )
+          .server-list-item(
+            ng-repeat = "branchFork in masterInstance.children.models | orderBy:'attrs.name'"
+            ui-sref-active = "selected"
+          )
+            status-icon(
+              instance = "branchFork"
+            )
+            a.server-name.text-overflow(
+              title = "{{ branchFork.getDisplayName() }}"
+              ui-sref = "\
+                instance.instance({ userName: CA.data.activeAccount.oauthName(), \
+                instanceName: branchFork.attrs.name })\
+              "
+            ) {{ branchFork.getDisplayName() }}
+            .btn.btn-xs.button-hide(
+              ng-if = "$root.featureFlags.navListFilter"
+            ) hide
+          .more-containers(
+            ng-if = "$root.featureFlags.navListFilter"
+            pop-over
+            pop-over-options = "{\"top\":-33,\"left\":215}"
+            pop-over-template = "viewMoreContainersPopover"
+          ) 8 more…
 
   footer.nav-footer
     a.small.link.link-gray.link-text(
@@ -27,6 +105,6 @@ main.content(
 
 //- spinner for both instance AND sidebar
 .spinner-wrapper.spinner-backdrop.spinner-md.spinner-purple.in(
-  ng-if = "isLoading.main && isLoading.sidebar"
+  ng-if = "CIL.isLoading.main && CIL.isLoading.sidebar"
   ng-include = "'spinner'"
 )

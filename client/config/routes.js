@@ -41,19 +41,19 @@ module.exports = [
     abstract: true,
     url: '^/:userName/',
     templateUrl: 'viewInstanceLayout',
-    controller: 'ControllerApp'
+    controller: 'ControllerApp',
+    controllerAs: 'CA'
   }, {
     state: 'config',
     abstract: true,
     templateUrl: 'viewInstanceLayout',
     controller: 'ControllerInstanceLayout',
+    controllerAs: 'CIL',
     onEnter: function ($rootScope, keypather) {
       keypather.set($rootScope, 'layoutOptions.hideSidebar', true);
-      keypather.set($rootScope, 'dataApp.isConfigPage', true);
     },
     onExit: function ($rootScope, keypather) {
       keypather.set($rootScope, 'layoutOptions.hideSidebar', false);
-      keypather.set($rootScope, 'dataApp.isConfigPage', false);
     }
   }, {
     state: 'config.home',
@@ -63,11 +63,9 @@ module.exports = [
     controller: 'EnvironmentController',
     onEnter: function ($rootScope, keypather) {
       keypather.set($rootScope, 'layoutOptions.hideSidebar', true);
-      keypather.set($rootScope, 'dataApp.isConfigPage', true);
     },
     onExit: function ($rootScope, keypather) {
       keypather.set($rootScope, 'layoutOptions.hideSidebar', false);
-      keypather.set($rootScope, 'dataApp.isConfigPage', false);
     }
   }, {
     state: 'config.instance',
@@ -77,23 +75,16 @@ module.exports = [
     controller: 'EnvironmentController',
     onEnter: function ($rootScope, keypather) {
       keypather.set($rootScope, 'layoutOptions.hideSidebar', true);
-      keypather.set($rootScope, 'dataApp.isConfigPage', true);
     },
     onExit: function ($rootScope, keypather) {
       keypather.set($rootScope, 'layoutOptions.hideSidebar', false);
-      keypather.set($rootScope, 'dataApp.isConfigPage', false);
     }
   }, {
     state: 'instance',
     abstract: true,
     templateUrl: 'viewInstanceLayout',
     controller: 'ControllerInstanceLayout',
-    onEnter: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'dataApp.isInstancePage', true);
-    },
-    onExit: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'dataApp.isInstancePage', false);
-    }
+    controllerAs: 'CIL'
   }, {
     state: 'instance.home',
     abstract: false,

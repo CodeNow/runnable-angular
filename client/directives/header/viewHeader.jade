@@ -2,7 +2,7 @@ img.logo.logo-icon.float-left(
   height = "45"
   src = "/build/images/runnable-icon-white.svg"
   width = "45"
-  ng-click = "editFeatureFlags = dataApp.data.activeAccount.oauthName() === 'CodeNow'"
+  ng-click = "editFeatureFlags = CA.data.activeAccount.oauthName() === 'CodeNow'"
   pop-over
   pop-over-active = "editFeatureFlags"
   pop-over-template = "viewPopoverFeatureFlags"
@@ -13,10 +13,10 @@ img.logo.logo-icon.float-left(
 .btn-group
   a.btn.btn-sm.purple(
     ng-class = "{\
-      active: dataApp.isInstancePage,\
-      'no-touching': !dataApp.data.activeAccount || dataApp.isInstancePage || dataApp.creatingInstance\
+      active: CA.state.current.name === 'instance.instance',\
+      'no-touching': !CA.data.activeAccount || CA.state.current.name === 'instance.instance' || dataApp.creatingInstance\
     }"
-    ui-sref = "instance.home({ userName: dataApp.data.activeAccount.oauthName() })"
+    ui-sref = "instance.home({ userName: CA.data.activeAccount.oauthName() })"
   )
     svg.iconnables
       use(
@@ -25,10 +25,10 @@ img.logo.logo-icon.float-left(
     | Containers
   a.btn.btn-sm.purple(
     ng-class = "{\
-      'active': dataApp.isConfigPage,\
-      'no-touching': !dataApp.data.activeAccount || dataApp.isConfigPage\
+      'active': CA.state.current.name === 'config.home',\
+      'no-touching': !CA.data.activeAccount || CA.state.current.name === 'config.home'\
     }"
-    ui-sref = "config.home({ userName: dataApp.data.activeAccount.oauthName() })"
+    ui-sref = "config.home({ userName: CA.data.activeAccount.oauthName() })"
   )
     svg.iconnables
       use(
@@ -38,5 +38,5 @@ img.logo.logo-icon.float-left(
 
 //- menu
 accounts-select(
-  data = "dataApp.data"
+  data = "CA.data"
 )

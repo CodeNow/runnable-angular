@@ -7,51 +7,40 @@ require('app')
  */
 function ControllerInstanceLayout(
   $rootScope,
-  keypather,
   $scope,
+  $state,
   errs,
   fetchUser,
   fetchInstancesByPod,
   loading
 ) {
+  var CIL = this;
 
-  var currentUser;
+  CIL.isLoading = $rootScope.isLoading;
+
   fetchUser().then(function(user) {
-    currentUser = user;
-  });
-
-  var dataInstanceLayout = $scope.dataInstanceLayout = {
-    data: {},
-    state: {},
-    actions: {}
-  };
-  var unwatch = $scope.$watch('dataApp.data.activeAccount.oauthName()', function (n) {
-    if (!n) { return; }
-    unwatch();
-    resolveInstanceFetch(n);
+    CIL.currentUser = user;
+    resolveInstanceFetch(user.oauthName());
   });
 
   function resolveInstanceFetch(username) {
     if (!username) { return; }
     loading('sidebar', true);
-    keypather.set($rootScope, 'dataApp.data.instancesByPod', null);
+    CIL.instancesByPod = [];
 
     fetchInstancesByPod(username)
       .then(function (instancesByPod) {
         loading('sidebar', false);
-        if (instancesByPod.githubUsername === keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()')) {
-          $rootScope.dataApp.data.instancesByPod = instancesByPod;
+
+        // Ensure username hasn't changed since we were called
+        if (instancesByPod.githubUsername === $state.params.userName) {
+          CIL.instancesByPod = instancesByPod;
         }
       })
       .catch(errs.handler);
   }
 
-  var instanceListUnwatcher = $scope.$on('INSTANCE_LIST_FETCH', function (event, username) {
+  $scope.$on('INSTANCE_LIST_FETCH', function (event, username) {
     resolveInstanceFetch(username);
   });
-
-  $scope.$on('$destroy', function () {
-    instanceListUnwatcher();
-  });
-
 }

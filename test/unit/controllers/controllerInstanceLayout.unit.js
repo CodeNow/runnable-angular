@@ -86,10 +86,6 @@ describe('ControllerInstanceLayout'.bold.underline.blue, function () {
     mockUserFetch.triggerPromise(ctx.userList.user);
     $rootScope.$digest();
 
-    expect($scope).to.have.property('dataInstanceLayout');
-    expect($scope).to.have.deep.property('dataInstanceLayout.actions');
-    expect($scope).to.have.deep.property('dataInstanceLayout.data');
-    expect($scope).to.have.deep.property('dataInstanceLayout.state');
     $rootScope.$digest();
     expect($rootScope.isLoading.sidebar).to.be.ok;
     expect($rootScope.dataApp.data.instancesByPod).to.be.null;
