@@ -20,8 +20,6 @@ function popOver(
   return {
     restrict: 'A',
     link: function ($scope, element, attrs) {
-      // TODO
-      $scope.noBroadcast = attrs.popOverNoBroadcast;
 
       if (!attrs.popOverTemplate) {
         return $log.error('Pop over needs a template');
@@ -30,18 +28,21 @@ function popOver(
       var unbindDocumentClick = angular.noop;
       var unbindPopoverOpened = angular.noop;
       var popoverAlignment;
+      var active = false;
       try {
         popoverAlignment = JSON.parse(attrs.popOverOptions);
       } catch (e) {
         popoverAlignment = {};
       }
-      $scope.active = $scope.active || false;
 
       var popoverElement;
       var popoverElementScope;
 
       function closePopover () {
-        $scope.active = false;
+        active = false;
+        if (popoverElementScope) {
+          popoverElementScope.active = false;
+        }
         // trigger a digest because we are setting active to false!
         $timeout(angular.noop);
 
@@ -94,6 +95,7 @@ function popOver(
         // We need to create a custom scope so we can call $destroy on it when the element is removed.
         popoverElementScope = $scope.$new();
         popoverElementScope.closePopover = closePopover;
+        popoverElementScope.active = active;
         popoverElementScope.popoverStyle = {
           getStyle: function () {
             var offset = {};
@@ -135,7 +137,7 @@ function popOver(
         };
 
         popoverElementScope.$on('$destroy', function () {
-          if ($scope.active) {
+          if (active) {
             closePopover();
           }
         });
@@ -148,11 +150,11 @@ function popOver(
           throw new Error('Popover template not found: ' + attrs.popOverTemplate);
         }
         popoverElement = $compile(template)(popoverElementScope);
-        // $scope.popoverElement = popoverElement;
         $document.find('body').append(popoverElement);
         // Trigger a digest cycle
-        $timeout(function(){
-          $scope.active = true;
+        $timeout(function() {
+          popoverElementScope.active = true;
+          active = true;
         });
       }
       function clickHandler(event) {
@@ -161,12 +163,12 @@ function popOver(
         if (element.prop('disabled')) {
           return;
         }
-        if ($scope.active) {
+        if (active) {
           closePopover();
           return;
         }
         // Skip broadcasting if we're in a modal
-        if (!$scope.noBroadcast) {
+        if (!attrs.popOverNoBroadcast) {
           $rootScope.$broadcast('app-document-click');
         }
         openPopover({

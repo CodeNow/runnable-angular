@@ -85,5 +85,4 @@ function ControllerInstanceLayout(
   };
 
   CIL.dataModalIntegrations = CIL.data;
-
 }
