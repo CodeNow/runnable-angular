@@ -54,7 +54,7 @@
     "async": "~0.9.0",
     "brace": "git://github.com/Runnable/brace.git#5a32dd26ce9826718836eda688837db5167c0fa5",
     "callback-count": "^0.1.0",
-    "card-info-types": "git+ssh://git@github.com/CodeNow/card-info-types.git#v0.1.6",
+    "card-info-types": "git+ssh://git@github.com/CodeNow/card-info-types.git#v0.2.0",
     "compression": "^1.4.0",
     "debounce": "https://registry.npmjs.org/debounce/-/debounce-1.0.0.tgz",
     "diff-parse": "git+ssh://git@github.com:Runnable/diff-parse.git",
