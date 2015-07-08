@@ -7,7 +7,7 @@
 
 // build log specific
 .build-log-wrapper {
-  padding: 9px;
+  padding: 9px 7px;
   width: 100%;
 }
 
@@ -29,6 +29,10 @@
 
   &:last-child {
     margin-bottom: 30px;
+
+    .modal-edit & {
+      margin-bottom: 9px;
+    }
   }
 
   &.in {
