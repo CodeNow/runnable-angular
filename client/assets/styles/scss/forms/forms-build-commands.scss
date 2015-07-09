@@ -54,10 +54,16 @@
     }
   }
 
+  .flex-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
   .textarea.textarea {
     border: 0;
     box-shadow: none;
     // height: 117px;
+    min-height: 0;
     height: auto;
     max-height: none; // override
     resize: none;
@@ -70,7 +76,6 @@
   display: flex;
   flex-direction: column;
   font-size: 14px; // sets radio button size
-  min-height: 100%;
   pointer-events: none;
   position: absolute;
   top: 0;
