@@ -16,105 +16,95 @@ function helpCardsFactory(
 ) {
 
 //POSSIBLE TARGETS:
-//newContainer
-//containerFiles
-//buildCommand
-//stackType
+//repository
 //exposedPorts
-//repositories
-//findAndReplace
 //environmentVariables
+//commands
+//containerFiles
+//findAndReplace
+//newContainer
+//buildCommand
   var helpCards = {
     'general': [
       {
-        'label': 'Change language or framework',
-        'targets': ['stackType'],
-        'helpTop': 'Use the <b>Repository</b> tool to change the language or framework.',
-        'helpPopover': {
-          'stackType': 'Change the language, framework or versions below.'
-        }
-      },
-      {
-        'label': 'Connect to an external service',
-        'targets': [
-          'environmentVariables',
-          'findAndReplace'
-        ],
-        'helpTop': 'Configure your external service by using an <b>Environment Variable</b> or the <b>Find and Replace</b> tool.',
-        'helpPopover': {
-          'environmentVariables': 'Reference your external service here by adding or modifying an <b>environment variable</b>.',
-          'findAndReplace': 'Reference your external service here by creating a <b>new rule</b>.'
-        }
-      },
-      {
-        'label': 'Add a library',
-        'targets': [
-          'repositories',
-          'containerFiles'
-        ],
-        'helpTop': 'Add <b>Build Commands</b> to install libraries from the <b>Repositories</b> or <b>Container Files</b> tool.',
-        'helpPopover': {
-          'repositories': 'Use <b>Build Commands</b> to install a library. Example: apt-get install -y git',
-          'containerFiles': 'Use <b>Build Commands</b> to install a library. Example: apt-get install -y git'
-        }
-      },
-      {
-        'label': 'Configure an OAuth service',
-        'targets': [
-          'environmentVariables',
-          'findAndReplace'
-        ],
-        'helpTop': 'Update your OAuth credentials using the <b>Environment Variables</b> or <b>Find and Replace</b> tool.',
-        'helpPopover': {
-          'environmentVariables': 'Update the environment variables that you use to specify OAuth credentials.',
-          'findAndReplace': 'Add a rule to update your OAuth credentials in your code.'
-        }
-      },
-      {
-        'label': 'Seed a database',
-        'targets': ['containerFiles'],
-        'helpTop': 'Use <b>Container Files</b> to upload seed data and run commands to import it.',
-        'helpPopover': {
-          'containerFiles': 'Click <b>Upload File</b> to select and upload seed data. Specify <b>Build Commands</b> to run shell commands after import.'
-        }
-      }
-    ],
-    'triggered': [
-      {
-        id: 'missingAssociation',
-        'label': '<b>{{instance.getDisplayName()}}</b> may need to be updated with <b>{{association}}\’s</b> hostname.</b>',
-        'targets': [
-          'environmentVariables',
-          'findAndReplace'
-        ],
-        'helpTop': 'Update <b>{{instance.getDisplayName()}}\’s</b> code by using <b>Find and Replace</b> or <b>Environment Variables</b> to update the hostname for <b>{{association}}</b>.',
-        'helpPopover': {
-          'environmentVariables': 'Add/update the correct environment variable with <b>{{association}}\’s</b> elastic hostname.',
-          'findAndReplace': 'Add a string rule to modify your code to connect with <b>{{association}}\’s</b> elastic hostname.'
-        }
-      },
-      {
-        id: 'missingDependency',
-        'label': '<b>{{instance.getDisplayName()}}</b> may need a <b>{{dependency}}</b> container.',
-        'targets': [
-          'newContainer'
-        ],
-        'helpTop': 'Click on the <b>New Container</b> button to add a <b>{{dependency}}</b> container.',
-        'helpPopover': {
-          'newContainer': 'Click <b>Non-repository</b> to add a <b>{{dependency}}</b> container.'
-        }
-      },
-      {
-        id: 'missingMapping',
-        label: 'You may need to add a mapping to <b>{{mapping}}\’s</b> elastic hostname for some repository containers.',
+        label: 'Connect to an external service',
         targets: [
           'environmentVariables',
           'findAndReplace'
         ],
-        helpTop: 'Connect one of more of your repository containers to <b>{{mapping}}\’s</b> elastic hostname by using <b>Environment Variables</b>.',
+        helpTop: 'Use <b>Environment Variables</b> or <b>Find and Replace</b> to connect to a service.',
         helpPopover: {
-          environmentVariables: 'Add/update the correct environment variable with <b>{{mapping}}\’s</b> elastic hostname.',
-          findAndReplace: 'Add a string rule to modify your code to connect with <b>{{mapping}}\’s</b> elastic hostname.'
+          'environmentVariables': 'Add or update an environment variable to reference your external service.',
+          'findAndReplace': 'Create a new string rule to connect to your external service.'
+        }
+      },
+      {
+        label: 'Connect to an OAuth service',
+        targets: [
+          'environmentVariables',
+          'findAndReplace'
+        ],
+        helpTop: 'Use <b>Environment Variables</b> or <b>Find and Replace</b> to update your OAuth credentials.',
+        helpPopover: {
+          'environmentVariables': 'Add or update the environment variables for your OAuth credentials.',
+          'findAndReplace': 'Add a string rule to update your OAuth credentials in your code.'
+        }
+      },
+      {
+        label: 'Add a library',
+        targets: [
+          'commands',
+        ],
+        helpTop: 'Use <b>Commands and Packages</b> to add a library.',
+      },
+      {
+        label: 'Seed a database',
+        targets: ['containerFiles'],
+        helpTop: 'Use <b>Container Files</b> to upload seed data and import it using scripts.',
+        helpPopover: {
+          'containerFiles': 'Click <b>Upload File</b> to select and upload your seed file. Then enter the scripts you need to import the data.'
+        }
+      }
+    ],
+    'triggered': [
+      // when we detect that one existing container depends on service for which there is no existing container
+      {
+        id: 'missingDependency',
+        label: '<b>{{instance.getDisplayName()}}</b> may need a <b>{{dependency}}</b> container.',
+        targets: [
+          'newContainer'
+        ],
+        helpTop: 'Click on the <b>New Container</b> button to add a <b>{{dependency}}</b> container.',
+        helpPopover: {
+          'newContainer': 'Click <b>Non-repository</b> to add a <b>{{dependency}}</b> container.'
+        }
+      },
+      // when we detect that one existing container depends on another existing contianer
+      {
+        id: 'missingAssociation',
+        label: 'You may need to update <b>{{instance.getDisplayName()}}</b> with <b>{{association}}’s</b> elastic hostname.</b>',
+        targets: [
+          'environmentVariables',
+          'findAndReplace'
+        ],
+        helpTop: 'Use <b>Environment Variables</b> or <b>Find and Replace</b> to update <b>{{instance.getDisplayName()}}</b> with <b>{{association}}’s</b> elastic hostname',
+        helpPopover: {
+          'environmentVariables': 'Add or update an environment variable with <b>{{association}}’s</b> elastic hostname.',
+          'findAndReplace': 'Add a string rule to use <b>{{association}}’s</b> elastic hostname in your code.'
+        }
+      },
+      // when the user adds a non-repo container, but we can't detect which containers depend on it
+      {
+        id: 'missingMapping',
+        label: 'You may need to update some repository containers with <b>{{mapping}}’s</b> elastic hostname.',
+        targets: [
+          'environmentVariables',
+          'findAndReplace'
+        ],
+        helpTop: 'Use <b>Environment Variables</b> or <b>Find and Replace</b> to connect one or more of your repository containers to <b>{{mapping}}</b>.',
+        helpPopover: {
+          environmentVariables: 'Add or update an environment variable with <b>{{mapping}}’s</b> elastic hostname.',
+          findAndReplace: 'Add a string rule to use <b>{{mapping}}’s</b> elastic hostname in your code.'
         },
         highlightRepoContainers: true
       }
