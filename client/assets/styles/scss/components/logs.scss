@@ -48,7 +48,7 @@
     min-width: 0;
     position: absolute;
     right: 7px;
-    top: 8px;
+    top: 7px;
   }
 }
 
@@ -56,6 +56,10 @@
 .build-log-header,
 .build-log-content {
   padding: 10px 9px 9px 24px;
+}
+
+.build-log-content {
+  overflow-x: auto;
 }
 
 .build-log-header {

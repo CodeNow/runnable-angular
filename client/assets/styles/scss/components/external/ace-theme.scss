@@ -39,33 +39,11 @@
 
   &.ace-runnable-dark {
     background-color: $ace-bg;
-
-    .btn-control {
-      border-color: transparent;
-      color: $purple-lighter;
-
-      &:active {
-        color: $purple-lightest;
-      }
-
-      .icons-theme {
-        transform: rotate3d(0,0,1,180deg);
-      }
-    }
   }
 
   &.ace-runnable-light {
     background-color: $gray-lighterest;
     border-top: 1px solid $gray-lighter;
-
-    .btn-control {
-      border-color: transparent;
-      color: $gray-dark;
-
-      &:active {
-        color: $gray-darker;
-      }
-    }
   }
 }
 
@@ -190,31 +168,11 @@
 // dark theme logs
 .ace-runnable-dark .log-wrapper {
   border-color: $purple-darker;
-
-  .btn-control {
-    background: $purple-dark;
-    border-color: $purple;
-    color: $purple-lighter;
-
-    &:active {
-      color: $purple-lightest;
-    }
-  }
 }
 
 // light theme logs
 .ace-runnable-light .log-wrapper {
   border-color: $gray-lighter;
-
-  .btn-control {
-    background: $gray-lighter;
-    border-color: $gray-light;
-    color: $gray-dark;
-
-    &:active {
-      color: $gray-darker;
-    }
-  }
 }
 
 // toggles for theme and full screen
@@ -240,10 +198,32 @@
     opacity: 1;
   }
 
+  .ace-runnable-dark & {
+    border-color: transparent;
+    color: $purple-lighter;
+
+    &:active {
+      color: $purple-lightest;
+    }
+  }
+
+  .ace-runnable-light & {
+    border-color: transparent;
+    color: $gray-dark;
+
+    &:active {
+      color: $gray-darker;
+    }
+  }
+
   .iconnables {
     height: 100%; // vertically center
     transition: none;
     width: 12px;
+  }
+
+  .icons-theme {
+    transform: rotate3d(0,0,1,180deg);
   }
 }
 
