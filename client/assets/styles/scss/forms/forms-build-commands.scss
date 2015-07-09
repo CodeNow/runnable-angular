@@ -33,21 +33,22 @@
   border: 2px solid $gray-lighter;
   border-radius: 3px;
   clear: both; // keeps it from collapsing when the labels above it are floated at the xs width
-  // height: 121px;
   min-height: 90px;
   max-height: 121px;
   line-height: 21px;
   overflow-x: hidden;
   overflow-y: auto;
   position: relative;
-  transition: padding-right .15s ease-in-out;
 
   &.focus {
     border-color: $purple-light;
   }
 
   &.cache-in {
-    padding-right: 33px; // so text doesn't flow behind .cache-column
+
+    .textarea {
+      margin-right: 33px;
+    }
 
     .cache-column {
       transform: translate3d(0,0,0);
@@ -57,16 +58,19 @@
   .flex-wrapper {
     display: flex;
     flex-direction: column;
+    position: relative;
   }
 
   .textarea.textarea {
     border: 0;
     box-shadow: none;
-    // height: 117px;
     min-height: 0;
     height: auto;
-    max-height: none; // override
+    overflow-y: hidden;
+    width: auto;
+    max-height: none;
     resize: none;
+    transition: margin-right .15s ease-in-out;
   }
 }
 
@@ -82,6 +86,7 @@
   transform: translate3d(33px,0,0);
   transition: transform .15s ease-in-out;
   width: 100%;
+  height: 100%;
 }
 
 .cache-border {
@@ -104,7 +109,7 @@
   width: 32px;
 
   &:first-of-type {
-    margin-top: 5px;
+    margin-top: 3px;
   }
 
   &:hover + .cache-row {
