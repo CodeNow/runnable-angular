@@ -41,6 +41,7 @@
       //- this textarea needs to expand vertically to contain its content, like the contentEditable div below (I know, sorry).
       textarea.textarea.monospace(
         command-editor
+        ng-trim="false"
         ng-disabled = "startCommandCanDisable && !state.selectedStack"
         ng-model = "state.commands"
         spellcheck = "false"
