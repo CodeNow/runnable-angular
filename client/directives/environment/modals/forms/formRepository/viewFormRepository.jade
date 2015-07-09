@@ -47,6 +47,7 @@
           ng-model = "state.commands"
           spellcheck = "false"
           ng-attr-rows = "{{state.commandRows}}"
+          ng-model-options = "{debounce: {default: 50, blur: 0}}"
         )
         //- this element should start out empty. then, for each line that is added to the
         //- textarea, one .radio-wrapper (with input) and one .cache-row should be added to it.
