@@ -34,23 +34,8 @@
   }
 }
 
-// these only appear in .server-sidebar. should they be moved or renamed?
-.sidebar-section {
-  border-bottom: 1px solid $gray-lighter;
-  flex: 0 0 auto;
-  overflow-x: hidden;
-  overflow-y: auto;
-  padding: 0 12px;
-
-  &.closed,
-  .explorer-menu-bar-container {
-    flex: 0 0 60px;
-    overflow-y: hidden;
-  }
-}
-
 // rename this, considering the header in the instance view
-.sidebar-section-heading {
+.sidebar-heading {
   cursor: pointer;
   line-height: 60px;
   position: relative;
@@ -95,7 +80,7 @@
   }
 
   // "Containers" label
-  .sidebar-section-heading {
+  .sidebar-heading {
     border-bottom: 1px solid $gray-lighter;
     cursor: default;
     margin: 0 12px;

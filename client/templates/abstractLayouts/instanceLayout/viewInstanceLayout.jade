@@ -10,7 +10,7 @@ nav.sidebar.nav-sidebar(
     ng-if = "!dataApp.data.activeAccount || isLoading.sidebar"
     ng-include = "'spinner'"
   )
-  .sidebar-section-heading.strong(
+  .sidebar-heading.strong(
     ng-if = "dataApp.data.activeAccount && !isLoading.sidebar"
   ) Containers
   section.servers(
