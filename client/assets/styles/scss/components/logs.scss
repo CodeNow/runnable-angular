@@ -13,8 +13,7 @@
 
 // wrapper per step
 .build-log {
-  background: #372345; // rgba($white,.03) on $ace-bg
-  border: 1px solid $purple-darkest;
+  border: 1px solid transparent;
   border-radius: $input-border-radius;
   max-height: 39px;
   min-height: 39px;
@@ -87,20 +86,10 @@
 
   // toggleable .build-log-header
   .build-log-header {
-    background: rgba($white,.03);
-    border-bottom: 1px solid $purple-darker;
     cursor: pointer;
 
-    &:hover {
-      background: rgba($white,.045);
-    }
-
-    &:active {
-      background: rgba($white,.06);
-
-      &::before {
-        transform: rotate3d(0,0,1,0) scale3d(.6,.6,.6);
-      }
+    &:active::before {
+      transform: rotate3d(0,0,1,0) scale3d(.6,.6,.6);
     }
 
     // arrow
@@ -108,7 +97,7 @@
       border-bottom: 0;
       border-left: 4px solid transparent;
       border-right: 4px solid transparent;
-      border-top: 5px solid $purple-lighter;
+      border-top: 5px solid transparent;
       content: '';
       display: block;
       left: 8px;
@@ -117,15 +106,6 @@
       top: 17px;
       transform: rotate3d(0,0,1,-90deg);
       transition: transform .25s ease-in-out;
-    }
-
-    // arrow states
-    &:hover,
-    &:active {
-
-      &::before {
-        border-top-color: $purple-lightest;
-      }
     }
   }
 }
@@ -178,6 +158,38 @@
   background: $ace-bg;
   color: $white;
 
+  // elements
+  .build-log {
+    background: #372345; // rgba($white,.03) on $ace-bg
+    border-color: $purple-darkest;
+  }
+
+  .build-log-toggle .build-log-header {
+    background: rgba($white,.03);
+    border-bottom: 1px solid $purple-darker;
+
+    &:hover {
+      background: rgba($white,.045);
+    }
+
+    &:active {
+      background: rgba($white,.06);
+    }
+
+    &::before {
+      border-top-color: $purple-lighter;
+    }
+
+    // arrow states
+    &:hover,
+    &:active {
+
+      &::before {
+        border-top-color: $purple-lightest;
+      }
+    }
+  }
+
   @include logs-runnable-color(dark);
 }
 
@@ -185,6 +197,38 @@
 .logs-runnable-light {
   background-color: $gray-lighterest;
   color: $gray-darker;
+
+  // elements
+  .build-log {
+    background: rgba($white,.6);
+    border-color: $gray-lighter;
+  }
+
+  .build-log-toggle .build-log-header {
+    background: rgba($white,.75);
+    border-bottom: 1px solid $gray-lighter;
+
+    &:hover {
+      background: rgba($white,.9);
+    }
+
+    &:active {
+      background: $white;
+    }
+
+    &::before {
+      border-top-color: $gray-light;
+    }
+
+    // arrow states
+    &:hover,
+    &:active {
+
+      &::before {
+        border-top-color: $gray;
+      }
+    }
+  }
 
   @include logs-runnable-color(light);
 }
