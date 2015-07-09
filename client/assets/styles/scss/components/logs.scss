@@ -22,8 +22,7 @@
   transition: max-height .3s ease-in-out;
 
   &:target {
-    border-color: $purple-light;
-    box-shadow: inset 1px 1px 0 $purple-light, inset -1px -1px 0 $purple-light;
+    box-shadow: inset 2px 2px 0 $purple-light, inset -2px -2px 0 $purple-light;
   }
 
   &:last-child {
@@ -155,6 +154,11 @@
   .build-log {
     background: #372345; // rgba($white,.03) on $ace-bg
     border-color: $purple-darkest;
+
+    // error
+    &.error {
+      box-shadow: inset 2px 2px 0 $logs-runnable-dark-red, inset -2px -2px 0 $logs-runnable-dark-red;
+    }
   }
 
   .build-log-toggle .build-log-header {
@@ -195,6 +199,11 @@
   .build-log {
     background: rgba($white,.6);
     border-color: $gray-lighter;
+
+    // error
+    &.error {
+      box-shadow: inset 2px 2px 0 $logs-runnable-light-red, inset -2px -2px 0 $logs-runnable-light-red;
+    }
   }
 
   .build-log-toggle .build-log-header {
