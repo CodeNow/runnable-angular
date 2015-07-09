@@ -466,7 +466,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-bg-shell');
   grunt.loadNpmTasks('grunt-jade-plugin');
   grunt.loadNpmTasks('grunt-autoprefixer');
-  grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-sass');
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-exorcise');
 
