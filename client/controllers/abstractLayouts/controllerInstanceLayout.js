@@ -65,14 +65,10 @@ function ControllerInstanceLayout(
           $state.go('^.home', {
             userName: username
           }).then(function () {
-            $rootScope.dataApp.data.activeAccount = userOrOrg;
-            resolveInstanceFetch(username);
-            // CIL.popoverAccountMenu.data.activeAccount = account;
-            // CIL.popoverAccountMenu.data.orgs $scope.data.orgs;
-            // CIL.popoverAccountMenu.data.user = CIL.data.user;
-
             // Integrations modal
             CIL.popoverAccountMenu.data.showIntegrations = CIL.currentUser.oauthName() !== $state.params.userName;
+            $rootScope.dataApp.data.activeAccount = userOrOrg;
+            resolveInstanceFetch(username);
           });
         });
       }

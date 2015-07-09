@@ -124,7 +124,6 @@ function ControllerApp(
           if (!CA.data.activeAccount) {
             CA.data.activeAccount = thisUser;
           }
-          $rootScope.$broadcast('INSTANCE_LIST_FETCH', CA.data.activeAccount.oauthName());
         }
       });
     }
