@@ -48,7 +48,7 @@
         )
 
     span.no-touching(
-      ng-if = "userName === 'CodeNow'"
+      ng-if = "$root.featureFlags.internalDebugging"
       style = "visibility: unset"
     ) {{ instance.containers.models[0].attrs.dockerHost }} |&nbsp;
       span(
