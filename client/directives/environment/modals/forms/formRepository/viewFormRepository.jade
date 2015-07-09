@@ -33,37 +33,37 @@
     )
     //- end deprecated textarea
     //-************
-    //- this element should get the class .focus when the textarea it contains gets focused
     .build-commands-wrapper(
       ng-class = "{'cache-in': data.cacheCommand}"
       ng-if = "$root.featureFlags.buildCommandCache"
     )
-      //- this textarea needs to expand vertically to contain its content, like the contentEditable div below (I know, sorry).
-      textarea.textarea.monospace(
-        command-editor
-        ng-disabled = "startCommandCanDisable && !state.selectedStack"
-        ng-model = "state.commands"
-        spellcheck = "false"
-      )
-      //- this element should start out empty. then, for each line that is added to the
-      //- textarea, one .radio-wrapper (with input) and one .cache-row should be added to it.
-      .cache-column
-        .cache-border
-        label.radio-wrapper(
-          ng-repeat-start = "command in state.commands"
+      .flex-wrapper
+        textarea.textarea.monospace(
+          command-editor
+          ng-trim="false"
+          ng-disabled = "startCommandCanDisable && !state.selectedStack"
+          ng-model = "state.commands"
+          spellcheck = "false"
+          ng-attr-rows = "{{state.commandRows}}"
+          ng-model-options = "{debounce: {default: 50, blur: 0}}"
         )
-          input(
-            type = "radio"
-            ng-click = "actions.updateCache(command)"
-            ng-checked = "command.cache"
-            ng-show = "command.body"
-            name = "cache-radio"
+        .cache-column
+          .cache-border
+          label.radio-wrapper(
+            ng-repeat-start = "command in state.commands"
+            ng-class = "{ 'no-touching': !command.body }"
           )
-        .cache-row(
-          ng-repeat-end
-        )
+            input(
+              type = "radio"
+              ng-click = "actions.updateCache(command)"
+              ng-checked = "command.cache"
+              ng-show = "command.body"
+              name = "cache-radio"
+            )
+          .cache-row(
+            ng-repeat-end
+          )
     small.small Add any commands needed to support your application. They’ll be run before the Container CMD from your repository’s root folder.
-
 label.label.clearfix(
   ng-if = "$root.featureFlags.packagesField"
 )

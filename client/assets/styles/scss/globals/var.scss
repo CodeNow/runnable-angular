@@ -15,8 +15,8 @@ $gray-darker: #333;
 $green: #3ccb5a; // #1DD156
 $green-light: #2bd94f;
 $green-lighter: #e8ffed;
-$green-dark: darken($green,6%);
-$green-darker: darken($green,12%);
+$green-dark: #31b74d; // darken($green,6%);
+$green-darker: #2a9f43; // darken($green,12%);
 
 $purple: #5b3777;
 $purple-logo: #ccadd2;
@@ -35,7 +35,7 @@ $orange-light: #f9b548;
 $orange-lighter: #f7c457;
 $orange-lightest: #fffbf5;
 $orange-dark: #db970d; // darken($orange,9%);
-$orange-darker: darken($orange,12%);
+$orange-darker: #cd8d0c; // darken($orange,12%);
 
 $red: #f25058;
 $red-light: #ef737f;
@@ -83,7 +83,7 @@ $z-modal-backdrop: 4000;
 $z-modal-aside: 4001;
 $z-modal: 4002;
 
-// popovers
+// popovers//
 $z-popover: 5000;
 $z-popover-title-filter: 5001;
 $z-popover-context-menu: 5002;
