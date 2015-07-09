@@ -21,6 +21,7 @@ require('app')
       },
       link: function ($scope, element, attrs) {
         $scope.state.commands = $scope.state.commands || [];
+        $scope.state.commandRows = 5;
         $scope.data = {
           cacheCommand: $scope.state.commands.some(function (cmd) { return cmd.cache; })
         };
@@ -51,9 +52,20 @@ require('app')
             $scope.branchFetching = false;
           });
 
+        $scope.$watch('state.commands.length', function () {
+          var len = $scope.state.commands.length;
+          if (len < 5) {
+            len = 5;
+          }
+          $scope.state.commandRows = len;
+        });
+
         var lastActiveCacheIdx;
         $scope.actions = {
           updateCache: function (cmd) {
+            if (!cmd.body.length) {
+              return;
+            }
             // There's probably a better way to do this
             // Cache needs to be unique
             $scope.state.commands.forEach(function (command) {
@@ -75,6 +87,8 @@ require('app')
             } else {
               if (lastActiveCacheIdx !== undefined && $scope.state.commands[lastActiveCacheIdx]) {
                 $scope.state.commands[lastActiveCacheIdx].cache = true;
+              } else if ($scope.state.commands[0]) {
+                $scope.state.commands[0].cache = true;
               }
             }
           }
