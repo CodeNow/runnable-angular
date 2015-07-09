@@ -21,7 +21,7 @@ require('app')
       },
       link: function ($scope, element, attrs) {
         $scope.state.commands = $scope.state.commands || [];
-        $scope.state.commandRows = 5;
+        $scope.state.commandRows = 3;
         $scope.data = {
           cacheCommand: $scope.state.commands.some(function (cmd) { return cmd.cache; })
         };
@@ -54,8 +54,8 @@ require('app')
 
         $scope.$watch('state.commands.length', function () {
           var len = $scope.state.commands.length;
-          if (len < 5) {
-            len = 5;
+          if (len < 3) {
+            len = 3;
           }
           $scope.state.commandRows = len;
         });
