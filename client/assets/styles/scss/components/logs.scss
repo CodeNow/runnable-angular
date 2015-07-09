@@ -7,7 +7,7 @@
 
 // build log specific
 .build-log-wrapper {
-  padding: 9px 7px;
+  padding: 9px 42px 9px 7px;
   width: 100%;
 }
 
@@ -40,6 +40,17 @@
   + .build-log {
     margin-top: 6px;
   }
+}
+
+// .build-log-header
+.build-log-header,
+.build-log-content {
+  padding: 10px 9px 9px 24px;
+}
+
+.build-log-header {
+  height: 39px;
+  padding-right: 100px;
 
   // debug button
   > .btn-debug {
@@ -49,27 +60,16 @@
     right: 7px;
     top: 7px;
   }
-}
-
-// .build-log-header
-.build-log-header,
-.build-log-content {
-  padding: 10px 9px 9px 24px;
-}
-
-.build-log-content {
-  overflow-x: auto;
-}
-
-.build-log-header {
-  height: 39px;
-  padding-right: 75px;
 
   // change padding if there's a header
   + .build-log-content {
     padding-bottom: 15px;
     padding-top: 6px;
   }
+}
+
+.build-log-content {
+  overflow-x: auto;
 }
 
 // .build-log-header.build-log-toggle
