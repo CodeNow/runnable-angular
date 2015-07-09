@@ -35,10 +35,8 @@
   clear: both; // keeps it from collapsing when the labels above it are floated at the xs width
   line-height: 21px;
   max-height: 131px; // five lines of text
-  min-height: 90px; // three lines of text
   overflow-x: hidden;
   overflow-y: auto;
-  // position: relative;
 
   &.focus {
     border-color: $purple-light;
@@ -65,7 +63,6 @@
   .textarea.textarea {
     border: 0;
     box-shadow: none;
-    height: auto;
     max-height: none;
     min-height: 0;
     overflow-y: hidden;
