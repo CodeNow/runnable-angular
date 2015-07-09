@@ -94,18 +94,6 @@
   padding: 0 12px 45px;
 }
 
-.server-category-list {
-  color: $gray;
-  font-size: 15px;
-  height: 100%;
-  overflow-y: auto;
-  padding: 0 12px 5px;
-
-  .strong {
-    color: $gray-darker;
-  }
-}
-
 .server-category-list-item {
   border-bottom: 1px solid $gray-lighter; // lines below categories
   padding: 9px 0 6px;
