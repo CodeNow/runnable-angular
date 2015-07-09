@@ -307,7 +307,6 @@ function editServerModal(
           commands: instance.commands.map(function (cmd) { return cmd.clone(); }),
           selectedStack: instance.selectedStack,
           opts: {},
-          containerFiles: [],
           repo: keypather.get(instance, 'contextVersion.getMainAppCodeVersion().githubRepo'),
           instance: instance
         };
@@ -315,19 +314,25 @@ function editServerModal(
         $scope.state.opts.env = (fromError ?
             keypather.get(instance, 'opts.env') : keypather.get(instance, 'attrs.env')) || [];
 
-        watchOncePromise($scope, 'instance.containerFiles', true)
-          .then(function (containerFiles) {
-            $scope.state.containerFiles = containerFiles.map(function (model) {
-              var cloned = model.clone();
-              if (model.type === 'Main Repository') {
-                $scope.state.mainRepoContainerFile = cloned;
-              }
-              return cloned;
+        function mapContainerFiles (model) {
+          var cloned = model.clone();
+          if (model.type === 'Main Repository') {
+            $scope.state.mainRepoContainerFile = cloned;
+          }
+          return cloned;
+        }
+
+        if (instance.containerFiles) {
+          $scope.state.containerFiles = instance.containerFiles.map(mapContainerFiles);
+        } else {
+          watchOncePromise($scope, 'instance.containerFiles', true)
+            .then(function (containerFiles) {
+              $scope.state.containerFiles = containerFiles.map(mapContainerFiles);
+              $scope.data.mainRepo = $scope.instance.containerFiles.find(hasKeypaths({
+                type: 'Main Repository'
+              }));
             });
-            $scope.data.mainRepo = $scope.instance.containerFiles.find(hasKeypaths({
-              type: 'Main Repository'
-            }));
-          });
+        }
 
         watchOncePromise($scope, 'instance.packages', true)
           .then(function (packages) {
