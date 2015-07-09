@@ -23,7 +23,7 @@
           xlink:href = "#icons-advanced"
         )
   //- master branch containers
-  a.server-name.text-overflow(
+  a.container-name.text-overflow(
     ng-if = "masterInstance.getRepoName()"
     title = "{{ masterInstance.getRepoName() }}/{{ masterInstance.getBranchName() }}"
     ui-sref = "\
@@ -37,7 +37,7 @@
     )
     | {{ masterInstance.getBranchName() }}
   //- non-repo containers
-  a.server-name.text-overflow(
+  a.container-name.text-overflow(
     ng-if = "!masterInstance.getRepoName()"
     title = "{{ masterInstance.attrs.name }}"
     ui-sref = "\
@@ -63,7 +63,7 @@
           xlink:href = "#icons-advanced"
         )
   //- non-master branch containers
-  a.server-name.text-overflow(
+  a.container-name.text-overflow(
     title = "{{ branchFork.getDisplayName() }}"
     ng-repeat = "branchFork in masterInstance.children.models | orderBy:'attrs.name'"
     ui-sref = "\
