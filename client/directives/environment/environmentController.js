@@ -104,16 +104,6 @@ function EnvironmentController(
   };
 
   EC.actions = {
-    deleteServer: function (server) {
-      $rootScope.$broadcast('close-popovers');
-      $timeout(function () {
-        if (confirm('Are you sure you want to delete this container?')) {
-          promisify(server.instance, 'destroy')()
-            .catch(errs.handler);
-          helpCards.refreshAllCards();
-        }
-      });
-    },
     createAndBuild: function (createPromise, name) {
       $rootScope.$broadcast('close-modal');
 

@@ -37,7 +37,7 @@ function ControllerInstanceLayout(
     if (!username) { return; }
     loading('sidebar', true);
     CIL.instancesByPod = [];
-    console.log(username);
+
     fetchInstancesByPod(username)
       .then(function (instancesByPod) {
         loading('sidebar', false);
