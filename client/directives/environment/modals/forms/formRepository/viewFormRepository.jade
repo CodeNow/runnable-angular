@@ -47,6 +47,7 @@
           ng-model = "state.commands"
           spellcheck = "false"
           ng-attr-rows = "{{state.commandRows}}"
+          ng-model-options = "{debounce: {default: 200, blur: 0}}"
         )
         //- this element should start out empty. then, for each line that is added to the
         //- textarea, one .radio-wrapper (with input) and one .cache-row should be added to it.
@@ -54,20 +55,16 @@
           .cache-border
           label.radio-wrapper(
             ng-repeat-start = "command in state.commands"
+            ng-class = "{ 'no-touching': !command.body }"
           )
             input(
               type = "radio"
               ng-click = "actions.updateCache(command)"
               ng-checked = "command.cache"
               ng-show = "command.body"
-              ng-class = "{ 'no-touching': !command.body }"
               name = "cache-radio"
             )
-          .cache-row(
-            ng-repeat-end
-          )
     small.small Add any commands needed to support your application. They will be run before the Container CMD.
-
 label.label.clearfix(
   ng-if = "$root.featureFlags.packagesField"
 )

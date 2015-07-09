@@ -62,9 +62,10 @@ require('app')
 
         $scope.actions = {
           updateCache: function (cmd) {
-            if (!cmd.body.length) {
+            if (!cmd || (cmd && cmd.body.length === 0)) {
               return;
             }
+
             // There's probably a better way to do this
             // Cache needs to be unique
             $scope.state.commands.forEach(function (command) {
