@@ -3,29 +3,23 @@
 //- pre steps
 .pre.build-log.in(
   ng-init = "\
-    step0 = true;\
-    step1 = true;\
-    step2 = true;\
-    testStep = false;\
+    toggleStep1 = true;\
+    toggleStep2 = true;\
   "
 )
   .build-log-content.
     Cloning CodeNow/api into ./api
-    <span class="code-yellow">Building server...</span>
-//- step 0
 #1420be8d4ebf.pre.build-log.in
   .build-log-header.text-overflow.
     <span class="code-magenta code-bold">FROM</span> registry.runnable.code/runnable/node_base:latest
-//- step 1
 #15e1e408c78f.pre.build-log.in
   .build-log-header.text-overflow.
     <span class="code-magenta code-bold">EXPOSE</span> 80
-//- step 2
 #2f1d895adb79.pre.build-log.build-log-toggle.in(
-  ng-class = "{in: step2}"
+  ng-class = "{in: toggleStep1}"
 )
   .build-log-header.text-overflow(
-    ng-click = "step2 = !step2"
+    ng-click = "toggleStep1 = !toggleStep1"
   ) <span class="code-magenta code-bold">RUN</span> npm install -g npm@2.1.18 &&     n 0.10.38
     .btn-group.btn-debug(
       ng-if = "$root.featureFlags.debugMode"
@@ -48,10 +42,10 @@
     install -g npm@2.1.18 &&     n 0.10.38] returned a non-zero code: 1
 //- sample of all styles
 #sample.pre.build-log.build-log-toggle(
-  ng-class = "{in: testStep}"
+  ng-class = "{in: toggleStep2}"
 )
   .build-log-header.text-overflow(
-    ng-click = "testStep = !testStep"
+    ng-click = "toggleStep2 = !toggleStep2"
   )  <span class="code-magenta code-bold">TEST</span>
   .build-log-content.
     <span class="code-bold">BOLD</span>
