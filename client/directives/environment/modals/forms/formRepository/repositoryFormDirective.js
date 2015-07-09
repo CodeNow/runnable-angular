@@ -60,7 +60,6 @@ require('app')
           $scope.state.commandRows = len;
         });
 
-        var lastActiveCacheIdx;
         $scope.actions = {
           updateCache: function (cmd) {
             if (!cmd.body.length) {
@@ -77,19 +76,9 @@ require('app')
           },
           toggleCache: function () {
             if (!$scope.data.cacheCommand) {
-              $scope.state.commands.some(function (command, idx) {
-                if (command.cache) {
-                  lastActiveCacheIdx = idx;
-                  return true;
-                }
-              });
               $scope.actions.updateCache();
-            } else {
-              if (lastActiveCacheIdx !== undefined && $scope.state.commands[lastActiveCacheIdx]) {
-                $scope.state.commands[lastActiveCacheIdx].cache = true;
-              } else if ($scope.state.commands[0]) {
-                $scope.state.commands[0].cache = true;
-              }
+            } else if ($scope.state.commands.length > 0) {
+              $scope.state.commands[0].cache = true;
             }
           }
         };
