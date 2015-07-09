@@ -33,13 +33,11 @@
     )
     //- end deprecated textarea
     //-************
-    //- this element should get the class .focus when the textarea it contains gets focused
     .build-commands-wrapper(
       ng-class = "{'cache-in': data.cacheCommand}"
       ng-if = "$root.featureFlags.buildCommandCache"
     )
       .flex-wrapper
-        //- this textarea needs to expand vertically to contain its content, like the contentEditable div below (I know, sorry).
         textarea.textarea.monospace(
           command-editor
           ng-trim="false"
@@ -49,8 +47,6 @@
           ng-attr-rows = "{{state.commandRows}}"
           ng-model-options = "{debounce: {default: 50, blur: 0}}"
         )
-        //- this element should start out empty. then, for each line that is added to the
-        //- textarea, one .radio-wrapper (with input) and one .cache-row should be added to it.
         .cache-column
           .cache-border
           label.radio-wrapper(
