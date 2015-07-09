@@ -87,7 +87,7 @@ describe('environmentController'.bold.underline.blue, function () {
       keypather = _keypather_;
     });
 
-    var ca = $controller('EnvironmentController', {
+    ctx.ca = $controller('EnvironmentController', {
       '$scope': $scope,
       '$rootScope': $rootScope
     });
@@ -100,17 +100,16 @@ describe('environmentController'.bold.underline.blue, function () {
 
       setup();
       $rootScope.$digest();
-      expect($scope).to.have.property('data');
+      expect(ctx.ca).to.have.property('data');
       // this isn't loaded until stacks
-      expect($scope.data).to.not.have.property('instances');
-      expect($scope).to.have.property('state');
-      expect($scope.state).to.have.property('validation');
-      expect($scope.state.validation).to.have.property('env');
-      expect($scope).to.have.property('actions');
-      expect($scope.actions.deleteServer, 'deleteServer').to.be.ok;
-      expect($scope.actions.createAndBuild, 'createAndBuild').to.be.ok;
+      expect(ctx.ca.data).to.not.have.property('instances');
+      expect(ctx.ca).to.have.property('state');
+      expect(ctx.ca.state).to.have.property('validation');
+      expect(ctx.ca.state.validation).to.have.property('env');
+      expect(ctx.ca).to.have.property('actions');
+      expect(ctx.ca.actions.createAndBuild, 'createAndBuild').to.be.ok;
 
-      expect($scope.data.allDependencies, 'allDependencies').to.not.be.ok;
+      expect(ctx.ca.data.allDependencies, 'allDependencies').to.not.be.ok;
       var templateInstances = runnable.newInstances(
         [apiMocks.instances.running, apiMocks.instances.stopped],
         {noStore: true}
@@ -128,42 +127,15 @@ describe('environmentController'.bold.underline.blue, function () {
 
       fetchContextsMock.triggerPromise(sourceContexts);
       $rootScope.$digest();
-      expect($scope.data.allDependencies, 'allDependencies').to.equal(templateInstances);
+      expect(ctx.ca.data.allDependencies, 'allDependencies').to.equal(templateInstances);
       // this should now be loaded
-      expect($scope.data.instances, 'masterPods').to.equal(ctx.masterPods);
-      expect($scope.data.stacks, 'stacks').to.equal(stacks);
-      expect($scope.data.sourceContexts).to.equal(sourceContexts);
+      expect(ctx.ca.data.instances, 'masterPods').to.equal(ctx.masterPods);
+      expect(ctx.ca.data.stacks, 'stacks').to.equal(stacks);
+      expect(ctx.ca.data.sourceContexts).to.equal(sourceContexts);
     });
   });
 
   describe('actions', function () {
-    it('should delete a server', function () {
-      setup();
-      $rootScope.$digest();
-      var instance = runnable.newInstance(
-        apiMocks.instances.running,
-        {noStore: true}
-      );
-      instance.destroy = sinon.spy(function (cb) {
-        cb();
-      });
-      sinon.stub(window, 'confirm', function () {
-        return true;
-      });
-      var closePopoverSpy = sinon.spy();
-      $rootScope.$on('close-popovers', closePopoverSpy);
-      var server = {
-        instance: instance
-      };
-      $scope.actions.deleteServer(server);
-      $rootScope.$digest();
-      sinon.assert.calledOnce(closePopoverSpy);
-      $timeout.flush();
-      $rootScope.$digest();
-      sinon.assert.calledOnce(window.confirm);
-      $rootScope.$digest();
-      sinon.assert.calledOnce(instance.destroy);
-    });
 
     it('should create a server', function () {
       setup();
@@ -174,7 +146,7 @@ describe('environmentController'.bold.underline.blue, function () {
       );
       var closeModalSpy = sinon.spy();
       $rootScope.$on('close-modal', closeModalSpy);
-      $scope.data.instances = {
+      ctx.ca.data.instances = {
         add: sinon.spy()
       };
       ctx.fakeUser.newInstance = sinon.spy(function () {
@@ -185,7 +157,7 @@ describe('environmentController'.bold.underline.blue, function () {
       var server = {
         instance: instance
       };
-      $scope.actions.createAndBuild($q.when(server), 'newName');
+      ctx.ca.actions.createAndBuild($q.when(server), 'newName');
       $rootScope.$digest();
 
       sinon.assert.calledWith(ctx.fakeUser.newInstance, {
@@ -195,7 +167,7 @@ describe('environmentController'.bold.underline.blue, function () {
         }
       }, { warn: false });
 
-      sinon.assert.calledOnce($scope.data.instances.add);
+      sinon.assert.calledOnce(ctx.ca.data.instances.add);
       sinon.assert.calledOnce(closeModalSpy);
       sinon.assert.calledOnce(ctx.eventTracking.triggeredBuild);
 
@@ -216,7 +188,7 @@ describe('environmentController'.bold.underline.blue, function () {
       instance.dealloc = sinon.spy();
       var closeModalSpy = sinon.spy();
       $rootScope.$on('close-modal', closeModalSpy);
-      $scope.data.instances = {
+      ctx.ca.data.instances = {
         add: sinon.spy()
       };
       ctx.fakeUser.newInstance = sinon.spy(function () {
@@ -226,7 +198,7 @@ describe('environmentController'.bold.underline.blue, function () {
       keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.fakeOrg1);
 
       var error = new Error('Oops');
-      $scope.actions.createAndBuild($q.reject(error), 'newName');
+      ctx.ca.actions.createAndBuild($q.reject(error), 'newName');
       $rootScope.$digest();
 
       sinon.assert.calledWith(ctx.fakeUser.newInstance, {
@@ -239,7 +211,7 @@ describe('environmentController'.bold.underline.blue, function () {
       sinon.assert.notCalled(createNewInstanceMock.getFetchSpy());
       sinon.assert.calledOnce(ctx.eventTracking.triggeredBuild);
       sinon.assert.calledWith(ctx.errs.handler, error);
-      sinon.assert.calledOnce($scope.data.instances.add);
+      sinon.assert.calledOnce(ctx.ca.data.instances.add);
       sinon.assert.calledOnce(closeModalSpy);
 
       sinon.assert.calledOnce(instance.dealloc);

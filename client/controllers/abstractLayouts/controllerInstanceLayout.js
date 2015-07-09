@@ -23,6 +23,7 @@ function ControllerInstanceLayout(
   CIL.data = {};
 
   CIL.$localStorage = $localStorage;
+  CIL.instancesByPod = [];
 
   fetchUser().then(function(user) {
     CIL.currentUser = user;

@@ -129,13 +129,12 @@ describe('controllerInstance'.bold.underline.blue, function () {
     });
     $rootScope.$digest();
 
-    expect($scope).to.have.property('dataInstance');
-    expect($scope).to.have.deep.property('dataInstance.actions');
-    expect($scope).to.have.deep.property('dataInstance.data');
-    expect($scope).to.have.deep.property('dataInstance.data.openItems');
-    expect($scope).to.have.deep.property('dataInstance.data.saving');
-    expect($scope).to.have.deep.property('dataInstance.data.showExplorer');
-    expect($scope).to.have.deep.property('dataInstance.data.sectionClasses');
+    expect(ci).to.have.deep.property('actions');
+    expect(ci).to.have.deep.property('data');
+    expect(ci).to.have.deep.property('data.openItems');
+    expect(ci).to.have.deep.property('data.saving');
+    expect(ci).to.have.deep.property('data.showExplorer');
+    expect(ci).to.have.deep.property('data.sectionClasses');
 
     $scope.$apply();
 

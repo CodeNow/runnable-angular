@@ -36,6 +36,10 @@ describe('ControllerInstanceLayout'.bold.underline.blue, function () {
         return 'org2';
       }
     };
+    ctx.fakeParams = {
+      userName: activeAccountUsername,
+      instanceName: 'active-instance'
+    };
 
     ctx.userList = {
       user: ctx.fakeuser,
@@ -44,11 +48,15 @@ describe('ControllerInstanceLayout'.bold.underline.blue, function () {
     };
 
     angular.mock.module('app', function ($provide) {
-      $provide.value('$state', {
-        params: {
-          userName: activeAccountUsername,
-          instanceName: 'active-instance'
-        }
+      $provide.factory('$state', function ($q) {
+        return {
+          params: ctx.fakeParams,
+          go: function (state, opts) {
+            expect(state).to.equal('^.home');
+            expect(opts.userName).to.be.a.String;
+            return $q.when({});
+          }
+        };
       });
       $provide.factory('fetchUser', mockUserFetch.fetch());
       $provide.factory('fetchInstancesByPod', mockFetch.fetch());
@@ -73,7 +81,7 @@ describe('ControllerInstanceLayout'.bold.underline.blue, function () {
       keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.userList[activeAccountUsername]);
     }
 
-    var ca = $controller('ControllerInstanceLayout', {
+    ctx.ca = $controller('ControllerInstanceLayout', {
       '$scope': $scope,
       '$rootScope': $rootScope
     });
@@ -88,7 +96,7 @@ describe('ControllerInstanceLayout'.bold.underline.blue, function () {
 
     $rootScope.$digest();
     expect($rootScope.isLoading.sidebar).to.be.ok;
-    expect($rootScope.dataApp.data.instancesByPod).to.be.null;
+    expect(ctx.ca.instancesByPod.length).to.equal(0);
     var many = runnable.newInstances(
       [apiMocks.instances.running, apiMocks.instances.stopped],
       {noStore: true}
@@ -98,7 +106,7 @@ describe('ControllerInstanceLayout'.bold.underline.blue, function () {
     $rootScope.$digest();
     $scope.$apply();
     expect($rootScope.isLoading.sidebar, 'loadingInstances').to.be.false;
-    expect($rootScope.dataApp.data.instancesByPod, 'instancesByPod').to.equal(many);
+    expect(ctx.ca.instancesByPod, 'instancesByPod').to.equal(many);
 
     $scope.$apply();
     $scope.$destroy();
@@ -121,13 +129,12 @@ describe('ControllerInstanceLayout'.bold.underline.blue, function () {
       $rootScope.$digest();
       $scope.$apply();
       expect($rootScope.isLoading.sidebar).to.not.be.ok;
-      expect($rootScope.dataApp.data.instancesByPod).to.equal(many);
+      expect(ctx.ca.instancesByPod).to.equal(many);
 
-      $rootScope.$broadcast('INSTANCE_LIST_FETCH');
       $rootScope.$digest();
 
       expect($rootScope.isLoading.sidebar).to.not.be.ok;
-      expect($rootScope.dataApp.data.instancesByPod).to.be.ok;
+      expect(ctx.ca.instancesByPod).to.be.ok;
 
       $scope.$apply();
 
@@ -139,18 +146,24 @@ describe('ControllerInstanceLayout'.bold.underline.blue, function () {
       $rootScope.$digest();
 
       keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.userList.org2);
-      $rootScope.$broadcast('INSTANCE_LIST_FETCH', 'org2');
       $rootScope.$digest();
-      expect($rootScope.dataApp.data.instancesByPod).to.be.null;
+      expect(ctx.ca.instancesByPod.length).to.equal(0);
       var many = runnable.newInstances(
         [apiMocks.instances.running, apiMocks.instances.stopped],
         {noStore: true}
       );
       many.githubUsername = 'org2';
+      ctx.fakeParams.userName = 'org2';
+      ctx.ca.popoverAccountMenu.actions.selectActiveAccount({
+        oauthName: function () {
+          return 'org2';
+        }
+      });
+      $timeout.flush();
       mockFetch.triggerPromise(many);
       $rootScope.$digest();
       $scope.$apply();
-      expect($rootScope.dataApp.data.instancesByPod).to.equal(many);
+      expect(ctx.ca.instancesByPod).to.equal(many);
     });
   });
 

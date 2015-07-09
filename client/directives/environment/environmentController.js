@@ -116,7 +116,7 @@ function EnvironmentController(
           username: cachedActiveAccount.oauthName()
         }
       }, { warn: false });
-      $rootScope.dataApp.creatingInstance = !keypather.get($scope, 'data.instances.models.length');
+      $rootScope.dataApp.creatingInstance = !keypather.get(EC, 'data.instances.models.length');
       EC.data.instances.add(instance);
       helpCards.hideActiveCard();
 

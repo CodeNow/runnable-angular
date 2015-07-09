@@ -106,11 +106,13 @@ describe('controllerApp'.bold.underline.blue, function () {
     describe('No account already chosen'.blue, function () {
       it('should select user if nothing matches name in url', function (done) {
         setup({});
+        var listFetchSpy = sinon.spy(function(event, name) {
           expect(name).to.equal(ctx.fakeuser.oauthName());
           expect($scope.dataApp.data.activeAccount).to.be.an.Object;
           expect($scope.dataApp.data.activeAccount).to.equal(ctx.fakeuser);
           done();
         });
+        $scope.$on('INSTANCE_LIST_FETCH', listFetchSpy);
         $rootScope.$digest();
         $rootScope.$broadcast('$stateChangeStart', null, {
           userName: 'username'
@@ -119,11 +121,13 @@ describe('controllerApp'.bold.underline.blue, function () {
       });
       it('should select user, matching it from the stateParams', function (done) {
         setup({});
+        var listFetchSpy = sinon.spy(function(event, name) {
           expect(name).to.equal(ctx.fakeuser.oauthName());
           expect($scope.dataApp.data.activeAccount).to.be.an.Object;
           expect($scope.dataApp.data.activeAccount).to.equal(ctx.fakeuser);
           done();
         });
+        $scope.$on('INSTANCE_LIST_FETCH', listFetchSpy);
         $rootScope.$digest();
         $rootScope.$broadcast('$stateChangeStart', null, {
           userName: ctx.fakeuser.oauthName()
@@ -132,11 +136,13 @@ describe('controllerApp'.bold.underline.blue, function () {
       });
       it('should select org1, matching it from the stateParams', function (done) {
         setup({}, false, true);
+        var listFetchSpy = sinon.spy(function(event, name) {
           expect(name).to.equal(ctx.fakeOrg1.oauthName());
           expect($scope.dataApp.data.activeAccount).to.be.an.Object;
           expect($scope.dataApp.data.activeAccount).to.equal(ctx.fakeOrg1);
           done();
         });
+        $scope.$on('INSTANCE_LIST_FETCH', listFetchSpy);
         $rootScope.$digest();
         $rootScope.$broadcast('$stateChangeStart', null, {
           userName: ctx.fakeOrg1.oauthName()
@@ -146,7 +152,9 @@ describe('controllerApp'.bold.underline.blue, function () {
     });
     it('should not switch accounts if active account matches', function () {
       setup({}, true);
+      var listFetchSpy = sinon.spy();
       keypather.set($scope, 'dataApp.data.activeAccount', ctx.fakeOrg1);
+      $scope.$on('INSTANCE_LIST_FETCH', listFetchSpy);
       $rootScope.$digest();
       $rootScope.$broadcast('$stateChangeStart', null, {
         userName: ctx.fakeOrg1.oauthName()
@@ -154,14 +162,17 @@ describe('controllerApp'.bold.underline.blue, function () {
       $rootScope.$digest();
       expect($scope.dataApp.data.activeAccount).to.be.an.Object;
       expect($scope.dataApp.data.activeAccount).to.equal(ctx.fakeOrg1);
+      sinon.assert.notCalled(listFetchSpy);
     });
     it('should switch accounts if active account does not match url', function () {
       setup({}, true);
+      var listFetchSpy = sinon.spy(function(event, name) {
         expect(name).to.equal(ctx.fakeOrg2.oauthName());
         expect($scope.dataApp.data.activeAccount).to.be.an.Object;
         expect($scope.dataApp.data.activeAccount).to.equal(ctx.fakeOrg2);
       });
       keypather.set($scope, 'dataApp.data.activeAccount', ctx.fakeOrg1);
+      $scope.$on('INSTANCE_LIST_FETCH', listFetchSpy);
       $rootScope.$digest();
       $rootScope.$broadcast('$stateChangeStart', null, {
         userName: ctx.fakeOrg2.oauthName()

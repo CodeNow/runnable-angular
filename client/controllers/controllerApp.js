@@ -108,24 +108,33 @@ function ControllerApp(
     .catch(errs.handler);
 
   function setActiveAccount(accountName) {
-    if (accountName) {
-      var unwatch = $scope.$watch('CA.data.orgs', function(n) {
-        if (n) {
-          unwatch();
-          CA.data.instances = null;
-          var accounts = [thisUser].concat(n.models);
-          CA.data.activeAccount = accounts.find(function (org) {
-            return (keypather.get(org, 'oauthName().toLowerCase()') === accountName.toLowerCase());
-          });
-          if (CA.data.user.socket) {
-            CA.data.user.socket.joinOrgRoom(CA.data.activeAccount.oauthId());
-          }
-
-          if (!CA.data.activeAccount) {
-            CA.data.activeAccount = thisUser;
-          }
-        }
+    function finish(n) {
+      CA.data.instances = null;
+      var accounts = [thisUser].concat(n.models);
+      CA.data.activeAccount = accounts.find(function (org) {
+        return (keypather.get(org, 'oauthName().toLowerCase()') === accountName.toLowerCase());
       });
+      if (CA.data.user.socket) {
+        CA.data.user.socket.joinOrgRoom(CA.data.activeAccount.oauthId());
+      }
+
+      if (!CA.data.activeAccount) {
+        CA.data.activeAccount = thisUser;
+      }
+      $rootScope.$broadcast('INSTANCE_LIST_FETCH', CA.data.activeAccount.oauthName());
+    }
+
+    if (accountName) {
+      if (!CA.data.orgs) {
+        // wait for them to load
+        var unwatch = $scope.$watch('CA.data.orgs', function (n) {
+          if (!n) { return; }
+          unwatch();
+          finish(n);
+        });
+      } else {
+        finish(CA.data.orgs);
+      }
     }
   }
   $scope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, error) {
