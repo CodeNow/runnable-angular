@@ -41,8 +41,7 @@
     background-color: $ace-bg;
 
     .btn-control {
-      background: $purple-dark;
-      border-color: $purple;
+      border-color: transparent;
       color: $purple-lighter;
 
       &:active {
@@ -60,8 +59,7 @@
     border-top: 1px solid $gray-lighter;
 
     .btn-control {
-      background: $gray-lighter;
-      border-color: $gray-light;
+      border-color: transparent;
       color: $gray-dark;
 
       &:active {
@@ -222,8 +220,8 @@
 // toggles for theme and full screen
 .floating-controls {
   position: absolute;
-  right: 6px;
-  top: 6px;
+  right: 11px;
+  top: 9px;
   transition: transform .2s ease-in-out;
   z-index: $z-views;
 
@@ -240,10 +238,6 @@
   &:hover,
   &:active {
     opacity: 1;
-  }
-
-  + .btn-control {
-    top: 6px;
   }
 
   .iconnables {
