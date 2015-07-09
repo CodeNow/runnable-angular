@@ -184,13 +184,12 @@
   opacity: .7;
   overflow: hidden;
 
-    &:hover {
-      opacity: .8;
-    }
+  &:hover {
+    opacity: .8;
+  }
 
-    &:active {
-      opacity: 1;
-    }
+  &:active {
+    opacity: 1;
   }
 }
 
