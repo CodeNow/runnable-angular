@@ -47,7 +47,7 @@
     font-family: 'Helvetica Neue', 'Segoe UI', sans-serif; // override monospace fonts
     min-width: 0;
     position: absolute;
-    right: 6px;
+    right: 7px;
     top: 8px;
   }
 }
@@ -73,24 +73,13 @@
 .build-log-toggle {
 
   // rotate arrow
-  &.in .build-log-header {
-
-    &:active::before {
-      transform: rotate3d(0,0,1,-90deg) scale3d(.6,.6,.6);
-    }
-
-    &::before {
-      transform: rotate3d(0,0,1,0);
-    }
+  &.in .build-log-header::before {
+    transform: rotate3d(0,0,1,0);
   }
 
   // toggleable .build-log-header
   .build-log-header {
     cursor: pointer;
-
-    &:active::before {
-      transform: rotate3d(0,0,1,0) scale3d(.6,.6,.6);
-    }
 
     // arrow
     &::before {
@@ -103,7 +92,7 @@
       left: 8px;
       pointer-events: none;
       position: absolute;
-      top: 17px;
+      top: 16px;
       transform: rotate3d(0,0,1,-90deg);
       transition: transform .25s ease-in-out;
     }
