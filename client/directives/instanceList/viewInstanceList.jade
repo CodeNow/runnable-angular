@@ -21,6 +21,7 @@
         use(
           xlink:href = "#icons-advanced"
         )
+  //- master branch containers and non-repo containers
   a.container-list-item.text-overflow(
     ui-sref = "\
       instance.instance({ userName: data.activeAccount.oauthName(), \
@@ -31,12 +32,12 @@
     status-icon(
       instance = "masterInstance"
     )
-    //- containers for master branches of repos
+    //- name for master branch containers
     span.span.text-overflow(
       ng-if = "masterInstance.getRepoName()"
       title = "{{ masterInstance.getBranchName() }}"
     ) {{ masterInstance.getBranchName() }}
-    //- non-repo containers
+    //- name for non-repo containers
     span.span.text-overflow(
       ng-if = "!masterInstance.getRepoName()"
       title = "{{ masterInstance.attrs.name }}"
@@ -54,7 +55,7 @@
         use(
           xlink:href = "#icons-advanced"
         )
-  //- containers for non-master branches of repos
+  //- containers for non-master branches
   a.container-list-item.text-overflow(
     ng-repeat = "branchFork in masterInstance.children.models | orderBy:'attrs.name'"
     ui-sref = "\
@@ -69,6 +70,7 @@
     span.span.text-overflow(
       title = "{{ branchFork.getDisplayName() }}"
     ) {{ branchFork.getDisplayName() }}
+    //- "hide" button
     .btn.btn-xs.button-hide(
       ng-if = "$root.featureFlags.navListFilter"
     ) hide
