@@ -71,11 +71,13 @@
     width: calc(100% - 591px);
     z-index: 1;
 
+    // if in modal
     .modal-edit & {
       top: 199px;
       width: calc(100% - 145px);
     }
 
+    // if full-screen
     .full-screen & {
       top: 45px;
       width: calc(100% - 51px);
@@ -103,20 +105,23 @@
 .views-toolbar-wrapper + .active-panel .fixed {
   top: 45px + 36px;
 
+  // if in modal
   .modal-edit & {
     top: 199 + 36px;
   }
 
+  // if full-screen
   .full-screen & {
     top: 177px + 36px;
   }
 }
 
+// logs scroll horizontally
 .build-log-content {
   overflow-x: auto;
 }
 
-// .build-log-header.build-log-toggle
+// add .build-log-toggle to .build-log-header to indicate that you can toggle it
 .build-log-toggle {
 
   // rotate arrow
@@ -210,10 +215,10 @@
     // error
     &.error {
       box-shadow: // bottom-right,top-right,bottom-left,top-left
-      2px 2px 0 $logs-runnable-light-red,
-      2px -2px 0 $logs-runnable-light-red,
-      -2px 2px 0 $logs-runnable-light-red,
-      -2px -2px 0 $logs-runnable-light-red;
+      2px 2px 0 $logs-runnable-dark-red,
+      2px -2px 0 $logs-runnable-dark-red,
+      -2px 2px 0 $logs-runnable-dark-red,
+      -2px -2px 0 $logs-runnable-dark-red;
     }
   }
 
@@ -262,7 +267,11 @@
 
     // error
     &.error {
-      box-shadow: inset 2px 2px 0 $logs-runnable-light-red, inset -2px -2px 0 $logs-runnable-light-red;
+      box-shadow: // bottom-right,top-right,bottom-left,top-left
+      2px 2px 0 $logs-runnable-light-red,
+      2px -2px 0 $logs-runnable-light-red,
+      -2px 2px 0 $logs-runnable-light-red,
+      -2px -2px 0 $logs-runnable-light-red;
     }
   }
 

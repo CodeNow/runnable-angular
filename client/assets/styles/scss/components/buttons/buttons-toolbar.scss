@@ -6,6 +6,7 @@
   line-height: 22px;
 
   // toolbar theme
+  // purple
   &.purple {
     background: $purple;
     border-color: $purple-darker;
@@ -23,6 +24,7 @@
     }
   }
 
+  // orange
   &.orange {
     background: $orange;
     border-color: $orange-darkest;
@@ -41,6 +43,7 @@
     }
   }
 
+  // green
   &.green {
     background: $green-dark;
     border-color: $green-darkest;
