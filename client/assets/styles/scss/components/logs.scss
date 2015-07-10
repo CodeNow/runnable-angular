@@ -99,12 +99,16 @@
   }
 }
 
-// shift fixed position if there's a toolbar
+// shift fixed position if there's a toolbar (36px)
 .views-toolbar-wrapper + .active-panel .fixed {
-  top: 81px;
+  top: 45px + 36px;
+
+  .modal-edit & {
+    top: 199 + 36px;
+  }
 
   .full-screen & {
-    top: 213px;
+    top: 177px + 36px;
   }
 }
 
