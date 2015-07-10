@@ -96,22 +96,24 @@
 .container-list {
   border-bottom: 1px solid $gray-lighter; // lines below categories
   padding: 9px 0;
-  position: relative;
-  
+}
+
+// wrapper for repo name and config button
+.repo-name-wrapper {
+  align-items: center;
+  display: flex;
+  margin-right: -12px;
+
   // repo names
   .strong {
-    align-items: center;
     color: $gray;
-    display: flex;
     line-height: 21px;
-    margin-right: -12px;
-    position: relative;
+    flex: 1 1 auto;
   }
 }
 
 .container-list-item {
   align-items: center;
-  cursor: pointer;
   display: flex;
   height: 27px;
   line-height: 27px;
@@ -132,6 +134,7 @@
     cursor: default;
   }
 
+  // container names
   .span {
     flex: 1 1 auto;
     padding-right: 12px;
@@ -159,9 +162,7 @@
 
 .button-configure {
   height: 27px;
-  // position: absolute;
-  // right: 0;
-  width: 27px;
+  flex: 0 0 27px;
 
   .iconnables {
     right: 5px;

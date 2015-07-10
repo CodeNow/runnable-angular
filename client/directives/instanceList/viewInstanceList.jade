@@ -6,9 +6,10 @@
   }"
 )
   //- repo names
-  strong.strong.small(
+  .repo-name-wrapper(
     ng-if = "masterInstance.getRepoName()"
-  ) {{ masterInstance.getRepoName() }}
+  )
+    span.span.strong.small.text-overflow {{ masterInstance.getRepoName() }}
     //- configure button for repo container groups
     .btn.btn-xs.btn-icon.button-configure(
       title = "configure"
