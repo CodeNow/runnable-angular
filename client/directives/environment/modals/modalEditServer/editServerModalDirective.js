@@ -311,7 +311,14 @@ function editServerModal(
           opts: {},
           containerFiles: [],
           repo: keypather.get(instance, 'contextVersion.getMainAppCodeVersion().githubRepo'),
-          instance: instance
+          instance: instance,
+          promises: {
+            contextVersion: loadingPromises.add('editServerModal', promisify($scope.instance.contextVersion, 'deepCopy')())
+              .then(function (contextVersion) {
+                $scope.state.contextVersion = contextVersion;
+                return promisify(contextVersion, 'fetch')();
+              })
+          }
         };
 
         $scope.state.opts.env = (fromError ?
@@ -336,15 +343,10 @@ function editServerModal(
             $scope.state.packages = packages.clone();
           });
 
-        return loadingPromises.add('editServerModal', promisify($scope.instance.contextVersion, 'deepCopy')())
+
+        return $scope.state.promises.contextVersion
           .then(function (contextVersion) {
-            $scope.state.contextVersion = contextVersion;
-            return promisify(contextVersion, 'fetch')();
-          })
-          .then(function (contextVersion) {
-            if (contextVersion.attrs.advanced) {
-              openDockerfile();
-            }
+            openDockerfile();
             $scope.state.acv = contextVersion.getMainAppCodeVersion();
             loading('editServerModal', false);
             return fetchUser();
@@ -583,18 +585,18 @@ function editServerModal(
       }
 
       // Only start watching this after the context version has
-      $scope.$watch('state.readOnly', function (readOnly, previousReadOnly) {
+      $scope.$watch('state.advanced', function (advanced, previousAdvanced) {
         // This is so we don't fire the first time with no changes
-        if (previousReadOnly === Boolean(previousReadOnly) && readOnly !== previousReadOnly) {
+        if (previousAdvanced === Boolean(previousAdvanced) && advanced !== previousAdvanced) {
           watchOncePromise($scope, 'state.contextVersion', true)
             .then(function () {
               $rootScope.$broadcast('close-popovers');
-              $scope.selectedTab = readOnly ? 'buildfiles' : 'repository';
-              if (readOnly) {
+              $scope.selectedTab = advanced ? 'buildfiles' : 'repository';
+              if (advanced) {
                 openDockerfile();
               }
               return loadingPromises.add('editServerModal', promisify($scope.state.contextVersion, 'update')({
-                advanced: !readOnly
+                advanced: advanced
               }));
             })
             .catch(function (err) {

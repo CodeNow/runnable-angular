@@ -32,7 +32,11 @@
     | #{''} are not available with write access enabled.
 
   //- when locking the dockerfile, prompt with modal template: viewModalLockDockerfile
-  label.toggle-wrapper.show-icons
+  label.toggle-wrapper.show-icons(
+    read-only-switch
+    state = "state"
+    loading-promises-target = "editServerModal"
+  )
 
 
 //- table of current environment variables
