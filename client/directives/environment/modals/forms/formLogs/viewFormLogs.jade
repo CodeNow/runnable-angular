@@ -13,13 +13,6 @@
     ng-click = "page = 'run'"
   ) CMD Logs
 
-//- toolbar
-//- does not appear for build errors at step 0 (FROM)
-.views-toolbar-wrapper(
-  ng-if = "$root.featureFlags.debugMode"
-  ng-include = "'viewToolbar'"
-)
-
 //- logs
 pre.pre.log-wrapper(
   ng-class = "{\
