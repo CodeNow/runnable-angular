@@ -45,12 +45,12 @@
     ) {{ masterInstance.attrs.name }}
     //- configure button for non-repo containers
     .btn.btn-xs.btn-icon.button-configure(
-      title = "configure"
       modal
       modal-current-model = "masterInstance"
       modal-state-model = "masterInstance.contextVersion.attrs.advanced ? 'env' : 'repository'"
       modal-template = "editServerModalOpen"
       ng-if = "!masterInstance.getRepoName()"
+      title = "configure"
     )
       svg.iconnables
         use(
