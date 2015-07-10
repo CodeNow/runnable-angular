@@ -50,9 +50,15 @@
 
 .build-log-header {
   height: 39px;
-  padding-right: 100px;
+  overflow-x: auto;
   position: absolute;
   width: 100%;
+
+  // has debug-button
+  &.padding-right {
+    overflow: hidden;
+    padding-right: 100px;
+  }
 
   // fixed
   &.fixed {

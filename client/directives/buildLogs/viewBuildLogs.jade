@@ -10,10 +10,14 @@
   .build-log-content.
     Cloning CodeNow/api into ./api
 #1420be8d4ebf.pre.build-log.in
-  .build-log-header.text-overflow.
+  .build-log-header.text-overflow(
+    title = "FROM registry.runnable.code/runnable/node_base:latest"
+  ).
     <span class="code-magenta code-bold">FROM</span> registry.runnable.code/runnable/node_base:latest
 #15e1e408c78f.pre.build-log.in
-  .build-log-header.text-overflow.
+  .build-log-header.text-overflow(
+    title = "EXPOSE 80"
+  ).
     <span class="code-magenta code-bold">EXPOSE</span> 80
 //- can't toggle when fixed
 #2f1d895adb79.pre.build-log.build-log-toggle.in(
@@ -22,8 +26,10 @@
   .build-log-header.text-overflow(
     ng-click = "toggleStep1 = !toggleStep1"
     ng-class = "{\
-      'fixed': ifScrolledPast\
+      'fixed': ifScrolledPast && isError,\
+      'padding-right': isError\
     }"
+    title = "RUN npm install -g npm@2.1.18 &&     n 0.10.38"
   ) <span class="code-magenta code-bold">RUN</span> npm install -g npm@2.1.18 &&     n 0.10.38
     .btn-group.btn-debug(
       ng-if = "$root.featureFlags.debugMode"
