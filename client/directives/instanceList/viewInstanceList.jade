@@ -6,14 +6,12 @@
   ng-repeat = "masterInstance in data.instancesByPod.models |orderBy: ['attrs.contextVersion.appCodeVersions.length === 0', 'attrs.name'] track by masterInstance.attrs.name"
 )
   //- repo names
-  .repo-name-wrapper(
+  .strong.small.text-overflow(
     ng-if = "masterInstance.getRepoName()"
-  )
-    span.span.strong.small.text-overflow(
-      title = "{{ masterInstance.getRepoName() }}"
-    ) {{ masterInstance.getRepoName() }}
+    title = "{{ masterInstance.getRepoName() }}"
+  ) {{ masterInstance.getRepoName() }}
     //- configure button for repo container groups
-    .btn.btn-xs.btn-icon.button-configure(
+    .btn.btn-xs.button-configure(
       title = "configure"
       modal
       modal-current-model = "masterInstance"
@@ -46,7 +44,7 @@
       title = "{{ masterInstance.attrs.name }}"
     ) {{ masterInstance.attrs.name }}
     //- configure button for non-repo containers
-    .btn.btn-xs.btn-icon.button-configure(
+    .btn.btn-xs.button-configure(
       modal
       modal-current-model = "masterInstance"
       modal-state-model = "masterInstance.contextVersion.attrs.advanced ? 'env' : 'repository'"

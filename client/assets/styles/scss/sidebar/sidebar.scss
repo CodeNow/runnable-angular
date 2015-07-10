@@ -100,18 +100,14 @@
 .container-list {
   border-bottom: 1px solid $gray-lighter; // lines below categories
   padding: 9px 0;
-}
-
-// wrapper for repo name and config button
-.repo-name-wrapper {
-  align-items: center;
-  display: flex;
-  margin-right: -12px;
 
   // repo names
   .strong {
-    flex: 1 1 auto;
+    height: 21px;
     line-height: 21px;
+    margin-right: -12px;
+    padding-right: 36px;
+    position: relative;
   }
 }
 
@@ -164,11 +160,14 @@
 }
 
 .button-configure {
-  flex: 0 0 27px;
-  height: 27px;
+  // float: right;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  width: 36px;
 
   .iconnables {
-    right: 5px;
+    height: 100%;
     width: 12px;
   }
 }
