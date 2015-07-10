@@ -4,7 +4,7 @@ var Runnable = require('runnable');
 var qs = require('qs');
 
 require('app')
-  .factory('user', function ($http, configAPIHost, configUserContentDomain, modelStore, collectionStore, $timeout, debounce) {
+  .factory('apiClientBridge', function ($http, configAPIHost, configUserContentDomain, modelStore, collectionStore, $timeout, debounce) {
     var runnable = new Runnable(configAPIHost, { userContentDomain: configUserContentDomain });
     runnable.client.request = new AngularHttpRequest($http);
 

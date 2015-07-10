@@ -10,7 +10,7 @@ function controllerBranchSelection (
   fetchInstances,
   promisify,
   errs,
-  user
+  apiClientBridge
 ) {
   var hostname = $state.params.hostname;
   $scope.loading = true;
@@ -33,7 +33,7 @@ function controllerBranchSelection (
   .catch(errs.handler);
 
   $scope.selectInstance = function (instance) {
-    promisify(user, 'createRoute')({
+    promisify(apiClientBridge, 'createRoute')({
       srcHostname: hostname,
       destInstanceId: instance.id()
     })

@@ -18,7 +18,7 @@ require('app')
 
 function fetchUser(
   keypather,
-  user,
+  apiClientBridge,
   $q,
   $window,
   promisify,
@@ -29,7 +29,7 @@ function fetchUser(
   // For consistency with other promise fetchers
   return function () {
     if (!fetchedUser) {
-      fetchedUser = promisify(user, 'fetchUser')('me')
+      fetchedUser = promisify(apiClientBridge, 'fetchUser')('me')
       .then(function (_user) {
         socket = _user.createSocket();
         reportError.setUser(_user);

@@ -2,12 +2,8 @@
 
 require('app')
   .controller('ControllerApp', ControllerApp);
-/**
- * ControllerApp
- * @constructor
- * @export
- * @ngInject
- */
+
+
 function ControllerApp(
   $rootScope,
   $scope,
@@ -20,30 +16,51 @@ function ControllerApp(
   debounce,
   errs,
   eventTracking,
-  fetchOrgs,
-  fetchUser,
-  keypather,
   pageName,
-  loading,
-  $localStorage
-) {
+  $localStorage,
 
-  loading('main', true);
-  var thisUser;
+  user,
+  orgs,
+  activeAccount
+) {
+  eventTracking.boot(user);
+
   var dataApp = $rootScope.dataApp = $scope.dataApp = {
-    data: {},
+    data: {
+      user: user,
+      orgs: orgs,
+      allAccounts: [user].concat(orgs.models),
+      instances: null,
+      activeAccount: activeAccount,
+      configAPIHost: configAPIHost,
+      minimizeNav: false,
+      loginURL: configLoginURL(),
+      modalError: {
+        data: {},
+        actions: {
+          close: function () {
+            errs.clearErrors();
+            dataApp.data.modalError.data.in = false;
+          }
+        }
+      },
+      // used in dev-info box
+      configEnvironment: configEnvironment
+    },
     actions: {},
-    state: {}
+    state: $state
   };
+
+  if (user.socket) {
+    user.socket.joinOrgRoom(activeAccount.oauthId());
+  }
+
   $rootScope.pageName = pageName;
 
   var w = angular.element($window);
   w.bind('resize', debounce(function () {
     $timeout(angular.noop);
   }, 33));
-
-  // used in dev-info box
-  dataApp.data.configEnvironment = configEnvironment;
 
   var defaultFeatureFlags = {
     advancedRepositories: true,
@@ -77,72 +94,6 @@ function ControllerApp(
       $rootScope.featureFlags[flag] = $localStorage.featureFlags[flag];
     });
   }
-
-  dataApp.data.configAPIHost = configAPIHost;
-  dataApp.data.minimizeNav = false;
-  dataApp.data.loginURL = configLoginURL();
-
-  dataApp.state = $state;
-
-  dataApp.data.modalError = {
-    data: {},
-    actions: {
-      close: function () {
-        errs.clearErrors();
-        dataApp.data.modalError.data.in = false;
-      }
-    }
-  };
-
-  var fetchUserPromise = fetchUser()
-    .then(function (results) {
-      thisUser = results;
-      dataApp.data.user = results;
-      // Intercom && Mixpanel
-      eventTracking.boot(thisUser);
-      return fetchOrgs();
-    })
-    .then(function (orgs) {
-      dataApp.data.orgs = orgs;
-      dataApp.data.allAccounts = [dataApp.data.user].concat(orgs.models);
-    })
-    .catch(errs.handler);
-
-  function setActiveAccount(accountName) {
-    if (accountName) {
-      var unwatch = $scope.$watch('dataApp.data.orgs', function(n) {
-        if (n) {
-          unwatch();
-          dataApp.data.instances = null;
-          var accounts = [thisUser].concat(n.models);
-          dataApp.data.activeAccount = accounts.find(function (org) {
-            return (keypather.get(org, 'oauthName().toLowerCase()') === accountName.toLowerCase());
-          });
-          if (dataApp.data.user.socket) {
-            dataApp.data.user.socket.joinOrgRoom(dataApp.data.activeAccount.oauthId());
-          }
-
-          if (!dataApp.data.activeAccount) {
-            dataApp.data.activeAccount = thisUser;
-          }
-          $rootScope.$broadcast('INSTANCE_LIST_FETCH', dataApp.data.activeAccount.oauthName());
-        }
-      });
-    }
-  }
-  $scope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, error) {
-    if (!keypather.get(dataApp, 'data.activeAccount.oauthName()') ||
-        toParams.userName !== dataApp.data.activeAccount.oauthName()) {
-      setActiveAccount(toParams.userName);
-    }
-    // We need to make sure the eventTracking.boot was called before this, otherwise intercom will
-    // fail to show
-    fetchUserPromise
-      .then(function () {
-        eventTracking.update();
-      });
-    loading('main', false);
-  });
 
   $scope.$watch(function () {
     return errs.errors.length;

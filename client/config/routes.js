@@ -1,17 +1,6 @@
 'use strict';
 
 module.exports = [
-  // TEST $root.featureFlags.debugMode
-  // {
-  //   state: 'debug',
-  //   abstract: false,
-  //   url: '^/debug',
-  //   templateUrl: 'viewDebug',
-  //   data: {
-  //     anon: true
-  //   }
-  // },
-  // TEST $root.featureFlags.debugMode
   {
     state: 'orgSelect',
     abstract: false,
@@ -38,12 +27,39 @@ module.exports = [
     }
   }, {
     state: 'base',
-    abstract: true,
+    abstract: false,
     url: '^/:userName/',
     templateUrl: 'viewInstanceLayout',
-    controller: 'ControllerApp'
+    controller: 'ControllerApp',
+    resolve: {
+      user: function (fetchUser) {
+        return fetchUser();
+      },
+      orgs: function (fetchOrgs) {
+        return fetchOrgs();
+      },
+      activeAccount: function ($q, $stateParams, $state, user, orgs, $timeout) {
+        var lowerAccountName = $stateParams.userName.toLowerCase();
+        if (user.oauthName().toLowerCase() === lowerAccountName) {
+          return user;
+        }
+
+        var matchedOrg = orgs.find(function (org) {
+          return org.oauthName().toLowerCase() === lowerAccountName;
+        });
+
+        if (!matchedOrg) {
+          // There is a bug in ui-router that the workaround
+          return $timeout(function () {
+            $state.go('base', { userName: user.oauthName() });
+            return $q.reject('User Unauthorized for Organization');
+          });
+        }
+        return matchedOrg;
+      }
+    }
   }, {
-    state: 'config',
+    state: 'base.config',
     abstract: true,
     templateUrl: 'viewInstanceLayout',
     controller: 'ControllerInstanceLayout',
@@ -56,7 +72,7 @@ module.exports = [
       keypather.set($rootScope, 'dataApp.isConfigPage', false);
     }
   }, {
-    state: 'config.home',
+    state: 'base.config.home',
     abstract: false,
     url: '^/:userName/configure',
     templateUrl: 'environmentView',
@@ -70,21 +86,7 @@ module.exports = [
       keypather.set($rootScope, 'dataApp.isConfigPage', false);
     }
   }, {
-    state: 'config.instance',
-    abstract: false,
-    url: '^/:userName/configure/:instanceName',
-    templateUrl: 'environmentView',
-    controller: 'EnvironmentController',
-    onEnter: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'layoutOptions.hideSidebar', true);
-      keypather.set($rootScope, 'dataApp.isConfigPage', true);
-    },
-    onExit: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'layoutOptions.hideSidebar', false);
-      keypather.set($rootScope, 'dataApp.isConfigPage', false);
-    }
-  }, {
-    state: 'instance',
+    state: 'base.instance',
     abstract: true,
     templateUrl: 'viewInstanceLayout',
     controller: 'ControllerInstanceLayout',
@@ -95,13 +97,13 @@ module.exports = [
       keypather.set($rootScope, 'dataApp.isInstancePage', false);
     }
   }, {
-    state: 'instance.home',
+    state: 'base.instance.home',
     abstract: false,
     url: '^/:userName',
     templateUrl: 'viewInstanceHome',
     controller: 'ControllerInstanceHome'
   }, {
-    state: 'instance.instance',
+    state: 'base.instance.instance',
     abstract: false,
     url: '^/:userName/:instanceName',
     templateUrl: 'viewInstance',

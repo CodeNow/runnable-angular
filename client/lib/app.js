@@ -1,7 +1,7 @@
 'use strict';
 
 require('angular');
-var uiRouter = require('angular-ui-router');
+require('angular-ui-router');
 var uiAce = require('angular-ui-ace');
 var ngStorage = require('ngStorage');
 require('jsTag/jsTag/compiled/jsTag.min');
@@ -10,7 +10,7 @@ require('angular-drag-and-drop-lists/angular-drag-and-drop-lists');
 require('angular-scroll');
 
 module.exports = angular.module('app', [
-  uiRouter,
+  'ui.router',
   uiAce,
   ngStorage,
   'jsTag',
