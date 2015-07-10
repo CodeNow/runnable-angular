@@ -9,7 +9,9 @@
   .repo-name-wrapper(
     ng-if = "masterInstance.getRepoName()"
   )
-    span.span.strong.small.text-overflow {{ masterInstance.getRepoName() }}
+    span.span.strong.small.text-overflow(
+      title = "{{ masterInstance.getRepoName() }}"
+    ) {{ masterInstance.getRepoName() }}
     //- configure button for repo container groups
     .btn.btn-xs.btn-icon.button-configure(
       title = "configure"
