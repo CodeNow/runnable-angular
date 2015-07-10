@@ -5,11 +5,12 @@
   ng-if = "data.activeAccount && !isLoading.sidebar"
   ng-repeat = "masterInstance in data.instancesByPod.models |orderBy: ['attrs.contextVersion.appCodeVersions.length === 0', 'attrs.name'] track by masterInstance.attrs.name"
 )
-  //- repo names
-  .strong.small.text-overflow(
+  .repo-name-wrapper(
     ng-if = "masterInstance.getRepoName()"
-    title = "{{ masterInstance.getRepoName() }}"
-  ) {{ masterInstance.getRepoName() }}
+  )
+    strong.strong.small.text-overflow(
+      title = "{{ masterInstance.getRepoName() }}"
+    ) {{ masterInstance.getRepoName() }}
     //- configure button for repo container groups
     .btn.btn-xs.button-configure(
       title = "configure"
