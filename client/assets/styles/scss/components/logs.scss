@@ -51,6 +51,21 @@
 .build-log-header {
   height: 39px;
   padding-right: 100px;
+  position: absolute;
+  width: 100%;
+
+  // fixed
+  &.fixed {
+    position: fixed;
+    top: 177px;
+    width: calc(100% - 591px);
+    z-index: 1;
+
+    .full-screen & {
+      top: 45px;
+      width: calc(100% - 51px);
+    }
+  }
 
   // debug button
   > .btn-debug {
@@ -63,6 +78,7 @@
 
   // change padding if there's a header
   + .build-log-content {
+    margin-top: 39px;
     padding-bottom: 15px;
     padding-top: 6px;
   }
@@ -83,6 +99,14 @@
   // toggleable .build-log-header
   .build-log-header {
     cursor: pointer;
+
+    &.fixed {
+      cursor: default;
+
+      &::before {
+        display: none;
+      }
+    }
 
     // arrow
     &::before {
@@ -162,15 +186,19 @@
   }
 
   .build-log-toggle .build-log-header {
-    background: rgba($white,.03);
+    background: #3d294a; // rgba($white,.03);
     border-bottom: 1px solid $purple-darker;
 
-    &:hover {
-      background: rgba($white,.045);
-    }
+    // no states when fixed
+    &:not(.fixed) {
 
-    &:active {
-      background: rgba($white,.06);
+      &:hover {
+        background: #3f2c4d; // rgba($white,.045);
+      }
+
+      &:active {
+        background: #422f4f; // rgba($white,.06);
+      }
     }
 
     &::before {
