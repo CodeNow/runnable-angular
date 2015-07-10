@@ -33,7 +33,8 @@
       instance = "masterInstance"
     )
 
-    span.span.text-overflow {{ masterInstance.attrs.name }}
+    //- displays default branch name for repo container, and container name for non-repo containers
+    span.span.text-overflow {{ masterInstance.getRepoName() ? masterInstance.getBranchName() : masterInstance.attrs.name}}
 
     .btn.btn-xs.btn-icon.btn-configure(
       modal
