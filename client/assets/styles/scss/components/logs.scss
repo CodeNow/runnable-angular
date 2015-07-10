@@ -22,7 +22,11 @@
   transition: max-height .3s ease-in-out;
 
   &:target {
-    box-shadow: inset 2px 2px 0 $purple-light, inset -2px -2px 0 $purple-light;
+    box-shadow: // bottom-right,top-right,bottom-left,top-left
+      2px 2px 0 $purple-light,
+      2px -2px 0 $purple-light,
+      -2px 2px 0 $purple-light,
+      -2px -2px 0 $purple-light;
   }
 
   &:last-child {
@@ -187,7 +191,11 @@
 
     // error
     &.error {
-      box-shadow: inset 2px 2px 0 $logs-runnable-dark-red, inset -2px -2px 0 $logs-runnable-dark-red;
+      box-shadow: // bottom-right,top-right,bottom-left,top-left
+      2px 2px 0 $logs-runnable-light-red,
+      2px -2px 0 $logs-runnable-light-red,
+      -2px 2px 0 $logs-runnable-light-red,
+      -2px -2px 0 $logs-runnable-light-red;
     }
   }
 
