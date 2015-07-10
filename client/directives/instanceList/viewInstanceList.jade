@@ -21,9 +21,7 @@
         use(
           xlink:href = "#icons-advanced"
         )
-  //- containers for master branches of repos
   a.container-list-item.text-overflow(
-    ng-if = "masterInstance.getRepoName()"
     ui-sref = "\
       instance.instance({ userName: data.activeAccount.oauthName(), \
       instanceName: masterInstance.attrs.name })\
@@ -33,22 +31,14 @@
     status-icon(
       instance = "masterInstance"
     )
+    //- containers for master branches of repos
     span.span.text-overflow(
+      ng-if = "masterInstance.getRepoName()"
       title = "{{ masterInstance.getBranchName() }}"
     ) {{ masterInstance.getBranchName() }}
-  //- non-repo containers
-  a.container-list-item.text-overflow(
-    ng-if = "!masterInstance.getRepoName()"
-    ui-sref = "\
-      instance.instance({ userName: data.activeAccount.oauthName(), \
-      instanceName: masterInstance.attrs.name })\
-    "
-    ui-sref-active = "selected"
-  )
-    status-icon(
-      instance = "masterInstance"
-    )
+    //- non-repo containers
     span.span.text-overflow(
+      ng-if = "!masterInstance.getRepoName()"
       title = "{{ masterInstance.attrs.name }}"
     ) {{ masterInstance.attrs.name }}
     //- configure button for non-repo containers
