@@ -1,84 +1,76 @@
-.container-list(
+//- containers organized by repository
+.list.list-containers(
   ng-if = "data.activeAccount && !isLoading.sidebar"
-  ng-class = "{\
-    'no-touching': !masterInstance.opts\
-  }"
   ng-repeat = "masterInstance in data.instancesByPod.models |orderBy: ['attrs.contextVersion.appCodeVersions.length === 0', 'attrs.name'] track by masterInstance.attrs.name"
 )
-  //- repo names
-  .repo-name-wrapper(
+  //- repository name
+  .list-item.small.text-overflow(
     ng-if = "masterInstance.getRepoName()"
-  )
-    span.span.strong.small.text-overflow(
-      title = "{{ masterInstance.getRepoName() }}"
-    ) {{ masterInstance.getRepoName() }}
-    //- configure button for repo container groups
-    .btn.btn-xs.btn-icon.button-configure(
-      title = "configure"
+    title = "{{ masterInstance.getRepoName() }}"
+  ) {{ masterInstance.getRepoName() }}
+    .btn.btn-xs.btn-icon.btn-configure(
       modal
       modal-current-model = "masterInstance"
       modal-state-model = "masterInstance.contextVersion.attrs.advanced ? 'env' : 'repository'"
       modal-template = "editServerModalOpen"
+      title = "Configure"
     )
-      svg.iconnables
+      svg.iconnables.icons-advanced
         use(
           xlink:href = "#icons-advanced"
         )
+
   //- master branch containers and non-repo containers
-  a.container-list-item.text-overflow(
+  a.list-item(
+    title = "{{ masterasterInstance.attrs.name }}"
     ui-sref = "\
       instance.instance({ userName: data.activeAccount.oauthName(), \
       instanceName: masterInstance.attrs.name })\
     "
-    ui-sref-active = "selected"
+    ui-sref-active = "active"
   )
     status-icon(
       instance = "masterInstance"
     )
-    //- name for master branch containers
-    span.span.text-overflow(
-      ng-if = "masterInstance.getRepoName()"
-      title = "{{ masterInstance.getBranchName() }}"
-    ) {{ masterInstance.getBranchName() }}
-    //- name for non-repo containers
-    span.span.text-overflow(
-      ng-if = "!masterInstance.getRepoName()"
-      title = "{{ masterInstance.attrs.name }}"
-    ) {{ masterInstance.attrs.name }}
-    //- configure button for non-repo containers
-    .btn.btn-xs.btn-icon.button-configure(
+
+    span.span.text-overflow {{ masterInstance.attrs.name }}
+
+    .btn.btn-xs.btn-icon.btn-configure(
       modal
       modal-current-model = "masterInstance"
       modal-state-model = "masterInstance.contextVersion.attrs.advanced ? 'env' : 'repository'"
       modal-template = "editServerModalOpen"
       ng-if = "!masterInstance.getRepoName()"
-      title = "configure"
+      title = "Configure"
     )
-      svg.iconnables
+      svg.iconnables.icons-advanced
         use(
           xlink:href = "#icons-advanced"
         )
+
   //- containers for non-master branches
-  a.container-list-item.text-overflow(
+  a.list-item(
     ng-repeat = "branchFork in masterInstance.children.models | orderBy:'attrs.name'"
+    title = "{{ branchFork.getDisplayName() }}"
     ui-sref = "\
       instance.instance({ userName: data.activeAccount.oauthName(), \
       instanceName: branchFork.attrs.name })\
     "
-    ui-sref-active = "selected"
+    ui-sref-active = "active"
   )
     status-icon(
       instance = "branchFork"
     )
-    span.span.text-overflow(
-      title = "{{ branchFork.getDisplayName() }}"
-    ) {{ branchFork.getDisplayName() }}
+
+    span.span.text-overflow {{ branchFork.getDisplayName() }}
+
     //- "hide" button
-    .btn.btn-xs.button-hide(
+    .btn.btn-xs.btn-hide(
       ng-if = "$root.featureFlags.navListFilter"
     ) hide
+
   //- "X more…" popover link
-  .more-containers(
+  .btn-more.small(
     ng-if = "$root.featureFlags.navListFilter"
     pop-over
     pop-over-options = "{\"top\":-33,\"left\":215}"
