@@ -13,11 +13,11 @@
     ) {{ masterInstance.getRepoName() }}
     //- configure button for repo container groups
     .btn.btn-xs.button-configure(
-      title = "configure"
       modal
       modal-current-model = "masterInstance"
       modal-state-model = "masterInstance.contextVersion.attrs.advanced ? 'env' : 'repository'"
       modal-template = "editServerModalOpen"
+      title = "configure"
     )
       svg.iconnables
         use(
