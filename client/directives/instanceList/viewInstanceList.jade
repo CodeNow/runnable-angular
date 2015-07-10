@@ -24,7 +24,6 @@
   //- containers for master branches of repos
   a.container-list-item.text-overflow(
     ng-if = "masterInstance.getRepoName()"
-    title = "{{ masterInstance.getRepoName() }}/{{ masterInstance.getBranchName() }}"
     ui-sref = "\
       instance.instance({ userName: data.activeAccount.oauthName(), \
       instanceName: masterInstance.attrs.name })\
@@ -34,20 +33,24 @@
     status-icon(
       instance = "masterInstance"
     )
-    | {{ masterInstance.getBranchName() }}
+    span.span.text-overflow(
+      title = "{{ masterInstance.getBranchName() }}"
+    ) {{ masterInstance.getBranchName() }}
   //- non-repo containers
   a.container-list-item.text-overflow(
     ng-if = "!masterInstance.getRepoName()"
-    title = "{{ masterInstance.attrs.name }}"
     ui-sref = "\
       instance.instance({ userName: data.activeAccount.oauthName(), \
       instanceName: masterInstance.attrs.name })\
     "
+    ui-sref-active = "selected"
   )
     status-icon(
       instance = "masterInstance"
     )
-    | {{ masterInstance.attrs.name }}
+    span.span.text-overflow(
+      title = "{{ masterInstance.attrs.name }}"
+    ) {{ masterInstance.attrs.name }}
     //- configure button for non-repo containers
     .btn.btn-xs.btn-icon.button-configure(
       title = "configure"

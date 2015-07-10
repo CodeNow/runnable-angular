@@ -29,12 +29,10 @@
   }
 
   .icons-status {
-    flex: 0 0 auto;
     margin: 0 6px 0 12px;
   }
 }
 
-// rename this, considering the header in the instance view
 .sidebar-heading {
   cursor: pointer;
   line-height: 60px;
@@ -88,7 +86,7 @@
 }
 
 .containers {
-  color: #555;
+  color: $gray-dark;
   height: calc(100vh - 120px);
   overflow-x: hidden;
   overflow-y: auto;
@@ -161,8 +159,8 @@
 
 .button-configure {
   height: 27px;
-  position: absolute;
-  right: 0;
+  // position: absolute;
+  // right: 0;
   width: 27px;
 
   .iconnables {
