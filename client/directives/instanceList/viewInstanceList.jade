@@ -1,4 +1,4 @@
-.container-category(
+.container-list(
   ng-if = "data.activeAccount && !isLoading.sidebar"
   ng-repeat = "masterInstance in data.instancesByPod.models |orderBy: ['attrs.contextVersion.appCodeVersions.length === 0', 'attrs.name'] track by masterInstance.attrs.name"
   ng-class = "{\
@@ -8,8 +8,7 @@
   //- repo names
   strong.strong.small(
     ng-if = "masterInstance.getRepoName()"
-  )
-    span.span {{ masterInstance.getRepoName() }}
+  ) {{ masterInstance.getRepoName() }}
     //- configure button for repo container groups
     .btn.btn-xs.btn-icon.button-configure(
       title = "configure"
@@ -23,7 +22,7 @@
           xlink:href = "#icons-advanced"
         )
   //- containers for master branches of repos
-  a.container-name.text-overflow(
+  a.container-list-item.text-overflow(
     ng-if = "masterInstance.getRepoName()"
     title = "{{ masterInstance.getRepoName() }}/{{ masterInstance.getBranchName() }}"
     ui-sref = "\
@@ -37,18 +36,18 @@
     )
     | {{ masterInstance.getBranchName() }}
   //- non-repo containers
-  a.container-name.text-overflow(
+  a.container-list-item.text-overflow(
     ng-if = "!masterInstance.getRepoName()"
     title = "{{ masterInstance.attrs.name }}"
     ui-sref = "\
       instance.instance({ userName: data.activeAccount.oauthName(), \
       instanceName: masterInstance.attrs.name })\
     "
-  ) 
+  )
     status-icon(
       instance = "masterInstance"
     )
-    span.span {{ masterInstance.attrs.name }}
+    | {{ masterInstance.attrs.name }}
     //- configure button for non-repo containers
     .btn.btn-xs.btn-icon.button-configure(
       title = "configure"
@@ -63,7 +62,7 @@
           xlink:href = "#icons-advanced"
         )
   //- containers for non-master branches of repos
-  a.container-name.text-overflow(
+  a.container-list-item.text-overflow(
     title = "{{ branchFork.getDisplayName() }}"
     ng-repeat = "branchFork in masterInstance.children.models | orderBy:'attrs.name'"
     ui-sref = "\

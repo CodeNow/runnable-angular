@@ -94,7 +94,7 @@
   padding: 0 12px 45px;
 }
 
-.container-category {
+.container-list {
   border-bottom: 1px solid $gray-lighter; // lines below categories
   padding: 9px 0 6px;
   position: relative;
@@ -107,18 +107,13 @@
     height: 21px;
     line-height: 21px;
     width: calc(100% + 12px);
-
-    .span {
-      flex: 1 1 auto;
-    }
+    position: relative;
   }
 }
 
-.container-name {
-  align-items: center;
+.container-list-item {
   cursor: pointer;
-  display: flex;
-  flex: 1 1 auto;
+  display: block;
   height: 27px;
   line-height: 27px;
   margin: 0 -12px;
@@ -167,8 +162,10 @@
 }
 
 .button-configure {
-  flex: 0 0 27px;
+  width: 27px;
   height: 27px;
+  position: absolute;
+  right: 0;
 
   .iconnables {
     right: 5px;
