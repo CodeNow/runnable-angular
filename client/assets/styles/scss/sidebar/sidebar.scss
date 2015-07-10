@@ -96,7 +96,7 @@
 
 .container-list {
   border-bottom: 1px solid $gray-lighter; // lines below categories
-  padding: 9px 0 6px;
+  padding: 9px 0;
   position: relative;
   
   // repo names
@@ -129,11 +129,6 @@
 
   &:active {
     color: $purple-light;
-  }
-
-  // for when the more containers button isn't present
-  &:last-child {
-    margin-bottom: 6px;
   }
 
   &.selected {
