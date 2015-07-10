@@ -9,7 +9,7 @@ var readOnlySwitchController;
 var apiMocks = require('../apiMocks/index');
 var mockFactory = require('../apiMocks/apiClientMockFactory');
 
-describe.only('ReadOnlySwitchController'.bold.underline.blue, function () {
+describe('ReadOnlySwitchController'.bold.underline.blue, function () {
   var ctx = {};
   function setup() {
 
