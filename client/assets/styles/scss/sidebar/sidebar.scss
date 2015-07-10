@@ -88,6 +88,7 @@
 }
 
 .containers {
+  color: #555;
   height: calc(100vh - 120px);
   overflow-x: hidden;
   overflow-y: auto;
@@ -153,16 +154,16 @@
   }
 
   &:active {
-    opacity: 1;
     color: $purple-light;
+    opacity: 1;
   }
 }
 
 .button-configure {
-  width: 27px;
   height: 27px;
   position: absolute;
   right: 0;
+  width: 27px;
 
   .iconnables {
     right: 5px;
