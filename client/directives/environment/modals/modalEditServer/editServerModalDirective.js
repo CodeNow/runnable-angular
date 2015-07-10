@@ -304,7 +304,6 @@ function editServerModal(
         var advanced = keypather.get(instance, 'advanced') || keypather.get(instance, 'contextVersion.attrs.advanced') || false;
         $scope.state = {
           advanced: advanced,
-          readOnly: !advanced,
           startCommand: instance.startCommand,
           commands: instance.commands.map(function (cmd) { return cmd.clone(); }),
           selectedStack: instance.selectedStack,
@@ -346,7 +345,9 @@ function editServerModal(
 
         return $scope.state.promises.contextVersion
           .then(function (contextVersion) {
-            openDockerfile();
+            if (contextVersion.attrs.advanced) {
+              openDockerfile();
+            }
             $scope.state.acv = contextVersion.getMainAppCodeVersion();
             loading('editServerModal', false);
             return fetchUser();
