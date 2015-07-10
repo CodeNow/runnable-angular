@@ -73,6 +73,8 @@
 .nav-sidebar {
   background: $gray-lighterest;
   float: left;
+  display: flex;
+  flex-direction: column;
 
   .spinner-wrapper {
     margin-top: 30px;
@@ -82,16 +84,17 @@
   .sidebar-heading {
     border-bottom: 1px solid $gray-lighter;
     cursor: default;
+    flex: 0 0 60px;
     margin: 0 12px;
   }
 }
 
 .containers {
-  color: $gray-dark;
-  height: calc(100vh - 120px);
+  color: $gray;
+  flex: 1 1 auto;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 0 12px 45px;
+  padding: 0 12px 6px;
 }
 
 .container-list {
@@ -107,7 +110,6 @@
 
   // repo names
   .strong {
-    color: $gray;
     flex: 1 1 auto;
     line-height: 21px;
   }

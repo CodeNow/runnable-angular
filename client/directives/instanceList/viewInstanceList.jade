@@ -1,8 +1,8 @@
 .container-list(
-  ng-if = "data.activeAccount && !isLoading.sidebar"
   ng-class = "{\
     'no-touching': !masterInstance.opts\
   }"
+  ng-if = "data.activeAccount && !isLoading.sidebar"
   ng-repeat = "masterInstance in data.instancesByPod.models |orderBy: ['attrs.contextVersion.appCodeVersions.length === 0', 'attrs.name'] track by masterInstance.attrs.name"
 )
   //- repo names
