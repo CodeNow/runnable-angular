@@ -37,18 +37,18 @@
   )
 
   //- logs
-  //- .term-js.term-log(
-  //-   log-term
-  //-   ng-controller = "BuildLogController"
-  //-   ng-if = "item.state.type === 'BuildStream'"
-  //- )
+  .term-js.term-log(
+    log-term
+    ng-controller = "BuildLogController"
+    ng-if = "item.state.type === 'BuildStream' && !$root.featureFlags.updatedBuildLogs"
+  )
 
   .build-log-wrapper(
     ng-class = "{\
       'logs-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
       'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
     }"
-    ng-if = "item.state.type === 'BuildStream'"
+    ng-if = "item.state.type === 'BuildStream' && $root.featureFlags.updatedBuildLogs"
     ng-include = "'viewBuildLogs'"
   )
 

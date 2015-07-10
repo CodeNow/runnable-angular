@@ -20,14 +20,16 @@ pre.pre.log-wrapper(
     'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
 )
-  //- .term-js.term-log(
-  //-   log-term
-  //-   ng-controller = "BuildLogController"
-  //-   ng-show = "page === 'build'"
-  //- )
+  .term-js.term-log(
+    log-term
+    ng-controller = "BuildLogController"
+    ng-show = "page === 'build'"
+    ng-if = "!$root.featureFlags.updatedBuildLogs"
+  )
   .build-log-wrapper(
     ng-include = "'viewBuildLogs'"
     ng-show = "page === 'build'"
+    ng-if = "$root.featureFlags.updatedBuildLogs"
   )
   .term-js.term-log(
     log-term

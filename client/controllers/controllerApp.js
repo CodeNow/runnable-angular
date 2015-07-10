@@ -61,7 +61,8 @@ function ControllerApp(
     navListFilter: false,
     packagesField: true,
     saveToolbar: false,
-    themeToggle: false // toggles the button that toggles theme
+    themeToggle: false, // toggles the button that toggles theme
+    updatedBuildLogs: false
   };
   $rootScope.featureFlags = {};
   $rootScope.resetFeatureFlags = function () {
