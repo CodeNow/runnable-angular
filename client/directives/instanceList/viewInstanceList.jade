@@ -63,7 +63,6 @@
         )
   //- containers for non-master branches of repos
   a.container-list-item.text-overflow(
-    title = "{{ branchFork.getDisplayName() }}"
     ng-repeat = "branchFork in masterInstance.children.models | orderBy:'attrs.name'"
     ui-sref = "\
       instance.instance({ userName: data.activeAccount.oauthName(), \
@@ -74,10 +73,12 @@
     status-icon(
       instance = "branchFork"
     )
-    | {{ branchFork.getDisplayName() }}
-  .btn.btn-xs.button-hide(
-    ng-if = "$root.featureFlags.navListFilter"
-  ) hide
+    span.span.text-overflow(
+      title = "{{ branchFork.getDisplayName() }}"
+    ) {{ branchFork.getDisplayName() }}
+    .btn.btn-xs.button-hide(
+      ng-if = "$root.featureFlags.navListFilter"
+    ) hide
   //- "X more…" popover link
   .more-containers(
     ng-if = "$root.featureFlags.navListFilter"

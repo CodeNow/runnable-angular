@@ -104,16 +104,16 @@
     align-items: center;
     color: $gray;
     display: flex;
-    height: 21px;
     line-height: 21px;
-    width: calc(100% + 12px);
+    margin-right: -12px;
     position: relative;
   }
 }
 
 .container-list-item {
+  align-items: center;
   cursor: pointer;
-  display: block;
+  display: flex;
   height: 27px;
   line-height: 27px;
   margin: 0 -12px;
@@ -127,10 +127,6 @@
     }
   }
 
-  &:active {
-    color: $purple-light;
-  }
-
   &.selected {
     background: $purple-lightest;
     color: $purple-light;
@@ -139,6 +135,11 @@
 
   .span {
     flex: 1 1 auto;
+    padding-right: 12px;
+
+    &:active {
+      color: $purple-light;
+    }
   }
 }
 
@@ -148,11 +149,12 @@
   overflow: hidden;
 
   &:hover {
-    opacity: .8;
+    opacity: .85;
   }
 
   &:active {
     opacity: 1;
+    color: $purple-light;
   }
 }
 
@@ -169,11 +171,11 @@
 }
 
 .button-hide {
-  color: currentColor;
+  color: $gray;
   display: none;
   flex: 0 0 auto;
   font-style: italic;
-  margin: 6px 5px 0 -6px;
+  margin: 7px 5px 0 -12px;
 }
 
 .more-containers {
