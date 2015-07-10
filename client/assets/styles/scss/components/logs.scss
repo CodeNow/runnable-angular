@@ -94,6 +94,15 @@
   }
 }
 
+// shift fixed position if there's a toolbar
+.views-toolbar-wrapper + .active-panel .fixed {
+  top: 81px;
+
+  .full-screen & {
+    top: 213px;
+  }
+}
+
 .build-log-content {
   overflow-x: auto;
 }
