@@ -33,31 +33,42 @@
   border: 2px solid $gray-lighter;
   border-radius: 3px;
   clear: both; // keeps it from collapsing when the labels above it are floated at the xs width
-  height: 121px;
   line-height: 21px;
+  max-height: 131px; // five lines of text
   overflow-x: hidden;
   overflow-y: auto;
-  position: relative;
-  transition: padding-right .15s ease-in-out;
 
   &.focus {
     border-color: $purple-light;
   }
 
+  //- when "Cache a command" is on
   &.cache-in {
-    padding-right: 33px; // so text doesn't flow behind .cache-column
+
+    .textarea {
+      margin-right: 33px;
+    }
 
     .cache-column {
       transform: translate3d(0,0,0);
     }
   }
 
+  .flex-wrapper {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
   .textarea.textarea {
     border: 0;
     box-shadow: none;
-    height: 117px;
-    max-height: none; // override
+    max-height: none;
+    min-height: 0;
+    overflow-y: hidden;
     resize: none;
+    transition: margin-right .15s ease-in-out;
+    width: auto;
   }
 }
 
@@ -67,7 +78,7 @@
   display: flex;
   flex-direction: column;
   font-size: 14px; // sets radio button size
-  min-height: 100%;
+  height: 100%;
   pointer-events: none;
   position: absolute;
   top: 0;
@@ -96,7 +107,7 @@
   width: 32px;
 
   &:first-of-type {
-    margin-top: 5px;
+    margin-top: 3px;
   }
 
   &:hover + .cache-row {
