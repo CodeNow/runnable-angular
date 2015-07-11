@@ -48,3 +48,39 @@
     }
   }
 }
+
+.sidebar-heading {
+  cursor: pointer;
+  flex: 0 0 60px;
+  line-height: 60px;
+  position: relative;
+
+  &.closed {
+    color: $gray;
+
+    &:hover {
+      color: $gray-darker;
+    }
+  }
+
+  .icons-disclose {
+    float: left;
+    left: -3px;
+    top: 18px;
+    transition: none;
+    width: 15px;
+
+    .closed & {
+      transform: rotate3d(0,0,1,-90deg);
+    }
+  }
+
+  // for add buttons next to section headings, like in File Explorer
+  .btn {
+    height: 60px;
+
+    .iconnables {
+      width: 24px;
+    }
+  }
+}

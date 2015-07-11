@@ -4,11 +4,14 @@
   ng-repeat = "masterInstance in data.instancesByPod.models |orderBy: ['attrs.contextVersion.appCodeVersions.length === 0', 'attrs.name'] track by masterInstance.attrs.name"
 )
   //- repository name
-  .list-item.small.text-overflow(
+  .list-item.small.strong(
     ng-if = "masterInstance.getRepoName()"
     title = "{{ masterInstance.getRepoName() }}"
-  ) {{ masterInstance.getRepoName() }}
-    .btn.btn-xs.btn-icon.btn-configure(
+  ) 
+    span.span.text-overflow {{ masterInstance.getRepoName() }}
+
+    //- configure button for repo containers
+    .btn.btn-configure(
       modal
       modal-current-model = "masterInstance"
       modal-state-model = "masterInstance.contextVersion.attrs.advanced ? 'env' : 'repository'"
@@ -33,10 +36,12 @@
       instance = "masterInstance"
     )
 
-    //- displays default branch name for repo container, and container name for non-repo containers
+    //- displays master branch name for repo containers
+    //- displays container name for non-repo containers
     span.span.text-overflow {{ masterInstance.getRepoName() ? masterInstance.getBranchName() : masterInstance.attrs.name}}
 
-    .btn.btn-xs.btn-icon.btn-configure(
+    //- configure button for non-repo containers
+    .btn.btn-configure(
       modal
       modal-current-model = "masterInstance"
       modal-state-model = "masterInstance.contextVersion.attrs.advanced ? 'env' : 'repository'"
@@ -66,12 +71,12 @@
     span.span.text-overflow {{ branchFork.getDisplayName() }}
 
     //- "hide" button
-    .btn.btn-xs.btn-hide(
+    .btn.btn-hide(
       ng-if = "$root.featureFlags.navListFilter"
     ) hide
 
   //- "X more…" popover link
-  .btn-more.small(
+  .btn(
     ng-if = "$root.featureFlags.navListFilter"
     pop-over
     pop-over-options = "{\"top\":-33,\"left\":215}"

@@ -30,43 +30,7 @@
 
   .icons-status {
     flex: 0 0 auto;
-    margin: 0 6px 0 12px;
-  }
-}
-
-.sidebar-heading {
-  cursor: pointer;
-  flex: 0 0 60px;
-  line-height: 60px;
-  position: relative;
-
-  &.closed {
-    color: $gray;
-
-    &:hover {
-      color: $gray-darker;
-    }
-  }
-
-  .icons-disclose {
-    float: left;
-    left: -3px;
-    top: 18px;
-    transition: none;
-    width: 15px;
-
-    .closed & {
-      transform: rotate3d(0,0,1,-90deg);
-    }
-  }
-
-  // for add buttons next to section headings, like in File Explorer
-  .btn {
-    height: 60px;
-
-    .iconnables {
-      width: 24px;
-    }
+    margin-right: 6px;
   }
 }
 
@@ -81,10 +45,32 @@
 }
 
 .containers {
+  color: $gray;
   flex: 1 1 auto;
-  overflow-x: hidden;
   overflow-y: auto;
-  padding-top: 15px;
+  padding-top: 9px;
+
+  // configure, "hide", and "X more…" buttons
+  .btn {
+    color: currentColor;
+    flex: 0 0 auto;
+    font-size: 13px;
+    font-style: italic;
+    height: 27px;
+    line-height: 27px;
+    opacity: .7;
+    padding: 0 6px;
+
+    &:hover {
+      opacity: .85;
+    }
+
+    &:active,
+    &.active {
+      color: $purple-light;
+      opacity: 1;
+    }
+  }
 }
 
 .list-containers {
@@ -93,13 +79,13 @@
   padding: 9px 0;
 
   .list-item {
-    color: $gray;
+    align-items: center;
+    color: currentColor;
     display: flex;
     height: 27px;
     line-height: 27px;
     margin: 0 -9px;
-    padding: 0 12px 0 21px;
-    position: relative;
+    padding: 0 18px;
 
     &:hover {
       background: rgba($gray-light,.1);
@@ -112,21 +98,12 @@
     &:active,
     &.active {
       background: $purple-lightest;
-      background: $purple-lightest;
       color: $purple-light;
     }
 
-    // reset branch header
+    // reset repo name header
     &.small {
-      font-weight: 500;
       pointer-events: auto;
-    }
-
-    // status
-    > .icons-status {
-      flex: 0 0 auto;
-      margin: 0 6px 0 0;
-      top: 9px;
     }
 
     // text
@@ -134,64 +111,28 @@
       flex: 1 1 auto;
     }
 
-    // reset configure buttons
-    > .btn-icon {
-      background: none;
-      border: 0;
-      height: 27px;
-      right: 12px;
-      top: 0;
+    // configure button
+    > .btn-configure {
+      height: 100%;
+      margin-right: -6px;
       width: 27px;
     }
 
-    // configure button
-    > .btn-configure {
-      opacity: .7;
-
-      &:hover {
-        opacity: .85;
-      }
-
-      &:active,
-      &.active {
-        opacity: 1;
-      }
-    }
-
     .icons-advanced {
+      height: 100%;
       width: 12px;
     }
 
     // hide button
     > .btn-hide {
       display: none;
-      flex: 0 0 auto;
-      line-height: 27px;
-      position: relative;
-      right: 0;
-      top: 0;
+      line-height: 30px;
+      padding-right: 0;
     }
   }
-}
 
-// "more" button
-.btn-more {
-  cursor: pointer;
-  padding-left: 27px;
-}
-
-// hide and more states
-.btn-hide,
-.btn-more {
-  color: $gray;
-  font-style: italic;
-
-  &:hover {
-    color: $gray-dark;
-  }
-
-  &:active,
-  &.active {
-    color: $gray-darker;
+  // "X more…" button
+  > .btn {
+    padding: 0 0 0 24px;
   }
 }
