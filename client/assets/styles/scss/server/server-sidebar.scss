@@ -19,9 +19,23 @@
     float: right;
     margin-top: 22px;
   }
+}
+
+.sidebar-section {
+  border-bottom: 1px solid $gray-lighter;
+  flex: 0 0 auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 0 12px;
+
+  &.closed,
+  .explorer-menu-bar-container {
+    flex: 0 0 60px;
+    overflow-y: hidden;
+  }
 
   // file explorer section
-  .explorer-section {
+  &.explorer-section {
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
@@ -31,6 +45,42 @@
       margin: 0 -12px;
       overflow-y: auto;
       padding: 0 18px;
+    }
+  }
+}
+
+.sidebar-heading {
+  cursor: pointer;
+  flex: 0 0 60px;
+  line-height: 60px;
+  position: relative;
+
+  &.closed {
+    color: $gray;
+
+    &:hover {
+      color: $gray-darker;
+    }
+  }
+
+  .icons-disclose {
+    float: left;
+    left: -3px;
+    top: 18px;
+    transition: none;
+    width: 15px;
+
+    .closed & {
+      transform: rotate3d(0,0,1,-90deg);
+    }
+  }
+
+  // for add buttons next to section headings, like in File Explorer
+  .btn {
+    height: 60px;
+
+    .iconnables {
+      width: 24px;
     }
   }
 }

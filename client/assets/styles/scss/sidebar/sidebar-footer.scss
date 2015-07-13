@@ -1,13 +1,9 @@
 // footer.row.nav-footer
 .nav-footer {
   background-color: $gray-lighterest;
-  bottom: 0;
   box-shadow: 0 -3px 6px $gray-lighterest;
-  flex: 0 0 auto;
-  height: 45px;
+  flex: 0 0 45px;
   padding: 9px 12px;
-  position: absolute;
-  width: 100%;
   z-index: $z-sidebar-footer;
 
   // documentation
