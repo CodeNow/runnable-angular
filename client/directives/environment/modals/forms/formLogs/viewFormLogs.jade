@@ -23,13 +23,14 @@ pre.pre.log-wrapper(
   .term-js.term-log(
     log-term
     ng-controller = "BuildLogController"
-    ng-show = "page === 'build'"
     ng-if = "!$root.featureFlags.updatedBuildLogs"
+    ng-show = "page === 'build'"
   )
   .build-log-wrapper(
     ng-include = "'viewBuildLogs'"
-    ng-show = "page === 'build'"
     ng-if = "$root.featureFlags.updatedBuildLogs"
+    ng-show = "page === 'build'"
+    ng-style = "($root.featureFlags.themeToggle || $root.featureFlags.fullScreenToggle) && {'padding-right': '42px'}"
   )
   .term-js.term-log(
     log-term

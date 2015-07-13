@@ -50,6 +50,7 @@
     }"
     ng-if = "item.state.type === 'BuildStream' && $root.featureFlags.updatedBuildLogs"
     ng-include = "'viewBuildLogs'"
+    ng-style = "($root.featureFlags.themeToggle || $root.featureFlags.fullScreenToggle) && {'padding-right': '42px'}"
   )
 
   .term-js.term-log(
