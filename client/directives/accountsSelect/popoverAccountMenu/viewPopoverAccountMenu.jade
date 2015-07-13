@@ -34,7 +34,6 @@
           width = "24"
         )
         | {{ data.user.oauthName() }}
-        //- ng-if = "org !== data.activeAccount"
       li.list-item.popover-list-item.text-overflow(
         ng-class = "{'disabled': (org === data.activeAccount)}"
         ng-click = "actions.selectActiveAccount(org)"
