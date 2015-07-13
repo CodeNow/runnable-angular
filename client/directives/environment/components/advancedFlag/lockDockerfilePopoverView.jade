@@ -1,0 +1,16 @@
+.popover.menu.bottom.popover-debug(
+  ng-class = "{in: active}"
+  ng-style = "popoverStyle.getStyle()"
+  style = "transform-origin: 90% 0;"
+)
+  p.p.strong Disable write access and restore
+    br
+    | past configuration?
+  p.p Disabling write access will restore your container’s configuration from when write access was initially enabled {{data.rolledContextVersion.attrs.created | date : 'MMM d, y h:mm a'}}. You can’t undo this action.
+  .modal-footer
+    button.btn.gray.float-right(
+      ng-click = "actions.performRollback(data.rolledContextVersion); closePopover();"
+    ) Disable and Restore
+    button.btn.gray.float-left(
+      ng-click = "closePopover()"
+    ) Cancel

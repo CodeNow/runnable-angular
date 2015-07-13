@@ -11,28 +11,19 @@ function ReadOnlySwitchController(
   loadingPromises,
   promisify
 ) {
-  function rollback() {
-    // This code is waiting for api and a different task.  But this is the code, it's not junk
-    //$scope.state.promises.contextVersion = $scope.state.promises.contextVersion
-    //  .then(function (contextVersion) {
-    //    return loadingPromises.add($scope.loadingPromisesTarget, promisify(contextVersion, 'rollback')());
-    //  })
-    //  .then(function (contextVersion) {
-    //    $scope.state.contextVersion = contextVersion;
-    //    return contextVersion;
-    //  })
-    //  .catch(errs.handler)
-    //  .finally(function () {
-    //    return $scope.state.contextVersion;
-    //  });
-  }
+  var ROSC = this;
+  this.popover = {
+    performRollback: function (rolledContextVersion) {
+      $scope.resetStateContextVersion(rolledContextVersion, true);
+    }
+  };
   // Getter/setter
   this.readOnly = function (newAdvancedMode) {
     // when setting to readOnly
     if (arguments.length) {
       if (newAdvancedMode) {
         $scope.state.advanced = newAdvancedMode;
-        $scope.state.promises.contextVersion
+        return $scope.state.promises.contextVersion
           .then(function (contextVersion) {
             return loadingPromises.add($scope.loadingPromisesTarget,
               promisify(contextVersion, 'update')({
@@ -48,9 +39,14 @@ function ReadOnlySwitchController(
           });
       } else {
         // If switching from advanced to basic
-        if (confirm('You will lose all changes you\'ve made to your dockerfile (ever).')) {
-          rollback();
-        }
+        return $scope.state.promises.contextVersion
+          .then(function (contextVersion) {
+            return promisify(contextVersion, 'rollback')();
+          })
+          .then(function (contextVersion) {
+            ROSC.popover.rolledContextVersion = contextVersion;
+            ROSC.popover.active = true;
+          });
       }
     } else {
       return $scope.state.advanced;

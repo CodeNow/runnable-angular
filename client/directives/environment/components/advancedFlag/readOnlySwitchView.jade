@@ -3,4 +3,11 @@ input.toggle-input(
   type = "checkbox"
   ng-model-options = "{getterSetter: true}"
 )
-.toggle-group.toggle-sm
+.toggle-group.toggle-sm(
+  pop-over
+  pop-over-actions = "ROSC.popover"
+  pop-over-data = "ROSC.popover"
+  pop-over-template = "lockDockerfilePopoverView"
+  pop-over-trigger = "activeAttr"
+  pop-over-active = "ROSC.popover.active"
+)

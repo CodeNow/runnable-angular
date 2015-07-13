@@ -296,11 +296,54 @@ function editServerModal(
       // For the build and server logs
       $scope.build = $scope.instance.build;
 
-      function resetState(instance, fromError) {
+      $scope.resetStateContextVersion = function (contextVersion, showSpinner) {
+        if (showSpinner) {
+          loading($scope.loadingPromisesTarget, true);
+        }
 
+        $scope.state.advanced = keypather.get(contextVersion, 'attrs.advanced') || false;
+        $scope.state.promises.contextVersion = loadingPromises.add(
+          'editServerModal',
+          promisify(contextVersion, 'deepCopy')()
+            .then(function (contextVersion) {
+              $scope.state.contextVersion = contextVersion;
+              $scope.state.repo = keypather.get(contextVersion, 'getMainAppCodeVersion().githubRepo');
+              return promisify(contextVersion, 'fetch')();
+            })
+        );
+        if (showSpinner) {
+          $scope.state.promises.contextVersion
+            .then(function () {
+              loading($scope.loadingPromisesTarget, false);
+            });
+        }
+        return $scope.state.promises.contextVersion
+          .then(function (contextVersion) {
+            if (contextVersion.attrs.advanced) {
+              openDockerfile();
+            }
+            $scope.state.acv = contextVersion.getMainAppCodeVersion();
+            return fetchUser();
+          })
+          .then(function (user) {
+            return promisify(user, 'createBuild')({
+              contextVersions: [$scope.state.contextVersion.id()],
+              owner: {
+                github: $rootScope.dataApp.data.activeAccount.oauthId()
+              }
+            });
+          })
+          .then(function (build) {
+            $scope.state.build = build;
+          })
+          .catch(function (err) {
+            errs.handler(err);
+          });
+      };
+
+      function resetState(instance, fromError) {
         loadingPromises.clear('editServerModal');
         loading.reset('editServerModal');
-        loading('editServerModal', true);
         var advanced = keypather.get(instance, 'advanced') || keypather.get(instance, 'contextVersion.attrs.advanced') || false;
         $scope.state = {
           advanced: advanced,
@@ -311,13 +354,7 @@ function editServerModal(
           containerFiles: [],
           repo: keypather.get(instance, 'contextVersion.getMainAppCodeVersion().githubRepo'),
           instance: instance,
-          promises: {
-            contextVersion: loadingPromises.add('editServerModal', promisify($scope.instance.contextVersion, 'deepCopy')())
-              .then(function (contextVersion) {
-                $scope.state.contextVersion = contextVersion;
-                return promisify(contextVersion, 'fetch')();
-              })
-          }
+          promises: {}
         };
 
         $scope.state.opts.env = (fromError ?
@@ -342,30 +379,7 @@ function editServerModal(
             $scope.state.packages = packages.clone();
           });
 
-
-        return $scope.state.promises.contextVersion
-          .then(function (contextVersion) {
-            if (contextVersion.attrs.advanced) {
-              openDockerfile();
-            }
-            $scope.state.acv = contextVersion.getMainAppCodeVersion();
-            loading('editServerModal', false);
-            return fetchUser();
-          })
-          .then(function (user) {
-            return promisify(user, 'createBuild')({
-              contextVersions: [$scope.state.contextVersion.id()],
-              owner: {
-                github: $rootScope.dataApp.data.activeAccount.oauthId()
-              }
-            });
-          })
-          .then(function (build) {
-            $scope.state.build = build;
-          })
-          .catch(function (err) {
-            errs.handler(err);
-          });
+        return $scope.resetStateContextVersion($scope.instance.contextVersion, !fromError);
       }
 
       $scope.changeTab = function (tabname) {
@@ -584,28 +598,30 @@ function editServerModal(
             $scope.state.dockerfile = dockerfile;
           });
       }
+      if (!$rootScope.featureFlags.dockerfileTool) {
+        // Only start watching this after the context version has
+        $scope.$watch('state.advanced', function (advanced, previousAdvanced) {
+          // This is so we don't fire the first time with no changes
+          if (previousAdvanced === Boolean(previousAdvanced) && advanced !== previousAdvanced) {
+            watchOncePromise($scope, 'state.contextVersion', true)
+              .then(function () {
+                $rootScope.$broadcast('close-popovers');
+                $scope.selectedTab = advanced ? 'buildfiles' : 'repository';
+                if (advanced) {
+                  openDockerfile();
+                }
+                return loadingPromises.add('editServerModal', promisify($scope.state.contextVersion, 'update')({
+                  advanced: advanced
+                }));
+              })
+              .catch(function (err) {
+                errs.handler(err);
+                $scope.state.advanced = keypather.get($scope.instance, 'contextVersion.attrs.advanced');
+              });
+          }
+        });
+      }
 
-      // Only start watching this after the context version has
-      $scope.$watch('state.advanced', function (advanced, previousAdvanced) {
-        // This is so we don't fire the first time with no changes
-        if (previousAdvanced === Boolean(previousAdvanced) && advanced !== previousAdvanced) {
-          watchOncePromise($scope, 'state.contextVersion', true)
-            .then(function () {
-              $rootScope.$broadcast('close-popovers');
-              $scope.selectedTab = advanced ? 'buildfiles' : 'repository';
-              if (advanced) {
-                openDockerfile();
-              }
-              return loadingPromises.add('editServerModal', promisify($scope.state.contextVersion, 'update')({
-                advanced: advanced
-              }));
-            })
-            .catch(function (err) {
-              errs.handler(err);
-              $scope.state.advanced = keypather.get($scope.instance, 'contextVersion.attrs.advanced');
-            });
-        }
-      });
       $scope.isDockerfileValid = function () {
         if (!$scope.state.advanced || !keypather.get($scope, 'state.dockerfile.validation.criticals.length')) {
           return true;
