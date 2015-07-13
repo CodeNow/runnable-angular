@@ -6,17 +6,17 @@
   .popover-content
     //- spinner while commits are loading
     .spinner-wrapper.spinner-md.in(
-      ng-if = "!data.branch.commits.models.length"
+      ng-if = "!popoverRepositoryToggle.data.branch.commits.models.length"
       ng-include = "'spinner'"
     )
     //- commits
     ul.list.popover-list
       li.list-item.popover-list-item(
         ng-class = "{ \
-          active: (commit.attrs.sha === data.commit.attrs.sha) \
+          active: (commit.attrs.sha === popoverRepositoryToggle.data.commit.attrs.sha) \
         }"
-        ng-click = "actions.selectCommit(commit.attrs.sha)"
-        ng-repeat = "commit in data.branch.commits.models"
+        ng-click = "popoverRepositoryToggle.actions.selectCommit(commit.attrs.sha)"
+        ng-repeat = "commit in popoverRepositoryToggle.data.branch.commits.models"
       )
         .toggle-group-title {{ ::commit.attrs.commit.message | limitToEllipsis:72 }}
         .toggle-group-detail.clearfix

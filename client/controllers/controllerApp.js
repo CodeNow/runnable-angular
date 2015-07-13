@@ -27,14 +27,16 @@ function ControllerApp(
   loading,
   $localStorage
 ) {
+  var CA = this;
+  CA.data = {};
+  CA.actions = {};
+  CA.state = $state;
+
+  CA.isLoading = $rootScope.isLoading;
 
   loading('main', true);
   var thisUser;
-  var dataApp = $rootScope.dataApp = $scope.dataApp = {
-    data: {},
-    actions: {},
-    state: {}
-  };
+  $rootScope.dataApp = CA;
   $rootScope.pageName = pageName;
 
   var w = angular.element($window);
@@ -43,7 +45,7 @@ function ControllerApp(
   }, 33));
 
   // used in dev-info box
-  dataApp.data.configEnvironment = configEnvironment;
+  CA.data.configEnvironment = configEnvironment;
 
   var defaultFeatureFlags = {
     advancedRepositories: true,
@@ -64,8 +66,8 @@ function ControllerApp(
     themeToggle: false, // toggles the button that toggles theme
     internalDebugging: false
   };
-  $rootScope.featureFlags = {};
-  $rootScope.resetFeatureFlags = function () {
+  CA.featureFlags = $rootScope.featureFlags = {};
+  CA.resetFeatureFlags = $rootScope.resetFeatureFlags = function () {
     Object.keys(defaultFeatureFlags).forEach(function (key) {
       $rootScope.featureFlags[key] = defaultFeatureFlags[key];
     });
@@ -78,18 +80,16 @@ function ControllerApp(
     });
   }
 
-  dataApp.data.configAPIHost = configAPIHost;
-  dataApp.data.minimizeNav = false;
-  dataApp.data.loginURL = configLoginURL();
+  CA.data.configAPIHost = configAPIHost;
+  CA.data.minimizeNav = false;
+  CA.data.loginURL = configLoginURL();
 
-  dataApp.state = $state;
-
-  dataApp.data.modalError = {
+  CA.data.modalError = {
     data: {},
     actions: {
       close: function () {
         errs.clearErrors();
-        dataApp.data.modalError.data.in = false;
+        CA.data.modalError.data.in = false;
       }
     }
   };
@@ -97,42 +97,50 @@ function ControllerApp(
   var fetchUserPromise = fetchUser()
     .then(function (results) {
       thisUser = results;
-      dataApp.data.user = results;
+      CA.data.user = results;
       // Intercom && Mixpanel
       eventTracking.boot(thisUser);
       return fetchOrgs();
     })
     .then(function (orgs) {
-      dataApp.data.orgs = orgs;
-      dataApp.data.allAccounts = [dataApp.data.user].concat(orgs.models);
+      CA.data.orgs = orgs;
+      CA.data.allAccounts = [CA.data.user].concat(orgs.models);
     })
     .catch(errs.handler);
 
   function setActiveAccount(accountName) {
-    if (accountName) {
-      var unwatch = $scope.$watch('dataApp.data.orgs', function(n) {
-        if (n) {
-          unwatch();
-          dataApp.data.instances = null;
-          var accounts = [thisUser].concat(n.models);
-          dataApp.data.activeAccount = accounts.find(function (org) {
-            return (keypather.get(org, 'oauthName().toLowerCase()') === accountName.toLowerCase());
-          });
-          if (dataApp.data.user.socket) {
-            dataApp.data.user.socket.joinOrgRoom(dataApp.data.activeAccount.oauthId());
-          }
-
-          if (!dataApp.data.activeAccount) {
-            dataApp.data.activeAccount = thisUser;
-          }
-          $rootScope.$broadcast('INSTANCE_LIST_FETCH', dataApp.data.activeAccount.oauthName());
-        }
+    function finish(n) {
+      CA.data.instances = null;
+      var accounts = [thisUser].concat(n.models);
+      CA.data.activeAccount = accounts.find(function (org) {
+        return (keypather.get(org, 'oauthName().toLowerCase()') === accountName.toLowerCase());
       });
+      if (CA.data.user.socket) {
+        CA.data.user.socket.joinOrgRoom(CA.data.activeAccount.oauthId());
+      }
+
+      if (!CA.data.activeAccount) {
+        CA.data.activeAccount = thisUser;
+      }
+      $rootScope.$broadcast('INSTANCE_LIST_FETCH', CA.data.activeAccount.oauthName());
+    }
+
+    if (accountName) {
+      if (!CA.data.orgs) {
+        // wait for them to load
+        var unwatch = $scope.$watch('CA.data.orgs', function (n) {
+          if (!n) { return; }
+          unwatch();
+          finish(n);
+        });
+      } else {
+        finish(CA.data.orgs);
+      }
     }
   }
   $scope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, error) {
-    if (!keypather.get(dataApp, 'data.activeAccount.oauthName()') ||
-        toParams.userName !== dataApp.data.activeAccount.oauthName()) {
+    if (!keypather.get(CA, 'data.activeAccount.oauthName()') ||
+        toParams.userName !== CA.data.activeAccount.oauthName()) {
       setActiveAccount(toParams.userName);
     }
     // We need to make sure the eventTracking.boot was called before this, otherwise intercom will
@@ -148,8 +156,8 @@ function ControllerApp(
     return errs.errors.length;
   }, function(n) {
     if (n) {
-      dataApp.data.modalError.data.errors = errs.errors;
-      dataApp.data.modalError.data.in = true;
+      CA.data.modalError.data.errors = errs.errors;
+      CA.data.modalError.data.in = true;
     }
   });
 
@@ -158,11 +166,11 @@ function ControllerApp(
    * to top level controller scope.
    * Used to detect click events outside of any child element scope
    */
-  dataApp.documentClickEventHandler = function (event) {
+  CA.documentClickEventHandler = function (event) {
     $scope.$broadcast('app-document-click', event.target);
   };
 
-  dataApp.documentKeydownEventHandler = function(e) {
+  CA.documentKeydownEventHandler = function(e) {
     if (e.keyCode === 27) {
       $rootScope.$broadcast('app-document-click');
       $rootScope.$broadcast('close-modal');

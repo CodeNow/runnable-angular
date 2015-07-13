@@ -121,7 +121,6 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
   describe('No local storage options'.blue, function () {
     it('should navigate to the first (alphabetical) instance for user', function () {
       setup('SomeKittens');
-      expect($scope.loading).to.be.true;
       $rootScope.$digest();
       var userInstance = runnable.newInstance(apiMocks.instances.running, {noStore: true});
       userInstance.attrs.createdBy.username = 'SomeKittens';
@@ -141,7 +140,6 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       });
       mockFetch.triggerPromise(many);
       $rootScope.$digest();
-      expect($scope.loading, 'loading').to.be.false;
       $rootScope.$digest();
       sinon.assert.calledWith(ctx.fakeGo, 'instance.instance', {
         userName: 'SomeKittens',
@@ -151,7 +149,6 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
 
     it('should not navigate when the state changes before the instances return ', function () {
       setup('SomeKittens');
-      expect($scope.loading).to.be.true;
       $rootScope.$digest();
       var userInstance = runnable.newInstance(apiMocks.instances.running, {noStore: true});
       userInstance.attrs.createdBy.username = 'SomeKittens';
@@ -171,7 +168,6 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       });
       mockFetch.triggerPromise(many);
       $rootScope.$digest();
-      expect($scope.loading, 'loading').to.be.false;
       sinon.assert.neverCalledWith(ctx.fakeGo, 'instance.instance', {
         userName: 'SomeKittens',
         instanceName: 'spaaace'
@@ -179,7 +175,6 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
     });
     it('should navigate to new for org2', function () {
       setup('org2');
-      expect($scope.loading, '$scope.loading').to.be.true;
       $rootScope.$digest();
       var many = runnable.newInstances(
         [],
@@ -188,7 +183,6 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       many.githubUsername = 'org2';
       mockFetch.triggerPromise(many);
       $rootScope.$digest();
-      expect($scope.loading, '$scope.loading').to.be.false;
       sinon.assert.neverCalledWith(ctx.fakeGo, 'instance.new', {
         userName: 'org2'
       });
@@ -200,7 +194,6 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
   describe('multiple requests for different active accounts'.blue, function () {
     it('should only care about the last requested user, even when the responses are out of order', function () {
       setup('org1');
-      expect($scope.loading).to.be.true;
 
       $rootScope.$digest();
 
@@ -251,7 +244,6 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       many2.githubUsername = 'org2';
       mockFetch.triggerPromise(many2);
       $rootScope.$digest();
-      expect($scope.loading).to.be.false;
       sinon.assert.neverCalledWith(ctx.fakeGo, 'instance.new', {
         userName: 'org2'
       });

@@ -10,7 +10,7 @@ li.folder(
   a(
     ng-class = "{'no-touching': isRootDir}"
     ng-click = "dir.state.open = (!!showRepoFolder) || !dir.state.open"
-    pop-over
+    pop-over-old
     pop-over-actions = "popoverFileExplorerFolder.actions"
     pop-over-data = "popoverFileExplorerFolder.data"
     pop-over-template = "viewFileTreePopoverFileExplorerFolderMenu"
@@ -41,7 +41,7 @@ li.folder(
     )
       //- popover is a very similar file to the original, should this be a template?
       a.active(
-        pop-over
+        pop-over-old
         pop-over-actions = "popoverFilesRepositoryCommitToggle.actions"
         pop-over-active = "state.showAddRepo"
         pop-over-data = "popoverFilesRepositoryCommitToggle.data"
@@ -62,7 +62,7 @@ li.folder(
       }"
       ng-repeat = "acv in fileModel.appCodeVersions.models | orderBy:'attrs.repo'"
       ng-if = "$root.featureFlags.advancedRepositories"
-      pop-over
+      pop-over-old
       pop-over-actions = "popoverFileExplorerRepository.actions"
       pop-over-data = "acv"
       pop-over-template = "viewFileTreePopoverFileExplorerRepositoryMenu"
@@ -75,7 +75,7 @@ li.folder(
           disabled: !acv.id()\
         }"
         ng-click = "popoverFileExplorerRepository.actions.editRepo(acv)"
-        pop-over
+        pop-over-old
         pop-over-actions = "popoverFilesRepositoryCommitToggle.actions"
         pop-over-active = "acv.editing"
         pop-over-data = "popoverEditRepoCommit.data"

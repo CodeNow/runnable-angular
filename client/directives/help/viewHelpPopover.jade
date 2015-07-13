@@ -5,10 +5,10 @@
   .help-lists-wrapper
     ul.triggered-help-list
       li.triggered-help-item.clearfix(
-        ng-repeat = "helpItem in data.triggered"
+        ng-repeat = "helpItem in EC.helpPopover.data.triggered"
       )
         button.btn.btn-icon.btn-icon-xs(
-          ng-click = "actions.ignoreHelp(helpItem)"
+          ng-click = "EC.helpPopover.actions.ignoreHelp(helpItem)"
         )
           svg.iconnables
             use(
@@ -18,15 +18,15 @@
           ng-bind-html= "helpItem.label"
         )
         button.btn.btn-sm(
-          ng-click = "actions.getHelp(helpItem)"
+          ng-click = "EC.helpPopover.actions.getHelp(helpItem)"
         ) Show Me
     .general-help-container
       .strong General Help
       ul.general-help-list
         li.general-help-item(
-          ng-repeat = "helpItem in data.general"
-          ng-hide = "!showMore && $index > 5"
-          ng-click = "actions.getHelp(helpItem)"
+          ng-repeat = "helpItem in EC.helpPopover.data.general"
+          ng-hide = "!$index > 5"
+          ng-click = "EC.helpPopover.actions.getHelp(helpItem)"
           ng-bind-html= "helpItem.label"
         )
         li.general-help-item
@@ -56,7 +56,7 @@
               use(
                 xlink:href = "#icons-link-external"
               )
-              
+
   //- TODO: remove less-help class
   button.btn(
     ng-click = "closePopover()"

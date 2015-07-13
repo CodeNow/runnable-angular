@@ -7,7 +7,6 @@ require('app')
  * @ngInject
  */
 function tabs(
-  helperAddTab,
   $rootScope
 ) {
   return {
@@ -15,11 +14,9 @@ function tabs(
     templateUrl: 'viewTabs',
     scope: {
       openItems: '=',
-      instance: '=',
       showAddButtons: '='
     },
     link: function ($scope) {
-      $scope.popoverAddTab = helperAddTab($scope.showAddButtons, $scope.openItems);
       $scope.actions = {
         removeItem: function (event, item) {
           $scope.openItems.remove(item);
@@ -27,9 +24,33 @@ function tabs(
           //We need to stop propagation, so we need to manually trigger close-popovers
           $rootScope.$broadcast('close-popovers');
           event.stopPropagation();
+        },
+        addBuildStream: function () {
+          if (!$scope.openItems) {
+            return;
+          }
+          $scope.popoverAddTab.data.show = false;
+          return $scope.openItems.addBuildStream();
+        },
+        addTerminal: function () {
+          if (!$scope.openItems) {
+            return;
+          }
+          $scope.popoverAddTab.data.show = false;
+          return $scope.openItems.addTerminal();
+        },
+        addLogs: function () {
+          if (!$scope.openItems) {
+            return;
+          }
+          $scope.popoverAddTab.data.show = false;
+          return $scope.openItems.addLogs();
         }
       };
-      $scope.data = {};
+      $scope.data = {
+        show: false,
+        options: $scope.showAddButtons
+      };
     }
   };
 }

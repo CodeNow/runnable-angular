@@ -87,7 +87,6 @@ describe('serverCardDirective'.bold.underline.blue, function () {
       };
       setup(scope);
       expect($elScope.data).to.equal(scope.data);
-      expect($elScope.actions).to.equal(scope.actions);
       expect($elScope.instance).to.equal(scope.instance);
 
       expect($elScope.server).to.be.ok;

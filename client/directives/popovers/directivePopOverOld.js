@@ -1,7 +1,7 @@
 'use strict';
 
 require('app')
-  .directive('popOver', popOver);
+  .directive('popOverOld', popOver);
 /**
  * togglePopOver Directive
  * @ngInject
@@ -19,34 +19,37 @@ function popOver(
 ) {
   return {
     restrict: 'A',
+    scope: {
+      data: '=? popOverData',
+      popoverOptions: '=? popOverOptions',
+      noBroadcast: '=? popOverNoBroadcast',
+      actions: '=? popOverActions',
+      active: '=? popOverActive',
+      template: '= popOverTemplate'
+    },
     link: function ($scope, element, attrs) {
+      // FIXME: OLD AND DEPRECATED
 
-      if (!attrs.popOverTemplate) {
-        return $log.error('Pop over needs a template');
+
+      $scope.$localStorage = $localStorage;
+      if (!$scope.template) {
+        // Check if the string is set by checking the attrs
+        if (attrs.popOverTemplate) {
+          $scope.template = attrs.popOverTemplate;
+        } else {
+          return $log.error('Pop over needs a template');
+        }
       }
-
       var unbindDocumentClick = angular.noop;
       var unbindPopoverOpened = angular.noop;
-      var popoverAlignment;
-      var active = false;
-      try {
-        popoverAlignment = JSON.parse(attrs.popOverOptions);
-      } catch (e) {
-        popoverAlignment = {};
-      }
+      $scope.popoverOptions = $scope.popoverOptions || {};
+      $scope.active = $scope.active || false;
 
       var popoverElement;
       var popoverElementScope;
 
-      function closePopover () {
-        if (!active) { return; }
-        active = false;
-        if (popoverElementScope) {
-          popoverElementScope.active = false;
-        }
-        if (attrs.popOverTrigger === 'activeAttr') {
-          keypather.set($scope, attrs.popOverActive, false);
-        }
+      $scope.closePopover = function () {
+        $scope.active = false;
         // trigger a digest because we are setting active to false!
         $timeout(angular.noop);
 
@@ -65,53 +68,41 @@ function popOver(
             }
           }, 500);
         }(popoverElementScope, popoverElement));
-      }
+      };
       function openPopover(options) {
+        $scope.popoverOptions = $scope.popoverOptions || {};
 
-        if (!exists(popoverAlignment.top) && !exists(popoverAlignment.bottom)) {
-          popoverAlignment.top = 0;
+        if (!exists($scope.popoverOptions.top) && !exists($scope.popoverOptions.bottom)) {
+          $scope.popoverOptions.top = 0;
         }
-        if (!exists(popoverAlignment.left) && !exists(popoverAlignment.right)) {
-          popoverAlignment.left = 0;
+        if (!exists($scope.popoverOptions.left) && !exists($scope.popoverOptions.right)) {
+          $scope.popoverOptions.left = 0;
         }
 
         $rootScope.$broadcast('close-popovers');
-        var firstClick = true;
         // If the click has no target we should close the popover.
         // If the click has a target and that target is on the page but not on our popover we should close the popover.
         // Otherwise we should keep the popover alive.
         unbindDocumentClick = $scope.$on('app-document-click', function (event, target) {
-          // Bit of a hack, allows us to trigger popovers both from click and flipping an attribute
-          // With the click, it'll think it needs to be closed from the original click
-          if (attrs.popOverTrigger === 'activeAttr' && firstClick) {
-            firstClick = false;
-            return;
-          }
-          if(!target ||
-            (
-              $document[0].contains(target) &&
-              !popoverElement[0].contains(target)
-            )
-          ) {
-            closePopover();
+          if(!target || (target && $document[0].contains(target) && !popoverElement[0].contains(target))){
+            $scope.closePopover();
           }
         });
         unbindPopoverOpened = $scope.$on('close-popovers', function () {
-          closePopover();
+          $scope.closePopover();
         });
 
-        var template = $templateCache.get(attrs.popOverTemplate);
+        var template = $templateCache.get($scope.template);
 
         // We need to create a custom scope so we can call $destroy on it when the element is removed.
         popoverElementScope = $scope.$new();
-        popoverElementScope.closePopover = closePopover;
-        popoverElementScope.active = active;
+        $scope.popoverElementScope = popoverElementScope;
         popoverElementScope.popoverStyle = {
           getStyle: function () {
             var offset = {};
 
             var scrollTop = $document.find('body')[0].scrollTop || $document.find('html')[0].scrollTop;
-            if (popoverAlignment.mouse) {
+            if (keypather.get($scope,'popoverOptions.mouse')) {
               scrollTop = -scrollTop;
               offset = options.mouse;
             } else {
@@ -126,46 +117,42 @@ function popOver(
               right: width - offset.right
             };
 
-            if (popoverElement[0].offsetHeight + newOffset.top > $document.find('body')[0].offsetHeight) {
-              newOffset.top =  $document.find('body')[0].offsetHeight - popoverElement[0].offsetHeight;
+            if ($scope.popoverElement[0].offsetHeight + newOffset.top > $document.find('body')[0].offsetHeight) {
+              newOffset.top =  $document.find('body')[0].offsetHeight - $scope.popoverElement[0].offsetHeight;
             }
 
             var keys = ['top', 'left', 'bottom', 'right'];
             var style = {};
             keys.forEach(function (key) {
-              var keyOption = popoverAlignment[key];
+              var keyOption = keypather.get($scope, 'popoverOptions.'+key);
               style[key] = !exists(keyOption) ? 'auto' : newOffset[key] + keyOption + 'px';
             });
 
-            if (popoverAlignment.centered) {
+            if (keypather.get($scope, 'popoverOptions.centered')) {
               style.right = null;
-              style.left = (-popoverElement[0].offsetWidth / 2 + offset.left + (offset.right - offset.left) / 2 ) + 'px';
+              style.left = (-$scope.popoverElement[0].offsetWidth / 2 + offset.left + (offset.right - offset.left) / 2 ) + 'px';
             }
 
             return style;
           }
         };
 
-        popoverElementScope.$on('$destroy', function () {
-          if (active) {
-            closePopover();
-          }
-        });
-
         // Temporary workaround until I create a PR for angular to not have a nonsense error
         //   Error: [jqLite:nosel] Looking up elements via selectors is not supported by jqLite!
         // Not terribly descriptive, guys.
         // https://github.com/angular/angular.js/pull/11688
         if (!template) {
-          throw new Error('Popover template not found: ' + attrs.popOverTemplate);
+          throw new Error('Popover template not found: ' + $scope.template);
         }
         popoverElement = $compile(template)(popoverElementScope);
+        $scope.popoverElement = popoverElement;
         $document.find('body').append(popoverElement);
         // Trigger a digest cycle
-        $timeout(function() {
-          popoverElementScope.active = true;
-          active = true;
-        });
+        $timeout(angular.noop);
+
+        $timeout(function(){
+          $scope.active = true;
+        }, 0);
       }
       function clickHandler(event) {
         event.stopPropagation(); // If we don't stop prop we will immediately close ourselves!
@@ -173,12 +160,12 @@ function popOver(
         if (element.prop('disabled')) {
           return;
         }
-        if (active) {
-          closePopover();
+        if ($scope.active) {
+          $scope.closePopover();
           return;
         }
         // Skip broadcasting if we're in a modal
-        if (!attrs.popOverNoBroadcast) {
+        if (!$scope.noBroadcast) {
           $rootScope.$broadcast('app-document-click');
         }
         openPopover({
@@ -194,8 +181,8 @@ function popOver(
       var trigger = attrs.popOverTrigger || 'click';
       switch (trigger) {
         case 'rightClick':
-          if (typeof popoverAlignment.mouse === 'undefined') {
-            popoverAlignment.mouse = true;
+          if (typeof keypather.get($scope, 'popoverOptions.mouse') === 'undefined') {
+            keypather.set($scope, 'popoverOptions.mouse', true);
           }
           element.on('contextmenu', clickHandler);
           $scope.$on('$destroy', function () {
@@ -203,12 +190,15 @@ function popOver(
           });
           break;
         case 'activeAttr':
-          $scope.$watch(attrs.popOverActive, function (newVal) {
+          var unwatchActive = $scope.$watch('active', function (newVal) {
             if (newVal) {
               openPopover();
             } else {
-              closePopover();
+              $scope.closePopover();
             }
+          });
+          $scope.$on('$destroy', function () {
+            unwatchActive();
           });
           break;
         default:
@@ -217,6 +207,12 @@ function popOver(
             element.off('click');
           });
       }
+
+      $scope.$on('$destroy', function () {
+        if ($scope.active) {
+          $scope.closePopover();
+        }
+      });
     }
   };
 }

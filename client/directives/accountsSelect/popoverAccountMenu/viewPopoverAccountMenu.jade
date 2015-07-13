@@ -10,19 +10,19 @@
       li.list-item.popover-list-item.small Change Organization
       //- current user (if user is not active)
       li.list-item.popover-list-item.text-overflow(
-        ng-if = "data.user !== data.activeAccount"
-        ng-click = "actions.selectActiveAccount(data.user)"
+        ng-if = "CA.data.user !== CA.data.activeAccount"
+        ng-click = "CIL.popoverAccountMenu.actions.selectActiveAccount(CA.data.user)"
       )
         img.gravatar(
           height = "24"
-          ng-src = "{{ data.user.gravitar() }}"
+          ng-src = "{{ CA.data.user.gravitar() }}"
           width = "24"
         )
-        | {{ data.user.oauthName() }}
+        | {{ CA.data.user.oauthName() }}
       li.list-item.popover-list-item.text-overflow(
-        ng-click = "actions.selectActiveAccount(org)"
-        ng-if = "org !== data.activeAccount"
-        ng-repeat = "org in data.orgs.models"
+        ng-click = "CIL.popoverAccountMenu.actions.selectActiveAccount(org)"
+        ng-if = "org !== CA.data.activeAccount"
+        ng-repeat = "org in CA.data.orgs.models"
       )
         img.gravatar(
           height = "24"
@@ -33,10 +33,9 @@
     ul.list.popover-list
       li.list-item.popover-list-item(
         modal
-        modal-actions = "actions.actionsModalIntegrations"
-        modal-data = "data.dataModalIntegrations"
+        modal-data = "CIL.dataModalIntegrations"
         modal-template = "viewOpenModalIntegrations"
-        ng-if = "data.showIntegrations"
+        ng-if = "CIL.popoverAccountMenu.data.showIntegrations"
       )
         img.iconnables(
           height = "24"
@@ -46,5 +45,5 @@
         | Slack Integration
       li.list-item.popover-list-item
         a.list-link(
-          ng-click = "actions.logout();"
+          ng-click = "CIL.popoverAccountMenu.actions.logout()"
         ) Log Out

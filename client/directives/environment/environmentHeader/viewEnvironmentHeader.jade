@@ -1,44 +1,42 @@
 button.btn.btn-icon.blue(
-  ng-class = "{active: state.helpButton.active}"
-  ng-click = "state.helpButton.active = true"
+  ng-class = "{active: EC.state.helpButton.active}"
+  ng-click = "EC.state.helpButton.active = true"
   pop-over
-  pop-over-actions = "helpPopover.actions"
-  pop-over-active = "state.helpButton.active"
-  pop-over-data = "helpPopover.data"
+  pop-over-active = "EC.state.helpButton.active"
   pop-over-options = "{\"left\":60}"
   pop-over-template = "viewHelpPopover"
   pop-over-trigger = "activeAttr"
   title = "Help Center"
 )
   .help-badge(
-    ng-if = "helpCards.cards.triggered.length > 0"
-  ) {{helpCards.cards.triggered.length}}
+    ng-if = "EC.helpCards.cards.triggered.length > 0"
+  ) {{EC.helpCards.cards.triggered.length}}
   svg.iconnables
     use(
       xlink:href = "#icons-help"
       )
 
 .help.help-top-card(
-  ng-if = "!state.helpButton.active && helpCards.cards.triggered.length > 0 && !helpCards.getActiveCard()"
+  ng-if = "!EC.state.helpButton.active && EC.helpCards.cards.triggered.length > 0 && !EC.helpCards.getActiveCard()"
 )
   .help-lists-wrapper
     ul.triggered-help-list
       li.triggered-help-item.clearfix
         button.btn.btn-icon.btn-icon-xs(
-          ng-click = "helpPopover.actions.ignoreHelp(helpCards.cards.triggered[0])"
+          ng-click = "EC.helpPopover.actions.ignoreHelp(EC.helpCards.cards.triggered[0])"
         )
           svg.iconnables
             use(
               xlink:href = "#icons-close"
             )
         p.p(
-          ng-bind-html = "helpCards.cards.triggered[0].label"
+          ng-bind-html = "EC.helpCards.cards.triggered[0].label"
         )
         button.btn.btn-sm(
-          ng-click = "helpPopover.actions.getHelp(helpCards.cards.triggered[0])"
+          ng-click = "EC.helpPopover.actions.getHelp(EC.helpCards.cards.triggered[0])"
         ) Show Me
   button.btn(
-    ng-click = "state.helpButton.active = true"
+    ng-click = "EC.state.helpButton.active = true"
   ) More Help
     svg.iconnables
       use(
@@ -47,11 +45,8 @@ button.btn.btn-icon.blue(
 
 //- new server button
 button.btn.green(
-  ng-class = "{ hint: helpCards.getActiveCard().targets.newContainer }"
+  ng-class = "{ hint: EC.helpCards.getActiveCard().targets.newContainer }"
   pop-over
-  pop-over-actions = "actions"
-  pop-over-active = "state.newServerButton.active"
-  pop-over-data = "data"
   pop-over-options = "{\"right\":0,\"top\":56}"
   pop-over-template = "viewPopoverNewServer"
 )

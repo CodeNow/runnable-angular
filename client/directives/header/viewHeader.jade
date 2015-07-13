@@ -2,21 +2,19 @@ img.logo.logo-icon.float-left(
   height = "45"
   src = "/build/images/runnable-icon-white.svg"
   width = "45"
-  ng-click = "editFeatureFlags = dataApp.data.activeAccount.oauthName() === 'CodeNow'"
+  ng-disabled = "CA.state.params.userName !== 'CodeNow'"
   pop-over
-  pop-over-active = "editFeatureFlags"
   pop-over-template = "viewPopoverFeatureFlags"
-  pop-over-trigger = "activeAttr"
   pop-over-options = "{\"left\":40}"
 )
 
 .btn-group
   a.btn.btn-sm.purple(
     ng-class = "{\
-      active: dataApp.isInstancePage,\
-      'no-touching': !dataApp.data.activeAccount || dataApp.isInstancePage || dataApp.creatingInstance\
+      active: CA.state.current.name === 'instance.instance',\
+      'no-touching': !CA.data.activeAccount || CA.state.current.name === 'instance.instance' || dataApp.creatingInstance\
     }"
-    ui-sref = "instance.home({ userName: dataApp.data.activeAccount.oauthName() })"
+    ui-sref = "instance.home({ userName: CA.data.activeAccount.oauthName() })"
   )
     svg.iconnables
       use(
@@ -25,10 +23,10 @@ img.logo.logo-icon.float-left(
     | Containers
   a.btn.btn-sm.purple(
     ng-class = "{\
-      'active': dataApp.isConfigPage,\
-      'no-touching': !dataApp.data.activeAccount || dataApp.isConfigPage\
+      'active': CA.state.current.name === 'config.home',\
+      'no-touching': !CA.data.activeAccount || CA.state.current.name === 'config.home'\
     }"
-    ui-sref = "config.home({ userName: dataApp.data.activeAccount.oauthName() })"
+    ui-sref = "config.home({ userName: CA.data.activeAccount.oauthName() })"
   )
     svg.iconnables
       use(
@@ -37,6 +35,23 @@ img.logo.logo-icon.float-left(
     | Configure
 
 //- menu
-accounts-select(
-  data = "dataApp.data"
+a.btn.btn-sm.purple.btn-accounts(
+  ng-class = "{\
+    active: state.active,\
+    'no-touching': CA.data.accountsDisabled()\
+  }"
+  ng-show = "CA.data.activeAccount"
+  pop-over
+  pop-over-options = "{\"right\":-2,\"top\":48}"
+  pop-over-template = "viewPopoverAccountMenu"
 )
+  img.gravatar(
+    height = "21"
+    ng-src = "{{ CA.data.activeAccount.gravitar() }}"
+    width = "21"
+  )
+  span.span {{ CA.data.activeAccount.oauthName() }}
+  svg.iconnables.icons-arrow-down
+    use(
+      xlink:href = "#icons-arrow-down"
+    )

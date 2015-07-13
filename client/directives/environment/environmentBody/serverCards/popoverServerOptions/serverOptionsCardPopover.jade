@@ -22,7 +22,7 @@
     ul.popover-list
       li.list-item.popover-list-item(
         modal
-        modal-current-model = "data.instance"
+        modal-current-model = "instance"
         modal-state-model = "'logs'"
         modal-template = "editServerModalOpen"
       )
@@ -30,11 +30,11 @@
           use(
             xlink:href = "#icons-log"
           )
-        | View {{ (['building', 'buildFailed', 'neverStarted'].indexOf(data.instance.status()) === -1) ? 'CMD' : 'Build' }} Logs
+        | View {{ (['building', 'buildFailed', 'neverStarted'].indexOf(popOverServerData.data.instance.status()) === -1) ? 'CMD' : 'Build' }} Logs
       li.divider
       //- trigger delete confirm modal
       li.list-item.popover-list-item(
-        ng-click = "actions.deleteServer(data)"
+        ng-click = "popOverServerData.actions.deleteServer(instance)"
       )
         svg.iconnables
           use(

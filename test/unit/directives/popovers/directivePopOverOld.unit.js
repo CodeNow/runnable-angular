@@ -9,7 +9,7 @@ var $scope;
 var $elScope;
 var $rootScope;
 
-describe.skip('directivePopOver'.bold.underline.blue, function() {
+describe('directivePopOverOld'.bold.underline.blue, function() {
   var ctx;
 
   describe('Functionality', function() {
@@ -61,7 +61,7 @@ describe.skip('directivePopOver'.bold.underline.blue, function() {
         popoverOptions['pop-over-trigger'] = 'rightClick';
       }
 
-      ctx.template = directiveTemplate.attribute('pop-over', popoverOptions);
+      ctx.template = directiveTemplate.attribute('pop-over-old', popoverOptions);
       ctx.element = $compile(ctx.template)($scope);
       $elScope = ctx.element.isolateScope();
 

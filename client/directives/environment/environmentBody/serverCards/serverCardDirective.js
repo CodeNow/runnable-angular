@@ -20,7 +20,6 @@ require('app')
       templateUrl: 'serverCardView',
       scope: {
         data: '=',
-        actions: '=',
         instance: '=',
         helpCard: '=?'
       },

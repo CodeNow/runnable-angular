@@ -7,7 +7,11 @@ require('app')
  */
 function serverStatusCardHeader(
   $rootScope,
-  keypather
+  $timeout,
+  promisify,
+  helpCards,
+  keypather,
+  errs
 ) {
   return {
     restrict: 'E',
@@ -15,7 +19,6 @@ function serverStatusCardHeader(
     templateUrl: 'serverStatusCardHeaderView',
     link: function ($scope, elem, attrs) {
       $scope.popOverServerData = {
-        instance: $scope.instance,
         actions: {
           changeAdvancedFlag: function () {
             $rootScope.$broadcast('close-popovers');
@@ -26,6 +29,16 @@ function serverStatusCardHeader(
               $scope.state.advanced = !$scope.state.advanced;
             }
             $scope.popOverServerData.advanced = $scope.state.advanced;
+          },
+          deleteServer: function (instance) {
+            $rootScope.$broadcast('close-popovers');
+            $timeout(function () {
+              if (confirm('Are you sure you want to delete this container?')) {
+                promisify(instance, 'destroy')()
+                  .catch(errs.handler);
+                helpCards.refreshAllCards();
+              }
+            });
           }
         }
       };

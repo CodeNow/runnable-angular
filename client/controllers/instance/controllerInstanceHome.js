@@ -9,10 +9,8 @@ function ControllerInstanceHome(
   $filter,
   $stateParams,
   $state,
-  $scope,
   favico,
   fetchInstancesByPod,
-  $rootScope,
   hasKeypaths,
   keypather,
   fetchUser,
@@ -21,7 +19,6 @@ function ControllerInstanceHome(
 ) {
   favico.reset();
   var userName = $stateParams.userName;
-  $scope.loading = true;
   var user;
   fetchUser()
     .then(function(_user) {
@@ -42,10 +39,8 @@ function ControllerInstanceHome(
         }
       });
 
-      var currentUserOrOrg =
-          keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()') || userName;
+      var currentUserOrOrg = userName;
       if (instances.githubUsername === currentUserOrOrg) {
-        $scope.loading = false;
         var name;
         if (lastViewedInstance) {
           var model = flattenedInstances.find(hasKeypaths({'attrs.name': lastViewedInstance}));

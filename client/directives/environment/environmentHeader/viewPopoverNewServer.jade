@@ -10,8 +10,8 @@
       li.list-item.popover-list-item.small Select container type
       li.list-item.popover-list-item.multi-line(
         modal
-        modal-actions = "actions"
-        modal-data = "data"
+        modal-actions = "EC.actions"
+        modal-data = "EC.data"
         modal-template = "setupServerModalOpen"
       )
         svg.iconnables
@@ -22,10 +22,10 @@
         small.small New container from a repository
       li.list-item.popover-list-item.multi-line(
         modal
-        modal-actions = "actions"
-        modal-data = "data"
+        modal-actions = "EC.actions"
+        modal-data = "EC.data"
         modal-template = "setupTemplateModalOpen"
-        ng-class = "{ hint: data.helpCards.getActiveCard().targets.newContainer }"
+        ng-class = "{ hint: EC.data.helpCards.getActiveCard().targets.newContainer }"
       )
         svg.iconnables
           use(

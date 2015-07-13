@@ -41,71 +41,41 @@ module.exports = [
     abstract: true,
     url: '^/:userName/',
     templateUrl: 'viewInstanceLayout',
-    controller: 'ControllerApp'
+    controller: 'ControllerApp',
+    controllerAs: 'CA'
   }, {
     state: 'config',
     abstract: true,
     templateUrl: 'viewInstanceLayout',
     controller: 'ControllerInstanceLayout',
-    onEnter: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'layoutOptions.hideSidebar', true);
-      keypather.set($rootScope, 'dataApp.isConfigPage', true);
-    },
-    onExit: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'layoutOptions.hideSidebar', false);
-      keypather.set($rootScope, 'dataApp.isConfigPage', false);
-    }
+    controllerAs: 'CIL'
   }, {
     state: 'config.home',
     abstract: false,
     url: '^/:userName/configure',
     templateUrl: 'environmentView',
     controller: 'EnvironmentController',
-    onEnter: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'layoutOptions.hideSidebar', true);
-      keypather.set($rootScope, 'dataApp.isConfigPage', true);
-    },
-    onExit: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'layoutOptions.hideSidebar', false);
-      keypather.set($rootScope, 'dataApp.isConfigPage', false);
-    }
-  }, {
-    state: 'config.instance',
-    abstract: false,
-    url: '^/:userName/configure/:instanceName',
-    templateUrl: 'environmentView',
-    controller: 'EnvironmentController',
-    onEnter: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'layoutOptions.hideSidebar', true);
-      keypather.set($rootScope, 'dataApp.isConfigPage', true);
-    },
-    onExit: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'layoutOptions.hideSidebar', false);
-      keypather.set($rootScope, 'dataApp.isConfigPage', false);
-    }
+    controllerAs: 'EC'
   }, {
     state: 'instance',
     abstract: true,
     templateUrl: 'viewInstanceLayout',
     controller: 'ControllerInstanceLayout',
-    onEnter: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'dataApp.isInstancePage', true);
-    },
-    onExit: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'dataApp.isInstancePage', false);
-    }
+    controllerAs: 'CIL'
   }, {
     state: 'instance.home',
     abstract: false,
     url: '^/:userName',
     templateUrl: 'viewInstanceHome',
-    controller: 'ControllerInstanceHome'
+    controller: 'ControllerInstanceHome',
+    containers: 'CIH'
   }, {
     state: 'instance.instance',
     abstract: false,
     url: '^/:userName/:instanceName',
     templateUrl: 'viewInstance',
-    controller: 'ControllerInstance'
+    controller: 'ControllerInstance',
+    controllerAs: 'CI'
   }
 ];
 Object.freeze(module.exports);
