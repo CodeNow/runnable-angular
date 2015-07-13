@@ -54,7 +54,7 @@ methods.forEach(function (method) {
     var opts = args.opts;
     opts = angular.extend({}, opts, this.defaultOpts);
     var cb = args.cb;
-    if (cb && typeof cb !== 'function') {
+    if (typeof cb !== 'function') {
       this.reportError('Callback defined but not a function. \nType: ' + typeof cb + ' \nJSON: '  + JSON.stringify(cb, false, 2), {
         emitter: 'Manual',
         source: 'client/services/serviceUser.js'
