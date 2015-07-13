@@ -49,12 +49,13 @@
 // .build-log-header
 .build-log-header,
 .build-log-content {
-  padding: 10px 9px 9px 24px;
+  overflow-x: auto;
 }
 
 .build-log-header {
   height: 39px;
-  overflow-x: auto;
+  overflow: hidden;
+  padding-left: 24px;
   position: absolute;
   width: 100%;
 
@@ -99,6 +100,13 @@
     padding-bottom: 15px;
     padding-top: 6px;
   }
+
+  // text overflow
+  .build-log-header-text {
+    line-height: 39px;
+    overflow-x: auto;
+    padding-right: 6px;
+  }
 }
 
 // shift fixed position if there's a toolbar (36px)
@@ -118,7 +126,7 @@
 
 // logs scroll horizontally
 .build-log-content {
-  overflow-x: auto;
+  padding: 10px 9px 9px 24px;
 }
 
 // add .build-log-toggle to .build-log-header to indicate that you can toggle it

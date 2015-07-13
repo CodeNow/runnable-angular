@@ -10,27 +10,31 @@
   .build-log-content.
     Cloning CodeNow/api into ./api
 #1420be8d4ebf.pre.build-log.in
-  .build-log-header.text-overflow(
+  .build-log-header(
     title = "FROM registry.runnable.code/runnable/node_base:latest"
-  ).
-    <span class="code-magenta code-bold">FROM</span> registry.runnable.code/runnable/node_base:latest
+  )
+    .build-log-header-text.
+      <span class="code-magenta code-bold">FROM</span> registry.runnable.code/runnable/node_base:latest
 #15e1e408c78f.pre.build-log.in
-  .build-log-header.text-overflow(
+  .build-log-header(
     title = "EXPOSE 80"
-  ).
-    <span class="code-magenta code-bold">EXPOSE</span> 80
+  )
+    .build-log-header-text.
+      <span class="code-magenta code-bold">RUN</span> 80
 //- can't toggle when fixed
 #2f1d895adb79.pre.build-log.build-log-toggle.in(
   ng-class = "{'in': toggleStep1}"
 )
-  .build-log-header.text-overflow.padding-right(
+  .build-log-header.padding-right(
     ng-click = "toggleStep1 = !toggleStep1"
     ng-class = "{\
       'fixed': ifScrolledPast && isError,\
       'padding-right': isError\
     }"
     title = "RUN npm install -g npm@2.1.18 &&     n 0.10.38"
-  ) <span class="code-magenta code-bold">RUN</span> npm install -g npm@2.1.18 &&     n 0.10.38
+  )
+    .build-log-header-text
+      <span class="code-magenta code-bold">RUN</span> npm install -g npm@2.1.18 &&     n 0.10.38
     .btn-group.btn-debug(
       ng-if = "$root.featureFlags.debugMode"
       ng-include = "'viewDebugButton'"
@@ -54,9 +58,11 @@
 #sample.pre.build-log.build-log-toggle(
   ng-class = "{'in': toggleStep2}"
 )
-  .build-log-header.text-overflow(
+  .build-log-header(
     ng-click = "toggleStep2 = !toggleStep2"
-  )  <span class="code-magenta code-bold">TEST</span>
+  )
+    .build-log-header-text
+      <span class="code-magenta code-bold">TEST</span>
   .build-log-content.
     <span class="code-bold">BOLD</span>
     <span class="code-dim">DIM</span>
