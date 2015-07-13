@@ -1,12 +1,9 @@
 // debug buttons
 .btn-debug {
   min-width: 90px; // stop wrapping
-}
-
-.btn-debug > .btn {
 
   // extra padding for icon
-  &:first-child {
+  > .btn:first-child {
     padding: 0 21px 0 6px;
   }
 
