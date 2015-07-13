@@ -301,6 +301,10 @@ function editServerModal(
         loadingPromises.clear('editServerModal');
         loading.reset('editServerModal');
         loading('editServerModal', true);
+        var contextVersionSource = $scope.instance.contextVersion;
+        if (fromError) {
+          contextVersionSource = $scope.state.contextVersion;
+        }
         $scope.state = {
           advanced: keypather.get(instance, 'contextVersion.attrs.advanced') || false,
           startCommand: instance.startCommand,
@@ -339,7 +343,7 @@ function editServerModal(
             $scope.state.packages = packages.clone();
           });
 
-        return loadingPromises.add('editServerModal', promisify($scope.instance.contextVersion, 'deepCopy')())
+        return loadingPromises.add('editServerModal', promisify(contextVersionSource, 'deepCopy')())
           .then(function (contextVersion) {
             $scope.state.contextVersion = contextVersion;
             return promisify(contextVersion, 'fetch')();
