@@ -86,7 +86,7 @@
 
   // debug button
   > .btn-debug {
-    font-family: 'Helvetica Neue', 'Segoe UI', sans-serif; // override monospace fonts
+    font-family: $sans-serif; // override monospace fonts
     min-width: 0;
     position: absolute;
     right: 7px;

@@ -6,7 +6,7 @@
   > .btn-xs {
     bottom: 6px;
     cursor: default;
-    font-family: 'Helvetica Neue', 'Segoe UI', sans-serif; // use default font stack
+    font-family: $sans-serif; // use default font stack
     position: absolute;
     right: 6px;
     transition: opacity .15s ease-in-out;
@@ -233,7 +233,7 @@
   border: 1px solid rgba($black,.1) !important;
   border-radius: 3px !important;
   box-shadow: 0 1px 10px rgba($black,.1) !important;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: $sans-serif;
   letter-spacing: .3px !important;
   padding: 6px 9px !important;
   position: absolute !important;
