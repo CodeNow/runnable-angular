@@ -319,9 +319,7 @@ function editServerModal(
         }
         return $scope.state.promises.contextVersion
           .then(function (contextVersion) {
-            if (contextVersion.attrs.advanced) {
-              openDockerfile();
-            }
+            openDockerfile();
             $scope.state.acv = contextVersion.getMainAppCodeVersion();
             return fetchUser();
           })
@@ -607,9 +605,6 @@ function editServerModal(
               .then(function () {
                 $rootScope.$broadcast('close-popovers');
                 $scope.selectedTab = advanced ? 'buildfiles' : 'repository';
-                if (advanced) {
-                  openDockerfile();
-                }
                 return loadingPromises.add('editServerModal', promisify($scope.state.contextVersion, 'update')({
                   advanced: advanced
                 }));
@@ -621,7 +616,7 @@ function editServerModal(
           }
         });
       }
-
+      
       $scope.isDockerfileValid = function () {
         if (!$scope.state.advanced || !keypather.get($scope, 'state.dockerfile.validation.criticals.length')) {
           return true;
