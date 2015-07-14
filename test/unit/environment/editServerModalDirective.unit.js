@@ -664,7 +664,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     $elScope.state.containerFiles = containerFiles;
 
     ctx.loadingPromiseMock.finished = function () {
-      console.log('in close');
       return $q.reject(error);
     };
 
