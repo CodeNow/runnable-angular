@@ -30,7 +30,7 @@
         ng-click = "actions.selectActiveAccount(data.user)"
       )
         svg.iconnables.icons-fat-check(
-          ng-if = "(data.user === data.activeAccount)"
+          ng-if = "data.user === data.activeAccount"
         )
           use(
             xlink:href = "#icons-fat-check"
@@ -47,7 +47,7 @@
         ng-repeat = "org in data.orgs.models"
       )
         svg.iconnables.icons-fat-check(
-          ng-if = "(org === data.activeAccount)"
+          ng-if = "org === data.activeAccount"
         )
           use(
             xlink:href = "#icons-fat-check"
