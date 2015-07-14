@@ -29,6 +29,12 @@
       li.list-item.popover-list-item.text-overflow(
         ng-click = "actions.selectActiveAccount(data.user)"
       )
+        svg.iconnables.icons-fat-check(
+          ng-if = "(data.user === data.activeAccount)"
+        )
+          use(
+            xlink:href = "#icons-fat-check"
+          )
         img.gravatar(
           height = "24"
           ng-src = "{{ data.user.gravitar() }}"
