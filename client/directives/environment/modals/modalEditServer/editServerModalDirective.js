@@ -328,9 +328,6 @@ function editServerModal(
           watchOncePromise($scope, 'instance.containerFiles', true)
             .then(function (containerFiles) {
               $scope.state.containerFiles = containerFiles.map(mapContainerFiles);
-              $scope.data.mainRepo = $scope.instance.containerFiles.find(hasKeypaths({
-                type: 'Main Repository'
-              }));
             });
         }
 
