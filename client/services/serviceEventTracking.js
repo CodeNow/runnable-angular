@@ -115,8 +115,9 @@ EventTracking.prototype.boot = function (user) {
     throw new Error('arguments[0] must be instance of User');
   }
 
-  if (user._beingModerated) {
-    user = new User(user._beingModerated, { noStore: true });
+  console.log('sanity user', user);
+  if (user.attrs._beingModerated) {
+    user = new User(user.attrs._beingModerated, { noStore: true });
   }
 
   this._user = user;
