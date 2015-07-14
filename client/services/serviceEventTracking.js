@@ -116,7 +116,7 @@ EventTracking.prototype.boot = function (user) {
   }
 
   if (user._beingModerated) {
-    user = user._beingModerated;
+    user = new User(user._beingModerated, { noStore: true });
   }
 
   this._user = user;
