@@ -6,28 +6,13 @@
   span(
     ng-if = "instance.getBranchName()"
   ) /{{ instance.getBranchName() }}
+  //- pull request link
   a.link(
     ng-href = "{{pr.html_url}}"
     ng-if = "pr"
     target = "_blank"
     title = "view pull request on GitHub"
   ) #&#x200b;{{pr.number}}
-
-  //- a.github-icon(
-  //-   ng-href = "{{pr.html_url}}"
-  //-   target = "_blank"
-  //-   ng-if = "pr"
-  //- )
-  //-   .btn.btn-xxs.btn-icon.btn-state.no-touching
-  //-     svg.iconnables.icons-pull-request
-  //-       use(
-  //-       xlink:href = "#icons-pull-request"
-  //-       )
-  //-   img.gravatar(
-  //-     height = "28"
-  //-     width = "28"
-  //-     ng-src = "{{pr.user.avatar_url}}"
-  //-   )
 
 .container-url-wrapper
   input.input.container-url(
