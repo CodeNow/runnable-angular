@@ -379,7 +379,7 @@ function editServerModal(
             $scope.state.packages = packages.clone();
           });
 
-        return $scope.resetStateContextVersion($scope.instance.contextVersion, !fromError);
+        return $scope.resetStateContextVersion(instance.contextVersion, !fromError);
       }
 
       $scope.changeTab = function (tabname) {
