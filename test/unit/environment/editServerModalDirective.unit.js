@@ -655,6 +655,14 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       env: ['quarblax=b']
     };
 
+    var containerFiles = [
+      {
+        id: 'containerFileID!',
+        clone: sinon.spy()
+      }
+    ];
+    $elScope.state.containerFiles = containerFiles;
+
     ctx.loadingPromiseMock.finished = function () {
       console.log('in close');
       return $q.reject(error);
@@ -669,6 +677,10 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     $rootScope.$apply();
     expect($elScope.building, 'Building').to.be.false;
     expect($elScope.state.opts.env.length).to.equal(0);
+    expect($elScope.state.containerFiles.length).to.equal(1);
+    sinon.assert.calledOnce(containerFiles[0].clone);
+    sinon.assert.calledOnce(ctx.newContextVersion.deepCopy);
+    sinon.assert.calledOnce(ctx.contextVersion.fetch);
   });
 
   describe('change Tab', function () {
