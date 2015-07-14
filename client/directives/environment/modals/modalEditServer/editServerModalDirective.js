@@ -345,9 +345,6 @@ function editServerModal(
 
         return $scope.state.promises.contextVersion
           .then(function (contextVersion) {
-            if (contextVersion.attrs.advanced) {
-              openDockerfile();
-            }
             $scope.state.acv = contextVersion.getMainAppCodeVersion();
             loading('editServerModal', false);
             return fetchUser();
@@ -362,6 +359,7 @@ function editServerModal(
           })
           .then(function (build) {
             $scope.state.build = build;
+            return openDockerfile();
           })
           .catch(function (err) {
             errs.handler(err);
@@ -593,9 +591,6 @@ function editServerModal(
             .then(function () {
               $rootScope.$broadcast('close-popovers');
               $scope.selectedTab = advanced ? 'buildfiles' : 'repository';
-              if (advanced) {
-                openDockerfile();
-              }
               return loadingPromises.add('editServerModal', promisify($scope.state.contextVersion, 'update')({
                 advanced: advanced
               }));
