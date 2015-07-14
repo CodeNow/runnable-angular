@@ -1,14 +1,5 @@
-//- spinner for sidebar
-.spinner-wrapper.spinner-md.spinner-gray.in(
-  ng-if = "!data.activeAccount || isLoading.sidebar"
-  ng-include = "'spinner'"
-)
-.sidebar-section-heading.strong(
-  ng-if = "data.activeAccount && !isLoading.sidebar"
-) Containers
-ul.server-category-list(
-  ng-if = "data.activeAccount && !isLoading.sidebar"
-)
+.sidebar-section-heading.strong Containers
+ul.server-category-list
   li.server-category-list-item(
     ng-repeat = "masterInstance in data.instancesByPod.models |orderBy: ['attrs.contextVersion.appCodeVersions.length === 0', 'attrs.name'] track by masterInstance.attrs.name"
     ng-class = "{\
@@ -26,8 +17,10 @@ ul.server-category-list(
           ng-if = "masterInstance.getRepoName()"
           title = "{{ masterInstance.getRepoName() }}/{{ masterInstance.getBranchName() }}"
           ui-sref = "\
-            instance.instance({ userName: data.activeAccount.oauthName(), \
-            instanceName: masterInstance.attrs.name })\
+            base.instances.instance({\
+              userName: data.activeAccount.oauthName(), \
+              instanceName: masterInstance.attrs.name\
+            })\
           "
         )
           strong.strong {{ masterInstance.getRepoName() }}
@@ -36,8 +29,10 @@ ul.server-category-list(
           ng-if = "!masterInstance.getRepoName()"
           title = "{{ masterInstance.attrs.name }}"
           ui-sref = "\
-            instance.instance({ userName: data.activeAccount.oauthName(), \
-            instanceName: masterInstance.attrs.name })\
+            base.instances.instance({\
+              userName: data.activeAccount.oauthName(), \
+              instanceName: masterInstance.attrs.name \
+            })\
           "
         )
           strong.strong {{ masterInstance.attrs.name }}
@@ -62,8 +57,10 @@ ul.server-category-list(
         a.server-name.text-overflow(
           title = "{{ branchFork.getDisplayName() }}"
           ui-sref = "\
-            instance.instance({ userName: data.activeAccount.oauthName(), \
-            instanceName: branchFork.attrs.name })\
+            base.instances.instance({\
+              userName: data.activeAccount.oauthName(), \
+              instanceName: branchFork.attrs.name\
+            })\
           "
         ) {{ branchFork.getDisplayName() }}
         .btn.btn-xs.button-hide(

@@ -1,0 +1,18 @@
+nav.sidebar.nav-sidebar
+  section.servers(
+    instance-list
+    data = "CIS"
+  )
+
+  footer.nav-footer
+    a.small.link.link-gray.link-text(
+    href = "http://support.runnable.io"
+    target = "_blank"
+    )
+      .btn.btn-xs.btn-help ?
+      | Documentation
+
+
+main.content(
+  ui-view
+)

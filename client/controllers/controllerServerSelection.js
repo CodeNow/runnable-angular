@@ -86,7 +86,7 @@ function serverSelection (
         name: name
       }, function(err) {
         if (err) { return errs.handler(err); }
-        $state.go('instance.instance', {
+        $state.go('base.instances.instance', {
           userName: $stateParams.userName,
           instanceName: name
         });
@@ -101,7 +101,7 @@ function serverSelection (
       }, function (err) {
         if (err) { return errs.handler(err); }
         // Go to that page.
-        $state.go('instance.instance', {
+        $state.go('base.instances.instance', {
           userName: $stateParams.userName,
           instanceName: instance.attrs.name
         });

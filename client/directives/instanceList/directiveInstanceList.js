@@ -18,17 +18,6 @@ function instanceList(
     link: function ($scope, ele) {
       $scope.isLoading = $rootScope.isLoading;
 
-      var isLoadingWatch = $scope.$watch('isLoading.sidebar', function (newVal) {
-        if (newVal === false) {
-          isLoadingWatch();
-          $timeout(function () {
-            var instanceLink = angular.element(ele[0].querySelector('.selected'));
-            if(instanceLink){
-              ele.find('ul').scrollToElement(instanceLink, 33*3, 200);
-            }
-          });
-        }
-      });
     }
   };
 }

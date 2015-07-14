@@ -80,7 +80,7 @@ function ControllerInstance(
         errs.handler(err);
         loading('main', false);
         setLastInstance(false);
-        $state.go('instance.home', {
+        $state.go('base.instances', {
           userName: $stateParams.userName
         });
       });

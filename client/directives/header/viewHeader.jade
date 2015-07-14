@@ -2,7 +2,7 @@ img.logo.logo-icon.float-left(
   height = "45"
   src = "/build/images/runnable-icon-white.svg"
   width = "45"
-  ng-click = "editFeatureFlags = dataApp.data.activeAccount.oauthName() === 'CodeNow'"
+  ng-click = "editFeatureFlags = CA.activeAccount.oauthName() === 'CodeNow'"
   pop-over
   pop-over-active = "editFeatureFlags"
   pop-over-template = "viewPopoverFeatureFlags"
@@ -12,11 +12,8 @@ img.logo.logo-icon.float-left(
 
 .btn-group
   a.btn.btn-sm.purple(
-    ng-class = "{\
-      active: dataApp.isInstancePage,\
-      'no-touching': !dataApp.data.activeAccount || dataApp.isInstancePage || dataApp.creatingInstance\
-    }"
-    ui-sref = "instance.home({ userName: dataApp.data.activeAccount.oauthName() })"
+    ui-sref-active="active"
+    ui-sref = "base.instances({ userName: CA.activeAccount.oauthName() })"
   )
     svg.iconnables
       use(
@@ -24,11 +21,8 @@ img.logo.logo-icon.float-left(
       )
     | Containers
   a.btn.btn-sm.purple(
-    ng-class = "{\
-      'active': dataApp.isConfigPage,\
-      'no-touching': !dataApp.data.activeAccount || dataApp.isConfigPage\
-    }"
-    ui-sref = "config.home({ userName: dataApp.data.activeAccount.oauthName() })"
+    ui-sref-active="active"
+    ui-sref = "base.config({ userName: CA.activeAccount.oauthName() })"
   )
     svg.iconnables
       use(

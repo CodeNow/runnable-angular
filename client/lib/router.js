@@ -38,7 +38,6 @@ app.config(['$stateProvider',
     routes.forEach(function (item) {
       var state = item.state;
       item.url = ((typeof item.url === 'string' && item.url[item.url.length - 1] !== '/') ? item.url + '/' : item.url);
-      console.log(item);
       $stateProvider.state(state, item);
     });
 

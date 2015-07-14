@@ -25,6 +25,10 @@ function ControllerApp(
 ) {
   eventTracking.boot(user);
 
+
+  this.activeAccount = activeAccount;
+  this.user = user;
+
   var dataApp = $rootScope.dataApp = $scope.dataApp = {
     data: {
       user: user,

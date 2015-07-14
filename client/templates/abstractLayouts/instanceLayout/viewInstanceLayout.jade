@@ -1,32 +1,3 @@
-header.header(
-  ng-include = "'viewHeader'"
-)
-
-nav.sidebar.nav-sidebar(
-  ng-if = "!layoutOptions.hideSidebar"
-  ng-hide = "isLoading.main && isLoading.sidebar"
-)
-
-  section.servers(
-    instance-list
-    data = "dataApp.data"
-  )
-
-  footer.nav-footer
-    a.small.link.link-gray.link-text(
-      href = "http://support.runnable.io"
-      target = "_blank"
-    )
-      .btn.btn-xs.btn-help ?
-      | Documentation
-
-//- 2nd level views (viewInstance)
-main.content(
+.content(
   ui-view
-)
-
-//- spinner for both instance AND sidebar
-.spinner-wrapper.spinner-backdrop.spinner-md.spinner-purple.in(
-  ng-if = "isLoading.main && isLoading.sidebar"
-  ng-include = "'spinner'"
-)
+) LOADING...
