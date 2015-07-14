@@ -34,7 +34,8 @@ function setupServerModal(
       $scope.state = {
         opts: {
           masterPod: true
-        }
+        },
+        packages: new cardInfoTypes.Packages()
       };
 
       fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
