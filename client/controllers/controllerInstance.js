@@ -7,13 +7,11 @@ require('app')
  */
 function ControllerInstance(
   $localStorage,
-  $location,
   $q,
   $scope,
   $state,
   $stateParams,
   $timeout,
-  $window,
   OpenItems,
   errs,
   eventTracking,
@@ -24,8 +22,6 @@ function ControllerInstance(
   keypather,
   fetchUser,
   pageName,
-  promisify,
-  watchOncePromise,
   setLastInstance,
   loading
 ) {

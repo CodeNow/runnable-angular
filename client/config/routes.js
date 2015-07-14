@@ -19,7 +19,7 @@ module.exports = [
   }, {
     state: 'serverSelection',
     abstract: false,
-    url: '/:userName/serverSelection/:repo',
+    url: '^/:userName/serverSelection/:repo',
     templateUrl: 'viewServerSelection',
     controller: 'ControllerServerSelection',
     data: {
@@ -28,7 +28,7 @@ module.exports = [
   }, {
     state: 'branchSelection',
     abstract: false,
-    url: '/branchSelection/:hostname',
+    url: '^/branchSelection/:hostname',
     templateUrl: 'viewBranchSelection',
     controller: 'ControllerBranchSelection',
     data: {
@@ -71,7 +71,7 @@ module.exports = [
   }, {
     state: 'base.config',
     abstract: false,
-    url: '/:userName/configure',
+    url: '^/:userName/configure',
     templateUrl: 'environmentView',
     controller: 'EnvironmentController'
   }, {
@@ -80,12 +80,7 @@ module.exports = [
     url: '^/:userName/',
     templateUrl: 'viewInstances',
     controller: 'ControllerInstances',
-    controllerAs: 'CIS',
-    resolve: {
-      instancesByPod: function (activeAccount, fetchInstancesByPod, $stateParams) {
-        return fetchInstancesByPod($stateParams.userName);
-      }
-    }
+    controllerAs: 'CIS'
   }, {
     state: 'base.instances.instance',
     abstract: false,
