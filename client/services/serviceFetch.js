@@ -323,10 +323,14 @@ function fetchGitHubUser (
 function fetchPullRequest (
   $http,
   configAPIHost,
-  keypather
+  keypather,
+  $q
 ) {
   return function (instance) {
     var branch = instance.getBranchName();
+    if (!branch) {
+      return $q.when(null);
+    }
     var repo = instance.contextVersion.getMainAppCodeVersion().attrs.repo;
     return $http({
       method: 'get',
