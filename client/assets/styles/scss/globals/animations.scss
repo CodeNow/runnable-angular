@@ -104,6 +104,34 @@
   }
 }
 
+@keyframes logs-blink {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  50.1% {
+    opacity: 1;
+  }
+}
+
+@keyframes logs-dim-blink {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  50.1% {
+    opacity: .5;
+  }
+}
+
 @keyframes popover-in {
   0% {
     opacity: 0;

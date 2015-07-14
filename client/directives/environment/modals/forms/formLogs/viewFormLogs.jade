@@ -13,19 +13,24 @@
     ng-click = "page = 'run'"
   ) CMD Logs
 
-//- toolbar
-//- does not appear for build errors at step 0 (FROM)
-.views-toolbar-wrapper(
-  ng-if = "$root.featureFlags.debugMode"
-  ng-include = "'viewToolbar'"
-)
-
 //- logs
-pre.pre.log-wrapper
+pre.pre.log-wrapper(
+  ng-class = "{\
+    'logs-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+    'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+  }"
+)
   .term-js.term-log(
     log-term
     ng-controller = "BuildLogController"
+    ng-if = "!$root.featureFlags.updatedBuildLogs"
     ng-show = "page === 'build'"
+  )
+  .build-log-wrapper(
+    ng-include = "'viewBuildLogs'"
+    ng-if = "$root.featureFlags.updatedBuildLogs"
+    ng-show = "page === 'build'"
+    ng-style = "($root.featureFlags.themeToggle || $root.featureFlags.fullScreenToggle) && {'padding-right': '42px'}"
   )
   .term-js.term-log(
     log-term

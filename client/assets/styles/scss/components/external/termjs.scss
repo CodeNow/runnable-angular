@@ -1,50 +1,53 @@
+// *********************
+// logs & terminal
+// build logs: html
+// cmd logs: termjs (this file)
+// terminal: termjs (this file)
+// *********************
+
 // keeps log on bottom (iterm)
 #log {
   height: 10px;
 }
 
-.term-container,
-.terminal {
-  height: 100%;
-  width: 100%;
-}
-
 // terminal
-.term-container {
+// wrapper
+.term-js {
   cursor: text;
-}
-
-.terminal {
-  @extend %pre;
-  padding: 9px 0;
-
-  // light theme
-  .ace-runnable-light & {
-    background-color: $gray-lighterest !important; // override term
-    color: $gray-darker !important;
-
-    .terminal-cursor {
-      background: $gray-light;
-    }
-  }
-
-  // light theme in a modal
-  .ace-runnable-light & {
-
-    .modal-dialog & {
-      background-color: $white !important; // override term
-    }
-  }
+  display: flex;
+  padding: 9px 0 30px;
+  width: 100%;
 
   // dark theme
   .ace-runnable-dark & {
-    background: $ace-bg !important; // override term
-    color: $white !important;
+    background: $ace-bg;
+    color: $white;
 
     .terminal-cursor {
       background: $purple-light;
     }
   }
+
+  // light theme
+  .ace-runnable-light & {
+    background-color: $gray-lighterest;
+    color: $gray-darker;
+
+    // light theme in a modal is white instead of gray
+    .modal-dialog & {
+      background-color: $white;
+    }
+
+    .terminal-cursor {
+      background: $gray-light;
+    }
+  }
+}
+
+.terminal {
+  @extend %pre;
+  flex: 1 1 auto;
+  width: 100%;
 
   > div {
     padding: 0 9px;

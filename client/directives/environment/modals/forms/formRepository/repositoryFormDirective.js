@@ -21,6 +21,7 @@ require('app')
       },
       link: function ($scope, element, attrs) {
         $scope.state.commands = $scope.state.commands || [];
+        $scope.state.commandRows = 3;
         $scope.data = {
           cacheCommand: $scope.state.commands.some(function (cmd) { return cmd.cache; })
         };
@@ -51,9 +52,20 @@ require('app')
             $scope.branchFetching = false;
           });
 
-        var lastActiveCacheIdx;
+        $scope.$watch('state.commands.length', function () {
+          var len = $scope.state.commands.length;
+          if (len < 3) {
+            len = 3;
+          }
+          $scope.state.commandRows = len;
+        });
+
         $scope.actions = {
           updateCache: function (cmd) {
+            if (!cmd || (cmd && cmd.body.length === 0)) {
+              return;
+            }
+
             // There's probably a better way to do this
             // Cache needs to be unique
             $scope.state.commands.forEach(function (command) {
@@ -65,17 +77,9 @@ require('app')
           },
           toggleCache: function () {
             if (!$scope.data.cacheCommand) {
-              $scope.state.commands.some(function (command, idx) {
-                if (command.cache) {
-                  lastActiveCacheIdx = idx;
-                  return true;
-                }
-              });
               $scope.actions.updateCache();
-            } else {
-              if (lastActiveCacheIdx !== undefined && $scope.state.commands[lastActiveCacheIdx]) {
-                $scope.state.commands[lastActiveCacheIdx].cache = true;
-              }
+            } else if ($scope.state.commands.length > 0) {
+              $scope.state.commands[0].cache = true;
             }
           }
         };
