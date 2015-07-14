@@ -20,8 +20,12 @@
 @import "globals/loader";
 @import "globals/typography";
 
+// buttons
+@import "components/buttons/buttons";
+@import "components/buttons/buttons-debug";
+@import "components/buttons/buttons-toolbar";
+
 // components
-@import "components/buttons";
 @import "components/cards";
 @import "components/fancy-select";
 @import "components/header";
@@ -29,6 +33,7 @@
 @import "components/icons";
 @import "components/lists";
 @import "components/logo";
+@import "components/logs";
 @import "components/notifications";
 @import "components/select";
 @import "components/spinner";
@@ -37,6 +42,7 @@
 @import "components/wells";
 
 // external componenets
+@import "components/external/ace-theme";
 @import "components/external/intercom";
 @import "components/external/jstag";
 @import "components/external/termjs";
@@ -68,7 +74,6 @@
 @import "views/views-panel";
 @import "views/views-prompt";
 @import "views/views-tabs";
-@import "views/views-themes";
 @import "views/views-toolbar";
 
 // modals
@@ -109,5 +114,5 @@
 //deprecated
 @import "deprecated/card-status";
 
-// shame
+// shame 🔔🔔
 @import "shame";
