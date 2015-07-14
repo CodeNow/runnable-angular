@@ -14,13 +14,15 @@ require('app')
       templateUrl: 'viewFormTranslation',
       link: function ($scope, elem, attrs) {
         $scope.$watch('state.contextVersion', function (contextVersion) {
-          if (contextVersion) {
+          if (contextVersion &&
+              (keypather.get(contextVersion, 'getMainAppCodeVersion().attrs.transformRules.replace.length') ||
+              keypather.get(contextVersion, 'getMainAppCodeVersion().attrs.transformRules.rename.length'))) {
             $scope.actions.recalculateRules();
           }
         });
         $scope.actions = {
           jumpTo: function (diff) {
-            var fileLink = angular.element($document[0].getElementById('diff-'+diff.$$hashKey));
+            var fileLink = angular.element($document[0].getElementById('diff-' + diff.$$hashKey));
             angular.element($document[0].querySelector('form[name="editServerForm"] .modal-body')).scrollToElement(fileLink, 10, 200);
           },
           recalculateRules: function () {
