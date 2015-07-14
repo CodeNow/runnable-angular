@@ -35,6 +35,7 @@ function EventTracking (
   _keypather = keypather;
   _$location = $location;
 
+  this.beingModerated = false;
   this._Intercom = $window.Intercom;
   this._baseEventData = {};
   this._user = null;
@@ -114,6 +115,12 @@ EventTracking.prototype.boot = function (user) {
   if (!(user instanceof User)) {
     throw new Error('arguments[0] must be instance of User');
   }
+
+  if (user._beingModerated) {
+    this.beingModerated = true;
+    return;
+  }
+
   this._user = user;
   var data = {
     name: user.oauthName(),
@@ -159,6 +166,9 @@ EventTracking.prototype.boot = function (user) {
  * @return this
  */
 EventTracking.prototype.toggledCommit = function (data) {
+  if (this.beingModerated) {
+    return;
+  }
   var eventName = 'toggled-commit';
   var eventData = this.extendEventData({
     triggeredBuild: !!data.triggeredBuild,
@@ -177,6 +187,9 @@ EventTracking.prototype.toggledCommit = function (data) {
  * @return this
  */
 EventTracking.prototype.triggeredBuild = function (cache) {
+  if (this.beingModerated) {
+    return;
+  }
   var eventName = 'triggered-build';
   var eventData = this.extendEventData({
     cache: cache
@@ -193,6 +206,9 @@ EventTracking.prototype.triggeredBuild = function (cache) {
  * @return this
  */
 EventTracking.prototype.visitedState = function () {
+  if (this.beingModerated) {
+    return;
+  }
   var eventName = 'visited-state';
   var eventData = this.extendEventData({
     referral: _$location.search().ref || 'direct'
