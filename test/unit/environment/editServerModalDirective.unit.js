@@ -226,6 +226,18 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       });
       return ctx.newContextVersion;
     });
+    sinon.stub(ctx.newContextVersion, 'deepCopy', function (cb) {
+      $rootScope.$evalAsync(function () {
+        cb(null, ctx.contextVersion);
+      });
+      return ctx.contextVersion;
+    });
+    sinon.stub(ctx.contextVersion, 'fetch', function (cb) {
+      $rootScope.$evalAsync(function () {
+        cb(null, ctx.contextVersion);
+      });
+      return ctx.contextVersion;
+    });
 
     ctx.instance.contextVersion = ctx.contextVersion;
 
@@ -643,8 +655,15 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       env: ['quarblax=b']
     };
 
+    var containerFiles = [
+      {
+        id: 'containerFileID!',
+        clone: sinon.spy()
+      }
+    ];
+    $elScope.state.containerFiles = containerFiles;
+
     ctx.loadingPromiseMock.finished = function () {
-      console.log('in close');
       return $q.reject(error);
     };
 
@@ -655,8 +674,12 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     sinon.assert.calledWith(ctx.errsMock.handler, error);
 
     $rootScope.$apply();
-    expect($elScope.building).to.be.false;
+    expect($elScope.building, 'Building').to.be.false;
     expect($elScope.state.opts.env.length).to.equal(0);
+    expect($elScope.state.containerFiles.length).to.equal(1);
+    sinon.assert.calledOnce(containerFiles[0].clone);
+    sinon.assert.calledOnce(ctx.newContextVersion.deepCopy);
+    sinon.assert.calledOnce(ctx.contextVersion.fetch);
   });
 
   describe('change Tab', function () {
