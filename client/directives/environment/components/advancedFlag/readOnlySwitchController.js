@@ -46,7 +46,8 @@ function ReadOnlySwitchController(
           .then(function (contextVersion) {
             ROSC.popover.rolledContextVersion = contextVersion;
             ROSC.popover.active = true;
-          });
+          })
+          .catch(errs.handler);
       }
     } else {
       return $scope.state.advanced;

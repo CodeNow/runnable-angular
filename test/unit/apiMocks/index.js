@@ -23,7 +23,8 @@ module.exports = {
   },
   contextVersions: {
     running: require('./contextVersions/running'),
-    setup: require('./contextVersions/setup')
+    setup: require('./contextVersions/setup'),
+    angular: require('./contextVersions/runnable-angular')
   },
   files: {
     dockerfile: require('./files/dockerfile')

@@ -169,6 +169,9 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       keypather = _keypather_;
       $q = _$q_;
     });
+    $rootScope.featureFlags = {
+      dockerfileTool: false
+    };
     $scope.defaultActions = {
       close: sinon.spy()
     };
