@@ -42,7 +42,6 @@ function BuildLogController(
 
   var buffer;
   $scope.streamEnded = function () {
-    buffer.destroy();
     $timeout(function () {
       $scope.build.fetch();
     }, 1000);
