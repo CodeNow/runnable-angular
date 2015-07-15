@@ -60,7 +60,7 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
       });
       return ctx.contextVersion;
     });
-    sinon.stub(ctx.contextVersion, 'rollback', function (opts, cb) {
+    sinon.stub(ctx.contextVersion, 'rollback', function (cb) {
       $rootScope.$evalAsync(function () {
         cb(null, ctx.newContextVersion);
       });
