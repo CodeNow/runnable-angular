@@ -7,7 +7,8 @@ require('app')
  */
 function instanceBoxName(
   extractInstancePorts,
-  $stateParams
+  $stateParams,
+  fetchPullRequest
 ) {
   return {
     restrict: 'A',
@@ -15,15 +16,26 @@ function instanceBoxName(
     scope: {
       instance: '='
     },
-    link: function ($scope, elem, attrs) {
+    link: function ($scope) {
       $scope.userName = $stateParams.userName;
       $scope.$watch('instance', function (newValue) {
+        if (!newValue) {
+          return;
+        }
         var ports = extractInstancePorts(newValue);
         $scope.defaultPort = '';
         if (ports.length && ports.indexOf('80') === -1) {
           $scope.defaultPort = ':' + ports[0];
         }
+        fetchPullRequest($scope.instance)
+          .then(function (pr) {
+            if(pr){
+              $scope.pr = pr;
+            }
+          });
       });
+
+
     }
   };
 }
