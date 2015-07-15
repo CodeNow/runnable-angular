@@ -247,6 +247,10 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     ctx.dockerfile = {
       attrs: apiMocks.files.dockerfile
     };
+
+    ctx.anotherDockerfile = {
+      attrs: apiMocks.files.anotherDockerfile
+    };
     sinon.stub(ctx.newContextVersion, 'fetch', function (cb) {
       $rootScope.$evalAsync(function () {
         cb(null, ctx.newContextVersion);
@@ -258,6 +262,12 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         cb(null, ctx.dockerfile);
       });
       return ctx.dockerfile;
+    });
+    sinon.stub(ctx.contextVersion, 'fetchFile', function (opts, cb) {
+      $rootScope.$evalAsync(function () {
+        cb(null, ctx.dockerfile);
+      });
+      return ctx.anotherDockerfile;
     });
     sinon.stub(ctx.newContextVersion, 'update', function (opts, cb) {
       $rootScope.$evalAsync(function () {
@@ -680,10 +690,14 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     sinon.assert.called(ctx.errsMock.handler);
     sinon.assert.calledWith(ctx.errsMock.handler, error);
 
+    $scope.$digest();
+    $scope.$digest();
     $rootScope.$apply();
     expect($elScope.building, 'Building').to.be.false;
     expect($elScope.state.opts.env.length).to.equal(0);
     expect($elScope.state.containerFiles.length).to.equal(1);
+    expect($elScope.state.dockerfile).to.not.equal(ctx.dockerfile);
+    expect($elScope.state.dockerfile).to.equal(ctx.anotherDockerfile);
     sinon.assert.calledOnce(containerFiles[0].clone);
     sinon.assert.calledOnce(ctx.newContextVersion.deepCopy);
     sinon.assert.calledOnce(ctx.contextVersion.fetch);

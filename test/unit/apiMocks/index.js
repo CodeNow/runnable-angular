@@ -27,7 +27,8 @@ module.exports = {
     angular: require('./contextVersions/runnable-angular')
   },
   files: {
-    dockerfile: require('./files/dockerfile')
+    dockerfile: require('./files/dockerfile'),
+    anotherDockerfile: require('./files/anotherDockerfile')
   },
   gh: {
     bitcoinRepoCommits: require('./gh/bitcoinRepoCommits'),
