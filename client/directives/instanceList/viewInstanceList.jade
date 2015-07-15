@@ -1,13 +1,12 @@
 //- containers organized by repository
 .list.list-containers(
   ng-if = "data.activeAccount && !isLoading.sidebar"
-  ng-repeat = "masterInstance in data.instancesByPod.models |orderBy: ['attrs.contextVersion.appCodeVersions.length === 0', 'attrs.name'] track by masterInstance.attrs.name"
+  ng-repeat = "masterInstance in data.instancesByPod.models | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
 )
   //- repository name
   .list-item.small.strong(
-    ng-if = "masterInstance.getRepoName()"
     title = "{{ masterInstance.getRepoName() }}"
-  ) 
+  )
     span.span.text-overflow {{ masterInstance.getRepoName() }}
 
     //- configure button for repo containers
@@ -23,7 +22,7 @@
           xlink:href = "#icons-advanced"
         )
 
-  //- master branch containers and non-repo containers
+  //- master branch containers
   a.list-item(
     title = "{{ masterasterInstance.attrs.name }}"
     ui-sref = "\
@@ -39,20 +38,6 @@
     //- displays master branch name for repo containers
     //- displays container name for non-repo containers
     span.span.text-overflow {{ masterInstance.getRepoName() ? masterInstance.getBranchName() : masterInstance.attrs.name}}
-
-    //- configure button for non-repo containers
-    .btn.btn-configure(
-      modal
-      modal-current-model = "masterInstance"
-      modal-state-model = "masterInstance.contextVersion.attrs.advanced ? 'env' : 'repository'"
-      modal-template = "editServerModalOpen"
-      ng-if = "!masterInstance.getRepoName()"
-      title = "Configure"
-    )
-      svg.iconnables.icons-advanced
-        use(
-          xlink:href = "#icons-advanced"
-        )
 
   //- containers for non-master branches
   a.list-item(
@@ -82,3 +67,45 @@
     pop-over-options = "{\"top\":-33,\"left\":215}"
     pop-over-template = "viewMoreContainersPopover"
   ) 8 more…
+
+
+.list.list-containers(
+  ng-if = "data.activeAccount && !isLoading.sidebar && (data.instancesByPod.models|instanceHasRepo:false).length"
+)
+  //- repository name
+  .list-item.small.strong(
+    title = "Non Repo Containers"
+  )
+    span.span.text-overflow Non Repo Containers
+
+  //- master branch containers and non-repo containers
+  a.list-item(
+    ng-repeat = "masterInstance in data.instancesByPod.models | instanceHasRepo:false | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+    title = "{{ masterInstance.attrs.name }}"
+    ui-sref = "\
+      instance.instance({ userName: data.activeAccount.oauthName(), \
+      instanceName: masterInstance.attrs.name })\
+    "
+    ui-sref-active = "active"
+  )
+    status-icon(
+      instance = "masterInstance"
+    )
+
+    //- displays master branch name for repo containers
+    //- displays container name for non-repo containers
+    span.span.text-overflow {{ masterInstance.getRepoName() ? masterInstance.getBranchName() : masterInstance.attrs.name}}
+
+    //- configure button for non-repo containers
+    .btn.btn-configure(
+      modal
+      modal-current-model = "masterInstance"
+      modal-state-model = "masterInstance.contextVersion.attrs.advanced ? 'env' : 'repository'"
+      modal-template = "editServerModalOpen"
+      ng-if = "!masterInstance.getRepoName()"
+      title = "Configure"
+    )
+      svg.iconnables.icons-advanced
+        use(
+          xlink:href = "#icons-advanced"
+        )
