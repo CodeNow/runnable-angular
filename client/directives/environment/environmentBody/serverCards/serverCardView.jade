@@ -36,7 +36,7 @@ ul.card-body.load(
     modal-state-model = "'repository'"
     modal-template = "editServerModalOpen"
     ng-if = "server.repo && !server.advanced"
-    ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.stackType}"
+    ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.repository}"
   )
     svg.iconnables
       use(
@@ -102,7 +102,7 @@ ul.card-body.load(
     modal-state-model = "'commands'"
     modal-template = "editServerModalOpen"
     ng-if = "server.repo && !server.advanced"
-    ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.repositories}"
+    ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.commands}"
   )
     svg.iconnables
       use(

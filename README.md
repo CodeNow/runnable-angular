@@ -15,7 +15,7 @@ Runnable 2.0
 
 The front-end for Runnable's sandbox management platform.
 
-<img src="http://runnable.com/images/bear-alt.png" title="Runnable" alt="Runnable" align="right" height="300" style="position:relative;z-index:1;">
+<img src="http://runnable.com/images/bear-alt.png" alt="Runnable" align="right" height="300" style="position:relative;z-index:1;">
 
 Instructions
 -------------
@@ -45,7 +45,6 @@ Requirements
 ------------
 - node ~0.10.30
 - npm ~1.4.20
-- ruby ~2.0.0 (for SASS)
 - browserify@~5.9.1
 
 Testing
@@ -69,28 +68,28 @@ Contributors
 ------------
 <img src="https://avatars3.githubusercontent.com/u/7440805?s=64" width="64">&nbsp;
 [Taylor Dolan (taylordolan)](https://github.com/taylordolan)
-San Francisco, CA, USA  
+San Francisco, CA, USA
 <img src="https://avatars3.githubusercontent.com/u/495765?s=64">&nbsp;
 [Ryan Kahn (Myztiq)](https://github.com/Myztiq)
-San Francisco, CA, USA  
+San Francisco, CA, USA
 <img src="https://avatars1.githubusercontent.com/u/6379413?s=64">&nbsp;
 [Nathan Meyers (Nathan219)](https://github.com/Nathan219)
-San Francisco, CA, USA  
+San Francisco, CA, USA
 <img src="https://avatars1.githubusercontent.com/u/429706?v=3&s=64">&nbsp;
 [Anton Podviaznikov (podviaznikov)](https://github.com/podviaznikov)
-San Francisco, CA, USA  
+San Francisco, CA, USA
 <img src="https://s.gravatar.com/avatar/b613d7470bc5eb09b8c73223b4ee8a4e?s=64">&nbsp;
 [Anandkumar Patel (anandkumarpatel)](https://github.com/anandkumarpatel)
-San Francisco, CA, USA  
+San Francisco, CA, USA
 <img src="http://www.gravatar.com/avatar/049d9ce7bb813b262d32f6ebe4bb6fe5?s=64">&nbsp;
 [Tejesh Mehta (tjmehta)](https://github.com/tjmehta)
-San Francisco, CA, USA  
+San Francisco, CA, USA
 <img src="http://www.gravatar.com/avatar/8f10852a80ca4794f50a304254cb123b?s=64">&nbsp;
 [Randall Koutnik (SomeKittens)](https://github.com/SomeKittens)
-San Francisco, CA, USA  
+San Francisco, CA, USA
 <img src="http://www.gravatar.com/avatar/452e4a4c93d2ffba9999b03cea258206?s=64">&nbsp;
 [Tony Li (runnabro)](https://github.com/runnabro)
-San Francisco, CA, USA  
+San Francisco, CA, USA
 <img src="http://www.gravatar.com/avatar/fd3c806f94926cbe683f3ddc878ae4d3?s=64">&nbsp;
 [Casey Flynn (cflynn07)](https://github.com/cflynn07)
-San Francisco, CA, USA  
+San Francisco, CA, USA

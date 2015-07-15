@@ -102,7 +102,7 @@ input ~ small {
 
 // monospace
 .monospace {
-  font-family: 'Source Code Pro', monospace;
+  font-family: $monospace;
   font-size: 14px;
   white-space: pre;
   word-wrap: normal;

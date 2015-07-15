@@ -1,11 +1,18 @@
 .container-label
-  span.strong {{ instance.getRepoName() || instance.getDisplayName() }}
-  span(
-    ng-if = "instance.getBranchName()"
-  ) /{{ instance.getBranchName() }}
   status-icon(
     instance = "instance"
   )
+  strong.strong {{ instance.getRepoName() || instance.getDisplayName() }}
+  span(
+    ng-if = "instance.getBranchName()"
+  ) /{{ instance.getBranchName() }}
+  //- pull request link
+  a.link(
+    ng-href = "{{pr.html_url}}"
+    ng-if = "pr"
+    target = "_blank"
+    title = "view pull request on GitHub"
+  ) \#{{pr.number}}
 
 .container-url-wrapper
   input.input.container-url(
@@ -32,9 +39,9 @@
         )
 
     span.no-touching(
-      ng-if = "userName === 'CodeNow'"
+      ng-if = "$root.featureFlags.internalDebugging"
       style = "visibility: unset"
-    ) {{ instance.containers.models[0].attrs.dockerHost }} | 
+    ) {{ instance.containers.models[0].attrs.dockerHost }} |&#32;
       span(
         ng-repeat = "(key, value) in instance.containers.models[0].attrs.ports"
-      ) {{ key }}:{{ value[0].HostPort }} | 
+      ) {{ key }}:{{ value[0].HostPort }} |&#32;

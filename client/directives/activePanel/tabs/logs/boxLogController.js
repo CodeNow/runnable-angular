@@ -63,7 +63,7 @@ function BoxLogController(
     }
   });
   $scope.connectStreams = function (terminal) {
-    var streamCleanser = dockerStreamCleanser('hex');
+    var streamCleanser = dockerStreamCleanser('hex', true);
     buffer = new streamBuffers.ReadableStreamBuffer({
       frequency: 250,      // in milliseconds.
       chunkSize: 2048     // in bytes.

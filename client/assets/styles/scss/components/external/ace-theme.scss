@@ -6,7 +6,7 @@
   > .btn-xs {
     bottom: 6px;
     cursor: default;
-    font-family: 'Helvetica Neue', 'Segoe UI', sans-serif; // use default font stack
+    font-family: $sans-serif; // use default font stack
     position: absolute;
     right: 6px;
     transition: opacity .15s ease-in-out;
@@ -39,35 +39,11 @@
 
   &.ace-runnable-dark {
     background-color: $ace-bg;
-
-    .btn-control {
-      background: $purple-dark;
-      border-color: $purple;
-      color: $purple-lighter;
-
-      &:active {
-        color: $purple-lightest;
-      }
-
-      .icons-theme {
-        transform: rotate3d(0,0,1,180deg);
-      }
-    }
   }
 
   &.ace-runnable-light {
     background-color: $gray-lighterest;
     border-top: 1px solid $gray-lighter;
-
-    .btn-control {
-      background: $gray-lighter;
-      border-color: $gray-light;
-      color: $gray-dark;
-
-      &:active {
-        color: $gray-darker;
-      }
-    }
   }
 }
 
@@ -192,38 +168,18 @@
 // dark theme logs
 .ace-runnable-dark .log-wrapper {
   border-color: $purple-darker;
-
-  .btn-control {
-    background: $purple-dark;
-    border-color: $purple;
-    color: $purple-lighter;
-
-    &:active {
-      color: $purple-lightest;
-    }
-  }
 }
 
 // light theme logs
 .ace-runnable-light .log-wrapper {
   border-color: $gray-lighter;
-
-  .btn-control {
-    background: $gray-lighter;
-    border-color: $gray-light;
-    color: $gray-dark;
-
-    &:active {
-      color: $gray-darker;
-    }
-  }
 }
 
 // toggles for theme and full screen
 .floating-controls {
   position: absolute;
-  right: 6px;
-  top: 6px;
+  right: 11px;
+  top: 9px;
   transition: transform .2s ease-in-out;
   z-index: $z-views;
 
@@ -242,14 +198,32 @@
     opacity: 1;
   }
 
-  + .btn-control {
-    top: 6px;
+  .ace-runnable-dark & {
+    border-color: transparent;
+    color: $purple-lighter;
+
+    &:active {
+      color: $purple-lightest;
+    }
+  }
+
+  .ace-runnable-light & {
+    border-color: transparent;
+    color: $gray-dark;
+
+    &:active {
+      color: $gray-darker;
+    }
   }
 
   .iconnables {
     height: 100%; // vertically center
     transition: none;
     width: 12px;
+  }
+
+  .icons-theme {
+    transform: rotate3d(0,0,1,180deg);
   }
 }
 
@@ -259,7 +233,7 @@
   border: 1px solid rgba($black,.1) !important;
   border-radius: 3px !important;
   box-shadow: 0 1px 10px rgba($black,.1) !important;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: $sans-serif;
   letter-spacing: .3px !important;
   padding: 6px 9px !important;
   position: absolute !important;
@@ -284,12 +258,12 @@
 }
 
 // editor
-.ace-tm .pre {
+.ace-tm .ace_editor {
   position: relative;
 }
 
 // light theme
-.ace-runnable-light .pre,
+.ace-runnable-light .ace_editor,
 .ace-container.ace-runnable-light {
   background-color: $gray-lighterest;
   color: $gray-darker;
@@ -485,7 +459,7 @@
 }
 
 // dark theme
-.ace-runnable-dark .pre,
+.ace-runnable-dark .ace_editor,
 .ace-container.ace-runnable-dark {
   background-color: $ace-bg;
   color: $white;
