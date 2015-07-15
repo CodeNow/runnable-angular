@@ -70,7 +70,8 @@
 
 
 .list.list-containers(
-  ng-if = "data.activeAccount && !isLoading.sidebar && (data.instancesByPod.models|instanceHasRepo:false).length"
+  ng-if = "data.activeAccount && !isLoading.sidebar"
+  ng-show = "nonRepoInstances.length"
 )
   //- repository name
   .list-item.small.strong(
@@ -80,7 +81,7 @@
 
   //- master branch containers and non-repo containers
   a.list-item(
-    ng-repeat = "masterInstance in data.instancesByPod.models | instanceHasRepo:false | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+    ng-repeat = "masterInstance in data.instancesByPod.models | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
     title = "{{ masterInstance.attrs.name }}"
     ui-sref = "\
       instance.instance({ userName: data.activeAccount.oauthName(), \
