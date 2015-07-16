@@ -297,6 +297,8 @@ function editServerModal(
       $scope.build = $scope.instance.build;
 
       $scope.resetStateContextVersion = function (contextVersion, showSpinner) {
+        loading.reset('editServerModal');
+        console.log('show spinner', showSpinner);
         if (showSpinner) {
           loading('editServerModal', true);
         }
@@ -314,7 +316,7 @@ function editServerModal(
         if (showSpinner) {
           $scope.state.promises.contextVersion
             .then(function () {
-              loading($scope.loadingPromisesTarget, false);
+              loading('editServerModal', false);
             });
         }
         return $scope.state.promises.contextVersion
@@ -341,7 +343,6 @@ function editServerModal(
 
       function resetState(instance, fromError) {
         loadingPromises.clear('editServerModal');
-        loading.reset('editServerModal');
         var advanced = keypather.get(instance, 'advanced') || keypather.get(instance, 'contextVersion.attrs.advanced') || false;
         $scope.state = {
           advanced: advanced,
