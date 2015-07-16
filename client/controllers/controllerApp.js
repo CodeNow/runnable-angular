@@ -62,6 +62,7 @@ function ControllerApp(
     navListFilter: false,
     packagesField: true,
     saveToolbar: false,
+    sshKeys: false,
     themeToggle: false, // toggles the button that toggles theme
     updatedBuildLogs: false
   };

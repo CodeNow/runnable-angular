@@ -82,6 +82,7 @@ form.modal-dialog.modal-edit(
       button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'sshKeys'}"
         ng-click = "changeTab('sshKeys')"
+        ng-if = "$root.featureFlags.sshKeys"
       )
         svg.iconnables
           use(
@@ -89,8 +90,8 @@ form.modal-dialog.modal-edit(
           )
         .btn-text SSH Keys
       button.btn.btn-radio(
-        ng-class = "{'active': selectedTab === 'sshKeys'}"
-        ng-click = "changeTab('sshKeys')"
+        ng-class = "{'active': selectedTab === 'logs'}"
+        ng-click = "changeTab('logs')"
       )
         svg.iconnables
           use(
@@ -158,6 +159,7 @@ form.modal-dialog.modal-edit(
         'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
       }"
       ng-show = "selectedTab === 'logs'"
+      ng-if = "$root.featureFlags.sshKeys"
       ng-include = "'viewFormLogs'"
     )
 
