@@ -1,11 +1,14 @@
 .clearfix
   .label-col SSH Keys
   .input-col
-    button.btn.btn-xs.white.float-right Add SSH Key
+    button.btn.btn-xs.white.float-right(
+      pop-over
+      pop-over-template = "viewPopoverSshKey"
+    ) Add SSH Key
 
 .table.clearfix
   .tr.multi-line.clearfix
-    .cell.text-overflow Title
+    .cell.text-overflow Key Title
       small.small Added on May 5th, 2000
     .cell.cell-action
       button.btn.btn-xxs.red Delete

@@ -1,0 +1,32 @@
+.popover.popover-fixed.popover-files(
+  ng-class = "{'in': active}"
+  ng-style = "popoverStyle.getStyle()"
+)
+  .popover-header
+    strong.strong.text-overflow Add Key
+
+  .popover-content
+    label.label.clearfix
+      .label-col Title
+      .input-col
+        input.input.input-sm(
+          ng-model = "data.title"
+          required
+          spellcheck = "false"
+        )
+        small.small Give your key a title for identification purposes.
+
+    label.label.clearfix
+      .label-col Key
+      .input-col
+        textarea.textarea.monospace.textarea-key(
+          ng-model = "data.key"
+          required
+          spellcheck = "false"
+        )
+
+  .popover-footer.clearfix
+    button.btn.btn-sm.green(
+      ng-disabled = "data.file && data.key"
+    ) Add Key
+    button.btn.btn-sm.gray.float-left Cancel

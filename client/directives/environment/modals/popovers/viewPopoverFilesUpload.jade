@@ -1,5 +1,5 @@
 .popover.popover-fixed.popover-files(
-  ng-class = "{in: active}"
+  ng-class = "{'in': active}"
   ng-style = "popoverStyle.getStyle()"
 )
   .popover-header
@@ -19,10 +19,10 @@
               for = "input-upload"
             ) Choose
             input#input-upload(
-              type = "file",
               ngf-select
               ngf-change = "actions.uploadFile(data)"
               ng-model = "data.file"
+              type = "file"
             )
 
     label.label.clearfix
