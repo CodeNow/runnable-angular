@@ -1,6 +1,13 @@
+// **********
+// font stack
+// **********
+$sans-serif: 'Helvetica Neue', 'Segoe UI', sans-serif;
+$monospace: 'Source Code Pro', monospace;
+
 // ******
 // colors
 // ******
+
 $black: #000;
 $white: #fff;
 
@@ -17,16 +24,18 @@ $green-light: #2bd94f;
 $green-lighter: #e8ffed;
 $green-dark: #31b74d; // darken($green,6%);
 $green-darker: #2a9f43; // darken($green,12%);
+$green-darkest: #09200e;
 
 $purple: #5b3777;
 $purple-logo: #ccadd2;
 $purple-light: #834fab;
 $purple-lighter: #b6a6bd;
 $purple-lightest: #eee1f7;
-$purple-dark: darken($purple,10%);
+$purple-dark: #402754; // darken($purple,10%);
 $purple-darker: #261731; // darken($purple,20%);
+$purple-darkest: #1b0f24;
 
-// ace theme
+// purple ace theme
 $ace-bg: #311d40;
 $ace-border: $purple-darker;
 
@@ -36,6 +45,7 @@ $orange-lighter: #f7c457;
 $orange-lightest: #fffbf5;
 $orange-dark: #db970d; // darken($orange,9%);
 $orange-darker: #cd8d0c; // darken($orange,12%);
+$orange-darkest: #3d2b05;
 
 $red: #f25058;
 $red-light: #ef737f;
@@ -47,15 +57,52 @@ $blue-light: #8bd5f9; // previously #86cff6;
 $blue-lighter: #f5fcff; // previously #f1faff;
 $blue-dark: #1e7daf;
 
+// **********
+// log themes
+// **********
+
+// list all colors (9)
+$logs-runnable: black red green yellow blue magenta cyan light-gray white;
+
+// dark colors
+$logs-runnable-dark-black: $black;
+$logs-runnable-dark-red: #df4f3e;
+$logs-runnable-dark-green: #8ae234;
+$logs-runnable-dark-yellow: #db970d;
+$logs-runnable-dark-blue: #729fcf;
+$logs-runnable-dark-magenta: #ad7fa8;
+$logs-runnable-dark-cyan: #34e2e2;
+$logs-runnable-dark-light-gray: #bbb;
+$logs-runnable-dark-white: $white;
+
+// dark list
+$logs-runnable-dark: $logs-runnable-dark-black $logs-runnable-dark-red $logs-runnable-dark-green $logs-runnable-dark-yellow $logs-runnable-dark-blue $logs-runnable-dark-magenta $logs-runnable-dark-cyan $logs-runnable-dark-light-gray $logs-runnable-dark-white;
+
+// light colors
+$logs-runnable-light-black: $black;
+$logs-runnable-light-red: #df4f3e;
+$logs-runnable-light-green: #91cb58;
+$logs-runnable-light-yellow: #c5a200;
+$logs-runnable-light-blue: #3465a4;
+$logs-runnable-light-magenta: #ad7fa8;
+$logs-runnable-light-cyan: #2bd0d0;
+$logs-runnable-light-light-gray: #bbb;
+$logs-runnable-light-white: $white;
+
+// light list
+$logs-runnable-light: $logs-runnable-light-black $logs-runnable-light-red $logs-runnable-light-green $logs-runnable-light-yellow $logs-runnable-light-blue $logs-runnable-light-magenta $logs-runnable-light-cyan $logs-runnable-light-light-gray $logs-runnable-light-white;
+
 // ********
 // spinners
 // ********
+
 $spinner-offset: 187;
 $spinner-duration: 1.4s;
 
 // *******
 // z-index
 // *******
+
 // overrides
 $z-hide: -10000;
 $z-show: 10000;
@@ -105,6 +152,7 @@ $z-spinner: 8000;
 // **********
 // dimensions
 // **********
+
 // intercom
 $intercom-width: 370px;
 
@@ -115,6 +163,9 @@ $screen-sm: 768px;
 $screen-md: 1024px;
 $screen-lg: 1440px;
 $screen-xl: 1920px;
+
+// logs & terminal
+$terminal-line-height: 19px;
 
 // button/input sizes
 $input-border: 2px;

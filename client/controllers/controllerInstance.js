@@ -68,6 +68,15 @@ function ControllerInstance(
         pageName.setTitle(instance.attrs.name);
         data.instance.state = {};
 
+        var goHomeOnDestroyHandler = function () {
+          $state.go('instance.home', { userName:  $state.params.userName });
+        };
+        instance.on('destroyed', goHomeOnDestroyHandler);
+        $scope.$on('$destroy', function () {
+          instance.off('destroyed', goHomeOnDestroyHandler);
+        });
+
+
         data.hasToken = keypather.get(results, 'settings.attrs.notifications.slack.apiToken');
         setLastInstance($stateParams.instanceName);
         loading('main', false);

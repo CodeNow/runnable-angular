@@ -19,10 +19,12 @@
 @import "globals/typography";
 
 // components
-@import "components/buttons";
 @import "components/header";
 @import "components/icons";
 @import "components/logo";
+
+// buttons
+@import "components/buttons/buttons";
 
 // modals
 @import "modals/modals";
