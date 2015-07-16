@@ -26,7 +26,7 @@
   a.list-item(
     title = "{{ masterasterInstance.attrs.name }}"
     ui-sref = "\
-      instance.instance({ userName: CIS.activeAccount.oauthName(), \
+      base.instances.instance({ userName: CIS.activeAccount.oauthName(), \
       instanceName: masterInstance.attrs.name })\
     "
     ui-sref-active = "active"
@@ -44,7 +44,7 @@
     ng-repeat = "branchFork in masterInstance.children.models | orderBy:'attrs.name'"
     title = "{{ branchFork.getDisplayName() }}"
     ui-sref = "\
-      instance.instance({ userName: CIS.activeAccount.oauthName(), \
+      base.instances.instance({ userName: CIS.activeAccount.oauthName(), \
       instanceName: branchFork.attrs.name })\
     "
     ui-sref-active = "active"
@@ -82,7 +82,7 @@
     ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
     title = "{{ masterInstance.attrs.name }}"
     ui-sref = "\
-      instance.instance({ userName: CIS.activeAccount.oauthName(), \
+      base.instances.instance({ userName: CIS.activeAccount.oauthName(), \
       instanceName: masterInstance.attrs.name })\
     "
     ui-sref-active = "active"
