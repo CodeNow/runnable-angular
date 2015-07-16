@@ -16,8 +16,8 @@
         ) {{ data.name }}
           small.small {{ data.progress ? data.progress + '% uploaded' : 'Select a file' }}
           label.btn.btn-xs.gray(
-              for = "input-upload"
-            ) Choose
+            for = "input-upload"
+          ) Choose
             input#input-upload(
               ngf-select
               ngf-change = "actions.uploadFile(data)"

@@ -4,7 +4,13 @@
     button.btn.btn-xs.white.float-right(
       pop-over
       pop-over-template = "viewPopoverSshKey"
-    ) Add SSH Key
+    ) Add Key
+    label.btn.btn-xs.white.float-right(
+      for = "input-upload"
+    ) Upload File…
+      input#input-upload(
+        type = "file"
+      )
 
 .table.clearfix
   .tr.multi-line.clearfix
