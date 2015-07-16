@@ -134,6 +134,11 @@ html(
       modal-open = "dataApp.data.modalOpen"
     )
 
+    .spinner-wrapper.spinner-lg.in.spinner-backdrop(
+      ng-include = "'spinner'"
+      ng-if = "!dataApp"
+    )
+
     //- page
     .content-wrapper.clearfix(
       ui-view
