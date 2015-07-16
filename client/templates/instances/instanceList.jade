@@ -1,0 +1,110 @@
+//- containers organized by repository
+.list.list-containers(
+  ng-if = "CIS.activeAccount && !isLoading.sidebar"
+  ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+)
+  //- repository name
+  .list-item.small.strong(
+    title = "{{ masterInstance.getRepoName() }}"
+  )
+    span.span.text-overflow {{ masterInstance.getRepoName() }}
+
+    //- configure button for repo containers
+    .btn.btn-configure(
+      modal
+      modal-current-model = "masterInstance"
+      modal-state-model = "masterInstance.contextVersion.attrs.advanced ? 'env' : 'repository'"
+      modal-template = "editServerModalOpen"
+      title = "Configure"
+    )
+      svg.iconnables.icons-advanced
+        use(
+          xlink:href = "#icons-advanced"
+        )
+
+  //- master branch containers
+  a.list-item(
+    title = "{{ masterasterInstance.attrs.name }}"
+    ui-sref = "\
+      instance.instance({ userName: CIS.activeAccount.oauthName(), \
+      instanceName: masterInstance.attrs.name })\
+    "
+    ui-sref-active = "active"
+  )
+    status-icon(
+      instance = "masterInstance"
+    )
+
+    //- displays master branch name for repo containers
+    //- displays container name for non-repo containers
+    span.span.text-overflow {{ masterInstance.getRepoName() ? masterInstance.getBranchName() : masterInstance.attrs.name}}
+
+  //- containers for non-master branches
+  a.list-item(
+    ng-repeat = "branchFork in masterInstance.children.models | orderBy:'attrs.name'"
+    title = "{{ branchFork.getDisplayName() }}"
+    ui-sref = "\
+      instance.instance({ userName: CIS.activeAccount.oauthName(), \
+      instanceName: branchFork.attrs.name })\
+    "
+    ui-sref-active = "active"
+  )
+    status-icon(
+      instance = "branchFork"
+    )
+
+    span.span.text-overflow {{ branchFork.getDisplayName() }}
+
+    //- "hide" button
+    .btn.btn-hide(
+      ng-if = "$root.featureFlags.navListFilter"
+    ) hide
+
+  //- "X more…" popover link
+  .btn(
+    ng-if = "$root.featureFlags.navListFilter"
+    pop-over
+    pop-over-options = "{\"top\":-33,\"left\":215}"
+    pop-over-template = "viewMoreContainersPopover"
+  ) 8 more…
+
+
+.list.list-containers(
+  ng-if = "CIS.activeAccount && !isLoading.sidebar"
+  ng-show = "nonRepoInstances.length"
+)
+  //- repository name
+  .list-item.small.strong
+    span.span.text-overflow Non-repository
+
+  //- master branch containers and non-repo containers
+  a.list-item(
+    ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
+    title = "{{ masterInstance.attrs.name }}"
+    ui-sref = "\
+      instance.instance({ userName: CIS.activeAccount.oauthName(), \
+      instanceName: masterInstance.attrs.name })\
+    "
+    ui-sref-active = "active"
+  )
+    status-icon(
+      instance = "masterInstance"
+    )
+
+    //- displays master branch name for repo containers
+    //- displays container name for non-repo containers
+    span.span.text-overflow {{ masterInstance.getRepoName() ? masterInstance.getBranchName() : masterInstance.attrs.name}}
+
+    //- configure button for non-repo containers
+    .btn.btn-configure(
+      modal
+      modal-current-model = "masterInstance"
+      modal-state-model = "masterInstance.contextVersion.attrs.advanced ? 'env' : 'repository'"
+      modal-template = "editServerModalOpen"
+      ng-if = "!masterInstance.getRepoName()"
+      title = "Configure"
+    )
+      svg.iconnables.icons-advanced
+        use(
+          xlink:href = "#icons-advanced"
+        )
