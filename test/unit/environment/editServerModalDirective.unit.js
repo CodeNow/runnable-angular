@@ -135,6 +135,14 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
           link: angular.noop
         };
       });
+      $provide.factory('branchSelectorDirective', function () {
+        return {
+          priority: 100000,
+          link: function () {
+            // do nothing
+          }
+        };
+      });
 
       ctx.loadingPromiseFinishedValue = 0;
 

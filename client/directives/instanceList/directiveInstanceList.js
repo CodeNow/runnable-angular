@@ -22,9 +22,9 @@ function instanceList(
         if (newVal === false) {
           isLoadingWatch();
           $timeout(function () {
-            var instanceLink = angular.element(ele[0].querySelector('.selected'));
+            var instanceLink = angular.element(ele[0].querySelector('.active'));
             if(instanceLink){
-              ele.find('ul').scrollToElement(instanceLink, 33*3, 200);
+              ele.scrollToElement(instanceLink, 33*3, 200);
             }
           });
         }

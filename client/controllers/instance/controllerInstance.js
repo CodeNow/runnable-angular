@@ -7,13 +7,11 @@ require('app')
  */
 function ControllerInstance(
   $localStorage,
-  $location,
   $q,
   $scope,
   $state,
   $stateParams,
   $timeout,
-  $window,
   OpenItems,
   errs,
   eventTracking,
@@ -24,8 +22,6 @@ function ControllerInstance(
   keypather,
   fetchUser,
   pageName,
-  promisify,
-  watchOncePromise,
   setLastInstance,
   loading
 ) {
@@ -71,6 +67,15 @@ function ControllerInstance(
         data.instance = instance;
         pageName.setTitle(instance.attrs.name);
         data.instance.state = {};
+
+        var goHomeOnDestroyHandler = function () {
+          $state.go('instance.home', { userName:  $state.params.userName });
+        };
+        instance.on('destroyed', goHomeOnDestroyHandler);
+        $scope.$on('$destroy', function () {
+          instance.off('destroyed', goHomeOnDestroyHandler);
+        });
+
 
         data.hasToken = keypather.get(results, 'settings.attrs.notifications.slack.apiToken');
         setLastInstance($stateParams.instanceName);
