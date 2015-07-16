@@ -259,12 +259,22 @@
     height: 45px;
     line-height: 1.2;
     padding-top: 7px;
+
+    &:last-child {
+
+      .btn-xs {
+        margin-top: 3px;
+      }
+
+      .btn-xxs {
+        margin-top: 6px;
+      }
+    }
   }
 
   .small {
     color: $gray;
     display: block;
-    // float: right;
     font-size: 11px;
   }
 
@@ -292,11 +302,6 @@
         color: $purple-light;
       }
     }
-  }
-
-  &:last-child {
-    padding: 0;
-    width: 24px;
   }
 
   &.disabled {

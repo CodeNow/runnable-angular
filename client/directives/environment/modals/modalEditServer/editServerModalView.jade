@@ -80,6 +80,15 @@ form.modal-dialog.modal-edit(
           )
         .btn-text Find and Replace
       button.btn.btn-radio(
+        ng-class = "{'active': selectedTab === 'sshKeys'}"
+        ng-click = "changeTab('sshKeys')"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-log"
+          )
+        .btn-text SSH Keys
+      button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'logs'}"
         ng-click = "changeTab('logs')"
       )
@@ -138,6 +147,10 @@ form.modal-dialog.modal-edit(
       ng-show = "selectedTab === 'translation'"
       ng-if = "state.repo"
       translation-rules
+    )
+    .modal-form(
+      ng-show = "selectedTab === 'sshKeys'"
+      ng-include = "'viewFormSshKeys'"
     )
     .modal-form.modal-logs(
       ng-class = "{\
