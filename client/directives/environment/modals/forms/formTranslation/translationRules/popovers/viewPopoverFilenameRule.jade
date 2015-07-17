@@ -6,7 +6,7 @@
 )
   .popover-content
     h3.popover-title {{ data.isUpdating ? 'New ' : ''}}Filename Replace Rule
-      button.btn.btn-xs.orange(
+      button.btn.btn-xs.red(
         ng-if = "data.state._id"
         ng-click = "actions.deleteRule(data.state)"
       )
