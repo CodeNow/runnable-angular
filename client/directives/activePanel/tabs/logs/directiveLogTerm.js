@@ -20,7 +20,7 @@ function logTerm(
        * - Unbinds events on $destroy
        */
       function resizeHandler(x, y) {
-        if ($scope.eventStream) {
+        if ($scope.eventStream && $scope.eventStream.stream) {
           $scope.eventStream.write({
             event: 'resize',
             data: {

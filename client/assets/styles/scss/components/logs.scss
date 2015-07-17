@@ -1,0 +1,313 @@
+// *********************
+// logs & terminal
+// build logs: html (this file)
+// cmd logs: termjs
+// terminal: termjs
+// *********************
+
+// build log specific
+.build-log-wrapper {
+  padding: 9px 7px;
+  width: 100%;
+}
+
+// wrapper per step
+.build-log {
+  border: 1px solid transparent;
+  border-radius: $input-border-radius;
+  max-height: 39px;
+  min-height: 39px;
+  overflow: hidden;
+  position: relative;
+  transition: max-height .3s ease-in-out;
+
+  &:target {
+    box-shadow: // bottom-right,top-right,bottom-left,top-left
+      2px 2px 0 $purple-light,
+      2px -2px 0 $purple-light,
+      -2px 2px 0 $purple-light,
+      -2px -2px 0 $purple-light;
+  }
+
+  &:last-child {
+    margin-bottom: 30px;
+
+    .modal-edit & {
+      margin-bottom: 9px;
+    }
+  }
+
+  &.in {
+    max-height: 9999px; // is this enough?
+  }
+
+  + .build-log {
+    margin-top: 6px;
+  }
+}
+
+// .build-log-header
+.build-log-header,
+.build-log-content {
+  overflow-x: auto;
+}
+
+.build-log-header {
+  height: 39px;
+  overflow: hidden;
+  padding-left: 24px;
+  position: absolute;
+  width: 100%;
+
+  // has debug-button
+  &.padding-right {
+    overflow: hidden;
+    padding-right: 100px;
+  }
+
+  // fixed
+  &.fixed {
+    position: fixed;
+    top: 177px;
+    width: calc(100% - 591px);
+    z-index: 1;
+
+    // if in modal
+    .modal-edit & {
+      top: 199px;
+      width: calc(100% - 145px);
+    }
+
+    // if full-screen
+    .full-screen & {
+      top: 45px;
+      width: calc(100% - 51px);
+    }
+  }
+
+  // debug button
+  > .btn-debug {
+    font-family: $sans-serif; // override monospace fonts
+    min-width: 0;
+    position: absolute;
+    right: 7px;
+    top: 7px;
+  }
+
+  // change padding if there's a header
+  + .build-log-content {
+    margin-top: 39px;
+    padding-bottom: 15px;
+    padding-top: 6px;
+  }
+
+  // text overflow
+  .build-log-header-text {
+    line-height: 39px;
+    overflow-x: auto;
+    padding-right: 6px;
+  }
+}
+
+// shift fixed position if there's a toolbar (36px)
+.views-toolbar-wrapper + .active-panel .fixed {
+  top: 45px + 36px;
+
+  // if in modal
+  .modal-edit & {
+    top: 199 + 36px;
+  }
+
+  // if full-screen
+  .full-screen & {
+    top: 177px + 36px;
+  }
+}
+
+// logs scroll horizontally
+.build-log-content {
+  padding: 10px 9px 9px 24px;
+}
+
+// add .build-log-toggle to .build-log-header to indicate that you can toggle it
+.build-log-toggle {
+
+  // rotate arrow
+  &.in .build-log-header::before {
+    transform: rotate3d(0,0,1,0);
+  }
+
+  // toggleable .build-log-header
+  .build-log-header {
+    cursor: pointer;
+
+    &.fixed {
+      cursor: default;
+
+      &::before {
+        display: none;
+      }
+    }
+
+    // arrow
+    &::before {
+      border-bottom: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 5px solid transparent;
+      content: '';
+      display: block;
+      left: 8px;
+      pointer-events: none;
+      position: absolute;
+      top: 16px;
+      transform: rotate3d(0,0,1,-90deg);
+      transition: transform .25s ease-in-out;
+    }
+  }
+}
+
+// ***************************
+// log themes
+// reference for code- styles:
+// http://misc.flogisoft.com/bash/tip_colors_and_formatting
+// Not currently supported:
+// - Reverse/inverted
+// - Light colors (and background light colors)
+// ***************************
+.logs-runnable-dark,
+.logs-runnable-light {
+
+  .code-bold {
+    font-weight: 600;
+  }
+
+  .code-dim {
+    opacity: .5;
+  }
+
+  .code-underline {
+    text-decoration: underline;
+  }
+
+  // blinking animation
+  .code-blink {
+    animation: logs-blink 1s infinite;
+
+    // dim blinking animation
+    &.code-dim {
+      animation-name: logs-dim-blink;
+    }
+  }
+
+  .code-hidden {
+    visibility: hidden;
+  }
+
+  // override color for background colors
+  [class^='code-bg'] {
+    color: $white;
+  }
+}
+
+// dark theme
+.logs-runnable-dark {
+  background: $ace-bg;
+  color: $white;
+
+  // elements
+  .build-log {
+    background: #372345; // rgba($white,.03) on $ace-bg
+    border-color: $purple-darkest;
+
+    // error
+    &.error {
+      box-shadow: // bottom-right,top-right,bottom-left,top-left
+      2px 2px 0 $logs-runnable-dark-red,
+      2px -2px 0 $logs-runnable-dark-red,
+      -2px 2px 0 $logs-runnable-dark-red,
+      -2px -2px 0 $logs-runnable-dark-red;
+    }
+  }
+
+  .build-log-toggle .build-log-header {
+    background: #3d294a; // rgba($white,.03);
+    border-bottom: 1px solid $purple-darker;
+
+    // no states when fixed
+    &:not(.fixed) {
+
+      &:hover {
+        background: #3f2c4d; // rgba($white,.045);
+      }
+
+      &:active {
+        background: #422f4f; // rgba($white,.06);
+      }
+    }
+
+    &::before {
+      border-top-color: $purple-lighter;
+    }
+
+    // arrow states
+    &:hover,
+    &:active {
+
+      &::before {
+        border-top-color: $purple-lightest;
+      }
+    }
+  }
+
+  @include logs-runnable-color(dark);
+}
+
+// light theme
+.logs-runnable-light {
+  background-color: $gray-lighterest;
+  color: $gray-darker;
+
+  // elements
+  .build-log {
+    background: rgba($white,.6);
+    border-color: $gray-lighter;
+
+    // error
+    &.error {
+      box-shadow: // bottom-right,top-right,bottom-left,top-left
+      2px 2px 0 $logs-runnable-light-red,
+      2px -2px 0 $logs-runnable-light-red,
+      -2px 2px 0 $logs-runnable-light-red,
+      -2px -2px 0 $logs-runnable-light-red;
+    }
+  }
+
+  .build-log-toggle .build-log-header {
+    background: rgba($white,.75);
+    border-bottom: 1px solid $gray-lighter;
+
+    &:hover {
+      background: rgba($white,.9);
+    }
+
+    &:active {
+      background: $white;
+    }
+
+    &::before {
+      border-top-color: $gray-light;
+    }
+
+    // arrow states
+    &:hover,
+    &:active {
+
+      &::before {
+        border-top-color: $gray;
+      }
+    }
+  }
+
+  @include logs-runnable-color(light);
+}

@@ -7,7 +7,7 @@
   small.small.text-overflow(
     title = "Having build problems? Some errors can be resolved by rebuilding the container."
   ) Having build problems? Some errors can be resolved by rebuilding the container.
-  button.btn.btn-xs.orange(
+  button.btn.btn-xs.orange.btn-toolbar(
     ng-click = "actions.buildWithoutCache()"
   ) Rebuild Without Cache
 
@@ -20,7 +20,7 @@
   small.small.text-overflow(
     title = "This container’s configuration has been changed since it was last built."
   ) This container’s configuration has been changed since it was last built.
-  button.btn.btn-xs.orange(
+  button.btn.btn-xs.orange.btn-toolbar(
     ng-click = "actions.updateConfigToMatchMaster()"
   ) Update and Rebuild
 
@@ -34,7 +34,7 @@
     title = "/node-hello-world/server.js"
   ) /node-hello-world/server.js
   //- disable save buttons until a change a made
-  button.btn.btn-xs.green.btn-spinner.float-right(
+  button.btn.btn-xs.green.btn-spinner.btn-toolbar.float-right(
     ng-class = "{in: data.saving}"
     ng-click = "data.saving = !data.saving"
   )
@@ -44,7 +44,7 @@
       ng-include = "'spinner'"
     )
     span.btn-text {{ saving ? 'Saving' : 'Save and Restart'}}
-  button.btn.btn-xs.green.btn-spinner.float-right(
+  button.btn.btn-xs.green.btn-spinner.btn-toolbar.float-right(
     ng-class = "{in: data.saving}"
     ng-click = "data.saving = !data.saving"
   )
@@ -54,37 +54,3 @@
       ng-include = "'spinner'"
     )
     span.btn-text {{ saving ? 'Saving' : 'Save'}}
-
-//- ************
-//- * if debug *
-//- ************
-.views-toolbar(
-  ng-if = "$root.featureFlags.debugMode"
-)
-  small.small.text-overflow(
-    title = "Build Failed Step 2 : ADD ./[&ldquo;api-server&rdquo;, /&ldquo;api-server&rdquo;]"
-  ) Build Failed
-    span.span Step 2 : ADD ./["api-server", /"api-server"]
-  .btn-group.float-right
-    //- opens in new window
-    a.btn.btn-xs.purple.float-right(
-      href = "/debug"
-      target = "_blank"
-    ) Debug Container
-      svg.iconnables.icons-link-external
-        use(
-          xlink:href = "#icons-link-external"
-        )
-    button.btn.btn-xs.purple.float-right(
-      ng-class = "{active: state.active}"
-      pop-over
-      pop-over-actions = "popoverDebug.actions"
-      pop-over-active = "state.active"
-      pop-over-data = "popoverDebug.data"
-      pop-over-options = "{\"right\":-3,\"top\":35}"
-      pop-over-template = "viewPopoverDebug"
-    )
-      svg.iconnables.icons-arrow-down
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
