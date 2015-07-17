@@ -19,13 +19,18 @@ function ControllerInstances(
   user
 ) {
   var self = this;
+  var userName = $stateParams.userName;
   fetchInstancesByPod()
     .then(function (instancesByPod) {
+
+      // If the state has already changed don't continue with old data. Let the new one execute.
+      if (userName !== $stateParams.userName) {
+        return;
+      }
       self.instancesByPod = instancesByPod;
       self.activeAccount = activeAccount;
 
       favico.reset();
-      var userName = $stateParams.userName;
 
       var instances = instancesByPod;
       var lastViewedInstance = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.instance');

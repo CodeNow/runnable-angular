@@ -10,11 +10,11 @@ var $controller,
     $window,
     OpenItems,
     eventTracking,
-    keypather;
+    keypather,
+    apiClientBridge;
 var runnable = window.runnable;
 
 var mockUserFetch = new (require('../fixtures/mockFetch'))();
-var user = require('../apiMocks').user;
 
 describe('controllerInstance'.bold.underline.blue, function () {
   beforeEach(angular.mock.module('app'));
@@ -65,7 +65,7 @@ describe('controllerInstance'.bold.underline.blue, function () {
       _OpenItems_,
       _eventTracking_,
       _keypather_,
-      _user_
+      _apiClientBridge_
     ) {
       $controller = _$controller_;
       $httpBackend = _$httpBackend_;
@@ -76,7 +76,7 @@ describe('controllerInstance'.bold.underline.blue, function () {
       OpenItems = _OpenItems_;
       eventTracking = _eventTracking_;
       keypather = _keypather_;
-      user = _user_;
+      apiClientBridge = _apiClientBridge_;
     });
   });
 
@@ -123,8 +123,7 @@ describe('controllerInstance'.bold.underline.blue, function () {
     keypather.set($scope, 'dataApp.actions.setToggled', sinon.spy());
     keypather.set($scope, 'dataApp.data.loading', false);
 
-    $scope.user;
-    var ci = $controller('ControllerInstance', {
+    $controller('ControllerInstance', {
       '$scope': $scope
     });
     $rootScope.$digest();
@@ -139,7 +138,7 @@ describe('controllerInstance'.bold.underline.blue, function () {
 
     $scope.$apply();
 
-    mockUserFetch.triggerPromise(user);
+    mockUserFetch.triggerPromise(apiClientBridge);
     $rootScope.$digest();
 
     // mixpanel tracking user visit to instance page
