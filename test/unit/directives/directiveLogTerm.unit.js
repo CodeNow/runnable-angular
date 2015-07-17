@@ -164,6 +164,7 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
           $scope.stream.off = sinon.spy();
           $scope.eventStream = createMockStream();
           $scope.eventStream.off = sinon.spy();
+          $scope.eventStream.stream = true;
         });
       });
       it('should flow through', function () {

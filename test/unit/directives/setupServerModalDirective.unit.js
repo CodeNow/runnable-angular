@@ -46,6 +46,15 @@ describe('setupServerModalDirective'.bold.underline.blue, function () {
         };
       });
 
+      $provide.factory('branchSelectorDirective', function () {
+        return {
+          priority: 100000,
+          link: function () {
+            // do nothing
+          }
+        };
+      });
+
       $provide.factory('fetchDockerfileFromSource', function ($q) {
         fetchDockerfileFromSourceStub = sinon.stub().returns($q.when(dockerfile));
         return fetchDockerfileFromSourceStub;

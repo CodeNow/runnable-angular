@@ -6,14 +6,15 @@
     style = "left: 158px"
   )
   .popover-content
-    ul.list.popover-list
+    ul.list.popover-list(
+      ng-if = "data.showIntegrations"
+    )
       li.list-item.popover-list-item.small {{ data.activeAccount.oauthName() }}
       li.list-item.popover-list-item(
         modal
         modal-actions = "actions.actionsModalIntegrations"
         modal-data = "data.dataModalIntegrations"
         modal-template = "viewOpenModalIntegrations"
-        ng-if = "data.showIntegrations"
       )
         img.iconnables(
           height = "24"
@@ -28,6 +29,12 @@
       li.list-item.popover-list-item.text-overflow(
         ng-click = "actions.selectActiveAccount(data.user)"
       )
+        svg.iconnables.icons-fat-check(
+          ng-if = "data.user === data.activeAccount"
+        )
+          use(
+            xlink:href = "#icons-fat-check"
+          )
         img.gravatar(
           height = "24"
           ng-src = "{{ data.user.gravitar() }}"
@@ -40,7 +47,7 @@
         ng-repeat = "org in data.orgs.models"
       )
         svg.iconnables.icons-fat-check(
-          ng-if = "(org === data.activeAccount)"
+          ng-if = "org === data.activeAccount"
         )
           use(
             xlink:href = "#icons-fat-check"

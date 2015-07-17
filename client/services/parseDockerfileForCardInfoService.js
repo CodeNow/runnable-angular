@@ -29,6 +29,8 @@ function parseDockerfileForStack(
 
     if (stackKey === 'node') {
       stackKey = 'nodejs';
+    } else if (stackKey === 'golang') {
+      stackKey = 'go';
     } else if (stackKey === 'ruby') {
       // Check for RAILS_VERSION
 
