@@ -3,7 +3,8 @@
 module.exports = {
   appCodeVersions: {
     bitcoinAppCodeVersion: require('./appCodeVersions/bitcoinAppCodeVersion'),
-    differentBitcoinAppCodeVersion: require('./appCodeVersions/differentBitcoinAppCodeVersion')
+    differentBitcoinAppCodeVersion: require('./appCodeVersions/differentBitcoinAppCodeVersion'),
+    notAbitcoinAppCodeVersion: require('./appCodeVersions/notABitcoinAppCodeVersion')
   },
   builds: {
     setup: require('./builds/setup'),

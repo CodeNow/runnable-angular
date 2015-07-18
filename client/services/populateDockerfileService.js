@@ -1,7 +1,41 @@
 'use strict';
 
 require('app')
+  .factory('updateDockerfileFromState', updateDockerfileFromState)
   .factory('populateDockerfile', populateDockerfile);
+
+function updateDockerfileFromState(
+  $q,
+  fetchSourceContexts,
+  fetchDockerfileFromSource
+) {
+  return function (state, shouldFetchSourceDockerfile) {
+    var promise = null;
+    if (shouldFetchSourceDockerfile || !state.sourceDockerfile) {
+      promise = fetchSourceContexts()
+        .then(function (contexts) {
+          return fetchDockerfileFromSource(
+            state.selectedStack.key,
+            contexts
+          );
+        })
+        .then(function (sourceDockerfile) {
+          state.sourceDockerfile = sourceDockerfile;
+          return sourceDockerfile;
+        });
+    } else {
+      promise = $q.when(state.sourceDockerfile);
+    }
+
+    return promise.then(function (sourceDockerfile) {
+        return populateDockerfile(
+          sourceDockerfile,
+          state,
+          state.dockerfile
+        );
+      });
+  };
+}
 
 function populateDockerfile(
   promisify,

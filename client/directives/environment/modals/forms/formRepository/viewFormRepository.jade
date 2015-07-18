@@ -30,6 +30,7 @@
       ng-if = "!$root.featureFlags.buildCommandCache"
       ng-model = "state.commands"
       spellcheck = "false"
+      ng-change = "updateDockerfile()"
     )
     //- end deprecated textarea
     //-************
@@ -46,6 +47,7 @@
           spellcheck = "false"
           ng-attr-rows = "{{state.commandRows}}"
           ng-model-options = "{debounce: {default: 50, blur: 0}}"
+          ng-change = "updateDockerfile()"
         )
         .cache-column
           .cache-border
@@ -76,6 +78,7 @@ label.label.clearfix(
       spellcheck = "false"
       ng-model = "state.packages.packageList"
       placeholder = "dnsutils vim=7.3"
+      ng-change = "updateDockerfile()"
     )
     small.small Add any packages you would like to install via apt-get, separated with spaces (e.g. ‘dnsutils vim=7.3’). This container is based on &#32;
       strong.strong Ubuntu.
@@ -91,6 +94,7 @@ label.label.clearfix
       show-dropdown = "state.selectedStack.startCommand"
       type = "text"
       value = "state.startCommand"
+      on-update = "updateDockerfile"
     )
       li.list-item.popover-list-item.small Suggested Container CMDs
       fancy-option(

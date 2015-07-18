@@ -19,30 +19,29 @@ var tabVisibility = {
  */
 function editServerModal(
   $filter,
-  errs,
-  JSTagsCollection,
-  hasKeypaths,
-  eventTracking,
-  fetchDockerfileFromSource,
-  findLinkedServerVariables,
-  keypather,
-  OpenItems,
-  fetchUser,
-  populateDockerfile,
-  promisify,
-  watchOncePromise,
-  helpCards,
   $rootScope,
-  uploadFile,
-  configAPIHost,
-  cardInfoTypes,
   $timeout,
-  loading,
-  loadingPromises,
+  cardInfoTypes,
+  configAPIHost,
+  errs,
+  eventTracking,
+  fetchInstancesByPod,
   fetchStackInfo,
   fetchSourceContexts,
-  fetchInstancesByPod,
-  parseDockerfileForCardInfoFromInstance
+  fetchUser,
+  findLinkedServerVariables,
+  hasKeypaths,
+  helpCards,
+  JSTagsCollection,
+  keypather,
+  loading,
+  loadingPromises,
+  OpenItems,
+  parseDockerfileForCardInfoFromInstance,
+  promisify,
+  updateDockerfileFromState,
+  uploadFile,
+  watchOncePromise
 ) {
   return {
     restrict: 'A',
@@ -102,6 +101,9 @@ function editServerModal(
         $scope.activeCard = helpCards.getActiveCard();
       }
 
+      $scope.updateDockerfileFromState = function () {
+        return updateDockerfileFromState($scope.state);
+      };
 
       $scope.triggerEditRepo = function (repo) {
         if (repo.type === 'Main Repository') { return; }
@@ -152,7 +154,10 @@ function editServerModal(
               return acv.attrs.repo.split('/')[1] === repo.repo.attrs.name;
             });
 
-            loadingPromises.add('editServerModal', promisify(acv, 'destroy')())
+            loadingPromises.add('editServerModal', promisify(acv, 'destroy')()
+              .then(function () {
+                return updateDockerfileFromState($scope.state);
+              }))
               .catch(errs.handler);
           },
           create: function (repo) {
@@ -162,10 +167,11 @@ function editServerModal(
               branch: repo.branch.attrs.name,
               commit: repo.commit.attrs.sha,
               additionalRepo: true
-            }))
+            })
               .then(function (acv) {
                 repo.acv = acv;
-              })
+                return updateDockerfileFromState($scope.state);
+              }))
               .catch(errs.handler);
           },
           update: function (repo) {
@@ -187,9 +193,9 @@ function editServerModal(
             })
               .then(function (acv) {
                 myRepo.acv = acv;
-              })
-              .catch(errs.handler)
-            );
+                return updateDockerfileFromState($scope.state);
+              }))
+              .catch(errs.handler);
           }
         },
         data: {},
@@ -235,7 +241,7 @@ function editServerModal(
               $scope.state.containerFiles.push(myFile);
             }
             $rootScope.$broadcast('close-popovers');
-
+            return updateDockerfileFromState($scope.state);
           },
           cancel: function (containerFile) {
             // Using our own cancel in order to delete file
@@ -266,8 +272,12 @@ function editServerModal(
                 $scope.state.containerFiles.splice(containerIndex, 1);
               }
 
-              return loadingPromises.add('editServerModal',
+              return loadingPromises.add(
+                'editServerModal',
                 promisify(file, 'destroy')()
+                  .then(function () {
+                    return updateDockerfileFromState($scope.state);
+                  })
                   .catch(errs.handler)
               );
             }
@@ -342,9 +352,7 @@ function editServerModal(
             return promisify(contextVersion, 'fetch')();
           })
           .then(function (contextVersion) {
-            if (contextVersion.attrs.advanced) {
-              openDockerfile();
-            }
+            openDockerfile();
             $scope.state.acv = contextVersion.getMainAppCodeVersion();
             loading('editServerModal', false);
             return fetchUser();
@@ -505,7 +513,7 @@ function editServerModal(
             toRedeploy = toRedeploy && !toRebuild;
 
             if (toRecreateDockerfile) {
-              return updateDockerfile($scope.state);
+              console.log('Hope that dockerfile was updated');
             }
             return $scope.state;
           })
@@ -547,27 +555,6 @@ function editServerModal(
         return promisify(state.build, 'build')({ message: 'manual' })
           .then(function (build) {
             state.opts.build = build.id();
-            return state;
-          });
-      }
-
-      function updateDockerfile(state) {
-        return promisify(state.contextVersion, 'fetchFile')('/Dockerfile')
-          .then(function (newDockerfile) {
-            state.dockerfile = newDockerfile;
-            return fetchDockerfileFromSource(
-              state.selectedStack.key,
-              $scope.data.sourceContexts
-            );
-          })
-          .then(function (sourceDockerfile) {
-            return populateDockerfile(
-              sourceDockerfile,
-              state,
-              state.dockerfile
-            );
-          })
-          .then(function () {
             return state;
           });
       }

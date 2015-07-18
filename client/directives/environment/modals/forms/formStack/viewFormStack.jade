@@ -42,6 +42,7 @@
       ng-required = "true"
       placeholder = "Select Version"
       value = "state.selectedStack.selectedVersion"
+      on-update = "updateDockerfile"
     )
       li.list-item.popover-list-item.small(
         ng-if = "$parent.state.selectedStack.suggestedVersion"
@@ -65,6 +66,7 @@
         ng-required = "state.selectedStack.dependencies.length"
         placeholder = "Select Version"
         value = "depStack.selectedVersion"
+        on-update = "updateDockerfile"
       )
         li.list-item.popover-list-item.small(
           ng-if = "$parent.depStack.suggestedVersion"

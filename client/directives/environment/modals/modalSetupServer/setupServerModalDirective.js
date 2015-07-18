@@ -6,7 +6,6 @@ require('app')
  * @ngInject
  */
 function setupServerModal(
-  createDockerfileFromSource,
   fetchDockerfileFromSource,
   parseDockerfileForDefaults,
   createNewBuild,
@@ -16,9 +15,8 @@ function setupServerModal(
   fetchStackAnalysis,
   hasKeypaths,
   keypather,
-  populateDockerfile,
   promisify,
-  watchOncePromise,
+  updateDockerfileFromState,
   $log,
   cardInfoTypes
 ) {
@@ -68,33 +66,21 @@ function setupServerModal(
           $scope.state.ports = $scope.state.selectedStack.ports.replace(/ /g, '').split(',');
         }
 
-        var createPromise = createDockerfileFromSource(
-          $scope.state.contextVersion,
-          $scope.state.selectedStack.key,
-          $scope.data.sourceContexts
-        )
-          .then(function (dockerfile) {
-            $scope.state.dockerfile = dockerfile;
+        var MainRepo = cardInfoTypes.MainRepository;
 
-            var MainRepo = cardInfoTypes.MainRepository;
+        $scope.state.containerFiles = [];
 
-            $scope.state.containerFiles = [];
+        var repo = new MainRepo();
 
-            var repo = new MainRepo();
+        var commands = $scope.state.commands || [];
 
-            var commands = $scope.state.commands || [];
+        repo.name = $scope.state.repo.attrs.name;
+        repo.path = $scope.state.dst.replace('/', '');
+        repo.commands = commands;
 
-            repo.name = $scope.state.repo.attrs.name;
-            repo.path = $scope.state.dst.replace('/', '');
-            repo.commands = commands;
+        $scope.state.containerFiles.push(repo);
 
-            $scope.state.containerFiles.push(repo);
-
-            return populateDockerfile(
-              dockerfile,
-              $scope.state
-            );
-          })
+        var createPromise = updateDockerfileFromState($scope.state)
           .then(function () {
             if ($scope.state.acv.attrs.branch !== $scope.state.branch.attrs.name) {
               return promisify($scope.state.acv, 'update')({
@@ -119,6 +105,7 @@ function setupServerModal(
             $scope.data.sourceContexts
           )
             .then(function (dockerfile) {
+              $scope.state.sourceDockerfile = dockerfile;
               return parseDockerfileForDefaults(dockerfile, ['run', 'dst']);
             })
             .then(function (defaults) {

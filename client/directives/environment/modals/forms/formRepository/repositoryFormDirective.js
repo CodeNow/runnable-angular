@@ -1,7 +1,9 @@
 'use strict';
 
 require('app')
-  .directive('repositoryForm', function repositoryForm() {
+  .directive('repositoryForm', function repositoryForm(
+    updateDockerfileFromState
+  ) {
     return {
       restrict: 'A',
       templateUrl: 'viewFormRepository',
@@ -26,6 +28,10 @@ require('app')
           $scope.state.commandRows = len;
         });
 
+        $scope.updateDockerfile = function () {
+          return updateDockerfileFromState($scope.state);
+        };
+
         $scope.actions = {
           updateCache: function (cmd) {
             if (!cmd || (cmd && cmd.body.length === 0)) {
@@ -40,6 +46,7 @@ require('app')
             if (cmd) {
               cmd.cache = true;
             }
+            return $scope.updateDockerfile();
           },
           toggleCache: function () {
             if (!$scope.data.cacheCommand) {
