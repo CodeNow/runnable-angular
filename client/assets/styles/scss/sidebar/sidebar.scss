@@ -17,9 +17,10 @@
     height: 100vh;
   }
 
-  // width if sidebar is present
+  // size if sidebar is present
   + .content {
     float: right;
+    height: calc(100vh - 60px);
     position: relative;
     width: calc(100% - 240px);
 
