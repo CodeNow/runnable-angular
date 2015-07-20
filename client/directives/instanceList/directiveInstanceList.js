@@ -23,7 +23,7 @@ function instanceList(
           isLoadingWatch();
           $timeout(function () {
             var instanceLink = angular.element(ele[0].querySelector('.active'));
-            if(instanceLink){
+            if(instanceLink.length > 0){
               ele.scrollToElement(instanceLink, 33*3, 200);
             }
           });
