@@ -7,7 +7,8 @@ require('app')
 function updateDockerfileFromState(
   $q,
   fetchSourceContexts,
-  fetchDockerfileFromSource
+  fetchDockerfileFromSource,
+  populateDockerfile
 ) {
   return function (state, shouldFetchSourceDockerfile) {
     var promise = null;
@@ -66,7 +67,7 @@ function populateDockerfile(
     }
     function populateDockerFile(dockerfileBody) {
       // first, add the ports
-      var ports = state.ports.join(' ');
+      var ports = state.getPorts();
       var mainRepo = state.containerFiles.find(function (section) {
         return section.type === 'Main Repository';
       });
@@ -99,12 +100,14 @@ function populateDockerfile(
       dockerfileBody = dockerfileBody.slice(0, beforeIndex) + dockerSectionsString + dockerfileBody.slice(afterIndex + '<after-main-repo>'.length);
 
       dockerfileBody = dockerfileBody
-        .replace(/<user-specified-ports>/gm, ports)
         .replace(/<dst>/gm, '/' + state.dst)
         .replace(/<start-command>/gm, state.startCommand)
         .replace(/#default.+/gm, ''); // Remove all default comments that are not
 
-      if (!state.ports.length) {
+      if (ports.length) {
+        dockerfileBody = dockerfileBody
+          .replace(/<user-specified-ports>/gm, ports.join(' '));
+      } else {
         dockerfileBody = dockerfileBody.replace('EXPOSE', '');
       }
       if (configEnvironment !== 'production') {

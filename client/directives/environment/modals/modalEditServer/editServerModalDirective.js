@@ -318,7 +318,8 @@ function editServerModal(
           selectedStack: instance.selectedStack,
           opts: {},
           repo: keypather.get(instance, 'contextVersion.getMainAppCodeVersion().githubRepo'),
-          instance: instance
+          instance: instance,
+          getPorts: convertTagToPortList
         };
 
         $scope.state.opts.env = (fromError ?

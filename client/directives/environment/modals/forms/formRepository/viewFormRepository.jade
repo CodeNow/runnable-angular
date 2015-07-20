@@ -30,6 +30,7 @@
       ng-if = "!$root.featureFlags.buildCommandCache"
       ng-model = "state.commands"
       spellcheck = "false"
+      ng-model-options="{ updateOn: 'blur' }"
       ng-change = "updateDockerfile()"
     )
     //- end deprecated textarea
@@ -46,7 +47,7 @@
           ng-model = "state.commands"
           spellcheck = "false"
           ng-attr-rows = "{{state.commandRows}}"
-          ng-model-options = "{debounce: {default: 50, blur: 0}}"
+          ng-model-options = "{debounce: {default: 50, blur: 0}, updateOn: 'blur'}"
           ng-change = "updateDockerfile()"
         )
         .cache-column
@@ -78,6 +79,7 @@ label.label.clearfix(
       spellcheck = "false"
       ng-model = "state.packages.packageList"
       placeholder = "dnsutils vim=7.3"
+      ng-model-options="{ updateOn: 'blur' }"
       ng-change = "updateDockerfile()"
     )
     small.small Add any packages you would like to install via apt-get, separated with spaces (e.g. ‘dnsutils vim=7.3’). This container is based on &#32;
