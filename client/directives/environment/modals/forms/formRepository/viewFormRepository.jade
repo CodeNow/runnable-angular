@@ -38,7 +38,9 @@
       ng-if = "$root.featureFlags.buildCommandCache"
     )
       .flex-wrapper
-        .cache-column
+        .cache-column(
+          ng-show = "data.cacheCommand"
+        )
           .cache-border
           label.radio-wrapper(
             ng-repeat-start = "command in state.commands"
@@ -48,7 +50,7 @@
               type = "radio"
               ng-click = "actions.updateCache(command)"
               ng-checked = "command.cache"
-              ng-show = "command.body"
+              ng-if = "command.body"
               name = "cache-radio"
             )
           .cache-row(
