@@ -334,7 +334,6 @@ describe('serviceFetch'.bold.underline.blue, function () {
     var fetchInstancesStub;
     var $rootScope;
     var rawInstances;
-    var apiClientBridge;
     var addInstance;
     var $state;
 
