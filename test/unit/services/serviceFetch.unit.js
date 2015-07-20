@@ -337,6 +337,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
     var rawInstances;
     var user;
     var addInstance;
+    var $state;
 
     beforeEach(function () {
       angular.mock.module('app');
@@ -361,16 +362,18 @@ describe('serviceFetch'.bold.underline.blue, function () {
       });
       angular.mock.inject(function (
         _$rootScope_,
-        _fetchInstancesByPod_
+        _fetchInstancesByPod_,
+        _$state_
       ) {
         fetchInstancesByPod = _fetchInstancesByPod_;
         $rootScope = _$rootScope_;
+        $state = _$state_;
       });
     });
 
     it('should fetch all the instances in one go', function (done) {
       fetchInstancesByPod().then(function (instancesByPod) {
-        expect(instancesByPod).to.deep.equal({add: addInstance});
+        expect(instancesByPod).to.deep.equal({add: addInstance, githubUsername: $state.params.userName});
         done();
       });
       $rootScope.$apply();
