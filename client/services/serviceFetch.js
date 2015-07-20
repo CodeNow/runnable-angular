@@ -148,13 +148,16 @@ function fetchInstancesByPod(
                 master.children.add(children);
               });
 
-              return user.newInstances([], {
+              var instances = user.newInstances([], {
                 qs: {
                   masterPod: true,
                   githubUsername: username
                 },
                 reset: false
               });
+              instances.githubUsername = username;
+              instances.add(masterInstances);
+              return instances;
             });
         });
     }
