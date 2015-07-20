@@ -85,14 +85,14 @@
   // transform: translate3d(33px,0,0);
   width: 100%;
 
-  // &.ng-enter {
-  //   transition: transform .15s ease-in-out;
-  //   transform: translate3d(33px,0,0);
-  //
-  //   &.ng-enter-active {
-  //     transform: translate3d(0,0,0);
-  //   }
-  // }
+  &.ng-enter {
+    transition: transform .15s ease-in-out;
+    transform: translate3d(33px,0,0);
+
+    &.ng-enter-active {
+      transform: translate3d(0,0,0);
+    }
+  }
 
   // &.ng-hide-add,
   // &.ng-hide-remove {

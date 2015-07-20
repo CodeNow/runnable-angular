@@ -2,6 +2,7 @@ form.modal-dialog.modal-edit(
   name = "editServerForm"
   ng-class = "{\
     'ace-active': (selectedTab === 'buildfiles' || selectedTab === 'env'),\
+    'disabled': building || isLoading.editServerModal,\
     'xl': (selectedTab === 'buildfiles' || selectedTab === 'env' || selectedTab === 'logs')\
   }"
 )
@@ -99,8 +100,8 @@ form.modal-dialog.modal-edit(
         .btn-text Dockerfile
 
   section.modal-body(
+    ng-if = "!isLoading.editServerModal"
   )
-    //- ng-if = "!isLoading.editServerModal"
     .modal-form(
       ng-include = "'viewFormBuildfiles'"
       ng-show = "selectedTab === 'buildfiles'"
@@ -147,12 +148,12 @@ form.modal-dialog.modal-edit(
       ng-include = "'viewFormLogs'"
     )
 
-  //- section.modal-body(
-  //-   ng-if = "isLoading.editServerModal"
-  //- )
-  //-   .spinner-wrapper.spinner-md.in(
-  //-     ng-include = "'spinner'"
-  //-   )
+  section.modal-body(
+    ng-if = "isLoading.editServerModal"
+  )
+    .spinner-wrapper.spinner-md.in(
+      ng-include = "'spinner'"
+    )
 
   footer.modal-footer.clearfix
     //- disabled if no changes
