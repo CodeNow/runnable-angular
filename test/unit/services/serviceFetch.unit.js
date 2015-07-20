@@ -329,12 +329,12 @@ describe('serviceFetch'.bold.underline.blue, function () {
     });
   });
 
-  describe('factory fetchInstancesByPod', function () {
+  describe.only('factory fetchInstancesByPod', function () {
     var fetchInstancesByPod;
     var fetchInstancesStub;
     var $rootScope;
     var rawInstances;
-    var user;
+    var apiClientBridge;
     var addInstance;
     var $state;
 
@@ -349,14 +349,13 @@ describe('serviceFetch'.bold.underline.blue, function () {
           fetchInstancesStub = sinon.stub().returns($q.when(rawInstances));
           return fetchInstancesStub;
         });
-        $provide.factory('fetchUser', function ($q) {
+        $provide.factory('apiClientBridge', function () {
           addInstance = sinon.stub();
-          user = {
+          return {
             newInstances: sinon.stub().returns({
               add: addInstance
             })
           };
-          return sinon.stub().returns($q.when(user));
         });
       });
       angular.mock.inject(function (

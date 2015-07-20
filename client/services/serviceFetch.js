@@ -113,52 +113,49 @@ var fetchByPodCache = {};
 function fetchInstancesByPod(
   fetchInstances,
   $state,
-  fetchUser
+  apiClientBridge
 ) {
   return function (username) {
     username = username || $state.params.userName;
     if (!fetchByPodCache[username]) {
-      fetchByPodCache[username] = fetchUser()
-        .then(function (user) {
-          return fetchInstances({
-            githubUsername: username
-          })
-            .then(function (allInstances) {
-              var instanceMapping = {};
-              allInstances.forEach(function (instance) {
-                var ctxVersion = instance.attrs.contextVersion.context;
-                instanceMapping[ctxVersion] = instanceMapping[ctxVersion] || {};
-                if (instance.attrs.masterPod) {
-                  instanceMapping[ctxVersion].master = instance;
-                } else {
-                  instanceMapping[ctxVersion].children = instanceMapping[ctxVersion].children || [];
-                  instanceMapping[ctxVersion].children.push(instance);
-                }
-              });
+      return fetchInstances({
+        githubUsername: username
+      })
+        .then(function (allInstances) {
+          var instanceMapping = {};
+          allInstances.forEach(function (instance) {
+            var ctxVersion = instance.attrs.contextVersion.context;
+            instanceMapping[ctxVersion] = instanceMapping[ctxVersion] || {};
+            if (instance.attrs.masterPod) {
+              instanceMapping[ctxVersion].master = instance;
+            } else {
+              instanceMapping[ctxVersion].children = instanceMapping[ctxVersion].children || [];
+              instanceMapping[ctxVersion].children.push(instance);
+            }
+          });
 
-              var masterInstances = [];
-              Object.keys(instanceMapping).forEach(function (ctxVersion) {
-                var master = instanceMapping[ctxVersion].master;
+          var masterInstances = [];
+          Object.keys(instanceMapping).forEach(function (ctxVersion) {
+            var master = instanceMapping[ctxVersion].master;
 
-                // Handle the case where we have an extra instance that has no parents.
-                if (!master || !master.children) { return; }
+            // Handle the case where we have an extra instance that has no parents.
+            if (!master || !master.children) { return; }
 
-                var children = instanceMapping[ctxVersion].children || [];
-                masterInstances.push(master);
-                master.children.add(children);
-              });
+            var children = instanceMapping[ctxVersion].children || [];
+            masterInstances.push(master);
+            master.children.add(children);
+          });
 
-              var instances = user.newInstances([], {
-                qs: {
-                  masterPod: true,
-                  githubUsername: username
-                },
-                reset: false
-              });
-              instances.githubUsername = username;
-              instances.add(masterInstances);
-              return instances;
-            });
+          var instances = apiClientBridge.newInstances([], {
+            qs: {
+              masterPod: true,
+              githubUsername: username
+            },
+            reset: false
+          });
+          instances.githubUsername = username;
+          instances.add(masterInstances);
+          return instances;
         });
     }
 
