@@ -1,3 +1,5 @@
+var instances = require('../apiMocks').instances;
+
 describe('serviceFetch'.bold.underline.blue, function () {
   'use strict';
 
@@ -324,6 +326,68 @@ describe('serviceFetch'.bold.underline.blue, function () {
         done();
       });
       $rootScope.$apply();
+    });
+  });
+
+  describe('factory fetchInstancesByPod', function () {
+    var fetchInstancesByPod;
+    var fetchInstancesStub;
+    var $rootScope;
+    var rawInstances;
+    var user;
+    var addInstance;
+    var $state;
+
+    beforeEach(function () {
+      angular.mock.module('app');
+      angular.mock.module(function ($provide) {
+        $provide.factory('fetchInstances', function ($q) {
+          rawInstances = runnable.newInstances(instances.listWithPods, {
+            noStore: true
+          });
+
+          fetchInstancesStub = sinon.stub().returns($q.when(rawInstances));
+          return fetchInstancesStub;
+        });
+        $provide.factory('fetchUser', function ($q) {
+          addInstance = sinon.stub();
+          user = {
+            newInstances: sinon.stub().returns({
+              add: addInstance
+            })
+          };
+          return sinon.stub().returns($q.when(user));
+        });
+      });
+      angular.mock.inject(function (
+        _$rootScope_,
+        _fetchInstancesByPod_,
+        _$state_
+      ) {
+        fetchInstancesByPod = _fetchInstancesByPod_;
+        $rootScope = _$rootScope_;
+        $state = _$state_;
+      });
+    });
+
+    it('should fetch all the instances in one go', function (done) {
+      fetchInstancesByPod().then(function (instancesByPod) {
+        expect(instancesByPod).to.deep.equal({add: addInstance, githubUsername: $state.params.userName});
+        done();
+      });
+      $rootScope.$apply();
+      sinon.assert.calledOnce(fetchInstancesStub);
+      sinon.assert.calledOnce(user.newInstances);
+      sinon.assert.calledOnce(addInstance);
+
+      var instanceList = addInstance.lastCall.args[0];
+      var last = rawInstances.models[rawInstances.length-1];
+      var masterInstance = instanceList.find(function (instance) {
+        return instance.attrs.contextVersion === last.attrs.contextVersion;
+      });
+
+      expect(masterInstance.children.length).to.equal(1);
+      expect(masterInstance.children.models[0]).to.equal(last);
     });
   });
 });
