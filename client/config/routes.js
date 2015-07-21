@@ -59,7 +59,7 @@ module.exports = [
         });
 
         if (!matchedOrg) {
-          // There is a bug in ui-router that the workaround
+          // There is a bug in ui-router and a timeout is the workaround
           return $timeout(function () {
             $state.go('orgSelect');
             return $q.reject('User Unauthorized for Organization');
