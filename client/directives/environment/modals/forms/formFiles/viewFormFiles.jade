@@ -8,7 +8,12 @@
 .clearfix
   .label-col SSH Keys & Files
   .input-col
-    button.btn.btn-xs.white.float-right Add…
+    button.btn.btn-xs.white.float-right(
+      pop-over
+      pop-over-active = "addFilePopover.active"
+      pop-over-options = "{\"right\":0,\"top\":35}"
+      pop-over-template = "viewPopoverAddFile"
+    ) Add…
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
