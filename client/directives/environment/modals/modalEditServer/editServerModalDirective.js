@@ -309,6 +309,7 @@ function editServerModal(
           promisify(contextVersion, 'deepCopy')()
             .then(function (contextVersion) {
               $scope.state.contextVersion = contextVersion;
+              $scope.state.acv = contextVersion.getMainAppCodeVersion();
               $scope.state.repo = keypather.get(contextVersion, 'getMainAppCodeVersion().githubRepo');
               return promisify(contextVersion, 'fetch')();
             })
@@ -320,9 +321,10 @@ function editServerModal(
             });
         }
         return $scope.state.promises.contextVersion
-          .then(function (contextVersion) {
-            openDockerfile();
-            $scope.state.acv = contextVersion.getMainAppCodeVersion();
+          .then(function () {
+            return openDockerfile();
+          })
+          .then(function () {
             return fetchUser();
           })
           .then(function (user) {
@@ -593,6 +595,9 @@ function editServerModal(
       function openDockerfile() {
         return promisify($scope.state.contextVersion, 'fetchFile')('/Dockerfile')
           .then(function (dockerfile) {
+            if ($scope.state.dockerfile) {
+              $scope.openItems.remove($scope.state.dockerfile);
+            }
             if (dockerfile) {
               $scope.openItems.add(dockerfile);
             }
