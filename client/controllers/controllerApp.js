@@ -57,11 +57,13 @@ function ControllerApp(
     hostnameTool: false,
     hostnameNotifications: false,
     imAfraidOfTheDark: false, // toggles theme
+    internalDebugging: false,
     multilineFnR: false,
     navListFilter: false,
     packagesField: true,
     saveToolbar: false,
-    themeToggle: false // toggles the button that toggles theme
+    themeToggle: false, // toggles the button that toggles theme
+    updatedBuildLogs: false
   };
   $rootScope.featureFlags = {};
   $rootScope.resetFeatureFlags = function () {

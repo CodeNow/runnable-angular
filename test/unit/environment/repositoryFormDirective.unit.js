@@ -107,6 +107,8 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
       'ng-show': 'true'
     });
     ctx.element = $compile(ctx.template)($scope);
+    $scope.$digest();
+    $elScope = ctx.element.isolateScope();
   }
   describe('basic', function () {
     it('Check the scope', function () {
@@ -122,9 +124,6 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
         startCommandCanDisable: true
       };
       setup(scope);
-      $scope.$digest();
-      $elScope = ctx.element.isolateScope();
-      $scope.$digest();
       expect($elScope.data).to.deep.equal({
         cacheCommand: false
       });
@@ -132,202 +131,95 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
       expect($elScope.startCommandCanDisable).to.be.true;
       $rootScope.$destroy();
     });
-  });
-  describe('starting up', function () {
 
-    it('for the first time', function () {
-
+    it('should disable cache when toggleCache to off', function () {
       var scope = {
-        state: {}
-      };
-      setup(scope);
-      $scope.$digest();
-      $elScope = ctx.element.isolateScope();
-      $scope.$digest();
-
-      $scope.state.repo = ctx.repo1;
-      $scope.$digest();
-      $scope.state.acv = ctx.acv;
-      $scope.$digest();
-      $rootScope.$apply();
-
-      sinon.assert.called(ctx.repo1.newBranch);
-      expect($scope.state.branch, 'branch').to.be.ok;
-      $scope.$digest();
-      sinon.assert.called(ctx.repo1.fakeBranch.fetch);
-
-      sinon.assert.called(ctx.repo1.branches.fetch);
-      $scope.$digest();
-      expect($scope.state.branch.attrs.name, 'branch name').to.equal('master');
-      $scope.$digest();
-      sinon.assert.notCalled(ctx.acv.update);
-      sinon.assert.notCalled(ctx.acv.setState);
-
-      // Now make a change
-      var newBranch = ctx.repo1.branches.models[0];
-      $elScope.state.branch = newBranch;
-      $scope.$digest();
-      var newState = {
-        branch: newBranch.attrs.name,
-        commit: newBranch.attrs.commit.sha
-      };
-      sinon.assert.calledWith(ctx.acv.setState, newState);
-      sinon.assert.calledWith(ctx.acv.update, newState);
-      $scope.$digest();
-      sinon.assert.calledOnce(ctx.acv.resetState);
-      $rootScope.$destroy();
-    });
-    it('coming back to the page', function () {
-      setup({
-        state: {}
-      });
-      $scope.state.acv = ctx.acv;
-      $scope.state.repo = ctx.repo1;
-      $scope.state.branch = {
-        attrs: apiMocks.branches.bitcoinRepoBranches[0]
-      };
-
-      ctx.repo1.branches.fetch();
-      ctx.repo1.branches.fetch.reset();
-      $scope.$digest();
-      $elScope = ctx.element.isolateScope();
-      $scope.$digest();
-
-      sinon.assert.notCalled(ctx.repo1.newBranch);
-      expect($scope.state.branch, 'branch').to.be.ok;
-      $scope.$digest();
-      sinon.assert.notCalled(ctx.repo1.branches.fetch);
-      sinon.assert.notCalled(ctx.repo1.fakeBranch.fetch);
-      $scope.$digest();
-
-      sinon.assert.notCalled(ctx.acv.update);
-      sinon.assert.notCalled(ctx.acv.setState);
-
-      // Now make a change
-      var newBranch = ctx.repo1.branches.models[1];
-      $elScope.state.branch = newBranch;
-      $scope.$digest();
-      var newState = {
-        branch: newBranch.attrs.name,
-        commit: newBranch.attrs.commit.sha
-      };
-      sinon.assert.calledWithMatch($scope.state.acv.setState, newState);
-      sinon.assert.calledWithMatch($scope.state.acv.update, newState);
-      $scope.$digest();
-      sinon.assert.calledOnce($scope.state.acv.resetState);
-      $rootScope.$destroy();
-    });
-    it('should fetch the branches, but not fetch the main branch ', function () {
-
-      var scope = {
+        data: {
+          stacks: apiMocks.stackInfo
+        },
         state: {
-          branch: {
-            attrs: {
-              name: 'master'
-            }
-          }
-        }
+          cheese: {
+            hello: 'jello'
+          },
+          commands: [{
+            cache: true,
+            body: 'npm install'
+          }]
+        },
+        startCommandCanDisable: true
       };
       setup(scope);
-      $scope.$digest();
-      $elScope = ctx.element.isolateScope();
+
+      expect($elScope.data.cacheCommand, 'Cache enabled').to.be.ok;
+      // This is a checkbox so both of these things will happen at the same time!
+      $elScope.data.cacheCommand = false;
+      $elScope.actions.toggleCache();
       $scope.$digest();
 
-      $scope.state.repo = ctx.repo1;
-      $scope.$digest();
-      $scope.state.acv = ctx.acv;
-      $scope.$digest();
-      $rootScope.$apply();
+      expect($elScope.state.commands[0].cache, 'Cached command').to.not.be.ok;
 
+    });
+    it('should enable cache when toggleCache to true', function () {
+      var scope = {
+        data: {
+          stacks: apiMocks.stackInfo
+        },
+        state: {
+          cheese: {
+            hello: 'jello'
+          },
+          commands: [{
+            cache: false,
+            body: 'npm install'
+          }]
+        },
+        startCommandCanDisable: true
+      };
+      setup(scope);
 
-      sinon.assert.notCalled(ctx.repo1.newBranch);
-      expect($scope.state.branch, 'branch').to.be.ok;
-      $scope.$digest();
-      sinon.assert.notCalled(ctx.repo1.fakeBranch.fetch);
-      $scope.$digest();
+      expect($elScope.data.cacheCommand, 'Cache enabled').to.not.be.ok;
+      // This is a checkbox so both of these things will happen at the same time!
+      $elScope.data.cacheCommand = true;
+      $elScope.actions.toggleCache();
       $scope.$digest();
 
-      sinon.assert.called(ctx.repo1.branches.fetch);
-      $scope.$digest();
-      expect($scope.state.branch.attrs.name, 'branch name').to.equal('master');
-      $scope.$digest();
+      expect($elScope.state.commands[0].cache, 'Cached command').to.be.ok;
+
     });
 
-    it('with a loadingPromise target', function () {
-      setup({
-        state: {},
-        loadingPromisesTarget: 'helloEverybody'
-      });
-      var loadingStub = sinon.spy(loadingPromises, 'add');
-      $scope.state.acv = ctx.acv;
-      $scope.state.repo = ctx.repo1;
-      $scope.state.branch = {
-        attrs: apiMocks.branches.bitcoinRepoBranches[0]
+    it('should enable cache for the first non empty command when toggleCache is set to true', function () {
+      var scope = {
+        data: {
+          stacks: apiMocks.stackInfo
+        },
+        state: {
+          cheese: {
+            hello: 'jello'
+          },
+          commands: [
+            {
+              cache: false,
+              body: ''
+            },
+            {
+              cache: false,
+              body: 'npm install'
+            }
+          ]
+        },
+        startCommandCanDisable: true
       };
+      setup(scope);
 
-      ctx.repo1.branches.fetch();
-      ctx.repo1.branches.fetch.reset();
-      $scope.$digest();
-      $elScope = ctx.element.isolateScope();
-      $scope.$digest();
-
-      sinon.assert.notCalled(ctx.repo1.branches.fetch);
-      $scope.$digest();
-      sinon.assert.notCalled(ctx.acv.update);
-      sinon.assert.notCalled(ctx.acv.setState);
-
-      // Now make a change
-      var newBranch = ctx.repo1.branches.models[1];
-      $elScope.state.branch = newBranch;
+      expect($elScope.data.cacheCommand, 'Cache enabled').to.not.be.ok;
+      // This is a checkbox so both of these things will happen at the same time!
+      $elScope.data.cacheCommand = true;
+      $elScope.actions.toggleCache();
       $scope.$digest();
 
-      loadingPromises.finished();
-      $scope.$digest();
-      $scope.$digest();
+      expect($elScope.state.commands[0].cache, 'Cached command').to.not.be.ok;
+      expect($elScope.state.commands[1].cache, 'Cached command').to.be.ok;
 
-      var newState = {
-        branch: newBranch.attrs.name,
-        commit: newBranch.attrs.commit.sha
-      };
-      sinon.assert.calledWithMatch($scope.state.acv.update, newState);
-      sinon.assert.called(loadingStub);
-
-      $scope.$digest();
-      sinon.assert.calledOnce($scope.state.acv.resetState);
-      $rootScope.$destroy();
-    });
-  });
-
-  describe('errors', function () {
-    it('failing on update', function () {
-      var error = new Error('sadasdasd');
-      setup({
-        state: {}
-      }, error);
-      $scope.state.acv = ctx.acv;
-      $scope.state.repo = ctx.repo1;
-      $scope.state.branch = {
-        attrs: apiMocks.branches.bitcoinRepoBranches[0]
-      };
-      ctx.repo1.branches.fetch();
-      ctx.repo1.branches.fetch.reset();
-      $scope.$digest();
-      $elScope = ctx.element.isolateScope();
-      $scope.$digest();
-      // Now make a change
-      var newBranch = ctx.repo1.branches.models[1];
-      $elScope.state.branch = newBranch;
-      $scope.$digest();
-      $scope.$digest();
-      var newState = {
-        branch: newBranch.attrs.name,
-        commit: newBranch.attrs.commit.sha
-      };
-      sinon.assert.calledWithMatch($scope.state.acv.setState, newState);
-      sinon.assert.calledWithMatch($scope.state.acv.update, newState);
-      sinon.assert.calledWith(ctx.errsMock.handler, error);
-      $scope.$digest();
-      sinon.assert.calledOnce($scope.state.acv.resetState);
     });
   });
 });

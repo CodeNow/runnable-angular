@@ -4,7 +4,6 @@ require('app')
   .directive('modalIntegrations', integrations);
 
 function integrations(
-  $rootScope,
   keypather,
   fetchSettings,
   verifyChatIntegration,

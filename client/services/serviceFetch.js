@@ -14,6 +14,7 @@ require('app')
   .factory('fetchGitHubMembers', fetchGitHubMembers)
   .factory('fetchGitHubUser', fetchGitHubUser)
   .factory('integrationsCache', integrationsCache)
+  .factory('fetchPullRequest', fetchPullRequest)
   .factory('fetchInstancesByPod', fetchInstancesByPod);
 
 function fetchUser(
@@ -111,30 +112,57 @@ var fetchByPodCache = {};
 
 function fetchInstancesByPod(
   fetchInstances,
-  $q,
-  promisify,
-  $state
+  $state,
+  fetchUser
 ) {
   return function (username) {
     username = username || $state.params.userName;
     if (!fetchByPodCache[username]) {
-      fetchByPodCache[username] = fetchInstances({
-        masterPod: true,
-        githubUsername: username
-      })
-        .then(function (masterPods) {
-          var podFetch = [];
-          masterPods.forEach(function (masterInstance) {
-            podFetch.push(promisify(masterInstance.children, 'fetch')());
-          });
-          return $q.all(podFetch).then(function () {
-            return masterPods;
-          });
+      fetchByPodCache[username] = fetchUser()
+        .then(function (user) {
+          return fetchInstances({
+            githubUsername: username
+          })
+            .then(function (allInstances) {
+              var instanceMapping = {};
+              allInstances.forEach(function (instance) {
+                var ctxVersion = instance.attrs.contextVersion.context;
+                instanceMapping[ctxVersion] = instanceMapping[ctxVersion] || {};
+                if (instance.attrs.masterPod) {
+                  instanceMapping[ctxVersion].master = instance;
+                } else {
+                  instanceMapping[ctxVersion].children = instanceMapping[ctxVersion].children || [];
+                  instanceMapping[ctxVersion].children.push(instance);
+                }
+              });
+
+              var masterInstances = [];
+              Object.keys(instanceMapping).forEach(function (ctxVersion) {
+                var master = instanceMapping[ctxVersion].master;
+
+                // Handle the case where we have an extra instance that has no parents.
+                if (!master || !master.children) { return; }
+
+                var children = instanceMapping[ctxVersion].children || [];
+                masterInstances.push(master);
+                master.children.add(children);
+              });
+
+              var instances = user.newInstances([], {
+                qs: {
+                  masterPod: true,
+                  githubUsername: username
+                },
+                reset: false
+              });
+              instances.githubUsername = username;
+              instances.add(masterInstances);
+              return instances;
+            });
         });
     }
 
     return fetchByPodCache[username];
-
   };
 }
 
@@ -315,6 +343,27 @@ function fetchGitHubUser (
       url: configAPIHost + '/github/users/' + memberName
     }).then(function (user) {
       return user.data;
+    });
+  };
+}
+
+function fetchPullRequest (
+  $http,
+  configAPIHost,
+  keypather,
+  $q
+) {
+  return function (instance) {
+    var branch = instance.getBranchName();
+    if (!branch) {
+      return $q.when(null);
+    }
+    var repo = instance.contextVersion.getMainAppCodeVersion().attrs.repo;
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/github/repos/' + repo + '/pulls?head=' + repo.split('/')[0] + ':' + branch
+    }).then(function (pullRequests) {
+      return keypather.get(pullRequests, 'data[0]');
     });
   };
 }

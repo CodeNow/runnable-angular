@@ -15,8 +15,9 @@
 
 // wrapper for container name, branch name, and status icon
 .container-label {
-  font-size: 24px;
+  font-size: 21px;
   font-weight: 400;
+  line-height: 24px;
   margin-top: 12px;
 
   &.centered {
@@ -25,8 +26,15 @@
   }
 
   .icons-status {
-    left: 6px;
-    top: -3px;
+    margin-right: 6px;
+    top: -2px;
+  }
+
+  // pull request link
+  .link {
+    color: $gray;
+    font-size: 18px;
+    margin-left: 6px;
   }
 }
 

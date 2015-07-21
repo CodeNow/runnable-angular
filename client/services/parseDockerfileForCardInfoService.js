@@ -29,6 +29,8 @@ function parseDockerfileForStack(
 
     if (stackKey === 'node') {
       stackKey = 'nodejs';
+    } else if (stackKey === 'golang') {
+      stackKey = 'go';
     } else if (stackKey === 'ruby') {
       // Check for RAILS_VERSION
 
@@ -167,7 +169,6 @@ function parseDockerfileForCardInfoFromInstance(
             item.repo = matchingAcv.githubRepo;
             item.branch = fetchCommitData.activeBranch(matchingAcv);
             item.commit = fetchCommitData.activeCommit(matchingAcv);
-            fetchCommitData.branchCommits(item.branch);
           }
           return item;
         });

@@ -58,7 +58,8 @@ module.exports = function(grunt) {
     autoprefixer: {
       dist: {
         options: {
-          browsers: ['last 2 versions']
+          browsers: ['last 2 versions'],
+          map: true
         },
         files: {
           'client/build/css/index.css' : 'client/build/css/index.css',
@@ -70,7 +71,7 @@ module.exports = function(grunt) {
     sass: {
       compile: {
         options: {
-          style: 'compressed'
+          outputStyle: 'compressed'
         },
         files: {
           'client/build/css/error.css': sassError,
@@ -80,8 +81,8 @@ module.exports = function(grunt) {
       },
       dev: {
         options: {
-          lineNumbers: true,
-          style: 'expanded'
+          outputStyle: 'nested',
+          sourceMap: true
         },
         files: {
           'client/build/css/error.css': sassError,
@@ -350,7 +351,7 @@ module.exports = function(grunt) {
     async.parallel([
       function (cb) {
         var configObj = {};
-        configObj.host = process.env.API_HOST || '//stage-api-codenow.runnableapp.com';
+        configObj.host = process.env.API_HOST || '//api-staging-codenow.runnableapp.com/';
         configObj.userContentDomain = process.env.USER_CONTENT_DOMAIN || 'runnableapp.com';
 
         if (configObj.host.charAt(configObj.host.length - 1) === '/') {
@@ -466,7 +467,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-bg-shell');
   grunt.loadNpmTasks('grunt-jade-plugin');
   grunt.loadNpmTasks('grunt-autoprefixer');
-  grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-sass');
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-exorcise');
 

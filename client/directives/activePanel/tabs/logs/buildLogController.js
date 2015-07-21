@@ -42,7 +42,6 @@ function BuildLogController(
 
   var buffer;
   $scope.streamEnded = function () {
-    buffer.destroy();
     $timeout(function () {
       $scope.build.fetch();
     }, 1000);
@@ -58,7 +57,7 @@ function BuildLogController(
     }
   });
   $scope.connectStreams = function (terminal) {
-    var streamCleanser = dockerStreamCleanser('hex');
+    var streamCleanser = dockerStreamCleanser('hex', true);
     buffer = new streamBuffers.ReadableStreamBuffer({
       frequency: 250,      // in milliseconds.
       chunkSize: 2048     // in bytes.
