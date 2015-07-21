@@ -7,7 +7,6 @@ require('app')
  */
 function ControllerInstances(
   $filter,
-  $stateParams,
   $state,
   favico,
   keypather,
@@ -19,12 +18,12 @@ function ControllerInstances(
   user
 ) {
   var self = this;
-  var userName = $stateParams.userName;
+  var userName = $state.params.userName;
   fetchInstancesByPod()
     .then(function (instancesByPod) {
 
       // If the state has already changed don't continue with old data. Let the new one execute.
-      if (userName !== $stateParams.userName) {
+      if (userName !== $state.params.userName) {
         return;
       }
       self.instancesByPod = instancesByPod;
