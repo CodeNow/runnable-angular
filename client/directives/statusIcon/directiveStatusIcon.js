@@ -22,7 +22,7 @@ function statusIcon(
         .then(function () {
           $scope.instanceClasses = getInstanceClasses($scope.instance);
           if ($scope.instance.on) {
-            $scope.instance.on('model:update:socket', function () {
+            $scope.instance.on('update:socket', function () {
               $scope.instanceClasses = getInstanceClasses($scope.instance);
             });
           }
