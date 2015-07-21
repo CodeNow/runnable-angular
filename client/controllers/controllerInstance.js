@@ -69,7 +69,7 @@ function ControllerInstance(
         data.instance.state = {};
 
         var goHomeOnDestroyHandler = function () {
-          $state.go('instance.home', { userName:  $state.params.userName });
+          $state.go('base.instances', { userName:  $state.params.userName });
         };
         instance.on('destroyed', goHomeOnDestroyHandler);
         $scope.$on('$destroy', function () {
