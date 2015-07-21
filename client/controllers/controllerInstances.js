@@ -37,11 +37,17 @@ function ControllerInstances(
       var targetInstance = null;
       if (lastViewedInstance) {
         targetInstance = instances.find(function (instance) {
+          if (instance.destroyed) {
+            return false;
+          }
           if (instance.attrs.name === lastViewedInstance) {
             return instance;
           }
           if (instance.children) {
             return instance.children.models.find(function (childInstance) {
+              if (childInstance.destroyed) {
+                return false;
+              }
               if (childInstance.attrs.name === lastViewedInstance) {
                 return childInstance;
               }
