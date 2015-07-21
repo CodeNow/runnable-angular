@@ -129,7 +129,12 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-container-files"
       )
-    h3.h3.text-overflow Container Files
+    h3.h3.text-overflow(
+      ng-if = "!$root.featureFlags.sshKeys"
+    ) Container Files
+    h3.h3.text-overflow(
+      ng-if = "$root.featureFlags.sshKeys"
+    ) SSH Keys & Files
     small.small.text-overflow {{ getContainerFilesDisplay() }}
     svg.iconnables.icons-arrow-down
       use(

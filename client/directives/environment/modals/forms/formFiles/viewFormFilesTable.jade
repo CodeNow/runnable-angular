@@ -1,12 +1,18 @@
-.tr.thead.thead-sm.clearfix
-  .cell.cell-action
-    svg.iconnables
-  .cell Name
-  .cell.cell-type Type
 ul.table-drag-drop(
   dnd-list = "state.containerFiles"
   dnd-drop = "dropContainerFile(event, index, item, type)"
 )
+  li.tr.multi-line.clearfix
+    .cell.cell-action.disabled.no-touching
+      svg.iconnables.icons-drag
+    .cell.text-overflow KeyLabel
+      small.small Added May 25, 2000
+    .cell.cell-type.small
+      svg.iconnables.icons-key
+        use(
+          xlink:href = "#icons-key"
+        )
+      | SSH Key
   li.tr.multi-line.clearfix(
     dnd-draggable = "containerFile.id"
     dnd-dragstart = "actions.dragstart()"

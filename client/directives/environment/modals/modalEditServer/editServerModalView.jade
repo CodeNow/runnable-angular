@@ -62,13 +62,23 @@ form.modal-dialog.modal-edit(
       button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'files'}"
         ng-click = "changeTab('files')"
-        ng-if = "isTabVisible('files')"
+        ng-if = "isTabVisible('files') && !$root.featureFlags.sshKeys"
       )
         svg.iconnables
           use(
             xlink:href = "#icons-container-files"
           )
         .btn-text Container Files
+      button.btn.btn-radio(
+        ng-class = "{'active': selectedTab === 'files'}"
+        ng-click = "changeTab('files')"
+        ng-if = "$root.featureFlags.sshKeys"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-container-files"
+          )
+        .btn-text SSH Keys & Files
       button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'translation'}"
         ng-click = "changeTab('translation')"
@@ -79,16 +89,6 @@ form.modal-dialog.modal-edit(
             xlink:href = "#icons-translation"
           )
         .btn-text Find & Replace
-      button.btn.btn-radio(
-        ng-class = "{'active': selectedTab === 'sshKeys'}"
-        ng-click = "changeTab('sshKeys')"
-        ng-if = "$root.featureFlags.sshKeys"
-      )
-        svg.iconnables
-          use(
-            xlink:href = "#icons-key"
-          )
-        .btn-text SSH Keys
       button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'logs'}"
         ng-click = "changeTab('logs')"
@@ -149,10 +149,10 @@ form.modal-dialog.modal-edit(
       ng-if = "state.repo"
       translation-rules
     )
-    .modal-form(
-      ng-include = "'viewFormSshKeys'"
-      ng-show = "selectedTab === 'sshKeys'"
-    )
+    //- .modal-form(
+    //-   ng-include = "'viewFormSshKeys'"
+    //-   ng-show = "selectedTab === 'sshKeys'"
+    //- )
     .modal-form.modal-logs(
       ng-class = "{\
         'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\

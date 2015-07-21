@@ -38,11 +38,19 @@
 
   // if .arrow-down
   > .icons-arrow-down {
+    float: right;
     height: 100%;
-    position: absolute;
-    right: 3px;
-    top: 0;
-    // transition: opacity .2s ease-in, transform .3s ease-in;
+    margin-right: -15px;
+
+  }
+
+  &.btn-sm,
+  &.btn-xs,
+  &.btn-xxs {
+
+    .icons-arrow-down {
+      margin-right: -6px;
+    }
   }
 
   // animations
