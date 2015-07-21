@@ -20,7 +20,7 @@ main.home.server-selection
   )
     li.list-item(
       ng-class = "{active: data.listExpand}"
-      ng-repeat = "instance in instances.models"
+      ng-repeat = "instance in instances"
     )
       .list-item-row(
         ng-click = "selectInstance(instance)"
