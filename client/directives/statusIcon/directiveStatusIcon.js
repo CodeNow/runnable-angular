@@ -23,7 +23,7 @@ function statusIcon(
         .then(function () {
           $scope.instanceClasses = getInstanceClasses($scope.instance);
           if ($scope.instance.on) {
-            $scope.instance.on('update:status', function () {
+            $scope.instance.on('update', function () {
               $timeout(function () {
                 $scope.instanceClasses = getInstanceClasses($scope.instance);
               });
