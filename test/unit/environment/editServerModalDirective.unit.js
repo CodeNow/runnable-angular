@@ -135,6 +135,14 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
           link: angular.noop
         };
       });
+      $provide.factory('branchSelectorDirective', function () {
+        return {
+          priority: 100000,
+          link: function () {
+            // do nothing
+          }
+        };
+      });
 
       ctx.loadingPromiseFinishedValue = 0;
 
@@ -265,7 +273,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     });
     sinon.stub(ctx.contextVersion, 'fetchFile', function (opts, cb) {
       $rootScope.$evalAsync(function () {
-        cb(null, ctx.dockerfile);
+        cb(null, ctx.anotherDockerfile);
       });
       return ctx.anotherDockerfile;
     });

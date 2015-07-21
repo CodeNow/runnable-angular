@@ -358,7 +358,7 @@ function editServerModal(
         $scope.state.opts.env = (fromError ?
             keypather.get(instance, 'opts.env') : keypather.get(instance, 'attrs.env')) || [];
 
-        function mapContainerFiles (model) {
+        function mapContainerFiles(model) {
           var cloned = model.clone();
           if (model.type === 'Main Repository') {
             $scope.state.mainRepoContainerFile = cloned;
