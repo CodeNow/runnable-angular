@@ -329,7 +329,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
     });
   });
 
-  describe.only('factory fetchInstancesByPod', function () {
+  describe('factory fetchInstancesByPod', function () {
     var fetchInstancesByPod;
     var fetchInstancesStub;
     var $rootScope;
