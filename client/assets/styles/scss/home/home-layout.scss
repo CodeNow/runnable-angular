@@ -12,10 +12,25 @@
   }
 }
 
+
+.home-banner {
+  background-color: $purple-light;
+  color: white;
+  padding: 24px;
+  text-align: center;
+  display: inline-block;
+  margin-bottom: 12px;
+  .link{
+    color: white;
+  }
+  .small{
+    opacity: .6;
+  }
+}
+
 // header
 .home-header {
   background: transparent;
-  display: 0 0 auto;
   height: auto;
 
   .logo {
@@ -126,7 +141,7 @@
   .small,
   .link {
     color: $purple-lighter;
-    font-weight: 300px;
+    font-weight: 300;
   }
 
   .p {

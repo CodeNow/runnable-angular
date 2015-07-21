@@ -39,7 +39,7 @@ function fetchUser(
       .catch(function (err) {
         // Catch an unauth'd request and send 'em back
         if (keypather.get(err, 'data.statusCode') === 401) {
-          $window.location = '/?password';
+          $window.location = '/';
         }
         // Allow other .catch blocks to grab it
         return $q.reject(err);

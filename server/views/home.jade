@@ -125,6 +125,15 @@ html.home(
 
     //- page
     .content-wrapper.clearfix
+      if unauthorized
+        .home-banner You are not enabled for the Runnable Sandboxes beta.  Please email&#32;
+          a.link( href = "mailto:support@runnable.com?subject=Please send me an invite for the beta" ) support@runnable.com
+          |  to request an invite.
+          br
+          small.small Looking for&#32;
+            a.link(href= "http://code.runnable.com") CodeSnippets
+            | ?
+
       //- header
       header.header.home-header
         .container
@@ -136,14 +145,13 @@ html.home(
             )
             sup.sup &lt;beta&gt;
 
-          if hasPassword
-             a.btn.btn-sm.purple.float-right(
-               ng-href = "{{loginUrl}}"
-             ) Sign In
-          else
-             a.btn.btn-sm.purple.float-right(
-               href = "mailto:support@runnable.com?subject=Please send me an invite for the beta"
-             ) Request Invite
+          a.btn.btn-sm.purple.float-right(
+            href = "mailto:support@runnable.com?subject=Please send me an invite for the beta"
+          ) Request Invite
+
+          a.btn.btn-sm.float-right(
+            ng-href = "{{loginUrl}}"
+          ) Log In
 
           .float-right.clearfix
             a.btn.btn-sm.float-right(
@@ -153,6 +161,7 @@ html.home(
               href = "http://support.runnable.io/"
               target = "_blank"
             ) Support
+
       section.home-hero
         h1.h1 Runnable lets you create Sandboxes (collections of one or more servers) to run the code in your GitHub repositories, on&#8209;demand.
         p.p We integrate with the tools you’re already using, like GitHub and Slack, to automatically deploy commits and launch containers in your Sandbox when you create branches and notify you when they are updated via Slack. It’s easy to share Sandboxes in a team as you develop and test your application—and you can continue to use your existing tools and processes for deployment without having to change the way you work.

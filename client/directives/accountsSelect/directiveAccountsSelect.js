@@ -29,7 +29,7 @@ function accountsSelect (
         actions: {
           logout: function () {
             promisify($scope.data.user, 'logout')().then(function () {
-              window.location = '/?password';
+              window.location = '/';
             }).catch(errs.handler);
           },
           selectActiveAccount: function (userOrOrg) {
