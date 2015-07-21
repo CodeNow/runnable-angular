@@ -4,7 +4,6 @@ require('app')
   .directive('statusIcon', statusIcon);
 
 function statusIcon(
-  $timeout,
   getInstanceClasses,
   watchOncePromise
 ) {
@@ -23,14 +22,15 @@ function statusIcon(
         .then(function () {
           $scope.instanceClasses = getInstanceClasses($scope.instance);
           if ($scope.instance.on) {
-            $scope.instance.on('update', function () {
-              $timeout(function () {
+            var handleInstanceUpdate = function () {
+              $scope.$applyAsync(function () {
                 $scope.instanceClasses = getInstanceClasses($scope.instance);
               });
-            });
+            };
+            $scope.instance.on('update', handleInstanceUpdate);
             $scope.$on('$destroy', function () {
               if ($scope.instance.off) {
-                $scope.instance.off('update');
+                $scope.instance.off('update', handleInstanceUpdate);
               }
             });
           }
