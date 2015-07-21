@@ -15,18 +15,10 @@ function controllerBranchSelection (
   var hostname = $state.params.hostname;
   $scope.loading = true;
 
-  var masterInstance;
   fetchInstances({
-    hostname: hostname,
-    masterPod: true
-  })
-  .then(function (_masterInstance) {
-    masterInstance = _masterInstance;
-    var context = masterInstance.attrs.contextVersion.context;
-    return promisify(masterInstance.children, 'fetch')();
+    hostname: hostname
   })
   .then(function (instances) {
-    instances.add(masterInstance);
     $scope.instances = instances;
     $scope.loading = false;
   })
