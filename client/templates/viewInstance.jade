@@ -1,9 +1,7 @@
-.instance(
+.spinner-wrapper.spinner-md.spinner-purple.spinner-backdrop.in(
+  ng-include = "'spinner'"
   ng-if = "isLoading.main"
 )
-  .spinner-wrapper.spinner-md.spinner-purple.in(
-    ng-include = "'spinner'"
-  )
 
 .instance(
   ng-if = "!isLoading.main"
