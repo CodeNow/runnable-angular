@@ -311,7 +311,7 @@ function editServerModal(
           repo: keypather.get(instance, 'contextVersion.getMainAppCodeVersion().githubRepo'),
           instance: instance,
           promises: {
-            contextVersion: loadingPromises.add('editServerModal', promisify($scope.instance.contextVersion, 'deepCopy')())
+            contextVersion: loadingPromises.add('editServerModal', promisify(instance.contextVersion, 'deepCopy')())
               .then(function (contextVersion) {
                 $scope.state.contextVersion = contextVersion;
                 return promisify(contextVersion, 'fetch')();
@@ -322,7 +322,7 @@ function editServerModal(
         $scope.state.opts.env = (fromError ?
             keypather.get(instance, 'opts.env') : keypather.get(instance, 'attrs.env')) || [];
 
-        function mapContainerFiles (model) {
+        function mapContainerFiles(model) {
           var cloned = model.clone();
           if (model.type === 'Main Repository') {
             $scope.state.mainRepoContainerFile = cloned;
@@ -348,6 +348,7 @@ function editServerModal(
           .then(function (contextVersion) {
             $scope.state.acv = contextVersion.getMainAppCodeVersion();
             loading('editServerModal', false);
+            openDockerfile();
             return fetchUser();
           })
           .then(function (user) {
@@ -360,7 +361,6 @@ function editServerModal(
           })
           .then(function (build) {
             $scope.state.build = build;
-            return openDockerfile();
           })
           .catch(function (err) {
             errs.handler(err);

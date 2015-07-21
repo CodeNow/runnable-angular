@@ -1,6 +1,6 @@
 'use strict';
 
-describe('editServerModalDirective'.bold.underline.blue, function () {
+describe.only('editServerModalDirective'.bold.underline.blue, function () {
   var ctx;
   var $timeout;
   var $scope;
@@ -259,6 +259,12 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       return ctx.newContextVersion;
     });
     sinon.stub(ctx.newContextVersion, 'fetchFile', function (opts, cb) {
+      $rootScope.$evalAsync(function () {
+        cb(null, ctx.dockerfile);
+      });
+      return ctx.dockerfile;
+    });
+    sinon.stub(ctx.contextVersion, 'fetchFile', function (opts, cb) {
       $rootScope.$evalAsync(function () {
         cb(null, ctx.dockerfile);
       });
@@ -689,6 +695,8 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     expect($elScope.building, 'Building').to.be.false;
     expect($elScope.state.opts.env.length).to.equal(0);
     expect($elScope.state.containerFiles.length).to.equal(1);
+    $scope.$digest();
+    $scope.$digest();
     sinon.assert.calledOnce(containerFiles[0].clone);
     sinon.assert.calledOnce(ctx.newContextVersion.deepCopy);
     sinon.assert.calledOnce(ctx.contextVersion.fetch);
