@@ -32,14 +32,12 @@
     | #{''} are not available with write access enabled.
 
   //- when locking the dockerfile, prompt with modal template: viewModalLockDockerfile
-  label.toggle-wrapper.show-icons
-    input.toggle-input(
-      ng-false-value = "true"
-      ng-model = "state.readOnly"
-      ng-true-value = "false"
-      type = "checkbox"
-    )
-    .toggle-group.toggle-sm
+  label.toggle-wrapper.show-icons(
+    read-only-switch
+    state = "state"
+    loading-promises-target = "editServerModal"
+  )
+
 
 //- table of current environment variables
 //- if dockerfile tool feature flag:
@@ -60,7 +58,7 @@
     loading-promises-target = "editServerModal"
     open-items = "openItems"
     root-dir = "state.contextVersion.rootDir"
-    read-only = "state.readOnly"
+    read-only = "!state.advanced"
     show-repo-folder = "true"
   )
 
@@ -72,7 +70,7 @@
     ng-if = "item.state.type === 'File'"
     ng-repeat = "item in openItems.models track by item.id()"
     ng-show = "item === openItems.activeHistory.last()"
-    read-only = "state.readOnly"
+    read-only = "!state.advanced"
     state = "state"
     use-auto-update = "true"
   )
