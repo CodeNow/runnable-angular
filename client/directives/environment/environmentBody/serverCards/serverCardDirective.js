@@ -5,7 +5,6 @@ require('app')
     $q,
     $rootScope,
     errs,
-    getInstanceClasses,
     keypather,
     parseDockerfileForCardInfoFromInstance,
     promisify,
@@ -223,7 +222,6 @@ require('app')
           }
         });
 
-        $scope.getInstanceClasses = getInstanceClasses;
         $scope.getFlattenedSelectedStacks = function (selectedStack) {
           if (selectedStack) {
             var flattened = selectedStack.name + ' v' + selectedStack.selectedVersion;

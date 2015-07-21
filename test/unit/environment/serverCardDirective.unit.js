@@ -92,7 +92,6 @@ describe('serverCardDirective'.bold.underline.blue, function () {
 
       expect($elScope.server).to.be.ok;
       expect($elScope.activeAccount).to.be.ok;
-      expect($elScope.getInstanceClasses).to.be.ok;
       expect($elScope.getFlattenedSelectedStacks).to.be.function;
 
     });

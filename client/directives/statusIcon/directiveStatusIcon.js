@@ -4,7 +4,8 @@ require('app')
   .directive('statusIcon', statusIcon);
 
 function statusIcon(
-  getInstanceClasses
+  getInstanceClasses,
+  watchOncePromise
 ) {
   return {
     restrict: 'E',
@@ -14,7 +15,18 @@ function statusIcon(
     replace: true,
     templateUrl: 'viewStatusIcon',
     link: function ($scope) {
-      $scope.getInstanceClasses = getInstanceClasses;
+
+      $scope.instanceClasses = {};
+
+      watchOncePromise($scope, 'instance', true)
+        .then(function () {
+          $scope.instanceClasses = getInstanceClasses($scope.instance);
+          if ($scope.instance.on) {
+            $scope.instance.on('model:update:socket', function () {
+              $scope.instanceClasses = getInstanceClasses($scope.instance);
+            });
+          }
+        });
     }
   };
 }

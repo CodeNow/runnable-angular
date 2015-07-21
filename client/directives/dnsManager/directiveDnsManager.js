@@ -8,7 +8,6 @@ require('app')
  */
 function dnsManager(
   errs,
-  getInstanceClasses,
   $localStorage,
   promisify,
   getInstanceMaster,
@@ -24,7 +23,6 @@ function dnsManager(
       $scope.$storage = $localStorage.$default({
         dnsManagementIsClosed: true
       });
-      $scope.getInstanceClasses = getInstanceClasses;
       // We need the entire dependency tree.
       $scope.subDependencies = [];
 
