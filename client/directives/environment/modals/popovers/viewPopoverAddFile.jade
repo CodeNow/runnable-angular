@@ -7,19 +7,38 @@
   )
   .popover-content
     ul.popover-list
-      li.list-item.popover-list-item
+      li.list-item.popover-list-item(
+        ng-click = "triggerUploadFile()"
+        pop-over
+        pop-over-actions = "fileUpload.actions"
+        pop-over-data = "fileUpload.data"
+        pop-over-template = "viewPopoverFilesUpload"
+        pop-over-active = "fileUpload.active"
+        pop-over-trigger = "activeAttr"
+      )
         svg.iconnables
           use(
             xlink:href = "#icons-file-new"
           )
         | File
-      li.list-item.popover-list-item
+      li.list-item.popover-list-item(
+        ng-click = "triggerAddRepository()"
+        pop-over
+        pop-over-active = "repositoryPopover.active"
+        pop-over-actions = "repositoryPopover.actions"
+        pop-over-data = "repositoryPopover.data"
+        pop-over-template = "viewPopoverFilesRepository"
+        pop-over-trigger = "activeAttr"
+      )
         svg.iconnables
           use(
             xlink:href = "#icons-repository-new"
           )
         | Repository
-      li.list-item.popover-list-item
+      li.list-item.popover-list-item(
+        pop-over
+        pop-over-template = "viewPopoverSshKey"
+      )
         svg.iconnables
           use(
             xlink:href = "#icons-key-new"
