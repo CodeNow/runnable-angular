@@ -1,27 +1,23 @@
 .spinner-wrapper {
-  display: none;
+  display: flex;
 
-  &.in {
-    animation: spinner 1s infinite linear;
-    display: flex;
+  // show small spinner (15px)
+  &.spinner-sm .spinner-sm {
+    display: block;
+  }
 
-    // show small spinner (15px)
-    &.spinner-sm .spinner-sm {
-      display: block;
-    }
+  // show medium spinner (30px)
+  &.spinner-md .spinner-md {
+    display: block;
+  }
 
-    // show medium spinner (30px)
-    &.spinner-md .spinner-md {
-      display: block;
-    }
-
-    // show large spinner (60px)
-    &.spinner-lg .spinner-lg {
-      display: block;
-    }
+  // show large spinner (60px)
+  &.spinner-lg .spinner-lg {
+    display: block;
   }
 
   .spinner {
+    animation: spinner 1s infinite linear;
     display: none;
     margin: 0 auto;
   }
