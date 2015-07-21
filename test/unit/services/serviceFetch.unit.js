@@ -59,7 +59,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
       user.fetchUser = sinon.stub().callsArgWith(1, err);
       fetchUser().catch(function (myErr) {
         expect(myErr, 'Returned err').to.equal(err);
-        expect(windowMock.location).to.equal('/?password');
+        expect(windowMock.location).to.equal('/');
         done();
       });
       $rootScope.$apply();
