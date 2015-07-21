@@ -34,12 +34,21 @@
     //- end deprecated textarea
     //-************
     .build-commands-wrapper(
-      ng-class = "{'cache-in': data.cacheCommand}"
       ng-if = "$root.featureFlags.buildCommandCache"
     )
       .flex-wrapper
+        textarea.textarea.monospace(
+          command-editor
+          ng-class = "{'margin-right': data.cacheCommand}"
+          ng-trim="false"
+          ng-disabled = "startCommandCanDisable && !state.selectedStack"
+          ng-model = "state.commands"
+          spellcheck = "false"
+          ng-attr-rows = "{{state.commandRows}}"
+          ng-model-options = "{debounce: {default: 50, blur: 0}}"
+        )
         .cache-column(
-          ng-if = "data.cacheCommand"
+          ng-hide = "!data.cacheCommand"
         )
           .cache-border
           label.radio-wrapper(
@@ -56,15 +65,6 @@
           .cache-row(
             ng-repeat-end
           )
-        textarea.textarea.monospace(
-          command-editor
-          ng-trim="false"
-          ng-disabled = "startCommandCanDisable && !state.selectedStack"
-          ng-model = "state.commands"
-          spellcheck = "false"
-          ng-attr-rows = "{{state.commandRows}}"
-          ng-model-options = "{debounce: {default: 50, blur: 0}}"
-        )
     small.small Add any commands needed to support your application. They’ll be run before the Container CMD from your repository’s root folder.
 label.label.clearfix(
   ng-if = "$root.featureFlags.packagesField"

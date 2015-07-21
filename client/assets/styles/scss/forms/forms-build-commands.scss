@@ -42,18 +42,6 @@
     border-color: $purple-light;
   }
 
-  //- when "Cache a command" is on
-  &.cache-in {
-
-    .textarea {
-      margin-right: 33px;
-    }
-
-    // .cache-column {
-    //   transform: translate3d(0,0,0);
-    // }
-  }
-
   .flex-wrapper {
     display: flex;
     flex-direction: column;
@@ -69,6 +57,11 @@
     resize: none;
     transition: margin-right .15s ease-in-out;
     width: auto;
+
+    // when "cache a command" is on
+    &.margin-right {
+      margin-right: 33px;
+    }
   }
 }
 
@@ -82,32 +75,13 @@
   pointer-events: none;
   position: absolute;
   top: 0;
-  // transform: translate3d(33px,0,0);
+  transform: translate3d(0,0,0);
+  transition: transform .15s ease-in-out;
   width: 100%;
 
-  &.ng-enter {
-    transition: transform .15s ease-in-out;
+  &.ng-hide {
     transform: translate3d(33px,0,0);
-
-    &.ng-enter-active {
-      transform: translate3d(0,0,0);
-    }
   }
-
-  // &.ng-hide-add,
-  // &.ng-hide-remove {
-  //   transition: transform .15s ease-in-out;
-  // }
-
-  // &.ng-hide-add.ng-hide-add-active,
-  // &.ng-hide-remove {
-  //   transform: translate3d(33px,0,0);
-  // }
-  //
-  // &.ng-hide-add,
-  // &.ng-hide-remove-active {
-  //   transform: translate3d(0,0,0);
-  // }
 }
 
 .cache-border {
