@@ -107,6 +107,8 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
       'ng-show': 'true'
     });
     ctx.element = $compile(ctx.template)($scope);
+    $scope.$digest();
+    $elScope = ctx.element.isolateScope();
   }
   describe('basic', function () {
     it('Check the scope', function () {
@@ -122,15 +124,102 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
         startCommandCanDisable: true
       };
       setup(scope);
-      $scope.$digest();
-      $elScope = ctx.element.isolateScope();
-      $scope.$digest();
       expect($elScope.data).to.deep.equal({
         cacheCommand: false
       });
       expect($elScope.state).to.equal(scope.state);
       expect($elScope.startCommandCanDisable).to.be.true;
       $rootScope.$destroy();
+    });
+
+    it('should disable cache when toggleCache to off', function () {
+      var scope = {
+        data: {
+          stacks: apiMocks.stackInfo
+        },
+        state: {
+          cheese: {
+            hello: 'jello'
+          },
+          commands: [{
+            cache: true,
+            body: 'npm install'
+          }]
+        },
+        startCommandCanDisable: true
+      };
+      setup(scope);
+
+      expect($elScope.data.cacheCommand, 'Cache enabled').to.be.ok;
+      // This is a checkbox so both of these things will happen at the same time!
+      $elScope.data.cacheCommand = false;
+      $elScope.actions.toggleCache();
+      $scope.$digest();
+
+      expect($elScope.state.commands[0].cache, 'Cached command').to.not.be.ok;
+
+    });
+    it('should enable cache when toggleCache to true', function () {
+      var scope = {
+        data: {
+          stacks: apiMocks.stackInfo
+        },
+        state: {
+          cheese: {
+            hello: 'jello'
+          },
+          commands: [{
+            cache: false,
+            body: 'npm install'
+          }]
+        },
+        startCommandCanDisable: true
+      };
+      setup(scope);
+
+      expect($elScope.data.cacheCommand, 'Cache enabled').to.not.be.ok;
+      // This is a checkbox so both of these things will happen at the same time!
+      $elScope.data.cacheCommand = true;
+      $elScope.actions.toggleCache();
+      $scope.$digest();
+
+      expect($elScope.state.commands[0].cache, 'Cached command').to.be.ok;
+
+    });
+
+    it('should enable cache for the first non empty command when toggleCache is set to true', function () {
+      var scope = {
+        data: {
+          stacks: apiMocks.stackInfo
+        },
+        state: {
+          cheese: {
+            hello: 'jello'
+          },
+          commands: [
+            {
+              cache: false,
+              body: ''
+            },
+            {
+              cache: false,
+              body: 'npm install'
+            }
+          ]
+        },
+        startCommandCanDisable: true
+      };
+      setup(scope);
+
+      expect($elScope.data.cacheCommand, 'Cache enabled').to.not.be.ok;
+      // This is a checkbox so both of these things will happen at the same time!
+      $elScope.data.cacheCommand = true;
+      $elScope.actions.toggleCache();
+      $scope.$digest();
+
+      expect($elScope.state.commands[0].cache, 'Cached command').to.not.be.ok;
+      expect($elScope.state.commands[1].cache, 'Cached command').to.be.ok;
+
     });
   });
 });
