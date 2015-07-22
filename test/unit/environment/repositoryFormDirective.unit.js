@@ -9,10 +9,14 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
   var $rootScope;
   var loadingPromises;
   var keypather;
+  var cardInfoTypes;
 
   var apiMocks = require('../apiMocks/index');
+  var MockFetch = require('../fixtures/mockFetch');
+  var parseDockerfileForDefaultsStub;
   function setup(scope, updateError) {
     ctx = {};
+    ctx.fetchDockerfileFromSourceMock = new MockFetch();
     ctx.errsMock = {
       handler: sinon.spy()
     };
@@ -77,13 +81,23 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
           });
         };
       });
+
+
+      $provide.factory('fetchDockerfileFromSource', ctx.fetchDockerfileFromSourceMock.fetch());
+      $provide.factory('parseDockerfileForDefaults', function () {
+        parseDockerfileForDefaultsStub = sinon.spy(function () {
+          return ctx.parseDockerfileResults;
+        });
+        return parseDockerfileForDefaultsStub;
+      });
     });
     angular.mock.inject(function (
       _$compile_,
       _$timeout_,
       _$rootScope_,
       _loadingPromises_,
-      _keypather_
+      _keypather_,
+      _cardInfoTypes_
     ) {
       $timeout = _$timeout_;
       $compile = _$compile_;
@@ -91,6 +105,7 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
       $scope = $rootScope.$new();
       keypather = _keypather_;
       loadingPromises = _loadingPromises_;
+      cardInfoTypes = _cardInfoTypes_;
     });
 
 
@@ -234,6 +249,98 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
 
       expect($elScope.state.containerFiles[0].commands[0].cache, 'Cached command').to.not.be.ok;
       expect($elScope.state.containerFiles[0].commands[1].cache, 'Cached command').to.be.ok;
+
+    });
+  });
+
+  describe('selected stack changes', function () {
+    beforeEach(function () {
+      var scope = {
+        data: {
+          stacks: apiMocks.stackInfo
+        },
+        state: {
+          cheese: {
+            hello: 'jello'
+          },
+          startCommand: 'asdfgkasdlfk;js',
+          containerFiles: [
+            {
+              type: 'Main Repository',
+              commands: [{
+                cache: true,
+                body: 'npm install'
+              }]
+            },
+            {
+              type: 'Repository',
+              commands: [{
+                cache: false,
+                body: 'npm install'
+              }]
+            }
+          ]
+        },
+        startCommandCanDisable: true
+      };
+      setup(scope);
+
+    });
+    it('should fetch default commands when stack is modified', function () {
+      ctx.parseDockerfileResults = {
+        run: ['1234'],
+        dst: ['/dfasgdfsgdsfgs/fgdsfgsdfg']
+      };
+      $elScope.state.selectedStack = {
+        key: 'hello'
+      };
+      $scope.$digest();
+      var dockerfile = {attrs: 'dockerfile'};
+
+      expect($elScope.state.startCommand, 'startCommand').to.not.equal('asdfgkasdlfk;js');
+      expect($elScope.state.containerFiles[0].commands, 'main repo commands').to.deep.equal([]);
+      sinon.assert.called(ctx.fetchDockerfileFromSourceMock.getFetchSpy());
+      expect($elScope.state.sourceDockerfile, 'sourceDockerfile').to.not.equal(dockerfile);
+      ctx.fetchDockerfileFromSourceMock.triggerPromise(dockerfile);
+      $scope.$digest();
+      expect($elScope.state.sourceDockerfile, 'sourceDockerfile').to.equal(dockerfile);
+
+      sinon.assert.calledWith(parseDockerfileForDefaultsStub, dockerfile, ['run', 'dst']);
+      $scope.$digest();
+      expect($elScope.state.containerFiles[0].commands, 'main repo commands').to.deep.equal([new cardInfoTypes.Command('RUN 1234')]);
+      expect($elScope.state.containerFiles[0].path, 'main repo path').to.equal('dfasgdfsgdsfgs/fgdsfgsdfg');
+
+    });
+
+    it('should fetch default commands when stack is modified, without a path', function () {
+      ctx.parseDockerfileResults = {
+        run: ['dfadsfa', 'dsfasdfredasfadsfgw34r2 3r'],
+        dst: []
+      };
+      $elScope.state.selectedStack = {
+        key: 'hello'
+      };
+      $elScope.state.opts = {
+        name: 'cheese'
+      };
+      $scope.$digest();
+      var dockerfile = {attrs: 'dockerfile'};
+
+      expect($elScope.state.startCommand, 'startCommand').to.not.equal('asdfgkasdlfk;js');
+      expect($elScope.state.containerFiles[0].commands, 'main repo commands').to.deep.equal([]);
+      sinon.assert.called(ctx.fetchDockerfileFromSourceMock.getFetchSpy());
+      expect($elScope.state.sourceDockerfile, 'sourceDockerfile').to.not.equal(dockerfile);
+      ctx.fetchDockerfileFromSourceMock.triggerPromise(dockerfile);
+      $scope.$digest();
+      expect($elScope.state.sourceDockerfile, 'sourceDockerfile').to.equal(dockerfile);
+
+      sinon.assert.calledWith(parseDockerfileForDefaultsStub, dockerfile, ['run', 'dst']);
+      $scope.$digest();
+      expect($elScope.state.containerFiles[0].commands, 'main repo commands').to.deep.equal([
+        new cardInfoTypes.Command('RUN dfadsfa'),
+        new cardInfoTypes.Command('RUN dsfasdfredasfadsfgw34r2 3r'),
+      ]);
+      expect($elScope.state.containerFiles[0].path, 'main repo path').to.equal('cheese');
 
     });
   });

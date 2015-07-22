@@ -2,6 +2,11 @@
 
 require('app')
   .directive('repositoryForm', function repositoryForm(
+    cardInfoTypes,
+    fetchDockerfileFromSource,
+    keypather,
+    parseDockerfileForDefaults,
+    reportError,
     watchOncePromise
   ) {
     return {
@@ -23,7 +28,33 @@ require('app')
               return containerFile.type === 'Main Repository';
             });
             $scope.mainRepoContainerFile.commands = $scope.mainRepoContainerFile.commands || [];
-            $scope.data.cacheCommand = $scope.mainRepoContainerFile.commands.some(function (cmd) { return cmd.cache; });
+            $scope.data.cacheCommand = $scope.mainRepoContainerFile.commands.some(function (cmd) {
+              return cmd.cache;
+            });
+            // Clear out the start command (only in setup, but this will change)
+            if ($scope.startCommandCanDisable && $scope.mainRepoContainerFile) {
+              $scope.$watch('state.selectedStack.key', function (newStackKey, oldStackKey) {
+                if (newStackKey && newStackKey !== oldStackKey) {
+                  delete $scope.state.startCommand;
+                  $scope.mainRepoContainerFile.commands = [];
+                  var repoName = keypather.get($scope, 'state.opts.name') || '';
+                  return fetchDockerfileFromSource(
+                    newStackKey
+                  )
+                    .then(function (dockerfile) {
+                      $scope.state.sourceDockerfile = dockerfile;
+                      return parseDockerfileForDefaults(dockerfile, ['run', 'dst']);
+                    })
+                    .then(function (defaults) {
+                      $scope.mainRepoContainerFile.commands = defaults.run.map(function (run) {
+                        return new cardInfoTypes.Command('RUN ' + run);
+                      });
+                      $scope.mainRepoContainerFile.path = (defaults.dst.length ? defaults.dst[0] : repoName).replace('/', '');
+                    })
+                    .catch(reportError);
+                }
+              });
+            }
           });
 
         $scope.actions = {
@@ -54,15 +85,6 @@ require('app')
             }
           }
         };
-
-        // Clear out the start command (only in setup, but this will change)
-        if ($scope.startCommandCanDisable) {
-          $scope.$watch('state.selectedStack.key', function (newStackKey, oldStackKey) {
-            if (newStackKey && newStackKey !== oldStackKey) {
-              delete $scope.state.startCommand;
-            }
-          });
-        }
       }
     };
   });

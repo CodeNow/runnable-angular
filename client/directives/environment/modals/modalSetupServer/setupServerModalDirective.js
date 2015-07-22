@@ -33,13 +33,14 @@ function setupServerModal(
     link: function ($scope, elem, attrs) {
       var MainRepo = cardInfoTypes.MainRepository;
 
+      var mainRepoContainerFile = new MainRepo();
       $scope.state = {
         opts: {
           masterPod: true,
           name: ''
         },
         containerFiles: [
-          new MainRepo()
+          mainRepoContainerFile
         ],
         packages: new cardInfoTypes.Packages()
       };
@@ -69,7 +70,6 @@ function setupServerModal(
         });
       };
 
-      var sourceDockerfilePromise = null;
 
       $scope.createServer = function () {
         if (keypather.get($scope.state, 'selectedStack.ports.length')) {
@@ -103,29 +103,10 @@ function setupServerModal(
         $scope.actions.createAndBuild(createPromise, $scope.state.opts.name);
       };
 
-      $scope.$watch('state.selectedStack', function (n) {
-        if (n) {
-          sourceDockerfilePromise = fetchDockerfileFromSource(
-            n.key,
-            $scope.data.sourceContexts
-          );
-          $scope.state.containerFiles[0].commands = [];
-          return sourceDockerfilePromise
-            .then(function (dockerfile) {
-              $scope.state.sourceDockerfile = dockerfile;
-              return parseDockerfileForDefaults(dockerfile, ['run', 'dst']);
-            })
-            .then(function (defaults) {
-              $scope.state.containerFiles[0].commands = defaults.run.map(function (run) { return new cardInfoTypes.Command('RUN ' + run); });
-              $scope.state.containerFiles[0].path = (defaults.dst.length ? defaults.dst[0] : $scope.state.opts.name).replace('/', '');
-            });
-        }
-      });
-
       $scope.selectRepo = function (repo) {
         if ($scope.repoSelected) { return; }
 
-        $scope.state.containerFiles[0].name = repo.attrs.name;
+        mainRepoContainerFile.name = repo.attrs.name;
         $scope.repoSelected = true;
         repo.loading = true;
         // Replace any non-word character with a -
