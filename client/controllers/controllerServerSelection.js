@@ -89,7 +89,7 @@ function serverSelection (
         $state.go('base.instances.instance', {
           userName: $stateParams.userName,
           instanceName: name
-        });
+        }, {reload: true});
       });
     });
   };
@@ -104,7 +104,7 @@ function serverSelection (
         $state.go('base.instances.instance', {
           userName: $stateParams.userName,
           instanceName: instance.attrs.name
-        });
+        }, {reload: true});
       });
     });
   };
