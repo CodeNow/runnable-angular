@@ -34,12 +34,12 @@
     //- end deprecated textarea
     //-************
     .build-commands-wrapper(
-      ng-class = "{'cache-in': data.cacheCommand}"
       ng-if = "$root.featureFlags.buildCommandCache"
     )
       .flex-wrapper
         textarea.textarea.monospace(
           command-editor
+          ng-class = "{'margin-right': data.cacheCommand}"
           ng-trim="false"
           ng-disabled = "startCommandCanDisable && !state.selectedStack"
           ng-model = "state.commands"
@@ -47,7 +47,9 @@
           ng-attr-rows = "{{state.commandRows}}"
           ng-model-options = "{debounce: {default: 50, blur: 0}}"
         )
-        .cache-column
+        .cache-column(
+          ng-hide = "!data.cacheCommand"
+        )
           .cache-border
           label.radio-wrapper(
             ng-repeat-start = "command in state.commands"
@@ -57,7 +59,7 @@
               type = "radio"
               ng-click = "actions.updateCache(command)"
               ng-checked = "command.cache"
-              ng-show = "command.body"
+              ng-if = "command.body"
               name = "cache-radio"
             )
           .cache-row(
