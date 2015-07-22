@@ -46,25 +46,19 @@ function dnsManager(
           $scope.dependencies = _dependencies;
           var promiseFetchMasters = _dependencies.models.map(function (dependency) {
             $scope.instanceDependencyMap[dependency.attrs.contextVersion.context] = dependency;
-            return getInstanceMaster(dependency)
-              .then(function (masterInstance) {
-                return promisify(masterInstance.children, 'fetch')()
-                  .then(function () {
-                    return masterInstance;
-                  });
-              });
+            return getInstanceMaster(dependency);
           });
           return $q.all(promiseFetchMasters);
         })
-          .then(function (masters) {
-            $scope.directlyRelatedMasterInstances = masters.filter(function (instance) {
-              return instance.contextVersion.getMainAppCodeVersion();
-            });
-          })
-          .catch(errs.handler)
-          .finally(function () {
-            $scope.isDnsSetup = true;
+        .then(function (masters) {
+          $scope.directlyRelatedMasterInstances = masters.filter(function (instance) {
+            return instance.contextVersion.getMainAppCodeVersion();
           });
+        })
+        .catch(errs.handler)
+        .finally(function () {
+          $scope.isDnsSetup = true;
+        });
 
       $scope.getRelatedInstancesList = function () {
         return Object.keys($scope.instanceDependencyMap).map(function (key) {
