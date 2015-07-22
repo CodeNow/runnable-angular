@@ -63,7 +63,7 @@ function ControllerInstances(
 
       setLastOrg(userName);
 
-      if (!$state.includes('instance')) {
+      if ($state.includes('instances') && $state.includes('instance')) {
         if (targetInstance) {
           $state.go('base.instances.instance', {
             instanceName: keypather.get(targetInstance, 'attrs.name'),
