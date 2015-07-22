@@ -1,6 +1,6 @@
 'use strict';
 
-describe.only('directiveStatusIcon'.bold.underline.blue, function() {
+describe('directiveStatusIcon'.bold.underline.blue, function() {
   var $compile;
   var $scope;
   var $elScope;
