@@ -309,7 +309,8 @@
   }
 
   // status icons
-  .iconnables {
+  .icons-warning,
+  .icons-link {
     height: 38px;
     width: 18px;
 
@@ -331,6 +332,12 @@
     height: 100%;
     opacity: .3;
     width: 9px;
+  }
+
+  // actions
+  > .btn .icons-overflow {
+    top: 5px;
+    width: 18px;
   }
 }
 

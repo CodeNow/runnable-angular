@@ -2,7 +2,9 @@ ul.table-drag-drop(
   dnd-list = "state.containerFiles"
   dnd-drop = "dropContainerFile(event, index, item, type)"
 )
-  li.tr.multi-line.clearfix
+  li.tr.multi-line.clearfix(
+    ng-if = "$root.featureFlags.sshKeys"
+  )
     .cell.cell-action.disabled.no-touching
       svg.iconnables.icons-drag
     .cell.text-overflow KeyLabel
@@ -13,13 +15,24 @@ ul.table-drag-drop(
           xlink:href = "#icons-key"
         )
       | SSH Key
+    .cell.cell-action
+      button.btn.btn-xs.gray(
+        pop-over
+        pop-over-active = "fileOptionsPopover.active"
+        pop-over-options = "{\"right\":0,\"top\":35}"
+        pop-over-template = "viewPopoverFileOptions"
+      )
+        svg.iconnables.icons-overflow
+          use(
+            xlink:href = "#icons-overflow"
+          )
   li.tr.multi-line.clearfix(
     dnd-draggable = "containerFile.id"
     dnd-dragstart = "actions.dragstart()"
     dnd-effect-allowed = "move"
     ng-class = "{\
       disabled: containerFile.type === 'Main Repository',\
-      'tr-action': containerFile.type !== 'Main Repository'\
+      'tr-action': (containerFile.type !== 'Main Repository' && !$root.featureFlags.sshKeys)\
     }"
     ng-repeat = "containerFile in state.containerFiles"
   )
@@ -34,14 +47,27 @@ ul.table-drag-drop(
         use(
           xlink:href = "#icons-drag"
         )
+
+    //- deprecated:
     .cell.text-overflow(
-      ng-if = "containerFile.type === 'File'"
+      ng-if = "(containerFile.type === 'File' && !$root.featureFlags.sshKeys)"
       pop-over
       pop-over-actions = "fileUpload.actions"
       pop-over-data = "containerFile"
       pop-over-template = "viewPopoverFilesUpload"
       title = "{{ containerFile.name }}"
     ) {{ containerFile.name }}
+
+    //- ssh key feature flag
+    .cell.text-overflow(
+      ng-if = "(containerFile.type === 'File' && $root.featureFlags.sshKeys)"
+      pop-over
+      pop-over-actions = "fileUpload.actions"
+      pop-over-data = "containerFile"
+      pop-over-template = "viewPopoverFilesUpload"
+      title = "{{ containerFile.name }}"
+    ) {{ containerFile.name }}
+
       small.small(
         title = "{{ containerFile.path }}"
       ) /{{ containerFile.path }}
@@ -73,3 +99,16 @@ ul.table-drag-drop(
           xlink:href = "#icons-repository-additional"
         )
       | {{ containerFile.type }}
+    .cell.cell-action(
+      ng-if = "$root.featureFlags.sshKeys"
+    )
+      button.btn.btn-xs.gray(
+        pop-over
+        pop-over-active = "fileOptionsPopover.active"
+        pop-over-options = "{\"right\":0,\"top\":35}"
+        pop-over-template = "viewPopoverFileOptions"
+      )
+        svg.iconnables.icons-overflow
+          use(
+            xlink:href = "#icons-overflow"
+          )

@@ -1,6 +1,7 @@
 .popover.menu.bottom(
   ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
+  style = "transform-origin: 90% 0"
 )
   .arrow.white(
     style = "left: auto; right: 0"
@@ -43,4 +44,4 @@
           use(
             xlink:href = "#icons-key-new"
           )
-        | User SSH Key
+        | SSH Key
