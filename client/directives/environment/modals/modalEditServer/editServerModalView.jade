@@ -76,7 +76,7 @@ form.modal-dialog.modal-edit(
           use(
             xlink:href = "#icons-keys-files"
           )
-        .btn-text  {{ $root.featureFlags.sshKeys ? "SSH Keys & Files" : "Container Files" }}
+        .btn-text  {{ $root.featureFlags.sshKeys ? "Files & SSH Keys" : "Container Files" }}
       button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'translation'}"
         ng-click = "changeTab('translation')"
@@ -147,10 +147,6 @@ form.modal-dialog.modal-edit(
       ng-if = "state.repo"
       translation-rules
     )
-    //- .modal-form(
-    //-   ng-include = "'viewFormSshKeys'"
-    //-   ng-show = "selectedTab === 'sshKeys'"
-    //- )
     .modal-form.modal-logs(
       ng-class = "{\
         'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
