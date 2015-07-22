@@ -6,9 +6,10 @@
   )
 
 .clearfix
-  .label-col SSH Keys & Files
+  .label-col {{ $root.featureFlags.sshKeys ? "SSH Keys & Files" : "Container Files" }}
   .input-col
     button.btn.btn-xs.white.float-right(
+      ng-if = "$root.featureFlags.sshKeys"
       pop-over
       pop-over-active = "addFilePopover.active"
       pop-over-options = "{\"right\":0,\"top\":35}"
@@ -18,24 +19,26 @@
         use(
           xlink:href = "#icons-arrow-down"
         )
-    //- button.btn.btn-xs.white.float-right(
-    //-   ng-click = "triggerAddRepository()"
-    //-   pop-over
-    //-   pop-over-active = "repositoryPopover.active"
-    //-   pop-over-actions = "repositoryPopover.actions"
-    //-   pop-over-data = "repositoryPopover.data"
-    //-   pop-over-template = "viewPopoverFilesRepository"
-    //-   pop-over-trigger = "activeAttr"
-    //- ) Add Repository
-    //- button.btn.btn-xs.white.float-right(
-    //-   ng-click = "triggerUploadFile()"
-    //-   pop-over
-    //-   pop-over-actions = "fileUpload.actions"
-    //-   pop-over-data = "fileUpload.data"
-    //-   pop-over-template = "viewPopoverFilesUpload"
-    //-   pop-over-active = "fileUpload.active"
-    //-   pop-over-trigger = "activeAttr"
-    //- ) Upload File
+    button.btn.btn-xs.white.float-right(
+      ng-click = "triggerAddRepository()"
+      ng-if = "!$root.featureFlags.sshKeys"
+      pop-over
+      pop-over-active = "repositoryPopover.active"
+      pop-over-actions = "repositoryPopover.actions"
+      pop-over-data = "repositoryPopover.data"
+      pop-over-template = "viewPopoverFilesRepository"
+      pop-over-trigger = "activeAttr"
+    ) Add Repository
+    button.btn.btn-xs.white.float-right(
+      ng-click = "triggerUploadFile()"
+      ng-if = "!$root.featureFlags.sshKeys"
+      pop-over
+      pop-over-actions = "fileUpload.actions"
+      pop-over-data = "fileUpload.data"
+      pop-over-template = "viewPopoverFilesUpload"
+      pop-over-active = "fileUpload.active"
+      pop-over-trigger = "activeAttr"
+    ) Upload File
 
 .table.table-drag-drop.clearfix(
   ng-include = "'viewFormFilesTable'"

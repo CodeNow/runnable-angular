@@ -125,9 +125,17 @@ ul.card-body.load(
     ng-if = "server.repo && !server.advanced"
     ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.containerFiles}"
   )
-    svg.iconnables
+    svg.iconnables(
+      ng-if = "!$root.featureFlags.sshKeys"
+    )
       use(
         xlink:href = "#icons-container-files"
+      )
+    svg.iconnables(
+      ng-if = "$root.featureFlags.sshKeys"
+    )
+      use(
+        xlink:href = "#icons-keys-files"
       )
     h3.h3.text-overflow(
       ng-if = "!$root.featureFlags.sshKeys"

@@ -62,23 +62,21 @@ form.modal-dialog.modal-edit(
       button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'files'}"
         ng-click = "changeTab('files')"
-        ng-if = "isTabVisible('files') && !$root.featureFlags.sshKeys"
+        ng-if = "isTabVisible('files')"
       )
-        svg.iconnables
+        svg.iconnables(
+          ng-if = "!$root.featureFlags.sshKeys"
+        )
           use(
             xlink:href = "#icons-container-files"
           )
-        .btn-text Container Files
-      button.btn.btn-radio(
-        ng-class = "{'active': selectedTab === 'files'}"
-        ng-click = "changeTab('files')"
-        ng-if = "$root.featureFlags.sshKeys"
-      )
-        svg.iconnables
+        svg.iconnables(
+          ng-if = "$root.featureFlags.sshKeys"
+        )
           use(
-            xlink:href = "#icons-container-files"
+            xlink:href = "#icons-keys-files"
           )
-        .btn-text SSH Keys & Files
+        .btn-text  {{ $root.featureFlags.sshKeys ? "SSH Keys & Files" : "Container Files" }}
       button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'translation'}"
         ng-click = "changeTab('translation')"
