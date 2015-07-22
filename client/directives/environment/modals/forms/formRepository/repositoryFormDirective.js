@@ -1,7 +1,9 @@
 'use strict';
 
 require('app')
-  .directive('repositoryForm', function repositoryForm() {
+  .directive('repositoryForm', function repositoryForm(
+    watchOncePromise
+  ) {
     return {
       restrict: 'A',
       templateUrl: 'viewFormRepository',
@@ -12,19 +14,15 @@ require('app')
         ngShow: '&'
       },
       link: function ($scope, element, attrs) {
-        $scope.state.commands = $scope.state.commands || [];
-        $scope.state.commandRows = 3;
-        $scope.data = {
-          cacheCommand: $scope.state.commands.some(function (cmd) { return cmd.cache; })
-        };
-
-        $scope.$watch('state.commands.length', function () {
-          var len = $scope.state.commands.length;
-          if (len < 3) {
-            len = 3;
-          }
-          $scope.state.commandRows = len;
-        });
+        $scope.data = {};
+        watchOncePromise($scope, 'state.containerFiles', true)
+          .then(function (containerFiles) {
+            $scope.mainRepoContainerFile = containerFiles.find(function (containerFile) {
+              return containerFile.type === 'Main Repository';
+            });
+            $scope.mainRepoContainerFile.commands = $scope.mainRepoContainerFile.commands || [];
+            $scope.data.cacheCommand = $scope.mainRepoContainerFile.commands.some(function (cmd) { return cmd.cache; });
+          });
 
         $scope.actions = {
           updateCache: function (cmd) {
@@ -34,7 +32,7 @@ require('app')
 
             // There's probably a better way to do this
             // Cache needs to be unique
-            $scope.state.commands.forEach(function (command) {
+            $scope.mainRepoContainerFile.commands.forEach(function (command) {
               command.cache = false;
             });
             if (cmd) {
@@ -44,8 +42,8 @@ require('app')
           toggleCache: function () {
             if (!$scope.data.cacheCommand) {
               $scope.actions.updateCache();
-            } else if ($scope.state.commands.length > 0) {
-              var command = $scope.state.commands.find(function (command) {
+            } else if ($scope.mainRepoContainerFile.commands.length > 0) {
+              var command = $scope.mainRepoContainerFile.commands.find(function (command) {
                 return command.body.length > 0;
               });
               if (command) {
@@ -56,15 +54,7 @@ require('app')
         };
 
         // If any of the text is edited, disable cache
-        $scope.$watch(function () {
-          return $scope.state.commands.map(function (cmd) {
-            return cmd.body;
-          }).join('\n');
-        }, function (n, o) {
-          if (n !== o) {
-            $scope.data.cacheCommand = false;
-          }
-        }, true);
+
 
         // Clear out the start command (only in setup, but this will change)
         if ($scope.startCommandCanDisable) {
