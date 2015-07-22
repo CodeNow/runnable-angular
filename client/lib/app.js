@@ -8,6 +8,7 @@ require('jsTag/jsTag/compiled/jsTag.min');
 require('ng-file-upload/dist/ng-file-upload');
 require('angular-drag-and-drop-lists/angular-drag-and-drop-lists');
 require('angular-scroll');
+require('angular-animate');
 
 module.exports = angular.module('app', [
   'ui.router',
@@ -17,5 +18,6 @@ module.exports = angular.module('app', [
   'ngFileUpload',
   'dndLists',
   'duScroll',
+  'ngAnimate',
   require('angular-sanitize')
 ]);
