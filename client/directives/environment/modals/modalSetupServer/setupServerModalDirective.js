@@ -35,7 +35,8 @@ function setupServerModal(
 
       $scope.state = {
         opts: {
-          masterPod: true
+          masterPod: true,
+          name: ''
         },
         containerFiles: [
           new MainRepo()

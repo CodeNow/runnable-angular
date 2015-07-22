@@ -14,7 +14,9 @@ require('app')
         ngShow: '&'
       },
       link: function ($scope, element, attrs) {
-        $scope.data = {};
+        $scope.data = {
+          cacheCommand: false
+        };
         watchOncePromise($scope, 'state.containerFiles', true)
           .then(function (containerFiles) {
             $scope.mainRepoContainerFile = containerFiles.find(function (containerFile) {
@@ -52,9 +54,6 @@ require('app')
             }
           }
         };
-
-        // If any of the text is edited, disable cache
-
 
         // Clear out the start command (only in setup, but this will change)
         if ($scope.startCommandCanDisable) {
