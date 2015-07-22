@@ -110,6 +110,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
     if (activeAccountUsername) {
       keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.userList[activeAccountUsername]);
     }
+    $state.params = ctx.stateParams;
 
     ctx.fakeGo = sinon.stub($state, 'go');
     var ca = $controller('ControllerInstances', {
