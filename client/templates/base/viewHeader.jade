@@ -1,19 +1,19 @@
 img.logo.logo-icon.float-left(
   height = "45"
-  src = "/build/images/runnable-icon-white.svg"
-  width = "45"
   ng-click = "editFeatureFlags = CA.activeAccount.oauthName() === 'CodeNow'"
   pop-over
   pop-over-active = "editFeatureFlags"
   pop-over-template = "viewPopoverFeatureFlags"
   pop-over-trigger = "activeAttr"
   pop-over-options = "{\"left\":40}"
+  src = "/build/images/runnable-icon-white.svg"
+  width = "45"
 )
 
 .btn-group
   a.btn.btn-sm.purple(
-    ui-sref-active="active"
     ui-sref = "base.instances({ userName: CA.activeAccount.oauthName() })"
+    ui-sref-active = "active"
   )
     svg.iconnables
       use(
@@ -21,8 +21,8 @@ img.logo.logo-icon.float-left(
       )
     | Containers
   a.btn.btn-sm.purple(
-    ui-sref-active="active"
     ui-sref = "base.config({ userName: CA.activeAccount.oauthName() })"
+    ui-sref-active = "active"
   )
     svg.iconnables
       use(

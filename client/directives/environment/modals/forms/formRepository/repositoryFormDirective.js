@@ -28,7 +28,7 @@ require('app')
 
         $scope.actions = {
           updateCache: function (cmd) {
-            if (!cmd || (cmd && cmd.body.length === 0)) {
+            if (cmd && cmd.body.length === 0) {
               return;
             }
 
@@ -45,7 +45,12 @@ require('app')
             if (!$scope.data.cacheCommand) {
               $scope.actions.updateCache();
             } else if ($scope.state.commands.length > 0) {
-              $scope.state.commands[0].cache = true;
+              var command = $scope.state.commands.find(function (command) {
+                return command.body.length > 0;
+              });
+              if (command) {
+                command.cache = true;
+              }
             }
           }
         };
