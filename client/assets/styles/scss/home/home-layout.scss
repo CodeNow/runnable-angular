@@ -22,6 +22,14 @@
     position: absolute;
     right: 9px;
     top: 9px;
+
+    &:hover {
+      color: $gray;
+    }
+
+    &:active {
+      color: $purple-light;
+    }
   }
 
   .modal-body {
