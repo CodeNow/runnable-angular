@@ -155,7 +155,6 @@ form.modal-dialog.modal-edit(
         'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
       }"
       ng-show = "selectedTab === 'logs'"
-      ng-if = "$root.featureFlags.sshKeys"
       ng-include = "'viewFormLogs'"
     )
 
