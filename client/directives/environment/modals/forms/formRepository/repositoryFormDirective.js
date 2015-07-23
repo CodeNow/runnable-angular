@@ -6,7 +6,7 @@ require('app')
     fetchDockerfileFromSource,
     keypather,
     parseDockerfileForDefaults,
-    reportError,
+    report,
     watchOncePromise
   ) {
     return {
@@ -51,7 +51,7 @@ require('app')
                       });
                       $scope.mainRepoContainerFile.path = (defaults.dst.length ? defaults.dst[0] : repoName).replace('/', '');
                     })
-                    .catch(reportError);
+                    .catch(report.error);
                 }
               });
             }
