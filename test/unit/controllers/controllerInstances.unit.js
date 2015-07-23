@@ -111,7 +111,6 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.userList[activeAccountUsername]);
     }
     $state.params = ctx.stateParams;
-
     ctx.fakeGo = sinon.stub($state, 'go');
     var ca = $controller('ControllerInstances', {
       '$scope': $scope,
@@ -138,9 +137,9 @@ describe('ControllerInstances'.bold.underline.blue, function () {
           fetch: sinon.stub().callsArg(1)
         };
       });
-      sinon.stub($state, 'includes', function () {
-        return false;
-      });
+      sinon.stub($state, 'includes')
+        .withArgs('instances').returns(true)
+        .withArgs('instance').returns(false);
       mockFetch.triggerPromise(many);
       $rootScope.$digest();
       sinon.assert.calledWith(ctx.fakeGo, 'base.instances.instance', {
@@ -164,9 +163,9 @@ describe('ControllerInstances'.bold.underline.blue, function () {
           fetch: sinon.stub().callsArg(1)
         };
       });
-      sinon.stub($state, 'includes', function () {
-        return false;
-      });
+      sinon.stub($state, 'includes')
+        .withArgs('instances').returns(true)
+        .withArgs('instance').returns(false);
 
       ctx.stateParams.userName = 'NotSomeKittens';
       mockFetch.triggerPromise(many);
@@ -183,6 +182,9 @@ describe('ControllerInstances'.bold.underline.blue, function () {
         [],
         {noStore: true}
       );
+      sinon.stub($state, 'includes')
+        .withArgs('instances').returns(true)
+        .withArgs('instance').returns(false);
       mockFetch.triggerPromise(many);
       $rootScope.$digest();
       sinon.assert.calledWith(ctx.fakeGo, 'base.config', {
