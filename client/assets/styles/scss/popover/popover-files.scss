@@ -190,6 +190,7 @@
 
     // override
     &.textarea-key {
+      max-height: 190px;
       resize: none;
     }
   }
