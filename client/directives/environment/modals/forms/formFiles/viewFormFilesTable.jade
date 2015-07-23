@@ -107,6 +107,7 @@ ul.table.table-merge(
         )
       | {{ containerFile.type }}
     .cell.cell-action(
+      ng-class = "{'disabled': containerFile.type === 'Main Repository'}"
       ng-if = "$root.featureFlags.sshKeys"
     )
       button.btn.btn-xs.gray(
