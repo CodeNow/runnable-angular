@@ -1,24 +1,36 @@
 'use strict';
 
 require('app')
-  .factory('reportError', reportError);
+  .factory('report', report);
 
-function reportError(
+function report(
   keypather
 ) {
-  var errorReporter =  function (err, options) {
-    if (!err) {
+  var levels = ['critical', 'error', 'warning', 'info', 'debug'];
+  var reporter = function (level, message, options) {
+    if (!message) {
       return;
     }
-    if (window.NREUM) {
-      window.NREUM.noticeError(err, options);
+    console.log(message);
+    if (levels.indexOf(level) === -1) {
+      window.Rollbar.warning('Attempt to report invalid level of error '+ level + ' with message '+JSON.stringify(message));
+      return;
+    }
+    if (level === 'error' && window.NREUM) {
+      window.NREUM.noticeError(message, options);
     }
     if (window.Rollbar) {
-      window.Rollbar.error(err, options);
+      window.Rollbar[level](message, options);
     }
   };
 
-  errorReporter.setUser = function (user) {
+  levels.forEach(function (level) {
+    reporter[level] = function (message, options) {
+      reporter(level, message, options);
+    };
+  });
+
+  reporter.setUser = function (user) {
     if (window.Rollbar) {
       var setUser = {};
       setUser.email = keypather.get(user, 'attrs.email');
@@ -33,5 +45,5 @@ function reportError(
     }
   };
 
-  return errorReporter;
+  return reporter;
 }
