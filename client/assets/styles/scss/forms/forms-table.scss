@@ -92,6 +92,7 @@
 // merge tables
 .table-merge {
   border-radius: $input-border-radius $input-border-radius 0 0;
+  overflow: hidden;
 
   + .table-merge {
     border-radius: 0 0 $input-border-radius $input-border-radius;
