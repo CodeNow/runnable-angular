@@ -37,18 +37,17 @@ function ReadOnlySwitchController(
             errs.handler(err);
             $scope.state.advanced = !newAdvancedMode;
           });
-      } else {
-        // If switching from advanced to basic
-        return $scope.state.promises.contextVersion
-          .then(function (contextVersion) {
-            return promisify(contextVersion, 'rollback')();
-          })
-          .then(function (contextVersion) {
-            ROSC.popover.rolledContextVersion = contextVersion;
-            ROSC.popover.active = true;
-          })
-          .catch(errs.handler);
-      }
+      } 
+      // If switching from advanced to basic
+      return $scope.state.promises.contextVersion
+        .then(function (contextVersion) {
+          return promisify(contextVersion, 'rollback')();
+        })
+        .then(function (contextVersion) {
+          ROSC.popover.rolledContextVersion = contextVersion;
+          ROSC.popover.active = true;
+        })
+        .catch(errs.handler);
     } else {
       return $scope.state.advanced;
     }
