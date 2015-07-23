@@ -40,7 +40,13 @@ function setupServerModal(
         containerFiles: [
           mainRepoContainerFile
         ],
-        packages: new cardInfoTypes.Packages()
+        packages: new cardInfoTypes.Packages(),
+        getPorts: function () {
+          if (keypather.get($scope, 'state.selectedStack.ports')) {
+            return $scope.state.selectedStack.ports.replace(/ /g, '').split(',');
+          }
+          return [];
+        }
       };
 
       fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())

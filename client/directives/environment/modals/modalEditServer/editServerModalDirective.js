@@ -94,6 +94,8 @@ function editServerModal(
             minTagWidth: 120,
             tags: new JSTagsCollection(($scope.instance.ports || '').split(' '))
           };
+          $scope.portTagOptions.tags.onAdd($scope.updateDockerfileFromState);
+          $scope.portTagOptions.tags.onRemove($scope.updateDockerfileFromState);
         });
 
       if (helpCards.cardIsActiveOnThisContainer($scope.instance)) {
@@ -102,7 +104,7 @@ function editServerModal(
       }
 
       $scope.updateDockerfileFromState = function () {
-        return updateDockerfileFromState($scope.state);
+        return loadingPromises('editServerModal', updateDockerfileFromState($scope.state));
       };
 
       $scope.triggerEditRepo = function (repo) {
@@ -319,7 +321,14 @@ function editServerModal(
           opts: {},
           repo: keypather.get(instance, 'contextVersion.getMainAppCodeVersion().githubRepo'),
           instance: instance,
-          getPorts: convertTagToPortList
+          getPorts: convertTagToPortList,
+          promises: {
+            contextVersion: loadingPromises.add('editServerModal', promisify(instance.contextVersion, 'deepCopy')())
+              .then(function (contextVersion) {
+                $scope.state.contextVersion = contextVersion;
+                return promisify(contextVersion, 'fetch')();
+              })
+          }
         };
 
         $scope.state.opts.env = (fromError ?

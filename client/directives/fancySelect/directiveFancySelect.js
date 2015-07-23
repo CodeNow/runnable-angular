@@ -142,9 +142,10 @@ function fancySelect(
           $scope.value = clickedOption.value;
 
           if (originalValue !== newValue && $scope.onUpdate) {
-            $scope.$evalAsync(function () {
-              $scope.onUpdate(clickedOption.value);
-            });
+            $timeout(angular.noop)
+              .then(function () {
+                $scope.onUpdate(clickedOption.value);
+              });
           }
           if (exists($scope.toggleObject) && exists($scope.toggleAttribute)) {
             $scope.toggleObject[$scope.toggleAttribute] = false;

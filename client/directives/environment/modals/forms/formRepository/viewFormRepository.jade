@@ -14,9 +14,9 @@
   ) Cache
     span.span &#32;a command
     input.toggle-input(
-      ng-click = "actions.toggleCache()"
       ng-disabled = "startCommandCanDisable && (!state.selectedStack || !mainRepoContainerFile.commands.length)"
-      ng-model = "data.cacheCommand"
+      ng-model = "cacheCommand"
+      ng-model-options = "{getterSetter: true}"
       type = "checkbox"
     )
     .toggle-group.toggle-xs.float-right
@@ -29,9 +29,9 @@
       ng-disabled = "startCommandCanDisable && !state.selectedStack"
       ng-if = "!$root.featureFlags.buildCommandCache"
       ng-model = "mainRepoContainerFile.commands"
-      ng-change = "data.cacheCommand = false"
+      ng-keydown = "cacheCommand(false)"
       spellcheck = "false"
-      ng-model-options="{ updateOn: 'blur' }"
+      ng-model-options="{ updateOn: 'blur', getterSetter: true }"
       ng-change = "updateDockerfile()"
     )
     //- end deprecated textarea
@@ -48,12 +48,12 @@
           ng-model = "mainRepoContainerFile.commands"
           spellcheck = "false"
           ng-attr-rows = "{{mainRepoContainerFile.commands.length < 3 ? 3 : mainRepoContainerFile.commands.length}}"
-          ng-change = "data.cacheCommand = false"
-          ng-model-options = "{debounce: {default: 50, blur: 0}}"
+          ng-keydown = "cacheCommand(false)"
+          ng-model-options="{ updateOn: 'blur', getterSetter: true }"
           ng-change = "updateDockerfile()"
         )
         .cache-column(
-          ng-hide = "!data.cacheCommand"
+          ng-show = "data.cacheCommand"
         )
           .cache-border
           label.radio-wrapper(

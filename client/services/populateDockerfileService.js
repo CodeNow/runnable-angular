@@ -66,6 +66,11 @@ function populateDockerfile(
       return dockerfileBody.replace(regexp, stack.selectedVersion);
     }
     function populateDockerFile(dockerfileBody) {
+      if (typeof state.getPorts !== 'function') {
+        var error = new Error('populateDockerfile requires a getPorts function');
+        $log.error(error);
+        return error;
+      }
       // first, add the ports
       var ports = state.getPorts();
       var mainRepo = state.containerFiles.find(function (section) {

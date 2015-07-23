@@ -82,7 +82,10 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
         };
       });
 
-
+      ctx.updateDockerfileFromStateMock = sinon.spy();
+      $provide.factory('updateDockerfileFromState', function () {
+        return ctx.updateDockerfileFromStateMock;
+      });
       $provide.factory('fetchDockerfileFromSource', ctx.fetchDockerfileFromSourceMock.fetch());
       $provide.factory('parseDockerfileForDefaults', function () {
         parseDockerfileForDefaultsStub = sinon.spy(function () {
@@ -309,6 +312,7 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
       $scope.$digest();
       expect($elScope.state.containerFiles[0].commands, 'main repo commands').to.deep.equal([new cardInfoTypes.Command('RUN 1234')]);
       expect($elScope.state.containerFiles[0].path, 'main repo path').to.equal('dfasgdfsgdsfgs/fgdsfgsdfg');
+      sinon.assert.called(ctx.updateDockerfileFromStateMock);
 
     });
 
@@ -338,10 +342,10 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
       $scope.$digest();
       expect($elScope.state.containerFiles[0].commands, 'main repo commands').to.deep.equal([
         new cardInfoTypes.Command('RUN dfadsfa'),
-        new cardInfoTypes.Command('RUN dsfasdfredasfadsfgw34r2 3r'),
+        new cardInfoTypes.Command('RUN dsfasdfredasfadsfgw34r2 3r')
       ]);
       expect($elScope.state.containerFiles[0].path, 'main repo path').to.equal('cheese');
-
+      sinon.assert.called(ctx.updateDockerfileFromStateMock);
     });
   });
 });

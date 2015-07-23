@@ -333,8 +333,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.called(closePopoverSpy);
         sinon.assert.called(ctx.loadingPromiseMock.finished);
-
-        sinon.assert.calledOnce(ctx.newContextVersion.fetchFile);
         expect($elScope.building).to.be.true;
         expect($elScope.state.ports).to.be.ok;
         $scope.$digest();
@@ -368,12 +366,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         expect($elScope.building).to.be.true;
         expect($elScope.state.ports).to.be.ok;
         $scope.$digest();
-        $scope.$digest();
-        sinon.assert.calledOnce(ctx.newContextVersion.fetchFile);
-        $scope.$digest();
-        sinon.assert.notCalled(ctx.fetchDockerfileFromSourceMock.getFetchSpy());
-        sinon.assert.notCalled(ctx.populateDockerfile.getFetchSpy());
-        $scope.$digest();
         sinon.assert.calledOnce(ctx.build.build);
         $scope.$digest();
         expect($elScope.state.opts.build).to.be.ok;
@@ -396,7 +388,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
           });
         });
         ctx.loadingPromiseFinishedValue = 2;
-        ctx.newContextVersion.fetchFile.reset();
 
         keypather.set($elScope, 'portTagOptions.tags.tags', {0: '123'});
         $elScope.getUpdatePromise();
@@ -406,10 +397,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         expect($elScope.building).to.be.true;
         expect($elScope.state.ports).to.be.ok;
         $scope.$digest();
-        sinon.assert.calledOnce(ctx.fetchDockerfileFromSourceMock.getFetchSpy());
-        ctx.populateDockerfile.triggerPromise({attrs: 'dockerfile'});
-        $scope.$digest();
-        sinon.assert.calledOnce(ctx.populateDockerfile.getFetchSpy());
         sinon.assert.calledOnce(ctx.build.build);
         expect($elScope.state.opts.build).to.be.ok;
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
@@ -507,14 +494,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
           expect($elScope.state.ports).to.be.ok;
           $scope.$digest();
           $scope.$digest();
-          $scope.$digest();
-          sinon.assert.calledOnce(ctx.newContextVersion.fetchFile);
-          ctx.fetchDockerfileFromSourceMock.triggerPromise({attrs: 'dockerfile'});
-          $scope.$digest();
-          sinon.assert.calledOnce(ctx.fetchDockerfileFromSourceMock.getFetchSpy());
-          ctx.populateDockerfile.triggerPromise({attrs: 'dockerfile'});
-          $scope.$digest();
-          sinon.assert.calledOnce(ctx.populateDockerfile.getFetchSpy());
           $scope.$digest();
           sinon.assert.calledOnce(ctx.build.build);
           $scope.$digest();
@@ -670,8 +649,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     expect($elScope.building, 'Building').to.be.false;
     expect($elScope.state.opts.env.length).to.equal(0);
     expect($elScope.state.containerFiles.length).to.equal(1);
-    $scope.$digest();
-    $scope.$digest();
     sinon.assert.calledOnce(containerFiles[0].clone);
     sinon.assert.calledOnce(ctx.newContextVersion.deepCopy);
     sinon.assert.calledOnce(ctx.contextVersion.fetch);
