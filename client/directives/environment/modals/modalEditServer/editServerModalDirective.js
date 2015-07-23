@@ -479,31 +479,9 @@ function editServerModal(
         $scope.building = true;
         $scope.state.ports = convertTagToPortList();
         var hasMainRepo = !!keypather.get($scope, 'instance.contextVersion.getMainAppCodeVersion()');
-        var statePorts = keypather.get($scope, 'state.ports.join(" ")');
-        // Check state.instance instead of instance so you don't recreate the dockerfile again on a
-        // failure (and they didn't change it in between)
-        // true if not advanced, has a repo, and one of the following:
-        var toRecreateDockerfile = !$scope.state.advanced &&
-              hasMainRepo &&
-              (
-                // The container files have been changed
-                areContainerFilesDifferent() ||
-                // FnR has changed
-                shouldFnrCreateDockerfile() ||
-                // Packages have changed
-                arePackagesDifferent() ||
-                // The ports have changed
-                !angular.equals($scope.state.instance.ports, statePorts) ||
-                // We have a new start command
-                $scope.state.instance.startCommand !== $scope.state.startCommand ||
-                // Completely new stack
-                !angular.equals($scope.state.instance.selectedStack, $scope.state.selectedStack)
-              );
 
-        var toRebuild = toRecreateDockerfile;
-        var toRedeploy = !toRecreateDockerfile &&
-              keypather.get($scope, 'instance.attrs.env') !== keypather.get($scope, 'state.opts.env');
-
+        var toRebuild;
+        var toRedeploy;
         // So we should do this watchPromise step first so that any tab that relies on losing focus
         // to change something will have enough time to add its promises to LoadingPromises
         return watchOncePromise($scope, 'state.contextVersion', true)
@@ -512,19 +490,14 @@ function editServerModal(
           })
           .then(function (promiseArrayLength) {
             // Since the initial deepCopy should be in here, we only care about > 1
-            toRebuild = toRebuild || promiseArrayLength > 1;
-            toRedeploy = toRedeploy && !toRebuild;
+            toRebuild = !$scope.state.advanced && hasMainRepo && promiseArrayLength > 1;
+            toRedeploy = !toRebuild &&
+              keypather.get($scope, 'instance.attrs.env') !== keypather.get($scope, 'state.opts.env');
 
-            if (toRecreateDockerfile) {
-              console.log('Hope that dockerfile was updated');
+            if (toRebuild) {
+              return buildBuild($scope.state);
             }
             return $scope.state;
-          })
-          .then(function (state) {
-            if (toRecreateDockerfile || toRebuild) {
-              return buildBuild(state);
-            }
-            return state;
           })
           .then(function (state) {
             if (toRebuild || toRedeploy) {
