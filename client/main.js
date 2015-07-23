@@ -32,7 +32,7 @@ app.config(function ($httpProvider, $animateProvider) {
   $httpProvider.defaults.withCredentials = true;
   $httpProvider.defaults.headers.delete = { 'Content-Type' : 'application/json' };
   $httpProvider.useApplyAsync(true);
-  $animateProvider.classNameFilter(/animated/);
+  $animateProvider.classNameFilter(/js-animate/);
 });
 
 /**
