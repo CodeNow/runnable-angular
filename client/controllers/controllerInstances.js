@@ -6,7 +6,6 @@ require('app')
  * @ngInject
  */
 function ControllerInstances(
-  $filter,
   $state,
   favico,
   keypather,
@@ -34,36 +33,39 @@ function ControllerInstances(
       var instances = instancesByPod;
       var lastViewedInstance = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.instance');
 
+      function isInstanceMatch (instance, nameMatch) {
+        if (instance.destroyed || !instance.id()) {
+          return false;
+        }
+        if (!nameMatch || instance.attrs.name === nameMatch) {
+          return instance;
+        }
+      }
+
       var targetInstance = null;
       if (lastViewedInstance) {
         targetInstance = instances.find(function (instance) {
-          if (instance.destroyed) {
-            return false;
-          }
-          if (instance.attrs.name === lastViewedInstance) {
-            return instance;
+          var instanceMatch = isInstanceMatch(instance, lastViewedInstance);
+          if (instanceMatch) {
+            return instanceMatch;
           }
           if (instance.children) {
-            return instance.children.models.find(function (childInstance) {
-              if (childInstance.destroyed) {
-                return false;
-              }
-              if (childInstance.attrs.name === lastViewedInstance) {
-                return childInstance;
-              }
+            return instance.children.find(function (childInstance) {
+              return isInstanceMatch(childInstance, lastViewedInstance);
             });
           }
         });
       }
 
       if (!targetInstance) {
-        var models = $filter('orderBy')(instances.models, 'attrs.name');
-        targetInstance = keypather.get(models, '[0]');
+        targetInstance = instances.find(function (instance) {
+          return isInstanceMatch(instance);
+        });
       }
 
       setLastOrg(userName);
 
-      if ($state.includes('instances') && !$state.includes('instance')) {
+      if ($state.current.name !== 'base.instances.instance') {
         if (targetInstance) {
           $state.go('base.instances.instance', {
             instanceName: keypather.get(targetInstance, 'attrs.name'),
