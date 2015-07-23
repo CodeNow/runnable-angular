@@ -17,6 +17,8 @@
 
   .icons-close {
     color: $gray-light;
+    cursor: pointer;
+    pointer-events: auto;
     position: absolute;
     right: 9px;
     top: 9px;
