@@ -12,19 +12,29 @@
   }
 }
 
+.home-modal-dialog {
+  max-width: 400px;
 
-.home-banner {
-  background-color: $purple-light;
-  color: white;
-  padding: 24px;
-  text-align: center;
-  display: inline-block;
-  margin-bottom: 12px;
-  .link{
-    color: white;
+  .modal-body {
+    padding: 18px 30px;
+    text-align: center;
+
+    .span {
+      font-size: 21px;
+      margin: 12px 0 24px;
+    }
+
+    .small {
+      color: $gray;
+      margin-top: 18px;
+    }
   }
-  .small{
-    opacity: .6;
+
+  .modal-footer {
+    color: $gray;
+    margin: 0;
+    padding: 12px;
+    text-align: center;
   }
 }
 

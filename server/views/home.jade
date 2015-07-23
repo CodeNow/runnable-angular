@@ -125,14 +125,28 @@ html.home(
 
     //- page
     .content-wrapper.clearfix
+      
+      //- unauthorized modal
       if unauthorized
-        .home-banner Your GitHub account is not enabled for the Runnable Sandboxes beta.  Please email&#32;
-          a.link( href = "mailto:support@runnable.com?subject=Please send me an invite for the beta" ) support@runnable.com
-          |  to request an invite.
-          br
-          small.small Looking for&#32;
-            a.link(href= "http://code.runnable.com") CodeSnippets
-            | ?
+        .modal-backdrop
+          .modal-dialog.home-modal-dialog
+            section.modal-body
+              span.span We’re sorry, but your GitHub account doesn’t have access to the Runnable beta.
+              button.btn.green(
+                href = "mailto:support@runnable.com?subject=Please send me an invite for the beta"
+              ) Request an Invite
+              .small You can&#32;
+                a.link(
+                  href = "https://github.com/settings/applications"
+                  target = "_blank"
+                ) revoke our access
+                | &#32;to your GitHub account. We’ll ask for it again when you’re invited.
+            footer.modal-footer.small Looking for&#32;
+              a.link(
+                href = "https://code.runnable.com"
+                target = "_blank"
+              ) Runnable CodeSnippets
+              | ?
 
       //- header
       header.header.home-header
