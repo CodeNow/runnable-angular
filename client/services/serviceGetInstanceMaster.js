@@ -12,7 +12,7 @@ function getInstanceMaster(
     }
 
     return fetchInstancesByPod().then(function (instances) {
-      return instances.filter(function (masterInstance) {
+      return instances.find(function (masterInstance) {
         return masterInstance.attrs.contextVersion.context === instance.attrs.contextVersion.context;
       });
     });
