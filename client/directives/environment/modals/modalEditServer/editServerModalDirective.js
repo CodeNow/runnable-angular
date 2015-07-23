@@ -311,10 +311,10 @@ function editServerModal(
         loadingPromises.clear('editServerModal');
         loading.reset('editServerModal');
         loading('editServerModal', true);
+        var advanced = keypather.get(instance, 'advanced') || keypather.get(instance, 'contextVersion.attrs.advanced') || false;
         $scope.state = {
-          advanced: keypather.get(instance, 'contextVersion.attrs.advanced') || false,
+          advanced: advanced,
           startCommand: instance.startCommand,
-          commands: instance.commands.map(function (cmd) { return cmd.clone(); }),
           selectedStack: instance.selectedStack,
           opts: {},
           repo: keypather.get(instance, 'contextVersion.getMainAppCodeVersion().githubRepo'),
@@ -325,7 +325,7 @@ function editServerModal(
         $scope.state.opts.env = (fromError ?
             keypather.get(instance, 'opts.env') : keypather.get(instance, 'attrs.env')) || [];
 
-        function mapContainerFiles (model) {
+        function mapContainerFiles(model) {
           var cloned = model.clone();
           if (model.type === 'Main Repository') {
             $scope.state.mainRepoContainerFile = cloned;
@@ -347,15 +347,11 @@ function editServerModal(
             $scope.state.packages = packages.clone();
           });
 
-        return loadingPromises.add('editServerModal', promisify(instance.contextVersion, 'deepCopy')())
+        return $scope.state.promises.contextVersion
           .then(function (contextVersion) {
-            $scope.state.contextVersion = contextVersion;
-            return promisify(contextVersion, 'fetch')();
-          })
-          .then(function (contextVersion) {
-            openDockerfile();
             $scope.state.acv = contextVersion.getMainAppCodeVersion();
             loading('editServerModal', false);
+            openDockerfile();
             return fetchUser();
           })
           .then(function (user) {
@@ -473,9 +469,6 @@ function editServerModal(
         $rootScope.$broadcast('close-popovers');
         $scope.building = true;
         $scope.state.ports = convertTagToPortList();
-        if ($scope.state.mainRepoContainerFile) {
-          $scope.state.mainRepoContainerFile.commands = $scope.state.commands;
-        }
         var hasMainRepo = !!keypather.get($scope, 'instance.contextVersion.getMainAppCodeVersion()');
         var statePorts = keypather.get($scope, 'state.ports.join(" ")');
         // Check state.instance instead of instance so you don't recreate the dockerfile again on a
@@ -578,9 +571,6 @@ function editServerModal(
             .then(function () {
               $rootScope.$broadcast('close-popovers');
               $scope.selectedTab = advanced ? 'buildfiles' : 'repository';
-              if (advanced) {
-                openDockerfile();
-              }
               return loadingPromises.add('editServerModal', promisify($scope.state.contextVersion, 'update')({
                 advanced: advanced
               }));

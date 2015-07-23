@@ -4,18 +4,17 @@ require('app')
   .factory('getInstanceMaster', getInstanceMaster);
 
 function getInstanceMaster(
-  fetchInstances
+  fetchInstancesByPod
 ) {
   return function (instance) {
     if (instance.masterPod) {
       return instance;
     }
 
-    return fetchInstances({
-      'contextVersion.context': instance.attrs.contextVersion.context,
-      masterPod: true
-    }).then(function (instances) {
-      return instances.models[0];
+    return fetchInstancesByPod().then(function (instances) {
+      return instances.filter(function (masterInstance) {
+        return masterInstance.attrs.contextVersion.context === instance.attrs.contextVersion.context;
+      });
     });
   };
 }

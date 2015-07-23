@@ -12,7 +12,7 @@ function serverSelection (
   $state,
   $stateParams,
   $q,
-  user,
+  apiClientBridge,
   fetchInstances
 ) {
   var searchObject = $location.search();
@@ -67,7 +67,7 @@ function serverSelection (
           contextVersions: [copiedCv.id()],
           owner: instance.attrs.owner
         };
-        var build = user.createBuild(buildBody, function (err) {
+        var build = apiClientBridge.createBuild(buildBody, function (err) {
           if (err) { return errs.handler(err); }
           build.build(function (err) {
             if (err) { return errs.handler(err); }
@@ -86,10 +86,10 @@ function serverSelection (
         name: name
       }, function(err) {
         if (err) { return errs.handler(err); }
-        $state.go('instance.instance', {
+        $state.go('base.instances.instance', {
           userName: $stateParams.userName,
           instanceName: name
-        });
+        }, {reload: true});
       });
     });
   };
@@ -101,10 +101,10 @@ function serverSelection (
       }, function (err) {
         if (err) { return errs.handler(err); }
         // Go to that page.
-        $state.go('instance.instance', {
+        $state.go('base.instances.instance', {
           userName: $stateParams.userName,
           instanceName: instance.attrs.name
-        });
+        }, {reload: true});
       });
     });
   };

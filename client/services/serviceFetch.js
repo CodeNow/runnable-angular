@@ -19,7 +19,7 @@ require('app')
 
 function fetchUser(
   keypather,
-  user,
+  apiClientBridge,
   $q,
   $window,
   promisify,
@@ -30,7 +30,7 @@ function fetchUser(
   // For consistency with other promise fetchers
   return function () {
     if (!fetchedUser) {
-      fetchedUser = promisify(user, 'fetchUser')('me')
+      fetchedUser = promisify(apiClientBridge, 'fetchUser')('me')
       .then(function (_user) {
         socket = _user.createSocket();
         reportError.setUser(_user);
@@ -112,30 +112,54 @@ var fetchByPodCache = {};
 
 function fetchInstancesByPod(
   fetchInstances,
-  $q,
-  promisify,
-  $state
+  $state,
+  apiClientBridge
 ) {
   return function (username) {
     username = username || $state.params.userName;
     if (!fetchByPodCache[username]) {
-      fetchByPodCache[username] = fetchInstances({
-        masterPod: true,
+      return fetchInstances({
         githubUsername: username
       })
-        .then(function (masterPods) {
-          var podFetch = [];
-          masterPods.forEach(function (masterInstance) {
-            podFetch.push(promisify(masterInstance.children, 'fetch')());
+        .then(function (allInstances) {
+          var instanceMapping = {};
+          allInstances.forEach(function (instance) {
+            var ctxVersion = instance.attrs.contextVersion.context;
+            instanceMapping[ctxVersion] = instanceMapping[ctxVersion] || {};
+            if (instance.attrs.masterPod) {
+              instanceMapping[ctxVersion].master = instance;
+            } else {
+              instanceMapping[ctxVersion].children = instanceMapping[ctxVersion].children || [];
+              instanceMapping[ctxVersion].children.push(instance);
+            }
           });
-          return $q.all(podFetch).then(function () {
-            return masterPods;
+
+          var masterInstances = [];
+          Object.keys(instanceMapping).forEach(function (ctxVersion) {
+            var master = instanceMapping[ctxVersion].master;
+
+            // Handle the case where we have an extra instance that has no parents.
+            if (!master || !master.children) { return; }
+
+            var children = instanceMapping[ctxVersion].children || [];
+            masterInstances.push(master);
+            master.children.add(children);
           });
+
+          var instances = apiClientBridge.newInstances([], {
+            qs: {
+              masterPod: true,
+              githubUsername: username
+            },
+            reset: false
+          });
+          instances.githubUsername = username;
+          instances.add(masterInstances);
+          return instances;
         });
     }
 
     return fetchByPodCache[username];
-
   };
 }
 

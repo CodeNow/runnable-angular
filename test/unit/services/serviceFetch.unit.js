@@ -1,16 +1,18 @@
+var instances = require('../apiMocks').instances;
+
 describe('serviceFetch'.bold.underline.blue, function () {
   'use strict';
 
 
   describe('factory fetchUser', function () {
     var $state;
-    var user;
+    var apiClientBridge;
     var $rootScope;
     var fetchUser;
     var windowMock;
 
     beforeEach(function () {
-      user = {
+      apiClientBridge = {
         createSocket: sinon.spy(),
         fetchUser: sinon.spy()
       };
@@ -19,7 +21,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
       };
       angular.mock.module('app');
       angular.mock.module(function ($provide) {
-        $provide.value('user', user);
+        $provide.value('apiClientBridge', apiClientBridge);
         $provide.value('$window', windowMock);
       });
       angular.mock.inject(function (
@@ -36,11 +38,11 @@ describe('serviceFetch'.bold.underline.blue, function () {
     });
 
     it('should call the fetchUser method of the user service', function (done) {
-      user.fetchUser = sinon.stub().callsArgWith(1, null);
+      apiClientBridge.fetchUser = sinon.stub().callsArgWith(1, null);
       fetchUser().then(function (foundUser) {
-        expect(user.fetchUser.calledOnce, 'fetchUser called').to.equal(true);
-        expect(user.createSocket.calledOnce, 'createSocket called').to.equal(true);
-        expect(foundUser, 'Returned user').to.equal(user);
+        expect(apiClientBridge.fetchUser.calledOnce, 'fetchUser called').to.equal(true);
+        expect(apiClientBridge.createSocket.calledOnce, 'createSocket called').to.equal(true);
+        expect(foundUser, 'Returned user').to.equal(apiClientBridge);
         done();
       });
       $rootScope.$apply();
@@ -53,8 +55,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
           statusCode: 401
         }
       };
-      var startLocation = windowMock.location;
-      user.fetchUser = sinon.stub().callsArgWith(1, err);
+      apiClientBridge.fetchUser = sinon.stub().callsArgWith(1, err);
       fetchUser().catch(function (myErr) {
         expect(myErr, 'Returned err').to.equal(err);
         expect(windowMock.location).to.equal('/?password');
@@ -325,6 +326,66 @@ describe('serviceFetch'.bold.underline.blue, function () {
         done();
       });
       $rootScope.$apply();
+    });
+  });
+
+  describe('factory fetchInstancesByPod', function () {
+    var fetchInstancesByPod;
+    var fetchInstancesStub;
+    var $rootScope;
+    var rawInstances;
+    var addInstance;
+    var $state;
+
+    beforeEach(function () {
+      angular.mock.module('app');
+      angular.mock.module(function ($provide) {
+        $provide.factory('fetchInstances', function ($q) {
+          rawInstances = runnable.newInstances(instances.listWithPods, {
+            noStore: true
+          });
+
+          fetchInstancesStub = sinon.stub().returns($q.when(rawInstances));
+          return fetchInstancesStub;
+        });
+        $provide.factory('apiClientBridge', function () {
+          addInstance = sinon.stub();
+          return {
+            newInstances: sinon.stub().returns({
+              add: addInstance
+            })
+          };
+        });
+      });
+      angular.mock.inject(function (
+        _$rootScope_,
+        _fetchInstancesByPod_,
+        _$state_
+      ) {
+        fetchInstancesByPod = _fetchInstancesByPod_;
+        $rootScope = _$rootScope_;
+        $state = _$state_;
+      });
+    });
+
+    it('should fetch all the instances in one go', function (done) {
+      fetchInstancesByPod().then(function (instancesByPod) {
+        expect(instancesByPod).to.deep.equal({add: addInstance, githubUsername: $state.params.userName});
+        done();
+      });
+      $rootScope.$apply();
+      sinon.assert.calledOnce(fetchInstancesStub);
+      sinon.assert.calledOnce(user.newInstances);
+      sinon.assert.calledOnce(addInstance);
+
+      var instanceList = addInstance.lastCall.args[0];
+      var last = rawInstances.models[rawInstances.length-1];
+      var masterInstance = instanceList.find(function (instance) {
+        return instance.attrs.contextVersion === last.attrs.contextVersion;
+      });
+
+      expect(masterInstance.children.length).to.equal(1);
+      expect(masterInstance.children.models[0]).to.equal(last);
     });
   });
 });

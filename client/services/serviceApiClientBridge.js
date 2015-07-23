@@ -3,7 +3,7 @@
 var Runnable = require('runnable');
 var qs = require('qs');
 require('app')
-  .factory('user', function (
+  .factory('apiClientBridge', function (
     $http,
     configAPIHost,
     configUserContentDomain,

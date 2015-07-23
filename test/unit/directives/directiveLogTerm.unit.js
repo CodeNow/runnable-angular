@@ -7,8 +7,7 @@ var $compile,
     $scope,
     $state,
     $stateParams,
-    $timeout,
-    user;
+    $timeout;
 var mockPrimus = new fixtures.MockPrimus();
 
 function createMockStream() {
@@ -45,8 +44,7 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
       _$rootScope_,
       _$state_,
       _$stateParams_,
-      _$timeout_,
-      _user_
+      _$timeout_
     ) {
       $compile = _$compile_;
       $filter = _$filter_;
@@ -55,7 +53,6 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
       $stateParams = _$stateParams_;
       $scope = _$rootScope_.$new();
       $timeout = _$timeout_;
-      user = _user_;
     });
 
     modelStore.reset();

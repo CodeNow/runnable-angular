@@ -7,11 +7,11 @@ require('app')
   .factory('fetchDockerfileFromSource', fetchDockerfileFromSource);
 
 function createDockerfileFromSource(
-  fetchContexts,
+  fetchSourceContexts,
   hasKeypaths,
   promisify
 ) {
-  return function (contextVersion, stackName, sourceContexts) {
+  return function (contextVersion, stackName) {
     var sourceContextVersion;
 
     function findAndCreateFromSource(sourceContexts) {
@@ -42,24 +42,20 @@ function createDockerfileFromSource(
           return fetchDockerfile('/Dockerfile');
         });
       }
-    if (sourceContexts !== null) {
-      return findAndCreateFromSource(sourceContexts);
-    }
-    return fetchContexts({
-      isSource: true
-    }).then(findAndCreateFromSource);
+    return fetchSourceContexts()
+      .then(findAndCreateFromSource);
   };
 }
 
 function fetchDockerfileFromSource(
-  fetchContexts,
+  fetchSourceContexts,
   hasKeypaths,
   promisify
 ) {
-  return function (stackName, sourceContexts) {
+  return function (stackName) {
     var sourceContextVersion;
 
-    function findAndCreateFromSource(sourceContexts) {
+    function findFromSource(sourceContexts) {
       if (!sourceContexts) {
         throw new Error('Cannot find matching Source Dockerfile');
       }
@@ -79,6 +75,8 @@ function fetchDockerfileFromSource(
           return fetchDockerfile('/Dockerfile');
         });
     }
-    return findAndCreateFromSource(sourceContexts);
+
+    return fetchSourceContexts()
+      .then(findFromSource);
   };
 }
