@@ -40,14 +40,10 @@ function ReadOnlySwitchController(
       } 
       // If switching from advanced to basic
       return $scope.state.promises.contextVersion
-        .then(function (contextVersion) {
-          return promisify(contextVersion, 'rollback')();
-        })
-        .then(function (contextVersion) {
-          ROSC.popover.rolledContextVersion = contextVersion;
-          ROSC.popover.active = true;
-        })
-        .catch(errs.handler);
+      ,then(function(contextVersion) {
+        ROSC.popover.active = true;
+        ROSC.popover.rolledContextVersion = contextVersion;
+      });
     } else {
       return $scope.state.advanced;
     }
