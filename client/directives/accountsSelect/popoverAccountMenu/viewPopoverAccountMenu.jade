@@ -27,6 +27,7 @@
       li.list-item.popover-list-item.small Change Organization
       //- current user
       li.list-item.popover-list-item.text-overflow(
+        ng-class = "{'disabled': data.user === data.activeAccount}"
         ng-click = "actions.selectActiveAccount(data.user)"
       )
         svg.iconnables.icons-fat-check(
