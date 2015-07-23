@@ -1,5 +1,5 @@
 .popover.popover-fixed.popover-files(
-  ng-class = "{in: active}"
+  ng-class = "{'in': active}"
   ng-style = "popoverStyle.getStyle()"
 )
   .popover-header
@@ -16,13 +16,13 @@
         ) {{ data.name }}
           small.small {{ data.progress ? data.progress + '% uploaded' : 'Select a file' }}
           label.btn.btn-xs.gray(
-              for = "input-upload"
-            ) Choose
+            for = "input-upload"
+          ) Choose
             input#input-upload(
-              type = "file",
               ngf-select
               ngf-change = "actions.uploadFile(data)"
               ng-model = "data.file"
+              type = "file"
             )
 
     label.label.clearfix
@@ -47,7 +47,7 @@
 
     //- not shown if new repo
     label.label
-      button.btn.btn-xs.orange(
+      button.btn.btn-xs.red(
         ng-click = "actions.deleteFile(data)"
         ng-if = "data.fromServer"
       ) Delete File

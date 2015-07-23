@@ -84,6 +84,10 @@
     margin-left: 6px;
   }
 
+  .input + .small {
+    margin-top: 6px;
+  }
+
   // view 1
   // list
   .list-servers > .list-item {
@@ -183,5 +187,11 @@
   .textarea {
     max-height: 150px;
     resize: vertical;
+
+    // override
+    &.textarea-key {
+      max-height: 190px;
+      resize: none;
+    }
   }
 }

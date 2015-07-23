@@ -1,23 +1,13 @@
 .spinner-wrapper {
-  display: none;
+  display: flex;
 
-  &.in {
-    display: flex;
-
-    // show small spinner (15px)
-    &.spinner-sm .spinner-sm {
-      display: block;
-    }
-
-    // show medium spinner (30px)
-    &.spinner-md .spinner-md {
-      display: block;
-    }
-
-    // show large spinner (60px)
-    &.spinner-lg .spinner-lg {
-      display: block;
-    }
+  // show small spinner (15px)
+  // show medium spinner (30px)
+  // show large spinner (60px)
+  &.spinner-sm .spinner-sm,
+  &.spinner-md .spinner-md,
+  &.spinner-lg .spinner-lg {
+    display: block;
   }
 
   .spinner {

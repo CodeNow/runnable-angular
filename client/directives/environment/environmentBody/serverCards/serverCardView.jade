@@ -108,7 +108,7 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-start-cmd"
       )
-    h3.h3.text-overflow Commands and Packages
+    h3.h3.text-overflow Commands & Packages
     small.small.text-overflow(
       title = "{{server.startCommand}}"
     ) {{server.startCommand}}
@@ -125,11 +125,24 @@ ul.card-body.load(
     ng-if = "server.repo && !server.advanced"
     ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.containerFiles}"
   )
-    svg.iconnables
+    svg.iconnables(
+      ng-if = "!$root.featureFlags.sshKeys"
+    )
       use(
         xlink:href = "#icons-container-files"
       )
-    h3.h3.text-overflow Container Files
+    svg.iconnables(
+      ng-if = "$root.featureFlags.sshKeys"
+    )
+      use(
+        xlink:href = "#icons-keys-files"
+      )
+    h3.h3.text-overflow(
+      ng-if = "!$root.featureFlags.sshKeys"
+    ) Container Files
+    h3.h3.text-overflow(
+      ng-if = "$root.featureFlags.sshKeys"
+    ) Files & SSH Keys
     small.small.text-overflow {{ getContainerFilesDisplay() }}
     svg.iconnables.icons-arrow-down
       use(
@@ -149,7 +162,7 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-translation"
       )
-    h3.h3.text-overflow Find and Replace
+    h3.h3.text-overflow Find & Replace
     small.small.text-overflow {{ getTranslationDisplay() }}
     svg.iconnables.icons-arrow-down
       use(

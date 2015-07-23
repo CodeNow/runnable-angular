@@ -7,7 +7,6 @@
   display: flex;
   margin: 15px auto 14px;
   max-width: 100%;
-  padding-right: 30px;
 
   // hide arrow space
   &.no-touching {
@@ -31,12 +30,5 @@
   .icons-status {
     margin-right: 6px;
     margin-top: 12px; // 'vertical center'
-  }
-
-  // arrow down
-  .icons-arrow-down {
-    flex: 0 0 18px;
-    margin: 0 0 0 6px;
-    top: 0;
   }
 }

@@ -38,11 +38,9 @@
 
   // if .arrow-down
   > .icons-arrow-down {
+    float: right;
     height: 100%;
-    position: absolute;
-    right: 3px;
-    top: 0;
-    // transition: opacity .2s ease-in, transform .3s ease-in;
+    margin-right: -6px;
   }
 
   // animations
@@ -115,7 +113,7 @@
 // only for inline buttons
 .btn-xxs {
   border-radius: $input-border-radius-xxs;
-  font-size: 13px;
+  font-size: 12px;
   height: $input-xxs;
   line-height: $input-line-height-xxs;
   padding: 0 3px;

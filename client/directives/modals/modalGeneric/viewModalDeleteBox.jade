@@ -8,7 +8,7 @@
       strong {{ data.instance.attrs.name }}
       | , will be permanently removed.
   footer.modal-footer
-    button.btn.orange(
+    button.btn.red(
       ng-click = "actions.deleteInstance(data.deleteLinked); \
         defaultActions.cancel();"
     ) Delete Container
