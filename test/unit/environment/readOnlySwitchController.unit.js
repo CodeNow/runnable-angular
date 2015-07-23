@@ -117,7 +117,7 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
         }
       };
     });
-    it('should rollback the cv', function () {
+    it.skip('should rollback the cv', function () {
       $scope.state.advanced = true;
       expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.true;
       readOnlySwitchController.readOnly(false);
