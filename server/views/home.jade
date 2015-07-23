@@ -112,7 +112,7 @@ html.home(
 
   body.clearfix(
     ng-app = "homeApp"
-    ng-class = "{'modal-open': data.unauthorizedModal}"
+    ng-class = "{'modal-open': !data.hideUnauthorizedModal}"
     ng-controller = "MainCtrl"
   )
     //
@@ -129,19 +129,15 @@ html.home(
 
       //- unauthorized modal
       if unauthorized
-        div(
-          ng-init = "data.unauthorizedModal = true"
-          style = "display: none"
-        )
         .modal-backdrop(
-          ng-click = "data.unauthorizedModal = false"
-          ng-if = "data.unauthorizedModal"
+          ng-click = "data.hideUnauthorizedModal = true"
+          ng-if = "!data.hideUnauthorizedModal"
         )
           .modal-dialog.home-modal-dialog(
             ng-click = "$event.stopPropagation();"
           )
             svg.iconnables.icons-close(
-              ng-click = "data.unauthorizedModal = false"
+              ng-click = "data.hideUnauthorizedModal = true"
             )
               use(
                 xlink:href = "#icons-close"

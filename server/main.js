@@ -50,8 +50,6 @@ var compiledHomeUnauthorized = jade.renderFile(homePath, assign({unauthorized: t
 var compiledHomeAuthorized = jade.renderFile(homePath, assign({unauthorized: false}, locals));
 
 app.route('/').get(function (req, res, next) {
-  compiledHomeUnauthorized = jade.renderFile(homePath, assign({unauthorized: true}, locals));
-  compiledHomeAuthorized = jade.renderFile(homePath, assign({unauthorized: false}, locals));
   if ( req.query.whitelist === 'false' ) {
     res.send(compiledHomeUnauthorized);
   } else {
