@@ -46,14 +46,14 @@ var locals = {
 };
 app.locals = locals;
 
-var compiledHomeWithPassword = jade.renderFile(homePath, assign({hasPassword: true}, locals));
-var compiledHomeWithoutPassword = jade.renderFile(homePath, assign({hasPassword: false}, locals));
+var compiledHomeUnauthorized = jade.renderFile(homePath, assign({unauthorized: true}, locals));
+var compiledHomeAuthorized = jade.renderFile(homePath, assign({unauthorized: false}, locals));
 
 app.route('/').get(function (req, res, next) {
-  if ( req.query.password !== undefined ) {
-    res.send(compiledHomeWithPassword);
+  if ( req.query.whitelist === 'false' ) {
+    res.send(compiledHomeUnauthorized);
   } else {
-    res.send(compiledHomeWithoutPassword);
+    res.send(compiledHomeAuthorized);
   }
 });
 
