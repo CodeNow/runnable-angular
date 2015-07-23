@@ -49,7 +49,7 @@
           ng-change = "data.cacheCommand = false"
           ng-model-options = "{debounce: {default: 50, blur: 0}}"
         )
-        .cache-column(
+        .cache-column.js-animate(
           ng-hide = "!data.cacheCommand"
         )
           .cache-border
