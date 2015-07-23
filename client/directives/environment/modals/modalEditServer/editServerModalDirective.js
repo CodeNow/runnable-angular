@@ -104,7 +104,7 @@ function editServerModal(
       }
 
       $scope.updateDockerfileFromState = function () {
-        return loadingPromises('editServerModal', updateDockerfileFromState($scope.state));
+        return loadingPromises.add('editServerModal', updateDockerfileFromState($scope.state));
       };
 
       $scope.triggerEditRepo = function (repo) {

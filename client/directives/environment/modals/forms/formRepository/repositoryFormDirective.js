@@ -61,7 +61,7 @@ require('app')
           });
 
         $scope.updateDockerfile = function () {
-          return loadingPromises($scope.loadingPromisesTarget, updateDockerfileFromState($scope.state));
+          return loadingPromises.add($scope.loadingPromisesTarget, updateDockerfileFromState($scope.state));
         };
 
         $scope.cacheCommand = function (enableCache) {

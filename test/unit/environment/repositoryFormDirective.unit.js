@@ -175,11 +175,11 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
 
       expect($elScope.data.cacheCommand, 'Cache enabled').to.be.ok;
       // This is a checkbox so both of these things will happen at the same time!
-      $elScope.data.cacheCommand = false;
-      $elScope.actions.toggleCache();
+      $elScope.cacheCommand(false);
       $scope.$digest();
 
       expect($elScope.state.containerFiles[0].commands[0].cache, 'Cached command').to.not.be.ok;
+      sinon.assert.called(ctx.updateDockerfileFromStateMock);
 
     });
     it('should enable cache when toggleCache to true', function () {
@@ -207,11 +207,11 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
 
       expect($elScope.data.cacheCommand, 'Cache enabled').to.not.be.ok;
       // This is a checkbox so both of these things will happen at the same time!
-      $elScope.data.cacheCommand = true;
-      $elScope.actions.toggleCache();
+      $elScope.cacheCommand(true);
       $scope.$digest();
 
       expect($elScope.state.containerFiles[0].commands[0].cache, 'Cached command').to.be.ok;
+      sinon.assert.called(ctx.updateDockerfileFromStateMock);
 
     });
 
@@ -246,12 +246,13 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
 
       expect($elScope.data.cacheCommand, 'Cache enabled').to.not.be.ok;
       // This is a checkbox so both of these things will happen at the same time!
-      $elScope.data.cacheCommand = true;
-      $elScope.actions.toggleCache();
+      $elScope.cacheCommand(true);
       $scope.$digest();
 
       expect($elScope.state.containerFiles[0].commands[0].cache, 'Cached command').to.not.be.ok;
       expect($elScope.state.containerFiles[0].commands[1].cache, 'Cached command').to.be.ok;
+      sinon.assert.called(ctx.updateDockerfileFromStateMock);
+
 
     });
   });
