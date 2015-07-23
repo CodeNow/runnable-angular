@@ -119,7 +119,7 @@ function fetchInstancesByPod(
     username = username || $state.params.userName;
     if (!fetchByPodCache[username]) {
       var userPromise = fetchUser();
-      return fetchInstances({
+      fetchByPodCache[username] = fetchInstances({
         githubUsername: username
       })
         .then(function (allInstances) {
