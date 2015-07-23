@@ -132,8 +132,8 @@ form.modal-dialog.modal-edit(
     )
     .modal-form(
       loading-promises-target = "editServerModal"
-      ng-show = "selectedTab === 'commands'"
       ng-if = "!state.advanced"
+      ng-show = "selectedTab === 'commands'"
       repository-form
       state = "state"
     )

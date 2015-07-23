@@ -1,5 +1,6 @@
 .icons-status(
-  ng-class = "getInstanceClasses(instance)"
-  tooltip = "{{ instance | cardBuildStatusTitle }}"
+  ng-class = "instanceClasses"
+  tooltip
+  tooltip-eval = "instance | cardBuildStatusTitle"
   tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
 )

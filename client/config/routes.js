@@ -1,23 +1,21 @@
 'use strict';
 
 module.exports = [
-  // TEST $root.featureFlags.debugMode
-  // {
-  //   state: 'debug',
-  //   abstract: false,
-  //   url: '^/debug',
-  //   templateUrl: 'viewDebug',
-  //   data: {
-  //     anon: true
-  //   }
-  // },
-  // TEST $root.featureFlags.debugMode
   {
     state: 'orgSelect',
     abstract: false,
     url: '^/orgSelect',
     templateUrl: 'viewOrgSelect',
-    controller: 'ControllerOrgSelect'
+    controller: 'ControllerOrgSelect',
+    controllerAs: 'COS',
+    resolve: {
+      user: function (fetchUser) {
+        return fetchUser();
+      },
+      orgs: function (fetchOrgs) {
+        return fetchOrgs();
+      }
+    }
   }, {
     state: 'serverSelection',
     abstract: false,
@@ -40,68 +38,51 @@ module.exports = [
     state: 'base',
     abstract: true,
     url: '^/:userName/',
-    templateUrl: 'viewInstanceLayout',
-    controller: 'ControllerApp'
-  }, {
-    state: 'config',
-    abstract: true,
-    templateUrl: 'viewInstanceLayout',
-    controller: 'ControllerInstanceLayout',
-    onEnter: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'layoutOptions.hideSidebar', true);
-      keypather.set($rootScope, 'dataApp.isConfigPage', true);
-    },
-    onExit: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'layoutOptions.hideSidebar', false);
-      keypather.set($rootScope, 'dataApp.isConfigPage', false);
+    templateUrl: 'viewBaseLayout',
+    controller: 'ControllerApp',
+    controllerAs: 'CA',
+    resolve: {
+      user: function (fetchUser) {
+        return fetchUser();
+      },
+      orgs: function (fetchOrgs) {
+        return fetchOrgs();
+      },
+      activeAccount: function ($q, $stateParams, $state, user, orgs, $timeout) {
+        var lowerAccountName = $stateParams.userName.toLowerCase();
+        if (user.oauthName().toLowerCase() === lowerAccountName) {
+          return user;
+        }
+
+        var matchedOrg = orgs.find(function (org) {
+          return org.oauthName().toLowerCase() === lowerAccountName;
+        });
+
+        if (!matchedOrg) {
+          // There is a bug in ui-router and a timeout is the workaround
+          return $timeout(function () {
+            $state.go('orgSelect');
+            return $q.reject('User Unauthorized for Organization');
+          });
+        }
+        return matchedOrg;
+      }
     }
   }, {
-    state: 'config.home',
+    state: 'base.config',
     abstract: false,
     url: '^/:userName/configure',
     templateUrl: 'environmentView',
-    controller: 'EnvironmentController',
-    onEnter: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'layoutOptions.hideSidebar', true);
-      keypather.set($rootScope, 'dataApp.isConfigPage', true);
-    },
-    onExit: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'layoutOptions.hideSidebar', false);
-      keypather.set($rootScope, 'dataApp.isConfigPage', false);
-    }
+    controller: 'EnvironmentController'
   }, {
-    state: 'config.instance',
+    state: 'base.instances',
     abstract: false,
-    url: '^/:userName/configure/:instanceName',
-    templateUrl: 'environmentView',
-    controller: 'EnvironmentController',
-    onEnter: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'layoutOptions.hideSidebar', true);
-      keypather.set($rootScope, 'dataApp.isConfigPage', true);
-    },
-    onExit: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'layoutOptions.hideSidebar', false);
-      keypather.set($rootScope, 'dataApp.isConfigPage', false);
-    }
+    url: '^/:userName/',
+    templateUrl: 'viewInstances',
+    controller: 'ControllerInstances',
+    controllerAs: 'CIS'
   }, {
-    state: 'instance',
-    abstract: true,
-    templateUrl: 'viewInstanceLayout',
-    controller: 'ControllerInstanceLayout',
-    onEnter: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'dataApp.isInstancePage', true);
-    },
-    onExit: function ($rootScope, keypather) {
-      keypather.set($rootScope, 'dataApp.isInstancePage', false);
-    }
-  }, {
-    state: 'instance.home',
-    abstract: false,
-    url: '^/:userName',
-    templateUrl: 'viewInstanceHome',
-    controller: 'ControllerInstanceHome'
-  }, {
-    state: 'instance.instance',
+    state: 'base.instances.instance',
     abstract: false,
     url: '^/:userName/:instanceName',
     templateUrl: 'viewInstance',

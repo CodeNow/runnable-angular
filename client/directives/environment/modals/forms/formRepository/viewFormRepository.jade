@@ -15,7 +15,7 @@
     span.span &#32;a command
     input.toggle-input(
       ng-click = "actions.toggleCache()"
-      ng-disabled = "startCommandCanDisable && !state.selectedStack"
+      ng-disabled = "startCommandCanDisable && (!state.selectedStack || !mainRepoContainerFile.commands.length)"
       ng-model = "data.cacheCommand"
       type = "checkbox"
     )
@@ -28,36 +28,40 @@
       command-editor
       ng-disabled = "startCommandCanDisable && !state.selectedStack"
       ng-if = "!$root.featureFlags.buildCommandCache"
-      ng-model = "state.commands"
+      ng-model = "mainRepoContainerFile.commands"
+      ng-change = "data.cacheCommand = false"
       spellcheck = "false"
     )
     //- end deprecated textarea
     //-************
     .build-commands-wrapper(
-      ng-class = "{'cache-in': data.cacheCommand}"
       ng-if = "$root.featureFlags.buildCommandCache"
     )
       .flex-wrapper
         textarea.textarea.monospace(
           command-editor
+          ng-class = "{'margin-right': data.cacheCommand}"
           ng-trim="false"
           ng-disabled = "startCommandCanDisable && !state.selectedStack"
-          ng-model = "state.commands"
+          ng-model = "mainRepoContainerFile.commands"
           spellcheck = "false"
-          ng-attr-rows = "{{state.commandRows}}"
+          ng-attr-rows = "{{mainRepoContainerFile.commands.length < 3 ? 3 : mainRepoContainerFile.commands.length}}"
+          ng-change = "data.cacheCommand = false"
           ng-model-options = "{debounce: {default: 50, blur: 0}}"
         )
-        .cache-column
+        .cache-column(
+          ng-hide = "!data.cacheCommand"
+        )
           .cache-border
           label.radio-wrapper(
-            ng-repeat-start = "command in state.commands"
+            ng-repeat-start = "command in mainRepoContainerFile.commands"
             ng-class = "{ 'no-touching': !command.body }"
           )
             input(
               type = "radio"
               ng-click = "actions.updateCache(command)"
               ng-checked = "command.cache"
-              ng-show = "command.body"
+              ng-if = "command.body"
               name = "cache-radio"
             )
           .cache-row(

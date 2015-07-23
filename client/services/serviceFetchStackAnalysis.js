@@ -6,12 +6,12 @@ require('app')
 /**
  * @name fetchStackAnalysis
  * @param $q
- * @param user
+ * @param apiClientBridge
  * @returns {Function} fetchStackAnalysis
  */
 function fetchStackAnalysis(
   $q,
-  user
+  apiClientBridge
 ) {
   return function (fullRepoName) {
     var d = $q.defer();
@@ -19,7 +19,7 @@ function fetchStackAnalysis(
       if (err) { return d.reject(err); }
       d.resolve(body);
     }
-    user.client.get('/actions/analyze?repo=' + fullRepoName, callback);
+    apiClientBridge.client.get('/actions/analyze?repo=' + fullRepoName, callback);
     return d.promise;
   };
 }

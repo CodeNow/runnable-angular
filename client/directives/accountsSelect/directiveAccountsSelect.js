@@ -36,9 +36,9 @@ function accountsSelect (
             var username = userOrOrg.oauthName();
             $rootScope.$broadcast('close-popovers');
             $timeout(function () {
-              $state.go('^.home', {
+              $state.go('base.instances', {
                 userName: username
-              }).then(function () {
+              }, {reload: true}).then(function () {
                 $scope.data.activeAccount = userOrOrg;
                 $scope.$emit('INSTANCE_LIST_FETCH', username);
               });
