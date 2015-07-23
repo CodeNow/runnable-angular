@@ -1,8 +1,5 @@
-ul.table-drag-drop(
-  dnd-list = "state.containerFiles"
-  dnd-drop = "dropContainerFile(event, index, item, type)"
-)
-  li.tr.multi-line.clearfix(
+.table.table-merge
+  .tr.multi-line.clearfix(
     ng-if = "$root.featureFlags.sshKeys"
   )
     .cell.cell-action.disabled.no-touching
@@ -26,6 +23,16 @@ ul.table-drag-drop(
           use(
             xlink:href = "#icons-overflow"
           )
+
+//- dnd-drop needs this to be a list
+ul.table.table-merge(
+  dnd-list = "state.containerFiles"
+  dnd-drop = "dropContainerFile(event, index, item, type)"
+)
+  //- only show if there's > 0 ssh keys AND > 0 files
+  li.tr.thead.clearfix(
+    ng-if = "$root.featureFlags.sshKeys"
+  )
   li.tr.multi-line.clearfix(
     dnd-draggable = "containerFile.id"
     dnd-dragstart = "actions.dragstart()"
