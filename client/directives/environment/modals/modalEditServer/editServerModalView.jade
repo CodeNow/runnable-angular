@@ -59,7 +59,8 @@ form.modal-dialog.modal-edit(
             xlink:href = "#icons-start-cmd"
           )
         .btn-text Commands
-          br & Packages
+          br
+          | & Packages
       button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'files'}"
         ng-click = "changeTab('files')"
