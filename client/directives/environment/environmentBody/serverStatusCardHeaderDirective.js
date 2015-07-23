@@ -24,14 +24,16 @@ function serverStatusCardHeader(
                   'If you make changes to the build files, you will not be able to ' +
                   'switch back without losing changes.')) {
               $scope.state.advanced = !$scope.state.advanced;
+            } else {
+              $scope.popOverServerData.advanced = $scope.state.advanced;
             }
-            $scope.popOverServerData.advanced = $scope.state.advanced;
           }
         }
       };
-      if ($scope.state) {
-        $scope.popOverServerData.advanced = $scope.state.advanced;
-      }
+      $scope.$watch('state.advanced', function (advanced) {
+        $scope.popOverServerData.advanced = advanced;
+      });
+
 
       $scope.$watch(function () {
         return attrs.noTouching === 'true';
