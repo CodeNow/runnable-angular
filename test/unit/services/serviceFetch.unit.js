@@ -348,13 +348,15 @@ describe('serviceFetch'.bold.underline.blue, function () {
           fetchInstancesStub = sinon.stub().returns($q.when(rawInstances));
           return fetchInstancesStub;
         });
-        $provide.factory('apiClientBridge', function () {
+        $provide.factory('fetchUser', function ($q) {
           addInstance = sinon.stub();
-          return {
-            newInstances: sinon.stub().returns({
-              add: addInstance
+          return sinon.stub().returns(
+            $q.when({
+              newInstances: sinon.stub().returns({
+                add: addInstance
+              })
             })
-          };
+          );
         });
       });
       angular.mock.inject(function (

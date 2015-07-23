@@ -113,11 +113,12 @@ var fetchByPodCache = {};
 function fetchInstancesByPod(
   fetchInstances,
   $state,
-  apiClientBridge
+  fetchUser
 ) {
   return function (username) {
     username = username || $state.params.userName;
     if (!fetchByPodCache[username]) {
+      var userPromise = fetchUser();
       return fetchInstances({
         githubUsername: username
       })
@@ -146,16 +147,17 @@ function fetchInstancesByPod(
             master.children.add(children);
           });
 
-          var instances = apiClientBridge.newInstances([], {
-            qs: {
-              masterPod: true,
-              githubUsername: username
-            },
-            reset: false
+          return userPromise.then(function (user) {
+            var instances = user.newInstances([], {
+              qs: {
+                masterPod: true,
+                githubUsername: username
+              }
+            });
+            instances.githubUsername = username;
+            instances.add(masterInstances);
+            return instances;
           });
-          instances.githubUsername = username;
-          instances.add(masterInstances);
-          return instances;
         });
     }
 
