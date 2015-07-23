@@ -18,6 +18,5 @@ module.exports = angular.module('app', [
   'ngFileUpload',
   'dndLists',
   'duScroll',
-  'ngAnimate',
   require('angular-sanitize')
 ]);
