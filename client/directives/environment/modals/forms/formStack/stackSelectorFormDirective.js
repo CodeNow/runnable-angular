@@ -7,24 +7,26 @@ require('app')
  */
 function stackSelectorForm(
   keypather,
+  loadingPromises,
   updateDockerfileFromState
 ) {
   return {
     restrict: 'A',
     templateUrl: 'viewFormStack',
     scope: {
-      state: '=',
-      data: '='
+      data: '=',
+      loadingPromisesTarget: '@?',
+      state: '='
     },
     link: function ($scope, elem, attrs) {
       $scope.temp = {
         stack: keypather.get($scope, 'state.selectedStack')
       };
       $scope.updateDockerfile = function () {
-        return updateDockerfileFromState($scope.state);
+        return loadingPromises.add($scope.loadingPromisesTarget, updateDockerfileFromState($scope.state));
       };
       $scope.updateDockerfileOnNewStack = function () {
-        return updateDockerfileFromState($scope.state, true);
+        return loadingPromises.add($scope.loadingPromisesTarget, updateDockerfileFromState($scope.state, true));
       };
 
       // Since we are adding info to the stack object, and those objects are going to get reused,
