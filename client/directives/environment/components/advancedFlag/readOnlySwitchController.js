@@ -13,8 +13,9 @@ function ReadOnlySwitchController(
 ) {
   var ROSC = this;
   this.popover = {
-    performRollback: function (rolledContextVersion) {
-      $scope.resetStateContextVersion(rolledContextVersion, true);
+    performRollback: function (originalContextVersion) {
+      $scope.closePopover();
+      return $scope.resetStateContextVersion(originalContextVersion, true);
     }
   };
   // Getter/setter
@@ -37,10 +38,10 @@ function ReadOnlySwitchController(
             errs.handler(err);
             $scope.state.advanced = !newAdvancedMode;
           });
-      } 
+      }
       // If switching from advanced to basic
       return $scope.state.promises.contextVersion
-        .then(function(contextVersion) {
+        .then(function (contextVersion) {
           ROSC.popover.active = true;
           ROSC.popover.rolledContextVersion = contextVersion;
         });
