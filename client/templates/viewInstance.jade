@@ -2,10 +2,10 @@
   ng-include = "'spinner'"
   ng-if = "isLoading.main"
 )
+
 .instance(
   ng-if = "!isLoading.main"
 )
-
   //- show if server build is being swapped out
     - orange when build is updating or has failed
     - green if build is successfully built
