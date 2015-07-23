@@ -6,6 +6,7 @@ require('app')
  * @ngInject
  */
 function ControllerInstances(
+  $filter,
   $state,
   favico,
   keypather,
@@ -58,9 +59,10 @@ function ControllerInstances(
       }
 
       if (!targetInstance) {
-        targetInstance = instances.find(function (instance) {
-          return isInstanceMatch(instance);
-        });
+        targetInstance = $filter('orderBy')(instances, 'attrs.name')
+          .find(function (instance) {
+            return isInstanceMatch(instance);
+          });
       }
 
       setLastOrg(userName);
