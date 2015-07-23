@@ -130,6 +130,10 @@ html.home(
       if unauthorized
         .modal-backdrop
           .modal-dialog.home-modal-dialog
+            svg.iconnables.icons-close
+              use(
+                xlink:href = "#icons-close"
+              )
             section.modal-body
               span.span We’re sorry, but your GitHub account doesn’t have access to the Runnable beta.
               button.btn.green(

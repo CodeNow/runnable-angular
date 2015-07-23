@@ -13,20 +13,27 @@
 }
 
 .home-modal-dialog {
-  max-width: 400px;
+  max-width: 375px;
+
+  .icons-close {
+    color: $gray-light;
+    position: absolute;
+    right: 9px;
+    top: 9px;
+  }
 
   .modal-body {
-    padding: 18px 30px;
+    padding: 24px 30px;
     text-align: center;
 
     .span {
       font-size: 21px;
-      margin: 12px 0 24px;
+      margin: 12px 0 21px;
     }
 
     .small {
       color: $gray;
-      margin-top: 18px;
+      margin-top: 21px;
     }
   }
 
@@ -37,7 +44,7 @@
   .modal-footer {
     color: $gray;
     margin: 0;
-    padding: 12px;
+    padding: 15px;
     text-align: center;
   }
 }
