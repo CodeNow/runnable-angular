@@ -13,8 +13,7 @@ require('app')
  */
 function openItemsFactory(
   $localStorage,
-  keypather,
-  user
+  keypather
 ) {
 
   function instanceOfModel(model) {

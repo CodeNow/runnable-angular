@@ -17,6 +17,9 @@ describe('controllerApp'.bold.underline.blue, function () {
   function setup(stateParams, intercom) {
     angular.mock.module('app');
     ctx.fakeuser = new User(angular.copy(apiMocks.user));
+    ctx.fakeuser.socket = {
+      joinOrgRoom: sinon.spy()
+    };
     ctx.fakeOrg1 = {
       attrs: angular.copy(apiMocks.user),
       oauthName: function () {
@@ -29,20 +32,22 @@ describe('controllerApp'.bold.underline.blue, function () {
         return 'org2';
       }
     };
-    var mockUserFetch = new (require('../fixtures/mockFetch'))();
-    var fetchOrgsMock = function ($q) {
-      return function () {
-        return $q.when({models: [ctx.fakeOrg1, ctx.fakeOrg2]});
-      };
-    };
+    ctx.fakeOrgs = {models: [ctx.fakeOrg1, ctx.fakeOrg2]};
     ctx.stateParams = stateParams || {
       userName: 'username',
       instanceName: 'instancename'
     };
+    ctx.fakeErrs = {
+      handler: sinon.spy(),
+      clearErrors: sinon.spy(),
+      errors: []
+    };
     angular.mock.module('app', function ($provide) {
-      $provide.factory('fetchUser', mockUserFetch.fetch());
-      $provide.factory('fetchOrgs', fetchOrgsMock);
       $provide.value('$stateParams', ctx.stateParams);
+      $provide.value('user', ctx.fakeuser);
+      $provide.value('orgs', ctx.fakeOrgs);
+      $provide.value('activeAccount', ctx.fakeuser);
+      $provide.value('errs', ctx.fakeErrs);
     });
     angular.mock.inject(function (
       _$controller_,
@@ -63,7 +68,6 @@ describe('controllerApp'.bold.underline.blue, function () {
     var ca = $controller('ControllerApp', {
       '$scope': $scope
     });
-    mockUserFetch.triggerPromise(ctx.fakeuser);
     $rootScope.$apply();
   }
 
@@ -85,6 +89,8 @@ describe('controllerApp'.bold.underline.blue, function () {
     it('initalizes $scope.dataApp properly', function () {
       expect($scope.dataApp).to.be.an.Object;
       $rootScope.$digest();
+      $scope.dataApp.data.modalError.actions.close();
+      sinon.assert.calledOnce(ctx.fakeErrs.clearErrors);
     });
 
     it('creates a click handler that broadcasts', function () {
@@ -100,84 +106,27 @@ describe('controllerApp'.bold.underline.blue, function () {
       expect(spy.calledOnce).to.equal(true);
       expect(spy.lastCall.args[1]).to.equal('foo');
     });
-  });
 
-  describe('account stuff'.blue, function () {
-    describe('No account already chosen'.blue, function () {
-      it('should select user if nothing matches name in url', function (done) {
-        setup({});
-        var listFetchSpy = sinon.spy(function(event, name) {
-          expect(name).to.equal(ctx.fakeuser.oauthName());
-          expect($scope.dataApp.data.activeAccount).to.be.an.Object;
-          expect($scope.dataApp.data.activeAccount).to.equal(ctx.fakeuser);
-          done();
-        });
-        $scope.$on('INSTANCE_LIST_FETCH', listFetchSpy);
-        $rootScope.$digest();
-        $rootScope.$broadcast('$stateChangeStart', null, {
-          userName: 'username'
-        });
-        $rootScope.$digest();
+
+    it('creates an escape button handler that broadcasts', function () {
+      $rootScope.$digest();
+
+      var spy = sinon.spy();
+      var spy2 = sinon.spy();
+      $scope.$on('app-document-click', spy);
+      $scope.$on('close-modal', spy2);
+
+      $scope.dataApp.documentKeydownEventHandler({
+        keyCode: 27,
+        target: 'foo'
       });
-      it('should select user, matching it from the stateParams', function (done) {
-        setup({});
-        var listFetchSpy = sinon.spy(function(event, name) {
-          expect(name).to.equal(ctx.fakeuser.oauthName());
-          expect($scope.dataApp.data.activeAccount).to.be.an.Object;
-          expect($scope.dataApp.data.activeAccount).to.equal(ctx.fakeuser);
-          done();
-        });
-        $scope.$on('INSTANCE_LIST_FETCH', listFetchSpy);
-        $rootScope.$digest();
-        $rootScope.$broadcast('$stateChangeStart', null, {
-          userName: ctx.fakeuser.oauthName()
-        });
-        $rootScope.$digest();
-      });
-      it('should select org1, matching it from the stateParams', function (done) {
-        setup({}, false, true);
-        var listFetchSpy = sinon.spy(function(event, name) {
-          expect(name).to.equal(ctx.fakeOrg1.oauthName());
-          expect($scope.dataApp.data.activeAccount).to.be.an.Object;
-          expect($scope.dataApp.data.activeAccount).to.equal(ctx.fakeOrg1);
-          done();
-        });
-        $scope.$on('INSTANCE_LIST_FETCH', listFetchSpy);
-        $rootScope.$digest();
-        $rootScope.$broadcast('$stateChangeStart', null, {
-          userName: ctx.fakeOrg1.oauthName()
-        });
-        $rootScope.$digest();
-      });
+
+      sinon.assert.calledOnce(spy);
+      sinon.assert.calledOnce(spy2);
     });
-    it('should not switch accounts if active account matches', function () {
-      setup({}, true);
-      var listFetchSpy = sinon.spy();
-      keypather.set($scope, 'dataApp.data.activeAccount', ctx.fakeOrg1);
-      $scope.$on('INSTANCE_LIST_FETCH', listFetchSpy);
-      $rootScope.$digest();
-      $rootScope.$broadcast('$stateChangeStart', null, {
-        userName: ctx.fakeOrg1.oauthName()
-      });
-      $rootScope.$digest();
-      expect($scope.dataApp.data.activeAccount).to.be.an.Object;
-      expect($scope.dataApp.data.activeAccount).to.equal(ctx.fakeOrg1);
-      sinon.assert.notCalled(listFetchSpy);
-    });
-    it('should switch accounts if active account does not match url', function () {
-      setup({}, true);
-      var listFetchSpy = sinon.spy(function(event, name) {
-        expect(name).to.equal(ctx.fakeOrg2.oauthName());
-        expect($scope.dataApp.data.activeAccount).to.be.an.Object;
-        expect($scope.dataApp.data.activeAccount).to.equal(ctx.fakeOrg2);
-      });
-      keypather.set($scope, 'dataApp.data.activeAccount', ctx.fakeOrg1);
-      $scope.$on('INSTANCE_LIST_FETCH', listFetchSpy);
-      $rootScope.$digest();
-      $rootScope.$broadcast('$stateChangeStart', null, {
-        userName: ctx.fakeOrg2.oauthName()
-      });
-      $rootScope.$digest();
+
+    it('should join the org room for the user', function () {
+      sinon.assert.calledOnce(ctx.fakeuser.socket.joinOrgRoom);
     });
   });
 });

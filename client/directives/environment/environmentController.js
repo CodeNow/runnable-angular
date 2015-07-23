@@ -24,7 +24,6 @@ function EnvironmentController(
   promisify,
   $rootScope,
   $q,
-  user,
   helpCards,
   $window,
   $state
