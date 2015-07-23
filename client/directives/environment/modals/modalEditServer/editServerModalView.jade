@@ -58,17 +58,27 @@ form.modal-dialog.modal-edit(
           use(
             xlink:href = "#icons-start-cmd"
           )
-        .btn-text Commands and Packages
+        .btn-text Commands
+          br
+          | & Packages
       button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'files'}"
         ng-click = "changeTab('files')"
         ng-if = "isTabVisible('files')"
       )
-        svg.iconnables
+        svg.iconnables(
+          ng-if = "!$root.featureFlags.sshKeys"
+        )
           use(
             xlink:href = "#icons-container-files"
           )
-        .btn-text Container Files
+        svg.iconnables(
+          ng-if = "$root.featureFlags.sshKeys"
+        )
+          use(
+            xlink:href = "#icons-keys-files"
+          )
+        .btn-text  {{ $root.featureFlags.sshKeys ? "Files & SSH Keys" : "Container Files" }}
       button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'translation'}"
         ng-click = "changeTab('translation')"
@@ -78,7 +88,7 @@ form.modal-dialog.modal-edit(
           use(
             xlink:href = "#icons-translation"
           )
-        .btn-text Find and Replace
+        .btn-text Find & Replace
       button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'logs'}"
         ng-click = "changeTab('logs')"
@@ -145,6 +155,7 @@ form.modal-dialog.modal-edit(
         'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
       }"
       ng-show = "selectedTab === 'logs'"
+      ng-if = "$root.featureFlags.sshKeys"
       ng-include = "'viewFormLogs'"
     )
 

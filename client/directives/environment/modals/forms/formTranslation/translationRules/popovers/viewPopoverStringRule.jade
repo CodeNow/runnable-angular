@@ -8,7 +8,7 @@
 
     //- if new rule
     h3.popover-title {{ data.state._id ? '': 'New '}}String Replace Rule
-      button.btn.btn-xs.orange(
+      button.btn.btn-xs.red(
         ng-click = "actions.deleteRule(data.state)"
         ng-if = "data.state._id"
       )

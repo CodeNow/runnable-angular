@@ -1,19 +1,20 @@
 //- header—title, description, progress
 .environment-header {
-  border-bottom: 1px solid #ccc;
-  color: $gray-light;
-  margin: 15px 15px 18px;
-  padding: 15px 0 18px;
+  margin: 24px 15px;
 
   // new server button
   .green {
     float: right;
-    padding-right: 30px;
     text-align: left;
-    width: 200px;
 
     &.hint {
       animation: scale .4s ease;
+    }
+
+    .icons-add {
+      height: 18px;
+      margin: 12px 6px 0 0;
+      width: 18px;
     }
   }
 
