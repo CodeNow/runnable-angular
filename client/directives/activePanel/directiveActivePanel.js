@@ -12,7 +12,6 @@ require('app')
  */
 function activePanel(
   $sce,
-  $q,
   keypather,
   updateInstanceWithNewBuild,
   errs,
@@ -31,18 +30,6 @@ function activePanel(
       isEditModal: '=?'
     },
     link: function ($scope, element, attrs) {
-
-      /**
-       * showBackgroundButtons
-       * @type {{ web, build, server, term }}
-       */
-      if (attrs.backgroundButtons) {
-        var showBackgroundButtons = {};
-        attrs.backgroundButtons.split(',').forEach(function (button) {
-          showBackgroundButtons[button.trim()] = true;
-        });
-        $scope.showBackgroundButtons = showBackgroundButtons;
-      }
       $scope.data = {};
 
       // allow iframe to load url

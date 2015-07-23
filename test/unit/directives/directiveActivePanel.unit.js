@@ -130,19 +130,6 @@ describe('directiveActivePanel'.bold.underline.blue, function () {
 
   });
 
-  it('Making sure background buttons works properly', function () {
-    initState({
-      'background-buttons': 'web, build, server, term'
-    });
-    expect($elScope.showBackgroundButtons).to.deep.equal({
-      web: true,
-      build: true,
-      server: true,
-      term: true
-    });
-    expect($elScope.useAutoUpdate).to.be.false;
-  });
-
   it('should hide build failure only when on the edit modal', function () {
     initState({}, {
       isEditModal: true,
