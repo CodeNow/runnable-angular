@@ -6,7 +6,7 @@
   )
 
 .clearfix
-  .label-col {{ $root.featureFlags.sshKeys ? "SSH Keys & Files" : "Container Files" }}
+  .label-col {{ $root.featureFlags.sshKeys ? "Files & SSH Keys" : "Container Files" }}
   .input-col
     button.btn.btn-xs.white.float-right(
       ng-if = "$root.featureFlags.sshKeys"
