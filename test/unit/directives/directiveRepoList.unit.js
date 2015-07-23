@@ -97,7 +97,9 @@ describe('directiveRepoList'.bold.underline.blue, function() {
 
 
   it('should trigger update on change of locked attribute', function () {
-    keypather.set($scope, 'instance.attrs.locked', true);
+    expect($elScope.autoDeploy()).to.not.be.ok;
+
+    $elScope.autoDeploy(true);
 
     $scope.$digest();
 

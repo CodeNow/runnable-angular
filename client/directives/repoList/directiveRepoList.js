@@ -7,6 +7,7 @@ function repoList(
   eventTracking,
   promisify,
   $localStorage,
+  keypather,
   loading,
   errs
 ) {
@@ -71,13 +72,16 @@ function repoList(
           });
       });
 
-      $scope.$watch('instance.attrs.locked', function (n, p) {
-        if (n !== p) {
-          $scope.instance.update({
-            locked: n
-          }, angular.noop);
+      $scope.autoDeploy = function (isLocked) {
+        if (arguments.length > 0) {
+          return promisify($scope.instance, 'update')({
+            locked: isLocked
+          })
+            .catch(errs.handler);
+        } else {
+          return keypather.get($scope.instance, 'attrs.locked');
         }
-      });
+      };
     }
   };
 }
