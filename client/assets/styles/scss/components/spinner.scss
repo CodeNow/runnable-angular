@@ -2,16 +2,10 @@
   display: flex;
 
   // show small spinner (15px)
-  &.spinner-sm .spinner-sm {
-    display: block;
-  }
-
   // show medium spinner (30px)
-  &.spinner-md .spinner-md {
-    display: block;
-  }
-
   // show large spinner (60px)
+  &.spinner-sm .spinner-sm,
+  &.spinner-md .spinner-md,
   &.spinner-lg .spinner-lg {
     display: block;
   }
