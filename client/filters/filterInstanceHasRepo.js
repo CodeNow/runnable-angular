@@ -9,6 +9,9 @@ function instanceHasRepo() {
       return;
     }
     return instances.filter(function (instance) {
+      if (instance.destroyed || !instance.id()) {
+        return false;
+      }
       var repoExists = !!instance.getRepoName();
       return hasRepo === repoExists;
     });
