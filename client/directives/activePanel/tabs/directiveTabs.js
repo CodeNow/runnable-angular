@@ -15,11 +15,10 @@ function tabs(
     templateUrl: 'viewTabs',
     scope: {
       openItems: '=',
-      instance: '=',
-      showAddButtons: '='
+      instance: '='
     },
     link: function ($scope) {
-      $scope.popoverAddTab = helperAddTab($scope.showAddButtons, $scope.openItems);
+      $scope.popoverAddTab = helperAddTab($scope.openItems);
       $scope.actions = {
         removeItem: function (event, item) {
           $scope.openItems.remove(item);
