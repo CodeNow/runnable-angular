@@ -11,7 +11,8 @@ function dnsManager(
   $localStorage,
   promisify,
   getInstanceMaster,
-  $q
+  $q,
+  keypather
 ) {
   return {
     restrict: 'A',
@@ -50,7 +51,7 @@ function dnsManager(
         })
         .then(function (masters) {
           $scope.directlyRelatedMasterInstances = masters.filter(function (instance) {
-            return instance.contextVersion.getMainAppCodeVersion();
+            return keypather.get(instance, 'contextVersion.getMainAppCodeVersion()');
           });
         })
         .catch(errs.handler)
