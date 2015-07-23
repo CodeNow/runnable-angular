@@ -77,13 +77,11 @@ function populateDockerfile(
         return section.type === 'Main Repository';
       });
 
-      if (
+      mainRepo.hasFindReplace = (
         keypather.get(state, 'contextVersion.getMainAppCodeVersion().attrs.transformRules.rename.length') ||
         keypather.get(state, 'contextVersion.getMainAppCodeVersion().attrs.transformRules.replace.length') ||
         keypather.get(state, 'contextVersion.getMainAppCodeVersion().attrs.transformRules.exclude.length')
-      ) {
-        mainRepo.hasFindReplace = true;
-      }
+      );
 
 
       var dockerSectionArray = [];
