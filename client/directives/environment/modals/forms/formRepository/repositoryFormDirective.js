@@ -8,7 +8,7 @@ require('app')
     loadingPromises,
     updateDockerfileFromState,
     parseDockerfileForDefaults,
-    reportError,
+    report,
     watchOncePromise
   ) {
     return {
@@ -54,7 +54,7 @@ require('app')
                       $scope.mainRepoContainerFile.path = (defaults.dst.length ? defaults.dst[0] : repoName).replace('/', '');
                     })
                     .then($scope.updateDockerfile)
-                    .catch(reportError);
+                    .catch(report.error);
                 }
               });
             }

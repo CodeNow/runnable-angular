@@ -39,10 +39,10 @@ app.config(function ($httpProvider, $animateProvider) {
  * Override the default exception handler so we can report the error.
  */
 app.config(function($provide) {
-  $provide.decorator('$exceptionHandler', function($delegate, reportError) {
+  $provide.decorator('$exceptionHandler', function($delegate, report) {
     return function(exception, cause) {
       $delegate(exception, cause);
-      reportError(exception, {
+      report.error(exception, {
         cause: cause,
         emitter: 'Global Exception Handler'
       });

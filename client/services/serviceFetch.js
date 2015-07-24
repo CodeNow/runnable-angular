@@ -23,7 +23,7 @@ function fetchUser(
   $q,
   $window,
   promisify,
-  reportError
+  report
 ) {
   var fetchedUser = null;
   var socket = null;
@@ -33,7 +33,7 @@ function fetchUser(
       fetchedUser = promisify(apiClientBridge, 'fetchUser')('me')
       .then(function (_user) {
         socket = _user.createSocket();
-        reportError.setUser(_user);
+        report.setUser(_user);
         return _user;
       })
       .catch(function (err) {
@@ -113,13 +113,14 @@ var fetchByPodCache = {};
 function fetchInstancesByPod(
   fetchInstances,
   $state,
-  fetchUser
+  fetchUser,
+  report
 ) {
   return function (username) {
     username = username || $state.params.userName;
     if (!fetchByPodCache[username]) {
       var userPromise = fetchUser();
-      return fetchInstances({
+      fetchByPodCache[username] = fetchInstances({
         githubUsername: username
       })
         .then(function (allInstances) {
@@ -138,11 +139,23 @@ function fetchInstancesByPod(
           var masterInstances = [];
           Object.keys(instanceMapping).forEach(function (ctxVersion) {
             var master = instanceMapping[ctxVersion].master;
+            var children = instanceMapping[ctxVersion].children || [];
 
             // Handle the case where we have an extra instance that has no parents.
-            if (!master || !master.children) { return; }
+            if (!master || !master.children) {
+              if (children && children.length) {
+                children.forEach(function (child) {
+                  report.info('Orphaned child detected', {
+                    child: child.id(),
+                    name: child.attrs.name,
+                    owner: child.attrs.owner
+                  });
+                });
+              }
+              return;
+            }
 
-            var children = instanceMapping[ctxVersion].children || [];
+
             masterInstances.push(master);
             master.children.add(children);
           });
