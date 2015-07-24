@@ -71,9 +71,9 @@ function ControllerFilePopover(
               myFile.state.progress = 100;
             })
             .catch(function (err) {
+              errs.handler(err);
               var fileIndex = $scope.dir.contents.models.indexOf(myFile);
               $scope.dir.contents.models.splice(fileIndex, 1);
-              errs.handler(err);
             })
             .then(function () {
               return myFile;
@@ -98,7 +98,8 @@ function ControllerFilePopover(
                 return errs.handler(err);
               }
             });
-        });
+        })
+          .catch(errs.handler);
       }
     },
     addRepository: function () {
