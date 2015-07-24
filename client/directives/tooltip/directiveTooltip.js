@@ -28,16 +28,31 @@ function tooltip(
       } catch (e) {
         options = {};
       }
-      options.left = (typeof options.left !== 'undefined') ? options.left : 0;
       options.top = (typeof options.top !== 'undefined') ? options.top : 0;
       options.class = (typeof options.class !== 'undefined') ? options.class : false;
 
+      if (typeof options.right === 'undefined' && typeof options.left === 'undefined') {
+        options.left = 0;
+      }
+
       $scope.toolTip.getStyle = function () {
         var rect = element[0].getBoundingClientRect();
-        return {
-          'top': (rect.top + options.top + $document.find('body')[0].scrollTop) + 'px',
-          'left': (rect.left + options.left) + 'px'
+        var width = $document.find('html')[0].clientWidth;
+
+        var newPosition = {
+          'top': (rect.top + options.top + $document.find('body')[0].scrollTop) + 'px'
         };
+
+        if (typeof options.right !== 'undefined') {
+          newPosition.right = (width - rect.right + options.right) + 'px';
+          newPosition.left = 'auto';
+        }
+        if (typeof options.left !== 'undefined') {
+          newPosition.left = (rect.left + options.left) + 'px';
+          newPosition.right = 'auto';
+        }
+
+        return newPosition;
       };
 
       bind(element, 'mouseover', function () {

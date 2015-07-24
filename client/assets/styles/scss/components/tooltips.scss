@@ -19,6 +19,12 @@
     margin-left: 6px;
   }
 
+  // bottom with arrow on the right
+  &.bottom-arrow-right::before {
+    margin-left: auto;
+    margin-right: 6px;
+  }
+
   // .right
   &.right {
 
