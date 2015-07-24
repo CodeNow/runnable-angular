@@ -1,7 +1,8 @@
 input.toggle-input(
+  ng-disabled = "!state.repo"
   ng-model = "ROSC.readOnly"
-  type = "checkbox"
   ng-model-options = "{getterSetter: true}"
+  type = "checkbox"
 )
 .toggle-group.toggle-sm(
   pop-over
