@@ -26,10 +26,10 @@
     //- we only have suggestions for build commands on the main repository
     textarea.textarea.monospace(
       command-editor
+      ng-change = "data.cacheCommand = false"
       ng-disabled = "startCommandCanDisable && !state.selectedStack"
       ng-if = "!$root.featureFlags.buildCommandCache"
       ng-model = "mainRepoContainerFile.commands"
-      ng-change = "data.cacheCommand = false"
       spellcheck = "false"
     )
     //- end deprecated textarea
@@ -40,29 +40,29 @@
       .flex-wrapper
         textarea.textarea.monospace(
           command-editor
-          ng-class = "{'margin-right': data.cacheCommand}"
-          ng-trim="false"
-          ng-disabled = "startCommandCanDisable && !state.selectedStack"
-          ng-model = "mainRepoContainerFile.commands"
-          spellcheck = "false"
           ng-attr-rows = "{{mainRepoContainerFile.commands.length < 3 ? 3 : mainRepoContainerFile.commands.length}}"
           ng-change = "data.cacheCommand = false"
+          ng-class = "{'margin-right': data.cacheCommand}"
+          ng-disabled = "startCommandCanDisable && !state.selectedStack"
+          ng-model = "mainRepoContainerFile.commands"
           ng-model-options = "{debounce: {default: 50, blur: 0}}"
+          ng-trim="false"
+          spellcheck = "false"
         )
         .cache-column.js-animate(
           ng-hide = "!data.cacheCommand"
         )
           .cache-border
           label.radio-wrapper(
-            ng-repeat-start = "command in mainRepoContainerFile.commands"
             ng-class = "{ 'no-touching': !command.body }"
+            ng-repeat-start = "command in mainRepoContainerFile.commands"
           )
             input(
-              type = "radio"
+              name = "cache-radio"
               ng-click = "actions.updateCache(command)"
               ng-checked = "command.cache"
               ng-if = "command.body"
-              name = "cache-radio"
+              type = "radio"
             )
           .cache-row(
             ng-repeat-end
@@ -77,9 +77,8 @@ label.label.clearfix(
   .input-col
     textarea.textarea.monospace(
       ng-disabled = "startCommandCanDisable && !state.selectedStack"
-      spellcheck = "false"
       ng-model = "state.packages.packageList"
-      placeholder = "dnsutils vim=7.3"
+      spellcheck = "false"
     )
     small.small Add any packages you would like to install via apt-get, separated with spaces (e.g. ‘dnsutils vim=7.3’). This container is based on &#32;
       strong.strong Ubuntu.
@@ -89,9 +88,9 @@ label.label.clearfix
 
   .input-col
     fancy-select.monospace(
+      name = "repository.startCommand"
       ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
       ng-required = "startCommandCanDisable || ngShow()"
-      name = "repository.startCommand"
       show-dropdown = "state.selectedStack.startCommand"
       type = "text"
       value = "state.startCommand"
