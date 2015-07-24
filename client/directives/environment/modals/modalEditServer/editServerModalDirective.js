@@ -446,33 +446,6 @@ function editServerModal(
         helpCards.setActiveCard(null);
         $scope.modalActions.cancel();
       };
-      function areContainerFilesDifferent() {
-        var serverListLength = keypather.get($scope, 'instance.containerFiles.length') || 0;
-        var stateListLength = keypather.get($scope, 'state.containerFiles.length') || 0;
-
-        if (serverListLength !== stateListLength) {
-          return true;
-        }
-        return $scope.state.containerFiles.some(function (stateFile, index) {
-          var serverFile = $scope.instance.containerFiles[index];
-          return serverFile.toString() !== stateFile.toString();
-        });
-      }
-
-      function arePackagesDifferent() {
-        return keypather.get($scope, 'state.packages.packageList') !== keypather.get($scope, 'instance.packages.packageList');
-      }
-
-      function shouldFnrCreateDockerfile() {
-        var serverFnRObject = keypather.get($scope, 'instance.contextVersion.getMainAppCodeVersion().transformRules');
-        var serverFnRCount = serverFnRObject ?
-            serverFnRObject.exclude.length + serverFnRObject.rename.length + serverFnRObject.replace.length : 0;
-        var stateFnRObject = keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion().transformRules');
-        var stateFnRCount = stateFnRObject ?
-            stateFnRObject.exclude.length + stateFnRObject.rename.length + stateFnRObject.replace.length : 0;
-        // This should be true if the one of the counts is greater than zero, but the other is zero
-        return (serverFnRCount || stateFnRCount) && (serverFnRCount === 0 || stateFnRCount === 0);
-      }
 
       $scope.getUpdatePromise = function () {
         $rootScope.$broadcast('close-popovers');

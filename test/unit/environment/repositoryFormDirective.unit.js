@@ -212,7 +212,12 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
 
       expect($elScope.state.containerFiles[0].commands[0].cache, 'Cached command').to.be.ok;
       sinon.assert.called(ctx.updateDockerfileFromStateMock);
+      ctx.updateDockerfileFromStateMock.reset();
 
+      // should not call updateDockerfile again
+
+      $elScope.cacheCommand(true);
+      sinon.assert.notCalled(ctx.updateDockerfileFromStateMock);
     });
 
     it('should enable cache for the first non empty command when toggleCache is set to true', function () {

@@ -66,6 +66,9 @@ require('app')
 
         $scope.cacheCommand = function (enableCache) {
           if (arguments.length > 0) {
+            if ($scope.data.cacheCommand === enableCache) {
+              return;
+            }
             if (enableCache) {
               var command = $scope.mainRepoContainerFile.commands.find(function (command) {
                 return command.body.length > 0;
