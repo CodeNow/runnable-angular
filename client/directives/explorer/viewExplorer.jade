@@ -7,11 +7,11 @@
 //- on configure modal
 .sidebar-actions(
   ng-if = "editExplorer"
+  ng-controller = "ControllerFilePopover as CFP"
 )
   button.btn.btn-xs.gray(
     ng-class = "{active: filePopover.data.show}"
     ng-disabled = "readOnly"
-    ng-controller = "ControllerFilePopover as CFP"
     pop-over
     pop-over-actions = "CFP.actions"
     pop-over-data = "filePopover.data"

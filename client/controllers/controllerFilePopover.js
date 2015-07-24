@@ -13,7 +13,8 @@ function ControllerFilePopover(
   promisify,
   $scope,
   loadingPromises,
-  helperCreateFSpromise
+  helperCreateFSpromise,
+  $timeout
 ) {
   var self = this;
   this.dir = $scope.dir;
@@ -87,9 +88,25 @@ function ControllerFilePopover(
               $scope.dir.contents.models.splice(fileIndex, 1);
             }
           });
-          $scope.actions.fetchDirFiles();
+
+          promisify($scope.dir.contents, 'fetch')()
+            .catch(function (err) {
+              // We want to filter out this message because it's unhelpful to the user, and usually this
+              // only happens if the instance is (temporarily) out of sync with the database.  If this
+              // error happens, it's being taken care of at a higher level up from here
+              if (err.message !== 'Container not found') {
+                return errs.handler(err);
+              }
+            });
         });
       }
-    }
+    },
+    addRepository: function () {
+      $scope.$broadcast('close-popovers');
+      $scope.showAddRepo = false;
+      $timeout(function () {
+        $scope.state.showAddRepo = true;
+      });
+    },
   };
 }

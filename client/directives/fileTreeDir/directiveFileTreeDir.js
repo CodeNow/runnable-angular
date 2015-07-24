@@ -19,6 +19,7 @@ function fileTreeDir(
   return {
     restrict: 'A',
     replace: true,
+    controller: 'ControllerFilePopover as CFP',
     scope: {
       dir: '=',
       parentDir: '=',

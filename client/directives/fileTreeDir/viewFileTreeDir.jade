@@ -10,7 +10,6 @@ li.folder(
   a(
     ng-class = "{'no-touching': isRootDir}"
     ng-click = "dir.state.open = (!!showRepoFolder) || !dir.state.open"
-    ng-controller = "ControllerFilePopover as CFP"
     pop-over
     pop-over-actions = "CFP.actions"
     pop-over-data = "popoverFileExplorerFolder.data"
