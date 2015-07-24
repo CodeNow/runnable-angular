@@ -275,7 +275,8 @@
     overflow-y: auto;
   }
 
-  .file-editor {
+  .ace_editor {
+    border-bottom-right-radius: 3px;
     margin: -1px -1px -1px 0;
   }
 }
