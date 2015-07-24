@@ -298,7 +298,6 @@ function editServerModal(
 
       $scope.resetStateContextVersion = function (contextVersion, showSpinner) {
         loading.reset('editServerModal');
-        console.log('show spinner', showSpinner);
         if (showSpinner) {
           loading('editServerModal', true);
         }
