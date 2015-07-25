@@ -14,7 +14,8 @@ function ControllerFilePopover(
   $scope,
   loadingPromises,
   helperCreateFSpromise,
-  $timeout
+  $timeout,
+  $rootScope
 ) {
   var self = this;
   this.dir = $scope.dir;
@@ -26,28 +27,28 @@ function ControllerFilePopover(
         isDir: false
       }))
         .catch(errs.handler);
-      $scope.$broadcast('close-popovers');
+      $rootScope.$broadcast('close-popovers');
     },
     createFolder: function () {
       loadingPromises.add(self.loadingPromisesTarget, helperCreateFSpromise($scope.dir, {
         isDir: true
       }))
         .catch(errs.handler);
-      $scope.$broadcast('close-popovers');
+      $rootScope.$broadcast('close-popovers');
     },
     renameFolder: function () {
       $scope.editFolderName = true;
       $scope.actions.focusInputElement();
-      $scope.$broadcast('close-popovers');
+      $rootScope.$broadcast('close-popovers');
     },
     deleteFolder: function () {
       loadingPromises.add(self.loadingPromisesTarget, promisify($scope.dir, 'destroy')())
         .catch(errs.handler);
-      $scope.$broadcast('close-popovers');
+      $rootScope.$broadcast('close-popovers');
     },
     uploadFiles: function (files) {
       if (files && files.length) {
-        $scope.$broadcast('close-popovers');
+        $rootScope.$broadcast('close-popovers');
 
         var uploadURL = configAPIHost + '/' + $scope.fileModel.urlPath + '/' + $scope.fileModel.id() + '/files';
         var fileUploadPromises = files.map(function (file) {
@@ -103,11 +104,11 @@ function ControllerFilePopover(
       }
     },
     addRepository: function () {
-      $scope.$broadcast('close-popovers');
+      $rootScope.$broadcast('close-popovers');
       $scope.showAddRepo = false;
       $timeout(function () {
         $scope.state.showAddRepo = true;
       });
-    },
+    }
   };
 }
