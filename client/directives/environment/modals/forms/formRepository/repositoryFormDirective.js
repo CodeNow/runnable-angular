@@ -57,6 +57,13 @@ require('app')
             }
           });
 
+        $scope.hasCommands = function () {
+          var commands = keypather.get($scope, 'mainRepoContainerFile.commands') || [];
+          return commands.find(function (command) {
+            return command.body.length;
+          });
+        };
+
         $scope.actions = {
           updateCache: function (cmd) {
             if (cmd && cmd.body.length === 0) {

@@ -10,7 +10,7 @@
     small.small (optional)
   //- this element should be disabled when the text field below it is disabled or empty.
   .toggle-wrapper.float-right(
-    ng-disabled = "startCommandCanDisable && (!state.selectedStack || !mainRepoContainerFile.commands.length)"
+    ng-disabled = "!hasCommands()"
   )
     label.small.strong(
       ng-if = "$root.featureFlags.buildCommandCache"
