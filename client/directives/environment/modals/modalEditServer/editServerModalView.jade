@@ -142,6 +142,7 @@ form.modal-dialog.modal-edit(
     .modal-form(
       ng-show = "selectedTab === 'files'"
       ng-if = "!state.advanced"
+      ng-controller = "ControllerContainerFiles as CCF"
       ng-include = "'viewFormFiles'"
     )
     .modal-form(

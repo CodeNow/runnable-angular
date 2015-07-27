@@ -27,7 +27,7 @@
 //- dnd-drop needs this to be a list
 ul.table.table-merge(
   dnd-list = "state.containerFiles"
-  dnd-drop = "dropContainerFile(event, index, item, type)"
+  dnd-drop = "CCF.dropContainerFile(event, index, item, type)"
 )
   //- only show if there's > 0 ssh keys AND > 0 files
   li.tr.thead.clearfix(
@@ -58,34 +58,29 @@ ul.table.table-merge(
     //- deprecated:
     .cell.text-overflow(
       ng-if = "(containerFile.type === 'File' && !$root.featureFlags.sshKeys)"
-      pop-over
-      pop-over-actions = "fileUpload.actions"
-      pop-over-data = "containerFile"
-      pop-over-template = "viewPopoverFilesUpload"
+      ng-click = "CCF.actions.triggerEditFile(containerFile)"
       title = "{{ containerFile.name }}"
     ) {{ containerFile.name }}
 
     //- ssh key feature flag
     .cell.text-overflow(
       ng-if = "(containerFile.type === 'File' && $root.featureFlags.sshKeys)"
-      pop-over
-      pop-over-actions = "fileUpload.actions"
-      pop-over-data = "containerFile"
-      pop-over-template = "viewPopoverFilesUpload"
       title = "{{ containerFile.name }}"
     ) {{ containerFile.name }}
 
       small.small(
         title = "{{ containerFile.path }}"
       ) /{{ containerFile.path }}
+
     .cell.text-overflow(
       ng-if = "containerFile.type === 'Repository' || containerFile.type === 'Main Repository'"
-      ng-click = "triggerEditRepo(containerFile)"
+      ng-click = "CCF.actions.triggerEditRepo(containerFile)"
       title = "{{ containerFile.name }}"
     ) {{ containerFile.name }}
       small.small(
         title = "{{ containerFile.path }}"
       ) /{{ containerFile.path }}
+
     .cell.cell-type.small
       svg.iconnables(
         ng-if = "containerFile.type === 'File'"
