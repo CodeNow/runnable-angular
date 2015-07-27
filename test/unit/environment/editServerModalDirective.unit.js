@@ -8,6 +8,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
   var $elScope;
   var $rootScope;
   var keypather;
+  var loadingService;
   var $q;
 
   var apiClientMockFactory = require('../../unit/apiMocks/apiClientMockFactory');
@@ -46,6 +47,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     ctx.openItemsMock = function () {
       this.models = [];
       this.add = sinon.spy();
+      this.remove = sinon.spy();
     };
 
     ctx.errsMock = {
@@ -168,6 +170,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       _keypather_,
       _$httpBackend_,
       _$templateCache_,
+      _loading_,
       _$q_
     ) {
       $timeout = _$timeout_;
@@ -175,6 +178,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
       keypather = _keypather_;
+      loadingService = _loading_;
       $q = _$q_;
     });
     $rootScope.featureFlags = {
@@ -184,6 +188,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       close: sinon.spy()
     };
     $scope.stateModel = 'hello';
+    sinon.spy(loadingService, 'reset');
 
     keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.fakeOrg1);
     Object.keys(scope).forEach(function (key) {
@@ -221,7 +226,10 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     );
     ctx.contextVersion.appCodeVersions.models = [
       {
-        attrs: apiMocks.appCodeVersions.bitcoinAppCodeVersion
+        attrs: apiMocks.appCodeVersions.bitcoinAppCodeVersion,
+        githubRepo: {
+          SADFGSHDF: 3
+        }
       }
     ];
     ctx.newContextVersion = apiClientMockFactory.contextVersion(
@@ -229,7 +237,20 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       apiMocks.contextVersions.setup
     );
     ctx.newContextVersion.appCodeVersions.models = [{
-      attrs: apiMocks.appCodeVersions.bitcoinAppCodeVersion
+      attrs: apiMocks.appCodeVersions.bitcoinAppCodeVersion,
+      githubRepo: {
+        asdfasDF: 2
+      }
+    }];
+    ctx.rollbackContextVersion = apiClientMockFactory.contextVersion(
+      runnable,
+      apiMocks.contextVersions.angular
+    );
+    ctx.rollbackContextVersion.appCodeVersions.models = [{
+      attrs: apiMocks.appCodeVersions.bitcoinAppCodeVersion,
+      githubRepo: {
+        hello: 1
+      }
     }];
     sinon.stub(ctx.contextVersion, 'deepCopy', function (cb) {
       $rootScope.$evalAsync(function () {
@@ -243,11 +264,23 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       });
       return ctx.contextVersion;
     });
+    sinon.stub(ctx.rollbackContextVersion, 'deepCopy', function (cb) {
+      $rootScope.$evalAsync(function () {
+        cb(null, ctx.rollbackContextVersion);
+      });
+      return ctx.rollbackContextVersion;
+    });
     sinon.stub(ctx.contextVersion, 'fetch', function (cb) {
       $rootScope.$evalAsync(function () {
         cb(null, ctx.contextVersion);
       });
       return ctx.contextVersion;
+    });
+    sinon.stub(ctx.rollbackContextVersion, 'fetch', function (cb) {
+      $rootScope.$evalAsync(function () {
+        cb(null, ctx.rollbackContextVersion);
+      });
+      return ctx.rollbackContextVersion;
     });
 
     ctx.instance.contextVersion = ctx.contextVersion;
@@ -277,11 +310,23 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       });
       return ctx.anotherDockerfile;
     });
+    sinon.stub(ctx.rollbackContextVersion, 'fetchFile', function (opts, cb) {
+      $rootScope.$evalAsync(function () {
+        cb(null, ctx.anotherDockerfile);
+      });
+      return ctx.anotherDockerfile;
+    });
     sinon.stub(ctx.newContextVersion, 'update', function (opts, cb) {
       $rootScope.$evalAsync(function () {
         cb(null, ctx.newContextVersion);
       });
       return ctx.newContextVersion;
+    });
+    sinon.stub(ctx.rollbackContextVersion, 'update', function (opts, cb) {
+      $rootScope.$evalAsync(function () {
+        cb(null, ctx.rollbackContextVersion);
+      });
+      return ctx.rollbackContextVersion;
     });
     ctx.build = apiClientMockFactory.build(runnable, apiMocks.contextVersions.running);
     sinon.stub(ctx.build, 'build', function (opts, cb) {
@@ -601,6 +646,59 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
           sinon.assert.calledOnce(ctx.instance.update);
           sinon.assert.notCalled(ctx.instance.redeploy);
         });
+      });
+    });
+    describe('Resetting the contextVersion', function () {
+      beforeEach(function () {
+        setup({
+          currentModel: ctx.instance,
+          selectedTab: 'env'
+        });
+      });
+      it('should replace everything with stuff based on the new cv', function () {
+        var alertSpy = sinon.spy();
+        var closePopoverSpy = sinon.spy();
+        $rootScope.$on('close-popovers', closePopoverSpy);
+        $rootScope.$on('alert', function (event, opts) {
+          expect(opts).to.be.deep.equal({
+            type: 'success',
+            text: 'Container updated successfully.'
+          });
+        });
+        ctx.loadingPromiseFinishedValue = 2;
+        ctx.newContextVersion.fetchFile.reset();
+        $elScope.state.advanced = true;
+        ctx.rollbackContextVersion.attrs.advanced = false;
+        $elScope.openItems.add.reset();
+        loadingService.reset();
+        ctx.fakeOrg1.createBuild.reset();
+        expect($elScope.state.advanced, 'advanced flag').to.be.ok;
+        var oldAcv = $elScope.state.acv;
+        var oldRepo = $elScope.state.repo;
+        $elScope.resetStateContextVersion(ctx.rollbackContextVersion, true);
+        $scope.$digest();
+
+        sinon.assert.called(loadingService.reset);
+        expect($elScope.state.advanced, 'advanced flag').to.be.false;
+        sinon.assert.called(ctx.loadingPromiseMock.add);
+        sinon.assert.called(ctx.rollbackContextVersion.deepCopy);
+        $scope.$digest();
+        sinon.assert.calledOnce(ctx.rollbackContextVersion.fetchFile);
+        sinon.assert.calledOnce($elScope.openItems.remove);
+        sinon.assert.calledOnce($elScope.openItems.add);
+        $scope.$digest();
+        expect($elScope.state.build, 'build').to.be.ok;
+        sinon.assert.calledWith(ctx.fakeOrg1.createBuild, {
+          contextVersions: [ctx.rollbackContextVersion.id()],
+          owner: {
+            github: ctx.fakeOrg1.oauthId()
+          }
+        });
+        $scope.$digest();
+        expect($elScope.state.contextVersion, 'state cv').to.equal(ctx.rollbackContextVersion);
+        expect($elScope.state.acv, 'state acv').to.not.equal(oldAcv);
+        expect($elScope.state.repo, 'state repo').to.not.equal(oldRepo);
+
       });
     });
     describe('advanced mode', function () {
