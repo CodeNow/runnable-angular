@@ -115,7 +115,7 @@
     }
   }
 
-  .tr:last-child {
+  .tr:last-child:not(:only-child) {
     border-radius: 0;
     padding-bottom: 0;
   }
@@ -380,9 +380,9 @@
 
 // drag and drop styles
 .table-drag-drop {
-  position: relative;
+  position: relative; // keeps width of DnD placeholder
+}
 
-  .tr {
-    border-top: 1px solid $gray-lighter;
-  }
+.thead + .table-drag-drop {
+  border-top: 1px solid $gray-lighter; // border when there's a header
 }
