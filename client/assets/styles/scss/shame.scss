@@ -18,15 +18,12 @@
   -webkit-backface-visibility: hidden;
 }
 
-
-// thrown in here to stop lint errors in forms-table.scss
-.table-drag-drop {
-}
-
 .dndPlaceholder {
   background: $purple-light;
   height: 2px;
-  position: relative;
+  position: absolute;
+  width: 100%;
+  z-index: $z-show;
 
   &::after,
   &::before {
@@ -52,9 +49,8 @@
 
 .dndDragging {
   box-shadow: // shadow + borders
-    0 2px 3px rgba($black,.1),
+    0 2px 3px rgba($black,.05),
     inset 0 -1px 0 $gray-lighter,
-    inset 0 1px 0 $gray-lighter,
     inset -1px 0 0 $gray-lighter,
     inset 1px 0 0 $gray-lighter;
 

@@ -92,7 +92,6 @@
 // merge tables
 .table-merge {
   border-radius: $input-border-radius $input-border-radius 0 0;
-  overflow: hidden;
 
   + .table-merge {
     border-radius: 0 0 $input-border-radius $input-border-radius;
@@ -380,10 +379,10 @@
 }
 
 // drag and drop styles
-.table-drag-drop .thead {
-  border-bottom: 1px solid $gray-lighter;
+.table-drag-drop {
+  position: relative;
 
-  + .tr {
-    border-top: 0;
+  .tr {
+    border-top: 1px solid $gray-lighter;
   }
 }
