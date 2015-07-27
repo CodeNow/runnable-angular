@@ -5,8 +5,8 @@
     small.small (You can change your organization later)
     ul.list
       li.card.card-sm.load(
-        ng-repeat = "org in data.allAccounts"
         ng-click = "actions.selectAccount(org)"
+        ng-repeat = "org in data.allAccounts"
       )
         img.img.gravatar(
           height = "30"
