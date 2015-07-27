@@ -14,7 +14,11 @@ function ReadOnlySwitchController(
   var ROSC = this;
   this.popover = {
     performRollback: function (originalContextVersion) {
-      return $scope.resetStateContextVersion(originalContextVersion, true);
+      return originalContextVersion.rollback()
+        .then(function (rolledBackContextVersion) {
+          return $scope.resetStateContextVersion(rolledBackContextVersion, true);
+        })
+        .catch(errs.handler);
     }
   };
   // Getter/setter
@@ -42,7 +46,7 @@ function ReadOnlySwitchController(
       return $scope.state.promises.contextVersion
         .then(function (contextVersion) {
           ROSC.popover.active = true;
-          ROSC.popover.rolledContextVersion = contextVersion;
+          ROSC.popover.contextVersion = contextVersion;
         });
     } else {
       return $scope.state.advanced;
