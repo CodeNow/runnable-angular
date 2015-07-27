@@ -57,9 +57,9 @@ require('app')
             }
           });
 
-        $scope.hasCommands = function () {
+        $scope.hasNoCommands = function () {
           var commands = keypather.get($scope, 'mainRepoContainerFile.commands') || [];
-          return commands.find(function (command) {
+          return !commands.find(function (command) {
             return command.body.length;
           });
         };
