@@ -14,7 +14,7 @@
       ng-if = "$root.featureFlags.buildCommandCache"
     ) Cache
       span.span &#32;a command
-      .toggle-wrapper.float-right
+      .toggle-wrapper
         input.toggle-input(
           ng-click = "actions.toggleCache()"
           ng-disabled = "hasNoCommands()"

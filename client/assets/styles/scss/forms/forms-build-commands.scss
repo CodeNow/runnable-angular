@@ -10,7 +10,7 @@
     }
 
     @include media(xs) {
-      padding-top: 6px;
+      padding-top: 3px;
 
       // hides " a command" at media(xs)
       .span {
@@ -22,6 +22,7 @@
   // toggle for caching commands
   .toggle-wrapper {
     margin-left: 6px;
+    top: 3px;
   }
 
   // overrides so it can fit next to the cache label at narrow sizes
