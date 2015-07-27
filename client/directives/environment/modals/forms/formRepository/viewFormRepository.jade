@@ -8,21 +8,20 @@
 .label.clearfix.label-build-commands
   .label-col Build Commands
     small.small (optional)
-  //- this element should be disabled when the text field below it is disabled or empty.
-  .toggle-wrapper.float-right(
-    ng-disabled = "hasNoCommands()"
-  )
-    label.small.strong(
+  .input-col
+    label.small.strong.float-right(
+      ng-class = "{'disabled': hasNoCommands()}"
       ng-if = "$root.featureFlags.buildCommandCache"
     ) Cache
       span.span &#32;a command
-      input.toggle-input(
-        ng-click = "actions.toggleCache()"
-        ng-model = "data.cacheCommand"
-        type = "checkbox"
-      )
-      .toggle-group.toggle-xs.float-right
-  .input-col
+      .toggle-wrapper.float-right
+        input.toggle-input(
+          ng-click = "actions.toggleCache()"
+          ng-disabled = "hasNoCommands()"
+          ng-model = "data.cacheCommand"
+          type = "checkbox"
+        )
+        .toggle-group.toggle-xs.float-right
     //-************
     //- deprecated textarea, remove with $root.featureFlags.buildCommandCache
     //- we only have suggestions for build commands on the main repository
