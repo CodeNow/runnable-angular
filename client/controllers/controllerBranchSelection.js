@@ -10,30 +10,22 @@ function controllerBranchSelection (
   fetchInstances,
   promisify,
   errs,
-  user
+  apiClientBridge
 ) {
   var hostname = $state.params.hostname;
   $scope.loading = true;
 
-  var masterInstance;
   fetchInstances({
-    hostname: hostname,
-    masterPod: true
-  })
-  .then(function (_masterInstance) {
-    masterInstance = _masterInstance;
-    var context = masterInstance.attrs.contextVersion.context;
-    return promisify(masterInstance.children, 'fetch')();
+    hostname: hostname
   })
   .then(function (instances) {
-    instances.add(masterInstance);
     $scope.instances = instances;
     $scope.loading = false;
   })
   .catch(errs.handler);
 
   $scope.selectInstance = function (instance) {
-    promisify(user, 'createRoute')({
+    promisify(apiClientBridge, 'createRoute')({
       srcHostname: hostname,
       destInstanceId: instance.id()
     })

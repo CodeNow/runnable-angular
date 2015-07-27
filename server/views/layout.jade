@@ -1,7 +1,6 @@
 doctype html
 html(
   lang = "en"
-  ng-controller = "ControllerApp"
 )
   head
     meta(
@@ -112,10 +111,7 @@ html(
         ga("send", "pageview");
 
   body.clearfix(
-    ng-class = "{\
-      minimize: dataApp.data.minimizeNav,\
-      'modal-open': dataApp.data.modalOpen || dataApp.data.modalError.data.in\
-    }"
+    ng-class = "{'modal-open': dataApp.data.modalOpen || dataApp.data.modalError.data.in}"
     ng-click = "dataApp.documentClickEventHandler($event)"
     ng-keydown = "dataApp.documentKeydownEventHandler($event)"
   )
@@ -133,6 +129,11 @@ html(
     div(
       modal-manager
       modal-open = "dataApp.data.modalOpen"
+    )
+
+    .spinner-wrapper.spinner-md.spinner-purple.spinner-backdrop.in(
+      ng-include = "'spinner'"
+      ng-if = "!dataApp"
     )
 
     //- page

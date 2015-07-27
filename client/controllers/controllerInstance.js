@@ -69,7 +69,7 @@ function ControllerInstance(
         data.instance.state = {};
 
         var goHomeOnDestroyHandler = function () {
-          $state.go('instance.home', { userName:  $state.params.userName });
+          $state.go('base.instances', { userName:  $state.params.userName }, {reload: true});
         };
         instance.on('destroyed', goHomeOnDestroyHandler);
         $scope.$on('$destroy', function () {
@@ -85,9 +85,9 @@ function ControllerInstance(
         errs.handler(err);
         loading('main', false);
         setLastInstance(false);
-        $state.go('instance.home', {
+        $state.go('base.instances', {
           userName: $stateParams.userName
-        });
+        }, {reload: true});
       });
   });
 

@@ -3,7 +3,7 @@
 var Runnable = require('runnable');
 var qs = require('qs');
 require('app')
-  .factory('user', function (
+  .factory('apiClientBridge', function (
     $http,
     configAPIHost,
     configUserContentDomain,
@@ -11,10 +11,10 @@ require('app')
     collectionStore,
     $timeout,
     debounce,
-    reportError
+    report
   ) {
     var runnable = new Runnable(configAPIHost, { userContentDomain: configUserContentDomain });
-    runnable.client.request = new AngularHttpRequest($http, reportError);
+    runnable.client.request = new AngularHttpRequest($http, report.error);
 
     // We need to debounce here because we could get a lot of messages from the socket and we don't want to refresh constantly
     var triggerDigest = debounce(function () {
@@ -35,9 +35,9 @@ var methodAliases = {
 
 var AngularHttpRequest = function AngularHttpRequest(
   $http,
-  reportError
+  report
 ) {
-  this.reportError = reportError;
+  this.report = report;
   this.$http = $http;
 };
 
@@ -55,7 +55,7 @@ methods.forEach(function (method) {
     opts = angular.extend({}, opts, this.defaultOpts);
     var cb = args.cb;
     if (typeof cb !== 'function') {
-      this.reportError('Callback defined but not a function. \nType: ' + typeof cb + ' \nJSON: '  + JSON.stringify(cb, false, 2), {
+      this.report.error('Callback defined but not a function. \nType: ' + typeof cb + ' \nJSON: '  + JSON.stringify(cb, false, 2), {
         emitter: 'Manual',
         source: 'client/services/serviceUser.js'
       });

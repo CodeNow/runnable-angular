@@ -12,10 +12,54 @@
   }
 }
 
+.home-modal-dialog {
+  max-width: 375px;
+
+  .icons-close {
+    color: $gray-light;
+    cursor: pointer;
+    pointer-events: auto;
+    position: absolute;
+    right: 9px;
+    top: 9px;
+
+    &:hover {
+      color: $gray;
+    }
+
+    &:active {
+      color: $purple-light;
+    }
+  }
+
+  .modal-body {
+    padding: 24px 30px;
+    text-align: center;
+
+    .span {
+      font-size: 21px;
+      margin: 12px 0 21px;
+    }
+
+    .small {
+      color: $gray;
+      margin-top: 21px;
+    }
+  }
+
+  .link {
+    color: currentColor;
+  }
+
+  .modal-footer {
+    color: $gray;
+    text-align: center;
+  }
+}
+
 // header
 .home-header {
   background: transparent;
-  display: 0 0 auto;
   height: auto;
 
   .logo {
@@ -126,7 +170,7 @@
   .small,
   .link {
     color: $purple-lighter;
-    font-weight: 300px;
+    font-weight: 300;
   }
 
   .p {

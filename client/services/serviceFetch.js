@@ -19,27 +19,27 @@ require('app')
 
 function fetchUser(
   keypather,
-  user,
+  apiClientBridge,
   $q,
   $window,
   promisify,
-  reportError
+  report
 ) {
   var fetchedUser = null;
   var socket = null;
   // For consistency with other promise fetchers
   return function () {
     if (!fetchedUser) {
-      fetchedUser = promisify(user, 'fetchUser')('me')
+      fetchedUser = promisify(apiClientBridge, 'fetchUser')('me')
       .then(function (_user) {
         socket = _user.createSocket();
-        reportError.setUser(_user);
+        report.setUser(_user);
         return _user;
       })
       .catch(function (err) {
         // Catch an unauth'd request and send 'em back
         if (keypather.get(err, 'data.statusCode') === 401) {
-          $window.location = '/?password';
+          $window.location = '/';
         }
         // Allow other .catch blocks to grab it
         return $q.reject(err);
@@ -113,52 +113,64 @@ var fetchByPodCache = {};
 function fetchInstancesByPod(
   fetchInstances,
   $state,
-  fetchUser
+  fetchUser,
+  report
 ) {
   return function (username) {
     username = username || $state.params.userName;
     if (!fetchByPodCache[username]) {
-      fetchByPodCache[username] = fetchUser()
-        .then(function (user) {
-          return fetchInstances({
-            githubUsername: username
-          })
-            .then(function (allInstances) {
-              var instanceMapping = {};
-              allInstances.forEach(function (instance) {
-                var ctxVersion = instance.attrs.contextVersion.context;
-                instanceMapping[ctxVersion] = instanceMapping[ctxVersion] || {};
-                if (instance.attrs.masterPod) {
-                  instanceMapping[ctxVersion].master = instance;
-                } else {
-                  instanceMapping[ctxVersion].children = instanceMapping[ctxVersion].children || [];
-                  instanceMapping[ctxVersion].children.push(instance);
-                }
-              });
+      var userPromise = fetchUser();
+      fetchByPodCache[username] = fetchInstances({
+        githubUsername: username
+      })
+        .then(function (allInstances) {
+          var instanceMapping = {};
+          allInstances.forEach(function (instance) {
+            var ctxVersion = instance.attrs.contextVersion.context;
+            instanceMapping[ctxVersion] = instanceMapping[ctxVersion] || {};
+            if (instance.attrs.masterPod) {
+              instanceMapping[ctxVersion].master = instance;
+            } else {
+              instanceMapping[ctxVersion].children = instanceMapping[ctxVersion].children || [];
+              instanceMapping[ctxVersion].children.push(instance);
+            }
+          });
 
-              var masterInstances = [];
-              Object.keys(instanceMapping).forEach(function (ctxVersion) {
-                var master = instanceMapping[ctxVersion].master;
+          var masterInstances = [];
+          Object.keys(instanceMapping).forEach(function (ctxVersion) {
+            var master = instanceMapping[ctxVersion].master;
+            var children = instanceMapping[ctxVersion].children || [];
 
-                // Handle the case where we have an extra instance that has no parents.
-                if (!master || !master.children) { return; }
+            // Handle the case where we have an extra instance that has no parents.
+            if (!master || !master.children) {
+              if (children && children.length) {
+                children.forEach(function (child) {
+                  report.info('Orphaned child detected', {
+                    child: child.id(),
+                    name: child.attrs.name,
+                    owner: child.attrs.owner
+                  });
+                });
+              }
+              return;
+            }
 
-                var children = instanceMapping[ctxVersion].children || [];
-                masterInstances.push(master);
-                master.children.add(children);
-              });
 
-              var instances = user.newInstances([], {
-                qs: {
-                  masterPod: true,
-                  githubUsername: username
-                },
-                reset: false
-              });
-              instances.githubUsername = username;
-              instances.add(masterInstances);
-              return instances;
+            masterInstances.push(master);
+            master.children.add(children);
+          });
+
+          return userPromise.then(function (user) {
+            var instances = user.newInstances([], {
+              qs: {
+                masterPod: true,
+                githubUsername: username
+              }
             });
+            instances.githubUsername = username;
+            instances.add(masterInstances);
+            return instances;
+          });
         });
     }
 

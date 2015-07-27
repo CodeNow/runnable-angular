@@ -2,7 +2,6 @@
 .views-tabs(
   open-items = "openItems"
   instance = "instance"
-  show-add-buttons = "showBackgroundButtons"
   tabs
 )
 
@@ -90,7 +89,7 @@
     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
-  ng-if= "openItems.models.length === 0 && showBackgroundButtons"
+  ng-if= "openItems.models.length === 0"
 )
   .floating-controls(
     ng-include = "'viewFloatingControls'"
@@ -99,7 +98,6 @@
   ul.blank-panel-group
     li.btn.btn-sm(
       ng-click = "openItems.addTerminal()"
-      ng-if = "showBackgroundButtons.term"
     )
       svg.iconnables
         use(
@@ -108,7 +106,6 @@
       | Terminal
     li.btn.btn-sm(
       ng-click = "openItems.addBuildStream()"
-      ng-if = "showBackgroundButtons.build"
     )
       svg.iconnables
         use(
@@ -117,7 +114,6 @@
       | Build Logs
     li.btn.btn-sm(
       ng-click = "openItems.addLogs()"
-      ng-if = "showBackgroundButtons.server"
     )
       svg.iconnables.icons-server
         use(

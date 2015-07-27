@@ -8,7 +8,7 @@ function errs (
   keypather,
   hasKeypaths,
   $log,
-  reportError,
+  report,
   configAPIHost,
   $window
 ) {
@@ -30,7 +30,7 @@ function errs (
         if (configEnvironment !== 'production') {
           $log.error(err);
         } else {
-          reportError(err, {
+          report.error(err, {
             emitter: 'Error Popup'
           });
         }

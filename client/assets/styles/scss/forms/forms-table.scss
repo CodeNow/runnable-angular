@@ -92,11 +92,16 @@
 // merge tables
 .table-merge {
   border-radius: $input-border-radius $input-border-radius 0 0;
+  overflow: hidden;
 
   + .table-merge {
     border-radius: 0 0 $input-border-radius $input-border-radius;
     border-top: 0;
     margin-top: 0;
+
+    .thead {
+      border-radius: 0;
+    }
 
     .tr:not(.thead) {
 
@@ -259,12 +264,22 @@
     height: 45px;
     line-height: 1.2;
     padding-top: 7px;
+
+    &:last-child {
+
+      .btn-xs {
+        margin-top: 3px;
+      }
+
+      .btn-xxs {
+        margin-top: 6px;
+      }
+    }
   }
 
   .small {
     color: $gray;
     display: block;
-    // float: right;
     font-size: 11px;
   }
 
@@ -294,17 +309,13 @@
     }
   }
 
-  &:last-child {
-    padding: 0;
-    width: 24px;
-  }
-
   &.disabled {
     visibility: hidden;
   }
 
   // status icons
-  .iconnables {
+  .icons-warning,
+  .icons-link {
     height: 38px;
     width: 18px;
 
@@ -326,6 +337,12 @@
     height: 100%;
     opacity: .3;
     width: 9px;
+  }
+
+  // actions
+  > .btn .icons-overflow {
+    top: 5px;
+    width: 18px;
   }
 }
 

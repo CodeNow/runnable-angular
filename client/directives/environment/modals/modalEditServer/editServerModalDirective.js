@@ -348,7 +348,6 @@ function editServerModal(
         $scope.state = {
           advanced: advanced,
           startCommand: instance.startCommand,
-          commands: instance.commands.map(function (cmd) { return cmd.clone(); }),
           selectedStack: instance.selectedStack,
           opts: {},
           repo: keypather.get(instance, 'contextVersion.getMainAppCodeVersion().githubRepo'),
@@ -483,9 +482,6 @@ function editServerModal(
         $rootScope.$broadcast('close-popovers');
         $scope.building = true;
         $scope.state.ports = convertTagToPortList();
-        if ($scope.state.mainRepoContainerFile) {
-          $scope.state.mainRepoContainerFile.commands = $scope.state.commands;
-        }
         var hasMainRepo = !!keypather.get($scope, 'instance.contextVersion.getMainAppCodeVersion()');
         var statePorts = keypather.get($scope, 'state.ports.join(" ")');
         // Check state.instance instead of instance so you don't recreate the dockerfile again on a

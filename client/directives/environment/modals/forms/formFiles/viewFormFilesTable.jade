@@ -1,19 +1,45 @@
-.tr.thead.thead-sm.clearfix
-  .cell.cell-action
-    svg.iconnables
-  .cell Name
-  .cell.cell-type Type
-ul.table-drag-drop(
+.table.table-merge(
+  ng-if = "$root.featureFlags.sshKeys"
+)
+  .tr.multi-line.clearfix
+    .cell.cell-action.disabled.no-touching
+      svg.iconnables.icons-drag
+    .cell.text-overflow KeyLabel
+      small.small Added May 25, 2000
+    .cell.cell-type.small
+      svg.iconnables.icons-key
+        use(
+          xlink:href = "#icons-key"
+        )
+      | SSH Key
+    .cell.cell-action
+      button.btn.btn-xs.gray(
+        pop-over
+        pop-over-active = "fileOptionsPopover.active"
+        pop-over-options = "{\"right\":0,\"top\":35}"
+        pop-over-template = "viewPopoverFileOptions"
+      )
+        svg.iconnables.icons-overflow
+          use(
+            xlink:href = "#icons-overflow"
+          )
+
+//- dnd-drop needs this to be a list
+ul.table.table-merge(
   dnd-list = "state.containerFiles"
   dnd-drop = "dropContainerFile(event, index, item, type)"
 )
+  //- only show if there's > 0 ssh keys AND > 0 files
+  li.tr.thead.clearfix(
+    ng-if = "$root.featureFlags.sshKeys"
+  )
   li.tr.multi-line.clearfix(
     dnd-draggable = "containerFile.id"
     dnd-dragstart = "actions.dragstart()"
     dnd-effect-allowed = "move"
     ng-class = "{\
-      disabled: containerFile.type === 'Main Repository',\
-      'tr-action': containerFile.type !== 'Main Repository'\
+      disabled: (containerFile.type === 'Main Repository' && !$root.featureFlags.sshKeys),\
+      'tr-action': (containerFile.type !== 'Main Repository' && !$root.featureFlags.sshKeys)\
     }"
     ng-repeat = "containerFile in state.containerFiles"
   )
@@ -28,14 +54,27 @@ ul.table-drag-drop(
         use(
           xlink:href = "#icons-drag"
         )
+
+    //- deprecated:
     .cell.text-overflow(
-      ng-if = "containerFile.type === 'File'"
+      ng-if = "(containerFile.type === 'File' && !$root.featureFlags.sshKeys)"
       pop-over
       pop-over-actions = "fileUpload.actions"
       pop-over-data = "containerFile"
       pop-over-template = "viewPopoverFilesUpload"
       title = "{{ containerFile.name }}"
     ) {{ containerFile.name }}
+
+    //- ssh key feature flag
+    .cell.text-overflow(
+      ng-if = "(containerFile.type === 'File' && $root.featureFlags.sshKeys)"
+      pop-over
+      pop-over-actions = "fileUpload.actions"
+      pop-over-data = "containerFile"
+      pop-over-template = "viewPopoverFilesUpload"
+      title = "{{ containerFile.name }}"
+    ) {{ containerFile.name }}
+
       small.small(
         title = "{{ containerFile.path }}"
       ) /{{ containerFile.path }}
@@ -67,3 +106,17 @@ ul.table-drag-drop(
           xlink:href = "#icons-repository-additional"
         )
       | {{ containerFile.type }}
+    .cell.cell-action(
+      ng-class = "{'disabled': containerFile.type === 'Main Repository'}"
+      ng-if = "$root.featureFlags.sshKeys"
+    )
+      button.btn.btn-xs.gray(
+        pop-over
+        pop-over-active = "fileOptionsPopover.active"
+        pop-over-options = "{\"right\":0,\"top\":35}"
+        pop-over-template = "viewPopoverFileOptions"
+      )
+        svg.iconnables.icons-overflow
+          use(
+            xlink:href = "#icons-overflow"
+          )

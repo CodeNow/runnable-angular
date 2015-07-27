@@ -29,16 +29,16 @@ function accountsSelect (
         actions: {
           logout: function () {
             promisify($scope.data.user, 'logout')().then(function () {
-              window.location = '/?password';
+              window.location = '/';
             }).catch(errs.handler);
           },
           selectActiveAccount: function (userOrOrg) {
             var username = userOrOrg.oauthName();
             $rootScope.$broadcast('close-popovers');
             $timeout(function () {
-              $state.go('^.home', {
+              $state.go('base.instances', {
                 userName: username
-              }).then(function () {
+              }, {reload: true}).then(function () {
                 $scope.data.activeAccount = userOrOrg;
                 $scope.$emit('INSTANCE_LIST_FETCH', username);
               });

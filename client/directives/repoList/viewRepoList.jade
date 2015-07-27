@@ -22,7 +22,8 @@ ul.list.repository-group(
     )
       input.input-checkbox(
         ng-false-value="true"
-        ng-model = "instance.attrs.locked"
+        ng-model = "autoDeploy"
+        ng-model-options = "{getterSetter: true}"
         ng-true-value="false"
         type = "checkbox"
       )

@@ -57,6 +57,9 @@ function tooltip(
 
       bind(element, 'mouseover', function () {
         $scope.toolTip.toolTipText = attrs.tooltip;
+        if (attrs.tooltipEval) {
+          $scope.toolTip.toolTipText = $scope.$eval(attrs.tooltipEval);
+        }
         $tooltipElement = $compile($template)($scope);
         $tooltipElement.addClass(options.class);
         $document.find('body').append($tooltipElement);

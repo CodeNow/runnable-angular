@@ -110,12 +110,12 @@ function moveTransformRules(
 
 function testAllTransformRules(
   $q,
-  user
+  apiClientBridge
 ) {
   return function (appCodeVersionModel) {
     return $q(function (resolve, reject) {
       if (appCodeVersionModel) {
-        user.client.post(appCodeVersionModel.urlPath + '/' + appCodeVersionModel.id() +
+        apiClientBridge.client.post(appCodeVersionModel.urlPath + '/' + appCodeVersionModel.id() +
           '/actions/applyTransformRules',
           checkErrorCallback(reject, function callback(res, body) {
             resolve(body);
@@ -129,12 +129,12 @@ function testAllTransformRules(
 
 function testRenameTransformRule(
   $q,
-  user
+  apiClientBridge
 ) {
   return function (appCodeVersionModel, rule) {
     return $q(function (resolve, reject) {
       rule.action = 'rename';
-      user.client.post(appCodeVersionModel.urlPath + '/' + appCodeVersionModel.id() +
+      apiClientBridge.client.post(appCodeVersionModel.urlPath + '/' + appCodeVersionModel.id() +
         '/actions/testTransformRule', {
           json: rule
         }, checkErrorCallback(reject, function callback(res, body) {
@@ -148,12 +148,12 @@ function testRenameTransformRule(
 function testReplaceTransformRule(
   $q,
   parseDiffResponse,
-  user
+  apiClientBridge
 ) {
   return function (appCodeVersionModel, rule) {
     return $q(function (resolve, reject) {
       rule.action = 'replace';
-      user.client.post(appCodeVersionModel.urlPath + '/' + appCodeVersionModel.id() +
+      apiClientBridge.client.post(appCodeVersionModel.urlPath + '/' + appCodeVersionModel.id() +
         '/actions/testTransformRule', {
           json: rule
         }, checkErrorCallback(reject, function callback(res, body) {

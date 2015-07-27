@@ -112,6 +112,7 @@ html.home(
 
   body.clearfix(
     ng-app = "homeApp"
+    ng-class = "{'modal-open': !data.hideUnauthorizedModal}"
     ng-controller = "MainCtrl"
   )
     //
@@ -125,6 +126,40 @@ html.home(
 
     //- page
     .content-wrapper.clearfix
+
+      //- unauthorized modal
+      if unauthorized
+        .modal-backdrop(
+          ng-click = "data.hideUnauthorizedModal = true"
+          ng-if = "!data.hideUnauthorizedModal"
+        )
+          .modal-dialog.home-modal-dialog(
+            ng-click = "$event.stopPropagation();"
+          )
+            svg.iconnables.icons-close(
+              ng-click = "data.hideUnauthorizedModal = true"
+            )
+              use(
+                xlink:href = "#icons-close"
+              )
+            section.modal-body
+              span.span We’re sorry, but your GitHub account doesn’t have access to the Runnable beta.
+              a.btn.green(
+                href = "mailto:support@runnable.com?subject=Please send me an invite for the beta"
+              ) Request an Invite
+              .small You can&#32;
+                a.link(
+                  href = "https://github.com/settings/applications"
+                  target = "_blank"
+                ) revoke our access
+                | &#32;to your GitHub account. We’ll ask for it again when you’re invited.
+            footer.modal-footer.small Looking for&#32;
+              a.link(
+                href = "https://code.runnable.com"
+                target = "_blank"
+              ) Runnable CodeSnippets
+              | ?
+
       //- header
       header.header.home-header
         .container
@@ -136,14 +171,13 @@ html.home(
             )
             sup.sup &lt;beta&gt;
 
-          if hasPassword
-             a.btn.btn-sm.purple.float-right(
-               ng-href = "{{loginUrl}}"
-             ) Sign In
-          else
-             a.btn.btn-sm.purple.float-right(
-               href = "mailto:support@runnable.com?subject=Please send me an invite for the beta"
-             ) Request Invite
+          a.btn.btn-sm.purple.float-right(
+            href = "mailto:support@runnable.com?subject=Please send me an invite for the beta"
+          ) Request Invite
+
+          a.btn.btn-sm.float-right(
+            ng-href = "{{loginUrl}}"
+          ) Log In
 
           .float-right.clearfix
             a.btn.btn-sm.float-right(
@@ -153,6 +187,7 @@ html.home(
               href = "http://support.runnable.io/"
               target = "_blank"
             ) Support
+
       section.home-hero
         h1.h1 Runnable lets you create Sandboxes (collections of one or more servers) to run the code in your GitHub repositories, on&#8209;demand.
         p.p We integrate with the tools you’re already using, like GitHub and Slack, to automatically deploy commits and launch containers in your Sandbox when you create branches and notify you when they are updated via Slack. It’s easy to share Sandboxes in a team as you develop and test your application—and you can continue to use your existing tools and processes for deployment without having to change the way you work.

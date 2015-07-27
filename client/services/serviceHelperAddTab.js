@@ -6,11 +6,15 @@ require('app')
  * @ngInject
  */
 function helperAddTab() {
-  return function (config, openItems) {
+  return function (openItems) {
     var pat = {
       data: {
         show: false,
-        options: config
+        options: {
+          build: true,
+          server: true,
+          term: true
+        }
       },
       actions: {
         addBuildStream: function () {

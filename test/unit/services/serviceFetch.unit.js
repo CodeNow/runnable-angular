@@ -6,13 +6,13 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
   describe('factory fetchUser', function () {
     var $state;
-    var user;
+    var apiClientBridge;
     var $rootScope;
     var fetchUser;
     var windowMock;
 
     beforeEach(function () {
-      user = {
+      apiClientBridge = {
         createSocket: sinon.spy(),
         fetchUser: sinon.spy()
       };
@@ -21,7 +21,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
       };
       angular.mock.module('app');
       angular.mock.module(function ($provide) {
-        $provide.value('user', user);
+        $provide.value('apiClientBridge', apiClientBridge);
         $provide.value('$window', windowMock);
       });
       angular.mock.inject(function (
@@ -38,11 +38,11 @@ describe('serviceFetch'.bold.underline.blue, function () {
     });
 
     it('should call the fetchUser method of the user service', function (done) {
-      user.fetchUser = sinon.stub().callsArgWith(1, null);
+      apiClientBridge.fetchUser = sinon.stub().callsArgWith(1, null);
       fetchUser().then(function (foundUser) {
-        expect(user.fetchUser.calledOnce, 'fetchUser called').to.equal(true);
-        expect(user.createSocket.calledOnce, 'createSocket called').to.equal(true);
-        expect(foundUser, 'Returned user').to.equal(user);
+        expect(apiClientBridge.fetchUser.calledOnce, 'fetchUser called').to.equal(true);
+        expect(apiClientBridge.createSocket.calledOnce, 'createSocket called').to.equal(true);
+        expect(foundUser, 'Returned user').to.equal(apiClientBridge);
         done();
       });
       $rootScope.$apply();
@@ -55,11 +55,10 @@ describe('serviceFetch'.bold.underline.blue, function () {
           statusCode: 401
         }
       };
-      var startLocation = windowMock.location;
-      user.fetchUser = sinon.stub().callsArgWith(1, err);
+      apiClientBridge.fetchUser = sinon.stub().callsArgWith(1, err);
       fetchUser().catch(function (myErr) {
         expect(myErr, 'Returned err').to.equal(err);
-        expect(windowMock.location).to.equal('/?password');
+        expect(windowMock.location).to.equal('/');
         done();
       });
       $rootScope.$apply();
@@ -335,7 +334,6 @@ describe('serviceFetch'.bold.underline.blue, function () {
     var fetchInstancesStub;
     var $rootScope;
     var rawInstances;
-    var user;
     var addInstance;
     var $state;
 
@@ -352,12 +350,13 @@ describe('serviceFetch'.bold.underline.blue, function () {
         });
         $provide.factory('fetchUser', function ($q) {
           addInstance = sinon.stub();
-          user = {
-            newInstances: sinon.stub().returns({
-              add: addInstance
+          return sinon.stub().returns(
+            $q.when({
+              newInstances: sinon.stub().returns({
+                add: addInstance
+              })
             })
-          };
-          return sinon.stub().returns($q.when(user));
+          );
         });
       });
       angular.mock.inject(function (
