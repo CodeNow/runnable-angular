@@ -11,18 +11,16 @@
       }
     }
 
-    // "Cache a command" label
-    .small {
-      display: inline-block;
-      float: right;
+    @include media(xs) {
 
-      @include media(xs) {
+      // "Cache a command" label
+      .small {
         margin-top: 10px;
+      }
 
-        // " a command" part of label
-        .span {
-          display: none;
-        }
+      // " a command" part of label
+      .span {
+        display: none;
       }
     }
   }
