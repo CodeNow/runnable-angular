@@ -20,9 +20,6 @@ var tabVisibility = {
 function editServerModal(
   $filter,
   $rootScope,
-  $timeout,
-  cardInfoTypes,
-  configAPIHost,
   errs,
   eventTracking,
   fetchInstancesByPod,

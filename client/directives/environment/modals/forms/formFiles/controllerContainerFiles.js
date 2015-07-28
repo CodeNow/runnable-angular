@@ -11,7 +11,8 @@ function ControllerContainerFiles(
   uploadFile,
   configAPIHost,
   cardInfoTypes,
-  $timeout
+  $timeout,
+  updateDockerfileFromState
 ) {
 
   var self = this;
@@ -31,6 +32,9 @@ function ControllerContainerFiles(
         });
 
         loadingPromises.add('editServerModal', promisify(acv, 'destroy')())
+          .then(function () {
+            return updateDockerfileFromState($scope.state);
+          })
           .catch(errs.handler);
       },
       create: function (repoContainerFile) {
@@ -42,8 +46,8 @@ function ControllerContainerFiles(
           additionalRepo: true
         }))
           .then(function (acv) {
-            console.log('ACV', acv);
             repoContainerFile.acv = acv;
+            return updateDockerfileFromState($scope.state);
           })
           .catch(errs.handler);
       },
@@ -66,6 +70,7 @@ function ControllerContainerFiles(
           })
             .then(function (acv) {
               myRepo.acv = acv;
+              return updateDockerfileFromState($scope.state);
             })
             .catch(errs.handler)
         );
@@ -111,9 +116,9 @@ function ControllerContainerFiles(
           myFile.commands = containerFile.commands;
           myFile.path = containerFile.path;
           $scope.state.containerFiles.push(myFile);
+          updateDockerfileFromState($scope.state);
         }
         $rootScope.$broadcast('close-popovers');
-
       },
       cancel: function (containerFile) {
         // Using our own cancel in order to delete file
@@ -142,6 +147,9 @@ function ControllerContainerFiles(
 
           return loadingPromises.add('editServerModal',
             promisify(file, 'destroy')()
+              .then(function () {
+                return updateDockerfileFromState($scope.state);
+              })
               .catch(errs.handler)
           );
         }
@@ -157,8 +165,14 @@ function ControllerContainerFiles(
       currentIndex = index;
       return containerFile.id === containerFileId;
     });
+    if (newIndex > 0 && currentIndex <= newIndex - 1) {
+      newIndex -= 1;
+    }
     $scope.state.containerFiles.splice(currentIndex, 1);
     $scope.state.containerFiles.splice(newIndex, 0, containerFile);
+    // DO NOT RETURN THIS!  DND list will think it goes to the list
+    loadingPromises.add('editServerModal', updateDockerfileFromState($scope.state))
+      .catch(errs.handler);
   };
 
   this.actions = {

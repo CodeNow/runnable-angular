@@ -19,6 +19,7 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
   var closePopoverSpy;
   var acvModels;
   var promisifyMock;
+  var updateDockerfileFromStateMock;
 
   function injectSetupCompile() {
     angular.mock.module('app');
@@ -30,6 +31,10 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
     angular.mock.module(function ($provide) {
       $provide.value('errs', errs);
       $provide.value('Upload', uploadMock);
+      $provide.factory('updateDockerfileFromState', function ($q) {
+        updateDockerfileFromStateMock = sinon.stub().returns($q.when());
+        return updateDockerfileFromStateMock;
+      });
       $provide.factory('promisify', function ($q) {
         promisifyMock = sinon.spy(function (obj, key) {
           return function () {
@@ -37,7 +42,7 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
           };
         });
         return promisifyMock;
-      })
+      });
     });
 
     angular.mock.inject(function (
@@ -84,26 +89,49 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
     injectSetupCompile();
   });
 
-  it('dropContainerFile should move the dropped file around', function () {
+  describe('dropContainerFile', function () {
+    it('should move the dropped file around', function () {
 
-    var obj1 =  {
-      id: 1
-    };
-    var obj2=  {
-      id: 2
-    };
-    var obj3 =  {
-      id: 3
-    };
-    $scope.state.containerFiles = [obj1, obj2, obj3];
+      var obj1 =  {
+        id: 1
+      };
+      var obj2=  {
+        id: 2
+      };
+      var obj3 =  {
+        id: 3
+      };
+      $scope.state.containerFiles = [obj1, obj2, obj3];
 
-    CCF.dropContainerFile({}, 1, obj1.id);
+      CCF.dropContainerFile({}, 2, obj1.id);
 
-    console.log($scope.state.containerFiles);
+      expect($scope.state.containerFiles[0].id).to.equal(2);
+      expect($scope.state.containerFiles[1].id).to.equal(1);
+      expect($scope.state.containerFiles[2].id).to.equal(3);
 
-    expect($scope.state.containerFiles[0].id).to.equal(2);
-    expect($scope.state.containerFiles[1].id).to.equal(1);
-    expect($scope.state.containerFiles[2].id).to.equal(3);
+      sinon.assert.calledOnce(updateDockerfileFromStateMock);
+    });
+    it('should not move the dropped file around if it\'s going to the same spot', function () {
+
+      var obj1 =  {
+        id: 1
+      };
+      var obj2=  {
+        id: 2
+      };
+      var obj3 =  {
+        id: 3
+      };
+      $scope.state.containerFiles = [obj1, obj2, obj3];
+
+      CCF.dropContainerFile({}, 0, obj1.id);
+
+      expect($scope.state.containerFiles[0].id).to.equal(1);
+      expect($scope.state.containerFiles[1].id).to.equal(2);
+      expect($scope.state.containerFiles[2].id).to.equal(3);
+
+      sinon.assert.calledOnce(updateDockerfileFromStateMock);
+    });
   });
 
   describe('actions', function () {
@@ -184,16 +212,17 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
           id: '4567'
         }, repoContainerFile];
 
-        acv.destroy = sinon.spy();
-
+        acv.destroy = sinon.stub().returns($q.when());
 
         CCF.repositoryPopover.actions.remove(repoContainerFile);
+        $rootScope.$digest();
 
         sinon.assert.calledOnce(acv.destroy);
         expect($scope.state.containerFiles.length).to.equal(1);
         expect($scope.state.containerFiles[0]).to.deep.equal({id: '4567'});
         sinon.assert.calledOnce(loadingPromises.add);
         sinon.assert.calledWith(loadingPromises.add, 'editServerModal');
+        sinon.assert.calledOnce(updateDockerfileFromStateMock);
       });
     });
     describe('create', function () {
@@ -234,6 +263,7 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
         expect($scope.state.containerFiles[0].id).to.equal(repoContainerFile.id);
         expect($scope.state.containerFiles[0].acv).to.equal(newACV);
         sinon.assert.notCalled(errs.handler);
+        sinon.assert.calledOnce(updateDockerfileFromStateMock);
       });
     });
     describe('update', function () {
@@ -278,6 +308,7 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
           commit: 'newSha'
         });
         expect(repoContainerFile.acv).to.equal(newACV);
+        sinon.assert.calledOnce(updateDockerfileFromStateMock);
       });
     });
   });
@@ -348,6 +379,7 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
         expect(newContainerFile.commands).to.equal(containerFile.commands);
         expect(newContainerFile.path).to.equal(containerFile.path);
         expect(newContainerFile.type).to.equal('File');
+        sinon.assert.calledOnce(updateDockerfileFromStateMock);
       });
       it('should do nothing if there already is a type', function () {
         CCF.fileUpload.actions.save({
@@ -409,7 +441,7 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
         var containerFile = {
           id: Math.random(),
           fileModel: {
-            destroy: sinon.spy()
+            destroy: sinon.stub().returns($q.when({}))
           }
         };
         $scope.state.containerFiles = [{
@@ -417,14 +449,17 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
         }, containerFile];
 
         CCF.fileUpload.actions.deleteFile(containerFile);
+        $rootScope.$digest();
+
         sinon.assert.calledOnce(closePopoverSpy);
         sinon.assert.calledOnce(containerFile.fileModel.destroy);
         expect($scope.state.containerFiles.length).to.equal(1);
         expect($scope.state.containerFiles[0].id).to.equal('4567');
+        sinon.assert.calledOnce(updateDockerfileFromStateMock);
       });
       it('should find the file model based on file name', function () {
         var fileModel = {
-          destroy: sinon.spy(),
+          destroy: sinon.stub().returns($q.when({})),
           attrs: {
             name: 'FileName'
           }
@@ -440,10 +475,13 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
         }, containerFile];
 
         CCF.fileUpload.actions.deleteFile(containerFile);
+        $rootScope.$digest();
+
         sinon.assert.calledOnce(closePopoverSpy);
         sinon.assert.calledOnce(fileModel.destroy);
         expect($scope.state.containerFiles.length).to.equal(1);
         expect($scope.state.containerFiles[0].id).to.equal('4567');
+        sinon.assert.calledOnce(updateDockerfileFromStateMock);
       });
       it('should do nothing if the file model diesn\'t exist', function () {
         keypather.set($scope, 'state.contextVersion.rootDir.contents.models', []);
