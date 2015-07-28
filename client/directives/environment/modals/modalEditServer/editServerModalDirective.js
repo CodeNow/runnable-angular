@@ -373,13 +373,6 @@ function editServerModal(
           repo: keypather.get(instance, 'contextVersion.getMainAppCodeVersion().githubRepo'),
           instance: instance,
           getPorts: convertTagToPortList,
-          promises: {
-            contextVersion: loadingPromises.add('editServerModal', promisify(instance.contextVersion, 'deepCopy')())
-              .then(function (contextVersion) {
-                $scope.state.contextVersion = contextVersion;
-                return promisify(contextVersion, 'fetch')();
-              })
-          }
           promises: {}
         };
 
