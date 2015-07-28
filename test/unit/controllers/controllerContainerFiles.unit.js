@@ -2,7 +2,7 @@
 
 var apiMocks = require('../apiMocks/index');
 
-describe.only('ControllerContainerFiles'.bold.underline.blue, function () {
+describe('ControllerContainerFiles'.bold.underline.blue, function () {
   var CCF;
   var $controller;
   var $rootScope;
