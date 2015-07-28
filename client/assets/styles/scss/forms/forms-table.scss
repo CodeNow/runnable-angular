@@ -92,7 +92,6 @@
 // merge tables
 .table-merge {
   border-radius: $input-border-radius $input-border-radius 0 0;
-  overflow: hidden;
 
   + .table-merge {
     border-radius: 0 0 $input-border-radius $input-border-radius;
@@ -116,7 +115,7 @@
     }
   }
 
-  .tr:last-child {
+  .tr:last-child:not(:only-child) {
     border-radius: 0;
     padding-bottom: 0;
   }
@@ -380,10 +379,10 @@
 }
 
 // drag and drop styles
-.table-drag-drop .thead {
-  border-bottom: 1px solid $gray-lighter;
+.table-drag-drop {
+  position: relative; // keeps width of DnD placeholder
+}
 
-  + .tr {
-    border-top: 0;
-  }
+.thead + .table-drag-drop {
+  border-top: 1px solid $gray-lighter; // border when there's a header
 }

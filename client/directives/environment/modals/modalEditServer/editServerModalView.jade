@@ -118,6 +118,7 @@ form.modal-dialog.modal-edit(
     )
     .modal-form(
       data = "data"
+      loading-promises-target = "editServerModal"
       ng-show = "selectedTab === 'repository'"
       ng-if = "!state.advanced"
       stack-selector-form

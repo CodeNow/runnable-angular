@@ -114,6 +114,11 @@ EventTracking.prototype.boot = function (user) {
   if (!(user instanceof User)) {
     throw new Error('arguments[0] must be instance of User');
   }
+
+  if (user.attrs._beingModerated) {
+    user = new User(user.attrs._beingModerated, { noStore: true });
+  }
+
   this._user = user;
   var data = {
     name: user.oauthName(),

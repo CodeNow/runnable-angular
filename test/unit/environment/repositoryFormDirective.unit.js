@@ -82,7 +82,10 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
         };
       });
 
-
+      ctx.updateDockerfileFromStateMock = sinon.spy();
+      $provide.factory('updateDockerfileFromState', function () {
+        return ctx.updateDockerfileFromStateMock;
+      });
       $provide.factory('fetchDockerfileFromSource', ctx.fetchDockerfileFromSourceMock.fetch());
       $provide.factory('parseDockerfileForDefaults', function () {
         parseDockerfileForDefaultsStub = sinon.spy(function () {
@@ -172,11 +175,11 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
 
       expect($elScope.data.cacheCommand, 'Cache enabled').to.be.ok;
       // This is a checkbox so both of these things will happen at the same time!
-      $elScope.data.cacheCommand = false;
-      $elScope.actions.toggleCache();
+      $elScope.cacheCommand(false);
       $scope.$digest();
 
       expect($elScope.state.containerFiles[0].commands[0].cache, 'Cached command').to.not.be.ok;
+      sinon.assert.called(ctx.updateDockerfileFromStateMock);
 
     });
     it('should enable cache when toggleCache to true', function () {
@@ -204,12 +207,17 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
 
       expect($elScope.data.cacheCommand, 'Cache enabled').to.not.be.ok;
       // This is a checkbox so both of these things will happen at the same time!
-      $elScope.data.cacheCommand = true;
-      $elScope.actions.toggleCache();
+      $elScope.cacheCommand(true);
       $scope.$digest();
 
       expect($elScope.state.containerFiles[0].commands[0].cache, 'Cached command').to.be.ok;
+      sinon.assert.called(ctx.updateDockerfileFromStateMock);
+      ctx.updateDockerfileFromStateMock.reset();
 
+      // should not call updateDockerfile again
+
+      $elScope.cacheCommand(true);
+      sinon.assert.notCalled(ctx.updateDockerfileFromStateMock);
     });
 
     it('should enable cache for the first non empty command when toggleCache is set to true', function () {
@@ -243,12 +251,13 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
 
       expect($elScope.data.cacheCommand, 'Cache enabled').to.not.be.ok;
       // This is a checkbox so both of these things will happen at the same time!
-      $elScope.data.cacheCommand = true;
-      $elScope.actions.toggleCache();
+      $elScope.cacheCommand(true);
       $scope.$digest();
 
       expect($elScope.state.containerFiles[0].commands[0].cache, 'Cached command').to.not.be.ok;
       expect($elScope.state.containerFiles[0].commands[1].cache, 'Cached command').to.be.ok;
+      sinon.assert.called(ctx.updateDockerfileFromStateMock);
+
 
     });
   });
@@ -309,6 +318,7 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
       $scope.$digest();
       expect($elScope.state.containerFiles[0].commands, 'main repo commands').to.deep.equal([new cardInfoTypes.Command('RUN 1234')]);
       expect($elScope.state.containerFiles[0].path, 'main repo path').to.equal('dfasgdfsgdsfgs/fgdsfgsdfg');
+      sinon.assert.called(ctx.updateDockerfileFromStateMock);
 
     });
 
@@ -338,10 +348,10 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
       $scope.$digest();
       expect($elScope.state.containerFiles[0].commands, 'main repo commands').to.deep.equal([
         new cardInfoTypes.Command('RUN dfadsfa'),
-        new cardInfoTypes.Command('RUN dsfasdfredasfadsfgw34r2 3r'),
+        new cardInfoTypes.Command('RUN dsfasdfredasfadsfgw34r2 3r')
       ]);
       expect($elScope.state.containerFiles[0].path, 'main repo path').to.equal('cheese');
-
+      sinon.assert.called(ctx.updateDockerfileFromStateMock);
     });
   });
 });

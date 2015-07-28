@@ -20,7 +20,8 @@ function fileEditor(
   modelist,
   promisify,
   loadingPromises,
-  validateDockerfile
+  validateDockerfile,
+  watchOncePromise
 ) {
   return {
     restrict: 'A',
@@ -59,16 +60,12 @@ function fileEditor(
 
       function fetchFile() {
         $scope.loading = true;
-        return promisify(
-          $scope.file,
-          'fetch'
-        )().then(function () {
-          resetFileBodyState();
-        }).catch(
-          errs.handler
-        ).finally(function () {
-          $scope.loading = false;
-        });
+        return promisify($scope.file, 'fetch')()
+          .then(resetFileBodyState)
+          .catch(errs.handler)
+          .finally(function () {
+            $scope.loading = false;
+          });
       }
 
       function updateFile() {
@@ -88,20 +85,25 @@ function fileEditor(
       }
       var updateFileDebounce = debounce(updateFile, 1000);
 
-      var fileUnwatch = $scope.$watch('file', function (n) {
-        if (n) {
-          fileUnwatch();
-          useValidation = n.attrs.name === 'Dockerfile';
-          keypather.set(n, 'state.isDirty', false);
-          $scope.$on('EDITOR::SAVE', updateFile);
-          if (!$scope.useAutoUpdate) {
-            keypather.set($scope.file, 'actions.saveChanges', updateFile);
+      watchOncePromise($scope, 'file', true)
+        .then(function (file) {
+          var isDockerfile = file.attrs.name === 'Dockerfile';
+          if (isDockerfile && file.on) {
+            file.on('update', resetFileBodyState);
+            $scope.$on('$destroy', function () {
+              file.off('update', resetFileBodyState);
+            });
           }
 
-          fetchFile().then(function () {
+          useValidation = isDockerfile;
+          keypather.set(file, 'state.isDirty', false);
+          $scope.$on('EDITOR::SAVE', updateFile);
+          if (!$scope.useAutoUpdate) {
+            keypather.set(file, 'actions.saveChanges', updateFile);
+          }
+          return fetchFile().then(function () {
             $scope.$watch('file.state.body', function (newVal) {
-              if (typeof newVal === 'string' &&
-                  newVal !== $scope.file.attrs.body) {
+              if (typeof newVal === 'string' && newVal !== $scope.file.attrs.body) {
                 if (useValidation) {
                   var validation = validateDockerfile(newVal);
                   if (validation.errors) {
@@ -130,11 +132,10 @@ function fileEditor(
                 }
               }
               // Send the updateFile promise up to the parent
-              $scope.$emit('FETCH_FILE_SUCCESSFUL', n, updateFile);
+              $scope.$emit('FETCH_FILE_SUCCESSFUL', file, updateFile);
             });
           });
-        }
-      });
+        });
     }
 
   };
