@@ -60,6 +60,13 @@ require('app')
             }
           });
 
+        $scope.hasNoCommands = function () {
+          var commands = keypather.get($scope, 'mainRepoContainerFile.commands') || [];
+          return !commands.find(function (command) {
+            return command.body.length;
+          });
+        };
+
         $scope.updateDockerfile = function () {
           return loadingPromises.add($scope.loadingPromisesTarget, updateDockerfileFromState($scope.state));
         };

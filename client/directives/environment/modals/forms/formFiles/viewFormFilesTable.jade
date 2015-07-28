@@ -1,7 +1,7 @@
-.table.table-merge
-  .tr.multi-line.clearfix(
-    ng-if = "$root.featureFlags.sshKeys"
-  )
+.table.table-merge(
+  ng-if = "$root.featureFlags.sshKeys"
+)
+  .tr.multi-line.clearfix
     .cell.cell-action.disabled.no-touching
       svg.iconnables.icons-drag
     .cell.text-overflow KeyLabel
