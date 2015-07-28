@@ -6,20 +6,16 @@ require('app')
 
 function updateDockerfileFromState(
   $q,
-  fetchSourceContexts,
-  fetchDockerfileFromSource,
+  createDockerfileFromSource,
   populateDockerfile
 ) {
   return function (state, shouldFetchSourceDockerfile) {
     var promise = null;
     if (shouldFetchSourceDockerfile || !state.sourceDockerfile) {
-      promise = fetchSourceContexts()
-        .then(function (contexts) {
-          return fetchDockerfileFromSource(
-            state.selectedStack.key,
-            contexts
-          );
-        })
+      promise = createDockerfileFromSource(
+          state.contextVersion,
+          state.selectedStack.key
+        )
         .then(function (sourceDockerfile) {
           state.sourceDockerfile = sourceDockerfile;
           return sourceDockerfile;
