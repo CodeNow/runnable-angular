@@ -12,7 +12,12 @@ function serverStatusCardHeader(
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: 'serverStatusCardHeaderView',
+    templateUrl: function (elem, attrs) {
+      if ($rootScope.featureFlags.dockerfileTool) {
+        return 'serverStatusCardHeaderView';
+      }
+      return 'serverStatusCardHeaderViewOld';
+    },
     link: function ($scope, elem, attrs) {
       $scope.popOverServerData = {
         instance: $scope.instance,
