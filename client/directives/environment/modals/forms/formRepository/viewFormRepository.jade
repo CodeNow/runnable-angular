@@ -8,29 +8,34 @@
 .label.clearfix.label-build-commands
   .label-col Build Commands
     small.small (optional)
-  //- this element should be disabled when the text field below it is disabled or empty.
-  label.small.strong.text-right.toggle-wrapper(
-    ng-if = "$root.featureFlags.buildCommandCache"
-  ) Cache
-    span.span &#32;a command
-    input.toggle-input(
-      ng-click = "actions.toggleCache()"
-      ng-disabled = "startCommandCanDisable && (!state.selectedStack || !mainRepoContainerFile.commands.length)"
-      ng-model = "data.cacheCommand"
-      type = "checkbox"
-    )
-    .toggle-group.toggle-xs.float-right
   .input-col
+    label.small.strong.float-right(
+      ng-class = "{'disabled': hasNoCommands()}"
+      ng-if = "$root.featureFlags.buildCommandCache"
+    ) Cache
+      span.span &#32;a command
+      .toggle-wrapper
+        input.toggle-input(
+          ng-click = "actions.toggleCache()"
+          ng-disabled = "hasNoCommands()"
+          ng-model = "cacheCommand"
+          ng-model-options = "{getterSetter: true}"
+          type = "checkbox"
+        )
+        .toggle-group.toggle-xs
     //-************
     //- deprecated textarea, remove with $root.featureFlags.buildCommandCache
     //- we only have suggestions for build commands on the main repository
     textarea.textarea.monospace(
       command-editor
+      ng-change = "data.cacheCommand = false"
       ng-disabled = "startCommandCanDisable && !state.selectedStack"
       ng-if = "!$root.featureFlags.buildCommandCache"
       ng-model = "mainRepoContainerFile.commands"
-      ng-change = "data.cacheCommand = false"
+      ng-keydown = "cacheCommand(false)"
       spellcheck = "false"
+      ng-model-options="{ updateOn: 'blur' }"
+      ng-change = "updateDockerfile()"
     )
     //- end deprecated textarea
     //-************
@@ -40,29 +45,30 @@
       .flex-wrapper
         textarea.textarea.monospace(
           command-editor
+          ng-attr-rows = "{{mainRepoContainerFile.commands.length < 3 ? 3 : mainRepoContainerFile.commands.length}}"
           ng-class = "{'margin-right': data.cacheCommand}"
-          ng-trim="false"
           ng-disabled = "startCommandCanDisable && !state.selectedStack"
           ng-model = "mainRepoContainerFile.commands"
+          ng-keydown = "cacheCommand(false)"
+          ng-model-options="{ updateOn: 'blur' }"
+          ng-change = "updateDockerfile()"
+          ng-trim = "false"
           spellcheck = "false"
-          ng-attr-rows = "{{mainRepoContainerFile.commands.length < 3 ? 3 : mainRepoContainerFile.commands.length}}"
-          ng-change = "data.cacheCommand = false"
-          ng-model-options = "{debounce: {default: 50, blur: 0}}"
         )
         .cache-column.js-animate(
-          ng-hide = "!data.cacheCommand"
+          ng-show = "data.cacheCommand"
         )
           .cache-border
           label.radio-wrapper(
-            ng-repeat-start = "command in mainRepoContainerFile.commands"
             ng-class = "{ 'no-touching': !command.body }"
+            ng-repeat-start = "command in mainRepoContainerFile.commands"
           )
             input(
-              type = "radio"
+              name = "cache-radio"
               ng-click = "actions.updateCache(command)"
               ng-checked = "command.cache"
               ng-if = "command.body"
-              name = "cache-radio"
+              type = "radio"
             )
           .cache-row(
             ng-repeat-end
@@ -77,9 +83,11 @@ label.label.clearfix(
   .input-col
     textarea.textarea.monospace(
       ng-disabled = "startCommandCanDisable && !state.selectedStack"
-      spellcheck = "false"
       ng-model = "state.packages.packageList"
+      ng-model-options="{ updateOn: 'blur' }"
+      ng-change = "updateDockerfile()"
       placeholder = "dnsutils vim=7.3"
+      spellcheck = "false"
     )
     small.small Add any packages you would like to install via apt-get, separated with spaces (e.g. ‘dnsutils vim=7.3’). This container is based on &#32;
       strong.strong Ubuntu.
@@ -89,12 +97,13 @@ label.label.clearfix
 
   .input-col
     fancy-select.monospace(
+      name = "repository.startCommand"
       ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
       ng-required = "startCommandCanDisable || ngShow()"
-      name = "repository.startCommand"
       show-dropdown = "state.selectedStack.startCommand"
       type = "text"
       value = "state.startCommand"
+      on-update = "updateDockerfile"
     )
       li.list-item.popover-list-item.small Suggested Container CMDs
       fancy-option(

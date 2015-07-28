@@ -5,8 +5,10 @@ require('app')
     cardInfoTypes,
     fetchDockerfileFromSource,
     keypather,
+    loadingPromises,
+    updateDockerfileFromState,
     parseDockerfileForDefaults,
-    reportError,
+    report,
     watchOncePromise
   ) {
     return {
@@ -51,11 +53,45 @@ require('app')
                       });
                       $scope.mainRepoContainerFile.path = (defaults.dst.length ? defaults.dst[0] : repoName).replace('/', '');
                     })
-                    .catch(reportError);
+                    .then($scope.updateDockerfile)
+                    .catch(report.error);
                 }
               });
             }
           });
+
+        $scope.hasNoCommands = function () {
+          var commands = keypather.get($scope, 'mainRepoContainerFile.commands') || [];
+          return !commands.find(function (command) {
+            return command.body.length;
+          });
+        };
+
+        $scope.updateDockerfile = function () {
+          return loadingPromises.add($scope.loadingPromisesTarget, updateDockerfileFromState($scope.state));
+        };
+
+        $scope.cacheCommand = function (enableCache) {
+          if (arguments.length > 0) {
+            if ($scope.data.cacheCommand === enableCache) {
+              return;
+            }
+            if (enableCache) {
+              var command = $scope.mainRepoContainerFile.commands.find(function (command) {
+                return command.body.length > 0;
+              });
+              if (command) {
+                command.cache = true;
+              }
+            } else {
+              $scope.actions.updateCache();
+            }
+            $scope.data.cacheCommand = enableCache;
+            return $scope.updateDockerfile();
+          } else {
+            return $scope.data.cacheCommand;
+          }
+        };
 
         $scope.actions = {
           updateCache: function (cmd) {
@@ -71,18 +107,7 @@ require('app')
             if (cmd) {
               cmd.cache = true;
             }
-          },
-          toggleCache: function () {
-            if (!$scope.data.cacheCommand) {
-              $scope.actions.updateCache();
-            } else if ($scope.mainRepoContainerFile.commands.length > 0) {
-              var command = $scope.mainRepoContainerFile.commands.find(function (command) {
-                return command.body.length > 0;
-              });
-              if (command) {
-                command.cache = true;
-              }
-            }
+            return $scope.updateDockerfile();
           }
         };
       }

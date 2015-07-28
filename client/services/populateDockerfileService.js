@@ -1,7 +1,42 @@
 'use strict';
 
 require('app')
+  .factory('updateDockerfileFromState', updateDockerfileFromState)
   .factory('populateDockerfile', populateDockerfile);
+
+function updateDockerfileFromState(
+  $q,
+  fetchSourceContexts,
+  fetchDockerfileFromSource,
+  populateDockerfile
+) {
+  return function (state, shouldFetchSourceDockerfile) {
+    var promise = null;
+    if (shouldFetchSourceDockerfile || !state.sourceDockerfile) {
+      promise = fetchSourceContexts()
+        .then(function (contexts) {
+          return fetchDockerfileFromSource(
+            state.selectedStack.key,
+            contexts
+          );
+        })
+        .then(function (sourceDockerfile) {
+          state.sourceDockerfile = sourceDockerfile;
+          return sourceDockerfile;
+        });
+    } else {
+      promise = $q.when(state.sourceDockerfile);
+    }
+
+    return promise.then(function (sourceDockerfile) {
+        return populateDockerfile(
+          sourceDockerfile,
+          state,
+          state.dockerfile
+        );
+      });
+  };
+}
 
 function populateDockerfile(
   promisify,
@@ -31,19 +66,22 @@ function populateDockerfile(
       return dockerfileBody.replace(regexp, stack.selectedVersion);
     }
     function populateDockerFile(dockerfileBody) {
+      if (typeof state.getPorts !== 'function') {
+        var error = new Error('populateDockerfile requires a getPorts function');
+        $log.error(error);
+        return error;
+      }
       // first, add the ports
-      var ports = state.ports.join(' ');
+      var ports = state.getPorts();
       var mainRepo = state.containerFiles.find(function (section) {
         return section.type === 'Main Repository';
       });
 
-      if (
+      mainRepo.hasFindReplace = (
         keypather.get(state, 'contextVersion.getMainAppCodeVersion().attrs.transformRules.rename.length') ||
         keypather.get(state, 'contextVersion.getMainAppCodeVersion().attrs.transformRules.replace.length') ||
         keypather.get(state, 'contextVersion.getMainAppCodeVersion().attrs.transformRules.exclude.length')
-      ) {
-        mainRepo.hasFindReplace = true;
-      }
+      );
 
 
       var dockerSectionArray = [];
@@ -65,12 +103,14 @@ function populateDockerfile(
       dockerfileBody = dockerfileBody.slice(0, beforeIndex) + dockerSectionsString + dockerfileBody.slice(afterIndex + '<after-main-repo>'.length);
 
       dockerfileBody = dockerfileBody
-        .replace(/<user-specified-ports>/gm, ports)
         .replace(/<dst>/gm, '/' + state.dst)
         .replace(/<start-command>/gm, state.startCommand)
         .replace(/#default.+/gm, ''); // Remove all default comments that are not
 
-      if (!state.ports.length) {
+      if (ports.length) {
+        dockerfileBody = dockerfileBody
+          .replace(/<user-specified-ports>/gm, ports.join(' '));
+      } else {
         dockerfileBody = dockerfileBody.replace('EXPOSE', '');
       }
       if (configEnvironment !== 'production') {

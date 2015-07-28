@@ -1,0 +1,11 @@
+{
+  "_id": "7456373456",
+  "branch": "notMaster",
+  "commit": "345234523452345234523452345",
+  "lowerBranch": "notmaster",
+  "lowerRepo": "asdf/cheese",
+  "privateKey": "asdf/cheese.key",
+  "publicKey": "asdf/cheese.key.pub",
+  "repo": "asdf/cheese",
+  "id": "7456373456"
+}

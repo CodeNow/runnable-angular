@@ -19,30 +19,29 @@ var tabVisibility = {
  */
 function editServerModal(
   $filter,
-  errs,
-  JSTagsCollection,
-  hasKeypaths,
-  eventTracking,
-  fetchDockerfileFromSource,
-  findLinkedServerVariables,
-  keypather,
-  OpenItems,
-  fetchUser,
-  populateDockerfile,
-  promisify,
-  watchOncePromise,
-  helpCards,
   $rootScope,
-  uploadFile,
-  configAPIHost,
-  cardInfoTypes,
   $timeout,
-  loading,
-  loadingPromises,
+  cardInfoTypes,
+  configAPIHost,
+  errs,
+  eventTracking,
+  fetchInstancesByPod,
   fetchStackInfo,
   fetchSourceContexts,
-  fetchInstancesByPod,
-  parseDockerfileForCardInfoFromInstance
+  fetchUser,
+  findLinkedServerVariables,
+  hasKeypaths,
+  helpCards,
+  JSTagsCollection,
+  keypather,
+  loading,
+  loadingPromises,
+  OpenItems,
+  parseDockerfileForCardInfoFromInstance,
+  promisify,
+  updateDockerfileFromState,
+  uploadFile,
+  watchOncePromise
 ) {
   return {
     restrict: 'A',
@@ -95,6 +94,8 @@ function editServerModal(
             minTagWidth: 120,
             tags: new JSTagsCollection(($scope.instance.ports || '').split(' '))
           };
+          $scope.portTagOptions.tags.onAdd($scope.updateDockerfileFromState);
+          $scope.portTagOptions.tags.onRemove($scope.updateDockerfileFromState);
         });
 
       if (helpCards.cardIsActiveOnThisContainer($scope.instance)) {
@@ -102,6 +103,9 @@ function editServerModal(
         $scope.activeCard = helpCards.getActiveCard();
       }
 
+      $scope.updateDockerfileFromState = function () {
+        return loadingPromises.add('editServerModal', updateDockerfileFromState($scope.state));
+      };
 
       $scope.triggerEditRepo = function (repo) {
         if (repo.type === 'Main Repository') { return; }
@@ -133,8 +137,16 @@ function editServerModal(
           currentIndex = index;
           return containerFile.id === containerFileId;
         });
+        if (newIndex > 0 && currentIndex <= newIndex - 1) {
+          newIndex -= 1;
+        }
         $scope.state.containerFiles.splice(currentIndex, 1);
         $scope.state.containerFiles.splice(newIndex, 0, containerFile);
+        // DO NOT RETURN THIS!  DND list will think it goes to the list
+        loadingPromises.add(
+          'editServerModal',
+          updateDockerfileFromState($scope.state)
+        ).catch(errs.handler);
       };
 
       $scope.repositoryPopover = {
@@ -152,7 +164,10 @@ function editServerModal(
               return acv.attrs.repo.split('/')[1] === repo.repo.attrs.name;
             });
 
-            loadingPromises.add('editServerModal', promisify(acv, 'destroy')())
+            loadingPromises.add('editServerModal', promisify(acv, 'destroy')()
+              .then(function () {
+                return updateDockerfileFromState($scope.state);
+              }))
               .catch(errs.handler);
           },
           create: function (repo) {
@@ -162,10 +177,11 @@ function editServerModal(
               branch: repo.branch.attrs.name,
               commit: repo.commit.attrs.sha,
               additionalRepo: true
-            }))
+            })
               .then(function (acv) {
                 repo.acv = acv;
-              })
+                return updateDockerfileFromState($scope.state);
+              }))
               .catch(errs.handler);
           },
           update: function (repo) {
@@ -187,9 +203,9 @@ function editServerModal(
             })
               .then(function (acv) {
                 myRepo.acv = acv;
-              })
-              .catch(errs.handler)
-            );
+                return updateDockerfileFromState($scope.state);
+              }))
+              .catch(errs.handler);
           }
         },
         data: {},
@@ -235,7 +251,7 @@ function editServerModal(
               $scope.state.containerFiles.push(myFile);
             }
             $rootScope.$broadcast('close-popovers');
-
+            return updateDockerfileFromState($scope.state);
           },
           cancel: function (containerFile) {
             // Using our own cancel in order to delete file
@@ -266,8 +282,12 @@ function editServerModal(
                 $scope.state.containerFiles.splice(containerIndex, 1);
               }
 
-              return loadingPromises.add('editServerModal',
+              return loadingPromises.add(
+                'editServerModal',
                 promisify(file, 'destroy')()
+                  .then(function () {
+                    return updateDockerfileFromState($scope.state);
+                  })
                   .catch(errs.handler)
               );
             }
@@ -309,6 +329,7 @@ function editServerModal(
           opts: {},
           repo: keypather.get(instance, 'contextVersion.getMainAppCodeVersion().githubRepo'),
           instance: instance,
+          getPorts: convertTagToPortList,
           promises: {
             contextVersion: loadingPromises.add('editServerModal', promisify(instance.contextVersion, 'deepCopy')())
               .then(function (contextVersion) {
@@ -433,64 +454,15 @@ function editServerModal(
         helpCards.setActiveCard(null);
         $scope.modalActions.cancel();
       };
-      function areContainerFilesDifferent() {
-        var serverListLength = keypather.get($scope, 'instance.containerFiles.length') || 0;
-        var stateListLength = keypather.get($scope, 'state.containerFiles.length') || 0;
-
-        if (serverListLength !== stateListLength) {
-          return true;
-        }
-        return $scope.state.containerFiles.some(function (stateFile, index) {
-          var serverFile = $scope.instance.containerFiles[index];
-          return serverFile.toString() !== stateFile.toString();
-        });
-      }
-
-      function arePackagesDifferent() {
-        return keypather.get($scope, 'state.packages.packageList') !== keypather.get($scope, 'instance.packages.packageList');
-      }
-
-      function shouldFnrCreateDockerfile() {
-        var serverFnRObject = keypather.get($scope, 'instance.contextVersion.getMainAppCodeVersion().transformRules');
-        var serverFnRCount = serverFnRObject ?
-            serverFnRObject.exclude.length + serverFnRObject.rename.length + serverFnRObject.replace.length : 0;
-        var stateFnRObject = keypather.get($scope, 'state.contextVersion.getMainAppCodeVersion().transformRules');
-        var stateFnRCount = stateFnRObject ?
-            stateFnRObject.exclude.length + stateFnRObject.rename.length + stateFnRObject.replace.length : 0;
-        // This should be true if the one of the counts is greater than zero, but the other is zero
-        return (serverFnRCount || stateFnRCount) && (serverFnRCount === 0 || stateFnRCount === 0);
-      }
 
       $scope.getUpdatePromise = function () {
         $rootScope.$broadcast('close-popovers');
         $scope.building = true;
         $scope.state.ports = convertTagToPortList();
         var hasMainRepo = !!keypather.get($scope, 'instance.contextVersion.getMainAppCodeVersion()');
-        var statePorts = keypather.get($scope, 'state.ports.join(" ")');
-        // Check state.instance instead of instance so you don't recreate the dockerfile again on a
-        // failure (and they didn't change it in between)
-        // true if not advanced, has a repo, and one of the following:
-        var toRecreateDockerfile = !$scope.state.advanced &&
-              hasMainRepo &&
-              (
-                // The container files have been changed
-                areContainerFilesDifferent() ||
-                // FnR has changed
-                shouldFnrCreateDockerfile() ||
-                // Packages have changed
-                arePackagesDifferent() ||
-                // The ports have changed
-                !angular.equals($scope.state.instance.ports, statePorts) ||
-                // We have a new start command
-                $scope.state.instance.startCommand !== $scope.state.startCommand ||
-                // Completely new stack
-                !angular.equals($scope.state.instance.selectedStack, $scope.state.selectedStack)
-              );
 
-        var toRebuild = toRecreateDockerfile;
-        var toRedeploy = !toRecreateDockerfile &&
-              keypather.get($scope, 'instance.attrs.env') !== keypather.get($scope, 'state.opts.env');
-
+        var toRebuild;
+        var toRedeploy;
         // So we should do this watchPromise step first so that any tab that relies on losing focus
         // to change something will have enough time to add its promises to LoadingPromises
         return watchOncePromise($scope, 'state.contextVersion', true)
@@ -499,19 +471,14 @@ function editServerModal(
           })
           .then(function (promiseArrayLength) {
             // Since the initial deepCopy should be in here, we only care about > 1
-            toRebuild = toRebuild || promiseArrayLength > 1;
-            toRedeploy = toRedeploy && !toRebuild;
+            toRebuild = !$scope.state.advanced && hasMainRepo && promiseArrayLength > 1;
+            toRedeploy = !toRebuild &&
+              keypather.get($scope, 'instance.attrs.env') !== keypather.get($scope, 'state.opts.env');
 
-            if (toRecreateDockerfile) {
-              return updateDockerfile($scope.state);
+            if (toRebuild) {
+              return buildBuild($scope.state);
             }
             return $scope.state;
-          })
-          .then(function (state) {
-            if (toRecreateDockerfile || toRebuild) {
-              return buildBuild(state);
-            }
-            return state;
           })
           .then(function (state) {
             if (toRebuild || toRedeploy) {
@@ -545,27 +512,6 @@ function editServerModal(
         return promisify(state.build, 'build')({ message: 'manual' })
           .then(function (build) {
             state.opts.build = build.id();
-            return state;
-          });
-      }
-
-      function updateDockerfile(state) {
-        return promisify(state.contextVersion, 'fetchFile')('/Dockerfile')
-          .then(function (newDockerfile) {
-            state.dockerfile = newDockerfile;
-            return fetchDockerfileFromSource(
-              state.selectedStack.key,
-              $scope.data.sourceContexts
-            );
-          })
-          .then(function (sourceDockerfile) {
-            return populateDockerfile(
-              sourceDockerfile,
-              state,
-              state.dockerfile
-            );
-          })
-          .then(function () {
             return state;
           });
       }

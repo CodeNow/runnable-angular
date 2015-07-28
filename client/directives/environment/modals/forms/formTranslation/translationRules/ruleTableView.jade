@@ -1,33 +1,34 @@
+//- if no rules of this type
+ul.tr.thead.clearfix
+  li.cell {{ header.title }}
+    button.btn.btn-xs.white(
+      ng-click = "openRulePopover()"
+      ng-disabled = "tableProcessing || state.recalculating"
+      pop-over
+      pop-over-actions = "popoverData.actions"
+      pop-over-active = "popoverData.active"
+      pop-over-data = "popoverData.data"
+      pop-over-options = "{\"left\":0,\"top\":0}"
+      pop-over-template = "popoverTemplate"
+      pop-over-trigger = "activeAttr"
+    ) {{ header.description }}
+ul.tr.tr-empty.clearfix(
+  ng-if = "!list.length"
+)
+  li.cell(
+    ng-class = "{'no-touching': tableProcessing || state.recalculating}"
+    ng-click = "openRulePopover()"
+  ) {{ emptyText.description }}
+
 ul.table-drag-drop(
   dnd-allowed-types = "properties.allowedTableTypes"
+  dnd-drop = "dropRule(event, index, item)"
   dnd-list = "list"
 )
-  li.tr.thead.clearfix
-    .cell {{ header.title }}
-      button.btn.btn-xs.white(
-        ng-click = "openRulePopover()"
-        ng-disabled = "tableProcessing || state.recalculating"
-        pop-over
-        pop-over-actions = "popoverData.actions"
-        pop-over-active = "popoverData.active"
-        pop-over-data = "popoverData.data"
-        pop-over-options = "{\"left\":0,\"top\":0}"
-        pop-over-template = "popoverTemplate"
-        pop-over-trigger = "activeAttr"
-      ) {{ header.description }}
-  //- if no rules of this type
-  li.tr.tr-empty.clearfix(
-    ng-if = "!list.length"
-  )
-    .cell(
-      ng-click = "openRulePopover()"
-      ng-class = "{'no-touching': tableProcessing || state.recalculating}"
-    ) {{ emptyText.description }}
   li.tr.tr-action.clearfix(
     dnd-draggable = "item"
-    dnd-dragstart = "models.selected"
+    dnd-dragstart = "models.selected = item"
     dnd-effect-allowed = "move"
-    dnd-moved = "list.splice($index, 1); moveRule($index, item); "
     dnd-type = "item.action"
     ng-class="{\
       'disabled': models.selected === item,\

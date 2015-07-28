@@ -6,7 +6,6 @@ require('app')
  * @ngInject
  */
 function setupServerModal(
-  createDockerfileFromSource,
   fetchDockerfileFromSource,
   parseDockerfileForDefaults,
   createNewBuild,
@@ -16,9 +15,8 @@ function setupServerModal(
   fetchStackAnalysis,
   hasKeypaths,
   keypather,
-  populateDockerfile,
   promisify,
-  watchOncePromise,
+  updateDockerfileFromState,
   $log,
   cardInfoTypes
 ) {
@@ -42,7 +40,13 @@ function setupServerModal(
         containerFiles: [
           mainRepoContainerFile
         ],
-        packages: new cardInfoTypes.Packages()
+        packages: new cardInfoTypes.Packages(),
+        getPorts: function () {
+          if (keypather.get($scope, 'state.selectedStack.ports')) {
+            return $scope.state.selectedStack.ports.replace(/ /g, '').split(',');
+          }
+          return [];
+        }
       };
 
       fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
@@ -76,16 +80,7 @@ function setupServerModal(
           $scope.state.ports = $scope.state.selectedStack.ports.replace(/ /g, '').split(',');
         }
 
-        var createPromise = createDockerfileFromSource(
-          $scope.state.contextVersion,
-          $scope.state.selectedStack.key
-        )
-          .then(function (dockerfile) {
-            return populateDockerfile(
-              dockerfile,
-              $scope.state
-            );
-          })
+        var createPromise = updateDockerfileFromState($scope.state)
           .then(function () {
             if ($scope.state.acv.attrs.branch !== $scope.state.branch.attrs.name) {
               return promisify($scope.state.acv, 'update')({

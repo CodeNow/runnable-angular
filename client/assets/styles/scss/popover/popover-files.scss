@@ -138,6 +138,9 @@
     }
 
     .icons-arrow-down {
+      position: absolute;
+      right: 6px;
+      top: 0;
       transform: rotate3d(0,0,1,-90deg);
     }
   }

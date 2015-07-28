@@ -32,6 +32,8 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
       fileUpdateCb = cb;
       updatedBody = opts.json.body;
     });
+    fileMock.on = sinon.spy();
+    fileMock.off = sinon.spy();
 
     setModeSpy = sinon.spy(function (mode) {
     });
@@ -175,6 +177,20 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
       fileUpdateCb();
       $scope.$apply();
       expect(fileMock.state.isDirty, 'fileMock.state.isDirty').to.not.be.ok;
+    });
+
+
+    it('Should update when it receives an event from the model', function () {
+      initState(true, true);
+      fileFetchCb();
+      $scope.$apply();
+
+      sinon.assert.calledOnce(fileMock.on);
+
+      $scope.$apply();
+
+      $scope.$destroy();
+      sinon.assert.calledOnce(fileMock.off);
     });
 
     it('Should not set !isDirty after an outdated update returns', function () {

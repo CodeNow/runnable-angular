@@ -6,23 +6,32 @@ require('app')
  * @ngInject
  */
 function stackSelectorForm(
-  keypather
+  keypather,
+  loadingPromises,
+  updateDockerfileFromState
 ) {
   return {
     restrict: 'A',
     templateUrl: 'viewFormStack',
     scope: {
-      state: '=',
-      data: '='
+      data: '=',
+      loadingPromisesTarget: '@?',
+      state: '='
     },
     link: function ($scope, elem, attrs) {
       $scope.temp = {
         stack: keypather.get($scope, 'state.selectedStack')
       };
+      $scope.updateDockerfile = function () {
+        return loadingPromises.add($scope.loadingPromisesTarget, updateDockerfileFromState($scope.state));
+      };
+      $scope.updateDockerfileOnNewStack = function () {
+        return loadingPromises.add($scope.loadingPromisesTarget, updateDockerfileFromState($scope.state, true));
+      };
 
       // Since we are adding info to the stack object, and those objects are going to get reused,
       // we should listen to the model changes, and copy the result
-      $scope.$watch('temp.stack', function (stack, previousStack) {
+      $scope.$watch('temp.stack', function (stack) {
         if (stack) {
           $scope.state.selectedStack = angular.copy(stack);
         }
