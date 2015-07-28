@@ -17,51 +17,52 @@ function ControllerContainerFiles(
   var self = this;
   this.repositoryPopover = {
     actions: {
-      remove: function (repo) {
+      remove: function (repoContainerFile) {
         var myIndex = 0;
         $scope.state.containerFiles.find(function (containerFile, index) {
           myIndex = index;
-          return containerFile.id === repo.id;
+          return containerFile.id === repoContainerFile.id;
         });
 
         $scope.state.containerFiles.splice(myIndex, 1);
 
         var acv = $scope.state.contextVersion.appCodeVersions.models.find(function (acv) {
-          return acv.attrs.repo.split('/')[1] === repo.repo.attrs.name;
+          return acv.attrs.repo.split('/')[1] === repoContainerFile.repo.attrs.name;
         });
 
         loadingPromises.add('editServerModal', promisify(acv, 'destroy')())
           .catch(errs.handler);
       },
-      create: function (repo) {
-        $scope.state.containerFiles.push(repo);
+      create: function (repoContainerFile) {
+        $scope.state.containerFiles.push(repoContainerFile);
         loadingPromises.add('editServerModal', promisify($scope.state.contextVersion.appCodeVersions, 'create', true)({
-          repo: repo.repo.attrs.full_name,
-          branch: repo.branch.attrs.name,
-          commit: repo.commit.attrs.sha,
+          repo: repoContainerFile.repo.attrs.full_name,
+          branch: repoContainerFile.branch.attrs.name,
+          commit: repoContainerFile.commit.attrs.sha,
           additionalRepo: true
         }))
           .then(function (acv) {
-            repo.acv = acv;
+            console.log('ACV', acv);
+            repoContainerFile.acv = acv;
           })
           .catch(errs.handler);
       },
-      update: function (repo) {
+      update: function (repoContainerFile) {
         var myRepo = $scope.state.containerFiles.find(function (containerFile) {
-          return containerFile.id === repo.id;
+          return containerFile.id === repoContainerFile.id;
         });
 
-        Object.keys(repo).forEach(function (key) {
-          myRepo[key] = repo[key];
+        Object.keys(repoContainerFile).forEach(function (key) {
+          myRepo[key] = repoContainerFile[key];
         });
 
         var acv = $scope.state.contextVersion.appCodeVersions.models.find(function (acv) {
-          return acv.attrs.repo === repo.acv.attrs.repo;
+          return acv.attrs.repo === repoContainerFile.acv.attrs.repo;
         });
 
         loadingPromises.add('editServerModal', promisify(acv, 'update')({
-            branch: repo.branch.attrs.name,
-            commit: repo.commit.attrs.sha
+            branch: repoContainerFile.branch.attrs.name,
+            commit: repoContainerFile.commit.attrs.sha
           })
             .then(function (acv) {
               myRepo.acv = acv;
@@ -94,8 +95,7 @@ function ControllerContainerFiles(
             containerFile.uploadFinished = true;
             containerFile.name = fileResponse.name;
             containerFile.fileModel = $scope.state.contextVersion.newFile(fileResponse);
-          });
-        containerFile.fileUpload
+          })
           .finally(function () {
             containerFile.saving = false;
           });
@@ -119,21 +119,17 @@ function ControllerContainerFiles(
         // Using our own cancel in order to delete file
         if (containerFile.fileUpload) {
           if (containerFile.uploadFinished) {
-            // If it has a name, then the file exists on the server
-            return containerFile.fileUpload
-              .then(function () {
-                self.fileUpload.actions.deleteFile(containerFile);
-              });
-          } else {
-            containerFile.fileUpload.abort();
+            // If the upload is finished we need to trigger a delete on the server
+            return self.fileUpload.actions.deleteFile(containerFile);
           }
+          // The upload isn't finished. Abort it!
+          containerFile.fileUpload.abort();
         }
         // Don't close-popovers when deleting the file, since that function will call it as well
         $rootScope.$broadcast('close-popovers');
       },
       deleteFile: function (containerFile) {
         $rootScope.$broadcast('close-popovers');
-        if (!containerFile) { return; }
 
         var file = containerFile.fileModel || $scope.state.contextVersion.rootDir.contents.models.find(function (fileModel) {
             return fileModel.attrs.name === containerFile.name;
