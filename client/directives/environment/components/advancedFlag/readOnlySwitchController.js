@@ -14,7 +14,7 @@ function ReadOnlySwitchController(
   var ROSC = this;
   this.popover = {
     performRollback: function (originalContextVersion) {
-      return originalContextVersion.rollback()
+      return promisify(originalContextVersion, 'rollback')()
         .then(function (rolledBackContextVersion) {
           return $scope.resetStateContextVersion(rolledBackContextVersion, true);
         })
