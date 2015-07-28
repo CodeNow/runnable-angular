@@ -22,13 +22,13 @@ ul.tr.tr-empty.clearfix(
 
 ul.table-drag-drop(
   dnd-allowed-types = "properties.allowedTableTypes"
+  dnd-drop = "dropRule(event, index, item)"
   dnd-list = "list"
 )
   li.tr.tr-action.clearfix(
     dnd-draggable = "item"
     dnd-dragstart = "models.selected = item"
     dnd-effect-allowed = "move"
-    dnd-moved = "list.splice($index, 1); moveRule($index, item); "
     dnd-type = "item.action"
     ng-class="{\
       'disabled': models.selected === item,\

@@ -133,6 +133,9 @@ function editServerModal(
           currentIndex = index;
           return containerFile.id === containerFileId;
         });
+        if (newIndex > 0 && currentIndex <= newIndex - 1) {
+          newIndex -= 1;
+        }
         $scope.state.containerFiles.splice(currentIndex, 1);
         $scope.state.containerFiles.splice(newIndex, 0, containerFile);
       };

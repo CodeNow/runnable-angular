@@ -20,9 +20,18 @@ require('app')
           }
           $scope.popoverData.active = true;
         };
-
-        $scope.moveRule = function () {
-          return loadingPromises.add('editServerModal', moveTransformRules(
+        $scope.dropRule = function (event, newIndex, rule) {
+          var currentIndex = 0;
+          $scope.list.find(function (listRule, index) {
+            currentIndex = index;
+            return listRule._id === rule._id;
+          });
+          if (newIndex > 0 && currentIndex <= newIndex - 1) {
+            newIndex -= 1;
+          }
+          $scope.list.splice(currentIndex, 1);
+          $scope.list.splice(newIndex, 0, rule);
+          loadingPromises.add('editServerModal', moveTransformRules(
             keypather.get($scope.state, 'contextVersion.getMainAppCodeVersion()'),
             $scope.list,
             $scope.properties.action
