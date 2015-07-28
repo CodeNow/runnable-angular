@@ -31,24 +31,26 @@ function ControllerContainerFiles(
           return acv.attrs.repo.split('/')[1] === repoContainerFile.repo.attrs.name;
         });
 
-        loadingPromises.add('editServerModal', promisify(acv, 'destroy')())
+        loadingPromises.add('editServerModal', promisify(acv, 'destroy')()
           .then(function () {
             return updateDockerfileFromState($scope.state);
           })
+        )
           .catch(errs.handler);
       },
       create: function (repoContainerFile) {
         $scope.state.containerFiles.push(repoContainerFile);
         loadingPromises.add('editServerModal', promisify($scope.state.contextVersion.appCodeVersions, 'create', true)({
-          repo: repoContainerFile.repo.attrs.full_name,
-          branch: repoContainerFile.branch.attrs.name,
-          commit: repoContainerFile.commit.attrs.sha,
-          additionalRepo: true
-        }))
+            repo: repoContainerFile.repo.attrs.full_name,
+            branch: repoContainerFile.branch.attrs.name,
+            commit: repoContainerFile.commit.attrs.sha,
+            additionalRepo: true
+          })
           .then(function (acv) {
             repoContainerFile.acv = acv;
             return updateDockerfileFromState($scope.state);
           })
+        )
           .catch(errs.handler);
       },
       update: function (repoContainerFile) {
@@ -68,12 +70,12 @@ function ControllerContainerFiles(
             branch: repoContainerFile.branch.attrs.name,
             commit: repoContainerFile.commit.attrs.sha
           })
-            .then(function (acv) {
-              myRepo.acv = acv;
-              return updateDockerfileFromState($scope.state);
-            })
-            .catch(errs.handler)
-        );
+          .then(function (acv) {
+            myRepo.acv = acv;
+            return updateDockerfileFromState($scope.state);
+          })
+        )
+          .catch(errs.handler);
       }
     },
     data: {},
@@ -116,7 +118,7 @@ function ControllerContainerFiles(
           myFile.commands = containerFile.commands;
           myFile.path = containerFile.path;
           $scope.state.containerFiles.push(myFile);
-          updateDockerfileFromState($scope.state);
+          loadingPromises.add('editServerModal', updateDockerfileFromState($scope.state));
         }
         $rootScope.$broadcast('close-popovers');
       },
