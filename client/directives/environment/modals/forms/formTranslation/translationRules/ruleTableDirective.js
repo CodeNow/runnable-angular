@@ -7,6 +7,7 @@ require('app')
     errs,
     keypather,
     moveTransformRules,
+    updateDockerfileFromState,
     loadingPromises
   ) {
     return {
@@ -28,6 +29,13 @@ require('app')
             $scope.properties.action
           ));
         };
+
+        function hasRules(acv) {
+          return (keypather.get(acv, 'attrs.transformRules.rename.length') ||
+              keypather.get(acv, 'attrs.transformRules.replace.length') ||
+              keypather.get(acv, 'attrs.transformRules.exclude.length'));
+        }
+
         $scope.popoverData = {
           active: false,
           data: {
@@ -53,17 +61,28 @@ require('app')
                 keypather.get($scope.state, 'contextVersion.getMainAppCodeVersion()'),
                 rule
               )
+                .then(function () {
+                  // Update the dockerfile if no rules exist after deleting one
+                  if (!hasRules(keypather.get($scope.state, 'contextVersion.getMainAppCodeVersion()'))) {
+                    return updateDockerfileFromState($scope.state);
+                  }
+                })
                 .then($scope.actions.recalculateRules))
                 .catch(errs.handler);
             },
             createRule: function (rule) {
               $scope.popoverData.active = false;
               $scope.tableProcessing = true;
+              var mainAcv = keypather.get($scope.state, 'contextVersion.getMainAppCodeVersion()');
+              // Update the dockerfile if no rules exist before creating one
+              var shouldUpdateDockerfile = !hasRules(mainAcv);
 
-              return loadingPromises.add('editServerModal', createTransformRule(
-                keypather.get($scope.state, 'contextVersion.getMainAppCodeVersion()'),
-                rule
-              )
+              return loadingPromises.add('editServerModal', createTransformRule(mainAcv, rule)
+                .then(function () {
+                  if (shouldUpdateDockerfile) {
+                    return updateDockerfileFromState($scope.state);
+                  }
+                })
                 .then($scope.actions.recalculateRules))
                 .catch(errs.handler)
                 .finally(function () {

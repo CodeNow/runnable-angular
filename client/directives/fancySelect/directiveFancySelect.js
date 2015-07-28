@@ -142,12 +142,18 @@ function fancySelect(
           $scope.value = clickedOption.value;
 
           if (originalValue !== newValue && $scope.onUpdate) {
-            $scope.onUpdate(clickedOption.value);
+            $scope.actions.onValueChanged(clickedOption.value);
           }
           if (exists($scope.toggleObject) && exists($scope.toggleAttribute)) {
             $scope.toggleObject[$scope.toggleAttribute] = false;
           }
           closeDropdown();
+        },
+        onValueChanged: function (value) {
+          $timeout(angular.noop)
+            .then(function () {
+              $scope.onUpdate(value);
+            });
         }
       };
 

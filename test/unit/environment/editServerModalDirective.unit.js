@@ -11,7 +11,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
   var $q;
 
   var apiClientMockFactory = require('../../unit/apiMocks/apiClientMockFactory');
-  var sourceMocks = runnable.newContexts(require('../../unit/apiMocks/sourceContexts'), {noStore: true});
+  var sourceMocks = runnable.newContexts(require('../../unit/apiMocks/sourceContexts'), {noStore: true, warn: false});
   var apiMocks = require('../apiMocks/index');
   var mockUserFetch = new (require('../fixtures/mockFetch'))();
 
@@ -39,7 +39,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     ctx.eventTracking = {
       triggeredBuild: sinon.spy()
     };
-    ctx.fetchDockerfileFromSourceMock = new MockFetch();
+    ctx.updateDockerfileFromStateMock = sinon.stub();
     ctx.populateDockerfile = new MockFetch();
     runnable.reset(apiMocks.user);
 
@@ -57,7 +57,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       $provide.factory('fetchUser', mockUserFetch.autoTrigger(ctx.fakeOrg1));
       $provide.value('OpenItems', ctx.openItemsMock);
       $provide.value('findLinkedServerVariables', sinon.spy());
-      $provide.value('cardInfoTypes', {});
       $provide.value('eventTracking', ctx.eventTracking);
       $provide.value('configAPIHost', '');
       $provide.value('uploadFile', sinon.spy());
@@ -84,6 +83,10 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         return function () {
           return $q.when([]);
         };
+      });
+      $provide.factory('updateDockerfileFromState', function ($q) {
+        return ctx.updateDockerfileFromStateMock
+          .returns($q.when(true));
       });
       $provide.factory('parseDockerfileForCardInfoFromInstance', function ($q) {
         return function () {
@@ -138,15 +141,12 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       $provide.factory('branchSelectorDirective', function () {
         return {
           priority: 100000,
-          link: function () {
-            // do nothing
-          }
+          link: angular.noop
         };
       });
 
       ctx.loadingPromiseFinishedValue = 0;
 
-      $provide.factory('fetchDockerfileFromSource', ctx.fetchDockerfileFromSourceMock.fetch());
       $provide.factory('populateDockerfile', ctx.populateDockerfile.fetch());
       $provide.factory('loadingPromises', function ($q) {
         ctx.loadingPromiseMock = {
@@ -304,7 +304,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.called(closePopoverSpy);
         sinon.assert.called(ctx.loadingPromiseMock.finished);
-        sinon.assert.calledOnce(ctx.newContextVersion.fetchFile);
         expect($elScope.building).to.be.true;
         expect($elScope.state.ports).to.be.ok;
         $scope.$digest();
@@ -334,7 +333,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.called(closePopoverSpy);
         sinon.assert.called(ctx.loadingPromiseMock.finished);
-        sinon.assert.calledOnce(ctx.newContextVersion.fetchFile);
         expect($elScope.building).to.be.true;
         expect($elScope.state.ports).to.be.ok;
         $scope.$digest();
@@ -368,12 +366,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         expect($elScope.building).to.be.true;
         expect($elScope.state.ports).to.be.ok;
         $scope.$digest();
-        $scope.$digest();
-        sinon.assert.calledOnce(ctx.newContextVersion.fetchFile);
-        $scope.$digest();
-        sinon.assert.notCalled(ctx.fetchDockerfileFromSourceMock.getFetchSpy());
-        sinon.assert.notCalled(ctx.populateDockerfile.getFetchSpy());
-        $scope.$digest();
         sinon.assert.calledOnce(ctx.build.build);
         $scope.$digest();
         expect($elScope.state.opts.build).to.be.ok;
@@ -396,7 +388,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
           });
         });
         ctx.loadingPromiseFinishedValue = 2;
-        ctx.newContextVersion.fetchFile.reset();
 
         keypather.set($elScope, 'portTagOptions.tags.tags', {0: '123'});
         $elScope.getUpdatePromise();
@@ -405,13 +396,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         sinon.assert.called(ctx.loadingPromiseMock.finished);
         expect($elScope.building).to.be.true;
         expect($elScope.state.ports).to.be.ok;
-        sinon.assert.calledOnce(ctx.newContextVersion.fetchFile);
-        ctx.fetchDockerfileFromSourceMock.triggerPromise({attrs: 'dockerfile'});
         $scope.$digest();
-        sinon.assert.calledOnce(ctx.fetchDockerfileFromSourceMock.getFetchSpy());
-        ctx.populateDockerfile.triggerPromise({attrs: 'dockerfile'});
-        $scope.$digest();
-        sinon.assert.calledOnce(ctx.populateDockerfile.getFetchSpy());
         sinon.assert.calledOnce(ctx.build.build);
         expect($elScope.state.opts.build).to.be.ok;
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
@@ -429,7 +414,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
           });
         });
         ctx.loadingPromiseFinishedValue = 2;
-        ctx.newContextVersion.fetchFile.reset();
 
         keypather.set($elScope, 'state.packages.packageList', 'asdf');
         $elScope.getUpdatePromise();
@@ -438,13 +422,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         sinon.assert.called(ctx.loadingPromiseMock.finished);
         expect($elScope.building).to.be.true;
         expect($elScope.state.ports).to.be.ok;
-        sinon.assert.calledOnce(ctx.newContextVersion.fetchFile);
-        ctx.fetchDockerfileFromSourceMock.triggerPromise({attrs: 'dockerfile'});
-        $scope.$digest();
-        sinon.assert.calledOnce(ctx.fetchDockerfileFromSourceMock.getFetchSpy());
-        ctx.populateDockerfile.triggerPromise({attrs: 'dockerfile'});
-        $scope.$digest();
-        sinon.assert.calledOnce(ctx.populateDockerfile.getFetchSpy());
+
         sinon.assert.calledOnce(ctx.build.build);
         expect($elScope.state.opts.build).to.be.ok;
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
@@ -469,7 +447,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
             rename: [],
             exclude: []
           };
-          ctx.newContextVersion.fetchFile.reset();
 
           $elScope.getUpdatePromise();
           $scope.$digest();
@@ -479,14 +456,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
           expect($elScope.state.ports).to.be.ok;
           $scope.$digest();
           $scope.$digest();
-          $scope.$digest();
-          sinon.assert.calledOnce(ctx.newContextVersion.fetchFile);
-          ctx.fetchDockerfileFromSourceMock.triggerPromise({attrs: 'dockerfile'});
-          $scope.$digest();
-          sinon.assert.calledOnce(ctx.fetchDockerfileFromSourceMock.getFetchSpy());
-          ctx.populateDockerfile.triggerPromise({attrs: 'dockerfile'});
-          $scope.$digest();
-          sinon.assert.calledOnce(ctx.populateDockerfile.getFetchSpy());
           $scope.$digest();
           sinon.assert.calledOnce(ctx.build.build);
           $scope.$digest();
@@ -516,7 +485,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
             rename: [],
             exclude: []
           };
-          ctx.newContextVersion.fetchFile.reset();
 
           $elScope.getUpdatePromise();
           $scope.$digest();
@@ -526,14 +494,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
           expect($elScope.state.ports).to.be.ok;
           $scope.$digest();
           $scope.$digest();
-          $scope.$digest();
-          sinon.assert.calledOnce(ctx.newContextVersion.fetchFile);
-          ctx.fetchDockerfileFromSourceMock.triggerPromise({attrs: 'dockerfile'});
-          $scope.$digest();
-          sinon.assert.calledOnce(ctx.fetchDockerfileFromSourceMock.getFetchSpy());
-          ctx.populateDockerfile.triggerPromise({attrs: 'dockerfile'});
-          $scope.$digest();
-          sinon.assert.calledOnce(ctx.populateDockerfile.getFetchSpy());
           $scope.$digest();
           sinon.assert.calledOnce(ctx.build.build);
           $scope.$digest();
@@ -577,11 +537,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
           expect($elScope.building).to.be.true;
           expect($elScope.state.ports).to.be.ok;
           $scope.$digest();
-          $scope.$digest();
-          sinon.assert.calledOnce(ctx.newContextVersion.fetchFile);
-          $scope.$digest();
-          sinon.assert.notCalled(ctx.fetchDockerfileFromSourceMock.getFetchSpy());
-          sinon.assert.notCalled(ctx.populateDockerfile.getFetchSpy());
           $scope.$digest();
           sinon.assert.calledOnce(ctx.build.build);
           $scope.$digest();
@@ -654,7 +609,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       sinon.assert.called(closePopoverSpy);
       sinon.assert.called(ctx.loadingPromiseMock.add);
       $scope.$digest();
-      sinon.assert.called(ctx.newContextVersion.fetchFile);
       sinon.assert.called(ctx.loadingPromiseMock.add);
       sinon.assert.calledWith(ctx.newContextVersion.update, {
         advanced: true
@@ -695,8 +649,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     expect($elScope.building, 'Building').to.be.false;
     expect($elScope.state.opts.env.length).to.equal(0);
     expect($elScope.state.containerFiles.length).to.equal(1);
-    $scope.$digest();
-    $scope.$digest();
     sinon.assert.calledOnce(containerFiles[0].clone);
     sinon.assert.calledOnce(ctx.newContextVersion.deepCopy);
     sinon.assert.calledOnce(ctx.contextVersion.fetch);
@@ -762,6 +714,163 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       $scope.$digest();
 
       expect($elScope.selectedTab).to.equal('files');
+    });
+  });
+
+  describe('updating the dockerfile', function () {
+    beforeEach(function () {
+      setup({
+        currentModel: ctx.instance,
+        selectedTab: 'env'
+      });
+      ctx.contextVersion.attrs.advanced = true;
+    });
+    describe('file upload popover', function () {
+      var closePopoverSpy;
+      beforeEach(function () {
+        var containerFiles = [
+          {
+            id: 'containerFileID!',
+            clone: sinon.spy()
+          }
+        ];
+        closePopoverSpy = sinon.spy();
+        $elScope.state.containerFiles = containerFiles;
+        $rootScope.$on('close-popovers', closePopoverSpy);
+      });
+      it('should update on save', function () {
+        var newContainerFile = {
+          id: '2345123452',
+          clone: sinon.spy()
+        };
+        sinon.assert.notCalled(ctx.updateDockerfileFromStateMock);
+        $elScope.fileUpload.actions.save(newContainerFile);
+        $scope.$digest();
+        sinon.assert.called(closePopoverSpy);
+        sinon.assert.called(ctx.updateDockerfileFromStateMock);
+      });
+      it('should update on delete', function () {
+        var newContainerFile = {
+          id: '2345123452',
+          fileModel: {
+            destroy: sinon.spy(function (cb) {
+              return cb();
+            })
+          },
+          clone: sinon.spy()
+        };
+        $elScope.state.containerFiles.push(newContainerFile);
+        sinon.assert.notCalled(ctx.updateDockerfileFromStateMock);
+        $elScope.fileUpload.actions.deleteFile(newContainerFile);
+        $scope.$digest();
+        sinon.assert.called(closePopoverSpy);
+        $scope.$digest();
+        sinon.assert.called(ctx.loadingPromiseMock.add);
+        sinon.assert.called(ctx.updateDockerfileFromStateMock);
+      });
+    });
+    describe('repository popover', function () {
+      var containerFiles;
+      var newAppCodeVersion;
+      beforeEach(function () {
+        newAppCodeVersion = {
+          attrs: apiMocks.appCodeVersions.notAbitcoinAppCodeVersion,
+          destroy: sinon.spy(function (cb) {
+            return cb();
+          }),
+          update: sinon.spy(function (opts, cb) {
+            $rootScope.$evalAsync(function () {
+              cb(null, newAppCodeVersion);
+            });
+            return newAppCodeVersion;
+          })
+        };
+        containerFiles = [
+          {
+            id: 'containerFileID!',
+            clone: sinon.spy(),
+            repo: {
+              attrs: {
+                name: 'cheese'
+              }
+            }
+          }
+        ];
+        $elScope.state.containerFiles = containerFiles;
+        ctx.newContextVersion.appCodeVersions.models.push(newAppCodeVersion);
+      });
+      it('should update on remove', function () {
+        sinon.assert.notCalled(ctx.updateDockerfileFromStateMock);
+        $elScope.repositoryPopover.actions.remove(containerFiles[0]);
+        $scope.$digest();
+        sinon.assert.called(newAppCodeVersion.destroy);
+        $scope.$digest();
+        sinon.assert.called(ctx.loadingPromiseMock.add);
+        sinon.assert.called(ctx.updateDockerfileFromStateMock);
+      });
+      it('should update on create', function () {
+        ctx.newContextVersion.appCodeVersions.create = sinon.spy(function (opts, cb) {
+          $rootScope.$evalAsync(function () {
+            cb(null, newAppCodeVersion);
+          });
+          return newAppCodeVersion;
+        });
+        var newRepo = {
+          repo: {
+            attrs: {
+              full_name: 'cheese'
+            }
+          },
+          branch: {
+            attrs: {
+              name: '12341234'
+            }
+          },
+          commit: {
+            attrs: {
+              sha: 'dsfasdgasghas'
+            }
+          },
+          clone: sinon.spy()
+        };
+
+        $elScope.repositoryPopover.actions.create(newRepo);
+        $scope.$digest();
+        sinon.assert.calledWith(ctx.newContextVersion.appCodeVersions.create, {
+          repo: 'cheese',
+          branch: '12341234',
+          commit: 'dsfasdgasghas',
+          additionalRepo: true
+        });
+        $scope.$digest();
+        sinon.assert.called(ctx.loadingPromiseMock.add);
+        sinon.assert.called(ctx.updateDockerfileFromStateMock);
+      });
+      it('should update on update', function () {
+        sinon.assert.notCalled(ctx.updateDockerfileFromStateMock);
+        var newContainerFile = angular.extend({}, containerFiles[0], {
+          branch: {
+            attrs: {
+              name: '12341234'
+            }
+          },
+          commit: {
+            attrs: {
+              sha: 'dsfasdgasghas'
+            }
+          },
+          acv: newAppCodeVersion
+        });
+        $elScope.repositoryPopover.actions.update(newContainerFile);
+        $scope.$digest();
+        sinon.assert.calledWith(newAppCodeVersion.update, {
+          branch: '12341234',
+          commit: 'dsfasdgasghas'
+        });
+        $scope.$digest();
+        sinon.assert.called(ctx.loadingPromiseMock.add);
+        sinon.assert.called(ctx.updateDockerfileFromStateMock);
+      });
     });
   });
 

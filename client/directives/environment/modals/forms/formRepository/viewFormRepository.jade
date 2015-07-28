@@ -18,7 +18,8 @@
         input.toggle-input(
           ng-click = "actions.toggleCache()"
           ng-disabled = "hasNoCommands()"
-          ng-model = "data.cacheCommand"
+          ng-model = "cacheCommand"
+          ng-model-options = "{getterSetter: true}"
           type = "checkbox"
         )
         .toggle-group.toggle-xs
@@ -31,7 +32,10 @@
       ng-disabled = "startCommandCanDisable && !state.selectedStack"
       ng-if = "!$root.featureFlags.buildCommandCache"
       ng-model = "mainRepoContainerFile.commands"
+      ng-keydown = "cacheCommand(false)"
       spellcheck = "false"
+      ng-model-options="{ updateOn: 'blur' }"
+      ng-change = "updateDockerfile()"
     )
     //- end deprecated textarea
     //-************
@@ -42,16 +46,17 @@
         textarea.textarea.monospace(
           command-editor
           ng-attr-rows = "{{mainRepoContainerFile.commands.length < 3 ? 3 : mainRepoContainerFile.commands.length}}"
-          ng-change = "data.cacheCommand = false"
           ng-class = "{'margin-right': data.cacheCommand}"
           ng-disabled = "startCommandCanDisable && !state.selectedStack"
           ng-model = "mainRepoContainerFile.commands"
-          ng-model-options = "{debounce: {default: 50, blur: 0}}"
-          ng-trim="false"
+          ng-keydown = "cacheCommand(false)"
+          ng-model-options="{ updateOn: 'blur' }"
+          ng-change = "updateDockerfile()"
+          ng-trim = "false"
           spellcheck = "false"
         )
         .cache-column.js-animate(
-          ng-hide = "!data.cacheCommand"
+          ng-show = "data.cacheCommand"
         )
           .cache-border
           label.radio-wrapper(
@@ -79,6 +84,9 @@ label.label.clearfix(
     textarea.textarea.monospace(
       ng-disabled = "startCommandCanDisable && !state.selectedStack"
       ng-model = "state.packages.packageList"
+      ng-model-options="{ updateOn: 'blur' }"
+      ng-change = "updateDockerfile()"
+      placeholder = "dnsutils vim=7.3"
       spellcheck = "false"
     )
     small.small Add any packages you would like to install via apt-get, separated with spaces (e.g. ‘dnsutils vim=7.3’). This container is based on &#32;
@@ -95,6 +103,7 @@ label.label.clearfix
       show-dropdown = "state.selectedStack.startCommand"
       type = "text"
       value = "state.startCommand"
+      on-update = "updateDockerfile"
     )
       li.list-item.popover-list-item.small Suggested Container CMDs
       fancy-option(
