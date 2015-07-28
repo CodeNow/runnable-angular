@@ -20,7 +20,7 @@ describe('setupServerModalDirective'.bold.underline.blue, function () {
 
   var fetchOwnerRepoStub;
   var fetchStackAnalysisMock;
-  var createDockerfileFromSourceStub;
+  var updateDockerfileFromStateStub;
   var populateDockerfileStub;
   var fetchDockerfileFromSourceStub;
 
@@ -33,25 +33,27 @@ describe('setupServerModalDirective'.bold.underline.blue, function () {
     angular.mock.module('app');
     angular.mock.module(function ($provide) {
       $provide.factory('fetchStackAnalysis', fetchStackAnalysisMock.fetch());
-      $provide.factory('createDockerfileFromSource', function ($q) {
-        createDockerfileFromSourceStub = sinon.stub().returns($q.when(dockerfile));
-        return createDockerfileFromSourceStub;
+      $provide.factory('updateDockerfileFromState', function ($q) {
+        updateDockerfileFromStateStub = sinon.stub().returns($q.when(dockerfile));
+        return updateDockerfileFromStateStub;
       });
       $provide.factory('repositoryFormDirective', function () {
         return {
           priority: 100000,
-          link: function () {
-            // do nothing
-          }
+          link: angular.noop
         };
       });
-
+      $provide.factory('stackSelectorFormDirective', function () {
+        return {
+          priority: 100000,
+          terminal: true,
+          link: angular.noop
+        };
+      });
       $provide.factory('branchSelectorDirective', function () {
         return {
           priority: 100000,
-          link: function () {
-            // do nothing
-          }
+          link: angular.noop
         };
       });
 
@@ -59,8 +61,6 @@ describe('setupServerModalDirective'.bold.underline.blue, function () {
         fetchDockerfileFromSourceStub = sinon.stub().returns($q.when(dockerfile));
         return fetchDockerfileFromSourceStub;
       });
-
-      $provide.value('populateDockerfile', populateDockerfileStub);
 
       $provide.value('createNewBuild', createNewBuildMock);
       $provide.factory('fetchOwnerRepos', function ($q) {
@@ -266,21 +266,21 @@ describe('setupServerModalDirective'.bold.underline.blue, function () {
           name: 'branchName'
         }
       };
-      $elScope.state.repo = repo;
-      $elScope.state.dst = '/foo';
       $elScope.actions.createAndBuild = sinon.stub().returns($q.when(dockerfile));
       $elScope.state.selectedStack = {
         key: 'ruby_ror'
       };
+      $scope.$digest();
 
+      $elScope.state.repo = repo;
+      $elScope.state.dst = '/foo';
+      sinon.assert.notCalled(updateDockerfileFromStateStub);
       $elScope.createServer();
       $scope.$digest();
 
 
-      sinon.assert.calledOnce(createDockerfileFromSourceStub);
-      sinon.assert.calledOnce(populateDockerfileStub);
-      sinon.assert.calledWith(populateDockerfileStub, dockerfile);
-      var populateDockerfileOpts = populateDockerfileStub.lastCall.args[1];
+      sinon.assert.calledOnce(updateDockerfileFromStateStub);
+      var populateDockerfileOpts = updateDockerfileFromStateStub.lastCall.args[0];
 
       expect(populateDockerfileOpts.opts.masterPod).to.be.ok;
       expect(populateDockerfileOpts.branch.attrs.name).to.equal('branchName');
