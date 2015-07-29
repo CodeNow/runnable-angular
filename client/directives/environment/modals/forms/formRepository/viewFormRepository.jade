@@ -28,7 +28,6 @@
     //- we only have suggestions for build commands on the main repository
     textarea.textarea.monospace(
       command-editor
-      ng-change = "data.cacheCommand = false"
       ng-disabled = "startCommandCanDisable && !state.selectedStack"
       ng-if = "!$root.featureFlags.buildCommandCache"
       ng-model = "mainRepoContainerFile.commands"
