@@ -98,11 +98,11 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
   }
   beforeEach(function () {
     injectSetupCompile();
-    sinon.spy($elScope, '$broadcast');
+    sinon.spy($rootScope, '$broadcast');
   });
 
   afterEach(function () {
-    $elScope.$broadcast.restore();
+    $rootScope.$broadcast.restore();
   });
 
   describe('folder rename', function () {
@@ -597,7 +597,6 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
 
 
   it('should broadcast click event when triggering closeOpenModals', function () {
-    sinon.spy($rootScope, '$broadcast');
     $elScope.actions.closeOpenModals();
     expect($rootScope.$broadcast.calledOnce).to.equal(true);
     $rootScope.$broadcast.restore();
@@ -656,7 +655,7 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       $elScope.openItems.add = sinon.spy();
       $elScope.popoverFileExplorerFile.actions.openFile(file);
       expect($elScope.openItems.add.calledWith(file), 'open items called with file').to.equal(true);
-      expect($elScope.$broadcast.calledWith('close-popovers'), 'Broadcasted close-popovers').to.equal(true);
+      expect($rootScope.$broadcast.calledWith('close-popovers'), 'Broadcasted close-popovers').to.equal(true);
     });
 
     it('should support renaming a file', function () {
@@ -667,7 +666,7 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       };
       $elScope.popoverFileExplorerFile.actions.renameFile(file);
       expect(file.state.renaming, 'File state renaming').to.equal(true);
-      expect($elScope.$broadcast.calledWith('close-popovers'), 'Broadcasted close-popovers').to.equal(true);
+      expect($rootScope.$broadcast.calledWith('close-popovers'), 'Broadcasted close-popovers').to.equal(true);
     });
 
     it('should support deleting a file', function () {
@@ -676,9 +675,11 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       };
       $elScope.actions.fetchDirFiles = sinon.spy();
       $elScope.popoverFileExplorerFile.actions.deleteFile(file);
+      $rootScope.$digest();
+
       expect(file.destroy.calledOnce, 'destroy file called').to.equal(true);
       expect($elScope.actions.fetchDirFiles.calledOnce, 'fetch dir files called once').to.equal(true);
-      expect($elScope.$broadcast.calledWith('close-popovers'), 'Broadcasted close-popovers').to.equal(true);
+      expect($rootScope.$broadcast.calledWith('close-popovers'), 'Broadcasted close-popovers').to.equal(true);
     });
   });
 
@@ -694,7 +695,7 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       expect(loadingPromisesMock.add.lastCall.args[0], 'Added to loading promise').to.equal('deleteRepo');
       $scope.$digest();
       sinon.assert.calledOnce(acv.destroy);
-      sinon.assert.calledWith($elScope.$broadcast, 'close-popovers');
+      sinon.assert.calledWith($rootScope.$broadcast, 'close-popovers');
     });
     it('should support editing a repo', function () {
       $scope.editExplorer = true;
