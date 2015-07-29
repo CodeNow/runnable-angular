@@ -45,7 +45,8 @@ ul.table-drag-drop(
       disabled: (containerFile.type === 'Main Repository' && !$root.featureFlags.sshKeys),\
       'tr-action': (containerFile.type !== 'Main Repository' && !$root.featureFlags.sshKeys)\
     }"
-    ng-repeat = "containerFile in state.containerFiles | filter:{type: '!SSH Key'}"
+    ng-repeat = "containerFile in state.containerFiles"
+    ng-show = "containerFile.type !== 'SSH Key'"
   )
     .cell.cell-action(
       ng-class = "{\
