@@ -768,6 +768,20 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
         sinon.assert.notCalled(CCF.fileUpload.actions.deleteFile);
         sinon.assert.calledOnce(CCF.sshKey.popover.actions.remove);
       });
+      it('should do nothing if its not a match', function () {
+        var containerFile = {
+          type: 'Not A Match'
+        };
+        CCF.repositoryPopover.actions.remove = sinon.spy();
+        CCF.fileUpload.actions.deleteFile = sinon.spy();
+        CCF.sshKey.popover.actions.remove = sinon.spy();
+
+        CCF.filePopoverActions.delete(containerFile);
+
+        sinon.assert.notCalled(CCF.repositoryPopover.actions.remove);
+        sinon.assert.notCalled(CCF.fileUpload.actions.deleteFile);
+        sinon.assert.notCalled(CCF.sshKey.popover.actions.remove);
+      });
     });
   });
 });
