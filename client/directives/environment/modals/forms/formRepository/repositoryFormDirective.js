@@ -53,7 +53,6 @@ require('app')
                       });
                       $scope.mainRepoContainerFile.path = (defaults.dst.length ? defaults.dst[0] : repoName).replace('/', '');
                     })
-                    .then($scope.updateDockerfile)
                     .catch(report.error);
                 }
               });

@@ -6,14 +6,16 @@ require('app')
 
 function updateDockerfileFromState(
   $q,
-  createDockerfileFromSource,
+  fetchDockerfileFromSource,
   populateDockerfile
 ) {
   return function (state, shouldFetchSourceDockerfile) {
+    if (!state.dockerfile) {
+      return $q.reject(new Error('No destination dockerfile given'));
+    }
     var promise = null;
     if (shouldFetchSourceDockerfile || !state.sourceDockerfile) {
-      promise = createDockerfileFromSource(
-          state.contextVersion,
+      promise = fetchDockerfileFromSource(
           state.selectedStack.key
         )
         .then(function (sourceDockerfile) {
@@ -42,6 +44,9 @@ function populateDockerfile(
   $log
 ) {
   return function (sourceDockerfile, state, destDockerfile) {
+    if (!destDockerfile) {
+      return Error('no destination dockerfile was given');
+    }
     function replaceStackVersion(dockerfileBody, stack) {
       var regexp = new RegExp('<' + regexpQuote(stack.key.toLowerCase()) + '-version>', 'igm');
       if (stack.dependencies) {
@@ -50,7 +55,7 @@ function populateDockerfile(
         });
       }
       // This is basically just for Kissmetrics
-      if (stack.key === 'ruby') {
+      if (stack.key === 'ruby' && stack.selectedVersion) {
         var versionBroken = stack.selectedVersion.split('.');
         var normalVersion = stack.selectedVersion;
         if (versionBroken.length > 1 && versionBroken[0] === '1' && parseInt(versionBroken[1]) < 9) {
@@ -116,7 +121,7 @@ function populateDockerfile(
     }
 
     var dockerfileBody = populateDockerFile(sourceDockerfile.attrs.body);
-    return promisify(destDockerfile || sourceDockerfile, 'update')({
+    return promisify(destDockerfile, 'update')({
       json: {
         body: dockerfileBody
       }

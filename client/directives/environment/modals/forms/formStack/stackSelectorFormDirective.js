@@ -6,6 +6,7 @@ require('app')
  * @ngInject
  */
 function stackSelectorForm(
+  createDockerfileFromSource,
   keypather,
   loadingPromises,
   updateDockerfileFromState
@@ -22,11 +23,16 @@ function stackSelectorForm(
       $scope.temp = {
         stack: keypather.get($scope, 'state.selectedStack')
       };
+
+      $scope.newStackSelected = function (newStack) {
+        return createDockerfileFromSource($scope.state.contextVersion, newStack.key)
+          .then(function (dockerfile) {
+            $scope.state.dockerfile = dockerfile;
+          });
+      };
+
       $scope.updateDockerfile = function () {
         return loadingPromises.add($scope.loadingPromisesTarget, updateDockerfileFromState($scope.state));
-      };
-      $scope.updateDockerfileOnNewStack = function () {
-        return loadingPromises.add($scope.loadingPromisesTarget, updateDockerfileFromState($scope.state, true));
       };
 
       // Since we are adding info to the stack object, and those objects are going to get reused,
