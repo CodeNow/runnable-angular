@@ -558,7 +558,7 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
           sinon.assert.calledOnce($scope.state.contextVersion.rootDir.contents.create);
           sinon.assert.calledWith($scope.state.contextVersion.rootDir.contents.create, {
             name: 'fileName',
-            path: '/.ssh',
+            path: '/',
             body: 'keyValue',
             isDir: false
           });
