@@ -30,7 +30,7 @@ ul.tr.multi-line.clearfix(
 
 //- dnd-drop needs this to be a list
 ul.table-drag-drop(
-  dnd-drop = "CCF.dropContainerFile(event, index, item, type)"
+  dnd-drop = "CFC.dropContainerFile(event, index, item, type)"
   dnd-list = "state.containerFiles"
 )
   li.tr.multi-line.clearfix(
@@ -58,7 +58,7 @@ ul.table-drag-drop(
     //- deprecated:
     .cell.text-overflow(
       ng-if = "(containerFile.type === 'File' && !$root.featureFlags.sshKeys)"
-      ng-click = "CCF.actions.triggerEditFile(containerFile)"
+      ng-click = "CFC.actions.triggerEditFile(containerFile)"
       title = "{{ containerFile.name }}"
     ) {{ containerFile.name }}
 
@@ -74,7 +74,7 @@ ul.table-drag-drop(
 
     .cell.text-overflow(
       ng-if = "containerFile.type === 'Repository' || containerFile.type === 'Main Repository'"
-      ng-click = "CCF.actions.triggerEditRepo(containerFile)"
+      ng-click = "CFC.actions.triggerEditRepo(containerFile)"
       title = "{{ containerFile.name }}"
     ) {{ containerFile.name }}
       small.small(

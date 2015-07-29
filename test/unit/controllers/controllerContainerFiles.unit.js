@@ -2,8 +2,8 @@
 
 var apiMocks = require('../apiMocks/index');
 
-describe('ControllerContainerFiles'.bold.underline.blue, function () {
-  var CCF;
+describe('ContainerFilesController'.bold.underline.blue, function () {
+  var CFC;
   var $controller;
   var $rootScope;
   var $scope;
@@ -81,7 +81,7 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
       }
     };
 
-    CCF = $controller('ControllerContainerFiles', {
+    CFC = $controller('ContainerFilesController', {
       $scope: $scope
     });
   }
@@ -103,7 +103,7 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
       };
       $scope.state.containerFiles = [obj1, obj2, obj3];
 
-      CCF.dropContainerFile({}, 2, obj1.id);
+      CFC.dropContainerFile({}, 2, obj1.id);
 
       expect($scope.state.containerFiles[0].id).to.equal(2);
       expect($scope.state.containerFiles[1].id).to.equal(1);
@@ -124,7 +124,7 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
       };
       $scope.state.containerFiles = [obj1, obj2, obj3];
 
-      CCF.dropContainerFile({}, 0, obj1.id);
+      CFC.dropContainerFile({}, 0, obj1.id);
 
       expect($scope.state.containerFiles[0].id).to.equal(1);
       expect($scope.state.containerFiles[1].id).to.equal(2);
@@ -137,11 +137,11 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
   describe('actions', function () {
     describe('triggerAddRepository', function () {
       it('should setup the add repo popover', function () {
-        CCF.actions.triggerAddRepository();
-        expect(CCF.repositoryPopover.data.appCodeVersions).to.equal(acvModels);
-        expect(CCF.repositoryPopover.active).to.be.ok;
+        CFC.actions.triggerAddRepository();
+        expect(CFC.repositoryPopover.data.appCodeVersions).to.equal(acvModels);
+        expect(CFC.repositoryPopover.active).to.be.ok;
         $timeout.flush();
-        expect(CCF.repositoryPopover.active).to.not.be.ok;
+        expect(CFC.repositoryPopover.active).to.not.be.ok;
       });
     });
 
@@ -152,33 +152,33 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
           test: '1234',
           clone: sinon.stub().returns(clonedRepo)
         };
-        CCF.actions.triggerEditRepo(repo);
-        expect(CCF.repositoryPopover.data.appCodeVersions).to.equal(acvModels);
-        expect(CCF.repositoryPopover.data.repo).to.equal(clonedRepo);
-        expect(CCF.repositoryPopover.active).to.be.ok;
+        CFC.actions.triggerEditRepo(repo);
+        expect(CFC.repositoryPopover.data.appCodeVersions).to.equal(acvModels);
+        expect(CFC.repositoryPopover.data.repo).to.equal(clonedRepo);
+        expect(CFC.repositoryPopover.active).to.be.ok;
         sinon.assert.calledOnce(repo.clone);
         $timeout.flush();
-        expect(CCF.repositoryPopover.active).to.not.be.ok;
+        expect(CFC.repositoryPopover.active).to.not.be.ok;
       });
       it('should do nothing if it\'s a main repo', function () {
         var repo = {
           type: 'Main Repository',
           clone: sinon.spy()
         };
-        CCF.actions.triggerEditRepo(repo);
-        expect(CCF.repositoryPopover.data).to.be.empty;
-        expect(CCF.repositoryPopover.active).to.not.be.ok;
+        CFC.actions.triggerEditRepo(repo);
+        expect(CFC.repositoryPopover.data).to.be.empty;
+        expect(CFC.repositoryPopover.active).to.not.be.ok;
         sinon.assert.notCalled(repo.clone);
       });
     });
 
     describe('triggerUploadFile', function () {
       it('should setup the add file popover', function () {
-        CCF.actions.triggerUploadFile();
-        expect(CCF.fileUpload.data).to.be.empty;
-        expect(CCF.fileUpload.active).to.be.ok;
+        CFC.actions.triggerUploadFile();
+        expect(CFC.fileUpload.data).to.be.empty;
+        expect(CFC.fileUpload.active).to.be.ok;
         $timeout.flush();
-        expect(CCF.fileUpload.active).to.not.be.ok;
+        expect(CFC.fileUpload.active).to.not.be.ok;
       });
     });
 
@@ -187,11 +187,11 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
         test: '1234'
       };
       it('should setup the edit file popover', function () {
-        CCF.actions.triggerEditFile(file);
-        expect(CCF.fileUpload.data).to.equal(file);
-        expect(CCF.fileUpload.active).to.be.ok;
+        CFC.actions.triggerEditFile(file);
+        expect(CFC.fileUpload.data).to.equal(file);
+        expect(CFC.fileUpload.active).to.be.ok;
         $timeout.flush();
-        expect(CCF.fileUpload.active).to.not.be.ok;
+        expect(CFC.fileUpload.active).to.not.be.ok;
       });
     });
   });
@@ -214,7 +214,7 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
 
         acv.destroy = sinon.stub().returns($q.when());
 
-        CCF.repositoryPopover.actions.remove(repoContainerFile);
+        CFC.repositoryPopover.actions.remove(repoContainerFile);
         $rootScope.$digest();
 
         sinon.assert.calledOnce(acv.destroy);
@@ -247,7 +247,7 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
             }
           }
         };
-        CCF.repositoryPopover.actions.create(repoContainerFile);
+        CFC.repositoryPopover.actions.create(repoContainerFile);
         $timeout.flush();
         $rootScope.$digest();
 
@@ -299,7 +299,7 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
         newRepoContainerFile.branch.attrs.name = 'newBranch';
         newRepoContainerFile.commit.attrs.sha = 'newSha';
 
-        CCF.repositoryPopover.actions.update(newRepoContainerFile);
+        CFC.repositoryPopover.actions.update(newRepoContainerFile);
         $rootScope.$digest();
 
         sinon.assert.calledOnce(acv.update);
@@ -319,7 +319,7 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
         var containerFile = {
           file: []
         };
-        CCF.fileUpload.actions.uploadFile(containerFile);
+        CFC.fileUpload.actions.uploadFile(containerFile);
       });
       it('should upload the file', function () {
         var file = {
@@ -339,7 +339,7 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
 
         uploadMock.upload = sinon.stub().returns(uploadDeferred.promise);
 
-        CCF.fileUpload.actions.uploadFile(containerFile);
+        CFC.fileUpload.actions.uploadFile(containerFile);
 
 
         uploadDeferred.promise.progress.lastCall.args[0]({
@@ -370,7 +370,7 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
         };
         $scope.state.containerFiles = [{id: '4567'}];
 
-        CCF.fileUpload.actions.save(containerFile);
+        CFC.fileUpload.actions.save(containerFile);
 
         sinon.assert.calledOnce(closePopoverSpy);
         expect($scope.state.containerFiles.length).to.equal(2);
@@ -382,7 +382,7 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
         sinon.assert.calledOnce(updateDockerfileFromStateMock);
       });
       it('should do nothing if there already is a type', function () {
-        CCF.fileUpload.actions.save({
+        CFC.fileUpload.actions.save({
           type: 'File'
         });
         sinon.assert.calledOnce(closePopoverSpy);
@@ -394,7 +394,7 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
         };
         $scope.state.containerFiles = [{id: '4567'}];
 
-        CCF.fileUpload.actions.save(containerFile);
+        CFC.fileUpload.actions.save(containerFile);
 
         sinon.assert.calledOnce(closePopoverSpy);
         expect($scope.state.containerFiles.length).to.equal(2);
@@ -411,12 +411,12 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
           uploadFinished: true,
           fileUpload: {}
         };
-        CCF.fileUpload.actions.deleteFile = sinon.spy();
-        CCF.fileUpload.actions.cancel(containerFile);
+        CFC.fileUpload.actions.deleteFile = sinon.spy();
+        CFC.fileUpload.actions.cancel(containerFile);
 
         sinon.assert.notCalled(closePopoverSpy);
-        sinon.assert.calledOnce(CCF.fileUpload.actions.deleteFile);
-        sinon.assert.calledWith(CCF.fileUpload.actions.deleteFile, containerFile);
+        sinon.assert.calledOnce(CFC.fileUpload.actions.deleteFile);
+        sinon.assert.calledWith(CFC.fileUpload.actions.deleteFile, containerFile);
       });
       it('should stop uploading a file in progress', function () {
         var containerFile = {
@@ -425,14 +425,14 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
             abort: sinon.spy()
           }
         };
-        CCF.fileUpload.actions.deleteFile = sinon.spy();
-        CCF.fileUpload.actions.cancel(containerFile);
+        CFC.fileUpload.actions.deleteFile = sinon.spy();
+        CFC.fileUpload.actions.cancel(containerFile);
 
         sinon.assert.calledOnce(closePopoverSpy);
         sinon.assert.calledOnce(containerFile.fileUpload.abort);
       });
       it('should close the popover if there is no file upload', function () {
-        CCF.fileUpload.actions.cancel({});
+        CFC.fileUpload.actions.cancel({});
         sinon.assert.calledOnce(closePopoverSpy);
       });
     });
@@ -448,7 +448,7 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
           id: '4567'
         }, containerFile];
 
-        CCF.fileUpload.actions.deleteFile(containerFile);
+        CFC.fileUpload.actions.deleteFile(containerFile);
         $rootScope.$digest();
 
         sinon.assert.calledOnce(closePopoverSpy);
@@ -474,7 +474,7 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
           name: 'fileName'
         }, containerFile];
 
-        CCF.fileUpload.actions.deleteFile(containerFile);
+        CFC.fileUpload.actions.deleteFile(containerFile);
         $rootScope.$digest();
 
         sinon.assert.calledOnce(closePopoverSpy);
@@ -494,7 +494,7 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
           name: 'fileName'
         }, containerFile];
 
-        CCF.fileUpload.actions.deleteFile(containerFile);
+        CFC.fileUpload.actions.deleteFile(containerFile);
         sinon.assert.calledOnce(closePopoverSpy);
         expect($scope.state.containerFiles.length).to.equal(2);
       });
@@ -510,7 +510,7 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
         };
         $scope.state.containerFiles = [];
 
-        CCF.fileUpload.actions.deleteFile(containerFile);
+        CFC.fileUpload.actions.deleteFile(containerFile);
         sinon.assert.calledOnce(closePopoverSpy);
         sinon.assert.calledOnce(containerFile.fileModel.destroy);
       });
