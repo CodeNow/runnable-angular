@@ -196,7 +196,7 @@ function ControllerContainerFiles(
               isDir: false
             })
               .then(function (file) {
-                sshKey.file = file;
+                sshKey.fileModel = file;
                 return $q.all([
                   updateDockerfileFromState($scope.state),
                   promisify($scope.state.contextVersion.rootDir.contents, 'fetch')()
@@ -206,29 +206,27 @@ function ControllerContainerFiles(
           );
           $rootScope.$broadcast('close-popovers');
         },
-        cancel: function () {
-          $rootScope.$broadcast('close-popovers');
-        },
         remove: function (sshKeyFile) {
           var file = sshKeyFile.fileModel || $scope.state.contextVersion.rootDir.contents.models.find(function (fileModel) {
             return fileModel.attrs.name === sshKeyFile.name;
           });
-
           var containerIndex = $scope.state.containerFiles.indexOf(sshKeyFile);
           if (containerIndex > -1) {
             $scope.state.containerFiles.splice(containerIndex, 1);
           }
 
           if (file) {
-            return loadingPromises.add('editServerModal',
+            loadingPromises.add('editServerModal',
               promisify(file, 'destroy')()
                 .then(function () {
-                  return updateDockerfileFromState($scope.state);
+                  return promisify($scope.state.contextVersion.rootDir.contents, 'fetch')();
                 })
                 .catch(errs.handler)
             );
           }
+          loadingPromises.add('editServerModal', updateDockerfileFromState($scope.state));
           $rootScope.$broadcast('close-popovers');
+          console.log('Closed popovers');
         }
       }
     },

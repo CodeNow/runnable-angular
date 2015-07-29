@@ -2,7 +2,7 @@
 
 var apiMocks = require('../apiMocks/index');
 
-describe('ControllerContainerFiles'.bold.underline.blue, function () {
+describe.only('ControllerContainerFiles'.bold.underline.blue, function () {
   var CCF;
   var $controller;
   var $rootScope;
@@ -77,6 +77,12 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
       contextVersion: {
         appCodeVersions: {
           models: acvModels
+        },
+        rootDir: {
+          contents: {
+            create: sinon.spy(),
+            fetch: sinon.spy()
+          }
         }
       }
     };
@@ -192,6 +198,17 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
         expect(CCF.fileUpload.active).to.be.ok;
         $timeout.flush();
         expect(CCF.fileUpload.active).to.not.be.ok;
+      });
+    });
+    describe('triggerAddSSHKey', function () {
+      var file = {
+        test: '1234'
+      };
+      it('should setup the edit file popover', function () {
+        CCF.actions.triggerAddSSHKey(file);
+        expect(CCF.sshKey.popover.active).to.be.ok;
+        $timeout.flush();
+        expect(CCF.sshKey.popover.active).to.not.be.ok;
       });
     });
   });
@@ -513,6 +530,243 @@ describe('ControllerContainerFiles'.bold.underline.blue, function () {
         CCF.fileUpload.actions.deleteFile(containerFile);
         sinon.assert.calledOnce(closePopoverSpy);
         sinon.assert.calledOnce(containerFile.fileModel.destroy);
+      });
+    });
+  });
+  describe('SSH Key', function () {
+    describe('popover actions', function () {
+      describe('save', function () {
+        it('should create a new SSH key and create that in the file system', function () {
+          var newFile = {
+            id: 'New File'
+          };
+          $scope.state.contextVersion.rootDir.contents.create = sinon.stub().returns(newFile);
+          $scope.state.containerFiles = [{
+            id: 1234
+          }];
+
+          CCF.sshKey.popover.actions.save({
+            name: 'fileName',
+            key: 'keyValue'
+          });
+          $rootScope.$digest();
+
+          expect($scope.state.containerFiles.length).to.equal(2);
+          expect($scope.state.containerFiles[0].name).to.equal('fileName');
+          expect($scope.state.containerFiles[0].fileModel).to.equal(newFile);
+
+          sinon.assert.calledOnce($scope.state.contextVersion.rootDir.contents.create);
+          sinon.assert.calledWith($scope.state.contextVersion.rootDir.contents.create, {
+            name: 'fileName',
+            path: '/.ssh',
+            body: 'keyValue',
+            isDir: false
+          });
+
+          sinon.assert.calledOnce(loadingPromises.add);
+          sinon.assert.calledWith(loadingPromises.add, 'editServerModal');
+          sinon.assert.calledOnce($scope.state.contextVersion.rootDir.contents.fetch);
+          sinon.assert.calledOnce(updateDockerfileFromStateMock);
+          sinon.assert.calledOnce(closePopoverSpy);
+        });
+      });
+      describe('remove', function () {
+        it('should use the file model if its on the sshKey', function () {
+          var sshKey = {
+            fileModel: {
+              destroy: sinon.spy()
+            }
+          };
+          $scope.state.containerFiles = [{
+            id: 1234
+          }, sshKey];
+
+          CCF.sshKey.popover.actions.remove(sshKey);
+          $rootScope.$digest();
+
+          sinon.assert.calledTwice(loadingPromises.add);
+          sinon.assert.calledWith(loadingPromises.add, 'editServerModal');
+          sinon.assert.calledOnce(sshKey.fileModel.destroy);
+          sinon.assert.calledOnce($scope.state.contextVersion.rootDir.contents.fetch);
+          sinon.assert.calledOnce(updateDockerfileFromStateMock);
+          sinon.assert.calledOnce(closePopoverSpy);
+          expect($scope.state.containerFiles.length).to.equal(1);
+        });
+        it('should locate the file model in rootDir', function () {
+          var fileModel = {
+            attrs: {
+              name: 'myFile'
+            },
+            destroy: sinon.spy()
+          };
+          $scope.state.contextVersion.rootDir.contents.models = [{id: 1234, attrs: {name: 'test12354'}}, fileModel];
+          var sshKey = {
+            name: 'myFile'
+          };
+          $scope.state.containerFiles = [{
+            id: 1234
+          }, sshKey];
+
+          CCF.sshKey.popover.actions.remove(sshKey);
+          $rootScope.$digest();
+
+          sinon.assert.calledTwice(loadingPromises.add);
+          sinon.assert.calledWith(loadingPromises.add, 'editServerModal');
+          sinon.assert.calledOnce(fileModel.destroy);
+          sinon.assert.calledOnce($scope.state.contextVersion.rootDir.contents.fetch);
+          sinon.assert.calledOnce(updateDockerfileFromStateMock);
+          sinon.assert.calledOnce(closePopoverSpy);
+          expect($scope.state.containerFiles.length).to.equal(1);
+        });
+      });
+      it('should handle when it can\'t locate the file', function () {
+        $scope.state.contextVersion.rootDir.contents.models = [{id: 1234, attrs: {name: 'test12354'}}];
+        var sshKey = {
+          name: 'myFile'
+        };
+        $scope.state.containerFiles = [{
+          id: 1234
+        }, sshKey];
+
+        CCF.sshKey.popover.actions.remove(sshKey);
+        $rootScope.$digest();
+
+        sinon.assert.calledOnce(loadingPromises.add);
+        sinon.assert.calledWith(loadingPromises.add, 'editServerModal');
+        sinon.assert.calledOnce(updateDockerfileFromStateMock);
+        sinon.assert.calledOnce(closePopoverSpy);
+        expect($scope.state.containerFiles.length).to.equal(1);
+      });
+      it('should handle when it can\'t find the container file', function () {
+        var fileModel = {
+          attrs: {
+            name: 'myFile'
+          },
+          destroy: sinon.spy()
+        };
+        $scope.state.contextVersion.rootDir.contents.models = [{id: 1234, attrs: {name: 'test12354'}}, fileModel];
+        var sshKey = {
+          name: 'myFile'
+        };
+        $scope.state.containerFiles = [{
+          id: 1234
+        }];
+
+        CCF.sshKey.popover.actions.remove(sshKey);
+        $rootScope.$digest();
+
+        sinon.assert.calledTwice(loadingPromises.add);
+        sinon.assert.calledWith(loadingPromises.add, 'editServerModal');
+        sinon.assert.calledOnce(fileModel.destroy);
+        sinon.assert.calledOnce($scope.state.contextVersion.rootDir.contents.fetch);
+        sinon.assert.calledOnce(updateDockerfileFromStateMock);
+        sinon.assert.calledOnce(closePopoverSpy);
+        expect($scope.state.containerFiles.length).to.equal(1);
+      });
+    });
+    describe('getFileDate', function () {
+      it('should return the file date if the file object is set on the containerFile', function () {
+        var fileModel = {
+          attrs: {
+            name: 'myFile',
+            created: 'Woot I was created!'
+          }
+        };
+        var sshKey = {
+          name: 'myFile',
+          fileModel: fileModel
+        };
+        var date = CCF.sshKey.getFileDate(sshKey);
+        expect(date).to.equal('Woot I was created!');
+      });
+      it('should find the file if the container file doesnt have the file object on it', function () {
+        var fileModel = {
+          attrs: {
+            name: 'myFile',
+            created: 'Woot I was created!'
+          }
+        };
+        var sshKey = {
+          name: 'myFile'
+        };
+        $scope.state.contextVersion.rootDir.contents.models = [{id: 1234, attrs: {name: 'test12354'}}, fileModel];
+        var date = CCF.sshKey.getFileDate(sshKey);
+        expect(date).to.equal('Woot I was created!');
+        expect(sshKey.fileModel).to.equal(fileModel);
+      });
+    });
+  });
+  describe('filePopoverActions', function () {
+    describe('edit', function () {
+      it('should trigger edit for a repo', function () {
+        var containerFile = {
+          type: 'Repository'
+        };
+        CCF.actions.triggerEditRepo = sinon.spy();
+        CCF.filePopoverActions.edit(containerFile);
+        sinon.assert.calledOnce(CCF.actions.triggerEditRepo);
+      });
+      it('should trigger edit for a file', function () {
+        var containerFile = {
+          type: 'File'
+        };
+        CCF.actions.triggerEditFile = sinon.spy();
+        CCF.filePopoverActions.edit(containerFile);
+        sinon.assert.calledOnce(CCF.actions.triggerEditFile);
+      });
+      it('should not trigger edit for an SSH Key', function () {
+        var containerFile = {
+          type: 'SSH Key'
+        };
+        CCF.actions.triggerEditRepo = sinon.spy();
+        CCF.actions.triggerEditFile = sinon.spy();
+        CCF.filePopoverActions.edit(containerFile);
+        sinon.assert.notCalled(CCF.actions.triggerEditRepo);
+        sinon.assert.notCalled(CCF.actions.triggerEditFile);
+      });
+    });
+    describe('delete', function () {
+      it('should trigger delete for a repo', function () {
+        var containerFile = {
+          type: 'Repository'
+        };
+        CCF.repositoryPopover.actions.remove = sinon.spy();
+        CCF.fileUpload.actions.deleteFile = sinon.spy();
+        CCF.sshKey.popover.actions.remove = sinon.spy();
+
+        CCF.filePopoverActions.delete(containerFile);
+
+        sinon.assert.calledOnce(CCF.repositoryPopover.actions.remove);
+        sinon.assert.notCalled(CCF.fileUpload.actions.deleteFile);
+        sinon.assert.notCalled(CCF.sshKey.popover.actions.remove);
+      });
+      it('should trigger delete for a file', function () {
+        var containerFile = {
+          type: 'File'
+        };
+        CCF.repositoryPopover.actions.remove = sinon.spy();
+        CCF.fileUpload.actions.deleteFile = sinon.spy();
+        CCF.sshKey.popover.actions.remove = sinon.spy();
+
+        CCF.filePopoverActions.delete(containerFile);
+
+        sinon.assert.notCalled(CCF.repositoryPopover.actions.remove);
+        sinon.assert.calledOnce(CCF.fileUpload.actions.deleteFile);
+        sinon.assert.notCalled(CCF.sshKey.popover.actions.remove);
+      });
+      it('should trigger delete for an SSH Key', function () {
+        var containerFile = {
+          type: 'SSH Key'
+        };
+        CCF.repositoryPopover.actions.remove = sinon.spy();
+        CCF.fileUpload.actions.deleteFile = sinon.spy();
+        CCF.sshKey.popover.actions.remove = sinon.spy();
+
+        CCF.filePopoverActions.delete(containerFile);
+
+        sinon.assert.notCalled(CCF.repositoryPopover.actions.remove);
+        sinon.assert.notCalled(CCF.fileUpload.actions.deleteFile);
+        sinon.assert.calledOnce(CCF.sshKey.popover.actions.remove);
       });
     });
   });
