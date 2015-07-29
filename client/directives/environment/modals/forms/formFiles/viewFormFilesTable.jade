@@ -6,8 +6,8 @@
     svg.iconnables.icons-drag
   .cell.text-overflow {{containerFile.name}}
     small.small(
-      ng-if = "CCF.sshKey.getFileDate(containerFile)"
-    ) {{ CCF.sshKey.getFileDate(containerFile) | timeAgo }}
+      ng-if = "CFC.sshKey.getFileDate(containerFile)"
+    ) {{ CFC.sshKey.getFileDate(containerFile) | timeAgo }}
   .cell.cell-type.small
     svg.iconnables.icons-key
       use(
@@ -17,7 +17,7 @@
   .cell.cell-action
     button.btn.btn-xs.gray(
       pop-over
-      pop-over-actions = "CCF.filePopoverActions"
+      pop-over-actions = "CFC.filePopoverActions"
       pop-over-options = "{\"right\":0,\"top\":35}"
       pop-over-template = "viewPopoverFileOptions"
       pop-over-data = "containerFile"
@@ -34,7 +34,7 @@
 
 //- dnd-drop needs this to be a list
 ul.table-drag-drop(
-  dnd-drop = "CCF.dropContainerFile(event, index, item, type)"
+  dnd-drop = "CFC.dropContainerFile(event, index, item, type)"
   dnd-list = "state.containerFiles"
 )
   li.tr.multi-line.clearfix(
@@ -62,7 +62,7 @@ ul.table-drag-drop(
     //- deprecated:
     .cell.text-overflow(
       ng-if = "(containerFile.type === 'File' && !$root.featureFlags.sshKeys)"
-      ng-click = "CCF.actions.triggerEditFile(containerFile)"
+      ng-click = "CFC.actions.triggerEditFile(containerFile)"
       title = "{{ containerFile.name }}"
     ) {{ containerFile.name }}
 
@@ -77,7 +77,7 @@ ul.table-drag-drop(
 
     .cell.text-overflow(
       ng-if = "!$root.featureFlags.sshKeys && (containerFile.type === 'Repository' || containerFile.type === 'Main Repository')"
-      ng-click = "CCF.actions.triggerEditRepo(containerFile)"
+      ng-click = "CFC.actions.triggerEditRepo(containerFile)"
       title = "{{ containerFile.name }}"
     ) {{ containerFile.name }}
       small.small(
@@ -110,7 +110,7 @@ ul.table-drag-drop(
     )
       button.btn.btn-xs.gray(
         pop-over
-        pop-over-actions = "CCF.filePopoverActions"
+        pop-over-actions = "CFC.filePopoverActions"
         pop-over-options = "{\"right\":0,\"top\":35}"
         pop-over-template = "viewPopoverFileOptions"
         pop-over-data = "containerFile"

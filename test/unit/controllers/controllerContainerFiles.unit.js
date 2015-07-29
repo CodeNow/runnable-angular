@@ -205,10 +205,10 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
         test: '1234'
       };
       it('should setup the edit file popover', function () {
-        CCF.actions.triggerAddSSHKey(file);
-        expect(CCF.sshKey.popover.active).to.be.ok;
+        CFC.actions.triggerAddSSHKey(file);
+        expect(CFC.sshKey.popover.active).to.be.ok;
         $timeout.flush();
-        expect(CCF.sshKey.popover.active).to.not.be.ok;
+        expect(CFC.sshKey.popover.active).to.not.be.ok;
       });
     });
   });
@@ -545,7 +545,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
             id: 1234
           }];
 
-          CCF.sshKey.popover.actions.save({
+          CFC.sshKey.popover.actions.save({
             name: 'fileName',
             key: 'keyValue'
           });
@@ -581,7 +581,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
             id: 1234
           }, sshKey];
 
-          CCF.sshKey.popover.actions.remove(sshKey);
+          CFC.sshKey.popover.actions.remove(sshKey);
           $rootScope.$digest();
 
           sinon.assert.calledTwice(loadingPromises.add);
@@ -607,7 +607,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
             id: 1234
           }, sshKey];
 
-          CCF.sshKey.popover.actions.remove(sshKey);
+          CFC.sshKey.popover.actions.remove(sshKey);
           $rootScope.$digest();
 
           sinon.assert.calledTwice(loadingPromises.add);
@@ -628,7 +628,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
           id: 1234
         }, sshKey];
 
-        CCF.sshKey.popover.actions.remove(sshKey);
+        CFC.sshKey.popover.actions.remove(sshKey);
         $rootScope.$digest();
 
         sinon.assert.calledOnce(loadingPromises.add);
@@ -652,7 +652,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
           id: 1234
         }];
 
-        CCF.sshKey.popover.actions.remove(sshKey);
+        CFC.sshKey.popover.actions.remove(sshKey);
         $rootScope.$digest();
 
         sinon.assert.calledTwice(loadingPromises.add);
@@ -676,7 +676,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
           name: 'myFile',
           fileModel: fileModel
         };
-        var date = CCF.sshKey.getFileDate(sshKey);
+        var date = CFC.sshKey.getFileDate(sshKey);
         expect(date).to.equal('Woot I was created!');
       });
       it('should find the file if the container file doesnt have the file object on it', function () {
@@ -690,7 +690,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
           name: 'myFile'
         };
         $scope.state.contextVersion.rootDir.contents.models = [{id: 1234, attrs: {name: 'test12354'}}, fileModel];
-        var date = CCF.sshKey.getFileDate(sshKey);
+        var date = CFC.sshKey.getFileDate(sshKey);
         expect(date).to.equal('Woot I was created!');
         expect(sshKey.fileModel).to.equal(fileModel);
       });
@@ -702,27 +702,27 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
         var containerFile = {
           type: 'Repository'
         };
-        CCF.actions.triggerEditRepo = sinon.spy();
-        CCF.filePopoverActions.edit(containerFile);
-        sinon.assert.calledOnce(CCF.actions.triggerEditRepo);
+        CFC.actions.triggerEditRepo = sinon.spy();
+        CFC.filePopoverActions.edit(containerFile);
+        sinon.assert.calledOnce(CFC.actions.triggerEditRepo);
       });
       it('should trigger edit for a file', function () {
         var containerFile = {
           type: 'File'
         };
-        CCF.actions.triggerEditFile = sinon.spy();
-        CCF.filePopoverActions.edit(containerFile);
-        sinon.assert.calledOnce(CCF.actions.triggerEditFile);
+        CFC.actions.triggerEditFile = sinon.spy();
+        CFC.filePopoverActions.edit(containerFile);
+        sinon.assert.calledOnce(CFC.actions.triggerEditFile);
       });
       it('should not trigger edit for an SSH Key', function () {
         var containerFile = {
           type: 'SSH Key'
         };
-        CCF.actions.triggerEditRepo = sinon.spy();
-        CCF.actions.triggerEditFile = sinon.spy();
-        CCF.filePopoverActions.edit(containerFile);
-        sinon.assert.notCalled(CCF.actions.triggerEditRepo);
-        sinon.assert.notCalled(CCF.actions.triggerEditFile);
+        CFC.actions.triggerEditRepo = sinon.spy();
+        CFC.actions.triggerEditFile = sinon.spy();
+        CFC.filePopoverActions.edit(containerFile);
+        sinon.assert.notCalled(CFC.actions.triggerEditRepo);
+        sinon.assert.notCalled(CFC.actions.triggerEditFile);
       });
     });
     describe('delete', function () {
@@ -730,57 +730,57 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
         var containerFile = {
           type: 'Repository'
         };
-        CCF.repositoryPopover.actions.remove = sinon.spy();
-        CCF.fileUpload.actions.deleteFile = sinon.spy();
-        CCF.sshKey.popover.actions.remove = sinon.spy();
+        CFC.repositoryPopover.actions.remove = sinon.spy();
+        CFC.fileUpload.actions.deleteFile = sinon.spy();
+        CFC.sshKey.popover.actions.remove = sinon.spy();
 
-        CCF.filePopoverActions.delete(containerFile);
+        CFC.filePopoverActions.delete(containerFile);
 
-        sinon.assert.calledOnce(CCF.repositoryPopover.actions.remove);
-        sinon.assert.notCalled(CCF.fileUpload.actions.deleteFile);
-        sinon.assert.notCalled(CCF.sshKey.popover.actions.remove);
+        sinon.assert.calledOnce(CFC.repositoryPopover.actions.remove);
+        sinon.assert.notCalled(CFC.fileUpload.actions.deleteFile);
+        sinon.assert.notCalled(CFC.sshKey.popover.actions.remove);
       });
       it('should trigger delete for a file', function () {
         var containerFile = {
           type: 'File'
         };
-        CCF.repositoryPopover.actions.remove = sinon.spy();
-        CCF.fileUpload.actions.deleteFile = sinon.spy();
-        CCF.sshKey.popover.actions.remove = sinon.spy();
+        CFC.repositoryPopover.actions.remove = sinon.spy();
+        CFC.fileUpload.actions.deleteFile = sinon.spy();
+        CFC.sshKey.popover.actions.remove = sinon.spy();
 
-        CCF.filePopoverActions.delete(containerFile);
+        CFC.filePopoverActions.delete(containerFile);
 
-        sinon.assert.notCalled(CCF.repositoryPopover.actions.remove);
-        sinon.assert.calledOnce(CCF.fileUpload.actions.deleteFile);
-        sinon.assert.notCalled(CCF.sshKey.popover.actions.remove);
+        sinon.assert.notCalled(CFC.repositoryPopover.actions.remove);
+        sinon.assert.calledOnce(CFC.fileUpload.actions.deleteFile);
+        sinon.assert.notCalled(CFC.sshKey.popover.actions.remove);
       });
       it('should trigger delete for an SSH Key', function () {
         var containerFile = {
           type: 'SSH Key'
         };
-        CCF.repositoryPopover.actions.remove = sinon.spy();
-        CCF.fileUpload.actions.deleteFile = sinon.spy();
-        CCF.sshKey.popover.actions.remove = sinon.spy();
+        CFC.repositoryPopover.actions.remove = sinon.spy();
+        CFC.fileUpload.actions.deleteFile = sinon.spy();
+        CFC.sshKey.popover.actions.remove = sinon.spy();
 
-        CCF.filePopoverActions.delete(containerFile);
+        CFC.filePopoverActions.delete(containerFile);
 
-        sinon.assert.notCalled(CCF.repositoryPopover.actions.remove);
-        sinon.assert.notCalled(CCF.fileUpload.actions.deleteFile);
-        sinon.assert.calledOnce(CCF.sshKey.popover.actions.remove);
+        sinon.assert.notCalled(CFC.repositoryPopover.actions.remove);
+        sinon.assert.notCalled(CFC.fileUpload.actions.deleteFile);
+        sinon.assert.calledOnce(CFC.sshKey.popover.actions.remove);
       });
       it('should do nothing if its not a match', function () {
         var containerFile = {
           type: 'Not A Match'
         };
-        CCF.repositoryPopover.actions.remove = sinon.spy();
-        CCF.fileUpload.actions.deleteFile = sinon.spy();
-        CCF.sshKey.popover.actions.remove = sinon.spy();
+        CFC.repositoryPopover.actions.remove = sinon.spy();
+        CFC.fileUpload.actions.deleteFile = sinon.spy();
+        CFC.sshKey.popover.actions.remove = sinon.spy();
 
-        CCF.filePopoverActions.delete(containerFile);
+        CFC.filePopoverActions.delete(containerFile);
 
-        sinon.assert.notCalled(CCF.repositoryPopover.actions.remove);
-        sinon.assert.notCalled(CCF.fileUpload.actions.deleteFile);
-        sinon.assert.notCalled(CCF.sshKey.popover.actions.remove);
+        sinon.assert.notCalled(CFC.repositoryPopover.actions.remove);
+        sinon.assert.notCalled(CFC.fileUpload.actions.deleteFile);
+        sinon.assert.notCalled(CFC.sshKey.popover.actions.remove);
       });
     });
   });
