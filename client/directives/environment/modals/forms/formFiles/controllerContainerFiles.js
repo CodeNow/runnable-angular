@@ -191,7 +191,7 @@ function ControllerContainerFiles(
           loadingPromises.add('editServerModal',
             promisify($scope.state.contextVersion.rootDir.contents, 'create')({
               name: sshKey.name,
-              path: '/.ssh',
+              path: '/',
               body: data.key,
               isDir: false
             })
