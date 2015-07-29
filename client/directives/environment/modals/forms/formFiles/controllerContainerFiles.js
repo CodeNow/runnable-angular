@@ -213,4 +213,21 @@ function ControllerContainerFiles(
       });
     }
   };
+
+  this.filePopoverActions = {
+    edit: function (containerFile) {
+      if (containerFile.type === 'Repository') {
+        self.actions.triggerEditRepo(containerFile);
+      } else if (containerFile.type === 'File'){
+        self.actions.triggerEditFile(containerFile);
+      }
+    },
+    delete: function (containerFile) {
+      if (containerFile.type === 'Repository') {
+        self.repositoryPopover.actions.remove(containerFile);
+      } else if (containerFile.type === 'File'){
+        self.fileUpload.actions.deleteFile(containerFile);
+      }
+    }
+  };
 }

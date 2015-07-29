@@ -64,16 +64,15 @@ ul.table-drag-drop(
 
     //- ssh key feature flag
     .cell.text-overflow(
-      ng-if = "(containerFile.type === 'File' && $root.featureFlags.sshKeys)"
+      ng-if = "(containerFile.type === 'File' || containerFile.type === 'Repository') && $root.featureFlags.sshKeys"
       title = "{{ containerFile.name }}"
     ) {{ containerFile.name }}
-
       small.small(
         title = "{{ containerFile.path }}"
       ) /{{ containerFile.path }}
 
     .cell.text-overflow(
-      ng-if = "containerFile.type === 'Repository' || containerFile.type === 'Main Repository'"
+      ng-if = "!$root.featureFlags.sshKeys && (containerFile.type === 'Repository' || containerFile.type === 'Main Repository')"
       ng-click = "CCF.actions.triggerEditRepo(containerFile)"
       title = "{{ containerFile.name }}"
     ) {{ containerFile.name }}
@@ -107,9 +106,10 @@ ul.table-drag-drop(
     )
       button.btn.btn-xs.gray(
         pop-over
-        pop-over-active = "fileOptionsPopover.active"
+        pop-over-actions = "CCF.filePopoverActions"
         pop-over-options = "{\"right\":0,\"top\":35}"
         pop-over-template = "viewPopoverFileOptions"
+        pop-over-data = "containerFile"
       )
         svg.iconnables.icons-overflow
           use(

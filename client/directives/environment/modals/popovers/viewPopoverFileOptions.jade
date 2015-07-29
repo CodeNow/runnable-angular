@@ -9,16 +9,20 @@
   .popover-content
     ul.popover-list
       //- edit is not allowed on ssh keys
-      li.list-item.popover-list-item
+      li.list-item.popover-list-item(
+        ng-click = "actions.edit(data)"
+      )
         svg.iconnables
           use(
             xlink:href = "#icons-edit"
           )
         | Edit
-      li.divider
+      li.divider(
+        ng-if = "data.type !== 'SSH Key'"
+      )
       li.list-item.popover-list-item(
-        pop-over
-        pop-over-template = "viewPopoverSshKey"
+        ng-if = "data.type !== 'SSH Key'"
+        ng-click = "actions.delete(data)"
       )
         svg.iconnables
           use(
