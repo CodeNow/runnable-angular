@@ -210,19 +210,19 @@ function fileTreeDir(
         actions: {
           openFile: function (file) {
             $scope.openItems.add(file);
-            $scope.$broadcast('close-popovers');
+            $rootScope.$broadcast('close-popovers');
           },
           renameFile: function (file) {
             keypather.set(file, 'state.renaming', true);
-            $scope.$broadcast('close-popovers');
+            $rootScope.$broadcast('close-popovers');
           },
           deleteFile: function (file) {
-            file.destroy(function (err) {
-              errs.handler(err);
-              // destroy alone does not update collection
-              $scope.actions.fetchDirFiles();
-            });
-            $scope.$broadcast('close-popovers');
+            $rootScope.$broadcast('close-popovers');
+            promisify(file, 'destroy')()
+              .then(function () {
+                return $scope.actions.fetchDirFiles();
+              })
+              .catch(errs.handler);
           }
         }
       };
@@ -253,7 +253,7 @@ function fileTreeDir(
             loadingPromises.add($scope.loadingPromisesTarget, promisify(acv, 'destroy')())
               .catch(errs.handler)
               .finally(function () {
-                $scope.$broadcast('close-popovers');
+                $rootScope.$broadcast('close-popovers');
               });
           }
         }

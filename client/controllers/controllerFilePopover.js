@@ -19,7 +19,7 @@ function ControllerFilePopover(
 ) {
   var self = this;
   this.dir = $scope.dir;
-  this.loadingPromisesTarget = $scope.loadingPromisesTarget || 'generic';
+  this.loadingPromisesTarget = $scope.loadingPromisesTarget;
 
   this.actions = {
     createFile: function () {
