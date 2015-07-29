@@ -11,7 +11,7 @@ function explorer(
   return {
     restrict: 'A',
     templateUrl: 'viewExplorer',
-    controller: 'ControllerFilePopover as CFP',
+    controller: 'FilePopoverController as FPC',
     scope: {
       openItems: '=',
       fileModel: '=',

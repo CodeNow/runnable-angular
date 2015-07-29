@@ -1,11 +1,11 @@
 'use strict';
 
 require('app')
-  .controller('ControllerFilePopover', ControllerFilePopover);
+  .controller('FilePopoverController', FilePopoverController);
 /**
  * @ngInject
  */
-function ControllerFilePopover(
+function FilePopoverController(
   $q,
   uploadFile,
   configAPIHost,

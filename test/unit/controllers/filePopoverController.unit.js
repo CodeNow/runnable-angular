@@ -1,6 +1,6 @@
 'use strict';
 describe('directiveFileTreeDir'.bold.underline.blue, function () {
-  var CFP;
+  var FPC;
   var $controller;
   var $rootScope;
   var $scope;
@@ -92,7 +92,7 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
     $scope.state = {};
 
 
-    CFP = $controller('ControllerFilePopover', {
+    FPC = $controller('FilePopoverController', {
       $scope: $scope
     });
   }
@@ -103,9 +103,9 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
   describe('actions', function () {
     describe('createFile', function () {
       it('should create the file', function () {
-        CFP.actions.createFile();
+        FPC.actions.createFile();
         sinon.assert.calledOnce(loadingPromisesMock.add);
-        sinon.assert.calledWith(loadingPromisesMock.add, CFP.loadingPromisesTarget);
+        sinon.assert.calledWith(loadingPromisesMock.add, FPC.loadingPromisesTarget);
         sinon.assert.calledOnce(createFsMock);
         sinon.assert.calledWith(createFsMock, dirMock, {isDir: false});
         sinon.assert.calledOnce(closePopoverSpy);
@@ -114,9 +114,9 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
     });
     describe('createFolder', function () {
       it('should create the folder', function () {
-        CFP.actions.createFolder();
+        FPC.actions.createFolder();
         sinon.assert.calledOnce(loadingPromisesMock.add);
-        sinon.assert.calledWith(loadingPromisesMock.add, CFP.loadingPromisesTarget);
+        sinon.assert.calledWith(loadingPromisesMock.add, FPC.loadingPromisesTarget);
         sinon.assert.calledOnce(createFsMock);
         sinon.assert.calledWith(createFsMock, dirMock, {isDir: true});
         sinon.assert.calledOnce(closePopoverSpy);
@@ -127,7 +127,7 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
     describe('renameFolder', function () {
       it('should emit events to trigger renaming a folder', function () {
         $scope.actions.focusInputElement = sinon.spy();
-        CFP.actions.renameFolder();
+        FPC.actions.renameFolder();
         expect($scope.editFolderName).to.be.ok;
         sinon.assert.calledOnce($scope.actions.focusInputElement);
         sinon.assert.calledOnce(closePopoverSpy);
@@ -137,9 +137,9 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
 
     describe('deleteFolder', function () {
       it('should support deleting a folder', function () {
-        CFP.actions.deleteFolder();
+        FPC.actions.deleteFolder();
         sinon.assert.calledOnce(loadingPromisesMock.add);
-        sinon.assert.calledWith(loadingPromisesMock.add, CFP.loadingPromisesTarget);
+        sinon.assert.calledWith(loadingPromisesMock.add, FPC.loadingPromisesTarget);
         sinon.assert.calledOnce(dirMock.destroy);
         sinon.assert.calledOnce(closePopoverSpy);
         sinon.assert.notCalled(errs.handler);
@@ -158,7 +158,7 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
         uploadDeferred.promise.progress = sinon.stub().returns(uploadDeferred.promise);
         uploadMock.upload = sinon.stub().returns(uploadDeferred.promise);
 
-        CFP.actions.uploadFiles(files);
+        FPC.actions.uploadFiles(files);
 
         sinon.assert.calledOnce(closePopoverSpy);
         sinon.assert.calledOnce(dirMock.contents.models.push);
@@ -190,7 +190,7 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
         uploadDeferred.promise.progress = sinon.stub().returns(uploadDeferred.promise);
         uploadMock.upload = sinon.stub().returns(uploadDeferred.promise);
 
-        CFP.actions.uploadFiles(files);
+        FPC.actions.uploadFiles(files);
 
         sinon.assert.calledOnce(closePopoverSpy);
         sinon.assert.calledOnce(dirMock.contents.models.push);
@@ -231,7 +231,7 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
         uploadDeferred.promise.progress = sinon.stub().returns(uploadDeferred.promise);
         uploadMock.upload = sinon.stub().returns(uploadDeferred.promise);
 
-        CFP.actions.uploadFiles(files);
+        FPC.actions.uploadFiles(files);
 
         sinon.assert.calledOnce(closePopoverSpy);
         sinon.assert.calledOnce(dirMock.contents.models.push);
@@ -270,7 +270,7 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
         uploadDeferred.promise.progress = sinon.stub().returns(uploadDeferred.promise);
         uploadMock.upload = sinon.stub().returns(uploadDeferred.promise);
 
-        CFP.actions.uploadFiles(files);
+        FPC.actions.uploadFiles(files);
 
         sinon.assert.calledOnce(closePopoverSpy);
         sinon.assert.calledOnce(dirMock.contents.models.push);
@@ -298,7 +298,7 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
         uploadDeferred.promise.progress = sinon.stub().returns(uploadDeferred.promise);
         uploadMock.upload = sinon.stub().returns(uploadDeferred.promise);
 
-        CFP.actions.uploadFiles();
+        FPC.actions.uploadFiles();
 
         sinon.assert.notCalled(closePopoverSpy);
         sinon.assert.notCalled(dirMock.contents.models.push);
@@ -310,7 +310,7 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
 
     describe('addRepository', function () {
       it('should trigger the add repository state', function () {
-        CFP.actions.addRepository();
+        FPC.actions.addRepository();
         sinon.assert.calledOnce(closePopoverSpy);
         expect($scope.state.showAddRepo).to.not.be.ok;
         $timeout.flush();
