@@ -31,11 +31,9 @@ function stackSelectorForm(
           createDockerfileFromSource($scope.state.contextVersion, newStack.key)
             .then(function (dockerfile) {
               $scope.state.dockerfile = dockerfile;
+              return updateDockerfileFromState($scope.state);
             })
         )
-          .then(function () {
-            updateDockerfileFromState($scope.state);
-          })
           .catch(errs.handler);
       };
 

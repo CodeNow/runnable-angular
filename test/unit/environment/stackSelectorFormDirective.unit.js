@@ -44,7 +44,7 @@ describe('stackSelectorForm'.bold.underline.blue, function () {
       apiMocks.contextVersions.running
     );
     angular.mock.module('app', function ($provide) {
-      $provide.factory('createDockerfileFromSource', ctx.createDockerfileFromSourceMock.autoTrigger(ctx.dockerfile));
+      $provide.factory('createDockerfileFromSource', ctx.createDockerfileFromSourceMock.fetch());
       $provide.factory('updateDockerfileFromState', function () {
         return ctx.updateDockerfileFromStateMock;
       });
@@ -125,11 +125,38 @@ describe('stackSelectorForm'.bold.underline.blue, function () {
       $scope.state.contextVersion = ctx.contextVersion;
       $elScope.newStackSelected({key: 'cheese'});
       $scope.$digest();
+      ctx.createDockerfileFromSourceMock.triggerPromise(ctx.dockerfile);
       sinon.assert.calledOnce(ctx.createDockerfileFromSourceMock.getFetchSpy());
+      $scope.$digest();
       sinon.assert.calledWith(ctx.createDockerfileFromSourceMock.getFetchSpy(), ctx.contextVersion, 'cheese');
       expect($elScope.state.dockerfile).to.equal(ctx.dockerfile);
       $scope.$digest();
       sinon.assert.calledOnce(ctx.updateDockerfileFromStateMock);
+      sinon.assert.calledWith(ctx.updateDockerfileFromStateMock, $elScope.state);
+
+      $scope.$destroy();
+      $scope.$digest();
+    });
+
+    it('should wait for the createDockerfile before updating the dockerfile', function () {
+      $scope.state.contextVersion = ctx.contextVersion;
+      $elScope.newStackSelected({key: 'cheese'});
+      $elScope.updateDockerfile();
+      $scope.$digest();
+
+      sinon.assert.notCalled(ctx.updateDockerfileFromStateMock);
+      $scope.$digest();
+      $scope.$digest();
+      // Still shouldn't have been called
+      sinon.assert.notCalled(ctx.updateDockerfileFromStateMock);
+      $scope.$digest();
+      ctx.createDockerfileFromSourceMock.triggerPromise(ctx.dockerfile);
+      sinon.assert.calledOnce(ctx.createDockerfileFromSourceMock.getFetchSpy());
+      sinon.assert.calledWith(ctx.createDockerfileFromSourceMock.getFetchSpy(), ctx.contextVersion, 'cheese');
+      $scope.$digest();
+      expect($elScope.state.dockerfile, 'dockerfile').to.equal(ctx.dockerfile);
+      $scope.$digest();
+      sinon.assert.calledTwice(ctx.updateDockerfileFromStateMock);
       sinon.assert.calledWith(ctx.updateDockerfileFromStateMock, $elScope.state);
 
       $scope.$destroy();
