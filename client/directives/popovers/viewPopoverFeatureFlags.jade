@@ -4,7 +4,9 @@
   ng-style = "popoverStyle.getStyle()"
   style = "max-height: 95vh; overflow-y: auto; z-index: 8001;"
 )
-  .popover-content
+  .popover-content(
+    style = "max-height: 95vh; overflow: auto;"
+  )
     button.btn.btn-xxs.gray(
       ng-click = "$localStorage.featureFlags = {}; $root.resetFeatureFlags();"
       style = "font-size: 12px; right: 12px; position: absolute; top: 15px; z-index: 2;"

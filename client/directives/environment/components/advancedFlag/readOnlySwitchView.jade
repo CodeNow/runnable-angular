@@ -1,6 +1,14 @@
 input.toggle-input(
+  ng-disabled = "!state.repo"
   ng-model = "ROSC.readOnly"
-  type = "checkbox"
   ng-model-options = "{getterSetter: true}"
+  type = "checkbox"
 )
-.toggle-group.toggle-sm
+.toggle-group.toggle-sm(
+  pop-over
+  pop-over-actions = "ROSC.popover"
+  pop-over-data = "ROSC.popover"
+  pop-over-template = "lockDockerfilePopoverView"
+  pop-over-trigger = "activeAttr"
+  pop-over-active = "ROSC.popover.active"
+)

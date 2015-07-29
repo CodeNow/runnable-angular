@@ -6,8 +6,6 @@ require('app')
  * @ngInject
  */
 function setupServerModal(
-  fetchDockerfileFromSource,
-  parseDockerfileForDefaults,
   createNewBuild,
   $rootScope,
   errs,
@@ -15,6 +13,7 @@ function setupServerModal(
   fetchStackAnalysis,
   hasKeypaths,
   keypather,
+  loadingPromises,
   promisify,
   updateDockerfileFromState,
   $log,
@@ -29,6 +28,7 @@ function setupServerModal(
       defaultActions: '='
     },
     link: function ($scope, elem, attrs) {
+      loadingPromises.clear('setupServerModal');
       var MainRepo = cardInfoTypes.MainRepository;
 
       var mainRepoContainerFile = new MainRepo();
@@ -80,7 +80,10 @@ function setupServerModal(
           $scope.state.ports = $scope.state.selectedStack.ports.replace(/ /g, '').split(',');
         }
 
-        var createPromise = updateDockerfileFromState($scope.state)
+        var createPromise = loadingPromises.finished('setupServerModal')
+          .then(function () {
+            return updateDockerfileFromState($scope.state);
+          })
           .then(function () {
             if ($scope.state.acv.attrs.branch !== $scope.state.branch.attrs.name) {
               return promisify($scope.state.acv, 'update')({

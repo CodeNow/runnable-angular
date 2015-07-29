@@ -11,28 +11,23 @@ function ReadOnlySwitchController(
   loadingPromises,
   promisify
 ) {
-  function rollback() {
-    // This code is waiting for api and a different task.  But this is the code, it's not junk
-    //$scope.state.promises.contextVersion = $scope.state.promises.contextVersion
-    //  .then(function (contextVersion) {
-    //    return loadingPromises.add($scope.loadingPromisesTarget, promisify(contextVersion, 'rollback')());
-    //  })
-    //  .then(function (contextVersion) {
-    //    $scope.state.contextVersion = contextVersion;
-    //    return contextVersion;
-    //  })
-    //  .catch(errs.handler)
-    //  .finally(function () {
-    //    return $scope.state.contextVersion;
-    //  });
-  }
+  var ROSC = this;
+  this.popover = {
+    performRollback: function (originalContextVersion) {
+      return promisify(originalContextVersion, 'rollback')()
+        .then(function (rolledBackContextVersion) {
+          return $scope.resetStateContextVersion(rolledBackContextVersion, true);
+        })
+        .catch(errs.handler);
+    }
+  };
   // Getter/setter
   this.readOnly = function (newAdvancedMode) {
     // when setting to readOnly
     if (arguments.length) {
       if (newAdvancedMode) {
         $scope.state.advanced = newAdvancedMode;
-        $scope.state.promises.contextVersion
+        return $scope.state.promises.contextVersion
           .then(function (contextVersion) {
             return loadingPromises.add($scope.loadingPromisesTarget,
               promisify(contextVersion, 'update')({
@@ -46,12 +41,13 @@ function ReadOnlySwitchController(
             errs.handler(err);
             $scope.state.advanced = !newAdvancedMode;
           });
-      } else {
-        // If switching from advanced to basic
-        if (confirm('You will lose all changes you\'ve made to your dockerfile (ever).')) {
-          rollback();
-        }
       }
+      // If switching from advanced to basic
+      return $scope.state.promises.contextVersion
+        .then(function (contextVersion) {
+          ROSC.popover.active = true;
+          ROSC.popover.contextVersion = contextVersion;
+        });
     } else {
       return $scope.state.advanced;
     }

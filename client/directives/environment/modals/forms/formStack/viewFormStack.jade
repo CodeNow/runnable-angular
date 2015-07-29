@@ -8,7 +8,7 @@
       track-by = "key"
       name = 'mainstack'
       value = "temp.stack"
-      on-update = "updateDockerfileOnNewStack"
+      on-update = "newStackSelected"
     )
       li.list-item.popover-list-item.small(
         ng-if = "$parent.state.repo.stackAnalysis.languageFramework"

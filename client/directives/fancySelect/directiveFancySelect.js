@@ -150,10 +150,12 @@ function fancySelect(
           closeDropdown();
         },
         onValueChanged: function (value) {
-          $timeout(angular.noop)
-            .then(function () {
-              $scope.onUpdate(value);
-            });
+          if ($scope.onUpdate) {
+            $timeout(angular.noop)
+              .then(function () {
+                $scope.onUpdate(value);
+              });
+          }
         }
       };
 
