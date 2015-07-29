@@ -25,14 +25,18 @@ function stackSelectorForm(
       };
 
       $scope.newStackSelected = function (newStack) {
-        return createDockerfileFromSource($scope.state.contextVersion, newStack.key)
+        return loadingPromises.add($scope.loadingPromisesTarget,
+          createDockerfileFromSource($scope.state.contextVersion, newStack.key)
           .then(function (dockerfile) {
             $scope.state.dockerfile = dockerfile;
-          });
+          }));
       };
 
       $scope.updateDockerfile = function () {
-        return loadingPromises.add($scope.loadingPromisesTarget, updateDockerfileFromState($scope.state));
+        return loadingPromises.finished($scope.loadingPromisesTarget)
+          .then(function () {
+            return loadingPromises.add($scope.loadingPromisesTarget, updateDockerfileFromState($scope.state));
+          });
       };
 
       // Since we are adding info to the stack object, and those objects are going to get reused,
