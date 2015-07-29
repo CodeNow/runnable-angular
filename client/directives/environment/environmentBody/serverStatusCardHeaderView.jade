@@ -1,10 +1,4 @@
-div(
-  ng-class = "{ 'no-touching': noTouching }"
-  pop-over
-  pop-over-actions = "actions"
-  pop-over-data = "popOverServerData"
-)
-
+div
   //- ************
   //- deprecated content, remove with $root.featureFlags.cardStatus
   status-icon(
@@ -19,14 +13,6 @@ div(
     ng-attr-title = "{{ instance | cardBuildStatusTitle}}"
     ng-if = "!$root.featureFlags.cardStatus"
   ) {{ instance | cardBuildStatusText:true}}
-  svg.iconnables.icons-arrow-down(
-    ng-if = "!$root.featureFlags.cardStatus && !noTouching"
-  )
-    use(
-      xlink:href = "#icons-arrow-down"
-    )
-  //- end deprecated content
-  //- ************
 
   .container-title-wrapper(
     ng-if = "$root.featureFlags.cardStatus"

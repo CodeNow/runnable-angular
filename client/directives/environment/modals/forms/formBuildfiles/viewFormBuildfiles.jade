@@ -14,15 +14,6 @@
     )
   strong.small.strong Enable Write Access
 
-  //- ************
-  //- this link is only for triggering the modal for locking the dockerfile.
-  //- ************
-  //- a.link.float-right(
-  //-   modal
-  //-   modal-template = "viewModalLockDockerfile"
-  //-   style = "color: red; margin-left: 3px;"
-  //- ) Test
-
   small.small
     em.underline.tooltip-plus-wrapper Some tools
       .tooltip-plus.tooltip-tools.bottom(
@@ -32,12 +23,14 @@
     | #{''} are not available with write access enabled.
 
   //- when locking the dockerfile, prompt with modal template: viewModalLockDockerfile
+  //- ng-disabled = "!state.repo"
   label.toggle-wrapper.show-icons(
+    loading-promises-target = "editServerModal"
     read-only-switch
     state = "state"
-    loading-promises-target = "editServerModal"
+    tooltip = "Write access is always enabled on non-repository containers."
+    tooltip-options = "{\"class\":\"bottom bottom-arrow-right {{state.repo ? 'ng-hide' : ''}}\",\"right\":0,\"top\":21}"
   )
-
 
 //- table of current environment variables
 //- if dockerfile tool feature flag:

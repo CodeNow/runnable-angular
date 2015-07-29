@@ -41,3 +41,13 @@
     position: relative;
   }
 }
+
+// fixed popovers used as prompts
+.popover-prompt {
+  background: $gray-lighterest;
+  max-width: 510px;
+
+  .popover-title {
+    line-height: 1.2;
+  }
+}

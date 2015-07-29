@@ -7,19 +7,19 @@
 
 .hidden(
   pop-over
-  pop-over-active = "CCF.repositoryPopover.active"
-  pop-over-actions = "CCF.repositoryPopover.actions"
-  pop-over-data = "CCF.repositoryPopover.data"
+  pop-over-active = "CFC.repositoryPopover.active"
+  pop-over-actions = "CFC.repositoryPopover.actions"
+  pop-over-data = "CFC.repositoryPopover.data"
   pop-over-template = "viewPopoverFilesRepository"
   pop-over-trigger = "activeAttr"
 )
 
 .hidden(
   pop-over
-  pop-over-actions = "CCF.fileUpload.actions"
-  pop-over-data = "CCF.fileUpload.data"
+  pop-over-actions = "CFC.fileUpload.actions"
+  pop-over-data = "CFC.fileUpload.data"
   pop-over-template = "viewPopoverFilesUpload"
-  pop-over-active = "CCF.fileUpload.active"
+  pop-over-active = "CFC.fileUpload.active"
   pop-over-trigger = "activeAttr"
 )
 
@@ -39,18 +39,18 @@
       pop-over
       pop-over-options = "{\"right\":0,\"top\":35}"
       pop-over-template = "viewPopoverAddFile"
-      pop-over-actions = "CCF.actions"
+      pop-over-actions = "CFC.actions"
     ) Add…
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
         )
     button.btn.btn-xs.white.float-right(
-      ng-click = "CCF.actions.triggerAddRepository()"
+      ng-click = "CFC.actions.triggerAddRepository()"
       ng-if = "!$root.featureFlags.sshKeys"
     ) Add Repository
     button.btn.btn-xs.white.float-right(
-      ng-click = "CCF.actions.triggerUploadFile()"
+      ng-click = "CFC.actions.triggerUploadFile()"
       ng-if = "!$root.featureFlags.sshKeys"
     ) Upload File
 

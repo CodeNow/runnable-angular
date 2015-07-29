@@ -53,7 +53,6 @@ require('app')
                       });
                       $scope.mainRepoContainerFile.path = (defaults.dst.length ? defaults.dst[0] : repoName).replace('/', '');
                     })
-                    .then($scope.updateDockerfile)
                     .catch(report.error);
                 }
               });
@@ -68,7 +67,10 @@ require('app')
         };
 
         $scope.updateDockerfile = function () {
-          return loadingPromises.add($scope.loadingPromisesTarget, updateDockerfileFromState($scope.state));
+          return loadingPromises.finished($scope.loadingPromisesTarget)
+            .then(function () {
+              return loadingPromises.add($scope.loadingPromisesTarget, updateDockerfileFromState($scope.state));
+            });
         };
 
         $scope.cacheCommand = function (enableCache) {

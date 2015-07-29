@@ -1,8 +1,8 @@
 'use strict';
 
-require('app').controller('ControllerContainerFiles', ControllerContainerFiles);
+require('app').controller('ContainerFilesController', ContainerFilesController);
 
-function ControllerContainerFiles(
+function ContainerFilesController(
   $scope,
   loadingPromises,
   promisify,
