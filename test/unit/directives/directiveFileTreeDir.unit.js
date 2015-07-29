@@ -599,7 +599,6 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
   it('should broadcast click event when triggering closeOpenModals', function () {
     $elScope.actions.closeOpenModals();
     expect($rootScope.$broadcast.calledOnce).to.equal(true);
-    $rootScope.$broadcast.restore();
   });
 
   it('should prevent click events from propagation when renaming files', function () {
