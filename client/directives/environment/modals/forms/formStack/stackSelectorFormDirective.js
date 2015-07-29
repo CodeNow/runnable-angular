@@ -7,6 +7,7 @@ require('app')
  */
 function stackSelectorForm(
   createDockerfileFromSource,
+  errs,
   keypather,
   loadingPromises,
   updateDockerfileFromState
@@ -25,11 +26,17 @@ function stackSelectorForm(
       };
 
       $scope.newStackSelected = function (newStack) {
-        return loadingPromises.add($scope.loadingPromisesTarget,
+        return loadingPromises.add(
+          $scope.loadingPromisesTarget,
           createDockerfileFromSource($scope.state.contextVersion, newStack.key)
-          .then(function (dockerfile) {
-            $scope.state.dockerfile = dockerfile;
-          }));
+            .then(function (dockerfile) {
+              $scope.state.dockerfile = dockerfile;
+            })
+        )
+          .then(function () {
+            updateDockerfileFromState($scope.state);
+          })
+          .catch(errs.handler);
       };
 
       $scope.updateDockerfile = function () {

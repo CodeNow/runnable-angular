@@ -12,6 +12,7 @@ var apiMocks = require('../apiMocks/index');
 var ctx;
 
 var stacks = angular.copy(apiMocks.stackInfo);
+var MockFetch = require('../fixtures/mockFetch');
 
 function makeDefaultScope() {
   return {
@@ -33,8 +34,22 @@ describe('stackSelectorForm'.bold.underline.blue, function () {
     ctx = {};
   });
   function injectSetupCompile(addToScope) {
+    ctx.createDockerfileFromSourceMock = new MockFetch();
+    ctx.updateDockerfileFromStateMock = sinon.spy();
+    ctx.dockerfile = {
+      attrs: apiMocks.files.dockerfile
+    };
+    ctx.contextVersion = apiClientMockFactory.contextVersion(
+      runnable,
+      apiMocks.contextVersions.running
+    );
     angular.mock.module('app', function ($provide) {
+      $provide.factory('createDockerfileFromSource', ctx.createDockerfileFromSourceMock.autoTrigger(ctx.dockerfile));
+      $provide.factory('updateDockerfileFromState', function () {
+        return ctx.updateDockerfileFromStateMock;
+      });
     });
+
     angular.mock.inject(function (
       _$templateCache_,
       _$compile_,
@@ -54,7 +69,8 @@ describe('stackSelectorForm'.bold.underline.blue, function () {
     }
     ctx.template = directiveTemplate.attribute('stack-selector-form', {
       'data': 'data',
-      'state': 'state'
+      'state': 'state',
+      'loading-promises-target': 'hello'
     });
 
     ctx.element = $compile(ctx.template)($scope);
@@ -74,6 +90,8 @@ describe('stackSelectorForm'.bold.underline.blue, function () {
       expect($elScope.temp).to.be.ok;
       expect($elScope.temp.stack).to.not.equal($elScope.state.selectedStack);
       expect($elScope.temp.stack).to.deep.equal($elScope.state.selectedStack);
+
+      expect($elScope.loadingPromisesTarget).to.equal('hello');
 
       $scope.$destroy();
       $scope.$digest();
@@ -98,6 +116,21 @@ describe('stackSelectorForm'.bold.underline.blue, function () {
         hello: 'chicken'
       });
       expect($elScope.temp.stack).to.not.be.ok;
+
+      $scope.$destroy();
+      $scope.$digest();
+    });
+
+    it('should create a new dockerfile, then update it, when a new stack is selected', function () {
+      $scope.state.contextVersion = ctx.contextVersion;
+      $elScope.newStackSelected({key: 'cheese'});
+      $scope.$digest();
+      sinon.assert.calledOnce(ctx.createDockerfileFromSourceMock.getFetchSpy());
+      sinon.assert.calledWith(ctx.createDockerfileFromSourceMock.getFetchSpy(), ctx.contextVersion, 'cheese');
+      expect($elScope.state.dockerfile).to.equal(ctx.dockerfile);
+      $scope.$digest();
+      sinon.assert.calledOnce(ctx.updateDockerfileFromStateMock);
+      sinon.assert.calledWith(ctx.updateDockerfileFromStateMock, $elScope.state);
 
       $scope.$destroy();
       $scope.$digest();
