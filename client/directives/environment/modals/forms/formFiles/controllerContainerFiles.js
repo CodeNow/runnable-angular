@@ -12,7 +12,9 @@ function ControllerContainerFiles(
   configAPIHost,
   cardInfoTypes,
   $timeout,
-  updateDockerfileFromState
+  updateDockerfileFromState,
+  $q,
+  keypather
 ) {
 
   var self = this;
@@ -177,6 +179,69 @@ function ControllerContainerFiles(
       .catch(errs.handler);
   };
 
+  this.sshKey = {
+    popover: {
+      active: false,
+      actions: {
+        save: function (data) {
+          var sshKey = new cardInfoTypes.SSHKey();
+          sshKey.name = data.name;
+          $scope.state.containerFiles.unshift(sshKey);
+
+          loadingPromises.add('editServerModal',
+            promisify($scope.state.contextVersion.rootDir.contents, 'create')({
+              name: sshKey.name,
+              path: '/.ssh',
+              body: data.key,
+              isDir: false
+            })
+              .then(function (file) {
+                sshKey.file = file;
+                return $q.all([
+                  updateDockerfileFromState($scope.state),
+                  promisify($scope.state.contextVersion.rootDir.contents, 'fetch')()
+                ]);
+              })
+              .catch(errs.handler)
+          );
+          $rootScope.$broadcast('close-popovers');
+        },
+        cancel: function () {
+          $rootScope.$broadcast('close-popovers');
+        },
+        remove: function (sshKeyFile) {
+          var file = sshKeyFile.fileModel || $scope.state.contextVersion.rootDir.contents.models.find(function (fileModel) {
+            return fileModel.attrs.name === sshKeyFile.name;
+          });
+
+          var containerIndex = $scope.state.containerFiles.indexOf(sshKeyFile);
+          if (containerIndex > -1) {
+            $scope.state.containerFiles.splice(containerIndex, 1);
+          }
+
+          if (file) {
+            return loadingPromises.add('editServerModal',
+              promisify(file, 'destroy')()
+                .then(function () {
+                  return updateDockerfileFromState($scope.state);
+                })
+                .catch(errs.handler)
+            );
+          }
+          $rootScope.$broadcast('close-popovers');
+        }
+      }
+    },
+    getFileDate: function (sshKeyFile) {
+      var file = sshKeyFile.fileModel || $scope.state.contextVersion.rootDir.contents.models.find(function (fileModel) {
+          return fileModel.attrs.name === sshKeyFile.name;
+        });
+      sshKeyFile.fileModel = file;
+
+      return keypather.get(file, 'attrs.created');
+    }
+  };
+
   this.actions = {
     triggerAddRepository: function () {
       self.repositoryPopover.data = {
@@ -211,6 +276,12 @@ function ControllerContainerFiles(
       $timeout(function () {
         self.fileUpload.active = false;
       });
+    },
+    triggerAddSSHKey: function () {
+      self.sshKey.popover.active = true;
+      $timeout(function () {
+        self.sshKey.popover.active = false;
+      });
     }
   };
 
@@ -225,8 +296,10 @@ function ControllerContainerFiles(
     delete: function (containerFile) {
       if (containerFile.type === 'Repository') {
         self.repositoryPopover.actions.remove(containerFile);
-      } else if (containerFile.type === 'File'){
+      } else if (containerFile.type === 'File') {
         self.fileUpload.actions.deleteFile(containerFile);
+      } else if (containerFile.type === 'SSH Key') {
+        self.sshKey.popover.actions.remove(containerFile);
       }
     }
   };

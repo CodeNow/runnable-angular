@@ -25,8 +25,7 @@
           )
         | Repository
       li.list-item.popover-list-item(
-        pop-over
-        pop-over-template = "viewPopoverSshKey"
+        ng-click = "actions.triggerAddSSHKey()"
       )
         svg.iconnables
           use(

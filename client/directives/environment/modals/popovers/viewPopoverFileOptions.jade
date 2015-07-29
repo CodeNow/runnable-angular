@@ -10,6 +10,7 @@
     ul.popover-list
       //- edit is not allowed on ssh keys
       li.list-item.popover-list-item(
+        ng-if = "data.type !== 'SSH Key'"
         ng-click = "actions.edit(data)"
       )
         svg.iconnables
@@ -21,7 +22,6 @@
         ng-if = "data.type !== 'SSH Key'"
       )
       li.list-item.popover-list-item(
-        ng-if = "data.type !== 'SSH Key'"
         ng-click = "actions.delete(data)"
       )
         svg.iconnables

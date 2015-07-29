@@ -10,7 +10,7 @@
       .label-col Title
       .input-col
         input.input.input-sm(
-          ng-model = "data.title"
+          ng-model = "data.name"
           required
           spellcheck = "false"
         )
@@ -28,6 +28,9 @@
 
   .popover-footer.clearfix
     button.btn.btn-sm.green(
-      ng-disabled = "data.file && data.key"
+      ng-disabled = "!data.name && !data.key"
+      ng-click = "actions.save(data)"
     ) Add Key
-    button.btn.btn-sm.gray.float-left Cancel
+    button.btn.btn-sm.gray.float-left(
+      ng-click = "actions.cancel()"
+    ) Cancel

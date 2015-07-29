@@ -23,6 +23,14 @@
   pop-over-trigger = "activeAttr"
 )
 
+.hidden(
+  pop-over
+  pop-over-template = "viewPopoverSshKey"
+  pop-over-active = "CCF.sshKey.popover.active"
+  pop-over-actions = "CCF.sshKey.popover.actions"
+  pop-over-trigger = "activeAttr"
+)
+
 .clearfix
   .label-col {{ $root.featureFlags.sshKeys ? "Files & SSH Keys" : "Container Files" }}
   .input-col

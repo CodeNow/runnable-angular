@@ -1,10 +1,13 @@
-ul.tr.multi-line.clearfix(
+.tr.multi-line.clearfix(
   ng-if = "$root.featureFlags.sshKeys"
+  ng-repeat = "containerFile in state.containerFiles | filter:{type: 'SSH Key'}"
 )
   .cell.cell-action.disabled.no-touching
     svg.iconnables.icons-drag
-  .cell.text-overflow KeyLabel
-    small.small Added May 25, 2000
+  .cell.text-overflow {{containerFile.name}}
+    small.small(
+      ng-if = "CCF.sshKey.getFileDate(containerFile)"
+    ) {{ CCF.sshKey.getFileDate(containerFile) | timeAgo }}
   .cell.cell-type.small
     svg.iconnables.icons-key
       use(
@@ -14,9 +17,10 @@ ul.tr.multi-line.clearfix(
   .cell.cell-action
     button.btn.btn-xs.gray(
       pop-over
-      pop-over-active = "fileOptionsPopover.active"
+      pop-over-actions = "CCF.filePopoverActions"
       pop-over-options = "{\"right\":0,\"top\":35}"
       pop-over-template = "viewPopoverFileOptions"
+      pop-over-data = "containerFile"
     )
       svg.iconnables.icons-overflow
         use(
@@ -25,7 +29,7 @@ ul.tr.multi-line.clearfix(
 
 //- only show if there's > 0 ssh keys AND > 0 files
 .tr.thead.clearfix(
-  ng-if = "$root.featureFlags.sshKeys"
+  ng-if = "$root.featureFlags.sshKeys && (state.containerFiles | filter:{type: 'SSH Key'}).length"
 )
 
 //- dnd-drop needs this to be a list
@@ -41,7 +45,7 @@ ul.table-drag-drop(
       disabled: (containerFile.type === 'Main Repository' && !$root.featureFlags.sshKeys),\
       'tr-action': (containerFile.type !== 'Main Repository' && !$root.featureFlags.sshKeys)\
     }"
-    ng-repeat = "containerFile in state.containerFiles"
+    ng-repeat = "containerFile in state.containerFiles | filter:{type: '!SSH Key'}"
   )
     .cell.cell-action(
       ng-class = "{\
