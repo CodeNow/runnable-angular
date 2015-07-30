@@ -17,7 +17,7 @@ function explorer(
 ) {
   return {
     restrict: 'A',
-    templateUrl: 'viewExplorer',
+    templateUrl: 'explorerView',
     scope: {
       openItems: '=',
       fileModel: '=',

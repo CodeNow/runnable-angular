@@ -117,19 +117,19 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
         }
       };
     });
-    it.skip('should rollback the cv', function () {
+    it('should rollback the cv', function () {
       $scope.state.advanced = true;
       expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.true;
+      $scope.resetStateContextVersion = sinon.spy();
       readOnlySwitchController.readOnly(false);
       $scope.$digest();
-      $scope.resetStateContextVersion = sinon.spy();
-      sinon.assert.calledOnce(ctx.contextVersion.rollback);
-      expect(readOnlySwitchController.popover.rolledContextVersion, 'rolledCV').to.equal(ctx.newContextVersion);
+      expect(readOnlySwitchController.popover.contextVersion, 'cv').to.equal(ctx.contextVersion);
       expect(readOnlySwitchController.popover.active, 'active').to.be.true;
       expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.true;
-      readOnlySwitchController.popover.performRollback(readOnlySwitchController.popover.rolledContextVersion);
+      readOnlySwitchController.popover.performRollback(ctx.contextVersion);
       $scope.$digest();
-      sinon.assert.calledWith($scope.resetStateContextVersion, readOnlySwitchController.popover.rolledContextVersion, true);
+      sinon.assert.calledOnce(ctx.contextVersion.rollback);
+      sinon.assert.calledWith($scope.resetStateContextVersion, ctx.newContextVersion, true);
     });
   });
   describe('readOnly error'.blue, function () {
