@@ -54,40 +54,11 @@ describe('directiveExplorer'.bold.underline.blue, function () {
 
 
     expect($elScope.filePopover).to.be.ok;
-    expect($elScope.filePopover.actions).to.be.ok;
     expect($elScope.filePopover.data).to.be.ok;
-    expect($elScope.filePopover.actions.createFile).to.be.ok;
-    expect($elScope.filePopover.actions.createFolder).to.be.ok;
     expect($elScope.filePopover.data.show).to.be.false;
     $scope.$digest();
 
     expect($elScope.rootDir.state.open).to.be.true;
 
   });
-
-  describe('actions', function () {
-
-    it('creates a folder', function() {
-      $scope.$digest();
-      $elScope = ctx.element.isolateScope();
-
-      $elScope.filePopover.actions.createFolder();
-
-      sinon.assert.calledWith(createFsMock, $scope.rootDir, {
-        isDir: true
-      }, errs.handler);
-
-    });
-    it('creates a folder', function() {
-      $scope.$digest();
-      $elScope = ctx.element.isolateScope();
-
-      $elScope.filePopover.actions.createFile();
-
-      sinon.assert.calledWith(createFsMock, $scope.rootDir, {
-        isDir: false
-      }, errs.handler);
-
-    });
-  })
 });
