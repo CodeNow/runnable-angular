@@ -208,7 +208,7 @@
   padding: 9px 15px;
 
   &.popover-header-sm {
-    height: 45px;
+    height: $input-md;
   }
 }
 
@@ -228,7 +228,7 @@
 
   // .list-item.small
   .small {
-    line-height: 36px;
+    line-height: $input-sm;
     padding: 0 15px;
   }
 

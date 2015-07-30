@@ -50,6 +50,10 @@
     float: right;
     height: 100%;
     margin-right: -6px;
+
+    &.btn-xxs {
+      margin-right: -3px;
+    }
   }
 
   // fancy select
@@ -76,15 +80,6 @@
 }
 
 // button sizes
-.btn-xl {
-  border-radius: 6px;
-  font-size: 30px;
-  font-weight: 300;
-  height: 72px;
-  line-height: 72px;
-  padding: 0 45px;
-}
-
 .btn-sm {
   font-size: 16px;
   height: $input-sm;
@@ -185,9 +180,6 @@
 
   .icons-close {
     color: currentColor;
-    height: 100%;
-    top: -18px; // offset
-    width: 100%;
   }
 
   &.btn-xs .icons-close {

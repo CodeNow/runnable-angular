@@ -1,11 +1,11 @@
 // ul.tabs
 .tabs {
   float: left;
-  height: 45px;
+  height: $input-md;
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
-  width: calc(100% - 45px);
+  width: calc(100% - 42px); // 100% - $input-md
 }
 
 // li.tab-wrapper
@@ -80,11 +80,29 @@
   }
 
   .btn-close {
-    border-color: transparent;
-    float: right;
+    border: 0;
+    color: $gray-light;
     height: 15px;
-    margin: 15px 6px 15px 9px;
+    margin-right: 6px;
+    position: relative;
+    top: 12px;
     width: 15px;
+
+    &:hover {
+      background: $gray-light;
+      color: $white;
+    }
+
+    &:active {
+      background: $red;
+      color: $white;
+    }
+
+    .icons-close {
+      left: 0;
+      position: absolute;
+      top: 0;
+    }
   }
 }
 
@@ -93,8 +111,8 @@
   display: block;
   float: left;
   font-size: 14px;
-  height: 45px;
-  line-height: 45px;
+  height: $input-md;
+  line-height: $input-md;
   padding: 0 1px 0 9px;
   text-align: center;
 

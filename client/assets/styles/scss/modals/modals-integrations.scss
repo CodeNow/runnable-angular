@@ -35,10 +35,10 @@
     color: $gray-dark;
     cursor: pointer;
     display: block;
-    line-height: 45px;
+    line-height: $input-md;
     margin: 0;
-    max-height: 45px;
-    min-height: 45px;
+    max-height: $input-md;
+    min-height: $input-md;
     padding: 0 9px;
     position: relative;
     transition: max-height .15s ease-in-out;
@@ -49,7 +49,7 @@
 
     &.disabled {
       cursor: not-allowed;
-      max-height: 45px;
+      max-height: $input-md;
     }
 
     &:first-child {
@@ -69,7 +69,7 @@
     }
 
     .gravatar {
-      margin: 12px 9px 0 0;
+      margin: 10px 9px 0 0;
     }
 
     .toggle-wrapper {

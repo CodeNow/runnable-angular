@@ -13,13 +13,12 @@
 }
 
 .logo {
-  height: 45px;
   margin-left: 12px;
   width: 180px;
 
   &.logo-icon {
-    height: 45px;
+    height: $input-sm;
     margin-left: 0;
-    width: 30px;
+    width: $input-sm;
   }
 }

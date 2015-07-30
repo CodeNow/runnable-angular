@@ -260,7 +260,7 @@
 
   // cells with multiple lines
   .multi-line & {
-    height: 45px;
+    height: $input-md;
     line-height: 1.2;
     padding-top: 7px;
 
@@ -350,7 +350,7 @@
 
   .multi-line & {
     color: $gray;
-    line-height: 45px;
+    line-height: $input-md;
     padding-top: 0;
   }
 

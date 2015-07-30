@@ -2,7 +2,7 @@
 .views-tabs {
   @extend %webkit-flicker;
   background: $white;
-  flex: 0 0 45px;
+  flex: 0 0 $input-md;
   overflow: visible;
   position: relative;
   transition: all .15s ease-in;
@@ -10,12 +10,13 @@
 
 // toolbar tabs
 .btn-add-tab {
-  height: 45px;
+  height: $input-md;
   position: absolute;
+  right: 0;
 
   .icons-add {
     top: 1px;
-    width: 24px;
+    width: 21px;
   }
 }
 
@@ -27,7 +28,7 @@
 .views-toolbar {
   align-items: center;
   display: flex;
-  height: 36px;
+  height: $input-sm;
   padding: 0 6px 0 9px; // match toggle and log padding
 
   // when there are multiple

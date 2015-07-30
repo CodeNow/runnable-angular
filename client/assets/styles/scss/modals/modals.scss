@@ -160,7 +160,7 @@
 
   + .list {
     font-weight: 500;
-    margin: 15px 0 15px 45px;
+    margin: 15px 0 15px $input-md;
   }
 }
 
@@ -266,7 +266,7 @@
 
   .modal-footer-warning {
     color: $gray;
-    line-height: 45px;
+    line-height: $input-md;
     padding-left: 12px;
   }
 }

@@ -71,7 +71,7 @@
   }
 
   .logo-anchor {
-    padding-right: 45px;
+    padding-right: $input-md;
   }
 
   // vertically center
@@ -192,7 +192,7 @@
     display: block;
     flex: 1 1 auto;
     font-size: 14px;
-    margin-top: 45px;
+    margin-top: $input-md;
     padding: 15px 0;
     text-align: center;
     width: 100%;
@@ -212,7 +212,7 @@
       left: -15px;
       line-height: 36px;
       position: absolute;
-      top: -45px;
+      top: -$input-md;
 
       &:hover,
       &:active {
@@ -274,11 +274,11 @@
     box-shadow: 0 2px 3px rgba($black,.1);
     display: block;
     fill: $white;
-    height: 45px;
+    height: $input-md;
     margin: 0 auto;
     position: relative;
     top: calc(50% - 23px);
-    width: 45px;
+    width: $input-md;
   }
 }
 
