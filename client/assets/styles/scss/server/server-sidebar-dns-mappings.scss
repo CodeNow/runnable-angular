@@ -7,10 +7,10 @@
   }
 
   .small {
-    color: $gray;
+    color: $gray-light;
 
     .strong {
-      color: $gray-dark;
+      color: $gray;
     }
   }
 
@@ -18,18 +18,21 @@
   .btn {
     background-color: $gray-lighterest; // override default fancy-select color
     color: $gray;
-    display: flex;
     font-weight: 400;
-    padding: 0 9px;
+    padding: 0 27px 0 9px;
     text-align: left;
     width: 100%;
-
-    .display {
-      flex: 1 1 auto;
-    }
+    height: auto;
+    line-height: 30px;
+    float: none;
 
     .icons-arrow-down {
-      flex: 0 0 auto;
+      color: $gray-light;
+      height: 100%;
+      position: absolute;
+      right: 9px;
+      top: 0;
+      width: 24px;
     }
   }
 }

@@ -13,42 +13,52 @@
     ng-if = "!isDnsSetup && !$storage.dnsManagementIsClosed"
     ng-include = "'spinner'"
   )
+  
+//- .empty-state.well.in(
+//-   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0"
+//- )
+//-   span.strong {{ instance.getRepoName() || instance.getDisplayName() }}
+//-   |  has no DNS mappings.
 
-.empty-state.well.in(
-  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0"
-)
-  span.strong {{ instance.getRepoName() || instance.getDisplayName() }}
-  |  has no DNS mappings.
+//- for testing
+.dns-wrapper
+  .small.text-overflow
+    strong.strong repo-name
+    | -url stuff
+  fancy-select.in
+    fancy-option
+      .icons-status.green
+      | branch-name
 
-.dns-wrapper(
-  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
-  ng-repeat = "masterInstance in directlyRelatedMasterInstances track by masterInstance.attrs.shortHash"
-)
-  .small.text-overflow(
-    title = "Elastic hostname: {{ masterInstance.getRepoName() }}-staging-{{ masterInstance.attrs.owner.username }}.runnableapp.com"
-  )
-    strong.strong {{ masterInstance.getRepoName() }}
-    | -staging-{{ masterInstance.attrs.owner.username }}.runnableapp.com
-
-  fancy-select.in(
-    on-update = "actions.setDependency"
-    track-by = "attrs.shortHash"
-    title = "{{ masterInstance.getBranchName() }}"
-    value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
-  )
-    fancy-option(
-      value = "$parent.masterInstance"
-    )
-      status-icon(
-        instance = "$parent.$parent.masterInstance"
-      )
-      | {{ $parent.$parent.masterInstance.getBranchName() }}
-
-    fancy-option(
-      ng-repeat = "childInstance in $parent.masterInstance.children.models"
-      value = "childInstance"
-    )
-      status-icon(
-        instance = "$parent.childInstance"
-      )
-      | {{ $parent.childInstance.getBranchName() }}
+//- .dns-wrapper(
+//-   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
+//-   ng-repeat = "masterInstance in directlyRelatedMasterInstances track by masterInstance.attrs.shortHash"
+//- )
+//-   .small.text-overflow(
+//-     title = "Elastic hostname: {{ masterInstance.getRepoName() }}-staging-{{ masterInstance.attrs.owner.username }}.runnableapp.com"
+//-   )
+//-     strong.strong {{ masterInstance.getRepoName() }}
+//-     | -staging-{{ masterInstance.attrs.owner.username }}.runnableapp.com
+//- 
+//-   fancy-select.in(
+//-     on-update = "actions.setDependency"
+//-     track-by = "attrs.shortHash"
+//-     title = "{{ masterInstance.getBranchName() }}"
+//-     value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
+//-   )
+//-     fancy-option(
+//-       value = "$parent.masterInstance"
+//-     )
+//-       status-icon(
+//-         instance = "$parent.$parent.masterInstance"
+//-       )
+//-       | {{ $parent.$parent.masterInstance.getBranchName() }}
+//- 
+//-     fancy-option(
+//-       ng-repeat = "childInstance in $parent.masterInstance.children.models"
+//-       value = "childInstance"
+//-     )
+//-       status-icon(
+//-         instance = "$parent.childInstance"
+//-       )
+//-       | {{ $parent.childInstance.getBranchName() }}

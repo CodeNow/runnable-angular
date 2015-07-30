@@ -7,24 +7,22 @@
       xlink:href = "#icons-disclose"
     )
   | Repositories
-
-ul.list.repository-group(
-  ng-if = "!$storage.repoListIsClosed"
+.repository-group-item(
+  edit-repo-commit
+  model = "instance.contextVersion.getMainAppCodeVersion()"
 )
-  li.list-item.repository-group-item(
-    edit-repo-commit
-    model = "instance.contextVersion.getMainAppCodeVersion()"
-  )
-  li.list-details
-    label.label-checkbox.btn-sm.btn-checkbox(
-      tooltip = "Disabling Auto Deploy will stop your container from automatically updating with new changes to your repositories."
-      tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-6,\"top\":24}"
-    )
-      input.input-checkbox(
-        ng-false-value="true"
-        ng-model = "autoDeploy"
-        ng-model-options = "{getterSetter: true}"
-        ng-true-value="false"
-        type = "checkbox"
+//- in-process additional repo
+.repository-group-item(
+  model = "instance.contextVersion.getMainAppCodeVersion()"
+)
+  .small.strong.text-overflow repo-name
+  .btn.gray
+    .repository-description.text-overflow.clearfix.js-repository-branch my-branch-name
+      svg.iconnables.icons-branch
+        use(
+          xlink:href = "#icons-branch"
+        )
+    svg.iconnables.icons-arrow-down
+      use(
+        xlink:href = "#icons-arrow-down"
       )
-      | Auto Deploy

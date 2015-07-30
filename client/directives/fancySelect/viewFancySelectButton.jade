@@ -1,10 +1,12 @@
 button.btn.btn-sm.white.text-overflow.btn-validate(
   ng-click = "actions.toggleSelect($event)"
 )
-  .placeholder(
-    ng-if = "!value"
-  ) {{placeholder}}
+  //- .placeholder(
+  //-   ng-if = "!value"
+  //- ) {{placeholder}}
   .display.text-overflow.float-left
+    .icons-status.green
+    | branch-name
   svg.iconnables.icons-arrow-down(
     ng-if = "!spinnerFlag"
   )
