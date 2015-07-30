@@ -7,7 +7,8 @@
   .cell.text-overflow {{containerFile.name}}
     small.small(
       ng-if = "CFC.sshKey.getFileDate(containerFile)"
-    ) {{ CFC.sshKey.getFileDate(containerFile) | timeAgo }}
+      ng-attr-title = "Added {{ CFC.sshKey.getFileDate(containerFile) | moment: 'MMMM D, YYYY, h:mm A Z' }}"
+    ) Added {{ CFC.sshKey.getFileDate(containerFile) | moment: 'MMMM D, YYYY' }}
   .cell.cell-type.small
     svg.iconnables.icons-key
       use(
@@ -69,7 +70,7 @@ ul.table-drag-drop(
 
     //- ssh key feature flag
     .cell.text-overflow(
-      ng-if = "(containerFile.type === 'File' || containerFile.type === 'Repository') && $root.featureFlags.sshKeys"
+      ng-if = "$root.featureFlags.sshKeys"
       title = "{{ containerFile.name }}"
     ) {{ containerFile.name }}
       small.small(
