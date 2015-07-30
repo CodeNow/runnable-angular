@@ -12,9 +12,22 @@
   }
 
   > .btn {
+    border-radius: $input-md;
     float: left;
     min-width: 26px;
     position: relative;
+
+    &.btn-sm {
+      border-radius: $input-sm;
+    }
+
+    &.btn-xs {
+      border-radius: $input-xs;
+    }
+
+    &.btn-xxs {
+      border-radius: $input-xxs;
+    }
 
     &:not(:first-child):not(:last-child) {
       border-radius: 0;
@@ -27,11 +40,19 @@
     &:first-child:not(:last-child) {
       border-bottom-right-radius: 0;
       border-top-right-radius: 0;
+
+      &.btn-xs {
+        padding-left: 9px;
+      }
     }
 
     &:last-child:not(:first-child) {
       border-bottom-left-radius: 0;
       border-top-left-radius: 0;
+
+      &.btn-xs {
+        padding-right: 9px;
+      }
     }
   }
 
@@ -45,11 +66,19 @@
     &:first-child > .btn:last-child {
       border-bottom-right-radius: 0;
       border-top-right-radius: 0;
+
+      &.btn-xs {
+        padding-left: 9px;
+      }
     }
 
     &:last-child > .btn:first-child {
       border-bottom-left-radius: 0;
       border-top-left-radius: 0;
+
+      &.btn-xs {
+        padding-right: 9px;
+      }
     }
   }
 }

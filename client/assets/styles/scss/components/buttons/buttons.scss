@@ -23,6 +23,15 @@
     transition: none;
   }
 
+  // animations
+  &.active,
+  &.in {
+
+    > .icons-add {
+      transform: rotate3d(0,0,1,135deg) scale3d(.75,.75,1);
+    }
+  }
+
   &[disabled],
   &.disabled {
     cursor: not-allowed;
@@ -41,15 +50,6 @@
     float: right;
     height: 100%;
     margin-right: -6px;
-  }
-
-  // animations
-  &.active,
-  &.in {
-
-    > .icons-add {
-      transform: rotate3d(0,0,1,135deg) scale3d(.75,.75,1);
-    }
   }
 
   // fancy select
