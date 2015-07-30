@@ -109,10 +109,9 @@ html.home(
           });
       });
 
-
   body.clearfix(
     ng-app = "homeApp"
-    ng-class = "{'modal-open': !data.hideUnauthorizedModal}"
+    ng-class = (unauthorized ? "{'modal-open': !data.hideUnauthorizedModal}" : '')
     ng-controller = "MainCtrl"
   )
     //

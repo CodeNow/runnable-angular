@@ -62,16 +62,16 @@
   background: transparent;
   height: auto;
 
-  .logo {
-    margin-left: 0;
-
-    @include media(sm) {
-      width: 150px;
-    }
+  .logo-anchor {
+    height: $input-sm;
+    margin-bottom: 21px; // to prevent floated nav wrapping
+    top: 12px;
+    width: 216px; // proportionate to $input-sm + <sup>
   }
 
-  .logo-anchor {
-    padding-right: 45px;
+  .logo {
+    left: 0;
+    margin-left: 0;
   }
 
   // vertically center
@@ -79,7 +79,7 @@
     border: 0;
     color: $white;
     line-height: 36px;
-    margin: 6px 3px;
+    margin: 15px 3px 0;
 
     @include media(sm) {
       font-size: 14px;
