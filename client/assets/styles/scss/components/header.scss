@@ -1,33 +1,29 @@
 .header {
   background: $purple-light;
+  border-bottom: 1px solid $purple;
   height: 60px;
-  padding: 7px 15px 6px; // 7px + 6px = 15px (60px - 45px)
+  padding: 0 15px;
 
-  // header button styles
-  .btn-group {
-    left: 0;
-    margin: 5px auto;
-    position: absolute;
-    right: 0;
-    width: 270px;
-
-    > .btn {
-      width: 135px;
-    }
-
-    .iconnables {
-      float: left;
-      height: 100%;
-      margin-right: 6px;
-      width: 18px;
-    }
+  // layout
+  .logo,
+  .btn-group,
+  .btn-accounts {
+    top: 12px;
   }
 
+  // logo
+  .logo {
+    left: 15px;
+    max-height: $input-sm; // center
+    position: absolute;
+  }
+
+  // accounts (custom .btn.purple)
   .btn-accounts {
+    background: transparent;
     border-color: transparent;
-    float: right;
-    margin: 5px 0;
-    position: relative;
+    position: absolute;
+    right: 15px;
 
     @include media(sm) {
       .span {
@@ -35,35 +31,79 @@
       }
     }
 
-    &:hover {
-      background: transparent;
-    }
-
+    &:hover,
     &:active,
     &.active {
-      background: $white;
+      background: transparent;
+      color: $white;
     }
 
     .gravatar {
       float: left;
-      margin-right: 6px;
+      margin-right: 7px;
       margin-top: 5px;
 
       @include retina() {
         border: 1px solid $white;
       }
+
+      @include media(sm) {
+        margin-right: 3px;
+      }
+    }
+  }
+}
+
+// custom header theme
+.btn-group-header.btn-group-header {
+  background: $purple;
+  border: 2px solid $purple;
+  border-radius: $input-sm;
+  display: table;
+  margin: 0 auto;
+  overflow: hidden;
+
+  > .btn {
+    background: transparent;
+    border-color: transparent;
+    color: rgba($white,.3);
+    height: $input-line-height-sm;
+    line-height: $input-line-height-sm - ($input-border*2);
+    width: 135px;
+
+    &:hover {
+      color: rgba($white,.45);
+
+      .iconnables {
+        opacity: .8;
+      }
+    }
+
+    &:active {
+      color: rgba($white,.6);
+
+      .iconnables {
+        opacity: .9;
+      }
+    }
+
+    &.active {
+      @extend %no-touching;
+      background: #9662bd;
+      border-radius: $input-border-radius-xxs;
+      color: $white;
+
+      .iconnables {
+        opacity: 1;
+      }
     }
   }
 
-  // title
-  .h2 {
-    color: $white;
-    left: 0;
-    line-height: 40px;
-    margin: 0 auto;
-    max-width: 210px;
-    position: absolute;
-    right: 0;
-    text-align: center;
+  .iconnables {
+    float: left;
+    height: 100%;
+    margin-right: 6px;
+    opacity: .75;
+    width: 18px;
   }
 }
