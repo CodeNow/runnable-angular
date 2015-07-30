@@ -42,7 +42,7 @@ ul.table-drag-drop(
     dnd-dragstart = "actions.dragstart()"
     dnd-effect-allowed = "move"
     ng-class = "{\
-      disabled: (containerFile.type === 'Main Repository' && !$root.featureFlags.sshKeys),\
+      'disabled': (containerFile.type === 'Main Repository' && !$root.featureFlags.sshKeys),\
       'tr-action': (containerFile.type !== 'Main Repository' && !$root.featureFlags.sshKeys)\
     }"
     ng-repeat = "containerFile in state.containerFiles"
@@ -50,7 +50,7 @@ ul.table-drag-drop(
   )
     .cell.cell-action(
       ng-class = "{\
-        disabled: state.containerFiles.length < 2,\
+        'disabled': state.containerFiles.length < 2,\
         'no-touching': state.containerFiles.length < 2\
       }"
       dnd-handle
@@ -62,8 +62,8 @@ ul.table-drag-drop(
 
     //- deprecated:
     .cell.text-overflow(
-      ng-if = "(containerFile.type === 'File' && !$root.featureFlags.sshKeys)"
       ng-click = "CFC.actions.triggerEditFile(containerFile)"
+      ng-if = "(containerFile.type === 'File' && !$root.featureFlags.sshKeys)"
       title = "{{ containerFile.name }}"
     ) {{ containerFile.name }}
 
@@ -77,8 +77,8 @@ ul.table-drag-drop(
       ) /{{ containerFile.path }}
 
     .cell.text-overflow(
-      ng-if = "!$root.featureFlags.sshKeys && (containerFile.type === 'Repository' || containerFile.type === 'Main Repository')"
       ng-click = "CFC.actions.triggerEditRepo(containerFile)"
+      ng-if = "!$root.featureFlags.sshKeys && (containerFile.type === 'Repository' || containerFile.type === 'Main Repository')"
       title = "{{ containerFile.name }}"
     ) {{ containerFile.name }}
       small.small(
@@ -112,9 +112,9 @@ ul.table-drag-drop(
       button.btn.btn-xs.gray(
         pop-over
         pop-over-actions = "CFC.filePopoverActions"
+        pop-over-data = "containerFile"
         pop-over-options = "{\"right\":0,\"top\":35}"
         pop-over-template = "viewPopoverFileOptions"
-        pop-over-data = "containerFile"
       )
         svg.iconnables.icons-overflow
           use(

@@ -1,4 +1,5 @@
-.popover.popover-fixed.popover-files(
+form.popover.popover-fixed.popover-files(
+  name = "sshForm"
   ng-class = "{'in': active}"
   ng-style = "popoverStyle.getStyle()"
 )
@@ -28,8 +29,8 @@
 
   .popover-footer.clearfix
     button.btn.btn-sm.green(
-      ng-disabled = "!data.name && !data.key"
       ng-click = "actions.save(data)"
+      ng-disabled = "sshForm.$invalid"
     ) Add Key
     button.btn.btn-sm.gray.float-left(
       ng-click = "closePopover()"
