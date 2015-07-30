@@ -82,7 +82,7 @@ function setupServerModal(
 
         var createPromise = loadingPromises.finished('setupServerModal')
           .then(function () {
-            return updateDockerfileFromState($scope.state);
+            return updateDockerfileFromState($scope.state, false, true);
           })
           .then(function () {
             if ($scope.state.acv.attrs.branch !== $scope.state.branch.attrs.name) {

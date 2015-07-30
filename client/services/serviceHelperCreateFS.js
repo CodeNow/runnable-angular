@@ -23,7 +23,6 @@ function helperCreateFS(
 }
 
 function helperCreateFSpromise(
-  errs,
   getNewFileFolderName,
   keypather,
   promisify
@@ -33,7 +32,7 @@ function helperCreateFSpromise(
     return promisify(dir.contents, 'create')(props)
       .then(function (fs) {
         keypather.set(fs, 'state.renaming', true);
-        return promisify(dir.contents, 'fetch');
+        return promisify(dir.contents, 'fetch')();
       });
   };
 }

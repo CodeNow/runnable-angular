@@ -7,17 +7,16 @@ require('app')
 function updateDockerfileFromState(
   $q,
   fetchDockerfileFromSource,
-  populateDockerfile
+  populateDockerfile,
+  promisify
 ) {
-  return function (state, shouldFetchSourceDockerfile) {
+  return function (state, shouldFetchSourceDockerfile, saveDockerfile) {
     if (!state.dockerfile) {
       return $q.reject(new Error('No destination dockerfile given'));
     }
     var promise = null;
     if (shouldFetchSourceDockerfile || !state.sourceDockerfile) {
-      promise = fetchDockerfileFromSource(
-          state.selectedStack.key
-        )
+      promise = fetchDockerfileFromSource(state.selectedStack.key)
         .then(function (sourceDockerfile) {
           state.sourceDockerfile = sourceDockerfile;
           return sourceDockerfile;
@@ -27,17 +26,26 @@ function updateDockerfileFromState(
     }
 
     return promise.then(function (sourceDockerfile) {
-        return populateDockerfile(
-          sourceDockerfile,
-          state,
-          state.dockerfile
-        );
-      });
+      return populateDockerfile(
+        sourceDockerfile,
+        state,
+        state.dockerfile
+      )
+        .then(function (dockerfileBody) {
+          if (saveDockerfile) {
+            return promisify(state.dockerfile, 'update')({
+              json: {
+                body: dockerfileBody
+              }
+            });
+          }
+        });
+    });
   };
 }
 
 function populateDockerfile(
-  promisify,
+  $q,
   regexpQuote,
   keypather,
   configEnvironment,
@@ -121,10 +129,8 @@ function populateDockerfile(
     }
 
     var dockerfileBody = populateDockerFile(sourceDockerfile.attrs.body);
-    return promisify(destDockerfile, 'update')({
-      json: {
-        body: dockerfileBody
-      }
-    });
+    keypather.set(destDockerfile, 'state.isDirty', true);
+    destDockerfile.state.body = dockerfileBody;
+    return $q.when(dockerfileBody);
   };
 }

@@ -1,6 +1,6 @@
 {
   "name": "runnable-angular",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "private": true,
   "description": "Frontend for Runnable.io",
   "scripts": {
@@ -67,7 +67,7 @@
     "grunt": "https://registry.npmjs.org/grunt/-/grunt-0.4.5.tgz",
     "grunt-autoprefixer": "~2.2.0",
     "grunt-bg-shell": "~2.3.1",
-    "grunt-browserify": "^3.5.0",
+    "grunt-browserify": "3.8.0",
     "grunt-cli": "^0.1.13",
     "grunt-concurrent": "~1.0.0",
     "grunt-contrib-copy": "~0.8.0",

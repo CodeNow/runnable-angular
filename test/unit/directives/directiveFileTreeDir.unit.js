@@ -67,8 +67,7 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       _$rootScope_,
       _$compile_,
       _$q_,
-      _keypather_,
-      _loadingPromises_
+      _keypather_
     ) {
       $scope = _$rootScope_.$new();
       $compile = _$compile_;
@@ -99,11 +98,11 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
   }
   beforeEach(function () {
     injectSetupCompile();
-    sinon.spy($elScope, '$broadcast');
+    sinon.spy($rootScope, '$broadcast');
   });
 
   afterEach(function () {
-    $elScope.$broadcast.restore();
+    $rootScope.$broadcast.restore();
   });
 
   describe('folder rename', function () {
@@ -598,10 +597,8 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
 
 
   it('should broadcast click event when triggering closeOpenModals', function () {
-    sinon.spy($rootScope, '$broadcast');
     $elScope.actions.closeOpenModals();
     expect($rootScope.$broadcast.calledOnce).to.equal(true);
-    $rootScope.$broadcast.restore();
   });
 
   it('should prevent click events from propagation when renaming files', function () {
@@ -649,149 +646,6 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
     expect(style).to.be.empty;
   });
 
-  describe('popoverFileExplorerFolder actions', function () {
-    it('should open the file when the action is triggered', function () {
-      $elScope.openItems.add = sinon.spy();
-      var myFile = { id: '123' };
-      $elScope.actions.openFile(myFile);
-      expect($elScope.openItems.add.calledOnce).to.equal(true);
-      expect($elScope.openItems.add.calledWith(myFile)).to.equal(true);
-    });
-
-    it('should support creating a new file', function () {
-      createFsMock.reset();
-      $scope.loadingPromisesTarget = 'createFile';
-      $scope.$digest();
-      $elScope.popoverFileExplorerFolder.actions.createFile();
-      expect(loadingPromisesMock.add.lastCall.args[0], 'Added to loading promise').to.equal('createFile');
-      expect(createFsMock.calledOnce, 'Called create FS mock').to.equal(true);
-      expect(createFsMock.lastCall.args[1].isDir, 'Is Directory').to.equal(false);
-      expect($elScope.$broadcast.calledWith('close-popovers'), 'Broadcasted close-popovers').to.equal(true);
-    });
-
-    it('should support creating a new folder', function () {
-      createFsMock.reset();
-      $scope.loadingPromisesTarget = 'create';
-      $scope.$digest();
-      $elScope.popoverFileExplorerFolder.actions.createFolder();
-      expect(loadingPromisesMock.add.lastCall.args[0], 'Added to loading promise').to.equal('create');
-      expect(createFsMock.calledOnce, 'Called create FS mock').to.equal(true);
-      expect(createFsMock.lastCall.args[1].isDir, 'Is Directory').to.equal(true);
-      expect($elScope.$broadcast.calledWith('close-popovers'), 'Broadcasted close-popovers').to.equal(true);
-    });
-
-    it('should support deleting a folder', function () {
-      $elScope.dir.destory = sinon.spy();
-      $scope.loadingPromisesTarget = 'delete';
-      $scope.$digest();
-      $elScope.popoverFileExplorerFolder.actions.deleteFolder();
-      expect(loadingPromisesMock.add.lastCall.args[0], 'Added to loading promise').to.equal('delete');
-      expect($elScope.dir.destroy.calledOnce, 'Destroy called').to.equal(true);
-      expect($elScope.$broadcast.calledWith('close-popovers'), 'Broadcasted close-popovers').to.equal(true);
-    });
-
-    it('should support renaming a folder', function () {
-      inputElement.focus = sinon.spy();
-      inputElement.select = sinon.spy();
-      $elScope.popoverFileExplorerFolder.actions.renameFolder();
-      expect($elScope.$broadcast.calledWith('close-popovers'), 'Broadcasted close-popovers').to.equal(true);
-      expect(inputElement.focus.calledOnce, 'Element focused').to.equal(true);
-      expect(inputElement.select.calledOnce, 'Element selected').to.equal(true);
-      expect($elScope.editFolderName, 'EditFolderName set').to.equal(true);
-    });
-
-    describe('file upload', function () {
-      it('should support uploading a file', function () {
-        var files = [
-          {
-            name: 'FileName.txt'
-          }
-        ];
-        sinon.spy($elScope.dir.contents.models, 'push');
-        sinon.spy($elScope.dir.contents.models, 'splice');
-        $elScope.actions.fetchDirFiles = sinon.spy();
-
-        var uploadDeferred = $q.defer();
-        uploadDeferred.promise.progress = sinon.stub().returns(uploadDeferred.promise);
-
-        uploadMock.upload = sinon.stub().returns(uploadDeferred.promise);
-
-        $elScope.popoverFileExplorerFolder.actions.uploadFiles(files);
-
-        expect($elScope.$broadcast.calledWith('close-popovers'), 'Broadcasted close-popovers').to.equal(true);
-        expect($elScope.dir.contents.models.push.calledOnce).to.equal(true);
-        expect($elScope.dir.contents.models.splice.calledOnce).to.equal(false);
-        expect(uploadMock.upload.lastCall.args[0].file, 'last upload file').to.equal(files[0]);
-        expect($elScope.dir.contents.models[0].state.progress, 'File upload progress').to.equal(0);
-
-        uploadDeferred.promise.progress.lastCall.args[0]({
-          loaded: 10,
-          total: 100
-        });
-        expect($elScope.dir.contents.models[0].state.progress, 'File upload progress').to.equal(10);
-
-        uploadDeferred.resolve();
-
-        $elScope.$digest();
-
-        //Upload finished
-        expect(errs.handler.called, 'Error handler called').to.equal(false);
-        expect($elScope.dir.contents.models.splice.calledOnce, 'Splice called').to.equal(true);
-        expect($elScope.actions.fetchDirFiles.calledOnce, 'Fetch dir files called').to.equal(true);
-      });
-
-      it('should handle a failed file upload', function () {
-        var files = [
-          {
-            name: 'FileName.txt'
-          }
-        ];
-        sinon.spy($elScope.dir.contents.models, 'push');
-        sinon.spy($elScope.dir.contents.models, 'splice');
-        $elScope.actions.fetchDirFiles = sinon.spy();
-
-        var uploadDeferred = $q.defer();
-        uploadDeferred.promise.progress = sinon.stub().returns(uploadDeferred.promise);
-
-        uploadMock.upload = sinon.stub().returns(uploadDeferred.promise);
-
-        $elScope.popoverFileExplorerFolder.actions.uploadFiles(files);
-
-        expect($elScope.$broadcast.calledWith('close-popovers'), 'Broadcasted close-popovers').to.equal(true);
-        expect($elScope.dir.contents.models.push.calledOnce).to.equal(true);
-        expect($elScope.dir.contents.models.splice.calledOnce).to.equal(false);
-        expect(uploadMock.upload.lastCall.args[0].file, 'last upload file').to.equal(files[0]);
-        expect($elScope.dir.contents.models[0].state.progress, 'File upload progress').to.equal(0);
-
-        uploadDeferred.promise.progress.lastCall.args[0]({
-          loaded: 10,
-          total: 100
-        });
-        expect($elScope.dir.contents.models[0].state.progress, 'File upload progress').to.equal(10);
-
-        uploadDeferred.reject('Oh the horror');
-
-        $elScope.$digest();
-
-        //Upload failed
-        expect(errs.handler.calledOnce, 'Error handler called').to.equal(true);
-        expect($elScope.actions.fetchDirFiles.calledOnce, 'Fetch dir files called').to.equal(true);
-        expect($elScope.dir.contents.models.splice.calledOnce, 'Splice call count').to.equal(true);
-      });
-
-      it('should do nothing when there are no files to upload', function () {
-        $elScope.actions.fetchDirFiles = sinon.spy();
-        uploadMock.upload = sinon.stub();
-
-        $elScope.popoverFileExplorerFolder.actions.uploadFiles();
-
-        expect(uploadMock.upload.calledOnce).to.equal(false);
-        expect(errs.handler.called, 'Error handler called').to.equal(false);
-        expect($elScope.$broadcast.calledWith('close-popovers'), 'Broadcasted close-popovers').to.equal(false);
-      });
-    });
-  });
-
   describe('popoverFileExplorerFile actions', function () {
     it('should support opening a file', function () {
       var file = {
@@ -800,7 +654,7 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       $elScope.openItems.add = sinon.spy();
       $elScope.popoverFileExplorerFile.actions.openFile(file);
       expect($elScope.openItems.add.calledWith(file), 'open items called with file').to.equal(true);
-      expect($elScope.$broadcast.calledWith('close-popovers'), 'Broadcasted close-popovers').to.equal(true);
+      expect($rootScope.$broadcast.calledWith('close-popovers'), 'Broadcasted close-popovers').to.equal(true);
     });
 
     it('should support renaming a file', function () {
@@ -811,7 +665,7 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       };
       $elScope.popoverFileExplorerFile.actions.renameFile(file);
       expect(file.state.renaming, 'File state renaming').to.equal(true);
-      expect($elScope.$broadcast.calledWith('close-popovers'), 'Broadcasted close-popovers').to.equal(true);
+      expect($rootScope.$broadcast.calledWith('close-popovers'), 'Broadcasted close-popovers').to.equal(true);
     });
 
     it('should support deleting a file', function () {
@@ -820,9 +674,11 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       };
       $elScope.actions.fetchDirFiles = sinon.spy();
       $elScope.popoverFileExplorerFile.actions.deleteFile(file);
+      $rootScope.$digest();
+
       expect(file.destroy.calledOnce, 'destroy file called').to.equal(true);
       expect($elScope.actions.fetchDirFiles.calledOnce, 'fetch dir files called once').to.equal(true);
-      expect($elScope.$broadcast.calledWith('close-popovers'), 'Broadcasted close-popovers').to.equal(true);
+      expect($rootScope.$broadcast.calledWith('close-popovers'), 'Broadcasted close-popovers').to.equal(true);
     });
   });
 
@@ -838,7 +694,7 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       expect(loadingPromisesMock.add.lastCall.args[0], 'Added to loading promise').to.equal('deleteRepo');
       $scope.$digest();
       sinon.assert.calledOnce(acv.destroy);
-      sinon.assert.calledWith($elScope.$broadcast, 'close-popovers');
+      sinon.assert.calledWith($rootScope.$broadcast, 'close-popovers');
     });
     it('should support editing a repo', function () {
       $scope.editExplorer = true;
