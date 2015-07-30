@@ -60,18 +60,19 @@
 // header
 .home-header {
   background: transparent;
-  height: auto;
-
-  .logo {
-    margin-left: 0;
-
-    @include media(sm) {
-      width: 150px;
-    }
-  }
+  border: 0;
 
   .logo-anchor {
-    padding-right: $input-md;
+    height: $input-sm;
+    margin-bottom: 21px; // to prevent floated nav wrapping
+    top: 12px;
+    width: 216px; // proportionate to $input-sm + <sup>
+  }
+
+  .logo {
+    left: 0;
+    margin-left: 0;
+    top: 0;
   }
 
   // vertically center
@@ -79,7 +80,7 @@
     border: 0;
     color: $white;
     line-height: 36px;
-    margin: 6px 3px;
+    margin: 12px 3px 0;
 
     @include media(sm) {
       font-size: 14px;
