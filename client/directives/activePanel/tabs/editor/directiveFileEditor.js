@@ -30,7 +30,7 @@ function fileEditor(
       file: '=',
       loadingPromisesTarget: '@?',
       readOnly: '=?',
-      useAutoUpdate: '='
+      useAutoUpdate: '=?'
     },
     link: function ($scope, element, attrs) {
       var useValidation = false;
