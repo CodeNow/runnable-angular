@@ -19,6 +19,7 @@ var tabVisibility = {
  */
 function editServerModal(
   $filter,
+  $q,
   $rootScope,
   $timeout,
   cardInfoTypes,
@@ -488,10 +489,15 @@ function editServerModal(
           })
           .then(function (promiseArrayLength) {
             // Since the initial deepCopy should be in here, we only care about > 1
-            toRebuild = !$scope.state.advanced && hasMainRepo && promiseArrayLength > 1;
+            toRebuild = !$scope.state.advanced && hasMainRepo && (promiseArrayLength > 1 ||
+              $scope.openItems.getAllFileModels(true).length);
             toRedeploy = !toRebuild &&
               keypather.get($scope, 'instance.attrs.env') !== keypather.get($scope, 'state.opts.env');
-
+            if (!$scope.openItems.isClean()) {
+              return $scope.openItems.updateAllFiles();
+            }
+          })
+          .then(function () {
             if (toRebuild) {
               return buildBuild($scope.state);
             }
@@ -565,7 +571,7 @@ function editServerModal(
           }
         });
       }
-      
+
       $scope.isDockerfileValid = function () {
         if (!$scope.state.advanced || !keypather.get($scope, 'state.dockerfile.validation.criticals.length')) {
           return true;

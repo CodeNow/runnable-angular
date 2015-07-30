@@ -13,7 +13,9 @@ require('app')
  */
 function openItemsFactory(
   $localStorage,
-  keypather
+  $q,
+  keypather,
+  promisify
 ) {
 
   function instanceOfModel(model) {
@@ -305,6 +307,26 @@ function openItemsFactory(
       }
     }
     return true;
+  };
+
+  OpenItems.prototype.getAllFileModels = function (isDirty) {
+    var self = this;
+    var shouldCheckIsDirty = !!arguments.length;
+    return this.models.filter(function (model) {
+      return self.isFile(model) && (!shouldCheckIsDirty || model.state.isDirty && isDirty);
+    });
+  };
+
+  OpenItems.prototype.updateAllFiles = function () {
+    var self = this;
+    var shouldCheckIsDirty = !!arguments.length;
+    return $q.all(this.getAllFileModels(true).map(function (model) {
+      return promisify(model, 'update')({
+        json: {
+          body: model.state.body
+        }
+      });
+    }));
   };
 
   OpenItems.prototype.remove = function (model) {
