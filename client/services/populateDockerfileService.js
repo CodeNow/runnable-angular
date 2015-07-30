@@ -129,8 +129,8 @@ function populateDockerfile(
     }
 
     var dockerfileBody = populateDockerFile(sourceDockerfile.attrs.body);
-    destDockerfile.state.body = dockerfileBody;
     keypather.set(destDockerfile, 'state.isDirty', true);
+    destDockerfile.state.body = dockerfileBody;
     return $q.when(dockerfileBody);
   };
 }
