@@ -23,13 +23,42 @@
     | #{''} are not available with write access enabled.
 
   //- when locking the dockerfile, prompt with modal template: viewModalLockDockerfile
-  //- ng-disabled = "!state.repo"
+  //- ✅ if repository (can simple mode) && previous simple build exists (can simple mode)
   label.toggle-wrapper.show-icons(
     loading-promises-target = "editServerModal"
+    ng-if = "state.repo && state.instance.attrs.lastBuiltSimpleContextVersion"
+    read-only-switch
+    state = "state"
+  )
+
+  //- ❗️ if non-repository (cannot simple mode…yet) && previous simple build exists (can simple mode)
+  label.toggle-wrapper.show-icons(
+    loading-promises-target = "editServerModal"
+    ng-if = "!state.repo && state.instance.attrs.lastBuiltSimpleContextVersion"
     read-only-switch
     state = "state"
     tooltip = "Write access is always enabled on non-repository containers."
-    tooltip-options = "{\"class\":\"bottom bottom-arrow-right {{state.repo ? 'ng-hide' : ''}}\",\"right\":0,\"top\":21}"
+    tooltip-options = "{\"class\":\"bottom bottom-arrow-right\",\"right\":0,\"top\":21}"
+  )
+
+  //- ❗️ if repository (can simple mode) && no previous simple build exists (cannot simple mode)
+  label(
+    loading-promises-target = "editServerModal"
+    ng-if = "state.repo && !state.instance.attrs.lastBuiltSimpleContextVersion"
+    read-only-switch
+    state = "state"
+    tooltip = "Write access is always enabled if there’s no build to revert to."
+    tooltip-options = "{\"class\":\"bottom bottom-arrow-right\",\"right\":0,\"top\":21}"
+  )
+
+  //- ❗️ if non-repository (cannot simple mode…yet) && no previous simple build exists (cannot simple mode)
+  label(
+    loading-promises-target = "editServerModal"
+    ng-if = "!state.repo && !state.instance.attrs.lastBuiltSimpleContextVersion"
+    read-only-switch
+    state = "state"
+    tooltip = "Write access is always enabled on non-repository containers."
+    tooltip-options = "{\"class\":\"bottom bottom-arrow-right\",\"right\":0,\"top\":21}"
   )
 
 //- table of current environment variables
@@ -50,8 +79,8 @@
     file-model = "state.contextVersion"
     loading-promises-target = "editServerModal"
     open-items = "openItems"
-    root-dir = "state.contextVersion.rootDir"
     read-only = "!state.advanced"
+    root-dir = "state.contextVersion.rootDir"
     show-repo-folder = "true"
   )
 
