@@ -12,15 +12,19 @@ img.logo.logo-icon(
 
 .btn-group.btn-group-header
   a.btn.btn-sm.purple(
-    ng-class = "{'disabled': !instance.containers.models.length}"
-    ui-sref = "base.instances({ userName: CA.activeAccount.oauthName() })"
+    ui-sref = "base.instances({userName: CA.activeAccount.oauthName()})"
     ui-sref-active = "active"
   )
+    //- disabled if no containers
+    //- ng-class = "{'disabled': !instance.containers.models.length}"
+    //- tooltip = "You don’t have any containers yet!"
+    //- tooltip-options = "{\"class\":\"bottom {{instance.containers.models.length ? 'ng-hide' : ''}}\",\"left\":14,\"top\":33}"
     svg.iconnables
       use(
         xlink:href = "#icons-server-dark"
       )
     | Containers
+
   a.btn.btn-sm.purple(
     ui-sref = "base.config({ userName: CA.activeAccount.oauthName() })"
     ui-sref-active = "active"
