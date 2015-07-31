@@ -12,21 +12,24 @@
   }
 
   > .btn {
-    border-radius: $input-md;
     float: left;
     min-width: 26px;
     position: relative;
 
-    &.btn-sm {
-      border-radius: $input-sm;
-    }
+    &.button-toggle {
+      border-radius: $input-md;
 
-    &.btn-xs {
-      border-radius: $input-xs;
-    }
+      &.btn-sm {
+        border-radius: $input-sm;
+      }
 
-    &.btn-xxs {
-      border-radius: $input-xxs;
+      &.btn-xs {
+        border-radius: $input-xs;
+      }
+
+      &.btn-xxs {
+        border-radius: $input-xxs;
+      }
     }
 
     &:not(:first-child):not(:last-child) {
