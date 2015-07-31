@@ -175,6 +175,11 @@
       border-top: 0;
     }
   }
+  
+  // do not add border if ng-hide
+  &.ng-hide + .tr {
+    border-top: 0;
+  }
 }
 
 // table row header usage:

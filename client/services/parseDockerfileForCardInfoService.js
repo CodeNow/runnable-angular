@@ -145,7 +145,7 @@ function parseDockerfileForCardInfoFromInstance(
 
         var sections = parseDockerfile(dockerfileBody);
         var containerFiles = sections.filter(function (section) {
-          return ['File', 'Repository', 'Main Repository'].indexOf(section.type) !== -1;
+          return ['File', 'Repository', 'Main Repository', 'SSH Key'].indexOf(section.type) !== -1;
         });
 
         var packages = sections.find(function (section) {

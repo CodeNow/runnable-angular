@@ -5,15 +5,41 @@
     ng-bind-html = "helpCards.getActiveCard().helpPopover.containerFiles"
   )
 
+.ng-hide(
+  pop-over
+  pop-over-active = "CFC.repositoryPopover.active"
+  pop-over-actions = "CFC.repositoryPopover.actions"
+  pop-over-data = "CFC.repositoryPopover.data"
+  pop-over-template = "viewPopoverFilesRepository"
+  pop-over-trigger = "activeAttr"
+)
+
+.ng-hide(
+  pop-over
+  pop-over-actions = "CFC.fileUpload.actions"
+  pop-over-data = "CFC.fileUpload.data"
+  pop-over-template = "viewPopoverFilesUpload"
+  pop-over-active = "CFC.fileUpload.active"
+  pop-over-trigger = "activeAttr"
+)
+
+.ng-hide(
+  pop-over
+  pop-over-template = "viewPopoverSshKey"
+  pop-over-active = "CFC.sshKey.popover.active"
+  pop-over-actions = "CFC.sshKey.popover.actions"
+  pop-over-trigger = "activeAttr"
+)
+
 .clearfix
   .label-col {{ $root.featureFlags.sshKeys ? "Files & SSH Keys" : "Container Files" }}
   .input-col
     button.btn.btn-xs.white.float-right(
       ng-if = "$root.featureFlags.sshKeys"
       pop-over
-      pop-over-active = "addFilePopover.active"
       pop-over-options = "{\"right\":0,\"top\":35}"
       pop-over-template = "viewPopoverAddFile"
+      pop-over-actions = "CFC.actions"
     )
       span.float-left Add…
       svg.iconnables.icons-arrow-down
@@ -21,24 +47,12 @@
           xlink:href = "#icons-arrow-down"
         )
     button.btn.btn-xs.white.float-right(
-      ng-click = "triggerAddRepository()"
+      ng-click = "CFC.actions.triggerAddRepository()"
       ng-if = "!$root.featureFlags.sshKeys"
-      pop-over
-      pop-over-active = "repositoryPopover.active"
-      pop-over-actions = "repositoryPopover.actions"
-      pop-over-data = "repositoryPopover.data"
-      pop-over-template = "viewPopoverFilesRepository"
-      pop-over-trigger = "activeAttr"
     ) Add Repository
     button.btn.btn-xs.white.float-right(
-      ng-click = "triggerUploadFile()"
+      ng-click = "CFC.actions.triggerUploadFile()"
       ng-if = "!$root.featureFlags.sshKeys"
-      pop-over
-      pop-over-actions = "fileUpload.actions"
-      pop-over-data = "fileUpload.data"
-      pop-over-template = "viewPopoverFilesUpload"
-      pop-over-active = "fileUpload.active"
-      pop-over-trigger = "activeAttr"
     ) Upload File
 
 .table(
@@ -47,4 +61,3 @@
 
 .label
   small.small Copy files to the file system of this container (e.g. seed data for a database, or other files that your application expects to have available).
-  //- NOTE: SAN-2196-ssh-keys we need text here for SSH Keys + a link to documentation on how to generation a user ssh key
