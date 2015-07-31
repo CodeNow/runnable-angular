@@ -94,13 +94,44 @@
 
 // header.modal-header
 .modal-header {
+  @extend %text-overflow;
   background: $white;
   border-bottom: 1px solid $gray-lighter;
   border-radius: 3px 3px 0 0;
   flex: 0 0 auto;
+  min-height: 60px;
   padding: 0 15px;
   text-align: center;
 
+  // text
+  .modal-heading {
+    @extend %text-overflow;
+    color: $gray-dark;
+    font-size: 18px;
+    font-weight: $weight-bold;
+    line-height: 60px;
+    padding: 0 24px; // spacing for close icon
+  }
+
+  // close icon
+  .icons-close {
+    color: $gray-light;
+    cursor: pointer;
+    pointer-events: auto; // reset from .iconnables
+    position: absolute;
+    right: 15px;
+    top: 18px;
+
+    &:hover {
+      color: $gray;
+    }
+
+    &:active {
+      color: $red;
+    }
+  }
+
+  // only used for card status right now…
   .container-title-wrapper {
     color: $gray;
     margin: 12px 0 6px;
@@ -117,18 +148,13 @@
       height: 18px;
     }
   }
+}
 
-  .p {
-    color: $gray-light;
-    line-height: 36px;
-  }
-
-  // tabs
-  .modal-tabs {
-    margin: 0 -15px;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
+// tabs
+.modal-tabs {
+  margin: 0 -15px;
+  overflow-x: auto;
+  white-space: nowrap;
 
   .btn-radio {
     color: $gray-dark;
@@ -162,12 +188,6 @@
     font-weight: 500;
     margin: 15px 0 15px $input-md;
   }
-}
-
-// .modal-heading
-.modal-heading {
-  font-size: 18px;
-  line-height: 60px;
 }
 
 // .modal-body

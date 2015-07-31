@@ -1,5 +1,11 @@
 header.modal-header
-  h1.modal-heading New Container: {{ state.repo.attrs.name }}
+  h1.modal-heading {{ state.repo.attrs.name }}
+  svg.iconnables.icons-close(
+    ng-click = "defaultActions.cancel()"
+  )
+    use(
+      xlink:href = "#icons-close"
+    )
 
 section.modal-body
   .modal-form(

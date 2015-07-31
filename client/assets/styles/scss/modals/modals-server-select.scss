@@ -40,10 +40,6 @@
     margin: 3px 0 0;
     padding: 6px 150px 6px 15px;
 
-    @include media(sm) {
-      padding-left: 6px;
-    }
-
     &:hover {
       background: $white;
       border-color: $gray-lighter;

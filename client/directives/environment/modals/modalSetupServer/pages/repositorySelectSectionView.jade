@@ -1,8 +1,13 @@
 header.modal-header
   h1.modal-heading New Container from Repository
+  svg.iconnables.icons-close(
+    ng-click = "defaultActions.cancel()"
+  )
+    use(
+      xlink:href = "#icons-close"
+    )
 
 section.modal-body.clearfix
-
   .spinner-wrapper.spinner-md.in(
     ng-if = "!data.githubRepos.models"
     ng-include = "'spinner'"

@@ -1,8 +1,19 @@
 .modal-dialog
   header.modal-header
     h1.modal-heading New Non-Repository Container
+    svg.iconnables.icons-close(
+      ng-click = "defaultActions.cancel()"
+    )
+      use(
+        xlink:href = "#icons-close"
+      )
 
   section.modal-body
+    .spinner-wrapper.spinner-md.in(
+      ng-if = "!data.allDependencies.models"
+      ng-include = "'spinner'"
+    )
+
     ul.list.list-servers
       li.list-item.multi-line(
         ng-click = "addServerFromTemplate(dependency)"
