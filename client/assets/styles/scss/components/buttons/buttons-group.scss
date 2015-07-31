@@ -73,27 +73,40 @@
 // .btn-toggle for rounded
 .btn-group.btn-toggle {
   border-radius: $input-md;
-  height: $input-line-height-md;
-  line-height: $input-line-height-md - ($input-border*2);
 
-  &.btn-toggle-sm {
+  // sizes
+  &.btn-toggle-sm > .btn {
     border-radius: $input-sm;
     height: $input-line-height-sm;
-    line-height: $input-line-height-sm - ($input-border*2);
+    line-height: $input-line-height-sm;
   }
 
-  &.btn-toggle-xs {
+  &.btn-toggle-xs > .btn {
     border-radius: $input-xs;
     height: $input-line-height-xs;
-    line-height: $input-line-height-xs - ($input-border*2);
+    line-height: $input-line-height-xs;
   }
 
-  &.btn-toggle-xxs {
+  &.btn-toggle-xxs > .btn {
     border-radius: $input-xxs;
     height: $input-line-height-xxs;
-    line-height: $input-line-height-xxs - ($input-border*2);
+    line-height: $input-line-height-xxs;
   }
 
+  // reset
+  > .btn {
+    background: transparent;
+    border-color: transparent;
+    font-weight: 500;
+    height: $input-line-height-md;
+    line-height: $input-line-height-md - ($input-border*2);
+
+    &.active {
+      border-radius: $input-border-radius-xxs;
+    }
+  }
+
+  // colors
   &.purple {
     background: $purple;
     border: 2px solid $purple;
@@ -125,16 +138,6 @@
           opacity: 1;
         }
       }
-    }
-  }
-
-  > .btn {
-    background: transparent;
-    border-color: transparent;
-    font-weight: 500;
-
-    &.active {
-      border-radius: $input-border-radius-xxs;
     }
   }
 }
