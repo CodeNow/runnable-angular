@@ -58,6 +58,8 @@ section.modal-body.clearfix
       )
 
 footer.modal-footer.clearfix
+  //- cancel if not loaded OR if loaded AND there are repositories
+  //- done if loaded AND there are no repositories
   button.btn.white.btn-cancel(
-    ng-click = "defaultActions.cancel();"
-  ) Cancel
+    ng-click = "defaultActions.cancel()"
+  ) {{!data.githubRepos.models || data.githubRepos.models.length ? 'Cancel' : 'Done'}}
