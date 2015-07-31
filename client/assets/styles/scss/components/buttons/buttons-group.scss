@@ -16,22 +16,6 @@
     min-width: 26px;
     position: relative;
 
-    &.button-toggle {
-      border-radius: $input-md;
-
-      &.btn-sm {
-        border-radius: $input-sm;
-      }
-
-      &.btn-xs {
-        border-radius: $input-xs;
-      }
-
-      &.btn-xxs {
-        border-radius: $input-xxs;
-      }
-    }
-
     &:not(:first-child):not(:last-child) {
       border-radius: 0;
     }
@@ -82,6 +66,75 @@
       &.btn-xs {
         padding-right: 9px;
       }
+    }
+  }
+}
+
+// .btn-toggle for rounded
+.btn-group.btn-toggle {
+  border-radius: $input-md;
+  height: $input-line-height-md;
+  line-height: $input-line-height-md - ($input-border*2);
+
+  &.btn-toggle-sm {
+    border-radius: $input-sm;
+    height: $input-line-height-sm;
+    line-height: $input-line-height-sm - ($input-border*2);
+  }
+
+  &.btn-toggle-xs {
+    border-radius: $input-xs;
+    height: $input-line-height-xs;
+    line-height: $input-line-height-xs - ($input-border*2);
+  }
+
+  &.btn-toggle-xxs {
+    border-radius: $input-xxs;
+    height: $input-line-height-xxs;
+    line-height: $input-line-height-xxs - ($input-border*2);
+  }
+
+  &.purple {
+    background: $purple;
+    border: 2px solid $purple;
+
+    > .btn {
+      color: rgba($white,.3);
+
+      &:hover {
+        color: rgba($white,.45);
+
+        .iconnables {
+          opacity: .8;
+        }
+      }
+
+      &:active {
+        color: rgba($white,.6);
+
+        .iconnables {
+          opacity: .9;
+        }
+      }
+
+      &.active {
+        background: #9662bd;
+        color: $white;
+
+        .iconnables {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  > .btn {
+    background: transparent;
+    border-color: transparent;
+    font-weight: 500;
+
+    &.active {
+      border-radius: $input-border-radius-xxs;
     }
   }
 }

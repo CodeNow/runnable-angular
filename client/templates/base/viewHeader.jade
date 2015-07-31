@@ -10,8 +10,8 @@ img.logo.logo-icon(
   width = "45"
 )
 
-.btn-group.btn-group-header
-  a.btn.btn-sm.purple(
+.btn-group.btn-toggle.btn-toggle-sm.purple
+  a.btn.btn-sm(
     ui-sref = "base.instances({userName: CA.activeAccount.oauthName()})"
     ui-sref-active = "active"
   )
@@ -25,7 +25,7 @@ img.logo.logo-icon(
       )
     | Containers
 
-  a.btn.btn-sm.purple(
+  a.btn.btn-sm(
     ui-sref = "base.config({ userName: CA.activeAccount.oauthName() })"
     ui-sref-active = "active"
   )

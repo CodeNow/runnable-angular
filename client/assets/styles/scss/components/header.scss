@@ -18,6 +18,29 @@
     position: absolute;
   }
 
+  // btn-group
+  .btn-group {
+    display: table;
+    margin: 0 auto;
+    overflow: hidden;
+
+    > .btn {
+      width: 135px;
+
+      &.active {
+        @extend %no-touching;
+      }
+    }
+
+    .iconnables {
+      float: left;
+      height: 100%;
+      margin-right: 6px;
+      opacity: .75;
+      width: 18px;
+    }
+  }
+
   // accounts (custom .btn.purple)
   .btn-accounts {
     background: transparent;
@@ -51,59 +74,5 @@
         margin-right: 3px;
       }
     }
-  }
-}
-
-// custom header theme
-.btn-group-header.btn-group-header {
-  background: $purple;
-  border: 2px solid $purple;
-  border-radius: $input-sm;
-  display: table;
-  margin: 0 auto;
-  overflow: hidden;
-
-  > .btn {
-    background: transparent;
-    border-color: transparent;
-    color: rgba($white,.3);
-    height: $input-line-height-sm;
-    line-height: $input-line-height-sm - ($input-border*2);
-    width: 135px;
-
-    &:hover {
-      color: rgba($white,.45);
-
-      .iconnables {
-        opacity: .8;
-      }
-    }
-
-    &:active {
-      color: rgba($white,.6);
-
-      .iconnables {
-        opacity: .9;
-      }
-    }
-
-    &.active {
-      @extend %no-touching;
-      background: #9662bd;
-      border-radius: $input-border-radius-xxs;
-      color: $white;
-
-      .iconnables {
-        opacity: 1;
-      }
-    }
-  }
-
-  .iconnables {
-    float: left;
-    height: 100%;
-    margin-right: 6px;
-    opacity: .75;
-    width: 18px;
   }
 }
