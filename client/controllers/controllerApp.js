@@ -71,7 +71,7 @@ function ControllerApp(
     buildCommandCache: true,
     cardStatus: false,
     debugMode: false,
-    dockerfileTool: false,
+    dockerfileTool: true,
     findAndReplace: true,
     fullScreen: false,  // toggles full screen
     fullScreenToggle: false,  // toggles the button that toggles full screen
@@ -83,7 +83,7 @@ function ControllerApp(
     navListFilter: false,
     packagesField: true,
     saveToolbar: false,
-    sshKeys: false,
+    sshKeys: true,
     themeToggle: false, // toggles the button that toggles theme
     updatedBuildLogs: false
   };

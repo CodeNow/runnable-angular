@@ -1,10 +1,14 @@
-ul.tr.multi-line.clearfix(
+.tr.multi-line.clearfix(
   ng-if = "$root.featureFlags.sshKeys"
+  ng-repeat = "containerFile in state.containerFiles | filter:{type: 'SSH Key'}"
 )
   .cell.cell-action.disabled.no-touching
     svg.iconnables.icons-drag
-  .cell.text-overflow KeyLabel
-    small.small Added May 25, 2000
+  .cell.text-overflow {{containerFile.name}}
+    small.small(
+      ng-if = "CFC.sshKey.getFileDate(containerFile)"
+      ng-attr-title = "Added {{ CFC.sshKey.getFileDate(containerFile) | moment: 'MMMM D, YYYY, h:mm A Z' }}"
+    ) Added {{ CFC.sshKey.getFileDate(containerFile) | moment: 'MMMM D, YYYY' }}
   .cell.cell-type.small
     svg.iconnables.icons-key
       use(
@@ -14,9 +18,10 @@ ul.tr.multi-line.clearfix(
   .cell.cell-action
     button.btn.btn-xs.gray(
       pop-over
-      pop-over-active = "fileOptionsPopover.active"
+      pop-over-actions = "CFC.filePopoverActions"
       pop-over-options = "{\"right\":0,\"top\":35}"
       pop-over-template = "viewPopoverFileOptions"
+      pop-over-data = "containerFile"
     )
       svg.iconnables.icons-overflow
         use(
@@ -25,12 +30,12 @@ ul.tr.multi-line.clearfix(
 
 //- only show if there's > 0 ssh keys AND > 0 files
 .tr.thead.clearfix(
-  ng-if = "$root.featureFlags.sshKeys"
+  ng-if = "$root.featureFlags.sshKeys && (state.containerFiles | filter:{type: 'SSH Key'}).length"
 )
 
 //- dnd-drop needs this to be a list
 ul.table-drag-drop(
-  dnd-drop = "dropContainerFile(event, index, item, type)"
+  dnd-drop = "CFC.dropContainerFile(event, index, item, type)"
   dnd-list = "state.containerFiles"
 )
   li.tr.multi-line.clearfix(
@@ -38,14 +43,15 @@ ul.table-drag-drop(
     dnd-dragstart = "actions.dragstart()"
     dnd-effect-allowed = "move"
     ng-class = "{\
-      disabled: (containerFile.type === 'Main Repository' && !$root.featureFlags.sshKeys),\
+      'disabled': (containerFile.type === 'Main Repository' && !$root.featureFlags.sshKeys),\
       'tr-action': (containerFile.type !== 'Main Repository' && !$root.featureFlags.sshKeys)\
     }"
     ng-repeat = "containerFile in state.containerFiles"
+    ng-show = "containerFile.type !== 'SSH Key'"
   )
     .cell.cell-action(
       ng-class = "{\
-        disabled: state.containerFiles.length < 2,\
+        'disabled': state.containerFiles.length < 2,\
         'no-touching': state.containerFiles.length < 2\
       }"
       dnd-handle
@@ -57,35 +63,29 @@ ul.table-drag-drop(
 
     //- deprecated:
     .cell.text-overflow(
+      ng-click = "CFC.actions.triggerEditFile(containerFile)"
       ng-if = "(containerFile.type === 'File' && !$root.featureFlags.sshKeys)"
-      pop-over
-      pop-over-actions = "fileUpload.actions"
-      pop-over-data = "containerFile"
-      pop-over-template = "viewPopoverFilesUpload"
       title = "{{ containerFile.name }}"
     ) {{ containerFile.name }}
 
     //- ssh key feature flag
     .cell.text-overflow(
-      ng-if = "(containerFile.type === 'File' && $root.featureFlags.sshKeys)"
-      pop-over
-      pop-over-actions = "fileUpload.actions"
-      pop-over-data = "containerFile"
-      pop-over-template = "viewPopoverFilesUpload"
+      ng-if = "$root.featureFlags.sshKeys"
       title = "{{ containerFile.name }}"
     ) {{ containerFile.name }}
+      small.small(
+        title = "{{ containerFile.path }}"
+      ) /{{ containerFile.path }}
 
-      small.small(
-        title = "{{ containerFile.path }}"
-      ) /{{ containerFile.path }}
     .cell.text-overflow(
-      ng-if = "containerFile.type === 'Repository' || containerFile.type === 'Main Repository'"
-      ng-click = "triggerEditRepo(containerFile)"
+      ng-click = "CFC.actions.triggerEditRepo(containerFile)"
+      ng-if = "!$root.featureFlags.sshKeys && (containerFile.type === 'Repository' || containerFile.type === 'Main Repository')"
       title = "{{ containerFile.name }}"
     ) {{ containerFile.name }}
       small.small(
         title = "{{ containerFile.path }}"
       ) /{{ containerFile.path }}
+
     .cell.cell-type.small
       svg.iconnables(
         ng-if = "containerFile.type === 'File'"
@@ -112,7 +112,8 @@ ul.table-drag-drop(
     )
       button.btn.btn-xs.gray(
         pop-over
-        pop-over-active = "fileOptionsPopover.active"
+        pop-over-actions = "CFC.filePopoverActions"
+        pop-over-data = "containerFile"
         pop-over-options = "{\"right\":0,\"top\":35}"
         pop-over-template = "viewPopoverFileOptions"
       )
