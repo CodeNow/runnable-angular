@@ -1,10 +1,6 @@
 .modal-server-select {
   max-width: 480px;
 
-  .modal-body {
-    display: block;
-  }
-
   // search
   .input-search {
     background-position: calc(50% - 45px) center;
@@ -19,6 +15,7 @@
     }
   }
 
+  //- empty state (if there are no repositories)
   .p.empty {
     margin-top: 30px;
   }
@@ -73,22 +70,6 @@
         min-height: 60px;
       }
     }
-
-    .gravatar ~ .small {
-      margin-left: 36px;
-    }
-  }
-
-  // anchor image
-  .gravatar {
-    background: $white;
-    border: 2px solid $white;
-    border-radius: 50%;
-    float: left;
-    height: 24px;
-    margin-right: 9px;
-    margin-top: 3px;
-    width: 24px;
   }
 
   // add button
@@ -118,5 +99,44 @@
     position: absolute;
     right: 15px;
     top: 21px;
+  }
+
+  // tiled view for template containers
+  &.list-tiled {
+    margin: 0 auto;
+    width: 378px;
+
+    @include media(xs) {
+      width: 252px;
+    }
+
+    .list-item {
+      background: $white;
+      border-color: $gray-lighter;
+      color: $gray-dark;
+      float: left;
+      font-size: 16px;
+      height: 99px;
+      margin: 3px;
+      padding: 0;
+      text-align: center;
+      width: 120px;
+
+      &:hover {
+        border-color: $gray-light;
+      }
+
+      &:active,
+      &.active {
+        border-color: currentColor;
+        color: $green;
+      }
+
+      // anchor image
+      .img {
+        display: block;
+        margin: 15px auto 6px;
+      }
+    }
   }
 }
