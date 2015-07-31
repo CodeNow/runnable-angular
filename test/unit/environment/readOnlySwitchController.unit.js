@@ -56,6 +56,11 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
       runnable,
       apiMocks.contextVersions.setup
     );
+    ctx.theFirstContextVersion = mockFactory.contextVersion(
+      runnable,
+      apiMocks.contextVersions.angular
+    );
+    ctx.instance.contextVersion = ctx.theFirstContextVersion;
     sinon.stub(ctx.contextVersion, 'fetch', function (cb) {
       $rootScope.$evalAsync(function () {
         cb(null, ctx.contextVersion);
@@ -114,9 +119,9 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
       expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.true;
       expect(ctx.instance.attrs.lastBuiltSimpleContextVersion, 'lastBuiltSimpleContextVersion').to.be.ok;
       expect(ctx.instance.attrs.lastBuiltSimpleContextVersion.id, 'lastBuiltSimpleContextVersion.id')
-        .to.equal(ctx.contextVersion.attrs.id);
+        .to.equal(ctx.theFirstContextVersion.attrs.id);
       expect(ctx.instance.attrs.lastBuiltSimpleContextVersion.created, 'lastBuiltSimpleContextVersion.created')
-        .to.equal(ctx.contextVersion.attrs.created);
+        .to.equal(ctx.theFirstContextVersion.attrs.created);
     });
     it('should attempt to update the cv, and not change the existing lastBuiltSimpleContextVersion', function () {
       ctx.instance.attrs.lastBuiltSimpleContextVersion = {

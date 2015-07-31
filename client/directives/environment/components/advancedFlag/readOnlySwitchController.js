@@ -33,14 +33,15 @@ function ReadOnlySwitchController(
     if (arguments.length) {
       if (newAdvancedMode) {
         ROSC.state.advanced = newAdvancedMode;
+        if (!ROSC.state.instance.attrs.lastBuiltSimpleContextVersion) {
+          // Grab off of the instance, since it's the original one, and hasn't been modified
+          ROSC.state.instance.attrs.lastBuiltSimpleContextVersion = {
+            id: ROSC.state.instance.contextVersion.attrs.id,
+            created: ROSC.state.instance.contextVersion.attrs.created
+          };
+        }
         return ROSC.state.promises.contextVersion
           .then(function (contextVersion) {
-            if (!ROSC.state.instance.attrs.lastBuiltSimpleContextVersion) {
-              ROSC.state.instance.attrs.lastBuiltSimpleContextVersion = {
-                id: contextVersion.attrs.id,
-                created: contextVersion.attrs.created
-              };
-            }
             return loadingPromises.add(ROSC.loadingPromisesTarget,
               promisify(contextVersion, 'update')({
                 advanced: newAdvancedMode
