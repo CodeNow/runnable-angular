@@ -101,7 +101,8 @@
     height: $input-line-height-md;
     line-height: $input-line-height-md - ($input-border*2);
 
-    &.active {
+    // override border-radius: 0 from .btn-group
+    &.active.active {
       border-radius: $input-border-radius-xxs;
     }
   }
