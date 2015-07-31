@@ -12,6 +12,7 @@ img.logo.logo-icon(
 
 .btn-group.btn-group-header
   a.btn.btn-sm.purple(
+    ng-class = "{'disabled': !instance.containers.models.length}"
     ui-sref = "base.instances({ userName: CA.activeAccount.oauthName() })"
     ui-sref-active = "active"
   )
