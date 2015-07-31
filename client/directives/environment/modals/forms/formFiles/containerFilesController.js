@@ -11,6 +11,7 @@ function ContainerFilesController(
   uploadFile,
   configAPIHost,
   cardInfoTypes,
+  hasKeypaths,
   $timeout,
   updateDockerfileFromState,
   $q,
@@ -99,7 +100,13 @@ function ContainerFilesController(
           .progress(function (evt) {
             containerFile.progress = parseInt(100.0 * evt.loaded / evt.total, 10);
           })
-          .error(errs.handler)
+          .error(function (err) {
+            errs.handler(err);
+            delete containerFile.file;
+            delete containerFile.name;
+            delete containerFile.progress;
+            delete containerFile.fileUpload;
+          })
           .success(function (fileResponse) {
             containerFile.uploadFinished = true;
             containerFile.name = fileResponse.name;
@@ -117,6 +124,7 @@ function ContainerFilesController(
             myFile.name = containerFile.file[0].name;
           }
           myFile.fromServer = true;
+          myFile.fileModel = containerFile.fileModel;
           myFile.commands = containerFile.commands;
           myFile.path = containerFile.path;
           $scope.state.containerFiles.push(myFile);
@@ -184,6 +192,9 @@ function ContainerFilesController(
       active: false,
       actions: {
         save: function (data) {
+          if ($scope.state.containerFiles.find(hasKeypaths({name: data.name}))) {
+            return errs.handler(new Error('An SSH key of the same name already exists'));
+          }
           var sshKey = new cardInfoTypes.SSHKey();
           sshKey.name = data.name;
           $scope.state.containerFiles.unshift(sshKey);

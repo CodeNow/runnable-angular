@@ -13,7 +13,7 @@
   //- if editing an existing repository
   //- this button is empty on purpose
   button.btn.btn-sm.pull-right.no-touching(
-    ng-if = "repoSelector.data.fromServer"
+    ng-if = "state.fromServer"
   )
   strong.strong.text-overflow {{ repoSelector.data.name }}
   //- this button is empty on purpose
