@@ -14,11 +14,11 @@
     ng-include = "'spinner'"
   )
   
-//- .empty-state.well.in(
-//-   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0"
-//- )
-//-   span.strong {{ instance.getRepoName() || instance.getDisplayName() }}
-//-   |  has no DNS mappings.
+.empty-state.well.in(
+  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0"
+)
+  span.strong {{ instance.getRepoName() || instance.getDisplayName() }}
+  |  has no DNS mappings.
 
 //- for testing
 .dns-wrapper
