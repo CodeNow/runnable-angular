@@ -77,33 +77,40 @@
   // sizes
   &.btn-toggle-sm > .btn {
     border-radius: $input-sm;
-    height: $input-line-height-sm;
-    line-height: $input-line-height-sm;
   }
 
   &.btn-toggle-xs > .btn {
     border-radius: $input-xs;
-    height: $input-line-height-xs;
-    line-height: $input-line-height-xs;
   }
 
   &.btn-toggle-xxs > .btn {
     border-radius: $input-xxs;
-    height: $input-line-height-xxs;
-    line-height: $input-line-height-xxs;
   }
 
-  // reset
-  > .btn {
-    background: transparent;
-    border-color: transparent;
-    font-weight: 500;
-    height: $input-line-height-md;
-    line-height: $input-line-height-md - ($input-border*2);
+  // override border-radius: 0 from .btn-group
+  > .btn,
+  > .btn:active {
 
-    // override border-radius: 0 from .btn-group
-    &.active.active {
+    &:not(:first-child):not(:last-child) {
       border-radius: $input-border-radius-xxs;
+    }
+
+    &:first-child:not(:last-child) {
+      border-bottom-right-radius: $input-border-radius-xxs;
+      border-top-right-radius: $input-border-radius-xxs;
+
+      &.btn-xs {
+        padding-left: 9px;
+      }
+    }
+
+    &:last-child:not(:first-child) {
+      border-bottom-left-radius: $input-border-radius-xxs;
+      border-top-left-radius: $input-border-radius-xxs;
+
+      &.btn-xs {
+        padding-right: 9px;
+      }
     }
   }
 
@@ -113,7 +120,10 @@
     border: 2px solid $purple;
 
     > .btn {
+      background: transparent;
+      border-color: transparent;
       color: rgba($white,.3);
+      font-weight: 500;
 
       &:hover {
         color: rgba($white,.45);

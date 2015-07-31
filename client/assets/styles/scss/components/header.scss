@@ -25,6 +25,8 @@
     overflow: hidden;
 
     > .btn {
+      height: $input-line-height-md;
+      line-height: $input-line-height-md - ($input-border*2);
       width: 135px;
 
       &.active {
