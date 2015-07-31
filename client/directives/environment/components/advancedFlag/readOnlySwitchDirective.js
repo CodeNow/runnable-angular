@@ -11,6 +11,11 @@ function readOnlySwitch(
     restrict: 'A',
     templateUrl: 'readOnlySwitchView',
     controller: 'ReadOnlySwitchController',
-    controllerAs: 'ROSC'
+    controllerAs: 'ROSC',
+    bindToController: true,
+    scope: {
+      loadingPromisesTarget: '@',
+      state: '='
+    }
   };
 }

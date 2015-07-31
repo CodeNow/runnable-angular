@@ -3,6 +3,9 @@
 var $controller,
     $rootScope,
     $scope;
+var element;
+var $compile;
+var $elScope;
 var keypather;
 var $q;
 var readOnlySwitchController;
@@ -28,18 +31,23 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
       });
     });
     angular.mock.inject(function (
+      _$compile_,
       _$controller_,
       _$rootScope_,
       _keypather_,
       _$q_
     ) {
+      $compile = _$compile_;
       $controller = _$controller_;
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
       keypather = _keypather_;
       $q = _$q_;
     });
-
+    ctx.instance = runnable.newInstance(
+      apiMocks.instances.running,
+      {noStore: true}
+    );
     ctx.contextVersion = mockFactory.contextVersion(
       runnable,
       apiMocks.contextVersions.running
@@ -84,18 +92,19 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
       setup();
     });
     beforeEach(function () {
-      $scope.state = {
+      readOnlySwitchController.state = {
         advanced: true,
         promises: {
           contextVersion: $q.when(ctx.contextVersion)
-        }
+        },
+        instance: ctx.instance
       };
     });
     it('should be a getter', function () {
       expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.true;
     });
-    it('should attempt to update the cv', function () {
-      $scope.state.advanced = false;
+    it('should attempt to update the cv, and set the lastBuiltSimpleContextVersion', function () {
+      readOnlySwitchController.state.advanced = false;
       expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.false;
       readOnlySwitchController.readOnly(true);
       $scope.$digest();
@@ -103,6 +112,30 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(ctx.contextVersion.update);
       sinon.assert.calledOnce(ctx.contextVersion.fetch);
       expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.true;
+      expect(ctx.instance.attrs.lastBuiltSimpleContextVersion, 'lastBuiltSimpleContextVersion').to.be.ok;
+      expect(ctx.instance.attrs.lastBuiltSimpleContextVersion.id, 'lastBuiltSimpleContextVersion.id')
+        .to.equal(ctx.contextVersion.attrs.id);
+      expect(ctx.instance.attrs.lastBuiltSimpleContextVersion.created, 'lastBuiltSimpleContextVersion.created')
+        .to.equal(ctx.contextVersion.attrs.created);
+    });
+    it('should attempt to update the cv, and not change the existing lastBuiltSimpleContextVersion', function () {
+      ctx.instance.attrs.lastBuiltSimpleContextVersion = {
+        id: ctx.newContextVersion.attrs.id,
+        created: ctx.newContextVersion.attrs.created
+      };
+      readOnlySwitchController.state.advanced = false;
+      expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.false;
+      readOnlySwitchController.readOnly(true);
+      $scope.$digest();
+      sinon.assert.calledOnce(ctx.loadingPromiseMock.add);
+      sinon.assert.calledOnce(ctx.contextVersion.update);
+      sinon.assert.calledOnce(ctx.contextVersion.fetch);
+      expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.true;
+      expect(ctx.instance.attrs.lastBuiltSimpleContextVersion, 'lastBuiltSimpleContextVersion').to.be.ok;
+      expect(ctx.instance.attrs.lastBuiltSimpleContextVersion.id, 'lastBuiltSimpleContextVersion.id')
+        .to.equal(ctx.newContextVersion.attrs.id);
+      expect(ctx.instance.attrs.lastBuiltSimpleContextVersion.created, 'lastBuiltSimpleContextVersion.created')
+        .to.equal(ctx.newContextVersion.attrs.created);
     });
   });
   describe('rollback'.blue, function () {
@@ -110,17 +143,21 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
       setup();
     });
     beforeEach(function () {
-      $scope.state = {
+      readOnlySwitchController.state = {
         advanced: true,
         promises: {
           contextVersion: $q.when(ctx.contextVersion)
-        }
+        },
+        instance: ctx.instance
       };
     });
     it('should rollback the cv', function () {
-      $scope.state.advanced = true;
+      readOnlySwitchController.state.advanced = true;
       expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.true;
-      $scope.resetStateContextVersion = sinon.spy();
+      var resetStateContextVersionMock = sinon.spy();
+      $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
+        resetStateContextVersionMock(contextVersion, showSpinner);
+      });
       readOnlySwitchController.readOnly(false);
       $scope.$digest();
       expect(readOnlySwitchController.popover.contextVersion, 'cv').to.equal(ctx.contextVersion);
@@ -130,13 +167,16 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
       readOnlySwitchController.popover.performRollback(ctx.contextVersion, rollbackThing);
       $scope.$digest();
       sinon.assert.calledOnce(ctx.contextVersion.rollback);
-      sinon.assert.calledWith($scope.resetStateContextVersion, ctx.newContextVersion, true);
+      sinon.assert.calledWith(resetStateContextVersionMock, ctx.newContextVersion, true);
     });
 
     it('should rollback to the old CV when rollback fails', function () {
-      $scope.state.advanced = true;
+      readOnlySwitchController.state.advanced = true;
       expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.true;
-      $scope.resetStateContextVersion = sinon.spy();
+      var resetStateContextVersionMock = sinon.spy();
+      $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
+        resetStateContextVersionMock(contextVersion, showSpinner);
+      });
       readOnlySwitchController.readOnly(false);
       $scope.$digest();
       expect(readOnlySwitchController.popover.contextVersion, 'cv').to.equal(ctx.contextVersion);
@@ -154,7 +194,7 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
       $scope.$digest();
       sinon.assert.calledOnce(ctx.contextVersion.rollback);
       $scope.$digest();
-      sinon.assert.calledWith($scope.resetStateContextVersion, ctx.contextVersion, true);
+      sinon.assert.calledWith(resetStateContextVersionMock, ctx.contextVersion, true);
     });
   });
   describe('readOnly error'.blue, function () {
@@ -162,11 +202,12 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
       setup();
     });
     beforeEach(function () {
-      $scope.state = {
+      readOnlySwitchController.state = {
         advanced: false,
         promises: {
           contextVersion: $q.reject(ctx.contextVersion)
-        }
+        },
+        instance: ctx.instance
       };
     });
     it('should attempt to update the cv', function () {
