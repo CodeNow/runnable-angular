@@ -13,6 +13,7 @@ section.modal-body.clearfix
     ng-include = "'spinner'"
   )
 
+  //- search
   input.input.input-xs.input-search(
     ng-disabled = "repoSelected"
     ng-if = "data.githubRepos.models && data.githubRepos.models.length"
@@ -23,6 +24,7 @@ section.modal-body.clearfix
     type = "search"
   )
 
+  //- empty state
   p.p.empty(
     ng-if = "data.githubRepos.models && !data.githubRepos.models.length"
   ) You don’t have any private repositories. Choose another organization to use Runnable, create one on&#32;
@@ -32,6 +34,7 @@ section.modal-body.clearfix
     ) Github
     | .
 
+  //- list of repositories
   ul.list.list-servers(
     ng-if = "data.githubRepos.models && data.githubRepos.models.length"
   )
@@ -51,8 +54,8 @@ section.modal-body.clearfix
       small.small Updated {{repo.attrs.updated_at | timeFrom}}
       button.btn.btn-xs(
         ng-class = "{\
-          disabled: repo.isAdded,\
-          green: !repo.isAdded\
+          'disabled gray': repo.isAdded,\
+          'green': !repo.isAdded\
         }"
         ng-disabled = "repoSelected"
         ng-if = "!repo.loading"
@@ -62,9 +65,10 @@ section.modal-body.clearfix
         ng-include = "'spinner'"
       )
 
-footer.modal-footer.clearfix
-  //- cancel if not loaded OR if loaded AND there are repositories
-  //- done if loaded AND there are no repositories
-  button.btn.white.btn-cancel(
+//- if there are no repositories to add
+footer.modal-footer.clearfix(
+  ng-if = "data.githubRepos.models && !data.githubRepos.models.length"
+)
+  button.btn.white.btn-block(
     ng-click = "defaultActions.cancel()"
-  ) {{!data.githubRepos.models || data.githubRepos.models.length ? 'Cancel' : 'Done'}}
+  ) Close
