@@ -14,7 +14,7 @@
     ng-include = "'spinner'"
   )
   
-.empty-state.well.in(
+.well.in(
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0"
 )
   span.strong {{ instance.getRepoName() || instance.getDisplayName() }}
