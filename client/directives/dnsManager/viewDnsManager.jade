@@ -22,7 +22,10 @@
 
 //- for testing
 .server-sidebar-item
-  .small.text-overflow
+  //- for frontend: make the title text work 👻
+  .small.text-overflow(
+    title = "[elastic url for this container's repo]"
+  )
     strong.strong repo-name
     | -url-stuff
   fancy-select.gray.in
