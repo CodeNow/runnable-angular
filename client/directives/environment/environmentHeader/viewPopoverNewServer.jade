@@ -5,8 +5,8 @@
   .arrow.white
   .popover-content
     ul.popover-list
-      li.list-item.popover-list-item.small Select container type
-      li.list-item.popover-list-item.multi-line(
+      li.list-item.popover-list-item.small Create container from…
+      li.list-item.popover-list-item(
         modal
         modal-actions = "actions"
         modal-data = "data"
@@ -17,7 +17,6 @@
             xlink:href = "#icons-new-repository-server"
           )
         | Repository
-        small.small New container from a repository
       li.list-item.popover-list-item.multi-line(
         modal
         modal-actions = "actions"
@@ -30,4 +29,4 @@
             xlink:href = "#icons-new-server"
           )
         | Non-repository
-        small.small New container from templates like MySQL, RabbitMQ, Redis, etc.
+        small.small Create container from templates like MySQL, Redis, etc.

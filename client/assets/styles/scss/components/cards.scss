@@ -55,18 +55,33 @@
   }
 
   // empty state
-  &.empty {
+  &.empty.empty {
     background: transparent;
     border-color: transparent;
     color: $gray;
     height: 333px;
     justify-content: center;
+    min-width: 100%;
     text-align: center;
     white-space: nowrap;
 
     .spinner-wrapper {
       align-items: center;
       height: 100%;
+    }
+
+    .iconnables {
+      cursor: pointer;
+      height: 48px;
+      margin-bottom: 15px;
+      pointer-events: auto;
+      width: 100%;
+    }
+
+    .h4 {
+      line-height: 1.4;
+      margin-bottom: 4px;
+      white-space: normal;
     }
   }
 
