@@ -7,17 +7,17 @@
       xlink:href = "#icons-disclose"
     )
   | Repositories
-.repository-group-item(
+.server-sidebar-item(
   edit-repo-commit
   model = "instance.contextVersion.getMainAppCodeVersion()"
 )
 //- in-process additional repo
-.repository-group-item(
+.server-sidebar-item(
   model = "instance.contextVersion.getMainAppCodeVersion()"
 )
   .small.strong.text-overflow repo-name
   .btn.gray
-    .repository-description.text-overflow.clearfix.js-repository-branch my-branch-name
+    .repo-info.text-overflow.js-repository-branch my-branch-name
       svg.iconnables.icons-branch
         use(
           xlink:href = "#icons-branch"

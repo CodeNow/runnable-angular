@@ -1,31 +1,21 @@
 .small.strong.text-overflow {{ acv.attrs.repo }}
-//- .btn.gray(
-//-   ng-class = "{active: popoverRepositoryToggle.show}"
-//-   ng-click = "actions.toggleEditCommits()"
-//-   pop-over
-//-   pop-over-actions = "popoverRepositoryToggle.actions"
-//-   pop-over-data = "popoverRepositoryToggle.data"
-//-   pop-over-options = "{\"left\":270,\"top\":0}"
-//-   pop-over-template = "viewPopoverRepositoryToggle"
-//-   pop-over-active = "popoverRepositoryToggle.show"
-//- )
 .btn.gray(
   modal
   modal-actions = "popoverRepositoryToggle.actions"
   modal-data = "popoverRepositoryToggle.data"
   modal-template = "modalRepoDetailView"
 )
-  .repository-description.text-overflow.clearfix.js-repository-branch {{ acv.attrs.branch }}
+  .repo-info.text-overflow.js-repository-branch {{ acv.attrs.branch }}
     svg.iconnables.icons-branch
       use(
         xlink:href = "#icons-branch"
       )
-  .repository-description.text-overflow.clearfix.js-repository-commit {{ activeCommit.attrs.commit.message}}
+  .repo-info.text-overflow.js-repository-commit {{ activeCommit.attrs.commit.message}}
     svg.iconnables.icons-commit
       use(
         xlink:href = "#icons-commit"
       )
-  .repository-description.clearfix.repository-detail.small
+  .repo-info.small
     a.link.text-overflow(
       ng-href = "{{ activeCommit.attrs.html_url }}"
       ng-click = "$event.stopPropagation()"

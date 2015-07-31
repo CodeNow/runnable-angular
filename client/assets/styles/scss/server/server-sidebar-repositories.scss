@@ -1,57 +1,38 @@
-.repository-section {
-  flex: 0 0 auto;
+.repo-section {
   max-height: 50%;
   overflow-x: hidden;
   overflow-y: auto;
-
-  .label-checkbox {
-    margin: 0;
-    padding: 3px 0;
-  }
-}
-
-.repository-description {
-  padding-left: 21px;
-  position: relative;
-
-  .iconnables {
-    height: 14px;
-    left: 0;
-    position: absolute;
-    top: 4px;
-    width: 14px;
-  }
-}
-
-// repository group "well"
-.repository-group-item {
-  margin-bottom: 3px;
-
-  &:last-child {
-    margin-bottom: 15px;
-  }
-
-  > .small {
-    color: $gray;
-  }
 
   .icons-arrow-down {
     transform: rotate3d(0,0,1,-90deg);
   }
 }
 
-.repository-detail {
-  display: flex;
+.repo-info {
+  padding-left: 21px;
+  position: relative;
 
-  .link {
-    color: $gray;
-    flex: 1 1 auto;
-    padding-right: 12px;
+  &.small {
+    display: flex;
+
+    .link {
+      color: $gray;
+      flex: 1 1 auto;
+      padding-right: 9px;
+    }
+
+    .toggle-group {
+      display: inline-block;
+      margin-left: 3px;
+      top: 3px;
+    }
   }
 
-  .toggle-group {
-    display: inline-block;
-    margin-left: 3px;
-    top: 3px;
+  .iconnables {
+    height: 14px;
+    left: 0;
+    position: absolute;
+    top: 5px;
+    width: 14px;
   }
 }
