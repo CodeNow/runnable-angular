@@ -6,33 +6,12 @@
     top: -9px;
   }
 
+  // repo/elastic hostname label
   .small {
     color: $gray-light;
 
     .strong {
       color: $gray;
-    }
-  }
-
-  // modifying fancy-select elements for container selection
-  .btn {
-    background-color: $gray-lighterest; // override default fancy-select color
-    color: $gray;
-    font-weight: 400;
-    padding: 0 27px 0 9px;
-    text-align: left;
-    width: 100%;
-    height: auto;
-    line-height: 30px;
-    float: none;
-
-    .icons-arrow-down {
-      color: $gray-light;
-      height: 100%;
-      position: absolute;
-      right: 9px;
-      top: 0;
-      width: 24px;
     }
   }
 }

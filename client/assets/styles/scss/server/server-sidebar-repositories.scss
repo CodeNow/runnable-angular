@@ -11,7 +11,7 @@
 }
 
 .repository-description {
-  padding: 0 21px;
+  padding-left: 21px;
   position: relative;
 
   .iconnables {
@@ -35,24 +35,8 @@
     color: $gray;
   }
 
-  .btn {
-    color: $gray;
-    font-size: 15px;
-    font-weight: 400;
-    height: auto;
-    line-height: 21px;
-    padding: 4px 9px 5px;
-    text-align: left;
-    width: 100%;
-  }
-
   .icons-arrow-down {
-    color: $gray-light;
-    position: absolute;
-    right: 9px;
-    top: 0;
     transform: rotate3d(0,0,1,-90deg);
-    width: 24px;
   }
 }
 
