@@ -3,6 +3,12 @@
 )
   header.modal-header
     h1.modal-heading Delete Container
+    svg.iconnables.icons-close(
+      ng-click = "defaultActions.cancel()"
+    )
+      use(
+        xlink:href = "#icons-close"
+      )
   section.modal-body
     p.modal-description
       strong {{ data.instance.attrs.name }}

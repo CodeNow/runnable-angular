@@ -148,12 +148,18 @@ html(
     )
       .modal-dialog.modal-error
         header.modal-header
-          h1.modal-heading Something went wrong.
+          h1.modal-heading Oops! An error occured.
+          svg.iconnables.icons-close(
+            ng-click = "defaultActions.cancel()"
+          )
+            use(
+              xlink:href = "#icons-close"
+            )
         section.modal-body.clearfix
           .modal-description.well.well-code.monospace(
           ng-repeat = "error in dataApp.data.modalError.data.errors track by $index"
           ) {{ error.message }}
         footer.modal-footer
-          button.btn.white.btn-cancel(
-          ng-click = "dataApp.data.modalError.actions.close(defaultActions.cancel);"
+          button.btn.white.btn-block(
+            ng-click = "dataApp.data.modalError.actions.close(defaultActions.cancel);"
           ) Dismiss

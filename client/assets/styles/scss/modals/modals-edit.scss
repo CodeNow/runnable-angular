@@ -46,20 +46,21 @@
   .btn-title {
     color: $gray;
     display: table;
-    height: 36px;
-    margin: 6px auto;
+    height: $input-xs;
+    margin: 9px auto 3px;
 
     // status
     .icons-status {
       float: left;
-      margin: 15px 6px 0 0;
+      margin: 8px 6px 0 0;
     }
 
     // text
     .btn-text {
       float: left;
-      height: 36px;
-      line-height: 36px;
+      font-size: 15px;
+      height: $input-xs;
+      line-height: $input-xs;
     }
 
     .icons-gear {
@@ -68,7 +69,7 @@
     }
 
     .icons-arrow-down {
-      height: 36px;
+      height: $input-xs;
       width: 18px;
     }
   }
