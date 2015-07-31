@@ -1,5 +1,4 @@
 header.modal-header
-
   h1.modal-heading New Container from Repository
 
 section.modal-body.clearfix
@@ -11,7 +10,7 @@ section.modal-body.clearfix
 
   input.input.input-xs.input-search(
     ng-disabled = "repoSelected"
-    ng-if = "data.githubRepos.models"
+    ng-if = "data.githubRepos.models && data.githubRepos.models.length"
     ng-model = "data.repoFilter"
     placeholder = "Filter by name"
     required
@@ -19,8 +18,17 @@ section.modal-body.clearfix
     type = "search"
   )
 
+  p.p.empty(
+    ng-if = "data.githubRepos.models && !data.githubRepos.models.length"
+  ) You don’t have any private repositories. Choose another organization to use Runnable, create one on&#32;
+    a.link(
+      href = "https://github.com/"
+      target = "_blank"
+    ) Github
+    | .
+
   ul.list.list-servers(
-    ng-if = "data.githubRepos.models"
+    ng-if = "data.githubRepos.models && data.githubRepos.models.length"
   )
     li.list-item.multi-line.text-overflow(
       ng-class = "{\
@@ -34,8 +42,8 @@ section.modal-body.clearfix
         repos: data.repoFilter | \
         orderBy: '-attrs.updated_at'\
       "
-    ) {{ repo.attrs.name}}
-      small.small Updated {{ repo.attrs.updated_at | timeFrom }}
+    ) {{repo.attrs.name}}
+      small.small Updated {{repo.attrs.updated_at | timeFrom}}
       button.btn.btn-xs(
         ng-class = "{\
           disabled: repo.isAdded,\
@@ -43,7 +51,7 @@ section.modal-body.clearfix
         }"
         ng-disabled = "repoSelected"
         ng-if = "!repo.loading"
-      ) {{ repo.isAdded ? 'Already Added' : 'Add Container' }}
+      ) {{repo.isAdded ? 'Already Added' : 'Add Container'}}
       .spinner-wrapper.spinner-sm.spinner-green.in(
         ng-if = "repo.loading"
         ng-include = "'spinner'"

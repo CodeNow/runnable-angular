@@ -194,6 +194,14 @@
     transition: padding .15s ease-in;
   }
 
+  // empty p tag
+  .p.empty {
+    color: $gray-light;
+    font-weight: 500;
+    margin: 60px 0 30px;
+    text-align: center;
+  }
+
   // nested footer
   .modal-footer {
     margin: 12px 0 0;
