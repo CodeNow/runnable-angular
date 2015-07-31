@@ -20,48 +20,35 @@
   span.strong {{ instance.getRepoName() || instance.getDisplayName() }}
   |  has no DNS mappings.
 
-//- for testing
-.server-sidebar-item
-  //- for frontend: make the title text work 👻
+.server-sidebar-item(
+  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
+  ng-repeat = "masterInstance in directlyRelatedMasterInstances track by masterInstance.attrs.shortHash"
+)
   .small.text-overflow(
-    title = "[elastic url for this container's repo]"
+    title = "Elastic hostname: {{ masterInstance.getRepoName() }}-staging-{{ masterInstance.attrs.owner.username }}.runnableapp.com"
   )
-    strong.strong repo-name
-    | -url-stuff
-  fancy-select.gray.in
-    fancy-option
-      .icons-status.green
-      | branch-name
+    strong.strong {{ masterInstance.getRepoName() }}
+    | -staging-{{ masterInstance.attrs.owner.username }}.runnableapp.com
 
-//- .dns-wrapper(
-//-   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
-//-   ng-repeat = "masterInstance in directlyRelatedMasterInstances track by masterInstance.attrs.shortHash"
-//- )
-//-   .small.text-overflow(
-//-     title = "Elastic hostname: {{ masterInstance.getRepoName() }}-staging-{{ masterInstance.attrs.owner.username }}.runnableapp.com"
-//-   )
-//-     strong.strong {{ masterInstance.getRepoName() }}
-//-     | -staging-{{ masterInstance.attrs.owner.username }}.runnableapp.com
-//- 
-//-   fancy-select.in(
-//-     on-update = "actions.setDependency"
-//-     track-by = "attrs.shortHash"
-//-     title = "{{ masterInstance.getBranchName() }}"
-//-     value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
-//-   )
-//-     fancy-option(
-//-       value = "$parent.masterInstance"
-//-     )
-//-       status-icon(
-//-         instance = "$parent.$parent.masterInstance"
-//-       )
-//-       | {{ $parent.$parent.masterInstance.getBranchName() }}
-//- 
-//-     fancy-option(
-//-       ng-repeat = "childInstance in $parent.masterInstance.children.models"
-//-       value = "childInstance"
-//-     )
-//-       status-icon(
-//-         instance = "$parent.childInstance"
-//-       )
-//-       | {{ $parent.childInstance.getBranchName() }}
+  fancy-select.gray.in(
+    on-update = "actions.setDependency"
+    track-by = "attrs.shortHash"
+    title = "{{ masterInstance.getBranchName() }}"
+    value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
+  )
+    fancy-option(
+      value = "$parent.masterInstance"
+    )
+      status-icon(
+        instance = "$parent.$parent.masterInstance"
+      )
+      | {{ $parent.$parent.masterInstance.getBranchName() }}
+
+    fancy-option(
+      ng-repeat = "childInstance in $parent.masterInstance.children.models"
+      value = "childInstance"
+    )
+      status-icon(
+        instance = "$parent.childInstance"
+      )
+      | {{ $parent.childInstance.getBranchName() }}
