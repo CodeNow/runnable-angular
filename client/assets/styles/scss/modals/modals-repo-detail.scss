@@ -2,18 +2,24 @@
   background: $white;
 
   .modal-header {
-    display: flex;
-    align-items: center;
     background: $gray-lighterest;
   }
 
-  .modal-heading {
-    flex: 1 1 auto;
-  }
+  .modal-body {
 
-  .modal-body > .btn-sm {
-    margin-bottom: 9px;
-    background: $gray-lighterest; // add button class instead
+    .btn-sm {
+      margin-bottom: 9px;
+      text-align: left;
+      padding-left: 30px;
+    }
+
+    .icons-branch {
+      width: 15px;
+      height: 100%;
+      margin-right: 6px;
+      position: absolute;
+      left: 9px;
+    }
   }
 
   .toggle-wrapper {
@@ -29,7 +35,7 @@
 
   .popover-list-item {
     line-height: 21px;
-    padding: 6px 15px;
+    padding: 6px 45px 6px 15px;
     margin: 0 -15px;
     position: relative;
     height: 60px;
@@ -44,15 +50,16 @@
     }
   }
 
-  .clearfix {
+  .small {
+    color: $gray;
+  }
 
-    .small {
-      color: $gray;
-    }
+  .a {
+    color: $purple-light;
+    margin-right: 6px;
 
-    .a {
-      color: $purple-light;
-      margin-right: 6px;
+    &:hover {
+      text-decoration: underline;
     }
   }
 }

@@ -1,49 +1,35 @@
 .modal-backdrop.in
   .modal-dialog.modal-repo-detail
     header.modal-header
-      h1.modal-heading.text-left.text-overflow repository-name
-      label.toggle-wrapper Auto Deploy
-       input.toggle-input(
-        type = "checkbox"
-       )
-       .toggle-group.toggle-xs
+      h1.modal-heading.text-overflow repository-name
     section.modal-body
       .spinner-wrapper.spinner-md.in(
         ng-if = "false"
         ng-include = "'spinner'"
       )
-      fancy-select.in
-        fancy-option
-          svg.iconnables.icons-branch
-            use(
-              xlink:href = "#icons-branch"
-            )
-          | branch-name
+      fancy-select.gray.in branch-name
+        //- svg.iconnables.icons-branch
+        //-   use(
+        //-     xlink:href = "#icons-branch"
+        //-   )
+        //- | branch-name
+        //- svg.iconnables.icons-arrow-down
+        //-   use(
+        //-     xlink:href = "#icons-arrow-down"
+        //-   )
       ul.list.popover-list
         li.list.popover-list-item
-          strong.strong Update README.md
-          .clearfix.text-overflow
-            a.a.small.monospace(
-              ng-href = "#"
-              
-            ) d2763dd
-            small.small runnabro—2 months ago
+          .strong.text-overflow Update README.md
+          a.a.small.monospace(
+            ng-click = "$event.stopPropagation()"
+            ng-href = "#"
+            target = "_blank"
+          ) d2763dd
+          small.small runnabro—2 months ago
           svg.iconnables.icons-fat-check
             use(
               xlink:href = "#icons-fat-check"
-              ng-click = "$event.stopPropagation()"
-              target = "_blank"
             )
-        li.list.popover-list-item
-          strong.strong Update README.md
-          .clearfix.text-overflow
-            a.a.small.monospace d2763dd
-            small.small runnabro—2 months ago
-        li.list.popover-list-item
-          strong.strong Update README.md
-          .clearfix.text-overflow
-            a.a.small.monospace d2763dd
-            small.small runnabro—2 months ago
     section.modal-footer
       button.btn.gray Cancel
       button.btn.green Save & Rebuild
