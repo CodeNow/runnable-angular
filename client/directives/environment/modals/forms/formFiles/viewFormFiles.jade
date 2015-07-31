@@ -5,40 +5,45 @@
     ng-bind-html = "helpCards.getActiveCard().helpPopover.containerFiles"
   )
 
+.hidden(
+  pop-over
+  pop-over-active = "CFC.repositoryPopover.active"
+  pop-over-actions = "CFC.repositoryPopover.actions"
+  pop-over-data = "CFC.repositoryPopover.data"
+  pop-over-template = "viewPopoverFilesRepository"
+  pop-over-trigger = "activeAttr"
+)
+
+.hidden(
+  pop-over
+  pop-over-actions = "CFC.fileUpload.actions"
+  pop-over-data = "CFC.fileUpload.data"
+  pop-over-template = "viewPopoverFilesUpload"
+  pop-over-active = "CFC.fileUpload.active"
+  pop-over-trigger = "activeAttr"
+)
+
 .clearfix
   .label-col {{ $root.featureFlags.sshKeys ? "Files & SSH Keys" : "Container Files" }}
   .input-col
     button.btn.btn-xs.white.float-right(
       ng-if = "$root.featureFlags.sshKeys"
       pop-over
-      pop-over-active = "addFilePopover.active"
       pop-over-options = "{\"right\":0,\"top\":35}"
       pop-over-template = "viewPopoverAddFile"
-    )
-      span.float-left Add…
+      pop-over-actions = "CFC.actions"
+    ) Add…
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
         )
     button.btn.btn-xs.white.float-right(
-      ng-click = "triggerAddRepository()"
+      ng-click = "CFC.actions.triggerAddRepository()"
       ng-if = "!$root.featureFlags.sshKeys"
-      pop-over
-      pop-over-active = "repositoryPopover.active"
-      pop-over-actions = "repositoryPopover.actions"
-      pop-over-data = "repositoryPopover.data"
-      pop-over-template = "viewPopoverFilesRepository"
-      pop-over-trigger = "activeAttr"
     ) Add Repository
     button.btn.btn-xs.white.float-right(
-      ng-click = "triggerUploadFile()"
+      ng-click = "CFC.actions.triggerUploadFile()"
       ng-if = "!$root.featureFlags.sshKeys"
-      pop-over
-      pop-over-actions = "fileUpload.actions"
-      pop-over-data = "fileUpload.data"
-      pop-over-template = "viewPopoverFilesUpload"
-      pop-over-active = "fileUpload.active"
-      pop-over-trigger = "activeAttr"
     ) Upload File
 
 .table(
