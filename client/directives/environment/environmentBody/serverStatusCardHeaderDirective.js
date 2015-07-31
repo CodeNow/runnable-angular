@@ -6,17 +6,16 @@ require('app')
  * @ngInject
  */
 function serverStatusCardHeader(
-  $rootScope,
-  keypather
+  $rootScope
 ) {
   return {
     restrict: 'E',
     replace: true,
     templateUrl: function (elem, attrs) {
-      if ($rootScope.featureFlags.dockerfileTool) {
-        return 'serverStatusCardHeaderView';
+      if ($rootScope.featureFlags.cardStatus) {
+        return 'serverStatusCardHeaderViewCardStatus';
       }
-      return 'serverStatusCardHeaderViewOld';
+      return 'serverStatusCardHeaderView';
     },
     link: function ($scope, elem, attrs) {
       $scope.popOverServerData = {
@@ -39,11 +38,8 @@ function serverStatusCardHeader(
         $scope.popOverServerData.advanced = advanced;
       });
 
-
-      $scope.$watch(function () {
-        return attrs.noTouching === 'true';
-      }, function (n) {
-        $scope.noTouching = n;
+      attrs.$observe('noTouching', function () {
+        $scope.noTouching = attrs.noTouching === 'true';
       });
 
     }
