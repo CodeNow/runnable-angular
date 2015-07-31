@@ -319,7 +319,6 @@ function editServerModal(
 
       $scope.resetStateContextVersion = function (contextVersion, showSpinner) {
         loading.reset('editServerModal');
-        loadingPromises.clear('editServerModal');
         if (showSpinner) {
           loading('editServerModal', true);
         }
@@ -365,6 +364,7 @@ function editServerModal(
       };
 
       function resetState(instance, fromError) {
+        loadingPromises.clear('editServerModal');
         var advanced = keypather.get(instance, 'advanced') || keypather.get(instance, 'contextVersion.attrs.advanced') || false;
         $scope.state = {
           advanced: advanced,
@@ -372,7 +372,7 @@ function editServerModal(
           selectedStack: instance.selectedStack,
           opts: {},
           repo: keypather.get(instance, 'contextVersion.getMainAppCodeVersion().githubRepo'),
-          instance: instance,
+          instance: fromError ? instance.instance : instance,
           getPorts: convertTagToPortList,
           promises: {}
         };
@@ -489,8 +489,7 @@ function editServerModal(
           })
           .then(function (promiseArrayLength) {
             // Since the initial deepCopy should be in here, we only care about > 1
-            toRebuild = !$scope.state.advanced && hasMainRepo && (promiseArrayLength > 1 ||
-              $scope.openItems.getAllFileModels(true).length);
+            toRebuild = promiseArrayLength > 1 || $scope.openItems.getAllFileModels(true).length;
             toRedeploy = !toRebuild &&
               keypather.get($scope, 'instance.attrs.env') !== keypather.get($scope, 'state.opts.env');
             if (!$scope.openItems.isClean()) {
