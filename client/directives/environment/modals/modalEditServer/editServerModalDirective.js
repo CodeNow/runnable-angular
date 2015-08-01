@@ -167,6 +167,11 @@ function editServerModal(
           });
       };
 
+      $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
+        $event.stopPropagation();
+        $scope.resetStateContextVersion(contextVersion, showSpinner);
+      });
+
       function resetState(instance, fromError) {
         loadingPromises.clear('editServerModal');
         var advanced = keypather.get(instance, 'advanced') || keypather.get(instance, 'contextVersion.attrs.advanced') || false;
