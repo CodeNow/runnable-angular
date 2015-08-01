@@ -44,6 +44,14 @@
       border-color: $gray-lighter;
     }
 
+    &.no-touching {
+      color: $gray-light;
+
+      > .small {
+        color: $gray-light;
+      }
+    }
+
     &:active,
     &.active {
       background: $white;
@@ -52,14 +60,6 @@
 
       .small {
         color: currentColor;
-      }
-    }
-
-    &.no-touching {
-      color: $gray-light;
-
-      > .small {
-        color: $gray-light;
       }
     }
 
