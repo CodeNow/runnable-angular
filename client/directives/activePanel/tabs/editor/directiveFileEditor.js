@@ -51,17 +51,9 @@ function fileEditor(
         }
       };
 
-      function resetFileBodyState() {
-        keypather.set($scope.file, 'state.body', $scope.file.attrs.body);
-        if (useValidation) {
-          $scope.file.validation = {};
-        }
-      }
-
       function fetchFile() {
         $scope.loading = true;
         return promisify($scope.file, 'fetch')()
-          .then(resetFileBodyState)
           .catch(errs.handler)
           .finally(function () {
             $scope.loading = false;
@@ -88,13 +80,6 @@ function fileEditor(
       watchOncePromise($scope, 'file', true)
         .then(function (file) {
           var isDockerfile = file.attrs.name === 'Dockerfile';
-          if (isDockerfile && file.on) {
-            file.on('update', resetFileBodyState);
-            $scope.$on('$destroy', function () {
-              file.off('update', resetFileBodyState);
-            });
-          }
-
           useValidation = isDockerfile;
           keypather.set(file, 'state.isDirty', false);
           $scope.$on('EDITOR::SAVE', updateFile);

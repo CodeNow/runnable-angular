@@ -208,10 +208,10 @@ function ContainerFilesController(
             })
               .then(function (file) {
                 sshKey.fileModel = file;
-                return $q.all([
-                  updateDockerfileFromState($scope.state),
-                  promisify($scope.state.contextVersion.rootDir.contents, 'fetch')()
-                ]);
+                return promisify($scope.state.contextVersion.rootDir.contents, 'fetch')();
+              })
+              .then(function () {
+                loadingPromises.add('editServerModal', updateDockerfileFromState($scope.state));
               })
               .catch(errs.handler)
           );
@@ -229,8 +229,11 @@ function ContainerFilesController(
           if (file) {
             loadingPromises.add('editServerModal',
               promisify(file, 'destroy')()
+                //.then(function () {
+                //  return promisify($scope.state.contextVersion.rootDir.contents, 'fetch')();
+                //})
                 .then(function () {
-                  return promisify($scope.state.contextVersion.rootDir.contents, 'fetch')();
+                  loadingPromises.add('editServerModal', updateDockerfileFromState($scope.state));
                 })
                 .catch(errs.handler)
             );
