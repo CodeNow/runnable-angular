@@ -82,10 +82,11 @@
   .btn-close {
     border: 0;
     color: $gray-light;
+    float: right;
     height: 15px;
     margin-right: 6px;
     position: relative;
-    top: 12px;
+    top: 15px;
     width: 15px;
 
     &:hover {
