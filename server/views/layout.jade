@@ -150,7 +150,7 @@ html(
         header.modal-header
           h1.modal-heading Oops! An error occured.
           svg.iconnables.icons-close(
-            ng-click = "defaultActions.cancel()"
+            ng-click = "dataApp.data.modalError.actions.close(defaultActions.cancel);"
           )
             use(
               xlink:href = "#icons-close"
