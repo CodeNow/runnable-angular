@@ -30,3 +30,10 @@
           )
         | Non-repository
         small.small Create container from templates like MySQL, Redis, etc.
+      li.list-item.popover-list-item.multi-line(
+        modal
+        modal-actions = "actions"
+        modal-data = "data"
+        modal-template = "editServerModalOpen"
+        ng-if = "$root.featureFlags.newVerificationFlow"
+      ) New verification flow

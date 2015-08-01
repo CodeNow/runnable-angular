@@ -81,6 +81,7 @@ function ControllerApp(
     internalDebugging: false,
     multilineFnR: false,
     navListFilter: false,
+    newVerificationFlow: false,
     packagesField: true,
     saveToolbar: false,
     sshKeys: true,
