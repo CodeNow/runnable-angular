@@ -26,6 +26,11 @@
     text-align: left;
     width: 100%;
 
+    &:active {
+      background-color: $white;
+      color: $purple-light;
+    }
+
     .icons-arrow-down {
       color: $gray-light;
       height: 100%;
