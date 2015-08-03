@@ -164,9 +164,9 @@ html.home(
         .container
           a.logo-anchor
             img.logo.float-left(
-              height = "45"
+              height = "36"
               src = "/build/images/runnable-logo.svg"
-              width = "240"
+              width = "180"
             )
             sup.sup &lt;beta&gt;
 
@@ -174,11 +174,11 @@ html.home(
             href = "mailto:support@runnable.com?subject=Please send me an invite for the beta"
           ) Request Invite
 
-          a.btn.btn-sm.float-right(
-            ng-href = "{{loginUrl}}"
-          ) Log In
 
           .float-right.clearfix
+            a.btn.btn-sm.float-right(
+              ng-href = "{{loginUrl}}"
+            ) Log In
             a.btn.btn-sm.float-right(
               href = "mailto:support@runnable.com"
             ) Email Us

@@ -1,5 +1,5 @@
 //- tabs
-.btn-group(
+.btn-group.btn-toggle.btn-toggle-xs(
   ng-hide = "$root.featureFlags.fullScreen"
   ng-init = "page = (['building', 'buildFailed', 'neverStarted'].indexOf(instance.status()) === -1) ? 'run' : 'build'"
 )

@@ -71,7 +71,7 @@ h4 {
 }
 
 .strong {
-  font-weight: 500;
+  font-weight: $weight-bold;
 }
 
 .underline {
@@ -124,6 +124,7 @@ a {
 }
 
 // single line overflow
+%text-overflow,
 .text-overflow {
   overflow: hidden;
   text-overflow: ellipsis;

@@ -2,7 +2,6 @@ form.modal-dialog.modal-integrations(
   name = "slackForm"
   ng-class = "{'unverified': !data.verified}"
 )
-
   header.modal-header
     h1.modal-heading
       img.img(
@@ -11,7 +10,14 @@ form.modal-dialog.modal-integrations(
         width = "24"
       )
       | Slack Integration
+    svg.iconnables.icons-close(
+      ng-click = "defaultActions.cancel()"
+    )
+      use(
+        xlink:href = "#icons-close"
+      )
 
+  //- alert under header if integration is disabled
   .alert.orange(
     ng-if = "!data.settings.attrs.notifications.slack.enabled && data.verified"
   ) Slack integration has been disabled
@@ -20,7 +26,6 @@ form.modal-dialog.modal-integrations(
     ) Enable
 
   section.modal-body
-
     .spinner-wrapper.spinner-md.in(
       ng-if = "data.loading"
       ng-include = "'spinner'"
@@ -29,11 +34,8 @@ form.modal-dialog.modal-integrations(
     .modal-form(
       ng-if = "!data.loading"
     )
-
       label.label.clearfix
-
         .label-col Bot API Token
-
         .input-col
           input.input.input-sm.monospace(
             ng-model = "data.settings.attrs.notifications.slack.apiToken"
@@ -62,7 +64,6 @@ form.modal-dialog.modal-integrations(
       )
         .clearfix
           .label-col Messaging
-
         .list.list-bordered(
           ng-if = "data.verified"
         )

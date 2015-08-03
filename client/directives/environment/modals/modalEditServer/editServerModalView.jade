@@ -19,7 +19,8 @@ form.modal-dialog.modal-edit(
       pop-over-options = "{\"centered\":true,\"top\":36}"
       pop-over-template = "serverOptionsModalPopover"
     )
-    .row.modal-tabs.cearfix
+
+    .row.modal-tabs.clearfix
       button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'repository'}"
         ng-click = "changeTab('repository')"

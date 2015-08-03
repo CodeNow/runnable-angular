@@ -98,9 +98,39 @@
   border-bottom: 1px solid $gray-lighter;
   border-radius: 3px 3px 0 0;
   flex: 0 0 auto;
+  min-height: 60px;
   padding: 0 15px;
   text-align: center;
 
+  // text
+  .modal-heading {
+    @extend %text-overflow;
+    color: $gray-dark;
+    font-size: 18px;
+    font-weight: $weight-bold;
+    line-height: 60px;
+    padding: 0 24px; // spacing for close icon
+  }
+
+  // close icon
+  .icons-close {
+    color: $gray-light;
+    cursor: pointer;
+    pointer-events: auto; // reset from .iconnables
+    position: absolute;
+    right: 15px;
+    top: 18px;
+
+    &:hover {
+      color: $gray;
+    }
+
+    &:active {
+      color: $red;
+    }
+  }
+
+  // only used for card status right now…
   .container-title-wrapper {
     color: $gray;
     margin: 12px 0 6px;
@@ -117,18 +147,13 @@
       height: 18px;
     }
   }
+}
 
-  .p {
-    color: $gray-light;
-    line-height: 36px;
-  }
-
-  // tabs
-  .modal-tabs {
-    margin: 0 -15px;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
+// tabs
+.modal-tabs {
+  margin: 0 -15px;
+  overflow-x: auto;
+  white-space: nowrap;
 
   .btn-radio {
     color: $gray-dark;
@@ -160,14 +185,8 @@
 
   + .list {
     font-weight: 500;
-    margin: 15px 0 15px 45px;
+    margin: 15px 0 15px $input-md;
   }
-}
-
-// .modal-heading
-.modal-heading {
-  font-size: 18px;
-  line-height: 60px;
 }
 
 // .modal-body
@@ -183,6 +202,7 @@
     align-items: center;
     color: $gray-light;
     flex: 1 1 auto;
+    margin: 15px auto;
   }
 
   .btn-checkbox {
@@ -192,6 +212,14 @@
 
   .label-checkbox {
     transition: padding .15s ease-in;
+  }
+
+  // empty p tag
+  .p.empty {
+    color: $gray;
+    font-weight: 500;
+    margin: 60px 0 30px;
+    text-align: center;
   }
 
   // nested footer
@@ -266,7 +294,7 @@
 
   .modal-footer-warning {
     color: $gray;
-    line-height: 45px;
+    line-height: $input-md;
     padding-left: 12px;
   }
 }

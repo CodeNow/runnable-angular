@@ -1,33 +1,54 @@
 .header {
   background: $purple-light;
+  border-bottom: 1px solid $purple;
   height: 60px;
-  padding: 7px 15px 6px; // 7px + 6px = 15px (60px - 45px)
+  padding: 0 15px;
 
-  // header button styles
-  .btn-group {
-    left: 0;
-    margin: 5px auto;
+  // layout
+  .logo,
+  .btn-group,
+  .btn-accounts {
+    top: 12px;
+  }
+
+  // logo
+  .logo {
+    height: $input-sm; // center
+    left: 15px;
     position: absolute;
-    right: 0;
-    width: 270px;
+  }
+
+  // btn-group
+  .btn-group {
+    display: table;
+    margin: 0 auto;
+    overflow: hidden;
 
     > .btn {
+      height: $input-line-height-sm;
+      line-height: $input-line-height-sm;
       width: 135px;
+
+      &.active {
+        @extend %no-touching;
+      }
     }
 
     .iconnables {
       float: left;
       height: 100%;
       margin-right: 6px;
+      opacity: .75;
       width: 18px;
     }
   }
 
+  // accounts (custom .btn.purple)
   .btn-accounts {
+    background: transparent;
     border-color: transparent;
-    float: right;
-    margin: 5px 0;
-    position: relative;
+    position: absolute;
+    right: 15px;
 
     @include media(sm) {
       .span {
@@ -35,35 +56,25 @@
       }
     }
 
-    &:hover {
-      background: transparent;
-    }
-
+    &:hover,
     &:active,
     &.active {
-      background: $white;
+      background: transparent;
+      color: $white;
     }
 
     .gravatar {
       float: left;
-      margin-right: 6px;
+      margin-right: 7px;
       margin-top: 5px;
 
       @include retina() {
         border: 1px solid $white;
       }
-    }
-  }
 
-  // title
-  .h2 {
-    color: $white;
-    left: 0;
-    line-height: 40px;
-    margin: 0 auto;
-    max-width: 210px;
-    position: absolute;
-    right: 0;
-    text-align: center;
+      @include media(sm) {
+        margin-right: 3px;
+      }
+    }
   }
 }
