@@ -211,10 +211,10 @@ function ContainerFilesController(
                 sshKey.fileModel = file;
                 return promisify($scope.state.contextVersion.rootDir.contents, 'fetch')();
               })
-              .catch(errs.handler)
-              .finally(function () {
+              .then(function () {
                 return updateDockerfileFromState($scope.state);
               })
+              .catch(errs.handler)
           );
           $rootScope.$broadcast('close-popovers');
         },
@@ -234,10 +234,10 @@ function ContainerFilesController(
                 .then(function () {
                   return promisify($scope.state.contextVersion.rootDir.contents, 'fetch')();
                 })
-                .catch(errs.handler)
-                .finally(function () {
+                .then(function () {
                   return updateDockerfileFromState($scope.state);
                 })
+                .catch(errs.handler)
             );
           } else {
             loadingPromises.add('editServerModal', updateDockerfileFromState($scope.state))
