@@ -82,6 +82,7 @@ function ControllerApp(
     multilineFnR: false,
     navListFilter: false,
     newVerificationFlow: false,
+    newVerificationFlowStackChanger: false, // for changing the stack in an existing container
     packagesField: true,
     saveToolbar: false,
     sshKeys: true,

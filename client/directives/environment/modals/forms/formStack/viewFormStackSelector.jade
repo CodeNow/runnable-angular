@@ -98,8 +98,22 @@
 .input-col(
   ng-if = "!$root.featureFlags.newVerificationFlow"
 )
+  //- changing stack flow
+  .btn.btn-sm.btn-change-stack(
+    ng-if = "$root.featureFlags.newVerificationFlowStackChanger"
+  )
+    .display.float-left
+      img.iconnables(
+        height = "24"
+        ng-src = "/build/images/logos/logo-icon-python.svg"
+        width = "24"
+      )
+      | Python
+    button.btn.btn-xxs.white Change
+
   fancy-select(
     name = 'mainstack'
+    ng-if = "!$root.featureFlags.newVerificationFlowStackChanger"
     ng-required = "true"
     on-update = "newStackSelected"
     placeholder = "Select language/framework"

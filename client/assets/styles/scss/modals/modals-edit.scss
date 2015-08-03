@@ -250,3 +250,12 @@
     }
   }
 }
+
+// change stack button
+.btn-change-stack {
+  cursor: default;
+
+  > .btn {
+    margin-left: 6px;
+  }
+}
