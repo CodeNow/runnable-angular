@@ -10,7 +10,7 @@ label.label-jump(
     option(
       disabled
     ) Choose a branch
-    
+
 //- this element should appear in:
     * the setup popover for adding a repo to Container Files
     * the edit modal (in the Containers view) for modifying an additional repo on a specific Container
@@ -28,7 +28,7 @@ label.toggle-wrapper(
   ng-include = "'spinner'"
 )
 
-ul.list.list-servers(
+ul.list.list-servers.list-commits(
   ng-if = "!repoSelector.data.latestCommit && !fetchingBranches"
 )
   li.list-item(
