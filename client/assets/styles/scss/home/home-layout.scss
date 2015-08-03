@@ -20,15 +20,15 @@
     cursor: pointer;
     pointer-events: auto;
     position: absolute;
-    right: 9px;
-    top: 9px;
+    right: 15px;
+    top: 18px;
 
     &:hover {
       color: $gray;
     }
 
     &:active {
-      color: $purple-light;
+      color: $red;
     }
   }
 
