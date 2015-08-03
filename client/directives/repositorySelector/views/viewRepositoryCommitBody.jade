@@ -31,14 +31,14 @@ ul.list.list-servers(
   ng-if = "!repoSelector.data.latestCommit && !fetchingBranches"
 )
   li.list-item.text-overflow(
-    ng-repeat = "commit in repoSelector.data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
-    ng-click = "repoSelector.actions.selectCommit(commit)"
     ng-class = "{active: repoSelector.data.commit === commit, disabled: state.saving}"
+    ng-click = "repoSelector.actions.selectCommit(commit)"
+    ng-repeat = "commit in repoSelector.data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
   ) {{commit.attrs.commit.message}}
     .toggle-group-detail.clearfix
       small.small {{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}
       a.small.link.link-text.monospace(
-        ng-href = "{{ commit.attrs.html_url }}"
         ng-click = "$event.stopPropagation()"
+        ng-href = "{{ commit.attrs.html_url }}"
         target = "_blank"
       ) {{ ::commit.attrs.sha | limitTo:7 }}
