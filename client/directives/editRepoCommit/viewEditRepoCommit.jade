@@ -1,9 +1,7 @@
 .small.strong.text-overflow {{ acv.attrs.repo }}
 .btn.gray(
   modal
-  modal-actions = "popoverRepositoryToggle.actions"
-  modal-data = "popoverRepositoryToggle.data"
-  modal-template = "modalRepoDetailView"
+  modal-template = "modalRepositoryDetailsOpen"
 )
   .repo-info.text-overflow.js-repository-branch {{ acv.attrs.branch }}
     svg.iconnables.icons-branch
