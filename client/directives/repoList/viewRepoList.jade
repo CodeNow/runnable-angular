@@ -17,6 +17,8 @@
 
 //- additional repositories (mockup)
 .server-sidebar-item(
+  modal
+  modal-template = "modalRepositoryDetailsOpen"
   ng-if = "$root.featureFlags.additionalRepositories"
 )
   .small.strong.text-overflow repo-name
