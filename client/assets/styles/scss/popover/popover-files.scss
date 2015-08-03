@@ -50,6 +50,10 @@
   .popover-content {
     height: 298px; // calc(450px - 122px);
     padding-bottom: 15px;
+
+    .list-servers {
+      margin-top: 15px;
+    }
   }
 
   // forms
@@ -152,7 +156,6 @@
   .toggle-wrapper {
     color: $gray;
     display: block;
-    margin-bottom: 9px;
     text-align: center;
   }
 
