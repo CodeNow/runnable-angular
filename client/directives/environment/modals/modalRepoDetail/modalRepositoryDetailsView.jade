@@ -4,6 +4,59 @@
   section.modal-body(
     ng-include = "'viewRepositoryCommitBody'"
   )
+
+    //- *************************
+    //- dummy content, remove before merging
+    label.label-jump
+      small.small Branch
+      select.select
+        option(
+          disabled
+        ) Choose a branch
+    label.toggle-wrapper
+      small.small Update to latest commit on new builds
+      input.toggle-input(
+        type = "checkbox"
+      )
+      .toggle-group.toggle-xs
+
+    ul.list.list-servers(
+    )
+      li.list-item.active commit message
+        .toggle-group-detail
+          small.small.text-overflow runnabro authored 10 minutes ago runnabro authored 10 minutes ago runnabro authored 10 minutes ago runnabro authored 10 minutes ago 
+          a.small.link.link-text.monospace(
+            ng-click = "$event.stopPropagation()"
+            ng-href = "{{ commit.attrs.html_url }}"
+            target = "_blank"
+          ) YYYYYY
+      li.list-item commit message
+        .toggle-group-detail
+          small.small.text-overflow runnabro authored 10 minutes ago runnabro authored 10 minutes ago runnabro authored 10 minutes ago runnabro authored 10 minutes ago 
+          a.small.link.link-text.monospace(
+            ng-click = "$event.stopPropagation()"
+            ng-href = "{{ commit.attrs.html_url }}"
+            target = "_blank"
+          ) YYYYYY
+      li.list-item commit message
+        .toggle-group-detail
+          small.small.text-overflow runnabro authored 10 minutes ago runnabro authored 10 minutes ago runnabro authored 10 minutes ago runnabro authored 10 minutes ago 
+          a.small.link.link-text.monospace(
+            ng-click = "$event.stopPropagation()"
+            ng-href = "{{ commit.attrs.html_url }}"
+            target = "_blank"
+          ) YYYYYY
+      li.list-item commit message
+        .toggle-group-detail
+          small.small.text-overflow runnabro authored 10 minutes ago runnabro authored 10 minutes ago runnabro authored 10 minutes ago runnabro authored 10 minutes ago 
+          a.small.link.link-text.monospace(
+            ng-click = "$event.stopPropagation()"
+            ng-href = "{{ commit.attrs.html_url }}"
+            target = "_blank"
+          ) YYYYYY
+    //- end dummy content, remove before merging
+    //- *************************
+
   section.modal-footer
     button.btn.white.btn-cancel Cancel
     button.btn.green Save & Rebuild

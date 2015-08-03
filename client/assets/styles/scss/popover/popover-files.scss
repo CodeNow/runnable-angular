@@ -209,12 +209,13 @@
 
   // filter
   .label-jump {
+    display: block;
     text-align: center;
 
     // label.toggle-wrapper
     + .toggle-wrapper {
       color: $gray;
-      margin-bottom: 9px;
+      display: block;
       text-align: center;
 
       .toggle-group{

@@ -17,11 +17,11 @@ label.label-jump(
 label.toggle-wrapper(
   ng-if = "$root.featureFlags.additionalRepositories"
 )
+  small.small Update to latest commit on new builds
   input.toggle-input(
     type = "checkbox"
   )
   .toggle-group.toggle-xs
-  small.small Update to latest commit on new builds
 
 .spinner-wrapper.spinner-backdrop.spinner-gray.spinner-md.in(
   ng-if = "(repoSelector.data.branch && !repoSelector.data.branch.commits.models.length) || fetchingBranches"
@@ -31,13 +31,13 @@ label.toggle-wrapper(
 ul.list.list-servers(
   ng-if = "!repoSelector.data.latestCommit && !fetchingBranches"
 )
-  li.list-item.text-overflow(
+  li.list-item(
     ng-class = "{active: repoSelector.data.commit === commit, disabled: state.saving}"
     ng-click = "repoSelector.actions.selectCommit(commit)"
     ng-repeat = "commit in repoSelector.data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
   ) {{commit.attrs.commit.message}}
-    .toggle-group-detail.clearfix
-      small.small {{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}
+    .toggle-group-detail
+      small.small.text-overflow {{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}
       a.small.link.link-text.monospace(
         ng-click = "$event.stopPropagation()"
         ng-href = "{{ commit.attrs.html_url }}"
