@@ -12,16 +12,20 @@
   model = "instance.contextVersion.getMainAppCodeVersion()"
 )
 //- in-process additional repo
-.server-sidebar-item(
-  model = "instance.contextVersion.getMainAppCodeVersion()"
-)
+.server-sidebar-item
   .small.strong.text-overflow repo-name
   .btn.gray
-    .repo-info.text-overflow.js-repository-branch my-branch-name
+    .repo-info.text-overflow.js-repository-branch branch-name
       svg.iconnables.icons-branch
         use(
           xlink:href = "#icons-branch"
         )
+    .repo-info.text-overflow.js-repository-commit commit message
+      svg.iconnables.icons-commit
+        use(
+          xlink:href = "#icons-commit"
+        )
+    .repo-info.small 10 minutes ago
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"

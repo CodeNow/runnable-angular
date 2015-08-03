@@ -11,6 +11,14 @@ label.label.label-jump(
     option(
       disabled
     ) Choose a branch
+  
+  //- this element should only appear in the modal for non-primary repositories
+  label.toggle-wrapper
+    input.toggle-input(
+      type = "checkbox"
+    )
+    .toggle-group.toggle-xs
+    small.small Update to latest commit on new builds
 
 .spinner-wrapper.spinner-backdrop.spinner-gray.spinner-md.in(
   ng-if = "(repoSelector.data.branch && !repoSelector.data.branch.commits.models.length) || fetchingBranches"
