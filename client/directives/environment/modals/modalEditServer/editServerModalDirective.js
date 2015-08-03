@@ -56,6 +56,29 @@ function editServerModal(
 
       // temp fix
       $scope.data = {};
+      $scope.portTagOptions = {
+        breakCodes: [
+          13, // return
+          32, // space
+          44, // comma (opera)
+          188 // comma (mozilla)
+        ],
+        texts: {
+          'inputPlaceHolder': 'Add ports here',
+          maxInputLength: 5,
+          onlyDigits: true
+        },
+        minTagWidth: 120,
+        tags: new JSTagsCollection([])
+      };
+      $scope.state = {
+        opts: {
+          env: keypather.get($scope.instance, 'attrs.env')
+        },
+        getPorts: convertTagToPortList,
+        instance: $scope.instance,
+        promises: {}
+      };
 
       fetchInstancesByPod()
         .then(function (instances) {
@@ -69,30 +92,6 @@ function editServerModal(
       fetchSourceContexts()
         .then(function (contexts) {
           $scope.data.sourceContexts = contexts;
-        });
-      parseDockerfileForCardInfoFromInstance($scope.instance)
-        .then(function (data) {
-          Object.keys(data).forEach(function (key) {
-            $scope.instance[key] = data[key];
-          });
-          resetState($scope.instance);
-          $scope.portTagOptions = {
-            breakCodes: [
-              13, // return
-              32, // space
-              44, // comma (opera)
-              188 // comma (mozilla)
-            ],
-            texts: {
-              'inputPlaceHolder': 'Add ports here',
-              maxInputLength: 5,
-              onlyDigits: true
-            },
-            minTagWidth: 120,
-            tags: new JSTagsCollection(($scope.instance.ports || '').split(' '))
-          };
-          $scope.portTagOptions.tags.onAdd($scope.updateDockerfileFromState);
-          $scope.portTagOptions.tags.onRemove($scope.updateDockerfileFromState);
         });
 
       if (helpCards.cardIsActiveOnThisContainer($scope.instance)) {
@@ -121,12 +120,36 @@ function editServerModal(
       // For the build and server logs
       $scope.build = $scope.instance.build;
 
+      function afterParsingDockerfile(data, contextVersion) {
+        Object.keys(data).forEach(function (key) {
+          $scope.instance[key] = data[key];
+        });
+        $scope.state.ports = data.ports;
+        $scope.portTagOptions.tags = new JSTagsCollection((data.ports || '').split(' '));
+        $scope.portTagOptions.tags.onAdd($scope.updateDockerfileFromState);
+        $scope.portTagOptions.tags.onRemove($scope.updateDockerfileFromState);
+
+        $scope.state.startCommand = data.startCommand;
+        $scope.state.selectedStack = data.selectedStack;
+
+        function mapContainerFiles(model) {
+          var cloned = model.clone();
+          if (model.type === 'Main Repository') {
+            $scope.state.mainRepoContainerFile = cloned;
+          }
+          return cloned;
+        }
+
+        if (data.containerFiles) {
+          $scope.state.containerFiles = data.containerFiles.map(mapContainerFiles);
+        }
+      }
+
       $scope.resetStateContextVersion = function (contextVersion, showSpinner) {
         loading.reset('editServerModal');
         if (showSpinner) {
           loading('editServerModal', true);
         }
-
         $scope.state.advanced = keypather.get(contextVersion, 'attrs.advanced') || false;
         $scope.state.promises.contextVersion = loadingPromises.add(
           'editServerModal',
@@ -138,12 +161,21 @@ function editServerModal(
               return promisify(contextVersion, 'fetch')();
             })
         );
+        // We only set showSpinner to true when an error has not occurred, so we should only
+        // parse dockerfile info when this is true
         if (showSpinner) {
           $scope.state.promises.contextVersion
+            .then(function (contextVersion) {
+              return parseDockerfileForCardInfoFromInstance($scope.instance, contextVersion)
+                .then(function (data) {
+                  return afterParsingDockerfile(data, contextVersion);
+                });
+            })
             .then(function () {
               loading('editServerModal', false);
             });
         }
+
         return $scope.state.promises.contextVersion
           .then(function () {
             return openDockerfile();
@@ -174,42 +206,6 @@ function editServerModal(
 
       function resetState(instance, fromError) {
         loadingPromises.clear('editServerModal');
-        var advanced = keypather.get(instance, 'advanced') || keypather.get(instance, 'contextVersion.attrs.advanced') || false;
-        $scope.state = {
-          advanced: advanced,
-          startCommand: instance.startCommand,
-          selectedStack: instance.selectedStack,
-          opts: {},
-          repo: keypather.get(instance, 'contextVersion.getMainAppCodeVersion().githubRepo'),
-          instance: fromError ? instance.instance : instance,
-          getPorts: convertTagToPortList,
-          promises: {}
-        };
-
-        $scope.state.opts.env = (fromError ?
-            keypather.get(instance, 'opts.env') : keypather.get(instance, 'attrs.env')) || [];
-
-        function mapContainerFiles(model) {
-          var cloned = model.clone();
-          if (model.type === 'Main Repository') {
-            $scope.state.mainRepoContainerFile = cloned;
-          }
-          return cloned;
-        }
-
-        if (instance.containerFiles) {
-          $scope.state.containerFiles = instance.containerFiles.map(mapContainerFiles);
-        } else {
-          watchOncePromise($scope, 'instance.containerFiles', true)
-            .then(function (containerFiles) {
-              $scope.state.containerFiles = containerFiles.map(mapContainerFiles);
-            });
-        }
-
-        watchOncePromise($scope, 'instance.packages', true)
-          .then(function (packages) {
-            $scope.state.packages = packages.clone();
-          });
 
         return $scope.resetStateContextVersion(instance.contextVersion, !fromError);
       }
@@ -292,7 +288,7 @@ function editServerModal(
         var toRedeploy;
         // So we should do this watchPromise step first so that any tab that relies on losing focus
         // to change something will have enough time to add its promises to LoadingPromises
-        return watchOncePromise($scope, 'state.contextVersion', true)
+        return $scope.state.promises.contextVersion
           .then(function () {
             return loadingPromises.finished('editServerModal');
           })
@@ -359,6 +355,10 @@ function editServerModal(
             $scope.state.dockerfile = dockerfile;
           });
       }
+
+      resetState($scope.instance);
+
+
       if (!$rootScope.featureFlags.dockerfileTool) {
         // Only start watching this after the context version has
         $scope.$watch('state.advanced', function (advanced, previousAdvanced) {

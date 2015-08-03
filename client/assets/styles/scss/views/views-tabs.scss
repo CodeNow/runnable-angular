@@ -1,11 +1,10 @@
 // ul.tabs
 .tabs {
-  float: left;
+  flex: 1 1 auto;
   height: $input-md;
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
-  width: calc(100% - 42px); // 100% - $input-md
 }
 
 // li.tab-wrapper

@@ -99,18 +99,21 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         return ctx.updateDockerfileFromStateMock
           .returns($q.when(true));
       });
+      ctx.parseDockerfileResponse = {
+        ports: '80 900 90',
+        startCommand: 'hello',
+        containerFiles: [],
+        commands: [],
+        selectedStack: {
+          hello: 'cheese'
+        }
+      };
+      ctx.parseDockerfileResponseMock = null;
       $provide.factory('parseDockerfileForCardInfoFromInstance', function ($q) {
-        return function () {
-          return $q.when({
-            ports: '80 900 90',
-            startCommand: 'hello',
-            containerFiles: [],
-            commands: [],
-            selectedStack: {
-              hello: 'cheese'
-            }
-          });
-        };
+        ctx.parseDockerfileResponseMock = sinon.spy(function () {
+          return $q.when(ctx.parseDockerfileResponse);
+        });
+        return ctx.parseDockerfileResponseMock;
       });
 
       $provide.factory('serverStatusCardHeaderDirective', function () {
@@ -504,8 +507,31 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         loadingService.reset();
         ctx.fakeOrg1.createBuild.reset();
         expect($elScope.state.advanced, 'advanced flag').to.be.ok;
+        $scope.$digest();
         var oldAcv = $elScope.state.acv;
         var oldRepo = $elScope.state.repo;
+        var oldStartCommand = $elScope.state.startCommand;
+        var oldSelectedStack = $elScope.state.selectedStack;
+        var oldContainerFiles = $elScope.state.containerFiles;
+
+        var newContainerFile = {
+          name: 'hello',
+          clone: sinon.spy(function () {
+            return newContainerFile;
+          })
+        };
+
+        ctx.parseDockerfileResponse = {
+          ports: '11 22 33',
+          startCommand: 'sadfasdfasdf',
+          containerFiles: [newContainerFile],
+          commands: ['1,. 2 31234'],
+          selectedStack: {
+            dsfasdf: 'fd'
+          }
+        };
+
+        ctx.parseDockerfileResponseMock.reset();
         $elScope.resetStateContextVersion(ctx.rollbackContextVersion, true);
         $scope.$digest();
 
@@ -526,9 +552,13 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
           }
         });
         $scope.$digest();
+        sinon.assert.calledOnce(ctx.parseDockerfileResponseMock);
         expect($elScope.state.contextVersion, 'state cv').to.equal(ctx.rollbackContextVersion);
         expect($elScope.state.acv, 'state acv').to.not.equal(oldAcv);
         expect($elScope.state.repo, 'state repo').to.not.equal(oldRepo);
+        expect($elScope.state.startCommand, 'state startCommand').to.not.equal(oldStartCommand);
+        expect($elScope.state.selectedStack, 'state selectedStack').to.not.equal(oldSelectedStack);
+        expect($elScope.state.containerFiles, 'state containerFiles').to.not.equal(oldContainerFiles);
 
       });
     });
@@ -700,7 +730,9 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     expect($elScope.state.containerFiles.length).to.equal(1);
     expect($elScope.state.dockerfile).to.not.equal(ctx.dockerfile);
     expect($elScope.state.dockerfile).to.equal(ctx.anotherDockerfile);
-    sinon.assert.calledOnce(containerFiles[0].clone);
+
+    // No longer need to clone after the original time
+    //sinon.assert.calledOnce(containerFiles[0].clone);
     sinon.assert.calledOnce(ctx.newContextVersion.deepCopy);
     sinon.assert.calledOnce(ctx.contextVersion.fetch);
   });
