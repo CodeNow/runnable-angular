@@ -39,6 +39,20 @@
     use(
       xlink:href = "#icons-arrow-down"
     )
+label.label-checkbox.btn-sm.btn-checkbox(
+  ng-if = "!$root.featureFlags.additionalRepositories"
+  tooltip = "Disabling Auto Deploy will stop your container from automatically updating with new changes to your repositories."
+  tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":6,\"top\":24}"
+  style = "margin: 0; padding: 0 12px; height: 30px;"
+)
+  input.input-checkbox(
+    ng-false-value="true"
+    ng-model = "autoDeploy"
+    ng-model-options = "{getterSetter: true}"
+    ng-true-value="false"
+    type = "checkbox"
+  )
+  | Auto Deploy
 
 .small.strong.text-overflow(
   ng-if = "$root.featureFlags.additionalRepositories"
