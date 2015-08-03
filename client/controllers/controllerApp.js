@@ -67,6 +67,7 @@ function ControllerApp(
   }, 33));
 
   var defaultFeatureFlags = {
+    additionalRepositories: false,
     advancedRepositories: true,
     buildCommandCache: true,
     cardStatus: false,
@@ -75,8 +76,8 @@ function ControllerApp(
     findAndReplace: true,
     fullScreen: false,  // toggles full screen
     fullScreenToggle: false,  // toggles the button that toggles full screen
-    hostnameTool: false,
     hostnameNotifications: false,
+    hostnameTool: false,
     imAfraidOfTheDark: false, // toggles theme
     internalDebugging: false,
     multilineFnR: false,

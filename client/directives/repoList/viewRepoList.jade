@@ -7,12 +7,17 @@
       xlink:href = "#icons-disclose"
     )
   | Repositories
+
+//- primary repository
 .server-sidebar-item(
   edit-repo-commit
   model = "instance.contextVersion.getMainAppCodeVersion()"
 )
-//- in-process additional repo
-.server-sidebar-item
+
+//- additional repositories
+.server-sidebar-item(
+  ng-if = "$root.featureFlags.additionalRepositories"
+)
   .small.strong.text-overflow repo-name
   .btn.gray
     .repo-info.text-overflow.js-repository-branch branch-name

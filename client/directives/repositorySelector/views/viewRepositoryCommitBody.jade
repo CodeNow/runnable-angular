@@ -13,7 +13,9 @@ label.label.label-jump(
     ) Choose a branch
   
   //- this element should only appear in the modal for non-primary repositories
-  label.toggle-wrapper
+  label.toggle-wrapper(
+    ng-if = "$root.featureFlags.additionalRepositories"
+  )
     input.toggle-input(
       type = "checkbox"
     )
