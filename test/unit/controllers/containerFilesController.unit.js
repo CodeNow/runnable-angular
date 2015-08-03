@@ -584,7 +584,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
           CFC.sshKey.popover.actions.remove(sshKey);
           $rootScope.$digest();
 
-          sinon.assert.calledTwice(loadingPromises.add);
+          sinon.assert.calledOnce(loadingPromises.add);
           sinon.assert.calledWith(loadingPromises.add, 'editServerModal');
           sinon.assert.calledOnce(sshKey.fileModel.destroy);
           sinon.assert.calledOnce($scope.state.contextVersion.rootDir.contents.fetch);
@@ -610,7 +610,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
           CFC.sshKey.popover.actions.remove(sshKey);
           $rootScope.$digest();
 
-          sinon.assert.calledTwice(loadingPromises.add);
+          sinon.assert.calledOnce(loadingPromises.add);
           sinon.assert.calledWith(loadingPromises.add, 'editServerModal');
           sinon.assert.calledOnce(fileModel.destroy);
           sinon.assert.calledOnce($scope.state.contextVersion.rootDir.contents.fetch);
@@ -655,7 +655,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
         CFC.sshKey.popover.actions.remove(sshKey);
         $rootScope.$digest();
 
-        sinon.assert.calledTwice(loadingPromises.add);
+        sinon.assert.calledOnce(loadingPromises.add);
         sinon.assert.calledWith(loadingPromises.add, 'editServerModal');
         sinon.assert.calledOnce(fileModel.destroy);
         sinon.assert.calledOnce($scope.state.contextVersion.rootDir.contents.fetch);

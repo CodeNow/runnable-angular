@@ -179,20 +179,6 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
       expect(fileMock.state.isDirty, 'fileMock.state.isDirty').to.not.be.ok;
     });
 
-
-    it('Should update when it receives an event from the model', function () {
-      initState(true, true);
-      fileFetchCb();
-      $scope.$apply();
-
-      sinon.assert.calledOnce(fileMock.on);
-
-      $scope.$apply();
-
-      $scope.$destroy();
-      sinon.assert.calledOnce(fileMock.off);
-    });
-
     it('Should not set !isDirty after an outdated update returns', function () {
       initState(true, true);
       fileFetchCb();

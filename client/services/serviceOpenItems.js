@@ -291,8 +291,10 @@ function openItemsFactory(
         model.state.body = model.attrs.body;
       };
     }
-    model.state.open = true;
-    model.state.reset();
+    if (!model.state.open) {
+      model.state.open = true;
+      model.state.reset();
+    }
     this.activeHistory.add(model);
     BaseCollection.prototype.add.apply(this, arguments);
     return this;
