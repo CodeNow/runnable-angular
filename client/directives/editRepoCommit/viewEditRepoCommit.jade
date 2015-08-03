@@ -13,13 +13,8 @@
       use(
         xlink:href = "#icons-commit"
       )
-  .repo-info.small
-    a.link.text-overflow(
-      ng-href = "{{ activeCommit.attrs.html_url }}"
-      ng-click = "$event.stopPropagation()"
-      target = "_blank"
-    ) {{ activeCommit.attrs.commit.author.date | timeFrom }}
-    label.toggle-wrapper(
+  .repo-info.small {{ activeCommit.attrs.commit.author.date | timeFrom }}
+    label.toggle-wrapper.float-right(
       ng-click = "$event.stopPropagation()"
       tooltip = "Disabling Auto Deploy will stop your container from automatically updating with new changes to your repositories."
       tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-6,\"top\":18}"
