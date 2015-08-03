@@ -1,0 +1,181 @@
+.label-col Stack Type
+
+//- if new container
+.input-col(
+  ng-if = "$root.featureFlags.newVerificationFlow"
+)
+  .btn-group.btn-group-stacks
+    button.btn.btn-radio.white
+      img.iconnables(
+        height = "24"
+        ng-src = "/build/images/logos/logo-icon-go.svg"
+        width = "24"
+      )
+      | Go
+    button.btn.btn-radio.white
+      img.iconnables(
+        height = "24"
+        ng-src = "/build/images/logos/logo-icon-nodejs.svg"
+        width = "24"
+      )
+      | node.js
+    button.btn.btn-radio.white
+      img.iconnables(
+        height = "24"
+        ng-src = "/build/images/logos/logo-icon-php.svg"
+        width = "24"
+      )
+      | PHP
+    button.btn.btn-radio.white
+      img.iconnables(
+        height = "24"
+        ng-src = "/build/images/logos/logo-icon-python.svg"
+        width = "24"
+      )
+      | Python
+    button.btn.btn-radio.white
+      img.iconnables(
+        height = "24"
+        ng-src = "/build/images/logos/logo-icon-ruby.svg"
+        width = "24"
+      )
+      | Ruby
+    button.btn.btn-radio.white
+      img.iconnables(
+        height = "24"
+        ng-src = "/build/images/logos/logo-icon-rails.svg"
+        width = "24"
+      )
+      | Rails
+
+  fancy-select(
+    ng-disabled = "!state.selectedStack"
+    ng-required = "true"
+    placeholder = "Select Version"
+    value = "state.selectedStack.selectedVersion"
+    on-update = "updateDockerfile"
+  )
+    li.list-item.popover-list-item.small(
+      ng-if = "$parent.state.selectedStack.suggestedVersion"
+    ) Suggested {{$parent.$parent.state.selectedStack.name}} Version
+    fancy-option(
+      ng-repeat = "version in $parent.state.selectedStack.versions | filter: $parent.state.selectedStack.suggestedVersion"
+      value = "version"
+    ) v{{$parent.version}}
+    li.divider(
+      ng-if = "$parent.state.selectedStack.suggestedVersion"
+    )
+    fancy-option(
+      ng-repeat = "version in $parent.state.selectedStack.versions | filter: '!'+ $parent.state.selectedStack.suggestedVersion"
+      value = "version"
+    ) v{{$parent.version}}
+  .label(
+    ng-repeat = "depStack in state.selectedStack.dependencies"
+  )
+    .small {{depStack.name}}
+    fancy-select(
+      ng-required = "state.selectedStack.dependencies.length"
+      placeholder = "Select Version"
+      value = "depStack.selectedVersion"
+      on-update = "updateDockerfile"
+    )
+      li.list-item.popover-list-item.small(
+        ng-if = "$parent.depStack.suggestedVersion"
+      ) Suggested {{$parent.$parent.depStack.name}} Version
+      fancy-option(
+        ng-repeat = "version in $parent.depStack.versions | filter: $parent.depStack.suggestedVersion"
+        value = "version"
+      ) v{{$parent.version}}
+      li.divider(
+        ng-if = "$parent.depStack.suggestedVersion"
+      )
+      fancy-option(
+        ng-repeat = "version in $parent.depStack.versions | filter: '!'+ $parent.depStack.suggestedVersion"
+        value = "version"
+      ) v{{$parent.version}}
+
+//- if not new
+.input-col(
+  ng-if = "!$root.featureFlags.newVerificationFlow"
+)
+  fancy-select(
+    name = 'mainstack'
+    ng-required = "true"
+    on-update = "newStackSelected"
+    placeholder = "Select language/framework"
+    track-by = "key"
+    value = "temp.stack"
+  )
+    li.list-item.popover-list-item.small(
+      ng-if = "$parent.state.repo.stackAnalysis.languageFramework"
+    ) Suggested stack type
+    fancy-option(
+      ng-repeat = "framework in $parent.data.stacks | filter: { key: $parent.state.repo.stackAnalysis.languageFramework } track by framework.key "
+      value = "framework"
+    )
+      img.iconnables(
+        height = "24"
+        ng-src = "/build/images/logos/logo-icon-{{$parent.framework.key}}.svg"
+        width = "24"
+      )
+      | {{$parent.framework.name}}
+
+    li.divider(
+      ng-if = "$parent.state.repo.stackAnalysis.languageFramework"
+    )
+    fancy-option(
+      ng-repeat = "framework in $parent.data.stacks | filter: { key: '!' + $parent.state.repo.stackAnalysis.languageFramework } | orderBy:'name' track by framework.key "
+      value = "framework"
+    )
+      img.iconnables(
+        height = "24"
+        ng-src = "/build/images/logos/logo-icon-{{$parent.framework.key}}.svg"
+        width = "24"
+      )
+      | {{$parent.framework.name}}
+
+  fancy-select(
+    ng-disabled = "!state.selectedStack"
+    ng-required = "true"
+    placeholder = "Select Version"
+    value = "state.selectedStack.selectedVersion"
+    on-update = "updateDockerfile"
+  )
+    li.list-item.popover-list-item.small(
+      ng-if = "$parent.state.selectedStack.suggestedVersion"
+    ) Suggested {{$parent.$parent.state.selectedStack.name}} Version
+    fancy-option(
+      ng-repeat = "version in $parent.state.selectedStack.versions | filter: $parent.state.selectedStack.suggestedVersion"
+      value = "version"
+    ) v{{$parent.version}}
+    li.divider(
+      ng-if = "$parent.state.selectedStack.suggestedVersion"
+    )
+    fancy-option(
+      ng-repeat = "version in $parent.state.selectedStack.versions | filter: '!'+ $parent.state.selectedStack.suggestedVersion"
+      value = "version"
+    ) v{{$parent.version}}
+  .label(
+    ng-repeat = "depStack in state.selectedStack.dependencies"
+  )
+    .small {{depStack.name}}
+    fancy-select(
+      ng-required = "state.selectedStack.dependencies.length"
+      placeholder = "Select Version"
+      value = "depStack.selectedVersion"
+      on-update = "updateDockerfile"
+    )
+      li.list-item.popover-list-item.small(
+        ng-if = "$parent.depStack.suggestedVersion"
+      ) Suggested {{$parent.$parent.depStack.name}} Version
+      fancy-option(
+        ng-repeat = "version in $parent.depStack.versions | filter: $parent.depStack.suggestedVersion"
+        value = "version"
+      ) v{{$parent.version}}
+      li.divider(
+        ng-if = "$parent.depStack.suggestedVersion"
+      )
+      fancy-option(
+        ng-repeat = "version in $parent.depStack.versions | filter: '!'+ $parent.depStack.suggestedVersion"
+        value = "version"
+      ) v{{$parent.version}}

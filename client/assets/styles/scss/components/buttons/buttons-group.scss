@@ -1,5 +1,6 @@
  // btn-groups
 .btn-group {
+  @extend %clearfix;
   display: inline-block;
   position: relative;
   vertical-align: middle;
@@ -15,6 +16,16 @@
     float: left;
     min-width: 26px;
     position: relative;
+
+    // hover/active states have higher z-index than siblings
+    &:hover {
+      z-index: 1;
+    }
+
+    &:active,
+    &.active {
+      z-index: 2;
+    }
 
     &:not(:first-child):not(:last-child) {
       border-radius: 0;

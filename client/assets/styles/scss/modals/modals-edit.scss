@@ -193,3 +193,60 @@
     z-index: $z-modal;
   }
 }
+
+// stack button
+.btn-group-stacks {
+  display: flex;
+  margin-bottom: 6px;
+  margin-left: -1px; // line up with version button
+
+  @include media(sm) {
+    flex-wrap: wrap;
+  }
+
+  @include media(xs) {
+    margin-left: 0; // reset
+  }
+
+  > .btn {
+    border-color: $gray-lighter;
+    flex: 1 1 auto;
+    font-size: 14px;
+    line-height: normal; // reset
+    padding: 0;
+
+    @include media(sm) {
+      font-size: 13px;
+      flex: 1 1 33.33%;
+
+      // styles for 3x2
+      &:first-child {
+        border-radius: $input-border-radius 0 0;
+      }
+
+      &:nth-child(3):nth-child(3) { // override btn-group default
+        border-radius: 0 $input-border-radius 0 0;
+      }
+
+      &:nth-child(4):nth-child(4) { // override btn-group default
+        border-radius: 0 0 0 $input-border-radius;
+        margin-left: 1px;
+      }
+
+      &:last-child {
+        border-radius: 0 0 $input-border-radius;
+        margin-right: -1px;
+      }
+
+      &:nth-child(n+4) {
+        margin-top: -2px;
+      }
+    }
+
+    .iconnables {
+      height: 24px;
+      margin: 0 auto 6px;
+      width: 24px;
+    }
+  }
+}

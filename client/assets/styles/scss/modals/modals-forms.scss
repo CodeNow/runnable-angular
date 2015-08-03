@@ -119,8 +119,8 @@
     margin-bottom: 6px;
 
     // inputs and buttons
-    .input,
-    .btn {
+    > .input,
+    > .btn {
       max-width: 360px;
 
       @include media(xs) {
@@ -129,7 +129,7 @@
     }
 
     // buttons
-    .btn {
+    > .btn {
       display: block;
       font-size: 16px;
       padding-left: 6px;
@@ -182,18 +182,6 @@
   > .btn-group {
     display: table;
     margin: 0 auto 15px;
-
-    .btn {
-
-      &:hover {
-        z-index: 1;
-      }
-
-      &:active,
-      &.active {
-        z-index: 2;
-      }
-    }
   }
 
   // label info
