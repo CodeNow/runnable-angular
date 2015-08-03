@@ -20,15 +20,15 @@
     cursor: pointer;
     pointer-events: auto;
     position: absolute;
-    right: 9px;
-    top: 9px;
+    right: 15px;
+    top: 18px;
 
     &:hover {
       color: $gray;
     }
 
     &:active {
-      color: $purple-light;
+      color: $red;
     }
   }
 
@@ -60,6 +60,7 @@
 // header
 .home-header {
   background: transparent;
+  border: 0;
   height: auto;
 
   .logo-anchor {
@@ -72,6 +73,7 @@
   .logo {
     left: 0;
     margin-left: 0;
+    top: 0;
   }
 
   // vertically center
@@ -79,7 +81,7 @@
     border: 0;
     color: $white;
     line-height: 36px;
-    margin: 15px 3px 0;
+    margin: 12px 3px 0;
 
     @include media(sm) {
       font-size: 14px;
@@ -192,7 +194,7 @@
     display: block;
     flex: 1 1 auto;
     font-size: 14px;
-    margin-top: 45px;
+    margin-top: $input-md;
     padding: 15px 0;
     text-align: center;
     width: 100%;
@@ -212,7 +214,7 @@
       left: -15px;
       line-height: 36px;
       position: absolute;
-      top: -45px;
+      top: -$input-md;
 
       &:hover,
       &:active {
@@ -274,11 +276,11 @@
     box-shadow: 0 2px 3px rgba($black,.1);
     display: block;
     fill: $white;
-    height: 45px;
+    height: $input-md;
     margin: 0 auto;
     position: relative;
     top: calc(50% - 23px);
-    width: 45px;
+    width: $input-md;
   }
 }
 

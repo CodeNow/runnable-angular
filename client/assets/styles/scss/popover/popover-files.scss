@@ -55,11 +55,12 @@
 
   // forms
   .input-search {
-    background-position: calc(50% - 45px) center;
+    background-position: 57px center;
     display: block;
+    line-height: 23px;
     margin: 0 auto 15px;
-    padding-left: calc(50% - 48px);
-    width: calc(100% - 30px);
+    padding-left: 73px;
+    width: 210px;
 
     &:focus,
     &:valid {

@@ -80,7 +80,7 @@
 
     // if full-screen
     .full-screen & {
-      top: 45px;
+      top: $input-md;
       width: calc(100% - 51px);
     }
   }
@@ -111,16 +111,16 @@
 
 // shift fixed position if there's a toolbar (36px)
 .views-toolbar-wrapper + .active-panel .fixed {
-  top: 45px + 36px;
+  top: $input-md + $input-sm;
 
   // if in modal
   .modal-edit & {
-    top: 199 + 36px;
+    top: 199 + $input-sm;
   }
 
   // if full-screen
   .full-screen & {
-    top: 177px + 36px;
+    top: 177px + $input-sm;
   }
 }
 

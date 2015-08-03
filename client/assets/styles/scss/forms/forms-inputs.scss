@@ -89,6 +89,15 @@ input {
 
   &[type="search"] {
     border-radius: $input-md;
+    min-height: $input-md; // safari
+
+    // reset so padding is consistent across browsers
+    &::-webkit-search-decoration,
+    &::-webkit-search-cancel-button,
+    &::-webkit-search-results-button,
+    &::-webkit-search-results-decoration {
+      display: none;
+    }
   }
 
   &.input-sm {
@@ -97,6 +106,7 @@ input {
 
     &[type="search"] {
       border-radius: $input-sm;
+      min-height: $input-sm; // safari
     }
   }
 
@@ -107,6 +117,7 @@ input {
 
     &[type="search"] {
       border-radius: $input-xs;
+      min-height: $input-xs; // safari
     }
   }
 
@@ -117,6 +128,7 @@ input {
 
     &[type="search"] {
       border-radius: $input-xxs;
+      min-height: $input-xxs; // safari
     }
   }
 }

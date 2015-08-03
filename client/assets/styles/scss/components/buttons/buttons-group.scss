@@ -1,0 +1,154 @@
+ // btn-groups
+.btn-group {
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+
+  .btn + .btn,
+  .btn + .btn-group,
+  .btn-group + .btn,
+  .btn-group + .btn-group {
+    margin-left: -$input-border;
+  }
+
+  > .btn {
+    float: left;
+    min-width: 26px;
+    position: relative;
+
+    &:not(:first-child):not(:last-child) {
+      border-radius: 0;
+    }
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:first-child:not(:last-child) {
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
+
+      &.btn-xs {
+        padding-left: 9px;
+      }
+    }
+
+    &:last-child:not(:first-child) {
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
+
+      &.btn-xs {
+        padding-right: 9px;
+      }
+    }
+  }
+
+  > .btn-group {
+    float: left;
+
+    &:not(:first-child):not(:last-child) > .btn {
+      border-radius: 0;
+    }
+
+    &:first-child > .btn:last-child {
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
+
+      &.btn-xs {
+        padding-left: 9px;
+      }
+    }
+
+    &:last-child > .btn:first-child {
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
+
+      &.btn-xs {
+        padding-right: 9px;
+      }
+    }
+  }
+}
+
+// .btn-toggle for rounded
+.btn-group.btn-toggle {
+  border-radius: $input-md;
+
+  // sizes
+  &.btn-toggle-sm > .btn {
+    border-radius: $input-sm;
+  }
+
+  &.btn-toggle-xs > .btn {
+    border-radius: $input-xs;
+  }
+
+  &.btn-toggle-xxs > .btn {
+    border-radius: $input-xxs;
+  }
+
+  // override border-radius: 0 from .btn-group
+  > .btn,
+  > .btn:active {
+
+    &:not(:first-child):not(:last-child) {
+      border-radius: $input-border-radius-xxs;
+    }
+
+    &:first-child:not(:last-child) {
+      border-bottom-right-radius: $input-border-radius-xxs;
+      border-top-right-radius: $input-border-radius-xxs;
+
+      &.btn-xs {
+        padding-left: 9px;
+      }
+    }
+
+    &:last-child:not(:first-child) {
+      border-bottom-left-radius: $input-border-radius-xxs;
+      border-top-left-radius: $input-border-radius-xxs;
+
+      &.btn-xs {
+        padding-right: 9px;
+      }
+    }
+  }
+
+  // colors
+  &.purple {
+    background: $purple;
+    border: 2px solid $purple;
+
+    > .btn {
+      background: transparent;
+      border-color: transparent;
+      color: rgba($white,.3);
+      font-weight: 500;
+
+      &:hover {
+        color: rgba($white,.45);
+
+        .iconnables {
+          opacity: .8;
+        }
+      }
+
+      &:active {
+        color: rgba($white,.6);
+
+        .iconnables {
+          opacity: .9;
+        }
+      }
+
+      &.active {
+        background: #9662bd;
+        color: $white;
+
+        .iconnables {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

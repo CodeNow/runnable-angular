@@ -133,7 +133,7 @@
     )
 
   .popover-footer.clearfix
-    button.btn.green.btn-spinner(
+    button.btn.btn-sm.green.btn-spinner(
       ng-class = "{in: currentState.processing}"
       ng-click = "actions.performCheck(data.state, currentState)"
       ng-disabled = "!popoverRuleForm.$valid || popoverRuleForm.$pristine || currentState.processing"
@@ -145,10 +145,10 @@
         ng-include = "'spinner'"
       )
       span {{ currentState.processing ? 'Searching' : 'Search for Matches' }}
-    button.btn.green(
+    button.btn.btn-sm.green(
       ng-click = "actions.createRule(data.state)"
       ng-if = "currentState.searched"
     ) {{ data.state._id ? 'Update': 'Create'}} Rule
-    button.btn.gray.btn-cancel(
+    button.btn.btn-sm.gray.btn-cancel(
       ng-click = "actions.cancel()"
     ) Cancel
