@@ -46,6 +46,7 @@ require('app')
     var types = require('card-info-types');
     // Legacy
     types['Main Repository'] = types.MainRepository;
+    types['SSH Key'] = types.SSHKey;
     return types;
   })
   .service('keypather', [require('keypather')])

@@ -29,12 +29,15 @@ require('app')
         $scope.getContainerFilesDisplay = function () {
           var repos = 0;
           var files = 0;
+          var keys = 0;
           $scope.server.containerFiles = $scope.server.containerFiles || [];
           $scope.server.containerFiles.forEach(function (containerFile) {
             if (containerFile.type === 'Repository') {
               repos += 1;
             } else if (containerFile.type === 'File') {
               files += 1;
+            } else if (containerFile.type === 'SSH Key') {
+              keys += 1;
             }
           });
           var messages = [];
@@ -47,6 +50,11 @@ require('app')
             messages.push('1 File');
           } else if (files) {
             messages.push(files + ' Files');
+          }
+          if (keys === 1) {
+            messages.push('1 Key');
+          } else if (keys) {
+            messages.push(keys + ' Keys');
           }
 
           if(messages.length){
