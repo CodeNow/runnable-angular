@@ -1,4 +1,3 @@
-div test test test
 label.label.label-jump(
   ng-if = "!fetchingBranches && repoSelector.data.branch.commits.models.length"
 )
@@ -11,8 +10,10 @@ label.label.label-jump(
     option(
       disabled
     ) Choose a branch
-  
-  //- this element should only appear in the modal for non-primary repositories
+    
+  //- this element should appear in:
+      * the setup popover for adding a repo to Container Files
+      * the edit modal (in the Containers view) for modifying an additional repo on a specific Container
   label.toggle-wrapper(
     ng-if = "$root.featureFlags.additionalRepositories"
   )
@@ -21,6 +22,8 @@ label.label.label-jump(
     )
     .toggle-group.toggle-xs
     small.small Update to latest commit on new builds
+      //- this element should appear only in the modal to edit container settings 
+      strong.strong of [container name]
 
 .spinner-wrapper.spinner-backdrop.spinner-gray.spinner-md.in(
   ng-if = "(repoSelector.data.branch && !repoSelector.data.branch.commits.models.length) || fetchingBranches"
