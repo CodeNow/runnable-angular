@@ -15,8 +15,9 @@
     margin-top: 22px;
   }
 
+  // override default button and fancy-select styles
   .btn.gray {
-    background-color: $gray-lighterest; // override default fancy-select color
+    background-color: $gray-lighterest;
     color: $gray;
     font-size: 15px;
     font-weight: 400;
