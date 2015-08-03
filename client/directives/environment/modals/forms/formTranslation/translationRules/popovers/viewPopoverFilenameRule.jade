@@ -58,7 +58,7 @@
             | #{''} → {{ data.state.nameChanges[0].to }}
 
   .popover-footer.clearfix
-    button.btn.green.btn-spinner(
+    button.btn.btn-sm.green.btn-spinner(
       ng-if = "!currentState.searched"
       ng-class = "{in: currentState.processing}"
       ng-click = "actions.performCheck(data.state, currentState)"
@@ -70,10 +70,10 @@
         ng-include = "'spinner'"
       )
       span {{ currentState.processing ? 'Searching' : 'Search for matches' }}
-    button.btn.green(
+    button.btn.btn-sm.green(
       ng-if = "currentState.searched"
       ng-click = "actions.createRule(data.state)"
     ) {{ data.state._id ? 'Update': 'Create'}} Rule
-    button.btn.gray.btn-cancel(
+    button.btn.btn-sm.gray.btn-cancel(
       ng-click = "actions.cancel()"
     ) Cancel

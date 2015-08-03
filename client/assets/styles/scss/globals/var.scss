@@ -1,8 +1,10 @@
 // **********
 // font stack
 // **********
-$sans-serif: 'Helvetica Neue', 'Segoe UI', sans-serif;
 $monospace: 'Source Code Pro', monospace;
+$sans-serif: 'Helvetica Neue', 'Segoe UI', sans-serif;
+$weight-bold: 500;
+$weight-normal: 400;
 
 // ******
 // colors
@@ -172,7 +174,7 @@ $input-border: 2px;
 $input-border-radius: 3px;
 $input-border-radius-xxs: 2px;
 
-$input-md: 45px;
+$input-md: 42px;
 $input-line-height-md: $input-md - ($input-border*2);
 
 $input-sm: 36px;

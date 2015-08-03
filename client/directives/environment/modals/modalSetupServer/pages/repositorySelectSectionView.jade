@@ -1,17 +1,22 @@
 header.modal-header
-
   h1.modal-heading New Container from Repository
+  svg.iconnables.icons-close(
+    ng-click = "defaultActions.cancel()"
+  )
+    use(
+      xlink:href = "#icons-close"
+    )
 
 section.modal-body.clearfix
-
   .spinner-wrapper.spinner-md.in(
     ng-if = "!data.githubRepos.models"
     ng-include = "'spinner'"
   )
 
+  //- search
   input.input.input-xs.input-search(
     ng-disabled = "repoSelected"
-    ng-if = "data.githubRepos.models"
+    ng-if = "data.githubRepos.models && data.githubRepos.models.length"
     ng-model = "data.repoFilter"
     placeholder = "Filter by name"
     required
@@ -19,8 +24,19 @@ section.modal-body.clearfix
     type = "search"
   )
 
+  //- empty state
+  p.p.empty(
+    ng-if = "data.githubRepos.models && !data.githubRepos.models.length"
+  ) You don’t have any private repositories. Choose another organization to use Runnable, or create one at&#32;
+    a.link(
+      href = "https://github.com/"
+      target = "_blank"
+    ) Github
+    | .
+
+  //- list of repositories
   ul.list.list-servers(
-    ng-if = "data.githubRepos.models"
+    ng-if = "data.githubRepos.models && data.githubRepos.models.length"
   )
     li.list-item.multi-line.text-overflow(
       ng-class = "{\
@@ -34,22 +50,25 @@ section.modal-body.clearfix
         repos: data.repoFilter | \
         orderBy: '-attrs.updated_at'\
       "
-    ) {{ repo.attrs.name}}
-      small.small Updated {{ repo.attrs.updated_at | timeFrom }}
+    ) {{repo.attrs.name}}
+      small.small Updated {{repo.attrs.updated_at | timeFrom}}
       button.btn.btn-xs(
         ng-class = "{\
-          disabled: repo.isAdded,\
-          green: !repo.isAdded\
+          'disabled gray': repo.isAdded,\
+          'green': !repo.isAdded\
         }"
         ng-disabled = "repoSelected"
         ng-if = "!repo.loading"
-      ) {{ repo.isAdded ? 'Already Added' : 'Add Container' }}
+      ) {{repo.isAdded ? 'Already Added' : 'Add Container'}}
       .spinner-wrapper.spinner-sm.spinner-green.in(
         ng-if = "repo.loading"
         ng-include = "'spinner'"
       )
 
-footer.modal-footer.clearfix
-  button.btn.white.btn-cancel(
-    ng-click = "defaultActions.cancel();"
-  ) Cancel
+//- if there are no repositories to add
+footer.modal-footer.clearfix(
+  ng-if = "data.githubRepos.models && !data.githubRepos.models.length"
+)
+  button.btn.white.btn-block(
+    ng-click = "defaultActions.cancel()"
+  ) Close

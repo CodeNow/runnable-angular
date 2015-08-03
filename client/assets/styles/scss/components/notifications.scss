@@ -53,10 +53,12 @@
   // close button
   .btn-close {
     float: right;
-    padding: 0;
-    width: 24px;
+    height: 21px;
+    width: 21px;
 
     .icons-close {
+      left: 0;
+      position: absolute;
       top: 0;
     }
   }
