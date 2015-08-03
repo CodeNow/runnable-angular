@@ -51,9 +51,17 @@ function fileEditor(
         }
       };
 
+      function resetFileBodyState() {
+        keypather.set($scope.file, 'state.body', $scope.file.attrs.body);
+        if (useValidation) {
+          $scope.file.validation = {};
+        }
+      }
+
       function fetchFile() {
         $scope.loading = true;
         return promisify($scope.file, 'fetch')()
+          .then(resetFileBodyState)
           .catch(errs.handler)
           .finally(function () {
             $scope.loading = false;

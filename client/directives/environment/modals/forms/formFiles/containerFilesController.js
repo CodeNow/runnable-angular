@@ -199,7 +199,8 @@ function ContainerFilesController(
           sshKey.name = data.name;
           $scope.state.containerFiles.unshift(sshKey);
 
-          loadingPromises.add('editServerModal',
+          loadingPromises.add(
+            'editServerModal',
             promisify($scope.state.contextVersion.rootDir.contents, 'create')({
               name: sshKey.name,
               path: '/',
@@ -210,10 +211,10 @@ function ContainerFilesController(
                 sshKey.fileModel = file;
                 return promisify($scope.state.contextVersion.rootDir.contents, 'fetch')();
               })
-              .then(function () {
-                loadingPromises.add('editServerModal', updateDockerfileFromState($scope.state));
-              })
               .catch(errs.handler)
+              .finally(function () {
+                return updateDockerfileFromState($scope.state);
+              })
           );
           $rootScope.$broadcast('close-popovers');
         },
@@ -227,20 +228,22 @@ function ContainerFilesController(
           }
 
           if (file) {
-            loadingPromises.add('editServerModal',
+            loadingPromises.add(
+              'editServerModal',
               promisify(file, 'destroy')()
-                //.then(function () {
-                //  return promisify($scope.state.contextVersion.rootDir.contents, 'fetch')();
-                //})
                 .then(function () {
-                  loadingPromises.add('editServerModal', updateDockerfileFromState($scope.state));
+                  return promisify($scope.state.contextVersion.rootDir.contents, 'fetch')();
                 })
                 .catch(errs.handler)
+                .finally(function () {
+                  return updateDockerfileFromState($scope.state);
+                })
             );
+          } else {
+            loadingPromises.add('editServerModal', updateDockerfileFromState($scope.state))
+              .catch(errs.handler);
           }
-          loadingPromises.add('editServerModal', updateDockerfileFromState($scope.state));
           $rootScope.$broadcast('close-popovers');
-          console.log('Closed popovers');
         }
       }
     },
