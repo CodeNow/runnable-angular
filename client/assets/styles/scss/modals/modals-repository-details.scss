@@ -1,8 +1,5 @@
-.modal-repo-detail {
-
-  .toggle-group {
-    display: inline-block;
-    margin-right: 3px;
-    top: 2px;
-  }
+.modal-repository-details.modal-repository-details {
+  @extend %popover-files;
+  background: $gray-lighterest;
+  height: auto;
 }

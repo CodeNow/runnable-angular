@@ -1,4 +1,5 @@
-.popover-files {
+.popover-files,
+%popover-files {
   background: $white;
   // fix width and height for popover-views
   height: 420px;
@@ -70,7 +71,7 @@
     margin-bottom: 12px;
 
     &.label-jump {
-      margin-bottom: 9px;
+      margin-bottom: 3px;
     }
   }
 
@@ -168,8 +169,20 @@
   }
 
   // view 3
-  .toggle-group-detail .link {
-    color: $gray;
+  .toggle-group-detail {
+    display: flex;
+
+    .small {
+      color: $gray;
+
+      &:last-child {
+        margin-left: 9px;
+      }
+
+      &:first-child {
+        flex: 1 1 auto;
+      }
+    }
   }
 
   // always update check
@@ -195,6 +208,24 @@
     &.textarea-key {
       max-height: 190px;
       resize: none;
+    }
+  }
+
+  // filter
+  .label-jump {
+    text-align: center;
+
+    // label.toggle-wrapper
+    + .toggle-wrapper {
+      color: $gray;
+      margin-bottom: 9px;
+      text-align: center;
+
+      .toggle-group{
+        display: inline-block;
+        margin-left: 6px;
+        top: 3px;
+      }
     }
   }
 }
