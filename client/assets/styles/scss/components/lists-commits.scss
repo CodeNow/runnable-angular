@@ -3,12 +3,14 @@
   > .list-item {
     @extend %text-overflow;
     font-size: 15px;
-    padding-left: 6px;
-    padding-right: 6px;
+    padding-left: 9px;
+    padding-right: 30px;
+    // display: flex;
+    height: 60px;
 
     &:active,
     &.active {
-      color: $purple-light;
+      color: $gray-darker;
     }
 
     &.multi-line {
@@ -16,7 +18,7 @@
     }
 
     &.btn-block {
-      border-color: $gray-lighter;
+      border-color: transparent;
       height: 36px;
       line-height: 32px;
       padding-bottom: 0;
@@ -24,7 +26,7 @@
       text-align: center;
 
       &:active {
-        border-color: currentColor;
+        border-color: transparent;
       }
     }
 
@@ -33,22 +35,48 @@
       right: 9px;
       top: 18px;
     }
+
+    .small {
+      color: $gray !important;
+    }
+
+    .link {
+      color: $purple-light;
+      text-decoration: none;
+      margin-right: 6px;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .icons-fat-check {
+      // flex: 0 0 auto;
+      color: $purple-light;
+      height: 100%;
+      position: absolute;
+      right: 9px;
+      top: 0;
+    }
   }
 
   // commit details (author, date, SHA)
   .toggle-group-detail {
-    display: flex;
+    // display: flex;
+    // flex: 1 1 auto;
 
-    .small {
-      color: $gray;
-
-      &:last-child {
-        margin-left: 9px;
-      }
-
-      &:first-child {
-        flex: 1 1 auto;
-      }
-    }
+    // .small {
+    //   color: $gray !important;
+    // }
+    //
+    // .link {
+    //   color: $purple-light;
+    //   text-decoration: none;
+    //   margin-right: 6px;
+    //
+    //   &:hover {
+    //     text-decoration: underline;
+    //   }
+    // }
   }
 }

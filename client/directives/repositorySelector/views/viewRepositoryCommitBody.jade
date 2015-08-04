@@ -14,58 +14,55 @@ label.label-jump(
 //- this element should appear in:
     * the setup popover for adding a repo to Container Files
     * the edit modal (in the Containers view) for modifying an additional repo on a specific Container
-label.toggle-wrapper(
-  ng-if = "$root.featureFlags.additionalRepositories"
-)
-  small.small Update to latest commit on new builds
-  input.toggle-input(
-    type = "checkbox"
-  )
-  .toggle-group.toggle-xs
+//- label.toggle-wrapper(
+//-   ng-if = "$root.featureFlags.additionalRepositories"
+//- )
+//-   small.small Update to latest commit on new builds
+//-   input.toggle-input(
+//-     type = "checkbox"
+//-   )
+//-   .toggle-group.toggle-xs
 
 ul.list.list-servers.list-commits(
   ng-if = "!repoSelector.data.latestCommit && !fetchingBranches && $root.featureFlags.additionalRepositories"
 )
-  li.list-item.active commit message
+  li.list-item.active
     .toggle-group-detail
-      small.small.text-overflow runnabro authored 10 minutes ago runnabro authored 10 minutes ago runnabro authored 10 minutes ago
-      a.small.link.link-text.monospace(
-        ng-click = "$event.stopPropagation()"
-        ng-href = "{{ commit.attrs.html_url }}"
-        target = "_blank"
-      ) YYYYYYY
-  li.list-item commit message
+      .div Always use latest commit
+      .small.text-overflow Will update on new builds of
+        strong.strong &#32;repository-name
+    svg.iconnables.icons-fat-check
+      use(
+        xlink:href = "#icons-fat-check"
+      )
+  li.list-item
     .toggle-group-detail
-      small.small.text-overflow runnabro authored 10 minutes ago runnabro authored 10 minutes ago runnabro authored 10 minutes ago
-      a.small.link.link-text.monospace(
-        ng-click = "$event.stopPropagation()"
-        ng-href = "{{ commit.attrs.html_url }}"
-        target = "_blank"
-      ) YYYYYYY
-  li.list-item commit message
+      .div fix classes
+      .small.text-overflow
+        a.link.link-text.monospace(
+          ng-click = "$event.stopPropagation()"
+          ng-href = "{{ commit.attrs.html_url }}"
+          target = "_blank"
+        ) 418ffe6
+        | runnabro authored 10 minutes ago runnabro authored 10 minutes ago runnabro authored 10 minutes ago
+  li.list-item
     .toggle-group-detail
-      small.small.text-overflow runnabro authored 10 minutes ago runnabro authored 10 minutes ago runnabro authored 10 minutes ago
-      a.small.link.link-text.monospace(
-        ng-click = "$event.stopPropagation()"
-        ng-href = "{{ commit.attrs.html_url }}"
-        target = "_blank"
-      ) YYYYYYY
-  li.list-item commit message
-    .toggle-group-detail
-      small.small.text-overflow runnabro authored 10 minutes ago runnabro authored 10 minutes ago runnabro authored 10 minutes ago
-      a.small.link.link-text.monospace(
-        ng-click = "$event.stopPropagation()"
-        ng-href = "{{ commit.attrs.html_url }}"
-        target = "_blank"
-      ) YYYYYYY
-  li.list-item commit message
-    .toggle-group-detail
-      small.small.text-overflow runnabro authored 10 minutes ago runnabro authored 10 minutes ago runnabro authored 10 minutes ago
-      a.small.link.link-text.monospace(
-        ng-click = "$event.stopPropagation()"
-        ng-href = "{{ commit.attrs.html_url }}"
-        target = "_blank"
-      ) YYYYYYY
+      .div temporarily comment out ng-include
+      .small.text-overflow
+        a.link.link-text.monospace(
+          ng-click = "$event.stopPropagation()"
+          ng-href = "{{ commit.attrs.html_url }}"
+          target = "_blank"
+        ) 418ffe6
+        | runnabro authored 10 minutes ago runnabro authored 10 minutes ago runnabro authored 10 minutes ago
+  li.list-item.text-overflow Found out that containerfiles weren't being updated
+      .small
+        a.link.monospace(
+          ng-click = "$event.stopPropagation()"
+          ng-href = "{{ commit.attrs.html_url }}"
+          target = "_blank"
+        ) 418ffe6
+        | runnabro authored 10 minutes ago runnabro authored 10 minutes ago runnabro authored 10 minutes ago
 
 //- end dummy content
 //- ************************
