@@ -1,12 +1,12 @@
 .popover-files {
   background: $white;
   // fix width and height for popover-views
-  height: 420px;
   max-width: none;
+  min-height: 420px;
   width: 360px;
 
   .popover-view {
-    // minus 4px for borders
+    // 420px/360px - 4px (height/width - borders)
     height: 416px;
     width: 356px;
   }
@@ -48,7 +48,7 @@
   }
 
   .popover-content {
-    height: 298px; // calc(450px - 122px);
+    min-height: 298px; // calc(450px - 122px);
     padding-bottom: 15px;
 
     .list-servers {
@@ -149,7 +149,6 @@
     display: block;
     margin-bottom: 3px;
     text-align: center;
-
   }
 
   // label.toggle-wrapper
