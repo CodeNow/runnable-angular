@@ -95,16 +95,4 @@ describe('directiveRepoList'.bold.underline.blue, function() {
     sinon.assert.calledWith(ctx.instance.update, {build: ctx.buildId});
   });
 
-
-  it('should trigger update on change of locked attribute', function () {
-    expect($elScope.autoDeploy()).to.not.be.ok;
-
-    $elScope.autoDeploy(true);
-
-    $scope.$digest();
-
-    sinon.assert.calledOnce(ctx.instance.update);
-    sinon.assert.calledWith(ctx.instance.update, {locked: true});
-  });
-
 });

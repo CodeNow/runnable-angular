@@ -35,6 +35,7 @@
 @import "components/help";
 @import "components/icons";
 @import "components/lists";
+@import "components/lists-commits";
 @import "components/logo";
 @import "components/logs";
 @import "components/notifications";
@@ -69,7 +70,6 @@
 // server
 @import "server/server-header";
 @import "server/server-sidebar";
-@import "server/server-sidebar-dns-mappings";
 @import "server/server-sidebar-repositories";
 
 // views
@@ -84,6 +84,7 @@
 @import "modals/modals";
 @import "modals/modals-alerts";
 @import "modals/modals-forms";
+@import "modals/modals-repository-details";
 @import "modals/modals-welcome";
 
 // modal specific

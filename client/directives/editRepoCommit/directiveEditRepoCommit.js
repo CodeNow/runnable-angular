@@ -6,13 +6,17 @@ require('app')
  * @ngInject
  */
 function editRepoCommit(
-  fetchCommitData
+  fetchCommitData,
+  keypather,
+  promisify,
+  errs
 ) {
   return {
     restrict: 'A',
     templateUrl: 'viewEditRepoCommit',
     scope: {
-      acv: '= model'
+      acv: '= model',
+      instance: '='
     },
     link: function ($scope) {
       $scope.$watch('acv', function (newAcv) {
@@ -40,6 +44,16 @@ function editRepoCommit(
             $scope.$emit('change-commit', commitSha);
             $scope.$broadcast('close-popovers');
           }
+        }
+      };
+      $scope.autoDeploy = function (isLocked) {
+        if (arguments.length > 0) {
+          return promisify($scope.instance, 'update')({
+            locked: isLocked
+          })
+            .catch(errs.handler);
+        } else {
+          return keypather.get($scope.instance, 'attrs.locked');
         }
       };
     }

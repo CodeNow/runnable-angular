@@ -71,17 +71,6 @@ function repoList(
             loading('main', false);
           });
       });
-
-      $scope.autoDeploy = function (isLocked) {
-        if (arguments.length > 0) {
-          return promisify($scope.instance, 'update')({
-            locked: isLocked
-          })
-            .catch(errs.handler);
-        } else {
-          return keypather.get($scope.instance, 'attrs.locked');
-        }
-      };
     }
   };
 }

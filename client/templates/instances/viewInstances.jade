@@ -8,7 +8,9 @@ nav.sidebar.nav-sidebar
 
   section.containers(
     ng-if = "CIS.instancesByPod"
-    ng-include="'viewInstanceList'"
+    scroll-to = "a.list-item.active"
+    scroll-offset = "-200"
+    ng-include = "'viewInstanceList'"
   )
 
   footer.nav-footer

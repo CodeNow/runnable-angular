@@ -39,11 +39,15 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
         commit: 'commitSha'
       }
     };
+    $scope.instance = ctx.instance = {
+      update: sinon.stub()
+    };
     ctx.changeCommitSpy = sinon.spy();
     $scope.$on('change-commit', ctx.changeCommitSpy);
 
     ctx.template = directiveTemplate.attribute('edit-repo-commit', {
-      'model': 'model'
+      'model': 'model',
+      instance: 'instance'
     });
     ctx.element = $compile(ctx.template)($scope);
     $scope.$digest();
@@ -76,5 +80,16 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
 
       expect($scope.model.attrs.commit).to.equal(sha);
     });
+  });
+
+  it('should trigger update on change of locked attribute', function () {
+    expect($elScope.autoDeploy()).to.not.be.ok;
+
+    $elScope.autoDeploy(true);
+
+    $elScope.$digest();
+
+    sinon.assert.calledOnce(ctx.instance.update);
+    sinon.assert.calledWith(ctx.instance.update, {locked: true});
   });
 });

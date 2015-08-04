@@ -1,6 +1,7 @@
-.well.gray.repository-group-text(
+.btn.gray(
   ng-class = "{active: popoverRepositoryToggle.show}"
   ng-click = "actions.toggleEditCommits()"
+  ng-if = "!$root.featureFlags.additionalRepositories"
   pop-over
   pop-over-actions = "popoverRepositoryToggle.actions"
   pop-over-data = "popoverRepositoryToggle.data"
@@ -8,32 +9,84 @@
   pop-over-template = "viewPopoverRepositoryToggle"
   pop-over-active = "popoverRepositoryToggle.show"
 )
-  p.repository-description.strong.text-overflow
+  .repo-info.text-overflow.strong
     svg.iconnables.icons-repository
       use(
         xlink:href = "#icons-repository"
       )
     | {{ acv.attrs.repo }}
-  p.repository-description.text-overflow.clearfix.js-repository-branch
+  .repo-info.text-overflow.js-repository-branch
     svg.iconnables.icons-branch
       use(
         xlink:href = "#icons-branch"
       )
     | {{ acv.attrs.branch }}
-  p.repository-description.clearfix.js-repository-commit
+  .repo-info.text-overflow.js-repository-commit
     svg.iconnables.icons-commit
       use(
         xlink:href = "#icons-commit"
       )
-    | {{ activeCommit.attrs.commit.message | limitTo:30 }}
-    small.small.repository-detail {{ activeCommit.attrs.commit.author.date | timeFrom }}
-      //- we don't want to trigger the popover to open because this is an external link
-      a.link.link-text.monospace(
-        ng-href = "{{ activeCommit.attrs.html_url }}"
-        ng-click = "$event.stopPropagation()"
-        target = "_blank"
-      ) {{activeCommit.attrs.sha | limitTo:7}}
+    | {{ activeCommit.attrs.commit.message}}
+  .repo-info.small {{ activeCommit.attrs.commit.author.date | timeFrom }}
+    //- we don't want to trigger the popover to open because this is an external link
+    a.link.link-text.monospace.float-right(
+      ng-href = "{{ activeCommit.attrs.html_url }}"
+      ng-click = "$event.stopPropagation()"
+      target = "_blank"
+    ) {{activeCommit.attrs.sha | limitTo:7}}
 
+  svg.iconnables.icons-arrow-down
+    use(
+      xlink:href = "#icons-arrow-down"
+    )
+label.label-checkbox.btn-sm.btn-checkbox(
+  ng-if = "!$root.featureFlags.additionalRepositories"
+  tooltip = "Disabling Auto Deploy will stop your container from automatically updating with new changes to your repositories."
+  tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":6,\"top\":24}"
+  style = "margin: 0; padding: 0 12px; height: 30px;"
+)
+  input.input-checkbox(
+    ng-false-value = "true"
+    ng-model = "autoDeploy"
+    ng-model-options = "{getterSetter: true}"
+    ng-true-value = "false"
+    type = "checkbox"
+  )
+  | Auto Deploy
+
+.small.strong.text-overflow(
+  ng-if = "$root.featureFlags.additionalRepositories"
+) {{ acv.attrs.repo }}
+.btn.gray(
+  modal
+  modal-template = "modalRepositoryDetailsOpen"
+  ng-if = "$root.featureFlags.additionalRepositories"
+)
+  .repo-info.text-overflow.js-repository-branch {{ acv.attrs.branch }}
+    svg.iconnables.icons-branch
+      use(
+        xlink:href = "#icons-branch"
+      )
+  .repo-info.text-overflow.js-repository-commit {{ activeCommit.attrs.commit.message}}
+    svg.iconnables.icons-commit
+      use(
+        xlink:href = "#icons-commit"
+      )
+  .repo-info.small {{ activeCommit.attrs.commit.author.date | timeFrom }}
+    //- we don't want to trigger the popover to open because this is an external link
+    label.toggle-wrapper.float-right(
+      ng-click = "$event.stopPropagation()"
+      tooltip = "Disabling Auto Deploy will stop your container from automatically updating with new changes to your repositories."
+      tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-6,\"top\":18}"
+    ) Auto Deploy
+      input.toggle-input(
+        ng-false-value = "true"
+        ng-model = "autoDeploy"
+        ng-model-options = "{getterSetter: true}"
+        ng-true-value = "false"
+        type = "checkbox"
+      )
+      .toggle-group.toggle-xs
   svg.iconnables.icons-arrow-down
     use(
       xlink:href = "#icons-arrow-down"

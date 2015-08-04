@@ -19,7 +19,7 @@ function dnsManager(
     scope: {
       instance: '='
     },
-    templateUrl: 'viewDnsManager',
+    templateUrl: 'viewDnsMappings',
     link: function ($scope, element, attrs) {
       $scope.$storage = $localStorage.$default({
         dnsManagementIsClosed: true
