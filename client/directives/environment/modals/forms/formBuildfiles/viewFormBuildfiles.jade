@@ -32,7 +32,7 @@
   )
 
   //- ❗️ if repository (can simple mode) && no previous simple build exists (cannot simple mode)
-  label(
+  label.toggle-wrapper.show-icons(
     loading-promises-target = "editServerModal"
     ng-if = "state.repo && !state.instance.attrs.lastBuiltSimpleContextVersion"
     read-only-switch
@@ -42,7 +42,7 @@
   )
 
   //- ❗️ if non-repository (cannot simple mode…yet)
-  label(
+  label.toggle-wrapper.show-icons(
     loading-promises-target = "editServerModal"
     ng-if = "!state.repo"
     read-only-switch
