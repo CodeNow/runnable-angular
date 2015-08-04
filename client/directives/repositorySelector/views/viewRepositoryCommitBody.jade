@@ -24,12 +24,12 @@ label.toggle-wrapper(
   )
   .toggle-group.toggle-sm
 
-ul.list.list-servers.list-commits.disabled(
+ul.list.list-servers.list-commits(
   ng-if = "!repoSelector.data.latestCommit && !fetchingBranches && $root.featureFlags.additionalRepositories"
 )
   li.list-item.active fix classes
     .small
-      span.span.text-overflow runnabro 1 day ago –
+      span.span.text-overflow runnabro authored 1 day ago –
       a.small.link.link-text.monospace(
         ng-click = "$event.stopPropagation()"
         ng-href = "{{ commit.attrs.html_url }}"
@@ -39,7 +39,7 @@ ul.list.list-servers.list-commits.disabled(
       use(
         xlink:href = "#icons-fat-check"
       )
-  li.list-item.active fix classes
+  li.list-item.disabled fix classes
     .small
       span.span.text-overflow taylordolan authored 15 minutes ago –
       a.small.link.link-text.monospace(
@@ -47,7 +47,7 @@ ul.list.list-servers.list-commits.disabled(
         ng-href = "{{ commit.attrs.html_url }}"
         target = "_blank"
       ) 418ffe6
-  li.list-item.active fix classes
+  li.list-item.disabledfix classes
     .small
       span.span.text-overflow runnabro authored 1 day ago –
       a.small.link.link-text.monospace(

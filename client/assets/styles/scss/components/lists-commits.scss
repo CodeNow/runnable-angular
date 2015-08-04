@@ -17,6 +17,16 @@
       }
     }
 
+    &.disabled,
+    &.disabled:hover {
+      color: $gray-light;
+      cursor: not-allowed;
+
+      .small {
+        color: $gray-light;
+      }
+    }
+
     &.multi-line {
       padding-right: 24px;
     }
@@ -30,7 +40,7 @@
       text-align: center;
 
       &:active {
-        border-color: transparent;
+        // border-color: transparent;
       }
     }
 
@@ -67,20 +77,20 @@
     }
   }
 
-  &.disabled {
-
-    > .list-item,
-    > .list-item.active,
-    > .list-item:active,
-    > .list-item:hover {
-      border-color: transparent;
-      color: $gray-light;
-      cursor: default;
-
-      .small,
-      .icons-fat-check {
-        color: $gray-light;
-      }
-    }
-  }
+  // &.disabled {
+  //
+  //   > .list-item,
+  //   > .list-item.active,
+  //   > .list-item:active,
+  //   > .list-item:hover {
+  //     border-color: transparent;
+  //     color: $gray-light;
+  //     cursor: default;
+  //
+  //     .small,
+  //     .icons-fat-check {
+  //       color: $gray-light;
+  //     }
+  //   }
+  // }
 }
