@@ -14,7 +14,16 @@ var user = require('../apiMocks').user;
 
 describe('controllerApp'.bold.underline.blue, function () {
   var ctx = {};
+  function createMasterPods() {
+    ctx.masterPods = runnable.newInstances(
+      [apiMocks.instances.building, apiMocks.instances.runningWithContainers[0]],
+      {noStore: true}
+    );
+    return ctx.masterPods;
+  }
   function setup(stateParams, intercom) {
+    ctx = {};
+    ctx.fetchInstancesByPodMock = new (require('../fixtures/mockFetch'))();
     angular.mock.module('app');
     ctx.fakeuser = new User(angular.copy(apiMocks.user));
     ctx.fakeuser.socket = {
@@ -43,6 +52,7 @@ describe('controllerApp'.bold.underline.blue, function () {
       errors: []
     };
     angular.mock.module('app', function ($provide) {
+      $provide.factory('fetchInstancesByPod', ctx.fetchInstancesByPodMock.autoTrigger(createMasterPods()));
       $provide.value('$stateParams', ctx.stateParams);
       $provide.value('user', ctx.fakeuser);
       $provide.value('orgs', ctx.fakeOrgs);

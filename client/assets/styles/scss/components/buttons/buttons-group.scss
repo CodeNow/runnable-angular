@@ -149,6 +149,23 @@
           opacity: 1;
         }
       }
+
+      // no states if disabled
+      &.disabled {
+
+        &:hover,
+        &:active {
+          color: rgba($white,.3);
+
+          .iconnables {
+            opacity: .75;
+          }
+        }
+      }
+
+      .iconnables {
+        opacity: .75;
+      }
     }
   }
 }
