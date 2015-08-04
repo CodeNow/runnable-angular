@@ -1,3 +1,6 @@
+//- *************************
+//- deprecated file, delete with $root.featureFlags.additionalRepositories
+
 //- .popover-repository-toggle
 .popover.right.popover-repository-toggle(
   ng-class = "{in: active}"
@@ -27,3 +30,6 @@
             ng-click = "$event.stopPropagation()"
             target = "_blank"
           ) {{ ::commit.attrs.sha | limitTo:7 }}
+
+//- end deprecated file, delete with $root.featureFlags.additionalRepositories
+//- *************************

@@ -1,0 +1,9 @@
+.modal-dialog.modal-repository-details
+  header.modal-header
+    h1.modal-heading.text-overflow repository-name
+  section.modal-body(
+    ng-include = "'viewRepositoryCommitBody'"
+  )
+  section.modal-footer
+    button.btn.white.btn-cancel Cancel
+    button.btn.green Save & Rebuild

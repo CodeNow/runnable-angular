@@ -1,3 +1,6 @@
+//- *************************
+//- deprecated file, delete with $root.featureFlags.additionalRepositories
+
 // .popover.right.popover-repository-toggle
 .popover-repository-toggle {
   max-width: none;
@@ -86,16 +89,17 @@
 
 // .toggle-group-detail
 .toggle-group-detail {
+  display: flex;
 
   .small {
     color: $gray;
 
     &:last-child {
-      float: right;
+      margin-left: 9px;
     }
 
     &:first-child {
-      float: left;
+      flex: 1 1 auto;
     }
   }
 
@@ -116,3 +120,6 @@
     }
   }
 }
+
+//- end deprecated file, delete with $root.featureFlags.additionalRepositories
+//- *************************

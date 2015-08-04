@@ -1,0 +1,42 @@
+.modal-repository-details {
+  max-width: none;
+  width: 360px;
+
+  .list-servers {
+    margin-top: 15px;
+  }
+
+  // always update check
+  .label-checkbox {
+    color: $gray;
+    line-height: 24px;
+    text-align: center;
+  }
+
+  .input-checkbox {
+    float: none;
+    height: 12px;
+    margin: 0 3px 0 0;
+    width: 15px;
+  }
+
+  // filter
+  .label-jump {
+    display: block;
+    margin-bottom: 3px;
+    text-align: center;
+  }
+
+  // label.toggle-wrapper
+  .toggle-wrapper {
+    color: $gray;
+    display: block;
+    text-align: center;
+  }
+
+  .toggle-group {
+    display: inline-block;
+    margin-left: 6px;
+    top: 3px;
+  }
+}
