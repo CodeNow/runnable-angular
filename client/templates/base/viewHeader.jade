@@ -11,21 +11,18 @@ img.logo.logo-icon(
 )
 
 .btn-group.btn-toggle.btn-toggle-sm.purple
+  //- disabled if no containers
   a.btn.btn-sm.disabled(
     ng-if = "dataApp.state.includes('base.config') && !$root.isLoading.sidebar && !CA.instancesByPod.models.length"
     tooltip = "You don’t have any containers yet!"
     tooltip-options = "{\"class\":\"bottom\",\"left\":14,\"top\":33}"
   )
-    //- disabled if no containers
-    //- ng-class = "{'disabled': !instance.containers.models.length}"
-    //- tooltip = "You don’t have any containers yet!"
-    //- tooltip-options = "{\"class\":\"bottom {{instance.containers.models.length ? 'ng-hide' : ''}}\",\"left\":14,\"top\":33}"
     svg.iconnables
       use(
         xlink:href = "#icons-server-dark"
       )
     | Containers
-
+  //- if there are containers
   a.btn.btn-sm(
     ng-if = "dataApp.state.includes('base.instances') || $root.isLoading.sidebar || CA.instancesByPod.models.length"
     ui-sref = "base.instances({ userName: CA.activeAccount.oauthName() })"
@@ -36,6 +33,7 @@ img.logo.logo-icon(
         xlink:href = "#icons-server-dark"
       )
     | Containers
+
   a.btn.btn-sm.purple(
     ui-sref = "base.config({ userName: CA.activeAccount.oauthName() })"
     ui-sref-active = "active"
