@@ -16,6 +16,7 @@ function ControllerApp(
   debounce,
   errs,
   eventTracking,
+  fetchInstancesByPod,
   pageName,
   $localStorage,
 
@@ -28,6 +29,12 @@ function ControllerApp(
 
   this.activeAccount = activeAccount;
   this.user = user;
+  var CA = this;
+
+  fetchInstancesByPod()
+    .then(function (instancesByPod) {
+      CA.instancesByPod = instancesByPod;
+    });
 
   var dataApp = $rootScope.dataApp = $scope.dataApp = {
     data: {
