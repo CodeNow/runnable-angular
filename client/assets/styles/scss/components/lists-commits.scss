@@ -4,12 +4,13 @@
     @extend %text-overflow;
     font-size: 15px;
     padding-left: 9px;
-    padding-right: 30px;
+    padding-right: 39px;
     // display: flex;
     height: 60px;
 
     &:active,
     &.active {
+      border-color: $gray-light;
       color: $gray-darker;
     }
 
@@ -41,13 +42,14 @@
     }
 
     .link {
-      color: $purple-light;
-      text-decoration: none;
-      margin-right: 6px;
+      color: $gray;
+      // font-size: 13px;
+      // text-decoration: none;
+      // float: right;
 
-      &:hover {
-        text-decoration: underline;
-      }
+      // &:hover {
+      //   text-decoration: underline;
+      // }
     }
 
     .icons-fat-check {
@@ -57,6 +59,7 @@
       position: absolute;
       right: 9px;
       top: 0;
+      width: 27px;
     }
   }
 

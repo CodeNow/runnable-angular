@@ -26,43 +26,37 @@ label.label-jump(
 ul.list.list-servers.list-commits(
   ng-if = "!repoSelector.data.latestCommit && !fetchingBranches && $root.featureFlags.additionalRepositories"
 )
-  li.list-item.active
-    .toggle-group-detail
-      .div Always use latest commit
-      .small.text-overflow Will update on new builds of
-        strong.strong &#32;repository-name
+  li.list-item.active Always use latest commit
+    .small.text-overflow Will update on new builds of
+      strong.strong &#32;repository-name
     svg.iconnables.icons-fat-check
       use(
         xlink:href = "#icons-fat-check"
       )
-  li.list-item
-    .toggle-group-detail
-      .div fix classes
+  li.list-item fix classes
+    .small.text-overflow
+      a.small.link.link-text.monospace(
+        ng-click = "$event.stopPropagation()"
+        ng-href = "{{ commit.attrs.html_url }}"
+        target = "_blank"
+      ) 418ffe6
+      | —runnabro authored 10 minutes ago
+  li.list-item Found out that containerfiles weren't being updated
       .small.text-overflow
-        a.link.link-text.monospace(
+        a.small.link.monospace(
           ng-click = "$event.stopPropagation()"
           ng-href = "{{ commit.attrs.html_url }}"
           target = "_blank"
         ) 418ffe6
-        | runnabro authored 10 minutes ago runnabro authored 10 minutes ago runnabro authored 10 minutes ago
-  li.list-item
-    .toggle-group-detail
-      .div temporarily comment out ng-include
+        | —runnabro authored 10 minutes ago
+  li.list-item add special gray for contrast
       .small.text-overflow
-        a.link.link-text.monospace(
+        a.small.link.monospace(
           ng-click = "$event.stopPropagation()"
           ng-href = "{{ commit.attrs.html_url }}"
           target = "_blank"
         ) 418ffe6
-        | runnabro authored 10 minutes ago runnabro authored 10 minutes ago runnabro authored 10 minutes ago
-  li.list-item.text-overflow Found out that containerfiles weren't being updated
-      .small
-        a.link.monospace(
-          ng-click = "$event.stopPropagation()"
-          ng-href = "{{ commit.attrs.html_url }}"
-          target = "_blank"
-        ) 418ffe6
-        | runnabro authored 10 minutes ago runnabro authored 10 minutes ago runnabro authored 10 minutes ago
+        | —runnabro authored 10 minutes ago
 
 //- end dummy content
 //- ************************
