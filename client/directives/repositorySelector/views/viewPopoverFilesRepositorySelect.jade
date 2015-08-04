@@ -1,7 +1,9 @@
 .popover-header
   strong.strong.text-overflow Choose Repository
 
-.popover-content
+.popover-content(
+  ng-class = "{'loading': !repoSelector.data.githubRepos.models}"
+)
   input.input.input-xs.input-search(
     ng-disabled = "repoSelected"
     ng-if = "repoSelector.data.githubRepos.models"
@@ -11,6 +13,7 @@
     select-on = "showFilter"
     type = "search"
   )
+
   .spinner-wrapper.spinner-backdrop.spinner-gray.spinner-md.in(
     ng-if = "!repoSelector.data.githubRepos.models"
     ng-include = "'spinner'"
