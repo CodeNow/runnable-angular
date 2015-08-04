@@ -17,7 +17,7 @@ label.label-jump(
 label.toggle-wrapper(
   ng-if = "$root.featureFlags.additionalRepositories"
 )
-  p Always use latest commit
+  p.p Always use latest commit
   small.small Will update on new builds of container-name
   input.toggle-input(
     type = "checkbox"
@@ -28,33 +28,33 @@ ul.list.list-servers.list-commits.disabled(
   ng-if = "!repoSelector.data.latestCommit && !fetchingBranches && $root.featureFlags.additionalRepositories"
 )
   li.list-item.active fix classes
-    .small.text-overflow
+    .small
+      span.span.text-overflow runnabro 1 day ago –
       a.small.link.link-text.monospace(
         ng-click = "$event.stopPropagation()"
         ng-href = "{{ commit.attrs.html_url }}"
         target = "_blank"
       ) 418ffe6
-      | —runnabro authored 10 minutes ago
     svg.iconnables.icons-fat-check
       use(
         xlink:href = "#icons-fat-check"
       )
-  li.list-item Found out that containerfiles weren't being updated
-      .small.text-overflow
-        a.small.link.monospace(
-          ng-click = "$event.stopPropagation()"
-          ng-href = "{{ commit.attrs.html_url }}"
-          target = "_blank"
-        ) 418ffe6
-        | —runnabro authored 10 minutes ago
-  li.list-item add special gray for contrast
-      .small.text-overflow
-        a.small.link.monospace(
-          ng-click = "$event.stopPropagation()"
-          ng-href = "{{ commit.attrs.html_url }}"
-          target = "_blank"
-        ) 418ffe6
-        | —runnabro authored 10 minutes ago
+  li.list-item.active fix classes
+    .small
+      span.span.text-overflow taylordolan authored 15 minutes ago –
+      a.small.link.link-text.monospace(
+        ng-click = "$event.stopPropagation()"
+        ng-href = "{{ commit.attrs.html_url }}"
+        target = "_blank"
+      ) 418ffe6
+  li.list-item.active fix classes
+    .small
+      span.span.text-overflow runnabro authored 1 day ago –
+      a.small.link.link-text.monospace(
+        ng-click = "$event.stopPropagation()"
+        ng-href = "{{ commit.attrs.html_url }}"
+        target = "_blank"
+      ) 418ffe6
 
 //- end dummy content
 //- ************************

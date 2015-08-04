@@ -37,9 +37,14 @@
     border-bottom: 1px solid $gray-lighter;
     padding: 9px 12px;
     margin-top: 15px;
+    font-size: 15px;
+    color: #555;
+    font-weight: 500;
   }
 
   .toggle-group {
     float: right;
+    position: relative;
+    top: -12px;
   }
 }

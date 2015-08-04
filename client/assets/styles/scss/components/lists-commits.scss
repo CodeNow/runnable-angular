@@ -4,7 +4,7 @@
     @extend %text-overflow;
     font-size: 15px;
     padding-left: 9px;
-    padding-right: 39px;
+    padding-right: 45px;
     height: 60px;
 
     &:active,
@@ -34,18 +34,27 @@
       }
     }
 
-    // spinner
-    .spinner-wrapper {
-      right: 9px;
-      top: 18px;
-    }
-
-    .small {
+    > .small {
       color: $gray;
+      display: flex;
+
+      .span {
+        // flex: 0 1 auto;
+        min-width: 0;
+      }
     }
 
     .link {
       color: $gray;
+      margin-left: 4px;
+      font-size: 13px;
+      flex: 0 0 auto;
+    }
+
+    // spinner
+    .spinner-wrapper {
+      right: 9px;
+      top: 18px;
     }
 
     .icons-fat-check {
