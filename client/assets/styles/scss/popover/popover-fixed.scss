@@ -56,6 +56,11 @@
   .popover-footer {
     flex: 0 0 64px;
   }
+
+  // spinner
+  .spinner-backdrop {
+    background: transparent; // for background clipping in safari
+  }
 }
 
 // fixed popovers used as prompts
