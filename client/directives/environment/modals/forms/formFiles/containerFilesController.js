@@ -134,7 +134,11 @@ function ContainerFilesController(
           myFile.path = containerFile.path;
           $scope.state.containerFiles.push(myFile);
         }
-        loadingPromises.add('editServerModal', updateDockerfileFromState($scope.state));
+        loadingPromises.add(
+          'editServerModal',
+          updateDockerfileFromState($scope.state)
+            .catch(errs.handler)
+        );
         $rootScope.$broadcast('close-popovers');
       },
       cancel: function (containerFile) {
