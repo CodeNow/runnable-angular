@@ -131,9 +131,12 @@ function parseDockerfileForCardInfoFromInstance(
     return chunks;
   }
 
-  return function (instance) {
+  return function (instance, contextVersion) {
+    if (!contextVersion) {
+      contextVersion = instance.contextVersion;
+    }
     return $q.all({
-      dockerfile: promisify(instance.contextVersion, 'fetchFile', true)('/Dockerfile'),
+      dockerfile: promisify(contextVersion, 'fetchFile', true)('/Dockerfile'),
       stacks: fetchStackInfo()
     })
       .then(function (data) {
@@ -145,7 +148,7 @@ function parseDockerfileForCardInfoFromInstance(
 
         var sections = parseDockerfile(dockerfileBody);
         var containerFiles = sections.filter(function (section) {
-          return ['File', 'Repository', 'Main Repository'].indexOf(section.type) !== -1;
+          return ['File', 'Repository', 'Main Repository', 'SSH Key'].indexOf(section.type) !== -1;
         });
 
         var packages = sections.find(function (section) {
@@ -154,7 +157,7 @@ function parseDockerfileForCardInfoFromInstance(
 
         packages = packages || new cardInfoTypes.Packages();
 
-        var acvs = keypather.get(instance, 'build.contextVersions.models[0].appCodeVersions');
+        var acvs = contextVersion.appCodeVersions;
         var mainCommands = [];
         containerFiles = containerFiles.map(function (item) {
           if (item.type === 'File') { return item; }

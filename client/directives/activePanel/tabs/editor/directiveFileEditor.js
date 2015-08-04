@@ -88,13 +88,6 @@ function fileEditor(
       watchOncePromise($scope, 'file', true)
         .then(function (file) {
           var isDockerfile = file.attrs.name === 'Dockerfile';
-          if (isDockerfile && file.on) {
-            file.on('update', resetFileBodyState);
-            $scope.$on('$destroy', function () {
-              file.off('update', resetFileBodyState);
-            });
-          }
-
           useValidation = isDockerfile;
           keypather.set(file, 'state.isDirty', false);
           $scope.$on('EDITOR::SAVE', updateFile);

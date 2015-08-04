@@ -1,5 +1,5 @@
 input.toggle-input(
-  ng-disabled = "!state.repo || (!state.instance.attrs.lastBuiltSimpleContextVersion && state.advanced)"
+  ng-disabled = "!ROSC.state.repo || (!ROSC.state.instance.attrs.lastBuiltSimpleContextVersion && ROSC.state.advanced)"
   ng-model = "ROSC.readOnly"
   ng-model-options = "{getterSetter: true}"
   type = "checkbox"

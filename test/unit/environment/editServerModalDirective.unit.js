@@ -99,18 +99,21 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         return ctx.updateDockerfileFromStateMock
           .returns($q.when(true));
       });
+      ctx.parseDockerfileResponse = {
+        ports: '80 900 90',
+        startCommand: 'hello',
+        containerFiles: [],
+        commands: [],
+        selectedStack: {
+          hello: 'cheese'
+        }
+      };
+      ctx.parseDockerfileResponseMock = null;
       $provide.factory('parseDockerfileForCardInfoFromInstance', function ($q) {
-        return function () {
-          return $q.when({
-            ports: '80 900 90',
-            startCommand: 'hello',
-            containerFiles: [],
-            commands: [],
-            selectedStack: {
-              hello: 'cheese'
-            }
-          });
-        };
+        ctx.parseDockerfileResponseMock = sinon.spy(function () {
+          return $q.when(ctx.parseDockerfileResponse);
+        });
+        return ctx.parseDockerfileResponseMock;
       });
 
       $provide.factory('serverStatusCardHeaderDirective', function () {
@@ -504,8 +507,31 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         loadingService.reset();
         ctx.fakeOrg1.createBuild.reset();
         expect($elScope.state.advanced, 'advanced flag').to.be.ok;
+        $scope.$digest();
         var oldAcv = $elScope.state.acv;
         var oldRepo = $elScope.state.repo;
+        var oldStartCommand = $elScope.state.startCommand;
+        var oldSelectedStack = $elScope.state.selectedStack;
+        var oldContainerFiles = $elScope.state.containerFiles;
+
+        var newContainerFile = {
+          name: 'hello',
+          clone: sinon.spy(function () {
+            return newContainerFile;
+          })
+        };
+
+        ctx.parseDockerfileResponse = {
+          ports: '11 22 33',
+          startCommand: 'sadfasdfasdf',
+          containerFiles: [newContainerFile],
+          commands: ['1,. 2 31234'],
+          selectedStack: {
+            dsfasdf: 'fd'
+          }
+        };
+
+        ctx.parseDockerfileResponseMock.reset();
         $elScope.resetStateContextVersion(ctx.rollbackContextVersion, true);
         $scope.$digest();
 
@@ -526,9 +552,13 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
           }
         });
         $scope.$digest();
+        sinon.assert.calledOnce(ctx.parseDockerfileResponseMock);
         expect($elScope.state.contextVersion, 'state cv').to.equal(ctx.rollbackContextVersion);
         expect($elScope.state.acv, 'state acv').to.not.equal(oldAcv);
         expect($elScope.state.repo, 'state repo').to.not.equal(oldRepo);
+        expect($elScope.state.startCommand, 'state startCommand').to.not.equal(oldStartCommand);
+        expect($elScope.state.selectedStack, 'state selectedStack').to.not.equal(oldSelectedStack);
+        expect($elScope.state.containerFiles, 'state containerFiles').to.not.equal(oldContainerFiles);
 
       });
     });
@@ -700,7 +730,9 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     expect($elScope.state.containerFiles.length).to.equal(1);
     expect($elScope.state.dockerfile).to.not.equal(ctx.dockerfile);
     expect($elScope.state.dockerfile).to.equal(ctx.anotherDockerfile);
-    sinon.assert.calledOnce(containerFiles[0].clone);
+
+    // No longer need to clone after the original time
+    //sinon.assert.calledOnce(containerFiles[0].clone);
     sinon.assert.calledOnce(ctx.newContextVersion.deepCopy);
     sinon.assert.calledOnce(ctx.contextVersion.fetch);
   });
@@ -765,163 +797,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       $scope.$digest();
 
       expect($elScope.selectedTab).to.equal('files');
-    });
-  });
-
-  describe('updating the dockerfile', function () {
-    beforeEach(function () {
-      setup({
-        currentModel: ctx.instance,
-        selectedTab: 'env'
-      });
-      ctx.contextVersion.attrs.advanced = true;
-    });
-    describe('file upload popover', function () {
-      var closePopoverSpy;
-      beforeEach(function () {
-        var containerFiles = [
-          {
-            id: 'containerFileID!',
-            clone: sinon.spy()
-          }
-        ];
-        closePopoverSpy = sinon.spy();
-        $elScope.state.containerFiles = containerFiles;
-        $rootScope.$on('close-popovers', closePopoverSpy);
-      });
-      it('should update on save', function () {
-        var newContainerFile = {
-          id: '2345123452',
-          clone: sinon.spy()
-        };
-        sinon.assert.notCalled(ctx.updateDockerfileFromStateMock);
-        $elScope.fileUpload.actions.save(newContainerFile);
-        $scope.$digest();
-        sinon.assert.called(closePopoverSpy);
-        sinon.assert.called(ctx.updateDockerfileFromStateMock);
-      });
-      it('should update on delete', function () {
-        var newContainerFile = {
-          id: '2345123452',
-          fileModel: {
-            destroy: sinon.spy(function (cb) {
-              return cb();
-            })
-          },
-          clone: sinon.spy()
-        };
-        $elScope.state.containerFiles.push(newContainerFile);
-        sinon.assert.notCalled(ctx.updateDockerfileFromStateMock);
-        $elScope.fileUpload.actions.deleteFile(newContainerFile);
-        $scope.$digest();
-        sinon.assert.called(closePopoverSpy);
-        $scope.$digest();
-        sinon.assert.called(ctx.loadingPromiseMock.add);
-        sinon.assert.called(ctx.updateDockerfileFromStateMock);
-      });
-    });
-    describe('repository popover', function () {
-      var containerFiles;
-      var newAppCodeVersion;
-      beforeEach(function () {
-        newAppCodeVersion = {
-          attrs: apiMocks.appCodeVersions.notAbitcoinAppCodeVersion,
-          destroy: sinon.spy(function (cb) {
-            return cb();
-          }),
-          update: sinon.spy(function (opts, cb) {
-            $rootScope.$evalAsync(function () {
-              cb(null, newAppCodeVersion);
-            });
-            return newAppCodeVersion;
-          })
-        };
-        containerFiles = [
-          {
-            id: 'containerFileID!',
-            clone: sinon.spy(),
-            repo: {
-              attrs: {
-                name: 'cheese'
-              }
-            }
-          }
-        ];
-        $elScope.state.containerFiles = containerFiles;
-        ctx.newContextVersion.appCodeVersions.models.push(newAppCodeVersion);
-      });
-      it('should update on remove', function () {
-        sinon.assert.notCalled(ctx.updateDockerfileFromStateMock);
-        $elScope.repositoryPopover.actions.remove(containerFiles[0]);
-        $scope.$digest();
-        sinon.assert.called(newAppCodeVersion.destroy);
-        $scope.$digest();
-        sinon.assert.called(ctx.loadingPromiseMock.add);
-        sinon.assert.called(ctx.updateDockerfileFromStateMock);
-      });
-      it('should update on create', function () {
-        ctx.newContextVersion.appCodeVersions.create = sinon.spy(function (opts, cb) {
-          $rootScope.$evalAsync(function () {
-            cb(null, newAppCodeVersion);
-          });
-          return newAppCodeVersion;
-        });
-        var newRepo = {
-          repo: {
-            attrs: {
-              full_name: 'cheese'
-            }
-          },
-          branch: {
-            attrs: {
-              name: '12341234'
-            }
-          },
-          commit: {
-            attrs: {
-              sha: 'dsfasdgasghas'
-            }
-          },
-          clone: sinon.spy()
-        };
-
-        $elScope.repositoryPopover.actions.create(newRepo);
-        $scope.$digest();
-        sinon.assert.calledWith(ctx.newContextVersion.appCodeVersions.create, {
-          repo: 'cheese',
-          branch: '12341234',
-          commit: 'dsfasdgasghas',
-          additionalRepo: true
-        });
-        $scope.$digest();
-        sinon.assert.called(ctx.loadingPromiseMock.add);
-        sinon.assert.called(ctx.updateDockerfileFromStateMock);
-      });
-      it('should update on update', function () {
-        sinon.assert.notCalled(ctx.updateDockerfileFromStateMock);
-        var newContainerFile = angular.extend({}, containerFiles[0], {
-          branch: {
-            attrs: {
-              name: '12341234'
-            }
-          },
-          commit: {
-            attrs: {
-              sha: 'dsfasdgasghas'
-            }
-          },
-          acv: newAppCodeVersion
-        });
-        $elScope.repositoryPopover.actions.update(newContainerFile);
-        $scope.$digest();
-        sinon.assert.calledWith(newAppCodeVersion.update, {
-          branch: '12341234',
-          commit: 'dsfasdgasghas'
-        });
-        $scope.$digest();
-        sinon.assert.called(ctx.loadingPromiseMock.add);
-        sinon.assert.called(ctx.updateDockerfileFromStateMock);
-      });
     });
   });
 

@@ -9,11 +9,23 @@
 //- empty state
 .card.gray.disabled.load.empty(
   ng-if = "data.instances && !isLoading.sidebar && !data.instances.models.length"
-) Add a new container to get started. Need help?
-  a.link(
-    href = "https://youtu.be/_uwPKIH990E"
-    target = "_blank"
-  ) View our Getting Started video
+)
+  svg.iconnables(
+    modal
+    modal-actions = "actions"
+    modal-data = "data"
+    modal-template = "setupServerModalOpen"
+  )
+    use(
+      xlink:href = "#icons-new-repository-server"
+    )
+  h4.h4 Add your first repository container to get started.
+  small.small Need help? Check out our&#32;
+    a.link(
+      href = "https://youtu.be/_uwPKIH990E"
+      target = "_blank"
+    ) Getting Started video
+    | .
 
 //- server card
 .card.gray.disabled.load(

@@ -6,7 +6,7 @@
     color: #bea1d4; // sup color from runnable.com
     font-size: 11px;
     position: absolute;
-    right: 0;
+    right: 0; // width of <sup>
     text-shadow: 0 -1px 0 rgba(0,0,0,.2);
     top: 12px;
     user-select: none;
@@ -14,13 +14,12 @@
 }
 
 .logo {
-  height: 45px;
   margin-left: 12px;
   width: 180px;
 
   &.logo-icon {
-    height: 45px;
+    height: $input-sm;
     margin-left: 0;
-    width: 30px;
+    width: $input-sm;
   }
 }

@@ -8,18 +8,19 @@ form.modal-dialog.modal-edit(
 )
   header.modal-header
     server-status-card-header.btn.btn-sm.btn-title(
-      ng-attr-no-touching = "{{ !state.repo }}"
+      ng-attr-no-touching = "{{ !state.repo || $root.featureFlags.dockerfileTool }}"
       ng-if = "!$root.featureFlags.cardStatus"
       pop-over-options = "{\"right\":-7,\"top\":36}"
       pop-over-template = "serverOptionsModalPopover"
     )
     server-status-card-header(
-      ng-attr-no-touching = "{{ !state.repo }}"
+      ng-attr-no-touching = "{{ !state.repo || $root.featureFlags.dockerfileTool }}"
       ng-if = "$root.featureFlags.cardStatus"
       pop-over-options = "{\"centered\":true,\"top\":36}"
       pop-over-template = "serverOptionsModalPopover"
     )
-    .row.modal-tabs.cearfix
+
+    .row.modal-tabs.clearfix
       button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'repository'}"
         ng-click = "changeTab('repository')"
@@ -143,6 +144,7 @@ form.modal-dialog.modal-edit(
     .modal-form(
       ng-show = "selectedTab === 'files'"
       ng-if = "!state.advanced"
+      ng-controller = "ContainerFilesController as CFC"
       ng-include = "'viewFormFiles'"
     )
     .modal-form(

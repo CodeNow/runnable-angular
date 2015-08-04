@@ -15,37 +15,6 @@
     ng-if = "!(data.gitDataOnly && state.fromServer)"
   )
 
-.popover-content
-  label.label.label-jump(
-    ng-if = "!fetchingBranches && repoSelector.data.branch.commits.models.length"
-  )
-    small.small Branch
-    select.select(
-      ng-change = "repoSelector.actions.selectBranch(repoSelector.data.branch)"
-      ng-model = "repoSelector.data.branch"
-      ng-options = "branch as branch.attrs.name for branch in repoSelector.data.repo.branches.models"
-    )
-      option(
-        disabled
-      ) Choose a branch
-
-  .spinner-wrapper.spinner-backdrop.spinner-gray.spinner-md.in(
-    ng-if = "(repoSelector.data.branch && !repoSelector.data.branch.commits.models.length) || fetchingBranches"
-    ng-include = "'spinner'"
-  )
-
-  ul.list.list-servers(
-    ng-if = "!repoSelector.data.latestCommit && !fetchingBranches"
-  )
-    li.list-item.text-overflow(
-      ng-repeat = "commit in repoSelector.data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
-      ng-click = "repoSelector.actions.selectCommit(commit)"
-      ng-class = "{active: repoSelector.data.commit === commit, disabled: state.saving}"
-    ) {{commit.attrs.commit.message}}
-      .toggle-group-detail.clearfix
-        small.small {{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}
-        a.small.link.link-text.monospace(
-          ng-href = "{{ commit.attrs.html_url }}"
-          ng-click = "$event.stopPropagation()"
-          target = "_blank"
-        ) {{ ::commit.attrs.sha | limitTo:7 }}
+.popover-content(
+  ng-include = "'viewRepositoryCommitBody'"
+)

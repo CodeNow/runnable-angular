@@ -4,7 +4,8 @@
 
   // new server button
   .green {
-    float: right;
+    display: table;
+    margin: 0 auto;
     text-align: left;
 
     &.hint {
@@ -13,18 +14,17 @@
 
     .icons-add {
       height: 18px;
-      margin: 12px 6px 0 0;
+      margin: 10px 6px 0 0;
       width: 18px;
     }
   }
 
   // help button
   > .btn-icon {
-    border: 2px solid;
-    float: left;
-    left: 0;
+    border: 0;
+    left: 15px;
     padding: 0 12px;
-    right: 0;
+    position: absolute;
 
     &:active,
     &.active {

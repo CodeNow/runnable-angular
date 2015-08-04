@@ -1,68 +1,32 @@
 .repository-section {
-  flex: 0 0 auto;
   max-height: 50%;
   overflow-x: hidden;
   overflow-y: auto;
 
-  .label-checkbox {
-    margin: 0;
-    padding: 3px 0;
+  .icons-arrow-down {
+    transform: rotate3d(0,0,1,-90deg);
   }
 }
 
-// repository group "well"
-.repository-group-item {
+.repo-info {
+  padding-left: 21px;
+  position: relative;
+
+  &.small {
+    color: #A3A3A3; // for contrast against $gray-lighterest
+
+    .toggle-group {
+      display: inline-block;
+      margin-left: 3px;
+      top: 3px;
+    }
+  }
 
   .iconnables {
     height: 14px;
-    left: 6px;
+    left: 0;
     position: absolute;
-    top: 4px;
+    top: 5px;
     width: 14px;
-  }
-
-  .repository-group-text {
-    cursor: pointer;
-    font-weight: 400;
-    padding: 6px;
-
-    &:hover {
-      background: $white;
-      border-color: $gray-light;
-    }
-
-    &:active,
-    &.active {
-      background: $white;
-      border-color: currentColor;
-      color: $purple-light;
-    }
-
-    .icons-arrow-down {
-      height: 100%;
-      left: auto;
-      position: absolute;
-      right: 3px;
-      top: 0;
-      transform: rotate3d(0,0,1,-90deg);
-      width: 27px;
-    }
-  }
-}
-
-.repository-description {
-  padding: 0 27px;
-  position: relative;
-  word-break: break-word;
-}
-
-.repository-detail {
-  display: block;
-  font-size: 12px;
-  margin-top: -3px;
-
-  .link {
-    color: $purple-light;
-    float: right;
   }
 }
