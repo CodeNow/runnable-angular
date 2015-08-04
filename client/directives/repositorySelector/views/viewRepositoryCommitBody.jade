@@ -14,26 +14,20 @@ label.label-jump(
 //- this element should appear in:
     * the setup popover for adding a repo to Container Files
     * the edit modal (in the Containers view) for modifying an additional repo on a specific Container
-//- label.toggle-wrapper(
-//-   ng-if = "$root.featureFlags.additionalRepositories"
-//- )
-//-   small.small Update to latest commit on new builds
-//-   input.toggle-input(
-//-     type = "checkbox"
-//-   )
-//-   .toggle-group.toggle-xs
+label.toggle-wrapper(
+  ng-if = "$root.featureFlags.additionalRepositories"
+)
+  p Always use latest commit
+  small.small Will update on new builds of container-name
+  input.toggle-input(
+    type = "checkbox"
+  )
+  .toggle-group.toggle-sm
 
-ul.list.list-servers.list-commits(
+ul.list.list-servers.list-commits.disabled(
   ng-if = "!repoSelector.data.latestCommit && !fetchingBranches && $root.featureFlags.additionalRepositories"
 )
-  li.list-item.active Always use latest commit
-    .small.text-overflow Will update on new builds of
-      strong.strong &#32;repository-name
-    svg.iconnables.icons-fat-check
-      use(
-        xlink:href = "#icons-fat-check"
-      )
-  li.list-item fix classes
+  li.list-item.active fix classes
     .small.text-overflow
       a.small.link.link-text.monospace(
         ng-click = "$event.stopPropagation()"
@@ -41,6 +35,10 @@ ul.list.list-servers.list-commits(
         target = "_blank"
       ) 418ffe6
       | —runnabro authored 10 minutes ago
+    svg.iconnables.icons-fat-check
+      use(
+        xlink:href = "#icons-fat-check"
+      )
   li.list-item Found out that containerfiles weren't being updated
       .small.text-overflow
         a.small.link.monospace(

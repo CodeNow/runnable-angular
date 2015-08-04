@@ -5,13 +5,16 @@
     font-size: 15px;
     padding-left: 9px;
     padding-right: 39px;
-    // display: flex;
     height: 60px;
 
     &:active,
     &.active {
-      border-color: $gray-light;
-      color: $gray-darker;
+      border-color: $purple-light;
+      color: $purple-light;
+
+      .small {
+        color: currentColor;
+      }
     }
 
     &.multi-line {
@@ -38,22 +41,14 @@
     }
 
     .small {
-      color: $gray !important;
+      color: $gray;
     }
 
     .link {
       color: $gray;
-      // font-size: 13px;
-      // text-decoration: none;
-      // float: right;
-
-      // &:hover {
-      //   text-decoration: underline;
-      // }
     }
 
     .icons-fat-check {
-      // flex: 0 0 auto;
       color: $purple-light;
       height: 100%;
       position: absolute;
@@ -63,23 +58,20 @@
     }
   }
 
-  // commit details (author, date, SHA)
-  .toggle-group-detail {
-    // display: flex;
-    // flex: 1 1 auto;
+  &.disabled {
 
-    // .small {
-    //   color: $gray !important;
-    // }
-    //
-    // .link {
-    //   color: $purple-light;
-    //   text-decoration: none;
-    //   margin-right: 6px;
-    //
-    //   &:hover {
-    //     text-decoration: underline;
-    //   }
-    // }
+    > .list-item,
+    > .list-item.active,
+    > .list-item:active,
+    > .list-item:hover {
+      border-color: transparent;
+      color: $gray-light;
+      cursor: default;
+
+      .small,
+      .icons-fat-check {
+        color: $gray-light;
+      }
+    }
   }
 }

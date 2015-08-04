@@ -1,6 +1,11 @@
 .modal-repository-details {
   max-width: none;
   width: 360px;
+  background-color: $white;
+
+  .modal-header {
+    background-color: $gray-lighterest;
+  }
 
   .list-servers {
     margin-top: 12px;
@@ -27,16 +32,14 @@
     text-align: center;
   }
 
-  // label.toggle-wrapper
   .toggle-wrapper {
-    color: $gray;
-    display: block;
-    text-align: center;
+    border-top: 1px solid $gray-lighter;
+    border-bottom: 1px solid $gray-lighter;
+    padding: 9px 12px;
+    margin-top: 15px;
   }
 
   .toggle-group {
-    display: inline-block;
-    margin-left: 6px;
-    top: 3px;
+    float: right;
   }
 }
