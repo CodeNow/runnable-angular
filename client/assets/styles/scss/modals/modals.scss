@@ -150,9 +150,31 @@
 
 // tabs
 .modal-tabs {
-  margin: 0 -15px;
-  overflow-x: auto;
+  display: block;
+  margin: 0 auto;
+  transition: width .15s ease-in-out;
   white-space: nowrap;
+
+  // show 1 tab
+  &.tabs-1 {
+    width: 90px;
+  }
+
+  // show 2 tab
+  &.tabs-2 {
+    width: 190px;
+  }
+
+  // show all tabs
+  &.tabs-all {
+    overflow-x: auto;
+    width: 100%;
+  }
+
+  // for animation on .tabs-all
+  &.ng-animate {
+    overflow: visible;
+  }
 
   .btn-radio {
     color: $gray-dark;
@@ -162,6 +184,17 @@
     &:active,
     &.active {
       color: $purple-light;
+    }
+
+    // animation start state
+    &.ng-enter {
+      opacity: 0;
+      transition: opacity .15s ease-in;
+    }
+
+    // animation leave state
+    &.ng-enter.ng-enter-active {
+      opacity: 1;
     }
 
     .btn-text {

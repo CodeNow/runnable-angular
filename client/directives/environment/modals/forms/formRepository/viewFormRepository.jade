@@ -28,13 +28,13 @@
     //- we only have suggestions for build commands on the main repository
     textarea.textarea.monospace(
       command-editor
+      ng-change = "updateDockerfile()"
       ng-disabled = "startCommandCanDisable && !state.selectedStack"
       ng-if = "!$root.featureFlags.buildCommandCache"
-      ng-model = "mainRepoContainerFile.commands"
       ng-keydown = "cacheCommand(false)"
+      ng-model = "mainRepoContainerFile.commands"
+      ng-model-options="{updateOn: 'blur'}"
       spellcheck = "false"
-      ng-model-options="{ updateOn: 'blur' }"
-      ng-change = "updateDockerfile()"
     )
     //- end deprecated textarea
     //-************
@@ -45,12 +45,12 @@
         textarea.textarea.monospace(
           command-editor
           ng-attr-rows = "{{mainRepoContainerFile.commands.length < 3 ? 3 : mainRepoContainerFile.commands.length}}"
+          ng-change = "updateDockerfile()"
           ng-class = "{'margin-right': data.cacheCommand}"
           ng-disabled = "startCommandCanDisable && !state.selectedStack"
-          ng-model = "mainRepoContainerFile.commands"
           ng-keydown = "cacheCommand(false)"
-          ng-model-options="{ updateOn: 'blur' }"
-          ng-change = "updateDockerfile()"
+          ng-model = "mainRepoContainerFile.commands"
+          ng-model-options="{updateOn: 'blur'}"
           ng-trim = "false"
           spellcheck = "false"
         )
@@ -64,8 +64,8 @@
           )
             input(
               name = "cache-radio"
-              ng-click = "actions.updateCache(command)"
               ng-checked = "command.cache"
+              ng-click = "actions.updateCache(command)"
               ng-if = "command.body"
               type = "radio"
             )

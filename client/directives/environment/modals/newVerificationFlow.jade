@@ -11,10 +11,18 @@
       .container-title-wrapper
         span.container-title.text-overflow repositoryName
 
-      .row.modal-tabs.clearfix
+      .row.modal-tabs.clearfix.js-animate(
+        ng-class = "{\
+          'tabs-1': newContainer.step === 1,\
+          'tabs-2': newContainer.step === 2,\
+          'tabs-all': newContainer.step === 3\
+        }"
+        style = "{{newContainer.step >= 3 ? 'transition-duration: .3s' : ''}}"
+      )
         button.btn.btn-radio(
           ng-class = "{'active': newContainer.step === 1}"
           ng-click = "changeTab('repository')"
+          ng-if = "newContainer.step >= 1"
         )
           //- ng-class = "{'active': selectedTab === 'repository'}"
           //- ng-if = "isTabVisible('repository')"
@@ -23,7 +31,7 @@
               xlink:href = "#icons-repository"
             )
           .btn-text Repository
-        button.btn.btn-radio(
+        button.btn.btn-radio.js-animate(
           ng-class = "{'active': newContainer.step === 2}"
           ng-click = "changeTab('commands')"
           ng-if = "newContainer.step >= 2"
@@ -37,7 +45,7 @@
           .btn-text Commands
             br
             | & Packages
-        button.btn.btn-radio(
+        button.btn.btn-radio.js-animate(
           ng-if = "newContainer.step === 3"
         )
           //- ng-class = "{'active': selectedTab === 'ports'}"
@@ -48,7 +56,7 @@
               xlink:href = "#icons-ports"
             )
           .btn-text Exposed Ports
-        button.btn.btn-radio(
+        button.btn.btn-radio.js-animate(
           ng-if = "newContainer.step === 3"
         )
           //- ng-class = "{'active': selectedTab === 'env'}"
@@ -58,7 +66,7 @@
               xlink:href = "#icons-environment-variable"
             )
           .btn-text Environment Variables
-        button.btn.btn-radio(
+        button.btn.btn-radio.js-animate(
           ng-if = "newContainer.step === 3"
         )
           //- ng-class = "{'active': selectedTab === 'files'}"
@@ -77,7 +85,7 @@
               xlink:href = "#icons-keys-files"
             )
           .btn-text  {{ $root.featureFlags.sshKeys ? "Files & SSH Keys" : "Container Files" }}
-        button.btn.btn-radio(
+        button.btn.btn-radio.js-animate(
           ng-if = "newContainer.step === 3"
         )
           //- ng-class = "{'active': selectedTab === 'translation'}"
@@ -88,7 +96,7 @@
               xlink:href = "#icons-translation"
             )
           .btn-text Find & Replace
-        button.btn.btn-radio(
+        button.btn.btn-radio.js-animate(
           ng-if = "newContainer.step === 3"
         )
           //- ng-class = "{'active': selectedTab === 'logs'}"
@@ -98,7 +106,7 @@
               xlink:href = "#icons-log"
             )
           .btn-text Logs
-        button.btn.btn-radio(
+        button.btn.btn-radio.js-animate(
           ng-if = "newContainer.step === 3"
         )
           //- ng-class = "{'active': selectedTab === 'buildfiles'}"
@@ -171,6 +179,7 @@
     footer.modal-footer.clearfix
       //- disabled if no changes
       button.btn.green.btn-spinner(
+        ng-attr-type = "{{newContainer.step ? 'button' : 'submit'}}"
         ng-class = "{'in': building}"
         ng-click = "newContainer.step = newContainer.step + 1"
       )

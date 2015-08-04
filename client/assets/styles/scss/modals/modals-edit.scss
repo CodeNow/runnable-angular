@@ -42,6 +42,11 @@
   }
 
   // nav
+  .modal-header {
+    overflow: hidden; // for animation on tabs
+    padding: 0; // reset default header padding
+  }
+
   // header button
   .btn-title {
     color: $gray;
