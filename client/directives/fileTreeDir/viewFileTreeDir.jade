@@ -35,7 +35,6 @@ li.folder(
       processor
   ul(
     ng-if = "(isRootDir && showRepoFolder)"
-    ng-init = "mainAcv = fileModel.getMainAppCodeVersion()"
   )
     li.file(
       ng-if = "state.showAddRepo"
