@@ -1,9 +1,7 @@
 .popover-header
   strong.strong.text-overflow Choose Repository
 
-.popover-content(
-  ng-class = "{'loading': !repoSelector.data.githubRepos.models}"
-)
+.popover-content
   input.input.input-xs.input-search(
     ng-disabled = "repoSelected"
     ng-if = "repoSelector.data.githubRepos.models"
