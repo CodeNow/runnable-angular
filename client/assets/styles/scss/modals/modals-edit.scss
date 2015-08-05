@@ -223,7 +223,7 @@
 // stack button
 .btn-group-stacks {
   display: flex;
-  margin-bottom: 6px;
+  margin-bottom: 15px;
   margin-left: -1px; // line up with version button
 
   @media (max-width: 836px) { // ~sm so that recommended text can fit with a small amount of padding
@@ -239,6 +239,7 @@
     border-color: $gray-lighter;
     flex: 1 1 auto;
     font-size: 14px;
+    height: 90px;
     line-height: normal; // reset
     padding: 0;
 
@@ -270,22 +271,13 @@
       }
     }
 
-    &.help {
-      border: 2px solid $blue-light;
-      box-shadow: none;
-      z-index: 1;
+    // recommended is always first-child
+    &:first-child {
 
-      &::before,
       &::after {
-        margin: 0 auto;
-        position: absolute;
-      }
-
-      // tooltip
-      &::after {
-        background: $blue-light;
+        background: $gray-lighter;
         border-radius: $input-border-radius $input-border-radius 0 0;
-        color: $white;
+        color: $gray-dark;
         content: 'Recommended';
         display: block;
         font-size: 11px;
@@ -297,18 +289,12 @@
         top: -21px;
       }
 
-      &:hover {
-        border-color: currentColor;
-        color: $blue;
-
-        &::after {
-          background: $blue;
-        }
+      &:hover::after {
+        background: $gray-light;
       }
 
+      &.active,
       &:active {
-        background: $white;
-        color: $purple-light;
 
         &::after {
           background: $purple-light;
@@ -319,8 +305,17 @@
 
     .iconnables {
       height: 24px;
-      margin: 0 auto 6px;
+      margin: 9px auto 6px;
       width: 24px;
+    }
+
+    // radio input
+    .input-radio {
+      bottom: 12px;
+      left: 0;
+      margin: 0 auto;
+      position: absolute;
+      right: 0;
     }
   }
 }

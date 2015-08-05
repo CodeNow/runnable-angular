@@ -5,48 +5,97 @@
   ng-if = "$root.featureFlags.newVerificationFlow"
 )
   .btn-group.btn-group-stacks
-    button.btn.btn-radio.white.help
+    //- recommended first
+    label.btn.btn-radio.white(
+      ng-class = "{'active': state.selectedStack === 'Go'}"
+    )
       img.iconnables(
         height = "24"
         ng-src = "/build/images/logos/logo-icon-go.svg"
         width = "24"
       )
       | Go
-    button.btn.btn-radio.white
+      input.input-radio(
+        name = "state.selectedStack"
+        ng-model = "state.selectedStack"
+        type = "radio"
+        value = "Go"
+      )
+    label.btn.btn-radio.white(
+      ng-class = "{'active': state.selectedStack === 'node.js'}"
+    )
       img.iconnables(
         height = "24"
         ng-src = "/build/images/logos/logo-icon-nodejs.svg"
         width = "24"
       )
       | node.js
-    button.btn.btn-radio.white
+      input.input-radio(
+        name = "state.selectedStack"
+        ng-model = "state.selectedStack"
+        type = "radio"
+        value = "node.js"
+      )
+    label.btn.btn-radio.white(
+      ng-class = "{'active': state.selectedStack === 'PHP'}"
+    )
       img.iconnables(
         height = "24"
         ng-src = "/build/images/logos/logo-icon-php.svg"
         width = "24"
       )
       | PHP
-    button.btn.btn-radio.white
+      input.input-radio(
+        name = "state.selectedStack"
+        ng-model = "state.selectedStack"
+        type = "radio"
+        value = "PHP"
+      )
+    label.btn.btn-radio.white(
+      ng-class = "{'active': state.selectedStack === 'Python'}"
+    )
       img.iconnables(
         height = "24"
         ng-src = "/build/images/logos/logo-icon-python.svg"
         width = "24"
       )
       | Python
-    button.btn.btn-radio.white
-      img.iconnables(
-        height = "24"
-        ng-src = "/build/images/logos/logo-icon-ruby.svg"
-        width = "24"
+      input.input-radio(
+        name = "state.selectedStack"
+        ng-model = "state.selectedStack"
+        type = "radio"
+        value = "Python"
       )
-      | Ruby
-    button.btn.btn-radio.white
+    label.btn.btn-radio.white(
+      ng-class = "{'active': state.selectedStack === 'Rails'}"
+    )
       img.iconnables(
         height = "24"
         ng-src = "/build/images/logos/logo-icon-rails.svg"
         width = "24"
       )
       | Rails
+      input.input-radio(
+        name = "state.selectedStack"
+        ng-model = "state.selectedStack"
+        type = "radio"
+        value = "Rails"
+      )
+    label.btn.btn-radio.white(
+      ng-class = "{'active': state.selectedStack === 'Ruby'}"
+    )
+      img.iconnables(
+        height = "24"
+        ng-src = "/build/images/logos/logo-icon-ruby.svg"
+        width = "24"
+      )
+      | Ruby
+      input.input-radio(
+        name = "state.selectedStack"
+        ng-model = "state.selectedStack"
+        type = "radio"
+        value = "Ruby"
+      )
 
   fancy-select(
     ng-disabled = "!state.selectedStack"
