@@ -17,8 +17,9 @@ label.label-jump(
 label.toggle-wrapper(
   ng-if = "$root.featureFlags.additionalRepositories"
 )
-  p.p Always use latest commit
-  small.small Will update on new builds of container-name
+  p.p Always upate to latest commit
+  small.small on new builds of&#32;
+    strong.strong container-name
   input.toggle-input(
     ng-model = "thing.autoUpdate"
     type = "checkbox"
