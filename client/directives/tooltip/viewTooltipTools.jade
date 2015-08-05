@@ -3,9 +3,9 @@ ul.list
   li.list-item
     svg.iconnables.float-left
       use(
-        xlink:href = "#icons-stack"
+        xlink:href = "#icons-repository"
       )
-    | Stack Type
+    | Repository
   li.list-item
     svg.iconnables.float-left
       use(
@@ -15,9 +15,9 @@ ul.list
   li.list-item
     svg.iconnables.float-left
       use(
-        xlink:href = "#icons-repository"
+        xlink:href = "#icons-start-cmd"
       )
-    | Main Repository
+    | Commands & Packages
   li.list-item
     svg.iconnables.float-left
       use(
@@ -26,4 +26,4 @@ ul.list
     | Container Files
 small.p.small(
   ng-if = "$root.featureFlags.dockerfileTool"
-) Your configuration is saved when you enable write access and will be restored if you disable access.
+) Your configuration is saved when you enable editing and will be restored if you disable editing in the future.

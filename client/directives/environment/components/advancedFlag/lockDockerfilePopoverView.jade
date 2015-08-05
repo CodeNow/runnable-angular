@@ -3,8 +3,8 @@
   ng-style = "popoverStyle.getStyle()"
 )
   .popover-content
-    h3.popover-title Disable write access and restore past configuration?
-    p.p Disabling write access will restore your container’s configuration from when write access was initially enabled {{data.instance.attrs.lastBuiltSimpleContextVersion.created | date : 'MMM d, y h:mm a'}}. You can’t undo this action.
+    h3.popover-title Disable editing and restore past configuration?
+    p.p Disabling will restore your container’s configuration from when editing was initially enabled {{data.instance.attrs.lastBuiltSimpleContextVersion.created | date : 'MMM d, y h:mm a'}}. You can’t undo this action.
   .popover-footer.clearfix
     button.btn.red.float-right(
       ng-click = "actions.performRollback(data.contextVersion, data.instance.attrs.lastBuiltSimpleContextVersion); closePopover();"
