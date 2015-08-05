@@ -25,4 +25,5 @@
   button.btn.btn-sm.green Add Repository
   button.btn.btn-sm.gray.btn-cancel(
     ng-click = "closePopover()"
+    ng-if = "$root.featureFlags.additionalRepositories"
   ) Cancel
