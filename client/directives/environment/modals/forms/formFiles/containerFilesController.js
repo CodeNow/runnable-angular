@@ -216,7 +216,7 @@ function ContainerFilesController(
               path: '/',
               body: data.key,
               isDir: false,
-              isHidden: true
+              fileType: 'ssh'
             })
               .then(function (file) {
                 sshKey.fileModel = file;

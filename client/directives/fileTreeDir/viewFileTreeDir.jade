@@ -59,7 +59,7 @@ li.folder(
     li.file(
       ng-class = "{\
         active: acv.editing,\
-        disabled: !acv.id() || mainAcv === acv\
+        disabled: !acv.id() || readOnly\
       }"
       ng-repeat = "acv in fileModel.appCodeVersions.models | orderBy:'attrs.repo'"
       ng-if = "$root.featureFlags.advancedRepositories"
