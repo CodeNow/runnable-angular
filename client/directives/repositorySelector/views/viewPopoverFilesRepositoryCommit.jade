@@ -19,3 +19,8 @@
   ng-include = "'viewRepositoryDetailsContent'"
   ng-init = "thing.autoUpdate = true"
 )
+.popover-footer.clearfix
+  button.btn.btn-sm.green Add Repository
+  button.btn.btn-sm.gray.btn-cancel(
+    ng-click = "closePopover()"
+  ) Cancel
