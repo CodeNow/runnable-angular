@@ -16,9 +16,8 @@ label.label-jump(
     * the edit modal (in the Containers view) for modifying an additional repo on a specific Container
 label.toggle-wrapper(
   ng-if = "$root.featureFlags.additionalRepositories"
-)
-  p.p Always upate to latest commit
-  small.small on new builds of&#32;
+) Always upate to latest commit
+  .small.float-left on new builds of&#32;
     strong.strong container-name
   input.toggle-input(
     ng-model = "thing.autoUpdate"
@@ -34,7 +33,7 @@ ul.list.list-servers(
   ) Merge pull request #1113 from CodeNow/SAN-2321-ssh-ui
     .small
       span.span.text-overflow taylordolan authored 20 minutes ago –
-      a.small.link.link-text.monospace(
+      a.small.link.monospace(
         ng-click = "$event.stopPropagation()"
         ng-href = "{{ commit.attrs.html_url }}"
         target = "_blank"
@@ -48,7 +47,7 @@ ul.list.list-servers(
   ) 3.1.1
     .small
       span.span.text-overflow Nathan219 authored 37 minutes ago –
-      a.small.link.link-text.monospace(
+      a.small.link.monospace(
         ng-click = "$event.stopPropagation()"
         ng-href = "{{ commit.attrs.html_url }}"
         target = "_blank"
@@ -62,7 +61,7 @@ ul.list.list-servers(
   ) update comments
     .small
       span.span.text-overflow runnabro authored an hour ago –
-      a.small.link.link-text.monospace(
+      a.small.link.monospace(
         ng-click = "$event.stopPropagation()"
         ng-href = "{{ commit.attrs.html_url }}"
         target = "_blank"
@@ -76,7 +75,7 @@ ul.list.list-servers(
   ) merge master
     .small
       span.span.text-overflow runnabro authored an hour ago –
-      a.small.link.link-text.monospace(
+      a.small.link.monospace(
         ng-click = "$event.stopPropagation()"
         ng-href = "{{ commit.attrs.html_url }}"
         target = "_blank"
@@ -90,7 +89,7 @@ ul.list.list-servers(
   ) Merge pull request #1111 from CodeNow/fix-update-dockerfile-on-edit-c
     .small
       span.span.text-overflow Myztiq authored 2 hours ago –
-      a.small.link.link-text.monospace(
+      a.small.link.monospace(
         ng-click = "$event.stopPropagation()"
         ng-href = "{{ commit.attrs.html_url }}"
         target = "_blank"
@@ -136,7 +135,7 @@ ul.list.list-servers.list-commits(
   ) {{commit.attrs.commit.message}}
     .toggle-group-detail
       small.small.text-overflow {{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}
-      a.small.link.link-text.monospace(
+      a.small.link.monospace(
         ng-click = "$event.stopPropagation()"
         ng-href = "{{ commit.attrs.html_url }}"
         target = "_blank"

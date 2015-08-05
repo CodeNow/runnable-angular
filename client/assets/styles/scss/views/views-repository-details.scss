@@ -2,37 +2,35 @@
 
   .label-jump {
     display: block;
-    margin-bottom: 3px;
     text-align: center;
   }
 
   .list-servers {
-    margin-top: 12px;
+    margin-top: 9px;
 
-    > .list-item {
+    .list-item {
       @extend %text-overflow;
       font-size: 15px;
-      padding-left: 9px;
-      padding-right: 45px;
-      height: 60px;
+      padding: 6px 45px 6px 9px;
 
       &:active,
       &.active {
-        border-color: $purple-light;
         color: $purple-light;
+        border-color: currentColor;
+        cursor: default;
 
-        &:hover .icons-fat-check {
-          color: $purple-light;
+        .small {
+          color: currentColor;
         }
 
-        .small,
         .icons-fat-check {
           color: currentColor;
+          visibility: visible;
         }
       }
 
-      &:hover .icons-fat-check {
-        color: $gray-lighter;
+      &:not(.disabled):hover .icons-fat-check {
+        visibility: visible;
       }
 
       &.disabled,
@@ -44,82 +42,57 @@
         .small {
           color: currentColor;
         }
-
-        .icons-fat-check {
-          color: $white;
-        }
       }
 
-      &.multi-line {
-        padding-right: 24px;
-      }
+      // spinner
+      // .spinner-wrapper {
+      //   right: 9px;
+      //   top: 18px;
+      // }
 
-      &.btn-block {
-        border-color: transparent;
-        height: 36px;
-        line-height: 32px;
-        padding-bottom: 0;
-        padding-top: 0;
-        text-align: center;
-
-        &:active {
-          // border-color: transparent;
-        }
-      }
-
-      > .small {
+      .small {
         color: $gray;
         display: flex;
+      }
 
-        .span {
-          // flex: 0 1 auto;
-          min-width: 0;
-        }
+      .span {
+        min-width: 0;
       }
 
       .link {
-        color: $gray;
+        color: currentColor;
         margin-left: 4px;
         font-size: 13px;
         flex: 0 0 auto;
       }
-
-      // spinner
-      .spinner-wrapper {
-        right: 9px;
-        top: 18px;
-      }
-
-      .icons-fat-check {
-        color: $white;
-        height: 100%;
-        position: absolute;
-        right: 9px;
-        top: 0;
-        width: 27px;
-      }
     }
   }
 
-  .toggle-wrapper {
-    border-top: 1px solid $gray-lighter;
-    border-bottom: 1px solid $gray-lighter;
-    padding: 9px 12px;
-    margin-top: 15px;
-    font-size: 15px;
-    color: #555;
-    font-weight: 500;
-    flex: 0 0 auto;
+  .icons-fat-check {
+    color: $gray-light;
+    height: 100%;
+    position: absolute;
+    right: 9px;
+    top: 0;
+    width: 27px;
+    visibility: hidden;
+  }
 
-    .small {
-      position: relative;
-      top: -3px;
-    }
+  .toggle-wrapper {
+    border-bottom: 1px solid $gray-lighter;
+    border-top: 1px solid $gray-lighter;
+    color: $gray-dark;
+    flex: 0 0 auto;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 18px;
+    margin-top: 15px;
+    padding: 9px 12px;
   }
 
   .toggle-group {
     float: right;
     position: relative;
-    top: -12px;
+    top: -9px;
   }
 }
