@@ -90,15 +90,8 @@
   }
 
   // package input
-  .input-prefix-monospace {
-
-    &::after {
-      color: $gray;
-    }
-
-    > .input {
-      padding-left: 140px; // padding for prefix apt-get install
-    }
+  .input-prefix-monospace > .input {
+    padding-left: 140px; // padding for prefix apt-get install
   }
 
   // ports
