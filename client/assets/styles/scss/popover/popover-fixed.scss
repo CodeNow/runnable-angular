@@ -2,6 +2,7 @@
 .popover-fixed {
   display: flex;
   flex-direction: column;
+  left: 0 !important;
   margin: 0 auto;
   max-height: calc(100vh - 75px);
   max-width: 630px;
@@ -48,7 +49,6 @@
 
   .popover-content {
     flex: 1 1 auto;
-    min-height: 375px;
     overflow-y: auto;
     padding: 15px 15px 30px;
   }
