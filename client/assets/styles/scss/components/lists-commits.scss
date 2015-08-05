@@ -12,18 +12,32 @@
       border-color: $purple-light;
       color: $purple-light;
 
-      .small {
+      &:hover .icons-fat-check {
+        color: $purple-light;
+      }
+
+      .small,
+      .icons-fat-check {
         color: currentColor;
       }
     }
 
+    &:hover .icons-fat-check {
+      color: $gray-lighter;
+    }
+
     &.disabled,
     &.disabled:hover {
+      border-color: transparent;
       color: $gray-light;
       cursor: not-allowed;
 
       .small {
-        color: $gray-light;
+        color: currentColor;
+      }
+
+      .icons-fat-check {
+        color: $white;
       }
     }
 
@@ -68,7 +82,7 @@
     }
 
     .icons-fat-check {
-      color: $purple-light;
+      color: $white;
       height: 100%;
       position: absolute;
       right: 9px;

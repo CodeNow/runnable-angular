@@ -3,6 +3,7 @@
     h1.modal-heading.text-overflow repository-name
   section.modal-body(
     ng-include = "'viewRepositoryCommitBody'"
+    ng-init = "thing.autoUpdate = true"
   )
   section.modal-footer
     button.btn.white.btn-cancel(

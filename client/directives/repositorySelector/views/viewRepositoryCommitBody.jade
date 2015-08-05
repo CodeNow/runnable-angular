@@ -20,6 +20,7 @@ label.toggle-wrapper(
   p.p Always use latest commit
   small.small Will update on new builds of container-name
   input.toggle-input(
+    ng-model = "thing.autoUpdate"
     type = "checkbox"
   )
   .toggle-group.toggle-sm
@@ -27,9 +28,11 @@ label.toggle-wrapper(
 ul.list.list-servers.list-commits(
   ng-if = "!repoSelector.data.latestCommit && !fetchingBranches && $root.featureFlags.additionalRepositories"
 )
-  li.list-item.active fix classes
+  li.list-item.active(
+    ng-class = "{'disabled': thing.autoUpdate}"
+  ) Merge pull request #1113 from CodeNow/SAN-2321-ssh-ui
     .small
-      span.span.text-overflow runnabro authored 1 day ago –
+      span.span.text-overflow taylordolan authored 20 minutes ago –
       a.small.link.link-text.monospace(
         ng-click = "$event.stopPropagation()"
         ng-href = "{{ commit.attrs.html_url }}"
@@ -39,22 +42,62 @@ ul.list.list-servers.list-commits(
       use(
         xlink:href = "#icons-fat-check"
       )
-  li.list-item.disabled fix classes
+  li.list-item(
+    ng-class = "{'disabled': thing.autoUpdate}"
+  ) 3.1.1
     .small
-      span.span.text-overflow taylordolan authored 15 minutes ago –
+      span.span.text-overflow Nathan219 authored 37 minutes ago –
       a.small.link.link-text.monospace(
         ng-click = "$event.stopPropagation()"
         ng-href = "{{ commit.attrs.html_url }}"
         target = "_blank"
       ) 418ffe6
-  li.list-item.disabledfix classes
+    svg.iconnables.icons-fat-check
+      use(
+        xlink:href = "#icons-fat-check"
+      )
+  li.list-item(
+    ng-class = "{'disabled': thing.autoUpdate}"
+  ) update comments
     .small
-      span.span.text-overflow runnabro authored 1 day ago –
+      span.span.text-overflow runnabro authored an hour ago –
       a.small.link.link-text.monospace(
         ng-click = "$event.stopPropagation()"
         ng-href = "{{ commit.attrs.html_url }}"
         target = "_blank"
       ) 418ffe6
+    svg.iconnables.icons-fat-check
+      use(
+        xlink:href = "#icons-fat-check"
+      )
+  li.list-item(
+    ng-class = "{'disabled': thing.autoUpdate}"
+  ) merge master
+    .small
+      span.span.text-overflow runnabro authored an hour ago –
+      a.small.link.link-text.monospace(
+        ng-click = "$event.stopPropagation()"
+        ng-href = "{{ commit.attrs.html_url }}"
+        target = "_blank"
+      ) 418ffe6
+    svg.iconnables.icons-fat-check
+      use(
+        xlink:href = "#icons-fat-check"
+      )
+  li.list-item(
+    ng-class = "{'disabled': thing.autoUpdate}"
+  ) Merge pull request #1111 from CodeNow/fix-update-dockerfile-on-edit-c
+    .small
+      span.span.text-overflow Myztiq authored 2 hours ago –
+      a.small.link.link-text.monospace(
+        ng-click = "$event.stopPropagation()"
+        ng-href = "{{ commit.attrs.html_url }}"
+        target = "_blank"
+      ) 418ffe6
+    svg.iconnables.icons-fat-check
+      use(
+        xlink:href = "#icons-fat-check"
+      )
 
 //- end dummy content
 //- ************************
