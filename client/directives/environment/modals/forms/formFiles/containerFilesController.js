@@ -14,7 +14,6 @@ function ContainerFilesController(
   hasKeypaths,
   $timeout,
   updateDockerfileFromState,
-  $q,
   keypather
 ) {
 
@@ -100,8 +99,12 @@ function ContainerFilesController(
         var files = containerFile.file;
         containerFile.name = files[0].name;
 
-        containerFile.fileUpload = uploadFile(files, uploadURL)
-          .progress(function (evt) {
+        // Store the raw fileUpload so we can use it later to cancel.
+        // We can't chain here because the promise will get overridden.
+        containerFile.fileUpload = uploadFile(files, uploadURL);
+
+        // Listen to changed on the fileUpload
+        containerFile.fileUpload.progress(function (evt) {
             containerFile.progress = parseInt(100.0 * evt.loaded / evt.total, 10);
           })
           .error(function (err) {
@@ -148,6 +151,8 @@ function ContainerFilesController(
             // If the upload is finished we need to trigger a delete on the server
             return self.fileUpload.actions.deleteFile(containerFile);
           }
+          console.log(containerFile.fileUpload);
+          console.log(Object.keys(containerFile.fileUpload));
           // The upload isn't finished. Abort it!
           containerFile.fileUpload.abort();
         }
