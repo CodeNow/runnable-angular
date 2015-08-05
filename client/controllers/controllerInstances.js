@@ -8,7 +8,6 @@ require('app')
 function ControllerInstances(
   $filter,
   $state,
-  favico,
   keypather,
   setLastOrg,
   errs,
@@ -28,8 +27,6 @@ function ControllerInstances(
       }
       self.instancesByPod = instancesByPod;
       self.activeAccount = activeAccount;
-
-      favico.reset();
 
       var instances = instancesByPod;
       var lastViewedInstance = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.instance');

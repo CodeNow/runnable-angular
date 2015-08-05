@@ -33,7 +33,7 @@
 
 .clearfix
   .label-col {{ $root.featureFlags.sshKeys ? "Files & SSH Keys" : "Container Files" }}
-  .input-col
+  .input-col.clearfix
     button.btn.btn-xs.white.float-right(
       ng-if = "$root.featureFlags.sshKeys"
       pop-over

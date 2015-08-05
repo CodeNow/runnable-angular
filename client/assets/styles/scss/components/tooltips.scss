@@ -196,6 +196,11 @@
     white-space: normal;
     width: 240px;
 
+    &::before {
+      left: 30px;
+      right: auto;
+    }
+
     .list-item {
       height: 24px;
       line-height: 24px;
