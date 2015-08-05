@@ -35,6 +35,7 @@ li.folder(
       processor
   ul(
     ng-if = "(isRootDir && showRepoFolder)"
+    ng-init = "mainAcv = fileModel.getMainAppCodeVersion()"
   )
     li.file(
       ng-if = "state.showAddRepo"
@@ -58,7 +59,7 @@ li.folder(
     li.file(
       ng-class = "{\
         active: acv.editing,\
-        disabled: !acv.id()\
+        disabled: !acv.id() || mainAcv === acv\
       }"
       ng-repeat = "acv in fileModel.appCodeVersions.models | orderBy:'attrs.repo'"
       ng-if = "$root.featureFlags.advancedRepositories"
