@@ -1,8 +1,8 @@
 .modal-dialog.modal-repository-details
   header.modal-header
     h1.modal-heading.text-overflow repository-name
-  section.modal-body(
-    ng-include = "'viewRepositoryCommitBody'"
+  section.modal-body.repository-details-content(
+    ng-include = "'viewRepositoryDetailsContent'"
     ng-init = "thing.autoUpdate = true"
   )
   section.modal-footer

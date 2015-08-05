@@ -15,7 +15,7 @@
     ng-if = "!(data.gitDataOnly && state.fromServer)"
   )
 
-.popover-content(
-  ng-include = "'viewRepositoryCommitBody'"
+.popover-content.repository-details-content(
+  ng-include = "'viewRepositoryDetailsContent'"
   ng-init = "autoUpdate = true"
 )
