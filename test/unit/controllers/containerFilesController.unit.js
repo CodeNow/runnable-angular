@@ -353,6 +353,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
         uploadDeferred.promise.progress = sinon.stub().returns(uploadDeferred.promise);
         uploadDeferred.promise.error = sinon.stub().returns(uploadDeferred.promise);
         uploadDeferred.promise.success = sinon.stub().returns(uploadDeferred.promise);
+        uploadDeferred.promise.abort = sinon.spy();
 
         uploadMock.upload = sinon.stub().returns(uploadDeferred.promise);
 
@@ -370,6 +371,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
         });
         uploadDeferred.resolve();
         $rootScope.$digest();
+        expect(containerFile.fileUpload.abort).to.be.ok;
         expect(containerFile.uploadFinished).to.be.ok;
         expect(containerFile.name).to.equal('newName');
         expect(containerFile.fileModel).to.deep.equal({newFile: 1});
