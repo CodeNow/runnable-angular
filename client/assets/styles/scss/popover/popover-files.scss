@@ -5,9 +5,13 @@
   min-height: 420px;
   width: 360px;
 
+  // 420px/360px - 4px (height/width - borders)
+  .popover-views,
   .popover-view {
-    // 420px/360px - 4px (height/width - borders)
-    height: 416px;
+    min-height: 416px;
+  }
+
+  .popover-view {
     width: 356px;
   }
 
