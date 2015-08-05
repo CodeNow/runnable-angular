@@ -5,6 +5,11 @@ require('app')
 /**
  * directive tooltip
  * @ngInject
+ *
+ * attrs:
+ *   tooltipOptions: location data
+ *   tooltipEval: text that will get evaluated, for dynamic text
+ *   tooltipDisable: if set, the tooltip will not display when this is true
  */
 function tooltip(
   $templateCache,
@@ -56,6 +61,9 @@ function tooltip(
       };
 
       bind(element, 'mouseover', function () {
+        if (attrs.tooltipDisabled && $scope.$eval(attrs.tooltipDisabled)) {
+          return;
+        }
         $scope.toolTip.toolTipText = attrs.tooltip;
         if (attrs.tooltipEval) {
           $scope.toolTip.toolTipText = $scope.$eval(attrs.tooltipEval);
