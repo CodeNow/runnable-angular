@@ -54,9 +54,20 @@
   .popover-content {
     min-height: 298px; // calc(450px - 122px);
     padding-bottom: 15px;
+  }
 
-    .list-servers {
-      margin-top: 15px;
+  .list-servers {
+    margin-top: 15px;
+
+    .list-item {
+      font-size: 15px;
+      padding: 6px 9px;
+
+      &:active,
+      &.active {
+        border-color: $purple-light;
+        color: $purple-light;
+      }
     }
   }
 

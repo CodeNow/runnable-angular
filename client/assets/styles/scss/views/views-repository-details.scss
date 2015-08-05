@@ -8,7 +8,7 @@
   .list-servers {
     margin-top: 9px;
 
-    .list-item {
+    .list-item.list-item {
       @extend %text-overflow;
       font-size: 15px;
       padding: 6px 45px 6px 9px;
