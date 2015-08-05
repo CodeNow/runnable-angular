@@ -25,7 +25,7 @@ label.toggle-wrapper(
   )
   .toggle-group.toggle-sm
 
-ul.list.list-servers.list-commits(
+ul.list.list-servers(
   ng-if = "!repoSelector.data.latestCommit && !fetchingBranches && $root.featureFlags.additionalRepositories"
 )
   li.list-item.active(

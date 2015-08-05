@@ -143,29 +143,4 @@
       resize: none;
     }
   }
-
-  // filter
-  .label-jump {
-    display: block;
-    margin-bottom: 3px;
-    text-align: center;
-
-  }
-
-  .toggle-wrapper {
-    border-top: 1px solid $gray-lighter;
-    border-bottom: 1px solid $gray-lighter;
-    padding: 9px 12px;
-    margin-top: 15px;
-    font-size: 15px;
-    color: #555;
-    font-weight: 500;
-    flex: 0 0 auto;
-  }
-
-  .toggle-group {
-    float: right;
-    position: relative;
-    top: -12px;
-  }
 }
