@@ -207,22 +207,22 @@ input {
   }
 }
 
-// icons
-.input-root {
+// prefix input with…
+.input-prefix {
   position: relative;
 
   &::after {
     color: $gray-light;
-    content: '/';
+    content: attr(data-prefix);
     display: block;
     font-weight: 500;
     height: $input-sm;
     left: 0;
     line-height: $input-sm;
+    padding-left: 8px;
     position: absolute;
     text-align: center;
     top: 0;
-    width: 21px;
   }
 
   .input {
