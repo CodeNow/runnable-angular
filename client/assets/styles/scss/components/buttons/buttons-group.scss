@@ -140,7 +140,7 @@
         color: rgba($white,.45);
 
         .iconnables {
-          opacity: .8;
+          opacity: .45;
         }
       }
 
@@ -148,7 +148,7 @@
         color: rgba($white,.6);
 
         .iconnables {
-          opacity: .9;
+          opacity: .6;
         }
       }
 
@@ -159,6 +159,23 @@
         .iconnables {
           opacity: 1;
         }
+      }
+
+      // no states if disabled
+      &.disabled {
+
+        &:hover,
+        &:active {
+          color: rgba($white,.3);
+
+          .iconnables {
+            opacity: .3;
+          }
+        }
+      }
+
+      .iconnables {
+        opacity: .3;
       }
     }
   }

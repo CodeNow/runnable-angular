@@ -1,4 +1,5 @@
 .popover-views {
+  flex: 1 1 auto;
   height: 100%;
   overflow: hidden;
   position: relative;
@@ -27,6 +28,7 @@
   display: none;
   flex-direction: column;
   float: left;
+  max-height: 100%;
   position: absolute;
   transition: transform .3s ease-in-out;
 
