@@ -46,10 +46,10 @@
             br
             | & Packages
         button.btn.btn-radio.js-animate(
+          ng-class = "{'active': selectedTab === 'ports'}"
+          ng-click = "changeTab('ports')"
           ng-if = "newContainer.step === 3"
         )
-          //- ng-class = "{'active': selectedTab === 'ports'}"
-          //- ng-click = "changeTab('ports')"
           //- ng-if = "isTabVisible('ports')"
           svg.iconnables
             use(
@@ -57,20 +57,20 @@
             )
           .btn-text Exposed Ports
         button.btn.btn-radio.js-animate(
+          ng-class = "{'active': selectedTab === 'env'}"
+          ng-click = "changeTab('env')"
           ng-if = "newContainer.step === 3"
         )
-          //- ng-class = "{'active': selectedTab === 'env'}"
-          //- ng-click = "changeTab('env')"
           svg.iconnables
             use(
               xlink:href = "#icons-environment-variable"
             )
           .btn-text Environment Variables
         button.btn.btn-radio.js-animate(
+          ng-class = "{'active': selectedTab === 'files'}"
+          ng-click = "changeTab('files')"
           ng-if = "newContainer.step === 3"
         )
-          //- ng-class = "{'active': selectedTab === 'files'}"
-          //- ng-click = "changeTab('files')"
           //- ng-if = "isTabVisible('files')"
           svg.iconnables(
             ng-if = "!$root.featureFlags.sshKeys"
@@ -86,10 +86,10 @@
             )
           .btn-text  {{ $root.featureFlags.sshKeys ? "Files & SSH Keys" : "Container Files" }}
         button.btn.btn-radio.js-animate(
+          ng-class = "{'active': selectedTab === 'translation'}"
+          ng-click = "changeTab('translation')"
           ng-if = "newContainer.step === 3"
         )
-          //- ng-class = "{'active': selectedTab === 'translation'}"
-          //- ng-click = "changeTab('translation')"
           //- ng-if = "isTabVisible('translation') && $root.featureFlags.findAndReplace"
           svg.iconnables
             use(
@@ -97,20 +97,20 @@
             )
           .btn-text Find & Replace
         button.btn.btn-radio.js-animate(
+          ng-class = "{'active': selectedTab === 'logs'}"
+          ng-click = "changeTab('logs')"
           ng-if = "newContainer.step === 3"
         )
-          //- ng-class = "{'active': selectedTab === 'logs'}"
-          //- ng-click = "changeTab('logs')"
           svg.iconnables
             use(
               xlink:href = "#icons-log"
             )
           .btn-text Logs
         button.btn.btn-radio.js-animate(
+          ng-class = "{'active': selectedTab === 'buildfiles'}"
+          ng-click = "changeTab('buildfiles')"
           ng-if = "newContainer.step === 3"
         )
-          //- ng-class = "{'active': selectedTab === 'buildfiles'}"
-          //- ng-click = "changeTab('buildfiles')"
           //- ng-if = "isTabVisible('buildfiles') || $root.featureFlags.dockerfileTool"
           svg.iconnables
             use(
@@ -121,6 +121,14 @@
     section.modal-body(
       ng-if = "!isLoading.editServerModal"
     )
+      //- text for final verification step
+      .modal-form(
+        ng-if = "newContainer.step === 3"
+      )
+        p.p.empty You’re ready to start this container’s first build!
+          br
+          small.small Or select a tab to continue configuring your container.
+
       //- .modal-form(
       //-   ng-include = "'viewFormBuildfiles'"
       //-   ng-show = "selectedTab === 'buildfiles'"
@@ -128,15 +136,14 @@
       .modal-form(
         data = "data"
         loading-promises-target = "editServerModal"
-        ng-if = "newContainer.step === 1"
-        ng-show = "selectedTab === 'repository' || newContainer.step >= 1"
+        ng-show = "selectedTab === 'repository' || newContainer.step === 1"
         stack-selector-form
         state = "state"
       )
       .modal-form(
         loading-promises-target = "editServerModal"
         ng-if = "!state.advanced"
-        ng-show = "selectedTab === 'commands' || newContainer.step >= 2"
+        ng-show = "selectedTab === 'commands' || newContainer.step === 2"
         repository-form
         state = "state"
       )
@@ -192,13 +199,13 @@
         )
         span.btn-text(
           ng-if = "!building && !newContainer.step"
-        ) {{ (validation.env.length) ? (validation.env.length) + ' env errors' : 'Save Changes'}}
+        ) {{(validation.env.length) ? (validation.env.length) + ' env errors' : 'Save Changes'}}
         span.btn-text(
           ng-if = "building"
         ) Saving
         span.btn-text(
           ng-if = "newContainer.step"
-        ) Next
+        ) {{newContainer.step < 3 ? 'Next' : 'Start Build'}}
       button.btn.white.btn-cancel(
         ng-click = "cancel()"
         ng-disabled = "building"
