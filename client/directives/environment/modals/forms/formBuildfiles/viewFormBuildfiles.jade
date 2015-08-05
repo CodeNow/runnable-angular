@@ -12,15 +12,15 @@
     use(
       xlink:href = "#icons-lock"
     )
-  strong.small.strong Enable Write Access
+  strong.small.strong Enable Dockerfile Editing
 
   small.small
     em.underline.tooltip-plus-wrapper Some tools
       .tooltip-plus.tooltip-tools.bottom(
         ng-include = "'viewTooltipTools'"
-        style = "left: -69px; top: 27px;"
+        style = "left: -15px; top: 27px;"
       )
-    | #{''} are not available with write access enabled.
+    | &nbsp;are not available with editing enabled.
 
   //- when locking the dockerfile, prompt with modal template: viewModalLockDockerfile
   //- ✅ if repository (can simple mode) && previous simple build exists (can simple mode)
@@ -37,7 +37,7 @@
     ng-if = "state.repo && !state.instance.attrs.lastBuiltSimpleContextVersion"
     read-only-switch
     state = "state"
-    tooltip = "We’re unable to turn off write access. You can fix this by deleting and re-creating your container."
+    tooltip = "We’re unable to disable editing. To resolve this, delete and re-create your container."
     tooltip-options = "{\"class\":\"bottom bottom-arrow-right\",\"right\":0,\"top\":21}"
   )
 
@@ -47,7 +47,7 @@
     ng-if = "!state.repo"
     read-only-switch
     state = "state"
-    tooltip = "Write access is always enabled on non-repository containers."
+    tooltip = "Editing is always enabled on non-repository containers."
     tooltip-options = "{\"class\":\"bottom bottom-arrow-right\",\"right\":0,\"top\":21}"
   )
 
