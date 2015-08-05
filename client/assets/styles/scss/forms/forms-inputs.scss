@@ -225,6 +225,10 @@ input {
     top: 0;
   }
 
+  &.input-prefix-monospace::after {
+    @extend %monospace;
+  }
+
   .input {
     padding-left: 12px;
   }

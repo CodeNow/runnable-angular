@@ -80,6 +80,27 @@
   }
 
   // forms
+  // change stack button
+  .btn-change-stack {
+    cursor: default;
+
+    > .btn {
+      margin-left: 6px;
+    }
+  }
+
+  // package input
+  .input-prefix-monospace {
+
+    &::after {
+      color: $gray;
+    }
+
+    > .input {
+      padding-left: 140px; // padding for prefix apt-get install
+    }
+  }
+
   // ports
   .textarea {
     display: block;
@@ -301,14 +322,5 @@
       margin: 0 auto 6px;
       width: 24px;
     }
-  }
-}
-
-// change stack button
-.btn-change-stack {
-  cursor: default;
-
-  > .btn {
-    margin-left: 6px;
   }
 }
