@@ -151,8 +151,6 @@ function ContainerFilesController(
             // If the upload is finished we need to trigger a delete on the server
             return self.fileUpload.actions.deleteFile(containerFile);
           }
-          console.log(containerFile.fileUpload);
-          console.log(Object.keys(containerFile.fileUpload));
           // The upload isn't finished. Abort it!
           containerFile.fileUpload.abort();
         }
