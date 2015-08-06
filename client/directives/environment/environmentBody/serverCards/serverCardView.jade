@@ -192,7 +192,7 @@ ul.card-body.load(
           style = "left: 42px; top: -67px;"
         )
       //- must use &nbsp; instead of &#32;
-      span.text-overflow &nbsp;not available with write access.
+      span.text-overflow &nbsp;not available with Dockerfile editing.
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
@@ -216,19 +216,19 @@ ul.card-body.load(
     small.small(
       ng-if = "server.advanced"
     )
-      em.underline.tooltip-plus-wrapper Tools
-        .tooltip-plus.tooltip-tools.right(
+      em.underline.tooltip-plus-wrapper Some tools
+        .tooltip-plus.tooltip-tools.bottom(
           ng-include = "'viewTooltipTools'"
-          style = "left: 42px; top: -95px;"
+          style = "left: -5px; top: 25px;"
         )
       //- must use &nbsp; instead of &#32;
-      span.text-overflow &nbsp;not available with write access.
+      span.text-overflow &nbsp;are not available with editing enabled.
 
     //- lock/unlock icon to show status of container's dockerfile
     //- wrapper needed for title text
     .iconnables-wrapper(
       ng-if = "!server.advanced"
-      title = "Write access disabled"
+      title = "Editing disabled"
     )
       svg.iconnables.icons-lock
         use(
@@ -236,7 +236,7 @@ ul.card-body.load(
         )
     .iconnables-wrapper(
       ng-if = "server.advanced"
-      title = "Write access enabled"
+      title = "Editing enabled"
     )
       svg.iconnables.icons-unlock
         use(
