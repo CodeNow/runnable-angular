@@ -1,7 +1,3 @@
-//- ************************
-//- dummy content
-//- this is just to show what things should look like in the repositories modals in the Containers view.
-
 label.label-jump(
   ng-if = "$root.featureFlags.additionalRepositories"
 )
@@ -108,47 +104,3 @@ ul.list.list-servers(
       use(
         xlink:href = "#icons-fat-check"
       )
-
-//- end dummy content
-//- ************************
-
-//- ************************
-//- real content
-//- this currently works for adding repositories in Container Files and the Dockerfile tool.
-//- it needs to also work for the repositories modals in the Containers view.
-
-label.label-jump(
-  ng-if = "!fetchingBranches && repoSelector.data.branch.commits.models.length"
-)
-  small.small Branch
-  select.select(
-    ng-change = "repoSelector.actions.selectBranch(repoSelector.data.branch)"
-    ng-model = "repoSelector.data.branch"
-    ng-options = "branch as branch.attrs.name for branch in repoSelector.data.repo.branches.models"
-  )
-    option(
-      disabled
-    ) Choose a branch
-
-.spinner-wrapper.spinner-backdrop.spinner-gray.spinner-md.in(
-  ng-if = "(repoSelector.data.branch && !repoSelector.data.branch.commits.models.length) || fetchingBranches"
-  ng-include = "'spinner'"
-)
-
-ul.list.list-servers.list-commits(
-  ng-if = "!repoSelector.data.latestCommit && !fetchingBranches"
-)
-  //- inline style to override style for upcoming changes
-  li.list-item(
-    ng-class = "{active: repoSelector.data.commit === commit, disabled: state.saving}"
-    ng-click = "repoSelector.actions.selectCommit(commit)"
-    ng-repeat = "commit in repoSelector.data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
-    style = "padding-right: 9px;"
-  ) {{commit.attrs.commit.message}}
-    .small
-      span.span.text-overflow {{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}} –
-      a.link.monospace(
-        ng-click = "$event.stopPropagation()"
-        ng-href = "{{ commit.attrs.html_url }}"
-        target = "_blank"
-      ) {{ ::commit.attrs.sha | limitTo:7 }}
