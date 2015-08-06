@@ -1,0 +1,106 @@
+label.label-jump(
+  ng-if = "$root.featureFlags.additionalRepositories"
+)
+  small.small Branch
+  select.select
+    option(
+      disabled
+    ) Choose a branch
+
+//- this element should appear in:
+    * the setup popover for adding a repo to Container Files
+    * the edit modal (in the Containers view) for modifying an additional repo on a specific Container
+label.toggle-wrapper(
+  ng-if = "$root.featureFlags.additionalRepositories"
+) Always update to latest commit
+  .small.float-left on new builds of&#32;
+    strong.strong container-name
+  input.toggle-input(
+    ng-model = "thing.autoUpdate"
+    type = "checkbox"
+  )
+  .toggle-group.toggle-sm
+
+ul.list.list-servers(
+  ng-if = "!repoSelector.data.latestCommit && !fetchingBranches && $root.featureFlags.additionalRepositories"
+)
+  li.list-item.active(
+    ng-class = "{'disabled': thing.autoUpdate}"
+  ) Merge pull request #1113 from CodeNow/SAN-2321-ssh-ui
+    .small
+      span.span.text-overflow(
+        title = "taylordolan authored 20 minutes ago"
+      ) taylordolan authored 20 minutes ago –
+      a.link.monospace(
+        ng-click = "$event.stopPropagation()"
+        ng-href = "{{ commit.attrs.html_url }}"
+        target = "_blank"
+      ) 418ffe6
+    svg.iconnables.icons-fat-check
+      use(
+        xlink:href = "#icons-fat-check"
+      )
+  li.list-item(
+    ng-class = "{'disabled': thing.autoUpdate}"
+  ) 3.1.1
+    .small
+      span.span.text-overflow(
+       title = "Nathan219 authored 37 minutes ago"
+      ) Nathan219 authored 37 minutes ago –
+      a.link.monospace(
+        ng-click = "$event.stopPropagation()"
+        ng-href = "{{ commit.attrs.html_url }}"
+        target = "_blank"
+      ) 418ffe6
+    svg.iconnables.icons-fat-check
+      use(
+        xlink:href = "#icons-fat-check"
+      )
+  li.list-item(
+    ng-class = "{'disabled': thing.autoUpdate}"
+  ) update comments
+    .small
+      span.span.text-overflow(
+        title = "runnabro authored an hour ago"
+      ) runnabro authored an hour ago –
+      a.link.monospace(
+        ng-click = "$event.stopPropagation()"
+        ng-href = "{{ commit.attrs.html_url }}"
+        target = "_blank"
+      ) 418ffe6
+    svg.iconnables.icons-fat-check
+      use(
+        xlink:href = "#icons-fat-check"
+      )
+  li.list-item(
+    ng-class = "{'disabled': thing.autoUpdate}"
+  ) merge master
+    .small
+      span.span.text-overflow(
+        title = "runnabro authored an hour ago"
+      ) runnabro authored an hour ago –
+      a.link.monospace(
+        ng-click = "$event.stopPropagation()"
+        ng-href = "{{ commit.attrs.html_url }}"
+        target = "_blank"
+      ) 418ffe6
+    svg.iconnables.icons-fat-check
+      use(
+        xlink:href = "#icons-fat-check"
+      )
+  li.list-item(
+    ng-class = "{'disabled': thing.autoUpdate}"
+  ) Merge pull request #1111 from CodeNow/fix-update-dockerfile-on-edit-c
+    .small
+      span.span.text-overflow(
+        title = "Myztiq authored 2 hours ago"
+      ) Myztiq authored 2 hours ago –
+      a.link.monospace(
+        ng-click = "$event.stopPropagation()"
+        ng-href = "{{ commit.attrs.html_url }}"
+        target = "_blank"
+      ) 418ffe6
+    svg.iconnables.icons-fat-check
+      use(
+        xlink:href = "#icons-fat-check"
+      )

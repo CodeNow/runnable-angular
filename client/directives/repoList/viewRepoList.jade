@@ -13,13 +13,16 @@
   edit-repo-commit
   instance = "instance"
   model = "instance.contextVersion.getMainAppCodeVersion()"
+  ng-if = "!$storage.repoListIsClosed"
 )
 
 //- additional repositories (mockup)
 .server-sidebar-item(
   modal
-  modal-template = "modalRepositoryDetailsOpen"
-  ng-if = "$root.featureFlags.additionalRepositories"
+  modal-actions = "actions"
+  modal-data = "data"
+  modal-template = "repositoryDetailsModalOpen"
+  ng-if = "$root.featureFlags.additionalRepositories && !$storage.repoListIsClosed"
 )
   .small.strong.text-overflow repo-name
   .btn.gray

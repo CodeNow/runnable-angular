@@ -29,7 +29,7 @@
     | {{ activeCommit.attrs.commit.message}}
   .repo-info.small {{ activeCommit.attrs.commit.author.date | timeFrom }}
     //- we don't want to trigger the popover to open because this is an external link
-    a.link.link-text.monospace.float-right(
+    a.link.monospace.float-right(
       ng-href = "{{ activeCommit.attrs.html_url }}"
       ng-click = "$event.stopPropagation()"
       target = "_blank"
@@ -59,7 +59,7 @@ label.label-checkbox.btn-sm.btn-checkbox(
 ) {{ acv.attrs.repo }}
 .btn.gray(
   modal
-  modal-template = "modalRepositoryDetailsOpen"
+  modal-template = "repositoryDetailsModalOpen"
   ng-if = "$root.featureFlags.additionalRepositories"
 )
   .repo-info.text-overflow.js-repository-branch {{ acv.attrs.branch }}

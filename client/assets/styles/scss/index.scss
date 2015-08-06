@@ -35,10 +35,10 @@
 @import "components/help";
 @import "components/icons";
 @import "components/lists";
-@import "components/lists-commits";
 @import "components/logo";
 @import "components/logs";
 @import "components/notifications";
+@import "components/repository-details-content";
 @import "components/select";
 @import "components/spinner";
 @import "components/tags";
@@ -84,7 +84,6 @@
 @import "modals/modals";
 @import "modals/modals-alerts";
 @import "modals/modals-forms";
-@import "modals/modals-repository-details";
 @import "modals/modals-welcome";
 
 // modal specific

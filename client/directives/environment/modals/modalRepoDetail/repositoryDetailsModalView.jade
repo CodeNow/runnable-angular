@@ -1,0 +1,14 @@
+.modal-dialog.modal-repository-details
+  header.modal-header
+    h1.modal-heading.text-overflow repository-name
+  section.modal-body.repository-details-content(
+    ng-include = "'viewRepositoryDetailsContent'"
+    ng-init = "thing.autoUpdate = true"
+  )
+  section.modal-footer
+    button.btn.white.btn-cancel(
+      ng-click = "defaultActions.cancel()"
+    ) Cancel
+    button.btn.green(
+      ng-click = "defaultActions.cancel()"
+    ) Save & Rebuild
