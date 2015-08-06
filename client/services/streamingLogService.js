@@ -12,7 +12,13 @@ function streamingLog (
 ) {
   return function (stream) {
 
+    var unprocessed = [];
+
     var refreshAngular = debounce(function () {
+      unprocessed.forEach(function (unprocessed) {
+        unprocessed.trustedContent = $sce.trustAsHtml(convert.toHtml(unprocessed.content.join('')));
+      });
+      unprocessed = [];
       $rootScope.$applyAsync();
     }, 100);
 
@@ -20,14 +26,23 @@ function streamingLog (
     var currentCommand = null;
     function handleStreamData (data) {
       if (data.type === 'command') {
+
         currentCommand = {
           content: [],
           command: $sce.trustAsHtml(convert.toHtml(data.content)),
-          imageId: data.imageId
+          imageId: data.imageId,
+          expanded: true
         };
+        var previous = streamLogs[streamLogs.length-1];
+        if (previous) {
+          previous.expanded = false;
+        }
         streamLogs.push(currentCommand);
       } else if (data.type === 'log'){
-        currentCommand.content.push($sce.trustAsHtml(convert.toHtml(data.content)));
+        if (unprocessed.indexOf(currentCommand)) {
+          unprocessed.push(currentCommand);
+        }
+        currentCommand.content.push(data.content + '\n');
       }
       refreshAngular();
     }

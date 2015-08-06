@@ -5,16 +5,16 @@
 
 .pre.build-log(
   ng-repeat = "command in BLC.buildLogs"
-  ng-class = "{'build-log-toggle' : command.content.length, 'in': command.content.length > 0 && ($last && command.expanded !== false) || command.expanded }"
-  ng-click = "command.expanded = !command.expanded"
+  ng-class = "{'build-log-toggle' : command.content.length, 'in': command.content.length > 0 && command.expanded }"
 )
-  .build-log-header
+  .build-log-header(
+    ng-click = "command.expanded = !command.expanded"
+  )
     .build-log-header-text(
       ng-bind-html = "command.command"
     )
 
-  .build-log-content
-    div(
-      ng-repeat="log in command.content track by $index"
-      ng-bind-html = "log"
-    )
+  .build-log-content(
+    ng-if = "command.content.length"
+    ng-bind-html = "command.trustedContent"
+  )

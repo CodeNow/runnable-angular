@@ -41,7 +41,7 @@ function BuildLogsController(
               emitLog();
             }
           }
-        }, Math.random()*200);
+        }, Math.random()*600);
       }
       emit = true;
       emitLog();
