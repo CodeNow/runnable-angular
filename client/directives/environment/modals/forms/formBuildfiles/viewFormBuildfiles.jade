@@ -26,29 +26,8 @@
   //- ✅ if repository (can simple mode) && previous simple build exists (can simple mode)
   label.toggle-wrapper.show-icons(
     loading-promises-target = "editServerModal"
-    ng-if = "state.repo && state.instance.attrs.lastBuiltSimpleContextVersion"
     read-only-switch
     state = "state"
-  )
-
-  //- ❗️ if repository (can simple mode) && no previous simple build exists (cannot simple mode)
-  label.toggle-wrapper.show-icons(
-    loading-promises-target = "editServerModal"
-    ng-if = "state.repo && !state.instance.attrs.lastBuiltSimpleContextVersion"
-    read-only-switch
-    state = "state"
-    tooltip = "We’re unable to disable editing. To resolve this, delete and re-create your container."
-    tooltip-options = "{\"class\":\"bottom bottom-arrow-right\",\"right\":0,\"top\":21}"
-  )
-
-  //- ❗️ if non-repository (cannot simple mode…yet)
-  label.toggle-wrapper.show-icons(
-    loading-promises-target = "editServerModal"
-    ng-if = "!state.repo"
-    read-only-switch
-    state = "state"
-    tooltip = "Editing is always enabled on non-repository containers."
-    tooltip-options = "{\"class\":\"bottom bottom-arrow-right\",\"right\":0,\"top\":21}"
   )
 
 //- table of current environment variables
