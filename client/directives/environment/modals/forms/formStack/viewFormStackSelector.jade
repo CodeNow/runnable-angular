@@ -100,9 +100,9 @@
   fancy-select(
     ng-disabled = "!state.selectedStack"
     ng-required = "true"
+    on-update = "updateDockerfile"
     placeholder = "Select Version"
     value = "state.selectedStack.selectedVersion"
-    on-update = "updateDockerfile"
   )
     li.list-item.popover-list-item.small(
       ng-if = "$parent.state.selectedStack.suggestedVersion"
@@ -150,6 +150,9 @@
   //- changing stack flow
   .btn.btn-sm.btn-change-stack(
     ng-if = "$root.featureFlags.newVerificationFlowStackChanger"
+    pop-over
+    pop-over-options = "{\"left\":0,\"top\":0}"
+    pop-over-template = "viewPopoverStackSelector"
   )
     .display.float-left
       img.iconnables(
@@ -226,8 +229,8 @@
     fancy-select(
       ng-required = "state.selectedStack.dependencies.length"
       placeholder = "Select Version"
-      value = "depStack.selectedVersion"
       on-update = "updateDockerfile"
+      value = "depStack.selectedVersion"
     )
       li.list-item.popover-list-item.small(
         ng-if = "$parent.depStack.suggestedVersion"

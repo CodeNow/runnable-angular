@@ -100,15 +100,14 @@ label.label.clearfix
 
   .input-col
     fancy-select.monospace(
+      autocomplete = "off"
       name = "repository.startCommand"
       ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
       ng-required = "startCommandCanDisable || ngShow()"
-      show-dropdown = "state.selectedStack.startCommand"
-      type = "text"
-      value = "state.startCommand"
       on-update = "updateDockerfile"
+      show-dropdown = "state.selectedStack.startCommand"
       spellcheck = "false"
-      autocomplete = "off"
+      value = "state.startCommand"
     )
       li.list-item.popover-list-item.small Suggested Container CMDs
       fancy-option(
