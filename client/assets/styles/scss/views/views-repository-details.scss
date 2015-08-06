@@ -35,6 +35,7 @@
 
       &.disabled,
       &.disabled:hover {
+        background-color: transparent;
         border-color: transparent;
         color: $gray-light;
         cursor: not-allowed;
