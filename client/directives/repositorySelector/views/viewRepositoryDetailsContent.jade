@@ -135,8 +135,8 @@ ul.list.list-servers.list-commits(
     ng-repeat = "commit in repoSelector.data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
     style = "padding-right: 9px;"
   ) {{commit.attrs.commit.message}}
-    .toggle-group-detail
-      small.small.text-overflow {{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}
+    .small
+      span.span.text-overflow {{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}} –
       a.link.monospace(
         ng-click = "$event.stopPropagation()"
         ng-href = "{{ commit.attrs.html_url }}"
