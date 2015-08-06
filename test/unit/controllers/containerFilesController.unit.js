@@ -562,7 +562,8 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
             name: 'fileName',
             path: '/',
             body: 'keyValue',
-            isDir: false
+            isDir: false,
+            fileType: 'ssh'
           });
 
           sinon.assert.calledOnce(loadingPromises.add);

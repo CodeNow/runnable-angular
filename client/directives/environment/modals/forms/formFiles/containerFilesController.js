@@ -18,6 +18,7 @@ function ContainerFilesController(
 ) {
 
   var self = this;
+
   this.repositoryPopover = {
     actions: {
       remove: function (repoContainerFile) {
@@ -217,7 +218,8 @@ function ContainerFilesController(
               name: sshKey.name,
               path: '/',
               body: data.key,
-              isDir: false
+              isDir: false,
+              fileType: 'ssh'
             })
               .then(function (file) {
                 sshKey.fileModel = file;

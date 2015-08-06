@@ -13,7 +13,7 @@ li(
   read-only = "readOnly"
 )
 li.file(
-  ng-if = "fs.id !== '/Dockerfile'"
+  ng-click = "actions.openFile(fs)"
   draggable
   ng-repeat = "\
     fs in dir.contents.models \
@@ -28,7 +28,6 @@ li.file(
 )
   //- We don't want to initialize the pop-over for Dockerfile. :(
   a(
-    ng-click = "actions.openFile(fs)"
     ng-if = "fs.id() === '/Dockerfile'"
   )
     svg.iconnables.filetypes.icons-file
@@ -42,7 +41,7 @@ li.file(
 
 
   a(
-    ng-click = "actions.openFile(fs)"
+    ng-disabled = "readOnly"
     ng-if = "fs.id() !== '/Dockerfile'"
     pop-over
     pop-over-actions = "popoverFileExplorerFile.actions"
