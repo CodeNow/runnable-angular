@@ -164,9 +164,14 @@
     width: 90px;
   }
 
-  // show 2 tab
+  // show 2 tabs
   &.tabs-2 {
-    width: 190px;
+    width: 90px * 2;
+  }
+
+  // show all tabs except logs
+  &.tabs-7 {
+    width: 90px * 7;
   }
 
   // show all tabs
