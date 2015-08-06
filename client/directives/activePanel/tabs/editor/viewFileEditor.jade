@@ -5,6 +5,7 @@
 )
 
 .pre(
+  ng-if = "file.attrs.fileType !== 'ssh'"
   ng-attr-readonly = "{{readOnly}}"
   ng-model = "file.state.body"
   ui-ace = "{\
@@ -12,8 +13,16 @@
     onLoad: actions.setAceMode\
   }"
 )
+.pre(
+  ng-if = "file.attrs.fileType === 'ssh'"
+  readonly = "true"
+  ui-ace = "{\
+    onFocus: actions.onFocus,\
+    onLoad: actions.setAceMode\
+  }"
+) The contents of this file are protected and cannot be shown
 
 //- readonly button
 button.btn.btn-xs(
-  ng-if = "readOnly"
+  ng-if = "readOnly || file.attrs.fileType === 'ssh'"
 ) Read only

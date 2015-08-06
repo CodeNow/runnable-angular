@@ -54,9 +54,20 @@
   .popover-content {
     min-height: 298px; // calc(450px - 122px);
     padding-bottom: 15px;
+  }
 
-    .list-servers {
-      margin-top: 15px;
+  .list-servers {
+    margin-top: 15px;
+
+    .list-item {
+      font-size: 15px;
+      padding: 6px 9px;
+
+      &:active,
+      &.active {
+        border-color: $purple-light;
+        color: $purple-light;
+      }
     }
   }
 
@@ -146,25 +157,5 @@
       max-height: 190px;
       resize: none;
     }
-  }
-
-  // filter
-  .label-jump {
-    display: block;
-    margin-bottom: 3px;
-    text-align: center;
-  }
-
-  // label.toggle-wrapper
-  .toggle-wrapper {
-    color: $gray;
-    display: block;
-    text-align: center;
-  }
-
-  .toggle-group {
-    display: inline-block;
-    margin-left: 6px;
-    top: 3px;
   }
 }

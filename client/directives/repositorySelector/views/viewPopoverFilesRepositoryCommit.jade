@@ -15,6 +15,59 @@
     ng-if = "!(data.gitDataOnly && state.fromServer)"
   )
 
-.popover-content(
-  ng-include = "'viewRepositoryCommitBody'"
+.popover-content.repository-details-content(
+  ng-if = "$root.featureFlags.additionalRepositories"
+  ng-include = "'viewRepositoryDetailsContent'"
+  ng-init = "thing.autoUpdate = true"
 )
+
+.popover-content.repository-details-content(
+  ng-if = "!$root.featureFlags.additionalRepositories"
+)
+  label.label-jump(
+    ng-if = "!fetchingBranches && repoSelector.data.branch.commits.models.length"
+  )
+    small.small Branch
+    select.select(
+      ng-change = "repoSelector.actions.selectBranch(repoSelector.data.branch)"
+      ng-model = "repoSelector.data.branch"
+      ng-options = "branch as branch.attrs.name for branch in repoSelector.data.repo.branches.models"
+    )
+      option(
+        disabled
+      ) Choose a branch
+
+  .spinner-wrapper.spinner-backdrop.spinner-gray.spinner-md.in(
+    ng-if = "(repoSelector.data.branch && !repoSelector.data.branch.commits.models.length) || fetchingBranches"
+    ng-include = "'spinner'"
+  )
+
+  ul.list.list-servers.list-commits(
+    ng-if = "!repoSelector.data.latestCommit && !fetchingBranches"
+  )
+    //- inline style to override style for upcoming changes
+    li.list-item(
+      ng-class = "{active: repoSelector.data.commit === commit, disabled: state.saving}"
+      ng-click = "repoSelector.actions.selectCommit(commit)"
+      ng-repeat = "commit in repoSelector.data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
+      style = "padding-right: 9px;"
+    ) {{commit.attrs.commit.message}}
+      .small
+        span.span.text-overflow(
+          ng-attr-title = "{{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}"
+        ) {{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}} –
+        a.link.monospace(
+          ng-click = "$event.stopPropagation()"
+          ng-href = "{{ commit.attrs.html_url }}"
+          target = "_blank"
+        ) {{ ::commit.attrs.sha | limitTo:7 }}
+
+//- this element should only show up on the popover for adding a repo in the dockerfile tool.
+//- we need it because now that we're auto-updating additional repos, they can't select a commit to confirm.
+.popover-footer.clearfix(
+  ng-if = "$root.featureFlags.additionalRepositories"
+)
+  button.btn.btn-sm.green Add Repository
+  button.btn.btn-sm.gray.btn-cancel(
+    ng-click = "closePopover()"
+  ) Cancel

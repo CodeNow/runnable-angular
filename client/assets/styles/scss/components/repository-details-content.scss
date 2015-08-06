@@ -1,0 +1,94 @@
+.repository-details-content {
+
+  .label-jump {
+    display: block;
+    text-align: center;
+  }
+
+  .list-servers {
+    margin-top: 9px;
+
+    .list-item.list-item {
+      @extend %text-overflow;
+      font-size: 15px;
+      padding-right: 45px;
+      padding-left: 9px;
+
+      &:active,
+      &.active {
+        color: $purple-light;
+        border-color: currentColor;
+        cursor: default;
+
+        .small {
+          color: currentColor;
+        }
+
+        .icons-fat-check {
+          color: currentColor;
+          visibility: visible;
+        }
+      }
+
+      &:not(.disabled):hover .icons-fat-check {
+        visibility: visible;
+      }
+
+      &.disabled,
+      &.disabled:hover {
+        background-color: transparent;
+        border-color: transparent;
+        color: $gray-light;
+        cursor: not-allowed;
+
+        .small {
+          color: currentColor;
+        }
+      }
+
+      .small {
+        color: $gray;
+        display: flex;
+      }
+
+      .span {
+        min-width: 0;
+      }
+
+      .link {
+        color: currentColor;
+        margin-left: 4px;
+        font-size: 13px;
+        flex: 0 0 auto;
+      }
+    }
+  }
+
+  .icons-fat-check {
+    color: $gray-light;
+    height: 100%;
+    position: absolute;
+    right: 9px;
+    top: 0;
+    width: 27px;
+    visibility: hidden;
+  }
+
+  .toggle-wrapper {
+    border-bottom: 1px solid $gray-lighter;
+    border-top: 1px solid $gray-lighter;
+    color: $gray-dark;
+    flex: 0 0 auto;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 18px;
+    margin-top: 15px;
+    padding: 9px 12px;
+  }
+
+  .toggle-group {
+    float: right;
+    position: relative;
+    top: -9px;
+  }
+}
