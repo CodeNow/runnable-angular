@@ -53,7 +53,9 @@
       style = "padding-right: 9px;"
     ) {{commit.attrs.commit.message}}
       .small
-        span.span.text-overflow {{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}} –
+        span.span.text-overflow(
+          ng-attr-title = "{{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}"
+        ) {{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}} –
         a.link.monospace(
           ng-click = "$event.stopPropagation()"
           ng-href = "{{ commit.attrs.html_url }}"
