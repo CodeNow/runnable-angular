@@ -47,8 +47,9 @@
       'logs-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
       'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
     }"
-    ng-if = "item.state.type === 'BuildStream' && $root.featureFlags.updatedBuildLogs"
-    ng-include = "'viewBuildLogs'"
+    ng-if = "item.state.type === 'BuildStream' && $root.featureFlags.updatedBuildLogs && instance"
+    build-logs
+    instance = 'instance'
     ng-style = "($root.featureFlags.themeToggle || $root.featureFlags.fullScreenToggle) && {'padding-right': '42px'}"
   )
 

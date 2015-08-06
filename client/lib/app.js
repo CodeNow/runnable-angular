@@ -1,5 +1,9 @@
 'use strict';
 
+var http = require('http');
+http.METHODS.push('patch');
+
+
 require('angular');
 require('angular-ui-router');
 var uiAce = require('angular-ui-ace');

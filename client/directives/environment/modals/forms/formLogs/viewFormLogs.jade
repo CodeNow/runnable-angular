@@ -27,8 +27,9 @@ pre.pre.log-wrapper(
     ng-show = "page === 'build'"
   )
   .build-log-wrapper(
-    ng-include = "'viewBuildLogs'"
-    ng-if = "$root.featureFlags.updatedBuildLogs"
+    build-logs
+    instance = 'instance'
+    ng-if = "$root.featureFlags.updatedBuildLogs && instance"
     ng-show = "page === 'build'"
     ng-style = "($root.featureFlags.themeToggle || $root.featureFlags.fullScreenToggle) && {'padding-right': '42px'}"
   )
