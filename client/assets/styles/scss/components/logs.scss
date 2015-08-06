@@ -38,7 +38,7 @@
   }
 
   &.in {
-    max-height: 9999px; // is this enough?
+    max-height: none; // is this enough?
   }
 
   + .build-log {
