@@ -45,6 +45,11 @@
 
   &.focus {
     border-color: $purple-light;
+
+    .cache-border {
+      border-color: $purple-light;
+      opacity: .3;
+    }
   }
 
   .flex-wrapper {
