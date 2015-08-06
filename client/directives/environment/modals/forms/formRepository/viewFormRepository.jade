@@ -39,17 +39,17 @@
     //- end deprecated textarea
     //-************
     .build-commands-wrapper(
-      ng-class = "{'focus': startCommandFocus}"
+      ng-class = "{'focus': buildCommandFocus}"
       ng-if = "$root.featureFlags.buildCommandCache"
     )
       .flex-wrapper
         textarea.textarea.monospace(
           command-editor
           ng-attr-rows = "{{mainRepoContainerFile.commands.length < 3 ? 3 : mainRepoContainerFile.commands.length}}"
-          ng-blur = "startCommandFocus = false"
+          ng-blur = "buildCommandFocus = false"
           ng-class = "{'margin-right': data.cacheCommand}"
           ng-disabled = "startCommandCanDisable && !state.selectedStack"
-          ng-focus = "startCommandFocus = true"
+          ng-focus = "buildCommandFocus = true"
           ng-model = "mainRepoContainerFile.commands"
           ng-keydown = "cacheCommand(false)"
           ng-model-options="{ updateOn: 'blur' }"
