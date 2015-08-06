@@ -99,9 +99,7 @@ function repositorySelector(
 
           $scope.repoSelector.data.latestCommit = false;
           $scope.repoSelector.data.commit = commit;
-          if ($scope.data.gitDataOnly) {
-            $scope.repoSelector.actions.save();
-          } else {
+          if (!$scope.data.gitDataOnly) {
             $scope.state.view = 2;
           }
         },

@@ -15,6 +15,7 @@ require('app')
       templateUrl: 'branchSelectorView',
       scope: {
         state: '=',
+        isInitial: '@?',
         loadingPromisesTarget: '@?'
       },
       link: function ($scope, element, attrs) {

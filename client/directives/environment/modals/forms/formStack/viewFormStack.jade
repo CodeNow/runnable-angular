@@ -83,9 +83,11 @@
           ng-repeat = "version in $parent.depStack.versions | filter: '!'+ $parent.depStack.suggestedVersion"
           value = "version"
         ) v{{$parent.version}}
-
-.label.clearfix(
-  branch-selector
-  state = "state"
-  loading-promises-target = "editServerModal"
-)
+.label.clearfix
+  .label-col Initial Branch
+  .input-col(
+    branch-selector
+    is-initial = "true"
+    loading-promises-target = "editServerModal"
+    state = "state"
+  )

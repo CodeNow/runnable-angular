@@ -7,17 +7,25 @@ require('app')
  * @ngInject
  */
 function repositoryDetailsModal(
+  $q
 ) {
   return {
     restrict: 'A',
     templateUrl: 'repositoryDetailsModalView',
     scope: {
-      data: '=',
-      actions: '=',
+      appCodeVersion: '=data',
       defaultActions: '='
     },
     link: function ($scope, element, attrs) {
-      // Add thing
+      $scope.actions = {
+        create: $q.reject(new Error('This should not be called!')),
+        remove: $q.reject(new Error('This should not be called!')),
+        update: $q.when(true)
+      };
+      $scope.data = {
+        repo: $scope.appCodeVersion.githubRepo,
+        gitDataOnly: true
+      };
     }
   };
 }

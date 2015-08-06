@@ -2,7 +2,7 @@
   header.modal-header
     h1.modal-heading.text-overflow repository-name
   section.modal-body.repository-details-content(
-    ng-include = "'viewRepositoryDetailsContent'"
+    repository-selector
     ng-init = "thing.autoUpdate = true"
   )
   section.modal-footer
