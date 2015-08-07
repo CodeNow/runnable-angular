@@ -8,8 +8,12 @@
   )
     header.modal-header
       //- from serverStatusCardHeaderViewCardStatus template
-      .container-title-wrapper.validate-xs.validate-length(
-        ng-class = "{'ng-invalid': 19 - titleLength.length < 0}"
+      .container-title-wrapper(
+        ng-class = "{\
+          'ng-invalid': 19 - titleLength.length < 0,\
+          'validate-length': 19 - titleLength.length < 0,\
+          'validate-xs': 19 - titleLength.length < 0\
+        }"
         ng-attr-data-length = "{{19 - titleLength.length}}"
       )
         input.input.input-xs.input-validate.text-center.container-title(

@@ -13,11 +13,6 @@
     }
   }
 
-  // valid
-  &.ng-valid {
-    border-color: $green;
-  }
-
   // invalid
   &.ng-invalid {
     border-color: $red;
