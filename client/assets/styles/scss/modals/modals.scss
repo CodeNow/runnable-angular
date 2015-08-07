@@ -59,27 +59,6 @@
     margin: 0 auto;
   }
 
-  // validation in modals:
-  .validate-wrapper {
-    cursor: default;
-    display: block;
-    height: 0;
-    margin: 0 9px 6px;
-    transition: all .2s ease-in;
-
-    .validate-rules {
-      align-items: baseline;
-      display: flex;
-      height: 36px;
-      justify-content: center;
-      right: 0;
-    }
-
-    .btn:first-child {
-      margin-left: 6px;
-    }
-  }
-
   // modal alert
   .alert {
     align-items: center;
