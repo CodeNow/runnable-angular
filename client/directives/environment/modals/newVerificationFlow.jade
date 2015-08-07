@@ -8,8 +8,13 @@
   )
     header.modal-header
       //- from serverStatusCardHeaderViewCardStatus template
-      .container-title-wrapper.validate-xs.validate-length
-        input.input.input-xs.input-validate.text-center.text-overflow.container-title(
+      .container-title-wrapper.validate-xs.validate-length(
+        ng-class = "{'ng-invalid': 19 - titleLength.length < 0}"
+        ng-attr-data-length = "{{19 - titleLength.length}}"
+      )
+        input.input.input-xs.input-validate.text-center.container-title(
+          ng-class = "{'ng-invalid': 19 - titleLength.length < 0}"
+          ng-model = "titleLength"
           required
           value = "repository-name"
         )

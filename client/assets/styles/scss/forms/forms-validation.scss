@@ -49,51 +49,68 @@
 
   // spacing for length indicator
   > .input {
-    padding-right: $input-line-height-md;
+    padding-right: $input-md;
 
     &.text-center {
-      text-indent: $input-line-height-md; // offset to center text
+      text-indent: $input-md; // offset to center text
+
+      &.ng-invalid {
+        text-indent: 0;
+      }
     }
   }
 
   &.validate-sm > .input-sm {
-    padding-right: $input-line-height-sm;
+    padding-right: $input-sm;
 
     &.text-center {
-      text-indent: $input-line-height-sm; // offset to center text
+      text-indent: $input-sm; // offset to center text
+
+      &.ng-invalid {
+        text-indent: 0;
+      }
     }
   }
 
   &.validate-xs > .input-xs {
-    padding-right: $input-line-height-xs;
+    padding-right: $input-xs;
 
     &.text-center {
-      text-indent: $input-line-height-xs; // offset to center text
+      text-indent: $input-xs; // offset to center text
+
+      &.ng-invalid {
+        text-indent: 0;
+      }
     }
   }
 
   &.validate-xxs > .input-xxs {
-    padding-right: $input-line-height-xxs;
+    padding-right: $input-xxs;
 
     &.text-center {
-      text-indent: $input-line-height-xxs; // offset to center text
+      text-indent: $input-xxs; // offset to center text
+
+      &.ng-invalid {
+        text-indent: 0;
+      }
     }
   }
 
   // length indicator
   &::after {
     color: $gray;
-    content: '99';
+    content: attr(data-length);
     display: block;
     font-size: 13px;
     line-height: $input-md;
+    padding: 0 6px;
     position: absolute;
     right: 0;
     top: 0;
-    width: 24px;
+    width: auto;
   }
 
-  &.ng-invalid {
+  &.ng-invalid::after {
     color: $red;
   }
 
