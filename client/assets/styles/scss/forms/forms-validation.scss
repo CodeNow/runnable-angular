@@ -21,12 +21,93 @@
   // invalid
   &.ng-invalid {
     border-color: $red;
+    padding-right: $input-line-height-md;
+
+    &.input-sm {
+      padding-right: $input-line-height-sm;
+    }
+
+    &.input-xs {
+      padding-right: $input-line-height-xs;
+    }
+
+    &.input-xxs {
+      padding-right: $input-line-height-xxs;
+    }
   }
 
   // pristine
   &.ng-pristine {
     border-color: $gray-lighter;
     box-shadow: none;
+  }
+}
+
+// character length
+.validate-length {
+  position: relative;
+
+  // spacing for length indicator
+  > .input {
+    padding-right: $input-line-height-md;
+
+    &.text-center {
+      text-indent: $input-line-height-md; // offset to center text
+    }
+  }
+
+  &.validate-sm > .input-sm {
+    padding-right: $input-line-height-sm;
+
+    &.text-center {
+      text-indent: $input-line-height-sm; // offset to center text
+    }
+  }
+
+  &.validate-xs > .input-xs {
+    padding-right: $input-line-height-xs;
+
+    &.text-center {
+      text-indent: $input-line-height-xs; // offset to center text
+    }
+  }
+
+  &.validate-xxs > .input-xxs {
+    padding-right: $input-line-height-xxs;
+
+    &.text-center {
+      text-indent: $input-line-height-xxs; // offset to center text
+    }
+  }
+
+  // length indicator
+  &::after {
+    color: $gray;
+    content: '99';
+    display: block;
+    font-size: 13px;
+    line-height: $input-md;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 24px;
+  }
+
+  &.ng-invalid {
+    color: $red;
+  }
+
+  // centering at various sizes
+  &.validate-sm::after {
+    line-height: $input-sm;
+  }
+
+  &.validate-xs::after {
+    line-height: $input-xs;
+  }
+
+  &.validate-xxs::after {
+    line-height: $input-xxs;
   }
 }
 
