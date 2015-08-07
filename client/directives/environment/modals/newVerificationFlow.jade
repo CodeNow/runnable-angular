@@ -13,9 +13,11 @@
         ng-attr-data-length = "{{19 - titleLength.length}}"
       )
         input.input.input-xs.input-validate.text-center.container-title(
+          autocomplete = "off"
           ng-class = "{'ng-invalid': 19 - titleLength.length < 0}"
           ng-model = "titleLength"
           required
+          spellcheck = "false"
           value = "repository-name"
         )
 
