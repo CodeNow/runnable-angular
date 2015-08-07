@@ -14,11 +14,67 @@
     ng-include = "'spinner'"
   )
 
-.well.in(
-  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0"
-)
-  span.strong {{ instance.getRepoName() || instance.getDisplayName() }}
-  |  has no DNS mappings.
+//- .well.in(
+//-   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0"
+//- )
+//-   span.strong {{ instance.getRepoName() || instance.getDisplayName() }}
+//-   |  has no DNS mappings.
+
+.server-sidebar-item
+  .small.text-overflow
+    strong.strong repo-name
+    |-url-info
+  button.btn.gray
+    .icons-status.green
+    | branch-name
+    svg.iconnables.icons-arrow-down
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+.server-sidebar-item
+  .small.text-overflow
+    strong.strong repo-name
+    |-url-info
+  button.btn.gray
+    .icons-status.green
+    | branch-name
+    svg.iconnables.icons-arrow-down
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+.server-sidebar-item
+  .small.text-overflow
+    strong.strong repo-name
+    |-url-info
+  button.btn.gray
+    .icons-status.green
+    | branch-name
+    svg.iconnables.icons-arrow-down
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+.server-sidebar-item
+  .small.text-overflow
+    strong.strong repo-name
+    |-url-info
+  button.btn.gray
+    .icons-status.green
+    | branch-name
+    svg.iconnables.icons-arrow-down
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+.server-sidebar-item
+  .small.text-overflow
+    strong.strong repo-name
+    |-url-info
+  button.btn.gray
+    .icons-status.green
+    | branch-name
+    svg.iconnables.icons-arrow-down
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
 
 .server-sidebar-item(
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
