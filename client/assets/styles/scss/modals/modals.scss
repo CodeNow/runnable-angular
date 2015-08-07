@@ -151,24 +151,6 @@
       color: $red;
     }
   }
-
-  // only used for card status right now…
-  .container-title-wrapper {
-    color: $gray;
-    margin: 12px 0 6px;
-
-    .container-title {
-      font-size: 15px;
-      font-weight: 400;
-    }
-
-    .icons-warning,
-    .icons-arrow-down,
-    .spinner-wrapper {
-      flex: 0 0 18px;
-      height: 18px;
-    }
-  }
 }
 
 // tabs

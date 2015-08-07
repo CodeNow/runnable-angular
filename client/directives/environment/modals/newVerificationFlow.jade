@@ -9,7 +9,9 @@
     header.modal-header
       //- from serverStatusCardHeaderViewCardStatus template
       .container-title-wrapper
-        span.container-title.text-overflow repositoryName
+        input.input.input-xs.text-overflow.container-title(
+          value = "repository-name"
+        )
 
       .row.modal-tabs.clearfix.js-animate(
         ng-class = "{\

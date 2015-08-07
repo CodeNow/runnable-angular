@@ -1,0 +1,63 @@
+// on cards
+.container-title-wrapper {
+  color: $gray-dark;
+  cursor: pointer;
+  display: table;
+  height: $input-xs;
+  margin: 0 auto;
+  max-width: 100%;
+
+  &:hover {
+    color: $gray-darker;
+  }
+
+  &:active {
+    color: $purple-light;
+  }
+
+  .icons-warning,
+  .icons-arrow-down,
+  .spinner-wrapper {
+    height: 21px;
+    top: 3px;
+  }
+
+  .spinner-wrapper {
+    color: $gray-light;
+    padding: 3px; //sizes element to replace .icons-warning
+  }
+
+  .icons-warning {
+    color: $orange;
+  }
+}
+
+.container-title {
+  flex: 0 0 auto;
+  font-size: 21px;
+  font-weight: 500;
+  padding-left: 3px;
+}
+
+// on modal
+.modal-edit .container-title-wrapper {
+  margin: 12px auto 6px;
+
+  .container-title {
+    font-size: 15px;
+    font-weight: 400;
+
+    // naming containers
+    &.input {
+      text-align: center;
+      width: 270px; // width of 19 M (19 char limit)
+    }
+  }
+
+  .icons-warning,
+  .icons-arrow-down,
+  .spinner-wrapper {
+    flex: 0 0 18px;
+    height: 18px;
+  }
+}

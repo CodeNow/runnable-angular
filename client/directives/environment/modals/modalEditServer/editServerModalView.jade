@@ -13,9 +13,10 @@ form.modal-dialog.modal-edit(
       pop-over-options = "{\"right\":-7,\"top\":36}"
       pop-over-template = "serverOptionsModalPopover"
     )
-    server-status-card-header(
+    div(
       ng-attr-no-touching = "{{ !state.repo || $root.featureFlags.dockerfileTool }}"
       ng-if = "$root.featureFlags.cardStatus"
+      ng-include = "'serverStatusCardHeaderViewCardStatus'"
       pop-over-options = "{\"centered\":true,\"top\":36}"
       pop-over-template = "serverOptionsModalPopover"
     )

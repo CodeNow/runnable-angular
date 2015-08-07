@@ -87,6 +87,7 @@ function ControllerApp(
     hostnameTool: false,
     imAfraidOfTheDark: false, // toggles theme
     internalDebugging: false,
+    nameContainer: false,
     multilineFnR: false,
     navListFilter: false,
     newVerificationFlow: false,
