@@ -15,11 +15,9 @@
 .build-log {
   border: 1px solid transparent;
   border-radius: $input-border-radius;
-  max-height: 39px;
   min-height: 39px;
   overflow: hidden;
   position: relative;
-  transition: max-height .3s ease-in-out;
 
   &:target {
     box-shadow: // bottom-right,top-right,bottom-left,top-left
@@ -38,11 +36,25 @@
   }
 
   &.in {
-    max-height: none; // is this enough?
+    height: auto;
   }
 
   + .build-log {
     margin-top: 6px;
+  }
+}
+
+.build-log-header {
+  + .build-log-content {
+    &.ng-leave {
+      transition: height .3s ease-in-out, padding .3s ease-in-out;
+      overflow: hidden;
+    }
+    &.ng-leave-active {
+      padding-top: 0;
+      padding-bottom: 0;
+      height: 0;
+    }
   }
 }
 

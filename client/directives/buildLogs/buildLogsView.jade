@@ -3,18 +3,18 @@
 //- pre steps
 
 
-.pre.build-log(
+.pre.build-log.js-animate(
   ng-repeat = "command in BLC.buildLogs"
   ng-class = "{'build-log-toggle' : command.content.length, 'in': command.content.length > 0 && command.expanded }"
 )
   .build-log-header(
-    ng-click = "command.expanded = !command.expanded"
+    ng-click = "actions.toggleCommand($event, command)"
   )
     .build-log-header-text(
       ng-bind-html = "command.command"
     )
 
-  .build-log-content(
-    ng-if = "command.content.length"
+  .build-log-content.js-animate(
+    ng-if = "command.expanded && command.content.length"
     ng-bind-html = "command.trustedContent"
   )
