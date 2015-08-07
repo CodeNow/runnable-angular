@@ -44,13 +44,22 @@
   margin: 12px auto 6px;
 
   .container-title {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 400;
 
     // naming containers
     &.input {
+      background: $gray-lighterest;
       text-align: center;
       width: 270px; // width of 19 M (19 char limit)
+
+      &:hover {
+        color: $gray-dark;
+      }
+
+      &:active {
+        color: $gray-dark;
+      }
     }
   }
 
