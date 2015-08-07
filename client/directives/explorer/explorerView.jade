@@ -1,6 +1,6 @@
 //- on container sidebar
 .explorer-menu-bar-container(
-  ng-if = "!editExplorer && fileModel.running()"
+  ng-if = "!editExplorer"
   ng-include = "'explorerMenuBar'"
 )
 
@@ -24,7 +24,7 @@
         xlink:href = "#icons-add"
       )
 
-ul.file-tree(
+ul.file-tree.server-sidebar-wrapper(
   ng-if = "editExplorer || (!$storage.explorerIsClosed && fileModel.running())"
 )
   //- this is the root dir; there can be only one.
