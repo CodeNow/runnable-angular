@@ -20,7 +20,7 @@
 
   // invalid
   &.ng-invalid {
-    border-color: $orange;
+    border-color: $red;
   }
 
   // pristine
@@ -40,7 +40,7 @@
   }
 
   &::after {
-    background: $orange;
+    background: $red;
     border-radius: 50%;
     content: '';
     height: 10px;
