@@ -16,7 +16,8 @@
       .row.modal-tabs.clearfix.js-animate(
         ng-class = "{\
           'active': selectedTab === 'repository',\
-          'tabs-1': newContainer.step === 1,\
+          'tabs-1': newContainer.step === 1 && !newContainer.stepsCompleted,\
+          'tabs-2': newContainer.step === 1 && newContainer.stepsCompleted,\
           'tabs-2': newContainer.step === 2,\
           'tabs-7': newContainer.step === 3,\
           'tabs-all': newContainer.step === 4\
