@@ -191,6 +191,7 @@
 
     footer.modal-footer.clearfix
       //- disabled if no changes
+      //- disabled on steps 1 & 2 if required fields are empty
       button.btn.green.btn-spinner(
         ng-attr-type = "{{newContainer.step ? 'button' : 'submit'}}"
         ng-class = "{'in': building}"

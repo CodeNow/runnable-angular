@@ -18,12 +18,12 @@ form.modal-dialog.modal-integrations(
       )
 
   //- alert under header if integration is disabled
-  .alert.orange(
+  .alert.orange.full-width(
     ng-if = "!data.settings.attrs.notifications.slack.enabled && data.verified"
-  ) Slack integration has been disabled
-    button.btn.btn-xxs.white(
+  ) Slack integration has been disabled.
+    button.btn.btn-xxs.orange(
       ng-click = "data.settings.attrs.notifications.slack.enabled = true"
-    ) Enable
+    ) Re-enable
 
   section.modal-body
     .spinner-wrapper.spinner-md.in(
