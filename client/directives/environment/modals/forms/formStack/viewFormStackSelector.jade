@@ -147,26 +147,9 @@
 .input-col(
   ng-if = "!$root.featureFlags.newVerificationFlow"
 )
-  //- changing stack flow
-  .btn.btn-sm.btn-change-stack(
-    ng-if = "$root.featureFlags.newVerificationFlowStackChanger"
-    pop-over
-    pop-over-options = "{\"left\":0,\"top\":0}"
-    pop-over-template = "viewPopoverStackSelector"
-  )
-    .display.float-left
-      img.iconnables(
-        height = "24"
-        ng-src = "/build/images/logos/logo-icon-python.svg"
-        width = "24"
-      )
-      | Python
-    button.btn.btn-xxs.white Change
-
   //- if not new and not new change stack flow
   fancy-select(
     name = 'mainstack'
-    ng-if = "!$root.featureFlags.newVerificationFlowStackChanger"
     ng-required = "true"
     on-update = "newStackSelected"
     placeholder = "Select language/framework"
