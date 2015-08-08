@@ -1,0 +1,46 @@
+label.label-jump(
+  ng-show = "BCSC.data.acv.attrs.additionalRepo"
+  branch-selector
+  loading-promises-target = "editServerModal"
+  state = "BCSC.data"
+)
+
+//- this element should appear in:
+    * the setup popover for adding a repo to Container Files
+    * the edit modal (in the Containers view) for modifying an additional repo on a specific Container
+label.toggle-wrapper(
+  ng-show = "BCSC.data.acv.attrs.additionalRepo"
+) Always update to latest commit
+  .small.float-left on new builds of&#32;
+    strong.strong {{ BCSC.data.instance.getDisplayName() }}
+  input.toggle-input(
+    ng-model = "BCSC.isLatestCommit"
+    ng-model-options = "{ getterSetter: true }"
+    type = "checkbox"
+  )
+  .toggle-group.toggle-sm
+
+.spinner-wrapper.spinner-backdrop.spinner-gray.spinner-md.in(
+  ng-if = "fetchingCommits"
+  ng-include = "'spinner'"
+)
+
+ul.list.list-servers(
+  ng-if = "!fetchingCommits"
+)
+  li.list-item(
+    ng-class = "{active: BCSC.data.commit === commit, 'disabled': BCSC.isLatestCommit()}"
+    ng-click = "BCSC.selectCommit(commit)"
+    ng-repeat = "commit in BCSC.data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
+  ) {{commit.attrs.commit.message}}
+    .small
+      span.span.text-overflow {{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}
+      a.small.link.monospace(
+        ng-click = "$event.stopPropagation()"
+        ng-href = "{{ commit.attrs.html_url }}"
+        target = "_blank"
+      ) {{ ::commit.attrs.sha | limitTo:7 }}
+    svg.iconnables.icons-fat-check
+      use(
+        xlink:href = "#icons-fat-check"
+      )

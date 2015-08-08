@@ -7,25 +7,38 @@ require('app')
  * @ngInject
  */
 function repositoryDetailsModal(
-  $q
+  fetchCommitData,
+  loading,
+  updateInstanceWithNewAcvData
 ) {
   return {
     restrict: 'A',
     templateUrl: 'repositoryDetailsModalView',
-    scope: {
-      appCodeVersion: '=data',
-      defaultActions: '='
+    controller: function () {
+      var RDMC = this;
+      this.data = {
+        repo: this.appCodeVersion.githubRepo,
+        acv: this.appCodeVersion,
+        branch: fetchCommitData.activeBranch(this.appCodeVersion),
+        commit: fetchCommitData.activeCommit(this.appCodeVersion),
+        instance: this.instance
+      };
+      this.updateInstance = function () {
+        loading('main', true);
+        RDMC.defaultActions.close(function () {
+          updateInstanceWithNewAcvData(RDMC.instance, RDMC.appCodeVersion, RDMC.data)
+            .finally(function () {
+              loading('main', false);
+            });
+        });
+      };
     },
-    link: function ($scope, element, attrs) {
-      $scope.actions = {
-        create: $q.reject(new Error('This should not be called!')),
-        remove: $q.reject(new Error('This should not be called!')),
-        update: $q.when(true)
-      };
-      $scope.data = {
-        repo: $scope.appCodeVersion.githubRepo,
-        gitDataOnly: true
-      };
+    controllerAs: 'RDMC',
+    bindToController: true,
+    scope: {
+      instance: '=data',
+      appCodeVersion: '=currentModel',
+      defaultActions: '='
     }
   };
 }
