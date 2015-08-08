@@ -181,9 +181,10 @@ form.modal-dialog.modal-edit(
         ng-if = "building"
         ng-include = "'spinner'"
       )
+      //- if built…text should only say "Save"
       span.btn-text(
         ng-if = "!building"
-      ) {{ (validation.env.length) ? (validation.env.length) + ' env errors' : 'Save Changes'}}
+      ) {{ (validation.env.length) ? (validation.env.length) + ' env errors' : 'Save & Rebuild'}}
       span.btn-text(
         ng-if = "building"
       ) Saving
