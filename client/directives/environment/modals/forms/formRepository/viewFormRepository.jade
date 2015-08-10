@@ -51,7 +51,7 @@ label.label.clearfix(
       ng-if = "!$root.featureFlags.buildCommandCache"
       ng-keydown = "cacheCommand(false)"
       ng-model = "mainRepoContainerFile.commands"
-      ng-model-options="{updateOn: 'blur'}"
+      ng-model-options = "{updateOn: 'blur'}"
       spellcheck = "false"
     )
     //- end deprecated textarea
@@ -70,7 +70,6 @@ label.label.clearfix(
           ng-focus = "buildCommandFocus = true"
           ng-model = "mainRepoContainerFile.commands"
           ng-keydown = "cacheCommand(false)"
-          ng-model = "mainRepoContainerFile.commands"
           ng-model-options="{updateOn: 'blur'}"
           ng-trim = "false"
           spellcheck = "false"
