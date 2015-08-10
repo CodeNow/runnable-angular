@@ -122,38 +122,3 @@
     line-height: $input-xxs;
   }
 }
-
-// .ace-validation-error
-.ace-validation-error {
-  position: relative;
-
-  &:hover::before {
-    opacity: 1;
-    transform: translate3d(0,0,0);
-  }
-
-  &::after {
-    background: $red;
-    border-radius: 50%;
-    content: '';
-    height: 10px;
-    left: 4px;
-    position: absolute;
-    top: 4px;
-    width: 10px;
-    z-index: $z-tooltip;
-  }
-
-  &::before {
-    @extend .tooltip-text;
-    content: 'Invalid Env';
-    display: block;
-    opacity: 0;
-    pointer-events: none;
-    position: absolute;
-    right: -90px;
-    top: 24px;
-    transform: translate3d(-3px,-3px,0);
-    transition: all .2s ease-in;
-  }
-}
