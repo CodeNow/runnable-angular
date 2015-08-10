@@ -11,6 +11,7 @@
       .container-title-wrapper
         span.text-overflow.container-title repository-name
         button.btn.btn-xxs.gray(
+          ng-if = "$root.featureFlags.nameContainer"
           pop-over
           pop-over-options = "{\"left\":0,\"top\":0}"
           pop-over-template = "viewPopoverRenameContainer"

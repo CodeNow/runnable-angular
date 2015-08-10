@@ -93,6 +93,7 @@ function ControllerApp(
     newVerificationFlow: false,
     newVerificationFlowStackChanger: false, // for changing the stack in an existing container
     packagesField: true,
+    renameContainer: false,
     saveToolbar: false,
     sshKeys: true,
     themeToggle: false, // toggles the button that toggles theme

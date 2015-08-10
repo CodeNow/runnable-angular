@@ -1,3 +1,13 @@
 .popover-rename {
   max-width: 450px;
+
+  // new url
+  .gray {
+    border-radius: $input-border-radius;
+    border-width: 1px;
+    display: block;
+    font-weight: $weight-normal; // override .gray default
+    margin-top: 6px;
+    padding: 6px 12px;
+  }
 }

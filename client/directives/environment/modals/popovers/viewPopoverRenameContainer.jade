@@ -34,6 +34,13 @@ form.popover.popover-fixed.popover-rename(
         ng-class = "{'ng-invalid': rename.$error.maxlength}"
       ) Use 19 characters or less
 
+    small.small.gray(
+      ng-if = "$root.featureFlags.renameContainer"
+    ) Your hostname will be updated to
+      br
+      strong.strong {{rename.newName.$viewValue}}
+      | -staging.codenow.runnableapp.com
+
   .popover-footer.clearfix
     button.btn.btn-sm.green(
       ng-disabled = "!rename.newName.$viewValue.length"
