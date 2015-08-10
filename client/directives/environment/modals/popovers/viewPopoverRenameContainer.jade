@@ -1,27 +1,35 @@
-.popover.popover-fixed.popover-rules(
+.popover.popover-fixed.popover-rename(
   ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
 )
-  .container-title-wrapper(
-    ng-class = "{\
-      'ng-invalid': 19 - title.length < 0,\
-      'validate-length': 19 - title.length < 0,\
-      'validate-xs': 19 - title.length < 0\
-    }"
-    ng-attr-data-length = "{{19 - title.length}}"
-    pop-over
-    pop-over-actions = "popoverData.actions"
-    pop-over-active = "popoverData.active"
-    pop-over-data = "popoverData.data"
-    pop-over-options = "{\"left\":0,\"top\":0}"
-    pop-over-template = "popoverTemplate"
-    pop-over-trigger = "activeAttr"
-  )
-    input.input.input-xs.input-validate.text-center.container-title(
-      autocomplete = "off"
-      ng-class = "{'ng-invalid': 19 - title.length < 0}"
-      ng-init = "title = 'repository-name'"
-      ng-model = "title"
-      required
-      spellcheck = "false"
+  .popover-content
+    h3.popover-title Rename Container
+
+    //- wrapper for validation
+    div(
+      ng-class = "{\
+        'ng-invalid': 19 - title.length < 0,\
+        'validate-length': 19 - title.length < 0,\
+        'validate-sm': 19 - title.length < 0\
+      }"
+      ng-attr-data-length = "{{19 - title.length}}"
     )
+      input.input.input-sm.input-validate(
+        autocomplete = "off"
+        ng-class = "{'ng-invalid': 19 - title.length < 0}"
+        ng-init = "title = 'repository-name'"
+        ng-model = "title"
+        required
+        spellcheck = "false"
+      )
+
+    ul.list.list-bulleted.small
+      li.list-item Choose uinque names within your Sandbox
+      li.list-item Stick to alphanumeric characters and hyphens
+      li.list-item Limit yourself to 19 characters
+
+  .popover-footer.clearfix
+    button.btn.btn-sm.green Rename Container
+    button.btn.btn-sm.gray.btn-cancel(
+      ng-click = "actions.cancel()"
+    ) Cancel
