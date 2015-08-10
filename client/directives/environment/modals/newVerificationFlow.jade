@@ -153,23 +153,23 @@
         state = "state"
       )
       .modal-form(
-        ng-show = "selectedTab === 'ports'"
         ng-if = "!state.advanced"
         ng-include = "'viewFormPorts'"
+        ng-show = "selectedTab === 'ports'"
       )
       .modal-form(
-        ng-show = "selectedTab === 'env'"
         ng-include = "'viewFormEnvironmentVariables'"
+        ng-show = "selectedTab === 'env'"
       )
       .modal-form(
-        ng-show = "selectedTab === 'files'"
-        ng-if = "!state.advanced"
         ng-controller = "ContainerFilesController as CFC"
+        ng-if = "!state.advanced"
         ng-include = "'viewFormFiles'"
+        ng-show = "selectedTab === 'files'"
       )
       .modal-form(
-        ng-show = "selectedTab === 'translation'"
         ng-if = "state.repo"
+        ng-show = "selectedTab === 'translation'"
         translation-rules
       )
       .modal-form.modal-logs(
@@ -177,8 +177,8 @@
           'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
           'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
         }"
-        ng-show = "selectedTab === 'logs' || newContainer.step === 4"
         ng-include = "'viewFormLogs'"
+        ng-show = "selectedTab === 'logs' || newContainer.step === 4"
       )
 
     //- no loading if feature flag is on
