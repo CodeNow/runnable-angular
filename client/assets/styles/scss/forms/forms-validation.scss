@@ -129,7 +129,7 @@
   margin-top: 6px;
 
   // when invalid
-  .list-item.invalid::after {
+  .list-item.ng-invalid::after {
     background: $red;
   }
 }

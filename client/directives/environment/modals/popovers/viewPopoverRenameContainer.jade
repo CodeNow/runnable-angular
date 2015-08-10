@@ -1,4 +1,5 @@
-.popover.popover-fixed.popover-rename(
+form.popover.popover-fixed.popover-rename(
+  name = "rename"
   ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
 )
@@ -8,28 +9,35 @@
     //- wrapper for validation
     div(
       ng-class = "{\
-        'ng-invalid': 19 - title.length < 0,\
-        'validate-length': 19 - title.length < 0,\
-        'validate-sm': 19 - title.length < 0\
+        'ng-invalid': rename.$error.maxlength,\
+        'validate-length': rename.$error.maxlength,\
+        'validate-sm': rename.$error.maxlength\
       }"
-      ng-attr-data-length = "{{19 - title.length}}"
+      ng-attr-data-length = "{{19 - rename.newName.$viewValue.length}}"
     )
       input.input.input-sm.input-validate(
         autocomplete = "off"
-        ng-class = "{'ng-invalid': 19 - title.length < 0}"
+        name = "newName"
         ng-init = "title = 'repository-name'"
+        ng-maxlength = "19"
         ng-model = "title"
-        required
+        ng-pattern = "/^[a-zA-Z0-9-]*$/"
         spellcheck = "false"
       )
 
     ul.list.list-bulleted.small.list-validation
       li.list-item Choose a unique name in your Sandbox
-      li.list-item Use letters, numbers, and hyphens (-)
-      li.list-item Use 19 characters or less
+      li.list-item(
+        ng-class = "{'ng-invalid': rename.$error.pattern}"
+      ) Use letters, numbers, and hyphens (-)
+      li.list-item(
+        ng-class = "{'ng-invalid': rename.$error.maxlength}"
+      ) Use 19 characters or less
 
   .popover-footer.clearfix
-    button.btn.btn-sm.green Rename Container
+    button.btn.btn-sm.green(
+      ng-disabled = "!rename.newName.$viewValue.length"
+    ) Rename Container
     button.btn.btn-sm.gray.btn-cancel(
       ng-click = "actions.cancel()"
     ) Cancel
