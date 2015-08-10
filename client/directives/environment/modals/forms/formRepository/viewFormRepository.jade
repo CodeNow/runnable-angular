@@ -65,6 +65,7 @@ label.label.clearfix(
           command-editor
           ng-attr-rows = "{{mainRepoContainerFile.commands.length < 3 ? 3 : mainRepoContainerFile.commands.length}}"
           ng-blur = "buildCommandFocus = false"
+          ng-change = "updateDockerfile()"
           ng-class = "{'margin-right': data.cacheCommand}"
           ng-disabled = "startCommandCanDisable && !state.selectedStack"
           ng-focus = "buildCommandFocus = true"
