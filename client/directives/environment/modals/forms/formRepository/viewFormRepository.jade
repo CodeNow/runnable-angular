@@ -70,7 +70,7 @@ label.label.clearfix(
           ng-focus = "buildCommandFocus = true"
           ng-model = "mainRepoContainerFile.commands"
           ng-keydown = "cacheCommand(false)"
-          ng-model-options="{updateOn: 'blur'}"
+          ng-model-options = "{updateOn: 'blur'}"
           ng-trim = "false"
           spellcheck = "false"
         )
@@ -104,7 +104,7 @@ label.label.clearfix(
     textarea.textarea.monospace(
       ng-disabled = "startCommandCanDisable && !state.selectedStack"
       ng-model = "state.packages.packageList"
-      ng-model-options="{ updateOn: 'blur' }"
+      ng-model-options = "{ updateOn: 'blur' }"
       ng-change = "updateDockerfile()"
       spellcheck = "false"
     )
