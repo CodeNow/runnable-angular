@@ -8,22 +8,13 @@
   )
     header.modal-header
       //- from serverStatusCardHeaderViewCardStatus template
-      .container-title-wrapper(
-        ng-class = "{\
-          'ng-invalid': 19 - title.length < 0,\
-          'validate-length': 19 - title.length < 0,\
-          'validate-xs': 19 - title.length < 0\
-        }"
-        ng-attr-data-length = "{{19 - title.length}}"
-      )
-        input.input.input-xs.input-validate.text-center.container-title(
-          autocomplete = "off"
-          ng-class = "{'ng-invalid': 19 - title.length < 0}"
-          ng-init = "title = 'repository-name'"
-          ng-model = "title"
-          required
-          spellcheck = "false"
-        )
+      .container-title-wrapper
+        span.text-overflow.container-title repository-name
+        button.btn.btn-xxs.gray(
+          pop-over
+          pop-over-options = "{\"left\":0,\"top\":0}"
+          pop-over-template = "viewPopoverRenameContainer"
+        ) Rename
 
       .row.modal-tabs.clearfix.js-animate(
         ng-class = "{\

@@ -1,0 +1,27 @@
+.popover.popover-fixed.popover-rules(
+  ng-class = "{in: active}"
+  ng-style = "popoverStyle.getStyle()"
+)
+  .container-title-wrapper(
+    ng-class = "{\
+      'ng-invalid': 19 - title.length < 0,\
+      'validate-length': 19 - title.length < 0,\
+      'validate-xs': 19 - title.length < 0\
+    }"
+    ng-attr-data-length = "{{19 - title.length}}"
+    pop-over
+    pop-over-actions = "popoverData.actions"
+    pop-over-active = "popoverData.active"
+    pop-over-data = "popoverData.data"
+    pop-over-options = "{\"left\":0,\"top\":0}"
+    pop-over-template = "popoverTemplate"
+    pop-over-trigger = "activeAttr"
+  )
+    input.input.input-xs.input-validate.text-center.container-title(
+      autocomplete = "off"
+      ng-class = "{'ng-invalid': 19 - title.length < 0}"
+      ng-init = "title = 'repository-name'"
+      ng-model = "title"
+      required
+      spellcheck = "false"
+    )
