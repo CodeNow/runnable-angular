@@ -11,7 +11,8 @@
     .list-item.list-item {
       @extend %text-overflow;
       font-size: 15px;
-      padding: 6px 45px 6px 9px;
+      padding-right: 45px;
+      padding-left: 9px;
 
       &:active,
       &.active {
@@ -35,6 +36,7 @@
 
       &.disabled,
       &.disabled:hover {
+        background-color: transparent;
         border-color: transparent;
         color: $gray-light;
         cursor: not-allowed;
@@ -43,12 +45,6 @@
           color: currentColor;
         }
       }
-
-      // spinner
-      // .spinner-wrapper {
-      //   right: 9px;
-      //   top: 18px;
-      // }
 
       .small {
         color: $gray;

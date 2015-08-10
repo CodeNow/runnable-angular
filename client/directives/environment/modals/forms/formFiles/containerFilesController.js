@@ -14,11 +14,11 @@ function ContainerFilesController(
   hasKeypaths,
   $timeout,
   updateDockerfileFromState,
-  $q,
   keypather
 ) {
 
   var self = this;
+
   this.repositoryPopover = {
     actions: {
       remove: function (repoContainerFile) {
@@ -100,8 +100,12 @@ function ContainerFilesController(
         var files = containerFile.file;
         containerFile.name = files[0].name;
 
-        containerFile.fileUpload = uploadFile(files, uploadURL)
-          .progress(function (evt) {
+        // Store the raw fileUpload so we can use it later to cancel.
+        // We can't chain here because the promise will get overridden.
+        containerFile.fileUpload = uploadFile(files, uploadURL);
+
+        // Listen to changed on the fileUpload
+        containerFile.fileUpload.progress(function (evt) {
             containerFile.progress = parseInt(100.0 * evt.loaded / evt.total, 10);
           })
           .error(function (err) {
@@ -214,7 +218,8 @@ function ContainerFilesController(
               name: sshKey.name,
               path: '/',
               body: data.key,
-              isDir: false
+              isDir: false,
+              fileType: 'ssh'
             })
               .then(function (file) {
                 sshKey.fileModel = file;

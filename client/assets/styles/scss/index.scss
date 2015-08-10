@@ -38,6 +38,7 @@
 @import "components/logo";
 @import "components/logs";
 @import "components/notifications";
+@import "components/repository-details-content";
 @import "components/select";
 @import "components/spinner";
 @import "components/tags";
@@ -76,7 +77,6 @@
 @import "views/views-file-tree";
 @import "views/views-panel";
 @import "views/views-prompt";
-@import "views/views-repository-details";
 @import "views/views-tabs";
 @import "views/views-toolbar";
 
@@ -84,7 +84,6 @@
 @import "modals/modals";
 @import "modals/modals-alerts";
 @import "modals/modals-forms";
-@import "modals/modals-repository-details";
 @import "modals/modals-welcome";
 
 // modal specific

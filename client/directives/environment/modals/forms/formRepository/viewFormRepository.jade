@@ -39,14 +39,17 @@
     //- end deprecated textarea
     //-************
     .build-commands-wrapper(
+      ng-class = "{'focus': buildCommandFocus}"
       ng-if = "$root.featureFlags.buildCommandCache"
     )
       .flex-wrapper
         textarea.textarea.monospace(
           command-editor
           ng-attr-rows = "{{mainRepoContainerFile.commands.length < 3 ? 3 : mainRepoContainerFile.commands.length}}"
+          ng-blur = "buildCommandFocus = false"
           ng-class = "{'margin-right': data.cacheCommand}"
           ng-disabled = "startCommandCanDisable && !state.selectedStack"
+          ng-focus = "buildCommandFocus = true"
           ng-model = "mainRepoContainerFile.commands"
           ng-keydown = "cacheCommand(false)"
           ng-model-options="{ updateOn: 'blur' }"
@@ -85,7 +88,6 @@ label.label.clearfix(
       ng-model = "state.packages.packageList"
       ng-model-options="{ updateOn: 'blur' }"
       ng-change = "updateDockerfile()"
-      placeholder = "dnsutils vim=7.3"
       spellcheck = "false"
     )
     small.small Add any packages you would like to install via apt-get, separated with spaces (e.g. ‘dnsutils vim=7.3’). This container is based on &#32;

@@ -21,11 +21,15 @@
         ng-click = "actions.selectCommit(commit.attrs.sha)"
         ng-repeat = "commit in data.branch.commits.models"
       )
-        .toggle-group-title {{ ::commit.attrs.commit.message | limitToEllipsis:72 }}
-        .clearfix
-          small.small {{ ::commit.attrs.author.login }}—{{ commit.attrs.commit.author.date | timeFrom }}
+        .toggle-group-title.text-overflow(
+          ng-attr-title = "{{ ::commit.attrs.commit.message }}"
+        ) {{ ::commit.attrs.commit.message }}
+        .toggle-group-detail
+          small.small.text-overflow(
+            ng-attr-title = "{{ ::commit.attrs.author.login }} authored {{ commit.attrs.commit.author.date | timeFrom }}"
+          ) {{ ::commit.attrs.author.login }} authored {{ commit.attrs.commit.author.date | timeFrom }}
           //- we don't want to close the popover because they are clicking on an external link
-          a.small.link.link-text.monospace(
+          a.link.monospace(
             ng-href = "{{ commit.attrs.html_url }}"
             ng-click = "$event.stopPropagation()"
             target = "_blank"
