@@ -10,19 +10,19 @@
       //- from serverStatusCardHeaderViewCardStatus template
       .container-title-wrapper(
         ng-class = "{\
-          'ng-invalid': 19 - titleLength.length < 0,\
-          'validate-length': 19 - titleLength.length < 0,\
-          'validate-xs': 19 - titleLength.length < 0\
+          'ng-invalid': 19 - title.length < 0,\
+          'validate-length': 19 - title.length < 0,\
+          'validate-xs': 19 - title.length < 0\
         }"
-        ng-attr-data-length = "{{19 - titleLength.length}}"
+        ng-attr-data-length = "{{19 - title.length}}"
       )
         input.input.input-xs.input-validate.text-center.container-title(
           autocomplete = "off"
-          ng-class = "{'ng-invalid': 19 - titleLength.length < 0}"
-          ng-model = "titleLength"
+          ng-class = "{'ng-invalid': 19 - title.length < 0}"
+          ng-init = "title = 'repository-name'"
+          ng-model = "title"
           required
           spellcheck = "false"
-          value = "repository-name"
         )
 
       .row.modal-tabs.clearfix.js-animate(
