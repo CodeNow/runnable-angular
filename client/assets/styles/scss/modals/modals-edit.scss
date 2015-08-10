@@ -236,8 +236,8 @@
 
     // styles for 3x2
     @media (max-width: 836px) {
-      font-size: 13px;
       flex: 1 1 33.33%;
+      font-size: 13px;
 
       &:first-child {
         border-radius: $input-border-radius 0 0;
