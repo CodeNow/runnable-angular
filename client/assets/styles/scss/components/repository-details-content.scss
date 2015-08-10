@@ -1,12 +1,11 @@
 .repository-details-content {
 
-  .label-jump {
-    display: block;
-    text-align: center;
+  .label {
+    display: table;
+    margin: 0 auto 12px;
   }
 
   .list-servers {
-    margin-top: 9px;
 
     .list-item.list-item {
       @extend %text-overflow;
@@ -82,7 +81,7 @@
     font-size: 15px;
     font-weight: 500;
     line-height: 18px;
-    margin-top: 15px;
+    margin-bottom: 9px;
     padding: 9px 12px;
   }
 
