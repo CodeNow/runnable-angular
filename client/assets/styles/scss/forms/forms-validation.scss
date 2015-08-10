@@ -122,3 +122,14 @@
     line-height: $input-xxs;
   }
 }
+
+// for when there are multiple requirements
+// appears below an input
+.list-validation {
+  margin-top: 6px;
+
+  // when invalid
+  .list-item.invalid::after {
+    background: $red;
+  }
+}
