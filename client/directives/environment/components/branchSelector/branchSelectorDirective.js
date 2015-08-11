@@ -14,7 +14,6 @@ require('app')
       templateUrl: 'branchSelectorView',
       scope: {
         state: '=',
-        isInitial: '@?',
         loadingPromisesTarget: '@?',
         autoUpdate: '=?' // True if the acv should get automatically updated upon branch change
       },
