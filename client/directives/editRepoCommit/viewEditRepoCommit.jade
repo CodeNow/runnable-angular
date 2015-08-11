@@ -56,7 +56,7 @@ label.label-checkbox.btn-sm.btn-checkbox(
 
 .small.strong.text-overflow(
   ng-if = "$root.featureFlags.additionalRepositories"
-) {{ acv.attrs.repo }}
+) {{ instance.getRepoName() }}
 .btn.gray(
   modal
   modal-template = "repositoryDetailsModalOpen"
