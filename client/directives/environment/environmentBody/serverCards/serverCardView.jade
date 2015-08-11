@@ -19,6 +19,8 @@
     pop-over-options = "{\"centered\":true,\"top\":36}"
     pop-over-template = "serverOptionsCardPopover"
   )
+
+//- loading state
 ul.card-body.card-loading(
   ng-if = "showSpinner()"
 )
@@ -26,6 +28,7 @@ ul.card-body.card-loading(
     ng-include = "'spinner'"
   )
 
+//- container card
 ul.card-body.load(
   ng-if = "!showSpinner()"
 )
@@ -35,8 +38,8 @@ ul.card-body.load(
     modal-current-model = "instance"
     modal-state-model = "'repository'"
     modal-template = "editServerModalOpen"
-    ng-if = "server.repo && !server.advanced"
     ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.repository}"
+    ng-if = "server.repo && !server.advanced"
   )
     svg.iconnables
       use(
@@ -56,8 +59,8 @@ ul.card-body.load(
     modal-current-model = "instance"
     modal-state-model = "'ports'"
     modal-template = "editServerModalOpen"
-    ng-if = "server.repo && !server.advanced"
     ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.exposedPorts}"
+    ng-if = "server.repo && !server.advanced"
   )
     svg.iconnables
       use(
@@ -100,8 +103,8 @@ ul.card-body.load(
     modal-current-model = "instance"
     modal-state-model = "'commands'"
     modal-template = "editServerModalOpen"
-    ng-if = "server.repo && !server.advanced"
     ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.commands}"
+    ng-if = "server.repo && !server.advanced"
   )
     svg.iconnables
       use(
@@ -121,8 +124,8 @@ ul.card-body.load(
     modal-current-model = "instance"
     modal-state-model = "'files'"
     modal-template = "editServerModalOpen"
-    ng-if = "server.repo && !server.advanced"
     ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.containerFiles}"
+    ng-if = "server.repo && !server.advanced"
   )
     svg.iconnables(
       ng-if = "!$root.featureFlags.sshKeys"

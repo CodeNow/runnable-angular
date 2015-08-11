@@ -90,8 +90,20 @@
   }
 
   .label-col,
-  .input-col {
+  .input-col,
+  .input-col > .btn {
     width: 100%;
+  }
+
+  .input-col {
+
+    > .small {
+      margin: 6px 8px;
+    }
+
+    > .btn {
+      padding-left: 6px;
+    }
   }
 
   .label-col .small {

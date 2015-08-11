@@ -14,7 +14,6 @@ require('app')
       templateUrl: 'branchSelectorView',
       scope: {
         state: '=',
-        isInitial: '@?',
         loadingPromisesTarget: '@?',
         autoUpdate: '=?' // True if the acv should get automatically updated upon branch change
       },
@@ -22,16 +21,14 @@ require('app')
         $scope.$watch('state.repo', function (repo) {
           if (repo) {
             // <= 1 because the collection may contain the state.branch
-            var shouldFetchBranches = (keypather.get(repo, 'branches.models.length') || 0) <= 1;
+            var shouldFetchBranches = !keypather.get(repo, 'branches.models.length');
             if (!$scope.state.branch) {
               var branchSeed = $scope.state.acv ? $scope.state.acv.attrs.branch : repo.attrs.default_branch;
               $scope.state.branch = repo.newBranch(branchSeed, {warn: false});
-              if (shouldFetchBranches) {
-                repo.branches.add($scope.state.branch);
-              }
             }
             // If we only have 1 branch, we most likely need to fetch the branches
             if (shouldFetchBranches) {
+              repo.branches.add($scope.state.branch);
               $scope.branchFetching = true;
               // Don't fetch until the next digest cycle so the fancy select has enough time to draw
               $scope.$evalAsync(function () {

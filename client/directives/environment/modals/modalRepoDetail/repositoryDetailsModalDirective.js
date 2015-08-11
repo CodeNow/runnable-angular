@@ -36,9 +36,9 @@ function repositoryDetailsModal(
     controllerAs: 'RDMC',
     bindToController: true,
     scope: {
-      instance: '=data',
       appCodeVersion: '=currentModel',
-      defaultActions: '='
+      defaultActions: '=',
+      instance: '=data'
     }
   };
 }

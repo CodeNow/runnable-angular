@@ -25,7 +25,9 @@
 
     label.label.clearfix
       .label-col Destination
-      .input-col.input-root
+      .input-col.input-prefix(
+        data-prefix = "/"
+      )
         input.input.input-sm(
           ng-model = "data.path"
           required
