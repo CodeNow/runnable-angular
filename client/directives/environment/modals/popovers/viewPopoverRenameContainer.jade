@@ -43,7 +43,7 @@ form.popover.popover-fixed.popover-rename(
 
   .popover-footer.clearfix
     button.btn.btn-sm.green(
-      ng-disabled = "!rename.newName.$viewValue.length"
+      ng-disabled = "!rename.newName.$viewValue.length || rename.$invalid"
     ) Rename Container
     button.btn.btn-sm.gray.btn-cancel(
       ng-click = "actions.cancel()"
