@@ -1,8 +1,16 @@
-.repository-details-content {
+  .repository-details-content {
 
-  .label {
+  > .label {
     display: table;
     margin: 0 auto 12px;
+
+    > .btn .spinner-wrapper {
+      align-items: center;
+      color: $gray-light;
+      height: 100%;
+      padding-left: 6px;
+      width: 21px;
+    }
   }
 
   .list-servers {
@@ -48,17 +56,6 @@
       .small {
         color: $gray;
         display: flex;
-      }
-
-      .span {
-        min-width: 0;
-      }
-
-      .link {
-        color: currentColor;
-        margin-left: 4px;
-        font-size: 13px;
-        flex: 0 0 auto;
       }
     }
   }
