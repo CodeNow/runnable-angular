@@ -20,17 +20,15 @@ label.toggle-wrapper(
   )
   .toggle-group.toggle-sm
 
-.spinner-wrapper.spinner-backdrop.spinner-gray.spinner-md.in(
-  ng-if = "fetchingCommits"
-  ng-include = "'spinner'"
-)
-
-ul.list.list-servers(
-  ng-if = "!fetchingCommits"
-)
+ul.list.list-servers
+  .spinner-wrapper.spinner-backdrop.spinner-gray.spinner-md.in(
+    ng-if = "fetchingCommits"
+    ng-include = "'spinner'"
+  )
   li.list-item(
     ng-class = "{active: BCSC.data.commit === commit, 'disabled': BCSC.isLatestCommit()}"
     ng-click = "BCSC.selectCommit(commit)"
+    ng-if = "!fetchingCommits"
     ng-repeat = "commit in BCSC.data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
   ) {{commit.attrs.commit.message}}
     .small

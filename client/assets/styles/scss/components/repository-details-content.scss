@@ -1,4 +1,6 @@
-  .repository-details-content {
+.repository-details-content {
+    display: flex;
+    flex-direction: column;
 
   > .label {
     display: table;
@@ -9,13 +11,20 @@
       color: $gray-light;
       height: 100%;
       padding-left: 6px;
-      width: 21px;
     }
   }
 
-  .list-servers {
+  .list-servers.list-servers {
+    flex: 1 1 auto;
+    min-height: 90px;
+    position: relative;
 
-    .list-item.list-item {
+    > .spinner-wrapper {
+      background: transparent;
+      top: 0;
+    }
+
+    .list-item {
       @extend %text-overflow;
       font-size: 15px;
       padding-right: 45px;
