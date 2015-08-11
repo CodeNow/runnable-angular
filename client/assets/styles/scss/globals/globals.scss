@@ -26,14 +26,18 @@ body {
 }
 
 // utility
-.clearfix:before,
-.clearfix:after {
-  content: '';
-  display: table;
-}
+%clearfix,
+.clearfix {
 
-.clearfix:after {
-  clear: both;
+  &::before,
+  &::after {
+    content: '';
+    display: table;
+  }
+
+  &::after {
+    clear: both;
+  }
 }
 
 .float-right {
