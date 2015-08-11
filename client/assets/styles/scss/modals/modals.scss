@@ -59,27 +59,6 @@
     margin: 0 auto;
   }
 
-  // validation in modals:
-  .validate-wrapper {
-    cursor: default;
-    display: block;
-    height: 0;
-    margin: 0 9px 6px;
-    transition: all .2s ease-in;
-
-    .validate-rules {
-      align-items: baseline;
-      display: flex;
-      height: 36px;
-      justify-content: center;
-      right: 0;
-    }
-
-    .btn:first-child {
-      margin-left: 6px;
-    }
-  }
-
   // modal alert
   .alert {
     align-items: center;
@@ -149,24 +128,6 @@
 
     &:active {
       color: $red;
-    }
-  }
-
-  // only used for card status right now…
-  .container-title-wrapper {
-    color: $gray;
-    margin: 12px 0 6px;
-
-    .container-title {
-      font-size: 15px;
-      font-weight: 400;
-    }
-
-    .icons-warning,
-    .icons-arrow-down,
-    .spinner-wrapper {
-      flex: 0 0 18px;
-      height: 18px;
     }
   }
 }

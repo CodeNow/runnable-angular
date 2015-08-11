@@ -35,7 +35,7 @@ li.file(
         xlink:href = "#icons-file-dockerfile"
       )
     span.item-name {{ fs.attrs.name }}
-    span.btn-file-errors.orange(
+    span.btn.btn-file-errors.red(
       ng-if = "fs.validation.errors.length"
     ) {{ fs.validation.errors.length }}
 
