@@ -8,7 +8,9 @@
   )
     header.modal-header
       //- from serverStatusCardHeaderViewCardStatus template
-      .container-title-wrapper
+      .container-title-wrapper(
+        ng-class = "{'title-verification': newContainer}"
+      )
         span.text-overflow.container-title repository-name
         button.btn.btn-xxs.gray(
           ng-if = "$root.featureFlags.nameContainer"

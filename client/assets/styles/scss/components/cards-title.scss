@@ -15,6 +15,16 @@
     color: $purple-light;
   }
 
+  // if renaming instead of popover on verification
+  &.title-verification {
+    cursor: default;
+
+    &:hover,
+    &:active {
+      color: $gray-dark;
+    }
+  }
+
   .icons-warning,
   .icons-arrow-down,
   .spinner-wrapper {
