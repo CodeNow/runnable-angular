@@ -34,12 +34,15 @@ ul.list.list-servers(
     ng-repeat = "commit in BCSC.data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
   ) {{commit.attrs.commit.message}}
     .small
-      span.span.text-overflow {{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}
       a.small.link.monospace(
         ng-click = "$event.stopPropagation()"
         ng-href = "{{ commit.attrs.html_url }}"
         target = "_blank"
+        title = "view on GitHub"
       ) {{ ::commit.attrs.sha | limitTo:7 }}
+      span.span.text-overflow(
+        ng-attr-title = "{{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}"
+      ) —{{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}
     svg.iconnables.icons-fat-check
       use(
         xlink:href = "#icons-fat-check"
