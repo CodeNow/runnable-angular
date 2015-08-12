@@ -1,8 +1,15 @@
 'use strict';
 
+/*
+ * This directive requires the following values to be on state:
+ *  repo
+ *  branch
+ *
+ *  Optionally, it can also use:
+ *  acv > appCodeVersion
+ */
 require('app')
   .directive('branchSelector', function branchSelector(
-    $q,
     errs,
     fetchRepoBranches,
     keypather,
@@ -20,14 +27,11 @@ require('app')
       link: function ($scope, element, attrs) {
         $scope.$watch('state.repo', function (repo) {
           if (repo) {
-            // <= 1 because the collection may contain the state.branch
-            var shouldFetchBranches = !keypather.get(repo, 'branches.models.length');
             if (!$scope.state.branch) {
               var branchSeed = $scope.state.acv ? $scope.state.acv.attrs.branch : repo.attrs.default_branch;
               $scope.state.branch = repo.newBranch(branchSeed, {warn: false});
             }
-            // If we only have 1 branch, we most likely need to fetch the branches
-            if (shouldFetchBranches) {
+            if (!keypather.get(repo, 'branches.models.length')) {
               repo.branches.add($scope.state.branch);
               $scope.branchFetching = true;
               // Don't fetch until the next digest cycle so the fancy select has enough time to draw
@@ -43,7 +47,6 @@ require('app')
         });
 
         $scope.onBranchChange = function (newBranch) {
-          $scope.$emit('branch::selected', newBranch);
           if ($scope.autoUpdate && $scope.state.acv) {
             var newState = {
               branch: newBranch.attrs.name,

@@ -3,13 +3,11 @@
 require('app')
   .directive('branchCommitSelector', branchCommitSelector);
 
-
 /*
- * This directive requires the following actions in the parent scopoe:
- *   create, remove, update
- * Those actions must return a promise that gets resolved when the action is finished.
- *
- * There also needs to be a data attribute containing at minimum:
+ * This directive requires the following values to be on data:
+ *  branch,
+ *  commit,
+ *  latestCommit,
  */
 function branchCommitSelector(
   $rootScope,

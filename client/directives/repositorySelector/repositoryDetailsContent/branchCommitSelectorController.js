@@ -3,14 +3,6 @@
 require('app')
   .controller('BranchCommitSelectorController', BranchCommitSelectorController);
 
-
-/*
- * This directive requires the following actions in the parent scopoe:
- *   create, remove, update
- * Those actions must return a promise that gets resolved when the action is finished.
- *
- * There also needs to be a data attribute containing at minimum:
- */
 function BranchCommitSelectorController(
   $scope,
   keypather

@@ -52,15 +52,15 @@ function repositorySelector(
           .catch(errs.handler);
       }
 
-      $scope.$on('commit::selected', function () {
-        if (!$rootScope.featureFlags.additionalRepositories) {
+      if (!$rootScope.featureFlags.additionalRepositories) {
+        $scope.$on('commit::selected', function () {
           if ($scope.data.gitDataOnly) {
             $scope.repoSelector.actions.save();
           } else {
             $scope.state.view = 2;
           }
-        }
-      });
+        });
+      }
 
       $scope.repoSelector.actions = {
         selectRepo: function (repo) {
