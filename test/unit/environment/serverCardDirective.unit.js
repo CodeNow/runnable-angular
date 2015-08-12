@@ -52,6 +52,8 @@ describe('serverCardDirective'.bold.underline.blue, function () {
       keypather = _keypather_;
     });
 
+    $rootScope.featureFlags = {};
+
     keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.fakeOrg1);
     Object.keys(scope).forEach(function (key) {
       $scope[key] = scope[key];
