@@ -77,7 +77,6 @@ function ControllerApp(
     additionalRepositories: false,
     cardStatus: false,
     debugMode: false,
-    findAndReplace: true,
     fullScreen: false,  // toggles full screen
     fullScreenToggle: false,  // toggles the button that toggles full screen
     hostnameNotifications: false,

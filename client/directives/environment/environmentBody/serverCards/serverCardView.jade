@@ -158,7 +158,7 @@ ul.card-body.load(
     modal-template = "editServerModalOpen"
     modal-open-flag = "openConfigurationModal"
     ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.findAndReplace}"
-    ng-if = "server.repo && $root.featureFlags.findAndReplace"
+    ng-if = "server.repo"
   )
     svg.iconnables
       use(

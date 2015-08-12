@@ -78,7 +78,7 @@ form.modal-dialog.modal-edit(
       button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'translation'}"
         ng-click = "changeTab('translation')"
-        ng-if = "isTabVisible('translation') && $root.featureFlags.findAndReplace"
+        ng-if = "isTabVisible('translation')"
       )
         svg.iconnables
           use(
