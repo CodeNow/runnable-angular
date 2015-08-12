@@ -87,18 +87,5 @@
   word-break: break-word;
 }
 
-.toggle-group-detail {
-  display: flex;
-  margin-left: 4px;
-
-  .small {
-    flex: 1 1 auto;
-  }
-
-  .link {
-    color: $purple-light;
-  }
-}
-
 //- end deprecated file, delete with $root.featureFlags.additionalRepositories
 //- *************************

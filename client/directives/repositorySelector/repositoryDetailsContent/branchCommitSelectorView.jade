@@ -38,7 +38,7 @@ ul.list.list-servers
         target = "_blank"
         title = "view on GitHub"
       ) {{ ::commit.attrs.sha | limitTo:7 }}
-      span.span.text-overflow(
+      .text-overflow(
         ng-attr-title = "{{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}"
       ) —{{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}
     svg.iconnables.icons-fat-check

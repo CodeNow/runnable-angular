@@ -1,26 +1,28 @@
-label.label-jump(
+label.label(
   branch-selector
   loading-promises-target = "editServerModal"
   state = "BCSC.data"
 )
 
-.spinner-wrapper.spinner-backdrop.spinner-gray.spinner-md.in(
-  ng-if = "(BCSC.data.branch && !BCSC.data.branch.commits.models.length)"
-  ng-include = "'spinner'"
-)
-
-ul.list.list-servers.list-commits(
-  ng-if = "!BCSC.data.latestCommit && !fetchingBranches"
-)
+ul.list.list-servers
+  li.spinner-wrapper.spinner-backdrop.spinner-gray.spinner-md.in(
+    ng-if = "(BCSC.data.branch && !BCSC.data.branch.commits.models.length)"
+    ng-include = "'spinner'"
+  )
   li.list-item(
     ng-class = "{active: BCSC.data.commit === commit, disabled: state.saving}"
     ng-click = "BCSC.selectCommit(commit)"
+    ng-if = "!BCSC.data.latestCommit && !fetchingBranches"
     ng-repeat = "commit in BCSC.data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
+    style = "padding-right: 9px;"
   ) {{commit.attrs.commit.message}}
-    .toggle-group-detail
-      small.small.text-overflow {{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}
+    .small
       a.small.link.monospace(
         ng-click = "$event.stopPropagation()"
         ng-href = "{{ commit.attrs.html_url }}"
         target = "_blank"
+        title = "view on GitHub"
       ) {{ ::commit.attrs.sha | limitTo:7 }}
+      .text-overflow(
+        ng-attr-title = "{{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}"
+      ) —{{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}
