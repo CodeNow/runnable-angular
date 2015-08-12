@@ -1,6 +1,6 @@
 //- on container sidebar
 .sidebar-section-heading.strong(
-  ng-class = "{ closed: $storage.explorerIsClosed }"
+  ng-class = "{'closed': $storage.explorerIsClosed}"
   ng-click = "$storage.explorerIsClosed = !$storage.explorerIsClosed"
   ng-if = "!editExplorer"
   ng-include = "'explorerSectionHeading'"
@@ -12,7 +12,7 @@
   ng-controller = "FilePopoverController as FPC"
 )
   button.btn.btn-xs.gray(
-    ng-class = "{active: filePopover.data.show}"
+    ng-class = "{'active': filePopover.data.show}"
     ng-disabled = "readOnly"
     pop-over
     pop-over-actions = "FPC.actions"
@@ -33,7 +33,7 @@
   .well.in(
     ng-if = "!fileModel.running()"
   ) There are no files because&#32;
-    strong.strong {{ instance.getBranchName() || instance.getDisplayName() }}&#32;
+    strong.strong {{instance.getBranchName() || instance.getDisplayName()}}&#32;
     | isn’t running.
 
   ul.file-tree(

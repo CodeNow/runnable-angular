@@ -4,7 +4,7 @@ svg.iconnables.icons-disclose
   )
 | {{ explorerTitle }}
 button.btn.btn-xs.btn-icon.float-right(
-  ng-class = "{active: filePopover.data.show}"
+  ng-class = "{'active': filePopover.data.show}"
   ng-if = "!$storage.explorerIsClosed && fileModel.running()"
   pop-over
   pop-over-actions = "FPC.actions"
