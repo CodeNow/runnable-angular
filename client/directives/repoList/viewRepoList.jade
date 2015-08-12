@@ -15,6 +15,6 @@
     edit-repo-commit
     instance = "instance"
     model = "acv"
-    ng-repeat = "acv in instance.contextVersion.appCodeVersions.models | orderBy : attrs.additionalRepo"
+    ng-repeat = "acv in instance.contextVersion.appCodeVersions.models | orderBy : '-attrs.additionalRepo'"
     ng-if = "!$storage.repoListIsClosed"
   )
