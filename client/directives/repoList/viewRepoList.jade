@@ -1,4 +1,4 @@
-.sidebar-heading.strong(
+.sidebar-section-heading.strong(
   ng-class = "{closed: $storage.repoListIsClosed}"
   ng-click = "$storage.repoListIsClosed = !$storage.repoListIsClosed"
 )
@@ -8,10 +8,10 @@
     )
   | Repositories
   
-.server-sidebar-wrapper
+.sidebar-section-content
 
   //- primary repository
-  .server-sidebar-item(
+  .sidebar-section-item(
     edit-repo-commit
     instance = "instance"
     model = "instance.contextVersion.getMainAppCodeVersion()"
@@ -19,7 +19,7 @@
   )
 
   //- additional repositories (mockup)
-  .server-sidebar-item(
+  .sidebar-section-item(
     modal
     modal-actions = "actions"
     modal-data = "data"

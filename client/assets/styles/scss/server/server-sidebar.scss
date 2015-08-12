@@ -77,7 +77,7 @@
   }
 }
 
-.server-sidebar-wrapper {
+.sidebar-section-content {
   flex: 1 1 auto;
   overflow-y: auto;
 
@@ -86,7 +86,7 @@
   }
 }
 
-.sidebar-heading {
+.sidebar-section-heading {
   color: $gray-darker;
   cursor: pointer;
   flex: 0 0 54px;
@@ -134,7 +134,7 @@
   }
 }
 
-.server-sidebar-item {
+.sidebar-section-item {
   margin-bottom: 3px;
   position: relative;
   top: -6px;

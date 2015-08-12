@@ -1,4 +1,4 @@
-.sidebar-heading.strong(
+.sidebar-section-heading.strong(
   ng-class = "{ closed: $storage.dnsManagementIsClosed }"
   ng-click = "$storage.dnsManagementIsClosed = !$storage.dnsManagementIsClosed"
 )
@@ -20,9 +20,9 @@
 //-   span.strong {{ instance.getRepoName() || instance.getDisplayName() }}
 //-   |  has no DNS mappings.
 
-.server-sidebar-wrapper
+.sidebar-section-content
 
-  .server-sidebar-item
+  .sidebar-section-item
     .small.text-overflow
       strong.strong repo-name
       |-url-info
@@ -33,7 +33,7 @@
         use(
           xlink:href = "#icons-arrow-down"
         )
-  .server-sidebar-item
+  .sidebar-section-item
     .small.text-overflow
       strong.strong repo-name
       |-url-info
@@ -44,7 +44,7 @@
         use(
           xlink:href = "#icons-arrow-down"
         )
-  .server-sidebar-item
+  .sidebar-section-item
     .small.text-overflow
       strong.strong repo-name
       |-url-info
@@ -55,7 +55,7 @@
         use(
           xlink:href = "#icons-arrow-down"
         )
-  .server-sidebar-item
+  .sidebar-section-item
     .small.text-overflow
       strong.strong repo-name
       |-url-info
@@ -66,7 +66,7 @@
         use(
           xlink:href = "#icons-arrow-down"
         )
-  .server-sidebar-item
+  .sidebar-section-item
     .small.text-overflow
       strong.strong repo-name
       |-url-info
@@ -78,7 +78,7 @@
           xlink:href = "#icons-arrow-down"
         )
 
-.server-sidebar-item(
+.sidebar-section-item(
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
   ng-repeat = "masterInstance in directlyRelatedMasterInstances track by masterInstance.attrs.shortHash"
 )
