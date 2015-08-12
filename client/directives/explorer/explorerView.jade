@@ -1,7 +1,9 @@
 //- on container sidebar
-.explorer-menu-bar-container(
+.sidebar-section-heading.strong(
+  ng-class = "{ closed: $storage.explorerIsClosed }"
+  ng-click = "$storage.explorerIsClosed = !$storage.explorerIsClosed"
   ng-if = "!editExplorer"
-  ng-include = "'explorerMenuBar'"
+  ng-include = "'explorerSectionHeading'"
 )
 
 //- on configure modal
