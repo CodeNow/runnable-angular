@@ -13,6 +13,7 @@ function explorer(
     templateUrl: 'explorerView',
     controller: 'FilePopoverController as FPC',
     scope: {
+      instance: '=',
       openItems: '=',
       fileModel: '=',
       rootDir: '=',

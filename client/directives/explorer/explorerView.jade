@@ -26,26 +26,28 @@
         xlink:href = "#icons-add"
       )
 
-.well.in(
-  ng-if = "!$storage.explorerIsClosed && !fileModel.running()"
-) There are no files because
-  strong.strong {{ instance.getRepoName() || instance.getDisplayName() }}
-  | isn’t running.
+.sidebar-section-content
 
-ul.file-tree.sidebar-section-content(
-  ng-if = "editExplorer || (!$storage.explorerIsClosed && fileModel.running())"
-)
-  //- this is the root dir; there can be only one.
-  li(
-    dir = "rootDir"
-    edit-explorer = "editExplorer"
-    file-tree-dir
-    file-model = "fileModel"
-    is-root-dir = "true"
-    open-items = "openItems"
-    parent-dir = "rootDir"
-    read-only = "readOnly"
-    show-repo-folder = "showRepoFolder"
-    state = "state"
-    loading-promises-target = "loadingPromisesTarget"
+  .well.in(
+    ng-if = "!$storage.explorerIsClosed && !fileModel.running()"
+  ) There are no files because&#32;
+    strong.strong {{ instance.getBranchName() || instance.getDisplayName() }}&#32;
+    | isn’t running.
+
+  ul.file-tree(
+    ng-if = "editExplorer || (!$storage.explorerIsClosed && fileModel.running())"
   )
+    //- this is the root dir; there can be only one.
+    li(
+      dir = "rootDir"
+      edit-explorer = "editExplorer"
+      file-tree-dir
+      file-model = "fileModel"
+      is-root-dir = "true"
+      open-items = "openItems"
+      parent-dir = "rootDir"
+      read-only = "readOnly"
+      show-repo-folder = "showRepoFolder"
+      state = "state"
+      loading-promises-target = "loadingPromisesTarget"
+    )
