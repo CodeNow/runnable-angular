@@ -123,13 +123,28 @@
   }
 }
 
-// for when there are multiple requirements
-// appears below an input
+// when you need to return a message to the user
+.validation-message {
+  color: $red;
+  display: block;
+  font-size: 13px;
+  font-weight: $weight-bold;
+  line-height: 1.2;
+  margin: 6px 0 0 6px;
+}
+
+// when there are multiple requirements, appears below an input
 .list-validation {
+  color: $gray;
+  font-size: 13px;
   margin-top: 6px;
 
   // when invalid
-  .list-item.ng-invalid::after {
-    background: $red;
+  .list-item.ng-invalid {
+    color: $red;
+
+    &::after {
+      background: $red;
+    }
   }
 }
