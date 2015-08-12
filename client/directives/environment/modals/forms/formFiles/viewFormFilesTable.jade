@@ -1,5 +1,4 @@
 .tr.multi-line.clearfix(
-  ng-if = "$root.featureFlags.sshKeys"
   ng-repeat = "containerFile in state.containerFiles | filter:{type: 'SSH Key'}"
 )
   .cell.cell-action.disabled.no-touching
@@ -30,7 +29,7 @@
 
 //- only show if there's > 0 ssh keys AND > 0 files
 .tr.thead.clearfix(
-  ng-if = "$root.featureFlags.sshKeys && (state.containerFiles | filter:{type: 'SSH Key'}).length"
+  ng-if = "(state.containerFiles | filter:{type: 'SSH Key'}).length"
 )
 
 //- dnd-drop needs this to be a list
@@ -43,8 +42,8 @@ ul.table-drag-drop(
     dnd-dragstart = "actions.dragstart()"
     dnd-effect-allowed = "move"
     ng-class = "{\
-      'disabled': (containerFile.type === 'Main Repository' && !$root.featureFlags.sshKeys),\
-      'tr-action': (containerFile.type !== 'Main Repository' && !$root.featureFlags.sshKeys)\
+      'disabled': containerFile.type === 'Main Repository',\
+      'tr-action': containerFile.type !== 'Main Repository'\
     }"
     ng-repeat = "containerFile in state.containerFiles"
     ng-show = "containerFile.type !== 'SSH Key'"
@@ -64,22 +63,12 @@ ul.table-drag-drop(
     //- deprecated:
     .cell.text-overflow(
       ng-click = "CFC.actions.triggerEditFile(containerFile)"
-      ng-if = "(containerFile.type === 'File' && !$root.featureFlags.sshKeys)"
+      ng-if = "(containerFile.type === 'File')"
       title = "{{ containerFile.name }}"
     ) {{ containerFile.name }}
 
     //- ssh key feature flag
     .cell.text-overflow(
-      ng-if = "$root.featureFlags.sshKeys"
-      title = "{{ containerFile.name }}"
-    ) {{ containerFile.name }}
-      small.small(
-        title = "{{ containerFile.path }}"
-      ) /{{ containerFile.path }}
-
-    .cell.text-overflow(
-      ng-click = "CFC.actions.triggerEditRepo(containerFile)"
-      ng-if = "!$root.featureFlags.sshKeys && (containerFile.type === 'Repository' || containerFile.type === 'Main Repository')"
       title = "{{ containerFile.name }}"
     ) {{ containerFile.name }}
       small.small(
@@ -108,7 +97,6 @@ ul.table-drag-drop(
       | {{ containerFile.type }}
     .cell.cell-action(
       ng-class = "{'disabled': containerFile.type === 'Main Repository'}"
-      ng-if = "$root.featureFlags.sshKeys"
     )
       button.btn.btn-xs.gray(
         pop-over

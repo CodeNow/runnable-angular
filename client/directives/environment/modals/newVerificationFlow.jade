@@ -83,19 +83,11 @@
           ng-click = "changeTab('files')"
           ng-if = "newContainer.step >= 3 || isTabVisible('files')"
         )
-          svg.iconnables(
-            ng-if = "!$root.featureFlags.sshKeys"
-          )
-            use(
-              xlink:href = "#icons-container-files"
-            )
-          svg.iconnables(
-            ng-if = "$root.featureFlags.sshKeys"
-          )
+          svg.iconnables
             use(
               xlink:href = "#icons-keys-files"
             )
-          .btn-text  {{ $root.featureFlags.sshKeys ? "Files & SSH Keys" : "Container Files" }}
+          .btn-text Files & SSH Keys
         button.btn.btn-radio.js-animate(
           ng-class = "{'active': selectedTab === 'translation'}"
           ng-click = "changeTab('translation')"
