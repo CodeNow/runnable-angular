@@ -182,7 +182,8 @@ describe('directiveRepoSelect'.bold.underline.blue, function () {
       initState({
         data: {
           repo: {
-            repo: ctx.repo
+            repo: ctx.repo,
+            branch: ctx.branches.models[1]
           }
         }
       });
