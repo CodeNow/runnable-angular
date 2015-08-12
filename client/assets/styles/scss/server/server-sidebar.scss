@@ -15,7 +15,7 @@
     margin-top: 22px;
   }
 
-  // override default button and fancy-select styles
+  // override button and fancy-select styles
   .btn.gray {
     background-color: $gray-lighterest;
     color: $gray;
@@ -41,7 +41,7 @@
       width: 24px;
     }
 
-    // override fancy-select float so text-overflow works
+    // override fancy-select so text-overflow works
     .display {
       float: none;
     }
@@ -50,7 +50,7 @@
 
 .sidebar-section {
   border-bottom: 1px solid $gray-lighter;
-  flex: 1 1 54px;
+  flex: 1 0 54px;
   overflow-x: hidden;
   padding: 0 12px;
   display: flex;
@@ -58,31 +58,22 @@
 
   &.closed {
     overflow-y: hidden;
-    flex: 0 0 54px;
-  }
-
-  // file explorer section
-  &.explorer-section {
-    border-bottom-width: 0;
-
-    &.closed {
-      border-bottom-width: 1px;
-    }
-
-    .file-tree {
-      margin: 0 -12px;
-      overflow-y: auto;
-      padding: 0 18px;
-    }
+    flex-grow: 0;
   }
 }
 
-.sidebar-section-content {
-  flex: 1 1 auto;
-  overflow-y: auto;
+// file explorer section
+.explorer-section {
+  border-bottom-width: 0;
 
-  .closed & {
-    flex: 1 0 auto;
+  &.closed {
+    border-bottom-width: 1px;
+  }
+
+  .file-tree {
+    margin: 0 -12px;
+    overflow-y: auto;
+    padding: 0 18px;
   }
 }
 
@@ -116,7 +107,6 @@
   .icons-disclose {
     left: -3px;
     top: 7px;
-    transition: none;
     width: 15px;
 
     .closed & {
@@ -132,6 +122,11 @@
       width: 24px;
     }
   }
+}
+
+.sidebar-section-content {
+  flex: 1 1 auto;
+  overflow-y: auto;
 }
 
 .sidebar-section-item {
