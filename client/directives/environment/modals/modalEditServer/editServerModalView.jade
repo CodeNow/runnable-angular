@@ -8,17 +8,11 @@ form.modal-dialog.modal-edit(
 )
   header.modal-header
     server-status-card-header.btn.btn-sm.btn-title(
-      ng-attr-no-touching = "{{ !state.repo || $root.featureFlags.dockerfileTool }}"
       ng-if = "!$root.featureFlags.cardStatus"
-      pop-over-options = "{\"right\":-7,\"top\":36}"
-      pop-over-template = "serverOptionsModalPopover"
     )
     div(
-      ng-attr-no-touching = "{{ !state.repo || $root.featureFlags.dockerfileTool }}"
       ng-if = "$root.featureFlags.cardStatus"
       ng-include = "'serverStatusCardHeaderViewCardStatus'"
-      pop-over-options = "{\"centered\":true,\"top\":36}"
-      pop-over-template = "serverOptionsModalPopover"
     )
 
     .row.modal-tabs.tabs-all.clearfix
@@ -103,7 +97,6 @@ form.modal-dialog.modal-edit(
       button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'buildfiles'}"
         ng-click = "changeTab('buildfiles')"
-        ng-if = "isTabVisible('buildfiles') || $root.featureFlags.dockerfileTool"
       )
         svg.iconnables
           use(

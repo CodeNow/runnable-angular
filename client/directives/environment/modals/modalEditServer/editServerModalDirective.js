@@ -359,27 +359,6 @@ function editServerModal(
       resetState($scope.instance);
 
 
-      if (!$rootScope.featureFlags.dockerfileTool) {
-        // Only start watching this after the context version has
-        $scope.$watch('state.advanced', function (advanced, previousAdvanced) {
-          // This is so we don't fire the first time with no changes
-          if (previousAdvanced === Boolean(previousAdvanced) && advanced !== previousAdvanced) {
-            watchOncePromise($scope, 'state.contextVersion', true)
-              .then(function () {
-                $rootScope.$broadcast('close-popovers');
-                $scope.selectedTab = advanced ? 'buildfiles' : 'repository';
-                return loadingPromises.add('editServerModal', promisify($scope.state.contextVersion, 'update')({
-                  advanced: advanced
-                }));
-              })
-              .catch(function (err) {
-                errs.handler(err);
-                $scope.state.advanced = keypather.get($scope.instance, 'contextVersion.attrs.advanced');
-              });
-          }
-        });
-      }
-
       $scope.isDockerfileValid = function () {
         if (!$scope.state.advanced || !keypather.get($scope, 'state.dockerfile.validation.criticals.length')) {
           return true;

@@ -170,40 +170,11 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-arrow-down"
       )
-  //- dockerfile
   li.btn.white(
     modal
     modal-current-model = "instance"
     modal-state-model = "'buildfiles'"
     modal-template = "editServerModalOpen"
-    ng-if = "server.advanced && !$root.featureFlags.dockerfileTool"
-  )
-    svg.iconnables
-      use(
-        xlink:href = "#icons-dockerfile"
-      )
-    h3.h3.text-overflow Dockerfile
-    small.small(
-      ng-if = "server.advanced"
-    )
-      em.underline.tooltip-plus-wrapper Tools
-        .tooltip-plus.tooltip-tools.right(
-          ng-include = "'viewTooltipTools'"
-          style = "left: 42px; top: -67px;"
-        )
-      //- must use &nbsp; instead of &#32;
-      span.text-overflow &nbsp;not available with Dockerfile editing.
-    svg.iconnables.icons-arrow-down
-      use(
-        xlink:href = "#icons-arrow-down"
-      )
-  //- new dockerfile
-  li.btn.white(
-    modal
-    modal-current-model = "instance"
-    modal-state-model = "'buildfiles'"
-    modal-template = "editServerModalOpen"
-    ng-if = "$root.featureFlags.dockerfileTool"
   )
     svg.iconnables
       use(
