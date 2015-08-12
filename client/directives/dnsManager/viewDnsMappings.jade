@@ -14,69 +14,69 @@
     ng-include = "'spinner'"
   )
 
-//- .well.in(
-//-   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0"
-//- )
-//-   span.strong {{ instance.getRepoName() || instance.getDisplayName() }}
-//-   |  has no DNS mappings.
-
 .sidebar-section-content
+  
+  .well.in(
+    ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0"
+  )
+    strong.strong {{ instance.getRepoName() || instance.getDisplayName() }}
+    |  has no DNS mappings.
 
-  .sidebar-section-item
-    .small.text-overflow
-      strong.strong repo-name
-      |-url-info
-    button.btn.gray
-      .icons-status.green
-      | branch-name
-      svg.iconnables.icons-arrow-down
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
-  .sidebar-section-item
-    .small.text-overflow
-      strong.strong repo-name
-      |-url-info
-    button.btn.gray
-      .icons-status.green
-      | branch-name
-      svg.iconnables.icons-arrow-down
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
-  .sidebar-section-item
-    .small.text-overflow
-      strong.strong repo-name
-      |-url-info
-    button.btn.gray
-      .icons-status.green
-      | branch-name
-      svg.iconnables.icons-arrow-down
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
-  .sidebar-section-item
-    .small.text-overflow
-      strong.strong repo-name
-      |-url-info
-    button.btn.gray
-      .icons-status.green
-      | branch-name
-      svg.iconnables.icons-arrow-down
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
-  .sidebar-section-item
-    .small.text-overflow
-      strong.strong repo-name
-      |-url-info
-    button.btn.gray
-      .icons-status.green
-      | branch-name
-      svg.iconnables.icons-arrow-down
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
+  //- .sidebar-section-item
+  //-   .small.text-overflow
+  //-     strong.strong repo-name
+  //-     |-url-info
+  //-   button.btn.gray
+  //-     .icons-status.green
+  //-     | branch-name
+  //-     svg.iconnables.icons-arrow-down
+  //-       use(
+  //-         xlink:href = "#icons-arrow-down"
+  //-       )
+  //- .sidebar-section-item
+  //-   .small.text-overflow
+  //-     strong.strong repo-name
+  //-     |-url-info
+  //-   button.btn.gray
+  //-     .icons-status.green
+  //-     | branch-name
+  //-     svg.iconnables.icons-arrow-down
+  //-       use(
+  //-         xlink:href = "#icons-arrow-down"
+  //-       )
+  //- .sidebar-section-item
+  //-   .small.text-overflow
+  //-     strong.strong repo-name
+  //-     |-url-info
+  //-   button.btn.gray
+  //-     .icons-status.green
+  //-     | branch-name
+  //-     svg.iconnables.icons-arrow-down
+  //-       use(
+  //-         xlink:href = "#icons-arrow-down"
+  //-       )
+  //- .sidebar-section-item
+  //-   .small.text-overflow
+  //-     strong.strong repo-name
+  //-     |-url-info
+  //-   button.btn.gray
+  //-     .icons-status.green
+  //-     | branch-name
+  //-     svg.iconnables.icons-arrow-down
+  //-       use(
+  //-         xlink:href = "#icons-arrow-down"
+  //-       )
+  //- .sidebar-section-item
+  //-   .small.text-overflow
+  //-     strong.strong repo-name
+  //-     |-url-info
+  //-   button.btn.gray
+  //-     .icons-status.green
+  //-     | branch-name
+  //-     svg.iconnables.icons-arrow-down
+  //-       use(
+  //-         xlink:href = "#icons-arrow-down"
+  //-       )
 
 .sidebar-section-item(
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"

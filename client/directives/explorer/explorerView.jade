@@ -24,6 +24,12 @@
         xlink:href = "#icons-add"
       )
 
+.well.in(
+  ng-if = "!$storage.explorerIsClosed && !fileModel.running()"
+) There are no files because
+  strong.strong {{ instance.getRepoName() || instance.getDisplayName() }}
+  | isn’t running.
+
 ul.file-tree.sidebar-section-content(
   ng-if = "editExplorer || (!$storage.explorerIsClosed && fileModel.running())"
 )
