@@ -51,6 +51,7 @@ function ContainerFilesController(
             repo: repoContainerFile.repo.attrs.full_name,
             branch: repoContainerFile.branch.attrs.name,
             commit: repoContainerFile.commit.attrs.sha,
+            useLatest: repoContainerFile.useLatest,
             additionalRepo: true
           })
             .then(function (acv) {
@@ -73,14 +74,17 @@ function ContainerFilesController(
           return acv.attrs.repo === repoContainerFile.acv.attrs.repo;
         });
 
-        loadingPromises.add('editServerModal', promisify(acv, 'update')({
+        loadingPromises.add(
+          'editServerModal',
+          promisify(acv, 'update')({
             branch: repoContainerFile.branch.attrs.name,
-            commit: repoContainerFile.commit.attrs.sha
+            commit: repoContainerFile.commit.attrs.sha,
+            useLatest: repoContainerFile.useLatest
           })
-          .then(function (acv) {
-            myRepo.acv = acv;
-            return updateDockerfileFromState($scope.state);
-          })
+            .then(function (acv) {
+              myRepo.acv = acv;
+              return updateDockerfileFromState($scope.state);
+            })
         )
           .catch(errs.handler);
       }

@@ -8,36 +8,10 @@
     )
   | Repositories
 
-//- primary repository
 .server-sidebar-item(
   edit-repo-commit
   instance = "instance"
-  model = "instance.contextVersion.getMainAppCodeVersion()"
+  model = "acv"
+  ng-repeat = "acv in instance.contextVersion.appCodeVersions.models | orderBy : acv.attrs.additionalRepo"
   ng-if = "!$storage.repoListIsClosed"
 )
-
-//- additional repositories (mockup)
-.server-sidebar-item(
-  modal
-  modal-actions = "actions"
-  modal-data = "data"
-  modal-template = "repositoryDetailsModalOpen"
-  ng-if = "$root.featureFlags.additionalRepositories && !$storage.repoListIsClosed"
-)
-  .small.strong.text-overflow repo-name
-  .btn.gray
-    .repo-info.text-overflow.js-repository-branch branch-name
-      svg.iconnables.icons-branch
-        use(
-          xlink:href = "#icons-branch"
-        )
-    .repo-info.text-overflow.js-repository-commit commit message
-      svg.iconnables.icons-commit
-        use(
-          xlink:href = "#icons-commit"
-        )
-    .repo-info.small 10 minutes ago
-    svg.iconnables.icons-arrow-down
-      use(
-        xlink:href = "#icons-arrow-down"
-      )

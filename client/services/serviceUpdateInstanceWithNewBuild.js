@@ -74,7 +74,8 @@ function updateInstanceWithNewAcvData(
             });
             return promisify(mainAcv, 'update')({
               branch: repoObject.branch.attrs.name,
-              commit: repoObject.commit.sha
+              commit: repoObject.commit.sha,
+              useLatest: repoObject.useLatest
             }); // Update ACV
           })
           .then(function () {
