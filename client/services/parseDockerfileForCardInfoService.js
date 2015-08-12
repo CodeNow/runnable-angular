@@ -172,6 +172,7 @@ function parseDockerfileForCardInfoFromInstance(
             item.repo = matchingAcv.githubRepo;
             item.branch = fetchCommitData.activeBranch(matchingAcv);
             item.commit = fetchCommitData.activeCommit(matchingAcv);
+            item.instance = instance;
           }
           return item;
         });

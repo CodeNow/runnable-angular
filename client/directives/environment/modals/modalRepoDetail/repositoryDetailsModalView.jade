@@ -1,14 +1,21 @@
 .modal-dialog.modal-repository-details
   header.modal-header
-    h1.modal-heading.text-overflow repository-name
+    h1.modal-heading.text-overflow {{ RDMC.data.repo.attrs.name }}
+    svg.iconnables.icons-close(
+      ng-click = "RDMC.defaultActions.cancel()"
+    )
+      use(
+        xlink:href = "#icons-close"
+      )
   section.modal-body.repository-details-content(
-    ng-include = "'viewRepositoryDetailsContent'"
-    ng-init = "thing.autoUpdate = true"
+    branch-commit-selector
+    data = "RDMC.data"
+    hide-branch-selector = "!RDMC.data.acv.attrs.additionalRepo"
   )
   section.modal-footer
     button.btn.white.btn-cancel(
-      ng-click = "defaultActions.cancel()"
+      ng-click = "RDMC.defaultActions.cancel()"
     ) Cancel
     button.btn.green(
-      ng-click = "defaultActions.cancel()"
+      ng-click = "RDMC.updateInstance()"
     ) Save & Rebuild

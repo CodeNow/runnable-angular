@@ -2,9 +2,12 @@
   ng-include = "'viewFormStackSelector'"
 )
 
-.label.clearfix(
-  branch-selector
-  loading-promises-target = "editServerModal"
-  newContainer = "newContainer"
-  state = "state"
-)
+.label.clearfix
+  .label-col Initial Branch
+  .input-col(
+    branch-selector
+    loading-promises-target = "editServerModal"
+    state = "state"
+    auto-update = "true"
+  )
+  small.small.input-col We’ll build the first container with the code on this branch. We recommend choosing a stable branch.

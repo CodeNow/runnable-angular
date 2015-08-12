@@ -30,35 +30,30 @@ describe('branchSelectorDirective'.bold.underline.blue, function () {
           return updateError;
         }
         return cb();
-      }),
-      resetState: sinon.spy(),
-      setState: sinon.spy()
+      })
     };
     ctx.repo1 = {
       attrs: angular.copy(apiMocks.gh.repos[0]),
       fakeBranch: {
         attrs: {
           name: null
-        },
-        fetch: sinon.spy(function (cb) {
-          $rootScope.$evalAsync(function () {
-            cb(null, ctx.repo1.fakeBranch);
-          });
-          return ctx.repo1.fakeBranch;
-        })
+        }
       },
       newBranch: sinon.spy(function (opts) {
         ctx.repo1.fakeBranch.attrs.name = opts;
         return ctx.repo1.fakeBranch;
       }),
+      fetchBranches: function () {
+        ctx.repo1.branches.models = apiMocks.branches.bitcoinRepoBranches.map(function (branch) {
+          return {
+            attrs: branch
+          };
+        });
+      },
       branches: {
         add: sinon.spy(),
         fetch: sinon.spy(function (cb) {
-          ctx.repo1.branches.models = apiMocks.branches.bitcoinRepoBranches.map(function (branch) {
-            return {
-              attrs: branch
-            };
-          });
+          ctx.repo1.fetchBranches();
           $rootScope.$evalAsync(function () {
             if (cb) { cb(null, ctx.repo1.branches); }
           });
@@ -102,7 +97,8 @@ describe('branchSelectorDirective'.bold.underline.blue, function () {
 
     ctx.template = directiveTemplate.attribute('branch-selector', {
       'state': 'state',
-      'loading-promises-target': 'loadingPromisesTarget'
+      'loading-promises-target': 'loadingPromisesTarget',
+      'auto-update': 'autoUpdate'
     });
     ctx.element = $compile(ctx.template)($scope);
   }
@@ -128,7 +124,9 @@ describe('branchSelectorDirective'.bold.underline.blue, function () {
     it('for the first time', function () {
 
       var scope = {
-        state: {}
+        state: {
+        },
+        autoUpdate: true
       };
       setup(scope);
       $scope.$digest();
@@ -141,36 +139,88 @@ describe('branchSelectorDirective'.bold.underline.blue, function () {
       $scope.$digest();
       $rootScope.$apply();
 
-      sinon.assert.called(ctx.repo1.newBranch);
+      sinon.assert.calledWith(ctx.repo1.newBranch, ctx.acv.attrs.branch, {warn: false});
       expect($scope.state.branch, 'branch').to.be.ok;
       $scope.$digest();
-      sinon.assert.called(ctx.repo1.fakeBranch.fetch);
 
       sinon.assert.called(ctx.repo1.branches.fetch);
       $scope.$digest();
       expect($scope.state.branch.attrs.name, 'branch name').to.equal('master');
       $scope.$digest();
       sinon.assert.notCalled(ctx.acv.update);
-      sinon.assert.notCalled(ctx.acv.setState);
 
       // Now make a change
       var newBranch = ctx.repo1.branches.models[0];
-      $elScope.state.branch = newBranch;
+      $elScope.onBranchChange(newBranch);
       $scope.$digest();
       var newState = {
         branch: newBranch.attrs.name,
         commit: newBranch.attrs.commit.sha
       };
-      sinon.assert.calledWith(ctx.acv.setState, newState);
       sinon.assert.calledWith(ctx.acv.update, newState);
       $scope.$digest();
-      sinon.assert.calledOnce(ctx.acv.resetState);
       $rootScope.$destroy();
     });
     it('coming back to the page', function () {
       setup({
-        state: {}
+        state: {},
+        autoUpdate: true
       });
+      $scope.state.acv = ctx.acv;
+      $scope.state.repo = ctx.repo1;
+      $scope.state.branch = {
+        attrs: apiMocks.branches.bitcoinRepoBranches[0]
+      };
+
+      ctx.repo1.fetchBranches();
+      $scope.$digest();
+      $elScope = ctx.element.isolateScope();
+      $scope.$digest();
+
+      sinon.assert.notCalled(ctx.repo1.newBranch);
+      expect($scope.state.branch, 'branch').to.be.ok;
+      $scope.$digest();
+      sinon.assert.notCalled(ctx.repo1.branches.fetch);
+      $scope.$digest();
+
+      sinon.assert.notCalled(ctx.acv.update);
+
+      // Now make a change
+      var newBranch = ctx.repo1.branches.models[1];
+      $elScope.onBranchChange(newBranch);
+      $scope.$digest();
+      var newState = {
+        branch: newBranch.attrs.name,
+        commit: newBranch.attrs.commit.sha
+      };
+      sinon.assert.calledWithMatch($scope.state.acv.update, newState);
+      $scope.$digest();
+      $rootScope.$destroy();
+    });
+    it('should set the state branch with the default branch of the repo ', function () {
+      var scope = {
+        state: {},
+        autoUpdate: true
+      };
+      setup(scope);
+      $scope.state.repo = ctx.repo1;
+      $scope.$digest();
+      $elScope = ctx.element.isolateScope();
+      $scope.$digest();
+
+      sinon.assert.called(ctx.repo1.newBranch, ctx.repo1.attrs.default_branch, {warn: false});
+      expect($scope.state.branch, 'branch').to.be.ok;
+      $scope.$digest();
+      $rootScope.$destroy();
+    });
+
+    it('with a loadingPromise target', function () {
+      setup({
+        state: {},
+        loadingPromisesTarget: 'helloEverybody',
+        autoUpdate: true
+      });
+      var loadingStub = sinon.spy(loadingPromises, 'add');
       $scope.state.acv = ctx.acv;
       $scope.state.repo = ctx.repo1;
       $scope.state.branch = {
@@ -183,67 +233,31 @@ describe('branchSelectorDirective'.bold.underline.blue, function () {
       $elScope = ctx.element.isolateScope();
       $scope.$digest();
 
-      sinon.assert.notCalled(ctx.repo1.newBranch);
-      expect($scope.state.branch, 'branch').to.be.ok;
-      $scope.$digest();
       sinon.assert.notCalled(ctx.repo1.branches.fetch);
-      sinon.assert.notCalled(ctx.repo1.fakeBranch.fetch);
       $scope.$digest();
-
       sinon.assert.notCalled(ctx.acv.update);
-      sinon.assert.notCalled(ctx.acv.setState);
 
       // Now make a change
       var newBranch = ctx.repo1.branches.models[1];
-      $elScope.state.branch = newBranch;
+      $elScope.onBranchChange(newBranch);
       $scope.$digest();
+
+      loadingPromises.finished();
+      $scope.$digest();
+      $scope.$digest();
+
       var newState = {
         branch: newBranch.attrs.name,
         commit: newBranch.attrs.commit.sha
       };
-      sinon.assert.calledWithMatch($scope.state.acv.setState, newState);
       sinon.assert.calledWithMatch($scope.state.acv.update, newState);
+      sinon.assert.called(loadingStub);
+
       $scope.$digest();
-      sinon.assert.calledOnce($scope.state.acv.resetState);
       $rootScope.$destroy();
     });
-    it('should fetch the branches, but not fetch the main branch ', function () {
 
-      var scope = {
-        state: {
-          branch: {
-            attrs: {
-              name: 'master'
-            }
-          }
-        }
-      };
-      setup(scope);
-      $scope.$digest();
-      $elScope = ctx.element.isolateScope();
-      $scope.$digest();
-
-      $scope.state.repo = ctx.repo1;
-      $scope.$digest();
-      $scope.state.acv = ctx.acv;
-      $scope.$digest();
-      $rootScope.$apply();
-
-
-      sinon.assert.notCalled(ctx.repo1.newBranch);
-      expect($scope.state.branch, 'branch').to.be.ok;
-      $scope.$digest();
-      sinon.assert.notCalled(ctx.repo1.fakeBranch.fetch);
-      $scope.$digest();
-      $scope.$digest();
-
-      sinon.assert.called(ctx.repo1.branches.fetch);
-      $scope.$digest();
-      expect($scope.state.branch.attrs.name, 'branch name').to.equal('master');
-      $scope.$digest();
-    });
-
-    it('with a loadingPromise target', function () {
+    it('shouldnt autoupdate when preferred', function () {
       setup({
         state: {},
         loadingPromisesTarget: 'helloEverybody'
@@ -264,26 +278,16 @@ describe('branchSelectorDirective'.bold.underline.blue, function () {
       sinon.assert.notCalled(ctx.repo1.branches.fetch);
       $scope.$digest();
       sinon.assert.notCalled(ctx.acv.update);
-      sinon.assert.notCalled(ctx.acv.setState);
 
       // Now make a change
       var newBranch = ctx.repo1.branches.models[1];
-      $elScope.state.branch = newBranch;
+      $elScope.onBranchChange(newBranch);
       $scope.$digest();
 
-      loadingPromises.finished();
-      $scope.$digest();
-      $scope.$digest();
-
-      var newState = {
-        branch: newBranch.attrs.name,
-        commit: newBranch.attrs.commit.sha
-      };
-      sinon.assert.calledWithMatch($scope.state.acv.update, newState);
-      sinon.assert.called(loadingStub);
+      sinon.assert.notCalled(ctx.acv.update);
+      sinon.assert.notCalled(loadingStub);
 
       $scope.$digest();
-      sinon.assert.calledOnce($scope.state.acv.resetState);
       $rootScope.$destroy();
     });
   });
@@ -292,7 +296,8 @@ describe('branchSelectorDirective'.bold.underline.blue, function () {
     it('failing on update', function () {
       var error = new Error('sadasdasd');
       setup({
-        state: {}
+        state: {},
+        autoUpdate: true
       }, error);
       $scope.state.acv = ctx.acv;
       $scope.state.repo = ctx.repo1;
@@ -306,18 +311,16 @@ describe('branchSelectorDirective'.bold.underline.blue, function () {
       $scope.$digest();
       // Now make a change
       var newBranch = ctx.repo1.branches.models[1];
-      $elScope.state.branch = newBranch;
+      $elScope.onBranchChange(newBranch);
       $scope.$digest();
       $scope.$digest();
       var newState = {
         branch: newBranch.attrs.name,
         commit: newBranch.attrs.commit.sha
       };
-      sinon.assert.calledWithMatch($scope.state.acv.setState, newState);
       sinon.assert.calledWithMatch($scope.state.acv.update, newState);
       sinon.assert.calledWith(ctx.errsMock.handler, error);
       $scope.$digest();
-      sinon.assert.calledOnce($scope.state.acv.resetState);
     });
   });
 });

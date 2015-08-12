@@ -11,13 +11,13 @@ function repositoryDetailsModal(
   return {
     restrict: 'A',
     templateUrl: 'repositoryDetailsModalView',
+    controller: 'RepositoryDetailsModalController',
+    controllerAs: 'RDMC',
+    bindToController: true,
     scope: {
-      data: '=',
-      actions: '=',
-      defaultActions: '='
-    },
-    link: function ($scope, element, attrs) {
-      // Add thing
+      appCodeVersion: '=currentModel',
+      defaultActions: '=',
+      instance: '=data'
     }
   };
 }
