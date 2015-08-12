@@ -26,16 +26,18 @@
         xlink:href = "#icons-add"
       )
 
-.sidebar-section-content
+.sidebar-section-content.js-animate(
+  ng-if = "!$storage.explorerIsClosed"
+)
 
   .well.in(
-    ng-if = "!$storage.explorerIsClosed && !fileModel.running()"
+    ng-if = "!fileModel.running()"
   ) There are no files because&#32;
     strong.strong {{ instance.getBranchName() || instance.getDisplayName() }}&#32;
     | isn’t running.
 
   ul.file-tree(
-    ng-if = "editExplorer || (!$storage.explorerIsClosed && fileModel.running())"
+    ng-if = "editExplorer || fileModel.running()"
   )
     //- this is the root dir; there can be only one.
     li(

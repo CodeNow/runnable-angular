@@ -14,99 +14,45 @@
     ng-include = "'spinner'"
   )
 
-.sidebar-section-content
-  
+.sidebar-section-content.js-animate(
+  ng-if = "!$storage.dnsManagementIsClosed"
+)
+
   .well.in(
-    ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0"
+    ng-if = "isDnsSetup && directlyRelatedMasterInstances.length === 0"
   )
     strong.strong {{ instance.getRepoName() || instance.getDisplayName() }}
     | &#32;has no DNS mappings.
 
-  //- .sidebar-section-item
-  //-   .small.text-overflow
-  //-     strong.strong repo-name
-  //-     |-url-info
-  //-   button.btn.gray
-  //-     .icons-status.green
-  //-     | branch-name
-  //-     svg.iconnables.icons-arrow-down
-  //-       use(
-  //-         xlink:href = "#icons-arrow-down"
-  //-       )
-  //- .sidebar-section-item
-  //-   .small.text-overflow
-  //-     strong.strong repo-name
-  //-     |-url-info
-  //-   button.btn.gray
-  //-     .icons-status.green
-  //-     | branch-name
-  //-     svg.iconnables.icons-arrow-down
-  //-       use(
-  //-         xlink:href = "#icons-arrow-down"
-  //-       )
-  //- .sidebar-section-item
-  //-   .small.text-overflow
-  //-     strong.strong repo-name
-  //-     |-url-info
-  //-   button.btn.gray
-  //-     .icons-status.green
-  //-     | branch-name
-  //-     svg.iconnables.icons-arrow-down
-  //-       use(
-  //-         xlink:href = "#icons-arrow-down"
-  //-       )
-  //- .sidebar-section-item
-  //-   .small.text-overflow
-  //-     strong.strong repo-name
-  //-     |-url-info
-  //-   button.btn.gray
-  //-     .icons-status.green
-  //-     | branch-name
-  //-     svg.iconnables.icons-arrow-down
-  //-       use(
-  //-         xlink:href = "#icons-arrow-down"
-  //-       )
-  //- .sidebar-section-item
-  //-   .small.text-overflow
-  //-     strong.strong repo-name
-  //-     |-url-info
-  //-   button.btn.gray
-  //-     .icons-status.green
-  //-     | branch-name
-  //-     svg.iconnables.icons-arrow-down
-  //-       use(
-  //-         xlink:href = "#icons-arrow-down"
-  //-       )
-
-.sidebar-section-item(
-  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
-  ng-repeat = "masterInstance in directlyRelatedMasterInstances track by masterInstance.attrs.shortHash"
-)
-  .small.text-overflow(
-    title = "Elastic hostname: {{ masterInstance.getRepoName() }}-staging-{{ masterInstance.attrs.owner.username }}.runnableapp.com"
+  .sidebar-section-item(
+    ng-if = "isDnsSetup"
+    ng-repeat = "masterInstance in directlyRelatedMasterInstances track by masterInstance.attrs.shortHash"
   )
-    strong.strong {{ masterInstance.getRepoName() }}
-    | -staging-{{ masterInstance.attrs.owner.username }}.runnableapp.com
-
-  fancy-select.gray.in(
-    on-update = "actions.setDependency"
-    track-by = "attrs.shortHash"
-    title = "{{ masterInstance.getBranchName() }}"
-    value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
-  )
-    fancy-option(
-      value = "$parent.masterInstance"
+    .small.text-overflow(
+      title = "Elastic hostname: {{ masterInstance.getRepoName() }}-staging-{{ masterInstance.attrs.owner.username }}.runnableapp.com"
     )
-      status-icon(
-        instance = "$parent.$parent.masterInstance"
-      )
-      | {{ $parent.$parent.masterInstance.getBranchName() }}
+      strong.strong {{ masterInstance.getRepoName() }}
+      | -staging-{{ masterInstance.attrs.owner.username }}.runnableapp.com
 
-    fancy-option(
-      ng-repeat = "childInstance in $parent.masterInstance.children.models"
-      value = "childInstance"
+    fancy-select.gray.in(
+      on-update = "actions.setDependency"
+      track-by = "attrs.shortHash"
+      title = "{{ masterInstance.getBranchName() }}"
+      value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
     )
-      status-icon(
-        instance = "$parent.childInstance"
+      fancy-option(
+        value = "$parent.masterInstance"
       )
-      | {{ $parent.childInstance.getBranchName() }}
+        status-icon(
+          instance = "$parent.$parent.masterInstance"
+        )
+        | {{ $parent.$parent.masterInstance.getBranchName() }}
+
+      fancy-option(
+        ng-repeat = "childInstance in $parent.masterInstance.children.models"
+        value = "childInstance"
+      )
+        status-icon(
+          instance = "$parent.childInstance"
+        )
+        | {{ $parent.childInstance.getBranchName() }}

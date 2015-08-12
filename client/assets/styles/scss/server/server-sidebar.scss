@@ -50,14 +50,16 @@
 
 .sidebar-section {
   border-bottom: 1px solid $gray-lighter;
-  flex: 1 0 54px;
-  overflow-x: hidden;
   display: flex;
   flex-direction: column;
+  flex: 1 0 54px;
+  max-height: 100%;
+  overflow-x: hidden;
+  transition: max-height .15s ease-in-out;
 
   &.closed {
+    max-height: 54px;
     overflow-y: hidden;
-    flex-grow: 0;
   }
 }
 
@@ -126,6 +128,11 @@
   flex: 1 1 auto;
   overflow-y: auto;
   padding: 0 12px;
+
+  // fake transition so it doesn't disappear before .sidebar-section’s transition completes
+  &.ng-leave {
+    transition: all .15s ease-in;
+  }
 }
 
 .sidebar-section-item {

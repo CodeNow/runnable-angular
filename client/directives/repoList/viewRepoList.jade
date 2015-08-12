@@ -8,14 +8,15 @@
     )
   | Repositories
   
-.sidebar-section-content
+.sidebar-section-content.js-animate(
+  ng-if = "!$storage.repoListIsClosed"
+)
 
   //- primary repository
   .sidebar-section-item(
     edit-repo-commit
     instance = "instance"
     model = "instance.contextVersion.getMainAppCodeVersion()"
-    ng-if = "!$storage.repoListIsClosed"
   )
 
   //- additional repositories (mockup)
@@ -24,7 +25,7 @@
     modal-actions = "actions"
     modal-data = "data"
     modal-template = "repositoryDetailsModalOpen"
-    ng-if = "$root.featureFlags.additionalRepositories && !$storage.repoListIsClosed"
+    ng-if = "$root.featureFlags.additionalRepositories"
   )
     .small.strong.text-overflow repo-name
     .btn.gray
