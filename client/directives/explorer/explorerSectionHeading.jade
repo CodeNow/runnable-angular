@@ -8,10 +8,10 @@ button.btn.btn-xs.btn-icon.float-right(
   ng-if = "!$storage.explorerIsClosed && fileModel.running()"
   pop-over
   pop-over-actions = "FPC.actions"
+  pop-over-active = "filePopover.data.show"
   pop-over-data = "filePopover.data"
   pop-over-options = "{\"left\":-69,\"top\":50}"
   pop-over-template = "viewFileTreePopoverFileExplorerMenu"
-  pop-over-active = "filePopover.data.show"
 )
   svg.iconnables.icons-add
     use(

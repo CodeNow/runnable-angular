@@ -36,8 +36,8 @@
 
     fancy-select.gray.in(
       on-update = "actions.setDependency"
-      track-by = "attrs.shortHash"
       title = "{{ masterInstance.getBranchName() }}"
+      track-by = "attrs.shortHash"
       value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
     )
       fancy-option(
