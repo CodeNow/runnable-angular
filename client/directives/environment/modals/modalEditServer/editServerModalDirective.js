@@ -37,8 +37,7 @@ function editServerModal(
   OpenItems,
   parseDockerfileForCardInfoFromInstance,
   promisify,
-  updateDockerfileFromState,
-  watchOncePromise
+  updateDockerfileFromState
 ) {
   return {
     restrict: 'A',
