@@ -38,24 +38,6 @@
   }
 }
 
-// .list-validation
-.list-validation {
-  border-color: rgba($orange-dark,.75);
-  margin: 0 6px;
-
-  .list-item {
-    border: 0;
-    font-size: 14px;
-    letter-spacing: -.5px;
-    padding: 3px 6px;
-    white-space: nowrap;
-
-    + .list-item {
-      border-top: 1px solid rgba($orange-dark,.75);
-    }
-  }
-}
-
 // li.list-details
 .list-details {
   margin: 0 6px;
@@ -293,5 +275,34 @@
   .btn-check {
     right: 0;
     top: 6px;
+  }
+}
+
+// bulleted lists
+.list-bulleted .list-item {
+  padding-left: 15px;
+  position: relative;
+
+  &::after {
+    background: $gray-lighter;
+    border-radius: 50%;
+    content: '';
+    display: block;
+    height: 5px;
+    left: 3px;
+    position: absolute;
+    top: 7px;
+    width: 5px;
+  }
+
+  &.error::after {
+    background: $orange;
+  }
+
+  .iconnables {
+    height: 12px;
+    margin: 0 3px 0 5px;
+    top: 2px;
+    width: 12px;
   }
 }

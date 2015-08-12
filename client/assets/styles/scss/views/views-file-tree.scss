@@ -195,10 +195,11 @@
   height: 18px;
   line-height: 18px;
   margin: 3px 5px;
+  min-width: 18px;
+  padding: 0 4px;
   pointer-events: none;
   text-align: center;
   text-indent: 0;
-  width: 18px;
 
   + .btn-file-action {
     right: 24px;

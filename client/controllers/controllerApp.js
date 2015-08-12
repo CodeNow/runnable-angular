@@ -87,9 +87,12 @@ function ControllerApp(
     hostnameTool: false,
     imAfraidOfTheDark: false, // toggles theme
     internalDebugging: false,
+    nameContainer: false,
     multilineFnR: false,
     navListFilter: false,
+    newVerificationFlow: false,
     packagesField: true,
+    renameContainer: false,
     saveToolbar: false,
     sshKeys: true,
     themeToggle: false, // toggles the button that toggles theme

@@ -13,14 +13,15 @@ form.modal-dialog.modal-edit(
       pop-over-options = "{\"right\":-7,\"top\":36}"
       pop-over-template = "serverOptionsModalPopover"
     )
-    server-status-card-header(
+    div(
       ng-attr-no-touching = "{{ !state.repo || $root.featureFlags.dockerfileTool }}"
       ng-if = "$root.featureFlags.cardStatus"
+      ng-include = "'serverStatusCardHeaderViewCardStatus'"
       pop-over-options = "{\"centered\":true,\"top\":36}"
       pop-over-template = "serverOptionsModalPopover"
     )
 
-    .row.modal-tabs.clearfix
+    .row.modal-tabs.tabs-all.clearfix
       button.btn.btn-radio(
         ng-class = "{'active': selectedTab === 'repository'}"
         ng-click = "changeTab('repository')"
@@ -120,19 +121,19 @@ form.modal-dialog.modal-edit(
     .modal-form(
       data = "data"
       loading-promises-target = "editServerModal"
-      ng-show = "selectedTab === 'repository'"
       ng-if = "!state.advanced"
+      ng-show = "selectedTab === 'repository'"
       stack-selector-form
       state = "state"
     )
     .modal-form(
-      ng-show = "selectedTab === 'ports'"
       ng-if = "!state.advanced"
       ng-include = "'viewFormPorts'"
+      ng-show = "selectedTab === 'ports'"
     )
     .modal-form(
-      ng-show = "selectedTab === 'env'"
       ng-include = "'viewFormEnvironmentVariables'"
+      ng-show = "selectedTab === 'env'"
     )
     .modal-form(
       loading-promises-target = "editServerModal"
@@ -142,14 +143,14 @@ form.modal-dialog.modal-edit(
       state = "state"
     )
     .modal-form(
-      ng-show = "selectedTab === 'files'"
-      ng-if = "!state.advanced"
       ng-controller = "ContainerFilesController as CFC"
+      ng-if = "!state.advanced"
       ng-include = "'viewFormFiles'"
+      ng-show = "selectedTab === 'files'"
     )
     .modal-form(
-      ng-show = "selectedTab === 'translation'"
       ng-if = "state.repo"
+      ng-show = "selectedTab === 'translation'"
       translation-rules
     )
     .modal-form.modal-logs(
@@ -157,8 +158,8 @@ form.modal-dialog.modal-edit(
         'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
         'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
       }"
-      ng-show = "selectedTab === 'logs'"
       ng-include = "'viewFormLogs'"
+      ng-show = "selectedTab === 'logs'"
     )
 
   section.modal-body(
@@ -181,9 +182,10 @@ form.modal-dialog.modal-edit(
         ng-if = "building"
         ng-include = "'spinner'"
       )
+      //- if built…text should only say "Save"
       span.btn-text(
         ng-if = "!building"
-      ) {{ (validation.env.length) ? (validation.env.length) + ' env errors' : 'Save Changes'}}
+      ) {{ (validation.env.length) ? (validation.env.length) + ' env errors' : 'Save & Rebuild'}}
       span.btn-text(
         ng-if = "building"
       ) Saving

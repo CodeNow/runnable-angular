@@ -339,6 +339,7 @@
 
     &[disabled],
     &.disabled {
+      background: #6dd883; // rgba($green,.75);
       border-color: transparent;
 
       &:hover,
@@ -379,12 +380,13 @@
 
     &[disabled],
     &.disabled {
+      background: #fcdaa4; // rgba($orange,.75)
       border-color: transparent;
 
       &:hover,
       &:active,
       &.active {
-        background: rgba($orange,.75);
+        background: #fcdaa4; // rgba($orange,.75)
         border-color: transparent;
       }
     }

@@ -1,29 +1,29 @@
-div(
+.container-title-wrapper(
   ng-class = "{ 'no-touching': noTouching }"
   pop-over
   pop-over-actions = "actions"
   pop-over-data = "popOverServerData"
 )
-  .container-title-wrapper
-    //- This element should display while the container is building, but not while the card is loading.
-    //- i.e. if the card has a spinner in the middle instead of buttons, this spinner should not show.
-    //- .spinner-wrapper.spinner-sm.spinner-gray.in(
-    //-   ng-include = "'spinner'"
-    //-   ng-if = "$root.featureFlags.cardStatus"
-    //- )
-    //- This element should replace the spinner if the container has failed to build or run or 5 seconds
-    svg.iconnables.icons-warning(
-      ng-if = "!noTouching"
+  //- This element should display while the container is building, but not while the card is loading.
+  //- i.e. if the card has a spinner in the middle instead of buttons, this spinner should not show.
+  .spinner-wrapper.spinner-sm.spinner-gray.in(
+    ng-include = "'spinner'"
+    ng-if = "$root.featureFlags.cardStatus && cardStatus.loading"
+  )
+
+  //- This element should replace the spinner if the container has failed to build or run or 5 seconds
+  svg.iconnables.icons-warning(
+    ng-if = "!noTouching"
+  )
+    use(
+      xlink:href = "#icons-warning"
     )
-      use(
-        xlink:href = "#icons-warning"
-      )
-    span.container-title.text-overflow(
-      ng-if = "$root.featureFlags.cardStatus"
-    ) {{ (instance.getRepoName() || instance.attrs.name) }}
-    svg.iconnables.icons-arrow-down(
-        ng-if = "!noTouching"
-      )
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
+  span.text-overflow.container-title(
+    ng-if = "$root.featureFlags.cardStatus"
+  ) {{(instance.getRepoName() || instance.attrs.name)}}
+  svg.iconnables.icons-arrow-down(
+    ng-if = "!noTouching"
+  )
+    use(
+      xlink:href = "#icons-arrow-down"
+    )
