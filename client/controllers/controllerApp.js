@@ -75,7 +75,6 @@ function ControllerApp(
 
   var defaultFeatureFlags = {
     additionalRepositories: false,
-    advancedRepositories: true,
     buildCommandCache: true,
     cardStatus: false,
     debugMode: false,
