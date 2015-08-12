@@ -316,7 +316,7 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
 
       sinon.assert.calledWith(parseDockerfileForDefaultsStub, dockerfile, ['run', 'dst']);
       $scope.$digest();
-      expect($elScope.state.containerFiles[0].commands[0].body, 'main repo commands').to.equal('RUN 1234');
+      expect($elScope.state.containerFiles[0].commands[0].body, 'main repo commands').to.equal('1234');
       expect($elScope.state.containerFiles[0].path, 'main repo path').to.equal('dfasgdfsgdsfgs/fgdsfgsdfg');
 
     });
