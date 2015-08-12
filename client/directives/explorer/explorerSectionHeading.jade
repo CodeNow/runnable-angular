@@ -3,9 +3,9 @@ svg.iconnables.icons-disclose
     xlink:href = "#icons-disclose"
   )
 | {{ explorerTitle }}
-button.btn.btn-xs.btn-icon.float-right(
+button.btn.btn-xs.btn-icon.float-right.js-animate(
   ng-class = "{active: filePopover.data.show}"
-  ng-if = "!$storage.explorerIsClosed && fileModel.running()"
+  ng-show = "!$storage.explorerIsClosed && fileModel.running()"
   pop-over
   pop-over-actions = "FPC.actions"
   pop-over-active = "filePopover.data.show"
