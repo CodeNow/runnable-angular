@@ -1,5 +1,5 @@
-.sidebar-heading.strong(
-  ng-class = "{ closed: $storage.dnsManagementIsClosed }"
+.sidebar-section-heading.strong(
+  ng-class = "{'closed': $storage.dnsManagementIsClosed}"
   ng-click = "$storage.dnsManagementIsClosed = !$storage.dnsManagementIsClosed"
 )
   svg.iconnables.icons-disclose
@@ -14,41 +14,45 @@
     ng-include = "'spinner'"
   )
 
-.well.in(
-  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0"
+.sidebar-section-content.js-animate(
+  ng-if = "!$storage.dnsManagementIsClosed"
 )
-  span.strong {{ instance.getRepoName() || instance.getDisplayName() }}
-  |  has no DNS mappings.
 
-.server-sidebar-item(
-  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
-  ng-repeat = "masterInstance in directlyRelatedMasterInstances track by masterInstance.attrs.shortHash"
-)
-  .small.text-overflow(
-    title = "Elastic hostname: {{ masterInstance.getRepoName() }}-staging-{{ masterInstance.attrs.owner.username }}.runnableapp.com"
+  .well.in(
+    ng-if = "isDnsSetup && directlyRelatedMasterInstances.length === 0"
   )
-    strong.strong {{ masterInstance.getRepoName() }}
-    | -staging-{{ masterInstance.attrs.owner.username }}.runnableapp.com
+    strong.strong {{ instance.getRepoName() || instance.getDisplayName() }}
+    | &#32;has no DNS mappings.
 
-  fancy-select.gray.in(
-    on-update = "actions.setDependency"
-    track-by = "attrs.shortHash"
-    title = "{{ masterInstance.getBranchName() }}"
-    value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
+  .sidebar-section-item(
+    ng-if = "isDnsSetup"
+    ng-repeat = "masterInstance in directlyRelatedMasterInstances track by masterInstance.attrs.shortHash"
   )
-    fancy-option(
-      value = "$parent.masterInstance"
+    .small.text-overflow(
+      title = "Elastic hostname: {{masterInstance.getRepoName()}}-staging-{{masterInstance.attrs.owner.username}}.runnableapp.com"
     )
-      status-icon(
-        instance = "$parent.$parent.masterInstance"
-      )
-      | {{ $parent.$parent.masterInstance.getBranchName() }}
+      strong.strong {{ masterInstance.getRepoName() }}
+      | -staging-{{ masterInstance.attrs.owner.username }}.runnableapp.com
 
-    fancy-option(
-      ng-repeat = "childInstance in $parent.masterInstance.children.models"
-      value = "childInstance"
+    fancy-select.gray.in(
+      on-update = "actions.setDependency"
+      title = "{{masterInstance.getBranchName()}}"
+      track-by = "attrs.shortHash"
+      value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
     )
-      status-icon(
-        instance = "$parent.childInstance"
+      fancy-option(
+        value = "$parent.masterInstance"
       )
-      | {{ $parent.childInstance.getBranchName() }}
+        status-icon(
+          instance = "$parent.$parent.masterInstance"
+        )
+        | {{ $parent.$parent.masterInstance.getBranchName() }}
+
+      fancy-option(
+        ng-repeat = "childInstance in $parent.masterInstance.children.models"
+        value = "childInstance"
+      )
+        status-icon(
+          instance = "$parent.childInstance"
+        )
+        | {{ $parent.childInstance.getBranchName() }}

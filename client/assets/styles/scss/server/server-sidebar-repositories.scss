@@ -1,14 +1,11 @@
 .repository-section {
-  max-height: 50%;
-  overflow-x: hidden;
-  overflow-y: auto;
 
   .icons-arrow-down {
     transform: rotate3d(0,0,1,-90deg);
   }
 }
 
-.repo-info {
+.repository-info {
   padding-left: 21px;
   position: relative;
 

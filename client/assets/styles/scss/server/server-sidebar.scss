@@ -15,7 +15,7 @@
     margin-top: 22px;
   }
 
-  // override default button and fancy-select styles
+  // override button and fancy-select styles
   .btn.gray {
     background-color: $gray-lighterest;
     color: $gray;
@@ -41,7 +41,6 @@
       width: 24px;
     }
 
-    // override fancy-select float so text-overflow works
     .display {
       float: none;
     }
@@ -50,50 +49,63 @@
 
 .sidebar-section {
   border-bottom: 1px solid $gray-lighter;
-  flex: 0 0 auto;
-  overflow-x: hidden;
-  overflow-y: auto;
-  padding: 0 12px;
+  display: flex;
+  flex: 1 1 54px;
+  flex-direction: column;
+  max-height: 100%;
+  min-height: 54px;
+  transition: max-height .15s ease-in-out;
 
-  &.closed,
-  .explorer-menu-bar-container {
-    flex: 0 0 60px;
+  &.closed {
+    max-height: 54px;
     overflow-y: hidden;
-  }
-
-  // file explorer section
-  &.explorer-section {
-    display: flex;
-    flex: 1 1 auto;
-    flex-direction: column;
-
-    .file-tree {
-      flex: 1 1 auto;
-      margin: 0 -12px;
-      overflow-y: auto;
-      padding: 0 18px;
-    }
   }
 }
 
-.sidebar-heading {
+// file explorer section
+.explorer-section {
+  border-bottom-width: 0;
+
+  &.closed {
+    border-bottom-width: 1px;
+  }
+
+  .file-tree {
+    margin: 0;
+  }
+}
+
+.sidebar-section-heading {
+  color: $gray-darker;
   cursor: pointer;
-  line-height: 60px;
+  flex: 0 0 54px;
+  line-height: 54px;
+  padding: 0 12px;
   position: relative;
+
+  &:hover {
+    color: $gray-dark;
+  }
+
+  &:active {
+    color: $gray;
+  }
 
   &.closed {
     color: $gray;
 
     &:hover {
+      color: $gray-dark;
+    }
+
+    &:active {
       color: $gray-darker;
     }
   }
 
   .icons-disclose {
-    float: left;
     left: -3px;
-    top: 18px;
-    transition: none;
+    top: 7px;
     width: 15px;
 
     .closed & {
@@ -103,7 +115,12 @@
 
   // for add buttons next to section headings, like in File Explorer
   .btn {
-    height: 60px;
+    height: 54px;
+    transition: opacity .15s ease-in-out;
+
+    &.ng-hide {
+      opacity: 0;
+    }
 
     .iconnables {
       width: 24px;
@@ -111,7 +128,19 @@
   }
 }
 
-.server-sidebar-item {
+.sidebar-section-content {
+  flex: 1 1 auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 0 12px;
+
+  // fake transition so it doesn't disappear before .sidebar-section’s transition completes
+  &.ng-leave {
+    transition: all .15s ease-in;
+  }
+}
+
+.sidebar-section-item {
   margin-bottom: 3px;
   position: relative;
   top: -6px;

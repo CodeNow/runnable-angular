@@ -1,7 +1,9 @@
 //- on container sidebar
-.explorer-menu-bar-container(
-  ng-if = "!editExplorer && fileModel.running()"
-  ng-include = "'explorerMenuBar'"
+.sidebar-section-heading.strong(
+  ng-class = "{'closed': $storage.explorerIsClosed}"
+  ng-click = "$storage.explorerIsClosed = !$storage.explorerIsClosed"
+  ng-if = "!editExplorer"
+  ng-include = "'explorerSectionHeading'"
 )
 
 //- on configure modal
@@ -10,7 +12,7 @@
   ng-controller = "FilePopoverController as FPC"
 )
   button.btn.btn-xs.gray(
-    ng-class = "{active: filePopover.data.show}"
+    ng-class = "{'active': filePopover.data.show}"
     ng-disabled = "readOnly"
     pop-over
     pop-over-actions = "FPC.actions"
@@ -24,20 +26,30 @@
         xlink:href = "#icons-add"
       )
 
-ul.file-tree(
-  ng-if = "editExplorer || (!$storage.explorerIsClosed && fileModel.running())"
+.sidebar-section-content.js-animate(
+  ng-if = "!$storage.explorerIsClosed"
 )
-  //- this is the root dir; there can be only one.
-  li(
-    dir = "rootDir"
-    edit-explorer = "editExplorer"
-    file-tree-dir
-    file-model = "fileModel"
-    is-root-dir = "true"
-    open-items = "openItems"
-    parent-dir = "rootDir"
-    read-only = "readOnly"
-    show-repo-folder = "showRepoFolder"
-    state = "state"
-    loading-promises-target = "loadingPromisesTarget"
+
+  .well.in(
+    ng-if = "!fileModel.running()"
+  ) There are no files because&#32;
+    strong.strong {{instance.getBranchName() || instance.getDisplayName()}}&#32;
+    | isn’t running.
+
+  ul.file-tree(
+    ng-if = "editExplorer || fileModel.running()"
   )
+    //- this is the root dir; there can be only one.
+    li(
+      dir = "rootDir"
+      edit-explorer = "editExplorer"
+      file-model = "fileModel"
+      file-tree-dir
+      is-root-dir = "true"
+      loading-promises-target = "loadingPromisesTarget"
+      open-items = "openItems"
+      parent-dir = "rootDir"
+      read-only = "readOnly"
+      show-repo-folder = "showRepoFolder"
+      state = "state"
+    )

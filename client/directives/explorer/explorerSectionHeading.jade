@@ -1,0 +1,19 @@
+svg.iconnables.icons-disclose
+  use(
+    xlink:href = "#icons-disclose"
+  )
+| {{ explorerTitle }}
+button.btn.btn-xs.btn-icon.float-right.js-animate(
+  ng-class = "{'active': filePopover.data.show}"
+  ng-show = "!$storage.explorerIsClosed && fileModel.running()"
+  pop-over
+  pop-over-actions = "FPC.actions"
+  pop-over-active = "filePopover.data.show"
+  pop-over-data = "filePopover.data"
+  pop-over-options = "{\"left\":-69,\"top\":50}"
+  pop-over-template = "viewFileTreePopoverFileExplorerMenu"
+)
+  svg.iconnables.icons-add
+    use(
+      xlink:href = "#icons-add"
+    )
