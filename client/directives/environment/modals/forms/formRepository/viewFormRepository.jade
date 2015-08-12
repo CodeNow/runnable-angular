@@ -79,7 +79,7 @@ label.label.clearfix(
     small.small Add any commands needed to support your application. They’ll be run before the Container CMD from your repository’s root folder.
 
 label.label.clearfix(
-  ng-if = "$root.featureFlags.packagesField && !$root.featureFlags.newVerificationFlow"
+  ng-if = "!$root.featureFlags.newVerificationFlow"
 )
   .label-col Packages
     small.small (optional)
