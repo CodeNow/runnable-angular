@@ -1,5 +1,5 @@
-.sidebar-heading.strong(
-  ng-class = "{closed: $storage.repoListIsClosed}"
+.sidebar-section-heading.strong(
+  ng-class = "{'closed': $storage.repoListIsClosed}"
   ng-click = "$storage.repoListIsClosed = !$storage.repoListIsClosed"
 )
   svg.iconnables.icons-disclose
@@ -8,10 +8,13 @@
     )
   | Repositories
 
-.server-sidebar-item(
-  edit-repo-commit
-  instance = "instance"
-  model = "acv"
-  ng-repeat = "acv in instance.contextVersion.appCodeVersions.models | orderBy : acv.attrs.additionalRepo"
+.sidebar-section-content.js-animate(
   ng-if = "!$storage.repoListIsClosed"
 )
+  .sidebar-section-item(
+    edit-repo-commit
+    instance = "instance"
+    model = "acv"
+    ng-repeat = "acv in instance.contextVersion.appCodeVersions.models | orderBy : attrs.additionalRepo"
+    ng-if = "!$storage.repoListIsClosed"
+  )
