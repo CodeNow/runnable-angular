@@ -89,7 +89,6 @@ function ControllerApp(
     newVerificationFlow: false,
     renameContainer: false,
     saveToolbar: false,
-    sshKeys: true,
     themeToggle: false, // toggles the button that toggles theme
     updatedBuildLogs: false
   };
