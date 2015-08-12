@@ -43,6 +43,9 @@ function repositorySelector(
         $scope.repoSelector.data = $scope.data.repo;
         $scope.fetchingBranches = true;
         fetchRepoBranches($scope.data.repo.repo)
+          .then(function () {
+            return promisify($scope.data.repo.branch.commits, 'fetch')();
+          })
           .catch(errs.handler)
           .finally(function () {
             $scope.fetchingBranches = false;
