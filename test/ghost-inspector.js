@@ -26,10 +26,10 @@ function handleTestResults (testResults) {
   var testList = testResults[0];
   var testPassing = testResults[1];
   if(!testPassing){
-    var lastTestId = testList[testList.length-1].test;
-    throw 'Tests Failed! Check it out here: https://app.ghostinspector.com/tests/'+lastTestId;
+    var lastTest = testList[testList.length-1];
+    throw 'Failed test: ' + lastTest.testName + ' --> https://app.ghostinspector.com/tests/' + lastTest.test;
   }
-  console.log('Tests Passed.');
+  console.log(testList.length + ' Test(s) Passed!');
 }
 
 var testPromise = Promise.resolve();
@@ -55,7 +55,8 @@ function teardownTests(){
     })
     .then(handleTestResults)
     .catch(function (err) {
-      console.log('Error tearing down tests!!!!', err);
+      console.error('Error tearing down tests!!!!');
+      console.error(err);
       throw(err);
     })
 }
@@ -65,16 +66,17 @@ testPromise
     return teardownTests()
       .then(function () {
         console.log('All Tests Finished!');
+        process.exit(0);
       })
       .catch(function () {
         process.exit(1);
       })
   })
   .catch(function (e) {
-    console.log('Error occurred! Trying to cleanup....');
+    console.error(e);
     teardownTests()
       .finally(function () {
-        throw e;
-      });
+        process.exit(1);
+      })
   });
 
