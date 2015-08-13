@@ -1,0 +1,80 @@
+require('array.prototype.find');
+var config = require('./ghost.conf.js');
+var Promise = require("bluebird");
+
+var GhostInspector = require('ghost-inspector')(config.apiKey);
+Promise.promisifyAll(GhostInspector);
+
+var suitesPromise = GhostInspector.getSuitesAsync();
+
+function getSuiteId(suiteName){
+  return suitesPromise
+    .then(function (suites) {
+      return suites.find(function (suite) {
+        return suite.name === suiteName;
+      })
+    })
+    .then(function (suite) {
+      if (!suite) {
+        throw 'Suite not found! ' + suiteName;
+      }
+      return suite._id;
+    });
+}
+
+function handleTestResults (testResults) {
+  var testList = testResults[0];
+  var testPassing = testResults[1];
+  if(!testPassing){
+    var lastTestId = testList[testList.length-1].test;
+    throw 'Tests Failed! Check it out here: https://app.ghostinspector.com/tests/'+lastTestId;
+  }
+  console.log('Tests Passed.');
+}
+
+var testPromise = Promise.resolve();
+console.log('Setting up tests!');
+config.suites.forEach(function (suiteName) {
+  testPromise = testPromise
+    .then(function () {
+      return getSuiteId(suiteName);
+    })
+    .then(function (suiteId) {
+      console.log('Running suite: ' +  suiteName);
+      return GhostInspector.executeSuiteAsync(suiteId);
+    })
+    .then(handleTestResults);
+});
+
+
+function teardownTests(){
+  console.log('Start Teardown');
+  return getSuiteId(config.teardown)
+    .then(function (suiteId) {
+      return GhostInspector.executeSuiteAsync(suiteId);
+    })
+    .then(handleTestResults)
+    .catch(function (err) {
+      console.log('Error tearing down tests!!!!', err);
+      throw(err);
+    })
+}
+
+testPromise
+  .then(function () {
+    return teardownTests()
+      .then(function () {
+        console.log('All Tests Finished!');
+      })
+      .catch(function () {
+        process.exit(1);
+      })
+  })
+  .catch(function (e) {
+    console.log('Error occurred! Trying to cleanup....');
+    teardownTests()
+      .finally(function () {
+        throw e;
+      });
+  });
+
