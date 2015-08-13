@@ -19,7 +19,9 @@
   //- this button is empty on purpose
   button.btn.btn-sm.pull-right.no-touching
 
-.popover-content
+.popover-content(
+  ng-form = "repoSelectorForm"
+)
   label.label.clearfix
     .input-col
       .btn.btn-block.white.text-overflow(
@@ -37,6 +39,7 @@
       data-prefix = "/"
     )
       input.input.input-sm(
+        name = "pathTextInput"
         ng-model = "repoSelector.data.path"
         required
         spellcheck = "false"
@@ -48,6 +51,7 @@
     .input-col
       textarea.textarea.monospace(
         command-editor
+        name = "commandTextField"
         ng-model = "repoSelector.data.commands"
         spellcheck = "false"
       )
@@ -59,14 +63,17 @@
       ng-click = "repoSelector.actions.remove()"
       ng-disabled = "state.saving"
       ng-if = "state.fromServer"
+      type = "button"
     ) Remove Repository
 
 .popover-footer.clearfix
   button.btn.btn-sm.green(
     ng-click = "repoSelector.actions.save()"
-    ng-disabled = "state.saving"
+    ng-disabled = "state.saving || (!repoSelectorForm.$dirty && pristineCheck.isPristine())"
+    type = "submit"
   ) {{ repoSelector.data.fromServer ? 'Save' : 'Add Repository' }}
   button.btn.btn-sm.gray.btn-cancel(
     ng-disabled = "state.saving"
     ng-click = "closePopover()"
+    type = "button"
   ) Cancel
