@@ -60,13 +60,6 @@ ul.table-drag-drop(
           xlink:href = "#icons-drag"
         )
 
-    //- deprecated:
-    .cell.text-overflow(
-      ng-click = "CFC.actions.triggerEditFile(containerFile)"
-      ng-if = "(containerFile.type === 'File')"
-      title = "{{ containerFile.name }}"
-    ) {{ containerFile.name }}
-
     //- ssh key feature flag
     .cell.text-overflow(
       title = "{{ containerFile.name }}"
