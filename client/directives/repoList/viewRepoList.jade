@@ -9,12 +9,19 @@
   | Repositories
 
 .sidebar-section-content.js-animate(
-  ng-if = "!$storage.repoListIsClosed"
+  ng-if = "!$storage.repoListIsClosed && $root.featureFlags.additionalRepositories"
 )
   .sidebar-section-item(
     edit-repo-commit
     instance = "instance"
     model = "acv"
     ng-repeat = "acv in instance.contextVersion.appCodeVersions.models | orderBy : '-attrs.additionalRepo'"
-    ng-if = "!$storage.repoListIsClosed"
+  )
+.sidebar-section-content.js-animate(
+  ng-if = "!$storage.repoListIsClosed && !$root.featureFlags.additionalRepositories"
+)
+  .sidebar-section-item(
+    edit-repo-commit
+    instance = "instance"
+    model = "instance.contextVersion.getMainAppCodeVersion()"
   )
