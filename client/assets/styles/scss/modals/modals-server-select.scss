@@ -72,6 +72,11 @@
     }
   }
 
+  // empty state
+  .empty {
+    word-break: break-all;
+  }
+
   // add button
   .btn-xs {
     font-size: 14px;
