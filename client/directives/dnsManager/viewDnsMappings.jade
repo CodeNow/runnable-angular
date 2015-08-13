@@ -49,7 +49,7 @@
         | {{ $parent.$parent.masterInstance.getBranchName() }}
 
       fancy-option(
-        ng-repeat = "childInstance in $parent.masterInstance.children.models"
+        ng-repeat = "childInstance in $parent.masterInstance.children.models | orderBy : 'getBranchName()'"
         value = "childInstance"
       )
         status-icon(
