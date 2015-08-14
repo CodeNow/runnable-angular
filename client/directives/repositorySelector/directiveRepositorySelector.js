@@ -19,7 +19,8 @@ function repositorySelector(
   promisify,
   fetchOwnerRepos,
   $rootScope,
-  cardInfoTypes
+  cardInfoTypes,
+  DirtyChecker
 ) {
   return {
     restrict: 'A',
@@ -61,6 +62,12 @@ function repositorySelector(
           }
         });
       }
+      $scope.dirtyChecker = new DirtyChecker($scope.repoSelector.data, [
+        'repo.attrs.name',
+        'branch.attrs.name',
+        'commit.attrs.sha',
+        'useLatest'
+      ]);
 
       $scope.repoSelector.actions = {
         selectRepo: function (repo) {
