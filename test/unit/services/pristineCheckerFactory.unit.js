@@ -1,6 +1,6 @@
 'use strict';
 
-describe.only('PristineCheckerFactory', function () {
+describe('PristineCheckerFactory', function () {
   var PristineChecker;
   beforeEach(function () {
     angular.mock.module('app');
