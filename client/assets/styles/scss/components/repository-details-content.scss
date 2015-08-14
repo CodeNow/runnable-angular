@@ -1,12 +1,12 @@
 .repository-details-content {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
   > .label {
     display: table;
     margin: 0 auto 12px;
 
-    > .btn .spinner-wrapper {
+    .spinner-wrapper {
       align-items: center;
       color: $gray-light;
       height: 100%;
@@ -27,13 +27,13 @@
     .list-item {
       @extend %text-overflow;
       font-size: 15px;
-      padding-right: 45px;
       padding-left: 9px;
+      padding-right: 45px;
 
       &:active,
       &.active {
-        color: $purple-light;
         border-color: currentColor;
+        color: $purple-light;
         cursor: default;
 
         .small {
@@ -80,8 +80,8 @@
     position: absolute;
     right: 9px;
     top: 0;
-    width: 27px;
     visibility: hidden;
+    width: 27px;
   }
 
   .toggle-wrapper {
