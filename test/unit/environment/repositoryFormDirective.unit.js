@@ -316,7 +316,7 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
 
       sinon.assert.calledWith(parseDockerfileForDefaultsStub, dockerfile, ['run', 'dst']);
       $scope.$digest();
-      expect($elScope.state.containerFiles[0].commands, 'main repo commands').to.deep.equal([new cardInfoTypes.Command('RUN 1234')]);
+      expect($elScope.state.containerFiles[0].commands[0].body, 'main repo commands').to.equal('1234');
       expect($elScope.state.containerFiles[0].path, 'main repo path').to.equal('dfasgdfsgdsfgs/fgdsfgsdfg');
 
     });
@@ -345,10 +345,8 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
 
       sinon.assert.calledWith(parseDockerfileForDefaultsStub, dockerfile, ['run', 'dst']);
       $scope.$digest();
-      expect($elScope.state.containerFiles[0].commands, 'main repo commands').to.deep.equal([
-        new cardInfoTypes.Command('RUN dfadsfa'),
-        new cardInfoTypes.Command('RUN dsfasdfredasfadsfgw34r2 3r')
-      ]);
+      expect($elScope.state.containerFiles[0].commands[0].body, 'main repo command 0').to.equal('dfadsfa');
+      expect($elScope.state.containerFiles[0].commands[1].body, 'main repo command 0').to.equal('dsfasdfredasfadsfgw34r2 3r');
       expect($elScope.state.containerFiles[0].path, 'main repo path').to.equal('cheese');
     });
   });

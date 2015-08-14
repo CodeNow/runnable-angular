@@ -74,13 +74,13 @@ describe('branchCommitSelectorController'.bold.underline.blue, function () {
     it('Check the construction', function () {
       $scope.$digest();
       expect(branchCommitSelectorController.onCommitFetch, 'onCommitFetch').to.be.function;
-      expect(branchCommitSelectorController.isLatestCommit, 'latestCommit').to.be.function;
+      expect(branchCommitSelectorController.isLatestCommit, 'useLatest').to.be.function;
       expect(branchCommitSelectorController.selectCommit, 'selectCommit').to.be.function;
     });
 
     it('should reset the commit if it cant find the current one in the list', function () {
       branchCommitSelectorController.data = {
-        latestCommit: true,
+        useLatest: true,
         branch: ctx.branch,
         commit: {
           sadsa: 'asdasd'
@@ -98,7 +98,7 @@ describe('branchCommitSelectorController'.bold.underline.blue, function () {
       };
       ctx.commits.models.push(newCommit);
       branchCommitSelectorController.data = {
-        latestCommit: true,
+        useLatest: true,
         branch: ctx.branch,
         commit: newCommit
       };
@@ -109,17 +109,37 @@ describe('branchCommitSelectorController'.bold.underline.blue, function () {
       $rootScope.$destroy();
     });
 
-    it('latestCommit works as a getter and setter', function () {
+    it('useLatest works as a getter and setter', function () {
       branchCommitSelectorController.data = {
-        latestCommit: true,
+        useLatest: true,
         branch: ctx.branch
       };
       $scope.$digest();
-      expect(branchCommitSelectorController.isLatestCommit(), 'latestCommit').to.be.true;
+      expect(branchCommitSelectorController.isLatestCommit(), 'useLatest').to.be.true;
       branchCommitSelectorController.isLatestCommit(false);
-      expect(branchCommitSelectorController.isLatestCommit(), 'latestCommit').to.be.false;
-      expect(branchCommitSelectorController.data.latestCommit, 'data.latestCommit').to.be.false;
+      expect(branchCommitSelectorController.isLatestCommit(), 'useLatest').to.be.false;
+      expect(branchCommitSelectorController.data.useLatest, 'data.useLatest').to.be.false;
       expect(branchCommitSelectorController.data.commit, 'data.commit').to.equal(ctx.commits.models[0]);
+      $rootScope.$destroy();
+    });
+
+    it('should not set the commit when isLatest is true', function () {
+      var fakeCommit = {
+        asdasd: 'asdasd'
+      };
+      branchCommitSelectorController.data = {
+        useLatest: true,
+        branch: ctx.branch
+      };
+      $scope.$digest();
+
+      expect(branchCommitSelectorController.isLatestCommit(), 'useLatest').to.be.true;
+
+      branchCommitSelectorController.selectCommit(fakeCommit);
+      $scope.$digest();
+      expect(branchCommitSelectorController.isLatestCommit(), 'useLatest').to.be.true;
+      expect(branchCommitSelectorController.data.useLatest, 'data.useLatest').to.be.true;
+      expect(branchCommitSelectorController.data.commit, 'data.commit').to.not.equal(fakeCommit);
       $rootScope.$destroy();
     });
 
@@ -132,17 +152,13 @@ describe('branchCommitSelectorController'.bold.underline.blue, function () {
         done();
       });
       branchCommitSelectorController.data = {
-        latestCommit: true,
+        useLatest: false,
         branch: ctx.branch
       };
       $scope.$digest();
 
-      expect(branchCommitSelectorController.isLatestCommit(), 'latestCommit').to.be.true;
-
       branchCommitSelectorController.selectCommit(fakeCommit);
       $scope.$digest();
-      expect(branchCommitSelectorController.isLatestCommit(), 'latestCommit').to.be.false;
-      expect(branchCommitSelectorController.data.latestCommit, 'data.latestCommit').to.be.false;
       expect(branchCommitSelectorController.data.commit, 'data.commit').to.equal(fakeCommit);
       $rootScope.$destroy();
     });

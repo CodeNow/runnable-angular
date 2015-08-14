@@ -5,9 +5,7 @@
     ng-bind-html = "helpCards.getActiveCard().helpPopover.containerFiles"
   )
 
-.table-actions.table-toggle(
-  ng-if = "$root.featureFlags.dockerfileTool"
-)
+.table-actions.table-toggle
   svg.iconnables.float-left
     use(
       xlink:href = "#icons-lock"
@@ -38,7 +36,6 @@
     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
-  ng-init = "state.readOnly = $root.featureFlags.dockerfileTool"
 )
 
   .sidebar(

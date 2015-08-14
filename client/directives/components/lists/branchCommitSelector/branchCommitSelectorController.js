@@ -14,23 +14,20 @@ function BranchCommitSelectorController(
     if (BCSC.data.commit) {
       BCSC.data.commit = commits.models.find(function (otherCommits) {
         return otherCommits === BCSC.data.commit;
-      });
-    }
-    if (!BCSC.data.commit) {
-      BCSC.data.commit = commits.models[0];
+      }) || commits.models[0];
     }
   };
   this.isLatestCommit = function (setToLatestCommit) {
     if (arguments.length) {
       BCSC.data.commit = keypather.get(BCSC.data.branch, 'commits.models[0]');
-      BCSC.data.latestCommit = setToLatestCommit;
+      BCSC.data.useLatest = setToLatestCommit;
     } else {
-      return BCSC.data.latestCommit;
+      return BCSC.data.useLatest;
     }
   };
 
   this.selectCommit = function (commit) {
-    BCSC.data.latestCommit = false;
+    if (BCSC.data.useLatest) { return; }
     BCSC.data.commit = commit;
     $scope.$emit('commit::selected', commit);
   };

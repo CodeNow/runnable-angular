@@ -61,7 +61,6 @@ li.folder(
         disabled: !acv.id() || readOnly\
       }"
       ng-repeat = "acv in fileModel.appCodeVersions.models | orderBy:'attrs.repo'"
-      ng-if = "$root.featureFlags.advancedRepositories"
       pop-over
       pop-over-actions = "popoverFileExplorerRepository.actions"
       pop-over-data = "acv"
@@ -101,5 +100,5 @@ li.folder(
         span.item-name {{ normalizeRepoNames(acv.attrs.repo) }}
   ul(
     ng-if = "dir.contents.models.length"
-    ng-include = "'viewFileTreeDirItem'"
+    ng-include = "'fileTreeDirItemView'"
   )

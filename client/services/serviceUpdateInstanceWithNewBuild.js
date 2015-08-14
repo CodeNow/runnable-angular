@@ -52,7 +52,8 @@ function updateInstanceWithNewAcvData(
   eventTracking,
   hasKeypaths,
   keypather,
-  promisify
+  promisify,
+  updateInstanceWithNewBuild
 ) {
   return function (instance, acv, repoObject) {
     /*
@@ -74,19 +75,16 @@ function updateInstanceWithNewAcvData(
             });
             return promisify(mainAcv, 'update')({
               branch: repoObject.branch.attrs.name,
-              commit: repoObject.commit.sha
+              commit: repoObject.commit.attrs.sha,
+              useLatest: repoObject.useLatest || false
             }); // Update ACV
           })
           .then(function () {
-            return promisify(build, 'build')({ // 4. Build the build
-              message: 'Update application code version(s)'
-            });
+            return build;
           });
       })
-      .then(function (updatedBuild) { // 5. Update instance w/ Build
-        return promisify(instance, 'update')({
-          build: updatedBuild.id()
-        });
+      .then(function (build) { // 5. Update instance w/ Build
+        return updateInstanceWithNewBuild(instance, build);
       })
       .catch(errs.handler);
   };
