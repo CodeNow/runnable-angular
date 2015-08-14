@@ -1,4 +1,4 @@
-.container-label
+h1.container-title
   status-icon(
     instance = "instance"
   )
@@ -14,8 +14,9 @@
     title = "view pull request on GitHub"
   ) \#{{pr.number}}
 
-.container-url-wrapper
-  input.input.container-url(
+.container-url
+  
+  input.input(
     ng-if = "instance.attrs.name"
     readonly
     select-all
@@ -25,23 +26,21 @@
   )
 
   //- sets width
-  .container-url-ghost
-    span.float-left.no-touching {{ instance.getContainerHostname() }}{{defaultPort}}
+  span.span {{ instance.getContainerHostname() }}{{defaultPort}}
+  
+  a.a(
+    ng-href = "http://{{ instance.getContainerHostname() }}{{defaultPort}}"
+    target = "_blank"
+    title = "Open in a new tab: http://{{ instance.getContainerHostname() }}{{defaultPort}}"
+  )
+    svg.iconnables
+      use(
+        xlink:href = "#icons-link-external"
+      )
 
-    a.link.float-left(
-      ng-href = "http://{{ instance.getContainerHostname() }}{{defaultPort}}"
-      target = "_blank"
-      title = "Open in a new tab: http://{{ instance.getContainerHostname() }}{{defaultPort}}"
-    )
-      svg.iconnables
-        use(
-          xlink:href = "#icons-link-external"
-        )
-
-    span.no-touching(
-      ng-if = "$root.featureFlags.internalDebugging"
-      style = "visibility: unset"
-    ) {{ instance.containers.models[0].attrs.dockerHost }} |&#32;
-      span(
-        ng-repeat = "(key, value) in instance.containers.models[0].attrs.ports"
-      ) {{ key }}:{{ value[0].HostPort }} |&#32;
+span.internal-debugging(
+  ng-if = "$root.featureFlags.internalDebugging"
+) {{ instance.containers.models[0].attrs.dockerHost }} |&#32;
+  span(
+    ng-repeat = "(key, value) in instance.containers.models[0].attrs.ports"
+  ) {{ key }}:{{ value[0].HostPort }} |&#32;
