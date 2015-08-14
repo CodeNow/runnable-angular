@@ -9,9 +9,9 @@
 // h1.server-info
 .server-info {
   flex: 1 1 auto;
+  line-height: 15px;
   overflow: hidden;
   padding: 12px 0;
-  position: relative;
 }
 
 // wrapper for container name, branch name, and status icon
@@ -86,8 +86,8 @@
 .internal-debugging {
   bottom: 12px;
   font-size: 13px;
-  line-height: 21px;
-  position: absolute;
+  position: relative;
+  top: -24px;
 }
 
 // header.server-header actions
