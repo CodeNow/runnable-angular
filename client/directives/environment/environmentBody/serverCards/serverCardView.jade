@@ -8,8 +8,6 @@
     - if building succeeded, and run fails: text says "Crashed"; title attribute shows when the server crashed "Crashed 2 minutes ago"
   server-status-card-header.btn.btn-sm.btn-title.white(
     ng-attr-no-touching = "{{ showSpinner() }}"
-    pop-over-options = "{\"right\":0,\"top\":47}"
-    pop-over-template = "serverOptionsCardPopover"
   )
 .card-header(
   ng-if = "$root.featureFlags.cardStatus"
