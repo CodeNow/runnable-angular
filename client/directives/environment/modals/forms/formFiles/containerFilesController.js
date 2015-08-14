@@ -278,7 +278,8 @@ function ContainerFilesController(
   this.actions = {
     triggerAddRepository: function () {
       self.repositoryPopover.data = {
-        appCodeVersions: $scope.state.contextVersion.appCodeVersions.models
+        appCodeVersions: $scope.state.contextVersion.appCodeVersions.models,
+        instance: $scope.state.instance
       };
       self.repositoryPopover.active = true;
       $timeout(function () {
@@ -289,6 +290,7 @@ function ContainerFilesController(
       if (repo.type === 'Main Repository') { return; }
       self.repositoryPopover.data = {
         repo: repo.clone(),
+        instance: $scope.state.instance,
         appCodeVersions: $scope.state.contextVersion.appCodeVersions.models
       };
       self.repositoryPopover.active = true;
