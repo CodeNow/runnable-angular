@@ -7,10 +7,8 @@
     "gruntDeploy": "./node_modules/.bin/grunt deploy:prod",
     "grunt": "./node_modules/.bin/grunt deploy",
     "start": "NODE_PATH=. node ./server/main.js;",
-    "e2e": "protractor ./test/protractor.conf.js",
-    "e2e-sauce": "protractor ./test/sauce.conf.js --chrome",
-    "e2e-sauce-all": "protractor ./test/sauce.conf.js",
-    "unit": "grunt test:unit"
+    "e2e": "./node_modules/.bin/grunt test:e2e",
+    "unit": "./node_modules/.bin/grunt test:unit"
   },
   "engines": {
     "node": "~0.10.29",
