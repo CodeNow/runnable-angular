@@ -124,10 +124,6 @@ userPromise.then(function (user) {
 
 function stopTests(user){
   console.log('Unlocking user: ' + user.username);
+  user.used = false;
   return Kinvey.DataStore.save('github-accounts', user);
 }
-
-
-//test4lyfe
-//RunnableTest1
-//githubuser@runnable.com
