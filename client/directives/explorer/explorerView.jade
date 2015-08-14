@@ -26,12 +26,9 @@
         xlink:href = "#icons-add"
       )
 
-.sidebar-section-content.js-animate(
-  ng-if = "!$storage.explorerIsClosed"
-)
-
+.sidebar-section-content.js-animate
   .well.in(
-    ng-if = "!fileModel.running()"
+    ng-if = "!editExplorer && !fileModel.running()"
   ) There are no files because&#32;
     strong.strong {{instance.getBranchName() || instance.getDisplayName()}}&#32;
     | isn’t running.
