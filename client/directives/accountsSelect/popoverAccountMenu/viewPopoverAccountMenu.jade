@@ -6,11 +6,30 @@
     style = "left: 153px"
   )
   .popover-content
+    //- data.showIntegrations can be removed with $root.featureFlags.isolation
     ul.list.popover-list(
-      ng-if = "data.showIntegrations"
+      ng-if = "data.showIntegrations || $root.featureFlags.isolation"
     )
-      li.list-item.popover-list-item.small {{ data.activeAccount.oauthName() }}
+      li.list-item.popover-list-item.small {{data.activeAccount.oauthName()}}
       li.list-item.popover-list-item(
+        ng-if = "$root.featureFlags.isolation"
+      )
+        img.gravatar(
+          alt = "{{data.activeAccount.oauthName()}}"
+          height = "24"
+          ng-src = "{{data.activeAccount.gravitar()}}"
+          width = "24"
+        )
+        img.gravatar(
+          alt = "{{data.user.oauthName()}}"
+          height = "15"
+          ng-src = "{{data.user.gravitar()}}"
+          width = "15"
+        )
+        | Isolation
+
+      li.list-item.popover-list-item(
+        ng-if = "data.showIntegrations"
         modal
         modal-actions = "actions.actionsModalIntegrations"
         modal-data = "data.dataModalIntegrations"
@@ -37,11 +56,13 @@
             xlink:href = "#icons-fat-check"
           )
         img.gravatar(
+          alt = "{{data.user.oauthName()}}"
           height = "24"
-          ng-src = "{{ data.user.gravitar() }}"
+          ng-src = "{{data.user.gravitar()}}"
           width = "24"
         )
-        | {{ data.user.oauthName() }}
+        | {{data.user.oauthName()}}
+      //- organizations
       li.list-item.popover-list-item.text-overflow(
         ng-class = "{'disabled': (org === data.activeAccount)}"
         ng-click = "actions.selectActiveAccount(org)"
@@ -54,11 +75,12 @@
             xlink:href = "#icons-fat-check"
           )
         img.gravatar(
+          alt = "{{org.oauthName()}}"
           height = "24"
-          ng-src = "{{ org.gravitar() }}"
+          ng-src = "{{org.gravitar()}}"
           width = "24"
         )
-        | {{ org.oauthName() }}
+        | {{org.oauthName()}}
 
     ul.list.popover-list
       li.list-item.popover-list-item
