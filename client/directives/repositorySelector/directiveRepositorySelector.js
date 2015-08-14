@@ -20,7 +20,7 @@ function repositorySelector(
   fetchOwnerRepos,
   $rootScope,
   cardInfoTypes,
-  PristineChecker
+  DirtyChecker
 ) {
   return {
     restrict: 'A',
@@ -62,7 +62,7 @@ function repositorySelector(
           }
         });
       }
-      $scope.pristineCheck = new PristineChecker($scope.repoSelector.data, [
+      $scope.dirtyChecker = new DirtyChecker($scope.repoSelector.data, [
         'repo.attrs.name',
         'branch.attrs.name',
         'commit.attrs.sha',

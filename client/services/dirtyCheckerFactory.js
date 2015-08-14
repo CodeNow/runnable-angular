@@ -1,15 +1,15 @@
 'use strict';
 
 require('app')
-  .factory('PristineChecker', pristineCheckerFactory);
+  .factory('DirtyChecker', dirtyCheckerFactory);
 
-function pristineCheckerFactory(
+function dirtyCheckerFactory(
   keypather
 ) {
   var _source = null;
   var cachedValues = {};
 
-  function PristineChecker(source, pathsToWatch) {
+  function DirtyChecker(source, pathsToWatch) {
     _source = source;
     if (!Array.isArray(pathsToWatch)) {
       throw new Error('pathsToWatch must be an array');
@@ -19,12 +19,12 @@ function pristineCheckerFactory(
     });
   }
 
-  PristineChecker.prototype.isPristine = function () {
-    return Object.keys(cachedValues).every(function (path) {
+  DirtyChecker.prototype.isDirty = function () {
+    return !Object.keys(cachedValues).every(function (path) {
       return angular.equals(cachedValues[path], keypather.get(_source, path));
     });
   };
 
-  return PristineChecker;
+  return DirtyChecker;
 
 }

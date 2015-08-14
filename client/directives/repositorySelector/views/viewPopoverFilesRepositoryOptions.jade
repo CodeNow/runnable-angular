@@ -69,7 +69,7 @@
 .popover-footer.clearfix
   button.btn.btn-sm.green(
     ng-click = "repoSelector.actions.save()"
-    ng-disabled = "state.saving || (!repoSelectorForm.$dirty && pristineCheck.isPristine())"
+    ng-disabled = "state.saving || (!repoSelectorForm.$dirty && !dirtyChecker.isDirty())"
     type = "submit"
   ) {{ repoSelector.data.fromServer ? 'Save' : 'Add Repository' }}
   button.btn.btn-sm.gray.btn-cancel(
