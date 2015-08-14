@@ -13,7 +13,7 @@ function editRepoCommit(
 ) {
   return {
     restrict: 'A',
-    templateUrl: 'viewEditRepoCommit',
+    templateUrl: 'editRepoCommitView',
     scope: {
       acv: '= model',
       instance: '='
