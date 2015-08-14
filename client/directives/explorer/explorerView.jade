@@ -26,7 +26,9 @@
         xlink:href = "#icons-add"
       )
 
-.sidebar-section-content.js-animate
+.sidebar-section-content.js-animate(
+  ng-if = "editExplorer || !$storage.explorerIsClosed"
+)
   .well.in(
     ng-if = "!editExplorer && !fileModel.running()"
   ) There are no files because&#32;
