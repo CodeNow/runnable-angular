@@ -27,7 +27,7 @@ function BranchCommitSelectorController(
   };
 
   this.selectCommit = function (commit) {
-    BCSC.data.useLatest = false;
+    if (BCSC.data.useLatest) { return; }
     BCSC.data.commit = commit;
     $scope.$emit('commit::selected', commit);
   };
