@@ -262,7 +262,8 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
             attrs: {
               sha: 'commitSha'
             }
-          }
+          },
+          useLatest: false
         };
         CFC.repositoryPopover.actions.create(repoContainerFile);
         $timeout.flush();
@@ -273,6 +274,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
           repo: 'full_name',
           branch: 'branch',
           commit: 'commitSha',
+          useLatest: false,
           additionalRepo: true
         });
 
@@ -315,6 +317,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
         var newRepoContainerFile = angular.copy(repoContainerFile);
         newRepoContainerFile.branch.attrs.name = 'newBranch';
         newRepoContainerFile.commit.attrs.sha = 'newSha';
+        newRepoContainerFile.useLatest = true;
 
         CFC.repositoryPopover.actions.update(newRepoContainerFile);
         $rootScope.$digest();
@@ -322,7 +325,8 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
         sinon.assert.calledOnce(acv.update);
         sinon.assert.calledWith(acv.update, {
           branch: 'newBranch',
-          commit: 'newSha'
+          commit: 'newSha',
+          useLatest: true
         });
         expect(repoContainerFile.acv).to.equal(newACV);
         sinon.assert.calledOnce(updateDockerfileFromStateMock);

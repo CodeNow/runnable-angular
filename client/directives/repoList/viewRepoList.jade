@@ -9,38 +9,19 @@
   | Repositories
 
 .sidebar-section-content.js-animate(
-  ng-if = "!$storage.repoListIsClosed"
+  ng-if = "!$storage.repoListIsClosed && $root.featureFlags.additionalRepositories"
 )
-
-  //- primary repository
+  .sidebar-section-item(
+    edit-repo-commit
+    instance = "instance"
+    model = "acv"
+    ng-repeat = "acv in instance.contextVersion.appCodeVersions.models | orderBy : '-attrs.additionalRepo'"
+  )
+.sidebar-section-content.js-animate(
+  ng-if = "!$storage.repoListIsClosed && !$root.featureFlags.additionalRepositories"
+)
   .sidebar-section-item(
     edit-repo-commit
     instance = "instance"
     model = "instance.contextVersion.getMainAppCodeVersion()"
   )
-
-  //- additional repositories (mockup)
-  .sidebar-section-item(
-    modal
-    modal-actions = "actions"
-    modal-data = "data"
-    modal-template = "repositoryDetailsModalOpen"
-    ng-if = "$root.featureFlags.additionalRepositories"
-  )
-    .small.strong.text-overflow repo-name
-    .btn.gray
-      .repository-info.text-overflow.js-repository-branch branch-name
-        svg.iconnables.icons-branch
-          use(
-            xlink:href = "#icons-branch"
-          )
-      .repository-info.text-overflow.js-repository-commit commit message
-        svg.iconnables.icons-commit
-          use(
-            xlink:href = "#icons-commit"
-          )
-      .repository-info.small 10 minutes ago
-      svg.iconnables.icons-arrow-down
-        use(
-          xlink:href = "#icons-arrow-down"
-        )

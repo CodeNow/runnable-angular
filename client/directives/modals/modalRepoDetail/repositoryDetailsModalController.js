@@ -17,6 +17,7 @@ function RepositoryDetailsModalController(
     acv: this.appCodeVersion,
     branch: fetchCommitData.activeBranch(this.appCodeVersion),
     commit: fetchCommitData.activeCommit(this.appCodeVersion),
+    useLatest: this.appCodeVersion.attrs.useLatest,
     instance: this.instance
   };
   this.updateInstance = function () {

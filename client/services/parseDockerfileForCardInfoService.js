@@ -170,6 +170,7 @@ function parseDockerfileForCardInfoFromInstance(
           if (matchingAcv) {
             item.acv = matchingAcv;
             item.repo = matchingAcv.githubRepo;
+            item.useLatest = matchingAcv.attrs.useLatest;
             item.branch = fetchCommitData.activeBranch(matchingAcv);
             item.commit = fetchCommitData.activeCommit(matchingAcv);
             item.instance = instance;

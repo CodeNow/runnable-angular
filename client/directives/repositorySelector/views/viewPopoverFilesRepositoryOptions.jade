@@ -24,8 +24,14 @@
     .input-col
       .btn.btn-block.white.text-overflow(
         ng-click = "state.view = 3"
-      ) {{ repoSelector.data.commit.attrs.commit.message }}
-        small.small {{ repoSelector.data.commit.attrs.author.login }} authored {{ repoSelector.data.commit.attrs.commit.author.date | timeFrom }}
+      ) {{ repoSelector.data.useLatest && $root.featureFlags.additionalRepositories ? 'Always update to latest commit' : repoSelector.data.commit.attrs.commit.message }}
+        small.small(
+          ng-if = "repoSelector.data.useLatest"
+        ) on new builds of&#32;
+          strong.strong {{ data.instance.getDisplayName() }}
+        small.small(
+          ng-if = "!repoSelector.data.useLatest"
+        ) {{ repoSelector.data.commit.attrs.author.login }} authored {{ repoSelector.data.commit.attrs.commit.author.date | timeFrom }}
         svg.iconnables.icons-arrow-down
           use(
             xlink:href = "#icons-arrow-down"
