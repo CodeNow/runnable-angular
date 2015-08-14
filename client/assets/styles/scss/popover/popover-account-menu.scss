@@ -31,10 +31,27 @@
     pointer-events: none;
   }
 
+  // help link
+  .icons-help {
+    color: $gray-light;
+    cursor: pointer;
+    max-width: 15px;
+    padding: 0 3px;
+    pointer-events: auto;
+    position: absolute; // because this element doesn't live within .list-item
+    right: 0;
+    top: $input-sm + 4px; // +4px is the padding of the list
+    z-index: 1;
+
+    &:hover,
+    &:active {
+      color: $purple-light;
+    }
+  }
+
+  // active organization indicator
   .icons-fat-check {
     color: $purple-light;
     max-width: 18px;
-    position: absolute;
-    right: 0;
   }
 }

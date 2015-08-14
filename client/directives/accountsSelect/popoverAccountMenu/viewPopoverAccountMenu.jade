@@ -11,6 +11,13 @@
       ng-if = "data.showIntegrations || $root.featureFlags.isolation"
     )
       li.list-item.popover-list-item.small {{data.activeAccount.oauthName()}}
+      //- leave this outside of the isolation list-item so it doens't trigger :hover & :active states
+      svg.iconnables.anchor-right.icons-help(
+        ng-if = "$root.featureFlags.isolation"
+      )
+        use(
+          xlink:href = "#icons-help"
+        )
       li.list-item.popover-list-item(
         ng-if = "$root.featureFlags.isolation"
       )
@@ -49,12 +56,6 @@
         ng-class = "{'disabled': data.user === data.activeAccount}"
         ng-click = "actions.selectActiveAccount(data.user)"
       )
-        svg.iconnables.icons-fat-check(
-          ng-if = "data.user === data.activeAccount"
-        )
-          use(
-            xlink:href = "#icons-fat-check"
-          )
         img.gravatar(
           alt = "{{data.user.oauthName()}}"
           height = "24"
@@ -62,18 +63,19 @@
           width = "24"
         )
         | {{data.user.oauthName()}}
+        svg.iconnables.icons-fat-check.anchor-right(
+          ng-if = "data.user === data.activeAccount"
+        )
+          use(
+            xlink:href = "#icons-fat-check"
+          )
+
       //- organizations
       li.list-item.popover-list-item.text-overflow(
         ng-class = "{'disabled': (org === data.activeAccount)}"
         ng-click = "actions.selectActiveAccount(org)"
         ng-repeat = "org in data.orgs.models"
       )
-        svg.iconnables.icons-fat-check(
-          ng-if = "org === data.activeAccount"
-        )
-          use(
-            xlink:href = "#icons-fat-check"
-          )
         img.gravatar(
           alt = "{{org.oauthName()}}"
           height = "24"
@@ -81,6 +83,12 @@
           width = "24"
         )
         | {{org.oauthName()}}
+        svg.iconnables.icons-fat-check.anchor-right(
+          ng-if = "org === data.activeAccount"
+        )
+          use(
+            xlink:href = "#icons-fat-check"
+          )
 
     ul.list.popover-list
       li.list-item.popover-list-item
