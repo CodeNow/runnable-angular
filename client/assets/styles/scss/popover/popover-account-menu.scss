@@ -13,6 +13,19 @@
     }
   }
 
+  // isolation images
+  .gravatar-isolation {
+    margin-right: 12px; // +3px to compensate for -3px image size
+
+    // user's avatar
+    + .gravatar {
+      border-radius: 3px;
+      left: 18px;
+      position: absolute;
+      top: 12px;
+    }
+  }
+
   .list-item.disabled {
     padding-right: 24px;
     pointer-events: none;

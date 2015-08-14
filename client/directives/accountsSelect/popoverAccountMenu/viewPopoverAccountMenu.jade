@@ -14,11 +14,11 @@
       li.list-item.popover-list-item(
         ng-if = "$root.featureFlags.isolation"
       )
-        img.gravatar(
+        img.gravatar.gravatar-isolation(
           alt = "{{data.activeAccount.oauthName()}}"
-          height = "24"
+          height = "21"
           ng-src = "{{data.activeAccount.gravitar()}}"
-          width = "24"
+          width = "21"
         )
         img.gravatar(
           alt = "{{data.user.oauthName()}}"
