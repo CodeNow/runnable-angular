@@ -32,7 +32,7 @@ function fileTreeDir(
       state: '=?',
       loadingPromisesTarget: '='
     },
-    templateUrl: 'viewFileTreeDir',
+    templateUrl: 'fileTreeDirView',
     link: function ($scope, element) {
 
       var actions = $scope.actions = {};
