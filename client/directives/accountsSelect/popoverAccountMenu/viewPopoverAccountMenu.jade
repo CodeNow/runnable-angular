@@ -6,20 +6,21 @@
     style = "left: 153px"
   )
   .popover-content
-    //- data.showIntegrations can be removed with $root.featureFlags.isolation
+    //- data.showIntegrations can be removed with $root.featureFlags.isolationUI
     ul.list.popover-list(
-      ng-if = "data.showIntegrations || $root.featureFlags.isolation"
+      ng-if = "data.showIntegrations || $root.featureFlags.isolationUI"
     )
       li.list-item.popover-list-item.small {{data.activeAccount.oauthName()}}
       //- leave this outside of the isolation list-item so it doens't trigger :hover & :active states
       svg.iconnables.anchor-right.icons-help(
-        ng-if = "$root.featureFlags.isolation"
+        ng-if = "$root.featureFlags.isolationUI"
       )
         use(
           xlink:href = "#icons-help"
         )
       li.list-item.popover-list-item(
-        ng-if = "$root.featureFlags.isolation"
+        ng-click = "$root.featureFlags.isolation = !$root.featureFlags.isolation"
+        ng-if = "$root.featureFlags.isolationUI"
       )
         img.gravatar.gravatar-isolation(
           alt = "{{data.activeAccount.oauthName()}}"

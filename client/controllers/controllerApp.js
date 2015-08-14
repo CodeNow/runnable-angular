@@ -84,6 +84,7 @@ function ControllerApp(
     imAfraidOfTheDark: false, // toggles theme
     internalDebugging: false,
     isolation: false,
+    isolationUI: false,
     nameContainer: false,
     multilineFnR: false,
     navListFilter: false,

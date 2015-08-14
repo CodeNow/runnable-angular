@@ -4,6 +4,13 @@
   height: 60px;
   padding: 0 15px;
 
+  // isolation
+  &.gray {
+    background: $gray-dark;
+    border: 0;
+    border-bottom: 1px solid $gray-darker;
+  }
+
   // layout
   .logo,
   .btn-group,
@@ -68,7 +75,7 @@
       margin-top: 5px;
 
       @include retina() {
-        border: 1px solid $white;
+        border: 1px solid currentColor;
       }
 
       @include media(sm) {
