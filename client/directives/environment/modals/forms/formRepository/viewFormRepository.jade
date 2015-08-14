@@ -29,7 +29,6 @@ label.label.clearfix(
   .input-col
     label.small.strong.float-right(
       ng-class = "{'disabled': hasNoCommands()}"
-      ng-if = "$root.featureFlags.buildCommandCache"
     ) Cache
       span.span &#32;a command
       .toggle-wrapper
@@ -41,24 +40,8 @@ label.label.clearfix(
           type = "checkbox"
         )
         .toggle-group.toggle-xs
-    //-************
-    //- deprecated textarea, remove with $root.featureFlags.buildCommandCache
-    //- we only have suggestions for build commands on the main repository
-    textarea.textarea.monospace(
-      command-editor
-      ng-change = "updateDockerfile()"
-      ng-disabled = "startCommandCanDisable && !state.selectedStack"
-      ng-if = "!$root.featureFlags.buildCommandCache"
-      ng-keydown = "cacheCommand(false)"
-      ng-model = "mainRepoContainerFile.commands"
-      ng-model-options = "{updateOn: 'blur'}"
-      spellcheck = "false"
-    )
-    //- end deprecated textarea
-    //-************
     .build-commands-wrapper(
       ng-class = "{'focus': buildCommandFocus}"
-      ng-if = "$root.featureFlags.buildCommandCache"
     )
       .flex-wrapper
         textarea.textarea.monospace(
@@ -96,7 +79,7 @@ label.label.clearfix(
     small.small Add any commands needed to support your application. They’ll be run before the Container CMD from your repository’s root folder.
 
 label.label.clearfix(
-  ng-if = "$root.featureFlags.packagesField && !$root.featureFlags.newVerificationFlow"
+  ng-if = "!$root.featureFlags.newVerificationFlow"
 )
   .label-col Packages
     small.small (optional)

@@ -75,12 +75,8 @@ function ControllerApp(
 
   var defaultFeatureFlags = {
     additionalRepositories: false,
-    advancedRepositories: true,
-    buildCommandCache: true,
     cardStatus: false,
     debugMode: false,
-    dockerfileTool: true,
-    findAndReplace: true,
     fullScreen: false,  // toggles full screen
     fullScreenToggle: false,  // toggles the button that toggles full screen
     hostnameNotifications: false,
@@ -91,10 +87,8 @@ function ControllerApp(
     multilineFnR: false,
     navListFilter: false,
     newVerificationFlow: false,
-    packagesField: true,
     renameContainer: false,
     saveToolbar: false,
-    sshKeys: true,
     themeToggle: false, // toggles the button that toggles theme
     updatedBuildLogs: false
   };
