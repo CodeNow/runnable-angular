@@ -1,43 +1,44 @@
-form.popover.popover-fixed.popover-files(
-  name = "sshForm"
-  ng-class = "{'in': active}"
-  ng-style = "popoverStyle.getStyle()"
-)
-  .popover-header
-    strong.strong.text-overflow Add SSH Key
+.popover-overlay
+  form.popover.popover-fixed.popover-files(
+    name = "sshForm"
+    ng-class = "{'in': active}"
+    ng-style = "popoverStyle.getStyle()"
+  )
+    .popover-header
+      strong.strong.text-overflow Add SSH Key
 
-  .popover-content
-    label.label.clearfix
-      .label-col Title
-      .input-col
-        input.input.input-sm(
-          ng-model = "data.name"
-          required
-          spellcheck = "false"
-        )
-        small.small Give your key a title for identification purposes.
+    .popover-content
+      label.label.clearfix
+        .label-col Title
+        .input-col
+          input.input.input-sm(
+            ng-model = "data.name"
+            required
+            spellcheck = "false"
+          )
+          small.small Give your key a title for identification purposes.
 
-    label.label.clearfix
-      .label-col Key
-      .input-col
-        textarea.textarea.monospace.textarea-key(
-          ng-model = "data.key"
-          required
-          spellcheck = "false"
-        )
-        small.small
-          a.link(
-            href = "https://help.github.com/articles/generating-ssh-keys/"
-            target = "_blank"
-          ) Learn how to generate an SSH key
-          | .
+      label.label.clearfix
+        .label-col Key
+        .input-col
+          textarea.textarea.monospace.textarea-key(
+            ng-model = "data.key"
+            required
+            spellcheck = "false"
+          )
+          small.small
+            a.link(
+              href = "https://help.github.com/articles/generating-ssh-keys/"
+              target = "_blank"
+            ) Learn how to generate an SSH key
+            | .
 
-  .popover-footer.clearfix
-    button.btn.btn-sm.green(
-      ng-click = "actions.save(data)"
-      ng-disabled = "sshForm.$invalid"
-    ) Add Key
-    button.btn.btn-sm.gray.float-left(
-      ng-click = "closePopover()"
-      type = "button"
-    ) Cancel
+    .popover-footer.clearfix
+      button.btn.btn-sm.green(
+        ng-click = "actions.save(data)"
+        ng-disabled = "sshForm.$invalid"
+      ) Add Key
+      button.btn.btn-sm.gray.float-left(
+        ng-click = "closePopover()"
+        type = "button"
+      ) Cancel

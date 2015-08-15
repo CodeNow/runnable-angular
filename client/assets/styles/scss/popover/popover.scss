@@ -1,4 +1,11 @@
-// popovers
+.popover-overlay {
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: $z-popover;
+}
+
 .popover {
   // top & left offset to move popovers offscreen to prevent them
   // from appearing before calculating their actual position
