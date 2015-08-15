@@ -72,7 +72,12 @@
     .gravatar {
       float: left;
       margin-right: 7px;
-      margin-top: 5px;
+      margin-top: 4px;
+
+      // isolation gravatar
+      + .gravatar {
+        left: 27px;
+      }
 
       @include retina() {
         border: 1px solid currentColor;

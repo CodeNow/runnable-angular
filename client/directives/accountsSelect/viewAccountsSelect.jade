@@ -9,9 +9,18 @@ a.btn.btn-sm.purple.btn-accounts(
   pop-over-template = "viewPopoverAccountMenu"
 )
   img.gravatar(
-    height = "21"
+    alt = "{{data.activeAccount.oauthName()}}"
+    height = "24"
+    ng-class = "{'gravatar-isolation': $root.featureFlags.isolation}"
     ng-src = "{{data.activeAccount.gravitar()}}"
-    width = "21"
+    width = "24"
+  )
+  img.gravatar(
+    alt = "{{data.user.oauthName()}}"
+    height = "15"
+    ng-if = "$root.featureFlags.isolation"
+    ng-src = "{{data.user.gravitar()}}"
+    width = "15"
   )
   span.span.float-left {{data.activeAccount.oauthName()}}
   svg.iconnables.icons-arrow-down
