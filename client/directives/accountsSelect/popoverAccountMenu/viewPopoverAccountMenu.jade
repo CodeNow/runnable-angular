@@ -13,6 +13,8 @@
       li.list-item.popover-list-item.small {{data.activeAccount.oauthName()}}
       //- leave this outside of the isolation list-item so it doens't trigger :hover & :active states
       svg.iconnables.anchor-right.icons-help(
+        modal
+        modal-template = "viewModalIsolation"
         ng-if = "$root.featureFlags.isolationUI"
       )
         use(
@@ -37,11 +39,11 @@
         | Isolation
 
       li.list-item.popover-list-item(
-        ng-if = "data.showIntegrations"
         modal
         modal-actions = "actions.actionsModalIntegrations"
         modal-data = "data.dataModalIntegrations"
         modal-template = "viewOpenModalIntegrations"
+        ng-if = "data.showIntegrations"
       )
         img.iconnables(
           height = "24"
