@@ -21,6 +21,9 @@ function BranchCommitSelectorController(
     if (arguments.length) {
       BCSC.data.commit = keypather.get(BCSC.data.branch, 'commits.models[0]');
       BCSC.data.useLatest = setToLatestCommit;
+      if (setToLatestCommit) {
+        $scope.$emit('commit::selected', BCSC.data.commit);
+      }
     } else {
       return BCSC.data.useLatest;
     }

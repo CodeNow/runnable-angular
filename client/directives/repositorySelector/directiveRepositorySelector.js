@@ -52,16 +52,14 @@ function repositorySelector(
           })
           .catch(errs.handler);
       }
-
-      if (!$rootScope.featureFlags.additionalRepositories) {
-        $scope.$on('commit::selected', function () {
-          if ($scope.data.gitDataOnly) {
-            $scope.repoSelector.actions.save();
-          } else {
-            $scope.state.view = 2;
-          }
-        });
-      }
+      $scope.repoSelector.data.instance = $scope.data.instance;
+      $scope.$on('commit::selected', function () {
+        if ($scope.data.gitDataOnly) {
+          $scope.repoSelector.actions.save();
+        } else {
+          $scope.state.view = 2;
+        }
+      });
       $scope.dirtyChecker = new DirtyChecker($scope.repoSelector.data, [
         'repo.attrs.name',
         'branch.attrs.name',
@@ -75,7 +73,7 @@ function repositorySelector(
           $scope.repoSelector.data.loading = true;
           $scope.repoSelector.data.repo.loading = true;
           // Reset this value each time the repo changes
-          $scope.repoSelector.data.useLatest = $rootScope.featureFlags.additionalRepos;
+          $scope.repoSelector.data.useLatest = $rootScope.featureFlags.additionalRepositories;
 
           $scope.repoSelector.data.branch = repo.newBranch(repo.attrs.default_branch);
           if (!repo.branches.models.length) {

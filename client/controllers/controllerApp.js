@@ -74,7 +74,7 @@ function ControllerApp(
   }, 33));
 
   var defaultFeatureFlags = {
-    additionalRepositories: false,
+    additionalRepositories: true,
     cardStatus: false,
     debugMode: false,
     fullScreen: false,  // toggles full screen
