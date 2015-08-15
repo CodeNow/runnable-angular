@@ -27,7 +27,12 @@ function BuildLogController(
         promisify(build.contextVersions.models[0], 'fetch')().then(function (data) {
           var cbBuild = keypather.get(data, 'attrs.build');
           if (build.succeeded()) {
-            $scope.$emit('WRITE_TO_TERM', cbBuild.log, true);
+            var log = cbBuild.log.split('\n').map(function (line) {
+              if (line) {
+                return JSON.parse(line).content;
+              }
+            }).join('');
+            $scope.$emit('WRITE_TO_TERM', log, true);
           } else {
             // defaulting behavior selects best avail error msg
             var errorMsg = cbBuild.log || DEFAULT_ERROR_MESSAGE;
@@ -62,18 +67,17 @@ function BuildLogController(
       chunkSize: 2048     // in bytes.
     });
     buffer.setEncoding('utf8');
+    var newStream = through(
+      function write(data) {
+        var message = data ? (data.content || data) : '';
+        buffer.put(message.toString().replace(/\r?\n/gm, '\r\n'));
+      },
+      buffer.destroySoon
+    );
     primus.joinStreams(
       $scope.stream,
-      through()
-    )
-      .pipe(through(
-        function write(data) {
-          var message = '';
-          message = data ? data.content : '';
-          buffer.put(message.toString().replace(/\r?\n/gm, '\r\n'));
-        },
-        buffer.destroySoon
-      ));
+      newStream
+    );
 
     buffer.pipe(terminal, { end: false });
   };

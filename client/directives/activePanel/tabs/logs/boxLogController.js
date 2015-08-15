@@ -66,7 +66,7 @@ function BoxLogController(
     var streamCleanser = dockerStreamCleanser('hex', true);
     buffer = new streamBuffers.ReadableStreamBuffer({
       frequency: 250,      // in milliseconds.
-      chunkSize: 2048     // in bytes.
+      chunkSize: 16000     // in bytes.
     });
     buffer.setEncoding('utf8');
     primus.joinStreams(
