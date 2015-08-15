@@ -5,6 +5,12 @@
   )
     .popover-header
       strong.strong.text-overflow {{ data.fromServer ? data.name : 'Upload File' }}
+      svg.iconnables.icons-close(
+        ng-click = "closePopover()"
+      )
+        use(
+          xlink:href = "#icons-close"
+        )
 
     .popover-content
       label.label.clearfix

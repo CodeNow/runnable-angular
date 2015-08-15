@@ -217,6 +217,24 @@
   &.popover-header-sm {
     height: $input-md;
   }
+
+  // close icon
+  .icons-close {
+    color: $gray-light;
+    cursor: pointer;
+    pointer-events: auto; // reset from .iconnables
+    position: absolute;
+    right: 15px;
+    top: 15px;
+
+    &:hover {
+      color: $gray;
+    }
+
+    &:active {
+      color: $red;
+    }
+  }
 }
 
 // flex for multiple buttons
