@@ -25,18 +25,18 @@ h1.container-title
     value = "{{ instance.getContainerHostname() }}{{defaultPort}}"
   )
 
-  //- sets width
-  span.span {{ instance.getContainerHostname() }}{{defaultPort}}
-  
-  a.a(
-    ng-href = "http://{{ instance.getContainerHostname() }}{{defaultPort}}"
-    target = "_blank"
-    title = "Open in a new tab: http://{{ instance.getContainerHostname() }}{{defaultPort}}"
-  )
-    svg.iconnables
-      use(
-        xlink:href = "#icons-link-external"
-      )
+  //- sets width for input
+  .container-url-ghost
+    span.span {{ instance.getContainerHostname() }}{{defaultPort}}
+    a.a(
+      ng-href = "http://{{ instance.getContainerHostname() }}{{defaultPort}}"
+      target = "_blank"
+      title = "Open in a new tab: http://{{ instance.getContainerHostname() }}{{defaultPort}}"
+    )
+      svg.iconnables
+        use(
+          xlink:href = "#icons-link-external"
+        )
 
 span.internal-debugging(
   ng-if = "$root.featureFlags.internalDebugging"

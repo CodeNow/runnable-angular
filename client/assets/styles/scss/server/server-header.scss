@@ -52,6 +52,10 @@
     line-height: 21px;
     padding: 0;
   }
+}
+
+.container-url-ghost {
+  display: flex;
 
   // sets width of url input
   .span {
@@ -60,8 +64,10 @@
 
   // external link
   .a {
+    background-color: $white;
     color: $gray;
     display: inline-block;
+    flex: 0 0 auto;
     height: 21px;
     padding: 3px 6px;
     position: relative;
@@ -87,7 +93,7 @@
   bottom: 12px;
   font-size: 13px;
   position: relative;
-  top: -24px;
+  top: -21px;
 }
 
 // header.server-header actions
