@@ -8,7 +8,6 @@ var DEFAULT_ERROR_MESSAGE = '\x1b[33;1mLogs are unavailable at this time\x1b[0m'
  */
 function BuildLogController(
   keypather,
-  dockerStreamCleanser,
   $scope,
   primus,
   promisify,
@@ -29,6 +28,7 @@ function BuildLogController(
           if (build.succeeded()) {
             var log = cbBuild.log.split('\n').map(function (line) {
               if (line) {
+                console.log(line);
                 return JSON.parse(line).content;
               }
             }).join('');

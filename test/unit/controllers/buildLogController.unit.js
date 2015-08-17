@@ -20,9 +20,6 @@ function createCv() {
 describe('BuildLogController'.bold.underline.blue, function () {
   var ctx = {};
   function setup() {
-    ctx.streamCleanserMock = sinon.spy(function () {
-      return mockPrimus.createLogStream();
-    });
     ctx.$log = {
       error: sinon.spy()
     };
@@ -30,7 +27,6 @@ describe('BuildLogController'.bold.underline.blue, function () {
       handler: sinon.spy()
     };
     angular.mock.module('app', function ($provide) {
-      $provide.value('dockerStreamCleanser', ctx.streamCleanserMock);
       $provide.value('primus', mockPrimus);
       $provide.value('$log', ctx.$log);
       $provide.value('errs', ctx.errs);
@@ -103,7 +99,6 @@ describe('BuildLogController'.bold.underline.blue, function () {
       var term = mockPrimus.createBuildStream();
       expect($scope.connectStreams, 'connectStreams').to.be.ok;
       $scope.connectStreams(term);
-      sinon.assert.calledWith(ctx.streamCleanserMock, 'hex');
       sinon.assert.calledWith(ctx.streamBuffer.setEncoding, 'utf8');
       sinon.assert.calledOnce(ctx.streamBuffer.pipe);
     });
@@ -115,7 +110,6 @@ describe('BuildLogController'.bold.underline.blue, function () {
       expect($scope.connectStreams, 'connectStreams').to.be.ok;
       $scope.connectStreams(term);
       $rootScope.$digest();
-      sinon.assert.calledWith(ctx.streamCleanserMock, 'hex');
       sinon.assert.calledOnce(ctx.streamBuffer.pipe);
       sinon.assert.calledWith(ctx.streamBuffer.setEncoding, 'utf8');
       stream.write('Hello');
@@ -128,11 +122,14 @@ describe('BuildLogController'.bold.underline.blue, function () {
     beforeEach(function () {
       setup();
     });
+    beforeEach(function () {
+      ctx.build.contextVersions.models[0].attrs.log = '{\"content\":\"Hello, my name is Docker\"}\n{\"content\":\"Would you like to play a game?\"}'
+    });
     it('should put the log on the term', function (done) {
       var cv = ctx.build.contextVersions.models[0];
       $scope.$on('WRITE_TO_TERM', function (event, message, clear) {
         expect(clear, 'clear').to.be.true;
-        expect(message, 'message').to.equal(cv.attrs.build.log);
+        expect(message, 'message').to.equal('Hello, my name is DockerWould you like to play a game?');
         done();
       });
 
