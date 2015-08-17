@@ -38,7 +38,7 @@ h1.container-title
           xlink:href = "#icons-link-external"
         )
 
-span.internal-debugging(
+span(
   ng-if = "$root.featureFlags.internalDebugging"
   style = "bottom: 12px;font-size: 13px;position: relative;top: -21px;"
 ) {{ instance.containers.models[0].attrs.dockerHost }} |&#32;
