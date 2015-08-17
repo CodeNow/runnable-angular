@@ -10,7 +10,6 @@
  */
 require('app')
   .directive('branchSelector', function branchSelector(
-    $timeout,
     errs,
     fetchRepoBranches,
     keypather,
