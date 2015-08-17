@@ -118,6 +118,7 @@ describe('repositoryDetailsModal'.bold.underline.blue, function () {
   describe('with data', function () {
     beforeEach(function () {
       initScope();
+      ctx.appCodeVersion.attrs.useLatest = true;
     });
     beforeEach(function () {
       setup({
@@ -129,7 +130,6 @@ describe('repositoryDetailsModal'.bold.underline.blue, function () {
     it('should set up the data object', function () {
       $scope.$digest();
 
-
       expect($elScope.RDMC.instance, 'instance').to.equal(ctx.instance);
       expect($elScope.RDMC.appCodeVersion, 'appCodeVersion').to.equal(ctx.appCodeVersion);
       expect($elScope.RDMC.defaultActions, 'defaultActions').to.equal(ctx.defaultActions);
@@ -139,6 +139,9 @@ describe('repositoryDetailsModal'.bold.underline.blue, function () {
       expect($elScope.RDMC.data.repo, 'repo').to.equal(ctx.repo);
       expect($elScope.RDMC.data.acv, 'acv').to.be.ok;
       expect($elScope.RDMC.data.acv, 'acv').to.equal(ctx.appCodeVersion);
+      expect($elScope.RDMC.data.useLatest, 'useLatest').to.be.true;
+      expect($elScope.RDMC.data.instance, 'data.instance').to.be.ok;
+      expect($elScope.RDMC.data.instance, 'data.instance').to.equal(ctx.instance);
 
       sinon.assert.calledOnce(ctx.fetchCommitData.activeBranch);
       sinon.assert.calledOnce(ctx.fetchCommitData.activeCommit);
@@ -152,7 +155,7 @@ describe('repositoryDetailsModal'.bold.underline.blue, function () {
       expect($elScope.RDMC.updateInstance, 'updateInstance').to.be.function;
     });
 
-    it('should set up the data object', function () {
+    it('should trigger the update and set the spinner', function () {
       $scope.$digest();
       expect($elScope.RDMC.updateInstance, 'updateInstance').to.be.function;
       $elScope.RDMC.updateInstance();

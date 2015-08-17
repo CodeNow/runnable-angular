@@ -30,6 +30,10 @@
       flex: 0 0 66px;
       font-size: 13px;
       padding: 0 6px;
+
+      &.icons-close {
+        padding: 0;
+      }
     }
 
     // back button

@@ -1,5 +1,11 @@
 .popover-header
   strong.strong.text-overflow Choose Repository
+  svg.iconnables.icons-close(
+    ng-click = "closePopover()"
+  )
+    use(
+      xlink:href = "#icons-close"
+    )
 
 .popover-content
   input.input.input-xs.input-search(

@@ -38,6 +38,11 @@ section.modal-body.clearfix
   ul.list.list-servers(
     ng-if = "data.githubRepos.models && data.githubRepos.models.length"
   )
+    li.p.empty(
+      ng-if = "!noResults.length"
+    ) We couldn’t find any repositories named
+      br
+      | ‘{{data.repoFilter}}’.
     li.list-item.multi-line.text-overflow(
       ng-class = "{\
         'active': repo.loading,\
@@ -48,7 +53,7 @@ section.modal-body.clearfix
       ng-repeat = "\
         repo in data.githubRepos.models | \
         repos: data.repoFilter | \
-        orderBy: '-attrs.updated_at'\
+        orderBy: '-attrs.updated_at' as noResults\
       "
     ) {{repo.attrs.name}}
       small.small Updated {{repo.attrs.updated_at | timeFrom}}

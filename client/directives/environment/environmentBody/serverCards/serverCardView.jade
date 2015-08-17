@@ -8,8 +8,6 @@
     - if building succeeded, and run fails: text says "Crashed"; title attribute shows when the server crashed "Crashed 2 minutes ago"
   server-status-card-header.btn.btn-sm.btn-title.white(
     ng-attr-no-touching = "{{ showSpinner() }}"
-    pop-over-options = "{\"right\":0,\"top\":47}"
-    pop-over-template = "serverOptionsCardPopover"
   )
 .card-header(
   ng-if = "$root.featureFlags.cardStatus"
@@ -127,24 +125,11 @@ ul.card-body.load(
     ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.containerFiles}"
     ng-if = "server.repo && !server.advanced"
   )
-    svg.iconnables(
-      ng-if = "!$root.featureFlags.sshKeys"
-    )
-      use(
-        xlink:href = "#icons-container-files"
-      )
-    svg.iconnables(
-      ng-if = "$root.featureFlags.sshKeys"
-    )
+    svg.iconnables
       use(
         xlink:href = "#icons-keys-files"
       )
-    h3.h3.text-overflow(
-      ng-if = "!$root.featureFlags.sshKeys"
-    ) Container Files
-    h3.h3.text-overflow(
-      ng-if = "$root.featureFlags.sshKeys"
-    ) Files & SSH Keys
+    h3.h3.text-overflow Files & SSH Keys
     small.small.text-overflow {{ getContainerFilesDisplay() }}
     svg.iconnables.icons-arrow-down
       use(
@@ -158,7 +143,7 @@ ul.card-body.load(
     modal-template = "editServerModalOpen"
     modal-open-flag = "openConfigurationModal"
     ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.findAndReplace}"
-    ng-if = "server.repo && $root.featureFlags.findAndReplace"
+    ng-if = "server.repo"
   )
     svg.iconnables
       use(
@@ -170,40 +155,11 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-arrow-down"
       )
-  //- dockerfile
   li.btn.white(
     modal
     modal-current-model = "instance"
     modal-state-model = "'buildfiles'"
     modal-template = "editServerModalOpen"
-    ng-if = "server.advanced && !$root.featureFlags.dockerfileTool"
-  )
-    svg.iconnables
-      use(
-        xlink:href = "#icons-dockerfile"
-      )
-    h3.h3.text-overflow Dockerfile
-    small.small(
-      ng-if = "server.advanced"
-    )
-      em.underline.tooltip-plus-wrapper Tools
-        .tooltip-plus.tooltip-tools.right(
-          ng-include = "'viewTooltipTools'"
-          style = "left: 42px; top: -67px;"
-        )
-      //- must use &nbsp; instead of &#32;
-      span.text-overflow &nbsp;not available with Dockerfile editing.
-    svg.iconnables.icons-arrow-down
-      use(
-        xlink:href = "#icons-arrow-down"
-      )
-  //- new dockerfile
-  li.btn.white(
-    modal
-    modal-current-model = "instance"
-    modal-state-model = "'buildfiles'"
-    modal-template = "editServerModalOpen"
-    ng-if = "$root.featureFlags.dockerfileTool"
   )
     svg.iconnables
       use(

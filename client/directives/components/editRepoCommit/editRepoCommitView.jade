@@ -6,7 +6,7 @@
   pop-over-actions = "popoverRepositoryToggle.actions"
   pop-over-data = "popoverRepositoryToggle.data"
   pop-over-options = "{\"left\":270,\"top\":0}"
-  pop-over-template = "viewPopoverRepositoryToggle"
+  pop-over-template = "popoverRepositoryToggleView"
   pop-over-active = "popoverRepositoryToggle.show"
   style = "margin-top: 6px;"
 )
@@ -41,7 +41,7 @@
       xlink:href = "#icons-arrow-down"
     )
 label.label-checkbox.btn-sm.btn-checkbox(
-  ng-if = "!$root.featureFlags.additionalRepositories"
+  ng-if = "!$root.featureFlags.additionalRepositories && !acv.attrs.additionalRepo"
   tooltip = "Disabling Auto Deploy will stop your container from automatically updating with new changes to your repositories."
   tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":6,\"top\":24}"
   style = "margin: 0; padding: 0 12px; height: 30px;"
@@ -57,7 +57,7 @@ label.label-checkbox.btn-sm.btn-checkbox(
 
 .small.strong.text-overflow(
   ng-if = "$root.featureFlags.additionalRepositories"
-) {{ instance.getRepoName() }}
+) {{ acv.attrs.repo | fixRepositoryName }}
 .btn.gray(
   modal
   modal-template = "repositoryDetailsModalOpen"
@@ -79,6 +79,7 @@ label.label-checkbox.btn-sm.btn-checkbox(
     //- we don't want to trigger the popover to open because this is an external link
     label.toggle-wrapper.float-right(
       ng-click = "$event.stopPropagation()"
+      ng-if = "!acv.attrs.additionalRepo"
       tooltip = "Disabling Auto Deploy will stop your container from automatically updating with new changes to your repositories."
       tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-6,\"top\":18}"
     ) Auto Deploy

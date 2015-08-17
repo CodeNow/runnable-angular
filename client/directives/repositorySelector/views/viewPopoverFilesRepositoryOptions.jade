@@ -10,22 +10,39 @@
         xlink:href = "#icons-arrow-down"
       )
     | Back
+
   //- if editing an existing repository
   //- this button is empty on purpose
   button.btn.btn-sm.pull-right.no-touching(
     ng-if = "state.fromServer"
   )
+
   strong.strong.text-overflow {{ repoSelector.data.name }}
-  //- this button is empty on purpose
+
+  //- close button
+  svg.btn.btn-sm.iconnables.icons-close(
+    ng-click = "closePopover()"
+  )
+    use(
+      xlink:href = "#icons-close"
+    )
   button.btn.btn-sm.pull-right.no-touching
 
-.popover-content
+.popover-content(
+  ng-form = "repoSelectorForm"
+)
   label.label.clearfix
     .input-col
       .btn.btn-block.white.text-overflow(
         ng-click = "state.view = 3"
-      ) {{ repoSelector.data.commit.attrs.commit.message }}
-        small.small {{ repoSelector.data.commit.attrs.author.login }} authored {{ repoSelector.data.commit.attrs.commit.author.date | timeFrom }}
+      ) {{ repoSelector.data.useLatest && $root.featureFlags.additionalRepositories ? 'Always update to latest commit' : repoSelector.data.commit.attrs.commit.message }}
+        small.small(
+          ng-if = "repoSelector.data.useLatest"
+        ) on new builds of&#32;
+          strong.strong {{ data.instance.getDisplayName() }}
+        small.small(
+          ng-if = "!repoSelector.data.useLatest"
+        ) {{ repoSelector.data.commit.attrs.author.login }} authored {{ repoSelector.data.commit.attrs.commit.author.date | timeFrom }}
         svg.iconnables.icons-arrow-down
           use(
             xlink:href = "#icons-arrow-down"
@@ -37,6 +54,7 @@
       data-prefix = "/"
     )
       input.input.input-sm(
+        name = "pathTextInput"
         ng-model = "repoSelector.data.path"
         required
         spellcheck = "false"
@@ -48,6 +66,7 @@
     .input-col
       textarea.textarea.monospace(
         command-editor
+        name = "commandTextField"
         ng-model = "repoSelector.data.commands"
         spellcheck = "false"
       )
@@ -59,14 +78,17 @@
       ng-click = "repoSelector.actions.remove()"
       ng-disabled = "state.saving"
       ng-if = "state.fromServer"
+      type = "button"
     ) Remove Repository
 
 .popover-footer.clearfix
   button.btn.btn-sm.green(
     ng-click = "repoSelector.actions.save()"
-    ng-disabled = "state.saving"
+    ng-disabled = "state.saving || (!repoSelectorForm.$dirty && !dirtyChecker.isDirty())"
+    type = "submit"
   ) {{ repoSelector.data.fromServer ? 'Save' : 'Add Repository' }}
   button.btn.btn-sm.gray.btn-cancel(
     ng-disabled = "state.saving"
     ng-click = "closePopover()"
+    type = "button"
   ) Cancel

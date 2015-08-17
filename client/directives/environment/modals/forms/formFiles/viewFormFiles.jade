@@ -32,10 +32,9 @@
 )
 
 .clearfix
-  .label-col {{ $root.featureFlags.sshKeys ? "Files & SSH Keys" : "Container Files" }}
+  .label-col Files & SSH Keys
   .input-col.clearfix
     button.btn.btn-xs.white.float-right(
-      ng-if = "$root.featureFlags.sshKeys"
       pop-over
       pop-over-options = "{\"right\":0,\"top\":35}"
       pop-over-template = "viewPopoverAddFile"
@@ -46,14 +45,6 @@
         use(
           xlink:href = "#icons-arrow-down"
         )
-    button.btn.btn-xs.white.float-right(
-      ng-click = "CFC.actions.triggerAddRepository()"
-      ng-if = "!$root.featureFlags.sshKeys"
-    ) Add Repository
-    button.btn.btn-xs.white.float-right(
-      ng-click = "CFC.actions.triggerUploadFile()"
-      ng-if = "!$root.featureFlags.sshKeys"
-    ) Upload File
 
 .table(
   ng-include = "'viewFormFilesTable'"

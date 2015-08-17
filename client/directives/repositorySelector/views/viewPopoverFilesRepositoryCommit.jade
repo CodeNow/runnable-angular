@@ -9,11 +9,16 @@
         xlink:href = "#icons-arrow-down"
       )
     | Back
+
   strong.strong.text-overflow Commit
+
   //- this button is empty on purpose
-  button.btn.btn-sm.pull-right.no-touching(
-    ng-if = "!(data.gitDataOnly && state.fromServer)"
+  svg.btn.btn-sm.iconnables.icons-close(
+    ng-click = "closePopover()"
   )
+    use(
+      xlink:href = "#icons-close"
+    )
 
 .popover-content.repository-details-content(
   branch-commit-selector

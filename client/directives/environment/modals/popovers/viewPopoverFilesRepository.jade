@@ -1,7 +1,8 @@
-.popover.popover-fixed.popover-files(
-  ng-class = "{in: active}"
-  ng-style = "popoverStyle.getStyle()"
-)
-  .popover-views(
-    repository-selector
+.popover-overlay
+  .popover.popover-fixed.popover-files(
+    ng-class = "{in: active}"
+    ng-style = "popoverStyle.getStyle()"
   )
+    .popover-views(
+      repository-selector
+    )

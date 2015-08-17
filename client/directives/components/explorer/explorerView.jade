@@ -27,11 +27,10 @@
       )
 
 .sidebar-section-content.js-animate(
-  ng-if = "!$storage.explorerIsClosed"
+  ng-if = "editExplorer || !$storage.explorerIsClosed"
 )
-
   .well.in(
-    ng-if = "!fileModel.running()"
+    ng-if = "!editExplorer && !fileModel.running()"
   ) There are no files because&#32;
     strong.strong {{instance.getBranchName() || instance.getDisplayName()}}&#32;
     | isn’t running.
