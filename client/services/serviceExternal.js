@@ -49,6 +49,9 @@ require('app')
     types['SSH Key'] = types.SSHKey;
     return types;
   })
+  .factory('sshValidation', function () {
+    return require('ssh-pub-key-validation');
+  })
   .service('keypather', [require('keypather')])
   .service('uuid', function () {
     return require('node-uuid');
