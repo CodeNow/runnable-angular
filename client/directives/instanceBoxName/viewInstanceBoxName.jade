@@ -15,7 +15,7 @@ h1.container-title
   ) \#{{pr.number}}
 
 .container-url
-  
+
   input.input(
     ng-if = "instance.attrs.name"
     readonly
@@ -40,6 +40,7 @@ h1.container-title
 
 span.internal-debugging(
   ng-if = "$root.featureFlags.internalDebugging"
+  style = "bottom: 12px;font-size: 13px;position: relative;top: -21px;"
 ) {{ instance.containers.models[0].attrs.dockerHost }} |&#32;
   span(
     ng-repeat = "(key, value) in instance.containers.models[0].attrs.ports"
