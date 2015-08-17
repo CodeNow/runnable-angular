@@ -293,7 +293,7 @@ function editServerModal(
           })
           .then(function (promiseArrayLength) {
             // Since the initial deepCopy should be in here, we only care about > 1
-            toRebuild = promiseArrayLength > 1 || $scope.openItems.getAllFileModels(true).length;
+            toRebuild = promiseArrayLength > 1 || $scope.openItems.getAllFileModels(true).length || keypather.get($scope, 'instance.attrs.build.failed');
             toRedeploy = !toRebuild &&
               keypather.get($scope, 'instance.attrs.env') !== keypather.get($scope, 'state.opts.env');
             if (!$scope.openItems.isClean()) {
