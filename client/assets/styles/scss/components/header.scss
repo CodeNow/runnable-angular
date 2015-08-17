@@ -5,11 +5,11 @@
   padding: 0 15px;
 
   // isolation
-  &.gray {
-    background: $gray-dark;
-    border: 0;
-    border-bottom: 1px solid $gray-darker;
-  }
+  // &.gray {
+  //   background: $gray-dark;
+  //   border: 0;
+  //   border-bottom: 1px solid $gray-darker;
+  // }
 
   // layout
   .logo,
@@ -76,6 +76,7 @@
 
       // isolation gravatar
       + .gravatar {
+        animation: scale-in .15s ease-in forwards;
         left: 27px;
       }
 

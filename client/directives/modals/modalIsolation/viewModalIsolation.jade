@@ -1,7 +1,20 @@
-.modal-dialog
+.modal-dialog.modal-isolation
+  svg.iconnables.icons-close(
+    ng-click = "defaultActions.cancel()"
+  )
+    use(
+      xlink:href = "#icons-close"
+    )
   section.modal-body
-    p.p.empty Work in isolation
-    p.p.empty Create an sandbox that’s safe from your team.
+    svg.iconnables.icons-door
+      use(
+        xlink:href = "#icons-door"
+      )
+    h3.h3.text-center Work in isolation
+    p.p.text-center Changes made while you’re isolated won’t affect the containers the rest of your team uses.
+      br
+      a.link Learn more
+      | &#32; about working in isolation.
   footer.modal-footer
     button.btn.btn-block.green(
       ng-click = "defaultActions.cancel()"
