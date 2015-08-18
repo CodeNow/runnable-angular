@@ -173,6 +173,10 @@
   // states
   &:hover {
     background: rgba($purple-lightest,.45);
+
+    .icons-fat-check {
+      opacity: 1;
+    }
   }
 
   &:active,
@@ -189,6 +193,11 @@
       background: $white;
       border-color: currentColor;
       color: $purple-light;
+    }
+
+    .icons-fat-check {
+      background: $green;
+      color: $white;
     }
   }
 

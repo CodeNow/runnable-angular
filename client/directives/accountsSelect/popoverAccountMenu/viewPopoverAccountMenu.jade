@@ -14,7 +14,7 @@
         'view-1': state.view === 1,\
         'view-2': state.view === 2\
       }"
-      style = "min-height: {{state.view === 1 ? '179' : data.allAccounts.length * 36 + 40}}px"
+      style = "min-height: {{state.view === 1 ? '179' : data.allAccounts.length * 36 + 44}}px"
     )
       .popover-view
         //- data.showIntegrations can be removed with $root.featureFlags.isolationUI
@@ -25,6 +25,10 @@
           li.list-item
             //- this style of list nesting so that states on .anchor-right do not affect .popover-list-item
             .popover-list-item.text-overflow.no-touching
+              svg.iconnables.icons-fat-check
+                use(
+                  xlink:href = "#icons-fat-check"
+                )
               img.gravatar(
                 alt = "{{data.activeAccount.oauthName()}}"
                 height = "24"
@@ -48,17 +52,15 @@
             ng-if = "$root.featureFlags.isolationUI"
           )
             .popover-list-item
+              svg.iconnables.icons-fat-check
+                use(
+                  xlink:href = "#icons-fat-check"
+                )
               img.gravatar.gravatar-isolation(
                 alt = "{{data.activeAccount.oauthName()}}"
-                height = "21"
+                height = "24"
                 ng-src = "{{data.activeAccount.gravitar()}}"
-                width = "21"
-              )
-              img.gravatar(
-                alt = "{{data.user.oauthName()}}"
-                height = "15"
-                ng-src = "{{data.user.gravitar()}}"
-                width = "15"
+                width = "24"
               )
               | Isolation
             svg.btn.btn-xxs.gray.iconnables.anchor-right.icons-help(
@@ -109,6 +111,10 @@
             ng-click = "actions.selectActiveAccount(account)"
             ng-repeat = "account in data.allAccounts"
           )
+            svg.iconnables.icons-fat-check
+              use(
+                xlink:href = "#icons-fat-check"
+              )
             img.gravatar(
               alt = "{{account.oauthName()}}"
               height = "24"
