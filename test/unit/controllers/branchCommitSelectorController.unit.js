@@ -122,6 +122,25 @@ describe('branchCommitSelectorController'.bold.underline.blue, function () {
       expect(branchCommitSelectorController.data.commit, 'data.commit').to.equal(ctx.commits.models[0]);
       $rootScope.$destroy();
     });
+    it('useLatest emits commit::selected on set true, not false', function () {
+      branchCommitSelectorController.data = {
+        useLatest: true,
+        branch: ctx.branch
+      };
+      var commitSelectedSpy = sinon.spy();
+      $rootScope.$on('commit::selected', commitSelectedSpy);
+      $scope.$digest();
+      expect(branchCommitSelectorController.isLatestCommit(), 'useLatest').to.be.true;
+      branchCommitSelectorController.isLatestCommit(false);
+      sinon.assert.notCalled(commitSelectedSpy);
+      expect(branchCommitSelectorController.isLatestCommit(), 'useLatest').to.be.false;
+      branchCommitSelectorController.isLatestCommit(true);
+      sinon.assert.calledOnce(commitSelectedSpy);
+
+      expect(branchCommitSelectorController.data.useLatest, 'data.useLatest').to.be.true;
+      expect(branchCommitSelectorController.data.commit, 'data.commit').to.equal(ctx.commits.models[0]);
+      $rootScope.$destroy();
+    });
 
     it('should not set the commit when isLatest is true', function () {
       var fakeCommit = {

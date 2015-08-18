@@ -35,7 +35,7 @@ require('app')
               repo.branches.add($scope.state.branch);
               $scope.branchFetching = true;
               // Don't fetch until the next digest cycle so the fancy select has enough time to draw
-              $scope.$evalAsync(function () {
+              $scope.$applyAsync(function () {
                 return fetchRepoBranches($scope.state.repo)
                   .catch(errs.handler)
                   .finally(function () {

@@ -1,0 +1,58 @@
+.sidebar-section-heading.strong(
+  ng-class = "{'closed': $storage.dnsManagementIsClosed}"
+  ng-click = "$storage.dnsManagementIsClosed = !$storage.dnsManagementIsClosed"
+)
+  svg.iconnables.icons-disclose
+    use(
+      xlink:href = "#icons-disclose"
+    )
+  | DNS Mappings
+
+  //- spinner for sidebar
+  .spinner-wrapper.spinner-sm.spinner-gray.in(
+    ng-if = "!isDnsSetup && !$storage.dnsManagementIsClosed"
+    ng-include = "'spinner'"
+  )
+
+.sidebar-section-content(
+  ng-if = "!$storage.dnsManagementIsClosed"
+)
+
+  .well.in(
+    ng-if = "isDnsSetup && directlyRelatedMasterInstances.length === 0"
+  )
+    strong.strong {{ instance.getRepoName() || instance.getDisplayName() }}
+    | &#32;has no DNS mappings.
+
+  .sidebar-section-item(
+    ng-if = "isDnsSetup"
+    ng-repeat = "masterInstance in directlyRelatedMasterInstances track by masterInstance.attrs.shortHash"
+  )
+    .small.text-overflow(
+      title = "Elastic hostname: {{masterInstance.getRepoName()}}-staging-{{masterInstance.attrs.owner.username}}.runnableapp.com"
+    )
+      strong.strong {{ masterInstance.getRepoName() }}
+      | -staging-{{ masterInstance.attrs.owner.username }}.runnableapp.com
+
+    fancy-select.gray.in(
+      on-update = "actions.setDependency"
+      title = "{{masterInstance.getBranchName()}}"
+      track-by = "attrs.shortHash"
+      value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
+    )
+      fancy-option(
+        value = "$parent.masterInstance"
+      )
+        status-icon(
+          instance = "$parent.$parent.masterInstance"
+        )
+        | {{ $parent.$parent.masterInstance.getBranchName() }}
+
+      fancy-option(
+        ng-repeat = "childInstance in $parent.masterInstance.children.models | orderBy : 'getBranchName()'"
+        value = "childInstance"
+      )
+        status-icon(
+          instance = "$parent.childInstance"
+        )
+        | {{ $parent.childInstance.getBranchName() }}
