@@ -51,15 +51,8 @@
 
 .sidebar-section {
   border-bottom: 1px solid $gray-lighter;
-  flex-direction: column;
-  max-height: 999999px;
   overflow: hidden;
   padding: 0 12px;
-  transition: max-height .15s ease-in-out;
-
-  &.closed {
-    max-height: 54px;
-  }
 }
 
 // file explorer section
@@ -124,11 +117,6 @@
       width: 24px;
     }
   }
-}
-
-// fake transition so content doesn’t disappear before .sidebar-section’s transition is complete
-.sidebar-section-content.ng-leave {
-  transition: all .15s ease-in-out;
 }
 
 .sidebar-section-item {

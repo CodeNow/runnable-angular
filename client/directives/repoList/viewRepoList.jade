@@ -8,7 +8,7 @@
     )
   | Repositories
 
-.sidebar-section-content.js-animate(
+.sidebar-section-content(
   ng-if = "!$storage.repoListIsClosed && $root.featureFlags.additionalRepositories"
 )
   .sidebar-section-item(
@@ -17,7 +17,7 @@
     model = "acv"
     ng-repeat = "acv in instance.contextVersion.appCodeVersions.models | orderBy : '-attrs.additionalRepo'"
   )
-.sidebar-section-content.js-animate(
+.sidebar-section-content(
   ng-if = "!$storage.repoListIsClosed && !$root.featureFlags.additionalRepositories"
 )
   .sidebar-section-item(
