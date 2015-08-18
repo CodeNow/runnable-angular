@@ -14,6 +14,7 @@
         'view-1': state.view === 1,\
         'view-2': state.view === 2\
       }"
+      style = "min-height: {{state.view === 1 ? '179' : data.allAccounts.length * 36 + 40}}px"
     )
       .popover-view
         //- data.showIntegrations can be removed with $root.featureFlags.isolationUI
@@ -21,22 +22,16 @@
           ng-if = "data.showIntegrations || $root.featureFlags.isolationUI"
         )
           //- this organization
-          li.list-item(
-            ng-click = "actions.selectActiveAccount(org)"
-            ng-if = "org === data.activeAccount"
-            ng-repeat = "org in data.orgs.models"
-          )
+          li.list-item
             //- this style of list nesting so that states on .anchor-right do not affect .popover-list-item
-            .popover-list-item.text-overflow(
-              ng-class = "{'no-touching': (org === data.activeAccount)}"
-            )
+            .popover-list-item.text-overflow.no-touching
               img.gravatar(
-                alt = "{{org.oauthName()}}"
+                alt = "{{data.activeAccount.oauthName()}}"
                 height = "24"
-                ng-src = "{{org.gravitar()}}"
+                ng-src = "{{data.activeAccount.gravitar()}}"
                 width = "24"
               )
-              | {{org.oauthName()}}
+              | {{data.activeAccount.oauthName()}}
             svg.btn.btn-xxs.gray.iconnables.anchor-right.icons-cog(
               modal
               modal-actions = "actions.actionsModalIntegrations"
@@ -108,47 +103,16 @@
           | Organizations
 
         ul.list.popover-list
-          //-  current organization
-          li.list-item.popover-list-item.text-overflow.no-touching(
-            ng-click = "actions.selectActiveAccount(org)"
-            ng-repeat = "org in data.orgs.models"
-            ng-if = "org === data.activeAccount"
-          )
-            img.gravatar(
-              alt = "{{org.oauthName()}}"
-              height = "24"
-              ng-src = "{{org.gravitar()}}"
-              width = "24"
-            )
-            | {{org.oauthName()}}
-          //- current user
-          li.list-item.popover-list-item.text-overflow(
-            ng-class = "{'disabled': data.user === data.activeAccount}"
-            ng-click = "actions.selectActiveAccount(data.user)"
-          )
-            img.gravatar(
-              alt = "{{data.user.oauthName()}}"
-              height = "24"
-              ng-src = "{{data.user.gravitar()}}"
-              width = "24"
-            )
-            | {{data.user.oauthName()}}
-            svg.iconnables.icons-fat-check.anchor-right(
-              ng-if = "data.user === data.activeAccount"
-            )
-              use(
-                xlink:href = "#icons-fat-check"
-              )
           //- all organizations except current
           li.list-item.popover-list-item.text-overflow(
-            ng-click = "actions.selectActiveAccount(org)"
-            ng-repeat = "org in data.orgs.models"
-            ng-if = "org != data.activeAccount"
+            ng-class = "{'no-touching': account === data.activeAccount}"
+            ng-click = "actions.selectActiveAccount(account)"
+            ng-repeat = "account in data.allAccounts"
           )
             img.gravatar(
-              alt = "{{org.oauthName()}}"
+              alt = "{{account.oauthName()}}"
               height = "24"
-              ng-src = "{{org.gravitar()}}"
+              ng-src = "{{account.gravitar()}}"
               width = "24"
             )
-            | {{org.oauthName()}}
+            | {{account.oauthName()}}
