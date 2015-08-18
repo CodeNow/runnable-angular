@@ -1,10 +1,3 @@
-// line between items
-.list-divided {
-
-  .list-item + .list-item {
-    border-top: 1px solid $gray-lighter;
-  }
-}
 
 // bordered list
 .list-bordered {
@@ -23,6 +16,10 @@
 
     &:only-child {
       border-radius: 3px;
+    }
+
+    + .list-item {
+      border-top: 1px solid $gray-lighter;
     }
   }
 }
