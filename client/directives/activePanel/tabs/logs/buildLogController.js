@@ -32,7 +32,7 @@ function BuildLogController(
                 if (line) {
                   return line.content;
                 }
-              }).join('\n');
+              }).join('');
             }
             $scope.$emit('WRITE_TO_TERM', log, true);
           } else {
@@ -71,7 +71,7 @@ function BuildLogController(
     buffer.setEncoding('utf8');
     var newStream = through(
       function write(data) {
-        var message = data ? (data.content + '\n' || data) : '';
+        var message = data.content || data;
         buffer.put(message.toString().replace(/\r?\n/gm, '\r\n'));
       },
       buffer.destroySoon

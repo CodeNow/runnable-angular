@@ -112,9 +112,23 @@ describe('BuildLogController'.bold.underline.blue, function () {
       $rootScope.$digest();
       sinon.assert.calledOnce(ctx.streamBuffer.pipe);
       sinon.assert.calledWith(ctx.streamBuffer.setEncoding, 'utf8');
+      stream.write('Hello');
+      $rootScope.$digest();
+      sinon.assert.calledWith(ctx.streamBuffer.put, 'Hello');
+    });
+    it('should receive data in stream buffer (object)', function () {
+      $rootScope.$digest();
+      var stream = mockPrimus.createBuildStream();
+      $scope.stream = stream;
+      var term = mockPrimus.createBuildStream();
+      expect($scope.connectStreams, 'connectStreams').to.be.ok;
+      $scope.connectStreams(term);
+      $rootScope.$digest();
+      sinon.assert.calledOnce(ctx.streamBuffer.pipe);
+      sinon.assert.calledWith(ctx.streamBuffer.setEncoding, 'utf8');
       stream.write({content: 'Hello'});
       $rootScope.$digest();
-      sinon.assert.calledWith(ctx.streamBuffer.put, 'Hello\r\n');
+      sinon.assert.calledWith(ctx.streamBuffer.put, 'Hello');
     });
   });
 
@@ -122,13 +136,27 @@ describe('BuildLogController'.bold.underline.blue, function () {
     beforeEach(function () {
       setup();
     });
-    beforeEach(function () {
+    it('should put the log on the term (old strings)', function (done) {
+      ctx.build.contextVersions.models[0].attrs.build.log = 'Hello, my name is Docker\nWould you like to play a game?';
+      var cv = ctx.build.contextVersions.models[0];
+      $scope.$on('WRITE_TO_TERM', function (event, message, clear) {
+        expect(clear, 'clear').to.be.true;
+        expect(message, 'message').to.equal('Hello, my name is Docker\nWould you like to play a game?');
+        done();
+      });
+
+      ctx.buildPassed = true;
+      $scope.build = ctx.build;
+      $rootScope.$digest();
+
+      sinon.assert.calledOnce(cv.fetch);
+
+    });
+    it('should put the log on the term (new objects)', function (done) {
       ctx.build.contextVersions.models[0].attrs.build.log = [
-        {content: 'Hello, my name is Docker'},
+        {content: 'Hello, my name is Docker\n'},
         {content: 'Would you like to play a game?'}
       ];
-    });
-    it('should put the log on the term', function (done) {
       var cv = ctx.build.contextVersions.models[0];
       $scope.$on('WRITE_TO_TERM', function (event, message, clear) {
         expect(clear, 'clear').to.be.true;
