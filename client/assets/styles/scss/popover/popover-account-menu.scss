@@ -1,44 +1,17 @@
 .popover-account-menu {
-  max-width: 180px;
-  transform-origin: 95% 0 !important;
+  width: 210px;
   z-index: $z-spinner + 1; // to appear above instance view spinner
 
   .list {
-    max-height: 50vh;
-    overflow-y: auto;
 
-    // override for slack icon
-    .iconnables {
-      width: 24px;
+    // arrow right
+    .icons-arrow {
+      width: 21px;
     }
-  }
 
-  .list-item.disabled {
-    padding-right: 24px;
-    pointer-events: none;
-  }
-
-  // help link
-  .icons-help {
-    color: $gray-light;
-    cursor: pointer;
-    max-width: 15px;
-    padding: 0 3px;
-    pointer-events: auto;
-    position: absolute; // because this element doesn't live within .list-item
-    right: 0;
-    top: $input-sm + 4px; // +4px is the padding of the list
-    z-index: 1;
-
-    &:hover,
-    &:active {
-      color: $purple-light;
+    // external links
+    .icons-link-external {
+      padding: 0 5px;
     }
-  }
-
-  // active organization indicator
-  .icons-fat-check {
-    color: $purple-light;
-    max-width: 18px;
   }
 }

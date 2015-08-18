@@ -22,8 +22,8 @@ a.btn.btn-sm.purple.btn-accounts(
     ng-src = "{{data.user.gravitar()}}"
     width = "15"
   )
-  span.span.float-left {{data.activeAccount.oauthName()}}
-  svg.iconnables.icons-arrow-down
+  span.span.float-left {{$root.featureFlags.isolation ? 'Isolation' : data.activeAccount.oauthName()}}
+  svg.iconnables.icons-arrow-down.anchor-right
     use(
       xlink:href = "#icons-arrow-down"
     )

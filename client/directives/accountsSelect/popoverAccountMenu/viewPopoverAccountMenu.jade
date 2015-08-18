@@ -1,50 +1,99 @@
 .popover.menu.bottom.popover-account-menu(
   ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
+  style = "transform-origin: 95% 0;"
 )
   .arrow.white(
-    style = "left: 153px"
+    style = "left: 182px;"
   )
   .popover-content
     //- data.showIntegrations can be removed with $root.featureFlags.isolationUI
     ul.list.popover-list(
       ng-if = "data.showIntegrations || $root.featureFlags.isolationUI"
     )
-      li.list-item.popover-list-item.small {{data.activeAccount.oauthName()}}
-      //- leave this outside of the isolation list-item so it doens't trigger :hover & :active states
-      svg.iconnables.anchor-right.icons-help(
-        modal
-        modal-template = "viewModalIsolation"
-        ng-if = "$root.featureFlags.isolationUI"
+      //- this organization
+      li.list-item(
+        ng-click = "actions.selectActiveAccount(org)"
+        ng-if = "org === data.activeAccount"
+        ng-repeat = "org in data.orgs.models"
       )
-        use(
-          xlink:href = "#icons-help"
+        //- this style of list nesting so that states on .anchor-right do not affect .popover-list-item
+        .popover-list-item.text-overflow(
+          ng-class = "{'no-touching': (org === data.activeAccount)}"
         )
-      li.list-item.popover-list-item(
+          img.gravatar(
+            alt = "{{org.oauthName()}}"
+            height = "24"
+            ng-src = "{{org.gravitar()}}"
+            width = "24"
+          )
+          | {{org.oauthName()}}
+        svg.btn.btn-xxs.gray.iconnables.anchor-right.icons-cog(
+          modal
+          modal-actions = "actions.actionsModalIntegrations"
+          modal-data = "data.dataModalIntegrations"
+          modal-template = "viewOpenModalIntegrations"
+        )
+          use(
+            xlink:href = "#icons-cog"
+          )
+
+      //- leave this outside of the isolation list-item so it doens't trigger :hover & :active states
+      li.list-item(
         ng-click = "$root.featureFlags.isolation = !$root.featureFlags.isolation"
         ng-if = "$root.featureFlags.isolationUI"
       )
-        img.gravatar.gravatar-isolation(
-          alt = "{{data.activeAccount.oauthName()}}"
-          height = "21"
-          ng-src = "{{data.activeAccount.gravitar()}}"
-          width = "21"
+        .popover-list-item
+          img.gravatar.gravatar-isolation(
+            alt = "{{data.activeAccount.oauthName()}}"
+            height = "21"
+            ng-src = "{{data.activeAccount.gravitar()}}"
+            width = "21"
+          )
+          img.gravatar(
+            alt = "{{data.user.oauthName()}}"
+            height = "15"
+            ng-src = "{{data.user.gravitar()}}"
+            width = "15"
+          )
+          | Isolation
+        svg.btn.btn-xxs.gray.iconnables.anchor-right.icons-help(
+          modal
+          modal-template = "viewModalIsolation"
+          ng-if = "$root.featureFlags.isolationUI"
         )
-        img.gravatar(
-          alt = "{{data.user.oauthName()}}"
-          height = "15"
-          ng-src = "{{data.user.gravitar()}}"
-          width = "15"
-        )
-        | Isolation
+          use(
+            xlink:href = "#icons-help"
+          )
 
-      li.list-item.popover-list-item(
-        modal
-        modal-actions = "actions.actionsModalIntegrations"
-        modal-data = "data.dataModalIntegrations"
-        modal-template = "viewOpenModalIntegrations"
-        ng-if = "data.showIntegrations"
-      )
+    ul.list.popover-list.list-secondary
+      li.list-item.popover-list-item Change Organization
+        svg.iconnables.icons-arrow-forward.anchor-right
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
+      li.list-item.popover-list-item
+        a.list-link(
+          href = "//runnable.zendesk.com/hc/en-us"
+          target = "_blank"
+        ) Documentation
+          svg.iconnables.icons-link-external.anchor-right
+            use(
+              xlink:href = "#icons-link-external"
+            )
+      li.list-item.popover-list-item
+        a.list-link(
+          ng-click = "actions.logout();"
+        ) Log Out
+
+
+      //- li.list-item.popover-list-item(
+      //-   modal
+      //-   modal-actions = "actions.actionsModalIntegrations"
+      //-   modal-data = "data.dataModalIntegrations"
+      //-   modal-template = "viewOpenModalIntegrations"
+      //-   ng-if = "data.showIntegrations"
+      //- )
         img.iconnables(
           height = "24"
           src = "/build/images/logos/logo-icon-slack.svg"
@@ -52,8 +101,7 @@
         )
         | Slack Integration
 
-    ul.list.popover-list
-      li.list-item.popover-list-item.small Change Organization
+    //- ul.list.popover-list
       //- current user
       li.list-item.popover-list-item.text-overflow(
         ng-class = "{'disabled': data.user === data.activeAccount}"
@@ -78,6 +126,7 @@
         ng-class = "{'disabled': (org === data.activeAccount)}"
         ng-click = "actions.selectActiveAccount(org)"
         ng-repeat = "org in data.orgs.models"
+        ng-if = "org != data.activeAccount"
       )
         img.gravatar(
           alt = "{{org.oauthName()}}"
@@ -86,15 +135,3 @@
           width = "24"
         )
         | {{org.oauthName()}}
-        svg.iconnables.icons-fat-check.anchor-right(
-          ng-if = "org === data.activeAccount"
-        )
-          use(
-            xlink:href = "#icons-fat-check"
-          )
-
-    ul.list.popover-list
-      li.list-item.popover-list-item
-        a.list-link(
-          ng-click = "actions.logout();"
-        ) Log Out

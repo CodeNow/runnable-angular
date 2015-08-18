@@ -176,6 +176,11 @@
   .gravatar {
     float: left;
     margin: 18px 9px 0 2px;
+
+    // isolation images
+    &.gravatar-isolation {
+      margin-right: 12px; // +3px to compensate for -3px image size
+    }
   }
 
   // upload
