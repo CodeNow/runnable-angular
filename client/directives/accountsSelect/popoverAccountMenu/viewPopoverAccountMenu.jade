@@ -1,137 +1,144 @@
 .popover.menu.bottom.popover-account-menu(
-  ng-class = "{in: active}"
+  ng-class = "{'in': active}"
+  ng-init = "state.view = 1"
   ng-style = "popoverStyle.getStyle()"
   style = "transform-origin: 95% 0;"
 )
   .arrow.white(
     style = "left: 182px;"
   )
-  .popover-content
-    //- data.showIntegrations can be removed with $root.featureFlags.isolationUI
-    ul.list.popover-list(
-      ng-if = "data.showIntegrations || $root.featureFlags.isolationUI"
+  .popover-views
+    div(
+      ng-class = "{\
+        'view-1': state.view === 1,\
+        'view-2': state.view === 2\
+      }"
     )
-      //- this organization
-      li.list-item(
-        ng-click = "actions.selectActiveAccount(org)"
-        ng-if = "org === data.activeAccount"
-        ng-repeat = "org in data.orgs.models"
-      )
-        //- this style of list nesting so that states on .anchor-right do not affect .popover-list-item
-        .popover-list-item.text-overflow(
-          ng-class = "{'no-touching': (org === data.activeAccount)}"
+      .popover-view
+        //- data.showIntegrations can be removed with $root.featureFlags.isolationUI
+        ul.list.popover-list(
+          ng-if = "data.showIntegrations || $root.featureFlags.isolationUI"
         )
-          img.gravatar(
-            alt = "{{org.oauthName()}}"
-            height = "24"
-            ng-src = "{{org.gravitar()}}"
-            width = "24"
+          //- this organization
+          li.list-item(
+            ng-click = "actions.selectActiveAccount(org)"
+            ng-if = "org === data.activeAccount"
+            ng-repeat = "org in data.orgs.models"
           )
-          | {{org.oauthName()}}
-        svg.btn.btn-xxs.gray.iconnables.anchor-right.icons-cog(
-          modal
-          modal-actions = "actions.actionsModalIntegrations"
-          modal-data = "data.dataModalIntegrations"
-          modal-template = "viewOpenModalIntegrations"
-        )
-          use(
-            xlink:href = "#icons-cog"
-          )
-
-      //- leave this outside of the isolation list-item so it doens't trigger :hover & :active states
-      li.list-item(
-        ng-click = "$root.featureFlags.isolation = !$root.featureFlags.isolation"
-        ng-if = "$root.featureFlags.isolationUI"
-      )
-        .popover-list-item
-          img.gravatar.gravatar-isolation(
-            alt = "{{data.activeAccount.oauthName()}}"
-            height = "21"
-            ng-src = "{{data.activeAccount.gravitar()}}"
-            width = "21"
-          )
-          img.gravatar(
-            alt = "{{data.user.oauthName()}}"
-            height = "15"
-            ng-src = "{{data.user.gravitar()}}"
-            width = "15"
-          )
-          | Isolation
-        svg.btn.btn-xxs.gray.iconnables.anchor-right.icons-help(
-          modal
-          modal-template = "viewModalIsolation"
-          ng-if = "$root.featureFlags.isolationUI"
-        )
-          use(
-            xlink:href = "#icons-help"
-          )
-
-    ul.list.popover-list.list-secondary
-      li.list-item.popover-list-item Change Organization
-        svg.iconnables.icons-arrow-forward.anchor-right
-          use(
-            xlink:href = "#icons-arrow-down"
-          )
-      li.list-item.popover-list-item
-        a.list-link(
-          href = "//runnable.zendesk.com/hc/en-us"
-          target = "_blank"
-        ) Documentation
-          svg.iconnables.icons-link-external.anchor-right
-            use(
-              xlink:href = "#icons-link-external"
+            //- this style of list nesting so that states on .anchor-right do not affect .popover-list-item
+            .popover-list-item.text-overflow(
+              ng-class = "{'no-touching': (org === data.activeAccount)}"
             )
-      li.list-item.popover-list-item
-        a.list-link(
-          ng-click = "actions.logout();"
-        ) Log Out
+              img.gravatar(
+                alt = "{{org.oauthName()}}"
+                height = "24"
+                ng-src = "{{org.gravitar()}}"
+                width = "24"
+              )
+              | {{org.oauthName()}}
+            svg.btn.btn-xxs.gray.iconnables.anchor-right.icons-cog(
+              modal
+              modal-actions = "actions.actionsModalIntegrations"
+              modal-data = "data.dataModalIntegrations"
+              modal-template = "viewOpenModalIntegrations"
+            )
+              use(
+                xlink:href = "#icons-cog"
+              )
 
-
-      //- li.list-item.popover-list-item(
-      //-   modal
-      //-   modal-actions = "actions.actionsModalIntegrations"
-      //-   modal-data = "data.dataModalIntegrations"
-      //-   modal-template = "viewOpenModalIntegrations"
-      //-   ng-if = "data.showIntegrations"
-      //- )
-        img.iconnables(
-          height = "24"
-          src = "/build/images/logos/logo-icon-slack.svg"
-          width = "24"
-        )
-        | Slack Integration
-
-    //- ul.list.popover-list
-      //- current user
-      li.list-item.popover-list-item.text-overflow(
-        ng-class = "{'disabled': data.user === data.activeAccount}"
-        ng-click = "actions.selectActiveAccount(data.user)"
-      )
-        img.gravatar(
-          alt = "{{data.user.oauthName()}}"
-          height = "24"
-          ng-src = "{{data.user.gravitar()}}"
-          width = "24"
-        )
-        | {{data.user.oauthName()}}
-        svg.iconnables.icons-fat-check.anchor-right(
-          ng-if = "data.user === data.activeAccount"
-        )
-          use(
-            xlink:href = "#icons-fat-check"
+          //- leave this outside of the isolation list-item so it doens't trigger :hover & :active states
+          li.list-item(
+            ng-click = "$root.featureFlags.isolation = !$root.featureFlags.isolation"
+            ng-if = "$root.featureFlags.isolationUI"
           )
+            .popover-list-item
+              img.gravatar.gravatar-isolation(
+                alt = "{{data.activeAccount.oauthName()}}"
+                height = "21"
+                ng-src = "{{data.activeAccount.gravitar()}}"
+                width = "21"
+              )
+              img.gravatar(
+                alt = "{{data.user.oauthName()}}"
+                height = "15"
+                ng-src = "{{data.user.gravitar()}}"
+                width = "15"
+              )
+              | Isolation
+            svg.btn.btn-xxs.gray.iconnables.anchor-right.icons-help(
+              modal
+              modal-template = "viewModalIsolation"
+              ng-if = "$root.featureFlags.isolationUI"
+            )
+              use(
+                xlink:href = "#icons-help"
+              )
 
-      //- organizations
-      li.list-item.popover-list-item.text-overflow(
-        ng-class = "{'disabled': (org === data.activeAccount)}"
-        ng-click = "actions.selectActiveAccount(org)"
-        ng-repeat = "org in data.orgs.models"
-        ng-if = "org != data.activeAccount"
-      )
-        img.gravatar(
-          alt = "{{org.oauthName()}}"
-          height = "24"
-          ng-src = "{{org.gravitar()}}"
-          width = "24"
-        )
-        | {{org.oauthName()}}
+        ul.list.popover-list.list-secondary
+          li.list-item.popover-list-item(
+            ng-click = "state.view = 2"
+          ) Change Organization
+            svg.iconnables.icons-arrow-forward.anchor-right
+              use(
+                xlink:href = "#icons-arrow-down"
+              )
+          li.list-item.popover-list-item
+            a.list-link(
+              href = "//runnable.zendesk.com/hc/en-us"
+              target = "_blank"
+            ) Documentation
+              svg.iconnables.icons-link-external.anchor-right
+                use(
+                  xlink:href = "#icons-link-external"
+                )
+          li.list-item.popover-list-item
+            a.list-link(
+              ng-click = "actions.logout();"
+            ) Log Out
+
+      .popover-view
+        ul.list.popover-list
+          //-  current organization
+          li.list-item.popover-list-item.text-overflow.no-touching(
+            ng-click = "actions.selectActiveAccount(org)"
+            ng-repeat = "org in data.orgs.models"
+            ng-if = "org === data.activeAccount"
+          )
+            img.gravatar(
+              alt = "{{org.oauthName()}}"
+              height = "24"
+              ng-src = "{{org.gravitar()}}"
+              width = "24"
+            )
+            | {{org.oauthName()}}
+          //- current user
+          li.list-item.popover-list-item.text-overflow(
+            ng-class = "{'disabled': data.user === data.activeAccount}"
+            ng-click = "actions.selectActiveAccount(data.user)"
+          )
+            img.gravatar(
+              alt = "{{data.user.oauthName()}}"
+              height = "24"
+              ng-src = "{{data.user.gravitar()}}"
+              width = "24"
+            )
+            | {{data.user.oauthName()}}
+            svg.iconnables.icons-fat-check.anchor-right(
+              ng-if = "data.user === data.activeAccount"
+            )
+              use(
+                xlink:href = "#icons-fat-check"
+              )
+          //- all organizations except current
+          li.list-item.popover-list-item.text-overflow(
+            ng-click = "actions.selectActiveAccount(org)"
+            ng-repeat = "org in data.orgs.models"
+            ng-if = "org != data.activeAccount"
+          )
+            img.gravatar(
+              alt = "{{org.oauthName()}}"
+              height = "24"
+              ng-src = "{{org.gravitar()}}"
+              width = "24"
+            )
+            | {{org.oauthName()}}
