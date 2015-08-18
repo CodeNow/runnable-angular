@@ -11,19 +11,10 @@ function sshKeyValidator(
   return {
     require: 'ngModel',
     link: function (scope, elem, attr, ngModel) {
-
-      //For DOM -> model validation
-      ngModel.$parsers.unshift(function (value) {
-        var valid = !!value && sshValidation.isKeyValid(value);
-        ngModel.$setValidity('malformed', valid);
-        return valid ? value : undefined;
-      });
-
-      //For model -> DOM validation
-      ngModel.$formatters.unshift(function (value) {
-        ngModel.$setValidity('malformed',  !!value && sshValidation.isKeyValid(value));
-        return value;
-      });
+      ngModel.$validators.malformed = function (modelValue, viewValue) {
+        var value = modelValue || viewValue;
+        return !!value && sshValidation.isKeyValid(value);
+      };
     }
   };
 }

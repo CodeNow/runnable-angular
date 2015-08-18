@@ -18,6 +18,7 @@
         .label-col Title
         .input-col
           input.input.input-sm(
+            name = "sshName"
             ng-model = "data.name"
             required
             spellcheck = "false"
@@ -28,11 +29,15 @@
         .label-col Key
         .input-col
           textarea.textarea.monospace.textarea-key(
+            name = "sshKey"
             ng-model = "data.key"
-            ssh-key-validator
             required
             spellcheck = "false"
+            ssh-key-validator
           )
+          div(
+            ng-if = "sshForm.sshKey.$dirty && sshForm.sshKey.$error.malformed"
+          ) This key sucks
           small.small
             a.link(
               href = "https://help.github.com/articles/generating-ssh-keys/"
