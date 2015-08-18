@@ -4,7 +4,8 @@
   ng-style = "popoverStyle.getStyle()"
   style = "transform-origin: 95% 0;"
 )
-  .arrow.white(
+  .arrow(
+    ng-class = "{'white': state.view === 1}"
     style = "left: 182px;"
   )
   .popover-views
@@ -97,6 +98,15 @@
             ) Log Out
 
       .popover-view
+        .popover-header
+          svg.btn.btn-sm.iconnables.icons-arrow-backward.pull-left(
+            ng-click = "state.view = 1"
+          )
+            use(
+              xlink:href = "#icons-arrow-down"
+            )
+          | Organizations
+
         ul.list.popover-list
           //-  current organization
           li.list-item.popover-list-item.text-overflow.no-touching(

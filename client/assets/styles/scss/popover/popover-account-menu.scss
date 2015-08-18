@@ -3,16 +3,47 @@
   z-index: $z-spinner + 1; // to appear above instance view spinner
 
   // initial menu height
+  .popover-views > div {
+    transition: min-height .15s ease-in;
+  }
+
   .view-1 {
     min-height: 179px;
   }
 
   .view-2 {
-    min-height: 80px;
+    min-height: 151px;
   }
 
   .popover-view {
     width: 100%;
+  }
+
+  // popover header
+  .popover-header {
+    color: $gray;
+    display: block;
+    font-size: 14px;
+    height: $input-sm;
+    line-height: $input-sm;
+    padding: 0 6px;
+    text-align: center;
+
+    .icons-arrow-backward {
+      color: $gray-light;
+      left: 6px;
+      padding: 0;
+      pointer-events: auto;
+      position: absolute;
+
+      &:hover {
+        color: $gray;
+      }
+
+      &:active {
+        color: $purple-light;
+      }
+    }
   }
 
   // view-1 styles
