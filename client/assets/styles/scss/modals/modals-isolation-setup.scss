@@ -1,0 +1,51 @@
+.modal-isolation-setup {
+
+  .label-col {
+    width: auto;
+  }
+
+  .list-item {
+    background: $white;
+    display: block;
+    height: 48px;
+    line-height: 48px;
+    margin: 0;
+    padding: 0 9px 0 36px;
+
+    &:first-child {
+      border-radius: 3px 3px 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 3px 3px;
+    }
+
+    &:only-child {
+      border-radius: 3px;
+    }
+
+    + .list-item {
+      border-top: 1px solid $gray-lighter;
+    }
+
+    .iconnables {
+      height: 100%;
+      left: 12px;
+      position: absolute;
+      width: 18px;
+    }
+
+    // .btn {
+    //   color: $gray;
+    //   font-size: 15px;
+    //   height: 30px;
+    //   line-height: 27px;
+    //   right: 12px;
+    //   top: 9px;
+    // }
+  }
+
+  .branch-select {
+
+  }
+}

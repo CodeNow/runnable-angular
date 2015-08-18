@@ -1,0 +1,55 @@
+.modal-dialog.modal-isolation-setup
+  header.modal-header
+    h1.modal-heading.text-overflow Isolation Setup
+    svg.iconnables.icons-close(
+      ng-click = "RDMC.defaultActions.cancel()"
+    )
+      use(
+        xlink:href = "#icons-close"
+      )
+  section.modal-body
+    .label
+      .clearfix
+        .label-col Repository Containers
+      .list.list-bordered
+        .list-item.text-overflow api
+          svg.iconnables.icons-repository
+            use(
+              xlink:href = "#icons-repository"
+            )
+          .select-wrapper
+            .btn.btn-sm master
+              svg.iconnables.icons-branch
+                use(
+                  xlink:href = "#icons-branch"
+                )
+            select.branch-select.float-right
+              option master
+              option fb-1
+              option fb-2
+        .list-item.text-overflow runnable-angular
+          svg.iconnables.icons-repository
+            use(
+              xlink:href = "#icons-repository"
+            )
+    .label
+      .clearfix
+        .label-col Repository Containers
+      .list.list-bordered
+        .list-item.text-overflow api
+          svg.iconnables.icons-server
+            use(
+              xlink:href = "#icons-server"
+            )
+        .list-item.text-overflow runnable-angular
+          svg.iconnables.icons-server
+            use(
+              xlink:href = "#icons-server"
+            )
+  section.modal-footer
+    button.btn.white.btn-cancel(
+      ng-click = "RDMC.defaultActions.cancel()"
+    ) Cancel
+    button.btn.green(
+      ng-click = "RDMC.updateInstance()"
+    ) Create Sandbox
