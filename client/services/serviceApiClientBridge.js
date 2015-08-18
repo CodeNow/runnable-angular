@@ -69,9 +69,11 @@ methods.forEach(function (method) {
       .success(callback)
       .error(callback);
 
+    var self = this;
+
     function callback(data, status, headers, config) {
       if (typeof cb !== 'function') {
-        this.report.error('Callback defined but not a function. \nType: ' + typeof cb + ' \nJSON: '  + JSON.stringify(cb, false, 2), {
+        self.report.error('Callback defined but not a function. \nType: ' + typeof cb + ' \nJSON: '  + JSON.stringify(cb, false, 2), {
           emitter: 'Manual',
           source: 'client/services/serviceUser.js'
         });
