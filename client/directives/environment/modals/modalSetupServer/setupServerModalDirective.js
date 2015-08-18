@@ -64,7 +64,11 @@ function setupServerModal(
 
       $scope.isRepoAdded = function (repo) {
         // Since the newServers may have faked repos (just containing names), just check the name
-        return !!$scope.data.instances.find(function (instance) {
+        var instances = keypather.get($scope, 'data.instances');
+        if (!instances) {
+          return false;
+        }
+        return !!instances.find(function (instance) {
           var repoName = instance.getRepoName();
           if (repoName) {
             return repo.attrs.name === repoName;
