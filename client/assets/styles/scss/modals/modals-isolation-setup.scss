@@ -1,16 +1,25 @@
 .modal-isolation-setup {
+  width: 420px;
 
   .label-col {
     width: auto;
   }
 
+  .list-bordered {
+    margin-bottom: 12px;
+  }
+
   .list-item {
+    align-items: center;
     background: $white;
-    display: block;
+    color: $gray-dark;
+    display: flex;
+    font-size: 15px;
+    font-weight: $weight-bold;
     height: 48px;
     line-height: 48px;
     margin: 0;
-    padding: 0 9px 0 36px;
+    padding: 0 12px;
 
     &:first-child {
       border-radius: 3px 3px 0 0;
@@ -29,23 +38,55 @@
     }
 
     .iconnables {
+      flex: 0 0 15px;
       height: 100%;
-      left: 12px;
-      position: absolute;
-      width: 18px;
     }
 
-    // .btn {
-    //   color: $gray;
-    //   font-size: 15px;
-    //   height: 30px;
-    //   line-height: 27px;
-    //   right: 12px;
-    //   top: 9px;
-    // }
+    .span {
+      flex: 1 1 auto;
+      padding-left: 7px;
+    }
+  }
+}
+
+.select-wrapper {
+  flex: 150px 0 0;
+  height: 30px;
+
+  // &:active .btn {
+  //   border-color: currentColor;
+  //   color: $purple-light;
+  // }
+
+  .span {
+    font-weight: $weight-normal;
   }
 
-  .branch-select {
+  .btn {
+    align-items: center;
+    color: $gray;
+    display: flex;
+    font-size: 15px;
+    height: 30px;
+    line-height: 24px;
+    padding: 0 9px;
+    pointer-events: none;
+    position: absolute;
+    width: 150px;
+    z-index: 1;
+  }
 
+  .icons-arrow-down.icons-arrow-down {
+    flex: 0 0 21px;
+  }
+
+  .select {
+    border-width: 2px;
+    height: 30px;
+    margin-left: 4px;
+    outline: none;
+    pointer-events: auto;
+    position: absolute;
+    width: 146px;
   }
 }

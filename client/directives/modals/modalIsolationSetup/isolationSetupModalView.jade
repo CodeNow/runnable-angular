@@ -8,44 +8,117 @@
         xlink:href = "#icons-close"
       )
   section.modal-body
-    .label
-      .clearfix
-        .label-col Repository Containers
-      .list.list-bordered
-        .list-item.text-overflow api
+    .clearfix
+      .label-col Repository Containers
+    .list.list-bordered
+      .list-item.text-overflow
+        svg.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
+        span.span.text-overflow api
+        .select-wrapper
+          .btn.white
+            svg.iconnables.icons-branch.float-left
+              use(
+                xlink:href = "#icons-branch"
+              )
+            span.span.text-overflow.text-left master
+            svg.iconnables.icons-arrow-down
+              use(
+                xlink:href = "#icons-arrow-down"
+              )
+          select.select
+            optgroup(
+              label = "Your Branches"
+            )
+              option master
+              option long-branch-name-lorem-ipsum
+              option fb-1
+            optgroup(
+              label = "Other Branches"
+            )
+              option fb-2
+              option fb-3
+              option fb-4
+              option fb-5
+      .list-item.text-overflow
           svg.iconnables.icons-repository
             use(
               xlink:href = "#icons-repository"
             )
+          span.span.text-overflow runnable-angular
           .select-wrapper
-            .btn.btn-sm master
-              svg.iconnables.icons-branch
+            .btn.white
+              svg.iconnables.icons-branch.float-left
                 use(
                   xlink:href = "#icons-branch"
                 )
-            select.branch-select.float-right
-              option master
-              option fb-1
-              option fb-2
-        .list-item.text-overflow runnable-angular
-          svg.iconnables.icons-repository
-            use(
-              xlink:href = "#icons-repository"
-            )
-    .label
-      .clearfix
-        .label-col Repository Containers
-      .list.list-bordered
-        .list-item.text-overflow api
+              span.span.text-overflow.text-left master
+              svg.iconnables.icons-arrow-down
+                use(
+                  xlink:href = "#icons-arrow-down"
+                )
+            select.select
+              optgroup(
+                label = "Your Branches"
+              )
+                option master
+                option long-branch-name-lorem-ipsum
+                option fb-1
+              optgroup(
+                label = "Other Branches"
+              )
+                option fb-2
+                option fb-3
+                option fb-4
+                option fb-5
+        .list-item.text-overflow
+            svg.iconnables.icons-repository
+              use(
+                xlink:href = "#icons-repository"
+              )
+            span.span.text-overflow optimus
+            .select-wrapper
+              .btn.white
+                svg.iconnables.icons-branch.float-left
+                  use(
+                    xlink:href = "#icons-branch"
+                  )
+                span.span.text-overflow.text-left master
+                svg.iconnables.icons-arrow-down
+                  use(
+                    xlink:href = "#icons-arrow-down"
+                  )
+              select.select
+                optgroup(
+                  label = "Your Branches"
+                )
+                  option master
+                  option long-branch-name-lorem-ipsum
+                  option fb-1
+                optgroup(
+                  label = "Other Branches"
+                )
+                  option fb-2
+                  option fb-3
+                  option fb-4
+                  option fb-5
+    .clearfix
+      .label-col Non-repository Containers
+    .list.list-bordered
+      .list-item.text-overflow
           svg.iconnables.icons-server
             use(
               xlink:href = "#icons-server"
             )
-        .list-item.text-overflow runnable-angular
+          span.span.text-overflow MongoDB
+      .list-item.text-overflow
           svg.iconnables.icons-server
             use(
               xlink:href = "#icons-server"
             )
+          span.span.text-overflow Redis
   section.modal-footer
     button.btn.white.btn-cancel(
       ng-click = "RDMC.defaultActions.cancel()"
