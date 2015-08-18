@@ -26,11 +26,14 @@ function BuildLogController(
         promisify(build.contextVersions.models[0], 'fetch')().then(function (data) {
           var cbBuild = keypather.get(data, 'attrs.build');
           if (build.succeeded() && cbBuild.log) {
-            var log = (Array.isArray(cbBuild.log)) ? cbBuild.log.map(function (line) {
-              if (line) {
-                return line.content;
-              }
-            }).join('\n') : cbBuild.log;
+            var log = cbBuild.log;
+            if (Array.isArray(cbBuild.log)) {
+              log = cbBuild.log.map(function (line) {
+                if (line) {
+                  return line.content;
+                }
+              }).join('\n');
+            }
             $scope.$emit('WRITE_TO_TERM', log, true);
           } else {
             // defaulting behavior selects best avail error msg
