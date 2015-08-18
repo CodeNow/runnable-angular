@@ -20,7 +20,14 @@
     "duration": 43356,
     "dockerTag": "registry.runnable.com/1616464/543861deaebe190e0077c24b:543988508f75990e008d2c74",
     "dockerImage": "825bbc639523",
-    "log": "{\"content\":\"Hello, my name is Docker\"}\n{\"content\":\"Would you like to play a game?\"}",
+    "log": [
+      {
+        "content": "Hello, my name is Docker"
+      },
+      {
+        "content": "Would you like to play a game?"
+      }
+    ],
     "triggeredAction": {
       "manual": true,
       "appCodeVersion": {

@@ -25,13 +25,12 @@ function BuildLogController(
       if (build.failed() || build.succeeded()) {
         promisify(build.contextVersions.models[0], 'fetch')().then(function (data) {
           var cbBuild = keypather.get(data, 'attrs.build');
-          if (build.succeeded()) {
-            var log = cbBuild.log.split('\n').map(function (line) {
+          if (build.succeeded() && cbBuild.log) {
+            var log = (Array.isArray(cbBuild.log)) ? cbBuild.log.map(function (line) {
               if (line) {
-                console.log(line);
-                return JSON.parse(line).content;
+                return line.content;
               }
-            }).join('');
+            }).join('\n') : cbBuild.log;
             $scope.$emit('WRITE_TO_TERM', log, true);
           } else {
             // defaulting behavior selects best avail error msg
@@ -69,7 +68,7 @@ function BuildLogController(
     buffer.setEncoding('utf8');
     var newStream = through(
       function write(data) {
-        var message = data ? (data.content || data) : '';
+        var message = data ? (data.content + '\n' || data) : '';
         buffer.put(message.toString().replace(/\r?\n/gm, '\r\n'));
       },
       buffer.destroySoon

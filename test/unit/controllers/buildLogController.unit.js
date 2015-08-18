@@ -112,9 +112,9 @@ describe('BuildLogController'.bold.underline.blue, function () {
       $rootScope.$digest();
       sinon.assert.calledOnce(ctx.streamBuffer.pipe);
       sinon.assert.calledWith(ctx.streamBuffer.setEncoding, 'utf8');
-      stream.write('Hello');
+      stream.write({content: 'Hello'});
       $rootScope.$digest();
-      sinon.assert.calledWith(ctx.streamBuffer.put, 'Hello');
+      sinon.assert.calledWith(ctx.streamBuffer.put, 'Hello\r\n');
     });
   });
 
@@ -123,13 +123,16 @@ describe('BuildLogController'.bold.underline.blue, function () {
       setup();
     });
     beforeEach(function () {
-      ctx.build.contextVersions.models[0].attrs.log = '{\"content\":\"Hello, my name is Docker\"}\n{\"content\":\"Would you like to play a game?\"}'
+      ctx.build.contextVersions.models[0].attrs.build.log = [
+        {content: 'Hello, my name is Docker'},
+        {content: 'Would you like to play a game?'}
+      ];
     });
     it('should put the log on the term', function (done) {
       var cv = ctx.build.contextVersions.models[0];
       $scope.$on('WRITE_TO_TERM', function (event, message, clear) {
         expect(clear, 'clear').to.be.true;
-        expect(message, 'message').to.equal('Hello, my name is DockerWould you like to play a game?');
+        expect(message, 'message').to.equal('Hello, my name is Docker\nWould you like to play a game?');
         done();
       });
 
