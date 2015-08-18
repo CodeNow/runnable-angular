@@ -23,7 +23,7 @@
     width: auto;
   }
 
-  .list-bordered {
+  .list {
     margin-bottom: 12px;
   }
 
@@ -34,8 +34,8 @@
     display: flex;
     font-size: 15px;
     font-weight: $weight-bold;
-    height: 48px;
-    line-height: 48px;
+    height: 45px;
+    line-height: 45px;
     margin: 0;
     padding: 0 12px;
 
@@ -46,14 +46,15 @@
 
     .span {
       flex: 1 1 auto;
-      padding-left: 7px;
+      padding-left: 6px;
     }
   }
 }
 
 .select-wrapper {
-  flex: 150px 0 0;
+  flex: 0 0 150px;
   height: 30px;
+  position: relative;
 
   // &:active .btn {
   //   border-color: currentColor;
@@ -65,30 +66,28 @@
   }
 
   .btn {
-    align-items: center;
     color: $gray;
     display: flex;
     font-size: 15px;
     height: 30px;
-    line-height: 24px;
+    line-height: 26px;
     padding: 0 9px;
     pointer-events: none;
     position: absolute;
-    width: 150px;
+    width: 100%;
     z-index: 1;
-  }
 
-  .icons-arrow-down.icons-arrow-down {
-    flex: 0 0 21px;
+    .icons-arrow-down {
+      flex: 0 0 21px;
+    }
   }
 
   .select {
-    border-width: 2px;
-    height: 30px;
-    margin-left: 4px;
-    outline: none;
+    appearance: none;
+    height: 100%;
+    opacity: 0;
     pointer-events: auto;
     position: absolute;
-    width: 146px;
+    width: 100%;
   }
 }
