@@ -13,7 +13,7 @@
 )
   button.btn.btn-xs.gray(
     ng-class = "{'active': filePopover.data.show}"
-    ng-disabled = "readOnly"
+    ng-disabled = "readOnly || !rootDir"
     pop-over
     pop-over-actions = "FPC.actions"
     pop-over-data = "filePopover.data"
@@ -27,7 +27,7 @@
       )
 
 .sidebar-section-content(
-  ng-if = "editExplorer || !$storage.explorerIsClosed"
+  ng-if = "(editExplorer || !$storage.explorerIsClosed) && rootDir"
 )
   .well.in(
     ng-if = "!editExplorer && !fileModel.running()"
