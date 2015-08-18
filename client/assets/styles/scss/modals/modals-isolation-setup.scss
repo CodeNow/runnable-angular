@@ -1,6 +1,24 @@
 .modal-isolation-setup {
   width: 420px;
 
+  .icons-help {
+    color: $gray-light;
+    cursor: pointer;
+    left: 15px;
+    padding: 6px;
+    pointer-events: auto;
+    position: absolute;
+    top: 18px;
+
+    &:hover {
+      color: $gray;
+    }
+
+    &:active {
+      color: $purple-light;
+    }
+  }
+
   .label-col {
     width: auto;
   }
