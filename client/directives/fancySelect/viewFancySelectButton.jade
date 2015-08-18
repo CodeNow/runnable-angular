@@ -4,7 +4,9 @@ button.btn.btn-sm.white.text-overflow.btn-validate(
   .placeholder.float-left(
     ng-if = "!value"
   ) {{placeholder}}
-  .display.text-overflow.float-left
+  .display.text-overflow.float-left(
+    ng-if = "value"
+  )
   svg.iconnables.icons-arrow-down(
     ng-if = "!spinnerFlag"
   )

@@ -1,4 +1,11 @@
-// popovers
+.popover-overlay {
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: $z-popover;
+}
+
 .popover {
   // top & left offset to move popovers offscreen to prevent them
   // from appearing before calculating their actual position
@@ -263,6 +270,24 @@
 
   &.popover-header-sm {
     height: $input-md;
+  }
+
+  // close icon
+  .icons-close {
+    color: $gray-light;
+    cursor: pointer;
+    pointer-events: auto; // reset from .iconnables
+    position: absolute;
+    right: 15px;
+    top: 15px;
+
+    &:hover {
+      color: $gray;
+    }
+
+    &:active {
+      color: $red;
+    }
   }
 }
 

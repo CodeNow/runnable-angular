@@ -70,7 +70,7 @@
 
   header.server-header
 
-    h1.server-info.load(
+    .server-info.load(
       instance = "dataInstance.data.instance"
       instance-box-name
       ng-show = "dataInstance.data.instance"
@@ -89,7 +89,6 @@
 
     section.sidebar-section.repository-section(
       instance = "dataInstance.data.instance"
-      ng-class = "{'closed': $storage.repoListIsClosed}"
       ng-if = "dataInstance.data.instance.contextVersion.getMainAppCodeVersion()"
       repo-list
     )
@@ -97,7 +96,6 @@
     section.sidebar-section.dns-mappings-section(
       dns-manager
       instance = "dataInstance.data.instance"
-      ng-class = "{'closed': $storage.dnsManagementIsClosed}"
       ng-if = "dataInstance.data.instance"
     )
 
@@ -107,7 +105,6 @@
       explorer-title = "File Explorer"
       file-model = "dataInstance.data.instance.containers.models[0]"
       instance = "dataInstance.data.instance"
-      ng-class = "{'closed': $storage.explorerIsClosed}"
       open-items = "dataInstance.data.openItems"
       root-dir = "dataInstance.data.instance.containers.models[0].rootDir"
     )
