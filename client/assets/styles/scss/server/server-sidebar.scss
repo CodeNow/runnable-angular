@@ -55,17 +55,9 @@
   padding: 0 12px;
 }
 
-// file explorer section
-.explorer-section {
-  border-bottom-width: 0;
-
-  &.closed {
-    border-bottom-width: 1px;
-  }
-
-  .file-tree {
-    margin: 0;
-  }
+// file tree in explorer section
+.explorer-section .file-tree {
+  margin: 0;
 }
 
 .sidebar-section-heading {
@@ -92,16 +84,16 @@
     &:active {
       color: $gray-darker;
     }
+
+    .icons-disclose {
+      transform: rotate3d(0,0,1,-90deg);
+    }
   }
 
   .icons-disclose {
     left: -3px;
     top: 7px;
     width: 15px;
-
-    .closed & {
-      transform: rotate3d(0,0,1,-90deg);
-    }
   }
 
   // for add buttons next to section headings, like in File Explorer
