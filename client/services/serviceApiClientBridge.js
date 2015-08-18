@@ -54,13 +54,6 @@ methods.forEach(function (method) {
     var opts = args.opts;
     opts = angular.extend({}, opts, this.defaultOpts);
     var cb = args.cb;
-    if (typeof cb !== 'function') {
-      this.report.error('Callback defined but not a function. \nType: ' + typeof cb + ' \nJSON: '  + JSON.stringify(cb, false, 2), {
-        emitter: 'Manual',
-        source: 'client/services/serviceUser.js'
-      });
-      cb = angular.noop;
-    }
     opts.method = methodAliases[method] || method;
     opts.data = opts.json || opts.body;
     delete opts.json;
@@ -77,6 +70,14 @@ methods.forEach(function (method) {
       .error(callback);
 
     function callback(data, status, headers, config) {
+      if (typeof cb !== 'function') {
+        this.report.error('Callback defined but not a function. \nType: ' + typeof cb + ' \nJSON: '  + JSON.stringify(cb, false, 2), {
+          emitter: 'Manual',
+          source: 'client/services/serviceUser.js'
+        });
+        cb = angular.noop;
+      }
+
       if (status === 0) {
         // CORS failed
         return cb(new Error('Could not reach server'));
