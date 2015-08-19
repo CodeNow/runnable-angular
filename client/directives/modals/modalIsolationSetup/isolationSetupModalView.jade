@@ -1,8 +1,6 @@
 .modal-dialog.modal-isolation-setup
   header.modal-header
-    svg.iconnables.icons-help(
-      ng-click = "RDMC.defaultActions.cancel()"
-    )
+    svg.iconnables.icons-help
       use(
         xlink:href = "#icons-help"
       )
@@ -22,7 +20,7 @@
       //-   )
       | Isolation Setup
     svg.iconnables.icons-close(
-      ng-click = "RDMC.defaultActions.cancel()"
+      ng-click = "defaultActions.cancel()"
     )
       use(
         xlink:href = "#icons-close"
