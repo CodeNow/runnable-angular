@@ -1,13 +1,13 @@
 fancy-select(
   ng-disabled = "branchFetching || !state.repo.branches.models.length"
   ng-required = "true"
-  value = "state.branch"
-  track-by = "attrs.name"
   on-update = "onBranchChange"
   spinner-flag = "branchFetching || !state.repo.branches.models.length"
+  track-by = "attrs.name"
+  value = "state.branch"
 )
   li.list-item.popover-list-item.small(
-    ng-click = "$event.stopPropagation(); $event.preventDefault()"
+    ng-click = "$event.stopPropagation(); $event.preventDefault();"
   ) Select initial branch
   fancy-option(
     ng-repeat = "branch in $parent.state.repo.branches.models"
@@ -17,4 +17,4 @@ fancy-select(
       use(
         xlink:href = "#icons-branch"
       )
-    | {{ $parent.branch.attrs.name }}
+    | {{$parent.branch.attrs.name}}

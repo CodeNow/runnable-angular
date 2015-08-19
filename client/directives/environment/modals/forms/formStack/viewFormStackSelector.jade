@@ -124,9 +124,9 @@
     .small {{depStack.name}}
     fancy-select(
       ng-required = "state.selectedStack.dependencies.length"
+      on-update = "updateDockerfile"
       placeholder = "Select Version"
       value = "depStack.selectedVersion"
-      on-update = "updateDockerfile"
     )
       li.list-item.popover-list-item.small(
         ng-if = "$parent.depStack.suggestedVersion"
@@ -187,9 +187,9 @@
   fancy-select(
     ng-disabled = "!state.selectedStack"
     ng-required = "true"
+    on-update = "updateDockerfile"
     placeholder = "Select Version"
     value = "state.selectedStack.selectedVersion"
-    on-update = "updateDockerfile"
   )
     li.list-item.popover-list-item.small(
       ng-if = "$parent.state.selectedStack.suggestedVersion"
@@ -205,27 +205,28 @@
       ng-repeat = "version in $parent.state.selectedStack.versions | filter: '!'+ $parent.state.selectedStack.suggestedVersion"
       value = "version"
     ) v{{$parent.version}}
-  .label(
-    ng-repeat = "depStack in state.selectedStack.dependencies"
+
+.input-col(
+  ng-repeat = "depStack in state.selectedStack.dependencies"
+)
+  .small {{depStack.name}}
+  fancy-select(
+    ng-required = "state.selectedStack.dependencies.length"
+    placeholder = "Select Version"
+    on-update = "updateDockerfile"
+    value = "depStack.selectedVersion"
   )
-    .small {{depStack.name}}
-    fancy-select(
-      ng-required = "state.selectedStack.dependencies.length"
-      placeholder = "Select Version"
-      on-update = "updateDockerfile"
-      value = "depStack.selectedVersion"
+    li.list-item.popover-list-item.small(
+      ng-if = "$parent.depStack.suggestedVersion"
+    ) Suggested {{$parent.$parent.depStack.name}} Version
+    fancy-option(
+      ng-repeat = "version in $parent.depStack.versions | filter: $parent.depStack.suggestedVersion"
+      value = "version"
+    ) v{{$parent.version}}
+    li.divider(
+      ng-if = "$parent.depStack.suggestedVersion"
     )
-      li.list-item.popover-list-item.small(
-        ng-if = "$parent.depStack.suggestedVersion"
-      ) Suggested {{$parent.$parent.depStack.name}} Version
-      fancy-option(
-        ng-repeat = "version in $parent.depStack.versions | filter: $parent.depStack.suggestedVersion"
-        value = "version"
-      ) v{{$parent.version}}
-      li.divider(
-        ng-if = "$parent.depStack.suggestedVersion"
-      )
-      fancy-option(
-        ng-repeat = "version in $parent.depStack.versions | filter: '!'+ $parent.depStack.suggestedVersion"
-        value = "version"
-      ) v{{$parent.version}}
+    fancy-option(
+      ng-repeat = "version in $parent.depStack.versions | filter: '!'+ $parent.depStack.suggestedVersion"
+      value = "version"
+    ) v{{$parent.version}}
