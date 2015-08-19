@@ -35,7 +35,7 @@ function integrations(
             data.slackMembers = {};
             data.ghMembers = {};
             throw err;
-          })
+          });
       }
 
       fetchSettings()
