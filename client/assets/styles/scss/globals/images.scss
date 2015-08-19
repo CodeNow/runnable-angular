@@ -3,22 +3,3 @@
   display: inline-block;
   user-select: none;
 }
-
-.gravatar-isolation-wrapper {
-  display: inline;
-  position: relative;
-  top: 2px;
-}
-
-// isolation images
-.gravatar-isolation {
-  margin-right: 15px; // +3px to compensate for -3px image size
-
-  // user's avatar
-  + .gravatar {
-    border-radius: 2px;
-    left: 12px;
-    position: absolute;
-    top: 9px;
-  }
-}
