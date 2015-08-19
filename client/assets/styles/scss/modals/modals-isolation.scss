@@ -59,8 +59,8 @@
     display: flex;
     font-size: 15px;
     font-weight: $weight-bold;
-    height: 45px;
-    padding: 0 12px;
+    height: $input-md;
+    padding: 0 9px;
 
     .iconnables {
       flex: 0 0 15px;
