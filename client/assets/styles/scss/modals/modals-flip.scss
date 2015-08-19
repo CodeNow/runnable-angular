@@ -1,0 +1,26 @@
+.modals-flip {
+  backface-visibility: hidden;
+  perspective: 1000px;
+  transform-origin: 50% 250%;
+  transition: transform .3s ease-in-out;
+
+  // initial states
+  &:first-child {
+    transform: rotate3d(0, 1, 0, 180deg);
+  }
+
+  &:last-child {
+    transform: rotate3d(0, 1, 0, -180deg);
+  }
+
+  &.flipped {
+
+    &:first-child {
+      transform: rotate3d(0, 1, 0, 180deg);
+    }
+
+    &:last-child {
+      transform: rotate3d(0, 1, 0, -180deg);
+    }
+  }
+}

@@ -1,4 +1,4 @@
-.modal-dialog.modal-isolation
+.modal-dialog.modal-flip.modal-isolation
   svg.iconnables.icons-close(
     ng-click = "defaultActions.cancel()"
   )
@@ -19,3 +19,199 @@
     button.btn.btn-block.green(
       ng-click = "defaultActions.cancel()"
     ) Get Started
+
+.modal-dialog.modal-flip.modal-isolation
+  header.modal-header
+    svg.iconnables.icons-help
+      use(
+        xlink:href = "#icons-help"
+      )
+    h1.modal-heading Isolation Setup
+    svg.iconnables.icons-close(
+      ng-click = "defaultActions.cancel()"
+    )
+      use(
+        xlink:href = "#icons-close"
+      )
+  section.modal-body
+    .clearfix
+      .label-col Repository Containers
+    .list.list-bordered
+      .list-item
+        svg.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
+        span.span.text-overflow api
+        .btn.btn-xs.white.btn-select(
+          ng-init = "branchFirst = 'master'"
+        )
+          svg.iconnables.icons-branch.float-left
+            use(
+              xlink:href = "#icons-branch"
+            )
+          span.span.text-overflow.text-left {{branchFirst}}
+          svg.iconnables.icons-arrow-down
+            use(
+              xlink:href = "#icons-arrow-down"
+            )
+          select.select(
+            ng-model = "branchFirst"
+          )
+            optgroup(
+              label = "Your Branches"
+            )
+              option(
+                selected
+                value = "master"
+              ) master
+              option(
+                value = "extra-long-branch-name"
+              ) extra-long-branch-name
+              option(
+                value = "fb-1"
+              ) fb-1
+            optgroup(
+              label = "Other Branches"
+            )
+              option(
+                value = "fb-2"
+              ) fb-2
+              option(
+                value = "fb-3"
+              ) fb-3
+              option(
+                value = "fb-4"
+              ) fb-4
+              option(
+                value = "fb-5"
+              ) fb-5
+              option(
+                value = "fb-6"
+              ) fb-6
+      .list-item
+        svg.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
+        span.span.text-overflow runnable-angular
+        .btn.btn-xs.white.btn-select(
+          ng-init = "branchSecond = 'master'"
+        )
+          svg.iconnables.icons-branch.float-left
+            use(
+              xlink:href = "#icons-branch"
+            )
+          span.span.text-overflow.text-left {{branchSecond}}
+          svg.iconnables.icons-arrow-down
+            use(
+              xlink:href = "#icons-arrow-down"
+            )
+          select.select(
+            ng-model = "branchSecond"
+          )
+            optgroup(
+              label = "Your Branches"
+            )
+              option(
+                selected
+                value = "master"
+              ) master
+              option(
+                value = "extra-long-branch-name"
+              ) extra-long-branch-name
+              option(
+                value = "fb-1"
+              ) fb-1
+            optgroup(
+              label = "Other Branches"
+            )
+              option(
+                value = "fb-2"
+              ) fb-2
+              option(
+                value = "fb-3"
+              ) fb-3
+              option(
+                value = "fb-4"
+              ) fb-4
+              option(
+                value = "fb-5"
+              ) fb-5
+              option(
+                value = "fb-6"
+              ) fb-6
+      .list-item
+        svg.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
+        span.span.text-overflow optimus
+        .btn.btn-xs.white.btn-select(
+          ng-init = "branchThird = 'master'"
+        )
+          svg.iconnables.icons-branch.float-left
+            use(
+              xlink:href = "#icons-branch"
+            )
+          span.span.text-overflow.text-left {{branchThird}}
+          svg.iconnables.icons-arrow-down
+            use(
+              xlink:href = "#icons-arrow-down"
+            )
+          select.select(
+            ng-model = "branchThird"
+          )
+            optgroup(
+              label = "Your Branches"
+            )
+              option(
+                selected
+                value = "master"
+              ) master
+              option(
+                value = "extra-long-branch-name"
+              ) extra-long-branch-name
+              option(
+                value = "fb-1"
+              ) fb-1
+            optgroup(
+              label = "Other Branches"
+            )
+              option(
+                value = "fb-2"
+              ) fb-2
+              option(
+                value = "fb-3"
+              ) fb-3
+              option(
+                value = "fb-4"
+              ) fb-4
+              option(
+                value = "fb-5"
+              ) fb-5
+              option(
+                value = "fb-6"
+              ) fb-6
+    .clearfix
+      .label-col Non-repository Containers
+    .list.list-bordered
+      .list-item
+          svg.iconnables.icons-server
+            use(
+              xlink:href = "#icons-server"
+            )
+          span.span.text-overflow MongoDB
+      .list-item
+          svg.iconnables.icons-server
+            use(
+              xlink:href = "#icons-server"
+            )
+          span.span.text-overflow Redis
+  section.modal-footer
+    button.btn.green(
+      ng-click = "RDMC.updateInstance()"
+    ) Create Sandbox
+    button.btn.white.btn-cancel(
+      ng-click = "RDMC.defaultActions.cancel()"
+    ) Cancel
