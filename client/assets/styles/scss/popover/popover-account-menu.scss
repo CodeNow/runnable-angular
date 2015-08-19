@@ -1,27 +1,75 @@
 .popover-account-menu {
-  max-width: 180px;
-  transform-origin: 95% 0 !important;
+  width: 210px;
   z-index: $z-spinner + 1; // to appear above instance view spinner
 
-  .list {
-    max-height: 50vh;
-    overflow-y: auto;
+  // initial menu height
+  .popover-views > div {
+    transition: min-height .15s linear;
+  }
 
-    // override for slack icon
-    .iconnables {
-      width: 24px;
+  .popover-view {
+    opacity: 0;
+    transition: opacity .15s ease-in, transform .3s ease-in-out;
+    width: 100%;
+  }
+
+  // popover header
+  .popover-header {
+    color: $gray;
+    display: block;
+    font-size: 14px;
+    height: $input-sm;
+    line-height: $input-sm;
+    padding: 0 6px;
+    text-align: center;
+
+    .icons-arrow-backward {
+      color: $gray-light;
+      left: 6px;
+      padding: 0;
+      pointer-events: auto;
+      position: absolute;
+
+      &:hover {
+        color: $gray;
+      }
+
+      &:active {
+        color: $purple-light;
+      }
     }
   }
 
-  .list-item.disabled {
-    padding-right: 24px;
-    pointer-events: none;
+  // active state
+  .icons-fat-check {
+    background: $gray-light;
+    border-radius: 50%;
+    color: $white;
+    left: 4px;
+    max-height: 15px;
+    max-width: 15px;
+    opacity: 0;
+    position: absolute;
+    top: 17px;
   }
 
-  .icons-fat-check {
-    color: $purple-light;
-    max-width: 18px;
-    position: absolute;
-    right: 0;
+  .no-touching .icons-fat-check {
+    background: $green;
+    opacity: 1;
+  }
+
+  // view-1 styles
+  .list {
+
+
+    // arrow right
+    .icons-arrow {
+      width: 21px;
+    }
+
+    // external links
+    .icons-link-external {
+      padding: 0 5px;
+    }
   }
 }

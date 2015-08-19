@@ -66,7 +66,6 @@
 // sidebar
 @import "sidebar/sidebar";
 @import "sidebar/sidebar-header";
-@import "sidebar/sidebar-footer";
 
 // server
 @import "server/server-header";
@@ -93,6 +92,7 @@
 @import "modals/modals-edit-ace";
 @import "modals/modals-error";
 @import "modals/modals-integrations";
+@import "modals/modals-isolation";
 @import "modals/modals-rename";
 @import "modals/modals-server-select";
 
