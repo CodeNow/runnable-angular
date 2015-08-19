@@ -28,10 +28,10 @@ function BuildLogController(
           if (build.succeeded() && cbBuild.log) {
             var log = cbBuild.log;
             if (Array.isArray(cbBuild.log)) {
-              log = cbBuild.log.map(function (line) {
-                if (line) {
-                  return line.content;
-                }
+              log = cbBuild.log.filter(function (line) {
+                return line && line.type !== 'progress';
+              }).map(function (line) {
+                return line.content;
               }).join('');
             }
             $scope.$emit('WRITE_TO_TERM', log, true);
@@ -71,8 +71,10 @@ function BuildLogController(
     buffer.setEncoding('utf8');
     var newStream = through(
       function write(data) {
-        var message = data.content || data;
-        buffer.put(message.toString().replace(/\r?\n/gm, '\r\n'));
+        if (data && data.type !== 'progress') {
+          var message = data.content || data;
+          buffer.put(message.toString().replace(/\r?\n/gm, '\r\n'));
+        }
       },
       buffer.destroySoon
     );
