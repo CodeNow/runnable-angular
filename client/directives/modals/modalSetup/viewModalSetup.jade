@@ -1,0 +1,46 @@
+.modal-backdrop.in
+  form.modal-dialog
+    header.modal-header
+      .container-title-wrapper.no-touching
+        .container-title CodeNow Settings
+
+      .row.modal-tabs.clearfix
+        button.btn.btn-radio.active
+          img.img.iconnables(
+            height = "24"
+            src = "/build/images/logos/logo-icon-slack.svg"
+            width = "24"
+          )
+          .btn-text Slack Integration
+        button.btn.btn-radio(
+          disabled
+        )
+          svg.iconnables
+            use(
+              xlink:href = "#icons-start-cmd"
+            )
+          .btn-text Plan
+        button.btn.btn-radio(
+          disabled
+        )
+          svg.iconnables
+            use(
+              xlink:href = "#icons-ports"
+            )
+          .btn-text Billing
+        button.btn.btn-radio(
+          disabled
+        )
+          svg.iconnables
+            use(
+              xlink:href = "#icons-environment-variable"
+            )
+          .btn-text Team
+
+    section.modal-body
+      .modal-form
+
+    footer.modal-footer.clearfix
+      button.btn.white(
+        ng-click = "cancel()"
+      ) Done

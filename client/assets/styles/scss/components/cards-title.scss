@@ -15,6 +15,10 @@
     color: $purple-light;
   }
 
+  &.no-touching {
+    color: $gray;
+  }
+
   // if renaming instead of popover on verification
   &.title-verification {
     cursor: default;
@@ -45,13 +49,13 @@
 .container-title {
   flex: 0 0 auto;
   font-size: 21px;
-  font-weight: 500;
+  font-weight: $weight-bold;
   padding-left: 3px;
 }
 
 // on modal
-.modal-edit .container-title-wrapper {
-  margin: 12px auto 6px;
+.modal-dialog .container-title-wrapper {
+  margin: 9px auto 3px;
 
   .container-title {
     font-size: 14px;
