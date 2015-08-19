@@ -35,13 +35,12 @@
     display: flex;
     font-size: 15px;
     font-weight: $weight-bold;
-    height: 45px;
+    height: $input-md;
     margin: 0;
-    padding: 0 12px;
+    padding: 0 9px;
 
-    .iconnables {
+    > .iconnables {
       flex: 0 0 15px;
-      height: 100%;
     }
 
     .span {
@@ -51,6 +50,7 @@
   }
 
   .btn-select {
+    align-items: center;
     display: flex;
     left: 0;
     position: relative; // reset .list-item .btn-xs
@@ -58,11 +58,12 @@
     width: 150px;
 
     .icons-branch {
-      width: 15px;
+      flex: 0 0 15px;
+      height: 100%;
     }
 
     .icons-arrow-down {
-      flex: 0 0 21px;
+      flex: 0 0 auto;
     }
   }
 }
