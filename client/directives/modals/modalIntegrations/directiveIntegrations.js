@@ -29,7 +29,13 @@ function integrations(
             data.slackMembers = members.slack;
             data.ghMembers = members.github;
             data.verified = true;
-          });
+          })
+          .catch(function (err) {
+            data.verified = false;
+            data.slackMembers = {};
+            data.ghMembers = {};
+            throw err;
+          })
       }
 
       fetchSettings()
