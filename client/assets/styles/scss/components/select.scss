@@ -1,13 +1,20 @@
 .btn-select {
   position: relative;
 
-  &:hover .btn {
-    border-color: $gray-light;
+  &:hover .btn.gray {
+    @extend %gray.btn:hover;
   }
 
-  &:active .btn {
-    border-color: currentColor;
-    color: $purple-light;
+  &:active .btn.gray {
+    @extend %gray.btn:active;
+  }
+
+  &:hover .btn.white {
+    @extend %white.btn:hover;
+  }
+
+  &:active .btn.white {
+    @extend %white.btn:active;
   }
 
   .btn {

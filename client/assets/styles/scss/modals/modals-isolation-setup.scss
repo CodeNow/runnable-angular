@@ -55,30 +55,18 @@
     height: 30px;
     position: relative;
 
-    &:hover .btn {
-      border-color: $gray-light;
-    }
-
-    &:active .btn {
-      border-color: currentColor;
-      color: $purple-light;
-    }
-
-    .span {
-      font-weight: $weight-normal;
-    }
-
     .btn {
       color: $gray;
       display: flex;
       font-size: 15px;
+      font-weight: $weight-normal;
       height: 30px;
       line-height: 26px;
       padding: 0 9px;
+    }
 
-      .icons-arrow-down {
-        flex: 0 0 21px;
-      }
+    .icons-arrow-down {
+      flex: 0 0 21px;
     }
   }
 }
