@@ -1,26 +1,27 @@
-// line between items
-.list-divided {
 
-  .list-item {
-    margin-top: 1px;
-  }
-
-  .list-item + .list-item::after {
-    background: rgba($black,.1);
-    content: '';
-    display: block;
-    height: 1px;
-    left: 0;
-    position: absolute;
-    top: -1px;
-    width: 100%;
-  }
-}
-
-// bordered list
+// bordered list with line between items
 .list-bordered {
   border: 1px solid $gray-lighter;
   border-radius: 3px;
+
+  .list-item {
+
+    &:first-child {
+      border-radius: 3px 3px 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 3px 3px;
+    }
+
+    &:only-child {
+      border-radius: 3px;
+    }
+
+    + .list-item {
+      border-top: 1px solid $gray-lighter;
+    }
+  }
 }
 
 // .list-item-link {
