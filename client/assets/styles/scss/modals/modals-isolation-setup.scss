@@ -24,6 +24,7 @@
   }
 
   .list {
+    flex: 0 0 auto;
     margin-bottom: 12px;
   }
 
@@ -35,7 +36,6 @@
     font-size: 15px;
     font-weight: $weight-bold;
     height: 45px;
-    line-height: 45px;
     margin: 0;
     padding: 0 12px;
 
@@ -49,45 +49,36 @@
       padding-left: 6px;
     }
   }
-}
 
-.select-wrapper {
-  flex: 0 0 150px;
-  height: 30px;
-  position: relative;
-
-  // &:active .btn {
-  //   border-color: currentColor;
-  //   color: $purple-light;
-  // }
-
-  .span {
-    font-weight: $weight-normal;
-  }
-
-  .btn {
-    color: $gray;
-    display: flex;
-    font-size: 15px;
+  .btn-select {
+    flex: 0 0 150px;
     height: 30px;
-    line-height: 26px;
-    padding: 0 9px;
-    pointer-events: none;
-    position: absolute;
-    width: 100%;
-    z-index: 1;
+    position: relative;
 
-    .icons-arrow-down {
-      flex: 0 0 21px;
+    &:hover .btn {
+      border-color: $gray-light;
     }
-  }
 
-  .select {
-    appearance: none;
-    height: 100%;
-    opacity: 0;
-    pointer-events: auto;
-    position: absolute;
-    width: 100%;
+    &:active .btn {
+      border-color: currentColor;
+      color: $purple-light;
+    }
+
+    .span {
+      font-weight: $weight-normal;
+    }
+
+    .btn {
+      color: $gray;
+      display: flex;
+      font-size: 15px;
+      height: 30px;
+      line-height: 26px;
+      padding: 0 9px;
+
+      .icons-arrow-down {
+        flex: 0 0 21px;
+      }
+    }
   }
 }

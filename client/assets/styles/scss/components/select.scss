@@ -1,22 +1,28 @@
 .btn-select {
-  text-align: left;
+  position: relative;
 
-  &.btn-xs {
-    padding-right: 21px;
+  &:hover .btn {
+    border-color: $gray-light;
   }
 
-  > .icons-arrow-down {
-    width: 15px;
+  &:active .btn {
+    border-color: currentColor;
+    color: $purple-light;
   }
 
-  select {
-    background: transparent;
-    cursor: pointer;
-    height: 36px;
-    left: 0;
-    opacity: 0;
+  .btn {
+    pointer-events: none;
     position: absolute;
-    top: -2px;
+    width: 100%;
+  }
+
+  .select {
+    appearance: none;
+    cursor: pointer;
+    height: 100%;
+    opacity: 0;
+    pointer-events: auto;
+    position: absolute;
     width: 100%;
   }
 }
