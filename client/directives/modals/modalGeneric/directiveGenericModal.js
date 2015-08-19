@@ -18,9 +18,11 @@ function modalGeneric(
       }
     },
     scope: {
-      data: '=',
       actions: '=',
-      defaultActions: '='
+      currentModel: '=',
+      data: '=',
+      defaultActions: '=',
+      stateModel: '='
     },
     link: function ($scope, element, attrs) {
       // Add thing

@@ -52,22 +52,6 @@
       max-height: $input-md;
     }
 
-    &:first-child {
-      border-radius: 3px 3px 0 0;
-    }
-
-    &:last-child {
-      border-radius: 0 0 3px 3px;
-    }
-
-    &:only-child {
-      border-radius: 3px;
-    }
-
-    + .list-item {
-      border-top: 1px solid $gray-lighter;
-    }
-
     .gravatar {
       margin: 10px 9px 0 0;
     }

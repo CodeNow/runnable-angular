@@ -1,22 +1,13 @@
 .btn-select {
-  text-align: left;
-
-  &.btn-xs {
-    padding-right: 21px;
-  }
-
-  > .icons-arrow-down {
-    width: 15px;
-  }
 
   select {
-    background: transparent;
+    appearance: none;
     cursor: pointer;
-    height: 36px;
+    height: 100%;
     left: 0;
     opacity: 0;
     position: absolute;
-    top: -2px;
+    right: 0;
     width: 100%;
   }
 }
