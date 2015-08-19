@@ -4,21 +4,7 @@
       use(
         xlink:href = "#icons-help"
       )
-    h1.modal-heading
-      //- .gravatar-isolation-wrapper
-      //-   img.gravatar.gravatar-isolation(
-      //-     alt = "{{data.activeAccount.oauthName()}}"
-      //-     height = "21"
-      //-     ng-src = "https://avatars.githubusercontent.com/u/2335750?v=3"
-      //-     width = "21"
-      //-   )
-      //-   img.gravatar(
-      //-     alt = "{{data.user.oauthName()}}"
-      //-     height = "15"
-      //-     ng-src = "https://avatars.githubusercontent.com/u/7440805?v=3"
-      //-     width = "15"
-      //-   )
-      | Isolation Setup
+    h1.modal-heading Isolation Setup
     svg.iconnables.icons-close(
       ng-click = "defaultActions.cancel()"
     )
@@ -201,9 +187,9 @@
             )
           span.span.text-overflow Redis
   section.modal-footer
-    button.btn.white.btn-cancel(
-      ng-click = "RDMC.defaultActions.cancel()"
-    ) Cancel
     button.btn.green(
       ng-click = "RDMC.updateInstance()"
     ) Create Sandbox
+    button.btn.white.btn-cancel(
+      ng-click = "RDMC.defaultActions.cancel()"
+    ) Cancel
