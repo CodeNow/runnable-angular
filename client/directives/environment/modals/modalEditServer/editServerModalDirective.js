@@ -259,6 +259,9 @@ function editServerModal(
 
 
       $scope.insertHostName = function (opts) {
+        if (!opts) {
+          return;
+        }
         var hostName = '';
         if (opts.protocol) {
           hostName += opts.protocol;
