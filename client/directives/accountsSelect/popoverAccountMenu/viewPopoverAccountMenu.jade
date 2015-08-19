@@ -50,7 +50,9 @@
 
           //- leave this outside of the isolation list-item so it doens't trigger :hover & :active states
           li.list-item(
-            ng-click = "$root.featureFlags.isolation = !$root.featureFlags.isolation"
+            modal
+            modal-state-model = "{modalFlip: true}"
+            modal-template = "viewModalIsolation"
             ng-if = "$root.featureFlags.isolationUI"
           )
             .popover-list-item
@@ -65,11 +67,7 @@
                 width = "24"
               )
               | Isolation
-            svg.btn.btn-xxs.gray.iconnables.anchor-right.icons-help(
-              modal
-              modal-template = "viewModalIsolation"
-              ng-if = "$root.featureFlags.isolationUI"
-            )
+            svg.btn.btn-xxs.gray.iconnables.anchor-right.icons-help
               use(
                 xlink:href = "#icons-help"
               )

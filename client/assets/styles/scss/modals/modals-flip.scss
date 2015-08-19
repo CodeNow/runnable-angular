@@ -1,24 +1,29 @@
-.modals-flip {
-  backface-visibility: hidden;
-  perspective: 1000px;
-  transform-origin: 50% 250%;
-  transition: transform .3s ease-in-out;
+.modal-flip {
 
-  // initial states
-  &:first-child {
-    transform: rotate3d(0, 1, 0, 180deg);
-  }
-
-  &:last-child {
-    transform: rotate3d(0, 1, 0, -180deg);
-  }
-
-  &.flipped {
+  // flipped state
+  &.flipped .modal-dialog {
 
     &:first-child {
       transform: rotate3d(0, 1, 0, 180deg);
     }
 
+    &:last-child {
+      transform: rotate3d(0, 1, 0, 0);
+    }
+  }
+
+  .modal-dialog {
+    backface-visibility: hidden;
+    left: 0;
+    margin: 0 auto;
+    overflow: hidden;
+    perspective: 1000px;
+    position: absolute;
+    right: 0;
+    transform-origin: 50% 250%;
+    transition: transform .3s ease-in-out;
+
+    // initial state
     &:last-child {
       transform: rotate3d(0, 1, 0, -180deg);
     }

@@ -1,4 +1,4 @@
-.modal-dialog.modal-flip.modal-isolation
+.modal-dialog.modal-isolation
   svg.iconnables.icons-close(
     ng-click = "defaultActions.cancel()"
   )
@@ -17,12 +17,14 @@
       | &#32; about working in isolation.
   footer.modal-footer
     button.btn.btn-block.green(
-      ng-click = "defaultActions.cancel()"
+      ng-click = "stateModel.modalFlipped = true"
     ) Get Started
 
-.modal-dialog.modal-flip.modal-isolation
+.modal-dialog.modal-isolation
   header.modal-header
-    svg.iconnables.icons-help
+    svg.iconnables.icons-help(
+      ng-click = "stateModel.modalFlipped = false"
+    )
       use(
         xlink:href = "#icons-help"
       )
@@ -208,7 +210,7 @@
               xlink:href = "#icons-server"
             )
           span.span.text-overflow Redis
-  section.modal-footer
+  section.modal-footer.clearfix
     button.btn.green(
       ng-click = "RDMC.updateInstance()"
     ) Create Sandbox

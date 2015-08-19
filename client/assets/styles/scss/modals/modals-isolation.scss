@@ -1,6 +1,15 @@
 .modal-isolation {
   width: 420px;
 
+  // flip heights
+  &:first-child {
+    height: 444px;
+  }
+
+  &:last-child {
+    height: 490px;
+  }
+
   // first state
   .icons-door {
     color: $gray-light;
