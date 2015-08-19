@@ -8,7 +8,7 @@
 
 //- on configure modal
 .sidebar-actions(
-  ng-if = "editExplorer"
+  ng-if = "editExplorer && rootDir"
   ng-controller = "FilePopoverController as FPC"
 )
   button.btn.btn-xs.gray(
@@ -26,8 +26,8 @@
         xlink:href = "#icons-add"
       )
 
-.sidebar-section-content.js-animate(
-  ng-if = "editExplorer || !$storage.explorerIsClosed"
+.sidebar-section-content(
+  ng-if = "(editExplorer || !$storage.explorerIsClosed)"
 )
   .well.in(
     ng-if = "!editExplorer && !fileModel.running()"
@@ -36,7 +36,7 @@
     | isn’t running.
 
   ul.file-tree(
-    ng-if = "editExplorer || fileModel.running()"
+    ng-if = "rootDir && (editExplorer || fileModel.running())"
   )
     //- this is the root dir; there can be only one.
     li(
