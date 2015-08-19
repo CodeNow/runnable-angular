@@ -31,9 +31,7 @@ function BuildLogController(
               log = cbBuild.log.filter(function (line) {
                 return line && line.type !== 'progress';
               }).map(function (line) {
-                if (line) {
-                  return line.content;
-                }
+                return line.content;
               }).join('');
             }
             $scope.$emit('WRITE_TO_TERM', log, true);
