@@ -26,18 +26,20 @@
           small.small Give your key a title for identification purposes.
 
       label.label.clearfix
-        .label-col Key
+        .label-col(
+          ng-class = "{'invalid': sshForm.sshKey.$dirty && sshForm.sshKey.$error.malformed}"
+        ) Key
         .input-col
-          textarea.textarea.monospace.textarea-key(
+          textarea.textarea.monospace.textarea-key.input-validate(
             name = "sshKey"
             ng-model = "data.key"
             required
             spellcheck = "false"
             ssh-key-validator
           )
-          div(
+          .validation-message(
             ng-if = "sshForm.sshKey.$dirty && sshForm.sshKey.$error.malformed"
-          ) This key sucks
+          ) Invalid public SSH Key
           small.small
             a.link(
               href = "https://help.github.com/articles/generating-ssh-keys/"

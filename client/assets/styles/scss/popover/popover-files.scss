@@ -101,7 +101,8 @@
 
   .input-col {
 
-    > .small {
+    > .small,
+    > .validation-message {
       margin: 6px 8px;
     }
 

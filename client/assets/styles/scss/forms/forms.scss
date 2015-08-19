@@ -31,6 +31,10 @@
     width: 100%;
   }
 
+  &.invalid {
+    color: $red;
+  }
+
   > .small.small {
     line-height: 1;
     margin-top: -6px;
