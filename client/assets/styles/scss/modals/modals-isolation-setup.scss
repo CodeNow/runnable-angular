@@ -51,18 +51,14 @@
   }
 
   .btn-select {
-    flex: 0 0 150px;
-    height: 30px;
-    position: relative;
+    display: flex;
+    left: 0;
+    position: relative; // reset .list-item .btn-xs
+    top: 0;
+    width: 150px;
 
-    .btn {
-      color: $gray;
-      display: flex;
-      font-size: 15px;
-      font-weight: $weight-normal;
-      height: 30px;
-      line-height: 26px;
-      padding: 0 9px;
+    .icons-branch {
+      width: 15px;
     }
 
     .icons-arrow-down {
