@@ -4,10 +4,12 @@
 
   // initial menu height
   .popover-views > div {
-    transition: min-height .15s ease-in;
+    transition: min-height .15s linear;
   }
 
   .popover-view {
+    opacity: 0;
+    transition: opacity .15s ease-in, transform .3s ease-in-out;
     width: 100%;
   }
 

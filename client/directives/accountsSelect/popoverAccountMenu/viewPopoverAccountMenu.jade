@@ -16,7 +16,9 @@
       }"
       style = "min-height: {{state.view === 1 ? '179' : data.allAccounts.length * 36 + 44}}px"
     )
-      .popover-view
+      .popover-view(
+        ng-style = "state.view === 1 && {'opacity': '1'}"
+      )
         //- data.showIntegrations can be removed with $root.featureFlags.isolationUI
         ul.list.popover-list(
           ng-if = "data.showIntegrations || $root.featureFlags.isolationUI"
@@ -94,7 +96,9 @@
               ng-click = "actions.logout();"
             ) Log Out
 
-      .popover-view
+      .popover-view(
+        ng-style = "state.view === 2 && {'opacity': '1'}"
+      )
         .popover-header
           svg.btn.btn-sm.iconnables.icons-arrow-backward.pull-left(
             ng-click = "state.view = 1"

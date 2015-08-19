@@ -75,6 +75,7 @@
     display: block;
     height: 0;
     position: absolute;
+    transition: border .3s ease-in;
     width: 0;
   }
 
