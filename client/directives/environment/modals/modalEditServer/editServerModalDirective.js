@@ -128,6 +128,7 @@ function editServerModal(
         $scope.portTagOptions.tags.onAdd($scope.updateDockerfileFromState);
         $scope.portTagOptions.tags.onRemove($scope.updateDockerfileFromState);
 
+        $scope.state.packages = data.packages;
         $scope.state.startCommand = data.startCommand;
         $scope.state.selectedStack = data.selectedStack;
 
