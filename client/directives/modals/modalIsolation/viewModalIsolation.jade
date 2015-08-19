@@ -1,4 +1,7 @@
-.modal-dialog.modal-isolation
+//- initFlip removes the initial flip transition
+.modal-dialog.modal-isolation(
+  ng-init = "initFlip = true"
+)
   svg.iconnables.icons-close(
     ng-click = "defaultActions.cancel()"
   )
@@ -17,10 +20,15 @@
       | &#32; about working in isolation.
   footer.modal-footer
     button.btn.btn-block.green(
-      ng-click = "stateModel.modalFlipped = true"
+      ng-click = "\
+        initFlip = false;\
+        stateModel.modalFlipped = true;\
+      "
     ) Get Started
 
-.modal-dialog.modal-isolation
+.modal-dialog.modal-isolation(
+  ng-class = "{'init': initFlip}"
+)
   header.modal-header
     svg.iconnables.icons-help(
       ng-click = "stateModel.modalFlipped = false"

@@ -32,5 +32,9 @@
       transform: rotate3d(0, 1, 0, -180deg);
       z-index: 1;
     }
+
+    &.init {
+      transition: none;
+    }
   }
 }
