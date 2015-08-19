@@ -130,6 +130,21 @@ describe('BuildLogController'.bold.underline.blue, function () {
       $rootScope.$digest();
       sinon.assert.calledWith(ctx.streamBuffer.put, 'Hello');
     });
+    it('should ignore progress messages', function () {
+      $rootScope.$digest();
+      var stream = mockPrimus.createBuildStream();
+      $scope.stream = stream;
+      var term = mockPrimus.createBuildStream();
+      expect($scope.connectStreams, 'connectStreams').to.be.ok;
+      $scope.connectStreams(term);
+      $rootScope.$digest();
+      sinon.assert.calledOnce(ctx.streamBuffer.pipe);
+      sinon.assert.calledWith(ctx.streamBuffer.setEncoding, 'utf8');
+      stream.write({type: 'progress', content: 'Hello\n'});
+      stream.write({content: 'Goodbye'});
+      $rootScope.$digest();
+      sinon.assert.calledWith(ctx.streamBuffer.put, 'Goodbye');
+    });
   });
 
   describe('watching the build'.blue, function () {
@@ -155,6 +170,7 @@ describe('BuildLogController'.bold.underline.blue, function () {
     it('should put the log on the term (new objects)', function (done) {
       ctx.build.contextVersions.models[0].attrs.build.log = [
         {content: 'Hello, my name is Docker\n'},
+        {type: 'progress', content: 'LALALALAALA\n'}, //Should get skipped
         {content: 'Would you like to play a game?'}
       ];
       var cv = ctx.build.contextVersions.models[0];
