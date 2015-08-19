@@ -240,3 +240,32 @@
   // end styles
   // **********
 }
+
+// .modal-form.empty
+.modal-form.empty {
+  padding: 30px 30px 60px;
+
+  // placeholder
+  .img {
+    margin: 0 auto;
+  }
+
+  // for 'title' text
+  .p.empty {
+    color: $gray-dark;
+    font-size: 18px;
+    margin: 9px 0 12px;
+  }
+
+  // inputs (like api token)
+  .input {
+    margin: 0 auto;
+    max-width: 340px;
+  }
+
+  // submit buttons (like for api token)
+  .green {
+    display: table;
+    margin: 15px auto 0;
+  }
+}

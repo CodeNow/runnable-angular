@@ -38,7 +38,12 @@
           .btn-text Team
 
     section.modal-body
-      .modal-form
+      //- .spinner-wrapper.spinner-md.in(
+      //-   ng-include = "'spinner'"
+      //- )
+      div(
+        ng-include = "'formIntegrations'"
+      )
 
     footer.modal-footer.clearfix
       button.btn.white(
