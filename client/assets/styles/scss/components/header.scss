@@ -1,6 +1,5 @@
 .header {
-  background: $purple-light;
-  border-bottom: 1px solid $purple;
+  border: 0;
   height: 60px;
   padding: 0 15px;
 
@@ -11,12 +10,15 @@
     z-index: 6000;
   }
 
+  &.purple {
+    background: $purple-light;
+    border-bottom: 1px solid $purple;
+  }
+
   // isolation
   &.gray {
-    // background: #827E87;
     background: $gray;
-    border: 0;
-    // border-bottom: 1px solid $gray-darker;
+    border-bottom: 1px solid $gray-dark;
   }
 
   // layout
