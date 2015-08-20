@@ -1,6 +1,10 @@
 //- initFlip removes the initial flip transition
+//- returnFlip delays the text/button change on the intial flip
 .modal-dialog.modal-isolation(
-  ng-init = "initFlip = true"
+  ng-init = "\
+    initFlip = true;\
+    returnFlip = false;\
+  "
 )
   svg.iconnables.icons-close(
     ng-click = "defaultActions.cancel()"
@@ -13,30 +17,37 @@
       use(
         xlink:href = "#icons-door"
       )
-    h3.h3.text-center Work in Isolation
-    p.p.text-center Changes made while you’re isolated won’t affect the containers the rest of your team uses.
+    h3.h3.text-center Work in a Private Sandbox
+    p.p.text-center Changes made in your private Sandbox won’t affect the containers the rest of your team uses.
       br
       a.link Learn more
-      | &#32; about working in isolation.
+      | &#32; about private Sandboxes.
   footer.modal-footer
-    button.btn.btn-block.green(
+    .btn.btn-block(
+      ng-class = "{\
+        'green': !returnFlip,\
+        'white': returnFlip\
+      }"
       ng-click = "\
         initFlip = false;\
         stateModel.modalFlipped = true;\
       "
-    ) Get Started
+    ) {{!returnFlip ? 'Get Started' : 'Return to Setup'}}
 
 .modal-dialog.modal-isolation(
   ng-class = "{'init': initFlip}"
 )
   header.modal-header
     svg.iconnables.icons-help(
-      ng-click = "stateModel.modalFlipped = false"
+      ng-click = "\
+        returnFlip = true;\
+        stateModel.modalFlipped = false;\
+      "
     )
       use(
         xlink:href = "#icons-help"
       )
-    h1.modal-heading Isolation Setup
+    h1.modal-heading Private Sandbox Setup
     svg.iconnables.icons-close(
       ng-click = "defaultActions.cancel()"
     )
@@ -53,7 +64,7 @@
             xlink:href = "#icons-repository"
           )
         span.span.text-overflow api
-        .btn.btn-xs.white.btn-select(
+        .btn.btn-xs.gray.btn-select(
           ng-init = "branchFirst = 'master'"
         )
           svg.iconnables.icons-branch.float-left
@@ -105,7 +116,7 @@
             xlink:href = "#icons-repository"
           )
         span.span.text-overflow runnable-angular
-        .btn.btn-xs.white.btn-select(
+        .btn.btn-xs.gray.btn-select(
           ng-init = "branchSecond = 'master'"
         )
           svg.iconnables.icons-branch.float-left
@@ -157,7 +168,7 @@
             xlink:href = "#icons-repository"
           )
         span.span.text-overflow optimus
-        .btn.btn-xs.white.btn-select(
+        .btn.btn-xs.gray.btn-select(
           ng-init = "branchThird = 'master'"
         )
           svg.iconnables.icons-branch.float-left
@@ -221,7 +232,7 @@
   section.modal-footer.clearfix
     button.btn.green(
       ng-click = "RDMC.updateInstance()"
-    ) Create Sandbox
+    ) Create Private Sandbox
     button.btn.white.btn-cancel(
       ng-click = "RDMC.defaultActions.cancel()"
     ) Cancel

@@ -111,6 +111,7 @@
     }
   }
 
+  // list with gray background, filled with secondary actions
   &.list-secondary {
     background: $gray-lighterest;
 
@@ -141,6 +142,39 @@
         color: $gray-light;
         margin-left: -2px;
       }
+    }
+  }
+
+  // list with a button in it, used for adding to the list
+  .list-btn {
+    height: 45px;
+    padding: 0 6px;
+
+    > .btn {
+      color: $gray;
+      font-size: 13px;
+      padding: 0 6px;
+      position: relative; // reset .list-item > .btn-sm
+      right: 0;
+      text-align: left;
+      top: 3px;
+      width: 100%;
+
+      &:active {
+        color: $purple-light;
+      }
+    }
+
+    .icons-add {
+      background: $gray-light;
+      height: 18px;
+      margin-right: 10px;
+      top: 7px;
+    }
+
+    .anchor-right {
+      margin-right: 1px;
+      top: 7px;
     }
   }
 }
