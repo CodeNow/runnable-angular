@@ -87,39 +87,5 @@
   word-break: break-word;
 }
 
-// .toggle-group-detail
-.toggle-group-detail {
-  display: flex;
-
-  .small {
-    color: $gray;
-
-    &:last-child {
-      margin-left: 9px;
-    }
-
-    &:first-child {
-      flex: 1 1 auto;
-    }
-  }
-
-  .iconnables {
-    color: $gray-lighter;
-    height: 12px;
-    top: 3px;
-    width: 12px;
-  }
-
-  // .link-text (commit hash)
-  .link {
-    color: $purple-light;
-    text-decoration: underline;
-
-    &:hover {
-      text-decoration: none;
-    }
-  }
-}
-
 //- end deprecated file, delete with $root.featureFlags.additionalRepositories
 //- *************************

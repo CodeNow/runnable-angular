@@ -193,9 +193,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       loadingService = _loading_;
       $q = _$q_;
     });
-    $rootScope.featureFlags = {
-      dockerfileTool: false
-    };
     $scope.defaultActions = {
       close: sinon.spy()
     };
@@ -663,32 +660,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
 
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.calledOnce(ctx.instance.redeploy);
-      });
-    });
-  });
-  describe('advanced flag', function () {
-    beforeEach(function () {
-      setup({
-        currentModel: ctx.instance
-      });
-    });
-    it('should save the change immediately', function () {
-      var closePopoverSpy = sinon.spy();
-      $rootScope.$on('close-popovers', closePopoverSpy);
-
-      $scope.$digest();
-      ctx.loadingPromiseMock.add.reset();
-      sinon.assert.notCalled(ctx.loadingPromiseMock.add);
-      expect($elScope.state.advanced).to.not.be.ok;
-      $elScope.state.advanced = true;
-      $scope.$digest();
-
-      sinon.assert.called(closePopoverSpy);
-      sinon.assert.called(ctx.loadingPromiseMock.add);
-      $scope.$digest();
-      sinon.assert.called(ctx.loadingPromiseMock.add);
-      sinon.assert.calledWith(ctx.newContextVersion.update, {
-        advanced: true
       });
     });
   });

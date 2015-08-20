@@ -1,5 +1,5 @@
-.sidebar-heading.strong(
-  ng-class = "{closed: $storage.repoListIsClosed}"
+.sidebar-section-heading.strong(
+  ng-class = "{'closed': $storage.repoListIsClosed}"
   ng-click = "$storage.repoListIsClosed = !$storage.repoListIsClosed"
 )
   svg.iconnables.icons-disclose
@@ -8,33 +8,20 @@
     )
   | Repositories
 
-//- primary repository
-.server-sidebar-item(
-  edit-repo-commit
-  instance = "instance"
-  model = "instance.contextVersion.getMainAppCodeVersion()"
+.sidebar-section-content(
+  ng-if = "!$storage.repoListIsClosed && $root.featureFlags.additionalRepositories"
 )
-
-//- additional repositories (mockup)
-.server-sidebar-item(
-  modal
-  modal-template = "modalRepositoryDetailsOpen"
-  ng-if = "$root.featureFlags.additionalRepositories"
+  .sidebar-section-item(
+    edit-repo-commit
+    instance = "instance"
+    model = "acv"
+    ng-repeat = "acv in instance.contextVersion.appCodeVersions.models | orderBy : '-attrs.additionalRepo'"
+  )
+.sidebar-section-content(
+  ng-if = "!$storage.repoListIsClosed && !$root.featureFlags.additionalRepositories"
 )
-  .small.strong.text-overflow repo-name
-  .btn.gray
-    .repo-info.text-overflow.js-repository-branch branch-name
-      svg.iconnables.icons-branch
-        use(
-          xlink:href = "#icons-branch"
-        )
-    .repo-info.text-overflow.js-repository-commit commit message
-      svg.iconnables.icons-commit
-        use(
-          xlink:href = "#icons-commit"
-        )
-    .repo-info.small 10 minutes ago
-    svg.iconnables.icons-arrow-down
-      use(
-        xlink:href = "#icons-arrow-down"
-      )
+  .sidebar-section-item(
+    edit-repo-commit
+    instance = "instance"
+    model = "instance.contextVersion.getMainAppCodeVersion()"
+  )

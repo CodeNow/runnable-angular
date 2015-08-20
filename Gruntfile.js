@@ -250,9 +250,9 @@ module.exports = function(grunt) {
         bg: false,
         cmd: 'karma start ./test/karma.conf.js'
       },
-      protractor: {
+      e2e: {
         bg: false,
-        cmd: 'protractor test/protractor.conf.js'
+        cmd: 'node test/ghost-inspector.js'
       },
       server: {
         cmd: 'NODE_PATH=. node ./node_modules/nodemon/bin/nodemon.js -e js,hbs index.js',
@@ -489,7 +489,7 @@ module.exports = function(grunt) {
     'bgShell:karma-circle', // Use the circle karma.conf so it browserifies everything it needs
     'coverage'
   ]);
-  grunt.registerTask('test:e2e', ['bgShell:protractor']);
+  grunt.registerTask('test:e2e', ['bgShell:e2e']);
   grunt.registerTask('test', ['bgShell:karma']);
   grunt.registerTask('default', [
     'githooks',

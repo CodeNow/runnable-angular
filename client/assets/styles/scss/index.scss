@@ -30,15 +30,16 @@
 
 // components
 @import "components/cards";
+@import "components/cards-title";
 @import "components/fancy-select";
 @import "components/header";
 @import "components/help";
 @import "components/icons";
 @import "components/lists";
-@import "components/lists-commits";
 @import "components/logo";
 @import "components/logs";
 @import "components/notifications";
+@import "components/repository-details-content";
 @import "components/select";
 @import "components/spinner";
 @import "components/tags";
@@ -84,7 +85,6 @@
 @import "modals/modals";
 @import "modals/modals-alerts";
 @import "modals/modals-forms";
-@import "modals/modals-repository-details";
 @import "modals/modals-welcome";
 
 // modal specific
@@ -92,6 +92,7 @@
 @import "modals/modals-edit-ace";
 @import "modals/modals-error";
 @import "modals/modals-integrations";
+@import "modals/modals-rename";
 @import "modals/modals-server-select";
 
 // popovers
@@ -109,6 +110,7 @@
 @import "popover/popover-files";
 @import "popover/popover-new-server";
 @import "popover/popover-primary-options";
+@import "popover/popover-rename";
 @import "popover/popover-repository-toggle";
 @import "popover/popover-rules";
 

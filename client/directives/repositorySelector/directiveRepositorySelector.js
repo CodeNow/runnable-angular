@@ -16,12 +16,11 @@ require('app')
  */
 function repositorySelector(
   errs,
-  hasKeypaths,
   promisify,
   fetchOwnerRepos,
-  fetchRepoBranches,
   $rootScope,
-  cardInfoTypes
+  cardInfoTypes,
+  DirtyChecker
 ) {
   return {
     restrict: 'A',
@@ -41,12 +40,6 @@ function repositorySelector(
       // If we are given an object to start configure our states for edit mode
       if ($scope.data.repo) {
         $scope.repoSelector.data = $scope.data.repo;
-        $scope.fetchingBranches = true;
-        fetchRepoBranches($scope.data.repo.repo)
-          .catch(errs.handler)
-          .finally(function () {
-            $scope.fetchingBranches = false;
-          });
         $scope.state.view = 2;
         $scope.state.fromServer = true;
       } else {
@@ -59,22 +52,34 @@ function repositorySelector(
           })
           .catch(errs.handler);
       }
+      $scope.repoSelector.data.instance = $scope.data.instance;
+      $scope.$on('commit::selected', function () {
+        if ($scope.data.gitDataOnly) {
+          $scope.repoSelector.actions.save();
+        } else {
+          $scope.state.view = 2;
+        }
+      });
+      $scope.dirtyChecker = new DirtyChecker($scope.repoSelector.data, [
+        'repo.attrs.name',
+        'branch.attrs.name',
+        'commit.attrs.sha',
+        'useLatest'
+      ]);
 
       $scope.repoSelector.actions = {
         selectRepo: function (repo) {
           $scope.repoSelector.data.repo = repo;
           $scope.repoSelector.data.loading = true;
           $scope.repoSelector.data.repo.loading = true;
+          // Reset this value each time the repo changes
+          $scope.repoSelector.data.useLatest = $rootScope.featureFlags.additionalRepositories;
 
-
-          fetchRepoBranches(repo)
-            .then(function (branches) {
-              return branches.models.find(hasKeypaths({'attrs.name': repo.attrs.default_branch}));
-            })
-            .then(function (branch) {
-              $scope.repoSelector.data.branch = branch;
-              return promisify(branch.commits, 'fetch')();
-            })
+          $scope.repoSelector.data.branch = repo.newBranch(repo.attrs.default_branch);
+          if (!repo.branches.models.length) {
+            repo.branches.add($scope.state.branch);
+          }
+          promisify($scope.repoSelector.data.branch.commits, 'fetch')()
             .then(function (commits) {
               $scope.repoSelector.data.loading = false;
               $scope.repoSelector.data.repo.loading = false;
@@ -85,25 +90,6 @@ function repositorySelector(
               $scope.repoSelector.data.name = $scope.repoSelector.data.repo.attrs.name;
             })
             .catch(errs.handler);
-        },
-        selectBranch: function (branch) {
-          $scope.repoSelector.data.latestCommit = false;
-          $scope.repoSelector.data.branch = branch;
-          promisify(branch.commits, 'fetch')()
-            .catch(errs.handler);
-        },
-        selectCommit: function (commit){
-          if ($scope.state.saving) {
-            return;
-          }
-
-          $scope.repoSelector.data.latestCommit = false;
-          $scope.repoSelector.data.commit = commit;
-          if ($scope.data.gitDataOnly) {
-            $scope.repoSelector.actions.save();
-          } else {
-            $scope.state.view = 2;
-          }
         },
         save: function () {
           $scope.state.saving = true;

@@ -1,0 +1,232 @@
+.label-col Stack Type
+
+//- if new container
+.input-col(
+  ng-if = "$root.featureFlags.newVerificationFlow"
+)
+  .btn-group.btn-group-stacks
+    //- recommended first
+    label.btn.btn-radio.white(
+      ng-class = "{'active': state.selectedStack === 'Go'}"
+    )
+      img.iconnables(
+        height = "24"
+        ng-src = "/build/images/logos/logo-icon-go.svg"
+        width = "24"
+      )
+      | Go
+      input.input-radio(
+        name = "state.selectedStack"
+        ng-model = "state.selectedStack"
+        type = "radio"
+        value = "Go"
+      )
+    label.btn.btn-radio.white(
+      ng-class = "{'active': state.selectedStack === 'node.js'}"
+    )
+      img.iconnables(
+        height = "24"
+        ng-src = "/build/images/logos/logo-icon-nodejs.svg"
+        width = "24"
+      )
+      | node.js
+      input.input-radio(
+        name = "state.selectedStack"
+        ng-model = "state.selectedStack"
+        type = "radio"
+        value = "node.js"
+      )
+    label.btn.btn-radio.white(
+      ng-class = "{'active': state.selectedStack === 'PHP'}"
+    )
+      img.iconnables(
+        height = "24"
+        ng-src = "/build/images/logos/logo-icon-php.svg"
+        width = "24"
+      )
+      | PHP
+      input.input-radio(
+        name = "state.selectedStack"
+        ng-model = "state.selectedStack"
+        type = "radio"
+        value = "PHP"
+      )
+    label.btn.btn-radio.white(
+      ng-class = "{'active': state.selectedStack === 'Python'}"
+    )
+      img.iconnables(
+        height = "24"
+        ng-src = "/build/images/logos/logo-icon-python.svg"
+        width = "24"
+      )
+      | Python
+      input.input-radio(
+        name = "state.selectedStack"
+        ng-model = "state.selectedStack"
+        type = "radio"
+        value = "Python"
+      )
+    label.btn.btn-radio.white(
+      ng-class = "{'active': state.selectedStack === 'Rails'}"
+    )
+      img.iconnables(
+        height = "24"
+        ng-src = "/build/images/logos/logo-icon-rails.svg"
+        width = "24"
+      )
+      | Rails
+      input.input-radio(
+        name = "state.selectedStack"
+        ng-model = "state.selectedStack"
+        type = "radio"
+        value = "Rails"
+      )
+    label.btn.btn-radio.white(
+      ng-class = "{'active': state.selectedStack === 'Ruby'}"
+    )
+      img.iconnables(
+        height = "24"
+        ng-src = "/build/images/logos/logo-icon-ruby.svg"
+        width = "24"
+      )
+      | Ruby
+      input.input-radio(
+        name = "state.selectedStack"
+        ng-model = "state.selectedStack"
+        type = "radio"
+        value = "Ruby"
+      )
+
+  fancy-select(
+    ng-disabled = "!state.selectedStack"
+    ng-required = "true"
+    on-update = "updateDockerfile"
+    placeholder = "Select Version"
+    value = "state.selectedStack.selectedVersion"
+  )
+    li.list-item.popover-list-item.small(
+      ng-if = "$parent.state.selectedStack.suggestedVersion"
+    ) Suggested {{$parent.$parent.state.selectedStack.name}} Version
+    fancy-option(
+      ng-repeat = "version in $parent.state.selectedStack.versions | filter: $parent.state.selectedStack.suggestedVersion"
+      value = "version"
+    ) v{{$parent.version}}
+    li.divider(
+      ng-if = "$parent.state.selectedStack.suggestedVersion"
+    )
+    fancy-option(
+      ng-repeat = "version in $parent.state.selectedStack.versions | filter: '!'+ $parent.state.selectedStack.suggestedVersion"
+      value = "version"
+    ) v{{$parent.version}}
+  .label(
+    ng-repeat = "depStack in state.selectedStack.dependencies"
+  )
+    .small {{depStack.name}}
+    fancy-select(
+      ng-required = "state.selectedStack.dependencies.length"
+      on-update = "updateDockerfile"
+      placeholder = "Select Version"
+      value = "depStack.selectedVersion"
+    )
+      li.list-item.popover-list-item.small(
+        ng-if = "$parent.depStack.suggestedVersion"
+      ) Suggested {{$parent.$parent.depStack.name}} Version
+      fancy-option(
+        ng-repeat = "version in $parent.depStack.versions | filter: $parent.depStack.suggestedVersion"
+        value = "version"
+      ) v{{$parent.version}}
+      li.divider(
+        ng-if = "$parent.depStack.suggestedVersion"
+      )
+      fancy-option(
+        ng-repeat = "version in $parent.depStack.versions | filter: '!'+ $parent.depStack.suggestedVersion"
+        value = "version"
+      ) v{{$parent.version}}
+
+//- if not new
+.input-col(
+  ng-if = "!$root.featureFlags.newVerificationFlow"
+)
+  //- if not new and not new change stack flow
+  fancy-select(
+    name = 'mainstack'
+    ng-required = "true"
+    on-update = "newStackSelected"
+    placeholder = "Select language/framework"
+    track-by = "key"
+    value = "temp.stack"
+  )
+    li.list-item.popover-list-item.small(
+      ng-if = "$parent.state.repo.stackAnalysis.languageFramework"
+    ) Suggested stack type
+    fancy-option(
+      ng-repeat = "framework in $parent.data.stacks | filter: { key: $parent.state.repo.stackAnalysis.languageFramework } track by framework.key "
+      value = "framework"
+    )
+      img.iconnables(
+        height = "24"
+        ng-src = "/build/images/logos/logo-icon-{{$parent.framework.key}}.svg"
+        width = "24"
+      )
+      | {{$parent.framework.name}}
+
+    li.divider(
+      ng-if = "$parent.state.repo.stackAnalysis.languageFramework"
+    )
+    fancy-option(
+      ng-repeat = "framework in $parent.data.stacks | filter: { key: '!' + $parent.state.repo.stackAnalysis.languageFramework } | orderBy:'name' track by framework.key "
+      value = "framework"
+    )
+      img.iconnables(
+        height = "24"
+        ng-src = "/build/images/logos/logo-icon-{{$parent.framework.key}}.svg"
+        width = "24"
+      )
+      | {{$parent.framework.name}}
+
+  fancy-select(
+    ng-disabled = "!state.selectedStack"
+    ng-required = "true"
+    on-update = "updateDockerfile"
+    placeholder = "Select Version"
+    value = "state.selectedStack.selectedVersion"
+  )
+    li.list-item.popover-list-item.small(
+      ng-if = "$parent.state.selectedStack.suggestedVersion"
+    ) Suggested {{$parent.$parent.state.selectedStack.name}} Version
+    fancy-option(
+      ng-repeat = "version in $parent.state.selectedStack.versions | filter: $parent.state.selectedStack.suggestedVersion"
+      value = "version"
+    ) v{{$parent.version}}
+    li.divider(
+      ng-if = "$parent.state.selectedStack.suggestedVersion"
+    )
+    fancy-option(
+      ng-repeat = "version in $parent.state.selectedStack.versions | filter: '!'+ $parent.state.selectedStack.suggestedVersion"
+      value = "version"
+    ) v{{$parent.version}}
+
+.input-col(
+  ng-repeat = "depStack in state.selectedStack.dependencies"
+)
+  .small {{depStack.name}}
+  fancy-select(
+    ng-required = "state.selectedStack.dependencies.length"
+    placeholder = "Select Version"
+    on-update = "updateDockerfile"
+    value = "depStack.selectedVersion"
+  )
+    li.list-item.popover-list-item.small(
+      ng-if = "$parent.depStack.suggestedVersion"
+    ) Suggested {{$parent.$parent.depStack.name}} Version
+    fancy-option(
+      ng-repeat = "version in $parent.depStack.versions | filter: $parent.depStack.suggestedVersion"
+      value = "version"
+    ) v{{$parent.version}}
+    li.divider(
+      ng-if = "$parent.depStack.suggestedVersion"
+    )
+    fancy-option(
+      ng-repeat = "version in $parent.depStack.versions | filter: '!'+ $parent.depStack.suggestedVersion"
+      value = "version"
+    ) v{{$parent.version}}

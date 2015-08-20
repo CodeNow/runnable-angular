@@ -8,7 +8,6 @@ var DEFAULT_ERROR_MESSAGE = '\x1b[33;1mLogs are unavailable at this time\x1b[0m'
  */
 function BuildLogController(
   keypather,
-  dockerStreamCleanser,
   $scope,
   primus,
   promisify,
@@ -26,8 +25,16 @@ function BuildLogController(
       if (build.failed() || build.succeeded()) {
         promisify(build.contextVersions.models[0], 'fetch')().then(function (data) {
           var cbBuild = keypather.get(data, 'attrs.build');
-          if (build.succeeded()) {
-            $scope.$emit('WRITE_TO_TERM', cbBuild.log, true);
+          if (build.succeeded() && cbBuild.log) {
+            var log = cbBuild.log;
+            if (Array.isArray(cbBuild.log)) {
+              log = cbBuild.log.filter(function (line) {
+                return line && line.type !== 'progress';
+              }).map(function (line) {
+                return line.content;
+              }).join('');
+            }
+            $scope.$emit('WRITE_TO_TERM', log, true);
           } else {
             // defaulting behavior selects best avail error msg
             var errorMsg = cbBuild.log || DEFAULT_ERROR_MESSAGE;
@@ -57,22 +64,24 @@ function BuildLogController(
     }
   });
   $scope.connectStreams = function (terminal) {
-    var streamCleanser = dockerStreamCleanser('hex', true);
     buffer = new streamBuffers.ReadableStreamBuffer({
       frequency: 250,      // in milliseconds.
       chunkSize: 2048     // in bytes.
     });
     buffer.setEncoding('utf8');
+    var newStream = through(
+      function write(data) {
+        if (data && data.type !== 'progress') {
+          var message = data.content || data;
+          buffer.put(message.toString().replace(/\r?\n/gm, '\r\n'));
+        }
+      },
+      buffer.destroySoon
+    );
     primus.joinStreams(
       $scope.stream,
-      streamCleanser
-    )
-      .pipe(through(
-        function write(data) {
-          buffer.put(data.toString().replace(/\r?\n/gm, '\r\n'));
-        },
-        buffer.destroySoon
-      ));
+      newStream
+    );
 
     buffer.pipe(terminal, { end: false });
   };

@@ -18,11 +18,11 @@
   height: $input-sm;
   line-height: $input-sm;
   padding-right: 15px;
-  width: 270px;
+  width: 240px;
   word-break: break-word;
 
   @include media(md) {
-    width: 240px;
+    width: 210px;
   }
 
   @include media(xs) {
@@ -46,10 +46,10 @@
 .input-col {
   float: right;
   text-align: left;
-  width: calc(100% - 271px);
+  width: calc(100% - 241px);
 
   @include media(md) {
-    width: calc(100% - 241px);
+    width: calc(100% - 211px);
   }
 
   @include media(xs) {
@@ -125,18 +125,5 @@
       margin-right: 3px;
       width: 21px;
     }
-  }
-}
-
-// jump
-.label-jump {
-
-  .small.small {
-    display: inline-block;
-  }
-
-  .select {
-    margin-left: 6px;
-    max-width: 150px;
   }
 }

@@ -1,0 +1,100 @@
+.repository-details-content {
+    display: flex;
+    flex-direction: column;
+
+  > .label {
+    display: table;
+    margin: 0 auto 12px;
+
+    > .btn .spinner-wrapper {
+      align-items: center;
+      color: $gray-light;
+      height: 100%;
+      padding-left: 6px;
+    }
+  }
+
+  .list-servers.list-servers {
+    flex: 1 1 auto;
+    min-height: 90px;
+    position: relative;
+
+    > .spinner-wrapper {
+      background: transparent;
+      top: 0;
+    }
+
+    .list-item {
+      @extend %text-overflow;
+      font-size: 15px;
+      padding-right: 45px;
+      padding-left: 9px;
+
+      &:active,
+      &.active {
+        color: $purple-light;
+        border-color: currentColor;
+        cursor: default;
+
+        .small {
+          color: currentColor;
+        }
+
+        .icons-fat-check {
+          color: currentColor;
+          visibility: visible;
+        }
+      }
+
+      &:not(.disabled):hover .icons-fat-check {
+        visibility: visible;
+      }
+
+      &.disabled,
+      &.disabled:active,
+      &.disabled:hover {
+        background-color: transparent;
+        border-color: transparent;
+        color: $gray-light;
+        cursor: not-allowed;
+
+        .small {
+          color: currentColor;
+        }
+      }
+
+      .small {
+        color: $gray;
+        display: flex;
+      }
+    }
+  }
+
+  .icons-fat-check {
+    color: $gray-light;
+    height: 100%;
+    position: absolute;
+    right: 9px;
+    top: 0;
+    width: 27px;
+    visibility: hidden;
+  }
+
+  .toggle-wrapper {
+    border-bottom: 1px solid $gray-lighter;
+    border-top: 1px solid $gray-lighter;
+    color: $gray-dark;
+    flex: 0 0 auto;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 18px;
+    margin-bottom: 9px;
+    padding: 9px 12px;
+  }
+
+  .toggle-group {
+    float: right;
+    position: relative;
+    top: -9px;
+  }
+}

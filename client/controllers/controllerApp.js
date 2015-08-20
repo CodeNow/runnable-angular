@@ -74,24 +74,21 @@ function ControllerApp(
   }, 33));
 
   var defaultFeatureFlags = {
-    additionalRepositories: false,
-    advancedRepositories: true,
-    buildCommandCache: true,
+    additionalRepositories: true,
     cardStatus: false,
     debugMode: false,
-    dockerfileTool: true,
-    findAndReplace: true,
     fullScreen: false,  // toggles full screen
     fullScreenToggle: false,  // toggles the button that toggles full screen
     hostnameNotifications: false,
     hostnameTool: false,
     imAfraidOfTheDark: false, // toggles theme
     internalDebugging: false,
+    nameContainer: false,
     multilineFnR: false,
     navListFilter: false,
-    packagesField: true,
+    newVerificationFlow: false,
+    renameContainer: false,
     saveToolbar: false,
-    sshKeys: true,
     themeToggle: false, // toggles the button that toggles theme
     updatedBuildLogs: false
   };

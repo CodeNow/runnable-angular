@@ -37,8 +37,7 @@ function editServerModal(
   OpenItems,
   parseDockerfileForCardInfoFromInstance,
   promisify,
-  updateDockerfileFromState,
-  watchOncePromise
+  updateDockerfileFromState
 ) {
   return {
     restrict: 'A',
@@ -129,6 +128,7 @@ function editServerModal(
         $scope.portTagOptions.tags.onAdd($scope.updateDockerfileFromState);
         $scope.portTagOptions.tags.onRemove($scope.updateDockerfileFromState);
 
+        $scope.state.packages = data.packages;
         $scope.state.startCommand = data.startCommand;
         $scope.state.selectedStack = data.selectedStack;
 
@@ -260,6 +260,9 @@ function editServerModal(
 
 
       $scope.insertHostName = function (opts) {
+        if (!opts) {
+          return;
+        }
         var hostName = '';
         if (opts.protocol) {
           hostName += opts.protocol;
@@ -294,7 +297,7 @@ function editServerModal(
           })
           .then(function (promiseArrayLength) {
             // Since the initial deepCopy should be in here, we only care about > 1
-            toRebuild = promiseArrayLength > 1 || $scope.openItems.getAllFileModels(true).length;
+            toRebuild = promiseArrayLength > 1 || $scope.openItems.getAllFileModels(true).length || keypather.get($scope, 'instance.attrs.build.failed');
             toRedeploy = !toRebuild &&
               keypather.get($scope, 'instance.attrs.env') !== keypather.get($scope, 'state.opts.env');
             if (!$scope.openItems.isClean()) {
@@ -358,27 +361,6 @@ function editServerModal(
 
       resetState($scope.instance);
 
-
-      if (!$rootScope.featureFlags.dockerfileTool) {
-        // Only start watching this after the context version has
-        $scope.$watch('state.advanced', function (advanced, previousAdvanced) {
-          // This is so we don't fire the first time with no changes
-          if (previousAdvanced === Boolean(previousAdvanced) && advanced !== previousAdvanced) {
-            watchOncePromise($scope, 'state.contextVersion', true)
-              .then(function () {
-                $rootScope.$broadcast('close-popovers');
-                $scope.selectedTab = advanced ? 'buildfiles' : 'repository';
-                return loadingPromises.add('editServerModal', promisify($scope.state.contextVersion, 'update')({
-                  advanced: advanced
-                }));
-              })
-              .catch(function (err) {
-                errs.handler(err);
-                $scope.state.advanced = keypather.get($scope.instance, 'contextVersion.attrs.advanced');
-              });
-          }
-        });
-      }
 
       $scope.isDockerfileValid = function () {
         if (!$scope.state.advanced || !keypather.get($scope, 'state.dockerfile.validation.criticals.length')) {

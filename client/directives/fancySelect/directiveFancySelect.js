@@ -43,7 +43,7 @@ function fancySelect(
 
       $scope.placeholder = $scope.placeholder || 'Select an item';
 
-      var list = $compile('<ul class="fancy-select" ng-class="{in: isOpen}" ng-style="getDropdownStyles()">')($scope);
+      var list = $compile('<ul class="fancy-select" ng-class="{in: isOpen}" ng-style="getDropdownStyles()" ng-click="$event.stopPropagation(); $event.preventDefault()">')($scope);
       $scope.isOpen = false;
 
       var positionDropdown = false;

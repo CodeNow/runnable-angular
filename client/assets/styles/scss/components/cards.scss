@@ -149,47 +149,6 @@
   margin: 18px 15px;
 }
 
-.container-title-wrapper {
-  align-items: center;
-  color: $gray-dark;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  margin: 0 auto;
-  max-width: 100%;
-
-  &:hover {
-    color: $gray-darker;
-  }
-
-  &:active {
-    color: $purple-light;
-  }
-
-  .container-title {
-    flex: 0 0 auto;
-    font-size: 21px;
-    font-weight: 500;
-    padding-left: 3px;
-  }
-
-  .icons-warning,
-  .icons-arrow-down,
-  .spinner-wrapper {
-    flex: 0 0 21px;
-    height: 21px;
-  }
-
-  .spinner-wrapper {
-    color: $gray-light;
-    padding: 3px; //sizes element to replace .icons-warning
-  }
-
-  .icons-warning {
-    color: $orange;
-  }
-}
-
 // body
 .card-body,
 .card-button {
@@ -327,7 +286,7 @@
       // text after a tool
       ~ .text-overflow {
         display: inline-block;
-        width: calc(100% - 54px);
+        width: calc(100% - 90px);
       }
     }
 

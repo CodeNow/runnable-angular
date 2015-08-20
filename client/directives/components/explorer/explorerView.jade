@@ -1,0 +1,54 @@
+//- on container sidebar
+.sidebar-section-heading.strong(
+  ng-class = "{'closed': $storage.explorerIsClosed}"
+  ng-click = "$storage.explorerIsClosed = !$storage.explorerIsClosed"
+  ng-if = "!editExplorer"
+  ng-include = "'explorerSectionHeading'"
+)
+
+//- on configure modal
+.sidebar-actions(
+  ng-if = "editExplorer && rootDir"
+  ng-controller = "FilePopoverController as FPC"
+)
+  button.btn.btn-xs.gray(
+    ng-class = "{'active': filePopover.data.show}"
+    ng-disabled = "readOnly"
+    pop-over
+    pop-over-actions = "FPC.actions"
+    pop-over-data = "filePopover.data"
+    pop-over-options = "{\"left\":-76,\"top\":38}"
+    pop-over-template = "viewFileTreePopoverFileExplorerMenu"
+    pop-over-active = "filePopover.data.show"
+  )
+    svg.iconnables.icons-add
+      use(
+        xlink:href = "#icons-add"
+      )
+
+.sidebar-section-content(
+  ng-if = "(editExplorer || !$storage.explorerIsClosed)"
+)
+  .well.in(
+    ng-if = "!editExplorer && !fileModel.running()"
+  ) There are no files because&#32;
+    strong.strong {{instance.getBranchName() || instance.getDisplayName()}}&#32;
+    | isn’t running.
+
+  ul.file-tree(
+    ng-if = "rootDir && (editExplorer || fileModel.running())"
+  )
+    //- this is the root dir; there can be only one.
+    li(
+      dir = "rootDir"
+      edit-explorer = "editExplorer"
+      file-model = "fileModel"
+      file-tree-dir
+      is-root-dir = "true"
+      loading-promises-target = "loadingPromisesTarget"
+      open-items = "openItems"
+      parent-dir = "rootDir"
+      read-only = "readOnly"
+      show-repo-folder = "showRepoFolder"
+      state = "state"
+    )

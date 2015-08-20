@@ -5,13 +5,30 @@
     ng-bind-html = "helpCards.getActiveCard().helpPopover.repositories"
   )
 
+label.label.clearfix(
+  ng-if = "$root.featureFlags.newVerificationFlow"
+)
+  .label-col Packages
+    small.small (optional)
+
+  .input-col.input-prefix.input-prefix-monospace(
+    data-prefix = "apt-get install"
+  )
+    input.input.input-sm.monospace(
+      ng-disabled = "startCommandCanDisable && !state.selectedStack"
+      ng-model = "state.packages.packageList"
+      ng-model-options="{updateOn: 'blur'}"
+      ng-change = "updateDockerfile()"
+      spellcheck = "false"
+    )
+    small.small Add Ubuntu packages via apt-get, separated with spaces (e.g. ‘dnsutils vim=7.3’).
+
 .label.clearfix.label-build-commands
   .label-col Build Commands
     small.small (optional)
   .input-col
     label.small.strong.float-right(
       ng-class = "{'disabled': hasNoCommands()}"
-      ng-if = "$root.featureFlags.buildCommandCache"
     ) Cache
       span.span &#32;a command
       .toggle-wrapper
@@ -23,37 +40,21 @@
           type = "checkbox"
         )
         .toggle-group.toggle-xs
-    //-************
-    //- deprecated textarea, remove with $root.featureFlags.buildCommandCache
-    //- we only have suggestions for build commands on the main repository
-    textarea.textarea.monospace(
-      command-editor
-      ng-disabled = "startCommandCanDisable && !state.selectedStack"
-      ng-if = "!$root.featureFlags.buildCommandCache"
-      ng-model = "mainRepoContainerFile.commands"
-      ng-keydown = "cacheCommand(false)"
-      spellcheck = "false"
-      ng-model-options="{ updateOn: 'blur' }"
-      ng-change = "updateDockerfile()"
-    )
-    //- end deprecated textarea
-    //-************
     .build-commands-wrapper(
       ng-class = "{'focus': buildCommandFocus}"
-      ng-if = "$root.featureFlags.buildCommandCache"
     )
       .flex-wrapper
         textarea.textarea.monospace(
           command-editor
           ng-attr-rows = "{{mainRepoContainerFile.commands.length < 3 ? 3 : mainRepoContainerFile.commands.length}}"
           ng-blur = "buildCommandFocus = false"
+          ng-change = "updateDockerfile()"
           ng-class = "{'margin-right': data.cacheCommand}"
           ng-disabled = "startCommandCanDisable && !state.selectedStack"
           ng-focus = "buildCommandFocus = true"
           ng-model = "mainRepoContainerFile.commands"
           ng-keydown = "cacheCommand(false)"
-          ng-model-options="{ updateOn: 'blur' }"
-          ng-change = "updateDockerfile()"
+          ng-model-options = "{updateOn: 'blur'}"
           ng-trim = "false"
           spellcheck = "false"
         )
@@ -67,8 +68,8 @@
           )
             input(
               name = "cache-radio"
-              ng-click = "actions.updateCache(command)"
               ng-checked = "command.cache"
+              ng-click = "actions.updateCache(command)"
               ng-if = "command.body"
               type = "radio"
             )
@@ -76,8 +77,9 @@
             ng-repeat-end
           )
     small.small Add any commands needed to support your application. They’ll be run before the Container CMD from your repository’s root folder.
+
 label.label.clearfix(
-  ng-if = "$root.featureFlags.packagesField"
+  ng-if = "!$root.featureFlags.newVerificationFlow"
 )
   .label-col Packages
     small.small (optional)
@@ -86,7 +88,7 @@ label.label.clearfix(
     textarea.textarea.monospace(
       ng-disabled = "startCommandCanDisable && !state.selectedStack"
       ng-model = "state.packages.packageList"
-      ng-model-options="{ updateOn: 'blur' }"
+      ng-model-options = "{ updateOn: 'blur' }"
       ng-change = "updateDockerfile()"
       spellcheck = "false"
     )
@@ -98,15 +100,15 @@ label.label.clearfix
 
   .input-col
     fancy-select.monospace(
+      autocomplete = "off"
       name = "repository.startCommand"
       ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
       ng-required = "startCommandCanDisable || ngShow()"
+      on-update = "updateDockerfile"
       show-dropdown = "state.selectedStack.startCommand"
+      spellcheck = "false"
       type = "text"
       value = "state.startCommand"
-      on-update = "updateDockerfile"
-      spellcheck = "false"
-      autocomplete = "off"
     )
       li.list-item.popover-list-item.small Suggested Container CMDs
       fancy-option(

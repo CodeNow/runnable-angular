@@ -1,0 +1,76 @@
+li(
+  file-tree-dir
+  ng-repeat = "\
+    fs in dir.contents.models \
+   | filter: { attrs: { isDir: true } } \
+   | orderBy:actions.normalizeMixedDataValue\
+  "
+  dir = "fs"
+  parent-dir = "dir"
+  file-model = "fileModel"
+  open = "fs.state.open"
+  open-items = "openItems"
+  read-only = "readOnly"
+)
+li.file(
+  ng-click = "actions.openFile(fs)"
+  draggable
+  ng-repeat = "\
+    fs in dir.contents.models \
+    | filter: { attrs: { isDir: false } } \
+    | orderBy:actions.normalizeMixedDataValue\
+  "
+  ng-class = "{\
+    active: fs.state.active && !state.showAddRepo && !isEditingRepo(),\
+    dirty: (fs.state.body !== fs.attrs.body),\
+    'in-progress': fs.state.uploading\
+  }"
+)
+  //- We don't want to initialize the pop-over for Dockerfile. :(
+  a(
+    ng-if = "fs.id() === '/Dockerfile'"
+  )
+    svg.iconnables.filetypes.icons-file
+      use(
+        xlink:href = "#icons-file-dockerfile"
+      )
+    span.item-name {{ fs.attrs.name }}
+    span.btn.btn-file-errors.red(
+      ng-if = "fs.validation.errors.length"
+    ) {{ fs.validation.errors.length }}
+
+
+  a(
+    ng-disabled = "readOnly"
+    ng-if = "fs.id() !== '/Dockerfile'"
+    pop-over
+    pop-over-actions = "popoverFileExplorerFile.actions"
+    pop-over-data = "fs"
+    pop-over-options = "popoverFileExplorerFile.options"
+    pop-over-template = "viewPopoverFileExplorerFileMenu"
+    pop-over-trigger = "rightClick"
+  )
+    .spinner-wrapper.spinner-sm.in(
+      ng-if = "fs.state.uploading"
+      ng-include = "'spinner'"
+    )
+    .progress.in(
+      ng-if = "fs.state.uploading"
+      ng-style = "getFileStyle(fs)"
+    )
+    svg.iconnables.filetypes.icons-file(
+      ng-if = "!fs.state.uploading"
+    )
+      use(
+        xlink:href = "#icons-file"
+      )
+    input.tree-input(
+      name = "{{ fs.id() }}"
+      ng-click = "actions.handleClickOnFileInput($event, fs)"
+      ng-keyup = "actions.shouldCloseFileNameInput($event, fs)"
+      ng-blur = "actions.closeFileNameInput($event, fs)"
+      ng-readonly = "!fs.state.renaming"
+      select-on = "fs.state.renaming"
+      value = "{{ fs.attrs.name }}"
+    ) {{ fs.attrs.name }}
+    span.item-name {{ fs.attrs.name }}

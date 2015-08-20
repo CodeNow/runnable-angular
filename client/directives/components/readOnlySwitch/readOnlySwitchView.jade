@@ -1,0 +1,18 @@
+input.toggle-input(
+  ng-disabled = "!ROSC.state.repo || (!ROSC.state.instance.attrs.lastBuiltSimpleContextVersion && ROSC.state.advanced)"
+  ng-model = "ROSC.readOnly"
+  ng-model-options = "{getterSetter: true}"
+  type = "checkbox"
+)
+.toggle-group.toggle-sm(
+  pop-over
+  pop-over-actions = "ROSC.popover"
+  pop-over-active = "ROSC.popover.active"
+  pop-over-data = "ROSC.popover"
+  pop-over-template = "lockDockerfilePopoverView"
+  pop-over-trigger = "activeAttr"
+  tooltip
+  tooltip-disabled = "!ROSC.readOnly() || (ROSC.state.repo && ROSC.state.instance.attrs.lastBuiltSimpleContextVersion)"
+  tooltip-eval = "ROSC.state.repo ? 'We’re unable to disable editing. To resolve this, delete and re-create your container.' : 'Editing is always enabled on non-repository containers.'"
+  tooltip-options = "{\"class\":\"bottom bottom-arrow-right\",\"right\":0,\"top\":21}"
+)

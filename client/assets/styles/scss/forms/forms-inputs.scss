@@ -133,6 +133,26 @@ input {
   }
 }
 
+// radio
+input[type="radio"] {
+  -webkit-appearance: none;
+  border: 1px solid $gray-lighter;
+  border-radius: 50%;
+  height: 12px;
+  transition: border-width .1s ease-in;
+  width: 12px;
+
+  &:hover {
+    border-color: $gray-light;
+  }
+
+  &:active,
+  &:checked {
+    border-color: $purple-light;
+    border-width: 4px;
+  }
+}
+
 // label.btn.btn-checkbox
 .btn-checkbox {
   font-size: 13px;
@@ -207,22 +227,26 @@ input {
   }
 }
 
-// icons
-.input-root {
+// prefix input with…
+.input-prefix {
   position: relative;
 
   &::after {
     color: $gray-light;
-    content: '/';
+    content: attr(data-prefix);
     display: block;
     font-weight: 500;
     height: $input-sm;
     left: 0;
     line-height: $input-sm;
+    padding-left: 8px;
     position: absolute;
     text-align: center;
     top: 0;
-    width: 21px;
+  }
+
+  &.input-prefix-monospace::after {
+    @extend %monospace;
   }
 
   .input {
