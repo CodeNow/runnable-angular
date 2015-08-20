@@ -7,7 +7,11 @@
     position: fixed;
     top: 0;
     width: 100vw;
-    z-index: 6000;
+    z-index: $z-alert; // TODO: update this
+
+    .modal-open & {
+      z-index: $z-modal-backdrop; // TODO: update this
+    }
   }
 
   &.purple {
