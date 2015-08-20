@@ -125,10 +125,7 @@
     }
   }
 
-  // colors
-  &.purple {
-    background: $purple;
-    border: 2px solid $purple;
+  .header & {
 
     > .btn {
       background: transparent;
@@ -153,7 +150,6 @@
       }
 
       &.active {
-        background: #9662bd;
         color: $white;
 
         .iconnables {
@@ -177,6 +173,16 @@
       .iconnables {
         opacity: .3;
       }
+    }
+  }
+
+  // colors
+  &.purple {
+    background: $purple; // keep
+    border: 2px solid $purple; // keep
+
+    > .btn.active {
+      background: #9662bd; // keep
     }
   }
 
