@@ -1,5 +1,8 @@
 .modal-backdrop.in
-  form.modal-dialog
+  //- calculate height of list (565px)?
+  form.modal-dialog.modal-settings(
+    style = "min-height: {{data.verified ? '565px' : '565px'}}"
+  )
     header.modal-header
       .container-title-wrapper.no-touching
         .container-title CodeNow Settings
@@ -37,15 +40,17 @@
             )
           .btn-text Team
 
-    section.modal-body
+    section.modal-body.js-animate(
+      ng-class = "{'sliding': data.verified}"
+    )
       //- .spinner-wrapper.spinner-md.in(
       //-   ng-include = "'spinner'"
       //- )
-      div(
+      div.form-integrations(
         ng-include = "'formIntegrations'"
       )
 
     footer.modal-footer.clearfix
       button.btn.white(
-        ng-click = "cancel()"
+        ng-click = "defaultActions.close()"
       ) Done

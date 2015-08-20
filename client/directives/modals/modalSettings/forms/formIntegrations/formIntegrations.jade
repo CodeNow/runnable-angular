@@ -1,4 +1,6 @@
-.modal-form.empty
+.modal-form.sliding.empty.js-animate(
+  ng-if = "!data.verified"
+)
   img.img(
     height = "90"
     src = "/build/images/slack-notification.png"
@@ -12,9 +14,7 @@
     required
     spellcheck = "false"
   )
-  small.small.text-center(
-    ng-if = "!data.verified"
-  ) Use an API token from&#32;
+  small.small.text-center Use an API token from&#32;
     a.link(
       href = "//slack.com/services"
       target = "_blank"
@@ -27,7 +27,10 @@
     | .
   button.btn.green.btn-spinner(
     ng-class = "{in: data.verifying}"
-    ng-click = "actions.verifySlack()"
+    ng-click = "\
+      actions.verifySlack();\
+      data.verified = true;\
+    "
     ng-disabled = "data.verifying || !data.settings.attrs.notifications.slack.apiToken.length"
   )
     .spinner-wrapper.spinner-sm.spinner-white.in(
@@ -36,16 +39,18 @@
     )
     | Verify Token
 
-//- .modal-form
+.modal-form.sliding.js-animate(
+  ng-if = "data.verified"
+)
   //- alert under header if integration is disabled
-    ng-if = "!data.settings.attrs.notifications.slack.enabled && data.verified"
   .alert.orange(
+    ng-if = "!data.settings.attrs.notifications.slack.enabled"
   ) Slack integration has been disabled.
     button.btn.btn-xxs.orange(
       ng-click = "data.settings.attrs.notifications.slack.enabled = true"
     ) Re-enable
 
-  label.label.clearfix
+  //- label.label.clearfix
     .label-col Bot API Token
     .input-col
       input.input.input-sm.monospace(
@@ -55,14 +60,10 @@
         spellcheck = "false"
       )
 
-  .label(
-    ng-if = "data.verified"
-  )
+  .label
     .clearfix
       .label-col Messaging
-    .list.list-bordered(
-      ng-if = "data.verified"
-    )
+    .list.list-bordered
       label.list-item.text-overflow(
         ng-class = "{\
           active: member.slackOn,\
@@ -114,27 +115,23 @@
               selected = "selected"
               value = ""
             ) Select Github username
-    small.small(
-      ng-if = "data.verified"
-    ) Members will receive messages from your bot when their containers are updated.
+    small.small Members will receive messages from your bot when their containers are updated.
 
   //- disabling integration:
     - removes all .active class on labels
     - disables all inputs, but preserves their states
-  .label.label-footer(
-    ng-if = "data.verified"
-  )
+  .label.label-footer
     button.btn.btn-xs.gray(
       ng-click = "data.settings.attrs.notifications.slack.enabled = false"
+      ng-if = "data.settings.attrs.notifications.slack.enabled"
     ) Disable Slack Integration
-      //- ng-if = "data.settings.attrs.notifications.slack.enabled"
     button.btn.btn-xs.green(
       ng-click = "data.settings.attrs.notifications.slack.enabled = true"
       ng-if = "!data.settings.attrs.notifications.slack.enabled"
     ) Enable Slack Integration
-    button.btn.btn-xs.red(
-      ng-click = "data.settings.attrs.notifications.slack.enabled = false"
-    ) Delete API Token
+    //- button.btn.btn-xs.red(
+    //-   ng-click = "data.settings.attrs.notifications.slack.enabled = false"
+    //- ) Delete API Token
       //- ng-if = "data.settings.attrs.notifications.slack.enabled"
     small.small No messages will be sent while integration is disabled,
       br.br

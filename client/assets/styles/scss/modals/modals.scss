@@ -33,6 +33,7 @@
   max-width: 84vw;
   min-width: 370px;
   position: relative;
+  transition: all .3s ease-in-out;
 
   @include media(sm) {
     min-width: 360px;

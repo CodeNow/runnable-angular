@@ -1,0 +1,13 @@
+.modal-settings {
+  width: 480px;
+
+  .modal-body {
+    position: relative;
+
+    // no overflow during transition
+    &.ng-animate {
+      overflow: hidden;
+      transition: all .3s; // set transition timing
+    }
+  }
+}
