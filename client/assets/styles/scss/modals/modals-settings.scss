@@ -1,6 +1,17 @@
 .modal-settings {
   width: 480px;
 
+  // coming soon
+  .btn-text {
+    min-height: 32px;
+  }
+
+  .orange {
+    border: 0;
+    font-size: 11px;
+    height: 15px;
+  }
+
   .modal-body {
     position: relative;
 
