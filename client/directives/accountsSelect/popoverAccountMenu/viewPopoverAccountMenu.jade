@@ -48,12 +48,24 @@
                 xlink:href = "#icons-cog"
               )
 
-          //- leave this outside of the isolation list-item so it doens't trigger :hover & :active states
-          li.list-item(
+          li.list-item.list-btn(
             modal
             modal-state-model = "{modalFlip: true}"
             modal-template = "viewModalIsolation"
             ng-if = "$root.featureFlags.isolationUI"
+          )
+            button.btn.btn-sm.gray
+              svg.iconnables.icons-add.icons-round
+                use(
+                  xlink:href = "#icons-add"
+                )
+              | Add Private Sandbox
+
+          li.list-item(
+            modal
+            modal-state-model = "{modalFlip: true}"
+            modal-template = "viewModalIsolation"
+            ng-if = "$root.featureFlags.isolation"
           )
             .popover-list-item
               svg.iconnables.icons-fat-check
@@ -67,10 +79,6 @@
                 width = "24"
               )
               | Isolation
-            svg.btn.btn-xxs.gray.iconnables.anchor-right.icons-help
-              use(
-                xlink:href = "#icons-help"
-              )
 
         ul.list.popover-list.list-secondary
           li.list-item.popover-list-item(
