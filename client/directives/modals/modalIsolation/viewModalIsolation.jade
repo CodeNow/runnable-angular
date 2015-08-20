@@ -19,7 +19,7 @@
       a.link Learn more
       | &#32; about working in isolation.
   footer.modal-footer
-    button.btn.btn-block.green(
+    .btn.btn-block.green(
       ng-click = "\
         initFlip = false;\
         stateModel.modalFlipped = true;\
@@ -53,7 +53,7 @@
             xlink:href = "#icons-repository"
           )
         span.span.text-overflow api
-        .btn.btn-xs.white.btn-select(
+        .btn.btn-xs.gray.btn-select(
           ng-init = "branchFirst = 'master'"
         )
           svg.iconnables.icons-branch.float-left
@@ -105,7 +105,7 @@
             xlink:href = "#icons-repository"
           )
         span.span.text-overflow runnable-angular
-        .btn.btn-xs.white.btn-select(
+        .btn.btn-xs.gray.btn-select(
           ng-init = "branchSecond = 'master'"
         )
           svg.iconnables.icons-branch.float-left
@@ -157,7 +157,7 @@
             xlink:href = "#icons-repository"
           )
         span.span.text-overflow optimus
-        .btn.btn-xs.white.btn-select(
+        .btn.btn-xs.gray.btn-select(
           ng-init = "branchThird = 'master'"
         )
           svg.iconnables.icons-branch.float-left
