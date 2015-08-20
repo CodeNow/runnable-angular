@@ -28,7 +28,7 @@
       label.label.clearfix
         .label-col(
           ng-class = "{'invalid': sshForm.sshKey.$dirty && sshForm.sshKey.$error.malformed}"
-        ) Key
+        ) Private Key
         .input-col
           textarea.textarea.monospace.textarea-key.input-validate(
             name = "sshKey"
@@ -39,7 +39,7 @@
           )
           .validation-message(
             ng-if = "sshForm.sshKey.$dirty && sshForm.sshKey.$error.malformed"
-          ) Invalid public SSH Key
+          ) Invalid private SSH Key
           small.small
             a.link(
               href = "https://help.github.com/articles/generating-ssh-keys/"
