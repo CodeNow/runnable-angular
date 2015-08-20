@@ -42,24 +42,6 @@
 .modal-form.sliding.js-animate(
   ng-if = "data.verified"
 )
-  //- alert under header if integration is disabled
-  .alert.orange(
-    ng-if = "!data.settings.attrs.notifications.slack.enabled"
-  ) Slack integration has been disabled.
-    button.btn.btn-xxs.orange(
-      ng-click = "data.settings.attrs.notifications.slack.enabled = true"
-    ) Re-enable
-
-  //- label.label.clearfix
-    .label-col Bot API Token
-    .input-col
-      input.input.input-sm.monospace(
-        ng-model = "data.settings.attrs.notifications.slack.apiToken"
-        ng-readonly = "data.verified"
-        required
-        spellcheck = "false"
-      )
-
   .label
     .clearfix
       .label-col Messaging
@@ -121,18 +103,4 @@
     - removes all .active class on labels
     - disables all inputs, but preserves their states
   .label.label-footer
-    button.btn.btn-xs.gray(
-      ng-click = "data.settings.attrs.notifications.slack.enabled = false"
-      ng-if = "data.settings.attrs.notifications.slack.enabled"
-    ) Disable Slack Integration
-    button.btn.btn-xs.green(
-      ng-click = "data.settings.attrs.notifications.slack.enabled = true"
-      ng-if = "!data.settings.attrs.notifications.slack.enabled"
-    ) Enable Slack Integration
-    //- button.btn.btn-xs.red(
-    //-   ng-click = "data.settings.attrs.notifications.slack.enabled = false"
-    //- ) Delete API Token
-      //- ng-if = "data.settings.attrs.notifications.slack.enabled"
-    small.small No messages will be sent while integration is disabled,
-      br.br
-      | but your API Token and user settings will be preserved.
+    button.btn.btn-xs.red Delete Slack Integration
