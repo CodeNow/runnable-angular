@@ -125,7 +125,8 @@
     }
   }
 
-  .header & {
+  // toggle in header
+  .header > & {
 
     > .btn {
       background: transparent;
@@ -181,7 +182,7 @@
     background: $purple;
     border: 2px solid $purple;
 
-    > .btn.active {
+    > .active {
       background: #9662bd;
     }
   }
@@ -190,7 +191,7 @@
     background: $gray-dark;
     border: 2px solid $gray-dark;
 
-    > .btn.active {
+    > .active {
       background: #999;
     }
   }
