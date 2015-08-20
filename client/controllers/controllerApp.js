@@ -83,8 +83,9 @@ function ControllerApp(
     hostnameTool: false,
     imAfraidOfTheDark: false, // toggles theme
     internalDebugging: false,
-    isolation: false,
-    isolationUI: false,
+    isolationActive: false, // if isolation is active
+    isolationSetUp: false, // if isolation is setup
+    isolationUI: false, // for isolation UI
     nameContainer: false,
     multilineFnR: false,
     navListFilter: false,

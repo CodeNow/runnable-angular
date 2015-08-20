@@ -74,6 +74,10 @@
       margin-right: 7px;
       margin-top: 4px;
 
+      &.gravatar-isolation {
+        margin-right: 12px;
+      }
+
       // isolation gravatar
       + .gravatar {
         animation: scale-in .15s ease-in forwards;

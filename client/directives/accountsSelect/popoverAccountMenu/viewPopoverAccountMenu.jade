@@ -19,14 +19,14 @@
       .popover-view(
         ng-style = "state.view === 1 && {'opacity': '1'}"
       )
-        //- data.showIntegrations can be removed with $root.featureFlags.isolationUI
-        ul.list.popover-list(
-          ng-if = "data.showIntegrations || $root.featureFlags.isolationUI"
-        )
+        ul.list.popover-list
           //- this organization
           li.list-item
             //- this style of list nesting so that states on .anchor-right do not affect .popover-list-item
-            .popover-list-item.text-overflow.no-touching
+            .popover-list-item.text-overflow(
+              ng-class = "{'no-touching': !$root.featureFlags.isolationActive}"
+              ng-click = "$root.featureFlags.isolationActive = false"
+            )
               svg.iconnables.icons-fat-check
                 use(
                   xlink:href = "#icons-fat-check"
@@ -48,11 +48,12 @@
                 xlink:href = "#icons-cog"
               )
 
+          //- if private sandbox is not set up
           li.list-item.list-btn(
             modal
             modal-state-model = "{modalFlip: true}"
             modal-template = "viewModalIsolation"
-            ng-if = "$root.featureFlags.isolationUI"
+            ng-if = "$root.featureFlags.isolationUI && !$root.featureFlags.isolationSetUp"
           )
             button.btn.btn-sm.gray
               svg.iconnables.icons-add.icons-round
@@ -61,13 +62,14 @@
                 )
               | Add Private Sandbox
 
+          //- if private sandbox is set up
           li.list-item(
-            modal
-            modal-state-model = "{modalFlip: true}"
-            modal-template = "viewModalIsolation"
-            ng-if = "$root.featureFlags.isolation"
+            ng-if = "$root.featureFlags.isolationSetUp"
           )
-            .popover-list-item
+            .popover-list-item(
+              ng-class = "{'no-touching': $root.featureFlags.isolationActive}"
+              ng-click = "$root.featureFlags.isolationActive = true"
+            )
               svg.iconnables.icons-fat-check
                 use(
                   xlink:href = "#icons-fat-check"
@@ -77,6 +79,12 @@
                 height = "24"
                 ng-src = "{{data.activeAccount.gravitar()}}"
                 width = "24"
+              )
+              img.gravatar(
+                alt = "{{data.user.oauthName()}}"
+                height = "15"
+                ng-src = "{{data.user.gravitar()}}"
+                width = "15"
               )
               | Private Sandbox
 
