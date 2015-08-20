@@ -179,4 +179,16 @@
       }
     }
   }
+
+  &.gray {
+    // background: #514E54;
+    // border: 2px solid #514E54;
+    background: #555;
+    border: 2px solid #555;
+
+    > .btn.active {
+      // background: #969399;
+      background: #999;
+    }
+  }
 }
