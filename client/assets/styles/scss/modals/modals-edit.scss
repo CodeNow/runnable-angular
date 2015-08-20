@@ -35,7 +35,8 @@
     .btn:not(.btn-cancel),
     .input,
     .label,
-    .textarea {
+    .textarea,
+    .tr-action {
       @extend %no-touching;
       opacity: .6 !important;
     }
