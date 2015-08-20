@@ -3,6 +3,10 @@
   border-bottom: 1px solid $purple;
   height: 60px;
   padding: 0 15px;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: 1;
 
   // isolation
   &.gray {
