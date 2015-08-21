@@ -7,7 +7,7 @@
     style = "left: 182px;"
   )
   //- START-pre isolation account menu
-  .popover-views(
+  .popover-views.deprecated(
     ng-if = "!$root.featureFlags.isolationUI"
   )
     ul.list.popover-list(
@@ -31,12 +31,10 @@
       li.list-item.popover-list-item.small Change Organization
       //- current user
       li.list-item.popover-list-item.text-overflow(
-        ng-class = "{'disabled': data.user === data.activeAccount}"
+        ng-class = "{'no-touching': data.user === data.activeAccount}"
         ng-click = "actions.selectActiveAccount(data.user)"
       )
-        svg.iconnables.icons-fat-check(
-          ng-if = "data.user === data.activeAccount"
-        )
+        svg.iconnables.icons-fat-check
           use(
             xlink:href = "#icons-fat-check"
           )
@@ -46,14 +44,13 @@
           width = "24"
         )
         | {{ data.user.oauthName() }}
+      //- inline styles are temporarly until featureflag is removed
       li.list-item.popover-list-item.text-overflow(
-        ng-class = "{'disabled': (org === data.activeAccount)}"
+        ng-class = "{'no-touching': (org === data.activeAccount)}"
         ng-click = "actions.selectActiveAccount(org)"
         ng-repeat = "org in data.orgs.models"
       )
-        svg.iconnables.icons-fat-check(
-          ng-if = "org === data.activeAccount"
-        )
+        svg.iconnables.icons-fat-check
           use(
             xlink:href = "#icons-fat-check"
           )

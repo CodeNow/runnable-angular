@@ -76,3 +76,21 @@
     }
   }
 }
+
+// deprecated styles for isolation
+.popover-views.deprecated {
+
+  .popover-list-item {
+    padding-right: 24px;
+
+    &:hover .icons-fat-check {
+      opacity: 1;
+    }
+  }
+
+  .icons-fat-check {
+    left: auto;
+    right: 0;
+    top: 10px;
+  }
+}
