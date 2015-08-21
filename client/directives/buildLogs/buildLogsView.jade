@@ -1,17 +1,18 @@
-//- steps with only one line are always shown and cannot be toggled
-//- add image ID as html ID on .build-log
-//- pre steps
-
-
 .pre.build-log.js-animate(
   ng-repeat = "command in BLC.buildLogs"
   ng-class = "{'build-log-toggle' : command.content.length, 'in': command.content.length > 0 && command.expanded }"
 )
   .build-log-header(
     ng-click = "actions.toggleCommand($event, command)"
+    ng-class = "{fixed: command.fixed, absolute: command.absolute}"
   )
     .build-log-header-text(
       ng-bind-html = "command.command"
+    )
+
+    .btn-group.btn-debug(
+      ng-if = "$root.featureFlags.debugMode && command.imageId"
+      ng-include = "'viewDebugButton'"
     )
 
   .build-log-content.js-animate(

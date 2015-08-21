@@ -77,6 +77,11 @@
     padding-right: 100px;
   }
 
+  &.absolute {
+    position: absolute;
+    bottom: 0px;
+  }
+
   // fixed
   &.fixed {
     position: fixed;

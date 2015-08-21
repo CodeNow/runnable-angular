@@ -25,29 +25,40 @@ function streamingLog (
     var streamLogs = [];
     var currentCommand = null;
     function handleStreamData (data) {
-      if (data.type === 'command') {
+      if (['docker', 'log'].indexOf(data.type) !== -1) {
+        if (/^Step [0-9]+ : /.test(data.content)) {
+          currentCommand = {
+            content: [],
+            command: $sce.trustAsHtml(convert.toHtml(data.content)),
+            imageId: data.imageId,
+            expanded: true
+          };
+          var previous = streamLogs[streamLogs.length - 1];
+          if (previous) {
+            previous.expanded = false;
+          }
+          streamLogs.push(currentCommand);
+        } else {
+          if (currentCommand) {
+            if ($rootScope.featureFlags.debugMode && /^\s---> [a-z0-9]{12}/.test(data.content)) {
+              currentCommand.imageId = data.content.replace('---> ', '');
+            }
 
-        currentCommand = {
-          content: [],
-          command: $sce.trustAsHtml(convert.toHtml(data.content)),
-          imageId: data.imageId,
-          expanded: true
-        };
-        var previous = streamLogs[streamLogs.length-1];
-        if (previous) {
-          previous.expanded = false;
+            currentCommand.content.push(data.content);
+
+            if (unprocessed.indexOf(currentCommand)) {
+              unprocessed.push(currentCommand);
+            }
+          }
         }
-        streamLogs.push(currentCommand);
-      } else if (data.type === 'log'){
-        if (unprocessed.indexOf(currentCommand)) {
-          unprocessed.push(currentCommand);
-        }
-        currentCommand.content.push(data.content + '\n');
       }
       refreshAngular();
     }
 
     stream.on('data', handleStreamData);
+    stream.on('end', function () {
+      stream.off('data', handleStreamData);
+    });
 
     return {
       logs: streamLogs,
