@@ -3,26 +3,29 @@
   height: 60px;
   padding: 0 15px;
 
-  .app & {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: $z-popover-arrow + 1;
-  }
-
-  .modal-open & {
-    z-index: $z-modal-backdrop - 1;
-  }
-
+  // default header theme
   &.purple {
     background: $purple-light;
     border-bottom: 1px solid $purple;
   }
 
-  // isolation
+  // private sandbox header theme
   &.gray {
     background: $gray;
     border-bottom: 1px solid #777;
+  }
+
+  // fixed header within runnable app
+  .app & {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: $z-popover-arrow + 1; // should overlap all popovers, except account menu
+  }
+
+  // so header sits under modals/popovers if a modal is open
+  .modal-open & {
+    z-index: $z-modal-backdrop - 1;
   }
 
   // layout
