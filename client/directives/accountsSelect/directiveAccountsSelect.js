@@ -28,12 +28,14 @@ function accountsSelect (
       $scope.popoverAccountMenu = {
         actions: {
           getHeight: function (view) {
-            if ($rootScope.featureFlags.isolationSetUp && view === 1) {
-              return '179px';
+            if (!$rootScope.featureFlags.isolationUI && view === 1) {
+              return '143px'; // when isolation is off
+            } else if ($rootScope.featureFlags.isolationSetUp && view === 1) {
+              return '179px'; // when isolation is on and setup
             } else if (view === 1) {
-              return '187px';
+              return '187px'; // when isolation is on and not setup
             } else if (view === 2) {
-              return $scope.data.allAccounts.length * 36 + 44 + 'px';
+              return $scope.data.allAccounts.length * 36 + 44 + 'px'; // when viewing list of organizations
             }
           },
           logout: function () {
