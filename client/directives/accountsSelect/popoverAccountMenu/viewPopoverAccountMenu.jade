@@ -41,6 +41,7 @@
               modal-actions = "actions.actionsModalIntegrations"
               modal-data = "data.dataModalIntegrations"
               modal-template = "viewModalSettings"
+              title = "{{data.activeAccount.oauthName()}} Settings"
             )
               use(
                 xlink:href = "#icons-cog"
@@ -85,6 +86,14 @@
                 width = "15"
               )
               | Private Sandbox
+            svg.btn.btn-xxs.gray.iconnables.anchor-right.icons-close(
+              modal
+              modal-template = "viewModalDeleteSandbox"
+              title = "Delete Sandbox"
+            )
+              use(
+                xlink:href = "#icons-close"
+              )
 
         ul.list.popover-list.list-secondary
           li.list-item.popover-list-item(
