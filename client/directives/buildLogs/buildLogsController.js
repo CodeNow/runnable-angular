@@ -8,7 +8,13 @@ function BuildLogsController(
   $scope,
   primus
 ) {
+  var BLC = this;
+  BLC.buildLogsRunning = true;
+
   var stream = primus.createBuildStream(this.instance.build);
+  stream.on('end', function () {
+    BLC.buildLogsRunning = false;
+  });
   var streamingBuildLogs = streamingLog(stream);
   $scope.$on('$destroy', function () {
     streamingBuildLogs.destroy();

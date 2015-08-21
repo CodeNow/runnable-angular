@@ -19,3 +19,8 @@
     ng-if = "command.expanded && command.content.length"
     ng-bind-html = "command.trustedContent"
   )
+
+  .spinner-wrapper.spinner-sm.spinner-white.in(
+    ng-if = "BLC.buildLogsRunning && command.expanded"
+    ng-include="'spinner'"
+  )
