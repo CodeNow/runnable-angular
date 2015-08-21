@@ -14,20 +14,26 @@ function buildLogs(
       instance: '='
     },
     link: function ($scope, element) {
+      var atBottom = true;
+      var lockThreshold = 30;
 
-      var scrollHelper = debounce(function () {
+      var scrollHelper = debounce(function (manual) {
         var currentScroll = element[0].scrollTop;
+        var maxScroll = element[0].scrollHeight - element[0].offsetHeight;
+
+        if (manual) {
+          atBottom = maxScroll < currentScroll + lockThreshold;
+        } else if (atBottom) {
+          element[0].scrollTop = 100000000;
+          currentScroll = element[0].scrollTop;
+        }
 
         var children = element.children();
         var foundChild = null;
         var titleHeight = 0;
         if (children[0]) {
-          console.log(angular.element(children[0]).children());
           titleHeight = angular.element(children[0]).children()[0].offsetHeight;
         }
-        console.log(titleHeight);
-
-
 
         for(var i=0;i<children.length;i++){
           var child = children[i];
@@ -53,19 +59,22 @@ function buildLogs(
             foundCommand.absolute = true;
           }
         }
+      }, 50);
 
-        $scope.$applyAsync();
-
-      }, 20);
-
-      $scope.$watch('BLC.buildLogs', function () {
+      var unbindContentWatch = angular.noop;
+      $scope.$watch('BLC.buildLogs.length', function () {
         scrollHelper();
+        unbindContentWatch();
+        unbindContentWatch = $scope.$watch('BLC.buildLogs[' + ($scope.BLC.buildLogs.length-1) + '].content.length', function () {
+          scrollHelper();
+        });
+
       });
+
 
       element.on('scroll', function () {
-        scrollHelper();
+        scrollHelper(true);
       });
-
 
       $scope.actions = {
         toggleCommand: function (event, command) {
