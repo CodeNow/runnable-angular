@@ -134,7 +134,7 @@ function editServerModal(
           // Remove ports over the max
             if (newTag.value > 65535) {
                 tags.removeTag(newTag.id);
-                errs.handler(new Error("Port is invalid (Above 65,535)"));
+                errs.handler(new Error('Port is invalid (Above 65,535)'));
             }
           /*!
            * Check for duplicate ports
@@ -144,7 +144,7 @@ function editServerModal(
             var tag = tags.tags[ki];
             if (tag && tag.value === newTag.value && tag.id !== newTag.id) {
               // Remove duplicate tag. Perhaps, have a pop-up?
-              errs.handler(new Error("No duplicate ports allowed."));
+              errs.handler(new Error('No duplicate ports allowed.'));
               tags.removeTag(newTag.id);
             }
           }
