@@ -12,7 +12,7 @@
         'view-1': state.view === 1,\
         'view-2': state.view === 2\
       }"
-      style = "min-height: {{state.view === 1 ? '179' : data.allAccounts.length * 36 + 44}}px"
+      ng-style = "{'min-height': actions.getHeight(state.view)}"
     )
       .popover-view(
         ng-style = "state.view === 1 && {'opacity': '1'}"

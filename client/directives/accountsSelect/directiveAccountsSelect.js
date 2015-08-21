@@ -27,6 +27,15 @@ function accountsSelect (
 
       $scope.popoverAccountMenu = {
         actions: {
+          getHeight: function (view) {
+            if ($rootScope.featureFlags.isolationSetUp && view === 1) {
+              return '179px';
+            } else if (view === 1) {
+              return '187px';
+            } else if (view === 2) {
+              return $scope.data.allAccounts.length * 36 + 44 + 'px';
+            }
+          },
           logout: function () {
             promisify($scope.data.user, 'logout')().then(function () {
               window.location = '/';
