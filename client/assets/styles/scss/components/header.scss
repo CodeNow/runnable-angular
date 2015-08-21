@@ -6,12 +6,12 @@
   .app & {
     position: fixed;
     top: 0;
-    width: 100vw;
-    z-index: $z-alert; // TODO: update this
+    width: 100%;
+    z-index: $z-popover-arrow + 1;
+  }
 
-    .modal-open & {
-      z-index: $z-modal-backdrop; // TODO: update this
-    }
+  .modal-open & {
+    z-index: $z-modal-backdrop - 1;
   }
 
   &.purple {
