@@ -6,7 +6,84 @@
     ng-class = "{'white': state.view === 1}"
     style = "left: 182px;"
   )
-  .popover-views
+  //- START-pre isolation account menu
+  .popover-views(
+    ng-if = "!$root.featureFlags.isolationUI"
+  )
+    ul.list.popover-list(
+      ng-if = "data.showIntegrations"
+    )
+      li.list-item.popover-list-item.small {{ data.activeAccount.oauthName() }}
+      li.list-item.popover-list-item(
+        modal
+        modal-actions = "actions.actionsModalIntegrations"
+        modal-data = "data.dataModalIntegrations"
+        modal-template = "viewOpenModalIntegrations"
+      )
+        img.iconnables(
+          height = "24"
+          src = "/build/images/logos/logo-icon-slack.svg"
+          width = "24"
+        )
+        | Slack Integration
+
+    ul.list.popover-list
+      li.list-item.popover-list-item.small Change Organization
+      //- current user
+      li.list-item.popover-list-item.text-overflow(
+        ng-class = "{'disabled': data.user === data.activeAccount}"
+        ng-click = "actions.selectActiveAccount(data.user)"
+      )
+        svg.iconnables.icons-fat-check(
+          ng-if = "data.user === data.activeAccount"
+        )
+          use(
+            xlink:href = "#icons-fat-check"
+          )
+        img.gravatar(
+          height = "24"
+          ng-src = "{{ data.user.gravitar() }}"
+          width = "24"
+        )
+        | {{ data.user.oauthName() }}
+      li.list-item.popover-list-item.text-overflow(
+        ng-class = "{'disabled': (org === data.activeAccount)}"
+        ng-click = "actions.selectActiveAccount(org)"
+        ng-repeat = "org in data.orgs.models"
+      )
+        svg.iconnables.icons-fat-check(
+          ng-if = "org === data.activeAccount"
+        )
+          use(
+            xlink:href = "#icons-fat-check"
+          )
+        img.gravatar(
+          height = "24"
+          ng-src = "{{ org.gravitar() }}"
+          width = "24"
+        )
+        | {{ org.oauthName() }}
+
+    ul.list.popover-list.list-secondary
+      li.list-item.popover-list-item
+        a.list-link(
+          href = "//runnable.zendesk.com/hc/en-us"
+          target = "_blank"
+        ) Documentation
+          svg.iconnables.icons-link-external.anchor-right
+            use(
+              xlink:href = "#icons-link-external"
+            )
+      li.list-item.popover-list-item
+        a.list-link(
+          ng-click = "actions.logout();"
+        ) Log Out
+  //- END pre-isolation account menu
+
+  //- START post-isolation account menu
+  .popover-views(
+    ng-if = "$root.featureFlags.isolationUI"
+  )
     div(
       ng-class = "{\
         'view-1': state.view === 1,\
@@ -147,3 +224,4 @@
               width = "24"
             )
             | {{account.oauthName()}}
+  //- END post-isolation account menu
