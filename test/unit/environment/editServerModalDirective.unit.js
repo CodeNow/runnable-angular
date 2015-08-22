@@ -15,11 +15,12 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
   var sourceMocks = runnable.newContexts(require('../../unit/apiMocks/sourceContexts'), {noStore: true, warn: false});
   var apiMocks = require('../apiMocks/index');
   var mockUserFetch = new (require('../fixtures/mockFetch'))();
-
   var MockFetch = require('../fixtures/mockFetch');
+
   beforeEach(function () {
     ctx = {};
   });
+
   function setup(scope) {
 
     ctx.fakeOrg1 = {
@@ -840,4 +841,58 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       });
     });
   });
+
+  describe('Exposed Ports', function () {
+
+    describe('Adding Ports', function () {
+
+      var mapPorts = function (tags) {
+        var values = [];
+        for (var ki in tags.tags) {
+          values.push(tags.tags[ki].value);
+        }
+        return values;
+      };
+
+      it('should not ade a tag/port with chars', function () {
+        var tags = $elScope.portTagOptions.tags;
+        var ports = mapPorts(tags);
+        $elScope.portTagOptions.tags.addTag('9000');
+        $elScope.portTagOptions.tags.addTag('900a'); // Invalid
+        $scope.$digest();
+        expect(mapPorts(tags)).to.eql(ports.concat(['9000']));
+      });
+
+      it('should not add a tag/port with special chars', function () {
+        var tags = $elScope.portTagOptions.tags;
+        var ports = mapPorts(tags);
+        $elScope.portTagOptions.tags.addTag('10000');
+        $elScope.portTagOptions.tags.addTag('900!'); // Invalid
+        $scope.$digest();
+        expect(mapPorts(tags)).to.eql(ports.concat(['10000']));
+      });
+
+      it('should not add a tag/port with an invalid port (> 65,535)', function () {
+        var tags = $elScope.portTagOptions.tags;
+        var ports = mapPorts(tags);
+        $elScope.portTagOptions.tags.addTag('65535');
+        $elScope.portTagOptions.tags.addTag('65536'); // Invalid
+        $elScope.portTagOptions.tags.addTag('99999'); // Invalid
+        $scope.$digest();
+        expect(mapPorts(tags)).to.eql(ports.concat(['65535']));
+      });
+
+      it('should not add a tag/port that is a duplicate', function () {
+        var tags = $elScope.portTagOptions.tags;
+        var ports = mapPorts(tags);
+        $elScope.portTagOptions.tags.addTag('9999');
+        $elScope.portTagOptions.tags.addTag('9999'); // Duplicate
+        $scope.$digest();
+        expect(mapPorts(tags)).to.eql(ports.concat(['9999']));
+      });
+
+    });
+
+  });
+
 });

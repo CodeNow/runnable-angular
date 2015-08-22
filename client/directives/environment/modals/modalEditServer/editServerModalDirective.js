@@ -129,10 +129,10 @@ function editServerModal(
         $scope.portTagOptions.tags.onAdd(function (newTag) {
           var tags = $scope.portTagOptions.tags;
           /*!
-           * Check for non-allowed ports
+           * Check for non-allowed chars and ports
            */
           // Remove ports over the max
-            if (newTag.value > 65535) {
+            if ((newTag.value.match(/[^0-9]/g) !== null) || (+(newTag.value) > 65535)) {
                 tags.removeTag(newTag.id);
                 errs.handler(new Error('Port is invalid (Above 65,535)'));
             }
