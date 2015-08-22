@@ -14,6 +14,7 @@ function buildLogs(
       instance: '='
     },
     link: function ($scope, element) {
+      console.log(element);
       var atBottom = true;
       var lockThreshold = 30;
 
@@ -64,13 +65,13 @@ function buildLogs(
       var unbindContentWatch = angular.noop;
       $scope.$watch('BLC.buildLogs.length', function () {
         scrollHelper();
-        unbindContentWatch();
-        unbindContentWatch = $scope.$watch('BLC.buildLogs[' + ($scope.BLC.buildLogs.length-1) + '].content.length', function () {
-          scrollHelper();
-        });
-
+        if ($scope.BLC.buildLogs.length) {
+          unbindContentWatch();
+          unbindContentWatch = $scope.$watch('BLC.buildLogs[' + ($scope.BLC.buildLogs.length-1) + '].content.length', function () {
+            scrollHelper();
+          });
+        }
       });
-
 
       element.on('scroll', function () {
         scrollHelper(true);
