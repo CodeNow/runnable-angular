@@ -64,9 +64,9 @@
     padding-right: 100px;
   }
 
+  // for multiple fixed headers (pushes up)
   &.absolute {
-    bottom: 0;
-    position: absolute;
+    bottom: -1px;
   }
 
   // fixed
