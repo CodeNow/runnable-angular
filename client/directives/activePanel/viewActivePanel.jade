@@ -43,13 +43,13 @@
   )
 
   .build-log-wrapper(
+    build-logs
+    instance = 'instance'
     ng-class = "{\
       'logs-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
       'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
     }"
     ng-if = "item.state.type === 'BuildStream' && $root.featureFlags.updatedBuildLogs && instance"
-    build-logs
-    instance = 'instance'
     ng-style = "($root.featureFlags.themeToggle || $root.featureFlags.fullScreenToggle) && {'padding-right': '42px'}"
   )
 
