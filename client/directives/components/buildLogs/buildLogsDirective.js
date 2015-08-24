@@ -14,7 +14,6 @@ function buildLogs(
       instance: '='
     },
     link: function ($scope, element) {
-      console.log(element);
       var atBottom = true;
       var lockThreshold = 30;
 
@@ -60,6 +59,7 @@ function buildLogs(
             foundCommand.absolute = true;
           }
         }
+        $scope.$applyAsync();
       }, 50);
 
       var unbindContentWatch = angular.noop;
