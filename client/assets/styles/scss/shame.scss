@@ -17,3 +17,23 @@
 %webkit-flicker {
   -webkit-backface-visibility: hidden;
 }
+
+// chrome paint/layout bug:
+// http://stackoverflow.com/questions/3485365/how-can-i-force-webkit-to-redraw-repaint-to-propagate-style-changes
+.header,
+.views-tabs,
+.server-header {
+  // don't render build logs behind these elements
+  @extend %webkit-flicker;
+}
+
+.views-tabs,
+.server-header {
+  z-index: $z-views-active-panel + 1; // set higher z-index than build logs
+}
+
+.server-header {
+  // can't rely on base styles
+  background: $white;
+  position: relative;
+}
