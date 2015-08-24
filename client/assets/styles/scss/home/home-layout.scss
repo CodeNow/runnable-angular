@@ -12,6 +12,246 @@
   }
 }
 
+// hero
+.home-hero {
+  background: url(/build/images/home/hero-bg.svg) no-repeat center top;
+  background-size: 900px;
+  flex: 1 1 auto;
+  flex-direction: column;
+  padding-top: 180px;
+
+  @media (max-width: 850px) {
+    .br {
+      display: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    flex: 0 0 auto;
+  }
+
+  @media (max-width: 500px) {
+    padding-top: 60px;
+  }
+
+  .logo {
+    display: block;
+    height: auto;
+    margin: 0 auto 15px;
+    width: 390px;
+
+    @media (max-width: 500px) {
+      margin-bottom: 30px;
+      width: 60%;
+    }
+  }
+
+  // h1
+  .h1 {
+    color: $white;
+    font-size: 21px;
+    font-style: italic;
+    font-weight: 200;
+    line-height: 1.4;
+    margin: 0 auto;
+
+    @media (max-width: 850px) {
+      padding: 0 30px;
+      width: 425px;
+    }
+
+    @media (max-width: 500px) {
+      margin-top: 15px;
+      width: auto;
+    }
+  }
+
+  // columns
+  .row {
+    margin: 30px auto;
+    width: 850px;
+
+    @media (max-width: 850px) {
+      width: 425px;
+    }
+
+    @media (max-width: 500px) {
+      margin: 15px auto;
+      width: auto;
+    }
+  }
+
+  .p {
+    color: $purple-lighter;
+    float: left;
+    font-size: 18px;
+    padding: 15px;
+    width: 50%;
+
+    @media (max-width: 850px) {
+      float: none;
+      padding: 15px 30px;
+      width: auto;
+    }
+  }
+
+  .p,
+  .small,
+  .link {
+    font-weight: 300;
+  }
+
+  // video
+  .link {
+    color: $white;
+    cursor: pointer;
+    display: table;
+    font-size: 15px;
+    font-weight: $weight-normal;
+    height: 24px;
+    margin: 45px auto 9px;
+    opacity: .75;
+    text-decoration: none;
+
+    @media (max-width: 850px) {
+      margin-top: 0;
+    }
+
+    &:hover,
+    &:active {
+      opacity: 1;
+    }
+
+    .svg {
+      height: 15px;
+      position: relative;
+      top: 3px;
+      width: 24px;
+    }
+  }
+
+  // codesnippets alert
+  .alert {
+    border-radius: $input-border-radius;
+    border-width: 1px;
+    display: table;
+    font-size: 13px;
+    font-weight: $weight-bold;
+    height: $input-sm;
+    line-height: $input-line-height-sm;
+    margin: 0 auto 15px;
+    padding: 0 15px;
+
+    &.purple {
+      background: $purple;
+      border-color: $purple-light;
+      color: $white;
+    }
+
+    .btn-xxs {
+      border: 0;
+      line-height: 18px;
+      margin-left: 15px;
+      padding: 0 6px;
+    }
+  }
+
+  // modal
+  .modal-backdrop {
+    background: $black;
+    padding: 60px;
+
+    @include media(xs) {
+      padding: 60px 0;
+    }
+
+    .btn-sm {
+      color: $gray-lighter;
+      left: -15px;
+      line-height: 36px;
+      position: absolute;
+      top: -$input-md;
+
+      &:hover,
+      &:active {
+        color: $white;
+      }
+    }
+  }
+
+  .icons-close {
+    height: 100%;
+  }
+}
+
+.home-footer {
+  flex: 0 0 auto;
+  padding: 15px 0;
+  position: relative;
+
+  .row {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    width: 850px;
+
+    @media (max-width: 850px) {
+      width: 100%;
+    }
+
+    @media (max-width: 600px) {
+      flex-wrap: wrap;
+    }
+  }
+
+  .logo {
+    height: 45px;
+    margin: 0 30px;
+    max-width: 21px;
+    opacity: .3;
+
+    @media (max-width: 600px) {
+      order: -1;
+    }
+  }
+
+  .link {
+    color: $purple-lighter;
+    font-size: 14px;
+    line-height: 45px;
+    margin: 0 15px;
+    text-align: center;
+    text-decoration: none;
+    width: 90px; // so logo is centered
+
+    @media (max-width: 600px) {
+      width: 100%;
+    }
+
+    &:hover,
+    &:active {
+      color: $white;
+    }
+  }
+}
+
+// embed
+.embed-video {
+  animation: scale-in-modal .2s ease-in forwards;
+  height: 100%;
+  position: relative;
+  width: 100%;
+  z-index: $z-modal;
+
+  .iframe {
+    border-radius: 6px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+}
+
 .home-modal-dialog {
   max-width: 375px;
 
@@ -54,248 +294,5 @@
   .modal-footer {
     color: $gray;
     text-align: center;
-  }
-}
-
-// header
-.home-header {
-  background: transparent;
-  border: 0;
-  height: auto;
-
-  .logo-anchor {
-    height: $input-sm;
-    margin-bottom: 21px; // to prevent floated nav wrapping
-    top: 12px;
-    width: 216px; // proportionate to $input-sm + <sup>
-  }
-
-  .logo {
-    left: 0;
-    margin-left: 0;
-    top: 0;
-  }
-
-  // vertically center
-  .btn {
-    border: 0;
-    color: $white;
-    line-height: 36px;
-    margin: 12px 3px 0;
-
-    @include media(sm) {
-      font-size: 14px;
-    }
-
-    &:hover,
-    &:active {
-      background: $white;
-      color: $purple-light;
-    }
-  }
-}
-
-// hero
-.home-hero {
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  padding-top: 120px;
-
-  @include media(sm) {
-    padding-top: 60px;
-  }
-
-  .h1,
-  .p,
-  .small {
-    margin: 0 auto;
-    text-align: center;
-
-    @include media(xxs) {
-      padding: 0 15px;
-    }
-  }
-
-  .h1 {
-    color: $white;
-    font-size: 42px;
-    font-weight: 200;
-    line-height: 1.2;
-    margin-bottom: 15px;
-    width: 829px;
-
-    @include media(md) {
-      font-size: 36px;
-      width: 712px;
-    }
-
-    @include media(sm) {
-      font-size: 30px;
-      font-weight: 300;
-      width: 592px;
-    }
-
-    @include media(xs) {
-      width: 380px;
-    }
-
-    @include media(xxs) {
-      width: 100%;
-    }
-
-    ~ .p {
-      line-height: 1.5;
-      width: 702px;
-
-      @include media(md) {
-        font-size: 16px;
-        width: 626px;
-      }
-
-      @include media(sm) {
-        font-size: 15px;
-        width: 585px;
-      }
-
-      @include media(xs) {
-        width: 400px;
-      }
-
-      @include media(xxs) {
-        width: 100%;
-      }
-    }
-  }
-
-  .p,
-  .small,
-  .link {
-    color: $purple-lighter;
-    font-weight: 300;
-  }
-
-  .p {
-    font-size: 18px;
-    margin-bottom: 30px;
-  }
-
-  .small {
-    display: block;
-    padding-bottom: 15px;
-  }
-
-  // code snipplets bar
-  .link-bar {
-    background: $purple-darker;
-    bottom: 0;
-    box-shadow: 0 2px 3px rgba($black,.1);
-    color: $purple-lighter;
-    display: block;
-    flex: 1 1 auto;
-    font-size: 14px;
-    margin-top: $input-md;
-    padding: 15px 0;
-    text-align: center;
-    width: 100%;
-  }
-
-  // modal
-  .modal-backdrop {
-    background: $black;
-    padding: 60px;
-
-    @include media(xs) {
-      padding: 60px 0;
-    }
-
-    .btn-sm {
-      color: $gray-lighter;
-      left: -15px;
-      line-height: 36px;
-      position: absolute;
-      top: -$input-md;
-
-      &:hover,
-      &:active {
-        color: $white;
-      }
-    }
-  }
-
-  .icons-close {
-    height: 100%;
-  }
-}
-
-// embed
-.embed-wrapper {
-  height: 180px;
-  margin-bottom: 15px;
-  position: relative;
-}
-
-.embed {
-  background-image: url(/build/images/home/video-bg.png);
-  background-size: 100%;
-  border: 2px solid $white;
-  border-radius: 6px;
-  box-shadow: 0 2px 3px rgba($black,.1), inset 0 0 6px rgba($black,.3);
-  cursor: pointer;
-  display: block;
-  height: 180px;
-  left: 0;
-  margin: 0 auto;
-  position: absolute;
-  right: 0;
-  transition: all .15s ease-in;
-  width: 340px;
-}
-
-.embed-placeholder {
-
-  &:hover {
-    transform: scale3d(1.04,1.04,1);
-
-    .svg {
-      background: rgba($purple-light,.9);
-    }
-  }
-
-  &:active {
-    transform: scale3d(1,1,1);
-
-    .svg {
-      background: $purple-light;
-    }
-  }
-
-  .svg {
-    background: rgba($purple-light,.75);
-    border-radius: 50%;
-    box-shadow: 0 2px 3px rgba($black,.1);
-    display: block;
-    fill: $white;
-    height: $input-md;
-    margin: 0 auto;
-    position: relative;
-    top: calc(50% - 23px);
-    width: $input-md;
-  }
-}
-
-.embed-video {
-  animation: scale-in-modal .2s ease-in forwards;
-  height: 100%;
-  position: relative;
-  width: 100%;
-  z-index: $z-modal;
-
-  .iframe {
-    border-radius: 6px;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    width: 100%;
   }
 }
