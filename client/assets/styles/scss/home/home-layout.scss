@@ -15,7 +15,7 @@
 // hero
 .home-hero {
   background: url(/build/images/home/hero-bg.svg) no-repeat center top;
-  background-size: 900px;
+  background-size: 900px 395px;
   flex: 1 1 auto;
   flex-direction: column;
   padding-top: 180px;
@@ -36,11 +36,12 @@
 
   .logo {
     display: block;
-    height: auto;
+    height: 72px;
     margin: 0 auto 15px;
     width: 390px;
 
     @media (max-width: 500px) {
+      height: auto;
       margin-bottom: 30px;
       width: 60%;
     }
