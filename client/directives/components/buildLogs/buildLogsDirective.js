@@ -61,7 +61,7 @@ function buildLogs(
           }
         }
         $scope.$applyAsync();
-      }, 50);
+      }, 10);
 
       var unbindContentWatch = angular.noop;
       $scope.$watch('BLC.buildLogs.length', function () {
