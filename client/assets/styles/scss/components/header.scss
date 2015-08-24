@@ -1,18 +1,13 @@
 .header {
+  background: $purple-light;
+  border-bottom: 1px solid $purple;
   border: 0;
   height: 60px;
   padding: 0 15px;
 
-  // default header theme
-  &.purple {
-    background: $purple-light;
-    border-bottom: 1px solid $purple;
-  }
-
   // private sandbox header theme
-  &.gray {
-    background: $gray;
-    border-bottom: 1px solid #777;
+  &.private {
+    background-image: repeating-linear-gradient(60deg, lighten($purple-light,2.5%), lighten($purple-light,2.5%) 18px, transparent 18px, transparent 36px);
   }
 
   // fixed header within runnable app

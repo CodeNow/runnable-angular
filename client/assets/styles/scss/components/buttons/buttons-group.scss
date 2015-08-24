@@ -127,6 +127,8 @@
 
   // toggle in header
   .header > & {
+    background: $purple;
+    border: 2px solid $purple;
 
     > .btn {
       background: transparent;
@@ -151,6 +153,7 @@
       }
 
       &.active {
+        background: #9662bd;
         color: $white;
 
         .iconnables {
@@ -174,25 +177,6 @@
       .iconnables {
         opacity: .3;
       }
-    }
-  }
-
-  // colors
-  &.purple {
-    background: $purple;
-    border: 2px solid $purple;
-
-    > .active {
-      background: #9662bd;
-    }
-  }
-
-  &.gray {
-    background: $gray-dark;
-    border: 2px solid $gray-dark;
-
-    > .active {
-      background: #999;
     }
   }
 }

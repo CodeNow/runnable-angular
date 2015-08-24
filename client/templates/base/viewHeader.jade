@@ -10,12 +10,7 @@ img.logo.logo-icon(
   width = "45"
 )
 
-.btn-group.btn-toggle.btn-toggle-sm(
-  ng-class = "{\
-    'gray': $root.featureFlags.isolationActive,\
-    'purple': !$root.featureFlags.isolationActive\
-  }"
-)
+.btn-group.btn-toggle.btn-toggle-sm
   //- disabled if no containers
   a.btn.btn-sm.disabled(
     ng-if = "dataApp.state.includes('base.config') && CA.instancesByPod && !CA.instancesByPod.models.length"
