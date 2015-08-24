@@ -151,14 +151,6 @@
   .build-log-header {
     cursor: pointer;
 
-    &.fixed {
-      cursor: default;
-
-      &::before {
-        display: none;
-      }
-    }
-
     // arrow
     &::before {
       border-bottom: 0;
@@ -245,16 +237,12 @@
     background: #3d294a; // rgba($white,.03);
     border-bottom: 1px solid $purple-darker;
 
-    // no states when fixed
-    &:not(.fixed) {
+    &:hover {
+      background: #3f2c4d; // rgba($white,.045);
+    }
 
-      &:hover {
-        background: #3f2c4d; // rgba($white,.045);
-      }
-
-      &:active {
-        background: #422f4f; // rgba($white,.06);
-      }
+    &:active {
+      background: #422f4f; // rgba($white,.06);
     }
 
     &::before {
