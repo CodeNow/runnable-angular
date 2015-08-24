@@ -45,20 +45,6 @@
   }
 }
 
-.build-log-header {
-  + .build-log-content {
-    &.ng-leave {
-      transition: height .3s ease-in-out, padding .3s ease-in-out;
-      overflow: hidden;
-    }
-    &.ng-leave-active {
-      padding-top: 0;
-      padding-bottom: 0;
-      height: 0;
-    }
-  }
-}
-
 // .build-log-header
 .build-log-header,
 .build-log-content {
@@ -115,8 +101,6 @@
   // change padding if there's a header
   + .build-log-content {
     margin-top: 39px;
-    padding-bottom: 15px;
-    padding-top: 6px;
   }
 
   // text overflow
@@ -144,7 +128,16 @@
 
 // logs scroll horizontally
 .build-log-content {
-  padding: 10px 9px 9px 24px;
+  padding: 9px 9px 15px 24px;
+  transition: all .15s ease-in-out;
+
+  &.ng-leave {
+    overflow: hidden;
+  }
+
+  &.ng-leave-active {
+    height: 0;
+  }
 }
 
 // add .build-log-toggle to .build-log-header to indicate that you can toggle it

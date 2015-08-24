@@ -1,10 +1,13 @@
 .pre.build-log.js-animate(
-  ng-class = "{'build-log-toggle' : command.content.length, 'in': command.content.length > 0 && command.expanded }"
+  ng-class = "{\
+    'build-log-toggle' : command.content.length,\
+    'in': command.content.length > 0 && command.expanded\
+  }"
   ng-repeat = "command in BLC.buildLogs"
 )
   .build-log-header(
     ng-click = "actions.toggleCommand($event, command)"
-    ng-class = "{fixed: command.fixed, absolute: command.absolute}"
+    ng-class = "{'fixed': command.fixed, absolute: command.absolute}"
   )
     .build-log-header-text(
       ng-bind-html = "command.command"
