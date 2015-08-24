@@ -2,6 +2,7 @@
 
 require('app').directive('buildLogs', buildLogs);
 function buildLogs(
+  $rootScope,
   $timeout,
   debounce
 ) {
@@ -91,6 +92,23 @@ function buildLogs(
 
           command.expanded = !command.expanded;
 
+        }
+      };
+
+      $scope.calculateHeaderStyle = function (command) {
+        var fixedWidth = command.expanded && command.fixed;
+        var toggleFlags = $rootScope.featureFlags.fullScreenToggle || $rootScope.featureFlags.themeToggle; // if feature flags that changes width
+
+        if (fixedWidth && toggleFlags) {
+          // set width if header is fixed and shifting feature flags are active
+          return {
+            width: 'calc(100% - 591px)'
+          };
+        } else if (fixedWidth) {
+          // set width if header is active and shifting feature flags are off
+          return {
+            width: 'calc(100% - 556px)'
+          };
         }
       };
     }

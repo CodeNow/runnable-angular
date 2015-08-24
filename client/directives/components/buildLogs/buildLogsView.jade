@@ -11,6 +11,7 @@
       'absolute': command.expanded && command.absolute,\
       'fixed': command.expanded && command.fixed\
     }"
+    ng-style = "calculateHeaderStyle(command)"
   )
     .build-log-header-text(
       ng-bind-html = "command.command"
