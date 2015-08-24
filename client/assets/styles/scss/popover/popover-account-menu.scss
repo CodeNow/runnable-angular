@@ -3,7 +3,7 @@
   position: fixed;
   right: 12px;
   top: 60px;
-  width: 210px;
+  width: 216px;
   z-index: $z-spinner + 1; // to appear above instance view spinner
 
   // initial menu height
@@ -44,12 +44,16 @@
     }
   }
 
+  .popover-list-item {
+    padding: 0 15px;
+  }
+
   // active state
   .icons-fat-check {
     background: $gray-light;
     border-radius: 50%;
     color: $white;
-    left: 4px;
+    left: 10px;
     max-height: 15px;
     max-width: 15px;
     opacity: 0;
