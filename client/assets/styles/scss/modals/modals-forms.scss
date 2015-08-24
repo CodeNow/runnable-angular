@@ -240,3 +240,66 @@
   // end styles
   // **********
 }
+
+// .modal-form.empty
+.modal-form.empty {
+  padding: 30px 30px 60px;
+
+  // placeholder
+  .img {
+    margin: 0 auto;
+  }
+
+  // for 'title' text
+  .p.empty {
+    color: $gray-dark;
+    font-size: 18px;
+    margin: 9px 0 12px;
+  }
+
+  // inputs (like api token)
+  .input {
+    margin: 0 auto;
+    max-width: 340px;
+  }
+
+  // submit buttons (like for api token)
+  .green {
+    display: table;
+    margin: 15px auto 0;
+  }
+}
+
+.modal-form.sliding {
+  left: 0;
+  position: absolute;
+  right: 0;
+  width: 100%;
+
+  // remove form start state
+  &.ng-leave {
+    opacity: 1;
+    transform: translate3d(0,0,0);
+    transition: all .3s ease-in;
+  }
+
+  // remove form end state
+  &.ng-leave-active {
+    opacity: 0;
+    transform: translate3d(0,-100%,0);
+  }
+
+  // add form start state
+  &.ng-enter {
+    opacity: 0;
+    transform: translate3d(0,100%,0);
+    transition: all .3s ease-in;
+  }
+
+  // add form end state
+  &.ng-enter-active {
+    opacity: 1;
+    transform: translate3d(0,0,0);
+    transition: all .3s ease-in;
+  }
+}

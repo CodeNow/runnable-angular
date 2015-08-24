@@ -1,0 +1,91 @@
+.modal-isolation {
+  width: 420px;
+
+  // flip heights
+  &:first-child {
+    height: 444px;
+  }
+
+  &:last-child {
+    height: 490px;
+  }
+
+  // first state
+  .icons-door {
+    color: $gray-light;
+    height: 150px;
+    margin: 30px auto;
+    width: 150px;
+  }
+
+  .h3,
+  .p {
+    color: $gray-dark;
+  }
+
+  .p {
+    margin: 9px 9px 30px;
+  }
+
+  // header
+  .icons-help {
+    color: $gray-light;
+    cursor: pointer;
+    left: 15px;
+    padding: 6px;
+    pointer-events: auto;
+    position: absolute;
+    top: 18px;
+
+    &:hover {
+      color: $gray;
+    }
+
+    &:active {
+      color: $purple-light;
+    }
+  }
+
+  // container list
+  .list {
+    flex: 0 0 auto;
+    margin-bottom: 12px;
+  }
+
+  .list-item {
+    align-items: center;
+    background: $white;
+    color: $gray-dark;
+    display: flex;
+    font-size: 15px;
+    font-weight: $weight-bold;
+    height: $input-md;
+    padding: 0 9px;
+
+    .iconnables {
+      flex: 0 0 15px;
+      height: 100%;
+    }
+
+    .span {
+      flex: 1 1 auto;
+      padding-left: 6px;
+    }
+  }
+
+  .btn-select {
+    display: flex;
+    left: 0;
+    position: relative; // reset .list-item .btn-xs
+    top: 0;
+    width: 150px;
+
+    .icons-branch {
+      width: 15px;
+    }
+
+    .icons-arrow-down {
+      flex: 0 0 21px;
+    }
+  }
+}

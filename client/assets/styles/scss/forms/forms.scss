@@ -42,6 +42,11 @@
   }
 }
 
+// remove width limit if on its own row
+.clearfix > .label-col {
+  width: auto;
+}
+
 // input column (right)
 .input-col {
   float: right;

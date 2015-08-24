@@ -66,7 +66,6 @@
 // sidebar
 @import "sidebar/sidebar";
 @import "sidebar/sidebar-header";
-@import "sidebar/sidebar-footer";
 
 // server
 @import "server/server-header";
@@ -84,16 +83,19 @@
 // modals
 @import "modals/modals";
 @import "modals/modals-alerts";
+@import "modals/modals-flip";
 @import "modals/modals-forms";
-@import "modals/modals-welcome";
 
 // modal specific
 @import "modals/modals-edit";
 @import "modals/modals-edit-ace";
 @import "modals/modals-error";
 @import "modals/modals-integrations";
+@import "modals/modals-isolation";
 @import "modals/modals-rename";
 @import "modals/modals-server-select";
+@import "modals/modals-settings";
+@import "modals/modals-welcome";
 
 // popovers
 @import "popover/popover";

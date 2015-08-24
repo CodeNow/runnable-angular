@@ -1,11 +1,15 @@
 .popover.menu.bottom.popover-account-menu(
-  ng-class = "{in: active}"
-  ng-style = "popoverStyle.getStyle()"
+  ng-class = "{'in': active}"
+  ng-init = "state.view = 1"
 )
-  .arrow.white(
-    style = "left: 153px"
+  .arrow(
+    ng-class = "{'white': state.view === 1}"
+    style = "left: 188px;"
   )
-  .popover-content
+  //- START-pre isolation account menu
+  .popover-views.deprecated(
+    ng-if = "!$root.featureFlags.isolationUI"
+  )
     ul.list.popover-list(
       ng-if = "data.showIntegrations"
     )
@@ -27,12 +31,10 @@
       li.list-item.popover-list-item.small Change Organization
       //- current user
       li.list-item.popover-list-item.text-overflow(
-        ng-class = "{'disabled': data.user === data.activeAccount}"
+        ng-class = "{'no-touching': data.user === data.activeAccount}"
         ng-click = "actions.selectActiveAccount(data.user)"
       )
-        svg.iconnables.icons-fat-check(
-          ng-if = "data.user === data.activeAccount"
-        )
+        svg.iconnables.icons-fat-check
           use(
             xlink:href = "#icons-fat-check"
           )
@@ -42,14 +44,13 @@
           width = "24"
         )
         | {{ data.user.oauthName() }}
+      //- inline styles are temporarly until featureflag is removed
       li.list-item.popover-list-item.text-overflow(
-        ng-class = "{'disabled': (org === data.activeAccount)}"
+        ng-class = "{'no-touching': (org === data.activeAccount)}"
         ng-click = "actions.selectActiveAccount(org)"
         ng-repeat = "org in data.orgs.models"
       )
-        svg.iconnables.icons-fat-check(
-          ng-if = "org === data.activeAccount"
-        )
+        svg.iconnables.icons-fat-check
           use(
             xlink:href = "#icons-fat-check"
           )
@@ -60,8 +61,164 @@
         )
         | {{ org.oauthName() }}
 
-    ul.list.popover-list
+    ul.list.popover-list.list-secondary
+      li.list-item.popover-list-item
+        a.list-link(
+          href = "//runnable.zendesk.com/hc/en-us"
+          target = "_blank"
+        ) Documentation
+          svg.iconnables.icons-link-external.anchor-right
+            use(
+              xlink:href = "#icons-link-external"
+            )
       li.list-item.popover-list-item
         a.list-link(
           ng-click = "actions.logout();"
         ) Log Out
+  //- END pre-isolation account menu
+
+  //- START post-isolation account menu
+  .popover-views(
+    ng-if = "$root.featureFlags.isolationUI"
+  )
+    div(
+      ng-class = "{\
+        'view-1': state.view === 1,\
+        'view-2': state.view === 2\
+      }"
+      ng-style = "{'min-height': actions.getHeight(state.view)}"
+    )
+      .popover-view(
+        ng-style = "state.view === 1 && {'opacity': '1'}"
+      )
+        ul.list.popover-list
+          //- this organization
+          li.list-item
+            //- this style of list nesting so that states on .anchor-right do not affect .popover-list-item
+            .popover-list-item.text-overflow(
+              ng-class = "{'no-touching': !$root.featureFlags.isolationActive}"
+              ng-click = "$root.featureFlags.isolationActive = false"
+            )
+              svg.iconnables.icons-fat-check
+                use(
+                  xlink:href = "#icons-fat-check"
+                )
+              img.gravatar(
+                alt = "{{data.activeAccount.oauthName()}}"
+                height = "24"
+                ng-src = "{{data.activeAccount.gravitar()}}"
+                width = "24"
+              )
+              | {{data.activeAccount.oauthName()}}
+            svg.btn.btn-xxs.gray.iconnables.anchor-right.icons-cog(
+              modal
+              modal-actions = "actions.actionsModalIntegrations"
+              modal-data = "data.dataModalIntegrations"
+              modal-template = "viewModalSettings"
+              title = "{{data.activeAccount.oauthName()}} Settings"
+            )
+              use(
+                xlink:href = "#icons-cog"
+              )
+
+          //- if private sandbox is not set up
+          li.list-item.list-btn(
+            modal
+            modal-state-model = "{modalFlip: true}"
+            modal-template = "viewModalIsolation"
+            ng-if = "$root.featureFlags.isolationUI && !$root.featureFlags.isolationSetUp"
+          )
+            button.btn.btn-sm.gray
+              svg.iconnables.icons-add.icons-round
+                use(
+                  xlink:href = "#icons-add"
+                )
+              | Add Private Sandbox
+
+          //- if private sandbox is set up
+          li.list-item(
+            ng-if = "$root.featureFlags.isolationSetUp"
+          )
+            .popover-list-item(
+              ng-class = "{'no-touching': $root.featureFlags.isolationActive}"
+              ng-click = "$root.featureFlags.isolationActive = true"
+            )
+              svg.iconnables.icons-fat-check
+                use(
+                  xlink:href = "#icons-fat-check"
+                )
+              img.gravatar.gravatar-isolation(
+                alt = "{{data.activeAccount.oauthName()}}"
+                height = "24"
+                ng-src = "{{data.activeAccount.gravitar()}}"
+                width = "24"
+              )
+              img.gravatar(
+                alt = "{{data.user.oauthName()}}"
+                height = "15"
+                ng-src = "{{data.user.gravitar()}}"
+                width = "15"
+              )
+              | Private Sandbox
+            svg.btn.btn-xxs.gray.iconnables.anchor-right.icons-close(
+              modal
+              modal-template = "viewModalDeleteSandbox"
+              title = "Delete Sandbox"
+            )
+              use(
+                xlink:href = "#icons-close"
+              )
+
+        ul.list.popover-list.list-secondary
+          li.list-item.popover-list-item(
+            ng-click = "state.view = 2"
+          ) Change Organization
+            svg.iconnables.icons-arrow-forward.anchor-right
+              use(
+                xlink:href = "#icons-arrow-down"
+              )
+          li.list-item.popover-list-item
+            a.list-link(
+              href = "//runnable.zendesk.com/hc/en-us"
+              target = "_blank"
+            ) Documentation
+              svg.iconnables.icons-link-external.anchor-right
+                use(
+                  xlink:href = "#icons-link-external"
+                )
+          li.list-item.popover-list-item
+            a.list-link(
+              ng-click = "actions.logout();"
+            ) Log Out
+
+      .popover-view(
+        ng-style = "state.view === 2 && {'opacity': '1'}"
+      )
+        .popover-header
+          svg.btn.btn-sm.iconnables.icons-arrow-backward.pull-left(
+            ng-click = "state.view = 1"
+          )
+            use(
+              xlink:href = "#icons-arrow-down"
+            )
+          | Organizations
+
+        ul.list.popover-list
+          //- all organizations except current
+          li.list-item.popover-list-item.text-overflow(
+            ng-class = "{'no-touching': account === data.activeAccount}"
+            ng-click = "actions.selectActiveAccount(account)"
+            ng-repeat = "account in data.allAccounts"
+          )
+            svg.iconnables.icons-fat-check
+              use(
+                xlink:href = "#icons-fat-check"
+              )
+            img.gravatar(
+              alt = "{{account.oauthName()}}"
+              height = "24"
+              ng-src = "{{account.gravitar()}}"
+              width = "24"
+            )
+            | {{account.oauthName()}}
+  //- END post-isolation account menu

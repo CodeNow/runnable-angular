@@ -2,10 +2,10 @@ h1.container-title
   status-icon(
     instance = "instance"
   )
-  strong.strong {{ instance.getRepoName() || instance.getDisplayName() }}
+  strong.strong {{instance.getRepoName() || instance.getDisplayName()}}
   span(
     ng-if = "instance.getBranchName()"
-  ) /{{ instance.getBranchName() }}
+  ) /{{instance.getBranchName()}}
   //- pull request link
   a.link(
     ng-href = "{{pr.html_url}}"
@@ -22,16 +22,16 @@ h1.container-title
     select-all
     tooltip = "A URL is assigned to each container in a Sandbox and follows the naming pattern: [hash]-[repository]-[sandbox]-[GitHub-org].runnableapp.com."
     tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":0,\"top\":18}"
-    value = "{{ instance.getContainerHostname() }}{{defaultPort}}"
+    value = "{{instance.getContainerHostname()}}{{defaultPort}}"
   )
 
   //- sets width for input
   .container-url-ghost
-    span.span {{ instance.getContainerHostname() }}{{defaultPort}}
+    span.span {{instance.getContainerHostname()}}{{defaultPort}}
     a.a(
-      ng-href = "http://{{ instance.getContainerHostname() }}{{defaultPort}}"
+      ng-href = "http://{{instance.getContainerHostname()}}{{defaultPort}}"
       target = "_blank"
-      title = "Open in a new tab: http://{{ instance.getContainerHostname() }}{{defaultPort}}"
+      title = "Open in a new tab: http://{{instance.getContainerHostname()}}{{defaultPort}}"
     )
       svg.iconnables
         use(
@@ -41,7 +41,7 @@ h1.container-title
 span(
   ng-if = "$root.featureFlags.internalDebugging"
   style = "bottom: 12px;font-size: 13px;position: relative;top: -21px;"
-) {{ instance.containers.models[0].attrs.dockerHost }} |&#32;
+) {{instance.containers.models[0].attrs.dockerHost}} |&#32;
   span(
     ng-repeat = "(key, value) in instance.containers.models[0].attrs.ports"
-  ) {{ key }}:{{ value[0].HostPort }} |&#32;
+  ) {{key}}:{{value[0].HostPort}} |&#32;

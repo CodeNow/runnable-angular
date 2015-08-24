@@ -1,8 +1,32 @@
 .header {
-  background: $purple-light;
-  border-bottom: 1px solid $purple;
+  border: 0;
   height: 60px;
   padding: 0 15px;
+
+  // default header theme
+  &.purple {
+    background: $purple-light;
+    border-bottom: 1px solid $purple;
+  }
+
+  // private sandbox header theme
+  &.gray {
+    background: $gray;
+    border-bottom: 1px solid #777;
+  }
+
+  // fixed header within runnable app
+  .app & {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: $z-popover-arrow + 1; // should overlap all popovers, except account menu
+  }
+
+  // so header sits under modals/popovers if a modal is open
+  .modal-open & {
+    z-index: $z-modal-backdrop - 1;
+  }
 
   // layout
   .logo,
@@ -65,10 +89,20 @@
     .gravatar {
       float: left;
       margin-right: 7px;
-      margin-top: 5px;
+      margin-top: 4px;
+
+      &.gravatar-isolation {
+        margin-right: 12px;
+      }
+
+      // isolation gravatar
+      + .gravatar {
+        animation: scale-in .15s ease-in forwards;
+        left: 27px;
+      }
 
       @include retina() {
-        border: 1px solid $white;
+        border: 1px solid currentColor;
       }
 
       @include media(sm) {

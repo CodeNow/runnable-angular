@@ -1,0 +1,27 @@
+.modal-settings {
+  width: 480px;
+
+  // coming soon
+  .btn-text {
+    min-height: 32px;
+  }
+
+  .orange {
+    border: 0;
+    border-radius: 15px;
+    font-size: 11px;
+    font-weight: $weight-normal;
+    height: 15px;
+    padding: 0 5px;
+  }
+
+  .modal-body {
+    position: relative;
+
+    // no overflow during transition
+    &.ng-animate {
+      overflow: hidden;
+      transition: all .3s; // set transition timing
+    }
+  }
+}
