@@ -28,6 +28,22 @@ body {
     padding-top: 60px;
     position: relative;
   }
+
+  &.switch > .clearfix {
+    animation: switch 1s;
+  }
+}
+
+@keyframes switch {
+  0%,
+  100% {
+    padding-top: 60px;
+  }
+
+  33.3%,
+  66.6% {
+    padding-top: 0;
+  }
 }
 
 // TODO: maybe this should be less global

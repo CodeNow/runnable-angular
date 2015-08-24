@@ -1,9 +1,25 @@
+@keyframes switchOrg {
+  0%,
+  100% {
+    top: 0;
+  }
+
+  33.3%,
+  66.6% {
+    top: -60px;
+  }
+}
+
 .header {
   background: $purple-light;
   border: 0;
   border-bottom: 1px solid $purple;
   height: 60px;
   padding: 0 15px;
+
+  .switch & {
+    animation: switchOrg 1s;
+  }
 
   // private sandbox header theme
   &.private {
