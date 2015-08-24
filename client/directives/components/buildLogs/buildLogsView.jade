@@ -7,7 +7,10 @@
 )
   .build-log-header(
     ng-click = "actions.toggleCommand($event, command)"
-    ng-class = "{'fixed': command.fixed, absolute: command.absolute}"
+    ng-class = "{\
+      'absolute': command.expanded && command.absolute,\
+      'fixed': command.expanded && command.fixed\
+    }"
   )
     .build-log-header-text(
       ng-bind-html = "command.command"
