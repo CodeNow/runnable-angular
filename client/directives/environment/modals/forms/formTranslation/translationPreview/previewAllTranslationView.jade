@@ -10,18 +10,16 @@
   ng-if = "!state.recalculating && state.diffs.length"
 )
   label.label.label-select Jump to
-    fancy-select.btn.btn-xs.btn-select.float-right.text-rtl(
-      on-update = "actions.jumpTo"
-      placeholder = "Jump to"
-      track-by = "from"
-      placeholder = "Select a diff"
-      value = "jumpToModel"
-    )
-      fancy-option.fancy-select-sm.text-rtl(
-        ng-repeat = "diff in $parent.$parent.state.diffs"
-        value = "diff"
+    .btn.white.btn-xs.btn-select {{selectedDiff.from || 'Select a diff'}}
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+      select(
+        ng-change = "actions.jumpTo(selectedDiff)"
+        ng-model = "selectedDiff"
+        ng-options = "diff.from for diff in state.diffs track by diff.from"
       )
-        .text-overflow {{ $parent.diff.from }}
 
 .table.table-diff(
   actions = "actions"

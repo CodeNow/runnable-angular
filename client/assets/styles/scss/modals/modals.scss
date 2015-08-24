@@ -1,7 +1,6 @@
 // div.modal-backdrop
 .modal-backdrop {
   align-items: center;
-  animation: fade-in .2s forwards;
   background: rgba($white,.9);
   display: flex;
   flex-direction: column;
@@ -33,6 +32,7 @@
   max-width: 84vw;
   min-width: 370px;
   position: relative;
+  transition: all .3s ease-in-out;
 
   @include media(sm) {
     min-width: 360px;
@@ -91,6 +91,24 @@
       margin-left: 6px;
     }
   }
+
+  // close icon
+  .icons-close {
+    color: $gray-light;
+    cursor: pointer;
+    pointer-events: auto; // reset from .iconnables
+    position: absolute;
+    right: 15px;
+    top: 18px;
+
+    &:hover {
+      color: $gray;
+    }
+
+    &:active {
+      color: $red;
+    }
+  }
 }
 
 // header.modal-header
@@ -111,24 +129,6 @@
     font-weight: $weight-bold;
     line-height: 60px;
     padding: 0 24px; // spacing for close icon
-  }
-
-  // close icon
-  .icons-close {
-    color: $gray-light;
-    cursor: pointer;
-    pointer-events: auto; // reset from .iconnables
-    position: absolute;
-    right: 15px;
-    top: 18px;
-
-    &:hover {
-      color: $gray;
-    }
-
-    &:active {
-      color: $red;
-    }
   }
 }
 
@@ -173,6 +173,10 @@
     &:active,
     &.active {
       color: $purple-light;
+
+      &[disabled] {
+        color: $gray-dark;
+      }
     }
 
     // animation start state

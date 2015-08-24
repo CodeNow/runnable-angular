@@ -1,5 +1,9 @@
 header.header(
   ng-include = "'viewHeader'"
+  ng-class = "{\
+    'gray': $root.featureFlags.isolationActive,\
+    'purple': !$root.featureFlags.isolationActive\
+  }"
 )
 
 .clearfix(

@@ -1,8 +1,13 @@
 .modal-backdrop.in(
-  ng-click = "$event.stopPropagation()"
-  modal-generic
   actions = "actions"
   data = "data"
   default-actions = "defaultActions"
+  modal-generic
+  ng-class = "{\
+    'flipped': stateModel.modalFlipped,\
+    'modal-flip': stateModel.modalFlip,\
+  }"
+  ng-click = "$event.stopPropagation()"
+  state-model = "stateModel"
   type = "%%GENERIC_TEMPLATE_NAME%%"
 )
