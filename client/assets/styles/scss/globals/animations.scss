@@ -11,58 +11,6 @@
   }
 }
 
-@keyframes alert-help {
-  0% {
-    opacity: 0;
-    transform: scale3d(.8,.8,.8) translate3d(0,100%,0);
-  }
-
-  80% {
-    opacity: 1;
-    transform: scale3d(1.05,1.05,1.05) translate3d(0,0,0);
-  }
-
-  100% {
-    transform: scale3d(1,1,1) translate3d(0,0,0);
-  }
-}
-
-@keyframes btn-spinner {
-  0% {
-    padding-left: 15px;
-  }
-
-  5% {
-    padding-left: 30px;
-  }
-
-  95% {
-    padding-left: 30px;
-  }
-
-  100% {
-    padding-left: 15px;
-  }
-}
-
-@keyframes cursor-blink {
-  0% {
-    opacity: 1;
-  }
-
-  25% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
-
 @keyframes fade-in {
   0% {
     opacity: 0;
@@ -71,24 +19,6 @@
   100% {
     opacity: 1;
     transform: translate3d(0,0,0);
-  }
-}
-
-@keyframes fade-in-out {
-  0% {
-    opacity: 0;
-  }
-
-  10% {
-    opacity: 1;
-  }
-
-  90% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
   }
 }
 
@@ -132,28 +62,6 @@
   }
 }
 
-@keyframes popover-in {
-  0% {
-    opacity: 0;
-    transform: scale3d(.9,.9,1);
-  }
-
-  100% {
-    opacity: 1;
-    transform: scale3d(1,1,1);
-  }
-}
-
-@keyframes rotate {
-  0% {
-    transform: rotate(0);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 @keyframes scale {
   0%,
   100% {
@@ -191,23 +99,6 @@
   }
 }
 
-@keyframes scale-in-bounce-fade {
-  0% {
-    opacity: 0;
-    transform: scale3d(0,0,0);
-  }
-
-  60% {
-    opacity: 1;
-    transform: scale3d(1,1,1);
-  }
-
-  100% {
-    opacity: 1;
-    transform: scale3d(.8,.8,1);
-  }
-}
-
 @keyframes scale-in-modal {
   0% {
     opacity: 0;
@@ -220,30 +111,6 @@
   }
 }
 
-@keyframes slide-down {
-  0% {
-    transform: translate3d(0,0,0);
-  }
-
-  100% {
-    transform: translate3d(0,100%,0);
-  }
-}
-
-@keyframes spin {
-  0% {
-    transform: scale(0);
-  }
-
-  50% {
-    transform: scale(1);
-  }
-
-  100% {
-    transform: scale(0);
-  }
-}
-
 @keyframes spinner {
   0% {
     transform: rotate(0);
@@ -251,16 +118,6 @@
 
   100% {
     transform: rotate(360deg);
-  }
-}
-
-@keyframes star {
-  0% {
-    transform: rotate3d(0,1,0,0);
-  }
-
-  100% {
-    transform: rotate3d(0,1,0,359deg);
   }
 }
 
