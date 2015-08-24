@@ -8,12 +8,15 @@
   )
 
   p.p.empty Get container status updates in Slack
-  input.input.input-sm.monospace.text-center(
+  input.input.input-sm.monospace.text-center.input-validate(
     ng-model = "data.settings.attrs.notifications.slack.apiToken"
     placeholder = "API Token"
     required
     spellcheck = "false"
   )
+  .validation-message(
+    ng-if = "$root.featureFlags.updatedSlackValidation"
+  ) That API Token is not valid
   small.small.text-center Use an API token from&#32;
     a.link(
       href = "//slack.com/services"
