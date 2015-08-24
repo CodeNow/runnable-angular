@@ -22,7 +22,19 @@ body {
 
 // .content-wrapper.app
 .app {
-  padding-top: 60px;
+
+  > .clearfix {
+    height: 100vh;
+    padding-top: 60px;
+    position: relative;
+  }
+}
+
+// TODO: maybe this should be less global
+.instance {
+  height: 100%;
+  padding-top: 72px;
+  position: relative;
 }
 
 // svg files

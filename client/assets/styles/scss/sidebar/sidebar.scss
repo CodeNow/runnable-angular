@@ -6,7 +6,7 @@
   flex-direction: column;
   float: left;
   font-size: 15px;
-  height: calc(100vh - 60px);
+  height: 100%;
   line-height: 24px;
   position: relative;
   transition: none;
@@ -19,10 +19,8 @@
 
   // size if sidebar is present
   + .content {
-    float: right;
-    height: calc(100vh - 60px);
-    position: relative;
-    width: calc(100% - 240px);
+    height: 100%;
+    padding-left: 240px;
 
     > .spinner-wrapper {
       position: absolute;
@@ -38,7 +36,6 @@
 // main sidebar
 .nav-sidebar {
   background: $gray-lighterest;
-  float: left;
 
   .spinner-wrapper {
     margin-top: 30px;
