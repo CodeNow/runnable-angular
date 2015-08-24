@@ -129,7 +129,7 @@
 // logs scroll horizontally
 .build-log-content {
   padding: 9px 9px 15px 24px;
-  transition: all .15s ease-in-out;
+  transition: height .15s;
 
   &.ng-leave {
     overflow: hidden;
@@ -173,6 +173,7 @@
       position: absolute;
       top: 16px;
       transform: rotate3d(0,0,1,-90deg);
+      transform-origin: 4px 2px;
       transition: transform .25s ease-in-out;
     }
   }
