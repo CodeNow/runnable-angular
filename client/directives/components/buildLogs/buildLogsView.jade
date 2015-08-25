@@ -9,8 +9,7 @@
     ng-click = "actions.toggleCommand($event, command)"
     ng-class = "{\
       'absolute': command.expanded && command.absolute,\
-      'fixed': command.expanded && command.fixed,\
-      'padding-right': $root.featureFlags.debugMode\
+      'fixed': command.expanded && command.fixed\
     }"
     ng-style = "calculateHeaderStyle(command)"
   )
@@ -18,14 +17,15 @@
       ng-bind-html = "command.command"
     )
 
-    .build-cached(
+    .build-log-header-state(
       ng-if = "command.cached"
     ) Cached
 
     .btn-group.btn-debug(
-      ng-if = "$root.featureFlags.debugMode && command.imageId"
+      ng-if = "$root.featureFlags.debugMode"
       ng-include = "'viewDebugButton'"
     )
+    //- && command.imageId
 
   .build-log-content.js-animate(
     ng-bind-html = "command.trustedContent"
