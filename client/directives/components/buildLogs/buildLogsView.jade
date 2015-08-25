@@ -22,10 +22,9 @@
     ) Cached
 
     .btn-group.btn-debug(
-      ng-if = "$root.featureFlags.debugMode"
+      ng-if = "$root.featureFlags.debugMode && command.imageId"
       ng-include = "'viewDebugButton'"
     )
-    //- && command.imageId
 
   .build-log-content.js-animate(
     ng-bind-html = "command.trustedContent"
