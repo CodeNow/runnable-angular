@@ -20,7 +20,8 @@
   // size if sidebar is present
   + .content {
     height: 100%;
-    padding-left: 240px;
+    margin-left: 240px;
+    position: relative;
 
     > .spinner-wrapper {
       position: absolute;
@@ -38,15 +39,16 @@
   background: $gray-lighterest;
 
   .spinner-wrapper {
-    margin-top: 30px;
+    align-items: center;
+    height: 100%;
   }
 }
 
 .containers {
   color: $gray;
   flex: 1 1 auto;
+  height: 100%;
   overflow-y: auto;
-  padding-top: 9px;
 
   // configure, "hide", and "X more…" buttons
   .btn {
@@ -75,6 +77,10 @@
   border-bottom: 1px solid $gray-lighter; // lines below categories
   margin: 0 9px;
   padding: 9px 0;
+
+  &:first-child {
+    margin-top: 9px;
+  }
 
   .list-item {
     align-items: center;
