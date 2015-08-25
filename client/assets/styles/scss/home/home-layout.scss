@@ -19,7 +19,8 @@
   justify-content: center;
   margin: 0 auto;
   max-width: 1200px;
-  overflow-y: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
   padding: 12px 0 6px;
   white-space: nowrap;
   width: 100%;
@@ -32,9 +33,9 @@
     text-align: center;
     text-decoration: none;
 
-    // @media (max-width: 405px) {
-    //   width: 100%;
-    // }
+    @media (max-width: 405px) {
+      margin: 0 9px;
+    }
 
     &:hover,
     &:active {
