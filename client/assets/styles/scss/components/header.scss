@@ -53,6 +53,11 @@
       line-height: $input-line-height-sm;
       width: 135px;
 
+      @include media(xxs) {
+        font-size: 15px;
+        width: 130px;
+      }
+
       &.active {
         @extend %no-touching;
       }
@@ -74,6 +79,8 @@
     right: 15px;
 
     @include media(sm) {
+      right: 0;
+
       .span {
         display: none;
       }
