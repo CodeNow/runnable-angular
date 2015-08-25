@@ -3,6 +3,7 @@
 var $scope;
 var $compile;
 var $timeout;
+var $rootScope;
 
 describe('BuildLogsDirective'.bold.underline.blue, function () {
   var mockBuildLogsController;
@@ -31,10 +32,13 @@ describe('BuildLogsDirective'.bold.underline.blue, function () {
       _$compile_,
       _$timeout_
     ) {
-      $scope = _$rootScope_.$new();
+      $rootScope = _$rootScope_;
+      $scope = $rootScope.$new();
       $compile = _$compile_;
       $timeout = _$timeout_;
     });
+
+    $rootScope.featureFlags = {};
 
     var tpl = directiveTemplate.attribute('build-logs', {
       'instance': 'instance'
