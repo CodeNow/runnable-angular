@@ -1,12 +1,13 @@
 'use strict';
 
 require('app').controller('BuildLogsController', BuildLogsController);
-//var DEFAULT_ERROR_MESSAGE = '\x1b[33;1mLogs are unavailable at this time\x1b[0m';
 
 function BuildLogsController(
   streamingLog,
   $scope,
-  primus
+  primus,
+  errs,
+  createDebugContainer
 ) {
   var BLC = this;
   BLC.buildLogsRunning = true;
@@ -20,4 +21,15 @@ function BuildLogsController(
     streamingBuildLogs.destroy();
   });
   this.buildLogs = streamingBuildLogs.logs;
+
+  this.actions = {
+    launchDebugContainer: function (event, command) {
+      event.stopPropagation();
+      createDebugContainer(BLC.instance.id(), BLC.instance.attrs.contextVersion._id, command.imageId)
+        .then(function (debugContainer) {
+          console.log(debugContainer);
+        })
+        .catch(errs.handler);
+    }
+  };
 }
