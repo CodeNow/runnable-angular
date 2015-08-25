@@ -1,36 +1,70 @@
-a.btn.btn-sm.purple.btn-accounts(
-  ng-class = "{'no-touching': data.accountsDisabled()}"
-  ng-show = "data.activeAccount"
-  pop-over
-  pop-over-actions = "popoverAccountMenu.actions"
-  pop-over-active = "state.active"
-  pop-over-data = "popoverAccountMenu.data"
-  pop-over-options = "{\"right\":-2,\"top\":48}"
-  pop-over-template = "viewPopoverAccountMenu"
-)
-  img.gravatar(
-    alt = "{{data.activeAccount.oauthName()}}"
-    height = "24"
-    ng-class = "{'gravatar-isolation': $root.featureFlags.isolationActive}"
-    ng-src = "{{data.activeAccount.gravitar()}}"
-    width = "24"
+.account-select-wrapper
+  a.btn.btn-sm.purple.btn-accounts(
+    ng-class = "{\
+      'no-touching': data.accountsDisabled(),\
+      'private': $root.featureFlags.isolationActive\
+    }"
+    ng-show = "data.activeAccount"
+    pop-over
+    pop-over-actions = "popoverAccountMenu.actions"
+    pop-over-active = "state.active"
+    pop-over-data = "popoverAccountMenu.data"
+    pop-over-options = "{\"right\":-2,\"top\":48}"
+    pop-over-template = "viewPopoverAccountMenu"
   )
-  img.gravatar(
-    alt = "{{data.user.oauthName()}}"
-    height = "15"
-    ng-if = "$root.featureFlags.isolationActive"
-    ng-src = "{{data.user.gravitar()}}"
-    width = "15"
-  )
-  span.span.float-left {{$root.featureFlags.isolationActive ? 'Private Sandbox' : data.activeAccount.oauthName()}}
-  svg.iconnables.icons-arrow-down.anchor-right
-    use(
-      xlink:href = "#icons-arrow-down"
+    img.gravatar(
+      alt = "{{data.activeAccount.oauthName()}}"
+      height = "24"
+      ng-src = "{{data.activeAccount.gravitar()}}"
+      width = "24"
     )
-  pop-over(
-    actions = "popoverAccountMenu.actions"
-    data = "popoverAccountMenu.data"
-    popover-options = "{\"left\":0,\"top\":54}"
-    popover-ready = "popoverAccountMenu.data.show"
-    template = "viewPopoverAccountMenu"
+    span.span.float-left {{data.activeAccount.oauthName()}}
+    svg.iconnables.icons-arrow-down.anchor-right
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+    pop-over(
+      actions = "popoverAccountMenu.actions"
+      data = "popoverAccountMenu.data"
+      popover-options = "{\"left\":0,\"top\":54}"
+      popover-ready = "popoverAccountMenu.data.show"
+      template = "viewPopoverAccountMenu"
+    )
+
+  a.btn.btn-sm.purple.btn-accounts(
+    ng-class = "{\
+      'no-touching': data.accountsDisabled(),\
+      'private': $root.featureFlags.isolationActive\
+    }"
+    ng-show = "data.activeAccount"
+    pop-over
+    pop-over-actions = "popoverAccountMenu.actions"
+    pop-over-active = "state.active"
+    pop-over-data = "popoverAccountMenu.data"
+    pop-over-options = "{\"right\":-2,\"top\":48}"
+    pop-over-template = "viewPopoverAccountMenu"
   )
+    img.gravatar.gravatar-isolation(
+      alt = "{{data.activeAccount.oauthName()}}"
+      height = "24"
+      ng-src = "{{data.activeAccount.gravitar()}}"
+      width = "24"
+    )
+    img.gravatar(
+      alt = "{{data.user.oauthName()}}"
+      height = "15"
+      ng-src = "{{data.user.gravitar()}}"
+      width = "15"
+    )
+    span.span.float-left Private Sandbox
+    svg.iconnables.icons-arrow-down.anchor-right
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+    pop-over(
+      actions = "popoverAccountMenu.actions"
+      data = "popoverAccountMenu.data"
+      popover-options = "{\"left\":0,\"top\":54}"
+      popover-ready = "popoverAccountMenu.data.show"
+      template = "viewPopoverAccountMenu"
+    )
