@@ -1,7 +1,8 @@
 //- opens in new window
 a.btn.btn-xs.purple.btn-toolbar.float-right(
-  href = "/debug"
-  target = "_blank"
+  ng-if = "command.imageId"
+  ng-click = "BLC.actions.launchDebugContainer($event, command)"
+  ng-disabled = "command.generatingDebug"
 ) Debug
   svg.iconnables.icons-link-external
     use(

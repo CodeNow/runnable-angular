@@ -1,0 +1,41 @@
+.pre.build-log.js-animate(
+  ng-class = "{\
+    'build-log-toggle' : command.content.length,\
+    'in': command.content.length > 0 && command.expanded\
+  }"
+  ng-repeat = "command in BLC.buildLogs"
+)
+  .build-log-header(
+    ng-click = "actions.toggleCommand($event, command)"
+    ng-class = "{\
+      'absolute': command.expanded && command.absolute,\
+      'fixed': command.expanded && command.fixed\
+    }"
+    ng-style = "calculateHeaderStyle(command)"
+  )
+    .build-log-header-text(
+      ng-bind-html = "command.command"
+    )
+
+    .build-log-header-state(
+      ng-if = "command.cached"
+    ) Cached
+
+    .btn-group.btn-debug(
+      ng-if = "$root.featureFlags.debugMode && command.imageId && $last"
+      ng-include = "'viewDebugButton'"
+    )
+
+  .build-log-content.js-animate(
+    ng-bind-html = "command.trustedContent"
+    ng-class = "{'building': BLC.buildLogsRunning && command.expanded}"
+    ng-if = "command.expanded && command.content.length"
+  )
+
+  .log-spinner(
+    ng-if = "BLC.buildLogsRunning && command.expanded"
+  )
+    .spinner-character |
+    .spinner-character /
+    .spinner-character -
+    .spinner-character \
