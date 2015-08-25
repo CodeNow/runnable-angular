@@ -14,9 +14,9 @@
     required
     spellcheck = "false"
   )
-  .validation-message(
+  .validation-message.text-center(
     ng-if = "$root.featureFlags.updatedSlackValidation"
-  ) That API Token is not valid
+  ) Invalid API Token
   small.small.text-center Use an API token from&#32;
     a.link(
       href = "//slack.com/services"
