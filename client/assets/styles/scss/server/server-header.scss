@@ -21,8 +21,7 @@
   line-height: 24px;
 
   &.centered {
-    line-height: 70px;
-    margin-top: 0;
+    line-height: 48px;
   }
 
   .icons-status {
@@ -30,8 +29,9 @@
     top: -2px;
   }
 
-  // pull request link
-  .link {
+  // pull request link / debug label
+  .link,
+  .small {
     color: $gray;
     font-size: 18px;
     margin-left: 6px;
