@@ -50,24 +50,16 @@
 .build-log-content {
   overflow-x: auto;
 }
-.build-cached {
-  position: absolute;
-  right: 107px;
-  top: 11px;
-  color: gray;
-}
+
 .build-log-header {
+  align-items: center;
+  display: flex;
   height: 39px;
   overflow: hidden;
-  padding-left: 24px;
+  padding: 0 6px 0 24px;
   position: absolute;
   width: 100%;
-
-  // has debug-button
-  &.padding-right {
-    overflow: hidden;
-    padding-right: 100px;
-  }
+  z-index: 1;
 
   // for multiple fixed headers (pushes up)
   &.absolute {
@@ -93,31 +85,38 @@
     }
   }
 
+  // text overflow
+  .build-log-header-text {
+    flex: 1 1 auto;
+    font-size: 13px;
+    overflow-x: auto;
+    padding: 0 12px 0 6px;
+  }
+
+  // cached state
+  > .build-log-header-state {
+    color: $logs-runnable-dark-magenta;
+    flex: 0 0 auto;
+    padding: 0 6px;
+  }
+
+
   // debug button
   > .btn-debug {
+    flex: 0 0 auto;
     font-family: $sans-serif; // override monospace fonts
     min-width: 0;
-    position: absolute;
-    right: 7px;
-    top: 7px;
   }
 
   // change padding if there's a header
   + .build-log-content {
     margin-top: 39px;
   }
-
-  // text overflow
-  .build-log-header-text {
-    line-height: 39px;
-    overflow-x: auto;
-    padding-right: 6px;
-  }
 }
 
 // shift fixed position if there's a toolbar (36px)
 .views-toolbar-wrapper + .active-panel .fixed {
-  top: $input-md + $input-sm;
+  top: 210px;
 
   // if in modal
   .modal-edit & {

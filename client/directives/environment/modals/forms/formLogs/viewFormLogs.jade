@@ -4,6 +4,12 @@
 ) Rebuild to see changes you’ve made.
   button.btn.btn-xxs.gray Rebuild
 
+//- alert appears during a build failure AND no changes have been made
+//- .alert.orange(
+//-   ng-if = "$root.featureFlags.newVerificationFlow"
+//- ) Having build problems? Some errors can be resolved by rebuilding the container.
+//-   button.btn.btn-xxs.orange Rebuild
+
 //- tabs
 .btn-group.btn-toggle.btn-toggle-xs(
   ng-hide = "$root.featureFlags.fullScreen"

@@ -9,8 +9,7 @@
     ng-click = "actions.toggleCommand($event, command)"
     ng-class = "{\
       'absolute': command.expanded && command.absolute,\
-      'fixed': command.expanded && command.fixed,\
-      'padding-right': $root.featureFlags.debugMode\
+      'fixed': command.expanded && command.fixed\
     }"
     ng-style = "calculateHeaderStyle(command)"
   )
@@ -18,7 +17,7 @@
       ng-bind-html = "command.command"
     )
 
-    .build-cached(
+    .build-log-header-state(
       ng-if = "command.cached"
     ) Cached
 
