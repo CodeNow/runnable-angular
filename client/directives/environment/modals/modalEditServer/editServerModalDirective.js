@@ -394,19 +394,6 @@ function editServerModal(
           message: 'Missing or misplaced FROM'
         }));
       };
-
-
-      $scope.isStackInfoEmpty = function (selectedStack) {
-        if (!selectedStack || !selectedStack.selectedVersion) {
-          return true;
-        }
-        if (selectedStack.dependencies) {
-          var depsEmpty = !selectedStack.dependencies.find(function (dep) {
-            return !$scope.isStackInfoEmpty(dep);
-          });
-          return !!depsEmpty;
-        }
-      };
     }
   };
 }
