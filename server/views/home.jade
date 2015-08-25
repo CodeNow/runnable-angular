@@ -159,6 +159,22 @@ html.home(
               ) Runnable CodeSnippets
               | ?
 
+      //- header
+      header.home-header
+        a.link(
+          href = "mailto:support@runnable.com?subject=Please send me an invite for the beta"
+        ) Request Invite
+        a.link(
+          href = "mailto:support@runnable.com"
+        ) Email Us
+        a.link(
+          href = "http://support.runnable.io/"
+          target = "_blank"
+        ) Support
+        a.link(
+          ng-href = "{{loginUrl}}"
+        ) Log In
+
       section.home-hero
         img.logo(
           height = "72"
@@ -174,7 +190,7 @@ html.home(
         .row.clearfix
           a.link.text-center(
             ng-click = "data.embedActive = true"
-          ) Watch a demo video
+          ) Watch a product preview
             svg.svg(
               xmlns = 'http://www.w3.org/2000/svg'
               viewbox = '0 0 24 24'
@@ -188,10 +204,10 @@ html.home(
                 fill = '#fff'
               )
 
-          .alert.purple Interested in our beta?
+          .alert.purple Want preview access?
             a.btn.btn-xxs.purple(
               href = "mailto:support@runnable.com?subject=Please send me an invite for the beta"
-            ) Request Beta Access
+            ) Request Access
 
          //- Looking for our previous project?
           a.btn.btn-xxs.purple(
@@ -220,25 +236,3 @@ html.home(
               width = "1280"
             )
         //- END video
-
-      //- footer
-      footer.home-footer
-        .row
-          a.link(
-            href = "mailto:support@runnable.com?subject=Please send me an invite for the beta"
-          ) Request Invite
-          a.link(
-            href = "mailto:support@runnable.com"
-          ) Email Us
-          img.logo(
-            height = "21"
-            src = "/build/images/runnable-icon-white.svg"
-            width = "21"
-          )
-          a.link(
-            href = "http://support.runnable.io/"
-            target = "_blank"
-          ) Support
-          a.link(
-            ng-href = "{{loginUrl}}"
-          ) Log In
