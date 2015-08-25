@@ -85,71 +85,70 @@
   flex-direction: column;
   position: absolute;
   right: 15px;
+}
 
-  // accounts (custom .btn.purple)
-  .btn-accounts {
-    align-self: flex-end;
+// accounts (custom .btn.purple)
+.btn-accounts {
+  align-self: flex-end;
+  background: transparent;
+  border-color: transparent;
+  flex: 0 0 auto;
+  transition: all .15s ease-out;
+
+  @include media(sm) {
+    .span {
+      display: none;
+    }
+  }
+
+  @include retina() {
+    border: 1px solid currentColor;
+  }
+
+  @include media(sm) {
+    margin-right: 3px;
+  }
+
+  &:hover,
+  &:active,
+  &.active {
     background: transparent;
-    border-color: transparent;
-    flex: 0 0 auto;
-    transform: translate3d(0,0,0);
-    transition: all .15s ease-out;
+    color: $white;
+  }
 
-    @include media(sm) {
-      .span {
-        display: none;
-      }
-    }
+  &:first-child {
+    opacity: 1;
+  }
 
-    &:hover,
-    &:active,
-    &.active {
-      background: transparent;
-      color: $white;
-    }
+  &:last-child {
+    opacity: 0;
+    top: -6px;
+  }
+
+  .private & {
+    transform: translate3d(0,-30px,0);
 
     &:first-child {
-      opacity: 1;
+      opacity: 0;
     }
 
     &:last-child {
-      opacity: 0;
-      top: -6px;
+      opacity: 1;
+    }
+  }
+
+  .gravatar {
+    float: left;
+    margin-right: 7px;
+    margin-top: 4px;
+
+    &.gravatar-isolation {
+      margin-right: 12px;
     }
 
-    &.private {
-      transform: translate3d(0,-30px,0);
-
-      &:first-child {
-        opacity: 0;
-      }
-
-      &:last-child {
-        opacity: 1;
-      }
-    }
-
-    .gravatar {
-      float: left;
-      margin-right: 7px;
-      margin-top: 4px;
-
-      &.gravatar-isolation {
-        margin-right: 12px;
-      }
-
-      // isolation gravatar
-      + .gravatar {
-        left: 27px;
-      }
-
-      @include retina() {
-        border: 1px solid currentColor;
-      }
-
-      @include media(sm) {
-        margin-right: 3px;
-      }
+    // isolation gravatar
+    + .gravatar {
+      left: 27px;
     }
   }
 }

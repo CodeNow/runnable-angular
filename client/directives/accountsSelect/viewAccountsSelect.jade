@@ -1,8 +1,5 @@
 a.btn.btn-sm.purple.btn-accounts(
-  ng-class = "{\
-    'no-touching': data.accountsDisabled(),\
-    'private': $root.featureFlags.isolationActive\
-  }"
+  ng-class = "{'no-touching': data.accountsDisabled()}"
   ng-show = "data.activeAccount"
   pop-over
   pop-over-actions = "popoverAccountMenu.actions"
@@ -31,10 +28,7 @@ a.btn.btn-sm.purple.btn-accounts(
   )
 
 a.btn.btn-sm.purple.btn-accounts(
-  ng-class = "{\
-    'no-touching': data.accountsDisabled(),\
-    'private': $root.featureFlags.isolationActive\
-  }"
+  ng-class = "{'no-touching': data.accountsDisabled()}"
   ng-show = "data.activeAccount"
   pop-over
   pop-over-actions = "popoverAccountMenu.actions"
