@@ -16,19 +16,6 @@
   // invalid
   &.ng-invalid {
     border-color: $red;
-    padding-right: $input-line-height-md;
-
-    &.input-sm {
-      padding-right: $input-line-height-sm;
-    }
-
-    &.input-xs {
-      padding-right: $input-line-height-xs;
-    }
-
-    &.input-xxs {
-      padding-right: $input-line-height-xxs;
-    }
   }
 
   // pristine
