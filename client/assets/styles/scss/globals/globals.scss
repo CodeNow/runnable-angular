@@ -20,63 +20,6 @@ body {
   }
 }
 
-// .content-wrapper.app
-.app {
-
-  > .clearfix {
-    height: 100vh;
-    padding-top: 60px;
-    position: relative;
-
-    > .spinner-backdrop {
-      margin-top: 60px;
-      opacity: 0;
-      pointer-events: none;
-    }
-  }
-
-  // &.switch > .clearfix {
-  //   animation: switch 1s;
-  // }
-
-  &.switch {
-
-    > .clearfix {
-      animation: switch 3s;
-
-      > .spinner-backdrop {
-        animation: switchSpinner 3s;
-      }
-    }
-  }
-}
-
-@keyframes switch {
-  0%,
-  100% {
-    padding-top: 60px;
-  }
-
-  15%,
-  85% {
-    padding-top: 0;
-  }
-}
-
-@keyframes switchSpinner {
-  0%,
-  100% {
-    margin-top: 60px;
-    opacity: 0;
-  }
-
-  15%,
-  85% {
-    margin-top: 0;
-    opacity: 1;
-  }
-}
-
 // TODO: maybe this should be less global
 .instance {
   height: 100%;

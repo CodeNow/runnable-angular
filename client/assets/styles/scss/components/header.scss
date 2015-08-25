@@ -1,15 +1,3 @@
-@keyframes switchOrg {
-  0%,
-  100% {
-    top: 0;
-  }
-
-  15%,
-  85% {
-    top: -60px;
-  }
-}
-
 .header {
   background: $purple-light;
   border: 0;
@@ -17,21 +5,33 @@
   height: 60px;
   padding: 0 15px;
 
-  .switch & {
-    animation: switchOrg 3s;
-  }
-
-  // private sandbox header theme
-  &.private {
-    background-image: repeating-linear-gradient(60deg, lighten($purple-light,2.5%), lighten($purple-light,2.5%) 18px, transparent 18px, transparent 36px);
-  }
-
   // fixed header within runnable app
-  .app & {
+  &.header-app {
     position: fixed;
     top: 0;
     width: 100%;
     z-index: $z-popover-arrow + 1; // should overlap all popovers, except account menu
+
+    // private sandbox header theme, hidden
+    &::before {
+      background-image: repeating-linear-gradient(60deg, lighten($purple-light,2%), lighten($purple-light,2%) 18px, transparent 18px, transparent 36px);
+      content: '';
+      height: 100%;
+      opacity: 0;
+      position: absolute;
+      width: 100%;
+    }
+
+    + .clearfix {
+      height: 100vh;
+      padding-top: 60px;
+      position: relative;
+    }
+  }
+
+  // show private sandbox header theme
+  &.private::before {
+    opacity: 1;
   }
 
   // so header sits under modals/popovers if a modal is open
