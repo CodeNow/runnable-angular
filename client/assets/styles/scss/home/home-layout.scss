@@ -12,13 +12,45 @@
   }
 }
 
+.home-header {
+  background: rgba($purple-dark,.75);
+  border-bottom: 1px solid #4d2d67;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 1200px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 12px 0 6px;
+  white-space: nowrap;
+  width: 100%;
+
+  .link {
+    color: $purple-lighter;
+    font-size: 14px;
+    line-height: 45px;
+    margin: 0 21px;
+    text-align: center;
+    text-decoration: none;
+
+    @media (max-width: 405px) {
+      margin: 0 9px;
+    }
+
+    &:hover,
+    &:active {
+      color: $white;
+    }
+  }
+}
+
 // hero
 .home-hero {
   background: url(/build/images/home/hero-bg.svg) no-repeat center top;
-  background-size: 900px;
+  background-size: 900px 395px;
   flex: 1 1 auto;
   flex-direction: column;
-  padding-top: 180px;
+  padding: 225px 0 90px;
 
   @media (max-width: 850px) {
     .br {
@@ -31,16 +63,17 @@
   }
 
   @media (max-width: 500px) {
-    padding-top: 60px;
+    padding-top: 90px;
   }
 
   .logo {
     display: block;
-    height: auto;
+    height: 72px;
     margin: 0 auto 15px;
     width: 390px;
 
     @media (max-width: 500px) {
+      height: auto;
       margin-bottom: 30px;
       width: 60%;
     }
@@ -109,7 +142,7 @@
     font-size: 15px;
     font-weight: $weight-normal;
     height: 24px;
-    margin: 45px auto 9px;
+    margin: 30px auto 9px;
     opacity: .75;
     text-decoration: none;
 
@@ -181,57 +214,6 @@
 
   .icons-close {
     height: 100%;
-  }
-}
-
-.home-footer {
-  flex: 0 0 auto;
-  padding: 15px 0;
-  position: relative;
-
-  .row {
-    display: flex;
-    justify-content: center;
-    margin: 0 auto;
-    width: 850px;
-
-    @media (max-width: 850px) {
-      width: 100%;
-    }
-
-    @media (max-width: 600px) {
-      flex-wrap: wrap;
-    }
-  }
-
-  .logo {
-    height: 45px;
-    margin: 0 30px;
-    max-width: 21px;
-    opacity: .3;
-
-    @media (max-width: 600px) {
-      order: -1;
-    }
-  }
-
-  .link {
-    color: $purple-lighter;
-    font-size: 14px;
-    line-height: 45px;
-    margin: 0 15px;
-    text-align: center;
-    text-decoration: none;
-    width: 90px; // so logo is centered
-
-    @media (max-width: 600px) {
-      width: 100%;
-    }
-
-    &:hover,
-    &:active {
-      color: $white;
-    }
   }
 }
 

@@ -93,7 +93,8 @@ function ControllerApp(
     renameContainer: false,
     saveToolbar: false,
     themeToggle: false, // toggles the button that toggles theme
-    updatedBuildLogs: false
+    updatedBuildLogs: false,
+    updatedSlackValidation: false
   };
   $rootScope.featureFlags = {};
   $rootScope.resetFeatureFlags = function () {
