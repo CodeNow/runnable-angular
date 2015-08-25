@@ -9,7 +9,8 @@
     ng-click = "actions.toggleCommand($event, command)"
     ng-class = "{\
       'absolute': command.expanded && command.absolute,\
-      'fixed': command.expanded && command.fixed\
+      'fixed': command.expanded && command.fixed,\
+      'padding-right': $root.featureFlags.debugMode\
     }"
     ng-style = "calculateHeaderStyle(command)"
   )
@@ -24,10 +25,14 @@
 
   .build-log-content.js-animate(
     ng-bind-html = "command.trustedContent"
+    ng-class = "{'building': BLC.buildLogsRunning && command.expanded}"
     ng-if = "command.expanded && command.content.length"
   )
 
-  .spinner-wrapper.spinner-sm.spinner-white.in(
+  .log-spinner(
     ng-if = "BLC.buildLogsRunning && command.expanded"
-    ng-include="'spinner'"
   )
+    .spinner-character |
+    .spinner-character /
+    .spinner-character -
+    .spinner-character \
