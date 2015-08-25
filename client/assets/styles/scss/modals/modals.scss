@@ -65,11 +65,12 @@
     border-radius: $input-border-radius;
     border-width: 1px;
     display: flex;
-    flex: 0 0 $input-sm;
+    flex: 0 0 auto;
     font-size: 13px;
     justify-content: center;
     margin: 0 auto 15px;
-    padding: 0 15px;
+    min-height: $input-sm;
+    padding: 6px 15px;
 
     &.full-width {
       border-left-width: $input-border;
