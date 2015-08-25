@@ -44,7 +44,12 @@ function BuildLogsController(
             newWindow.location = '/debug/'+debugContainer.id();
           }
         })
-        .catch(errs.handler);
+        .catch(function (err) {
+          if(newWindow){
+            newWindow.close();
+          }
+          errs.handler(err);
+        });
     }
   };
 }
