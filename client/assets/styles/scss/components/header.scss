@@ -44,7 +44,7 @@
   // layout
   .logo,
   .btn-group,
-  .btn-accounts {
+  .accounts-select {
     top: 12px;
   }
 
@@ -78,6 +78,13 @@
       width: 18px;
     }
   }
+}
+
+.accounts-select {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 15px;
 
   // accounts (custom .btn.purple)
   .btn-accounts {
@@ -85,7 +92,6 @@
     background: transparent;
     border-color: transparent;
     flex: 0 0 auto;
-    right: 15px;
     transform: translate3d(0,0,0);
     transition: all .15s ease-out;
 
@@ -108,7 +114,7 @@
 
     &:last-child {
       opacity: 0;
-      top: 6px;
+      top: -6px;
     }
 
     &.private {
@@ -134,7 +140,6 @@
 
       // isolation gravatar
       + .gravatar {
-        // animation: scale-in .15s ease-out forwards;
         left: 27px;
       }
 
@@ -147,12 +152,4 @@
       }
     }
   }
-}
-
-.account-select-wrapper {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  right: 0;
-  top: 0;
 }
