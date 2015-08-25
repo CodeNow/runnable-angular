@@ -18,6 +18,10 @@
       ng-bind-html = "command.command"
     )
 
+    .build-cached(
+      ng-if = "command.cached"
+    ) Cached
+
     .btn-group.btn-debug(
       ng-if = "$root.featureFlags.debugMode && command.imageId"
       ng-include = "'viewDebugButton'"

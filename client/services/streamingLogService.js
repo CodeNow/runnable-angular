@@ -26,10 +26,11 @@ function streamingLog (
     var currentCommand = null;
     function handleStreamData (data) {
       if (['docker', 'log'].indexOf(data.type) !== -1) {
-        if (/^Step [0-9]+ : /.test(data.content)) {
+        var stepRegex = /^Step [0-9]+ : /;
+        if (stepRegex.test(data.content)) {
           currentCommand = {
             content: [],
-            command: $sce.trustAsHtml(convert.toHtml(data.content)),
+            command: $sce.trustAsHtml(convert.toHtml(data.content.replace(stepRegex, ''))),
             imageId: data.imageId,
             expanded: true
           };
@@ -38,14 +39,14 @@ function streamingLog (
             previous.expanded = false;
           }
           streamLogs.push(currentCommand);
-        } else {
-          if (currentCommand) {
-            if ($rootScope.featureFlags.debugMode && /^\s---> [a-z0-9]{12}/.test(data.content)) {
-              currentCommand.imageId = data.content.replace('---> ', '');
-            }
+        } else if (currentCommand) {
 
+          if (/^\s---> Using cache/.test(data.content)){
+            currentCommand.cached = true;
+          } else if ($rootScope.featureFlags.debugMode && /^\s---> (Running in )?[a-z0-9]{12}/.test(data.content)) {
+            currentCommand.imageId = data.content.replace('---> ', '');
+          } else {
             currentCommand.content.push(data.content);
-
             if (unprocessed.indexOf(currentCommand)) {
               unprocessed.push(currentCommand);
             }

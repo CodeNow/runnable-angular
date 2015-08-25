@@ -50,7 +50,12 @@
 .build-log-content {
   overflow-x: auto;
 }
-
+.build-cached {
+  position: absolute;
+  right: 107px;
+  top: 11px;
+  color: gray;
+}
 .build-log-header {
   height: 39px;
   overflow: hidden;
