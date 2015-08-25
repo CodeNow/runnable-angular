@@ -2,6 +2,15 @@
 
 module.exports = [
   {
+    state: 'loadingDebug',
+    url: '^/loading'
+  }, {
+    state: 'debug',
+    url: '^/debug/:containerId/',
+    templateUrl: 'viewDebug',
+    controller: 'ControllerDebug',
+    controllerAs: 'CD'
+  }, {
     state: 'orgSelect',
     abstract: false,
     url: '^/orgSelect',

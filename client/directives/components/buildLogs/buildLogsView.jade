@@ -23,7 +23,7 @@
     ) Cached
 
     .btn-group.btn-debug(
-      ng-if = "$root.featureFlags.debugMode && command.imageId"
+      ng-if = "$root.featureFlags.debugMode && command.imageId && $last"
       ng-include = "'viewDebugButton'"
     )
 
