@@ -1,8 +1,8 @@
 //- opens in new window
 a.btn.btn-xs.purple.btn-toolbar.float-right(
-  ng-if = "command.imageId"
-  ng-click = "BLC.actions.launchDebugContainer($event, command)"
-  ng-disabled = "command.generatingDebug"
+  ng-if = "BLC.buildLogs[$index - 1].imageId"
+  ng-click = "BLC.actions.launchDebugContainer($event, BLC.buildLogs[$index - 1])"
+  ng-disabled = "BLC.buildLogs[$index - 1].generatingDebug"
 ) Debug
   svg.iconnables.icons-link-external
     use(
