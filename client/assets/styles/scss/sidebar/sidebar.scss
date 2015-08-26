@@ -82,6 +82,10 @@
     margin-top: 9px;
   }
 
+  &:last-child {
+    border: 0;
+  }
+
   .list-item {
     align-items: center;
     color: currentColor;
