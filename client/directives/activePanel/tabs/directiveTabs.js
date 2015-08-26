@@ -15,7 +15,8 @@ function tabs(
     templateUrl: 'viewTabs',
     scope: {
       openItems: '=',
-      instance: '='
+      instance: '=',
+      debugContainer: '=?'
     },
     link: function ($scope) {
       $scope.popoverAddTab = helperAddTab($scope.openItems);
