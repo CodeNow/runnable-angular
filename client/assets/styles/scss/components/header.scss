@@ -56,7 +56,7 @@
 // containers/configure toggle
 .toggle-header {
   background: $purple;
-  border: 2px solid $purple;
+  border: $input-border solid $purple;
   display: table;
   margin: 0 auto;
   overflow: hidden;
