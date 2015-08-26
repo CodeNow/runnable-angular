@@ -1,33 +1,11 @@
-.header {
+// fixed header within runnable app
+.header-app {
   background: $purple-light;
   border: 0;
   border-bottom: 1px solid $purple;
   height: $header-height;
-  padding: 0 15px;
-
-  // so header sits under modals/popovers if a modal is open
-  .modal-open & {
-    z-index: $z-modal-backdrop - 1;
-  }
-
-  // layout
-  .logo,
-  .btn-group,
-  .accounts-select {
-    top: 12px;
-  }
-
-  // logo
-  .logo {
-    height: $input-sm; // center
-    left: 15px;
-    position: absolute;
-  }
-}
-
-// fixed header within runnable app
-.header-app {
   overflow: hidden;
+  padding: 0 15px;
   position: fixed;
   width: 100%;
   z-index: $z-popover-arrow + 1; // should overlap all popovers, except account menu
@@ -46,6 +24,25 @@
   // private sandbox header theme, visible
   &.private::before {
     opacity: 1;
+  }
+
+  // so header sits under modals/popovers if a modal is open
+  .modal-open & {
+    z-index: $z-modal-backdrop - 1;
+  }
+
+  // layout
+  .logo,
+  .toggle-header,
+  .accounts-select {
+    top: 12px;
+  }
+
+  // logo
+  .logo {
+    height: $input-sm; // center
+    left: 15px;
+    position: absolute;
   }
 
   // ui-view.clearfix
