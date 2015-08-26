@@ -2,7 +2,7 @@
   background: $purple-light;
   border: 0;
   border-bottom: 1px solid $purple;
-  height: 60px;
+  height: $header-height;
   padding: 0 15px;
 
   // so header sits under modals/popovers if a modal is open
@@ -51,7 +51,7 @@
   // ui-view.clearfix
   + .clearfix {
     height: 100vh;
-    padding-top: 60px;
+    padding-top: $header-height;
     position: relative;
   }
 }
@@ -68,7 +68,7 @@
     background: transparent;
     border-color: transparent;
     color: rgba($white,.3);
-    font-weight: 500;
+    font-weight: $weight-bold;
     height: $input-line-height-sm;
     line-height: $input-line-height-sm;
     width: 135px;
