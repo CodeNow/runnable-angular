@@ -53,51 +53,69 @@ header.server-header
 
 section.sidebar.server-sidebar.full-height.load
 
-  //- show container files even if there's a build error
-  //- explorer template
-  section.sidebar-section.explorer
-    //- explorer menu bar template
-    .explorer-menu-bar-container
-      .sidebar-section-heading.strong File Explorer
-        button.btn.btn-xs.btn-icon.float-right(
-          ng-class = "{active: filePopover.data.show}"
-          pop-over
-          pop-over-actions = "filePopover.actions"
-          pop-over-data = "filePopover.data"
-          pop-over-options = "{\"left\":-68,\"top\":50}"
-          pop-over-template = "viewFileTreePopoverFileExplorerMenu"
-          pop-over-active = "filePopover.data.show"
-        )
-          svg.iconnables.icons-add
-            use(
-              xlink:href = "#icons-add"
-            )
-    ul.file-tree
-      //- file tree dir template
-      li.folder.in
-        a.no-touching
-          svg.iconnables.filetypes.icons-folder
-            use(
-              xlink:href = "#icons-folder"
-            )
-          span.item-name /
-        ul
-          li.file
-            a
-              svg.iconnables.filetypes.icons-repository
-                use(
-                  xlink:href = "#icons-repository"
-                )
-              span.item-name repository
-        //- file tree dir item template
-        ul
-          li.file
-            a
-              svg.iconnables.filetypes.icons-file
-                use(
-                  xlink:href = "#icons-file"
-                )
-              span.item-name fileName
+  .spinner-wrapper.spinner-md.spinner-purple.spinner-backdrop.in(
+    ng-include = "'spinner'"
+    ng-if = "!CD.fsList"
+  )
+
+
+  section.sidebar-section.explorer-section(
+    ng-if = "CD.fsList"
+    edit-explorer = "false"
+    explorer
+    explorer-title = "File Explorer"
+    file-model = "CD.instance.containers.models[0]"
+    instance = "CD.instance"
+    //open-items = "dataInstance.data.openItems"
+    root-dir = "CD.instance.containers.models[0].rootDir"
+  )
+
+  //
+  ////- show container files even if there's a build error
+  ////- explorer template
+  //section.sidebar-section.explorer
+  //  //- explorer menu bar template
+  //  .explorer-menu-bar-container
+  //    .sidebar-section-heading.strong File Explorer
+  //      button.btn.btn-xs.btn-icon.float-right(
+  //        ng-class = "{active: filePopover.data.show}"
+  //        pop-over
+  //        pop-over-actions = "filePopover.actions"
+  //        pop-over-data = "filePopover.data"
+  //        pop-over-options = "{\"left\":-68,\"top\":50}"
+  //        pop-over-template = "viewFileTreePopoverFileExplorerMenu"
+  //        pop-over-active = "filePopover.data.show"
+  //      )
+  //        svg.iconnables.icons-add
+  //          use(
+  //            xlink:href = "#icons-add"
+  //          )
+  //  ul.file-tree
+  //    //- file tree dir template
+  //    li.folder.in
+  //      a.no-touching
+  //        svg.iconnables.filetypes.icons-folder
+  //          use(
+  //            xlink:href = "#icons-folder"
+  //          )
+  //        span.item-name /
+  //      ul
+  //        li.file
+  //          a
+  //            svg.iconnables.filetypes.icons-repository
+  //              use(
+  //                xlink:href = "#icons-repository"
+  //              )
+  //            span.item-name repository
+  //      //- file tree dir item template
+  //      ul
+  //        li.file
+  //          a
+  //            svg.iconnables.filetypes.icons-file
+  //              use(
+  //                xlink:href = "#icons-file"
+  //              )
+  //            span.item-name fileName
 
 //- active panel template
 section.views.full-height
