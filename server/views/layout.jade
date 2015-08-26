@@ -110,7 +110,7 @@ html(
         ga("create", "UA-59677301-1", "auto");
         ga("send", "pageview");
 
-  body.clearfix(
+  body(
     ng-class = "{'modal-open': dataApp.data.modalOpen || dataApp.data.modalError.data.in}"
     ng-click = "dataApp.documentClickEventHandler($event)"
     ng-keydown = "dataApp.documentKeydownEventHandler($event)"
@@ -132,12 +132,12 @@ html(
     )
 
     .spinner-wrapper.spinner-md.spinner-purple.spinner-backdrop.in(
-      ng-include = "'spinner'"
       ng-if = "!dataApp"
+      ng-include = "'spinner'"
     )
 
     //- page
-    .content-wrapper.clearfix(
+    .content-wrapper(
       ui-view
     )
 
