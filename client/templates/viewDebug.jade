@@ -2,10 +2,10 @@ header.server-header
   .server-info.load
     h1.container-title.centered
       .icons-status.running
-      strong.strong repositoryName
+      strong.strong {{CD.instance.getDisplayName()}}
       span(
-        ng-if = "instance.getBranchName()"
-      ) /branchName
+        ng-if = "CD.instance.getBranchName()"
+      ) /{{CD.instance.getBranchName()}}
       small.small (debug)
 
   .primary-actions

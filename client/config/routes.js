@@ -9,7 +9,15 @@ module.exports = [
     url: '^/debug/:containerId/',
     templateUrl: 'viewDebug',
     controller: 'ControllerDebug',
-    controllerAs: 'CD'
+    controllerAs: 'CD',
+    resolve: {
+      debugContainer: function(fetchDebugContainer, $stateParams){
+        return fetchDebugContainer($stateParams.containerId);
+      },
+      instance: function (debugContainer, fetchInstance) {
+        return fetchInstance(debugContainer.attrs.instance);
+      }
+    }
   }, {
     state: 'orgSelect',
     abstract: false,
