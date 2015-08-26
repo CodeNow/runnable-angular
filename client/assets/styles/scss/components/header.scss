@@ -23,35 +23,6 @@
     left: 15px;
     position: absolute;
   }
-
-  // btn-group
-  .btn-group {
-    display: table;
-    margin: 0 auto;
-    overflow: hidden;
-
-    > .btn {
-      height: $input-line-height-sm;
-      line-height: $input-line-height-sm;
-      width: 135px;
-
-      @include media(xxs) {
-        font-size: 15px;
-        width: 130px;
-      }
-
-      &.active {
-        @extend %no-touching;
-      }
-    }
-
-    .iconnables {
-      float: left;
-      height: 100%;
-      margin-right: 6px;
-      width: 18px;
-    }
-  }
 }
 
 // fixed header within runnable app
@@ -82,6 +53,77 @@
     height: 100vh;
     padding-top: 60px;
     position: relative;
+  }
+}
+
+// containers/configure toggle
+.toggle-header {
+  background: $purple;
+  border: 2px solid $purple;
+  display: table;
+  margin: 0 auto;
+  overflow: hidden;
+
+  > .btn {
+    background: transparent;
+    border-color: transparent;
+    color: rgba($white,.3);
+    font-weight: 500;
+    height: $input-line-height-sm;
+    line-height: $input-line-height-sm;
+    width: 135px;
+
+    @include media(xxs) {
+      font-size: 15px;
+      width: 130px;
+    }
+
+    &:hover {
+      color: rgba($white,.45);
+
+      .iconnables {
+        opacity: .45;
+      }
+    }
+
+    &:active {
+      color: rgba($white,.6);
+
+      .iconnables {
+        opacity: .6;
+      }
+    }
+
+    &.active {
+      @extend %no-touching;
+      background: #9662bd;
+      color: $white;
+
+      .iconnables {
+        opacity: 1;
+      }
+    }
+
+    // no states if disabled
+    &.disabled {
+
+      &:hover,
+      &:active {
+        color: rgba($white,.3);
+
+        .iconnables {
+          opacity: .3;
+        }
+      }
+    }
+  }
+
+  .iconnables {
+    float: left;
+    height: 100%;
+    margin-right: 6px;
+    opacity: .3;
+    width: 18px;
   }
 }
 
