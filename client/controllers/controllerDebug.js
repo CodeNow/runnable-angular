@@ -9,9 +9,10 @@ function ControllerDebug(
   debugContainer,
   instance,
   errs,
-  promisify,
-  $scope
+  $scope,
+  OpenItems
 ) {
+  this.openItems = new OpenItems();
 
   var dataApp = $rootScope.dataApp = {
     inDebug: true,
@@ -44,11 +45,11 @@ function ControllerDebug(
   console.log(debugContainer);
   console.log(instance);
 
-  this.fsList = null;
+  console.log(debugContainer.rootDir);
 
-  promisify(debugContainer, 'fetchFsList')()
-    .then(function (fsList) {
-      CD.fsList = fsList;
-    })
-    .catch(errs.handler);
+
+
+  //if (!data.openItems.hasOpen('BuildStream')) {
+  //  data.openItems.addBuildStream();
+  //}
 }

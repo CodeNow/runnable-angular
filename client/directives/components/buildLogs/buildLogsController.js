@@ -48,6 +48,7 @@ function BuildLogsController(
           if(newWindow){
             newWindow.close();
           }
+          command.generatingDebug = false;
           errs.handler(err);
         });
     }
