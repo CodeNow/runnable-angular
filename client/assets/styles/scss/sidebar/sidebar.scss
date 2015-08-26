@@ -6,7 +6,7 @@
   flex-direction: column;
   float: left;
   font-size: 15px;
-  height: calc(100vh - 60px);
+  height: 100%;
   line-height: 24px;
   position: relative;
   transition: none;
@@ -19,10 +19,9 @@
 
   // size if sidebar is present
   + .content {
-    float: right;
-    height: calc(100vh - 60px);
+    height: 100%;
+    margin-left: 240px;
     position: relative;
-    width: calc(100% - 240px);
 
     > .spinner-wrapper {
       position: absolute;
@@ -38,18 +37,19 @@
 // main sidebar
 .nav-sidebar {
   background: $gray-lighterest;
-  float: left;
 
   .spinner-wrapper {
-    margin-top: 30px;
+    align-items: center;
+    height: 100%;
   }
 }
 
 .containers {
   color: $gray;
   flex: 1 1 auto;
+  height: 100%;
   overflow-y: auto;
-  padding-top: 9px;
+  padding: 12px 0;
 
   // configure, "hide", and "X more…" buttons
   .btn {
@@ -78,6 +78,10 @@
   border-bottom: 1px solid $gray-lighter; // lines below categories
   margin: 0 9px;
   padding: 9px 0;
+
+  &:last-child {
+    border: 0;
+  }
 
   .list-item {
     align-items: center;

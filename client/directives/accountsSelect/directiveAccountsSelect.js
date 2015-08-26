@@ -18,7 +18,7 @@ function accountsSelect (
   promisify
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewAccountsSelect',
     scope: {
       data: '='
