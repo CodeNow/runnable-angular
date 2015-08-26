@@ -9,7 +9,6 @@
   &.header-app {
     overflow: hidden;
     position: fixed;
-    top: 0;
     width: 100%;
     z-index: $z-popover-arrow + 1; // should overlap all popovers, except account menu
 
@@ -24,6 +23,7 @@
       width: 100%;
     }
 
+    // ui-view.clearfix
     + .clearfix {
       height: 100vh;
       padding-top: 60px;
