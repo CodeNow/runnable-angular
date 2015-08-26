@@ -84,7 +84,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       $scope = $rootScope.$new();
       $timeout = _$timeout_;
 
-      var tpl = directiveTemplate('accounts-select', {
+      var tpl = directiveTemplate.attribute('accounts-select', {
         'data': 'data'
       });
 
