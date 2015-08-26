@@ -28,6 +28,7 @@ function accountsSelect (
       $scope.popoverAccountMenu = {
         actions: {
           getHeight: function (view) {
+            // if no containers '143px'
             if ($rootScope.featureFlags.isolationSetUp && view === 1) {
               return '179px'; // when isolation is on and setup
             } else if (view === 1) {
