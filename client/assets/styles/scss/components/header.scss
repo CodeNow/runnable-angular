@@ -15,7 +15,7 @@
 
     // private sandbox header theme, hidden
     &::before {
-      background-image: repeating-linear-gradient(60deg, darken($purple-light,2.25%), darken($purple-light,2.25%) 18px, transparent 18px, transparent 36px);
+      background-image: repeating-linear-gradient(60deg, darken($purple-light,2.5%), darken($purple-light,2.5%) 18px, transparent 18px, transparent 36px);
       content: '';
       height: 100%;
       opacity: 0;
@@ -31,7 +31,7 @@
     }
   }
 
-  // show private sandbox header theme
+  // private sandbox header theme, visible
   &.private::before {
     opacity: 1;
   }
@@ -87,8 +87,8 @@
   right: 15px;
 }
 
-// accounts (custom .btn.purple)
-.btn-accounts {
+// accounts button (specificity to override .btn.purple)
+.btn-accounts.btn-accounts {
   align-self: flex-end;
   background: transparent;
   border-color: transparent;
@@ -101,14 +101,6 @@
     }
   }
 
-  @include retina() {
-    border: 1px solid currentColor;
-  }
-
-  @include media(sm) {
-    margin-right: 3px;
-  }
-
   &:hover,
   &:active,
   &.active {
@@ -116,22 +108,27 @@
     color: $white;
   }
 
+  // org button
   &:first-child {
     opacity: 1;
   }
 
+  // private sandbox button
   &:last-child {
     opacity: 0;
     top: -6px;
   }
 
+  // transition to/from private sandbox
   .private & {
     transform: translate3d(0,-30px,0);
 
+    // org button
     &:first-child {
       opacity: 0;
     }
 
+    // private sandbox button
     &:last-child {
       opacity: 1;
     }
@@ -141,6 +138,14 @@
     float: left;
     margin-right: 7px;
     margin-top: 4px;
+
+    @include retina() {
+      border: 1px solid currentColor;
+    }
+
+    @include media(sm) {
+      margin-right: 3px;
+    }
 
     &.gravatar-isolation {
       margin-right: 12px;
