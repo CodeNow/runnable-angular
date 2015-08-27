@@ -36,7 +36,7 @@ function buildLogs(
         var children = element.children();
         var foundChild = null;
         var titleHeight = 0;
-        if (children[0]) {
+        if (children[0] && angular.element(children[0]).children()[0]) {
           titleHeight = angular.element(children[0]).children()[0].offsetHeight;
         }
 
