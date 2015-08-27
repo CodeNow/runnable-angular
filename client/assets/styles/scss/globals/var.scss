@@ -98,6 +98,7 @@ $logs-runnable-light: $logs-runnable-light-black $logs-runnable-light-red $logs-
 // spinners
 // ********
 
+$spin-rate: .5s;
 $spinner-offset: 187;
 $spinner-duration: 1.4s;
 
@@ -118,8 +119,7 @@ $z-hero-list-content: 1003;
 // views
 $z-views: 2000;
 $z-views-explorer: 2001;
-$z-views-toggle: 2002;
-$z-views-active-panel: 2003;
+$z-views-active-panel: 2002;
 
 // sidebars
 $z-sidebar: 3000;

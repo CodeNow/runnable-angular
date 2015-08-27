@@ -7,6 +7,7 @@
 
 // build log specific
 .build-log-wrapper {
+  overflow-y: auto;
   padding: 9px 7px;
   width: 100%;
 }
@@ -15,11 +16,9 @@
 .build-log {
   border: 1px solid transparent;
   border-radius: $input-border-radius;
-  max-height: 39px;
   min-height: 39px;
   overflow: hidden;
   position: relative;
-  transition: max-height .3s ease-in-out;
 
   &:target {
     box-shadow: // bottom-right,top-right,bottom-left,top-left
@@ -27,6 +26,11 @@
       2px -2px 0 $purple-light,
       -2px 2px 0 $purple-light,
       -2px -2px 0 $purple-light;
+  }
+
+  // start state
+  &:first-child > .build-log-header {
+    color: $orange;
   }
 
   &:last-child {
@@ -38,7 +42,7 @@
   }
 
   &.in {
-    max-height: 9999px; // is this enough?
+    height: auto;
   }
 
   + .build-log {
@@ -53,28 +57,29 @@
 }
 
 .build-log-header {
+  align-items: center;
+  display: flex;
   height: 39px;
   overflow: hidden;
-  padding-left: 24px;
+  padding: 0 6px 0 24px;
   position: absolute;
   width: 100%;
+  z-index: 1;
 
-  // has debug-button
-  &.padding-right {
-    overflow: hidden;
-    padding-right: 100px;
+  // for multiple fixed headers (pushes up)
+  &.absolute {
+    bottom: -1px;
   }
 
   // fixed
   &.fixed {
     position: fixed;
-    top: 177px;
-    width: calc(100% - 591px);
+    top: 174px;
     z-index: 1;
 
     // if in modal
     .modal-edit & {
-      top: 199px;
+      top: 205px;
       width: calc(100% - 145px);
     }
 
@@ -85,33 +90,38 @@
     }
   }
 
+  // text overflow
+  .build-log-header-text {
+    flex: 1 1 auto;
+    font-size: 13px;
+    overflow-x: auto;
+    padding: 0 12px 0 6px;
+  }
+
+  // cached state
+  > .build-log-header-state {
+    color: $logs-runnable-dark-magenta;
+    flex: 0 0 auto;
+    padding: 0 6px;
+  }
+
+
   // debug button
   > .btn-debug {
+    flex: 0 0 auto;
     font-family: $sans-serif; // override monospace fonts
     min-width: 0;
-    position: absolute;
-    right: 7px;
-    top: 7px;
   }
 
   // change padding if there's a header
   + .build-log-content {
     margin-top: 39px;
-    padding-bottom: 15px;
-    padding-top: 6px;
-  }
-
-  // text overflow
-  .build-log-header-text {
-    line-height: 39px;
-    overflow-x: auto;
-    padding-right: 6px;
   }
 }
 
 // shift fixed position if there's a toolbar (36px)
 .views-toolbar-wrapper + .active-panel .fixed {
-  top: $input-md + $input-sm;
+  top: 210px;
 
   // if in modal
   .modal-edit & {
@@ -126,7 +136,20 @@
 
 // logs scroll horizontally
 .build-log-content {
-  padding: 10px 9px 9px 24px;
+  padding: 9px 9px 15px 24px;
+  transition: height .15s;
+
+  &.building {
+    padding-bottom: 30px;
+  }
+
+  &.ng-leave {
+    overflow: hidden;
+  }
+
+  &.ng-leave-active {
+    height: 0;
+  }
 }
 
 // add .build-log-toggle to .build-log-header to indicate that you can toggle it
@@ -141,14 +164,6 @@
   .build-log-header {
     cursor: pointer;
 
-    &.fixed {
-      cursor: default;
-
-      &::before {
-        display: none;
-      }
-    }
-
     // arrow
     &::before {
       border-bottom: 0;
@@ -162,6 +177,7 @@
       position: absolute;
       top: 16px;
       transform: rotate3d(0,0,1,-90deg);
+      transform-origin: 4px 2px;
       transition: transform .25s ease-in-out;
     }
   }
@@ -220,6 +236,17 @@
     background: #372345; // rgba($white,.03) on $ace-bg
     border-color: $purple-darkest;
 
+    // success state
+    &.green {
+      background: $green;
+    }
+
+    // fail state
+    &.red {
+      background: $red;
+      color: $white;
+    }
+
     // error
     &.error {
       box-shadow: // bottom-right,top-right,bottom-left,top-left
@@ -234,16 +261,12 @@
     background: #3d294a; // rgba($white,.03);
     border-bottom: 1px solid $purple-darker;
 
-    // no states when fixed
-    &:not(.fixed) {
+    &:hover {
+      background: #3f2c4d; // rgba($white,.045);
+    }
 
-      &:hover {
-        background: #3f2c4d; // rgba($white,.045);
-      }
-
-      &:active {
-        background: #422f4f; // rgba($white,.06);
-      }
+    &:active {
+      background: #422f4f; // rgba($white,.06);
     }
 
     &::before {
@@ -310,4 +333,34 @@
   }
 
   @include logs-runnable-color(light);
+}
+
+// log spinner
+.log-spinner {
+  bottom: 30px;
+  font-size: 16px;
+  height: 16px;
+  left: 24px;
+  position: relative;
+  width: 16px;
+
+  .spinner-character {
+    animation: fade-in-alt $spin-rate infinite;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+
+    &:nth-child(2) {
+      animation-delay: $spin-rate*.25;
+    }
+
+    &:nth-child(3) {
+      animation-delay: $spin-rate*.5;
+    }
+
+    &:nth-child(4) {
+      animation-delay: $spin-rate*.75;
+    }
+  }
 }
