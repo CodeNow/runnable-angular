@@ -7,7 +7,8 @@ function BuildLogsController(
   $scope,
   primus,
   errs,
-  createDebugContainer
+  createDebugContainer,
+  $rootScope
 ) {
   var BLC = this;
   BLC.showDebug = false;

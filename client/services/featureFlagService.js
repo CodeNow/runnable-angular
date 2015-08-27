@@ -48,5 +48,5 @@ function featureFlags(
       return defaultFeatureFlags;
     },
     flags: _featureFlags
-  }
+  };
 }
