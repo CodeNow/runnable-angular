@@ -30,16 +30,16 @@ function featureFlags(
     updatedSlackValidation: false
   };
 
-  var featureFlags = {};
+  var _featureFlags = {};
 
 
   Object.keys(defaultFeatureFlags).forEach(function (key) {
-    featureFlags[key] = defaultFeatureFlags[key];
+    _featureFlags[key] = defaultFeatureFlags[key];
   });
 
   if($localStorage.featureFlags){
     Object.keys($localStorage.featureFlags).forEach(function (flag) {
-      featureFlags[flag] = $localStorage.featureFlags[flag];
+      _featureFlags[flag] = $localStorage.featureFlags[flag];
     });
   }
 
@@ -47,6 +47,6 @@ function featureFlags(
     reset: function () {
       return defaultFeatureFlags;
     },
-    flags: featureFlags
+    flags: _featureFlags
   }
 }
