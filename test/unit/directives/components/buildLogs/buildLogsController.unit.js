@@ -13,7 +13,10 @@ describe('BuildLogsController'.bold.underline.blue, function () {
   var BLC;
   function setup() {
     mockInstance = {
-      build: 'This is a test build!'
+      build: 'This is a test build!',
+      status: sinon.stub().returns('building'),
+      on: sinon.spy(),
+      off: sinon.spy()
     };
 
     mockStreamingLogContents = {
@@ -62,6 +65,7 @@ describe('BuildLogsController'.bold.underline.blue, function () {
     });
     it('should handle build logs running status', function () {
       expect(BLC.buildLogsRunning).to.be.ok;
+      mockInstance.status.returns('started');
       mockStream.on.lastCall.args[1]();
       expect(BLC.buildLogsRunning).to.not.be.ok;
     });

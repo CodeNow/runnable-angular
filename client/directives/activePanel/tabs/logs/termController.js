@@ -18,20 +18,9 @@ function TermController(
     cursorBlink: true
   };
 
-  if ($scope.instance) {
-    $scope.$watch('instance.containers.models[0].running()', function (n) {
-      if (!n) {
-        return;
-      }
-      $scope.$emit('STREAM_START', null, true);
-    });
-  } else if ($scope.debugContainer) {
-    // We have to wait for the listener to register :)
-    $timeout(function () {
-      $scope.$emit('STREAM_START', null, true);
-    });
-
-  }
+  $timeout(function () {
+    $scope.$emit('STREAM_START', null, true);
+  });
 
   $scope.createStream = function () {
     var streamModel = null;
