@@ -7,7 +7,8 @@ require('app')
  */
 function TermController(
   $scope,
-  primus
+  primus,
+  $timeout
 ) {
   var uniqueId;
   var termOnFn;
@@ -16,13 +17,19 @@ function TermController(
     hideCursor: false,
     cursorBlink: true
   };
-  $scope.$watch('instance.containers.models[0].running()', function (n) {
-    if (!n) { return; }
+
+  $timeout(function () {
     $scope.$emit('STREAM_START', null, true);
   });
 
   $scope.createStream = function () {
-    var streams = primus.createTermStreams($scope.instance.containers.models[0], uniqueId);
+    var streamModel = null;
+    if ($scope.instance) {
+      streamModel = $scope.instance.containers.models[0];
+    } else if ($scope.debugContainer) {
+      streamModel = $scope.debugContainer.attrs.inspect;
+    }
+    var streams = primus.createTermStreams(streamModel, uniqueId);
     uniqueId = streams.uniqueId;
     $scope.stream = streams.termStream;
     $scope.eventStream = streams.eventStream;

@@ -37,12 +37,15 @@ form.modal-dialog.modal-integrations(
       label.label.clearfix
         .label-col Bot API Token
         .input-col
-          input.input.input-sm.monospace(
+          input.input.input-sm.monospace.input-validate(
             ng-model = "data.settings.attrs.notifications.slack.apiToken"
             ng-readonly = "data.verified"
             required
             spellcheck = "false"
           )
+          .validation-message(
+            ng-if = "$root.featureFlags.updatedSlackValidation"
+          ) Invalid API Token
           small.small(
             ng-if = "!data.verified"
           ) Get container status updates in Slack. You can use the API token from an existing bot, or #{''}

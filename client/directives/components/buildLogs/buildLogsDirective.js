@@ -12,13 +12,17 @@ function buildLogs(
     controller: 'BuildLogsController as BLC',
     bindToController: true,
     scope: {
-      instance: '='
+      instance: '=',
+      debugContainer: '='
     },
     link: function ($scope, element) {
       var atBottom = true;
       var lockThreshold = 30;
 
       var scrollHelper = debounce(function (manual) {
+        if (!element[0]) {
+          return;
+        }
         var currentScroll = element[0].scrollTop;
         var maxScroll = element[0].scrollHeight - element[0].offsetHeight;
 
@@ -32,7 +36,7 @@ function buildLogs(
         var children = element.children();
         var foundChild = null;
         var titleHeight = 0;
-        if (children[0]) {
+        if (children[0] && angular.element(children[0]).children()[0]) {
           titleHeight = angular.element(children[0]).children()[0].offsetHeight;
         }
 
@@ -70,6 +74,7 @@ function buildLogs(
           unbindContentWatch();
           unbindContentWatch = $scope.$watch('BLC.buildLogs[' + ($scope.BLC.buildLogs.length-1) + '].content.length', function () {
             scrollHelper();
+            $timeout(scrollHelper, 100);
           });
         }
       });
@@ -80,6 +85,9 @@ function buildLogs(
 
       $scope.actions = {
         toggleCommand: function (event, command) {
+          if ($scope.BLC.buildLogs.indexOf(command) === ($scope.BLC.buildLogs.length - 1) && $scope.BLC.buildLogsRunning) {
+            return;
+          }
           var commandContainer = angular.element(event.currentTarget).next();
           if (command.expanded) {
             commandContainer.css('height', commandContainer[0].offsetHeight + 'px');

@@ -137,8 +137,9 @@ html(
     )
 
     //- page
-    .content-wrapper.app.clearfix(
+    .content-wrapper.clearfix(
       ui-view
+      ng-class = "{app: !dataApp.inDebug}"
     )
 
     //- error modal

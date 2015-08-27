@@ -26,21 +26,27 @@ RunnablePrimus.prototype.createLogStream = function (container) {
   return logStream;
 };
 
-RunnablePrimus.prototype.createBuildStream = function (build) {
-  var contextVersionId = build.contextVersions.models[0].id();
+RunnablePrimus.prototype.createBuildStreamFromContextVersionId = function (contextVersionId) {
   var uniqueId = makeUniqueId(contextVersionId);
   var buildStream = this.substream(uniqueId);
+  var self = this;
 
-  // If in room, don't send
-  this.write({
-    id: 1,
-    event: 'build-stream',
-    data: {
-      id: contextVersionId,
-      streamId: uniqueId
-    }
-  });
+  setTimeout(function () {
+    // If in room, don't send
+    self.write({
+      id: 1,
+      event: 'build-stream',
+      data: {
+        id: contextVersionId,
+        streamId: uniqueId
+      }
+    });
+  }, 10);
   return buildStream;
+};
+
+RunnablePrimus.prototype.createBuildStream = function (build) {
+  return this.createBuildStreamFromContextVersionId(build.contextVersions.models[0].id());
 };
 
 RunnablePrimus.prototype.createTermStreams = function (container, uniqueId) {
@@ -110,7 +116,6 @@ require('app')
  */
 function primus(
   $log,
-  $rootScope,
   $interval,
   configAPIHost
 ) {

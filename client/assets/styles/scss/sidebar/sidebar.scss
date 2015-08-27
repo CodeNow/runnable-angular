@@ -14,7 +14,7 @@
   z-index: $z-sidebar;
 
   &.full-height {
-    height: 100vh;
+    height: calc(100vh - 72px);
   }
 
   // size if sidebar is present

@@ -15,6 +15,8 @@ require('app')
   .factory('fetchGitHubUser', fetchGitHubUser)
   .factory('integrationsCache', integrationsCache)
   .factory('fetchPullRequest', fetchPullRequest)
+  .factory('fetchDebugContainer', fetchDebugContainer)
+  .factory('fetchInstance', fetchInstance)
   .factory('fetchInstancesByPod', fetchInstancesByPod);
 
 function fetchUser(
@@ -105,6 +107,18 @@ function fetchInstances(
         });
     }
     return fetchCache[fetchKey];
+  };
+}
+
+function fetchInstance(
+  fetchUser,
+  promisify
+){
+  return function (instanceId) {
+    return fetchUser()
+      .then(function (user) {
+        return promisify(user, 'fetchInstance')(instanceId);
+      });
   };
 }
 
@@ -376,6 +390,18 @@ function fetchPullRequest (
       url: configAPIHost + '/github/repos/' + repo + '/pulls?head=' + repo.split('/')[0] + ':' + branch
     }).then(function (pullRequests) {
       return keypather.get(pullRequests, 'data[0]');
+    });
+  };
+}
+
+function fetchDebugContainer(
+  fetchUser,
+  promisify
+) {
+  return function (containerId) {
+    return fetchUser().then(function (user) {
+      console.log(user);
+      return promisify(user, 'fetchDebugContainer')(containerId);
     });
   };
 }
