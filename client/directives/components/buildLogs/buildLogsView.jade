@@ -1,3 +1,23 @@
+//- initial output
+.pre.build-log(
+  ng-class = "{\
+    'build-log-toggle': BLC.buildLogs.length === 0 && BLC.buildLogsRunning,\
+    'in': BLC.buildLogs.length === 0 && BLC.buildLogsRunning\
+  }"
+)
+  .build-log-header
+    .build-log-header-text Starting Build
+  .build-log-content.building(
+    ng-if = "BLC.buildLogs.length === 0 && BLC.buildLogsRunning"
+  )
+  .log-spinner(
+    ng-if = "BLC.buildLogs.length === 0 && BLC.buildLogsRunning"
+  )
+    .spinner-character |
+    .spinner-character /
+    .spinner-character -
+    .spinner-character \
+
 .pre.build-log.js-animate(
   ng-class = "{\
     'build-log-toggle' : command.content.length,\
