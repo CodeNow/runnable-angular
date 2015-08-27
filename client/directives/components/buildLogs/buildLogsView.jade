@@ -22,7 +22,8 @@
     ) Cached
 
     .btn-group.btn-debug(
-      ng-if = "$root.featureFlags.debugMode && !BLC.debugContainer && BLC.buildLogs[$index - 1].imageId && $last"
+      ng-if = "$root.featureFlags.debugMode && BLC.showDebug && !BLC.debugContainer && BLC.buildLogs[$index - 1].imageId && $last"
+
       ng-include = "'viewDebugButton'"
     )
 
@@ -33,7 +34,7 @@
   )
 
   .log-spinner(
-    ng-if = "BLC.buildLogsRunning && command.expanded"
+    ng-if = "BLC.buildLogsRunning && command.expanded && $last"
   )
     .spinner-character |
     .spinner-character /
