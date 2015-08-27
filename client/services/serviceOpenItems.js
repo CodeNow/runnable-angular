@@ -271,7 +271,6 @@ function openItemsFactory(
   };
 
   OpenItems.prototype.addOne = function (model) {
-    console.log(model);
     if (!this.instanceOfModel(model)) {
       throw new Error('Trying to add a non-model');
     }

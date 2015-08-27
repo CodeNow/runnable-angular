@@ -21,28 +21,37 @@ function BuildLogsController(
     }
   }
 
-  var stream = null;
-  if (this.instance) {
-    BLC.buildLogsRunning = true;
-    stream = primus.createBuildStream(this.instance.build);
-    handleUpdate(this.instance);
-    this.instance.on('update', handleUpdate);
-    $scope.$on('$destroy', function () {
-      BLC.instance.off('update', handleUpdate);
+  function setupStream () {
+    var stream = null;
+    if (BLC.instance) {
+      BLC.buildLogsRunning = true;
+      stream = primus.createBuildStream(BLC.instance.build);
+      handleUpdate(BLC.instance);
+      BLC.instance.on('update', handleUpdate);
+      $scope.$on('$destroy', function () {
+        BLC.instance.off('update', handleUpdate);
+      });
+    } else if (BLC.debugContainer) {
+      stream = primus.createBuildStreamFromContextVersionId(BLC.debugContainer.attrs.contextVersion);
+    }
+
+    stream.on('end', function () {
+      BLC.buildLogsRunning = false;
     });
-  } else if (this.debugContainer) {
-    stream = primus.createBuildStreamFromContextVersionId(this.debugContainer.attrs.contextVersion);
+    stream.on('disconnection', function () {
+      alert('Disconnect!');
+      setupStream();
+    });
+    var streamingBuildLogs = streamingLog(stream);
+    $scope.$on('$destroy', function () {
+      streamingBuildLogs.destroy();
+    });
+    BLC.buildLogs = streamingBuildLogs.logs;
   }
 
-  stream.on('end', function () {
-    console.log('Stream end!?');
-    BLC.buildLogsRunning = false;
-  });
-  var streamingBuildLogs = streamingLog(stream);
-  $scope.$on('$destroy', function () {
-    streamingBuildLogs.destroy();
-  });
-  this.buildLogs = streamingBuildLogs.logs;
+  setupStream();
+
+
 
   this.generatingDebug = false;
 
