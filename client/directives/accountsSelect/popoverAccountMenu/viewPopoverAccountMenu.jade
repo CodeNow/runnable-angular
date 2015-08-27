@@ -1,10 +1,11 @@
 .popover.menu.bottom.popover-account-menu(
   ng-class = "{'in': active}"
   ng-init = "state.view = 1"
+  style = "transform-origin: 95% 0;"
 )
   .arrow(
     ng-class = "{'white': state.view === 1}"
-    style = "left: 188px;"
+    style = "left: 194px;"
   )
   //- START-pre isolation account menu
   .popover-views.deprecated(
@@ -121,7 +122,7 @@
                 xlink:href = "#icons-cog"
               )
 
-          //- if private sandbox is not set up
+          //- if private sandbox is not set up and sandbox has >= 1 container
           li.list-item.list-btn(
             modal
             modal-state-model = "{modalFlip: true}"

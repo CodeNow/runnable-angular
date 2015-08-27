@@ -1,26 +1,29 @@
-.header {
+// fixed header within runnable app
+.header-app {
+  background: $purple-light;
   border: 0;
-  height: 60px;
+  border-bottom: 1px solid $purple;
+  height: $header-height;
+  overflow: hidden;
   padding: 0 15px;
+  position: fixed;
+  width: 100%;
+  z-index: $z-popover-arrow + 1; // should overlap all popovers, except account menu
 
-  // default header theme
-  &.purple {
-    background: $purple-light;
-    border-bottom: 1px solid $purple;
-  }
-
-  // private sandbox header theme
-  &.gray {
-    background: $gray;
-    border-bottom: 1px solid #777;
-  }
-
-  // fixed header within runnable app
-  .app & {
-    position: fixed;
-    top: 0;
+  // private sandbox header theme, hidden
+  &::before {
+    background-image: repeating-linear-gradient(60deg, darken($purple-light,2.5%), darken($purple-light,2.5%) 18px, transparent 18px, transparent 36px);
+    content: '';
+    height: 100%;
+    opacity: 0;
+    position: absolute;
+    transition: opacity .15s ease-out;
     width: 100%;
-    z-index: $z-popover-arrow + 1; // should overlap all popovers, except account menu
+  }
+
+  // private sandbox header theme, visible
+  &.private::before {
+    opacity: 1;
   }
 
   // so header sits under modals/popovers if a modal is open
@@ -30,8 +33,8 @@
 
   // layout
   .logo,
-  .btn-group,
-  .btn-accounts {
+  .toggle-header,
+  .accounts-select {
     top: 12px;
   }
 
@@ -42,72 +45,159 @@
     position: absolute;
   }
 
-  // btn-group
-  .btn-group {
-    display: table;
-    margin: 0 auto;
-    overflow: hidden;
+  // ui-view.clearfix
+  + .clearfix {
+    height: 100vh;
+    padding-top: $header-height;
+    position: relative;
+  }
+}
 
-    > .btn {
-      height: $input-line-height-sm;
-      line-height: $input-line-height-sm;
-      width: 135px;
+// containers/configure toggle
+.toggle-header {
+  background: $purple;
+  border: $input-border solid $purple;
+  display: table;
+  margin: 0 auto;
+  overflow: hidden;
 
-      &.active {
-        @extend %no-touching;
+  > .btn {
+    background: transparent;
+    border-color: transparent;
+    color: rgba($white,.3);
+    font-weight: $weight-bold;
+    height: $input-line-height-sm;
+    line-height: $input-line-height-sm;
+    width: 135px;
+
+    @include media(xxs) {
+      font-size: 15px;
+      width: 130px;
+    }
+
+    &:hover {
+      color: rgba($white,.45);
+
+      .iconnables {
+        opacity: .45;
       }
     }
 
-    .iconnables {
-      float: left;
-      height: 100%;
-      margin-right: 6px;
-      width: 18px;
+    &:active {
+      color: rgba($white,.6);
+
+      .iconnables {
+        opacity: .6;
+      }
+    }
+
+    &.active {
+      @extend %no-touching;
+      background: #9662bd;
+      color: $white;
+
+      .iconnables {
+        opacity: 1;
+      }
+    }
+
+    // no states if disabled
+    &.disabled {
+
+      &:hover,
+      &:active {
+        color: rgba($white,.3);
+
+        .iconnables {
+          opacity: .3;
+        }
+      }
     }
   }
 
-  // accounts (custom .btn.purple)
-  .btn-accounts {
+  .iconnables {
+    float: left;
+    height: 100%;
+    margin-right: 6px;
+    opacity: .3;
+    width: 18px;
+  }
+}
+
+.accounts-select {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 0;
+}
+
+// accounts button (specificity to override .btn.purple)
+.btn-accounts.btn-accounts {
+  align-self: flex-end;
+  background: transparent;
+  border-color: transparent;
+  flex: 0 0 auto;
+  transition: all .15s ease-out;
+
+  @include media(sm) {
+    .span {
+      display: none;
+    }
+  }
+
+  &:hover,
+  &:active,
+  &.active {
     background: transparent;
-    border-color: transparent;
-    position: absolute;
-    right: 15px;
+    color: $white;
+  }
+
+  // org button
+  &:first-child {
+    opacity: 1;
+  }
+
+  // private sandbox button
+  &:last-child {
+    opacity: 0;
+    top: -6px;
+  }
+
+  // transition to/from private sandbox
+  .private & {
+    transform: translate3d(0,-30px,0);
+
+    // org button
+    &:first-child {
+      opacity: 0;
+    }
+
+    // private sandbox button
+    &:last-child {
+      opacity: 1;
+    }
+  }
+
+  .gravatar {
+    float: left;
+    margin-right: 7px;
+    margin-top: 4px;
+
+    @include retina() {
+      border: 1px solid currentColor;
+    }
 
     @include media(sm) {
-      .span {
-        display: none;
-      }
+      margin-right: 3px;
     }
 
-    &:hover,
-    &:active,
-    &.active {
-      background: transparent;
-      color: $white;
+    &.gravatar-isolation {
+      margin-right: 12px;
     }
 
-    .gravatar {
-      float: left;
-      margin-right: 7px;
-      margin-top: 4px;
-
-      &.gravatar-isolation {
-        margin-right: 12px;
-      }
-
-      // isolation gravatar
-      + .gravatar {
-        animation: scale-in .15s ease-in forwards;
-        left: 27px;
-      }
-
-      @include retina() {
-        border: 1px solid currentColor;
-      }
-
-      @include media(sm) {
-        margin-right: 3px;
-      }
+    // isolation gravatar
+    + .gravatar {
+      left: 27px;
     }
   }
 }
