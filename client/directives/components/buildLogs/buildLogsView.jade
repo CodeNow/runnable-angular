@@ -62,13 +62,11 @@
 
 //- initial output
 .pre.build-log(
-  ng-init = "build.success = true"
   ng-class = "{\
-    'green': build.success,\
-    'red': !build.success\
+    'green': BLC.buildStatus === 'success',\
+    'red': BLC.buildStatus === 'failed'\
   }"
-  ng-click = "build.success = !build.success"
   ng-if = "!BLC.buildLogsRunning"
 )
   .build-log-header
-    .build-log-header-text Build {{build.success ? 'Successful' : 'Failed'}}
+    .build-log-header-text Build {{BLC.buildStatus === 'success' ? 'Successful' : 'Failed'}}
