@@ -55,7 +55,7 @@ function buildLogs(
         });
 
 
-        var foundCommand = $scope.BLC.buildLogs[foundChild];
+        var foundCommand = $scope.BLC.buildLogs[foundChild - 1];
         // If the command is found AND the fixed height hasn't scrolled past its containing element
         if (foundCommand) {
           foundCommand.fixed = true;
