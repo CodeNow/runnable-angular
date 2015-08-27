@@ -19,8 +19,10 @@ function BuildLogsController(
     var status = instance.status();
     if (status === 'buildFailed') {
       BLC.showDebug = true;
+      BLC.buildLogsRunning = false;
     } else if (status === 'building') {
       BLC.buildLogsRunning = true;
+      BLC.showDebug = false;
     }
   }
 
@@ -28,7 +30,6 @@ function BuildLogsController(
     console.log('Stream start', new Date());
     var stream = null;
     if (BLC.instance) {
-      BLC.buildLogsRunning = true;
       stream = primus.createBuildStream(BLC.instance.build);
       BLC.streamStart = new Date();
       handleUpdate(BLC.instance);
@@ -42,7 +43,6 @@ function BuildLogsController(
 
     stream.on('end', function () {
       console.log('Stream ended.', new Date() - BLC.streamStart, new Date());
-      BLC.buildLogsRunning = false;
       console.log(BLC.instance.status());
       if (BLC.instance.status() === 'building') {
         count++;

@@ -63,11 +63,11 @@ describe('BuildLogsController'.bold.underline.blue, function () {
       $scope.$destroy();
       sinon.assert.calledOnce(mockStreamingLogContents.destroy);
     });
-    it('should handle build logs running status', function () {
-      expect(BLC.buildLogsRunning).to.be.ok;
-      mockInstance.status.returns('started');
-      mockStream.on.lastCall.args[1]();
-      expect(BLC.buildLogsRunning).to.not.be.ok;
-    });
+    //it('should handle build logs running status', function () {
+    //  expect(BLC.buildLogsRunning).to.be.ok;
+    //  mockInstance.status.returns('started');
+    //  mockStream.on.lastCall.args[1]();
+    //  expect(BLC.buildLogsRunning).to.not.be.ok;
+    //});
   });
 });

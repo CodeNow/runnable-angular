@@ -22,7 +22,8 @@ function explorer(
       showRepoFolder: '=',
       editExplorer: '=?',
       loadingPromisesTarget: '@?',
-      readOnly: '=?'
+      readOnly: '=?',
+      debugContainer: '=?'
     },
     link: function ($scope) {
       $scope.dir = $scope.rootDir;
