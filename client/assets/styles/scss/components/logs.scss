@@ -28,11 +28,6 @@
       -2px -2px 0 $purple-light;
   }
 
-  // start state
-  &:first-child > .build-log-header {
-    color: $orange;
-  }
-
   &:last-child {
     margin-bottom: 30px;
 
@@ -236,6 +231,11 @@
     background: #372345; // rgba($white,.03) on $ace-bg
     border-color: $purple-darkest;
 
+    // start state
+    &:first-child > .build-log-header {
+      color: $logs-runnable-dark-yellow;
+    }
+
     // success state
     &.green {
       background: #44c25f;
@@ -290,6 +290,22 @@
 .logs-runnable-light {
   background-color: $gray-lighterest;
   color: $gray-darker;
+
+  // start state
+  &:first-child > .build-log-header {
+    color: $logs-runnable-light-yellow;
+  }
+
+  // success state
+  &.green {
+    background: #44c25f;
+  }
+
+  // fail state
+  &.red {
+    background: $red;
+    color: $white;
+  }
 
   // elements
   .build-log {
