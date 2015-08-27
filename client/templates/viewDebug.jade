@@ -54,26 +54,24 @@ header.server-header
 section.sidebar.server-sidebar.full-height.load
 
   .spinner-wrapper.spinner-md.spinner-purple.spinner-backdrop.in(
-    ng-include = "'spinner'"
     ng-if = "!CD.debugContainer.rootDir"
+    ng-include = "'spinner'"
   )
 
-
   section.sidebar-section.explorer-section(
-    ng-if = "CD.debugContainer.rootDir"
-    edit-explorer = "true"
+    edit-explorer = "false"
     explorer
     explorer-title = "File Explorer"
     file-model = "CD.debugContainer"
     instance = "CD.instance"
+    ng-if = "CD.debugContainer.rootDir"
     open-items = "CD.openItems"
     root-dir = "CD.debugContainer.rootDir"
   )
 
-
 section.views.full-height(
   active-panel
   debug-container = "CD.debugContainer"
-  open-items = "CD.openItems"
   is-edit-modal = "true"
+  open-items = "CD.openItems"
 )
