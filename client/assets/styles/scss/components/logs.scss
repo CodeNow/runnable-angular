@@ -28,6 +28,10 @@
       -2px -2px 0 $purple-light;
   }
 
+  &:first-child > .build-log-header {
+    color: $orange;
+  }
+
   &:last-child {
     margin-bottom: 30px;
 
