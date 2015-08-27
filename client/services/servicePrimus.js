@@ -116,7 +116,6 @@ require('app')
  */
 function primus(
   $log,
-  $rootScope,
   $interval,
   configAPIHost
 ) {

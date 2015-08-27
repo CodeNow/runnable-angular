@@ -85,6 +85,9 @@ function buildLogs(
 
       $scope.actions = {
         toggleCommand: function (event, command) {
+          if ($scope.BLC.buildLogs.indexOf(command) === ($scope.BLC.buildLogs.length - 1) && $scope.BLC.buildLogsRunning) {
+            return;
+          }
           var commandContainer = angular.element(event.currentTarget).next();
           if (command.expanded) {
             commandContainer.css('height', commandContainer[0].offsetHeight + 'px');
