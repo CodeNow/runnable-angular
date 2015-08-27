@@ -18,7 +18,7 @@ function ControllerApp(
   eventTracking,
   fetchInstancesByPod,
   pageName,
-  $localStorage,
+  featureFlags,
 
   user,
   orgs,
@@ -73,42 +73,8 @@ function ControllerApp(
     $timeout(angular.noop);
   }, 33));
 
-  var defaultFeatureFlags = {
-    additionalRepositories: true,
-    cardStatus: false,
-    debugMode: false,
-    fullScreen: false,  // toggles full screen
-    fullScreenToggle: false,  // toggles the button that toggles full screen
-    hostnameNotifications: false,
-    hostnameTool: false,
-    imAfraidOfTheDark: false, // toggles theme
-    internalDebugging: false,
-    isolationActive: false, // if isolation is active
-    isolationSetUp: false, // if isolation is setup
-    isolationUI: false, // for isolation UI
-    nameContainer: false,
-    multilineFnR: false,
-    navListFilter: false,
-    newVerificationFlow: false,
-    renameContainer: false,
-    saveToolbar: false,
-    themeToggle: false, // toggles the button that toggles theme
-    updatedBuildLogs: false,
-    updatedSlackValidation: false
-  };
-  $rootScope.featureFlags = {};
-  $rootScope.resetFeatureFlags = function () {
-    Object.keys(defaultFeatureFlags).forEach(function (key) {
-      $rootScope.featureFlags[key] = defaultFeatureFlags[key];
-    });
-  };
-  $rootScope.resetFeatureFlags();
-
-  if($localStorage.featureFlags){
-    Object.keys($localStorage.featureFlags).forEach(function (flag) {
-      $rootScope.featureFlags[flag] = $localStorage.featureFlags[flag];
-    });
-  }
+  $rootScope.featureFlags = featureFlags.flags;
+  $rootScope.resetFeatureFlags = featureFlags.reset;
 
   $scope.$watch(function () {
     return errs.errors.length;

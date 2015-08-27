@@ -12,7 +12,8 @@ function buildLogs(
     controller: 'BuildLogsController as BLC',
     bindToController: true,
     scope: {
-      instance: '='
+      instance: '=',
+      debugContainer: '='
     },
     link: function ($scope, element) {
       var atBottom = true;

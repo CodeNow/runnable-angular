@@ -10,9 +10,15 @@ function ControllerDebug(
   instance,
   errs,
   $scope,
-  OpenItems
+  OpenItems,
+  featureFlags
 ) {
   this.openItems = new OpenItems();
+  this.openItems.addTerminal();
+  this.openItems.addBuildStream();
+
+  $rootScope.featureFlags = featureFlags.flags;
+  $rootScope.resetFeatureFlags = featureFlags.reset;
 
   var dataApp = $rootScope.dataApp = {
     inDebug: true,
@@ -38,18 +44,6 @@ function ControllerDebug(
     }
   });
 
-
-  var CD = this;
   this.instance = instance;
   this.debugContainer = debugContainer;
-  console.log(debugContainer);
-  console.log(instance);
-
-  console.log(debugContainer.rootDir);
-
-
-
-  //if (!data.openItems.hasOpen('BuildStream')) {
-  //  data.openItems.addBuildStream();
-  //}
 }

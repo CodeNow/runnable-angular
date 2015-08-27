@@ -12,7 +12,13 @@ function BuildLogsController(
   var BLC = this;
   BLC.buildLogsRunning = true;
 
-  var stream = primus.createBuildStream(this.instance.build);
+  var stream = null;
+  if (this.instance) {
+    stream = primus.createBuildStream(this.instance.build);
+  } else if (this.debugContainer) {
+    stream = primus.createBuildStreamFromContextVersionId(this.debugContainer.attrs.contextVersion);
+  }
+
   stream.on('end', function () {
     BLC.buildLogsRunning = false;
   });
@@ -22,8 +28,13 @@ function BuildLogsController(
   });
   this.buildLogs = streamingBuildLogs.logs;
 
+
   this.actions = {
     launchDebugContainer: function (event, command) {
+      if (BLC.debugContainer) {
+        return;
+      }
+
       if (command.generatingDebug) {
         return;
       }

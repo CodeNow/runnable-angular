@@ -26,8 +26,7 @@ RunnablePrimus.prototype.createLogStream = function (container) {
   return logStream;
 };
 
-RunnablePrimus.prototype.createBuildStream = function (build) {
-  var contextVersionId = build.contextVersions.models[0].id();
+RunnablePrimus.prototype.createBuildStreamFromContextVersionId = function (contextVersionId) {
   var uniqueId = makeUniqueId(contextVersionId);
   var buildStream = this.substream(uniqueId);
 
@@ -41,6 +40,10 @@ RunnablePrimus.prototype.createBuildStream = function (build) {
     }
   });
   return buildStream;
+};
+
+RunnablePrimus.prototype.createBuildStream = function (build) {
+  return this.createBuildStreamFromContextVersionId(build.contextVersions.models[0].id());
 };
 
 RunnablePrimus.prototype.createTermStreams = function (container, uniqueId) {
