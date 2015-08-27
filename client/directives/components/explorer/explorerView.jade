@@ -8,8 +8,8 @@
 
 //- on configure modal
 .sidebar-actions(
-  ng-if = "editExplorer && rootDir"
   ng-controller = "FilePopoverController as FPC"
+  ng-if = "editExplorer && rootDir"
 )
   button.btn.btn-xs.gray(
     ng-class = "{'active': filePopover.data.show}"
