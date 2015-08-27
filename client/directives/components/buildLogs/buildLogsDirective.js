@@ -20,6 +20,9 @@ function buildLogs(
       var lockThreshold = 30;
 
       var scrollHelper = debounce(function (manual) {
+        if (!element[0]) {
+          return;
+        }
         var currentScroll = element[0].scrollTop;
         var maxScroll = element[0].scrollHeight - element[0].offsetHeight;
 
@@ -71,6 +74,7 @@ function buildLogs(
           unbindContentWatch();
           unbindContentWatch = $scope.$watch('BLC.buildLogs[' + ($scope.BLC.buildLogs.length-1) + '].content.length', function () {
             scrollHelper();
+            $timeout(scrollHelper, 100);
           });
         }
       });

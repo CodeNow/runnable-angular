@@ -12,6 +12,8 @@ function BuildLogsController(
   var BLC = this;
   BLC.showDebug = false;
 
+  var count = 0;
+
   function handleUpdate (instance) {
     var status = instance.status();
     if (status === 'buildFailed') {
@@ -22,10 +24,12 @@ function BuildLogsController(
   }
 
   function setupStream () {
+    console.log('Stream start', new Date());
     var stream = null;
     if (BLC.instance) {
       BLC.buildLogsRunning = true;
       stream = primus.createBuildStream(BLC.instance.build);
+      BLC.streamStart = new Date();
       handleUpdate(BLC.instance);
       BLC.instance.on('update', handleUpdate);
       $scope.$on('$destroy', function () {
@@ -36,11 +40,24 @@ function BuildLogsController(
     }
 
     stream.on('end', function () {
+      console.log('Stream ended.', new Date() - BLC.streamStart, new Date());
       BLC.buildLogsRunning = false;
+      console.log(BLC.instance.status());
+      if (BLC.instance.status() === 'building') {
+        count++;
+        if (count > 5) {
+          console.log('Max retries reached.');
+          return;
+        }
+        console.log('Retry count', count);
+        setupStream();
+      }
+      $scope.$applyAsync();
     });
     stream.on('disconnection', function () {
-      alert('Disconnect!');
+      console.log('Stream disconnected.', new Date() - BLC.streamStart, new Date());
       setupStream();
+      $scope.$applyAsync();
     });
     var streamingBuildLogs = streamingLog(stream);
     $scope.$on('$destroy', function () {

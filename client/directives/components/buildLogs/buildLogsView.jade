@@ -1,3 +1,7 @@
+.span(
+  ng-if = "BLC.buildLogs.length === 0 && BLC.buildLogsRunning"
+) Fetching build logs...
+
 .pre.build-log.js-animate(
   ng-class = "{\
     'build-log-toggle' : command.content.length,\
