@@ -18,11 +18,15 @@ function BuildLogsController(
   function handleUpdate (instance) {
     var status = instance.status();
     if (status === 'buildFailed') {
+      BLC.buildStatus = 'failed';
       BLC.showDebug = true;
       BLC.buildLogsRunning = false;
     } else if (status === 'building') {
+      BLC.buildStatus = 'running';
       BLC.buildLogsRunning = true;
       BLC.showDebug = false;
+    } else {
+      BLC.buildStatus = 'success';
     }
   }
 
