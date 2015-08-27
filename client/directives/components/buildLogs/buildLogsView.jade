@@ -59,3 +59,16 @@
     .spinner-character /
     .spinner-character -
     .spinner-character \
+
+//- initial output
+.pre.build-log(
+  ng-init = "build.success = true"
+  ng-class = "{\
+    'green': build.success,\
+    'red': !build.success\
+  }"
+  ng-click = "build.success = !build.success"
+  ng-if = "!BLC.buildLogsRunning"
+)
+  .build-log-header
+    .build-log-header-text Build {{build.success ? 'Successful' : 'Failed'}}

@@ -28,6 +28,7 @@
       -2px -2px 0 $purple-light;
   }
 
+  // start state
   &:first-child > .build-log-header {
     color: $orange;
   }
@@ -234,6 +235,17 @@
   .build-log {
     background: #372345; // rgba($white,.03) on $ace-bg
     border-color: $purple-darkest;
+
+    // success state
+    &.green {
+      background: $green;
+    }
+
+    // fail state
+    &.red {
+      background: $red;
+      color: $white;
+    }
 
     // error
     &.error {
