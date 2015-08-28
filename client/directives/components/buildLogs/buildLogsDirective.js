@@ -2,7 +2,6 @@
 
 require('app').directive('buildLogs', buildLogs);
 function buildLogs(
-  $rootScope,
   $timeout,
   debounce
 ) {
@@ -97,9 +96,7 @@ function buildLogs(
           } else {
             commandContainer.css('height', null);
           }
-
           command.expanded = !command.expanded;
-
         }
       };
 
