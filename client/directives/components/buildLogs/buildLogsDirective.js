@@ -104,20 +104,19 @@ function buildLogs(
       };
 
       $scope.calculateHeaderStyle = function (command) {
-        var fixedWidth = command.expanded && command.fixed;
-        var toggleFlags = $rootScope.featureFlags.fullScreenToggle || $rootScope.featureFlags.themeToggle; // if feature flags that changes width
-
-        if (fixedWidth && toggleFlags) {
-          // set width if header is fixed and shifting feature flags are active
-          return {
-            width: 'calc(100% - 591px)'
-          };
-        } else if (fixedWidth) {
-          // set width if header is active and shifting feature flags are off
-          return {
-            width: 'calc(100% - 556px)'
-          };
+        if (!element[0] || !(command.expanded && command.fixed)) {
+           return;
         }
+
+        var style = window.getComputedStyle( element[0], null);
+        var eleWidth = element[0].clientWidth;
+        var eleTop = parseFloat(element[0].getBoundingClientRect().top);
+
+        eleWidth -= parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+        return {
+          width: eleWidth + 'px',
+          top: eleTop + 'px'
+        };
       };
     }
   };

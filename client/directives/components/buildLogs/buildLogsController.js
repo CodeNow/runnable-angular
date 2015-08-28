@@ -55,7 +55,7 @@ function BuildLogsController(
           return;
         }
         console.log('Retry count', count);
-        setupStream();
+        //setupStream();
       }
       $scope.$applyAsync();
     });
