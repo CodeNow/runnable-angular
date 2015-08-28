@@ -3,7 +3,9 @@
 require('app').directive('buildLogs', buildLogs);
 function buildLogs(
   $timeout,
-  debounce
+  debounce,
+  moment,
+  $interval
 ) {
   return {
     restrict: 'A',
@@ -78,6 +80,19 @@ function buildLogs(
         }
       });
 
+      var interval;
+      $scope.$watch('BLC.buildLogsRunning', function (val) {
+        if (interval) {
+          $interval.cancel(interval);
+        }
+
+        if (val) {
+          interval = $interval(function () {
+            $scope.$applyAsync(angular.noop);
+          }, 1000);
+        }
+      });
+
       element.on('scroll', function () {
         scrollHelper(true);
       });
@@ -98,6 +113,43 @@ function buildLogs(
           }
           command.expanded = !command.expanded;
         }
+      };
+
+      $scope.getTimeDifference = function (command, index) {
+        if (!command.time || (index === 0 && !$scope.BLC.buildLogTiming.start)) {
+          return;
+        }
+
+        var date1;
+        if (index === 0) {
+          date1 = moment($scope.BLC.buildLogTiming.start);
+        } else {
+          date1 = moment(command.time);
+        }
+
+        var date2;
+        if ($scope.BLC.buildLogs[index + 1]) {
+          date2 = moment($scope.BLC.buildLogs[index + 1].time);
+        } else {
+          date2 = moment();
+        }
+
+        var hours = date2.diff(date1, 'hours');
+        var minutes = date2.diff(date1, 'minutes') % 60;
+        var seconds = date2.diff(date1, 'seconds') % 60;
+
+        var units = [];
+        if (hours) {
+          units.push(hours + 'h');
+        }
+        if (minutes) {
+          units.push(minutes + 'm');
+        }
+        if (seconds) {
+          units.push(seconds + 's');
+        }
+
+        return units.join(' ');
       };
 
       $scope.calculateHeaderStyle = function (command) {

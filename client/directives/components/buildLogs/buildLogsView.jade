@@ -41,6 +41,10 @@
       ng-if = "command.cached"
     ) Cached
 
+    .build-log-header-state(
+      ng-if = "!command.cached && command.time"
+    ) {{getTimeDifference(command, $index)}}
+
     .btn-group.btn-debug(
       ng-if = "$root.featureFlags.debugMode && BLC.showDebug && !BLC.debugContainer && BLC.buildLogs[$index - 1].imageId && $last"
       ng-include = "'viewDebugButton'"

@@ -3,7 +3,7 @@
 var $controller;
 var $scope;
 
-describe('BuildLogsController'.bold.underline.blue, function () {
+describe.only('BuildLogsController'.bold.underline.blue, function () {
 
   var mockStreamingLog;
   var mockPrimus;
@@ -64,6 +64,7 @@ describe('BuildLogsController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(mockStreamingLogContents.destroy);
     });
     //it('should handle build logs running status', function () {
+    //  mockStream.on.lastCall.args[1]();
     //  expect(BLC.buildLogsRunning).to.be.ok;
     //  mockInstance.status.returns('started');
     //  mockStream.on.lastCall.args[1]();

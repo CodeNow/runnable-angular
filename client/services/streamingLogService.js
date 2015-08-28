@@ -24,6 +24,7 @@ function streamingLog (
 
     var streamLogs = [];
     var currentCommand = null;
+    var streamTimes = {};
     function handleStreamData (data) {
       if (['docker', 'log'].indexOf(data.type) !== -1) {
         var stepRegex = /^Step [0-9]+ : /;
@@ -32,7 +33,8 @@ function streamingLog (
             content: [],
             command: $sce.trustAsHtml(convert.toHtml(data.content.replace(stepRegex, ''))),
             imageId: data.imageId,
-            expanded: true
+            expanded: true,
+            time: new Date(data.timestamp || new Date())
           };
           var previous = streamLogs[streamLogs.length - 1];
           if (previous) {
@@ -55,16 +57,25 @@ function streamingLog (
           }
         }
       }
+
+      if (data.timestamp) {
+        streamTimes.latest = new Date(data.timestamp);
+        if(!streamTimes.start){
+          streamTimes.start = new Date(data.timestamp);
+        }
+      }
       refreshAngular();
     }
 
     stream.on('data', handleStreamData);
     stream.on('end', function () {
+      streamTimes.end = streamTimes.latest;
       stream.off('data', handleStreamData);
     });
 
     return {
       logs: streamLogs,
+      times: streamTimes,
       destroy: function(){
         stream.off('data', handleStreamData);
       }

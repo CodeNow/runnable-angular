@@ -8,12 +8,11 @@ function BuildLogsController(
   primus,
   errs,
   createDebugContainer,
-  $rootScope
+  $rootScope,
+  $timeout
 ) {
   var BLC = this;
   BLC.showDebug = false;
-
-  var count = 0;
 
   function handleUpdate (instance) {
     var status = instance.status();
@@ -30,6 +29,8 @@ function BuildLogsController(
     }
   }
 
+  var failCount = 0;
+
   function setupStream () {
     BLC.streamFailure = false;
     var stream = null;
@@ -38,7 +39,6 @@ function BuildLogsController(
       stream.on('data', function () {
         stream.hasData = true;
       });
-      BLC.streamStart = new Date();
       handleUpdate(BLC.instance);
       BLC.instance.on('update', handleUpdate);
       $scope.$on('$destroy', function () {
@@ -49,22 +49,19 @@ function BuildLogsController(
     }
 
     stream.on('end', function () {
-      if (BLC.instance.status() === 'building' && stream.hasData) {
-        count++;
-        console.log('Stream ended prematurely.', new Date() - BLC.streamStart, new Date());
-        if (count > 10) {
-          console.log('Max retries reached.');
-          return;
+      if (!stream.hasData) {
+        failCount++;
+        if (failCount > 15) {
+          BLC.streamFailure = true;
+          BLC.buildLogsRunning = false;
         }
-        setupStream();
-      } else if (!stream.hasData) {
-        BLC.streamFailure = true;
-        BLC.buildLogsRunning = false;
+        $timeout(function () {
+          setupStream();
+        }, 2000);
       }
       $scope.$applyAsync();
     });
     stream.on('disconnection', function () {
-      console.log('Stream disconnected.', new Date() - BLC.streamStart, new Date());
       setupStream();
       $scope.$applyAsync();
     });
@@ -73,15 +70,12 @@ function BuildLogsController(
       streamingBuildLogs.destroy();
     });
     BLC.buildLogs = streamingBuildLogs.logs;
+    BLC.buildLogTiming = streamingBuildLogs.times;
   }
 
   setupStream();
 
-
-
   this.generatingDebug = false;
-
-
   this.actions = {
     launchDebugContainer: function (event, command) {
       if (BLC.debugContainer) {
