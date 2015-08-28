@@ -130,6 +130,8 @@ function buildLogs(
         var date2;
         if ($scope.BLC.buildLogs[index + 1]) {
           date2 = moment($scope.BLC.buildLogs[index + 1].time);
+        } else if ($scope.BLC.buildLogTiming.end) {
+          date2 = moment($scope.BLC.buildLogTiming.end);
         } else {
           date2 = moment();
         }
