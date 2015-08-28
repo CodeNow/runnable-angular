@@ -49,15 +49,13 @@ function BuildLogsController(
     }
 
     stream.on('end', function () {
-      console.log('Stream ended.', new Date() - BLC.streamStart, new Date());
-      console.log(BLC.instance.status());
       if (BLC.instance.status() === 'building' && stream.hasData) {
         count++;
+        console.log('Stream ended prematurely.', new Date() - BLC.streamStart, new Date());
         if (count > 10) {
           console.log('Max retries reached.');
           return;
         }
-        console.log('Retry count', count);
         setupStream();
       } else if (!stream.hasData) {
         BLC.streamFailure = true;
