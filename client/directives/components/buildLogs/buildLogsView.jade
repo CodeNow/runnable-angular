@@ -6,7 +6,7 @@
   }"
 )
   .build-log-header
-    .build-log-header-text Starting Build
+    .build-log-header-text {{BLC.streamFailure ? 'Unable to get build logs.' : 'Starting Build'}}
   .build-log-content.building(
     ng-if = "BLC.buildLogs.length === 0 && BLC.buildLogsRunning"
   )

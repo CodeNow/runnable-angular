@@ -31,10 +31,13 @@ function BuildLogsController(
   }
 
   function setupStream () {
-    console.log('Stream start', new Date());
+    BLC.streamFailure = false;
     var stream = null;
     if (BLC.instance) {
       stream = primus.createBuildStream(BLC.instance.build);
+      stream.on('data', function () {
+        stream.hasData = true;
+      });
       BLC.streamStart = new Date();
       handleUpdate(BLC.instance);
       BLC.instance.on('update', handleUpdate);
@@ -48,14 +51,17 @@ function BuildLogsController(
     stream.on('end', function () {
       console.log('Stream ended.', new Date() - BLC.streamStart, new Date());
       console.log(BLC.instance.status());
-      if (BLC.instance.status() === 'building') {
+      if (BLC.instance.status() === 'building' && stream.hasData) {
         count++;
-        if (count > 5) {
+        if (count > 10) {
           console.log('Max retries reached.');
           return;
         }
         console.log('Retry count', count);
-        //setupStream();
+        setupStream();
+      } else if (!stream.hasData) {
+        BLC.streamFailure = true;
+        BLC.buildLogsRunning = false;
       }
       $scope.$applyAsync();
     });
