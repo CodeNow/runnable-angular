@@ -50,7 +50,7 @@
       ng-include = "'viewDebugButton'"
     )
 
-  .build-log-content.js-animate(
+  .build-log-content(
     ng-bind-html = "command.trustedContent"
     ng-class = "{'building': BLC.buildLogsRunning && command.expanded}"
     ng-if = "(command.expanded && command.content.length) || (BLC.buildLogsRunning && $last)"
@@ -70,12 +70,7 @@
     'green': BLC.buildStatus === 'success',\
     'red': BLC.buildStatus === 'failed'\
   }"
-  ng-if = "!BLC.buildLogsRunning"
+  ng-if = "!BLC.buildLogsRunning && getBuildMessage().length"
 )
   .build-log-header
-    .build-log-header-text(
-      ng-if = "getBuildTotalTime()"
-    ) Build {{BLC.buildStatus === 'success' ? 'finished successfully' : 'failed'}} after {{getBuildTotalTime()}}
-    .build-log-header-text(
-      ng-if = "!getBuildTotalTime()"
-    ) Build {{BLC.buildStatus === 'success' ? 'finished successfully' : 'Failed'}}
+    .build-log-header-text {{getBuildMessage()}}

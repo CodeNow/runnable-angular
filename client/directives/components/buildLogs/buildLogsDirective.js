@@ -99,20 +99,8 @@ function buildLogs(
 
       $scope.actions = {
         toggleCommand: function (event, command) {
-          if ($scope.BLC.buildLogs.indexOf(command) === ($scope.BLC.buildLogs.length - 1) && $scope.BLC.buildLogsRunning) {
+          if (!command.content.length || ($scope.BLC.buildLogs.indexOf(command) === ($scope.BLC.buildLogs.length - 1) && $scope.BLC.buildLogsRunning)) {
             return;
-          }
-          var commandContainer = angular.element(event.currentTarget).next();
-          if (!command.content.length) {
-            return;
-          }
-          if (command.expanded) {
-            commandContainer.css('height', commandContainer[0].offsetHeight + 'px');
-            $timeout(function () {
-              commandContainer.css('height', 0);
-            });
-          } else {
-            commandContainer.css('height', null);
           }
           command.expanded = !command.expanded;
         }
@@ -138,12 +126,6 @@ function buildLogs(
 
         return units.join(' ');
       }
-
-      $scope.getBuildTotalTime = function () {
-        if ($scope.BLC.buildLogTiming.start && $scope.BLC.buildLogTiming.end){
-          return getTimeDiff($scope.BLC.buildLogTiming.end, $scope.BLC.buildLogTiming.start);
-        }
-      };
 
       $scope.getCommandDuration = function (command, index) {
         if (!command.time || (index === 0 && !$scope.BLC.buildLogTiming.start)) {
@@ -183,6 +165,27 @@ function buildLogs(
           width: eleWidth + 'px',
           top: eleTop + 'px'
         };
+      };
+
+      $scope.getBuildMessage = function () {
+
+        var totalBuildTime;
+        if ($scope.BLC.buildLogTiming.start && $scope.BLC.buildLogTiming.end){
+          console.log('Has start and end!');
+          console.log($scope.BLC.buildLogTiming.end, $scope.BLC.buildLogTiming.start);
+          totalBuildTime = getTimeDiff($scope.BLC.buildLogTiming.end, $scope.BLC.buildLogTiming.start);
+        }
+        console.log($scope.BLC.buildLogTiming);
+        var buildMessage = '';
+        if ($scope.BLC.buildStatus === 'failed') {
+          buildMessage += 'Build failed';
+        } else if ($scope.BLC.buildStatus === 'success') {
+          buildMessage += 'Build finished successfully';
+        }
+        if (totalBuildTime) {
+          buildMessage += ' after ' + totalBuildTime;
+        }
+        return buildMessage;
       };
     }
   };
