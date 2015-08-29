@@ -14,8 +14,8 @@ function BuildLogsController(
   var BLC = this;
   BLC.showDebug = false;
 
-  function handleUpdate (instance) {
-    var status = instance.status();
+  function handleUpdate () {
+    var status = BLC.instance.status();
     if (status === 'buildFailed') {
       BLC.buildStatus = 'failed';
       BLC.showDebug = true;
@@ -26,6 +26,7 @@ function BuildLogsController(
       BLC.showDebug = false;
     } else {
       BLC.buildStatus = 'success';
+      BLC.buildLogsRunning = false;
     }
   }
 
@@ -39,7 +40,7 @@ function BuildLogsController(
       stream.on('data', function () {
         stream.hasData = true;
       });
-      handleUpdate(BLC.instance);
+      handleUpdate();
       BLC.instance.on('update', handleUpdate);
       $scope.$on('$destroy', function () {
         BLC.instance.off('update', handleUpdate);
@@ -54,10 +55,11 @@ function BuildLogsController(
         if (failCount > 15) {
           BLC.streamFailure = true;
           BLC.buildLogsRunning = false;
+        } else {
+          $timeout(function () {
+            setupStream();
+          }, 2000);
         }
-        $timeout(function () {
-          setupStream();
-        }, 2000);
       } else {
         BLC.buildLogsRunning = false;
       }
@@ -100,9 +102,8 @@ function BuildLogsController(
       BLC.generatingDebug = true;
       createDebugContainer(BLC.instance.id(), BLC.instance.attrs.contextVersion._id, command.imageId)
         .then(function (debugContainer) {
-          command.generatingDebug = false;
+          BLC.generatingDebug = false;
           if (newWindow) {
-            newWindow.window.container = debugContainer;
             newWindow.location = '/debug/'+debugContainer.id();
           }
         })
