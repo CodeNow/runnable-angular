@@ -173,7 +173,7 @@ function buildLogs(
         var eleWidth = element[0].clientWidth;
         var eleTop = parseFloat(element[0].getBoundingClientRect().top);
 
-        eleWidth -= parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+        eleWidth -= parseFloat(style.paddingLeft) + parseFloat(style.paddingRight) + 2;
         return {
           width: eleWidth + 'px',
           top: eleTop + 'px'
