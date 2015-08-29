@@ -6,7 +6,7 @@ var $q;
 var $timeout;
 var EventEmitter = require('events').EventEmitter;
 
-describe.only('BuildLogsController'.bold.underline.blue, function () {
+describe('BuildLogsController'.bold.underline.blue, function () {
 
   var mockStreamingLog;
   var mockPrimus;
