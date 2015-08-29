@@ -103,7 +103,7 @@ function buildLogs(
             return;
           }
           var commandContainer = angular.element(event.currentTarget).next();
-          if (!commandContainer) {
+          if (!command.content.length) {
             return;
           }
           if (command.expanded) {
