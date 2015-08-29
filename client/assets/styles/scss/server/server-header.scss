@@ -7,6 +7,10 @@
   position: absolute;
   top: 0;
   width: 100%;
+
+  &.server-header-debug {
+    position: relative;
+  }
 }
 
 // h1.server-info
