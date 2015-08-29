@@ -20,8 +20,8 @@
 
 .pre.build-log.js-animate(
   ng-class = "{\
-    'build-log-toggle' : command.content.length,\
-    'in': command.content.length > 0 && command.expanded\
+    'build-log-toggle': command.content.length || (BLC.buildLogsRunning && $last),\
+    'in': (command.content.length > 0 && command.expanded) || (BLC.buildLogsRunning && $last)\
   }"
   ng-repeat = "command in BLC.buildLogs"
 )
