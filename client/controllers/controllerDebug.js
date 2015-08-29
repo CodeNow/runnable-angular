@@ -11,8 +11,11 @@ function ControllerDebug(
   errs,
   $scope,
   OpenItems,
-  featureFlags
+  featureFlags,
+  $q,
+  keypather
 ) {
+  var CD = this;
   this.openItems = new OpenItems();
   this.openItems.addTerminal();
   this.openItems.addBuildStream();
@@ -46,4 +49,26 @@ function ControllerDebug(
 
   this.instance = instance;
   this.debugContainer = debugContainer;
+
+  this.saving = false;
+  this.canSave = function () {
+    return !!CD.openItems.models.find(function (model) {
+      return model.state.isDirty;
+    });
+  };
+  this.saveChanges = function () {
+    CD.saving = true;
+
+    var updateModelPromises = CD.openItems.models.filter(function (model) {
+      return (typeof keypather.get(model, 'actions.saveChanges') === 'function');
+    }).map(function (model) {
+      return model.actions.saveChanges();
+    });
+
+    $q.all(updateModelPromises)
+      .catch(errs.handler)
+      .finally(function () {
+        CD.saving = false;
+      });
+  };
 }

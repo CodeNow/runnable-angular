@@ -43,16 +43,31 @@ function streamingLog (
           streamLogs.push(currentCommand);
         } else if (currentCommand) {
 
-          if (/^\s---> Using cache/.test(data.content)){
-            currentCommand.cached = true;
-          } else if ($rootScope.featureFlags.debugMode && /^\s---> Running in [a-z0-9]{12}/.test(data.content)) {
-            // DO nothing.
-          } else if ($rootScope.featureFlags.debugMode && /^\s---> ?[a-z0-9]{12}/.test(data.content)) {
-            currentCommand.imageId = /^\s---> (Running in )?([a-z0-9]{12})/.exec(data.content)[2];
-          } else {
-            currentCommand.content.push(data.content);
-            if (unprocessed.indexOf(currentCommand)) {
-              unprocessed.push(currentCommand);
+
+          var ignoreRegex = [
+            /^Runnable: Build completed successfully!/,
+            /^\s---> Running in [a-z0-9]{12}/,
+            /^Successfully built [a-z0-9]{12}/
+          ];
+
+          var ignore = false;
+
+          ignoreRegex.forEach(function (regex) {
+            if (regex.test(data.content)){
+              ignore = true;
+            }
+          });
+
+          if (!ignore) {
+            if (/^\s---> Using cache/.test(data.content)){
+              currentCommand.cached = true;
+            } else if ($rootScope.featureFlags.debugMode && /^\s---> ?[a-z0-9]{12}/.test(data.content)) {
+              currentCommand.imageId = /^\s---> (Running in )?([a-z0-9]{12})/.exec(data.content)[2];
+            } else {
+              currentCommand.content.push(data.content);
+              if (unprocessed.indexOf(currentCommand)) {
+                unprocessed.push(currentCommand);
+              }
             }
           }
         }
