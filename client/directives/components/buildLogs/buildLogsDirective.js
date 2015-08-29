@@ -163,7 +163,7 @@ function buildLogs(
         } else if ($scope.BLC.buildLogTiming.end) {
           date2 = $scope.BLC.buildLogTiming.end;
         } else {
-          return '';
+          date2 = new Date();
         }
         return getTimeDiff(date2, date1);
 
