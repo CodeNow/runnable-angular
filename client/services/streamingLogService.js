@@ -84,7 +84,6 @@ function streamingLog (
 
     stream.on('data', handleStreamData);
     stream.on('end', function () {
-      console.log('END:', streamTimes.latest);
       streamTimes.end = streamTimes.latest;
       stream.off('data', handleStreamData);
     });

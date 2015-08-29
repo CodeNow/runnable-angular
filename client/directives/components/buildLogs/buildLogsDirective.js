@@ -171,11 +171,8 @@ function buildLogs(
 
         var totalBuildTime;
         if ($scope.BLC.buildLogTiming.start && $scope.BLC.buildLogTiming.end){
-          console.log('Has start and end!');
-          console.log($scope.BLC.buildLogTiming.end, $scope.BLC.buildLogTiming.start);
           totalBuildTime = getTimeDiff($scope.BLC.buildLogTiming.end, $scope.BLC.buildLogTiming.start);
         }
-        console.log($scope.BLC.buildLogTiming);
         var buildMessage = '';
         if ($scope.BLC.buildStatus === 'failed') {
           buildMessage += 'Build failed';
