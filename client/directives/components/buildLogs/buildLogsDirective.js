@@ -5,7 +5,8 @@ function buildLogs(
   $timeout,
   debounce,
   moment,
-  $interval
+  $interval,
+  keypather
 ) {
   return {
     restrict: 'A',
@@ -68,16 +69,15 @@ function buildLogs(
         $scope.$applyAsync();
       }, 10);
 
-      var unbindContentWatch = angular.noop;
-      $scope.$watch('BLC.buildLogs.length', function () {
+
+      $scope.$watch(function() {
+        return {
+          buildLogs: $scope.BLC.buildLogs.length,
+          childLogs: keypather.get($scope.BLC.buildLogs[$scope.BLC.buildLogs.length-1], 'content.length')
+        };
+      }, function () {
         scrollHelper();
-        if ($scope.BLC.buildLogs.length) {
-          unbindContentWatch();
-          unbindContentWatch = $scope.$watch('BLC.buildLogs[' + ($scope.BLC.buildLogs.length-1) + '].content.length', function () {
-            scrollHelper();
-            $timeout(scrollHelper, 100);
-          });
-        }
+        $timeout(scrollHelper, 100);
       });
 
       var interval;

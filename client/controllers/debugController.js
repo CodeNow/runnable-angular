@@ -1,10 +1,10 @@
 'use strict';
 
 require('app')
-  .controller('ControllerDebug', ControllerDebug);
+  .controller('DebugController', DebugController);
 
 
-function ControllerDebug(
+function DebugController(
   $rootScope,
   debugContainer,
   instance,
@@ -15,7 +15,7 @@ function ControllerDebug(
   $q,
   keypather
 ) {
-  var CD = this;
+  var DC = this;
   this.openItems = new OpenItems();
   this.openItems.addTerminal();
   this.openItems.addBuildStream();
@@ -52,14 +52,14 @@ function ControllerDebug(
 
   this.saving = false;
   this.canSave = function () {
-    return !!CD.openItems.models.find(function (model) {
+    return !!DC.openItems.models.find(function (model) {
       return model.state.isDirty;
     });
   };
   this.saveChanges = function () {
-    CD.saving = true;
+    DC.saving = true;
 
-    var updateModelPromises = CD.openItems.models.filter(function (model) {
+    var updateModelPromises = DC.openItems.models.filter(function (model) {
       return (typeof keypather.get(model, 'actions.saveChanges') === 'function');
     }).map(function (model) {
       return model.actions.saveChanges();
@@ -68,7 +68,7 @@ function ControllerDebug(
     $q.all(updateModelPromises)
       .catch(errs.handler)
       .finally(function () {
-        CD.saving = false;
+        DC.saving = false;
       });
   };
 }

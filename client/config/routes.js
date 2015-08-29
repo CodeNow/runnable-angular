@@ -7,9 +7,9 @@ module.exports = [
   }, {
     state: 'debug',
     url: '^/debug/:containerId/',
-    templateUrl: 'viewDebug',
-    controller: 'ControllerDebug',
-    controllerAs: 'CD',
+    templateUrl: 'debugView',
+    controller: 'DebugController',
+    controllerAs: 'DC',
     resolve: {
       debugContainer: function(fetchDebugContainer, $stateParams){
         return fetchDebugContainer($stateParams.containerId);
