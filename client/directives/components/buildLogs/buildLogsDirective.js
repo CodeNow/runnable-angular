@@ -103,6 +103,9 @@ function buildLogs(
             return;
           }
           var commandContainer = angular.element(event.currentTarget).next();
+          if (!commandContainer) {
+            return;
+          }
           if (command.expanded) {
             commandContainer.css('height', commandContainer[0].offsetHeight + 'px');
             $timeout(function () {
@@ -116,6 +119,8 @@ function buildLogs(
       };
 
       function getTimeDiff(start, end){
+        start = moment(start);
+        end = moment(end);
         var hours = start.diff(end, 'hours');
         var minutes = start.diff(end, 'minutes') % 60;
         var seconds = start.diff(end, 'seconds') % 60;
@@ -147,16 +152,16 @@ function buildLogs(
 
         var date1;
         if (index === 0) {
-          date1 = moment($scope.BLC.buildLogTiming.start);
+          date1 = $scope.BLC.buildLogTiming.start;
         } else {
-          date1 = moment(command.time);
+          date1 = command.time;
         }
 
         var date2;
         if ($scope.BLC.buildLogs[index + 1]) {
-          date2 = moment($scope.BLC.buildLogs[index + 1].time);
+          date2 = $scope.BLC.buildLogs[index + 1].time;
         } else if ($scope.BLC.buildLogTiming.end) {
-          date2 = moment($scope.BLC.buildLogTiming.end);
+          date2 = $scope.BLC.buildLogTiming.end;
         } else {
           return '';
         }
