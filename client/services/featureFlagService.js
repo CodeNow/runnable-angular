@@ -45,7 +45,10 @@ function featureFlags(
 
   return {
     reset: function () {
-      return defaultFeatureFlags;
+      Object.keys(defaultFeatureFlags).forEach(function (key) {
+        _featureFlags[key] = defaultFeatureFlags[key];
+      });
+      return _featureFlags;
     },
     flags: _featureFlags
   };
