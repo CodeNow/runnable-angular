@@ -178,6 +178,8 @@ function buildLogs(
           buildMessage += 'Build failed';
         } else if ($scope.BLC.buildStatus === 'success') {
           buildMessage += 'Build finished successfully';
+        } else {
+          return;
         }
         if (totalBuildTime) {
           buildMessage += ' after ' + totalBuildTime;
