@@ -78,7 +78,7 @@ function buildLogs(
       }, function () {
         scrollHelper();
         $timeout(scrollHelper, 100);
-      });
+      }, true);
 
       var interval;
       $scope.$watch('BLC.buildLogsRunning', function (val) {
