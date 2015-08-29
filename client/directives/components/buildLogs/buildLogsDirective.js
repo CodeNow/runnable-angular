@@ -118,12 +118,12 @@ function buildLogs(
         }
       };
 
-      function getTimeDiff(start, end){
-        start = moment(start);
+      function getTimeDiff(end, start){
         end = moment(end);
-        var hours = start.diff(end, 'hours');
-        var minutes = start.diff(end, 'minutes') % 60;
-        var seconds = start.diff(end, 'seconds') % 60;
+        start = moment(start);
+        var hours = end.diff(start, 'hours');
+        var minutes = end.diff(start, 'minutes') % 60;
+        var seconds = end.diff(start, 'seconds') % 60;
 
         var units = [];
         if (hours) {
@@ -141,7 +141,7 @@ function buildLogs(
 
       $scope.getBuildTotalTime = function () {
         if ($scope.BLC.buildLogTiming.start && $scope.BLC.buildLogTiming.end){
-          return getTimeDiff($scope.BLC.buildLogTiming.start, $scope.BLC.buildLogTiming.end);
+          return getTimeDiff($scope.BLC.buildLogTiming.end, $scope.BLC.buildLogTiming.start);
         }
       };
 
