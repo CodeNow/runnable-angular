@@ -3,7 +3,7 @@
 var $controller;
 var $scope;
 
-describe.only('BuildLogsController'.bold.underline.blue, function () {
+describe('BuildLogsController'.bold.underline.blue, function () {
 
   var mockStreamingLog;
   var mockPrimus;
