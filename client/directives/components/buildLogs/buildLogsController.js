@@ -58,6 +58,8 @@ function BuildLogsController(
         $timeout(function () {
           setupStream();
         }, 2000);
+      } else {
+        BLC.buildLogsRunning = false;
       }
       $scope.$applyAsync();
     });

@@ -158,7 +158,7 @@ function buildLogs(
         } else if ($scope.BLC.buildLogTiming.end) {
           date2 = moment($scope.BLC.buildLogTiming.end);
         } else {
-          date2 = moment();
+          return '';
         }
         return getTimeDiff(date2, date1);
 
