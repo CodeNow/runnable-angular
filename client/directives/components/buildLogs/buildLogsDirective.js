@@ -115,7 +115,32 @@ function buildLogs(
         }
       };
 
-      $scope.getTimeDifference = function (command, index) {
+      function getTimeDiff(start, end){
+        var hours = start.diff(end, 'hours');
+        var minutes = start.diff(end, 'minutes') % 60;
+        var seconds = start.diff(end, 'seconds') % 60;
+
+        var units = [];
+        if (hours) {
+          units.push(hours + 'h');
+        }
+        if (minutes) {
+          units.push(minutes + 'm');
+        }
+        if (seconds) {
+          units.push(seconds + 's');
+        }
+
+        return units.join(' ');
+      }
+
+      $scope.getBuildTotalTime = function () {
+        if ($scope.BLC.buildLogTiming.start && $scope.BLC.buildLogTiming.end){
+          return getTimeDiff($scope.BLC.buildLogTiming.start, $scope.BLC.buildLogTiming.end);
+        }
+      };
+
+      $scope.getCommandDuration = function (command, index) {
         if (!command.time || (index === 0 && !$scope.BLC.buildLogTiming.start)) {
           return;
         }
@@ -135,23 +160,8 @@ function buildLogs(
         } else {
           date2 = moment();
         }
+        return getTimeDiff(date2, date1);
 
-        var hours = date2.diff(date1, 'hours');
-        var minutes = date2.diff(date1, 'minutes') % 60;
-        var seconds = date2.diff(date1, 'seconds') % 60;
-
-        var units = [];
-        if (hours) {
-          units.push(hours + 'h');
-        }
-        if (minutes) {
-          units.push(minutes + 'm');
-        }
-        if (seconds) {
-          units.push(seconds + 's');
-        }
-
-        return units.join(' ');
       };
 
       $scope.calculateHeaderStyle = function (command) {

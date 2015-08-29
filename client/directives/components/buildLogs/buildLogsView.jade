@@ -43,7 +43,7 @@
 
     .build-log-header-state(
       ng-if = "!command.cached && command.time"
-    ) {{getTimeDifference(command, $index)}}
+    ) {{getCommandDuration(command, $index)}}
 
     .btn-group.btn-debug(
       ng-if = "$root.featureFlags.debugMode && BLC.showDebug && !BLC.debugContainer && BLC.buildLogs[$index - 1].imageId && $last"
@@ -73,4 +73,9 @@
   ng-if = "!BLC.buildLogsRunning"
 )
   .build-log-header
-    .build-log-header-text Build {{BLC.buildStatus === 'success' ? 'Successful' : 'Failed'}}
+    .build-log-header-text(
+      ng-if = "getBuildTotalTime()"
+    ) Build {{BLC.buildStatus === 'success' ? 'finished successfully' : 'failed'}} after {{getBuildTotalTime()}}
+    .build-log-header-text(
+      ng-if = "!getBuildTotalTime()"
+    ) Build {{BLC.buildStatus === 'success' ? 'finished successfully' : 'Failed'}}
