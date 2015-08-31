@@ -4,14 +4,12 @@ require('app')
   .factory('promisify', promisify);
 
 function promisify($exceptionHandler, $q) {
-  return function promisify(model, fn, skipCache) {
-    if (!model[fn]) {
-      var modelName = /^function\s+([\w\$]+)\s*\(/.exec( model.toString() );
-      if (modelName) {
-        throw new Error('Attempted to call function ' + fn + ' of model ' + modelName[1] + ' that doesn\'t exist');
-      } else {
-        throw new Error('Attempted to call function ' + fn + ' on a non-model');
-      }
+  return function promisify(modelOrCollection, fn, skipCache) {
+    if (!modelOrCollection[fn]) {
+      // This may provide false positives, but we're only using it for debugging
+      // so let's just leave it as is
+      var constructorName = /^function\s+([\w\$]+)\s*\(/.exec( modelOrCollection.constructor.toString() );
+      throw new Error('Attempted to call function ' + fn + ' with constructor  ' + constructorName[1] + ' that doesn\'t exist');
     }
     if (fn.toLowerCase().indexOf('fetch') < 0) {
       skipCache = true;
@@ -20,6 +18,7 @@ function promisify($exceptionHandler, $q) {
       var d = $q.defer();
       var args = [].slice.call(arguments);
       var returnedVal;
+      // Append a callback function to the arguments
       args.push(function (err) {
         if (err) {
           d.reject(err);
@@ -28,12 +27,14 @@ function promisify($exceptionHandler, $q) {
             return d.resolve(returnedVal);
           }
           // It's a fetch/build/etc
-          d.resolve(model);
+          d.resolve(modelOrCollection);
         }
       });
       try {
-        // Check returnedVal.attrs
-        returnedVal = model[fn].apply(model, args);
+        // Execute the method given and store the returned value
+        returnedVal = modelOrCollection[fn].apply(modelOrCollection, args);
+        // Check that `returnedVal` to see if `modelOrCollection` is a collection
+        // with more than 1 model (stored in cached). If it is, the return it because the cache is valid
         var validCache = returnedVal &&
             ((returnedVal.attrs && Object.keys(returnedVal.attrs).length > 2) ||
             (returnedVal.models && returnedVal.models.length));

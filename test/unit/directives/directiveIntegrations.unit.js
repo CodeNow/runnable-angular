@@ -24,18 +24,15 @@ var mockSlack = [{
 var mockGithub = ['jeb'];
 
 describe('directiveIntegrations', function () {
-  var ctx;
+  var errs, promise, _$q, vciSpy;
   function injectSetupCompile (mockSettings) {
-    ctx = {};
-    ctx.verifyChatIntegration = function ($q) {
-      // Need to do this dance so we can access the spy on ctx
-      ctx.vciSpy = sinon.spy(function () {
-        return $q.when({
-          github: mockGithub,
-          slack: mockSlack
-        });
-      });
-      return ctx.vciSpy;
+    var errsFactory = function () {
+      errs = {
+        handler: sinon.spy(function (err) {
+          return;
+        })
+      };
+      return errs;
     };
     angular.mock.module('app', function ($provide) {
       $provide.factory('fetchSettings', function ($q) {
@@ -43,7 +40,19 @@ describe('directiveIntegrations', function () {
           return $q.when(mockSettings);
         };
       });
-      $provide.factory('verifyChatIntegration', ctx.verifyChatIntegration);
+      $provide.factory('verifyChatIntegration', function ($q) {
+        // Need to do this dance so we can access the spy
+        promise = $q.when({
+          github: mockGithub,
+          slack: mockSlack
+        });
+        _$q = $q;
+        vciSpy = sinon.spy(function () {
+          return promise;
+        });
+        return vciSpy;
+      });
+      $provide.factory('errs', errsFactory);
     });
     angular.mock.inject(function (
       _$compile_,
@@ -56,12 +65,10 @@ describe('directiveIntegrations', function () {
       $scope = _$rootScope_.$new();
     });
 
-    ctx.template = directiveTemplate.attribute('modal-integrations');
-
-    ctx.element = angular.element(ctx.template);
-    ctx.element = $compile(ctx.element)($scope);
+    var template = directiveTemplate.attribute('modal-integrations');
+    var element = $compile(angular.element(template))($scope);
     $scope.$digest();
-    $elScope = ctx.element.scope();
+    $elScope = element.scope();
   }
 
   it('should not do much without settings', function () {
@@ -94,13 +101,13 @@ describe('directiveIntegrations', function () {
       expect($elScope.data.verified).to.be.true;
       expect($elScope.data.slackMembers).to.deep.equal(mockSlack);
       expect($elScope.data.ghMembers).to.deep.equal(mockGithub);
-      sinon.assert.called(ctx.vciSpy);
+      sinon.assert.called(vciSpy);
     });
 
     it('should call fetchChatMemberData on verify click', function () {
       $elScope.actions.verifySlack();
       $rootScope.$apply();
-      sinon.assert.called(ctx.vciSpy);
+      sinon.assert.called(vciSpy);
     });
 
     it('should send correctly-formatted data on save', function () {
@@ -121,6 +128,45 @@ describe('directiveIntegrations', function () {
         }
       });
     });
+    it('should correctly map the GitHub username to the Slack username', function () {
+      $elScope.data.slackMembers = [
+        {
+          ghName: 'thejsj',
+          found: false,
+          slackOn: true,
+          id: 1
+        }
+      ];
+      $elScope.actions.saveSlack();
+      $rootScope.$apply();
+      $scope.$digest();
+      sinon.assert.calledWith(settings.update, {
+        json: {
+          notifications: {
+            slack: {
+              apiToken: "runnable123",
+              enabled: undefined,
+              githubUsernameToSlackIdMap: {
+                thejsj: 1
+              }
+            }
+          }
+        }
+      });
+    });
   });
 
+  describe('error handling', function () {
+
+    before(function () {
+      promise = _$q.reject(new Error('Testing erorr handling'));
+    });
+
+    it('should handle errors correctly', function () {
+      promise = $elScope.actions.verifySlack();
+      $rootScope.$apply();
+      $scope.$digest();
+      expect(errs.handler.calledOnce).to.be.true;
+    });
+  });
 });

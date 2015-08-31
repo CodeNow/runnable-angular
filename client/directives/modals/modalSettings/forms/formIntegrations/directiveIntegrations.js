@@ -8,7 +8,8 @@ function integrations(
   fetchSettings,
   verifyChatIntegration,
   promisify,
-  errs
+  errs,
+  $q
 ) {
   return {
     restrict: 'A',
@@ -21,21 +22,31 @@ function integrations(
       data.showSlack = true;
       data.settings = {};
       data.slackMembers = {};
+      data.verifiedOnInit = false;
       data.verified = false;
+      data.invalidApiToken = false;
 
       function fetchChatMemberData() {
+        data.invalidApiToken = false;
         return verifyChatIntegration(data.settings, 'slack')
           .then(function (members) {
             data.slackMembers = members.slack;
             data.ghMembers = members.github;
             data.verified = true;
+            data.invalidApiToken = false;
+          })
+          .catch(function (err) {
+            data.invalidApiToken = true;
+            data.verified = false;
+            data.slackMembers = {};
+            data.ghMembers = {};
+            return $q.reject(err);
           });
       }
 
       fetchSettings()
         .then(function (settings) {
           data.settings = settings;
-
           if (keypather.get(data, 'settings.attrs.notifications.slack.apiToken') &&
               keypather.get(data, 'settings.attrs.notifications.slack.githubUsernameToSlackIdMap')) {
             data.showSlack = true;
@@ -46,6 +57,7 @@ function integrations(
         .catch(errs.handler)
         .finally(function () {
           data.loading = false;
+          data.verifiedOnInit = true;
         });
 
       actions.verifySlack = function () {
