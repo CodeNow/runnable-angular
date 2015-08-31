@@ -52,11 +52,14 @@
   border-bottom: 1px solid $gray-lighter;
   overflow: hidden;
   padding: 0 12px;
-}
 
-// file tree in explorer section
-.explorer-section .file-tree {
-  margin: 0;
+  &.explorer-section {
+    padding-bottom: 12px;
+
+    .file-tree {
+      margin: 0;
+    }
+  }
 }
 
 .sidebar-section-heading {

@@ -102,8 +102,14 @@
   line-height: 72px;
   padding-left: 9px;
 
+  // override default font-size
+  .btn {
+    font-size: 16px;
+  }
+
   .icons-status {
     margin-right: 9px;
+    top: -2px;
   }
 
   // offset for vertical-align: middle
