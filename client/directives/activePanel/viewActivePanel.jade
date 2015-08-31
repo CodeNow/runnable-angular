@@ -9,15 +9,11 @@
 //- toolbar
 .views-toolbar-wrapper(
   ng-class = "{\
-    'toolbar-lg': (showBuildFailurePrompt() || shouldShowUpdateConfigsPrompt) && $root.featureFlags.saveToolbar,\
+    'toolbar-lg': $root.featureFlags.saveToolbar && $root.featureFlags.debugStartCmd,\
     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
-  ng-if = "\
-    showBuildFailurePrompt() || \
-    shouldShowUpdateConfigsPrompt || \
-    $root.featureFlags.saveToolbar\
-  "
+  ng-if = "$root.featureFlags.saveToolbar || $root.featureFlags.debugStartCmd"
   ng-include = "'viewToolbar'"
 )
 
