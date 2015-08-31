@@ -27,7 +27,7 @@ function streamingLog (
     var streamTimes = {};
     var timingInterval = null;
     function handleStreamData (data) {
-      if (['docker', 'log'].indexOf(data.type) !== -1) {
+      if (['docker', 'log'].includes(data.type)) {
         var stepRegex = /^Step [0-9]+ : /;
         if (stepRegex.test(data.content)) {
           currentCommand = {
@@ -51,12 +51,8 @@ function streamingLog (
             /^Successfully built [a-z0-9]{12}/
           ];
 
-          var ignore = false;
-
-          ignoreRegex.forEach(function (regex) {
-            if (regex.test(data.content)){
-              ignore = true;
-            }
+          var ignore = ignoreRegex.some(function (regex){
+            return regex.test(data.content);
           });
 
           if (!ignore) {
