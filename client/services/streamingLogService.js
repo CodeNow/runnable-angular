@@ -33,6 +33,7 @@ function streamingLog (
           currentCommand = {
             content: [],
             command: $sce.trustAsHtml(convert.toHtml(data.content.replace(stepRegex, ''))),
+            rawCommand: data.content,
             imageId: data.imageId,
             expanded: true,
             time: new Date(data.timestamp || new Date())
