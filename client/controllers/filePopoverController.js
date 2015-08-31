@@ -82,25 +82,27 @@ function FilePopoverController(
 
         });
 
-        $q.all(fileUploadPromises).then(function (uploads) {
-          uploads.forEach(function (myFile) {
-            var fileIndex = $scope.dir.contents.models.indexOf(myFile);
-            if (fileIndex !== -1) {
-              $scope.dir.contents.models.splice(fileIndex, 1);
-            }
-          });
-
-          promisify($scope.dir.contents, 'fetch')()
-            .catch(function (err) {
-              // We want to filter out this message because it's unhelpful to the user, and usually this
-              // only happens if the instance is (temporarily) out of sync with the database.  If this
-              // error happens, it's being taken care of at a higher level up from here
-              if (err.message !== 'Container not found') {
-                return errs.handler(err);
+        loadingPromises.add(self.loadingPromisesTarget,
+          $q.all(fileUploadPromises).then(function (uploads) {
+            uploads.forEach(function (myFile) {
+              var fileIndex = $scope.dir.contents.models.indexOf(myFile);
+              if (fileIndex !== -1) {
+                $scope.dir.contents.models.splice(fileIndex, 1);
               }
             });
-        })
-          .catch(errs.handler);
+
+            promisify($scope.dir.contents, 'fetch')()
+              .catch(function (err) {
+                // We want to filter out this message because it's unhelpful to the user, and usually this
+                // only happens if the instance is (temporarily) out of sync with the database.  If this
+                // error happens, it's being taken care of at a higher level up from here
+                if (err.message !== 'Container not found') {
+                  return errs.handler(err);
+                }
+              });
+          })
+            .catch(errs.handler)
+        );
       }
     },
     addRepository: function () {
