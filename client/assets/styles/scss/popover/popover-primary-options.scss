@@ -1,11 +1,6 @@
 .popover-primary-options {
-  transform-origin: 95% 0 !important; // right edge popover
 
-  .arrow {
-    left: auto !important; // right edge popover
-    right: 4px;
-  }
-
+  // save options style
   .popover-list-item {
     white-space: normal;
   }

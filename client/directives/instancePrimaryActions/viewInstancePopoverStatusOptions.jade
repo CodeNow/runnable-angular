@@ -1,0 +1,39 @@
+.popover.menu.bottom.popover-primary-options(
+  ng-class = "{in: active}"
+  ng-style = "popoverStyle.getStyle()"
+  style = "transform-origin: 95% 0;"
+)
+  .arrow.white(
+    style = "left: auto; right: 8px;"
+  )
+  .popover-content
+    ul.popover-list
+      li.popover-list-item
+        img.iconnables(
+          height = "24"
+          src = "/build/images/logos/logo-icon-slack.svg"
+          width = "24"
+        )
+        | Start
+      li.popover-list-item
+        img.iconnables(
+          height = "24"
+          src = "/build/images/logos/logo-icon-slack.svg"
+          width = "24"
+        )
+        | Stop
+      li.popover-list-item
+        img.iconnables(
+          height = "24"
+          src = "/build/images/logos/logo-icon-slack.svg"
+          width = "24"
+        )
+        | Restart
+      li.divider
+      li.popover-list-item
+        img.iconnables(
+          height = "24"
+          src = "/build/images/logos/logo-icon-slack.svg"
+          width = "24"
+        )
+        | Rebuild Without Cache
