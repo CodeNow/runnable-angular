@@ -15,11 +15,14 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
   var sourceMocks = runnable.newContexts(require('../../unit/apiMocks/sourceContexts'), {noStore: true, warn: false});
   var apiMocks = require('../apiMocks/index');
   var mockUserFetch = new (require('../fixtures/mockFetch'))();
-
   var MockFetch = require('../fixtures/mockFetch');
+  var cardInfoType = require('card-info-types');
+
+
   beforeEach(function () {
     ctx = {};
   });
+
   function setup(scope) {
 
     ctx.fakeOrg1 = {
@@ -50,7 +53,10 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     };
 
     angular.mock.module('app', function ($provide) {
-      $provide.factory('helpCards', helpCardsMock.create(ctx));
+      $provide.factory('helpCards', function () {
+        ctx.helpCards = helpCardsMock.create(ctx)($q);
+        return ctx.helpCards;
+      });
       $provide.factory('fetchUser', mockUserFetch.autoTrigger(ctx.fakeOrg1));
       $provide.factory('OpenItems', function ($q) {
         ctx.openItemsMock = function () {
@@ -102,7 +108,13 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       ctx.parseDockerfileResponse = {
         ports: '80 900 90',
         startCommand: 'hello',
-        containerFiles: [],
+        containerFiles: [
+          new cardInfoType.MainRepository([
+            'ADD ["./asdf", "/"]',
+            'WORKDIR /',
+            'RUN apt-get install'
+          ].join('\n'))
+        ],
         commands: [],
         selectedStack: {
           hello: 'cheese'
@@ -769,6 +781,18 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
 
       expect($elScope.selectedTab).to.equal('files');
     });
+
+    it('should handle invalid editServerForms', function () {
+      $scope.$digest();
+      $elScope.changeTab('logs');
+      keypather.set($elScope, 'state.advanced', true);
+      keypather.set($elScope, 'editServerForm.$invalid', true);
+      keypather.set($elScope, 'editServerForm.$error.required[0].$name', 'files');
+      $scope.$digest();
+      $elScope.changeTab('files');
+      $scope.$digest();
+      expect($elScope.selectedTab).to.equal('files');
+    });
   });
 
   describe('Tab visibility', function () {
@@ -840,4 +864,224 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       });
     });
   });
+
+  describe('Exposed Ports', function () {
+
+    beforeEach(function () {
+      setup({
+        currentModel: ctx.instance,
+        selectedTab: 'env'
+      });
+    });
+
+    describe('Adding Ports', function () {
+
+      var mapPorts = function (tags) {
+        var values = [];
+        for (var ki in tags.tags) {
+          values.push(tags.tags[ki].value);
+        }
+        return values;
+      };
+
+      it('should not ade a tag/port with chars', function () {
+        var tags = $elScope.portTagOptions.tags;
+        var ports = mapPorts(tags);
+        $elScope.portTagOptions.tags.addTag('9000');
+        $elScope.portTagOptions.tags.addTag('900a'); // Invalid
+        $scope.$digest();
+        expect(mapPorts(tags)).to.eql(ports.concat(['9000']));
+      });
+
+      it('should not add a tag/port with special chars', function () {
+        var tags = $elScope.portTagOptions.tags;
+        var ports = mapPorts(tags);
+        $elScope.portTagOptions.tags.addTag('10000');
+        $elScope.portTagOptions.tags.addTag('900o'); // Invalid
+        $scope.$digest();
+        expect(mapPorts(tags)).to.eql(ports.concat(['10000']));
+      });
+
+      it('should not add a tag/port with an invalid port (> 65,535)', function () {
+        var tags = $elScope.portTagOptions.tags;
+        var ports = mapPorts(tags);
+        $elScope.portTagOptions.tags.addTag('65535');
+        $elScope.portTagOptions.tags.addTag('65536'); // Invalid
+        $elScope.portTagOptions.tags.addTag('99999'); // Invalid
+        $scope.$digest();
+        expect(mapPorts(tags)).to.eql(ports.concat(['65535']));
+      });
+
+      it('should not add a tag/port that is a duplicate', function () {
+        var tags = $elScope.portTagOptions.tags;
+        var ports = mapPorts(tags);
+        $elScope.portTagOptions.tags.addTag('9999');
+        $elScope.portTagOptions.tags.addTag('9999'); // Duplicate
+        $scope.$digest();
+        expect(mapPorts(tags)).to.eql(ports.concat(['9999']));
+      });
+
+    });
+
+  });
+
+  describe('Insert Hostname', function () {
+
+    beforeEach(function () {
+      setup({
+        currentModel: ctx.instance,
+        selectedTab: 'env'
+      });
+    });
+
+    it('should not do anything when no options are passed', function () {
+      var spy = sinon.spy();
+      var offSpy = $rootScope.$on('eventPasteLinkedInstance', spy);
+      $elScope.insertHostName();
+      expect(spy.callCount).to.equal(0);
+      offSpy(); // Remove listener
+    });
+
+    it('should insert the protocol when passed', function () {
+      var cb = function (eventName, hostName) {
+        expect(hostName).to.equal('http://');
+      };
+      var offCb = $rootScope.$on('eventPasteLinkedInstance', cb);
+      $elScope.insertHostName({ protocol: 'http://' });
+      offCb(); // Remove listener
+    });
+
+    it('should insert the port when passed', function () {
+      var cb = function (eventName, hostName) {
+        expect(hostName).to.equal(':8000');
+      };
+      var offCb = $rootScope.$on('eventPasteLinkedInstance', cb);
+      $elScope.insertHostName({
+        port: 8000
+      });
+      offCb(); // Remove listener
+    });
+
+    it('should insert the server hostname when passed', function () {
+      var server = {
+        getElasticHostname: function () {
+          return 'hello-world.com';
+        }
+      };
+      var cb = function (eventName, hostName) {
+        expect(hostName).to.equal('http://hello-world.com:8000');
+      };
+      var offCb = $rootScope.$on('eventPasteLinkedInstance', cb);
+      $elScope.insertHostName({
+        protocol: 'http://',
+        server: server,
+        port: 8000
+      });
+      offCb(); // Remove listener
+    });
+
+  });
+
+  describe('Dockerfile Valid', function () {
+
+    var dockerfileStub = {
+      'validation': {
+        'criticals': [
+          { }, { }
+        ]
+      }
+    };
+
+    beforeEach(function () {
+      setup({
+        currentModel: ctx.instance,
+        selectedTab: 'env'
+      });
+    });
+
+    it('should correctly determine whether the dockerfile is valid', function () {
+      $elScope.state.advanced = true;
+      $elScope.state.dockerfile = dockerfileStub;
+      expect($elScope.isDockerfileValid()).to.be.true;
+    });
+
+    it('should correctly determine whether the dockerfile is invalid', function () {
+      $elScope.state.advanced = true;
+      $elScope.state.dockerfile = dockerfileStub;
+      $elScope.state.dockerfile.validation.criticals.push({
+        message: 'Missing or misplaced FROM'
+      });
+      expect($elScope.isDockerfileValid()).to.be.false;
+    });
+
+  });
+
+  describe('Cancel', function () {
+
+    beforeEach(function () {
+      setup({
+        currentModel: ctx.instance,
+        selectedTab: 'env'
+      });
+    });
+
+    it('should cancel modal actions', function () {
+      $elScope.modalActions.cancel = sinon.spy();
+      $elScope.cancel();
+      expect($elScope.modalActions.cancel.calledOnce).to.be.true;
+    });
+
+  });
+
+  describe('resetStateContextVersion', function () {
+
+    beforeEach(function () {
+      setup({
+        currentModel: ctx.instance,
+        selectedTab: 'env'
+      });
+    });
+
+    it('should handle errors correctly', function () {
+      var testError = new Error('This is a test!');
+      ctx.contextVersion.deepCopy.restore();
+      sinon.stub(ctx.contextVersion, 'deepCopy', function (cb) {
+        cb(testError);
+      });
+      $elScope.resetStateContextVersion(ctx.contextVersion, false);
+      $scope.$digest();
+      sinon.assert.called(ctx.errsMock.handler);
+      sinon.assert.calledWith(ctx.errsMock.handler, testError);
+    });
+
+    it('should set the `mainRepoContainerFile` if the dockerfile is a main repository', function () {
+      $elScope.resetStateContextVersion(ctx.contextVersion, true);
+      $scope.$digest();
+      expect(keypather.get($elScope, 'state.mainRepoContainerFile')).to.be.an('object');
+    });
+
+    it('should reset state context version when even is triggered', function () {
+      $elScope.resetStateContextVersion = sinon.spy();
+      $elScope.$emit('resetStateContextVersion');
+      expect($elScope.resetStateContextVersion.calledOnce).to.be.true;
+    });
+
+  });
+
+  describe('Help Cards', function () {
+
+    beforeEach(function () {
+      setup({
+        currentModel: ctx.instance,
+        selectedTab: 'env'
+      });
+    });
+
+    it('should set the help cards to the scope, depending on the instances', function () {
+      $scope.$digest();
+      expect($elScope.activeCard).to.equal('abc');
+    });
+
+  });
+
 });

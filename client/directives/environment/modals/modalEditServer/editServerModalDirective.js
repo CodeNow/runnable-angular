@@ -37,7 +37,8 @@ function editServerModal(
   OpenItems,
   parseDockerfileForCardInfoFromInstance,
   promisify,
-  updateDockerfileFromState
+  updateDockerfileFromState,
+  assign
 ) {
   return {
     restrict: 'A',
@@ -125,6 +126,29 @@ function editServerModal(
         });
         $scope.state.ports = data.ports;
         $scope.portTagOptions.tags = new JSTagsCollection((data.ports || '').split(' '));
+        $scope.portTagOptions.tags.onAdd(function (newTag) {
+          var tags = $scope.portTagOptions.tags;
+          /*!
+           * Check for non-allowed chars and ports
+           */
+          // Remove ports over the max
+            if ((newTag.value.match(/[^0-9]/g) !== null) || (parseInt(newTag.value, 10) > 65535)) {
+                tags.removeTag(newTag.id);
+                errs.handler(new Error('Port is invalid (Above 65,535)'));
+            }
+          /*!
+           * Check for duplicate ports
+           */
+          // Check that there are no duplicates
+          Object.keys(tags.tags).forEach(function (key) {
+            var tag = tags.tags[key];
+            if (tag && tag.value === newTag.value && tag.id !== newTag.id) {
+              // Remove duplicate tag. Perhaps, have a pop-up?
+              errs.handler(new Error('No duplicate ports allowed.'));
+              tags.removeTag(newTag.id);
+            }
+          });
+        });
         $scope.portTagOptions.tags.onAdd($scope.updateDockerfileFromState);
         $scope.portTagOptions.tags.onRemove($scope.updateDockerfileFromState);
 
@@ -369,19 +393,6 @@ function editServerModal(
         return !$scope.state.dockerfile.validation.criticals.find(hasKeypaths({
           message: 'Missing or misplaced FROM'
         }));
-      };
-
-
-      $scope.isStackInfoEmpty = function (selectedStack) {
-        if (!selectedStack || !selectedStack.selectedVersion) {
-          return true;
-        }
-        if (selectedStack.dependencies) {
-          var depsEmpty = !selectedStack.dependencies.find(function (dep) {
-            return !$scope.isStackInfoEmpty(dep);
-          });
-          return !!depsEmpty;
-        }
       };
     }
   };
