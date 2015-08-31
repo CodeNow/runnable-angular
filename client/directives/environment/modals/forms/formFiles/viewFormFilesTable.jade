@@ -41,10 +41,6 @@ ul.table-drag-drop(
     dnd-draggable = "containerFile.id"
     dnd-dragstart = "actions.dragstart()"
     dnd-effect-allowed = "move"
-    ng-class = "{\
-      'disabled': containerFile.type === 'Main Repository',\
-      'tr-action': containerFile.type !== 'Main Repository'\
-    }"
     ng-repeat = "containerFile in state.containerFiles"
     ng-show = "containerFile.type !== 'SSH Key'"
   )
