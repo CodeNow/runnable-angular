@@ -54,7 +54,10 @@
   padding: 0 12px;
 
   &.explorer-section {
-    padding-bottom: 12px;
+
+    .sidebar-section-content {
+      padding-bottom: 12px;
+    }
 
     .file-tree {
       margin: 0;
