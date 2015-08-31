@@ -58,8 +58,8 @@ function streamingLog (
           if (!ignore) {
             if (/^\s---> Using cache/.test(data.content)){
               currentCommand.cached = true;
-            } else if ($rootScope.featureFlags.debugMode && /^\s---> ?[a-z0-9]{12}/.test(data.content)) {
-              currentCommand.imageId = /^\s---> (Running in )?([a-z0-9]{12})/.exec(data.content)[2];
+            } else if ($rootScope.featureFlags.debugMode && /^\s---> [a-z0-9]{12}/.test(data.content)) {
+              currentCommand.imageId = /^\s---> ([a-z0-9]{12})/.exec(data.content)[1];
             } else {
               currentCommand.content.push(data.content);
               if (unprocessed.indexOf(currentCommand)) {
