@@ -37,9 +37,6 @@ function BuildLogsController(
     var stream = null;
     if (BLC.instance) {
       stream = primus.createBuildStream(BLC.instance.build);
-      stream.on('data', function () {
-        stream.hasData = true;
-      });
       handleUpdate();
       BLC.instance.on('update', handleUpdate);
       $scope.$on('$destroy', function () {
@@ -48,6 +45,10 @@ function BuildLogsController(
     } else if (BLC.debugContainer) {
       stream = primus.createBuildStreamFromContextVersionId(BLC.debugContainer.attrs.contextVersion);
     }
+
+    stream.on('data', function () {
+      stream.hasData = true;
+    });
 
     stream.on('end', function () {
       if (!stream.hasData) {
