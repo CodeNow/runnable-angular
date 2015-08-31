@@ -36,6 +36,7 @@ function streamingLog (
             expanded: true,
             time: new Date(data.timestamp || new Date())
           };
+          currentCommand.timeDifference = new Date() - currentCommand.time;
           var previous = streamLogs[streamLogs.length - 1];
           if (previous) {
             previous.expanded = false;
