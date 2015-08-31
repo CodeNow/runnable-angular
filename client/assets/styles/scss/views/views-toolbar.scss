@@ -1,18 +1,16 @@
 // toolbar
 .views-tabs {
-  @extend %webkit-flicker;
   background: $white;
   display: flex;
   flex: 0 0 $input-md;
   overflow: visible;
   position: relative;
-  transition: all .15s ease-in;
 }
 
 // toolbar tabs
 .btn-add-tab {
-  height: $input-md;
   flex: 0 0 42px;
+  height: $input-md;
 
   .icons-add {
     top: 1px;

@@ -27,7 +27,8 @@ function activePanel(
       build: '=',
       validation: '=',
       stateModel: '=',
-      isEditModal: '=?'
+      isEditModal: '=?',
+      debugContainer: '=?'
     },
     link: function ($scope, element, attrs) {
       $scope.data = {};
@@ -38,6 +39,11 @@ function activePanel(
 
       var shouldShowBuildFailurePrompt = false;
       $scope.shouldShowUpdateConfigsPrompt = false;
+
+      // Stop doing all the watching, the build is never going to change because we are debugging a build!
+      if ($scope.debugContainer) {
+        return;
+      }
 
       $scope.$watch('instance.build.attrs.failed', function (newVal) {
         shouldShowBuildFailurePrompt = newVal;

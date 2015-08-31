@@ -7,6 +7,10 @@
   position: absolute;
   top: 0;
   width: 100%;
+
+  &.server-header-debug {
+    position: relative;
+  }
 }
 
 // h1.server-info
@@ -24,8 +28,7 @@
   line-height: 24px;
 
   &.centered {
-    line-height: 70px;
-    margin-top: 0;
+    line-height: 48px;
   }
 
   .icons-status {
@@ -33,8 +36,9 @@
     top: -2px;
   }
 
-  // pull request link
-  .link {
+  // pull request link / debug label
+  .link,
+  .small {
     color: $gray;
     font-size: 18px;
     margin-left: 6px;
@@ -103,6 +107,14 @@
   .btn-group {
     margin-left: 6px;
     top: -3px;
+  }
+
+  .btn-save-options {
+    min-width: $input-sm;
+
+    .icons-arrow-down {
+      right: 9px;
+    }
   }
 
   .btn[disabled],

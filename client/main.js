@@ -1,5 +1,6 @@
 'use strict';
 require('es6-symbol/implement');
+require('array-includes').shim();
 
 var app = require('app');
 require('angular');
