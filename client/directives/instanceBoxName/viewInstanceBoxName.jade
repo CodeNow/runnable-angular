@@ -1,7 +1,4 @@
 h1.container-title
-  status-icon(
-    instance = "instance"
-  )
   strong.strong {{instance.getRepoName() || instance.getDisplayName()}}
   span(
     ng-if = "instance.getBranchName()"
