@@ -1,28 +1,33 @@
-//- state buttons
 button.btn.gray(
-  ng-click = "actions.stopInstance()"
-  ng-if = "!isChanging() && instance.build.attrs.completed && instance.containers.models[0].running()"
-) Stop Container
-
-button.btn.gray(
-  ng-click = "actions.startInstance()"
   ng-disabled = "isChanging()"
-  ng-if = "!isChanging() && instance.build.attrs.completed && !instance.containers.models[0].running() && instance.status() !== 'buildFailed'"
-) Start Container
-
-button.btn.gray.btn-spinner.in(
-  disabled
-  ng-if = "isChanging()"
 )
+  status-icon(
+    instance = "instance"
+    ng-if = "!isChanging()"
+  )
+  span(
+    ng-if = "!isChanging() && instance.build.attrs.completed && instance.containers.models[0].running()"
+  ) Running
+  span(
+    ng-if = "!isChanging() && instance.build.attrs.completed && !instance.containers.models[0].running() && instance.status() !== 'buildFailed'"
+  ) Stopped
+  span(
+    ng-if = "instance.status() === 'buildFailed'"
+  ) Build Failed
+
+  //- if stopping, starting, or restarting
   .spinner-wrapper.spinner-sm.spinner-gray.in(
+    ng-if = "isChanging()"
     ng-include = "'spinner'"
   )
-  span.btn-text {{changingText()}}
+  span(
+    ng-if = "isChanging()"
+  ) {{changingText()}}
 
-button.btn.gray(
-  disabled
-  ng-if = "instance.status() === 'buildFailed'"
-) Build Failed
+  svg.iconnables.icons-arrow-down
+    use(
+      xlink:href = "#icons-arrow-down"
+    )
 
 //- ***********************
 //- deprecated button, remove with $root.featureFlags.saveToolbar

@@ -101,7 +101,10 @@
   flex: 0 0 auto;
   line-height: 72px;
   padding-left: 9px;
-  position: relative;
+
+  .icons-status {
+    margin-right: 9px;
+  }
 
   // offset for vertical-align: middle
   .btn-group {
@@ -112,13 +115,12 @@
   .btn-save-options {
     min-width: $input-sm;
 
+    &[disabled] {
+      margin: 0;
+    }
+
     .icons-arrow-down {
       right: 9px;
     }
-  }
-
-  .btn[disabled],
-  .btn.disabled {
-    margin: 0;
   }
 }
