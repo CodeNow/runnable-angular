@@ -31,6 +31,7 @@ function BuildLogsController(
   }
 
   var failCount = 0;
+  var streamDelay = 500;
 
   function setupStream () {
     BLC.streamFailure = false;
@@ -57,9 +58,10 @@ function BuildLogsController(
           BLC.streamFailure = true;
           BLC.buildLogsRunning = false;
         } else {
+          streamDelay = Math.floor(streamDelay * 1.3);
           $timeout(function () {
             setupStream();
-          }, 2000);
+          }, streamDelay);
         }
       } else {
         BLC.buildLogsRunning = false;
