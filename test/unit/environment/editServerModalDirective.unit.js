@@ -897,7 +897,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         var tags = $elScope.portTagOptions.tags;
         var ports = mapPorts(tags);
         $elScope.portTagOptions.tags.addTag('10000');
-        $elScope.portTagOptions.tags.addTag('900!'); // Invalid
+        $elScope.portTagOptions.tags.addTag('900o'); // Invalid
         $scope.$digest();
         expect(mapPorts(tags)).to.eql(ports.concat(['10000']));
       });

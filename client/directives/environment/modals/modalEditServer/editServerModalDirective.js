@@ -132,7 +132,7 @@ function editServerModal(
            * Check for non-allowed chars and ports
            */
           // Remove ports over the max
-            if ((newTag.value.match(/[^0-9]/g) !== null) || (+(newTag.value) > 65535)) {
+            if ((newTag.value.match(/[^0-9]/g) !== null) || (parseInt(newTag.value, 10) > 65535)) {
                 tags.removeTag(newTag.id);
                 errs.handler(new Error('Port is invalid (Above 65,535)'));
             }
@@ -140,14 +140,14 @@ function editServerModal(
            * Check for duplicate ports
            */
           // Check that there are no duplicates
-          for (var ki in assign({}, tags.tags)) {
-            var tag = tags.tags[ki];
+          Object.keys(tags.tags).forEach(function (key) {
+            var tag = tags.tags[key];
             if (tag && tag.value === newTag.value && tag.id !== newTag.id) {
               // Remove duplicate tag. Perhaps, have a pop-up?
               errs.handler(new Error('No duplicate ports allowed.'));
               tags.removeTag(newTag.id);
             }
-          }
+          });
         });
         $scope.portTagOptions.tags.onAdd($scope.updateDockerfileFromState);
         $scope.portTagOptions.tags.onRemove($scope.updateDockerfileFromState);
