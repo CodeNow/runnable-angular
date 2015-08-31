@@ -25,6 +25,7 @@ function streamingLog (
     var streamLogs = [];
     var currentCommand = null;
     var streamTimes = {};
+    var timingInterval = null;
     function handleStreamData (data) {
       if (['docker', 'log'].indexOf(data.type) !== -1) {
         var stepRegex = /^Step [0-9]+ : /;
@@ -36,7 +37,6 @@ function streamingLog (
             expanded: true,
             time: new Date(data.timestamp || new Date())
           };
-          currentCommand.timeDifference = new Date() - currentCommand.time;
           var previous = streamLogs[streamLogs.length - 1];
           if (previous) {
             previous.expanded = false;
@@ -76,6 +76,11 @@ function streamingLog (
 
       if (data.timestamp) {
         streamTimes.latest = new Date(data.timestamp);
+        clearInterval(timingInterval);
+        streamTimes.currentMachineTime = streamTimes.latest;
+        timingInterval = setInterval(function () {
+          streamTimes.currentMachineTime = new Date(streamTimes.currentMachineTime.getTime() + 1000);
+        }, 1000);
         if(!streamTimes.start){
           streamTimes.start = new Date(data.timestamp);
         }
@@ -85,6 +90,7 @@ function streamingLog (
 
     stream.on('data', handleStreamData);
     stream.on('end', function () {
+      clearInterval(timingInterval);
       streamTimes.end = streamTimes.latest;
       stream.off('data', handleStreamData);
     });

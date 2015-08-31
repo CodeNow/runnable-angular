@@ -145,7 +145,7 @@ function buildLogs(
         } else if ($scope.BLC.buildLogTiming.end) {
           date2 = $scope.BLC.buildLogTiming.end;
         } else {
-          date2 = new Date(new Date().valueOf() - command.timeDifference);
+          date2 = new Date($scope.BLC.buildLogTiming.currentMachineTime);
         }
         return getTimeDiff(date2, date1);
 
