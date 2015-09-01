@@ -35,7 +35,7 @@ describe('BuildLogsController'.bold.underline.blue, function () {
       id: sinon.stub().returns('debugContainerId'),
       attrs: {
         contextVersion: '12345',
-        cmd: 'Debug Command'
+        layerId: 'Layer ID'
       }
     };
 
@@ -242,23 +242,23 @@ describe('BuildLogsController'.bold.underline.blue, function () {
       it('should filter the build logs to only show logs until the one we are debugging', function () {
         BLC.buildLogs = [
           {
-            rawCommand: '1'
+            imageId: '1'
           },
           {
-            rawCommand: '2'
+            imageId: '2'
           },
           {
-            rawCommand: 'Debug Command'
+            imageId: 'Layer ID'
           },
           {
-            rawCommand: '3'
+            imageId: '3'
           }
         ];
 
         var newBuildLogs = BLC.getBuildLogs();
         expect(newBuildLogs.length).to.equal(3);
         var foundThird = newBuildLogs.find(function (log) {
-          return log.rawCommand === '3';
+          return log.imageId === '3';
         });
         expect(foundThird).to.not.be.ok;
       });
