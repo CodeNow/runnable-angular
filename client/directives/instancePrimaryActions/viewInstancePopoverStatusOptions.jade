@@ -9,40 +9,52 @@
   .popover-content
     //- if build files are out of date
     .well.well-popover.orange.text-center(
-      ng-if = "outOfDate"
+      ng-if = "data.shouldShowUpdateConfigsPrompt"
     ) This container’s configuration has changed since the current build.
-      button.btn.btn-xs.orange Update & Rebuild
+      button.btn.btn-xs.orange(
+        ng-click = "actions.updateConfigToMatchMaster()"
+      ) Update & Rebuild
 
     //- if build failed
     .well.well-popover.red.text-center(
-      ng-if = "buildFailed"
+      ng-if = "data.instance.status() === 'buildFailed'"
     ) Having build problems? Some errors can be resolved by rebuilding.
-      button.btn.btn-xs.red Rebuild Without Cache
+      button.btn.btn-xs.red(
+        ng-click = "actions.rebuildWithoutCache()"
+      ) Rebuild Without Cache
 
     //- hide list if build failed
     ul.popover-list
-      //- hide when running
-      li.popover-list-item
+      li.popover-list-item(
+        ng-if = "!['running', 'buildFailed'].includes(data.instance.status())"
+        ng-click = "actions.startInstance()"
+      )
         .icons-status.green
         | Start
 
-      //- hide when stopped
-        - hide when crashed
-      li.popover-list-item
+      li.popover-list-item(
+        ng-if = "!['crashed', 'stopped', 'buildFailed'].includes(data.instance.status())"
+        ng-click = "actions.stopInstance()"
+      )
         .icons-status
         | Stop
 
-      //- hide when stopped
-        - hide when crashed
-      li.popover-list-item
+      li.popover-list-item(
+        ng-if = "!['crashed', 'stopped', 'buildFailed'].includes(data.instance.status())"
+        ng-click = "actions.restartInstance()"
+      )
         svg.iconnables.icons-restart
           use(
             xlink:href = "#icons-restart"
           )
         | Restart
 
-      //- hide when crashed
-      li.divider
-      li.popover-list-item
+      li.divider(
+        ng-if = "!['crashed', 'stopped', 'buildFailed'].includes(data.instance.status())"
+      )
+      li.popover-list-item(
+        ng-click = "actions.rebuildWithoutCache()"
+        ng-if = "data.instance.status() !== 'buildFailed'"
+      )
         .iconnables
         | Rebuild Without Cache

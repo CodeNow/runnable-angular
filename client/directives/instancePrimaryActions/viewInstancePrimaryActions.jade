@@ -1,20 +1,5 @@
-//- .gray when
-  - running
-  - stopped
-  - building
-  - starting
-  - stopping
-
-//- .red when
-  - build failed
-  - build crashed
-
-//- .in when
-  - building
-  - starting
-  - stopping
-
 button.btn.btn-spinner.gray(
+  ng-class = "getClassForInstance()"
   ng-disabled = "isChanging()"
   pop-over
   pop-over-actions = "popoverStatusOptions.actions"
