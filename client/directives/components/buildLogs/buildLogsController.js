@@ -54,7 +54,7 @@ function BuildLogsController(
     stream.on('end', function () {
       if (!stream.hasData) {
         failCount++;
-        if (failCount > 15) {
+        if (failCount > 10) {
           BLC.streamFailure = true;
           BLC.buildLogsRunning = false;
         } else {
@@ -87,10 +87,10 @@ function BuildLogsController(
       var newBuildLogs = [];
       for (var i=0; i<BLC.buildLogs.length; i++) {
         var command = BLC.buildLogs[i];
+        newBuildLogs.push(command);
         if (command.rawCommand === BLC.debugContainer.attrs.cmd) {
           return newBuildLogs;
         }
-        newBuildLogs.push(command);
       }
       return newBuildLogs;
     }
