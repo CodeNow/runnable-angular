@@ -25,7 +25,7 @@ button.btn.btn-spinner.gray(
 
   //- if update and rebuild
   svg.iconnables.icons-notification(
-    ng-if = "updateAndRebuild"
+    ng-if = "popoverStatusOptions.data.shouldShowUpdateConfigsPrompt"
   )
     use(
       xlink:href = "#icons-notification"
