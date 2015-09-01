@@ -9,6 +9,11 @@
   - build failed
   - build crashed
 
+//- .in when
+  - building
+  - starting
+  - stopping
+
 button.btn.btn-spinner.gray(
   ng-disabled = "isChanging()"
   pop-over
@@ -42,7 +47,7 @@ button.btn.btn-spinner.gray(
     )
 
   //- if stopping, starting, or restarting
-  .spinner-wrapper.spinner-sm.spinner-gray.in(
+  .spinner-wrapper.spinner-sm.spinner-gray.float-left.in(
     ng-if = "isChanging()"
     ng-include = "'spinner'"
   )
