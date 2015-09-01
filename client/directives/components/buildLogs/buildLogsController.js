@@ -80,6 +80,22 @@ function BuildLogsController(
     BLC.buildLogTiming = streamingBuildLogs.times;
   }
 
+  BLC.getBuildLogs = function () {
+    if (BLC.instance) {
+     return BLC.buildLogs;
+    } else if (BLC.debugContainer) {
+      var newBuildLogs = [];
+      for (var i=0; i<BLC.buildLogs.length; i++) {
+        var command = BLC.buildLogs[i];
+        if (command.rawCommand === BLC.debugContainer.attrs.cmd) {
+          return newBuildLogs;
+        }
+        newBuildLogs.push(command);
+      }
+      return newBuildLogs;
+    }
+  };
+
   setupStream();
 
   this.generatingDebug = false;
