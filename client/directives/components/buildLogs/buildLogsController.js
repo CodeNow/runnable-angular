@@ -88,7 +88,7 @@ function BuildLogsController(
       for (var i=0; i<BLC.buildLogs.length; i++) {
         var command = BLC.buildLogs[i];
         newBuildLogs.push(command);
-        if (command.rawCommand === BLC.debugContainer.attrs.cmd) {
+        if (command.imageId === BLC.debugContainer.attrs.layerId) {
           return newBuildLogs;
         }
       }
