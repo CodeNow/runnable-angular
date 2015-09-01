@@ -106,6 +106,12 @@
   .btn {
     font-size: 16px;
 
+    &.red .icons-status {
+      background: none;
+      border: 1px solid $red-lighter;
+    }
+
+    // override icons-notification color on active
     &:active .icons-notification {
       color: $orange;
     }

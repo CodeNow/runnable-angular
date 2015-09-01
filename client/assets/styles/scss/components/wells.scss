@@ -30,13 +30,22 @@
   }
 
   &.well-popover {
-    background-color: $orange-lightest;
-    border: 1px solid rgba($orange,.3);
-    color: $orange;
     font-size: 15px;
     line-height: 18px;
     margin: 9px 9px 3px;
     padding: 9px 12px;
+
+    &.orange {
+      background-color: $orange-lightest;
+      border: 1px solid rgba($orange,.3);
+      color: $orange;
+    }
+
+    &.red {
+      background-color: $red-lighter;
+      border: 1px solid rgba($red,.3);
+      color: $red;
+    }
   }
 
   .label-checkbox {

@@ -7,21 +7,41 @@
     style = "left: auto; right: 8px;"
   )
   .popover-content
-    .well.well-popover.text-center This container’s configuration has changed since the current build.
+    //- if build files are out of date
+    .well.well-popover.orange.text-center(
+      ng-if = "outOfDate"
+    ) This container’s configuration has changed since the current build.
       button.btn.btn-xs.orange Update & Rebuild
+
+    //- if build failed
+    .well.well-popover.red.text-center(
+      ng-if = "buildFailed"
+    ) Having build problems? Some errors can be resolved by rebuilding.
+      button.btn.btn-xs.red Rebuild Without Cache
+
+    //- hide list if build failed
     ul.popover-list
+      //- hide when running
       li.popover-list-item
         .icons-status.green
         | Start
+
+      //- hide when stopped
+        - hide when crashed
       li.popover-list-item
         .icons-status
         | Stop
+
+      //- hide when stopped
+        - hide when crashed
       li.popover-list-item
         svg.iconnables.icons-restart
           use(
             xlink:href = "#icons-restart"
           )
         | Restart
+
+      //- hide when crashed
       li.divider
       li.popover-list-item
         .iconnables
