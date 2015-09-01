@@ -255,12 +255,12 @@
 
   &.btn {
 
-    &:hover,
+    &:hover:not([disabled]),
     &.hover {
       color: $blue;
     }
 
-    &:active,
+    &:active:not([disabled]),
     &.active {
       color: $blue-dark;
     }
@@ -275,12 +275,13 @@
 
   &.btn {
 
-    &:hover {
+    &:hover:not([disabled]),
+    &.hover {
       background: $white;
       border-color: $gray-light;
     }
 
-    &:active,
+    &:active:not([disabled]),
     &.active {
       background: $white;
       border-color: $purple-light;
@@ -294,18 +295,6 @@
       .icons-round {
         background: $purple-light;
         color: $white;
-      }
-    }
-
-    &[disabled],
-    &.disabled {
-
-      &:hover,
-      &:active,
-      &.active {
-        background: $gray-lighterest;
-        border-color: $gray-lighter;
-        color: $gray-dark;
       }
     }
   }
@@ -326,28 +315,15 @@
   &.btn {
 
     // states
-    &:hover,
+    &:hover:not([disabled]),
     &.hover {
       background: #8ae09c; // rgba($green,.6);
     }
 
-    &:active,
+    &:active:not([disabled]),
     &.active {
       background: $green;
       transition: none;
-    }
-
-    &[disabled],
-    &.disabled {
-      background: #6dd883; // rgba($green,.75);
-      border-color: transparent;
-
-      &:hover,
-      &:active,
-      &.active {
-        background: #6dd883; // rgba($green,.75);
-        border-color: transparent;
-      }
     }
 
     // icons
@@ -366,29 +342,16 @@
 
   &.btn {
 
-    &:hover,
+    &:hover:not([disabled]),
     &.hover {
       background: $orange-lighter;
     }
 
-    &:active,
+    &:active:not([disabled]),
     &.active {
       background: $orange;
       // border-color: $orange2-dark;
       transition: none;
-    }
-
-    &[disabled],
-    &.disabled {
-      background: #fcdaa4; // rgba($orange,.75)
-      border-color: transparent;
-
-      &:hover,
-      &:active,
-      &.active {
-        background: #fcdaa4; // rgba($orange,.75)
-        border-color: transparent;
-      }
     }
   }
 }
@@ -402,12 +365,12 @@
     border-color: $white;
     color: $white;
 
-    &:hover,
+    &:hover:not([disabled]),
     &.hover {
       background: rgba($white,.1);
     }
 
-    &:active,
+    &:active:not([disabled]),
     &.active {
       background: $white;
       color: $purple-light;
@@ -436,11 +399,12 @@
     border-color: $red-dark;
     color: $white;
 
-    &:hover {
+    &:hover:not([disabled]),
+    &.hover {
       background: $red-light;
     }
 
-    &:active,
+    &:active:not([disabled]),
     &.active {
       background: $red-dark;
     }
@@ -455,29 +419,15 @@
   &.btn {
     background: $white;
 
-    &:hover {
+    &:hover:not([disabled]),
+    &.hover {
       border-color: $gray-light;
     }
 
-    &:active,
+    &:active:not([disabled]),
     &.active {
       border-color: $purple-light;
       color: $purple-light;
-    }
-
-    &[disabled],
-    &.disabled {
-      background: $gray-lighterest;
-      border-color: $gray-lighter;
-      color: $gray-light;
-      opacity: 1;
-
-      &:hover,
-      &:active,
-      &.active {
-        background: $gray-lighterest;
-        border-color: $gray-lighter;
-      }
     }
   }
 }
