@@ -6,7 +6,6 @@ require('app')
  * @ngInject
  */
 function instancePrimaryActions(
-  callbackCount,
   errs,
   keypather,
   promisify,
@@ -61,9 +60,6 @@ function instancePrimaryActions(
 
       $scope.saveChanges = function () {
         $scope.saving = true;
-        var stopSavingCb = callbackCount(2, function () {
-          $scope.saving = false;
-        });
         var updateModelPromises = $scope.openItems.models
           .filter(function (model) {
             return (typeof keypather.get(model, 'actions.saveChanges') === 'function');
@@ -71,8 +67,10 @@ function instancePrimaryActions(
           .map(function (model) {
             return model.actions.saveChanges();
           });
-        $timeout(stopSavingCb.next, 1500);
-        $q.all(updateModelPromises)
+        $q.all(
+          updateModelPromises,
+          $timeout(angular.noop, 1500)
+        )
           .then(function () {
             if ($scope.popoverSaveOptions.data.restartOnSave) {
               return promisify($scope.instance, 'restart')();
@@ -80,7 +78,7 @@ function instancePrimaryActions(
           })
           .catch(errs.handler)
           .finally(function () {
-            stopSavingCb.next();
+            $scope.saving = false;
           });
       };
 
