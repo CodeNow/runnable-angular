@@ -50,7 +50,7 @@
         | Restart
 
       li.divider(
-        ng-if = "!['crashed', 'stopped', 'buildFailed'].includes(data.instance.status())"
+        ng-if = "!['buildFailed'].includes(data.instance.status())"
       )
       li.popover-list-item(
         ng-click = "actions.rebuildWithoutCache()"

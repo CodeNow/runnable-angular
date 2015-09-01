@@ -6,10 +6,9 @@ function BuildLogsController(
   streamingLog,
   $scope,
   primus,
-  errs,
-  createDebugContainer,
   $rootScope,
-  $timeout
+  $timeout,
+  launchDebugContainer
 ) {
   var BLC = this;
   BLC.showDebug = false;
@@ -88,34 +87,15 @@ function BuildLogsController(
       if (BLC.debugContainer) {
         return;
       }
-
       $rootScope.$emit('close-popovers');
-
       if (BLC.generatingDebug) {
         return;
       }
-      var topBar = window.outerHeight - window.innerHeight;
-      var padding = 60;
-      var width = window.innerWidth - padding - padding;
-      var height = window.innerHeight - padding - padding - 50;
-      var top = window.screenTop + padding + topBar;
-      var left = window.screenLeft + padding;
-      var newWindow = window.open('/loading', 'page', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=0,width='+width+',height='+height+',left='+left+',top='+top+',titlebar=yes');
-      event.stopPropagation();
+
       BLC.generatingDebug = true;
-      createDebugContainer(BLC.instance.id(), BLC.instance.attrs.contextVersion._id, command.imageId, command.rawCommand)
-        .then(function (debugContainer) {
+      launchDebugContainer(BLC.instance.id(), BLC.instance.attrs.contextVersion._id, command.imageId, command.rawCommand)
+        .then(function () {
           BLC.generatingDebug = false;
-          if (newWindow) {
-            newWindow.location = '/debug/'+debugContainer.id();
-          }
-        })
-        .catch(function (err) {
-          if(newWindow){
-            newWindow.close();
-          }
-          BLC.generatingDebug = false;
-          errs.handler(err);
         });
     }
   };
