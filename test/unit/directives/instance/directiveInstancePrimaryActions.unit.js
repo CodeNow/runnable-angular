@@ -70,6 +70,7 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
       $q = _$q_;
 
       mockOpenItems = {
+        getAllFileModels: sinon.stub().returns(mockOpenItems.models),
         models: [
           genModel('name', 'anotherName'),
           genModel('aname'),
@@ -138,6 +139,8 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
     sinon.assert.called(mockOpenItems.models[0].actions.saveChanges);
     // No restart on save
     sinon.assert.notCalled(mockInstance.restart);
+    sinon.assert.called(mockOpenItems.getAllFileModels);
+    sinon.assert.calledWith(mockOpenItems.getAllFileModels, true);
   });
 
   it('saves changes and restarts', function () {
@@ -151,6 +154,8 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
     sinon.assert.called(mockOpenItems.models[0].actions.saveChanges);
     // No restart on save
     sinon.assert.called(mockInstance.restart);
+    sinon.assert.called(mockOpenItems.getAllFileModels);
+    sinon.assert.calledWith(mockOpenItems.getAllFileModels, true);
   });
 
   it('throws an error on a bad update', function () {
@@ -163,6 +168,8 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
     $scope.$digest();
     sinon.assert.called($elScope.openItems.models[0].actions.saveChanges);
     sinon.assert.calledWith(ctx.errsMock.handler, error);
+    sinon.assert.called(mockOpenItems.getAllFileModels);
+    sinon.assert.calledWith(mockOpenItems.getAllFileModels, true);
   });
 
   it('throws an error on a bad restart', function () {
@@ -175,6 +182,8 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
     $scope.$digest();
     sinon.assert.calledOnce($elScope.instance.restart);
     sinon.assert.calledWith(ctx.errsMock.handler, error);
+    sinon.assert.called(mockOpenItems.getAllFileModels);
+    sinon.assert.calledWith(mockOpenItems.getAllFileModels, true);
   });
   describe('popoverStatusOptions', function () {
     describe('actions', function () {
