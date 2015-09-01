@@ -1,7 +1,8 @@
 //- opens in new window
 a.btn.btn-xs.purple.btn-toolbar.float-right(
-  href = "/debug"
-  target = "_blank"
+  ng-if = "BLC.buildLogs[$index - 1].imageId"
+  ng-click = "BLC.actions.launchDebugContainer($event, BLC.buildLogs[$index - 1])"
+  ng-disabled = "BLC.generatingDebug"
 ) Debug
   svg.iconnables.icons-link-external
     use(
@@ -12,11 +13,12 @@ a.btn.btn-xs.purple.btn-toolbar.float-right(
 button.btn.btn-xs.purple.btn-toolbar.float-right(
   ng-class = "{active: state.active}"
   pop-over
-  pop-over-actions = "popoverDebug.actions"
+  pop-over-actions = "BLC.actions"
   pop-over-active = "state.active"
-  pop-over-data = "popoverDebug.data"
+  pop-over-data = "BLC.buildLogs"
   pop-over-options = "{\"right\":-3,\"top\":35}"
   pop-over-template = "viewPopoverDebug"
+  ng-disabled = "BLC.generatingDebug"
 )
   svg.iconnables.icons-arrow-down
     use(

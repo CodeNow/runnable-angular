@@ -4,6 +4,7 @@ var BaseCollection = require('runnable/lib/collections/base');
 var BaseModel = require('runnable/lib/models/base');
 var VersionFileModel = require('runnable/lib/models/context/version/file');
 var ContainerFileModel = require('runnable/lib/models/instance/container/file');
+var DebugFileModel = require('runnable/lib/models/debug-container/file');
 var util = require('util');
 
 require('app')
@@ -24,6 +25,7 @@ function openItemsFactory(
       model instanceof Terminal ||
       model instanceof LogView ||
       model instanceof EnvVars ||
+      model instanceof DebugFileModel ||
       model instanceof BuildStream);
   }
 

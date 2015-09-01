@@ -1,0 +1,76 @@
+//- initial output
+.pre.build-log(
+  ng-class = "{\
+    'build-log-toggle': BLC.buildLogs.length === 0 && BLC.buildLogsRunning,\
+    'in': BLC.buildLogs.length === 0 && BLC.buildLogsRunning\
+  }"
+)
+  .build-log-header
+    .build-log-header-text {{BLC.streamFailure ? 'Unable to get build logs.' : 'Starting Build'}}
+  .build-log-content.building(
+    ng-if = "BLC.buildLogs.length === 0 && BLC.buildLogsRunning"
+  )
+  .log-spinner(
+    ng-if = "BLC.buildLogs.length === 0 && BLC.buildLogsRunning"
+  )
+    .spinner-character |
+    .spinner-character /
+    .spinner-character -
+    .spinner-character \
+
+.pre.build-log.js-animate(
+  ng-class = "{\
+    'build-log-toggle': command.content.length || (BLC.buildLogsRunning && $last),\
+    'in': (command.content.length > 0 && command.expanded) || (BLC.buildLogsRunning && $last)\
+  }"
+  ng-repeat = "command in BLC.buildLogs"
+)
+  .build-log-header(
+    ng-click = "actions.toggleCommand($event, command)"
+    ng-class = "{\
+      'absolute': command.expanded && command.absolute,\
+      'fixed': command.expanded && command.fixed\
+    }"
+    ng-style = "calculateHeaderStyle(command)"
+  )
+    .build-log-header-text(
+      ng-bind-html = "command.command"
+    )
+
+    .build-log-header-state(
+      ng-if = "command.cached"
+    ) Cached
+
+    .build-log-header-state(
+      ng-if = "!command.cached && command.time"
+    ) {{getCommandDuration(command, $index)}}
+
+    .btn-group.btn-debug(
+      ng-if = "$root.featureFlags.debugMode && BLC.showDebug && !BLC.debugContainer && BLC.buildLogs[$index - 1].imageId && $last"
+      ng-include = "'viewDebugButton'"
+    )
+
+  .build-log-content(
+    ng-bind-html = "command.trustedContent"
+    ng-class = "{'building': BLC.buildLogsRunning && command.expanded}"
+    ng-if = "(command.expanded && command.content.length) || (BLC.buildLogsRunning && $last)"
+  )
+
+  .log-spinner(
+    ng-if = "BLC.buildLogsRunning && $last"
+  )
+    .spinner-character |
+    .spinner-character /
+    .spinner-character -
+    .spinner-character \
+
+//- initial output
+.pre.build-log(
+  ng-class = "{\
+    'green': BLC.buildStatus === 'success',\
+    'red': BLC.buildStatus === 'failed'\
+  }"
+  ng-if = "!BLC.buildLogsRunning && getBuildMessage().length"
+)
+  .build-log-header
+    .build-log-header-text {{getBuildMessage()}}

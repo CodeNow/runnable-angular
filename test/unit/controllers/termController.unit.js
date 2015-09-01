@@ -1,9 +1,10 @@
 'use strict';
 
-var $controller,
-    $rootScope,
-    $scope,
-    $window;
+var $controller;
+var $rootScope;
+var $scope;
+var $window;
+var $timeout;
 var keypather;
 var apiMocks = require('../apiMocks/index');
 var mockPrimus = new fixtures.MockPrimus();
@@ -19,13 +20,15 @@ describe('TermController'.bold.underline.blue, function () {
       _$controller_,
       _$rootScope_,
       _keypather_,
-      _$window_
+      _$window_,
+      _$timeout_
     ) {
       $controller = _$controller_;
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
       keypather = _keypather_;
       $window = _$window_;
+      $timeout = _$timeout_;
     });
 
     ctx.instance = {
@@ -101,6 +104,7 @@ describe('TermController'.bold.underline.blue, function () {
       };
       $scope.instance = ctx.instance;
       $rootScope.$digest();
+      $timeout.flush();
 
       sinon.assert.calledOnce(startSpy);
     });

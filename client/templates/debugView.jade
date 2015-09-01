@@ -1,0 +1,58 @@
+header.server-header.server-header-debug
+  .server-info.load
+    h1.container-title.centered
+      .icons-status.running
+      strong.strong {{DC.instance.getDisplayName()}}
+      span(
+        ng-if = "DC.instance.getBranchName()"
+      ) /{{DC.instance.getBranchName()}}
+      small.small (debug)
+
+  .primary-actions
+    //- ***********************
+    //- deprecated button, remove with $root.featureFlags.saveToolbar
+    //- save button
+    .btn-group
+      //- apply .with-restart if save restarts Server
+      //- add title = "Save and Restart Server" if save restarts Server
+      button.btn.green.btn-save.btn-spinner(
+        ng-class = "{in: DC.saving}"
+        ng-click = "DC.saveChanges()"
+        ng-disabled = "DC.saving"
+        ng-if = "DC.canSave()"
+        type = "button"
+      )
+        .spinner-wrapper.spinner-sm.spinner-white.in(
+          ng-if = "DC.saving"
+          ng-include = "'spinner'"
+        )
+
+        span.btn-text {{ saving ? 'Saving' : 'Save'}}
+    //- end button, remove with $root.featureFlags.saveToolbar
+    //- ***********************
+
+section.sidebar.server-sidebar.full-height.load
+
+  .spinner-wrapper.spinner-md.spinner-purple.spinner-backdrop.in(
+    ng-if = "!DC.debugContainer.rootDir"
+    ng-include = "'spinner'"
+  )
+
+  section.sidebar-section.explorer-section(
+    edit-explorer = "false"
+    debug-container = "true"
+    explorer
+    explorer-title = "File Explorer"
+    file-model = "DC.debugContainer"
+    instance = "DC.instance"
+    ng-if = "DC.debugContainer.rootDir"
+    open-items = "DC.openItems"
+    root-dir = "DC.debugContainer.rootDir"
+  )
+
+section.views.full-height(
+  active-panel
+  debug-container = "DC.debugContainer"
+  is-edit-modal = "true"
+  open-items = "DC.openItems"
+)

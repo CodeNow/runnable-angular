@@ -122,9 +122,6 @@ function populateDockerfile(
       } else {
         dockerfileBody = dockerfileBody.replace('EXPOSE', '');
       }
-      if (configEnvironment !== 'production') {
-        $log.log('Generated dockerfile \n', dockerfileBody);
-      }
       return dockerfileBody;
     }
 

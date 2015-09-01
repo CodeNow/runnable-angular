@@ -2,6 +2,23 @@
 
 module.exports = [
   {
+    state: 'loadingDebug',
+    url: '^/loading'
+  }, {
+    state: 'debug',
+    url: '^/debug/:containerId/',
+    templateUrl: 'debugView',
+    controller: 'DebugController',
+    controllerAs: 'DC',
+    resolve: {
+      debugContainer: function(fetchDebugContainer, $stateParams){
+        return fetchDebugContainer($stateParams.containerId);
+      },
+      instance: function (debugContainer, fetchInstance) {
+        return fetchInstance(debugContainer.attrs.instance);
+      }
+    }
+  }, {
     state: 'orgSelect',
     abstract: false,
     url: '^/orgSelect',
