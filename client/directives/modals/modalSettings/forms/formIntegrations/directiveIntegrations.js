@@ -24,12 +24,14 @@ function integrations(
       data.slackMembers = {};
       data.verifiedOnInit = false;
       data.verified = false;
+      data.slackApiToken = null;
       data.invalidApiToken = false;
 
       function fetchChatMemberData() {
         data.invalidApiToken = false;
-        return verifyChatIntegration(data.settings, 'slack')
+        return verifyChatIntegration(data.slackApiToken, data.settings, 'slack')
           .then(function (members) {
+            keypather.set(data, 'settings.attrs.notifications.slack.apiToken', data.slackApiToken);
             data.slackMembers = members.slack;
             data.ghMembers = members.github;
             data.verified = true;
@@ -47,7 +49,8 @@ function integrations(
       fetchSettings()
         .then(function (settings) {
           data.settings = settings;
-          if (keypather.get(data, 'settings.attrs.notifications.slack.apiToken') &&
+          data.slackApiToken = keypather.get(data, 'settings.attrs.notifications.slack.apiToken');
+          if ( data.slackApiToken &&
               keypather.get(data, 'settings.attrs.notifications.slack.githubUsernameToSlackIdMap')) {
             data.showSlack = true;
             data.loading = true;
@@ -87,7 +90,6 @@ function integrations(
           }
           return obj;
         }, {});
-
         return promisify(data.settings, 'update')({
           json: {
             notifications: {
@@ -95,7 +97,9 @@ function integrations(
             }
           }
         })
-          .catch(errs.handler);
+          .catch(errs.handler)
+          .then(function (res) {
+          });
       };
     }
   };
