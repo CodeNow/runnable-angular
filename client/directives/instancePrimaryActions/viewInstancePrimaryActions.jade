@@ -14,14 +14,8 @@ button.btn.btn-spinner(
   )
 
   span(
-    ng-if = "!isChanging() && instance.build.attrs.completed && instance.containers.models[0].running()"
-  ) Running
-  span(
-    ng-if = "!isChanging() && instance.build.attrs.completed && !instance.containers.models[0].running() && instance.status() !== 'buildFailed'"
-  ) Stopped
-  span(
-    ng-if = "instance.status() === 'buildFailed'"
-  ) Build Failed
+    ng-if ="!isChanging()"
+  ) {{ getStatusText() }}
 
   //- if update and rebuild
   svg.iconnables.icons-notification(
@@ -38,7 +32,7 @@ button.btn.btn-spinner(
   )
   span(
     ng-if = "isChanging()"
-  ) {{changingText()}}
+  ) {{getStatusText()}}
 
   svg.iconnables.icons-arrow-down
     use(

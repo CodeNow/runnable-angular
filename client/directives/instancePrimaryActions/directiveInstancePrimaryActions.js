@@ -42,15 +42,22 @@ function instancePrimaryActions(
         });
       };
 
-      $scope.changingText = function () {
+      $scope.getStatusText = function () {
         var status = keypather.get($scope, 'instance.status()');
 
         var statusMap = {
           starting: 'Starting container',
           stopping: 'Stopping Container',
-          building: 'Building'
+          building: 'Building',
+          stopped: 'Stopped',
+          crashed: 'Crashed',
+          running: 'Running',
+          buildFailed: 'Build Failed',
+          neverStarted: 'Never Started',
+          unknown: 'Unknown'
         };
-        return statusMap[status];
+
+        return statusMap[status] || 'Unknown';
       };
 
       $scope.isChanging = function () {
@@ -60,10 +67,7 @@ function instancePrimaryActions(
 
       $scope.saveChanges = function () {
         $scope.saving = true;
-        var updateModelPromises = $scope.openItems.models
-          .filter(function (model) {
-            return (typeof keypather.get(model, 'actions.saveChanges') === 'function');
-          })
+        var updateModelPromises = $scope.openItems.getAllFileModels(true)
           .map(function (model) {
             return model.actions.saveChanges();
           });
