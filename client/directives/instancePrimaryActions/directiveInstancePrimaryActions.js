@@ -64,23 +64,24 @@ function instancePrimaryActions(
         var stopSavingCb = callbackCount(2, function () {
           $scope.saving = false;
         });
-        var updateModelPromises = $scope.openItems.models.filter(function (model) {
-          return (typeof keypather.get(model, 'actions.saveChanges') === 'function');
-        }).map(function (model) {
-          return model.actions.saveChanges();
-        });
+        var updateModelPromises = $scope.openItems.models
+          .filter(function (model) {
+            return (typeof keypather.get(model, 'actions.saveChanges') === 'function');
+          })
+          .map(function (model) {
+            return model.actions.saveChanges();
+          });
         $timeout(stopSavingCb.next, 1500);
-        $q.all(
-          updateModelPromises
-        ).then(function () {
-          if ($scope.popoverSaveOptions.data.restartOnSave) {
-            return promisify($scope.instance, 'restart')();
-          }
-        }).catch(
-          errs.handler
-        ).finally(function () {
-          stopSavingCb.next();
-        });
+        $q.all(updateModelPromises)
+          .then(function () {
+            if ($scope.popoverSaveOptions.data.restartOnSave) {
+              return promisify($scope.instance, 'restart')();
+            }
+          })
+          .catch(errs.handler)
+          .finally(function () {
+            stopSavingCb.next();
+          });
       };
 
       function modInstance(action, opts) {
@@ -182,7 +183,7 @@ function instancePrimaryActions(
       });
 
       $scope.getClassForInstance = function () {
-        var status = $scope.instance.status();
+        var status = keypather.get($scope, 'instance.status()');
 
         var classes = [];
         if (['running', 'stopped','building', 'starting', 'stopping', 'neverStarted', 'unknown'].includes(status)){
