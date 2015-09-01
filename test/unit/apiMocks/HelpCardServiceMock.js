@@ -19,6 +19,8 @@ module.exports = {
         ignoreCard: sinon.stub(),
         removeByInstance: sinon.stub()
       };
+      helpCards.getActiveCard.returns('abc');
+      helpCards.cardIsActiveOnThisContainer.returns(true);
       if (ctx) {
         ctx.helpCards = helpCards;
       }

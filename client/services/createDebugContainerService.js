@@ -7,12 +7,13 @@ function createDebugContainer(
   fetchUser,
   promisify
 ) {
-  return function (instanceId, contextVersionId, layerId) {
+  return function (instanceId, contextVersionId, layerId, rawCommand) {
     return fetchUser().then(function (user) {
       return promisify(user, 'createDebugContainer')({
         instance: instanceId,
         contextVersion: contextVersionId,
-        layerId: layerId
+        layerId: layerId,
+        cmd: rawCommand
       });
     });
   };

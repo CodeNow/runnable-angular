@@ -33,6 +33,7 @@ function streamingLog (
           currentCommand = {
             content: [],
             command: $sce.trustAsHtml(convert.toHtml(data.content.replace(stepRegex, ''))),
+            rawCommand: data.content,
             imageId: data.imageId,
             expanded: true,
             time: new Date(data.timestamp || new Date())
@@ -58,8 +59,8 @@ function streamingLog (
           if (!ignore) {
             if (/^\s---> Using cache/.test(data.content)){
               currentCommand.cached = true;
-            } else if ($rootScope.featureFlags.debugMode && /^\s---> ?[a-z0-9]{12}/.test(data.content)) {
-              currentCommand.imageId = /^\s---> (Running in )?([a-z0-9]{12})/.exec(data.content)[2];
+            } else if ($rootScope.featureFlags.debugMode && /^\s---> [a-z0-9]{12}/.test(data.content)) {
+              currentCommand.imageId = /^\s---> ([a-z0-9]{12})/.exec(data.content)[1];
             } else {
               currentCommand.content.push(data.content);
               if (unprocessed.indexOf(currentCommand)) {

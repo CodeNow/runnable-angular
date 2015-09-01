@@ -9,7 +9,7 @@ function featureFlags(
   var defaultFeatureFlags = {
     additionalRepositories: true,
     cardStatus: false,
-    debugMode: false,
+    debugMode: true,
     debugStartCmd: false, // debug mode for start CMD (in CMD Logs)
     fullScreen: false,  // toggles full screen
     fullScreenToggle: false,  // toggles the button that toggles full screen
@@ -27,7 +27,7 @@ function featureFlags(
     renameContainer: false,
     saveToolbar: false,
     themeToggle: false, // toggles the button that toggles theme
-    updatedBuildLogs: false,
+    updatedBuildLogs: true,
     updatedSlackValidation: false
   };
 
