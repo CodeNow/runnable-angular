@@ -34,7 +34,8 @@ describe('BuildLogsController'.bold.underline.blue, function () {
     mockDebugContainer = {
       id: sinon.stub().returns('debugContainerId'),
       attrs: {
-        contextVersion: '12345'
+        contextVersion: '12345',
+        layerId: 'Layer ID'
       }
     };
 
@@ -235,6 +236,31 @@ describe('BuildLogsController'.bold.underline.blue, function () {
 
         sinon.assert.calledOnce(mockStreamingLog);
         sinon.assert.calledWith(mockStreamingLog, mockStream);
+      });
+    });
+    describe('getBuildLogs', function () {
+      it('should filter the build logs to only show logs until the one we are debugging', function () {
+        BLC.buildLogs = [
+          {
+            imageId: '1'
+          },
+          {
+            imageId: '2'
+          },
+          {
+            imageId: 'Layer ID'
+          },
+          {
+            imageId: '3'
+          }
+        ];
+
+        var newBuildLogs = BLC.getBuildLogs();
+        expect(newBuildLogs.length).to.equal(3);
+        var foundThird = newBuildLogs.find(function (log) {
+          return log.imageId === '3';
+        });
+        expect(foundThird).to.not.be.ok;
       });
     })
   })
