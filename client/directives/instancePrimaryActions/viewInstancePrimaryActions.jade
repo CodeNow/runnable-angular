@@ -1,4 +1,15 @@
-button.btn.gray(
+//- .gray when
+  - running
+  - stopped
+  - building
+  - starting
+  - stopping
+
+//- .red when
+  - build failed
+  - build crashed
+
+button.btn.btn-spinner.gray(
   ng-disabled = "isChanging()"
   pop-over
   pop-over-actions = "popoverStatusOptions.actions"
@@ -11,6 +22,7 @@ button.btn.gray(
     instance = "instance"
     ng-if = "!isChanging()"
   )
+
   span(
     ng-if = "!isChanging() && instance.build.attrs.completed && instance.containers.models[0].running()"
   ) Running
@@ -20,6 +32,14 @@ button.btn.gray(
   span(
     ng-if = "instance.status() === 'buildFailed'"
   ) Build Failed
+
+  //- if update and rebuild
+  svg.iconnables.icons-notification(
+    ng-if = "updateAndRebuild"
+  )
+    use(
+      xlink:href = "#icons-notification"
+    )
 
   //- if stopping, starting, or restarting
   .spinner-wrapper.spinner-sm.spinner-gray.in(

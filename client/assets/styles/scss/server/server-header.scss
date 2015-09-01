@@ -105,6 +105,20 @@
   // override default font-size
   .btn {
     font-size: 16px;
+
+    &:active .icons-notification {
+      color: $orange;
+    }
+  }
+
+  .icons-notification {
+    border: 1px solid $orange;
+    border-radius: 50%;
+    color: $orange;
+    height: 15px;
+    margin: 0 0 0 8px;
+    top: 1px;
+    width: 15px;
   }
 
   .icons-status {
