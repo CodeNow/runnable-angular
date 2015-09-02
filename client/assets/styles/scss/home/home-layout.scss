@@ -268,17 +268,13 @@
 }
 
 .embed-video {
-  animation: scale-in-modal .2s ease-in forwards;
   height: 100%;
   position: relative;
   width: 100%;
   z-index: $z-modal;
 
   .iframe {
-    border-radius: 6px;
     height: 100%;
-    position: absolute;
-    top: 0;
     width: 100%;
   }
 }
