@@ -98,8 +98,9 @@
 
 // header.server-header actions
 .primary-actions {
+  align-items: center;
+  display: flex;
   flex: 0 0 auto;
-  line-height: 72px;
   padding-left: 9px;
 
   // override default font-size
@@ -128,8 +129,9 @@
   }
 
   .icons-status {
+    float: left;
     margin-right: 9px;
-    top: -2px;
+    top: 15px;
   }
 
   // offset for vertical-align: middle
