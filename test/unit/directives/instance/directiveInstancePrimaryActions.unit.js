@@ -70,13 +70,14 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
       $q = _$q_;
 
       mockOpenItems = {
-        getAllFileModels: sinon.stub().returns(mockOpenItems.models),
         models: [
           genModel('name', 'anotherName'),
           genModel('aname'),
           genModel()
         ]
       };
+
+      mockOpenItems.getAllFileModels = sinon.stub().returns(mockOpenItems.models);
 
       mockMainACV = {
         attrs: {
