@@ -28,12 +28,12 @@
   ng-repeat = "command in BLC.getBuildLogs()"
 )
   .build-log-header(
-    ng-click = "actions.toggleCommand($event, command)"
     ng-class = "{\
       'absolute': command.expanded && command.absolute,\
       'fixed': command.expanded && command.fixed,\
       'in-progress': BLC.buildLogsRunning && $last\
     }"
+    ng-click = "actions.toggleCommand($event, command)"
     ng-style = "calculateHeaderStyle(command)"
   )
     .build-log-header-text(

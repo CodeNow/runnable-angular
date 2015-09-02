@@ -100,7 +100,6 @@
     padding: 0 6px;
   }
 
-
   // debug button
   > .btn-debug {
     font-family: $sans-serif; // override monospace fonts
@@ -152,7 +151,6 @@
   &.in .build-log-header::before {
     transform: rotate3d(0,0,1,0);
   }
-
 
   // toggleable .build-log-header
   .build-log-header {
