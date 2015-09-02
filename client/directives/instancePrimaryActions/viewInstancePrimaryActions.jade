@@ -13,7 +13,7 @@ button.btn.btn-spinner(
     ng-if = "!isChanging()"
   )
 
-  span(
+  span.float-left(
     ng-if ="!isChanging()"
   ) {{ getStatusText() }}
 
@@ -30,7 +30,7 @@ button.btn.btn-spinner(
     ng-if = "isChanging()"
     ng-include = "'spinner'"
   )
-  span(
+  span.float-left(
     ng-if = "isChanging()"
   ) {{getStatusText()}}
 
