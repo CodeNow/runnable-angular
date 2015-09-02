@@ -5,7 +5,9 @@
     'in': BLC.buildLogs.length === 0 && BLC.buildLogsRunning\
   }"
 )
-  .build-log-header
+  .build-log-header(
+    ng-class = "{'in-progress': BLC.buildLogs.length === 0 && BLC.buildLogsRunning}"
+  )
     .build-log-header-text {{BLC.streamFailure ? 'Unable to get build logs.' : 'Starting Build'}}
   .build-log-content.building(
     ng-if = "BLC.buildLogs.length === 0 && BLC.buildLogsRunning"
@@ -29,7 +31,8 @@
     ng-click = "actions.toggleCommand($event, command)"
     ng-class = "{\
       'absolute': command.expanded && command.absolute,\
-      'fixed': command.expanded && command.fixed\
+      'fixed': command.expanded && command.fixed,\
+      'in-progress': BLC.buildLogsRunning && $last\
     }"
     ng-style = "calculateHeaderStyle(command)"
   )
