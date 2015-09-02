@@ -164,13 +164,15 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
     $elScope.openItems = {
       models : [genModel('a', 'b', true)]
     };
+    $elScope.openItems.getAllFileModels = sinon.stub().returns($elScope.openItems.models);
+
     $scope.$digest();
     $elScope.saveChanges();
     $scope.$digest();
     sinon.assert.called($elScope.openItems.models[0].actions.saveChanges);
     sinon.assert.calledWith(ctx.errsMock.handler, error);
-    sinon.assert.called(mockOpenItems.getAllFileModels);
-    sinon.assert.calledWith(mockOpenItems.getAllFileModels, true);
+    sinon.assert.called($elScope.openItems.getAllFileModels);
+    sinon.assert.calledWith($elScope.openItems.getAllFileModels, true);
   });
 
   it('throws an error on a bad restart', function () {
