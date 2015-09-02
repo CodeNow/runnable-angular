@@ -37,6 +37,9 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
   var mockOpenItems,
       ctx,
       mockInstance;
+  var mockUpdateInstanceWithNewBuild;
+  var promisifyMock;
+  var mockMainACV;
 
   beforeEach(function () {
     ctx = {};
@@ -44,11 +47,21 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
 
   beforeEach(function () {
 
+    mockUpdateInstanceWithNewBuild = sinon.stub();
     ctx.errsMock = {
       handler: sinon.spy()
     };
     angular.mock.module('app', function ($provide) {
       $provide.value('errs', ctx.errsMock);
+      $provide.value('updateInstanceWithNewBuild', mockUpdateInstanceWithNewBuild);
+      $provide.factory('promisify', function ($q) {
+        promisifyMock = sinon.spy(function (obj, key) {
+          return function () {
+            return $q.when(obj[key].apply(obj, arguments));
+          };
+        });
+        return promisifyMock;
+      });
     });
     angular.mock.inject(function ($compile, _$timeout_, _$rootScope_, _$q_) {
       $rootScope = _$rootScope_;
@@ -64,9 +77,25 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
         ]
       };
 
+      mockOpenItems.getAllFileModels = sinon.stub().returns(mockOpenItems.models);
+
+      mockMainACV = {
+        attrs: {
+          mainACVAttrs: true
+        }
+      };
       mockInstance = {
-        restart: sinon.spy(function (cb) { cb(); }),
-        fetch: sinon.spy(function (cb) { cb(); })
+        restart: sinon.spy(),
+        fetch: sinon.spy(),
+        status: sinon.stub().returns('running'),
+        stop: sinon.spy(),
+        start: sinon.spy(),
+        build: {
+          deepCopy: sinon.spy()
+        },
+        contextVersion: {
+          getMainAppCodeVersion: sinon.stub().returns(mockMainACV)
+        }
       };
 
       $scope.loading = true;
@@ -111,6 +140,8 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
     sinon.assert.called(mockOpenItems.models[0].actions.saveChanges);
     // No restart on save
     sinon.assert.notCalled(mockInstance.restart);
+    sinon.assert.called(mockOpenItems.getAllFileModels);
+    sinon.assert.calledWith(mockOpenItems.getAllFileModels, true);
   });
 
   it('saves changes and restarts', function () {
@@ -124,6 +155,8 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
     sinon.assert.called(mockOpenItems.models[0].actions.saveChanges);
     // No restart on save
     sinon.assert.called(mockInstance.restart);
+    sinon.assert.called(mockOpenItems.getAllFileModels);
+    sinon.assert.calledWith(mockOpenItems.getAllFileModels, true);
   });
 
   it('throws an error on a bad update', function () {
@@ -131,51 +164,92 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
     $elScope.openItems = {
       models : [genModel('a', 'b', true)]
     };
+    $elScope.openItems.getAllFileModels = sinon.stub().returns($elScope.openItems.models);
+
     $scope.$digest();
     $elScope.saveChanges();
     $scope.$digest();
     sinon.assert.called($elScope.openItems.models[0].actions.saveChanges);
     sinon.assert.calledWith(ctx.errsMock.handler, error);
+    sinon.assert.called($elScope.openItems.getAllFileModels);
+    sinon.assert.calledWith($elScope.openItems.getAllFileModels, true);
   });
 
   it('throws an error on a bad restart', function () {
     $elScope.popoverSaveOptions.data.restartOnSave = true;
     $elScope.instance = {
-      restart: sinon.spy(function (cb) { cb(error); })
+      restart: sinon.stub().returns($q.reject(error))
     };
     $scope.$digest();
     $elScope.saveChanges();
     $scope.$digest();
+    sinon.assert.calledOnce($elScope.instance.restart);
     sinon.assert.calledWith(ctx.errsMock.handler, error);
-
-    sinon.assert.called($elScope.instance.restart);
+    sinon.assert.called(mockOpenItems.getAllFileModels);
+    sinon.assert.calledWith(mockOpenItems.getAllFileModels, true);
   });
-  it('should allow the user to stop the instance', function () {
-    $scope.instance.stop = sinon.spy(function (opts, cb) {
-      expect(opts).to.be.undefined;
-      cb();
-    });
-    $scope.instance.fetch = function (cb) {
-      cb();
-    };
-    $scope.$digest();
-    $elScope.actions.stopInstance();
-    $scope.$digest();
-    sinon.assert.calledOnce($scope.instance.stop);
-  });
+  describe('popoverStatusOptions', function () {
+    describe('actions', function () {
+      it('should allow the user to stop the instance', function () {
+        $elScope.popoverStatusOptions.actions.stopInstance();
+        $elScope.$digest();
+        sinon.assert.calledOnce($scope.instance.stop);
+      });
+      it('should allow the user to start the instance', function () {
+        $elScope.popoverStatusOptions.actions.startInstance();
+        $elScope.$digest();
+        sinon.assert.calledOnce($scope.instance.start);
+      });
+      it('should allow the user to restart the instance', function () {
+        $elScope.popoverStatusOptions.actions.restartInstance();
+        $elScope.$digest();
+        sinon.assert.calledOnce($scope.instance.restart);
+      });
 
-  it('should allow the user to start the instance', function () {
-    $scope.instance.start = sinon.spy(function (opts, cb) {
-      expect(opts).to.be.undefined;
-      cb();
+      it('should allow the user to build without cache', function () {
+        $elScope.popoverStatusOptions.actions.rebuildWithoutCache();
+        $elScope.$digest();
+        sinon.assert.calledOnce($elScope.instance.build.deepCopy);
+        sinon.assert.calledOnce(mockUpdateInstanceWithNewBuild);
+      });
+      it('should allow the user to update the configuration to match master', function () {
+
+        var mainAcv = {
+          args: {
+            thisIsAttrs: true
+          },
+          update: sinon.spy()
+        };
+        var copiedCtxVersion = {
+          fetch: sinon.spy(),
+          getMainAppCodeVersion: sinon.stub().returns(mainAcv)
+        };
+        var masterInstanceDeepCopy = {
+          contextVersions: {
+            models: [copiedCtxVersion]
+          },
+          fetch: sinon.spy()
+        };
+        var masterInstance = {
+          attrs: {
+            env: 'env'
+          },
+          build: {
+            deepCopy: sinon.stub().returns(masterInstanceDeepCopy)
+          }
+        };
+        $elScope.instance.fetchMasterPod = sinon.stub().returns({models: [masterInstance]});
+        $elScope.$digest();
+        $elScope.popoverStatusOptions.actions.updateConfigToMatchMaster();
+        $elScope.$digest();
+
+        sinon.assert.calledOnce(mainAcv.update);
+        sinon.assert.calledWith(mainAcv.update, mockMainACV.attrs);
+        sinon.assert.calledOnce(mockUpdateInstanceWithNewBuild);
+        sinon.assert.calledWith(mockUpdateInstanceWithNewBuild, $scope.instance, masterInstanceDeepCopy, true, { env: 'env' });
+      });
+
     });
-    $scope.instance.fetch = function (cb) {
-      cb();
-    };
-    $scope.$digest();
-    $elScope.actions.startInstance();
-    $scope.$digest();
-    sinon.assert.calledOnce($scope.instance.start);
   });
 
   it('should show the instance as busy if its starting', function () {

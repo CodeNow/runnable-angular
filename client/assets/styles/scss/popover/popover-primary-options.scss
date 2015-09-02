@@ -1,11 +1,28 @@
 .popover-primary-options {
-  transform-origin: 95% 0 !important; // right edge popover
 
-  .arrow {
-    left: auto !important; // right edge popover
-    right: 4px;
+  // status options styles
+  .btn-xs {
+    margin-top: 6px;
   }
 
+  .icons-status {
+    margin: 0 13px 0 5px;
+  }
+
+  .icons-restart.icons-restart {
+    margin: 0 11px 0 4px;
+    width: 12px;
+  }
+
+  .well {
+    font-weight: $weight-normal;
+
+    &:only-child {
+      margin: 9px;
+    }
+  }
+
+  // save options styles
   .popover-list-item {
     white-space: normal;
   }

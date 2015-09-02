@@ -27,7 +27,7 @@
   align-items: center;
   display: flex;
   height: $input-sm;
-  padding: 0 6px 0 9px; // match toggle and log padding
+  padding: 0 9px; // match toggle and log padding
 
   // when there are multiple
   + .views-toolbar {

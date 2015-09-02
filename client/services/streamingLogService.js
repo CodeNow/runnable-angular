@@ -11,9 +11,7 @@ function streamingLog (
   $sce
 ) {
   return function (stream) {
-
     var unprocessed = [];
-
     var refreshAngular = debounce(function () {
       unprocessed.forEach(function (unprocessed) {
         unprocessed.trustedContent = $sce.trustAsHtml(convert.toHtml(unprocessed.content.join('')));
@@ -33,7 +31,7 @@ function streamingLog (
           currentCommand = {
             content: [],
             command: $sce.trustAsHtml(convert.toHtml(data.content.replace(stepRegex, ''))),
-            rawCommand: data.content,
+            rawCommand: data.content.replace(stepRegex, ''),
             imageId: data.imageId,
             expanded: true,
             time: new Date(data.timestamp || new Date())
@@ -44,8 +42,6 @@ function streamingLog (
           }
           streamLogs.push(currentCommand);
         } else if (currentCommand) {
-
-
           var ignoreRegex = [
             /^Runnable: Build completed successfully!/,
             /^\s---> Running in [a-z0-9]{12}/,

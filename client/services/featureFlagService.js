@@ -10,6 +10,7 @@ function featureFlags(
     additionalRepositories: true,
     cardStatus: false,
     debugMode: true,
+    debugStartCmd: false, // debug mode for start CMD (in CMD Logs)
     fullScreen: false,  // toggles full screen
     fullScreenToggle: false,  // toggles the button that toggles full screen
     hostnameNotifications: false,
