@@ -87,19 +87,19 @@ describe('debugCmdDirective'.bold.underline.blue, function () {
       status: sinon.stub().returns('building')
     };
 
-    var tpl = directiveTemplate.attribute('build-logs', {
+    var tpl = directiveTemplate.attribute('debug-cmd', {
       'instance': 'instance'
     });
     element = $compile(tpl)($scope);
-    $elScope = element.isolateScope();
     $scope.$digest();
+    $elScope = element.isolateScope();
   }
   describe('basics'.blue, function () {
     beforeEach(function () {
       setup();
     });
     it('should recalculate if the debug should show when the status changes to crashed', function () {
-      $scope.instance.returns('crashed');
+      $scope.instance.status.returns('crashed');
       $scope.$digest();
 
       var debugCmdChanged = sinon.spy();
@@ -108,10 +108,10 @@ describe('debugCmdDirective'.bold.underline.blue, function () {
       $scope.$digest();
 
       sinon.assert.calledOnce(debugCmdChanged);
-      sinon.assert.calledWith(debugCmdChanged, true);
+      expect(debugCmdChanged.lastCall.args[1]).to.equal(true);
     });
     it('should launch a debug container when clicked', function () {
-      $scope.instance.returns('crashed');
+      $scope.instance.status.returns('crashed');
       $scope.$digest();
 
       var debugCmdChanged = sinon.spy();
@@ -119,10 +119,10 @@ describe('debugCmdDirective'.bold.underline.blue, function () {
       mockStream.emit('end');
       $scope.$digest();
 
-      $elScope.debugCmd();
+      $elScope.actions.debugCmd();
 
       sinon.assert.called(mockLaunchDebugContainer);
-      sinon.assert.calledWith(mockLaunchDebugContainer, 'instance ID', 'context version id', 2, 'CMD two');
+      sinon.assert.calledWith(mockLaunchDebugContainer, 'instance ID', 'context version id', 1, 'RUN echo one');
 
     });
   });

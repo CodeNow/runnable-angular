@@ -26,6 +26,8 @@ function debugCmd(
             if(command && command.imageId){
               lastBeforeCMD = command;
               $scope.$emit('debug-cmd-status', true);
+            } else {
+              $scope.$emit('debug-cmd-status', false);
             }
           });
         } else {
