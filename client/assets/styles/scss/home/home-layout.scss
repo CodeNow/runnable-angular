@@ -175,11 +175,11 @@
     margin-left: 4px;
     top: -1px;
 
-    &:hover {
+    &:hover:not([disabled]) {
       background: lighten($purple-light,5%);
     }
 
-    &:active {
+    &:active:not([disabled]) {
       background: $white;
     }
   }
