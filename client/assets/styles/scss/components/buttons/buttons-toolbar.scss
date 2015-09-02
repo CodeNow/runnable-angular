@@ -12,12 +12,12 @@
     border-color: $purple-darker;
     color: $purple-lightest;
 
-    &:hover {
+    &:hover:not([disabled]) {
       background: $purple-light;
       color: $white;
     }
 
-    &:active,
+    &:active:not([disabled]),
     &.active {
       background: $white;
       color: $purple-light;

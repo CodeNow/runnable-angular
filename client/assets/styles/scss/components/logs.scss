@@ -103,9 +103,7 @@
 
   // debug button
   > .btn-debug {
-    flex: 0 0 auto;
     font-family: $sans-serif; // override monospace fonts
-    min-width: 0;
   }
 
   // change padding if there's a header
