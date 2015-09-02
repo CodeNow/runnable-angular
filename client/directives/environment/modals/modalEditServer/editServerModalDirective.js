@@ -394,6 +394,11 @@ function editServerModal(
           message: 'Missing or misplaced FROM'
         }));
       };
+
+      $scope.showDebugCmd = false;
+      $scope.$on('debug-cmd-status', function (status) {
+        $scope.showDebugCmd = status;
+      });
     }
   };
 }

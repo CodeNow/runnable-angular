@@ -1,16 +1,12 @@
 .views-toolbar(
-  ng-if = "showDebugCmd"
+  ng-show = "showDebugCmd"
 )
   small.small.monospace.text-overflow {{startCommand()}}
-  .btn-group.btn-debug
-    a.btn.btn-xs.purple.btn-toolbar.float-right(
-      ng-click = "actions.debugCmd()"
-      ng-disabled = "generatingDebug"
-    ) Debug
-      svg.iconnables.icons-link-external
-        use(
-          xlink:href = "#icons-link-external"
-        )
+  .btn-group.btn-debug(
+    debug-cmd
+    instance = "instance"
+  )
+
 
 //- ***********
 //- * if file *
