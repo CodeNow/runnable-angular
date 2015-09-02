@@ -7,6 +7,7 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
   var $elScope;
   var ctx;
   var $rootScope;
+  var $q;
   function setup() {
     ctx = {};
     ctx.branch = {attrs: apiMocks.branches.bitcoinRepoBranches[0]};
@@ -27,10 +28,12 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
 
     angular.mock.inject(function (
       _$compile_,
-      _$rootScope_
+      _$rootScope_,
+      _$q_
     ) {
       $compile = _$compile_;
       $rootScope = _$rootScope_;
+      $q = _$q_;
     });
     $scope = $rootScope.$new();
 
@@ -88,6 +91,25 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
     $elScope.autoDeploy(true);
 
     $elScope.$digest();
+
+    sinon.assert.calledOnce(ctx.instance.update);
+    sinon.assert.calledWith(ctx.instance.update, {locked: true});
+  });
+
+  it('should not allow changing while its already changing the locked attr', function () {
+    expect($elScope.autoDeploy()).to.not.be.ok;
+
+    var resolvePromise;
+    ctx.instance.update = sinon.stub().returns($q(function (resolve) {
+      resolvePromise = resolve;
+    }));
+
+    $elScope.autoDeploy(true);
+
+    $elScope.$digest();
+
+    var rtn = $elScope.autoDeploy(false);
+    expect(rtn).to.be.ok;
 
     sinon.assert.calledOnce(ctx.instance.update);
     sinon.assert.calledWith(ctx.instance.update, {locked: true});

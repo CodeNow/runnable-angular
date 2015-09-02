@@ -9,7 +9,9 @@ function editRepoCommit(
   fetchCommitData,
   keypather,
   promisify,
-  errs
+  errs,
+  loading,
+  $rootScope
 ) {
   return {
     restrict: 'A',
@@ -48,10 +50,17 @@ function editRepoCommit(
       };
       $scope.autoDeploy = function (isLocked) {
         if (arguments.length > 0) {
+          if ($rootScope.isLoading.autoDeploy) {
+            return !isLocked;
+          }
+          loading('autoDeploy', true);
           return promisify($scope.instance, 'update')({
             locked: isLocked
           })
-            .catch(errs.handler);
+            .catch(errs.handler)
+            .then(function () {
+              loading('autoDeploy', false);
+            });
         } else {
           return keypather.get($scope.instance, 'attrs.locked');
         }
