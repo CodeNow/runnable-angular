@@ -15,7 +15,6 @@ describe('debugCmdDirective'.bold.underline.blue, function () {
   var mockStream;
   var mockStreamingLogContents;
   var mockLaunchDebugContainer;
-  var mockDebugContainer;
   var mockErrs;
   var element;
   var $elScope;
@@ -57,7 +56,7 @@ describe('debugCmdDirective'.bold.underline.blue, function () {
       $provide.value('primus', mockPrimus);
       $provide.value('errs', mockErrs);
       $provide.factory('launchDebugContainer', function ($q) {
-        mockLaunchDebugContainer = sinon.stub().returns($q.when(mockDebugContainer));
+        mockLaunchDebugContainer = sinon.stub().returns($q.when('Hello'));
         return mockLaunchDebugContainer;
       });
     });
@@ -120,10 +119,10 @@ describe('debugCmdDirective'.bold.underline.blue, function () {
       $scope.$digest();
 
       $elScope.actions.debugCmd();
+      $scope.$digest();
 
       sinon.assert.called(mockLaunchDebugContainer);
       sinon.assert.calledWith(mockLaunchDebugContainer, 'instance ID', 'context version id', 1, 'RUN echo one');
-
     });
   });
 });
