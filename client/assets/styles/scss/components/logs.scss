@@ -8,7 +8,7 @@
 // build log specific
 .build-log-wrapper {
   overflow-y: auto;
-  padding: 9px 7px;
+  padding: 9px;
   width: 100%;
 }
 
@@ -103,9 +103,7 @@
 
   // debug button
   > .btn-debug {
-    flex: 0 0 auto;
     font-family: $sans-serif; // override monospace fonts
-    min-width: 0;
   }
 
   // change padding if there's a header

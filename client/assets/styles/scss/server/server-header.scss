@@ -33,7 +33,7 @@
 
   .icons-status {
     margin-right: 6px;
-    top: -2px;
+    top: -1px;
   }
 
   // pull request link / debug label
@@ -98,10 +98,41 @@
 
 // header.server-header actions
 .primary-actions {
+  align-items: center;
+  display: flex;
   flex: 0 0 auto;
-  line-height: 72px;
   padding-left: 9px;
-  position: relative;
+
+  // override default font-size
+  .btn {
+    font-size: 16px;
+
+    &.red .icons-status {
+      background: none;
+      border: 1px solid $red-lighter;
+    }
+
+    // override icons-notification color on active
+    &:active .icons-notification {
+      color: $orange;
+    }
+  }
+
+  .icons-notification {
+    border: 1px solid $orange;
+    border-radius: 50%;
+    color: $orange;
+    height: 15px;
+    margin: 0 0 0 8px;
+    top: 1px;
+    width: 15px;
+  }
+
+  .icons-status {
+    float: left;
+    margin-right: 9px;
+    top: 15px;
+  }
 
   // offset for vertical-align: middle
   .btn-group {
@@ -112,13 +143,12 @@
   .btn-save-options {
     min-width: $input-sm;
 
+    &[disabled] {
+      margin: 0;
+    }
+
     .icons-arrow-down {
       right: 9px;
     }
-  }
-
-  .btn[disabled],
-  .btn.disabled {
-    margin: 0;
   }
 }

@@ -1,28 +1,43 @@
-//- state buttons
-button.btn.gray(
-  ng-click = "actions.stopInstance()"
-  ng-if = "!isChanging() && instance.build.attrs.completed && instance.containers.models[0].running()"
-) Stop Container
-
-button.btn.gray(
-  ng-click = "actions.startInstance()"
+button.btn.btn-spinner(
+  ng-class = "getClassForInstance()"
   ng-disabled = "isChanging()"
-  ng-if = "!isChanging() && instance.build.attrs.completed && !instance.containers.models[0].running() && instance.status() !== 'buildFailed'"
-) Start Container
-
-button.btn.gray.btn-spinner.in(
-  disabled
-  ng-if = "isChanging()"
+  pop-over
+  pop-over-actions = "popoverStatusOptions.actions"
+  pop-over-active = "state.active"
+  pop-over-data = "popoverStatusOptions.data"
+  pop-over-options = "{\"right\":0,\"top\":53}"
+  pop-over-template = "viewInstancePopoverStatusOptions"
 )
-  .spinner-wrapper.spinner-sm.spinner-gray.in(
+  status-icon(
+    instance = "instance"
+    ng-if = "!isChanging()"
+  )
+
+  span.float-left(
+    ng-if ="!isChanging()"
+  ) {{ getStatusText() }}
+
+  //- if update and rebuild
+  svg.iconnables.icons-notification(
+    ng-if = "popoverStatusOptions.data.shouldShowUpdateConfigsPrompt"
+  )
+    use(
+      xlink:href = "#icons-notification"
+    )
+
+  //- if stopping, starting, or restarting
+  .spinner-wrapper.spinner-sm.spinner-gray.float-left.in(
+    ng-if = "isChanging()"
     ng-include = "'spinner'"
   )
-  span.btn-text {{changingText()}}
+  span.float-left(
+    ng-if = "isChanging()"
+  ) {{getStatusText()}}
 
-button.btn.gray(
-  disabled
-  ng-if = "instance.status() === 'buildFailed'"
-) Build Failed
+  svg.iconnables.icons-arrow-down
+    use(
+      xlink:href = "#icons-arrow-down"
+    )
 
 //- ***********************
 //- deprecated button, remove with $root.featureFlags.saveToolbar
@@ -42,12 +57,12 @@ button.btn.gray(
       ng-if = "saving"
       ng-include = "'spinner'"
     )
-
     span.btn-text {{ saving ? 'Saving' : 'Save'}}
     //- show if restart is checked
     span.btn-text(
       ng-if = "popoverSaveOptions.data.restartOnSave"
     ) #{''} and Restart
+
   button.btn.green.btn-icon.btn-icon-sm.btn-save-options(
     ng-class = "{active: popoverSaveOptions.data.show}"
     ng-disabled = "loading || saving || modifyingInstance"
@@ -55,7 +70,7 @@ button.btn.gray(
     pop-over-active = "popoverSaveOptions.data.show"
     pop-over-actions = "popoverSaveOptions.actions"
     pop-over-data = "popoverSaveOptions.data"
-    pop-over-options = "{\"left\":-146,\"top\":56}"
+    pop-over-options = "{\"right\":0,\"top\":53}"
     pop-over-template = "viewInstancePopoverSaveOptions"
     type = "button"
   )
