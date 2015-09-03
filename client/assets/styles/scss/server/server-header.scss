@@ -13,28 +13,12 @@
   }
 }
 
-// h1.server-info
+// .server-info
 .server-info {
   flex: 1 1 auto;
   line-height: 15px;
   overflow: hidden;
   padding: 12px 0;
-}
-
-// wrapper for container name, branch name, and status icon
-.container-title {
-  font-size: 21px;
-  font-weight: $weight-bold;
-  line-height: 24px;
-
-  &.centered {
-    line-height: 48px;
-  }
-
-  .icons-status {
-    margin-right: 6px;
-    top: -1px;
-  }
 
   // pull request link / debug label
   .link,
@@ -42,6 +26,16 @@
     color: $gray;
     font-size: 18px;
     margin-left: 6px;
+  }
+}
+
+// wrapper for container name, branch name, and pull request link
+.container-heading {
+  font-size: 21px;
+  line-height: 24px;
+
+  &.centered {
+    line-height: 48px;
   }
 }
 
