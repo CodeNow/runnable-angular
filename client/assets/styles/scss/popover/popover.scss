@@ -307,37 +307,32 @@
   }
 }
 
-// header
+// popover header
 .popover-header {
   background: $gray-lighterest;
   border-bottom: 1px solid $gray-lighter;
-  display: flex;
-  height: 54px;
-  padding: 9px 36px;
+  color: $gray;
+  display: block;
+  font-size: 14px;
+  height: $input-sm;
+  line-height: $input-sm;
+  padding: 0 6px;
+  position: relative;
+  text-align: center;
+  .icons-arrow-backward {
 
-  &.popover-header-sm {
-    height: $input-md;
-
-    .icons-close {
-      top: 9px;
-    }
-  }
-
-  // close icon
-  .icons-close {
     color: $gray-light;
-    cursor: pointer;
+    left: 6px;
+    padding: 0;
     pointer-events: auto; // reset from .iconnables
     position: absolute;
-    right: 15px;
-    top: 15px;
 
     &:hover {
       color: $gray;
     }
 
     &:active {
-      color: $red;
+      color: $purple-light;
     }
   }
 }

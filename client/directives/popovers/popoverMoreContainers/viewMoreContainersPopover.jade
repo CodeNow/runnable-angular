@@ -2,12 +2,7 @@
   ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
 )
-  .popover-header.popover-header-sm
-    strong.strong.text-overflow api Containers
-    svg.iconnables.icons-close
-      use(
-        xlink:href = "#icons-close"
-      )
+  .popover-header.popover-header-sm api Containers
   .popover-content
     input.input.input-xs.input-search(
       ng-model = "data.repoFilter"

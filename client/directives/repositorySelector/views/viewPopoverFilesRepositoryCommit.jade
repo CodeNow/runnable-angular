@@ -1,24 +1,14 @@
 .popover-header
-  button.btn.btn-sm.white.pull-left(
+  svg.btn.btn-sm.iconnables.icons-arrow-backward(
     ng-click = "repoSelector.actions.leaveCommitSelect()"
     ng-disabled = "state.saving"
     ng-if = "!(data.gitDataOnly && state.fromServer)"
   )
-    svg.iconnables.icons-arrow-backward
-      use(
-        xlink:href = "#icons-arrow-down"
-      )
-    | Back
-
-  strong.strong.text-overflow Commit
-
-  //- this button is empty on purpose
-  svg.btn.btn-sm.iconnables.icons-close(
-    ng-click = "closePopover()"
-  )
     use(
-      xlink:href = "#icons-close"
+      xlink:href = "#icons-arrow-down"
     )
+
+  strong.strong Commit
 
 .popover-content.repository-details-content(
   branch-commit-selector
