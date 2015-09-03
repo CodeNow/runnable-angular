@@ -1,0 +1,15 @@
+.popover-overlay
+  .popover.popover-fixed.popover-prompt.bottom(
+    ng-class = "{in: active}"
+    ng-style = "popoverStyle.getStyle()"
+  )
+    .popover-content
+      h3.popover-title Discard changes?
+      p.p You’ve made changes to this configuration. Are you sure you want to discard them?
+    .popover-footer.clearfix
+      button.btn.red.float-right(
+        ng-click = "closePopover()"
+      ) Yes, Discard My Changes
+      button.btn.white.btn-cancel(
+        ng-click = "closePopover()"
+      ) Cancel

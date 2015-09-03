@@ -176,7 +176,9 @@ form.modal-dialog.modal-edit(
         ng-if = "building"
       ) Saving
     button.btn.white.btn-cancel(
-      ng-click = "cancel()"
       ng-disabled = "building"
+      pop-over
+      pop-over-template = "closeConfigureModalPopoverView"
       type = "button"
     ) Cancel
+      //- ng-click = "cancel()"
