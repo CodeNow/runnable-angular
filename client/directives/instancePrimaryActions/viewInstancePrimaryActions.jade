@@ -1,4 +1,5 @@
 button.btn.btn-dns(
+  ng-if = "$root.featureFlags.isolationDnsMappings"
   pop-over
   pop-over-options = "{\"centered\":true,\"top\":53}"
   pop-over-template = "viewPopoverDnsMappings"

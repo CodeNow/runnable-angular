@@ -1,4 +1,4 @@
-.popover.menu.bottom.popover-dns-mappings(
+.popover.bottom.popover-dns-mappings(
   ng-class = "{'in': active}"
   ng-init = "\
     dnsMappings = [\
@@ -11,6 +11,7 @@
     state.view = 1;\
   "
   ng-style = "popoverStyle.getStyle()"
+  style = "transform-origin: 50% 0"
 )
   .arrow
   .popover-views

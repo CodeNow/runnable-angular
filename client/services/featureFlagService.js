@@ -18,6 +18,7 @@ function featureFlags(
     imAfraidOfTheDark: false, // toggles theme
     internalDebugging: false,
     isolationActive: false, // if isolation is active
+    isolationDnsMappings: false,
     isolationSetUp: false, // if isolation is setup
     isolationUI: false, // for isolation UI
     nameContainer: false,

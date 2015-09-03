@@ -96,7 +96,7 @@
     section.sidebar-section.dns-mappings-section(
       dns-manager
       instance = "dataInstance.data.instance"
-      ng-if = "dataInstance.data.instance"
+      ng-if = "dataInstance.data.instance && !$root.featureFlags.isolationDnsMappings"
     )
 
     section.sidebar-section.explorer-section(
