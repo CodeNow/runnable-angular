@@ -1,0 +1,41 @@
+.popover.menu.bottom(
+  ng-class = "{'in': active}"
+  ng-init = "state.view = 1"
+  ng-style = "popoverStyle.getStyle()"
+)
+  .arrow
+  .popover-views
+    div(
+      ng-class = "{\
+        'view-1': state.view === 1,\
+        'view-2': state.view === 2\
+      }"
+      style = "min-height: 100px"
+    )
+      ul.popover-view(
+        ng-style = "state.view === 1 && {'opacity': '1'}"
+      )
+        .popover-header
+          svg.btn.btn-sm.iconnables.icons-arrow-backward.pull-left(
+            ng-click = "state.view = 1"
+          )
+            use(
+              xlink:href = "#icons-arrow-down"
+            )
+          | DNS Mappings
+
+        li.tr.thead.clearfix
+          .cell.text-overflow.cell-arrow data-dog
+          .cell.text-overflow master
+        li.tr.thead.clearfix
+          .cell.text-overflow.cell-arrow mavis
+          .cell.text-overflow master
+        li.tr.thead.clearfix
+          .cell.text-overflow.cell-arrow neo4j
+          .cell.text-overflow master
+        li.tr.thead.clearfix
+          .cell.text-overflow.cell-arrow optimus
+          .cell.text-overflow master
+        li.tr.thead.clearfix
+          .cell.text-overflow.cell-arrow runnable-angular
+          .cell.text-overflow master
