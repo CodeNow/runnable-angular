@@ -21,43 +21,6 @@
     top: 30px !important;
   }
 
-  .popover-header {
-    @extend %text-overflow;
-    flex: 0 0 54px;
-    height: 54px;
-    padding: 9px 39px;
-
-    // icons
-    > .iconnables {
-      color: $gray-light;
-      cursor: pointer;
-      padding: 0;
-      pointer-events: auto; // reset from .iconnables
-      position: absolute;
-      top: 15px;
-
-      &:first-child {
-        left: 15px;
-      }
-
-      &:last-child {
-        right: 15px;
-      }
-
-      &:hover {
-        color: $gray;
-      }
-
-      &:active {
-        color: $purple-light;
-
-        &.icons-close {
-          color: $red;
-        }
-      }
-    }
-  }
-
   .popover-title {
     margin: 6px 0 21px;
 
@@ -93,6 +56,44 @@
   // spinner
   .spinner-backdrop {
     background: transparent; // for background clipping in safari
+  }
+}
+
+.popover-fixed .popover-header,
+.popover-files .popover-header {
+  @extend %text-overflow;
+  flex: 0 0 54px;
+  height: 54px;
+  padding: 9px 39px;
+
+  // icons
+  > .iconnables {
+    color: $gray-light;
+    cursor: pointer;
+    padding: 0;
+    pointer-events: auto; // reset from .iconnables
+    position: absolute;
+    top: 15px;
+
+    &:first-child {
+      left: 15px;
+    }
+
+    &:last-child {
+      right: 15px;
+    }
+
+    &:hover {
+      color: $gray;
+    }
+
+    &:active {
+      color: $purple-light;
+
+      &.icons-close {
+        color: $red;
+      }
+    }
   }
 }
 
