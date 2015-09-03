@@ -107,13 +107,23 @@
   .btn {
     font-size: 16px;
 
-    &.red .icons-status {
-      background: none;
-      border: 1px solid $red-lighter;
+    &.red,
+    &.red:active {
+
+      .icons-status {
+        background: none;
+        border: 1px solid $red-lighter;
+      }
+
+      .icons-notification {
+        border-color: $white;
+        color: $white;
+      }
     }
 
     // override icons-notification color on active
     &:active .icons-notification {
+      border-color: $orange;
       color: $orange;
     }
   }
