@@ -24,17 +24,12 @@ var mockSlack = [{
 var mockGithub = ['jeb'];
 
 describe('directiveIntegrations', function () {
-  var errs, promise, $q, vciSpy;
+  var mockErrsFactory;
+  var $q;
+  var verifyChatIntegrationStub;
+  var $scope;
 
   function injectSetupCompile (mockSettings, triggerErrorOnVerifyChatIntegration) {
-    var errsFactory = function () {
-      errs = {
-        handler: sinon.spy(function (err) {
-          return;
-        })
-      };
-      return errs;
-    };
     angular.mock.module('app', function ($provide) {
       $provide.factory('fetchSettings', function ($q) {
         return function () {
@@ -42,22 +37,27 @@ describe('directiveIntegrations', function () {
         };
       });
       $provide.factory('verifyChatIntegration', function ($q) {
-        // Need to do this dance so we can access the spy
+        // Need to do this dance so we can access the stub
+        var verifyChatIntegrationPromise;
         if (triggerErrorOnVerifyChatIntegration === true)  {
-          promise = $q.reject(new Error('Testing erorr handling'));
+          verifyChatIntegrationPromise = $q.reject(new Error('Testing erorr handling'));
         } else {
-          promise = $q.when({
+          verifyChatIntegrationPromise = $q.when({
             github: mockGithub,
             slack: mockSlack
           });
         }
-        vciSpy = sinon.spy(function () {
-          return promise;
-        });
-        return vciSpy;
+        verifyChatIntegrationStub = sinon.stub().returns(verifyChatIntegrationPromise);
+        return verifyChatIntegrationStub;
       });
-      $provide.factory('errs', errsFactory);
+      $provide.factory('errs', function () {
+        mockErrsFactory = {
+          handler: sinon.stub()
+        };
+        return mockErrsFactory;
+      });
     });
+
     angular.mock.inject(function (
       _$compile_,
       _$rootScope_,
@@ -69,7 +69,7 @@ describe('directiveIntegrations', function () {
       $rootScope = _$rootScope_;
       $scope = _$rootScope_.$new();
       $q = _$q_;
-    });
+   });
 
     var template = directiveTemplate.attribute('modal-integrations');
     var element = $compile(angular.element(template))($scope);
@@ -79,18 +79,19 @@ describe('directiveIntegrations', function () {
 
   it('should not do much without settings', function () {
     injectSetupCompile({});
-    $rootScope.$apply();
+    $scope.$digest();
     expect($elScope.data.slackMembers).to.deep.equal({});
   });
 
   describe('with settings', function () {
+    var apiToken = 'runnable123';
     var settings;
     beforeEach(function () {
       settings = {
         attrs: {
           notifications: {
             slack: {
-              apiToken: 'runnable123',
+              apiToken: apiToken,
               githubUsernameToSlackIdMap: {}
             }
           }
@@ -100,25 +101,27 @@ describe('directiveIntegrations', function () {
         })
       };
       injectSetupCompile(settings);
-      $rootScope.$apply();
+      $scope.$digest();
     });
 
     it('should fetch chat data when there is a token & map', function () {
       expect($elScope.data.verified).to.be.true;
       expect($elScope.data.slackMembers).to.deep.equal(mockSlack);
       expect($elScope.data.ghMembers).to.deep.equal(mockGithub);
-      sinon.assert.called(vciSpy);
+      sinon.assert.called(verifyChatIntegrationStub);
+      sinon.assert.calledWith(verifyChatIntegrationStub, apiToken);
     });
 
     it('should call fetchChatMemberData on verify click', function () {
       $elScope.actions.verifySlack();
-      $rootScope.$apply();
-      sinon.assert.called(vciSpy);
+      $scope.$digest();
+      sinon.assert.called(verifyChatIntegrationStub);
+      sinon.assert.calledWith(verifyChatIntegrationStub, apiToken);
     });
 
     it('should send correctly-formatted data on save', function () {
       $elScope.actions.saveSlack();
-      $rootScope.$apply();
+      $scope.$digest();
       sinon.assert.calledWith(settings.update, {
         json: {
           notifications: {
@@ -144,13 +147,12 @@ describe('directiveIntegrations', function () {
         }
       ];
       $elScope.actions.saveSlack();
-      $rootScope.$apply();
       $scope.$digest();
       sinon.assert.calledWith(settings.update, {
         json: {
           notifications: {
             slack: {
-              apiToken: "runnable123",
+              apiToken: 'runnable123',
               enabled: undefined,
               githubUsernameToSlackIdMap: {
                 thejsj: 1
@@ -164,15 +166,29 @@ describe('directiveIntegrations', function () {
 
   describe('error handling', function () {
 
-    before(function () {
-      promise = $q.reject(new Error('Testing erorr handling'));
+    var apiToken = 'runnable123';
+    var settings;
+    beforeEach(function () {
+      settings = {
+        attrs: {
+          notifications: {
+            slack: {
+              apiToken: apiToken,
+              githubUsernameToSlackIdMap: {}
+            }
+          }
+        },
+        update: sinon.spy(function (datums, cb) {
+          cb();
+        })
+      };
+      injectSetupCompile(settings, true);
+      $scope.$digest();
     });
 
     it('should handle errors correctly', function () {
-      promise = $elScope.actions.verifySlack();
-      $rootScope.$apply();
       $scope.$digest();
-      expect(errs.handler.calledOnce).to.be.true;
+      sinon.assert.calledOnce(mockErrsFactory.handler);
     });
   });
 
@@ -193,7 +209,7 @@ describe('directiveIntegrations', function () {
 
       beforeEach(function () {
         injectSetupCompile(settings, true);
-        $rootScope.$apply();
+        $scope.$digest();
       });
 
       it('should reset an invalid Slack API token when destroyed', function () {
@@ -201,7 +217,6 @@ describe('directiveIntegrations', function () {
         $elScope.data.slackApiToken = 'NOT_VALID';
         var invalidApiToken = $elScope.data.slackApiToken;
         expect(apiToken).not.to.equal(invalidApiToken);
-        $scope.$digest();
         $elScope.actions.verifySlack();
         $scope.$digest();
         var newApiToken = $elScope.data.settings.attrs.notifications.slack.apiToken;
@@ -215,7 +230,7 @@ describe('directiveIntegrations', function () {
 
       beforeEach(function () {
         injectSetupCompile(settings, false);
-        $rootScope.$apply();
+        $scope.$digest();
       });
 
       it('should reset an invalid Slack API token when destroyed', function () {
@@ -225,7 +240,6 @@ describe('directiveIntegrations', function () {
         expect(apiToken).not.to.equal(validApiToken);
         $scope.$digest();
         $elScope.actions.verifySlack();
-        $scope.$digest();
         $scope.$digest();
         var newApiToken = $elScope.data.settings.attrs.notifications.slack.apiToken;
         expect(apiToken).to.not.equal(newApiToken);

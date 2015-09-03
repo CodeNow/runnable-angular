@@ -411,7 +411,6 @@ function fetchDebugContainer(
 ) {
   return function (containerId) {
     return fetchUser().then(function (user) {
-      console.log(user);
       return promisify(user, 'fetchDebugContainer')(containerId);
     });
   };

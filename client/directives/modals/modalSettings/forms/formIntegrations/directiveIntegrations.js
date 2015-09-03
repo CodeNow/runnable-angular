@@ -97,9 +97,7 @@ function integrations(
             }
           }
         })
-          .catch(errs.handler)
-          .then(function (res) {
-          });
+          .catch(errs.handler);
       };
     }
   };

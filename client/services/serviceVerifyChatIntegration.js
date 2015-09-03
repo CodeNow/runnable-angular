@@ -16,7 +16,6 @@ function verifyChatIntegration (
   return function (apiToken, settings, chatClient) {
     var orgName = $state.params.userName;
 
-    // These two are pointing at the same thing, so obviously they will be the same
     var cacheToken = keypather.get(integrationsCache, orgName + '.' + chatClient + '.apiToken');
     if (apiToken === cacheToken && integrationsCache[orgName].github) {
       return $q.when(integrationsCache[orgName]);

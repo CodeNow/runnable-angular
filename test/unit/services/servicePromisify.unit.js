@@ -204,9 +204,6 @@ describe('servicePromisify'.underline.bold.blue, function () {
     });
     it('rejects the promise if the method fn doesn\'t exist', function() {
       var Model = function Model () {};
-      Model.prototype.myFunc = function(cb) {
-        return 1;
-      };
       var model = new Model();
       var throwErr = function () {
         return promisify(model, 'methodThatDoesntExist');
