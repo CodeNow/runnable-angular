@@ -75,7 +75,7 @@
     position: absolute;
     top: 15px;
 
-    &:first-child {
+    &:first-child:not(.icons-close) {
       left: 15px;
     }
 
