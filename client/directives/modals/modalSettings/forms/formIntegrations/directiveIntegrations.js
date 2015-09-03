@@ -22,7 +22,7 @@ function integrations(
       data.showSlack = true;
       data.settings = {};
       data.slackMembers = {};
-      data.verifiedOnInit = false;
+      data.settingsFetched = false;
       data.verified = false;
       data.slackApiToken = null;
       data.invalidApiToken = false;
@@ -60,7 +60,7 @@ function integrations(
         .catch(errs.handler)
         .finally(function () {
           data.loading = false;
-          data.verifiedOnInit = true;
+          data.settingsFetched = true;
         });
 
       actions.verifySlack = function () {
