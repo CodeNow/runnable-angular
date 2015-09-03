@@ -3,8 +3,7 @@
     ng-class = "{'in': active}"
     ng-style = "popoverStyle.getStyle()"
   )
-    .popover-header
-      strong.strong {{ data.fromServer ? data.name : 'Upload File' }}
+    .popover-header {{ data.fromServer ? data.name : 'Upload File' }}
       svg.iconnables.icons-close(
         ng-click = "closePopover()"
       )

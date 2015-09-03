@@ -15,14 +15,7 @@
       ul.popover-view(
         ng-style = "state.view === 1 && {'opacity': '1'}"
       )
-        .popover-header
-          svg.btn.btn-sm.iconnables.icons-arrow-backward.pull-left(
-            ng-click = "state.view = 1"
-          )
-            use(
-              xlink:href = "#icons-arrow-down"
-            )
-          | DNS Mappings
+        .popover-header DNS Mappings
 
         li.tr.thead.clearfix
           .cell.text-overflow.cell-arrow data-dog
