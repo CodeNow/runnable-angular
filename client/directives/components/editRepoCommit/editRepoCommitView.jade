@@ -47,6 +47,7 @@ label.label-checkbox.btn-sm.btn-checkbox(
   style = "margin: 0; padding: 0 12px; height: 30px;"
 )
   input.input-checkbox(
+    ng-disabled = "$root.isLoading.autoDeploy"
     ng-false-value = "true"
     ng-model = "autoDeploy"
     ng-model-options = "{getterSetter: true}"
@@ -89,6 +90,7 @@ label.label-checkbox.btn-sm.btn-checkbox(
         ng-model-options = "{getterSetter: true}"
         ng-true-value = "false"
         type = "checkbox"
+        ng-disabled = "$root.isLoading.autoDeploy"
       )
       .toggle-group.toggle-xs
   svg.iconnables.icons-arrow-down
