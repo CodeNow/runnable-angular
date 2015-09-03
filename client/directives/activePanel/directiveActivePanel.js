@@ -40,7 +40,7 @@ function activePanel(
       };
 
       $scope.showDebugCmd = false;
-      $scope.$on('debug-cmd-status', function (status) {
+      $scope.$on('debug-cmd-status', function (evt, status) {
         $scope.showDebugCmd = status;
       });
     }

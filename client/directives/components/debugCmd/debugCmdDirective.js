@@ -39,7 +39,7 @@ function debugCmd(
       $scope.generatingDebug = false;
       $scope.actions = {
         debugCmd: function () {
-          if ($scope.generatingDebug) {
+          if ($scope.generatingDebug || !lastBeforeCMD) {
             return;
           }
           $scope.generatingDebug = true;
