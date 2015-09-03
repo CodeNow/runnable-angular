@@ -1,6 +1,15 @@
-.popover.menu.bottom(
+.popover.menu.bottom.popover-dns-mappings(
   ng-class = "{'in': active}"
-  ng-init = "state.view = 1"
+  ng-init = "\
+    dnsMappings = [\
+      {name: 'data-dog', branch: 'master'},\
+      {name: 'mavis', branch: 'master'},\
+      {name: 'neo4j', branch: 'master'},\
+      {name: 'optimus', branch: 'master'},\
+      {name: 'runnable-angular', branch: 'master'}\
+    ];\
+    state.view = 1;\
+  "
   ng-style = "popoverStyle.getStyle()"
 )
   .arrow
@@ -10,25 +19,16 @@
         'view-1': state.view === 1,\
         'view-2': state.view === 2\
       }"
-      style = "min-height: 100px"
+      style = "min-height: {{dnsMappings.length*36 + 36}}px"
     )
-      ul.popover-view(
+
+      .popover-view(
         ng-style = "state.view === 1 && {'opacity': '1'}"
       )
         .popover-header DNS Mappings
 
-        li.tr.thead.clearfix
-          .cell.text-overflow.cell-arrow data-dog
-          .cell.text-overflow master
-        li.tr.thead.clearfix
-          .cell.text-overflow.cell-arrow mavis
-          .cell.text-overflow master
-        li.tr.thead.clearfix
-          .cell.text-overflow.cell-arrow neo4j
-          .cell.text-overflow master
-        li.tr.thead.clearfix
-          .cell.text-overflow.cell-arrow optimus
-          .cell.text-overflow master
-        li.tr.thead.clearfix
-          .cell.text-overflow.cell-arrow runnable-angular
-          .cell.text-overflow master
+        .tr.clearfix(
+          ng-repeat = "item in dnsMappings"
+        )
+          .cell.text-overflow.cell-arrow {{item.name}}
+          .cell.text-overflow {{item.branch}}
