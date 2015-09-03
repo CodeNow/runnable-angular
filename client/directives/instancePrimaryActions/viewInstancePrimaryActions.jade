@@ -1,3 +1,5 @@
+button.btn.btn-dns DNS
+
 button.btn.btn-spinner(
   ng-class = "getClassForInstance()"
   ng-disabled = "isChanging()"
@@ -15,7 +17,7 @@ button.btn.btn-spinner(
 
   span.float-left(
     ng-if ="!isChanging()"
-  ) {{ getStatusText() }}
+  ) {{getStatusText()}}
 
   //- if update and rebuild
   svg.iconnables.icons-notification(
