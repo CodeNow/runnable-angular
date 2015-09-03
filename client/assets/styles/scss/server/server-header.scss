@@ -108,7 +108,7 @@
     font-size: 16px;
 
     &.red,
-    &.red:active {
+    &.red:active:not([disabled]) {
 
       .icons-status {
         background: none;
@@ -122,7 +122,7 @@
     }
 
     // override icons-notification color on active
-    &:active .icons-notification {
+    &:active:not([disabled]) .icons-notification {
       border-color: $orange;
       color: $orange;
     }
