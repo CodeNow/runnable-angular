@@ -37,8 +37,7 @@ function editServerModal(
   OpenItems,
   parseDockerfileForCardInfoFromInstance,
   promisify,
-  updateDockerfileFromState,
-  assign
+  updateDockerfileFromState
 ) {
   return {
     restrict: 'A',
@@ -50,6 +49,11 @@ function editServerModal(
     },
     link: function ($scope, elem, attrs) {
       $scope.isLoading = $rootScope.isLoading;
+
+      $scope.showDebugCmd = false;
+      $scope.$on('debug-cmd-status', function (evt, status) {
+        $scope.showDebugCmd = status;
+      });
 
       loading.reset('editServerModal');
       loading('editServerModal', true);

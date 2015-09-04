@@ -35,11 +35,12 @@ pre.pre.log-wrapper(
   //- toolbar
   .views-toolbar-wrapper(
     ng-class = "{\
-      'toolbar-lg': $root.featureFlags.saveToolbar && $root.featureFlags.debugStartCmd,\
+      'toolbar-lg': $root.featureFlags.saveToolbar && showDebugCmd,\
       'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
       'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
     }"
-    ng-if = "$root.featureFlags.debugStartCmd && page === 'run'"
+    ng-if = "page === 'run'"
+    ng-show = "showDebugCmd"
     ng-include = "'viewToolbar'"
   )
   .term-js.term-log(
