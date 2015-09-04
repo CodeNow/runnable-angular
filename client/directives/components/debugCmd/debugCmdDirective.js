@@ -17,8 +17,8 @@ function debugCmd(
     link: function ($scope) {
       var lastBeforeCMD = null;
 
-      $scope.$watch('instance.status()', function (newVal) {
-        if (newVal === 'crashed') {
+      $scope.$watch('instance.status()', function (newStatus) {
+        if (newStatus === 'crashed') {
           var stream = primus.createBuildStream($scope.instance.build);
           var streamingBuildLogs = streamingLog(stream);
           stream.on('end', function () {
