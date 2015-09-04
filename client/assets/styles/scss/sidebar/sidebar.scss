@@ -59,6 +59,7 @@
     font-style: italic;
     height: 27px;
     line-height: 27px;
+    margin-right: 9px;
     opacity: .7;
     padding: 0 6px;
     pointer-events: auto;
@@ -90,7 +91,6 @@
     height: 27px;
     line-height: 27px;
     margin: 0 -9px;
-    padding: 0 18px;
     position: relative;
 
     &:hover .btn-hide {
@@ -106,6 +106,7 @@
     // repo name header or container name
     > .span {
       flex: 1 1 auto;
+      padding-left: 18px;
 
       // pseudo-element for hover and active background color
       &:after {
@@ -144,14 +145,13 @@
     > .btn-hide {
       display: none;
       line-height: 30px;
-      padding-right: 0;
     }
 
     // configure button
     > .btn-configure {
       height: 100%;
-      margin-right: -6px;
-      width: 27px;
+      margin-right: 6px;
+      width: 33px;
     }
 
     .icons-advanced {

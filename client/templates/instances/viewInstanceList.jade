@@ -26,9 +26,6 @@
   .list-item(
     title = "{{ masterasterInstance.attrs.name }}"
   )
-    status-icon(
-      instance = "masterInstance"
-    )
 
     //- displays master branch name
     a.span.text-overflow(
@@ -37,15 +34,16 @@
         instanceName: masterInstance.attrs.name })\
       "
       ui-sref-active = "active"
-    ) {{masterInstance.getBranchName()}}
+    )
+      status-icon(
+        instance = "masterInstance"
+      )
+      | {{masterInstance.getBranchName()}}
 
   //- containers for non-master branches
   .list-item(
     ng-repeat = "branchFork in masterInstance.children.models | orderBy:'attrs.name'"
   )
-    status-icon(
-      instance = "branchFork"
-    )
 
     a.span.text-overflow(
       title = "{{ branchFork.getDisplayName() }}"
@@ -54,7 +52,11 @@
         instanceName: branchFork.attrs.name })\
       "
       ui-sref-active = "active"
-    ) {{ branchFork.getDisplayName() }}
+    )
+      status-icon(
+        instance = "branchFork"
+      )
+      | {{ branchFork.getDisplayName() }}
 
     //- "hide" button
     .btn.btn-hide(
@@ -83,9 +85,6 @@
     ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
     title = "{{ masterInstance.attrs.name }}"
   )
-    status-icon(
-      instance = "masterInstance"
-    )
 
     //- displays container name for non-repo containers
     a.span.text-overflow(
@@ -94,7 +93,11 @@
         instanceName: masterInstance.attrs.name })\
       "
       ui-sref-active = "active"
-    ) {{masterInstance.attrs.name}}
+    )
+      status-icon(
+        instance = "masterInstance"
+      )
+      | {{masterInstance.attrs.name}}
 
     //- configure button for non-repo containers
     .btn.btn-configure(
