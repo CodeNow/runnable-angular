@@ -77,7 +77,8 @@ describe('serviceVerifyChatIntegration', function () {
   });
 
   it('filters regular responses with an empty cache', function (done) {
-    verifyChatIntegration(mockSettings, 'slack')
+    var slackApiToken = mockSettings.attrs.notifications.slack.apiToken;
+    verifyChatIntegration(slackApiToken, mockSettings, 'slack')
     .then(function (results) {
       expect(results.github).to.deep.equal(['jeb']);
       expect(results.slack).to.deep.equal([{
