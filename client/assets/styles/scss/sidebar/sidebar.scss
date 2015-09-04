@@ -61,6 +61,7 @@
     line-height: 27px;
     opacity: .7;
     padding: 0 6px;
+    pointer-events: auto;
 
     &:hover {
       opacity: .85;
@@ -75,12 +76,11 @@
 }
 
 .list-containers {
-  border-bottom: 1px solid $gray-lighter; // lines below categories
   margin: 0 9px;
   padding: 9px 0;
 
-  &:last-child {
-    border: 0;
+  &:not(:last-child) {
+    border-bottom: 1px solid $gray-lighter; // lines below categories
   }
 
   .list-item {
@@ -91,30 +91,60 @@
     line-height: 27px;
     margin: 0 -9px;
     padding: 0 18px;
+    position: relative;
 
-    &:hover {
-      background: rgba($gray-light,.1);
+    &:hover .btn-hide {
+      display: block;
+    }
 
-      .btn-hide {
-        display: block;
+    // repo name header
+    &.small {
+      color: $gray-dark;
+      pointer-events: none;
+    }
+
+    // repo name header or container name
+    > .span {
+      flex: 1 1 auto;
+
+      // pseudo-element for hover and active background color
+      &:after {
+        content: '';
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: -1;
+      }
+
+      &:hover:after {
+        background: rgba($gray-light,.1);
+      }
+
+      &:active,
+      &.active {
+        color: $purple-light;
+
+        &:after {
+          background: $purple-lightest;
+        }
+
+        + .btn-hide {
+          color: $purple-light;
+        }
+      }
+
+      &.active {
+        pointer-events: none;
       }
     }
 
-    &:active,
-    &.active {
-      background: $purple-lightest;
-      color: $purple-light;
-    }
-
-    // reset repo name header
-    &.small {
-      color: $gray-dark;
-      pointer-events: auto;
-    }
-
-    // text
-    > .span {
-      flex: 1 1 auto;
+    // hide button
+    > .btn-hide {
+      display: none;
+      line-height: 30px;
+      padding-right: 0;
     }
 
     // configure button
@@ -127,13 +157,6 @@
     .icons-advanced {
       height: 100%;
       width: 12px;
-    }
-
-    // hide button
-    > .btn-hide {
-      display: none;
-      line-height: 30px;
-      padding-right: 0;
     }
   }
 
