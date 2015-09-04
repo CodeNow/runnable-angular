@@ -2,11 +2,11 @@
   ng-class = "{'in': active}"
   ng-init = "\
     dnsMappings = [\
-      {name: 'data-dog', elasticHostname: 'datadog-staging-CodeNow.runnableapp.com', branch: 'master'},\
-      {name: 'mavis', elasticHostname: 'mavis-staging-CodeNow.runnableapp.com', branch: 'master'},\
-      {name: 'neo4j', elasticHostname: 'neo4j-staging-CodeNow.runnableapp.com', branch: 'master'},\
-      {name: 'optimus', elasticHostname: 'optimus-staging-CodeNow.runnableapp.com', branch: 'master'},\
-      {name: 'runnable-angular', elasticHostname: 'runnable-angular-staging-CodeNow.runnableapp.com', branch: 'master'}\
+      {name: 'data-dog', elasticHostname: 'datadog-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'Private Sandbox (runnabro)'},\
+      {name: 'mavis', elasticHostname: 'mavis-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'Private Sandbox (runnabro)'},\
+      {name: 'neo4j', elasticHostname: 'neo4j-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'Private Sandbox (runnabro)'},\
+      {name: 'optimus', elasticHostname: 'optimus-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'Private Sandbox (runnabro)'},\
+      {name: 'runnable-angular', elasticHostname: 'runnable-angular-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'Private Sandbox (runnabro)'}\
     ];\
     state.view = 1;\
   "
@@ -34,6 +34,7 @@
           .cell.text-overflow {{item.name}}
             small.small {{item.elasticHostname}}
           .cell.text-overflow {{item.branch}}
+            small.small {{item.sandbox}}
             svg.iconnables.icons-arrow-forward.float-right
               use(
                 xlink:href = "#icons-arrow-down"
