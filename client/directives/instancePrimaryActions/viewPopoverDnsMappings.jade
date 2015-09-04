@@ -2,11 +2,11 @@
   ng-class = "{'in': active}"
   ng-init = "\
     dnsMappings = [\
-      {name: 'data-dog', branch: 'master'},\
-      {name: 'mavis', branch: 'master'},\
-      {name: 'neo4j', branch: 'master'},\
-      {name: 'optimus', branch: 'master'},\
-      {name: 'runnable-angular', branch: 'master'}\
+      {name: 'data-dog', elasticHostname: 'datadog-staging-CodeNow.runnableapp.com', branch: 'master'},\
+      {name: 'mavis', elasticHostname: 'mavis-staging-CodeNow.runnableapp.com', branch: 'master'},\
+      {name: 'neo4j', elasticHostname: 'neo4j-staging-CodeNow.runnableapp.com', branch: 'master'},\
+      {name: 'optimus', elasticHostname: 'optimus-staging-CodeNow.runnableapp.com', branch: 'master'},\
+      {name: 'runnable-angular', elasticHostname: 'runnable-angular-staging-CodeNow.runnableapp.com', branch: 'master'}\
     ];\
     state.view = 1;\
   "
@@ -20,7 +20,7 @@
         'view-1': state.view === 1,\
         'view-2': state.view === 2\
       }"
-      style = "min-height: {{dnsMappings.length*36 + 36}}px"
+      style = "min-height: {{dnsMappings.length*42 + 36}}px"
     )
 
       .popover-view(
@@ -28,10 +28,11 @@
       )
         .popover-header DNS Mappings
 
-        .tr.clearfix(
+        .tr.multi-line.clearfix(
           ng-repeat = "item in dnsMappings"
         )
           .cell.text-overflow {{item.name}}
+            small.small {{item.elasticHostname}}
           .cell.text-overflow {{item.branch}}
             svg.iconnables.icons-arrow-forward.float-right
               use(
