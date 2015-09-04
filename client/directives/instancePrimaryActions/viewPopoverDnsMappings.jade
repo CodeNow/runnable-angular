@@ -32,9 +32,11 @@
           ng-repeat = "item in dnsMappings"
         )
           .cell.text-overflow {{item.name}}
-            small.small {{item.elasticHostname}}
+            small.small.text-overflow(
+              title = "{{item.elasticHostname}}"
+            ) {{item.elasticHostname}}
           .cell.text-overflow {{item.branch}}
-            small.small {{item.sandbox}}
+            small.small.text-overflow {{item.sandbox}}
             svg.iconnables.icons-arrow-forward.float-right
               use(
                 xlink:href = "#icons-arrow-down"

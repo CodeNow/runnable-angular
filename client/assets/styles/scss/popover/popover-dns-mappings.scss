@@ -29,7 +29,7 @@
     position: relative;
 
     &:first-child {
-      padding-right: 30px;
+      padding-right: 0;
 
       &::after {
         color: $gray-light;
