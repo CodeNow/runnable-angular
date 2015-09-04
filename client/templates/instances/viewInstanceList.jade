@@ -30,15 +30,14 @@
       instance = "masterInstance"
     )
 
-    //- displays master branch name for repo containers
-    //- displays container name for non-repo containers
+    //- displays master branch name
     a.span.text-overflow(
       ui-sref = "\
         base.instances.instance({ userName: CIS.activeAccount.oauthName(), \
         instanceName: masterInstance.attrs.name })\
       "
       ui-sref-active = "active"
-    ) {{ masterInstance.getRepoName() ? masterInstance.getBranchName() : masterInstance.attrs.name}}
+    ) {{masterInstance.getBranchName()}}
 
   //- containers for non-master branches
   .list-item(
@@ -70,7 +69,7 @@
     pop-over-template = "viewMoreContainersPopover"
   ) 8 more…
 
-
+//- non-repository containers
 .list.list-containers(
   ng-if = "CIS.activeAccount && !isLoading.sidebar"
   ng-show = "nonRepoInstances.length"
@@ -79,7 +78,7 @@
   .list-item.small.strong
     span.span.text-overflow Non-repository
 
-  //- non-repo containers
+  //- non-repository containers
   .list-item(
     ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
     title = "{{ masterInstance.attrs.name }}"
@@ -89,14 +88,13 @@
     )
 
     //- displays container name for non-repo containers
-    //- TODO: do we need the ternary operator here?
     a.span.text-overflow(
       ui-sref = "\
         base.instances.instance({ userName: CIS.activeAccount.oauthName(), \
         instanceName: masterInstance.attrs.name })\
       "
       ui-sref-active = "active"
-    ) {{ masterInstance.getRepoName() ? masterInstance.getBranchName() : masterInstance.attrs.name}}
+    ) {{masterInstance.attrs.name}}
 
     //- configure button for non-repo containers
     .btn.btn-configure(
