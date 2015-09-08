@@ -48,7 +48,6 @@ function populateDockerfile(
   $q,
   regexpQuote,
   keypather,
-  configEnvironment,
   $log
 ) {
   return function (sourceDockerfile, state, destDockerfile) {
@@ -117,10 +116,10 @@ function populateDockerfile(
         .replace(/#default.+/gm, ''); // Remove all default comments that are not
 
       if (ports.length) {
-        dockerfileBody = dockerfileBody
-          .replace(/<user-specified-ports>/gm, ports.join(' '));
+        dockerfileBody = dockerfileBody.replace(/<user-specified-ports>/gm, ports.join(' '));
       } else {
-        dockerfileBody = dockerfileBody.replace('EXPOSE', '');
+        dockerfileBody = dockerfileBody.replace('# Open up ports on the container\n', '');
+        dockerfileBody = dockerfileBody.replace('EXPOSE <user-specified-ports>\n', '');
       }
       return dockerfileBody;
     }

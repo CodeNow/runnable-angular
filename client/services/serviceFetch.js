@@ -75,7 +75,8 @@ function fetchInstances(
   promisify,
   keypather,
   $state,
-  exists
+  exists,
+  $q
 ) {
   return function (opts, resetCache) {
     if (!opts) {
@@ -85,6 +86,11 @@ function fetchInstances(
       resetCache = false;
     }
     opts.githubUsername = opts.githubUsername || $state.params.userName;
+
+    opts.ignoredFields = [
+      'contextVersions[0].build.log',
+      'contextVersion.build.log'
+    ];
 
     var fetchKey = jsonHash.digest(opts);
     if (resetCache || !fetchCache[fetchKey]) {
@@ -100,7 +106,7 @@ function fetchInstances(
           }
 
           if (!instance) {
-            throw new Error('Container not found');
+            return $q.reject('Container not found');
           }
           instance.githubUsername = opts.githubUsername;
           return instance;
@@ -223,7 +229,6 @@ function fetchOwnerRepos(fetchUser, promisify) {
         repoType = 'Repos';
       }
       var allRepos = [];
-
       function fetchPage(page) {
         return promisify(user, 'fetch' + repoType)({
           page: page,
@@ -259,11 +264,11 @@ function fetchRepoBranches(fetchUser, promisify) {
     function fetchPage(page) {
       return promisify(repo, 'fetchBranches')({
         page: page,
-      }).then(function (branches) {
-        allBranches = allBranches.concat(branches.models);
+      }).then(function (branchesCollection) {
+        allBranches = allBranches.concat(branchesCollection.models);
         // recursive until result set returns fewer than
         // 100 repos, indicating last paginated result
-        if (branches.models.length < 100) {
+        if (branchesCollection.models.length < 100) {
           return allBranches;
         }
         return fetchPage(page + 1);
@@ -294,7 +299,8 @@ function fetchSettings(
   $q,
   fetchUser,
   promisify,
-  integrationsCache
+  integrationsCache,
+  keypather
 ) {
 
   return function () {
@@ -309,11 +315,16 @@ function fetchSettings(
         githubUsername: $state.params.userName
       });
     })
-    .then(function (settings) {
-      var userSettings = settings.models[0];
+    .then(function (settingsCollection) {
+      var userSettings = settingsCollection.models[0];
       if (userSettings) {
         integrationsCache[$state.params.userName] = {
-          settings: userSettings
+          settings: userSettings,
+          /*!
+           * We store a copy of Slack and GitHub settings in order to
+           * correctly determine if the cache on these should be thrown away
+           */
+          notificationsSettings: angular.copy(keypather.get(userSettings, 'attrs.notifications'))
         };
       }
       return userSettings;
@@ -326,7 +337,8 @@ function integrationsCache () {
 }
 
 function fetchSlackMembers (
-  $http
+  $http,
+  $q
 ) {
   return function (token) {
     return $http({
@@ -336,7 +348,11 @@ function fetchSlackMembers (
     })
     .then(function(data) {
       if (data.data.error) {
-        throw new Error(data.data.error);
+        if (data.data.error === 'invalid_auth' && !data.data.ok) {
+           // Throw a more descriptive error
+          return $q.reject(new Error('Provided API key is invalid'));
+        }
+        return $q.reject(new Error(data.data.error));
       }
       return data.data.members.filter(function(member) {
         return !member.is_bot;
@@ -400,7 +416,6 @@ function fetchDebugContainer(
 ) {
   return function (containerId) {
     return fetchUser().then(function (user) {
-      console.log(user);
       return promisify(user, 'fetchDebugContainer')(containerId);
     });
   };

@@ -9,6 +9,7 @@ function featureFlags(
   var defaultFeatureFlags = {
     additionalRepositories: true,
     cardStatus: false,
+    closeConfigureConfirmation: false, // confirmation popover when closing configure modal
     debugMode: true,
     debugStartCmd: false, // debug mode for start CMD (in CMD Logs)
     fullScreen: false,  // toggles full screen
@@ -21,8 +22,8 @@ function featureFlags(
     isolationDnsMappings: false,
     isolationSetUp: false, // if isolation is setup
     isolationUI: false, // for isolation UI
-    nameContainer: false,
     multilineFnR: false,
+    nameContainer: false,
     navListFilter: false,
     newVerificationFlow: false,
     renameContainer: false,

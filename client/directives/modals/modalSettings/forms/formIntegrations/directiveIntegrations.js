@@ -8,7 +8,8 @@ function integrations(
   fetchSettings,
   verifyChatIntegration,
   promisify,
-  errs
+  errs,
+  $q
 ) {
   return {
     restrict: 'A',
@@ -21,22 +22,35 @@ function integrations(
       data.showSlack = true;
       data.settings = {};
       data.slackMembers = {};
+      data.settingsFetched = false;
       data.verified = false;
+      data.slackApiToken = null;
+      data.invalidApiToken = false;
 
       function fetchChatMemberData() {
-        return verifyChatIntegration(data.settings, 'slack')
+        data.invalidApiToken = false;
+        return verifyChatIntegration(data.slackApiToken, data.settings, 'slack')
           .then(function (members) {
+            keypather.set(data, 'settings.attrs.notifications.slack.apiToken', data.slackApiToken);
             data.slackMembers = members.slack;
             data.ghMembers = members.github;
             data.verified = true;
+            data.invalidApiToken = false;
+          })
+          .catch(function (err) {
+            data.invalidApiToken = true;
+            data.verified = false;
+            data.slackMembers = {};
+            data.ghMembers = {};
+            return $q.reject(err);
           });
       }
 
       fetchSettings()
         .then(function (settings) {
           data.settings = settings;
-
-          if (keypather.get(data, 'settings.attrs.notifications.slack.apiToken') &&
+          data.slackApiToken = keypather.get(data, 'settings.attrs.notifications.slack.apiToken');
+          if ( data.slackApiToken &&
               keypather.get(data, 'settings.attrs.notifications.slack.githubUsernameToSlackIdMap')) {
             data.showSlack = true;
             data.loading = true;
@@ -46,6 +60,7 @@ function integrations(
         .catch(errs.handler)
         .finally(function () {
           data.loading = false;
+          data.settingsFetched = true;
         });
 
       actions.verifySlack = function () {
@@ -75,7 +90,6 @@ function integrations(
           }
           return obj;
         }, {});
-
         return promisify(data.settings, 'update')({
           json: {
             notifications: {
