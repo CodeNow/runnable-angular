@@ -13,13 +13,11 @@ function verifyChatIntegration (
   $q
 ) {
   // Only Slack for now, will expand when customers request it
-  return function (settings, chatClient) {
-
+  return function (apiToken, settings, chatClient) {
     var orgName = $state.params.userName;
 
-    var settingsToken = keypather.get(settings, 'attrs.notifications.' + chatClient + '.apiToken');
-    var cacheToken = keypather.get(integrationsCache, orgName + '.settings.attrs.notifications.' + chatClient + '.apiToken');
-    if (settingsToken === cacheToken && integrationsCache[orgName].github) {
+    var cacheToken = keypather.get(integrationsCache, orgName + '.' + chatClient + '.apiToken');
+    if (apiToken === cacheToken && integrationsCache[orgName].github) {
       return $q.when(integrationsCache[orgName]);
     }
 
@@ -27,7 +25,7 @@ function verifyChatIntegration (
     var matches = [];
     var members;
     return $q.all({
-      chat: fetchSlackMembers(settings.attrs.notifications[chatClient].apiToken),
+      chat: fetchSlackMembers(apiToken),
       github: fetchGitHubMembers($state.params.userName)
     })
     .then(function(_members) {

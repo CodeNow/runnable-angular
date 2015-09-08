@@ -3,6 +3,7 @@
 var promisify,
     $timeout,
     mockExceptionHandler,
+    UserModel = require('runnable/lib/models/user'),
     $rootScope;
 
 describe('servicePromisify'.underline.bold.blue, function () {
@@ -172,7 +173,7 @@ describe('servicePromisify'.underline.bold.blue, function () {
   describe('errors'.blue, function() {
     it('throws an error if we try to promisify a function that does not exist', function() {
       function throwErr () {
-        promisify({}, 'error');
+        promisify('a', 'error');
       }
       expect(throwErr).to.throw(Error);
     });
@@ -201,5 +202,14 @@ describe('servicePromisify'.underline.bold.blue, function () {
 
       $rootScope.$digest();
     });
+    it('rejects the promise if the method fn doesn\'t exist', function() {
+      var Model = function Model () {};
+      var model = new Model();
+      var throwErr = function () {
+        return promisify(model, 'methodThatDoesntExist');
+      };
+      expect(throwErr).to.throw(Error);
+    });
+
   });
 });

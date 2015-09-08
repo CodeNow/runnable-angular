@@ -26,7 +26,9 @@ window.runnable = new (require('runnable'))(window.host, {
   host: '//example.com',
   userContentDomain: window.userContentDomain
 });
-window.expect = require('chai').expect;
+var chai = require('chai');
+chai.use(require('chai-as-promised'));
+window.expect = chai.expect;
 window.sinon = require('sinon'); // Stuff to create spyable functions
 window.mocks = require('./apiMocks'); // JSON mocks for API responses
 window.directiveTemplate = require('./fixtures/directiveTemplate');

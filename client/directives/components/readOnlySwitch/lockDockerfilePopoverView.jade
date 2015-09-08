@@ -1,6 +1,6 @@
 .popover-overlay
-  .popover.popover-fixed.popover-prompt.bottom(
-    ng-class = "{in: active}"
+  .popover.popover-fixed.popover-prompt(
+    ng-class = "{'in': active}"
     ng-style = "popoverStyle.getStyle()"
   )
     .popover-content
@@ -10,6 +10,6 @@
       button.btn.red.float-right(
         ng-click = "actions.performRollback(data.contextVersion, data.instance.attrs.lastBuiltSimpleContextVersion); closePopover();"
       ) Disable and Restore
-      button.btn.gray.float-left(
+      button.btn.white.btn-cancel(
         ng-click = "closePopover()"
       ) Cancel

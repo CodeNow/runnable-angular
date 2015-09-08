@@ -91,6 +91,7 @@
     font-size: 13px;
     overflow-x: auto;
     padding: 0 12px 0 6px;
+    white-space: nowrap;
   }
 
   // cached state
@@ -98,12 +99,6 @@
     color: $logs-runnable-dark-magenta;
     flex: 0 0 auto;
     padding: 0 6px;
-  }
-
-
-  // debug button
-  > .btn-debug {
-    font-family: $sans-serif; // override monospace fonts
   }
 
   // change padding if there's a header
@@ -172,6 +167,15 @@
       transform: rotate3d(0,0,1,-90deg);
       transform-origin: 4px 2px;
       transition: transform .25s ease-in-out;
+    }
+
+    // don't toggle if in progress
+    &.in-progress {
+      cursor: default;
+
+      &::before {
+        opacity: 0;
+      }
     }
   }
 }
@@ -259,11 +263,11 @@
     background: #3d294a; // rgba($white,.03);
     border-bottom: 1px solid $purple-darker;
 
-    &:hover {
+    &:hover:not(.in-progress) {
       background: #3f2c4d; // rgba($white,.045);
     }
 
-    &:active {
+    &:active:not(.in-progress) {
       background: #422f4f; // rgba($white,.06);
     }
 
@@ -324,11 +328,11 @@
     background: rgba($white,.75);
     border-bottom: 1px solid $gray-lighter;
 
-    &:hover {
+    &:hover:not(.in-progress) {
       background: rgba($white,.9);
     }
 
-    &:active {
+    &:active:not(.in-progress) {
       background: $white;
     }
 
