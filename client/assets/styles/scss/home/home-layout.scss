@@ -194,17 +194,16 @@
   margin: 0 auto 15px;
   overflow: hidden;
   position: relative;
-  transition: background .2s ease-in-out;
   width: 300px;
 
   &:hover {
 
-    .preview {
-      opacity: .12;
+    .link {
+      background: $purple-light;
     }
 
-    .link {
-      color: $white;
+    .preview {
+      opacity: .18;
     }
   }
 
@@ -228,8 +227,7 @@
     background: url(/build/images/home/preview.png) no-repeat center center;
     background-size: 296px 164px;
     height: 164px;
-    opacity: .1;
-    transition: opacity .2s ease-in;
+    opacity: .15;
     width: 296px;
   }
 
@@ -250,8 +248,7 @@
     right: 0;
     text-decoration: none;
     top: 0;
-    transition: color .2s ease-in;
-    width: 220px;
+    width: 234px;
     z-index: 1;
   }
 
