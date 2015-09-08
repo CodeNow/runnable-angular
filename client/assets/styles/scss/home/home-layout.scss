@@ -288,37 +288,29 @@
 }
 
 .home-modal-dialog {
-  max-width: 375px;
+  max-width: 390px;
 
   .icons-close {
-    color: $gray-light;
-    cursor: pointer;
-    pointer-events: auto;
-    position: absolute;
-    right: 15px;
-    top: 18px;
-
-    &:hover {
-      color: $gray;
-    }
-
-    &:active {
-      color: $red;
-    }
+    top: 15px;
   }
 
   .modal-body {
-    padding: 24px 30px;
+    padding: 45px 30px 15px;
     text-align: center;
 
-    .span {
+    .h1 {
+      color: $gray-dark;
       font-size: 21px;
-      margin: 12px 0 21px;
+      line-height: 1.2;
+    }
+
+    .btn {
+      margin: 15px auto;
+      width: 190px;
     }
 
     .small {
       color: $gray;
-      margin-top: 21px;
     }
   }
 
