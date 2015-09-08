@@ -185,6 +185,17 @@
   }
 }
 
+.row-codesnippets {
+  color: $purple-lighter;
+  font-size: 14px;
+  font-weight: 300;
+  margin-top: 15px;
+
+  .link {
+    color: currentColor;
+  }
+}
+
 // embed
 .embed-preview {
   border: 2px solid $purple-light;
