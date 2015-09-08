@@ -168,12 +168,12 @@
   font-weight: 300;
   text-align: center;
 
-  .btn-xs {
+  .btn {
     border-color: $purple-dark;
-    border-radius: 6px;
-    font-weight: 400;
-    margin-left: 4px;
-    top: -1px;
+    display: block;
+    font-weight: $weight-normal;
+    margin: 3px auto 0;
+    width: 210px;
 
     &:hover:not([disabled]) {
       background: lighten($purple-light,5%);
@@ -191,7 +191,7 @@
   border-radius: 6px;
   cursor: pointer;
   height: 168px;
-  margin: 0 auto 15px;
+  margin: 0 auto 30px;
   overflow: hidden;
   position: relative;
   width: 300px;
