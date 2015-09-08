@@ -146,18 +146,14 @@ html.home(
               a.btn.green(
                 href = "mailto:support@runnable.com?subject=Please send me an invite for a preview of Runnable!"
               ) Request an Invite
-              .small You can&#32;
-                a.link(
-                  href = "//github.com/settings/applications"
-                  target = "_blank"
-                ) revoke our access
-                | &#32;to your GitHub account. We’ll ask for it again when you’re invited.
-            footer.modal-footer.small Check out&#32;
+            footer.modal-footer.small You can&#32;
               a.link(
-                href = "//code.runnable.com"
+                href = "//github.com/settings/applications"
                 target = "_blank"
-              ) Runnable CodeSnippets
-              | &#32;while you wait.
+              ) revoke our access
+              | &#32;to your GitHub account.
+              br
+              | We’ll ask for it again when you’re invited.
 
       //- header
       header.home-header
@@ -208,12 +204,11 @@ html.home(
               href = "mailto:support@runnable.com?subject=Please send me an invite for a preview of Runnable!"
             ) Request Access
 
-          .row-codesnippets.text-center Check out &#32;
+          .row-codesnippets.text-center Are you looking for &#32;
             a.link(
               href = "//code.runnable.com"
             ) Runnable CodeSnippets
-            | &#32;while you wait.
-
+            | ?
         //- START video
         .modal-backdrop.in(
           ng-if = "data.embedActive"
