@@ -1,6 +1,6 @@
 .popover-dns-mappings {
   max-width: none;
-  width: 330px;
+  width: 345px;
 
   .popover-view {
     width: 100%;
@@ -8,7 +8,7 @@
 
   // list all elements that transition
   .list,
-  .span,
+  .popover-header .span,
   .icons-arrow-backward {
     opacity: 0;
     transition: opacity .15s ease-in;
@@ -25,6 +25,8 @@
     }
 
     &:active {
+
+      .cell,
       .cell::after {
         color: $purple-light;
       }
@@ -43,18 +45,20 @@
       color: $gray-light;
       height: 100%;
       margin: 0;
-      right: 6px;
+      right: -9px;
     }
   }
 
   // cells
   .cell {
+    color: $gray-dark;
+    font-size: 14px;
+    font-weight: $weight-bold;
     height: 54px;
-    padding: 12px 0 0 9px;
+    padding: 12px 0 0;
     position: relative;
 
     &:first-child {
-      padding-right: 0;
 
       &::after {
         color: $gray-light;
@@ -63,8 +67,12 @@
         font-size: 18px;
         line-height: 40px;
         position: absolute;
-        right: 0;
-        top: 0;
+        right: 9px;
+        top: -1px;
+      }
+
+      .text-overflow {
+        padding-right: 24px;
       }
     }
   }
@@ -74,11 +82,24 @@
     margin: 9px auto 5px;
 
     > .btn {
-      width: 80px;
+      width: 105px;
     }
   }
 
   .icons-status {
-    margin-right: 6px;
+    margin-right: 5px;
+
+    // indent team/private label
+    ~ .small {
+      margin-left: 14px;
+    }
+  }
+
+  // branch container lists
+  .list-item {
+    color: $gray-dark;
+    font-size: 14px;
+    font-weight: $weight-bold;
+    padding: 0 15px;
   }
 }

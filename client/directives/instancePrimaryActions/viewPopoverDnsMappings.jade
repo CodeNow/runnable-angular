@@ -2,11 +2,11 @@
   ng-class = "{'in': active}"
   ng-init = "\
     dnsMappings = [\
-      {name: 'data-dog', elasticHostname: 'datadog-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'Private Sandbox (runnabro)'},\
-      {name: 'mavis', elasticHostname: 'mavis-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'Private Sandbox (runnabro)'},\
-      {name: 'neo4j', elasticHostname: 'neo4j-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'Private Sandbox (runnabro)'},\
-      {name: 'optimus', elasticHostname: 'optimus-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'Private Sandbox (runnabro)'},\
-      {name: 'runnable-angular', elasticHostname: 'runnable-angular-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'Private Sandbox (runnabro)'}\
+      {name: 'data-dog', elasticHostname: 'datadog-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'Private (runnabro)', status: 'green'},\
+      {name: 'mavis', elasticHostname: 'mavis-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'Organization (CodeNow)', status: 'green'},\
+      {name: 'neo4j', elasticHostname: 'neo4j-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'Organization (CodeNow)', status: 'green'},\
+      {name: 'optimus', elasticHostname: 'optimus-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'Organization (CodeNow)', status: 'green'},\
+      {name: 'runnable-angular', elasticHostname: 'runnable-angular-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'Organization (CodeNow)', status: 'green'}\
     ];\
     mavisBranches = [\
       {name: 'master', status: 'green'},\
@@ -49,12 +49,25 @@
             ng-click = "state.view = 2"
             ng-repeat = "container in dnsMappings"
           )
-            .cell.text-overflow {{container.name}}
+            .cell.text-overflow(
+              title = "{{container.name}}"
+            )
+              .text-overflow {{container.name}}
               small.small.text-overflow(
                 title = "{{container.elasticHostname}}"
               ) {{container.elasticHostname}}
-            .cell.text-overflow {{container.branch}}
-              small.small.text-overflow {{container.sandbox}}
+            .cell.text-overflow
+              .icons-status(
+                ng-class = "container.status"
+                title = "{{container.branch}}"
+                tooltip
+                tooltip-eval = "instance | cardBuildStatusTitle"
+                tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
+              )
+              | {{container.branch}}
+              small.small(
+                title = "{{container.sandbox}}"
+              ) {{container.sandbox}}
             svg.iconnables.icons-arrow-forward.float-right
               use(
                 xlink:href = "#icons-arrow-down"
@@ -85,7 +98,7 @@
               'no-touching': !toggle.privateContainers\
             }"
             ng-click = "toggle.privateContainers = !toggle.privateContainers"
-          ) CodeNow
+          ) Organization
           .btn.btn-xs.gray(
             ng-class = "{\
               'active': toggle.privateContainers,\
