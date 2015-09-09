@@ -108,19 +108,21 @@
           ng-if = "mavisPrivateBranches.length"
           style = "opacity: {{state.view === 2 ?  1 : 0}}"
         )
-          .btn.btn-xs.gray(
+          .btn.btn-xs.gray.text-overflow(
             ng-class = "{\
               'active': !toggle.privateContainers,\
               'no-touching': !toggle.privateContainers\
             }"
             ng-click = "toggle.privateContainers = !toggle.privateContainers"
-          ) Organization
-          .btn.btn-xs.gray(
+            title = "CodeNow"
+          ) CodeNow
+          .btn.btn-xs.gray.text-overflow(
             ng-class = "{\
               'active': toggle.privateContainers,\
               'no-touching': toggle.privateContainers\
             }"
             ng-click = "toggle.privateContainers = !toggle.privateContainers"
+            title = "Private"
           ) Private
 
         ul.list.popover-list.popover-list-toggle(
