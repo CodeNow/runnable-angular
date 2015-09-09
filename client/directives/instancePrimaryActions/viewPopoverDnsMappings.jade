@@ -9,16 +9,16 @@
       {name: 'runnable-angular', elasticHostname: 'runnable-angular-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'Private Sandbox (runnabro)'}\
     ];\
     mavisBranches = [\
-      'master',\
-      'abort-on-uncaught-exception',\
-      'bypass-prev-dock',\
-      'no-docks-404',\
-      'remove-numBuild',\
-      'temporary-branch-to-fork-on-runnable'\
+      {name: 'master', status: 'green'},\
+      {name: 'abort-on-uncaught-exception', status: 'gray'},\
+      {name: 'bypass-prev-dock', status: 'orange'},\
+      {name: 'no-docks-404', status: 'red'},\
+      {name: 'remove-numBuild', status: 'green'},\
+      {name: 'temporary-branch-to-fork-on-runnable', status: 'green'}\
     ];\
     mavisPrivateBranches = [\
-      'prafulrana',\
-      'runnabro'\
+      {name: 'prafulrana', status: 'green'},\
+      {name: 'runnabro', status: 'green'}\
     ];\
     state.view = 1;\
   "
@@ -100,7 +100,15 @@
         )
           li.list-item.popover-list-item(
             ng-repeat = "branch in mavisBranches"
-          ) {{branch}}
+          )
+            //- from status-icon template
+            .icons-status(
+              ng-class = "branch.status"
+              tooltip
+              tooltip-eval = "instance | cardBuildStatusTitle"
+              tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
+            )
+            | {{branch.name}}
 
         ul.list.popover-list(
           ng-if = "toggle.privateContainers"
@@ -108,4 +116,11 @@
         )
           li.list-item.popover-list-item(
             ng-repeat = "branch in mavisPrivateBranches"
-          ) {{branch}}
+          )
+            .icons-status(
+              ng-class = "branch.status"
+              tooltip
+              tooltip-eval = "instance | cardBuildStatusTitle"
+              tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
+            )
+            | {{branch.name}}
