@@ -6,9 +6,18 @@
     width: 100%;
   }
 
+  // list all elements that transition
+  .tr,
+  .span,
+  .icons-arrow-backward {
+    opacity: 0;
+    transition: opacity .15s ease-in;
+  }
+
   // rows
   .tr {
     cursor: pointer;
+    margin: 0 6px;
 
     .icons-arrow-forward {
       color: $gray-light;

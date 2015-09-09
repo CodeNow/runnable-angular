@@ -23,13 +23,44 @@
       style = "min-height: {{dnsMappings.length*50 + 36}}px"
     )
 
-      .popover-view(
-        ng-style = "state.view === 1 && {'opacity': '1'}"
-      )
-        .popover-header DNS Mappings
+      .popover-view
+        .popover-header
+          .span(
+            ng-style = "state.view === 1 && {'opacity': '1'}"
+          ) DNS Mappings
+
+        .tr.multi-line.clearfix(
+          ng-click = "state.view = 2"
+          ng-repeat = "item in dnsMappings"
+          ng-style = "state.view === 1 && {'opacity': '1'}"
+        )
+          .cell.text-overflow {{item.name}}
+            small.small.text-overflow(
+              title = "{{item.elasticHostname}}"
+            ) {{item.elasticHostname}}
+          .cell.text-overflow {{item.branch}}
+            small.small.text-overflow {{item.sandbox}}
+          svg.iconnables.icons-arrow-forward.float-right
+            use(
+              xlink:href = "#icons-arrow-down"
+            )
+
+      .popover-view
+        .popover-header
+          svg.btn.btn-sm.iconnables.icons-arrow-backward.pull-left(
+            ng-click = "state.view = 1"
+            ng-style = "state.view === 2 && {'opacity': '1'}"
+          )
+            use(
+              xlink:href = "#icons-arrow-down"
+            )
+          .span(
+            ng-style = "state.view === 2 && {'opacity': '1'}"
+          ) data-dog
 
         .tr.multi-line.clearfix(
           ng-repeat = "item in dnsMappings"
+          ng-style = "state.view === 2 && {'opacity': '1'}"
         )
           .cell.text-overflow {{item.name}}
             small.small.text-overflow(
