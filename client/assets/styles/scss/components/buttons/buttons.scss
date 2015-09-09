@@ -1,10 +1,11 @@
+// defaults to btn-md
 .btn {
   border: 0;
   border-radius: $input-border-radius;
   cursor: pointer;
   display: inline-block;
   font-size: 18px;
-  font-weight: 400;
+  font-weight: $weight-normal;
   height: $input-md;
   line-height: $input-line-height-md;
   padding: 0 15px;
@@ -80,6 +81,22 @@
 }
 
 // button sizes
+%btn-lg,
+.btn-lg {
+  border-radius: $input-border-radius-lg;
+  font-size: 21px;
+  height: $input-lg;
+  line-height: $input-line-height-lg;
+}
+
+%btn-md,
+.btn-md {
+  font-size: 18px;
+  height: $input-md;
+  line-height: $input-line-height-md;
+}
+
+%btn-sm,
 .btn-sm {
   font-size: 16px;
   height: $input-sm;
@@ -91,6 +108,7 @@
   }
 }
 
+%btn-xs,
 .btn-xs {
   font-size: 13px;
   height: $input-xs;
@@ -106,6 +124,7 @@
 }
 
 // only for inline buttons
+%btn-xxs,
 .btn-xxs {
   border-radius: $input-border-radius-xxs;
   font-size: 12px;
