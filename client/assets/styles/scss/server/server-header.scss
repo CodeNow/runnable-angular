@@ -101,6 +101,45 @@
   .btn {
     font-size: 16px;
 
+    // dns button
+    &.btn-dns {
+      color: $gray-light;
+      font-size: 14px;
+      font-weight: $weight-bold;
+      margin-right: 6px;
+
+      // dns badge
+      .btn-xxs {
+        background: $gray-light;
+        border: 0;
+        border-radius: 16px;
+        color: $white;
+        font-size: 12px;
+        height: 16px;
+        line-height: 16px;
+        margin-right: 3px;
+        min-width: 16px;
+        padding: 0 4px;
+        top: -1px;
+      }
+
+      &:hover {
+        color: $gray;
+
+        .btn-xxs {
+          background: $gray;
+        }
+      }
+
+      &:active {
+        color: $purple-light;
+
+        .btn-xxs {
+          background: $purple-light;
+        }
+      }
+    }
+
     &.red,
     &.red:active:not([disabled]) {
 
@@ -155,11 +194,4 @@
       right: 9px;
     }
   }
-}
-
-.btn-dns {
-  color: $gray-light;
-  font-size: 14px;
-  font-weight: $weight-bold;
-  margin-right: 6px;
 }
