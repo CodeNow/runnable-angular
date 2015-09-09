@@ -27,9 +27,15 @@
 )
   .arrow
   .popover-views
-    //- min-height is height of list items + header + list padding
-    //- state.view === 2 && {'min-height': mavisBranches.length*36 + 36 + 8};\
-    //- min-height: {{state.view === 1 ? dnsMappings.length*54 + 36 + 8 : mavisBranches.length*36 + 36 + 8}}px"
+    //- for view 1, height of list items & (header + list padding)
+        for view 2, height of list items & (header + toggle + list padding)
+
+          list item (view 1) = 54px
+          list item (view 2) = 36px
+          header = 36px
+          toggle = 38px
+          list padding = 4px * 2
+
     div(
       ng-class = "{\
         'view-1': state.view === 1,\
@@ -43,6 +49,8 @@
     )
       .popover-view
         .popover-header
+          //- normally, these elements have their transition set on .popover-view,
+              but here we want the transition to apply only to the text/elements
           .span(
             style = "opacity: {{state.view === 1 ?  1 : 0}}"
           ) DNS Mappings
@@ -78,6 +86,7 @@
                 xlink:href = "#icons-arrow-down"
               )
 
+      //- .no-touching is used to prevent clicks on the organization list if private is the active tab
       .popover-view(
         ng-class = "{'no-touching': state.view === 1}"
         ng-init = "toggle.privateContainers = false"
