@@ -8,6 +8,14 @@
       {name: 'optimus', elasticHostname: 'optimus-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'Private Sandbox (runnabro)'},\
       {name: 'runnable-angular', elasticHostname: 'runnable-angular-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'Private Sandbox (runnabro)'}\
     ];\
+    mavisBranches = [\
+      'master',\
+      'abort-on-uncaught-exception',\
+      'bypass-prev-dock',\
+      'no-docks-404',\
+      'remove-numBuild',\
+      'temporary-branch-to-fork-on-runnable'\
+    ];\
     state.view = 1;\
   "
   ng-style = "popoverStyle.getStyle()"
@@ -15,12 +23,13 @@
 )
   .arrow
   .popover-views
+    //- min-height is height of list items + header + list padding
     div(
       ng-class = "{\
         'view-1': state.view === 1,\
         'view-2': state.view === 2\
       }"
-      style = "min-height: {{dnsMappings.length*50 + 36}}px"
+      style = "min-height: {{state.view === 1 ? dnsMappings.length*54 + 36 + 8: mavisBranches.length*36 + 36 + 8}}px"
     )
 
       .popover-view
@@ -29,21 +38,23 @@
             ng-style = "state.view === 1 && {'opacity': '1'}"
           ) DNS Mappings
 
-        .tr.multi-line.clearfix(
-          ng-click = "state.view = 2"
-          ng-repeat = "item in dnsMappings"
+        ul.list.popover-list(
           ng-style = "state.view === 1 && {'opacity': '1'}"
         )
-          .cell.text-overflow {{item.name}}
-            small.small.text-overflow(
-              title = "{{item.elasticHostname}}"
-            ) {{item.elasticHostname}}
-          .cell.text-overflow {{item.branch}}
-            small.small.text-overflow {{item.sandbox}}
-          svg.iconnables.icons-arrow-forward.float-right
-            use(
-              xlink:href = "#icons-arrow-down"
-            )
+          li.list-item.popover-list-item.tr.multi-line.clearfix(
+            ng-click = "state.view = 2"
+            ng-repeat = "container in dnsMappings"
+          )
+            .cell.text-overflow {{container.name}}
+              small.small.text-overflow(
+                title = "{{container.elasticHostname}}"
+              ) {{container.elasticHostname}}
+            .cell.text-overflow {{container.branch}}
+              small.small.text-overflow {{container.sandbox}}
+            svg.iconnables.icons-arrow-forward.float-right
+              use(
+                xlink:href = "#icons-arrow-down"
+              )
 
       .popover-view
         .popover-header
@@ -56,19 +67,11 @@
             )
           .span(
             ng-style = "state.view === 2 && {'opacity': '1'}"
-          ) data-dog
+          ) mavis Containers
 
-        .tr.multi-line.clearfix(
-          ng-repeat = "item in dnsMappings"
+        ul.list.popover-list(
           ng-style = "state.view === 2 && {'opacity': '1'}"
         )
-          .cell.text-overflow {{item.name}}
-            small.small.text-overflow(
-              title = "{{item.elasticHostname}}"
-            ) {{item.elasticHostname}}
-          .cell.text-overflow {{item.branch}}
-            small.small.text-overflow {{item.sandbox}}
-          svg.iconnables.icons-arrow-forward.float-right
-            use(
-              xlink:href = "#icons-arrow-down"
-            )
+          li.list-item.popover-list-item(
+            ng-repeat = "branch in mavisBranches"
+          ) {{branch}}

@@ -7,7 +7,7 @@
   }
 
   // list all elements that transition
-  .tr,
+  .list,
   .span,
   .icons-arrow-backward {
     opacity: 0;
@@ -17,27 +17,40 @@
   // rows
   .tr {
     cursor: pointer;
-    margin: 0 6px;
-
-    .icons-arrow-forward {
-      color: $gray-light;
-      height: 50px;
-      right: 3px;
-    }
+    height: 54px;
+    padding: 0;
 
     &:hover .icons-arrow-forward {
       color: $gray;
     }
 
-    &:active .icons-arrow-forward {
-      color: $purple-light;
+    &:active {
+      .cell::after {
+        color: $purple-light;
+      }
+
+      .icons-arrow-forward {
+        color: $purple-light;
+      }
+    }
+
+    // override borders
+    + .tr {
+      border: 0;
+    }
+
+    .icons-arrow-forward {
+      color: $gray-light;
+      height: 100%;
+      margin: 0;
+      right: 6px;
     }
   }
 
   // cells
   .cell {
-    height: 50px;
-    padding: 9px 0 0 9px;
+    height: 54px;
+    padding: 12px 0 0 9px;
     position: relative;
 
     &:first-child {
@@ -48,7 +61,7 @@
         content: '→';
         display: block;
         font-size: 18px;
-        line-height: 34px;
+        line-height: 40px;
         position: absolute;
         right: 0;
         top: 0;

@@ -6,11 +6,6 @@
   width: 216px;
   z-index: $z-spinner + 1; // to appear above instance view spinner
 
-  // initial menu height
-  .popover-views > div {
-    transition: min-height .15s linear;
-  }
-
   .popover-view {
     opacity: 0;
     transition: opacity .15s ease-in, transform .3s ease-in-out;

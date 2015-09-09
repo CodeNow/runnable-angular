@@ -5,6 +5,11 @@
   position: relative;
   width: 100%;
 
+  // transition for views
+  > div {
+    transition: min-height .15s linear;
+  }
+
   [class^='view-'] .popover-view {
     display: flex;
   }
