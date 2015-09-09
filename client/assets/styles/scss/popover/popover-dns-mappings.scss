@@ -3,15 +3,16 @@
   width: 345px;
 
   .popover-view {
+    height: 100%;
     width: 100%;
   }
 
   // list all elements that transition
   .list,
   .popover-header .span,
-  .icons-arrow-backward {
-    opacity: 0;
-    transition: opacity .15s ease-in;
+  .icons-arrow-backward,
+  .btn-toggle {
+    transition: opacity .15s ease-in, transform .3s ease-in-out;
   }
 
   // rows
@@ -84,6 +85,11 @@
     > .btn {
       width: 105px;
     }
+  }
+
+  .popover-list-toggle {
+    position: absolute;
+    width: 100%;
   }
 
   .icons-status {

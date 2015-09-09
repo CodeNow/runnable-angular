@@ -39,11 +39,11 @@
       .popover-view
         .popover-header
           .span(
-            ng-style = "state.view === 1 && {'opacity': '1'}"
+            style = "opacity: {{state.view === 1 ?  1 : 0}}"
           ) DNS Mappings
 
         ul.list.popover-list(
-          ng-style = "state.view === 1 && {'opacity': '1'}"
+          style = "opacity: {{state.view === 1 ?  1 : 0}}"
         )
           li.list-item.popover-list-item.tr.multi-line.clearfix(
             ng-click = "state.view = 2"
@@ -74,23 +74,25 @@
               )
 
       .popover-view(
+        ng-class = "{'no-touching': state.view === 1}"
         ng-init = "toggle.privateContainers = false"
       )
         .popover-header
           svg.btn.btn-sm.iconnables.icons-arrow-backward.pull-left(
             ng-click = "state.view = 1"
-            ng-style = "state.view === 2 && {'opacity': '1'}"
+            style = "opacity: {{state.view === 2 ?  1 : 0}}"
           )
             use(
               xlink:href = "#icons-arrow-down"
             )
           .span(
-            ng-style = "state.view === 2 && {'opacity': '1'}"
+            style = "opacity: {{state.view === 2 ?  1 : 0}}"
           ) mavis Containers
 
         //- only show toggle if there are containers in private sandboxes
         .btn-group.btn-toggle.btn-toggle-xs(
           ng-if = "mavisPrivateBranches.length"
+          style = "opacity: {{state.view === 2 ?  1 : 0}}"
         )
           .btn.btn-xs.gray(
             ng-class = "{\
@@ -107,9 +109,11 @@
             ng-click = "toggle.privateContainers = !toggle.privateContainers"
           ) Private
 
-        ul.list.popover-list(
-          ng-if = "!toggle.privateContainers"
-          ng-style = "state.view === 2 && {'opacity': '1'}"
+        ul.list.popover-list.popover-list-toggle(
+          style = "\
+            opacity: {{state.view === 2 && !toggle.privateContainers ? 1 : 0}};\
+            transform: {{!toggle.privateContainers ? 'translate3d(0,0,0)' : 'translate3d(-100%,0,0)'}}\
+          "
         )
           li.list-item.popover-list-item(
             ng-repeat = "branch in mavisBranches"
@@ -123,9 +127,11 @@
             )
             | {{branch.name}}
 
-        ul.list.popover-list(
-          ng-if = "toggle.privateContainers"
-          ng-style = "state.view === 2 && {'opacity': '1'}"
+        ul.list.popover-list.popover-list-toggle(
+          style = "\
+            opacity: {{state.view === 2 && !toggle.privateContainers ? 0 : 1}};\
+            transform: {{!toggle.privateContainers ? 'translate3d(100%,0,0)' : 'translate3d(0,0,0)'}}\
+          "
         )
           li.list-item.popover-list-item(
             ng-repeat = "branch in mavisPrivateBranches"

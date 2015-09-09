@@ -35,7 +35,7 @@
   float: left;
   max-height: 100%;
   position: absolute;
-  transition: transform .3s ease-in-out;
+  transition: opacity .15s ease-in, transform .3s ease-in-out;
 
   + .popover-view {
     left: 100%;
