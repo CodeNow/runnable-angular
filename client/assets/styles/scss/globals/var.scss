@@ -175,7 +175,11 @@ $terminal-line-height: 19px;
 // button/input sizes
 $input-border: 2px;
 $input-border-radius: 3px;
+$input-border-radius-lg: 6px;
 $input-border-radius-xxs: 2px;
+
+$input-lg: 54px;
+$input-line-height-lg: $input-lg - ($input-border*2);
 
 $input-md: 42px;
 $input-line-height-md: $input-md - ($input-border*2);

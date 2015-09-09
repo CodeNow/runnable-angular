@@ -126,6 +126,7 @@
 .build-log-content {
   padding: 9px 9px 15px 24px;
   transition: height .15s;
+  word-wrap: normal;
 
   &.building {
     padding-bottom: 30px;
