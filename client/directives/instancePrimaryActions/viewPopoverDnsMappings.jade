@@ -20,7 +20,7 @@
         'view-1': state.view === 1,\
         'view-2': state.view === 2\
       }"
-      style = "min-height: {{dnsMappings.length*42 + 36}}px"
+      style = "min-height: {{dnsMappings.length*50 + 36}}px"
     )
 
       .popover-view(
@@ -37,7 +37,7 @@
             ) {{item.elasticHostname}}
           .cell.text-overflow {{item.branch}}
             small.small.text-overflow {{item.sandbox}}
-            svg.iconnables.icons-arrow-forward.float-right
-              use(
-                xlink:href = "#icons-arrow-down"
-              )
+          svg.iconnables.icons-arrow-forward.float-right
+            use(
+              xlink:href = "#icons-arrow-down"
+            )
