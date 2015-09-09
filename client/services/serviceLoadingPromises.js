@@ -27,10 +27,17 @@ function loadingPromises(
         return promiseArray.length;
       });
   }
+  function getCount(namespace) {
+    if (!promiseHash[namespace]) {
+      return 0;
+    }
+    return promiseHash[namespace].length;
+  }
 
   return {
     add: add,
     clear: clear,
-    finished: finished
+    finished: finished,
+    count: getCount
   };
 }

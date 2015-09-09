@@ -10,7 +10,8 @@ function modalManager(
   $timeout,
   $compile,
   keypather,
-  $rootScope
+  $rootScope,
+  $q
 ) {
   return {
     restrict: 'A',
@@ -22,16 +23,23 @@ function modalManager(
 
       function closeModal(cb) {
         if (currentModalScope) {
-          $scope.modalOpen = false;
-          currentModalScope.openFlag = false;
-          $timeout(function () {
-            if (currentModalScope) {
-              currentModalScope.$destroy();
-              currentModalScope = null;
-            }
-            if (cb) {
-              cb();
-            }
+          var closePromise = $q.when(true);
+          if (currentModalScope.closeHandler) {
+            closePromise = currentModalScope.closeHandler();
+          }
+          closePromise
+            .then(function () {
+              $scope.modalOpen = false;
+              currentModalScope.openFlag = false;
+              $timeout(function () {
+                if (currentModalScope) {
+                  currentModalScope.$destroy();
+                  currentModalScope = null;
+                }
+                if (cb) {
+                  cb();
+                }
+              });
           });
         } else if (cb) {
           cb();
@@ -98,9 +106,18 @@ function modalManager(
         closeModal();
       });
 
+      var unListenForSetCloseHandler = $rootScope.$on('set-close-modal-handler', function (evt, handler) {
+        currentModalScope.closeHandler = handler;
+      });
+      var unListenForRestCloseHandler = $rootScope.$on('reset-close-modal-handler', function () {
+        currentModalScope.closeHandler = null;
+      });
+
       $scope.$on('$destroy', function () {
         unOpen();
         unClose();
+        unListenForSetCloseHandler();
+        unListenForRestCloseHandler();
         closeModal();
       });
     }

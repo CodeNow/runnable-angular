@@ -5,8 +5,7 @@ require('app')
 
 function copySourceInstance(
   fetchUser,
-  promisify,
-  createNewInstance
+  promisify
 ) {
   return function (activeAccount, sourceInstance) {
     var thisUser;
