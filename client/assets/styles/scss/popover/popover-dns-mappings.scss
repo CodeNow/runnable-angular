@@ -76,6 +76,10 @@
         padding-right: 24px;
       }
     }
+
+    + .cell {
+      max-width: 120px;
+    }
   }
 
   // toggle
