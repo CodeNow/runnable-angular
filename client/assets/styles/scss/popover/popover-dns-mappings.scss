@@ -68,4 +68,13 @@
       }
     }
   }
+
+  // toggle
+  .btn-toggle {
+    margin: 9px auto 5px;
+
+    > .btn {
+      width: 80px;
+    }
+  }
 }

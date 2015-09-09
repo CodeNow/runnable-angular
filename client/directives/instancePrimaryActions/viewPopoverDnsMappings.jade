@@ -16,6 +16,10 @@
       'remove-numBuild',\
       'temporary-branch-to-fork-on-runnable'\
     ];\
+    mavisPrivateBranches = [\
+      'prafulrana',\
+      'runnabro'\
+    ];\
     state.view = 1;\
   "
   ng-style = "popoverStyle.getStyle()"
@@ -56,7 +60,9 @@
                 xlink:href = "#icons-arrow-down"
               )
 
-      .popover-view
+      .popover-view(
+        ng-init = "toggle.privateContainers = false"
+      )
         .popover-header
           svg.btn.btn-sm.iconnables.icons-arrow-backward.pull-left(
             ng-click = "state.view = 1"
@@ -69,9 +75,37 @@
             ng-style = "state.view === 2 && {'opacity': '1'}"
           ) mavis Containers
 
+        //- only show toggle if there are containers in private sandboxes
+        .btn-group.btn-toggle.btn-toggle-xs(
+          ng-if = "mavisPrivateBranches.length"
+        )
+          .btn.btn-xs.gray(
+            ng-class = "{\
+              'active': !toggle.privateContainers,\
+              'no-touching': !toggle.privateContainers\
+            }"
+            ng-click = "toggle.privateContainers = !toggle.privateContainers"
+          ) CodeNow
+          .btn.btn-xs.gray(
+            ng-class = "{\
+              'active': toggle.privateContainers,\
+              'no-touching': toggle.privateContainers\
+            }"
+            ng-click = "toggle.privateContainers = !toggle.privateContainers"
+          ) Private
+
         ul.list.popover-list(
+          ng-if = "!toggle.privateContainers"
           ng-style = "state.view === 2 && {'opacity': '1'}"
         )
           li.list-item.popover-list-item(
             ng-repeat = "branch in mavisBranches"
+          ) {{branch}}
+
+        ul.list.popover-list(
+          ng-if = "toggle.privateContainers"
+          ng-style = "state.view === 2 && {'opacity': '1'}"
+        )
+          li.list-item.popover-list-item(
+            ng-repeat = "branch in mavisPrivateBranches"
           ) {{branch}}
