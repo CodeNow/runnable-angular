@@ -55,7 +55,7 @@
 
   .build-log-content(
     ng-bind-html = "command.trustedContent"
-    ng-class = "{'building': BLC.buildLogsRunning && command.expanded}"
+    ng-class = "{'building': BLC.buildLogsRunning && command.expanded && $last}"
     ng-if = "(command.expanded && command.content.length) || (BLC.buildLogsRunning && $last)"
   )
 

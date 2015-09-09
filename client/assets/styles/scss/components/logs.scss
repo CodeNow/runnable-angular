@@ -101,11 +101,6 @@
     padding: 0 6px;
   }
 
-  // debug button
-  > .btn-debug {
-    font-family: $sans-serif; // override monospace fonts
-  }
-
   // change padding if there's a header
   + .build-log-content {
     margin-top: 39px;
@@ -131,6 +126,7 @@
 .build-log-content {
   padding: 9px 9px 15px 24px;
   transition: height .15s;
+  word-wrap: normal;
 
   &.building {
     padding-bottom: 30px;

@@ -27,24 +27,25 @@ form.modal-dialog.modal-integrations(
 
   section.modal-body
     .spinner-wrapper.spinner-md.in(
-      ng-if = "data.loading"
+      ng-if = "!data.settingsFetched || data.loading"
       ng-include = "'spinner'"
     )
 
     .modal-form(
-      ng-if = "!data.loading"
+      ng-if = "data.settingsFetched && !data.loading"
     )
       label.label.clearfix
         .label-col Bot API Token
         .input-col
           input.input.input-sm.monospace.input-validate(
-            ng-model = "data.settings.attrs.notifications.slack.apiToken"
+            ng-model = "data.slackApiToken"
             ng-readonly = "data.verified"
             required
             spellcheck = "false"
           )
+          // Not currently working
           .validation-message(
-            ng-if = "$root.featureFlags.updatedSlackValidation"
+            ng-if = "$root.featureFlags.updatedSlackValidation && data.invalidApiToken"
           ) Invalid API Token
           small.small(
             ng-if = "!data.verified"
@@ -143,14 +144,16 @@ form.modal-dialog.modal-integrations(
           br.br
           | but your API Token and user settings will be preserved.
 
-  footer.modal-footer
+  footer.modal-footer(
+    ng-if = "data.settingsFetched"
+  )
     //- before API token verified
     button.btn.green.btn-spinner(
       ng-class = "{in: data.verifying}"
       ng-click = "actions.verifySlack()"
       ng-disabled = "\
-        data.verifying || \
-        !data.settings.attrs.notifications.slack.apiToken.length\
+        !data.settingsFetched || \
+        data.verifying\
       "
       ng-if = "!data.verified"
     )
