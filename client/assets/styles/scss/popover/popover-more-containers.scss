@@ -1,5 +1,5 @@
 .popover-more-containers {
-  width: 270px;
+  width: 300px;
   z-index: $z-spinner + 1; // to appear above instance view spinner
 
   .popover-content.popover-content {
@@ -27,6 +27,7 @@
   .popover-list-item {
     font-size: 15px;
     padding-left: 24px;
+    margin: 0 -6px;
   }
 
   .icons-status {

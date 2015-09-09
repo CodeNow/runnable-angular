@@ -1,8 +1,13 @@
-.popover.popover-more-containers.menu(
+.popover.popover-more-containers(
   ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
 )
-  .popover-header.popover-header-sm.strong.text-overflow api Containers
+  .popover-header.popover-header-sm
+    strong.strong.text-overflow api Containers
+    svg.iconnables.icons-close
+      use(
+        xlink:href = "#icons-close"
+      )
   .popover-content
     input.input.input-xs.input-search(
       ng-model = "data.repoFilter"
