@@ -1,23 +1,27 @@
-div(
+//- choose repository
+.popover-view(
   ng-class = "{\
-    'view-1': state.view === 1,\
     'view-2': state.view === 2,\
     'view-3': state.view === 3\
   }"
+  ng-include = "'viewPopoverFilesRepositorySelect'"
 )
 
-  //- choose repository
-  .popover-view(
-    ng-include = "'viewPopoverFilesRepositorySelect'"
-  )
+//- repository options
+.popover-view(
+  ng-class = "{\
+    'view-2': state.view === 2,\
+    'view-3': state.view === 3\
+  }"
+  ng-if = "!data.gitDataOnly"
+  ng-include = "'viewPopoverFilesRepositoryOptions'"
+)
 
-  //- repository options
-  .popover-view(
-    ng-if = "!data.gitDataOnly"
-    ng-include = "'viewPopoverFilesRepositoryOptions'"
-  )
-
-  //- commits/branch
-  .popover-view(
-    ng-include = "'viewPopoverFilesRepositoryCommit'"
-  )
+//- commits/branch
+.popover-view(
+  ng-class = "{\
+    'view-2': state.view === 2,\
+    'view-3': state.view === 3\
+  }"
+  ng-include = "'viewPopoverFilesRepositoryCommit'"
+)

@@ -81,16 +81,13 @@
   //- START post-isolation account menu
   .popover-views(
     ng-if = "$root.featureFlags.isolationUI"
+    ng-style = "{'min-height': actions.getHeight(state.view)}"
   )
-    div(
-      ng-class = "{\
-        'view-1': state.view === 1,\
-        'view-2': state.view === 2\
-      }"
-      ng-style = "{'min-height': actions.getHeight(state.view)}"
+    .popover-view(
+      ng-class = "{'view-2': state.view === 2}"
     )
-      .popover-view(
-        ng-style = "state.view === 1 && {'opacity': '1'}"
+      .popover-content.fade(
+        ng-class = "{'in': state.view === 1}"
       )
         ul.list.popover-list
           //- this organization
@@ -192,18 +189,23 @@
               ng-click = "actions.logout();"
             ) Log Out
 
-      .popover-view(
-        ng-style = "state.view === 2 && {'opacity': '1'}"
+    .popover-view(
+      ng-class = "{'view-2': state.view === 2}"
+    )
+      .popover-header.fade(
+        ng-class = "{'in': state.view === 2}"
       )
-        .popover-header
-          svg.btn.btn-sm.iconnables.icons-arrow-backward.pull-left(
-            ng-click = "state.view = 1"
+        svg.btn.btn-sm.iconnables.icons-arrow-backward.pull-left(
+          ng-click = "state.view = 1"
+        )
+          use(
+            xlink:href = "#icons-arrow-down"
           )
-            use(
-              xlink:href = "#icons-arrow-down"
-            )
-          | Organizations
+        | Organizations
 
+      .popover-content.fade(
+        ng-class = "{'in': state.view === 2}"
+      )
         ul.list.popover-list
           //- all organizations except current
           li.list-item.popover-list-item.text-overflow(
@@ -222,4 +224,4 @@
               width = "24"
             )
             | {{account.oauthName()}}
-  //- END post-isolation account menu
+//- END post-isolation account menu

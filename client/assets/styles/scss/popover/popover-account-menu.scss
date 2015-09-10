@@ -6,11 +6,6 @@
   width: 216px;
   z-index: $z-spinner + 1; // to appear above instance view spinner
 
-  .popover-view {
-    opacity: 0;
-    width: 100%;
-  }
-
   .popover-list-item {
     padding: 0 15px;
   }
