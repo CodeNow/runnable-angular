@@ -15,6 +15,11 @@
     transition: opacity .15s ease-in, transform .3s ease-in-out;
   }
 
+  .popover-content {
+    padding: 0; // overwrite default
+  }
+
+  // view-1
   // rows
   .tr {
     cursor: pointer;
@@ -87,8 +92,10 @@
     }
   }
 
+  // view-2
   // toggle
   .btn-toggle {
+    display: table;
     margin: 9px auto 5px;
 
     > .btn {

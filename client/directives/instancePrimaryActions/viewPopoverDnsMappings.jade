@@ -77,42 +77,44 @@
           ng-include = "'spinner'"
         )
 
-        //- list of DNS mappings
-        ul.list.popover-list(
-          style = "opacity: {{state.view === 1 ?  1 : 0}}"
-        )
-          li.list-item.popover-list-item.tr.multi-line.clearfix.load(
-            ng-click = "\
-              dnsMappings.currentIndex = $index;\
-              state.view = 2;\
-              toggle.disabled = false;\
-            "
-            ng-if = "!state.loading"
-            ng-repeat = "container in dnsMappings"
+        .popover-content
+
+          //- list of DNS mappings
+          ul.list.popover-list(
+            style = "opacity: {{state.view === 1 ?  1 : 0}}"
           )
-            .cell.text-overflow(
-              title = "{{container.name}}"
+            li.list-item.popover-list-item.tr.multi-line.clearfix.load(
+              ng-click = "\
+                dnsMappings.currentIndex = $index;\
+                state.view = 2;\
+                toggle.disabled = false;\
+              "
+              ng-if = "!state.loading"
+              ng-repeat = "container in dnsMappings"
             )
-              .text-overflow {{container.name}}
-              small.small.text-overflow(
-                title = "{{container.elasticHostname}}"
-              ) {{container.elasticHostname}}
-            .cell.text-overflow
-              .icons-status(
-                ng-class = "container.status"
-                title = "{{container.branch}}"
-                tooltip
-                tooltip-eval = "instance | cardBuildStatusTitle"
-                tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
+              .cell.text-overflow(
+                title = "{{container.name}}"
               )
-              | {{container.branch}}
-              small.small(
-                title = "{{container.sandbox}}"
-              ) {{container.sandbox}} {{container.type === 'private' ? '(private)' : ''}}
-            svg.iconnables.icons-arrow-forward.float-right
-              use(
-                xlink:href = "#icons-arrow-down"
-              )
+                .text-overflow {{container.name}}
+                small.small.text-overflow(
+                  title = "{{container.elasticHostname}}"
+                ) {{container.elasticHostname}}
+              .cell.text-overflow
+                .icons-status(
+                  ng-class = "container.status"
+                  title = "{{container.branch}}"
+                  tooltip
+                  tooltip-eval = "instance | cardBuildStatusTitle"
+                  tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
+                )
+                | {{container.branch}}
+                small.small(
+                  title = "{{container.sandbox}}"
+                ) {{container.sandbox}} {{container.type === 'private' ? '(private)' : ''}}
+              svg.iconnables.icons-arrow-forward.float-right
+                use(
+                  xlink:href = "#icons-arrow-down"
+                )
 
       //- view for changing a dns mapping
       .popover-view(
@@ -135,83 +137,84 @@
             style = "opacity: {{state.view === 2 ?  1 : 0}}"
           ) {{dnsMappings[dnsMappings.currentIndex].name}} Containers
 
-        //- toggle between organization containers and private containres
-            only show toggle if there are containers in private sandboxes
-        .btn-group.btn-toggle.btn-toggle-xs(
-          ng-if = "mavisPrivateBranches.length"
-          style = "opacity: {{state.view === 2 ?  1 : 0}}"
-        )
-          .btn.btn-xs.gray.text-overflow(
-            ng-class = "{\
-              'active': !toggle.privateContainers && !toggle.disabled,\
-              'no-touching': !toggle.privateContainers\
-            }"
-            ng-click = "toggle.privateContainers = !toggle.privateContainers"
-            title = "CodeNow"
-          ) CodeNow
-          .btn.btn-xs.gray.text-overflow(
-            ng-class = "{\
-              'active': toggle.privateContainers && !toggle.disabled,\
-              'no-touching': toggle.privateContainers\
-            }"
-            ng-click = "toggle.privateContainers = !toggle.privateContainers"
-            title = "Private"
-          ) Private
-
-        //- organization container list
-        ul.list.popover-list.popover-list-toggle(
-          style = "\
-            opacity: {{state.view === 2 && !toggle.privateContainers ? 1 : 0}};\
-            transform: {{!toggle.privateContainers ? 'translate3d(0,0,0)' : 'translate3d(-100%,0,0)'}}\
-          "
-        )
-          li.list-item.popover-list-item(
-            ng-click = "\
-              dnsMappings[dnsMappings.currentIndex].branch = branch.name;\
-              dnsMappings[dnsMappings.currentIndex].sandbox = 'CodeNow';\
-              dnsMappings[dnsMappings.currentIndex].status = branch.status;\
-              dnsMappings[dnsMappings.currentIndex].type = 'organization';\
-              state.view = 1;\
-              toggle.disabled = true;\
-              toggle.privateContainers = false;\
-            "
-            ng-repeat = "branch in mavisBranches"
+        .popover-content
+          //- toggle between organization containers and private containres
+              only show toggle if there are containers in private sandboxes
+          .btn-group.btn-toggle.btn-toggle-xs(
+            ng-if = "mavisPrivateBranches.length"
+            style = "opacity: {{state.view === 2 ?  1 : 0}}"
           )
-            //- from status-icon template
-            .icons-status(
-              ng-class = "branch.status"
-              tooltip
-              tooltip-eval = "instance | cardBuildStatusTitle"
-              tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
-            )
-            | {{branch.name}}
+            .btn.btn-xs.gray.text-overflow(
+              ng-class = "{\
+                'active': !toggle.privateContainers && !toggle.disabled,\
+                'no-touching': !toggle.privateContainers\
+              }"
+              ng-click = "toggle.privateContainers = !toggle.privateContainers"
+              title = "CodeNow"
+            ) CodeNow
+            .btn.btn-xs.gray.text-overflow(
+              ng-class = "{\
+                'active': toggle.privateContainers && !toggle.disabled,\
+                'no-touching': toggle.privateContainers\
+              }"
+              ng-click = "toggle.privateContainers = !toggle.privateContainers"
+              title = "Private"
+            ) Private
 
-        //- private container list
-        ul.list.popover-list.popover-list-toggle(
-          style = "\
-            opacity: {{state.view === 2 && !toggle.privateContainers ? 0 : 1}};\
-            transform: {{!toggle.privateContainers ? 'translate3d(100%,0,0)' : 'translate3d(0,0,0)'}}\
-          "
-        )
-          li.list-item.multi-line.popover-list-item(
-            ng-click = "\
-              dnsMappings[dnsMappings.currentIndex].branch = branch.name;\
-              dnsMappings[dnsMappings.currentIndex].sandbox = branch.sandbox;\
-              dnsMappings[dnsMappings.currentIndex].status = branch.status;\
-              dnsMappings[dnsMappings.currentIndex].type = 'private';\
-              state.view = 1;\
-              toggle.disabled = true;\
-              toggle.privateContainers = false;\
+          //- organization container list
+          ul.list.popover-list.popover-list-toggle(
+            style = "\
+              opacity: {{state.view === 2 && !toggle.privateContainers ? 1 : 0}};\
+              transform: {{!toggle.privateContainers ? 'translate3d(0,0,0)' : 'translate3d(-100%,0,0)'}}\
             "
-            ng-repeat = "branch in mavisPrivateBranches"
           )
-            .icons-status(
-              ng-class = "branch.status"
-              tooltip
-              tooltip-eval = "instance | cardBuildStatusTitle"
-              tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
+            li.list-item.popover-list-item(
+              ng-click = "\
+                dnsMappings[dnsMappings.currentIndex].branch = branch.name;\
+                dnsMappings[dnsMappings.currentIndex].sandbox = 'CodeNow';\
+                dnsMappings[dnsMappings.currentIndex].status = branch.status;\
+                dnsMappings[dnsMappings.currentIndex].type = 'organization';\
+                state.view = 1;\
+                toggle.disabled = true;\
+                toggle.privateContainers = false;\
+              "
+              ng-repeat = "branch in mavisBranches"
             )
-            | {{branch.name}}
-            small.small(
-              title = "{{branch.sandbox}}"
-            ) {{branch.sandbox}}
+              //- from status-icon template
+              .icons-status(
+                ng-class = "branch.status"
+                tooltip
+                tooltip-eval = "instance | cardBuildStatusTitle"
+                tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
+              )
+              | {{branch.name}}
+
+          //- private container list
+          ul.list.popover-list.popover-list-toggle(
+            style = "\
+              opacity: {{state.view === 2 && !toggle.privateContainers ? 0 : 1}};\
+              transform: {{!toggle.privateContainers ? 'translate3d(100%,0,0)' : 'translate3d(0,0,0)'}}\
+            "
+          )
+            li.list-item.multi-line.popover-list-item(
+              ng-click = "\
+                dnsMappings[dnsMappings.currentIndex].branch = branch.name;\
+                dnsMappings[dnsMappings.currentIndex].sandbox = branch.sandbox;\
+                dnsMappings[dnsMappings.currentIndex].status = branch.status;\
+                dnsMappings[dnsMappings.currentIndex].type = 'private';\
+                state.view = 1;\
+                toggle.disabled = true;\
+                toggle.privateContainers = false;\
+              "
+              ng-repeat = "branch in mavisPrivateBranches"
+            )
+              .icons-status(
+                ng-class = "branch.status"
+                tooltip
+                tooltip-eval = "instance | cardBuildStatusTitle"
+                tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
+              )
+              | {{branch.name}}
+              small.small(
+                title = "{{branch.sandbox}}"
+              ) {{branch.sandbox}}
