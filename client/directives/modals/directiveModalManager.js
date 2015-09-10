@@ -111,7 +111,7 @@ function modalManager(
           currentModalScope.closeHandler = handler;
         }
       });
-      var unListenForRestCloseHandler = $rootScope.$on('reset-close-modal-handler', function () {
+      var unListenForResetCloseHandler = $rootScope.$on('reset-close-modal-handler', function () {
         if (currentModalScope) {
           currentModalScope.closeHandler = null;
         }
@@ -121,7 +121,7 @@ function modalManager(
         unOpen();
         unClose();
         unListenForSetCloseHandler();
-        unListenForRestCloseHandler();
+        unListenForResetCloseHandler();
         closeModal();
       });
     }
