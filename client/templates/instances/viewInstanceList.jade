@@ -5,9 +5,9 @@
 )
   //- repository name
   .list-item.small.strong(
-    title = "{{ masterInstance.getRepoName() }}"
+    title = "{{masterInstance.getRepoName()}}"
   )
-    span.span.text-overflow {{ masterInstance.getRepoName() }}
+    span.span.text-overflow {{masterInstance.getRepoName()}}
 
     //- configure button for repo containers
     .btn.btn-configure(
@@ -24,7 +24,7 @@
 
   //- master branch containers
   .list-item(
-    title = "{{ masterasterInstance.attrs.name }}"
+    title = "{{masterasterInstance.attrs.name}}"
   )
 
     //- displays master branch name
@@ -46,7 +46,7 @@
   )
 
     a.span.text-overflow(
-      title = "{{ branchFork.getDisplayName() }}"
+      title = "{{branchFork.getDisplayName()}}"
       ui-sref = "\
         base.instances.instance({ userName: CIS.activeAccount.oauthName(), \
         instanceName: branchFork.attrs.name })\
@@ -56,7 +56,7 @@
       status-icon(
         instance = "branchFork"
       )
-      | {{ branchFork.getDisplayName() }}
+      | {{branchFork.getDisplayName()}}
 
     //- "hide" button
     .btn.btn-hide(
@@ -83,14 +83,14 @@
   //- non-repository containers
   .list-item(
     ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
-    title = "{{ masterInstance.attrs.name }}"
+    title = "{{masterInstance.attrs.name}}"
   )
 
     //- displays container name for non-repo containers
     a.span.text-overflow(
       ui-sref = "\
-        base.instances.instance({ userName: CIS.activeAccount.oauthName(), \
-        instanceName: masterInstance.attrs.name })\
+        base.instances.instance({userName: CIS.activeAccount.oauthName(), \
+        instanceName: masterInstance.attrs.name})\
       "
       ui-sref-active = "active"
     )

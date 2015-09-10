@@ -108,7 +108,7 @@
       padding-left: 18px;
 
       // pseudo-element for hover and active background color
-      &:after {
+      &::after {
         content: '';
         height: 100%;
         left: 0;
@@ -118,7 +118,7 @@
         z-index: -1;
       }
 
-      &:hover:after {
+      &:hover::after {
         background: rgba($gray-light,.1);
       }
 
