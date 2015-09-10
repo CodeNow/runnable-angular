@@ -5,9 +5,7 @@
     ng-bind-html = "helpCards.getActiveCard().helpPopover.repositories"
   )
 
-label.label.clearfix(
-  ng-if = "$root.featureFlags.newVerificationFlow"
-)
+label.label.clearfix
   .label-col Packages
     small.small (optional)
 
@@ -77,23 +75,6 @@ label.label.clearfix(
             ng-repeat-end
           )
     small.small Add any commands needed to support your application. They’ll be run before the Container CMD from your repository’s root folder.
-
-label.label.clearfix(
-  ng-if = "!$root.featureFlags.newVerificationFlow"
-)
-  .label-col Packages
-    small.small (optional)
-
-  .input-col
-    textarea.textarea.monospace(
-      ng-disabled = "startCommandCanDisable && !state.selectedStack"
-      ng-model = "state.packages.packageList"
-      ng-model-options = "{ updateOn: 'blur' }"
-      ng-change = "updateDockerfile()"
-      spellcheck = "false"
-    )
-    small.small Add any packages you would like to install via apt-get, separated with spaces (e.g. ‘dnsutils vim=7.3’). This container is based on &#32;
-      strong.strong Ubuntu.
 
 label.label.clearfix
   .label-col Container CMD
