@@ -2,11 +2,11 @@
   ng-class = "{'in': active}"
   ng-init = "\
     dnsMappings = [\
-      {name: 'data-dog', elasticHostname: 'datadog-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'runnabro (Private)', status: 'green'},\
-      {name: 'mavis', elasticHostname: 'mavis-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'CodeNow', status: 'green'},\
-      {name: 'neo4j', elasticHostname: 'neo4j-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'CodeNow', status: 'green'},\
-      {name: 'optimus', elasticHostname: 'optimus-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'CodeNow', status: 'green'},\
-      {name: 'runnable-angular', elasticHostname: 'runnable-angular-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'CodeNow', status: 'green'}\
+      {name: 'data-dog', elasticHostname: 'datadog-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'runnabro', type: 'private', status: 'green'},\
+      {name: 'mavis', elasticHostname: 'mavis-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'CodeNow', type: 'organization', status: 'green'},\
+      {name: 'neo4j', elasticHostname: 'neo4j-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'CodeNow', type: 'organization', status: 'green'},\
+      {name: 'optimus', elasticHostname: 'optimus-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'CodeNow', type: 'organization', status: 'green'},\
+      {name: 'runnable-angular', elasticHostname: 'runnable-angular-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'CodeNow', type: 'organization', status: 'green'}\
     ];\
     mavisBranches = [\
       {name: 'master', status: 'green'},\
@@ -61,6 +61,7 @@
         )
           li.list-item.popover-list-item.tr.multi-line.clearfix(
             ng-click = "\
+              dnsMappings.currentIndex = $index;\
               state.view = 2;\
               toggle.disabled = false;\
             "
@@ -84,7 +85,7 @@
               | {{container.branch}}
               small.small(
                 title = "{{container.sandbox}}"
-              ) {{container.sandbox}}
+              ) {{container.sandbox}} {{container.type === 'private' ? '(private)' : ''}}
             svg.iconnables.icons-arrow-forward.float-right
               use(
                 xlink:href = "#icons-arrow-down"
@@ -109,7 +110,7 @@
             )
           .span(
             style = "opacity: {{state.view === 2 ?  1 : 0}}"
-          ) mavis Containers
+          ) {{dnsMappings[dnsMappings.currentIndex].name}} Containers
 
         //- only show toggle if there are containers in private sandboxes
         .btn-group.btn-toggle.btn-toggle-xs(
@@ -140,6 +141,15 @@
           "
         )
           li.list-item.popover-list-item(
+            ng-click = "\
+              dnsMappings[dnsMappings.currentIndex].branch = branch.name;\
+              dnsMappings[dnsMappings.currentIndex].sandbox = 'CodeNow';\
+              dnsMappings[dnsMappings.currentIndex].status = branch.status;\
+              dnsMappings[dnsMappings.currentIndex].type = 'organization';\
+              state.view = 1;\
+              toggle.disabled = true;\
+              toggle.privateContainers = false;\
+            "
             ng-repeat = "branch in mavisBranches"
           )
             //- from status-icon template
@@ -158,6 +168,15 @@
           "
         )
           li.list-item.multi-line.popover-list-item(
+            ng-click = "\
+              dnsMappings[dnsMappings.currentIndex].branch = branch.name;\
+              dnsMappings[dnsMappings.currentIndex].sandbox = branch.sandbox;\
+              dnsMappings[dnsMappings.currentIndex].status = branch.status;\
+              dnsMappings[dnsMappings.currentIndex].type = 'private';\
+              state.view = 1;\
+              toggle.disabled = true;\
+              toggle.privateContainers = false;\
+            "
             ng-repeat = "branch in mavisPrivateBranches"
           )
             .icons-status(
