@@ -5,22 +5,6 @@
     ng-bind-html = "helpCards.getActiveCard().helpPopover.repositories"
   )
 
-label.label.clearfix
-  .label-col Packages
-    small.small (optional)
-
-  .input-col.input-prefix.input-prefix-monospace(
-    data-prefix = "apt-get install"
-  )
-    input.input.input-sm.monospace(
-      ng-disabled = "startCommandCanDisable && !state.selectedStack"
-      ng-model = "state.packages.packageList"
-      ng-model-options="{updateOn: 'blur'}"
-      ng-change = "updateDockerfile()"
-      spellcheck = "false"
-    )
-    small.small Add Ubuntu packages via apt-get, separated with spaces (e.g. ‘dnsutils vim=7.3’).
-
 .label.clearfix.label-build-commands
   .label-col Build Commands
     small.small (optional)
@@ -75,6 +59,21 @@ label.label.clearfix
             ng-repeat-end
           )
     small.small Add any commands needed to support your application. They’ll be run before the Container CMD from your repository’s root folder.
+
+label.label.clearfix
+  .label-col Packages
+    small.small (optional)
+  .input-col.input-prefix.input-prefix-monospace(
+    data-prefix = "apt-get install"
+  )
+    input.input.input-sm.monospace(
+      ng-disabled = "startCommandCanDisable && !state.selectedStack"
+      ng-model = "state.packages.packageList"
+      ng-model-options="{updateOn: 'blur'}"
+      ng-change = "updateDockerfile()"
+      spellcheck = "false"
+    )
+    small.small Add Ubuntu packages via apt-get, separated with spaces (e.g. ‘dnsutils vim=7.3’).
 
 label.label.clearfix
   .label-col Container CMD
