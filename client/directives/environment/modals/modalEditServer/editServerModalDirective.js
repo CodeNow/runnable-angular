@@ -411,13 +411,9 @@ function editServerModal(
             resolve();
             return;
           }
-
           closeActions.resolve = resolve;
           closeActions.reject = reject;
           $scope.confirmClose.active = true;
-          $timeout(function () {
-            $scope.confirmClose.active = false;
-          });
         })
           .then(function () {
             helpCards.setActiveCard(null);
@@ -425,10 +421,6 @@ function editServerModal(
       }
 
       $rootScope.$emit('set-close-modal-handler', triggerClose);
-
-      $scope.$on('$destroy', function () {
-        $rootScope.$emit('reset-close-modal-handler');
-      });
 
       $scope.confirmClose = {
         active: false,

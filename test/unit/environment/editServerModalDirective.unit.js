@@ -180,6 +180,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
             return promise;
           }),
           clear: sinon.spy(),
+          count: sinon.stub().returns(1),
           finished: sinon.spy(function () {
             return $q.when(ctx.loadingPromiseFinishedValue);
           })
@@ -212,6 +213,15 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     sinon.spy(loadingService, 'reset');
 
     keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.fakeOrg1);
+
+    ctx.setCloseModalHandlerSpy = sinon.spy();
+    $rootScope.$on('set-close-modal-handler', ctx.setCloseModalHandlerSpy);
+    ctx.resetCloseModalHandlerSpy = sinon.spy();
+    $rootScope.$on('reset-close-modal-handler', ctx.resetCloseModalHandlerSpy);
+    ctx.closePopoverSpy = sinon.spy();
+    $rootScope.$on('close-popovers', ctx.closePopoverSpy);
+
+
     Object.keys(scope).forEach(function (key) {
       $scope[key] = scope[key];
     });
@@ -1016,7 +1026,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
 
   });
 
-  describe('Cancel', function () {
+  describe('modal closing verification', function () {
 
     beforeEach(function () {
       setup({
@@ -1025,10 +1035,45 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       });
     });
 
-    it('should cancel modal actions', function () {
-      $elScope.modalActions.cancel = sinon.spy();
-      $elScope.cancel();
-      expect($elScope.modalActions.cancel.calledOnce).to.be.true;
+    it('register a close modal handler which should have its flow work when dirty and confirmed', function () {
+      $elScope.instance.attrs.env = '12345';
+      sinon.assert.calledOnce(ctx.setCloseModalHandlerSpy);
+      console.log('Before Call', $elScope.confirmClose);
+      var promise = ctx.setCloseModalHandlerSpy.lastCall.args[1]();
+      promise.catch(function (err) {
+        throw err;
+      });
+      $scope.$digest();
+      expect($elScope.confirmClose.active, 'Confirm Active').to.be.ok;
+      $elScope.confirmClose.actions.confirm();
+      $scope.$digest();
+      sinon.assert.called(ctx.helpCards.setActiveCard);
+      sinon.assert.calledWith(ctx.helpCards.setActiveCard, null);
+      sinon.assert.called(ctx.closePopoverSpy);
+    });
+
+    it('register a close modal handler which should have its flow work when dirty and cancelled', function () {
+      $elScope.instance.attrs.env = '12345';
+      sinon.assert.calledOnce(ctx.setCloseModalHandlerSpy);
+      var promise = ctx.setCloseModalHandlerSpy.lastCall.args[1]();
+      promise.then(function () {
+        throw 'Promise should not have been resolved!';
+      });
+      $elScope.$digest();
+      $elScope.confirmClose.actions.cancel();
+      $scope.$digest();
+      sinon.assert.notCalled(ctx.helpCards.setActiveCard);
+      sinon.assert.called(ctx.closePopoverSpy);
+    });
+
+    it('should resolve when clean', function () {
+      var promise = ctx.setCloseModalHandlerSpy.lastCall.args[1]();
+      promise.catch(function (err) {
+        throw err;
+      });
+      $elScope.$digest();
+      sinon.assert.called(ctx.helpCards.setActiveCard);
+      sinon.assert.calledWith(ctx.helpCards.setActiveCard, null);
     });
 
   });
