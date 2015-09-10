@@ -231,7 +231,7 @@
       color: $purple-light;
     }
 
-    .gray {
+    .gray:not(.icons-status) {
       background: $white;
       border-color: currentColor;
       color: $purple-light;
