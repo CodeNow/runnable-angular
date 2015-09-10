@@ -402,9 +402,9 @@ function editServerModal(
       };
 
       function isDirty () {
-        return loadingPromises.count('editServerModal') > 1
-          || keypather.get($scope, 'instance.attrs.env') !== keypather.get($scope, 'state.opts.env')
-          || !$scope.openItems.isClean();
+        return loadingPromises.count('editServerModal') > 1 ||
+          keypather.get($scope, 'instance.attrs.env') !== keypather.get($scope, 'state.opts.env') ||
+          !$scope.openItems.isClean();
       }
 
       var closeActions  = {};

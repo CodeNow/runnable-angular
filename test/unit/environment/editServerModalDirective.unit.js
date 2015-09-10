@@ -1038,7 +1038,6 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     it('register a close modal handler which should have its flow work when dirty and confirmed', function () {
       $elScope.instance.attrs.env = '12345';
       sinon.assert.calledOnce(ctx.setCloseModalHandlerSpy);
-      console.log('Before Call', $elScope.confirmClose);
       var promise = ctx.setCloseModalHandlerSpy.lastCall.args[1]();
       promise.catch(function (err) {
         throw err;
