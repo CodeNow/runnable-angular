@@ -312,6 +312,7 @@ function editServerModal(
       };
 
       $scope.getUpdatePromise = function () {
+        $scope.saveTriggered = true;
         $rootScope.$broadcast('close-popovers');
         $scope.building = true;
         $scope.state.ports = convertTagToPortList();
@@ -401,15 +402,16 @@ function editServerModal(
       };
 
       function isDirty () {
-        return loadingPromises.count('editServerModal') > 1 || keypather.get($scope, 'instance.attrs.env') !== keypather.get($scope, 'state.opts.env') || !$scope.openItems.isClean();
+        return loadingPromises.count('editServerModal') > 1
+          || keypather.get($scope, 'instance.attrs.env') !== keypather.get($scope, 'state.opts.env')
+          || !$scope.openItems.isClean();
       }
 
       var closeActions  = {};
       function triggerClose () {
         return $q(function (resolve, reject) {
-          if (!isDirty()) {
-            resolve();
-            return;
+          if (!isDirty() || $scope.saveTriggered) {
+            return resolve();
           }
           closeActions.resolve = resolve;
           closeActions.reject = reject;
