@@ -10,7 +10,6 @@ function setupTemplateModal(
   copySourceInstance,
   getNewForkName,
   keypather,
-  fetchUser,
   promisify
 ) {
   return {
