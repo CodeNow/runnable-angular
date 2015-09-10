@@ -1,17 +1,17 @@
 .load,
 %load {
   animation: fade-in .3s ease-in forwards;
-  transition: all .3s ease-in;
+  transition: opacity .3s ease-in;
 
   &.loading {
     animation: none;
     opacity: 0;
-    transition: all .3s ease-in;
+    transition: opacity .3s ease-in;
   }
 
   &.ng-hide {
     animation: none;
     opacity: 0;
-    transition: all .3s ease-in;
+    transition: opacity .3s ease-in;
   }
 }

@@ -63,11 +63,11 @@
 
   // flip
   &.icons-arrow-forward {
-    transform: rotate3d(0,0,1,-90deg);
+    transform: rotate(-90deg);
   }
 
   &.icons-arrow-backward {
-    transform: rotate3d(0,0,1,90deg);
+    transform: rotate(90deg);
   }
 
   &.icons-file-tree {
