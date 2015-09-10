@@ -66,6 +66,11 @@ describe('loadingPromises'.bold.underline.blue, function () {
       $rootScope.$apply();
       $rootScope.$apply();
     });
+    it('should return the count of promises', function () {
+      loadingPromises.add('hello', $q(function (resolve) {}));
+      loadingPromises.add('hello', $q(function (resolve) {}));
+      expect(loadingPromises.count('hello')).to.equal(2);
+    });
   });
   describe('Without namespace'.bold, function () {
     it('should just return without adding anything to the hash', function (done) {
@@ -79,6 +84,9 @@ describe('loadingPromises'.bold.underline.blue, function () {
 
       $rootScope.$apply();
       $rootScope.$apply();
+    });
+    it('should return 0 for count', function () {
+      expect(loadingPromises.count()).to.equal(0);
     });
   });
 });

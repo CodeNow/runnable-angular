@@ -107,10 +107,14 @@ function modalManager(
       });
 
       var unListenForSetCloseHandler = $rootScope.$on('set-close-modal-handler', function (evt, handler) {
-        currentModalScope.closeHandler = handler;
+        if (currentModalScope) {
+          currentModalScope.closeHandler = handler;
+        }
       });
       var unListenForRestCloseHandler = $rootScope.$on('reset-close-modal-handler', function () {
-        currentModalScope.closeHandler = null;
+        if (currentModalScope) {
+          currentModalScope.closeHandler = null;
+        }
       });
 
       $scope.$on('$destroy', function () {
