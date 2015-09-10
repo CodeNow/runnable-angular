@@ -13,12 +13,14 @@ section.modal-body
   )
     .label(
       data = "data"
+      ng-if = "!$root.featureFlags.newVerificationFlow || state.step === 0"
       stack-selector-form
       state = "state"
       loading-promises-target = "setupServerModal"
     )
     .label(
       repository-form
+      ng-if = "!$root.featureFlags.newVerificationFlow || state.step === 1"
       start-command-can-disable = "true"
       state = "state"
       loading-promises-target = "setupServerModal"
@@ -29,7 +31,13 @@ footer.modal-footer.clearfix
   button.btn.green(
     ng-disabled = "verifyServerForm.$invalid || (state.selectedStack | selectedStackInvalid)"
     ng-click = "createServer(state)"
+    ng-if="!$root.featureFlags.newVerificationFlow || ($root.featureFlags.newVerificationFlow && state.step >= 1)"
   ) Create Container
+  button.btn.green(
+    ng-disabled = "verifyServerForm.$invalid || (state.selectedStack | selectedStackInvalid)"
+    ng-if="$root.featureFlags.newVerificationFlow && state.step < 1"
+    ng-click = "goToNextStep()"
+  ) Next
   button.btn.white.btn-cancel(
     ng-click = "defaultActions.cancel()"
     type = "button"
