@@ -20,12 +20,15 @@
       {name: 'master', status: 'green', sandbox: 'prafulrana'},\
       {name: 'master', status: 'green', sandbox: 'runnabro'}\
     ];\
-    state.view = 1;\
+    state.loading = true;\
+    state.view = null;\
   "
   ng-style = "popoverStyle.getStyle()"
   style = "transform-origin: 50% 0"
 )
-  .arrow
+  .arrow(
+    ng-class = "{'white': state.loading}"
+  )
   .popover-views
     //- view 1 = list of dns mappings
         view 2 = changing dns mapping
@@ -46,29 +49,45 @@
         'view-2': state.view === 2\
       }"
       ng-style = "\
+        state.loading && {'min-height': '150px'} ||\
         state.view === 1 && {'min-height': {{dnsMappings.length*54 + 36 + 8}} + 'px'} ||\
         (state.view === 2 && !toggle.privateContainers) && {'min-height': {{mavisBranches.length*36 + 36 + 38 + 8}} + 'px'} ||\
         (state.view === 2 && toggle.privateContainers) && {'min-height': {{mavisPrivateBranches.length*54 + 36 + 38 + 8}} + 'px'}\
       "
     )
-      .popover-view
-        .popover-header
+      .popover-view(
+        ng-style = "state.loading && {'display': 'block'}"
+      )
+        .popover-header.load(
+          ng-if = "!state.loading"
+        )
           //- normally, these elements have their transition set on .popover-view,
               but here we want the transition to apply only to the text/elements
           .span(
-            style = "opacity: {{state.view === 1 ?  1 : 0}}"
+            style = "opacity: {{state.view != 2 ?  1 : 0}}"
           ) DNS Mappings
+
+        //- spinner
+        .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
+          ng-click = "\
+            state.loading = false;\
+            state.view = 1;\
+          "
+          ng-if = "state.loading"
+          ng-include = "'spinner'"
+        )
 
         //- list of DNS mappings
         ul.list.popover-list(
           style = "opacity: {{state.view === 1 ?  1 : 0}}"
         )
-          li.list-item.popover-list-item.tr.multi-line.clearfix(
+          li.list-item.popover-list-item.tr.multi-line.clearfix.load(
             ng-click = "\
               dnsMappings.currentIndex = $index;\
               state.view = 2;\
               toggle.disabled = false;\
             "
+            ng-if = "!state.loading"
             ng-repeat = "container in dnsMappings"
           )
             .cell.text-overflow(
