@@ -45,9 +45,9 @@
 
     .icons-arrow-forward {
       color: $gray-light;
-      height: 100%;
       margin: 0;
       right: -9px;
+      top: 2px;
     }
   }
 
@@ -57,7 +57,7 @@
     font-size: 14px;
     font-weight: $weight-bold;
     height: 54px;
-    padding: 12px 0 0;
+    padding: 0;
     position: relative;
 
     // specific to elastic container
@@ -70,10 +70,9 @@
         content: '→';
         display: block;
         font-size: 18px;
-        line-height: 40px;
         position: absolute;
         right: 9px;
-        top: -1px;
+        top: -3px;
       }
 
       // container name
@@ -120,6 +119,16 @@
 
     &:active {
       color: $purple-light;
+    }
+
+    &.multi-line {
+      height: 54px;
+      line-height: 1.2;
+      padding-top: 12px;
+
+      .small {
+        font-size: 11px;
+      }
     }
   }
 }

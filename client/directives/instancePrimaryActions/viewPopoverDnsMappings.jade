@@ -17,8 +17,8 @@
       {name: 'temporary-branch-to-fork-on-runnable', status: 'green'}\
     ];\
     mavisPrivateBranches = [\
-      {name: 'master (prafulrana)', status: 'green'},\
-      {name: 'master (runnabro)', status: 'green'}\
+      {name: 'master', status: 'green', sandbox: 'prafulrana'},\
+      {name: 'master', status: 'green', sandbox: 'runnabro'}\
     ];\
     state.view = 1;\
   "
@@ -32,6 +32,7 @@
 
           list item (view 1) = 54px
           list item (view 2) = 36px
+          list item (view 2/private) = 54px
           header = 36px
           toggle = 38px
           list padding = 4px * 2
@@ -44,7 +45,7 @@
       ng-style = "\
         state.view === 1 && {'min-height': {{dnsMappings.length*54 + 36 + 8}} + 'px'} ||\
         (state.view === 2 && !toggle.privateContainers) && {'min-height': {{mavisBranches.length*36 + 36 + 38 + 8}} + 'px'} ||\
-        (state.view === 2 && toggle.privateContainers) && {'min-height': {{mavisPrivateBranches.length*36 + 36 + 38 + 8}} + 'px'}\
+        (state.view === 2 && toggle.privateContainers) && {'min-height': {{mavisPrivateBranches.length*54 + 36 + 38 + 8}} + 'px'}\
       "
     )
       .popover-view
@@ -156,7 +157,7 @@
             transform: {{!toggle.privateContainers ? 'translate3d(100%,0,0)' : 'translate3d(0,0,0)'}}\
           "
         )
-          li.list-item.popover-list-item(
+          li.list-item.multi-line.popover-list-item(
             ng-repeat = "branch in mavisPrivateBranches"
           )
             .icons-status(
@@ -166,3 +167,6 @@
               tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
             )
             | {{branch.name}}
+            small.small(
+              title = "{{branch.sandbox}}"
+            ) {{branch.sandbox}}
