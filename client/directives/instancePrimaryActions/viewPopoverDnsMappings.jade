@@ -59,7 +59,10 @@
           style = "opacity: {{state.view === 1 ?  1 : 0}}"
         )
           li.list-item.popover-list-item.tr.multi-line.clearfix(
-            ng-click = "state.view = 2"
+            ng-click = "\
+              state.view = 2;\
+              toggle.disabled = false;\
+            "
             ng-repeat = "container in dnsMappings"
           )
             .cell.text-overflow(
@@ -88,12 +91,16 @@
 
       //- .no-touching is used to prevent clicks on the organization list if private is the active tab
       .popover-view(
-        ng-class = "{'no-touching': state.view === 1}"
         ng-init = "toggle.privateContainers = false"
       )
         .popover-header
+          //- toggle.disabled prevents toggles from looking like they've switched mid animation
           svg.btn.btn-sm.iconnables.icons-arrow-backward.pull-left(
-            ng-click = "state.view = 1"
+            ng-click = "\
+              state.view = 1;\
+              toggle.disabled = true;\
+              toggle.privateContainers = false;\
+            "
             style = "opacity: {{state.view === 2 ?  1 : 0}}"
           )
             use(
@@ -110,7 +117,7 @@
         )
           .btn.btn-xs.gray.text-overflow(
             ng-class = "{\
-              'active': !toggle.privateContainers,\
+              'active': !toggle.privateContainers && !toggle.disabled,\
               'no-touching': !toggle.privateContainers\
             }"
             ng-click = "toggle.privateContainers = !toggle.privateContainers"
@@ -118,7 +125,7 @@
           ) CodeNow
           .btn.btn-xs.gray.text-overflow(
             ng-class = "{\
-              'active': toggle.privateContainers,\
+              'active': toggle.privateContainers && !toggle.disabled,\
               'no-touching': toggle.privateContainers\
             }"
             ng-click = "toggle.privateContainers = !toggle.privateContainers"
