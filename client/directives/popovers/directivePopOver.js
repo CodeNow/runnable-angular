@@ -114,11 +114,10 @@ function popOver(
               right: width - offset.right
             };
 
-            // If true, make sure popover is not displayed outside the viewport
-            if ($scope.popoverOptions.pinToViewPort)  {
-              if ($scope.popoverElement[0].offsetHeight + newOffset.top > $document.find('body')[0].offsetHeight) {
-                newOffset.top =  $document.find('body')[0].offsetHeight - $scope.popoverElement[0].offsetHeight;
-              }
+            if ($scope.popoverOptions.pinToViewPort && // If true, make sure popover is not displayed outside the viewport
+                $scope.popoverElement[0].offsetHeight + newOffset.top > $document.find('body')[0].offsetHeight
+             ) {
+              newOffset.top =  $document.find('body')[0].offsetHeight - $scope.popoverElement[0].offsetHeight;
             }
 
             var keys = ['top', 'left', 'bottom', 'right'];
