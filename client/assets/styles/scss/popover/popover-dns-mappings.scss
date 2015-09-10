@@ -27,11 +27,12 @@
 
     &:active {
 
-      .cell,
-      .cell::after {
-        color: $purple-light;
+      // override .popover-list-item default
+      .small.text-overflow {
+        color: $gray;
       }
 
+      .cell + .cell,
       .icons-arrow-forward {
         color: $purple-light;
       }
@@ -59,8 +60,11 @@
     padding: 12px 0 0;
     position: relative;
 
+    // specific to elastic container
     &:first-child {
+      color: $gray;
 
+      // arrow
       &::after {
         color: $gray-light;
         content: '→';
@@ -72,11 +76,13 @@
         top: -1px;
       }
 
+      // container name
       .text-overflow:first-child {
         padding-right: 24px;
       }
     }
 
+    // specific to mapped container
     + .cell {
       max-width: 120px;
     }
@@ -111,5 +117,9 @@
     font-size: 14px;
     font-weight: $weight-bold;
     padding: 0 15px;
+
+    &:active {
+      color: $purple-light;
+    }
   }
 }
