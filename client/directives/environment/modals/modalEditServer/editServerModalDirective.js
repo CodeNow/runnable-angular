@@ -18,8 +18,8 @@ var tabVisibility = {
  * @ngInject
  */
 function editServerModal(
-  $filter,
   $q,
+  $filter,
   $rootScope,
   errs,
   eventTracking,
@@ -37,7 +37,8 @@ function editServerModal(
   OpenItems,
   parseDockerfileForCardInfoFromInstance,
   promisify,
-  updateDockerfileFromState
+  updateDockerfileFromState,
+  $timeout
 ) {
   return {
     restrict: 'A',
@@ -310,16 +311,11 @@ function editServerModal(
         $rootScope.$broadcast('eventPasteLinkedInstance', hostName);
       };
 
-      $scope.cancel = function () {
-        helpCards.setActiveCard(null);
-        $scope.modalActions.cancel();
-      };
-
       $scope.getUpdatePromise = function () {
+        $scope.saveTriggered = true;
         $rootScope.$broadcast('close-popovers');
         $scope.building = true;
         $scope.state.ports = convertTagToPortList();
-        var hasMainRepo = !!keypather.get($scope, 'instance.contextVersion.getMainAppCodeVersion()');
 
         var toRebuild;
         var toRedeploy;
@@ -403,6 +399,43 @@ function editServerModal(
         return !$scope.state.dockerfile.validation.criticals.find(hasKeypaths({
           message: 'Missing or misplaced FROM'
         }));
+      };
+
+      function isDirty () {
+        return loadingPromises.count('editServerModal') > 1 ||
+          keypather.get($scope, 'instance.attrs.env') !== keypather.get($scope, 'state.opts.env') ||
+          !$scope.openItems.isClean();
+      }
+
+      var closeActions  = {};
+      function triggerClose () {
+        return $q(function (resolve, reject) {
+          if (!isDirty() || $scope.saveTriggered) {
+            return resolve();
+          }
+          closeActions.resolve = resolve;
+          closeActions.reject = reject;
+          $scope.confirmClose.active = true;
+        })
+          .then(function () {
+            helpCards.setActiveCard(null);
+          });
+      }
+
+      $rootScope.$emit('set-close-modal-handler', triggerClose);
+
+      $scope.confirmClose = {
+        active: false,
+        actions: {
+          cancel: function () {
+            $rootScope.$broadcast('close-popovers');
+            closeActions.reject();
+          },
+          confirm: function () {
+            $rootScope.$broadcast('close-popovers');
+            closeActions.resolve();
+          }
+        }
       };
     }
   };

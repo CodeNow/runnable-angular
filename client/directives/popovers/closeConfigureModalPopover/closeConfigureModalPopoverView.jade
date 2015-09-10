@@ -7,8 +7,8 @@
       h3.popover-title Are you sure you want to discard your changes and exit?
     .popover-footer.clearfix
       button.btn.red.float-right(
-        ng-click = "closePopover()"
+        ng-click = "actions.confirm()"
       ) Discard and Exit
       button.btn.white.btn-cancel(
-        ng-click = "closePopover()"
+        ng-click = "actions.cancel()"
       ) Cancel

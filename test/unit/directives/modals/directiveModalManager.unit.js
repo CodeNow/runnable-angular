@@ -1,13 +1,14 @@
 'use strict';
 
 // injector-provided
-var $rootScope,
-  $scope,
-  $compile,
-  $document,
-  $timeout,
-  $templateCache;
+var $rootScope;
+var $scope;
+var $compile;
+var $document;
+var $timeout;
+var $templateCache;
 var $elScope;
+var $q;
 
 var apiMocks = require('../../apiMocks/index');
 
@@ -42,7 +43,8 @@ describe('directiveModalManager'.bold.underline.blue, function () {
       _$compile_,
       _$timeout_,
       _$document_,
-      _$rootScope_
+      _$rootScope_,
+      _$q_
     ) {
       $rootScope = _$rootScope_;
       $scope = _$rootScope_.$new();
@@ -50,6 +52,7 @@ describe('directiveModalManager'.bold.underline.blue, function () {
       $document = _$document_;
       $templateCache = _$templateCache_;
       $timeout = _$timeout_;
+      $q = _$q_;
     });
     ctx = {};
     $scope.modalOpen = false;
@@ -216,6 +219,45 @@ describe('directiveModalManager'.bold.underline.blue, function () {
       $rootScope.$emit('open-modal', modalOptions);
 
       $elScope.currentModalScope.defaultActions.cancel();
+      $timeout.flush();
+
+      var closedModal = ctx.element[0].querySelector('.modal-backdrop');
+      expect(closedModal).to.not.exist;
+    });
+
+    it('cancel action call the close handler if one exists', function () {
+      injectSetupCompile();
+      var modalOptions = makeDefaultOptions();
+      modalOptions.actions = {};
+      $rootScope.$emit('open-modal', modalOptions);
+      $scope.$digest();
+
+      var closeHandler = sinon.stub().returns($q.when(true));
+      $rootScope.$emit('set-close-modal-handler', closeHandler);
+
+      $elScope.currentModalScope.defaultActions.cancel();
+      $scope.$digest();
+      sinon.assert.calledOnce(closeHandler);
+      $timeout.flush();
+
+      var closedModal = ctx.element[0].querySelector('.modal-backdrop');
+      expect(closedModal).to.not.exist;
+    });
+
+    it('should be able to unlisten to the close handler', function () {
+      injectSetupCompile();
+      var modalOptions = makeDefaultOptions();
+      modalOptions.actions = {};
+      $rootScope.$emit('open-modal', modalOptions);
+      $scope.$digest();
+
+      var closeHandler = sinon.stub().returns($q.when(true));
+      $rootScope.$emit('set-close-modal-handler', closeHandler);
+      $rootScope.$emit('reset-close-modal-handler');
+
+      $elScope.currentModalScope.defaultActions.cancel();
+      $scope.$digest();
+      sinon.assert.notCalled(closeHandler);
       $timeout.flush();
 
       var closedModal = ctx.element[0].querySelector('.modal-backdrop');

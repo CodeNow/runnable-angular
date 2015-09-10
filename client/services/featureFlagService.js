@@ -9,7 +9,6 @@ function featureFlags(
   var defaultFeatureFlags = {
     additionalRepositories: true,
     cardStatus: false,
-    closeConfigureConfirmation: false, // confirmation popover when closing configure modal
     debugMode: true,
     debugStartCmd: false, // debug mode for start CMD (in CMD Logs)
     fullScreen: false,  // toggles full screen
