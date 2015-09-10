@@ -27,7 +27,10 @@
 )
   .arrow
   .popover-views
-    //- for view 1, height of list items & (header + list padding)
+    //- view 1 = list of dns mappings
+        view 2 = changing dns mapping
+
+        for view 1, height of list items & (header + list padding)
         for view 2, height of list items & (header + toggle + list padding)
 
           list item (view 1) = 54px
@@ -56,6 +59,7 @@
             style = "opacity: {{state.view === 1 ?  1 : 0}}"
           ) DNS Mappings
 
+        //- list of DNS mappings
         ul.list.popover-list(
           style = "opacity: {{state.view === 1 ?  1 : 0}}"
         )
@@ -91,6 +95,7 @@
                 xlink:href = "#icons-arrow-down"
               )
 
+      //- view for changing a dns mapping
       .popover-view(
         ng-init = "toggle.privateContainers = false"
       )
@@ -111,7 +116,8 @@
             style = "opacity: {{state.view === 2 ?  1 : 0}}"
           ) {{dnsMappings[dnsMappings.currentIndex].name}} Containers
 
-        //- only show toggle if there are containers in private sandboxes
+        //- toggle between organization containers and private containres
+            only show toggle if there are containers in private sandboxes
         .btn-group.btn-toggle.btn-toggle-xs(
           ng-if = "mavisPrivateBranches.length"
           style = "opacity: {{state.view === 2 ?  1 : 0}}"
@@ -133,6 +139,7 @@
             title = "Private"
           ) Private
 
+        //- organization container list
         ul.list.popover-list.popover-list-toggle(
           style = "\
             opacity: {{state.view === 2 && !toggle.privateContainers ? 1 : 0}};\
@@ -160,6 +167,7 @@
             )
             | {{branch.name}}
 
+        //- private container list
         ul.list.popover-list.popover-list-toggle(
           style = "\
             opacity: {{state.view === 2 && !toggle.privateContainers ? 0 : 1}};\
