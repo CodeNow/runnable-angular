@@ -425,6 +425,33 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         sinon.assert.calledOnce(ctx.instance.redeploy);
       });
 
+      it('should redeploy update the instance when only envs have changed and build is building', function () {
+        ctx.instance.status = sinon.stub().returns('building');
+        $scope.$digest();
+
+        var closePopoverSpy = sinon.spy();
+        $rootScope.$on('close-popovers', closePopoverSpy);
+        $rootScope.$on('alert', function (event, opts) {
+          expect(opts).to.be.deep.equal({
+            type: 'success',
+            text: 'Container updated successfully.'
+          });
+        });
+
+        $elScope.state.opts.env = ['asdasd', 'sadfsdfasdfasdf'];
+        $elScope.getUpdatePromise();
+        $scope.$digest();
+        sinon.assert.called(closePopoverSpy);
+        sinon.assert.called(ctx.loadingPromiseMock.finished);
+        expect($elScope.building).to.be.true;
+        expect($elScope.state.ports).to.be.ok;
+        sinon.assert.calledOnce(ctx.build.build);
+        sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
+        sinon.assert.calledOnce($scope.defaultActions.close);
+        sinon.assert.calledOnce(ctx.instance.update);
+        sinon.assert.notCalled(ctx.instance.redeploy);
+      });
+
       it('should build when promises have been made', function () {
         var alertSpy = sinon.spy();
         var closePopoverSpy = sinon.spy();
