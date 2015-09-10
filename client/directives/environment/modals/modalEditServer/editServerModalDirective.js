@@ -319,8 +319,6 @@ function editServerModal(
         $rootScope.$broadcast('close-popovers');
         $scope.building = true;
         $scope.state.ports = convertTagToPortList();
-        var hasMainRepo = !!keypather.get($scope, 'instance.contextVersion.getMainAppCodeVersion()');
-
         var toRebuild;
         var toRedeploy;
         // So we should do this watchPromise step first so that any tab that relies on losing focus
@@ -331,13 +329,17 @@ function editServerModal(
           })
           .then(function (promiseArrayLength) {
             // Since the initial deepCopy should be in here, we only care about > 1
-            toRebuild = promiseArrayLength > 1 ||
-              $scope.openItems.getAllFileModels(true).length ||
-              ['building', 'buildFailed', 'neverStarted'].includes(keypather.get($scope, 'instance.status()'))
-            ;
+            toRebuild = promiseArrayLength > 1 || $scope.openItems.getAllFileModels(true).length;
 
             toRedeploy = !toRebuild &&
               keypather.get($scope, 'instance.attrs.env') !== keypather.get($scope, 'state.opts.env');
+
+            // If we are redeploying and the build is not finished we need to rebuild or suffer errors from API.
+            if (toRedeploy && ['building', 'buildFailed', 'neverStarted'].includes(keypather.get($scope, 'instance.status()'))) {
+              toRedeploy = false;
+              toRebuild = true;
+            }
+
             if (!$scope.openItems.isClean()) {
               return $scope.openItems.updateAllFiles();
             }
