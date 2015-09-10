@@ -197,7 +197,8 @@ function fileTreeDir(
         options: {
           top: -16,
           left: 10,
-          mouse: true
+          mouse: true,
+          pinToViewPort: true
         }
       };
 
@@ -205,7 +206,8 @@ function fileTreeDir(
         canUpload: $scope.editExplorer,
         options: {
           top: -16,
-          left: 10
+          left: 10,
+          pinToViewPort: true
         },
         actions: {
           openFile: function (file) {

@@ -50,7 +50,7 @@
   background-size: 900px 395px;
   flex: 1 1 auto;
   flex-direction: column;
-  padding: 225px 0 90px;
+  padding: 210px 0 150px;
 
   @media (max-width: 850px) {
     .br {
@@ -129,64 +129,8 @@
   }
 
   .p,
-  .small,
-  .link {
+  .small {
     font-weight: 300;
-  }
-
-  // video
-  .link {
-    color: $white;
-    cursor: pointer;
-    display: table;
-    font-size: 15px;
-    font-weight: $weight-normal;
-    height: 24px;
-    margin: 30px auto 9px;
-    opacity: .75;
-    text-decoration: none;
-
-    @media (max-width: 850px) {
-      margin-top: 0;
-    }
-
-    &:hover,
-    &:active {
-      opacity: 1;
-    }
-
-    .svg {
-      height: 15px;
-      position: relative;
-      top: 3px;
-      width: 24px;
-    }
-  }
-
-  // codesnippets alert
-  .alert {
-    border-radius: $input-border-radius;
-    border-width: 1px;
-    display: table;
-    font-size: 13px;
-    font-weight: $weight-bold;
-    height: $input-sm;
-    line-height: $input-line-height-sm;
-    margin: 0 auto 15px;
-    padding: 0 15px;
-
-    &.purple {
-      background: $purple;
-      border-color: $purple-light;
-      color: $white;
-    }
-
-    .btn-xxs {
-      border: 0;
-      line-height: 18px;
-      margin-left: 15px;
-      padding: 0 6px;
-    }
   }
 
   // modal
@@ -217,55 +161,149 @@
   }
 }
 
+// row request
+.row-request {
+  color: $purple-lighter;
+  font-size: 16px;
+  font-weight: 300;
+  text-align: center;
+
+  .btn {
+    border-color: $purple-dark;
+    display: block;
+    font-weight: $weight-normal;
+    margin: 3px auto 0;
+    width: 210px;
+
+    &:hover:not([disabled]) {
+      background: lighten($purple-light,5%);
+    }
+
+    &:active:not([disabled]) {
+      background: $white;
+    }
+  }
+}
+
+.row-codesnippets {
+  color: $purple-lighter;
+  font-size: 14px;
+  font-weight: 300;
+  margin-top: 15px;
+
+  .link {
+    color: currentColor;
+  }
+}
+
 // embed
+.embed-preview {
+  border: 2px solid $purple-light;
+  border-radius: 6px;
+  cursor: pointer;
+  height: 168px;
+  margin: 0 auto 30px;
+  overflow: hidden;
+  position: relative;
+  width: 300px;
+
+  &:hover {
+
+    .link {
+      background: $purple-light;
+    }
+
+    .preview {
+      opacity: .18;
+    }
+  }
+
+  &:active {
+    border-color: $white;
+    transition: none;
+
+    .link {
+      background: $white;
+      border-color: $white;
+      color: $purple-light;
+      transition: none;
+    }
+
+    .path {
+      fill: $purple-light;
+    }
+  }
+
+  .preview {
+    background: url(/build/images/home/preview.png) no-repeat center center;
+    background-size: 296px 164px;
+    height: 164px;
+    opacity: .15;
+    width: 296px;
+  }
+
+  // video
+  .link {
+    background: rgba($purple-light,.6);
+    border: 2px solid $purple-light;
+    border-radius: 30px;
+    color: rgba($white,.75);
+    font-size: 15px;
+    height: 32px;
+    left: 0;
+    line-height: 28px;
+    margin: 66px auto;
+    padding: 0 9px 0 15px;
+    position: absolute;
+    right: 0;
+    text-decoration: none;
+    top: 0;
+    width: 234px;
+  }
+
+  .svg {
+    height: 15px;
+    position: relative;
+    top: 2px;
+    width: 24px;
+  }
+
+  .path {
+    fill: $white;
+  }
+}
+
 .embed-video {
-  animation: scale-in-modal .2s ease-in forwards;
   height: 100%;
   position: relative;
   width: 100%;
   z-index: $z-modal;
 
   .iframe {
-    border-radius: 6px;
     height: 100%;
-    position: absolute;
-    top: 0;
     width: 100%;
   }
 }
 
 .home-modal-dialog {
-  max-width: 375px;
+  max-width: 390px;
 
   .icons-close {
-    color: $gray-light;
-    cursor: pointer;
-    pointer-events: auto;
-    position: absolute;
-    right: 15px;
-    top: 18px;
-
-    &:hover {
-      color: $gray;
-    }
-
-    &:active {
-      color: $red;
-    }
+    top: 15px;
   }
 
   .modal-body {
-    padding: 24px 30px;
+    padding: 45px 30px 15px;
     text-align: center;
 
-    .span {
+    .h1 {
+      color: $gray-dark;
       font-size: 21px;
-      margin: 12px 0 21px;
+      line-height: 1.2;
     }
 
-    .small {
-      color: $gray;
-      margin-top: 21px;
+    .btn {
+      margin: 15px auto;
     }
   }
 
