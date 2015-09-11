@@ -56,7 +56,7 @@ function featureFlags(
     changed: function () {
       return !!Object.keys(defaultFeatureFlags).find(function (featureFlag) {
         return defaultFeatureFlags[featureFlag] !== _featureFlags[featureFlag];
-      })
+      });
     }
   };
 }
