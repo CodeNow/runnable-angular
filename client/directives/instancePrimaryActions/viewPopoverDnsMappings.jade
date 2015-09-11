@@ -21,13 +21,15 @@
       {name: 'master', status: 'green', sandbox: 'runnabro'}\
     ];\
     state.loading = true;\
+    state.empty = true;\
     state.view = null;\
   "
   ng-style = "popoverStyle.getStyle()"
   style = "transform-origin: 50% 0"
 )
+  //- arrow is white if loading or no dns mappings
   .arrow(
-    ng-class = "{'white': state.loading}"
+    ng-class = "{'white': state.loading || state.empty}"
   )
 
   //- explanation of views and height:
@@ -47,35 +49,49 @@
 
   .popover-views(
     ng-style = "\
-      state.loading && {'height': '150px'} ||\
-      state.view === 1 && {'height': {{dnsMappings.length*54 + 36 + 8}} + 'px'} ||\
-      (state.view === 2 && !toggle.privateContainers) && {'height': {{mavisBranches.length*36 + 36 + 38 + 8}} + 'px'} ||\
-      (state.view === 2 && toggle.privateContainers) && {'height': {{mavisPrivateBranches.length*54 + 36 + 38 + 8}} + 'px'}\
+      state.view === 1 && {'height': dnsMappings.length*54 + 36 + 8 + 'px'} ||\
+      (state.view === 2 && !toggle.privateContainers) && {'height': (mavisBranches.length*36) + 36 + {{mavisPrivateBranches ? 38 : 0}} + 8 + 'px'} ||\
+      (state.view === 2 && toggle.privateContainers) && {'height': (mavisPrivateBranches.length*54) + 36 + 38 + 8 + 'px'}\
     "
   )
     .popover-view(
       ng-class = "{'view-2': state.view === 2}"
       ng-style = "state.loading && {'display': 'block'}"
     )
+      //- only show the header if not loading and not empty
       .popover-header.load(
-        ng-if = "!state.loading"
+        ng-if = "!state.loading && !state.empty"
       )
         .fade(
           ng-class = "{'in': state.view === 1}"
         ) DNS Mappings
 
-      //- spinner
+      //- spinner when loading
       .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
-        ng-click = "\
-          state.loading = false;\
-          state.view = 1;\
-        "
+        ng-click = "state.loading = false"
         ng-if = "state.loading"
         ng-include = "'spinner'"
       )
 
+      //- empty state if not loading and empty
+      .popover-content(
+        ng-click = "\
+          state.empty = false;\
+          state.view = 1;\
+        "
+        ng-if = "!state.loading && state.empty"
+      )
+        p.p.empty.text-center.fade-in Create DNS Mappings with elastic hostnames using Environment Variables or Find & Replace.&#32;
+          br
+          a.link(
+            href = "#"
+            target = "_blank"
+          ) Learn more about DNS Mappings
+
+      //- begin dns mappings
       .popover-content.fade(
         ng-class = "{'in': state.view === 1}"
+        ng-if = "state.view === 1 && !state.empty"
       )
 
         //- list of DNS mappings
