@@ -20,11 +20,21 @@ function makeDefaultScope() {
       instances: [apiMocks.instances.building, apiMocks.instances.running],
       activeAccount: ctx.fakeuser,
       orgs: {models: [ctx.fakeOrg1, ctx.fakeOrg2]},
-      user: ctx.fakeuser
+      user: ctx.fakeuser,
+      stacks: [
+        {
+          key: 'chicken',
+          value: 'cooked'
+        },
+        {
+          key: 'bbq',
+          value: 'cooked chicken with sauce'
+        }
+      ]
     },
     state: {
       selectedStack: {
-        hello: 'chicken'
+        key: 'chicken'
       }
     }
   };
@@ -88,79 +98,54 @@ describe('stackSelectorForm'.bold.underline.blue, function () {
       expect($elScope.state).to.be.ok;
       expect($elScope.state.selectedStack).to.be.ok;
       expect($elScope.temp).to.be.ok;
-      expect($elScope.temp.stack).to.not.equal($elScope.state.selectedStack);
-      expect($elScope.temp.stack).to.deep.equal($elScope.state.selectedStack);
+      expect($elScope.temp.stackKey).to.deep.equal($elScope.state.selectedStack.key);
 
       expect($elScope.loadingPromisesTarget).to.equal('hello');
-
-      $scope.$destroy();
-      $scope.$digest();
     });
 
     it('should set selectedStack to new value of temp', function () {
 
-      $elScope.temp.stack = { asdasd: 'dfasdfasdf' };
+      $elScope.temp.stackKey = 'bbq';
       $scope.$digest();
-      expect($elScope.temp.stack).to.deep.equal($elScope.state.selectedStack);
-
-      $scope.$destroy();
-      $scope.$digest();
+      expect($elScope.state.selectedStack.key).to.equal('bbq');
     });
 
     it('should not allow stack to be set to null after', function () {
-
-      $elScope.temp.stack = null;
+      $elScope.temp.stackKey = null;
       $scope.$digest();
-      expect($elScope.temp.stack).to.not.equal($elScope.state.selectedStack);
-      expect($elScope.state.selectedStack).to.deep.equal({
-        hello: 'chicken'
-      });
-      expect($elScope.temp.stack).to.not.be.ok;
-
-      $scope.$destroy();
-      $scope.$digest();
+      expect($elScope.state.selectedStack.key).to.equal('chicken');
     });
 
     it('should create a new dockerfile, then update it, when a new stack is selected', function () {
       $scope.state.contextVersion = ctx.contextVersion;
-      $elScope.newStackSelected({key: 'cheese'});
+
+      $elScope.temp.stackKey = 'bbq';
       $scope.$digest();
-      ctx.createDockerfileFromSourceMock.triggerPromise(ctx.dockerfile);
       sinon.assert.calledOnce(ctx.createDockerfileFromSourceMock.getFetchSpy());
+      sinon.assert.calledWith(ctx.createDockerfileFromSourceMock.getFetchSpy(), ctx.contextVersion, 'bbq');
+
+      ctx.createDockerfileFromSourceMock.triggerPromise(ctx.dockerfile);
       $scope.$digest();
-      sinon.assert.calledWith(ctx.createDockerfileFromSourceMock.getFetchSpy(), ctx.contextVersion, 'cheese');
       expect($elScope.state.dockerfile).to.equal(ctx.dockerfile);
-      $scope.$digest();
       sinon.assert.calledOnce(ctx.updateDockerfileFromStateMock);
       sinon.assert.calledWith(ctx.updateDockerfileFromStateMock, $elScope.state);
-
-      $scope.$destroy();
-      $scope.$digest();
     });
 
     it('should wait for the createDockerfile before updating the dockerfile', function () {
       $scope.state.contextVersion = ctx.contextVersion;
-      $elScope.newStackSelected({key: 'cheese'});
+
+      $elScope.temp.stackKey = 'bbq';
       $elScope.updateDockerfile();
+      sinon.assert.notCalled(ctx.updateDockerfileFromStateMock);
       $scope.$digest();
 
-      sinon.assert.notCalled(ctx.updateDockerfileFromStateMock);
-      $scope.$digest();
-      $scope.$digest();
-      // Still shouldn't have been called
-      sinon.assert.notCalled(ctx.updateDockerfileFromStateMock);
-      $scope.$digest();
       ctx.createDockerfileFromSourceMock.triggerPromise(ctx.dockerfile);
+      $scope.$digest();
       sinon.assert.calledOnce(ctx.createDockerfileFromSourceMock.getFetchSpy());
-      sinon.assert.calledWith(ctx.createDockerfileFromSourceMock.getFetchSpy(), ctx.contextVersion, 'cheese');
-      $scope.$digest();
+      sinon.assert.calledWith(ctx.createDockerfileFromSourceMock.getFetchSpy(), ctx.contextVersion, 'bbq');
       expect($elScope.state.dockerfile, 'dockerfile').to.equal(ctx.dockerfile);
-      $scope.$digest();
       sinon.assert.calledTwice(ctx.updateDockerfileFromStateMock);
       sinon.assert.calledWith(ctx.updateDockerfileFromStateMock, $elScope.state);
-
-      $scope.$destroy();
-      $scope.$digest();
     });
   });
 });
