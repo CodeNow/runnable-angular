@@ -2,7 +2,7 @@
 
 //- if new container
 .input-col(
-  ng-if = "$root.featureFlags.newVerificationFlow"
+  ng-if = "$root.featureFlags.newVerificationFlowStackSelector"
 )
   .btn-group.btn-group-stacks
     //- recommended first
@@ -145,7 +145,7 @@
 
 //- if not new
 .input-col(
-  ng-if = "!$root.featureFlags.newVerificationFlow"
+  ng-if = "!$root.featureFlags.newVerificationFlowStackSelector"
 )
   //- if not new and not new change stack flow
   fancy-select(
