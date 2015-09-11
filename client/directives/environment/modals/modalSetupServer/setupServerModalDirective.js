@@ -16,6 +16,8 @@ function setupServerModal(
   loadingPromises,
   promisify,
   updateDockerfileFromState,
+  JSTagsCollection,
+  portTagOptions,
   $log,
   cardInfoTypes,
   fetchStackInfo
@@ -50,6 +52,8 @@ function setupServerModal(
           return [];
         }
       };
+      // For ports
+      $scope.portTagOptions = new portTagOptions.TagCollection();
 
       fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
         .then(function (repoList) {
@@ -82,6 +86,19 @@ function setupServerModal(
 
       $scope.goToNextStep = function () {
         $scope.state.step += 1;
+        if ($scope.state.step === 1) {
+          $scope.changeTab('repository');
+        }
+        else if ($scope.state.step === 2) {
+          $scope.changeTab('commands');
+        }
+        else if ($scope.state.step === 3) {
+           $scope.changeTab(null);
+        }
+      };
+
+      $scope.changeTab = function (tabname) {
+        $scope.selectedTab = tabname;
       };
 
       $scope.createServer = function () {
