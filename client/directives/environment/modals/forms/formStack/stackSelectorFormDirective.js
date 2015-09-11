@@ -25,7 +25,10 @@ function stackSelectorForm(
         stackKey: keypather.get($scope, 'state.selectedStack.key')
       };
 
-      $scope.$watch('temp.stackKey', function (newStackKey) {
+      $scope.$watch('temp.stackKey', function (newStackKey, oldStackKey) {
+        if (newStackKey === oldStackKey) {
+          return;
+        }
         var newStack = $scope.data.stacks.find(function (stack) {
           return stack.key === newStackKey;
         });
