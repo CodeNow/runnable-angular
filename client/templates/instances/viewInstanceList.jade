@@ -73,8 +73,7 @@
 
 //- non-repository containers
 .list.list-containers(
-  ng-if = "CIS.activeAccount && !isLoading.sidebar"
-  ng-show = "nonRepoInstances.length"
+  ng-if = "CIS.activeAccount && !isLoading.sidebar && nonRepoInstances.length"
 )
   //- "non-repository" heading
   .list-item.small.strong
