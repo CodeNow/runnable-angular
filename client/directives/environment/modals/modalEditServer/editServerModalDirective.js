@@ -30,7 +30,7 @@ function editServerModal(
   findLinkedServerVariables,
   hasKeypaths,
   helpCards,
-  JSTagsCollection,
+  portTagOptions,
   keypather,
   loading,
   loadingPromises,
@@ -67,26 +67,12 @@ function editServerModal(
 
       // temp fix
       $scope.data = {};
-      $scope.portTagOptions = {
-        breakCodes: [
-          13, // return
-          32, // space
-          44, // comma (opera)
-          188 // comma (mozilla)
-        ],
-        texts: {
-          'inputPlaceHolder': 'Add ports here',
-          maxInputLength: 5,
-          onlyDigits: true
-        },
-        minTagWidth: 120,
-        tags: new JSTagsCollection([])
-      };
+      $scope.portTagOptions = new portTagOptions.PortTagOptions();
       $scope.state = {
         opts: {
           env: keypather.get($scope.instance, 'attrs.env')
         },
-        getPorts: convertTagToPortList,
+        getPorts: $scope.portTagOptions.convertTagsToPortList.bind($scope.portTagOptions),
         instance: $scope.instance,
         promises: {}
       };
@@ -119,11 +105,6 @@ function editServerModal(
 
       $scope.openItems = new OpenItems();
 
-      function convertTagToPortList() {
-        return Object.keys($scope.portTagOptions.tags.tags).map(function (key) {
-          return $scope.portTagOptions.tags.tags[key].value;
-        });
-      }
       $scope.validation = {
         env: null
       };
@@ -136,30 +117,7 @@ function editServerModal(
           $scope.instance[key] = data[key];
         });
         $scope.state.ports = data.ports;
-        $scope.portTagOptions.tags = new JSTagsCollection((data.ports || '').split(' '));
-        $scope.portTagOptions.tags.onAdd(function (newTag) {
-          var tags = $scope.portTagOptions.tags;
-          /*!
-           * Check for non-allowed chars and ports
-           */
-          // Remove ports over the max
-            if ((newTag.value.match(/[^0-9]/g) !== null) || (parseInt(newTag.value, 10) > 65535)) {
-                tags.removeTag(newTag.id);
-                errs.handler(new Error('Port is invalid (Above 65,535)'));
-            }
-          /*!
-           * Check for duplicate ports
-           */
-          // Check that there are no duplicates
-          Object.keys(tags.tags).forEach(function (key) {
-            var tag = tags.tags[key];
-            if (tag && tag.value === newTag.value && tag.id !== newTag.id) {
-              // Remove duplicate tag. Perhaps, have a pop-up?
-              errs.handler(new Error('No duplicate ports allowed.'));
-              tags.removeTag(newTag.id);
-            }
-          });
-        });
+        $scope.portTagOptions.setTags(data.ports);
         $scope.portTagOptions.tags.onAdd($scope.updateDockerfileFromState);
         $scope.portTagOptions.tags.onRemove($scope.updateDockerfileFromState);
 
@@ -315,7 +273,7 @@ function editServerModal(
         $scope.saveTriggered = true;
         $rootScope.$broadcast('close-popovers');
         $scope.building = true;
-        $scope.state.ports = convertTagToPortList();
+        $scope.state.ports = $scope.portTagOptions.convertTagsToPortList.bind($scope.portTagOptions);
 
         var toRebuild;
         var toRedeploy;

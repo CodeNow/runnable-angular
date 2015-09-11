@@ -1,5 +1,5 @@
 header.modal-header
-  h1.modal-heading {{ state.repo.attrs.name }} Selected Tab: {{ selectedTab }}!
+  h1.modal-heading {{ state.repo.attrs.name }}
   svg.iconnables.icons-close(
     ng-click = "defaultActions.cancel()"
   )
@@ -19,8 +19,7 @@ header.modal-header
           ng-class = "{'active': state.step === 1}"
           ng-click = "\
             changeTab('repository');\
-            state.step = 1;\
-            console.log('ChangeTab', changeTab);\
+            state.step = 1;
           "
           ng-if = "state.step >= 1 || isTabVisible('repository')"
           ng-attr-type = "{{state.step === 2 ? 'button' : 'submit'}}"

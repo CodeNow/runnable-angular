@@ -16,7 +16,6 @@ function setupServerModal(
   loadingPromises,
   promisify,
   updateDockerfileFromState,
-  JSTagsCollection,
   portTagOptions,
   $log,
   cardInfoTypes,
@@ -35,6 +34,7 @@ function setupServerModal(
       var MainRepo = cardInfoTypes.MainRepository;
 
       var mainRepoContainerFile = new MainRepo();
+      $scope.portsSet = false;
       $scope.state = {
         opts: {
           masterPod: true,
@@ -46,14 +46,12 @@ function setupServerModal(
         ],
         packages: new cardInfoTypes.Packages(),
         getPorts: function () {
-          if (keypather.get($scope, 'state.selectedStack.ports')) {
-            return $scope.state.selectedStack.ports.replace(/ /g, '').split(',');
+          if ($scope.portTagOptions) {
+            return $scope.portTagOptions.convertTagsToPortList();
           }
           return [];
         }
       };
-      // For ports
-      $scope.portTagOptions = new portTagOptions.TagCollection();
 
       fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
         .then(function (repoList) {
@@ -94,6 +92,12 @@ function setupServerModal(
         }
         else if ($scope.state.step === 3) {
            $scope.changeTab(null);
+           // Populate ports at this time
+           $scope.portTagOptions = new portTagOptions.PortTagOptions();
+           var ports = keypather.get($scope, 'state.selectedStack.ports');
+           if (ports) {
+             $scope.portTagOptions.setTags(ports);
+           }
         }
       };
 
@@ -102,10 +106,7 @@ function setupServerModal(
       };
 
       $scope.createServer = function () {
-        if (keypather.get($scope.state, 'selectedStack.ports.length')) {
-          $scope.state.ports = $scope.state.selectedStack.ports.replace(/ /g, '').split(',');
-        }
-
+        $scope.state.ports = $scope.state.getPorts();
         var createPromise = loadingPromises.finished('setupServerModal')
           .then(function () {
             return updateDockerfileFromState($scope.state, false, true);
@@ -122,7 +123,6 @@ function setupServerModal(
           .then(function () {
             return $scope.state;
           });
-
 
         $scope.actions.createAndBuild(createPromise, $scope.state.opts.name);
       };
