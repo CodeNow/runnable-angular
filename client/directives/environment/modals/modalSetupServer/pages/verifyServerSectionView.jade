@@ -6,14 +6,12 @@ header.modal-header
     use(
       xlink:href = "#icons-close"
     )
-  .row.modal-tabs.clearfix.js-animate(
+      .row.modal-tabs.clearfix.js-animate(
+        ng-if="$root.featureFlags.newVerificationFlow"
         ng-class = "{\
           'active': selectedTab === 'repository',\
-          'tabs-1': state.step === 1 && !state.stepsCompleted,\
-          'tabs-2': state.step === 1 && state.stepsCompleted,\
-          'tabs-2': state.step === 2,\
-          'tabs-7': state.step === 3,\
-          'tabs-all': state.step === 4\
+          'tabs-1': state.step === 1,\
+          'tabs-2': state.step === 2\
         }"
         style = "{{state.step === 3 ? 'transition-duration: .3s' : ''}}"
       )
@@ -22,12 +20,10 @@ header.modal-header
           ng-click = "\
             changeTab('repository');\
             state.step = 1;\
-            state.stepsCompleted = 1;\
           "
           ng-if = "state.step >= 1 || isTabVisible('repository')"
           ng-attr-type = "{{state.step === 2 ? 'button' : 'submit'}}"
         )
-          //- ng-click = "changeTab('repository')"
           svg.iconnables
             use(
               xlink:href = "#icons-repository"
@@ -36,7 +32,7 @@ header.modal-header
         button.btn.btn-radio.js-animate(
           ng-class = "{'active': state.step === 2 || selectedTab === 'commands'}"
           ng-click = "changeTab('commands')"
-          ng-if = "state.step >= 2 || isTabVisible('commands') || state.stepsCompleted === 1"
+          ng-if = "state.step >= 2 || isTabVisible('commands')"
         )
           svg.iconnables
             use(

@@ -38,7 +38,6 @@ function setupServerModal(
           name: ''
         },
         step: 1,
-        stepsCompleted: false,
         containerFiles: [
           mainRepoContainerFile
         ],
@@ -82,7 +81,6 @@ function setupServerModal(
 
       $scope.goToNextStep = function () {
         $scope.state.step += 1;
-        $scope.state.stepsCompleted = true;
       };
 
       $scope.createServer = function () {
