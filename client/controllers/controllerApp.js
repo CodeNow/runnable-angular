@@ -75,6 +75,7 @@ function ControllerApp(
 
   $rootScope.featureFlags = featureFlags.flags;
   $rootScope.resetFeatureFlags = featureFlags.reset;
+  this.featureFlagsChanged = featureFlags.changed;
 
   $scope.$watch(function () {
     return errs.errors.length;
@@ -106,4 +107,6 @@ function ControllerApp(
       return account.oauthName() === 'CodeNow';
     });
   };
+
+
 }
