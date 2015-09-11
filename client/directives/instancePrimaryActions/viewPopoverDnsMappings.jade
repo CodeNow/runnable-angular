@@ -29,7 +29,10 @@
   .arrow(
     ng-class = "{'white': state.loading}"
   )
-  //- view 1 = list of dns mappings
+
+  //- explanation of views and height:
+
+      view 1 = list of dns mappings
       view 2 = changing dns mapping
 
       for view 1, height of list items & (header + list padding)
@@ -41,6 +44,7 @@
         header = 36px
         toggle = 38px
         list padding = 4px * 2
+
   .popover-views(
     ng-style = "\
       state.loading && {'height': '150px'} ||\
@@ -56,8 +60,6 @@
       .popover-header.load(
         ng-if = "!state.loading"
       )
-        //- normally, these elements have their transition set on .popover-view,
-            but here we want the transition to apply only to the text/elements
         .fade(
           ng-class = "{'in': state.view === 1}"
         ) DNS Mappings
@@ -81,6 +83,7 @@
           li.list-item.popover-list-item.tr.multi-line.clearfix.load(
             ng-click = "\
               dnsMappings.currentIndex = $index;\
+              state.selectedMapping = container;\
               state.view = 2;\
               toggle.disabled = false;\
             "
@@ -106,7 +109,25 @@
               small.small(
                 title = "{{container.sandbox}}"
               ) {{container.sandbox}} {{container.type === 'private' ? '(private)' : ''}}
-            svg.iconnables.icons-arrow-forward.float-right
+
+            //- inline for svg animation
+            svg.iconnables.icons-check.float-right(
+              ng-if = "container === state.selectedMapping && state.view === 1"
+              viewbox='0 0 14.5 10'
+            )
+              path.path(
+                fill='none',
+                stroke='#3ccb5a',
+                stroke-width='2',
+                stroke-linecap='round',
+                stroke-linejoin='round',
+                stroke-miterlimit='10',
+                d='M1,4.5L5.5,9l8-8'
+              )
+
+            svg.iconnables.icons-arrow-forward.float-right(
+              ng-class = "{'in': container === state.selectedMapping && state.view === 1}"
+            )
               use(
                 xlink:href = "#icons-arrow-down"
               )
@@ -122,6 +143,7 @@
           ng-class = "{'in': state.view === 2}"
           ng-click = "\
             state.view = 1;\
+            state.selectedMapping = null;\
             toggle.disabled = true;\
             toggle.privateContainers = false;\
           "
@@ -196,6 +218,7 @@
           li.list-item.multi-line.popover-list-item(
             ng-click = "\
               dnsMappings[dnsMappings.currentIndex].branch = branch.name;\
+              dnsMappings[dnsMappings.currentIndex].recent = true;\
               dnsMappings[dnsMappings.currentIndex].sandbox = branch.sandbox;\
               dnsMappings[dnsMappings.currentIndex].status = branch.status;\
               dnsMappings[dnsMappings.currentIndex].type = 'private';\

@@ -41,6 +41,32 @@
       right: -9px;
       top: 2px;
     }
+
+    // check icon
+    .icons-check {
+      margin: 0;
+      padding: 6px;
+      position: absolute;
+      right: 6px;
+      top: 14px;
+
+      + .icons-arrow-forward {
+        opacity: 0;
+
+        &.in {
+          opacity: 1;
+          transition: opacity .3s 2s ease-in;
+        }
+      }
+    }
+
+    // check icon path
+    .path {
+      animation: check 1.5s .5s ease-out forwards;
+      stroke-dasharray: 18;
+      stroke-dashoffset: 18;
+      transform-origin: 50% 50%;
+    }
   }
 
   // cells
