@@ -264,7 +264,7 @@
     }
 
     // recommended is always first-child
-    &:first-child {
+    &.recommended {
 
       &::after {
         background: $gray-lighter;

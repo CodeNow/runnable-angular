@@ -5,96 +5,38 @@
   ng-if = "$root.featureFlags.newVerificationFlowStackSelector"
 )
   .btn-group.btn-group-stacks
-    //- recommended first
     label.btn.btn-radio.white(
-      ng-class = "{'active': state.selectedStack === 'Go'}"
+      ng-repeat = "framework in data.stacks | filter: { key: state.repo.stackAnalysis.languageFramework } track by framework.key"
+      ng-class = "{ 'active': temp.stack === framework.name, 'recommended': state.repo.stackAnalysis.languageFramework}"
     )
       img.iconnables(
         height = "24"
-        ng-src = "/build/images/logos/logo-icon-go.svg"
+        ng-src = "/build/images/logos/logo-icon-{{framework.key}}.svg"
         width = "24"
       )
-      | Go
+      | {{framework.name}}
       input.input-radio(
         name = "state.selectedStack"
-        ng-model = "state.selectedStack"
+        ng-model = "temp.stackKey"
         type = "radio"
-        value = "Go"
+        ng-value = "framework.key"
       )
+
     label.btn.btn-radio.white(
-      ng-class = "{'active': state.selectedStack === 'node.js'}"
+      ng-repeat = "framework in data.stacks | filter: { key: '!' + state.repo.stackAnalysis.languageFramework } track by framework.key"
+      ng-class = "{ 'active': temp.stack === framework.name}"
     )
       img.iconnables(
         height = "24"
-        ng-src = "/build/images/logos/logo-icon-nodejs.svg"
+        ng-src = "/build/images/logos/logo-icon-{{framework.key}}.svg"
         width = "24"
       )
-      | node.js
+      | {{framework.name}}
       input.input-radio(
         name = "state.selectedStack"
-        ng-model = "state.selectedStack"
+        ng-model = "temp.stackKey"
         type = "radio"
-        value = "node.js"
-      )
-    label.btn.btn-radio.white(
-      ng-class = "{'active': state.selectedStack === 'PHP'}"
-    )
-      img.iconnables(
-        height = "24"
-        ng-src = "/build/images/logos/logo-icon-php.svg"
-        width = "24"
-      )
-      | PHP
-      input.input-radio(
-        name = "state.selectedStack"
-        ng-model = "state.selectedStack"
-        type = "radio"
-        value = "PHP"
-      )
-    label.btn.btn-radio.white(
-      ng-class = "{'active': state.selectedStack === 'Python'}"
-    )
-      img.iconnables(
-        height = "24"
-        ng-src = "/build/images/logos/logo-icon-python.svg"
-        width = "24"
-      )
-      | Python
-      input.input-radio(
-        name = "state.selectedStack"
-        ng-model = "state.selectedStack"
-        type = "radio"
-        value = "Python"
-      )
-    label.btn.btn-radio.white(
-      ng-class = "{'active': state.selectedStack === 'Rails'}"
-    )
-      img.iconnables(
-        height = "24"
-        ng-src = "/build/images/logos/logo-icon-rails.svg"
-        width = "24"
-      )
-      | Rails
-      input.input-radio(
-        name = "state.selectedStack"
-        ng-model = "state.selectedStack"
-        type = "radio"
-        value = "Rails"
-      )
-    label.btn.btn-radio.white(
-      ng-class = "{'active': state.selectedStack === 'Ruby'}"
-    )
-      img.iconnables(
-        height = "24"
-        ng-src = "/build/images/logos/logo-icon-ruby.svg"
-        width = "24"
-      )
-      | Ruby
-      input.input-radio(
-        name = "state.selectedStack"
-        ng-model = "state.selectedStack"
-        type = "radio"
-        value = "Ruby"
+        ng-value = "framework.key"
       )
 
   fancy-select(
@@ -208,6 +150,7 @@
 
 .input-col(
   ng-repeat = "depStack in state.selectedStack.dependencies"
+  ng-if = "!$root.featureFlags.newVerificationFlowStackSelector"
 )
   .small {{depStack.name}}
   fancy-select(
