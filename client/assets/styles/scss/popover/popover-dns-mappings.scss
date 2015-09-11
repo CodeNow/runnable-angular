@@ -116,6 +116,7 @@
     }
   }
 
+  // container list
   .popover-list-toggle {
     position: absolute;
     transition: opacity .15s ease-in, transform .3s ease-in-out;
@@ -158,6 +159,22 @@
       .small {
         font-size: 11px;
       }
+
+      // recenter if multi-line
+      .icons-fat-check {
+        top: 14px;
+      }
     }
+
+    // on container name list for overflow with fat-check
+    &.text-overflow {
+      padding-right: 27px;
+    }
+  }
+
+  .icons-fat-check {
+    position: absolute;
+    right: 0;
+    top: 4px;
   }
 }

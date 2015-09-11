@@ -108,21 +108,21 @@
               | {{container.branch}}
               small.small(
                 title = "{{container.sandbox}}"
-              ) {{container.sandbox}} {{container.type === 'private' ? '(private)' : ''}}
+              ) {{container.sandbox}} {{container.type === 'private' ? '(Private)' : ''}}
 
             //- inline for svg animation
             svg.iconnables.icons-check.float-right(
               ng-if = "container === state.selectedMapping && state.view === 1"
-              viewbox='0 0 14.5 10'
+              viewbox = '0 0 14.5 10'
             )
               path.path(
-                fill='none',
-                stroke='#3ccb5a',
-                stroke-width='2',
-                stroke-linecap='round',
-                stroke-linejoin='round',
-                stroke-miterlimit='10',
-                d='M1,4.5L5.5,9l8-8'
+                fill = 'none',
+                stroke = '#3ccb5a',
+                stroke-width = '2',
+                stroke-linecap = 'round',
+                stroke-linejoin = 'round',
+                stroke-miterlimit = '10',
+                d = 'M1,4.5L5.5,9l8-8'
               )
 
             svg.iconnables.icons-arrow-forward.float-right(
@@ -158,8 +158,9 @@
       .popover-content.fade(
         ng-class = "{'in': state.view === 2}"
       )
-        //- toggle between organization containers and private containres
-            only show toggle if there are containers in private sandboxes
+        //- toggle between organization containers and private containres.
+            only show toggle if there are containers in private sandboxes.
+            reset active state when opening/closing this view.
         .btn-group.btn-toggle.btn-toggle-xs(
           ng-if = "mavisPrivateBranches.length"
         )
@@ -187,7 +188,9 @@
             'view-2': toggle.privateContainers\
           }"
         )
-          li.list-item.popover-list-item(
+          //- .no-touching if the branch and sandbox is currently selected
+              also show .icons-fat-check if ^
+          li.list-item.popover-list-item.text-overflow(
             ng-click = "\
               dnsMappings[dnsMappings.currentIndex].branch = branch.name;\
               dnsMappings[dnsMappings.currentIndex].sandbox = 'CodeNow';\
@@ -197,6 +200,7 @@
               toggle.disabled = true;\
               toggle.privateContainers = false;\
             "
+            ng-class = "{'no-touching': dnsMappings[dnsMappings.currentIndex].branch === branch.name && dnsMappings[dnsMappings.currentIndex].sandbox === 'CodeNow'}"
             ng-repeat = "branch in mavisBranches"
           )
             //- from status-icon template
@@ -207,6 +211,12 @@
               tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
             )
             | {{branch.name}}
+            svg.iconnables.icons-fat-check.float-right(
+              ng-if = "dnsMappings[dnsMappings.currentIndex].branch === branch.name && dnsMappings[dnsMappings.currentIndex].sandbox === 'CodeNow'"
+            )
+              use(
+                xlink:href = "#icons-fat-check"
+              )
 
         //- private container list
         ul.list.popover-list.popover-list-toggle.fade(
@@ -215,10 +225,9 @@
             'view-2': toggle.privateContainers\
           }"
         )
-          li.list-item.multi-line.popover-list-item(
+          li.list-item.multi-line.popover-list-item.text-overflow(
             ng-click = "\
               dnsMappings[dnsMappings.currentIndex].branch = branch.name;\
-              dnsMappings[dnsMappings.currentIndex].recent = true;\
               dnsMappings[dnsMappings.currentIndex].sandbox = branch.sandbox;\
               dnsMappings[dnsMappings.currentIndex].status = branch.status;\
               dnsMappings[dnsMappings.currentIndex].type = 'private';\
@@ -226,6 +235,7 @@
               toggle.disabled = true;\
               toggle.privateContainers = false;\
             "
+            ng-class = "{'no-touching': dnsMappings[dnsMappings.currentIndex].branch === branch.name && dnsMappings[dnsMappings.currentIndex].sandbox === branch.sandbox}"
             ng-repeat = "branch in mavisPrivateBranches"
           )
             .icons-status(
@@ -238,7 +248,9 @@
             small.small(
               title = "{{branch.sandbox}}"
             ) {{branch.sandbox}}
-            svg.iconnables.icons-fat-check
+            svg.iconnables.icons-fat-check.float-right(
+              ng-if = "dnsMappings[dnsMappings.currentIndex].branch === branch.name && dnsMappings[dnsMappings.currentIndex].sandbox === branch.sandbox"
+            )
               use(
                 xlink:href = "#icons-fat-check"
               )
