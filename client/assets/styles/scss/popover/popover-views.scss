@@ -6,11 +6,6 @@
   transition: height .15s, min-height .15s;
   width: 100%;
 
-  .popover-content {
-    max-height: none;
-    padding: 0;
-  }
-
   .fade {
     opacity: 0;
     transition: opacity .15s ease-in;
@@ -64,7 +59,10 @@
 
   .popover-content {
     flex: 1 1 auto;
+    max-height: none;
+    overflow-x: hidden;
     overflow-y: auto;
+    padding: 0;
   }
 
   .popover-footer {
