@@ -97,7 +97,9 @@
               small.small.text-overflow(
                 title = "{{container.elasticHostname}}"
               ) {{container.elasticHostname}}
-            .cell.text-overflow
+            .cell.text-overflow(
+              ng-class = "{'fade-in': container === state.selectedMapping && state.view === 1}"
+            )
               .icons-status(
                 ng-class = "container.status"
                 title = "{{container.branch}}"
