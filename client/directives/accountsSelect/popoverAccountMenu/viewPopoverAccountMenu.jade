@@ -35,7 +35,9 @@
         ng-class = "{'no-touching': data.user === data.activeAccount}"
         ng-click = "actions.selectActiveAccount(data.user)"
       )
-        svg.iconnables.icons-fat-check
+        svg.iconnables.icons-fat-check(
+          ng-class = "{'active': data.user === data.activeAccount}"
+        )
           use(
             xlink:href = "#icons-fat-check"
           )
@@ -47,11 +49,13 @@
         | {{ data.user.oauthName() }}
       //- inline styles are temporarly until featureflag is removed
       li.list-item.popover-list-item.text-overflow(
-        ng-class = "{'no-touching': (org === data.activeAccount)}"
+        ng-class = "{'no-touching': org === data.activeAccount}"
         ng-click = "actions.selectActiveAccount(org)"
         ng-repeat = "org in data.orgs.models"
       )
-        svg.iconnables.icons-fat-check
+        svg.iconnables.icons-fat-check(
+          ng-class = "{'active': org === data.activeAccount}"
+        )
           use(
             xlink:href = "#icons-fat-check"
           )
@@ -97,7 +101,9 @@
               ng-class = "{'no-touching': !$root.featureFlags.isolationActive}"
               ng-click = "$root.featureFlags.isolationActive = false"
             )
-              svg.iconnables.icons-fat-check
+              svg.iconnables.icons-fat-check(
+                ng-class = "{'active': !$root.featureFlags.isolationActive}"
+              )
                 use(
                   xlink:href = "#icons-fat-check"
                 )
@@ -141,7 +147,9 @@
               ng-class = "{'no-touching': $root.featureFlags.isolationActive}"
               ng-click = "$root.featureFlags.isolationActive = true"
             )
-              svg.iconnables.icons-fat-check
+              svg.iconnables.icons-fat-check(
+                ng-class = "{'active': $root.featureFlags.isolationActive}"
+              )
                 use(
                   xlink:href = "#icons-fat-check"
                 )
@@ -213,7 +221,9 @@
             ng-click = "actions.selectActiveAccount(account)"
             ng-repeat = "account in data.allAccounts"
           )
-            svg.iconnables.icons-fat-check
+            svg.iconnables.icons-fat-check(
+              ng-class = "account === data.activeAccount"
+            )
               use(
                 xlink:href = "#icons-fat-check"
               )

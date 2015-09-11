@@ -75,6 +75,19 @@
   }
 }
 
+// fat check
+.icons-fat-check {
+  background: $gray-light;
+  border-radius: 50%;
+  color: $white;
+  max-height: 15px;
+  max-width: 15px;
+
+  &.active {
+    background: $green;
+  }
+}
+
 // status
 .icons-status {
   background: $gray-light;
