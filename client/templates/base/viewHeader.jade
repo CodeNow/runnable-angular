@@ -1,6 +1,6 @@
 img.logo.logo-icon(
   height = "36"
-  ng-click = "editFeatureFlags = CA.activeAccount.oauthName() === 'CodeNow'"
+  ng-click = "editFeatureFlags = CA.canEditFeatureFlags()"
   pop-over
   pop-over-active = "editFeatureFlags"
   pop-over-options = "{\"left\":40}"

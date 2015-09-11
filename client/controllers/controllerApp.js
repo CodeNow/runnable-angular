@@ -100,4 +100,10 @@ function ControllerApp(
       $rootScope.$broadcast('close-modal');
     }
   };
+
+  this.canEditFeatureFlags = function () {
+    return !!dataApp.data.allAccounts.find(function (account) {
+      return account.oauthName() === 'CodeNow';
+    });
+  };
 }
