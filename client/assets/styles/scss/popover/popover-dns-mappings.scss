@@ -169,11 +169,23 @@
       .icons-fat-check {
         top: 14px;
       }
+
+      // spinners
+      .spinner-wrapper {
+        top: 20px;
+      }
     }
 
     // on container name list for overflow with fat-check
     &.text-overflow {
       padding-right: 27px;
+    }
+
+    // spinners
+    .spinner-wrapper {
+      position: absolute;
+      right: 9px;
+      top: 10px;
     }
   }
 

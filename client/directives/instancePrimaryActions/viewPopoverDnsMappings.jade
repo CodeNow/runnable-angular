@@ -208,6 +208,8 @@
         )
           //- .no-touching if the branch and sandbox is currently selected
               also show .icons-fat-check if ^
+
+              ** mousedown/up are only to demonstrate the loading/fail state...we don't actually want that to trigger a spinner
           li.list-item.popover-list-item.text-overflow(
             ng-click = "\
               dnsMappings[dnsMappings.currentIndex].branch = branch.name;\
@@ -219,6 +221,8 @@
               toggle.privateContainers = false;\
             "
             ng-class = "{'no-touching': dnsMappings[dnsMappings.currentIndex].branch === branch.name && dnsMappings[dnsMappings.currentIndex].sandbox === 'CodeNow'}"
+            ng-mousedown = "branch.selectFailed = true"
+            ng-mouseup = "branch.selectFailed = false"
             ng-repeat = "branch in mavisBranches"
           )
             //- from status-icon template
@@ -229,12 +233,20 @@
               tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
             )
             | {{branch.name}}
+
+            //- when currently selected
             svg.iconnables.icons-fat-check.float-right(
               ng-if = "dnsMappings[dnsMappings.currentIndex].branch === branch.name && dnsMappings[dnsMappings.currentIndex].sandbox === 'CodeNow'"
             )
               use(
                 xlink:href = "#icons-fat-check"
               )
+
+            //- spinner when loading (likely fail?)
+            .spinner-wrapper.spinner-sm.spinner-gray.in.float-right(
+              ng-if = "branch.selectFailed"
+              ng-include = "'spinner'"
+            )
 
         //- private container list
         ul.list.popover-list.popover-list-toggle.fade(
@@ -254,6 +266,8 @@
               toggle.privateContainers = false;\
             "
             ng-class = "{'no-touching': dnsMappings[dnsMappings.currentIndex].branch === branch.name && dnsMappings[dnsMappings.currentIndex].sandbox === branch.sandbox}"
+            ng-mousedown = "branch.selectFailed = true"
+            ng-mouseup = "branch.selectFailed = false"
             ng-repeat = "branch in mavisPrivateBranches"
           )
             .icons-status(
@@ -266,9 +280,17 @@
             small.small(
               title = "{{branch.sandbox}}"
             ) {{branch.sandbox}}
+
+            //- when currently selected
             svg.iconnables.icons-fat-check.float-right(
               ng-if = "dnsMappings[dnsMappings.currentIndex].branch === branch.name && dnsMappings[dnsMappings.currentIndex].sandbox === branch.sandbox"
             )
               use(
                 xlink:href = "#icons-fat-check"
               )
+
+            //- spinner when loading (likely fail?)
+            .spinner-wrapper.spinner-sm.spinner-gray.in.float-right(
+              ng-if = "branch.selectFailed"
+              ng-include = "'spinner'"
+            )
