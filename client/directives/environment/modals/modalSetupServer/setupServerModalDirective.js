@@ -37,6 +37,7 @@ function setupServerModal(
           masterPod: true,
           name: ''
         },
+        step: 1,
         containerFiles: [
           mainRepoContainerFile
         ],
@@ -78,6 +79,9 @@ function setupServerModal(
         });
       };
 
+      $scope.goToNextStep = function () {
+        $scope.state.step += 1;
+      };
 
       $scope.createServer = function () {
         if (keypather.get($scope.state, 'selectedStack.ports.length')) {
