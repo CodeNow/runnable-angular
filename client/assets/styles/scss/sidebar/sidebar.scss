@@ -77,7 +77,6 @@
 }
 
 .list-containers {
-  margin: 0 9px;
   padding: 9px 0;
 
   &:not(:last-child) {
@@ -90,7 +89,6 @@
     display: flex;
     height: 27px;
     line-height: 27px;
-    margin: 0 -9px;
 
     &:hover .btn-hide {
       display: block;
