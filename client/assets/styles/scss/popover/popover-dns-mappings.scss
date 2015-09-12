@@ -56,14 +56,14 @@
 
         &.in {
           opacity: 1;
-          transition: opacity .3s 2s ease-in;
+          transition: opacity .3s 2.25s ease-in;
         }
       }
     }
 
     // check icon path
     .path {
-      animation: check 1.5s .5s ease-out forwards;
+      animation: check 1.75s .5s ease-out forwards;
       stroke-dasharray: 18;
       stroke-dashoffset: 18;
       transform-origin: 50% 50%;
