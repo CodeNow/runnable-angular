@@ -75,6 +75,7 @@ function ControllerApp(
 
   $rootScope.featureFlags = featureFlags.flags;
   $rootScope.resetFeatureFlags = featureFlags.reset;
+  this.featureFlagsChanged = featureFlags.changed;
 
   $scope.$watch(function () {
     return errs.errors.length;
@@ -100,4 +101,12 @@ function ControllerApp(
       $rootScope.$broadcast('close-modal');
     }
   };
+
+  this.canEditFeatureFlags = function () {
+    return !!dataApp.data.allAccounts.find(function (account) {
+      return account.oauthName() === 'CodeNow';
+    });
+  };
+
+
 }
