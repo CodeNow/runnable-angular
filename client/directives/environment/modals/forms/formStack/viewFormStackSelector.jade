@@ -1,7 +1,7 @@
 .label-col Stack Type
 
 .input-col
-  // If new container
+  //- If new container
   .btn-group.btn-group-stacks(
     ng-if = "newContainer && $root.featureFlags.newVerificationFlowStackSelector"
   )
@@ -23,13 +23,13 @@
         ng-disabled = "saving"
       )
 
-
   fancy-select(
+    ng-disabled = "saving"
     ng-if = "!newContainer || !$root.featureFlags.newVerificationFlowStackSelector"
     ng-required = "true"
     placeholder = "Select language/framework"
+    spinner-flag = "saving"
     value = "temp.stackKey"
-    ng-disabled = "saving"
   )
     li.list-item.popover-list-item.small(
       ng-if = "$parent.state.repo.stackAnalysis.languageFramework"
@@ -81,6 +81,7 @@
       ng-repeat = "version in $parent.state.selectedStack.versions | filter: '!'+ $parent.state.selectedStack.suggestedVersion"
       value = "version"
     ) v{{$parent.version}}
+
 .input-col(
   ng-repeat = "depStack in state.selectedStack.dependencies"
 )
@@ -107,14 +108,14 @@
     ) v{{$parent.version}}
 
 .input-col(
-  ng-repeat = "depStack in state.selectedStack.dependencies"
   ng-if = "!$root.featureFlags.newVerificationFlowStackSelector"
+  ng-repeat = "depStack in state.selectedStack.dependencies"
 )
   .small {{depStack.name}}
   fancy-select(
     ng-required = "state.selectedStack.dependencies.length"
-    placeholder = "Select Version"
     on-update = "updateDockerfile"
+    placeholder = "Select Version"
     value = "depStack.selectedVersion"
   )
     li.list-item.popover-list-item.small(
