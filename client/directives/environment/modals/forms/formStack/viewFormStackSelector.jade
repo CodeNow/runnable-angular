@@ -1,13 +1,13 @@
 .label-col Stack Type
 
-//- if new container
-.input-col(
-  ng-if = "$root.featureFlags.newVerificationFlowStackSelector"
-)
-  .btn-group.btn-group-stacks
+.input-col
+  // If new container
+  .btn-group.btn-group-stacks(
+    ng-if = "newContainer && $root.featureFlags.newVerificationFlowStackSelector"
+  )
     label.btn.btn-radio.white(
-      ng-repeat = "framework in data.stacks | filter: { key: state.repo.stackAnalysis.languageFramework } track by framework.key"
-      ng-class = "{ 'active': temp.stack === framework.name, 'recommended': state.repo.stackAnalysis.languageFramework}"
+      ng-repeat = "framework in data.stacks track by framework.key"
+      ng-class = "{ 'active': temp.stack === framework.name, 'recommended': state.repo.stackAnalysis.languageFramework === framework.key}"
     )
       img.iconnables(
         height = "24"
@@ -20,24 +20,45 @@
         ng-model = "temp.stackKey"
         type = "radio"
         ng-value = "framework.key"
+        ng-disabled = "saving"
       )
 
-    label.btn.btn-radio.white(
-      ng-repeat = "framework in data.stacks | filter: { key: '!' + state.repo.stackAnalysis.languageFramework } track by framework.key"
-      ng-class = "{ 'active': temp.stack === framework.name}"
+
+  fancy-select(
+    ng-if = "!newContainer || !$root.featureFlags.newVerificationFlowStackSelector"
+    ng-required = "true"
+    placeholder = "Select language/framework"
+    value = "temp.stackKey"
+    ng-disabled = "saving"
+  )
+    li.list-item.popover-list-item.small(
+      ng-if = "$parent.state.repo.stackAnalysis.languageFramework"
+    ) Suggested stack type
+    fancy-option(
+      ng-repeat = "framework in $parent.data.stacks | filter: { key: $parent.state.repo.stackAnalysis.languageFramework } track by framework.key "
+      value = "framework.key"
     )
       img.iconnables(
         height = "24"
-        ng-src = "/build/images/logos/logo-icon-{{framework.key}}.svg"
+        ng-src = "/build/images/logos/logo-icon-{{$parent.framework.key}}.svg"
         width = "24"
       )
-      | {{framework.name}}
-      input.input-radio(
-        name = "state.selectedStack"
-        ng-model = "temp.stackKey"
-        type = "radio"
-        ng-value = "framework.key"
+      | {{$parent.framework.name}}
+
+    li.divider(
+      ng-if = "$parent.state.repo.stackAnalysis.languageFramework"
+    )
+    fancy-option(
+      ng-repeat = "framework in $parent.data.stacks | filter: { key: '!' + $parent.state.repo.stackAnalysis.languageFramework } | orderBy:'name' track by framework.key "
+      value = "framework.key"
+    )
+      img.iconnables(
+        height = "24"
+        ng-src = "/build/images/logos/logo-icon-{{$parent.framework.key}}.svg"
+        width = "24"
       )
+      | {{$parent.framework.name}}
+
 
   fancy-select(
     ng-disabled = "!state.selectedStack"
@@ -84,69 +105,6 @@
         ng-repeat = "version in $parent.depStack.versions | filter: '!'+ $parent.depStack.suggestedVersion"
         value = "version"
       ) v{{$parent.version}}
-
-//- if not new
-.input-col(
-  ng-if = "!$root.featureFlags.newVerificationFlowStackSelector"
-)
-  //- if not new and not new change stack flow
-  fancy-select(
-    name = 'mainstack'
-    ng-required = "true"
-    on-update = "newStackSelected"
-    placeholder = "Select language/framework"
-    track-by = "key"
-    value = "temp.stack"
-  )
-    li.list-item.popover-list-item.small(
-      ng-if = "$parent.state.repo.stackAnalysis.languageFramework"
-    ) Suggested stack type
-    fancy-option(
-      ng-repeat = "framework in $parent.data.stacks | filter: { key: $parent.state.repo.stackAnalysis.languageFramework } track by framework.key "
-      value = "framework"
-    )
-      img.iconnables(
-        height = "24"
-        ng-src = "/build/images/logos/logo-icon-{{$parent.framework.key}}.svg"
-        width = "24"
-      )
-      | {{$parent.framework.name}}
-
-    li.divider(
-      ng-if = "$parent.state.repo.stackAnalysis.languageFramework"
-    )
-    fancy-option(
-      ng-repeat = "framework in $parent.data.stacks | filter: { key: '!' + $parent.state.repo.stackAnalysis.languageFramework } | orderBy:'name' track by framework.key "
-      value = "framework"
-    )
-      img.iconnables(
-        height = "24"
-        ng-src = "/build/images/logos/logo-icon-{{$parent.framework.key}}.svg"
-        width = "24"
-      )
-      | {{$parent.framework.name}}
-
-  fancy-select(
-    ng-disabled = "!state.selectedStack"
-    ng-required = "true"
-    on-update = "updateDockerfile"
-    placeholder = "Select Version"
-    value = "state.selectedStack.selectedVersion"
-  )
-    li.list-item.popover-list-item.small(
-      ng-if = "$parent.state.selectedStack.suggestedVersion"
-    ) Suggested {{$parent.$parent.state.selectedStack.name}} Version
-    fancy-option(
-      ng-repeat = "version in $parent.state.selectedStack.versions | filter: $parent.state.selectedStack.suggestedVersion"
-      value = "version"
-    ) v{{$parent.version}}
-    li.divider(
-      ng-if = "$parent.state.selectedStack.suggestedVersion"
-    )
-    fancy-option(
-      ng-repeat = "version in $parent.state.selectedStack.versions | filter: '!'+ $parent.state.selectedStack.suggestedVersion"
-      value = "version"
-    ) v{{$parent.version}}
 
 .input-col(
   ng-repeat = "depStack in state.selectedStack.dependencies"

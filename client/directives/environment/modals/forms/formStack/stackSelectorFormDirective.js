@@ -18,12 +18,14 @@ function stackSelectorForm(
     scope: {
       data: '=',
       loadingPromisesTarget: '@?',
-      state: '='
+      state: '=',
+      newContainer: '=?'
     },
     link: function ($scope) {
       $scope.temp = {
         stackKey: keypather.get($scope, 'state.selectedStack.key')
       };
+      $scope.saving = false;
 
       $scope.$watch('temp.stackKey', function (newStackKey, oldStackKey) {
         if (newStackKey === oldStackKey) {
@@ -36,6 +38,7 @@ function stackSelectorForm(
           // Since we are adding info to the stack object, and those objects are going to get reused,
           // we should listen to the model changes, and copy the result
           $scope.state.selectedStack = angular.copy(newStack);
+          $scope.saving = true;
           return loadingPromises.add(
             $scope.loadingPromisesTarget,
             createDockerfileFromSource($scope.state.contextVersion, newStack.key)
@@ -44,7 +47,10 @@ function stackSelectorForm(
                 return updateDockerfileFromState($scope.state);
               })
           )
-            .catch(errs.handler);
+            .catch(errs.handler)
+            .then(function () {
+              $scope.saving = false;
+            });
         }
       });
 
