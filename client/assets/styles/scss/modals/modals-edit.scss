@@ -263,12 +263,11 @@
       }
     }
 
-    // recommended is always first-child
-    &:first-child {
+    &.recommended {
 
       &::after {
         background: $gray-lighter;
-        border-radius: $input-border-radius $input-border-radius 0 0;
+        border-radius: $input-border-radius;
         color: $gray-dark;
         content: 'Recommended';
         display: block;
