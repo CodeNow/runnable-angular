@@ -3,7 +3,7 @@
   height: 100%;
   overflow: hidden;
   position: relative;
-  transition: height .15s, min-height .15s;
+  transition: height .3s ease-in-out, min-height .3s ease-in-out;
   width: 100%;
 
   .fade {
