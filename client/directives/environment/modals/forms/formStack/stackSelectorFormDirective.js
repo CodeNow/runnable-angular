@@ -19,7 +19,7 @@ function stackSelectorForm(
       data: '=',
       loadingPromisesTarget: '@?',
       state: '=',
-      newContainer: '=?'
+      isNewContainer: '=?'
     },
     link: function ($scope) {
       $scope.temp = {

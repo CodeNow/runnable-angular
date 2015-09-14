@@ -3,7 +3,7 @@
 .input-col
   //- If new container
   .btn-group.btn-group-stacks(
-    ng-if = "newContainer && $root.featureFlags.newVerificationFlowStackSelector"
+    ng-if = "isNewContainer && $root.featureFlags.newVerificationFlowStackSelector"
   )
     label.btn.btn-radio.white(
       ng-repeat = "framework in data.stacks track by framework.key"
