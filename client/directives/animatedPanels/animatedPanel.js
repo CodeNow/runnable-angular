@@ -14,6 +14,10 @@ function animatedPanel() {
       $scope.name = attrs.name;
       $scope.registerPanel(attrs.name, element, attrs.default !== undefined);
 
+      $scope.isActive = function () {
+        return $scope.activePanel === $scope.name;
+      };
+
       transcludeFn($scope, function(clone){
         element.append(clone);
       });

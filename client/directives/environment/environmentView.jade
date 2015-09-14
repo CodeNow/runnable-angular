@@ -1,76 +1,38 @@
 //- alerts
-//.help-container.fixed.bottom
-//  .help(
-//    ng-if = "alert"
-//  )
-//    svg.iconnables.icons-check(
-//      ng-if = "alert.type === 'success'"
-//    )
-//      use(
-//        xlink:href = "#icons-check"
-//      )
-//    | {{alert.text}}
-//
-//.environment-header.clearfix(
-//  ng-include = "'viewEnvironmentHeader'"
-//  ng-init = "state.helpButton = {active: false}"
-//)
-//
-//.environment-body.clearfix
-//  .help-container(
-//    ng-class = "{fixed: helpUndock, top: helpUndock}"
-//    ng-if = "helpCards.getActiveCard()"
-//  )
-//    .help(
-//      ng-if = "helpCards.getActiveCard().targets.newContainer && state.newServerButton.active"
-//      ng-bind-html = "helpCards.getActiveCard().helpPopover.newContainer"
-//    )
-//    .help(
-//      ng-if = "!(helpCards.getActiveCard().targets.newContainer && state.newServerButton.active)"
-//      ng-bind-html = "helpCards.getActiveCard().helpTop"
-//    )
-//  .help-padding.no-touching(
-//    ng-bind-html = "helpCards.getActiveCard().helpTop"
-//    ng-if = "helpCards.getActiveCard()"
-//  )
-//  .card-grid.clearfix(
-//    ng-include = "'viewCardGrid'"
-//  )
-
-animated-panel-container
-  animated-panel(
-    name = "panel1"
-    default
-    style="background-color: red; width: 200px;"
+.help-container.fixed.bottom
+  .help(
+    ng-if = "alert"
   )
-    div I'm panel 1
-    .btn.white(
-      ng-click="goToPanel('panel2')"
-    ) -> 2
+    svg.iconnables.icons-check(
+      ng-if = "alert.type === 'success'"
+    )
+      use(
+        xlink:href = "#icons-check"
+      )
+    | {{alert.text}}
 
-  animated-panel(
-    name = "panel2"
-    style="background-color: yellow; width: 200px;"
+.environment-header.clearfix(
+  ng-include = "'viewEnvironmentHeader'"
+  ng-init = "state.helpButton = {active: false}"
+)
+
+.environment-body.clearfix
+  .help-container(
+    ng-class = "{fixed: helpUndock, top: helpUndock}"
+    ng-if = "helpCards.getActiveCard()"
   )
-    div I'm panel 2
-    div I'm panel 2
-    div I'm panel 2
-    div I'm panel 2
-    div I'm panel 2
-    .btn.white(
-      ng-click="goToPanel('panel1', 'back')"
-    ) <- 1
-    .btn.white(
-      ng-click="goToPanel('panel3')"
-    ) -> 3
-
-
-  animated-panel(
-    name = "panel3"
-    style="background-color: orange; width: 200px;"
+    .help(
+      ng-if = "helpCards.getActiveCard().targets.newContainer && state.newServerButton.active"
+      ng-bind-html = "helpCards.getActiveCard().helpPopover.newContainer"
+    )
+    .help(
+      ng-if = "!(helpCards.getActiveCard().targets.newContainer && state.newServerButton.active)"
+      ng-bind-html = "helpCards.getActiveCard().helpTop"
+    )
+  .help-padding.no-touching(
+    ng-bind-html = "helpCards.getActiveCard().helpTop"
+    ng-if = "helpCards.getActiveCard()"
   )
-    div I'm panel 3
-    .btn.white(
-      ng-click="goToPanel('panel2', 'back')"
-    ) <- 2
-
+  .card-grid.clearfix(
+    ng-include = "'viewCardGrid'"
+  )
