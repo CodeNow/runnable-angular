@@ -46,9 +46,7 @@ function repositorySelector(
           $scope.$broadcast('go-to-panel', 'repoOptions', 'immediate');
         }
       } else {
-        if ($scope.data.gitDataOnly) {
-          $scope.$broadcast('go-to-panel', 'repoSelect', 'immediate');
-        }
+        $scope.$broadcast('go-to-panel', 'repoSelect', 'immediate');
 
         var Repo = cardInfoTypes.Repository;
         $scope.repoSelector.data = new Repo();
@@ -119,6 +117,13 @@ function repositorySelector(
           $scope.state.saving = true;
           $scope.actions.remove($scope.repoSelector.data);
           $rootScope.$broadcast('close-popovers');
+        },
+        leaveCommitSelect: function () {
+          if ($scope.data.gitDataOnly) {
+            $scope.$broadcast('go-to-panel', 'repoSelect', 'back');
+          } else {
+            $scope.$broadcast('go-to-panel', 'repoOptions', 'back');
+          }
         }
       };
     }

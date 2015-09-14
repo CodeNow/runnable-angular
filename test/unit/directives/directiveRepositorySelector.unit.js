@@ -9,7 +9,6 @@ describe('directiveRepoSelect'.bold.underline.blue, function () {
 
   var currentConfig;
   var fetchOwnerRepoStub;
-  var fetchRepoBranchesStub;
 
   var ctx;
   function initState(config) {
@@ -121,11 +120,17 @@ describe('directiveRepoSelect'.bold.underline.blue, function () {
       currentConfig = config;
       $scope.actions = config.actions;
       $scope.data = config.data;
+      ctx.goToPanelWatcher = sinon.spy();
+      $scope.$on('go-to-panel', function (evt, name, opts) {
+        ctx.goToPanelWatcher(name, opts);
+      });
+
       var tpl = directiveTemplate.attribute('repository-selector', {
         'actions': 'actions',
         'data': 'data'
       });
       element = $compile(tpl)($scope);
+
       $scope.$digest();
     });
   }
@@ -135,11 +140,14 @@ describe('directiveRepoSelect'.bold.underline.blue, function () {
       initState();
     });
 
-    it('should load repo list and default it\'s state to view 1', function () {
+    it('should load repo list and default it\'s view to repoSelect', function () {
       sinon.assert.called($rootScope.dataApp.data.activeAccount.oauthName);
       sinon.assert.calledOnce(fetchOwnerRepoStub);
       expect($scope.repoSelector.data.githubRepos.models).to.exist;
-      expect($scope.state.view).to.equal(1);
+
+
+      sinon.assert.called(ctx.goToPanelWatcher);
+      sinon.assert.calledWith(ctx.goToPanelWatcher, 'repoSelect', 'immediate');
     });
 
     it('should load the default branch and its commits when a repo is selected', function () {
@@ -158,7 +166,7 @@ describe('directiveRepoSelect'.bold.underline.blue, function () {
       };
       $scope.$broadcast('commit::selected', commit);
 
-      expect($scope.state.view).to.equal(2);
+      sinon.assert.calledWith(ctx.goToPanelWatcher, 'repoOptions', 'back');
     });
 
     it('should trigger create on save', function () {
@@ -169,11 +177,12 @@ describe('directiveRepoSelect'.bold.underline.blue, function () {
       sinon.assert.notCalled(currentConfig.actions.update);
     });
 
-    it('should set view to 2 when leaving commit select', function () {
+    it('should set view to repoOptions when leaving commit select', function () {
       $scope.repoSelector.actions.leaveCommitSelect();
       $scope.$digest();
 
-      expect($scope.state.view).to.equal(2);
+      sinon.assert.called(ctx.goToPanelWatcher);
+      sinon.assert.calledWith(ctx.goToPanelWatcher, 'repoOptions', 'back');
     });
   });
 
@@ -212,9 +221,11 @@ describe('directiveRepoSelect'.bold.underline.blue, function () {
 
   describe('when is gitDataOnly', function () {
     beforeEach(function () {
+
       initState({
         data:{
-          gitDataOnly: true
+          gitDataOnly: true,
+          repo: {}
         }
       });
     });
@@ -226,14 +237,29 @@ describe('directiveRepoSelect'.bold.underline.blue, function () {
       $scope.$broadcast('commit::selected', commit);
       $scope.$digest();
 
-      sinon.assert.calledOnce(currentConfig.actions.create);
+      sinon.assert.calledOnce(currentConfig.actions.update);
     });
 
-    it('should set view to 1 when leaving commit select', function () {
+    it('should go to the commit view right away', function () {
+      sinon.assert.called(ctx.goToPanelWatcher);
+      sinon.assert.calledWith(ctx.goToPanelWatcher, 'commit', 'immediate');
+    });
+
+    it('should go to the commit panel when a repo is selected', function () {
+      $scope.repoSelector.actions.selectRepo(ctx.repo);
+      $scope.$digest();
+
+      sinon.assert.called(ctx.goToPanelWatcher);
+      sinon.assert.calledWith(ctx.goToPanelWatcher, 'commit');
+    });
+
+
+    it('should go to repoSelect when leaving commit select', function () {
       $scope.repoSelector.actions.leaveCommitSelect();
       $scope.$digest();
 
-      expect($scope.state.view).to.equal(1);
+      sinon.assert.called(ctx.goToPanelWatcher);
+      sinon.assert.calledWith(ctx.goToPanelWatcher, 'repoSelect', 'back');
     });
   });
 });

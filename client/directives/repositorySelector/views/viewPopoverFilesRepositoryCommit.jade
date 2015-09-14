@@ -1,6 +1,6 @@
 .popover-header
   button.btn.btn-sm.white.pull-left(
-    ng-click = "goToPanel('repoOptions', 'back')"
+    ng-click = "actions.leaveCommitSelect()"
     ng-disabled = "state.saving"
     ng-if = "!(data.gitDataOnly && state.fromServer)"
   )
