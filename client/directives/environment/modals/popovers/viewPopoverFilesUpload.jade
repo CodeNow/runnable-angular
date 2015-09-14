@@ -3,8 +3,7 @@
     ng-class = "{'in': active}"
     ng-style = "popoverStyle.getStyle()"
   )
-    .popover-header
-      strong.strong.text-overflow {{ data.fromServer ? data.name : 'Upload File' }}
+    .popover-header {{ data.fromServer ? data.name : 'Upload File' }}
       svg.iconnables.icons-close(
         ng-click = "closePopover()"
       )
@@ -51,13 +50,6 @@
             spellcheck = "false"
           )
           small.small Add scripts to be run before your container is started.
-
-      //- not shown if new repo
-      label.label
-        button.btn.btn-xs.red(
-          ng-click = "actions.deleteFile(data)"
-          ng-if = "data.fromServer"
-        ) Delete File
 
     .popover-footer.clearfix
       button.btn.btn-sm.green.btn-spinner(

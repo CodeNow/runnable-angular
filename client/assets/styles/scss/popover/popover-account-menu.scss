@@ -17,33 +17,6 @@
     width: 100%;
   }
 
-  // popover header
-  .popover-header {
-    color: $gray;
-    display: block;
-    font-size: 14px;
-    height: $input-sm;
-    line-height: $input-sm;
-    padding: 0 6px;
-    text-align: center;
-
-    .icons-arrow-backward {
-      color: $gray-light;
-      left: 6px;
-      padding: 0;
-      pointer-events: auto;
-      position: absolute;
-
-      &:hover {
-        color: $gray;
-      }
-
-      &:active {
-        color: $purple-light;
-      }
-    }
-  }
-
   .popover-list-item {
     padding: 0 15px;
   }

@@ -15,44 +15,9 @@
     width: 356px;
   }
 
-  .popover-header {
-
-    // repo name
-    > .strong {
-      flex: 1 1 auto;
-      font-size: 15px;
-      line-height: 35px;
-      text-align: center;
-    }
-
-    // buttons
-    > .btn {
-      flex: 0 0 66px;
-      font-size: 13px;
-      padding: 0 6px;
-
-      &.icons-close {
-        padding: 0;
-      }
-    }
-
-    // back button
-    > .white {
-      margin-right: 6px;
-      padding: 0 9px 0 3px;
-    }
-
-    .icons-arrow-backward {
-      float: left;
-      height: 100%;
-      margin-right: 3px;
-      width: 15px;
-    }
-
-    // delete button
-    > .orange {
-      margin-left: 6px;
-    }
+  // repo name
+  .popover-header .strong {
+    font-size: 15px;
   }
 
   .popover-content {
