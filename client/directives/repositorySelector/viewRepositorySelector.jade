@@ -10,9 +10,9 @@ animated-panel-container
   animated-panel(
     name = "repoOptions"
     style="width: 356px"
+    ng-if = "!data.gitDataOnly"
   )
     div(
-      ng-if = "!data.gitDataOnly"
       ng-include = "'viewPopoverFilesRepositoryOptions'"
     )
   animated-panel(

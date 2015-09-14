@@ -40,8 +40,16 @@ function repositorySelector(
       if ($scope.data.repo) {
         $scope.repoSelector.data = $scope.data.repo;
         $scope.state.fromServer = true;
-        $scope.$broadcast('go-to-panel', 'repoOptions', 'immediate');
+        if ($scope.data.gitDataOnly) {
+          $scope.$broadcast('go-to-panel', 'commit', 'immediate');
+        } else {
+          $scope.$broadcast('go-to-panel', 'repoOptions', 'immediate');
+        }
       } else {
+        if ($scope.data.gitDataOnly) {
+          $scope.$broadcast('go-to-panel', 'repoSelect', 'immediate');
+        }
+
         var Repo = cardInfoTypes.Repository;
         $scope.repoSelector.data = new Repo();
 
@@ -83,7 +91,13 @@ function repositorySelector(
             .then(function (commits) {
               $scope.repoSelector.data.loading = false;
               $scope.repoSelector.data.repo.loading = false;
-              $scope.$broadcast('go-to-panel', 'repoOptions');
+
+              if ($scope.data.gitDataOnly) {
+                $scope.$broadcast('go-to-panel', 'commit');
+              } else {
+                $scope.$broadcast('go-to-panel', 'repoOptions');
+              }
+
               if (!$scope.data.gitDataOnly) {
                 $scope.repoSelector.data.commit = commits.models[0];
               }
