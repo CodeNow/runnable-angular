@@ -29,7 +29,6 @@ function repositorySelector(
 
       // Init state to new creation mode
       $scope.state = {
-        view: 1,
         fromServer: false
       };
 
@@ -40,8 +39,8 @@ function repositorySelector(
       // If we are given an object to start configure our states for edit mode
       if ($scope.data.repo) {
         $scope.repoSelector.data = $scope.data.repo;
-        $scope.state.view = 2;
         $scope.state.fromServer = true;
+        $scope.$broadcast('go-to-panel', 'repoOptions', 'immediate');
       } else {
         var Repo = cardInfoTypes.Repository;
         $scope.repoSelector.data = new Repo();
@@ -52,12 +51,13 @@ function repositorySelector(
           })
           .catch(errs.handler);
       }
+
       $scope.repoSelector.data.instance = $scope.data.instance;
       $scope.$on('commit::selected', function () {
         if ($scope.data.gitDataOnly) {
           $scope.repoSelector.actions.save();
         } else {
-          $scope.state.view = 2;
+          $scope.$broadcast('go-to-panel', 'repoOptions', 'back');
         }
       });
       $scope.dirtyChecker = new DirtyChecker($scope.repoSelector.data, [
@@ -83,7 +83,7 @@ function repositorySelector(
             .then(function (commits) {
               $scope.repoSelector.data.loading = false;
               $scope.repoSelector.data.repo.loading = false;
-              $scope.state.view = 2;
+              $scope.$broadcast('go-to-panel', 'repoOptions');
               if (!$scope.data.gitDataOnly) {
                 $scope.repoSelector.data.commit = commits.models[0];
               }
@@ -105,9 +105,6 @@ function repositorySelector(
           $scope.state.saving = true;
           $scope.actions.remove($scope.repoSelector.data);
           $rootScope.$broadcast('close-popovers');
-        },
-        leaveCommitSelect: function () {
-          $scope.state.view = $scope.data.gitDataOnly ? 1 : 2;
         }
       };
     }

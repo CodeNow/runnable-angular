@@ -1,7 +1,7 @@
 .popover-header
   //- if adding a new repository
   button.btn.btn-sm.white.pull-left(
-    ng-click = "state.view = 1"
+    ng-click = "goToPanel('repoSelect', 'back')"
     ng-disabled = "state.saving"
     ng-if = "!state.fromServer"
   )
@@ -34,7 +34,7 @@
   label.label.clearfix
     .input-col
       .btn.btn-block.white.text-overflow(
-        ng-click = "state.view = 3"
+        ng-click = "goToPanel('commit')"
       ) {{ repoSelector.data.useLatest && $root.featureFlags.additionalRepositories ? 'Always update to latest commit' : repoSelector.data.commit.attrs.commit.message }}
         small.small(
           ng-if = "repoSelector.data.useLatest"

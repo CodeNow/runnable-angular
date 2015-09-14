@@ -1,17 +1,28 @@
 animated-panel-container
   animated-panel(
     name = "repoSelect"
-    ng-include = "'viewPopoverFilesRepositorySelect'"
+    default = "true"
+    style="width: 356px"
   )
+    div(
+      ng-include = "'viewPopoverFilesRepositorySelect'"
+    )
   animated-panel(
     name = "repoOptions"
-    ng-if = "!data.gitDataOnly"
-    ng-include = "'viewPopoverFilesRepositoryOptions'"
+    style="width: 356px"
   )
+    div(
+      ng-if = "!data.gitDataOnly"
+      ng-include = "'viewPopoverFilesRepositoryOptions'"
+    )
   animated-panel(
     name = "commit"
-    ng-include = "'viewPopoverFilesRepositoryCommit'"
+    style="width: 356px"
   )
+    div(
+      ng-include = "'viewPopoverFilesRepositoryCommit'"
+    )
+
 
 //
 //

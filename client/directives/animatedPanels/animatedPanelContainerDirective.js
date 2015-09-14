@@ -8,27 +8,27 @@ function animatedPanelContainer(
 ) {
   return {
     restrict: 'E',
-    scope: {
-      'animation': '=?'
-    },
+    scope: true,
     transclude: true,
     template: '<div class="animated-panel-wrapper slide-horizontal" ng-style="getAnimatedPanelStyle()"></div>',
     replace: true,
     link: function ($scope, element, attrs, controller, transcludeFn){
-      $scope.animation = $scope.animation || 'slideHorizontal';
+      $scope.animation = attrs.animation || 'slideHorizontal';
 
       var isAnimatingForwards = true;
       var animateOut = false;
       var leavingPanel = null;
 
-      $scope.goToPanel = function (panelName, direction) {
-        isAnimatingForwards = direction !== 'back';
+      $scope.goToPanel = function (panelName, style) {
+        isAnimatingForwards = style !== 'back';
         if (panels.includes(panelName)) {
           animateOut = false;
           leavingPanel = $scope.activePanel;
           // Quick move our elements to the right spot, then let them animate into place
           $timeout(function () {
-            animateOut = true;
+            if (style !== 'immediate') {
+              animateOut = true;
+            }
             $scope.activePanel = panelName;
             // This is needed so we can calculate the height/width of the panel.
             $timeout(angular.noop);
