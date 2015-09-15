@@ -256,7 +256,7 @@ describe('setupServerModalDirective'.bold.underline.blue, function () {
 
       sinon.assert.calledOnce(newBuild.contextVersion.appCodeVersions.create);
       $scope.$digest();
-      sinon.assert.calledOnce(newBuild.contextVersion.getMainAppCodeVersion);
+      sinon.assert.called(newBuild.contextVersion.getMainAppCodeVersion); // Fn also called by watchers
 
       expect($elScope.state.build).to.equal(newBuild);
       expect($elScope.state.contextVersion).to.equal(newBuild.contextVersion);
