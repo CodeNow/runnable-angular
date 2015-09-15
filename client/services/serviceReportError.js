@@ -4,18 +4,12 @@ require('app')
   .factory('report', report);
 
 function report(
-  keypather,
-  featureFlags
+  keypather
 ) {
   var levels = ['critical', 'error', 'warning', 'info', 'debug'];
   var reporter = function (level, message, options) {
     if (!message) {
       return;
-    }
-
-    // We want to report if feature flags are turned on so we can better debug issues.
-    if (featureFlags.changed()){
-      options.featureFlags = featureFlags.getModifiedFlags();
     }
 
     console.log(message);
