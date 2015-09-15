@@ -18,24 +18,41 @@ function stackSelectorForm(
     scope: {
       data: '=',
       loadingPromisesTarget: '@?',
-      state: '='
+      state: '=',
+      isNewContainer: '=?'
     },
-    link: function ($scope, elem, attrs) {
+    link: function ($scope) {
       $scope.temp = {
-        stack: keypather.get($scope, 'state.selectedStack')
+        stackKey: keypather.get($scope, 'state.selectedStack.key')
       };
+      $scope.saving = false;
 
-      $scope.newStackSelected = function (newStack) {
-        return loadingPromises.add(
-          $scope.loadingPromisesTarget,
-          createDockerfileFromSource($scope.state.contextVersion, newStack.key)
-            .then(function (dockerfile) {
-              $scope.state.dockerfile = dockerfile;
-              return updateDockerfileFromState($scope.state);
-            })
-        )
-          .catch(errs.handler);
-      };
+      $scope.$watch('temp.stackKey', function (newStackKey, oldStackKey) {
+        if (newStackKey === oldStackKey) {
+          return;
+        }
+        var newStack = $scope.data.stacks.find(function (stack) {
+          return stack.key === newStackKey;
+        });
+        if (newStack) {
+          // Since we are adding info to the stack object, and those objects are going to get reused,
+          // we should listen to the model changes, and copy the result
+          $scope.state.selectedStack = angular.copy(newStack);
+          $scope.saving = true;
+          return loadingPromises.add(
+            $scope.loadingPromisesTarget,
+            createDockerfileFromSource($scope.state.contextVersion, newStack.key)
+              .then(function (dockerfile) {
+                $scope.state.dockerfile = dockerfile;
+                return updateDockerfileFromState($scope.state);
+              })
+          )
+            .catch(errs.handler)
+            .then(function () {
+              $scope.saving = false;
+            });
+        }
+      });
 
       $scope.updateDockerfile = function () {
         return loadingPromises.finished($scope.loadingPromisesTarget)
@@ -43,14 +60,6 @@ function stackSelectorForm(
             return loadingPromises.add($scope.loadingPromisesTarget, updateDockerfileFromState($scope.state));
           });
       };
-
-      // Since we are adding info to the stack object, and those objects are going to get reused,
-      // we should listen to the model changes, and copy the result
-      $scope.$watch('temp.stack', function (stack) {
-        if (stack) {
-          $scope.state.selectedStack = angular.copy(stack);
-        }
-      });
     }
   };
 }

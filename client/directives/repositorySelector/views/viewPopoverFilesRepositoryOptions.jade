@@ -1,23 +1,15 @@
 .popover-header
   //- if adding a new repository
-  button.btn.btn-sm.white.pull-left(
+  svg.btn.btn-sm.iconnables.icons-arrow-backward(
     ng-click = "goToPanel('repoSelect', 'back')"
     ng-disabled = "state.saving"
     ng-if = "!state.fromServer"
   )
-    svg.iconnables.icons-arrow-backward
-      use(
-        xlink:href = "#icons-arrow-down"
-      )
-    | Back
+    use(
+      xlink:href = "#icons-arrow-down"
+    )
 
-  //- if editing an existing repository
-  //- this button is empty on purpose
-  button.btn.btn-sm.pull-right.no-touching(
-    ng-if = "state.fromServer"
-  )
-
-  strong.strong.text-overflow {{ repoSelector.data.name }}
+  | {{ repoSelector.data.name }}
 
   //- close button
   svg.btn.btn-sm.iconnables.icons-close(
@@ -26,7 +18,6 @@
     use(
       xlink:href = "#icons-close"
     )
-  button.btn.btn-sm.pull-right.no-touching
 
 .popover-content(
   ng-form = "repoSelectorForm"
@@ -71,15 +62,6 @@
         spellcheck = "false"
       )
       small.small Add scripts to be run before your container is started.
-
-  //- not shown if new repo
-  label.label
-    button.btn.btn-xs.red(
-      ng-click = "repoSelector.actions.remove()"
-      ng-disabled = "state.saving"
-      ng-if = "state.fromServer"
-      type = "button"
-    ) Remove Repository
 
 .popover-footer.clearfix
   button.btn.btn-sm.green(
