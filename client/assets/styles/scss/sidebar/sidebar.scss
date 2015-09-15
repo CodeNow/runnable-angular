@@ -17,17 +17,6 @@
     height: calc(100vh - 72px);
   }
 
-  // size if sidebar is present
-  + .content {
-    height: 100%;
-    margin-left: 240px;
-    position: relative;
-
-    > .spinner-wrapper {
-      position: absolute;
-    }
-  }
-
   .icons-status {
     flex: 0 0 auto;
     margin-right: 6px;

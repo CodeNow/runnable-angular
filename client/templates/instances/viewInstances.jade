@@ -1,4 +1,6 @@
-nav.sidebar.nav-sidebar
+nav.sidebar.nav-sidebar(
+  ng-if = "!$root.featureFlags.isolationUI"
+)
   section.containers(
     ng-if = "!CIS.instancesByPod"
   )

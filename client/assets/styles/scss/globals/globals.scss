@@ -18,6 +18,16 @@ body {
   &.modal-open {
     overflow: hidden;
   }
+
+  // instance wrapper
+  .content {
+    height: 100%;
+    position: relative;
+
+    > .spinner-wrapper {
+      position: absolute;
+    }
+  }
 }
 
 // TODO: maybe this should be less global
