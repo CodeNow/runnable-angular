@@ -22,4 +22,11 @@
     margin-left: 0;
     width: $input-sm;
   }
+
+  &.changed {
+    box-shadow: 0px 0px 10px 3px white;
+    background-color: white;
+    cursor: pointer;
+    /*-webkit-filter: invert(1);*/
+  }
 }
