@@ -157,17 +157,27 @@ function setupServerModal(
             });
           }
         }
-        return fetchStackAnalysis(repo.attrs.full_name).then(function (data) {
-          if (!data.languageFramework) {
-            $log.warn('No language detected');
-            return;
-          }
-          if (data.languageFramework === 'ruby_ror') {
-            data.languageFramework = 'rails';
-          }
-          repo.stackAnalysis = data;
-          var stacks = keypather.get($scope, 'data.stacks');
-          if (stacks) {
+        return fetchStackAnalysis(repo.attrs.full_name)
+          .then(function () {
+            if (keypather.get($scope, 'data.stacks')) {
+              return $scope.data.stacks;
+            } else {
+              return fetchStackInfo();
+            }
+          })
+          .then(function (stacks) {
+            keypather.set($scope, 'data.stacks', stacks);
+          })
+          .then(function (data) {
+            if (!data.languageFramework) {
+              $log.warn('No language detected');
+              return;
+            }
+            if (data.languageFramework === 'ruby_ror') {
+              data.languageFramework = 'rails';
+            }
+            repo.stackAnalysis = data;
+
             var stack = stacks.find(hasKeypaths({
               'key': data.languageFramework.toLowerCase()
             }));
@@ -175,8 +185,7 @@ function setupServerModal(
               setStackSelectedVersion(stack, data.version);
               return stack;
             }
-          }
-        });
+          });
       };
     }
   };
