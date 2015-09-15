@@ -19,6 +19,7 @@ function ControllerApp(
   fetchInstancesByPod,
   pageName,
   featureFlags,
+  ModalService,
 
   user,
   orgs,
@@ -35,6 +36,8 @@ function ControllerApp(
     .then(function (instancesByPod) {
       CA.instancesByPod = instancesByPod;
     });
+
+  $rootScope.ModalService = ModalService;
 
   var dataApp = $rootScope.dataApp = $scope.dataApp = {
     data: {

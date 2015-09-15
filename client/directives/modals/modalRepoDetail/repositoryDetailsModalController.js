@@ -9,9 +9,18 @@ require('app')
 function RepositoryDetailsModalController(
   fetchCommitData,
   loading,
-  updateInstanceWithNewAcvData
+  updateInstanceWithNewAcvData,
+
+  acv,
+  instance,
+  close
 ) {
   var RDMC = this;
+  this.appCodeVersion = acv;
+  this.instance = instance;
+  this.close = close;
+
+
   this.data = {
     repo: this.appCodeVersion.githubRepo,
     acv: this.appCodeVersion,
@@ -22,11 +31,11 @@ function RepositoryDetailsModalController(
   };
   this.updateInstance = function () {
     loading('main', true);
-    RDMC.defaultActions.close(function () {
+    RDMC.close(
       updateInstanceWithNewAcvData(RDMC.instance, RDMC.appCodeVersion, RDMC.data)
         .finally(function () {
           loading('main', false);
-        });
-    });
+        })
+    );
   };
 }

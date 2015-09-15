@@ -9,6 +9,7 @@ require('ng-file-upload/dist/ng-file-upload');
 require('angular-drag-and-drop-lists/angular-drag-and-drop-lists');
 require('angular-scroll');
 require('angular-animate');
+require('angular-modal-service');
 
 module.exports = angular.module('app', [
   'ui.router',
@@ -19,5 +20,6 @@ module.exports = angular.module('app', [
   'dndLists',
   'duScroll',
   'ngAnimate',
+  'angularModalService',
   require('angular-sanitize')
 ]);
