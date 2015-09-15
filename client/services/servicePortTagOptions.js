@@ -1,9 +1,9 @@
 'use strict';
 
 require('app')
-  .factory('portTagOptions', portTagOptions);
+  .factory('PortTagOptions', PortTagOptionsFactory);
 
-function portTagOptions(
+function PortTagOptionsFactory(
   JSTagsCollection,
   errs
 ) {
@@ -75,7 +75,5 @@ function portTagOptions(
     });
   };
 
-  return {
-    PortTagOptions: PortTagOptions
-  };
+  return PortTagOptions;
 }

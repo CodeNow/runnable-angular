@@ -52,6 +52,13 @@ label.label.label-help(
   small.small.strong Elastic hostname:
   input.input.input-xxs(
     ng-attr-value = "{{ instance.getElasticHostname() }}"
+    ng-if = "!isNewContainer"
+    readonly
+    select-all
+  )
+  input.input.input-xxs(
+    ng-attr-value = "{{ getElasticHostname() }}"
+    ng-if = "isNewContainer"
     readonly
     select-all
   )

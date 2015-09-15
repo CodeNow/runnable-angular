@@ -25,7 +25,7 @@
 
   fancy-select(
     ng-disabled = "saving"
-    ng-if = "!newContainer || !$root.featureFlags.newVerificationFlowStackSelector"
+    ng-if = "!isNewContainer || !$root.featureFlags.newVerificationFlowStackSelector"
     ng-required = "true"
     placeholder = "Select language/framework"
     spinner-flag = "saving"

@@ -1,6 +1,11 @@
 .modal-dialog.modal-edit(
   ng-if = "state.repo"
   ng-include = "'verifyServerSectionView'"
+  ng-class = "{\
+    'ace-active': (selectedTab === 'buildfiles' || selectedTab === 'env'),\
+    'disabled': isLoading.setupServerModal,\
+    'xl': (selectedTab === 'buildfiles' || selectedTab === 'env' || selectedTab === 'logs')\
+  }"
 )
 .modal-dialog.modal-server-select(
   ng-if = "!state.repo"

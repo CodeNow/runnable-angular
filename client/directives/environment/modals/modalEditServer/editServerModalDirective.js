@@ -30,7 +30,7 @@ function editServerModal(
   findLinkedServerVariables,
   hasKeypaths,
   helpCards,
-  portTagOptions,
+  PortTagOptions,
   keypather,
   loading,
   loadingPromises,
@@ -67,7 +67,7 @@ function editServerModal(
 
       // temp fix
       $scope.data = {};
-      $scope.portTagOptions = new portTagOptions.PortTagOptions();
+      $scope.portTagOptions = new PortTagOptions();
       $scope.state = {
         opts: {
           env: keypather.get($scope.instance, 'attrs.env')

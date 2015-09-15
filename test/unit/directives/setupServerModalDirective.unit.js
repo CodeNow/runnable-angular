@@ -1,3 +1,4 @@
+/*global runnable:true, mocks: true, directiveTemplate: true */
 'use strict';
 
 describe('setupServerModalDirective'.bold.underline.blue, function () {
@@ -144,8 +145,14 @@ describe('setupServerModalDirective'.bold.underline.blue, function () {
         };
         var repo = {
           attrs: {
-            full_name: 'foo'
-          }
+            full_name: 'foo',
+            owner: {
+              login: 'bar'
+            }
+          },
+          opts: {
+            userContentDomain: 'runnable-test.com'
+          },
         };
 
         $elScope.fetchStackData(repo)
@@ -185,7 +192,13 @@ describe('setupServerModalDirective'.bold.underline.blue, function () {
         attrs: {
           name: 'fooo',
           full_name: 'foo',
-          default_branch: 'master'
+          default_branch: 'master',
+          owner: {
+            login: 'bar'
+          }
+        },
+        opts: {
+          userContentDomain: 'runnable-test.com'
         },
         fetchBranch: sinon.spy(function (opts, cb) {
           $rootScope.$evalAsync(function () {
@@ -260,7 +273,13 @@ describe('setupServerModalDirective'.bold.underline.blue, function () {
         attrs: {
           name: 'fooo',
           full_name: 'foo',
-          default_branch: 'master'
+          default_branch: 'master',
+          owner: {
+            login: 'bar'
+          }
+        },
+        opts: {
+          userContentDomain: 'runnable-test.com'
         }
       };
       $elScope.state.acv = {

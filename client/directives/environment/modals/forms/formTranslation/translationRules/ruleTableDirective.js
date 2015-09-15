@@ -53,9 +53,10 @@ require('app')
             state: {},
             getMatchDisplay: $scope.getMatchDisplay,
             instanceFilter: function () {
+              var shortHash = keypather.get($scope, 'state.instance.attrs.shortHash');
               return {
                 attrs: {
-                  shortHash: '!' + $scope.state.instance.attrs.shortHash
+                  shortHash: '!' + shortHash
                 }
               };
             }

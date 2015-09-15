@@ -13,13 +13,17 @@ function setupServerModal(
   fetchStackAnalysis,
   hasKeypaths,
   keypather,
+  loading,
   loadingPromises,
   promisify,
   updateDockerfileFromState,
-  portTagOptions,
+  fetchDockerfileFromSource,
+  PortTagOptions,
   $log,
   cardInfoTypes,
-  fetchStackInfo
+  OpenItems,
+  fetchStackInfo,
+  $timeout
 ) {
   return {
     restrict: 'A',
@@ -31,16 +35,35 @@ function setupServerModal(
     },
     link: function ($scope, elem, attrs) {
       loadingPromises.clear('setupServerModal');
+      $scope.isLoading = $rootScope.isLoading;
+      loading.reset('setupServerModal');
+
       var MainRepo = cardInfoTypes.MainRepository;
 
       var mainRepoContainerFile = new MainRepo();
       $scope.portsSet = false;
+      $scope.isNewContainer = true;
+      $scope.openItems = new OpenItems();
+      $scope.getElasticHostname =  function () {
+        if ($scope.state.repo.attrs) {
+          // NOTE: Is this the best way to get the hostname?
+          var repo = $scope.state.repo;
+          var repoName = repo.attrs.name;
+          var repoOwner = repo.attrs.owner.login.toLowerCase();
+          var domain = $scope.state.repo.opts.userContentDomain;
+          // NOTE: How can I know whether it will be staging or not?
+          var hostname = repoName + '-stating-' + repoOwner + '.' + domain;
+          return hostname;
+        }
+        return '';
+      };
       $scope.state = {
         opts: {
           masterPod: true,
           name: ''
         },
         step: 1,
+        advanced: false,
         containerFiles: [
           mainRepoContainerFile
         ],
@@ -91,15 +114,45 @@ function setupServerModal(
           $scope.changeTab('commands');
         }
         else if ($scope.state.step === 3) {
-           $scope.changeTab(null);
-           // Populate ports at this time
-           $scope.portTagOptions = new portTagOptions.PortTagOptions();
-           var ports = keypather.get($scope, 'state.selectedStack.ports');
-           if (ports) {
-             $scope.portTagOptions.setTags(ports);
-           }
+          $scope.changeTab(null);
+          loadAllOptions(); // When stack is selected, load dockerfile, etc
         }
       };
+
+      function openDockerfile() {
+        return promisify($scope.state.contextVersion, 'fetchFile')('/Dockerfile')
+          .then(function (dockerfile) {
+            if ($scope.state.dockerfile) {
+              $scope.openItems.remove($scope.state.dockerfile);
+            }
+            if (dockerfile) {
+              $scope.openItems.add(dockerfile);
+            }
+            $scope.state.dockerfile = dockerfile;
+          });
+      }
+
+     function loadAllOptions() {
+        loading('setupServerModal', true); // Add spinner to modal
+        // Populate ports at when stack has been selected
+        $scope.portTagOptions = new PortTagOptions();
+        var ports = keypather.get($scope, 'state.selectedStack.ports');
+        if (ports) {
+          $scope.portTagOptions.setTags(ports);
+        }
+        return fetchDockerfileFromSource($scope.state.selectedStack.key)
+          .then(function () {
+            return updateDockerfileFromState($scope.state, false, true);
+          })
+          .then(function () {
+            $scope.openItems.updateAllFiles();
+            return openDockerfile();
+          })
+          .then(function () {
+            // Return modal to normal state
+            loading('setupServerModal', false);
+          });
+      }
 
       $scope.changeTab = function (tabname) {
         $scope.selectedTab = tabname;

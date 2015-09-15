@@ -16,13 +16,9 @@ header.modal-header
         style = "{{state.step === 3 ? 'transition-duration: .3s' : ''}}"
       )
         button.btn.btn-radio(
-          ng-class = "{'active': state.step === 1}"
-          ng-click = "\
-            changeTab('repository');\
-            state.step = 1;
-          "
-          ng-if = "state.step >= 1 || isTabVisible('repository')"
-          ng-attr-type = "{{state.step === 2 ? 'button' : 'submit'}}"
+          ng-class = "{'active': state.step === 1 || selectedTab === 'repository'}"
+          ng-click = "changeTab('repository');"
+          ng-if = "(state.step >= 1 && !state.advanced) || isTabVisible('repository')"
         )
           svg.iconnables
             use(
@@ -32,7 +28,7 @@ header.modal-header
         button.btn.btn-radio.js-animate(
           ng-class = "{'active': state.step === 2 || selectedTab === 'commands'}"
           ng-click = "changeTab('commands')"
-          ng-if = "state.step >= 2 || isTabVisible('commands')"
+          ng-if = "(state.step >= 2 && !state.advanced) || isTabVisible('commands')"
         )
           svg.iconnables
             use(
@@ -44,7 +40,7 @@ header.modal-header
         button.btn.btn-radio.js-animate(
           ng-class = "{'active': selectedTab === 'ports'}"
           ng-click = "changeTab('ports')"
-          ng-if = "state.step >= 3 || isTabVisible('ports')"
+          ng-if = "(state.step >= 3 && !state.advanced) || isTabVisible('ports')"
         )
           svg.iconnables
             use(
@@ -64,7 +60,7 @@ header.modal-header
         button.btn.btn-radio.js-animate(
           ng-class = "{'active': selectedTab === 'files'}"
           ng-click = "changeTab('files')"
-          ng-if = "state.step >= 3 || isTabVisible('files')"
+          ng-if = "(state.step >= 3 || isTabVisible('files')) && !state.advanced"
         )
           svg.iconnables
             use(
@@ -105,23 +101,32 @@ header.modal-header
             )
           .btn-text Logs
 
+ section.modal-body(
+    ng-if = "isLoading.setupServerModal"
+  )
+    .spinner-wrapper.spinner-md.in(
+      ng-include = "'spinner'"
+    )
 
-section.modal-body
+section.modal-body(
+  ng-if = "!isLoading.setupServerModal"
+)
   .modal-form(
     ng-form = "verifyServerForm"
   )
     // Stack & Branch
     .label(
       data = "data"
-      ng-if = "!$root.featureFlags.newVerificationFlow || state.step === 1"
+      ng-if = "!$root.featureFlags.newVerificationFlow || state.step === 1 || selectedTab === 'repository'"
       stack-selector-form
       state = "state"
       loading-promises-target = "setupServerModal"
+      is-new-container="true"
     )
     // Commands
     .label(
       repository-form
-      ng-if = "!$root.featureFlags.newVerificationFlow || state.step === 2"
+      ng-if = "!$root.featureFlags.newVerificationFlow || state.step === 2 || selectedTab === 'commands'"
       start-command-can-disable = "true"
       state = "state"
       loading-promises-target = "setupServerModal"
