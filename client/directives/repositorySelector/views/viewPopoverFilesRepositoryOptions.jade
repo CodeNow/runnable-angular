@@ -1,6 +1,7 @@
 .popover-header
   //- if adding a new repository
-  svg.btn.btn-sm.iconnables.icons-arrow-backward(
+  svg.btn.btn-sm.iconnables.icons-arrow-backward.fade(
+    ng-class = "{'in': state.view === 2}"
     ng-click = "goToPanel('repoSelect', 'back')"
     ng-disabled = "state.saving"
     ng-if = "!state.fromServer"
@@ -12,14 +13,16 @@
   | {{ repoSelector.data.name }}
 
   //- close button
-  svg.btn.btn-sm.iconnables.icons-close(
+  svg.btn.btn-sm.iconnables.icons-close.fade(
+    ng-class = "{'in': state.view === 2}"
     ng-click = "closePopover()"
   )
     use(
       xlink:href = "#icons-close"
     )
 
-.popover-content(
+.popover-content.fade(
+  ng-class = "{'in': state.view === 2}"
   ng-form = "repoSelectorForm"
 )
   label.label.clearfix
@@ -63,7 +66,9 @@
       )
       small.small Add scripts to be run before your container is started.
 
-.popover-footer.clearfix
+.popover-footer.clearfix.fade(
+  ng-class = "{'in': state.view === 2}"
+)
   button.btn.btn-sm.green(
     ng-click = "repoSelector.actions.save()"
     ng-disabled = "state.saving || (!repoSelectorForm.$dirty && !dirtyChecker.isDirty())"

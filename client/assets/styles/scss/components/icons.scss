@@ -63,11 +63,11 @@
 
   // flip
   &.icons-arrow-forward {
-    transform: rotate3d(0,0,1,-90deg);
+    transform: rotate(-90deg);
   }
 
   &.icons-arrow-backward {
-    transform: rotate3d(0,0,1,90deg);
+    transform: rotate(90deg);
   }
 
   &.icons-file-tree {
@@ -75,9 +75,23 @@
   }
 }
 
+// fat check
+.icons-fat-check {
+  background: $gray-light;
+  border-radius: 50%;
+  color: $white;
+  max-height: 15px;
+  max-width: 15px;
+
+  &.active {
+    background: $green;
+  }
+}
+
 // status
 .icons-status {
   background: $gray-light;
+  border: 0;
   border-radius: 50%;
   display: inline-block;
   height: 9px;

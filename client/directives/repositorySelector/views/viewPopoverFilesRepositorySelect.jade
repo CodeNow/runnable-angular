@@ -1,12 +1,19 @@
-.popover-header Choose Repository
-  svg.btn.btn-sm.iconnables.icons-close(
+.popover-header
+  span.fade(
+    ng-class = "{'in': state.view === 1}"
+  ) Choose Repository
+  svg.btn.btn-sm.iconnables.icons-close.fade(
+    ng-class = "{'in': state.view === 1}"
     ng-click = "closePopover()"
+    ng-if = "!data.gitDataOnly"
   )
     use(
       xlink:href = "#icons-close"
     )
 
-.popover-content
+.popover-content.fade(
+  ng-class = "{'in': state.view === 1}"
+)
   input.input.input-xs.input-search(
     ng-disabled = "repoSelected"
     ng-if = "repoSelector.data.githubRepos.models"
