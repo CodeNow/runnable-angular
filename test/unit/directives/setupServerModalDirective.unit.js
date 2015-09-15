@@ -43,6 +43,11 @@ describe('setupServerModalDirective'.bold.underline.blue, function () {
           link: angular.noop
         };
       });
+      $provide.factory('fetchStackInfo', function ($q) {
+        return function () {
+          return $q.when(stacks);
+        };
+      });
       $provide.factory('stackSelectorFormDirective', function () {
         return {
           priority: 100000,
@@ -154,6 +159,7 @@ describe('setupServerModalDirective'.bold.underline.blue, function () {
             expect(data.dependencies[0].suggestedVersion).to.equal('0.8');
 
           });
+        $scope.$digest();
         fetchStackAnalysisMock.triggerPromise(analysisMockData);
         $scope.$digest();
 
@@ -227,6 +233,7 @@ describe('setupServerModalDirective'.bold.underline.blue, function () {
       createNewBuildMock.returns(newBuild);
 
       $elScope.selectRepo(repo);
+      $scope.$digest();
       fetchStackAnalysisMock.triggerPromise(analysisMockData);
       $scope.$digest();
 

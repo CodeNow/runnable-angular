@@ -11,6 +11,7 @@ function report(
     if (!message) {
       return;
     }
+
     console.log(message);
     if (levels.indexOf(level) === -1) {
       window.Rollbar.warning('Attempt to report invalid level of error '+ level + ' with message '+JSON.stringify(message));
