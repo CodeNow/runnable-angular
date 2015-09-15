@@ -160,7 +160,10 @@ require('app')
                         if (keypather.get(instance, 'dependencies.models.length')) {
                           return $q.when(instance.dependencies);
                         }
-                        return promisify(instance, 'fetchDependencies')();
+                        if (instance.attrs._id) {
+                          return promisify(instance, 'fetchDependencies')();
+                        }
+                        return [];
                       });
                     $q.all(instancePromises)
                       .then(function (dependencyList) {
