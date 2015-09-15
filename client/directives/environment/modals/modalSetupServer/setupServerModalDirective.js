@@ -179,7 +179,7 @@ function setupServerModal(
             }
             repo.stackAnalysis = data;
 
-            var stack = stacks.find(hasKeypaths({
+            var stack = $scope.data.stacks.find(hasKeypaths({
               'key': data.languageFramework.toLowerCase()
             }));
             if (stack) {
