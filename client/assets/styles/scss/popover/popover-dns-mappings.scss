@@ -11,8 +11,6 @@
   // rows
   .tr {
     cursor: pointer;
-    height: 54px;
-    padding: 0;
 
     &:hover .icons-arrow-forward {
       color: $gray;
