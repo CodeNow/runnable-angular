@@ -4,13 +4,20 @@ require('app')
   .factory('report', report);
 
 function report(
-  keypather
+  keypather,
+  featureFlags
 ) {
   var levels = ['critical', 'error', 'warning', 'info', 'debug'];
   var reporter = function (level, message, options) {
     if (!message) {
       return;
     }
+
+    // We want to report if feature flags are turned on so we can better debug issues.
+    if (featureFlags.changed()){
+      options.featureFlags = featureFlags.getModifiedFlags();
+    }
+
     console.log(message);
     if (levels.indexOf(level) === -1) {
       window.Rollbar.warning('Attempt to report invalid level of error '+ level + ' with message '+JSON.stringify(message));

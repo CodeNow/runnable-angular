@@ -57,6 +57,18 @@ function featureFlags(
       return !!Object.keys(defaultFeatureFlags).find(function (featureFlag) {
         return defaultFeatureFlags[featureFlag] !== _featureFlags[featureFlag];
       });
+    },
+    getModifiedFlags: function () {
+      var modifiedFlagsWithValues = {};
+      Object.keys(defaultFeatureFlags)
+        .filter(function (featureFlag) {
+          return defaultFeatureFlags[featureFlag] !== _featureFlags[featureFlag];
+        })
+        .forEach(function (flag) {
+          modifiedFlagsWithValues[flag]  = _featureFlags[flag];
+        });
+
+      return modifiedFlagsWithValues;
     }
   };
 }
