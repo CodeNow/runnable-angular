@@ -10,10 +10,13 @@ function animatedPanelContainer(
     restrict: 'E',
     scope: true,
     transclude: true,
-    template: '<div class="animated-panel-wrapper slide-horizontal" ng-style="getAnimatedPanelStyle()"></div>',
+    template: '<div class="animated-panel-wrapper" ng-class="panelClass" ng-style="getAnimatedPanelStyle()"></div>',
     replace: true,
     link: function ($scope, element, attrs, controller, transcludeFn){
-      $scope.animation = attrs.animation || 'slideHorizontal';
+      $scope.panelClass = 'slide-horizontal';
+      if ($scope.animation === 'slideVertical') {
+        $scope.panelClass = 'slide-vertical';
+      }
 
       var isAnimatingForwards = true;
       var animateOut = false;
