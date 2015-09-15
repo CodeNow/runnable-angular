@@ -36,6 +36,16 @@
   &.spinner-green .path {
     stroke: $green;
   }
+
+  // center over all relative area
+  &.spinner-center {
+    align-items: center;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
 }
 
 // with backdrop

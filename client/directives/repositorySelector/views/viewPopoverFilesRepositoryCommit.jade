@@ -1,5 +1,6 @@
 .popover-header
-  svg.btn.btn-sm.iconnables.icons-arrow-backward(
+  svg.btn.btn-sm.iconnables.icons-arrow-backward.fade(
+    ng-class = "{'in': state.view === 3 || (state.view === 2 && data.gitDataOnly)}"
     ng-click = "repoSelector.actions.leaveCommitSelect()"
     ng-disabled = "state.saving"
     ng-if = "!(data.gitDataOnly && state.fromServer)"
@@ -7,15 +8,20 @@
     use(
       xlink:href = "#icons-arrow-down"
     )
-  | Commits
+  span.fade(
+    ng-class = "{'in': state.view === 3 || (state.view === 2 && data.gitDataOnly)}"
+  ) Commits
 
-.popover-content.repository-details-content(
+.popover-content.repository-details-content.fade(
   branch-commit-selector
   data = "repoSelector.data"
+  ng-class = "{'in': state.view === 3 || (state.view === 2 && data.gitDataOnly)}"
 )
+
 //- this element should only show up on the popover for adding a repo in the dockerfile tool.
 //- we need it because now that we're auto-updating additional repos, they can't select a commit to confirm.
-.popover-footer.clearfix(
+.popover-footer.clearfix.fade(
+  ng-class = "{'in': state.view === 3 || (state.view === 2 && data.gitDataOnly)}"
   ng-if = "data.gitDataOnly && $root.featureFlags.additionalRepositories"
 )
   button.btn.btn-sm.green(

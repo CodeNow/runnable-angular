@@ -27,8 +27,7 @@
     .list-item {
       @extend %text-overflow;
       font-size: 15px;
-      padding-left: 9px;
-      padding-right: 45px;
+      padding-right: 30px;
 
       &:active,
       &.active {
@@ -41,7 +40,7 @@
         }
 
         .icons-fat-check {
-          color: currentColor;
+          background-color: $purple-light;
           visibility: visible;
         }
       }
@@ -71,13 +70,10 @@
   }
 
   .icons-fat-check {
-    color: $gray-light;
-    height: 100%;
     position: absolute;
-    right: 9px;
-    top: 0;
+    right: 12px;
+    top: 18px;
     visibility: hidden;
-    width: 27px;
   }
 
   .toggle-wrapper {
