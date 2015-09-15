@@ -166,16 +166,18 @@ function setupServerModal(
             data.languageFramework = 'rails';
           }
           repo.stackAnalysis = data;
-          var stack = $scope.data.stacks.find(hasKeypaths({
-            'key': data.languageFramework.toLowerCase()
-          }));
-          if (stack) {
-            setStackSelectedVersion(stack, data.version);
+          var stacks = keypather.get($scope, 'data.stacks');
+          if (stacks) {
+            var stack = stacks.find(hasKeypaths({
+              'key': data.languageFramework.toLowerCase()
+            }));
+            if (stack) {
+              setStackSelectedVersion(stack, data.version);
+              return stack;
+            }
           }
-          return stack;
         });
       };
-
     }
   };
 }
