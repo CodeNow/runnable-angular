@@ -17,7 +17,8 @@ function setupServerModal(
   promisify,
   updateDockerfileFromState,
   $log,
-  cardInfoTypes
+  cardInfoTypes,
+  fetchStackInfo
 ) {
   return {
     restrict: 'A',
