@@ -173,7 +173,7 @@ require('app')
                       .then(function (foundMatch) {
                         if (!foundMatch) {
                           var foundInstanceWithMainACV = $scope.data.instances.find(function (instance) {
-                            return instance.contextVersion.getMainAppCodeVersion();
+                            return keypather.get(instance, 'contextVersion.getMainAppCodeVersion()');
                           });
                           if (!foundInstanceWithMainACV) {
                             return;
