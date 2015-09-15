@@ -158,34 +158,27 @@ function setupServerModal(
             });
           }
         }
-        return fetchStackAnalysis(repo.attrs.full_name)
-          .then(function () {
-            if (keypather.get($scope, 'data.stacks')) {
-              return $scope.data.stacks;
-            } else {
-              return fetchStackInfo();
-            }
-          })
+        return fetchStackInfo()
           .then(function (stacks) {
-            keypather.set($scope, 'data.stacks', stacks);
-          })
-          .then(function (data) {
-            if (!data.languageFramework) {
-              $log.warn('No language detected');
-              return;
-            }
-            if (data.languageFramework === 'ruby_ror') {
-              data.languageFramework = 'rails';
-            }
-            repo.stackAnalysis = data;
+            return fetchStackAnalysis(repo.attrs.full_name)
+              .then(function (data) {
+                if (!data.languageFramework) {
+                  $log.warn('No language detected');
+                  return;
+                }
+                if (data.languageFramework === 'ruby_ror') {
+                  data.languageFramework = 'rails';
+                }
+                repo.stackAnalysis = data;
 
-            var stack = $scope.data.stacks.find(hasKeypaths({
-              'key': data.languageFramework.toLowerCase()
-            }));
-            if (stack) {
-              setStackSelectedVersion(stack, data.version);
-              return stack;
-            }
+                var stack = stacks.find(hasKeypaths({
+                  'key': data.languageFramework.toLowerCase()
+                }));
+                if (stack) {
+                  setStackSelectedVersion(stack, data.version);
+                  return stack;
+                }
+              });
           });
       };
     }
