@@ -27,6 +27,7 @@ function animatedPanelContainer(
         if (panels.includes(panelName)) {
           animateOut = false;
           leavingPanel = $scope.activePanel;
+
           // Quick move our elements to the right spot, then let them animate into place
           $timeout(function () {
             if (style !== 'immediate') {
@@ -57,15 +58,18 @@ function animatedPanelContainer(
         }
       };
 
+      var lastPanelStyle = {};
+
       $scope.getAnimatedPanelStyle = function () {
         var inElement = panelElements[$scope.activePanel];
-        if (!inElement) {
-          return;
+        if (!inElement || !inElement[0].offsetHeight || !inElement[0].offsetWidth) {
+          return lastPanelStyle;
         }
-        return {
+        lastPanelStyle = {
           height: inElement[0].offsetHeight + 'px',
           width:  inElement[0].offsetWidth + 'px'
         };
+        return lastPanelStyle;
       };
 
       $scope.getPanelClass = function (panelName) {
