@@ -154,16 +154,13 @@ require('app')
                   var calculateHelpCards = function () {
                     var instancePromises = $scope.data.instances
                       .filter(function (instance) {
-                        return instance !== $scope.server.instance;
+                        return instance !== $scope.server.instance && keypather.get(instance, 'attrs._id');
                       })
                       .map(function (instance) {
                         if (keypather.get(instance, 'dependencies.models.length')) {
                           return $q.when(instance.dependencies);
                         }
-                        if (keypather.get(instance, 'attrs._id')) {
-                          return promisify(instance, 'fetchDependencies')();
-                        }
-                        return [];
+                        return promisify(instance, 'fetchDependencies')();
                       });
                     $q.all(instancePromises)
                       .then(function (dependencyList) {
