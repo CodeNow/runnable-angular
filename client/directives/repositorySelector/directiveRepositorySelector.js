@@ -41,7 +41,7 @@ function repositorySelector(
       if ($scope.data.repo) {
         $scope.repoSelector.data = $scope.data.repo;
         $scope.state.fromServer = true;
-        // Avoid race condition
+        // Avoid race condition of the child panels loading in and registering
         $timeout(function () {
           if ($scope.data.gitDataOnly) {
             $scope.$broadcast('go-to-panel', 'commit', 'immediate');
@@ -50,7 +50,7 @@ function repositorySelector(
           }
         });
       } else {
-        // Avoid race condition
+        // Avoid race condition of the child panels loading in and registering
         $timeout(function () {
           $scope.$broadcast('go-to-panel', 'repoSelect', 'immediate');
         });
