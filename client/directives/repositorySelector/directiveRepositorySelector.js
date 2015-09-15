@@ -20,7 +20,8 @@ function repositorySelector(
   fetchOwnerRepos,
   $rootScope,
   cardInfoTypes,
-  DirtyChecker
+  DirtyChecker,
+  $timeout
 ) {
   return {
     restrict: 'A',
@@ -40,13 +41,19 @@ function repositorySelector(
       if ($scope.data.repo) {
         $scope.repoSelector.data = $scope.data.repo;
         $scope.state.fromServer = true;
-        if ($scope.data.gitDataOnly) {
-          $scope.$broadcast('go-to-panel', 'commit', 'immediate');
-        } else {
-          $scope.$broadcast('go-to-panel', 'repoOptions', 'immediate');
-        }
+        // Avoid race condition
+        $timeout(function () {
+          if ($scope.data.gitDataOnly) {
+            $scope.$broadcast('go-to-panel', 'commit', 'immediate');
+          } else {
+            $scope.$broadcast('go-to-panel', 'repoOptions', 'immediate');
+          }
+        });
       } else {
-        $scope.$broadcast('go-to-panel', 'repoSelect', 'immediate');
+        // Avoid race condition
+        $timeout(function () {
+          $scope.$broadcast('go-to-panel', 'repoSelect', 'immediate');
+        });
 
         var Repo = cardInfoTypes.Repository;
         $scope.repoSelector.data = new Repo();

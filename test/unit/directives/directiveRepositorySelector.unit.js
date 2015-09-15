@@ -5,6 +5,7 @@ describe('directiveRepoSelect'.bold.underline.blue, function () {
   var $scope;
   var $rootScope;
   var keypather;
+  var $timeout;
   var $q;
 
   var currentConfig;
@@ -91,11 +92,13 @@ describe('directiveRepoSelect'.bold.underline.blue, function () {
       $compile,
       _$rootScope_,
       _keypather_,
-      _$q_
+      _$q_,
+      _$timeout_
     ) {
       keypather = _keypather_;
       $rootScope = _$rootScope_;
       $q = _$q_;
+      $timeout = _$timeout_;
 
       keypather.set($rootScope, 'dataApp.data.activeAccount.oauthName', sinon.mock().returns('myOauthName'));
       keypather.set($rootScope, 'featureFlags.additionalRepositories');
@@ -132,6 +135,7 @@ describe('directiveRepoSelect'.bold.underline.blue, function () {
       element = $compile(tpl)($scope);
 
       $scope.$digest();
+      $timeout.flush();
     });
   }
 
