@@ -176,8 +176,10 @@
         ng-class = "{'in': state.view === 2}"
       )
         //- toggle between organization containers and private containres.
-            only show toggle if there are containers in private sandboxes.
-            reset active state when opening/closing this view.
+            * only show toggle if there are containers in private sandboxes.
+            * reset active state when opening/closing this view.
+            * send user to the currently selected dns mapping
+
         .btn-group.btn-toggle.btn-toggle-xs(
           ng-if = "mavisPrivateBranches.length"
         )
