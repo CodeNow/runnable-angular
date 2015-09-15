@@ -133,13 +133,13 @@
               viewbox = '0 0 14.5 10'
             )
               path.path(
+                d = 'M1,4.5L5.5,9l8-8'
                 fill = 'none',
                 stroke = '#3ccb5a',
-                stroke-width = '2',
                 stroke-linecap = 'round',
                 stroke-linejoin = 'round',
                 stroke-miterlimit = '10',
-                d = 'M1,4.5L5.5,9l8-8'
+                stroke-width = '2',
               )
 
             svg.iconnables.icons-arrow-forward.float-right(
@@ -212,6 +212,7 @@
 
               ** mousedown/up are only to demonstrate the loading/fail state...we don't actually want that to trigger a spinner
           li.list-item.popover-list-item.text-overflow(
+            ng-class = "{'no-touching': dnsMappings[dnsMappings.currentIndex].branch === branch.name && dnsMappings[dnsMappings.currentIndex].sandbox === 'CodeNow'}"
             ng-click = "\
               dnsMappings[dnsMappings.currentIndex].branch = branch.name;\
               dnsMappings[dnsMappings.currentIndex].sandbox = 'CodeNow';\
@@ -221,7 +222,6 @@
               toggle.disabled = true;\
               toggle.privateContainers = false;\
             "
-            ng-class = "{'no-touching': dnsMappings[dnsMappings.currentIndex].branch === branch.name && dnsMappings[dnsMappings.currentIndex].sandbox === 'CodeNow'}"
             ng-mousedown = "branch.selectFailed = true"
             ng-mouseup = "branch.selectFailed = false"
             ng-repeat = "branch in mavisBranches"
@@ -257,6 +257,7 @@
           }"
         )
           li.list-item.multi-line.popover-list-item.text-overflow(
+            ng-class = "{'no-touching': dnsMappings[dnsMappings.currentIndex].branch === branch.name && dnsMappings[dnsMappings.currentIndex].sandbox === branch.sandbox}"
             ng-click = "\
               dnsMappings[dnsMappings.currentIndex].branch = branch.name;\
               dnsMappings[dnsMappings.currentIndex].sandbox = branch.sandbox;\
@@ -266,7 +267,6 @@
               toggle.disabled = true;\
               toggle.privateContainers = false;\
             "
-            ng-class = "{'no-touching': dnsMappings[dnsMappings.currentIndex].branch === branch.name && dnsMappings[dnsMappings.currentIndex].sandbox === branch.sandbox}"
             ng-mousedown = "branch.selectFailed = true"
             ng-mouseup = "branch.selectFailed = false"
             ng-repeat = "branch in mavisPrivateBranches"
