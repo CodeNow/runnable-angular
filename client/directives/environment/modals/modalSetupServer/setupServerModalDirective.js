@@ -17,7 +17,8 @@ function setupServerModal(
   promisify,
   updateDockerfileFromState,
   $log,
-  cardInfoTypes
+  cardInfoTypes,
+  fetchStackInfo
 ) {
   return {
     restrict: 'A',
@@ -157,25 +158,29 @@ function setupServerModal(
             });
           }
         }
-        return fetchStackAnalysis(repo.attrs.full_name).then(function (data) {
-          if (!data.languageFramework) {
-            $log.warn('No language detected');
-            return;
-          }
-          if (data.languageFramework === 'ruby_ror') {
-            data.languageFramework = 'rails';
-          }
-          repo.stackAnalysis = data;
-          var stack = $scope.data.stacks.find(hasKeypaths({
-            'key': data.languageFramework.toLowerCase()
-          }));
-          if (stack) {
-            setStackSelectedVersion(stack, data.version);
-          }
-          return stack;
-        });
-      };
+        return fetchStackInfo()
+          .then(function (stacks) {
+            return fetchStackAnalysis(repo.attrs.full_name)
+              .then(function (data) {
+                if (!data.languageFramework) {
+                  $log.warn('No language detected');
+                  return;
+                }
+                if (data.languageFramework === 'ruby_ror') {
+                  data.languageFramework = 'rails';
+                }
+                repo.stackAnalysis = data;
 
+                var stack = stacks.find(hasKeypaths({
+                  'key': data.languageFramework.toLowerCase()
+                }));
+                if (stack) {
+                  setStackSelectedVersion(stack, data.version);
+                  return stack;
+                }
+              });
+          });
+      };
     }
   };
 }
