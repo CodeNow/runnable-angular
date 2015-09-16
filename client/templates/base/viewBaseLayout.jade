@@ -42,6 +42,12 @@ nav.nav-sidebar.in(
     ]\
   "
 )
+  .list-header
+    svg.iconnables.icons-arrow-backward.float-left
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+    | Containers
 
   .list(
     ng-repeat = "container in containers"

@@ -31,6 +31,36 @@
     }
   }
 
+  .list-header {
+    align-items: center;
+    background: $gray-lightest;
+    border-bottom: 1px solid $gray-lighter;
+    color: $gray;
+    font-weight: $weight-bold;
+    height: $header-height;
+    line-height: $header-height;
+    position: relative;
+    text-align: center;
+
+    .icons-arrow-backward {
+      color: $gray;
+      cursor: pointer;
+      height: 100%;
+      left: 9px;
+      pointer-events: auto; // override iconnables
+      position: absolute;
+      top: 0;
+
+      &:hover {
+        color: $gray-dark;
+      }
+
+      &:active {
+        color: $purple-light;
+      }
+    }
+  }
+
   .list {
     margin: 0 15px;
     padding: 9px 0 15px;
