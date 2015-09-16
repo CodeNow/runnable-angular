@@ -18,22 +18,6 @@ body {
   &.modal-open {
     overflow: hidden;
   }
-
-}
-
-.content-wrapper {
-  height: 100vh;
-
-  .content {
-    height: 100%;
-  }
-}
-
-// TODO: maybe this should be less global
-.instance {
-  height: 100%;
-  padding-top: 72px;
-  position: relative;
 }
 
 // svg files

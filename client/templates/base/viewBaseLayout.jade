@@ -1,4 +1,51 @@
 //- nav/sidebar
+nav.nav-sidebar.in(
+  ng-init = "\
+    containers = [\
+      {\
+        name: 'api',\
+        branches: [\
+          {name: 'master', status: 'green'},\
+          {name: 'add-owner-id-dedupe-check', status: 'green'},\
+          {name: 'anton-goroost', status: 'red'}\
+        ]\
+      }\
+    ]\
+  "
+)
+
+  .list(
+    ng-repeat = "container in containers"
+  )
+    //- repository name
+    .list-item
+      span.text-overflow {{container.name}}
+      //- configure button for repo containers
+      svg.iconnables.icons-advanced
+        use(
+          xlink:href = "#icons-advanced"
+        )
+    .list-item(
+      ng-repeat = "branch in container.branches"
+    )
+      .icons-status(
+        ng-class = "{\
+          'green': branch.status === 'green',\
+          'orange': branch.status === 'orange',\
+          'red': branch.status === 'red'\
+        }"
+      )
+      a.text-overflow {{branch.name}}
+      svg.iconnables.icons-overflow
+        use(
+          xlink:href = "#icons-overflow"
+        )
+    .btn.btn-xxs(
+      ng-if = "$root.featureFlags.navListFilter"
+      pop-over
+      pop-over-options = "{\"top\":-33,\"left\":215}"
+      pop-over-template = "viewMoreContainersPopover"
+    ) 8 more…
 
 //- first .content...
 .content

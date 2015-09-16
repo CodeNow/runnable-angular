@@ -1,0 +1,225 @@
+// substitute for body
+.content-wrapper {
+  height: 100vh;
+
+  .content {
+    height: 100%;
+  }
+}
+
+// global sidebar, new vew
+.nav-sidebar:not(.deprecated) {
+  background: $gray-lighterest;
+  border-right: 1px solid $gray-light;
+  height: 100vh;
+  left: 0;
+  opacity: .6;
+  position: absolute;
+  top: 0;
+  transform: translate3d(-100%,0,0);
+  transition: opacity .3s ease-in-out, transform .3s ease-in-out;
+  width: 330px;
+  z-index: $z-sidebar-nav;
+
+  &.in {
+    opacity: 1;
+    transform: translate3d(0,0,0);
+
+    + .content {
+      opacity: .5;
+    }
+  }
+
+  .list {
+    padding: 9px 0;
+
+    + .list {
+      border-top: 1px solid $gray-lighter;
+    }
+  }
+
+  .list-item {
+    align-items: center;
+    display: flex;
+    font-size: 15px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 15px;
+
+    // list title
+    &:first-child {
+      color: $gray-light;
+      font-weight: $weight-normal;
+    }
+
+    + .list-item:hover .icons-overflow {
+      display: block;
+    }
+
+    // status icon
+    .icons-status {
+      flex: 0 0 9px;
+      margin-right: 9px;
+
+      + .text-overflow {
+        color: $gray;
+        cursor: pointer;
+        font-weight: $weight-bold;
+        padding-left: 0;
+
+        &:hover {
+          color: $gray-dark;
+        }
+
+        &:active {
+          color: $purple-light;
+        }
+
+        &.active {
+          color: $gray-darker;
+        }
+      }
+    }
+
+    // name
+    .text-overflow {
+      flex: 1 1 auto;
+      padding-left: 18px; // spacing for .status-icon
+    }
+
+    // configure/overflow
+    .iconnables {
+      cursor: pointer;
+      flex: 0 0 15px;
+      pointer-events: auto; // override iconnables default
+    }
+
+    .icons-advanced {
+      opacity: .75;
+      transition: opacity .15s, transform .15s;
+
+      &:hover {
+        transform: rotate3d(0,0,1,30deg);
+      }
+
+      &:active {
+        opacity: 1;
+        transform: rotate3d(0,0,1,60deg);
+      }
+    }
+
+    .icons-overflow {
+      color: $gray;
+      display: none;
+      padding-top: 10px;
+
+      &:hover {
+        color: $gray-dark;
+      }
+
+      &:active {
+        color: $purple-light;
+      }
+    }
+  }
+
+  // more button…
+  .btn-xxs {
+    color: $gray-light;
+    font-style: italic;
+    left: 30px;
+
+    &:hover {
+      color: $gray;
+    }
+
+    &:active {
+      color: $purple-light;
+    }
+  }
+
+  //     // &:hover .btn-hide {
+  //     //   display: block;
+  //     // }
+
+  //     // repo name header or container name
+  //     // .span {
+  //     //   flex: 1 1 auto;
+  //     //   padding-left: 18px;
+
+  //     //   // pseudo-element for hover and active background color
+  //     //   &::after {
+  //     //     content: '';
+  //     //     height: 100%;
+  //     //     left: 0;
+  //     //     position: absolute;
+  //     //     top: 0;
+  //     //     width: 100%;
+  //     //     z-index: -1;
+  //     //   }
+
+  //     //   &:hover::after {
+  //     //     background: rgba($gray-light,.1);
+  //     //   }
+
+  //     //   &:active,
+  //     //   &.active {
+  //     //     color: $purple-light;
+
+  //     //     &:after {
+  //     //       background: $purple-lightest;
+  //     //     }
+
+  //     //     + .btn-hide {
+  //     //       color: $purple-light;
+  //     //     }
+  //     //   }
+
+  //     //   &.active {
+  //     //     pointer-events: none;
+  //     //   }
+  //     // }
+
+  //     // hide button
+  //     // .btn-hide {
+  //     //   display: none;
+  //     //   line-height: 30px;
+  //     // }
+
+  //     // configure button
+  //     .btn-configure {
+  //       height: 100%;
+  //       margin-right: 6px;
+  //       width: 33px;
+  //     }
+
+  //     .icons-advanced {
+  //       height: 100%;
+  //       width: 12px;
+  //     }
+  //   }
+
+  //   // "X more…" button
+  //   > .btn {
+  //     padding: 0 0 0 24px;
+  //   }
+  // }
+}
+
+// deprecated ver
+.nav-sidebar.deprecated {
+  background: $gray-lighterest;
+
+  .spinner-wrapper {
+    align-items: center;
+    height: 100%;
+  }
+}
+
+
+// instance page
+.instance {
+  height: 100%;
+  padding-top: 72px;
+  position: relative;
+}
