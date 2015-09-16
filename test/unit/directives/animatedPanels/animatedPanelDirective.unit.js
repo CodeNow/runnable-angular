@@ -47,10 +47,10 @@ describe('animatedPanelContainerDirective'.bold.underline.blue, function() {
 
   it('should return true when active', function () {
     $scope.activePanel = 'test-name';
-    expect($elScope.isActive()).to.be.ok;
+    expect($elScope.isActivePanel()).to.be.ok;
   });
   it('should return false when inactive', function () {
     $scope.activePanel = 'not-me';
-    expect($elScope.isActive()).to.not.be.ok;
+    expect($elScope.isActivePanel()).to.not.be.ok;
   });
 });
