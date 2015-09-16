@@ -7,7 +7,36 @@ nav.nav-sidebar.in(
         branches: [\
           {name: 'master', status: 'green'},\
           {name: 'add-owner-id-dedupe-check', status: 'green'},\
-          {name: 'anton-goroost', status: 'red'}\
+          {name: 'anton-goroost', status: 'red'},\
+          {name: 'anton-jul8', status: 'red'}\
+        ]\
+      },{\
+        name: 'datadog',\
+        branches: [\
+          {name: 'master', status: 'green'}\
+        ]\
+      },{\
+        name: 'detention',\
+        branches: [\
+          {name: 'master', status: 'green'}\
+        ]\
+      },{\
+        name: 'khronos',\
+        branches: [\
+          {name: 'master', status: 'green'},\
+          {name: 'abort-on-uncaught-exception', status: 'green'},\
+          {name: 'revert-14-revert-12-feature-restart-one-dock-script', status: 'red'},\
+          {name: 'SAN-2487-cleanup-debug-containers', status: 'green'}\
+        ]\
+      },{\
+        name: 'mavis',\
+        branches: [\
+          {name: 'master', status: 'green'},\
+          {name: 'better-logging', status: 'green'},\
+          {name: 'bypass-prev-dock', status: 'orange'},\
+          {name: 'no-docks-404', status: 'red'},\
+          {name: 'remove-numBuild', status: 'red'},\
+          {name: 'temporary-branch-to-fork', status: 'red'}\
         ]\
       }\
     ]\
@@ -19,7 +48,9 @@ nav.nav-sidebar.in(
   )
     //- repository name
     .list-item
-      span.text-overflow {{container.name}}
+      span.text-overflow(
+        title = "{{container.name}}"
+      ) {{container.name}}
       //- configure button for repo containers
       svg.iconnables.icons-advanced
         use(
@@ -35,7 +66,9 @@ nav.nav-sidebar.in(
           'red': branch.status === 'red'\
         }"
       )
-      a.text-overflow {{branch.name}}
+      a.text-overflow(
+        title = "{{branch.name}}"
+      ) {{branch.name}}
       svg.iconnables.icons-overflow
         use(
           xlink:href = "#icons-overflow"

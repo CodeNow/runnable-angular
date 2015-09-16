@@ -14,6 +14,7 @@
   height: 100vh;
   left: 0;
   opacity: .6;
+  overflow-y: auto;
   position: absolute;
   top: 0;
   transform: translate3d(-100%,0,0);
@@ -31,7 +32,8 @@
   }
 
   .list {
-    padding: 9px 0;
+    margin: 0 15px;
+    padding: 9px 0 15px;
 
     + .list {
       border-top: 1px solid $gray-lighter;
@@ -44,7 +46,6 @@
     font-size: 15px;
     height: 30px;
     line-height: 30px;
-    padding: 0 15px;
 
     // list title
     &:first-child {
@@ -127,7 +128,7 @@
   .btn-xxs {
     color: $gray-light;
     font-style: italic;
-    left: 30px;
+    left: 15px;
 
     &:hover {
       color: $gray;
@@ -137,73 +138,6 @@
       color: $purple-light;
     }
   }
-
-  //     // &:hover .btn-hide {
-  //     //   display: block;
-  //     // }
-
-  //     // repo name header or container name
-  //     // .span {
-  //     //   flex: 1 1 auto;
-  //     //   padding-left: 18px;
-
-  //     //   // pseudo-element for hover and active background color
-  //     //   &::after {
-  //     //     content: '';
-  //     //     height: 100%;
-  //     //     left: 0;
-  //     //     position: absolute;
-  //     //     top: 0;
-  //     //     width: 100%;
-  //     //     z-index: -1;
-  //     //   }
-
-  //     //   &:hover::after {
-  //     //     background: rgba($gray-light,.1);
-  //     //   }
-
-  //     //   &:active,
-  //     //   &.active {
-  //     //     color: $purple-light;
-
-  //     //     &:after {
-  //     //       background: $purple-lightest;
-  //     //     }
-
-  //     //     + .btn-hide {
-  //     //       color: $purple-light;
-  //     //     }
-  //     //   }
-
-  //     //   &.active {
-  //     //     pointer-events: none;
-  //     //   }
-  //     // }
-
-  //     // hide button
-  //     // .btn-hide {
-  //     //   display: none;
-  //     //   line-height: 30px;
-  //     // }
-
-  //     // configure button
-  //     .btn-configure {
-  //       height: 100%;
-  //       margin-right: 6px;
-  //       width: 33px;
-  //     }
-
-  //     .icons-advanced {
-  //       height: 100%;
-  //       width: 12px;
-  //     }
-  //   }
-
-  //   // "X more…" button
-  //   > .btn {
-  //     padding: 0 0 0 24px;
-  //   }
-  // }
 }
 
 // deprecated ver
