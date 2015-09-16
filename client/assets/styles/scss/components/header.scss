@@ -45,11 +45,9 @@
     position: absolute;
   }
 
-  // ui-view.clearfix
-  + .clearfix {
-    height: 100vh;
+  // add padding for header-app + content
+  + .content {
     padding-top: $header-height;
-    position: relative;
   }
 }
 

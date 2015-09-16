@@ -19,14 +19,13 @@ body {
     overflow: hidden;
   }
 
-  // instance wrapper
+}
+
+.content-wrapper {
+  height: 100vh;
+
   .content {
     height: 100%;
-    position: relative;
-
-    > .spinner-wrapper {
-      position: absolute;
-    }
   }
 }
 

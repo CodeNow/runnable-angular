@@ -1,8 +1,12 @@
-header.header-app(
-  ng-include = "'viewHeader'"
-  ng-class = "{'private': $root.featureFlags.isolationActive}"
-)
+//- nav/sidebar
 
-.clearfix(
-  ui-view
-)
+//- first .content...
+.content
+  header.header-app(
+    ng-include = "'viewHeader'"
+    ng-class = "{'private': $root.featureFlags.isolationActive}"
+  )
+  //- second .content...
+  .content(
+    ui-view
+  )
