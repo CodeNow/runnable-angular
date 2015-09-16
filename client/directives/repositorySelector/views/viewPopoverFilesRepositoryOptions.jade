@@ -9,7 +9,6 @@
     use(
       xlink:href = "#icons-arrow-down"
     )
-
   | {{ repoSelector.data.name }}
 
   //- close button
@@ -75,7 +74,7 @@
     type = "submit"
   ) {{ repoSelector.data.fromServer ? 'Save' : 'Add Repository' }}
   button.btn.btn-sm.gray.btn-cancel(
-    ng-disabled = "state.saving"
     ng-click = "closePopover()"
+    ng-disabled = "state.saving"
     type = "button"
   ) Cancel

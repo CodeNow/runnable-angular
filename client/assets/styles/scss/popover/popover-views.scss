@@ -7,12 +7,7 @@
   width: 100%;
 
   .fade {
-    opacity: 0;
     transition: opacity .15s ease-in;
-
-    &.in {
-      opacity: 1;
-    }
   }
 
   // list all elements that transition

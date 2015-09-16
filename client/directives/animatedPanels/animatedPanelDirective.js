@@ -18,6 +18,10 @@ function animatedPanel() {
         return $scope.activePanel === $scope.name;
       };
 
+      $scope.isPanel = function () {
+        return $scope.name;
+      };
+
       transcludeFn($scope, function(clone){
         element.append(clone);
       });
