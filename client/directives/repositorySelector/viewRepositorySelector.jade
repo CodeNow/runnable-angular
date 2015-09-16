@@ -1,27 +1,25 @@
-animated-panel-container
+animated-panel-container.popover-views
+
+  //- select repository view
   animated-panel(
     name = "repoSelect"
-    style="width: 356px"
   )
-    div(
+    .popover-view(
       ng-include = "'viewPopoverFilesRepositorySelect'"
     )
 
-  //- repository options
+  //- repository options view
   animated-panel(
     name = "repoOptions"
-    style="width: 356px"
-    ng-if = "!data.gitDataOnly"
   )
-    div(
+    .popover-view(
       ng-include = "'viewPopoverFilesRepositoryOptions'"
     )
 
-  //- commits/branch
+  //- select commit view
   animated-panel(
     name = "commit"
-    style="width: 356px"
   )
-    div(
+    .popover-view(
       ng-include = "'viewPopoverFilesRepositoryCommit'"
     )

@@ -1,31 +1,35 @@
-.animated-panel-wrapper{
-  &.slide-horizontal{
-    overflow: hidden;
-    position: relative;
-    .animated-panel {
-      position: absolute;
-      top: 0;
-      left: 0;
-      &.animated{
-        transition: transform .3s ease-in-out;
-      }
-      &.out {
-        transform: translateX(100%);
-      }
-      &.in{
-        transform: translateX(0);
-      }
-      &.out.back {
-        transform: translateX(-100%);
-      }
-    }
+.animated-panel-container {
+  overflow: hidden;
+  position: relative;
+}
+
+.animated-panel {
+  left: 0;
+  position: absolute;
+  top: 0;
+
+  &.animated {
+    transition: transform .3s ease-in-out;
+  }
+
+  &.out {
+    transform: translateX(100%);
+  }
+
+  &.in {
+    transform: translateX(0);
+  }
+
+  &.out.back {
+    transform: translateX(-100%);
   }
 }
 
 .fade {
-  transition: opacity 3s linear;
   opacity: 0;
-  &.in{
+  transition: opacity 3s linear;
+
+  &.in {
     opacity: 1;
   }
 }

@@ -10,7 +10,7 @@ function animatedPanelContainer(
     restrict: 'E',
     scope: true,
     transclude: true,
-    template: '<div class="animated-panel-wrapper" ng-class="panelClass" ng-style="getAnimatedPanelStyle()"></div>',
+    template: '<div class="animated-panel-container" ng-class="panelClass" ng-style="getAnimatedPanelStyle()"></div>',
     replace: true,
     link: function ($scope, element, attrs, controller, transcludeFn){
       $scope.panelClass = 'slide-horizontal';
@@ -34,8 +34,6 @@ function animatedPanelContainer(
               animateOut = true;
             }
             $scope.activePanel = panelName;
-            // This is needed so we can calculate the height/width of the panel.
-            $timeout(angular.noop);
           });
         } else {
           console.error('Tried going to panel that doesn\'t exist', panelName);
@@ -58,18 +56,16 @@ function animatedPanelContainer(
         }
       };
 
-      var lastPanelStyle = {};
 
       $scope.getAnimatedPanelStyle = function () {
         var inElement = panelElements[$scope.activePanel];
-        if (!inElement || !inElement[0].offsetHeight || !inElement[0].offsetWidth) {
-          return lastPanelStyle;
+        if (!inElement) {
+          return;
         }
-        lastPanelStyle = {
+        return {
           height: inElement[0].offsetHeight + 'px',
           width:  inElement[0].offsetWidth + 'px'
         };
-        return lastPanelStyle;
       };
 
       $scope.getPanelClass = function (panelName) {
