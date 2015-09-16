@@ -1,11 +1,10 @@
 .popover-files {
   background: $white;
   // fix width and height for popover-views
-  height: 468px;
   max-width: none;
+  min-height: 420px;
   width: 360px;
 
-  // 420px/360px - 4px (height/width - borders)
   .popover-views,
   .popover-view {
     height: 464px;
