@@ -113,7 +113,7 @@ function ContainerFilesController(
             containerFile.progress = parseInt(100.0 * evt.loaded / evt.total, 10);
           })
           .error(function (err) {
-            errs.handler(err);
+            errs.handler(err.data || err);
             delete containerFile.file;
             delete containerFile.name;
             delete containerFile.progress;
