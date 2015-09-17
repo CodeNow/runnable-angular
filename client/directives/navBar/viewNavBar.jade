@@ -1,13 +1,6 @@
 .list-header.fade(
   ng-class = "{'in': $root.featureFlags.isolationNav}"
-)
-  svg.iconnables.icons-arrow-backward.float-left(
-    ng-click = "$root.featureFlags.isolationNav = !$root.featureFlags.isolationNav"
-  )
-    use(
-      xlink:href = "#icons-arrow-down"
-    )
-  | Containers
+) Containers
 
 //- repository based containers
 .list.fade(
