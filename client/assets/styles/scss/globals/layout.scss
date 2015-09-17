@@ -34,7 +34,7 @@
     line-height: $header-height;
     position: relative;
     text-align: center;
-    transition: opacity .2s ease-in-out;
+    transition: opacity .3s ease-in-out;
 
     .icons-arrow-backward {
       color: $gray;
@@ -58,7 +58,7 @@
   .list {
     margin: 0 15px;
     padding: 9px 0 15px;
-    transition: opacity .2s ease-in-out;
+    transition: opacity .3s ease-in-out;
 
     + .list {
       border-top: 1px solid $gray-lighter;
@@ -97,12 +97,6 @@
     .icons-status {
       flex: 0 0 9px;
       margin-right: 9px;
-      opacity: .75;
-
-      &:hover,
-      &:active {
-        opacity: 1;
-      }
 
       + .text-overflow {
         color: $gray;
