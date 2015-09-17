@@ -6,6 +6,7 @@ var fs      = require('fs');
 var async   = require('async');
 var envIs   = require('101/env-is');
 var timer   = require('grunt-timer');
+var version = require('./package.json').version;
 
 
 var config = {};
@@ -153,14 +154,6 @@ module.exports = function(grunt) {
         dest: 'client/build/images/',
         flatten: false,
         filter: 'isFile'
-      // },
-      // fonts: {
-      //   expand: true,
-      //   cwd: 'client/assets/fonts/',
-      //   src: '**',
-      //   dest: 'client/build/fonts/',
-      //   flatten: false,
-      //   filter: 'isFile'
       }
     },
     watch: {
@@ -172,7 +165,7 @@ module.exports = function(grunt) {
           'client/assets/images/**/*.svg'
         ],
         tasks: [
-          'copy:images'
+          'newer:copy:images'
         ]
       },
       tests: {
@@ -227,27 +220,17 @@ module.exports = function(grunt) {
       },
       compress: {
         files: ['client/build/**/*'],
-        tasks: ['compress:build']
+        tasks: ['newer:compress:build']
       },
       jade: {
         files: [
           'server/views/home.jade',
           'server/views/layout.jade'
         ],
-        tasks: ['jade:compile']
+        tasks: ['newer:jade:compile']
       }
     },
     bgShell: {
-      // karma: {
-      //   bg: true,
-      //   cmd: [
-      //     'SAUCE_USERNAME=runnable',
-      //     'SAUCE_ACCESS_KEY=f41cc147-a7f0-42b0-8e86-53eb5a349f48',
-      //     'BUILD_NUMBER=1',
-      //     'karma start ./test/karma.conf.js'
-      //   ].join(' ')
-      //   //cmd: 'SAUCE_USERNAME=runnable SAUCE_ACCESS_KEY=f41cc147-a7f0-42b0-8e86-53eb5a349f48 BUILD_NUMBER=1 karma start ./test/karma.conf.js'
-      // },
       karma: {
         bg: false,
         cmd: 'karma start ./test/karma.conf.js --single-run'
@@ -317,7 +300,21 @@ module.exports = function(grunt) {
     jade: {
       compile: {
         options: {
-          data: config
+          data: function () {
+            var locals = {
+              version: version,
+              env: require('./client/config/json/environment.json').environment,
+              commitHash: require('./client/config/json/commit.json').commitHash,
+              commitTime: require('./client/config/json/commit.json').commitTime,
+              apiHost: require('./client/config/json/api.json').host
+            };
+            if (locals.apiHost === '//api.runnable-beta.com') {
+              locals.rollbarEnv = 'beta';
+            }
+
+            console.log('Fetching config', locals);
+            return locals;
+          }
         },
         files: {
           'client/build/index.html': 'server/views/home.jade',
@@ -416,8 +413,6 @@ module.exports = function(grunt) {
           if (err) { throw err; }
           configObj.commitHash = results.hash;
           configObj.commitTime = results.time;
-          config.commitHash = configObj.commitHash;
-          config.commitTime = configObj.commitTime;
           var configJSON = JSON.stringify(configObj);
           fs.writeFile(path.join(clientPath, 'config', 'json', 'commit.json'), configJSON, function () {
             cb();
@@ -428,20 +423,12 @@ module.exports = function(grunt) {
         var configObj = {
           environment: environment || process.env.NODE_ENV || 'development'
         };
-        config.environment = configObj.environment;
         var configJSON = JSON.stringify(configObj);
         fs.writeFile(path.join(clientPath, 'config', 'json', 'environment.json'), configJSON, function () {
           cb();
         });
       }
     ], function () {
-      config.version = require('./package.json').version;
-      config.env = config.environment;
-      config.rollbarEnv = config.env;
-      config.apiHost = config.host;
-      if (config.apiHost === '//api.runnable-beta.com') {
-        config.rollbarEnv = 'beta';
-      }
       done();
     });
   });
@@ -517,6 +504,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-exorcise');
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-contrib-jade');
+  grunt.loadNpmTasks('grunt-newer');
 
   if (!envIs('production', 'staging')) {
     grunt.loadNpmTasks('grunt-newer');
@@ -548,6 +536,8 @@ module.exports = function(grunt) {
     'generateConfigs',
     'loadSyntaxHighlighters',
     'browserify:watch',
+    'jade:compile',
+    'compress:build',
     'concurrent'
   ]);
   grunt.registerTask('deploy', [

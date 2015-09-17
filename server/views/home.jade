@@ -87,12 +87,15 @@ html.home(
       src= "https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"
     )
 
+
     script.
+      var whitelisted = window.location.search !== '?whitelist=false';
       var app = angular.module('homeApp', []);
       app.controller('MainCtrl', function ($scope, $window, $http) {
         $scope.loginUrl = '#{locals.apiHost}/auth/github?redirect=' + $window.location.protocol + '//' + $window.location.host + '/?auth';
         $scope.data = {
-          embedActive: false
+          embedActive: false,
+          hideUnauthorizedModal: whitelisted
         };
 
         $http.get('#{locals.apiHost}/users/me', {
@@ -111,7 +114,7 @@ html.home(
 
   body.clearfix(
     ng-app = "homeApp"
-    ng-class = (unauthorized ? "{'modal-open': !data.hideUnauthorizedModal}" : '')
+    ng-class = "{'modal-open': !data.hideUnauthorizedModal}"
     ng-controller = "MainCtrl"
   )
     //
@@ -127,33 +130,32 @@ html.home(
     .content-wrapper.clearfix
 
       //- unauthorized modal
-      if unauthorized
-        .modal-backdrop(
-          ng-click = "data.hideUnauthorizedModal = true"
-          ng-if = "!data.hideUnauthorizedModal"
+      .modal-backdrop(
+        ng-click = "data.hideUnauthorizedModal = true"
+        ng-if = "!data.hideUnauthorizedModal"
+      )
+        .modal-dialog.home-modal-dialog(
+          ng-click = "$event.stopPropagation();"
         )
-          .modal-dialog.home-modal-dialog(
-            ng-click = "$event.stopPropagation();"
+          svg.iconnables.icons-close(
+            ng-click = "data.hideUnauthorizedModal = true"
           )
-            svg.iconnables.icons-close(
-              ng-click = "data.hideUnauthorizedModal = true"
+            use(
+              xlink:href = "#icons-close"
             )
-              use(
-                xlink:href = "#icons-close"
-              )
-            section.modal-body
-              h1.h1 We’re sorry, but your GitHub account doesn’t have access to the Runnable preview.
-              a.btn.green(
-                href = "mailto:support@runnable.com?subject=Please send me an invite for a preview of Runnable!"
-              ) Request an Invite
-            footer.modal-footer.small You can&#32;
-              a.link(
-                href = "//github.com/settings/applications"
-                target = "_blank"
-              ) revoke our access
-              | &#32;to your GitHub account.
-              br
-              | We’ll ask for it again when you’re invited.
+          section.modal-body
+            h1.h1 We’re sorry, but your GitHub account doesn’t have access to the Runnable preview.
+            a.btn.green(
+              href = "mailto:support@runnable.com?subject=Please send me an invite for a preview of Runnable!"
+            ) Request an Invite
+          footer.modal-footer.small You can&#32;
+            a.link(
+              href = "//github.com/settings/applications"
+              target = "_blank"
+            ) revoke our access
+            | &#32;to your GitHub account.
+            br
+            | We’ll ask for it again when you’re invited.
 
       //- header
       header.home-header
