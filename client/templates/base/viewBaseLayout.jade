@@ -53,8 +53,8 @@ nav.nav-sidebar(
 //- first .content...
 .content
   header.header-app(
+    ng-class = "{'feature-flag-on': CA.featureFlagsChanged()}"
     ng-include = "'viewHeader'"
-    ng-class = "{'private': $root.featureFlags.isolationActive}"
   )
   //- second .content...
   .content(

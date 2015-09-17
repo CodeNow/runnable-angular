@@ -10,20 +10,15 @@
   width: 100%;
   z-index: $z-popover-arrow + 1; // should overlap all popovers, except account menu
 
-  // private sandbox header theme, hidden
-  &::before {
+  // change header theme if feature flag is on
+  &.feature-flag-on::before {
     background-image: repeating-linear-gradient(60deg, darken($purple-light,2.5%), darken($purple-light,2.5%) 18px, transparent 18px, transparent 36px);
     content: '';
     height: 100%;
-    opacity: 0;
+    pointer-events: none;
     position: absolute;
-    transition: opacity .15s ease-out;
     width: 100%;
-  }
-
-  // private sandbox header theme, visible
-  &.private::before {
-    opacity: 1;
+    z-index: -1;
   }
 
   // so header sits under modals/popovers if a modal is open
@@ -32,18 +27,31 @@
   }
 
   // layout
-  .logo,
   .toggle-header,
   .accounts-select {
     top: 12px;
   }
 
+  // header title
+  .header-title {
+    align-items: center;
+    color: $white;
+    cursor: pointer;
+    display: flex;
+    font-size: 18px;
+    height: 60px;
+  }
+
+  // deprecated $root.featureFlags.isolationNav
   // logo
   .logo {
     height: $input-sm; // center
     left: 15px;
     position: absolute;
+    top: 12px;
   }
+
+  // end deprecated $root.featureFlags.isolationNav
 
   // add padding for header-app + content
   + .content {
@@ -51,6 +59,7 @@
   }
 }
 
+// deprecated $root.featureFlags.isolationNav
 // containers/configure toggle
 .toggle-header {
   background: $purple;
@@ -121,6 +130,8 @@
     width: 18px;
   }
 }
+
+// end deprecated $root.featureFlags.isolationNav
 
 .accounts-select {
   display: flex;

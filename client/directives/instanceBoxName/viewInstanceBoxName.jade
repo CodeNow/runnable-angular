@@ -1,4 +1,6 @@
-.container-heading
+.container-heading(
+  ng-if = "!$root.featureFlags.isolationUI"
+)
   strong.strong {{instance.getRepoName() || instance.getDisplayName()}}
   span(
     ng-if = "instance.getBranchName()"

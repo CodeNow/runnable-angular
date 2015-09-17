@@ -1,24 +1,25 @@
-img.logo.logo-icon(
-  height = "36"
+h1.header-title.float-left(
   ng-click = "$root.featureFlags.isolationNav = !$root.featureFlags.isolationNav"
-  ng-if = "$root.featureFlags.isolationUI"
-  src = "/build/images/runnable-icon-white.svg"
-  width = "36"
 )
+  svg.iconnables.icons-arrow-backward
+    use(
+      xlink:href = "#icons-arrow-down"
+    )
+  | repository-name / branch-name
 
-img.logo.logo-icon(
-  height = "36"
-  ng-class = "{ changed: CA.featureFlagsChanged() }"
-  ng-click = "editFeatureFlags = CA.canEditFeatureFlags()"
-  ng-if = "!$root.featureFlags.isolationUI"
-  pop-over
-  pop-over-active = "editFeatureFlags"
-  pop-over-options = "{\"left\":40}"
-  pop-over-template = "viewPopoverFeatureFlags"
-  pop-over-trigger = "activeAttr"
-  src = "/build/images/runnable-icon-white.svg"
-  width = "36"
-)
+//- img.logo.logo-icon(
+//-   height = "36"
+//-   ng-class = "{ changed: CA.featureFlagsChanged() }"
+//-   ng-click = "editFeatureFlags = CA.canEditFeatureFlags()"
+//-   ng-if = "!$root.featureFlags.isolationUI"
+//-   pop-over
+//-   pop-over-active = "editFeatureFlags"
+//-   pop-over-options = "{\"left\":40}"
+//-   pop-over-template = "viewPopoverFeatureFlags"
+//-   pop-over-trigger = "activeAttr"
+//-   src = "/build/images/runnable-icon-white.svg"
+//-   width = "36"
+//- )
 
 .btn-group.btn-toggle.btn-toggle-sm.toggle-header(
   ng-if = "!$root.featureFlags.isolationUI"
