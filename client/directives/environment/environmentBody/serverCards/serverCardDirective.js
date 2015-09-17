@@ -154,7 +154,7 @@ require('app')
                   var calculateHelpCards = function () {
                     var instancePromises = $scope.data.instances
                       .filter(function (instance) {
-                        return instance !== $scope.server.instance;
+                        return instance !== $scope.server.instance && keypather.get(instance, 'attrs._id');
                       })
                       .map(function (instance) {
                         if (keypather.get(instance, 'dependencies.models.length')) {
@@ -173,7 +173,7 @@ require('app')
                       .then(function (foundMatch) {
                         if (!foundMatch) {
                           var foundInstanceWithMainACV = $scope.data.instances.find(function (instance) {
-                            return instance.contextVersion.getMainAppCodeVersion();
+                            return keypather.get(instance, 'contextVersion.getMainAppCodeVersion()');
                           });
                           if (!foundInstanceWithMainACV) {
                             return;

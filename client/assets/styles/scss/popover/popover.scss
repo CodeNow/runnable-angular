@@ -67,9 +67,24 @@
     }
   }
 
+  // empty state
+  .empty {
+    color: $gray;
+    font-size: 13px;
+    padding: 12px;
+
+    &.fade-in {
+      animation: fade-in .3s ease-in-out;
+    }
+  }
+
   // .list
   .list + .list {
     border-top: 1px solid rgba($black,.1);
+
+    &.popover-list-toggle {
+      border: 0;
+    }
   }
 
   // li.divider
@@ -227,7 +242,7 @@
       color: $purple-light;
     }
 
-    .gray {
+    .gray:not(.icons-status) {
       background: $white;
       border-color: currentColor;
       color: $purple-light;
@@ -259,6 +274,10 @@
 
     &.gravatar {
       margin-top: 5px;
+    }
+
+    &.icons-fat-check {
+      color: $white;
     }
   }
 
@@ -320,12 +339,13 @@
   padding: 0 6px;
   position: relative;
   text-align: center;
-  .icons-arrow-backward {
 
+  .icons-arrow-backward {
     color: $gray-light;
-    left: 6px;
+    height: 100%;
+    left: 9px;
     padding: 0;
-    pointer-events: auto; // reset from .iconnables
+    pointer-events: auto;
     position: absolute;
 
     &:hover {

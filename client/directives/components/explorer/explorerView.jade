@@ -31,9 +31,7 @@
 )
   .well.in(
     ng-if = "!debugContainer && !editExplorer && !fileModel.running()"
-  ) There are no files because&#32;
-    strong.strong {{instance.getBranchName() || instance.getDisplayName()}}&#32;
-    | isn’t running.
+  ) Your files are unavailable when the container is not running.
 
   ul.file-tree(
     ng-if = "rootDir && (debugContainer || editExplorer || fileModel.running())"

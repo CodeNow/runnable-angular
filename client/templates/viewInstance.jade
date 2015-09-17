@@ -21,7 +21,7 @@
     //- if successful, .green; if fail, .orange
     .btn.btn-xxs.btn-icon.btn-state.no-touching
       //- if updated
-      svg.iconnables.icons-fat-check(
+      svg.iconnables.icons-check(
         ng-if = "dataInstance.data.showUpdatedMessage"
       )
         use(
@@ -96,7 +96,7 @@
     section.sidebar-section.dns-mappings-section(
       dns-manager
       instance = "dataInstance.data.instance"
-      ng-if = "dataInstance.data.instance"
+      ng-if = "dataInstance.data.instance && !$root.featureFlags.isolationDnsMappings"
     )
 
     section.sidebar-section.explorer-section(
