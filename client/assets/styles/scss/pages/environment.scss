@@ -40,9 +40,19 @@
 
   .gray {
     font-size: 15px;
+    font-weight: $weight-normal;
     position: absolute;
     right: 0;
     top: 0;
+
+    &:active .span {
+      color: $purple-light;
+    }
+
+    .span {
+      color: $gray-light;
+      margin-right: 3px;
+    }
   }
 }
 
