@@ -1,14 +1,3 @@
-h1.header-title.float-left(
-  ng-class = "{'active': $root.featureFlags.isolationNav}"
-  ng-click = "$root.featureFlags.isolationNav = !$root.featureFlags.isolationNav"
-)
-  svg.iconnables.icons-arrow-backward.float-left
-    use(
-      xlink:href = "#icons-arrow-down"
-    )
-  | palantiri/
-  strong.strong master
-
 //- img.logo.logo-icon(
 //-   height = "36"
 //-   ng-class = "{ changed: CA.featureFlagsChanged() }"
@@ -22,6 +11,21 @@ h1.header-title.float-left(
 //-   src = "/build/images/runnable-icon-white.svg"
 //-   width = "36"
 //- )
+
+button.btn.btn-sm.btn-nav.float-left(
+  ng-class = "{'active': $root.featureFlags.isolationNav}"
+  ng-click = "$root.featureFlags.isolationNav = !$root.featureFlags.isolationNav"
+)
+  svg.iconnables.icons-arrow-backward.float-left
+    use(
+      xlink:href = "#icons-arrow-down"
+    )
+  | Containers
+
+h1.header-title.text-center
+  span.span palantiri/
+  strong.strong master
+
 
 .btn-group.btn-toggle.btn-toggle-sm.toggle-header(
   ng-if = "!$root.featureFlags.isolationUI"
