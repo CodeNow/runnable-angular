@@ -10,7 +10,7 @@
 // global sidebar, new vew
 .nav-sidebar:not(.deprecated) {
   background: $gray-lighterest;
-  border-right: 1px solid $gray-light;
+  border-right: 1px solid $gray-lighter;
   height: 100vh;
   left: 0;
   overflow-y: auto;
@@ -18,19 +18,19 @@
   top: 0;
   transform: translate3d(-100%,0,0);
   transition: transform .2s ease-in-out;
-  width: 330px;
+  width: $nav-sidebar;
   z-index: $z-sidebar-nav;
 
   &.in {
     transform: translate3d(0,0,0);
 
     + .content {
-      opacity: .5;
+      transform: translate3d($nav-sidebar,0,0);
     }
   }
 
   + .content {
-    transition: opacity .2s ease-in-out;
+    transition: transform .2s ease-in-out;
   }
 
   .list-header {
@@ -152,8 +152,13 @@
         color: $gray-dark;
       }
 
-      &:active {
+      &:active,
+      &.active {
         color: $purple-light;
+      }
+
+      &.active {
+        display: block;
       }
     }
   }

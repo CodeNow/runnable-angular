@@ -36,7 +36,14 @@
     a.text-overflow(
       title = "{{branch.name}}"
     ) {{branch.name}}
-    svg.iconnables.icons-overflow
+    svg.iconnables.icons-overflow(
+      ng-class = "{'active': popoverContainerMenu.data.show}"
+      pop-over
+      pop-over-active = "popoverContainerMenu.data.show"
+      pop-over-data = "popoverContainerMenu.data"
+      pop-over-options = "{\"top\":-37,\"left\":27}"
+      pop-over-template = "viewPopoversContainerMenu"
+    )
       use(
         xlink:href = "#icons-overflow"
       )

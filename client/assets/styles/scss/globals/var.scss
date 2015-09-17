@@ -126,7 +126,7 @@ $z-sidebar: 3000;
 $z-sidebar-content: 3001; // header and footer are higher for box-shadows
 $z-sidebar-header: 3002;
 $z-sidebar-footer: 3003;
-$z-sidebar-nav: 5009;
+$z-sidebar-nav: 3004;
 
 // modals
 $z-modal-backdrop: 4000;
@@ -161,6 +161,9 @@ $intercom-width: 370px;
 
 // header
 $header-height: 60px;
+
+// nav sidebar
+$nav-sidebar: 330px;
 
 // screen sizes
 $screen-xxs: 400px;
