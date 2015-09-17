@@ -311,8 +311,6 @@ module.exports = function(grunt) {
             if (locals.apiHost === '//api.runnable-beta.com') {
               locals.rollbarEnv = 'beta';
             }
-
-            console.log('Fetching config', locals);
             return locals;
           }
         },
