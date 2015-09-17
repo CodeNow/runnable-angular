@@ -28,7 +28,6 @@ require('app')
         var listeners = [];
 
         $scope.openEditServerModal = function (defaultTab) {
-          console.log('openEditServerModal!', defaultTab);
           ModalService.showModal({
             controller: 'EditServerModalOpenController',
             controllerAs: 'ESMOC',

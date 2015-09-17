@@ -111,7 +111,7 @@ html(
         ga("send", "pageview");
 
   body(
-    ng-class = "{'modal-open': ModalService.modalCount > 0 || dataApp.data.modalError.data.in}"
+    ng-class = "{'modal-open': ModalService.modalLayers.length > 0 || dataApp.data.modalError.data.in}"
     ng-click = "dataApp.documentClickEventHandler($event)"
     ng-keydown = "dataApp.documentKeydownEventHandler($event)"
   )

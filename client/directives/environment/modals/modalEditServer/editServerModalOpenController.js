@@ -6,11 +6,28 @@ require('app')
 function EditServerModalOpenController(
   tab,
   instance,
-  close
+  close,
+  ModalService,
+  errs
 ) {
   this.tab = tab;
   this.instance = instance;
   this.actions = {
-    close: close
+    close: function () {
+      ModalService.showModal({
+        controller: 'ConfirmationModalController',
+        controllerAs: 'CMC',
+        templateUrl: 'confirmCloseEditServer'
+      })
+        .then(function (modal) {
+          modal.close.then(function (confirmed) {
+            if ( confirmed ) {
+              close();
+            }
+          })
+        })
+        .catch(errs.handler);
+
+    }
   };
 }

@@ -1,0 +1,10 @@
+.modal-backdrop.in
+  header.modal-header
+    h3 Are you sure you want to discard your changes and exit?
+  footer.modal-footer.clearfix
+    button.btn.red.float-right(
+      ng-click = "CMC.actions.confirm()"
+    ) Discard and Exit
+    button.btn.white.btn-cancel(
+      ng-click = "CMC.actions.cancel()"
+    ) Cancel
