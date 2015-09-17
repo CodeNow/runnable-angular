@@ -9,6 +9,7 @@
     )
   | Containers
 
+//- repository based containers
 .list.fade(
   ng-class = "{'in': $root.featureFlags.isolationNav}"
   ng-repeat = "container in containers"
@@ -53,3 +54,26 @@
     pop-over-options = "{\"top\":-33,\"left\":215}"
     pop-over-template = "viewMoreContainersPopover"
   ) 8 more…
+
+//- non-repository based containers
+.list.fade(
+  ng-class = "{'in': $root.featureFlags.isolationNav}"
+  ng-if = "nonRepositoryContainers"
+)
+  .list-item(
+    ng-repeat = "container in nonRepositoryContainers"
+  )
+    .icons-status(
+      ng-class = "{\
+        'green': container.status === 'green',\
+        'orange': container.status === 'orange',\
+        'red': container.status === 'red'\
+      }"
+    )
+    a.text-overflow(
+      title = "{{container.name}}"
+    ) {{container.name}}
+    svg.iconnables.icons-advanced
+      use(
+        xlink:href = "#icons-advanced"
+      )

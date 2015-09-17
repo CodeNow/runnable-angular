@@ -10,7 +10,7 @@ nav.nav-sidebar(
           {name: 'master', status: 'green'},\
           {name: 'add-owner-id-dedupe-check', status: 'green'},\
           {name: 'anton-goroost', status: 'red'},\
-          {name: 'anton-jul8', status: 'red'}\
+          {name: 'anton-jul8', status: 'red', isolation: true}\
         ]\
       },{\
         name: 'datadog',\
@@ -34,13 +34,18 @@ nav.nav-sidebar(
         name: 'mavis',\
         branches: [\
           {name: 'master', status: 'green'},\
-          {name: 'better-logging', status: 'green'},\
-          {name: 'bypass-prev-dock', status: 'orange'},\
+          {name: 'better-logging', status: 'green', isolation: true},\
+          {name: 'bypass-prev-dock', status: 'orange', isolation: true},\
           {name: 'no-docks-404', status: 'red'},\
           {name: 'remove-numBuild', status: 'red'},\
-          {name: 'temporary-branch-to-fork', status: 'red'}\
+          {name: 'temporary-branch-to-fork', status: 'red', isolation: true}\
         ]\
       }\
+    ];\
+    nonRepositoryContainers = [\
+      {name: 'Cassandra', status: 'green'},\
+      {name: 'ElasticSearch', status: 'green'},\
+      {name: 'HBase', status: 'green'}\
     ]\
   "
 )

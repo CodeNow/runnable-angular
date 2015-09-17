@@ -87,14 +87,31 @@
       font-weight: $weight-normal;
     }
 
-    + .list-item:hover .icons-overflow {
-      display: block;
+    &:hover .icons-advanced {
+      opacity: .75;
+    }
+
+    + .list-item {
+
+      &:hover,
+      &.active {
+
+        .icons-overflow {
+          display: block;
+        }
+      }
     }
 
     // status icon
     .icons-status {
       flex: 0 0 9px;
       margin-right: 9px;
+      opacity: .75;
+
+      &:hover,
+      &:active {
+        opacity: 1;
+      }
 
       + .text-overflow {
         color: $gray;
@@ -130,7 +147,7 @@
     }
 
     .icons-advanced {
-      opacity: .75;
+      opacity: .6;
       transition: opacity .15s, transform .15s;
 
       &:hover {
