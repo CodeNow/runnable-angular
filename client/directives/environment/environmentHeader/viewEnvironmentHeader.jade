@@ -47,7 +47,7 @@ button.btn.btn-icon.blue(
 
 //- new server button
 button.btn.green(
-  ng-class = "{ hint: helpCards.getActiveCard().targets.newContainer }"
+  ng-class = "{'hint': helpCards.getActiveCard().targets.newContainer}"
   pop-over
   pop-over-actions = "actions"
   pop-over-active = "state.newServerButton.active"
@@ -60,6 +60,14 @@ button.btn.green(
       xlink:href = "#icons-add"
     )
   span.float-left New Container
+  svg.iconnables.icons-arrow-down
+    use(
+      xlink:href = "#icons-arrow-down"
+    )
+
+//- view filter button
+button.btn.gray
+  span.float-left Staging (default)
   svg.iconnables.icons-arrow-down
     use(
       xlink:href = "#icons-arrow-down"

@@ -1,6 +1,25 @@
 //- header—title, description, progress
 .environment-header {
   margin: 24px 15px;
+  position: relative;
+
+  // help button
+  .btn-icon {
+    border: 0;
+    left: 15px;
+    padding: 0 12px;
+    position: absolute;
+
+    &:active,
+    &.active {
+      color: $blue;
+    }
+
+    .iconnables {
+      height: 100%;
+      width: 100%;
+    }
+  }
 
   // new server button
   .green {
@@ -19,22 +38,11 @@
     }
   }
 
-  // help button
-  > .btn-icon {
-    border: 0;
-    left: 15px;
-    padding: 0 12px;
+  .gray {
+    font-size: 15px;
     position: absolute;
-
-    &:active,
-    &.active {
-      color: $blue;
-    }
-
-    .iconnables {
-      height: 100%;
-      width: 100%;
-    }
+    right: 0;
+    top: 0;
   }
 }
 
