@@ -1,5 +1,6 @@
 //- nav/sidebar
-nav.nav-sidebar.in(
+nav.nav-sidebar(
+  ng-class = "{'in': $root.featureFlags.isolationNav}"
   ng-init = "\
     containers = [\
       {\
@@ -42,14 +43,19 @@ nav.nav-sidebar.in(
     ]\
   "
 )
-  .list-header
-    svg.iconnables.icons-arrow-backward.float-left
+  .list-header.fade(
+    ng-class = "{'in': $root.featureFlags.isolationNav}"
+  )
+    svg.iconnables.icons-arrow-backward.float-left(
+      ng-click = "$root.featureFlags.isolationNav = !$root.featureFlags.isolationNav"
+    )
       use(
         xlink:href = "#icons-arrow-down"
       )
     | Containers
 
-  .list(
+  .list.fade(
+    ng-class = "{'in': $root.featureFlags.isolationNav}"
     ng-repeat = "container in containers"
   )
     //- repository name
