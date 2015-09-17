@@ -32,10 +32,7 @@ ul.card-body.load(
 )
   //- repository
   li.btn.white(
-    modal
-    modal-current-model = "instance"
-    modal-state-model = "'repository'"
-    modal-template = "editServerModalOpen"
+    ng-click = "openEditServerModal('repository')"
     ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.repository}"
     ng-if = "server.repo && !server.advanced"
   )
@@ -53,10 +50,7 @@ ul.card-body.load(
       )
   //- exposed ports
   li.btn.white(
-    modal
-    modal-current-model = "instance"
-    modal-state-model = "'ports'"
-    modal-template = "editServerModalOpen"
+    ng-click = "openEditServerModal('ports')"
     ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.exposedPorts}"
     ng-if = "server.repo && !server.advanced"
   )
@@ -72,10 +66,7 @@ ul.card-body.load(
       )
   //- environment variables
   li.btn.white(
-    modal
-    modal-current-model = "instance"
-    modal-state-model = "'env'"
-    modal-template = "editServerModalOpen"
+    ng-click = "openEditServerModal('env')"
     ng-class = "{\
       'hint': helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.environmentVariables,\
       'active-notification': $root.featureFlags.hostnameNotifications\
@@ -97,10 +88,7 @@ ul.card-body.load(
       )
   //- commands
   li.btn.white(
-    modal
-    modal-current-model = "instance"
-    modal-state-model = "'commands'"
-    modal-template = "editServerModalOpen"
+    ng-click = "openEditServerModal('commands')"
     ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.commands}"
     ng-if = "server.repo && !server.advanced"
   )
@@ -118,10 +106,7 @@ ul.card-body.load(
       )
   //- container files
   li.btn.white(
-    modal
-    modal-current-model = "instance"
-    modal-state-model = "'files'"
-    modal-template = "editServerModalOpen"
+    ng-click = "openEditServerModal('files')"
     ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.containerFiles}"
     ng-if = "server.repo && !server.advanced"
   )
@@ -137,11 +122,7 @@ ul.card-body.load(
       )
   //- FnR
   li.btn.white(
-    modal
-    modal-current-model = "instance"
-    modal-state-model = "'translation'"
-    modal-template = "editServerModalOpen"
-    modal-open-flag = "openConfigurationModal"
+    ng-click = "openEditServerModal('translation')"
     ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.findAndReplace}"
     ng-if = "server.repo"
   )
@@ -156,10 +137,7 @@ ul.card-body.load(
         xlink:href = "#icons-arrow-down"
       )
   li.btn.white(
-    modal
-    modal-current-model = "instance"
-    modal-state-model = "'buildfiles'"
-    modal-template = "editServerModalOpen"
+    ng-click = "openEditServerModal('buildfiles')"
   )
     svg.iconnables
       use(
