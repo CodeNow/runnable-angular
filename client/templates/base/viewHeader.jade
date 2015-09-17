@@ -1,11 +1,13 @@
 h1.header-title.float-left(
+  ng-class = "{'active': $root.featureFlags.isolationNav}"
   ng-click = "$root.featureFlags.isolationNav = !$root.featureFlags.isolationNav"
 )
-  svg.iconnables.icons-arrow-backward
+  svg.iconnables.icons-arrow-backward.float-left
     use(
       xlink:href = "#icons-arrow-down"
     )
-  | repository-name / branch-name
+  | palantiri/
+  strong.strong master
 
 //- img.logo.logo-icon(
 //-   height = "36"
