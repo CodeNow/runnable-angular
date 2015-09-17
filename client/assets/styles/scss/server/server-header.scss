@@ -1,11 +1,61 @@
-// header.server-header
-.server-header {
+// .instance-header
+.instance-header {
   align-items: center;
   border-bottom: 1px solid rgba($black,.1);
   display: flex;
   height: 60px;
   padding: 0 12px;
+  position: absolute;
+  top: 0;
   width: 100%;
+
+  > .btn {
+    flex: 0 0 auto;
+  }
+
+  > .input-wrapper {
+    align-items: center;
+    display: flex;
+    flex: 1 1 auto;
+    margin: 0 12px;
+    position: relative;
+
+    .btn-xs {
+      border: 1px solid $white;
+      flex: 0 0 auto;
+      line-height: 22px;
+
+      &:hover {
+        background: rgba($white,.15);
+      }
+
+      &:active {
+        background: $white;
+        color: $gray-light;
+      }
+
+      &:first-child {
+        left: 0;
+      }
+
+      &:last-child {
+        right: 0;
+      }
+    }
+
+    .iconnables {
+      height: 100%;
+      margin-left: 5px;
+      width: 12px;
+    }
+
+    .input {
+      background: transparent;
+      flex: 1 1 auto;
+      height: $input-sm;
+      width: 100%;
+    }
+  }
 }
 
 // status button
@@ -27,7 +77,7 @@
   color: $gray-light;
   font-size: 14px;
   font-weight: $weight-bold;
-  margin-right: 6px;
+  padding-left: 0;
 
   // colored states
   &.orange,

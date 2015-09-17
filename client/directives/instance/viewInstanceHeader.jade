@@ -13,6 +13,27 @@ button.btn.btn-sm.btn-spinner.btn-status.red(
       xlink:href = "#icons-arrow-down"
     )
 
+label.input-wrapper.input.input-sm(
+  readonly
+)
+  //- not button elements because we only want the <label> to trigger on the input
+  a.btn.btn-xs(
+    href = "e4rov2-palantiri-staging-codenow.runnableapp.com"
+    target = "_blank"
+    tooltip = "This is your branch’s URL—use it to share and access your branch."
+    tooltip-options = "{\"class\":\"bottom\",\"left\":0,\"top\":30}"
+  ) URL
+    svg.iconnables.float-right
+      use(
+        xlink:href = "#icons-link-external"
+      )
+  input.input.input-sm.text-center(
+    readonly
+    select-all
+    value = "e4rov2-palantiri-staging-codenow.runnableapp.com"
+  )
+  .btn.btn-xs Copy
+
 button.btn.btn-sm.btn-dns(
   pop-over
   pop-over-options = "{\"centered\":true,\"top\":53}"
@@ -20,3 +41,4 @@ button.btn.btn-sm.btn-dns(
 )
   .btn.btn-xxs 5
   | DNS
+

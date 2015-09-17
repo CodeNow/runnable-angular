@@ -68,7 +68,7 @@
         target = "_blank"
       ) {{dataInstance.data.commit.attrs.sha  | limitTo:7}}
 
-  header.server-header(
+  header.instance-header(
     ng-if = "$root.featureFlags.isolationUI"
     ng-include = "'viewInstanceHeader'"
   )
