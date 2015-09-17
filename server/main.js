@@ -40,10 +40,16 @@ var homePath = path.join(__dirname + '/views/home.jade');
 var locals = {
   version: version,
   env: config.env,
+  rollbarEnv: config.env,
   commitHash: require('../client/config/json/commit.json').commitHash,
   commitTime: require('../client/config/json/commit.json').commitTime,
   apiHost: require('../client/config/json/api.json').host
 };
+
+if (locals.apiHost === '//api.runnable-beta.com') {
+  locals.rollbarEnv = 'beta'
+}
+
 app.locals = locals;
 
 var compiledHomeUnauthorized = jade.renderFile(homePath, assign({unauthorized: true}, locals));
