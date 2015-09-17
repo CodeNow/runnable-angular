@@ -1,6 +1,8 @@
-svg.iconnables.icons-disclose
+svg.iconnables(
+  ng-class = "{'icons-arrow-forward': $storage.explorerIsClosed}"
+)
   use(
-    xlink:href = "#icons-disclose"
+    xlink:href = "#icons-arrow-down"
   )
 | {{ explorerTitle }}
 button.btn.btn-xs.btn-icon.float-right.js-animate(

@@ -1,12 +1,3 @@
-button.btn.btn-dns(
-  ng-if = "$root.featureFlags.isolationDnsMappings"
-  pop-over
-  pop-over-options = "{\"centered\":true,\"top\":53}"
-  pop-over-template = "viewPopoverDnsMappings"
-)
-  .btn.btn-xxs 5
-  | DNS
-
 button.btn.btn-spinner(
   ng-class = "getClassForInstance()"
   ng-disabled = "isChanging()"
@@ -14,7 +5,7 @@ button.btn.btn-spinner(
   pop-over-actions = "popoverStatusOptions.actions"
   pop-over-active = "state.active"
   pop-over-data = "popoverStatusOptions.data"
-  pop-over-options = "{\"right\":0,\"top\":53}"
+  pop-over-options = "{\"left\":0,\"top\":53}"
   pop-over-template = "viewInstancePopoverStatusOptions"
 )
   status-icon(
@@ -48,6 +39,15 @@ button.btn.btn-spinner(
     use(
       xlink:href = "#icons-notification"
     )
+
+button.btn.btn-dns(
+  ng-if = "$root.featureFlags.isolationDnsMappings"
+  pop-over
+  pop-over-options = "{\"centered\":true,\"top\":53}"
+  pop-over-template = "viewPopoverDnsMappings"
+)
+  .btn.btn-xxs 5
+  | DNS
 
 //- ***********************
 //- deprecated button, remove with $root.featureFlags.saveToolbar

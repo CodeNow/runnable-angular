@@ -1,0 +1,22 @@
+button.btn.btn-sm.btn-spinner.btn-status.red(
+  pop-over
+  pop-over-actions = "popoverStatusOptions.actions"
+  pop-over-active = "state.active"
+  pop-over-data = "popoverStatusOptions.data"
+  pop-over-options = "{\"left\":0,\"top\":47}"
+  pop-over-template = "viewInstancePopoverStatusOptions"
+)
+  .icons-status.red.float-left
+  span.float-left Crashed
+  svg.iconnables.icons-arrow-down
+    use(
+      xlink:href = "#icons-arrow-down"
+    )
+
+button.btn.btn-sm.btn-dns(
+  pop-over
+  pop-over-options = "{\"centered\":true,\"top\":53}"
+  pop-over-template = "viewPopoverDnsMappings"
+)
+  .btn.btn-xxs 5
+  | DNS

@@ -1,18 +1,114 @@
 // header.server-header
 .server-header {
+  align-items: center;
   border-bottom: 1px solid rgba($black,.1);
   display: flex;
-  height: 72px;
-  padding: 0 9px 0 12px;
-  position: absolute;
-  top: 0;
+  height: 60px;
+  padding: 0 12px;
   width: 100%;
+}
 
-  &.server-header-debug {
-    position: relative;
+// status button
+.btn-status {
+  padding: 0 9px;
+
+  .icons-status {
+    margin-right: 6px;
+    top: 12px;
+  }
+
+  .icons-arrow-down {
+    width: 21px;
   }
 }
 
+// dns button
+.btn-dns {
+  color: $gray-light;
+  font-size: 14px;
+  font-weight: $weight-bold;
+  margin-right: 6px;
+
+  // colored states
+  &.orange,
+  &.red {
+    background: transparent;
+    border: 0;
+
+    &:hover {
+      background: transparent;
+    }
+
+    &:active {
+      background: transparent;
+    }
+
+    // orange
+    &.orange {
+      color: $orange;
+
+      .btn-xxs {
+        background: $orange;
+      }
+    }
+
+    // red
+    &.red {
+      color: $red;
+
+      .btn-xxs {
+        background: $red;
+      }
+    }
+  }
+
+  // dns badge
+  .btn-xxs {
+    background: $gray-light;
+    border-radius: 16px;
+    color: $white;
+    font-size: 12px;
+    height: 16px;
+    line-height: 16px;
+    margin-right: 3px;
+    min-width: 16px;
+    padding: 0 4px;
+    top: -1px;
+  }
+
+  // no hover/active state if orange/red
+  &:hover:not(.orange):not(.red) {
+    color: $gray;
+
+    .btn-xxs {
+      background: $gray;
+    }
+  }
+
+  &:active:not(.orange):not(.red) {
+    color: $purple-light;
+
+    .btn-xxs {
+      background: $purple-light;
+    }
+  }
+}
+
+&.red,
+&.red:active:not([disabled]) {
+
+  .icons-status {
+    background: none;
+    border: 1px solid $red-lighter;
+  }
+
+  .icons-notification {
+    border-color: $white;
+    color: $white;
+  }
+}
+
+// deprecated $root.featureFlags.isolationUI
 // .server-info
 .server-info {
   flex: 1 1 auto;
@@ -91,11 +187,25 @@
 }
 
 // header.server-header actions
-.primary-actions {
-  align-items: center;
+.server-header.deprecated {
+  border-bottom: 1px solid rgba($black,.1);
   display: flex;
-  flex: 0 0 auto;
-  padding-left: 9px;
+  height: 72px;
+  padding: 0 9px 0 12px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+
+  &.server-header-debug {
+    position: relative;
+  }
+
+  .primary-actions {
+    align-items: center;
+    display: flex;
+    flex: 0 0 auto;
+    padding-left: 9px;
+  }
 
   // override default font-size
   .btn {
@@ -228,3 +338,5 @@
     }
   }
 }
+
+// end deprecated $root.featureFlags.isolationUI
