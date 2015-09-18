@@ -23,7 +23,7 @@ module.exports = angular.module('app', [
 ])
   .config(function ($ocLazyLoadProvider) {
     $ocLazyLoadProvider.config({
-      debug: true,
+      debug: false,
       modules: [{
         name: 'ui.ace',
         files: ['/build/js/ace.js']
