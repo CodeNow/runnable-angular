@@ -1,29 +1,20 @@
 .modal-isolation {
+  color: $gray-dark;
   width: 450px;
 
-  // flip heights
-  &:first-child {
-    height: 444px;
+  // "get started" / "return to setup" button
+  .modal-body > .btn {
+    margin: 15px auto 30px;
   }
 
-  &:last-child {
-    height: 490px;
-  }
-
-  // first state
   .icons-door {
     height: 150px;
     margin: 30px auto;
     width: 150px;
   }
 
-  .h3,
   .p {
-    color: $gray-dark;
-  }
-
-  .p {
-    margin: 9px 9px 30px;
+    margin: 12px;
   }
 
   // header
