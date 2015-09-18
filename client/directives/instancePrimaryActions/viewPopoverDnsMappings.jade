@@ -2,11 +2,11 @@
   ng-class = "{'in': active}"
   ng-init = "\
     dnsMappings = [\
-      {name: 'data-dog', elasticHostname: 'datadog-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'runnabro', type: 'private', status: 'green'},\
-      {name: 'mavis', elasticHostname: 'mavis-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'CodeNow', type: 'organization', status: 'green'},\
-      {name: 'neo4j', elasticHostname: 'neo4j-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'CodeNow', type: 'organization', status: 'green'},\
-      {name: 'optimus', elasticHostname: 'optimus-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'CodeNow', type: 'organization', status: 'green'},\
-      {name: 'runnable-angular', elasticHostname: 'runnable-angular-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'CodeNow', type: 'organization', status: 'green'}\
+      {name: 'data-dog', elasticHostname: 'datadog-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'runnabro', status: 'green'},\
+      {name: 'mavis', elasticHostname: 'mavis-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'CodeNow', status: 'green'},\
+      {name: 'neo4j', elasticHostname: 'neo4j-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'CodeNow', status: 'green'},\
+      {name: 'optimus', elasticHostname: 'optimus-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'CodeNow', status: 'green'},\
+      {name: 'runnable-angular', elasticHostname: 'runnable-angular-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'CodeNow', status: 'green'}\
     ];\
     mavisBranches = [\
       {name: 'master', status: 'green'},\
@@ -16,13 +16,6 @@
       {name: 'remove-numBuild', status: 'green'},\
       {name: 'temporary-branch-to-fork-on-runnable', status: 'green'}\
     ];\
-    mavisPrivateBranches = [\
-      {name: 'master', status: 'green', sandbox: 'prafulrana'},\
-      {name: 'master', status: 'green', sandbox: 'runnabro'}\
-    ];\
-    state.loading = true;\
-    state.empty = true;\
-    state.view = null;\
   "
   ng-style = "popoverStyle.getStyle()"
 )
@@ -30,268 +23,169 @@
   .arrow(
     ng-class = "{'white': state.loading || state.empty}"
   )
-
-  //- explanation of views and height:
-
-      view 1 = list of dns mappings
-      view 2 = changing dns mapping
-
-      for view 1, height of list items & (header + list padding)
-      for view 2, height of list items & (header + toggle + list padding)
-
-        list item (view 1) = 54px
-        list item (view 2) = 36px
-        list item (view 2/private) = 54px
-        header = 36px
-        toggle = 38px
-        list padding = 4px * 2
-
-  .popover-views(
-    ng-style = "\
-      state.view === 1 && {'height': dnsMappings.length*54 + 36 + 8 + 'px'} ||\
-      (state.view === 2 && !toggle.privateContainers) && {'height': (mavisBranches.length*36) + 36 + {{mavisPrivateBranches ? 38 : 0}} + 8 + 'px'} ||\
-      (state.view === 2 && toggle.privateContainers) && {'height': (mavisPrivateBranches.length*54) + 36 + 38 + 8 + 'px'}\
-    "
+  animated-panel-container.popover-views(
+    ng-if = "$root.featureFlags.isolationUI"
   )
-    .popover-view(
-      ng-class = "{'view-2': state.view === 2}"
-      ng-style = "state.loading && {'display': 'block'}"
+    animated-panel(
+      default = "true"
+      name = "dnsOverview"
     )
-      //- only show the header if not loading and not empty
-      .popover-header.load(
-        ng-if = "!state.loading && !state.empty"
-      )
-        .fade(
-          ng-class = "{'in': state.view === 1}"
-        ) DNS Mappings
-
-      //- spinner when loading
-      .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
-        ng-click = "state.loading = false"
-        ng-if = "state.loading"
-        ng-include = "'spinner'"
-      )
-
-      //- empty state if not loading and empty
-      .popover-content(
-        ng-click = "\
-          state.empty = false;\
-          state.view = 1;\
+      .popover-view(
+        ng-init = "\
+          state.loading = true;\
+          state.empty = true;\
         "
-        ng-if = "!state.loading && state.empty"
+        ng-style = "state.loading && {'display': 'block'}"
       )
-        p.p.empty.text-center.fade-in DNS Mappings are created with elastic hostnames in Environment Variables or Find & Replace.&#32;
-          br
-          a.link(
-            href = "#"
-            target = "_blank"
-          ) Learn more about DNS Mappings
+        //- only show the header if not loading and not empty
+        .popover-header.load(
+          ng-if = "!state.loading && !state.empty"
+        )
+          .fade(
+            ng-class = "{'in': isActivePanel()}"
+          ) DNS Mappings
 
-      //- begin dns mappings
-      .popover-content.fade(
-        ng-class = "{'in': state.view === 1}"
-        ng-if = "state.view === 1 && !state.empty"
-      )
+        //- spinner when loading
+        .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
+          ng-click = "state.loading = false"
+          ng-if = "state.loading"
+          ng-include = "'spinner'"
+        )
 
-        //- list of DNS mappings
-        ul.list.popover-list
-          li.list-item.popover-list-item.tr.multi-line.clearfix.load(
+        //- empty state if not loading and empty
+        .popover-content(
+          ng-click = "state.empty = false"
+          ng-if = "!state.loading && state.empty"
+        )
+          p.p.empty.text-center.fade-in DNS Mappings are created with elastic hostnames in Environment Variables or Find & Replace.&#32;
+            a.link(
+              href = "#"
+              target = "_blank"
+            ) Learn more
+            | .
+
+        //- begin dns mappings
+        .popover-content.fade(
+          ng-class = "{'in': isActivePanel()}"
+          ng-if = "isActivePanel && !state.empty"
+        )
+
+          //- list of DNS mappings
+          ul.list.popover-list
+            li.list-item.popover-list-item.tr.multi-line.clearfix.load(
+              ng-click = "\
+                dnsMappings.currentIndex = $index;\
+                goToPanel('dnsList');\
+                state.selectedMapping = container;\
+              "
+              ng-if = "!state.loading"
+              ng-repeat = "container in dnsMappings"
+            )
+              .cell.text-overflow(
+                title = "{{container.name}}"
+              )
+                .text-overflow {{container.name}}
+                small.small.text-overflow(
+                  title = "{{container.elasticHostname}}"
+                ) {{container.elasticHostname}}
+              .cell.text-overflow(
+                ng-class = "{'fade-in': container === state.selectedMapping && isActivePanel()}"
+              )
+                .icons-status(
+                  ng-class = "container.status"
+                  title = "{{container.branch}}"
+                  tooltip
+                  tooltip-eval = "instance | cardBuildStatusTitle"
+                  tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
+                )
+                | {{container.branch}}
+                small.small.text-overflow(
+                  title = "{{container.sandbox}}"
+                ) {{container.sandbox}}
+
+              //- inline for svg animation
+              svg.iconnables.icons-check.float-right(
+                ng-if = "container === state.selectedMapping && isActivePanel()"
+                viewbox = '0 0 14.5 10'
+              )
+                path.path(
+                  d = 'M1,4.5L5.5,9l8-8'
+                  fill = 'none',
+                  stroke = '#3ccb5a',
+                  stroke-linecap = 'round',
+                  stroke-linejoin = 'round',
+                  stroke-miterlimit = '10',
+                  stroke-width = '2',
+                )
+
+              svg.iconnables.icons-arrow-forward.float-right(
+                ng-class = "{'in': container === state.selectedMapping && isActivePanel()}"
+              )
+                use(
+                  xlink:href = "#icons-arrow-down"
+                )
+
+    animated-panel(
+      name = "dnsList"
+    )
+      //- view for changing a dns mapping
+      .popover-view
+        .popover-header
+          svg.btn.btn-sm.iconnables.icons-arrow-backward.fade(
+            ng-class = "{'in': isActivePanel()}"
             ng-click = "\
-              dnsMappings.currentIndex = $index;\
-              state.selectedMapping = container;\
-              state.view = 2;\
-              toggle.disabled = false;\
+              goToPanel('dnsOverview', 'back');\
+              state.selectedMapping = null;\
             "
-            ng-if = "!state.loading"
-            ng-repeat = "container in dnsMappings"
           )
-            .cell.text-overflow(
-              title = "{{container.name}}"
+            use(
+              xlink:href = "#icons-arrow-down"
             )
-              .text-overflow {{container.name}}
-              small.small.text-overflow(
-                title = "{{container.elasticHostname}}"
-              ) {{container.elasticHostname}}
-            .cell.text-overflow(
-              ng-class = "{'fade-in': container === state.selectedMapping && state.view === 1}"
+          .fade(
+            ng-class = "{'in': isActivePanel()}"
+          ) {{dnsMappings[dnsMappings.currentIndex].name}} Containers
+
+        .popover-content.fade(
+          ng-class = "{'in': isActivePanel()}"
+        )
+          //- organization container list
+          ul.list.popover-list
+            //- .no-touching if the branch and sandbox is currently selected
+                also show .icons-fat-check if ^
+
+                ** mousedown/up are only to demonstrate the loading/fail state...we don't actually want that to trigger a spinner
+            li.list-item.popover-list-item.text-overflow(
+              ng-class = "{'no-touching': dnsMappings[dnsMappings.currentIndex].branch === branch.name && dnsMappings[dnsMappings.currentIndex].sandbox === 'CodeNow'}"
+              ng-click = "\
+                dnsMappings[dnsMappings.currentIndex].branch = branch.name;\
+                dnsMappings[dnsMappings.currentIndex].sandbox = 'CodeNow';\
+                dnsMappings[dnsMappings.currentIndex].status = branch.status;\
+                dnsMappings[dnsMappings.currentIndex].type = 'organization';\
+                goToPanel('dnsOverview', 'back');\
+              "
+              ng-mousedown = "branch.selectFailed = true"
+              ng-mouseup = "branch.selectFailed = false"
+              ng-repeat = "branch in mavisBranches"
             )
+              //- from status-icon template
               .icons-status(
-                ng-class = "container.status"
-                title = "{{container.branch}}"
+                ng-class = "branch.status"
                 tooltip
                 tooltip-eval = "instance | cardBuildStatusTitle"
                 tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
               )
-              | {{container.branch}}
-              small.small.text-overflow(
-                title = "{{container.sandbox}}"
-              ) {{container.sandbox}} {{container.type === 'private' ? '(Private)' : ''}}
+              | {{branch.name}}
 
-            //- inline for svg animation
-            svg.iconnables.icons-check.float-right(
-              ng-if = "container === state.selectedMapping && state.view === 1"
-              viewbox = '0 0 14.5 10'
-            )
-              path.path(
-                d = 'M1,4.5L5.5,9l8-8'
-                fill = 'none',
-                stroke = '#3ccb5a',
-                stroke-linecap = 'round',
-                stroke-linejoin = 'round',
-                stroke-miterlimit = '10',
-                stroke-width = '2',
+              //- when currently selected
+              svg.iconnables.icons-fat-check.float-right(
+                ng-if = "dnsMappings[dnsMappings.currentIndex].branch === branch.name && dnsMappings[dnsMappings.currentIndex].sandbox === 'CodeNow'"
               )
+                use(
+                  xlink:href = "#icons-fat-check"
+                )
 
-            svg.iconnables.icons-arrow-forward.float-right(
-              ng-class = "{'in': container === state.selectedMapping && state.view === 1}"
-            )
-              use(
-                xlink:href = "#icons-arrow-down"
+              //- spinner when loading (likely fail?)
+              .spinner-wrapper.spinner-sm.spinner-gray.in.float-right(
+                ng-if = "branch.selectFailed"
+                ng-include = "'spinner'"
               )
-
-    //- view for changing a dns mapping
-    .popover-view(
-      ng-class = "{'view-2': state.view === 2}"
-      ng-init = "toggle.privateContainers = false"
-    )
-      .popover-header
-        //- toggle.disabled prevents toggles from looking like they've switched mid animation
-        svg.btn.btn-sm.iconnables.icons-arrow-backward.fade(
-          ng-class = "{'in': state.view === 2}"
-          ng-click = "\
-            state.view = 1;\
-            state.selectedMapping = null;\
-            toggle.disabled = true;\
-            toggle.privateContainers = false;\
-          "
-        )
-          use(
-            xlink:href = "#icons-arrow-down"
-          )
-        .fade(
-          ng-class = "{'in': state.view === 2}"
-        ) {{dnsMappings[dnsMappings.currentIndex].name}} Containers
-
-      .popover-content.fade(
-        ng-class = "{'in': state.view === 2}"
-      )
-        //- toggle between organization containers and private containres.
-            * only show toggle if there are containers in private sandboxes.
-            * reset active state when opening/closing this view.
-            * send user to the currently selected dns mapping
-
-        .btn-group.btn-toggle.btn-toggle-xs(
-          ng-if = "mavisPrivateBranches.length"
-        )
-          .btn.btn-xs.gray.text-overflow(
-            ng-class = "{\
-              'active': !toggle.privateContainers && !toggle.disabled,\
-              'no-touching': !toggle.privateContainers\
-            }"
-            ng-click = "toggle.privateContainers = !toggle.privateContainers"
-            title = "CodeNow"
-          ) CodeNow
-          .btn.btn-xs.gray.text-overflow(
-            ng-class = "{\
-              'active': toggle.privateContainers && !toggle.disabled,\
-              'no-touching': toggle.privateContainers\
-            }"
-            ng-click = "toggle.privateContainers = !toggle.privateContainers"
-            title = "Private"
-          ) Private
-
-        //- organization container list
-        ul.list.popover-list.popover-list-toggle.fade(
-          ng-class = "{\
-            'in': state.view === 2 && !toggle.privateContainers,\
-            'view-2': toggle.privateContainers\
-          }"
-        )
-          //- .no-touching if the branch and sandbox is currently selected
-              also show .icons-fat-check if ^
-
-              ** mousedown/up are only to demonstrate the loading/fail state...we don't actually want that to trigger a spinner
-          li.list-item.popover-list-item.text-overflow(
-            ng-class = "{'no-touching': dnsMappings[dnsMappings.currentIndex].branch === branch.name && dnsMappings[dnsMappings.currentIndex].sandbox === 'CodeNow'}"
-            ng-click = "\
-              dnsMappings[dnsMappings.currentIndex].branch = branch.name;\
-              dnsMappings[dnsMappings.currentIndex].sandbox = 'CodeNow';\
-              dnsMappings[dnsMappings.currentIndex].status = branch.status;\
-              dnsMappings[dnsMappings.currentIndex].type = 'organization';\
-              state.view = 1;\
-              toggle.disabled = true;\
-              toggle.privateContainers = false;\
-            "
-            ng-mousedown = "branch.selectFailed = true"
-            ng-mouseup = "branch.selectFailed = false"
-            ng-repeat = "branch in mavisBranches"
-          )
-            //- from status-icon template
-            .icons-status(
-              ng-class = "branch.status"
-              tooltip
-              tooltip-eval = "instance | cardBuildStatusTitle"
-              tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
-            )
-            | {{branch.name}}
-
-            //- when currently selected
-            svg.iconnables.icons-fat-check.float-right(
-              ng-if = "dnsMappings[dnsMappings.currentIndex].branch === branch.name && dnsMappings[dnsMappings.currentIndex].sandbox === 'CodeNow'"
-            )
-              use(
-                xlink:href = "#icons-fat-check"
-              )
-
-            //- spinner when loading (likely fail?)
-            .spinner-wrapper.spinner-sm.spinner-gray.in.float-right(
-              ng-if = "branch.selectFailed"
-              ng-include = "'spinner'"
-            )
-
-        //- private container list
-        ul.list.popover-list.popover-list-toggle.fade(
-          ng-class = "{\
-            'in': state.view === 2 && toggle.privateContainers,\
-            'view-2': toggle.privateContainers\
-          }"
-        )
-          li.list-item.multi-line.popover-list-item.text-overflow(
-            ng-class = "{'no-touching': dnsMappings[dnsMappings.currentIndex].branch === branch.name && dnsMappings[dnsMappings.currentIndex].sandbox === branch.sandbox}"
-            ng-click = "\
-              dnsMappings[dnsMappings.currentIndex].branch = branch.name;\
-              dnsMappings[dnsMappings.currentIndex].sandbox = branch.sandbox;\
-              dnsMappings[dnsMappings.currentIndex].status = branch.status;\
-              dnsMappings[dnsMappings.currentIndex].type = 'private';\
-              state.view = 1;\
-              toggle.disabled = true;\
-              toggle.privateContainers = false;\
-            "
-            ng-mousedown = "branch.selectFailed = true"
-            ng-mouseup = "branch.selectFailed = false"
-            ng-repeat = "branch in mavisPrivateBranches"
-          )
-            .icons-status(
-              ng-class = "branch.status"
-              tooltip
-              tooltip-eval = "instance | cardBuildStatusTitle"
-              tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
-            )
-            | {{branch.name}}
-            small.small(
-              title = "{{branch.sandbox}}"
-            ) {{branch.sandbox}}
-
-            //- when currently selected
-            svg.iconnables.icons-fat-check.float-right(
-              ng-if = "dnsMappings[dnsMappings.currentIndex].branch === branch.name && dnsMappings[dnsMappings.currentIndex].sandbox === branch.sandbox"
-            )
-              use(
-                xlink:href = "#icons-fat-check"
-              )
-
-            //- spinner when loading (likely fail?)
-            .spinner-wrapper.spinner-sm.spinner-gray.in.float-right(
-              ng-if = "branch.selectFailed"
-              ng-include = "'spinner'"
-            )

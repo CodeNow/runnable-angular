@@ -1,10 +1,13 @@
 .popover-dns-mappings {
   max-width: none;
-  width: 345px;
+  width: 320px;
 
   .popover-views {
-    height: 80px; // set initial height
     max-height: calc(100vh - 140px);
+  }
+
+  .popover-view {
+    min-height: 80px; // set initial height
   }
 
   // view-1
@@ -105,17 +108,6 @@
     // specific to mapped container
     + .cell {
       max-width: 120px;
-    }
-  }
-
-  // view-2
-  // toggle
-  .btn-toggle {
-    display: table;
-    margin: 9px auto 5px;
-
-    > .btn {
-      width: 105px;
     }
   }
 
