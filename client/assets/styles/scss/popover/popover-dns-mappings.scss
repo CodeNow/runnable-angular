@@ -104,26 +104,6 @@
     &.fade-in {
       animation: fade-in-half 1s .25s;
     }
-
-    // specific to mapped container
-    + .cell {
-      max-width: 120px;
-    }
-  }
-
-  // container list
-  .popover-list-toggle {
-    position: absolute;
-    transition: opacity .15s ease-in, transform .3s ease-in-out;
-    width: 100%;
-
-    &.view-2 {
-      transform: translate3d(-100%,0,0);
-    }
-
-    + .popover-list-toggle {
-      left: 100%;
-    }
   }
 
   .icons-status {
