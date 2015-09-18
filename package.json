@@ -87,6 +87,7 @@
     "ng-file-upload": "5.0.9",
     "ngStorage": "git+https://github.com/Runnable/ngStorage.git#v0.4.0",
     "node-uuid": "1.4.3",
+    "oclazyload": "^1.0.5",
     "qs": "2.4.2",
     "regexp-quote": "0.0.0",
     "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v4.5.1",

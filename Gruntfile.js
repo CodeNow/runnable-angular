@@ -106,14 +106,16 @@ module.exports = function(grunt) {
       bundle: {
         options: {},
         files: {
-          'client/build/js/bundle.js.map': ['client/build/js/bundle.js']
+          'client/build/js/bundle.js.map': ['client/build/js/bundle.js'],
+          'client/build/js/ace.js.map': ['client/build/js/ace.js']
         }
       }
     },
     browserify: {
       watch: {
         files: {
-          'client/build/js/bundle.js': ['client/main.js']
+          'client/build/js/bundle.js': 'client/main.js',
+          'client/build/js/ace.js': 'client/lib/ace.js'
         },
         options: {
           watch: true,
@@ -124,7 +126,8 @@ module.exports = function(grunt) {
       },
       once: {
         files: {
-          'client/build/js/bundle.js': ['client/main.js']
+          'client/build/js/bundle.js': 'client/main.js',
+          'client/build/js/ace.js': 'client/lib/ace.js'
         },
         options: {
           browserifyOptions: {

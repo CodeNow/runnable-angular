@@ -1,4 +1,7 @@
-.pre(
-  ng-model = "environmentalVars"
-  ui-ace = "{ useWrapMode: false, onLoad: aceLoaded }"
-)
+.pre
+  .pre(
+    ng-model = "environmentalVars"
+    lazy-load = "ui.ace"
+    ui-ace = "{ useWrapMode: false, onLoad: aceLoaded }"
+  )
+

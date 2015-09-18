@@ -1,10 +1,5 @@
 'use strict';
 
-require('brace');
-require('brace/ext/modelist');
-require('brace/ext/searchbox');
-require('lib/braceModes');
-
 require('app')
   .directive('fileEditor', fileEditor);
 /**
@@ -40,9 +35,11 @@ function fileEditor(
           var unwatch = $scope.$watch('file.attrs.name', function (name) {
             if (name) {
               unwatch();
-              var mode = modelist.getModeForPath(name).mode;
-              editor.getSession().setMode(mode);
-              session = editor.getSession();
+              modelist.then(function (modelist) {
+                var mode = modelist.getModeForPath(name).mode;
+                editor.getSession().setMode(mode);
+                session = editor.getSession();
+              });
             }
           });
         },

@@ -42,7 +42,7 @@ function envVars(
 
       function updateEnvs(newEnv, oldEnv) {
         // If the envs haven't changed, (also takes care of first null/null occurrence
-        if (typeof newEnv !== 'string') { return; }
+        if (typeof newEnv !== 'string' || !session) { return; }
 
         $scope.validation = validateEnvVars(newEnv);
         if (keypather.get($scope, 'validation.errors.length')) {
