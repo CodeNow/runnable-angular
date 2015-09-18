@@ -65,10 +65,10 @@
             xlink:href = "#icons-new-repository-server"
           )
         span.span.text-overflow optimus
-        .btn.btn-xs.gray.btn-select(
+        .btn.btn-xs.gray.btn-select.text-left(
           ng-init = "branchFirst = 'master'"
         )
-          span.span.text-overflow.text-left {{branchFirst}}
+          span.text-overflow {{branchFirst}}
           svg.iconnables.icons-arrow-down
             use(
               xlink:href = "#icons-arrow-down"
@@ -114,10 +114,10 @@
           )
         span.span.text-overflow runnable-angular
         //- should get class ".modified-configuration" if the selected branch has a modified configuration
-        .btn.btn-xs.gray.btn-select.modified-configuration(
+        .btn.btn-xs.gray.btn-select.text-left.modified-configuration(
           ng-init = "branchSecond = 'master'"
         )
-          span.span.text-overflow.text-left {{branchSecond}}
+          span.text-overflow {{branchSecond}}
           svg.iconnables.icons-arrow-down
             use(
               xlink:href = "#icons-arrow-down"
@@ -162,10 +162,10 @@
             xlink:href = "#icons-new-repository-server"
           )
         span.span.text-overflow mavis
-        .btn.btn-xs.gray.btn-select(
+        .btn.btn-xs.gray.btn-select.text-left(
           ng-init = "branchThird = 'master'"
         )
-          span.span.text-overflow.text-left {{branchThird}}
+          span.text-overflow {{branchThird}}
           svg.iconnables.icons-arrow-down
             use(
               xlink:href = "#icons-arrow-down"
