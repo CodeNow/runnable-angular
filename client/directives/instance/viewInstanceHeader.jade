@@ -13,6 +13,14 @@ button.btn.btn-sm.btn-spinner.btn-status.red(
       xlink:href = "#icons-arrow-down"
     )
 
+button.btn.btn-sm.btn-dns(
+  pop-over
+  pop-over-options = "{\"centered\":true,\"top\":53}"
+  pop-over-template = "viewPopoverDnsMappings"
+)
+  .btn.btn-xxs 5
+  | DNS
+
 label.input-wrapper.input.input-sm(
   readonly
 )
@@ -31,12 +39,3 @@ label.input-wrapper.input.input-sm(
     value = "e4rov2-palantiri-staging-codenow.runnableapp.com"
   )
   .btn.btn-xs Copy
-
-button.btn.btn-sm.btn-dns(
-  pop-over
-  pop-over-options = "{\"centered\":true,\"top\":53}"
-  pop-over-template = "viewPopoverDnsMappings"
-)
-  .btn.btn-xxs 5
-  | DNS
-
