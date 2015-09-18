@@ -69,6 +69,7 @@ button.btn.green(
 button.btn.gray(
   ng-class = "{'active': state.filterButton.active}"
   ng-click = "state.filterButton.active = true"
+  ng-if = "$root.featureFlags.isolationUI"
   pop-over
   pop-over-actions = "popoverEnvironmentFilter.actions"
   pop-over-active = "state.filterButton.active"
