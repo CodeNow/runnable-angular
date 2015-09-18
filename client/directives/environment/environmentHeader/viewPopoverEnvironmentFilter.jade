@@ -1,0 +1,39 @@
+.popover.menu.bottom(
+  ng-class = "{'in': active}"
+  ng-init = "\
+    isolatedBranches = [\
+      {name: 'add-owner-id-dedupe-check', repository: 'api'},\
+      {name: 'bypass-prev-dock', repository: 'mavis'}\
+    ];\
+  "
+  ng-style = "popoverStyle.getStyle()"
+  style = "transform-origin: 95% 0;"
+)
+  .arrow.white(
+    style = "left: auto; right: 9px;"
+  )
+
+  ul.list.popover-list
+    li.list-item.popover-list-item.small Show containers for…
+    //- .no-touching if currently selected
+    li.list-item.popover-list-item.no-touching
+      strong.strong Staging&#32;
+      span (Default)
+      //- .active if currently selected
+      svg.iconnables.icons-fat-check.anchor-right.active
+        use(
+          xlink:href = "#icons-fat-check"
+        )
+    li.divider
+    li.list-item.popover-list-item.small Isolated Containers
+    li.list-item.popover-list-item(
+      ng-click = "branch.curentIndex = 'selected'"
+      ng-repeat = "branch in isolatedBranches"
+      title = "{{branch.repository}}/{{branch.name}}"
+    )
+      span {{branch.repository}}/
+      strong.strong {{branch.name}}
+      svg.iconnables.icons-fat-check.anchor-right
+        use(
+          xlink:href = "#icons-fat-check"
+        )

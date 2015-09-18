@@ -1,6 +1,6 @@
 //- header—title, description, progress
 .environment-header {
-  margin: 24px 15px;
+  margin: 30px 15px 15px;
   position: relative;
 
   // help button
@@ -45,6 +45,7 @@
     right: 0;
     top: 0;
 
+    &.active .span,
     &:active .span {
       color: $purple-light;
     }

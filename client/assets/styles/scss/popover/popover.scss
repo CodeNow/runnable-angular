@@ -201,10 +201,11 @@
 // li.popover-list-item
 .popover-list-item {
   cursor: pointer;
+  font-size: 15px;
   line-height: 36px;
   min-height: 36px;
   overflow: hidden;
-  padding: 0 15px 0 9px;
+  padding: 0 36px 0 9px;
   white-space: nowrap;
 
   // variations
@@ -227,6 +228,8 @@
   &:hover {
     background: rgba($purple-lightest,.45);
 
+    // two types of icons-fat-check
+    .icons-fat-check.anchor-right,
     .icons-fat-check {
       opacity: 1;
     }
@@ -248,9 +251,12 @@
       color: $purple-light;
     }
 
+    // two types of icons-fat-check
+    .icons-fat-check.anchor-right,
     .icons-fat-check {
       background: $green;
       color: $white;
+      opacity: 1;
     }
   }
 
@@ -292,6 +298,18 @@
     height: 36px;
     margin-right: 6px;
     width: 18px;
+  }
+
+  // fat check (right-aligned)
+  .icons-fat-check.anchor-right {
+    left: auto;
+    opacity: 0;
+    right: 0;
+    top: 10px;
+
+    &.active {
+      opacity: 1;
+    }
   }
 }
 
