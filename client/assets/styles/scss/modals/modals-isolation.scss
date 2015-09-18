@@ -73,19 +73,34 @@
     }
   }
 
+  // reset .list-item .btn-xs
   .btn-select {
-    display: flex;
+    font-size: 14px;
     left: 0;
-    position: relative; // reset .list-item .btn-xs
+    line-height: 18px;
+    padding: 0 9px;
+    position: relative;
+    text-align: left;
     top: 0;
-    width: 150px;
-
-    .icons-branch {
-      width: 15px;
-    }
+    width: 185px;
 
     .icons-arrow-down {
-      flex: 0 0 21px;
+      color: $gray;
+    }
+  }
+
+  .modified-configuration {
+    top: -5px;
+
+    &:after {
+      color: $gray;
+      content: 'branch uses a modified configuration';
+      font-size: 11px;
+      font-weight: $weight-normal;
+      left: 0;
+      pointer-events: none;
+      position: absolute;
+      top: 20px;
     }
   }
 

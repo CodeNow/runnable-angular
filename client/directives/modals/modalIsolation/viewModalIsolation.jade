@@ -117,7 +117,8 @@
             xlink:href = "#icons-repository"
           )
         span.span.text-overflow runnable-angular
-        .btn.btn-xs.gray.btn-select(
+        //- should get class ".modified-configuration" if the selected branch has a modified configuration
+        .btn.btn-xs.gray.btn-select.modified-configuration(
           ng-init = "branchSecond = 'master'"
         )
           svg.iconnables.icons-branch.float-left
