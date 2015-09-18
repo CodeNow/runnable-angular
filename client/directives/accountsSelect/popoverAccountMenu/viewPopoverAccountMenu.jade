@@ -1,8 +1,7 @@
 .popover.menu.bottom.popover-account-menu(
-  ng-class = "{'in': active}"
+  ng-class = "{'in': active, 'white': data.currentPanelName === 'accountMenu'}"
   style = "transform-origin: 95% 0;"
 )
-  //- ng-class = "{'white': isPanel('accountMenu')}"
   .arrow(
     ng-class = "{'white': data.showIntegrations}"
     style = "left: 191px;"
@@ -14,6 +13,7 @@
     animated-panel(
       default = "true"
       name = "accountMenu"
+      default = "true"
     )
       .popover-view
         .popover-content.fade(
