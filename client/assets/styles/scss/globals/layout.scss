@@ -1,14 +1,29 @@
 // substitute for body
 .content-wrapper {
   height: 100vh;
-  transition: transform .2s ease-in-out;
+  // transition: transform .2s ease-in-out;
 
   &.in {
-    transform: translate3d($nav-sidebar,0,0);
+
+    .nav-sidebar:not(.deprecated) {
+      transform: translate3d(0,0,0);
+    }
+
+    > .content,
+    .header-app {
+      width: calc(100vw - 330px);
+    }
   }
 
   .content {
     height: 100%;
+  }
+
+  // temp nav
+  > .content {
+    float: right;
+    transition: width .2s ease-in-out;
+    width: 100vw;
   }
 }
 
@@ -17,12 +32,16 @@
   background: $gray-lighterest;
   border-right: 1px solid $gray-lighter;
   height: 100vh;
-  left: -$nav-sidebar;
+  // left: -$nav-sidebar;
   overflow-y: auto;
   position: absolute;
-  top: 0;
+  // top: 0;
   width: $nav-sidebar;
-  z-index: $z-sidebar-nav;
+  // z-index: $z-sidebar-nav;
+
+  // temp nav
+  transform: translate3d(-330px,0,0);
+  transition: transform .2s ease-in-out;
 
   .list-header {
     align-items: center;
@@ -87,6 +106,10 @@
       &:hover,
       &.active {
 
+        .btn-badge {
+          display: none;
+        }
+
         .icons-overflow {
           display: block;
         }
@@ -128,6 +151,7 @@
     .iconnables {
       cursor: pointer;
       flex: 0 0 15px;
+      margin-left: 5px;
       pointer-events: auto; // override iconnables default
     }
 
@@ -177,6 +201,19 @@
 
     &:active {
       color: $purple-light;
+    }
+  }
+
+  // isolation badge
+  .btn-badge {
+    border: 1px solid $gray-lighter;
+    left: 0;
+    line-height: 16px;
+    margin-right: 0;
+
+    &:hover,
+    &:active {
+      color: $gray-light;
     }
   }
 }

@@ -21,15 +21,13 @@ button.btn.btn-sm.btn-nav.float-left(
     use(
       xlink:href = "#icons-arrow-down"
     )
-  | Containers
+  //- | Containers
 
-h1.header-title.text-center
-  span.span palantiri/
-  strong.strong master
+  h1.header-title.text-center
+    span.span palantiri/
+    strong.strong master
 
-.btn-group.btn-toggle.btn-toggle-sm.toggle-header(
-  ng-if = "!$root.featureFlags.isolationUI"
-)
+.btn-group.btn-toggle.btn-toggle-sm.toggle-header
   //- disabled if no containers
   a.btn.btn-sm.disabled(
     ng-if = "dataApp.state.includes('base.config') && CA.instancesByPod && !CA.instancesByPod.models.length"

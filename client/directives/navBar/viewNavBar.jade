@@ -1,11 +1,11 @@
 .list-header.fade(
   ng-class = "{'in': $root.featureFlags.isolationNav}"
-)
-  //- ui-sref-active we need to use the disabled attribute, not class
-  button.btn.btn-sm.white(
-    ui-sref = "base.config({userName: CA.activeAccount.oauthName()})"
-    ui-sref-active = "active disabled"
-  ) Configure Containers
+) Containers
+  //- //- ui-sref-active we need to use the disabled attribute, not class
+  //- button.btn.btn-sm.white(
+  //-   ui-sref = "base.config({userName: CA.activeAccount.oauthName()})"
+  //-   ui-sref-active = "active disabled"
+  //- ) Configure Containers
 
 //- repository based containers
 .list.fade(
@@ -35,6 +35,9 @@
     a.text-overflow(
       title = "{{branch.name}}"
     ) {{branch.name}}
+    .btn.btn-xxs.btn-badge(
+      ng-if = "branch.isolation"
+    ) Isolated
     svg.iconnables.icons-overflow(
       ng-class = "{'active': popoverContainerMenu.data.show}"
       pop-over

@@ -7,8 +7,11 @@
   overflow: hidden;
   padding: 0 15px;
   position: fixed;
-  width: 100%;
+  width: 100vw;
   z-index: $z-popover-arrow + 1; // should overlap all popovers, except account menu
+
+  // temp nav
+  transition: width .2s ease-in-out;
 
   // change header theme if feature flag is on
   &.feature-flag-on::before {
@@ -38,6 +41,9 @@
     color: $purple-lightest;
     font-weight: $weight-bold;
     padding: 0;
+
+    // temp nav
+    position: absolute;
 
     &:hover .icons-arrow-backward {
       transform: rotate(90deg) scale3d(1.2,1.2,1);
@@ -74,11 +80,14 @@
     color: $purple-lightest;
     font-size: 21px;
     font-weight: $weight-normal;
-    left: 0;
-    line-height: 60px;
-    position: absolute;
-    right: 0;
-    z-index: -1; // so that we don't overlap buttons
+    // left: 0;
+    // line-height: 60px;
+    // position: absolute;
+    // right: 0;
+    // z-index: -1; // so that we don't overlap buttons
+
+    // temp nav
+    line-height: 30px;
 
     .strong {
       color: $white;
