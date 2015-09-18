@@ -17,13 +17,11 @@
       use(
         xlink:href = "#icons-door"
       )
-    h3.h3.text-center Work in a Private Sandbox
-    p.p.text-center Changes made in your private Sandbox won’t affect the containers the rest of your team uses.
-      br
-      a.link Learn more
-      | &#32; about private Sandboxes.
-  footer.modal-footer
-    .btn.btn-block(
+    h3.h3.text-center Work in Isolation
+    p.p.text-center Isolated branches get their own copies of&#32;
+      strong.strong all other containers in your stack.&#32;
+      | This lets you work without affecting your team’s shared containers.
+    .btn(
       ng-class = "{\
         'green': !returnFlip,\
         'white': returnFlip\
@@ -47,7 +45,7 @@
       use(
         xlink:href = "#icons-help"
       )
-    h1.modal-heading Private Sandbox Setup
+    h1.modal-heading Isolation Setup
     svg.iconnables.icons-close(
       ng-click = "defaultActions.cancel()"
     )
@@ -55,16 +53,18 @@
         xlink:href = "#icons-close"
       )
   section.modal-body
-    .well.in.small This will create a clone of your stack so you can work without affecting shared containers. Select the branches you want to run for each repository.
-    .clearfix
-      .label-col Repository Containers
+    .well.in The following containers will be created to isolate&#32;
+      br
+      .icons-status.green
+      strong.strong api/my-feature-branch
+      | .
     .list.list-bordered
       .list-item
         svg.iconnables.icons-repository
           use(
             xlink:href = "#icons-repository"
           )
-        span.span.text-overflow api
+        span.span.text-overflow optimus
         .btn.btn-xs.gray.btn-select(
           ng-init = "branchFirst = 'master'"
         )
@@ -169,7 +169,7 @@
           use(
             xlink:href = "#icons-repository"
           )
-        span.span.text-overflow optimus
+        span.span.text-overflow mavis
         .btn.btn-xs.gray.btn-select(
           ng-init = "branchThird = 'master'"
         )
@@ -216,8 +216,6 @@
               option(
                 value = "fb-6"
               ) fb-6
-    .clearfix
-      .label-col Non-repository Containers
     .list.list-bordered
       .list-item
           svg.iconnables.icons-server
@@ -234,7 +232,7 @@
   section.modal-footer.clearfix
     button.btn.green(
       ng-click = "RDMC.updateInstance()"
-    ) Create Private Sandbox
+    ) Enter Isolation
     button.btn.white.btn-cancel(
       ng-click = "RDMC.defaultActions.cancel()"
     ) Cancel
