@@ -2,9 +2,11 @@
   ng-class = "{'closed': $storage.dnsManagementIsClosed}"
   ng-click = "$storage.dnsManagementIsClosed = !$storage.dnsManagementIsClosed"
 )
-  svg.iconnables.icons-disclose
+  svg.iconnables(
+    ng-class = "{'icons-arrow-forward': $storage.dnsManagementIsClosed}"
+  )
     use(
-      xlink:href = "#icons-disclose"
+      xlink:href = "#icons-arrow-down"
     )
   | DNS Mappings
 
