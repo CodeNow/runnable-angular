@@ -4,83 +4,9 @@
 )
   //- ng-class = "{'white': isPanel('accountMenu')}"
   .arrow(
+    ng-class = "{'white': data.showIntegrations}"
     style = "left: 191px;"
   )
-  //- START-pre isolation account menu
-  .popover-views.deprecated(
-    ng-if = "!$root.featureFlags.isolationUI"
-  )
-    ul.list.popover-list(
-      ng-if = "data.showIntegrations"
-    )
-      li.list-item.popover-list-item.small {{ data.activeAccount.oauthName() }}
-      li.list-item.popover-list-item(
-        modal
-        modal-actions = "actions.actionsModalIntegrations"
-        modal-data = "data.dataModalIntegrations"
-        modal-template = "viewOpenModalIntegrations"
-      )
-        img.iconnables(
-          height = "24"
-          src = "/build/images/logos/logo-icon-slack.svg"
-          width = "24"
-        )
-        | Slack Integration
-
-    ul.list.popover-list
-      li.list-item.popover-list-item.small Change Organization
-      //- current user
-      li.list-item.popover-list-item.text-overflow(
-        ng-class = "{'no-touching': data.user === data.activeAccount}"
-        ng-click = "actions.selectActiveAccount(data.user)"
-      )
-        svg.iconnables.icons-fat-check(
-          ng-class = "{'active': data.user === data.activeAccount}"
-        )
-          use(
-            xlink:href = "#icons-fat-check"
-          )
-        img.gravatar(
-          height = "24"
-          ng-src = "{{ data.user.gravitar() }}"
-          width = "24"
-        )
-        | {{ data.user.oauthName() }}
-      //- inline styles are temporarly until featureflag is removed
-      li.list-item.popover-list-item.text-overflow(
-        ng-class = "{'no-touching': org === data.activeAccount}"
-        ng-click = "actions.selectActiveAccount(org)"
-        ng-repeat = "org in data.orgs.models"
-      )
-        svg.iconnables.icons-fat-check(
-          ng-class = "{'active': org === data.activeAccount}"
-        )
-          use(
-            xlink:href = "#icons-fat-check"
-          )
-        img.gravatar(
-          height = "24"
-          ng-src = "{{ org.gravitar() }}"
-          width = "24"
-        )
-        | {{ org.oauthName() }}
-
-    ul.list.popover-list.list-secondary
-      li.list-item.popover-list-item
-        a.list-link(
-          href = "//runnable.zendesk.com/hc/en-us"
-          target = "_blank"
-        ) Documentation
-          svg.iconnables.icons-link-external.anchor-right
-            use(
-              xlink:href = "#icons-link-external"
-            )
-      li.list-item.popover-list-item
-        a.list-link(
-          ng-click = "actions.logout();"
-        ) Log Out
-  //- //- END pre-isolation account menu
-
   //- START post-isolation account menu
   animated-panel-container.popover-views(
     ng-if = "$root.featureFlags.isolationUI"
@@ -93,38 +19,35 @@
         .popover-content.fade(
           ng-class = "{'in': isActivePanel()}"
         )
-          ul.list.popover-list
-            //- this organization
-            li.list-item
-              //- this style of list nesting so that states on .anchor-right do not affect .popover-list-item
-              .popover-list-item.text-overflow(
-                ng-class = "{'no-touching': !$root.featureFlags.isolationActive}"
-                ng-click = "$root.featureFlags.isolationActive = false"
+          ul.list.popover-list(
+            ng-if = "data.showIntegrations"
+          )
+            li.list-item.popover-list-item.small {{data.activeAccount.oauthName()}} Settings
+            li.list-item.popover-list-item(
+              modal
+              modal-actions = "actions.actionsModalIntegrations"
+              modal-data = "data.dataModalIntegrations"
+              modal-template = "viewOpenModalIntegrations"
+            )
+              img.iconnables(
+                height = "24"
+                src = "/build/images/logos/logo-icon-slack.svg"
+                width = "24"
               )
-                svg.iconnables.icons-fat-check(
-                  ng-class = "{'active': !$root.featureFlags.isolationActive}"
-                )
-                  use(
-                    xlink:href = "#icons-fat-check"
-                  )
-                img.gravatar(
-                  alt = "{{data.activeAccount.oauthName()}}"
-                  height = "24"
-                  ng-src = "{{data.activeAccount.gravitar()}}"
-                  width = "24"
-                )
-                | {{data.activeAccount.oauthName()}}
-              svg.btn.btn-xxs.gray.iconnables.anchor-right.icons-cog(
-                modal
-                modal-actions = "actions.actionsModalIntegrations"
-                modal-data = "data.dataModalIntegrations"
-                modal-template = "viewModalSettings"
-                title = "{{data.activeAccount.oauthName()}} Settings"
+              | Slack Integration
+            //- new settings modal
+            //- li.list-item.popover-list-item(
+            //-   modal
+            //-   modal-actions = "actions.actionsModalIntegrations"
+            //-   modal-data = "data.dataModalIntegrations"
+            //-   modal-template = "viewModalSettings"
+            //- )
+              img.iconnables(
+                height = "24"
+                src = "/build/images/logos/logo-icon-slack.svg"
+                width = "24"
               )
-                use(
-                  xlink:href = "#icons-cog"
-                )
-
+              | Slack Integration
           ul.list.popover-list.list-secondary
             li.list-item.popover-list-item(
               ng-click = "goToPanel('featureFlags')"
@@ -209,7 +132,7 @@
           | Feature Flags
           button.btn.btn-xxs.gray.float-right(
             ng-click = "$localStorage.featureFlags = {}; $root.resetFeatureFlags();"
-            style = "font-size: 12px; right: 12px; position: absolute; top: 9px; z-index: 2;"
+            style = "font-size: 11px; right: 6px; position: absolute; top: 9px; z-index: 2;"
           ) Reset
         .popover-content.fade.list.popover-list(
           ng-class = "{'in': isActivePanel()}"
