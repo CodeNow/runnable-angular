@@ -1,8 +1,9 @@
 .popover.menu.bottom.popover-account-menu(
-  ng-class = "{'in': active, 'white': data.currentPanelName === 'accountMenu'}"
+  ng-class = "{'in': active}"
   style = "transform-origin: 95% 0;"
 )
   .arrow(
+    ng-class = "{'white': data.currentPanelName === 'accountMenu'}"
     style = "left: 191px;"
   )
   //- START-pre isolation account menu
@@ -85,8 +86,8 @@
     ng-if = "$root.featureFlags.isolationUI"
   )
     animated-panel(
-      name = "accountMenu"
       default = "true"
+      name = "accountMenu"
     )
       .popover-view
         .popover-content.fade(
