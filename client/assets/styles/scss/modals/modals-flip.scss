@@ -1,6 +1,6 @@
 .modal-flip {
   perspective: 1000px;
-  perspecitve-origin: 50% 15%;
+  perspective-origin: 50% 15%;
 
   // flipped state
   &.flipped .modal-dialog {
