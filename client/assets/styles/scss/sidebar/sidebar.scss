@@ -17,6 +17,14 @@
     height: calc(100vh - 72px);
   }
 
+  + .content {
+    margin-left: 240px;
+
+    .instance {
+      padding-top: 72px;
+    }
+  }
+
   .icons-status {
     flex: 0 0 auto;
     margin-right: 6px;
