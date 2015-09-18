@@ -127,6 +127,13 @@
 
           ul.list.popover-list.list-secondary
             li.list-item.popover-list-item(
+              ng-click = "goToPanel('featureFlags')"
+            ) Feature Flags
+              svg.iconnables.icons-arrow-forward.anchor-right
+                use(
+                  xlink:href = "#icons-arrow-down"
+                )
+            li.list-item.popover-list-item(
               ng-click = "goToPanel('changeOrganization')"
             ) Change Organization
               svg.iconnables.icons-arrow-forward.anchor-right
@@ -185,4 +192,40 @@
                 width = "24"
               )
               | {{account.oauthName()}}
+
+    animated-panel(
+      name = "featureFlags"
+    )
+      .popover-view
+        .popover-header.fade(
+          ng-class = "{'in': isActivePanel()}"
+        )
+          svg.btn.btn-sm.iconnables.icons-arrow-backward.pull-left(
+            ng-click = "goToPanel('accountMenu', 'back')"
+          )
+            use(
+              xlink:href = "#icons-arrow-down"
+            )
+          | Feature Flags
+          button.btn.btn-xxs.gray.float-right(
+            ng-click = "$localStorage.featureFlags = {}; $root.resetFeatureFlags();"
+            style = "font-size: 12px; right: 12px; position: absolute; top: 9px; z-index: 2;"
+          ) Reset
+        .popover-content.fade.list.popover-list(
+          ng-class = "{'in': isActivePanel()}"
+          style = "max-height: 80vh; overflow-y: auto;"
+        )
+          label.list-item.popover-list-item.text-overflow(
+            ng-repeat = "(flag, value) in $root.featureFlags"
+            style = "border-top: 1px solid #f0f0f0; color: $gray-dark; display: block; padding: 0 39px 0 15px;"
+          ) {{flag}}
+            .toggle-wrapper(
+              style = "position: absolute; right: 15px; top: 11px;"
+            )
+              input.toggle-input(
+                ng-model = "$root.featureFlags[flag]"
+                ng-change = "$localStorage.featureFlags[flag] = $root.featureFlags[flag]"
+                type = "checkbox"
+              )
+              .toggle-group.toggle-xs
   //- END post-isolation account menu
