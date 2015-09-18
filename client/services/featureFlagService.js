@@ -19,6 +19,7 @@ function featureFlags(
     internalDebugging: false,
     isolationActive: false, // if isolation is active
     isolationDnsMappings: false,
+    isolationNav: false, // for isolation nav
     isolationSetUp: false, // if isolation is setup
     isolationUI: false, // for isolation UI
     multilineFnR: false,

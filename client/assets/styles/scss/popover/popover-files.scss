@@ -5,10 +5,9 @@
   min-height: 420px;
   width: 360px;
 
-  // 420px/360px - 4px (height/width - borders)
   .popover-views,
   .popover-view {
-    min-height: 416px;
+    max-height: 464px;
   }
 
   .popover-view {

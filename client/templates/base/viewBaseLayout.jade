@@ -1,8 +1,61 @@
-header.header-app(
-  ng-include = "'viewHeader'"
-  ng-class = "{'private': $root.featureFlags.isolationActive}"
+//- nav/sidebar
+nav.nav-sidebar(
+  ng-include = "'viewNavBar'"
+  ng-init = "\
+    containers = [\
+      {\
+        name: 'api',\
+        branches: [\
+          {name: 'master', status: 'green'},\
+          {name: 'add-owner-id-dedupe-check', status: 'green'},\
+          {name: 'anton-goroost', status: 'red'},\
+          {name: 'anton-jul8', status: 'red', isolation: true}\
+        ]\
+      },{\
+        name: 'datadog',\
+        branches: [\
+          {name: 'master', status: 'green'}\
+        ]\
+      },{\
+        name: 'detention',\
+        branches: [\
+          {name: 'master', status: 'green'}\
+        ]\
+      },{\
+        name: 'khronos',\
+        branches: [\
+          {name: 'master', status: 'green'},\
+          {name: 'abort-on-uncaught-exception', status: 'green'},\
+          {name: 'revert-14-revert-12-feature-restart-one-dock-script', status: 'red'},\
+          {name: 'SAN-2487-cleanup-debug-containers', status: 'green'}\
+        ]\
+      },{\
+        name: 'mavis',\
+        branches: [\
+          {name: 'master', status: 'green'},\
+          {name: 'better-logging', status: 'green', isolation: true},\
+          {name: 'bypass-prev-dock', status: 'orange', isolation: true},\
+          {name: 'no-docks-404', status: 'red'},\
+          {name: 'remove-numBuild', status: 'red'},\
+          {name: 'temporary-branch-to-fork', status: 'red', isolation: true}\
+        ]\
+      }\
+    ];\
+    nonRepositoryContainers = [\
+      {name: 'Cassandra', status: 'green'},\
+      {name: 'ElasticSearch', status: 'green'},\
+      {name: 'HBase', status: 'green'}\
+    ]\
+  "
 )
 
-.clearfix(
-  ui-view
-)
+//- first .content...
+.content
+  header.header-app(
+    ng-class = "{'feature-flag-on': CA.featureFlagsChanged()}"
+    ng-include = "'viewHeader'"
+  )
+  //- second .content...
+  .content(
+    ui-view
+  )

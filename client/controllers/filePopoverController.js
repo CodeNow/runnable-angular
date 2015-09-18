@@ -72,7 +72,7 @@ function FilePopoverController(
               myFile.state.progress = 100;
             })
             .catch(function (err) {
-              errs.handler(err);
+              errs.handler(err.data || err);
               var fileIndex = $scope.dir.contents.models.indexOf(myFile);
               $scope.dir.contents.models.splice(fileIndex, 1);
             })

@@ -49,9 +49,12 @@
 }
 
 .sidebar-section {
-  border-bottom: 1px solid $gray-lighter;
+  margin: 0 12px;
   overflow: hidden;
-  padding: 0 12px;
+
+  + .sidebar-section {
+    border-top: 1px solid $gray-lightest;
+  }
 
   &.explorer-section {
 
@@ -89,16 +92,12 @@
     &:active {
       color: $gray-darker;
     }
-
-    .icons-disclose {
-      transform: rotate3d(0,0,1,-90deg);
-    }
   }
 
-  .icons-disclose {
-    left: -3px;
-    top: 7px;
-    width: 15px;
+  > .iconnables {
+    margin-right: 6px;
+    top: 6px;
+    width: 18px;
   }
 
   // for add buttons next to section headings, like in File Explorer

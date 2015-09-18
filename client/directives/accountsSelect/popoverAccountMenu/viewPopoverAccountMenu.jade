@@ -1,10 +1,9 @@
 .popover.menu.bottom.popover-account-menu(
   ng-class = "{'in': active}"
-  ng-init = "state.view = 1"
   style = "transform-origin: 95% 0;"
 )
+  //- ng-class = "{'white': isPanel('accountMenu')}"
   .arrow(
-    ng-class = "{'white': state.view === 1}"
     style = "left: 191px;"
   )
   //- START-pre isolation account menu
@@ -80,158 +79,153 @@
         a.list-link(
           ng-click = "actions.logout();"
         ) Log Out
-  //- END pre-isolation account menu
+  //- //- END pre-isolation account menu
 
   //- START post-isolation account menu
-  .popover-views(
+  animated-panel-container.popover-views(
     ng-if = "$root.featureFlags.isolationUI"
-    ng-style = "{'min-height': actions.getHeight(state.view)}"
   )
-    .popover-view(
-      ng-class = "{'view-2': state.view === 2}"
+    animated-panel(
+      default = "true"
+      name = "accountMenu"
     )
-      .popover-content.fade(
-        ng-class = "{'in': state.view === 1}"
-      )
-        ul.list.popover-list
-          //- this organization
-          li.list-item
-            //- this style of list nesting so that states on .anchor-right do not affect .popover-list-item
-            .popover-list-item.text-overflow(
-              ng-class = "{'no-touching': !$root.featureFlags.isolationActive}"
-              ng-click = "$root.featureFlags.isolationActive = false"
-            )
-              svg.iconnables.icons-fat-check(
-                ng-class = "{'active': !$root.featureFlags.isolationActive}"
-              )
-                use(
-                  xlink:href = "#icons-fat-check"
-                )
-              img.gravatar(
-                alt = "{{data.activeAccount.oauthName()}}"
-                height = "24"
-                ng-src = "{{data.activeAccount.gravitar()}}"
-                width = "24"
-              )
-              | {{data.activeAccount.oauthName()}}
-            svg.btn.btn-xxs.gray.iconnables.anchor-right.icons-cog(
-              modal
-              modal-actions = "actions.actionsModalIntegrations"
-              modal-data = "data.dataModalIntegrations"
-              modal-template = "viewModalSettings"
-              title = "{{data.activeAccount.oauthName()}} Settings"
-            )
-              use(
-                xlink:href = "#icons-cog"
-              )
-
-          //- if private sandbox is not set up and sandbox has >= 1 container
-          li.list-item.list-btn(
-            modal
-            modal-state-model = "{modalFlip: true}"
-            modal-template = "viewModalIsolation"
-            ng-if = "$root.featureFlags.isolationUI && !$root.featureFlags.isolationSetUp"
-          )
-            button.btn.btn-sm.gray
-              svg.iconnables.icons-add.icons-round
-                use(
-                  xlink:href = "#icons-add"
-                )
-              | Add Private Sandbox
-
-          //- if private sandbox is set up
-          li.list-item(
-            ng-if = "$root.featureFlags.isolationSetUp"
-          )
-            .popover-list-item(
-              ng-class = "{'no-touching': $root.featureFlags.isolationActive}"
-              ng-click = "$root.featureFlags.isolationActive = true"
-            )
-              svg.iconnables.icons-fat-check(
-                ng-class = "{'active': $root.featureFlags.isolationActive}"
-              )
-                use(
-                  xlink:href = "#icons-fat-check"
-                )
-              img.gravatar.gravatar-isolation(
-                alt = "{{data.activeAccount.oauthName()}}"
-                height = "24"
-                ng-src = "{{data.activeAccount.gravitar()}}"
-                width = "24"
-              )
-              img.gravatar(
-                alt = "{{data.user.oauthName()}}"
-                height = "15"
-                ng-src = "{{data.user.gravitar()}}"
-                width = "15"
-              )
-              | Private Sandbox
-            svg.btn.btn-xxs.gray.iconnables.anchor-right.icons-close(
-              modal
-              modal-template = "viewModalDeleteSandbox"
-              title = "Delete Sandbox"
-            )
-              use(
-                xlink:href = "#icons-close"
-              )
-
-        ul.list.popover-list.list-secondary
-          li.list-item.popover-list-item(
-            ng-click = "state.view = 2"
-          ) Change Organization
-            svg.iconnables.icons-arrow-forward.anchor-right
-              use(
-                xlink:href = "#icons-arrow-down"
-              )
-          li.list-item.popover-list-item
-            a.list-link(
-              href = "//runnable.zendesk.com/hc/en-us"
-              target = "_blank"
-            ) Documentation
-              svg.iconnables.icons-link-external.anchor-right
-                use(
-                  xlink:href = "#icons-link-external"
-                )
-          li.list-item.popover-list-item
-            a.list-link(
-              ng-click = "actions.logout();"
-            ) Log Out
-
-    .popover-view(
-      ng-class = "{'view-2': state.view === 2}"
-    )
-      .popover-header.fade(
-        ng-class = "{'in': state.view === 2}"
-      )
-        svg.btn.btn-sm.iconnables.icons-arrow-backward.pull-left(
-          ng-click = "state.view = 1"
+      .popover-view
+        .popover-content.fade(
+          ng-class = "{'in': isActivePanel()}"
         )
-          use(
-            xlink:href = "#icons-arrow-down"
-          )
-        | Organizations
-
-      .popover-content.fade(
-        ng-class = "{'in': state.view === 2}"
-      )
-        ul.list.popover-list
-          //- all organizations except current
-          li.list-item.popover-list-item.text-overflow(
-            ng-class = "{'no-touching': account === data.activeAccount}"
-            ng-click = "actions.selectActiveAccount(account)"
-            ng-repeat = "account in data.allAccounts"
-          )
-            svg.iconnables.icons-fat-check(
-              ng-class = "account === data.activeAccount"
-            )
-              use(
-                xlink:href = "#icons-fat-check"
+          ul.list.popover-list
+            //- this organization
+            li.list-item
+              //- this style of list nesting so that states on .anchor-right do not affect .popover-list-item
+              .popover-list-item.text-overflow(
+                ng-class = "{'no-touching': !$root.featureFlags.isolationActive}"
+                ng-click = "$root.featureFlags.isolationActive = false"
               )
-            img.gravatar(
-              alt = "{{account.oauthName()}}"
-              height = "24"
-              ng-src = "{{account.gravitar()}}"
-              width = "24"
+                svg.iconnables.icons-fat-check(
+                  ng-class = "{'active': !$root.featureFlags.isolationActive}"
+                )
+                  use(
+                    xlink:href = "#icons-fat-check"
+                  )
+                img.gravatar(
+                  alt = "{{data.activeAccount.oauthName()}}"
+                  height = "24"
+                  ng-src = "{{data.activeAccount.gravitar()}}"
+                  width = "24"
+                )
+                | {{data.activeAccount.oauthName()}}
+              svg.btn.btn-xxs.gray.iconnables.anchor-right.icons-cog(
+                modal
+                modal-actions = "actions.actionsModalIntegrations"
+                modal-data = "data.dataModalIntegrations"
+                modal-template = "viewModalSettings"
+                title = "{{data.activeAccount.oauthName()}} Settings"
+              )
+                use(
+                  xlink:href = "#icons-cog"
+                )
+
+          ul.list.popover-list.list-secondary
+            li.list-item.popover-list-item(
+              ng-click = "goToPanel('featureFlags')"
+            ) Feature Flags
+              svg.iconnables.icons-arrow-forward.anchor-right
+                use(
+                  xlink:href = "#icons-arrow-down"
+                )
+            li.list-item.popover-list-item(
+              ng-click = "goToPanel('changeOrganization')"
+            ) Change Organization
+              svg.iconnables.icons-arrow-forward.anchor-right
+                use(
+                  xlink:href = "#icons-arrow-down"
+                )
+            li.list-item.popover-list-item
+              a.list-link(
+                href = "//runnable.zendesk.com/hc/en-us"
+                target = "_blank"
+              ) Documentation
+                svg.iconnables.icons-link-external.anchor-right
+                  use(
+                    xlink:href = "#icons-link-external"
+                  )
+            li.list-item.popover-list-item
+              a.list-link(
+                ng-click = "actions.logout();"
+              ) Log Out
+
+    animated-panel(
+      name = "changeOrganization"
+    )
+      .popover-view
+        .popover-header.fade(
+          ng-class = "{'in': isActivePanel()}"
+        )
+          svg.btn.btn-sm.iconnables.icons-arrow-backward.pull-left(
+            ng-click = "goToPanel('accountMenu', 'back')"
+          )
+            use(
+              xlink:href = "#icons-arrow-down"
             )
-            | {{account.oauthName()}}
-//- END post-isolation account menu
+          | Organizations
+
+        .popover-content.fade(
+          ng-class = "{'in': isActivePanel()}"
+        )
+          ul.list.popover-list
+            //- all organizations except current
+            li.list-item.popover-list-item.text-overflow(
+              ng-class = "{'no-touching': account === data.activeAccount}"
+              ng-click = "actions.selectActiveAccount(account)"
+              ng-repeat = "account in data.allAccounts"
+            )
+              svg.iconnables.icons-fat-check(
+                ng-class = "account === data.activeAccount"
+              )
+                use(
+                  xlink:href = "#icons-fat-check"
+                )
+              img.gravatar(
+                alt = "{{account.oauthName()}}"
+                height = "24"
+                ng-src = "{{account.gravitar()}}"
+                width = "24"
+              )
+              | {{account.oauthName()}}
+
+    animated-panel(
+      name = "featureFlags"
+    )
+      .popover-view
+        .popover-header.fade(
+          ng-class = "{'in': isActivePanel()}"
+        )
+          svg.btn.btn-sm.iconnables.icons-arrow-backward.pull-left(
+            ng-click = "goToPanel('accountMenu', 'back')"
+          )
+            use(
+              xlink:href = "#icons-arrow-down"
+            )
+          | Feature Flags
+          button.btn.btn-xxs.gray.float-right(
+            ng-click = "$localStorage.featureFlags = {}; $root.resetFeatureFlags();"
+            style = "font-size: 12px; right: 12px; position: absolute; top: 9px; z-index: 2;"
+          ) Reset
+        .popover-content.fade.list.popover-list(
+          ng-class = "{'in': isActivePanel()}"
+          style = "max-height: 80vh; overflow-y: auto;"
+        )
+          label.list-item.popover-list-item.text-overflow(
+            ng-repeat = "(flag, value) in $root.featureFlags"
+            style = "border-top: 1px solid #f0f0f0; color: $gray-dark; display: block; padding: 0 39px 0 15px;"
+          ) {{flag}}
+            .toggle-wrapper(
+              style = "position: absolute; right: 15px; top: 11px;"
+            )
+              input.toggle-input(
+                ng-model = "$root.featureFlags[flag]"
+                ng-change = "$localStorage.featureFlags[flag] = $root.featureFlags[flag]"
+                type = "checkbox"
+              )
+              .toggle-group.toggle-xs
+  //- END post-isolation account menu

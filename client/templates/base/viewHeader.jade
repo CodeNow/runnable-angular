@@ -1,6 +1,8 @@
 img.logo.logo-icon(
   height = "36"
+  ng-class = "{ changed: CA.featureFlagsChanged() }"
   ng-click = "editFeatureFlags = CA.canEditFeatureFlags()"
+  ng-if = "!$root.featureFlags.isolationUI"
   pop-over
   pop-over-active = "editFeatureFlags"
   pop-over-options = "{\"left\":40}"
@@ -8,10 +10,26 @@ img.logo.logo-icon(
   pop-over-trigger = "activeAttr"
   src = "/build/images/runnable-icon-white.svg"
   width = "36"
-  ng-class = "{ changed: CA.featureFlagsChanged() }"
 )
 
-.btn-group.btn-toggle.btn-toggle-sm.toggle-header
+button.btn.btn-sm.btn-nav.float-left(
+  ng-class = "{'active': $root.featureFlags.isolationNav}"
+  ng-click = "$root.featureFlags.isolationNav = !$root.featureFlags.isolationNav"
+  ng-if = "$root.featureFlags.isolationUI"
+)
+  svg.iconnables.icons-arrow-backward.float-left
+    use(
+      xlink:href = "#icons-arrow-down"
+    )
+  | Containers
+
+h1.header-title.text-center
+  span.span palantiri/
+  strong.strong master
+
+.btn-group.btn-toggle.btn-toggle-sm.toggle-header(
+  ng-if = "!$root.featureFlags.isolationUI"
+)
   //- disabled if no containers
   a.btn.btn-sm.disabled(
     ng-if = "dataApp.state.includes('base.config') && CA.instancesByPod && !CA.instancesByPod.models.length"

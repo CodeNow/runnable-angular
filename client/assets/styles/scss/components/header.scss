@@ -10,20 +10,16 @@
   width: 100%;
   z-index: $z-popover-arrow + 1; // should overlap all popovers, except account menu
 
-  // private sandbox header theme, hidden
-  &::before {
+  // change header theme if feature flag is on
+  &.feature-flag-on::before {
     background-image: repeating-linear-gradient(60deg, darken($purple-light,2.5%), darken($purple-light,2.5%) 18px, transparent 18px, transparent 36px);
     content: '';
     height: 100%;
-    opacity: 0;
+    left: 0;
+    pointer-events: none;
     position: absolute;
-    transition: opacity .15s ease-out;
     width: 100%;
-  }
-
-  // private sandbox header theme, visible
-  &.private::before {
-    opacity: 1;
+    z-index: -1;
   }
 
   // so header sits under modals/popovers if a modal is open
@@ -32,27 +28,81 @@
   }
 
   // layout
-  .logo,
+  .btn-nav,
   .toggle-header,
   .accounts-select {
     top: 12px;
   }
 
+  .btn-nav {
+    color: $purple-lightest;
+    font-weight: $weight-bold;
+    padding: 0;
+
+    &:hover .icons-arrow-backward {
+      transform: rotate(90deg) scale3d(1.2,1.2,1);
+    }
+
+    &:active .icons-arrow-backward {
+      transform: rotate(90deg) scale3d(1.2,1.2,1);
+    }
+
+    // separate hover/active states when active
+    &.active {
+
+      &:hover .icons-arrow-backward {
+        transform: rotate(-90deg) scale3d(1.2,1.2,1);
+      }
+
+      &:active .icons-arrow-backward {
+        transform: rotate(-90deg) scale3d(1.2,1.2,1);
+      }
+
+      .icons-arrow-backward {
+        transform: rotate(-90deg);
+      }
+    }
+
+    .icons-arrow-backward {
+      top: 4px;
+      transform: opacity .3s ease-in-out, transform .3s ease-in-out;
+    }
+  }
+
+  // header title
+  .header-title {
+    color: $purple-lightest;
+    font-size: 21px;
+    font-weight: $weight-normal;
+    left: 0;
+    line-height: 60px;
+    position: absolute;
+    right: 0;
+    z-index: -1; // so that we don't overlap buttons
+
+    .strong {
+      color: $white;
+    }
+  }
+
+  // deprecated $root.featureFlags.isolationNav
   // logo
   .logo {
     height: $input-sm; // center
     left: 15px;
     position: absolute;
+    top: 12px;
   }
 
-  // ui-view.clearfix
-  + .clearfix {
-    height: 100vh;
+  // end deprecated $root.featureFlags.isolationNav
+
+  // add padding for header-app + content
+  + .content {
     padding-top: $header-height;
-    position: relative;
   }
 }
 
+// deprecated $root.featureFlags.isolationNav
 // containers/configure toggle
 .toggle-header {
   background: $purple;
@@ -124,6 +174,8 @@
   }
 }
 
+// end deprecated $root.featureFlags.isolationNav
+
 .accounts-select {
   display: flex;
   flex-direction: column;
@@ -136,8 +188,8 @@
   align-self: flex-end;
   background: transparent;
   border-color: transparent;
+  color: $purple-lightest;
   flex: 0 0 auto;
-  transition: all .15s ease-out;
 
   @include media(sm) {
     .span {
@@ -152,32 +204,6 @@
     color: $white;
   }
 
-  // org button
-  &:first-child {
-    opacity: 1;
-  }
-
-  // private sandbox button
-  &:last-child {
-    opacity: 0;
-    top: -6px;
-  }
-
-  // transition to/from private sandbox
-  .private & {
-    transform: translate3d(0,-30px,0);
-
-    // org button
-    &:first-child {
-      opacity: 0;
-    }
-
-    // private sandbox button
-    &:last-child {
-      opacity: 1;
-    }
-  }
-
   .gravatar {
     float: left;
     margin-right: 7px;
@@ -189,15 +215,6 @@
 
     @include media(sm) {
       margin-right: 3px;
-    }
-
-    &.gravatar-isolation {
-      margin-right: 12px;
-    }
-
-    // isolation gravatar
-    + .gravatar {
-      left: 27px;
     }
   }
 }

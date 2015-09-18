@@ -1,5 +1,5 @@
 button.btn.btn-icon.blue(
-  ng-class = "{active: state.helpButton.active}"
+  ng-class = "{'active': state.helpButton.active}"
   ng-click = "state.helpButton.active = true"
   pop-over
   pop-over-actions = "helpPopover.actions"
@@ -47,7 +47,7 @@ button.btn.btn-icon.blue(
 
 //- new server button
 button.btn.green(
-  ng-class = "{ hint: helpCards.getActiveCard().targets.newContainer }"
+  ng-class = "{'hint': helpCards.getActiveCard().targets.newContainer}"
   pop-over
   pop-over-actions = "actions"
   pop-over-active = "state.newServerButton.active"
@@ -60,6 +60,24 @@ button.btn.green(
       xlink:href = "#icons-add"
     )
   span.float-left New Container
+  svg.iconnables.icons-arrow-down
+    use(
+      xlink:href = "#icons-arrow-down"
+    )
+
+//- view filter button
+button.btn.gray(
+  ng-class = "{'active': state.filterButton.active}"
+  ng-click = "state.filterButton.active = true"
+  pop-over
+  pop-over-actions = "popoverEnvironmentFilter.actions"
+  pop-over-active = "state.filterButton.active"
+  pop-over-data = "popoverEnvironmentFilter.data"
+  pop-over-options = "{\"right\":0,\"top\":53}"
+  pop-over-template = "viewPopoverEnvironmentFilter"
+)
+  span.span Sandbox:
+  strong.strong Staging
   svg.iconnables.icons-arrow-down
     use(
       xlink:href = "#icons-arrow-down"

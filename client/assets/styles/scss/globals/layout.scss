@@ -1,0 +1,199 @@
+// substitute for body
+.content-wrapper {
+  height: 100vh;
+  transition: transform .2s ease-in-out;
+
+  &.in {
+    transform: translate3d($nav-sidebar,0,0);
+  }
+
+  .content {
+    height: 100%;
+  }
+}
+
+// global sidebar, new vew
+.nav-sidebar:not(.deprecated) {
+  background: $gray-lighterest;
+  border-right: 1px solid $gray-lighter;
+  height: 100vh;
+  left: -$nav-sidebar;
+  overflow-y: auto;
+  position: absolute;
+  top: 0;
+  width: $nav-sidebar;
+  z-index: $z-sidebar-nav;
+
+  .list-header {
+    align-items: center;
+    background: $gray-lightest;
+    border-bottom: 1px solid $gray-lighter;
+    color: $gray;
+    font-weight: $weight-bold;
+    height: $header-height;
+    line-height: $header-height;
+    position: relative;
+    text-align: center;
+    transition: opacity .3s ease-in-out;
+
+    .icons-arrow-backward {
+      color: $gray;
+      cursor: pointer;
+      height: 100%;
+      left: 9px;
+      pointer-events: auto; // override iconnables
+      position: absolute;
+      top: 0;
+
+      &:hover {
+        color: $gray-dark;
+      }
+
+      &:active {
+        color: $purple-light;
+      }
+    }
+  }
+
+  .list {
+    margin: 0 15px;
+    padding: 9px 0 15px;
+    transition: opacity .3s ease-in-out;
+
+    + .list {
+      border-top: 1px solid $gray-lighter;
+    }
+  }
+
+  .list-item {
+    align-items: center;
+    display: flex;
+    font-size: 15px;
+    height: 30px;
+    line-height: 30px;
+
+    // list title
+    &:first-child {
+      color: $gray-light;
+      font-weight: $weight-normal;
+    }
+
+    &:hover .icons-advanced {
+      opacity: .75;
+    }
+
+    + .list-item {
+
+      &:hover,
+      &.active {
+
+        .icons-overflow {
+          display: block;
+        }
+      }
+    }
+
+    // status icon
+    .icons-status {
+      flex: 0 0 9px;
+      margin-right: 9px;
+
+      + .text-overflow {
+        color: $gray;
+        cursor: pointer;
+        font-weight: $weight-bold;
+        padding-left: 0;
+
+        &:hover {
+          color: $gray-dark;
+        }
+
+        &:active {
+          color: $purple-light;
+        }
+
+        &.active {
+          color: $gray-darker;
+        }
+      }
+    }
+
+    // name
+    .text-overflow {
+      flex: 1 1 auto;
+      padding-left: 18px; // spacing for .status-icon
+    }
+
+    // configure/overflow
+    .iconnables {
+      cursor: pointer;
+      flex: 0 0 15px;
+      pointer-events: auto; // override iconnables default
+    }
+
+    .icons-advanced {
+      opacity: .6;
+      transition: opacity .15s, transform .15s;
+
+      &:hover {
+        transform: rotate3d(0,0,1,30deg);
+      }
+
+      &:active {
+        opacity: 1;
+        transform: rotate3d(0,0,1,60deg);
+      }
+    }
+
+    .icons-overflow {
+      color: $gray;
+      display: none;
+      padding-top: 10px;
+
+      &:hover {
+        color: $gray-dark;
+      }
+
+      &:active,
+      &.active {
+        color: $purple-light;
+      }
+
+      &.active {
+        display: block;
+      }
+    }
+  }
+
+  // more button…
+  .btn-xxs {
+    color: $gray-light;
+    font-style: italic;
+    left: 15px;
+
+    &:hover {
+      color: $gray;
+    }
+
+    &:active {
+      color: $purple-light;
+    }
+  }
+}
+
+// deprecated ver
+.nav-sidebar.deprecated {
+  background: $gray-lighterest;
+
+  .spinner-wrapper {
+    align-items: center;
+    height: 100%;
+  }
+}
+
+// instance page
+.instance {
+  height: 100%;
+  padding-top: 60px;
+  position: relative;
+}

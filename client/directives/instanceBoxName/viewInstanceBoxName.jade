@@ -1,4 +1,5 @@
 .container-heading
+
   strong.strong {{instance.getRepoName() || instance.getDisplayName()}}
   span(
     ng-if = "instance.getBranchName()"
@@ -11,7 +12,7 @@
     title = "view pull request on GitHub"
   ) \#{{pr.number}}
 
-.container-url
+.container-url.float-right
 
   input.input(
     ng-if = "instance.attrs.name"

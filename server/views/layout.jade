@@ -138,6 +138,7 @@ html(
 
     //- page
     .content-wrapper(
+      ng-class = "{'in': $root.featureFlags.isolationNav}"
       ui-view
     )
 

@@ -14,6 +14,7 @@
 @import "globals/mixins";
 @import "globals/reset";
 @import "globals/globals";
+@import "globals/layout";
 
 @import "globals/animations";
 @import "globals/images";
@@ -29,6 +30,7 @@
 @import "components/buttons/buttons-toolbar";
 
 // components
+@import "components/animated-panel";
 @import "components/cards";
 @import "components/cards-title";
 @import "components/fancy-select";

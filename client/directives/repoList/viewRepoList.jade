@@ -2,9 +2,11 @@
   ng-class = "{'closed': $storage.repoListIsClosed}"
   ng-click = "$storage.repoListIsClosed = !$storage.repoListIsClosed"
 )
-  svg.iconnables.icons-disclose
+  svg.iconnables(
+    ng-class = "{'icons-arrow-forward': $storage.repoListIsClosed}"
+  )
     use(
-      xlink:href = "#icons-disclose"
+      xlink:href = "#icons-arrow-down"
     )
   | Repositories
 
