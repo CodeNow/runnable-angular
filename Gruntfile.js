@@ -102,15 +102,6 @@ module.exports = function(grunt) {
         src: jshintFiles
       }
     },
-    exorcise: {
-      bundle: {
-        options: {},
-        files: {
-          'client/build/js/bundle.js.map': ['client/build/js/bundle.js'],
-          'client/build/js/ace.js.map': ['client/build/js/ace.js']
-        }
-      }
-    },
     browserify: {
       watch: {
         files: {
@@ -322,6 +313,19 @@ module.exports = function(grunt) {
           'client/build/app.html': 'server/views/layout.jade'
         }
       }
+    },
+    uglify: {
+      options: {
+        sourceMap: true,
+        sourceMapIncludeSources: true,
+        mangle: false
+      },
+      app: {
+        files: {
+          'client/build/js/ace.js': ['client/build/js/ace.js'],
+          'client/build/js/bundle.js': ['client/build/js/bundle.js']
+        }
+      }
     }
   });
 
@@ -502,10 +506,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-autoprefixer');
   grunt.loadNpmTasks('grunt-sass');
   grunt.loadNpmTasks('grunt-concurrent');
-  grunt.loadNpmTasks('grunt-exorcise');
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-contrib-jade');
   grunt.loadNpmTasks('grunt-newer');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
   if (!envIs('production', 'staging')) {
     grunt.loadNpmTasks('grunt-newer');
@@ -549,7 +553,7 @@ module.exports = function(grunt) {
     'autoBundleDependencies',
     'generateConfigs',
     'browserify:once',
-    'exorcise',
+    'uglify:app',
     'jade:compile',
     'compress:build'
   ]);
@@ -561,7 +565,7 @@ module.exports = function(grunt) {
     'autoBundleDependencies',
     'generateConfigs:production',
     'browserify:once',
-    'exorcise',
+    'uglify:app',
     'jade:compile',
     'compress:build'
   ]);
