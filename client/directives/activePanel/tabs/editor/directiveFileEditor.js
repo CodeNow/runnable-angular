@@ -39,6 +39,7 @@ function fileEditor(
                 var mode = modelist.getModeForPath(name).mode;
                 editor.getSession().setMode(mode);
                 session = editor.getSession();
+                updateDockerfileValidation($scope.file);
               });
             }
           });
@@ -82,10 +83,38 @@ function fileEditor(
       }
       var updateFileDebounce = debounce(updateFile, 1000);
 
+      function updateDockerfileValidation (){
+        var isDockerfile = $scope.file.attrs.name === 'Dockerfile';
+        if (!isDockerfile) {
+          return;
+        }
+
+        var validation = validateDockerfile($scope.file.state.body);
+        if (validation.errors) {
+          validation.errors = validation.errors.filter(function (error) {
+            return error.line;
+          });
+          validation.criticals = validation.errors.filter(hasKeypaths({
+            'priority' : 0
+          }));
+          $scope.file.validation = validation;
+          if (session) {
+            var annotations = validation.errors.map(function (error) {
+              return {
+                text: error.message,
+                type: error.priority === 0 ? 'error' : 'warning',
+                row: error.line - 1
+              };
+            });
+            session.setAnnotations(annotations);
+          }
+        } else {
+          $scope.file.validation = {};
+        }
+      }
+
       watchOncePromise($scope, 'file', true)
         .then(function (file) {
-          var isDockerfile = file.attrs.name === 'Dockerfile';
-          useValidation = isDockerfile;
           keypather.set(file, 'state.isDirty', false);
           $scope.$on('EDITOR::SAVE', updateFile);
           if (!$scope.useAutoUpdate) {
@@ -94,28 +123,7 @@ function fileEditor(
           return fetchFile().then(function () {
             $scope.$watch('file.state.body', function (newVal) {
               if (typeof newVal === 'string' && newVal !== $scope.file.attrs.body) {
-                if (useValidation) {
-                  var validation = validateDockerfile(newVal);
-                  if (validation.errors) {
-                    validation.errors = validation.errors.filter(function (error) {
-                      return error.line;
-                    });
-                    validation.criticals = validation.errors.filter(hasKeypaths({
-                      'priority' : 0
-                    }));
-                    $scope.file.validation = validation;
-                    var annotations = validation.errors.map(function (error) {
-                      return {
-                        text: error.message,
-                        type: error.priority === 0 ? 'error' : 'warning',
-                        row: error.line - 1
-                      };
-                    });
-                    session.setAnnotations(annotations);
-                  } else {
-                    $scope.file.validation = {};
-                  }
-                }
+                updateDockerfileValidation($scope.file);
                 keypather.set($scope.file, 'state.isDirty', true);
                 if ($scope.useAutoUpdate) {
                   updateFileDebounce();

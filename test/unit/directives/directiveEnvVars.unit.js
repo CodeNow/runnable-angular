@@ -166,7 +166,12 @@ describe('directiveEnvVars'.bold.underline.blue, function() {
         stateModel: {}
       });
       var addedEnvs = ['lms=asd', 'db=awe'];
-      element.isolateScope().environmentalVars += addedEnvs.join('\n');
+      var isolatedScope = element.isolateScope();
+
+      isolatedScope.environmentalVars = addedEnvs.join('\n');
+      var mockAce = createMockAce();
+      isolatedScope.aceLoaded(mockAce);
+
       $scope.$digest();
 
       var environmentalVars = element.isolateScope().environmentalVars;
@@ -184,7 +189,11 @@ describe('directiveEnvVars'.bold.underline.blue, function() {
         stateModel: {}
       });
       var addedEnvs = ['lms=asd', 'db=awe'];
-      element.isolateScope().environmentalVars += addedEnvs.join('\n');
+      var isolatedScope = element.isolateScope();
+      isolatedScope.environmentalVars += addedEnvs.join('\n');
+      var mockAce = createMockAce();
+      isolatedScope.aceLoaded(mockAce);
+
       $scope.$digest();
       var expectedEnvs = envs.concat(addedEnvs);
 
@@ -203,7 +212,12 @@ describe('directiveEnvVars'.bold.underline.blue, function() {
         stateModel: {}
       });
       var addedEnvs = ['a=b', 'x=y'];
-      element.isolateScope().environmentalVars = addedEnvs.join('\n');
+      var isolatedScope = element.isolateScope();
+
+      isolatedScope.environmentalVars = addedEnvs.join('\n');
+      var mockAce = createMockAce();
+      isolatedScope.aceLoaded(mockAce);
+
       $scope.$digest();
 
       var environmentalVars = element.isolateScope().environmentalVars;
@@ -220,7 +234,12 @@ describe('directiveEnvVars'.bold.underline.blue, function() {
         currentModel: createEnvModel(envs),
         stateModel: {}
       });
-      element.isolateScope().environmentalVars = '';
+      var isolatedScope = element.isolateScope();
+
+      isolatedScope.environmentalVars = '';
+      var mockAce = createMockAce();
+      isolatedScope.aceLoaded(mockAce);
+
       $scope.$digest();
 
       var environmentalVars = element.isolateScope().environmentalVars;

@@ -24,6 +24,9 @@ function envVars(
       var editor, session;
 
       $scope.$on('eventPasteLinkedInstance', function (eventName, text) {
+        if (!editor) {
+          return;
+        }
         editor.insert(text);
         updateEnvs(editor.getValue());
         editor.focus();
@@ -88,6 +91,9 @@ function envVars(
       $scope.$watch('environmentalVars', updateEnvs);
 
       $scope.$on('$destroy', function () {
+        if (!editor) {
+          return;
+        }
         editor.session.$stopWorker();
         editor.destroy();
       });
