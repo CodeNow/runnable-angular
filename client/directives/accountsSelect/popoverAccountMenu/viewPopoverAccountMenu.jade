@@ -125,56 +125,6 @@
                   xlink:href = "#icons-cog"
                 )
 
-            //- if private sandbox is not set up and sandbox has >= 1 container
-            li.list-item.list-btn(
-              modal
-              modal-state-model = "{modalFlip: true}"
-              modal-template = "viewModalIsolation"
-              ng-if = "$root.featureFlags.isolationUI && !$root.featureFlags.isolationSetUp"
-            )
-              button.btn.btn-sm.gray
-                svg.iconnables.icons-add.icons-round
-                  use(
-                    xlink:href = "#icons-add"
-                  )
-                | Add Private Sandbox
-
-            //- if private sandbox is set up
-            li.list-item(
-              ng-if = "$root.featureFlags.isolationSetUp"
-            )
-              .popover-list-item(
-                ng-class = "{'no-touching': $root.featureFlags.isolationActive}"
-                ng-click = "$root.featureFlags.isolationActive = true"
-              )
-                svg.iconnables.icons-fat-check(
-                  ng-class = "{'active': $root.featureFlags.isolationActive}"
-                )
-                  use(
-                    xlink:href = "#icons-fat-check"
-                  )
-                img.gravatar.gravatar-isolation(
-                  alt = "{{data.activeAccount.oauthName()}}"
-                  height = "24"
-                  ng-src = "{{data.activeAccount.gravitar()}}"
-                  width = "24"
-                )
-                img.gravatar(
-                  alt = "{{data.user.oauthName()}}"
-                  height = "15"
-                  ng-src = "{{data.user.gravitar()}}"
-                  width = "15"
-                )
-                | Private Sandbox
-              svg.btn.btn-xxs.gray.iconnables.anchor-right.icons-close(
-                modal
-                modal-template = "viewModalDeleteSandbox"
-                title = "Delete Sandbox"
-              )
-                use(
-                  xlink:href = "#icons-close"
-                )
-
           ul.list.popover-list.list-secondary
             li.list-item.popover-list-item(
               ng-click = "goToPanel('changeOrganization')"

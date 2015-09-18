@@ -190,7 +190,6 @@
   border-color: transparent;
   color: $purple-lightest;
   flex: 0 0 auto;
-  transition: all .15s ease-out;
 
   @include media(sm) {
     .span {
@@ -205,32 +204,6 @@
     color: $white;
   }
 
-  // org button
-  &:first-child {
-    opacity: 1;
-  }
-
-  // private sandbox button
-  &:last-child {
-    opacity: 0;
-    top: -6px;
-  }
-
-  // transition to/from private sandbox
-  .private & {
-    transform: translate3d(0,-30px,0);
-
-    // org button
-    &:first-child {
-      opacity: 0;
-    }
-
-    // private sandbox button
-    &:last-child {
-      opacity: 1;
-    }
-  }
-
   .gravatar {
     float: left;
     margin-right: 7px;
@@ -242,15 +215,6 @@
 
     @include media(sm) {
       margin-right: 3px;
-    }
-
-    &.gravatar-isolation {
-      margin-right: 12px;
-    }
-
-    // isolation gravatar
-    + .gravatar {
-      left: 27px;
     }
   }
 }
