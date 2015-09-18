@@ -57,7 +57,7 @@ function stackSelectorForm(
       $scope.updateDockerfile = function () {
         return loadingPromises.finished($scope.loadingPromisesTarget)
           .then(function () {
-            return loadingPromises.add($scope.loadingPromisesTarget, updateDockerfileFromState($scope.state));
+            return loadingPromises.add($scope.loadingPromisesTarget, updateDockerfileFromState($scope.state, true, false));
           });
       };
     }

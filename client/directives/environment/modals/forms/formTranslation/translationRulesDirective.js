@@ -12,6 +12,9 @@ require('app')
     return {
       restrict: 'A',
       templateUrl: 'viewFormTranslation',
+      scope: {
+        state: '=',
+      },
       link: function ($scope, elem, attrs) {
         $scope.$watch('state.contextVersion', function (contextVersion) {
           if (contextVersion &&

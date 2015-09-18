@@ -19,18 +19,22 @@ function ContainerFilesController(
 
   var self = this;
 
+  this.init = function (opts) {
+    angular.extend(self, opts);
+  };
+
   this.repositoryPopover = {
     actions: {
       remove: function (repoContainerFile) {
         var myIndex = 0;
-        $scope.state.containerFiles.find(function (containerFile, index) {
+        self.state.containerFiles.find(function (containerFile, index) {
           myIndex = index;
           return containerFile.id === repoContainerFile.id;
         });
 
-        $scope.state.containerFiles.splice(myIndex, 1);
+        self.state.containerFiles.splice(myIndex, 1);
 
-        var acv = $scope.state.contextVersion.appCodeVersions.models.find(function (acv) {
+        var acv = self.state.contextVersion.appCodeVersions.models.find(function (acv) {
           return acv.attrs.repo.split('/')[1] === repoContainerFile.repo.attrs.name;
         });
 
@@ -38,16 +42,16 @@ function ContainerFilesController(
           'editServerModal',
           promisify(acv, 'destroy')()
             .then(function () {
-              return updateDockerfileFromState($scope.state);
+              return updateDockerfileFromState(self.state);
             })
         )
           .catch(errs.handler);
       },
       create: function (repoContainerFile) {
-        $scope.state.containerFiles.push(repoContainerFile);
+        self.state.containerFiles.push(repoContainerFile);
         loadingPromises.add(
           'editServerModal',
-          promisify($scope.state.contextVersion.appCodeVersions, 'create', true)({
+          promisify(self.state.contextVersion.appCodeVersions, 'create', true)({
             repo: repoContainerFile.repo.attrs.full_name,
             branch: repoContainerFile.branch.attrs.name,
             commit: repoContainerFile.commit.attrs.sha,
@@ -56,13 +60,13 @@ function ContainerFilesController(
           })
             .then(function (acv) {
               repoContainerFile.acv = acv;
-              return updateDockerfileFromState($scope.state);
+              return updateDockerfileFromState(self.state);
             })
         )
           .catch(errs.handler);
       },
       update: function (repoContainerFile) {
-        var myRepo = $scope.state.containerFiles.find(function (containerFile) {
+        var myRepo = self.state.containerFiles.find(function (containerFile) {
           return containerFile.id === repoContainerFile.id;
         });
 
@@ -70,7 +74,7 @@ function ContainerFilesController(
           myRepo[key] = repoContainerFile[key];
         });
 
-        var acv = $scope.state.contextVersion.appCodeVersions.models.find(function (acv) {
+        var acv = self.state.contextVersion.appCodeVersions.models.find(function (acv) {
           return acv.attrs.repo === repoContainerFile.acv.attrs.repo;
         });
 
@@ -83,7 +87,7 @@ function ContainerFilesController(
           })
             .then(function (acv) {
               myRepo.acv = acv;
-              return updateDockerfileFromState($scope.state);
+              return updateDockerfileFromState(self.state);
             })
         )
           .catch(errs.handler);
@@ -99,8 +103,8 @@ function ContainerFilesController(
         if (!containerFile.file.length) { return; }
         containerFile.saving = true;
 
-        var uploadURL = configAPIHost + '/' + $scope.state.contextVersion.urlPath +
-          '/' + $scope.state.contextVersion.id() + '/files';
+        var uploadURL = configAPIHost + '/' + self.state.contextVersion.urlPath +
+          '/' + self.state.contextVersion.id() + '/files';
         var files = containerFile.file;
         containerFile.name = files[0].name;
 
@@ -122,8 +126,8 @@ function ContainerFilesController(
           .success(function (fileResponse) {
             containerFile.uploadFinished = true;
             containerFile.name = fileResponse.name;
-            containerFile.fileModel = $scope.state.contextVersion.newFile(fileResponse);
-            return promisify($scope.state.contextVersion.rootDir.contents, 'fetch')();
+            containerFile.fileModel = self.state.contextVersion.newFile(fileResponse);
+            return promisify(self.state.contextVersion.rootDir.contents, 'fetch')();
           })
           .finally(function () {
             containerFile.saving = false;
@@ -140,11 +144,11 @@ function ContainerFilesController(
           myFile.fileModel = containerFile.fileModel;
           myFile.commands = containerFile.commands;
           myFile.path = containerFile.path;
-          $scope.state.containerFiles.push(myFile);
+          self.state.containerFiles.push(myFile);
         }
         loadingPromises.add(
           'editServerModal',
-          updateDockerfileFromState($scope.state)
+          updateDockerfileFromState(self.state)
             .catch(errs.handler)
         );
         $rootScope.$broadcast('close-popovers');
@@ -165,19 +169,19 @@ function ContainerFilesController(
       deleteFile: function (containerFile) {
         $rootScope.$broadcast('close-popovers');
 
-        var file = containerFile.fileModel || $scope.state.contextVersion.rootDir.contents.models.find(function (fileModel) {
+        var file = containerFile.fileModel || self.state.contextVersion.rootDir.contents.models.find(function (fileModel) {
             return fileModel.attrs.name === containerFile.name;
           });
         if (file) {
-          var containerIndex = $scope.state.containerFiles.indexOf(containerFile);
+          var containerIndex = self.state.containerFiles.indexOf(containerFile);
           if (containerIndex > -1) {
-            $scope.state.containerFiles.splice(containerIndex, 1);
+            self.state.containerFiles.splice(containerIndex, 1);
           }
 
           return loadingPromises.add('editServerModal',
             promisify(file, 'destroy')()
               .then(function () {
-                return updateDockerfileFromState($scope.state);
+                return updateDockerfileFromState(self.state);
               })
               .catch(errs.handler)
           );
@@ -190,17 +194,17 @@ function ContainerFilesController(
 
   this.dropContainerFile = function (event, newIndex, containerFileId) {
     var currentIndex = 0;
-    var containerFile = $scope.state.containerFiles.find(function (containerFile, index) {
+    var containerFile = self.state.containerFiles.find(function (containerFile, index) {
       currentIndex = index;
       return containerFile.id === containerFileId;
     });
     if (newIndex > 0 && currentIndex <= newIndex - 1) {
       newIndex -= 1;
     }
-    $scope.state.containerFiles.splice(currentIndex, 1);
-    $scope.state.containerFiles.splice(newIndex, 0, containerFile);
+    self.state.containerFiles.splice(currentIndex, 1);
+    self.state.containerFiles.splice(newIndex, 0, containerFile);
     // DO NOT RETURN THIS!  DND list will think it goes to the list
-    loadingPromises.add('editServerModal', updateDockerfileFromState($scope.state))
+    loadingPromises.add('editServerModal', updateDockerfileFromState(self.state))
       .catch(errs.handler);
   };
 
@@ -209,16 +213,16 @@ function ContainerFilesController(
       active: false,
       actions: {
         save: function (data) {
-          if ($scope.state.containerFiles.find(hasKeypaths({name: data.name}))) {
+          if (self.state.containerFiles.find(hasKeypaths({name: data.name}))) {
             return errs.handler(new Error('An SSH key of the same name already exists'));
           }
           var sshKey = new cardInfoTypes.SSHKey();
           sshKey.name = data.name;
-          $scope.state.containerFiles.unshift(sshKey);
+          self.state.containerFiles.unshift(sshKey);
 
           loadingPromises.add(
             'editServerModal',
-            promisify($scope.state.contextVersion.rootDir.contents, 'create')({
+            promisify(self.state.contextVersion.rootDir.contents, 'create')({
               name: sshKey.name,
               path: '/',
               body: data.key,
@@ -227,22 +231,22 @@ function ContainerFilesController(
             })
               .then(function (file) {
                 sshKey.fileModel = file;
-                return promisify($scope.state.contextVersion.rootDir.contents, 'fetch')();
+                return promisify(self.state.contextVersion.rootDir.contents, 'fetch')();
               })
               .then(function () {
-                return updateDockerfileFromState($scope.state);
+                return updateDockerfileFromState(self.state);
               })
               .catch(errs.handler)
           );
           $rootScope.$broadcast('close-popovers');
         },
         remove: function (sshKeyFile) {
-          var file = sshKeyFile.fileModel || $scope.state.contextVersion.rootDir.contents.models.find(function (fileModel) {
+          var file = sshKeyFile.fileModel || self.state.contextVersion.rootDir.contents.models.find(function (fileModel) {
             return fileModel.attrs.name === sshKeyFile.name;
           });
-          var containerIndex = $scope.state.containerFiles.indexOf(sshKeyFile);
+          var containerIndex = self.state.containerFiles.indexOf(sshKeyFile);
           if (containerIndex > -1) {
-            $scope.state.containerFiles.splice(containerIndex, 1);
+            self.state.containerFiles.splice(containerIndex, 1);
           }
 
           if (file) {
@@ -250,15 +254,15 @@ function ContainerFilesController(
               'editServerModal',
               promisify(file, 'destroy')()
                 .then(function () {
-                  return promisify($scope.state.contextVersion.rootDir.contents, 'fetch')();
+                  return promisify(self.state.contextVersion.rootDir.contents, 'fetch')();
                 })
                 .then(function () {
-                  return updateDockerfileFromState($scope.state);
+                  return updateDockerfileFromState(self.state);
                 })
                 .catch(errs.handler)
             );
           } else {
-            loadingPromises.add('editServerModal', updateDockerfileFromState($scope.state))
+            loadingPromises.add('editServerModal', updateDockerfileFromState(self.state))
               .catch(errs.handler);
           }
           $rootScope.$broadcast('close-popovers');
@@ -266,7 +270,7 @@ function ContainerFilesController(
       }
     },
     getFileDate: function (sshKeyFile) {
-      var file = sshKeyFile.fileModel || $scope.state.contextVersion.rootDir.contents.models.find(function (fileModel) {
+      var file = sshKeyFile.fileModel || self.state.contextVersion.rootDir.contents.models.find(function (fileModel) {
           return fileModel.attrs.name === sshKeyFile.name;
         });
       sshKeyFile.fileModel = file;
@@ -278,8 +282,8 @@ function ContainerFilesController(
   this.actions = {
     triggerAddRepository: function () {
       self.repositoryPopover.data = {
-        appCodeVersions: $scope.state.contextVersion.appCodeVersions.models,
-        instance: $scope.state.instance
+        appCodeVersions: self.state.contextVersion.appCodeVersions.models,
+        instance: self.state.instance
       };
       self.repositoryPopover.active = true;
       $timeout(function () {
@@ -290,8 +294,8 @@ function ContainerFilesController(
       if (repo.type === 'Main Repository') { return; }
       self.repositoryPopover.data = {
         repo: repo.clone(),
-        instance: $scope.state.instance,
-        appCodeVersions: $scope.state.contextVersion.appCodeVersions.models
+        instance: self.state.instance,
+        appCodeVersions: self.state.contextVersion.appCodeVersions.models
       };
       self.repositoryPopover.active = true;
       $timeout(function () {

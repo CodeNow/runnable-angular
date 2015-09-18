@@ -1,8 +1,19 @@
 .modal-backdrop.in(
-  edit-server-modal
-  instance = "currentModel"
-  modal-actions = "defaultActions"
   ng-class = "{'full-screen': $root.featureFlags.fullScreen}"
-  selected-tab = "stateModel"
-  state-model = "stateModel"
+  ng-controller = "EditServerModalController as SMC"
+  ng-init = "SMC.init({\
+    instance: currentModel,\
+    modalActions: defaultActions,\
+    selectedTab: stateModel\
+  })"
 )
+  form.modal-dialog.modal-edit(
+    name = "editServerForm"
+    ng-include = "'editServerModalView'"
+    ng-class = "{\
+      'ace-active': (SMC.selectedTab === 'buildfiles' || SMC.selectedTab === 'env'),\
+      'disabled': SMC.building || $root.isLoading.editServerModal,\
+      'xl': (SMC.selectedTab === 'buildfiles' || SMC.selectedTab === 'env' || SMC.selectedTab === 'logs')\
+    }"
+  )
+

@@ -1,6 +1,16 @@
 .modal-backdrop.in(
-  default-actions = "defaultActions"
-  actions = "actions"
-  data = "data"
-  setup-server-modal
+  ng-controller = "SetupServerModalController as SMC"
 )
+  .modal-dialog.modal-edit(
+    ng-if = "SMC.state.repo"
+    ng-include = "'verifyServerSectionView'"
+    ng-class = "{\
+      'ace-active': (SMC.selectedTab === 'buildfiles' || SMC.selectedTab === 'env'),\
+      'disabled': $root.isLoading.setupServerModal,\
+      'xl': (SMC.selectedTab === 'buildfiles' || SMC.selectedTab === 'env' || SMC.selectedTab === 'logs')\
+    }"
+  )
+  .modal-dialog.modal-server-select(
+    ng-if = "!SMC.state.repo"
+    ng-include = "'repositorySelectSectionView'"
+  )

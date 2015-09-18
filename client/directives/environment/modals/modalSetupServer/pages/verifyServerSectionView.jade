@@ -1,5 +1,5 @@
 header.modal-header
-  h1.modal-heading {{ state.repo.attrs.name }}
+  h1.modal-heading {{ SMC.state.repo.attrs.name }}
   svg.iconnables.icons-close(
     ng-click = "defaultActions.cancel()"
   )
@@ -9,16 +9,18 @@ header.modal-header
       .row.modal-tabs.clearfix.js-animate(
         ng-if="$root.featureFlags.newVerificationFlow"
         ng-class = "{\
-          'active': selectedTab === 'repository',\
-          'tabs-1': state.step === 1,\
-          'tabs-2': state.step === 2\
+          'active': SMC.selectedTab === 'repository',\
+          'tabs-1': SMC.state.step === 1,\
+          'tabs-2': SMC.state.step === 2,\
+          'tabs-7': SMC.state.step === 3,\
+          'tabs-all': SMC.state.step ===  4\
         }"
-        style = "{{state.step === 3 ? 'transition-duration: .3s' : ''}}"
+        style = "{{SMC.state.step > 1 ? 'transition-duration: .3s' : ''}}"
       )
         button.btn.btn-radio(
-          ng-class = "{'active': state.step === 1 || selectedTab === 'repository'}"
-          ng-click = "changeTab('repository');"
-          ng-if = "(state.step >= 1 && !state.advanced) || isTabVisible('repository')"
+          ng-class = "{'active': SMC.state.step === 1 || SMC.selectedTab === 'repository'}"
+          ng-click = "SMC.changeTab('repository');"
+          ng-if = "(SMC.state.step >= 1 && !SMC.state.advanced) || isTabVisible('repository')"
         )
           svg.iconnables
             use(
@@ -26,9 +28,9 @@ header.modal-header
             )
           .btn-text Repository
         button.btn.btn-radio.js-animate(
-          ng-class = "{'active': state.step === 2 || selectedTab === 'commands'}"
-          ng-click = "changeTab('commands')"
-          ng-if = "(state.step >= 2 && !state.advanced) || isTabVisible('commands')"
+          ng-class = "{'active': SMC.state.step === 2 || SMC.selectedTab === 'commands'}"
+          ng-click = "SMC.changeTab('commands')"
+          ng-if = "(SMC.state.step >= 2 && !SMC.state.advanced) || isTabVisible('commands')"
         )
           svg.iconnables
             use(
@@ -38,9 +40,9 @@ header.modal-header
             br
             | & Packages
         button.btn.btn-radio.js-animate(
-          ng-class = "{'active': selectedTab === 'ports'}"
-          ng-click = "changeTab('ports')"
-          ng-if = "(state.step >= 3 && !state.advanced) || isTabVisible('ports')"
+          ng-class = "{'active': SMC.selectedTab === 'ports'}"
+          ng-click = "SMC.changeTab('ports')"
+          ng-if = "(SMC.state.step >= 3 && !SMC.state.advanced) || isTabVisible('ports')"
         )
           svg.iconnables
             use(
@@ -48,9 +50,9 @@ header.modal-header
             )
           .btn-text Exposed Ports
         button.btn.btn-radio.js-animate(
-          ng-class = "{'active': selectedTab === 'env'}"
-          ng-click = "changeTab('env')"
-          ng-if = "state.step >= 3"
+          ng-class = "{'active': SMC.selectedTab === 'env'}"
+          ng-click = "SMC.changeTab('env')"
+          ng-if = "SMC.state.step >= 3"
         )
           svg.iconnables
             use(
@@ -58,9 +60,9 @@ header.modal-header
             )
           .btn-text Environment Variables
         button.btn.btn-radio.js-animate(
-          ng-class = "{'active': selectedTab === 'files'}"
-          ng-click = "changeTab('files')"
-          ng-if = "(state.step >= 3 || isTabVisible('files')) && !state.advanced"
+          ng-class = "{'active': SMC.selectedTab === 'files'}"
+          ng-click = "SMC.changeTab('files')"
+          ng-if = "(SMC.state.step >= 3 || isTabVisible('files')) && !SMC.state.advanced"
         )
           svg.iconnables
             use(
@@ -68,9 +70,9 @@ header.modal-header
             )
           .btn-text Files & SSH Keys
         button.btn.btn-radio.js-animate(
-          ng-class = "{'active': selectedTab === 'translation'}"
-          ng-click = "changeTab('translation')"
-          ng-if = "state.step >= 3"
+          ng-class = "{'active': SMC.selectedTab === 'translation'}"
+          ng-click = "SMC.changeTab('translation')"
+          ng-if = "SMC.state.step >= 3"
         )
           svg.iconnables
             use(
@@ -78,9 +80,9 @@ header.modal-header
             )
           .btn-text Find & Replace
         button.btn.btn-radio.js-animate(
-          ng-class = "{'active': selectedTab === 'buildfiles'}"
-          ng-click = "changeTab('buildfiles')"
-          ng-if = "state.step >= 3"
+          ng-class = "{'active': SMC.selectedTab === 'buildfiles'}"
+          ng-click = "SMC.changeTab('buildfiles')"
+          ng-if = "SMC.state.step >= 3"
         )
           svg.iconnables
             use(
@@ -89,11 +91,11 @@ header.modal-header
           .btn-text Dockerfile
         button.btn.btn-radio.js-animate(
           ng-class = "{\
-            'active': selectedTab === 'logs',\
-            'active': state.step === 4,\
+            'active': SMC.selectedTab === 'logs',\
+            'active': SMC.state.step === 4,\
           }"
-          ng-click = "changeTab('logs')"
-          ng-if = "state.step === 4"
+          ng-click = "SMC.changeTab('logs')"
+          ng-if = "SMC.state.step === 4"
         )
           svg.iconnables
             use(
@@ -102,14 +104,14 @@ header.modal-header
           .btn-text Logs
 
  section.modal-body(
-    ng-if = "isLoading.setupServerModal"
+    ng-if = "$root.isLoading.setupServerModal"
   )
     .spinner-wrapper.spinner-md.in(
       ng-include = "'spinner'"
     )
 
 section.modal-body(
-  ng-if = "!isLoading.setupServerModal"
+  ng-if = "!$root.isLoading.setupServerModal"
 )
   .modal-form(
     ng-form = "verifyServerForm"
@@ -117,64 +119,66 @@ section.modal-body(
     // Stack & Branch
     .label(
       data = "data"
-      ng-if = "!$root.featureFlags.newVerificationFlow || state.step === 1 || selectedTab === 'repository'"
+      ng-if = "!$root.featureFlags.newVerificationFlow || SMC.state.step === 1 || SMC.selectedTab === 'repository'"
       stack-selector-form
-      state = "state"
+      state = "SMC.state"
       loading-promises-target = "setupServerModal"
       is-new-container="true"
     )
     // Commands
     .label(
       repository-form
-      ng-if = "!$root.featureFlags.newVerificationFlow || state.step === 2 || selectedTab === 'commands'"
+      ng-if = "!$root.featureFlags.newVerificationFlow || SMC.state.step === 2 || SMC.selectedTab === 'commands'"
       start-command-can-disable = "true"
-      state = "state"
+      state = "SMC.state"
       loading-promises-target = "setupServerModal"
     )
     // Default messages
     p.p.empty(
-      ng-if = "state.step === 3 && selectedTab === null"
+      ng-if = "SMC.state.step === 3 && SMC.selectedTab === null"
     ) You’re ready to start this container’s first build!
         br
         small.small Or select a tab to continue configuring your container.
     // Ports
     .modal-form(
       ng-include = "'viewFormPorts'"
-      ng-show = "selectedTab === 'ports' && state.step === 3"
+      ng-show = "SMC.selectedTab === 'ports' && SMC.state.step === 3"
     )
     // Environment variables
     .modal-form(
       ng-include = "'viewFormEnvironmentVariables'"
-      ng-show = "selectedTab === 'env' && state.step === 3"
+      ng-show = "SMC.selectedTab === 'env' && SMC.state.step === 3"
     )
     // Files & SSH Keys
     .modal-form(
       ng-controller = "ContainerFilesController as CFC"
+      ng-init = "CFC.init({ state: SMC.state })"
       ng-include = "'viewFormFiles'"
-      ng-show = "selectedTab === 'files' && state.step === 3"
+      ng-show = "SMC.selectedTab === 'files' && SMC.state.step === 3"
     )
     // Find & Replace
     .modal-form(
-      ng-show = "selectedTab === 'translation' && state.step === 3"
+      ng-show = "SMC.selectedTab === 'translation' && SMC.state.step === 3"
+      state = "SMC.state"
       translation-rules
     )
     // Dockerfile
     .modal-form(
       ng-include = "'viewFormBuildfiles'"
-      ng-show = "selectedTab === 'buildfiles' && state.step === 3"
+      ng-show = "SMC.selectedTab === 'buildfiles' && SMC.state.step === 3"
     )
 
 footer.modal-footer.clearfix
   //- disabled if there is no value in the command input
   button.btn.green(
-    ng-disabled = "verifyServerForm.$invalid || (state.selectedStack | selectedStackInvalid)"
-    ng-click = "createServer(state)"
-    ng-if="!$root.featureFlags.newVerificationFlow || ($root.featureFlags.newVerificationFlow && state.step >= 3)"
+    ng-disabled = "verifyServerForm.$invalid || (SMC.state.selectedStack | selectedStackInvalid)"
+    ng-click = "SMC.createServer(SMC.state)"
+    ng-if="!$root.featureFlags.newVerificationFlow || ($root.featureFlags.newVerificationFlow && SMC.state.step >= 3)"
   ) Start Build
   button.btn.green(
-    ng-disabled = "verifyServerForm.$invalid || (state.selectedStack | selectedStackInvalid)"
-    ng-if="$root.featureFlags.newVerificationFlow && state.step < 3"
-    ng-click = "goToNextStep()"
+    ng-disabled = "verifyServerForm.$invalid || (SMC.state.selectedStack | selectedStackInvalid)"
+    ng-if="$root.featureFlags.newVerificationFlow && SMC.state.step < 3"
+    ng-click = "SMC.goToNextStep()"
   ) Next
   button.btn.white.btn-cancel(
     ng-click = "defaultActions.cancel()"
