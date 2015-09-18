@@ -6,7 +6,11 @@
   .arrow.white
   .popover-content
     ul.popover-list
-      li.list-item.popover-list-item
+      li.list-item.popover-list-item(
+        modal
+        modal-state-model = "{modalFlip: true}"
+        modal-template = "viewModalIsolation"
+      )
         svg.iconnables
         | Enable Isolation…
       li.divider(
