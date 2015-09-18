@@ -65,6 +65,7 @@
             xlink:href = "#icons-new-repository-server"
           )
         span.span.text-overflow optimus
+        //- should get class ".modified-configuration" if the selected branch has a modified configuration
         .btn.btn-xs.gray.btn-select.text-left(
           ng-init = "branchFirst = 'master'"
         )
@@ -114,7 +115,7 @@
           )
         span.span.text-overflow runnable-angular
         //- should get class ".modified-configuration" if the selected branch has a modified configuration
-        .btn.btn-xs.gray.btn-select.text-left.modified-configuration(
+        .btn.btn-xs.gray.btn-select.text-left(
           ng-init = "branchSecond = 'master'"
         )
           span.text-overflow {{branchSecond}}
@@ -162,6 +163,7 @@
             xlink:href = "#icons-new-repository-server"
           )
         span.span.text-overflow mavis
+        //- should get class ".modified-configuration" if the selected branch has a modified configuration
         .btn.btn-xs.gray.btn-select.text-left(
           ng-init = "branchThird = 'master'"
         )
