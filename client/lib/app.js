@@ -27,9 +27,9 @@ module.exports = angular.module('app', [
       modules: [{
         serie: true,
         name: 'ui.ace',
-        files: ['https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.9/ace.min.js',
-          'https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.9/ext-searchbox.js',
-          'https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.9/ext-modelist.js',
+        files: ['https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.min.js',
+          'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ext-searchbox.js',
+          'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ext-modelist.js',
           '/build/js/ace.js'
         ]
       }]
