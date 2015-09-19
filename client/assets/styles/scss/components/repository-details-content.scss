@@ -29,8 +29,8 @@
       font-size: 15px;
       padding-right: 30px;
 
-      &:active,
-      &.active {
+      &:active:not(.disabled),
+      &.active:not(.disabled) {
         border-color: currentColor;
         color: $purple-light;
         cursor: default;
@@ -41,10 +41,14 @@
 
         .icons-fat-check {
           background-color: $purple-light;
-          visibility: visible;
         }
       }
 
+      &.active.disabled .icons-fat-check {
+        background-color: $gray-light;
+      }
+
+      &.active .icons-fat-check,
       &:not(.disabled):hover .icons-fat-check {
         visibility: visible;
       }
