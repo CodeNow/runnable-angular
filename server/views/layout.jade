@@ -44,7 +44,7 @@ html(
           accessToken: "07537af868d741b495dbaaaf1bcb77f5",
           captureUncaught: true,
           payload: {
-            environment: "production",
+            environment: "#{locals.rollbarEnv}",
             client: {
               javascript: {
                 source_map_enabled: true,
