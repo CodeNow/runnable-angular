@@ -1,5 +1,6 @@
 //- nav/sidebar
 nav.nav-sidebar(
+  ng-if = "$root.featureFlags.isolationUI"
   ng-include = "'viewNavBar'"
   ng-init = "\
     containers = [\

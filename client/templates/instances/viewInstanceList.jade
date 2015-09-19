@@ -1,3 +1,6 @@
+//- ************************
+//- deprecated file, delete with isolationUI feature flag
+
 //- containers organized by repository
 .list.list-containers(
   ng-if = "CIS.activeAccount && !isLoading.sidebar"
@@ -72,7 +75,7 @@
   ) 8 more…
 
 //- non-repository containers
-//- using ng-show because the nonREpoInstances variable is initialized in the ng-repeat underneath this
+//- using ng-show because the nonRepoInstances variable is initialized in the ng-repeat underneath this
 //-  This is for efficiency concerns
 .list.list-containers(
   ng-if = "CIS.activeAccount && !isLoading.sidebar"
@@ -114,3 +117,6 @@
         use(
           xlink:href = "#icons-advanced"
         )
+
+//- deprecated file, delete with isolationUI feature flag
+//- ************************

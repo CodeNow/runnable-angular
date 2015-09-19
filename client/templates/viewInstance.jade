@@ -77,18 +77,18 @@
     ng-if = "!$root.featureFlags.isolationUI"
   )
 
+    .server-info.load(
+      instance = "dataInstance.data.instance"
+      instance-box-name
+      ng-show = "dataInstance.data.instance"
+    )
+
     .primary-actions(
       instance = "dataInstance.data.instance"
       instance-primary-actions
       loading = "isLoading.main"
       open-items = "dataInstance.data.openItems"
       saving = "dataInstance.data.saving"
-    )
-
-    .server-info.load(
-      instance = "dataInstance.data.instance"
-      instance-box-name
-      ng-show = "dataInstance.data.instance"
     )
 
   //- sidebar with repositories and urls
