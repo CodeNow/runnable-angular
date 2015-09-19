@@ -2,7 +2,7 @@
 //- deprecated file, delete with isolationUI feature flag
 
 //- containers organized by repository
-.list.list-containers.deprecated(
+.list.list-containers(
   ng-if = "CIS.activeAccount && !isLoading.sidebar"
   ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
 )
@@ -77,7 +77,7 @@
 //- non-repository containers
 //- using ng-show because the nonRepoInstances variable is initialized in the ng-repeat underneath this
 //-  This is for efficiency concerns
-.list.list-containers.deprecated(
+.list.list-containers(
   ng-if = "CIS.activeAccount && !isLoading.sidebar"
   ng-show = "nonRepoInstances.length"
 )
