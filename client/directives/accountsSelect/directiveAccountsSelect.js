@@ -25,6 +25,10 @@ function accountsSelect (
     },
     link: function ($scope) {
 
+      $scope.$on('changed-animated-panel', function (evt, panelName) {
+        $scope.data.currentPanelName = panelName;
+      });
+
       $scope.popoverAccountMenu = {
         actions: {
           getHeight: function (view) {

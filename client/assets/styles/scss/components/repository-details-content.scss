@@ -62,6 +62,10 @@
         }
       }
 
+      &:last-child {
+        margin-bottom: 15px;
+      }
+
       .small {
         color: $gray;
         display: flex;
