@@ -1,14 +1,14 @@
 nav.sidebar.nav-sidebar.deprecated(
   ng-if = "!$root.featureFlags.isolationUI"
 )
-  section.containers(
+  section.containers.deprecated(
     ng-if = "!CIS.instancesByPod"
   )
     .spinner-wrapper.spinner-md.spinner-gray.in(
       ng-include = "'spinner'"
     )
 
-  section.containers(
+  section.containers.deprecated(
     ng-if = "CIS.instancesByPod"
     ng-include = "'viewInstanceList'"
     scroll-offset = "200"

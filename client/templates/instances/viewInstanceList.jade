@@ -1,5 +1,5 @@
 //- containers organized by repository
-.list.list-containers(
+.list.list-containers.deprecated(
   ng-if = "CIS.activeAccount && !isLoading.sidebar"
   ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
 )
@@ -74,7 +74,7 @@
 //- non-repository containers
 //- using ng-show because the nonREpoInstances variable is initialized in the ng-repeat underneath this
 //-  This is for efficiency concerns
-.list.list-containers(
+.list.list-containers.deprecated(
   ng-if = "CIS.activeAccount && !isLoading.sidebar"
   ng-show = "nonRepoInstances.length"
 )
