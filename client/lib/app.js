@@ -25,8 +25,13 @@ module.exports = angular.module('app', [
     $ocLazyLoadProvider.config({
       debug: false,
       modules: [{
+        serie: true,
         name: 'ui.ace',
-        files: ['/build/js/ace.js']
+        files: ['https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.9/ace.min.js',
+          'https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.9/ext-searchbox.js',
+          'https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.9/ext-modelist.js',
+          '/build/js/ace.js'
+        ]
       }]
     });
   });

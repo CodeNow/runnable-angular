@@ -52,7 +52,6 @@
     "ansi-to-html": "git://github.com/Runnable/ansi-to-html.git#v0.3.4",
     "array-includes": "^3.0.1",
     "async": "0.9.2",
-    "brace": "git://github.com/Runnable/brace.git#5a32dd26ce9826718836eda688837db5167c0fa5",
     "callback-count": "0.1.0",
     "card-info-types": "git+ssh://git@github.com/CodeNow/card-info-types.git#v0.3.2",
     "chai-as-promised": "^5.1.0",
@@ -135,8 +134,7 @@
     "primus-client": "./client/assets/js/primus-client.js",
     "config/routes": "./client/config/routes.js",
     "config/api": "./client/config/api.js",
-    "config/environment": "./client/config/environment.js",
-    "lib/braceModes": "./client/lib/braceModes.js"
+    "config/environment": "./client/config/environment.js"
   },
   "browserify": {
     "debug": true
