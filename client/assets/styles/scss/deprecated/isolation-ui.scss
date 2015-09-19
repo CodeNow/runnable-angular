@@ -1,4 +1,8 @@
+//- ************************
+//- deprecated file, delete with isolationUI feature flag
+
 .nav-sidebar-deprecated {
+  background: $gray-lighterest;
 
   + .content {
     margin-left: 240px;
@@ -6,6 +10,11 @@
     .instance {
       padding-top: 72px;
     }
+  }
+
+  .spinner-wrapper {
+    align-items: center;
+    height: 100%;
   }
 }
 
@@ -42,7 +51,7 @@
   }
 }
 
-.list-containers.deprecated {
+.list-containers {
   padding: 9px 0;
 
   &:not(:last-child) {
@@ -129,12 +138,5 @@
   }
 }
 
-// deprecated nav-sidebar version
-.nav-sidebar-deprecated {
-  background: $gray-lighterest;
-
-  .spinner-wrapper {
-    align-items: center;
-    height: 100%;
-  }
-}
+//- deprecated file, delete with isolationUI feature flag
+//- ************************
