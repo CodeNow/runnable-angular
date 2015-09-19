@@ -12,8 +12,8 @@
   }
 }
 
-// global sidebar, new vew
-.nav-sidebar:not(.deprecated) {
+// global sidebar
+.nav-sidebar {
   background: $gray-lighterest;
   border-right: 1px solid $gray-lighter;
   height: 100vh;
@@ -178,16 +178,6 @@
     &:active {
       color: $purple-light;
     }
-  }
-}
-
-// deprecated ver
-.nav-sidebar.deprecated {
-  background: $gray-lighterest;
-
-  .spinner-wrapper {
-    align-items: center;
-    height: 100%;
   }
 }
 

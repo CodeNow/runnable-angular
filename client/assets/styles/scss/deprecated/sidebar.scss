@@ -1,4 +1,4 @@
-.sidebar.deprecated {
+.nav-sidebar-deprecated {
 
   + .content {
     margin-left: 240px;
@@ -126,5 +126,15 @@
   // "X more…" button
   > .btn {
     padding: 0 0 0 24px;
+  }
+}
+
+// deprecated nav-sidebar version
+.nav-sidebar-deprecated {
+  background: $gray-lighterest;
+
+  .spinner-wrapper {
+    align-items: center;
+    height: 100%;
   }
 }
