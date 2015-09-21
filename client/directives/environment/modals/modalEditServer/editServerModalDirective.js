@@ -421,6 +421,7 @@ function editServerModal(
 
       $scope.$on('$destroy', function () {
         helpCards.setActiveCard(null);
+        $rootScope.$emit('reset-close-modal-handler');
       });
     }
   };
