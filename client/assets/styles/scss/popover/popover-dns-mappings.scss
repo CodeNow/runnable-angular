@@ -41,7 +41,7 @@
       color: $gray-light;
       margin: 0;
       right: -9px;
-      top: 2px;
+      top: 15px;
     }
 
     // check icon
@@ -76,12 +76,13 @@
     color: $gray-dark;
     font-size: 14px;
     font-weight: $weight-bold;
-    padding: 0;
+    padding: 12px 0 0;
     position: relative;
 
     // specific to elastic container
     &:first-child {
       color: $gray;
+      font-size: 13px;
 
       // arrow
       &::after {
@@ -91,13 +92,19 @@
         font-size: 18px;
         position: absolute;
         right: 9px;
-        top: -3px;
+        top: 15px;
       }
+
 
       // container name
       .text-overflow:first-child {
         padding-right: 24px;
       }
+    }
+
+    // second cell
+    + .cell {
+      line-height: 30px;
     }
 
     // just changed animation (along with check)
@@ -129,10 +136,9 @@
     &.multi-line {
       height: 54px;
       line-height: 1.2;
-      padding-top: 12px;
 
       .small {
-        font-size: 11px;
+        padding-right: 24px;
       }
 
       // recenter if multi-line

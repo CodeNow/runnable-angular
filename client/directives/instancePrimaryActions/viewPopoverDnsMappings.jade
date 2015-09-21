@@ -2,11 +2,11 @@
   ng-class = "{'in': active}"
   ng-init = "\
     dnsMappings = [\
-      {name: 'data-dog', elasticHostname: 'datadog-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'runnabro', status: 'green'},\
-      {name: 'mavis', elasticHostname: 'mavis-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'CodeNow', status: 'green'},\
-      {name: 'neo4j', elasticHostname: 'neo4j-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'CodeNow', status: 'green'},\
-      {name: 'optimus', elasticHostname: 'optimus-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'CodeNow', status: 'green'},\
-      {name: 'runnable-angular', elasticHostname: 'runnable-angular-staging-CodeNow.runnableapp.com', branch: 'master', sandbox: 'CodeNow', status: 'green'}\
+      {name: 'data-dog', elasticHostname: 'datadog-staging-CodeNow.runnableapp.com', branch: 'master', status: 'green'},\
+      {name: 'mavis', elasticHostname: 'mavis-staging-CodeNow.runnableapp.com', branch: 'master', status: 'green'},\
+      {name: 'neo4j', elasticHostname: 'neo4j-staging-CodeNow.runnableapp.com', branch: 'master', status: 'green'},\
+      {name: 'optimus', elasticHostname: 'optimus-staging-CodeNow.runnableapp.com', branch: 'master', status: 'green'},\
+      {name: 'runnable-angular', elasticHostname: 'runnable-angular-staging-CodeNow.runnableapp.com', branch: 'master', status: 'green'}\
     ];\
     mavisBranches = [\
       {name: 'master', status: 'green'},\
@@ -99,9 +99,6 @@
                   tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
                 )
                 | {{container.branch}}
-                small.small.text-overflow(
-                  title = "{{container.sandbox}}"
-                ) {{container.sandbox}}
 
               //- inline for svg animation
               svg.iconnables.icons-check.float-right(
