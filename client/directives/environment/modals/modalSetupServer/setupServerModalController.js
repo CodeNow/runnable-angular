@@ -49,6 +49,7 @@ function SetupServerModalController (
       return '';
     },
     state: {
+      ports: [],
       opts: {
         masterPod: true,
         name: ''
@@ -58,13 +59,7 @@ function SetupServerModalController (
       containerFiles: [
         mainRepoContainerFile
       ],
-      packages: new cardInfoTypes.Packages(),
-      getPorts: function () {
-        if (SMC.portTagOptions) {
-          return SMC.portTagOptions.convertTagsToPortList();
-        }
-        return [];
-      }
+      packages: new cardInfoTypes.Packages()
     },
     // Copy $scope dependencies
     actions:  $scope.actions,
@@ -79,6 +74,10 @@ function SetupServerModalController (
     .finally(function () {
       SMC.loading = false;
     });
+
+  $scope.$watchCollection(function () {
+     return SMC.state.ports;
+  }, updateDockerfileFromState.bind(null, SMC.state, true, true));
 
   function normalizeRepoName(repo) {
     return repo.attrs.name.replace(/[^a-zA-Z0-9-]/g, '-');
@@ -130,10 +129,20 @@ function SetupServerModalController (
   function loadAllOptions() {
     loading('setupServerModal', true); // Add spinner to modal
     // Populate ports at when stack has been selected
-    SMC.portTagOptions = new PortTagOptions();
-    var ports = keypather.get(SMC, 'state.selectedStack.ports');
-    if (ports) {
-      SMC.portTagOptions.setTags(ports);
+    var portsStr = keypather.get(SMC, 'state.selectedStack.ports');
+    if (typeof portsStr === 'string') {
+      portsStr = portsStr.replace(/,/gi, '');
+      var ports = (portsStr || '').split(' ');
+      // We need to keep the reference to the ports array
+      if (SMC.state.ports.length > 0) {
+        SMC.state.ports.splice(0, SMC.state.ports.length);
+      }
+      ports.forEach(function (port) {
+        // After adding initially adding ports here, ports can no longer be 
+        // added/removed since they are managed by the `ports-form` directive 
+        // and will get overwritten.
+        SMC.state.ports.push(port);
+      });
     }
     return fetchDockerfileFromSource(SMC.state.selectedStack.key)
       .then(function () {
@@ -162,7 +171,6 @@ function SetupServerModalController (
   };
 
   SMC.createServer = function () {
-    SMC.state.ports = SMC.state.getPorts();
     var createPromise = loadingPromises.finished('setupServerModal')
       .then(function () {
         return updateDockerfileFromState(SMC.state, false, true);

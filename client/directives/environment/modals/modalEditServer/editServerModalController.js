@@ -51,10 +51,10 @@ function EditServerModalController(
     showDebugCmd: false,
     data: {},
     state:  {
+      ports: [],
       opts: {
         env: []
       },
-      getPorts: SMC.portTagOptions.convertTagsToPortList.bind(SMC.portTagOptions),
       promises: {}
     },
     validation: {
@@ -93,7 +93,11 @@ function EditServerModalController(
 
       resetState(SMC.instance);
      }
-   });
+  });
+
+  SMC.updateDockerfileFromState = function () {
+    return loadingPromises.add('editServerModal', updateDockerfileFromState(SMC.state));
+  };
 
   $scope.$on('debug-cmd-status', function (evt, status) {
     SMC.showDebugCmd = status;
@@ -106,18 +110,29 @@ function EditServerModalController(
     SMC.linkedEnvResults = findLinkedServerVariables(SMC.state.opts.env);
   });
 
-  SMC.updateDockerfileFromState = function () {
-    return loadingPromises.add('editServerModal', updateDockerfileFromState(SMC.state));
-  };
-
   function afterParsingDockerfile(data, contextVersion) {
     Object.keys(data).forEach(function (key) {
       SMC.instance[key] = data[key];
     });
-    SMC.state.ports = data.ports;
-    SMC.portTagOptions.setTags(data.ports);
-    SMC.portTagOptions.tags.onAdd(SMC.updateDockerfileFromState);
-    SMC.portTagOptions.tags.onRemove(SMC.updateDockerfileFromState);
+    if (typeof data.ports === 'string') {
+      var portsStr = data.ports.replace(/,/gi, '');
+      var ports = (portsStr || '').split(' ');
+      // We need to keep the reference to the ports array
+      if (SMC.state.ports.length > 0) {
+        SMC.state.ports.splice(0, SMC.state.ports.length);
+      }
+      ports.forEach(function (port) {
+        // After adding initially adding ports here, ports can no longer be 
+        // added/removed since they are managed by the `ports-form` directive 
+        // and will get overwritten.
+        SMC.state.ports.push(port);
+      });
+    }
+
+    // Once ports are set, start listening to changes
+    $scope.$watchCollection(function () {
+         return SMC.state.ports;
+    }, SMC.updateDockerfileFromState.bind(SMC));
 
     SMC.state.packages = data.packages;
     SMC.state.startCommand = data.startCommand;
@@ -270,7 +285,6 @@ function EditServerModalController(
     SMC.saveTriggered = true;
     $rootScope.$broadcast('close-popovers');
     SMC.building = true;
-    SMC.state.ports = SMC.portTagOptions.convertTagsToPortList.bind(SMC.portTagOptions);
 
     var toRebuild;
     var toRedeploy;

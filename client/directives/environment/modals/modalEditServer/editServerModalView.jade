@@ -102,7 +102,8 @@ section.modal-body(
   )
   .modal-form(
     ng-if = "!SMC.state.advanced"
-    ng-include = "'viewFormPorts'"
+    ports-form
+    ports = "SMC.state.ports"
     ng-show = "SMC.selectedTab === 'ports'"
   )
   .modal-form(
