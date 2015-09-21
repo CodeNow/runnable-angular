@@ -415,36 +415,13 @@ function editServerModal(
           !$scope.openItems.isClean();
       }
 
-      var closeActions  = {};
-      function triggerClose () {
-        return $q(function (resolve, reject) {
-          if (!isDirty() || $scope.saveTriggered) {
-            return resolve();
-          }
-          closeActions.resolve = resolve;
-          closeActions.reject = reject;
-          $scope.confirmClose.active = true;
-        })
-          .then(function () {
-            helpCards.setActiveCard(null);
-          });
-      }
+      $scope.$emit('set-close-modal-handler', function () {
+        return !$scope.saveTriggered && isDirty();
+      });
 
-      $rootScope.$emit('set-close-modal-handler', triggerClose);
-
-      $scope.confirmClose = {
-        active: false,
-        actions: {
-          cancel: function () {
-            $rootScope.$broadcast('close-popovers');
-            closeActions.reject();
-          },
-          confirm: function () {
-            $rootScope.$broadcast('close-popovers');
-            closeActions.resolve();
-          }
-        }
-      };
+      $scope.$on('$destroy', function () {
+        helpCards.setActiveCard(null);
+      });
     }
   };
 }
