@@ -65,14 +65,13 @@
             | .
 
         //- begin dns mappings
-        .popover-content.fade(
-          ng-class = "{'in': isActivePanel()}"
+        .popover-content.load(
           ng-if = "isActivePanel && !state.empty"
         )
 
           //- list of DNS mappings
           ul.list.popover-list
-            li.list-item.popover-list-item.tr.multi-line.clearfix.load(
+            li.list-item.popover-list-item.tr.multi-line.clearfix(
               ng-click = "\
                 dnsMappings.currentIndex = $index;\
                 goToPanel('dnsList');\
