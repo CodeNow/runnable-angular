@@ -18,7 +18,6 @@ var tabVisibility = {
  * @ngInject
  */
 function editServerModal(
-  $q,
   $filter,
   $rootScope,
   errs,
@@ -37,8 +36,7 @@ function editServerModal(
   OpenItems,
   parseDockerfileForCardInfoFromInstance,
   promisify,
-  updateDockerfileFromState,
-  $timeout
+  updateDockerfileFromState
 ) {
   return {
     restrict: 'A',
@@ -131,7 +129,7 @@ function editServerModal(
       // For the build and server logs
       $scope.build = $scope.instance.build;
 
-      function afterParsingDockerfile(data, contextVersion) {
+      function afterParsingDockerfile(data) {
         Object.keys(data).forEach(function (key) {
           $scope.instance[key] = data[key];
         });
