@@ -118,23 +118,6 @@ describe('controllerApp'.bold.underline.blue, function () {
     });
 
 
-    it('creates an escape button handler that broadcasts', function () {
-      $rootScope.$digest();
-
-      var spy = sinon.spy();
-      var spy2 = sinon.spy();
-      $scope.$on('app-document-click', spy);
-      $scope.$on('close-modal', spy2);
-
-      $scope.dataApp.documentKeydownEventHandler({
-        keyCode: 27,
-        target: 'foo'
-      });
-
-      sinon.assert.calledOnce(spy);
-      sinon.assert.calledOnce(spy2);
-    });
-
     it('should join the org room for the user', function () {
       sinon.assert.calledOnce(ctx.fakeuser.socket.joinOrgRoom);
     });
