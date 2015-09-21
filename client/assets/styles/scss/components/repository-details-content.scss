@@ -33,7 +33,6 @@
       &.active:not(.disabled) {
         border-color: currentColor;
         color: $purple-light;
-        cursor: default;
 
         .small {
           color: currentColor;
@@ -42,6 +41,10 @@
         .icons-fat-check {
           background-color: $purple-light;
         }
+      }
+
+      &.active:not(.disabled) {
+        cursor: default;
       }
 
       &.active.disabled .icons-fat-check {
