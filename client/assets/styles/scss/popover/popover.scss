@@ -200,7 +200,6 @@
 
 // li.popover-list-item
 .popover-list-item {
-  cursor: pointer;
   font-size: 15px;
   line-height: 36px;
   min-height: 36px;
@@ -208,25 +207,14 @@
   padding: 0 36px 0 9px;
   white-space: nowrap;
 
-  // variations
-  &.no-actions {
-    cursor: default;
-    text-align: center;
-
-    &:hover,
-    &:active {
-      background: transparent;
-      border-color: transparent;
-    }
-  }
-
   &.monospace {
     font-size: 13px;
   }
 
   // states
-  &:hover {
+  &:hover:not(.disabled) {
     background: rgba($purple-lightest,.45);
+    cursor: pointer;
 
     // two types of icons-fat-check
     .icons-fat-check.anchor-right,
@@ -235,7 +223,7 @@
     }
   }
 
-  &:active,
+  &:active:not(.disabled),
   &.active {
     background: rgba($purple-lightest,.9);
     color: $purple-light;

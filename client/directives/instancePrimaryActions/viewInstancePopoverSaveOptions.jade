@@ -8,12 +8,11 @@
   )
   .popover-content
     ul.popover-list
-      li.popover-list-item(
-        ng-class = "{'no-actions': loading}"
-      )
+      li.popover-list-item
         label.row.label-checkbox Restart on Save
           input.input-checkbox(
             checked
+            ng-disabled = "loading"
             ng-model = "data.restartOnSave"
             type = "checkbox"
           )

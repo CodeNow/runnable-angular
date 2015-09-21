@@ -14,7 +14,7 @@
   )
 
   ul.list.popover-list
-    li.list-item.popover-list-item.small Show containers for…
+    li.list-item.popover-list-item.small.disabled Show containers for…
     //- .no-touching if currently selected
     li.list-item.popover-list-item.no-touching
       strong.strong Staging&#32;
@@ -25,7 +25,7 @@
           xlink:href = "#icons-fat-check"
         )
     li.divider
-    li.list-item.popover-list-item.small Isolated Containers
+    li.list-item.popover-list-item.small.disabled Isolated Containers
     li.list-item.popover-list-item(
       ng-click = "branch.curentIndex = 'selected'"
       ng-repeat = "branch in isolatedBranches"

@@ -1,12 +1,15 @@
-.popover.menu.right(
+.popover.menu.right.popover-container-menu(
   ng-class = "{in: active}"
+  ng-init = "state.isolationActive = false"
   ng-style = "popoverStyle.getStyle()"
   style = "transform-origin: 0 50%"
 )
   .arrow.white
   .popover-content
     //- list for a non-isolated branch
-    ul.list.popover-list
+    ul.list.popover-list(
+      ng-if = "state.isolationActive === false"
+    )
       li.list-item.popover-list-item(
         modal
         modal-state-model = "{modalFlip: true}"
@@ -14,6 +17,16 @@
       )
         svg.iconnables
         | Enable Isolation…
+      li.divider
+      li.list-item.popover-list-item(
+        ng-click = "state.isolationActive = true"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-star"
+          )
+        | Enable Isolation… (test)
+      //- navListFilter
       li.divider(
         ng-if = "$root.featureFlags.navListFilter"
       )
@@ -27,10 +40,41 @@
         | Hide
 
     //- list for an isolated branch
-    ul.list.popover-list
+    ul.list.popover-list(
+      ng-if = "state.isolationActive === true"
+    )
       li.list-item
-        ul
-      li.list-item.popover-list-item Disable Isolation…
+        ul.list.list-containers
+          li.list-item.popover-list-item.small.disabled branch-name
+            svg.iconnables.icons-advanced
+              use(
+                xlink:href = "#icons-advanced"
+              )
+          li.list-item.popover-list-item.disabled
+            .icons-status.green
+            | container-name
+            svg.iconnables.icons-advanced
+              use(
+                xlink:href = "#icons-advanced"
+              )
+          li.list-item.popover-list-item.disabled
+            .icons-status.green
+            | container-name-2
+            svg.iconnables.icons-advanced
+              use(
+                xlink:href = "#icons-advanced"
+              )
+          li.list-item.popover-list-item.disabled
+            .icons-status.red
+            | container-name-3
+            svg.iconnables.icons-advanced
+              use(
+                xlink:href = "#icons-advanced"
+              )
+      li.divider
+      li.list-item.popover-list-item
+        svg.iconnables
+        | Disable Isolation
       li.divider(
         ng-if = "$root.featureFlags.navListFilter"
       )

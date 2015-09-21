@@ -155,20 +155,6 @@
       pointer-events: auto; // override iconnables default
     }
 
-    .icons-advanced {
-      opacity: .6;
-      transition: opacity .15s, transform .15s;
-
-      &:hover {
-        transform: rotate3d(0,0,1,30deg);
-      }
-
-      &:active {
-        opacity: 1;
-        transform: rotate3d(0,0,1,60deg);
-      }
-    }
-
     .icons-overflow {
       color: $gray;
       display: none;

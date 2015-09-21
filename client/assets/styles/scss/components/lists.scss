@@ -1,4 +1,3 @@
-
 // bordered list with line between items
 .list-bordered {
   border: 1px solid $gray-lighter;
@@ -77,25 +76,6 @@
     cursor: default;
     font-size: 13px;
     pointer-events: none;
-
-    &:hover,
-    &:active {
-      background: none !important;
-      border-color: transparent !important;
-    }
-  }
-
-  // info
-  &.no-action {
-    color: $gray-light;
-    cursor: default;
-    font-size: 13px;
-
-    &:hover,
-    &:active {
-      background: none !important;
-      border-color: transparent !important;
-    }
   }
 
   &.multi-line {
@@ -188,6 +168,22 @@
     position: absolute;
   }
 
+  // gear icon
+  .icons-advanced {
+    cursor: pointer;
+    opacity: .6;
+    pointer-events: auto;
+    transition: opacity .15s, transform .15s;
+
+    &:hover {
+      transform: rotate3d(0,0,1,30deg);
+    }
+
+    &:active {
+      opacity: 1;
+      transform: rotate3d(0,0,1,60deg);
+    }
+  }
 }
 
 // links
