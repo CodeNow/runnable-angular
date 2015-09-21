@@ -5,11 +5,11 @@
   style = "transform-origin: 0 50%"
 )
   .arrow.white
-  .popover-content
-    //- list for a non-isolated branch
-    ul.list.popover-list(
-      ng-if = "state.isolationActive === false"
-    )
+  //- list for a non-isolated branch
+  .popover-content(
+    ng-if = "state.isolationActive === false"
+  )
+    ul.list.popover-list
       li.list-item.popover-list-item(
         modal
         modal-state-model = "{modalFlip: true}"
@@ -39,17 +39,20 @@
           )
         | Hide
 
-    //- list for an isolated branch
-    ul.list.popover-list(
-      ng-if = "state.isolationActive === true"
-    )
+  //- list for an isolated branch
+  .popover-header(
+    ng-if = "state.isolationActive === true"
+  ) branch-name
+    svg.iconnables.icons-advanced
+      use(
+        xlink:href = "#icons-advanced"
+      )
+  .popover-content(
+    ng-if = "state.isolationActive === true"
+  )
+    ul.list.popover-list
       li.list-item
         ul.list.list-containers
-          li.list-item.popover-list-item.small.disabled branch-name
-            svg.iconnables.icons-advanced
-              use(
-                xlink:href = "#icons-advanced"
-              )
           li.list-item.popover-list-item.disabled
             .icons-status.green
             | container-name
