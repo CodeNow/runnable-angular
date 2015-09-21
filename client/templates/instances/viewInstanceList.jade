@@ -69,6 +69,8 @@
   ) 8 more…
 
 //- non-repository containers
+//- using ng-show because the nonREpoInstances variable is initialized in the ng-repeat underneath this
+//-  This is for efficiency concerns
 .list.list-containers(
   ng-if = "CIS.activeAccount && !isLoading.sidebar"
   ng-show = "nonRepoInstances.length"

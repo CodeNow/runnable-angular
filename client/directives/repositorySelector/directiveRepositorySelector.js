@@ -20,7 +20,8 @@ function repositorySelector(
   fetchOwnerRepos,
   $rootScope,
   cardInfoTypes,
-  DirtyChecker
+  DirtyChecker,
+  $timeout
 ) {
   return {
     restrict: 'A',
@@ -29,7 +30,6 @@ function repositorySelector(
 
       // Init state to new creation mode
       $scope.state = {
-        view: 1,
         fromServer: false
       };
 
@@ -40,9 +40,21 @@ function repositorySelector(
       // If we are given an object to start configure our states for edit mode
       if ($scope.data.repo) {
         $scope.repoSelector.data = $scope.data.repo;
-        $scope.state.view = 2;
         $scope.state.fromServer = true;
+        // Avoid race condition of the child panels loading in and registering
+        $timeout(function () {
+          if ($scope.data.gitDataOnly) {
+            $scope.$broadcast('go-to-panel', 'commit', 'immediate');
+          } else {
+            $scope.$broadcast('go-to-panel', 'repoOptions', 'immediate');
+          }
+        });
       } else {
+        // Avoid race condition of the child panels loading in and registering
+        $timeout(function () {
+          $scope.$broadcast('go-to-panel', 'repoSelect', 'immediate');
+        });
+
         var Repo = cardInfoTypes.Repository;
         $scope.repoSelector.data = new Repo();
 
@@ -52,12 +64,13 @@ function repositorySelector(
           })
           .catch(errs.handler);
       }
+
       $scope.repoSelector.data.instance = $scope.data.instance;
       $scope.$on('commit::selected', function () {
         if ($scope.data.gitDataOnly) {
           $scope.repoSelector.actions.save();
         } else {
-          $scope.state.view = 2;
+          $scope.$broadcast('go-to-panel', 'repoOptions', 'back');
         }
       });
       $scope.dirtyChecker = new DirtyChecker($scope.repoSelector.data, [
@@ -83,7 +96,13 @@ function repositorySelector(
             .then(function (commits) {
               $scope.repoSelector.data.loading = false;
               $scope.repoSelector.data.repo.loading = false;
-              $scope.state.view = 2;
+
+              if ($scope.data.gitDataOnly) {
+                $scope.$broadcast('go-to-panel', 'commit');
+              } else {
+                $scope.$broadcast('go-to-panel', 'repoOptions');
+              }
+
               if (!$scope.data.gitDataOnly) {
                 $scope.repoSelector.data.commit = commits.models[0];
               }
@@ -107,7 +126,11 @@ function repositorySelector(
           $rootScope.$broadcast('close-popovers');
         },
         leaveCommitSelect: function () {
-          $scope.state.view = $scope.data.gitDataOnly ? 1 : 2;
+          if ($scope.data.gitDataOnly) {
+            $scope.$broadcast('go-to-panel', 'repoSelect', 'back');
+          } else {
+            $scope.$broadcast('go-to-panel', 'repoOptions', 'back');
+          }
         }
       };
     }
