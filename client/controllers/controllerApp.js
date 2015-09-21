@@ -102,6 +102,7 @@ function ControllerApp(
   dataApp.documentKeydownEventHandler = function(e) {
     if (e.keyCode === 27) {
       $rootScope.$broadcast('app-document-click');
+      $rootScope.$broadcast('close-modal');
       var lastModalObj = ModalService.modalLayers[ModalService.modalLayers.length - 1];
       if (lastModalObj) {
         var close = keypather.get(lastModalObj, 'modal.controller.actions.close') || lastModalObj.close;
