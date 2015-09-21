@@ -11,10 +11,6 @@ function lazyLoad(
   return {
     restrict: 'A',
     link: function ($scope, element, attrs) {
-      $scope.lazyRefresh = function () {
-        reloadElement();
-      };
-
       function reloadElement() {
         // Prevent this directive from getting called in a loop!
         element[0].removeAttribute('lazy-load');
