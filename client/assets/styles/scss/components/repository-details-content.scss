@@ -29,8 +29,8 @@
       font-size: 15px;
       padding-right: 30px;
 
-      &:active:not(.disabled),
-      &.active:not(.disabled) {
+      &:active,
+      &.active {
         border-color: currentColor;
         color: $purple-light;
 
@@ -43,12 +43,12 @@
         }
       }
 
-      &.active:not(.disabled) {
+      &.active {
         cursor: default;
-      }
 
-      &.active.disabled .icons-fat-check {
-        background-color: $gray-light;
+        &.disabled .icons-fat-check {
+          background-color: $gray-light;
+        }
       }
 
       &.active .icons-fat-check,
