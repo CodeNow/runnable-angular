@@ -31,7 +31,7 @@ function ControllerApp(
   // Load ace after 5 seconds. Should improve user experience overall..
   $timeout(function () {
     $ocLazyLoad.load('ui.ace');
-  }, 5000);
+  }, 10000);
 
   this.activeAccount = activeAccount;
   this.user = user;
