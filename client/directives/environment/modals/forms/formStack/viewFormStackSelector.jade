@@ -72,7 +72,6 @@
     ) Suggested {{$parent.$parent.state.selectedStack.name}} Version
     fancy-option(
       ng-repeat = "version in $parent.state.selectedStack.versions | filter: $parent.state.selectedStack.suggestedVersion"
-      on-update = "updateDockerfile"
       value = "version"
     ) v{{$parent.version}}
     li.divider(
@@ -80,7 +79,6 @@
     )
     fancy-option(
       ng-repeat = "version in $parent.state.selectedStack.versions | filter: '!'+ $parent.state.selectedStack.suggestedVersion"
-      on-update = "updateDockerfile"
       value = "version"
     ) v{{$parent.version}}
 

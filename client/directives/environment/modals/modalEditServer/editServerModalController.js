@@ -3,7 +3,6 @@
 require('app')
   .controller('EditServerModalController', EditServerModalController);
 
-// something can't be both basic and advanced, they are if/else
 var tabVisibility = {
   buildfiles: { advanced: true, nonRepo: true, basic: false },
   repository:  { advanced: false, nonRepo: false, basic: true },
@@ -67,8 +66,13 @@ function EditServerModalController(
       return cmd.replace('until grep -q ethwe /proc/net/dev; do sleep 1; done;', '');
     },
     init: function (options) {
-      angular.extend(SMC, options); // Pass variables into scope (instance, modalActions, and selectedTab)
+      angular.extend(SMC, {
+        instance: options.instance,
+        modalActions: options.modalActions,
+        selectedTab: options.selectedTab
+      });
       SMC.build = SMC.instance.build;
+      SMC.getElasticHostname = SMC.instance.getElasticHostname.bind(SMC.instance);
       SMC.state.instance = SMC.instance;
       SMC.state.opts.env = keypather.get(SMC.instance, 'attrs.env') || [];
 

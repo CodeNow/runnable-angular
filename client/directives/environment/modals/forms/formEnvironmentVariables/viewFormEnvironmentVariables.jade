@@ -51,14 +51,7 @@ label.label.label-help(
 )
   small.small.strong Elastic hostname:
   input.input.input-xxs(
-    ng-attr-value = "{{ SMC.instance.getElasticHostname() }}"
-    ng-if = "!SMC.isNewContainer"
-    readonly
-    select-all
-  )
-  input.input.input-xxs(
     ng-attr-value = "{{ SMC.getElasticHostname() }}"
-    ng-if = "SMC.isNewContainer"
     readonly
     select-all
   )

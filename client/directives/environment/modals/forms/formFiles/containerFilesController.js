@@ -20,7 +20,9 @@ function ContainerFilesController(
   var self = this;
 
   this.init = function (opts) {
-    angular.extend(self, opts);
+    angular.extend(self, {
+      state: opts.state
+    });
   };
 
   this.repositoryPopover = {
