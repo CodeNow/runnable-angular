@@ -24,6 +24,9 @@ function envVars(
       var editor, session;
 
       $scope.$on('eventPasteLinkedInstance', function (eventName, text) {
+        if (!editor) {
+          return;
+        }
         editor.insert(text);
         updateEnvs(editor.getValue());
         editor.focus();
@@ -42,7 +45,7 @@ function envVars(
 
       function updateEnvs(newEnv, oldEnv) {
         // If the envs haven't changed, (also takes care of first null/null occurrence
-        if (typeof newEnv !== 'string') { return; }
+        if (typeof newEnv !== 'string' || !session) { return; }
 
         $scope.validation = validateEnvVars(newEnv);
         if (keypather.get($scope, 'validation.errors.length')) {
@@ -88,6 +91,9 @@ function envVars(
       $scope.$watch('environmentalVars', updateEnvs);
 
       $scope.$on('$destroy', function () {
+        if (!editor) {
+          return;
+        }
         editor.session.$stopWorker();
         editor.destroy();
       });

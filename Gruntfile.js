@@ -102,18 +102,11 @@ module.exports = function(grunt) {
         src: jshintFiles
       }
     },
-    exorcise: {
-      bundle: {
-        options: {},
-        files: {
-          'client/build/js/bundle.js.map': ['client/build/js/bundle.js']
-        }
-      }
-    },
     browserify: {
       watch: {
         files: {
-          'client/build/js/bundle.js': ['client/main.js']
+          'client/build/js/bundle.js': 'client/main.js',
+          'client/build/js/ace.js': 'client/lib/ace.js'
         },
         options: {
           watch: true,
@@ -124,7 +117,8 @@ module.exports = function(grunt) {
       },
       once: {
         files: {
-          'client/build/js/bundle.js': ['client/main.js']
+          'client/build/js/bundle.js': 'client/main.js',
+          'client/build/js/ace.js': 'client/lib/ace.js'
         },
         options: {
           browserifyOptions: {
@@ -309,7 +303,7 @@ module.exports = function(grunt) {
               apiHost: require('./client/config/json/api.json').host
             };
             if (locals.apiHost === '//api.runnable-beta.com') {
-              locals.rollbarEnv = 'beta';
+              locals.rollbarEnv = 'production-beta';
             }
             return locals;
           }
@@ -317,6 +311,19 @@ module.exports = function(grunt) {
         files: {
           'client/build/index.html': 'server/views/home.jade',
           'client/build/app.html': 'server/views/layout.jade'
+        }
+      }
+    },
+    uglify: {
+      options: {
+        sourceMap: true,
+        sourceMapIncludeSources: true,
+        mangle: false
+      },
+      app: {
+        files: {
+          'client/build/js/ace.js': ['client/build/js/ace.js'],
+          'client/build/js/bundle.js': ['client/build/js/bundle.js']
         }
       }
     }
@@ -456,41 +463,6 @@ module.exports = function(grunt) {
 
 
 
-  grunt.registerTask('loadSyntaxHighlighters', '', function () {
-    var cb = this.async();
-    var indexPath = path.join(__dirname, 'client', 'lib', 'braceModes.js');
-    var workingPath = path.join(__dirname, 'node_modules', 'brace', 'mode');
-
-    // TODO: DRY up with code above
-    find.file(/\.js$/, workingPath, function (files) {
-      var newFileString = files
-        .map(function (item) {
-          return item.replace(workingPath, 'brace/mode').replace(/\.js$/, '');
-        })
-        .reduce(function (previous, current) {
-          if (current === './index') { return previous; }
-          return previous += 'require(\'' + current + '\');\n';
-        }, '');
-
-      fs.exists(indexPath, function (exists) {
-        if (exists) {
-          // Only write if we need to
-          fs.readFile(indexPath, 'UTF-8', function (err, fileString) {
-            if (err) { return cb(err); }
-            if (fileString.trim() === newFileString.trim()) {
-              return cb();
-            }
-            grunt.log.writeln('writing new modes.js');
-            fs.writeFile(indexPath, newFileString, cb);
-          });
-        } else {
-          grunt.log.writeln('writing new modes.js');
-          fs.writeFile(indexPath, newFileString, cb);
-        }
-      });
-    });
-  });
-
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-browserify');
@@ -499,10 +471,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-autoprefixer');
   grunt.loadNpmTasks('grunt-sass');
   grunt.loadNpmTasks('grunt-concurrent');
-  grunt.loadNpmTasks('grunt-exorcise');
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-contrib-jade');
   grunt.loadNpmTasks('grunt-newer');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
   if (!envIs('production', 'staging')) {
     grunt.loadNpmTasks('grunt-newer');
@@ -532,7 +504,6 @@ module.exports = function(grunt) {
     'jshint:dev',
     'autoBundleDependencies',
     'generateConfigs',
-    'loadSyntaxHighlighters',
     'browserify:watch',
     'jade:compile',
     'compress:build',
@@ -546,7 +517,7 @@ module.exports = function(grunt) {
     'autoBundleDependencies',
     'generateConfigs',
     'browserify:once',
-    'exorcise',
+    'uglify:app',
     'jade:compile',
     'compress:build'
   ]);
@@ -558,7 +529,7 @@ module.exports = function(grunt) {
     'autoBundleDependencies',
     'generateConfigs:production',
     'browserify:once',
-    'exorcise',
+    'uglify:app',
     'jade:compile',
     'compress:build'
   ]);
