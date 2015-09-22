@@ -1,6 +1,6 @@
 {
   "name": "runnable-angular",
-  "version": "3.4.7",
+  "version": "3.4.9",
   "private": true,
   "description": "Frontend for Runnable.io",
   "scripts": {
@@ -53,7 +53,6 @@
     "ansi-to-html": "git://github.com/Runnable/ansi-to-html.git#v0.3.4",
     "array-includes": "^3.0.1",
     "async": "0.9.2",
-    "brace": "git://github.com/Runnable/brace.git#5a32dd26ce9826718836eda688837db5167c0fa5",
     "callback-count": "0.1.0",
     "card-info-types": "git+ssh://git@github.com/CodeNow/card-info-types.git#v0.3.2",
     "chai-as-promised": "^5.1.0",
@@ -75,7 +74,7 @@
     "grunt-contrib-copy": "0.8.0",
     "grunt-contrib-jade": "^0.15.0",
     "grunt-contrib-jshint": "0.11.2",
-    "grunt-exorcise": "2.1.0",
+    "grunt-contrib-uglify": "^0.9.2",
     "grunt-jade-plugin": "git://github.com/Runnable/grunt-jade-plugin.git#604fba490db0c8cf9ee4ce0c51ef91acf44ac573",
     "grunt-newer": "^1.1.1",
     "grunt-sass": "1.0.0",
@@ -88,6 +87,7 @@
     "ng-file-upload": "5.0.9",
     "ngStorage": "git+https://github.com/Runnable/ngStorage.git#v0.4.0",
     "node-uuid": "1.4.3",
+    "oclazyload": "^1.0.5",
     "qs": "2.4.2",
     "regexp-quote": "0.0.0",
     "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v4.5.1",
@@ -135,8 +135,7 @@
     "primus-client": "./client/assets/js/primus-client.js",
     "config/routes": "./client/config/routes.js",
     "config/api": "./client/config/api.js",
-    "config/environment": "./client/config/environment.js",
-    "lib/braceModes": "./client/lib/braceModes.js"
+    "config/environment": "./client/config/environment.js"
   },
   "browserify": {
     "debug": true
