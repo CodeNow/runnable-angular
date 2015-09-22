@@ -9,7 +9,8 @@
   top: 0;
   width: 100%;
 
-  > .btn {
+  > .btn,
+  > .btn-group {
     flex: 0 0 auto;
   }
 
@@ -56,6 +57,14 @@
       width: 100%;
     }
   }
+
+  > .btn-group {
+    margin-left: 6px;
+
+    .icons-arrow-down {
+      margin: 0;
+    }
+  }
 }
 
 // status button
@@ -78,6 +87,7 @@
   font-size: 14px;
   font-weight: $weight-bold;
   margin: 0 6px;
+  padding: 0 12px;
 
   // colored states
   &.orange,
