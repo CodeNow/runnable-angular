@@ -303,7 +303,7 @@ module.exports = function(grunt) {
               apiHost: require('./client/config/json/api.json').host
             };
             if (locals.apiHost === '//api.runnable-beta.com') {
-              locals.rollbarEnv = 'beta';
+              locals.rollbarEnv = 'production-beta';
             }
             return locals;
           }
