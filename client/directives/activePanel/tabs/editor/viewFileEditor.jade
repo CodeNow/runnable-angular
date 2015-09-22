@@ -5,6 +5,7 @@
 )
 
 .pre(
+  lazy-load = "ui.ace"
   ng-if = "file.attrs.fileType !== 'ssh'"
   ng-attr-readonly = "{{readOnly}}"
   ng-model = "file.state.body"
@@ -13,7 +14,9 @@
     onLoad: actions.setAceMode\
   }"
 )
+
 .pre(
+  lazy-load = "ui.ace"
   ng-if = "file.attrs.fileType === 'ssh'"
   readonly = "true"
   ui-ace = "{\
