@@ -13,7 +13,7 @@
   height: 100vh;
   position: fixed;
   top: 0;
-  width: $layout-navigation;
+  width: $layout-navigation-width;
 
   // if navigation is open
   + .instance-wrapper {
@@ -51,6 +51,6 @@
 // layout main
 .layout-main {
   height: 100vh;
-  padding-left: $layout-navigation;
+  padding-left: $layout-navigation-width;
   width: 100vw;
 }

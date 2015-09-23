@@ -14,7 +14,7 @@
   float: left;
   height: 100vh;
   overflow-y: auto;
-  width: $sidebar-containers;
+  width: $instance-list-width;
 
   // if nav is open
   + .instance-wrapper {
@@ -285,6 +285,20 @@
 .btn-status {
   padding: 0 9px;
 
+  &.red,
+  &.red:active:not([disabled]) {
+
+    .icons-status {
+      background: none;
+      border: 1px solid $red-lighter;
+    }
+
+    .icons-notification {
+      border-color: $white;
+      color: $white;
+    }
+  }
+
   .icons-status {
     margin-right: 6px;
     top: 12px;
@@ -364,20 +378,6 @@
 
     .btn-xxs {
       background: $purple-light;
-    }
-  }
-
-  &.red,
-  &.red:active:not([disabled]) {
-
-    .icons-status {
-      background: none;
-      border: 1px solid $red-lighter;
-    }
-
-    .icons-notification {
-      border-color: $white;
-      color: $white;
     }
   }
 }
