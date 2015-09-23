@@ -1,0 +1,391 @@
+// instance layout:
+//  .layout-main  (main content)
+//    .instance-list
+//    .instance-wrapper
+//      .instance-header (0 0 auto)
+//        .instance-header-title
+//        .istance-header-details
+//      .instance-body (1 1 auto)
+
+// instance wrapper
+.instance-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+// instance list
+.instance-list {
+  background: $gray-lighterest;
+  border-right: 1px solid $gray-lighter;
+  flex: 0 0 $sidebar-containers;
+  height: 100vh;
+  overflow-y: auto;
+
+  .list-header {
+    align-items: center;
+    background: $gray-lightest;
+    border-bottom: 1px solid $gray-lighter;
+    color: $gray;
+    font-weight: $weight-bold;
+    height: $header-height;
+    line-height: $header-height;
+    position: relative;
+    text-align: center;
+
+    .icons-arrow-backward {
+      color: $gray;
+      cursor: pointer;
+      height: 100%;
+      left: 9px;
+      pointer-events: auto; // override iconnables
+      position: absolute;
+      top: 0;
+
+      &:hover {
+        color: $gray-dark;
+      }
+
+      &:active {
+        color: $purple-light;
+      }
+    }
+  }
+
+  .list {
+    margin: 0 15px;
+    padding: 9px 0 15px;
+
+    + .list {
+      border-top: 1px solid $gray-lighter;
+    }
+  }
+
+  .list-item {
+    align-items: center;
+    display: flex;
+    font-size: 15px;
+    height: 30px;
+    line-height: 30px;
+
+    // list title
+    &:first-child {
+      color: $gray-light;
+      font-weight: $weight-normal;
+    }
+
+    &:hover .icons-advanced {
+      opacity: .75;
+    }
+
+    + .list-item {
+
+      &:hover,
+      &.active {
+
+        .btn-badge {
+          display: none;
+        }
+
+        .icons-overflow {
+          display: block;
+        }
+      }
+    }
+
+    // status icon
+    .icons-status {
+      flex: 0 0 9px;
+      margin-right: 9px;
+
+      + .text-overflow {
+        color: $gray;
+        cursor: pointer;
+        font-weight: $weight-bold;
+        padding-left: 0;
+
+        &:hover {
+          color: $gray-dark;
+        }
+
+        &:active {
+          color: $purple-light;
+        }
+
+        &.active {
+          color: $gray-darker;
+        }
+      }
+    }
+
+    // name
+    .text-overflow {
+      flex: 1 1 auto;
+      padding-left: 18px; // spacing for .status-icon
+    }
+
+    // configure/overflow
+    .iconnables {
+      cursor: pointer;
+      flex: 0 0 15px;
+      margin-left: 5px;
+      pointer-events: auto; // override iconnables default
+    }
+
+    .icons-overflow {
+      color: $gray;
+      display: none;
+      padding-top: 10px;
+
+      &:hover {
+        color: $gray-dark;
+      }
+
+      &:active,
+      &.active {
+        color: $purple-light;
+      }
+
+      &.active {
+        display: block;
+      }
+    }
+  }
+
+  // more button…
+  .btn-xxs {
+    color: $gray-light;
+    font-style: italic;
+    left: 15px;
+
+    &:hover {
+      color: $gray;
+    }
+
+    &:active {
+      color: $purple-light;
+    }
+  }
+
+  // isolation badge
+  .btn-badge {
+    border: 1px solid $gray-lighter;
+    left: 6px;
+    line-height: 16px;
+    margin-right: 0;
+
+    &:hover,
+    &:active {
+      color: $gray-light;
+    }
+  }
+}
+
+// instance header: status, dns mappings, container url, save (deprecated)
+.instance-header {
+  flex: 0 0 auto;
+}
+
+.instance-header-title {
+  border-bottom: 1px solid $gray-lighter;
+  color: $gray-darker;
+  font-size: 24px;
+  font-weight: $weight-normal;
+  line-height: 54px;
+  text-align: center;
+  width: 100%;
+
+  // containers list toggle
+  .btn {
+    padding-top: 14px;
+  }
+}
+
+.instance-header-properties {
+  align-items: center;
+  border-bottom: 1px solid rgba($black,.1);
+  display: flex;
+  height: 60px;
+  padding: 0 12px;
+  width: 100%;
+
+  // status, dns mappings, save
+  > .btn,
+  > .btn-group {
+    flex: 0 0 auto;
+  }
+
+  // container url
+  > .input-wrapper {
+    align-items: center;
+    display: flex;
+    flex: 1 1 auto;
+    margin: 0;
+    position: relative;
+
+    // copy/url in new tab
+    .btn-xs {
+      border: 1px solid $white;
+      flex: 0 0 auto;
+      line-height: 22px;
+
+      &:hover {
+        background: rgba($white,.15);
+      }
+
+      &:active {
+        background: $white;
+        color: $gray-light;
+      }
+
+      // url in new tab
+      &:first-child {
+        left: 0;
+      }
+
+      // copy
+      &:last-child {
+        right: 0;
+      }
+    }
+
+    .iconnables {
+      height: 100%;
+      margin-left: 5px;
+      width: 12px;
+    }
+
+    .input {
+      background: transparent;
+      flex: 1 1 auto;
+      height: $input-sm;
+      width: 100%;
+    }
+  }
+
+  // save
+  > .btn-group {
+    margin-left: 6px;
+
+    .icons-arrow-down {
+      margin: 0;
+    }
+  }
+}
+
+// status button
+.btn-status {
+  padding: 0 9px;
+
+  .icons-status {
+    margin-right: 6px;
+    top: 12px;
+  }
+
+  .icons-arrow-down {
+    width: 21px;
+  }
+}
+
+// dns button
+.btn-dns {
+  color: $gray-light;
+  font-size: 14px;
+  font-weight: $weight-bold;
+  margin: 0 6px;
+  padding: 0 12px;
+
+  // colored states
+  &.orange,
+  &.red {
+    background: transparent;
+    border: 0;
+
+    &:hover {
+      background: transparent;
+    }
+
+    &:active {
+      background: transparent;
+    }
+
+    // orange
+    &.orange {
+      color: $orange;
+
+      .btn-xxs {
+        background: $orange;
+      }
+    }
+
+    // red
+    &.red {
+      color: $red;
+
+      .btn-xxs {
+        background: $red;
+      }
+    }
+  }
+
+  // dns badge
+  .btn-xxs {
+    background: $gray-light;
+    border-radius: 16px;
+    color: $white;
+    font-size: 12px;
+    height: 16px;
+    line-height: 16px;
+    margin-right: 3px;
+    min-width: 16px;
+    padding: 0 4px;
+    top: -1px;
+  }
+
+  // no hover/active state if orange/red
+  &:hover:not(.orange):not(.red) {
+    color: $gray;
+
+    .btn-xxs {
+      background: $gray;
+    }
+  }
+
+  &:active:not(.orange):not(.red) {
+    color: $purple-light;
+
+    .btn-xxs {
+      background: $purple-light;
+    }
+  }
+
+  &.red,
+  &.red:active:not([disabled]) {
+
+    .icons-status {
+      background: none;
+      border: 1px solid $red-lighter;
+    }
+
+    .icons-notification {
+      border-color: $white;
+      color: $white;
+    }
+  }
+}
+
+// instance body
+.instance-body {
+  display: flex;
+  flex: 1 1 auto;
+  overflow: hidden;
+
+  .server-sidebar {
+    flex: 0 0 auto;
+  }
+
+  .views {
+    flex: 1 1 auto;
+  }
+}

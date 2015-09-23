@@ -11,11 +11,11 @@
 // classes on body (active window)
 .intercom-messenger-active {
 
-  .content-wrapper {
+  .layout-wrapper {
     position: relative;
   }
 
-  .content-wrapper,
+  .layout-wrapper,
   .modal-backdrop {
     width: calc(100vw - #{$intercom-width});
   }

@@ -21,7 +21,7 @@ a.btn.btn-sm.purple.btn-accounts(
       xlink:href = "#icons-arrow-down"
     )
 
-a.btn.btn-sm.btn-accounts(
+div(
   ng-class = "{'no-touching': data.accountsDisabled()}"
   ng-if = "$root.featureFlags.isolationUI"
   ng-show = "data.activeAccount"

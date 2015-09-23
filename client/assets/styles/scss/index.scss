@@ -14,12 +14,15 @@
 @import "globals/mixins";
 @import "globals/reset";
 @import "globals/globals";
-@import "globals/layout";
-
 @import "globals/animations";
 @import "globals/images";
 @import "globals/loader";
 @import "globals/typography";
+
+// layout
+@import "layout/layout";
+@import "layout/instance";
+@import "layout/environment";
 
 // buttons
 @import "components/buttons/buttons";
@@ -120,7 +123,6 @@
 @import "popover/popover-rules";
 
 // pages
-@import "pages/environment";
 @import "pages/server-selection";
 
 //deprecated

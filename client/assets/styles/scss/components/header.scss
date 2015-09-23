@@ -41,6 +41,7 @@
     position: absolute;
     top: 12px;
   }
+
   // end deprecated $root.featureFlags.isolationNav
 
   // add padding for header-app + content
@@ -135,11 +136,8 @@
     width: 18px;
   }
 }
-// end deprecated $root.featureFlags.isolationNav
 
-.accounts-select {
-  margin-top: 24px;
-}
+// end deprecated $root.featureFlags.isolationNav
 
 // accounts button (specificity to override .btn.purple)
 .btn-accounts.btn-accounts {

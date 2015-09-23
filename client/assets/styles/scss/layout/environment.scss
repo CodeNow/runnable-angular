@@ -1,9 +1,12 @@
-//- header—title, description, progress
+// environment layout:
+//  .layout-main  (main content)
+//    .environment-header
+//    .environment-body
+
+// environment header
 .environment-header {
-  padding: 30px 15px 15px;
-  position: absolute;
-  top: 0;
-  width: calc(100% - #{$sidebar-navigation});
+  padding: 15px;
+  position: relative;
 
   // help button
   .btn-icon {
@@ -41,10 +44,9 @@
   }
 }
 
-// body—form elements/cards
+// environment body
 .environment-body {
-  margin: 87px 15px 15px;
-  width: calc(100% - #{$sidebar-navigation});
+  margin: 0 15px;
 }
 
 // card grid

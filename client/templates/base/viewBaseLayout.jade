@@ -1,5 +1,5 @@
 //- navigation bar (purple)
-nav.sidebar-navigation(
+nav.layout-navigation(
   ng-if = "$root.featureFlags.isolationUI"
   ng-include = "'viewNav'"
 )
@@ -12,6 +12,6 @@ header.header-app(
 )
 
 //- second .content...
-.content(
+main.layout-main(
   ui-view
 )

@@ -110,12 +110,6 @@ $spinner-duration: 1.4s;
 $z-hide: -10000;
 $z-show: 10000;
 
-// hero
-$z-hero-aura: 1000;
-$z-hero-content: 1001;
-$z-hero-list: 1002;
-$z-hero-list-content: 1003;
-
 // views
 $z-views: 2000;
 $z-views-explorer: 2001;
@@ -156,15 +150,15 @@ $z-spinner: 8000;
 // dimensions
 // **********
 
+// layout
+$layout-navigation: 72px;
+$sidebar-containers: 300px;
+
 // intercom
 $intercom-width: 370px;
 
 // header
 $header-height: 60px;
-
-// sidebars
-$sidebar-containers: 300px;
-$sidebar-navigation: 72px;
 
 // screen sizes
 $screen-xxs: 400px;

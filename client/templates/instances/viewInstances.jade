@@ -1,5 +1,5 @@
-//- list of all containers
-.sidebar-containers(
+//- instance list
+.instance-list(
   ng-if = "$root.featureFlags.isolationUI && $root.featureFlags.isolationNav"
   ng-include = "'viewContainerList'"
   ng-init = "\
@@ -68,7 +68,6 @@ nav.sidebar.sidebar-containers-deprecated(
     scroll-to = "a.list-item.active"
   )
 
-//- third .content...
-.content(
+.instance-wrapper(
   ui-view
 )

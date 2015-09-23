@@ -1,8 +1,10 @@
-.accounts-select(
+//- organization menu
+a.a.btn-accounts(
   accounts-select
   data = "dataApp.data"
 )
-a.nav-option(
+
+a.a(
   ui-sref = "base.config({ userName: CA.activeAccount.oauthName() })"
   ui-sref-active = "active"
 )
@@ -10,7 +12,8 @@ a.nav-option(
     use(
       xlink:href = "#icons-advanced-dark"
     )
-a.nav-option(
+
+a.a(
   ng-if = "dataApp.state.includes('base.instances') || !CA.instancesByPod || CA.instancesByPod.models.length"
   ui-sref = "base.instances({ userName: CA.activeAccount.oauthName() })"
   ui-sref-active = "active"

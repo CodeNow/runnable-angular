@@ -1,0 +1,56 @@
+// layout:
+//  .layout-wrapper (used as <body>)
+//    .layout-navigation (fixed nav)
+//    .layout-main  (main content)
+//      .environment- (environment page)
+//      .instance-wrapper
+//        .instance- (instance page)
+
+// layout navigation
+.layout-navigation {
+  background: $purple-light;
+  border-right: 1px solid $purple;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  width: $layout-navigation;
+
+  // if navigation is open
+  + .instance-wrapper {
+    width: calc(100% - 300px);
+  }
+
+  .a {
+    border-radius: $input-border-radius-lg;
+    color: $white;
+    cursor: pointer;
+    display: block;
+    height: $input-lg;
+    margin: 15px auto 0;
+    padding: 0 12px;
+    width: $input-lg;
+
+    // for now…
+    &.btn-accounts {
+      padding: 0 9px;
+    }
+
+    &.active {
+      background: $purple;
+      pointer-events: none;
+    }
+
+    .iconnables {
+      height: 100%;
+      width: 100%;
+    }
+  }
+}
+
+// layout main
+.layout-main {
+  display: flex;
+  height: 100vh;
+  padding-left: $layout-navigation;
+  width: 100vw;
+}
