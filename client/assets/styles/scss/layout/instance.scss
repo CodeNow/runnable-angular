@@ -19,7 +19,7 @@
   // if nav is open
   + .instance-wrapper {
     float: right;
-    width: calc(100vw - 372px);
+    width: calc(100vw - #{$instance-list-width + $layout-navigation-width});
   }
 
   .list-header {
