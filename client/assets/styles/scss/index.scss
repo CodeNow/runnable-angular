@@ -37,7 +37,6 @@
 @import "components/cards";
 @import "components/cards-title";
 @import "components/fancy-select";
-@import "components/header";
 @import "components/help";
 @import "components/icons";
 @import "components/lists";
@@ -127,6 +126,7 @@
 
 //deprecated
 @import "deprecated/card-status";
+@import "deprecated/header";
 @import "deprecated/isolation-ui";
 
 // shame 🔔🔔
