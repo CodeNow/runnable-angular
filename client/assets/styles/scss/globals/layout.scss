@@ -218,6 +218,7 @@
 // instance page
 .instance {
   display: flex;
+  flex: 1 1 auto;
   flex-wrap: wrap;
   height: 100%;
   position: relative;
