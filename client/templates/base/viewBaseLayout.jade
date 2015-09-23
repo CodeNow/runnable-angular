@@ -3,28 +3,8 @@
 
   nav.sidebar-navigation(
     ng-if = "$root.featureFlags.isolationUI"
+    ng-include = "'viewNav'"
   )
-    .accounts-select(
-      accounts-select
-      data = "dataApp.data"
-    )
-    a.nav-option(
-      ui-sref = "base.config({ userName: CA.activeAccount.oauthName() })"
-      ui-sref-active = "active"
-    )
-      svg.iconnables.icons-advanced-dark
-        use(
-          xlink:href = "#icons-advanced-dark"
-        )
-    a.nav-option(
-      ng-if = "dataApp.state.includes('base.instances') || !CA.instancesByPod || CA.instancesByPod.models.length"
-      ui-sref = "base.instances({ userName: CA.activeAccount.oauthName() })"
-      ui-sref-active = "active"
-    )
-      svg.iconnables.icons-server-dark
-        use(
-          xlink:href = "#icons-server-dark"
-        )
 
   header.header-app(
     ng-if = "!$root.featureFlags.isolationUI"
