@@ -138,16 +138,3 @@
 }
 
 // end deprecated $root.featureFlags.isolationNav
-
-// accounts button (specificity to override .btn.purple)
-.btn-accounts.btn-accounts {
-  background: transparent;
-  border: 0;
-  flex: 0 0 auto;
-  height: 36px;
-  padding: 0;
-
-  .gravatar {
-    border: 2px solid $white;
-  }
-}
