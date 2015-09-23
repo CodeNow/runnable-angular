@@ -1,61 +1,37 @@
-//- nav/sidebar
-nav.nav-sidebar(
-  ng-if = "$root.featureFlags.isolationUI"
-  ng-include = "'viewNavBar'"
-  ng-init = "\
-    containers = [\
-      {\
-        name: 'api',\
-        branches: [\
-          {name: 'master', status: 'green'},\
-          {name: 'add-owner-id-dedupe-check', status: 'green'},\
-          {name: 'anton-goroost', status: 'red'},\
-          {name: 'anton-jul8', status: 'red', isolation: true}\
-        ]\
-      },{\
-        name: 'datadog',\
-        branches: [\
-          {name: 'master', status: 'green'}\
-        ]\
-      },{\
-        name: 'detention',\
-        branches: [\
-          {name: 'master', status: 'green'}\
-        ]\
-      },{\
-        name: 'khronos',\
-        branches: [\
-          {name: 'master', status: 'green'},\
-          {name: 'abort-on-uncaught-exception', status: 'green'},\
-          {name: 'revert-14-revert-12-feature-restart-one-dock-script', status: 'red'},\
-          {name: 'SAN-2487-cleanup-debug-containers', status: 'green'}\
-        ]\
-      },{\
-        name: 'mavis',\
-        branches: [\
-          {name: 'master', status: 'green'},\
-          {name: 'better-logging', status: 'green', isolation: true},\
-          {name: 'bypass-prev-dock', status: 'orange', isolation: true},\
-          {name: 'no-docks-404', status: 'red'},\
-          {name: 'remove-numBuild', status: 'red'},\
-          {name: 'temporary-branch-to-fork', status: 'red', isolation: true}\
-        ]\
-      }\
-    ];\
-    nonRepositoryContainers = [\
-      {name: 'Cassandra', status: 'green'},\
-      {name: 'ElasticSearch', status: 'green'},\
-      {name: 'HBase', status: 'green'}\
-    ]\
-  "
-)
-
 //- first .content...
 .content
+
+  nav.sidebar-navigation(
+    ng-if = "$root.featureFlags.isolationUI"
+  )
+    .accounts-select(
+      accounts-select
+      data = "dataApp.data"
+    )
+    a.nav-option(
+      ui-sref = "base.config({ userName: CA.activeAccount.oauthName() })"
+      ui-sref-active = "active"
+    )
+      svg.iconnables.icons-advanced-dark
+        use(
+          xlink:href = "#icons-advanced-dark"
+        )
+    a.nav-option(
+      ng-if = "dataApp.state.includes('base.instances') || !CA.instancesByPod || CA.instancesByPod.models.length"
+      ui-sref = "base.instances({ userName: CA.activeAccount.oauthName() })"
+      ui-sref-active = "active"
+    )
+      svg.iconnables.icons-server-dark
+        use(
+          xlink:href = "#icons-server-dark"
+        )
+
   header.header-app(
+    ng-if = "!$root.featureFlags.isolationUI"
     ng-class = "{'feature-flag-on': CA.featureFlagsChanged()}"
     ng-include = "'viewHeader'"
   )
+
   //- second .content...
   .content(
     ui-view
