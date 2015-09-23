@@ -910,66 +910,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
     });
   });
 
-  describe('Exposed Ports', function () {
-
-    beforeEach(function () {
-      setup({
-        currentModel: ctx.instance,
-        selectedTab: 'env'
-      });
-    });
-
-    describe('Adding Ports', function () {
-
-      var mapPorts = function (tags) {
-        var values = [];
-        for (var ki in tags.tags) {
-          values.push(tags.tags[ki].value);
-        }
-        return values;
-      };
-
-      it('should not ade a tag/port with chars', function () {
-        var tags = SMC.portTagOptions.tags;
-        var ports = mapPorts(tags);
-        SMC.portTagOptions.tags.addTag('9000');
-        SMC.portTagOptions.tags.addTag('900a'); // Invalid
-        $scope.$digest();
-        expect(mapPorts(tags)).to.eql(ports.concat(['9000']));
-      });
-
-      it('should not add a tag/port with special chars', function () {
-        var tags = SMC.portTagOptions.tags;
-        var ports = mapPorts(tags);
-        SMC.portTagOptions.tags.addTag('10000');
-        SMC.portTagOptions.tags.addTag('900o'); // Invalid
-        $scope.$digest();
-        expect(mapPorts(tags)).to.eql(ports.concat(['10000']));
-      });
-
-      it('should not add a tag/port with an invalid port (> 65,535)', function () {
-        var tags = SMC.portTagOptions.tags;
-        var ports = mapPorts(tags);
-        SMC.portTagOptions.tags.addTag('65535');
-        SMC.portTagOptions.tags.addTag('65536'); // Invalid
-        SMC.portTagOptions.tags.addTag('99999'); // Invalid
-        $scope.$digest();
-        expect(mapPorts(tags)).to.eql(ports.concat(['65535']));
-      });
-
-      it('should not add a tag/port that is a duplicate', function () {
-        var tags = SMC.portTagOptions.tags;
-        var ports = mapPorts(tags);
-        SMC.portTagOptions.tags.addTag('9999');
-        SMC.portTagOptions.tags.addTag('9999'); // Duplicate
-        $scope.$digest();
-        expect(mapPorts(tags)).to.eql(ports.concat(['9999']));
-      });
-
-    });
-
-  });
-
   describe('Insert Hostname', function () {
 
     beforeEach(function () {

@@ -36,7 +36,7 @@ function portsFormDirective (
 
       // Don't allow any other tags to get added, after initially set
       $scope.portTagOptions.tags.onAdd(addTagHandler);
-      $scope.portTagOptions.tags.onRemove(addTagHandler);
+      $scope.portTagOptions.tags.onRemove(resetPorts);
 
       function reAddAllPortsIntoTagCollection () {
         var tags = $scope.portTagOptions.tags;
@@ -77,6 +77,10 @@ function portsFormDirective (
             }
           });
         }
+        resetPorts();
+      }
+
+      function resetPorts () {
         // Re-set and overwrite ports
         $scope.ports.splice(0, $scope.ports.length);
         convertTagsToPortList().forEach(function (value) {

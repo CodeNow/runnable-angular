@@ -31,7 +31,6 @@ function EditServerModalController(
   findLinkedServerVariables,
   hasKeypaths,
   helpCards,
-  PortTagOptions,
   keypather,
   loading,
   loadingPromises,
@@ -45,7 +44,6 @@ function EditServerModalController(
   loading.reset('editServerModal');
   loading('editServerModal', true);
 
-  SMC.portTagOptions = new PortTagOptions();
   angular.extend(SMC, {
     showDebugCmd: false,
     data: {},
