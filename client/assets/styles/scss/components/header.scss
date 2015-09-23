@@ -29,56 +29,9 @@
   }
 
   // layout
-  .btn-nav,
   .toggle-header,
   .accounts-select {
     top: 12px;
-  }
-
-  .btn-nav {
-    color: $gray-darker;
-    font-weight: $weight-bold;
-    padding: 0;
-
-    // temp nav
-    position: absolute;
-
-    &:hover .icons-arrow-backward {
-      transform: rotate(90deg) scale3d(1.2,1.2,1);
-    }
-
-    &:active .icons-arrow-backward {
-      transform: rotate(90deg) scale3d(1.2,1.2,1);
-    }
-
-    // separate hover/active states when active
-    &.active {
-
-      &:hover .icons-arrow-backward {
-        transform: rotate(-90deg) scale3d(1.2,1.2,1);
-      }
-
-      &:active .icons-arrow-backward {
-        transform: rotate(-90deg) scale3d(1.2,1.2,1);
-      }
-
-      .icons-arrow-backward {
-        transform: rotate(-90deg);
-      }
-    }
-
-    .icons-arrow-backward {
-      top: 4px;
-      transform: opacity .3s ease-in-out, transform .3s ease-in-out;
-    }
-  }
-
-  // header title
-  .header-title {
-    color: $gray-darker;
-    font-size: 24px;
-    font-weight: $weight-normal;
-    line-height: 54px;
   }
 
   // deprecated $root.featureFlags.isolationNav
@@ -94,6 +47,25 @@
   // add padding for header-app + content
   + .content {
     padding-top: $header-height;
+  }
+}
+
+.btn-nav {
+  margin-top: 15px;
+}
+
+// header title
+.header-title {
+  border-bottom: 1px solid $gray-lighter;
+  color: $gray-darker;
+  font-size: 24px;
+  font-weight: $weight-normal;
+  line-height: 54px;
+  width: 100%;
+
+  // containers list toggle
+  .btn {
+    padding-top: 14px;
   }
 }
 

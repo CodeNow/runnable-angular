@@ -69,22 +69,19 @@
         target = "_blank"
       ) {{dataInstance.data.commit.attrs.sha  | limitTo:7}}
 
-  header.instance-header
-    button.btn.btn-sm.btn-nav.float-left(
+  h1.header-title.text-center(
+    ng-if = "$root.featureFlags.isolationUI"
+  )
+    button.btn.float-left(
       ng-class = "{'active': $root.featureFlags.isolationNav}"
       ng-click = "$root.featureFlags.isolationNav = !$root.featureFlags.isolationNav"
-      ng-if = "$root.featureFlags.isolationUI"
     )
       svg.iconnables.icons-list
         use(
           xlink:href = "#icons-list"
         )
-
-    h1.header-title.text-center(
-      ng-if = "$root.featureFlags.isolationUI"
-    )
-      span.span palantiri/
-      strong.strong master
+    span.span palantiri/
+    strong.strong master
 
   header.instance-properties(
     ng-if = "$root.featureFlags.isolationUI"
