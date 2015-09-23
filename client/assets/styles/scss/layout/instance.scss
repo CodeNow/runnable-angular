@@ -7,21 +7,20 @@
 //        .istance-header-details
 //      .instance-body (1 1 auto)
 
-// instance wrapper
-.instance-wrapper {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  overflow: hidden;
-}
-
 // instance list
 .instance-list {
   background: $gray-lighterest;
   border-right: 1px solid $gray-lighter;
-  flex: 0 0 $sidebar-containers;
+  float: left;
   height: 100vh;
   overflow-y: auto;
+  width: $sidebar-containers;
+
+  // if nav is open
+  + .instance-wrapper {
+    float: right;
+    width: calc(100vw - 372px);
+  }
 
   .list-header {
     align-items: center;
@@ -180,6 +179,14 @@
       color: $gray-light;
     }
   }
+}
+
+// instance wrapper
+.instance-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
 }
 
 // instance header: status, dns mappings, container url, save (deprecated)
