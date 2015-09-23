@@ -6,24 +6,11 @@ a.btn.btn-sm.purple.btn-accounts(
   pop-over-actions = "popoverAccountMenu.actions"
   pop-over-active = "state.active"
   pop-over-data = "popoverAccountMenu.data"
-  pop-over-options = "{\"right\":-2,\"top\":48}"
   pop-over-template = "viewPopoverAccountMenu"
 )
   img.gravatar(
     alt = "{{data.activeAccount.oauthName()}}"
-    height = "24"
+    height = "34"
     ng-src = "{{data.activeAccount.gravitar()}}"
-    width = "24"
-  )
-  span.span.float-left {{data.activeAccount.oauthName()}}
-  svg.iconnables.icons-arrow-down.anchor-right
-    use(
-      xlink:href = "#icons-arrow-down"
-    )
-  pop-over(
-    actions = "popoverAccountMenu.actions"
-    data = "popoverAccountMenu.data"
-    popover-options = "{\"left\":0,\"top\":54}"
-    popover-ready = "popoverAccountMenu.data.show"
-    template = "viewPopoverAccountMenu"
+    width = "34"
   )
