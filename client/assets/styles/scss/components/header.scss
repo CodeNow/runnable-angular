@@ -172,19 +172,27 @@
 // end deprecated $root.featureFlags.isolationNav
 
 .accounts-select {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  right: 9px;
+  // display: flex;
+  // flex-direction: column;
+  // position: absolute;
+  // right: 9px;
+  // top: 11px;
+  // left: -3px;
+  // width: 36px;
+  // height: 36px;
+  margin-top: 24px;
 }
 
 // accounts button (specificity to override .btn.purple)
 .btn-accounts.btn-accounts {
-  align-self: flex-end;
+  // align-self: flex-end;
   background: transparent;
-  border-color: transparent;
-  color: $purple-lightest;
+  // border-color: transparent;
+  border: 0;
+  // color: $purple-lightest;
+  color: $gray-dark;
   flex: 0 0 auto;
+  padding: 0;
 
   @include media(sm) {
     .span {
@@ -196,17 +204,20 @@
   &:active:not([disabled]),
   &.active {
     background: transparent;
-    color: $white;
+    // color: $white;
   }
 
   .gravatar {
-    float: left;
-    margin-right: 7px;
-    margin-top: 4px;
+    // float: left;
+    // margin-right: 7px;
+    // margin-top: 4px;
+    border: 2px solid $white;
+    // width: 100%;
+    // height: 100%;
 
-    @include retina() {
-      border: 1px solid currentColor;
-    }
+    // @include retina() {
+    //   border: 1px solid currentColor;
+    // }
 
     @include media(sm) {
       margin-right: 3px;
