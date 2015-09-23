@@ -1,18 +1,17 @@
-//- first .content...
-.content
+//- navigation bar (purple)
+nav.sidebar-navigation(
+  ng-if = "$root.featureFlags.isolationUI"
+  ng-include = "'viewNav'"
+)
 
-  nav.sidebar-navigation(
-    ng-if = "$root.featureFlags.isolationUI"
-    ng-include = "'viewNav'"
-  )
+//- deprecated, pre-isolation
+header.header-app(
+  ng-class = "{'feature-flag-on': CA.featureFlagsChanged()}"
+  ng-if = "!$root.featureFlags.isolationUI"
+  ng-include = "'viewHeader'"
+)
 
-  header.header-app(
-    ng-if = "!$root.featureFlags.isolationUI"
-    ng-class = "{'feature-flag-on': CA.featureFlagsChanged()}"
-    ng-include = "'viewHeader'"
-  )
-
-  //- second .content...
-  .content(
-    ui-view
-  )
+//- second .content...
+.content(
+  ui-view
+)

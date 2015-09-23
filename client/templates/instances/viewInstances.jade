@@ -1,3 +1,4 @@
+//- list of all containers
 .sidebar-containers(
   ng-if = "$root.featureFlags.isolationUI && $root.featureFlags.isolationNav"
   ng-include = "'viewContainerList'"
@@ -49,6 +50,7 @@
   "
 )
 
+//- deprecated, old list of containers
 nav.sidebar.sidebar-containers-deprecated(
   ng-if = "!$root.featureFlags.isolationUI"
 )

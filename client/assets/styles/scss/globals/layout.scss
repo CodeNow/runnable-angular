@@ -11,13 +11,18 @@
 
 // global sidebar
 .sidebar-navigation {
+  align-items: center;
   background: $purple-light;
-  height: 100%;
-  flex: 0 0 $sidebar-navigation;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  z-index: 1;
+  height: 100vh;
+  position: fixed;
+  width: $sidebar-navigation;
+  z-index: $z-sidebar-nav;
+
+  + .content {
+    padding-left: $sidebar-navigation;
+  }
 
   .nav-option {
     border-radius: 6px;
