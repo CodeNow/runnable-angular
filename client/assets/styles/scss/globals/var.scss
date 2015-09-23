@@ -111,40 +111,31 @@ $z-hide: -10000;
 $z-show: 10000;
 
 // views
-$z-views: 2000;
-$z-views-explorer: 2001;
-$z-views-active-panel: 2002;
+$z-views: 1000;
+$z-views-active-panel: 1001;
 
 // sidebars
-$z-sidebar: 3000;
-$z-sidebar-content: 3001; // header and footer are higher for box-shadows
-$z-sidebar-header: 3002;
-$z-sidebar-footer: 3003;
-$z-sidebar-nav: 3004;
+$z-sidebar: 2000;
 
 // modals
-$z-modal-backdrop: 4000;
-$z-modal-aside: 4001;
-$z-modal: 4002;
+$z-modal-backdrop: 3000;
+$z-modal: 3001;
 
 // popovers
-$z-popover: 5000;
-$z-popover-title-filter: 5001;
-$z-popover-context-menu: 5002;
-$z-popover-content: 5003;
-$z-popover-title: 5004;
-$z-popover-overlay: 5005;
-$z-popover-fixed: 5006;
-$z-popover-arrow: 5007;
+$z-popover: 4000;
+$z-popover-context-menu: 4001;
+$z-popover-content: 4002;
+$z-popover-fixed: 4003;
+$z-popover-arrow: 4004;
 
 // alerts
-$z-alert: 6000;
+$z-alert: 5000;
 
 // tooltips
-$z-tooltip: 7000;
+$z-tooltip: 6000;
 
 // spinners
-$z-spinner: 8000;
+$z-spinner: 7000;
 
 // **********
 // dimensions
