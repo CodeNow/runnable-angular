@@ -50,8 +50,8 @@
     padding: 11px;
     width: 48px;
 
-    &:hover,
-    &:active {
+    &:hover:not(.disabled),
+    &:active:not(.disabled) {
       opacity: 1;
     }
 
