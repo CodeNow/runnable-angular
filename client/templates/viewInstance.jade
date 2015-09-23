@@ -5,6 +5,7 @@
 
 .instance(
   ng-if = "!isLoading.main"
+  ng-class = "{'deprecated': !$root.featureFlags.isolationUI}"
 )
   //- show if server build is being swapped out
     - orange when build is updating or has failed
@@ -68,7 +69,24 @@
         target = "_blank"
       ) {{dataInstance.data.commit.attrs.sha  | limitTo:7}}
 
-  header.instance-header(
+  header.instance-header
+    button.btn.btn-sm.btn-nav.float-left(
+      ng-class = "{'active': $root.featureFlags.isolationNav}"
+      ng-click = "$root.featureFlags.isolationNav = !$root.featureFlags.isolationNav"
+      ng-if = "$root.featureFlags.isolationUI"
+    )
+      svg.iconnables.icons-list
+        use(
+          xlink:href = "#icons-list"
+        )
+
+    h1.header-title.text-center(
+      ng-if = "$root.featureFlags.isolationUI"
+    )
+      span.span palantiri/
+      strong.strong master
+
+  header.instance-properties(
     ng-if = "$root.featureFlags.isolationUI"
     ng-include = "'viewInstanceHeader'"
   )
