@@ -7,8 +7,8 @@
   )
 
   header.header-app(
-    ng-if = "!$root.featureFlags.isolationUI"
     ng-class = "{'feature-flag-on': CA.featureFlagsChanged()}"
+    ng-if = "!$root.featureFlags.isolationUI"
     ng-include = "'viewHeader'"
   )
 
