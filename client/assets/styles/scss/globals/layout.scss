@@ -1,13 +1,7 @@
 // substitute for body
-.content-wrapper {
-  height: 100vh;
-
-  .content {
-    display: flex;
-    flex: 1 1 auto;
-    height: 100%;
-  }
-}
+// .content-wrapper {
+//   height: 100vh;
+// }
 
 // global sidebar
 .sidebar-navigation {
@@ -17,11 +11,14 @@
   flex-direction: column;
   height: 100vh;
   position: fixed;
+  top: 0;
   width: $sidebar-navigation;
   z-index: $z-sidebar-nav;
 
   + .content {
+    height: 100vh;
     padding-left: $sidebar-navigation;
+    width: 100vw;
   }
 
   .nav-option {
@@ -222,8 +219,29 @@
 // instance page
 .instance {
   display: flex;
-  flex: 1 1 auto;
-  flex-wrap: wrap;
-  height: 100%;
-  position: relative;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+
+  .header-title,
+  .instance-properties {
+    flex: 0 0 auto;
+  }
+
+  .section-wrapper {
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+}
+
+.section-wrapper {
+  display: flex;
+
+  .server-sidebar {
+    flex: 0 0 auto;
+  }
+
+  .views {
+    flex: 1 1 auto;
+  }
 }

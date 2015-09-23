@@ -1,6 +1,6 @@
 .spinner-wrapper.spinner-md.spinner-purple.spinner-backdrop.in(
-  ng-include = "'spinner'"
   ng-if = "isLoading.main"
+  ng-include = "'spinner'"
 )
 
 .instance(
@@ -106,36 +106,37 @@
       saving = "dataInstance.data.saving"
     )
 
-  //- sidebar with repositories and urls
-  section.sidebar.server-sidebar.load
+  .section-wrapper
+    //- sidebar with repositories and urls
+    section.sidebar.server-sidebar.load
 
-    section.sidebar-section.repository-section(
-      instance = "dataInstance.data.instance"
-      ng-if = "dataInstance.data.instance.contextVersion.getMainAppCodeVersion()"
-      repo-list
-    )
+      section.sidebar-section.repository-section(
+        instance = "dataInstance.data.instance"
+        ng-if = "dataInstance.data.instance.contextVersion.getMainAppCodeVersion()"
+        repo-list
+      )
 
-    section.sidebar-section.dns-mappings-section(
-      dns-manager
-      instance = "dataInstance.data.instance"
-      ng-if = "dataInstance.data.instance && !$root.featureFlags.isolationDnsMappings"
-    )
+      section.sidebar-section.dns-mappings-section(
+        dns-manager
+        instance = "dataInstance.data.instance"
+        ng-if = "dataInstance.data.instance && !$root.featureFlags.isolationDnsMappings"
+      )
 
-    section.sidebar-section.explorer-section(
-      edit-explorer = "false"
-      explorer
-      explorer-title = "File Explorer"
-      file-model = "dataInstance.data.instance.containers.models[0]"
+      section.sidebar-section.explorer-section(
+        edit-explorer = "false"
+        explorer
+        explorer-title = "File Explorer"
+        file-model = "dataInstance.data.instance.containers.models[0]"
+        instance = "dataInstance.data.instance"
+        open-items = "dataInstance.data.openItems"
+        root-dir = "dataInstance.data.instance.containers.models[0].rootDir"
+      )
+
+    //- in / out control presence of header-bar
+    section.views(
+      active-panel
+      build = "dataInstance.data.instance.build"
       instance = "dataInstance.data.instance"
+      ng-class = "{'full-screen': $root.featureFlags.fullScreen}"
       open-items = "dataInstance.data.openItems"
-      root-dir = "dataInstance.data.instance.containers.models[0].rootDir"
     )
-
-  //- in / out control presence of header-bar
-  section.views(
-    active-panel
-    build = "dataInstance.data.instance.build"
-    instance = "dataInstance.data.instance"
-    ng-class = "{'full-screen': $root.featureFlags.fullScreen}"
-    open-items = "dataInstance.data.openItems"
-  )
