@@ -13,7 +13,7 @@ require('app')
       restrict: 'A',
       templateUrl: 'viewFormTranslation',
       scope: {
-        state: '=',
+        state: '='
       },
       link: function ($scope, elem, attrs) {
         $scope.$watch('state.contextVersion', function (contextVersion) {

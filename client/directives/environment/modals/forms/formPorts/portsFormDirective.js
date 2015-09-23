@@ -11,7 +11,7 @@ function portsFormDirective (
     restrict: 'A',
     templateUrl: 'viewFormPorts',
     scope: {
-      ports: '= ports',
+      ports: '= ports'
     },
     link: function ($scope, elem, attrs) {
 
