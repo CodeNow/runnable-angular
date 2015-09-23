@@ -1,4 +1,5 @@
-//- org button
+//- ************************
+//- deprecated element, delete with $root.featureFlags.isolationUI
 a.btn.btn-sm.purple.btn-accounts(
   ng-class = "{'no-touching': data.accountsDisabled()}"
   ng-if = "!$root.featureFlags.isolationUI"
@@ -20,6 +21,8 @@ a.btn.btn-sm.purple.btn-accounts(
     use(
       xlink:href = "#icons-arrow-down"
     )
+//- end deprecated element, delete with $root.featureFlags.isolationUI
+//- ************************
 
 a.btn.btn-sm.btn-accounts(
   ng-class = "{'no-touching': data.accountsDisabled()}"

@@ -17,15 +17,35 @@
   flex: 0 0 $sidebar-navigation;
   flex-direction: column;
   height: 100%;
+  padding: 12px;
   z-index: 1;
 
-  .nav-option {
+  // accounts, configure, and containers buttons
+  .btn-acounts,
+  .btn-nav {
+    margin-top: 12px;
+  }
+
+  // accounts button
+  .btn-accounts {
+    background: transparent;
+    border: 0;
+    flex: 0 0 auto;
+    height: 36px;
+    padding: 0;
+
+    .gravatar {
+      border: 2px solid $white;
+    }
+  }
+
+  // configure and containers buttons
+  .btn-nav {
     border-radius: 6px;
     color: $white;
     cursor: pointer;
     flex: 0 0 auto;
     height: 48px;
-    margin-top: 12px;
     opacity: .9;
     padding: 11px;
     width: 48px;
