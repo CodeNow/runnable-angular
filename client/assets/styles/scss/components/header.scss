@@ -9,9 +9,7 @@
   position: fixed;
   width: 100vw;
   z-index: $z-popover-arrow + 1; // should overlap all popovers, except account menu
-
-  // temp nav
-  transition: width .2s ease-in-out;
+  text-align: center;
 
   // change header theme if feature flag is on
   &.feature-flag-on::before {
@@ -38,7 +36,7 @@
   }
 
   .btn-nav {
-    color: $purple-lightest;
+    color: $gray-darker;
     font-weight: $weight-bold;
     padding: 0;
 
@@ -77,21 +75,10 @@
 
   // header title
   .header-title {
-    color: $purple-lightest;
-    font-size: 21px;
+    color: $gray-darker;
+    font-size: 24px;
     font-weight: $weight-normal;
-    // left: 0;
-    // line-height: 60px;
-    // position: absolute;
-    // right: 0;
-    // z-index: -1; // so that we don't overlap buttons
-
-    // temp nav
-    line-height: 30px;
-
-    .strong {
-      color: $white;
-    }
+    line-height: 54px;
   }
 
   // deprecated $root.featureFlags.isolationNav
@@ -102,7 +89,6 @@
     position: absolute;
     top: 12px;
   }
-
   // end deprecated $root.featureFlags.isolationNav
 
   // add padding for header-app + content
