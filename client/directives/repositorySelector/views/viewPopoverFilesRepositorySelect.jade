@@ -1,9 +1,9 @@
 .popover-header
   span.fade(
-    ng-class = "{'in': state.view === 1}"
+    ng-class = "{'in': isActivePanel()}"
   ) Choose Repository
   svg.btn.btn-sm.iconnables.icons-close.fade(
-    ng-class = "{'in': state.view === 1}"
+    ng-class = "{'in': isActivePanel()}"
     ng-click = "closePopover()"
     ng-if = "!data.gitDataOnly"
   )
@@ -11,8 +11,12 @@
       xlink:href = "#icons-close"
     )
 
+//- don't fade for spinner
 .popover-content.fade(
-  ng-class = "{'in': state.view === 1}"
+  ng-class = "{\
+    'fade': !repoSelector.data.githubRepos.models,\
+    'in': isActivePanel()\
+  }"
 )
   input.input.input-xs.input-search(
     ng-disabled = "repoSelected"

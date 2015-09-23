@@ -1,25 +1,17 @@
 'use strict';
 
 var app         = require('server/app');
-var compression = require('compression');
-var config      = require('server/config/' + (process.env.NODE_ENV || 'development'));
+
 var envIs       = require('101/env-is');
 var express     = require('express');
 var fs          = require('fs');
 var http        = require('http');
 var https       = require('https');
 var path        = require('path');
-var version     = require('../package').version;
-var jade        = require('jade');
 var assign = require('101/assign');
 
 app.set('port', process.env.PORT || 3000);
 app.set('https_port', process.env.HTTPS_PORT || 443);
-app.set('config', config);
-app.set('view engine', 'jade');
-
-
-app.set('views', path.join(__dirname + '/views'));
 
 // Redirect to https
 if (process.env.HTTPS) {
@@ -30,66 +22,22 @@ if (process.env.HTTPS) {
     next();
   });
 }
+app.use(function (req, res, next) {
+  res.setHeader('Content-Encoding','gzip');
+  next();
+});
 
-app.use(compression());
-
-app.use('/build', express.static(path.join(__dirname + '/../client/build')));
-
-var homePath = path.join(__dirname + '/views/home.jade');
-
-var locals = {
-  version: version,
-  env: config.env,
-  commitHash: require('../client/config/json/commit.json').commitHash,
-  commitTime: require('../client/config/json/commit.json').commitTime,
-  apiHost: require('../client/config/json/api.json').host
-};
-app.locals = locals;
-
-var compiledHomeUnauthorized = jade.renderFile(homePath, assign({unauthorized: true}, locals));
-var compiledHomeAuthorized = jade.renderFile(homePath, assign({unauthorized: false}, locals));
+app.use('/build', express.static(path.join(__dirname + '/../client/dist')));
 
 app.route('/').get(function (req, res, next) {
-  if ( req.query.whitelist === 'false' ) {
-    res.send(compiledHomeUnauthorized);
-  } else {
-    res.send(compiledHomeAuthorized);
-  }
+  res.sendFile(path.join(__dirname + '/../client/dist/index.html'));
 });
-
-app.route('/error/:page').get(function (req, res, next) {
-  if (req.params.page) {
-    var options = {};
-    [
-      'status',
-      'branchName',
-      'redirectUrl',
-      'containerUrl',
-      'ownerName',
-      'instanceName',
-      'ports'
-    ].forEach(function (option) {
-      var value = req.query[option];
-      if (value && value.indexOf('[') === 0) {
-        value = JSON.parse(value);
-      }
-      options[option] = value;
-    });
-    res.render('error/pages/' + req.params.page, options);
-  } else {
-    res.render('error/pages/invalid');
-  }
-});
-
-
-var layoutPath = path.join(__dirname + '/views/layout.jade');
-var compiledLayout = jade.renderFile(layoutPath, locals);
 
 // load same base view for all valid client-routes
-require('client/config/routes').forEach(function (item, index, arr) {
+require('client/config/routes').forEach(function (item) {
   if (!item.url) { return; }
-  app.route(item.url).get(function (req, res, next) {
-    res.send(compiledLayout);
+  app.route(item.url).get(function (req, res) {
+    res.sendFile(path.join(__dirname + '/../client/dist/app.html'));
   });
 });
 

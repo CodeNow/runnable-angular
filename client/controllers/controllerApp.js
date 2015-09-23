@@ -19,6 +19,7 @@ function ControllerApp(
   fetchInstancesByPod,
   pageName,
   featureFlags,
+  $ocLazyLoad,
 
   user,
   orgs,
@@ -26,6 +27,11 @@ function ControllerApp(
 ) {
   eventTracking.boot(user);
 
+
+  // Load ace after 5 seconds. Should improve user experience overall..
+  $timeout(function () {
+    $ocLazyLoad.load('ui.ace');
+  }, 10000);
 
   this.activeAccount = activeAccount;
   this.user = user;

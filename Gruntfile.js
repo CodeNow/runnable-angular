@@ -6,6 +6,10 @@ var fs      = require('fs');
 var async   = require('async');
 var envIs   = require('101/env-is');
 var timer   = require('grunt-timer');
+var version = require('./package.json').version;
+
+
+var config = {};
 
 module.exports = function(grunt) {
   timer.init(grunt);
@@ -18,6 +22,7 @@ module.exports = function(grunt) {
     'Gruntfile.js',
     'client/**/*.js',
     '!client/build/**/*.js',
+    '!client/dist/**/*.js',
     '!client/assets/**/*.js',
     'server/**/*.js'
   //  'test/**/*.js'
@@ -25,17 +30,9 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    githooks: {
-      all: {
-        // 'pre-commit':    'jshint:prod'
-        // 'pre-push':      'bgShell:karma'
-      //  'post-merge':    'bgShell:npm-install',
-      //  'post-checkout': 'bgShell:npm-install'
-      }
-    },
     concurrent: {
       dev: {
-        tasks: ['watch:images', 'watch:javascripts', 'watch:templates', 'watch:styles', 'nodemon'],
+        tasks: ['watch:images', 'watch:javascripts', 'watch:templates', 'watch:styles', 'watch:jade', 'watch:compress', 'nodemon'],
         options: {
           limit: 10,
           logConcurrentOutput: true
@@ -105,18 +102,11 @@ module.exports = function(grunt) {
         src: jshintFiles
       }
     },
-    exorcise: {
-      bundle: {
-        options: {},
-        files: {
-          'client/build/js/bundle.js.map': ['client/build/js/bundle.js']
-        }
-      }
-    },
     browserify: {
       watch: {
         files: {
-          'client/build/js/bundle.js': ['client/main.js']
+          'client/build/js/bundle.js': 'client/main.js',
+          'client/build/js/ace.js': 'client/lib/ace.js'
         },
         options: {
           watch: true,
@@ -127,7 +117,8 @@ module.exports = function(grunt) {
       },
       once: {
         files: {
-          'client/build/js/bundle.js': ['client/main.js']
+          'client/build/js/bundle.js': 'client/main.js',
+          'client/build/js/ace.js': 'client/lib/ace.js'
         },
         options: {
           browserifyOptions: {
@@ -157,14 +148,6 @@ module.exports = function(grunt) {
         dest: 'client/build/images/',
         flatten: false,
         filter: 'isFile'
-      // },
-      // fonts: {
-      //   expand: true,
-      //   cwd: 'client/assets/fonts/',
-      //   src: '**',
-      //   dest: 'client/build/fonts/',
-      //   flatten: false,
-      //   filter: 'isFile'
       }
     },
     watch: {
@@ -176,7 +159,7 @@ module.exports = function(grunt) {
           'client/assets/images/**/*.svg'
         ],
         tasks: [
-          'copy:images'
+          'newer:copy:images'
         ]
       },
       tests: {
@@ -194,7 +177,8 @@ module.exports = function(grunt) {
           'package.json',
           'node_modules/runnable/**/*.js',
           '!node_modules/runnable/node_modules/**/*.*',
-          '!client/build/**/*.*'
+          '!client/build/**/*.*',
+          '!client/dist/**/*.*'
         ],
         tasks: [
           'newer:jshint:dev',
@@ -208,7 +192,8 @@ module.exports = function(grunt) {
       templates: {
         files: [
           'client/**/*.jade',
-          '!client/build/**/*.*'
+          '!client/build/**/*.*',
+          '!client/dist/**/*.*'
         ],
         tasks: [
           'jade2js'
@@ -219,25 +204,27 @@ module.exports = function(grunt) {
         files: [
           'client/**/*.scss',
           'client/**/*.css',
-          '!client/build/**/*.*'
+          '!client/build/**/*.*',
+          '!client/dist/**/*.*'
         ],
         tasks: [
           'sass:dev',
           'autoprefixer'
         ]
+      },
+      compress: {
+        files: ['client/build/**/*'],
+        tasks: ['newer:compress:build']
+      },
+      jade: {
+        files: [
+          'server/views/home.jade',
+          'server/views/layout.jade'
+        ],
+        tasks: ['newer:jade:compile']
       }
     },
     bgShell: {
-      // karma: {
-      //   bg: true,
-      //   cmd: [
-      //     'SAUCE_USERNAME=runnable',
-      //     'SAUCE_ACCESS_KEY=f41cc147-a7f0-42b0-8e86-53eb5a349f48',
-      //     'BUILD_NUMBER=1',
-      //     'karma start ./test/karma.conf.js'
-      //   ].join(' ')
-      //   //cmd: 'SAUCE_USERNAME=runnable SAUCE_ACCESS_KEY=f41cc147-a7f0-42b0-8e86-53eb5a349f48 BUILD_NUMBER=1 karma start ./test/karma.conf.js'
-      // },
       karma: {
         bg: false,
         cmd: 'karma start ./test/karma.conf.js --single-run'
@@ -290,6 +277,54 @@ module.exports = function(grunt) {
           },
           dir: 'coverage',
           root: 'test'
+        }
+      }
+    },
+    compress: {
+      build: {
+        options: {
+          mode: 'gzip'
+        },
+        expand: true,
+        cwd: 'client/build/',
+        src: ['**/*'],
+        dest: 'client/dist/'
+      }
+    },
+    jade: {
+      compile: {
+        options: {
+          data: function () {
+            var locals = {
+              version: version,
+              env: require('./client/config/json/environment.json').environment,
+              commitHash: require('./client/config/json/commit.json').commitHash,
+              commitTime: require('./client/config/json/commit.json').commitTime,
+              apiHost: require('./client/config/json/api.json').host,
+            };
+            locals.rollbarEnv = locals.env;
+            if (locals.apiHost === '//api.runnable-beta.com') {
+              locals.rollbarEnv = 'production-beta';
+            }
+            return locals;
+          }
+        },
+        files: {
+          'client/build/index.html': 'server/views/home.jade',
+          'client/build/app.html': 'server/views/layout.jade'
+        }
+      }
+    },
+    uglify: {
+      options: {
+        sourceMap: true,
+        sourceMapIncludeSources: true,
+        mangle: false
+      },
+      app: {
+        files: {
+          'client/build/js/ace.js': ['client/build/js/ace.js'],
+          'client/build/js/bundle.js': ['client/build/js/bundle.js']
         }
       }
     }
@@ -357,6 +392,9 @@ module.exports = function(grunt) {
         if (configObj.host.charAt(configObj.host.length - 1) === '/') {
           configObj.host = configObj.host.substr(0, configObj.host.length - 1);
         }
+
+        config.host = configObj.host;
+        config.userContentDomain = configObj.userContentDomain;
         var configJSON = JSON.stringify(configObj);
         fs.writeFile(path.join(clientPath, 'config', 'json', 'api.json'), configJSON, function () {
           cb();
@@ -426,41 +464,6 @@ module.exports = function(grunt) {
 
 
 
-  grunt.registerTask('loadSyntaxHighlighters', '', function () {
-    var cb = this.async();
-    var indexPath = path.join(__dirname, 'client', 'lib', 'braceModes.js');
-    var workingPath = path.join(__dirname, 'node_modules', 'brace', 'mode');
-
-    // TODO: DRY up with code above
-    find.file(/\.js$/, workingPath, function (files) {
-      var newFileString = files
-        .map(function (item) {
-          return item.replace(workingPath, 'brace/mode').replace(/\.js$/, '');
-        })
-        .reduce(function (previous, current) {
-          if (current === './index') { return previous; }
-          return previous += 'require(\'' + current + '\');\n';
-        }, '');
-
-      fs.exists(indexPath, function (exists) {
-        if (exists) {
-          // Only write if we need to
-          fs.readFile(indexPath, 'UTF-8', function (err, fileString) {
-            if (err) { return cb(err); }
-            if (fileString.trim() === newFileString.trim()) {
-              return cb();
-            }
-            grunt.log.writeln('writing new modes.js');
-            fs.writeFile(indexPath, newFileString, cb);
-          });
-        } else {
-          grunt.log.writeln('writing new modes.js');
-          fs.writeFile(indexPath, newFileString, cb);
-        }
-      });
-    });
-  });
-
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-browserify');
@@ -469,13 +472,15 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-autoprefixer');
   grunt.loadNpmTasks('grunt-sass');
   grunt.loadNpmTasks('grunt-concurrent');
-  grunt.loadNpmTasks('grunt-exorcise');
+  grunt.loadNpmTasks('grunt-contrib-compress');
+  grunt.loadNpmTasks('grunt-contrib-jade');
+  grunt.loadNpmTasks('grunt-newer');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
   if (!envIs('production', 'staging')) {
     grunt.loadNpmTasks('grunt-newer');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-nodemon');
-    grunt.loadNpmTasks('grunt-githooks');
     grunt.loadNpmTasks('grunt-jsbeautifier');
     grunt.loadNpmTasks('grunt-istanbul');
     grunt.loadNpmTasks('grunt-istanbul-coverage');
@@ -492,7 +497,6 @@ module.exports = function(grunt) {
   grunt.registerTask('test:e2e', ['bgShell:e2e']);
   grunt.registerTask('test', ['bgShell:karma']);
   grunt.registerTask('default', [
-    'githooks',
     'bgShell:npm-install',
     'copy',
     'sass:dev',
@@ -501,8 +505,9 @@ module.exports = function(grunt) {
     'jshint:dev',
     'autoBundleDependencies',
     'generateConfigs',
-    'loadSyntaxHighlighters',
     'browserify:watch',
+    'jade:compile',
+    'compress:build',
     'concurrent'
   ]);
   grunt.registerTask('deploy', [
@@ -513,7 +518,9 @@ module.exports = function(grunt) {
     'autoBundleDependencies',
     'generateConfigs',
     'browserify:once',
-    'exorcise'
+    'uglify:app',
+    'jade:compile',
+    'compress:build'
   ]);
   grunt.registerTask('deploy:prod', [
     'copy',
@@ -523,6 +530,8 @@ module.exports = function(grunt) {
     'autoBundleDependencies',
     'generateConfigs:production',
     'browserify:once',
-    'exorcise'
+    'uglify:app',
+    'jade:compile',
+    'compress:build'
   ]);
 };

@@ -7,8 +7,8 @@
 
 .ng-hide(
   pop-over
-  pop-over-active = "CFC.repositoryPopover.active"
   pop-over-actions = "CFC.repositoryPopover.actions"
+  pop-over-active = "CFC.repositoryPopover.active"
   pop-over-data = "CFC.repositoryPopover.data"
   pop-over-template = "viewPopoverFilesRepository"
   pop-over-trigger = "activeAttr"
@@ -17,17 +17,17 @@
 .ng-hide(
   pop-over
   pop-over-actions = "CFC.fileUpload.actions"
+  pop-over-active = "CFC.fileUpload.active"
   pop-over-data = "CFC.fileUpload.data"
   pop-over-template = "viewPopoverFilesUpload"
-  pop-over-active = "CFC.fileUpload.active"
   pop-over-trigger = "activeAttr"
 )
 
 .ng-hide(
   pop-over
-  pop-over-template = "viewPopoverSshKey"
-  pop-over-active = "CFC.sshKey.popover.active"
   pop-over-actions = "CFC.sshKey.popover.actions"
+  pop-over-active = "CFC.sshKey.popover.active"
+  pop-over-template = "viewPopoverSshKey"
   pop-over-trigger = "activeAttr"
 )
 
@@ -36,9 +36,9 @@
   .input-col.clearfix
     button.btn.btn-xs.white.float-right(
       pop-over
+      pop-over-actions = "CFC.actions"
       pop-over-options = "{\"right\":0,\"top\":35}"
       pop-over-template = "viewPopoverAddFile"
-      pop-over-actions = "CFC.actions"
     )
       span.float-left Add…
       svg.iconnables.icons-arrow-down

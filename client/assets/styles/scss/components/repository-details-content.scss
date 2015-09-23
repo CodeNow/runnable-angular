@@ -33,7 +33,6 @@
       &.active {
         border-color: currentColor;
         color: $purple-light;
-        cursor: default;
 
         .small {
           color: currentColor;
@@ -41,10 +40,18 @@
 
         .icons-fat-check {
           background-color: $purple-light;
-          visibility: visible;
         }
       }
 
+      &.active {
+        cursor: default;
+
+        &.disabled .icons-fat-check {
+          background-color: $gray-light;
+        }
+      }
+
+      &.active .icons-fat-check,
       &:not(.disabled):hover .icons-fat-check {
         visibility: visible;
       }
@@ -60,6 +67,10 @@
         .small {
           color: currentColor;
         }
+      }
+
+      &:last-child {
+        margin-bottom: 15px;
       }
 
       .small {

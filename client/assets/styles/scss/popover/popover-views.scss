@@ -7,12 +7,7 @@
   width: 100%;
 
   .fade {
-    opacity: 0;
     transition: opacity .15s ease-in;
-
-    &.in {
-      opacity: 1;
-    }
   }
 
   // list all elements that transition
@@ -27,31 +22,8 @@
 
 // popover-views must be fixed width & height
 .popover-view {
-  box-shadow: 0 1px 1px $gray-lighter;
   display: flex;
   flex-direction: column;
-  float: left;
-  height: 100%;
-  max-height: 100%;
-  position: absolute;
-  transition: transform .3s ease-in-out;
-  width: 100%;
-
-  &.view-2 {
-    transform: translate3d(-100%,0,0);
-  }
-
-  &.view-3 {
-    transform: translate3d(-200%,0,0);
-  }
-
-  + .popover-view {
-    left: 100%;
-
-    + .popover-view {
-      left: 200%;
-    }
-  }
 
   .popover-header {
     flex: 0 0 auto;

@@ -1,20 +1,19 @@
 .popover-header
   //- if adding a new repository
   svg.btn.btn-sm.iconnables.icons-arrow-backward.fade(
-    ng-class = "{'in': state.view === 2}"
-    ng-click = "state.view = 1"
+    ng-class = "{'in': isActivePanel()}"
+    ng-click = "goToPanel('repoSelect', 'back')"
     ng-disabled = "state.saving"
     ng-if = "!state.fromServer"
   )
     use(
       xlink:href = "#icons-arrow-down"
     )
-
   | {{ repoSelector.data.name }}
 
   //- close button
   svg.btn.btn-sm.iconnables.icons-close.fade(
-    ng-class = "{'in': state.view === 2}"
+    ng-class = "{'in': isActivePanel()}"
     ng-click = "closePopover()"
   )
     use(
@@ -22,13 +21,13 @@
     )
 
 .popover-content.fade(
-  ng-class = "{'in': state.view === 2}"
+  ng-class = "{'in': isActivePanel()}"
   ng-form = "repoSelectorForm"
 )
   label.label.clearfix
     .input-col
       .btn.btn-block.white.text-overflow(
-        ng-click = "state.view = 3"
+        ng-click = "goToPanel('commit')"
       ) {{ repoSelector.data.useLatest && $root.featureFlags.additionalRepositories ? 'Always update to latest commit' : repoSelector.data.commit.attrs.commit.message }}
         small.small(
           ng-if = "repoSelector.data.useLatest"
@@ -67,7 +66,7 @@
       small.small Add scripts to be run before your container is started.
 
 .popover-footer.clearfix.fade(
-  ng-class = "{'in': state.view === 2}"
+  ng-class = "{'in': isActivePanel()}"
 )
   button.btn.btn-sm.green(
     ng-click = "repoSelector.actions.save()"
@@ -75,7 +74,7 @@
     type = "submit"
   ) {{ repoSelector.data.fromServer ? 'Save' : 'Add Repository' }}
   button.btn.btn-sm.gray.btn-cancel(
-    ng-disabled = "state.saving"
     ng-click = "closePopover()"
+    ng-disabled = "state.saving"
     type = "button"
   ) Cancel

@@ -51,8 +51,8 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
     });
     angular.mock.module('app');
     angular.mock.module(function ($provide) {
-      $provide.value('modelist', {
-        getModeForPath: getModeForPathSpy
+      $provide.factory('modelist', function ($q) {
+        return $q.when({getModeForPath: getModeForPathSpy})
       });
       $provide.value('debounce', function (fn) {
         return fn;
@@ -248,9 +248,8 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
 
       fileMock.state.body = '';
       $scope.$apply();
-
-      expect(fileMock.validation.criticals).to.have.property('length', 1);
-      expect(fileMock.validation.errors).to.have.property('length', 1);
+      expect(fileMock.validation.criticals, 'criticals').to.have.property('length', 1);
+      expect(fileMock.validation.errors, 'errors').to.have.property('length', 1);
     });
 
     it('should set invalidDockerfile to false with only p1 error', function () {

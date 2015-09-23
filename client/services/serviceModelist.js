@@ -1,6 +1,8 @@
 'use strict';
 
 require('app')
-  .factory('modelist', function ($window) {
-    return $window.ace.acequire('ace/ext/modelist');
+  .factory('modelist', function ($window, $ocLazyLoad) {
+    return $ocLazyLoad.load('ui.ace').then(function() {
+      return $window.ace.require('ace/ext/modelist');
+    });
   });
