@@ -9,7 +9,6 @@
   position: fixed;
   width: 100vw;
   z-index: $z-popover-arrow + 1; // should overlap all popovers, except account menu
-  text-align: center;
 
   // change header theme if feature flag is on
   &.feature-flag-on::before {
@@ -48,10 +47,6 @@
   + .content {
     padding-top: $header-height;
   }
-}
-
-.btn-nav {
-  margin-top: 15px;
 }
 
 // header title

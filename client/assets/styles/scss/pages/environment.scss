@@ -3,7 +3,7 @@
   padding: 30px 15px 15px;
   position: absolute;
   top: 0;
-  width: calc(100% - 72px);
+  width: calc(100% - #{$sidebar-navigation});
 
   // help button
   .btn-icon {
@@ -44,7 +44,7 @@
 // body—form elements/cards
 .environment-body {
   margin: 87px 15px 15px;
-  width: calc(100% - 72px);
+  width: calc(100% - #{$sidebar-navigation});
 }
 
 // card grid
