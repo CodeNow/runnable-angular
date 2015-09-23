@@ -75,7 +75,7 @@ function populateDockerfile(
     }
     function populateDockerFile(dockerfileBody) {
       if (!Array.isArray(state.ports)) {
-        var error = new Error('populateDockerfile requires a getPorts function');
+        var error = new Error('populateDockerfile requires an array of ports');
         $log.error(error);
         return error;
       }

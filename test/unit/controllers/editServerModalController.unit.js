@@ -1,10 +1,12 @@
+/*global runnable:true, mocks: true, directiveTemplate: true, xdescribe: true, helpCardsMock */
 'use strict';
 
-describe('editServerModalDirective'.bold.underline.blue, function () {
+describe('editServerModalController'.bold.underline.blue, function () {
+  var SMC;
   var ctx;
   var $timeout;
   var $scope;
-  var $compile;
+  var $controller;
   var $elScope;
   var $rootScope;
   var keypather;
@@ -189,7 +191,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       });
     });
     angular.mock.inject(function (
-      _$compile_,
+      _$controller_,
       _$timeout_,
       _$rootScope_,
       _keypather_,
@@ -198,14 +200,15 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       _loading_,
       _$q_
     ) {
+      $controller = _$controller_;
       $timeout = _$timeout_;
-      $compile = _$compile_;
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
       keypather = _keypather_;
       loadingService = _loading_;
       $q = _$q_;
     });
+    $scope.$digest();
     $scope.defaultActions = {
       close: sinon.spy()
     };
@@ -221,20 +224,17 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     ctx.closePopoverSpy = sinon.spy();
     $rootScope.$on('close-popovers', ctx.closePopoverSpy);
 
-
-    Object.keys(scope).forEach(function (key) {
-      $scope[key] = scope[key];
-    });
-
-    ctx.template = directiveTemplate.attribute('edit-server-modal', {
-      'instance': 'currentModel',
-      'selected-tab': 'stateModel',
-      'modal-actions': 'defaultActions'
-    });
-    ctx.element = $compile(ctx.template)($scope);
+    angular.extend($scope, scope);
     $scope.$digest();
-    $elScope = ctx.element.isolateScope();
-    $scope.$digest();
+
+    SMC = $controller('EditServerModalController', {
+      $scope: $scope
+    });
+    SMC.init({
+      instance: $scope.currentModel,
+      modalActions: $scope.defaultActions,
+      selectedTab: $scope.stateModel
+    });
   }
 
   beforeEach(function () {
@@ -389,12 +389,12 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
           });
         });
 
-        $elScope.getUpdatePromise();
+        SMC.getUpdatePromise();
         $scope.$digest();
         sinon.assert.called(closePopoverSpy);
         sinon.assert.called(ctx.loadingPromiseMock.finished);
-        expect($elScope.building).to.be.true;
-        expect($elScope.state.ports).to.be.ok;
+        expect(SMC.building).to.be.true;
+        expect(SMC.state.ports).to.be.ok;
         $scope.$digest();
         sinon.assert.notCalled(ctx.build.build);
         $scope.$digest();
@@ -417,13 +417,13 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
           });
         });
 
-        $elScope.state.opts.env = ['asdasd', 'sadfsdfasdfasdf'];
-        $elScope.getUpdatePromise();
+        SMC.state.opts.env = ['asdasd', 'sadfsdfasdfasdf'];
+        SMC.getUpdatePromise();
         $scope.$digest();
         sinon.assert.called(closePopoverSpy);
         sinon.assert.called(ctx.loadingPromiseMock.finished);
-        expect($elScope.building).to.be.true;
-        expect($elScope.state.ports).to.be.ok;
+        expect(SMC.building).to.be.true;
+        expect(SMC.state.ports).to.be.ok;
         $scope.$digest();
         sinon.assert.notCalled(ctx.build.build);
         $scope.$digest();
@@ -448,13 +448,13 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
           });
         });
 
-        $elScope.state.opts.env = ['asdasd', 'sadfsdfasdfasdf'];
-        $elScope.getUpdatePromise();
+        SMC.state.opts.env = ['asdasd', 'sadfsdfasdfasdf'];
+        SMC.getUpdatePromise();
         $scope.$digest();
         sinon.assert.called(closePopoverSpy);
         sinon.assert.called(ctx.loadingPromiseMock.finished);
-        expect($elScope.building).to.be.true;
-        expect($elScope.state.ports).to.be.ok;
+        expect(SMC.building).to.be.true;
+        expect(SMC.state.ports).to.be.ok;
         sinon.assert.calledOnce(ctx.build.build);
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         sinon.assert.calledOnce($scope.defaultActions.close);
@@ -474,19 +474,21 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         });
         ctx.loadingPromiseFinishedValue = 2;
 
-        $elScope.state.opts.env = ['asdasd', 'sadfsdfasdfasdf'];
-        $elScope.getUpdatePromise();
+        SMC.state.opts.env = ['asdasd', 'sadfsdfasdfasdf'];
+        SMC.resetStateContextVersion(SMC.instance.contextVersion);
+        $scope.$digest();
+        SMC.getUpdatePromise();
         $scope.$digest();
         sinon.assert.called(closePopoverSpy);
         sinon.assert.called(ctx.loadingPromiseMock.finished);
-        expect($elScope.building).to.be.true;
-        expect($elScope.state.ports).to.be.ok;
-        sinon.assert.calledOnce($elScope.openItems.isClean);
-        sinon.assert.notCalled($elScope.openItems.updateAllFiles);
+        expect(SMC.building).to.be.true;
+        expect(SMC.state.ports).to.be.ok;
+        sinon.assert.calledOnce(SMC.openItems.isClean);
+        sinon.assert.notCalled(SMC.openItems.updateAllFiles);
         $scope.$digest();
         sinon.assert.calledOnce(ctx.build.build);
         $scope.$digest();
-        expect($elScope.state.opts.build).to.be.ok;
+        expect(SMC.state.opts.build).to.be.ok;
         $scope.$digest();
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         $scope.$digest();
@@ -511,17 +513,19 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         };
         ctx.fileModels.push(ctx.dockerfile);
 
-        $elScope.getUpdatePromise();
+        SMC.resetStateContextVersion(SMC.instance.contextVersion);
+        $scope.$digest();
+        SMC.getUpdatePromise();
         $scope.$digest();
         sinon.assert.called(closePopoverSpy);
         sinon.assert.called(ctx.loadingPromiseMock.finished);
-        expect($elScope.building).to.be.true;
-        expect($elScope.state.ports).to.be.ok;
+        expect(SMC.building).to.be.true;
+        expect(SMC.state.ports).to.be.ok;
         $scope.$digest();
-        sinon.assert.calledOnce($elScope.openItems.updateAllFiles);
+        sinon.assert.calledOnce(SMC.openItems.updateAllFiles);
         $scope.$digest();
         sinon.assert.calledOnce(ctx.build.build);
-        expect($elScope.state.opts.build).to.be.ok;
+        expect(SMC.state.opts.build).to.be.ok;
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         sinon.assert.calledOnce($scope.defaultActions.close);
         sinon.assert.calledOnce(ctx.instance.update);
@@ -545,20 +549,20 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
             text: 'Container updated successfully.'
           });
         });
+        $scope.$digest();
         ctx.loadingPromiseFinishedValue = 2;
         ctx.newContextVersion.fetchFile.reset();
-        $elScope.state.advanced = true;
+        SMC.state.advanced = true;
         ctx.rollbackContextVersion.attrs.advanced = false;
-        $elScope.openItems.add.reset();
+        SMC.openItems.add.reset();
         loadingService.reset();
         ctx.fakeOrg1.createBuild.reset();
-        expect($elScope.state.advanced, 'advanced flag').to.be.ok;
-        $scope.$digest();
-        var oldAcv = $elScope.state.acv;
-        var oldRepo = $elScope.state.repo;
-        var oldStartCommand = $elScope.state.startCommand;
-        var oldSelectedStack = $elScope.state.selectedStack;
-        var oldContainerFiles = $elScope.state.containerFiles;
+        expect(SMC.state.advanced, 'advanced flag').to.be.ok;
+        var oldAcv = SMC.state.acv;
+        var oldRepo = SMC.state.repo;
+        var oldStartCommand = SMC.state.startCommand;
+        var oldSelectedStack = SMC.state.selectedStack;
+        var oldContainerFiles = SMC.state.containerFiles;
 
         var newContainerFile = {
           name: 'hello',
@@ -578,19 +582,18 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         };
 
         ctx.parseDockerfileResponseMock.reset();
-        $elScope.resetStateContextVersion(ctx.rollbackContextVersion, true);
+        SMC.resetStateContextVersion(ctx.rollbackContextVersion, true);
         $scope.$digest();
-
         sinon.assert.called(loadingService.reset);
-        expect($elScope.state.advanced, 'advanced flag').to.be.false;
+        expect(SMC.state.advanced, 'advanced flag').to.be.false;
         sinon.assert.called(ctx.loadingPromiseMock.add);
         sinon.assert.called(ctx.rollbackContextVersion.deepCopy);
         $scope.$digest();
         sinon.assert.calledOnce(ctx.rollbackContextVersion.fetchFile);
-        sinon.assert.calledOnce($elScope.openItems.remove);
-        sinon.assert.calledOnce($elScope.openItems.add);
+        sinon.assert.calledOnce(SMC.openItems.remove);
+        sinon.assert.calledOnce(SMC.openItems.add);
         $scope.$digest();
-        expect($elScope.state.build, 'build').to.be.ok;
+        expect(SMC.state.build, 'build').to.be.ok;
         sinon.assert.calledWith(ctx.fakeOrg1.createBuild, {
           contextVersions: [ctx.rollbackContextVersion.id()],
           owner: {
@@ -599,12 +602,12 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         });
         $scope.$digest();
         sinon.assert.calledOnce(ctx.parseDockerfileResponseMock);
-        expect($elScope.state.contextVersion, 'state cv').to.equal(ctx.rollbackContextVersion);
-        expect($elScope.state.acv, 'state acv').to.not.equal(oldAcv);
-        expect($elScope.state.repo, 'state repo').to.not.equal(oldRepo);
-        expect($elScope.state.startCommand, 'state startCommand').to.not.equal(oldStartCommand);
-        expect($elScope.state.selectedStack, 'state selectedStack').to.not.equal(oldSelectedStack);
-        expect($elScope.state.containerFiles, 'state containerFiles').to.not.equal(oldContainerFiles);
+        expect(SMC.state.contextVersion, 'state cv').to.equal(ctx.rollbackContextVersion);
+        expect(SMC.state.acv, 'state acv').to.not.equal(oldAcv);
+        expect(SMC.state.repo, 'state repo').to.not.equal(oldRepo);
+        expect(SMC.state.startCommand, 'state startCommand').to.not.equal(oldStartCommand);
+        expect(SMC.state.selectedStack, 'state selectedStack').to.not.equal(oldSelectedStack);
+        expect(SMC.state.containerFiles, 'state containerFiles').to.not.equal(oldContainerFiles);
 
       });
     });
@@ -628,19 +631,21 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         });
         ctx.loadingPromiseFinishedValue = 2;
 
-        $elScope.state.opts.env = ['asdasd', 'sadfsdfasdfasdf'];
-        $elScope.getUpdatePromise();
+        SMC.state.opts.env = ['asdasd', 'sadfsdfasdfasdf'];
+        SMC.resetStateContextVersion(SMC.instance.contextVersion);
+        $scope.$digest();
+        SMC.getUpdatePromise();
         $scope.$digest();
         sinon.assert.called(closePopoverSpy);
         sinon.assert.called(ctx.loadingPromiseMock.finished);
-        expect($elScope.building).to.be.true;
-        expect($elScope.state.ports).to.be.ok;
-        sinon.assert.calledOnce($elScope.openItems.isClean);
-        sinon.assert.notCalled($elScope.openItems.updateAllFiles);
+        expect(SMC.building).to.be.true;
+        expect(SMC.state.ports).to.be.ok;
+        sinon.assert.calledOnce(SMC.openItems.isClean);
+        sinon.assert.notCalled(SMC.openItems.updateAllFiles);
         $scope.$digest();
         sinon.assert.calledOnce(ctx.build.build);
         $scope.$digest();
-        expect($elScope.state.opts.build).to.be.ok;
+        expect(SMC.state.opts.build).to.be.ok;
         $scope.$digest();
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         $scope.$digest();
@@ -664,19 +669,19 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
           isDirty: true
         };
         ctx.fileModels.push(ctx.dockerfile);
-
-        $elScope.getUpdatePromise();
+        $scope.$digest();
+        SMC.getUpdatePromise();
         $scope.$digest();
         sinon.assert.called(closePopoverSpy);
         sinon.assert.called(ctx.loadingPromiseMock.finished);
-        expect($elScope.building).to.be.true;
-        expect($elScope.state.ports).to.be.ok;
+        expect(SMC.building).to.be.true;
+        expect(SMC.state.ports).to.be.ok;
         $scope.$digest();
-        sinon.assert.calledOnce($elScope.openItems.isClean);
-        sinon.assert.calledOnce($elScope.openItems.updateAllFiles);
+        sinon.assert.calledOnce(SMC.openItems.isClean);
+        sinon.assert.calledOnce(SMC.openItems.updateAllFiles);
         $scope.$digest();
         sinon.assert.calledOnce(ctx.build.build);
-        expect($elScope.state.opts.build).to.be.ok;
+        expect(SMC.state.opts.build).to.be.ok;
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         sinon.assert.calledOnce($scope.defaultActions.close);
         sinon.assert.calledOnce(ctx.instance.update);
@@ -693,13 +698,13 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
           });
         });
 
-        $elScope.state.opts.env = ['asdasd', 'sadfsdfasdfasdf'];
-        $elScope.getUpdatePromise();
+        SMC.state.opts.env = ['asdasd', 'sadfsdfasdfasdf'];
+        SMC.getUpdatePromise();
         $scope.$digest();
         sinon.assert.called(closePopoverSpy);
         sinon.assert.called(ctx.loadingPromiseMock.finished);
-        expect($elScope.building).to.be.true;
-        expect($elScope.state.ports).to.be.ok;
+        expect(SMC.building).to.be.true;
+        expect(SMC.state.ports).to.be.ok;
         $scope.$digest();
         sinon.assert.notCalled(ctx.build.build);
         $scope.$digest();
@@ -720,7 +725,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
 
     var error = new Error('http://c2.staticflickr.com/8/7001/6509400855_aaaf915871_b.jpg');
 
-    $elScope.state.instance.attrs = {
+    SMC.state.instance.attrs = {
       env: ['quarblax=b']
     };
 
@@ -730,13 +735,13 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         clone: sinon.spy()
       }
     ];
-    $elScope.state.containerFiles = containerFiles;
+    SMC.state.containerFiles = containerFiles;
 
     ctx.loadingPromiseMock.finished = function () {
       return $q.reject(error);
     };
 
-    $elScope.getUpdatePromise();
+    SMC.getUpdatePromise();
 
     $scope.$digest();
     sinon.assert.called(ctx.errsMock.handler);
@@ -745,11 +750,11 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     $scope.$digest();
     $scope.$digest();
     $rootScope.$apply();
-    expect($elScope.building, 'Building').to.be.false;
-    expect($elScope.state.opts.env.length).to.equal(0);
-    expect($elScope.state.containerFiles.length).to.equal(1);
-    expect($elScope.state.dockerfile).to.not.equal(ctx.dockerfile);
-    expect($elScope.state.dockerfile).to.equal(ctx.anotherDockerfile);
+    expect(SMC.building, 'Building').to.be.false;
+    expect(SMC.state.opts.env.length).to.equal(0);
+    expect(SMC.state.containerFiles.length).to.equal(1);
+    expect(SMC.state.dockerfile).to.not.equal(ctx.dockerfile);
+    expect(SMC.state.dockerfile).to.equal(ctx.anotherDockerfile);
 
     // No longer need to clone after the original time
     //sinon.assert.calledOnce(containerFiles[0].clone);
@@ -766,69 +771,72 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     it('should navigate since everything is ok', function () {
       $scope.$digest();
 
-      keypather.set($elScope, 'state.advanced', false);
-      keypather.set($elScope, 'state.selectedStack', {
+      keypather.set(SMC, 'state.advanced', false);
+      keypather.set(SMC, 'state.selectedStack', {
         selectedVersion: 'adsfasdfsdf'
       });
-      keypather.set($elScope, 'state.startCommand', 'adsasdasd');
+      keypather.set(SMC, 'state.startCommand', 'adsasdasd');
 
-      $elScope.changeTab('files');
+      SMC.changeTab('files');
       $scope.$digest();
 
-      expect($elScope.selectedTab).to.equal('files');
+      expect(SMC.selectedTab).to.equal('files');
     });
     it('should navigate to repository since it has errors', function () {
       $scope.$digest();
 
-      keypather.set($elScope, 'state.advanced', false);
-      keypather.set($elScope, 'state.selectedStack', {});
-      keypather.set($elScope, 'state.startCommand', 'adsasdasd');
+      keypather.set(SMC, 'state.advanced', false);
+      keypather.set(SMC, 'state.selectedStack', {});
+      keypather.set(SMC, 'state.startCommand', 'adsasdasd');
 
-      $elScope.changeTab('files');
+      SMC.changeTab('files');
       $scope.$digest();
 
-      expect($elScope.selectedTab).to.equal('repository');
+      expect(SMC.selectedTab).to.equal('repository');
     });
     it('should navigate to commands since it has errors', function () {
       $scope.$digest();
 
-      keypather.set($elScope, 'state.advanced', false);
-      keypather.set($elScope, 'state.selectedStack', {
+      keypather.set(SMC, 'state.advanced', false);
+      keypather.set(SMC, 'state.selectedStack', {
         selectedVersion: 'adsfasdfsdf'
       });
-      keypather.set($elScope, 'state.startCommand', null);
+      keypather.set(SMC, 'state.startCommand', null);
 
-      $elScope.changeTab('files');
+      SMC.changeTab('files');
       $scope.$digest();
 
-      expect($elScope.selectedTab).to.equal('commands');
+      expect(SMC.selectedTab).to.equal('commands');
     });
 
     it('should navigate fine with advanced mode', function () {
+      $scope.editServerForm = {
+        $invalid: false
+      };
       $scope.$digest();
 
-      keypather.set($elScope, 'state.advanced', true);
+      keypather.set(SMC, 'state.advanced', true);
       // Digest here since the state.advanced change will trigger a change
       $scope.$digest();
-      keypather.set($elScope, 'state.selectedStack', {});
-      keypather.set($elScope, 'state.startCommand', null);
+      keypather.set(SMC, 'state.selectedStack', {});
+      keypather.set(SMC, 'state.startCommand', null);
 
-      $elScope.changeTab('files');
+      SMC.changeTab('files');
       $scope.$digest();
 
-      expect($elScope.selectedTab).to.equal('files');
+      expect(SMC.selectedTab).to.equal('files');
     });
 
     it('should handle invalid editServerForms', function () {
       $scope.$digest();
-      $elScope.changeTab('logs');
-      keypather.set($elScope, 'state.advanced', true);
-      keypather.set($elScope, 'editServerForm.$invalid', true);
-      keypather.set($elScope, 'editServerForm.$error.required[0].$name', 'files');
+      SMC.changeTab('logs');
+      keypather.set(SMC, 'state.advanced', true);
+      keypather.set($scope, 'editServerForm.$invalid', true);
+      keypather.set($scope, 'editServerForm.$error.required[0].$name', 'files');
       $scope.$digest();
-      $elScope.changeTab('files');
+      SMC.changeTab('files');
       $scope.$digest();
-      expect($elScope.selectedTab).to.equal('files');
+      expect(SMC.selectedTab).to.equal('files');
     });
   });
 
@@ -882,7 +890,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         $scope.$digest();
         allTabs.forEach(function (tab) {
           expect(testingObject[key].indexOf(tab) > -1, key + ' -> tab: ' + tab)
-              .to.equal($elScope.isTabVisible(tab));
+              .to.equal(SMC.isTabVisible(tab));
         });
       });
     });
@@ -891,13 +899,13 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       $scope.$digest();
       allTabs.forEach(function (tab) {
         expect(testingObject.basic.indexOf(tab) > -1, 'basic -> tab: ' + tab)
-          .to.equal($elScope.isTabVisible(tab));
+          .to.equal(SMC.isTabVisible(tab));
       });
-      $elScope.state.advanced = true;
+      SMC.state.advanced = true;
       $scope.$digest();
       allTabs.forEach(function (tab) {
         expect(testingObject.advanced.indexOf(tab) > -1, 'advanced -> tab: ' + tab)
-          .to.equal($elScope.isTabVisible(tab));
+          .to.equal(SMC.isTabVisible(tab));
       });
     });
   });
@@ -922,38 +930,38 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       };
 
       it('should not ade a tag/port with chars', function () {
-        var tags = $elScope.portTagOptions.tags;
+        var tags = SMC.portTagOptions.tags;
         var ports = mapPorts(tags);
-        $elScope.portTagOptions.tags.addTag('9000');
-        $elScope.portTagOptions.tags.addTag('900a'); // Invalid
+        SMC.portTagOptions.tags.addTag('9000');
+        SMC.portTagOptions.tags.addTag('900a'); // Invalid
         $scope.$digest();
         expect(mapPorts(tags)).to.eql(ports.concat(['9000']));
       });
 
       it('should not add a tag/port with special chars', function () {
-        var tags = $elScope.portTagOptions.tags;
+        var tags = SMC.portTagOptions.tags;
         var ports = mapPorts(tags);
-        $elScope.portTagOptions.tags.addTag('10000');
-        $elScope.portTagOptions.tags.addTag('900o'); // Invalid
+        SMC.portTagOptions.tags.addTag('10000');
+        SMC.portTagOptions.tags.addTag('900o'); // Invalid
         $scope.$digest();
         expect(mapPorts(tags)).to.eql(ports.concat(['10000']));
       });
 
       it('should not add a tag/port with an invalid port (> 65,535)', function () {
-        var tags = $elScope.portTagOptions.tags;
+        var tags = SMC.portTagOptions.tags;
         var ports = mapPorts(tags);
-        $elScope.portTagOptions.tags.addTag('65535');
-        $elScope.portTagOptions.tags.addTag('65536'); // Invalid
-        $elScope.portTagOptions.tags.addTag('99999'); // Invalid
+        SMC.portTagOptions.tags.addTag('65535');
+        SMC.portTagOptions.tags.addTag('65536'); // Invalid
+        SMC.portTagOptions.tags.addTag('99999'); // Invalid
         $scope.$digest();
         expect(mapPorts(tags)).to.eql(ports.concat(['65535']));
       });
 
       it('should not add a tag/port that is a duplicate', function () {
-        var tags = $elScope.portTagOptions.tags;
+        var tags = SMC.portTagOptions.tags;
         var ports = mapPorts(tags);
-        $elScope.portTagOptions.tags.addTag('9999');
-        $elScope.portTagOptions.tags.addTag('9999'); // Duplicate
+        SMC.portTagOptions.tags.addTag('9999');
+        SMC.portTagOptions.tags.addTag('9999'); // Duplicate
         $scope.$digest();
         expect(mapPorts(tags)).to.eql(ports.concat(['9999']));
       });
@@ -974,7 +982,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     it('should not do anything when no options are passed', function () {
       var spy = sinon.spy();
       var offSpy = $rootScope.$on('eventPasteLinkedInstance', spy);
-      $elScope.insertHostName();
+      SMC.insertHostName();
       expect(spy.callCount).to.equal(0);
       offSpy(); // Remove listener
     });
@@ -984,7 +992,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         expect(hostName).to.equal('http://');
       };
       var offCb = $rootScope.$on('eventPasteLinkedInstance', cb);
-      $elScope.insertHostName({ protocol: 'http://' });
+      SMC.insertHostName({ protocol: 'http://' });
       offCb(); // Remove listener
     });
 
@@ -993,7 +1001,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         expect(hostName).to.equal(':8000');
       };
       var offCb = $rootScope.$on('eventPasteLinkedInstance', cb);
-      $elScope.insertHostName({
+      SMC.insertHostName({
         port: 8000
       });
       offCb(); // Remove listener
@@ -1009,7 +1017,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
         expect(hostName).to.equal('http://hello-world.com:8000');
       };
       var offCb = $rootScope.$on('eventPasteLinkedInstance', cb);
-      $elScope.insertHostName({
+      SMC.insertHostName({
         protocol: 'http://',
         server: server,
         port: 8000
@@ -1037,18 +1045,18 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     });
 
     it('should correctly determine whether the dockerfile is valid', function () {
-      $elScope.state.advanced = true;
-      $elScope.state.dockerfile = dockerfileStub;
-      expect($elScope.isDockerfileValid()).to.be.true;
+      SMC.state.advanced = true;
+      SMC.state.dockerfile = dockerfileStub;
+      expect(SMC.isDockerfileValid()).to.be.true;
     });
 
     it('should correctly determine whether the dockerfile is invalid', function () {
-      $elScope.state.advanced = true;
-      $elScope.state.dockerfile = dockerfileStub;
-      $elScope.state.dockerfile.validation.criticals.push({
+      SMC.state.advanced = true;
+      SMC.state.dockerfile = dockerfileStub;
+      SMC.state.dockerfile.validation.criticals.push({
         message: 'Missing or misplaced FROM'
       });
-      expect($elScope.isDockerfileValid()).to.be.false;
+      expect(SMC.isDockerfileValid()).to.be.false;
     });
 
   });
@@ -1063,15 +1071,15 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     });
 
     it('register a close modal handler which should have its flow work when dirty and confirmed', function () {
-      $elScope.instance.attrs.env = '12345';
+      SMC.instance.attrs.env = '12345';
       sinon.assert.calledOnce(ctx.setCloseModalHandlerSpy);
       var promise = ctx.setCloseModalHandlerSpy.lastCall.args[1]();
       promise.catch(function (err) {
         throw err;
       });
       $scope.$digest();
-      expect($elScope.confirmClose.active, 'Confirm Active').to.be.ok;
-      $elScope.confirmClose.actions.confirm();
+      expect(SMC.confirmClose.active, 'Confirm Active').to.be.ok;
+      SMC.confirmClose.actions.confirm();
       $scope.$digest();
       sinon.assert.called(ctx.helpCards.setActiveCard);
       sinon.assert.calledWith(ctx.helpCards.setActiveCard, null);
@@ -1079,14 +1087,14 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
     });
 
     it('register a close modal handler which should have its flow work when dirty and cancelled', function () {
-      $elScope.instance.attrs.env = '12345';
+      SMC.instance.attrs.env = '12345';
       sinon.assert.calledOnce(ctx.setCloseModalHandlerSpy);
       var promise = ctx.setCloseModalHandlerSpy.lastCall.args[1]();
       promise.then(function () {
         throw 'Promise should not have been resolved!';
       });
-      $elScope.$digest();
-      $elScope.confirmClose.actions.cancel();
+      $scope.$digest();
+      SMC.confirmClose.actions.cancel();
       $scope.$digest();
       sinon.assert.notCalled(ctx.helpCards.setActiveCard);
       sinon.assert.called(ctx.closePopoverSpy);
@@ -1097,7 +1105,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       promise.catch(function (err) {
         throw err;
       });
-      $elScope.$digest();
+      $scope.$digest();
       sinon.assert.called(ctx.helpCards.setActiveCard);
       sinon.assert.calledWith(ctx.helpCards.setActiveCard, null);
     });
@@ -1119,22 +1127,22 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
       sinon.stub(ctx.contextVersion, 'deepCopy', function (cb) {
         cb(testError);
       });
-      $elScope.resetStateContextVersion(ctx.contextVersion, false);
+      SMC.resetStateContextVersion(ctx.contextVersion, false);
       $scope.$digest();
       sinon.assert.called(ctx.errsMock.handler);
       sinon.assert.calledWith(ctx.errsMock.handler, testError);
     });
 
     it('should set the `mainRepoContainerFile` if the dockerfile is a main repository', function () {
-      $elScope.resetStateContextVersion(ctx.contextVersion, true);
+      SMC.resetStateContextVersion(ctx.contextVersion, true);
       $scope.$digest();
-      expect(keypather.get($elScope, 'state.mainRepoContainerFile')).to.be.an('object');
+      expect(keypather.get(SMC, 'state.mainRepoContainerFile')).to.be.an('object');
     });
 
     it('should reset state context version when even is triggered', function () {
-      $elScope.resetStateContextVersion = sinon.spy();
-      $elScope.$emit('resetStateContextVersion');
-      expect($elScope.resetStateContextVersion.calledOnce).to.be.true;
+      SMC.resetStateContextVersion = sinon.spy();
+      $scope.$emit('resetStateContextVersion');
+      expect(SMC.resetStateContextVersion.calledOnce).to.be.true;
     });
 
   });
@@ -1150,7 +1158,7 @@ describe('editServerModalDirective'.bold.underline.blue, function () {
 
     it('should set the help cards to the scope, depending on the instances', function () {
       $scope.$digest();
-      expect($elScope.activeCard).to.equal('abc');
+      expect(ctx.helpCards.getActiveCard()).to.equal('abc');
     });
 
   });

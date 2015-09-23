@@ -17,7 +17,6 @@ function SetupServerModalController (
   promisify,
   updateDockerfileFromState,
   fetchDockerfileFromSource,
-  PortTagOptions,
   $log,
   cardInfoTypes,
   OpenItems,
@@ -69,6 +68,9 @@ function SetupServerModalController (
   fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
     .then(function (repoList) {
       SMC.data.githubRepos = repoList;
+      SMC.data.githubRepos.models.forEach(function (repo) {
+         repo.isAdded = SMC.isRepoAdded(repo);
+      });
     })
     .catch(errs.handler)
     .finally(function () {

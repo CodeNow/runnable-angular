@@ -1,13 +1,13 @@
-/*global runnable:true, mocks: true, directiveTemplate: true */
+/*global runnable:true, mocks: true, directiveTemplate: true, xdescribe: true */
 'use strict';
 
-describe('setupServerModalDirective'.bold.underline.blue, function () {
-  var element;
+describe('setupServerModalController'.bold.underline.blue, function () {
+  var SMC;
+  var $controller;
   var $scope;
   var $rootScope;
   var keypather;
   var $q;
-  var $elScope;
   var MockFetch = require('../fixtures/mockFetch');
   var apiMocks = require('../apiMocks/index');
 
@@ -84,22 +84,20 @@ describe('setupServerModalDirective'.bold.underline.blue, function () {
     });
 
     angular.mock.inject(function (
+      _$controller_,
       $compile,
       _$rootScope_,
       _keypather_,
       _$q_
     ) {
+      $controller = _$controller_;
       keypather = _keypather_;
       $rootScope = _$rootScope_;
       $q = _$q_;
 
       keypather.set($rootScope, 'dataApp.data.activeAccount.oauthName', sinon.mock().returns('myOauthName'));
-
       $scope = $rootScope.$new();
-
-      $scope.actions = {
-
-      };
+      $scope.actions = {};
       $scope.data = {
         stacks: stacks,
         instances: [{
@@ -111,13 +109,9 @@ describe('setupServerModalDirective'.bold.underline.blue, function () {
           }
         }]
       };
-      var tpl = directiveTemplate.attribute('setup-server-modal', {
-        'actions': 'actions',
-        'data': 'data'
-      });
-      element = $compile(tpl)($scope);
-      $scope.$digest();
-      $elScope = element.isolateScope();
+      SMC = $controller('SetupServerModalController', {
+        $scope: $scope
+       });
     });
   }
   beforeEach(function () {
@@ -125,11 +119,12 @@ describe('setupServerModalDirective'.bold.underline.blue, function () {
   });
 
   it('should fetch the repo list on load', function () {
+    $scope.$digest();
     sinon.assert.called($rootScope.dataApp.data.activeAccount.oauthName);
     sinon.assert.calledOnce(fetchOwnerRepoStub);
-    expect($elScope.data.githubRepos.models).to.exist;
-
+    expect(SMC.data.githubRepos.models).to.exist;
     sinon.assert.called($scope.data.instances[0].getRepoName);
+    expect(SMC.data.githubRepos.models[0]).to.have.property('isAdded');
   });
 
   describe('methods', function(){
@@ -155,7 +150,7 @@ describe('setupServerModalDirective'.bold.underline.blue, function () {
           },
         };
 
-        $elScope.fetchStackData(repo)
+        SMC.fetchStackData(repo)
           .then(function (data) {
             var sourceStack = stacks[0];
 
@@ -245,7 +240,7 @@ describe('setupServerModalDirective'.bold.underline.blue, function () {
 
       createNewBuildMock.returns(newBuild);
 
-      $elScope.selectRepo(repo);
+      SMC.selectRepo(repo);
       $scope.$digest();
       fetchStackAnalysisMock.triggerPromise(analysisMockData);
       $scope.$digest();
@@ -258,13 +253,13 @@ describe('setupServerModalDirective'.bold.underline.blue, function () {
       $scope.$digest();
       sinon.assert.called(newBuild.contextVersion.getMainAppCodeVersion); // Fn also called by watchers
 
-      expect($elScope.state.build).to.equal(newBuild);
-      expect($elScope.state.contextVersion).to.equal(newBuild.contextVersion);
-      expect($elScope.state.branch).to.equal(branches.models[0]);
-      expect($elScope.state.repo).to.equal(repo);
-      expect($elScope.state.acv).to.equal(mainACV);
+      expect(SMC.state.build).to.equal(newBuild);
+      expect(SMC.state.contextVersion).to.equal(newBuild.contextVersion);
+      expect(SMC.state.branch).to.equal(branches.models[0]);
+      expect(SMC.state.repo).to.equal(repo);
+      expect(SMC.state.acv).to.equal(mainACV);
       expect(repo.loading).to.equal(false);
-      expect($elScope.repoSelected).to.equal(false);
+      expect(SMC.repoSelected).to.equal(false);
 
     });
 
@@ -282,30 +277,29 @@ describe('setupServerModalDirective'.bold.underline.blue, function () {
           userContentDomain: 'runnable-test.com'
         }
       };
-      $elScope.state.acv = {
+      SMC.state.acv = {
         attrs: {
           branch: 'branchName'
         }
       };
-      $elScope.state.branch = {
+      SMC.state.branch = {
         attrs: {
           name: 'branchName'
         }
       };
-      $elScope.actions.createAndBuild = sinon.stub().returns($q.when(dockerfile));
-      $elScope.state.selectedStack = {
+      SMC.actions.createAndBuild = sinon.stub().returns($q.when(dockerfile));
+      SMC.state.selectedStack = {
         key: 'ruby_ror'
       };
-      $scope.$digest();
+      SMC.selectRepo(repo);
 
-      $elScope.state.repo = repo;
-      $elScope.state.dst = '/foo';
+      SMC.state.repo = repo;
+      SMC.state.dst = '/foo';
       sinon.assert.notCalled(updateDockerfileFromStateStub);
-      $elScope.createServer();
+      SMC.createServer();
       $scope.$digest();
 
-
-      sinon.assert.calledOnce(updateDockerfileFromStateStub);
+      sinon.assert.calledTwice(updateDockerfileFromStateStub);
       var populateDockerfileOpts = updateDockerfileFromStateStub.lastCall.args[0];
 
       expect(populateDockerfileOpts.opts.masterPod).to.be.ok;

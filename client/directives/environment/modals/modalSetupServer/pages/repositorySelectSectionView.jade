@@ -49,7 +49,6 @@ section.modal-body.clearfix
         'no-touching': repo.isAdded || SMC.repoSelected\
       }"
       ng-click = "SMC.selectRepo(repo)"
-      ng-init = "repo.isAdded = SMC.isRepoAdded(repo)"
       ng-repeat = "\
         repo in SMC.data.githubRepos.models | \
         repos: SMC.data.repoFilter | \
