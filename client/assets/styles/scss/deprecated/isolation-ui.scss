@@ -4,18 +4,14 @@
 .sidebar-containers-deprecated {
   background: $gray-lighterest;
 
-  + .content {
-    margin-left: 240px;
-
-    .instance {
-      padding-top: 72px;
-    }
-  }
-
   .spinner-wrapper {
     align-items: center;
     height: 100%;
   }
+}
+
+.instance.deprecated {
+  padding-top: 72px;
 }
 
 
@@ -137,6 +133,10 @@
     padding: 0 0 0 24px;
   }
 }
+
+// .header-app.deprecated {
+//   background: $purple-light;
+// }
 
 //- deprecated file, delete with isolationUI feature flag
 //- ************************
