@@ -64,22 +64,3 @@ button.btn.green(
     use(
       xlink:href = "#icons-arrow-down"
     )
-
-//- view filter button
-button.btn.gray(
-  ng-class = "{'active': state.filterButton.active}"
-  ng-click = "state.filterButton.active = true"
-  ng-if = "$root.featureFlags.isolationUI"
-  pop-over
-  pop-over-actions = "popoverEnvironmentFilter.actions"
-  pop-over-active = "state.filterButton.active"
-  pop-over-data = "popoverEnvironmentFilter.data"
-  pop-over-options = "{\"right\":0,\"top\":53}"
-  pop-over-template = "viewPopoverEnvironmentFilter"
-)
-  span.span Sandbox:
-  strong.strong Staging
-  svg.iconnables.icons-arrow-down
-    use(
-      xlink:href = "#icons-arrow-down"
-    )
