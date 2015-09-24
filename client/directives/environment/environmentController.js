@@ -121,7 +121,6 @@ function EnvironmentController(
         .catch(errs.handler);
     },
     createAndBuild: function (createPromise, name) {
-      $rootScope.$broadcast('close-modal');
 
       eventTracking.triggeredBuild(false);
       // Save this in case it changes

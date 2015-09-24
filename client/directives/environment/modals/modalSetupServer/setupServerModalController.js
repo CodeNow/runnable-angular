@@ -28,10 +28,6 @@ function SetupServerModalController (
   close
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
-  // This needs to go away soon.
-  $scope.data = data;
-  $scope.actions = actions;
-
   loadingPromises.clear('setupServerModal');
   loading.reset('setupServerModal');
 
@@ -141,6 +137,9 @@ function SetupServerModalController (
       SMC.changeTab(null);
       loadAllOptions(); // When stack is selected, load dockerfile, etc
     }
+    else if (SMC.state.step === 4) {
+       SMC.changeTab('logs');
+    }
   };
 
   function openDockerfile() {
@@ -200,6 +199,7 @@ function SetupServerModalController (
   };
 
   SMC.createServer = function () {
+    loading('setupServerModal', true); // Add spinner to modal
     var createPromise = loadingPromises.finished('setupServerModal')
       .then(function () {
         if (!SMC.state.advanced) {
@@ -231,7 +231,25 @@ function SetupServerModalController (
       })
       .then(function (instance) {
         SMC.instance = instance;
+        if ($rootScope.featureFlags.newVerificationFlow) {
+          // Go on to step 4 (logs)
+          SMC.goToNextStep();
+          loading('setupServerModal', false);
+        } else {
+          SMC.closeModal();
+        }
       });
+  };
+
+  SMC.closeModal = function () {
+    $rootScope.$broadcast('close-modal');
+  };
+
+  SMC.isDirty = function () {
+    return loadingPromises.count('editServerModal') > 1 ||
+      loadingPromises.count('editServerModal') > 1 ||
+      keypather.get(SMC, 'instance.attrs.env') !== keypather.get(SMC, 'state.opts.env') ||
+      !SMC.openItems.isClean();
   };
 
   SMC.selectRepo = function (repo) {

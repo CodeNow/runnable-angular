@@ -172,6 +172,15 @@ section.modal-body(
       ng-include = "'viewFormBuildfiles'"
       ng-show = "SMC.selectedTab === 'buildfiles' && SMC.state.step === 3"
     )
+    // Logs
+    .modal-form.modal-logs(
+      ng-class = "{\
+        'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+        'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+      }"
+      ng-include = "'viewFormLogs'"
+      ng-show = "SMC.selectedTab === 'logs' && SMC.state.step === 4"
+    )
 
 footer.modal-footer.clearfix
   //- disabled if there is no value in the command input
@@ -182,19 +191,19 @@ footer.modal-footer.clearfix
       !SMC.areStackAndVersionSelected() || \
       (SMC.state.step === 1 && !SMC.state.selectedStack)\
     "
-    ng-click = "SMC.createServer(SMC.state)"
-    ng-if="!$root.featureFlags.newVerificationFlow || ($root.featureFlags.newVerificationFlow && SMC.state.step >= 3)"
-  ) Start Build
-  button.btn.white(
-    ng-disabled = "\
-      SMC.verifyServerForm.$invalid || \
-      selectedStackInvalid || \
-      !SMC.areStackAndVersionSelected() || \
-      (SMC.state.step === 1 && !SMC.state.selectedStack)\
-    "
     ng-if="$root.featureFlags.newVerificationFlow && SMC.state.step < 3"
     ng-click = "SMC.goToNextStep()"
   ) Next
+  button.btn.green(
+    ng-disabled = "verifyServerForm.$invalid || (SMC.state.selectedStack | selectedStackInvalid)"
+    ng-click = "SMC.createServer(SMC.state)"
+    ng-if="!$root.featureFlags.newVerificationFlow || ($root.featureFlags.newVerificationFlow && SMC.state.step === 3)"
+  ) Start Build
+  button.btn.green(
+    ng-disabled = "verifyServerForm.$invalid || (SMC.state.selectedStack | selectedStackInvalid)"
+    ng-if="$root.featureFlags.newVerificationFlow && SMC.state.step === 4"
+    ng-click = "SMC.closeModal()"
+  ) Create Container
   button.btn.white.btn-cancel(
     ng-click = "SMC.closeWithConfirmation()"
     type = "button"
