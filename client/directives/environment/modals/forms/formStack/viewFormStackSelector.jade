@@ -7,7 +7,12 @@
   )
     label.btn.btn-radio.white(
       ng-repeat = "framework in data.stacks track by framework.key"
-      ng-class = "{ 'active': temp.stack === framework.name, 'recommended': state.repo.stackAnalysis.languageFramework === framework.key}"
+      ng-class = "{\
+        'active': temp.stack === framework.name,\
+        'no-touching': temp.stack === framework.name,\
+        'recommended': state.repo.stackAnalysis.languageFramework === framework.key\
+      }"
+      ng-disabled = "saving"
     )
       img.iconnables(
         height = "24"
