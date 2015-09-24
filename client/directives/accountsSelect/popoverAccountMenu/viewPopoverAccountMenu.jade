@@ -1,9 +1,14 @@
-.popover.menu.right.popover-account-menu(
-  ng-class = "{'in': active}"
+.popover.menu.popover-account-menu(
+  ng-class = "{\
+    'bottom': !$root.featureFlags.isolationUI,\
+    'in': active,\
+    'right': $root.featureFlags.isolationUI\
+  }"
+  style = "{{$root.featureFlags.isolationUI ? 'transform-origin: 0 0' : 'left: auto; right: 9px; transform-origin: 95% 0; top: 60px'}}"
 )
   .arrow(
     ng-class = "{'white': data.showIntegrations && data.currentPanelName === 'accountMenu'}"
-    style = "top: 18px"
+    style = "{{$root.featureFlags.isolationUI ? 'top: 18px' : 'left: 191px'}}"
   )
   animated-panel-container.popover-views
     animated-panel(
