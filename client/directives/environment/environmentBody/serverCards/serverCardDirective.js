@@ -29,9 +29,9 @@ require('app')
 
         $scope.openEditServerModal = function (defaultTab) {
           ModalService.showModal({
-            controller: 'EditServerModalOpenController',
-            controllerAs: 'ESMOC',
-            templateUrl: 'editServerModalOpen',
+            controller: 'EditServerModalController',
+            controllerAs: 'SMC',
+            templateUrl: 'editServerModalView',
             inputs: {
               tab: defaultTab,
               instance: $scope.instance
