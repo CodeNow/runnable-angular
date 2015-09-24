@@ -1,4 +1,6 @@
-// deprecated $root.featureFlags.isolationUI
+//- ************************
+//- deprecated file, delete with isolationUI feature flag
+
 // .server-info
 .server-info {
   flex: 1 1 auto;
@@ -82,7 +84,6 @@
   display: flex;
   height: 72px;
   padding: 0 9px 0 12px;
-  position: absolute;
   top: 0;
   width: 100%;
 
@@ -229,4 +230,5 @@
   }
 }
 
-// end deprecated $root.featureFlags.isolationUI
+//- deprecated file, delete with isolationUI feature flag
+//- ************************

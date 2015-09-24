@@ -1,9 +1,15 @@
 //- ************************
 //- deprecated file, delete with isolationUI feature flag
 
+.layout-main.deprecated {
+  padding: 60px 0 0;
+}
+
 .sidebar-containers-deprecated {
   background: $gray-lighterest;
   color: $gray;
+  height: 100%;
+  overflow: auto;
 
   .containers {
     overflow-y: auto;
@@ -15,8 +21,8 @@
   }
 }
 
-.instance.deprecated {
-  padding-top: 72px;
+.instance-wrapper.deprecated {
+  height: 100%;
 }
 
 .accounts-select.deprecated {

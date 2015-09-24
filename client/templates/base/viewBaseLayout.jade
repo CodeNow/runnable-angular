@@ -13,5 +13,6 @@ header.header-app(
 
 //- second .content...
 main.layout-main(
+  ng-class = "{'deprecated': !$root.featureFlags.isolationUI}"
   ui-view
 )

@@ -71,7 +71,6 @@
 @import "sidebar/sidebar";
 
 // server
-@import "server/server-header";
 @import "server/server-sidebar";
 @import "server/server-sidebar-repositories";
 
@@ -128,6 +127,7 @@
 @import "deprecated/card-status";
 @import "deprecated/header";
 @import "deprecated/isolation-ui";
+@import "deprecated/server-header";
 
 // shame 🔔🔔
 @import "shame";

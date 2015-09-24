@@ -57,7 +57,7 @@ nav.sidebar.sidebar-containers-deprecated(
   section.containers(
     ng-if = "!CIS.instancesByPod"
   )
-    .spinner-wrapper.spinner-md.spinner-gray.in(
+    .spinner-wrapper.spinner-md.spinner-gray.spinner-center.in(
       ng-include = "'spinner'"
     )
 
@@ -69,5 +69,6 @@ nav.sidebar.sidebar-containers-deprecated(
   )
 
 .instance-wrapper(
+  ng-class = "{'deprecated': !$root.featureFlags.isolationUI}"
   ui-view
 )
