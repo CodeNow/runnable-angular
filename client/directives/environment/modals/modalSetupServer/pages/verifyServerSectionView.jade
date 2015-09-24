@@ -119,19 +119,19 @@ section.modal-body(
     // Stack & Branch
     .label(
       data = "data"
+      is-new-container = "true"
+      loading-promises-target = "setupServerModal"
       ng-if = "!$root.featureFlags.newVerificationFlow || SMC.state.step === 1 || SMC.selectedTab === 'repository'"
       stack-selector-form
       state = "SMC.state"
-      loading-promises-target = "setupServerModal"
-      is-new-container="true"
     )
     // Commands
     .label(
-      repository-form
+      loading-promises-target = "setupServerModal"
       ng-if = "!$root.featureFlags.newVerificationFlow || SMC.state.step === 2 || SMC.selectedTab === 'commands'"
+      repository-form
       start-command-can-disable = "true"
       state = "SMC.state"
-      loading-promises-target = "setupServerModal"
     )
     // Default messages
     p.p.empty(
@@ -141,9 +141,9 @@ section.modal-body(
         small.small Or select a tab to continue configuring your container.
     // Ports
     .modal-form(
-      ports-form
-      ports = "SMC.state.ports"
       ng-show = "SMC.selectedTab === 'ports' && SMC.state.step === 3"
+      ports = "SMC.state.ports"
+      ports-form
     )
     // Environment variables
     .modal-form(
@@ -153,8 +153,8 @@ section.modal-body(
     // Files & SSH Keys
     .modal-form(
       ng-controller = "ContainerFilesController as CFC"
-      ng-init = "CFC.init({ state: SMC.state })"
       ng-include = "'viewFormFiles'"
+      ng-init = "CFC.init({ state: SMC.state })"
       ng-show = "SMC.selectedTab === 'files' && SMC.state.step === 3"
     )
     // Find & Replace
