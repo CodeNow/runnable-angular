@@ -92,7 +92,7 @@ header.modal-header
         button.btn.btn-radio.js-animate(
           ng-class = "{\
             'active': SMC.selectedTab === 'logs',\
-            'active': SMC.state.step === 4,\
+            'active': SMC.state.step === 4\
           }"
           ng-click = "SMC.changeTab('logs')"
           ng-if = "SMC.state.step === 4"

@@ -102,9 +102,9 @@ section.modal-body(
   )
   .modal-form(
     ng-if = "!SMC.state.advanced"
-    ports-form
-    ports = "SMC.state.ports"
     ng-show = "SMC.selectedTab === 'ports'"
+    ports = "SMC.state.ports"
+    ports-form
   )
   .modal-form(
     ng-include = "'viewFormEnvironmentVariables'"
@@ -121,8 +121,8 @@ section.modal-body(
     ng-controller = "ContainerFilesController as CFC"
     ng-if = "!SMC.state.advanced"
     ng-include = "'viewFormFiles'"
-    ng-show = "SMC.selectedTab === 'files'"
     ng-init = "CFC.init({ state: SMC.state })"
+    ng-show = "SMC.selectedTab === 'files'"
   )
   .modal-form(
     ng-if = "SMC.state.repo"
@@ -152,7 +152,6 @@ footer.modal-footer.clearfix
     ng-class = "{'in': SMC.building}"
     ng-click = "editServerForm.$invalid || SMC.getUpdatePromise()"
     ng-disabled = "(!SMC.state.advanced && (SMC.state.selectedStack | selectedStackInvalid)) || !SMC.isDockerfileValid()"
-    type = "submit"
   )
     //- spinner
     .spinner-wrapper.spinner-sm.spinner-white.in(

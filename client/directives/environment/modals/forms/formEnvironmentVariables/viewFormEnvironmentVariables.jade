@@ -15,7 +15,7 @@
 
 //- table actions
 .table-actions.clearfix(
-  ng-class = "{in: SMC.state.showHostName}"
+  ng-class = "{'in': SMC.state.showHostName}"
   ng-if = "SMC.data.instances.models.length >= 2"
   ng-include = "'viewEnvironmentVariableActions'"
 )
@@ -36,9 +36,9 @@
   )
 
   .sidebar.ace-sidebar(
-    ng-class = "{in: SMC.data.toggleSidebar}"
-    ng-include = "'viewFormEnvironmentVariablesSidebar'"
+    ng-class = "{'in': SMC.data.toggleSidebar}"
     ng-if = "$root.featureFlags.hostnameTool"
+    ng-include = "'viewFormEnvironmentVariablesSidebar'"
   )
 
   .floating-controls(
