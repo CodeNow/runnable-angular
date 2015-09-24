@@ -46,6 +46,24 @@
       use(
         xlink:href = "#icons-overflow"
       )
+
+    //- list of isolated containers
+    ul.list.list-isolated(
+      ng-if = "branch.isolation && branch.selected"
+    )
+      li.list-item(
+        ng-repeat = "container in isolatedContainers"
+      )
+        .icons-status(
+          ng-class = "{'{{container.name}}': true}"
+        )
+        .text-overflow {{container.name}}
+        svg.iconnables.icons-advanced
+          use(
+            xlink:href = "#icons-advanced"
+          )
+
+  //- nav list filter
   .btn.btn-xxs(
     ng-if = "$root.featureFlags.navListFilter"
     pop-over

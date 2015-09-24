@@ -29,6 +29,17 @@
     + .list {
       border-top: 1px solid $gray-lighter;
     }
+
+    // list of isolated containers
+    &.list-isolated {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+
+      .list-item {
+        padding: 0;
+      }
+    }
   }
 
   .list-item {
@@ -67,10 +78,12 @@
         border-color: $gray-lighter;
         border-radius: $input-border-radius;
         color: $gray-dark;
+        cursor: default;
 
         // is isolated
         &.isolated {
-          //
+          flex-wrap: wrap;
+          height: auto;
         }
       }
 
