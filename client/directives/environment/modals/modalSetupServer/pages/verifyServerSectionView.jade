@@ -171,12 +171,12 @@ section.modal-body(
 
 footer.modal-footer.clearfix
   //- disabled if there is no value in the command input
-  button.btn.green(
+  button.btn.white(
     ng-disabled = "verifyServerForm.$invalid || (SMC.state.selectedStack | selectedStackInvalid)"
     ng-click = "SMC.createServer(SMC.state)"
     ng-if="!$root.featureFlags.newVerificationFlow || ($root.featureFlags.newVerificationFlow && SMC.state.step >= 3)"
   ) Start Build
-  button.btn.green(
+  button.btn.white(
     ng-disabled = "verifyServerForm.$invalid || (SMC.state.selectedStack | selectedStackInvalid)"
     ng-if="$root.featureFlags.newVerificationFlow && SMC.state.step < 3"
     ng-click = "SMC.goToNextStep()"
