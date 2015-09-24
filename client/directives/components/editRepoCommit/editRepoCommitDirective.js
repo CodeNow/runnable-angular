@@ -11,7 +11,8 @@ function editRepoCommit(
   promisify,
   errs,
   loading,
-  $rootScope
+  $rootScope,
+  ModalService
 ) {
   return {
     restrict: 'A',
@@ -27,13 +28,24 @@ function editRepoCommit(
         }
       });
 
-
       $scope.actions = {
         toggleEditCommits: function () {
           var branch = fetchCommitData.activeBranch($scope.acv);
           fetchCommitData.branchCommits(branch);
           $scope.popoverRepositoryToggle.data.branch = branch;
           $scope.popoverRepositoryToggle.data.commit = $scope.activeCommit;
+        },
+        openRepoDetailsModal: function () {
+          ModalService.showModal({
+            templateUrl: 'repositoryDetailsModalView',
+            controller: 'RepositoryDetailsModalController',
+            controllerAs: 'RDMC',
+            inputs: {
+              instance: $scope.instance,
+              acv: $scope.acv
+            }
+          })
+            .catch(errs.handler);
         }
       };
       $scope.popoverRepositoryToggle = {

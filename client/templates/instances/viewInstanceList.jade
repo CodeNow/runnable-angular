@@ -14,10 +14,7 @@
 
     //- configure button for repo containers
     .btn.btn-configure(
-      modal
-      modal-current-model = "masterInstance"
-      modal-state-model = "masterInstance.contextVersion.attrs.advanced ? 'env' : 'repository'"
-      modal-template = "editServerModalOpen"
+      ng-click="CIS.editInstance(masterInstance)"
       title = "Configure"
     )
       svg.iconnables.icons-advanced
@@ -106,11 +103,7 @@
 
     //- configure button for non-repo containers
     .btn.btn-configure(
-      modal
-      modal-current-model = "masterInstance"
-      modal-state-model = "masterInstance.contextVersion.attrs.advanced ? 'env' : 'repository'"
-      modal-template = "editServerModalOpen"
-      ng-if = "!masterInstance.getRepoName()"
+      ng-click="CIS.editInstance(masterInstance)"
       title = "Configure"
     )
       svg.iconnables.icons-advanced

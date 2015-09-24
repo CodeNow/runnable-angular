@@ -21,10 +21,7 @@
       |  failed on the master container.
     ul.popover-list
       li.list-item.popover-list-item(
-        modal
-        modal-current-model = "data.instance"
-        modal-state-model = "'logs'"
-        modal-template = "editServerModalOpen"
+        ng-click="actions.openEditServerModal('logs')"
       )
         svg.iconnables
           use(

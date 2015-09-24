@@ -60,10 +60,7 @@ label.label-checkbox.btn-sm.btn-checkbox(
   ng-if = "$root.featureFlags.additionalRepositories"
 ) {{ acv.attrs.repo | fixRepositoryName }}
 .btn.gray(
-  modal
-  modal-template = "repositoryDetailsModalOpen"
-  modal-current-model = "acv"
-  modal-data = "instance"
+  ng-click = "actions.openRepoDetailsModal()"
   ng-if = "$root.featureFlags.additionalRepositories"
 )
   .repository-info.text-overflow.js-repository-branch {{ acv.attrs.branch }}

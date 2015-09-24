@@ -300,8 +300,9 @@ module.exports = function(grunt) {
               env: require('./client/config/json/environment.json').environment,
               commitHash: require('./client/config/json/commit.json').commitHash,
               commitTime: require('./client/config/json/commit.json').commitTime,
-              apiHost: require('./client/config/json/api.json').host
+              apiHost: require('./client/config/json/api.json').host,
             };
+            locals.rollbarEnv = locals.env;
             if (locals.apiHost === '//api.runnable-beta.com') {
               locals.rollbarEnv = 'production-beta';
             }
