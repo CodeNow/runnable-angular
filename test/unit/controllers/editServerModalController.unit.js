@@ -128,7 +128,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         });
         return ctx.parseDockerfileResponseMock;
       });
-
       $provide.factory('serverStatusCardHeaderDirective', function () {
         return {
           priority: 100000,
