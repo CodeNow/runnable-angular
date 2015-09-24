@@ -1,7 +1,7 @@
 header.modal-header
   h1.modal-heading {{ SMC.state.repo.attrs.name }}
   svg.iconnables.icons-close(
-    ng-click = "defaultActions.cancel()"
+    ng-click = "SMC.close()"
   )
     use(
       xlink:href = "#icons-close"
@@ -182,6 +182,6 @@ footer.modal-footer.clearfix
     ng-click = "SMC.goToNextStep()"
   ) Next
   button.btn.white.btn-cancel(
-    ng-click = "defaultActions.cancel()"
+    ng-click = "SMC.close()"
     type = "button"
   ) Cancel

@@ -161,6 +161,18 @@ function EnvironmentController(
         .finally(function () {
           $rootScope.dataApp.creatingInstance = false;
         });
+    },
+    setupRepoServer: function () {
+      $rootScope.$broadcast('close-popovers');
+      ModalService.showModal({
+        controller: 'SetupServerModalController',
+        controllerAs: 'SMC',
+        templateUrl: 'setupServerModalView',
+        inputs: {
+          data: $scope.data,
+          actions: $scope.actions
+        }
+      })
     }
   };
 

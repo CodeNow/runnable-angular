@@ -1,7 +1,7 @@
 header.modal-header
   h1.modal-heading New Container from Repository
   svg.iconnables.icons-close(
-    ng-click = "defaultActions.cancel()"
+    ng-click = "SMC.close()"
   )
     use(
       xlink:href = "#icons-close"
@@ -74,5 +74,5 @@ footer.modal-footer.clearfix(
   ng-if = "SMC.data.githubRepos.models && !SMC.data.githubRepos.models.length"
 )
   button.btn.white.btn-block(
-    ng-click = "defaultActions.cancel()"
+    ng-click = "SMC.close()"
   ) Close

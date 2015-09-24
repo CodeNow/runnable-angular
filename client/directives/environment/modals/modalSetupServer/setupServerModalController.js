@@ -20,16 +20,25 @@ function SetupServerModalController (
   $log,
   cardInfoTypes,
   OpenItems,
-  fetchStackInfo
-) {
+  fetchStackInfo,
 
+  data,
+  actions,
+  close
+) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
+  // This needs to go away soon.
+  $scope.data = data;
+  $scope.actions = actions;
+
+
   loadingPromises.clear('setupServerModal');
   loading.reset('setupServerModal');
 
   var mainRepoContainerFile = new cardInfoTypes.MainRepository();
 
   angular.extend(SMC, {
+    close: close,
     isLoading: $rootScope.isLoading,
     portsSet: false,
     isNewContainer: true,
@@ -61,8 +70,8 @@ function SetupServerModalController (
       packages: new cardInfoTypes.Packages()
     },
     // Copy $scope dependencies
-    actions:  $scope.actions,
-    data: $scope.data
+    actions:  actions,
+    data: data
   });
 
   fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
@@ -140,8 +149,8 @@ function SetupServerModalController (
         SMC.state.ports.splice(0, SMC.state.ports.length);
       }
       ports.forEach(function (port) {
-        // After adding initially adding ports here, ports can no longer be 
-        // added/removed since they are managed by the `ports-form` directive 
+        // After adding initially adding ports here, ports can no longer be
+        // added/removed since they are managed by the `ports-form` directive
         // and will get overwritten.
         SMC.state.ports.push(port);
       });
@@ -190,6 +199,7 @@ function SetupServerModalController (
         return SMC.state;
       });
 
+    close();
     SMC.actions.createAndBuild(createPromise, SMC.state.opts.name);
   };
 
