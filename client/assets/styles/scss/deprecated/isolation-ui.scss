@@ -1,15 +1,18 @@
 //- ************************
 //- deprecated file, delete with isolationUI feature flag
 
-.nav-sidebar-deprecated {
+.layout-main.deprecated {
+  padding: 60px 0 0;
+}
+
+.sidebar-containers-deprecated {
   background: $gray-lighterest;
+  color: $gray;
+  height: 100%;
+  overflow: auto;
 
-  + .content {
-    margin-left: 240px;
-
-    .instance {
-      padding-top: 72px;
-    }
+  .containers {
+    overflow-y: auto;
   }
 
   .spinner-wrapper {
@@ -18,6 +21,54 @@
   }
 }
 
+.instance-wrapper.deprecated {
+  height: 100%;
+}
+
+.accounts-select.deprecated {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0;
+  position: absolute;
+  right: 9px;
+}
+
+// accounts button (specificity to override .btn.purple)
+.deprecated .btn-accounts.btn-accounts {
+  align-self: flex-end;
+  background: transparent;
+  border-color: transparent;
+  flex: 0 0 auto;
+  padding: 0 15px;
+  transition: all .15s ease-out;
+
+  @include media(sm) {
+    .span {
+      display: none;
+    }
+  }
+
+  &:hover:not([disabled]),
+  &:active:not([disabled]),
+  &.active {
+    background: transparent;
+    color: $white;
+  }
+
+  .gravatar {
+    float: left;
+    margin-right: 7px;
+    margin-top: 4px;
+
+    @include retina() {
+      border: 1px solid currentColor;
+    }
+
+    @include media(sm) {
+      margin-right: 3px;
+    }
+  }
+}
 
 .containers.deprecated {
   color: $gray;

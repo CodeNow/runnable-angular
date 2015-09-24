@@ -1,12 +1,13 @@
-//- org button
+//- ************************
+//- deprecated element, delete with $root.featureFlags.isolationUI
 a.btn.btn-sm.purple.btn-accounts(
   ng-class = "{'no-touching': data.accountsDisabled()}"
+  ng-if = "!$root.featureFlags.isolationUI"
   ng-show = "data.activeAccount"
   pop-over
   pop-over-actions = "popoverAccountMenu.actions"
   pop-over-active = "state.active"
   pop-over-data = "popoverAccountMenu.data"
-  pop-over-options = "{\"right\":-2,\"top\":48}"
   pop-over-template = "viewPopoverAccountMenu"
 )
   img.gravatar(
@@ -20,10 +21,22 @@ a.btn.btn-sm.purple.btn-accounts(
     use(
       xlink:href = "#icons-arrow-down"
     )
-  pop-over(
-    actions = "popoverAccountMenu.actions"
-    data = "popoverAccountMenu.data"
-    popover-options = "{\"left\":0,\"top\":54}"
-    popover-ready = "popoverAccountMenu.data.show"
-    template = "viewPopoverAccountMenu"
+//- end deprecated element, delete with $root.featureFlags.isolationUI
+//- ************************
+
+div(
+  ng-class = "{'no-touching': data.accountsDisabled()}"
+  ng-if = "$root.featureFlags.isolationUI"
+  ng-show = "data.activeAccount"
+  pop-over
+  pop-over-actions = "popoverAccountMenu.actions"
+  pop-over-active = "state.active"
+  pop-over-data = "popoverAccountMenu.data"
+  pop-over-template = "viewPopoverAccountMenu"
+)
+  img.gravatar(
+    alt = "{{data.activeAccount.oauthName()}}"
+    height = "34"
+    ng-src = "{{data.activeAccount.gravitar()}}"
+    width = "34"
   )

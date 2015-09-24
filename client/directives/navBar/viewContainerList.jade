@@ -1,14 +1,5 @@
-.list-header.fade(
-  ng-class = "{'in': $root.featureFlags.isolationNav}"
-) Containers
-  //- //- ui-sref-active we need to use the disabled attribute, not class
-  //- button.btn.btn-sm.white(
-  //-   ui-sref = "base.config({userName: CA.activeAccount.oauthName()})"
-  //-   ui-sref-active = "active disabled"
-  //- ) Configure Containers
-
 //- repository based containers
-.list.fade(
+.list(
   ng-class = "{'in': $root.featureFlags.isolationNav}"
   ng-repeat = "container in containers"
 )
@@ -57,7 +48,7 @@
   ) 8 more…
 
 //- non-repository based containers
-.list.fade(
+.list(
   ng-class = "{'in': $root.featureFlags.isolationNav}"
   ng-if = "nonRepositoryContainers"
 )

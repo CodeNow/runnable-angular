@@ -1,8 +1,8 @@
 // section.views
 .views {
   display: flex;
+  flex: 1 1 auto;
   flex-direction: column;
-  height: 100%;
   overflow: hidden;
   position: relative;
   z-index: $z-views;

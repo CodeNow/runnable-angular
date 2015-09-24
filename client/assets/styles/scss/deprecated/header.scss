@@ -1,3 +1,6 @@
+//- ************************
+//- deprecated file, delete with isolationUI feature flag
+
 // fixed header within runnable app
 .header-app {
   background: $purple-light;
@@ -9,9 +12,6 @@
   position: fixed;
   width: 100vw;
   z-index: $z-popover-arrow + 1; // should overlap all popovers, except account menu
-
-  // temp nav
-  transition: width .2s ease-in-out;
 
   // change header theme if feature flag is on
   &.feature-flag-on::before {
@@ -31,67 +31,9 @@
   }
 
   // layout
-  .btn-nav,
   .toggle-header,
   .accounts-select {
     top: 12px;
-  }
-
-  .btn-nav {
-    color: $purple-lightest;
-    font-weight: $weight-bold;
-    padding: 0;
-
-    // temp nav
-    position: absolute;
-
-    &:hover .icons-arrow-backward {
-      transform: rotate(90deg) scale3d(1.2,1.2,1);
-    }
-
-    &:active .icons-arrow-backward {
-      transform: rotate(90deg) scale3d(1.2,1.2,1);
-    }
-
-    // separate hover/active states when active
-    &.active {
-
-      &:hover .icons-arrow-backward {
-        transform: rotate(-90deg) scale3d(1.2,1.2,1);
-      }
-
-      &:active .icons-arrow-backward {
-        transform: rotate(-90deg) scale3d(1.2,1.2,1);
-      }
-
-      .icons-arrow-backward {
-        transform: rotate(-90deg);
-      }
-    }
-
-    .icons-arrow-backward {
-      top: 4px;
-      transform: opacity .3s ease-in-out, transform .3s ease-in-out;
-    }
-  }
-
-  // header title
-  .header-title {
-    color: $purple-lightest;
-    font-size: 21px;
-    font-weight: $weight-normal;
-    // left: 0;
-    // line-height: 60px;
-    // position: absolute;
-    // right: 0;
-    // z-index: -1; // so that we don't overlap buttons
-
-    // temp nav
-    line-height: 30px;
-
-    .strong {
-      color: $white;
-    }
   }
 
   // deprecated $root.featureFlags.isolationNav
@@ -108,6 +50,21 @@
   // add padding for header-app + content
   + .content {
     padding-top: $header-height;
+  }
+}
+
+// header title
+.header-title {
+  border-bottom: 1px solid $gray-lighter;
+  color: $gray-darker;
+  font-size: 24px;
+  font-weight: $weight-normal;
+  line-height: 54px;
+  width: 100%;
+
+  // containers list toggle
+  .btn {
+    padding-top: 14px;
   }
 }
 
@@ -183,47 +140,5 @@
   }
 }
 
-// end deprecated $root.featureFlags.isolationNav
-
-.accounts-select {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  right: 9px;
-}
-
-// accounts button (specificity to override .btn.purple)
-.btn-accounts.btn-accounts {
-  align-self: flex-end;
-  background: transparent;
-  border-color: transparent;
-  color: $purple-lightest;
-  flex: 0 0 auto;
-
-  @include media(sm) {
-    .span {
-      display: none;
-    }
-  }
-
-  &:hover:not([disabled]),
-  &:active:not([disabled]),
-  &.active {
-    background: transparent;
-    color: $white;
-  }
-
-  .gravatar {
-    float: left;
-    margin-right: 7px;
-    margin-top: 4px;
-
-    @include retina() {
-      border: 1px solid currentColor;
-    }
-
-    @include media(sm) {
-      margin-right: 3px;
-    }
-  }
-}
+//- deprecated file, delete with isolationUI feature flag
+//- ************************

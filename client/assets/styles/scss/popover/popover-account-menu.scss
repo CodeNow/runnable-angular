@@ -1,8 +1,7 @@
 .popover-account-menu {
-  left: auto;
+  left: 62px;
   position: fixed;
-  right: 9px;
-  top: 60px;
+  top: 19px;
   width: 216px;
   z-index: $z-spinner + 1; // to appear above instance view spinner
 

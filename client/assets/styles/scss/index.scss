@@ -14,12 +14,15 @@
 @import "globals/mixins";
 @import "globals/reset";
 @import "globals/globals";
-@import "globals/layout";
-
 @import "globals/animations";
 @import "globals/images";
 @import "globals/loader";
 @import "globals/typography";
+
+// layout
+@import "layout/layout";
+@import "layout/instance";
+@import "layout/environment";
 
 // buttons
 @import "components/buttons/buttons";
@@ -34,7 +37,6 @@
 @import "components/cards";
 @import "components/cards-title";
 @import "components/fancy-select";
-@import "components/header";
 @import "components/help";
 @import "components/icons";
 @import "components/lists";
@@ -69,7 +71,6 @@
 @import "sidebar/sidebar";
 
 // server
-@import "server/server-header";
 @import "server/server-sidebar";
 @import "server/server-sidebar-repositories";
 
@@ -120,12 +121,13 @@
 @import "popover/popover-rules";
 
 // pages
-@import "pages/environment";
 @import "pages/server-selection";
 
 //deprecated
 @import "deprecated/card-status";
+@import "deprecated/header";
 @import "deprecated/isolation-ui";
+@import "deprecated/server-header";
 
 // shame 🔔🔔
 @import "shame";
