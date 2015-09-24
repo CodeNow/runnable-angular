@@ -175,7 +175,21 @@
 
   // containers list toggle
   .btn {
-    padding-top: 14px;
+    color: $gray-light;
+    height: 55px;
+
+    &:hover {
+      color: $gray;
+    }
+
+    &:active,
+    &.active {
+      color: $purple-light;
+    }
+
+    .iconnables {
+      top: 9px;
+    }
   }
 }
 
