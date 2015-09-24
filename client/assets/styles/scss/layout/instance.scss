@@ -23,7 +23,7 @@
   }
 
   .list {
-    margin: 0 15px;
+    margin: 0 12px; // matches instance sidebar margin
     padding: 9px 0 15px;
 
     + .list {
@@ -33,10 +33,13 @@
 
   .list-item {
     align-items: center;
+    border: 1px solid transparent;
+    color: $gray;
     display: flex;
     font-size: 15px;
     height: 30px;
     line-height: 30px;
+    padding: 0 9px;
 
     // list title
     &:first-child {
@@ -44,15 +47,15 @@
       font-weight: $weight-normal;
     }
 
-    &:hover .icons-advanced {
-      opacity: .75;
-    }
-
     + .list-item {
-      color: $gray;
 
       &:hover {
         color: $gray-dark;
+
+        // if this list-item has a gear, it will highlight
+        .icons-advanced {
+          opacity: .75;
+        }
       }
 
       &:active {
@@ -60,7 +63,15 @@
       }
 
       &.active {
-        color: $gray-darker;
+        background: $gray-lightest;
+        border-color: $gray-lighter;
+        border-radius: $input-border-radius;
+        color: $gray-dark;
+
+        // is isolated
+        &.isolated {
+          //
+        }
       }
 
       // show isolation badge/overflow menu
@@ -76,50 +87,50 @@
         }
       }
     }
+  }
 
-    // status icon
-    .icons-status {
-      flex: 0 0 9px;
-      margin-right: 9px;
+  // status icon
+  .icons-status {
+    flex: 0 0 9px;
+    margin-right: 9px;
 
-      + .text-overflow {
-        cursor: pointer;
-        font-weight: $weight-bold;
-        padding-left: 0;
-      }
-    }
-
-    // name
-    .text-overflow {
-      flex: 1 1 auto;
-      padding-left: 18px; // spacing for .status-icon
-    }
-
-    // configure/overflow
-    .iconnables {
+    + .text-overflow {
       cursor: pointer;
-      flex: 0 0 15px;
-      margin-left: 5px;
-      pointer-events: auto; // override iconnables default
+      font-weight: $weight-bold;
+      padding-left: 0;
+    }
+  }
+
+  // name
+  .text-overflow {
+    flex: 1 1 auto;
+    padding-left: 18px; // spacing for .status-icon
+  }
+
+  // configure/overflow
+  .iconnables {
+    cursor: pointer;
+    flex: 0 0 15px;
+    margin-left: 5px;
+    pointer-events: auto; // override iconnables default
+  }
+
+  .icons-overflow {
+    color: $gray;
+    display: none;
+    padding-top: 10px;
+
+    &:hover {
+      color: $gray-dark;
     }
 
-    .icons-overflow {
-      color: $gray;
-      display: none;
-      padding-top: 10px;
+    &:active,
+    &.active {
+      color: $purple-light;
+    }
 
-      &:hover {
-        color: $gray-dark;
-      }
-
-      &:active,
-      &.active {
-        color: $purple-light;
-      }
-
-      &.active {
-        display: block;
-      }
+    &.active {
+      display: block;
     }
   }
 
@@ -139,7 +150,7 @@
   }
 
   // isolation badge
-  .btn-badge {
+  .btn-xxs.btn-badge {
     border: 1px solid $gray-lighter;
     left: 6px;
     line-height: 16px;

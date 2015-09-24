@@ -15,7 +15,10 @@
       )
   a.list-item(
     ng-href = "#"
-    ng-class = "{'active': branch.selected}"
+    ng-class = "{\
+      'active': branch.selected,\
+      'isolated': branch.isolation\
+    }"
     ng-click = "branch.selected = !branch.selected"
     ng-repeat = "branch in container.branches"
   )
