@@ -172,7 +172,7 @@ function EnvironmentController(
           data: $scope.data,
           actions: $scope.actions
         }
-      })
+      });
     }
   };
 
