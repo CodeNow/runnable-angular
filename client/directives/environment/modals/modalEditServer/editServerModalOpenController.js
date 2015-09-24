@@ -13,15 +13,15 @@ function EditServerModalOpenController(
   close
 ) {
   var ESMOC = this;
-  this.tab = tab;
-  this.instance = instance;
-  this.closeHandler = angular.noop;
+  ESMOC.tab = tab;
+  ESMOC.instance = instance;
+  ESMOC.closeHandler = angular.noop;
 
   $scope.$on('set-close-modal-handler', function (event, closeHandler) {
     ESMOC.closeHandler = closeHandler;
   });
 
-  this.actions = {
+  ESMOC.actions = {
     close: function () {
       var shouldConfirm = ESMOC.closeHandler();
       if (shouldConfirm) {

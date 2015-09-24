@@ -24,7 +24,7 @@ function serverStatusCardHeader(
           $scope.openEditServerModal(defaultTab);
         },
         deleteServer: function () {
-          $scope.actions.deleteServer();
+          $scope.actions.deleteServer($scope.instance);
         }
       };
       attrs.$observe('noTouching', function () {
