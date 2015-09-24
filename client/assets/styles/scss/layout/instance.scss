@@ -49,7 +49,21 @@
     }
 
     + .list-item {
+      color: $gray;
 
+      &:hover {
+        color: $gray-dark;
+      }
+
+      &:active {
+        color: $purple-light;
+      }
+
+      &.active {
+        color: $gray-darker;
+      }
+
+      // show isolation badge/overflow menu
       &:hover,
       &.active {
 
@@ -69,22 +83,9 @@
       margin-right: 9px;
 
       + .text-overflow {
-        color: $gray;
         cursor: pointer;
         font-weight: $weight-bold;
         padding-left: 0;
-
-        &:hover {
-          color: $gray-dark;
-        }
-
-        &:active {
-          color: $purple-light;
-        }
-
-        &.active {
-          color: $gray-darker;
-        }
       }
     }
 

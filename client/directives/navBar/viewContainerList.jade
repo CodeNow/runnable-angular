@@ -13,7 +13,10 @@
       use(
         xlink:href = "#icons-advanced"
       )
-  .list-item(
+  a.list-item(
+    ng-href = "#"
+    ng-class = "{'active': branch.selected}"
+    ng-click = "branch.selected = !branch.selected"
     ng-repeat = "branch in container.branches"
   )
     .icons-status(
@@ -23,7 +26,7 @@
         'red': branch.status === 'red'\
       }"
     )
-    a.text-overflow(
+    .text-overflow(
       title = "{{branch.name}}"
     ) {{branch.name}}
     .btn.btn-xxs.btn-badge(
