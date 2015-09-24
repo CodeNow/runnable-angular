@@ -161,14 +161,6 @@ function SetupServerModalController (
   }
 
   SMC.changeTab = function (tabname) {
-    // If the user went to the 'repository' tab, she might have changed the
-    // stack, so now we need to reload the stack and Dockerfile
-    if (SMC.state.step > 2 && SMC.selectedTab === 'repository') {
-      return loadAllOptions()
-        .then(function () {
-          SMC.selectedTab = tabname;
-        });
-    }
     SMC.selectedTab = tabname;
   };
 
