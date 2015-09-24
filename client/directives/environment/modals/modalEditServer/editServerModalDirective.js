@@ -18,7 +18,6 @@ var tabVisibility = {
  * @ngInject
  */
 function editServerModal(
-  $q,
   $filter,
   $rootScope,
   errs,
@@ -37,8 +36,7 @@ function editServerModal(
   OpenItems,
   parseDockerfileForCardInfoFromInstance,
   promisify,
-  updateDockerfileFromState,
-  $timeout
+  updateDockerfileFromState
 ) {
   return {
     restrict: 'A',
@@ -131,7 +129,7 @@ function editServerModal(
       // For the build and server logs
       $scope.build = $scope.instance.build;
 
-      function afterParsingDockerfile(data, contextVersion) {
+      function afterParsingDockerfile(data) {
         Object.keys(data).forEach(function (key) {
           $scope.instance[key] = data[key];
         });
@@ -415,36 +413,14 @@ function editServerModal(
           !$scope.openItems.isClean();
       }
 
-      var closeActions  = {};
-      function triggerClose () {
-        return $q(function (resolve, reject) {
-          if (!isDirty() || $scope.saveTriggered) {
-            return resolve();
-          }
-          closeActions.resolve = resolve;
-          closeActions.reject = reject;
-          $scope.confirmClose.active = true;
-        })
-          .then(function () {
-            helpCards.setActiveCard(null);
-          });
-      }
+      $scope.$emit('set-close-modal-handler', function () {
+        return !$scope.saveTriggered && isDirty();
+      });
 
-      $rootScope.$emit('set-close-modal-handler', triggerClose);
-
-      $scope.confirmClose = {
-        active: false,
-        actions: {
-          cancel: function () {
-            $rootScope.$broadcast('close-popovers');
-            closeActions.reject();
-          },
-          confirm: function () {
-            $rootScope.$broadcast('close-popovers');
-            closeActions.resolve();
-          }
-        }
-      };
+      $scope.$on('$destroy', function () {
+        helpCards.setActiveCard(null);
+        $rootScope.$emit('reset-close-modal-handler');
+      });
     }
   };
 }
