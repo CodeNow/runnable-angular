@@ -17,6 +17,13 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
   function setup() {
 
     angular.mock.module('app', function ($provide) {
+      $provide.factory('ModalService', function ($q) {
+        return {
+          showModal: sinon.stub().returns($q.when({
+            close: $q.when(true)
+          }))
+        }
+      });
       $provide.factory('loadingPromises', function ($q) {
         ctx.loadingPromiseMock = {
           add: sinon.spy(function (namespace, promise) {
@@ -165,12 +172,6 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
       });
       readOnlySwitchController.readOnly(false);
       $scope.$digest();
-      expect(readOnlySwitchController.popover.contextVersion, 'cv').to.equal(ctx.contextVersion);
-      expect(readOnlySwitchController.popover.active, 'active').to.be.true;
-      expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.true;
-      var rollbackThing = {lastBuiltSimpleContextVersion: {}};
-      readOnlySwitchController.popover.performRollback(ctx.contextVersion, rollbackThing);
-      $scope.$digest();
       sinon.assert.calledOnce(ctx.contextVersion.rollback);
       sinon.assert.calledWith(resetStateContextVersionMock, ctx.newContextVersion, true);
     });
@@ -182,11 +183,6 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
       $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
         resetStateContextVersionMock(contextVersion, showSpinner);
       });
-      readOnlySwitchController.readOnly(false);
-      $scope.$digest();
-      expect(readOnlySwitchController.popover.contextVersion, 'cv').to.equal(ctx.contextVersion);
-      expect(readOnlySwitchController.popover.active, 'active').to.be.true;
-      expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.true;
       ctx.contextVersion.rollback = function () {};
       sinon.stub(ctx.contextVersion, 'rollback', function (opts, cb) {
         $rootScope.$evalAsync(function () {
@@ -194,11 +190,9 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
         });
         return new Error('asdasdasdasd');
       });
-      var rollbackThing = {lastBuiltSimpleContextVersion: {}};
-      readOnlySwitchController.popover.performRollback(ctx.contextVersion, rollbackThing);
+      readOnlySwitchController.readOnly(false);
       $scope.$digest();
       sinon.assert.calledOnce(ctx.contextVersion.rollback);
-      $scope.$digest();
       sinon.assert.calledWith(resetStateContextVersionMock, ctx.contextVersion, true);
     });
   });

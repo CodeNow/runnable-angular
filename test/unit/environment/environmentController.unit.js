@@ -58,6 +58,7 @@ describe('environmentController'.bold.underline.blue, function () {
       setTitle: sinon.spy()
     };
 
+
     runnable.reset(apiMocks.user);
     angular.mock.module('app', function ($provide) {
       $provide.value('favico', ctx.favicoMock);
@@ -71,6 +72,14 @@ describe('environmentController'.bold.underline.blue, function () {
       $provide.factory('createNewInstance', createNewInstanceMock.fetch());
       $provide.value('$log', ctx.$log);
       $provide.value('errs', ctx.errs);
+      $provide.factory('ModalService', function ($q) {
+        ctx.showModalStub = sinon.stub().returns($q.when({
+          close: $q.when(true)
+        }));
+        return {
+          showModal: ctx.showModalStub
+        }
+      });
     });
     angular.mock.inject(function (
       _$controller_,
@@ -147,21 +156,12 @@ describe('environmentController'.bold.underline.blue, function () {
       instance.destroy = sinon.spy(function (cb) {
         cb();
       });
-      sinon.stub(window, 'confirm', function () {
-        return true;
-      });
       var closePopoverSpy = sinon.spy();
       $rootScope.$on('close-popovers', closePopoverSpy);
-      var server = {
-        instance: instance
-      };
-      $scope.actions.deleteServer(server);
+      $scope.actions.deleteServer(instance);
       $rootScope.$digest();
       sinon.assert.calledOnce(closePopoverSpy);
-      $timeout.flush();
-      $rootScope.$digest();
-      sinon.assert.calledOnce(window.confirm);
-      $rootScope.$digest();
+      sinon.assert.calledOnce(ctx.showModalStub);
       sinon.assert.calledOnce(instance.destroy);
     });
 

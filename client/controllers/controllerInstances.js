@@ -11,6 +11,7 @@ function ControllerInstances(
   keypather,
   setLastOrg,
   errs,
+  ModalService,
 
   fetchInstancesByPod,
   activeAccount,
@@ -78,4 +79,17 @@ function ControllerInstances(
       }
     })
     .catch(errs.handler);
+
+  this.editInstance = function (instance) {
+    ModalService.showModal({
+      controller: 'EditServerModalOpenController',
+      controllerAs: 'ESMOC',
+      templateUrl: 'editServerModalOpen',
+      inputs: {
+        tab: keypather.get(instance, 'contextVersion.attrs.advanced') ? 'env' : 'repository',
+        instance: instance
+      }
+    })
+      .catch(errs.handler);
+  };
 }

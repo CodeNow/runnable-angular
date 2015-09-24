@@ -19,6 +19,11 @@
   @media (max-height: 768px) {
     padding: 15px;
   }
+
+  // if there's a second modal, show no background
+  + .modal-backdrop {
+    background: none;
+  }
 }
 
 // div.modal-dialog
@@ -41,12 +46,6 @@
 
   &.xl {
     flex: 1 1 auto;
-  }
-
-  // sizing for confirmation modals
-  &.modal-confirm {
-    max-width: 540px;
-    padding-top: 21px;
   }
 
   &.modal-repository-details {

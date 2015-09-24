@@ -20,6 +20,8 @@ function ControllerApp(
   pageName,
   featureFlags,
   $ocLazyLoad,
+  ModalService,
+  keypather,
 
   user,
   orgs,
@@ -41,6 +43,8 @@ function ControllerApp(
     .then(function (instancesByPod) {
       CA.instancesByPod = instancesByPod;
     });
+
+  $rootScope.ModalService = ModalService;
 
   var dataApp = $rootScope.dataApp = $scope.dataApp = {
     data: {
@@ -105,6 +109,11 @@ function ControllerApp(
     if (e.keyCode === 27) {
       $rootScope.$broadcast('app-document-click');
       $rootScope.$broadcast('close-modal');
+      var lastModalObj = ModalService.modalLayers[ModalService.modalLayers.length - 1];
+      if (lastModalObj) {
+        var close = keypather.get(lastModalObj, 'modal.controller.actions.close') || lastModalObj.close;
+        close();
+      }
     }
   };
 

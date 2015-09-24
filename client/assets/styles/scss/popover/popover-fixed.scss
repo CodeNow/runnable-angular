@@ -97,29 +97,3 @@
     }
   }
 }
-
-// fixed popovers used as prompts
-.popover-prompt {
-  background: $gray-lighterest;
-  left: 0 !important;
-  max-width: 540px;
-
-  // discard changes alert
-  &.popover-prompt-discard {
-    max-width: 390px;
-
-    .popover-title {
-      line-height: 1.4;
-      text-align: center;
-    }
-  }
-
-  // when there's no .p text
-  .popover-title:only-child {
-    margin-bottom: 0;
-  }
-
-  .popover-content {
-    padding-top: 21px;
-  }
-}
