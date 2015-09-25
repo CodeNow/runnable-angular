@@ -64,7 +64,7 @@
 }
 
 .help-container {
-  left: 15px;
+  left: $layout-navigation-width + 15px;
   position: absolute;
   right: 15px;
   z-index: 1; // TODO: variable-ize this
