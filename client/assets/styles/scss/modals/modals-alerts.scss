@@ -3,17 +3,17 @@
   top: 10%;
 
   .modal-body {
-    padding: 30px;
+    padding: 45px 36px 30px 33px;
   }
 
   // text
+  // title
   .p {
     font-size: 15px;
-  }
 
-  // title
-  .strong {
-    font-size: 18px;
-    margin-bottom: 6px;
+    &.strong {
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
   }
 }

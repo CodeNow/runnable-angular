@@ -9,24 +9,28 @@ function ReadOnlySwitchController(
   $scope,
   errs,
   loadingPromises,
-  promisify
+  promisify,
+  ModalService
 ) {
   var ROSC = this;
-  this.popover = {
-    performRollback: function (originalContextVersion, lastBuiltSimpleContextVersionObject) {
-      return loadingPromises.add(
-        ROSC.loadingPromisesTarget,
-        promisify(originalContextVersion, 'rollback')({lastBuiltSimpleContextVersion: lastBuiltSimpleContextVersionObject})
-          .then(function (rolledBackContextVersion) {
-            return $scope.$emit('resetStateContextVersion', rolledBackContextVersion, true);
-          })
-          .catch(function (err) {
-            errs.handler(err);
-            return $scope.$emit('resetStateContextVersion', originalContextVersion, true);
-          })
-      );
-    }
-  };
+  function performRollback () {
+    return ROSC.state.promises.contextVersion
+      .then(function (contextVersion) {
+        return loadingPromises.add(
+          ROSC.loadingPromisesTarget,
+          promisify(contextVersion, 'rollback')({lastBuiltSimpleContextVersion: ROSC.state.instance.attrs.lastBuiltSimpleContextVersion})
+            .then(function (rolledBackContextVersion) {
+              return $scope.$emit('resetStateContextVersion', rolledBackContextVersion, true);
+            })
+            .catch(function (err) {
+              errs.handler(err);
+              return $scope.$emit('resetStateContextVersion', contextVersion, true);
+            })
+        );
+    });
+  }
+
+
   // Getter/setter
   this.readOnly = function (newAdvancedMode) {
     // when setting to readOnly
@@ -58,9 +62,24 @@ function ReadOnlySwitchController(
       // If switching from advanced to basic
       return ROSC.state.promises.contextVersion
         .then(function (contextVersion) {
-          ROSC.popover.active = true;
-          ROSC.popover.contextVersion = contextVersion;
-          ROSC.popover.instance = ROSC.state.instance;
+          ModalService.showModal({
+            controller: 'ConfirmRollbackModalController',
+            controllerAs: 'CMC',
+            templateUrl: 'confirmRollbackModalView',
+            inputs: {
+              instance: ROSC.state.instance
+            }
+          })
+            .then(function (modal) {
+              modal.close.then(function (confirmed) {
+                if (confirmed) {
+                  performRollback(contextVersion);
+                } else {
+                  ROSC.state.advanced = true;
+                }
+              });
+            })
+            .catch(errs.handler);
         });
     } else {
       return ROSC.state.advanced;

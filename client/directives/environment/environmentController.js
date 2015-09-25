@@ -26,7 +26,8 @@ function EnvironmentController(
   $q,
   helpCards,
   $window,
-  $state
+  $state,
+  ModalService
 ) {
   $scope.$state = $state;
   favico.reset();
@@ -101,15 +102,23 @@ function EnvironmentController(
   };
 
   $scope.actions = {
-    deleteServer: function (server) {
+    deleteServer: function (instance) {
       $rootScope.$broadcast('close-popovers');
-      $timeout(function () {
-        if (confirm('Are you sure you want to delete this container?')) {
-          promisify(server.instance, 'destroy')()
-            .catch(errs.handler);
-          helpCards.refreshAllCards();
-        }
-      });
+      ModalService.showModal({
+        controller: 'ConfirmationModalController',
+        controllerAs: 'CMC',
+        templateUrl: 'confirmDeleteServerView'
+      })
+        .then(function (modal) {
+          modal.close.then(function (confirmed) {
+            if ( confirmed ) {
+              promisify(instance, 'destroy')()
+                .catch(errs.handler);
+              helpCards.refreshAllCards();
+            }
+          });
+        })
+        .catch(errs.handler);
     },
     createAndBuild: function (createPromise, name) {
       $rootScope.$broadcast('close-modal');
@@ -152,6 +161,18 @@ function EnvironmentController(
         .finally(function () {
           $rootScope.dataApp.creatingInstance = false;
         });
+    },
+    setupRepoServer: function () {
+      $rootScope.$broadcast('close-popovers');
+      ModalService.showModal({
+        controller: 'SetupServerModalController',
+        controllerAs: 'SMC',
+        templateUrl: 'setupServerModalView',
+        inputs: {
+          data: $scope.data,
+          actions: $scope.actions
+        }
+      });
     }
   };
 

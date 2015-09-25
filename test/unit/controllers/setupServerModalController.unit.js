@@ -24,6 +24,9 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   var updateDockerfileFromStateStub;
   var populateDockerfileStub;
   var fetchDockerfileFromSourceStub;
+  var data;
+  var closeSpy;
+  var showModalStub;
 
   function initState() {
 
@@ -63,6 +66,33 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         };
       });
 
+      closeSpy = sinon.spy();
+
+      $provide.factory('ModalService', function ($q) {
+        showModalStub = sinon.stub().returns($q.when({
+          close: $q.when(false)
+        }));
+        return {
+          showModal: showModalStub
+        }
+      });
+
+      $provide.value('close', closeSpy);
+
+      $provide.value('actions', {});
+      data = {
+        stacks: stacks,
+        instances: [{
+          getRepoName: sinon.stub().returns(mocks.repoList[0].full_name.split('/')[1])
+        },{
+          getRepoName: sinon.spy(),
+          attrs: {
+            name: 'foo'
+          }
+        }]
+      };
+      $provide.value('data', data);
+
       $provide.factory('fetchDockerfileFromSource', function ($q) {
         fetchDockerfileFromSourceStub = sinon.stub().returns($q.when(dockerfile));
         return fetchDockerfileFromSourceStub;
@@ -97,18 +127,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
       keypather.set($rootScope, 'dataApp.data.activeAccount.oauthName', sinon.mock().returns('myOauthName'));
       $scope = $rootScope.$new();
-      $scope.actions = {};
-      $scope.data = {
-        stacks: stacks,
-        instances: [{
-          getRepoName: sinon.stub().returns(mocks.repoList[0].full_name.split('/')[1])
-        },{
-          getRepoName: sinon.spy(),
-          attrs: {
-            name: 'foo'
-          }
-        }]
-      };
       SMC = $controller('SetupServerModalController', {
         $scope: $scope
        });
@@ -123,7 +141,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
     sinon.assert.called($rootScope.dataApp.data.activeAccount.oauthName);
     sinon.assert.calledOnce(fetchOwnerRepoStub);
     expect(SMC.data.githubRepos.models).to.exist;
-    sinon.assert.called($scope.data.instances[0].getRepoName);
+    sinon.assert.called(data.instances[0].getRepoName);
     expect(SMC.data.githubRepos.models[0]).to.have.property('isAdded');
   });
 
@@ -147,7 +165,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
           },
           opts: {
             userContentDomain: 'runnable-test.com'
-          },
+          }
         };
 
         SMC.fetchStackData(repo)

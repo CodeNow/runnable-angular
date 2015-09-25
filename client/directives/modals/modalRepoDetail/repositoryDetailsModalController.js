@@ -9,24 +9,33 @@ require('app')
 function RepositoryDetailsModalController(
   fetchCommitData,
   loading,
-  updateInstanceWithNewAcvData
+  updateInstanceWithNewAcvData,
+
+  acv,
+  instance,
+  close
 ) {
   var RDMC = this;
-  this.data = {
-    repo: this.appCodeVersion.githubRepo,
-    acv: this.appCodeVersion,
-    branch: fetchCommitData.activeBranch(this.appCodeVersion),
-    commit: fetchCommitData.activeCommit(this.appCodeVersion),
-    useLatest: this.appCodeVersion.attrs.useLatest,
-    instance: this.instance
+  RDMC.appCodeVersion = acv;
+  RDMC.instance = instance;
+  RDMC.close = close;
+
+
+  RDMC.data = {
+    repo: RDMC.appCodeVersion.githubRepo,
+    acv: RDMC.appCodeVersion,
+    branch: fetchCommitData.activeBranch(RDMC.appCodeVersion),
+    commit: fetchCommitData.activeCommit(RDMC.appCodeVersion),
+    useLatest: RDMC.appCodeVersion.attrs.useLatest,
+    instance: RDMC.instance
   };
-  this.updateInstance = function () {
+  RDMC.updateInstance = function () {
     loading('main', true);
-    RDMC.defaultActions.close(function () {
+    RDMC.close(
       updateInstanceWithNewAcvData(RDMC.instance, RDMC.appCodeVersion, RDMC.data)
         .finally(function () {
           loading('main', false);
-        });
-    });
+        })
+    );
   };
 }

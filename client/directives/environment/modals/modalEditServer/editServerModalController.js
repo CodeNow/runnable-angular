@@ -37,10 +37,18 @@ function EditServerModalController(
   OpenItems,
   parseDockerfileForCardInfoFromInstance,
   promisify,
-  updateDockerfileFromState
-) {
+  updateDockerfileFromState,
+  ModalService,
 
+  tab,
+  instance,
+  close
+) {
   var SMC = this;
+  SMC.instance = instance;
+  SMC.selectedTab = tab;
+
+
   loading.reset('editServerModal');
   loading('editServerModal', true);
 
@@ -50,9 +58,10 @@ function EditServerModalController(
     state:  {
       ports: [],
       opts: {
-        env: []
+        env: keypather.get(instance, 'attrs.env') || []
       },
-      promises: {}
+      promises: {},
+      instance: instance
     },
     validation: {
       env: null
@@ -63,39 +72,54 @@ function EditServerModalController(
       cmd = cmd || '';
       return cmd.replace('until grep -q ethwe /proc/net/dev; do sleep 1; done;', '');
     },
-    init: function (options) {
-      angular.extend(SMC, {
-        instance: options.instance,
-        modalActions: options.modalActions,
-        selectedTab: options.selectedTab
-      });
-      SMC.build = SMC.instance.build;
-      SMC.getElasticHostname = SMC.instance.getElasticHostname.bind(SMC.instance);
-      SMC.state.instance = SMC.instance;
-      SMC.state.opts.env = keypather.get(SMC.instance, 'attrs.env') || [];
-
-      // Attach variables to $scope to allow child directives to access them
-      $scope.modalActions = SMC.modalActions;
-      $scope.instance = SMC.instance;
-
-      fetchInstancesByPod()
-        .then(function (instances) {
-          SMC.data.instances = instances;
-        });
-
-      fetchStackInfo()
-        .then(function (stackInfo) {
-          SMC.data.stacks = stackInfo;
-        });
-
-      fetchSourceContexts()
-        .then(function (contexts) {
-          SMC.data.sourceContexts = contexts;
-        });
-
-      resetState(SMC.instance);
-     }
+    actions: {
+      close: function () {
+        $rootScope.$broadcast('close-popovers');
+        if (isDirty() && !SMC.saveTriggered) {
+          ModalService.showModal({
+            controller: 'ConfirmationModalController',
+            controllerAs: 'CMC',
+            templateUrl: 'confirmCloseEditServer'
+          })
+            .then(function (modal) {
+              modal.close.then(function (confirmed) {
+                if ( confirmed ) {
+                  close();
+                }
+              });
+            })
+            .catch(errs.handler);
+        } else {
+          close();
+        }
+      }
+    },
+    build: instance.build,
+    getElasticHostname: instance.getElasticHostname.bind(instance)
   });
+  SMC.modalActions = SMC.actions;
+
+  fetchInstancesByPod()
+    .then(function (instances) {
+      SMC.data.instances = instances;
+    });
+
+  fetchStackInfo()
+    .then(function (stackInfo) {
+      SMC.data.stacks = stackInfo;
+    });
+
+  fetchSourceContexts()
+    .then(function (contexts) {
+      SMC.data.sourceContexts = contexts;
+    });
+
+
+  function isDirty () {
+    return loadingPromises.count('editServerModal') > 1 ||
+      keypather.get(SMC, 'instance.attrs.env') !== keypather.get(SMC, 'state.opts.env') ||
+      !SMC.openItems.isClean();
+  }
 
   SMC.updateDockerfileFromState = function () {
     return loadingPromises.add('editServerModal', updateDockerfileFromState(SMC.state));
@@ -124,8 +148,8 @@ function EditServerModalController(
         SMC.state.ports.splice(0, SMC.state.ports.length);
       }
       ports.forEach(function (port) {
-        // After adding initially adding ports here, ports can no longer be 
-        // added/removed since they are managed by the `ports-form` directive 
+        // After adding initially adding ports here, ports can no longer be
+        // added/removed since they are managed by the `ports-form` directive
         // and will get overwritten.
         SMC.state.ports.push(port);
       });
@@ -331,7 +355,7 @@ function EditServerModalController(
       })
       .then(function () {
         helpCards.refreshActiveCard();
-        SMC.modalActions.close();
+        close();
         $rootScope.$broadcast('alert', {
           type: 'success',
           text: 'Container updated successfully.'
@@ -377,40 +401,5 @@ function EditServerModalController(
     }));
   };
 
-  function isDirty () {
-    return loadingPromises.count('editServerModal') > 1 ||
-      keypather.get(SMC, 'instance.attrs.env') !== keypather.get(SMC, 'state.opts.env') ||
-      !SMC.openItems.isClean();
-  }
-
-  var closeActions  = {};
-  function triggerClose () {
-    return $q(function (resolve, reject) {
-      if (!isDirty() || SMC.saveTriggered) {
-        return resolve();
-      }
-      closeActions.resolve = resolve;
-      closeActions.reject = reject;
-      SMC.confirmClose.active = true;
-    })
-      .then(function () {
-        helpCards.setActiveCard(null);
-      });
-  }
-
-  $rootScope.$emit('set-close-modal-handler', triggerClose);
-
-  SMC.confirmClose = {
-    active: false,
-    actions: {
-      cancel: function () {
-        $rootScope.$broadcast('close-popovers');
-        closeActions.reject();
-      },
-      confirm: function () {
-        $rootScope.$broadcast('close-popovers');
-        closeActions.resolve();
-      }
-    }
-  };
+  resetState(SMC.instance);
 }

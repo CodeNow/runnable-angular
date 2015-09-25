@@ -7,7 +7,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
   var $timeout;
   var $scope;
   var $controller;
-  var $elScope;
   var $rootScope;
   var keypather;
   var loadingService;
@@ -129,7 +128,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         });
         return ctx.parseDockerfileResponseMock;
       });
-
       $provide.factory('serverStatusCardHeaderDirective', function () {
         return {
           priority: 100000,
@@ -173,6 +171,21 @@ describe('editServerModalController'.bold.underline.blue, function () {
         };
       });
 
+      ctx.closeSpy = sinon.spy();
+
+      $provide.factory('ModalService', function ($q) {
+        ctx.showModalStub = sinon.stub().returns($q.when({
+          close: $q.when(false)
+        }));
+        return {
+          showModal: ctx.showModalStub
+        }
+      });
+
+      $provide.value('instance', scope.currentModel);
+      $provide.value('tab', scope.stateModel);
+      $provide.value('close', ctx.closeSpy);
+
       ctx.loadingPromiseFinishedValue = 0;
 
       $provide.factory('populateDockerfile', ctx.populateDockerfile.fetch());
@@ -209,18 +222,11 @@ describe('editServerModalController'.bold.underline.blue, function () {
       $q = _$q_;
     });
     $scope.$digest();
-    $scope.defaultActions = {
-      close: sinon.spy()
-    };
     $scope.stateModel = 'hello';
     sinon.spy(loadingService, 'reset');
 
     keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.fakeOrg1);
 
-    ctx.setCloseModalHandlerSpy = sinon.spy();
-    $rootScope.$on('set-close-modal-handler', ctx.setCloseModalHandlerSpy);
-    ctx.resetCloseModalHandlerSpy = sinon.spy();
-    $rootScope.$on('reset-close-modal-handler', ctx.resetCloseModalHandlerSpy);
     ctx.closePopoverSpy = sinon.spy();
     $rootScope.$on('close-popovers', ctx.closePopoverSpy);
 
@@ -229,11 +235,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
 
     SMC = $controller('EditServerModalController', {
       $scope: $scope
-    });
-    SMC.init({
-      instance: $scope.currentModel,
-      modalActions: $scope.defaultActions,
-      selectedTab: $scope.stateModel
     });
   }
 
@@ -400,7 +401,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         $scope.$digest();
-        sinon.assert.calledOnce($scope.defaultActions.close);
+        sinon.assert.calledOnce(ctx.closeSpy);
 
         sinon.assert.notCalled(ctx.instance.update);
         sinon.assert.notCalled(ctx.instance.redeploy);
@@ -429,7 +430,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         $scope.$digest();
-        sinon.assert.calledOnce($scope.defaultActions.close);
+        sinon.assert.calledOnce(ctx.closeSpy);
 
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.calledOnce(ctx.instance.redeploy);
@@ -457,7 +458,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         expect(SMC.state.ports).to.be.ok;
         sinon.assert.calledOnce(ctx.build.build);
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
-        sinon.assert.calledOnce($scope.defaultActions.close);
+        sinon.assert.calledOnce(ctx.closeSpy);
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.notCalled(ctx.instance.redeploy);
       });
@@ -492,7 +493,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         $scope.$digest();
-        sinon.assert.calledOnce($scope.defaultActions.close);
+        sinon.assert.calledOnce(ctx.closeSpy);
 
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.notCalled(ctx.instance.redeploy);
@@ -527,7 +528,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         sinon.assert.calledOnce(ctx.build.build);
         expect(SMC.state.opts.build).to.be.ok;
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
-        sinon.assert.calledOnce($scope.defaultActions.close);
+        sinon.assert.calledOnce(ctx.closeSpy);
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.notCalled(ctx.instance.redeploy);
       });
@@ -649,7 +650,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         $scope.$digest();
-        sinon.assert.calledOnce($scope.defaultActions.close);
+        sinon.assert.calledOnce(ctx.closeSpy);
 
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.notCalled(ctx.instance.redeploy);
@@ -683,7 +684,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         sinon.assert.calledOnce(ctx.build.build);
         expect(SMC.state.opts.build).to.be.ok;
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
-        sinon.assert.calledOnce($scope.defaultActions.close);
+        sinon.assert.calledOnce(ctx.closeSpy);
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.notCalled(ctx.instance.redeploy);
       });
@@ -710,7 +711,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         $scope.$digest();
-        sinon.assert.calledOnce($scope.defaultActions.close);
+        sinon.assert.calledOnce(ctx.closeSpy);
 
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.calledOnce(ctx.instance.redeploy);
@@ -1010,44 +1011,28 @@ describe('editServerModalController'.bold.underline.blue, function () {
       });
     });
 
-    it('register a close modal handler which should have its flow work when dirty and confirmed', function () {
+    it('should not pop up a confirmation of close when saved', function () {
       SMC.instance.attrs.env = '12345';
-      sinon.assert.calledOnce(ctx.setCloseModalHandlerSpy);
-      var promise = ctx.setCloseModalHandlerSpy.lastCall.args[1]();
-      promise.catch(function (err) {
-        throw err;
-      });
+      SMC.saveTriggered = true;
+      SMC.actions.close();
       $scope.$digest();
-      expect(SMC.confirmClose.active, 'Confirm Active').to.be.ok;
-      SMC.confirmClose.actions.confirm();
-      $scope.$digest();
-      sinon.assert.called(ctx.helpCards.setActiveCard);
-      sinon.assert.calledWith(ctx.helpCards.setActiveCard, null);
-      sinon.assert.called(ctx.closePopoverSpy);
+      sinon.assert.notCalled(ctx.showModalStub);
+      sinon.assert.calledOnce(ctx.closeSpy);
     });
 
-    it('register a close modal handler which should have its flow work when dirty and cancelled', function () {
+    it('pop up a notification when dirty and being closed', function () {
       SMC.instance.attrs.env = '12345';
-      sinon.assert.calledOnce(ctx.setCloseModalHandlerSpy);
-      var promise = ctx.setCloseModalHandlerSpy.lastCall.args[1]();
-      promise.then(function () {
-        throw 'Promise should not have been resolved!';
-      });
+      SMC.actions.close();
       $scope.$digest();
-      SMC.confirmClose.actions.cancel();
-      $scope.$digest();
-      sinon.assert.notCalled(ctx.helpCards.setActiveCard);
-      sinon.assert.called(ctx.closePopoverSpy);
+      sinon.assert.calledOnce(ctx.showModalStub);
+      sinon.assert.notCalled(ctx.closeSpy);
     });
 
     it('should resolve when clean', function () {
-      var promise = ctx.setCloseModalHandlerSpy.lastCall.args[1]();
-      promise.catch(function (err) {
-        throw err;
-      });
+      SMC.actions.close();
       $scope.$digest();
-      sinon.assert.called(ctx.helpCards.setActiveCard);
-      sinon.assert.calledWith(ctx.helpCards.setActiveCard, null);
+      sinon.assert.notCalled(ctx.showModalStub);
+      sinon.assert.calledOnce(ctx.closeSpy);
     });
 
   });

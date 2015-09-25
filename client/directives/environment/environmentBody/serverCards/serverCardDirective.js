@@ -12,7 +12,8 @@ require('app')
     fetchStackAnalysis,
     createServerObjectFromInstance,
     $state,
-    $document
+    $document,
+    ModalService
   ) {
     return {
       restrict: 'A',
@@ -25,6 +26,19 @@ require('app')
       },
       link: function ($scope, ele) {
         var listeners = [];
+
+        $scope.openEditServerModal = function (defaultTab) {
+          ModalService.showModal({
+            controller: 'EditServerModalController',
+            controllerAs: 'SMC',
+            templateUrl: 'editServerModalView',
+            inputs: {
+              tab: defaultTab,
+              instance: $scope.instance
+            }
+          })
+            .catch(errs.handler);
+        };
 
         $scope.getContainerFilesDisplay = function () {
           var repos = 0;
