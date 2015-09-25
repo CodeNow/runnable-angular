@@ -89,10 +89,10 @@
                 ) {{container.elasticHostname}}
               .cell.text-overflow(
                 ng-class = "{'fade-in': container === state.selectedMapping && isActivePanel()}"
+                title = "{{container.branch}}"
               )
                 .icons-status(
                   ng-class = "container.status"
-                  title = "{{container.branch}}"
                   tooltip
                   tooltip-eval = "instance | cardBuildStatusTitle"
                   tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
@@ -162,6 +162,7 @@
               ng-mousedown = "branch.selectFailed = true"
               ng-mouseup = "branch.selectFailed = false"
               ng-repeat = "branch in mavisBranches"
+              title = "{{branch.name}}"
             )
               //- from status-icon template
               .icons-status(
@@ -173,7 +174,7 @@
               span.text-overflow {{branch.name}}
 
               //- if branch is isolated
-              //- don't show this if the branch is currently selected, or when loading
+              //- don't show this when loading
               .btn.btn-xxs.btn-badge.gray Isolated
 
               //- when currently selected
