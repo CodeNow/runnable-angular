@@ -8,8 +8,8 @@
     label.btn.btn-radio.white(
       ng-repeat = "framework in data.stacks track by framework.key"
       ng-class = "{\
-        'active': temp.stack === framework.name,\
-        'no-touching': temp.stack === framework.name,\
+        'active': temp.stackKey === framework.key,\
+        'no-touching': temp.stackKey === framework.key,\
         'recommended': state.repo.stackAnalysis.languageFramework === framework.key\
       }"
       ng-disabled = "saving"
