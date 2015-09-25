@@ -1,10 +1,9 @@
 //- repository based containers
 .list(
-  ng-class = "{'in': $root.featureFlags.isolationNav}"
   ng-repeat = "container in containers"
 )
   //- repository name
-  .list-item
+  .list-item.list-header
     span.text-overflow(
       title = "{{container.name}}"
     ) {{container.name}}

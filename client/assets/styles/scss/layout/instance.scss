@@ -53,51 +53,48 @@
     padding: 0 9px;
 
     // list title
-    &:first-child {
+    &.list-header {
       color: $gray-light;
       font-weight: $weight-normal;
     }
 
-    + .list-item {
+    &:hover {
+      color: $gray-dark;
 
-      &:hover {
-        color: $gray-dark;
+      // if this list-item has a gear, it will highlight
+      .icons-advanced {
+        opacity: .75;
+      }
+    }
 
-        // if this list-item has a gear, it will highlight
-        .icons-advanced {
-          opacity: .75;
-        }
+    &:active,
+    &.active {
+      color: $purple-light;
+    }
+
+    &.active {
+      background: $gray-lightest;
+      border-color: $gray-lighter;
+      border-radius: $input-border-radius;
+      cursor: default;
+
+      // is isolated
+      &.isolated {
+        flex-wrap: wrap;
+        height: auto;
+      }
+    }
+
+    // show isolation badge/overflow menu
+    &:hover,
+    &.active {
+
+      .btn-badge {
+        display: none;
       }
 
-      &:active {
-        color: $purple-light;
-      }
-
-      &.active {
-        background: $gray-lightest;
-        border-color: $gray-lighter;
-        border-radius: $input-border-radius;
-        color: $gray-dark;
-        cursor: default;
-
-        // is isolated
-        &.isolated {
-          flex-wrap: wrap;
-          height: auto;
-        }
-      }
-
-      // show isolation badge/overflow menu
-      &:hover,
-      &.active {
-
-        .btn-badge {
-          display: none;
-        }
-
-        .icons-overflow {
-          display: block;
-        }
+      .icons-overflow {
+        display: block;
       }
     }
   }
@@ -145,6 +142,10 @@
     &.active {
       display: block;
     }
+  }
+
+  .icons-advanced {
+    margin-right: -1px;
   }
 
   // "more…" button
