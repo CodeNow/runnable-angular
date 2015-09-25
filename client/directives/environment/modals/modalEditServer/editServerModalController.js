@@ -46,9 +46,6 @@ function EditServerModalController(
   var SMC = this;
   SMC.instance = instance;
   SMC.selectedTab = tab;
-  // This needs to go away soon.
-  // Needed for serverStatusCardHeaderDirective.js
-  $scope.instance = instance;
 
   loading.reset('editServerModal');
   loading('editServerModal', true);

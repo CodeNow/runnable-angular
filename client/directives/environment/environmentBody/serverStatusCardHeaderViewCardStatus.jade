@@ -1,4 +1,4 @@
-.container-title-wrapper(
+.container-title-wrapper.server-status-card-pop-over(
   pop-over
   pop-over-actions = "popoverServerActions"
   pop-over-options = "{\"centered\":true,\"top\":36}"
@@ -25,3 +25,9 @@
     use(
       xlink:href = "#icons-arrow-down"
     )
+  button.btn.btn-xxs.gray(
+    ng-if = "$root.featureFlags.nameContainer"
+    pop-over
+    pop-over-options = "{\"left\":0,\"top\":0}"
+    pop-over-template = "viewPopoverRenameContainer"
+  ) Rename
