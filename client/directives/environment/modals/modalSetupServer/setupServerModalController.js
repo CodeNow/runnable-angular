@@ -21,7 +21,6 @@ function SetupServerModalController (
   cardInfoTypes,
   OpenItems,
   fetchStackInfo,
-
   data,
   actions,
   close
@@ -30,7 +29,6 @@ function SetupServerModalController (
   // This needs to go away soon.
   $scope.data = data;
   $scope.actions = actions;
-
 
   loadingPromises.clear('setupServerModal');
   loading.reset('setupServerModal');
@@ -69,8 +67,7 @@ function SetupServerModalController (
       ],
       packages: new cardInfoTypes.Packages()
     },
-    // Copy $scope dependencies
-    actions:  actions,
+    actions: actions,
     data: data
   });
 

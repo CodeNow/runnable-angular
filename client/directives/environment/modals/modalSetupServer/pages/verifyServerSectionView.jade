@@ -103,18 +103,18 @@ header.modal-header
             )
           .btn-text Logs
 
- section.modal-body(
-    ng-if = "$root.isLoading.setupServerModal"
+section.modal-body(
+  ng-if = "$root.isLoading.setupServerModal"
+)
+  .spinner-wrapper.spinner-md.in(
+    ng-include = "'spinner'"
   )
-    .spinner-wrapper.spinner-md.in(
-      ng-include = "'spinner'"
-    )
 
 section.modal-body(
   ng-if = "!$root.isLoading.setupServerModal"
 )
   .modal-form(
-    ng-form = "verifyServerForm"
+    ng-form="SMC.verifyServerForm"
   )
     // Stack & Branch
     .label(
@@ -172,12 +172,20 @@ section.modal-body(
 footer.modal-footer.clearfix
   //- disabled if there is no value in the command input
   button.btn.white(
-    ng-disabled = "verifyServerForm.$invalid || (SMC.state.selectedStack | selectedStackInvalid)"
+    ng-disabled = "\
+      SMC.verifyServerForm.$invalid || \
+      selectedStackInvalid || \
+      (SMC.state.step === 1 && !SMC.state.selectedStack)\
+    "
     ng-click = "SMC.createServer(SMC.state)"
     ng-if="!$root.featureFlags.newVerificationFlow || ($root.featureFlags.newVerificationFlow && SMC.state.step >= 3)"
   ) Start Build
   button.btn.white(
-    ng-disabled = "verifyServerForm.$invalid || (SMC.state.selectedStack | selectedStackInvalid)"
+    ng-disabled = "\
+      SMC.verifyServerForm.$invalid || \
+      selectedStackInvalid || \
+      (SMC.state.step === 1 && !SMC.state.selectedStack)\
+    "
     ng-if="$root.featureFlags.newVerificationFlow && SMC.state.step < 3"
     ng-click = "SMC.goToNextStep()"
   ) Next
