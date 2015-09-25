@@ -3,7 +3,7 @@
   ng-repeat = "container in containers"
 )
   //- repository name
-  .list-item.list-header
+  .list-item.list-item-header
     span.text-overflow(
       title = "{{container.name}}"
     ) {{container.name}}
@@ -15,36 +15,40 @@
   a.list-item(
     ng-href = "#"
     ng-class = "{\
-      'active': branch.selected,\
+      'open': branch.selected,\
       'isolated': branch.isolation\
     }"
     ng-click = "branch.selected = !branch.selected"
     ng-repeat = "branch in container.branches"
   )
-    .icons-status(
-      ng-class = "{\
-        'green': branch.status === 'green',\
-        'orange': branch.status === 'orange',\
-        'red': branch.status === 'red'\
-      }"
+    .list-item-container(
+      ng-class = "{'active': branch.selected}"
     )
-    .text-overflow(
-      title = "{{branch.name}}"
-    ) {{branch.name}}
-    .btn.btn-xxs.btn-badge(
-      ng-if = "branch.isolation"
-    ) Isolated
-    svg.iconnables.icons-overflow(
-      ng-class = "{'active': popoverContainerMenu.data.show}"
-      pop-over
-      pop-over-active = "popoverContainerMenu.data.show"
-      pop-over-data = "popoverContainerMenu.data"
-      pop-over-options = "{\"top\":-37,\"left\":27}"
-      pop-over-template = "viewPopoversContainerMenu"
-    )
-      use(
-        xlink:href = "#icons-overflow"
+      .icons-status(
+        ng-class = "{\
+          'green': branch.status === 'green',\
+          'orange': branch.status === 'orange',\
+          'red': branch.status === 'red'\
+        }"
       )
+      .text-overflow(
+        title = "{{branch.name}}"
+      ) {{branch.name}}
+      //- hide badge if popover is open
+      .btn.btn-xxs.btn-badge(
+        ng-if = "branch.isolation && !popoverContainerMenu.data.show"
+      ) Isolated
+      svg.iconnables.icons-overflow(
+        ng-class = "{'active': popoverContainerMenu.data.show}"
+        pop-over
+        pop-over-active = "popoverContainerMenu.data.show"
+        pop-over-data = "popoverContainerMenu.data"
+        pop-over-options = "{\"top\":-94,\"left\":28}"
+        pop-over-template = "viewPopoversContainerMenu"
+      )
+        use(
+          xlink:href = "#icons-overflow"
+        )
 
     //- list of isolated containers
     ul.list.list-isolated(
@@ -53,14 +57,15 @@
       li.list-item(
         ng-repeat = "container in isolatedContainers"
       )
-        .icons-status(
-          ng-class = "{'{{container.name}}': true}"
-        )
-        .text-overflow {{container.name}}
-        svg.iconnables.icons-advanced
-          use(
-            xlink:href = "#icons-advanced"
+        .list-item-container
+          .icons-status(
+            ng-class = "{'{{container.name}}': true}"
           )
+          .text-overflow {{container.name}}
+          svg.iconnables.icons-overflow.icons-overflow-isolated
+            use(
+              xlink:href = "#icons-overflow"
+            )
 
   //- nav list filter
   .btn.btn-xxs(
@@ -78,17 +83,18 @@
   .list-item(
     ng-repeat = "container in nonRepositoryContainers"
   )
-    .icons-status(
-      ng-class = "{\
-        'green': container.status === 'green',\
-        'orange': container.status === 'orange',\
-        'red': container.status === 'red'\
-      }"
-    )
-    a.text-overflow(
-      title = "{{container.name}}"
-    ) {{container.name}}
-    svg.iconnables.icons-advanced
-      use(
-        xlink:href = "#icons-advanced"
+    .list-item-container
+      .icons-status(
+        ng-class = "{\
+          'green': container.status === 'green',\
+          'orange': container.status === 'orange',\
+          'red': container.status === 'red'\
+        }"
       )
+      a.text-overflow(
+        title = "{{container.name}}"
+      ) {{container.name}}
+      svg.iconnables.icons-advanced
+        use(
+          xlink:href = "#icons-advanced"
+        )

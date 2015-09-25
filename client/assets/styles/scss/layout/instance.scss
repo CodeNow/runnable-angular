@@ -45,26 +45,47 @@
   .list-item {
     align-items: center;
     border: 1px solid transparent;
-    color: $gray;
     display: flex;
     font-size: 15px;
     height: 30px;
     line-height: 28px;
-    padding: 0 9px;
 
     // list title
-    &.list-header {
+    &.list-item-header {
       color: $gray-light;
-      font-weight: $weight-normal;
+      padding: 0 9px 0 18px; // spacing for .status-icon
+
+      &:hover .icons-advanced {
+        opacity: .75;
+      }
     }
+
+    // open/active and isolated states
+    &.open {
+      background: $gray-lightest;
+      border-color: $gray-lighter;
+      border-radius: $input-border-radius;
+
+      // is isolated
+      &.isolated {
+        flex-wrap: wrap;
+        height: auto;
+      }
+    }
+  }
+
+  .list-item-container {
+    @extend %text-overflow;
+    align-items: center;
+    color: $gray;
+    cursor: pointer;
+    display: flex;
+    flex: 1 1 auto;
+    font-weight: $weight-bold;
+    padding: 0 9px;
 
     &:hover {
       color: $gray-dark;
-
-      // if this list-item has a gear, it will highlight
-      .icons-advanced {
-        opacity: .75;
-      }
     }
 
     &:active,
@@ -73,29 +94,23 @@
     }
 
     &.active {
-      background: $gray-lightest;
-      border-color: $gray-lighter;
-      border-radius: $input-border-radius;
       cursor: default;
-
-      // is isolated
-      &.isolated {
-        flex-wrap: wrap;
-        height: auto;
-      }
     }
 
-    // show isolation badge/overflow menu
-    &:hover,
-    &.active {
+    // show overflow on hover
+    // show overflow on active
+    // show overflow on active:hover if isolated
+    &:hover > .icons-overflow,
+    &.active > .icons-overflow,
+    &.active:hover > .btn-badge + .icons-overflow {
+      display: block;
+    }
 
-      .btn-badge {
-        display: none;
-      }
-
-      .icons-overflow {
-        display: block;
-      }
+    // hide isolated badge on hover
+    // hide overflow on .active if isolated
+    &:hover > .btn-badge,
+    &.active > .btn-badge + .icons-overflow {
+      display: none;
     }
   }
 
@@ -103,18 +118,11 @@
   .icons-status {
     flex: 0 0 9px;
     margin-right: 9px;
-
-    + .text-overflow {
-      cursor: pointer;
-      font-weight: $weight-bold;
-      padding-left: 0;
-    }
   }
 
   // name
   .text-overflow {
     flex: 1 1 auto;
-    padding-left: 18px; // spacing for .status-icon
   }
 
   // configure/overflow
@@ -128,6 +136,8 @@
   .icons-overflow {
     color: $gray;
     display: none;
+    flex: 0 0 auto;
+    margin-right: -6px;
     padding-top: 10px;
 
     &:hover {
@@ -165,10 +175,10 @@
 
   // isolation badge
   .btn-xxs.btn-badge {
+    background: $gray-lighterest;
     border: 1px solid $gray-lighter;
-    left: 6px;
     line-height: 16px;
-    margin-right: 0;
+    margin-right: 9px;
 
     &:hover,
     &:active {

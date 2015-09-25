@@ -18,6 +18,8 @@
     ng-if = "state.isolationActive === false"
   )
     ul.list.popover-list
+
+      //- on branch if isolation is not enabled
       li.list-item.popover-list-item(
         modal
         modal-state-model = "{modalFlip: true}"
@@ -28,15 +30,37 @@
             xlink:href = "#icons-isolation"
           )
         | Enable Isolation…
+
+      //- on branch if isolation is enabled
       li.divider
-      li.list-item.popover-list-item(
-        ng-click = "state.isolationActive = true"
-      )
+      li.list-item.popover-list-item
         svg.iconnables
           use(
-            xlink:href = "#icons-isolation"
+            xlink:href = "#icons-isolation-enable"
           )
-        | Enable Isolation… (test)
+        | Add Container to Isolation
+      li.list-item.popover-list-item
+        svg.iconnables
+          use(
+            xlink:href = "#icons-delete"
+          )
+        | Disable Isolation
+
+      //-
+      li.divider
+      li.list-item.popover-list-item
+        svg.iconnables
+          use(
+            xlink:href = "#icons-advanced"
+          )
+        | Configure Container
+      li.list-item.popover-list-item
+        svg.iconnables
+          use(
+            xlink:href = "#icons-isolation-disable"
+          )
+        | Remove Container from Isolation
+
       //- navListFilter
       li.divider(
         ng-if = "$root.featureFlags.navListFilter"
@@ -49,100 +73,3 @@
             xlink:href = "#icons-hide"
           )
         | Hide
-
-  //- list for an isolated branch
-  .popover-content(
-    ng-if = "state.isolationActive === true"
-  )
-    ul.list.popover-list
-      li.list-item
-        .list.list-containers(
-          ng-init = "containerSelected = []"
-        )
-          //- list header
-          .list-item.popover-list-item.disabled.list-item-header
-            //- new container button
-            button.btn.btn-xs.green.float-left(
-              ng-if = "!state.editing"
-            )
-              svg.iconnables.icons-round.icons-add
-                use(
-                  xlink:href = "#icons-add"
-                )
-              | New
-
-            //- delete container button
-            button.btn.btn-xs.float-left.no-touching(
-              ng-if = "!containerSelected.includes(true) && state.editing"
-            ) Select Containers
-            button.btn.btn-xs.float-left.red(
-              ng-if = "containerSelected.includes(true)"
-            ) Delete (1)
-
-            //- edit container button
-            button.btn.btn-xs.gray.float-right(
-              ng-click = "\
-                containerSelected = [];\
-                state.editing = !state.editing;\
-              "
-            ) {{state.editing ? 'Done' : 'Edit'}}
-
-          //- isolated branch
-          .list-item.popover-list-item.disabled.list-item-container
-            input.input-checkbox.no-touching(
-              ng-if = "state.editing"
-              type = "checkbox"
-            )
-            .icons-status.green(
-              ng-if = "!state.editing"
-            )
-            a.a(
-              ng-class = "{'no-touching': state.editing}"
-              href = "#"
-            ) anton-jul8
-            svg.iconnables.icons-advanced(
-              ng-if = "!state.editing"
-            )
-              use(
-                xlink:href = "#icons-advanced"
-              )
-
-          //- isolated branch's containers
-          label.list-item.popover-list-item.disabled.list-item-container(
-            ng-repeat = "container in isolatedContainters"
-          )
-            input.input-checkbox(
-              ng-if = "state.editing"
-              ng-model = "containerSelected[$index]"
-              type = "checkbox"
-            )
-            .icons-status.green(
-              ng-if = "!state.editing"
-            )
-            a.a(
-              ng-class = "{'no-touching': state.editing}"
-              href = "#"
-            ) {{container.name}}
-            svg.iconnables.icons-advanced(
-              ng-if = "!state.editing"
-            )
-              use(
-                xlink:href = "#icons-advanced"
-              )
-      li.divider(
-        ng-if = "!state.editing"
-      )
-      li.list-item.popover-list-item(
-        ng-if = "!state.editing"
-      )
-        svg.iconnables
-          use(
-            xlink:href = "#icons-isolation-disable"
-          )
-        | Disable Isolation
-      li.divider(
-        ng-if = "$root.featureFlags.navListFilter && state.editing"
-      )
-      li.list-item.popover-list-item(
-        ng-if = "$root.featureFlags.navListFilter && state.editing"
-      ) Hide
