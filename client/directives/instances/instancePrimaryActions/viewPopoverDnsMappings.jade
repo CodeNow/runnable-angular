@@ -145,7 +145,7 @@
           ng-class = "{'in': isActivePanel()}"
         )
           //- organization container list
-          ul.list.popover-list
+          ul.list.popover-list.list-branches
             //- .no-touching if the branch and sandbox is currently selected
                 also show .icons-fat-check if ^
 
@@ -170,9 +170,14 @@
                 tooltip-eval = "instance | cardBuildStatusTitle"
                 tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
               )
-              | {{branch.name}}
+              span.text-overflow {{branch.name}}
+
+              //- if branch is isolated
+              //- don't show this if the branch is currently selected, or when loading
+              .btn.btn-xxs.btn-badge.gray Isolated
 
               //- when currently selected
+              //- don't show this when loading
               svg.iconnables.icons-fat-check.float-right(
                 ng-if = "dnsMappings[dnsMappings.currentIndex].branch === branch.name && dnsMappings[dnsMappings.currentIndex].sandbox === 'CodeNow'"
               )

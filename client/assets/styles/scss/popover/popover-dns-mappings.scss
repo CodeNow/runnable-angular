@@ -14,6 +14,7 @@
   // rows
   .tr {
     cursor: pointer;
+    padding: 0 15px;
 
     &:hover .icons-arrow-forward {
       color: $gray;
@@ -40,8 +41,8 @@
     .icons-arrow-forward {
       color: $gray-light;
       margin: 0;
-      right: -9px;
-      top: 15px;
+      right: -3px;
+      top: 14px;
     }
 
     // check icon
@@ -76,13 +77,15 @@
     color: $gray-dark;
     font-size: 14px;
     font-weight: $weight-bold;
-    padding: 12px 0 0;
+    height: 54px;
+    padding: 12px 0;
     position: relative;
 
-    // specific to elastic container
+    // url cell
     &:first-child {
       color: $gray;
       font-size: 13px;
+      padding-right: 15px;
 
       // arrow
       &::after {
@@ -91,20 +94,15 @@
         display: block;
         font-size: 18px;
         position: absolute;
-        right: 9px;
+        right: 0;
         top: 15px;
-      }
-
-
-      // container name
-      .text-overflow:first-child {
-        padding-right: 24px;
       }
     }
 
-    // second cell
+    // branch cell
     + .cell {
       line-height: 30px;
+      padding-left: 9px;
     }
 
     // just changed animation (along with check)
@@ -114,6 +112,7 @@
   }
 
   .icons-status {
+    flex: 0 0 auto;
     margin-right: 5px;
 
     // indent team/private label
@@ -122,46 +121,35 @@
     }
   }
 
-  // branch container lists
-  .list-item {
-    color: $gray-dark;
-    font-size: 14px;
-    font-weight: $weight-bold;
-    padding: 0 15px;
+  // specific to branch list
+  .list-branches {
 
-    &:active {
-      color: $purple-light;
-    }
+    .list-item {
+      align-items: center;
+      color: $gray;
+      display: flex;
+      font-size: 14px;
+      font-weight: $weight-bold;
+      padding: 0 15px;
 
-    &.multi-line {
-      height: 54px;
-      line-height: 1.2;
-
-      .small {
-        padding-right: 24px;
-      }
-
-      // recenter if multi-line
-      .icons-fat-check {
-        top: 14px;
-      }
-
-      // spinners
-      .spinner-wrapper {
-        top: 20px;
+      &:active {
+        color: $purple-light;
       }
     }
 
-    // on container name list for overflow with fat-check
-    &.text-overflow {
-      padding-right: 27px;
+    // name of branch
+    .text-overflow {
+      flex: 1 1 auto;
+    }
+
+    // isolation badge
+    .btn-badge {
+      margin: 0;
     }
 
     // spinners
     .spinner-wrapper {
-      position: absolute;
-      right: 9px;
-      top: 10px;
+      flex: 0 0 auto;
     }
   }
 

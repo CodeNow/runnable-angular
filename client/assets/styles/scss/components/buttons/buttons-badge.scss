@@ -1,0 +1,19 @@
+.btn-badge {
+  border: 1px solid transparent;
+  font-weight: $weight-bold;
+  pointer-events: none;
+
+  // sizes
+  &.btn-xxs {
+    font-weight: $weight-normal;
+    line-height: 16px;
+  }
+
+  // colors
+  &.gray {
+    background: $gray-lighterest;
+    border-color: $gray-lighter;
+    color: $gray-light;
+    font-style: italic;
+  }
+}
