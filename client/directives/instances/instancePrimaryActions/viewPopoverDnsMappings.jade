@@ -146,6 +146,19 @@
         )
           //- organization container list
           ul.list.popover-list.list-branches
+            li.list-item.popover-list-item.small.disabled anton-jul8’s Containers
+            li.list-item.popover-list-item.text-overflow
+              .icons-status.green
+              span.text-overflow default-branch
+              .btn.btn-xxs.btn-badge.gray Isolated
+              svg.iconnables.icons-fat-check.float-right(
+                ng-if = "dnsMappings[dnsMappings.currentIndex].branch === branch.name && dnsMappings[dnsMappings.currentIndex].sandbox === 'CodeNow'"
+              )
+                use(
+                  xlink:href = "#icons-fat-check"
+                )
+            li.divider
+            li.list-item.popover-list-item.small.disabled Other Containers
             //- .no-touching if the branch and sandbox is currently selected
                 also show .icons-fat-check if ^
 
@@ -173,10 +186,6 @@
               )
               span.text-overflow {{branch.name}}
 
-              //- if branch is isolated
-              //- don't show this when loading
-              .btn.btn-xxs.btn-badge.gray Isolated
-
               //- when currently selected
               //- don't show this when loading
               svg.iconnables.icons-fat-check.float-right(
@@ -185,6 +194,10 @@
                 use(
                   xlink:href = "#icons-fat-check"
                 )
+
+              //- if branch is isolated
+              //- don't show this when loading
+              .btn.btn-xxs.btn-badge.gray Isolated
 
               //- spinner when loading (likely fail?)
               .spinner-wrapper.spinner-sm.spinner-gray.in.float-right(

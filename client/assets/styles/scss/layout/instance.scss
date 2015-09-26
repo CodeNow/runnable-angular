@@ -70,6 +70,10 @@
       &.isolated {
         flex-wrap: wrap;
         height: auto;
+
+        .icons-overflow-isolated {
+          display: block;
+        }
       }
     }
   }
