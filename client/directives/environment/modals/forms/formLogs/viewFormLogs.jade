@@ -13,14 +13,14 @@
 //- tabs
 .btn-group.btn-toggle.btn-toggle-xs(
   ng-hide = "$root.featureFlags.fullScreen"
-  ng-init = "page = (['building', 'buildFailed', 'neverStarted'].indexOf(instance.status()) === -1) ? 'run' : 'build'"
+  ng-init = "page = (['building', 'buildFailed', 'neverStarted'].indexOf(SMC.instance.status()) === -1) ? 'run' : 'build'"
 )
   button.btn.btn-xs.white(
     ng-class = "{active: page === 'build'}"
     ng-click = "page = 'build'"
   ) Build Logs
   button.btn.btn-xs.white(
-    ng-disabled = "!instance.containers.models.length"
+    ng-disabled = "!SMC.instance.containers.models.length"
     ng-class = "{active: page === 'run'}"
     ng-click = "page = 'run'"
   ) CMD Logs
@@ -40,26 +40,28 @@ pre.pre.log-wrapper(
       'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
     }"
     ng-if = "page === 'run'"
-    ng-show = "showDebugCmd"
+    ng-show = "SMC.showDebugCmd"
     ng-include = "'viewToolbar'"
   )
   .term-js.term-log(
     log-term
-    ng-controller = "BuildLogController"
+    instance = 'SMC.instance'
+    controller = "BuildLogController"
     ng-if = "!$root.featureFlags.updatedBuildLogs"
     ng-show = "page === 'build'"
   )
   .build-log-wrapper(
     build-logs
-    instance = 'instance'
-    ng-if = "$root.featureFlags.updatedBuildLogs && instance"
+    instance = 'SMC.instance'
+    ng-if = "$root.featureFlags.updatedBuildLogs && SMC.instance"
     ng-show = "page === 'build'"
     ng-style = "($root.featureFlags.themeToggle || $root.featureFlags.fullScreenToggle) && {'padding-right': '42px'}"
   )
   .term-js.term-log(
     log-term
-    ng-controller = "BoxLogController"
-    ng-if = "instance.containers.models.length"
+    instance = 'SMC.instance'
+    controller = "BoxLogController"
+    ng-if = "SMC.instance.containers.models.length"
     ng-show = "page === 'run'"
   )
 
