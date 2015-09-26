@@ -10,115 +10,9 @@
     min-height: 80px; // set initial height
   }
 
-  // view-1
-  // rows
-  .tr {
-    cursor: pointer;
-    padding: 0 15px;
-
-    &:hover .icons-arrow-forward {
-      color: $gray;
-    }
-
-    &:active {
-
-      // override .popover-list-item default
-      .small.text-overflow {
-        color: $gray;
-      }
-
-      .cell + .cell,
-      .icons-arrow-forward {
-        color: $purple-light;
-      }
-    }
-
-    // override borders
-    + .tr {
-      border: 0;
-    }
-
-    .icons-arrow-forward {
-      color: $gray-light;
-      margin: 0;
-      right: -3px;
-      top: 14px;
-    }
-
-    // check icon
-    .icons-check {
-      margin: 0;
-      padding: 6px;
-      position: absolute;
-      right: 6px;
-      top: 14px;
-
-      + .icons-arrow-forward {
-        opacity: 0;
-
-        &.in {
-          opacity: 1;
-          transition: opacity .3s 2.25s ease-in;
-        }
-      }
-    }
-
-    // check icon path
-    .path {
-      animation: check 1.75s .5s ease-out forwards;
-      stroke-dasharray: 18;
-      stroke-dashoffset: 18;
-      transform-origin: 50% 50%;
-    }
-  }
-
-  // cells
-  .cell {
-    color: $gray-dark;
-    font-size: 14px;
-    font-weight: $weight-bold;
-    height: 54px;
-    padding: 12px 0;
-    position: relative;
-
-    // url cell
-    &:first-child {
-      color: $gray;
-      font-size: 13px;
-      padding-right: 15px;
-
-      // arrow
-      &::after {
-        color: $gray-light;
-        content: '→';
-        display: block;
-        font-size: 18px;
-        position: absolute;
-        right: 0;
-        top: 15px;
-      }
-    }
-
-    // branch cell
-    + .cell {
-      line-height: 30px;
-      padding-left: 9px;
-    }
-
-    // just changed animation (along with check)
-    &.fade-in {
-      animation: fade-in-half 1s .25s;
-    }
-  }
-
   .icons-status {
     flex: 0 0 auto;
     margin-right: 5px;
-
-    // indent team/private label
-    ~ .small {
-      margin-left: 14px;
-    }
   }
 
   // specific to branch list
@@ -156,6 +50,123 @@
     .icons-fat-check {
       flex: 0 0 auto;
       margin: 0 6px;
+    }
+  }
+}
+
+// view-1
+// rows
+.tr-dns {
+  cursor: pointer;
+  padding: 0 15px;
+
+  &:hover .icons-arrow-forward {
+    color: $gray;
+  }
+
+  &:active {
+
+    // override .popover-list-item default
+    .small.text-overflow {
+      color: $gray;
+    }
+
+    .cell + .cell,
+    .cell + .cell .small,
+    .icons-arrow-forward {
+      color: $purple-light;
+    }
+  }
+
+  // override borders
+  + .tr {
+    border: 0;
+  }
+
+  .icons-arrow-forward {
+    color: $gray-light;
+    margin: 0;
+    right: -3px;
+    top: 15px;
+  }
+
+  // check icon
+  .icons-check {
+    margin: 0;
+    padding: 6px;
+    position: absolute;
+    right: 6px;
+    top: 15px;
+
+    + .icons-arrow-forward {
+      opacity: 0;
+
+      &.in {
+        opacity: 1;
+        transition: opacity .3s 2.25s ease-in;
+      }
+    }
+  }
+
+  // check icon path
+  .path {
+    animation: check 1.75s .5s ease-out forwards;
+    stroke-dasharray: 18;
+    stroke-dashoffset: 18;
+    transform-origin: 50% 50%;
+  }
+
+  // cells
+  .cell {
+    color: $gray-dark;
+    flex: 1 1;
+    font-size: 14px;
+    font-weight: $weight-bold;
+    height: 54px;
+    padding: 12px 0;
+    position: relative;
+
+    // url cell
+    &:first-child {
+      color: $gray;
+      font-size: 13px;
+      padding-right: 15px;
+
+      // arrow
+      &::after {
+        color: $gray-light;
+        content: '→';
+        display: block;
+        font-size: 18px;
+        position: absolute;
+        right: 0;
+        top: 15px;
+      }
+    }
+
+    // center text if single line
+    .center {
+      align-items: center;
+      display: flex;
+    }
+
+    // second row of text
+    .small {
+      line-height: 19px;
+    }
+
+    // branch cell
+    + .cell {
+      padding-left: 9px;
+
+      .small {
+        margin-left: 14px;
+      }
+    }
+
+    // just changed animation (along with check)
+    &.fade-in {
+      animation: fade-in-half 1s .25s;
     }
   }
 }
