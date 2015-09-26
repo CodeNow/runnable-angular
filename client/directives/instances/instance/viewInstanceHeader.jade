@@ -12,8 +12,14 @@
       )
 
   //- container title
-  span.span palantiri/
-  strong.strong master
+    - repository in .span
+    - branch in .strong
+
+    if a container from an isolated branch, use .btn-badge for the initial branch
+  span.span api/
+  strong.strong anton-jul8
+
+  button.btn.btn-xs.btn-badge.gray.float-right anton-jul8
 
 //- properties of container
 .instance-header-properties

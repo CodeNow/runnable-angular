@@ -202,13 +202,16 @@
   font-size: 24px;
   font-weight: $weight-normal;
   line-height: 54px;
+  position: relative;
   text-align: center;
   width: 100%;
 
   // containers list toggle
-  .btn {
+  .btn.float-left {
     color: $gray-light;
     height: 55px;
+    left: 0;
+    position: absolute;
 
     &:hover {
       color: $gray;
@@ -222,6 +225,13 @@
     .iconnables {
       top: 9px;
     }
+  }
+
+  // isolation badge
+  .btn.float-right {
+    position: absolute;
+    right: 12px;
+    top: 15px;
   }
 }
 
