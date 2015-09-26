@@ -9,6 +9,8 @@
   server-status-card-header.btn.btn-sm.btn-title.white(
     no-touching = "showSpinner()"
     instance= "server.instance"
+    actions = "actions"
+    open-edit-server-modal = "openEditServerModal"
   )
 .card-header(
   ng-if = "$root.featureFlags.cardStatus"
@@ -16,6 +18,8 @@
   server-status-card-header(
     no-touching = "showSpinner()"
     instance= "server.instance"
+    actions = "actions"
+    open-edit-serer-modal = "openEditServerModal"
   )
 
 //- loading state

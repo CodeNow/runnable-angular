@@ -134,25 +134,30 @@ function SetupServerModalController (
       });
   }
 
-  function loadAllOptions() {
-    loading('setupServerModal', true); // Add spinner to modal
-    // Populate ports at when stack has been selected
+  function loadPorts (ports) {
     var portsStr = keypather.get(SMC, 'state.selectedStack.ports');
     if (typeof portsStr === 'string') {
       portsStr = portsStr.replace(/,/gi, '');
-      var ports = (portsStr || '').split(' ');
+      var _ports = (portsStr || '').split(' ');
       // We need to keep the reference to the ports array
-      if (SMC.state.ports.length > 0) {
-        SMC.state.ports.splice(0, SMC.state.ports.length);
+      if (ports.length > 0) {
+        ports.splice(0, SMC.state.ports.length);
       }
-      ports.forEach(function (port) {
+      _ports.forEach(function (port) {
         // After adding initially adding ports here, ports can no longer be
         // added/removed since they are managed by the `ports-form` directive
         // and will get overwritten.
-        SMC.state.ports.push(port);
+        ports.push(port);
       });
     }
-    return fetchDockerfileFromSource(SMC.state.selectedStack.key)
+    return ports;
+  }
+
+  function loadAllOptions() {
+    loading('setupServerModal', true); // Add spinner to modal
+    SMC.state.ports = loadPorts(angular.copy(SMC.state.ports));
+    // Populate ports at when stack has been selected
+   return fetchDockerfileFromSource(SMC.state.selectedStack.key)
       .then(function () {
         return updateDockerfileFromState(SMC.state, true, true);
       })
@@ -188,8 +193,10 @@ function SetupServerModalController (
         return SMC.state;
       });
 
+    // We need to make sure that ports are loaded when the 
+    SMC.state.ports = loadPorts(angular.copy(SMC.state.ports));
     close();
-    SMC.actions.createAndBuild(createPromise, SMC.state.opts.name);
+    return SMC.actions.createAndBuild(createPromise, SMC.state.opts.name);
   };
 
   SMC.selectRepo = function (repo) {
