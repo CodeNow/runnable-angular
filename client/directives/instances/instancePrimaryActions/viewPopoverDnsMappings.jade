@@ -71,7 +71,7 @@
 
           //- list of DNS mappings
           ul.list.popover-list
-            li.list-item.popover-list-item.tr.multi-line.clearfix(
+            li.list-item.popover-list-item.tr.tr-dns.multi-line.clearfix(
               ng-click = "\
                 dnsMappings.currentIndex = $index;\
                 goToPanel('dnsList');\
@@ -80,24 +80,30 @@
               ng-if = "!state.loading"
               ng-repeat = "container in dnsMappings"
             )
-              .cell.text-overflow(
+              .cell.clearfix(
                 title = "{{container.name}}"
               )
                 .text-overflow {{container.name}}
                 small.small.text-overflow(
                   title = "{{container.elasticHostname}}"
                 ) {{container.elasticHostname}}
-              .cell.text-overflow(
-                ng-class = "{'fade-in': container === state.selectedMapping && isActivePanel()}"
+              .cell.clearfix(
+                ng-class = "{\
+                  'fade-in': container === state.selectedMapping && isActivePanel(),\
+                  'center': isIsolated\
+                }"
                 title = "{{container.branch}}"
               )
-                .icons-status(
-                  ng-class = "container.status"
-                  tooltip
-                  tooltip-eval = "instance | cardBuildStatusTitle"
-                  tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
-                )
-                | {{container.branch}}
+                .text-overflow
+                  .icons-status(
+                    ng-class = "container.status"
+                    tooltip
+                    tooltip-eval = "instance | cardBuildStatusTitle"
+                    tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
+                  )
+                  | {{container.branch}}
+                //- show "Isolated" if isolated from a staging branch, or the initial branch name if an isolated branch (ie. anton-jul8)
+                small.small.text-overflow Isolated
 
               //- inline for svg animation
               svg.iconnables.icons-check.float-right(
