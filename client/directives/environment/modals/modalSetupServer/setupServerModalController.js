@@ -191,7 +191,7 @@ function SetupServerModalController (
 
     // We need to make sure that ports are loaded when the server is created
     if (Array.isArray(SMC.state.ports) && SMC.state.ports.length === 0) {
-      SMC.state.ports = loadPorts(SMC.state.ports);
+      SMC.state.ports = loadPorts();
     }
     close();
     return SMC.actions.createAndBuild(createPromise, SMC.state.opts.name);
