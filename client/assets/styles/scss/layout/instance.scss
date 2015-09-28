@@ -202,6 +202,7 @@
   font-size: 24px;
   font-weight: $weight-normal;
   line-height: 54px;
+  padding: 0 72px; // for text-overflow, must be even so that text is centered properly
   position: relative;
   text-align: center;
   width: 100%;

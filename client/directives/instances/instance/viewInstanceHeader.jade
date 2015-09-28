@@ -1,5 +1,5 @@
 //- title of container
-.instance-header-title
+.instance-header-title.text-overflow
 
   //- toggle container nav
   button.btn.float-left(
@@ -15,11 +15,12 @@
     - repository in .span
     - branch in .strong
 
-    if a container from an isolated branch, use .btn-badge for the initial branch
   span.span api/
   strong.strong anton-jul8
 
-  button.btn.btn-xs.btn-badge.gray.float-right anton-jul8
+  //- if a container from an isolated branch, use .btn-badge for the initial branch
+    - should say "Isolated" when viewing the isolated branch
+  button.btn.btn-xs.btn-badge.gray.float-right Isolated
 
 //- properties of container
 .instance-header-properties
