@@ -83,7 +83,6 @@
     ) v{{$parent.version}}
 
 .input-col(
-  ng-if = "!$root.featureFlags.newVerificationFlowStackSelector"
   ng-repeat = "depStack in state.selectedStack.dependencies"
 )
   .small {{depStack.name}}
