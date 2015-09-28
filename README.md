@@ -63,3 +63,6 @@ protractor ./test/protractor.conf.js --params.user SomeKittens --params.password
 
 <img src="http://www.gravatar.com/avatar/fd3c806f94926cbe683f3ddc878ae4d3?s=64">&nbsp;
 [Casey Flynn (cflynn07)](https://github.com/cflynn07)
+
+<img src="http://www.gravatar.com/avatar/12d7b42352806d7d85ec8746ca018d97?s=64">&nbsp;
+[Jorge Silva(thejsj)](https://github.com/thejsj)
