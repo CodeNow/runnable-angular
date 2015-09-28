@@ -15,7 +15,8 @@ function serverStatusCardHeader(
       instance: '= instance',
       noTouching: '=? noTouching',
       openEditServerModal: '= openEditServerModal',
-      actions: '= actions'
+      actions: '= actions',
+      inModal: '=? inModal'
     },
     templateUrl: function (elem, attrs) {
       if ($rootScope.featureFlags.cardStatus) {

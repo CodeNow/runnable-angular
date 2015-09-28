@@ -10,11 +10,12 @@
     }"
   )
     header.modal-header
-      server-status-card-header.btn.btn-sm.btn-title(
+      server-status-card-header(
+        actions = "SMC.modalActions"
+        in-modal = "true"
+        instance = "SMC.instance"
         ng-if = "!$root.featureFlags.cardStatus"
         no-touching = "true"
-        instance = "SMC.instance"
-        actions = "SMC.modalActions"
         open-edit-server-modal = "SMC.openEditServerModal"
       )
 
