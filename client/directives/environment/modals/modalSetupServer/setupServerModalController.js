@@ -55,18 +55,19 @@ function SetupServerModalController (
       return '';
     },
     state: {
-      mainRepoContainerFile: mainRepoContainerFile,
-      ports: [],
-      opts: {
-        masterPod: true,
-        name: ''
-      },
-      step: 1,
       advanced: false,
       containerFiles: [
         mainRepoContainerFile
       ],
-      packages: new cardInfoTypes.Packages()
+      mainRepoContainerFile: mainRepoContainerFile,
+      ports: [],
+      packages: new cardInfoTypes.Packages(),
+      opts: {
+        masterPod: true,
+        name: ''
+      },
+      selectedStack: null,
+      step: 1
     },
     actions: actions,
     data: data,
@@ -171,6 +172,10 @@ function SetupServerModalController (
 
   SMC.changeTab = function (tabname) {
     SMC.selectedTab = tabname;
+  };
+
+  SMC.areStackAndVersionSelected = function () {
+     return !!(SMC.state.selectedStack && SMC.state.selectedStack.selectedVersion);
   };
 
   SMC.createServer = function () {
