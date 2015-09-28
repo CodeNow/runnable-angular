@@ -1,24 +1,16 @@
-.card-header.deprecated(
-  ng-if = "!$root.featureFlags.cardStatus"
-)
-  //- if building: text says "Building"; title attribute shows time building "82 seconds" "50 minutes" etc.
-    - if building failed: text says "Build Failed"; title attribute shows when the build failed "Failed 2 minutes ago"
-    - if building succeeded, and running: text says "Running"; title attribute shows time running "82 seconds" "50 minutes" etc.
-    - if building succeeded, and stopped: text says "Stopped"; title attribute shows when the server was stopped "Stopped 2 minutes ago"
-    - if building succeeded, and run fails: text says "Crashed"; title attribute shows when the server crashed "Crashed 2 minutes ago"
-  server-status-card-header.btn.btn-sm.btn-title.white(
-    no-touching = "showSpinner()"
-    instance= "server.instance"
-    actions = "actions"
-    open-edit-server-modal = "openEditServerModal"
-  )
+//- if building: text says "Building"; title attribute shows time building "82 seconds" "50 minutes" etc.
+  - if building failed: text says "Build Failed"; title attribute shows when the build failed "Failed 2 minutes ago"
+  - if building succeeded, and running: text says "Running"; title attribute shows time running "82 seconds" "50 minutes" etc.
+  - if building succeeded, and stopped: text says "Stopped"; title attribute shows when the server was stopped "Stopped 2 minutes ago"
+  - if building succeeded, and run fails: text says "Crashed"; title attribute shows when the server crashed "Crashed 2 minutes ago"
+
 .card-header(
-  ng-if = "$root.featureFlags.cardStatus"
+  ng-class = "{'deprecated': !$root.featureFlags.cardStatus}"
 )
   server-status-card-header(
-    no-touching = "showSpinner()"
-    instance= "server.instance"
     actions = "actions"
+    instance= "server.instance"
+    no-touching = "showSpinner()"
     open-edit-server-modal = "openEditServerModal"
   )
 

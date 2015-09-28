@@ -1,4 +1,10 @@
-div.server-status-card-pop-over(
+div(
+  ng-class = "{\
+    'btn': !$root.featureFlags.cardStatus,\
+    'btn-sm': !$root.featureFlags.cardStatus,\
+    'btn-title': !$root.featureFlags.cardStatus,\
+    'white': !$root.featureFlags.cardStatus\
+  }"
   pop-over
   pop-over-actions = "popoverServerActions"
   pop-over-options = "{\"right\":0,\"top\":47}"
