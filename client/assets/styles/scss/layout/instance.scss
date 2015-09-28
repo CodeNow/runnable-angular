@@ -52,8 +52,8 @@
 
     // list title
     &.list-item-header {
-      color: $gray-light;
-      padding: 0 9px 0 18px; // spacing for .status-icon
+      color: darken($gray-light,10%);
+      padding: 0 9px 0 27px; // spacing for .status-icon
 
       &:hover .icons-advanced {
         opacity: .75;
@@ -62,8 +62,8 @@
 
     // open/active and isolated states
     &.open {
-      background: $gray-lightest;
-      border-color: $gray-lighter;
+      background: rgba($purple-light,.1);
+      border-color: rgba($purple-light,.3);
       border-radius: $input-border-radius;
 
       // is isolated
@@ -89,7 +89,7 @@
     padding: 0 9px;
 
     &:hover {
-      color: $gray-dark;
+      color: $purple-light;
     }
 
     &:active,
@@ -164,12 +164,12 @@
 
   // "more…" button
   .btn-xxs {
-    color: $gray-light;
+    color: darken($gray-light,10%);
     font-style: italic;
     left: 15px;
 
     &:hover {
-      color: $gray;
+      color: $purple-light;
     }
 
     &:active {
