@@ -41,9 +41,10 @@
       //-   | Configure Container
       //- li.divider
       li.list-item.popover-list-item.multi-line.disabled
-        p.p.text-center Isolated branches have their own copy of&#32;
-          strong.strong all containers in your stack&#32;
-          |, so changes to those containers do not affect staging branches.
+        p.p Isolating a branch allows you to…
+        ul.list.list-bulleted.small
+          li.list-item Configure this branch differently from your default.
+          li.list-item Create a separate stack of your containers to use with this branch.
           .btn.btn-sm.btn-block.green(
             modal
             modal-state-model = "{modalFlip: true}"

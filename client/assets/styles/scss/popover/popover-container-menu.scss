@@ -4,12 +4,22 @@
   .disabled {
 
     .p {
-      color: $gray-dark;
+      color: $gray;
       font-size: 13px;
-      padding: 9px 9px 15px;
+      font-weight: $weight-bold;
+      margin: 9px 15px 15px;
+    }
+
+    .list {
+      margin: 0 15px;
+    }
+
+    .list-item + .list-item {
+      margin-top: 6px;
     }
 
     .btn-block {
+      margin: 15px auto;
       position: static;
     }
   }
