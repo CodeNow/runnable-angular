@@ -68,7 +68,8 @@ function SetupServerModalController (
       packages: new cardInfoTypes.Packages()
     },
     actions: actions,
-    data: data
+    data: data,
+    selectedTab: 'repository'
   });
 
   fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())

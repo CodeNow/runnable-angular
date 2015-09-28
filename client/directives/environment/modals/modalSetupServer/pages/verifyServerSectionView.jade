@@ -22,7 +22,7 @@ header.modal-header
     style = "{{SMC.state.step > 1 ? 'transition-duration: .3s' : ''}}"
   )
     button.btn.btn-radio(
-      ng-class = "{'active': SMC.state.step === 1 || SMC.selectedTab === 'repository'}"
+      ng-class = "{'active': SMC.selectedTab === 'repository'}"
       ng-click = "SMC.changeTab('repository');"
       ng-if = "(SMC.state.step >= 1 && !SMC.state.advanced) || isTabVisible('repository')"
     )
@@ -32,7 +32,7 @@ header.modal-header
         )
       .btn-text Repository
     button.btn.btn-radio.js-animate(
-      ng-class = "{'active': SMC.state.step === 2 || SMC.selectedTab === 'commands'}"
+      ng-class = "{'active': SMC.selectedTab === 'commands'}"
       ng-click = "SMC.changeTab('commands')"
       ng-if = "(SMC.state.step >= 2 && !SMC.state.advanced) || isTabVisible('commands')"
     )
@@ -125,14 +125,14 @@ section.modal-body(
       data = "data"
       is-new-container = "true"
       loading-promises-target = "setupServerModal"
-      ng-if = "!$root.featureFlags.newVerificationFlow || SMC.state.step === 1 || SMC.selectedTab === 'repository'"
+      ng-if = "!$root.featureFlags.newVerificationFlow || SMC.selectedTab === 'repository'"
       stack-selector-form
       state = "SMC.state"
     )
     // Commands
     .label(
       loading-promises-target = "setupServerModal"
-      ng-if = "!$root.featureFlags.newVerificationFlow || SMC.state.step === 2 || SMC.selectedTab === 'commands'"
+      ng-if = "!$root.featureFlags.newVerificationFlow || SMC.selectedTab === 'commands'"
       repository-form
       start-command-can-disable = "true"
       state = "SMC.state"
