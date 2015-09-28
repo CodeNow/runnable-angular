@@ -55,6 +55,7 @@ function SetupServerModalController (
       return '';
     },
     state: {
+      mainRepoContainerFile: mainRepoContainerFile,
       ports: [],
       opts: {
         masterPod: true,
@@ -200,7 +201,7 @@ function SetupServerModalController (
 
   SMC.selectRepo = function (repo) {
     if (SMC.repoSelected) { return; }
-    mainRepoContainerFile.name = repo.attrs.name;
+    SMC.state.mainRepoContainerFile.name = repo.attrs.name;
     SMC.repoSelected = true;
     repo.loading = true;
     // Replace any non-word character with a -
