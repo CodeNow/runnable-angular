@@ -1,45 +1,12 @@
 //- initFlip removes the initial flip transition
-//- returnFlip delays the text/button change on the intial flip
 .modal-dialog.modal-isolation(
-  ng-init = "\
-    initFlip = true;\
-    returnFlip = false;\
-  "
-)
-  svg.iconnables.icons-close(
-    ng-click = "defaultActions.cancel()"
-  )
-    use(
-      xlink:href = "#icons-close"
-    )
-  section.modal-body
-    svg.iconnables.icons-door
-      use(
-        xlink:href = "#icons-door"
-      )
-    h3.h3.text-center Work in Isolation
-    p.p.text-center Isolated branches get their own copies of&#32;
-      strong.strong all other containers in your stack.&#32;
-      | This lets you work without affecting your team’s shared containers.
-    .btn(
-      ng-class = "{\
-        'green': !returnFlip,\
-        'white': returnFlip\
-      }"
-      ng-click = "\
-        initFlip = false;\
-        stateModel.modalFlipped = true;\
-      "
-    ) {{!returnFlip ? 'Get Started' : 'Return to Setup'}}
-
-.modal-dialog.modal-isolation(
-  ng-class = "{'init': initFlip}"
+  ng-init = "initFlip = true"
 )
   header.modal-header
     svg.iconnables.icons-help(
       ng-click = "\
-        returnFlip = true;\
-        stateModel.modalFlipped = false;\
+        initFlip = false;\
+        stateModel.modalFlipped = true;\
       "
     )
       use(
@@ -226,3 +193,26 @@
     button.btn.white.btn-cancel(
       ng-click = "RDMC.defaultActions.cancel()"
     ) Cancel
+
+//- help!
+.modal-dialog.modal-isolation(
+  ng-class = "{'init': initFlip}"
+)
+  svg.iconnables.icons-close(
+    ng-click = "defaultActions.cancel()"
+  )
+    use(
+      xlink:href = "#icons-close"
+    )
+  section.modal-body
+    svg.iconnables.icons-door
+      use(
+        xlink:href = "#icons-door"
+      )
+    h3.h3.text-center Work in Isolation
+    p.p.text-center Isolated branches get their own copies of&#32;
+      strong.strong all other containers in your stack.&#32;
+      | This lets you work without affecting your team’s shared containers.
+    .btn.white(
+      ng-click = "stateModel.modalFlipped = false"
+    ) Return to Setup

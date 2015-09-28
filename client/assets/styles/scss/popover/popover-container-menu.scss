@@ -1,0 +1,16 @@
+.popover-container-menu {
+
+  // isolation setup
+  .disabled {
+
+    .p {
+      color: $gray-dark;
+      font-size: 13px;
+      padding: 9px 9px 15px;
+    }
+
+    .btn-block {
+      position: static;
+    }
+  }
+}
