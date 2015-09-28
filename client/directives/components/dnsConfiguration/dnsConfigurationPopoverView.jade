@@ -1,0 +1,164 @@
+.popover.bottom.popover-dns-mappings(
+  ng-class = "{'in': active}"
+  ng-style = "popoverStyle.getStyle()"
+)
+  //- arrow is white if loading or no dns mappings
+  .arrow(
+    ng-class = "{'white': !$root.isLoaded.dns}"
+  )
+
+  animated-panel-container.popover-views
+  animated-panel(
+    default = "true"
+    name = "dnsOverview"
+  )
+    .popover-view(
+      ng-style = "!$root.isLoaded.dns && {'display': 'block'}"
+    )
+      //- only show the header if not loading and not empty
+      .popover-header.load(
+        ng-if = "$root.isLoaded.dns && DCC.relatedMasterInstances.length !== 0"
+      )
+        .fade(
+          ng-class = "{'in': isActivePanel()}"
+        ) DNS Mappings
+
+      //- spinner when loading
+      .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
+        ng-if = "!$root.isLoaded.dns"
+        ng-include = "'spinner'"
+      )
+
+      //- empty state if not loading and empty
+      .popover-content(
+        ng-click = "state.empty = false"
+        ng-if = "$root.isLoaded.dns && DCC.relatedMasterInstances.length === 0"
+      )
+        p.p.empty.text-center.fade-in DNS Mappings are created with elastic hostnames in Environment Variables or Find & Replace.&#32;
+          a.link(
+            href = "#"
+            target = "_blank"
+          ) Learn more
+          | .
+
+      //- begin dns mappings
+      .popover-content.load(
+        ng-if = "isActivePanel() && DCC.relatedMasterInstances.length !== 0"
+      )
+
+        //- list of DNS mappings
+        ul.list.popover-list
+          li.list-item.popover-list-item.tr.multi-line.clearfix(
+            ng-click = "goToPanel('dnsList')"
+            ng-if = "$root.isLoaded.dns"
+            ng-repeat = "masterInstance in DCC.relatedMasterInstances"
+          )
+            .cell.text-overflow(
+              title = "{{masterInstance.getRepoName()}}"
+            )
+              .text-overflow {{masterInstance.getRepoName()}}
+              small.small.text-overflow(
+                title = "{{masterInstance.getElasticHostname()}}"
+              ) {{masterInstance.getElasticHostname()}}}
+            .cell.text-overflow(
+              ng-class = "{'fade-in': container === state.selectedMapping}"
+              title = "{{DCC.instanceDependencyMap[masterInstance.attrs.contextVersion.context].getBranchName()}}"
+            )
+
+              status-icon(
+                instance = "DCC.instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
+              )
+              | {{DCC.instanceDependencyMap[masterInstance.attrs.contextVersion.context].getBranchName()}}
+
+            //- inline for svg animation
+            svg.iconnables.icons-check.float-right(
+              ng-if = "container === state.selectedMapping"
+              viewbox = '0 0 14.5 10'
+            )
+              path.path(
+                d = 'M1,4.5L5.5,9l8-8'
+                fill = 'none',
+                stroke = '#3ccb5a',
+                stroke-linecap = 'round',
+                stroke-linejoin = 'round',
+                stroke-miterlimit = '10',
+                stroke-width = '2',
+              )
+
+            svg.iconnables.icons-arrow-forward.float-right(
+              ng-class = "{'in': container === state.selectedMapping}"
+            )
+              use(
+                xlink:href = "#icons-arrow-down"
+              )
+
+  //animated-panel(
+  //  name = "dnsList"
+  //)
+  //  //- view for changing a dns mapping
+  //  .popover-view
+  //    .popover-header
+  //      svg.btn.btn-sm.iconnables.icons-arrow-backward.fade(
+  //        ng-class = "{'in': isActivePanel()}"
+  //        ng-click = "\
+  //          goToPanel('dnsOverview', 'back');\
+  //          state.selectedMapping = null;\
+  //        "
+  //      )
+  //        use(
+  //          xlink:href = "#icons-arrow-down"
+  //        )
+  //      .fade(
+  //        ng-class = "{'in': isActivePanel()}"
+  //      ) {{dnsMappings[dnsMappings.currentIndex].name}} Containers
+  //
+  //    .popover-content.fade(
+  //      ng-class = "{'in': isActivePanel()}"
+  //    )
+  //      //- organization container list
+  //      ul.list.popover-list.list-branches
+  //        //- .no-touching if the branch and sandbox is currently selected
+  //            also show .icons-fat-check if ^
+  //
+  //            ** mousedown/up are only to demonstrate the loading/fail state...we don't actually want that to trigger a spinner
+  //        li.list-item.popover-list-item.text-overflow(
+  //          ng-class = "{'no-touching': dnsMappings[dnsMappings.currentIndex].branch === branch.name && dnsMappings[dnsMappings.currentIndex].sandbox === 'CodeNow'}"
+  //          ng-click = "\
+  //            dnsMappings[dnsMappings.currentIndex].branch = branch.name;\
+  //            dnsMappings[dnsMappings.currentIndex].sandbox = 'CodeNow';\
+  //            dnsMappings[dnsMappings.currentIndex].status = branch.status;\
+  //            dnsMappings[dnsMappings.currentIndex].type = 'organization';\
+  //            goToPanel('dnsOverview', 'back');\
+  //          "
+  //          ng-mousedown = "branch.selectFailed = true"
+  //          ng-mouseup = "branch.selectFailed = false"
+  //          ng-repeat = "branch in mavisBranches"
+  //          title = "{{branch.name}}"
+  //        )
+  //          //- from status-icon template
+  //          .icons-status(
+  //            ng-class = "branch.status"
+  //            tooltip
+  //            tooltip-eval = "instance | cardBuildStatusTitle"
+  //            tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
+  //          )
+  //          span.text-overflow {{branch.name}}
+  //
+  //          //- if branch is isolated
+  //          //- don't show this when loading
+  //          .btn.btn-xxs.btn-badge.gray Isolated
+  //
+  //          //- when currently selected
+  //          //- don't show this when loading
+  //          svg.iconnables.icons-fat-check.float-right(
+  //            ng-if = "dnsMappings[dnsMappings.currentIndex].branch === branch.name && dnsMappings[dnsMappings.currentIndex].sandbox === 'CodeNow'"
+  //          )
+  //            use(
+  //              xlink:href = "#icons-fat-check"
+  //            )
+  //
+  //          //- spinner when loading (likely fail?)
+  //          .spinner-wrapper.spinner-sm.spinner-gray.in.float-right(
+  //            ng-if = "branch.selectFailed"
+  //            ng-include = "'spinner'"
+  //          )
