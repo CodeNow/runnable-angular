@@ -19,7 +19,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
   var MockFetch = require('../fixtures/mockFetch');
   var cardInfoType = require('card-info-types');
 
-
   beforeEach(function () {
     ctx = {};
   });
@@ -59,6 +58,12 @@ describe('editServerModalController'.bold.underline.blue, function () {
         return ctx.helpCards;
       });
       $provide.factory('fetchUser', mockUserFetch.autoTrigger(ctx.fakeOrg1));
+      $provide.factory('actions', function () {
+        return {
+          close: sinon.stub(),
+          createAndBuild: sinon.stub(),
+        };
+      });
       $provide.factory('OpenItems', function ($q) {
         ctx.openItemsMock = function () {
           this.models = [];
@@ -179,7 +184,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         }));
         return {
           showModal: ctx.showModalStub
-        }
+        };
       });
 
       $provide.value('instance', scope.currentModel);
