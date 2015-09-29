@@ -6,7 +6,9 @@ require('app')
 function DNSConfigurationController(
   loading,
   errs,
-  promisify
+  promisify,
+  getInstanceMaster,
+  $timeout
 ) {
   loading('dns', true);
   var DCC = this;
@@ -55,24 +57,31 @@ function DNSConfigurationController(
     return '';
   };
 
+  DCC.editDependency = function (dep) {
+    loading('dnsDepData', true);
 
-  DCC.actions = {
-    setDependency: function (instance) {
-      var masterInstance = DCC.relatedMasterInstances.find(function (master) {
-        return master.attrs.contextVersion.context === instance.attrs.contextVersion.context;
+    DCC.lastModifiedDNS = null;
+    DCC.modifyingDNS = {
+      current: dep,
+      options: []
+    };
+    getInstanceMaster(dep)
+      .then(function (masterInstance) {
+        DCC.modifyingDNS.options.push(masterInstance);
+        DCC.modifyingDNS.options = DCC.modifyingDNS.options.concat(masterInstance.children.models);
+        loading('dnsDepData', false);
       });
+  };
 
-      return dependenciesPromise.then(function (dependencies) {
-        var dependency = dependencies.models.find(function (dependency) {
-          return dependency.attrs.contextVersion.context === masterInstance.attrs.contextVersion.context;
-        });
+  DCC.selectInstance = function (instance) {
+    var dependency = DCC.modifyingDNS.current;
+    DCC.modifyingDNS = {};
+    DCC.lastModifiedDNS = dependency;
 
-        return promisify(dependency, 'update')({
-          hostname: masterInstance.getElasticHostname(),
-          instance: instance.attrs.shortHash
-        })
-          .catch(errs.handler);
-      });
-    }
+    promisify(dependency, 'update')({
+      hostname:  instance.getElasticHostname(),
+      instance: instance.attrs.shortHash
+    })
+      .catch(errs.handler);
   };
 }
