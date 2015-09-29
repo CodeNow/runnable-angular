@@ -39,22 +39,17 @@ describe('DNSConfigurationController'.bold.underline.blue, function() {
 
       instance.contextVersion.getMainAppCodeVersion = sinon.stub().returns({});
 
-      childInstances.models[0].attrs.contextVersion = {
-        context: instance.attrs.contextVersion.context
-      };
       childInstances.models[0].attrs.name = 'ABCDE' + index;
-
-      childInstances.models[1].attrs.contextVersion = {
-        context: instance.attrs.contextVersion.context
-      };
       childInstances.models[1].attrs.name = 'FGHIJ' + index;
-
-      childInstances.models[0].attrs.parent = instance.attrs.shortHash;
-      childInstances.models[1].attrs.parent = instance.attrs.shortHash;
-
-
-      childInstances.models[0].update = sinon.spy();
-      childInstances.models[1].update = sinon.spy();
+      childInstances.models.map(function (childInstance) {
+        return angular.extend(childInstance, {
+          contextVersion: {
+            context: instance.attrs.contextVersion.context
+          },
+          parent: instance.attrs.shortHash,
+          update: sinon.spy()
+        });
+      });
 
       instance.children = childInstances;
     });
@@ -120,8 +115,6 @@ describe('DNSConfigurationController'.bold.underline.blue, function() {
   describe('getWorstStatusClass', function () {
     beforeEach(function () {
       mockDepedencies.models.forEach(function (dep) {
-        console.log(dep.instance);
-        console.log(dep);
         dep.instance.status = sinon.stub().returns('running');
       });
     });
@@ -152,7 +145,6 @@ describe('DNSConfigurationController'.bold.underline.blue, function() {
   describe('editDependency', function () {
     it('should fetch dependencies instances', function () {
       $scope.$digest();
-      console.log(mockMasterInstances.models[0].attrs.contextVersion.context);
       var dep = {
         instance: mockMasterInstances.models[0]
       };
