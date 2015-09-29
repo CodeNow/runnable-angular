@@ -31,7 +31,6 @@
 
         //- empty state if not loading and empty
         .popover-content(
-          ng-click = "state.empty = false"
           ng-if = "$root.isLoaded.dns && DCC.dependencies.models.length === 0"
         )
           p.p.empty.text-center.fade-in DNS Mappings are created with elastic hostnames in Environment Variables or Find & Replace.&#32;
@@ -100,17 +99,14 @@
         .popover-header
           svg.btn.btn-sm.iconnables.icons-arrow-backward.fade(
             ng-class = "{'in': isActivePanel()}"
-            ng-click = "\
-              goToPanel('dnsOverview', 'back');\
-              state.selectedMapping = null;\
-            "
+            ng-click = "goToPanel('dnsOverview', 'back');"
           )
             use(
               xlink:href = "#icons-arrow-down"
             )
           .fade(
             ng-class = "{'in': isActivePanel()}"
-          ) {{dnsMappings[dnsMappings.currentIndex].name}} Containers
+          ) {{DCC.modifyingDNS.current.instance.getRepoName()}} Containers
 
         .popover-content.fade(
           ng-class = "{'in': isActivePanel()}"
