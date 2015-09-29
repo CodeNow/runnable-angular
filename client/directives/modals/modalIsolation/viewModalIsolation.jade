@@ -21,10 +21,13 @@
           )
         span.span.text-overflow optimus
         //- should get class ".modified-configuration" if the selected branch has a modified configuration
-        .btn.btn-xs.gray.btn-select.text-left(
+        .btn.btn-xs.gray.btn-select(
           ng-init = "branchFirst = 'master'"
         )
-          span.text-overflow {{branchFirst}}
+          span.text-overflow.text-left {{branchFirst}}
+            em.em(
+              ng-if = "isolated"
+            ) (Isolated)
           svg.iconnables.icons-arrow-down
             use(
               xlink:href = "#icons-arrow-down"
@@ -70,10 +73,13 @@
           )
         span.span.text-overflow runnable-angular
         //- should get class ".modified-configuration" if the selected branch has a modified configuration
-        .btn.btn-xs.gray.btn-select.text-left(
+        .btn.btn-xs.gray.btn-select(
           ng-init = "branchSecond = 'master'"
         )
-          span.text-overflow {{branchSecond}}
+          span.text-overflow.text-left {{branchFirst}}
+            em.em(
+              ng-if = "isolated"
+            ) (Isolated)
           svg.iconnables.icons-arrow-down
             use(
               xlink:href = "#icons-arrow-down"
@@ -119,10 +125,13 @@
           )
         span.span.text-overflow mavis
         //- should get class ".modified-configuration" if the selected branch has a modified configuration
-        .btn.btn-xs.gray.btn-select.text-left(
+        .btn.btn-xs.gray.btn-select(
           ng-init = "branchThird = 'master'"
         )
-          span.text-overflow {{branchThird}}
+          span.text-overflow.text-left {{branchFirst}}
+            em.em(
+              ng-if = "isolated"
+            ) (Isolated)
           svg.iconnables.icons-arrow-down
             use(
               xlink:href = "#icons-arrow-down"
