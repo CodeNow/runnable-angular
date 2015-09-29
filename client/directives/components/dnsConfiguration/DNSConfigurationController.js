@@ -7,17 +7,16 @@ function DNSConfigurationController(
   loading,
   errs,
   promisify,
-  getInstanceMaster,
-  $timeout
+  getInstanceMaster
 ) {
   loading('dns', true);
   var DCC = this;
 
   DCC.instanceDependencyMap = {};
-  var dependenciesPromise = promisify(DCC.instance, 'fetchDependencies')()
+  // Fetch dependencies
+  promisify(DCC.instance, 'fetchDependencies')()
     .then(function (_dependencies) {
       DCC.dependencies = _dependencies;
-      console.log(_dependencies);
       return _dependencies;
     })
     .catch(errs.handler)
@@ -26,6 +25,9 @@ function DNSConfigurationController(
     });
 
   DCC.getWorstStatusClass = function () {
+    if (!DCC.dependencies) {
+      return 'unknown';
+    }
     var statusMap = {
       'stopped': 'gray',
       'crashed': 'red',
@@ -37,10 +39,6 @@ function DNSConfigurationController(
       'starting': 'orange',
       'stopping': 'green'
     };
-
-    if (!DCC.dependencies) {
-      return 'unknown';
-    }
     var stati = {};
     DCC.dependencies.forEach(function (dependency) {
       var instance = dependency.instance;
