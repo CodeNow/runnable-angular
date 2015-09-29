@@ -3,6 +3,7 @@
 //    .layout-navigation (fixed nav)
 //    .layout-main  (main content)
 //      .environment- (environment page)
+//      .instance-list (instance nav)
 //      .instance-wrapper
 //        .instance- (instance page)
 
@@ -88,5 +89,5 @@
 .layout-main {
   height: 100vh;
   padding-left: $layout-navigation-width;
-  width: 100vw;
+  width: 100%;
 }

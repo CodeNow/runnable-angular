@@ -24,24 +24,12 @@
 @mixin media($point) {
   @if $point == xxs {
     @media (max-width: $screen-xxs) { @content; }
-
-    .intercom-messenger-active & {
-      @media (max-width: $screen-xxs + $intercom-width) { @content; }
-    }
   }
   @else if $point == xs {
     @media (max-width: $screen-xs) { @content; }
-
-    .intercom-messenger-active & {
-      @media (max-width: $screen-xs + $intercom-width) { @content; }
-    }
   }
   @else if $point == sm {
     @media (max-width: $screen-sm) { @content; }
-
-    .intercom-messenger-active & {
-      @media (max-width: $screen-sm + $intercom-width) { @content; }
-    }
   }
   @else if $point == md {
     @media (max-width: $screen-md) { @content; }
