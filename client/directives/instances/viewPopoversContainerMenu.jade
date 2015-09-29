@@ -22,14 +22,14 @@
       - Configure Container
       - (divider)
       - Add Container to Isolation
-      - Disable Isolation
+      - Disable Isolation (triggers confirm)
       - (divider)
       - Hide
 
     - for an isolated branch's containers:
       - Configure Container
       - (divider)
-      - Delete Container from Isolation
+      - Delete Container from Isolation (triggers confirm)
 
   .popover-content
     ul.list.popover-list
@@ -43,8 +43,8 @@
       li.list-item.popover-list-item.multi-line.disabled
         p.p Isolating a branch allows you to…
         ul.list.list-bulleted.small
-          li.list-item Configure this branch differently from your default.
           li.list-item Create a separate stack of your containers to use with this branch.
+          li.list-item Configure this branch differently from your default.
           .btn.btn-sm.btn-block.green(
             modal
             modal-template = "viewModalIsolation"
