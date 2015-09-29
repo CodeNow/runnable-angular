@@ -56,6 +56,7 @@ function DNSConfigurationController(
 
   DCC.selectInstance = function (instance) {
     var dependency = DCC.modifyingDNS.current;
+    dependency.instance = instance;
     DCC.modifyingDNS = {};
     DCC.lastModifiedDNS = dependency;
 
