@@ -103,7 +103,7 @@
               ng-repeat = "account in data.allAccounts"
             )
               svg.iconnables.icons-fat-check(
-                ng-class = "account === data.activeAccount"
+                ng-class = "{'active': account === data.activeAccount}"
               )
                 use(
                   xlink:href = "#icons-fat-check"
