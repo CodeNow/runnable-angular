@@ -2,8 +2,8 @@
 .container-title-wrapper {
   color: $gray-dark;
   cursor: pointer;
-  display: table;
   height: $input-xs;
+  display: flex;
   margin: 0 auto;
   max-width: 100%;
 
@@ -32,7 +32,7 @@
   .icons-warning,
   .icons-arrow-down,
   .spinner-wrapper {
-    height: 21px;
+    flex: 0 0 21px;
     top: 3px;
   }
 
@@ -47,13 +47,14 @@
 }
 
 .container-title {
-  flex: 0 0 auto;
+  flex: 0 1 auto;
   font-size: 21px;
   font-weight: $weight-bold;
 }
 
 // on modal
 .modal-dialog .container-title-wrapper {
+  display: table;
   margin: 9px auto 3px;
 
   .container-title {
