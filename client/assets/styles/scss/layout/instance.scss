@@ -212,6 +212,7 @@
     color: $gray-light;
     height: 55px;
     left: 0;
+    padding-left: 0;
     position: absolute;
 
     &:hover {
@@ -223,8 +224,14 @@
       color: $purple-light;
     }
 
-    .iconnables {
+    .icons-hamburger {
       top: 9px;
+    }
+
+    .icons-arrow-backward {
+      left: 4px;
+      top: 5px;
+      width: 21px;
     }
   }
 
