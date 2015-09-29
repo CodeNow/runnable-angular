@@ -1,8 +1,8 @@
 .container-title-wrapper(
-  ng-class = "{ 'no-touching': noTouching }"
   pop-over
-  pop-over-actions = "actions"
-  pop-over-data = "popOverServerData"
+  pop-over-actions = "popoverServerActions"
+  pop-over-options = "{\"centered\":true,\"top\":36}"
+  pop-over-template = "serverOptionsCardPopover"
 )
   //- This element should display while the container is building, but not while the card is loading.
   //- i.e. if the card has a spinner in the middle instead of buttons, this spinner should not show.
@@ -21,9 +21,7 @@
   span.text-overflow.container-title(
     ng-if = "$root.featureFlags.cardStatus"
   ) {{(instance.getRepoName() || instance.attrs.name)}}
-  svg.iconnables.icons-arrow-down(
-    ng-if = "!noTouching"
-  )
+  svg.iconnables.icons-arrow-down
     use(
       xlink:href = "#icons-arrow-down"
     )
