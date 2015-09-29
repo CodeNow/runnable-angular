@@ -152,11 +152,7 @@ function EnvironmentController(
         })
         .then(function (instance) {
           helpCards.refreshAllCards();
-<<<<<<< 857ad046b83b4e3f16f5bdd86a75884a64eaea94
           return instance;
-=======
-          return instance; // Have promise return instance
->>>>>>> Add new `logs` step to setupServerModalController
         })
         .catch(function (err) {
           errs.handler(err);
