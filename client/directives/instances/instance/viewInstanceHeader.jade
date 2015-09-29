@@ -18,6 +18,19 @@
   span.span api/
   strong.strong anton-jul8
 
+  //- pull request link
+    //- ng-if = "pr"
+  a.btn.btn-xs.green(
+    ng-href = "{{pr.html_url}}"
+    target = "_blank"
+    title = "view pull request on GitHub"
+  )
+    svg.iconnables.icons-branch.float-left
+      use(
+        xlink:href = "#icons-pull-request"
+      )
+    | \#{{pr.number}}
+
   //- if a container from an isolated branch, use .btn-badge for the initial branch
     - should say "Isolated" when viewing the isolated branch
   button.btn.btn-xs.btn-badge.gray.float-right Isolated
