@@ -29,7 +29,7 @@
 
   // if navigation is open
   + .instance-wrapper {
-    width: calc(100% - 300px);
+    width: calc(100% - $instance-list-width);
   }
 
   .btn-accounts {
