@@ -28,6 +28,8 @@ function SetupServerModalController (
   close
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
+  // This needs to go away soon.
+  $scope.data = data;
   loadingPromises.clear('setupServerModal');
   loading.reset('setupServerModal');
 
@@ -185,6 +187,20 @@ function SetupServerModalController (
         return openDockerfile();
       })
       .then(function () {
+        SMC.state.advanced = keypather.get(SMC.state.contextVersion, 'attrs.advanced') || false;
+        SMC.state.promises.contextVersion = loadingPromises.add(
+          'editServerModal',
+          promisify(SMC.state.contextVersion, 'deepCopy')()
+            .then(function (contextVersion) {
+              SMC.state.contextVersion = contextVersion;
+              SMC.state.acv = contextVersion.getMainAppCodeVersion();
+              SMC.state.repo = keypather.get(contextVersion, 'getMainAppCodeVersion().githubRepo');
+              return promisify(contextVersion, 'fetch')();
+            })
+        );
+        return SMC.state.promises.contextVersion;
+      })
+      .then(function () {
         // Return modal to normal state
         loading('setupServerModal', false);
       });
@@ -224,13 +240,13 @@ function SetupServerModalController (
     if (Array.isArray(SMC.state.ports) && SMC.state.ports.length === 0) {
       SMC.state.ports = loadPorts();
     }
-    close();
     return SMC.openItems.updateAllFiles()
       .then(function () {
          return SMC.actions.createAndBuild(createPromise, SMC.state.opts.name);
       })
       .then(function (instance) {
         SMC.instance = instance;
+        SMC.state.instance = instance;
         if ($rootScope.featureFlags.newVerificationFlow) {
           // Go on to step 4 (logs)
           SMC.goToNextStep();
@@ -243,6 +259,7 @@ function SetupServerModalController (
 
   SMC.closeModal = function () {
     $rootScope.$broadcast('close-modal');
+    close();
   };
 
   SMC.isDirty = function () {
