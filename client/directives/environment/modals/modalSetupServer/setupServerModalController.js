@@ -28,6 +28,7 @@ function SetupServerModalController (
   close
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
+  // This needs to go away soon.
   $scope.data = data;
   loadingPromises.clear('setupServerModal');
   loading.reset('setupServerModal');
