@@ -20,6 +20,7 @@
     )
   span.text-overflow.container-title(
     ng-if = "$root.featureFlags.cardStatus"
+    ng-attr-title = "{{(instance.getRepoName() || instance.attrs.name)}}"
   ) {{(instance.getRepoName() || instance.attrs.name)}}
   svg.iconnables.icons-arrow-down
     use(
