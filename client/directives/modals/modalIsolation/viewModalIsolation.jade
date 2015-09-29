@@ -19,15 +19,15 @@
           use(
             xlink:href = "#icons-new-repository-server"
           )
-        span.span.text-overflow optimus
-        //- should get class ".modified-configuration" if the selected branch has a modified configuration
-        .btn.btn-xs.gray.btn-select(
+        span.span.text-overflow(
+          title = "optimus"
+        ) optimus
+        //- should get class ".modded" if the selected branch has a modified configuration
+        .btn.btn-xs.gray.btn-select.modded(
+          ng-class = "{'modded': modifiedConfiguration}"
           ng-init = "branchFirst = 'master'"
         )
           span.text-overflow.text-left {{branchFirst}}
-            em.em(
-              ng-if = "isolated"
-            ) (Isolated)
           svg.iconnables.icons-arrow-down
             use(
               xlink:href = "#icons-arrow-down"
@@ -71,15 +71,14 @@
           use(
             xlink:href = "#icons-new-repository-server"
           )
-        span.span.text-overflow runnable-angular
+        span.span.text-overflow(
+          title = "runnable-angular"
+        ) runnable-angular
         //- should get class ".modified-configuration" if the selected branch has a modified configuration
         .btn.btn-xs.gray.btn-select(
           ng-init = "branchSecond = 'master'"
         )
           span.text-overflow.text-left {{branchFirst}}
-            em.em(
-              ng-if = "isolated"
-            ) (Isolated)
           svg.iconnables.icons-arrow-down
             use(
               xlink:href = "#icons-arrow-down"
@@ -123,15 +122,14 @@
           use(
             xlink:href = "#icons-new-repository-server"
           )
-        span.span.text-overflow mavis
+        span.span.text-overflow(
+          title = "mavis"
+        ) mavis
         //- should get class ".modified-configuration" if the selected branch has a modified configuration
         .btn.btn-xs.gray.btn-select(
           ng-init = "branchThird = 'master'"
         )
           span.text-overflow.text-left {{branchFirst}}
-            em.em(
-              ng-if = "isolated"
-            ) (Isolated)
           svg.iconnables.icons-arrow-down
             use(
               xlink:href = "#icons-arrow-down"
