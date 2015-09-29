@@ -1,6 +1,6 @@
 .popover-dns-mappings {
   max-width: none;
-  width: 320px;
+  width: 360px;
 
   .popover-views {
     max-height: calc(100vh - 140px);
@@ -88,20 +88,20 @@
     border: 0;
   }
 
+  .iconnables {
+    margin: 0;
+    position: absolute;
+    right: 6px;
+    top: 15px;
+  }
+
   .icons-arrow-forward {
     color: $gray-light;
-    margin: 0;
-    right: -3px;
-    top: 15px;
   }
 
   // check icon
   .icons-check {
-    margin: 0;
     padding: 6px;
-    position: absolute;
-    right: 6px;
-    top: 15px;
 
     + .icons-arrow-forward {
       opacity: 0;
@@ -171,6 +171,7 @@
     // branch cell
     + .cell {
       padding-left: 9px;
+      padding-right: 15px;
 
       .small {
         margin-left: 14px;
