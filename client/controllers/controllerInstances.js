@@ -82,12 +82,13 @@ function ControllerInstances(
 
   this.editInstance = function (instance) {
     ModalService.showModal({
-      controller: 'EditServerModalOpenController',
-      controllerAs: 'ESMOC',
-      templateUrl: 'editServerModalOpen',
+      controller: 'EditServerModalController',
+      controllerAs: 'SMC',
+      templateUrl: 'editServerModalView',
       inputs: {
         tab: keypather.get(instance, 'contextVersion.attrs.advanced') ? 'env' : 'repository',
-        instance: instance
+        instance: instance,
+        actions: {}
       }
     })
       .catch(errs.handler);
