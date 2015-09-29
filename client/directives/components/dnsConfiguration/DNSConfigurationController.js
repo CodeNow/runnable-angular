@@ -26,33 +26,16 @@ function DNSConfigurationController(
 
   DCC.getWorstStatusClass = function () {
     if (!DCC.dependencies) {
-      return 'unknown';
+      return;
     }
-    var statusMap = {
-      'stopped': 'gray',
-      'crashed': 'red',
-      'running': 'green',
-      'buildFailed': 'red',
-      'building': 'orange',
-      'neverStarted': 'orange',
-      'unknown': 'gray',
-      'starting': 'orange',
-      'stopping': 'green'
-    };
-    var stati = {};
-    DCC.dependencies.forEach(function (dependency) {
-      var instance = dependency.instance;
-      stati[statusMap[instance.status()]] = true;
-    });
-
-    var order = ['red', 'orange', 'gray', 'green'];
-    for (var i=0; i<order.length; i++) {
-      var key = order[i];
-      if(stati[key]) {
-        return key;
+    for(var i=0; i < DCC.dependencies.models.length; i++) {
+      var status = DCC.dependencies.models[i].instance.status();
+      if (['buildFailed', 'crashed'].includes(status)) {
+        return 'red';
+      } else if (['starting', 'neverStarted', 'building'].includes(status)) {
+        return 'orange';
       }
     }
-    return '';
   };
 
   DCC.editDependency = function (dep) {
@@ -63,7 +46,7 @@ function DNSConfigurationController(
       current: dep,
       options: []
     };
-    getInstanceMaster(dep)
+    getInstanceMaster(dep.instance)
       .then(function (masterInstance) {
         DCC.modifyingDNS.options.push(masterInstance);
         DCC.modifyingDNS.options = DCC.modifyingDNS.options.concat(masterInstance.children.models);
