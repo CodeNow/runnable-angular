@@ -1,5 +1,5 @@
 //- title of container
-.instance-header-title
+.instance-header-title.text-overflow
 
   //- toggle container nav
   button.btn.float-left(
@@ -12,8 +12,28 @@
       )
 
   //- container title
-  span.span palantiri/
-  strong.strong master
+    - repository in .span
+    - branch in .strong
+
+  span.span api/
+  strong.strong anton-jul8
+
+  //- pull request link
+  a.btn.btn-xs.green(
+    ng-href = "{{pr.html_url}}"
+    ng-if = "pr"
+    target = "_blank"
+    title = "view pull request on GitHub"
+  )
+    svg.iconnables.icons-branch.float-left
+      use(
+        xlink:href = "#icons-pull-request"
+      )
+    | \#{{pr.number}}
+
+  //- if a container from an isolated branch, use .btn-badge for the initial branch
+    - should say "Isolated" when viewing the isolated branch
+  button.btn.btn-xs.btn-badge.gray.float-right Isolated
 
 //- properties of container
 .instance-header-properties

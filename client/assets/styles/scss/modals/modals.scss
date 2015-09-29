@@ -29,8 +29,8 @@
 // div.modal-dialog
 .modal-dialog {
   background: $gray-lighterest;
-  border: 2px solid $gray-lighter;
-  border-radius: 6px;
+  border: $input-border solid $gray-lighter;
+  border-radius: $input-border-radius-lg;
   display: flex;
   flex-direction: column;
   max-height: 100%;
@@ -115,7 +115,7 @@
 .modal-header {
   background: $white;
   border-bottom: 1px solid $gray-lighter;
-  border-radius: 3px 3px 0 0;
+  border-radius: $input-border-radius $input-border-radius 0 0;
   flex: 0 0 auto;
   min-height: 60px;
   padding: 0 15px;

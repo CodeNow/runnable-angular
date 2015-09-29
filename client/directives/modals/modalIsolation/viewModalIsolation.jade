@@ -1,50 +1,5 @@
-//- initFlip removes the initial flip transition
-//- returnFlip delays the text/button change on the intial flip
-.modal-dialog.modal-isolation(
-  ng-init = "\
-    initFlip = true;\
-    returnFlip = false;\
-  "
-)
-  svg.iconnables.icons-close(
-    ng-click = "defaultActions.cancel()"
-  )
-    use(
-      xlink:href = "#icons-close"
-    )
-  section.modal-body
-    svg.iconnables.icons-door
-      use(
-        xlink:href = "#icons-door"
-      )
-    h3.h3.text-center Work in Isolation
-    p.p.text-center Isolated branches get their own copies of&#32;
-      strong.strong all other containers in your stack.&#32;
-      | This lets you work without affecting your team’s shared containers.
-    .btn(
-      ng-class = "{\
-        'green': !returnFlip,\
-        'white': returnFlip\
-      }"
-      ng-click = "\
-        initFlip = false;\
-        stateModel.modalFlipped = true;\
-      "
-    ) {{!returnFlip ? 'Get Started' : 'Return to Setup'}}
-
-.modal-dialog.modal-isolation(
-  ng-class = "{'init': initFlip}"
-)
+.modal-dialog.modal-isolation
   header.modal-header
-    svg.iconnables.icons-help(
-      ng-click = "\
-        returnFlip = true;\
-        stateModel.modalFlipped = false;\
-      "
-    )
-      use(
-        xlink:href = "#icons-help"
-      )
     h1.modal-heading Isolation Setup
     svg.iconnables.icons-close(
       ng-click = "defaultActions.cancel()"
@@ -64,12 +19,15 @@
           use(
             xlink:href = "#icons-new-repository-server"
           )
-        span.span.text-overflow optimus
-        //- should get class ".modified-configuration" if the selected branch has a modified configuration
-        .btn.btn-xs.gray.btn-select.text-left(
+        span.span.text-overflow(
+          title = "optimus"
+        ) optimus
+        //- should get class ".modded" if the selected branch has a modified configuration
+        .btn.btn-xs.gray.btn-select.modded(
+          ng-class = "{'modded': modifiedConfiguration}"
           ng-init = "branchFirst = 'master'"
         )
-          span.text-overflow {{branchFirst}}
+          span.text-overflow.text-left {{branchFirst}}
           svg.iconnables.icons-arrow-down
             use(
               xlink:href = "#icons-arrow-down"
@@ -113,12 +71,14 @@
           use(
             xlink:href = "#icons-new-repository-server"
           )
-        span.span.text-overflow runnable-angular
+        span.span.text-overflow(
+          title = "runnable-angular"
+        ) runnable-angular
         //- should get class ".modified-configuration" if the selected branch has a modified configuration
-        .btn.btn-xs.gray.btn-select.text-left(
+        .btn.btn-xs.gray.btn-select(
           ng-init = "branchSecond = 'master'"
         )
-          span.text-overflow {{branchSecond}}
+          span.text-overflow.text-left {{branchFirst}}
           svg.iconnables.icons-arrow-down
             use(
               xlink:href = "#icons-arrow-down"
@@ -162,12 +122,14 @@
           use(
             xlink:href = "#icons-new-repository-server"
           )
-        span.span.text-overflow mavis
+        span.span.text-overflow(
+          title = "mavis"
+        ) mavis
         //- should get class ".modified-configuration" if the selected branch has a modified configuration
-        .btn.btn-xs.gray.btn-select.text-left(
+        .btn.btn-xs.gray.btn-select(
           ng-init = "branchThird = 'master'"
         )
-          span.text-overflow {{branchThird}}
+          span.text-overflow.text-left {{branchFirst}}
           svg.iconnables.icons-arrow-down
             use(
               xlink:href = "#icons-arrow-down"

@@ -52,8 +52,8 @@
 
     // list title
     &.list-item-header {
-      color: $gray-light;
-      padding: 0 9px 0 18px; // spacing for .status-icon
+      color: darken($gray-light,10%);
+      padding: 0 9px 0 27px; // spacing for .status-icon
 
       &:hover .icons-advanced {
         opacity: .75;
@@ -62,14 +62,18 @@
 
     // open/active and isolated states
     &.open {
-      background: $gray-lightest;
-      border-color: $gray-lighter;
+      background: rgba($purple-light,.1);
+      border-color: rgba($purple-light,.3);
       border-radius: $input-border-radius;
 
       // is isolated
       &.isolated {
         flex-wrap: wrap;
         height: auto;
+
+        .icons-overflow-isolated {
+          display: block;
+        }
       }
     }
   }
@@ -85,7 +89,7 @@
     padding: 0 9px;
 
     &:hover {
-      color: $gray-dark;
+      color: $purple-light;
     }
 
     &:active,
@@ -160,12 +164,12 @@
 
   // "more…" button
   .btn-xxs {
-    color: $gray-light;
+    color: darken($gray-light,10%);
     font-style: italic;
     left: 15px;
 
     &:hover {
-      color: $gray;
+      color: $purple-light;
     }
 
     &:active {
@@ -198,13 +202,17 @@
   font-size: 24px;
   font-weight: $weight-normal;
   line-height: 54px;
+  padding: 0 72px; // for text-overflow, must be even so that text is centered properly
+  position: relative;
   text-align: center;
   width: 100%;
 
   // containers list toggle
-  .btn {
+  .btn.float-left {
     color: $gray-light;
     height: 55px;
+    left: 0;
+    position: absolute;
 
     &:hover {
       color: $gray;
@@ -218,6 +226,25 @@
     .iconnables {
       top: 9px;
     }
+  }
+
+  // pr badge
+  .green {
+    margin-left: 9px;
+    padding: 0 3px 0 0;
+    top: -4px;
+
+    .iconnables {
+      height: 100%;
+      width: 18px;
+    }
+  }
+
+  // isolation badge
+  .btn.float-right {
+    position: absolute;
+    right: 12px;
+    top: 15px;
   }
 }
 

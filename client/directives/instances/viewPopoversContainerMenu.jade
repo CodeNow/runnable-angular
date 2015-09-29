@@ -6,60 +6,75 @@
       {name: 'mavis'},\
       {name: 'runnable-angular'}\
     ];\
-    state.isolationActive = false\
   "
   ng-style = "popoverStyle.getStyle()"
   style = "transform-origin: 0 50%"
 )
   .arrow.white
+  //- menu items:
 
-  //- list for a non-isolated branch
-  .popover-content(
-    ng-if = "state.isolationActive === false"
-  )
+    - for a non-isolated branch:
+      - Setup Isolation
+      - (divider)
+      - Hide
+
+    - for an isolated branch:
+      - Configure Container
+      - (divider)
+      - Add Container to Isolation
+      - Disable Isolation (triggers confirm)
+      - (divider)
+      - Hide
+
+    - for an isolated branch's containers:
+      - Configure Container
+      - (divider)
+      - Delete Container from Isolation (triggers confirm)
+
+  .popover-content
     ul.list.popover-list
+      //- li.list-item.popover-list-item
+      //-   svg.iconnables
+      //-     use(
+      //-       xlink:href = "#icons-advanced"
+      //-     )
+      //-   | Configure Container
+      //- li.divider
+      li.list-item.popover-list-item.multi-line.disabled
+        p.p Isolating a branch allows you to…
+        ul.list.list-bulleted.small
+          li.list-item Create a separate stack of your containers to use with this branch.
+          li.list-item Configure this branch differently from your default.
+          .btn.btn-sm.btn-block.green(
+            modal
+            modal-template = "viewModalIsolation"
+          ) Setup Isolation
 
-      //- on branch if isolation is not enabled
-      li.list-item.popover-list-item(
-        modal
-        modal-state-model = "{modalFlip: true}"
-        modal-template = "viewModalIsolation"
-      )
-        svg.iconnables
-          use(
-            xlink:href = "#icons-isolation"
-          )
-        | Enable Isolation…
+        //- svg.iconnables
+        //-   use(
+        //-     xlink:href = "#icons-isolation"
+        //-   )
+        //- | Setup Isolation…
 
-      //- on branch if isolation is enabled
-      li.divider
-      li.list-item.popover-list-item
-        svg.iconnables
-          use(
-            xlink:href = "#icons-isolation-enable"
-          )
-        | Add Container to Isolation
-      li.list-item.popover-list-item
-        svg.iconnables
-          use(
-            xlink:href = "#icons-delete"
-          )
-        | Disable Isolation
-
-      //-
-      li.divider
-      li.list-item.popover-list-item
-        svg.iconnables
-          use(
-            xlink:href = "#icons-advanced"
-          )
-        | Configure Container
-      li.list-item.popover-list-item
-        svg.iconnables
-          use(
-            xlink:href = "#icons-isolation-disable"
-          )
-        | Remove Container from Isolation
+      //- li.divider
+      //- li.list-item.popover-list-item
+      //-   svg.iconnables
+      //-     use(
+      //-       xlink:href = "#icons-isolation-enable"
+      //-     )
+      //-   | Add Container to Isolation
+      //- li.list-item.popover-list-item
+      //-   svg.iconnables
+      //-     use(
+      //-       xlink:href = "#icons-delete"
+      //-     )
+      //-   | Disable Isolation
+      //- li.list-item.popover-list-item
+      //-   svg.iconnables
+      //-     use(
+      //-       xlink:href = "#icons-isolation-disable"
+      //-     )
+      //-   | Delete Container from Isolation
 
       //- navListFilter
       li.divider(

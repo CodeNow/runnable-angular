@@ -2,40 +2,6 @@
   color: $gray-dark;
   width: 450px;
 
-  // "get started" / "return to setup" button
-  .modal-body > .btn {
-    margin: 15px auto 30px;
-  }
-
-  .icons-door {
-    height: 150px;
-    margin: 30px auto;
-    width: 150px;
-  }
-
-  .p {
-    margin: 12px;
-  }
-
-  // header
-  .icons-help {
-    color: $gray-light;
-    cursor: pointer;
-    left: 15px;
-    padding: 6px;
-    pointer-events: auto;
-    position: absolute;
-    top: 18px;
-
-    &:hover {
-      color: $gray;
-    }
-
-    &:active {
-      color: $purple-light;
-    }
-  }
-
   .icons-status {
     margin-right: 3px;
   }
@@ -72,35 +38,40 @@
 
   // reset .list-item .btn-xs
   .btn-select {
+    display: flex;
     flex: 0 0 185px;
-    font-size: 14px;
     left: 0;
-    line-height: 18px;
-    padding: 0 24px 0 9px;
     position: relative;
-    text-align: left;
     top: 0;
 
-    .icons-arrow-down {
-      color: $gray;
-      position: absolute;
-      right: 9px;
-      top: 0;
+    &.modded {
+      top: -6px;
+
+      &::after {
+        color: $gray;
+        content: 'Branch uses a modified configuration';
+        display: block;
+        font-size: 11px;
+        font-weight: $weight-normal;
+        left: 0;
+        pointer-events: none;
+        position: absolute;
+        top: 19px;
+      }
     }
-  }
 
-  .modified-configuration {
-    top: -5px;
+    .text-overflow {
+      flex: 1 1 auto;
+    }
 
-    &:after {
+    // isolated text
+    .em {
       color: $gray;
-      content: 'branch uses a modified configuration';
       font-size: 11px;
-      font-weight: $weight-normal;
-      left: 0;
-      pointer-events: none;
-      position: absolute;
-      top: 20px;
+    }
+
+    .icons-arrow-down {
+      flex: 0 0 auto;
     }
   }
 }
