@@ -141,7 +141,7 @@ function EnvironmentController(
         text: 'Your new container is building.'
       });
 
-      createPromise
+      return createPromise
         .then(function (newServerModel) {
           return createNewInstance(
             cachedActiveAccount,
@@ -150,8 +150,9 @@ function EnvironmentController(
             instance
           );
         })
-        .then(function () {
+        .then(function (instance) {
           helpCards.refreshAllCards();
+          return instance;
         })
         .catch(function (err) {
           errs.handler(err);

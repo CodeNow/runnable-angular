@@ -26,7 +26,6 @@ function SetupServerModalController (
   close
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
-  window.SMC = SMC;
   // This needs to go away soon.
   $scope.data = data;
   $scope.actions = actions;
@@ -163,7 +162,9 @@ function SetupServerModalController (
         return updateDockerfileFromState(SMC.state, true, true);
       })
       .then(function () {
-        SMC.openItems.updateAllFiles();
+        return SMC.openItems.updateAllFiles();
+      })
+      .then(function () {
         return openDockerfile();
       })
       .then(function () {
@@ -197,7 +198,10 @@ function SetupServerModalController (
   SMC.createServer = function () {
     var createPromise = loadingPromises.finished('setupServerModal')
       .then(function () {
-        return updateDockerfileFromState(SMC.state, false, true);
+        if (!SMC.state.advanced) {
+          return updateDockerfileFromState(SMC.state, false, true);
+        }
+        return true;
       })
       .then(function () {
         if (SMC.state.acv.attrs.branch !== SMC.state.branch.attrs.name) {
@@ -217,7 +221,13 @@ function SetupServerModalController (
       SMC.state.ports = loadPorts();
     }
     close();
-    return SMC.actions.createAndBuild(createPromise, SMC.state.opts.name);
+    return SMC.openItems.updateAllFiles()
+      .then(function () {
+         return SMC.actions.createAndBuild(createPromise, SMC.state.opts.name);
+      })
+      .then(function (instance) {
+        SMC.instance = instance;
+      });
   };
 
   SMC.selectRepo = function (repo) {
