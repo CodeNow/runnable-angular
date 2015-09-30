@@ -12,7 +12,7 @@
       use(
         xlink:href = "#icons-advanced"
       )
-  a.list-item(
+  .list-item(
     ng-href = "#"
     ng-class = "{\
       'open': branch.selected,\
@@ -21,7 +21,7 @@
     ng-click = "branch.selected = !branch.selected"
     ng-repeat = "branch in container.branches"
   )
-    .list-item-container(
+    a.list-item-container(
       ng-class = "{'active': branch.selected}"
     )
       .icons-status(
@@ -57,7 +57,7 @@
       li.list-item(
         ng-repeat = "container in isolatedContainers"
       )
-        .list-item-container
+        a.list-item-container
           .icons-status(
             ng-class = "{'{{container.name}}': true}"
           )
@@ -83,7 +83,7 @@
   .list-item(
     ng-repeat = "container in nonRepositoryContainers"
   )
-    .list-item-container
+    a.list-item-container
       .icons-status(
         ng-class = "{\
           'green': container.status === 'green',\
@@ -91,7 +91,7 @@
           'red': container.status === 'red'\
         }"
       )
-      a.text-overflow(
+      .text-overflow(
         title = "{{container.name}}"
       ) {{container.name}}
       svg.iconnables.icons-advanced
