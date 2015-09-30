@@ -1,5 +1,5 @@
 // intercom button
-#intercom-launcher {
+.isolation-intercom-flag-on #intercom-launcher {
   left: 21px !important;
 }
 
@@ -7,7 +7,7 @@
   z-index: $z-modal !important; // lower z-index under notifications
 }
 
-.intercom-launcher-button {
+.isolation-intercom-flag-on .intercom-launcher-button {
   background-color: rgba($purple,.5) !important;
   border: 2px solid rgba($purple-dark,.3) !important;
   border-width: 2px !important;
@@ -21,23 +21,23 @@
   }
 }
 
-.intercom-launcher-badge {
+.isolation-intercom-flag-on .intercom-launcher-badge {
   left: 36px !important;
   right: auto !important;
 }
 
 // intercom preview
-.intercom-launcher-preview {
+.isolation-intercom-flag-on .intercom-launcher-preview {
   left: 60px !important;
   right: auto !important;
 }
 
-.intercom-launcher-preview-close {
+.isolation-intercom-flag-on .intercom-launcher-preview-close {
   left: auto !important;
   right: -9px !important;
 }
 
-.intercom-launcher-preview-caret {
+.isolation-intercom-flag-on .intercom-launcher-preview-caret {
 
   &:after {
     border-left: 0 !important;
@@ -53,14 +53,14 @@
 }
 
 // intercom bar
-#intercom-loading,
-#intercom-conversations,
-#intercom-conversation {
+.isolation-intercom-flag-on #intercom-loading,
+.isolation-intercom-flag-on #intercom-conversations,
+.isolation-intercom-flag-on #intercom-conversation {
   border-right: 1px solid #dadee2 !important;
   left: 0 !important;
 }
 
-.intercom-sheet-body {
+.isolation-intercom-flag-on .intercom-sheet-body {
   border-left: 0 !important;
 }
 
@@ -70,7 +70,7 @@
 }
 
 // classes on body (active window)
-.intercom-messenger-active {
+.isolation-intercom-flag-on .intercom-messenger-active {
 
   .layout-wrapper,
   .modal-backdrop {
