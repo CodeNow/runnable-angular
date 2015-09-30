@@ -50,6 +50,7 @@
   flex: 0 1 auto;
   font-size: 21px;
   font-weight: $weight-bold;
+  margin-left: 3px;
 }
 
 // on modal
@@ -81,6 +82,7 @@
   .spinner-wrapper {
     flex: 0 0 18px;
     height: 18px;
+    max-width: 15px;
   }
 
   // rename button for verification flow
