@@ -4,7 +4,7 @@
 )
   //- arrow is white if loading or no dns mappings
   .arrow(
-    ng-class = "{'white': !$root.isLoaded.dns}"
+    ng-class = "{'white': !$root.isLoaded.dns || DCC.dependencies.models.length === 0}"
   )
 
   animated-panel-container.popover-views
@@ -52,22 +52,31 @@
               ng-if = "$root.isLoaded.dns"
               ng-repeat = "dependency in DCC.dependencies.models"
             )
-              .cell.text-overflow(
+              .cell.clearfix(
                 title = "{{dependency.instance.getRepoName()}}"
               )
                 .text-overflow {{dependency.instance.getRepoName()}}
                 small.small.text-overflow(
                   title = "{{dependency.instance.getElasticHostname()}}"
-                ) {{dependency.instance.getElasticHostname()}}}
-              .cell.text-overflow(
-                ng-class = "{'fade-in': dependency === DCC.lastModifiedDNS}"
-                title = "dependency.instance.getBranchName()}}"
-              )
+                ) {{dependency.instance.getElasticHostname()}}
 
-                status-icon(
-                  instance = "dependency.instance"
-                )
-                | {{dependency.instance.getBranchName()}}
+              // If Isolated add class .centered
+              .cell.clearfix(
+                ng-class = "{'fade-in': dependency === DCC.lastModifiedDNS}"
+                title = "{{dependency.instance.getBranchName()}}"
+              )
+                .text-overflow
+                  status-icon(
+                    instance = "dependency.instance"
+                  )
+                  span.span(
+                    title = "{{dependency.instance.getBranchName()}}"
+                  ) {{dependency.instance.getBranchName()}}
+
+
+                //// Isolated if looking at a staging branch of the name of the initial branch
+                //small.small
+                //  .btn.btn-xxs.btn-badge.gray.text-overflow Isolated
 
               //- inline for svg animation
               svg.iconnables.icons-check.float-right(
