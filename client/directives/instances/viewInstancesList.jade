@@ -1,3 +1,8 @@
+.spinner-wrapper.spinner-md.spinner-gray.spinner-center.in(
+  ng-if = "!CIS.instancesByPod"
+  ng-include = "'spinner'"
+)
+
 //- repository based containers
 .list(
   ng-repeat = "container in containers"
@@ -12,7 +17,7 @@
       use(
         xlink:href = "#icons-advanced"
       )
-  a.list-item(
+  .list-item(
     ng-href = "#"
     ng-class = "{\
       'open': branch.selected,\
@@ -21,7 +26,7 @@
     ng-click = "branch.selected = !branch.selected"
     ng-repeat = "branch in container.branches"
   )
-    .list-item-container(
+    a.list-item-container(
       ng-class = "{'active': branch.selected}"
     )
       .icons-status(
@@ -43,7 +48,7 @@
         pop-over
         pop-over-active = "popoverContainerMenu.data.show"
         pop-over-data = "popoverContainerMenu.data"
-        pop-over-options = "{\"top\":0,\"left\":28}"
+        pop-over-options = "{\"verticallyCentered\":true,\"left\":28}"
         pop-over-template = "viewPopoversContainerMenu"
       )
         use(
@@ -57,7 +62,7 @@
       li.list-item(
         ng-repeat = "container in isolatedContainers"
       )
-        .list-item-container
+        a.list-item-container
           .icons-status(
             ng-class = "{'{{container.name}}': true}"
           )
@@ -83,7 +88,7 @@
   .list-item(
     ng-repeat = "container in nonRepositoryContainers"
   )
-    .list-item-container
+    a.list-item-container
       .icons-status(
         ng-class = "{\
           'green': container.status === 'green',\
@@ -91,7 +96,7 @@
           'red': container.status === 'red'\
         }"
       )
-      a.text-overflow(
+      .text-overflow(
         title = "{{container.name}}"
       ) {{container.name}}
       svg.iconnables.icons-advanced

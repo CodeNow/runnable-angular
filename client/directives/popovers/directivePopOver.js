@@ -112,8 +112,12 @@ function popOver(
         // We need to create a custom scope so we can call $destroy on it when the element is removed.
         popoverElementScope = $scope.$new();
         $scope.popoverElementScope = popoverElementScope;
+        var previousStyle = {};
         popoverElementScope.popoverStyle = {
           getStyle: function () {
+            if (!$scope.active) {
+              return previousStyle;
+            }
             var offset = {};
 
             var scrollTop = $document.find('body')[0].scrollTop || $document.find('html')[0].scrollTop;
@@ -150,6 +154,12 @@ function popOver(
               style.left = (-$scope.popoverElement[0].offsetWidth / 2 + offset.left + (offset.right - offset.left) / 2 ) + 'px';
             }
 
+            if (keypather.get($scope, 'popoverOptions.verticallyCentered')) {
+              style.bottom = null;
+              style.top = (-$scope.popoverElement[0].offsetHeight / 2 + offset.top + (offset.bottom - offset.top) / 2 ) + 'px';
+            }
+
+            previousStyle = style;
             return style;
           }
         };

@@ -1,6 +1,67 @@
 // intercom button
+.isolation-intercom-flag-on #intercom-launcher {
+  left: 21px !important;
+}
+
 .intercom-launcher-active {
   z-index: $z-modal !important; // lower z-index under notifications
+}
+
+.isolation-intercom-flag-on .intercom-launcher-button {
+  background-color: rgba($purple,.5) !important;
+  border: 2px solid rgba($purple-dark,.3) !important;
+  border-width: 2px !important;
+  box-shadow: none !important;
+  left: -2px !important;
+
+  &:hover,
+  &:active {
+    background-color: $purple !important;
+    border-color: rgba($purple-dark,.6) !important;
+  }
+}
+
+.isolation-intercom-flag-on .intercom-launcher-badge {
+  left: 36px !important;
+  right: auto !important;
+}
+
+// intercom preview
+.isolation-intercom-flag-on .intercom-launcher-preview {
+  left: 60px !important;
+  right: auto !important;
+}
+
+.isolation-intercom-flag-on .intercom-launcher-preview-close {
+  left: auto !important;
+  right: -9px !important;
+}
+
+.isolation-intercom-flag-on .intercom-launcher-preview-caret {
+
+  &:after {
+    border-left: 0 !important;
+    border-right-color: $white !important;
+    left: -5px !important;
+  }
+
+  &:before {
+    border-left: 0 !important;
+    border-right-color: #ddd !important;
+    left: -6px !important;
+  }
+}
+
+// intercom bar
+.isolation-intercom-flag-on #intercom-loading,
+.isolation-intercom-flag-on #intercom-conversations,
+.isolation-intercom-flag-on #intercom-conversation {
+  border-right: 1px solid #dadee2 !important;
+  left: 0 !important;
+}
+
+.isolation-intercom-flag-on .intercom-sheet-body {
+  border-left: 0 !important;
 }
 
 // hide minimize button
@@ -9,14 +70,14 @@
 }
 
 // classes on body (active window)
-.intercom-messenger-active {
-
-  .layout-wrapper {
-    position: relative;
-  }
+.isolation-intercom-flag-on .intercom-messenger-active {
 
   .layout-wrapper,
   .modal-backdrop {
-    width: calc(100vw - #{$intercom-width});
+    padding-left: $intercom-width - 1px;
+
+    @include media(md) {
+      padding-left: 0;
+    }
   }
 }

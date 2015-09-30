@@ -1,13 +1,13 @@
 .popover-dns-mappings {
   max-width: none;
-  width: 320px;
-
-  .popover-views {
-    max-height: calc(100vh - 140px);
-  }
+  width: 360px;
 
   .popover-view {
     min-height: 80px; // set initial height
+  }
+
+  .popover-content {
+    max-height: calc(100vh - 176px);
   }
 
   .icons-status {
@@ -88,34 +88,34 @@
     border: 0;
   }
 
+  .iconnables {
+    margin: 0;
+    position: absolute;
+    right: 6px;
+    top: 18px;
+  }
+
   .icons-arrow-forward {
     color: $gray-light;
-    margin: 0;
-    right: -3px;
-    top: 15px;
   }
 
   // check icon
   .icons-check {
-    margin: 0;
     padding: 6px;
-    position: absolute;
-    right: 6px;
-    top: 15px;
 
     + .icons-arrow-forward {
       opacity: 0;
 
       &.in {
         opacity: 1;
-        transition: opacity .3s 2.25s ease-in;
+        transition: opacity .15s 1.75s ease-in;
       }
     }
   }
 
   // check icon path
   .path {
-    animation: check 1.75s .5s ease-out forwards;
+    animation: check 1.5s .3s ease-out forwards;
     stroke-dasharray: 18;
     stroke-dashoffset: 18;
     transform-origin: 50% 50%;
@@ -128,6 +128,7 @@
     font-size: 14px;
     font-weight: $weight-bold;
     height: 54px;
+    max-width: 50%;
     padding: 12px 0;
     position: relative;
 
@@ -150,7 +151,7 @@
     }
 
     // center text if single line
-    .center {
+    &.center {
       align-items: center;
       display: flex;
     }
@@ -165,11 +166,13 @@
       height: 16px;
       line-height: 14px;
       margin-top: 3px;
+      max-width: 100%;
     }
 
     // branch cell
     + .cell {
       padding-left: 9px;
+      padding-right: 15px;
 
       .small {
         margin-left: 14px;

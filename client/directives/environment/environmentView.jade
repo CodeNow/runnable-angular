@@ -1,5 +1,7 @@
 //- alerts
-.help-container.fixed.bottom
+.help-container.fixed.bottom(
+  ng-class = "{'deprecated': !$root.featureFlags.isolationUI}"
+)
   .help(
     ng-if = "alert"
   )
@@ -18,7 +20,10 @@ header.environment-header.clearfix(
 
 .environment-body.clearfix
   .help-container(
-    ng-class = "{fixed: helpUndock, top: helpUndock}"
+    ng-class = "{\
+      'deprecated': !$root.featureFlags.isolationUI,\
+      'fixed': helpUndock, top: helpUndock\
+    }"
     ng-if = "helpCards.getActiveCard()"
   )
     .help(

@@ -36,7 +36,6 @@
     top: 12px;
   }
 
-  // deprecated $root.featureFlags.isolationNav
   // logo
   .logo {
     height: $input-sm; // center
@@ -44,8 +43,6 @@
     position: absolute;
     top: 12px;
   }
-
-  // end deprecated $root.featureFlags.isolationNav
 
   // add padding for header-app + content
   + .content {
@@ -68,7 +65,6 @@
   }
 }
 
-// deprecated $root.featureFlags.isolationNav
 // containers/configure toggle
 .toggle-header {
   background: $purple;

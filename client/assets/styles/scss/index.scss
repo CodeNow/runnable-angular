@@ -19,10 +19,35 @@
 @import "globals/loader";
 @import "globals/typography";
 
-// layout
+// layout:
+//  .layout-wrapper (used as <body>)
+//    .layout-navigation (fixed nav)
+//    .layout-main  (main content)
+
+//      * environment page *
+//      .environment-header
+//      .environment-body
+
+//      * instance page *
+//      .instances-list (instance nav)
+//       .instance-wrapper
+//         .instance-header (0 0 auto)
+//           .instance-header-title
+//           .instance-header-properties
+//         .instance-body (1 1 auto)
+
+// global layout
 @import "layout/layout";
+
+// instance layout
+@import "layout/instances-list";
 @import "layout/instance";
-@import "layout/environment";
+@import "layout/instance-header";
+@import "layout/instance-body";
+
+// environment layout
+@import "layout/environment-header";
+@import "layout/environment-body";
 
 // buttons
 @import "components/buttons/buttons";

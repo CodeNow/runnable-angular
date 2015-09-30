@@ -4,7 +4,7 @@
     'in': active,\
     'right': $root.featureFlags.isolationUI\
   }"
-  style = "{{$root.featureFlags.isolationUI ? 'transform-origin: 0 0' : 'left: auto; right: 9px; transform-origin: 95% 0; top: 60px'}}"
+  style = "{{$root.featureFlags.isolationUI ? 'left: 68px; transform-origin: 0 0; top: 18px' : 'left: auto; right: 9px; transform-origin: 95% 0; top: 60px'}}"
 )
   .arrow(
     ng-class = "{'white': data.showIntegrations && data.currentPanelName === 'accountMenu'}"
@@ -51,6 +51,7 @@
           ul.list.popover-list.list-secondary
             li.list-item.popover-list-item(
               ng-click = "goToPanel('featureFlags')"
+              ng-if = "$root.featureFlags.isolationUI"
             ) Feature Flags
               svg.iconnables.icons-arrow-forward.anchor-right
                 use(
@@ -103,7 +104,7 @@
               ng-repeat = "account in data.allAccounts"
             )
               svg.iconnables.icons-fat-check(
-                ng-class = "account === data.activeAccount"
+                ng-class = "{'active': account === data.activeAccount}"
               )
                 use(
                   xlink:href = "#icons-fat-check"
@@ -136,7 +137,7 @@
           ) Reset
         .popover-content.fade.list.popover-list(
           ng-class = "{'in': isActivePanel()}"
-          style = "max-height: 80vh; overflow-y: auto;"
+          style = "max-height: calc(100vh - 81px); overflow-y: auto;"
         )
           label.list-item.popover-list-item.text-overflow(
             ng-repeat = "(flag, value) in $root.featureFlags"

@@ -24,50 +24,38 @@
 @mixin media($point) {
   @if $point == xxs {
     @media (max-width: $screen-xxs) { @content; }
-
-    .intercom-messenger-active & {
-      @media (max-width: $screen-xxs + $intercom-width) { @content; }
-    }
   }
   @else if $point == xs {
     @media (max-width: $screen-xs) { @content; }
-
-    .intercom-messenger-active & {
-      @media (max-width: $screen-xs + $intercom-width) { @content; }
-    }
   }
   @else if $point == sm {
     @media (max-width: $screen-sm) { @content; }
-
-    .intercom-messenger-active & {
-      @media (max-width: $screen-sm + $intercom-width) { @content; }
-    }
   }
   @else if $point == md {
     @media (max-width: $screen-md) { @content; }
 
-    .intercom-messenger-active & {
+    .isolation-intercom-flag-on .intercom-messenger-active & {
       @media (max-width: $screen-md + $intercom-width) { @content; }
     }
   }
   @else if $point == lg {
     @media (max-width: $screen-lg) { @content; }
 
-    .intercom-messenger-active & {
+    .isolation-intercom-flag-on .intercom-messenger-active & {
       @media (max-width: $screen-lg + $intercom-width) { @content; }
     }
   }
   @else if $point == xl {
     @media (max-width: $screen-xl) { @content; }
 
-    .intercom-messenger-active & {
+    .isolation-intercom-flag-on .intercom-messenger-active & {
       @media (max-width: $screen-xl + $intercom-width) { @content; }
     }
   }
   @else if $point == xxl {
     @media (min-width: $screen-xl) { @content; }
 
-    .intercom-messenger-active & {
+    .isolation-intercom-flag-on .intercom-messenger-active & {
       @media (min-width: $screen-xl + $intercom-width) { @content; }
     }
   }
