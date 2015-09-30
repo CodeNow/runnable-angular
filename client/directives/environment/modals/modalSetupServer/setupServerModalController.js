@@ -22,6 +22,7 @@ function SetupServerModalController (
   cardInfoTypes,
   OpenItems,
   fetchStackInfo,
+  ModalService,
   data,
   actions,
   close
@@ -38,6 +39,22 @@ function SetupServerModalController (
 
   angular.extend(SMC, {
     close: close,
+    closeWithConfirmation:function () {
+      $rootScope.$broadcast('close-popovers');
+        ModalService.showModal({
+          controller: 'ConfirmationModalController',
+          controllerAs: 'CMC',
+          templateUrl: 'confirmCloseEditServer'
+        })
+          .then(function (modal) {
+            modal.close.then(function (confirmed) {
+              if ( confirmed ) {
+                close();
+              }
+            });
+          })
+          .catch(errs.handler);
+    },
     isLoading: $rootScope.isLoading,
     portsSet: false,
     isNewContainer: true,
