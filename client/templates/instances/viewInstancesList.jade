@@ -43,46 +43,47 @@
         title = "{{childInstance.getBranchName()}}"
       ) {{childInstance.getBranchName()}}
       //- hide badge if popover is open
-      //.btn.btn-xxs.btn-badge.gray(
-      //  ng-if = "branch.isolation && !popoverContainerMenu.data.show"
-      //) Isolated
+      .btn.btn-xxs.btn-badge.gray(
+        ng-if = "$root.featureFlags.isolationUI && !popoverContainerMenu.data.show"
+      ) Isolated
 
-      //svg.iconnables.icons-overflow(
-      //  ng-class = "{'active': popoverContainerMenu.data.show}"
-      //  pop-over
-      //  pop-over-active = "popoverContainerMenu.data.show"
-      //  pop-over-data = "popoverContainerMenu.data"
-      //  pop-over-options = "{\"verticallyCentered\":true,\"left\":28}"
-      //  pop-over-template = "viewPopoversContainerMenu"
-      //)
-      //  use(
-      //    xlink:href = "#icons-overflow"
-      //  )
+      svg.iconnables.icons-overflow(
+        ng-if = "$root.featureFlags.isolationUI"
+        ng-class = "{'active': popoverContainerMenu.data.show}"
+        pop-over
+        pop-over-active = "popoverContainerMenu.data.show"
+        pop-over-data = "popoverContainerMenu.data"
+        pop-over-options = "{\"verticallyCentered\":true,\"left\":28}"
+        pop-over-template = "viewPopoversContainerMenu"
+      )
+        use(
+          xlink:href = "#icons-overflow"
+        )
 
     //- list of isolated containers
-    //ul.list.list-isolated(
-    //  ng-if = "branch.isolation && branch.selected"
-    //)
-    //  li.list-item(
-    //    ng-repeat = "container in isolatedContainers"
-    //  )
-    //    .list-item-container
-    //      .icons-status(
-    //        ng-class = "{'{{container.name}}': true}"
-    //      )
-    //      .text-overflow {{container.name}}
-    //      svg.iconnables.icons-overflow.icons-overflow-isolated
-    //        use(
-    //          xlink:href = "#icons-overflow"
-    //        )
+    ul.list.list-isolated(
+      ng-if = "$root.featureFlags.isolationUI && branch.isolation && branch.selected"
+    )
+      li.list-item(
+        ng-repeat = "container in isolatedContainers"
+      )
+        .list-item-container
+          .icons-status(
+            ng-class = "{'{{container.name}}': true}"
+          )
+          .text-overflow {{container.name}}
+          svg.iconnables.icons-overflow.icons-overflow-isolated
+            use(
+              xlink:href = "#icons-overflow"
+            )
 
   //- nav list filter
-  //.btn.btn-xxs(
-  //  ng-if = "$root.featureFlags.navListFilter"
-  //  pop-over
-  //  pop-over-options = "{\"top\":-33,\"left\":215}"
-  //  pop-over-template = "viewMoreContainersPopover"
-  //) 8 more…
+  .btn.btn-xxs(
+    ng-if = "$root.featureFlags.navListFilter"
+    pop-over
+    pop-over-options = "{\"top\":-33,\"left\":215}"
+    pop-over-template = "viewMoreContainersPopover"
+  ) 8 more…
 
 //- non-repository based containers
 .list(
