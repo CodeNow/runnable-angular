@@ -47,7 +47,7 @@
 
           //- list of DNS mappings
           ul.list.popover-list
-            li.list-item.popover-list-item.tr.multi-line.clearfix(
+            li.list-item.popover-list-item.tr.multi-line.clearfix.tr-dns(
               ng-click = "DCC.editDependency(dependency); goToPanel('dnsList');"
               ng-if = "$root.isLoaded.dns"
               ng-repeat = "dependency in DCC.dependencies.models"
@@ -60,8 +60,8 @@
                   title = "{{dependency.instance.getElasticHostname()}}"
                 ) {{dependency.instance.getElasticHostname()}}
 
-              // If Isolated add class .centered
-              .cell.clearfix(
+              // If not isolated remove .center
+              .cell.clearfix.center(
                 ng-class = "{'fade-in': dependency === DCC.lastModifiedDNS}"
                 title = "{{dependency.instance.getBranchName()}}"
               )
@@ -131,6 +131,7 @@
           ul.list.popover-list.list-branches(
             ng-if = "$root.isLoaded.dnsDepData"
           )
+            //li.list-item.popover-list-item.small.disabled anton-jul8’s Containers
             li.list-item.popover-list-item.text-overflow(
               ng-class = "{'no-touching': instance === DCC.modifyingDNS.current.instance}"
               ng-click = "DCC.selectInstance(instance); goToPanel('dnsOverview', 'back');"
@@ -157,3 +158,5 @@
                 use(
                   xlink:href = "#icons-fat-check"
                 )
+            //li.divider
+            //li.list-item.popover-list-item.small.disabled Other Containers

@@ -44,7 +44,8 @@ describe('DNSConfigurationController'.bold.underline.blue, function() {
       childInstances.models.map(function (childInstance) {
         return angular.extend(childInstance, {
           contextVersion: {
-            context: instance.attrs.contextVersion.context
+            context: instance.attrs.contextVersion.context,
+            getMainAppCodeVersion: sinon.stub().returns({})
           },
           parent: instance.attrs.shortHash,
           update: sinon.spy()
