@@ -31,7 +31,7 @@
     spinner-flag = "saving"
     value = "temp.stackKey"
   )
-    li.list-item.popover-list-item.small(
+    li.list-item.popover-list-item.small.disabled(
       ng-if = "$parent.state.repo.stackAnalysis.languageFramework"
     ) Suggested stack type
     fancy-option(
@@ -67,7 +67,7 @@
     placeholder = "Select Version"
     value = "state.selectedStack.selectedVersion"
   )
-    li.list-item.popover-list-item.small(
+    li.list-item.popover-list-item.small.disabled(
       ng-if = "$parent.state.selectedStack.suggestedVersion"
     ) Suggested {{$parent.$parent.state.selectedStack.name}} Version
     fancy-option(
@@ -92,7 +92,7 @@
     placeholder = "Select Version"
     value = "depStack.selectedVersion"
   )
-    li.list-item.popover-list-item.small(
+    li.list-item.popover-list-item.small.disabled(
       ng-if = "$parent.depStack.suggestedVersion"
     ) Suggested {{$parent.$parent.depStack.name}} Version
     fancy-option(
@@ -118,7 +118,7 @@
     placeholder = "Select Version"
     value = "depStack.selectedVersion"
   )
-    li.list-item.popover-list-item.small(
+    li.list-item.popover-list-item.small.disabled(
       ng-if = "$parent.depStack.suggestedVersion"
     ) Suggested {{$parent.$parent.depStack.name}} Version
     fancy-option(

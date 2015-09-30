@@ -6,7 +6,7 @@ fancy-select(
   track-by = "attrs.name"
   value = "state.branch"
 )
-  li.list-item.popover-list-item.small(
+  li.list-item.popover-list-item.small.disabled(
     ng-click = "$event.stopPropagation(); $event.preventDefault();"
   ) Select initial branch
   fancy-option(

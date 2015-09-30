@@ -1,0 +1,193 @@
+// instances list
+.instances-list {
+  background: $gray-lighterest;
+  border-right: 1px solid $gray-lighter;
+  float: left;
+  height: 100vh;
+  overflow-y: auto;
+  position: relative;
+  width: $instance-list-width;
+
+  // if nav is open
+  + .instance-wrapper {
+    float: right;
+    width: calc(100% - #{$instance-list-width});
+  }
+
+  .list {
+    margin: 0 12px; // matches instance sidebar margin
+    padding: 9px 0 15px;
+
+    + .list {
+      border-top: 1px solid $gray-lighter;
+    }
+
+    // list of isolated containers
+    &.list-isolated {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+
+      .list-item {
+        padding: 0;
+      }
+    }
+  }
+
+  .list-item {
+    align-items: center;
+    border: 1px solid transparent;
+    display: flex;
+    font-size: 15px;
+    height: 30px;
+    line-height: 28px;
+
+    // list title
+    &.list-item-header {
+      color: darken($gray-light,10%);
+      padding: 0 9px 0 27px; // spacing for .status-icon
+
+      &:hover .icons-advanced {
+        opacity: .75;
+      }
+    }
+
+    // open/active and isolated states
+    &.open {
+      background: rgba($purple-light,.1);
+      border-color: rgba($purple-light,.3);
+      border-radius: $input-border-radius;
+
+      // is isolated
+      &.isolated {
+        flex-wrap: wrap;
+        height: auto;
+
+        .icons-overflow-isolated {
+          display: block;
+        }
+      }
+    }
+
+    // gear icon
+    .icons-advanced {
+      cursor: pointer;
+      opacity: .6;
+      pointer-events: auto;
+      transition: opacity .15s, transform .15s;
+
+      &:hover {
+        transform: rotate3d(0,0,1,30deg);
+      }
+
+      &:active {
+        opacity: 1;
+        transform: rotate3d(0,0,1,60deg);
+      }
+    }
+  }
+
+  .list-item-container {
+    @extend %text-overflow;
+    align-items: center;
+    color: $gray;
+    cursor: pointer;
+    display: flex;
+    flex: 1 1 auto;
+    font-weight: $weight-bold;
+    padding: 0 9px;
+
+    &:hover {
+      color: $purple-light;
+    }
+
+    &:active,
+    &.active {
+      color: $purple-light;
+    }
+
+    &.active {
+      cursor: default;
+    }
+
+    // show overflow on hover
+    // show overflow on active
+    // show overflow on active:hover if isolated
+    &:hover > .icons-overflow,
+    &.active > .icons-overflow,
+    &.active:hover > .btn-badge + .icons-overflow {
+      display: block;
+    }
+
+    // hide isolated badge on hover
+    // hide overflow on .active if isolated
+    &:hover > .btn-badge,
+    &.active > .btn-badge + .icons-overflow {
+      display: none;
+    }
+  }
+
+  // status icon
+  .icons-status {
+    flex: 0 0 9px;
+    margin-right: 9px;
+  }
+
+  // name
+  .text-overflow {
+    flex: 1 1 auto;
+  }
+
+  // configure/overflow
+  .iconnables {
+    cursor: pointer;
+    flex: 0 0 15px;
+    margin-left: 5px;
+    pointer-events: auto; // override iconnables default
+  }
+
+  .icons-overflow {
+    color: $gray;
+    display: none;
+    flex: 0 0 auto;
+    margin-right: -6px;
+    padding: 0 5px;
+
+    &:hover {
+      color: $gray-dark;
+    }
+
+    &:active,
+    &.active {
+      color: $purple-light;
+    }
+
+    &.active {
+      display: block;
+    }
+  }
+
+  .icons-advanced {
+    margin-right: -1px;
+  }
+
+  // "more…" button
+  .btn-xxs {
+    color: darken($gray-light,10%);
+    font-style: italic;
+    left: 15px;
+
+    &:hover {
+      color: $purple-light;
+    }
+
+    &:active {
+      color: $purple-light;
+    }
+  }
+
+  // isolation badge
+  .btn-badge {
+    margin-right: 9px;
+  }
+}

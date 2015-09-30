@@ -20,13 +20,6 @@ body {
   }
 }
 
-// TODO: maybe this should be less global
-.instance {
-  height: 100%;
-  padding-top: 72px;
-  position: relative;
-}
-
 // svg files
 .svg-defs {
   display: none !important;

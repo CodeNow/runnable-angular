@@ -1,0 +1,40 @@
+// environment header
+.environment-header {
+  padding: 15px;
+  position: relative;
+
+  // help button
+  .btn-icon {
+    border: 0;
+    left: 15px;
+    padding: 0 12px;
+    position: absolute;
+
+    &:active,
+    &.active {
+      color: $blue;
+    }
+
+    .iconnables {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  // new server button
+  .green {
+    display: table;
+    margin: 0 auto;
+    text-align: left;
+
+    &.hint {
+      animation: scale .4s ease;
+    }
+
+    .icons-add {
+      height: 18px;
+      margin: 10px 6px 0 0;
+      width: 18px;
+    }
+  }
+}

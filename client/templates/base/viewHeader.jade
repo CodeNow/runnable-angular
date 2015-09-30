@@ -1,5 +1,6 @@
 img.logo.logo-icon(
   height = "36"
+  ng-class = "{ changed: CA.featureFlagsChanged() }"
   ng-click = "editFeatureFlags = CA.canEditFeatureFlags()"
   pop-over
   pop-over-active = "editFeatureFlags"
@@ -8,7 +9,6 @@ img.logo.logo-icon(
   pop-over-trigger = "activeAttr"
   src = "/build/images/runnable-icon-white.svg"
   width = "36"
-  ng-class = "{ changed: CA.featureFlagsChanged() }"
 )
 
 .btn-group.btn-toggle.btn-toggle-sm.toggle-header
@@ -46,7 +46,7 @@ img.logo.logo-icon(
     | Configure
 
 //- menu
-.accounts-select(
+.accounts-select.deprecated(
   accounts-select
   data = "dataApp.data"
 )
