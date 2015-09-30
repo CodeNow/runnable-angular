@@ -2,12 +2,12 @@
   max-width: none;
   width: 360px;
 
-  .popover-views {
-    max-height: calc(100vh - 140px);
-  }
-
   .popover-view {
     min-height: 80px; // set initial height
+  }
+
+  .popover-content {
+    max-height: calc(100vh - 176px);
   }
 
   .icons-status {

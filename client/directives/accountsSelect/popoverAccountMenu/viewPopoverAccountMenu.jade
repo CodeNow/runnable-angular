@@ -137,7 +137,7 @@
           ) Reset
         .popover-content.fade.list.popover-list(
           ng-class = "{'in': isActivePanel()}"
-          style = "max-height: 88vh; overflow-y: auto;"
+          style = "max-height: calc(100vh - 81px); overflow-y: auto;"
         )
           label.list-item.popover-list-item.text-overflow(
             ng-repeat = "(flag, value) in $root.featureFlags"
