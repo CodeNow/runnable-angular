@@ -92,7 +92,6 @@
                   'fade-in': container === state.selectedMapping && isActivePanel(),\
                   'center': isIsolated\
                 }"
-                title = "{{container.branch}}"
               )
                 .text-overflow
                   .icons-status(
@@ -101,10 +100,12 @@
                     tooltip-eval = "instance | cardBuildStatusTitle"
                     tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
                   )
-                  | {{container.branch}}
+                  span.span(
+                    title = "{{container.branch}}"
+                  ) {{container.branch}}
                 //- show "Isolated" if isolated from a staging branch, or the initial branch name if an isolated branch (ie. anton-jul8)
-                small.small.text-overflow
-                  .btn.btn-xxs.btn-badge.gray Isolated
+                small.small
+                  .btn.btn-xxs.btn-badge.gray.text-overflow Isolated
 
               //- inline for svg animation
               svg.iconnables.icons-check.float-right(

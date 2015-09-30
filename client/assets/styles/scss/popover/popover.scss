@@ -71,7 +71,7 @@
   .empty {
     color: $gray;
     font-size: 13px;
-    padding: 12px;
+    padding: 21px;
 
     &.fade-in {
       animation: fade-in .3s ease-in-out;
@@ -153,6 +153,7 @@
 
       .anchor-right {
         height: 30px;
+        margin-left: 3px;
         right: initial;
         width: 21px;
       }
