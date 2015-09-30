@@ -1,4 +1,3 @@
-
 // bordered list with line between items
 .list-bordered {
   border: 1px solid $gray-lighter;
@@ -77,25 +76,6 @@
     cursor: default;
     font-size: 13px;
     pointer-events: none;
-
-    &:hover,
-    &:active {
-      background: none !important;
-      border-color: transparent !important;
-    }
-  }
-
-  // info
-  &.no-action {
-    color: $gray-light;
-    cursor: default;
-    font-size: 13px;
-
-    &:hover,
-    &:active {
-      background: none !important;
-      border-color: transparent !important;
-    }
   }
 
   &.multi-line {
@@ -187,7 +167,6 @@
     opacity: 0;
     position: absolute;
   }
-
 }
 
 // links

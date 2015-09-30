@@ -1,5 +1,8 @@
+//- ************************
+//- deprecated file, delete with cardStatus feature flag
+
 .card-header.deprecated {
-  margin: 0;
+  margin: 0 15px;
 }
 
 // title group
@@ -28,7 +31,11 @@
 
   // status
   .icons-status {
+    flex: 0 0 auto;
     margin-right: 6px;
     margin-top: 12px; // 'vertical center'
   }
 }
+
+//- deprecated file, delete with cardStatus feature flag
+//- ************************

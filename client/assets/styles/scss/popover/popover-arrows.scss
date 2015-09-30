@@ -17,13 +17,9 @@
 
 .popover.right .arrow {
   border-right-color: $gray-lighter;
-  left: -25px;
+  left: -26px;
   margin-top: -11px;
   top: 50%;
-
-  &.white {
-    border-right-color: $white;
-  }
 }
 
 .popover.right .arrow:after {
@@ -31,7 +27,7 @@
   border-right-color: $gray-lighterest;
   bottom: -10px;
   content: '';
-  left: 1px;
+  left: 3px;
 }
 
 .popover.bottom .arrow {
@@ -68,6 +64,14 @@
 
 .popover {
 
+  &.in {
+
+    .arrow,
+    .arrow::after {
+      transition: border .3s ease-in;
+    }
+  }
+
   .arrow,
   .arrow::after {
     border-color: transparent;
@@ -75,7 +79,6 @@
     display: block;
     height: 0;
     position: absolute;
-    transition: border .3s ease-in;
     width: 0;
   }
 

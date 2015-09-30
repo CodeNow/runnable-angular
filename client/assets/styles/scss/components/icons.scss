@@ -95,8 +95,14 @@
   border-radius: 50%;
   display: inline-block;
   height: 9px;
+  opacity: .75;
   position: relative;
   width: 9px;
+
+  &:hover,
+  &:active {
+    opacity: 1;
+  }
 
   &.green,
   &.running,

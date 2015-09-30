@@ -14,14 +14,44 @@
 @import "globals/mixins";
 @import "globals/reset";
 @import "globals/globals";
-
 @import "globals/animations";
 @import "globals/images";
 @import "globals/loader";
 @import "globals/typography";
 
+// layout:
+//  .layout-wrapper (used as <body>)
+//    .layout-navigation (fixed nav)
+//    .layout-main  (main content)
+
+//      * environment page *
+//      .environment-header
+//      .environment-body
+
+//      * instance page *
+//      .instances-list (instance nav)
+//       .instance-wrapper
+//         .instance-header (0 0 auto)
+//           .instance-header-title
+//           .instance-header-properties
+//         .instance-body (1 1 auto)
+
+// global layout
+@import "layout/layout";
+
+// instance layout
+@import "layout/instances-list";
+@import "layout/instance";
+@import "layout/instance-header";
+@import "layout/instance-body";
+
+// environment layout
+@import "layout/environment-header";
+@import "layout/environment-body";
+
 // buttons
 @import "components/buttons/buttons";
+@import "components/buttons/buttons-badge";
 @import "components/buttons/buttons-group";
 
 // specific buttons
@@ -33,7 +63,6 @@
 @import "components/cards";
 @import "components/cards-title";
 @import "components/fancy-select";
-@import "components/header";
 @import "components/help";
 @import "components/icons";
 @import "components/lists";
@@ -68,7 +97,6 @@
 @import "sidebar/sidebar";
 
 // server
-@import "server/server-header";
 @import "server/server-sidebar";
 @import "server/server-sidebar-repositories";
 
@@ -83,7 +111,6 @@
 // modals
 @import "modals/modals";
 @import "modals/modals-alerts";
-@import "modals/modals-flip";
 @import "modals/modals-forms";
 
 // modal specific
@@ -109,6 +136,7 @@
 @import "popover/popover-account-menu";
 @import "popover/popover-add-tab";
 @import "popover/popover-card-status";
+@import "popover/popover-container-menu";
 @import "popover/popover-debug";
 @import "popover/popover-dns-mappings";
 @import "popover/popover-files";
@@ -119,11 +147,13 @@
 @import "popover/popover-rules";
 
 // pages
-@import "pages/environment";
 @import "pages/server-selection";
 
 //deprecated
 @import "deprecated/card-status";
+@import "deprecated/header";
+@import "deprecated/isolation-ui";
+@import "deprecated/server-header";
 
 // shame 🔔🔔
 @import "shame";

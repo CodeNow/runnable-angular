@@ -1,5 +1,5 @@
 button.btn.btn-icon.blue(
-  ng-class = "{active: state.helpButton.active}"
+  ng-class = "{'active': state.helpButton.active}"
   ng-click = "state.helpButton.active = true"
   pop-over
   pop-over-actions = "helpPopover.actions"
@@ -47,7 +47,8 @@ button.btn.btn-icon.blue(
 
 //- new server button
 button.btn.green(
-  ng-class = "{ hint: helpCards.getActiveCard().targets.newContainer }"
+  ng-class = "{'hint': helpCards.getActiveCard().targets.newContainer}"
+  ng-if = "!$root.featureFlags.isolationUI"
   pop-over
   pop-over-actions = "actions"
   pop-over-active = "state.newServerButton.active"
@@ -64,3 +65,15 @@ button.btn.green(
     use(
       xlink:href = "#icons-arrow-down"
     )
+
+//- new server button
+button.btn.green(
+  internal-modal-helper = "viewNewContainerModal"
+  ng-class = "{'hint': helpCards.getActiveCard().targets.newContainer}"
+  ng-if = "$root.featureFlags.isolationUI"
+)
+  svg.iconnables.icons-round.icons-add
+    use(
+      xlink:href = "#icons-add"
+    )
+  span.float-left New Container

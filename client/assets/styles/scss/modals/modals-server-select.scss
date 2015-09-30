@@ -19,6 +19,32 @@
   .p.empty {
     margin-top: 30px;
   }
+
+  // select type of container
+  .btn-huge {
+    color: $gray;
+    float: left;
+    font-size: 16px;
+    height: 210px;
+    line-height: 1.4;
+    margin: 4% 2% 2%;
+    white-space: normal;
+    width: 46%;
+
+    &:last-child {
+      background: url(/build/images/other-containers.png) no-repeat center center $white;
+      background-size: cover;
+    }
+
+    .iconnables {
+      display: block;
+      margin: 0 auto;
+    }
+
+    .small {
+      display: block;
+    }
+  }
 }
 
 // repository/template list

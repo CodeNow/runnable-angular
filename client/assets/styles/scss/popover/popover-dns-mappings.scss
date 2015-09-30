@@ -1,84 +1,142 @@
 .popover-dns-mappings {
   max-width: none;
-  width: 345px;
+  width: 360px;
 
-  .popover-views {
-    height: 80px; // set initial height
-    max-height: calc(100vh - 140px);
+  .popover-view {
+    min-height: 80px; // set initial height
   }
 
-  // view-1
-  // rows
-  .tr {
-    cursor: pointer;
+  .popover-content {
+    max-height: calc(100vh - 176px);
+  }
 
-    &:hover .icons-arrow-forward {
+  .icons-status {
+    flex: 0 0 auto;
+    margin-right: 5px;
+  }
+
+  // specific to branch list
+  .list-branches {
+
+    .list-item {
+      align-items: center;
+      color: $gray;
+      display: flex;
+      font-size: 14px;
+      font-weight: $weight-bold;
+      padding: 0 15px;
+
+      &:active {
+        color: $purple-light;
+      }
+
+      &.small {
+        color: $gray-light;
+        font-weight: $weight-normal;
+      }
+    }
+
+    // name of branch
+    .text-overflow {
+      flex: 1 1 auto;
+    }
+
+    // isolation badge
+    .btn-badge {
+      margin: 0;
+    }
+
+    // spinners
+    .spinner-wrapper {
+      flex: 0 0 auto;
+    }
+
+    // selected branch
+    .icons-fat-check {
+      flex: 0 0 auto;
+      margin: 0 6px;
+    }
+  }
+}
+
+// view-1
+// rows
+.tr-dns {
+  cursor: pointer;
+  padding: 0 15px;
+
+  &:hover .icons-arrow-forward {
+    color: $gray;
+  }
+
+  &:active {
+
+    // override .popover-list-item default
+    .small.text-overflow {
       color: $gray;
     }
 
-    &:active {
-
-      // override .popover-list-item default
-      .small.text-overflow {
-        color: $gray;
-      }
-
-      .cell + .cell,
-      .icons-arrow-forward {
-        color: $purple-light;
-      }
-    }
-
-    // override borders
-    + .tr {
-      border: 0;
-    }
-
+    .cell + .cell,
+    .cell + .cell .small,
     .icons-arrow-forward {
-      color: $gray-light;
-      margin: 0;
-      right: -9px;
-      top: 2px;
+      color: $purple-light;
     }
+  }
 
-    // check icon
-    .icons-check {
-      margin: 0;
-      padding: 6px;
-      position: absolute;
-      right: 6px;
-      top: 14px;
+  // override borders
+  + .tr {
+    border: 0;
+  }
 
-      + .icons-arrow-forward {
-        opacity: 0;
+  .iconnables {
+    margin: 0;
+    position: absolute;
+    right: 6px;
+    top: 18px;
+  }
 
-        &.in {
-          opacity: 1;
-          transition: opacity .3s 2.25s ease-in;
-        }
+  .icons-arrow-forward {
+    color: $gray-light;
+  }
+
+  // check icon
+  .icons-check {
+    padding: 6px;
+
+    + .icons-arrow-forward {
+      opacity: 0;
+
+      &.in {
+        opacity: 1;
+        transition: opacity .15s 1.75s ease-in;
       }
     }
+  }
 
-    // check icon path
-    .path {
-      animation: check 1.75s .5s ease-out forwards;
-      stroke-dasharray: 18;
-      stroke-dashoffset: 18;
-      transform-origin: 50% 50%;
-    }
+  // check icon path
+  .path {
+    animation: check 1.5s .3s ease-out forwards;
+    stroke-dasharray: 18;
+    stroke-dashoffset: 18;
+    transform-origin: 50% 50%;
   }
 
   // cells
   .cell {
     color: $gray-dark;
+    flex: 1 1;
     font-size: 14px;
     font-weight: $weight-bold;
-    padding: 0;
+    height: 54px;
+    max-width: 50%;
+    padding: 12px 0;
     position: relative;
 
-    // specific to elastic container
+    // url cell
     &:first-child {
       color: $gray;
+      font-size: 13px;
+      padding-right: 15px;
 
       // arrow
       &::after {
@@ -87,13 +145,37 @@
         display: block;
         font-size: 18px;
         position: absolute;
-        right: 9px;
-        top: -3px;
+        right: 0;
+        top: 15px;
       }
+    }
 
-      // container name
-      .text-overflow:first-child {
-        padding-right: 24px;
+    // center text if single line
+    &.center {
+      align-items: center;
+      display: flex;
+    }
+
+    // second row of text
+    .small {
+      line-height: 19px;
+    }
+
+    .btn-badge {
+      font-size: 11px;
+      height: 16px;
+      line-height: 14px;
+      margin-top: 3px;
+      max-width: 100%;
+    }
+
+    // branch cell
+    + .cell {
+      padding-left: 9px;
+      padding-right: 15px;
+
+      .small {
+        margin-left: 14px;
       }
     }
 
@@ -101,95 +183,5 @@
     &.fade-in {
       animation: fade-in-half 1s .25s;
     }
-
-    // specific to mapped container
-    + .cell {
-      max-width: 120px;
-    }
-  }
-
-  // view-2
-  // toggle
-  .btn-toggle {
-    display: table;
-    margin: 9px auto 5px;
-
-    > .btn {
-      width: 105px;
-    }
-  }
-
-  // container list
-  .popover-list-toggle {
-    position: absolute;
-    transition: opacity .15s ease-in, transform .3s ease-in-out;
-    width: 100%;
-
-    &.view-2 {
-      transform: translate3d(-100%,0,0);
-    }
-
-    + .popover-list-toggle {
-      left: 100%;
-    }
-  }
-
-  .icons-status {
-    margin-right: 5px;
-
-    // indent team/private label
-    ~ .small {
-      margin-left: 14px;
-    }
-  }
-
-  // branch container lists
-  .list-item {
-    color: $gray-dark;
-    font-size: 14px;
-    font-weight: $weight-bold;
-    padding: 0 15px;
-
-    &:active {
-      color: $purple-light;
-    }
-
-    &.multi-line {
-      height: 54px;
-      line-height: 1.2;
-      padding-top: 12px;
-
-      .small {
-        font-size: 11px;
-      }
-
-      // recenter if multi-line
-      .icons-fat-check {
-        top: 14px;
-      }
-
-      // spinners
-      .spinner-wrapper {
-        top: 20px;
-      }
-    }
-
-    // on container name list for overflow with fat-check
-    &.text-overflow {
-      padding-right: 27px;
-    }
-
-    // spinners
-    .spinner-wrapper {
-      position: absolute;
-      right: 9px;
-      top: 10px;
-    }
-  }
-
-  .icons-fat-check {
-    position: absolute;
-    right: 0;
-    top: 4px;
   }
 }

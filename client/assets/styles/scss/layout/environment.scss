@@ -1,6 +1,25 @@
-//- header—title, description, progress
+// environment header
 .environment-header {
-  margin: 24px 15px;
+  padding: 15px;
+  position: relative;
+
+  // help button
+  .btn-icon {
+    border: 0;
+    left: 15px;
+    padding: 0 12px;
+    position: absolute;
+
+    &:active,
+    &.active {
+      color: $blue;
+    }
+
+    .iconnables {
+      height: 100%;
+      width: 100%;
+    }
+  }
 
   // new server button
   .green {
@@ -18,29 +37,11 @@
       width: 18px;
     }
   }
-
-  // help button
-  > .btn-icon {
-    border: 0;
-    left: 15px;
-    padding: 0 12px;
-    position: absolute;
-
-    &:active,
-    &.active {
-      color: $blue;
-    }
-
-    .iconnables {
-      height: 100%;
-      width: 100%;
-    }
-  }
 }
 
-// body—form elements/cards
+// environment body
 .environment-body {
-  margin: 15px;
+  margin: 0 15px;
 }
 
 // card grid

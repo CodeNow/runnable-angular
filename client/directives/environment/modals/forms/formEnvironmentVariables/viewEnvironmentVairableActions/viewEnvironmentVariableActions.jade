@@ -6,18 +6,6 @@ button.btn.btn-xs.gray(
   ng-init = "state.showHostName = false"
 ) Insert an Elastic Hostname
 
-//- ***********************
-//- deprecated button, remove with $root.featureFlags.hostnameTool
-button.btn.btn-xs.no-touching(
-  ng-if = "\
-    !$root.featureFlags.hostnameTool && \
-    !state.showHostName\
-  "
-  title = "{{linkedEnvResults.length || 0 }} hostnames from environment variables"
-) {{linkedEnvResults.length || 0 }} hostnames
-//- end deprecated button
-//- ***********************
-
 button.btn.btn-xs.gray(
   ng-class = "{'active': data.toggleSidebar}"
   ng-click = "data.toggleSidebar = !data.toggleSidebar"
@@ -50,7 +38,7 @@ button.btn.btn-xs.gray(
     type = "text"
     value = "$parent.state.newLink.protocol"
   )
-    li.list-item.popover-list-item.small(
+    li.list-item.popover-list-item.small.disabled(
     ) Select Protocol (optional)
     fancy-option(
       value = "'http://'"
@@ -59,7 +47,7 @@ button.btn.btn-xs.gray(
     placeholder = "hostname"
     value = "$parent.state.newLink.server"
   )
-    li.list-item.popover-list-item.small Select hostname
+    li.list-item.popover-list-item.small.disabled Select hostname
     fancy-option.monospace(
       ng-if = "instance.attrs.shortHash !== $parent.$parent.$parent.instance.attrs.shortHash"
       ng-repeat = "instance in $parent.data.instances.models"
@@ -71,7 +59,7 @@ button.btn.btn-xs.gray(
     type = "text"
     value = "$parent.state.newLink.port"
   )
-    li.list-item.popover-list-item.small(
+    li.list-item.popover-list-item.small.disabled(
     ) Select Port (optional)
     fancy-option(
       ng-repeat = "port in $parent.$parent.state.newLink.server | extractInstancePorts"
