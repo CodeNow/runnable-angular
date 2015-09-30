@@ -1,3 +1,8 @@
+.spinner-wrapper.spinner-md.spinner-gray.spinner-center.in(
+  ng-if = "!CIS.instancesByPod"
+  ng-include = "'spinner'"
+)
+
 //- repository based containers
 .list(
   ng-repeat = "container in containers"
