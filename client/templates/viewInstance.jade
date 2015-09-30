@@ -1,74 +1,38 @@
+//- spinner if instance is loading
 .spinner-wrapper.spinner-md.spinner-purple.spinner-backdrop.in(
-  ng-include = "'spinner'"
   ng-if = "isLoading.main"
+  ng-include = "'spinner'"
 )
 
-.instance(
+//- there are two of these........
+.instance-wrapper(
+  ng-class = "{'deprecated': !$root.featureFlags.isolationUI}"
   ng-if = "!isLoading.main"
 )
+
   //- show if server build is being swapped out
     - orange when build is updating or has failed
     - green if build is successfully built
-  //- Orange is currently not used
-  //- will be re-enabled when API opens up that event
+    * Orange is currently not used; will be re-enabled when API opens up that event
   .notification.in(
     ng-class = "{\
       'green': dataInstance.data.showUpdatedMessage,\
       'orange': dataInstance.data.showUpdatingMessage\
     }"
     ng-if = "(dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage)"
+    ng-include = "'viewNotifications'"
   )
-    //- if successful, .green; if fail, .orange
-    .btn.btn-xxs.btn-icon.btn-state.no-touching
-      //- if updated
-      svg.iconnables.icons-check(
-        ng-if = "dataInstance.data.showUpdatedMessage"
-      )
-        use(
-          xlink:href = "#icons-fat-check"
-        )
-      //- if updating
-      svg.iconnables.icons-warning(
-        ng-if = "dataInstance.data.showUpdatingMessage"
-      )
-        use(
-          xlink:href = "#icons-warning"
-        )
-    img.gravatar(
-      height = "36"
-      ng-src = "{{dataInstance.data.commit.attrs.author.avatar_url}}"
-      width = "36"
-    )
-    //- inherit green/orange from .notification
-    button.btn.btn-icon.btn-close(
-      ng-class = "{\
-        'green': dataInstance.data.showUpdatedMessage,\
-        'orange': dataInstance.data.showUpdatingMessage\
-      }"
-      ng-click = "dataInstance.data.showUpdatedMessage = false; dataInstance.data.showUpdatingMessage = false"
-    )
-      svg.iconnables.icons-close
-        use(
-          xlink:href = "#icons-close"
-        )
-    //- copy should read:
-        if updating: Updating {{ serverName }}
-        if success: Successful Build
-        if failed: Failed Build
-    h4.h4.text-overflow(
-      title = "{{dataInstance.data.instance.getRepoAndBranchName()}}"
-    ) {{dataInstance.data.showUpdatedMessage ? 'Deployed' : 'Building' }} #{''}
-      span.strong {{dataInstance.data.instance.getRepoName() || dataInstance.data.instance.getDisplayName()}}
-      span(
-        ng-if = "dataInstance.data.instance.getBranchName()"
-      ) /{{dataInstance.data.instance.getBranchName()}}
-    small.small {{dataInstance.data.commit.attrs.author.login}} pushed #{''}
-      a.link(
-        ng-href = "{{dataInstance.data.commit.attrs.html_url}}"
-        target = "_blank"
-      ) {{dataInstance.data.commit.attrs.sha  | limitTo:7}}
 
-  header.server-header
+  header.instance-header(
+    ng-if = "$root.featureFlags.isolationUI"
+    ng-include = "'viewInstanceHeader'"
+  )
+
+  //- *********************
+  //- deprecated header
+  header.server-header.deprecated(
+    ng-if = "!$root.featureFlags.isolationUI"
+  )
 
     .server-info.load(
       instance = "dataInstance.data.instance"
@@ -83,37 +47,40 @@
       open-items = "dataInstance.data.openItems"
       saving = "dataInstance.data.saving"
     )
+  //- end depcreated header
+  //- *********************
 
-  //- sidebar with repositories and urls
-  section.sidebar.server-sidebar.load
+  .instance-body
+    //- sidebar with repositories and urls
+    section.sidebar.server-sidebar.load
 
-    section.sidebar-section.repository-section(
+      section.sidebar-section.repository-section(
+        instance = "dataInstance.data.instance"
+        ng-if = "dataInstance.data.instance.contextVersion.getMainAppCodeVersion()"
+        repo-list
+      )
+
+      section.sidebar-section.dns-mappings-section(
+        dns-manager
+        instance = "dataInstance.data.instance"
+        ng-if = "dataInstance.data.instance && !$root.featureFlags.isolationDnsMappings"
+      )
+
+      section.sidebar-section.explorer-section(
+        edit-explorer = "false"
+        explorer
+        explorer-title = "File Explorer"
+        file-model = "dataInstance.data.instance.containers.models[0]"
+        instance = "dataInstance.data.instance"
+        open-items = "dataInstance.data.openItems"
+        root-dir = "dataInstance.data.instance.containers.models[0].rootDir"
+      )
+
+    //- in / out control presence of header-bar
+    section.views(
+      active-panel
+      build = "dataInstance.data.instance.build"
       instance = "dataInstance.data.instance"
-      ng-if = "dataInstance.data.instance.contextVersion.getMainAppCodeVersion()"
-      repo-list
-    )
-
-    section.sidebar-section.dns-mappings-section(
-      dns-manager
-      instance = "dataInstance.data.instance"
-      ng-if = "dataInstance.data.instance && !$root.featureFlags.isolationDnsMappings"
-    )
-
-    section.sidebar-section.explorer-section(
-      edit-explorer = "false"
-      explorer
-      explorer-title = "File Explorer"
-      file-model = "dataInstance.data.instance.containers.models[0]"
-      instance = "dataInstance.data.instance"
+      ng-class = "{'full-screen': $root.featureFlags.fullScreen}"
       open-items = "dataInstance.data.openItems"
-      root-dir = "dataInstance.data.instance.containers.models[0].rootDir"
     )
-
-  //- in / out control presence of header-bar
-  section.views(
-    active-panel
-    build = "dataInstance.data.instance.build"
-    instance = "dataInstance.data.instance"
-    ng-class = "{'full-screen': $root.featureFlags.fullScreen}"
-    open-items = "dataInstance.data.openItems"
-  )

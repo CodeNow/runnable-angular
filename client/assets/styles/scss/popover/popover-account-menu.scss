@@ -1,8 +1,6 @@
 .popover-account-menu {
-  left: auto;
+  min-height: 102px;
   position: fixed;
-  right: 9px;
-  top: 60px;
   width: 216px;
   z-index: $z-spinner + 1; // to appear above instance view spinner
 
@@ -34,23 +32,5 @@
     .icons-link-external {
       padding: 0 5px;
     }
-  }
-}
-
-// deprecated styles for isolation
-.popover-views.deprecated {
-
-  .popover-list-item {
-    padding-right: 24px;
-
-    &:hover .icons-fat-check {
-      opacity: 1;
-    }
-  }
-
-  .icons-fat-check {
-    left: auto;
-    right: 0;
-    top: 10px;
   }
 }

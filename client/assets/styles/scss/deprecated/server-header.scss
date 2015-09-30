@@ -1,17 +1,5 @@
-// header.server-header
-.server-header {
-  border-bottom: 1px solid rgba($black,.1);
-  display: flex;
-  height: 72px;
-  padding: 0 9px 0 12px;
-  position: absolute;
-  top: 0;
-  width: 100%;
-
-  &.server-header-debug {
-    position: relative;
-  }
-}
+//- ************************
+//- deprecated file, delete with isolationUI feature flag
 
 // .server-info
 .server-info {
@@ -91,11 +79,24 @@
 }
 
 // header.server-header actions
-.primary-actions {
-  align-items: center;
+.server-header.deprecated {
+  border-bottom: 1px solid rgba($black,.1);
   display: flex;
-  flex: 0 0 auto;
-  padding-left: 9px;
+  height: 72px;
+  padding: 0 9px 0 12px;
+  top: 0;
+  width: 100%;
+
+  &.server-header-debug {
+    position: relative;
+  }
+
+  .primary-actions {
+    align-items: center;
+    display: flex;
+    flex: 0 0 auto;
+    padding-left: 9px;
+  }
 
   // override default font-size
   .btn {
@@ -228,3 +229,6 @@
     }
   }
 }
+
+//- deprecated file, delete with isolationUI feature flag
+//- ************************

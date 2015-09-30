@@ -1,11 +1,8 @@
 .popover.menu.bottom.popover-primary-options(
-  ng-class = "{in: active}"
+  ng-class = "{'in': active}"
   ng-style = "popoverStyle.getStyle()"
-  style = "transform-origin: 95% 0;"
 )
-  .arrow.white(
-    style = "left: auto; right: 8px;"
-  )
+  .arrow.white
   .popover-content
     //- if build files are out of date
     .well.well-popover.orange.text-center(

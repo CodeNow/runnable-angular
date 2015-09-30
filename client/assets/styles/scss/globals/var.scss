@@ -110,50 +110,40 @@ $spinner-duration: 1.4s;
 $z-hide: -10000;
 $z-show: 10000;
 
-// hero
-$z-hero-aura: 1000;
-$z-hero-content: 1001;
-$z-hero-list: 1002;
-$z-hero-list-content: 1003;
-
 // views
-$z-views: 2000;
-$z-views-explorer: 2001;
-$z-views-active-panel: 2002;
+$z-views: 1000;
+$z-views-active-panel: 1001;
 
 // sidebars
-$z-sidebar: 3000;
-$z-sidebar-content: 3001; // header and footer are higher for box-shadows
-$z-sidebar-header: 3002;
-$z-sidebar-footer: 3003;
+$z-sidebar: 2000;
 
 // modals
-$z-modal-backdrop: 4000;
-$z-modal-aside: 4001;
-$z-modal: 4002;
+$z-modal-backdrop: 3000;
+$z-modal: 3001;
 
-// popovers//
-$z-popover: 5000;
-$z-popover-title-filter: 5001;
-$z-popover-context-menu: 5002;
-$z-popover-content: 5003;
-$z-popover-title: 5004;
-$z-popover-overlay: 5005;
-$z-popover-fixed: 5006;
-$z-popover-arrow: 5007;
+// popovers
+$z-popover: 4000;
+$z-popover-context-menu: 4001;
+$z-popover-content: 4002;
+$z-popover-fixed: 4003;
+$z-popover-arrow: 4004;
 
 // alerts
-$z-alert: 6000;
+$z-alert: 5000;
 
 // tooltips
-$z-tooltip: 7000;
+$z-tooltip: 6000;
 
 // spinners
-$z-spinner: 8000;
+$z-spinner: 7000;
 
 // **********
 // dimensions
 // **********
+
+// layout
+$layout-navigation-width: 90px;
+$instance-list-width: 285px;
 
 // intercom
 $intercom-width: 370px;
@@ -162,12 +152,12 @@ $intercom-width: 370px;
 $header-height: 60px;
 
 // screen sizes
-$screen-xxs: 400px;
-$screen-xs: 600px;
-$screen-sm: 768px;
-$screen-md: 1024px;
-$screen-lg: 1440px;
-$screen-xl: 1920px;
+$screen-xxs: 400px + $layout-navigation-width;
+$screen-xs: 600px + $layout-navigation-width;
+$screen-sm: 768px + $layout-navigation-width;
+$screen-md: 1024px + $layout-navigation-width;
+$screen-lg: 1440px + $layout-navigation-width;
+$screen-xl: 1920px + $layout-navigation-width;
 
 // logs & terminal
 $terminal-line-height: 19px;

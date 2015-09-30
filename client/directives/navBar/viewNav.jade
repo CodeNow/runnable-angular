@@ -1,0 +1,37 @@
+//- organization menu
+.btn-accounts(
+  accounts-select
+  data = "dataApp.data"
+)
+
+a.a(
+  ui-sref = "base.config({ userName: CA.activeAccount.oauthName() })"
+  ui-sref-active = "active"
+)
+  svg.iconnables.icons-advanced-dark
+    use(
+      xlink:href = "#icons-advanced-dark"
+    )
+  | Configure
+
+a.a.disabled(
+  ng-if = "dataApp.state.includes('base.config') && CA.instancesByPod && !CA.instancesByPod.models.length"
+  tooltip = "You don’t have any containers yet!"
+  tooltip-options = "{\"class\":\"right\",\"left\":75,\"top\":17}"
+)
+  svg.iconnables.icons-server-dark
+    use(
+      xlink:href = "#icons-server-dark"
+    )
+  | Containers
+
+a.a(
+  ng-if = "dataApp.state.includes('base.instances') || !CA.instancesByPod || CA.instancesByPod.models.length"
+  ui-sref = "base.instances({ userName: CA.activeAccount.oauthName() })"
+  ui-sref-active = "active"
+)
+  svg.iconnables.icons-server-dark
+    use(
+      xlink:href = "#icons-server-dark"
+    )
+  | Containers

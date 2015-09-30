@@ -206,10 +206,6 @@
   }
 }
 
-.btn-badge {
-  font-weight: 500;
-}
-
 .btn-check {
 
   &.active {
@@ -280,7 +276,8 @@
     }
 
     &:active:not([disabled]),
-    &.active {
+    &.active,
+    &.active:hover {
       color: $blue-dark;
     }
   }
@@ -301,7 +298,8 @@
     }
 
     &:active:not([disabled]),
-    &.active {
+    &.active,
+    &.active:hover {
       background: $white;
       border-color: $purple-light;
       color: $purple-light;
@@ -340,7 +338,8 @@
     }
 
     &:active:not([disabled]),
-    &.active {
+    &.active,
+    &.active:hover {
       background: $green;
       transition: none;
     }
@@ -367,9 +366,9 @@
     }
 
     &:active:not([disabled]),
-    &.active {
+    &.active,
+    &.active:hover {
       background: $orange;
-      // border-color: $orange2-dark;
       transition: none;
     }
   }
@@ -390,7 +389,8 @@
     }
 
     &:active:not([disabled]),
-    &.active {
+    &.active,
+    &.active:hover {
       background: $white;
       color: $purple-light;
     }
@@ -424,7 +424,8 @@
     }
 
     &:active:not([disabled]),
-    &.active {
+    &.active,
+    &.active:hover {
       background: $red-dark;
     }
   }
@@ -444,7 +445,8 @@
     }
 
     &:active:not([disabled]),
-    &.active {
+    &.active,
+    &.active:hover {
       border-color: $purple-light;
       color: $purple-light;
     }

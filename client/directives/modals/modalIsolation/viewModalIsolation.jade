@@ -1,53 +1,6 @@
-//- initFlip removes the initial flip transition
-//- returnFlip delays the text/button change on the intial flip
-.modal-dialog.modal-isolation(
-  ng-init = "\
-    initFlip = true;\
-    returnFlip = false;\
-  "
-)
-  svg.iconnables.icons-close(
-    ng-click = "defaultActions.cancel()"
-  )
-    use(
-      xlink:href = "#icons-close"
-    )
-  section.modal-body
-    svg.iconnables.icons-door
-      use(
-        xlink:href = "#icons-door"
-      )
-    h3.h3.text-center Work in a Private Sandbox
-    p.p.text-center Changes made in your private Sandbox won’t affect the containers the rest of your team uses.
-      br
-      a.link Learn more
-      | &#32; about private Sandboxes.
-  footer.modal-footer
-    .btn.btn-block(
-      ng-class = "{\
-        'green': !returnFlip,\
-        'white': returnFlip\
-      }"
-      ng-click = "\
-        initFlip = false;\
-        stateModel.modalFlipped = true;\
-      "
-    ) {{!returnFlip ? 'Get Started' : 'Return to Setup'}}
-
-.modal-dialog.modal-isolation(
-  ng-class = "{'init': initFlip}"
-)
+.modal-dialog.modal-isolation
   header.modal-header
-    svg.iconnables.icons-help(
-      ng-click = "\
-        returnFlip = true;\
-        stateModel.modalFlipped = false;\
-      "
-    )
-      use(
-        xlink:href = "#icons-help"
-      )
-    h1.modal-heading Private Sandbox Setup
+    h1.modal-heading Isolation Setup
     svg.iconnables.icons-close(
       ng-click = "defaultActions.cancel()"
     )
@@ -55,23 +8,26 @@
         xlink:href = "#icons-close"
       )
   section.modal-body
-    .clearfix
-      .label-col Repository Containers
+    .text-center The following containers will be created to isolate&#32;
+      br
+      .icons-status.green
+      strong.strong api/my-feature-branch
+      | .
     .list.list-bordered
       .list-item
-        svg.iconnables.icons-repository
+        svg.iconnables.icons-new-repository-server
           use(
-            xlink:href = "#icons-repository"
+            xlink:href = "#icons-new-repository-server"
           )
-        span.span.text-overflow api
-        .btn.btn-xs.gray.btn-select(
+        span.span.text-overflow(
+          title = "optimus"
+        ) optimus
+        //- should get class ".modded" if the selected branch has a modified configuration
+        .btn.btn-xs.gray.btn-select.modded(
+          ng-class = "{'modded': modifiedConfiguration}"
           ng-init = "branchFirst = 'master'"
         )
-          svg.iconnables.icons-branch.float-left
-            use(
-              xlink:href = "#icons-branch"
-            )
-          span.span.text-overflow.text-left {{branchFirst}}
+          span.text-overflow.text-left {{branchFirst}}
           svg.iconnables.icons-arrow-down
             use(
               xlink:href = "#icons-arrow-down"
@@ -111,19 +67,17 @@
                 value = "fb-6"
               ) fb-6
       .list-item
-        svg.iconnables.icons-repository
+        svg.iconnables.icons-new-repository-server
           use(
-            xlink:href = "#icons-repository"
+            xlink:href = "#icons-new-repository-server"
           )
-        span.span.text-overflow runnable-angular
+        span.span.text-overflow(
+          title = "runnable-angular"
+        ) runnable-angular
         .btn.btn-xs.gray.btn-select(
           ng-init = "branchSecond = 'master'"
         )
-          svg.iconnables.icons-branch.float-left
-            use(
-              xlink:href = "#icons-branch"
-            )
-          span.span.text-overflow.text-left {{branchSecond}}
+          span.text-overflow.text-left {{branchFirst}}
           svg.iconnables.icons-arrow-down
             use(
               xlink:href = "#icons-arrow-down"
@@ -163,19 +117,17 @@
                 value = "fb-6"
               ) fb-6
       .list-item
-        svg.iconnables.icons-repository
+        svg.iconnables.icons-new-repository-server
           use(
-            xlink:href = "#icons-repository"
+            xlink:href = "#icons-new-repository-server"
           )
-        span.span.text-overflow optimus
+        span.span.text-overflow(
+          title = "mavis"
+        ) mavis
         .btn.btn-xs.gray.btn-select(
           ng-init = "branchThird = 'master'"
         )
-          svg.iconnables.icons-branch.float-left
-            use(
-              xlink:href = "#icons-branch"
-            )
-          span.span.text-overflow.text-left {{branchThird}}
+          span.text-overflow.text-left {{branchFirst}}
           svg.iconnables.icons-arrow-down
             use(
               xlink:href = "#icons-arrow-down"
@@ -214,25 +166,23 @@
               option(
                 value = "fb-6"
               ) fb-6
-    .clearfix
-      .label-col Non-repository Containers
     .list.list-bordered
       .list-item
-          svg.iconnables.icons-server
+          svg.iconnables.icons-server-new
             use(
-              xlink:href = "#icons-server"
+              xlink:href = "#icons-server-new"
             )
           span.span.text-overflow MongoDB
       .list-item
-          svg.iconnables.icons-server
+          svg.iconnables.icons-server-new
             use(
-              xlink:href = "#icons-server"
+              xlink:href = "#icons-server-new"
             )
           span.span.text-overflow Redis
   section.modal-footer.clearfix
     button.btn.green(
       ng-click = "RDMC.updateInstance()"
-    ) Create Private Sandbox
+    ) Enter Isolation
     button.btn.white.btn-cancel(
       ng-click = "RDMC.defaultActions.cancel()"
     ) Cancel

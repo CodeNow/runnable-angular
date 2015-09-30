@@ -86,13 +86,17 @@
 
     &:hover {
       color: $gray;
+
+      &.icons-close {
+        color: $red;
+      }
     }
 
     &:active {
       color: $purple-light;
 
       &.icons-close {
-        color: $red;
+        color: $red-dark;
       }
     }
   }

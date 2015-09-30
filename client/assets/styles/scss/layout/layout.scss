@@ -1,0 +1,84 @@
+// layout navigation
+.layout-navigation {
+  background: $purple-light;
+  border-right: 1px solid $purple;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  width: $layout-navigation-width;
+
+  // if feature flags are on
+  &.feature-flag-on::before {
+    background-image: repeating-linear-gradient(36deg, darken($purple-light,2.5%), darken($purple-light,2.5%) 18px, transparent 18px, transparent 36px);
+    content: '';
+    height: 100%;
+    left: 0;
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
+    z-index: -1;
+  }
+
+  // if navigation is open
+  + .instance-wrapper {
+    width: calc(100% - $instance-list-width);
+  }
+
+  .btn-accounts {
+    cursor: pointer;
+    margin: 18px auto 7px;
+    width: 42px;
+
+    .gravatar {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  .a {
+    border: 2px solid transparent;
+    border-radius: $input-border-radius-lg;
+    color: $purple-lighter;
+    cursor: pointer;
+    display: block;
+    font-size: 12px;
+    font-weight: $weight-bold;
+    height: 72px;
+    margin: 6px auto;
+    text-align: center;
+    width: 75px;
+
+    &:hover {
+      background: rgba($purple,.5);
+      border-color: rgba($purple-dark,.3);
+    }
+
+    &:active,
+    &.active {
+      background: $purple;
+      border-color: rgba($purple-dark,.6);
+    }
+
+    &.active {
+      pointer-events: none;
+    }
+
+    &.disabled {
+      cursor: not-allowed;
+      opacity: .6;
+    }
+
+    .iconnables {
+      height: 27px;
+      margin: 12px 0 0;
+      width: 100%;
+    }
+  }
+}
+
+// layout main
+.layout-main {
+  height: 100vh;
+  padding-left: $layout-navigation-width;
+  width: 100%;
+}
