@@ -92,7 +92,7 @@
     margin: 0;
     position: absolute;
     right: 6px;
-    top: 15px;
+    top: 18px;
   }
 
   .icons-arrow-forward {
@@ -151,7 +151,7 @@
     }
 
     // center text if single line
-    .center {
+    &.center {
       align-items: center;
       display: flex;
     }
