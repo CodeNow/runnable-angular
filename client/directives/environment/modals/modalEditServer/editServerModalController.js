@@ -60,7 +60,8 @@ function EditServerModalController(
         env: keypather.get(instance, 'attrs.env') || []
       },
       promises: {},
-      instance: instance
+      instance: instance,
+      newLink: {}
     },
     validation: {
       env: null
@@ -121,7 +122,10 @@ function EditServerModalController(
   }
 
   SMC.updateDockerfileFromState = function () {
-    return loadingPromises.add('editServerModal', updateDockerfileFromState(SMC.state));
+    // Only update from state if not in advanced mode
+    if (!keypather.get(SMC, 'instance.contextVersion.attrs.advanced')) {
+      return loadingPromises.add('editServerModal', updateDockerfileFromState(SMC.state));
+    }
   };
 
   $scope.$on('debug-cmd-status', function (evt, status) {
