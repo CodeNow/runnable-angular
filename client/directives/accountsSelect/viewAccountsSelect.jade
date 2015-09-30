@@ -1,8 +1,8 @@
 //- ************************
-//- deprecated element, delete with $root.featureFlags.isolationUI
+//- deprecated element, delete with $root.featureFlags.newNavigation
 a.btn.btn-sm.purple.btn-accounts(
   ng-class = "{'no-touching': data.accountsDisabled()}"
-  ng-if = "!$root.featureFlags.isolationUI"
+  ng-if = "!$root.featureFlags.newNavigation"
   ng-show = "data.activeAccount"
   pop-over
   pop-over-actions = "popoverAccountMenu.actions"
@@ -21,12 +21,12 @@ a.btn.btn-sm.purple.btn-accounts(
     use(
       xlink:href = "#icons-arrow-down"
     )
-//- end deprecated element, delete with $root.featureFlags.isolationUI
+//- end deprecated element, delete with $root.featureFlags.newNavigation
 //- ************************
 
 div(
   ng-class = "{'no-touching': data.accountsDisabled()}"
-  ng-if = "$root.featureFlags.isolationUI"
+  ng-if = "$root.featureFlags.newNavigation"
   ng-show = "data.activeAccount"
   pop-over
   pop-over-actions = "popoverAccountMenu.actions"

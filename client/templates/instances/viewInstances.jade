@@ -1,12 +1,12 @@
 //- instance list
 .instances-list(
-  ng-if = "$root.featureFlags.isolationUI && $root.featureFlags.isolationNav"
+  ng-if = "$root.featureFlags.newNavigation && $root.featureFlags.isolationNav"
   ng-include = "'viewInstancesList'"
 )
 
 //- deprecated, old list of containers
 nav.sidebar.sidebar-containers-deprecated(
-  ng-if = "!$root.featureFlags.isolationUI"
+  ng-if = "!$root.featureFlags.newNavigation"
 )
   section.containers(
     ng-if = "!CIS.instancesByPod"
@@ -23,6 +23,6 @@ nav.sidebar.sidebar-containers-deprecated(
   )
 
 .instance-wrapper(
-  ng-class = "{'deprecated': !$root.featureFlags.isolationUI}"
+  ng-class = "{'deprecated': !$root.featureFlags.newNavigation}"
   ui-view
 )

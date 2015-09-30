@@ -48,7 +48,7 @@ button.btn.btn-icon.blue(
 //- new server button
 button.btn.green(
   ng-class = "{'hint': helpCards.getActiveCard().targets.newContainer}"
-  ng-if = "!$root.featureFlags.isolationUI"
+  ng-if = "!$root.featureFlags.newNavigation"
   pop-over
   pop-over-actions = "actions"
   pop-over-active = "state.newServerButton.active"
@@ -70,7 +70,7 @@ button.btn.green(
 button.btn.green(
   internal-modal-helper = "viewNewContainerModal"
   ng-class = "{'hint': helpCards.getActiveCard().targets.newContainer}"
-  ng-if = "$root.featureFlags.isolationUI"
+  ng-if = "$root.featureFlags.newNavigation"
 )
   svg.iconnables.icons-round.icons-add
     use(
