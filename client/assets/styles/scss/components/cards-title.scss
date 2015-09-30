@@ -1,8 +1,9 @@
 // on cards
 .container-title-wrapper {
+  align-items: center;
   color: $gray-dark;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   height: 30px;
   margin: 0 auto;
   max-width: 100%;
@@ -33,7 +34,7 @@
   .icons-arrow-down,
   .spinner-wrapper {
     flex: 0 0 21px;
-    top: 3px;
+    height: 21px;
   }
 
   .spinner-wrapper {
@@ -55,7 +56,6 @@
 
 // on modal
 .modal-dialog .container-title-wrapper {
-  display: table;
   margin: 9px auto 3px;
 
   .container-title {
@@ -78,11 +78,19 @@
   }
 
   .icons-warning,
-  .icons-arrow-down,
-  .spinner-wrapper {
+  .icons-arrow-down {
     flex: 0 0 18px;
     height: 18px;
-    max-width: 15px;
+  }
+
+  .spinner-wrapper {
+    flex: 0 0 auto;
+    height: auto;
+  }
+
+  .spinner {
+    height: 12px;
+    width: 12px;
   }
 
   // rename button for verification flow
