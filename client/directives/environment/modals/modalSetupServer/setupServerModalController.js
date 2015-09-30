@@ -28,6 +28,8 @@ function SetupServerModalController (
   close
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
+  window.SMC = this;
+  window.loadingPromises = loadingPromises;
   // This needs to go away soon.
   $scope.data = data;
   loadingPromises.clear('setupServerModal');
@@ -81,7 +83,8 @@ function SetupServerModalController (
       promises: {},
       opts: {
         masterPod: true,
-        name: ''
+        name: '',
+        env: []
       },
       selectedStack: null,
       step: 1
@@ -240,20 +243,24 @@ function SetupServerModalController (
     if (Array.isArray(SMC.state.ports) && SMC.state.ports.length === 0) {
       SMC.state.ports = loadPorts();
     }
+    if (!$rootScope.featureFlags.newVerificationFlow) {
+      SMC.closeModal();
+    }
     return SMC.openItems.updateAllFiles()
       .then(function () {
          return SMC.actions.createAndBuild(createPromise, SMC.state.opts.name);
       })
       .then(function (instance) {
         SMC.instance = instance;
-        SMC.state.instance = instance;
+        SMC.state.instance = SMC.instance;
+        SMC.state.opts.env = keypather.get(SMC.instance, 'attrs.env');
         if ($rootScope.featureFlags.newVerificationFlow) {
           // Go on to step 4 (logs)
           SMC.goToNextStep();
           loading('setupServerModal', false);
-        } else {
-          SMC.closeModal();
         }
+        console.log('loadingPromises', loadingPromises.count('setupServerModal'));
+        loadingPromises.clear('setupServerModal');
       });
   };
 
@@ -263,9 +270,10 @@ function SetupServerModalController (
   };
 
   SMC.isDirty = function () {
-    return loadingPromises.count('editServerModal') > 1 ||
-      loadingPromises.count('editServerModal') > 1 ||
-      keypather.get(SMC, 'instance.attrs.env') !== keypather.get(SMC, 'state.opts.env') ||
+    console.log('ENV', SMC.state.opts.env, SMC.instance.attrs.env);
+    console.log('equals', angular.equals(keypather.get(SMC, 'instance.attrs.env'), keypather.get(SMC, 'state.opts.env')));
+    return loadingPromises.count('setupServerModal') > 1 ||
+      !angular.equals(keypather.get(SMC, 'instance.attrs.env'), keypather.get(SMC, 'state.opts.env')) ||
       !SMC.openItems.isClean();
   };
 
