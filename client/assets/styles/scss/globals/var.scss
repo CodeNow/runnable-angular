@@ -152,12 +152,12 @@ $intercom-width: 370px;
 $header-height: 60px;
 
 // screen sizes
-$screen-xxs: 400px - $layout-navigation-width;
-$screen-xs: 600px - $layout-navigation-width;
-$screen-sm: 768px - $layout-navigation-width;
-$screen-md: 1024px - $layout-navigation-width;
-$screen-lg: 1440px - $layout-navigation-width;
-$screen-xl: 1920px - $layout-navigation-width;
+$screen-xxs: 400px + $layout-navigation-width;
+$screen-xs: 600px + $layout-navigation-width;
+$screen-sm: 768px + $layout-navigation-width;
+$screen-md: 1024px + $layout-navigation-width;
+$screen-lg: 1440px + $layout-navigation-width;
+$screen-xl: 1920px + $layout-navigation-width;
 
 // logs & terminal
 $terminal-line-height: 19px;
