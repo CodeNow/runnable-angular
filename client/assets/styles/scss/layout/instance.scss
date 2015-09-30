@@ -76,6 +76,23 @@
         }
       }
     }
+
+    // gear icon
+    .icons-advanced {
+      cursor: pointer;
+      opacity: .6;
+      pointer-events: auto;
+      transition: opacity .15s, transform .15s;
+
+      &:hover {
+        transform: rotate3d(0,0,1,30deg);
+      }
+
+      &:active {
+        opacity: 1;
+        transform: rotate3d(0,0,1,60deg);
+      }
+    }
   }
 
   .list-item-container {
