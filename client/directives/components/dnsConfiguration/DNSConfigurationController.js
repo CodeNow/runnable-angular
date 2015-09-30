@@ -7,7 +7,8 @@ function DNSConfigurationController(
   loading,
   errs,
   promisify,
-  getInstanceMaster
+  getInstanceMaster,
+  keypather
 ) {
   loading('dns', true);
   var DCC = this;
@@ -16,6 +17,9 @@ function DNSConfigurationController(
   // Fetch dependencies
   promisify(DCC.instance, 'fetchDependencies')()
     .then(function (_dependencies) {
+      _dependencies.models = _dependencies.models.filter(function (dep) {
+        return keypather.get(dep.instance, 'contextVersion.getMainAppCodeVersion()');
+      });
       DCC.dependencies = _dependencies;
       return _dependencies;
     })
