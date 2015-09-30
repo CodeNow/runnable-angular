@@ -5,6 +5,7 @@ require('app')
 
 function SetupServerModalController (
   $scope,
+  $q,
   createNewBuild,
   $rootScope,
   errs,
@@ -168,20 +169,6 @@ function SetupServerModalController (
         return openDockerfile();
       })
       .then(function () {
-        SMC.state.advanced = keypather.get(SMC.state.contextVersion, 'attrs.advanced') || false;
-        SMC.state.promises.contextVersion = loadingPromises.add(
-          'editServerModal',
-          promisify(SMC.state.contextVersion, 'deepCopy')()
-            .then(function (contextVersion) {
-              SMC.state.contextVersion = contextVersion;
-              SMC.state.acv = contextVersion.getMainAppCodeVersion();
-              SMC.state.repo = keypather.get(contextVersion, 'getMainAppCodeVersion().githubRepo');
-              return promisify(contextVersion, 'fetch')();
-            })
-        );
-        return SMC.state.promises.contextVersion;
-      })
-      .then(function () {
         // Return modal to normal state
         loading('setupServerModal', false);
       });
@@ -244,6 +231,8 @@ function SetupServerModalController (
       .then(function (buildWithVersion) {
         SMC.state.build = buildWithVersion;
         SMC.state.contextVersion = buildWithVersion.contextVersion;
+        SMC.state.advanced = false;
+        SMC.state.promises.contextVersion = $q.when(buildWithVersion.contextVersion);
         return promisify(repo, 'fetchBranch')(repo.attrs.default_branch);
       })
       .then(function (masterBranch) {
