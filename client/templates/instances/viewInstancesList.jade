@@ -1,8 +1,11 @@
-
-
+.spinner-wrapper.spinner-md.spinner-gray.spinner-center.in(
+  ng-if = "!CIS.instancesByPod"
+  ng-include = "'spinner'"
+)
 
 //- repository based containers
 .list(
+  ng-if = "CIS.instancesByPod"
   ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
 )
   //- repository name
