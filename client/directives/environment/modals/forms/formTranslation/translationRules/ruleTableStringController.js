@@ -45,13 +45,13 @@ require('app')
 
     $scope.popoverTemplate = 'viewPopoverStringRule';
 
-    $scope.performCheck = function (state) {
+    $scope.performCheck = function (transformRules) {
       return testReplaceTransformRule(
         keypather.get($scope.state, 'contextVersion.getMainAppCodeVersion()'),
-        state
+        transformRules
       )
         .then(function (diff) {
-          state.diffs = diff;
+          transformRules.diffs = diff;
         });
     };
 

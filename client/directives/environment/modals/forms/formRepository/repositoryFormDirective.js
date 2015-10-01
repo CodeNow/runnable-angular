@@ -26,19 +26,21 @@ require('app')
         };
         watchOncePromise($scope, 'state.containerFiles', true)
           .then(function (containerFiles) {
-            $scope.mainRepoContainerFile = containerFiles.find(function (containerFile) {
+            $scope.state.mainRepoContainerFile = containerFiles.find(function (containerFile) {
               return containerFile.type === 'Main Repository';
             });
-            $scope.mainRepoContainerFile.commands = $scope.mainRepoContainerFile.commands || [];
-            $scope.data.cacheCommand = $scope.mainRepoContainerFile.commands.some(function (cmd) {
+            $scope.state.mainRepoContainerFile.commands = $scope.state.mainRepoContainerFile.commands || [];
+            $scope.data.cacheCommand = $scope.state.mainRepoContainerFile.commands.some(function (cmd) {
               return cmd.cache;
             });
             // Clear out the start command (only in setup, but this will change)
-            if ($scope.startCommandCanDisable && $scope.mainRepoContainerFile) {
+            if ($scope.startCommandCanDisable && $scope.state.mainRepoContainerFile) {
               $scope.$watch('state.selectedStack.key', function (newStackKey, oldStackKey) {
-                if (newStackKey && newStackKey !== oldStackKey) {
+                var mainRepoContainerFile = $scope.state.mainRepoContainerFile;
+                var commandsPopulated = (Array.isArray(mainRepoContainerFile.commands) && mainRepoContainerFile.commands.length > 0);
+                if (newStackKey && (newStackKey !== oldStackKey || !commandsPopulated)) {
                   delete $scope.state.startCommand;
-                  $scope.mainRepoContainerFile.commands = [];
+                  $scope.state.mainRepoContainerFile.commands = [];
                   var repoName = keypather.get($scope, 'state.opts.name') || '';
                   return fetchDockerfileFromSource(
                     newStackKey
@@ -48,10 +50,10 @@ require('app')
                       return parseDockerfileForDefaults(dockerfile, ['run', 'dst']);
                     })
                     .then(function (defaults) {
-                      $scope.mainRepoContainerFile.commands = defaults.run.map(function (run) {
+                      $scope.state.mainRepoContainerFile.commands = defaults.run.map(function (run) {
                         return new cardInfoTypes.Command('RUN ' + run);
                       });
-                      $scope.mainRepoContainerFile.path = (defaults.dst.length ? defaults.dst[0] : repoName).replace('/', '');
+                      $scope.state.mainRepoContainerFile.path = (defaults.dst.length ? defaults.dst[0] : repoName).replace('/', '');
                     })
                     .catch(report.error);
                 }
@@ -60,7 +62,7 @@ require('app')
           });
 
         $scope.hasNoCommands = function () {
-          var commands = keypather.get($scope, 'mainRepoContainerFile.commands') || [];
+          var commands = keypather.get($scope, 'state.mainRepoContainerFile.commands') || [];
           return !commands.find(function (command) {
             return command.body.length;
           });
@@ -79,7 +81,7 @@ require('app')
               return;
             }
             if (enableCache) {
-              var command = $scope.mainRepoContainerFile.commands.find(function (command) {
+              var command = $scope.state.mainRepoContainerFile.commands.find(function (command) {
                 return command.body.length > 0;
               });
               if (command) {
@@ -103,7 +105,7 @@ require('app')
 
             // There's probably a better way to do this
             // Cache needs to be unique
-            $scope.mainRepoContainerFile.commands.forEach(function (command) {
+            $scope.state.mainRepoContainerFile.commands.forEach(function (command) {
               command.cache = false;
             });
             if (cmd) {
