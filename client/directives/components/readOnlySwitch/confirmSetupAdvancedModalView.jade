@@ -1,0 +1,18 @@
+.modal-backdrop.in
+  .modal-dialog.modal-alert
+    header.modal-body
+      svg.iconnables.icons-close(
+        ng-click = "CMC.actions.cancel()"
+      )
+        use(
+          xlink:href = "#icons-close"
+        )
+      p.p.strong.popover-title Are you sure you want to enable Dockerfile editing?
+      p.p Doing so would limit access to some tools and is not reversible.
+    footer.modal-footer.clearfix
+      button.btn.red.float-right(
+        ng-click = "CMC.actions.confirm()"
+      ) Switch To Dockfile Editing
+      button.btn.white.btn-cancel(
+        ng-click = "CMC.actions.cancel()"
+      ) Cancel
