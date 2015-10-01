@@ -1,6 +1,6 @@
 //- instance list
 .instances-list(
-  ng-if = "$root.featureFlags.isolationUI && $root.featureFlags.isolationNav"
+  ng-if = "$root.featureFlags.isolationUI && $root.featureFlags.isolationNav && !CIS.$storage.instanceListIsClosed"
   ng-include = "'viewInstancesList'"
   ng-init = "\
     containers = [\

@@ -7,6 +7,7 @@ require('app')
  */
 function ControllerInstances(
   $filter,
+  $localStorage,
   $state,
   keypather,
   setLastOrg,
@@ -19,6 +20,9 @@ function ControllerInstances(
 ) {
   var self = this;
   var userName = $state.params.userName;
+  self.$storage = $localStorage.$default({
+    instanceListIsClosed: false
+  });
   fetchInstancesByPod()
     .then(function (instancesByPod) {
 

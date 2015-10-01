@@ -25,7 +25,10 @@
 
   header.instance-header(
     ng-if = "$root.featureFlags.isolationUI"
-    ng-include = "'viewInstanceHeader'"
+    instance = "dataInstance.data.instance"
+    instance-header
+    open-items = "dataInstance.data.openItems"
+    saving = "dataInstance.data.saving"
   )
 
   //- *********************

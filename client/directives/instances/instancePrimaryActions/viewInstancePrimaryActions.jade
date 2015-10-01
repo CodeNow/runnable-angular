@@ -1,5 +1,5 @@
 button.btn.btn-dns(
-  ng-if = "$root.featureFlags.isolationDnsMappings"
+  ng-if = "$root.featureFlags.isolationDnsMappings && !$root.featureFlags.isolationUI"
   pop-over
   pop-over-options = "{\"centered\":true,\"top\":53}"
   pop-over-template = "viewPopoverDnsMappings"
@@ -7,7 +7,7 @@ button.btn.btn-dns(
   .btn.btn-xxs 5
   | DNS
 
-button.btn.btn-spinner(
+button.btn.btn-sm.btn-spinner(
   ng-class = "getClassForInstance()"
   ng-disabled = "isChanging()"
   pop-over
@@ -57,7 +57,7 @@ button.btn.btn-spinner(
 )
   //- apply .with-restart if save restarts Server
   //- add title = "Save and Restart Server" if save restarts Server
-  button.btn.green.btn-save.btn-spinner(
+  button.btn.btn-sm.green.btn-save.btn-spinner(
     ng-class = "{in: saving}"
     ng-click = "saveChanges()"
     ng-disabled = "loading || saving || modifyingInstance"
@@ -73,7 +73,7 @@ button.btn.btn-spinner(
       ng-if = "popoverSaveOptions.data.restartOnSave"
     ) #{''} and Restart
 
-  button.btn.green.btn-icon.btn-icon-sm.btn-save-options(
+  button.btn.btn-sm.green.btn-icon.btn-icon-sm.btn-save-options(
     ng-class = "{active: popoverSaveOptions.data.show}"
     ng-disabled = "loading || saving || modifyingInstance"
     pop-over
