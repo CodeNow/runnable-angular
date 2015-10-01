@@ -54,7 +54,7 @@ button.btn.btn-xs.gray(
       ng-if = "instance.attrs.shortHash !== $parent.$parent.$parent.SMC.instance.attrs.shortHash"
       ng-repeat = "instance in $parent.SMC.data.instances.models"
       value = "instance"
-    ) {{ $parent.instance.getElasticHostname() }}!
+    ) {{ $parent.instance.getElasticHostname() }}
 
   fancy-select.input-sm.monospace.text-overflow(
     placeholder = "Port"
