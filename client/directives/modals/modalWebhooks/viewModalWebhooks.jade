@@ -1,20 +1,5 @@
 .modal-backdrop.in
   .modal-dialog.modal-webhooks
-    header.modal-header
-      svg.btn.btn-sm.iconnables.icons-arrow-backward(
-        ng-click = "$broadcast('go-to-panel','nonWebhooksContainers', 'back')"
-      )
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
-      h1.modal-heading Webhooks
-      svg.iconnables.icons-close(
-        ng-click = "defaultActions.cancel()"
-      )
-        //- ng-if = "MWC.currentPanel === 'panelName'"
-        use(
-          xlink:href = "#icons-close"
-        )
 
     animated-panel-container
 
@@ -22,6 +7,14 @@
         default = "true"
         name = "nonWebhooksContainers"
       )
+        header.modal-header
+          h1.modal-heading Webhooks
+          svg.iconnables.icons-close(
+            ng-click = "defaultActions.cancel()"
+          )
+            use(
+              xlink:href = "#icons-close"
+            )
         section.modal-body Turn on Webhooks to automatically launch new containers (or update existing ones) whenever you push new code to GitHub.
           .list.list-bordered
             .list-item
@@ -31,7 +24,7 @@
                 ng-click = "showList = true"
                 ng-hide = "showList"
               ) Turn on Webhooks
-              .btn.btn-xs.gray.text-center.disabled(
+              .btn.btn-xs.green.text-center.disabled(
                 ng-if = "showList"
               ) Webhooks On
             .list-item(
@@ -50,8 +43,21 @@
 
       animated-panel(
         name = "inviteAdmins"
-        ng-init = ""
       )
+        header.modal-header
+          svg.btn.btn-sm.iconnables.icons-arrow-backward(
+            ng-click = "goToPanel('nonWebhooksContainers', 'back')"
+          )
+            use(
+              xlink:href = "#icons-arrow-down"
+            )
+          h1.modal-heading Invite Admin
+          svg.iconnables.icons-close(
+            ng-click = "defaultActions.cancel()"
+          )
+            use(
+              xlink:href = "#icons-close"
+            )
         section.modal-body Invite GitHub admins for data-dog so they can give us permission to turn on webhooks.
           .list.list-bordered
             label.list-item
