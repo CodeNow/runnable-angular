@@ -19,6 +19,7 @@
 
   .thead {
     border-bottom: 1px solid $gray-lighter;
+    overflow-x: auto;
 
     // github link
     .link {
