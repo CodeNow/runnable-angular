@@ -1,17 +1,18 @@
 //- default actions
 //- prefer ng-hide > ng-if for this button
+
 button.btn.btn-xs.gray(
-  ng-click = "state.showHostName = true"
-  ng-hide = "state.showHostName"
-  ng-init = "state.showHostName = false"
+  ng-click = "SMC.state.showHostName = true"
+  ng-hide = "SMC.state.showHostName"
+  ng-init = "SMC.state.showHostName = false"
 ) Insert an Elastic Hostname
 
 button.btn.btn-xs.gray(
-  ng-class = "{'active': data.toggleSidebar}"
-  ng-click = "data.toggleSidebar = !data.toggleSidebar"
+  ng-class = "{'active': SMC.data.toggleSidebar}"
+  ng-click = "SMC.data.toggleSidebar = !SMC.data.toggleSidebar"
   ng-if = "\
     $root.featureFlags.hostnameTool && \
-    !state.showHostName\
+    !SMC.state.showHostName\
   "
   title = "Toggle list of Non-Elastic Hostnames"
 )
@@ -31,47 +32,48 @@ button.btn.btn-xs.gray(
 
 //- if inserting host names
 .label.label-row.clearfix(
-  ng-if = "state.showHostName"
+  ng-if = "SMC.state.showHostName"
 )
   fancy-select.input-sm.monospace.text-overflow(
     placeholder = "Protocol"
     type = "text"
-    value = "$parent.state.newLink.protocol"
+    value = "SMC.state.newLink.protocol"
   )
     li.list-item.popover-list-item.small.disabled(
     ) Select Protocol (optional)
     fancy-option(
       value = "'http://'"
-    ) http://
+    ) http:&#47;&#47;
+
   fancy-select.input-sm.monospace.text-overflow(
     placeholder = "hostname"
-    value = "$parent.state.newLink.server"
+    value = "SMC.state.newLink.server"
   )
     li.list-item.popover-list-item.small.disabled Select hostname
     fancy-option.monospace(
-      ng-if = "instance.attrs.shortHash !== $parent.$parent.$parent.instance.attrs.shortHash"
-      ng-repeat = "instance in $parent.data.instances.models"
+      ng-if = "instance.attrs.shortHash !== $parent.$parent.$parent.SMC.instance.attrs.shortHash"
+      ng-repeat = "instance in $parent.SMC.data.instances.models"
       value = "instance"
-    ) {{ $parent.instance.getElasticHostname() }}
+    ) {{ $parent.instance.getElasticHostname() }}!
 
   fancy-select.input-sm.monospace.text-overflow(
     placeholder = "Port"
     type = "text"
-    value = "$parent.state.newLink.port"
+    value = "$parent.SMC.state.newLink.port"
   )
     li.list-item.popover-list-item.small.disabled(
     ) Select Port (optional)
     fancy-option(
-      ng-repeat = "port in $parent.$parent.state.newLink.server | extractInstancePorts"
+      ng-repeat = "port in $parent.$parent.SMC.state.newLink.server | extractInstancePorts"
       value = "port"
     ) :{{ $parent.port }}
 
 .table-footer.clearfix(
-  ng-if = "state.showHostName"
+  ng-if = "SMC.state.showHostName"
 )
   button.btn.btn-xs.gray(
-    ng-click = "state.showHostName = false"
+    ng-click = "SMC.state.showHostName = false"
   ) Cancel
   button.btn.btn-xs.green(
-    ng-click = "state.showHostName = false; insertHostName(state.newLink);"
+    ng-click = "SMC.state.showHostName = false; SMC.insertHostName(SMC.state.newLink);"
   ) Insert Elastic Hostname

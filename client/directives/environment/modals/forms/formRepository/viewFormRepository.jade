@@ -5,6 +5,21 @@
     ng-bind-html = "helpCards.getActiveCard().helpPopover.repositories"
   )
 
+label.label.clearfix
+  .label-col Packages
+    small.small (optional)
+  .input-col.input-prefix.input-prefix-monospace(
+    data-prefix = "apt-get install"
+  )
+    input.input.input-sm.monospace(
+      ng-disabled = "startCommandCanDisable && !state.selectedStack"
+      ng-model = "state.packages.packageList"
+      ng-model-options="{updateOn: 'blur'}"
+      ng-change = "updateDockerfile()"
+      spellcheck = "false"
+    )
+    small.small Add Ubuntu packages via apt-get, separated with spaces (e.g. ‘dnsutils vim=7.3’).
+
 .label.clearfix.label-build-commands
   .label-col Build Commands
     small.small (optional)
@@ -28,13 +43,13 @@
       .flex-wrapper
         textarea.textarea.monospace(
           command-editor
-          ng-attr-rows = "{{mainRepoContainerFile.commands.length < 3 ? 3 : mainRepoContainerFile.commands.length}}"
+          ng-attr-rows = "{{state.mainRepoContainerFile.commands.length < 3 ? 3 : state.mainRepoContainerFile.commands.length}}"
           ng-blur = "buildCommandFocus = false"
           ng-change = "updateDockerfile()"
           ng-class = "{'margin-right': data.cacheCommand}"
           ng-disabled = "startCommandCanDisable && !state.selectedStack"
           ng-focus = "buildCommandFocus = true"
-          ng-model = "mainRepoContainerFile.commands"
+          ng-model = "state.mainRepoContainerFile.commands"
           ng-keydown = "cacheCommand(false)"
           ng-model-options = "{updateOn: 'blur'}"
           ng-trim = "false"
@@ -46,7 +61,7 @@
           .cache-border
           label.radio-wrapper(
             ng-class = "{ 'no-touching': !command.body }"
-            ng-repeat-start = "command in mainRepoContainerFile.commands"
+            ng-repeat-start = "command in state.mainRepoContainerFile.commands"
           )
             input(
               name = "cache-radio"
@@ -59,21 +74,6 @@
             ng-repeat-end
           )
     small.small Add any commands needed to support your application. They’ll be run before the Container CMD from your repository’s root folder.
-
-label.label.clearfix
-  .label-col Packages
-    small.small (optional)
-  .input-col.input-prefix.input-prefix-monospace(
-    data-prefix = "apt-get install"
-  )
-    input.input.input-sm.monospace(
-      ng-disabled = "startCommandCanDisable && !state.selectedStack"
-      ng-model = "state.packages.packageList"
-      ng-model-options="{updateOn: 'blur'}"
-      ng-change = "updateDockerfile()"
-      spellcheck = "false"
-    )
-    small.small Add Ubuntu packages via apt-get, separated with spaces (e.g. ‘dnsutils vim=7.3’).
 
 label.label.clearfix
   .label-col Container CMD
