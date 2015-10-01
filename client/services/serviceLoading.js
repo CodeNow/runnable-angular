@@ -8,6 +8,7 @@ function loading(
   exists
 ) {
   $rootScope.isLoading = {};
+  $rootScope.isLoaded = {};
   var loadingStatusHash = {};
 
   var loadingFunc = function (namespace, startLoading) {
@@ -23,10 +24,12 @@ function loading(
       }
     }
     $rootScope.isLoading[namespace] = loadingStatusHash[namespace] > 0;
+    $rootScope.isLoaded[namespace] = !$rootScope.isLoading[namespace];
   };
   loadingFunc.reset = function (namespace) {
     loadingStatusHash[namespace] = 0;
     $rootScope.isLoading[namespace] = false;
+    $rootScope.isLoaded[namespace] = !$rootScope.isLoading[namespace];
   };
   return loadingFunc;
 }

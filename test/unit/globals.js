@@ -26,6 +26,10 @@ window.runnable = new (require('runnable'))(window.host, {
   host: '//example.com',
   userContentDomain: window.userContentDomain
 });
+
+Error.prototype.stack = 'Phantom does not have stack support on errors.';
+
+
 var chai = require('chai');
 chai.use(require('chai-as-promised'));
 window.expect = chai.expect;

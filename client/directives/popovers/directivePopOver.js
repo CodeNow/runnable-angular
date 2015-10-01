@@ -6,6 +6,19 @@ require('app')
  * togglePopOver Directive
  * @ngInject
  */
+
+
+var scopeVars = {
+  data: '=? popOverData',
+  popoverOptions: '=? popOverOptions',
+  noBroadcast: '=? popOverNoBroadcast',
+  actions: '=? popOverActions',
+  active: '=? popOverActive',
+  template: '= popOverTemplate',
+  controller: '=? popOverController',
+  controllerAs: '@? popOverControllerAs'
+};
+
 function popOver(
   $rootScope,
   $document,
@@ -19,15 +32,20 @@ function popOver(
 ) {
   return {
     restrict: 'A',
-    scope: {
-      data: '=? popOverData',
-      popoverOptions: '=? popOverOptions',
-      noBroadcast: '=? popOverNoBroadcast',
-      actions: '=? popOverActions',
-      active: '=? popOverActive',
-      template: '= popOverTemplate'
-    },
+    scope: scopeVars,
     link: function ($scope, element, attrs) {
+      if ($scope.controller) {
+        var controllerName = attrs.popOverController;
+        if ($scope.controllerAs) {
+          controllerName = $scope.controllerAs;
+        }
+        if (Object.keys(scopeVars).includes(controllerName)) {
+          throw new Error('Tried to initialize a popover with a name which would override islated scope variable');
+        }
+        $scope[controllerName] = $scope.controller;
+      }
+
+
       $scope.$localStorage = $localStorage;
       if (!$scope.template) {
         // Check if the string is set by checking the attrs
