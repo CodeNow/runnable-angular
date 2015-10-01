@@ -20,11 +20,6 @@
   .thead {
     border-bottom: 1px solid $gray-lighter;
 
-    // github link
-    .link {
-      float: left;
-    }
-
     &:only-child {
       border-bottom: 0;
     }
@@ -54,8 +49,14 @@
     }
   }
 
+  .cell {
+    overflow: hidden;
+  }
+
   .link {
-    float: right;
+    overflow-x: auto;
+    margin-right: 9px;
+    white-space: nowrap;
   }
 
   // diff colors
@@ -188,30 +189,22 @@
   background: $gray-lightest;
   font-size: 13px;
   font-weight: 500;
-  padding: 3px 0;
 
-  &.thead-sm {
-    color: $gray;
-    font-weight: 400;
-
-    .cell {
-      height: 21px;
-      line-height: 24px;
-    }
+  &.divider {
+    padding: 3px 0;
   }
 
   .cell {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
     height: 30px;
-    line-height: 30px;
+    padding: 0 6px;
 
-    &:only-child {
-      width: 100%;
+    .btn-xs {
+      flex: 0 0 auto;
+      top: -1px;
     }
-  }
-
-  .btn {
-    float: right;
-    top: 3px;
   }
 
   .btn-status {
@@ -345,8 +338,8 @@
 
   // actions
   > .btn .icons-overflow {
-    top: 5px;
-    width: 18px;
+    top: -$input-border;
+    width: 15px;
   }
 }
 
