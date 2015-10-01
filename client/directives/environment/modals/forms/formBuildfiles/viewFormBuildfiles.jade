@@ -25,7 +25,7 @@
   label.toggle-wrapper.show-icons(
     loading-promises-target = "editServerModal"
     read-only-switch
-    state = "state"
+    state = "SMC.state"
   )
 
 //- table of current environment variables
@@ -42,24 +42,24 @@
     edit-explorer = "true"
     explorer
     explorer-title = "Build Files"
-    file-model = "state.contextVersion"
+    file-model = "SMC.state.contextVersion"
     loading-promises-target = "editServerModal"
-    open-items = "openItems"
-    read-only = "!state.advanced"
-    root-dir = "state.contextVersion.rootDir"
+    open-items = "SMC.openItems"
+    read-only = "!SMC.state.advanced"
+    root-dir = "SMC.state.contextVersion.rootDir"
     show-repo-folder = "true"
   )
 
   .ace_editor(
     file = "item"
     file-editor
-    loading = "loading"
+    loading = "SMC.loading"
     loading-promises-target = "editServerModal"
     ng-if = "item.state.type === 'File'"
-    ng-repeat = "item in openItems.models track by item.id()"
-    ng-show = "item === openItems.activeHistory.last()"
-    read-only = "!state.advanced"
-    state = "state"
+    ng-repeat = "item in SMC.openItems.models track by item.id()"
+    ng-show = "item === SMC.openItems.activeHistory.last()"
+    read-only = "!SMC.state.advanced"
+    state = "SMC.state"
   )
 
   .floating-controls(

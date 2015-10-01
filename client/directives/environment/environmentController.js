@@ -141,7 +141,7 @@ function EnvironmentController(
         text: 'Your new container is building.'
       });
 
-      createPromise
+      return createPromise
         .then(function (newServerModel) {
           return createNewInstance(
             cachedActiveAccount,
@@ -150,8 +150,9 @@ function EnvironmentController(
             instance
           );
         })
-        .then(function () {
+        .then(function (instance) {
           helpCards.refreshAllCards();
+          return instance;
         })
         .catch(function (err) {
           errs.handler(err);
@@ -161,6 +162,18 @@ function EnvironmentController(
         .finally(function () {
           $rootScope.dataApp.creatingInstance = false;
         });
+    },
+    setupRepoServer: function () {
+      $rootScope.$broadcast('close-popovers');
+      ModalService.showModal({
+        controller: 'SetupServerModalController',
+        controllerAs: 'SMC',
+        templateUrl: 'setupServerModalView',
+        inputs: {
+          data: $scope.data,
+          actions: $scope.actions
+        }
+      });
     }
   };
 

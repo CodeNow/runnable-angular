@@ -1,17 +1,21 @@
+/*globals fixtures:true, modelStore:true, directiveTemplate:true */
 'use strict';
 // injector-provided
-var $compile,
-    $filter,
-    $provide,
-    $rootScope,
-    $scope,
-    $state,
-    $stateParams,
-    $timeout;
+var $compile;
+var $filter;
+var $provide;
+var $rootScope;
+var $scope;
+var $controllerScope = {};
+var $state;
+var $stateParams;
+var $timeout;
 var mockPrimus = new fixtures.MockPrimus();
 
 function createMockStream() {
   var mockStream = new mockPrimus.createBuildStream();
+  /// Add off method here, instead of at every line in this file
+  mockStream.off = sinon.stub();
   sinon.stub(mockStream, 'write');
   return mockStream;
 }
@@ -33,10 +37,17 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
       ctx.resizeHandlerCb = cb;
       return ctx.termMock;
     });
-    angular.mock.module(function ($provide) {
+    angular.mock.module(function ($provide, $controllerProvider) {
       $provide.value('primus', mockPrimus);
       $provide.factory('fetchInstances', fixtures.mockFetchInstances.running);
       $provide.value('helperSetupTerminal', ctx.setupTermMock);
+      $controllerProvider.register('TestController', function ($scope, primus, $timeout) {
+        $scope.createStream = sinon.stub();
+        $scope.connectStreams = sinon.spy();
+        $scope.streamEnded = sinon.stub();
+        $scope.stream = createMockStream();
+        $controllerScope = $scope;
+      });
     });
     angular.mock.inject(function (
       _$compile_,
@@ -61,38 +72,28 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
     $scope.$digest();
   }
 
-  beforeEach(angular.mock.module('app'));
-
   beforeEach(function () {
+    angular.mock.module('app');
     ctx = {};
-    ctx.template = directiveTemplate.attribute('log-term');
+    ctx.template = directiveTemplate.attribute('log-term', {
+      controller: 'TestController'
+    });
+    injectSetupCompile();
   });
-  beforeEach(injectSetupCompile);
-
 
   describe('Test flow', function () {
-    beforeEach(function () {
-      $scope.connectStreams = sinon.spy();
-      $scope.streamEnded = sinon.spy();
-    });
     describe('1 stream', function () {
-      beforeEach(function () {
-        $scope.createStream = sinon.spy(function () {
-          $scope.stream = createMockStream();
-          $scope.stream.off = sinon.spy();
-        });
-      });
       it('should flow through', function () {
         sinon.assert.calledOnce(ctx.setupTermMock);
         $scope.$broadcast('STREAM_START', {}, true);
         $scope.$apply();
         sinon.assert.calledOnce(ctx.termMock.reset);
-        sinon.assert.calledOnce($scope.createStream);
-        sinon.assert.calledOnce($scope.connectStreams);
-        sinon.assert.calledWith($scope.connectStreams, ctx.termMock);
-        $scope.connectStreams.reset();
+        sinon.assert.calledOnce($controllerScope.createStream);
+        sinon.assert.calledOnce($controllerScope.connectStreams);
+        sinon.assert.calledWith($controllerScope.connectStreams, ctx.termMock);
+        $controllerScope.connectStreams.reset();
 
-        sinon.assert.notCalled($scope.streamEnded);
+        sinon.assert.notCalled($controllerScope.streamEnded);
         mockPrimus.emit('open');
         $rootScope.$apply();
         // Shouldn't 'reconnect' unless it actually disconnected
@@ -104,29 +105,28 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
         $rootScope.$apply();
 
         sinon.assert.calledWith(ctx.termMock.writeln, '★ Connection regained.  Thank you for your patience ★');
-        $scope.stream.end();
+        $controllerScope.stream.end();
         $rootScope.$apply();
-        sinon.assert.calledOnce($scope.streamEnded);
       });
       it('should turn on the spinner, then turn it off', function () {
-        $scope.showSpinnerOnStream = true;
+        $controllerScope.showSpinnerOnStream = true;
         $scope.$broadcast('STREAM_START', {}, true);
         $scope.$apply();
         sinon.assert.calledOnce(ctx.termMock.reset);
-        sinon.assert.calledOnce($scope.createStream);
-        sinon.assert.calledWith($scope.connectStreams, ctx.termMock);
+        sinon.assert.calledOnce($controllerScope.createStream);
+        sinon.assert.calledWith($controllerScope.connectStreams, ctx.termMock);
         expect(ctx.termMock.cursorState, 'cursorState').to.equal(-1);
         expect(ctx.termMock.hideCursor, 'hideCursor').to.be.false;
         expect(ctx.termMock.cursorBlink, 'cursorBlink').to.be.true;
         expect(ctx.termMock.cursorSpinner, 'cursorSpinner').to.be.true;
         sinon.assert.calledOnce(ctx.termMock.startBlink);
 
-        $scope.connectStreams.reset();
+        $controllerScope.connectStreams.reset();
 
-        sinon.assert.notCalled($scope.streamEnded);
-        $scope.stream.end();
+        sinon.assert.notCalled($controllerScope.streamEnded);
+        $controllerScope.stream.end();
         $rootScope.$apply();
-        sinon.assert.calledOnce($scope.streamEnded);
+        sinon.assert.calledOnce($controllerScope.streamEnded);
         expect(ctx.termMock.cursorState, 'cursorState').to.equal(0);
         expect(ctx.termMock.hideCursor, 'hideCursor').to.be.true;
         expect(ctx.termMock.cursorBlink, 'cursorBlink').to.be.false;
@@ -156,13 +156,10 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
     });
     describe('2 streams', function () {
       beforeEach(function () {
-        $scope.createStream = sinon.spy(function () {
-          $scope.stream = createMockStream();
-          $scope.stream.off = sinon.spy();
-          $scope.eventStream = createMockStream();
-          $scope.eventStream.off = sinon.spy();
-          $scope.eventStream.stream = true;
-        });
+        $controllerScope.createStream.reset();
+        $controllerScope.stream = createMockStream();
+        $controllerScope.eventStream = createMockStream();
+        $controllerScope.eventStream.stream = true;
       });
       it('should flow through', function () {
         sinon.assert.calledOnce(ctx.setupTermMock);
@@ -172,12 +169,12 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
         sinon.assert.calledOnce(ctx.termMock.off);
         ctx.termMock.off.reset();
         sinon.assert.notCalled(ctx.termMock.reset);
-        sinon.assert.calledOnce($scope.createStream);
-        sinon.assert.calledOnce($scope.connectStreams);
-        sinon.assert.calledWith($scope.connectStreams, ctx.termMock);
-        $scope.connectStreams.reset();
+        sinon.assert.calledOnce($controllerScope.createStream);
+        sinon.assert.calledOnce($controllerScope.connectStreams);
+        sinon.assert.calledWith($controllerScope.connectStreams, ctx.termMock);
+        $controllerScope.connectStreams.reset();
         ctx.resizeHandlerCb(2, 4);
-        sinon.assert.calledOnce($scope.eventStream.write, {
+        sinon.assert.calledOnce($controllerScope.eventStream.write, {
           event: 'resize',
           data: {
             x: 2,
@@ -185,11 +182,11 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
           }
         });
         sinon.assert.notCalled(ctx.termMock.off);
-        $scope.stream.end();
+        $controllerScope.stream.end();
         $rootScope.$apply();
 
         sinon.assert.calledOnce(ctx.termMock.off);
-        sinon.assert.calledOnce($scope.streamEnded);
+        sinon.assert.calledOnce($controllerScope.streamEnded);
         $scope.$destroy();
       });
     });
@@ -202,13 +199,13 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
     it('should clean up buildStream', function () {
       var removeAllSpy = sinon.spy();
       var endSpy = sinon.spy();
-      $scope.stream.removeAllListeners = removeAllSpy;
-      $scope.stream.end = endSpy;
-      $scope.stream.off = sinon.spy();
+      $controllerScope.stream.removeAllListeners = removeAllSpy;
+      $controllerScope.stream.end = endSpy;
+      $controllerScope.stream.off = sinon.spy();
       $scope.$destroy();
       expect(removeAllSpy.called).to.be.ok;
       expect(endSpy.called).to.be.ok;
-      expect($scope.stream.off.called).to.be.ok;
+      expect($controllerScope.stream.off.called).to.be.ok;
     });
   });
 

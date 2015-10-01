@@ -72,7 +72,10 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
         attrs: apiMocks.appCodeVersions.bitcoinAppCodeVersion
       }
     ];
-    $scope.state = {
+    CFC = $controller('ContainerFilesController', {
+      $scope: $scope
+    });
+    CFC.state = {
       containerFiles: [],
       contextVersion: {
         appCodeVersions: {
@@ -86,10 +89,6 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
         }
       }
     };
-
-    CFC = $controller('ContainerFilesController', {
-      $scope: $scope
-    });
   }
   beforeEach(function () {
     injectSetupCompile();
@@ -107,13 +106,13 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
       var obj3 =  {
         id: 3
       };
-      $scope.state.containerFiles = [obj1, obj2, obj3];
+      CFC.state.containerFiles = [obj1, obj2, obj3];
 
       CFC.dropContainerFile({}, 2, obj1.id);
 
-      expect($scope.state.containerFiles[0].id).to.equal(2);
-      expect($scope.state.containerFiles[1].id).to.equal(1);
-      expect($scope.state.containerFiles[2].id).to.equal(3);
+      expect(CFC.state.containerFiles[0].id).to.equal(2);
+      expect(CFC.state.containerFiles[1].id).to.equal(1);
+      expect(CFC.state.containerFiles[2].id).to.equal(3);
 
       sinon.assert.calledOnce(updateDockerfileFromStateMock);
     });
@@ -128,13 +127,13 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
       var obj3 =  {
         id: 3
       };
-      $scope.state.containerFiles = [obj1, obj2, obj3];
+      CFC.state.containerFiles = [obj1, obj2, obj3];
 
       CFC.dropContainerFile({}, 0, obj1.id);
 
-      expect($scope.state.containerFiles[0].id).to.equal(1);
-      expect($scope.state.containerFiles[1].id).to.equal(2);
-      expect($scope.state.containerFiles[2].id).to.equal(3);
+      expect(CFC.state.containerFiles[0].id).to.equal(1);
+      expect(CFC.state.containerFiles[1].id).to.equal(2);
+      expect(CFC.state.containerFiles[2].id).to.equal(3);
 
       sinon.assert.calledOnce(updateDockerfileFromStateMock);
     });
@@ -225,7 +224,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
             }
           }
         };
-        $scope.state.containerFiles = [{
+        CFC.state.containerFiles = [{
           id: '4567'
         }, repoContainerFile];
 
@@ -235,8 +234,8 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
         $rootScope.$digest();
 
         sinon.assert.calledOnce(acv.destroy);
-        expect($scope.state.containerFiles.length).to.equal(1);
-        expect($scope.state.containerFiles[0]).to.deep.equal({id: '4567'});
+        expect(CFC.state.containerFiles.length).to.equal(1);
+        expect(CFC.state.containerFiles[0]).to.deep.equal({id: '4567'});
         sinon.assert.calledOnce(loadingPromises.add);
         sinon.assert.calledWith(loadingPromises.add, 'editServerModal');
         sinon.assert.calledOnce(updateDockerfileFromStateMock);
@@ -245,7 +244,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
     describe('create', function () {
       it('should create new app code version and add to containerFiles array', function () {
         var newACV = {id: 'newACV'};
-        $scope.state.contextVersion.appCodeVersions.create = sinon.stub().returns(newACV);
+        CFC.state.contextVersion.appCodeVersions.create = sinon.stub().returns(newACV);
         var repoContainerFile = {
           id: Math.random(),
           repo: {
@@ -269,8 +268,8 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
         $timeout.flush();
         $rootScope.$digest();
 
-        sinon.assert.calledOnce($scope.state.contextVersion.appCodeVersions.create);
-        sinon.assert.calledWith($scope.state.contextVersion.appCodeVersions.create, {
+        sinon.assert.calledOnce(CFC.state.contextVersion.appCodeVersions.create);
+        sinon.assert.calledWith(CFC.state.contextVersion.appCodeVersions.create, {
           repo: 'full_name',
           branch: 'branch',
           commit: 'commitSha',
@@ -278,9 +277,9 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
           additionalRepo: true
         });
 
-        expect($scope.state.containerFiles.length).to.equal(1);
-        expect($scope.state.containerFiles[0].id).to.equal(repoContainerFile.id);
-        expect($scope.state.containerFiles[0].acv).to.equal(newACV);
+        expect(CFC.state.containerFiles.length).to.equal(1);
+        expect(CFC.state.containerFiles[0].id).to.equal(repoContainerFile.id);
+        expect(CFC.state.containerFiles[0].acv).to.equal(newACV);
         sinon.assert.notCalled(errs.handler);
         sinon.assert.calledOnce(updateDockerfileFromStateMock);
       });
@@ -310,7 +309,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
           },
           acv: acv
         };
-        $scope.state.containerFiles = [{
+        CFC.state.containerFiles = [{
           id: '4567'
         }, repoContainerFile];
 
@@ -350,8 +349,8 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
           file: [file]
         };
 
-        $scope.state.contextVersion.id = sinon.stub().returns(1234);
-        $scope.state.contextVersion.newFile = sinon.stub().returns({newFile: 1});
+        CFC.state.contextVersion.id = sinon.stub().returns(1234);
+        CFC.state.contextVersion.newFile = sinon.stub().returns({newFile: 1});
 
         var uploadDeferred = $q.defer();
         uploadDeferred.promise.progress = sinon.stub().returns(uploadDeferred.promise);
@@ -391,13 +390,13 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
           commands: [{command:1}],
           path: 'foo/bar'
         };
-        $scope.state.containerFiles = [{id: '4567'}];
+        CFC.state.containerFiles = [{id: '4567'}];
 
         CFC.fileUpload.actions.save(containerFile);
 
         sinon.assert.calledOnce(closePopoverSpy);
-        expect($scope.state.containerFiles.length).to.equal(2);
-        var newContainerFile = $scope.state.containerFiles[1];
+        expect(CFC.state.containerFiles.length).to.equal(2);
+        var newContainerFile = CFC.state.containerFiles[1];
         expect(newContainerFile.name).to.equal(containerFile.file[0].name);
         expect(newContainerFile.commands).to.equal(containerFile.commands);
         expect(newContainerFile.path).to.equal(containerFile.path);
@@ -415,13 +414,13 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
           commands: [{command:1}],
           path: 'foo/bar'
         };
-        $scope.state.containerFiles = [{id: '4567'}];
+        CFC.state.containerFiles = [{id: '4567'}];
 
         CFC.fileUpload.actions.save(containerFile);
 
         sinon.assert.calledOnce(closePopoverSpy);
-        expect($scope.state.containerFiles.length).to.equal(2);
-        var newContainerFile = $scope.state.containerFiles[1];
+        expect(CFC.state.containerFiles.length).to.equal(2);
+        var newContainerFile = CFC.state.containerFiles[1];
         expect(newContainerFile.name).to.not.be.ok;
         expect(newContainerFile.commands).to.equal(containerFile.commands);
         expect(newContainerFile.path).to.equal(containerFile.path);
@@ -467,7 +466,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
             destroy: sinon.stub().returns($q.when({}))
           }
         };
-        $scope.state.containerFiles = [{
+        CFC.state.containerFiles = [{
           id: '4567'
         }, containerFile];
 
@@ -476,8 +475,8 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
 
         sinon.assert.calledOnce(closePopoverSpy);
         sinon.assert.calledOnce(containerFile.fileModel.destroy);
-        expect($scope.state.containerFiles.length).to.equal(1);
-        expect($scope.state.containerFiles[0].id).to.equal('4567');
+        expect(CFC.state.containerFiles.length).to.equal(1);
+        expect(CFC.state.containerFiles[0].id).to.equal('4567');
         sinon.assert.calledOnce(updateDockerfileFromStateMock);
       });
       it('should find the file model based on file name', function () {
@@ -487,12 +486,12 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
             name: 'FileName'
           }
         };
-        keypather.set($scope, 'state.contextVersion.rootDir.contents.models', [fileModel]);
+        keypather.set(CFC, 'state.contextVersion.rootDir.contents.models', [fileModel]);
         var containerFile = {
           id: Math.random(),
           name: 'FileName'
         };
-        $scope.state.containerFiles = [{
+        CFC.state.containerFiles = [{
           id: '4567',
           name: 'fileName'
         }, containerFile];
@@ -502,28 +501,28 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
 
         sinon.assert.calledOnce(closePopoverSpy);
         sinon.assert.calledOnce(fileModel.destroy);
-        expect($scope.state.containerFiles.length).to.equal(1);
-        expect($scope.state.containerFiles[0].id).to.equal('4567');
+        expect(CFC.state.containerFiles.length).to.equal(1);
+        expect(CFC.state.containerFiles[0].id).to.equal('4567');
         sinon.assert.calledOnce(updateDockerfileFromStateMock);
       });
       it('should do nothing if the file model diesn\'t exist', function () {
-        keypather.set($scope, 'state.contextVersion.rootDir.contents.models', []);
+        keypather.set(CFC, 'state.contextVersion.rootDir.contents.models', []);
         var containerFile = {
           id: Math.random(),
           name: 'FileName'
         };
-        $scope.state.containerFiles = [{
+        CFC.state.containerFiles = [{
           id: '4567',
           name: 'fileName'
         }, containerFile];
 
         CFC.fileUpload.actions.deleteFile(containerFile);
         sinon.assert.calledOnce(closePopoverSpy);
-        expect($scope.state.containerFiles.length).to.equal(2);
+        expect(CFC.state.containerFiles.length).to.equal(2);
       });
 
       it('should handle when the container file doesn\'t exist in the state', function () {
-        keypather.set($scope, 'state.contextVersion.rootDir.contents.models', []);
+        keypather.set(CFC, 'state.contextVersion.rootDir.contents.models', []);
         var containerFile = {
           id: Math.random(),
           name: 'FileName',
@@ -531,7 +530,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
             destroy: sinon.spy()
           }
         };
-        $scope.state.containerFiles = [];
+        CFC.state.containerFiles = [];
 
         CFC.fileUpload.actions.deleteFile(containerFile);
         sinon.assert.calledOnce(closePopoverSpy);
@@ -546,8 +545,8 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
           var newFile = {
             id: 'New File'
           };
-          $scope.state.contextVersion.rootDir.contents.create = sinon.stub().returns(newFile);
-          $scope.state.containerFiles = [{
+          CFC.state.contextVersion.rootDir.contents.create = sinon.stub().returns(newFile);
+          CFC.state.containerFiles = [{
             id: 1234
           }];
 
@@ -557,12 +556,12 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
           });
           $rootScope.$digest();
 
-          expect($scope.state.containerFiles.length).to.equal(2);
-          expect($scope.state.containerFiles[0].name).to.equal('fileName');
-          expect($scope.state.containerFiles[0].fileModel).to.equal(newFile);
+          expect(CFC.state.containerFiles.length).to.equal(2);
+          expect(CFC.state.containerFiles[0].name).to.equal('fileName');
+          expect(CFC.state.containerFiles[0].fileModel).to.equal(newFile);
 
-          sinon.assert.calledOnce($scope.state.contextVersion.rootDir.contents.create);
-          sinon.assert.calledWith($scope.state.contextVersion.rootDir.contents.create, {
+          sinon.assert.calledOnce(CFC.state.contextVersion.rootDir.contents.create);
+          sinon.assert.calledWith(CFC.state.contextVersion.rootDir.contents.create, {
             name: 'fileName',
             path: '/',
             body: 'keyValue',
@@ -572,7 +571,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
 
           sinon.assert.calledOnce(loadingPromises.add);
           sinon.assert.calledWith(loadingPromises.add, 'editServerModal');
-          sinon.assert.calledOnce($scope.state.contextVersion.rootDir.contents.fetch);
+          sinon.assert.calledOnce(CFC.state.contextVersion.rootDir.contents.fetch);
           sinon.assert.calledOnce(updateDockerfileFromStateMock);
           sinon.assert.calledOnce(closePopoverSpy);
         });
@@ -584,7 +583,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
               destroy: sinon.spy()
             }
           };
-          $scope.state.containerFiles = [{
+          CFC.state.containerFiles = [{
             id: 1234
           }, sshKey];
 
@@ -594,10 +593,10 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
           sinon.assert.calledOnce(loadingPromises.add);
           sinon.assert.calledWith(loadingPromises.add, 'editServerModal');
           sinon.assert.calledOnce(sshKey.fileModel.destroy);
-          sinon.assert.calledOnce($scope.state.contextVersion.rootDir.contents.fetch);
+          sinon.assert.calledOnce(CFC.state.contextVersion.rootDir.contents.fetch);
           sinon.assert.calledOnce(updateDockerfileFromStateMock);
           sinon.assert.calledOnce(closePopoverSpy);
-          expect($scope.state.containerFiles.length).to.equal(1);
+          expect(CFC.state.containerFiles.length).to.equal(1);
         });
         it('should locate the file model in rootDir', function () {
           var fileModel = {
@@ -606,11 +605,11 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
             },
             destroy: sinon.spy()
           };
-          $scope.state.contextVersion.rootDir.contents.models = [{id: 1234, attrs: {name: 'test12354'}}, fileModel];
+          CFC.state.contextVersion.rootDir.contents.models = [{id: 1234, attrs: {name: 'test12354'}}, fileModel];
           var sshKey = {
             name: 'myFile'
           };
-          $scope.state.containerFiles = [{
+          CFC.state.containerFiles = [{
             id: 1234
           }, sshKey];
 
@@ -620,18 +619,18 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
           sinon.assert.calledOnce(loadingPromises.add);
           sinon.assert.calledWith(loadingPromises.add, 'editServerModal');
           sinon.assert.calledOnce(fileModel.destroy);
-          sinon.assert.calledOnce($scope.state.contextVersion.rootDir.contents.fetch);
+          sinon.assert.calledOnce(CFC.state.contextVersion.rootDir.contents.fetch);
           sinon.assert.calledOnce(updateDockerfileFromStateMock);
           sinon.assert.calledOnce(closePopoverSpy);
-          expect($scope.state.containerFiles.length).to.equal(1);
+          expect(CFC.state.containerFiles.length).to.equal(1);
         });
       });
       it('should handle when it can\'t locate the file', function () {
-        $scope.state.contextVersion.rootDir.contents.models = [{id: 1234, attrs: {name: 'test12354'}}];
+        CFC.state.contextVersion.rootDir.contents.models = [{id: 1234, attrs: {name: 'test12354'}}];
         var sshKey = {
           name: 'myFile'
         };
-        $scope.state.containerFiles = [{
+        CFC.state.containerFiles = [{
           id: 1234
         }, sshKey];
 
@@ -642,7 +641,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
         sinon.assert.calledWith(loadingPromises.add, 'editServerModal');
         sinon.assert.calledOnce(updateDockerfileFromStateMock);
         sinon.assert.calledOnce(closePopoverSpy);
-        expect($scope.state.containerFiles.length).to.equal(1);
+        expect(CFC.state.containerFiles.length).to.equal(1);
       });
       it('should handle when it can\'t find the container file', function () {
         var fileModel = {
@@ -651,11 +650,11 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
           },
           destroy: sinon.spy()
         };
-        $scope.state.contextVersion.rootDir.contents.models = [{id: 1234, attrs: {name: 'test12354'}}, fileModel];
+        CFC.state.contextVersion.rootDir.contents.models = [{id: 1234, attrs: {name: 'test12354'}}, fileModel];
         var sshKey = {
           name: 'myFile'
         };
-        $scope.state.containerFiles = [{
+        CFC.state.containerFiles = [{
           id: 1234
         }];
 
@@ -665,10 +664,10 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
         sinon.assert.calledOnce(loadingPromises.add);
         sinon.assert.calledWith(loadingPromises.add, 'editServerModal');
         sinon.assert.calledOnce(fileModel.destroy);
-        sinon.assert.calledOnce($scope.state.contextVersion.rootDir.contents.fetch);
+        sinon.assert.calledOnce(CFC.state.contextVersion.rootDir.contents.fetch);
         sinon.assert.calledOnce(updateDockerfileFromStateMock);
         sinon.assert.calledOnce(closePopoverSpy);
-        expect($scope.state.containerFiles.length).to.equal(1);
+        expect(CFC.state.containerFiles.length).to.equal(1);
       });
     });
     describe('getFileDate', function () {
@@ -696,7 +695,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
         var sshKey = {
           name: 'myFile'
         };
-        $scope.state.contextVersion.rootDir.contents.models = [{id: 1234, attrs: {name: 'test12354'}}, fileModel];
+        CFC.state.contextVersion.rootDir.contents.models = [{id: 1234, attrs: {name: 'test12354'}}, fileModel];
         var date = CFC.sshKey.getFileDate(sshKey);
         expect(date).to.equal('Woot I was created!');
         expect(sshKey.fileModel).to.equal(fileModel);
