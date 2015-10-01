@@ -14,7 +14,7 @@ function serverStatusCardHeader(
     scope: {
       instance: '= instance',
       noTouching: '=? noTouching',
-      openEditServerModal: '= openEditServerModal',
+      openEditServerModal: '=? openEditServerModal',
       actions: '= actions',
       inModal: '=? inModal'
     },

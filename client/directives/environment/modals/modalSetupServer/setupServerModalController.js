@@ -190,20 +190,6 @@ function SetupServerModalController (
         return openDockerfile();
       })
       .then(function () {
-        SMC.state.advanced = keypather.get(SMC.state.contextVersion, 'attrs.advanced') || false;
-        SMC.state.promises.contextVersion = loadingPromises.add(
-          'editServerModal',
-          promisify(SMC.state.contextVersion, 'deepCopy')()
-            .then(function (contextVersion) {
-              SMC.state.contextVersion = contextVersion;
-              SMC.state.acv = contextVersion.getMainAppCodeVersion();
-              SMC.state.repo = keypather.get(contextVersion, 'getMainAppCodeVersion().githubRepo');
-              return promisify(contextVersion, 'fetch')();
-            })
-        );
-        return SMC.state.promises.contextVersion;
-      })
-      .then(function () {
         // Return modal to normal state
         loading('setupServerModal', false);
       });
