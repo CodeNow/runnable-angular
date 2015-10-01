@@ -1,4 +1,4 @@
-.popover.menu.bottom(
+.popover.menu.bottom.popover-card-status(
   ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
 )
@@ -15,10 +15,12 @@
     .well.well-popover.orange(
       ng-if = "$root.featureFlags.cardStatus"
     )
-      | The
-      //- This should say "build" or "container CMD", depending on what failed.
-      strong.strong  container CMD
-      |  failed on the master container.
+      | The&#32;
+      //- The "Initial Branch" text should only appear when the card represented is a repository container.
+      | Initial Branch&#32;
+      | container failed to&#32;
+      //- This should say "build" if the build failed, or "start" if the Container CMD failed to start and run for 5 seconds.
+      | start.
     ul.popover-list
       li.list-item.popover-list-item(
         ng-click="actions.openEditServerModal('logs')"

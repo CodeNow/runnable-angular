@@ -1,9 +1,10 @@
 // on cards
 .container-title-wrapper {
+  align-items: center;
   color: $gray-dark;
   cursor: pointer;
-  display: table;
-  height: $input-xs;
+  display: inline-flex;
+  height: 30px;
   margin: 0 auto;
   max-width: 100%;
 
@@ -32,8 +33,8 @@
   .icons-warning,
   .icons-arrow-down,
   .spinner-wrapper {
+    flex: 0 0 21px;
     height: 21px;
-    top: 3px;
   }
 
   .spinner-wrapper {
@@ -47,9 +48,10 @@
 }
 
 .container-title {
-  flex: 0 0 auto;
+  flex: 0 1 auto;
   font-size: 21px;
   font-weight: $weight-bold;
+  margin-left: 3px;
 }
 
 // on modal
@@ -58,7 +60,7 @@
 
   .container-title {
     font-size: 14px;
-    font-weight: 400;
+    font-weight: $weight-normal;
 
     // naming containers
     &.input {
@@ -76,10 +78,19 @@
   }
 
   .icons-warning,
-  .icons-arrow-down,
-  .spinner-wrapper {
+  .icons-arrow-down {
     flex: 0 0 18px;
     height: 18px;
+  }
+
+  .spinner-wrapper {
+    flex: 0 0 auto;
+    height: auto;
+  }
+
+  .spinner {
+    height: 12px;
+    width: 12px;
   }
 
   // rename button for verification flow
