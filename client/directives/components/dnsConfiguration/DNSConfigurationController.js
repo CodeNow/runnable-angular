@@ -32,14 +32,18 @@ function DNSConfigurationController(
     if (!DCC.dependencies) {
       return;
     }
+
+    var worstStatus = '';
     for(var i=0; i < DCC.dependencies.models.length; i++) {
       var status = DCC.dependencies.models[i].instance.status();
       if (['buildFailed', 'crashed'].includes(status)) {
-        return 'red';
+        worstStatus = 'red';
+        break; // Short circuit!
       } else if (['starting', 'neverStarted', 'building'].includes(status)) {
-        return 'orange';
+        worstStatus = 'orange';
       }
     }
+    return worstStatus;
   };
 
   DCC.editDependency = function (dep) {
