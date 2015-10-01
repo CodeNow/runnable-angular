@@ -69,6 +69,14 @@
       }
     }
 
+    &.inactive {
+      opacity: .5;
+
+      .icons-status {
+        visibility: hidden;
+      }
+    }
+
     // gear icon
     .icons-advanced {
       cursor: pointer;
