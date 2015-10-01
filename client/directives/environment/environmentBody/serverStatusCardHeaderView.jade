@@ -1,4 +1,10 @@
 div(
+  ng-class = "{\
+    'btn': !$root.featureFlags.cardStatus,\
+    'btn-sm': !$root.featureFlags.cardStatus,\
+    'btn-title': !$root.featureFlags.cardStatus,\
+    'white': !$root.featureFlags.cardStatus && !inModal\
+  }"
   pop-over
   pop-over-actions = "popoverServerActions"
   pop-over-options = "{\"right\":0,\"top\":47}"
@@ -10,11 +16,11 @@ div(
     instance = "instance"
   )
   span.btn-text.text-overflow(
-    ng-attr-title = "{{ instance.getDisplayName() }}"
-  ) {{ (instance.getRepoName() || instance.attrs.name) }}
+    ng-attr-title = "{{instance.getDisplayName()}}"
+  ) {{(instance.getRepoName() || instance.attrs.name)}}
   span.btn-text(
-    ng-attr-title = "{{ instance | cardBuildStatusTitle}}"
-  ) {{ instance | cardBuildStatusText:true}}
+    ng-attr-title = "{{instance | cardBuildStatusTitle}}"
+  ) {{instance | cardBuildStatusText:true}}
   svg.iconnables.icons-arrow-down(
     ng-if = "!noTouching"
   )

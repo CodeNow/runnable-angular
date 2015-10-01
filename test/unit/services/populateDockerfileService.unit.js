@@ -19,7 +19,7 @@ describe('populateDockerfileService'.bold.underline.blue, function () {
       }
     };
     state = {
-      getPorts: sinon.stub().returns(['80']),
+      ports: ['80', '8000'],
       packages: 'package 1',
       containerFiles: [
         {
@@ -44,11 +44,10 @@ describe('populateDockerfileService'.bold.underline.blue, function () {
   it('should populate a standard dockerfile', function () {
     populateDockerfile(nodeSourceDockerfile, state, destDockerfile);
 
-    sinon.assert.calledOnce(state.getPorts);
     sinon.assert.calledOnce(state.containerFiles[0].toString);
 
     expect(destDockerfile.state.body).to.contain('FROM node:0.10.35');
-    expect(destDockerfile.state.body).to.contain('EXPOSE 80');
+    expect(destDockerfile.state.body).to.contain('EXPOSE 80 8000');
     expect(destDockerfile.state.body).to.contain('package 1');
     expect(destDockerfile.state.body).to.contain('Main Repo');
     expect(destDockerfile.state.body).to.contain('WORKDIR /foo');
@@ -56,7 +55,7 @@ describe('populateDockerfileService'.bold.underline.blue, function () {
   });
 
   it('should handle having no ports', function () {
-    state.getPorts.returns([]);
+    state.ports = [];
     populateDockerfile(nodeSourceDockerfile, state, destDockerfile);
     expect(destDockerfile.state.body).to.not.contain('EXPOSE');
     expect(destDockerfile.state.body).to.not.contain('user-specified-ports');
@@ -75,15 +74,15 @@ describe('populateDockerfileService'.bold.underline.blue, function () {
     expect(destDockerfile.state.body).to.contain('ENV RAILS_VERSION 4.2.0');
   });
 
-  it('should return an error if there is no getPorts function', function () {
-    delete state.getPorts;
+  it('should return an error if there is are no `ports` in the state', function () {
+    delete state.ports;
     populateDockerfile(railsSourceDockerfile, state, destDockerfile)
       .then(function () {
-        throw "Error case not hit.";
+        throw 'Error case not hit.';
       })
       .catch(function (err) {
         expect(err).to.be.ok;
-        expect(err.message).to.equal('populateDockerfile requires a getPorts function');
+        expect(err.message).to.equal('populateDockerfile requires an array of port');
       });
   });
 });

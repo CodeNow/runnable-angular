@@ -1,7 +1,7 @@
 header.modal-header
   h1.modal-heading New Container from Repository
   svg.iconnables.icons-close(
-    ng-click = "defaultActions.cancel()"
+    ng-click = "SMC.close()"
   )
     use(
       xlink:href = "#icons-close"
@@ -9,15 +9,15 @@ header.modal-header
 
 section.modal-body.clearfix
   .spinner-wrapper.spinner-md.in(
-    ng-if = "!data.githubRepos.models"
+    ng-if = "!SMC.data.githubRepos.models"
     ng-include = "'spinner'"
   )
 
   //- search
   input.input.input-xs.input-search(
-    ng-disabled = "repoSelected"
-    ng-if = "data.githubRepos.models && data.githubRepos.models.length"
-    ng-model = "data.repoFilter"
+    ng-disabled = "SMC.repoSelected"
+    ng-if = "SMC.data.githubRepos.models && SMC.data.githubRepos.models.length"
+    ng-model = "SMC.data.repoFilter"
     placeholder = "Filter by name"
     required
     select-on = "showFilter"
@@ -26,7 +26,7 @@ section.modal-body.clearfix
 
   //- empty state
   p.p.empty(
-    ng-if = "data.githubRepos.models && !data.githubRepos.models.length"
+    ng-if = "SMC.data.githubRepos.models && !SMC.data.githubRepos.models.length"
   ) You don’t have any private repositories. Choose another organization to use Runnable, or create one at&#32;
     a.link(
       href = "https://github.com/"
@@ -36,23 +36,22 @@ section.modal-body.clearfix
 
   //- list of repositories
   ul.list.list-servers(
-    ng-if = "data.githubRepos.models && data.githubRepos.models.length"
+    ng-if = "SMC.data.githubRepos.models && SMC.data.githubRepos.models.length"
   )
     li.p.empty(
       ng-if = "!noResults.length"
     ) We couldn’t find any repositories named
       br
-      | ‘{{data.repoFilter}}’.
+      | ‘{{SMC.data.repoFilter}}’.
     li.list-item.multi-line.text-overflow(
       ng-class = "{\
         'active': repo.loading,\
-        'no-touching': repo.isAdded || repoSelected\
+        'no-touching': repo.isAdded || SMC.repoSelected\
       }"
-      ng-click = "selectRepo(repo)"
-      ng-init = "repo.isAdded = isRepoAdded(repo)"
+      ng-click = "SMC.selectRepo(repo)"
       ng-repeat = "\
-        repo in data.githubRepos.models | \
-        repos: data.repoFilter | \
+        repo in SMC.data.githubRepos.models | \
+        repos: SMC.data.repoFilter | \
         orderBy: '-attrs.updated_at' as noResults\
       "
     ) {{repo.attrs.name}}
@@ -62,7 +61,7 @@ section.modal-body.clearfix
           'disabled gray': repo.isAdded,\
           'green': !repo.isAdded\
         }"
-        ng-disabled = "repoSelected"
+        ng-disabled = "SMC.repoSelected"
         ng-if = "!repo.loading"
       ) {{repo.isAdded ? 'Already Added' : 'Add Container'}}
       .spinner-wrapper.spinner-sm.spinner-green.in(
@@ -72,8 +71,8 @@ section.modal-body.clearfix
 
 //- if there are no repositories to add
 footer.modal-footer.clearfix(
-  ng-if = "data.githubRepos.models && !data.githubRepos.models.length"
+  ng-if = "SMC.data.githubRepos.models && !SMC.data.githubRepos.models.length"
 )
   button.btn.white.btn-block(
-    ng-click = "defaultActions.cancel()"
+    ng-click = "SMC.close()"
   ) Close

@@ -35,7 +35,8 @@
   //- logs
   .term-js.term-log(
     log-term
-    ng-controller = "BuildLogController"
+    instance = 'instance'
+    controller= "BuildLogController"
     ng-if = "item.state.type === 'BuildStream' && !$root.featureFlags.updatedBuildLogs"
   )
 
@@ -53,14 +54,16 @@
 
   .term-js.term-log(
     log-term
-    ng-controller = "BoxLogController"
+    instance = 'instance'
+    controller = "BoxLogController"
     ng-if = "item.state.type === 'LogView'"
   )
 
   //- terminal
   .term-js(
     log-term
-    ng-controller = "TermController"
+    instance = 'instance'
+    controller = "TermController"
     ng-if = "item.state.type === 'Terminal'"
   )
 
