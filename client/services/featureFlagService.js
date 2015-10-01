@@ -17,7 +17,7 @@ function featureFlags(
     hostnameTool: false,
     imAfraidOfTheDark: false, // toggles theme
     internalDebugging: false,
-    isolationDnsMappings: false,
+    isolationDnsMappings: true,
     isolationNav: false, // for isolation nav
     isolationUI: false, // for isolation UI
     multilineFnR: false,
