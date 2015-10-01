@@ -24,6 +24,7 @@
     // github link
     .link {
       float: left;
+      padding-right: 15px;
     }
 
     &:only-child {
@@ -206,6 +207,7 @@
     line-height: 30px;
 
     &:only-child {
+      white-space: nowrap;
       width: 100%;
     }
   }
