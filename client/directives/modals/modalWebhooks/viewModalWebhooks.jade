@@ -9,7 +9,7 @@
         )
       h1.modal-heading Webhooks
       svg.iconnables.icons-close(
-        ng-click = "MWC.cancel()"
+        ng-click = "defaultActions.cancel()"
       )
         //- ng-if = "MWC.currentPanel === 'panelName'"
         use(
@@ -54,20 +54,6 @@
       )
         section.modal-body Invite GitHub admins for data-dog so they can give us permission to turn on webhooks.
           .list.list-bordered
-            .list-item.add-email(
-              ng-init = "emailFocus = false"
-              ng-click = "emailFocus = true"
-              ng-if = "!emailFocus"
-            ) add an email address…
-            input.list-item(
-              ng-if = "emailFocus"
-              ng-focus = "emailFocus"
-              placeholder = "add an email address…"
-              style = "width: 100%; font-weight: 400;"
-            )
-            .list-item.add-email(
-              ng-if = "emailFocus"
-            ) add an email address…
             label.list-item
               img.gravatar(
                 height = "30"
@@ -77,12 +63,7 @@
               .gravatar-test
               .p runnabro
                 .small tony@runnable.com
-              .toggle-wrapper.float-right
-                input.toggle-input(
-                  type = "checkbox"
-                  ng-model = "admin1"
-                )
-                .toggle-group.toggle-xs
+              .btn.btn-xs.green.text-center Send Invitation
             label.list-item
               img.gravatar(
                 height = "30"
@@ -91,12 +72,7 @@
               )
               .p taylordolan
                 .small taylor@runnable.com
-              .toggle-wrapper.float-right
-                input.toggle-input(
-                  type = "checkbox"
-                  ng-model = "admin2"
-                )
-                .toggle-group.toggle-xs
+              .btn.btn-xs.green.text-center Send Invitation
             .list-item
               img.gravatar(
                 height = "30"
@@ -104,14 +80,4 @@
                 src = "https://avatars0.githubusercontent.com/u/1981198?v=3&s=96"
               )
               .p thejsj
-                .small email not found
-        section.modal-footer
-          button.btn.btn-block.white.disabled(
-            ng-if = "!admin1 && !admin2"
-          ) Send Invitations
-          button.btn.btn-block.green(
-            ng-if = "admin1 && !admin2 || !admin1 && admin2"
-          ) Send 1 Invitation
-          button.btn.btn-block.green(
-            ng-if = "admin1 && admin2"
-          ) Send 2 Invitations
+              .btn.btn-xs.white.text-center Add address…
