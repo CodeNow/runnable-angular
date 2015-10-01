@@ -16,8 +16,8 @@ function DNSConfigurationController(
   DCC.instanceDependencyMap = {};
   // Fetch dependencies
   promisify(DCC.instance, 'fetchDependencies')()
-    .then(function (_dependencies) {
-      DCC.filteredDependencies = _dependencies.models.filter(function (dep) {
+    .then(function (dependencies) {
+      DCC.filteredDependencies = dependencies.models.filter(function (dep) {
         return keypather.get(dep.instance, 'contextVersion.getMainAppCodeVersion()');
       });
     })
