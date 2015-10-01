@@ -145,7 +145,10 @@
       .modal-form(
         ng-if = "SMC.state.repo"
         ng-show = "SMC.selectedTab === 'translation'"
+        actions = "SMC.actions"
         state = "SMC.state"
+        instance = "SMC.instance"
+        data = "SMC.data"
         translation-rules
       )
       .modal-form.modal-logs(
