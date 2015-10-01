@@ -1,10 +1,118 @@
 .modal-backdrop.in
   .modal-dialog.modal-webhooks
     header.modal-header
+      svg.btn.btn-sm.iconnables.icons-arrow-backward(
+        ng-click = "$broadcast('go-to-panel','nonWebhooksContainers', 'back')"
+      )
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
       h1.modal-heading Webhooks
       svg.iconnables.icons-close(
         ng-click = "MWC.cancel()"
       )
+        //- ng-if = "MWC.currentPanel === 'panelName'"
         use(
           xlink:href = "#icons-close"
         )
+
+    animated-panel-container
+
+      animated-panel(
+        default = "true"
+        name = "webhooksLanding"
+      )
+        section.modal-body
+          | Turn on Webhooks to automatically launch new containers (or update existing ones) whenever you push new code to GitHub.
+        section.modal-footer
+          button.btn.btn-block.green(
+            ng-click = "goToPanel('nonWebhooksContainers')"
+          ) Turn on Webhooks for api
+
+      animated-panel(
+        name = "nonWebhooksContainers"
+      )
+        section.modal-body These repositories don’t have webhooks enabled yet.
+          .list.list-bordered
+            .list-item
+              .p api
+              .btn.btn-xs.green.text-center Turn on Webhooks
+            .list-item
+              .p data-dog
+              .btn.btn-xs.green.text-center Turn on Webhooks
+            .list-item
+              .p optimus
+                .small permissions needed
+              .btn.btn-xs.white.text-center(
+                ng-click = "goToPanel('inviteAdmins')"
+              ) Invite an Admin…
+        section.modal-footer
+          button.btn.btn-block.white Done
+
+      animated-panel(
+        name = "inviteAdmins"
+        ng-init = ""
+      )
+        section.modal-body Invite GitHub admins for data-dog so they can give us permission to turn on webhooks.
+          .list.list-bordered
+            .list-item.add-email(
+              ng-init = "emailFocus = false"
+              ng-click = "emailFocus = true"
+              ng-if = "!emailFocus"
+            ) add an email address…
+            input.list-item(
+              ng-if = "emailFocus"
+              ng-focus = "emailFocus"
+              placeholder = "add an email address…"
+              style = "width: 100%; font-weight: 400;"
+            )
+            .list-item.add-email(
+              ng-if = "emailFocus"
+            ) add an email address…
+            label.list-item
+              img.gravatar(
+                height = "30"
+                width = "30"
+                src = "https://avatars2.githubusercontent.com/u/5341618?v=3&s=96"
+              )
+              .gravatar-test
+              .p runnabro
+                .small tony@runnable.com
+              .toggle-wrapper.float-right
+                input.toggle-input(
+                  type = "checkbox"
+                  ng-model = "admin1"
+                )
+                .toggle-group.toggle-xs
+            label.list-item
+              img.gravatar(
+                height = "30"
+                width = "30"
+                src = "https://avatars0.githubusercontent.com/u/7440805?v=3&s=96"
+              )
+              .p taylordolan
+                .small taylor@runnable.com
+              .toggle-wrapper.float-right
+                input.toggle-input(
+                  type = "checkbox"
+                  ng-model = "admin2"
+                )
+                .toggle-group.toggle-xs
+            .list-item
+              img.gravatar(
+                height = "30"
+                width = "30"
+                src = "https://avatars0.githubusercontent.com/u/1981198?v=3&s=96"
+              )
+              .p thejsj
+                .small email not found
+        section.modal-footer
+          button.btn.btn-block.white.disabled(
+            ng-if = "!admin1 && !admin2"
+          ) Send Invitations
+          button.btn.btn-block.green(
+            ng-if = "admin1 && !admin2 || !admin1 && admin2"
+          ) Send 1 Invitation
+          button.btn.btn-block.green(
+            ng-if = "admin1 && admin2"
+          ) Send 2 Invitations

@@ -1,0 +1,59 @@
+.modal-webhooks {
+  color: $gray-dark;
+  max-width: 480px;
+
+  .icons-arrow-backward {
+    color: #bbb;
+    left: 15px;
+    top: 18px;
+    padding: 0;
+    pointer-events: auto;
+    position: absolute;
+  }
+
+  .list {
+    background: $white;
+    flex: 0 0 auto;
+    font-weight: $weight-bold;
+    margin: 15px 0;
+  }
+
+  .list-item {
+    // padding: 9px 12px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    line-height: 18px;
+    height: 54px;
+
+    .p {
+      flex: 1 1 auto;
+    }
+
+    .small {
+      color: $gray;
+    }
+
+    .btn {
+      width: 129px;
+      top: 0;
+      right: 0;
+      position: relative;
+    }
+  }
+
+  .add-email {
+    font-weight: $weight-normal;
+    color: $gray;
+    // padding: 18px 12px;
+  }
+
+  .gravatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: $gray;
+    // margin-right: 9px;
+    margin: 0 9px 0 0;
+  }
+}
