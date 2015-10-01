@@ -341,4 +341,16 @@ function SetupServerModalController (
       });
   };
 
+  SMC.closeModalOrDeleteInstance = function () {
+    if (SMC.instance) {
+      return SMC.actions.deleteServer(SMC.instance)
+        .then(function (confirmed) {
+          if (confirmed) {
+            close();
+          }
+        });
+    } else {
+      return SMC.closeWithConfirmation();
+    }
+  };
 }
