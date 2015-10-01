@@ -20,34 +20,33 @@
 
       animated-panel(
         default = "true"
-        name = "webhooksLanding"
-      )
-        section.modal-body
-          | Turn on Webhooks to automatically launch new containers (or update existing ones) whenever you push new code to GitHub.
-        section.modal-footer
-          button.btn.btn-block.green(
-            ng-click = "goToPanel('nonWebhooksContainers')"
-          ) Turn on Webhooks for api
-
-      animated-panel(
         name = "nonWebhooksContainers"
       )
-        section.modal-body These repositories don’t have webhooks enabled yet.
+        section.modal-body Turn on Webhooks to automatically launch new containers (or update existing ones) whenever you push new code to GitHub.
           .list.list-bordered
             .list-item
               .p api
-              .btn.btn-xs.green.text-center Turn on Webhooks
-            .list-item
+              .btn.btn-xs.green.text-center(
+                ng-init = "showList = false"
+                ng-click = "showList = true"
+                ng-hide = "showList"
+              ) Turn on Webhooks
+              .btn.btn-xs.green.text-center.disabled(
+                ng-if = "showList"
+              ) Webhooks On
+            .list-item(
+              ng-if = "showList"
+            )
               .p data-dog
               .btn.btn-xs.green.text-center Turn on Webhooks
-            .list-item
+            .list-item(
+              ng-if = "showList"
+            )
               .p optimus
                 .small permissions needed
               .btn.btn-xs.white.text-center(
                 ng-click = "goToPanel('inviteAdmins')"
               ) Invite an Admin…
-        section.modal-footer
-          button.btn.btn-block.white Done
 
       animated-panel(
         name = "inviteAdmins"
