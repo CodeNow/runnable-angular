@@ -4,7 +4,7 @@
 )
   //- arrow is white if loading or no dns mappings
   .arrow(
-    ng-class = "{'white': !$root.isLoaded.dns || DCC.dependencies.models.length === 0}"
+    ng-class = "{'white': !$root.isLoaded.dns || DCC.filteredDependencies.length === 0}"
   )
 
   animated-panel-container.popover-views
@@ -17,7 +17,7 @@
       )
         //- only show the header if not loading and not empty
         .popover-header.load(
-          ng-if = "$root.isLoaded.dns && DCC.dependencies.models.length !== 0"
+          ng-if = "$root.isLoaded.dns && DCC.filteredDependencies.length !== 0"
         )
           .fade(
             ng-class = "{'in': isActivePanel()}"
@@ -31,7 +31,7 @@
 
         //- empty state if not loading and empty
         .popover-content(
-          ng-if = "$root.isLoaded.dns && DCC.dependencies.models.length === 0"
+          ng-if = "$root.isLoaded.dns && DCC.filteredDependencies.length === 0"
         )
           p.p.empty.text-center.fade-in DNS Mappings are created with elastic hostnames in Environment Variables or Find & Replace.&#32;
             a.link(
@@ -42,7 +42,7 @@
 
         //- begin dns mappings
         .popover-content.load(
-          ng-if = "isActivePanel() && DCC.dependencies.models.length !== 0"
+          ng-if = "isActivePanel() && DCC.filteredDependencies.length !== 0"
         )
 
           //- list of DNS mappings
@@ -50,7 +50,7 @@
             li.list-item.popover-list-item.tr.multi-line.clearfix.tr-dns(
               ng-click = "DCC.editDependency(dependency); goToPanel('dnsList');"
               ng-if = "$root.isLoaded.dns"
-              ng-repeat = "dependency in DCC.dependencies.models"
+              ng-repeat = "dependency in DCC.filteredDependencies"
             )
               .cell.clearfix(
                 title = "{{dependency.instance.getRepoName()}}"

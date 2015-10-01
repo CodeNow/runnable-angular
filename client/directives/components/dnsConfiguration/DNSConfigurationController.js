@@ -17,11 +17,9 @@ function DNSConfigurationController(
   // Fetch dependencies
   promisify(DCC.instance, 'fetchDependencies')()
     .then(function (_dependencies) {
-      _dependencies.models = _dependencies.models.filter(function (dep) {
+      DCC.filteredDependencies = _dependencies.models.filter(function (dep) {
         return keypather.get(dep.instance, 'contextVersion.getMainAppCodeVersion()');
       });
-      DCC.dependencies = _dependencies;
-      return _dependencies;
     })
     .catch(errs.handler)
     .finally(function () {
@@ -29,13 +27,13 @@ function DNSConfigurationController(
     });
 
   DCC.getWorstStatusClass = function () {
-    if (!DCC.dependencies) {
+    if (!DCC.filteredDependencies) {
       return;
     }
 
     var worstStatus = '';
-    for(var i=0; i < DCC.dependencies.models.length; i++) {
-      var status = DCC.dependencies.models[i].instance.status();
+    for(var i=0; i < DCC.filteredDependencies.length; i++) {
+      var status = DCC.filteredDependencies[i].instance.status();
       if (['buildFailed', 'crashed'].includes(status)) {
         worstStatus = 'red';
         break; // Short circuit!
