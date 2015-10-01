@@ -15,8 +15,8 @@
 
 //- table actions
 .table-actions.clearfix(
-  ng-class = "{in: state.showHostName}"
-  ng-if = "data.instances.models.length >= 2"
+  ng-class = "{'in': SMC.state.showHostName}"
+  ng-if = "SMC.data.instances.models.length >= 2"
   ng-include = "'viewEnvironmentVariableActions'"
 )
 
@@ -29,16 +29,16 @@
 )
 
   .ace_editor(
-    current-model = "instance.attrs"
+    current-model = "SMC.instance.attrs"
     env-vars
-    state-model = "state.opts"
+    state-model = "SMC.state.opts"
     validation = "validation.env"
   )
 
   .sidebar.ace-sidebar(
-    ng-class = "{in: data.toggleSidebar}"
-    ng-include = "'viewFormEnvironmentVariablesSidebar'"
+    ng-class = "{'in': SMC.data.toggleSidebar}"
     ng-if = "$root.featureFlags.hostnameTool"
+    ng-include = "'viewFormEnvironmentVariablesSidebar'"
   )
 
   .floating-controls(
@@ -51,7 +51,7 @@ label.label.label-help(
 )
   small.small.strong Elastic hostname:
   input.input.input-xxs(
-    ng-attr-value = "{{ instance.getElasticHostname() }}"
+    ng-attr-value = "{{ SMC.getElasticHostname() }}"
     readonly
     select-all
   )

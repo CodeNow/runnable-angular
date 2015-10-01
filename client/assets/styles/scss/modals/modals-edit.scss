@@ -33,6 +33,7 @@
 
     .ace-container,
     .btn:not(.btn-cancel),
+    .container-title-wrapper,
     .input,
     .label,
     .textarea,
@@ -250,12 +251,12 @@
 
       &:nth-child(4):nth-child(4) { // override btn-group default
         border-radius: 0 0 0 $input-border-radius;
-        margin-left: 1px;
+        margin-left: 0;
       }
 
       &:last-child {
         border-radius: 0 0 $input-border-radius;
-        margin-right: -1px;
+        margin-right: 0;
       }
 
       &:nth-child(n+4) {

@@ -11,10 +11,7 @@
   ng-if = "data.instances && !isLoading.sidebar && !data.instances.models.length"
 )
   svg.iconnables(
-    modal
-    modal-actions = "actions"
-    modal-data = "data"
-    modal-template = "setupServerModalOpen"
+    ng-click = "actions.setupRepoServer()"
   )
     use(
       xlink:href = "#icons-new-repository-server"

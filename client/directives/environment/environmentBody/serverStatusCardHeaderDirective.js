@@ -10,7 +10,14 @@ function serverStatusCardHeader(
 ) {
   return {
     restrict: 'E',
-    replace: true,
+    replace: false,
+    scope: {
+      instance: '= instance',
+      noTouching: '=? noTouching',
+      openEditServerModal: '=? openEditServerModal',
+      actions: '= actions',
+      inModal: '=? inModal'
+    },
     templateUrl: function (elem, attrs) {
       if ($rootScope.featureFlags.cardStatus) {
         return 'serverStatusCardHeaderViewCardStatus';
@@ -27,10 +34,6 @@ function serverStatusCardHeader(
           $scope.actions.deleteServer($scope.instance);
         }
       };
-      attrs.$observe('noTouching', function () {
-        $scope.noTouching = attrs.noTouching === 'true';
-      });
-
     }
   };
 }
