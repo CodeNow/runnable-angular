@@ -12,6 +12,13 @@ function logTerm(
 ) {
   return {
     restrict: 'A',
+    name: 'controller',
+    replace: true,
+    transclude: true,
+    controller: '@',
+    scope: {
+      instance: '=? instance'
+    },
     link: function ($scope, elem, attrs) {
 
       /**

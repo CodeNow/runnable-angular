@@ -47,7 +47,7 @@
   }
 
   // if .arrow-down
-  > .icons-arrow-down {
+  > .icons-arrow-down, .server-status-card-pop-over > .icons-arrow-down {
     float: right;
     height: 100%;
     margin-right: -6px;
