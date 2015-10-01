@@ -1,0 +1,31 @@
+a.list-item-container(
+  ui-sref = "\
+    base.instances.instance({ userName: INC.activeAccount.oauthName(), \
+    instanceName: INC.instance.attrs.name })\
+  "
+  ui-sref-active = "open active"
+)
+  status-icon(
+    instance = "INC.instance"
+  )
+  .text-overflow(
+    title = "{{INC.instance.getBranchName() || INC.instance.attrs.name}}"
+  ) {{INC.instance.getBranchName() || INC.instance.attrs.name}}
+
+    //- hide badge if popover is open
+  .btn.btn-xxs.btn-badge.gray(
+    ng-if = "$root.featureFlags.isolationUI && !popoverContainerMenu.data.show"
+  ) Isolated
+
+  svg.iconnables.icons-overflow(
+    ng-if = "$root.featureFlags.isolationUI"
+    ng-class = "{'active': popoverContainerMenu.data.show}"
+    pop-over
+    pop-over-active = "popoverContainerMenu.data.show"
+    pop-over-data = "popoverContainerMenu.data"
+    pop-over-options = "{\"verticallyCentered\":true,\"left\":28}"
+    pop-over-template = "viewPopoversContainerMenu"
+  )
+    use(
+      xlink:href = "#icons-overflow"
+    )
