@@ -90,6 +90,10 @@
 
   &.server-header-debug {
     position: relative;
+
+    .icons-status {
+      top: 18px;
+    }
   }
 
   .primary-actions {
