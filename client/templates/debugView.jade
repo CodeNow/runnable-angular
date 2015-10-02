@@ -69,6 +69,7 @@ div(
   strong.strong(
     ng-if = "$root.featureFlags.isolationUI"
   ) {{DC.instance.getBranchName()}}
+    small.small (Debug)
 
   button.btn.btn-xs.btn-badge.gray.float-right(
     ng-if = "$root.featureFlags.isolationUI"

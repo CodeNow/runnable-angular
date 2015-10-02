@@ -71,6 +71,15 @@
       top: 6px;
     }
   }
+
+  // debug text
+  .strong .small {
+    color: $gray-light;
+    left: 6px;
+    line-height: 1;
+    position: relative;
+    top: -3px;
+  }
 }
 
 .instance-header-properties {
