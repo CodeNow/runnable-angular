@@ -13,7 +13,6 @@ require('app')
       restrict: 'A',
       templateUrl: 'viewFormTranslation',
       scope: {
-        actions: '= actions',
         state: '=',
         instance: '= instance',
         data: '=? data'
