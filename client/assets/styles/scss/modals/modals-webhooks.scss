@@ -1,6 +1,13 @@
 .modal-webhooks {
   color: $gray-dark;
-  max-width: 480px;
+
+  .animated-panel-container {
+    transition: all .3s ease-in-out;
+  }
+
+  .animated-panel {
+    width: 420px;
+  }
 
   .fade {
     transition: opacity .3s ease-in-out;
@@ -28,7 +35,18 @@
     display: flex;
     align-items: center;
     line-height: 18px;
-    height: 54px;
+    // height: 54px;
+    height: 0;
+    overflow: hidden;
+    transition: height .3s ease-in-out;
+
+    &.show-item {
+      height: 54px;
+    }
+
+    // &:not(:first-child) {
+    //   height: 0;
+    // }
 
     .p {
       flex: 1 1 auto;

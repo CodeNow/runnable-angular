@@ -1,5 +1,5 @@
 .modal-backdrop.in
-  .modal-dialog.modal-webhooks
+  .modal-dialog.modal-webhooks.js-animate
 
     animated-panel-container
 
@@ -20,7 +20,7 @@
             )
         section.modal-body Enable Webhooks to automatically launch new containers (or update existing ones) whenever you push new code to GitHub.
           .list.list-bordered
-            .list-item
+            .list-item.show-item
               .p api
               .btn.btn-xs.green.text-center(
                 ng-init = "showList = false"
@@ -31,12 +31,12 @@
                 ng-if = "showList"
               ) Enabled
             .list-item(
-              ng-if = "showList"
+              ng-class = "{'show-item': showList}"
             )
               .p data-dog
               .btn.btn-xs.green.text-center Enable Webhooks
             .list-item(
-              ng-if = "showList"
+              ng-class = "{'show-item': showList}"
             )
               .p optimus
                 .small permissions needed
