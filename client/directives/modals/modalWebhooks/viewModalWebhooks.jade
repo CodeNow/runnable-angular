@@ -33,13 +33,11 @@
             .list-item(
               ng-if = "showList"
             )
-              //- ng-class = "{'show-item': showList}"
               .p data-dog
               .btn.btn-xs.green.text-center Enable Webhooks
             .list-item(
               ng-if = "showList"
             )
-              //- ng-class = "{'show-item': showList}"
               .p optimus
                 .small permissions needed
               .btn.btn-xs.gray.text-center(
@@ -68,31 +66,77 @@
               xlink:href = "#icons-close"
             )
         section.modal-body Invite GitHub admins for data-dog so they can give us permission to enable webhooks.
+
           .list.list-bordered
-            label.list-item
+
+            .list-item
               img.gravatar(
                 height = "30"
                 width = "30"
                 src = "https://avatars2.githubusercontent.com/u/5341618?v=3&s=96"
               )
-              .gravatar-test
-              .p runnabro
-                .small tony@runnable.com
-              .btn.btn-xs.green.text-center Send Invitation
-            label.list-item
+              .p(
+                ng-class = "{'shrink': inviting}"
+              )
+                span.span runnabro
+                input.input(
+                  type = "text"
+                  value = "tony@runnable.com"
+                  ng-disabled = "!inviting"
+                )
+              .btn.btn-xs.gray.text-center(
+                ng-click = "inviting = true"
+                ng-hide = "inviting"
+              ) Invite…
+              .btn.btn-xs.green.text-center(
+                ng-click = "inviting = false"
+                ng-show = "inviting"
+              ) Send
+
+            .list-item
               img.gravatar(
                 height = "30"
                 width = "30"
                 src = "https://avatars0.githubusercontent.com/u/7440805?v=3&s=96"
               )
-              .p taylordolan
-                .small taylor@runnable.com
-              .btn.btn-xs.green.text-center Send Invitation
+              .p(
+                ng-class = "{'shrink': invitingg}"
+              )
+                span.span taylordolan
+                input.input(
+                  type = "text"
+                  value = "taylor@runnable.com"
+                  ng-disabled = "!invitingg"
+                )
+              .btn.btn-xs.gray.text-center(
+                ng-click = "invitingg = true"
+                ng-hide = "invitingg"
+              ) Invite…
+              .btn.btn-xs.green.text-center(
+                ng-click = "invitingg = false"
+                ng-show = "invitingg"
+              ) Send
+
             .list-item
               img.gravatar(
                 height = "30"
                 width = "30"
                 src = "https://avatars0.githubusercontent.com/u/1981198?v=3&s=96"
               )
-              .p thejsj
-              .btn.btn-xs.gray.text-center Add address…
+              .p(
+                ng-class = "{'shrink': invitinggg}"
+              )
+                span.span thejsj
+                input.input.empty(
+                  type = "text"
+                  placeholder = "email address"
+                  ng-disabled = "!invitinggg"
+                )
+              .btn.btn-xs.gray.text-center(
+                ng-click = "invitinggg = true"
+                ng-hide = "invitinggg"
+              ) Invite…
+              .btn.btn-xs.green.text-center(
+                ng-click = "invitinggg = false"
+                ng-show = "invitinggg"
+              ) Send

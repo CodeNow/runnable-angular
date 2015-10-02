@@ -27,35 +27,46 @@
     flex: 0 0 auto;
     font-weight: $weight-bold;
     margin: 15px 0;
-    // overflow: hidden;
   }
 
   .list-item {
-    // padding: 9px 12px;
     padding: 0 12px;
     display: flex;
     align-items: center;
     line-height: 18px;
     height: 54px;
-    // height: 0;
-    // position: relative;
-    // top: -54px;
-    // overflow: hidden;
-    // transition: height .3s ease-in-out;
-    // z-index: -1;
-
-    // &.show-item {
-    //   height: 54px;
-    //   // top: 0;
-    //   // z-index: 0;
-    // }
-
-    // &:not(:first-child) {
-    //   height: 0;
-    // }
 
     .p {
       flex: 1 1 auto;
+      transition: all .1s ease-in-out;
+      padding-right: 15px;
+
+      &.shrink .span {
+        opacity: 0;
+        transition: all .1s ease-in-out;
+      }
+    }
+
+    .input {
+      background-color: $white;
+      color: #888;
+      font-weight: 400;
+      font-size: 13px;
+      height: 24px;
+      line-height: 20px;
+      position: relative;
+      transition: all .1s ease-in-out;
+      top: -9px;
+      left: -7px;
+
+      &[disabled] {
+        border-color: transparent !important;
+        top: 0;
+
+        &.empty::-webkit-input-placeholder {
+          color: $white;
+        }
+      }
     }
 
     .small {
@@ -63,7 +74,7 @@
     }
 
     .btn {
-      width: 129px;
+      flex: 0 0 90px;
       top: 0;
       right: 0;
       position: relative;
@@ -73,7 +84,6 @@
   .add-email {
     font-weight: $weight-normal;
     color: $gray;
-    // padding: 18px 12px;
   }
 
   .gravatar {
@@ -81,7 +91,6 @@
     height: 30px;
     border-radius: 50%;
     background: $gray;
-    // margin-right: 9px;
-    margin: 0 9px 0 0;
+    margin: 0 12px 0 0;
   }
 }
