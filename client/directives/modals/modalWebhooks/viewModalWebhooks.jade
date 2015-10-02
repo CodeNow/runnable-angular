@@ -31,13 +31,15 @@
                 ng-if = "showList"
               ) Enabled
             .list-item(
-              ng-class = "{'show-item': showList}"
+              ng-if = "showList"
             )
+              //- ng-class = "{'show-item': showList}"
               .p data-dog
               .btn.btn-xs.green.text-center Enable Webhooks
             .list-item(
-              ng-class = "{'show-item': showList}"
+              ng-if = "showList"
             )
+              //- ng-class = "{'show-item': showList}"
               .p optimus
                 .small permissions needed
               .btn.btn-xs.gray.text-center(

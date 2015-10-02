@@ -27,6 +27,7 @@
     flex: 0 0 auto;
     font-weight: $weight-bold;
     margin: 15px 0;
+    // overflow: hidden;
   }
 
   .list-item {
@@ -35,14 +36,19 @@
     display: flex;
     align-items: center;
     line-height: 18px;
-    // height: 54px;
-    height: 0;
-    overflow: hidden;
-    transition: height .3s ease-in-out;
+    height: 54px;
+    // height: 0;
+    // position: relative;
+    // top: -54px;
+    // overflow: hidden;
+    // transition: height .3s ease-in-out;
+    // z-index: -1;
 
-    &.show-item {
-      height: 54px;
-    }
+    // &.show-item {
+    //   height: 54px;
+    //   // top: 0;
+    //   // z-index: 0;
+    // }
 
     // &:not(:first-child) {
     //   height: 0;
