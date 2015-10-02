@@ -46,6 +46,23 @@ div(
 
 
   //- isolation UI
+  //- status button
+  button.btn.btn-xs.btn-spinner.btn-status.red(
+    ng-if = "$root.featureFlags.isolationUI"
+    pop-over
+    pop-over-actions = "popoverStatusOptions.actions"
+    pop-over-active = "state.active"
+    pop-over-data = "popoverStatusOptions.data"
+    pop-over-options = "{\"top\":36,\"left\":0}"
+    pop-over-template = "viewInstancePopoverStatusOptions"
+  )
+    .icons-status.red.float-left
+    span.float-left Crashed
+    svg.iconnables.icons-arrow-down
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+
   span.span(
     ng-if = "$root.featureFlags.isolationUI"
   ) {{DC.instance.getDisplayName()}}

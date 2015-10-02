@@ -60,6 +60,17 @@
     right: 12px;
     top: 15px;
   }
+
+  // for debug view
+  .btn-status {
+    left: 12px;
+    position: absolute;
+    top: 15px;
+
+    .icons-status {
+      top: 6px;
+    }
+  }
 }
 
 .instance-header-properties {
