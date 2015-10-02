@@ -2,6 +2,10 @@
   color: $gray-dark;
   max-width: 480px;
 
+  .fade {
+    transition: opacity .3s ease-in-out;
+  }
+
   .icons-arrow-backward {
     color: #bbb;
     left: 15px;

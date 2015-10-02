@@ -8,14 +8,17 @@
         name = "nonWebhooksContainers"
       )
         header.modal-header
-          h1.modal-heading Webhooks
-          svg.iconnables.icons-close(
+          h1.modal-heading.fade(
+            ng-class = "{'in': isActivePanel()}"
+          ) Webhooks
+          svg.iconnables.icons-close.fade(
             ng-click = "defaultActions.cancel()"
+            ng-class = "{'in': isActivePanel()}"
           )
             use(
               xlink:href = "#icons-close"
             )
-        section.modal-body Turn on Webhooks to automatically launch new containers (or update existing ones) whenever you push new code to GitHub.
+        section.modal-body Enable Webhooks to automatically launch new containers (or update existing ones) whenever you push new code to GitHub.
           .list.list-bordered
             .list-item
               .p api
@@ -23,15 +26,15 @@
                 ng-init = "showList = false"
                 ng-click = "showList = true"
                 ng-hide = "showList"
-              ) Turn on Webhooks
+              ) Enable Webhooks
               .btn.btn-xs.green.text-center.disabled(
                 ng-if = "showList"
-              ) Webhooks On
+              ) Enabled
             .list-item(
               ng-if = "showList"
             )
               .p data-dog
-              .btn.btn-xs.green.text-center Turn on Webhooks
+              .btn.btn-xs.green.text-center Enable Webhooks
             .list-item(
               ng-if = "showList"
             )
@@ -45,20 +48,24 @@
         name = "inviteAdmins"
       )
         header.modal-header
-          svg.btn.btn-sm.iconnables.icons-arrow-backward(
+          svg.btn.btn-sm.iconnables.icons-arrow-backward.fade(
             ng-click = "goToPanel('nonWebhooksContainers', 'back')"
+            ng-class = "{'in': isActivePanel()}"
           )
             use(
               xlink:href = "#icons-arrow-down"
             )
-          h1.modal-heading Invite Admin
-          svg.iconnables.icons-close(
+          h1.modal-heading.fade(
+            ng-class = "{'in': isActivePanel()}"
+          ) Invite Admin
+          svg.iconnables.icons-close.fade(
             ng-click = "defaultActions.cancel()"
+            ng-class = "{'in': isActivePanel()}"
           )
             use(
               xlink:href = "#icons-close"
             )
-        section.modal-body Invite GitHub admins for data-dog so they can give us permission to turn on webhooks.
+        section.modal-body Invite GitHub admins for data-dog so they can give us permission to enable webhooks.
           .list.list-bordered
             label.list-item
               img.gravatar(
