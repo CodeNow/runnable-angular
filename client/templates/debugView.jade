@@ -1,5 +1,16 @@
-header.server-header.deprecated.server-header-debug
-  .server-info.load
+div(
+  ng-class = "{\
+    'server-header': !$root.featureFlags.isolationUI,\
+    'deprecated': !$root.featureFlags.isolationUI,\
+    'server-header-debug': !$root.featureFlags.isolationUI,\
+    'instance-header-title': $root.featureFlags.isolationUI,\
+    'text-overflow': $root.featureFlags.isolationUI,\
+  }"
+)
+
+  .server-info.load(
+    ng-if = "!$root.featureFlags.isolationUI"
+  )
     .container-heading.centered
       .icons-status.running
       strong.strong {{DC.instance.getDisplayName()}}
@@ -8,7 +19,9 @@ header.server-header.deprecated.server-header-debug
       ) /{{DC.instance.getBranchName()}}
       small.small (debug)
 
-  .primary-actions
+  .primary-actions(
+    ng-if = "!$root.featureFlags.isolationUI"
+  )
     //- ***********************
     //- deprecated button, remove with $root.featureFlags.saveToolbar
     //- save button
@@ -31,7 +44,22 @@ header.server-header.deprecated.server-header-debug
     //- end button, remove with $root.featureFlags.saveToolbar
     //- ***********************
 
-section.sidebar.server-sidebar.full-height.load
+
+  //- isolation UI
+  span.span(
+    ng-if = "$root.featureFlags.isolationUI"
+  ) {{DC.instance.getDisplayName()}}
+  strong.strong(
+    ng-if = "$root.featureFlags.isolationUI"
+  ) /{{DC.instance.getBranchName()}}
+
+  button.btn.btn-xs.btn-badge.gray.float-right(
+    ng-if = "$root.featureFlags.isolationUI"
+  ) Isolated
+
+section.sidebar.server-sidebar.full-height.load(
+  ng-class = "{'deprecated': !$root.featureFlags.isolationUI}"
+)
 
   .spinner-wrapper.spinner-md.spinner-purple.spinner-backdrop.in(
     ng-if = "!DC.debugContainer.rootDir"
@@ -54,5 +82,6 @@ section.views.full-height(
   active-panel
   debug-container = "DC.debugContainer"
   is-edit-modal = "true"
+  ng-class = "{'deprecated': !$root.featureFlags.isolationUI}"
   open-items = "DC.openItems"
 )
