@@ -3,9 +3,9 @@
 
     animated-panel-container
 
-      animated-panel(
+      animated-panel.panel-webhooks-containers-list(
         default = "true"
-        name = "nonWebhooksContainers"
+        name = "webhooksContainerList"
       )
         header.modal-header
           h1.modal-heading.fade(
@@ -20,7 +20,7 @@
             )
         section.modal-body Enable Webhooks to automatically launch new containers (or update existing ones) whenever you push new code to GitHub.
           .list.list-bordered
-            .list-item.show-item
+            .list-item
               .p api
               .btn.btn-xs.green.text-center(
                 ng-init = "showList = false"
@@ -30,6 +30,9 @@
               .btn.btn-xs.green.text-center.disabled(
                 ng-if = "showList"
               ) Enabled
+            .list-item.divider(
+              ng-if = "showList"
+            ) Other Repositories
             .list-item(
               ng-if = "showList"
             )
@@ -44,12 +47,12 @@
                 ng-click = "goToPanel('inviteAdmins')"
               ) Invite an Admin…
 
-      animated-panel(
+      animated-panel.panel-invite-admins(
         name = "inviteAdmins"
       )
         header.modal-header
           svg.btn.btn-sm.iconnables.icons-arrow-backward.fade(
-            ng-click = "goToPanel('nonWebhooksContainers', 'back')"
+            ng-click = "goToPanel('webhooksContainerList', 'back')"
             ng-class = "{'in': isActivePanel()}"
           )
             use(
