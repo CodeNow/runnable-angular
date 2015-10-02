@@ -65,10 +65,10 @@ div(
 
   span.span(
     ng-if = "$root.featureFlags.isolationUI"
-  ) {{DC.instance.getDisplayName()}}
+  ) {{DC.instance.getDisplayName()}}/
   strong.strong(
     ng-if = "$root.featureFlags.isolationUI"
-  ) /{{DC.instance.getBranchName()}}
+  ) {{DC.instance.getBranchName()}}
 
   button.btn.btn-xs.btn-badge.gray.float-right(
     ng-if = "$root.featureFlags.isolationUI"
