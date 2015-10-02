@@ -27,7 +27,8 @@
                 ng-click = "showList = true"
                 ng-hide = "showList"
               ) Enable Webhooks
-              .btn.btn-xs.green.text-center.disabled(
+              .btn.btn-xs.green.text-center(
+                disabled
                 ng-if = "showList"
               ) Enabled
             .list-item.divider(
