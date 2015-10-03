@@ -74,13 +74,11 @@ function populateDockerfile(
       return dockerfileBody.replace(regexp, stack.selectedVersion);
     }
     function populateDockerFile(dockerfileBody) {
-      if (typeof state.getPorts !== 'function') {
-        var error = new Error('populateDockerfile requires a getPorts function');
+      if (!Array.isArray(state.ports)) {
+        var error = new Error('populateDockerfile requires an array of ports');
         $log.error(error);
         return error;
       }
-      // first, add the ports
-      var ports = state.getPorts();
       var mainRepo = state.containerFiles.find(function (section) {
         return section.type === 'Main Repository';
       });
@@ -115,8 +113,8 @@ function populateDockerfile(
         .replace(/<start-command>/gm, state.startCommand)
         .replace(/#default.+/gm, ''); // Remove all default comments that are not
 
-      if (ports.length) {
-        dockerfileBody = dockerfileBody.replace(/<user-specified-ports>/gm, ports.join(' '));
+      if (state.ports.length) {
+        dockerfileBody = dockerfileBody.replace(/<user-specified-ports>/gm, state.ports.join(' '));
       } else {
         dockerfileBody = dockerfileBody.replace('# Open up ports on the container\n', '');
         dockerfileBody = dockerfileBody.replace('EXPOSE <user-specified-ports>\n', '');

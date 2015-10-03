@@ -10,7 +10,8 @@
   ng-if = "!state.recalculating && state.diffs.length"
 )
   label.label.label-select Jump to
-    .btn.white.btn-xs.btn-select {{selectedDiff.from || 'Select a diff'}}
+    .btn.white.btn-xs.btn-select.float-right
+      span.float-left {{selectedDiff.from || 'Select a diff'}}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"

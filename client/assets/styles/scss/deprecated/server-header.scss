@@ -82,6 +82,7 @@
 .server-header.deprecated {
   border-bottom: 1px solid rgba($black,.1);
   display: flex;
+  flex: 0 0 auto;
   height: 72px;
   padding: 0 9px 0 12px;
   top: 0;
@@ -89,6 +90,10 @@
 
   &.server-header-debug {
     position: relative;
+
+    .icons-status {
+      top: 20px;
+    }
   }
 
   .primary-actions {
