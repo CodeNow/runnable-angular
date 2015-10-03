@@ -28,7 +28,7 @@
         )
 
 //- only show if there's > 0 ssh keys AND > 0 files
-.tr.thead.clearfix(
+.tr.thead.clearfix.divider(
   ng-if = "(SMC.state.containerFiles | filter:{type: 'SSH Key'}).length"
 )
 
