@@ -1,0 +1,36 @@
+button.btn.btn-sm.btn-spinner(
+  ng-class = "getClassForInstance()"
+  ng-disabled = "isChanging()"
+  pop-over
+  pop-over-actions = "popoverStatusOptions.actions"
+  pop-over-active = "state.active"
+  pop-over-data = "popoverStatusOptions.data"
+  pop-over-options = "{\"right\":0,\"top\":53}"
+  pop-over-template = "viewInstancePopoverStatusOptions"
+)
+  status-icon(
+    instance = "instance"
+    ng-if = "!isChanging()"
+  )
+  span.float-left(
+    ng-if ="!isChanging()"
+  ) {{getStatusText()}}
+  //- if stopping, starting, or restarting
+  .spinner-wrapper.spinner-sm.spinner-gray.float-left.in(
+    ng-if = "isChanging()"
+    ng-include = "'spinner'"
+  )
+  span.float-left(
+    ng-if = "isChanging()"
+  ) {{getStatusText()}}
+  svg.iconnables.icons-arrow-down
+    use(
+      xlink:href = "#icons-arrow-down"
+    )
+  //- if update and rebuild
+  svg.iconnables.icons-notification.float-right(
+    ng-if = "popoverStatusOptions.data.shouldShowUpdateConfigsPrompt"
+  )
+    use(
+      xlink:href = "#icons-notification"
+    )

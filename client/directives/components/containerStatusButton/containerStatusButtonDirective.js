@@ -20,8 +20,9 @@ function saveOpenItemsButton(
       saving: '='
     },
     link: function ($scope) {
+
       $scope.canSave = function () {
-        return !!$scope.openItems.models.find(function (model) {
+        return !!$scope.SOIBC.openItems.models.find(function (model) {
           return model.state.isDirty;
         });
       };

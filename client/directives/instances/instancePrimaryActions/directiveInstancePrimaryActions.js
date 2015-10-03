@@ -60,31 +60,7 @@ function instancePrimaryActions(
         return statusMap[status] || 'Unknown';
       };
 
-      $scope.isChanging = function () {
-        var status = keypather.get($scope, 'instance.status()');
-        return ['starting', 'building', 'stopping'].includes(status);
-      };
 
-      $scope.saveChanges = function () {
-        $scope.saving = true;
-        var updateModelPromises = $scope.openItems.getAllFileModels(true)
-          .map(function (model) {
-            return model.actions.saveChanges();
-          });
-        $q.all(
-          updateModelPromises,
-          $timeout(angular.noop, 1500)
-        )
-          .then(function () {
-            if ($scope.popoverSaveOptions.data.restartOnSave) {
-              return promisify($scope.instance, 'restart')();
-            }
-          })
-          .catch(errs.handler)
-          .finally(function () {
-            $scope.saving = false;
-          });
-      };
 
       function modInstance(action, opts) {
         $scope.$broadcast('close-popovers');
