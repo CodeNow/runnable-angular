@@ -8,9 +8,9 @@
         name = "webhooksContainerList"
       )
         header.modal-header
-          h1.modal-heading.fade(
-            ng-class = "{'in': isActivePanel()}"
+          h1.modal-heading(
           ) Webhooks
+            //- ng-class = "{'in': isActivePanel()}"
           svg.iconnables.icons-close.fade(
             ng-click = "defaultActions.cancel()"
             ng-class = "{'in': isActivePanel()}"
@@ -18,7 +18,11 @@
             use(
               xlink:href = "#icons-close"
             )
-        section.modal-body Enable Webhooks to automatically launch new containers (or update existing ones) whenever you push new code to GitHub.
+        section.modal-body
+          strong.strong Enable Webhooks to automatically…
+          .list.list-bulleted
+            .list-item update existing containers with new commits
+            .list-item create containers for new branches
           .list.list-bordered
             .list-item
               .p api
@@ -38,12 +42,33 @@
               ng-if = "showList"
             )
               .p data-dog
-              .btn.btn-xs.green.text-center Enable Webhooks
+              .btn.btn-xs.green.text-center(
+                ng-init = "enable2 = false"
+                ng-click = "enable2 = true"
+                ng-hide = "enable2"
+              ) Enable Webhooks
+              .btn.btn-xs.green.text-center(
+                ng-if = "enable2"
+                disabled
+              ) Enabled
+            .list-item(
+              ng-if = "showList"
+            )
+              .p eru
+              .btn.btn-xs.green.text-center(
+                ng-init = "enable3 = false"
+                ng-click = "enable3 = true"
+                ng-hide = "enable3"
+              ) Enable Webhooks
+              .btn.btn-xs.green.text-center(
+                ng-if = "enable3"
+                disabled
+              ) Enabled
             .list-item(
               ng-if = "showList"
             )
               .p optimus
-                .small permissions needed
+                .small permission needed
               .btn.btn-xs.gray.text-center(
                 ng-click = "goToPanel('inviteAdmins')"
               ) Invite an Admin…
@@ -61,15 +86,19 @@
             )
           h1.modal-heading.fade(
             ng-class = "{'in': isActivePanel()}"
-          ) Invite Admin
-          svg.iconnables.icons-close.fade(
+          ) Invite an Admin
+          svg.iconnables.icons-close(
             ng-click = "defaultActions.cancel()"
-            ng-class = "{'in': isActivePanel()}"
           )
             use(
               xlink:href = "#icons-close"
             )
-        section.modal-body Invite GitHub admins for data-dog so they can give us permission to enable webhooks.
+        section.modal-body
+          span.span(
+            style = "color: #777;"
+          ) Invite a GitHub admin for&#32;
+            span.strong optimus&#32;
+            span.span so we can get permission to enable webhooks.
 
           .list.list-bordered
 
@@ -143,4 +172,5 @@
               .btn.btn-xs.green.text-center(
                 ng-click = "invitinggg = false"
                 ng-show = "invitinggg"
+                disabled
               ) Send
