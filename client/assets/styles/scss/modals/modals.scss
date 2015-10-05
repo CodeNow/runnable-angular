@@ -190,6 +190,14 @@
       opacity: 1;
     }
 
+    // badge location
+    &.badge::after {
+      border: 1px solid $white;
+      line-height: $input-xxs - 2px;
+      right: 24px;
+      top: 3px;
+    }
+
     .btn-text {
       font-size: 13px;
       height: 30px;
