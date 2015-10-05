@@ -111,29 +111,3 @@
       ng-repeat = "version in $parent.depStack.versions | filter: '!'+ $parent.depStack.suggestedVersion"
       value = "version"
     ) v{{$parent.version}}
-
-.input-col(
-  ng-if = "!$root.featureFlags.newVerificationFlowStackSelector"
-  ng-repeat = "depStack in state.selectedStack.dependencies"
-)
-  .small {{depStack.name}}
-  fancy-select(
-    ng-required = "state.selectedStack.dependencies.length"
-    on-update = "updateDockerfile"
-    placeholder = "Select Version"
-    value = "depStack.selectedVersion"
-  )
-    li.list-item.popover-list-item.small.disabled(
-      ng-if = "$parent.depStack.suggestedVersion"
-    ) Suggested {{$parent.$parent.depStack.name}} Version
-    fancy-option(
-      ng-repeat = "version in $parent.depStack.versions | filter: $parent.depStack.suggestedVersion"
-      value = "version"
-    ) v{{$parent.version}}
-    li.divider(
-      ng-if = "$parent.depStack.suggestedVersion"
-    )
-    fancy-option(
-      ng-repeat = "version in $parent.depStack.versions | filter: '!'+ $parent.depStack.suggestedVersion"
-      value = "version"
-    ) v{{$parent.version}}
