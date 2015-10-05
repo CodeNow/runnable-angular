@@ -41,7 +41,6 @@ function parseDiffResponse(
   diffParse
 ) {
   return function (fullDiff) {
-    console.log('fullDiff', fullDiff);
     var totalParse = diffParse(fullDiff);
     return totalParse.map(function (parsed) {
       var groupByLineNumbers = {};
@@ -64,12 +63,7 @@ function parseDiffResponse(
       if (parsed.to) {
         parsed.to = parsed.to.replace('+++ ', '');
       }
-      // There seems to be a bug in the diffParser where some `from` document 
-      // are not getting parse correctly. This behavior may also be happening
-      // with the `to` property.
-      if (parsed.from) {
-        parsed.from = parsed.from.replace('--- ', '');
-      }
+      parsed.from = parsed.from.replace('--- ', '');
       if (parsed.from === parsed.to) {
         delete parsed.to;
       }
@@ -167,6 +161,10 @@ function testReplaceTransformRule(
         }, checkErrorCallback(reject, function callback(res, body) {
           if (body.diffs) {
             var parsed = parseDiffResponse(Object.keys(body.diffs).reduce(function (total, key) {
+              var endsInNewLine= body.diffs[key].match(/(\r\n|\n|\r)$/g) !== null;
+              if (!endsInNewLine) {
+                return total + body.diffs[key] + '\n';
+              }
               return total + body.diffs[key];
             }, ''));
             resolve(parsed);
@@ -192,6 +190,10 @@ function populateRulesWithWarningsAndDiffs(
           replaceRule.warnings = found.warnings;
           replaceRule.nameChanges = found.nameChanges;
           var combinedDiff = Object.keys(found.diffs).reduce(function (total, key) {
+            var endsInNewLine= found.diffs[key].match(/(\r\n|\n|\r)$/g) !== null;
+            if (!endsInNewLine) {
+              return total + found.diffs[key] + '\n';
+            }
             return total + found.diffs[key];
           }, '');
           replaceRule.diffs = parseDiffResponse(combinedDiff);
