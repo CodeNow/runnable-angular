@@ -41,6 +41,7 @@ function parseDiffResponse(
   diffParse
 ) {
   return function (fullDiff) {
+    console.log('fullDiff', fullDiff);
     var totalParse = diffParse(fullDiff);
     return totalParse.map(function (parsed) {
       var groupByLineNumbers = {};
@@ -60,8 +61,15 @@ function parseDiffResponse(
       parsed.changes = Object.keys(groupByLineNumbers).map(function (key) {
         return groupByLineNumbers[key];
       });
-      parsed.to = parsed.to.replace('+++ ', '');
-      parsed.from = parsed.from.replace('--- ', '');
+      if (parsed.to) {
+        parsed.to = parsed.to.replace('+++ ', '');
+      }
+      // There seems to be a bug in the diffParser where some `from` document 
+      // are not getting parse correctly. This behavior may also be happening
+      // with the `to` property.
+      if (parsed.from) {
+        parsed.from = parsed.from.replace('--- ', '');
+      }
       if (parsed.from === parsed.to) {
         delete parsed.to;
       }
