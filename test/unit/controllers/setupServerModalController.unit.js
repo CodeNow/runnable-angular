@@ -136,9 +136,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
        });
     });
   }
-  beforeEach(function () {
-    initState();
-  });
+  beforeEach(initState);
 
   it('should fetch the repo list on load', function () {
     $scope.$digest();
@@ -330,5 +328,13 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       expect(populateDockerfileOpts.selectedStack.key).to.equal('ruby_ror');
       expect(populateDockerfileOpts.containerFiles[0].type).to.equal('Main Repository');
     });
+
+    it('should close the modal and emit a global event', function () {
+      var closeModalSpy = sinon.spy();
+-     $rootScope.$on('close-modal', closeModalSpy);
+      SMC.closeModal();
+      sinon.assert.calledOnce(closeModalSpy);
+    });
   });
+
 });

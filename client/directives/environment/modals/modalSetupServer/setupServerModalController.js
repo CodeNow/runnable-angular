@@ -81,7 +81,7 @@ function SetupServerModalController (
       promises: {},
       opts: {
         masterPod: true,
-        name: ''
+        name: '',
       },
       selectedStack: null,
       step: 1
@@ -246,13 +246,6 @@ function SetupServerModalController (
   SMC.closeModal = function () {
     $rootScope.$broadcast('close-modal');
     close();
-  };
-
-  SMC.isDirty = function () {
-    return loadingPromises.count('editServerModal') > 1 ||
-      loadingPromises.count('editServerModal') > 1 ||
-      keypather.get(SMC, 'instance.attrs.env') !== keypather.get(SMC, 'state.opts.env') ||
-      !SMC.openItems.isClean();
   };
 
   SMC.selectRepo = function (repo) {
