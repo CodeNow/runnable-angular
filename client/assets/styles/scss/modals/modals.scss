@@ -193,7 +193,7 @@
     // badge location
     &.badge::after {
       border: 1px solid $white;
-      line-height: $input-line-height-xxs;
+      line-height: $input-xxs - 2px;
       right: 24px;
       top: 3px;
     }
