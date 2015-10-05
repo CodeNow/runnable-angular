@@ -2,7 +2,9 @@
   ng-class = "{'in': active}"
   ng-style = "popoverStyle.getStyle()"
 )
-  .arrow.white
+  .arrow.white(
+    style = "{{$root.featureFlags.isolationUI ? null : 'left: auto; right: 9px;'}}"
+  )
   .popover-content
     //- if build files are out of date
     .well.well-popover.orange.text-center(
