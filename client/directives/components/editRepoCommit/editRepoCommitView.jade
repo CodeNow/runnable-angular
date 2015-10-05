@@ -62,21 +62,32 @@ label.label-checkbox.btn-sm.btn-checkbox(
 .btn.gray(
   ng-click = "actions.openRepoDetailsModal()"
   ng-if = "$root.featureFlags.additionalRepositories"
+  ng-init = "refreshing = false"
 )
-  .repository-info.text-overflow.js-repository-branch {{ acv.attrs.branch }}
+  .repository-info.text-overflow.js-repository-branch(
+    ng-if = "!refreshing"
+  ) {{ acv.attrs.branch }}
     svg.iconnables.icons-branch
       use(
         xlink:href = "#icons-branch"
       )
-  .repository-info.text-overflow.js-repository-commit {{ activeCommit.attrs.commit.message}}
+  .repository-info.text-overflow.js-repository-commit(
+    ng-if = "!refreshing"
+  ) {{ activeCommit.attrs.commit.message}}
     svg.iconnables.icons-commit
       use(
         xlink:href = "#icons-commit"
       )
   .repository-info.small
-    span.float-left {{ activeCommit.attrs.commit.author.date | timeFrom }}
-    .btn-refresh.btn.btn-xs.white(
-      style = "float: right; font-size: 12px; height: 21px; line-height: 17px; padding: 0 6px; position: relative; top: 1px;"
+    span.float-left(
+      ng-if = "!refreshing"
+    ) {{ activeCommit.attrs.commit.author.date | timeFrom }}
+    span.float-right(
+      ng-click = "\
+        $event.stopPropagation();\
+        refreshing = true;\
+      "
+      ng-hide = "refreshing"
     ) Refresh
     //- we don't want to trigger the popover to open because this is an external link
     //- label.toggle-wrapper.float-right(
@@ -94,7 +105,22 @@ label.label-checkbox.btn-sm.btn-checkbox(
     //-     ng-disabled = "$root.isLoading.autoDeploy"
     //-   )
     //-   .toggle-group.toggle-xs
-  svg.iconnables.icons-arrow-down
+  .spinner-wrapper.spinner-sm.in(
+    ng-include = "'spinner'"
+    ng-if = "refreshing"
+  )
+  .repository-info.small(
+    ng-if = "refreshing"
+  )
+    a.a(
+      ng-click = "$event.stopPropagation()"
+      modal
+      modal-template = "viewModalWebhooks"
+    ) Turn on Webhooks
+    | &#32;to stay in sync
+  svg.iconnables.icons-arrow-down(
+    ng-if = "!refreshing"
+  )
     use(
       xlink:href = "#icons-arrow-down"
     )

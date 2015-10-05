@@ -48,6 +48,22 @@
   }
 }
 
+.repository-section .sidebar-section-item:first-child {
+
+  .btn.gray {
+    height: 84px;
+  }
+
+  .a {
+    text-decoration: underline;
+  }
+
+  .spinner-wrapper {
+    float: none;
+    margin-bottom: 3px;
+  }
+}
+
 .sidebar-section {
   margin: 0 12px;
   overflow: hidden;
