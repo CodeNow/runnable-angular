@@ -190,6 +190,12 @@
       opacity: 1;
     }
 
+    // badge location
+    &.badge::after {
+      right: 24px;
+      top: 3px;
+    }
+
     .btn-text {
       font-size: 13px;
       height: 30px;

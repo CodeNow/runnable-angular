@@ -3,7 +3,7 @@
   position: relative;
 
   &::after {
-    background: $gray;
+    background: $gray-light;
     border-radius: 50%;
     color: $white;
     content: attr(data-badge-count);
