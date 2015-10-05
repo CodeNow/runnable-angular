@@ -60,7 +60,9 @@ function parseDiffResponse(
       parsed.changes = Object.keys(groupByLineNumbers).map(function (key) {
         return groupByLineNumbers[key];
       });
-      parsed.to = parsed.to.replace('+++ ', '');
+      if (parsed.to) {
+        parsed.to = parsed.to.replace('+++ ', '');
+      }
       parsed.from = parsed.from.replace('--- ', '');
       if (parsed.from === parsed.to) {
         delete parsed.to;
@@ -158,6 +160,10 @@ function testReplaceTransformRule(
         }, checkErrorCallback(reject, function callback(res, body) {
           if (body.diffs) {
             var parsed = parseDiffResponse(Object.keys(body.diffs).reduce(function (total, key) {
+              var endsInNewLine= body.diffs[key].match(/(\r\n|\n|\r)$/g) !== null;
+              if (!endsInNewLine) {
+                return total + body.diffs[key] + '\n';
+              }
               return total + body.diffs[key];
             }, ''));
             resolve(parsed);
@@ -183,6 +189,10 @@ function populateRulesWithWarningsAndDiffs(
           replaceRule.warnings = found.warnings;
           replaceRule.nameChanges = found.nameChanges;
           var combinedDiff = Object.keys(found.diffs).reduce(function (total, key) {
+            var endsInNewLine= found.diffs[key].match(/(\r\n|\n|\r)$/g) !== null;
+            if (!endsInNewLine) {
+              return total + found.diffs[key] + '\n';
+            }
             return total + found.diffs[key];
           }, '');
           replaceRule.diffs = parseDiffResponse(combinedDiff);

@@ -10,14 +10,22 @@
 
 //- string table
 .table.table-merge(
-  ng-controller = "RuleTableStringController"
   rule-table
+  controller = "RuleTableStringController"
+  actions = "actions"
+  state = "state"
+  data = "data"
+  instance = "instance"
 )
 
 //- filename table
 .table.table-merge(
-  ng-controller = "RuleTableFileController"
   rule-table
+  controller = "RuleTableFileController"
+  actions = "actions"
+  state = "state"
+  data = "data"
+  instance = "instance"
 )
 
 .label
