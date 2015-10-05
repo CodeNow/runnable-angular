@@ -144,7 +144,6 @@ function testRenameTransformRule(
   };
 }
 
-
 function testReplaceTransformRule(
   $q,
   parseDiffResponse,

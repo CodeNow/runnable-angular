@@ -1,4 +1,4 @@
-/*global runnable:true, mocks: true, directiveTemplate: true, xdescribe: true */
+/*global runnable:true, mocks: true, directiveTemplate: true, xdescribe: true, before, xit: true */
 'use strict';
 
 describe('setupServerModalController'.bold.underline.blue, function () {
@@ -27,6 +27,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   var data;
   var closeSpy;
   var showModalStub;
+  var closeModalStub;
 
   function initState() {
 
@@ -69,9 +70,13 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       closeSpy = sinon.spy();
 
       $provide.factory('ModalService', function ($q) {
-        showModalStub = sinon.stub().returns($q.when({
-          close: $q.when(false)
-        }));
+        closeModalStub = {
+          close: sinon.stub().resolves(true)
+        };
+        showModalStub = sinon.spy(function () {
+          console.log('showModalStub');
+          return $q.when(closeModalStub);
+        });
         return {
           showModal: showModalStub
         };
@@ -308,6 +313,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         }
       };
       SMC.actions.createAndBuild = sinon.stub().returns($q.when(dockerfile));
+      SMC.actions.deleteServer = sinon.stub().resolves(true);
       SMC.state.selectedStack = {
         key: 'ruby_ror'
       };
@@ -329,11 +335,34 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       expect(populateDockerfileOpts.containerFiles[0].type).to.equal('Main Repository');
     });
 
-    it('should close the modal and emit a global event', function () {
-      var closeModalSpy = sinon.spy();
--     $rootScope.$on('close-modal', closeModalSpy);
-      SMC.closeModal();
-      sinon.assert.calledOnce(closeModalSpy);
+    describe.only('Close Modal', function () {
+
+      it('should close the modal and emit a global event', function () {
+        closeSpy.reset();
+        var closeModalSpy = sinon.spy();
+  -     $rootScope.$on('close-modal', closeModalSpy);
+        SMC.closeModal();
+        $scope.$digest();
+        sinon.assert.calledOnce(closeModalSpy);
+        sinon.assert.calledOnce(closeSpy);
+      });
+
+      it('should close the modal and delete the server if confirmed', function () {
+        console.log(showModalStub);
+        closeSpy.reset();
+        SMC.instance = null;
+        SMC.closeModalOrDeleteInstance();
+        $scope.$digest();
+        sinon.assert.calledOnce(closeModalStub.close);
+      });
+
+      xit('should close the modal and delete the server if confirmed', function () {
+        closeSpy.reset();
+        SMC.instance = null;
+        SMC.closeModalOrDeleteInstance();
+        $scope.$digest();
+        sinon.assert.calledOnce(closeModalStub);
+      });
     });
   });
 

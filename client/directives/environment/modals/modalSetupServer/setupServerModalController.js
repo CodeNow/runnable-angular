@@ -38,6 +38,7 @@ function SetupServerModalController (
   angular.extend(SMC, {
     close: close,
     closeWithConfirmation:function () {
+      console.log('closeWithConfirmation');
       $rootScope.$broadcast('close-popovers');
         ModalService.showModal({
           controller: 'ConfirmationModalController',
@@ -45,13 +46,18 @@ function SetupServerModalController (
           templateUrl: 'confirmCloseEditServer'
         })
           .then(function (modal) {
+            console.log('modal', modal);
+            console.log('modal.close', modal.close);
             modal.close.then(function (confirmed) {
               if ( confirmed ) {
                 close();
               }
             });
           })
-          .catch(errs.handler);
+          .catch(function (err) {
+            console.log('ERR', err);
+            err.handler(err);
+          });
     },
     isLoading: $rootScope.isLoading,
     portsSet: false,
