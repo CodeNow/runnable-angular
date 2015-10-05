@@ -74,7 +74,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         }));
         return {
           showModal: showModalStub
-        }
+        };
       });
 
       $provide.value('close', closeSpy);
@@ -115,7 +115,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
     angular.mock.inject(function (
       _$controller_,
-      $compile,
       _$rootScope_,
       _keypather_,
       _$q_
@@ -127,6 +126,11 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
       keypather.set($rootScope, 'dataApp.data.activeAccount.oauthName', sinon.mock().returns('myOauthName'));
       $scope = $rootScope.$new();
+      angular.extend($rootScope, {
+        featureFlags: {
+          newVerificationFlow: true,
+        }
+      });
       SMC = $controller('SetupServerModalController', {
         $scope: $scope
        });
