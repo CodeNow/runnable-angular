@@ -73,7 +73,8 @@ label.label-checkbox.btn-sm.btn-checkbox(
       use(
         xlink:href = "#icons-commit"
       )
-  .repository-info.small {{ activeCommit.attrs.commit.author.date | timeFrom }}
+  .repository-info.small
+    span.float-left {{ activeCommit.attrs.commit.author.date | timeFrom }}
     .btn-refresh.btn.btn-xs.white(
       style = "float: right; font-size: 12px; height: 21px; line-height: 17px; padding: 0 6px; position: relative; top: 1px;"
     ) Refresh
