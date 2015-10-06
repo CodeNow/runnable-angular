@@ -8,8 +8,6 @@ function InstanceNavigationController(
 ) {
   var INC = this;
 
-  console.log('Running InstanceNavigationController!');
-
   INC.setupIsolation = function () {
     $rootScope.$broadcast('close-popovers');
 
