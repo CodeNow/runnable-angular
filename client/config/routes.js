@@ -1,16 +1,16 @@
 'use strict';
 
 module.exports = [
-  { //- create team template
+  { //- create team flow
     abstract: false,
-    state: 'team',
-    url: '^/team',
-    templateUrl: 'viewTeam',
+    state: 'welcome',
+    url: '^/welcome',
+    templateUrl: 'viewWelcome',
     controller: function ($scope, loading, loadingPromises, $rootScope) {
       window.loading = loading;
       window.$rootScope = $rootScope;
       $rootScope.dataApp = $scope.dataApp = true;
-      loading.reset('team');
+      loading.reset('welcome');
     },
     data: {
       anon: true

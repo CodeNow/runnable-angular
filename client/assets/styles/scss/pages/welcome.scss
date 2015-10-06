@@ -1,0 +1,56 @@
+.welcome {
+  padding-top: 180px;
+
+  .img {
+    display: block;
+    left: 0;
+    margin: 0 auto;
+    right: 0;
+    top: 60px;
+    position: absolute;
+  }
+
+  .modal-dialog {
+    color: $gray-dark;
+    margin: 0 auto 30px;
+    width: 300px;
+  }
+
+  .h3 {
+    margin: 15px 0;
+    text-align: center;
+  }
+
+  .p {
+    display: block;
+    margin: 0 auto 30px;
+    max-width: 300px;
+    text-align: center;
+  }
+
+  // footer
+  .footer {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin-top: 90px;
+
+    .svg {
+      height: 24pxpx;
+      width: 24px;
+    }
+
+    .link {
+      color: $gray-light;
+      font-size: 13px;
+      text-align: center;
+      text-decoration: none;
+      width: 120px;
+
+      &:hover,
+      &:active {
+        color: $purple-light;
+      }
+    }
+  }
+}
