@@ -2,158 +2,113 @@
   color: $gray-dark;
 
   .animated-panel-container {
-    transition: all .3s ease-in-out;
+    transition: height .3s ease-in-out;
   }
 
   .animated-panel {
     width: 390px;
   }
 
-  .modal-body {
-    padding: 18px;
+  .p {
+    flex: 1 1 auto;
+    padding-right: 12px;
 
-    > .strong {
-      margin-bottom: 3px;
-      color: #777;
+    .span {
+      padding-left: 8px;
     }
   }
 
-  .fade {
-    transition: opacity .3s ease-in-out;
+  .small {
+    color: $gray;
+  }
+
+  .btn {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    right: 0;
+    top: 0;
+
+    .spinner-wrapper {
+      margin-right: 6px;
+    }
+
+    .spinner {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  [disabled] {
+    cursor: default;
+  }
+
+  .input {
+    background-color: $white;
+    color: #888;
+    font-size: 13px;
+    font-weight: 400;
+    height: 24px;
+    line-height: 20px;
+    margin-right: 12px;
+
+    &[disabled] {
+      border-color: transparent !important;
+    }
   }
 
   .icons-arrow-backward {
     color: #bbb;
     left: 15px;
-    top: 18px;
     padding: 0;
     pointer-events: auto;
     position: absolute;
-  }
-
-  .list-bulleted {
-    margin-bottom: 3px;
-    color: #777;
+    top: 18px;
   }
 
   .list-bordered {
     background: $white;
     flex: 0 0 auto;
     font-weight: $weight-bold;
+    line-height: 18px;
     margin: 18px 0 6px;
-    line-height: 18px;
-  }
 
-  .list-bordered .list-item {
-    padding: 0 15px;
-    display: flex;
-    align-items: center;
-    line-height: 18px;
-    // line-height: 24px;
-    height: 54px;
-
-    &.divider {
-      height: 24px;
-      font-size: 13px;
-      line-height: 19px;
-      color: #888;
-      background-color: #eee;
-    }
-
-    //- loading state
-    > .spinner-wrapper {
-      width: 100%;
-    }
-
-    .p {
-      flex: 1 1 auto;
-      transition: all .15s ease-in-out;
-      padding-right: 12px;
-
-      .span {
-        margin-left: 8px;
-      }
-
-      &.shrink .span {
-        opacity: 0;
-        transition: all .15s ease-in-out;
-      }
-    }
-
-    .admin-info {
-      flex: 1 1 auto;
-      padding-right: 12px;
-
-      .span {
-        padding-left: 8px;
-      }
-    }
-
-    .input {
-      background-color: $white;
-      color: #888;
-      font-weight: 400;
-      font-size: 13px;
-      height: 24px;
-      line-height: 20px;
-      transition: all .15s ease-in-out;
-      transform: translate3d(0,-9px,0);
-      margin-right: 12px;
-
-      &[disabled] {
-        border-color: transparent !important;
-        transform: translate3d(0,0,0);
-        cursor: default;
-
-        &.empty::-webkit-input-placeholder {
-          color: $white;
-        }
-      }
-    }
-
-    .small {
-      color: $gray;
-    }
-
-    .btn {
-      flex: 0 0 135px;
-      top: 0;
-      right: 0;
-      position: relative;
+    .list-item {
+      padding: 0 15px;
       display: flex;
       align-items: center;
-      justify-content: center;
+      line-height: 18px;
+      height: 54px;
 
-      .spinner-wrapper {
-        margin-right: 6px;
+      &.divider {
+        background-color: #eee;
+        color: $gray;
+        font-size: 13px;
+        height: 24px;
+        line-height: 19px;
       }
 
-      .spinner {
-        width: 12px;
-        height: 12px;
-      }
-
-      &[disabled] {
-        cursor: default;
+      // loading state
+      > .spinner-wrapper {
+        width: 100%;
       }
     }
-  }
-
-  .add-email {
-    font-weight: $weight-normal;
-    color: $gray;
   }
 
   .gravatar {
-    // width: 30px;
+    background: $gray;
+    border-radius: 50%;
     flex: 0 0 30px;
     height: 30px;
-    border-radius: 50%;
-    background: $gray;
     margin: 0 6px 0 0;
   }
 }
 
-.panel-invite-admins .btn.btn.btn {
+.panel-webhooks-repositories .btn {
+  flex: 0 0 135px;
+}
+
+.panel-invite-admins .btn {
   flex: 0 0 90px;
 }

@@ -3,9 +3,9 @@
 
     animated-panel-container
 
-      animated-panel.panel-webhooks-containers-list(
+      animated-panel.panel-webhooks-repositories(
         default = "true"
-        name = "webhooksContainerList"
+        name = "webhooksRepositories"
         ng-init = "\
           currentRepository = {name: 'api', authorized: true, enabled: false};\
           repositories = [\
@@ -52,7 +52,7 @@
               ng-if = "!state.loading"
             )
               p.p {{currentRepository.name}}
-              button.btn.btn-xs.green.text-center(
+              button.btn.btn-xs.green(
                 ng-disabled = "currentRepository.enabled"
                 ng-if = "currentRepository.authorized"
                 ng-mousedown = "currentRepository.enabling = true"
@@ -74,7 +74,7 @@
                   ng-if = "currentRepository.enabling"
                 ) Enabling
 
-              button.btn.btn-xs.gray.text-center(
+              button.btn.btn-xs.gray(
                 ng-click = "goToPanel('inviteAdmins')"
                 ng-if = "!currentRepository.authorized"
               ) Invite an Admin…
@@ -90,7 +90,7 @@
               ng-repeat = "repository in repositories"
             )
               p.p {{repository.name}}
-              button.btn.btn-xs.green.text-center(
+              button.btn.btn-xs.green(
                 ng-disabled = "repository.enabled"
                 ng-if = "repository.authorized"
                 ng-mousedown = "repository.enabling = true"
@@ -112,7 +112,7 @@
                   ng-if = "repository.enabling"
                 ) Enabling
 
-              button.btn.btn-xs.gray.text-center(
+              button.btn.btn-xs.gray(
                 ng-click = "goToPanel('inviteAdmins')"
                 ng-if = "!repository.authorized"
               ) Invite an Admin…
@@ -130,7 +130,7 @@
       )
         header.modal-header
           svg.btn.btn-sm.iconnables.icons-arrow-backward(
-            ng-click = "goToPanel('webhooksContainerList', 'back')"
+            ng-click = "goToPanel('webhooksRepositories', 'back')"
           )
             use(
               xlink:href = "#icons-arrow-down"
@@ -171,8 +171,10 @@
                 src = "{{admin.gravatarUrl}}"
                 width = "30"
               )
-              .admin-info
-                span.span {{admin.username}}
+              p.p
+                span.span(
+                  ng-if = "!admin.inviting"
+                ) {{admin.username}}
                 input.input.input-validate(
                   ng-disabled = "!admin.inviting"
                   ng-focus = "admin.inviting"
@@ -184,13 +186,13 @@
                   placeholder = "email address"
                 )
 
-              .btn.btn-xs.gray.text-center(
+              .btn.btn-xs.gray(
                 ng-click = "admin.inviting = true"
                 ng-if = "!admin.inviting && !admin.sent"
               ) Invite…
 
-              .btn.btn-xs.green.text-center(
-                ng-disabled = "!admin.email.length || admin.sending || admin.sent"
+              .btn.btn-xs.green(
+                ng-disabled = "!admin.email.length || admin.sent"
                 ng-mousedown = "admin.sending = true"
                 ng-mouseup = "\
                   admin.sending = false;\
@@ -199,6 +201,7 @@
                 "
                 ng-if = "admin.inviting || admin.sent"
               )
+                //- ng-disabled = "!admin.email.length || admin.sending || admin.sent"
                 span(
                   ng-if = "!admin.sending"
                 ) {{admin.sent ? "Sent" : "Send"}}
