@@ -1,19 +1,38 @@
 .welcome {
-  padding-top: 180px;
+  padding-top: 210px;
 
+  // transitions for animated panel
+  .fade {
+    transition: opacity .15s ease-in;
+  }
+
+  // images
   .img {
     display: block;
     left: 0;
+    opacity: 0;
     margin: 0 auto;
     right: 0;
-    top: 60px;
     position: absolute;
+
+    &.in {
+      opacity: 1;
+    }
   }
 
+  .jetpacktocat {
+    top: 30px;
+  }
+
+  .runnabear {
+    top: 60px;
+  }
+
+  // modal
   .modal-dialog {
     color: $gray-dark;
     margin: 0 auto 30px;
-    width: 300px;
+    width: 420px;
   }
 
   .h3 {
@@ -24,7 +43,7 @@
   .p {
     display: block;
     margin: 0 auto 30px;
-    max-width: 300px;
+    max-width: 330px;
     text-align: center;
   }
 
