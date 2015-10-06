@@ -14,8 +14,8 @@ require('app')
       templateUrl: 'viewFormTranslation',
       scope: {
         state: '=',
-        instance: '= instance',
-        data: '=? data'
+        instance: '=',
+        data: '=?'
       },
       link: function ($scope, elem, attrs) {
         $scope.$watch('state.contextVersion', function (contextVersion) {

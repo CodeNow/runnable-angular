@@ -17,10 +17,10 @@ require('app')
       transclude: true,
       controller: '@',
       scope: {
-        actions: '= actions',
-        data: '= data',
-        instance: '= instance',
-        state: '= state'
+        actions: '=',
+        data: '=',
+        instance: '=',
+        state: '='
       },
       link: function ($scope, elem, attrs) {
         $scope.openRulePopover = function (rule) {
