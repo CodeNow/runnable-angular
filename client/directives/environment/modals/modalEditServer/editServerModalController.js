@@ -19,6 +19,7 @@ var tabVisibility = {
  */
 function EditServerModalController(
   $scope,
+  $controller,
   $q,
   $filter,
   $rootScope,
@@ -39,7 +40,6 @@ function EditServerModalController(
   promisify,
   updateDockerfileFromState,
   ModalService,
-  serverModalMethods,
   tab,
   instance,
   actions,
@@ -47,10 +47,11 @@ function EditServerModalController(
 ) {
   var SMC = this;
 
-  // Extend controller with methods from `serverModalMethods`
-  SMC.openDockerfile = serverModalMethods.openDockerfile.bind(SMC);
+  angular.extend(SMC, $controller('ServerModalController as SMC', {
+    $scope: $scope,
+    promisify: promisify
+  }));
 
-  // Set initial state
   SMC.instance = instance;
   SMC.selectedTab = tab;
   angular.extend(SMC, {
@@ -231,7 +232,7 @@ function EditServerModalController(
 
     return SMC.state.promises.contextVersion
       .then(function () {
-        return SMC.openDockerfile(SMC.state, SMC.openItems);
+        return SMC.openDockerfile();
       })
       .then(function () {
         return fetchUser();

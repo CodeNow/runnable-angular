@@ -5,6 +5,7 @@ require('app')
 
 function SetupServerModalController (
   $scope,
+  $controller,
   $q,
   createNewBuild,
   $rootScope,
@@ -23,15 +24,16 @@ function SetupServerModalController (
   OpenItems,
   fetchStackInfo,
   ModalService,
-  serverModalMethods,
   data,
   actions,
   close
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
 
-  // Extend controller with methods from `serverModalMethods`
-  SMC.openDockerfile = serverModalMethods.openDockerfile.bind(SMC);
+  angular.extend(SMC, $controller('ServerModalController as SMC', {
+    $scope: $scope,
+    promisify: promisify
+  }));
 
   // This needs to go away soon.
   $scope.data = data;
@@ -181,7 +183,7 @@ function SetupServerModalController (
         return SMC.openItems.updateAllFiles();
       })
       .then(function () {
-        return SMC.openDockerfile(SMC.state, SMC.openItems);
+        return SMC.openDockerfile();
       })
       .then(function () {
         // Return modal to normal state
