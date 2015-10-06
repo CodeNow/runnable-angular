@@ -129,15 +129,13 @@
         "
       )
         header.modal-header
-          svg.btn.btn-sm.iconnables.icons-arrow-backward.fade(
+          svg.btn.btn-sm.iconnables.icons-arrow-backward(
             ng-click = "goToPanel('webhooksContainerList', 'back')"
-            ng-class = "{'in': isActivePanel()}"
           )
             use(
               xlink:href = "#icons-arrow-down"
             )
-          h1.modal-heading.fade(
-            ng-class = "{'in': isActivePanel()}"
+          h1.modal-heading(
           ) Invite an Admin
           svg.iconnables.icons-close(
             ng-click = "defaultActions.cancel()"
@@ -163,48 +161,51 @@
                 ng-include = "'spinner'"
               )
 
+            //- admins
             .list-item(
               ng-if = "!state.loading"
               ng-repeat = "admin in mavisAdmins"
             )
               img.gravatar(
                 height = "30"
-                width = "30"
                 src = "{{admin.gravatarUrl}}"
+                width = "30"
               )
-              p.p(
-                ng-class = "{'shrink': inviting && !sent}"
-              )
+              .admin-info
                 span.span {{admin.username}}
-                input.input(
+                input.input.input-validate(
+                  ng-disabled = "!admin.inviting || admin.sent"
+                  ng-focus = "admin.inviting"
+                  ng-if = "admin.email.length || admin.inviting"
+                  ng-model = "admin.email"
+                  spellcheck = "false"
                   type = "text"
                   value = "{{admin.email}}"
-                  ng-disabled = "!inviting || sent"
                 )
+
               .btn.btn-xs.gray.text-center(
-                ng-click = "inviting = true"
-                ng-hide = "inviting"
+                ng-click = "admin.inviting = true"
+                ng-if = "!admin.inviting && !admin.sent"
               ) Invite…
+
               .btn.btn-xs.green.text-center(
-                ng-disabled = "sending || sent"
-                ng-init = "sending = false"
-                ng-mousedown = "sending = true"
+                ng-disabled = "!admin.email.length || admin.sending || admin.sent"
+                ng-mousedown = "admin.sending = true"
                 ng-mouseup = "\
-                  sending = false;\
-                  sent = true\
+                  admin.sending = false;\
+                  admin.inviting = false;\
+                  admin.sent = true\
                 "
-                ng-show = "inviting"
+                ng-if = "admin.inviting || admin.sent"
               )
                 span(
-                  ng-if = "!sending && !sent"
-                ) Send
+                  ng-if = "!admin.sending"
+                ) {{admin.sent ? "Sent" : "Send"}}
+
                 .spinner-wrapper.spinner-sm.spinner-white(
                   ng-include = "'spinner'"
-                  ng-if = "sending"
+                  ng-if = "admin.sending"
                 )
                 span(
-                  ng-if = "sending"
+                  ng-if = "admin.sending"
                 ) Sending
-                span(
-                  ng-if = "sent"
-                ) Sent

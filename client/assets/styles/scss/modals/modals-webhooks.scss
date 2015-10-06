@@ -80,6 +80,15 @@
       }
     }
 
+    .admin-info {
+      flex: 1 1 auto;
+      padding-right: 12px;
+
+      .span {
+        padding-left: 8px;
+      }
+    }
+
     .input {
       background-color: $white;
       color: #888;
@@ -87,17 +96,14 @@
       font-size: 13px;
       height: 24px;
       line-height: 20px;
-      // position: relative;
       transition: all .15s ease-in-out;
-      // top: -9px;
-      // left: -7px;
       transform: translate3d(0,-9px,0);
+      margin-right: 12px;
 
       &[disabled] {
         border-color: transparent !important;
         transform: translate3d(0,0,0);
         cursor: default;
-        // top: 0;
 
         &.empty::-webkit-input-placeholder {
           color: $white;
