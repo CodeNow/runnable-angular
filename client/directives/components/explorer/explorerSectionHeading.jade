@@ -1,11 +1,4 @@
-svg.iconnables(
-  ng-class = "{'icons-arrow-forward': $storage.explorerIsClosed}"
-  ng-if = "!debugContainer"
-)
-  use(
-    xlink:href = "#icons-arrow-down"
-  )
-| {{ explorerTitle }}
+{{ explorerTitle }}
 button.btn.btn-xs.btn-icon.float-right.js-animate(
   ng-class = "{'active': filePopover.data.show}"
   ng-show = "!$storage.explorerIsClosed && fileModel.running() || debugContainer"

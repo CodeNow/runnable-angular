@@ -65,39 +65,8 @@
 
 .sidebar-section-heading {
   color: $gray-darker;
-  cursor: pointer;
   line-height: 54px;
   position: relative;
-
-  &:hover:not(.disabled) {
-    color: $gray-dark;
-  }
-
-  &:active:not(.disabled) {
-    color: $gray;
-  }
-
-  &.closed {
-    color: $gray;
-
-    &:hover {
-      color: $gray-dark;
-    }
-
-    &:active {
-      color: $gray-darker;
-    }
-  }
-
-  &.disabled {
-    cursor: default;
-  }
-
-  > .iconnables {
-    margin-right: 6px;
-    top: 6px;
-    width: 18px;
-  }
 
   // for add buttons next to section headings, like in File Explorer
   .btn {

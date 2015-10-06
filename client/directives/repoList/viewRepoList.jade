@@ -1,14 +1,6 @@
 .sidebar-section-heading.strong(
-  ng-class = "{'closed': $storage.repoListIsClosed}"
-  ng-click = "$storage.repoListIsClosed = !$storage.repoListIsClosed"
-)
-  svg.iconnables(
-    ng-class = "{'icons-arrow-forward': $storage.repoListIsClosed}"
-  )
-    use(
-      xlink:href = "#icons-arrow-down"
-    )
-  | Repositories
+  ng-init = "$storage.repoListIsClosed = false"
+) Repositories
 
 .sidebar-section-content(
   ng-if = "!$storage.repoListIsClosed && $root.featureFlags.additionalRepositories"

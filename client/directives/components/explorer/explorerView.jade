@@ -1,12 +1,7 @@
 //- on container sidebar
 .sidebar-section-heading.strong(
-  ng-class = "{\
-    'closed': $storage.explorerIsClosed && !debugContainer,\
-    'disabled': debugContainer\
-  }"
-  ng-click = "$storage.explorerIsClosed = !$storage.explorerIsClosed"
-  ng-if = "!editExplorer || debugContainer"
   ng-include = "'explorerSectionHeading'"
+  ng-init = "$storage.explorerIsClosed = false"
 )
 
 //- on configure modal
