@@ -10,7 +10,7 @@
     }"
   )
     header.modal-header
-      server-status-card-header.btn.btn-sm.btn-title.no-touching(
+      server-status-card-header.no-touching(
         actions = "SMC.modalActions"
         in-modal = "true"
         instance = "SMC.instance"
@@ -146,6 +146,8 @@
         ng-if = "SMC.state.repo"
         ng-show = "SMC.selectedTab === 'translation'"
         state = "SMC.state"
+        instance = "SMC.instance"
+        data = "SMC.data"
         translation-rules
       )
       .modal-form.modal-logs(

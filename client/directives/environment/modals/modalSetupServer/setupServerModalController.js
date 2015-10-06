@@ -5,6 +5,7 @@ require('app')
 
 function SetupServerModalController (
   $scope,
+  $controller,
   $q,
   createNewBuild,
   $rootScope,
@@ -28,15 +29,16 @@ function SetupServerModalController (
   close
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
-  window.SMC = this;
-  window.loadingPromises = loadingPromises;
+
+  angular.extend(SMC, $controller('ServerModalController as SMC', { $scope: $scope }));
+
   // This needs to go away soon.
   $scope.data = data;
   loadingPromises.clear('setupServerModal');
   loading.reset('setupServerModal');
-
   var mainRepoContainerFile = new cardInfoTypes.MainRepository();
 
+  // Set initial state
   angular.extend(SMC, {
     close: close,
     closeWithConfirmation:function () {
@@ -49,7 +51,7 @@ function SetupServerModalController (
           .then(function (modal) {
             modal.close.then(function (confirmed) {
               if ( confirmed ) {
-                close();
+                SMC.closeModal();
               }
             });
           })
@@ -60,7 +62,7 @@ function SetupServerModalController (
     isNewContainer: true,
     openItems: new OpenItems(),
     getElasticHostname: function () {
-      if (SMC.state.repo.attrs) {
+      if (keypather.get(SMC, 'state.repo.attrs')) {
         // NOTE: Is SMC the best way to get the hostname?
         var repo = SMC.state.repo;
         var repoName = repo.attrs.name;
@@ -107,8 +109,13 @@ function SetupServerModalController (
     });
 
   $scope.$watchCollection(function () {
-     return SMC.state.ports;
-  }, updateDockerfileFromState.bind(null, SMC.state, true, true));
+    return SMC.state.ports;
+  }, function (newPortsArray, oldPortsArray) {
+    if (!angular.equals(newPortsArray, oldPortsArray)) {
+      // Only update the Dockerfile if the ports have actually changed
+      updateDockerfileFromState(SMC.state, true, true);
+    }
+  });
 
   function normalizeRepoName(repo) {
     return repo.attrs.name.replace(/[^a-zA-Z0-9-]/g, '-');
@@ -132,33 +139,20 @@ function SetupServerModalController (
 
   SMC.goToNextStep = function () {
     SMC.state.step += 1;
-    if (SMC.state.step === 1) {
-      SMC.changeTab('repository');
-    }
-    else if (SMC.state.step === 2) {
+    if (SMC.state.step === 2) {
       SMC.changeTab('commands');
     }
     else if (SMC.state.step === 3) {
       SMC.changeTab(null);
       loadAllOptions(); // When stack is selected, load dockerfile, etc
     }
-    else if (SMC.state.step === 4) {
-       SMC.changeTab('logs');
+    else if (SMC.state.step >= 4) {
+      SMC.changeTab('logs');
+    } else {
+      // Default to repository
+      SMC.changeTab('repository');
     }
   };
-
-  function openDockerfile() {
-    return promisify(SMC.state.contextVersion, 'fetchFile')('/Dockerfile')
-      .then(function (dockerfile) {
-        if (SMC.state.dockerfile) {
-          SMC.openItems.remove(SMC.state.dockerfile);
-        }
-        if (dockerfile) {
-          SMC.openItems.add(dockerfile);
-        }
-        SMC.state.dockerfile = dockerfile;
-      });
-  }
 
   function loadPorts () {
     var portsStr = keypather.get(SMC, 'state.selectedStack.ports');
@@ -179,7 +173,7 @@ function SetupServerModalController (
       SMC.state.ports = loadPorts();
     }
     // Populate ports at when stack has been selected
-   return fetchDockerfileFromSource(SMC.state.selectedStack.key)
+    return fetchDockerfileFromSource(SMC.state.selectedStack.key)
       .then(function () {
         return updateDockerfileFromState(SMC.state, true, true);
       })
@@ -187,7 +181,7 @@ function SetupServerModalController (
         return SMC.openItems.updateAllFiles();
       })
       .then(function () {
-        return openDockerfile();
+        return SMC.openDockerfile();
       })
       .then(function () {
         // Return modal to normal state
@@ -200,7 +194,7 @@ function SetupServerModalController (
   };
 
   SMC.areStackAndVersionSelected = function () {
-     return !!(SMC.state.selectedStack && SMC.state.selectedStack.selectedVersion);
+    return !!(SMC.state.selectedStack && SMC.state.selectedStack.selectedVersion);
   };
 
   SMC.createServer = function () {
@@ -234,19 +228,28 @@ function SetupServerModalController (
     }
     return SMC.openItems.updateAllFiles()
       .then(function () {
-         return SMC.actions.createAndBuild(createPromise, SMC.state.opts.name);
+        return SMC.actions.createAndBuild(createPromise, SMC.state.opts.name);
       })
       .then(function (instance) {
         SMC.instance = instance;
-        SMC.state.instance = SMC.instance;
-        SMC.state.opts.env = keypather.get(SMC.instance, 'attrs.env');
-        if ($rootScope.featureFlags.newVerificationFlow) {
-          // Go on to step 4 (logs)
-          SMC.goToNextStep();
-          loading('setupServerModal', false);
-        }
-        console.log('loadingPromises', loadingPromises.count('setupServerModal'));
-        loadingPromises.clear('setupServerModal');
+        SMC.state.instance = instance;
+        return SMC;
+      });
+  };
+
+  SMC.createServerAndGoToNextStep = function () {
+    return SMC.createServer()
+      .then(function () {
+        // Go on to step 4 (logs)
+        SMC.goToNextStep();
+        loading('setupServerModal', false);
+      });
+  };
+
+  SMC.createServerAndClose = function () {
+    return SMC.createServer()
+      .then(function () {
+        SMC.closeModal();
       });
   };
 
@@ -341,7 +344,7 @@ function SetupServerModalController (
       return SMC.actions.deleteServer(SMC.instance)
         .then(function (confirmed) {
           if (confirmed) {
-            close();
+            SMC.closeModal();
           }
         });
     } else {

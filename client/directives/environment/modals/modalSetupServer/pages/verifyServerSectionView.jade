@@ -163,8 +163,14 @@ section.modal-body(
     )
     // Find & Replace
     .modal-form(
+<<<<<<< HEAD
       ng-show = "SMC.selectedTab === 'translation'"
+=======
+      ng-show = "SMC.selectedTab === 'translation' && SMC.state.step === 3"
+      instance = "SMC.instance"
+>>>>>>> edit-setup-controllers-methods-with-service
       state = "SMC.state"
+      data = "SMC.data"
       translation-rules
     )
     // Dockerfile
@@ -184,7 +190,7 @@ section.modal-body(
 
 footer.modal-footer.clearfix
   //- disabled if there is no value in the command input
-  button.btn.white(
+  button.btn.green(
     ng-disabled = "\
       SMC.verifyServerForm.$invalid || \
       selectedStackInvalid || \
@@ -196,8 +202,14 @@ footer.modal-footer.clearfix
   ) Next
   button.btn.green(
     ng-disabled = "SMC.verifyServerForm.$invalid || (SMC.state.selectedStack | selectedStackInvalid)"
+    ng-click = "SMC.createServerAndClose()"
     ng-click = "SMC.createServer(SMC.state)"
-    ng-if="!$root.featureFlags.newVerificationFlow || ($root.featureFlags.newVerificationFlow && SMC.state.step === 3)"
+    ng-if="!$root.featureFlags.newVerificationFlow"
+  ) Start Build
+  button.btn.green(
+    ng-disabled = "verifyServerForm.$invalid || (SMC.state.selectedStack | selectedStackInvalid)"
+    ng-click = "SMC.createServerAndGoToNextStep()"
+    ng-if="$root.featureFlags.newVerificationFlow && SMC.state.step === 3"
   ) Start Build
   button.btn.green(
     ng-disabled = "SMC.verifyServerForm.$invalid || (SMC.state.selectedStack | selectedStackInvalid)"

@@ -109,7 +109,7 @@ describe('DNSConfigurationController'.bold.underline.blue, function() {
 
   it('should fetch the DNS configuration', function () {
     $scope.$digest();
-    expect(DCC.dependencies).to.equal(mockDepedencies);
+    expect(DCC.filteredDependencies).to.deep.equal(mockDepedencies.models);
     expect($rootScope.isLoaded.dns).to.be.ok;
   });
 

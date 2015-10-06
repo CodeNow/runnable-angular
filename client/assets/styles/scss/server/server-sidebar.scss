@@ -74,11 +74,11 @@
   line-height: 54px;
   position: relative;
 
-  &:hover {
+  &:hover:not(.disabled) {
     color: $gray-dark;
   }
 
-  &:active {
+  &:active:not(.disabled) {
     color: $gray;
   }
 
@@ -92,6 +92,10 @@
     &:active {
       color: $gray-darker;
     }
+  }
+
+  &.disabled {
+    cursor: default;
   }
 
   > .iconnables {
