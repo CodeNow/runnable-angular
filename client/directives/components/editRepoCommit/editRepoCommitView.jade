@@ -73,7 +73,8 @@ label.label-checkbox.btn-sm.btn-checkbox(
       use(
         xlink:href = "#icons-commit"
       )
-  .repository-info.small {{ activeCommit.attrs.commit.author.date | timeFrom }}
+  .repository-info.small
+    span.float-left {{ activeCommit.attrs.commit.author.date | timeFrom }}
     //- we don't want to trigger the popover to open because this is an external link
     label.toggle-wrapper.float-right(
       ng-click = "$event.stopPropagation()"

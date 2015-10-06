@@ -7,7 +7,12 @@
   )
     label.btn.btn-radio.white(
       ng-repeat = "framework in data.stacks track by framework.key"
-      ng-class = "{ 'active': temp.stack === framework.name, 'recommended': state.repo.stackAnalysis.languageFramework === framework.key}"
+      ng-class = "{\
+        'active': temp.stackKey === framework.key,\
+        'no-touching': temp.stackKey === framework.key,\
+        'recommended': state.repo.stackAnalysis.languageFramework === framework.key\
+      }"
+      ng-disabled = "saving"
     )
       img.iconnables(
         height = "24"
@@ -25,7 +30,7 @@
 
   fancy-select(
     ng-disabled = "saving"
-    ng-if = "!newContainer || !$root.featureFlags.newVerificationFlowStackSelector"
+    ng-if = "!isNewContainer || !$root.featureFlags.newVerificationFlowStackSelector"
     ng-required = "true"
     placeholder = "Select language/framework"
     spinner-flag = "saving"
@@ -83,32 +88,6 @@
     ) v{{$parent.version}}
 
 .input-col(
-  ng-repeat = "depStack in state.selectedStack.dependencies"
-)
-  .small {{depStack.name}}
-  fancy-select(
-    ng-required = "state.selectedStack.dependencies.length"
-    on-update = "updateDockerfile"
-    placeholder = "Select Version"
-    value = "depStack.selectedVersion"
-  )
-    li.list-item.popover-list-item.small.disabled(
-      ng-if = "$parent.depStack.suggestedVersion"
-    ) Suggested {{$parent.$parent.depStack.name}} Version
-    fancy-option(
-      ng-repeat = "version in $parent.depStack.versions | filter: $parent.depStack.suggestedVersion"
-      value = "version"
-    ) v{{$parent.version}}
-    li.divider(
-      ng-if = "$parent.depStack.suggestedVersion"
-    )
-    fancy-option(
-      ng-repeat = "version in $parent.depStack.versions | filter: '!'+ $parent.depStack.suggestedVersion"
-      value = "version"
-    ) v{{$parent.version}}
-
-.input-col(
-  ng-if = "!$root.featureFlags.newVerificationFlowStackSelector"
   ng-repeat = "depStack in state.selectedStack.dependencies"
 )
   .small {{depStack.name}}

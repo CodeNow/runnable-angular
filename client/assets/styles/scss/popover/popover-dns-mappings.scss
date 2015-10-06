@@ -63,7 +63,11 @@
 // rows
 .tr-dns {
   cursor: pointer;
-  padding: 0 15px;
+  padding: 3px 15px;
+
+  &:only-child {
+    padding: 3px 15px; // override default for only-child
+  }
 
   &:hover .icons-arrow-forward {
     color: $gray;

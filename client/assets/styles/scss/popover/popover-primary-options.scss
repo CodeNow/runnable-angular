@@ -14,12 +14,8 @@
     width: 12px;
   }
 
-  .well {
-    font-weight: $weight-normal;
-
-    &:only-child {
-      margin: 9px;
-    }
+  .well:only-child {
+    margin: 9px;
   }
 
   // save options styles

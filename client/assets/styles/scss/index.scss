@@ -60,6 +60,7 @@
 
 // components
 @import "components/animated-panel";
+@import "components/badges";
 @import "components/cards";
 @import "components/cards-title";
 @import "components/fancy-select";
@@ -135,6 +136,7 @@
 // popover specific
 @import "popover/popover-account-menu";
 @import "popover/popover-add-tab";
+@import "popover/popover-card-status";
 @import "popover/popover-container-menu";
 @import "popover/popover-debug";
 @import "popover/popover-dns-mappings";

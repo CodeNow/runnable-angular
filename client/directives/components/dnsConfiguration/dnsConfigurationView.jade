@@ -1,0 +1,12 @@
+div(
+  pop-over
+  pop-over-options = "{\"centered\":true,\"top\":47}"
+  pop-over-template = "dnsConfigurationPopoverView"
+  pop-over-controller = "DCC"
+  ng-click = "DCC.lastModifiedDNS = null;"
+)
+  .btn.btn-xxs(
+    ng-if = '$root.isLoaded.dns'
+  ) {{DCC.filteredDependencies.length}}
+  | DNS
+
