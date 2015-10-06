@@ -62,9 +62,26 @@ label.label-checkbox.btn-sm.btn-checkbox(
 
 button.btn.btn-xs.white(
   ng-click = "state.refreshing = true"
-  style = "position: absolute; top: 9px; right: 9px; z-index: 1;"
+  style = "position: absolute; top: 8px; right: 8px; z-index: 1;"
   ng-hide = "state.refreshing"
+  ng-if = "$root.featureFlags.preWebhooks"
 ) Refresh
+
+label.toggle-wrapper.toggle-auto-deploy(
+  ng-click = "$event.stopPropagation()"
+  ng-if = "!acv.attrs.additionalRepo && !$root.featureFlags.preWebhooks"
+  tooltip = "Disabling Auto Deploy will stop your container from automatically updating with new changes to your repositories."
+  tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-6,\"top\":18}"
+) Auto Deploy
+  input.toggle-input(
+    ng-false-value = "true"
+    ng-model = "autoDeploy"
+    ng-model-options = "{getterSetter: true}"
+    ng-true-value = "false"
+    type = "checkbox"
+    ng-disabled = "$root.isLoading.autoDeploy"
+  )
+  .toggle-group.toggle-xs
 
 .btn.gray.btn-repository(
   ng-class = "{'refreshing': state.refreshing}"
@@ -72,6 +89,10 @@ button.btn.btn-xs.white(
   ng-if = "$root.featureFlags.additionalRepositories"
 )
   .repository-info.text-overflow {{ acv.attrs.repo | fixRepositoryName }}
+    svg.iconnables.icons-repository
+      use(
+        xlink:href = "#icons-repository"
+      )
   .repository-info.text-overflow.js-repository-branch {{ acv.attrs.branch }}
     svg.iconnables.icons-branch
       use(
@@ -86,38 +107,3 @@ button.btn.btn-xs.white(
     ng-if = "state.refreshing"
     ng-include = "'spinner'"
   )
-  //- .repository-info.small
-  //-   span.float-left(
-  //-     ng-if = "!refreshing"
-  //-   ) {{ activeCommit.attrs.commit.author.date | timeFrom }}
-    //- we don't want to trigger the popover to open because this is an external link
-    //- label.toggle-wrapper.float-right(
-    //-   ng-click = "$event.stopPropagation()"
-    //-   ng-if = "!acv.attrs.additionalRepo"
-    //-   tooltip = "Disabling Auto Deploy will stop your container from automatically updating with new changes to your repositories."
-    //-   tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-6,\"top\":18}"
-    //- ) Auto Deploy
-    //-   input.toggle-input(
-    //-     ng-false-value = "true"
-    //-     ng-model = "autoDeploy"
-    //-     ng-model-options = "{getterSetter: true}"
-    //-     ng-true-value = "false"
-    //-     type = "checkbox"
-    //-     ng-disabled = "$root.isLoading.autoDeploy"
-    //-   )
-    //-   .toggle-group.toggle-xs
-  //- .repository-info.small(
-  //-   ng-if = "refreshing"
-  //- )
-  //-   a.a(
-  //-     ng-click = "$event.stopPropagation()"
-  //-     modal
-  //-     modal-template = "viewModalWebhooks"
-  //-   ) Turn on Webhooks
-  //-   | &#32;to stay in sync
-  //- svg.iconnables.icons-arrow-down(
-  //-   ng-if = "!refreshing"
-  //- )
-  //-   use(
-  //-     xlink:href = "#icons-arrow-down"
-  //-   )

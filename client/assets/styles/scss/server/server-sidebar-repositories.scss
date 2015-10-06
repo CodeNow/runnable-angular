@@ -19,8 +19,25 @@
   }
 }
 
-.enable-note {
+.toggle-auto-deploy {
+  color: $gray;
+  display: flex;
+  font-size: 13px;
+  font-weight: 500;
   position: absolute;
+  right: 12px;
+  top: 8px;
+  cursor: pointer;
+  z-index: 1;
+
+  &:hover {
+    color: $gray-dark;
+  }
+
+  .toggle-group {
+    margin-left: 4px;
+    top: 5px;
+  }
 }
 
 .repository-section {
@@ -33,24 +50,6 @@
 .repository-info {
   padding-left: 21px;
   position: relative;
-
-  &:first-child {
-    font-weight: $weight-bold;
-    padding-left: 0;
-    padding-right: 90px;
-    color: $gray-dark;
-    margin-bottom: 3px;
-  }
-
-  // &.small {
-  //   color: #a3a3a3; // for contrast against $gray-lighterest
-
-  //   .toggle-group {
-  //     display: inline-block;
-  //     margin-left: 3px;
-  //     top: 3px;
-  //   }
-  // }
 
   .iconnables {
     height: 14px;

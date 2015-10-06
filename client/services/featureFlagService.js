@@ -25,6 +25,7 @@ function featureFlags(
     navListFilter: false,
     newVerificationFlow: false,
     newVerificationFlowStackSelector: false,
+    preWebhooks: false,
     renameContainer: false,
     saveToolbar: false,
     themeToggle: false, // toggles the button that toggles theme
