@@ -119,10 +119,15 @@
 
       animated-panel.panel-invite-admins(
         name = "inviteAdmins"
+        ng-init = "\
+          mavisAdmins = [\
+            {username: 'runnabro', gravatarUrl: 'https://avatars2.githubusercontent.com/u/5341618', email: 'tony@runnable.com'},\
+            {username: 'taylordolan', gravatarUrl: 'https://avatars0.githubusercontent.com/u/7440805', email: 'taylor@runnable.com'},\
+            {username: 'thejsj', gravatarUrl: 'https://avatars0.githubusercontent.com/u/1981198', email: null}\
+          ];\
+          state.loading = true;\
+        "
       )
-        //- ng-init = "\
-        //-   state.loading = true;\
-        //- "
         header.modal-header
           svg.btn.btn-sm.iconnables.icons-arrow-backward.fade(
             ng-click = "goToPanel('webhooksContainerList', 'back')"
@@ -149,19 +154,21 @@
 
           .list.list-bordered
 
-            .list-item
+            .list-item(
+              ng-repeat = "admin in mavisAdmins"
+            )
               img.gravatar(
                 height = "30"
                 width = "30"
-                src = "https://avatars2.githubusercontent.com/u/5341618?v=3&s=96"
+                src = "{{admin.gravatarUrl}}"
               )
-              .p(
+              p.p(
                 ng-class = "{'shrink': inviting && !sent}"
               )
-                span.span runnabro
+                span.span {{admin.username}}
                 input.input(
                   type = "text"
-                  value = "tony@runnable.com"
+                  value = "{{admin.email}}"
                   ng-disabled = "!inviting || sent"
                 )
               .btn.btn-xs.gray.text-center(
@@ -191,52 +198,3 @@
                 span(
                   ng-if = "sent"
                 ) Sent
-
-            .list-item
-              img.gravatar(
-                height = "30"
-                width = "30"
-                src = "https://avatars0.githubusercontent.com/u/7440805?v=3&s=96"
-              )
-              .p(
-                ng-class = "{'shrink': invitingg}"
-              )
-                span.span taylordolan
-                input.input(
-                  type = "text"
-                  value = "taylor@runnable.com"
-                  ng-disabled = "!invitingg"
-                )
-              .btn.btn-xs.gray.text-center(
-                ng-click = "invitingg = true"
-                ng-hide = "invitingg"
-              ) Invite…
-              .btn.btn-xs.green.text-center(
-                ng-click = "invitingg = false"
-                ng-show = "invitingg"
-              ) Send
-
-            .list-item
-              img.gravatar(
-                height = "30"
-                width = "30"
-                src = "https://avatars0.githubusercontent.com/u/1981198?v=3&s=96"
-              )
-              .p(
-                ng-class = "{'shrink': invitinggg}"
-              )
-                span.span thejsj
-                input.input.empty(
-                  type = "text"
-                  placeholder = "email address"
-                  ng-disabled = "!invitinggg"
-                )
-              .btn.btn-xs.gray.text-center(
-                ng-click = "invitinggg = true"
-                ng-hide = "invitinggg"
-              ) Invite…
-              .btn.btn-xs.green.text-center(
-                ng-click = "invitinggg = false"
-                ng-show = "invitinggg"
-                disabled
-              ) Send
