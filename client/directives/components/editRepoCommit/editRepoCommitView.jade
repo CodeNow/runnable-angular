@@ -61,10 +61,9 @@ label.label-checkbox.btn-sm.btn-checkbox(
 //- ************************
 
 button.btn.btn-xs.white(
-  ng-click = "state.refreshing = true"
+  ng-click = "temporary.refreshing = true"
   style = "position: absolute; top: 8px; right: 8px; z-index: 1;"
-  ng-hide = "state.refreshing"
-  ng-if = "$root.featureFlags.preWebhooks"
+  ng-if = "$root.featureFlags.preWebhooks && !temporary.refreshing"
 ) Refresh
 
 label.toggle-wrapper.toggle-auto-deploy(
@@ -84,7 +83,7 @@ label.toggle-wrapper.toggle-auto-deploy(
   .toggle-group.toggle-xs
 
 .btn.gray.btn-repository(
-  ng-class = "{'refreshing': state.refreshing}"
+  ng-class = "{'refreshing': temporary.refreshing}"
   ng-click = "actions.openRepoDetailsModal()"
   ng-if = "$root.featureFlags.additionalRepositories"
 )
@@ -104,6 +103,6 @@ label.toggle-wrapper.toggle-auto-deploy(
         xlink:href = "#icons-commit"
       )
   .spinner-wrapper.spinner-sm.in(
-    ng-if = "state.refreshing"
+    ng-if = "temporary.refreshing"
     ng-include = "'spinner'"
   )
