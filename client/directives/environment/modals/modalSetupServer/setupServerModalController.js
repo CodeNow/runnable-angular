@@ -23,18 +23,23 @@ function SetupServerModalController (
   OpenItems,
   fetchStackInfo,
   ModalService,
+  serverModalMethods,
   data,
   actions,
   close
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
+
+  // Extend controller with methods from `serverModalMethods`
+  SMC.openDockerfile = serverModalMethods.openDockerfile.bind(SMC);
+
   // This needs to go away soon.
   $scope.data = data;
   loadingPromises.clear('setupServerModal');
   loading.reset('setupServerModal');
-
   var mainRepoContainerFile = new cardInfoTypes.MainRepository();
 
+  // Set initial state
   angular.extend(SMC, {
     close: close,
     closeWithConfirmation:function () {
@@ -149,19 +154,6 @@ function SetupServerModalController (
     }
   };
 
-  function openDockerfile() {
-    return promisify(SMC.state.contextVersion, 'fetchFile')('/Dockerfile')
-      .then(function (dockerfile) {
-        if (SMC.state.dockerfile) {
-          SMC.openItems.remove(SMC.state.dockerfile);
-        }
-        if (dockerfile) {
-          SMC.openItems.add(dockerfile);
-        }
-        SMC.state.dockerfile = dockerfile;
-      });
-  }
-
   function loadPorts () {
     var portsStr = keypather.get(SMC, 'state.selectedStack.ports');
     if (typeof portsStr === 'string') {
@@ -189,7 +181,7 @@ function SetupServerModalController (
         return SMC.openItems.updateAllFiles();
       })
       .then(function () {
-        return openDockerfile();
+        return SMC.openDockerfile();
       })
       .then(function () {
         // Return modal to normal state
