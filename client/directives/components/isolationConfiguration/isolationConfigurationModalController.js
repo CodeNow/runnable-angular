@@ -37,7 +37,7 @@ function IsolationConfigurationModalController(
     loading('createIsolation', true);
     createIsolation( ICMC.instance, isolatedChildren)
       .then(function () {
-        close();
+        ICMC.close();
       })
       .catch(errs.handler)
       .finally(function () {

@@ -16,7 +16,7 @@ describe('IsolationConfigurationModalController'.bold.underline.blue, function()
   var mockCreateIsolation;
 
   function injectSetupCompile () {
-
+    mockClose = sinon.spy();
     mockInstance = {
       attrs: {
         contextVersion: {
@@ -127,6 +127,7 @@ describe('IsolationConfigurationModalController'.bold.underline.blue, function()
       $scope.$digest();
       sinon.assert.calledOnce(mockCreateIsolation);
       sinon.assert.calledWith(mockCreateIsolation, mockInstance);
+      sinon.assert.calledOnce(mockClose);
       var createList = mockCreateIsolation.lastCall.args[1];
       expect(createList).to.deep.equal([
         {
