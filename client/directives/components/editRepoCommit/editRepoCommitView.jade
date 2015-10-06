@@ -61,45 +61,31 @@ label.label-checkbox.btn-sm.btn-checkbox(
 //- ************************
 
 button.btn.btn-xs.white(
-  ng-click = "refreshing = true"
+  ng-click = "state.refreshing = true"
   style = "position: absolute; top: 9px; right: 9px; z-index: 1;"
-  ng-hide = "refreshing"
+  ng-hide = "state.refreshing"
 ) Refresh
 
-.btn.gray(
+.btn.gray.btn-repository(
+  ng-class = "{'refreshing': state.refreshing}"
   ng-click = "actions.openRepoDetailsModal()"
   ng-if = "$root.featureFlags.additionalRepositories"
 )
-  .repository-info.text-overflow(
-    ng-if = "!refreshing"
-  ) {{ acv.attrs.repo | fixRepositoryName }}
-  .repository-info.text-overflow.js-repository-branch(
-    ng-if = "!refreshing"
-  ) {{ acv.attrs.branch }}
+  .repository-info.text-overflow {{ acv.attrs.repo | fixRepositoryName }}
+  .repository-info.text-overflow.js-repository-branch {{ acv.attrs.branch }}
     svg.iconnables.icons-branch
       use(
         xlink:href = "#icons-branch"
       )
-  .repository-info.text-overflow.js-repository-commit(
-    ng-if = "!refreshing"
-  ) {{ activeCommit.attrs.commit.message}}
+  .repository-info.text-overflow.js-repository-commit {{ activeCommit.attrs.commit.message}}
     svg.iconnables.icons-commit
       use(
         xlink:href = "#icons-commit"
       )
-  .repository-info(
-    style = "padding: 0 0 0 20px; font-weight: 400; margin: 21px 0; font-weight: 400;"
-    ng-show = "refreshing"
-    ng-click = "\
-      refreshing = false;\
-      $event.stopPropagation()\
-    "
-    ng-click = "$event.stopPropagation()"
-  ) Enable Webhooks to stay in sync
-    .spinner-wrapper.spinner-sm.in(
-      ng-include = "'spinner'"
-      style = "float: none; position: absolute; top: 4px; left: 0; margin: 0;"
-    )
+  .spinner-wrapper.spinner-sm.in(
+    ng-if = "state.refreshing"
+    ng-include = "'spinner'"
+  )
   //- .repository-info.small
   //-   span.float-left(
   //-     ng-if = "!refreshing"

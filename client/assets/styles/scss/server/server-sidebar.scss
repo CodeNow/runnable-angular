@@ -11,11 +11,6 @@
     padding: 6px 10px;
   }
 
-  .spinner-wrapper {
-    float: right;
-    margin-top: 22px;
-  }
-
   // override button and fancy-select styles
   .btn.gray {
     background-color: $gray-lighterest;
@@ -24,7 +19,6 @@
     font-weight: 400;
     height: auto;
     line-height: 24px;
-    // padding: 4px 27px 4px 9px;
     padding: 6px 12px;
     text-align: left;
     width: 100%;
@@ -47,31 +41,6 @@
       float: none;
     }
   }
-}
-
-.repository-section .sidebar-section-item:first-child {
-
-  .btn.gray {
-    // height: 84px;
-
-    // &::after {
-    //   content: 'Refresh';
-    //   border: 2px solid $gray;
-    //   border-radius: 3px;
-    //   background: white;
-    //   color: $gray-dark;
-    //   font-weight: $weight-bold;
-    // }
-  }
-
-  // .a {
-  //   text-decoration: underline;
-  // }
-
-  // .spinner-wrapper {
-  //   float: none;
-  //   margin-bottom: 3px;
-  // }
 }
 
 .sidebar-section {
@@ -148,7 +117,6 @@
 .sidebar-section-item {
   margin-bottom: 3px;
   position: relative;
-  top: -6px;
 
   &:last-child {
     margin-bottom: 9px;

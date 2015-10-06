@@ -1,3 +1,28 @@
+.btn-repository.refreshing {
+  pointer-events: none;
+
+  .repository-info {
+    opacity: .15;
+  }
+
+  .spinner-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+
+    .spinner {
+      color: $gray-light;
+    }
+  }
+}
+
+.enable-note {
+  position: absolute;
+}
+
 .repository-section {
 
   .icons-arrow-down {
@@ -17,15 +42,15 @@
     margin-bottom: 3px;
   }
 
-  &.small {
-    color: #a3a3a3; // for contrast against $gray-lighterest
+  // &.small {
+  //   color: #a3a3a3; // for contrast against $gray-lighterest
 
-    .toggle-group {
-      display: inline-block;
-      margin-left: 3px;
-      top: 3px;
-    }
-  }
+  //   .toggle-group {
+  //     display: inline-block;
+  //     margin-left: 3px;
+  //     top: 3px;
+  //   }
+  // }
 
   .iconnables {
     height: 14px;

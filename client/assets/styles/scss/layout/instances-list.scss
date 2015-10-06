@@ -69,12 +69,8 @@
       }
     }
 
-    &.inactive {
-      opacity: .5;
-
-      .icons-status {
-        visibility: hidden;
-      }
+    &.inactive .icons-status {
+      visibility: hidden;
     }
 
     // gear icon
