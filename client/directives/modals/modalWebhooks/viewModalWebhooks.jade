@@ -174,13 +174,14 @@
               .admin-info
                 span.span {{admin.username}}
                 input.input.input-validate(
-                  ng-disabled = "!admin.inviting || admin.sent"
+                  ng-disabled = "!admin.inviting"
                   ng-focus = "admin.inviting"
                   ng-if = "admin.email.length || admin.inviting"
                   ng-model = "admin.email"
                   spellcheck = "false"
                   type = "text"
                   value = "{{admin.email}}"
+                  placeholder = "email address"
                 )
 
               .btn.btn-xs.gray.text-center(
