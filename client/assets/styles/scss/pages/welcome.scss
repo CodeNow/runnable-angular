@@ -1,0 +1,25 @@
+.welcome {
+
+  .img {
+    display: block;
+    margin: 30px auto 0;
+  }
+
+  .modal-dialog {
+    color: $gray-dark;
+    margin: -120px auto 0;
+    width: 300px;
+  }
+
+  .h3 {
+    margin: 15px 0;
+    text-align: center;
+  }
+
+  .p {
+    display: block;
+    margin: 0 auto 30px;
+    max-width: 300px;
+    text-align: center;
+  }
+}
