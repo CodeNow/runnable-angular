@@ -154,7 +154,17 @@
 
           .list.list-bordered
 
+            //- loading state
             .list-item(
+              ng-click = "state.loading = false"
+              ng-if = "state.loading"
+            )
+              .spinner-wrapper.spinner-gray.spinner-sm.in(
+                ng-include = "'spinner'"
+              )
+
+            .list-item(
+              ng-if = "!state.loading"
               ng-repeat = "admin in mavisAdmins"
             )
               img.gravatar(
