@@ -8,17 +8,17 @@ function serverModalMethods (
 ) {
   var methods = {};
 
-  methods.openDockerfile = function () {
+  methods.openDockerfile = function (state, openItems) {
     var SMC = this;
-    return promisify(SMC.state.contextVersion, 'fetchFile')('/Dockerfile')
+    return promisify(state.contextVersion, 'fetchFile')('/Dockerfile')
       .then(function (dockerfile) {
-        if (SMC.state.dockerfile) {
-         SMC.openItems.remove(SMC.state.dockerfile);
+        if (state.dockerfile) {
+         openItems.remove(SMC.state.dockerfile);
         }
         if (dockerfile) {
-          SMC.openItems.add(dockerfile);
+          openItems.add(dockerfile);
         }
-        SMC.state.dockerfile = dockerfile;
+        state.dockerfile = dockerfile;
       });
   };
 

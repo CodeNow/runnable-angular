@@ -181,7 +181,7 @@ function SetupServerModalController (
         return SMC.openItems.updateAllFiles();
       })
       .then(function () {
-        return SMC.openDockerfile();
+        return SMC.openDockerfile(SMC.state, SMC.openItems);
       })
       .then(function () {
         // Return modal to normal state

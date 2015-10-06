@@ -231,7 +231,7 @@ function EditServerModalController(
 
     return SMC.state.promises.contextVersion
       .then(function () {
-        return SMC.openDockerfile();
+        return SMC.openDockerfile(SMC.state, SMC.openItems);
       })
       .then(function () {
         return fetchUser();
