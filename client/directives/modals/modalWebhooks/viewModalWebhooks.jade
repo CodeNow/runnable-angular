@@ -27,14 +27,36 @@
             .list-item
               .p api
               .btn.btn-xs.green.text-center(
-                ng-init = "showList = false"
-                ng-click = "showList = true"
-                ng-hide = "showList"
-              ) Enable Webhooks
-              .btn.btn-xs.green.text-center(
-                disabled
-                ng-if = "showList"
-              ) Enabled
+                ng-disabled = "enabling || showList"
+                ng-init = "\
+                  enabling = false;\
+                  showList = false\
+                "
+                ng-mousedown = "enabling = true"
+                ng-mouseup = "\
+                  enabling = false;\
+                  showList = true\
+                "
+                style = "display: flex; align-items: center; justify-content: center;"
+              )
+                span(
+                  ng-if = "!showList && !enabling"
+                ) Enable Webhooks
+                .spinner-wrapper.spinner-white.spinner-sm.in(
+                  ng-if = "enabling"
+                  ng-include = "'spinner'"
+                  style = "margin-right: 6px;"
+                )
+                span(
+                  ng-if = "enabling"
+                ) Enabling…
+                span(
+                  ng-if = "showList"
+                ) Enabled
+              //- .btn.btn-xs.green.text-center(
+              //-   disabled
+              //-   ng-if = "showList"
+              //- ) Enabled
             .list-item.divider(
               ng-if = "showList"
             ) Other Repositories

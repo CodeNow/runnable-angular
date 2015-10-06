@@ -110,6 +110,11 @@
       right: 0;
       position: relative;
 
+      .spinner {
+        width: 12px;
+        height: 12px;
+      }
+
       &[disabled] {
         cursor: default;
       }
