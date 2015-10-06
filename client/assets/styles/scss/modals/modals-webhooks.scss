@@ -60,6 +60,11 @@
       background-color: #eee;
     }
 
+    //- loading state
+    > .spinner-wrapper {
+      width: 100%;
+    }
+
     .p {
       flex: 1 1 auto;
       transition: all .15s ease-in-out;

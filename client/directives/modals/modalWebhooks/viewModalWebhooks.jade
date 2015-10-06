@@ -6,7 +6,17 @@
       animated-panel.panel-webhooks-containers-list(
         default = "true"
         name = "webhooksContainerList"
+        ng-init = "\
+          currentRepository = {name: 'api', authorized: true, enabled: false};\
+          repositories = [\
+            currentRepository,\
+            {name: 'data-dog', authorized: true, enabled: false},\
+            {name: 'mavis', authorized: false, enabled: false}\
+          ];\
+          state.loading = true;\
+        "
       )
+
         header.modal-header
           h1.modal-heading(
           ) Webhooks
@@ -18,84 +28,101 @@
             use(
               xlink:href = "#icons-close"
             )
+
         section.modal-body
+
           strong.strong Enable Webhooks to automatically…
           .list.list-bulleted
             .list-item update existing containers with new commits
             .list-item create containers for new branches
+
           .list.list-bordered
-            .list-item
-              .p api
-              .btn.btn-xs.green.text-center(
-                ng-disabled = "enabling || showList"
-                ng-init = "\
-                  enabling = false;\
-                  showList = false\
-                "
-                ng-mousedown = "enabling = true"
+
+            //- loading state
+            .list-item(
+              ng-click = "state.loading = false"
+              ng-if = "state.loading"
+            )
+              .spinner-wrapper.spinner-gray.spinner-sm.in(
+                ng-include = "'spinner'"
+              )
+
+            //- current repository
+            .list-item(
+              ng-if = "!state.loading"
+            )
+              p.p {{currentRepository.name}}
+              button.btn.btn-xs.green.text-center(
+                ng-disabled = "currentRepository.enabled"
+                ng-if = "currentRepository.authorized"
+                ng-mousedown = "currentRepository.enabling = true"
                 ng-mouseup = "\
-                  enabling = false;\
-                  showList = true\
+                  currentRepository.enabling = false;\
+                  currentRepository.enabled = true;\
                 "
               )
+                //- ng-disabled = "currentRepository.enabling || currentRepository.enabled"
                 span(
-                  ng-if = "!showList && !enabling"
-                ) Enable Webhooks
-                .spinner-wrapper.spinner-white.spinner-sm.in(
-                  ng-if = "enabling"
+                  ng-if = "!currentRepository.enabling"
+                ) {{currentRepository.enabled ? "Enabled" : "Enable Webhooks"}}
+
+                .spinner-wrapper.spinner-sm.spinner-white.in(
+                  ng-if = "currentRepository.enabling"
                   ng-include = "'spinner'"
                 )
                 span(
-                  ng-if = "enabling"
+                  ng-if = "currentRepository.enabling"
                 ) Enabling
-                span(
-                  ng-if = "showList"
-                ) Enabled
-              //- .btn.btn-xs.green.text-center(
-              //-   disabled
-              //-   ng-if = "showList"
-              //- ) Enabled
-            .list-item.divider(
-              ng-if = "showList"
-            ) Other Repositories
-            .list-item(
-              ng-if = "showList"
-            )
-              .p data-dog
-              .btn.btn-xs.green.text-center(
-                ng-init = "enable2 = false"
-                ng-click = "enable2 = true"
-                ng-hide = "enable2"
-              ) Enable Webhooks
-              .btn.btn-xs.green.text-center(
-                ng-if = "enable2"
-                disabled
-              ) Enabled
-            .list-item(
-              ng-if = "showList"
-            )
-              .p eru
-              .btn.btn-xs.green.text-center(
-                ng-init = "enable3 = false"
-                ng-click = "enable3 = true"
-                ng-hide = "enable3"
-              ) Enable Webhooks
-              .btn.btn-xs.green.text-center(
-                ng-if = "enable3"
-                disabled
-              ) Enabled
-            .list-item(
-              ng-if = "showList"
-            )
-              .p optimus
-                .small permission needed
-              .btn.btn-xs.gray.text-center(
+
+              button.btn.btn-xs.gray.text-center(
                 ng-click = "goToPanel('inviteAdmins')"
+                ng-if = "!currentRepository.authorized"
+              ) Invite an Admin…
+
+            //- divider
+            .list-item.divider(
+              ng-if = "currentRepository.enabled && repositories.length > 1"
+            ) Other Repositories
+
+            //- other repositories
+            .list-item(
+              ng-if = "currentRepository.enabled && repository != currentRepository"
+              ng-repeat = "repository in repositories"
+            )
+              p.p {{repository.name}}
+              button.btn.btn-xs.green.text-center(
+                ng-disabled = "repository.enabled"
+                ng-if = "repository.authorized"
+                ng-mousedown = "repository.enabling = true"
+                ng-mouseup = "\
+                  repository.enabling = false;\
+                  repository.enabled = true;\
+                "
+              )
+                //- ng-disabled = "repository.enabling || repository.enabled"
+                span(
+                  ng-if = "!repository.enabling"
+                ) {{repository.enabled ? "Enabled" : "Enable Webhooks"}}
+
+                .spinner-wrapper.spinner-sm.spinner-white.in(
+                  ng-if = "repository.enabling"
+                  ng-include = "'spinner'"
+                )
+                span(
+                  ng-if = "repository.enabling"
+                ) Enabling
+
+              button.btn.btn-xs.gray.text-center(
+                ng-click = "goToPanel('inviteAdmins')"
+                ng-if = "!repository.authorized"
               ) Invite an Admin…
 
       animated-panel.panel-invite-admins(
         name = "inviteAdmins"
       )
+        //- ng-init = "\
+        //-   state.loading = true;\
+        //- "
         header.modal-header
           svg.btn.btn-sm.iconnables.icons-arrow-backward.fade(
             ng-click = "goToPanel('webhooksContainerList', 'back')"
