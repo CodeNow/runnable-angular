@@ -36,10 +36,12 @@ function IsolationConfigurationModalController(
 
     loading('createIsolation', true);
     createIsolation( ICMC.instance, isolatedChildren)
+      .then(function () {
+        close();
+      })
       .catch(errs.handler)
       .finally(function () {
         loading('createIsolation', false);
-        close();
       });
   };
 
