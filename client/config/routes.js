@@ -1,7 +1,21 @@
 'use strict';
 
 module.exports = [
-  {
+  { //- create team template
+    abstract: false,
+    state: 'team',
+    url: '^/team',
+    templateUrl: 'viewTeam',
+    controller: function ($scope, loading, loadingPromises, $rootScope) {
+      window.loading = loading;
+      window.$rootScope = $rootScope;
+      $rootScope.dataApp = $scope.dataApp = true;
+      loading.reset('team');
+    },
+    data: {
+      anon: true
+    }
+  }, {
     state: 'loadingDebug',
     url: '^/loading'
   }, {
