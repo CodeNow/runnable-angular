@@ -4,13 +4,20 @@
     src = "/build/images/welcome/runnabear.png"
     width = "200"
   )
-  .modal-dialog
+  form.modal-dialog
     section.modal-body
       h3.h3 Create your team
       p.p Team names are used for other members to find and request access to your team.
-      input.input(
+      input.input.input-validate(
+        autofocus
+        maxlength = "30"
         placeholder = "e.g. Runnable"
+        required
+        spellcheck = "false"
       )
+      p.validation-message(
+        ng-if = ""
+      ) Sorry, “Runnable” is taken.
     footer.modal-footer
       button.btn.green Next
 
