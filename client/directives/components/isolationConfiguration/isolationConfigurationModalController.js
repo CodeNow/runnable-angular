@@ -3,12 +3,13 @@
 require('app').controller('IsolationConfigurationModalController', IsolationConfigurationModalController);
 
 function IsolationConfigurationModalController(
-  instance,
-  close,
   fetchInstancesByPod,
   loading,
   createIsolation,
-  errs
+  errs,
+
+  instance,
+  close
 ) {
   var ICMC = this;
   ICMC.instance = instance;
@@ -47,8 +48,7 @@ function IsolationConfigurationModalController(
 
   fetchInstancesByPod()
     .then(function (instances) {
-      instances = instances.filter(function (instance) {
-        console.log(instance.getRepoName(), instance, ICMC.instance);
+      instances = instances.models.filter(function (instance) {
         return instance.attrs.contextVersion.context !== ICMC.instance.attrs.contextVersion.context;
       });
 
