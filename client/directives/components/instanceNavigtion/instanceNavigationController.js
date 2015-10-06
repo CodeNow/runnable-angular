@@ -3,14 +3,25 @@
 require('app').controller('InstanceNavigationController', InstanceNavigationController);
 
 function InstanceNavigationController(
+  $rootScope,
+  ModalService
 ) {
   var INC = this;
 
-  console.log('INC!');
+  console.log('Running InstanceNavigationController!');
 
   INC.setupIsolation = function () {
-    console.log('Setup Isolation!');
-  }
+    $rootScope.$broadcast('close-popovers');
+
+    ModalService.showModal({
+      controller: 'IsolationConfigurationModalController',
+      controllerAs: 'ICMC',
+      templateUrl: 'isolationConfigurationModalView',
+      inputs: {
+        instance: INC.instance
+      }
+    });
+  };
 }
 
 
