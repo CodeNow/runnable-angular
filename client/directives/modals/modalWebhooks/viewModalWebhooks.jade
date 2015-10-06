@@ -37,7 +37,6 @@
                   enabling = false;\
                   showList = true\
                 "
-                style = "display: flex; align-items: center; justify-content: center;"
               )
                 span(
                   ng-if = "!showList && !enabling"
@@ -45,11 +44,10 @@
                 .spinner-wrapper.spinner-white.spinner-sm.in(
                   ng-if = "enabling"
                   ng-include = "'spinner'"
-                  style = "margin-right: 6px;"
                 )
                 span(
                   ng-if = "enabling"
-                ) Enabling…
+                ) Enabling
                 span(
                   ng-if = "showList"
                 ) Enabled
@@ -131,22 +129,41 @@
                 src = "https://avatars2.githubusercontent.com/u/5341618?v=3&s=96"
               )
               .p(
-                ng-class = "{'shrink': inviting}"
+                ng-class = "{'shrink': inviting && !sent}"
               )
                 span.span runnabro
                 input.input(
                   type = "text"
                   value = "tony@runnable.com"
-                  ng-disabled = "!inviting"
+                  ng-disabled = "!inviting || sent"
                 )
               .btn.btn-xs.gray.text-center(
                 ng-click = "inviting = true"
                 ng-hide = "inviting"
               ) Invite…
               .btn.btn-xs.green.text-center(
-                ng-click = "inviting = false"
+                ng-disabled = "sending || sent"
+                ng-init = "sending = false"
+                ng-mousedown = "sending = true"
+                ng-mouseup = "\
+                  sending = false;\
+                  sent = true\
+                "
                 ng-show = "inviting"
-              ) Send
+              )
+                span(
+                  ng-if = "!sending && !sent"
+                ) Send
+                .spinner-wrapper.spinner-sm.spinner-white(
+                  ng-include = "'spinner'"
+                  ng-if = "sending"
+                )
+                span(
+                  ng-if = "sending"
+                ) Sending
+                span(
+                  ng-if = "sent"
+                ) Sent
 
             .list-item
               img.gravatar(

@@ -109,6 +109,13 @@
       top: 0;
       right: 0;
       position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .spinner-wrapper {
+        margin-right: 6px;
+      }
 
       .spinner {
         width: 12px;
@@ -137,5 +144,5 @@
 }
 
 .panel-invite-admins .btn.btn.btn {
-  flex: 0 0 75px;
+  flex: 0 0 90px;
 }
