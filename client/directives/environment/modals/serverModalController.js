@@ -1,4 +1,3 @@
-/*global promisify: true */
 'use strict';
 
 require('app')
