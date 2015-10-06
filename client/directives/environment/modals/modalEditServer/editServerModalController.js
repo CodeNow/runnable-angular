@@ -47,10 +47,7 @@ function EditServerModalController(
 ) {
   var SMC = this;
 
-  angular.extend(SMC, $controller('ServerModalController as SMC', {
-    $scope: $scope,
-    promisify: promisify
-  }));
+  angular.extend(SMC, $controller('ServerModalController as SMC', { $scope: $scope }));
 
   SMC.instance = instance;
   SMC.selectedTab = tab;

@@ -30,10 +30,7 @@ function SetupServerModalController (
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
 
-  angular.extend(SMC, $controller('ServerModalController as SMC', {
-    $scope: $scope,
-    promisify: promisify
-  }));
+  angular.extend(SMC, $controller('ServerModalController as SMC', { $scope: $scope }));
 
   // This needs to go away soon.
   $scope.data = data;
