@@ -1,3 +1,5 @@
+//- ************************
+//- deprecated element; remove with root.featureflags.additionalRepositories
 .btn.gray(
   ng-class = "{active: popoverRepositoryToggle.show}"
   ng-click = "actions.toggleEditCommits()"
@@ -55,15 +57,22 @@ label.label-checkbox.btn-sm.btn-checkbox(
     type = "checkbox"
   )
   | Auto Deploy
+//- end deprecated element
+//- ************************
 
-.small.strong.text-overflow(
-  ng-if = "$root.featureFlags.additionalRepositories"
-) {{ acv.attrs.repo | fixRepositoryName }}
+button.btn.btn-xs.white(
+  ng-click = "refreshing = true"
+  style = "position: absolute; top: 9px; right: 9px; z-index: 1;"
+  ng-hide = "refreshing"
+) Refresh
+
 .btn.gray(
   ng-click = "actions.openRepoDetailsModal()"
   ng-if = "$root.featureFlags.additionalRepositories"
-  ng-init = "refreshing = false"
 )
+  .repository-info.text-overflow(
+    ng-if = "!refreshing"
+  ) {{ acv.attrs.repo | fixRepositoryName }}
   .repository-info.text-overflow.js-repository-branch(
     ng-if = "!refreshing"
   ) {{ acv.attrs.branch }}
@@ -78,17 +87,23 @@ label.label-checkbox.btn-sm.btn-checkbox(
       use(
         xlink:href = "#icons-commit"
       )
-  .repository-info.small
-    span.float-left(
-      ng-if = "!refreshing"
-    ) {{ activeCommit.attrs.commit.author.date | timeFrom }}
-    span.float-right(
-      ng-click = "\
-        $event.stopPropagation();\
-        refreshing = true;\
-      "
-      ng-hide = "refreshing"
-    ) Refresh
+  .repository-info(
+    style = "padding: 0 0 0 20px; font-weight: 400; margin: 21px 0; font-weight: 400;"
+    ng-show = "refreshing"
+    ng-click = "\
+      refreshing = false;\
+      $event.stopPropagation()\
+    "
+    ng-click = "$event.stopPropagation()"
+  ) Enable Webhooks to stay in sync
+    .spinner-wrapper.spinner-sm.in(
+      ng-include = "'spinner'"
+      style = "float: none; position: absolute; top: 4px; left: 0; margin: 0;"
+    )
+  //- .repository-info.small
+  //-   span.float-left(
+  //-     ng-if = "!refreshing"
+  //-   ) {{ activeCommit.attrs.commit.author.date | timeFrom }}
     //- we don't want to trigger the popover to open because this is an external link
     //- label.toggle-wrapper.float-right(
     //-   ng-click = "$event.stopPropagation()"
@@ -105,22 +120,18 @@ label.label-checkbox.btn-sm.btn-checkbox(
     //-     ng-disabled = "$root.isLoading.autoDeploy"
     //-   )
     //-   .toggle-group.toggle-xs
-  .spinner-wrapper.spinner-sm.in(
-    ng-include = "'spinner'"
-    ng-if = "refreshing"
-  )
-  .repository-info.small(
-    ng-if = "refreshing"
-  )
-    a.a(
-      ng-click = "$event.stopPropagation()"
-      modal
-      modal-template = "viewModalWebhooks"
-    ) Turn on Webhooks
-    | &#32;to stay in sync
-  svg.iconnables.icons-arrow-down(
-    ng-if = "!refreshing"
-  )
-    use(
-      xlink:href = "#icons-arrow-down"
-    )
+  //- .repository-info.small(
+  //-   ng-if = "refreshing"
+  //- )
+  //-   a.a(
+  //-     ng-click = "$event.stopPropagation()"
+  //-     modal
+  //-     modal-template = "viewModalWebhooks"
+  //-   ) Turn on Webhooks
+  //-   | &#32;to stay in sync
+  //- svg.iconnables.icons-arrow-down(
+  //-   ng-if = "!refreshing"
+  //- )
+  //-   use(
+  //-     xlink:href = "#icons-arrow-down"
+  //-   )
