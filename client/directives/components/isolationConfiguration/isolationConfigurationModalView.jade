@@ -29,50 +29,20 @@
           span.span.text-overflow(
             title = "{{instance.getRepoName()}}"
           ) {{instance.getRepoName()}}
-          //- should get class ".modded" if the selected branch has a modified configuration
-          .btn.btn-xs.gray.btn-select.modded(
-            ng-class = "{'modded': modifiedConfiguration}"
-            ng-init = "branchFirst = 'master'"
+
+          | {{instance.children.length}}
+
+          fancy-select(
+            value = "ICMC.instanceBranchMapping[instance.attrs.contextVersion.id]"
           )
-            span.text-overflow.text-left {{branchFirst}}
-            svg.iconnables.icons-arrow-down
-              use(
-                xlink:href = "#icons-arrow-down"
-              )
-            select.select(
-              ng-model = "branchFirst"
-            )
-              optgroup(
-                label = "Your Branches"
-              )
-                option(
-                  selected
-                  value = "master"
-                ) master
-                option(
-                  value = "extra-long-branch-name"
-                ) extra-long-branch-name
-                option(
-                  value = "fb-1"
-                ) fb-1
-              optgroup(
-                label = "Other Branches"
-              )
-                option(
-                  value = "fb-2"
-                ) fb-2
-                option(
-                  value = "fb-3"
-                ) fb-3
-                option(
-                  value = "fb-4"
-                ) fb-4
-                option(
-                  value = "fb-5"
-                ) fb-5
-                option(
-                  value = "fb-6"
-                ) fb-6
+            fancy-option(
+              value = "$parent.instance"
+            ) {{$parent.$parent.instance.getBranchName()}}
+            fancy-option(
+              ng-repeat = "child in $parent.instance.children.models"
+              value = "child"
+            ) {{child.getBranchName()}}
+
       .list.list-bordered(
         ng-if = "ICMC.nonRepoInstances.length"
       )
@@ -87,8 +57,9 @@
 
     section.modal-footer.clearfix
       button.btn.green(
-        ng-click = "ICMC.creatIsolation()"
-      ) Enter Isolation
+        ng-disabled = "$root.isLoading.createIsolation"
+        ng-click = "ICMC.createIsolation()"
+      ) {{$root.isLoading.createIsolation ? 'Isolating...' : 'Enter Isolation'}}
       button.btn.white.btn-cancel(
         ng-click = "ICMC.close()"
       ) Cancel
