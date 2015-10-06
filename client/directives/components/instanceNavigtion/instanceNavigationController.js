@@ -7,6 +7,10 @@ function InstanceNavigationController(
   var INC = this;
 
   console.log('INC!');
+
+  INC.setupIsolation = function () {
+    console.log('Setup Isolation!');
+  }
 }
 
 

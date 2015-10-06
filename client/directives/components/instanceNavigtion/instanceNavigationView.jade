@@ -14,17 +14,19 @@ a.list-item-container(
 
     //- hide badge if popover is open
   .btn.btn-xxs.btn-badge.gray(
-    ng-if = "$root.featureFlags.isolationUI && !popoverContainerMenu.data.show"
+    ng-if = "$root.featureFlags.isolationUI && !INC.popoverShown"
   ) Isolated
+
+
 
   svg.iconnables.icons-overflow(
     ng-if = "$root.featureFlags.isolationUI"
-    ng-class = "{'active': popoverContainerMenu.data.show}"
+    ng-class = "{'active': INC.popoverShown}"
     pop-over
-    pop-over-active = "popoverContainerMenu.data.show"
-    pop-over-data = "popoverContainerMenu.data"
+    pop-over-active = "INC.popoverShown"
     pop-over-options = "{\"verticallyCentered\":true,\"left\":28}"
-    pop-over-template = "viewPopoversContainerMenu"
+    pop-over-template = "instanceNavigationPopoverView"
+    controller = "INC"
   )
     use(
       xlink:href = "#icons-overflow"
