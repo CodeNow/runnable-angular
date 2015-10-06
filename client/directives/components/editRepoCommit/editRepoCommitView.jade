@@ -106,3 +106,8 @@ label.toggle-wrapper.toggle-auto-deploy(
     ng-if = "temporary.refreshing"
     ng-include = "'spinner'"
   )
+.help(
+  ng-if = "temporary.refreshing"
+  modal
+  modal-template = "viewModalWebhooks"
+) Enable Webhooks to auto-sync

@@ -42,6 +42,20 @@
 
 .repository-section {
 
+  .help {
+    position: relative;
+    top: -2px;
+    width: 275px;
+    text-align: center;
+    padding: 3px 6px;
+    font-weight: 500;
+    border-width: 2px;
+    cursor: pointer;
+    box-shadow: none;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
   .icons-arrow-down {
     transform: rotate3d(0,0,1,-90deg);
   }
