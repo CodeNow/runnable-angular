@@ -198,8 +198,13 @@ footer.modal-footer.clearfix
   ) Next
   button.btn.green(
     ng-disabled = "verifyServerForm.$invalid || (SMC.state.selectedStack | selectedStackInvalid)"
-    ng-click = "SMC.createServer(SMC.state)"
-    ng-if="!$root.featureFlags.newVerificationFlow || ($root.featureFlags.newVerificationFlow && SMC.state.step === 3)"
+    ng-click = "SMC.createServerAndClose()"
+    ng-if="!$root.featureFlags.newVerificationFlow"
+  ) Start Build
+  button.btn.green(
+    ng-disabled = "verifyServerForm.$invalid || (SMC.state.selectedStack | selectedStackInvalid)"
+    ng-click = "SMC.createServerAndGoToNextStep()"
+    ng-if="$root.featureFlags.newVerificationFlow && SMC.state.step === 3"
   ) Start Build
   button.btn.green(
     ng-disabled = "verifyServerForm.$invalid || (SMC.state.selectedStack | selectedStackInvalid)"
