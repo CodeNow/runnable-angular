@@ -14,13 +14,13 @@ a.list-item-container(
 
     //- hide badge if popover is open
   .btn.btn-xxs.btn-badge.gray(
-    ng-if = "$root.featureFlags.isolationUI && !INC.popoverShown"
+    ng-if = "$root.featureFlags.isolationUI && !INC.popoverShown && INC.instance.attrs.isolated"
   ) Isolated
 
 
 
   svg.iconnables.icons-overflow(
-    ng-if = "$root.featureFlags.isolationUI"
+    ng-if = "$root.featureFlags.isolationUI && INC.masterInstance !== INC.instance && INC.instance.getBranchName()"
     ng-class = "{'active': INC.popoverShown}"
     pop-over
     pop-over-active = "INC.popoverShown"

@@ -13,7 +13,8 @@ function instanceNavigation(
     replace: true,
     scope: {
       instance: '=',
-      activeAccount: '='
+      activeAccount: '=',
+      masterInstance: '=?'
     }
   };
 }

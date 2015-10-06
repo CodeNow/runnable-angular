@@ -48,7 +48,8 @@ function IsolationConfigurationModalController(
   fetchInstancesByPod()
     .then(function (instances) {
       instances = instances.filter(function (instance) {
-        return instance !== ICMC.instance;
+        console.log(instance.getRepoName(), instance, ICMC.instance);
+        return instance.attrs.contextVersion.context !== ICMC.instance.attrs.contextVersion.context;
       });
 
       ICMC.repoInstances = instances
@@ -57,7 +58,7 @@ function IsolationConfigurationModalController(
         });
 
       ICMC.repoInstances.forEach(function (instance) {
-        ICMC.instanceBranchMapping[instance.attrs.contextVersion.id] = instance;
+        ICMC.instanceBranchMapping[instance.attrs.contextVersion.context] = instance;
       });
 
       ICMC.nonRepoInstances = instances.filter(function (instance) {

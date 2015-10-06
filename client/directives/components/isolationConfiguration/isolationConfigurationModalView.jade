@@ -33,7 +33,7 @@
           | {{instance.children.length}}
 
           fancy-select(
-            value = "ICMC.instanceBranchMapping[instance.attrs.contextVersion.id]"
+            value = "ICMC.instanceBranchMapping[instance.attrs.contextVersion.context]"
           )
             fancy-option(
               value = "$parent.instance"
@@ -41,7 +41,7 @@
             fancy-option(
               ng-repeat = "child in $parent.instance.children.models"
               value = "child"
-            ) {{child.getBranchName()}}
+            ) {{$parent.child.getBranchName()}}
 
       .list.list-bordered(
         ng-if = "ICMC.nonRepoInstances.length"
