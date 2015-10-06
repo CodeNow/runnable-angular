@@ -146,6 +146,15 @@ function testRenameTransformRule(
   };
 }
 
+function reduceAndAddNewLine (diffs) {
+  return function (total, key) {
+    var endsInNewLine= diffs[key].match(/(\r\n|\n|\r)$/g) !== null;
+    if (!endsInNewLine) {
+      return total + diffs[key] + '\n';
+    }
+    return total + diffs[key];
+  };
+}
 
 function testReplaceTransformRule(
   $q,
@@ -160,13 +169,8 @@ function testReplaceTransformRule(
           json: rule
         }, checkErrorCallback(reject, function callback(res, body) {
           if (body.diffs) {
-            var parsed = parseDiffResponse(Object.keys(body.diffs).reduce(function (total, key) {
-              var endsInNewLine= body.diffs[key].match(/(\r\n|\n|\r)$/g) !== null;
-              if (!endsInNewLine) {
-                return total + body.diffs[key] + '\n';
-              }
-              return total + body.diffs[key];
-            }, ''));
+            var combinedDiff = Object.keys(body.diffs).reduce(reduceAndAddNewLine(body.diffs), '');
+            var parsed = parseDiffResponse(combinedDiff);
             resolve(parsed);
           } else {
             reject();
@@ -189,13 +193,7 @@ function populateRulesWithWarningsAndDiffs(
         if (found) {
           replaceRule.warnings = found.warnings;
           replaceRule.nameChanges = found.nameChanges;
-          var combinedDiff = Object.keys(found.diffs).reduce(function (total, key) {
-            var endsInNewLine= found.diffs[key].match(/(\r\n|\n|\r)$/g) !== null;
-            if (!endsInNewLine) {
-              return total + found.diffs[key] + '\n';
-            }
-            return total + found.diffs[key];
-          }, '');
+          var combinedDiff = Object.keys(found.diffs).reduce(reduceAndAddNewLine(found.diffs), '');
           replaceRule.diffs = parseDiffResponse(combinedDiff);
         }
       });
