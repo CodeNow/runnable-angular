@@ -36,6 +36,13 @@
     text-align: center;
   }
 
+  .alert {
+    display: block;
+    line-height: 22px;
+    margin: 9px 0 0;
+    text-align: center;
+  }
+
   .list-requirements {
     background: $white;
     border: 1px solid $gray-lighter;

@@ -27,6 +27,14 @@
             placeholder = "e.g. Runnable"
             spellcheck = "false"
           )
+          //- if name is already taken
+          .alert.gray(
+            ng-if = "teamName === 'Runnable'"
+          ) That name is taken! Are you looking to&#32;
+            a.link(
+              href = "#"
+            ) join
+            | &#32;that team?
           ul.list.list-bulleted.list-validation
             li.list-item(
               ng-class = "{'ng-invalid': createTeam.$error.pattern}"
@@ -37,6 +45,7 @@
         footer.modal-footer.clearfix.fade(
           ng-class = "{'in': isActivePanel()}"
         )
+          //- disable this when name is taken too
           button.btn.green(
             ng-click = "\
               data.currentPanelName = 'githubAuth';\
@@ -92,7 +101,10 @@
         footer.modal-footer.clearfix.fade(
           ng-class = "{'in': isActivePanel()}"
         )
-          button.btn.green Authorize With Github
+          a.btn.green(
+            href = "#"
+            tabindex = "{{isActivePanel() ? '0' : '-1'}}"
+          ) Authorize With Github
 
   footer.footer
     a.link(
