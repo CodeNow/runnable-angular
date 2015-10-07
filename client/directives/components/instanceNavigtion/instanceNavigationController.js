@@ -13,6 +13,12 @@ function InstanceNavigationController(
   if (INC.masterInstance !== INC.instance){
     INC.instance.attrs.isIsolationGroupMaster = true;
     INC.instance.attrs.isolated = '12345';
+    INC.instance.isolation = {
+      destroy: function(cb) {
+        console.log('Mock Destroying...');
+        cb();
+      }
+    }
   }
 
   INC.setupIsolation = function () {
@@ -55,8 +61,8 @@ function InstanceNavigationController(
       .then(function (modal) {
         modal.close.then(function (confirmed) {
           if ( confirmed ) {
-            // TODO: Implement
-            console.log('Disabling isolation');
+            promisify(INC.instance.isolation, 'destroy')()
+              .catch(errs.handler);
           }
         });
       })
