@@ -134,18 +134,29 @@ function SetupServerModalController (
 
   SMC.goToNextStep = function () {
     SMC.state.step += 1;
+    // Update step in setup-confirm-button directive
+    $scope.$broadcast('updateStep', SMC.state.step);
     if (SMC.state.step === 2) {
       SMC.changeTab('commands');
     }
     else if (SMC.state.step === 3) {
-      SMC.changeTab(null);
-      loadAllOptions(); // When stack is selected, load dockerfile, etc
+      loading('setupServerModal', true);
+      return loadAllOptions() // When stack is selected, load dockerfile, etc
+        .then(function () {
+          SMC.changeTab(null);
+          loading('setupServerModal', false);
+        });
     }
-    else if (SMC.state.step >= 4) {
-      SMC.changeTab('logs');
-    } else {
-      // Default to repository
-      SMC.changeTab('repository');
+    else if (SMC.state.step === 4) {
+      loading('setupServerModal', true);
+      return SMC.createServer()
+        .then(function () {
+          // Go on to step 4 (logs)
+          SMC.changeTab('logs');
+          loading('setupServerModal', false);
+        });
+    } else if (SMC.state.step > 4) {
+      return close();
     }
   };
 
@@ -176,7 +187,6 @@ function SetupServerModalController (
   }
 
   function loadAllOptions() {
-    loading('setupServerModal', true); // Add spinner to modal
     if (Array.isArray(SMC.state.ports) && SMC.state.ports.length === 0) {
       SMC.state.ports = loadPorts();
     }
@@ -190,10 +200,6 @@ function SetupServerModalController (
       })
       .then(function () {
         return openDockerfile();
-      })
-      .then(function () {
-        // Return modal to normal state
-        loading('setupServerModal', false);
       });
   }
 
@@ -206,7 +212,6 @@ function SetupServerModalController (
   };
 
   SMC.createServer = function () {
-    loading('setupServerModal', true); // Add spinner to modal
     var createPromise = loadingPromises.finished('setupServerModal')
       .then(function () {
         if (!SMC.state.advanced) {
@@ -242,25 +247,13 @@ function SetupServerModalController (
       });
   };
 
-  SMC.createServerAndGoToNextStep = function () {
-    return SMC.createServer()
-      .then(function () {
-        // Go on to step 4 (logs)
-        SMC.goToNextStep();
-        loading('setupServerModal', false);
-      });
-  };
-
   SMC.createServerAndClose = function () {
+    loading('setupServerModal', true);
     return SMC.createServer()
       .then(function () {
-        SMC.closeModal();
+        loading('setupServerModal', false);
+        close();
       });
-  };
-
-  SMC.closeModal = function () {
-    $rootScope.$broadcast('close-modal');
-    close();
   };
 
   SMC.selectRepo = function (repo) {

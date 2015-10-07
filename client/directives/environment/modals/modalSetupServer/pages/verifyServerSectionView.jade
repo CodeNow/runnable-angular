@@ -96,7 +96,6 @@ header.modal-header
     button.btn.btn-radio.js-animate(
       ng-class = "{\
         'active': SMC.selectedTab === 'logs',\
-        'active': SMC.state.step === 4\
       }"
       ng-click = "SMC.changeTab('logs')"
       ng-if = "SMC.state.step === 4"
@@ -145,25 +144,25 @@ section.modal-body(
         small.small Or select a tab to continue configuring your container.
     // Ports
     .modal-form(
-      ng-show = "SMC.selectedTab === 'ports' && SMC.state.step === 3"
+      ng-show = "SMC.selectedTab === 'ports'"
       ports = "SMC.state.ports"
       ports-form
     )
     // Environment variables
     .modal-form(
       ng-include = "'viewFormEnvironmentVariables'"
-      ng-show = "SMC.selectedTab === 'env' && SMC.state.step === 3"
+      ng-show = "SMC.selectedTab === 'env'"
     )
     // Files & SSH Keys
     .modal-form(
       ng-controller = "ContainerFilesController as CFC"
       ng-include = "'viewFormFiles'"
       ng-init = "CFC.init({ state: SMC.state })"
-      ng-show = "SMC.selectedTab === 'files' && SMC.state.step === 3"
+      ng-show = "SMC.selectedTab === 'files'"
     )
     // Find & Replace
     .modal-form(
-      ng-show = "SMC.selectedTab === 'translation' && SMC.state.step === 3"
+      ng-show = "SMC.selectedTab === 'translation'"
       instance = "SMC.instance"
       state = "SMC.state"
       data = "SMC.data"
@@ -172,7 +171,7 @@ section.modal-body(
     // Dockerfile
     .modal-form(
       ng-include = "'viewFormBuildfiles'"
-      ng-show = "SMC.selectedTab === 'buildfiles' && SMC.state.step === 3"
+      ng-show = "SMC.selectedTab === 'buildfiles'"
     )
     // Logs
     .modal-form.modal-logs(
@@ -181,36 +180,31 @@ section.modal-body(
         'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
       }"
       ng-include = "'viewFormLogs'"
-      ng-show = "SMC.selectedTab === 'logs' && SMC.state.step === 4"
+      ng-show = "SMC.selectedTab === 'logs'"
     )
 
 footer.modal-footer.clearfix
   //- disabled if there is no value in the command input
+  button.btn(
+    setup-confirm-button
+    ng-class = "{ 'white': SMC.state.step < 4, 'green': SMC.state.step >= 4 }"
+    ng-disabled = "\
+      SMC.verifyServerForm.$invalid || \
+      selectedStackInvalid || \
+      !SMC.areStackAndVersionSelected() \
+    "
+    ng-if="$root.featureFlags.newVerificationFlow"
+    ng-click = "SMC.goToNextStep()"
+  ) {{ buttonText }}
   button.btn.green(
     ng-disabled = "\
       SMC.verifyServerForm.$invalid || \
       selectedStackInvalid || \
-      !SMC.areStackAndVersionSelected() || \
-      (SMC.state.step === 1 && !SMC.state.selectedStack)\
+      !SMC.areStackAndVersionSelected() \
     "
-    ng-if="$root.featureFlags.newVerificationFlow && SMC.state.step < 3"
-    ng-click = "SMC.goToNextStep()"
-  ) Next
-  button.btn.green(
-    ng-disabled = "verifyServerForm.$invalid || (SMC.state.selectedStack | selectedStackInvalid)"
     ng-click = "SMC.createServerAndClose()"
     ng-if="!$root.featureFlags.newVerificationFlow"
   ) Start Build
-  button.btn.green(
-    ng-disabled = "verifyServerForm.$invalid || (SMC.state.selectedStack | selectedStackInvalid)"
-    ng-click = "SMC.createServerAndGoToNextStep()"
-    ng-if="$root.featureFlags.newVerificationFlow && SMC.state.step === 3"
-  ) Start Build
-  button.btn.green(
-    ng-disabled = "verifyServerForm.$invalid || (SMC.state.selectedStack | selectedStackInvalid)"
-    ng-if="$root.featureFlags.newVerificationFlow && SMC.state.step === 4"
-    ng-click = "SMC.closeModal()"
-  ) Create Container
   button.btn.white.btn-cancel(
     ng-click = "SMC.closeModalOrDeleteInstance()"
     type = "button"
