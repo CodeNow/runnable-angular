@@ -29,17 +29,20 @@ function SetupServerModalController (
   close
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
+  window.SMC = SMC;
+  window.loadingPromises = loadingPromises;
 
   angular.extend(SMC, $controller('ServerModalController as SMC', { $scope: $scope }));
 
   // This needs to go away soon.
   $scope.data = data;
-  loadingPromises.clear('setupServerModal');
-  loading.reset('setupServerModal');
+  loadingPromises.clear(SMC.name);
+  loading.reset(SMC.name);
   var mainRepoContainerFile = new cardInfoTypes.MainRepository();
 
   // Set initial state
   angular.extend(SMC, {
+    name: 'setupServerModal',
     close: close,
     closeWithConfirmation:function () {
       $rootScope.$broadcast('close-popovers');
@@ -168,7 +171,7 @@ function SetupServerModalController (
   }
 
   function loadAllOptions() {
-    loading('setupServerModal', true); // Add spinner to modal
+    loading(SMC.name, true); // Add spinner to modal
     if (Array.isArray(SMC.state.ports) && SMC.state.ports.length === 0) {
       SMC.state.ports = loadPorts();
     }
@@ -185,7 +188,7 @@ function SetupServerModalController (
       })
       .then(function () {
         // Return modal to normal state
-        loading('setupServerModal', false);
+        loading(SMC.name, false);
       });
   }
 
@@ -198,8 +201,8 @@ function SetupServerModalController (
   };
 
   SMC.createServer = function () {
-    loading('setupServerModal', true); // Add spinner to modal
-    var createPromise = loadingPromises.finished('setupServerModal')
+    loading(SMC.name, true); // Add spinner to modal
+    var createPromise = loadingPromises.finished(SMC.name)
       .then(function () {
         if (!SMC.state.advanced) {
           return updateDockerfileFromState(SMC.state, false, true);
@@ -223,9 +226,6 @@ function SetupServerModalController (
     if (Array.isArray(SMC.state.ports) && SMC.state.ports.length === 0) {
       SMC.state.ports = loadPorts();
     }
-    if (!$rootScope.featureFlags.newVerificationFlow) {
-      SMC.closeModal();
-    }
     return SMC.openItems.updateAllFiles()
       .then(function () {
         return SMC.actions.createAndBuild(createPromise, SMC.state.opts.name);
@@ -233,16 +233,18 @@ function SetupServerModalController (
       .then(function (instance) {
         SMC.instance = instance;
         SMC.state.instance = instance;
+        loading(SMC.name, false);
         return SMC;
       });
   };
 
   SMC.createServerAndGoToNextStep = function () {
+    // Go on to step 4 (logs)
+    SMC.goToNextStep();
     return SMC.createServer()
       .then(function () {
-        // Go on to step 4 (logs)
-        SMC.goToNextStep();
-        loading('setupServerModal', false);
+        // Start keeping track of changes to the instance
+        loadingPromises.clear(SMC.name);
       });
   };
 
@@ -256,14 +258,6 @@ function SetupServerModalController (
   SMC.closeModal = function () {
     $rootScope.$broadcast('close-modal');
     close();
-  };
-
-  SMC.isDirty = function () {
-    console.log('ENV', SMC.state.opts.env, SMC.instance.attrs.env);
-    console.log('equals', angular.equals(keypather.get(SMC, 'instance.attrs.env'), keypather.get(SMC, 'state.opts.env')));
-    return loadingPromises.count('setupServerModal') > 1 ||
-      !angular.equals(keypather.get(SMC, 'instance.attrs.env'), keypather.get(SMC, 'state.opts.env')) ||
-      !SMC.openItems.isClean();
   };
 
   SMC.selectRepo = function (repo) {

@@ -186,32 +186,42 @@ section.modal-body(
 
 footer.modal-footer.clearfix
   //- disabled if there is no value in the command input
-  button.btn.green(
+  button.btn.white(
     ng-disabled = "\
       SMC.verifyServerForm.$invalid || \
       selectedStackInvalid || \
-      !SMC.areStackAndVersionSelected() || \
-      (SMC.state.step === 1 && !SMC.state.selectedStack)\
+      !SMC.areStackAndVersionSelected() \
     "
     ng-if="$root.featureFlags.newVerificationFlow && SMC.state.step < 3"
     ng-click = "SMC.goToNextStep()"
   ) Next
-  button.btn.green(
-    ng-disabled = "SMC.verifyServerForm.$invalid || (SMC.state.selectedStack | selectedStackInvalid)"
+  button.btn.white(
+    ng-disabled = "\
+      SMC.verifyServerForm.$invalid || \
+      selectedStackInvalid || \
+      !SMC.areStackAndVersionSelected() \
+    "
     ng-click = "SMC.createServerAndClose()"
-    ng-click = "SMC.createServer(SMC.state)"
     ng-if="!$root.featureFlags.newVerificationFlow"
   ) Start Build
-  button.btn.green(
-    ng-disabled = "verifyServerForm.$invalid || (SMC.state.selectedStack | selectedStackInvalid)"
+  button.btn.white(
+    ng-disabled = "\
+      SMC.verifyServerForm.$invalid || \
+      selectedStackInvalid || \
+      !SMC.areStackAndVersionSelected() \
+    "
     ng-click = "SMC.createServerAndGoToNextStep()"
     ng-if="$root.featureFlags.newVerificationFlow && SMC.state.step === 3"
   ) Start Build
   button.btn.green(
-    ng-disabled = "SMC.verifyServerForm.$invalid || (SMC.state.selectedStack | selectedStackInvalid)"
+    ng-disabled = "\
+      SMC.verifyServerForm.$invalid || \
+      selectedStackInvalid || \
+      !SMC.areStackAndVersionSelected() \
+    "
     ng-if="$root.featureFlags.newVerificationFlow && SMC.state.step === 4"
     ng-click = "SMC.closeModal()"
-  ) Create Container
+  ) Save
   button.btn.white.btn-cancel(
     ng-click = "SMC.closeModalOrDeleteInstance()"
     type = "button"

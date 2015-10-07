@@ -76,7 +76,7 @@ function EditServerModalController(
     actions: angular.extend(actions, {
       close: function () {
         $rootScope.$broadcast('close-popovers');
-        if (isDirty() && !SMC.saveTriggered) {
+        if (SMC.isDirty() && !SMC.saveTriggered) {
           ModalService.showModal({
             controller: 'ConfirmationModalController',
             controllerAs: 'CMC',
@@ -116,21 +116,6 @@ function EditServerModalController(
     .then(function (contexts) {
       SMC.data.sourceContexts = contexts;
     });
-
-
-  function isDirty () {
-    /*!
-     * The `1` in this line refers to the loading promise added by running
-     * `resetContextVersion` when instanstiating this controller. Loading
-     * promises are clear when the modal is saved or cancelled.
-     */
-    return loadingPromises.count(SMC.name) > 1 ||
-      !angular.equals(
-        keypather.get(SMC, 'instance.attrs.env'),
-        keypather.get(SMC, 'state.opts.env')
-      ) ||
-      !SMC.openItems.isClean();
-  }
 
   SMC.updateDockerfileFromState = function () {
     // Only update from state if not in advanced mode
@@ -256,8 +241,12 @@ function EditServerModalController(
   });
 
   function resetState(instance, fromError) {
-    loadingPromises.clear(SMC.name);
-    return SMC.resetStateContextVersion(instance.contextVersion, !fromError);
+    return SMC.resetStateContextVersion(instance.contextVersion, !fromError)
+      .then(function () {
+        // After context has been reset, start keeping track of loading promises
+        // to check if current state is dirty
+        loadingPromises.clear(SMC.name);
+      });
   }
 
   SMC.changeTab = function (tabname) {
@@ -330,49 +319,8 @@ function EditServerModalController(
     SMC.saveTriggered = true;
     $rootScope.$broadcast('close-popovers');
     SMC.building = true;
-
-    var toRebuild;
-    var toRedeploy;
-    // So we should do this watchPromise step first so that any tab that relies on losing focus
-    // to change something will have enough time to add its promises to LoadingPromises
-    return SMC.state.promises.contextVersion
-      .then(function () {
-        return loadingPromises.finished(SMC.name);
-      })
-      .then(function (promiseArrayLength) {
-        // Since the initial deepCopy should be in here, we only care about > 1
-        toRebuild = promiseArrayLength > 1 || SMC.openItems.getAllFileModels(true).length;
-
-        toRedeploy = !toRebuild &&
-          keypather.get(SMC, 'instance.attrs.env') !== keypather.get(SMC, 'state.opts.env');
-
-        // If we are redeploying and the build is not finished we need to rebuild or suffer errors from API.
-        if (toRedeploy && ['building', 'buildFailed', 'neverStarted'].includes(keypather.get(SMC, 'instance.status()'))) {
-          toRedeploy = false;
-          toRebuild = true;
-        }
-
-        if (!SMC.openItems.isClean()) {
-          return SMC.openItems.updateAllFiles();
-        }
-      })
-      .then(function () {
-        if (toRebuild) {
-          return buildBuild(SMC.state);
-        }
-        return SMC.state;
-      })
-      .then(function (state) {
-        if (toRebuild || toRedeploy) {
-          return promisify(SMC.instance, 'update')(state.opts);
-        }
-      })
-      .then(function () {
-        if (toRedeploy) {
-          return promisify(SMC.instance, 'redeploy')();
-        }
-      })
-      .then(function () {
+    return SMC.rebuildAndOrRedeploy()
+     .then(function () {
         helpCards.refreshActiveCard();
         close();
         $rootScope.$broadcast('alert', {
@@ -388,15 +336,6 @@ function EditServerModalController(
           });
       });
   };
-
-  function buildBuild(state) {
-    eventTracking.triggeredBuild(false);
-    return promisify(state.build, 'build')({ message: 'manual' })
-      .then(function (build) {
-        state.opts.build = build.id();
-        return state;
-      });
-  }
 
   SMC.isDockerfileValid = function () {
     if (!SMC.state.advanced || !keypather.get(SMC, 'state.dockerfile.validation.criticals.length')) {
