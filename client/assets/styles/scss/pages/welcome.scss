@@ -6,7 +6,7 @@
     transition: opacity .15s ease-in;
   }
 
-  // images
+  // runnabear
   .img {
     display: block;
     left: 0;
@@ -36,6 +36,7 @@
     text-align: center;
   }
 
+  // name taken messaging
   .alert {
     display: block;
     line-height: 22px;
@@ -43,6 +44,7 @@
     text-align: center;
   }
 
+  // github auth
   .list-requirements {
     background: $white;
     border: 1px solid $gray-lighter;
@@ -75,6 +77,13 @@
         text-align: left;
       }
     }
+  }
+
+  // github icon
+  .icons-github {
+    float: left;
+    height: 100%;
+    margin-right: 6px;
   }
 
   // footer

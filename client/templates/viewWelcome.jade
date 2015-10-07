@@ -104,7 +104,12 @@
           a.btn.green(
             href = "#"
             tabindex = "{{isActivePanel() ? '0' : '-1'}}"
-          ) Authorize With Github
+          )
+            svg.iconnables.icons-github
+              use(
+                xlink:href = "#icons-github"
+              )
+            | Authorize With Github
 
   footer.footer
     a.link(
