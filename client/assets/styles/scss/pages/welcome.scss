@@ -84,9 +84,8 @@
     justify-content: center;
     margin: 30px 0 60px;
 
-    .svg {
-      height: 24pxpx;
-      width: 24px;
+    .iconnables {
+      margin: 0 15px;
     }
 
     .link {
@@ -94,7 +93,7 @@
       font-size: 13px;
       text-align: center;
       text-decoration: none;
-      width: 120px;
+      width: 90px;
 
       &:hover,
       &:active {
