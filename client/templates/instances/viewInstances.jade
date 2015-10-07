@@ -1,62 +1,13 @@
 //- instance list
 .instances-list(
-  ng-if = "$root.featureFlags.isolationUI && $root.featureFlags.isolationNav && !CIS.$storage.instanceListIsClosed"
+  ng-if = "$root.featureFlags.newNavigation && $root.featureFlags.isolationNav"
+  ng-show = "!CIS.$storage.instanceListIsClosed""
   ng-include = "'viewInstancesList'"
-  ng-init = "\
-    containers = [\
-      {\
-        name: 'api',\
-        branches: [\
-          {name: 'master', status: 'green'},\
-          {name: 'add-owner-id-dedupe-check', status: 'green'},\
-          {name: 'anton-goroost', status: 'red'},\
-          {name: 'anton-jul8', status: 'red', isolation: true}\
-        ]\
-      },{\
-        name: 'datadog',\
-        branches: [\
-          {name: 'master', status: 'green'}\
-        ]\
-      },{\
-        name: 'detention',\
-        branches: [\
-          {name: 'master', status: 'green'}\
-        ]\
-      },{\
-        name: 'khronos',\
-        branches: [\
-          {name: 'master', status: 'green'},\
-          {name: 'abort-on-uncaught-exception', status: 'green'},\
-          {name: 'revert-14-revert-12-feature-restart-one-dock-script', status: 'red'},\
-          {name: 'SAN-2487-cleanup-debug-containers', status: 'green'}\
-        ]\
-      },{\
-        name: 'mavis',\
-        branches: [\
-          {name: 'master', status: 'green'},\
-          {name: 'better-logging', status: 'green', isolation: true},\
-          {name: 'bypass-prev-dock', status: 'orange', isolation: true},\
-          {name: 'no-docks-404', status: 'red'},\
-          {name: 'remove-numBuild', status: 'red'},\
-          {name: 'temporary-branch-to-fork', status: 'red', isolation: true}\
-        ]\
-      }\
-    ];\
-    nonRepositoryContainers = [\
-      {name: 'Cassandra', status: 'green'},\
-      {name: 'ElasticSearch', status: 'green'},\
-      {name: 'HBase', status: 'green'}\
-    ];\
-    isolatedContainers = [\
-      {name: 'data-dog/master', status: 'green'},\
-      {name: 'mongo', status: 'green'}\
-    ];\
-  "
 )
 
 //- deprecated, old list of containers
 nav.sidebar.sidebar-containers-deprecated(
-  ng-if = "!$root.featureFlags.isolationUI"
+  ng-if = "!$root.featureFlags.newNavigation"
 )
   section.containers(
     ng-if = "!CIS.instancesByPod"
@@ -73,6 +24,6 @@ nav.sidebar.sidebar-containers-deprecated(
   )
 
 .instance-wrapper(
-  ng-class = "{'deprecated': !$root.featureFlags.isolationUI}"
+  ng-class = "{'deprecated': !$root.featureFlags.newNavigation}"
   ui-view
 )

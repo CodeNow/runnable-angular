@@ -6,7 +6,7 @@
 
 //- there are two of these........
 .instance-wrapper(
-  ng-class = "{'deprecated': !$root.featureFlags.isolationUI}"
+  ng-class = "{'deprecated': !$root.featureFlags.newNavigation}"
   ng-if = "!isLoading.main"
 )
 
@@ -24,7 +24,7 @@
   )
 
   header.instance-header(
-    ng-if = "$root.featureFlags.isolationUI"
+    ng-if = "$root.featureFlags.newNavigation"
     instance = "dataInstance.data.instance"
     instance-header
     open-items = "dataInstance.data.openItems"
@@ -34,7 +34,7 @@
   //- *********************
   //- deprecated header
   header.server-header.deprecated(
-    ng-if = "!$root.featureFlags.isolationUI"
+    ng-if = "!$root.featureFlags.newNavigation"
   )
 
     .server-info.load(

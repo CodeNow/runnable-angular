@@ -1,0 +1,114 @@
+.spinner-wrapper.spinner-md.spinner-gray.spinner-center.in(
+  ng-if = "!CIS.instancesByPod"
+  ng-include = "'spinner'"
+)
+
+//- repository based containers
+.list(
+  ng-if = "CIS.instancesByPod"
+  ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+)
+  //- repository name
+  .list-item.list-item-header
+    span.text-overflow(
+      title = "{{masterInstance.getRepoName()}}"
+    ) {{masterInstance.getRepoName()}}
+    //- configure button for repo containers
+    svg.iconnables.icons-advanced(
+      ng-click="CIS.editInstance(masterInstance)"
+      title = "Configure"
+    )
+      use(
+        xlink:href = "#icons-advanced"
+      )
+
+  // if isolated add .isolated
+  // if sub item is active add open class.
+  a.list-item(
+    ui-sref = "\
+      base.instances.instance({ userName: CIS.activeAccount.oauthName(), \
+      instanceName: childInstance.attrs.name })\
+    "
+    ui-sref-active = "open active"
+
+    ng-repeat = "childInstance in [masterInstance].concat(masterInstance.children.models)"
+  )
+    .list-item-container(
+      ng-class = "{'active': branch.selected}"
+    )
+      status-icon(
+        instance = "childInstance"
+      )
+      .text-overflow(
+        title = "{{childInstance.getBranchName()}}"
+      ) {{childInstance.getBranchName()}}
+      //- hide badge if popover is open
+      .btn.btn-xxs.btn-badge.gray(
+        ng-if = "$root.featureFlags.isolationUI && !popoverContainerMenu.data.show"
+      ) Isolated
+
+      svg.iconnables.icons-overflow(
+        ng-if = "$root.featureFlags.isolationUI"
+        ng-class = "{'active': popoverContainerMenu.data.show}"
+        pop-over
+        pop-over-active = "popoverContainerMenu.data.show"
+        pop-over-data = "popoverContainerMenu.data"
+        pop-over-options = "{\"verticallyCentered\":true,\"left\":28}"
+        pop-over-template = "viewPopoversContainerMenu"
+      )
+        use(
+          xlink:href = "#icons-overflow"
+        )
+
+    //- list of isolated containers
+    ul.list.list-isolated(
+      ng-if = "$root.featureFlags.isolationUI && branch.isolation && branch.selected"
+    )
+      li.list-item(
+        ng-repeat = "container in isolatedContainers"
+      )
+        .list-item-container
+          .icons-status(
+            ng-class = "{'{{container.name}}': true}"
+          )
+          .text-overflow {{container.name}}
+          svg.iconnables.icons-overflow.icons-overflow-isolated
+            use(
+              xlink:href = "#icons-overflow"
+            )
+
+  //- nav list filter
+  .btn.btn-xxs(
+    ng-if = "$root.featureFlags.navListFilter"
+    pop-over
+    pop-over-options = "{\"top\":-33,\"left\":215}"
+    pop-over-template = "viewMoreContainersPopover"
+  ) 8 more…
+
+//- non-repository based containers
+.list(
+  ng-class = "{'in': $root.featureFlags.isolationNav}"
+  ng-show = "nonRepoInstances.length"
+)
+  .list-item(
+    ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
+  )
+    .list-item-container
+      status-icon(
+        instance = "masterInstance"
+      )
+      a.text-overflow(
+        ui-sref = "\
+          base.instances.instance({ userName: CIS.activeAccount.oauthName(), \
+          instanceName: masterInstance.attrs.name })\
+        "
+        ui-sref-active = "open active"
+        title = "{{masterInstance.attrs.name}}"
+      ) {{masterInstance.attrs.name}}
+      svg.iconnables.icons-advanced(
+        ng-click="CIS.editInstance(masterInstance)"
+        title = "Configure"
+      )
+        use(
+          xlink:href = "#icons-advanced"
+        )
