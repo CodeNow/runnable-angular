@@ -1,7 +1,7 @@
 //- instance list
 .instances-list(
   ng-if = "$root.featureFlags.newNavigation && $root.featureFlags.isolationNav"
-  ng-show = "!CIS.$storage.instanceListIsClosed""
+  ng-show = "!CIS.$storage.instanceListIsClosed"
   ng-include = "'viewInstancesList'"
 )
 
