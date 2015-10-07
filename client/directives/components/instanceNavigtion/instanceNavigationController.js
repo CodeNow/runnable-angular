@@ -6,7 +6,8 @@ function InstanceNavigationController(
   $rootScope,
   ModalService,
   errs,
-  keypather
+  keypather,
+  promisify
 ) {
   var INC = this;
 
@@ -15,8 +16,7 @@ function InstanceNavigationController(
     INC.instance.attrs.isolated = '12345';
     INC.instance.isolation = {
       destroy: function(cb) {
-        console.log('Mock Destroying...');
-        cb();
+        cb(new Error('Isolation is not configured yet to be destroyed. This is mocked.'));
       }
     }
   }
