@@ -13,6 +13,15 @@ require('app')
     return {
       restrict: 'A',
       templateUrl: 'ruleTableView',
+      name: 'controller',
+      transclude: true,
+      controller: '@',
+      scope: {
+        actions: '=',
+        data: '=',
+        instance: '=',
+        state: '='
+      },
       link: function ($scope, elem, attrs) {
         $scope.openRulePopover = function (rule) {
           $scope.popoverData.data.state = rule ? angular.copy(rule) : {};
