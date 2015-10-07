@@ -337,7 +337,8 @@ function EditServerModalController(
       })
       .then(function (promiseArrayLength) {
         // Since the initial deepCopy should be in here, we only care about > 1
-        toRebuild = promiseArrayLength > 1 || SMC.openItems.getAllFileModels(true).length;
+        toRebuild = SMC.state.build &&
+          (promiseArrayLength > 1 || SMC.openItems.getAllFileModels(true).length);
 
         toRedeploy = !toRebuild &&
           keypather.get(SMC, 'instance.attrs.env') !== keypather.get(SMC, 'state.opts.env');
