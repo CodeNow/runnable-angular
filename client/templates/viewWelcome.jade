@@ -4,7 +4,9 @@
     src = "/build/images/welcome/runnabear.png"
     width = "200"
   )
-  form.modal-dialog
+  form.modal-dialog(
+    name = "createTeam"
+  )
     animated-panel-container
       animated-panel(
         default = "true"
@@ -17,14 +19,20 @@
           p.p Team names are used for other members to find and request access to your team.
           input.input.input-validate(
             autofocus
-            maxlength = "30"
+            maxlength = "39"
+            name = "teamName"
+            ng-model = "teamName"
+            ng-pattern = "/^[a-zA-Z0-9-]*$/"
             placeholder = "e.g. Runnable"
-            required
             spellcheck = "false"
           )
-          p.validation-message(
-            ng-if = ""
-          ) Sorry, “Runnable” is taken.
+          ul.list.list-bulleted.list-validation
+            li.list-item(
+              ng-class = "{'ng-invalid': createTeam.$error.pattern}"
+            ) Use letters, numbers, or hyphens
+            li.list-item(
+              ng-class = "{'ng-invalid': createTeam.$error.maxlength > 39}"
+            ) 39 character maximum
         footer.modal-footer.clearfix.fade(
           ng-class = "{'in': isActivePanel()}"
         )
@@ -33,6 +41,7 @@
               data.currentPanelName = 'githubAuth';\
               goToPanel('githubAuth');\
             "
+            ng-disabled = "!teamName"
           ) Next
       animated-panel(
         name = "githubAuth"
@@ -42,7 +51,7 @@
         )
           h3.h3 Your team is almost ready!
           p.p We’ll need some permissions from Github to get your code running.
-          ul.list
+          ul.list.list-requirements
             li.list-item
               svg.svg(
                 viewbox = '0 0 9 18'

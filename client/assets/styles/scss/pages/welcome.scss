@@ -29,43 +29,44 @@
   }
 
   .p {
+    color: $gray;
     display: block;
     margin: 0 auto 30px;
-    max-width: 330px;
+    max-width: 300px;
     text-align: center;
   }
 
-  .list {
+  .list-requirements {
     background: $white;
     border: 1px solid $gray-lighter;
     border-radius: $input-border-radius-lg;
-  }
 
-  .list-item {
-    height: 60px;
-    padding: 12px 9px;
+    .list-item {
+      height: 60px;
+      padding: 12px 9px;
 
-    + .list-item {
-      border-top: 1px solid $gray-lighter;
-    }
+      + .list-item {
+        border-top: 1px solid $gray-lighter;
+      }
 
-    .svg {
-      fill: $gray-light;
-      float: left;
-      height: 30px;
-      margin: 2px 12px 0 0;
-      width: 30px;
-    }
+      .svg {
+        fill: $gray-light;
+        float: left;
+        height: 30px;
+        margin: 2px 12px 0 0;
+        width: 30px;
+      }
 
-    .h4 {
-      font-size: 16px;
-    }
+      .h4 {
+        font-size: 16px;
+      }
 
-    .p {
-      font-size: 13px;
-      margin: 1px 0 0;
-      max-width: none;
-      text-align: left;
+      .p {
+        font-size: 13px;
+        margin: 1px 0 0;
+        max-width: none;
+        text-align: left;
+      }
     }
   }
 
