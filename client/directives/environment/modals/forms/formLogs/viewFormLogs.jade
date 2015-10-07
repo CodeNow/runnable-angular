@@ -1,6 +1,7 @@
 //- alert only appears when changes have been made
 .alert.gray(
- ng-if = "$root.featureFlags.newVerificationFlow && SMC.isDirty()"
+ ng-if = "$root.featureFlags.newVerificationFlow && !SMC.isBuilding && SMC.isDirty()"
+ ng-click = "SMC.rebuildIfDirty()"
 ) Rebuild to see changes you’ve made.
   button.btn.btn-xxs.gray Rebuild
 

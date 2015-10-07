@@ -94,9 +94,10 @@ header.modal-header
         )
       .btn-text Dockerfile
     button.btn.btn-radio.js-animate(
+      data-badge-count = "!"
       ng-class = "{\
         'active': SMC.selectedTab === 'logs',\
-        'active': SMC.state.step === 4\
+        'badge': SMC.instance && SMC.isDirty()\
       }"
       ng-click = "SMC.changeTab('logs')"
       ng-if = "SMC.state.step === 4"

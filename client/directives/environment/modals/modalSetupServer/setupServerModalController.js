@@ -192,6 +192,24 @@ function SetupServerModalController (
       });
   }
 
+  SMC.rebuildIfDirty = function () {
+    console.log('Rebuild if Dirty');
+    SMC.isBuilding = true;
+    if (SMC.isDirty()) {
+      return SMC.rebuildAndOrRedeploy()
+        .then(function () {
+          return SMC.resetStateContextVersion(SMC.instance.contextVersion, false);
+        })
+        .then(function () {
+          SMC.isBuilding = false;
+        })
+        .catch(function (err) {
+          errs.handler(err);
+        });
+    }
+    return true;
+  };
+
   SMC.changeTab = function (tabname) {
     SMC.selectedTab = tabname;
   };
@@ -239,11 +257,17 @@ function SetupServerModalController (
   };
 
   SMC.createServerAndGoToNextStep = function () {
+    loading(SMC.name, true);
     // Go on to step 4 (logs)
     SMC.goToNextStep();
     return SMC.createServer()
       .then(function () {
+        console.log('resetStateContextVersion', SMC.instance.contextVersion);
+        return SMC.resetStateContextVersion(SMC.instance.contextVersion, false);
+      })
+      .then(function () {
         // Start keeping track of changes to the instance
+        loading(SMC.name, false);
         loadingPromises.clear(SMC.name);
       });
   };
