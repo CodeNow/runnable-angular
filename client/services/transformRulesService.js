@@ -60,7 +60,9 @@ function parseDiffResponse(
       parsed.changes = Object.keys(groupByLineNumbers).map(function (key) {
         return groupByLineNumbers[key];
       });
-      parsed.to = parsed.to.replace('+++ ', '');
+      if (parsed.to) {
+        parsed.to = parsed.to.replace('+++ ', '');
+      }
       parsed.from = parsed.from.replace('--- ', '');
       if (parsed.from === parsed.to) {
         delete parsed.to;
@@ -144,6 +146,15 @@ function testRenameTransformRule(
   };
 }
 
+function reduceAndAddNewLine (diffs) {
+  return function (total, key) {
+    var endsInNewLine= diffs[key].match(/(\r\n|\n|\r)$/g) !== null;
+    if (!endsInNewLine) {
+      return total + diffs[key] + '\n';
+    }
+    return total + diffs[key];
+  };
+}
 
 function testReplaceTransformRule(
   $q,
@@ -158,9 +169,8 @@ function testReplaceTransformRule(
           json: rule
         }, checkErrorCallback(reject, function callback(res, body) {
           if (body.diffs) {
-            var parsed = parseDiffResponse(Object.keys(body.diffs).reduce(function (total, key) {
-              return total + body.diffs[key];
-            }, ''));
+            var combinedDiff = Object.keys(body.diffs).reduce(reduceAndAddNewLine(body.diffs), '');
+            var parsed = parseDiffResponse(combinedDiff);
             resolve(parsed);
           } else {
             reject();
@@ -183,9 +193,7 @@ function populateRulesWithWarningsAndDiffs(
         if (found) {
           replaceRule.warnings = found.warnings;
           replaceRule.nameChanges = found.nameChanges;
-          var combinedDiff = Object.keys(found.diffs).reduce(function (total, key) {
-            return total + found.diffs[key];
-          }, '');
+          var combinedDiff = Object.keys(found.diffs).reduce(reduceAndAddNewLine(found.diffs), '');
           replaceRule.diffs = parseDiffResponse(combinedDiff);
         }
       });
