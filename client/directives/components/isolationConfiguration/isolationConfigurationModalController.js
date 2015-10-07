@@ -17,18 +17,15 @@ function IsolationConfigurationModalController(
   loading.reset('createIsolation');
 
   ICMC.createIsolation = function () {
-    var isolatedChildren = [];
-    Object.keys(ICMC.instanceBranchMapping).forEach((function (key) {
-      isolatedChildren.push(ICMC.instanceBranchMapping[key]);
-    }));
-
-    isolatedChildren = isolatedChildren.map(function (instance) {
-      return {
-        branch: instance.getBranchName(),
-        repo: instance.getRepoName(),
-        org: instance.attrs.owner.username
-      };
-    });
+    var isolatedChildren = Object.keys(ICMC.instanceBranchMapping)
+      .map(function (key) {
+        var instance = ICMC.instanceBranchMapping[key];
+        return {
+          branch: instance.getBranchName(),
+          repo: instance.getRepoName(),
+          org: instance.attrs.owner.username
+        };
+      });
 
     ICMC.nonRepoInstances.forEach(function (instance) {
       isolatedChildren.push(instance.id());
