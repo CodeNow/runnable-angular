@@ -2,6 +2,10 @@
   padding-top: 210px;
 
   // transitions for animated panel
+  .animated-panel-container {
+    transition: height .15s ease-in-out;
+  }
+
   .fade {
     transition: opacity .15s ease-in;
   }
