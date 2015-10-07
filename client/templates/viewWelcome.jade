@@ -1,17 +1,8 @@
-.welcome(
-  ng-init = "data.currentPanelName = 'teamName'"
-)
-  img.img.runnabear.fade(
+.welcome
+  img.img.runnabear(
     height = "250"
-    ng-class = "{'in': data.currentPanelName === 'teamName'}"
     src = "/build/images/welcome/runnabear.png"
     width = "200"
-  )
-  img.img.jetpacktocat.fade(
-    height = "250"
-    ng-class = "{'in': data.currentPanelName === 'githubAuth'}"
-    src = "/build/images/welcome/jetpacktocat.png"
-    width = "250"
   )
   form.modal-dialog
     animated-panel-container

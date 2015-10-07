@@ -10,21 +10,9 @@
   .img {
     display: block;
     left: 0;
-    opacity: 0;
     margin: 0 auto;
     right: 0;
     position: absolute;
-
-    &.in {
-      opacity: 1;
-    }
-  }
-
-  .jetpacktocat {
-    top: 30px;
-  }
-
-  .runnabear {
     top: 60px;
   }
 
