@@ -6,10 +6,9 @@ require('app')
  * @ngInject
  */
 function saveOpenItemsButton(
-  keypather
 ) {
   return {
-    restrict: 'A',
+    restrict: 'E',
     templateUrl: 'saveOpenItemsButtonView',
     controller: 'saveOpenItemsButtonController',
     controllerAs: 'SOIBC',
@@ -17,17 +16,13 @@ function saveOpenItemsButton(
     scope: {
       instance: '=',
       openItems: '=',
-      saving: '='
+      loading: '='
     },
     link: function ($scope) {
       $scope.canSave = function () {
-        return !!$scope.openItems.models.find(function (model) {
+        return !!$scope.SOIBC.openItems.models.find(function (model) {
           return model.state.isDirty;
         });
-      };
-      $scope.isChanging = function () {
-        var status = keypather.get($scope.SOIBC, 'instance.status()');
-        return ['starting', 'building', 'stopping'].includes(status);
       };
     }
   };

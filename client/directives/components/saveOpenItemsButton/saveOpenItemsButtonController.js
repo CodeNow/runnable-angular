@@ -10,15 +10,13 @@ function SaveOpenItemsButtonController(
   $scope,
   $timeout,
   errs,
-  loadingPromises,
-  promisify,
-  ModalService
+  promisify
 ) {
   var SOIBC = this;
 
   SOIBC.saveChanges = function (andRestart) {
-    SOIBC.saving = true;
-    var updateModelPromises = $scope.openItems.getAllFileModels(true)
+    SOIBC.loading = true;
+    var updateModelPromises = $scope.SOIBC.openItems.getAllFileModels(true)
       .map(function (model) {
         return model.actions.saveChanges();
       });
@@ -28,12 +26,12 @@ function SaveOpenItemsButtonController(
     )
       .then(function () {
         if (andRestart) {
-          return promisify($scope.instance, 'restart')();
+          return promisify($scope.SOIBC.instance, 'restart')();
         }
       })
       .catch(errs.handler)
       .finally(function () {
-        $scope.saving = false;
+        SOIBC.loading = false;
       });
   };
 }

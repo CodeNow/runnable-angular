@@ -1,15 +1,10 @@
-button.btn.btn-sm.btn-spinner(
+button.btn-spinner(
   ng-class = "getClassForInstance()"
   ng-disabled = "isChanging()"
-  pop-over
-  pop-over-actions = "popoverStatusOptions.actions"
-  pop-over-active = "state.active"
-  pop-over-data = "popoverStatusOptions.data"
-  pop-over-options = "{\"right\":0,\"top\":53}"
-  pop-over-template = "viewInstancePopoverStatusOptions"
+  ng-click = "CSBC.popoverActive = true"
 )
   status-icon(
-    instance = "instance"
+    instance = "CSBC.instance"
     ng-if = "!isChanging()"
   )
   span.float-left(
@@ -23,13 +18,21 @@ button.btn.btn-sm.btn-spinner(
   span.float-left(
     ng-if = "isChanging()"
   ) {{getStatusText()}}
-  svg.iconnables.icons-arrow-down
+  svg.iconnables.icons-arrow-down(
+    pop-over
+    pop-over-actions = "CSBC.actions"
+    pop-over-active = "CSBC.popoverActive"
+    pop-over-controller = "CSBC"
+    pop-over-options = "{\"right\":0,\"top\":53}"
+    pop-over-template = "containerStatusOptionsPopoverView"
+    pop-over-trigger = "activeAttr"
+  )
     use(
       xlink:href = "#icons-arrow-down"
     )
   //- if update and rebuild
   svg.iconnables.icons-notification.float-right(
-    ng-if = "popoverStatusOptions.data.shouldShowUpdateConfigsPrompt"
+    ng-if = "CSBC.shouldShowUpdateConfigsPrompt"
   )
     use(
       xlink:href = "#icons-notification"

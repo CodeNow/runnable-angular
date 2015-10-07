@@ -15,6 +15,16 @@
         xlink:href = "#icons-hamburger"
       )
 
+      button(
+        ng-class = "getClassForInstance()"
+        ng-disabled = "isChanging()"
+        pop-over
+        pop-over-actions = "CSBC.actions"
+        pop-over-controller = "CSBC"
+        pop-over-options = "{\"right\":0,\"top\":53}"
+        pop-over-template = "containerStatusOptionsPopoverView"
+      )
+
   //- container title
     - repository in .span
     - branch in .strong
@@ -46,11 +56,9 @@
 //- properties of container
 .instance-header-properties
 
-  div(
+  div.btn.btn-sm(
     instance = "instance"
-    instance-primary-actions
-    loading = "isLoading.main"
-    open-items = "openItems"
+    container-status-button
   )
 
   //- dns button
@@ -76,48 +84,13 @@
     input.input.input-sm.text-center(
       readonly
       select-all
-      value = "e4rov2-palantiri-staging-codenow.runnableapp.com"
+      value = "{{instance.getContainerHostname()}}{{defaultPort}}"
     )
     .btn.btn-xs Copy
 
-  //- ***********************
-  //- deprecated button, remove with $root.featureFlags.saveToolbar
-  //- save button
-  .btn-group(
-    ng-if = "!$root.featureFlags.saveToolbar && instance.containers.models[0].running() && canSave()"
+  div.btn.btn-sm(
+    instance = "instance"
+    save-open-items-button
+    loading = "isLoading.main"
+    open-items = "openItems"
   )
-    //- apply .with-restart if save restarts Server
-    //- add title = "Save and Restart Server" if save restarts Server
-    button.btn.btn-sm.white.btn-spinner(
-      ng-class = "{in: saving}"
-      ng-click = "saveChanges()"
-      ng-disabled = "loading || saving || modifyingInstance"
-      type = "button"
-    )
-      .spinner-wrapper.spinner-sm.spinner-white.in(
-        ng-if = "saving"
-        ng-include = "'spinner'"
-      )
-      span.btn-text {{ saving ? 'Saving' : 'Save'}}
-      //- show if restart is checked
-      span.btn-text(
-        ng-if = "popoverSaveOptions.data.restartOnSave"
-      ) #{''} and Restart
-
-    button.btn.btn-sm.white.btn-icon.btn-icon-sm.btn-save-options(
-      ng-class = "{active: popoverSaveOptions.data.show}"
-      ng-disabled = "loading || saving || modifyingInstance"
-      pop-over
-      pop-over-active = "popoverSaveOptions.data.show"
-      pop-over-actions = "popoverSaveOptions.actions"
-      pop-over-data = "popoverSaveOptions.data"
-      pop-over-options = "{\"right\":1,\"top\":47}"
-      pop-over-template = "viewInstancePopoverSaveOptions"
-      type = "button"
-    )
-      svg.iconnables.icons-arrow-down
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
-  //- end button, remove with $root.featureFlags.saveToolbar
-  //- ***********************

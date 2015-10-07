@@ -8,7 +8,7 @@
   .popover-content
     //- if build files are out of date
     .well.well-popover.orange.text-center(
-      ng-if = "data.shouldShowUpdateConfigsPrompt"
+        ng-if = "data.shouldShowUpdateConfigsPrompt"
     ) This container’s configuration has changed since the current build.
       button.btn.btn-xs.orange(
         ng-click = "actions.updateConfigToMatchMaster()"

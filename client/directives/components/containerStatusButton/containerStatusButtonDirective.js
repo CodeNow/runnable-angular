@@ -1,33 +1,71 @@
 'use strict';
 
 require('app')
-  .directive('saveOpenItemsButton', saveOpenItemsButton);
+  .directive('containerStatusButton', containerStatusButton);
 /**
  * @ngInject
  */
-function saveOpenItemsButton(
-  keypather
+function containerStatusButton(
+  errs,
+  keypather,
+  promisify
 ) {
   return {
     restrict: 'A',
-    templateUrl: 'saveOpenItemsButtonView',
-    controller: 'saveOpenItemsButtonController',
-    controllerAs: 'SOIBC',
+    replace: true,
+    templateUrl: 'containerStatusButtonView',
+    controller: 'ContainerStatusButtonController',
+    controllerAs: 'CSBC',
     bindToController: true,
     scope: {
-      instance: '=',
-      openItems: '=',
-      saving: '='
+      instance: '='
     },
     link: function ($scope) {
+      $scope.$watch('CSBC.instance.configStatusValid', function (configStatusValid) {
+        if ($scope.CSBC.instance) {
+          if (configStatusValid === false) {
+            // This will cause the valid flag to flip, recalling this watcher
+            return promisify($scope.CSBC.instance, 'fetchParentConfigStatus')()
+              .catch(errs.handler);
+          } else {
+            $scope.CSBC.shouldShowUpdateConfigsPrompt = !$scope.CSBC.instance.cachedConfigStatus;
+          }
+        }
+      });
 
-      $scope.canSave = function () {
-        return !!$scope.SOIBC.openItems.models.find(function (model) {
-          return model.state.isDirty;
-        });
+      $scope.getStatusText = function () {
+        var status = keypather.get($scope.CSBC, 'instance.status()');
+        var statusMap = {
+          starting: 'Starting container',
+          stopping: 'Stopping Container',
+          building: 'Building',
+          stopped: 'Stopped',
+          crashed: 'Crashed',
+          running: 'Running',
+          buildFailed: 'Build Failed',
+          neverStarted: 'Never Started',
+          unknown: 'Unknown'
+        };
+        return statusMap[status] || 'Unknown';
+      };
+
+      $scope.getClassForInstance = function () {
+        var status = keypather.get($scope.CSBC, 'instance.status()');
+
+        var classes = [];
+        if (['running', 'stopped','building', 'starting', 'stopping', 'neverStarted', 'unknown'].includes(status)){
+          classes.push('gray');
+        } else if (['crashed', 'buildFailed'].includes(status)) {
+          classes.push('red');
+        }
+
+        if (['building', 'starting', 'stopping'].includes(status)) {
+          classes.push('in');
+        }
+        return classes;
       };
       $scope.isChanging = function () {
-        var status = keypather.get($scope.SOIBC, 'instance.status()');
+        var status = keypather.get($scope.CSBC, 'instance.status()');
         return ['starting', 'building', 'stopping'].includes(status);
       };
     }

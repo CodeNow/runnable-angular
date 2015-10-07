@@ -148,33 +148,6 @@ function instancePrimaryActions(
         }
       };
 
-      $scope.$watch('instance.configStatusValid', function (configStatusValid) {
-        if ($scope.instance) {
-          if (configStatusValid === false) {
-            // This will cause the valid flag to flip, recalling this watcher
-            return promisify($scope.instance, 'fetchParentConfigStatus')()
-              .catch(errs.handler);
-          } else {
-            $scope.popoverStatusOptions.data.shouldShowUpdateConfigsPrompt = !$scope.instance.cachedConfigStatus;
-          }
-        }
-      });
-
-      $scope.getClassForInstance = function () {
-        var status = keypather.get($scope, 'instance.status()');
-
-        var classes = [];
-        if (['running', 'stopped','building', 'starting', 'stopping', 'neverStarted', 'unknown'].includes(status)){
-          classes.push('gray');
-        } else if (['crashed', 'buildFailed'].includes(status)){
-          classes.push('red');
-        }
-
-        if (['building', 'starting', 'stopping'].includes(status)){
-          classes.push('in');
-        }
-        return classes;
-      };
     }
   };
 }
