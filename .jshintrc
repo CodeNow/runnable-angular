@@ -4,6 +4,7 @@
   "browser": true,
   "undef": true,
   "nonbsp": true,
+  "latedef": false,
   "quotmark": "single",
   "curly": true,
   "globalstrict": true,
