@@ -170,6 +170,7 @@
     line-height: 1; // reset line-height from .btn
     margin: 4px;
     padding: 15px 6px;
+    transition: all .3s ease-in-out;
     width: 120px;
 
     @include media(xs) {
@@ -181,12 +182,45 @@
       width: calc(50% - 6px);
     }
 
+    &.js-animate {
+
+      // initial active styles
+      &.active-add {
+        height: 90px;
+        width: 120px;
+      }
+
+      // ending active styles
+      &.active {
+        height: 225px;
+        width: 100%;
+      }
+
+      // initial inactive styles
+      &.inactive-add {
+        border-width: 2px;
+        height: 90px;
+        margin: 4px;
+        opacity: 1;
+        padding: 15px 6px;
+        width: 120px;
+      }
+
+      // ending inactive styles
+      &.inactive {
+        border-width: 0;
+        height: 0;
+        margin: 0;
+        opacity: 0;
+        padding: 0;
+        width: 0;
+      }
+    }
+
     // if selected
     &.active {
       cursor: default;
-      height: 225px;
       margin: 6px 0 0;
-      width: 100%;
 
       .img {
         height: 60px;
@@ -194,11 +228,6 @@
         margin-top: 9px;
         width: 60px;
       }
-    }
-
-    // not selected
-    &.inactive {
-      display: none;
     }
 
     // cancel button
@@ -212,6 +241,7 @@
     .img {
       display: block;
       margin: 0 auto 6px;
+      transition: all .3s ease-in-out;
 
       @include media(xs) {
         float: left;

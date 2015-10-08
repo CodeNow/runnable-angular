@@ -136,8 +136,9 @@
           p.p Now that we’re connected to Github, you can choose an organization to use.
 
           //- search
-          input.input.input-xs.input-search(
-            ng-if = "!activeItem && isActivePanel()"
+          input.input.input-xs.input-search.fade(
+            ng-class = "{'in': !activeItem}"
+            ng-if = "isActivePanel()"
             placeholder = "Filter by name"
             required
             type = "search"
@@ -146,7 +147,7 @@
           ul.list(
             ng-init = "items = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]"
           )
-            li.list-item.btn.white.text-overflow(
+            li.list-item.btn.white.text-overflow.js-animate(
               ng-class = "{\
                 'active': $parent.activeItem === $index,\
                 'inactive': $parent.activeItem && $parent.activeItem !== $index\
