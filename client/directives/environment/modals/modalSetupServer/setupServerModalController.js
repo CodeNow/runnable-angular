@@ -36,23 +36,6 @@ function SetupServerModalController (
   var mainRepoContainerFile = new cardInfoTypes.MainRepository();
 
   angular.extend(SMC, {
-    close: close,
-    closeWithConfirmation:function () {
-      $rootScope.$broadcast('close-popovers');
-        ModalService.showModal({
-          controller: 'ConfirmationModalController',
-          controllerAs: 'CMC',
-          templateUrl: 'confirmCloseEditServer'
-        })
-          .then(function (modal) {
-            modal.close.then(function (confirmed) {
-              if ( confirmed ) {
-                close();
-              }
-            });
-          })
-          .catch(errs.handler);
-    },
     isLoading: $rootScope.isLoading,
     portsSet: false,
     isNewContainer: true,
@@ -86,7 +69,38 @@ function SetupServerModalController (
       selectedStack: null,
       step: 1
     },
-    actions: actions,
+    actions: angular.extend(actions, {
+      close: function () {
+        if (SMC.instance) {
+          return SMC.actions.deleteServer(SMC.instance, 'confirmDiscardServerView')
+            .then(function (confirmed) {
+              if (confirmed) {
+                close();
+              }
+            });
+        }
+        if (SMC.state.repo) {
+          return SMC.actions.closeWithConfirmation();
+        }
+        return close();
+      },
+      closeWithConfirmation: function () {
+        $rootScope.$broadcast('close-popovers');
+          ModalService.showModal({
+            controller: 'ConfirmationModalController',
+            controllerAs: 'CMC',
+            templateUrl: 'confirmCloseEditServer'
+          })
+            .then(function (modal) {
+              modal.close.then(function (confirmed) {
+                if (confirmed) {
+                  close();
+                }
+              });
+            })
+            .catch(errs.handler);
+      },
+    }),
     data: data,
     selectedTab: 'repository'
   });
@@ -327,18 +341,5 @@ function SetupServerModalController (
             }
           });
       });
-  };
-
-  SMC.closeModalOrDeleteInstance = function () {
-    if (SMC.instance) {
-      return SMC.actions.deleteServer(SMC.instance, 'confirmDiscardServerView')
-        .then(function (confirmed) {
-          if (confirmed) {
-            close();
-          }
-        });
-    } else {
-      return SMC.closeWithConfirmation();
-    }
   };
 }
