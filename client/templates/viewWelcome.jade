@@ -5,11 +5,10 @@
     width = "200"
   )
   form.modal-dialog(
-    section.modal-body
     name = "createTeam"
   )
     animated-panel-container
-      animated-panel(
+      animated-panel.panel-name(
         default = "true"
         name = "teamName"
       )
@@ -46,14 +45,22 @@
           ng-class = "{'in': isActivePanel()}"
         )
           //- disable this when name is taken too
-          button.btn.green(
+          button.btn.green.btn-spinner(
+            ng-class = "{'in': loading}"
             ng-click = "\
               data.currentPanelName = 'githubAuth';\
               goToPanel('githubAuth');\
             "
             ng-disabled = "!teamName"
-          ) Next
-      animated-panel(
+          )
+            //- spinner
+            .spinner-wrapper.spinner-sm.spinner-white.in(
+              ng-if = "loading"
+              ng-include = "'spinner'"
+            )
+            | Next
+
+      animated-panel.panel-auth(
         name = "githubAuth"
       )
         section.modal-body.fade(
@@ -103,6 +110,7 @@
         )
           a.btn.green.btn-auth(
             href = "#"
+            ng-click = "goToPanel('orgSelect')"
             tabindex = "{{isActivePanel() ? '0' : '-1'}}"
           )
             svg.iconnables.icons-github
@@ -110,6 +118,37 @@
                 xlink:href = "#icons-github"
               )
             | Authorize With Github
+
+      //- appears after auth
+      animated-panel.panel-orgs(
+        name = "orgSelect"
+      )
+        section.modal-body(
+          ng-class = "{'in': isActivePanel()}"
+        )
+          h3.h3 Welcome back!
+          p.p Now that we’re connected to Github, we can choose an organization to use.
+
+          //- search
+          input.input.input-xs.input-search(
+            ng-if = "isActivePanel()"
+            placeholder = "Filter by name"
+            required
+            type = "search"
+          )
+
+          ul.list(
+            ng-init = "items = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]"
+          )
+            li.list-item.btn.white.text-overflow(
+              ng-repeat = "item in items"
+            )
+              img.img(
+                height = "36"
+                ng-src = "https://avatars0.githubusercontent.com/u/2335750?v=3&s=200"
+                width = "36"
+              )
+              | CodeNow
 
   footer.footer
     a.link(

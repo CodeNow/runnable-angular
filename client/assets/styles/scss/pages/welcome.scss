@@ -11,7 +11,7 @@
   }
 
   // runnabear
-  .img {
+  .runnabear {
     display: block;
     left: 0;
     margin: 0 auto;
@@ -40,13 +40,42 @@
     text-align: center;
   }
 
-  // name taken messaging
-  .alert {
-    display: block;
-    line-height: 22px;
-    margin: 9px 0 0;
-    text-align: center;
+  // footer
+  .footer {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin: 30px 0 60px;
+
+    .iconnables {
+      margin: 0 15px;
+    }
+
+    .link {
+      color: $gray-light;
+      font-size: 13px;
+      text-align: center;
+      text-decoration: none;
+      width: 90px;
+
+      &:hover,
+      &:active {
+        color: $purple-light;
+      }
+    }
   }
+}
+
+// panels
+// name taken messaging
+.panel-name .alert {
+  display: block;
+  line-height: 22px;
+  margin: 9px 0 0;
+  text-align: center;
+}
+
+.panel-auth {
 
   // github auth
   .list-requirements {
@@ -97,28 +126,46 @@
     height: 100%;
     margin-right: 6px;
   }
+}
 
-  // footer
-  .footer {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    margin: 30px 0 60px;
+.panel-orgs {
 
-    .iconnables {
-      margin: 0 15px;
+  .p {
+    margin-bottom: 15px;
+  }
+
+  .input-search {
+    margin-bottom: 15px;
+    width: 210px;
+  }
+
+  .list-item {
+    font-size: 15px;
+    height: 90px;
+    line-height: 1; // reset line-height from .btn
+    margin: 4px;
+    padding: 15px 6px;
+    width: 120px;
+
+    @include media(xs) {
+      height: 60px;
+      line-height: 36px;
+      margin: 3px;
+      padding: 9px 15px;
+      text-align: left;
+      width: calc(50% - 6px);
     }
 
-    .link {
-      color: $gray-light;
-      font-size: 13px;
-      text-align: center;
-      text-decoration: none;
-      width: 90px;
+    .img {
+      display: block;
+      margin: 0 auto 6px;
 
-      &:hover,
-      &:active {
-        color: $purple-light;
+      @include media(xs) {
+        float: left;
+        height: 30px;
+        margin-right: 6px;
+        margin-top: 3px;
+        width: 30px;
       }
     }
   }
