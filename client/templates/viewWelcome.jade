@@ -113,7 +113,7 @@
         footer.modal-footer.fade(
           ng-class = "{'in': isActivePanel()}"
         )
-          a.btn.green.btn-auth(
+          a.btn.green.btn-center(
             href = "#"
             ng-click = "goToPanel('orgSelect')"
             tabindex = "{{isActivePanel() ? '0' : '-1'}}"
@@ -130,13 +130,14 @@
       )
         section.modal-body(
           ng-class = "{'in': isActivePanel()}"
+          ng-init = "activeItem = null"
         )
           h3.h3 Welcome back!
-          p.p Now that we’re connected to Github, we can choose an organization to use.
+          p.p Now that we’re connected to Github, you can choose an organization to use.
 
           //- search
           input.input.input-xs.input-search(
-            ng-if = "isActivePanel()"
+            ng-if = "!activeItem && isActivePanel()"
             placeholder = "Filter by name"
             required
             type = "search"
@@ -146,15 +147,39 @@
             ng-init = "items = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]"
           )
             li.list-item.btn.white.text-overflow(
+              ng-class = "{\
+                'active': $parent.activeItem === $index,\
+                'inactive': $parent.activeItem && $parent.activeItem !== $index\
+              }"
+              ng-click = "$parent.activeItem = $index"
               ng-repeat = "item in items"
               title = "CodeNow"
             )
+              svg.iconnables.icons-close(
+                ng-click = "\
+                  $parent.$parent.activeItem = null;\
+                  $event.stopPropagation();\
+                "
+                ng-if = "$parent.activeItem === $index"
+              )
+                use(
+                  xlink:href = "#icons-close"
+                )
               img.img(
                 height = "36"
                 ng-src = "https://avatars0.githubusercontent.com/u/2335750?v=3&s=200"
                 width = "36"
               )
               | CodeNow
+              small.small.load(
+                ng-if = "$parent.activeItem === $index"
+              ) 10 Members
+              small.small.load(
+                ng-if = "$parent.activeItem === $index"
+              ) 10 Repositories
+              button.btn.btn-sm.green(
+                ng-if = "$parent.activeItem === $index"
+              ) Select Organization
 
   footer.footer
     a.link(

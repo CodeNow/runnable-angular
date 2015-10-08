@@ -61,6 +61,14 @@
     }
   }
 
+  // github auth button
+  .btn-center {
+    display: table;
+    float: none;
+    margin: 0 auto 15px;
+    min-width: 90px;
+  }
+
   // footer
   .footer {
     align-items: center;
@@ -137,14 +145,6 @@
     }
   }
 
-  // github auth button
-  .btn-auth {
-    display: table;
-    float: none;
-    margin: 0 auto 15px;
-    min-width: 90px;
-  }
-
   // github icon
   .icons-github {
     float: left;
@@ -181,6 +181,34 @@
       width: calc(50% - 6px);
     }
 
+    // if selected
+    &.active {
+      cursor: default;
+      height: 225px;
+      margin: 6px 0 0;
+      width: 100%;
+
+      .img {
+        height: 60px;
+        margin-bottom: 15px;
+        margin-top: 9px;
+        width: 60px;
+      }
+    }
+
+    // not selected
+    &.inactive {
+      display: none;
+    }
+
+    // cancel button
+    .icons-close {
+      position: absolute;
+      right: 6px;
+      top: 6px;
+    }
+
+    // gravatar
     .img {
       display: block;
       margin: 0 auto 6px;
@@ -192,6 +220,18 @@
         margin-top: 3px;
         width: 30px;
       }
+    }
+
+    // details text
+    .small {
+      display: block;
+      margin-top: 3px;
+    }
+
+    // confirm button
+    .green {
+      position: relative;
+      right: auto;
     }
   }
 }
