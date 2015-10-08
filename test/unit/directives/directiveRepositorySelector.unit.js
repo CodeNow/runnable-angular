@@ -1,6 +1,6 @@
 'use strict';
 
-describe('directiveRepoSelect'.bold.underline.blue, function () {
+describe('directiveRepositorySelector'.bold.underline.blue, function () {
   var element;
   var $scope;
   var $rootScope;
@@ -234,14 +234,14 @@ describe('directiveRepoSelect'.bold.underline.blue, function () {
       });
     });
 
-    it('should trigger save when a commit is selected', function () {
+    it('should not trigger save when a commit is selected', function () {
       var commit = {
         test: '1234'
       };
       $scope.$broadcast('commit::selected', commit);
       $scope.$digest();
 
-      sinon.assert.calledOnce(currentConfig.actions.update);
+      sinon.assert.notCalled(currentConfig.actions.update);
     });
 
     it('should go to the commit view right away', function () {
