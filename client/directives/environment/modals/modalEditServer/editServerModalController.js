@@ -19,6 +19,7 @@ var tabVisibility = {
  */
 function EditServerModalController(
   $scope,
+  $controller,
   $q,
   $filter,
   $rootScope,
@@ -45,6 +46,9 @@ function EditServerModalController(
   close
 ) {
   var SMC = this;
+
+  angular.extend(SMC, $controller('ServerModalController as SMC', { $scope: $scope }));
+
   SMC.instance = instance;
   SMC.selectedTab = tab;
   angular.extend(SMC, {
@@ -225,7 +229,7 @@ function EditServerModalController(
 
     return SMC.state.promises.contextVersion
       .then(function () {
-        return openDockerfile();
+        return SMC.openDockerfile();
       })
       .then(function () {
         return fetchUser();
@@ -391,19 +395,6 @@ function EditServerModalController(
       .then(function (build) {
         state.opts.build = build.id();
         return state;
-      });
-  }
-
-  function openDockerfile() {
-    return promisify(SMC.state.contextVersion, 'fetchFile')('/Dockerfile')
-      .then(function (dockerfile) {
-        if (SMC.state.dockerfile) {
-         SMC.openItems.remove(SMC.state.dockerfile);
-        }
-        if (dockerfile) {
-          SMC.openItems.add(dockerfile);
-        }
-        SMC.state.dockerfile = dockerfile;
       });
   }
 

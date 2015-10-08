@@ -78,7 +78,7 @@ describe('environmentController'.bold.underline.blue, function () {
         }));
         return {
           showModal: ctx.showModalStub
-        }
+        };
       });
     });
     angular.mock.inject(function (
@@ -172,8 +172,6 @@ describe('environmentController'.bold.underline.blue, function () {
         apiMocks.instances.running,
         {noStore: true}
       );
-      var closeModalSpy = sinon.spy();
-      $rootScope.$on('close-modal', closeModalSpy);
       $scope.data.instances = {
         add: sinon.spy()
       };
@@ -196,9 +194,7 @@ describe('environmentController'.bold.underline.blue, function () {
       }, { warn: false });
 
       sinon.assert.calledOnce($scope.data.instances.add);
-      sinon.assert.calledOnce(closeModalSpy);
       sinon.assert.calledOnce(ctx.eventTracking.triggeredBuild);
-
 
       createNewInstanceMock.triggerPromise(instance);
       $rootScope.$digest();
@@ -214,8 +210,6 @@ describe('environmentController'.bold.underline.blue, function () {
         {noStore: true}
       );
       instance.dealloc = sinon.spy();
-      var closeModalSpy = sinon.spy();
-      $rootScope.$on('close-modal', closeModalSpy);
       $scope.data.instances = {
         add: sinon.spy()
       };
@@ -240,7 +234,6 @@ describe('environmentController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(ctx.eventTracking.triggeredBuild);
       sinon.assert.calledWith(ctx.errs.handler, error);
       sinon.assert.calledOnce($scope.data.instances.add);
-      sinon.assert.calledOnce(closeModalSpy);
 
       sinon.assert.calledOnce(instance.dealloc);
 
