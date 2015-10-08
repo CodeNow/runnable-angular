@@ -12,211 +12,251 @@ var readOnlySwitchController;
 var apiMocks = require('../apiMocks/index');
 var mockFactory = require('../apiMocks/apiClientMockFactory');
 
-describe('ReadOnlySwitchController'.bold.underline.blue, function () {
-  var ctx = {};
-  function setup() {
+describe('containerStatusButtonController'.bold.underline.blue, function () {
+  var element,
+      $scope,
+      $elScope,
+      $rootScope,
+      $timeout,
+      $q;
 
+  var error = new Error('an Error');
+  function genModel (name, newName, throwErr) {
+    if (!newName) {
+      newName = name;
+    }
+    return {
+      attrs: {
+        body: name
+      },
+      state: {
+        body: newName
+      },
+      actions: {
+        saveChanges: sinon.spy(function () {
+          var d = $q.defer();
+          if (throwErr) {
+            d.reject(error);
+          } else {
+            d.resolve();
+          }
+          return d.promise;
+        })
+      }
+    };
+  }
+
+  var mockOpenItems,
+      ctx,
+      mockInstance;
+  var mockUpdateInstanceWithNewBuild;
+  var promisifyMock;
+  var mockMainACV;
+
+  beforeEach(function () {
+    ctx = {};
+  });
+
+  beforeEach(function () {
+
+    mockUpdateInstanceWithNewBuild = sinon.stub();
+    ctx.errsMock = {
+      handler: sinon.spy()
+    };
     angular.mock.module('app', function ($provide) {
-      $provide.factory('ModalService', function ($q) {
-        return {
-          showModal: sinon.stub().returns($q.when({
-            close: $q.when(true)
-          }))
-        }
-      });
-      $provide.factory('loadingPromises', function ($q) {
-        ctx.loadingPromiseMock = {
-          add: sinon.spy(function (namespace, promise) {
-            return promise;
-          }),
-          clear: sinon.spy(),
-          finished: sinon.spy(function () {
-            return $q.when(ctx.loadingPromiseFinishedValue);
-          })
-        };
-        return ctx.loadingPromiseMock;
+      $provide.value('errs', ctx.errsMock);
+      $provide.value('updateInstanceWithNewBuild', mockUpdateInstanceWithNewBuild);
+      $provide.factory('promisify', function ($q) {
+        promisifyMock = sinon.spy(function (obj, key) {
+          return function () {
+            return $q.when(obj[key].apply(obj, arguments));
+          };
+        });
+        return promisifyMock;
       });
     });
-    angular.mock.inject(function (
-      _$compile_,
-      _$controller_,
-      _$rootScope_,
-      _keypather_,
-      _$q_
-    ) {
-      $compile = _$compile_;
-      $controller = _$controller_;
+    angular.mock.inject(function ($compile, _$timeout_, _$rootScope_, _$q_) {
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
-      keypather = _keypather_;
+      $timeout = _$timeout_;
       $q = _$q_;
-    });
-    ctx.instance = runnable.newInstance(
-      apiMocks.instances.running,
-      {noStore: true}
-    );
-    ctx.contextVersion = mockFactory.contextVersion(
-      runnable,
-      apiMocks.contextVersions.running
-    );
-    ctx.newContextVersion = mockFactory.contextVersion(
-      runnable,
-      apiMocks.contextVersions.setup
-    );
-    ctx.theFirstContextVersion = mockFactory.contextVersion(
-      runnable,
-      apiMocks.contextVersions.angular
-    );
-    ctx.instance.contextVersion = ctx.theFirstContextVersion;
-    sinon.stub(ctx.contextVersion, 'fetch', function (cb) {
-      $rootScope.$evalAsync(function () {
-        cb(null, ctx.contextVersion);
+
+      mockOpenItems = {
+        models: [
+          genModel('name', 'anotherName'),
+          genModel('aname'),
+          genModel()
+        ]
+      };
+
+      mockOpenItems.getAllFileModels = sinon.stub().returns(mockOpenItems.models);
+
+      mockMainACV = {
+        attrs: {
+          mainACVAttrs: true
+        }
+      };
+      mockInstance = {
+        restart: sinon.spy(),
+        fetch: sinon.spy(),
+        status: sinon.stub().returns('running'),
+        stop: sinon.spy(),
+        start: sinon.spy(),
+        build: {
+          deepCopy: sinon.spy()
+        },
+        contextVersion: {
+          getMainAppCodeVersion: sinon.stub().returns(mockMainACV)
+        }
+      };
+
+      $scope.loading = true;
+      $scope.instance = mockInstance;
+      $scope.saving = true;
+      $scope.openItems = mockOpenItems;
+
+      var template = directiveTemplate.attribute('instance-primary-actions', {
+        loading: 'loading',
+        instance: 'instance',
+        saving: 'saving',
+        'open-items': 'openItems'
       });
-      return ctx.contextVersion;
-    });
-    sinon.stub(ctx.contextVersion, 'update', function (opts, cb) {
-      $rootScope.$evalAsync(function () {
-        cb(null, ctx.contextVersion);
-      });
-      return ctx.contextVersion;
-    });
-    sinon.stub(ctx.contextVersion, 'rollback', function (opts, cb) {
-      $rootScope.$evalAsync(function () {
-        cb(null, ctx.newContextVersion);
-      });
-      return ctx.newContextVersion;
-    });
-    readOnlySwitchController = $controller('ReadOnlySwitchController', {
-      '$scope': $scope
-    });
-  }
-  describe('basics'.blue, function () {
-    beforeEach(function () {
-      setup();
-    });
-    it('should exist', function () {
-      expect(readOnlySwitchController, 'readOnlySwitchController').to.be.ok;
-      expect(readOnlySwitchController.readOnly, 'readOnly').to.be.ok;
+      element = $compile(template)($scope);
+      $scope.$digest();
+      $elScope = element.isolateScope();
     });
   });
-  describe('readOnly'.blue, function () {
-    beforeEach(function () {
-      setup();
-    });
-    beforeEach(function () {
-      readOnlySwitchController.state = {
-        advanced: true,
-        promises: {
-          contextVersion: $q.when(ctx.contextVersion)
-        },
-        instance: ctx.instance
-      };
-    });
-    it('should be a getter', function () {
-      expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.true;
-    });
-    it('should attempt to update the cv, and set the lastBuiltSimpleContextVersion', function () {
-      readOnlySwitchController.state.advanced = false;
-      expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.false;
-      readOnlySwitchController.readOnly(true);
-      $scope.$digest();
-      sinon.assert.calledOnce(ctx.loadingPromiseMock.add);
-      sinon.assert.calledOnce(ctx.contextVersion.update);
-      sinon.assert.calledOnce(ctx.contextVersion.fetch);
-      expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.true;
-      expect(ctx.instance.attrs.lastBuiltSimpleContextVersion, 'lastBuiltSimpleContextVersion').to.be.ok;
-      expect(ctx.instance.attrs.lastBuiltSimpleContextVersion.id, 'lastBuiltSimpleContextVersion.id')
-        .to.equal(ctx.theFirstContextVersion.attrs.id);
-      expect(ctx.instance.attrs.lastBuiltSimpleContextVersion.created, 'lastBuiltSimpleContextVersion.created')
-        .to.equal(ctx.theFirstContextVersion.attrs.created);
-    });
-    it('should attempt to update the cv, and not change the existing lastBuiltSimpleContextVersion', function () {
-      ctx.instance.attrs.lastBuiltSimpleContextVersion = {
-        id: ctx.newContextVersion.attrs.id,
-        created: ctx.newContextVersion.attrs.created
-      };
-      readOnlySwitchController.state.advanced = false;
-      expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.false;
-      readOnlySwitchController.readOnly(true);
-      $scope.$digest();
-      sinon.assert.calledOnce(ctx.loadingPromiseMock.add);
-      sinon.assert.calledOnce(ctx.contextVersion.update);
-      sinon.assert.calledOnce(ctx.contextVersion.fetch);
-      expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.true;
-      expect(ctx.instance.attrs.lastBuiltSimpleContextVersion, 'lastBuiltSimpleContextVersion').to.be.ok;
-      expect(ctx.instance.attrs.lastBuiltSimpleContextVersion.id, 'lastBuiltSimpleContextVersion.id')
-        .to.equal(ctx.newContextVersion.attrs.id);
-      expect(ctx.instance.attrs.lastBuiltSimpleContextVersion.created, 'lastBuiltSimpleContextVersion.created')
-        .to.equal(ctx.newContextVersion.attrs.created);
-    });
-  });
-  describe('rollback'.blue, function () {
-    beforeEach(function () {
-      setup();
-    });
-    beforeEach(function () {
-      readOnlySwitchController.state = {
-        advanced: true,
-        promises: {
-          contextVersion: $q.when(ctx.contextVersion)
-        },
-        instance: ctx.instance
-      };
-    });
-    it('should rollback the cv', function () {
-      readOnlySwitchController.state.advanced = true;
-      expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.true;
-      var resetStateContextVersionMock = sinon.spy();
-      $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
-        resetStateContextVersionMock(contextVersion, showSpinner);
-      });
-      readOnlySwitchController.readOnly(false);
-      $scope.$digest();
-      sinon.assert.calledOnce(ctx.contextVersion.rollback);
-      sinon.assert.calledWith(resetStateContextVersionMock, ctx.newContextVersion, true);
+
+  it('initalizes scope properly', function () {
+    expect($elScope.saving).to.be.false;
+    expect($elScope.loading).to.be.true;
+
+    expect($elScope.popoverSaveOptions).to.deep.equal({
+      data: {
+        show: false,
+        restartOnSave: false
+      },
+      actions: {}
     });
 
-    it('should rollback to the old CV when rollback fails', function () {
-      readOnlySwitchController.state.advanced = true;
-      expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.true;
-      var resetStateContextVersionMock = sinon.spy();
-      $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
-        resetStateContextVersionMock(contextVersion, showSpinner);
+    expect($elScope.saveChanges).to.be.a.Function;
+  });
+
+  it('saves changes', function () {
+    $elScope.saveChanges();
+    expect($elScope.saving).to.be.true;
+    // Timeout
+    $timeout.flush();
+    expect($elScope.saving).to.be.false;
+    // Update models and file updates were called
+    sinon.assert.called(mockOpenItems.models[0].actions.saveChanges);
+    // No restart on save
+    sinon.assert.notCalled(mockInstance.restart);
+    sinon.assert.called(mockOpenItems.getAllFileModels);
+    sinon.assert.calledWith(mockOpenItems.getAllFileModels, true);
+  });
+
+  it('saves changes and restarts', function () {
+    $elScope.popoverSaveOptions.data.restartOnSave = true;
+    $elScope.saveChanges();
+    expect($elScope.saving).to.be.true;
+    // Timeout
+    $timeout.flush();
+    expect($elScope.saving).to.be.false;
+    // Update models and file updates were called
+    sinon.assert.called(mockOpenItems.models[0].actions.saveChanges);
+    // No restart on save
+    sinon.assert.called(mockInstance.restart);
+    sinon.assert.called(mockOpenItems.getAllFileModels);
+    sinon.assert.calledWith(mockOpenItems.getAllFileModels, true);
+  });
+
+  describe('popoverStatusOptions', function () {
+    describe('actions', function () {
+      it('should allow the user to stop the instance', function () {
+        $elScope.popoverStatusOptions.actions.stopInstance();
+        $elScope.$digest();
+        sinon.assert.calledOnce($scope.instance.stop);
       });
-      ctx.contextVersion.rollback = function () {};
-      sinon.stub(ctx.contextVersion, 'rollback', function (opts, cb) {
-        $rootScope.$evalAsync(function () {
-          cb(new Error('asdasdasdasd'));
-        });
-        return new Error('asdasdasdasd');
+      it('should allow the user to start the instance', function () {
+        $elScope.popoverStatusOptions.actions.startInstance();
+        $elScope.$digest();
+        sinon.assert.calledOnce($scope.instance.start);
       });
-      readOnlySwitchController.readOnly(false);
-      $scope.$digest();
-      sinon.assert.calledOnce(ctx.contextVersion.rollback);
-      sinon.assert.calledWith(resetStateContextVersionMock, ctx.contextVersion, true);
+      it('should allow the user to restart the instance', function () {
+        $elScope.popoverStatusOptions.actions.restartInstance();
+        $elScope.$digest();
+        sinon.assert.calledOnce($scope.instance.restart);
+      });
+
+      it('should allow the user to build without cache', function () {
+        $elScope.popoverStatusOptions.actions.rebuildWithoutCache();
+        $elScope.$digest();
+        sinon.assert.calledOnce($elScope.instance.build.deepCopy);
+        sinon.assert.calledOnce(mockUpdateInstanceWithNewBuild);
+      });
+      it('should allow the user to update the configuration to match master', function () {
+
+        var mainAcv = {
+          args: {
+            thisIsAttrs: true
+          },
+          update: sinon.spy()
+        };
+        var copiedCtxVersion = {
+          fetch: sinon.spy(),
+          getMainAppCodeVersion: sinon.stub().returns(mainAcv)
+        };
+        var masterInstanceDeepCopy = {
+          contextVersions: {
+            models: [copiedCtxVersion]
+          },
+          fetch: sinon.spy()
+        };
+        var masterInstance = {
+          attrs: {
+            env: 'env'
+          },
+          build: {
+            deepCopy: sinon.stub().returns(masterInstanceDeepCopy)
+          }
+        };
+        $elScope.instance.fetchMasterPod = sinon.stub().returns({models: [masterInstance]});
+        $elScope.$digest();
+        $elScope.popoverStatusOptions.actions.updateConfigToMatchMaster();
+        $elScope.$digest();
+
+        sinon.assert.calledOnce(mainAcv.update);
+        sinon.assert.calledWith(mainAcv.update, mockMainACV.attrs);
+        sinon.assert.calledOnce(mockUpdateInstanceWithNewBuild);
+        sinon.assert.calledWith(mockUpdateInstanceWithNewBuild, $scope.instance, masterInstanceDeepCopy, true, { env: 'env' });
+      });
+
     });
   });
-  describe('readOnly error'.blue, function () {
-    beforeEach(function () {
-      setup();
-    });
-    beforeEach(function () {
-      readOnlySwitchController.state = {
-        advanced: false,
-        promises: {
-          contextVersion: $q.reject(ctx.contextVersion)
-        },
-        instance: ctx.instance
-      };
-    });
-    it('should attempt to update the cv', function () {
-      expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.false;
-      readOnlySwitchController.readOnly(true);
-      $scope.$digest();
-      sinon.assert.notCalled(ctx.loadingPromiseMock.add);
-      sinon.assert.notCalled(ctx.contextVersion.update);
-      sinon.assert.notCalled(ctx.contextVersion.fetch);
-      expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.false;
-    });
+
+  it('should show the instance as busy if its starting', function () {
+    $scope.instance.status = sinon.stub().returns('starting');
+    expect($elScope.isChanging()).to.be.true;
+    sinon.assert.calledOnce($scope.instance.status);
   });
+
+  it('should show the instance as busy if its stopping', function () {
+    $scope.instance.status = sinon.stub().returns('stopping');
+    expect($elScope.isChanging()).to.be.true;
+    sinon.assert.calledOnce($scope.instance.status);
+  });
+
+  it('should show the instance as busy if its building', function () {
+    $scope.instance.status = sinon.stub().returns('building');
+    expect($elScope.isChanging()).to.be.true;
+    sinon.assert.calledOnce($scope.instance.status);
+  });
+
+  it('should show the instance as not busy if its Started', function () {
+    $scope.instance.status = sinon.stub().returns('started');
+    expect($elScope.isChanging()).to.be.false;
+    sinon.assert.calledOnce($scope.instance.status);
+  });
+
 });
