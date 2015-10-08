@@ -201,7 +201,13 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       mainACV: true,
       attrs: {
         branch: 'branchName'
-      }
+      },
+      update: sinon.spy(function (opts, cb) {
+        $rootScope.$evalAsync(function () {
+          cb(null, dockerfile);
+        });
+        return dockerfile;
+      })
     };
     newBuild = {
       contextVersion: {
@@ -416,10 +422,15 @@ describe('setupServerModalController'.bold.underline.blue, function () {
     it('should have the correct tabs when moving through steps', function () {
       SMC.openItems.remove = sinon.stub();
       SMC.openItems.add = sinon.stub();
+      SMC.state.acv = acv;
+      SMC.state.branch = branch;
+      SMC.actions.createAndBuild = sinon.stub().returns($q.when(dockerfile));
+      SMC.actions.deleteServer = sinon.stub().returns($q.when(true));
       fetchDockerfileFromSourceStub.reset();
       createNewBuildMock.returns(newBuild);
       SMC.state.selectedStack = {
-        key: 'ruby_ror'
+        key: 'ruby_ror',
+        ports: '8000, 900, 80'
       };
 
       SMC.selectRepo(repo);
@@ -444,13 +455,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       SMC.goToNextStep();
       $scope.$digest();
       expect(SMC.selectedTab).to.equal('logs');
-    });
-
-    it('should default to the `repository` tab', function () {
-      SMC.state.step = -1;
-      SMC.selectedTab = 'wow';
-      SMC.goToNextStep();
-      expect(SMC.selectedTab).to.equal('repository');
     });
 
     it('should go create the server and go to the logs when `createServerAndGoToNextStep` is called', function () {
@@ -486,7 +490,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       expect(SMC.selectedTab).to.equal(null);
       SMC.createServer = sinon.stub().returns($q.when(true));
 
-      SMC.createServerAndGoToNextStep();
+      SMC.goToNextStep();
       $scope.$digest();
       expect(SMC.selectedTab).to.equal('logs');
       sinon.assert.calledOnce(SMC.createServer);
@@ -495,16 +499,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   });
 
   describe('Close Modal', function () {
-
-    it('should close the modal and emit a global event', function () {
-      closeSpy.reset();
-      var closeModalSpy = sinon.stub();
--     $rootScope.$on('close-modal', closeModalSpy);
-      SMC.closeModal();
-      $scope.$digest();
-      sinon.assert.calledOnce(closeModalSpy);
-      sinon.assert.calledOnce(closeSpy);
-    });
 
     it('should close the modal and and not delete the server if there is no instance', function () {
       closeSpy.reset();
