@@ -27,6 +27,7 @@
               ng-pattern = "/^[a-zA-Z0-9-]*$/"
               placeholder = "e.g. Runnable"
               spellcheck = "false"
+              tabindex = "{{isActivePanel() ? '0' : '-1'}}"
             )
             .spinner-wrapper.spinner-sm.in.float-right(
               ng-if = "loading"
@@ -55,6 +56,7 @@
               goToPanel('githubAuth');\
             "
             ng-disabled = "!teamName"
+            tabindex = "{{isActivePanel() ? '0' : '-1'}}"
           )
             //- spinner
             .spinner-wrapper.spinner-sm.spinner-white.in(
