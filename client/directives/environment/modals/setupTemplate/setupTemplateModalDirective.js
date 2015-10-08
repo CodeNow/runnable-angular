@@ -44,6 +44,7 @@ function setupTemplateModal(
             masterPod: true
           }
         };
+        $rootScope.$broadcast('close-modal');
         return $scope.actions.createAndBuild(
           copySourceInstance(
             $rootScope.dataApp.data.activeAccount,
