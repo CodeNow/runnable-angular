@@ -56,7 +56,7 @@
 //- properties of container
 .instance-header-properties
 
-  div.btn.btn-sm(
+  div(
     instance = "instance"
     container-status-button
   )
@@ -74,7 +74,7 @@
   )
     //- not button elements because we only want the <label> to trigger on the input
     a.btn.btn-xs(
-      ng-href = "{{instance.getContainerHostname()}}{{defaultPort}}"
+      ng-href = "http://{{instance.getContainerHostname()}}{{defaultPort}}"
       target = "_blank"
     ) URL
       svg.iconnables.float-right
@@ -86,11 +86,19 @@
       select-all
       value = "{{instance.getContainerHostname()}}{{defaultPort}}"
     )
-    .btn.btn-xs Copy
+    button.btn.btn-xs(
+      clipboard
+      on-copied = "onClipboardEvent()"
+      on-error = "onClipboardEvent(err)"
+      ng-mouseenter = "onClipboardEvent(null, true)"
+      tooltip = "{{clipboardText}}"
+      tooltip-observe
+      tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":0,\"top\":18}"
+      text = "instance.getContainerHostname() + defaultPort"
+    ) Copy
 
-  div.btn.btn-sm(
+  save-open-items-button(
     instance = "instance"
-    save-open-items-button
     loading = "isLoading.main"
     open-items = "openItems"
   )

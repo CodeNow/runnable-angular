@@ -9,8 +9,9 @@ function saveOpenItemsButton(
 ) {
   return {
     restrict: 'E',
+    replace: true,
     templateUrl: 'saveOpenItemsButtonView',
-    controller: 'saveOpenItemsButtonController',
+    controller: 'SaveOpenItemsButtonController',
     controllerAs: 'SOIBC',
     bindToController: true,
     scope: {

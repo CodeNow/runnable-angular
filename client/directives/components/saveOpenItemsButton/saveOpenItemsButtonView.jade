@@ -5,7 +5,7 @@
   //- apply .with-restart if save restarts Server
   //- add title = "Save and Restart Server" if save restarts Server
   button.btn.btn-sm.white.btn-spinner(
-    ng-class = "{in: loading}"
+    ng-class = "{in: SOIBC.loading}"
     ng-click = "SOIBC.saveChanges()"
     ng-disabled = "SOIBC.loading"
     type = "button"
@@ -34,5 +34,3 @@
       use(
         xlink:href = "#icons-arrow-down"
       )
-//- end button, remove with $root.featureFlags.saveToolbar
-//- ***********************

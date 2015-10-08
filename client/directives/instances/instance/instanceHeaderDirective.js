@@ -2,6 +2,9 @@
 
 require('app')
   .directive('instanceHeader', instanceHeader);
+
+var CLIPBOARD_START_MESSAGE = 'Click to copy';
+
 /**
  * @ngInject
  */
@@ -34,8 +37,26 @@ function instanceHeader(
           $scope.defaultPort = ':' + ports[0];
         }
       });
-
-
+      $scope.clipboardText = CLIPBOARD_START_MESSAGE;
+      $scope.onClipboardEvent = function (err, reset) {
+        if (reset) {
+          $scope.clipboardText = CLIPBOARD_START_MESSAGE;
+        } else if (err) {
+          $scope.clipboardText = 'lolz';
+        } else {
+          $scope.clipboardText = 'Copied!';
+        }
+      };
+      $scope.getClipboardStatusText = function (clipboardStatus) {
+        switch ($scope.clipboardStatus) {
+          case 'success':
+            return 'Copied!';
+          case 'failure':
+            return ;
+          default:
+            return 'Click to copy';
+        }
+      };
     }
   };
 }

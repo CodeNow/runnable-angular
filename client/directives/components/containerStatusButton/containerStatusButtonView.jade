@@ -1,9 +1,9 @@
-button.btn-spinner(
+button.btn.btn-sm.btn-spinner.btn-status(
   ng-class = "getClassForInstance()"
   ng-disabled = "isChanging()"
   ng-click = "CSBC.popoverActive = true"
 )
-  status-icon(
+  status-icon.float-left(
     instance = "CSBC.instance"
     ng-if = "!isChanging()"
   )

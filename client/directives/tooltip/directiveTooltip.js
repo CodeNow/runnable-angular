@@ -64,7 +64,13 @@ function tooltip(
         if (attrs.tooltipDisabled && $scope.$eval(attrs.tooltipDisabled)) {
           return;
         }
+        if (attrs.hasOwnProperty('tooltipObserve')) {
+          attrs.$observe('tooltip', function (newVal) {
+            $scope.toolTip.toolTipText = newVal;
+          });
+        }
         $scope.toolTip.toolTipText = attrs.tooltip;
+
         if (attrs.tooltipEval) {
           $scope.toolTip.toolTipText = $scope.$eval(attrs.tooltipEval);
         }
