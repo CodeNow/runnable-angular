@@ -85,6 +85,7 @@ function popOver(
         }(popoverElementScope, popoverElement));
       };
       function openPopover(options) {
+        $scope.active = true;
         $scope.popoverOptions = $scope.popoverOptions || {};
 
         if (!exists($scope.popoverOptions.top) && !exists($scope.popoverOptions.bottom)) {
@@ -95,14 +96,17 @@ function popOver(
         }
 
         $rootScope.$broadcast('close-popovers');
-        // If the click has no target we should close the popover.
-        // If the click has a target and that target is on the page but not on our popover we should close the popover.
-        // Otherwise we should keep the popover alive.
-        unbindDocumentClick = $scope.$on('app-document-click', function (event, target) {
-          if(!target || (target && $document[0].contains(target) && !popoverElement[0].contains(target))){
-            $scope.closePopover();
-          }
-        });
+
+        $timeout(function () {
+          // If the click has no target we should close the popover.
+          // If the click has a target and that target is on the page but not on our popover we should close the popover.
+          // Otherwise we should keep the popover alive.
+          unbindDocumentClick = $scope.$on('app-document-click', function (event, target) {
+            if(!target || (target && $document[0].contains(target) && !popoverElement[0].contains(target))){
+              $scope.closePopover();
+            }
+          });
+        }, 0);
         unbindPopoverOpened = $scope.$on('close-popovers', function () {
           $scope.closePopover();
         });
@@ -177,9 +181,6 @@ function popOver(
         // Trigger a digest cycle
         $timeout(angular.noop);
 
-        $timeout(function(){
-          $scope.active = true;
-        }, 0);
       }
       function clickHandler(event) {
         event.stopPropagation(); // If we don't stop prop we will immediately close ourselves!
@@ -217,10 +218,13 @@ function popOver(
           });
           break;
         case 'activeAttr':
-          var unwatchActive = $scope.$watch('active', function (newVal) {
+          var unwatchActive = $scope.$watch('active', function (newVal, oldVal) {
             if (newVal) {
-              openPopover();
-            } else {
+              if (newVal !== oldVal) {
+                openPopover();
+              }
+            } else if (popoverElementScope) {
+              // Only close if we have opened a popover, it's not possible to open a popover without setting up the elementScope!
               $scope.closePopover();
             }
           });
