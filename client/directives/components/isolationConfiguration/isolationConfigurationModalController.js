@@ -32,7 +32,7 @@ function IsolationConfigurationModalController(
     });
 
     loading('createIsolation', true);
-    createIsolation( ICMC.instance, isolatedChildren)
+    createIsolation(ICMC.instance, isolatedChildren)
       .then(function () {
         ICMC.close();
       })
