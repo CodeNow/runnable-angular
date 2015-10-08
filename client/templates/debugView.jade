@@ -12,8 +12,10 @@ div(
     ng-if = "!$root.featureFlags.isolationUI"
   )
     .container-heading.centered
-      .icons-status.running
-      strong.strong {{DC.instance.getDisplayName()}}
+      status-icon(
+        instance = "DC.instance"
+      )
+      strong.strong {{DC.instance.getRepoName() || DC.instance.attrs.name}}
       span(
         ng-if = "DC.instance.getBranchName()"
       ) /{{DC.instance.getBranchName()}}
