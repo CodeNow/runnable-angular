@@ -503,7 +503,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
     it('should close the modal and and not delete the server if there is no instance', function () {
       closeSpy.reset();
       SMC.instance = null;
-      SMC.closeModalOrDeleteInstance();
+      SMC.actions.close();
       $scope.$digest();
       sinon.assert.calledOnce(closeSpy);
     });
@@ -512,7 +512,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       closeSpy.reset();
       SMC.instance = { hello: 'world' };
       SMC.actions.deleteServer = sinon.stub().returns($q.when(true));
-      SMC.closeModalOrDeleteInstance();
+      SMC.actions.close();
       $scope.$digest();
       sinon.assert.calledOnce(SMC.actions.deleteServer);
       sinon.assert.calledOnce(closeSpy);
