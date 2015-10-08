@@ -11,14 +11,14 @@ function InstanceNavigationController(
 ) {
   var INC = this;
 
-  if (INC.masterInstance !== INC.instance){
+  if (INC.masterInstance !== INC.instance) {
     INC.instance.attrs.isIsolationGroupMaster = true;
     INC.instance.attrs.isolated = '12345';
     INC.instance.isolation = {
-      destroy: function(cb) {
+      destroy: function (cb) {
         cb(new Error('Isolation is not configured yet to be destroyed. This is mocked.'));
       }
-    }
+    };
   }
 
   INC.setupIsolation = function () {
@@ -60,7 +60,7 @@ function InstanceNavigationController(
     })
       .then(function (modal) {
         modal.close.then(function (confirmed) {
-          if ( confirmed ) {
+          if (confirmed) {
             promisify(INC.instance.isolation, 'destroy')()
               .catch(errs.handler);
           }
@@ -84,14 +84,14 @@ function InstanceNavigationController(
     })
       .then(function (modal) {
         modal.close.then(function (confirmed) {
-          if ( confirmed ) {
+          if (confirmed) {
             // TODO: Implement
             console.log('Deleting container');
           }
         });
       })
       .catch(errs.handler);
-  }
+  };
 }
 
 
