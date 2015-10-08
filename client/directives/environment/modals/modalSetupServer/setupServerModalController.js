@@ -30,37 +30,18 @@ function SetupServerModalController (
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
   // This needs to go away soon.
   $scope.data = data;
-  $scope.actions = actions;
-
   loadingPromises.clear('setupServerModal');
   loading.reset('setupServerModal');
 
   var mainRepoContainerFile = new cardInfoTypes.MainRepository();
 
   angular.extend(SMC, {
-    close: close,
-    closeWithConfirmation:function () {
-      $rootScope.$broadcast('close-popovers');
-        ModalService.showModal({
-          controller: 'ConfirmationModalController',
-          controllerAs: 'CMC',
-          templateUrl: 'confirmCloseEditServer'
-        })
-          .then(function (modal) {
-            modal.close.then(function (confirmed) {
-              if ( confirmed ) {
-                close();
-              }
-            });
-          })
-          .catch(errs.handler);
-    },
     isLoading: $rootScope.isLoading,
     portsSet: false,
     isNewContainer: true,
     openItems: new OpenItems(),
     getElasticHostname: function () {
-      if (SMC.state.repo.attrs) {
+      if (keypather.get(SMC, 'state.repo.attrs')) {
         // NOTE: Is SMC the best way to get the hostname?
         var repo = SMC.state.repo;
         var repoName = repo.attrs.name;
@@ -83,12 +64,43 @@ function SetupServerModalController (
       promises: {},
       opts: {
         masterPod: true,
-        name: ''
+        name: '',
       },
       selectedStack: null,
       step: 1
     },
-    actions: actions,
+    actions: angular.extend(actions, {
+      close: function () {
+        if (SMC.instance) {
+          return SMC.actions.deleteServer(SMC.instance, 'confirmDiscardServerView')
+            .then(function (confirmed) {
+              if (confirmed) {
+                close();
+              }
+            });
+        }
+        if (SMC.state.repo) {
+          return SMC.actions.closeWithConfirmation();
+        }
+        return close();
+      },
+      closeWithConfirmation: function () {
+        $rootScope.$broadcast('close-popovers');
+          ModalService.showModal({
+            controller: 'ConfirmationModalController',
+            controllerAs: 'CMC',
+            templateUrl: 'confirmCloseEditServer'
+          })
+            .then(function (modal) {
+              modal.close.then(function (confirmed) {
+                if (confirmed) {
+                  close();
+                }
+              });
+            })
+            .catch(errs.handler);
+      },
+    }),
     data: data,
     selectedTab: 'repository'
   });
@@ -106,8 +118,13 @@ function SetupServerModalController (
     });
 
   $scope.$watchCollection(function () {
-     return SMC.state.ports;
-  }, updateDockerfileFromState.bind(null, SMC.state, true, true));
+    return SMC.state.ports;
+  }, function (newPortsArray, oldPortsArray) {
+    if (!angular.equals(newPortsArray, oldPortsArray)) {
+      // Only update the Dockerfile if the ports have actually changed
+      updateDockerfileFromState(SMC.state, true, true);
+    }
+  });
 
   function normalizeRepoName(repo) {
     return repo.attrs.name.replace(/[^a-zA-Z0-9-]/g, '-');
@@ -131,15 +148,29 @@ function SetupServerModalController (
 
   SMC.goToNextStep = function () {
     SMC.state.step += 1;
-    if (SMC.state.step === 1) {
-      SMC.changeTab('repository');
-    }
-    else if (SMC.state.step === 2) {
+    // Update step in setup-confirm-button directive
+    $scope.$broadcast('updateStep', SMC.state.step);
+    if (SMC.state.step === 2) {
       SMC.changeTab('commands');
     }
     else if (SMC.state.step === 3) {
-      SMC.changeTab(null);
-      loadAllOptions(); // When stack is selected, load dockerfile, etc
+      loading('setupServerModal', true);
+      return loadAllOptions() // When stack is selected, load dockerfile, etc
+        .then(function () {
+          SMC.changeTab(null);
+          loading('setupServerModal', false);
+        });
+    }
+    else if (SMC.state.step === 4) {
+      loading('setupServerModal', true);
+      return SMC.createServer()
+        .then(function () {
+          // Go on to step 4 (logs)
+          SMC.changeTab('logs');
+          loading('setupServerModal', false);
+        });
+    } else if (SMC.state.step > 4) {
+      return close();
     }
   };
 
@@ -170,12 +201,11 @@ function SetupServerModalController (
   }
 
   function loadAllOptions() {
-    loading('setupServerModal', true); // Add spinner to modal
     if (Array.isArray(SMC.state.ports) && SMC.state.ports.length === 0) {
       SMC.state.ports = loadPorts();
     }
     // Populate ports at when stack has been selected
-   return fetchDockerfileFromSource(SMC.state.selectedStack.key)
+    return fetchDockerfileFromSource(SMC.state.selectedStack.key)
       .then(function () {
         return updateDockerfileFromState(SMC.state, true, true);
       })
@@ -184,10 +214,6 @@ function SetupServerModalController (
       })
       .then(function () {
         return openDockerfile();
-      })
-      .then(function () {
-        // Return modal to normal state
-        loading('setupServerModal', false);
       });
   }
 
@@ -196,7 +222,7 @@ function SetupServerModalController (
   };
 
   SMC.areStackAndVersionSelected = function () {
-     return !!(SMC.state.selectedStack && SMC.state.selectedStack.selectedVersion);
+    return !!(SMC.state.selectedStack && SMC.state.selectedStack.selectedVersion);
   };
 
   SMC.createServer = function () {
@@ -224,13 +250,23 @@ function SetupServerModalController (
     if (Array.isArray(SMC.state.ports) && SMC.state.ports.length === 0) {
       SMC.state.ports = loadPorts();
     }
-    close();
     return SMC.openItems.updateAllFiles()
       .then(function () {
-         return SMC.actions.createAndBuild(createPromise, SMC.state.opts.name);
+        return SMC.actions.createAndBuild(createPromise, SMC.state.opts.name);
       })
       .then(function (instance) {
         SMC.instance = instance;
+        SMC.state.instance = instance;
+        return SMC;
+      });
+  };
+
+  SMC.createServerAndClose = function () {
+    loading('setupServerModal', true);
+    return SMC.createServer()
+      .then(function () {
+        loading('setupServerModal', false);
+        close();
       });
   };
 
@@ -306,5 +342,4 @@ function SetupServerModalController (
           });
       });
   };
-
 }
