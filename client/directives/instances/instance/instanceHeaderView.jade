@@ -46,6 +46,14 @@
         xlink:href = "#icons-pull-request"
       )
     | \#{{pr.number}}
+  span(
+    ng-if = "$root.featureFlags.internalDebugging"
+    style = "bottom: 12px;font-size: 13px;position: relative;top: -5px;"
+  )    {{instance.containers.models[0].attrs.dockerHost}} |&#32;
+    span(
+      ng-repeat = "(key, value) in instance.containers.models[0].attrs.ports"
+    ) {{key}}:{{value[0].HostPort}} |&#32;
+
 
   //- if a container from an isolated branch, use .btn-badge for the initial branch
     - should say "Isolated" when viewing the isolated branch
