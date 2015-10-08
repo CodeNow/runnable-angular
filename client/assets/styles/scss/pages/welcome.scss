@@ -40,6 +40,27 @@
     text-align: center;
   }
 
+  .input-wrapper {
+    position: relative;
+
+    .input {
+
+      &:focus ~ .spinner-wrapper .path {
+        stroke: $purple-light;
+      }
+
+      &.loading {
+        padding-right: 30px;
+      }
+    }
+
+    .spinner {
+      position: absolute;
+      right: 12px;
+      top: 13px;
+    }
+  }
+
   // footer
   .footer {
     align-items: center;
@@ -73,6 +94,10 @@
   line-height: 22px;
   margin: 9px 0 0;
   text-align: center;
+
+  .btn {
+    margin-left: 9px;
+  }
 }
 
 .panel-auth {

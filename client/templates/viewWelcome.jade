@@ -17,23 +17,26 @@
         )
           h3.h3 Create your team
           p.p Team names are used for other members to find and request access to your team.
-          input.input.input-validate(
-            autofocus
-            maxlength = "39"
-            name = "teamName"
-            ng-model = "teamName"
-            ng-pattern = "/^[a-zA-Z0-9-]*$/"
-            placeholder = "e.g. Runnable"
-            spellcheck = "false"
-          )
+          .input-wrapper
+            input.input.input-validate(
+              autofocus
+              maxlength = "39"
+              name = "teamName"
+              ng-class = "{'loading': loading}"
+              ng-model = "teamName"
+              ng-pattern = "/^[a-zA-Z0-9-]*$/"
+              placeholder = "e.g. Runnable"
+              spellcheck = "false"
+            )
+            .spinner-wrapper.spinner-sm.in.float-right(
+              ng-if = "loading"
+              ng-include = "'spinner'"
+            )
           //- if name is already taken
           .alert.gray(
             ng-if = "teamName === 'Runnable'"
-          ) That name is taken! Are you looking to&#32;
-            a.link(
-              href = "#"
-            ) join
-            | &#32;that team?
+          ) There’s already a team named {{teamName}}
+            button.btn.btn-xs.gray Join Team
           ul.list.list-bulleted.list-validation
             li.list-item(
               ng-class = "{'ng-invalid': createTeam.$error.pattern}"
