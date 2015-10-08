@@ -331,7 +331,7 @@ function SetupServerModalController (
 
   SMC.closeModalOrDeleteInstance = function () {
     if (SMC.instance) {
-      return SMC.actions.deleteServer(SMC.instance, 'confirmCloseEditServer')
+      return SMC.actions.deleteServer(SMC.instance, 'confirmDiscardServerView')
         .then(function (confirmed) {
           if (confirmed) {
             close();
