@@ -8,6 +8,7 @@
     name = "createTeam"
   )
     animated-panel-container
+
       animated-panel.panel-name(
         default = "true"
         name = "teamName"
@@ -19,6 +20,7 @@
           p.p Team names are used for other members to find and request access to your team.
           .input-wrapper
             input.input.input-validate(
+              autocomplete = "off"
               autofocus
               maxlength = "39"
               name = "teamName"
@@ -136,8 +138,10 @@
           p.p Now that we’re connected to Github, you can choose an organization to use.
 
           //- search
-          input.input.input-xs.input-search.fade(
-            ng-class = "{'in': !activeItem}"
+          input.input.input-xs.input-search(
+            ng-class = "{\
+              'out': activeItem\
+            }"
             ng-if = "isActivePanel()"
             placeholder = "Filter by name"
             required
@@ -178,7 +182,7 @@
               small.small.load(
                 ng-if = "$parent.activeItem === $index"
               ) 10 Repositories
-              button.btn.btn-sm.green(
+              button.btn.btn-sm.green.load(
                 ng-if = "$parent.activeItem === $index"
               ) Select Organization
 
