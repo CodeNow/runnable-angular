@@ -24,41 +24,22 @@
 
   // if isolated add .isolated
   // if sub item is active add open class.
-  a.list-item(
-    ui-sref = "\
-      base.instances.instance({ userName: CIS.activeAccount.oauthName(), \
-      instanceName: childInstance.attrs.name })\
-    "
-    ui-sref-active = "open active"
-
-    ng-repeat = "childInstance in [masterInstance].concat(masterInstance.children.models)"
-  )
-    .list-item-container(
-      ng-class = "{'active': branch.selected}"
+  .list-item
+    instance-navigation(
+      master-instance = "masterInstance"
+      instance = "masterInstance"
+      active-account = "CIS.activeAccount"
     )
-      status-icon(
-        instance = "childInstance"
-      )
-      .text-overflow(
-        title = "{{childInstance.getBranchName()}}"
-      ) {{childInstance.getBranchName()}}
-      //- hide badge if popover is open
-      .btn.btn-xxs.btn-badge.gray(
-        ng-if = "$root.featureFlags.isolationUI && !popoverContainerMenu.data.show"
-      ) Isolated
 
-      svg.iconnables.icons-overflow(
-        ng-if = "$root.featureFlags.isolationUI"
-        ng-class = "{'active': popoverContainerMenu.data.show}"
-        pop-over
-        pop-over-active = "popoverContainerMenu.data.show"
-        pop-over-data = "popoverContainerMenu.data"
-        pop-over-options = "{\"verticallyCentered\":true,\"left\":28}"
-        pop-over-template = "viewPopoversContainerMenu"
-      )
-        use(
-          xlink:href = "#icons-overflow"
-        )
+  .list-item(
+    ng-repeat = "childInstance in masterInstance.children.models"
+  )
+    instance-navigation(
+      master-instance = "masterInstance"
+      ng-class = "{'active': branch.selected}"
+      instance = "childInstance"
+      active-account = "CIS.activeAccount"
+    )
 
     //- list of isolated containers
     ul.list.list-isolated(
@@ -93,22 +74,7 @@
   .list-item(
     ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
   )
-    .list-item-container
-      status-icon(
-        instance = "masterInstance"
-      )
-      a.text-overflow(
-        ui-sref = "\
-          base.instances.instance({ userName: CIS.activeAccount.oauthName(), \
-          instanceName: masterInstance.attrs.name })\
-        "
-        ui-sref-active = "open active"
-        title = "{{masterInstance.attrs.name}}"
-      ) {{masterInstance.attrs.name}}
-      svg.iconnables.icons-advanced(
-        ng-click="CIS.editInstance(masterInstance)"
-        title = "Configure"
-      )
-        use(
-          xlink:href = "#icons-advanced"
-        )
+    instance-navigation(
+      instance = "masterInstance"
+      active-account = "CIS.activeAccount"
+    )
