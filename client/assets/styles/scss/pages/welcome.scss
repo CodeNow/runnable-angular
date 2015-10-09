@@ -262,7 +262,7 @@
 
     // if selected
     &.active {
-      box-shadow: inset 0 0 0 2px $purple-light;
+      box-shadow: inset 0 0 0 $input-border $purple-light;
       cursor: default;
 
       .img {
