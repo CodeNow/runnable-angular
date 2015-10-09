@@ -22,8 +22,8 @@
         xlink:href = "#icons-advanced"
       )
 
-  // if isolated add .isolated
-  // if sub item is active add open class.
+  //- if isolated add .isolated
+  //- if sub item is active add open class.
   a.list-item(
     ui-sref = "\
       base.instances.instance({ userName: CIS.activeAccount.oauthName(), \
@@ -76,6 +76,14 @@
             use(
               xlink:href = "#icons-overflow"
             )
+  //- button.btn.btn-xs.white(
+  //-   modal
+  //-   modal-template = "viewModalInviteAdmin"
+  //- ) Enable Branches…
+  button.btn.btn-xs.green(
+    modal
+    modal-template = "viewModalLaunchBranches"
+  ) Launch Branches…
 
   //- nav list filter
   .btn.btn-xxs(
