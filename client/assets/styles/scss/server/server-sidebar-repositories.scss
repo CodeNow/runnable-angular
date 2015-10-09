@@ -1,23 +1,23 @@
-.btn-repository.refreshing {
-  pointer-events: none;
+// .btn-repository.refreshing {
+//   pointer-events: none;
 
-  .repository-info {
-    opacity: .15;
-  }
+//   .repository-info {
+//     opacity: .15;
+//   }
 
-  .spinner-wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    align-items: center;
+//   .spinner-wrapper {
+//     position: absolute;
+//     top: 0;
+//     left: 0;
+//     width: 100%;
+//     height: 100%;
+//     align-items: center;
 
-    .spinner {
-      color: $gray-light;
-    }
-  }
-}
+//     .spinner {
+//       color: $gray-light;
+//     }
+//   }
+// }
 
 .toggle-auto-deploy {
   color: $gray;
@@ -68,6 +68,19 @@
 .repository-info {
   padding-left: 21px;
   position: relative;
+
+  &.small {
+    color: $gray;
+    opacity: .65;
+  }
+
+  .a {
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
 
   .iconnables {
     height: 14px;
