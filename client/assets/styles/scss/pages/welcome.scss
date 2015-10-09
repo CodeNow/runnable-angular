@@ -67,6 +67,13 @@
     float: none;
     margin: 0 auto 15px;
     min-width: 90px;
+
+    // github icon
+    .icons-github {
+      float: left;
+      height: 38px;
+      margin-right: 6px;
+    }
   }
 
   // footer
@@ -138,19 +145,13 @@
       }
     }
   }
-
-  // github icon
-  .icons-github {
-    float: left;
-    height: 38px;
-    margin-right: 6px;
-  }
 }
 
 .panel-orgs {
 
   .p {
     margin-bottom: 15px;
+    max-width: 330px;
   }
 
   .input-search {
@@ -298,5 +299,10 @@
       position: relative;
       right: auto;
     }
+  }
+
+  // empty state
+  .btn-center {
+    margin-top: 21px;
   }
 }

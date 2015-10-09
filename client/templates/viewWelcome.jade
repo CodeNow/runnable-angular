@@ -137,6 +137,23 @@
           h3.h3 Welcome back!
           p.p Now that we’re connected to Github, you can choose an organization to use.
 
+          //- empty state, hide search and list if empty
+          //- p.p Runnable is best used with a team, but we couldn’t find any&#32;
+            a.link(
+              href = "//help.github.com/articles/about-organizations/"
+              target = "_blank"
+            ) Github organizations
+            | &#32; that you’re a part of. Try again with a Github account that’s part of an organization.
+
+            a.btn.green.btn-center(
+              href = "#"
+            )
+              svg.iconnables.icons-github
+                use(
+                  xlink:href = "#icons-github"
+                )
+              | Retry Sign In
+
           //- search
           input.input.input-xs.input-search(
             ng-class = "{\
