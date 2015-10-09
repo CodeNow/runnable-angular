@@ -14,7 +14,8 @@ function ServerModalController (
   keypather,
   loading,
   loadingPromises,
-  promisify
+  promisify,
+  updateDockerfileFromState
 ) {
 
   this.openDockerfile = function () {
@@ -44,8 +45,11 @@ function ServerModalController (
       !SMC.openItems.isClean();
   };
 
-  this.rebuildAndOrRedeploy = function () {
+  this.rebuildAndOrRedeploy = function (noCache) {
     var SMC = this;
+    if (!noCache) {
+      noCache = false;
+    }
     var toRebuild;
     var toRedeploy;
     // So we should do this watchPromise step first so that any tab that relies on losing focus
@@ -65,12 +69,9 @@ function ServerModalController (
 
         // If we are redeploying and the build is not finished we need to rebuild or suffer errors from API.
         if (toRedeploy && ['building', 'buildFailed', 'neverStarted'].includes(keypather.get(SMC, 'instance.status()'))) {
-          console.log('Build is not finished!');
           toRedeploy = false;
           toRebuild = true;
         }
-        console.log('toRebuild', toRebuild);
-        console.log('toRedeploy', toRedeploy);
 
         if (!SMC.openItems.isClean()) {
           return SMC.openItems.updateAllFiles();
@@ -85,9 +86,11 @@ function ServerModalController (
         return $q.when(true)
           .then(function () {
             if (toRebuild) {
-              console.log('Build build');
               eventTracking.triggeredBuild(false);
-              return promisify(SMC.state.build, 'build')({ message: 'manual' })
+              return promisify(SMC.state.build, 'build')({
+                message: 'manual',
+                noCache: !!noCache
+              })
                 .then(function (build) {
                   SMC.state.opts.build = build.id();
                   return SMC.state;
@@ -96,23 +99,19 @@ function ServerModalController (
             return SMC.state;
           })
           .then(function (state) {
-            console.log('Update instance');
             return promisify(SMC.instance, 'update')(state.opts);
           })
           .then(function () {
             if (toRedeploy) {
-              console.log('Redeploy instance');
               return promisify(SMC.instance, 'redeploy')();
             }
           });
       });
   };
-  
+
   this.afterParsingDockerfile = function (data, contextVersion) {
     var SMC = this;
-    Object.keys(data).forEach(function (key) {
-      SMC.instance[key] = data[key];
-    });
+    angular.extend(SMC, data);
     if (typeof data.ports === 'string') {
       var portsStr = data.ports.replace(/,/gi, '');
       var ports = (portsStr || '').split(' ');
@@ -134,7 +133,7 @@ function ServerModalController (
     }, function (newPortsArray, oldPortsArray) {
       if (!angular.equals(newPortsArray, oldPortsArray)) {
         // Only update the Dockerfile if the ports have actually changed
-        SMC.updateDockerfileFromState();
+        updateDockerfileFromState(SMC.state, true, true);
       }
     });
 
@@ -155,12 +154,8 @@ function ServerModalController (
     }
   };
 
-  this.resetStateContextVersion = function (contextVersion, showSpinner) {
+  this.resetStateContextVersion = function (contextVersion, hasError) {
     var SMC = this;
-    loading.reset(SMC.name);
-    if (showSpinner) {
-      loading(SMC.name, true);
-    }
     SMC.state.advanced = keypather.get(contextVersion, 'attrs.advanced') || false;
     SMC.state.promises.contextVersion = loadingPromises.add(
       SMC.name,
@@ -172,18 +167,14 @@ function ServerModalController (
           return promisify(contextVersion, 'fetch')();
         })
     );
-    // We only set showSpinner to true when an error has not occurred, so we should only
-    // parse dockerfile info when this is true
-    if (showSpinner) {
+    // Only parse the Dockerfile info when no error has occurred
+    if (!hasError) {
       SMC.state.promises.contextVersion
         .then(function (contextVersion) {
           return parseDockerfileForCardInfoFromInstance(SMC.instance, contextVersion)
             .then(function (data) {
               return SMC.afterParsingDockerfile(data, contextVersion);
             });
-        })
-        .then(function () {
-          loading(SMC.name, false);
         });
     }
 

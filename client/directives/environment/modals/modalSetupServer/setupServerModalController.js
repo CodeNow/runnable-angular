@@ -29,8 +29,6 @@ function SetupServerModalController (
   close
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
-  window.SMC = SMC;
-  window.loadingPromises = loadingPromises;
 
   angular.extend(SMC, $controller('ServerModalController as SMC', { $scope: $scope }));
 
@@ -170,12 +168,14 @@ function SetupServerModalController (
         });
     }
     else if (SMC.state.step === 4) {
+      SMC.isBuilding = true;
       loading('setupServerModal', true);
       return SMC.createServer()
         .then(function () {
           // Go on to step 4 (logs)
-          SMC.changeTab('logs');
           loading('setupServerModal', false);
+          SMC.isBuilding = false;
+          SMC.changeTab('logs');
         });
     } else if (SMC.state.step > 4) {
       return close();
@@ -212,22 +212,22 @@ function SetupServerModalController (
       });
   }
 
-  SMC.rebuildIfDirty = function () {
-    console.log('Rebuild if Dirty');
+  SMC.rebuild = function (noCache) {
     SMC.isBuilding = true;
-    if (SMC.isDirty()) {
-      return SMC.rebuildAndOrRedeploy()
-        .then(function () {
-          return SMC.resetStateContextVersion(SMC.instance.contextVersion, false);
-        })
-        .then(function () {
-          SMC.isBuilding = false;
-        })
-        .catch(function (err) {
-          errs.handler(err);
-        });
-    }
-    return true;
+    return SMC.rebuildAndOrRedeploy(noCache)
+      .then(function () {
+        return SMC.resetStateContextVersion(SMC.instance.contextVersion, false);
+      })
+      .then(function (whatIsThis) {
+        return SMC;
+      })
+      .catch(function (err) {
+        errs.handler(err);
+      })
+      .finally(function () {
+        loadingPromises.clear(SMC.name);
+        SMC.isBuilding = false;
+      });
   };
 
   SMC.changeTab = function (tabname) {
@@ -270,7 +270,9 @@ function SetupServerModalController (
       .then(function (instance) {
         SMC.instance = instance;
         SMC.state.instance = instance;
-        loading(SMC.name, false);
+        return SMC.resetStateContextVersion(SMC.instance.contextVersion, false);
+      })
+      .then(function () {
         return SMC;
       });
   };

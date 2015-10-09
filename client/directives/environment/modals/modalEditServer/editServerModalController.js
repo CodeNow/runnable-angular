@@ -115,13 +115,6 @@ function EditServerModalController(
       SMC.data.sourceContexts = contexts;
     });
 
-  SMC.updateDockerfileFromState = function () {
-    // Only update from state if not in advanced mode
-    if (!keypather.get(SMC, 'instance.contextVersion.attrs.advanced')) {
-      return loadingPromises.add(SMC.name, updateDockerfileFromState(SMC.state));
-    }
-  };
-
   $scope.$on('debug-cmd-status', function (evt, status) {
     SMC.showDebugCmd = status;
   });
@@ -133,16 +126,33 @@ function EditServerModalController(
     SMC.linkedEnvResults = findLinkedServerVariables(SMC.state.opts.env);
   });
 
-   $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
+   $scope.$on('resetStateContextVersion', function ($event, contextVersion, hasNoErrors) {
     $event.stopPropagation();
-    SMC.resetStateContextVersion(contextVersion, showSpinner);
+    loading.reset(SMC.name);
+    if (hasNoErrors) {
+      loading(SMC.name, true);
+    }
+    SMC.resetStateContextVersion(contextVersion, hasNoErrors)
+      .then(function () {
+        if (hasNoErrors) {
+          loading(SMC.name, false);
+        }
+      });
   });
 
-  function resetState(instance, fromError) {
-    return SMC.resetStateContextVersion(instance.contextVersion, !fromError)
+  function resetState(instance, hasError) {
+    var showSpinner = !hasError;
+    loading.reset(SMC.name);
+    if (showSpinner) {
+      loading(SMC.name, true);
+    }
+    return SMC.resetStateContextVersion(instance.contextVersion, !hasError)
       .then(function () {
         // After context has been reset, start keeping track of loading promises
         // to check if current state is dirty
+        if (showSpinner) {
+          loading(SMC.name, false);
+        }
         loadingPromises.clear(SMC.name);
       });
   }

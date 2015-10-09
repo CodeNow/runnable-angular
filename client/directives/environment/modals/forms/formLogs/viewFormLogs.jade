@@ -1,15 +1,25 @@
 //- alert only appears when changes have been made
 .alert.gray(
- ng-if = "$root.featureFlags.newVerificationFlow && !SMC.isBuilding && SMC.isDirty()"
- ng-click = "SMC.rebuildIfDirty()"
+  ng-if = "\
+    $root.featureFlags.newVerificationFlow && \
+    !SMC.isBuilding && \
+    SMC.instance && SMC.instance.status() !== 'buildFailed' && \
+    SMC.isDirty() \
+  "
+  ng-click = "SMC.rebuild(false)"
 ) Rebuild to see changes you’ve made.
   button.btn.btn-xxs.gray Rebuild
 
-//- alert appears during a build failure AND no changes have been made
-//- .alert.orange(
-//-   ng-if = "$root.featureFlags.newVerificationFlow"
-//- ) Having build problems? Some errors can be resolved by rebuilding the container.
-//-   button.btn.btn-xxs.orange Rebuild
+// alert appears during a build failure AND no changes have been made
+.alert.orange(
+  ng-if = "\
+    $root.featureFlags.newVerificationFlow && \
+    !SMC.isBuilding && \
+    SMC.instance && SMC.instance.status() === 'buildFailed' \
+  "
+  ng-click = "SMC.rebuild(true)"
+) Having build problems? Some errors can be resolved by rebuilding the container.
+ button.btn.btn-xxs.orange Rebuild
 
 //- tabs
 .btn-group.btn-toggle.btn-toggle-xs(

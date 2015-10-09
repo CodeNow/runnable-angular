@@ -4,7 +4,7 @@
     ng-include = "'verifyServerSectionView'"
     ng-class = "{\
       'ace-active': (SMC.selectedTab === 'buildfiles' || SMC.selectedTab === 'env'),\
-      'disabled': $root.isLoading.setupServerModal,\
+      'disabled': SMC.isBuilding || $root.isLoading.setupServerModal,\
       'xl': (SMC.selectedTab === 'buildfiles' || SMC.selectedTab === 'env' || SMC.selectedTab === 'logs')\
     }"
   )

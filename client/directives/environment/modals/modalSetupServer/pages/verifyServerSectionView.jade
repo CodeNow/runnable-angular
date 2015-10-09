@@ -97,7 +97,7 @@ header.modal-header
       data-badge-count = "!"
       ng-class = "{\
         'active': SMC.selectedTab === 'logs',\
-        'badge': SMC.instance && SMC.isDirty()\
+        'badge': !(SMC.isBuilding || $root.isLoading.setupServerModal) && SMC.instance && SMC.isDirty()\
       }"
       ng-click = "SMC.changeTab('logs')"
       ng-if = "SMC.state.step === 4"
