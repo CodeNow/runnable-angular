@@ -102,12 +102,15 @@ function EnvironmentController(
   };
 
   $scope.actions = {
-    deleteServer: function (instance) {
+    deleteServer: function (instance, templateUrl) {
+      if (!templateUrl) {
+        templateUrl = 'confirmDeleteServerView';
+      }
       $rootScope.$broadcast('close-popovers');
       return ModalService.showModal({
         controller: 'ConfirmationModalController',
         controllerAs: 'CMC',
-        templateUrl: 'confirmDeleteServerView'
+        templateUrl: templateUrl
       })
         .then(function (modal) {
           return modal.close.then(function (confirmed) {

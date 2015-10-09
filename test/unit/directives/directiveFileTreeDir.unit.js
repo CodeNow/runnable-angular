@@ -700,7 +700,11 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       $scope.editExplorer = true;
       $scope.$digest();
 
-      var acv = {};
+      var acv = {
+        attrs: {
+          useLatest: false
+        }
+      };
       $elScope.popoverFileExplorerRepository.actions.editRepo(acv);
       $scope.$digest();
       sinon.assert.calledOnce(fetchCommitDataMock.activeBranch);
@@ -715,7 +719,9 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       $scope.$digest();
     });
     it('should support creating a new repo', function () {
-      var repo = {};
+      var repo = {
+        useLatest: false
+      };
       keypather.set(repo, 'repo.attrs.full_name', 'fullName');
       keypather.set(repo, 'branch.attrs.name', 'branchName');
       keypather.set(repo, 'commit.attrs.sha', 'commitSha');
@@ -732,7 +738,8 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
         repo: 'fullName',
         branch: 'branchName',
         commit: 'commitSha',
-        additionalRepo: true
+        additionalRepo: true,
+        useLatest: false
       });
     });
     it('should support removing a repo', function () {
@@ -755,7 +762,9 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       sinon.assert.calledOnce(mockFileModel.appCodeVersions.models[0].destroy);
     });
     it('should support updating a repo', function () {
-      var repo = {};
+      var repo = {
+        useLatest: false
+      };
       keypather.set(repo, 'acv.attrs.repo', 'CodeNow/RepoName');
       keypather.set(repo, 'branch.attrs.name', 'branchName');
       keypather.set(repo, 'commit.attrs.sha', 'commitSha');
@@ -776,7 +785,8 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       sinon.assert.calledOnce(mockFileModel.appCodeVersions.models[0].update);
       sinon.assert.calledWith(mockFileModel.appCodeVersions.models[0].update, {
         branch: 'branchName',
-        commit: 'commitSha'
+        commit: 'commitSha',
+        useLatest: false
       });
     });
   });
