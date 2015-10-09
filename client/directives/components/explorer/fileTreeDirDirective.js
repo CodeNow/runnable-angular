@@ -248,6 +248,8 @@ function fileTreeDir(
             repo.commit = fetchCommitData.activeCommit(acv);
             fetchCommitData.branchCommits(repo.branch);
 
+            repo.useLatest = acv.attrs.useLatest;
+
             $scope.popoverEditRepoCommit.data.repo = repo;
             acv.editing = true;
           },
@@ -277,7 +279,8 @@ function fileTreeDir(
                 repo: repo.repo.attrs.full_name,
                 branch: repo.branch.attrs.name,
                 commit: repo.commit.attrs.sha,
-                additionalRepo: true
+                additionalRepo: true,
+                useLatest: repo.useLatest
               })
             )
               .catch(errs.handler);
@@ -296,7 +299,8 @@ function fileTreeDir(
 
             loadingPromises.add($scope.loadingPromisesTarget, promisify(acv, 'update')({
               branch: repo.branch.attrs.name,
-              commit: repo.commit.attrs.sha
+              commit: repo.commit.attrs.sha,
+              useLatest: repo.useLatest
             }))
               .catch(errs.handler);
           }
