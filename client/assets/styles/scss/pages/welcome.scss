@@ -176,7 +176,7 @@
     // variables used to calculate flexbox grid
     $gutter: 1%;
     $col-1: 100% - ($gutter * 2); // 100% - ($gutter * [left + right margins])
-    $col-2: 100% - ($gutter * 2 * 2) / 2; // 100% - ($futter * [left + right margins] * [li] / [li])
+    $col-2: (100% - ($gutter * 2 * 2)) / 2; // 100% - ($futter * [left + right margins] * [li] / [li])
     $col-3: (100% - ($gutter * 2 * 3)) / 3; // 100% - ($gutter * [left + right margins] * [li] / [li])
 
     border: 0; // replace borders with box-shadow to reduce transition complexity
