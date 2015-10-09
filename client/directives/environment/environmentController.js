@@ -102,26 +102,29 @@ function EnvironmentController(
   };
 
   $scope.actions = {
-    deleteServer: function (instance) {
+    deleteServer: function (instance, templateUrl) {
+      if (!templateUrl) {
+        templateUrl = 'confirmDeleteServerView';
+      }
       $rootScope.$broadcast('close-popovers');
-      ModalService.showModal({
+      return ModalService.showModal({
         controller: 'ConfirmationModalController',
         controllerAs: 'CMC',
-        templateUrl: 'confirmDeleteServerView'
+        templateUrl: templateUrl
       })
         .then(function (modal) {
-          modal.close.then(function (confirmed) {
-            if ( confirmed ) {
+          return modal.close.then(function (confirmed) {
+            if (confirmed) {
               promisify(instance, 'destroy')()
                 .catch(errs.handler);
               helpCards.refreshAllCards();
             }
+            return confirmed;
           });
         })
         .catch(errs.handler);
     },
     createAndBuild: function (createPromise, name) {
-      $rootScope.$broadcast('close-modal');
 
       eventTracking.triggeredBuild(false);
       // Save this in case it changes

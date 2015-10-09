@@ -29,7 +29,7 @@
           use(
             xlink:href = "#icons-log"
           )
-        | View {{ (['building', 'buildFailed', 'neverStarted'].indexOf(data.instance.status()) === -1) ? 'CMD' : 'Build' }} Logs
+        | View {{ (['building', 'buildFailed', 'neverStarted'].indexOf(data.status()) === -1) ? 'CMD' : 'Build' }} Logs
       li.divider
       li.list-item.popover-list-item(
         modal
@@ -43,7 +43,7 @@
         | Rename Container
       //- trigger delete confirm modal
       li.list-item.popover-list-item(
-        ng-click = "actions.deleteServer(data)"
+        ng-click = "actions.deleteServer()"
       )
         svg.iconnables
           use(

@@ -67,9 +67,7 @@ function repositorySelector(
 
       $scope.repoSelector.data.instance = $scope.data.instance;
       $scope.$on('commit::selected', function () {
-        if ($scope.data.gitDataOnly) {
-          $scope.repoSelector.actions.save();
-        } else {
+        if (!$scope.data.gitDataOnly) {
           $scope.$broadcast('go-to-panel', 'repoOptions', 'back');
         }
       });
@@ -102,10 +100,8 @@ function repositorySelector(
               } else {
                 $scope.$broadcast('go-to-panel', 'repoOptions');
               }
-
-              if (!$scope.data.gitDataOnly) {
-                $scope.repoSelector.data.commit = commits.models[0];
-              }
+              $scope.repoSelector.data.commit = commits.models[0];
+              $scope.repoSelector.data.useLatest = true;
               $scope.repoSelector.data.name = $scope.repoSelector.data.repo.attrs.name;
             })
             .catch(errs.handler);

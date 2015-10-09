@@ -24,10 +24,16 @@
 
   // if isolated add .isolated
   // if sub item is active add open class.
-  .list-item(
-    ng-repeat = "childInstance in [masterInstance].concat(masterInstance.children.models)"
-  )
+  .list-item
+    instance-navigation(
+      master-instance = "masterInstance"
+      instance = "masterInstance"
+      active-account = "CIS.activeAccount"
+    )
 
+  .list-item(
+    ng-repeat = "childInstance in masterInstance.children.models"
+  )
     instance-navigation(
       master-instance = "masterInstance"
       ng-class = "{'active': branch.selected}"
