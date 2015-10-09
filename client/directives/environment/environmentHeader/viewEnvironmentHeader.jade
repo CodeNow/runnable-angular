@@ -1,5 +1,9 @@
 button.btn.btn-icon.blue(
-  ng-class = "{'active': state.helpButton.active}"
+  data-badge-count = "{{helpCards.cards.triggered.length}}"
+  ng-class = "{\
+    'active': state.helpButton.active,\
+    'badge': helpCards.cards.triggered.length > 0\
+  }"
   ng-click = "state.helpButton.active = true"
   pop-over
   pop-over-actions = "helpPopover.actions"
@@ -10,9 +14,6 @@ button.btn.btn-icon.blue(
   pop-over-trigger = "activeAttr"
   title = "Help Center"
 )
-  .help-badge(
-    ng-if = "helpCards.cards.triggered.length > 0"
-  ) {{helpCards.cards.triggered.length}}
   svg.iconnables
     use(
       xlink:href = "#icons-help"

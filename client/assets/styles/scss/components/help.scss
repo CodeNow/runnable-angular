@@ -111,22 +111,6 @@
   }
 }
 
-// badge on help button
-.help-badge {
-  background: $blue;
-  border-radius: 50%;
-  color: $white;
-  font-size: 12px;
-  font-weight: 500;
-  height: 18px;
-  line-height: 18px;
-  position: absolute;
-  right: -6px;
-  text-align: center;
-  top: -3px;
-  width: 18px;
-}
-
 .triggered-help-item {
   border-bottom: 1px solid rgba($blue-light,.4);
   color: rgba($blue,.8);
