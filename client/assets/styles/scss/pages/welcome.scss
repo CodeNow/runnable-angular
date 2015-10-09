@@ -113,16 +113,10 @@
   // github auth
   .list-requirements {
     background: $white;
-    border: 1px solid $gray-lighter;
-    border-radius: $input-border-radius-lg;
 
     .list-item {
       height: 60px;
       padding: 12px 9px;
-
-      + .list-item {
-        border-top: 1px solid $gray-lighter;
-      }
 
       .svg {
         fill: $gray-light;
