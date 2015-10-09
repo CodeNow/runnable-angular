@@ -6,7 +6,6 @@
   .arrow::after {
     border-color: transparent;
     border-style: solid;
-    display: block;
     height: 0;
     position: absolute;
     width: 0;
@@ -17,6 +16,19 @@
     border-width: 13px;
     z-index: $z-popover-arrow;
 
+    // reset bg
+    &.gray,
+    &.white {
+      background: transparent;
+    }
+
+    &::after {
+      border-width: 10px;
+      content: '';
+      display: block;
+      transition: border-color .3s ease-in;
+    }
+
     &.gray::after {
       border-color: $gray-lighterest;
     }
@@ -26,14 +38,9 @@
     }
   }
 
-  .arrow::after {
-    border-width: 10px;
-    content: '';
-    transition: border-color .3s ease-in;
-  }
-
   // top arrow
   &.top {
+    margin-top: 10px;
     transform-origin: 50% 100%;
 
     .arrow {
@@ -56,6 +63,7 @@
 
   // right arrow
   &.right {
+    margin-left: 10px;
     transform-origin: 0 50%;
 
     .arrow {
