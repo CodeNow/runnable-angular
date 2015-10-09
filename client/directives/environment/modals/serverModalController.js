@@ -18,17 +18,16 @@ function ServerModalController (
   updateDockerfileFromState
 ) {
 
-  this.openDockerfile = function () {
-    var SMC = this;
-    return promisify(SMC.state.contextVersion, 'fetchFile')('/Dockerfile')
+  this.openDockerfile = function (state, openItems) {
+    return promisify(state.contextVersion, 'fetchFile')('/Dockerfile')
       .then(function (dockerfile) {
-        if (SMC.state.dockerfile) {
-         SMC.openItems.remove(SMC.state.dockerfile);
+        if (state.dockerfile) {
+         openItems.remove(state.dockerfile);
         }
         if (dockerfile) {
-          SMC.openItems.add(dockerfile);
+          openItems.add(dockerfile);
         }
-        SMC.state.dockerfile = dockerfile;
+        state.dockerfile = dockerfile;
       });
   };
 
@@ -109,9 +108,8 @@ function ServerModalController (
       });
   };
 
-  this.afterParsingDockerfile = function (data, contextVersion) {
+  this.populateStateFromData = function (data, contextVersion) {
     var SMC = this;
-    angular.extend(SMC, data);
     if (typeof data.ports === 'string') {
       var portsStr = data.ports.replace(/,/gi, '');
       var ports = (portsStr || '').split(' ');
@@ -173,14 +171,15 @@ function ServerModalController (
         .then(function (contextVersion) {
           return parseDockerfileForCardInfoFromInstance(SMC.instance, contextVersion)
             .then(function (data) {
-              return SMC.afterParsingDockerfile(data, contextVersion);
+              angular.extend(SMC, data);
+              return SMC.populateStateFromData(data, contextVersion);
             });
         });
     }
 
     return SMC.state.promises.contextVersion
       .then(function () {
-        return SMC.openDockerfile();
+        return SMC.openDockerfile(SMC.state, SMC.openItems);
       })
       .then(function () {
         return fetchUser();
