@@ -6,15 +6,11 @@ require('app')
  * @ngInject
  */
 function ContainerStatusButtonController(
-  $q,
   $rootScope,
-  $timeout,
   errs,
   loading,
-  loadingPromises,
   updateInstanceWithNewBuild,
-  promisify,
-  ModalService
+  promisify
 ) {
   var CSBC = this;
 
@@ -50,11 +46,8 @@ function ContainerStatusButtonController(
         .finally(function () {
           loading('main', false);
         });
-
-
     },
     updateConfigToMatchMaster: function () {
-      CSBC.shouldShowUpdateConfigsPrompt = false;
       loading('main', true);
       var instanceUpdates = {};
       promisify(CSBC.instance, 'fetchMasterPod', true)()
@@ -94,7 +87,6 @@ function ContainerStatusButtonController(
         });
     }
   };
-  CSBC.shouldShowUpdateConfigsPrompt = false;
 
 
 }

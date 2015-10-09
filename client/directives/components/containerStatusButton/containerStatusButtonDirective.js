@@ -22,14 +22,10 @@ function containerStatusButton(
     },
     link: function ($scope) {
       $scope.$watch('CSBC.instance.configStatusValid', function (configStatusValid) {
-        if ($scope.CSBC.instance) {
-          if (configStatusValid === false) {
-            // This will cause the valid flag to flip, recalling this watcher
-            return promisify($scope.CSBC.instance, 'fetchParentConfigStatus')()
-              .catch(errs.handler);
-          } else {
-            $scope.CSBC.shouldShowUpdateConfigsPrompt = !$scope.CSBC.instance.cachedConfigStatus;
-          }
+        if ($scope.CSBC.instance && configStatusValid === false) {
+          // This will cause the valid flag to flip, recalling this watcher
+          return promisify($scope.CSBC.instance, 'fetchParentConfigStatus')()
+            .catch(errs.handler);
         }
       });
 
@@ -53,7 +49,7 @@ function containerStatusButton(
         var status = keypather.get($scope.CSBC, 'instance.status()');
 
         var classes = [];
-        if (['running', 'stopped','building', 'starting', 'stopping', 'neverStarted', 'unknown'].includes(status)){
+        if (['running', 'stopped', 'building', 'starting', 'stopping', 'neverStarted', 'unknown'].includes(status)){
           classes.push('gray');
         } else if (['crashed', 'buildFailed'].includes(status)) {
           classes.push('red');
