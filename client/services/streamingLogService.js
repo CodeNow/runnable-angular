@@ -5,7 +5,7 @@ var convert = new Convert();
 
 require('app').factory('streamingLog', streamingLog);
 
-function streamingLog (
+function streamingLog(
   $rootScope,
   debounce,
   $sce
@@ -14,7 +14,14 @@ function streamingLog (
     var unprocessed = [];
     var refreshAngular = debounce(function () {
       unprocessed.forEach(function (unprocessed) {
-        unprocessed.trustedContent = $sce.trustAsHtml(convert.toHtml(unprocessed.content.join('')));
+        var lines = unprocessed.unprocessedContent.join('').split('\n');
+        lines.forEach(function (line) {
+          if (line.length > 2000) {
+            line = line.substr(0, 2000) + ' - Line Truncated because its too long.';
+          }
+          unprocessed.processedContent.push(convert.toHtml(line + '\n'));
+        });
+        unprocessed.trustedContent = $sce.trustAsHtml(unprocessed.processedContent.join(''));
       });
       unprocessed = [];
       $rootScope.$applyAsync();
@@ -24,12 +31,13 @@ function streamingLog (
     var currentCommand = null;
     var streamTimes = {};
     var timingInterval = null;
-    function handleStreamData (data) {
+    function handleStreamData(data) {
       if (['docker', 'log'].includes(data.type)) {
         var stepRegex = /^Step [0-9]+ : /;
         if (stepRegex.test(data.content)) {
           currentCommand = {
-            content: [],
+            unprocessedContent: [],
+            processedContent: [],
             command: $sce.trustAsHtml(convert.toHtml(data.content.replace(stepRegex, ''))),
             rawCommand: data.content.replace(stepRegex, ''),
             imageId: data.imageId,
@@ -48,18 +56,18 @@ function streamingLog (
             /^Successfully built [a-z0-9]{12}/
           ];
 
-          var ignore = ignoreRegex.some(function (regex){
+          var ignore = ignoreRegex.some(function (regex) {
             return regex.test(data.content);
           });
 
           if (!ignore) {
-            if (/^\s---> Using cache/.test(data.content)){
+            if (/^\s---> Using cache/.test(data.content)) {
               currentCommand.cached = true;
             } else if ($rootScope.featureFlags.debugMode && /^\s---> [a-z0-9]{12}/.test(data.content)) {
               currentCommand.imageId = /^\s---> ([a-z0-9]{12})/.exec(data.content)[1];
             } else {
-              currentCommand.content.push(data.content);
-              if (unprocessed.indexOf(currentCommand)) {
+              currentCommand.unprocessedContent.push(data.content);
+              if (!unprocessed.contains(currentCommand)) {
                 unprocessed.push(currentCommand);
               }
             }
@@ -74,7 +82,7 @@ function streamingLog (
         timingInterval = setInterval(function () {
           streamTimes.currentMachineTime = new Date(streamTimes.currentMachineTime.getTime() + 1000);
         }, 1000);
-        if(!streamTimes.start){
+        if (!streamTimes.start) {
           streamTimes.start = new Date(data.timestamp);
         }
       }
@@ -91,7 +99,7 @@ function streamingLog (
     return {
       logs: streamLogs,
       times: streamTimes,
-      destroy: function(){
+      destroy: function () {
         stream.off('data', handleStreamData);
       }
     };
