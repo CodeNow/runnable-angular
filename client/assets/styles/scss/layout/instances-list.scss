@@ -8,10 +8,27 @@
   position: relative;
   width: $instance-list-width;
 
+
   // if nav is open
   + .instance-wrapper {
     float: right;
     width: calc(100% - #{$instance-list-width});
+  }
+
+  .small {
+    color: $gray;
+    opacity: .65;
+    line-height: 30px;
+    padding-left: 28px;
+
+    .a {
+      text-decoration: underline;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
   }
 
   .list {
@@ -44,7 +61,8 @@
 
     // list title
     &.list-item-header {
-      color: darken($gray-light,10%);
+      // color: darken($gray-light,10%);
+      color: $gray;
       padding: 0 9px 0 27px; // spacing for .status-icon
 
       &:hover .icons-advanced {

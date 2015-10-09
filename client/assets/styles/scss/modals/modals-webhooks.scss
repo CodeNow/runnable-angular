@@ -9,14 +9,14 @@
     width: 390px;
   }
 
-  .p {
-    flex: 1 1 auto;
-    padding-right: 12px;
+  // .p {
+  //   flex: 1 1 auto;
+  //   padding-right: 12px;
 
-    .span {
-      padding-left: 8px;
-    }
-  }
+  //   .span {
+  //     padding-left: 8px;
+  //   }
+  // }
 
   .small {
     color: $gray;
@@ -75,19 +75,19 @@
     margin: 18px 0 6px;
 
     .list-item {
-      padding: 0 15px;
-      display: flex;
-      align-items: center;
+      padding: 12px 15px;
+      // display: flex;
+      // align-items: center;
       line-height: 18px;
       height: 54px;
 
-      &.divider {
-        background-color: #eee;
-        color: $gray;
-        font-size: 13px;
-        height: 24px;
-        line-height: 19px;
-      }
+      // &.divider {
+      //   background-color: #eee;
+      //   color: $gray;
+      //   font-size: 13px;
+      //   height: 24px;
+      //   line-height: 19px;
+      // }
 
       // loading state
       > .spinner-wrapper {
@@ -101,14 +101,22 @@
     border-radius: 50%;
     flex: 0 0 30px;
     height: 30px;
-    margin: 0 6px 0 0;
+    margin: 0 9px 0 0;
   }
 }
 
-.panel-webhooks-repositories .btn {
-  flex: 0 0 135px;
+// .panel-webhooks-repositories .btn {
+//   flex: 0 0 135px;
+// }
+
+.panel-admins-list .btn {
+  flex: 0 0 90px;
 }
 
-.panel-invite-admins .btn {
-  flex: 0 0 90px;
+.panel-invite-admin {
+
+  .input-message {
+    height: 75px;
+    margin-top: 12px;
+  }
 }

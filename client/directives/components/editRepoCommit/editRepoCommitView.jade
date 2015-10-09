@@ -102,7 +102,9 @@ label.label-checkbox.btn-sm.btn-checkbox(
       use(
         xlink:href = "#icons-commit"
       )
-  .repository-info.small
+  .repository-info.small(
+    ng-if = "!acv.attrs.additionalRepo"
+  )
     a.a(
       modal
       modal-template = "viewModalInviteAdmin"

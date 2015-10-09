@@ -76,14 +76,19 @@
             use(
               xlink:href = "#icons-overflow"
             )
-  //- button.btn.btn-xs.white(
-  //-   modal
-  //-   modal-template = "viewModalInviteAdmin"
-  //- ) Enable Branches…
-  button.btn.btn-xs.green(
-    modal
-    modal-template = "viewModalLaunchBranches"
-  ) Launch Branches…
+
+  //- small.small
+  //-   a.a(
+  //-     modal
+  //-     modal-template = "viewModalInviteAdmin"
+  //-   ) Invite Admin
+  //-   | &#32;for Branches
+
+  small.small
+    a.a(
+      modal
+      modal-template = "viewModalLaunchBranches"
+    ) Launch Branches…
 
   //- nav list filter
   .btn.btn-xxs(
