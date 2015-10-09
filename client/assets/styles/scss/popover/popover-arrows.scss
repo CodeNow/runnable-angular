@@ -1,18 +1,43 @@
 // arrows
-.popover.top .arrow {
+%arrow-top {
   border-bottom-width: 0;
-  border-top-color: $gray-lighter;
   bottom: -13px;
   left: 50%;
   margin-left: -11px;
+
+  &::after {
+    border-bottom-width: 0;
+    bottom: 3px;
+    content: '';
+    margin-left: -10px;
+  }
 }
 
-.popover.top .arrow:after {
-  border-bottom-width: 0;
-  border-top-color: rgba($white,.975);
-  bottom: 3px;
-  content: '';
-  margin-left: -10px;
+.popover {
+
+  .arrow.gray,
+  .arrow.gray::after,
+  .arrow.white,
+  .arrow.white::after {
+    transition: border .3s ease-in;
+  }
+
+  &.top {
+    @extend %arrow-top
+
+    .arrow.gray {
+      border-top-color: $gray-lighter;
+    }
+
+    .arrow.gray::after {
+      border-top-color: rgba($white,.975);
+    }
+
+    .arrow.white,
+    .arrow.white::after {
+
+    }
+  }
 }
 
 .popover.right .arrow {
@@ -63,14 +88,6 @@
 }
 
 .popover {
-
-  &.in {
-
-    .arrow,
-    .arrow::after {
-      transition: border .3s ease-in;
-    }
-  }
 
   .arrow,
   .arrow::after {
