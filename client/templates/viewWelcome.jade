@@ -155,10 +155,11 @@
               | Retry Sign In
 
           //- search
+            - enter key currently submits the form on .modal-dialog...
+            - we'll either need to move form to the first animated panel (for validation)
+            - OR prevent this input from submitting the form
           input.input.input-xs.input-search(
-            ng-class = "{\
-              'out': activeItem\
-            }"
+            ng-class = "{'out': activeItem}"
             ng-if = "isActivePanel()"
             placeholder = "Filter by name"
             required
