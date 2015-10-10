@@ -26,6 +26,11 @@
       border-width: 10px;
       content: '';
       display: block;
+    }
+
+    // no transition until after initial color
+    &.gray::after,
+    &.white::after {
       transition: border-color .3s ease-in;
     }
 
@@ -51,6 +56,15 @@
       left: 50%;
       margin-left: -11px;
 
+      // default colors
+      &:not(.gray):not(.white) {
+        background: transparent;
+
+        &::after {
+          border-top-color: $white;
+        }
+      }
+
       &::after {
         border-bottom-width: 0;
         border-left-color: transparent;
@@ -74,6 +88,15 @@
       margin-top: -11px;
       top: 50%;
 
+      // default colors
+      &:not(.gray):not(.white) {
+        background: transparent;
+
+        &::after {
+          border-right-color: $white;
+        }
+      }
+
       &::after {
         border-bottom-color: transparent;
         border-left-width: 0;
@@ -96,6 +119,15 @@
       margin-left: -13px;
       top: -13px;
 
+      // default colors
+      &:not(.gray):not(.white) {
+        background: transparent;
+
+        &::after {
+          border-bottom-color: $white;
+        }
+      }
+
       &::after {
         border-left-color: transparent;
         border-right-color: transparent;
@@ -117,6 +149,15 @@
       margin-top: -11px;
       right: -13px;
       top: 50%;
+
+      // default colors
+      &:not(.gray):not(.white) {
+        background: transparent;
+
+        &::after {
+          border-left-color: $white;
+        }
+      }
 
       &::after {
         border-bottom-color: transparent;
