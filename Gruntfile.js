@@ -506,6 +506,19 @@ module.exports = function(grunt) {
     'compress:build',
     'concurrent'
   ]);
+  grunt.registerTask('server', [
+    'copy',
+    'sass:dev',
+    'autoprefixer',
+    'jade2js',
+    'jshint:dev',
+    'autoBundleDependencies',
+    'generateConfigs',
+    'browserify:watch',
+    'jade:compile',
+    'compress:build',
+    'concurrent'
+  ]);
   grunt.registerTask('deploy', [
     'copy',
     'sass:dev',
