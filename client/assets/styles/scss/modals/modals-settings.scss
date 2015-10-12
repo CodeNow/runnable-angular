@@ -25,3 +25,49 @@
     }
   }
 }
+
+//- billing form
+.form-billing {
+
+  // link to all plans
+  .label-col {
+    padding-right: 0;
+
+    > .link {
+      margin-top: 12px;
+    }
+
+    .iconnables {
+      float: right;
+      height: 13px;
+    }
+  }
+
+  .well {
+    margin: 0;
+    padding: 15px;
+  }
+
+  // $
+  .sup {
+    margin-right: 1px;
+    top: -5px;
+  }
+
+  // price
+  .strong {
+    font-size: 21px;
+  }
+
+  // /user/month text
+  .small {
+    color: $gray;
+    margin-left: 2px;
+  }
+
+  // change plan button
+  .white {
+    float: right;
+    top: 3px;
+  }
+}
