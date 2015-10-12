@@ -18,10 +18,10 @@ function containerUrl(
 ) {
   return {
     restrict: 'A',
+    replace: true,
     templateUrl: 'containerUrlView',
     scope: {
-      instance: '=',
-      openItems: '='
+      instance: '='
     },
     link: function ($scope) {
       $scope.clipboardText = CLIPBOARD_START_MESSAGE;
