@@ -71,6 +71,14 @@ describe('DNSConfigurationController'.bold.underline.blue, function() {
 
     angular.mock.module('app');
     angular.mock.module(function ($provide) {
+
+      // Make debounce not actually do anything.
+      $provide.value('debounce', sinon.spy(function (debouncedFunction) {
+        return function () {
+          debouncedFunction();
+        };
+      }));
+
       $provide.factory('getInstanceMaster', mockGetInstanceMaster(mockMasterInstances.models));
       $provide.factory('promisify', function ($q) {
         promisifyMock = sinon.spy(function (obj, key) {
@@ -97,7 +105,9 @@ describe('DNSConfigurationController'.bold.underline.blue, function() {
     }, true);
 
     mockInstance = {
-      fetchDependencies: sinon.stub().returns(mockDepedencies)
+      fetchDependencies: sinon.stub().returns(mockDepedencies),
+      on: sinon.spy(),
+      off: sinon.spy()
     };
 
     laterController.instance.instance = mockInstance;
@@ -107,10 +117,17 @@ describe('DNSConfigurationController'.bold.underline.blue, function() {
 
   beforeEach(injectSetupCompile);
 
-  it('should fetch the DNS configuration', function () {
+  it('should fetch the DNS configuration and listen to update events', function () {
     $scope.$digest();
+    sinon.assert.calledOnce(mockInstance.on);
     expect(DCC.filteredDependencies).to.deep.equal(mockDepedencies.models);
     expect($rootScope.isLoaded.dns).to.be.ok;
+  });
+
+  it('should unlisten to instance update events on destroy', function () {
+    $scope.$emit('$destroy');
+    $scope.$digest();
+    sinon.assert.calledOnce(mockInstance.off);
   });
 
   describe('getWorstStatusClass', function () {
@@ -140,6 +157,16 @@ describe('DNSConfigurationController'.bold.underline.blue, function() {
 
     it('should short circuit if deps havent yet loaded', function () {
       expect(DCC.getWorstStatusClass()).to.not.be.ok;
+    });
+
+    it('should handle when a deps instance has been destroyed', function () {
+      mockDepedencies.models[0].instance.status.returns('crashed');
+      mockDepedencies.models[1].instance.destroyed = true;
+      $scope.$digest();
+      mockInstance.fetchDependencies.reset();
+      DCC.getWorstStatusClass();
+      $scope.$digest();
+      sinon.assert.calledOnce(mockInstance.fetchDependencies);
     });
   });
 
