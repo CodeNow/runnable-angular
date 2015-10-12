@@ -6,10 +6,9 @@
   }"
   style = "{{$root.featureFlags.newNavigation ? 'left: 68px; transform-origin: 0 0; top: 18px' : 'left: auto; right: 9px; transform-origin: 95% 0; top: 60px'}}"
 )
-  .arrow(
+  .arrow.js-animate(
     ng-class = "{\
-      'gray': !data.showIntegrations,\
-      'gray': data.showIntegrations && data.currentPanelName !== 'accountMenu',\
+      'gray': !data.showIntegrations || (data.showIntegrations && data.currentPanelName !== 'accountMenu'),\
       'white': data.showIntegrations && data.currentPanelName === 'accountMenu'\
     }"
     style = "{{$root.featureFlags.newNavigation ? 'top: 18px' : 'left: 191px'}}"
