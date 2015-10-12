@@ -15,16 +15,6 @@
         xlink:href = "#icons-hamburger"
       )
 
-      button(
-        ng-class = "getClassForInstance()"
-        ng-disabled = "isChanging()"
-        pop-over
-        pop-over-actions = "CSBC.actions"
-        pop-over-controller = "CSBC"
-        pop-over-options = "{\"right\":0,\"top\":53}"
-        pop-over-template = "containerStatusOptionsPopoverView"
-      )
-
   //- container title
     - repository in .span
     - branch in .strong
@@ -95,6 +85,7 @@
       value = "{{instance.getContainerHostname()}}{{defaultPort}}"
     )
     button.btn.btn-xs(
+      ng-show = "shouldShowCopyButton()"
       clipboard
       on-copied = "onClipboardEvent()"
       on-error = "onClipboardEvent(err)"
