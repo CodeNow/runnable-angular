@@ -3,14 +3,6 @@
 require('app')
   .directive('instanceHeader', instanceHeader);
 
-var CLIPBOARD_START_MESSAGE = 'Click to copy';
-var UNAVAILABLE_OS_LIST = [
-  'Android',
-  'Linux armv7l',
-  'iPhone',
-  'iPod',
-  'iPad'
-];
 /**
  * @ngInject
  */
@@ -18,7 +10,6 @@ function instanceHeader(
   $localStorage,
   $stateParams,
   $rootScope,
-  extractInstancePorts,
   fetchPullRequest
 ) {
   return {
@@ -40,11 +31,6 @@ function instanceHeader(
         if (!newValue) {
           return;
         }
-        var ports = extractInstancePorts(newValue);
-        $scope.defaultPort = '';
-        if (ports.length && ports.indexOf('80') === -1) {
-          $scope.defaultPort = ':' + ports[0];
-        }
         fetchPullRequest($scope.instance)
           .then(function (pr) {
             if (pr) {
@@ -52,24 +38,6 @@ function instanceHeader(
             }
           });
       });
-      $scope.clipboardText = CLIPBOARD_START_MESSAGE;
-      function getModifierKey() {
-        return window.navigator.platform.toLowerCase().indexOf('mac') > -1 ? '⌘' : 'CTRL';
-      }
-      $scope.shouldShowCopyButton = function () {
-        return UNAVAILABLE_OS_LIST.indexOf(window.navigator.platform) === -1;
-      };
-
-      $scope.onClipboardEvent = function (err, reset) {
-        if (reset) {
-          $scope.clipboardText = CLIPBOARD_START_MESSAGE;
-        } else if (err) {
-          var modifier = getModifierKey();
-          $scope.clipboardText = 'Press ' + modifier + '+C ' + ' to Copy';
-        } else {
-          $scope.clipboardText = 'Copied!';
-        }
-      };
     }
   };
 }

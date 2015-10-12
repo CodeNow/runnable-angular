@@ -25,14 +25,11 @@ describe('containerUrlDirective'.bold.underline.blue, function () {
     ctx.errsMock = {
       handler: sinon.spy()
     };
-    ctx.fetchPullRequestMock = {};
-
+    ctx.extractInstancePortstMock = sinon.stub().returns([]);
     ctx.loadingMock = sinon.spy();
     angular.mock.module('app', function ($provide) {
       $provide.value('errs', ctx.errsMock);
-      $provide.factory('fetchPullRequest', function ($q) {
-        return $q.when(ctx.fetchPullRequest);
-      });
+      $provide.value('extractInstancePorts', ctx.extractInstancePortstMock);
       $provide.factory('promisify', function ($q) {
         promisifyMock = sinon.spy(function (obj, key) {
           return function () {
@@ -73,7 +70,7 @@ describe('containerUrlDirective'.bold.underline.blue, function () {
   });
   describe('onClipboardEvent', function () {
     it('should say copied when successful', function () {
-      expect('Click to copy').to.equal($elScope.clipboardText);
+      expect($elScope.clipboardText).to.be.falsy();
       $elScope.onClipboardEvent();
       $elScope.$digest();
       expect('Copied!').to.equal($elScope.clipboardText);
@@ -82,7 +79,7 @@ describe('containerUrlDirective'.bold.underline.blue, function () {
       $elScope.clipboardText = 'asdasdds';
       $elScope.onClipboardEvent(new Error('asdasdsd'));
       $elScope.$digest();
-      expect($elScope.clipboardText).to.contains('Copy not supported, press');
+      expect($elScope.clipboardText).to.contains('to Copy');
     });
     it('should say copied when successful', function () {
       $elScope.clipboardText = 'asdasdds';
@@ -95,7 +92,7 @@ describe('containerUrlDirective'.bold.underline.blue, function () {
     it('should not show for android', function () {
       var cached = window.navigator.platform;
       window.navigator.platform = 'Android';
-      expect('Click to copy').to.equal($elScope.clipboardText);
+      expect($elScope.clipboardText).to.be.falsy();
       $elScope.$digest();
       expect($elScope.shouldShowCopyButton()).to.be.false;
       window.navigator.platform = cached;
@@ -103,13 +100,29 @@ describe('containerUrlDirective'.bold.underline.blue, function () {
     it('should show for Mac', function () {
       var cached = window.navigator.platform;
       window.navigator.platform = 'MacIntel';
-      expect('Click to copy').to.equal($elScope.clipboardText);
+      expect($elScope.clipboardText).to.be.falsy();
       $elScope.$digest();
       expect($elScope.shouldShowCopyButton()).to.be.true;
       window.navigator.platform = cached;
     });
   });
   describe('getModifierKey', function () {
+    it('should return CTRL for windows', function () {
+      var cached = window.navigator.platform;
+      window.navigator.platform = 'Win32';
+      $elScope.$digest();
+      expect($elScope.getModifierKey()).to.equal('CTRL');
+      window.navigator.platform = cached;
+    });
+    it('should return CTRL for windows', function () {
+      var cached = window.navigator.platform;
+      window.navigator.platform = 'MacIntel';
+      $elScope.$digest();
+      expect($elScope.getModifierKey()).to.equal('⌘');
+      window.navigator.platform = cached;
+    });
+  });
+  describe('Extracting Ports', function () {
     it('should return CTRL for windows', function () {
       var cached = window.navigator.platform;
       window.navigator.platform = 'Win32';

@@ -1,30 +1,26 @@
 //- container url; [readonly] to inherit css for .input[readonly]
-label.input-wrapper.input.input-sm(
-  ng-if = "instance.attrs.name"
+a.btn.btn-xs(
+  ng-href = "http://{{instance.getContainerHostname()}}{{defaultPort}}"
+  target = "_blank"
+) URL
+  svg.iconnables.float-right
+    use(
+      xlink:href = "#icons-link-external"
+    )
+input.input.input-sm.text-center(
   readonly
+  select-all
+  value = "{{instance.getContainerHostname()}}{{defaultPort}}"
 )
-  //- not button elements because we only want the <label> to trigger on the input
-  a.btn.btn-xs(
-    ng-href = "http://{{instance.getContainerHostname()}}{{defaultPort}}"
-    target = "_blank"
-  ) URL
-    svg.iconnables.float-right
-      use(
-        xlink:href = "#icons-link-external"
-      )
-  input.input.input-sm.text-center(
-    readonly
-    select-all
-    value = "{{instance.getContainerHostname()}}{{defaultPort}}"
+button.btn.btn-xs(
+  clipboard
+  ng-mouseleave = "onClipboardEvent(null, true)"
+  ng-show = "shouldShowCopyButton()"
+  on-copied = "onClipboardEvent()"
+  on-error = "onClipboardEvent(err)"
+  text = "instance.getContainerHostname() + defaultPort"
+) Copy
+  .tooltip(
+    ng-hide = "!clipboardText"
   )
-  button.btn.btn-xs(
-    clipboard
-    ng-mouseenter = "onClipboardEvent(null, true)"
-    ng-show = "shouldShowCopyButton()"
-    on-copied = "onClipboardEvent()"
-    on-error = "onClipboardEvent(err)"
-    text = "instance.getContainerHostname() + defaultPort"
-    tooltip = "{{clipboardText}}"
-    tooltip-observe
-    tooltip-options = "{\"class\":\"bottom no-arrow\",\"right\":0,\"top\":27}"
-  ) Copy
+    .tooltip-text {{ clipboardText }}

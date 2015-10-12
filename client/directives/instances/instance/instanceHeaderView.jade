@@ -64,10 +64,11 @@
     dns-configuration
     instance = "instance"
   )
-
-  div(
+  label.input-wrapper.input.input-sm(
     container-url
     instance = "instance"
+    ng-if = "instance.attrs.name"
+    readonly
   )
 
   div(

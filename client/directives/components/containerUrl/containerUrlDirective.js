@@ -3,7 +3,6 @@
 require('app')
   .directive('containerUrl', containerUrl);
 
-var CLIPBOARD_START_MESSAGE = 'Click to copy';
 var UNAVAILABLE_OS_LIST = [
   'Android',
   'Linux armv7l',
@@ -15,16 +14,25 @@ var UNAVAILABLE_OS_LIST = [
  * @ngInject
  */
 function containerUrl(
+  extractInstancePorts
 ) {
   return {
     restrict: 'A',
-    replace: true,
     templateUrl: 'containerUrlView',
     scope: {
       instance: '='
     },
     link: function ($scope) {
-      $scope.clipboardText = CLIPBOARD_START_MESSAGE;
+      $scope.$watch('instance', function (newValue) {
+        if (!newValue) {
+          return;
+        }
+        var ports = extractInstancePorts(newValue);
+        $scope.defaultPort = '';
+        if (ports.length && ports.indexOf('80') === -1) {
+          $scope.defaultPort = ':' + ports[0];
+        }
+      });
       function getModifierKey() {
         return window.navigator.platform.toLowerCase().indexOf('mac') > -1 ? '⌘' : 'CTRL';
       }
@@ -34,7 +42,7 @@ function containerUrl(
 
       $scope.onClipboardEvent = function (err, reset) {
         if (reset) {
-          $scope.clipboardText = CLIPBOARD_START_MESSAGE;
+          $scope.clipboardText = null;
         } else if (err) {
           var modifier = getModifierKey();
           $scope.clipboardText = 'Press ' + modifier + '+C ' + ' to Copy';

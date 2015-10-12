@@ -60,16 +60,22 @@ function tooltip(
         return newPosition;
       };
 
+      var unobserveText;
       bind(element, 'mouseover', function () {
         if (attrs.tooltipDisabled && $scope.$eval(attrs.tooltipDisabled)) {
           return;
         }
         if (attrs.hasOwnProperty('tooltipObserve')) {
-          attrs.$observe('tooltip', function (newVal) {
+          if (unobserveText) {
+            unobserveText();
+          }
+          unobserveText = attrs.$observe('tooltip', function (newVal) {
             $scope.toolTip.toolTipText = newVal;
           });
+          $scope.toolTip.toolTipText = $scope.$eval(attrs.tooltip);
+        } else {
+          $scope.toolTip.toolTipText = attrs.tooltip;
         }
-        $scope.toolTip.toolTipText = attrs.tooltip;
 
         if (attrs.tooltipEval) {
           $scope.toolTip.toolTipText = $scope.$eval(attrs.tooltipEval);
@@ -90,6 +96,9 @@ function tooltip(
       $scope.$on('$destroy', function () {
         if ($tooltipElement) {
           $tooltipElement.remove();
+        }
+        if (unobserveText) {
+          unobserveText();
         }
       });
 
