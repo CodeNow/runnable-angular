@@ -29,6 +29,7 @@ function featureFlags(
     renameContainer: false,
     saveToolbar: false,
     themeToggle: false, // toggles the button that toggles theme
+    updatedAccountMenu: false, // new account menu for teams, billing, and slack integration update
     updatedBuildLogs: true,
     updatedSlackValidation: false
   };

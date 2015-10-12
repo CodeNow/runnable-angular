@@ -31,6 +31,7 @@
               modal-actions = "actions.actionsModalIntegrations"
               modal-data = "data.dataModalIntegrations"
               modal-template = "viewOpenModalIntegrations"
+              ng-if = "!$root.featureFlags.updatedAccountMenu"
             )
               img.iconnables(
                 height = "24"
@@ -39,12 +40,13 @@
               )
               | Slack Integration
             //- new settings modal
-            //- li.list-item.popover-list-item(
-            //-   modal
-            //-   modal-actions = "actions.actionsModalIntegrations"
-            //-   modal-data = "data.dataModalIntegrations"
-            //-   modal-template = "viewModalSettings"
-            //- )
+            li.list-item.popover-list-item(
+              modal
+              modal-actions = "actions.actionsModalIntegrations"
+              modal-data = "data.dataModalIntegrations"
+              modal-template = "viewModalSettings"
+              ng-if = "$root.featureFlags.updatedAccountMenu"
+            )
               img.iconnables(
                 height = "24"
                 src = "/build/images/logos/logo-icon-slack.svg"
