@@ -16,11 +16,12 @@ function streamingLog(
       unprocessed.forEach(function (unprocessed) {
         var lines = unprocessed.unprocessedContent.join('').split('\n');
         lines.forEach(function (line) {
-          if (line.length > 2000) {
-            line = line.substr(0, 2000) + ' - Line Truncated because its too long.';
+          if (line.length > 1000) {
+            line = line.substr(0, 1000) + ' - Line Truncated because its too long.';
           }
           unprocessed.processedContent.push(convert.toHtml(line + '\n'));
         });
+        unprocessed.unprocessedContent = [];
         unprocessed.trustedContent = $sce.trustAsHtml(unprocessed.processedContent.join(''));
       });
       unprocessed = [];
@@ -67,7 +68,7 @@ function streamingLog(
               currentCommand.imageId = /^\s---> ([a-z0-9]{12})/.exec(data.content)[1];
             } else {
               currentCommand.unprocessedContent.push(data.content);
-              if (!unprocessed.contains(currentCommand)) {
+              if (!unprocessed.includes(currentCommand)) {
                 unprocessed.push(currentCommand);
               }
             }

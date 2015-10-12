@@ -22,8 +22,8 @@
 
 .pre.build-log.js-animate(
   ng-class = "{\
-    'build-log-toggle': command.content.length || (BLC.buildLogsRunning && $last),\
-    'in': (command.content.length > 0 && command.expanded) || (BLC.buildLogsRunning && $last)\
+    'build-log-toggle': command.trustedContent || (BLC.buildLogsRunning && $last),\
+    'in': (command.trustedContent && command.expanded) || (BLC.buildLogsRunning && $last)\
   }"
   ng-repeat = "command in BLC.getBuildLogs()"
 )
@@ -56,7 +56,7 @@
   .build-log-content(
     ng-bind-html = "command.trustedContent"
     ng-class = "{'building': BLC.buildLogsRunning && command.expanded && $last}"
-    ng-if = "(command.expanded && command.content.length) || (BLC.buildLogsRunning && $last)"
+    ng-if = "(command.expanded && command.trustedContent) || (BLC.buildLogsRunning && $last)"
   )
 
   .log-spinner(
