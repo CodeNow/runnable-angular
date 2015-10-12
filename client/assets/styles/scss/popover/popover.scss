@@ -10,8 +10,8 @@
   // top & left offset to move popovers offscreen to prevent them
   // from appearing before calculating their actual position
   background: $white;
-  border: 2px solid $gray-lighter;
-  border-radius: 3px;
+  border: $input-border solid $gray-lighter;
+  border-radius: $input-border-radius;
   box-shadow: 0 2px 3px rgba($black,.1);
   left: -10000px;
   max-width: 300px;
