@@ -105,8 +105,9 @@
       text = "instance.getContainerHostname() + defaultPort"
     ) Copy
 
-  save-open-items-button(
+  div(
+    save-open-items-button
+    ng-if = "!$root.featureFlags.saveToolbar && instance.containers.models[0].running() && !openItems.isClean()"
     instance = "instance"
-    loading = "isLoading.main"
     open-items = "openItems"
   )

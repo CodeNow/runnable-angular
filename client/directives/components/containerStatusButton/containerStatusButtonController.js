@@ -33,6 +33,7 @@ function ContainerStatusButtonController(
       modInstance('restart');
     },
     rebuildWithoutCache: function () {
+      $rootScope.$broadcast('close-popovers');
       loading('main', true);
       promisify(CSBC.instance.build, 'deepCopy')()
         .then(function (build) {
@@ -48,6 +49,7 @@ function ContainerStatusButtonController(
         });
     },
     updateConfigToMatchMaster: function () {
+      $rootScope.$broadcast('close-popovers');
       loading('main', true);
       var instanceUpdates = {};
       promisify(CSBC.instance, 'fetchMasterPod', true)()

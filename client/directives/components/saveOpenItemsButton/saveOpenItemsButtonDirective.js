@@ -8,7 +8,7 @@ require('app')
 function saveOpenItemsButton(
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     replace: true,
     templateUrl: 'saveOpenItemsButtonView',
     controller: 'SaveOpenItemsButtonController',
@@ -16,14 +16,15 @@ function saveOpenItemsButton(
     bindToController: true,
     scope: {
       instance: '=',
-      openItems: '=',
-      loading: '='
+      openItems: '='
     },
     link: function ($scope) {
-      $scope.canSave = function () {
-        return !!$scope.SOIBC.openItems.models.find(function (model) {
-          return model.state.isDirty;
-        });
+      $scope.save = function (andRestart) {
+        $scope.loading = true;
+        $scope.SOIBC.saveChanges(andRestart)
+          .finally(function () {
+            $scope.loading = false;
+          });
       };
     }
   };

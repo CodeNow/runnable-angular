@@ -7,31 +7,22 @@ require('app')
  */
 function SaveOpenItemsButtonController(
   $q,
-  $scope,
-  $timeout,
   errs,
   promisify
 ) {
   var SOIBC = this;
 
   SOIBC.saveChanges = function (andRestart) {
-    SOIBC.loading = true;
-    var updateModelPromises = $scope.SOIBC.openItems.getAllFileModels(true)
+    var updateModelPromises = SOIBC.openItems.getAllFileModels(true)
       .map(function (model) {
         return model.actions.saveChanges();
       });
-    $q.all(
-      updateModelPromises,
-      $timeout(angular.noop, 1500)
-    )
+    return $q.all(updateModelPromises)
       .then(function () {
         if (andRestart) {
-          return promisify($scope.SOIBC.instance, 'restart')();
+          return promisify(SOIBC.instance, 'restart')();
         }
       })
-      .catch(errs.handler)
-      .finally(function () {
-        SOIBC.loading = false;
-      });
+      .catch(errs.handler);
   };
 }

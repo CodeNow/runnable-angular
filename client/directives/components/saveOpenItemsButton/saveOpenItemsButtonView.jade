@@ -1,20 +1,18 @@
 //- save button
-.btn-group(
-  ng-if = "!$root.featureFlags.saveToolbar && SOIBC.instance.containers.models[0].running() && canSave()"
-)
+.btn-group
   //- apply .with-restart if save restarts Server
   //- add title = "Save and Restart Server" if save restarts Server
   button.btn.btn-sm.white.btn-spinner(
-    ng-class = "{in: SOIBC.loading}"
-    ng-click = "SOIBC.saveChanges()"
-    ng-disabled = "SOIBC.loading"
+    ng-class = "{in: loading}"
+    ng-click = "save(SOIBC.restartOnSave)"
+    ng-disabled = "loading"
     type = "button"
   )
-    .spinner-wrapper.spinner-sm.spinner-white.in(
-      ng-if = "SOIBC.loading"
+    .spinner-wrapper.spinner-sm.in(
+      ng-if = "loading"
       ng-include = "'spinner'"
     )
-    span.btn-text {{ SOIBC.loading ? 'Saving' : 'Save'}}
+    span.btn-text {{ loading ? 'Saving' : 'Save'}}
     //- show if restart is checked
     span.btn-text(
       ng-if = "SOIBC.restartOnSave"
@@ -22,7 +20,7 @@
 
   button.btn.btn-sm.white.btn-icon.btn-icon-sm.btn-save-options(
     ng-class = "{active: SOIBC.popoverActive}"
-    ng-disabled = "SOIBC.loading"
+    ng-disabled = "loading"
     pop-over
     pop-over-active = "SOIBC.popoverActive"
     pop-over-controller = "SOIBC"

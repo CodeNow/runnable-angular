@@ -107,7 +107,7 @@ describe('containerStatusButtonController'.bold.underline.blue, function () {
         sinon.assert.calledWith(ctx.loadingMock, 'main', false);
         sinon.assert.calledOnce(CSBC.instance.build.deepCopy);
         sinon.assert.calledOnce(mockUpdateInstanceWithNewBuild);
-        sinon.assert.notCalled(closePopoversListener);
+        sinon.assert.calledOnce(closePopoversListener);
       });
       it('should allow the user to update the configuration to match master', function () {
         var mainAcv = {
@@ -141,7 +141,7 @@ describe('containerStatusButtonController'.bold.underline.blue, function () {
 
         sinon.assert.calledWith(ctx.loadingMock, 'main', true);
         sinon.assert.calledWith(ctx.loadingMock, 'main', false);
-        sinon.assert.notCalled(closePopoversListener);
+        sinon.assert.calledOnce(closePopoversListener);
         sinon.assert.calledOnce(mainAcv.update);
         sinon.assert.calledWith(mainAcv.update, mockMainACV.attrs);
         sinon.assert.calledOnce(mockUpdateInstanceWithNewBuild);
@@ -209,7 +209,7 @@ describe('containerStatusButtonController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(ctx.errsMock.handler);
       sinon.assert.calledOnce(CSBC.instance.build.deepCopy);
       sinon.assert.calledOnce(mockUpdateInstanceWithNewBuild);
-      sinon.assert.notCalled(closePopoversListener);
+      sinon.assert.calledOnce(closePopoversListener);
     });
     it('should call error handler when updating the configuration to match master', function () {
       var mainAcv = {
@@ -246,7 +246,7 @@ describe('containerStatusButtonController'.bold.underline.blue, function () {
       $scope.$digest();
 
       sinon.assert.calledWith(ctx.loadingMock, 'main', true);
-      sinon.assert.notCalled(closePopoversListener);
+      sinon.assert.calledOnce(closePopoversListener);
       sinon.assert.calledOnce(mainAcv.update);
       sinon.assert.calledWith(mainAcv.update, mockMainACV.attrs);
 

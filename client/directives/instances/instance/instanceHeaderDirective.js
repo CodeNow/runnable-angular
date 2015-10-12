@@ -9,24 +9,27 @@ var CLIPBOARD_START_MESSAGE = 'Click to copy';
  * @ngInject
  */
 function instanceHeader(
-  $stateParams,
   $localStorage,
+  $stateParams,
+  $rootScope,
   extractInstancePorts,
-  fetchPullRequest,
-  loading
+  fetchPullRequest
 ) {
   return {
     restrict: 'A',
-    templateUrl: 'instanceHeaderView',
+    templateUrl: function () {
+      if ($rootScope.featureFlags.newNavigation) {
+        return 'instanceHeaderView';
+      }
+      return 'viewInstancePrimaryActions';
+    },
     scope: {
       instance: '=',
-      openItems: '=',
-      saving: '='
+      openItems: '='
     },
     link: function ($scope) {
       $scope.$storage = $localStorage;
       $scope.userName = $stateParams.userName;
-      $scope.isLoading = loading;
       $scope.$watch('instance', function (newValue) {
         if (!newValue) {
           return;
@@ -36,6 +39,12 @@ function instanceHeader(
         if (ports.length && ports.indexOf('80') === -1) {
           $scope.defaultPort = ':' + ports[0];
         }
+        fetchPullRequest($scope.instance)
+          .then(function (pr) {
+            if (pr) {
+              $scope.pr = pr;
+            }
+          });
       });
       $scope.clipboardText = CLIPBOARD_START_MESSAGE;
       $scope.onClipboardEvent = function (err, reset) {

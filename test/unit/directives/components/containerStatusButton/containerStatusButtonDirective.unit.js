@@ -11,7 +11,7 @@ var CSBC;
 var readOnlySwitchController;
 var apiMocks = require('./../../../apiMocks/index');
 
-describe.only('containerStatusButtonController'.bold.underline.blue, function () {
+describe('containerStatusButtonDirective'.bold.underline.blue, function () {
   var ctx;
   var mockInstance;
   var promisifyMock;
