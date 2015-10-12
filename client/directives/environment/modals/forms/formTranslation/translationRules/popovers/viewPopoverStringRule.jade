@@ -2,7 +2,6 @@
   .popover.popover-fixed.popover-rules(
     ng-class = "{in: active}"
     ng-form = "popoverRuleForm"
-    ng-init = "currentState = {};"
     ng-style = "popoverStyle.getStyle()"
   )
     .popover-content
@@ -81,8 +80,8 @@
         label.label-col Find string
           input.input.input-sm.monospace(
             name = "fromTextBox"
-            ng-change = "currentState.searched = false"
-            ng-disabled = "currentState.processing"
+            ng-change = "data.currentState.searched = false"
+            ng-disabled = "data.currentState.processing"
             ng-model = "data.state.search"
             required
             placeholder = "localhost:27017"
@@ -92,13 +91,14 @@
         label.label-col Replace
           fancy-select.input.input-sm.monospace(
             name = "toTextBox"
-            ng-disabled = "currentState.processing"
+            ng-disabled = "data.currentState.processing"
             ng-required = "true"
             placeholder = "sample-user.runnableapp.com:27017"
             toggle-attribute = "showDropdown"
-            toggle-object = "currentState"
+            toggle-object = "data.currentState"
             type = "text"
             value = "data.state.replace"
+            on-update = "actions.handleTextChange"
           )
             li.list-item.popover-list-item.small.disabled(
               ng-click = "$event.stopPropagation()"
@@ -109,7 +109,7 @@
               value = "instance.getElasticHostname()"
             ) {{ $parent.instance.getElasticHostname() }}
           button.btn.btn-sm.btn-icon.gray(
-            ng-click = "currentState.showDropdown = !currentState.showDropdown; $event.stopPropagation();"
+            ng-click = "data.currentState.showDropdown = !data.currentState.showDropdown; $event.stopPropagation();"
             ng-if = "data.parentData.instances.models.length > 1"
             title = "Show list of hostnames"
           )
@@ -135,20 +135,20 @@
 
     .popover-footer.clearfix
       button.btn.btn-sm.green.btn-spinner(
-        ng-class = "{in: currentState.processing}"
-        ng-click = "actions.performCheck(data.state, currentState)"
-        ng-disabled = "!popoverRuleForm.$valid || popoverRuleForm.$pristine || currentState.processing"
-        ng-if = "!currentState.searched"
+        ng-class = "{in: data.currentState.processing}"
+        ng-click = "actions.performCheck(data.state, data.currentState)"
+        ng-disabled = "!popoverRuleForm.$valid || popoverRuleForm.$pristine || data.currentState.processing"
+        ng-if = "!data.currentState.searched"
       )
         //- spinner
         .spinner-wrapper.spinner-sm.spinner-white.in(
-          ng-if = "currentState.processing"
+          ng-if = "data.currentState.processing"
           ng-include = "'spinner'"
         )
-        span {{ currentState.processing ? 'Searching' : 'Search for Matches' }}
+        span {{ data.currentState.processing ? 'Searching' : 'Search for Matches' }}
       button.btn.btn-sm.green(
         ng-click = "actions.createRule(data.state)"
-        ng-if = "currentState.searched"
+        ng-if = "data.currentState.searched"
       ) {{ data.state._id ? 'Update': 'Create'}} Rule
       button.btn.btn-sm.gray.btn-cancel(
         ng-click = "actions.cancel()"
