@@ -92,7 +92,7 @@
                 )
             li.list-item.popover-list-item(
               ng-click = "goToPanel('changeOrganization')"
-            ) Change Organization
+            ) Change {{$root.featureFlags.teamUI ? 'Team' : 'Organization'}}
               svg.iconnables.icons-arrow-forward.anchor-right
                 use(
                   xlink:href = "#icons-arrow-down"
@@ -124,7 +124,7 @@
             use(
               xlink:href = "#icons-arrow-down"
             )
-          | Organizations
+          | {{$root.featureFlags.teamUI ? 'Your Teams' : 'Organizations'}}
 
         .popover-content.fade(
           ng-class = "{'in': isActivePanel()}"
