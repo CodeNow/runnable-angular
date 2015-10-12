@@ -60,6 +60,8 @@ describe('saveOpenItemsButtonDirective'.bold.underline.blue, function () {
         instance: 'instance',
         'open-items': 'openItems'
       });
+      $scope.instance = mockInstance;
+      $scope.openItems = mockOpenItems;
       element = $compile(template)($scope);
       $scope.$digest();
       $elScope = element.isolateScope();
