@@ -41,12 +41,16 @@
               | Slack Integration
             //- *****************
             //- $root.featureFlags.updatedAccountMenu
-            li.list-item.popover-list-item.badge(
+            li.list-item.popover-list-item(
               data-badge-count = "!"
               modal
               modal-actions = "actions.actionsModalIntegrations"
               modal-data = "data.dataModalIntegrations"
               modal-template = "viewModalSettings"
+              ng-class = "{\
+                'badge': true,\
+                'badge-red': true\
+              }"
               ng-if = "$root.featureFlags.updatedAccountMenu"
             )
               svg.iconnables
