@@ -29,6 +29,14 @@ function EnvironmentController(
   $state,
   ModalService
 ) {
+  var EC = this;
+  EC.triggerNewContainerModal = function () {
+    return ModalService.showModal({
+      controller: 'NewContainerModalController',
+      controllerAs: 'NCMC',
+      templateUrl: 'newContainerModalView'
+    });
+  };
   $scope.$state = $state;
   favico.reset();
   pageName.setTitle('Configure - Runnable');
@@ -125,7 +133,6 @@ function EnvironmentController(
         .catch(errs.handler);
     },
     createAndBuild: function (createPromise, name) {
-
       eventTracking.triggeredBuild(false);
       // Save this in case it changes
       var cachedActiveAccount = $rootScope.dataApp.data.activeAccount;

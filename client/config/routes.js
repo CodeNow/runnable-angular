@@ -104,7 +104,8 @@ module.exports = [
     abstract: false,
     url: '^/:userName/configure',
     templateUrl: 'environmentView',
-    controller: 'EnvironmentController'
+    controller: 'EnvironmentController',
+    controllerAs: 'EC'
   }, {
     state: 'base.instances',
     abstract: false,

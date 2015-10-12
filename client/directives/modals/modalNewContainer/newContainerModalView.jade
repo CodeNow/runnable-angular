@@ -3,7 +3,7 @@
     header.modal-header
       h1.modal-heading New Container From…
       svg.iconnables.icons-close(
-        ng-click = "defaultActions.cancel()"
+        ng-click = "NCMC.close()"
       )
         use(
           xlink:href = "#icons-close"
@@ -11,14 +11,18 @@
 
     .modal-body
       .clearfix
-        button.btn.btn-huge.white
+        button.btn.btn-huge.white(
+          ng-click = "NCMC.newRepositoryContainer()"
+        )
           svg.iconnables
             use(
               xlink:href = "#icons-new-repository-server"
             )
           | Repository
           small.small Create a container from a repository on Github
-        button.btn.btn-huge.white
+        button.btn.btn-huge.white(
+          ng-click = "NCMC.newTemplateContainer()"
+        )
           svg.iconnables
             use(
               xlink:href = "#icons-server-new"

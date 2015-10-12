@@ -69,7 +69,7 @@ button.btn.green(
 
 //- new server button
 button.btn.green(
-  internal-modal-helper = "viewNewContainerModal"
+  ng-click = "EC.triggerNewContainerModal()"
   ng-class = "{'hint': helpCards.getActiveCard().targets.newContainer}"
   ng-if = "$root.featureFlags.isolationUI"
 )
