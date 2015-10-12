@@ -39,7 +39,32 @@
                 width = "24"
               )
               | Slack Integration
-            //- new settings modal
+            //- *****************
+            //- $root.featureFlags.updatedAccountMenu
+            li.list-item.popover-list-item(
+              modal
+              modal-actions = "actions.actionsModalIntegrations"
+              modal-data = "data.dataModalIntegrations"
+              modal-template = "viewModalSettings"
+              ng-if = "$root.featureFlags.updatedAccountMenu"
+            )
+              svg.iconnables
+                use(
+                  xlink:href = "#icons-billing"
+                )
+              | Billing
+            li.list-item.popover-list-item(
+              modal
+              modal-actions = "actions.actionsModalIntegrations"
+              modal-data = "data.dataModalIntegrations"
+              modal-template = "viewModalSettings"
+              ng-if = "$root.featureFlags.updatedAccountMenu"
+            )
+              svg.iconnables
+                use(
+                  xlink:href = "#icons-team"
+                )
+              | Team
             li.list-item.popover-list-item(
               modal
               modal-actions = "actions.actionsModalIntegrations"
@@ -53,6 +78,8 @@
                 width = "24"
               )
               | Slack Integration
+            //- $root.featureFlags.updatedAccountMenu
+            //- *****************
           ul.list.popover-list.list-secondary
             li.list-item.popover-list-item(
               ng-click = "goToPanel('featureFlags')"
