@@ -65,7 +65,7 @@ function instanceHeader(
           $scope.clipboardText = CLIPBOARD_START_MESSAGE;
         } else if (err) {
           var modifier = getModifierKey();
-          $scope.clipboardText = 'Copy not supported, press ' + modifier + '+C ' + modifier + '+V';
+          $scope.clipboardText = 'Press ' + modifier + '+C ' + ' to Copy';
         } else {
           $scope.clipboardText = 'Copied!';
         }
