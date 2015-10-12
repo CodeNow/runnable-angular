@@ -70,18 +70,21 @@ describe('containerUrlDirective'.bold.underline.blue, function () {
   });
   describe('onClipboardEvent', function () {
     it('should say copied when successful', function () {
+      $scope.$digest();
       expect($elScope.clipboardText).to.be.falsy();
       $elScope.onClipboardEvent();
       $elScope.$digest();
       expect('Copied!').to.equal($elScope.clipboardText);
     });
     it('should warn the user when there is an error', function () {
+      $scope.$digest();
       $elScope.clipboardText = 'asdasdds';
       $elScope.onClipboardEvent(new Error('asdasdsd'));
       $elScope.$digest();
       expect($elScope.clipboardText).to.contains('to Copy');
     });
     it('should say copied when successful', function () {
+      $scope.$digest();
       $elScope.clipboardText = 'asdasdds';
       $elScope.onClipboardEvent(null, true);
       $elScope.$digest();

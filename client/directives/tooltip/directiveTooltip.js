@@ -10,6 +10,7 @@ require('app')
  *   tooltipOptions: location data
  *   tooltipEval: text that will get evaluated, for dynamic text
  *   tooltipDisable: if set, the tooltip will not display when this is true
+ *   tooltipOnValueChange: if set, the tooltip will update it's text when this value changes
  */
 function tooltip(
   $templateCache,
@@ -59,24 +60,12 @@ function tooltip(
 
         return newPosition;
       };
-
-      var unobserveText;
-      bind(element, 'mouseover', function () {
+      var unwatchValueChange = null;
+      function createTooltipAndAttach() {
         if (attrs.tooltipDisabled && $scope.$eval(attrs.tooltipDisabled)) {
           return;
         }
-        if (attrs.hasOwnProperty('tooltipObserve')) {
-          if (unobserveText) {
-            unobserveText();
-          }
-          unobserveText = attrs.$observe('tooltip', function (newVal) {
-            $scope.toolTip.toolTipText = newVal;
-          });
-          $scope.toolTip.toolTipText = $scope.$eval(attrs.tooltip);
-        } else {
-          $scope.toolTip.toolTipText = attrs.tooltip;
-        }
-
+        $scope.toolTip.toolTipText = attrs.tooltip;
         if (attrs.tooltipEval) {
           $scope.toolTip.toolTipText = $scope.$eval(attrs.tooltipEval);
         }
@@ -84,7 +73,17 @@ function tooltip(
         $tooltipElement.addClass(options.class);
         $document.find('body').append($tooltipElement);
         $timeout(angular.noop);
-      });
+      }
+
+      if (attrs.hasOwnProperty('tooltipOnValueChange')) {
+        unwatchValueChange = attrs.$observe('tooltipOnValueChange', function (newValue, oldValue) {
+          if (newValue === 'true' && newValue !== oldValue) {
+            createTooltipAndAttach();
+          }
+        });
+      } else {
+        bind(element, 'mouseover', createTooltipAndAttach);
+      }
       bind(element, 'mouseout', function () {
         if (!$tooltipElement) {
           return;
@@ -97,8 +96,8 @@ function tooltip(
         if ($tooltipElement) {
           $tooltipElement.remove();
         }
-        if (unobserveText) {
-          unobserveText();
+        if (unwatchValueChange) {
+          unwatchValueChange();
         }
       });
 
