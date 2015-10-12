@@ -43,10 +43,7 @@
             //- $root.featureFlags.updatedAccountMenu
             li.list-item.popover-list-item(
               data-badge-count = "!"
-              modal
-              modal-actions = "actions.actionsModalIntegrations"
-              modal-data = "data.dataModalIntegrations"
-              modal-template = "viewModalSettings"
+              internal-modal-helper = "settingsModalView"
               ng-class = "{\
                 'badge': true,\
                 'badge-red': true\
@@ -59,10 +56,7 @@
                 )
               | Billing
             li.list-item.popover-list-item(
-              modal
-              modal-actions = "actions.actionsModalIntegrations"
-              modal-data = "data.dataModalIntegrations"
-              modal-template = "viewModalSettings"
+              internal-modal-helper = "settingsModalView"
               ng-if = "$root.featureFlags.updatedAccountMenu"
             )
               svg.iconnables
@@ -71,10 +65,7 @@
                 )
               | Team
             li.list-item.popover-list-item(
-              modal
-              modal-actions = "actions.actionsModalIntegrations"
-              modal-data = "data.dataModalIntegrations"
-              modal-template = "viewModalSettings"
+              internal-modal-helper = "settingsModalView"
               ng-if = "$root.featureFlags.updatedAccountMenu"
             )
               img.iconnables(
@@ -84,10 +75,7 @@
               )
               | Slack Integration
             li.list-item.popover-list-item(
-              modal
-              modal-actions = "actions.actionsModalIntegrations"
-              modal-data = "data.dataModalIntegrations"
-              modal-template = "viewModalSettings"
+              internal-modal-helper = "settingsModalView"
               ng-if = "$root.featureFlags.updatedAccountMenu"
             )
               svg.iconnables
