@@ -40,10 +40,8 @@ function containerUrl(
         return UNAVAILABLE_OS_LIST.indexOf(window.navigator.platform) === -1;
       };
 
-      $scope.onClipboardEvent = function (err, reset) {
-        if (reset) {
-          $scope.clipboardText = null;
-        } else if (err) {
+      $scope.onClipboardEvent = function (err) {
+        if (err) {
           var modifier = getModifierKey();
           $scope.clipboardText = 'Press ' + modifier + '+C ' + ' to Copy';
         } else {
