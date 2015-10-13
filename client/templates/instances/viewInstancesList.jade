@@ -77,18 +77,16 @@
               xlink:href = "#icons-overflow"
             )
 
-  //- small.small
-  //-   a.a(
-  //-     modal
-  //-     modal-template = "viewModalInviteAdmin"
-  //-   ) Invite Admin
-  //-   | &#32;for Branches
-
-  small.small
-    a.a(
-      modal
-      modal-template = "viewModalLaunchBranches"
-    ) Launch Branches…
+  small.small(
+    modal
+    modal-template = "viewModalLaunchBranches"
+  ) Launch Branches
+    svg.iconnables.icons-warning(
+      ng-if = "$root.featureFlags.preWebhooks"
+    )
+      use(
+        xlink:href = "#icons-warning"
+      )
 
   //- nav list filter
   .btn.btn-xxs(
