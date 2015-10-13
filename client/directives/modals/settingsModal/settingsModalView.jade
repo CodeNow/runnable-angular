@@ -1,8 +1,6 @@
 .modal-backdrop.in
-  //- calculate height of list (565px)?
   .modal-dialog.modal-settings(
     ng-init = "currentTab = 'billing'"
-    style = "min-height: {{data.verified ? '565px' : '565px'}}"
   )
     header.modal-header
       .container-title-wrapper.no-touching
@@ -67,7 +65,7 @@
       )
 
       //- slack integration
-      form.form-integrations(
+      form.form-integrations.well.in(
         ng-if = "currentTab === 'slackIntegration'"
         ng-include = "'integrationsForm'"
       )
