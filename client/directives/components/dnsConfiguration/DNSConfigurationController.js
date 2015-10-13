@@ -31,7 +31,9 @@ function DNSConfigurationController(
       .catch(errs.handler)
       .finally(function () {
         loading('dns', false);
+        $scope.$applyAsync();
       });
+    $scope.$applyAsync();
   }, 500, true);
 
   function handleDestroyedDepInstance() {
