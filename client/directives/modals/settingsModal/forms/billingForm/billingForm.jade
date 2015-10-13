@@ -49,6 +49,8 @@
           autocomplete = "cc-number"
           inputmode = "numeric"
           maxlength = "19"
+          ng-class = "{'amex': ccNumber.length === 19}"
+          ng-model = "ccNumber"
           placeholder = "Card Number"
           required
           spellcheck = "false"
@@ -82,16 +84,15 @@
   .label
     .clearfix
       .label-col Billing History
-    .table.table-billing
-      .tr.clearfix
-        .cell 10/13/2015
+    .table.table-billing(
+      ng-init = "months = [10,9,8,7,6,5,4,3,2,1,12,11]"
+    )
+      .tr.clearfix(
+        ng-repeat = "month in months"
+      )
+        .cell {{month < 10 ? '0' + month : month}}/13/{{month > 10 ? '2014' : '2015'}}
         .cell $33
         .cell.text-right.strong •••• 2135
-      .tr.clearfix
-        .cell 09/13/2015
-        .cell $33
-        .cell.text-right.strong •••• 2135
-      .tr.clearfix
-        .cell 08/13/2015
-        .cell $33
-        .cell.text-right.strong •••• 2135
+
+    //- if there's something older to load
+    a.small.link Load Older

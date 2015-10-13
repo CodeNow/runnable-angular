@@ -1,5 +1,9 @@
 .modal-settings {
-  width: 480px;
+  width: 510px;
+
+  @include media(xs) {
+    max-width: 100%;
+  }
 
   // coming soon
   .btn-text {
@@ -108,6 +112,10 @@
   .row {
     display: flex;
     margin-bottom: 9px;
+
+    @include media(xxs) {
+      flex-wrap: wrap;
+    }
   }
 
   .input-sm {
@@ -117,12 +125,20 @@
 
     + .input-sm {
       margin-left: 9px;
+
+      @include media(xxs) {
+        margin-left: 0;
+      }
     }
   }
 
   .input-cc {
     flex: 1 1 auto;
     padding-right: 30px;
+
+    @include media(xxs) {
+      margin-bottom: 9px;
+    }
 
     &.amex,
     &.jcb,
@@ -152,6 +168,10 @@
 
   .input-exp {
     flex: 0 0 90px;
+
+    @include media(xxs) {
+      margin-right: 9px;
+    }
   }
 
   .input-cvc {
