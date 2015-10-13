@@ -130,6 +130,14 @@ describe('DNSConfigurationController'.bold.underline.blue, function() {
     sinon.assert.calledOnce(mockInstance.off);
   });
 
+  it('should handle destroy events from instances and trigger a refresh', function () {
+    mockDepedencies.models[1].instance.on = sinon.spy();
+    $scope.$digest();
+    mockDepedencies.models[1].instance.on.lastCall.args[1]();
+    $scope.$digest();
+    sinon.assert.calledTwice(mockInstance.fetchDependencies);
+  });
+
   describe('editDependency', function () {
     it('should fetch dependencies instances', function () {
       $scope.$digest();
