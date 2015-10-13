@@ -7,20 +7,24 @@
             xlink:href = "#icons-link-external"
           )
     .well.in
-      p.p.strong
+      p.p
         sup.sup.small $
-        | 33
+        span.span 33
         small.small /user/month
         button.btn.btn-xs.white Change Plan
 
   .label.clearfix
     .label-col Payment
+      .small.error.float-right.badge.badge-red(
+        data-badge-count = "!"
+      ) Your card has expired
+
     .well.in
       p.p
         svg.iconnables.float-left
           use(
             xlink:href = "#icons-visa"
           )
-        | •••• 2135
-        small.small 10/19
+        strong.strong •••• 2135
+        small.small 10/2015
         button.btn.btn-xs.white Update

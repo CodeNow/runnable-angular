@@ -34,12 +34,23 @@
 //- billing form
 .form-billing {
 
-  // link to all plans
+  // link to all plans & errors
   .label-col {
     padding-right: 0;
 
-    > .link {
+    > .small,
+    > .error {
       margin-top: 12px;
+    }
+
+    .error {
+      color: $red;
+      margin-right: 24px;
+
+      // badge
+      &::after {
+        right: -21px;
+      }
     }
 
     .iconnables {
@@ -55,6 +66,12 @@
     // center text
     .p {
       line-height: 29px;
+
+      // emphasis on price
+      .span {
+        display: inline-block;
+        font-size: 21px;
+      }
     }
   }
 
@@ -62,11 +79,6 @@
   .sup {
     margin-right: 1px;
     top: -5px;
-  }
-
-  // price
-  .strong {
-    font-size: 21px;
   }
 
   // /user/month text
