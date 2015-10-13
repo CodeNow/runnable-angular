@@ -1,136 +1,71 @@
 .modal-backdrop.in
-  .modal-dialog.modal-webhooks.js-animate
-
-    animated-panel-container
-
-      animated-panel.panel-admins-list(
-        name = "adminsList"
-        ng-init = "\
-          mavisAdmins = [\
-            {username: 'runnabro', gravatarUrl: 'https://avatars2.githubusercontent.com/u/5341618', email: 'tony@runnable.com'},\
-            {username: 'taylordolan', gravatarUrl: 'https://avatars0.githubusercontent.com/u/7440805', email: 'taylor@runnable.com'},\
-            {username: 'thejsj', gravatarUrl: 'https://avatars0.githubusercontent.com/u/1981198', email: null}\
-          ];\
-          state.loading = true;\
-        "
-        default = "true"
+  .modal-dialog.modal-webhooks(
+    ng-init = "\
+      mavisAdmins = [\
+        {username: 'runnabro', gravatarUrl: 'https://avatars2.githubusercontent.com/u/5341618', email: 'tony@runnable.com'},\
+        {username: 'taylordolan', gravatarUrl: 'https://avatars0.githubusercontent.com/u/7440805', email: 'taylor@runnable.com'},\
+        {username: 'thejsj', gravatarUrl: 'https://avatars0.githubusercontent.com/u/1981198', email: null}\
+      ];\
+      state.loading = false;\
+      state.zoom = false;\
+    "
+  )
+    header.modal-header
+      h1.modal-heading(
+      ) Invite an Admin
+      svg.iconnables.icons-close(
+        ng-click = "defaultActions.cancel()"
       )
-        header.modal-header
-          //- svg.btn.btn-sm.iconnables.icons-arrow-backward(
-          //-   ng-click = "goToPanel('webhooksRepositories', 'back')"
-          //- )
-          //-   use(
-          //-     xlink:href = "#icons-arrow-down"
-          //-   )
-          h1.modal-heading(
-          ) Invite an Admin
-          svg.iconnables.icons-close(
-            ng-click = "defaultActions.cancel()"
+        use(
+          xlink:href = "#icons-close"
+        )
+    section.modal-body
+      span.span(
+        style = "color: #777;"
+      ) Invite a GitHub admin for&#32;
+        span.strong optimus&#32;
+        span.span so we can get permission to enable Auto Deploy.
+
+      .list.list-bordered
+
+        //- loading state
+        .list-item(
+          ng-click = "state.loading = false"
+          ng-if = "state.loading"
+        )
+          .spinner-wrapper.spinner-gray.spinner-sm.in(
+            ng-include = "'spinner'"
           )
-            use(
-              xlink:href = "#icons-close"
-            )
-        section.modal-body
-          span.span(
-            style = "color: #777;"
-          ) Invite a GitHub admin for&#32;
-            span.strong optimus&#32;
-            span.span so we can get permission to enable Auto Deploy.
 
-          .list.list-bordered
-
-            //- loading state
-            .list-item(
-              ng-click = "state.loading = false"
-              ng-if = "state.loading"
-            )
-              .spinner-wrapper.spinner-gray.spinner-sm.in(
-                ng-include = "'spinner'"
-              )
-
-            //- admins
-            .list-item(
-              ng-if = "!state.loading"
-              ng-repeat = "admin in mavisAdmins"
-              ng-click = "goToPanel('inviteAdmin')"
-            )
-              img.gravatar(
-                height = "30"
-                src = "{{admin.gravatarUrl}}"
-                width = "30"
-              )
-              p.p {{admin.username}}
-              small.small {{admin.email}}
-
-                //- input.input.input-validate(
-                //-   ng-disabled = "!admin.inviting"
-                //-   ng-focus = "admin.inviting"
-                //-   ng-if = "admin.email.length || admin.inviting"
-                //-   ng-model = "admin.email"
-                //-   spellcheck = "false"
-                //-   type = "text"
-                //-   value = "{{admin.email}}"
-                //-   placeholder = "email address"
-                //- )
-
-              svg.iconnables.icons-arrow-forward.float-right
-                use(
-                  xlink:href = "#icons-arrow-down"
-                )
-
-              .btn.btn-xs.green(
-                ng-disabled = "!admin.email.length || admin.sent"
-                ng-mousedown = "admin.sending = true"
-                ng-mouseup = "\
-                  admin.sending = false;\
-                  admin.inviting = false;\
-                  admin.sent = true\
-                "
-                ng-if = "admin.inviting || admin.sent"
-              )
-                //- ng-disabled = "!admin.email.length || admin.sending || admin.sent"
-                span(
-                  ng-if = "!admin.sending"
-                ) {{admin.sent ? "Sent" : "Send"}}
-
-                .spinner-wrapper.spinner-sm.spinner-white(
-                  ng-include = "'spinner'"
-                  ng-if = "admin.sending"
-                )
-                span(
-                  ng-if = "admin.sending"
-                ) Sending
-      animated-panel.panel-invite-admin(
-        name = "inviteAdmin"
-      )
-        header.modal-header
-          svg.btn.btn-sm.iconnables.icons-arrow-backward(
-            ng-click = "goToPanel('adminsList', 'back')"
+        //- admins
+        .list-item(
+          ng-if = "!state.loading"
+          ng-repeat = "admin in mavisAdmins"
+        )
+          img.gravatar(
+            height = "30"
+            src = "{{admin.gravatarUrl}}"
+            width = "30"
           )
-            use(
-              xlink:href = "#icons-arrow-down"
-            )
-          h1.modal-heading(
-          )
-            img.gravatar(
-              height = "30"
-              src = "https://avatars0.githubusercontent.com/u/7440805"
-              width = "30"
-            )
-            | Invite taylordolan
-          svg.iconnables.icons-close(
-            ng-click = "defaultActions.cancel()"
-          )
-            use(
-              xlink:href = "#icons-close"
-            )
-        section.modal-body
-          input.input(
+          p.p {{admin.username}}
+          input.input.input-validate(
+            ng-disabled = "!admin.inviting"
+            ng-focus = "admin.inviting"
+            ng-if = "admin.email.length || admin.inviting"
+            ng-model = "admin.email"
+            spellcheck = "false"
             type = "text"
-            value = "taylor@runnable.com"
+            value = "{{admin.email}}"
+            placeholder = "email address"
           )
-          textarea.input.input-message(
-            value = "Praesent commodo cursus magna, vel sceleris que nisl consectetur et."
+
+          .btn.btn-xs.green(
+            ng-disabled = "!admin.email.length || admin.sent"
+            ng-mousedown = "admin.sending = true"
+            ng-mouseup = "\
+              admin.sending = false;\
+              admin.inviting = false;\
+              admin.sent = true\
+            "
+            ng-if = "admin.inviting || admin.sent"
           )
-        section.modal-footer
-          .btn.btn-block.green Send Invitation
