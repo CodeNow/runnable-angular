@@ -1,4 +1,31 @@
 .modal-launch-branches {
-  max-width: 390px;
+  max-width: 360px;
   color: $gray-dark;
+
+  .modal-body {
+    padding: 24px 30px;
+  }
+
+  .instances-list {
+    height: auto;
+    border-width: 2px;
+    border-style: solid;
+    // -webkit-border-image: -webkit-linear-gradient(to bottom, red, green);
+    // border-left: 2px solid;
+    // border-right: 2px solid;
+    border-color: $gray-lighter;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    pointer-events: none;
+    margin: 36px auto 24px;
+    width: 100%;
+  }
+
+  .list-item:last-child {
+    margin-top: 21px;
+  }
+
+  .btn-sm {
+    width: 100%;
+  }
 }

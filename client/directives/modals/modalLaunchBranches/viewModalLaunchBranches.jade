@@ -8,6 +8,24 @@
         use(
           xlink:href = "#icons-close"
         )
-    section.modal-body This will automatically launch containers for branches of api, starting with the 8 active branches you have now.
-    section.modal-footer
-      button.btn.btn-block.green Launch Branches
+    section.modal-body
+      | This will automatically launch containers for branches of api, starting with the 8 active branches you have now.
+      .instances-list
+        .list
+          .list-item.list-item-header
+            span.span.text-overflow api
+            svg.iconnables.icons-advanced
+              use(
+                xlink:href = "#icons-advanced"
+              )
+          .list-item
+            a.list-item-container
+              .icons-status.green
+              .text-overflow master
+          .list-item
+            a.list-item-container
+              .icons-status.green
+              .text-overflow my-branch
+          .list-item
+            .list-item-container
+              button.btn.btn-sm.green Launch Branches
