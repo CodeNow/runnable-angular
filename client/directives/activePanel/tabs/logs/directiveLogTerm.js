@@ -17,7 +17,8 @@ function logTerm(
     transclude: true,
     controller: '@',
     scope: {
-      instance: '=? instance'
+      instance: '=? instance',
+      debugContainer: '=? debugContainer'
     },
     link: function ($scope, elem, attrs) {
 
