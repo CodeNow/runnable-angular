@@ -2,22 +2,22 @@
 
 // injector-provided
 var $scope;
-var $controller;
 var $elScope;
 var $rootScope;
+var $compile;
 var instances = require('../../../apiMocks').instances;
 var clone = require('101/clone');
 var runnable = window.runnable;
 var mockGetInstanceMaster = require('../../../fixtures/mockGetInstanceMaster');
 
-describe('DNSConfigurationController'.bold.underline.blue, function() {
-  var DCC;
+describe('DNSConfigurationDirective'.bold.underline.blue, function() {
   var promisifyMock;
   var mockDepedencies;
-  var mockInstance;
   var mockMasterInstances;
+  var element;
+  var mockInstance;
 
-  function injectSetupCompile () {
+  function injectSetupCompile() {
     mockMasterInstances = runnable.newInstances(instances.list, {
       noStore: true
     });
@@ -28,8 +28,8 @@ describe('DNSConfigurationController'.bold.underline.blue, function() {
 
     mockMasterInstances.models.forEach(function (instance, index) {
       var newInstances = [angular.copy(instances.running), angular.copy(instances.stopped)];
-      newInstances[0]._id = 'NewInstance0-'+index;
-      newInstances[1]._id = 'NewInstance1-'+index;
+      newInstances[0]._id = 'NewInstance0-' + index;
+      newInstances[1]._id = 'NewInstance1-' + index;
       newInstances[0].shortHash = index + 'abcde';
       newInstances[1].shortHash = index + 'fghij';
 
@@ -92,17 +92,13 @@ describe('DNSConfigurationController'.bold.underline.blue, function() {
 
     angular.mock.inject(function (
       _$rootScope_,
-      _$controller_
+      _$compile_
     ) {
       $scope = _$rootScope_.$new();
       $rootScope = _$rootScope_;
-      $controller = _$controller_;
+      $compile = _$compile_;
     });
 
-
-    var laterController = $controller('DNSConfigurationController', {
-      $scope: $scope
-    }, true);
 
     mockInstance = {
       fetchDependencies: sinon.stub().returns(mockDepedencies),
@@ -110,66 +106,41 @@ describe('DNSConfigurationController'.bold.underline.blue, function() {
       off: sinon.spy()
     };
 
-    laterController.instance.instance = mockInstance;
+    $scope.instance = mockInstance;
 
-    DCC = laterController();
+    var tpl = directiveTemplate.attribute('dns-configuration', {
+      instance: 'instance'
+    });
+    element = $compile(tpl)($scope);
+    $elScope = element.isolateScope();
+    $scope.$digest();
   }
 
   beforeEach(injectSetupCompile);
 
-  it('should fetch the DNS configuration and listen to update events', function () {
-    $scope.$digest();
-    sinon.assert.calledOnce(mockInstance.on);
-    expect(DCC.filteredDependencies).to.deep.equal(mockDepedencies.models);
-    expect($rootScope.isLoaded.dns).to.be.ok;
-  });
-
-  it('should unlisten to instance update events on destroy', function () {
-    $scope.$emit('$destroy');
-    $scope.$digest();
-    sinon.assert.calledOnce(mockInstance.off);
-  });
-
-  describe('editDependency', function () {
-    it('should fetch dependencies instances', function () {
-      $scope.$digest();
-      var dep = {
-        instance: mockMasterInstances.models[0]
-      };
-
-      DCC.editDependency(dep);
-      expect($rootScope.isLoaded.dnsDepData).to.not.be.ok;
-      $scope.$digest();
-      expect(DCC.lastModifiedDNS).to.not.be.ok;
-      expect(DCC.modifyingDNS.current).to.equal(dep);
-      expect(DCC.modifyingDNS.options).to.contain(dep.instance);
-      expect(DCC.modifyingDNS.options).to.contain(mockMasterInstances.models[0].children.models[0]);
-      expect($rootScope.isLoaded.dnsDepData).to.be.ok;
+  describe('setting status class on the element', function () {
+    beforeEach(function () {
+      mockDepedencies.models.forEach(function (dep) {
+        dep.instance.status = sinon.stub().returns('running');
+      });
     });
-  });
 
-  describe('selectInstance', function () {
-    it('should update the dependency to select the right instance', function () {
+    it('should do nothing if all containers are running', function () {
+      expect(element[0].className).to.not.contain('red');
+      expect(element[0].className).to.not.contain('orange');
+    });
+
+    it('should be set to red when there is a crashed container and a starting container', function () {
+      mockDepedencies.models[0].instance.status.returns('crashed');
+      mockDepedencies.models[1].instance.status.returns('starting');
       $scope.$digest();
-      var currentDNS = {
-        update: sinon.spy()
-      };
-      DCC.modifyingDNS = {
-        current: currentDNS
-      };
+      expect(element[0].className).to.contain('red');
+    });
 
-      var instance = {
-        getElasticHostname: sinon.stub().returns('elasticHostname'),
-        attrs: {
-          shortHash: '1234'
-        }
-      };
-
-      DCC.selectInstance(instance);
-
-      sinon.assert.calledOnce(currentDNS.update);
-      expect(currentDNS.update.lastCall.args[0].hostname).to.equal('elasticHostname');
-      expect(currentDNS.update.lastCall.args[0].instance).to.equal('1234');
+    it('should be set to orange when there is a starting container', function () {
+      mockDepedencies.models[0].instance.status.returns('starting');
+      $scope.$digest();
+      expect(element[0].className).to.contain('orange');
     });
   });
 

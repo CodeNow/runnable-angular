@@ -48,29 +48,6 @@ function DNSConfigurationController(
     DCC.instance.off('update', refreshDependencies);
   });
 
-  DCC.getWorstStatusClass = function () {
-    if (!DCC.filteredDependencies) {
-      return;
-    }
-
-    var worstStatus = '';
-    DCC.filteredDependencies.some(function (dependency, index) {
-      if (dependency.instance.destroyed) {
-        dependency.instance.off('destroy', handleDestroyedDepInstance);
-        DCC.filteredDependencies.splice(index, 1);
-        handleDestroyedDepInstance();
-        return true;
-      }
-      var status = dependency.instance.status();
-      if (['buildFailed', 'crashed'].includes(status)) {
-        worstStatus = 'red';
-      }
-      if (worstStatus !== 'red' && ['starting', 'neverStarted', 'building'].includes(status)) {
-        worstStatus = 'orange';
-      }
-    });
-    return worstStatus;
-  };
 
   DCC.editDependency = function (dep) {
     loading('dnsDepData', true);
