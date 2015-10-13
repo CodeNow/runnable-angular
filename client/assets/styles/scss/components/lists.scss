@@ -1,20 +1,20 @@
 // bordered list with line between items
 .list-bordered {
   border: 1px solid $gray-lighter;
-  border-radius: 3px;
+  border-radius: $input-border-radius-lg;
 
   .list-item {
 
     &:first-child {
-      border-radius: 3px 3px 0 0;
+      border-radius: $input-border-radius-lg $input-border-radius-lg 0 0;
     }
 
     &:last-child {
-      border-radius: 0 0 3px 3px;
+      border-radius: 0 0 $input-border-radius-lg $input-border-radius-lg;
     }
 
     &:only-child {
-      border-radius: 3px;
+      border-radius: $input-border-radius-lg;
     }
 
     + .list-item {
