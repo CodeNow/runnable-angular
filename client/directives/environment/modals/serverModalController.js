@@ -10,6 +10,7 @@ function ServerModalController (
   eventTracking,
   errs,
   fetchUser,
+  helpCards,
   parseDockerfileForCardInfoFromInstance,
   keypather,
   loading,
@@ -202,13 +203,53 @@ function ServerModalController (
       })
       .then(function (build) {
         SMC.state.build = build;
-      })
-      .catch(function (err) {
-        errs.handler(err);
+        return SMC;
       });
   };
 
+  this.insertHostName = function (opts) {
+    var SMC = this;
+    if (!opts) {
+      return;
+    }
+    var hostName = '';
+    if (opts.protocol) {
+      hostName += opts.protocol;
+    }
+    if (opts.server) {
+      hostName += opts.server.getElasticHostname();
+    }
+    if (opts.port) {
+      hostName += ':' + opts.port;
+    }
+    $rootScope.$broadcast('eventPasteLinkedInstance', hostName);
+  };
 
+  this.getUpdatePromise = function () {
+    var SMC = this;
+    SMC.saveTriggered = true;
+    $rootScope.$broadcast('close-popovers');
+    SMC.building = true;
+    return SMC.rebuildAndOrRedeploy()
+     .then(function () {
+        helpCards.refreshActiveCard();
+        close();
+        $rootScope.$broadcast('alert', {
+          type: 'success',
+          text: 'Container updated successfully.'
+        });
+      })
+      .catch(function (err) {
+        errs.handler(err);
+        return SMC.resetStateContextVersion(SMC.state.contextVersion, true)
+          .catch(function (err) {
+             errs.handler(err);
+          })
+          .finally(function () {
+            SMC.building = false;
+          });
+      });
+  };
 
 }
 

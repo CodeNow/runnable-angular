@@ -30,7 +30,6 @@ function EditServerModalController(
   fetchSourceContexts,
   findLinkedServerVariables,
   hasKeypaths,
-  helpCards,
   keypather,
   loading,
   loadingPromises,
@@ -137,6 +136,9 @@ function EditServerModalController(
         if (hasNoErrors) {
           loading(SMC.name, false);
         }
+      })
+      .catch(function (err) {
+        errs.handler(err);
       });
   });
 
@@ -146,7 +148,7 @@ function EditServerModalController(
     if (showSpinner) {
       loading(SMC.name, true);
     }
-    return SMC.resetStateContextVersion(instance.contextVersion, !hasError)
+    return SMC.resetStateContextVersion(instance.contextVersion, hasError)
       .then(function () {
         // After context has been reset, start keeping track of loading promises
         // to check if current state is dirty
@@ -154,6 +156,9 @@ function EditServerModalController(
           loading(SMC.name, false);
         }
         loadingPromises.clear(SMC.name);
+      })
+      .catch(function (err) {
+        errs.handler(err);
       });
   }
 
@@ -205,46 +210,6 @@ function EditServerModalController(
     });
   };
 
-
-  SMC.insertHostName = function (opts) {
-    if (!opts) {
-      return;
-    }
-    var hostName = '';
-    if (opts.protocol) {
-      hostName += opts.protocol;
-    }
-    if (opts.server) {
-      hostName += opts.server.getElasticHostname();
-    }
-    if (opts.port) {
-      hostName += ':' + opts.port;
-    }
-    $rootScope.$broadcast('eventPasteLinkedInstance', hostName);
-  };
-
-  SMC.getUpdatePromise = function () {
-    SMC.saveTriggered = true;
-    $rootScope.$broadcast('close-popovers');
-    SMC.building = true;
-    return SMC.rebuildAndOrRedeploy()
-     .then(function () {
-        helpCards.refreshActiveCard();
-        close();
-        $rootScope.$broadcast('alert', {
-          type: 'success',
-          text: 'Container updated successfully.'
-        });
-      })
-      .catch(function (err) {
-        errs.handler(err);
-        resetState(SMC.state, true)
-          .finally(function () {
-            SMC.building = false;
-          });
-      });
-  };
-
   SMC.isDockerfileValid = function () {
     if (!SMC.state.advanced || !keypather.get(SMC, 'state.dockerfile.validation.criticals.length')) {
       return true;
@@ -254,5 +219,5 @@ function EditServerModalController(
     }));
   };
 
-  resetState(SMC.instance);
+  resetState(SMC.instance, false);
 }
