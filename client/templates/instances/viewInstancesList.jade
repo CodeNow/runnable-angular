@@ -79,14 +79,19 @@
 
   small.small(
     modal
-    modal-template = "viewModalLaunchBranches"
+    modal-template = "viewModalInviteAdmin"
+    ng-if = "$root.featureFlags.preWebhooks"
   ) Launch Branches
-    svg.iconnables.icons-warning(
-      ng-if = "$root.featureFlags.preWebhooks"
-    )
+    svg.iconnables.icons-warning
       use(
         xlink:href = "#icons-warning"
       )
+
+  small.small(
+    modal
+    modal-template = "viewModalLaunchBranches"
+    ng-if = "!$root.featureFlags.preWebhooks"
+  ) Launch Branches
 
   //- nav list filter
   .btn.btn-xxs(
