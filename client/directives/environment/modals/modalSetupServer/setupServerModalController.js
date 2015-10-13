@@ -179,7 +179,12 @@ function SetupServerModalController (
           SMC.changeTab('logs');
         });
     } else if (SMC.state.step > 4) {
-      return close();
+      if (SMC.isDirty()) {
+        // If the state, is dirty save it as we would in the EditServerModalController
+        return SMC.getUpdatePromise();
+      } else {
+        return close();
+      }
     }
   };
 
@@ -224,6 +229,7 @@ function SetupServerModalController (
         return SMC;
       })
       .catch(function (err) {
+        // NOTE: Reset the context version?
         errs.handler(err);
       })
       .finally(function () {
@@ -277,6 +283,9 @@ function SetupServerModalController (
       })
       .then(function () {
         return SMC;
+      })
+      .catch(function (err) {
+        errs.handler(err);
       });
   };
 
