@@ -93,7 +93,7 @@ module.exports = [
           // There is a bug in ui-router and a timeout is the workaround
           return $timeout(function () {
             $state.go('orgSelect');
-            return $q.reject('User Unauthorized for Organization');
+            return $q.reject(new Error('User Unauthorized for Organization'));
           });
         }
         return matchedOrg;

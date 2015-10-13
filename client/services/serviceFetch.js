@@ -106,7 +106,7 @@ function fetchInstances(
           }
 
           if (!instance) {
-            return $q.reject('Container not found');
+            return $q.reject(new Error('Container not found'));
           }
           instance.githubUsername = opts.githubUsername;
           return instance;
