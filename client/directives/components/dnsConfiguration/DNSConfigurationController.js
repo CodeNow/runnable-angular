@@ -21,7 +21,7 @@ function DNSConfigurationController(
     promisify(DCC.instance, 'fetchDependencies')()
       .then(function (dependencies) {
         DCC.filteredDependencies = dependencies.models.filter(function (dep) {
-          return keypather.get(dep.instance, 'contextVersion.getMainAppCodeVersion()');
+          return !dep.instance.destroyed && keypather.get(dep.instance, 'contextVersion.getMainAppCodeVersion()');
         });
 
         DCC.filteredDependencies.forEach(function (dep) {
@@ -31,7 +31,6 @@ function DNSConfigurationController(
       .catch(errs.handler)
       .finally(function () {
         loading('dns', false);
-        $scope.$applyAsync();
       });
     $scope.$applyAsync();
   }, 500, true);
