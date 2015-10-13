@@ -1,4 +1,4 @@
-button.btn.btn-sm.btn-spinner.btn-status(
+button.btn.btn-spinner.btn-status(
   ng-class = "getClassForInstance()"
   ng-disabled = "isChanging()"
   ng-click = "CSBC.popoverActive = true"
@@ -19,11 +19,25 @@ button.btn.btn-sm.btn-spinner.btn-status(
     ng-if = "isChanging()"
   ) {{getStatusText()}}
   svg.iconnables.icons-arrow-down(
+    ng-if = "!$root.featureFlags.newNavigation"
     pop-over
     pop-over-actions = "CSBC.actions"
     pop-over-active = "CSBC.popoverActive"
     pop-over-controller = "CSBC"
-    pop-over-options = "{\"right\":0,\"top\":53}"
+    pop-over-options = "{\"right\":-11,\"top\":51}"
+    pop-over-template = "containerStatusOptionsPopoverView"
+    pop-over-trigger = "activeAttr"
+  )
+    use(
+      xlink:href = "#icons-arrow-down"
+    )
+  svg.iconnables.icons-arrow-down(
+    ng-if = "$root.featureFlags.newNavigation"
+    pop-over
+    pop-over-actions = "CSBC.actions"
+    pop-over-active = "CSBC.popoverActive"
+    pop-over-controller = "CSBC"
+    pop-over-options = "{\"right\":-104,\"top\":45}"
     pop-over-template = "containerStatusOptionsPopoverView"
     pop-over-trigger = "activeAttr"
   )

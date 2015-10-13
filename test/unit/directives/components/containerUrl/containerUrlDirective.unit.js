@@ -10,7 +10,7 @@ var $elScope;
 var readOnlySwitchController;
 var apiMocks = require('./../../../apiMocks/index');
 
-describe.only('containerUrlDirective'.bold.underline.blue, function () {
+describe('containerUrlDirective'.bold.underline.blue, function () {
   var ctx;
   var mockInstance;
   beforeEach(function () {

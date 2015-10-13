@@ -1,17 +1,23 @@
-button.btn.btn-dns(
-  ng-if = "$root.featureFlags.isolationDnsMappings"
-  dns-configuration
+.server-info.load(
   instance = "instance"
+  instance-box-name
+  ng-show = "instance"
 )
+.primary-actions
+  button.btn.btn-dns(
+    ng-if = "$root.featureFlags.isolationDnsMappings"
+    dns-configuration
+    instance = "instance"
+  )
 
-div(
-  instance = "instance"
-  container-status-button
-)
+  div(
+    instance = "instance"
+    container-status-button
+  )
 
-div(
-  save-open-items-button
-  ng-if = "!$root.featureFlags.saveToolbar && instance.containers.models[0].running() && !openItems.isClean()"
-  instance = "instance"
-  open-items = "openItems"
-)
+  div(
+    save-open-items-button
+    ng-if = "!$root.featureFlags.saveToolbar && instance.containers.models[0].running() && !openItems.isClean()"
+    instance = "instance"
+    open-items = "openItems"
+  )

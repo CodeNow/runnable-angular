@@ -25,13 +25,15 @@ describe('instanceHeaderDirective'.bold.underline.blue, function () {
     ctx.errsMock = {
       handler: sinon.spy()
     };
-    ctx.fetchPullRequestMock = {};
+    ctx.fetchPullRequestMock = {
+      hey: 'asfasf'
+    };
 
     ctx.loadingMock = sinon.spy();
     angular.mock.module('app', function ($provide) {
       $provide.value('errs', ctx.errsMock);
-      $provide.factory('fetchPullRequest', function ($q) {
-        return $q.when(ctx.fetchPullRequest);
+      $provide.value('fetchPullRequest', function () {
+        return $q.when(ctx.fetchPullRequestMock);
       });
       $provide.factory('promisify', function ($q) {
         promisifyMock = sinon.spy(function (obj, key) {
@@ -74,8 +76,9 @@ describe('instanceHeaderDirective'.bold.underline.blue, function () {
         instance: 'instance',
         'open-items': 'openItems'
       });
-      $scope.instance = mockInstance;
-      $scope.openItems = mockOpenItems;
+      $rootScope.featureFlags = {
+        newNavigation: false
+      };
       element = $compile(template)($scope);
       $scope.$digest();
       $elScope = element.isolateScope();
@@ -83,28 +86,10 @@ describe('instanceHeaderDirective'.bold.underline.blue, function () {
   });
 
   describe('watching instance', function () {
-
-    var classesMap = {
-      starting: ['gray', 'in'],
-      stopping: ['gray', 'in'],
-      building: ['gray', 'in'],
-      stopped: ['gray'],
-      crashed: ['red'],
-      running: ['gray'],
-      buildFailed: ['red'],
-      neverStarted: ['gray'],
-      unknown: ['gray']
-    };
-    it('update the button text correctly', function () {
-      mockInstance.status = sinon.stub();
-
-      Object.keys(classesMap).forEach(function (status) {
-        mockInstance.status.reset();
-        mockInstance.status = sinon.stub().returns(status);
-        $elScope.$digest();
-        expect(classesMap[status], 'status ' + status).to.deep.equal($elScope.getClassForInstance());
-      });
-
+    it('update the pr', function () {
+      $scope.instance = mockInstance;
+      $scope.$digest();
+      $elScope.pr = ctx.fetchPullRequestMock;
     });
   });
 });
