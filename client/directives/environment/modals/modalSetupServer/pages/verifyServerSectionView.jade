@@ -24,7 +24,7 @@ header.modal-header
     button.btn.btn-radio(
       ng-class = "{'active': SMC.selectedTab === 'repository'}"
       ng-click = "SMC.changeTab('repository');"
-      ng-if = "(SMC.state.step >= 1 && !SMC.state.advanced) || isTabVisible('repository')"
+      ng-if = "(SMC.state.step >= 1 && !SMC.state.advanced)"
     )
       svg.iconnables
         use(
@@ -34,7 +34,7 @@ header.modal-header
     button.btn.btn-radio.js-animate(
       ng-class = "{'active': SMC.selectedTab === 'commands'}"
       ng-click = "SMC.changeTab('commands')"
-      ng-if = "(SMC.state.step >= 2 && !SMC.state.advanced) || isTabVisible('commands')"
+      ng-if = "(SMC.state.step >= 2 && !SMC.state.advanced)"
     )
       svg.iconnables
         use(
@@ -46,7 +46,7 @@ header.modal-header
     button.btn.btn-radio.js-animate(
       ng-class = "{'active': SMC.selectedTab === 'ports'}"
       ng-click = "SMC.changeTab('ports')"
-      ng-if = "(SMC.state.step >= 3 && !SMC.state.advanced) || isTabVisible('ports')"
+      ng-if = "(SMC.state.step >= 3 && !SMC.state.advanced)"
     )
       svg.iconnables
         use(
@@ -66,7 +66,7 @@ header.modal-header
     button.btn.btn-radio.js-animate(
       ng-class = "{'active': SMC.selectedTab === 'files'}"
       ng-click = "SMC.changeTab('files')"
-      ng-if = "(SMC.state.step >= 3 || isTabVisible('files')) && !SMC.state.advanced"
+      ng-if = "SMC.state.step >= 3 && !SMC.state.advanced"
     )
       svg.iconnables
         use(
