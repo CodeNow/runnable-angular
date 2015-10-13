@@ -46,6 +46,11 @@
   .well {
     margin: 0;
     padding: 15px;
+
+    // center text
+    .p {
+      line-height: 29px;
+    }
   }
 
   // $
@@ -62,6 +67,7 @@
   // /user/month text
   .small {
     color: $gray;
+    display: inline;
     margin-left: 2px;
   }
 
@@ -69,5 +75,12 @@
   .white {
     float: right;
     top: 3px;
+  }
+
+  // card type
+  .iconnables {
+    height: 29px;
+    margin-right: 9px;
+    width: 18px;
   }
 }
