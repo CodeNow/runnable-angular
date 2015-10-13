@@ -6,49 +6,20 @@
     color: $gray;
   }
 
-  .btn {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    position: relative;
-    right: 0;
-    top: 0;
-
-    .spinner-wrapper {
-      margin-right: 6px;
-    }
-
-    .spinner {
-      width: 12px;
-      height: 12px;
-    }
-  }
-
-  [disabled] {
-    cursor: default;
-  }
-
   .input {
     background-color: $white;
-    color: #888;
-    font-size: 13px;
+    color: $gray;
+    font-size: 14px;
     font-weight: 400;
     height: 24px;
     line-height: 20px;
-    margin-right: 12px;
+    transition: all .2s;
 
     &[disabled] {
+      -webkit-text-fill-color: $gray;
       border-color: transparent !important;
+      cursor: pointer;
     }
-  }
-
-  .icons-arrow-backward {
-    color: #bbb;
-    left: 15px;
-    padding: 0;
-    pointer-events: auto;
-    position: absolute;
-    top: 18px;
   }
 
   .list-bordered {
@@ -59,15 +30,50 @@
     margin: 18px 0 6px;
 
     .list-item {
-      padding: 12px 15px;
-      // display: flex;
-      // align-items: center;
+      padding: 0 15px 0 48px;
       line-height: 18px;
-      height: 54px;
+      min-height: 54px;
+      max-height: 54px;
+      transition: all .2s;
+      overflow: hidden;
+      cursor: pointer;
+
+      &.active {
+        height: 240px;
+        border: 0;
+        padding: 6px 15px;
+        max-height: 216px;
+
+        .gravatar {
+          opacity: 0;
+        }
+
+        .admin-info {
+          left: 15px;
+        }
+
+        .input {
+          margin-top: 12px;
+        }
+      }
+
+      &.inactive {
+        max-height: 0;
+        min-height: 0;
+        opacity: 0;
+        padding: 0 15px;
+        border: 0;
+      }
 
       // loading state
       > .spinner-wrapper {
         width: 100%;
+      }
+
+      > .btn-sm {
+        position: relative;
+        right: 0;
+        top: 0;
       }
     }
   }
@@ -75,15 +81,32 @@
   .gravatar {
     background: $gray;
     border-radius: 50%;
-    flex: 0 0 30px;
     height: 30px;
-    margin: 0 9px 0 0;
+    margin: 0;
+    position: absolute;
+    left: 15px;
+    top: 12px;
+    transition: all .2s;
+  }
+
+  .textarea {
+    margin: 12px 0;
+    background-color: $white;
+    color: $gray;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    height: 75px;
   }
 }
 
-// .panel-webhooks-repositories .btn {
-//   flex: 0 0 135px;
-// }
+.admin-info {
+  margin-top: 6px;
+
+  .p {
+    margin-left: 8px;
+  }
+}
 
 .panel-admins-list .btn {
   flex: 0 0 90px;

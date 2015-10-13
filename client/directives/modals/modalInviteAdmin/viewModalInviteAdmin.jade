@@ -6,8 +6,10 @@
         {username: 'taylordolan', gravatarUrl: 'https://avatars0.githubusercontent.com/u/7440805', email: 'taylor@runnable.com'},\
         {username: 'thejsj', gravatarUrl: 'https://avatars0.githubusercontent.com/u/1981198', email: null}\
       ];\
+      items = [1,2,3,4,5];\
       state.loading = false;\
       state.zoom = false;\
+      state.activeItem = null;\
     "
   )
     header.modal-header
@@ -26,7 +28,7 @@
         span.strong optimus&#32;
         span.span so we can get permission to enable Auto Deploy.
 
-      .list.list-bordered
+      ul.list.list-bordered
 
         //- loading state
         .list-item(
@@ -38,34 +40,45 @@
           )
 
         //- admins
-        .list-item(
-          ng-if = "!state.loading"
-          ng-repeat = "admin in mavisAdmins"
+        li.list-item(
+          ng-class = "{\
+            'active': state.activeItem === $index,\
+            'inactive': state.activeItem && state.activeItem !== $index\
+          }"
+          ng-click = "\
+            state.activeItem = $index;\
+            inviting = true;\
+          "
+          ng-repeat = "item in items"
         )
+          //- ng-if = "!state.loading"
+          //- ng-repeat = "admin in mavisAdmins"
           img.gravatar(
             height = "30"
-            src = "{{admin.gravatarUrl}}"
             width = "30"
+            src = "https://avatars0.githubusercontent.com/u/1981198"
           )
-          p.p {{admin.username}}
-          input.input.input-validate(
-            ng-disabled = "!admin.inviting"
-            ng-focus = "admin.inviting"
-            ng-if = "admin.email.length || admin.inviting"
-            ng-model = "admin.email"
+          .admin-info
+            p.p thejsj
+            input.input.input-validate(
+              spellcheck = "false"
+              type = "text"
+              value = "jorge@runnable.com"
+              placeholder = "email address"
+              ng-disabled = "!inviting"
+            )
+          textarea.textarea(
             spellcheck = "false"
-            type = "text"
-            value = "{{admin.email}}"
-            placeholder = "email address"
           )
-
-          .btn.btn-xs.green(
-            ng-disabled = "!admin.email.length || admin.sent"
-            ng-mousedown = "admin.sending = true"
-            ng-mouseup = "\
-              admin.sending = false;\
-              admin.inviting = false;\
-              admin.sent = true\
+          .btn.btn-sm.gray(
+            ng-click = "\
+              state.activeItem = null;\
+              inviting = false;\
             "
-            ng-if = "admin.inviting || admin.sent"
-          )
+          ) Cancel
+          .btn.btn-sm.green.float-right(
+            ng-click = "\
+              state.activeItem = null;\
+              inviting = false;\
+            "
+          ) Send Invitation
