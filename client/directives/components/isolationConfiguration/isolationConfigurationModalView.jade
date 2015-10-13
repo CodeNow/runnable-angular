@@ -1,0 +1,65 @@
+.modal-backdrop.in
+  .modal-dialog.modal-isolation
+    header.modal-header
+      h1.modal-heading Isolation Setup
+      svg.iconnables.icons-close(
+        ng-click = "ICMC.close()"
+      )
+        use(
+          xlink:href = "#icons-close"
+        )
+    section.modal-body
+      .text-center The following containers will be created to isolate&#32;
+        br
+        status-icon(
+          instance = "ICMC.instance"
+        )
+        strong.strong {{ICMC.instance.getRepoName()}}/{{ICMC.instance.getBranchName()}}
+        | .
+      .list.list-bordered(
+        ng-if = "ICMC.repoInstances.length"
+      )
+        .list-item(
+          ng-repeat = "instance in ICMC.repoInstances"
+        )
+          svg.iconnables.icons-new-repository-server
+            use(
+              xlink:href = "#icons-new-repository-server"
+            )
+          span.span.text-overflow(
+            title = "{{instance.getRepoName()}}"
+          ) {{instance.getRepoName()}}
+
+          | {{instance.children.length}}
+
+          fancy-select(
+            value = "ICMC.instanceBranchMapping[instance.attrs.contextVersion.context]"
+          )
+            fancy-option(
+              value = "$parent.instance"
+            ) {{$parent.$parent.instance.getBranchName()}}
+            fancy-option(
+              ng-repeat = "child in $parent.instance.children.models"
+              value = "child"
+            ) {{$parent.child.getBranchName()}}
+
+      .list.list-bordered(
+        ng-if = "ICMC.nonRepoInstances.length"
+      )
+        .list-item(
+          ng-repeat = "instance in ICMC.nonRepoInstances"
+        )
+            svg.iconnables.icons-server-new
+              use(
+                xlink:href = "#icons-server-new"
+              )
+            span.span.text-overflow {{instance.getDisplayName()}}
+
+    section.modal-footer.clearfix
+      button.btn.green(
+        ng-disabled = "$root.isLoading.createIsolation"
+        ng-click = "ICMC.createIsolation()"
+      ) {{$root.isLoading.createIsolation ? 'Isolating...' : 'Enter Isolation'}}
+      button.btn.white.btn-cancel(
+        ng-click = "ICMC.close()"
+      ) Cancel

@@ -4,7 +4,10 @@
 )
   //- arrow is white if loading or no dns mappings
   .arrow(
-    ng-class = "{'white': !$root.isLoaded.dns || DCC.filteredDependencies.length === 0}"
+    ng-class = "{\
+      'gray': $root.isLoaded.dns && DCC.filteredDependencies.length > 0,\
+      'white': !$root.isLoaded.dns || DCC.filteredDependencies.length === 0\
+    }"
   )
 
   animated-panel-container.popover-views
