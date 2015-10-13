@@ -98,9 +98,17 @@ function ServerModalController (
             return SMC.state;
           })
           .then(function (state) {
-            return promisify(SMC.instance, 'update')(state.opts);
+            /*!
+             * Make sure not to update the owner of this instance. If we pass
+             * the owner property, the API will try to update the owner of the
+             * instance, which won't work because our `owner` property does not
+             * have the `githubUsername` property.
+             */
+            var opts = angular.copy(state.opts);
+            delete opts.owner;
+            return promisify(SMC.instance, 'update')(opts);
           })
-          .then(function () {
+          .then(function (value) {
             if (toRedeploy) {
               return promisify(SMC.instance, 'redeploy')();
             }

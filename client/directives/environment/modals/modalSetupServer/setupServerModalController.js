@@ -173,7 +173,8 @@ function SetupServerModalController (
       return SMC.createServer()
         .then(function () {
           // Go on to step 4 (logs)
-          loading('setupServerModal', false);
+          loading(SMC.name, false);
+          loadingPromises.clear(SMC.name);
           SMC.isBuilding = false;
           SMC.changeTab('logs');
         });
@@ -214,6 +215,7 @@ function SetupServerModalController (
 
   SMC.rebuild = function (noCache) {
     SMC.isBuilding = true;
+    loading(SMC.name, true);
     return SMC.rebuildAndOrRedeploy(noCache)
       .then(function () {
         return SMC.resetStateContextVersion(SMC.instance.contextVersion, false);
@@ -226,6 +228,7 @@ function SetupServerModalController (
       })
       .finally(function () {
         loadingPromises.clear(SMC.name);
+        loading(SMC.name, false);
         SMC.isBuilding = false;
       });
   };
