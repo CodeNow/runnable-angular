@@ -37,7 +37,7 @@
           ng-click = "data.showCcForm = true"
         ) Update
 
-    form.form-cc.well.in(
+    form.form-cc.well.in.clearfix(
       ng-if = "data.showCcForm"
     )
       //- limit all fields to numbers only
@@ -71,9 +71,8 @@
           required
           spellcheck = "false"
         )
-      button.btn.btn-sm.green(
+      button.btn.btn-xs.green.float-right Save
+      button.btn.btn-xs.white.float-left(
         ng-click = "data.showCcForm = false"
-      ) Save
-      button.btn.btn-sm.white(
-        ng-click = "data.showCcForm = false"
+        type = "button"
       ) Cancel

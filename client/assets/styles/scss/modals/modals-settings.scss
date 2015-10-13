@@ -73,6 +73,12 @@
         display: inline-block;
         font-size: 21px;
       }
+
+      // change plan button
+      .white {
+        float: right;
+        top: 3px;
+      }
     }
   }
 
@@ -88,13 +94,6 @@
     display: inline;
     margin-left: 2px;
   }
-
-  // change plan button
-  .white {
-    float: right;
-    top: 3px;
-  }
-
   // card type
   .iconnables {
     height: 29px;
@@ -106,10 +105,15 @@
 // cc form
 .form-cc {
 
+  .row {
+    display: flex;
+    margin-bottom: 9px;
+  }
+
   .input-sm {
-    float: left;
     letter-spacing: .5px;
-    margin: 9px 0;
+    margin: 0;
+    min-width: 0; // fix firefox bug with flexbox and input widths
 
     + .input-sm {
       margin-left: 9px;
@@ -117,7 +121,7 @@
   }
 
   .input-cc {
-    max-width: 189px;
+    flex: 1 1 auto;
     padding-right: 30px;
 
     &.amex,
@@ -147,10 +151,10 @@
   }
 
   .input-exp {
-    width: 90px;
+    flex: 0 0 90px;
   }
 
   .input-cvc {
-    width: 54px;
+    flex: 0 0 54px;
   }
 }
