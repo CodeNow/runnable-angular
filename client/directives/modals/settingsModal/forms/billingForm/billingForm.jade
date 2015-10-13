@@ -13,13 +13,19 @@
         small.small /user/month
         button.btn.btn-xs.white Change Plan
 
-  .label.clearfix
+  .label.clearfix(
+    ng-init = "data.showCcForm = false"
+  )
     .label-col Payment
+      //- hide errors when updating cc info
       .small.error.float-right.badge.badge-red(
         data-badge-count = "!"
+        ng-if = "!data.showCcForm"
       ) Your card has expired
 
-    .well.in
+    .well.in(
+      ng-if = "!data.showCcForm"
+    )
       p.p
         svg.iconnables.float-left
           use(
@@ -27,4 +33,47 @@
           )
         strong.strong •••• 2135
         small.small 10/2015
-        button.btn.btn-xs.white Update
+        button.btn.btn-xs.white(
+          ng-click = "data.showCcForm = true"
+        ) Update
+
+    form.form-cc.well.in(
+      ng-if = "data.showCcForm"
+    )
+      //- limit all fields to numbers only
+      .row.clearfix
+        //- add .visa, .mastercard, .amex, .jcb AFTER cc number is filled out
+        input.input.input-sm.input-cc(
+          autocomplete = "cc-number"
+          inputmode = "numeric"
+          maxlength = "19"
+          placeholder = "Card Number"
+          required
+          spellcheck = "false"
+        )
+        //- auto insert " / " after last 2nd number
+          - pressing delete immediately after " / " should delete " / " AND the preceeding number
+          - allow MM / YYYY
+        input.input.input-sm.input-exp(
+          autocomplete = "cc-exp"
+          inputmode = "numeric"
+          maxlength = "9"
+          placeholder = "MM / YY"
+          required
+          spellcheck = "false"
+        )
+        //- change maxlength to 3/4 depending on cc
+        input.input.input-sm.input-cvc(
+          autocomplete = "cc-csc"
+          inputmode = "numeric"
+          maxlength = "4"
+          placeholder = "CVC"
+          required
+          spellcheck = "false"
+        )
+      button.btn.btn-sm.green(
+        ng-click = "data.showCcForm = false"
+      ) Save
+      button.btn.btn-sm.white(
+        ng-click = "data.showCcForm = false"
+      ) Cancel

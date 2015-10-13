@@ -102,3 +102,55 @@
     width: 18px;
   }
 }
+
+// cc form
+.form-cc {
+
+  .input-sm {
+    float: left;
+    letter-spacing: .5px;
+    margin: 9px 0;
+
+    + .input-sm {
+      margin-left: 9px;
+    }
+  }
+
+  .input-cc {
+    max-width: 189px;
+    padding-right: 30px;
+
+    &.amex,
+    &.jcb,
+    &.mastercard,
+    &.visa {
+      background-position: 97% 49%;
+      background-repeat: no-repeat;
+      background-size: 21px 17px;
+    }
+
+    &.amex {
+      background-image: url(/build/images/logos/credit-cards/logo-cc-amex.svg);
+    }
+
+    &.jcb {
+      background-image: url(/build/images/logos/credit-cards/logo-cc-jcb.svg);
+    }
+
+    &.mastercard {
+      background-image: url(/build/images/logos/credit-cards/logo-cc-mastercard.svg);
+    }
+
+    &.visa {
+      background-image: url(/build/images/logos/credit-cards/logo-cc-visa.svg);
+    }
+  }
+
+  .input-exp {
+    width: 90px;
+  }
+
+  .input-cvc {
+    width: 54px;
+  }
+}
