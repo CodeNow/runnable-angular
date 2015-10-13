@@ -4,9 +4,22 @@ require('app').controller('InstanceNavigationController', InstanceNavigationCont
 
 function InstanceNavigationController(
   $rootScope,
-  ModalService
+  ModalService,
+  errs,
+  keypather,
+  promisify
 ) {
   var INC = this;
+
+  if (INC.masterInstance !== INC.instance) {
+    INC.instance.attrs.isIsolationGroupMaster = true;
+    INC.instance.attrs.isolated = '12345';
+    INC.instance.isolation = {
+      destroy: function (cb) {
+        cb(new Error('Isolation is not configured yet to be destroyed. This is mocked.'));
+      }
+    };
+  }
 
   INC.setupIsolation = function () {
     $rootScope.$broadcast('close-popovers');
@@ -19,6 +32,65 @@ function InstanceNavigationController(
         instance: INC.instance
       }
     });
+  };
+
+  INC.configureContainer = function () {
+    $rootScope.$broadcast('close-popovers');
+
+    ModalService.showModal({
+      controller: 'EditServerModalController',
+      controllerAs: 'SMC',
+      templateUrl: 'editServerModalView',
+      inputs: {
+        tab: keypather.get(INC.instance, 'contextVersion.attrs.advanced') ? 'env' : 'repository',
+        instance: INC.instance,
+        actions: {}
+      }
+    })
+      .catch(errs.handler);
+  };
+
+  INC.disableIsolation = function () {
+    $rootScope.$broadcast('close-popovers');
+
+    ModalService.showModal({
+      controller: 'ConfirmationModalController',
+      controllerAs: 'CMC',
+      templateUrl: 'disableIsolationConfirmationModal'
+    })
+      .then(function (modal) {
+        modal.close.then(function (confirmed) {
+          if (confirmed) {
+            promisify(INC.instance.isolation, 'destroy')()
+              .catch(errs.handler);
+          }
+        });
+      })
+      .catch(errs.handler);
+  };
+
+  INC.addContainerToIsolation = function () {
+    $rootScope.$broadcast('close-popovers');
+    // TODO: Implement
+    console.log('Add container to isolation');
+  };
+
+  INC.deleteContainer = function () {
+    $rootScope.$broadcast('close-popovers');
+    ModalService.showModal({
+      controller: 'ConfirmationModalController',
+      controllerAs: 'CMC',
+      templateUrl: 'confirmDeleteServerView'
+    })
+      .then(function (modal) {
+        modal.close.then(function (confirmed) {
+          if (confirmed) {
+            // TODO: Implement
+            console.log('Deleting container');
+          }
+        });
+      })
+      .catch(errs.handler);
   };
 }
 
