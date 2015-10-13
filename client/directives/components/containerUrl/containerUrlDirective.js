@@ -36,9 +36,7 @@ function containerUrl(
       function getModifierKey() {
         return window.navigator.platform.toLowerCase().indexOf('mac') > -1 ? '⌘' : 'CTRL';
       }
-      $scope.shouldShowCopyButton = function () {
-        return UNAVAILABLE_OS_LIST.indexOf(window.navigator.platform) === -1;
-      };
+      $scope.shouldShowCopyButton = !UNAVAILABLE_OS_LIST.includes(window.navigator.platform);
 
       $scope.onClipboardEvent = function (err) {
         if (err) {

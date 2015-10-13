@@ -10,7 +10,7 @@ require('app')
  *   tooltipOptions: location data
  *   tooltipEval: text that will get evaluated, for dynamic text
  *   tooltipDisable: if set, the tooltip will not display when this is true
- *   tooltipOnValueChange: if set, the tooltip will update it's text when this value changes
+ *   tooltipActiveAttr: (true/false) if set, the tooltip will display when this value is true
  */
 function tooltip(
   $templateCache,
@@ -75,8 +75,8 @@ function tooltip(
         $timeout(angular.noop);
       }
 
-      if (attrs.hasOwnProperty('tooltipOnValueChange')) {
-        unwatchValueChange = attrs.$observe('tooltipOnValueChange', function (newValue, oldValue) {
+      if (attrs.hasOwnProperty('tooltipActiveAttr')) {
+        unwatchValueChange = attrs.$observe('tooltipActiveAttr', function (newValue, oldValue) {
           if (newValue === 'true' && newValue !== oldValue) {
             createTooltipAndAttach();
           }

@@ -15,12 +15,12 @@ input.input.input-sm.text-center(
 button.btn.btn-xs(
   clipboard
   ng-mouseleave = "showToolTip = false"
-  ng-show = "shouldShowCopyButton()"
+  ng-show = "shouldShowCopyButton"
   on-copied = "onClipboardEvent(); showToolTip = true;"
   on-error = "onClipboardEvent(err); showToolTip = true;"
   text = "instance.getContainerHostname() + defaultPort"
   tooltip
   tooltip-eval = "clipboardText"
-  tooltip-on-value-change = "{{showToolTip}}"
+  tooltip-active-attr = "{{showToolTip}}"
   tooltip-options = "{\"class\":\"bottom no-arrow\",\"right\":0,\"top\":27}"
 ) Copy

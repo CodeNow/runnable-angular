@@ -50,13 +50,15 @@ describe('containerUrlDirective'.bold.underline.blue, function () {
         instance: 'instance'
       });
       element = $compile(template)($scope);
-      $scope.$digest();
-      $elScope = element.isolateScope();
     });
   });
   describe('onClipboardEvent', function () {
-    it('should say copied when successful', function () {
+    beforeEach(function () {
       $scope.$digest();
+      $elScope = element.isolateScope();
+      $scope.$digest();
+    });
+    it('should say copied when successful', function () {
       expect($elScope.clipboardText).to.not.be.ok;
       $elScope.onClipboardEvent();
       $elScope.$digest();
@@ -65,7 +67,6 @@ describe('containerUrlDirective'.bold.underline.blue, function () {
 
     describe('on copy Error', function () {
       it('should use the errored message', function () {
-        $elScope.$digest();
 
         $elScope.clipboardText = 'asdasdds';
         $elScope.onClipboardEvent(new Error('asdasdsd'));
@@ -76,27 +77,35 @@ describe('containerUrlDirective'.bold.underline.blue, function () {
   });
   describe('shouldShowCopyButton', function () {
     // We can't modify the platform... so I'm not sure how to test this
-
-    //it('should not show for android', function () {
-    //  var cached = window.navigator.platform;
-    //  window.navigator.platform = 'Android';
-    //  $elScope.$digest();
-    //  expect($elScope.clipboardText).to.not.be.ok;
-    //  $elScope.$digest();
-    //  expect($elScope.shouldShowCopyButton()).to.be.false;
-    //  window.navigator.platform = cached;
-    //});
-    it('should show for Mac', function () {
-      var cached = window.navigator.platform;
-      window.navigator.platform = 'MacIntel';
-      $elScope.$digest();
-      expect($elScope.clipboardText).to.not.be.ok;
-      $elScope.$digest();
-      expect($elScope.shouldShowCopyButton()).to.be.true;
-      window.navigator.platform = cached;
+    var cachedDoc;
+    afterEach(function () {
+      window = cachedDoc;
+    });
+    describe('should show', function () {
+      beforeEach(function () {
+        cachedDoc = window;
+        window = {
+          navigator: {
+            platform: 'MacIntel'
+          }
+        };
+        $scope.$digest();
+        $elScope = element.isolateScope();
+        $scope.$digest();
+      });
+      it('should show for Mac', function () {
+        $elScope.$digest();
+        expect($elScope.clipboardText).to.not.be.ok;
+        $elScope.$digest();
+        expect($elScope.shouldShowCopyButton).to.be.true;
+      });
     });
   });
   describe('Extracting Ports', function () {
+    beforeEach(function () {
+      $scope.$digest();
+      $elScope = element.isolateScope();
+    });
     it('with 80', function () {
       ctx.extractInstancePortsValueMock = ['80', '101'];
       $scope.instance = mockInstance;
