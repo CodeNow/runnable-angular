@@ -57,6 +57,7 @@ require('app')
         $scope.popoverData = {
           active: false,
           data: {
+            currentState: {},
             parentData: $scope.data,
             parentState: $scope.state,
             state: {},
@@ -88,6 +89,9 @@ require('app')
                 })
                 .then($scope.actions.recalculateRules))
                 .catch(errs.handler);
+            },
+            handleTextChange: function () {
+              $scope.popoverData.data.currentState.searched = false;
             },
             createRule: function (rule) {
               $scope.popoverData.active = false;
