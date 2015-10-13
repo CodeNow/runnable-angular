@@ -60,28 +60,6 @@ label.label-checkbox.btn-sm.btn-checkbox(
 //- end deprecated element
 //- ************************
 
-//- button.btn.btn-xs.white(
-//-   ng-click = "temporary.refreshing = true"
-//-   style = "position: absolute; top: 8px; right: 8px; z-index: 1;"
-//-   ng-if = "$root.featureFlags.preWebhooks && !temporary.refreshing"
-//- ) Refresh
-
-//- label.toggle-wrapper.toggle-auto-deploy(
-//-   ng-click = "$event.stopPropagation()"
-//-   ng-if = "!acv.attrs.additionalRepo && !$root.featureFlags.preWebhooks"
-//-   tooltip = "Disabling Auto Deploy will stop your container from automatically updating with new changes to your repositories."
-//-   tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-6,\"top\":18}"
-//- ) Auto Deploy
-//-   input.toggle-input(
-//-     ng-false-value = "true"
-//-     ng-model = "autoDeploy"
-//-     ng-model-options = "{getterSetter: true}"
-//-     ng-true-value = "false"
-//-     type = "checkbox"
-//-     ng-disabled = "$root.isLoading.autoDeploy"
-//-   )
-//-   .toggle-group.toggle-xs
-
 .btn.gray.btn-repository(
   ng-class = "{'refreshing': temporary.refreshing}"
   ng-click = "actions.openRepoDetailsModal()"
@@ -102,21 +80,33 @@ label.label-checkbox.btn-sm.btn-checkbox(
       use(
         xlink:href = "#icons-commit"
       )
-  .repository-info.small(
-    ng-if = "!acv.attrs.additionalRepo"
-  )
-    a.a(
-      modal
-      modal-template = "viewModalInviteAdmin"
-      ng-click = "$event.stopPropagation()"
-    ) Invite Admin
-    | &#32;for Auto Deploy
-  //- .spinner-wrapper.spinner-sm.in(
-  //-   ng-if = "temporary.refreshing"
-  //-   ng-include = "'spinner'"
-  //- )
-button.btn.btn-xs.help(
-  ng-if = "temporary.refreshing"
-  modal
-  modal-template = "viewModalInviteAdmin"
-) Enable Webhooks to auto-sync
+
+  label.toggle-wrapper.repository-info.toggle-auto-deploy(
+    ng-click = "$event.stopPropagation()"
+    ng-if = "!acv.attrs.additionalRepo && $root.featureFlags.preWebhooks"
+    tooltip = "Disabling Auto Deploy will stop your container from automatically updating with new changes to your repositories."
+    tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-6,\"top\":18}"
+    modal
+    modal-template = "viewModalInviteAdmin"
+  ) Auto Deploy
+    svg.iconnables.icons-warning
+      use(
+        xlink:href = "#icons-warning"
+      )
+    .toggle-group.toggle-xs
+
+  label.toggle-wrapper.repository-info.toggle-auto-deploy(
+    ng-click = "$event.stopPropagation()"
+    ng-if = "!acv.attrs.additionalRepo && !$root.featureFlags.preWebhooks"
+    tooltip = "Disabling Auto Deploy will stop your container from automatically updating with new changes to your repositories."
+    tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-6,\"top\":18}"
+  ) Auto Deploy
+    input.toggle-input(
+      ng-false-value = "true"
+      ng-model = "autoDeploy"
+      ng-model-options = "{getterSetter: true}"
+      ng-true-value = "false"
+      type = "checkbox"
+      ng-disabled = "$root.isLoading.autoDeploy"
+    )
+    .toggle-group.toggle-xs

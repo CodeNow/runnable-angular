@@ -1,37 +1,20 @@
-// .btn-repository.refreshing {
-//   pointer-events: none;
-
-//   .repository-info {
-//     opacity: .15;
-//   }
-
-//   .spinner-wrapper {
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-//     width: 100%;
-//     height: 100%;
-//     align-items: center;
-
-//     .spinner {
-//       color: $gray-light;
-//     }
-//   }
-// }
-
 .toggle-auto-deploy {
   color: $gray;
   display: flex;
-  font-size: 13px;
-  font-weight: 500;
-  position: absolute;
-  right: 12px;
-  top: 8px;
+  font-size: 14px;
+  color: $gray;
+  opacity: .75;
   cursor: pointer;
-  z-index: 1;
 
   &:hover {
     color: $gray-dark;
+  }
+
+  .icons-warning {
+    width: 18px;
+    height: 18px;
+    top: 3px;
+    margin-left: 1px;
   }
 
   .toggle-group {
@@ -82,7 +65,7 @@
     }
   }
 
-  .iconnables {
+  .iconnables:not(.icons-warning) {
     height: 14px;
     left: 0;
     position: absolute;

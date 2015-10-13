@@ -17,10 +17,11 @@
 
   .small {
     color: $gray;
-    opacity: .65;
+    opacity: .75;
     line-height: 30px;
     padding-left: 29px;
     cursor: pointer;
+    font-size: 14px;
 
     .icons-warning {
       width: 18px;
