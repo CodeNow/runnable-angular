@@ -21,6 +21,15 @@
               xlink:href = "#icons-billing"
             )
           .btn-text Billing
+        //- button.btn.btn-radio(
+        //-   disabled
+        //- )
+        //-   svg.iconnables
+        //-     use(
+        //-       xlink:href = "#icons-team"
+        //-     )
+        //-   .btn-text Team
+        //-     .btn.btn-xxs.orange.no-touching Coming Soon
         button.btn.btn-radio(
           ng-class = "{'active': currentTab === 'slackIntegration'}"
           ng-click = "currentTab = 'slackIntegration'"
@@ -31,24 +40,15 @@
             width = "24"
           )
           .btn-text Slack Integration
-        button.btn.btn-radio(
-          disabled
-        )
-          svg.iconnables
-            use(
-              xlink:href = "#icons-team"
-            )
-          .btn-text Team
-            .btn.btn-xxs.orange.no-touching Coming Soon
-        button.btn.btn-radio(
-          disabled
-        )
-          svg.iconnables
-            use(
-              xlink:href = "#icons-advanced"
-            )
-          .btn-text Settings
-            .btn.btn-xxs.orange.no-touching Coming Soon
+        //- button.btn.btn-radio(
+        //-   disabled
+        //- )
+        //-   svg.iconnables
+        //-     use(
+        //-       xlink:href = "#icons-advanced"
+        //-     )
+        //-   .btn-text Settings
+        //-     .btn.btn-xxs.orange.no-touching Coming Soon
 
     section.modal-body.js-animate
       //- loading spinner

@@ -8,6 +8,7 @@ function featureFlags(
 ) {
   var defaultFeatureFlags = {
     additionalRepositories: true,
+    billing: false,
     cardStatus: false,
     debugMode: true,
     debugStartCmd: false, // debug mode for start CMD (in CMD Logs)
@@ -30,7 +31,6 @@ function featureFlags(
     saveToolbar: false,
     teamUI: false, // changes text from org to team in account menu
     themeToggle: false, // toggles the button that toggles theme
-    updatedAccountMenu: false, // new account menu for teams, billing, and slack integration update
     updatedBuildLogs: true,
     updatedSlackValidation: false
   };

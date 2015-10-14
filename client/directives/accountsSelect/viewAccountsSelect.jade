@@ -27,8 +27,8 @@ a.btn.btn-sm.purple.btn-accounts(
 div(
   data-badge-count = "!"
   ng-class = "{\
-    'badge': $root.featureFlags.updatedAccountMenu,\
-    'badge-red': $root.featureFlags.updatedAccountMenu,\
+    'badge': $root.featureFlags.billing,\
+    'badge-red': $root.featureFlags.billing,\
     'no-touching': data.accountsDisabled()\
   }"
   ng-if = "$root.featureFlags.newNavigation"
