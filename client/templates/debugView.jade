@@ -21,53 +21,9 @@ div(
       ) /{{DC.instance.getBranchName()}}
       small.small (debug)
 
-  .primary-actions(
-    ng-if = "!$root.featureFlags.isolationUI"
-  )
-    //- ***********************
-    //- deprecated button, remove with $root.featureFlags.saveToolbar
-    //- save button
-    .btn-group
-      //- apply .with-restart if save restarts Server
-      //- add title = "Save and Restart Server" if save restarts Server
-      button.btn.green.btn-save.btn-spinner(
-        ng-class = "{in: DC.saving}"
-        ng-click = "DC.saveChanges()"
-        ng-disabled = "DC.saving"
-        ng-if = "DC.canSave()"
-        type = "button"
-      )
-        .spinner-wrapper.spinner-sm.spinner-white.in(
-          ng-if = "DC.saving"
-          ng-include = "'spinner'"
-        )
-
-        span.btn-text {{ saving ? 'Saving' : 'Save'}}
-    //- end button, remove with $root.featureFlags.saveToolbar
-    //- ***********************
-
-
-  //- isolation UI
-  //- status button
-  button.btn.btn-xs.btn-spinner.btn-status.red(
-    ng-if = "$root.featureFlags.isolationUI"
-    pop-over
-    pop-over-actions = "popoverStatusOptions.actions"
-    pop-over-active = "state.active"
-    pop-over-data = "popoverStatusOptions.data"
-    pop-over-options = "{\"top\":36,\"left\":0}"
-    pop-over-template = "viewInstancePopoverStatusOptions"
-  )
-    .icons-status.red.float-left
-    span.float-left Crashed
-    svg.iconnables.icons-arrow-down
-      use(
-        xlink:href = "#icons-arrow-down"
-      )
-
   span.span(
     ng-if = "$root.featureFlags.isolationUI"
-  ) {{DC.instance.getDisplayName()}}/
+  ) {{DC.instance.getRepoName() || DC.instance.attrs.name}}/
   strong.strong(
     ng-if = "$root.featureFlags.isolationUI"
   ) {{DC.instance.getBranchName()}}
