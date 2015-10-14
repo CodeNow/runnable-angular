@@ -21,9 +21,31 @@ function dnsConfiguration() {
     },
     link: function ($scope, element, attrs) {
       var initialClassName = element[0].className;
-      $scope.$watch('DCC.getWorstStatusClass()', function (newVal) {
+      $scope.$watch('getWorstStatusClass()', function (newVal) {
         element[0].className = initialClassName + ' ' + newVal;
       });
+
+      $scope.getWorstStatusClass = function () {
+        if (!$scope.DCC.filteredDependencies) {
+          return;
+        }
+        var worstStatus = '';
+        $scope.DCC.filteredDependencies.some(function (dependency) {
+          if (dependency.instance.destroyed) {
+            return false;
+          }
+          var status = dependency.instance.status();
+          if (['buildFailed', 'crashed'].includes(status)) {
+            worstStatus = 'red';
+            return true;
+          }
+          if (worstStatus !== 'red' && ['starting', 'neverStarted', 'building'].includes(status)) {
+            worstStatus = 'orange';
+          }
+        });
+        return worstStatus;
+      };
+
     }
   };
 }
