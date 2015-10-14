@@ -45,7 +45,7 @@
       //- limit all fields to numbers only
       .row
         //- add .visa, .mastercard, .amex, .jcb AFTER cc number is filled out
-        input.input.input-sm.input-cc(
+        input.input.input-sm.input-cc.input-validate(
           autocomplete = "cc-number"
           inputmode = "numeric"
           maxlength = "19"
@@ -58,7 +58,7 @@
         //- auto insert " / " after last 2nd number
           - pressing delete immediately after " / " should delete " / " AND the preceeding number
           - allow MM / YYYY
-        input.input.input-sm.input-exp(
+        input.input.input-sm.input-exp.input-validate(
           autocomplete = "cc-exp"
           inputmode = "numeric"
           maxlength = "9"
@@ -67,7 +67,7 @@
           spellcheck = "false"
         )
         //- change maxlength to 3/4 depending on cc
-        input.input.input-sm.input-cvc(
+        input.input.input-sm.input-cvc.input-validate(
           autocomplete = "cc-csc"
           inputmode = "numeric"
           maxlength = "4"
@@ -75,6 +75,7 @@
           required
           spellcheck = "false"
         )
+      p.validation-message This card was declined!
       button.btn.btn-xs.green.float-right Save
       button.btn.btn-xs.white.float-left(
         ng-click = "data.showCcForm = false"
