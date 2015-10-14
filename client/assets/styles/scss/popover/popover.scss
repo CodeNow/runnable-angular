@@ -50,8 +50,11 @@
       padding-right: 33px;
 
       &::after {
+        height: 15px;
+        line-height: 15px;
         right: 15px;
-        top: 9px;
+        top: 10px;
+        width: 15px;
       }
     }
   }
