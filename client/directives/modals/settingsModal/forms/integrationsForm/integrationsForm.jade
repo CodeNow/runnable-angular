@@ -1,4 +1,4 @@
-.modal-form.sliding.empty.js-animate(
+.modal-form.empty.well.in(
   ng-if = "!data.verified"
 )
   img.img(
@@ -42,7 +42,7 @@
     )
     | Verify Token
 
-.modal-form.sliding.js-animate(
+.modal-form(
   ng-if = "data.verified"
 )
   .label
@@ -106,4 +106,6 @@
     - removes all .active class on labels
     - disables all inputs, but preserves their states
   .label.label-footer
-    button.btn.btn-xs.red Delete Slack Integration
+    button.btn.btn-xs.red(
+      ng-click = "data.verified = false"
+    ) Delete Slack Integration

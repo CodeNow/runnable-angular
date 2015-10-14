@@ -19,8 +19,20 @@
     width: $input-xxs;
   }
 
-  // blue
-  &.blue::after {
+  // colors
+  &.badge-blue::after {
     background: $blue;
+  }
+
+  &.badge-green::after {
+    background: $green;
+  }
+
+  &.badge-orange::after {
+    background: $orange;
+  }
+
+  &.badge-red::after {
+    background: $red;
   }
 }
