@@ -57,7 +57,6 @@ function ServerModalController (
         return loadingPromises.finished(SMC.name);
       })
       .then(function (promiseArrayLength) {
-        // Since the initial deepCopy should be in here, we only care about > 1
         toRebuild = !!(promiseArrayLength > 0 || SMC.openItems.getAllFileModels(true).length);
 
         toRedeploy = !toRebuild && !angular.equals(
@@ -107,7 +106,7 @@ function ServerModalController (
             delete opts.owner;
             return promisify(SMC.instance, 'update')(opts);
           })
-          .then(function (value) {
+          .then(function () {
             if (toRedeploy) {
               return promisify(SMC.instance, 'redeploy')();
             }

@@ -131,7 +131,7 @@ function EditServerModalController(
     if (hasNoErrors) {
       loading(SMC.name, true);
     }
-    SMC.resetStateContextVersion(contextVersion, hasNoErrors)
+    SMC.resetStateContextVersion(contextVersion, !hasNoErrors)
       .then(function () {
         if (hasNoErrors) {
           loading(SMC.name, false);
