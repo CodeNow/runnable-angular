@@ -33,9 +33,7 @@ function ServerModalController (
   };
 
   this.isDirty = function  () {
-    /*!
-     *  Loading promises are clear when the modal is saved or cancelled.
-     */
+    // Loading promises are clear when the modal is saved or cancelled.
     var SMC = this;
     return loadingPromises.count(SMC.name) > 0 ||
       !angular.equals(
@@ -225,29 +223,17 @@ function ServerModalController (
     $rootScope.$broadcast('eventPasteLinkedInstance', hostName);
   };
 
-  this.getUpdatePromise = function () {
+  this.saveInstanceAndRefreshCards = function () {
     var SMC = this;
-    SMC.saveTriggered = true;
     $rootScope.$broadcast('close-popovers');
-    SMC.building = true;
     return SMC.rebuildAndOrRedeploy()
      .then(function () {
         helpCards.refreshActiveCard();
-        close();
         $rootScope.$broadcast('alert', {
           type: 'success',
           text: 'Container updated successfully.'
         });
-      })
-      .catch(function (err) {
-        errs.handler(err);
-        return SMC.resetStateContextVersion(SMC.state.contextVersion, true)
-          .catch(function (err) {
-             errs.handler(err);
-          })
-          .finally(function () {
-            SMC.building = false;
-          });
+        return true;
       });
   };
 

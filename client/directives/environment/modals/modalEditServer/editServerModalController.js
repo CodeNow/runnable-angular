@@ -219,5 +219,23 @@ function EditServerModalController(
     }));
   };
 
+  SMC.getUpdatePromise = function () {
+    SMC.saveTriggered = true;
+    SMC.building = true;
+    loading(SMC.name, true);
+    return SMC.saveInstanceAndRefreshCards()
+      .then(function () {
+         return close();
+      })
+      .catch(function (err) {
+        errs.handler(err);
+        return SMC.resetStateContextVersion(SMC.state.contextVersion, true);
+      })
+      .finally(function () {
+        loading(SMC.name, false);
+        SMC.building = false;
+      });
+  };
+
   resetState(SMC.instance, false);
 }
