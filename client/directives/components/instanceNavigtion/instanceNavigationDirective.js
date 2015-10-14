@@ -3,6 +3,7 @@
 require('app').directive('instanceNavigation', instanceNavigation);
 
 function instanceNavigation(
+  $state
 ) {
   return {
     restrict: 'E',
@@ -10,11 +11,13 @@ function instanceNavigation(
     controller: 'InstanceNavigationController',
     controllerAs: 'INC',
     bindToController: true,
-    replace: true,
     scope: {
       instance: '=',
       activeAccount: '=',
       masterInstance: '=?'
+    },
+    link: function ($scope) {
+      $scope.$state = $state;
     }
   };
 }

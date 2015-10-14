@@ -1,33 +1,36 @@
-a.list-item-container(
-  ui-sref = "\
-    base.instances.instance({ userName: INC.activeAccount.oauthName(), \
-    instanceName: INC.instance.attrs.name })\
-  "
-  ui-sref-active = "open active"
+.list-item(
+  ng-class = "{open: $state.params.instanceName === INC.instance.attrs.name}"
 )
-  status-icon(
-    instance = "INC.instance"
+  a.list-item-container(
+    ui-sref = "\
+           base.instances.instance({ userName: INC.activeAccount.oauthName(), \
+           instanceName: INC.instance.attrs.name })\
+         "
+    ui-sref-active = "active"
   )
-  .text-overflow(
-    title = "{{INC.instance.getBranchName() || INC.instance.attrs.name}}"
-  ) {{INC.instance.getBranchName() || INC.instance.attrs.name}}
-
-    //- hide badge if popover is open
-  .btn.btn-xxs.btn-badge.gray(
-    ng-if = "$root.featureFlags.isolationUI && !INC.popoverShown && INC.instance.attrs.isolated"
-  ) Isolated
-
-
-
-  svg.iconnables.icons-overflow(
-    ng-if = "$root.featureFlags.isolationUI && INC.masterInstance !== INC.instance && INC.instance.getBranchName()"
-    ng-class = "{'active': INC.popoverShown}"
-    pop-over
-    pop-over-active = "INC.popoverShown"
-    pop-over-options = "{\"verticallyCentered\":true,\"left\":28}"
-    pop-over-template = "instanceNavigationPopoverView"
-    pop-over-controller = "INC"
-  )
-    use(
-      xlink:href = "#icons-overflow"
+    status-icon(
+      instance = "INC.instance"
     )
+    .text-overflow(
+      title = "{{INC.instance.getBranchName() || INC.instance.attrs.name}}"
+    ) {{INC.instance.getBranchName() || INC.instance.attrs.name}}
+
+      //- hide badge if popover is open
+    .btn.btn-xxs.btn-badge.gray(
+      ng-if = "$root.featureFlags.isolationUI && !INC.popoverShown && INC.instance.attrs.isolated"
+    ) Isolated
+
+
+
+    svg.iconnables.icons-overflow(
+      ng-if = "$root.featureFlags.isolationUI && INC.masterInstance !== INC.instance && INC.instance.getBranchName()"
+      ng-class = "{'active': INC.popoverShown}"
+      pop-over
+      pop-over-active = "INC.popoverShown"
+      pop-over-options = "{\"verticallyCentered\":true,\"left\":28}"
+      pop-over-template = "instanceNavigationPopoverView"
+      pop-over-controller = "INC"
+    )
+      use(
+        xlink:href = "#icons-overflow"
+      )
