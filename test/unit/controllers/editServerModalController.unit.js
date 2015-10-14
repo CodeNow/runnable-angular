@@ -200,7 +200,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
             return promise;
           }),
           clear: sinon.spy(),
-          count: sinon.stub().returns(1),
+          count: sinon.stub().returns(0),
           finished: sinon.spy(function () {
             return $q.when(ctx.loadingPromiseFinishedValue);
           })
@@ -588,7 +588,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         };
 
         ctx.parseDockerfileResponseMock.reset();
-        SMC.resetStateContextVersion(ctx.rollbackContextVersion, true);
+        SMC.resetStateContextVersion(ctx.rollbackContextVersion, false);
         $scope.$digest();
         sinon.assert.called(loadingService.reset);
         expect(SMC.state.advanced, 'advanced flag').to.be.false;
@@ -1057,20 +1057,20 @@ describe('editServerModalController'.bold.underline.blue, function () {
       sinon.stub(ctx.contextVersion, 'deepCopy', function (cb) {
         cb(testError);
       });
-      SMC.resetStateContextVersion(ctx.contextVersion, false);
+      var promise = SMC.resetStateContextVersion(ctx.contextVersion, true);
       $scope.$digest();
-      sinon.assert.called(ctx.errsMock.handler);
-      sinon.assert.calledWith(ctx.errsMock.handler, testError);
+      expect(promise).to.be.rejected;
+      expect(promise).to.be.rejectedWith(testError);
     });
 
     it('should set the `mainRepoContainerFile` if the dockerfile is a main repository', function () {
-      SMC.resetStateContextVersion(ctx.contextVersion, true);
+      SMC.resetStateContextVersion(ctx.contextVersion, false);
       $scope.$digest();
       expect(keypather.get(SMC, 'state.mainRepoContainerFile')).to.be.an('object');
     });
 
     it('should reset state context version when even is triggered', function () {
-      SMC.resetStateContextVersion = sinon.spy();
+      SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
       $scope.$emit('resetStateContextVersion');
       expect(SMC.resetStateContextVersion.calledOnce).to.be.true;
     });
