@@ -13,6 +13,11 @@
         span.span 33
         small.small /user/month
         button.btn.btn-xs.white Change Plan
+        //- if not admin
+        //- button.btn.btn-xs.white.disabled(
+        //-   tooltip = "Admin Only"
+        //-   tooltip-options = "{\"class\":\"bottom bottom-arrow-right no-arrow\",\"right\":0,\"top\":-40}"
+        //- ) Change Plan
 
   .label(
     ng-init = "data.showCcForm = false"
@@ -38,6 +43,11 @@
         button.btn.btn-xs.white(
           ng-click = "data.showCcForm = true"
         ) Update
+        //- if not admin
+        //- button.btn.btn-xs.white.disabled(
+        //-   tooltip = "Admin Only"
+        //-   tooltip-options = "{\"class\":\"bottom bottom-arrow-right no-arrow\",\"right\":0,\"top\":-40}"
+        //- ) Update
 
     form.form-cc.well.in.clearfix(
       ng-if = "data.showCcForm"
