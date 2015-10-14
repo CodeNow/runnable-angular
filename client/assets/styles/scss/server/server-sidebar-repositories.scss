@@ -3,48 +3,33 @@
   display: flex;
   font-size: 14px;
   color: $gray;
-  opacity: .75;
   cursor: pointer;
 
   &:hover {
     color: $gray-dark;
   }
 
+  &:active {
+    color: $purple-light;
+  }
+
+  .span,
   .icons-warning {
-    width: 18px;
-    height: 18px;
+    opacity: .7;
+  }
+
+  .icons-warning {
+    width: 19px;
+    height: 19px;
     top: 3px;
-    margin-left: 1px;
+    margin-left: 4px;
+    color: $orange;
+    // opacity: .75;
   }
 
   .toggle-group {
     margin-left: 4px;
     top: 5px;
-  }
-}
-
-.repository-section {
-
-  .help {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-width: 2px;
-    box-shadow: none;
-    font-weight: $weight-bold;
-    top: -2px;
-    width: 100%;
-
-    &:hover {
-      background: $white;
-    }
-
-    &:active {
-      background: $blue-lighter;
-    }
-  }
-
-  .icons-arrow-down {
-    transform: rotate3d(0,0,1,-90deg);
   }
 }
 

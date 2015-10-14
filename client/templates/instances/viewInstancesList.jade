@@ -62,7 +62,8 @@
     modal
     modal-template = "viewModalInviteAdmin"
     ng-if = "$root.featureFlags.preWebhooks"
-  ) Launch Branches
+  )
+    span.span Enable Branches
     svg.iconnables.icons-warning
       use(
         xlink:href = "#icons-warning"
@@ -72,7 +73,8 @@
     modal
     modal-template = "viewModalLaunchBranches"
     ng-if = "!$root.featureFlags.preWebhooks"
-  ) Launch Branches
+  )
+    span.span Enable Branches
 
   //- nav list filter
   .btn.btn-xxs(

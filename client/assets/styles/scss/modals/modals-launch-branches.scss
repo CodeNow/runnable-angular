@@ -1,5 +1,5 @@
 .modal-launch-branches {
-  max-width: 360px;
+  max-width: 390px;
   color: $gray-dark;
 
   .modal-body {
@@ -10,12 +10,9 @@
     height: auto;
     border-width: 2px;
     border-style: solid;
-    // -webkit-border-image: -webkit-linear-gradient(to bottom, red, green);
-    // border-left: 2px solid;
-    // border-right: 2px solid;
+    background: $gray-lightest;
+    border-radius: 6px;
     border-color: $gray-lighter;
-    border-top-width: 0;
-    border-bottom-width: 0;
     pointer-events: none;
     margin: 36px auto 24px;
     width: 100%;

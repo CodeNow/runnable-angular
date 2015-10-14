@@ -84,23 +84,25 @@ label.label-checkbox.btn-sm.btn-checkbox(
   label.toggle-wrapper.repository-info.toggle-auto-deploy(
     ng-click = "$event.stopPropagation()"
     ng-if = "!acv.attrs.additionalRepo && $root.featureFlags.preWebhooks"
-    tooltip = "Disabling Auto Deploy will stop your container from automatically updating with new changes to your repositories."
-    tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-6,\"top\":18}"
     modal
     modal-template = "viewModalInviteAdmin"
-  ) Auto Deploy
+  )
+    //- tooltip = "Disabling Auto Deploy will stop your container from automatically updating with new changes to your repositories."
+    //- tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-6,\"top\":18}"
+    span.span Auto Deploy
+    .toggle-group.toggle-xs
     svg.iconnables.icons-warning
       use(
         xlink:href = "#icons-warning"
       )
-    .toggle-group.toggle-xs
 
   label.toggle-wrapper.repository-info.toggle-auto-deploy(
     ng-click = "$event.stopPropagation()"
     ng-if = "!acv.attrs.additionalRepo && !$root.featureFlags.preWebhooks"
-    tooltip = "Disabling Auto Deploy will stop your container from automatically updating with new changes to your repositories."
-    tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-6,\"top\":18}"
-  ) Auto Deploy
+  )
+    //- tooltip = "Disabling Auto Deploy will stop your container from automatically updating with new changes to your repositories."
+    //- tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-6,\"top\":18}"
+    span.span Auto Deploy
     input.toggle-input(
       ng-false-value = "true"
       ng-model = "autoDeploy"
