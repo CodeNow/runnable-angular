@@ -25,7 +25,12 @@ a.btn.btn-sm.purple.btn-accounts(
 //- ************************
 
 div(
-  ng-class = "{'no-touching': data.accountsDisabled()}"
+  data-badge-count = "!"
+  ng-class = "{\
+    'badge': $root.featureFlags.billing,\
+    'badge-red': $root.featureFlags.billing,\
+    'no-touching': data.accountsDisabled()\
+  }"
   ng-if = "$root.featureFlags.newNavigation"
   ng-show = "data.activeAccount"
   pop-over

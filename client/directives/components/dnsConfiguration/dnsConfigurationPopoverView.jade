@@ -52,7 +52,7 @@
           ul.list.popover-list
             li.list-item.popover-list-item.tr.multi-line.clearfix.tr-dns(
               ng-click = "DCC.editDependency(dependency); goToPanel('dnsList');"
-              ng-if = "$root.isLoaded.dns"
+              ng-if = "$root.isLoaded.dns && !dependency.instance.destroyed"
               ng-repeat = "dependency in DCC.filteredDependencies"
             )
               .cell.clearfix(
