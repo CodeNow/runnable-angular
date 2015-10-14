@@ -70,6 +70,9 @@ require('app')
         );
 
         $scope.$on('$destroy', function () {
+          if (!editor) {
+            return;
+          }
           editor.session.$stopWorker();
           editor.destroy();
         });
