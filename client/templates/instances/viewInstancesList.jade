@@ -58,23 +58,17 @@
               xlink:href = "#icons-overflow"
             )
 
-  small.small(
-    modal
-    modal-template = "viewModalInviteAdmin"
-    ng-if = "$root.featureFlags.preWebhooks"
-  )
-    span.span Enable Branches
-    svg.iconnables.icons-warning
-      use(
-        xlink:href = "#icons-warning"
-      )
-
-  small.small(
+  button.btn.btn-xxs.white.btn-webhooks(
     modal
     modal-template = "viewModalLaunchBranches"
     ng-if = "!$root.featureFlags.preWebhooks"
-  )
-    span.span Enable Branches
+  ) Add Branches
+  button.btn.btn-xxs.white.btn-webhooks.disabled(
+    pop-over
+    pop-over-template = "viewPopoverInviteAdmins"
+    pop-over-options = "{\"verticallyCentered\":true,\"left\":93}"
+    ng-if = "$root.featureFlags.preWebhooks"
+  ) Add Branches
 
   //- nav list filter
   .btn.btn-xxs(
