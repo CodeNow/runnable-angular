@@ -9,25 +9,29 @@
           xlink:href = "#icons-close"
         )
     section.modal-body
-      span.span This will launch containers for active branches of&#32;
-      strong.strong api.&#32;
-      | From now on, a new container will launch when you create a branch.
+      p.p This will launch containers for active&#32;
+        strong.strong api&#32;
+        span.span branches. From now on, new containers will launch when you push to new branches.
       .instances-list
         .list
           .list-item.list-item-header
             span.span.text-overflow api
-            svg.iconnables.icons-advanced
-              use(
-                xlink:href = "#icons-advanced"
-              )
+            //- svg.iconnables.icons-advanced
+            //-   use(
+            //-     xlink:href = "#icons-advanced"
+            //-   )
           .list-item
             a.list-item-container
-              .icons-status.green
-              .text-overflow master
+              .icons-status
+              .text-overflow SAN-2173-webhooks-toggle
           .list-item
             a.list-item-container
-              .icons-status.green
-              .text-overflow my-branch
+              .icons-status
+              .text-overflow SAN-2170-billing
+          .list-item
+            a.list-item-container
+              .icons-status
+              .text-overflow SAN-2725-new-container
           .list-item
             .list-item-container
-              button.btn.btn-sm.green Launch Branches
+              button.btn.btn-md.green Launch Branches

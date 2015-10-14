@@ -74,9 +74,7 @@
 
     // list title
     &.list-item-header {
-      // color: darken($gray-light,10%);
-      // color: $gray;
-      color: #777;
+      color: darken($gray-light,10%);
       padding: 0 9px 0 27px; // spacing for .status-icon
 
       &:hover .icons-advanced {
@@ -126,8 +124,7 @@
   .list-item-container {
     @extend %text-overflow;
     align-items: center;
-    // color: $gray;
-    color: #777;
+    color: $gray;
     cursor: pointer;
     display: flex;
     flex: 1 1 auto;
