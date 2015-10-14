@@ -28,13 +28,13 @@
     .well.in(
       ng-if = "!data.showCcForm"
     )
-      p.p
+      p.p.clearfix
         svg.iconnables.float-left
           use(
             xlink:href = "#icons-visa"
           )
-        strong.strong •••• 2135
-        small.small 10/2015
+        strong.strong.float-left •••• 2135
+        small.small.float-left 10/2015
         button.btn.btn-xs.white(
           ng-click = "data.showCcForm = true"
         ) Update
@@ -90,9 +90,9 @@
       .tr.clearfix(
         ng-repeat = "month in months"
       )
-        .cell {{month < 10 ? '0' + month : month}}/13/{{month > 10 ? '2014' : '2015'}}
         .cell $33
-        .cell.text-right.strong •••• 2135
+        .cell.strong •••• 2135
+        .cell.text-right {{month}}/13/{{month > 10 ? '2014' : '2015'}}
 
     //- if there's something older to load
     a.small.link Load Older

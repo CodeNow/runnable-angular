@@ -96,13 +96,20 @@
   .small {
     color: $gray;
     display: inline;
-    margin-left: 2px;
+    margin-left: 3px;
   }
   // card type
   .iconnables {
-    height: 29px;
+    height: 32px;
     margin-right: 9px;
+    top: 1px;
     width: 18px;
+  }
+
+  // exp date
+  .strong + .small {
+    position: relative;
+    top: 2px;
   }
 }
 
@@ -186,6 +193,6 @@
 
   // date
   .cell:first-child {
-    max-width: 102px;
+    max-width: 60px;
   }
 }
