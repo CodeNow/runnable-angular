@@ -15,6 +15,16 @@
     width: calc(100% - #{$instance-list-width});
   }
 
+  .btn-webhooks.btn-webhooks {
+    font-style: normal;
+    color: $gray-dark;
+    margin: 9px 0 0 12px;
+
+    &:hover {
+      color: $gray-dark;
+    }
+  }
+
   .small {
     color: $gray;
     line-height: 30px;

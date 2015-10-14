@@ -1,0 +1,29 @@
+.popover-invite-admins {
+  border-color: transparent;
+  background-color: #404040;
+  color: #bfbfbf;
+  font-size: 14px;
+  max-width: 225px;
+  line-height: 18px;
+
+  .popover-content {
+    padding: 9px 12px;
+  }
+
+  .btn.btn {
+    width: 100%;
+    background: #666;
+    border-color: transparent;
+    margin: 9px 0 3px;
+    font-weight: $weight-bold;
+    color: $white;
+  }
+
+  .arrow.arrow {
+    border-right-color: #404040;
+
+    &::after {
+      border-right-color: #404040;
+    }
+  }
+}
