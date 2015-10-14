@@ -8,41 +8,47 @@ function DNSConfigurationController(
   errs,
   promisify,
   getInstanceMaster,
-  keypather
+  keypather,
+  $scope,
+  debounce
 ) {
-  loading('dns', true);
   var DCC = this;
-
   DCC.instanceDependencyMap = {};
-  // Fetch dependencies
-  promisify(DCC.instance, 'fetchDependencies')()
-    .then(function (dependencies) {
-      DCC.filteredDependencies = dependencies.models.filter(function (dep) {
-        return keypather.get(dep.instance, 'contextVersion.getMainAppCodeVersion()');
+
+  var refreshDependencies = debounce(function () {
+    loading('dns', true);
+    DCC.filteredDependencies = [];
+    promisify(DCC.instance, 'fetchDependencies')()
+      .then(function (dependencies) {
+        DCC.filteredDependencies = dependencies.models.filter(function (dep) {
+          return !dep.instance.destroyed && keypather.get(dep.instance, 'contextVersion.getMainAppCodeVersion()');
+        });
+
+        DCC.filteredDependencies.forEach(function (dep) {
+          dep.instance.on('destroy', handleDestroyedDepInstance);
+        });
+      })
+      .catch(errs.handler)
+      .finally(function () {
+        loading('dns', false);
       });
-    })
-    .catch(errs.handler)
-    .finally(function () {
-      loading('dns', false);
+    $scope.$applyAsync();
+  }, 500, true);
+
+  function handleDestroyedDepInstance() {
+    DCC.filteredDependencies.forEach(function (dep) {
+      dep.instance.off('destroy', handleDestroyedDepInstance);
     });
+    refreshDependencies();
+  }
 
-  DCC.getWorstStatusClass = function () {
-    if (!DCC.filteredDependencies) {
-      return;
-    }
+  // Fetch dependencies
+  refreshDependencies();
+  DCC.instance.on('update', refreshDependencies);
+  $scope.$on('$destroy', function () {
+    DCC.instance.off('update', refreshDependencies);
+  });
 
-    var worstStatus = '';
-    for(var i=0; i < DCC.filteredDependencies.length; i++) {
-      var status = DCC.filteredDependencies[i].instance.status();
-      if (['buildFailed', 'crashed'].includes(status)) {
-        worstStatus = 'red';
-        break; // Short circuit!
-      } else if (['starting', 'neverStarted', 'building'].includes(status)) {
-        worstStatus = 'orange';
-      }
-    }
-    return worstStatus;
-  };
 
   DCC.editDependency = function (dep) {
     loading('dnsDepData', true);
