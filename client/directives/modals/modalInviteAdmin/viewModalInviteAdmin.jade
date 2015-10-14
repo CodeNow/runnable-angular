@@ -6,15 +6,12 @@
         {username: 'taylordolan', gravatarUrl: 'https://avatars0.githubusercontent.com/u/7440805', email: 'taylor@runnable.com'},\
         {username: 'thejsj', gravatarUrl: 'https://avatars0.githubusercontent.com/u/1981198', email: null}\
       ];\
-      items = [1,2,3,4,5];\
-      state.loading = false;\
-      state.zoom = false;\
       state.activeItem = null;\
+      state.loading = true;\
     "
   )
     header.modal-header
-      h1.modal-heading(
-      ) Invite an Admin
+      h1.modal-heading Enable Auto Deploy
       svg.iconnables.icons-close(
         ng-click = "defaultActions.cancel()"
       )
@@ -22,63 +19,65 @@
           xlink:href = "#icons-close"
         )
     section.modal-body
-      span.span(
-        style = "color: #777;"
-      ) Invite a GitHub admin for&#32;
-        span.strong optimus&#32;
-        span.span so we can get permission to enable Auto Deploy.
-
+      p.p To enable Auto Deploy for&#32;
+        strong.strong api
+        span.span , we need permission from one of its GitHub admins.
+      p.p Invite one to this Sandbox and we'll enable Auto Deploy when they join.
       ul.list.list-bordered
-
         //- loading state
-        .list-item(
+        li.list-item(
           ng-click = "state.loading = false"
           ng-if = "state.loading"
         )
           .spinner-wrapper.spinner-gray.spinner-sm.in(
             ng-include = "'spinner'"
           )
-
         //- admins
         li.list-item(
           ng-class = "{\
             'active': state.activeItem === $index,\
             'inactive': state.activeItem && state.activeItem !== $index\
           }"
-          ng-click = "\
-            state.activeItem = $index;\
-            inviting = true;\
-          "
-          ng-repeat = "item in items"
+          ng-click = "state.activeItem = $index"
+          ng-repeat = "admin in mavisAdmins"
+          ng-if = "!state.loading"
         )
-          //- ng-if = "!state.loading"
-          //- ng-repeat = "admin in mavisAdmins"
           img.gravatar(
-            height = "30"
-            width = "30"
-            src = "https://avatars0.githubusercontent.com/u/1981198"
+            height = "27"
+            width = "27"
+            src = "{{admin.gravatarUrl}}"
           )
-          .admin-info
-            p.p thejsj
-            input.input.input-validate(
-              spellcheck = "false"
-              type = "text"
-              value = "jorge@runnable.com"
-              placeholder = "email address"
-              ng-disabled = "!inviting"
+          .username {{admin.username}}
+          small.small {{admin.email.length ? admin.email : "—"}}
+          svg.iconnables.icons-arrow-forward.js-animate(
+            ng-hide = "state.activeItem === $index"
+          )
+            use(
+              xlink:href = "#icons-arrow-down"
             )
-          textarea.textarea(
+          input.input.input-validate.js-animate(
             spellcheck = "false"
+            type = "email"
+            value = "{{admin.email}}"
+            placeholder = "email address"
+            ng-show = "state.activeItem === $index"
           )
-          .btn.btn-sm.gray(
+          textarea.textarea.js-animate(
+            spellcheck = "false"
+            placeholder = "message"
+            ng-show = "state.activeItem === $index"
+          ) Join my Sandbox on Runnable, where we can run the code in CodeNow's repositories on demand.&#10;&#10;I need your admin permissions to enable some features. Thanks!
+          .btn.btn-sm.gray.js-animate(
             ng-click = "\
               state.activeItem = null;\
-              inviting = false;\
+              $event.stopPropagation();\
             "
+            ng-show = "state.activeItem === $index"
           ) Cancel
-          .btn.btn-sm.green.float-right(
+          .btn.btn-sm.green.float-right.js-animate(
             ng-click = "\
               state.activeItem = null;\
-              inviting = false;\
+              $event.stopPropagation();\
             "
+            ng-show = "state.activeItem === $index"
           ) Send Invitation

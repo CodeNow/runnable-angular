@@ -2,120 +2,112 @@
   color: $gray-dark;
   width: 390px;
 
-  .small {
+  // modal description
+  .p {
     color: $gray;
-  }
+    font-size: 15px;
+    line-height: 18px;
 
-  .input {
-    background-color: $white;
-    color: $gray;
-    font-size: 14px;
-    font-weight: 400;
-    height: 24px;
-    line-height: 20px;
-    transition: all .2s;
-
-    &[disabled] {
-      -webkit-text-fill-color: $gray;
-      border-color: transparent !important;
-      cursor: pointer;
+    + .p {
+      margin-top: 6px;
     }
   }
 
+  // admin list
   .list-bordered {
     background: $white;
-    flex: 0 0 auto;
-    font-weight: $weight-bold;
+    margin: 18px 0 3px;
+  }
+
+  // admin list items
+  .list-item {
+    cursor: pointer;
+    height: 57px; // 27px gravatar + 15px padding * 2
     line-height: 18px;
-    margin: 18px 0 6px;
+    overflow: hidden;
+    padding: 0 15px;
+    transition: all .15s;
 
-    .list-item {
-      padding: 0 15px 0 48px;
-      line-height: 18px;
-      min-height: 54px;
-      max-height: 54px;
-      transition: all .2s;
-      overflow: hidden;
-      cursor: pointer;
+    &.inactive {
+      border: 0;
+      height: 0;
+    }
 
-      &.active {
-        height: 240px;
-        border: 0;
-        padding: 6px 15px;
-        max-height: 216px;
+    &.active {
+      border: 0;
+      cursor: default;
+      height: 303px;
 
-        .gravatar {
-          opacity: 0;
-        }
-
-        .admin-info {
-          left: 15px;
-        }
-
-        .input {
-          margin-top: 12px;
-        }
+      .username {
+        margin-top: 19px;
       }
 
-      &.inactive {
-        max-height: 0;
-        min-height: 0;
+      .small {
         opacity: 0;
-        padding: 0 15px;
-        border: 0;
       }
+    }
 
-      // loading state
-      > .spinner-wrapper {
-        width: 100%;
-      }
+    // loading state
+    > .spinner-wrapper {
+      align-items: center;
+      height: 100%;
+      width: 100%;
+    }
 
-      > .btn-sm {
-        position: relative;
-        right: 0;
-        top: 0;
-      }
+    // overrides
+    > .btn-sm {
+      position: relative;
+      right: 0;
+      top: 0;
     }
   }
 
   .gravatar {
-    background: $gray;
-    border-radius: 50%;
-    height: 30px;
-    margin: 0;
+    background: $gray-light;
+    margin: 15px 12px 0 0; // override
+  }
+
+  .username {
+    font-weight: $weight-bold;
+    margin-top: 9px;
+    transition: all .15s;
+  }
+
+  // email address
+  .small {
+    color: $gray;
+    font-size: 14px;
+    transition: all .15s;
+  }
+
+  .icons-arrow-forward {
+    color: $gray-light;
+    height: 27px;
     position: absolute;
-    left: 15px;
-    top: 12px;
-    transition: all .2s;
+    right: 12px;
+    top: 15px;
+  }
+
+  .input,
+  .textarea {
+    color: $gray;
+    font-size: 14px;
+    height: 30px;
+    line-height: 18px;
+    padding: 6px 12px;
   }
 
   .textarea {
+    height: 138px;
     margin: 12px 0;
-    background-color: $white;
-    color: $gray;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 20px;
-    height: 75px;
   }
-}
 
-.admin-info {
-  margin-top: 6px;
-
-  .p {
-    margin-left: 8px;
+  // transition for invitation details
+  .js-animate {
+    transition: all .15s;
   }
-}
 
-.panel-admins-list .btn {
-  flex: 0 0 90px;
-}
-
-.panel-invite-admin {
-
-  .input-message {
-    height: 75px;
-    margin-top: 12px;
+  .ng-hide {
+    opacity: 0;
   }
 }
