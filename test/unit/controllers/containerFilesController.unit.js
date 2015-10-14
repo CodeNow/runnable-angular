@@ -145,8 +145,6 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
         CFC.actions.triggerAddRepository();
         expect(CFC.repositoryPopover.data.appCodeVersions).to.equal(acvModels);
         expect(CFC.repositoryPopover.active).to.be.ok;
-        $timeout.flush();
-        expect(CFC.repositoryPopover.active).to.not.be.ok;
       });
     });
 
@@ -162,8 +160,6 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
         expect(CFC.repositoryPopover.data.repo).to.equal(clonedRepo);
         expect(CFC.repositoryPopover.active).to.be.ok;
         sinon.assert.calledOnce(repo.clone);
-        $timeout.flush();
-        expect(CFC.repositoryPopover.active).to.not.be.ok;
       });
       it('should do nothing if it\'s a main repo', function () {
         var repo = {
@@ -182,8 +178,6 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
         CFC.actions.triggerUploadFile();
         expect(CFC.fileUpload.data).to.be.empty;
         expect(CFC.fileUpload.active).to.be.ok;
-        $timeout.flush();
-        expect(CFC.fileUpload.active).to.not.be.ok;
       });
     });
 
@@ -195,8 +189,6 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
         CFC.actions.triggerEditFile(file);
         expect(CFC.fileUpload.data).to.equal(file);
         expect(CFC.fileUpload.active).to.be.ok;
-        $timeout.flush();
-        expect(CFC.fileUpload.active).to.not.be.ok;
       });
     });
     describe('triggerAddSSHKey', function () {
@@ -206,8 +198,6 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
       it('should setup the edit file popover', function () {
         CFC.actions.triggerAddSSHKey(file);
         expect(CFC.sshKey.popover.active).to.be.ok;
-        $timeout.flush();
-        expect(CFC.sshKey.popover.active).to.not.be.ok;
       });
     });
   });
