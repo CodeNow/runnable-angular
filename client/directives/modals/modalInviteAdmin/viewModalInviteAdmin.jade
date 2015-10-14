@@ -19,10 +19,16 @@
           xlink:href = "#icons-close"
         )
     section.modal-body
+      //- when modal is opened from auto deploy
       p.p To enable Auto Deploy for&#32;
         strong.strong api
         span.span , we need permission from one of its GitHub admins.
       p.p Invite one to this Sandbox and we'll enable Auto Deploy when they join.
+      //- when modal is opened from containers list
+      //- p.p To enable branches for&#32;
+      //-   strong.strong api
+      //-   span.span , we need permission from one of its GitHub admins.
+      //- p.p Invite one to this Sandbox and you can enable branches when they join.
       ul.list.list-bordered
         //- loading state
         li.list-item(
