@@ -32,7 +32,7 @@
 
 //- integrations form
 .form-integrations {
-  height: 364px;
+  height: 364px; // height for empty state
 }
 
 //- billing form
@@ -48,22 +48,25 @@
       margin-top: 12px;
     }
 
+    // errors
     .error {
       color: $red;
       margin-right: 24px;
 
-      // badge
+      // error badge
       &::after {
         right: -21px;
       }
     }
 
+    // external link
     .iconnables {
       float: right;
       height: 13px;
     }
   }
 
+  // plan and payment area
   .well {
     margin: 0;
     padding: 15px;
@@ -72,50 +75,52 @@
     .p {
       line-height: 29px;
 
+      // $
+      .sup {
+        margin-right: 1px;
+        top: -5px;
+      }
+
       // emphasis on price
       .span {
         display: inline-block;
         font-size: 21px;
       }
 
-      // change plan button
+      // /user/month text
+      .small {
+        color: $gray;
+        display: inline;
+        margin-left: 3px;
+      }
+
+      // change/update button
       .white {
         float: right;
         top: 3px;
       }
     }
-  }
 
-  // $
-  .sup {
-    margin-right: 1px;
-    top: -5px;
-  }
+    // card type
+    .iconnables {
+      height: 32px;
+      margin-right: 9px;
+      top: 1px;
+      width: 18px;
+    }
 
-  // /user/month text
-  .small {
-    color: $gray;
-    display: inline;
-    margin-left: 3px;
-  }
-  // card type
-  .iconnables {
-    height: 32px;
-    margin-right: 9px;
-    top: 1px;
-    width: 18px;
-  }
-
-  // exp date
-  .strong + .small {
-    position: relative;
-    top: 2px;
+    // exp date
+    .strong + .small {
+      position: relative;
+      top: 2px;
+    }
   }
 }
 
 // cc form
 .form-cc {
 
+  // flexbox on inputs
   .row {
     display: flex;
     margin-bottom: 9px;
@@ -128,7 +133,7 @@
   .input-sm {
     letter-spacing: .5px;
     margin: 0;
-    min-width: 0; // fix firefox bug with flexbox and input widths
+    min-width: 0; // fix firefox bug with flexbox and input width
 
     + .input-sm {
       margin-left: 9px;
