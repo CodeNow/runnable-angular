@@ -50,9 +50,7 @@
           .btn-text Settings
             .btn.btn-xxs.orange.no-touching Coming Soon
 
-    section.modal-body.js-animate(
-      ng-class = "{'sliding': data.verified}"
-    )
+    section.modal-body.js-animate
       //- loading spinner
       //- .spinner-wrapper.spinner-md.in(
       //-   ng-include = "'spinner'"
@@ -65,9 +63,10 @@
       )
 
       //- slack integration
-      form.form-integrations.well.in(
+      form.form-integrations(
         ng-if = "currentTab === 'slackIntegration'"
         ng-include = "'integrationsForm'"
+        ng-init = "data.verified = false"
       )
 
     footer.modal-footer.clearfix
