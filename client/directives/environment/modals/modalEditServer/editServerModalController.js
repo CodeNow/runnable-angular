@@ -229,11 +229,13 @@ function EditServerModalController(
       })
       .catch(function (err) {
         errs.handler(err);
-        return SMC.resetStateContextVersion(SMC.state.contextVersion, true);
+        return SMC.resetStateContextVersion(SMC.state.contextVersion, true)
+          .finally(function () {
+             SMC.building = false;
+          });
       })
       .finally(function () {
         loading(SMC.name, false);
-        SMC.building = false;
       });
   };
 
