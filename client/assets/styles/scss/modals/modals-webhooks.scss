@@ -80,12 +80,19 @@
     transition: all .15s;
   }
 
-  .icons-arrow-forward {
-    color: $gray-light;
+  .iconnables {
     height: 27px;
     position: absolute;
     right: 12px;
     top: 15px;
+  }
+
+  .icons-check {
+    color: $green;
+  }
+
+  .icons-arrow-forward {
+    color: $gray-light;
   }
 
   .input,

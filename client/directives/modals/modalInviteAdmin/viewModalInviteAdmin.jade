@@ -55,12 +55,20 @@
           )
           .username {{admin.username}}
           small.small {{admin.email.length ? admin.email : "—"}}
+          //- if invitation *hasn't* been sent to this admin
           svg.iconnables.icons-arrow-forward.js-animate(
             ng-hide = "state.activeItem === $index"
           )
             use(
               xlink:href = "#icons-arrow-down"
             )
+          //- if invitation *has* been sent to this admin
+          //- svg.iconnables.icons-check.js-animate(
+          //-   ng-hide = "state.activeItem === $index"
+          //- )
+          //-   use(
+          //-     xlink:href = "#icons-check"
+          //-   )
           input.input.input-validate.js-animate(
             spellcheck = "false"
             type = "email"
