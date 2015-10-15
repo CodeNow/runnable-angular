@@ -9,18 +9,17 @@
 
   .btn {
     background: $gray;
-    border: 2px solid rgba($gray,.4);
     color: $white;
     font-weight: $weight-bold;
     margin: 6px 0 3px;
     width: 100%;
 
     &:hover {
-      background: $gray-dark;
+      background: rgba($gray,.5);
     }
 
     &:active {
-      border-color: rgba($gray,.8);
+      background: $gray-dark;
     }
   }
 
