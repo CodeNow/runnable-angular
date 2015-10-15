@@ -35,6 +35,9 @@ function ServerModalController (
   this.isDirty = function  () {
     // Loading promises are clear when the modal is saved or cancelled.
     var SMC = this;
+    if (SMC.isLoadingInitialState) {
+      return false;
+    }
     return loadingPromises.count(SMC.name) > 0 ||
       !angular.equals(
         keypather.get(SMC, 'instance.attrs.env'),
@@ -54,6 +57,8 @@ function ServerModalController (
     // to change something will have enough time to add its promises to LoadingPromises
     return SMC.state.promises.contextVersion
       .then(function () {
+        // Wait until all changes to the context version have been resolved to 
+        // rebuild and/or redeploy the instance
         return loadingPromises.finished(SMC.name);
       })
       .then(function (promiseArrayLength) {

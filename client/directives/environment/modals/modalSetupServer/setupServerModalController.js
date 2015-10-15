@@ -246,6 +246,8 @@ function SetupServerModalController (
   };
 
   SMC.createServer = function () {
+    // Wait until all changes to the context version have been resolved to
+    // create the server
     var createPromise = loadingPromises.finished(SMC.name)
       .then(function () {
         if (!SMC.state.advanced) {

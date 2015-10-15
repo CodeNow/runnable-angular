@@ -51,6 +51,7 @@ function EditServerModalController(
   angular.extend(SMC, {
     name: 'editServerModal',
     showDebugCmd: false,
+    isLoadingInitialState: true,
     data: {},
     state:  {
       ports: [],
@@ -142,13 +143,13 @@ function EditServerModalController(
       });
   });
 
-  function resetState(instance, hasError) {
-    var showSpinner = !hasError;
+  function loadInitialState(instance) {
+    var showSpinner = true;
     loading.reset(SMC.name);
     if (showSpinner) {
       loading(SMC.name, true);
     }
-    return SMC.resetStateContextVersion(instance.contextVersion, hasError)
+    return SMC.resetStateContextVersion(instance.contextVersion, false)
       .catch(function (err) {
         errs.handler(err);
       })
@@ -159,6 +160,7 @@ function EditServerModalController(
         // After context has been reset, start keeping track of loading promises
         // to check if current state is dirty
         loadingPromises.clear(SMC.name);
+        SMC.isLoadingInitialState = false;
       });
   }
 
@@ -236,5 +238,5 @@ function EditServerModalController(
       });
   };
 
-  resetState(SMC.instance, false);
+  loadInitialState(SMC.instance);
 }
