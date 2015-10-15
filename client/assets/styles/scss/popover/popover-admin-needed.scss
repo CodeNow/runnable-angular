@@ -5,23 +5,23 @@
   color: $gray-light;
   font-size: 14px;
   max-width: 225px;
-  padding: 9px 12px;
+  padding: 6px 12px 9px;
 
   .btn {
-    background: rgba($gray-dark,.3);
-    border: 2px solid rgba($gray,.3);
+    background: $gray;
+    border: 2px solid rgba($gray,.4);
     color: $gray-lighter;
+    color: $white;
     font-weight: $weight-bold;
-    margin: 9px 0 6px;
+    margin: 6px 0 3px;
     width: 100%;
 
     &:hover {
-      border-color: rgba($gray,.45);
+      background: $gray-dark;
     }
 
     &:active {
-      border-color: rgba($gray,.6);
-      color: $white;
+      border-color: rgba($gray,.8);
     }
   }
 
