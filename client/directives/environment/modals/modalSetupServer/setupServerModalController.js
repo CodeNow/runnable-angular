@@ -275,9 +275,12 @@ function SetupServerModalController (
         return SMC.actions.createAndBuild(createPromise, SMC.state.opts.name);
       })
       .then(function (instance) {
-        SMC.instance = instance;
-        SMC.state.instance = instance;
-        return SMC.resetStateContextVersion(SMC.instance.contextVersion, false);
+        if (instance && instance.contextVersion) {
+          SMC.instance = instance;
+          SMC.state.instance = instance;
+          return SMC.resetStateContextVersion(SMC.instance.contextVersion, false);
+        }
+        return $q.reject(new Error('Instance not created properly'));
       })
       .then(function () {
         return SMC;

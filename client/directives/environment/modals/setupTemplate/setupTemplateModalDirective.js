@@ -10,7 +10,8 @@ function setupTemplateModal(
   copySourceInstance,
   getNewForkName,
   keypather,
-  promisify
+  promisify,
+  errs
 ) {
   return {
     restrict: 'A',
@@ -56,7 +57,8 @@ function setupTemplateModal(
               return serverModel;
             }),
           serverName
-        );
+        )
+        .catch(errs.handler);
       };
     }
   };
