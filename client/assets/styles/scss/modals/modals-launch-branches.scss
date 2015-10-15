@@ -1,41 +1,28 @@
 .modal-launch-branches {
   width: 390px;
-  color: $gray-dark;
+  color: $gray;
 
-  .modal-body {
-    padding: 30px 45px 0;
-
-    .p {
-      color: $gray;
-    }
-  }
-
-  .instances-list {
-    height: auto;
-    border-width: 1px;
-    border-style: solid;
+  .list {
     background: $white;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
-    border-color: $gray-lighter;
-    pointer-events: none;
-    margin: 30px auto -1px;
-    width: 100%;
+    margin-top: 15px;
+    font-weight: $weight-bold;
+    color: $gray-dark;
 
-    .list {
-      margin: 0 12px;
-      padding: 21px 0;
+    + .list {
+      font-weight: $weight-normal;
     }
   }
 
-  .list-item:last-child {
-    margin: 18px 0 6px;
-    height: auto;
-    padding: 0 18px;
+  .list-item {
+    height: 48px;
+    padding: 15px 15px 15px 45px;
+    line-height: 18px;
   }
 
-  .btn-md {
-    width: 100%;
-    pointer-events: auto;
+  .iconnables {
+    width: 21px;
+    height: 21px;
+    position: absolute;
+    left: 15px;
   }
 }

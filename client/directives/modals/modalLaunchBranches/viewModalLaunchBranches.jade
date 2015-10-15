@@ -12,26 +12,32 @@
       p.p This will launch containers for active&#32;
         strong.strong api&#32;
         span.span branches. From now on, new containers will launch when you push to new branches.
-      .instances-list
-        .list
-          .list-item.list-item-header
-            span.span.text-overflow api
-            //- svg.iconnables.icons-advanced
-            //-   use(
-            //-     xlink:href = "#icons-advanced"
-            //-   )
-          .list-item
-            a.list-item-container
-              .icons-status
-              .text-overflow SAN-2173-webhooks-toggle
-          .list-item
-            a.list-item-container
-              .icons-status
-              .text-overflow SAN-2170-billing
-          .list-item
-            a.list-item-container
-              .icons-status
-              .text-overflow SAN-2725-new-container
-          .list-item
-            .list-item-container
-              button.btn.btn-md.green Launch Branches
+      ul.list.list-bordered
+        li.list-item
+          svg.iconnables.icons-server-new
+            use(
+              xlink:href = "#icons-server-new"
+            )
+          | SAN-2173-webhooks-toggle
+        li.list-item
+          svg.iconnables.icons-server-new
+            use(
+              xlink:href = "#icons-server-new"
+            )
+          | SAN-2170-billing
+        li.list-item
+          svg.iconnables.icons-server-new
+            use(
+              xlink:href = "#icons-server-new"
+            )
+          | SAN-2725-new-container
+
+      ul.list.list-bordered
+        li.list-item
+          svg.iconnables.icons-server-new
+            use(
+              xlink:href = "#icons-server-new"
+            )
+          | Future api branches
+    section.modal-footer
+      button.btn.btn-md.btn-block.green Launch Branches
