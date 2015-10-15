@@ -1018,6 +1018,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
 
     it('pop up a notification when dirty and being closed', function () {
       SMC.instance.attrs.env = '12345';
+      $scope.$digest();
       SMC.actions.close();
       $scope.$digest();
       sinon.assert.calledOnce(ctx.showModalStub);
