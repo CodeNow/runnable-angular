@@ -262,11 +262,17 @@ function SetupServerModalController (
   };
 
   SMC.createServerAndClose = function () {
-    loading('setupServerModal', true);
+    if ($rootScope.featureFlags.newVerificationFlow) {
+      loading('setupServerModal', true);
+    }
     return SMC.createServer()
       .then(function () {
-        loading('setupServerModal', false);
         close();
+      })
+      .finally(function () {
+        if ($rootScope.featureFlags.newVerificationFlow) {
+          loading('setupServerModal', false);
+        }
       });
   };
 
