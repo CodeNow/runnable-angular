@@ -71,11 +71,12 @@
     pop-over-options = "{\"verticallyCentered\":true,\"left\":90}"
     pop-over-template = "adminNeededPopoverView"
     ng-if = "$root.featureFlags.webhooksToggling && $root.featureFlags.webhooksOff"
-  ) Branches
+  )
     svg.iconnables.icons-add.icons-round.float-left
       use(
         xlink:href = "#icons-add"
       )
+    span.float-right Branches
 
   //- nav list filter
   .btn.btn-xxs.btn-more-containers(
