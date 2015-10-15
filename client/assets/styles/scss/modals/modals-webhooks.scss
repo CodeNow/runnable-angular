@@ -26,7 +26,15 @@
     line-height: 18px;
     overflow: hidden;
     padding: 0 15px;
-    transition: all .15s;
+    transition: height .15s;
+
+    &:hover {
+      background-color: rgba($gray-lighterest,.5);
+    }
+
+    &:active {
+      background-color: $gray-lighterest;
+    }
 
     &.inactive {
       border: 0;
@@ -76,7 +84,6 @@
   // email address
   .small {
     color: $gray;
-    font-size: 14px;
     transition: all .15s;
   }
 
