@@ -399,7 +399,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.called(closePopoverSpy);
         sinon.assert.called(ctx.loadingPromiseMock.finished);
-        expect(SMC.building).to.be.true;
         expect(SMC.state.ports).to.be.ok;
         $scope.$digest();
         sinon.assert.notCalled(ctx.build.build);
@@ -428,7 +427,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.called(closePopoverSpy);
         sinon.assert.called(ctx.loadingPromiseMock.finished);
-        expect(SMC.building).to.be.true;
         expect(SMC.state.ports).to.be.ok;
         $scope.$digest();
         sinon.assert.notCalled(ctx.build.build);
@@ -459,7 +457,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.called(closePopoverSpy);
         sinon.assert.called(ctx.loadingPromiseMock.finished);
-        expect(SMC.building).to.be.true;
         expect(SMC.state.ports).to.be.ok;
         sinon.assert.calledOnce(ctx.build.build);
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
@@ -487,7 +484,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.called(closePopoverSpy);
         sinon.assert.called(ctx.loadingPromiseMock.finished);
-        expect(SMC.building).to.be.true;
         expect(SMC.state.ports).to.be.ok;
         sinon.assert.calledOnce(SMC.openItems.isClean);
         sinon.assert.notCalled(SMC.openItems.updateAllFiles);
@@ -525,7 +521,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.called(closePopoverSpy);
         sinon.assert.called(ctx.loadingPromiseMock.finished);
-        expect(SMC.building).to.be.true;
         expect(SMC.state.ports).to.be.ok;
         $scope.$digest();
         sinon.assert.calledOnce(SMC.openItems.updateAllFiles);
@@ -644,7 +639,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.called(closePopoverSpy);
         sinon.assert.called(ctx.loadingPromiseMock.finished);
-        expect(SMC.building).to.be.true;
         expect(SMC.state.ports).to.be.ok;
         sinon.assert.calledOnce(SMC.openItems.isClean);
         sinon.assert.notCalled(SMC.openItems.updateAllFiles);
@@ -680,7 +674,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.called(closePopoverSpy);
         sinon.assert.called(ctx.loadingPromiseMock.finished);
-        expect(SMC.building).to.be.true;
         expect(SMC.state.ports).to.be.ok;
         $scope.$digest();
         sinon.assert.calledOnce(SMC.openItems.isClean);
@@ -709,7 +702,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.called(closePopoverSpy);
         sinon.assert.called(ctx.loadingPromiseMock.finished);
-        expect(SMC.building).to.be.true;
         expect(SMC.state.ports).to.be.ok;
         $scope.$digest();
         sinon.assert.notCalled(ctx.build.build);
@@ -756,7 +748,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
     $scope.$digest();
     $scope.$digest();
     $rootScope.$apply();
-    expect(SMC.building, 'Building').to.be.false;
     expect(SMC.state.opts.env.length).to.equal(0);
     expect(SMC.state.containerFiles.length).to.equal(1);
     expect(SMC.state.dockerfile).to.not.equal(ctx.dockerfile);
