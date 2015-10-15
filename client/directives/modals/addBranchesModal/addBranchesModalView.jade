@@ -30,8 +30,9 @@
       ul.list.list-bordered(
         ng-if = "!state.loading"
       )
-        li.list-item(
+        li.list-item.text-overflow(
           ng-repeat = "branch in activeBranches"
+          title = "{{branch}}"
         )
           svg.iconnables.icons-server-new
             use(

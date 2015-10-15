@@ -53,8 +53,8 @@
             src = "{{admin.gravatarUrl}}"
             width = "27"
           )
-          .username {{admin.username}}
-          small.small {{admin.email.length ? admin.email : "—"}}
+          .username.text-overflow {{admin.username}}
+          .small.text-overflow {{admin.email.length ? admin.email : "—"}}
 
           //- if invitation *hasn't* been sent to this admin
           svg.iconnables.icons-arrow-forward.js-animate(
