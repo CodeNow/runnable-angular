@@ -190,8 +190,8 @@ footer.modal-footer.clearfix
   button.btn.btn-spinner(
     setup-confirm-button
     ng-class = "{ \
-      'white': SMC.state.step < 4, \
-      'green': SMC.state.step >= 4, \
+      'white': !buttonClosesModal, \
+      'green': buttonClosesModal, \
       'in': SMC.isBuilding \
     }"
     ng-disabled = "\
@@ -203,8 +203,12 @@ footer.modal-footer.clearfix
     ng-click = "SMC.goToNextStep()"
   )
     //- spinner
-    .spinner-wrapper.spinner-sm.spinner-white.in(
+    .spinner-wrapper.spinner-sm.in(
       ng-if = "SMC.isBuilding"
+      ng-class = "{ \
+        'spinner-gray': !buttonClosesModal, \
+        'spinner-white': buttonClosesModal \
+      }"
       ng-include = "'spinner'"
     )
     span.btn-text {{ buttonText }}

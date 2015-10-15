@@ -369,7 +369,7 @@ function SetupServerModalController (
   };
 
   SMC.getUpdatePromise = function () {
-    loading(SMC.name, true);
+    SMC.isBuilding = true;
     return SMC.saveInstanceAndRefreshCards()
       .then(function () {
          return close();
@@ -379,7 +379,7 @@ function SetupServerModalController (
         return SMC.resetStateContextVersion(SMC.state.contextVersion, true);
       })
       .finally(function () {
-        loading(SMC.name, false);
+        SMC.isBuilding = false;
       });
   };
 
