@@ -85,7 +85,7 @@ label.label-checkbox.btn-sm.btn-checkbox(
     //- we don't want to trigger the popover to open because this is an external link
     label.toggle-wrapper.float-right(
       ng-click = "$event.stopPropagation()"
-      ng-if = "!acv.attrs.additionalRepo && !$root.featureFlags.preWebhooks"
+      ng-if = "!acv.attrs.additionalRepo && !$root.featureFlags.webhooksOff"
       tooltip = "Auto Deploy automatically updates your container when you push code to its repository."
       tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-6,\"top\":18}"
     ) Auto Deploy
@@ -102,7 +102,7 @@ label.label-checkbox.btn-sm.btn-checkbox(
     //- pre-webhooks
     label.toggle-wrapper.float-right.disabled(
       ng-click = "$event.stopPropagation()"
-      ng-if = "!acv.attrs.additionalRepo && $root.featureFlags.preWebhooks"
+      ng-if = "!acv.attrs.additionalRepo && $root.featureFlags.webhooksOff"
       pop-over
       pop-over-options = "{\"verticallyCentered\":true,\"left\":102}"
       pop-over-template = "adminNeededPopoverView"

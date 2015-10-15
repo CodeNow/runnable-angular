@@ -61,7 +61,7 @@
   button.btn.btn-xxs.white.btn-add-branches(
     modal
     modal-template = "addBranchesModalView"
-    ng-if = "!$root.featureFlags.preWebhooks"
+    ng-if = "$root.featureFlags.webhooksToggling && !$root.featureFlags.webhooksOff"
   ) Add Branches
 
   //- popover should appear on hover
@@ -69,7 +69,7 @@
     pop-over
     pop-over-options = "{\"verticallyCentered\":true,\"left\":93}"
     pop-over-template = "adminNeededPopoverView"
-    ng-if = "$root.featureFlags.preWebhooks"
+    ng-if = "$root.featureFlags.webhooksToggling && $root.featureFlags.webhooksOff"
   ) Add Branches
 
   //- nav list filter

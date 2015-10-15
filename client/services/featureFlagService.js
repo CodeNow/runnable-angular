@@ -21,19 +21,20 @@ function featureFlags(
     isolationDnsMappings: true,
     isolationNav: false, // for isolation nav
     isolationUI: false, // for isolation UI
-    newNavigation: false, // for isolation UI
     multilineFnR: false,
     nameContainer: false,
     navListFilter: false,
+    newNavigation: false, // for isolation UI
     newVerificationFlow: false,
     newVerificationFlowStackSelector: false,
-    preWebhooks: false,
     renameContainer: false,
     saveToolbar: false,
     teamUI: false, // changes text from org to team in account menu
     themeToggle: false, // toggles the button that toggles theme
     updatedBuildLogs: true,
-    updatedSlackValidation: false
+    updatedSlackValidation: false,
+    webhooksOff: false,
+    webhooksToggling: false
   };
 
   var _featureFlags = {};
