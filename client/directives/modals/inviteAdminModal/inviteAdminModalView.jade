@@ -8,6 +8,7 @@
       ];\
       state.activeItem = null;\
       state.loading = false;\
+      state.sending = false;\
     "
   )
     header.modal-header
@@ -89,10 +90,16 @@
             "
             ng-show = "state.activeItem === $index"
           ) Cancel
-          .btn.btn-sm.green.float-right.js-animate(
+          .btn.btn-sm.btn-spinner.green.float-right.js-animate(
+            ng-class = "{'in': state.sending}"
             ng-click = "\
               state.activeItem = null;\
               $event.stopPropagation();\
             "
             ng-show = "state.activeItem === $index"
-          ) Send Invitation
+          )
+            .spinner-wrapper.spinner-sm.spinner-white(
+              ng-if = "state.sending"
+              ng-include = "'spinner'"
+            )
+            | Send Invitation
