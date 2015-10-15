@@ -85,15 +85,15 @@
     height: 15px;
     margin-right: 6px;
     position: relative;
-    top: 15px;
+    top: 14px;
     width: 15px;
 
-    &:hover {
+    &:hover:not([disabled]):not(.disabled) {
       background: $gray-light;
       color: $white;
     }
 
-    &:active {
+    &:active:not([disabled]):not(.disabled) {
       background: $red;
       color: $white;
     }
