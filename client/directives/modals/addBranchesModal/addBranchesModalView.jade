@@ -22,15 +22,16 @@
       p.p From now on, containers will launch automatically for new branches of&#32;
         strong.strong {{repository}}
         span.span , starting with its current active branches.
-      .spinner-wrapper.spinner-gray.spinner-sm.in(
-        ng-click = "state.loading = false"
-        ng-if = "state.loading"
-        ng-include = "'spinner'"
-      )
-      ul.list.list-bordered(
-        ng-if = "!state.loading"
-      )
+      ul.list.list-bordered
+        li.list-item(
+          ng-click = "state.loading = false"
+          ng-if = "state.loading"
+        )
+          .spinner-wrapper.spinner-gray.spinner-sm.in(
+            ng-include = "'spinner'"
+          )
         li.list-item.text-overflow(
+          ng-if = "!state.loading"
           ng-repeat = "branch in activeBranches"
           title = "{{branch}}"
         )
@@ -39,7 +40,9 @@
               xlink:href = "#icons-server-new"
             )
           | {{branch}}
-        li.list-item
+        li.list-item(
+          ng-if = "!state.loading"
+        )
           svg.iconnables.icons-server-new
             use(
               xlink:href = "#icons-server-new"

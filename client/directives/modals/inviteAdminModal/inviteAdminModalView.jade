@@ -30,22 +30,21 @@
         //- when modal is opened from containers list
         //- span.span Invite one to this Sandbox, and you can add branches after they join.
 
-      //- loading state
-      .spinner-wrapper.spinner-gray.spinner-sm.in(
-        ng-click = "state.loading = false"
-        ng-if = "state.loading"
-        ng-include = "'spinner'"
-      )
-
-      ul.list.list-bordered(
-        ng-if = "!state.loading"
-      )
+      ul.list.list-bordered
+        li.list-item(
+          ng-click = "state.loading = false"
+          ng-if = "state.loading"
+        )
+          .spinner-wrapper.spinner-gray.spinner-sm.in(
+            ng-include = "'spinner'"
+          )
         li.list-item(
           ng-class = "{\
             'active': state.activeItem === $index,\
             'inactive': state.activeItem && state.activeItem !== $index\
           }"
           ng-click = "state.activeItem = $index"
+          ng-if = "!state.loading"
           ng-repeat = "admin in mavisAdmins"
         )
           img.gravatar(
