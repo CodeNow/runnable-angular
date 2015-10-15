@@ -155,7 +155,6 @@ function SetupServerModalController (
   SMC.goToNextStep = function () {
     SMC.state.step += 1;
     // Update step in setup-confirm-button directive
-    $scope.$broadcast('updateStep', SMC.state.step);
     if (SMC.state.step === 2) {
       SMC.changeTab('commands');
     }
@@ -168,11 +167,13 @@ function SetupServerModalController (
         });
     }
     else if (SMC.state.step === 4) {
+      SMC.isBuilding = true; // `isBuilding` is used for adding spinner to 'Start Build' button
       loading(SMC.name, true);
       return SMC.createServer()
         .then(function () {
           // Go on to step 4 (logs)
           loading(SMC.name, false);
+          SMC.isBuilding = false;
           loadingPromises.clear(SMC.name);
           SMC.changeTab('logs');
         });
@@ -236,6 +237,7 @@ function SetupServerModalController (
   };
 
   SMC.changeTab = function (tabname) {
+    $scope.$broadcast('updateStep', SMC.state.step);
     SMC.selectedTab = tabname;
   };
 

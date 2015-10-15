@@ -187,9 +187,13 @@ section.modal-body(
 
 footer.modal-footer.clearfix
   //- disabled if there is no value in the command input
-  button.btn(
+  button.btn.btn-spinner(
     setup-confirm-button
-    ng-class = "{ 'white': SMC.state.step < 4, 'green': SMC.state.step >= 4 }"
+    ng-class = "{ \
+      'white': SMC.state.step < 4, \
+      'green': SMC.state.step >= 4, \
+      'in': SMC.isBuilding \
+    }"
     ng-disabled = "\
       SMC.verifyServerForm.$invalid || \
       selectedStackInvalid || \
@@ -197,7 +201,13 @@ footer.modal-footer.clearfix
     "
     ng-if="$root.featureFlags.newVerificationFlow"
     ng-click = "SMC.goToNextStep()"
-  ) {{ buttonText }}
+  )
+    //- spinner
+    .spinner-wrapper.spinner-sm.spinner-white.in(
+      ng-if = "SMC.isBuilding"
+      ng-include = "'spinner'"
+    )
+    span.btn-text {{ buttonText }}
   button.btn.green(
     ng-disabled = "\
       SMC.verifyServerForm.$invalid || \
