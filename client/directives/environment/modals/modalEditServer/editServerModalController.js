@@ -132,13 +132,13 @@ function EditServerModalController(
       loading(SMC.name, true);
     }
     SMC.resetStateContextVersion(contextVersion, !hasNoErrors)
-      .then(function () {
+      .catch(function (err) {
+        errs.handler(err);
+      })
+      .finally(function () {
         if (hasNoErrors) {
           loading(SMC.name, false);
         }
-      })
-      .catch(function (err) {
-        errs.handler(err);
       });
   });
 
@@ -149,16 +149,16 @@ function EditServerModalController(
       loading(SMC.name, true);
     }
     return SMC.resetStateContextVersion(instance.contextVersion, hasError)
-      .then(function () {
-        // After context has been reset, start keeping track of loading promises
-        // to check if current state is dirty
+      .catch(function (err) {
+        errs.handler(err);
+      })
+      .finally(function () {
         if (showSpinner) {
           loading(SMC.name, false);
         }
+        // After context has been reset, start keeping track of loading promises
+        // to check if current state is dirty
         loadingPromises.clear(SMC.name);
-      })
-      .catch(function (err) {
-        errs.handler(err);
       });
   }
 
@@ -221,7 +221,6 @@ function EditServerModalController(
 
   SMC.getUpdatePromise = function () {
     SMC.saveTriggered = true;
-    SMC.building = true;
     loading(SMC.name, true);
     return SMC.saveInstanceAndRefreshCards()
       .then(function () {
@@ -229,10 +228,7 @@ function EditServerModalController(
       })
       .catch(function (err) {
         errs.handler(err);
-        return SMC.resetStateContextVersion(SMC.state.contextVersion, true)
-          .finally(function () {
-             SMC.building = false;
-          });
+        return SMC.resetStateContextVersion(SMC.state.contextVersion, true);
       })
       .finally(function () {
         loading(SMC.name, false);

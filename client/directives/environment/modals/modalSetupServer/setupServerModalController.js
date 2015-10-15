@@ -160,22 +160,20 @@ function SetupServerModalController (
       SMC.changeTab('commands');
     }
     else if (SMC.state.step === 3) {
-      loading('setupServerModal', true);
+      loading(SMC.name, true);
       return loadAllOptions() // When stack is selected, load dockerfile, etc
         .then(function () {
           SMC.changeTab(null);
-          loading('setupServerModal', false);
+          loading(SMC.name, false);
         });
     }
     else if (SMC.state.step === 4) {
-      SMC.isBuilding = true;
-      loading('setupServerModal', true);
+      loading(SMC.name, true);
       return SMC.createServer()
         .then(function () {
           // Go on to step 4 (logs)
           loading(SMC.name, false);
           loadingPromises.clear(SMC.name);
-          SMC.isBuilding = false;
           SMC.changeTab('logs');
         });
     } else if (SMC.state.step > 4) {
@@ -219,7 +217,6 @@ function SetupServerModalController (
   }
 
   SMC.rebuild = function (noCache) {
-    SMC.isBuilding = true;
     loading(SMC.name, true);
     return SMC.rebuildAndOrRedeploy(noCache)
       .then(function () {
@@ -235,7 +232,6 @@ function SetupServerModalController (
       .finally(function () {
         loadingPromises.clear(SMC.name);
         loading(SMC.name, false);
-        SMC.isBuilding = false;
       });
   };
 
@@ -290,10 +286,10 @@ function SetupServerModalController (
   };
 
   SMC.createServerAndClose = function () {
-    loading('setupServerModal', true);
+    loading(SMC.name, true);
     return SMC.createServer()
       .then(function () {
-        loading('setupServerModal', false);
+        loading(SMC.name, false);
         close();
       });
   };
@@ -372,7 +368,6 @@ function SetupServerModalController (
   };
 
   SMC.getUpdatePromise = function () {
-    SMC.building = true;
     loading(SMC.name, true);
     return SMC.saveInstanceAndRefreshCards()
       .then(function () {
@@ -384,7 +379,6 @@ function SetupServerModalController (
       })
       .finally(function () {
         loading(SMC.name, false);
-        SMC.building = false;
       });
   };
 
