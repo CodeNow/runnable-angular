@@ -1,7 +1,4 @@
-.sidebar-section-heading.strong(
-  ng-init = "$storage.repoListIsClosed = false"
-) Repositories
-
+.sidebar-section-heading.strong Repositories
 .sidebar-section-content(
   ng-if = "!$storage.repoListIsClosed && $root.featureFlags.additionalRepositories"
 )
