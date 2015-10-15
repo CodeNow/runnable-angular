@@ -1,16 +1,15 @@
-.modal-webhooks {
-  color: $gray-dark;
+.modal-invite-admin {
   width: 390px;
 
   // modal description
   .p {
     color: $gray;
-    font-size: 15px;
-    line-height: 18px;
+  }
 
-    + .p {
-      margin-top: 6px;
-    }
+  // loading state
+  .spinner-wrapper {
+    height: 30px;
+    margin-top: 30px;
   }
 
   // admin list
@@ -21,18 +20,19 @@
 
   // admin list items
   .list-item {
+    color: $gray-dark;
     cursor: pointer;
-    height: 57px; // 27px gravatar + 15px padding * 2
+    height: 57px; // 27px gravatar + (15px padding * 2)
     line-height: 18px;
     overflow: hidden;
     padding: 0 15px;
     transition: height .15s;
 
-    &:hover {
+    &:hover:not(.active) {
       background-color: rgba($gray-lighterest,.5);
     }
 
-    &:active {
+    &:active:not(.active) {
       background-color: $gray-lighterest;
     }
 
@@ -43,26 +43,21 @@
 
     &.active {
       border: 0;
-      cursor: default;
-      height: 303px;
+      cursor: auto;
+      height: 300px;
 
       .username {
         margin-top: 19px;
       }
 
+      // not using ng-hide because this element affects layout
       .small {
         opacity: 0;
+        pointer-events: none;
       }
     }
 
-    // loading state
-    > .spinner-wrapper {
-      align-items: center;
-      height: 100%;
-      width: 100%;
-    }
-
-    // overrides
+    // override
     > .btn-sm {
       position: relative;
       right: 0;
@@ -78,13 +73,13 @@
   .username {
     font-weight: $weight-bold;
     margin-top: 9px;
-    transition: all .15s;
+    transition: margin-top .15s;
   }
 
   // email address
   .small {
     color: $gray;
-    transition: all .15s;
+    transition: opacity .15s;
   }
 
   .iconnables {
@@ -112,13 +107,13 @@
   }
 
   .textarea {
-    height: 138px;
+    height: 135px;
     margin: 12px 0;
   }
 
   // transition for invitation details
   .js-animate {
-    transition: all .15s;
+    transition: opacity .15s;
   }
 
   .ng-hide {
