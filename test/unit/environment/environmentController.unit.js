@@ -220,7 +220,7 @@ describe('environmentController'.bold.underline.blue, function () {
       keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.fakeOrg1);
 
       var error = new Error('Oops');
-      $scope.actions.createAndBuild($q.reject(error), 'newName');
+      var promise = $scope.actions.createAndBuild($q.reject(error), 'newName');
       $rootScope.$digest();
 
       sinon.assert.calledWith(ctx.fakeUser.newInstance, {
@@ -232,7 +232,7 @@ describe('environmentController'.bold.underline.blue, function () {
 
       sinon.assert.notCalled(createNewInstanceMock.getFetchSpy());
       sinon.assert.calledOnce(ctx.eventTracking.triggeredBuild);
-      sinon.assert.calledWith(ctx.errs.handler, error);
+      expect(promise).to.be.rejected;
       sinon.assert.calledOnce($scope.data.instances.add);
 
       sinon.assert.calledOnce(instance.dealloc);

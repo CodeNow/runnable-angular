@@ -541,7 +541,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
           name: 'branchName'
         }
       };
-      SMC.actions.createAndBuild = sinon.stub().returns($q.when(dockerfile));
+      SMC.actions.createAndBuild = sinon.stub().returns($q.when(newBuild));
       SMC.actions.deleteServer = sinon.stub().returns($q.when(true));
       SMC.state.selectedStack = {
         key: 'ruby_ror'
