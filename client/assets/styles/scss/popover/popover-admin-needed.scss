@@ -1,29 +1,32 @@
 .popover-admin-needed {
+  background-color: $gray-darker;
   border-color: transparent;
-  background-color: #404040;
-  color: #bfbfbf;
+  box-shadow: 0;
+  color: $gray-light;
   font-size: 14px;
   max-width: 225px;
-  line-height: 18px;
+  padding: 9px 12px;
 
-  .popover-content {
-    padding: 9px 12px;
-  }
-
-  .btn.btn {
-    width: 100%;
-    background: #666;
-    border-color: transparent;
-    margin: 9px 0 3px;
+  .btn {
+    background: rgba($gray-dark,.3);
+    border: 2px solid rgba($gray,.3);
+    color: $gray-lighter;
     font-weight: $weight-bold;
-    color: $white;
+    margin: 9px 0 6px;
+    width: 100%;
+
+    &:hover {
+      border-color: rgba($gray,.45);
+    }
+
+    &:active {
+      border-color: rgba($gray,.6);
+      color: $white;
+    }
   }
 
-  .arrow.arrow.arrow {
-    border-right-color: #404040;
-
-    &::after {
-      border-right-color: #404040;
-    }
+  .arrow,
+  .arrow::after {
+    border-right-color: $gray-darker !important;
   }
 }
