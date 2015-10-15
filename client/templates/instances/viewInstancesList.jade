@@ -58,12 +58,12 @@
               xlink:href = "#icons-overflow"
             )
 
-  button.btn.btn-xxs.white.btn-webhooks(
+  button.btn.btn-xxs.white.btn-add-branches(
     modal
     modal-template = "addBranchesModalView"
     ng-if = "!$root.featureFlags.preWebhooks"
   ) Add Branches
-  button.btn.btn-xxs.white.btn-webhooks.disabled(
+  button.btn.btn-xxs.white.btn-add-branches.disabled(
     pop-over
     pop-over-template = "adminNeededPopoverView"
     pop-over-options = "{\"verticallyCentered\":true,\"left\":96}"
@@ -71,7 +71,7 @@
   ) Add Branches
 
   //- nav list filter
-  .btn.btn-xxs(
+  .btn.btn-xxs.btn-more-containers(
     ng-if = "$root.featureFlags.navListFilter"
     pop-over
     pop-over-options = "{\"top\":-33,\"left\":215}"

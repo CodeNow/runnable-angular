@@ -8,50 +8,10 @@
   position: relative;
   width: $instance-list-width;
 
-
   // if nav is open
   + .instance-wrapper {
     float: right;
     width: calc(100% - #{$instance-list-width});
-  }
-
-  .btn-webhooks.btn-webhooks {
-    font-style: normal;
-    color: $gray-dark;
-    margin: 9px 0 0 12px;
-
-    &:hover {
-      color: $gray-dark;
-    }
-  }
-
-  .small {
-    color: $gray;
-    line-height: 30px;
-    padding-left: 29px;
-    cursor: pointer;
-    font-size: 14px;
-
-    &:hover {
-      color: $gray-dark;
-    }
-
-    &:active {
-      color: $purple-light;
-    }
-
-    .span {
-      opacity: .7;
-    }
-
-    .icons-warning {
-      width: 18px;
-      height: 18px;
-      top: 4px;
-      margin-left: 3px;
-      color: $orange;
-      opacity: .7;
-    }
   }
 
   .list {
@@ -107,10 +67,6 @@
           display: block;
         }
       }
-    }
-
-    &.inactive .icons-status {
-      visibility: hidden;
     }
 
     // gear icon
@@ -216,7 +172,7 @@
   }
 
   // "more…" button
-  .btn-xxs {
+  .btn-more-containers {
     color: darken($gray-light,10%);
     font-style: italic;
     left: 15px;
@@ -228,6 +184,10 @@
     &:active {
       color: $purple-light;
     }
+  }
+
+  .btn-add-branches {
+    margin: 10px 0 3px 28px;
   }
 
   // isolation badge
