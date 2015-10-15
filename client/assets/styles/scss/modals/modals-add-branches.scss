@@ -12,6 +12,7 @@
     }
   }
 
+  // warning text if container is not green
   .small {
     color: $gray;
     display: block;
@@ -25,15 +26,6 @@
     left: 0;
     position: absolute;
     width: 18px;
-  }
-
-  .spinner-wrapper {
-    align-items: center;
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
   }
 
   .list {
