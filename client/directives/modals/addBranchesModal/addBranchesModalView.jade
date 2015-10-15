@@ -11,9 +11,7 @@
     "
   )
     header.modal-header
-      h1.modal-heading Add&#32;
-        span.span {{repository}}&#32;
-        span.span Branches
+      h1.modal-heading Add Branches
       svg.iconnables.icons-close(
         ng-click = "defaultActions.cancel()"
       )
@@ -40,16 +38,15 @@
               xlink:href = "#icons-server-new"
             )
           | {{branch}}
-      ul.list.list-bordered(
-        ng-if = "!state.loading"
-      )
         li.list-item
           svg.iconnables.icons-server-new
             use(
               xlink:href = "#icons-server-new"
             )
-          | Future {{repository}} branches
+          | future {{repository}} branches
     section.modal-footer(
       ng-if = "!state.loading"
     )
       button.btn.btn-md.btn-block.green Add Branches
+      //- only show if the defualt branch container has *never* been green
+      .small We recommend waiting until your default branch container is configured and running properly.
