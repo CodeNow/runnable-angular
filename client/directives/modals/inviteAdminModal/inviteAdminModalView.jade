@@ -73,11 +73,11 @@
           //-   )
 
           input.input.input-validate.js-animate(
+            ng-show = "state.activeItem === $index"
+            placeholder = "email address"
             spellcheck = "false"
             type = "email"
             value = "{{admin.email}}"
-            placeholder = "email address"
-            ng-show = "state.activeItem === $index"
           )
           textarea.textarea.js-animate(
             ng-show = "state.activeItem === $index"
