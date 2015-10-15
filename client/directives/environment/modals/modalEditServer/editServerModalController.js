@@ -221,17 +221,18 @@ function EditServerModalController(
 
   SMC.getUpdatePromise = function () {
     SMC.saveTriggered = true;
-    loading(SMC.name, true);
+    SMC.isBuilding = true;
     return SMC.saveInstanceAndRefreshCards()
       .then(function () {
-         return close();
+        return close();
       })
       .catch(function (err) {
         errs.handler(err);
-        return SMC.resetStateContextVersion(SMC.state.contextVersion, true);
-      })
-      .finally(function () {
-        loading(SMC.name, false);
+        return SMC.resetStateContextVersion(SMC.state.contextVersion, true)
+          .finally(function () {
+            // Only turn off `isBuilding` if there is an error and we have to revert back 
+            SMC.isBuilding = false;
+          });
       });
   };
 
