@@ -29,7 +29,7 @@ function featureFlags(
     newVerificationFlowStackSelector: false,
     renameContainer: false,
     saveToolbar: false,
-    teamUI: false, // changes text from org to team in account menu
+    teamManagement: false, // changes text from org to team in account menu
     themeToggle: false, // toggles the button that toggles theme
     updatedBuildLogs: true,
     updatedSlackValidation: false
