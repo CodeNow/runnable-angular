@@ -47,15 +47,16 @@
             use(
               xlink:href = "#icons-server-new"
             )
-          | future {{repository}} branches
+          | Future {{repository}} branches
     section.modal-footer(
       ng-if = "!state.loading"
     )
+      //- .green if no warning, .white if warning
       button.btn.btn-md.btn-block.green Add Branches
       //- only show if the default branch container is red, or is buiding and has *never* been green
-      .small
+      small.small
         svg.iconnables.icons-warning
           use(
             xlink:href = "#icons-warning"
           )
-        | It’s best to wait until your default branch is running.
+        | We recommend waiting until your default container is running before continuing.

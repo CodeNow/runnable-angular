@@ -14,12 +14,10 @@
 
   .small {
     color: $gray;
-    display: table;
-    line-height: 18px;
-    margin: 0 auto;
+    display: block;
+    margin: 9px auto 15px;
     padding-left: 21px;
     position: relative;
-    top: 9px;
   }
 
   .icons-warning {
