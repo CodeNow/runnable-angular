@@ -60,12 +60,12 @@
 
   button.btn.btn-xxs.white.btn-webhooks(
     modal
-    modal-template = "viewModalLaunchBranches"
+    modal-template = "addBranchesModalView"
     ng-if = "!$root.featureFlags.preWebhooks"
   ) Add Branches
   button.btn.btn-xxs.white.btn-webhooks.disabled(
     pop-over
-    pop-over-template = "viewPopoverInviteAdmins"
+    pop-over-template = "adminNeededPopoverView"
     pop-over-options = "{\"verticallyCentered\":true,\"left\":96}"
     ng-if = "$root.featureFlags.preWebhooks"
   ) Add Branches

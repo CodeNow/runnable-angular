@@ -1,4 +1,4 @@
-.popover-invite-admins {
+.popover-admin-needed {
   border-color: transparent;
   background-color: #404040;
   color: #bfbfbf;
@@ -19,7 +19,7 @@
     color: $white;
   }
 
-  .arrow.arrow {
+  .arrow.arrow.arrow {
     border-right-color: #404040;
 
     &::after {
