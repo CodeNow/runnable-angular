@@ -72,12 +72,13 @@
           //-     xlink:href = "#icons-check"
           //-   )
 
-          input.input.input-validate.js-animate(
+          input.input.input-validate.validate-on-blur.js-animate(
+            ng-model = "admin.email"
             ng-show = "state.activeItem === $index"
             placeholder = "email address"
+            required
             spellcheck = "false"
             type = "email"
-            value = "{{admin.email}}"
           )
           textarea.textarea.js-animate(
             ng-show = "state.activeItem === $index"
