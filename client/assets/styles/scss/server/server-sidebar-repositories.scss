@@ -3,6 +3,7 @@
   position: relative;
 
   .toggle-wrapper.disabled {
+    cursor: not-allowed;
     opacity: .5;
   }
 

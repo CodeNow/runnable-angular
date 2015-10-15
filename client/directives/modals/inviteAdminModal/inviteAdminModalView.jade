@@ -7,7 +7,7 @@
         {username: 'thejsj', gravatarUrl: 'https://avatars0.githubusercontent.com/u/1981198', email: null}\
       ];\
       state.activeItem = null;\
-      state.loading = true;\
+      state.loading = false;\
     "
   )
     header.modal-header
@@ -31,13 +31,11 @@
         //- span.span Invite one to this Sandbox, and you can add branches after they join.
 
       ul.list.list-bordered
-        li.list-item(
+        li.list-item.spinner-wrapper.spinner-gray.spinner-sm.in(
           ng-click = "state.loading = false"
           ng-if = "state.loading"
+          ng-include = "'spinner'"
         )
-          .spinner-wrapper.spinner-gray.spinner-sm.in(
-            ng-include = "'spinner'"
-          )
         li.list-item(
           ng-class = "{\
             'active': state.activeItem === $index,\
