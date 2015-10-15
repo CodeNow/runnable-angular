@@ -1,0 +1,79 @@
+//- title of container
+.instance-header-title.text-overflow
+
+  //- toggle container nav
+  button.btn.float-left(
+    ng-class = "{'active': !$storage.instanceListIsClosed}"
+    ng-click = "$storage.instanceListIsClosed = !$storage.instanceListIsClosed"
+  )
+    svg.iconnables.icons-arrow-backward
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+    svg.iconnables.icons-hamburger
+      use(
+        xlink:href = "#icons-hamburger"
+      )
+
+  //- container title
+    - repository in .span
+    - branch in .strong
+
+  span.span {{instance.getRepoName() || instance.getDisplayName()}}
+  strong.strong(
+    ng-if = "instance.getBranchName()"
+  ) /{{instance.getBranchName()}}
+
+  //- pull request link
+  a.btn.btn-xs.green(
+    ng-href = "{{pr.html_url}}"
+    ng-if = "pr"
+    target = "_blank"
+    title = "view pull request on GitHub"
+  )
+    svg.iconnables.icons-branch.float-left
+      use(
+        xlink:href = "#icons-pull-request"
+      )
+    | \#{{pr.number}}
+  span(
+    ng-if = "$root.featureFlags.internalDebugging"
+    style = "bottom: 12px;font-size: 13px;position: relative;top: -5px;"
+  )    {{instance.containers.models[0].attrs.dockerHost}} |&#32;
+    span(
+      ng-repeat = "(key, value) in instance.containers.models[0].attrs.ports"
+    ) {{key}}:{{value[0].HostPort}} |&#32;
+
+
+  //- if a container from an isolated branch, use .btn-badge for the initial branch
+    - should say "Isolated" when viewing the isolated branch
+  button.btn.btn-xs.btn-badge.gray.float-right(
+    ng-if = "false"
+  ) Isolated
+
+//- properties of container
+.instance-header-properties
+
+  .btn-sm(
+    instance = "instance"
+    container-status-button
+  )
+
+  //- dns button
+  button.btn.btn-sm.btn-dns(
+    dns-configuration
+    instance = "instance"
+  )
+  label.input-wrapper.input.input-sm(
+    container-url
+    instance = "instance"
+    ng-if = "instance.attrs.name"
+    readonly
+  )
+
+  div(
+    save-open-items-button
+    ng-if = "!$root.featureFlags.saveToolbar && instance.containers.models[0].running() && !openItems.isClean()"
+    instance = "instance"
+    open-items = "openItems"
+  )

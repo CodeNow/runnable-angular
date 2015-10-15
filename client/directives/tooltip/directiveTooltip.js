@@ -10,6 +10,7 @@ require('app')
  *   tooltipOptions: location data
  *   tooltipEval: text that will get evaluated, for dynamic text
  *   tooltipDisable: if set, the tooltip will not display when this is true
+ *   tooltipActiveAttr: (true/false) if set, the tooltip will display when this value is true
  */
 function tooltip(
   $templateCache,
@@ -59,8 +60,8 @@ function tooltip(
 
         return newPosition;
       };
-
-      bind(element, 'mouseover', function () {
+      var unwatchValueChange = null;
+      function createTooltipAndAttach() {
         if (attrs.tooltipDisabled && $scope.$eval(attrs.tooltipDisabled)) {
           return;
         }
@@ -72,7 +73,17 @@ function tooltip(
         $tooltipElement.addClass(options.class);
         $document.find('body').append($tooltipElement);
         $timeout(angular.noop);
-      });
+      }
+
+      if (attrs.hasOwnProperty('tooltipActiveAttr')) {
+        unwatchValueChange = attrs.$observe('tooltipActiveAttr', function (newValue, oldValue) {
+          if (newValue === 'true' && newValue !== oldValue) {
+            createTooltipAndAttach();
+          }
+        });
+      } else {
+        bind(element, 'mouseover', createTooltipAndAttach);
+      }
       bind(element, 'mouseout', function () {
         if (!$tooltipElement) {
           return;
@@ -84,6 +95,9 @@ function tooltip(
       $scope.$on('$destroy', function () {
         if ($tooltipElement) {
           $tooltipElement.remove();
+        }
+        if (unwatchValueChange) {
+          unwatchValueChange();
         }
       });
 
