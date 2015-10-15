@@ -286,12 +286,8 @@ function SetupServerModalController (
   };
 
   SMC.createServerAndClose = function () {
-    loading(SMC.name, true);
-    return SMC.createServer()
-      .then(function () {
-        loading(SMC.name, false);
-        close();
-      });
+    close();
+    return SMC.createServer();
   };
 
   SMC.selectRepo = function (repo) {
