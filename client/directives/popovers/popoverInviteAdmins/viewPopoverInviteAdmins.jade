@@ -4,8 +4,11 @@
 )
   .arrow
   .popover-content
+    //- if popover was triggered through containers list
     p.p To add branches for this repository, we need permission from one of its GitHub admins.
+    //- if popover was triggered through Auto Deploy
+    //- p.p To enable Auto Deploy for this repository, we need permission from one of its GitHub admins.
     button.btn.btn-xs(
       modal
       modal-template = "viewModalInviteAdmin"
-    ) Invite Admin…
+    ) Invite an Admin…

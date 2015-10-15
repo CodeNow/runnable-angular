@@ -4,6 +4,7 @@
   font-size: 14px;
   color: $gray;
   cursor: pointer;
+  font-weight: $weight-bold;
 
   &:hover {
     color: $gray-dark;
@@ -11,6 +12,15 @@
 
   &:active {
     color: $purple-light;
+  }
+
+  &.disabled {
+    opacity: .5;
+    cursor: not-allowed;
+
+    &:hover {
+      color: $gray;
+    }
   }
 
   .span,
