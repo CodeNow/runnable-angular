@@ -1,5 +1,5 @@
 //- ************************
-//- deprecated element; remove with root.featureflags.additionalRepositories
+//- deprecated elements; remove with $root.featureFlags.additionalRepositories
 .btn.gray(
   ng-class = "{active: popoverRepositoryToggle.show}"
   ng-click = "actions.toggleEditCommits()"
@@ -57,11 +57,10 @@ label.label-checkbox.btn-sm.btn-checkbox(
     type = "checkbox"
   )
   | Auto Deploy
-//- end deprecated element
+//- end deprecated elements
 //- ************************
 
-.btn.gray.btn-repository(
-  ng-class = "{'refreshing': temporary.refreshing}"
+.btn.gray(
   ng-click = "actions.openRepoDetailsModal()"
   ng-if = "$root.featureFlags.additionalRepositories"
 )
@@ -80,32 +79,37 @@ label.label-checkbox.btn-sm.btn-checkbox(
       use(
         xlink:href = "#icons-commit"
       )
+  .repository-info.small
+    span.float-left {{ activeCommit.attrs.commit.author.date | timeFrom }}
 
-  label.toggle-wrapper.repository-info.toggle-auto-deploy.disabled(
-    ng-click = "$event.stopPropagation()"
-    ng-if = "!acv.attrs.additionalRepo && $root.featureFlags.preWebhooks"
-    pop-over
-    pop-over-template = "adminNeededPopoverView"
-    pop-over-options = "{\"verticallyCentered\":true,\"left\":129}"
-  )
-    //- tooltip = "Disabling Auto Deploy will stop your container from automatically updating with new changes to your repositories."
-    //- tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-6,\"top\":18}"
-    span.span Auto Deploy
-    .toggle-group.toggle-xs
+    //- we don't want to trigger the popover to open because this is an external link
+    label.toggle-wrapper.float-right(
+      ng-click = "$event.stopPropagation()"
+      ng-if = "!acv.attrs.additionalRepo && !$root.featureFlags.preWebhooks"
+      tooltip = "Auto Deploy automatically updates your container when you push code to its repository."
+      tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-6,\"top\":18}"
+    ) Auto Deploy
+      input.toggle-input(
+        ng-false-value = "true"
+        ng-model = "autoDeploy"
+        ng-model-options = "{getterSetter: true}"
+        ng-true-value = "false"
+        type = "checkbox"
+        ng-disabled = "$root.isLoading.autoDeploy"
+      )
+      .toggle-group.toggle-xs
 
-  label.toggle-wrapper.repository-info.toggle-auto-deploy(
-    ng-click = "$event.stopPropagation()"
-    ng-if = "!acv.attrs.additionalRepo && !$root.featureFlags.preWebhooks"
-  )
-    //- tooltip = "Disabling Auto Deploy will stop your container from automatically updating with new changes to your repositories."
-    //- tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-6,\"top\":18}"
-    span.span Auto Deploy
-    input.toggle-input(
-      ng-false-value = "true"
-      ng-model = "autoDeploy"
-      ng-model-options = "{getterSetter: true}"
-      ng-true-value = "false"
-      type = "checkbox"
-      ng-disabled = "$root.isLoading.autoDeploy"
+    //- pre-webhooks
+    label.toggle-wrapper.float-right.disabled(
+      ng-click = "$event.stopPropagation()"
+      ng-if = "!acv.attrs.additionalRepo && $root.featureFlags.preWebhooks"
+      pop-over
+      pop-over-template = "adminNeededPopoverView"
+      pop-over-options = "{\"verticallyCentered\":true,\"left\":102}"
+    ) Auto Deploy
+      .toggle-group.toggle-xs
+
+  svg.iconnables.icons-arrow-forward
+    use(
+      xlink:href = "#icons-arrow-down"
     )
-    .toggle-group.toggle-xs

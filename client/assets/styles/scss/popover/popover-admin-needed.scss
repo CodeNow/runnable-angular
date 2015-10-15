@@ -2,8 +2,8 @@
   background-color: $gray-darker;
   border-color: transparent;
   box-shadow: 0;
-  color: $gray-light;
-  font-size: 14px;
+  color: $gray-lighter;
+  line-height: 16px;
   max-width: 225px;
   padding: 6px 12px 9px;
 
@@ -23,6 +23,10 @@
     &:active {
       border-color: rgba($gray,.8);
     }
+  }
+
+  .arrow {
+    left: -9px !important;
   }
 
   .arrow,

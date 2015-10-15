@@ -22,9 +22,6 @@ function editRepoCommit(
       instance: '='
     },
     link: function ($scope) {
-      $scope.temporary = {
-        refreshing: false
-      };
       $scope.$watch('acv', function (newAcv) {
         if (newAcv) {
           $scope.activeCommit = fetchCommitData.activeCommit($scope.acv);
