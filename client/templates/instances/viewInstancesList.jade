@@ -59,11 +59,12 @@
     modal
     modal-template = "addBranchesModalView"
     ng-if = "$root.featureFlags.webhooksToggling && !$root.featureFlags.webhooksOff"
-  ) Branches
+  )
     svg.iconnables.icons-add.icons-round.float-left
       use(
         xlink:href = "#icons-add"
       )
+    span.float-right Branches
 
   //- popover should appear on hover
   button.btn.btn-xs.white.btn-add-branches.disabled(
