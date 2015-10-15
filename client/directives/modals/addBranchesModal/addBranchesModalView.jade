@@ -7,6 +7,7 @@
         'SAN-2170-billing',\
         'SAN-2725-new-container'\
       ];\
+      state.loading = true;\
     "
   )
     header.modal-header
@@ -23,7 +24,14 @@
       p.p From now on, containers will launch automatically for new branches of&#32;
         strong.strong {{repository}}
         span.span , starting with its current active branches.
-      ul.list.list-bordered
+      .spinner-wrapper.spinner-gray.spinner-sm.in(
+        ng-click = "state.loading = false"
+        ng-if = "state.loading"
+        ng-include = "'spinner'"
+      )
+      ul.list.list-bordered(
+        ng-if = "!state.loading"
+      )
         li.list-item(
           ng-repeat = "branch in activeBranches"
         )
@@ -32,12 +40,16 @@
               xlink:href = "#icons-server-new"
             )
           | {{branch}}
-      ul.list.list-bordered
+      ul.list.list-bordered(
+        ng-if = "!state.loading"
+      )
         li.list-item
           svg.iconnables.icons-server-new
             use(
               xlink:href = "#icons-server-new"
             )
           | Future {{repository}} branches
-    section.modal-footer
+    section.modal-footer(
+      ng-if = "!state.loading"
+    )
       button.btn.btn-md.btn-block.green Add Branches
