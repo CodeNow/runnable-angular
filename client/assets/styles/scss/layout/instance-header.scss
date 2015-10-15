@@ -183,7 +183,7 @@
 }
 
 // dns button
-.btn-dns {
+.btn.btn-dns {
   color: $gray-light;
   font-size: 14px;
   font-weight: $weight-bold;
@@ -196,11 +196,11 @@
     background: transparent;
     border: 0;
 
-    &:hover {
+    &:hover:not([disabled]):not(.disabled) {
       background: transparent;
     }
 
-    &:active {
+    &:active:not([disabled]):not(.disabled) {
       background: transparent;
     }
 

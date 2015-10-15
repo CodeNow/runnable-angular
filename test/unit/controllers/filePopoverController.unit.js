@@ -312,8 +312,6 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       it('should trigger the add repository state', function () {
         FPC.actions.addRepository();
         sinon.assert.calledOnce(closePopoverSpy);
-        expect($scope.state.showAddRepo).to.not.be.ok;
-        $timeout.flush();
         expect($scope.state.showAddRepo).to.be.ok;
       });
     });
