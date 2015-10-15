@@ -70,9 +70,9 @@
     }
   }
 
+  // override gravatar margin
   .gravatar {
-    background: $gray-light;
-    margin: 15px 12px 0 0; // override
+    margin: 15px 12px 0 0;
   }
 
   .username {
