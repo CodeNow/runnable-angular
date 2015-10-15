@@ -288,9 +288,6 @@ function ContainerFilesController(
         instance: self.state.instance
       };
       self.repositoryPopover.active = true;
-      $timeout(function () {
-        self.repositoryPopover.active = false;
-      });
     },
     triggerEditRepo: function (repo) {
       if (repo.type === 'Main Repository') { return; }
@@ -300,29 +297,17 @@ function ContainerFilesController(
         appCodeVersions: self.state.contextVersion.appCodeVersions.models
       };
       self.repositoryPopover.active = true;
-      $timeout(function () {
-        self.repositoryPopover.active = false;
-      });
     },
     triggerUploadFile: function () {
       self.fileUpload.data = {};
       self.fileUpload.active = true;
-      $timeout(function () {
-        self.fileUpload.active = false;
-      });
     },
     triggerEditFile: function (file) {
       self.fileUpload.data = file;
       self.fileUpload.active = true;
-      $timeout(function () {
-        self.fileUpload.active = false;
-      });
     },
     triggerAddSSHKey: function () {
       self.sshKey.popover.active = true;
-      $timeout(function () {
-        self.sshKey.popover.active = false;
-      });
     }
   };
 
