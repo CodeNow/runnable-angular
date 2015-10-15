@@ -37,11 +37,25 @@
       padding: 0;
     }
 
+    // icon placement
     .iconnables {
       float: left;
       height: 36px;
       margin: 0 9px 0 0;
       width: 18px;
+    }
+
+    // badge placement
+    .badge {
+      padding-right: 33px;
+
+      &::after {
+        height: 15px;
+        line-height: 15px;
+        right: 15px;
+        top: 10px;
+        width: 15px;
+      }
     }
   }
 
