@@ -50,11 +50,12 @@
         )
           img.gravatar(
             height = "27"
-            width = "27"
             src = "{{admin.gravatarUrl}}"
+            width = "27"
           )
           .username {{admin.username}}
           small.small {{admin.email.length ? admin.email : "—"}}
+
           //- if invitation *hasn't* been sent to this admin
           svg.iconnables.icons-arrow-forward.js-animate(
             ng-hide = "state.activeItem === $index"
@@ -62,6 +63,7 @@
             use(
               xlink:href = "#icons-arrow-down"
             )
+
           //- if invitation *has* been sent to this admin
           //- svg.iconnables.icons-check.js-animate(
           //-   ng-hide = "state.activeItem === $index"
@@ -69,6 +71,7 @@
           //-   use(
           //-     xlink:href = "#icons-check"
           //-   )
+
           input.input.input-validate.js-animate(
             spellcheck = "false"
             type = "email"
@@ -77,9 +80,9 @@
             ng-show = "state.activeItem === $index"
           )
           textarea.textarea.js-animate(
-            spellcheck = "false"
-            placeholder = "message"
             ng-show = "state.activeItem === $index"
+            placeholder = "message"
+            spellcheck = "false"
           ) Join my Sandbox on Runnable, where we can run the code in CodeNow's repositories on demand.&#10;&#10;I need your admin permissions to enable some features. Thanks!
           .btn.btn-sm.gray.js-animate(
             ng-click = "\
