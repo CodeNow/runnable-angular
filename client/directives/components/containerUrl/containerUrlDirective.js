@@ -30,7 +30,7 @@ function containerUrl(
         }
         var ports = extractInstancePorts(newValue);
         $scope.defaultPort = '';
-        if (ports.length && ports.includes('80')) {
+        if (ports.length && !ports.includes('80')) {
           $scope.defaultPort = ':' + ports[0];
         }
       });
