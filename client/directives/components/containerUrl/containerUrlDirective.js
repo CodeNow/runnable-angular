@@ -14,6 +14,7 @@ var UNAVAILABLE_OS_LIST = [
  * @ngInject
  */
 function containerUrl(
+  $window,
   extractInstancePorts
 ) {
   return {
@@ -29,14 +30,14 @@ function containerUrl(
         }
         var ports = extractInstancePorts(newValue);
         $scope.defaultPort = '';
-        if (ports.length && ports.indexOf('80') === -1) {
+        if (ports.length && ports.includes('80') === -1) {
           $scope.defaultPort = ':' + ports[0];
         }
       });
       function getModifierKey() {
-        return window.navigator.platform.toLowerCase().indexOf('mac') > -1 ? '⌘' : 'CTRL';
+        return $window.navigator.platform.toLowerCase().indexOf('mac') > -1 ? '⌘' : 'CTRL';
       }
-      $scope.shouldShowCopyButton = !UNAVAILABLE_OS_LIST.includes(window.navigator.platform);
+      $scope.shouldShowCopyButton = !UNAVAILABLE_OS_LIST.includes($window.navigator.platform);
 
       $scope.onClipboardEvent = function (err) {
         if (err) {

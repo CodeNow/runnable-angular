@@ -4,6 +4,7 @@ var $rootScope,
   $scope;
 var element;
 var $compile;
+var $window;
 var keypather;
 var $q;
 var $elScope;
@@ -17,7 +18,7 @@ describe('containerUrlDirective'.bold.underline.blue, function () {
     ctx = {};
   });
 
-  beforeEach(function () {
+  function setup(replacementWindow) {
     ctx.errsMock = {
       handler: sinon.spy()
     };
@@ -28,12 +29,16 @@ describe('containerUrlDirective'.bold.underline.blue, function () {
     ctx.loadingMock = sinon.spy();
     angular.mock.module('app', function ($provide) {
       $provide.value('extractInstancePorts', ctx.extractInstancePortsMock);
+      if (replacementWindow) {
+        $provide.value('$window', replacementWindow);
+      }
     });
-    angular.mock.inject(function (_$compile_, _$timeout_, _$rootScope_, _$q_) {
+    angular.mock.inject(function (_$compile_, _$timeout_, _$rootScope_, _$q_, _$window_) {
       $rootScope = _$rootScope_;
       $compile = _$compile_;
       $scope = $rootScope.$new();
       $q = _$q_;
+      $window = _$window_;
 
       mockInstance = {
         restart: sinon.spy(),
@@ -50,13 +55,14 @@ describe('containerUrlDirective'.bold.underline.blue, function () {
         instance: 'instance'
       });
       element = $compile(template)($scope);
-    });
-  });
-  describe('onClipboardEvent', function () {
-    beforeEach(function () {
       $scope.$digest();
       $elScope = element.isolateScope();
       $scope.$digest();
+    });
+  }
+  describe('onClipboardEvent', function () {
+    beforeEach(function () {
+      setup();
     });
     it('should say copied when successful', function () {
       expect($elScope.clipboardText).to.not.be.ok;
@@ -76,35 +82,32 @@ describe('containerUrlDirective'.bold.underline.blue, function () {
     });
   });
   describe('shouldShowCopyButton', function () {
-    // We can't modify the platform... so I'm not sure how to test this
-    var cachedDoc;
-    afterEach(function () {
-      window = cachedDoc;
+    it('should show for Mac', function () {
+      setup({
+        navigator: {
+          platform: 'MacIntel'
+        }
+      });
+      $elScope.$digest();
+      expect($elScope.clipboardText).to.not.be.ok;
+      $elScope.$digest();
+      expect($elScope.shouldShowCopyButton).to.be.true;
     });
-    describe('should show', function () {
-      beforeEach(function () {
-        cachedDoc = window;
-        window = {
-          navigator: {
-            platform: 'MacIntel'
-          }
-        };
-        $scope.$digest();
-        $elScope = element.isolateScope();
-        $scope.$digest();
+    it('for Android', function () {
+      setup({
+        navigator: {
+          platform: 'Android'
+        }
       });
-      it('should show for Mac', function () {
-        $elScope.$digest();
-        expect($elScope.clipboardText).to.not.be.ok;
-        $elScope.$digest();
-        expect($elScope.shouldShowCopyButton).to.be.true;
-      });
+      $elScope.$digest();
+      expect($elScope.clipboardText).to.not.be.ok;
+      $elScope.$digest();
+      expect($elScope.shouldShowCopyButton).to.be.false;
     });
   });
   describe('Extracting Ports', function () {
     beforeEach(function () {
-      $scope.$digest();
-      $elScope = element.isolateScope();
+      setup();
     });
     it('with 80', function () {
       ctx.extractInstancePortsValueMock = ['80', '101'];
