@@ -220,9 +220,7 @@ function popOver(
         case 'activeAttr':
           var unwatchActive = $scope.$watch('active', function (newVal, oldVal) {
             if (newVal) {
-              if (newVal !== oldVal) {
-                openPopover();
-              }
+              openPopover();
             } else if (popoverElementScope) {
               // Only close if we have opened a popover, it's not possible to open a popover without setting up the elementScope!
               $scope.closePopover();
