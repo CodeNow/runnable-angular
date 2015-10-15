@@ -58,19 +58,27 @@
               xlink:href = "#icons-overflow"
             )
 
-  button.btn.btn-xxs.white.btn-add-branches(
+  button.btn.btn-xs.white.btn-add-branches(
     modal
     modal-template = "addBranchesModalView"
     ng-if = "$root.featureFlags.webhooksToggling && !$root.featureFlags.webhooksOff"
-  ) Add Branches
+  ) Branches
+    svg.iconnables.icons-add.icons-round.float-left
+      use(
+        xlink:href = "#icons-add"
+      )
 
   //- popover should appear on hover
-  button.btn.btn-xxs.white.btn-add-branches.disabled(
+  button.btn.btn-xs.white.btn-add-branches.disabled(
     pop-over
     pop-over-options = "{\"verticallyCentered\":true,\"left\":93}"
     pop-over-template = "adminNeededPopoverView"
     ng-if = "$root.featureFlags.webhooksToggling && $root.featureFlags.webhooksOff"
-  ) Add Branches
+  ) Branches
+    svg.iconnables.icons-add.icons-round.float-left
+      use(
+        xlink:href = "#icons-add"
+      )
 
   //- nav list filter
   .btn.btn-xxs.btn-more-containers(
