@@ -168,8 +168,8 @@
     }
 
     .icons-notification {
-      border-color: $white;
-      color: $white;
+      background: $white;
+      color: $red;
     }
   }
 
@@ -180,6 +180,16 @@
 
   .icons-arrow-down {
     width: 21px;
+  }
+
+  .icons-notification {
+    background: $orange;
+    border-radius: 50%;
+    color: $white;
+    height: 15px;
+    margin: 0 0 0 8px;
+    top: 9px;
+    width: 15px;
   }
 }
 
