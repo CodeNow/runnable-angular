@@ -50,7 +50,7 @@
             src = "{{admin.gravatarUrl}}"
             width = "27"
           )
-          .username.text-overflow {{admin.username}}
+          .username.text-overflow.strong {{admin.username}}
           .small.text-overflow {{admin.email.length ? admin.email : "—"}}
 
           //- if invitation *hasn't* been sent to this admin

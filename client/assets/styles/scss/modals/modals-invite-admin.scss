@@ -66,6 +66,15 @@
     }
   }
 
+  .username {
+    transition: margin-top .15s;
+  }
+
+  // email address
+  .small {
+    transition: opacity .15s;
+  }
+
   .iconnables {
     height: 27px;
     position: absolute;
