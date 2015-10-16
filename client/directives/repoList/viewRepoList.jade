@@ -1,6 +1,6 @@
 .sidebar-section-heading.strong Repositories
 .sidebar-section-content(
-  ng-if = "!$storage.repoListIsClosed && $root.featureFlags.additionalRepositories"
+  ng-if = "$root.featureFlags.additionalRepositories"
 )
   .sidebar-section-item(
     edit-repo-commit
@@ -9,7 +9,7 @@
     ng-repeat = "acv in instance.contextVersion.appCodeVersions.models | orderBy : '-attrs.additionalRepo'"
   )
 .sidebar-section-content(
-  ng-if = "!$storage.repoListIsClosed && !$root.featureFlags.additionalRepositories"
+  ng-if = "!$root.featureFlags.additionalRepositories"
 )
   .sidebar-section-item(
     edit-repo-commit

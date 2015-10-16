@@ -24,7 +24,7 @@
       )
 
 .sidebar-section-content(
-  ng-if = "(editExplorer || !$storage.explorerIsClosed || debugContainer)"
+  ng-if = "(editExplorer || debugContainer)"
 )
   .well.in(
     ng-if = "!debugContainer && !editExplorer && !fileModel.running()"
