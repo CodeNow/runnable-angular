@@ -207,7 +207,9 @@
   }
 
   // isolation badge
-  .btn-badge {
-    margin-right: 9px;
+  .btn-badge.btn-badge {
+    flex: 0 0 auto;
+    margin: 0;
+    left: 9px;
   }
 }

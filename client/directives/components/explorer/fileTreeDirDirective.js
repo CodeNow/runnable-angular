@@ -69,7 +69,7 @@ function fileTreeDir(
         if (newValue === $scope.dir.attrs.name) {
           return;
         }
-        $scope.dir.rename(newValue, errs.handler);
+        return $scope.FPC.actions.rename($scope.dir, newValue);
       };
 
       actions.handleClickOnFolderInput = function (event) {
@@ -101,7 +101,7 @@ function fileTreeDir(
         if (newValue === file.attrs.name) {
           return;
         }
-        file.rename(newValue, errs.handler);
+        return $scope.FPC.actions.rename(file, newValue);
       };
 
       $scope.actions.focusInputElement = function () {

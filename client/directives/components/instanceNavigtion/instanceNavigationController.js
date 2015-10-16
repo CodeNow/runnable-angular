@@ -92,6 +92,22 @@ function InstanceNavigationController(
       })
       .catch(errs.handler);
   };
+
+  this.editInstance = function (event) {
+    event.stopPropagation();
+    event.preventDefault();
+    ModalService.showModal({
+      controller: 'EditServerModalController',
+      controllerAs: 'SMC',
+      templateUrl: 'editServerModalView',
+      inputs: {
+        tab: keypather.get(INC.instance, 'contextVersion.attrs.advanced') ? 'env' : 'repository',
+        instance: INC.instance,
+        actions: {}
+      }
+    })
+      .catch(errs.handler);
+  };
 }
 
 

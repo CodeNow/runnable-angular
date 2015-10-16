@@ -12,6 +12,7 @@ function featureFlags(
     cardStatus: false,
     debugMode: true,
     debugStartCmd: false, // debug mode for start CMD (in CMD Logs)
+    editAnyInstance: false,
     fullScreen: false,  // toggles full screen
     fullScreenToggle: false,  // toggles the button that toggles full screen
     hostnameNotifications: false,
@@ -23,7 +24,7 @@ function featureFlags(
     multilineFnR: false,
     nameContainer: false,
     navListFilter: false,
-    newNavigation: false, // for isolation UI
+    newNavigation: true, // for isolation UI
     newVerificationFlow: false,
     newVerificationFlowStackSelector: false,
     renameContainer: false,
