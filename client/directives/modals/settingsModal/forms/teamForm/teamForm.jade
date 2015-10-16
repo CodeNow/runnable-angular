@@ -43,4 +43,14 @@
         .username.text-overflow {{teammate.username}}
         //- show email that the invite was sent to
         .small.text-overflow {{teammate.email}}
-        button.btn.btn-xs.gray Resend Invite
+        button.btn.btn-xs.white(
+          ng-class = "{'active': pendingInvitePopover.data.show}"
+          pop-over
+          pop-over-active = "pendingInvitePopover.data.show"
+          pop-over-options = "{\"right\":0,\"top\":35}"
+          pop-over-template = "pendingInvitePopoverView"
+        )
+          svg.iconnables.icons-overflow
+            use(
+              xlink:href = "#icons-overflow"
+            )
