@@ -1,7 +1,6 @@
 'use strict';
 
 var Convert = require('ansi-to-html');
-var convert = new Convert();
 
 require('app').factory('streamingLog', streamingLog);
 
@@ -14,12 +13,15 @@ function streamingLog(
     var unprocessed = [];
     var refreshAngular = debounce(function () {
       unprocessed.forEach(function (unprocessed) {
+        if (!unprocessed.converter) {
+          unprocessed.converter = new Convert({ stream: true });
+        }
         var lines = unprocessed.unprocessedContent.join('').split('\n');
         lines.forEach(function (line) {
           if (line.length > 1000) {
             line = line.substr(0, 1000) + ' - Line Truncated because its too long.';
           }
-          unprocessed.processedContent.push(convert.toHtml(line + '\n'));
+          unprocessed.processedContent.push(unprocessed.converter.toHtml(line + '\n'));
         });
         unprocessed.unprocessedContent = [];
         unprocessed.trustedContent = $sce.trustAsHtml(unprocessed.processedContent.join(''));
