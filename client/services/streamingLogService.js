@@ -26,6 +26,9 @@ function streamingLog(
       if (['docker', 'log'].includes(data.type)) {
         var stepRegex = /^Step [0-9]+ : /;
         if (stepRegex.test(data.content)) {
+          if (currentCommand) {
+            currentCommand.expanded = false;
+          }
           currentCommand = {
             unprocessedContent: [],
             processedContent: [],
@@ -110,15 +113,8 @@ function streamingLog(
       refreshAngular();
     }
 
-    var lastOpenedCommand = null;
     function setLastOpenedCommand() {
-      if (lastOpenedCommand) {
-        lastOpenedCommand.expanded = false;
-      }
-      lastOpenedCommand = streamLogs[streamLogs.length - 1];
-      if (lastOpenedCommand) {
-        lastOpenedCommand.expanded = true;
-      }
+      currentCommand.expanded = true;
     }
 
     checkExpandingInterval = $interval(setLastOpenedCommand, 500);
