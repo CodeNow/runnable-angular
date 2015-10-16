@@ -1,0 +1,31 @@
+.popover-admin-needed {
+  background-color: $gray-darker;
+  border-color: transparent;
+  box-shadow: 0;
+  color: $gray-lighter;
+  line-height: 1.2;
+  max-width: 225px;
+  padding: 9px 12px;
+
+  .btn {
+    background: $gray;
+    color: $white;
+    font-weight: $weight-bold;
+    margin: 9px 0 3px;
+    width: 100%;
+
+    &:hover {
+      background: rgba($gray,.75);
+    }
+
+    &:active {
+      background: $gray-dark;
+    }
+  }
+
+  // override popover default arrow color
+  .arrow.arrow.arrow,
+  .arrow.arrow.arrow::after {
+    border-right-color: $gray-darker;
+  }
+}

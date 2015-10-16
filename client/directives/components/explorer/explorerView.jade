@@ -1,11 +1,5 @@
 //- on container sidebar
 .sidebar-section-heading.strong(
-  ng-class = "{\
-    'closed': $storage.explorerIsClosed && !debugContainer,\
-    'disabled': debugContainer\
-  }"
-  ng-click = "$storage.explorerIsClosed = !$storage.explorerIsClosed"
-  ng-if = "!editExplorer || debugContainer"
   ng-include = "'explorerSectionHeading'"
 )
 
@@ -30,7 +24,7 @@
       )
 
 .sidebar-section-content(
-  ng-if = "(editExplorer || !$storage.explorerIsClosed || debugContainer)"
+  ng-if = "(editExplorer || debugContainer)"
 )
   .well.in(
     ng-if = "!debugContainer && !editExplorer && !fileModel.running()"

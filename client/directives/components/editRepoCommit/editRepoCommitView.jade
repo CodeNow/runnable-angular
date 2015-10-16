@@ -1,3 +1,5 @@
+//- ************************
+//- deprecated elements; remove with $root.featureFlags.additionalRepositories
 .btn.gray(
   ng-class = "{active: popoverRepositoryToggle.show}"
   ng-click = "actions.toggleEditCommits()"
@@ -55,14 +57,18 @@ label.label-checkbox.btn-sm.btn-checkbox(
     type = "checkbox"
   )
   | Auto Deploy
+//- end deprecated elements
+//- ************************
 
-.small.strong.text-overflow(
-  ng-if = "$root.featureFlags.additionalRepositories"
-) {{ acv.attrs.repo | fixRepositoryName }}
 .btn.gray(
   ng-click = "actions.openRepoDetailsModal()"
   ng-if = "$root.featureFlags.additionalRepositories"
 )
+  .repository-info.text-overflow {{ acv.attrs.repo | fixRepositoryName }}
+    svg.iconnables.icons-repository
+      use(
+        xlink:href = "#icons-repository"
+      )
   .repository-info.text-overflow.js-repository-branch {{ acv.attrs.branch }}
     svg.iconnables.icons-branch
       use(
@@ -75,11 +81,12 @@ label.label-checkbox.btn-sm.btn-checkbox(
       )
   .repository-info.small
     span.float-left {{ activeCommit.attrs.commit.author.date | timeFrom }}
+
     //- we don't want to trigger the popover to open because this is an external link
     label.toggle-wrapper.float-right(
       ng-click = "$event.stopPropagation()"
-      ng-if = "!acv.attrs.additionalRepo"
-      tooltip = "Disabling Auto Deploy will stop your container from automatically updating with new changes to your repositories."
+      ng-if = "!acv.attrs.additionalRepo && !$root.featureFlags.webhooksOff"
+      tooltip = "Auto Deploy automatically updates your container when you push code to its repository."
       tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-6,\"top\":18}"
     ) Auto Deploy
       input.toggle-input(
@@ -91,7 +98,18 @@ label.label-checkbox.btn-sm.btn-checkbox(
         ng-disabled = "$root.isLoading.autoDeploy"
       )
       .toggle-group.toggle-xs
-  svg.iconnables.icons-arrow-down
+
+    //- pre-webhooks
+    label.toggle-wrapper.float-right.disabled(
+      ng-click = "$event.stopPropagation()"
+      ng-if = "!acv.attrs.additionalRepo && $root.featureFlags.webhooksOff"
+      pop-over
+      pop-over-options = "{\"verticallyCentered\":true,\"left\":102}"
+      pop-over-template = "adminNeededPopoverView"
+    ) Auto Deploy
+      .toggle-group.toggle-xs
+
+  svg.iconnables.icons-arrow-forward
     use(
       xlink:href = "#icons-arrow-down"
     )

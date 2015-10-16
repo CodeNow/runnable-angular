@@ -1,0 +1,105 @@
+.modal-backdrop.in
+  .modal-dialog.modal-invite-admin(
+    ng-init = "\
+      mavisAdmins = [\
+        {username: 'runnabro', gravatarUrl: 'https://avatars2.githubusercontent.com/u/5341618', email: 'tony@runnable.com'},\
+        {username: 'taylordolan', gravatarUrl: 'https://avatars0.githubusercontent.com/u/7440805', email: 'taylor@runnable.com'},\
+        {username: 'thejsj', gravatarUrl: 'https://avatars0.githubusercontent.com/u/1981198', email: null}\
+      ];\
+      state.activeItem = null;\
+      state.loading = false;\
+      state.sending = false;\
+    "
+  )
+    header.modal-header
+      h1.modal-heading Invite an Admin
+      svg.iconnables.icons-close(
+        ng-click = "defaultActions.cancel()"
+      )
+        use(
+          xlink:href = "#icons-close"
+        )
+    section.modal-body
+
+      p.p The GitHub admins for&#32;
+        strong.strong api&#32;
+        span.span are listed below.&#32;
+
+        //- when modal is opened from auto deploy
+        span.span Invite one to this Sandbox, and we’ll turn on Auto Deploy when they join.
+
+        //- when modal is opened from containers list
+        //- span.span Invite one to this Sandbox, and you can add branches after they join.
+
+      ul.list.list-bordered
+        li.list-item.spinner-wrapper.spinner-gray.spinner-sm.in.spinner-center(
+          ng-if = "state.loading"
+          ng-include = "'spinner'"
+        )
+        li.list-item(
+          ng-class = "{\
+            'active': state.activeItem === $index,\
+            'inactive': state.activeItem && state.activeItem !== $index\
+          }"
+          ng-click = "state.activeItem = $index"
+          ng-if = "!state.loading"
+          ng-repeat = "admin in mavisAdmins"
+        )
+          img.gravatar(
+            height = "27"
+            src = "{{admin.gravatarUrl}}"
+            width = "27"
+          )
+          .username.text-overflow {{admin.username}}
+          .small.text-overflow {{admin.email.length ? admin.email : "—"}}
+
+          //- if invitation *hasn't* been sent to this admin
+          svg.iconnables.icons-arrow-forward.js-animate(
+            ng-hide = "state.activeItem === $index"
+          )
+            use(
+              xlink:href = "#icons-arrow-down"
+            )
+
+          //- if invitation *has* been sent to this admin
+          //- svg.iconnables.icons-check.js-animate(
+          //-   ng-hide = "state.activeItem === $index"
+          //- )
+          //-   use(
+          //-     xlink:href = "#icons-check"
+          //-   )
+
+          //- focus on this if there's no value
+          input.input.input-sm.input-validate.validate-on-blur.js-animate(
+            ng-model = "admin.email"
+            ng-show = "state.activeItem === $index"
+            placeholder = "Email Address"
+            required
+            spellcheck = "false"
+            type = "email"
+          )
+          textarea.textarea.js-animate(
+            ng-show = "state.activeItem === $index"
+            placeholder = "Message"
+            spellcheck = "false"
+          ) Join my Sandbox on Runnable, where we can run the code in CodeNow's repositories on demand.&#10;&#10;I need your admin permissions to enable some features. Thanks!
+          .btn.btn-sm.gray.js-animate(
+            ng-click = "\
+              state.activeItem = null;\
+              $event.stopPropagation();\
+            "
+            ng-show = "state.activeItem === $index"
+          ) Cancel
+          .btn.btn-sm.btn-spinner.green.float-right.js-animate(
+            ng-class = "{'in': state.sending}"
+            ng-click = "\
+              state.activeItem = null;\
+              $event.stopPropagation();\
+            "
+            ng-show = "state.activeItem === $index"
+          )
+            .spinner-wrapper.spinner-sm.spinner-white(
+              ng-if = "state.sending"
+              ng-include = "'spinner'"
+            )
+            | Send Invitation

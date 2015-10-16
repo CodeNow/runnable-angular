@@ -177,7 +177,7 @@
   }
 
   // "more…" button
-  .btn-xxs {
+  .btn-more-containers {
     color: darken($gray-light,10%);
     font-style: italic;
     left: 15px;
@@ -188,6 +188,21 @@
 
     &:active {
       color: $purple-light;
+    }
+  }
+
+  .btn-add-branches {
+    height: 21px;
+    line-height: 17px;
+    margin: 10px 0 3px 21px;
+
+    .icons-add {
+      background: $gray;
+      height: 13px;
+      margin: 2px 3px 0 0;
+      stroke-width: 1.5px;
+      stroke: $white;
+      width: 13px;
     }
   }
 

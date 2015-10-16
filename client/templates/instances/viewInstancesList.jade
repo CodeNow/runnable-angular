@@ -22,8 +22,8 @@
         xlink:href = "#icons-advanced"
       )
 
-  // if isolated add .isolated
-  // if sub item is active add open class.
+  //- if isolated add .isolated
+  //- if sub item is active add open class.
   div(
     active-account = "CIS.activeAccount"
     instance = "masterInstance"
@@ -57,8 +57,32 @@
               xlink:href = "#icons-overflow"
             )
 
+  button.btn.btn-xs.white.btn-add-branches(
+    modal
+    modal-template = "addBranchesModalView"
+    ng-if = "$root.featureFlags.webhooksToggling && !$root.featureFlags.webhooksOff"
+  )
+    svg.iconnables.icons-add.icons-round.float-left
+      use(
+        xlink:href = "#icons-add"
+      )
+    span.float-right Branches
+
+  //- popover should appear on hover
+  button.btn.btn-xs.white.btn-add-branches.disabled(
+    pop-over
+    pop-over-options = "{\"verticallyCentered\":true,\"left\":90}"
+    pop-over-template = "adminNeededPopoverView"
+    ng-if = "$root.featureFlags.webhooksToggling && $root.featureFlags.webhooksOff"
+  )
+    svg.iconnables.icons-add.icons-round.float-left
+      use(
+        xlink:href = "#icons-add"
+      )
+    span.float-right Branches
+
   //- nav list filter
-  .btn.btn-xxs(
+  .btn.btn-xxs.btn-more-containers(
     ng-if = "$root.featureFlags.navListFilter"
     pop-over
     pop-over-options = "{\"top\":-33,\"left\":215}"

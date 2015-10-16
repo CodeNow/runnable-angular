@@ -35,13 +35,33 @@ describe('instanceHeaderDirective'.bold.underline.blue, function () {
       $provide.value('fetchPullRequest', function () {
         return $q.when(ctx.fetchPullRequestMock);
       });
-      $provide.factory('promisify', function ($q) {
-        promisifyMock = sinon.spy(function (obj, key) {
-          return function () {
-            return $q.when(obj[key].apply(obj, arguments));
-          };
-        });
-        return promisifyMock;
+      $provide.factory('containerStatusButtonDirective', function () {
+        return {
+          priority: 100000,
+          terminal: true,
+          link: angular.noop
+        };
+      });
+      $provide.factory('containerUrlDirective', function () {
+        return {
+          priority: 100000,
+          terminal: true,
+          link: angular.noop
+        };
+      });
+      $provide.factory('saveOpenItemsButtonDirective', function () {
+        return {
+          priority: 100000,
+          terminal: true,
+          link: angular.noop
+        };
+      });
+      $provide.factory('dnsConfigurationDirective', function () {
+        return {
+          priority: 100000,
+          terminal: true,
+          link: angular.noop
+        };
       });
     });
     angular.mock.inject(function (_$compile_, _$timeout_, _$rootScope_, _$q_) {
@@ -77,7 +97,7 @@ describe('instanceHeaderDirective'.bold.underline.blue, function () {
         'open-items': 'openItems'
       });
       $rootScope.featureFlags = {
-        newNavigation: false
+        newNavigation: true
       };
       element = $compile(template)($scope);
       $scope.$digest();
@@ -87,9 +107,17 @@ describe('instanceHeaderDirective'.bold.underline.blue, function () {
 
   describe('watching instance', function () {
     it('update the pr', function () {
+      expect($elScope.pr, 'pr').to.not.be.ok;
       $scope.instance = mockInstance;
       $scope.$digest();
-      $elScope.pr = ctx.fetchPullRequestMock;
+      expect($elScope.pr, 'pr').to.deep.equal(ctx.fetchPullRequestMock);
+    });
+
+    it('should update nothing when the pr is empty', function () {
+      ctx.fetchPullRequestMock = null;
+      $scope.instance = mockInstance;
+      $scope.$digest();
+      expect($elScope.pr, 'pr').to.not.be.ok;
     });
   });
 });

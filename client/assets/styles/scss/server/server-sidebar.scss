@@ -11,98 +11,50 @@
     padding: 6px 10px;
   }
 
-  .spinner-wrapper {
-    float: right;
-    margin-top: 22px;
-  }
-
   // override button and fancy-select styles
   .btn.gray {
-    background-color: $gray-lighterest;
     color: $gray;
     font-size: 15px;
     font-weight: 400;
     height: auto;
     line-height: 24px;
-    padding: 4px 27px 4px 9px;
+    padding: 5px 30px 5px 10px;
     text-align: left;
     width: 100%;
 
-    &:active {
-      background-color: $white;
-      color: $purple-light;
-    }
-
-    .icons-arrow-down {
+    .icons-arrow-forward {
       color: $gray-light;
       height: 100%;
       position: absolute;
       right: 9px;
       top: 0;
-      width: 24px;
-    }
-
-    .display {
-      float: none;
     }
   }
 }
 
 .sidebar-section {
   margin: 0 12px;
-  overflow: hidden;
 
   + .sidebar-section {
     border-top: 1px solid $gray-lightest;
   }
+}
 
-  &.explorer-section {
+.explorer-section {
 
-    .sidebar-section-content {
-      padding-bottom: 12px;
-    }
+  .sidebar-section-content {
+    padding-bottom: 12px;
+  }
 
-    .file-tree {
-      margin: 0;
-    }
+  .file-tree {
+    margin: 0;
   }
 }
 
 .sidebar-section-heading {
   color: $gray-darker;
-  cursor: pointer;
   line-height: 54px;
   position: relative;
-
-  &:hover:not(.disabled) {
-    color: $gray-dark;
-  }
-
-  &:active:not(.disabled) {
-    color: $gray;
-  }
-
-  &.closed {
-    color: $gray;
-
-    &:hover {
-      color: $gray-dark;
-    }
-
-    &:active {
-      color: $gray-darker;
-    }
-  }
-
-  &.disabled {
-    cursor: default;
-  }
-
-  > .iconnables {
-    margin-right: 6px;
-    top: 6px;
-    width: 18px;
-  }
 
   // for add buttons next to section headings, like in File Explorer
   .btn {
@@ -120,15 +72,10 @@
 }
 
 .sidebar-section-item {
-  margin-bottom: 3px;
+  margin-bottom: 12px;
   position: relative;
-  top: -6px;
 
   &:last-child {
-    margin-bottom: 9px;
-  }
-
-  .small {
-    color: $gray-dark;
+    margin-bottom: 18px;
   }
 }
