@@ -69,7 +69,8 @@
 .list(
   ng-show = "nonRepoInstances.length"
 )
-  instance-navigation(
+  div(
+    instance-navigation
     instance = "masterInstance"
     active-account = "CIS.activeAccount"
     ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
