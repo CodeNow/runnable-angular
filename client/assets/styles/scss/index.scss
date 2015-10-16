@@ -77,7 +77,10 @@
 @import "components/tooltips";
 @import "components/wells";
 
-// external componenets
+// components specific
+@import "components/lists-teammates";
+
+// external components
 @import "components/external/ace-theme";
 @import "components/external/drag-and-drop";
 @import "components/external/intercom";

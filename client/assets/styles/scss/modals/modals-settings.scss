@@ -36,28 +36,8 @@
 }
 
 // team form
-.form-team {
-
-  .list {
-    background: $white;
-  }
-
-  .list-item {
-    color: $gray-dark;
-    height: 57px; // 27px gravatar  (15px padding * 2)
-    line-height: 18px;
-    padding: 0 15px;
-  }
-
-  .gravatar {
-    margin: 15px 12px 0 0; // override
-  }
-
-  .username {
-    font-weight: $weight-bold;
-    margin-top: 7px;
-  }
-}
+// .form-team {
+// }
 
 // billing form
 .form-billing {
