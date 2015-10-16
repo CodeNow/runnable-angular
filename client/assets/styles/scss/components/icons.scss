@@ -77,10 +77,6 @@
   border-radius: 50%;
   fill: $white; // fill instead of color so background can be currentColor
 
-  // :active & {
-  //   background: currentColor;
-  // }
-
   .green & {
     fill: $green;
   }
