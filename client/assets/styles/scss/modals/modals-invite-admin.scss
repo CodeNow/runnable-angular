@@ -87,6 +87,7 @@
     transition: opacity .15s;
   }
 
+  // username and email
   .text-overflow {
     padding-right: 30px;
   }
@@ -108,10 +109,7 @@
 
   .input,
   .textarea {
-    color: $gray;
     font-size: 14px;
-    height: 30px;
-    line-height: 18px;
   }
 
   .textarea {
