@@ -43,15 +43,22 @@ function EditServerModalController(
   close
 ) {
   var SMC = this;
-
-  angular.extend(SMC, $controller('ServerModalController as SMC', { $scope: $scope }));
+  var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
+  angular.extend(SMC, {
+    'insertHostName': parentController.insertHostName.bind(SMC),
+    'isDirty': parentController.isDirty.bind(SMC),
+    'openDockerfile': parentController.openDockerfile.bind(SMC),
+    'populateStateFromData': parentController.populateStateFromData.bind(SMC),
+    'rebuildAndOrRedeploy': parentController.rebuildAndOrRedeploy.bind(SMC),
+    'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
+    'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
+  });
 
   SMC.instance = instance;
   SMC.selectedTab = tab;
   angular.extend(SMC, {
     name: 'editServerModal',
     showDebugCmd: false,
-    isLoadingInitialState: true,
     data: {},
     state:  {
       ports: [],
@@ -151,7 +158,6 @@ function EditServerModalController(
         // After context has been reset, start keeping track of loading promises
         // to check if current state is dirty
         loadingPromises.clear(SMC.name);
-        SMC.isLoadingInitialState = false;
       });
   }
 

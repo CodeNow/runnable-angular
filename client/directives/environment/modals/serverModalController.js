@@ -35,7 +35,8 @@ function ServerModalController (
   this.isDirty = function  () {
     // Loading promises are clear when the modal is saved or cancelled.
     var SMC = this;
-    if (SMC.isLoadingInitialState) {
+    // If there is no CV, there can be no changes
+    if (!SMC.state.contextVersion) {
       return false;
     }
     return loadingPromises.count(SMC.name) > 0 ||
@@ -173,6 +174,7 @@ function ServerModalController (
           SMC.state.contextVersion = contextVersion;
           SMC.state.acv = contextVersion.getMainAppCodeVersion();
           SMC.state.repo = keypather.get(contextVersion, 'getMainAppCodeVersion().githubRepo');
+          loadingPromises.clear(SMC.name);
           return promisify(contextVersion, 'fetch')();
         })
     );
