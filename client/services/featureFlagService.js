@@ -21,7 +21,7 @@ function featureFlags(
     isolationDnsMappings: true,
     isolationNav: false, // for isolation nav
     isolationUI: false, // for isolation UI
-    newNavigation: false, // for isolation UI
+    newNavigation: true, // for isolation UI
     multilineFnR: false,
     nameContainer: false,
     navListFilter: false,
@@ -32,7 +32,8 @@ function featureFlags(
     teamUI: false, // changes text from org to team in account menu
     themeToggle: false, // toggles the button that toggles theme
     updatedBuildLogs: true,
-    updatedSlackValidation: false
+    updatedSlackValidation: false,
+    editAnyInstance: false
   };
 
   var _featureFlags = {};

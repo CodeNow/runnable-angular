@@ -6,7 +6,7 @@ function instanceNavigation(
   $state
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'instanceNavigationView',
     controller: 'InstanceNavigationController',
     controllerAs: 'INC',
