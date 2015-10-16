@@ -23,12 +23,9 @@
     }
   }
 
-  .arrow {
-    left: -9px !important;
-  }
-
-  .arrow,
-  .arrow::after {
-    border-right-color: $gray-darker !important;
+  // override popover default arrow color
+  .arrow.arrow.arrow,
+  .arrow.arrow.arrow::after {
+    border-right-color: $gray-darker;
   }
 }
