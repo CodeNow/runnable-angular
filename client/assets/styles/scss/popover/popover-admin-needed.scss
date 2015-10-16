@@ -3,15 +3,15 @@
   border-color: transparent;
   box-shadow: 0;
   color: $gray-lighter;
-  line-height: 16px;
+  line-height: 1.2;
   max-width: 225px;
-  padding: 6px 12px 9px;
+  padding: 9px 12px;
 
   .btn {
     background: $gray;
     color: $white;
     font-weight: $weight-bold;
-    margin: 6px 0 3px;
+    margin: 9px 0 3px;
     width: 100%;
 
     &:hover {
@@ -23,12 +23,9 @@
     }
   }
 
-  .arrow {
-    left: -9px !important;
-  }
-
-  .arrow,
-  .arrow::after {
-    border-right-color: $gray-darker !important;
+  // override popover default arrow color
+  .arrow.arrow.arrow,
+  .arrow.arrow.arrow::after {
+    border-right-color: $gray-darker;
   }
 }
