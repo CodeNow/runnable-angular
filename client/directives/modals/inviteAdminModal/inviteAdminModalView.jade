@@ -32,8 +32,7 @@
         //- span.span Invite one to this Sandbox, and you can add branches after they join.
 
       ul.list.list-bordered
-        li.list-item.spinner-wrapper.spinner-gray.spinner-sm.in(
-          ng-click = "state.loading = false"
+        li.list-item.spinner-wrapper.spinner-gray.spinner-sm.in.spinner-center(
           ng-if = "state.loading"
           ng-include = "'spinner'"
         )

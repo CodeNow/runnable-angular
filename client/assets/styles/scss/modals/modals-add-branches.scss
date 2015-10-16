@@ -45,6 +45,11 @@
       font-weight: $weight-normal;
       font-style: italic;
     }
+
+    &.spinner-wrapper {
+      padding: 0;
+      position: relative;
+    }
   }
 
   .icons-server-new {

@@ -12,7 +12,7 @@
   }
 
   // admin list
-  .list-bordered {
+  .list {
     background: $white;
     margin: 18px 0 3px;
   }
@@ -57,9 +57,8 @@
 
     // loading state
     &.spinner-wrapper {
-      align-items: center;
-      cursor: auto;
       pointer-events: none;
+      position: relative;
     }
 
     // override

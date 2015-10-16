@@ -7,7 +7,7 @@
         'SAN-2170-billing',\
         'SAN-2725-new-container'\
       ];\
-      state.loading = true;\
+      state.loading = false;\
     "
   )
     header.modal-header
@@ -23,13 +23,10 @@
         strong.strong {{repository}}
         span.span , starting with its current active branches.
       ul.list.list-bordered
-        li.list-item(
-          ng-click = "state.loading = false"
+        li.list-item.spinner-wrapper.spinner-gray.spinner-sm.spinner-center.in(
           ng-if = "state.loading"
+          ng-include = "'spinner'"
         )
-          .spinner-wrapper.spinner-gray.spinner-sm.in.spinner-center(
-            ng-include = "'spinner'"
-          )
         li.list-item.text-overflow(
           ng-if = "!state.loading"
           ng-repeat = "branch in activeBranches"
