@@ -37,7 +37,7 @@
     instance-navigation
     master-instance = "masterInstance"
     ng-class = "{'active': branch.selected}"
-    ng-repeat = "childInstance in masterInstance.children.models"
+    ng-repeat = "childInstance in masterInstance.children.models | orderBy: ['attrs.name']"
   )
 
     //- list of isolated containers
