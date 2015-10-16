@@ -15,6 +15,7 @@
             'badge-red': true\
           }"
           ng-click = "currentTab = 'billing'"
+          ng-show = "$root.featureFlags.billing"
         )
           svg.iconnables
             use(
@@ -22,7 +23,9 @@
             )
           .btn-text Billing
         button.btn.btn-radio(
-          ng-if = "$root.featureFlags.teamManagement"
+          ng-class = "{'active': currentTab === 'teamManagement'}"
+          ng-click = "currentTab = 'teamManagement'"
+          ng-show = "$root.featureFlags.teamManagement"
         )
           svg.iconnables
             use(
@@ -59,6 +62,12 @@
       .form-billing(
         ng-if = "currentTab === 'billing'"
         ng-include = "'billingForm'"
+      )
+
+      //- team
+      .form-team(
+        ng-if = "currentTab === 'teamManagement'"
+        ng-include = "'teamForm'"
       )
 
       //- slack integration
