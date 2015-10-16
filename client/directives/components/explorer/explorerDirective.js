@@ -5,9 +5,7 @@ require('app')
 /**
  * @ngInject
  */
-function explorer(
-  $localStorage
-) {
+function explorer() {
   return {
     restrict: 'A',
     templateUrl: 'explorerView',
@@ -27,9 +25,6 @@ function explorer(
     },
     link: function ($scope) {
       $scope.dir = $scope.rootDir;
-      $scope.$storage = $localStorage.$default({
-        explorerIsClosed: false
-      });
       $scope.state = {};
 
       $scope.filePopover = {
