@@ -1,7 +1,6 @@
 // tem list
 .list-teammates {
   background: $white;
-  margin: 18px 0 3px;
 
   .list-item {
     color: $gray-dark;
@@ -13,15 +12,9 @@
     margin: 7px 0;
   }
 
-  .username {
-    font-weight: $weight-bold;
-    transition: margin-top .15s;
-  }
-
   // email address
   .small {
     color: $gray;
-    transition: opacity .15s;
   }
 
   // username and email

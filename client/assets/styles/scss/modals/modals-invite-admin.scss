@@ -2,18 +2,12 @@
   width: 390px;
 
   // modal description
-  .p {
-    color: $gray;
+  .label .small{
     padding: 0 15px;
 
     .strong {
       color: darken($gray,10);
     }
-  }
-
-  // admin list
-  .list-teammates {
-    margin: 18px 0 3px;
   }
 
   // admin list items
@@ -64,6 +58,15 @@
       right: 0;
       top: 0;
     }
+
+    // email address
+    .small {
+      transition: opacity .15s;
+    }
+  }
+
+  .username {
+    transition: margin-top .15s;
   }
 
   .iconnables {
