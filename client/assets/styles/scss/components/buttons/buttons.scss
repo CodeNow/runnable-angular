@@ -39,13 +39,6 @@
     opacity: .5;
   }
 
-  // github icon with text
-  > .icons-git {
-    margin-right: 6px;
-    top: 6px;
-    width: 21px;
-  }
-
   // if .arrow-down
   > .icons-arrow-down, .server-status-card-pop-over > .icons-arrow-down {
     float: right;
@@ -270,12 +263,12 @@
 
   &.btn {
 
-    &:hover:not([disabled]),
+    &:hover:not([disabled]):not(.disabled),
     &.hover {
       color: $blue;
     }
 
-    &:active:not([disabled]),
+    &:active:not([disabled]):not(.disabled),
     &.active,
     &.active:hover {
       color: $blue;
@@ -291,13 +284,13 @@
 
   &.btn {
 
-    &:hover:not([disabled]),
+    &:hover:not([disabled]):not(.disabled),
     &.hover {
       background: $white;
       border-color: $gray-light;
     }
 
-    &:active:not([disabled]),
+    &:active:not([disabled]):not(.disabled),
     &.active,
     &.active:hover {
       background: $white;
@@ -332,12 +325,12 @@
   &.btn {
 
     // states
-    &:hover:not([disabled]),
+    &:hover:not([disabled]):not(.disabled),
     &.hover {
       background: #8ae09c; // rgba($green,.6);
     }
 
-    &:active:not([disabled]),
+    &:active:not([disabled]):not(.disabled),
     &.active,
     &.active:hover {
       background: $green;
@@ -360,12 +353,12 @@
 
   &.btn {
 
-    &:hover:not([disabled]),
+    &:hover:not([disabled]):not(.disabled),
     &.hover {
       background: $orange-lighter;
     }
 
-    &:active:not([disabled]),
+    &:active:not([disabled]):not(.disabled),
     &.active,
     &.active:hover {
       background: $orange;
@@ -383,12 +376,12 @@
     border-color: $white;
     color: $white;
 
-    &:hover:not([disabled]),
+    &:hover:not([disabled]):not(.disabled),
     &.hover {
       background: rgba($white,.1);
     }
 
-    &:active:not([disabled]),
+    &:active:not([disabled]):not(.disabled),
     &.active,
     &.active:hover {
       background: $white;
@@ -418,12 +411,12 @@
     border-color: $red-dark;
     color: $white;
 
-    &:hover:not([disabled]),
+    &:hover:not([disabled]):not(.disabled),
     &.hover {
       background: $red-light;
     }
 
-    &:active:not([disabled]),
+    &:active:not([disabled]):not(.disabled),
     &.active,
     &.active:hover {
       background: $red-dark;
@@ -439,12 +432,12 @@
   &.btn {
     background: $white;
 
-    &:hover:not([disabled]),
+    &:hover:not([disabled]):not(.disabled),
     &.hover {
       border-color: $gray-light;
     }
 
-    &:active:not([disabled]),
+    &:active:not([disabled]):not(.disabled),
     &.active,
     &.active:hover {
       border-color: $purple-light;

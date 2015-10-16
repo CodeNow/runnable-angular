@@ -36,6 +36,10 @@ function FilePopoverController(
         .catch(errs.handler);
       $rootScope.$broadcast('close-popovers');
     },
+    rename: function (fileOrDir, newValue) {
+      return loadingPromises.add(self.loadingPromisesTarget, promisify(fileOrDir, 'rename')(newValue))
+        .catch(errs.handler);
+    },
     renameFolder: function () {
       $scope.editFolderName = true;
       $scope.actions.focusInputElement();
@@ -107,10 +111,7 @@ function FilePopoverController(
     },
     addRepository: function () {
       $rootScope.$broadcast('close-popovers');
-      $scope.showAddRepo = false;
-      $timeout(function () {
-        $scope.state.showAddRepo = true;
-      });
+      $scope.state.showAddRepo = true;
     }
   };
 }

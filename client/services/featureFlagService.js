@@ -8,6 +8,7 @@ function featureFlags(
 ) {
   var defaultFeatureFlags = {
     additionalRepositories: true,
+    billing: false,
     cardStatus: false,
     debugMode: true,
     debugStartCmd: false, // debug mode for start CMD (in CMD Logs)
@@ -20,7 +21,7 @@ function featureFlags(
     isolationDnsMappings: true,
     isolationNav: false, // for isolation nav
     isolationUI: false, // for isolation UI
-    newNavigation: false, // for isolation UI
+    newNavigation: true, // for isolation UI
     multilineFnR: false,
     nameContainer: false,
     navListFilter: false,
@@ -28,9 +29,11 @@ function featureFlags(
     newVerificationFlowStackSelector: false,
     renameContainer: false,
     saveToolbar: false,
+    teamUI: false, // changes text from org to team in account menu
     themeToggle: false, // toggles the button that toggles theme
     updatedBuildLogs: true,
-    updatedSlackValidation: false
+    updatedSlackValidation: false,
+    editAnyInstance: false
   };
 
   var _featureFlags = {};

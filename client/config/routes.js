@@ -1,7 +1,21 @@
 'use strict';
 
 module.exports = [
-  {
+  { //- create team flow
+    abstract: false,
+    state: 'welcome',
+    url: '^/welcome',
+    templateUrl: 'viewWelcome',
+    controller: function ($scope, loading, loadingPromises, $rootScope) {
+      window.loading = loading;
+      window.$rootScope = $rootScope;
+      $rootScope.dataApp = $scope.dataApp = true;
+      loading.reset('welcome');
+    },
+    data: {
+      anon: true
+    }
+  }, {
     state: 'loadingDebug',
     url: '^/loading'
   }, {
@@ -79,7 +93,7 @@ module.exports = [
           // There is a bug in ui-router and a timeout is the workaround
           return $timeout(function () {
             $state.go('orgSelect');
-            return $q.reject('User Unauthorized for Organization');
+            return $q.reject(new Error('User Unauthorized for Organization'));
           });
         }
         return matchedOrg;

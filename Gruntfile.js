@@ -266,14 +266,10 @@ module.exports = function(grunt) {
       default: {
         options: {
           thresholds: {
-            //statements: 62.03,
-            //branches: 42.00,
-            //functions: 52.03,
-            //lines: 62.3
-            statements: 25,
-            branches: 25,
-            functions: 25,
-            lines: 25
+            statements   : 71,
+            branches     : 53,
+            functions    : 66,
+            lines        : 71
           },
           dir: 'coverage',
           root: 'test'
@@ -498,6 +494,19 @@ module.exports = function(grunt) {
   grunt.registerTask('test', ['bgShell:karma']);
   grunt.registerTask('default', [
     'bgShell:npm-install',
+    'copy',
+    'sass:dev',
+    'autoprefixer',
+    'jade2js',
+    'jshint:dev',
+    'autoBundleDependencies',
+    'generateConfigs',
+    'browserify:watch',
+    'jade:compile',
+    'compress:build',
+    'concurrent'
+  ]);
+  grunt.registerTask('server', [
     'copy',
     'sass:dev',
     'autoprefixer',

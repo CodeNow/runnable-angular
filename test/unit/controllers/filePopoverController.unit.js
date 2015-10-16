@@ -1,5 +1,5 @@
 'use strict';
-describe('directiveFileTreeDir'.bold.underline.blue, function () {
+describe('FilePopoverController'.bold.underline.blue, function () {
   var FPC;
   var $controller;
   var $rootScope;
@@ -120,6 +120,19 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
         sinon.assert.calledOnce(createFsMock);
         sinon.assert.calledWith(createFsMock, dirMock, {isDir: true});
         sinon.assert.calledOnce(closePopoverSpy);
+        sinon.assert.notCalled(errs.handler);
+      });
+    });
+
+    describe('rename', function () {
+      it('should call rename on the element', function () {
+        dirMock.rename = sinon.spy(function (value, cb) {
+          cb(null);
+        });
+        FPC.actions.rename(dirMock, 'hello');
+
+        sinon.assert.calledOnce(dirMock.rename);
+        expect('hello').to.equal(dirMock.rename.args[0][0]);
         sinon.assert.notCalled(errs.handler);
       });
     });
@@ -312,8 +325,6 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       it('should trigger the add repository state', function () {
         FPC.actions.addRepository();
         sinon.assert.calledOnce(closePopoverSpy);
-        expect($scope.state.showAddRepo).to.not.be.ok;
-        $timeout.flush();
         expect($scope.state.showAddRepo).to.be.ok;
       });
     });

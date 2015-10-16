@@ -55,6 +55,7 @@
   .term-js.term-log(
     log-term
     instance = 'instance'
+    debug-container = "debugContainer"
     controller = "BoxLogController"
     ng-if = "item.state.type === 'LogView'"
   )
@@ -63,6 +64,7 @@
   .term-js(
     log-term
     instance = 'instance'
+    debug-container = "debugContainer"
     controller = "TermController"
     ng-if = "item.state.type === 'Terminal'"
   )

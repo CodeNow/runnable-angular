@@ -74,7 +74,7 @@ function popOver(
         // We need a closure because they could technically re-open the popover and we want to manage THIS scope and THIS element.
         (function (popoverElementScope, popoverElement) {
           //Give the transition some time to finish!
-          $timeout(function(){
+          $timeout(function () {
             if (popoverElement) {
               popoverElement.remove();
             }
@@ -95,14 +95,17 @@ function popOver(
         }
 
         $rootScope.$broadcast('close-popovers');
-        // If the click has no target we should close the popover.
-        // If the click has a target and that target is on the page but not on our popover we should close the popover.
-        // Otherwise we should keep the popover alive.
-        unbindDocumentClick = $scope.$on('app-document-click', function (event, target) {
-          if(!target || (target && $document[0].contains(target) && !popoverElement[0].contains(target))){
-            $scope.closePopover();
-          }
-        });
+
+        $timeout(function () {
+          // If the click has no target we should close the popover.
+          // If the click has a target and that target is on the page but not on our popover we should close the popover.
+          // Otherwise we should keep the popover alive.
+          unbindDocumentClick = $scope.$on('app-document-click', function (event, target) {
+            if (!target || (target && $document[0].contains(target) && !popoverElement[0].contains(target))) {
+              $scope.closePopover();
+            }
+          });
+        }, 0);
         unbindPopoverOpened = $scope.$on('close-popovers', function () {
           $scope.closePopover();
         });
@@ -121,7 +124,7 @@ function popOver(
             var offset = {};
 
             var scrollTop = $document.find('body')[0].scrollTop || $document.find('html')[0].scrollTop;
-            if (keypather.get($scope,'popoverOptions.mouse')) {
+            if (keypather.get($scope, 'popoverOptions.mouse')) {
               scrollTop = -scrollTop;
               offset = options.mouse;
             } else {
@@ -136,27 +139,28 @@ function popOver(
               right: width - offset.right
             };
 
-            if ($scope.popoverOptions.pinToViewPort && // If true, make sure popover is not displayed outside the viewport
-                $scope.popoverElement[0].offsetHeight + newOffset.top > $document.find('body')[0].offsetHeight
-             ) {
+            if (
+              $scope.popoverOptions.pinToViewPort && // If true, make sure popover is not displayed outside the viewport
+              $scope.popoverElement[0].offsetHeight + newOffset.top > $document.find('body')[0].offsetHeight
+            ) {
               newOffset.top =  $document.find('body')[0].offsetHeight - $scope.popoverElement[0].offsetHeight;
             }
 
             var keys = ['top', 'left', 'bottom', 'right'];
             var style = {};
             keys.forEach(function (key) {
-              var keyOption = keypather.get($scope, 'popoverOptions.'+key);
+              var keyOption = keypather.get($scope, 'popoverOptions.' + key);
               style[key] = !exists(keyOption) ? 'auto' : newOffset[key] + keyOption + 'px';
             });
 
             if (keypather.get($scope, 'popoverOptions.centered')) {
               style.right = null;
-              style.left = (-$scope.popoverElement[0].offsetWidth / 2 + offset.left + (offset.right - offset.left) / 2 ) + 'px';
+              style.left = (-$scope.popoverElement[0].offsetWidth / 2 + offset.left + (offset.right - offset.left) / 2) + 'px';
             }
 
             if (keypather.get($scope, 'popoverOptions.verticallyCentered')) {
               style.bottom = null;
-              style.top = (-$scope.popoverElement[0].offsetHeight / 2 + offset.top + (offset.bottom - offset.top) / 2 ) + 'px';
+              style.top = (-$scope.popoverElement[0].offsetHeight / 2 + offset.top + (offset.bottom - offset.top) / 2) + 'px';
             }
 
             previousStyle = style;
@@ -174,12 +178,9 @@ function popOver(
         popoverElement = $compile(template)(popoverElementScope);
         $scope.popoverElement = popoverElement;
         $document.find('body').append(popoverElement);
+        $scope.active = true;
         // Trigger a digest cycle
-        $timeout(angular.noop);
-
-        $timeout(function(){
-          $scope.active = true;
-        }, 0);
+        $scope.$evalAsync();
       }
       function clickHandler(event) {
         event.stopPropagation(); // If we don't stop prop we will immediately close ourselves!
@@ -208,7 +209,7 @@ function popOver(
       var trigger = attrs.popOverTrigger || 'click';
       switch (trigger) {
         case 'rightClick':
-          if (typeof keypather.get($scope, 'popoverOptions.mouse') === 'undefined') {
+          if (keypather.get($scope, 'popoverOptions.mouse') === undefined) {
             keypather.set($scope, 'popoverOptions.mouse', true);
           }
           element.on('contextmenu', clickHandler);
@@ -217,10 +218,11 @@ function popOver(
           });
           break;
         case 'activeAttr':
-          var unwatchActive = $scope.$watch('active', function (newVal) {
+          var unwatchActive = $scope.$watch('active', function (newVal, oldVal) {
             if (newVal) {
               openPopover();
-            } else {
+            } else if (popoverElementScope) {
+              // Only close if we have opened a popover, it's not possible to open a popover without setting up the elementScope!
               $scope.closePopover();
             }
           });
