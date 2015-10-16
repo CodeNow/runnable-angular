@@ -24,18 +24,20 @@
 
   // if isolated add .isolated
   // if sub item is active add open class.
-  instance-navigation(
-    master-instance = "masterInstance"
-    instance = "masterInstance"
+  div(
     active-account = "CIS.activeAccount"
+    instance = "masterInstance"
+    instance-navigation
+    master-instance = "masterInstance"
   )
 
-  instance-navigation(
-    ng-repeat = "childInstance in masterInstance.children.models"
+  div(
+    active-account = "CIS.activeAccount"
+    instance = "childInstance"
+    instance-navigation
     master-instance = "masterInstance"
     ng-class = "{'active': branch.selected}"
-    instance = "childInstance"
-    active-account = "CIS.activeAccount"
+    ng-repeat = "childInstance in masterInstance.children.models"
   )
 
     //- list of isolated containers
