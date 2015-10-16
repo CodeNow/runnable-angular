@@ -179,3 +179,9 @@ div(
   baz = "baz"
 )
 ```
+
+## Naming
+PSA - new naming standards for views and directives… instead of `viewFancySelect` it’s `fancySelectView` we are trying to slowly migrate all our views to have view at the end rather than the beginning.
+
+And for modals its `newContainerModalView` instead of `viewNewContainerModal`
+

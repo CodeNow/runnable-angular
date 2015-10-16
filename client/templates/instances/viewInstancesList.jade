@@ -24,22 +24,21 @@
 
   // if isolated add .isolated
   // if sub item is active add open class.
-  .list-item
-    instance-navigation(
-      master-instance = "masterInstance"
-      instance = "masterInstance"
-      active-account = "CIS.activeAccount"
-    )
-
-  .list-item(
-    ng-repeat = "childInstance in masterInstance.children.models"
+  div(
+    active-account = "CIS.activeAccount"
+    instance = "masterInstance"
+    instance-navigation
+    master-instance = "masterInstance"
   )
-    instance-navigation(
-      master-instance = "masterInstance"
-      ng-class = "{'active': branch.selected}"
-      instance = "childInstance"
-      active-account = "CIS.activeAccount"
-    )
+
+  div(
+    active-account = "CIS.activeAccount"
+    instance = "childInstance"
+    instance-navigation
+    master-instance = "masterInstance"
+    ng-class = "{'active': branch.selected}"
+    ng-repeat = "childInstance in masterInstance.children.models | orderBy: ['attrs.name']"
+  )
 
     //- list of isolated containers
     ul.list.list-isolated(
@@ -68,13 +67,11 @@
 
 //- non-repository based containers
 .list(
-  ng-class = "{'in': $root.featureFlags.isolationNav}"
   ng-show = "nonRepoInstances.length"
 )
-  .list-item(
+  div(
+    instance-navigation
+    instance = "masterInstance"
+    active-account = "CIS.activeAccount"
     ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
   )
-    instance-navigation(
-      instance = "masterInstance"
-      active-account = "CIS.activeAccount"
-    )

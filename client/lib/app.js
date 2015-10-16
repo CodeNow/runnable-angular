@@ -10,6 +10,7 @@ require('angular-scroll');
 require('angular-animate');
 require('angular-modal-service');
 require('oclazyload');
+require('angular-clipboard');
 
 module.exports = angular.module('app', [
   'ui.router',
@@ -21,7 +22,8 @@ module.exports = angular.module('app', [
   'ngAnimate',
   'angularModalService',
   require('angular-sanitize'),
-  'oc.lazyLoad'
+  'oc.lazyLoad',
+  'angular-clipboard'
 ])
   .config(function ($ocLazyLoadProvider) {
     $ocLazyLoadProvider.config({

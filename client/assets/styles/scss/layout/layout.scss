@@ -33,6 +33,12 @@
       height: 100%;
       width: 100%;
     }
+
+    // badge
+    .badge::after {
+      border: 1px solid $purple-light;
+      line-height: 16px;
+    }
   }
 
   .a {

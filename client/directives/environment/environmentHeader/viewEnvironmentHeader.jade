@@ -2,7 +2,8 @@ button.btn.btn-icon.blue(
   data-badge-count = "{{helpCards.cards.triggered.length}}"
   ng-class = "{\
     'active': state.helpButton.active,\
-    'badge': helpCards.cards.triggered.length > 0\
+    'badge': helpCards.cards.triggered.length > 0,\
+    'badge-blue': helpCards.cards.triggered.length > 0\
   }"
   ng-click = "state.helpButton.active = true"
   pop-over

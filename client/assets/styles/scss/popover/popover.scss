@@ -10,8 +10,8 @@
   // top & left offset to move popovers offscreen to prevent them
   // from appearing before calculating their actual position
   background: $white;
-  border: 2px solid $gray-lighter;
-  border-radius: 3px;
+  border: $input-border solid $gray-lighter;
+  border-radius: $input-border-radius;
   box-shadow: 0 2px 3px rgba($black,.1);
   left: -10000px;
   max-width: 300px;
@@ -37,11 +37,25 @@
       padding: 0;
     }
 
+    // icon placement
     .iconnables {
       float: left;
       height: 36px;
       margin: 0 9px 0 0;
       width: 18px;
+    }
+
+    // badge placement
+    .badge {
+      padding-right: 33px;
+
+      &::after {
+        height: 15px;
+        line-height: 15px;
+        right: 15px;
+        top: 10px;
+        width: 15px;
+      }
     }
   }
 

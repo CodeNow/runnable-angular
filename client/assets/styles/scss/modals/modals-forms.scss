@@ -273,37 +273,3 @@
     margin: 15px auto 0;
   }
 }
-
-.modal-form.sliding {
-  left: 0;
-  position: absolute;
-  right: 0;
-  width: 100%;
-
-  // remove form start state
-  &.ng-leave {
-    opacity: 1;
-    transform: translate3d(0,0,0);
-    transition: all .3s ease-in;
-  }
-
-  // remove form end state
-  &.ng-leave-active {
-    opacity: 0;
-    transform: translate3d(0,-100%,0);
-  }
-
-  // add form start state
-  &.ng-enter {
-    opacity: 0;
-    transform: translate3d(0,100%,0);
-    transition: all .3s ease-in;
-  }
-
-  // add form end state
-  &.ng-enter-active {
-    opacity: 1;
-    transform: translate3d(0,0,0);
-    transition: all .3s ease-in;
-  }
-}
