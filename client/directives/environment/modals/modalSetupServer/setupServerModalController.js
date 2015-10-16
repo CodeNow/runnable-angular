@@ -226,10 +226,7 @@ function SetupServerModalController (
       .then(function (whatIsThis) {
         return SMC;
       })
-      .catch(function (err) {
-        // NOTE: Reset the context version?
-        errs.handler(err);
-      })
+      .catch(errs.handler)
       .finally(function () {
         loadingPromises.clear(SMC.name);
         loading(SMC.name, false);
@@ -287,9 +284,7 @@ function SetupServerModalController (
       .then(function () {
         return SMC;
       })
-      .catch(function (err) {
-        errs.handler(err);
-      });
+      .catch(errs.handler);
   };
 
   SMC.createServerAndClose = function () {

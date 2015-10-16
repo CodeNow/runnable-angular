@@ -133,9 +133,7 @@ function EditServerModalController(
       loading(SMC.name, true);
     }
     SMC.resetStateContextVersion(contextVersion, !hasNoErrors)
-      .catch(function (err) {
-        errs.handler(err);
-      })
+      .catch(errs.handler)
       .finally(function () {
         if (hasNoErrors) {
           loading(SMC.name, false);
@@ -144,19 +142,12 @@ function EditServerModalController(
   });
 
   function loadInitialState(instance) {
-    var showSpinner = true;
     loading.reset(SMC.name);
-    if (showSpinner) {
-      loading(SMC.name, true);
-    }
+    loading(SMC.name, true);
     return SMC.resetStateContextVersion(instance.contextVersion, false)
-      .catch(function (err) {
-        errs.handler(err);
-      })
+      .catch(errs.handler)
       .finally(function () {
-        if (showSpinner) {
-          loading(SMC.name, false);
-        }
+        loading(SMC.name, false);
         // After context has been reset, start keeping track of loading promises
         // to check if current state is dirty
         loadingPromises.clear(SMC.name);
