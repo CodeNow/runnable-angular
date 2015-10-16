@@ -32,3 +32,12 @@
       use(
         xlink:href = "#icons-overflow"
       )
+
+    svg.iconnables.icons-advanced(
+      ng-if = "$root.featureFlags.editAnyInstance || INC.instance.attrs.masterPod && !INC.instance.getBranchName()"
+      ng-click="INC.editInstance($event)"
+      title = "Configure"
+    )
+      use(
+        xlink:href = "#icons-advanced"
+      )
