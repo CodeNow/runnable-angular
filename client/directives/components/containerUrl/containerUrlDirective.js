@@ -42,7 +42,7 @@ function containerUrl(
       $scope.onClipboardEvent = function (err) {
         if (err) {
           var modifier = getModifierKey();
-          $scope.clipboardText = 'Press ' + modifier + '+C ' + ' to Copy';
+          $scope.clipboardText = modifier + '+C ' + ' to Copy';
         } else {
           $scope.clipboardText = 'Copied!';
         }
