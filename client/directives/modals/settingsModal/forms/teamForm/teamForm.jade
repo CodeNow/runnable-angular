@@ -4,9 +4,14 @@
       {username: 'runnabro', gravatarUrl: 'https://avatars2.githubusercontent.com/u/5341618', email: 'tony@runnable.com'},\
       {username: 'taylordolan', gravatarUrl: 'https://avatars0.githubusercontent.com/u/7440805', email: 'taylor@runnable.com'},\
       {username: 'thejsj', gravatarUrl: 'https://avatars0.githubusercontent.com/u/1981198', email: 'jorge@runnable.com'}\
-    ]\
+    ];\
+    pending = [\
+      {username: 'anandkumarpatel', gravatarUrl: 'https://avatars0.githubusercontent.com/u/2194285', email: 'anand@runnable.com'},\
+      {username: 'bkendall', gravatarUrl: 'https://avatars0.githubusercontent.com/u/160236', email: 'bryan@runnable.com'},\
+    ];\
   "
 )
+  //- for existing team
   .label
     .clearfix
       .label-col Teammates
@@ -21,3 +26,21 @@
         )
         .username.text-overflow {{teammate.username}}
         .small.text-overflow {{teammate.email}}
+
+  //- pending team
+  .label
+    .clearfix
+      .label-col Pending Invites
+    ol.list.list-bordered.list-teammates.list-teammates-pending
+      li.list-item(
+        ng-repeat = "teammate in pending"
+      )
+        img.gravatar(
+          height = "27"
+          ng-src = "{{teammate.gravatarUrl}}"
+          width = "27"
+        )
+        .username.text-overflow {{teammate.username}}
+        //- show email that the invite was sent to
+        .small.text-overflow {{teammate.email}}
+        button.btn.btn-xs.gray Resend Invite

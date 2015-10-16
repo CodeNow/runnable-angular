@@ -36,8 +36,22 @@
 }
 
 // team form
-// .form-team {
-// }
+.form-team {
+
+  .list-teammates-pending {
+    background-image: repeating-linear-gradient(60deg, #f9f9f9, #f9f9f9 18px, transparent 18px, transparent 36px);
+
+    // additional padding for "resend invite"
+    .text-overflow {
+      padding-right: 99px;
+    }
+
+    // resent button
+    .btn-xs {
+      top: 16px;
+    }
+  }
+}
 
 // billing form
 .form-billing {
