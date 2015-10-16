@@ -21,7 +21,7 @@ function featureFlags(
     isolationDnsMappings: true,
     isolationNav: false, // for isolation nav
     isolationUI: false, // for isolation UI
-    newNavigation: false, // for isolation UI
+    newNavigation: true, // for isolation UI
     multilineFnR: false,
     nameContainer: false,
     navListFilter: false,
