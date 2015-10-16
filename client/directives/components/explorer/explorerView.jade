@@ -23,9 +23,7 @@
         xlink:href = "#icons-add"
       )
 
-.sidebar-section-content(
-  ng-if = "(editExplorer || debugContainer)"
-)
+.sidebar-section-content
   .well.in(
     ng-if = "!debugContainer && !editExplorer && !fileModel.running()"
   ) Your files are unavailable when the container is not running.
