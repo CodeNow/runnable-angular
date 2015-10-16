@@ -221,7 +221,7 @@ function SetupServerModalController (
     loading(SMC.name, true);
     return SMC.rebuildAndOrRedeploy(noCache)
       .then(function () {
-        return SMC.resetStateContextVersion(SMC.instance.contextVersion, false);
+        return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
       })
       .then(function (whatIsThis) {
         return SMC;
@@ -277,7 +277,7 @@ function SetupServerModalController (
         if (instance && instance.contextVersion) {
           SMC.instance = instance;
           SMC.state.instance = instance;
-          return SMC.resetStateContextVersion(SMC.instance.contextVersion, false);
+          return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
         }
         return $q.reject(new Error('Instance not created properly'));
       })
@@ -373,7 +373,7 @@ function SetupServerModalController (
       })
       .catch(function (err) {
         errs.handler(err);
-        return SMC.resetStateContextVersion(SMC.state.contextVersion, true);
+        return SMC.resetStateContextVersion(SMC.state.contextVersion, false);
       })
       .finally(function () {
         SMC.isBuilding = false;

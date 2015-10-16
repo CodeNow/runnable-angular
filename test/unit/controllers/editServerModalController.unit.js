@@ -583,7 +583,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         };
 
         ctx.parseDockerfileResponseMock.reset();
-        SMC.resetStateContextVersion(ctx.rollbackContextVersion, false);
+        SMC.resetStateContextVersion(ctx.rollbackContextVersion, true);
         $scope.$digest();
         sinon.assert.called(loadingService.reset);
         expect(SMC.state.advanced, 'advanced flag').to.be.false;

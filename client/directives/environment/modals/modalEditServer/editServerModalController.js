@@ -126,16 +126,16 @@ function EditServerModalController(
     SMC.linkedEnvResults = findLinkedServerVariables(SMC.state.opts.env);
   });
 
-   $scope.$on('resetStateContextVersion', function ($event, contextVersion, hasNoErrors) {
+   $scope.$on('resetStateContextVersion', function ($event, contextVersion, hasNoErrorsAndShouldParseDockerfile) {
     $event.stopPropagation();
     loading.reset(SMC.name);
-    if (hasNoErrors) {
+    if (hasNoErrorsAndShouldParseDockerfile) {
       loading(SMC.name, true);
     }
-    SMC.resetStateContextVersion(contextVersion, !hasNoErrors)
+    SMC.resetStateContextVersion(contextVersion, hasNoErrorsAndShouldParseDockerfile)
       .catch(errs.handler)
       .finally(function () {
-        if (hasNoErrors) {
+        if (hasNoErrorsAndShouldParseDockerfile) {
           loading(SMC.name, false);
         }
       });
@@ -144,7 +144,7 @@ function EditServerModalController(
   function loadInitialState(instance) {
     loading.reset(SMC.name);
     loading(SMC.name, true);
-    return SMC.resetStateContextVersion(instance.contextVersion, false)
+    return SMC.resetStateContextVersion(instance.contextVersion, true)
       .catch(errs.handler)
       .finally(function () {
         loading(SMC.name, false);
@@ -221,7 +221,7 @@ function EditServerModalController(
       })
       .catch(function (err) {
         errs.handler(err);
-        return SMC.resetStateContextVersion(SMC.state.contextVersion, true)
+        return SMC.resetStateContextVersion(SMC.state.contextVersion, false)
           .finally(function () {
             // Only turn off `isBuilding` if there is an error and we have to revert back 
             SMC.isBuilding = false;

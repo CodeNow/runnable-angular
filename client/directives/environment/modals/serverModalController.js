@@ -163,7 +163,7 @@ function ServerModalController (
     }
   };
 
-  this.resetStateContextVersion = function (contextVersion, hasError) {
+  this.resetStateContextVersion = function (contextVersion, shouldParseDockerfile) {
     var SMC = this;
     SMC.state.advanced = keypather.get(contextVersion, 'attrs.advanced') || false;
     SMC.state.promises.contextVersion = loadingPromises.add(
@@ -177,7 +177,7 @@ function ServerModalController (
         })
     );
     // Only parse the Dockerfile info when no error has occurred
-    if (!hasError) {
+    if (shouldParseDockerfile) {
       SMC.state.promises.contextVersion
         .then(function (contextVersion) {
           return parseDockerfileForCardInfoFromInstance(SMC.instance, contextVersion)

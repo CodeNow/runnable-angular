@@ -348,7 +348,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         expect(populateDockerfileOpts.ports).to.eql(['8000', '900', '80']);
 
         sinon.assert.calledOnce(SMC.resetStateContextVersion);
-        sinon.assert.calledWith(SMC.resetStateContextVersion, newBuild.contextVersion, false);
+        sinon.assert.calledWith(SMC.resetStateContextVersion, newBuild.contextVersion, true);
       });
 
       it('should not update the dockerfile from state, if in advanced mode', function () {
@@ -373,7 +373,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         sinon.assert.notCalled(updateDockerfileFromStateStub);
 
         sinon.assert.calledOnce(SMC.resetStateContextVersion);
-        sinon.assert.calledWith(SMC.resetStateContextVersion, newBuild.contextVersion, false);
+        sinon.assert.calledWith(SMC.resetStateContextVersion, newBuild.contextVersion, true);
       });
 
     });
