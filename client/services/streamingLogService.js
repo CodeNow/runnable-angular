@@ -1,39 +1,27 @@
 'use strict';
 
 var Convert = require('ansi-to-html');
+var convert = new Convert();
 
 require('app').factory('streamingLog', streamingLog);
 
 function streamingLog(
   $rootScope,
   debounce,
-  $sce
+  $sce,
+  $interval
 ) {
   return function (stream) {
-    var unprocessed = [];
     var refreshAngular = debounce(function () {
-      unprocessed.forEach(function (unprocessed) {
-        if (!unprocessed.converter) {
-          unprocessed.converter = new Convert({ stream: true });
-        }
-        var lines = unprocessed.unprocessedContent.join('').split('\n');
-        lines.forEach(function (line) {
-          if (line.length > 1000) {
-            line = line.substr(0, 1000) + ' - Line Truncated because its too long.';
-          }
-          unprocessed.processedContent.push(unprocessed.converter.toHtml(line + '\n'));
-        });
-        unprocessed.unprocessedContent = [];
-        unprocessed.trustedContent = $sce.trustAsHtml(unprocessed.processedContent.join(''));
-      });
-      unprocessed = [];
       $rootScope.$applyAsync();
     }, 100);
 
+    var checkExpandingInterval;
     var streamLogs = [];
     var currentCommand = null;
     var streamTimes = {};
     var timingInterval = null;
+    var streaming = false;
     function handleStreamData(data) {
       if (['docker', 'log'].includes(data.type)) {
         var stepRegex = /^Step [0-9]+ : /;
@@ -44,8 +32,40 @@ function streamingLog(
             command: $sce.trustAsHtml(convert.toHtml(data.content.replace(stepRegex, ''))),
             rawCommand: data.content.replace(stepRegex, ''),
             imageId: data.imageId,
-            expanded: true,
-            time: new Date(data.timestamp || new Date())
+            expanded: false,
+            time: new Date(data.timestamp || new Date()),
+            converter: new Convert({ stream: true }),
+            trustedContent: $sce.trustAsHtml(''),
+            hasContent: false,
+            getProcessedHtml: function () {
+              var self = this;
+              if (!self.unprocessedContent.length) {
+                return self.trustedContent;
+              }
+              var joinedContent = self.unprocessedContent.join('');
+              var lastLineIsFinished = joinedContent.slice(-2) === '\n';
+              var lines = joinedContent.split('\n');
+              self.lastProcessedLine = null;
+              lines.forEach(function (line, index) {
+                if (line.length > 1000) {
+                  line = line.substr(0, 1000) + ' - Line Truncated because its too long.';
+                }
+                // If we can still expect new logs, and the last line isn't finished and it's the last line let's temporarily process it.
+                if (streaming && currentCommand === self && !lastLineIsFinished && index === (lines.length - 1)) {
+                  self.lastProcessedLine = self.converter.toHtml(line + '\n');
+                } else {
+                  self.processedContent.push(self.converter.toHtml(line + '\n'));
+                }
+              });
+              self.unprocessedContent = [];
+              if (self.lastProcessedLine) {
+                self.unprocessedContent.push(lines[lines.length - 1]);
+                self.trustedContent = $sce.trustAsHtml(self.processedContent.join('') + self.lastProcessedLine);
+              } else if (lines.length) {
+                self.trustedContent = $sce.trustAsHtml(self.processedContent.join(''));
+              }
+              return self.trustedContent;
+            }
           };
           var previous = streamLogs[streamLogs.length - 1];
           if (previous) {
@@ -69,10 +89,8 @@ function streamingLog(
             } else if ($rootScope.featureFlags.debugMode && /^\s---> [a-z0-9]{12}/.test(data.content)) {
               currentCommand.imageId = /^\s---> ([a-z0-9]{12})/.exec(data.content)[1];
             } else {
+              currentCommand.hasContent = true;
               currentCommand.unprocessedContent.push(data.content);
-              if (!unprocessed.includes(currentCommand)) {
-                unprocessed.push(currentCommand);
-              }
             }
           }
         }
@@ -92,9 +110,26 @@ function streamingLog(
       refreshAngular();
     }
 
+    var lastOpenedCommand = null;
+    function setLastOpenedCommand() {
+      if (lastOpenedCommand) {
+        lastOpenedCommand.expanded = false;
+      }
+      lastOpenedCommand = streamLogs[streamLogs.length - 1];
+      if (lastOpenedCommand) {
+        lastOpenedCommand.expanded = true;
+      }
+    }
+
+    checkExpandingInterval = $interval(setLastOpenedCommand, 500);
+
+    streaming = true;
     stream.on('data', handleStreamData);
     stream.on('end', function () {
+      streaming = false;
       clearInterval(timingInterval);
+      $interval.cancel(checkExpandingInterval);
+      setLastOpenedCommand();
       streamTimes.end = streamTimes.latest;
       stream.off('data', handleStreamData);
     });

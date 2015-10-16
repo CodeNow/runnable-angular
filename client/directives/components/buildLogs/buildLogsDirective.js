@@ -99,7 +99,7 @@ function buildLogs(
 
       $scope.actions = {
         toggleCommand: function (event, command) {
-          if (!command.trustedContent || ($scope.BLC.buildLogs.indexOf(command) === ($scope.BLC.buildLogs.length - 1) && $scope.BLC.buildLogsRunning)) {
+          if (!command.hasContent || ($scope.BLC.buildLogs.indexOf(command) === ($scope.BLC.buildLogs.length - 1) && $scope.BLC.buildLogsRunning)) {
             return;
           }
           command.expanded = !command.expanded;
