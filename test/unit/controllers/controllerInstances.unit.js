@@ -71,6 +71,9 @@ describe('ControllerInstances'.bold.underline.blue, function () {
     ctx.stateParams = {
       userName: activeAccountUsername || 'user'
     };
+    localStorageData = angular.extend({}, localStorageData, {
+      $default: sinon.spy()
+    });
     angular.mock.module('app', function ($provide) {
       $provide.factory('fetchInstancesByPod', mockFetch.fetch());
       $provide.value('favico', {
@@ -78,7 +81,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
         setInstanceState: sinon.spy()
       });
       $provide.value('$stateParams', ctx.stateParams);
-      $provide.value('$localStorage', localStorageData || {});
+      $provide.value('$localStorage', localStorageData);
 
       $provide.value('user', ctx.fakeuser);
       $provide.value('activeAccount', ctx.fakeuser);

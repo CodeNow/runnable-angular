@@ -3,12 +3,12 @@
   ng-style = "popoverStyle.getStyle()"
 )
   .arrow.white(
-    style = "{{$root.featureFlags.isolationUI ? null : 'left: auto; right: 9px;'}}"
+    style = "{{$root.featureFlags.newNavigation ? null : 'left: auto; right: 9px;'}}"
   )
   .popover-content
     //- if build files are out of date
     .well.well-popover.orange.text-center(
-      ng-if = "data.shouldShowUpdateConfigsPrompt"
+        ng-if = "CSBC.shouldShowUpdateConfigsPrompt"
     ) This container’s configuration has changed since the current build.
       button.btn.btn-xs.orange(
         ng-click = "actions.updateConfigToMatchMaster()"
@@ -16,7 +16,7 @@
 
     //- if build failed
     .well.well-popover.red.text-center(
-      ng-if = "data.instance.status() === 'buildFailed'"
+      ng-if = "CSBC.instance.status() === 'buildFailed'"
     ) Having build problems? Some errors can be resolved by rebuilding.
       button.btn.btn-xs.red(
         ng-click = "actions.rebuildWithoutCache()"
@@ -25,21 +25,21 @@
     //- hide list if build failed
     ul.popover-list
       li.popover-list-item(
-        ng-if = "!['running', 'buildFailed'].includes(data.instance.status())"
+        ng-if = "!['running', 'buildFailed'].includes(CSBC.instance.status())"
         ng-click = "actions.startInstance()"
       )
         .icons-status.green
         | Start
 
       li.popover-list-item(
-        ng-if = "!['crashed', 'stopped', 'buildFailed'].includes(data.instance.status())"
+        ng-if = "!['crashed', 'stopped', 'buildFailed'].includes(CSBC.instance.status())"
         ng-click = "actions.stopInstance()"
       )
         .icons-status
         | Stop
 
       li.popover-list-item(
-        ng-if = "!['crashed', 'stopped', 'buildFailed'].includes(data.instance.status())"
+        ng-if = "!['crashed', 'stopped', 'buildFailed'].includes(CSBC.instance.status())"
         ng-click = "actions.restartInstance()"
       )
         svg.iconnables.icons-restart
@@ -49,11 +49,11 @@
         | Restart
 
       li.divider(
-        ng-if = "!['buildFailed'].includes(data.instance.status())"
+        ng-if = "!['buildFailed'].includes(CSBC.instance.status())"
       )
       li.popover-list-item(
         ng-click = "actions.rebuildWithoutCache()"
-        ng-if = "data.instance.status() !== 'buildFailed'"
+        ng-if = "CSBC.instance.status() !== 'buildFailed'"
       )
         .iconnables
         | Rebuild Without Cache

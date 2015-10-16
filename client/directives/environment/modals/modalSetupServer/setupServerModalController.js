@@ -262,10 +262,8 @@ function SetupServerModalController (
   };
 
   SMC.createServerAndClose = function () {
-    loading('setupServerModal', true);
     return SMC.createServer()
       .then(function () {
-        loading('setupServerModal', false);
         close();
       });
   };
