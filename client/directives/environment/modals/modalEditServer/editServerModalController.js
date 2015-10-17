@@ -133,16 +133,16 @@ function EditServerModalController(
     SMC.linkedEnvResults = findLinkedServerVariables(SMC.state.opts.env);
   });
 
-   $scope.$on('resetStateContextVersion', function ($event, contextVersion, hasNoErrorsAndShouldParseDockerfile) {
+   $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
     $event.stopPropagation();
     loading.reset(SMC.name);
-    if (hasNoErrorsAndShouldParseDockerfile) {
+    if (showSpinner) {
       loading(SMC.name, true);
     }
-    SMC.resetStateContextVersion(contextVersion, hasNoErrorsAndShouldParseDockerfile)
+    SMC.resetStateContextVersion(contextVersion, showSpinner)
       .catch(errs.handler)
       .finally(function () {
-        if (hasNoErrorsAndShouldParseDockerfile) {
+        if (showSpinner) {
           loading(SMC.name, false);
         }
       });
@@ -155,9 +155,6 @@ function EditServerModalController(
       .catch(errs.handler)
       .finally(function () {
         loading(SMC.name, false);
-        // After context has been reset, start keeping track of loading promises
-        // to check if current state is dirty
-        loadingPromises.clear(SMC.name);
       });
   }
 
