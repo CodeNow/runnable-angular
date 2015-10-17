@@ -11,7 +11,7 @@ function InstanceNavigationController(
 ) {
   var INC = this;
 
-  if (INC.masterInstance !== INC.instance) {
+  if ($rootScope.featureFlags.isolationUI && INC.masterInstance !== INC.instance) {
     INC.instance.attrs.isIsolationGroupMaster = true;
     INC.instance.attrs.isolated = '12345';
     INC.instance.isolation = {
