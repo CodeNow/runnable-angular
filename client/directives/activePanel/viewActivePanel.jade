@@ -32,14 +32,6 @@
     ng-include = "'viewFloatingControls'"
   )
 
-  //- logs
-  .term-js.term-log(
-    log-term
-    instance = 'instance'
-    controller= "BuildLogController"
-    ng-if = "item.state.type === 'BuildStream' && !$root.featureFlags.updatedBuildLogs"
-  )
-
   .build-log-wrapper(
     build-logs
     instance = 'instance'
@@ -48,7 +40,7 @@
       'logs-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
       'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
     }"
-    ng-if = "item.state.type === 'BuildStream' && $root.featureFlags.updatedBuildLogs && (instance || debugContainer)"
+    ng-if = "item.state.type === 'BuildStream' && (instance || debugContainer)"
     ng-style = "($root.featureFlags.themeToggle || $root.featureFlags.fullScreenToggle) && {'padding-right': '42px'}"
   )
 
