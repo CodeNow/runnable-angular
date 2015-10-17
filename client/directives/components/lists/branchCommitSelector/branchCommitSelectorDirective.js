@@ -16,12 +16,11 @@ function branchCommitSelector(
 ) {
   return {
     restrict: 'A',
-    templateUrl: function () {
-      if ($rootScope.featureFlags.additionalRepositories) {
-        return 'branchCommitSelectorView';
-      }
-      return 'branchCommitSelectorViewOld';
-    },
+    templateUrl: 'branchCommitSelectorView',
+    //function () {
+    //    return '';
+    //  return 'branchCommitSelectorViewOld';
+    //},
     controller: 'BranchCommitSelectorController',
     controllerAs: 'BCSC',
     bindToController: true,

@@ -7,7 +7,6 @@ function featureFlags(
   $localStorage
 ) {
   var defaultFeatureFlags = {
-    additionalRepositories: true,
     billing: false,
     cardStatus: false,
     debugMode: true,
