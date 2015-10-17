@@ -1,9 +1,9 @@
 .modal-form(
   ng-init = "\
     team = [\
-      {username: 'runnabro', gravatarUrl: 'https://avatars2.githubusercontent.com/u/5341618', email: 'tony@runnable.com'},\
-      {username: 'taylordolan', gravatarUrl: 'https://avatars0.githubusercontent.com/u/7440805', email: 'taylor@runnable.com'},\
-      {username: 'thejsj', gravatarUrl: 'https://avatars0.githubusercontent.com/u/1981198', email: 'jorge@runnable.com'}\
+      {username: 'runnabro', gravatarUrl: 'https://avatars2.githubusercontent.com/u/5341618', email: 'tony@runnable.com', permission: 'User'},\
+      {username: 'taylordolan', gravatarUrl: 'https://avatars0.githubusercontent.com/u/7440805', email: 'taylor@runnable.com', permission: 'Admin'},\
+      {username: 'thejsj', gravatarUrl: 'https://avatars0.githubusercontent.com/u/1981198', email: 'jorge@runnable.com', permission: 'Admin'}\
     ];\
     pending = [\
       {username: 'anandkumarpatel', gravatarUrl: 'https://avatars0.githubusercontent.com/u/2194285', email: 'anand@runnable.com'},\
@@ -26,6 +26,11 @@
         )
         .username.text-overflow {{teammate.username}}
         .small.text-overflow {{teammate.email}}
+        button.btn.btn-xs.gray {{teammate.permission}}
+          svg.iconnables.icons-arrow-down
+            use(
+              xlink:href = "#icons-arrow-down"
+            )
 
   //- pending team
   .label

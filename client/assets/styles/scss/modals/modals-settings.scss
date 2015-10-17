@@ -38,17 +38,25 @@
 // team form
 .form-team {
 
+  .list-teammates {
+
+    .btn-xs {
+      top: 16px;
+    }
+
+    // resend button
+    .gray {
+      text-align: left;
+      width: 73px;
+    }
+  }
+
   .list-teammates-pending {
     background-image: repeating-linear-gradient(60deg, #f9f9f9, #f9f9f9 18px, transparent 18px, transparent 36px);
 
     // additional padding for "resend invite"
     .text-overflow {
-      padding-right: 99px;
-    }
-
-    // resend button
-    .btn-xs{
-      top: 16px;
+      padding-right: 36px;
     }
 
     .icons-overflow {
