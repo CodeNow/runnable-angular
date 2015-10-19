@@ -49,7 +49,7 @@
     ) {{getCommandDuration(command, $index)}}
 
     .btn-group.btn-debug(
-      ng-if = "$root.featureFlags.debugMode && BLC.showDebug && !BLC.debugContainer && BLC.buildLogs[$index - 1].imageId && $last"
+      ng-if = "BLC.showDebug && !BLC.debugContainer && BLC.buildLogs[$index - 1].imageId && $last"
       ng-include = "'viewDebugButton'"
     )
 
