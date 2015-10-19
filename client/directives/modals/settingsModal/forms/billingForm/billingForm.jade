@@ -1,7 +1,7 @@
 .modal-form
   .label
     .clearfix
-      .label-col Current Plan
+      .label-col.full-width Current Plan
         a.link.small.float-right View all plans
           svg.iconnables
             use(
@@ -23,7 +23,7 @@
     ng-init = "data.showCcForm = false"
   )
     .clearfix
-      .label-col Payment
+      .label-col.full-width Payment
         //- hide errors when updating cc info
         .small.error.float-right.badge.badge-red(
           data-badge-count = "!"

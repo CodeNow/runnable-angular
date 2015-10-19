@@ -63,13 +63,12 @@
             use(
               xlink:href = "#icons-overflow"
             )
-    .label.clearfix
-      a.small.link Invite…
 
   //- for existing team
   .label
     .clearfix
-      .label-col Teammates
+      .label-col.full-width Teammates
+        a.small.link.float-right Invite…
     ol.list.list-bordered.list-teammates
       li.list-item(
         ng-repeat = "teammate in team"

@@ -78,34 +78,6 @@
 // billing form
 .form-billing {
 
-  // link to all plans & errors
-  .label-col {
-    float: none;
-    padding-right: 0;
-
-    > .small,
-    > .error {
-      margin-top: 12px;
-    }
-
-    // errors
-    .error {
-      color: $red;
-      margin-right: 24px;
-
-      // error badge
-      &::after {
-        right: -21px;
-      }
-    }
-
-    // external link
-    .iconnables {
-      float: right;
-      height: 13px;
-    }
-  }
-
   // plan and payment area
   .well {
     margin: 0;
