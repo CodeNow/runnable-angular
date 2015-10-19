@@ -40,11 +40,21 @@
 
   .list-teammates {
 
+    .btn-group {
+      position: absolute;
+      right: 14px;
+      top: 0;
+
+      > .btn-xs.green {
+        padding-right: 6px; // override btn-group
+      }
+    }
+
     .btn-xs {
       top: 16px;
     }
 
-    // resend button
+    // permissions button
     .gray {
       text-align: left;
       width: 73px;
@@ -54,7 +64,11 @@
   .list-teammates-pending {
     background-image: repeating-linear-gradient(60deg, #f9f9f9, #f9f9f9 18px, transparent 18px, transparent 36px);
 
-    // additional padding for "resend invite"
+    + .list-teammates-pending {
+      margin-top: 15px;
+    }
+
+    // additional padding for overflow button
     .text-overflow {
       padding-right: 36px;
     }

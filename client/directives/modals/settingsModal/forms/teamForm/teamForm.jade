@@ -42,6 +42,30 @@
   .label
     .clearfix
       .label-col Pending Invites
+
+    ol.list.list-bordered.list-teammates.list-teammates-pending
+      li.list-item
+        img.gravatar(
+          height = "27"
+          src = "https://avatars2.githubusercontent.com/u/467885"
+          width = "27"
+        )
+        .username.text-overflow cflynn07
+        .small.text-overflow Invite requested…
+        .btn-group
+          button.btn.btn-xs.green Send Invite
+          button.btn.btn-xs.green(
+            ng-class = "{'active': requestInvitePopover.data.show}"
+            pop-over
+            pop-over-active = "requestInvitePopover.data.show"
+            pop-over-options = "{\"right\":0,\"top\":35}"
+            pop-over-template = "requestInvitePopoverView"
+          )
+            svg.iconnables.icons-overflow
+              use(
+                xlink:href = "#icons-overflow"
+              )
+
     ol.list.list-bordered.list-teammates.list-teammates-pending
       li.list-item(
         ng-repeat = "teammate in pending"
