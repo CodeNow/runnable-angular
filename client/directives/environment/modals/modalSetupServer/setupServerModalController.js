@@ -172,13 +172,11 @@ function SetupServerModalController (
         });
     }
     else if (SMC.state.step === 4) {
-      SMC.isBuilding = true; // `isBuilding` is used for adding spinner to 'Start Build' button
       loading(SMC.name, true);
       return SMC.createServer()
         .then(function () {
           // Go on to step 4 (logs)
           loading(SMC.name, false);
-          SMC.isBuilding = false;
           SMC.changeTab('logs');
         });
     } else if (SMC.state.step > 4) {
@@ -387,7 +385,7 @@ function SetupServerModalController (
   };
 
   SMC.getUpdatePromise = function () {
-    SMC.isBuilding = true;
+    SMC.isBuilding = true; // `isBuilding` is used for adding spinner to 'Start Build' button
     return SMC.saveInstanceAndRefreshCards()
       .then(function () {
          return close();
