@@ -193,7 +193,7 @@ footer.modal-footer.clearfix
       'in': SMC.isBuilding \
     }"
     ng-disabled = "\
-      (SMC.setupServerForm && SMC.setupServerForm.$invalid) || \
+      SMC.setupServerForm.$invalid || \
       selectedStackInvalid || \
       !SMC.areStackAndVersionSelected() \
     "
