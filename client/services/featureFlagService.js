@@ -30,7 +30,6 @@ function featureFlags(
     saveToolbar: false,
     teamUI: false, // changes text from org to team in account menu
     themeToggle: false, // toggles the button that toggles theme
-    updatedBuildLogs: true,
     updatedSlackValidation: false,
     editAnyInstance: false
   };
