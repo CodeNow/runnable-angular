@@ -84,7 +84,7 @@ function repositorySelector(
           $scope.repoSelector.data.loading = true;
           $scope.repoSelector.data.repo.loading = true;
           // Reset this value each time the repo changes
-          $scope.repoSelector.data.useLatest = $rootScope.featureFlags.additionalRepositories;
+          $scope.repoSelector.data.useLatest = true;
 
           $scope.repoSelector.data.branch = repo.newBranch(repo.attrs.default_branch);
           if (!repo.branches.models.length) {

@@ -53,7 +53,6 @@ describe('branchCommitSelectorController'.bold.underline.blue, function () {
       $rootScope = _$rootScope_;
       $q = _$q_;
 
-      keypather.set($rootScope, 'featureFlags.additionalRepositories', true);
       $scope = $rootScope.$new();
 
       $scope.data = {};
