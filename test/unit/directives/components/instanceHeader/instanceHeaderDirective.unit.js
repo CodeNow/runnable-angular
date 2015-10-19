@@ -13,9 +13,11 @@ var apiMocks = require('./../../../apiMocks/index');
 describe('instanceHeaderDirective'.bold.underline.blue, function () {
   var ctx;
   var mockInstance;
+  var mockInstance1;
   var promisifyMock;
   var mockMainACV;
   var mockOpenItems;
+  var mockFetchPr;
 
   beforeEach(function () {
     ctx = {};
@@ -32,8 +34,9 @@ describe('instanceHeaderDirective'.bold.underline.blue, function () {
     ctx.loadingMock = sinon.spy();
     angular.mock.module('app', function ($provide) {
       $provide.value('errs', ctx.errsMock);
-      $provide.value('fetchPullRequest', function () {
-        return $q.when(ctx.fetchPullRequestMock);
+      $provide.factory('fetchPullRequest', function ($q) {
+        mockFetchPr = sinon.stub().returns($q.when(ctx.fetchPullRequestMock));
+        return mockFetchPr;
       });
       $provide.factory('promisify', function ($q) {
         promisifyMock = sinon.spy(function (obj, key) {
@@ -56,6 +59,9 @@ describe('instanceHeaderDirective'.bold.underline.blue, function () {
         }
       };
       mockInstance = {
+        attrs: {
+          name: 'foo'
+        },
         restart: sinon.spy(),
         fetch: sinon.spy(),
         status: sinon.stub().returns('running'),
@@ -66,8 +72,35 @@ describe('instanceHeaderDirective'.bold.underline.blue, function () {
         },
         contextVersion: {
           getMainAppCodeVersion: sinon.stub().returns(mockMainACV)
-        }
+        },
+        fetchDependencies: sinon.stub().returns({
+          models: []
+        }),
+        on: sinon.spy()
       };
+      mockInstance1 = {
+        attrs: {
+          name: 'foo123'
+        },
+        restart: sinon.spy(),
+        fetch: sinon.spy(),
+        status: sinon.stub().returns('running'),
+        stop: sinon.spy(),
+        start: sinon.spy(),
+        build: {
+          deepCopy: sinon.spy()
+        },
+        contextVersion: {
+          getMainAppCodeVersion: sinon.stub().returns(mockMainACV)
+        },
+        fetchDependencies: sinon.stub().returns({
+          models: []
+        }),
+        on: sinon.spy()
+      };
+
+      $scope.instance = mockInstance;
+
       mockOpenItems = {};
 
       mockOpenItems.getAllFileModels = sinon.stub().returns(mockOpenItems.models);
@@ -79,6 +112,7 @@ describe('instanceHeaderDirective'.bold.underline.blue, function () {
       $rootScope.featureFlags = {
         newNavigation: false
       };
+
       element = $compile(template)($scope);
       $scope.$digest();
       $elScope = element.isolateScope();
@@ -87,8 +121,10 @@ describe('instanceHeaderDirective'.bold.underline.blue, function () {
 
   describe('watching instance', function () {
     it('update the pr', function () {
-      $scope.instance = mockInstance;
+      $scope.instance = mockInstance1;
+      mockFetchPr.reset();
       $scope.$digest();
+      sinon.assert.calledTwice(mockFetchPr);
       $elScope.pr = ctx.fetchPullRequestMock;
     });
   });
