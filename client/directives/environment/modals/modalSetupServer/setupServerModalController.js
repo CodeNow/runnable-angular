@@ -39,13 +39,7 @@ function SetupServerModalController (
     'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
     'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
   });
-
-  // This needs to go away soon.
-  $scope.data = data;
-  loadingPromises.clear(SMC.name);
-  loading.reset(SMC.name);
   var mainRepoContainerFile = new cardInfoTypes.MainRepository();
-
   // Set initial state
   angular.extend(SMC, {
     name: 'setupServerModal',
@@ -118,6 +112,8 @@ function SetupServerModalController (
     data: data,
     selectedTab: 'repository'
   });
+  $scope.data = data; // This needs to go away soon.
+  loading.reset(SMC.name);
 
   fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
     .then(function (repoList) {
@@ -182,7 +178,6 @@ function SetupServerModalController (
           // Go on to step 4 (logs)
           loading(SMC.name, false);
           SMC.isBuilding = false;
-          loadingPromises.clear(SMC.name);
           SMC.changeTab('logs');
         });
     } else if (SMC.state.step > 4) {
@@ -236,7 +231,6 @@ function SetupServerModalController (
       })
       .catch(errs.handler)
       .finally(function () {
-        loadingPromises.clear(SMC.name);
         loading(SMC.name, false);
       });
   };
@@ -314,6 +308,9 @@ function SetupServerModalController (
       .then(function (buildWithVersion) {
         SMC.state.build = buildWithVersion;
         SMC.state.contextVersion = buildWithVersion.contextVersion;
+        // Since we have a new context version, we need to clear all promises
+        // tied to any other context version (Usually handled by `resetStateContextVersion`)
+        loadingPromises.clear(SMC.name);
         SMC.state.advanced = false;
         SMC.state.promises.contextVersion = $q.when(buildWithVersion.contextVersion);
         return promisify(repo, 'fetchBranch')(repo.attrs.default_branch);

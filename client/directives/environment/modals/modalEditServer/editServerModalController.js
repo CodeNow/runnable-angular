@@ -32,7 +32,6 @@ function EditServerModalController(
   hasKeypaths,
   keypather,
   loading,
-  loadingPromises,
   OpenItems,
   promisify,
   updateDockerfileFromState,
@@ -43,6 +42,7 @@ function EditServerModalController(
   close
 ) {
   var SMC = this;
+
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
     'insertHostName': parentController.insertHostName.bind(SMC),
