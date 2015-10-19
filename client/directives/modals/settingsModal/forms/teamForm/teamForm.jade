@@ -26,7 +26,13 @@
         )
         .username.text-overflow {{teammate.username}}
         .small.text-overflow {{teammate.email}}
-        button.btn.btn-xs.gray {{teammate.permission}}
+        button.btn.btn-xs.gray(
+          ng-class = "{'active': permissionsPopover.data.show}"
+          pop-over
+          pop-over-active = "permissionsPopover.data.show"
+          pop-over-options = "{\"right\":0,\"top\":35}"
+          pop-over-template = "permissionsPopoverView"
+        ) {{teammate.permission}}
           svg.iconnables.icons-arrow-down
             use(
               xlink:href = "#icons-arrow-down"
