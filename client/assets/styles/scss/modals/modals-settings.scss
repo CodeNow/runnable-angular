@@ -35,13 +35,13 @@
 
   .list-teammates {
 
-    .btn-group {
+    .btn-wrapper {
       position: absolute;
       right: 14px;
       top: 0;
 
-      > .btn-xs.green {
-        padding-right: 6px; // override btn-group
+      .float-right {
+        margin-left: 6px;
       }
     }
 

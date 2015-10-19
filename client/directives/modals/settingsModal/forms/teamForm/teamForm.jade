@@ -11,34 +11,6 @@
     ];\
   "
 )
-  //- for existing team
-  .label
-    .clearfix
-      .label-col Teammates
-    ol.list.list-bordered.list-teammates
-      li.list-item(
-        ng-repeat = "teammate in team"
-      )
-        img.gravatar(
-          height = "27"
-          ng-src = "{{teammate.gravatarUrl}}"
-          width = "27"
-        )
-        .username.text-overflow {{teammate.username}}
-        .small.text-overflow {{teammate.email}}
-        button.btn.btn-xs.gray(
-          ng-class = "{'active': permissionsPopover.data.show}"
-          pop-over
-          pop-over-active = "permissionsPopover.data.show"
-          pop-over-options = "{\"right\":0,\"top\":35}"
-          pop-over-template = "permissionsPopoverView"
-        ) {{teammate.permission}}
-          svg.iconnables.icons-arrow-down
-            use(
-              xlink:href = "#icons-arrow-down"
-            )
-    .label.clearfix
-      a.small.link Invite…
 
   //- pending team
   .label
@@ -54,9 +26,9 @@
         )
         .username.text-overflow cflynn07
         .small.text-overflow Invite requested…
-        .btn-group
+        .btn-wrapper
           button.btn.btn-xs.green Send Invite
-          button.btn.btn-xs.green(
+          button.btn.btn-xs.white.float-right(
             ng-class = "{'active': requestInvitePopover.data.show}"
             pop-over
             pop-over-active = "requestInvitePopover.data.show"
@@ -90,4 +62,33 @@
           svg.iconnables.icons-overflow
             use(
               xlink:href = "#icons-overflow"
+            )
+    .label.clearfix
+      a.small.link Invite…
+
+  //- for existing team
+  .label
+    .clearfix
+      .label-col Teammates
+    ol.list.list-bordered.list-teammates
+      li.list-item(
+        ng-repeat = "teammate in team"
+      )
+        img.gravatar(
+          height = "27"
+          ng-src = "{{teammate.gravatarUrl}}"
+          width = "27"
+        )
+        .username.text-overflow {{teammate.username}}
+        .small.text-overflow {{teammate.email}}
+        button.btn.btn-xs.gray(
+          ng-class = "{'active': permissionsPopover.data.show}"
+          pop-over
+          pop-over-active = "permissionsPopover.data.show"
+          pop-over-options = "{\"right\":0,\"top\":35}"
+          pop-over-template = "permissionsPopoverView"
+        ) {{teammate.permission}}
+          svg.iconnables.icons-arrow-down
+            use(
+              xlink:href = "#icons-arrow-down"
             )
