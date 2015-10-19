@@ -33,6 +33,14 @@ describe('instanceHeaderDirective'.bold.underline.blue, function () {
 
     ctx.loadingMock = sinon.spy();
     angular.mock.module('app', function ($provide) {
+
+      $provide.factory('instanceBoxNameDirective', function () {
+        return {
+          priority: 100000,
+          terminal: true,
+          link: angular.noop
+        };
+      });
       $provide.value('errs', ctx.errsMock);
       $provide.factory('fetchPullRequest', function ($q) {
         mockFetchPr = sinon.stub().returns($q.when(ctx.fetchPullRequestMock));
@@ -124,7 +132,7 @@ describe('instanceHeaderDirective'.bold.underline.blue, function () {
       $scope.instance = mockInstance1;
       mockFetchPr.reset();
       $scope.$digest();
-      sinon.assert.calledTwice(mockFetchPr);
+      sinon.assert.calledOnce(mockFetchPr);
       $elScope.pr = ctx.fetchPullRequestMock;
     });
   });
