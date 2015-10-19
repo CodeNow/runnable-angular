@@ -118,9 +118,7 @@ section.modal-body(
 section.modal-body(
   ng-if = "!$root.isLoading.setupServerModal"
 )
-  .modal-form(
-    ng-form="SMC.verifyServerForm"
-  )
+  .modal-form
     // Stack & Branch
     .label(
       data = "data"
@@ -195,12 +193,13 @@ footer.modal-footer.clearfix
       'in': SMC.isBuilding \
     }"
     ng-disabled = "\
-      SMC.verifyServerForm.$invalid || \
+      (SMC.setupServerForm && SMC.setupServerForm.$invalid) || \
       selectedStackInvalid || \
       !SMC.areStackAndVersionSelected() \
     "
     ng-if="$root.featureFlags.newVerificationFlow"
     ng-click = "SMC.goToNextStep()"
+    type="submit"
   )
     //- spinner
     .spinner-wrapper.spinner-sm.in(
@@ -214,7 +213,7 @@ footer.modal-footer.clearfix
     span.btn-text {{ buttonText }}
   button.btn.green(
     ng-disabled = "\
-      SMC.verifyServerForm.$invalid || \
+      SMC.setupServerForm.$invalid || \
       selectedStackInvalid || \
       !SMC.areStackAndVersionSelected() \
     "

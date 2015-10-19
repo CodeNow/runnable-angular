@@ -7,6 +7,7 @@ function SetupServerModalController (
   $scope,
   $controller,
   $q,
+  $filter,
   createNewBuild,
   $rootScope,
   errs,
@@ -236,6 +237,21 @@ function SetupServerModalController (
   };
 
   SMC.changeTab = function (tabname) {
+    if (!SMC.state.advanced) {
+      if ($filter('selectedStackInvalid')(SMC.state.selectedStack)) {
+        tabname = 'repository';
+      } else if (!SMC.state.startCommand) {
+        tabname = 'commands';
+      }
+    } else if (SMC.setupServerForm.$invalid) {
+      if (keypather.get(SMC, 'setupServerForm.$error.required.length')) {
+        var firstRequiredError = SMC.setupServerForm.$error.required[0].$name;
+        tabname = firstRequiredError.split('.')[0];
+      }
+    }
+    if (SMC.state.step === 2 && tabname === 'repository') {
+       SMC.state.step = 1;
+    }
     $scope.$broadcast('updateStep', SMC.state.step);
     SMC.selectedTab = tabname;
   };
