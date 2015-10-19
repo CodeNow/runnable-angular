@@ -10,17 +10,12 @@ require('app')
  *  latestCommit,
  */
 function branchCommitSelector(
-  $rootScope,
   errs,
   promisify
 ) {
   return {
     restrict: 'A',
     templateUrl: 'branchCommitSelectorView',
-    //function () {
-    //    return '';
-    //  return 'branchCommitSelectorViewOld';
-    //},
     controller: 'BranchCommitSelectorController',
     controllerAs: 'BCSC',
     bindToController: true,
