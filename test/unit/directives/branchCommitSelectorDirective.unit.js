@@ -54,7 +54,6 @@ describe('branchCommitSelectorDirective'.bold.underline.blue, function () {
       $rootScope = _$rootScope_;
       $q = _$q_;
 
-      keypather.set($rootScope, 'featureFlags.additionalRepositories', true);
       $scope = $rootScope.$new();
 
       angular.extend($scope, scope);
@@ -62,8 +61,8 @@ describe('branchCommitSelectorDirective'.bold.underline.blue, function () {
         'data': 'data'
       });
       element = $compile(tpl)($scope);
-      $elScope = element.isolateScope();
       $scope.$digest();
+      $elScope = element.isolateScope();
     });
   }
   beforeEach(function () {
@@ -77,20 +76,14 @@ describe('branchCommitSelectorDirective'.bold.underline.blue, function () {
         }
       });
     });
-    // I cant test the scope!
 
-    //it('Check the scope', function () {
-    //  //Should fetch once the branch is set
-    //  $scope.$digest();
-    //  console.log($elScope);
-    //  expect($elScope.BCSC.data.branch, 'data.branch').to.equal(ctx.branch);
-    //
-    //  expect($elScope.fetchingCommits, 'fetchingCommits').to.be.true;
-    //  sinon.assert.called(ctx.branch.commits.fetch);
-    //  $scope.$digest();
-    //  expect($elScope.fetchingCommits, 'fetchingCommits').to.be.false;
-    //
-    //  $rootScope.$destroy();
-    //});
+    it('Check the scope', function () {
+      //Should fetch once the branch is set
+      $scope.$digest();
+      expect($elScope.BCSC.data.branch, 'data.branch').to.equal(ctx.branch);
+      sinon.assert.called(ctx.branch.commits.fetch);
+      expect($elScope.fetchingCommits, 'fetchingCommits').to.be.false;
+      $rootScope.$destroy();
+    });
   });
 });

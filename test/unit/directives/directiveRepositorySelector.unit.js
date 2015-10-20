@@ -101,7 +101,6 @@ describe('directiveRepositorySelector'.bold.underline.blue, function () {
       $timeout = _$timeout_;
 
       keypather.set($rootScope, 'dataApp.data.activeAccount.oauthName', sinon.mock().returns('myOauthName'));
-      keypather.set($rootScope, 'featureFlags.additionalRepositories');
       $scope = $rootScope.$new();
 
       if(!config){
