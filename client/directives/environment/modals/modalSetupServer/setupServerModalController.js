@@ -48,6 +48,12 @@ function SetupServerModalController (
     portsSet: false,
     isNewContainer: true,
     openItems: new OpenItems(),
+    getDisplayName: function () {
+      if (SMC.instance) {
+        return SMC.instance.getDisplayName();
+      }
+      return SMC.state.mainRepoContainerFile.name;
+    },
     getElasticHostname: function () {
       if (keypather.get(SMC, 'state.repo.attrs')) {
         // NOTE: Is SMC the best way to get the hostname?

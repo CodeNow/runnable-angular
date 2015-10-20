@@ -32,7 +32,7 @@
         small.small(
           ng-if = "repoSelector.data.useLatest"
         ) on new builds of&#32;
-          strong.strong {{ data.instance.getDisplayName() }}
+          strong.strong {{ data.getDisplayName() }}
         small.small(
           ng-if = "!repoSelector.data.useLatest"
         ) {{ repoSelector.data.commit.attrs.author.login }} authored {{ repoSelector.data.commit.attrs.commit.author.date | timeFrom }}

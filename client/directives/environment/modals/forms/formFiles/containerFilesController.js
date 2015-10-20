@@ -21,7 +21,8 @@ function ContainerFilesController(
 
   this.init = function (opts) {
     angular.extend(self, {
-      state: opts.state
+      state: opts.state,
+      getDisplayName: opts.getDisplayName
     });
   };
 
@@ -285,7 +286,8 @@ function ContainerFilesController(
     triggerAddRepository: function () {
       self.repositoryPopover.data = {
         appCodeVersions: self.state.contextVersion.appCodeVersions.models,
-        instance: self.state.instance
+        instance: self.state.instance,
+        getDisplayName: self.getDisplayName
       };
       self.repositoryPopover.active = true;
     },
