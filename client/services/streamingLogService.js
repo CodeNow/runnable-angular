@@ -64,10 +64,10 @@ function streamingLog(
               if (self.lastProcessedLine) {
                 self.unprocessedContent.push(lines[lines.length - 1]);
                 self.trustedContent = $sce.trustAsHtml(self.processedContent.join('') + self.lastProcessedLine);
-                self.contentLength = self.processedContent.length + 1;
+                self.lineCount = self.processedContent.length + 1;
               } else if (lines.length) {
                 self.trustedContent = $sce.trustAsHtml(self.processedContent.join(''));
-                self.contentLength = self.processedContent.length;
+                self.lineCount = self.processedContent.length;
               }
               return self.trustedContent;
             }
