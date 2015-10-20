@@ -7,6 +7,7 @@ function SetupServerModalController (
   $scope,
   $controller,
   $q,
+  $filter,
   createNewBuild,
   $rootScope,
   errs,
@@ -29,15 +30,17 @@ function SetupServerModalController (
   close
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
-
-  angular.extend(SMC, $controller('ServerModalController as SMC', { $scope: $scope }));
-
-  // This needs to go away soon.
-  $scope.data = data;
-  loadingPromises.clear(SMC.name);
-  loading.reset(SMC.name);
+  var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
+  angular.extend(SMC, {
+    'insertHostName': parentController.insertHostName.bind(SMC),
+    'isDirty': parentController.isDirty.bind(SMC),
+    'openDockerfile': parentController.openDockerfile.bind(SMC),
+    'populateStateFromData': parentController.populateStateFromData.bind(SMC),
+    'rebuildAndOrRedeploy': parentController.rebuildAndOrRedeploy.bind(SMC),
+    'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
+    'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
+  });
   var mainRepoContainerFile = new cardInfoTypes.MainRepository();
-
   // Set initial state
   angular.extend(SMC, {
     name: 'setupServerModal',
@@ -110,6 +113,8 @@ function SetupServerModalController (
     data: data,
     selectedTab: 'repository'
   });
+  $scope.data = data; // This needs to go away soon.
+  loading.reset(SMC.name);
 
   fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
     .then(function (repoList) {
@@ -167,14 +172,11 @@ function SetupServerModalController (
         });
     }
     else if (SMC.state.step === 4) {
-      SMC.isBuilding = true; // `isBuilding` is used for adding spinner to 'Start Build' button
       loading(SMC.name, true);
       return SMC.createServer()
         .then(function () {
           // Go on to step 4 (logs)
           loading(SMC.name, false);
-          SMC.isBuilding = false;
-          loadingPromises.clear(SMC.name);
           SMC.changeTab('logs');
         });
     } else if (SMC.state.step > 4) {
@@ -228,12 +230,26 @@ function SetupServerModalController (
       })
       .catch(errs.handler)
       .finally(function () {
-        loadingPromises.clear(SMC.name);
         loading(SMC.name, false);
       });
   };
 
   SMC.changeTab = function (tabname) {
+    if (!SMC.state.advanced) {
+      if ($filter('selectedStackInvalid')(SMC.state.selectedStack)) {
+        tabname = 'repository';
+      } else if (!SMC.state.startCommand) {
+        tabname = 'commands';
+      }
+    } else if (SMC.setupServerForm.$invalid) {
+      if (keypather.get(SMC, 'setupServerForm.$error.required.length')) {
+        var firstRequiredError = SMC.setupServerForm.$error.required[0].$name;
+        tabname = firstRequiredError.split('.')[0];
+      }
+    }
+    if (SMC.state.step === 2 && tabname === 'repository') {
+       SMC.state.step = 1;
+    }
     $scope.$broadcast('updateStep', SMC.state.step);
     SMC.selectedTab = tabname;
   };
@@ -306,6 +322,9 @@ function SetupServerModalController (
       .then(function (buildWithVersion) {
         SMC.state.build = buildWithVersion;
         SMC.state.contextVersion = buildWithVersion.contextVersion;
+        // Since we have a new context version, we need to clear all promises
+        // tied to any other context version (Usually handled by `resetStateContextVersion`)
+        loadingPromises.clear(SMC.name);
         SMC.state.advanced = false;
         SMC.state.promises.contextVersion = $q.when(buildWithVersion.contextVersion);
         return promisify(repo, 'fetchBranch')(repo.attrs.default_branch);
@@ -366,7 +385,7 @@ function SetupServerModalController (
   };
 
   SMC.getUpdatePromise = function () {
-    SMC.isBuilding = true;
+    SMC.isBuilding = true; // `isBuilding` is used for adding spinner to 'Start Build' button
     return SMC.saveInstanceAndRefreshCards()
       .then(function () {
          return close();

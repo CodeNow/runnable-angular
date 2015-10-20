@@ -444,8 +444,10 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       createNewBuildMock.returns(newBuild);
       SMC.state.selectedStack = {
         key: 'ruby_ror',
-        ports: '8000, 900, 80'
+        ports: '8000, 900, 80',
+        selectedVersion: '2.0'
       };
+      SMC.state.startCommand = 'echo "1";';
       SMC.resetStateContextVersion = sinon.stub();
 
       SMC.selectRepo(repo);
@@ -508,6 +510,31 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       sinon.assert.notCalled(closeSpy);
       sinon.assert.calledOnce(SMC.getUpdatePromise);
     });
+
+    it('should not go to the `commands` tab if the stack and the version are not selected', function () {
+      SMC.state.selectedStack = {};
+      expect(SMC.selectedTab).to.equal('repository');
+
+      SMC.goToNextStep(); // Try to go to step #2
+      $scope.$digest();
+      expect(SMC.selectedTab).to.equal('repository');
+
+      SMC.state.selectedStack = {
+        key: 'ruby_ror',
+      };
+      SMC.goToNextStep(); // Try to go to step #2
+      $scope.$digest();
+      expect(SMC.selectedTab).to.equal('repository');
+
+      SMC.state.selectedStack = {
+        key: 'ruby_ror',
+        selectedVersion: '2.0'
+      };
+      SMC.goToNextStep(); // Step #2
+      $scope.$digest();
+      expect(SMC.selectedTab).to.equal('commands');
+    });
+
  });
 
   describe('Close Modal', function () {
