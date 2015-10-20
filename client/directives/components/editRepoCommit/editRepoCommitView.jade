@@ -104,8 +104,8 @@ label.label-checkbox.btn-sm.btn-checkbox(
       ng-click = "$event.stopPropagation()"
       ng-if = "!acv.attrs.additionalRepo && $root.featureFlags.webhooksOff"
       pop-over
-      pop-over-options = "{\"verticallyCentered\":true,\"left\":102}"
-      pop-over-template = "adminNeededPopoverView"
+      pop-over-options = "{\"top\":29,\"left\":-107}"
+      pop-over-template = "autoDeployPopoverView"
     ) Auto Deploy
       .toggle-group.toggle-xs
 

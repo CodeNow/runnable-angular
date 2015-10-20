@@ -71,9 +71,9 @@
   //- popover should appear on hover
   button.btn.btn-xs.white.btn-add-branches.disabled(
     pop-over
-    pop-over-options = "{\"verticallyCentered\":true,\"left\":90}"
-    pop-over-template = "adminNeededPopoverView"
-    ng-if = "$root.featureFlags.webhooksToggling && $root.featureFlags.webhooksOff"
+    pop-over-options = "{\"top\":33}"
+    pop-over-template = "addBranchesPopoverView"
+    ng-if = "$root.featureFlags.webhooksToggling"
   )
     svg.iconnables.icons-add.icons-round.float-left
       use(

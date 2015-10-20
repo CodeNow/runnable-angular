@@ -33,7 +33,8 @@ function featureFlags(
     themeToggle: false, // toggles the button that toggles theme
     updatedBuildLogs: true,
     updatedSlackValidation: false,
-    webhooksOff: false,
+    webhooksAdminAbsent: false,
+    webhooksContainerDown: false,
     webhooksToggling: false
   };
 
