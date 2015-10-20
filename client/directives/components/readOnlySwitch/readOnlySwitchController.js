@@ -12,6 +12,7 @@ function ReadOnlySwitchController(
   promisify,
   ModalService,
   keypather,
+  updateDockerfileFromState,
   $q
 ) {
   var ROSC = this;
@@ -41,11 +42,15 @@ function ReadOnlySwitchController(
           // If there is not instance, we need to copy this context version and
           // keep a reference to the original CV
           if (!ROSC.state.instance) {
-            // Save copy of simple mode CV to state
-            ROSC.state.allContextVersions = {
-              'simple': ROSC.state.contextVersion
-            };
-            return promisify(ROSC.state.contextVersion, 'deepCopy')()
+            // Save changes to the context version
+            return updateDockerfileFromState(ROSC.state, true, true)
+              .then(function () {
+                // Save copy of simple mode CV to state
+                ROSC.state.allContextVersions = {
+                  'simple': ROSC.state.contextVersion
+                };
+                return promisify(ROSC.state.contextVersion, 'deepCopy')();
+              })
               .then(function (contextVersion) {
                 ROSC.state.contextVersion = contextVersion;
                 // Set advanced CV
@@ -57,7 +62,13 @@ function ReadOnlySwitchController(
           }
           return ROSC.state.contextVersion;
         })
-        .then(function () {
+        .then(function (contextVersion) {
+          return promisify(contextVersion, 'fetchFile', true)('/Dockerfile')
+            .then(function (dockerfile) {
+              return contextVersion;
+            });
+        })
+        .then(function (contextVersion) {
           if (ROSC.state.instance && !ROSC.state.instance.attrs.lastBuiltSimpleContextVersion) {
             // Grab off of the instance, since it's the original one, and hasn't been modified
             ROSC.state.instance.attrs.lastBuiltSimpleContextVersion = {
@@ -67,7 +78,7 @@ function ReadOnlySwitchController(
           }
           if (ROSC.state.promises) {
             return ROSC.state.promises.contextVersion
-              .then(function (contextVersion) {
+              .then(function () {
                 return loadingPromises.add(ROSC.loadingPromisesTarget,
                   promisify(contextVersion, 'update')({
                     advanced: newAdvancedMode
@@ -86,11 +97,9 @@ function ReadOnlySwitchController(
     }
     if (newAdvancedMode === false) {
       if (!ROSC.state.instance) {
-        var contextVersion = ROSC.state.allContextVersions.simple;
-        ROSC.state.contextVersion = contextVersion;
-        ROSC.state.acv = contextVersion.getMainAppCodeVersion();
-        ROSC.state.repo = keypather.get(contextVersion, 'getMainAppCodeVersion().githubRepo');
         ROSC.state.advanced = false;
+        keypather.set(ROSC, 'state.allContextVersions.simple.attrs.advanced', false);
+        $scope.$emit('resetStateContextVersion', ROSC.state.allContextVersions.simple, true);
         return false;
       }
       // If switching from advanced to basic

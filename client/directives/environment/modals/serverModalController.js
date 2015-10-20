@@ -182,6 +182,7 @@ function ServerModalController (
     if (shouldParseDockerfile) {
       SMC.state.promises.contextVersion
         .then(function (contextVersion) {
+          // This function updates/changes the contents of `startCommand`, `ports`, et.
           return parseDockerfileForCardInfoFromInstance(SMC.instance, contextVersion)
             .then(function (data) {
               angular.extend(SMC, data);
