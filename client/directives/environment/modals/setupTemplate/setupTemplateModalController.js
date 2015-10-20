@@ -47,6 +47,7 @@ function SetupTemplateModalController(
             }),
           serverName
         );
-      });
+      })
+      .catch(errs.handler);
   };
 }

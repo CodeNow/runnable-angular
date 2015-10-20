@@ -13,7 +13,6 @@ var createNewInstanceMock = new (require('../fixtures/mockFetch'))();
 var createAndBuildNewContainer;
 var helpCardsMock = require('../apiMocks/HelpCardServiceMock');
 
-var stacks = angular.copy(apiMocks.stackInfo);
 var thisUser = runnable.newUser(apiMocks.user);
 
 describe('createAndBuildNewContainer'.bold.underline.blue, function () {
@@ -30,9 +29,6 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
     ctx = {};
     ctx.$log = {
       error: sinon.spy()
-    };
-    ctx.errs = {
-      handler: sinon.spy()
     };
     ctx.eventTracking = {
       triggeredBuild: sinon.spy()
@@ -150,10 +146,9 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
 
       sinon.assert.notCalled(createNewInstanceMock.getFetchSpy());
       sinon.assert.calledOnce(ctx.eventTracking.triggeredBuild);
-      sinon.assert.calledWith(ctx.errs.handler, error);
       sinon.assert.notCalled(instances.add);
     });
-    it('should fail successfully the createNewInstance promise fails', function () {
+    it('should fail successfully the createNewInstance promise fails', function (done) {
       setup();
       $rootScope.$digest();
       var instance = runnable.newInstance(
@@ -171,7 +166,15 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
       var server = {
         instance: instance
       };
-      createAndBuildNewContainer($q.when(server), 'newName');
+      var error = new Error('Oops');
+
+      createAndBuildNewContainer($q.when(server), 'newName')
+        .catch(function (err) {
+          sinon.assert.notCalled(ctx.helpCards.refreshAllCards);
+          expect(err).to.equal(error);
+          sinon.assert.calledOnce(instance.dealloc);
+          done();
+        });
       fetchInstancesByPodMock.triggerPromise(instances);
       $rootScope.$digest();
 
@@ -186,12 +189,8 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
       sinon.assert.calledOnce(instances.add);
       sinon.assert.calledOnce(ctx.eventTracking.triggeredBuild);
 
-      var error = new Error('Oops');
       createNewInstanceMock.triggerPromiseError(error);
       $rootScope.$digest();
-      sinon.assert.notCalled(ctx.helpCards.refreshAllCards);
-      sinon.assert.calledWith(ctx.errs.handler, error);
-      sinon.assert.calledOnce(instance.dealloc);
     });
   });
 });

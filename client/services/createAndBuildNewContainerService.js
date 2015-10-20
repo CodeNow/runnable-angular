@@ -8,7 +8,6 @@ function createAndBuildNewContainer(
   $q,
   $rootScope,
   createNewInstance,
-  errs,
   eventTracking,
   fetchInstancesByPod,
   fetchUser,
@@ -48,11 +47,10 @@ function createAndBuildNewContainer(
             return instance;
           })
           .catch(function (err) {
-            errs.handler(err);
             // Remove it from the servers list
             instance.dealloc();
+            return $q.reject(err);
           });
-      })
-      .catch(errs.handler);
+      });
   };
 }

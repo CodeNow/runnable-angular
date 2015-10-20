@@ -268,7 +268,8 @@ function SetupServerModalController(
         SMC.instance = instance;
         SMC.state.instance = instance;
         return SMC;
-      });
+      })
+      .catch(errs.handler);
   };
 
   SMC.createServerAndClose = function () {
