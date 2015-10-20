@@ -39,6 +39,7 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
 
     $scope.model = {
       attrs: {
+        repo: 'foo/bar',
         commit: 'commitSha'
       }
     };

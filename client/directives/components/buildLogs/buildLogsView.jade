@@ -22,8 +22,8 @@
 
 .pre.build-log.js-animate(
   ng-class = "{\
-    'build-log-toggle': command.content.length || (BLC.buildLogsRunning && $last),\
-    'in': (command.content.length > 0 && command.expanded) || (BLC.buildLogsRunning && $last)\
+    'build-log-toggle': command.hasContent || (BLC.buildLogsRunning && $last),\
+    'in': (command.hasContent && command.expanded) || (BLC.buildLogsRunning && $last)\
   }"
   ng-repeat = "command in BLC.getBuildLogs()"
 )
@@ -49,14 +49,14 @@
     ) {{getCommandDuration(command, $index)}}
 
     .btn-group.btn-debug(
-      ng-if = "$root.featureFlags.debugMode && BLC.showDebug && !BLC.debugContainer && BLC.buildLogs[$index - 1].imageId && $last"
+      ng-if = "BLC.showDebug && !BLC.debugContainer && BLC.buildLogs[$index - 1].imageId && $last"
       ng-include = "'viewDebugButton'"
     )
 
   .build-log-content(
-    ng-bind-html = "command.trustedContent"
+    ng-bind-html = "command.getProcessedHtml()"
     ng-class = "{'building': BLC.buildLogsRunning && command.expanded && $last}"
-    ng-if = "(command.expanded && command.content.length) || (BLC.buildLogsRunning && $last)"
+    ng-if = "(command.expanded && command.hasContent) || (BLC.buildLogsRunning && $last)"
   )
 
   .log-spinner(

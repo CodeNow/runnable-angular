@@ -1,18 +1,8 @@
 .sidebar-section-heading.strong Repositories
-.sidebar-section-content(
-  ng-if = "$root.featureFlags.additionalRepositories"
-)
+.sidebar-section-content
   .sidebar-section-item(
     edit-repo-commit
     instance = "instance"
     model = "acv"
     ng-repeat = "acv in instance.contextVersion.appCodeVersions.models | orderBy : '-attrs.additionalRepo'"
-  )
-.sidebar-section-content(
-  ng-if = "!$root.featureFlags.additionalRepositories"
-)
-  .sidebar-section-item(
-    edit-repo-commit
-    instance = "instance"
-    model = "instance.contextVersion.getMainAppCodeVersion()"
   )

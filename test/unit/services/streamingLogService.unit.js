@@ -154,7 +154,44 @@ describe('streamingLogService'.blue.underline.bold, function () {
     });
 
     stream.emit('end');
-    expect(streamLogData.logs[0].content.length).to.equal(1);
+    expect(streamLogData.logs[0].hasContent).to.be.ok;
+    expect(streamLogData.logs[0].unprocessedContent.length).to.equal(1);
+  });
+  it('should not have leftover unprocessed content when processed after stream ended and should not re-process when called again', function () {
+    var streamLogData = streamingLog(stream);
+
+    var streamOfData = [
+      {
+        type: 'log',
+        content: 'Step 1 : This is a step!\n',
+        timestamp: moment().subtract(2,'hours').format()
+      },
+      {
+        type: 'log',
+        content: ' Actual message 1\n',
+        timestamp: moment().subtract(21,'hours').format()
+      },
+      {
+        type: 'log',
+        content: ' Actual message 2\n',
+        timestamp: moment().subtract(21,'hours').format()
+      },
+      {
+        type: 'log',
+        content: ' Actual message',
+        timestamp: moment().subtract(21,'hours').format()
+      }
+    ];
+    streamOfData.forEach(function (data) {
+      stream.emit('data', data);
+    });
+
+    stream.emit('end');
+
+    expect(streamLogData.logs[0].unprocessedContent.length).to.equal(3);
+    var processed = streamLogData.logs[0].getProcessedHtml();
+    expect(streamLogData.logs[0].unprocessedContent.length).to.equal(0);
+    expect(streamLogData.logs[0].getProcessedHtml()).to.equal(processed);
   });
   it('should stop listening on destroy', function () {
     var streamLogData = streamingLog(stream);
