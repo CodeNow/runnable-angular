@@ -10,7 +10,6 @@ function featureFlags(
     additionalRepositories: true,
     billing: false,
     cardStatus: false,
-    debugMode: true,
     debugStartCmd: false, // debug mode for start CMD (in CMD Logs)
     fullScreen: false,  // toggles full screen
     fullScreenToggle: false,  // toggles the button that toggles full screen
@@ -31,7 +30,6 @@ function featureFlags(
     saveToolbar: false,
     teamUI: false, // changes text from org to team in account menu
     themeToggle: false, // toggles the button that toggles theme
-    updatedBuildLogs: true,
     updatedSlackValidation: false,
     editAnyInstance: false
   };

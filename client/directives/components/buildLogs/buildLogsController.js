@@ -81,8 +81,9 @@ function BuildLogsController(
 
   BLC.getBuildLogs = function () {
     if (BLC.instance) {
-     return BLC.buildLogs;
-    } else if (BLC.debugContainer) {
+      return BLC.buildLogs;
+    }
+    if (BLC.debugContainer) {
       var newBuildLogs = [];
       for (var i=0; i<BLC.buildLogs.length; i++) {
         var command = BLC.buildLogs[i];

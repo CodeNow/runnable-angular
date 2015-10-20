@@ -150,7 +150,7 @@
               //- if branch is isolated
               //- don't show this when loading
               .btn.btn-xxs.btn-badge.gray(
-                ng-if = "instance.attrs.isolated"
+                ng-if = "$root.featureFlags.isolationUI && instance.attrs.isolated"
               ) Isolated
 
               //- when currently selected
