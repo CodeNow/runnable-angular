@@ -45,8 +45,12 @@
 
           //- invites if email is available, otherwise prompt for invite
           button.btn.btn-xs.green(
+            ng-if = "state.activeItem !== $index && admin.email.length"
+          ) Invite
+
+          button.btn.btn-xs.green(
             ng-click = "state.activeItem = $index"
-            ng-if = "state.activeItem !== $index"
+            ng-if = "state.activeItem !== $index && !admin.email.length"
           ) Invite
 
           //- exit invite
@@ -66,8 +70,12 @@
             spellcheck = "false"
             type = "email"
           )
+
           button.btn.btn-xs.green.float-right.js-animate(
             ng-class = "{'in': state.sending}"
             ng-click = "state.activeItem = null"
             ng-show = "state.activeItem === $index"
           ) Send
+
+      .label.text-center
+        small.small Invites are sent to the users email address.

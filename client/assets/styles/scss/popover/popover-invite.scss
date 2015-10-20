@@ -1,8 +1,8 @@
 .popover-invite {
   width: 360px;
 
-  .list {
-    margin-top: 15px;
+  .popover-content {
+    padding: 15px;
   }
 
   .list-item {
@@ -85,6 +85,15 @@
 
     .ng-hide {
       opacity: 0;
+    }
+  }
+
+  // description
+  .label {
+    margin: 0;
+
+    .small {
+      margin: 6px 8px;
     }
   }
 }
