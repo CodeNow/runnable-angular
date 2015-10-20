@@ -3,15 +3,17 @@
 require('app')
   .controller('SetupServerModalController', SetupServerModalController);
 
-function SetupServerModalController (
+function SetupServerModalController(
   $scope,
   $q,
   createNewBuild,
   $rootScope,
+  createAndBuildNewContainer,
   errs,
   fetchOwnerRepos,
   fetchStackAnalysis,
   hasKeypaths,
+  helpCards,
   keypather,
   loading,
   loadingPromises,
@@ -24,7 +26,6 @@ function SetupServerModalController (
   fetchStackInfo,
   ModalService,
   data,
-  actions,
   close
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
@@ -64,20 +65,29 @@ function SetupServerModalController (
       promises: {},
       opts: {
         masterPod: true,
-        name: '',
+        name: ''
       },
       selectedStack: null,
       step: 1
     },
-    actions: angular.extend(actions, {
+    actions: {
       close: function () {
         if (SMC.instance) {
-          return SMC.actions.deleteServer(SMC.instance, 'confirmDiscardServerView')
-            .then(function (confirmed) {
-              if (confirmed) {
-                close();
-              }
-            });
+          return ModalService.showModal({
+            controller: 'ConfirmationModalController',
+            controllerAs: 'CMC',
+            templateUrl: 'confirmDiscardServerView'
+          })
+            .then(function (modal) {
+              return modal.close.then(function (confirmed) {
+                if (confirmed) {
+                  close();
+                  helpCards.refreshAllCards();
+                  return promisify(SMC.instance, 'destroy')();
+                }
+              });
+            })
+            .catch(errs.handler);
         }
         if (SMC.state.repo) {
           return SMC.actions.closeWithConfirmation();
@@ -86,21 +96,21 @@ function SetupServerModalController (
       },
       closeWithConfirmation: function () {
         $rootScope.$broadcast('close-popovers');
-          ModalService.showModal({
-            controller: 'ConfirmationModalController',
-            controllerAs: 'CMC',
-            templateUrl: 'confirmCloseEditServer'
+        ModalService.showModal({
+          controller: 'ConfirmationModalController',
+          controllerAs: 'CMC',
+          templateUrl: 'confirmCloseEditServer'
+        })
+          .then(function (modal) {
+            modal.close.then(function (confirmed) {
+              if (confirmed) {
+                close();
+              }
+            });
           })
-            .then(function (modal) {
-              modal.close.then(function (confirmed) {
-                if (confirmed) {
-                  close();
-                }
-              });
-            })
-            .catch(errs.handler);
-      },
-    }),
+          .catch(errs.handler);
+      }
+    },
     data: data,
     selectedTab: 'repository'
   });
@@ -252,7 +262,7 @@ function SetupServerModalController (
     }
     return SMC.openItems.updateAllFiles()
       .then(function () {
-        return SMC.actions.createAndBuild(createPromise, SMC.state.opts.name);
+        return createAndBuildNewContainer(createPromise, SMC.state.opts.name);
       })
       .then(function (instance) {
         SMC.instance = instance;

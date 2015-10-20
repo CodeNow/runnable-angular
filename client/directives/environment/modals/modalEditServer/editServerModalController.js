@@ -103,11 +103,6 @@ function EditServerModalController(
       SMC.data.instances = instances;
     });
 
-  fetchStackInfo()
-    .then(function (stackInfo) {
-      SMC.data.stacks = stackInfo;
-    });
-
   fetchSourceContexts()
     .then(function (contexts) {
       SMC.data.sourceContexts = contexts;

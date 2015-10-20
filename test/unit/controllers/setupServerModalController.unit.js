@@ -25,10 +25,15 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   var updateDockerfileFromStateStub;
   var populateDockerfileStub;
   var fetchDockerfileFromSourceStub;
+  var createAndBuildNewContainerStub;
   var data;
   var closeSpy;
   var showModalStub;
   var closeModalStub;
+
+  var helpCardsMock;
+
+  var createAndBuildNewContainerMockValue;
 
   var branches;
   var repo;
@@ -39,17 +44,25 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   var branch;
 
   function initState() {
-
+    helpCardsMock = {
+      refreshAllCards: sinon.stub()
+    };
     fetchStackAnalysisMock = new MockFetch();
     createNewBuildMock = sinon.stub();
     populateDockerfileStub = sinon.stub();
 
     angular.mock.module('app');
+    createAndBuildNewContainerMockValue = {};
     angular.mock.module(function ($provide) {
       $provide.factory('fetchStackAnalysis', fetchStackAnalysisMock.fetch());
+      $provide.value('helpCards', helpCardsMock);
       $provide.factory('updateDockerfileFromState', function ($q) {
         updateDockerfileFromStateStub = sinon.stub().returns($q.when(dockerfile));
         return updateDockerfileFromStateStub;
+      });
+      $provide.factory('createAndBuildNewContainer', function ($q) {
+        createAndBuildNewContainerStub = sinon.stub().returns($q.when(createAndBuildNewContainerMockValue));
+        return createAndBuildNewContainerStub;
       });
       $provide.factory('repositoryFormDirective', function () {
         return {
@@ -342,6 +355,9 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         expect(populateDockerfileOpts.selectedStack.key).to.equal('ruby_ror');
         expect(populateDockerfileOpts.containerFiles[0].type).to.equal('Main Repository');
         expect(populateDockerfileOpts.ports).to.eql(['8000', '900', '80']);
+        $scope.$digest();
+        sinon.assert.calledOnce(createAndBuildNewContainerStub);
+        expect(createAndBuildNewContainerStub.lastCall.args[1]).to.equal(repo.attrs.name);
       });
 
       it('should not update the dockerfile from state, if in advanced mode', function () {
@@ -362,6 +378,8 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         SMC.createServer();
         $scope.$digest();
         sinon.assert.notCalled(updateDockerfileFromStateStub);
+        sinon.assert.calledOnce(createAndBuildNewContainerStub);
+        expect(createAndBuildNewContainerStub.lastCall.args[1]).to.equal(repo.attrs.name);
       });
 
     });
@@ -508,13 +526,22 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(closeSpy);
     });
 
-    it('should close the modal and delete the server if there is an instancec', function () {
+    it('should close the modal and delete the server if there is an instance', function () {
       closeSpy.reset();
-      SMC.instance = { hello: 'world' };
+      SMC.instance = {
+        hello: 'world',
+        destroy: sinon.stub()
+      };
       SMC.actions.deleteServer = sinon.stub().returns($q.when(true));
       SMC.actions.close();
       $scope.$digest();
-      sinon.assert.calledOnce(SMC.actions.deleteServer);
+      sinon.assert.calledOnce(showModalStub);
+      expect(showModalStub.lastCall.args[0]).to.deep.equal({
+        controller: 'ConfirmationModalController',
+        controllerAs: 'CMC',
+        templateUrl: 'confirmDiscardServerView'
+      });
+      sinon.assert.calledOnce(helpCardsMock.refreshAllCards);
       sinon.assert.calledOnce(closeSpy);
     });
 

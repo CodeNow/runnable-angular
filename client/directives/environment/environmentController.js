@@ -11,31 +11,41 @@ require('app')
 function EnvironmentController(
   $scope,
   $timeout,
-  createNewInstance,
   errs,
-  eventTracking,
   favico,
-  fetchContexts,
-  fetchInstances,
   fetchInstancesByPod,
-  fetchStackInfo,
-  keypather,
   pageName,
   promisify,
   $rootScope,
-  $q,
   helpCards,
   $window,
   $state,
   ModalService
 ) {
   var EC = this;
-  EC.triggerNewContainerModal = function () {
-    return ModalService.showModal({
-      controller: 'NewContainerModalController',
-      controllerAs: 'NCMC',
-      templateUrl: 'newContainerModalView'
-    });
+  EC.triggerModal = {
+    newContainer: function () {
+      return ModalService.showModal({
+        controller: 'NewContainerModalController',
+        controllerAs: 'NCMC',
+        templateUrl: 'newContainerModalView',
+        inputs: {
+          data: $scope.data
+        }
+      });
+    },
+    repoContainer: function () {
+      $rootScope.$broadcast('close-popovers');
+      ModalService.showModal({
+        controller: 'SetupServerModalController',
+        controllerAs: 'SMC',
+        templateUrl: 'setupServerModalView',
+        inputs: {
+          data: $scope.data,
+          actions: $scope.actions
+        }
+      });
+    }
   };
   $scope.$state = $state;
   favico.reset();
@@ -131,72 +141,7 @@ function EnvironmentController(
           });
         })
         .catch(errs.handler);
-    },
-    createAndBuild: function (createPromise, name) {
-      eventTracking.triggeredBuild(false);
-      // Save this in case it changes
-      var cachedActiveAccount = $rootScope.dataApp.data.activeAccount;
-      var instance = $rootScope.dataApp.data.user.newInstance({
-        name: name,
-        owner: {
-          username: cachedActiveAccount.oauthName()
-        }
-      }, { warn: false });
-      $rootScope.dataApp.creatingInstance = !keypather.get($scope, 'data.instances.models.length');
-      $scope.data.instances.add(instance);
-      helpCards.hideActiveCard();
-
-      $rootScope.$broadcast('alert', {
-        type: 'success',
-        text: 'Your new container is building.'
-      });
-
-      return createPromise
-        .then(function (newServerModel) {
-          return createNewInstance(
-            cachedActiveAccount,
-            newServerModel.build,
-            newServerModel.opts,
-            instance
-          );
-        })
-        .then(function (instance) {
-          helpCards.refreshAllCards();
-          return instance;
-        })
-        .catch(function (err) {
-          errs.handler(err);
-          // Remove it from the servers list
-          instance.dealloc();
-        })
-        .finally(function () {
-          $rootScope.dataApp.creatingInstance = false;
-        });
-    },
-    setupRepoServer: function () {
-      $rootScope.$broadcast('close-popovers');
-      ModalService.showModal({
-        controller: 'SetupServerModalController',
-        controllerAs: 'SMC',
-        templateUrl: 'setupServerModalView',
-        inputs: {
-          data: $scope.data,
-          actions: $scope.actions
-        }
-      });
     }
   };
-
-  $q.all({
-    deps: fetchInstances({ githubUsername: 'HelloRunnable' }),
-    sourceContexts: fetchContexts({ isSource: true }),
-    stacks: fetchStackInfo()
-  })
-    .then(function (data) {
-      $scope.data.allDependencies = data.deps;
-      $scope.data.stacks = data.stacks;
-      $scope.data.sourceContexts = data.sourceContexts;
-    })
-    .catch(errs.handler);
 
 }

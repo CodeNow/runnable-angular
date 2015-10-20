@@ -52,7 +52,7 @@ button.btn.green(
   ng-class = "{'hint': helpCards.getActiveCard().targets.newContainer}"
   ng-if = "!$root.featureFlags.isolationUI"
   pop-over
-  pop-over-actions = "actions"
+  pop-over-actions = "triggerModal"
   pop-over-active = "state.newServerButton.active"
   pop-over-data = "data"
   pop-over-options = "{\"centered\":true,\"top\":53}"
@@ -70,7 +70,7 @@ button.btn.green(
 
 //- new server button
 button.btn.green(
-  ng-click = "EC.triggerNewContainerModal()"
+  ng-click = "EC.triggerModal.newContainer()"
   ng-class = "{'hint': helpCards.getActiveCard().targets.newContainer}"
   ng-if = "$root.featureFlags.isolationUI"
 )

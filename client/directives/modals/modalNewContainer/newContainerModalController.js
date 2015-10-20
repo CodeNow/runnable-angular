@@ -5,24 +5,28 @@ require('app')
 
 function NewContainerModalController(
   ModalService,
-
+  data,
   close
 ) {
   var NCMC = this;
   NCMC.close = close;
-
   NCMC.newRepositoryContainer = function () {
+    close();
     ModalService.showModal({
       controller: 'SetupServerModalController',
       controllerAs: 'SMC',
       templateUrl: 'setupServerModalView',
       inputs: {
-        data: $scope.data,
-        actions: $scope.actions
+        data: data
       }
     });
   };
   NCMC.newTemplateContainer = function () {
-    console.log('New Repo Template Container');
+    close();
+    ModalService.showModal({
+      controller: 'SetupTemplateModalController',
+      controllerAs: 'STMC',
+      templateUrl: 'setupTemplateModalView'
+    });
   };
 }
