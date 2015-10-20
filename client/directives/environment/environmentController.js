@@ -41,8 +41,7 @@ function EnvironmentController(
         controllerAs: 'SMC',
         templateUrl: 'setupServerModalView',
         inputs: {
-          data: $scope.data,
-          actions: $scope.actions
+          data: $scope.data
         }
       });
     }
