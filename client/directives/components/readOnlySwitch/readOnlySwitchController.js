@@ -63,6 +63,8 @@ function ReadOnlySwitchController(
           return ROSC.state.contextVersion;
         })
         .then(function (contextVersion) {
+          console.lg('CV', contextVersion);
+          console.log('fetchFile', contextVersion.fetchFile);
           return promisify(contextVersion, 'fetchFile', true)('/Dockerfile')
             .then(function (dockerfile) {
               return contextVersion;

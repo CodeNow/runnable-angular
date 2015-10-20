@@ -1,3 +1,4 @@
+/*global runnable:true */
 'use strict';
 
 var $controller,
@@ -11,8 +12,13 @@ var $q;
 var readOnlySwitchController;
 var apiMocks = require('../apiMocks/index');
 var mockFactory = require('../apiMocks/apiClientMockFactory');
+var dockerfile = {
+  attrs: {
+    body: angular.copy(apiMocks.files.dockerfile)
+  }
+};
 
-describe('ReadOnlySwitchController'.bold.underline.blue, function () {
+describe.only('ReadOnlySwitchController'.bold.underline.blue, function () {
   var ctx = {};
   function setup() {
 
@@ -22,7 +28,7 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
           showModal: sinon.stub().returns($q.when({
             close: $q.when(true)
           }))
-        }
+        };
       });
       $provide.factory('loadingPromises', function ($q) {
         ctx.loadingPromiseMock = {
@@ -86,6 +92,13 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
       });
       return ctx.newContextVersion;
     });
+    sinon.stub(ctx.contextVersion, 'fetchFile', function (opts, cb) {
+      $rootScope.$evalAsync(function () {
+        cb(null, dockerfile);
+      });
+      return ctx.newContextVersion;
+    });
+
     readOnlySwitchController = $controller('ReadOnlySwitchController', {
       '$scope': $scope
     });
