@@ -73,7 +73,7 @@ function buildLogs(
       $scope.$watch(function() {
         return {
           buildLogs: $scope.BLC.buildLogs.length,
-          childLogs: keypather.get($scope.BLC.buildLogs[$scope.BLC.buildLogs.length-1], 'unprocessedContent.length')
+          childLogs: keypather.get($scope.BLC.buildLogs[$scope.BLC.buildLogs.length-1], 'contentLength')
         };
       }, function () {
         scrollHelper();
