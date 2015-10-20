@@ -52,7 +52,7 @@ function SetupServerModalController (
       if (SMC.instance) {
         return SMC.instance.getDisplayName();
       }
-      return SMC.state.mainRepoContainerFile.name;
+      return SMC.state.repo.attrs.name;
     },
     getElasticHostname: function () {
       if (keypather.get(SMC, 'state.repo.attrs')) {
@@ -184,6 +184,12 @@ function SetupServerModalController (
           // Go on to step 4 (logs)
           loading(SMC.name, false);
           SMC.changeTab('logs');
+        })
+        .catch(function (err) {
+          SMC.state.step = 3; // Revert step
+          SMC.changeTab(SMC.selectedTab);
+          loading(SMC.name, false);
+          errs.handler(err);
         });
     } else if (SMC.state.step > 4) {
       if (SMC.isDirty()) {
@@ -306,7 +312,13 @@ function SetupServerModalController (
       .then(function () {
         return SMC;
       })
-      .catch(errs.handler);
+      .catch(function (err) {
+        // If creating the server fails, reset the context version
+        return SMC.resetStateContextVersion(SMC.state.contextVersion, true)
+          .then(function () {
+            return $q.reject(err);
+          });
+      });
   };
 
   SMC.createServerAndClose = function () {
