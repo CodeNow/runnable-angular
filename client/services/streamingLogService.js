@@ -114,7 +114,9 @@ function streamingLog(
     }
 
     function setLastOpenedCommand() {
-      currentCommand.expanded = true;
+      if (currentCommand) {
+        currentCommand.expanded = true;
+      }
     }
 
     checkExpandingInterval = $interval(setLastOpenedCommand, 500);
