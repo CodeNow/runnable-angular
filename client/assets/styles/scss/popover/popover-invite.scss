@@ -1,0 +1,90 @@
+.popover-invite {
+  width: 360px;
+
+  .list {
+    margin-top: 15px;
+  }
+
+  .list-item {
+    overflow: hidden;
+    transition: height .15s, padding .15s;
+
+    &.inactive {
+      border: 0;
+      height: 0;
+      padding: 0 15px;
+    }
+
+    &.active {
+      border: 0;
+      cursor: auto;
+      height: 107px;
+
+      .username {
+        margin-top: 9px;
+      }
+
+      // not using ng-hide because this element affects layout
+      .small {
+        opacity: 0;
+        pointer-events: none;
+      }
+    }
+
+    // invite button
+    .green {
+      top: 15px;
+    }
+
+    // close icon
+    .icons-close {
+      color: $gray-light;
+      cursor: pointer;
+      pointer-events: auto; // reset from .iconnables
+      position: absolute;
+      right: 15px;
+      top: 15px;
+
+      &:hover {
+        color: $red;
+      }
+
+      &:active {
+        color: $red-dark;
+      }
+    }
+
+    .username {
+      transition: margin-top .15s;
+    }
+
+    // email address
+    .small {
+      transition: opacity .15s;
+    }
+
+    .input {
+      font-size: 14px;
+      padding-right: 54px;
+    }
+
+    .icons-check {
+      color: $green;
+    }
+
+    // send
+    .green.float-right {
+      margin: 6px;
+      top: auto;
+    }
+
+    // transition for invitation details
+    .js-animate {
+      transition: opacity .15s;
+    }
+
+    .ng-hide {
+      opacity: 0;
+    }
+  }
+}

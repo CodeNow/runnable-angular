@@ -1,0 +1,73 @@
+.popover-overlay
+  .popover.popover-fixed.popover-invite.in(
+    ng-init = "\
+      mavisAdmins = [\
+        {username: 'dpletter', gravatarUrl: 'https://avatars2.githubusercontent.com/u/4671202', email: null},\
+        {username: 'forrestj', gravatarUrl: 'https://avatars3.githubusercontent.com/u/4451216', email: 'forrest@runnable.com'},\
+        {username: 'jh-abhishek', gravatarUrl: 'https://avatars2.githubusercontent.com/u/11288116', email: null},\
+        {username: 'Myztiq', gravatarUrl: 'https://avatars3.githubusercontent.com/u/495765', email: 'kahn@runnable.com'}\
+      ];\
+      state.activeItem = null;\
+      state.loading = false;\
+      state.sending = false;\
+    "
+  )
+    .popover-header Invite User
+      svg.iconnables.icons-close(
+        ng-click = "closePopover()"
+      )
+        use(
+          xlink:href = "#icons-close"
+        )
+
+    .popover-content
+
+      ul.list.list-bordered.list-teammates
+        li.list-item.spinner-wrapper.spinner-gray.spinner-sm.in.spinner-center(
+          ng-if = "state.loading"
+          ng-include = "'spinner'"
+        )
+        li.list-item(
+          ng-class = "{\
+            'active': state.activeItem === $index,\
+            'inactive': state.activeItem && state.activeItem !== $index\
+          }"
+          ng-if = "!state.loading"
+          ng-repeat = "admin in mavisAdmins"
+        )
+          img.gravatar(
+            height = "27"
+            src = "{{admin.gravatarUrl}}"
+            width = "27"
+          )
+          .username.text-overflow.strong {{admin.username}}
+          .small.text-overflow {{admin.email.length ? admin.email : "—"}}
+
+          //- invites if email is available, otherwise prompt for invite
+          button.btn.btn-xs.green(
+            ng-click = "state.activeItem = $index"
+            ng-if = "state.activeItem !== $index"
+          ) Invite
+
+          //- exit invite
+          svg.iconnables.icons-close(
+            ng-click = "state.activeItem = null"
+            ng-if = "state.activeItem === $index"
+          )
+            use(
+              xlink:href = "#icons-close"
+            )
+
+          //- autofocus
+          input.input.input-sm.input-validate.validate-on-blur.js-animate(
+            ng-show = "state.activeItem === $index"
+            placeholder = "Email Address"
+            required
+            spellcheck = "false"
+            type = "email"
+          )
+          button.btn.btn-xs.green.float-right.js-animate(
+            ng-class = "{'in': state.sending}"
+            ng-click = "state.activeItem = null"
+            ng-show = "state.activeItem === $index"
+          ) Send

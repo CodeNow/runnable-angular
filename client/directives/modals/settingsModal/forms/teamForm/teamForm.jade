@@ -68,7 +68,11 @@
   .label
     .clearfix
       .label-col.full-width Teammates
-        a.small.link.float-right Invite…
+        a.small.link.float-right(
+          pop-over
+          pop-over-active = "invitePopover.data.show"
+          pop-over-template = "invitePopoverView"
+        ) Invite…
     ol.list.list-bordered.list-teammates
       li.list-item(
         ng-repeat = "teammate in team"
