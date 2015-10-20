@@ -78,6 +78,33 @@
       top: auto;
     }
 
+    // sending invite
+    .spinner-wrapper,
+    .confirmation {
+      position: absolute;
+      right: 21px;
+      top: 21px;
+    }
+
+    // send confirmation
+    .confirmation {
+      color: $green;
+      font-weight: $weight-bold;
+      line-height: 18px;
+
+      .icons-check {
+        padding: 6px;
+        top: -3px;
+      }
+
+      .path {
+        animation: check-in 1.5s .3s ease-out forwards;
+        stroke-dasharray: 18;
+        stroke-dashoffset: 18;
+        transform-origin: 50% 50%;
+      }
+    }
+
     // transition for invitation details
     .js-animate {
       transition: opacity .15s;

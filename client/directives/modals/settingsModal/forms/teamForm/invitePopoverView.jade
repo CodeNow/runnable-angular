@@ -1,13 +1,15 @@
 .popover-overlay
   .popover.popover-fixed.popover-invite.in(
     ng-init = "\
-      mavisAdmins = [\
+      uninvitedUsers = [\
         {username: 'dpletter', gravatarUrl: 'https://avatars2.githubusercontent.com/u/4671202', email: null},\
         {username: 'forrestj', gravatarUrl: 'https://avatars3.githubusercontent.com/u/4451216', email: 'forrest@runnable.com'},\
         {username: 'jh-abhishek', gravatarUrl: 'https://avatars2.githubusercontent.com/u/11288116', email: null},\
         {username: 'Myztiq', gravatarUrl: 'https://avatars3.githubusercontent.com/u/495765', email: 'kahn@runnable.com'}\
       ];\
       state.activeItem = null;\
+      state.inviteSending = null;\
+      state.inviteSent = null;\
       state.loading = false;\
       state.sending = false;\
     "
@@ -23,34 +25,35 @@
     .popover-content
 
       ul.list.list-bordered.list-teammates
-        li.list-item.spinner-wrapper.spinner-gray.spinner-sm.in.spinner-center(
-          ng-if = "state.loading"
-          ng-include = "'spinner'"
-        )
+        //- li.list-item.spinner-wrapper.spinner-gray.spinner-sm.in.spinner-center(
+        //-   ng-if = "state.loading"
+        //-   ng-include = "'spinner'"
+        //- )
         li.list-item(
           ng-class = "{\
             'active': state.activeItem === $index,\
             'inactive': state.activeItem && state.activeItem !== $index\
           }"
           ng-if = "!state.loading"
-          ng-repeat = "admin in mavisAdmins"
+          ng-repeat = "user in uninvitedUsers"
         )
           img.gravatar(
             height = "27"
-            src = "{{admin.gravatarUrl}}"
+            src = "{{user.gravatarUrl}}"
             width = "27"
           )
-          .username.text-overflow.strong {{admin.username}}
-          .small.text-overflow {{admin.email.length ? admin.email : "—"}}
+          .username.text-overflow.strong {{user.username}}
+          .small.text-overflow {{user.email.length ? user.email : "—"}}
 
           //- invites if email is available, otherwise prompt for invite
           button.btn.btn-xs.green(
-            ng-if = "state.activeItem !== $index && admin.email.length"
+            ng-click = "state.inviteSending = $index"
+            ng-if = "state.activeItem !== $index && user.email.length && state.inviteSending !== $index"
           ) Invite
 
           button.btn.btn-xs.green(
             ng-click = "state.activeItem = $index"
-            ng-if = "state.activeItem !== $index && !admin.email.length"
+            ng-if = "state.activeItem !== $index && !user.email.length"
           ) Invite
 
           //- exit invite
@@ -61,6 +64,30 @@
             use(
               xlink:href = "#icons-close"
             )
+
+          //- invite sending
+          .spinner-wrapper.spinner-sm.spinner-gray.in(
+            ng-click = "state.inviteSent = $index"
+            ng-if = "state.inviteSending === $index && !state.inviteSent"
+            ng-include = "'spinner'"
+          )
+
+          .small.confirmation.load(
+            ng-if = "state.inviteSent === $index"
+          )
+            svg.iconnables.icons-check.float-left(
+              viewbox = '0 0 14.5 10'
+            )
+              path.path(
+                d = 'M1,4.5L5.5,9l8-8'
+                fill = 'none',
+                stroke = '#3ccb5a',
+                stroke-linecap = 'round',
+                stroke-linejoin = 'round',
+                stroke-miterlimit = '10',
+                stroke-width = '2',
+              )
+            | Sent
 
           //- autofocus
           input.input.input-sm.input-validate.validate-on-blur.js-animate(
