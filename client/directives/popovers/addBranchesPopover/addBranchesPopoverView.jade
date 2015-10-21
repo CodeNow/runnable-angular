@@ -1,30 +1,10 @@
-.popover.popover-tooltip.bottom(
-  ng-class = "{\
-    'in': active,\
-    'dark': $root.featureFlags.webhooksAdminAbsent || $root.featureFlags.webhooksContainerDown,\
-  }"
+.popover.popover-add-branches.bottom(
+  ng-class = "{'in': active}"
   ng-style = "popoverStyle.getStyle()"
 )
   .arrow(
     style = "left: 51px"
   )
-
-  //- if default container is red, or if it's building and was previously red
-  small.small(
-    ng-if = "$root.featureFlags.webhooksToggling && $root.featureFlags.webhooksContainerDown"
-  ) You can add branches once your default container is running.
-
-  //- if admin needed
-  small.small(
-    ng-if = "$root.featureFlags.webhooksToggling && $root.featureFlags.webhooksAdminAbsent && !$root.featureFlags.webhooksContainerDown"
-  ) Congrats on your running container! Now we just need permission from a GitHub admin.
-  button.btn.btn-xs(
-    modal
-    modal-template = "inviteAdminModalView"
-    ng-if = "$root.featureFlags.webhooksToggling && $root.featureFlags.webhooksAdminAbsent && !$root.featureFlags.webhooksContainerDown"
-  ) Invite an Admin…
-
-  //- if admin present
   small.small(
     ng-if = "$root.featureFlags.webhooksToggling && !$root.featureFlags.webhooksAdminAbsent && !$root.featureFlags.webhooksContainerDown"
   ) Make sure you’re done configuring&#32;

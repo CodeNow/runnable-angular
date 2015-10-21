@@ -57,13 +57,26 @@
               xlink:href = "#icons-overflow"
             )
 
+  //- if default container is not running or if no admin is present
   //- popover should appear on hover
+  button.btn.btn-xs.white.btn-add-branches.disabled(
+    pop-over
+    pop-over-options = "{\"top\":33}"
+    pop-over-template = "branchesDisabledPopoverView"
+    ng-if = "$root.featureFlags.webhooksToggling && $root.featureFlags.webhooksContainerDown || $root.featureFlags.webhooksAdminAbsent"
+  )
+    svg.iconnables.icons-add.icons-round.float-left
+      use(
+        xlink:href = "#icons-add"
+      )
+    span.float-right Branches…
+
+  //- if default container is running and admin is present
   button.btn.btn-xs.white.btn-add-branches(
-    ng-class = "{'disabled': $root.featureFlags.webhooksAdminAbsent || $root.featureFlags.webhooksContainerDown}"
     pop-over
     pop-over-options = "{\"top\":33}"
     pop-over-template = "addBranchesPopoverView"
-    ng-if = "$root.featureFlags.webhooksToggling"
+    ng-if = "$root.featureFlags.webhooksToggling && !$root.featureFlags.webhooksContainerDown && !$root.featureFlags.webhooksAdminAbsent"
   )
     svg.iconnables.icons-add.icons-round.float-left
       use(
