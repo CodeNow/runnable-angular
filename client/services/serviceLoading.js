@@ -19,7 +19,7 @@ function loading(
       loadingStatusHash[namespace] += 1;
     } else {
       loadingStatusHash[namespace] -= 1;
-      if(loadingStatusHash[namespace] < 0){
+      if (loadingStatusHash[namespace] < 0) {
         loadingStatusHash[namespace] = 0;
       }
     }

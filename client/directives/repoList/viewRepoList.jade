@@ -1,18 +1,21 @@
-.sidebar-section-heading.strong Repositories
+.sidebar-section-heading.strong(
+  ng-class = "{'closed': $storage.repoListIsClosed}"
+  ng-click = "$storage.repoListIsClosed = !$storage.repoListIsClosed"
+)
+  svg.iconnables(
+    ng-class = "{'icons-arrow-forward': $storage.repoListIsClosed}"
+  )
+    use(
+      xlink:href = "#icons-arrow-down"
+    )
+  | Repositories
+
 .sidebar-section-content(
-  ng-if = "$root.featureFlags.additionalRepositories"
+  ng-if = "!$storage.repoListIsClosed"
 )
   .sidebar-section-item(
     edit-repo-commit
     instance = "instance"
     model = "acv"
     ng-repeat = "acv in instance.contextVersion.appCodeVersions.models | orderBy : '-attrs.additionalRepo'"
-  )
-.sidebar-section-content(
-  ng-if = "!$root.featureFlags.additionalRepositories"
-)
-  .sidebar-section-item(
-    edit-repo-commit
-    instance = "instance"
-    model = "instance.contextVersion.getMainAppCodeVersion()"
   )

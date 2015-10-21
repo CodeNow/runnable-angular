@@ -22,7 +22,7 @@
 //- we need it because now that we're auto-updating additional repos, they can't select a commit to confirm.
 .popover-footer.clearfix.fade(
   ng-class = "{'in': isActivePanel()}"
-  ng-if = "data.gitDataOnly && $root.featureFlags.additionalRepositories"
+  ng-if = "data.gitDataOnly"
 )
   button.btn.btn-sm.green(
     ng-click = "repoSelector.actions.save()"

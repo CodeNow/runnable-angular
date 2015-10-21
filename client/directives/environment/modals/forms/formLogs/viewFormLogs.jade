@@ -1,14 +1,14 @@
 //- alert only appears when changes have been made
-//-.alert.gray(
- //-ng-if = "$root.featureFlags.newVerificationFlow"
-//-) Rebuild to see changes you’ve made.
-  //-button.btn.btn-xxs.gray Rebuild
-
-//- alert appears during a build failure AND no changes have been made
-//- .alert.orange(
-//-   ng-if = "$root.featureFlags.newVerificationFlow"
-//- ) Having build problems? Some errors can be resolved by rebuilding the container.
-//-   button.btn.btn-xxs.orange Rebuild
+.alert.gray(
+  ng-if = "\
+    $root.featureFlags.newVerificationFlow && \
+    SMC.name === 'setupServerModal' && \
+    SMC.instance && \
+    SMC.isDirty() \
+  "
+  ng-click = "SMC.rebuild(false)"
+) Rebuild to see changes you’ve made.
+  button.btn.btn-xxs.gray Rebuild
 
 //- tabs
 .btn-group.btn-toggle.btn-toggle-xs(
@@ -43,17 +43,10 @@ pre.pre.log-wrapper(
     ng-show = "SMC.showDebugCmd"
     ng-include = "'viewToolbar'"
   )
-  .term-js.term-log(
-    log-term
-    instance = 'SMC.instance'
-    controller = "BuildLogController"
-    ng-if = "!$root.featureFlags.updatedBuildLogs"
-    ng-show = "page === 'build'"
-  )
   .build-log-wrapper(
     build-logs
     instance = 'SMC.instance'
-    ng-if = "$root.featureFlags.updatedBuildLogs && SMC.instance"
+    ng-if = "SMC.instance"
     ng-show = "page === 'build'"
     ng-style = "($root.featureFlags.themeToggle || $root.featureFlags.fullScreenToggle) && {'padding-right': '42px'}"
   )

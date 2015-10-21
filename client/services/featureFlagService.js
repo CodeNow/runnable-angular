@@ -7,10 +7,8 @@ function featureFlags(
   $localStorage
 ) {
   var defaultFeatureFlags = {
-    additionalRepositories: true,
     billing: false,
     cardStatus: false,
-    debugMode: true,
     debugStartCmd: false, // debug mode for start CMD (in CMD Logs)
     editAnyInstance: false,
     fullScreen: false,  // toggles full screen
@@ -31,7 +29,6 @@ function featureFlags(
     saveToolbar: false,
     teamManagement: false, // changes text from org to team in account menu
     themeToggle: false, // toggles the button that toggles theme
-    updatedBuildLogs: true,
     updatedSlackValidation: false,
     webhooksOff: false,
     webhooksToggling: false
