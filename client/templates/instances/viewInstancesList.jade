@@ -62,7 +62,7 @@
   button.btn.btn-xs.white.btn-add-branches.disabled(
     pop-over
     pop-over-options = "{\"top\":33}"
-    pop-over-template = "branchesDisabledPopoverView"
+    pop-over-template = "addBranchesPopoverView"
     ng-if = "$root.featureFlags.webhooksToggling && $root.featureFlags.webhooksContainerDown || $root.featureFlags.webhooksAdminAbsent"
   )
     svg.iconnables.icons-add.icons-round.float-left
@@ -73,9 +73,8 @@
 
   //- if default container is running and admin is present
   button.btn.btn-xs.white.btn-add-branches(
-    pop-over
-    pop-over-options = "{\"top\":33}"
-    pop-over-template = "addBranchesPopoverView"
+    modal
+    modal-template = "addBranchesModalView"
     ng-if = "$root.featureFlags.webhooksToggling && !$root.featureFlags.webhooksContainerDown && !$root.featureFlags.webhooksAdminAbsent"
   )
     svg.iconnables.icons-add.icons-round.float-left
