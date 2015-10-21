@@ -1,5 +1,5 @@
 .popover-dark {
-  background: $gray-dark;
+  background: $gray-darker;
   border: 0;
   box-shadow: none;
   color: $gray-lightest;
@@ -27,14 +27,14 @@
 
   // override default popover arrow to fit size of tooltip
   .arrow.arrow.arrow {
-    border-bottom-color: $gray-dark;
+    border-bottom-color: $gray-darker;
     border-width: 9px;
     border-top-width: 0; // non-alphabetical to override border-width
     margin-left: -9px;
     top: -9px;
 
     &::after {
-      border-bottom-color: $gray-dark;
+      border-bottom-color: $gray-darker;
     }
   }
 }
