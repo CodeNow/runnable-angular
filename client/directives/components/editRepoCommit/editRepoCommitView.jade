@@ -22,7 +22,7 @@
     //- we don't want to trigger the popover to open because this is an external link
     label.toggle-wrapper.float-right(
       ng-click = "$event.stopPropagation()"
-      ng-if = "!acv.attrs.additionalRepo && !$root.featureFlags.webhooksAdminAbsent"
+      ng-if = "!acv.attrs.additionalRepo && !$root.featureFlags.webhooks || $root.featureFlags.webhooksAdminPresent"
       tooltip = "Auto Deploy automatically updates your container with new commits."
       tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-6,\"top\":18}"
     ) Auto Deploy
@@ -39,7 +39,7 @@
     //- pre-webhooks
     label.toggle-wrapper.float-right.disabled(
       ng-click = "$event.stopPropagation()"
-      ng-if = "!acv.attrs.additionalRepo && $root.featureFlags.webhooksAdminAbsent"
+      ng-if = "!acv.attrs.additionalRepo && $root.featureFlags.webhooks && !$root.featureFlags.webhooksAdminPresent"
       pop-over
       pop-over-options = "{\"top\":29,\"left\":-107}"
       pop-over-template = "autoDeployPopoverView"

@@ -63,7 +63,7 @@
     pop-over
     pop-over-options = "{\"top\":33}"
     pop-over-template = "addBranchesPopoverView"
-    ng-if = "$root.featureFlags.webhooksToggling && $root.featureFlags.webhooksContainerDown || $root.featureFlags.webhooksAdminAbsent"
+    ng-if = "$root.featureFlags.webhooks && !$root.featureFlags.webhooksContainerRunning || !$root.featureFlags.webhooksAdminPresent"
   )
     svg.iconnables.icons-add.icons-round.float-left
       use(
@@ -75,7 +75,7 @@
   button.btn.btn-xs.white.btn-add-branches(
     modal
     modal-template = "addBranchesModalView"
-    ng-if = "$root.featureFlags.webhooksToggling && !$root.featureFlags.webhooksContainerDown && !$root.featureFlags.webhooksAdminAbsent"
+    ng-if = "$root.featureFlags.webhooks && $root.featureFlags.webhooksContainerRunning && $root.featureFlags.webhooksAdminPresent"
   )
     svg.iconnables.icons-add.icons-round.float-left
       use(
