@@ -5,18 +5,21 @@ require('app')
 
 /**
  * @name fetchStackAnalysis
+ * @param $q
  * @param apiClientBridge
  * @returns {Function} fetchStackAnalysis
  */
 function fetchStackAnalysis(
+  $q,
   apiClientBridge
 ) {
-  var stackAnalysisCache = {};
   return function (fullRepoName) {
-    if (!stackAnalysisCache[fullRepoName]) {
-      stackAnalysisCache[fullRepoName] =
-        apiClientBridge.client.pGet('/actions/analyze?repo=' + fullRepoName);
+    var d = $q.defer();
+    function callback(err, res, body) {
+      if (err) { return d.reject(err); }
+      d.resolve(body);
     }
-    return stackAnalysisCache[fullRepoName];
+    apiClientBridge.client.get('/actions/analyze?repo=' + fullRepoName, callback);
+    return d.promise;
   };
 }

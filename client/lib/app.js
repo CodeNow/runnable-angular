@@ -23,8 +23,7 @@ module.exports = angular.module('app', [
   'angularModalService',
   require('angular-sanitize'),
   'oc.lazyLoad',
-  'angular-clipboard',
-  require('angular-q-promisify')
+  'angular-clipboard'
 ])
   .config(function ($ocLazyLoadProvider) {
     $ocLazyLoadProvider.config({
