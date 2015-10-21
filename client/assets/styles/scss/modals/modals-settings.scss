@@ -52,7 +52,7 @@
     // permissions button
     .gray {
       text-align: left;
-      width: 73px;
+      width: 75px;
     }
   }
 
@@ -75,9 +75,14 @@
   }
 
   // send
+  .spinner-wrapper,
   .send-confirmation {
     float: left;
     margin: 18px 6px 0 0;
+  }
+
+  .spinner-wrapper {
+    margin-top: 20px;
   }
 }
 

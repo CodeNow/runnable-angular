@@ -27,13 +27,22 @@
         .username.text-overflow cflynn07
         .small.text-overflow Invite requested…
         .btn-wrapper(
-          ng-init = "state.inviteSent = null"
+          ng-init = "\
+            state.inviteSending = null;\
+            state.inviteSent = null;\
+          "
         )
           button.btn.btn-xs.green(
-            ng-click = "state.inviteSent = true"
-            ng-if = "!state.inviteSent"
+            ng-click = "state.inviteSending = true"
+            ng-if = "!state.inviteSending"
           ) Send Invite
-
+          //- sending…
+          .spinner-wrapper.spinner-sm.spinner-gray.in(
+            ng-click = "state.inviteSent = true"
+            ng-if = "state.inviteSending && !state.inviteSent"
+            ng-include = "'spinner'"
+          )
+          //- send confirmation
           .send-confirmation.load(
             ng-if = "state.inviteSent"
           )
@@ -75,6 +84,25 @@
         .username.text-overflow {{teammate.username}}
         //- show email that the invite was sent to
         .small.text-overflow {{teammate.email}}
+        //- sending…
+        //- .spinner-wrapper.spinner-sm.spinner-gray.in(
+        //-   ng-include = "'spinner'"
+        //- )
+        //- send confirmation
+        //- .send-confirmation.load
+            svg.iconnables.icons-check.float-left(
+              viewbox = '0 0 14.5 10'
+            )
+              path.path(
+                d = 'M1,4.5L5.5,9l8-8'
+                fill = 'none',
+                stroke = '#3ccb5a',
+                stroke-linecap = 'round',
+                stroke-linejoin = 'round',
+                stroke-miterlimit = '10',
+                stroke-width = '2',
+              )
+            | Sent
         button.btn.btn-xs.white(
           ng-class = "{'active': pendingInvitePopover.data.show}"
           pop-over
