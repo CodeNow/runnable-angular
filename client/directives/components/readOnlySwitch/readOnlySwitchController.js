@@ -63,8 +63,6 @@ function ReadOnlySwitchController(
           return ROSC.state.contextVersion;
         })
         .then(function (contextVersion) {
-          console.lg('CV', contextVersion);
-          console.log('fetchFile', contextVersion.fetchFile);
           return promisify(contextVersion, 'fetchFile', true)('/Dockerfile')
             .then(function (dockerfile) {
               return contextVersion;
@@ -99,10 +97,23 @@ function ReadOnlySwitchController(
     }
     if (newAdvancedMode === false) {
       if (!ROSC.state.instance) {
-        ROSC.state.advanced = false;
-        keypather.set(ROSC, 'state.allContextVersions.simple.attrs.advanced', false);
-        $scope.$emit('resetStateContextVersion', ROSC.state.allContextVersions.simple, true);
-        return false;
+        return ModalService.showModal({
+          controller: 'ConfirmationModalController',
+          controllerAs: 'CMC',
+          templateUrl: 'confirmSwitchToSimpleModeView'
+        })
+          .then(function (modal) {
+            return modal.close.then(function (confirmed) {
+              if (confirmed) {
+                ROSC.state.advanced = false;
+                keypather.set(ROSC, 'state.allContextVersions.simple.attrs.advanced', false);
+                $scope.$emit('resetStateContextVersion', ROSC.state.allContextVersions.simple, true);
+                return false;
+              }
+              return true;
+            });
+          })
+          .catch(errs.handler);
       }
       // If switching from advanced to basic
       return ROSC.state.promises.contextVersion
