@@ -117,7 +117,7 @@ function ControllerApp(
     }
   };
 
-  this.canEditFeatureFlags = function () {
+  $rootScope.canEditFeatureFlags = function () {
     return !!dataApp.data.allAccounts.find(function (account) {
       return account.oauthName() === 'CodeNow';
     });
