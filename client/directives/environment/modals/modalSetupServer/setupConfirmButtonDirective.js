@@ -13,10 +13,13 @@ require('app')
           $scope.step = newStep;
           if ($scope.step < 3) {
             $scope.buttonText = 'Next';
+            $scope.buttonClosesModal = false;
           } else if ($scope.step === 3) {
             $scope.buttonText = 'Start Build';
+            $scope.buttonClosesModal = false;
           } else if ($scope.step >= 4) {
-            $scope.buttonText = 'Create container';
+            $scope.buttonText = 'Create Container';
+            $scope.buttonClosesModal = true;
           }
         }
 

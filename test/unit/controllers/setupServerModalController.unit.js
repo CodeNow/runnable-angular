@@ -221,7 +221,10 @@ describe('setupServerModalController'.bold.underline.blue, function () {
             cb(null, dockerfile);
           });
           return dockerfile;
-        })
+        }),
+      },
+      attrs: {
+        env: []
       }
     };
     acv = {
@@ -319,13 +322,14 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       it('create server should create and build a new instance', function () {
         SMC.state.acv = acv;
         SMC.state.branch = branch;
-        SMC.actions.createAndBuild = sinon.stub().returns($q.when(dockerfile));
+        SMC.actions.createAndBuild = sinon.stub().returns($q.when(newBuild));
         SMC.actions.deleteServer = sinon.stub().returns($q.when(true));
         SMC.state.selectedStack = {
           key: 'ruby_ror',
           ports: '8000, 900, 80'
         };
         SMC.selectRepo(repo);
+        SMC.resetStateContextVersion = sinon.stub();
 
         SMC.state.repo = repo;
         SMC.state.dst = '/foo';
@@ -342,6 +346,9 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         expect(populateDockerfileOpts.selectedStack.key).to.equal('ruby_ror');
         expect(populateDockerfileOpts.containerFiles[0].type).to.equal('Main Repository');
         expect(populateDockerfileOpts.ports).to.eql(['8000', '900', '80']);
+
+        sinon.assert.calledOnce(SMC.resetStateContextVersion);
+        sinon.assert.calledWith(SMC.resetStateContextVersion, newBuild.contextVersion, true);
       });
 
       it('should not update the dockerfile from state, if in advanced mode', function () {
@@ -349,11 +356,13 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         $scope.$watch = sinon.stub();
         SMC.state.acv = acv;
         SMC.state.branch = branch;
-        SMC.actions.createAndBuild = sinon.stub().returns($q.when({ hello: 'world' }));
+        SMC.actions.createAndBuild = sinon.stub().returns($q.when(newBuild));
         SMC.actions.deleteServer = sinon.stub().returns($q.when(true));
         SMC.state.selectedStack = {
           key: 'ruby_ror'
         };
+        SMC.resetStateContextVersion = sinon.stub();
+
         SMC.selectRepo(repo);
         SMC.state.repo = repo;
         SMC.state.dst = '/foo';
@@ -362,6 +371,9 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         SMC.createServer();
         $scope.$digest();
         sinon.assert.notCalled(updateDockerfileFromStateStub);
+
+        sinon.assert.calledOnce(SMC.resetStateContextVersion);
+        sinon.assert.calledWith(SMC.resetStateContextVersion, newBuild.contextVersion, true);
       });
 
     });
@@ -419,32 +431,40 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
   describe('Steps', function () {
 
-    it('should have the correct tabs when moving through steps', function () {
+    beforeEach(function () {
+      closeSpy.reset();
       SMC.openItems.remove = sinon.stub();
       SMC.openItems.add = sinon.stub();
       SMC.state.acv = acv;
       SMC.state.branch = branch;
-      SMC.actions.createAndBuild = sinon.stub().returns($q.when(dockerfile));
+      SMC.actions.createAndBuild = sinon.stub().returns($q.when(newBuild));
       SMC.actions.deleteServer = sinon.stub().returns($q.when(true));
+      SMC.getUpdatePromise = sinon.stub();
       fetchDockerfileFromSourceStub.reset();
       createNewBuildMock.returns(newBuild);
       SMC.state.selectedStack = {
         key: 'ruby_ror',
-        ports: '8000, 900, 80'
+        ports: '8000, 900, 80',
+        selectedVersion: '2.0'
       };
+      SMC.state.startCommand = 'echo "1";';
+      SMC.resetStateContextVersion = sinon.stub();
 
       SMC.selectRepo(repo);
       $scope.$digest();
       fetchStackAnalysisMock.triggerPromise(analysisMockData);
       $scope.$digest();
+    });
+
+    it('should have the correct tabs when moving through steps', function () {
       expect(SMC.selectedTab).to.equal('repository');
 
-      SMC.goToNextStep();
+      SMC.goToNextStep(); // Step #2
       $scope.$digest();
       expect(SMC.selectedTab).to.equal('commands');
       sinon.assert.notCalled(fetchDockerfileFromSourceStub);
 
-      SMC.goToNextStep();
+      SMC.goToNextStep(); // Step #3
       $scope.$digest();
       expect(SMC.selectedTab).to.equal(null);
 
@@ -452,51 +472,70 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(SMC.openItems.add);
       sinon.assert.calledOnce(fetchDockerfileFromSourceStub);
       expect(SMC.state.dockerfile).to.equal(dockerfile);
-      SMC.goToNextStep();
+      SMC.goToNextStep(); // Step #4
       $scope.$digest();
       expect(SMC.selectedTab).to.equal('logs');
     });
 
-    it('should go create the server and go to the logs when `createServerAndGoToNextStep` is called', function () {
-      SMC.openItems.remove = sinon.stub();
-      SMC.openItems.add = sinon.stub();
-      fetchDockerfileFromSourceStub.reset();
-      createNewBuildMock.returns(newBuild);
-      SMC.state.acv = acv;
-      SMC.state.branch = branch;
-      SMC.actions.createAndBuild = sinon.stub().returns($q.when(dockerfile));
-      SMC.actions.deleteServer = sinon.stub().returns($q.when(true));
-      SMC.state.selectedStack = {
-        key: 'ruby_ror',
-      };
-      SMC.selectRepo(repo);
+    it('should close the modal if it reached the last step and there have been no changes made', function () {
+      expect(SMC.selectedTab).to.equal('repository');
 
-      SMC.state.repo = repo;
-      SMC.state.dst = '/foo';
-
-      SMC.selectRepo(repo);
+      SMC.goToNextStep(); // Step #2
       $scope.$digest();
-      fetchStackAnalysisMock.triggerPromise(analysisMockData);
+      SMC.goToNextStep(); // Step #3
+      $scope.$digest();
+      SMC.goToNextStep(); // Step #4
+      $scope.$digest();
+      SMC.goToNextStep(); // Close
+      $scope.$digest();
+      sinon.assert.calledOnce(closeSpy);
+      sinon.assert.notCalled(SMC.getUpdatePromise);
+    });
+
+    it('should update the instance if changes have been made before closing', function () {
+      expect(SMC.selectedTab).to.equal('repository');
+
+      SMC.goToNextStep(); // Step #2
+      $scope.$digest();
+      SMC.goToNextStep(); // Step #3
+      $scope.$digest();
+      SMC.goToNextStep(); // Step #4
+      $scope.$digest();
+
+      // Something changes
+      SMC.state.opts.env.push('WOW=1');
+
+      SMC.goToNextStep(); // Close
+      $scope.$digest();
+      sinon.assert.notCalled(closeSpy);
+      sinon.assert.calledOnce(SMC.getUpdatePromise);
+    });
+
+    it('should not go to the `commands` tab if the stack and the version are not selected', function () {
+      SMC.state.selectedStack = {};
+      expect(SMC.selectedTab).to.equal('repository');
+
+      SMC.goToNextStep(); // Try to go to step #2
       $scope.$digest();
       expect(SMC.selectedTab).to.equal('repository');
 
-      SMC.goToNextStep();
+      SMC.state.selectedStack = {
+        key: 'ruby_ror',
+      };
+      SMC.goToNextStep(); // Try to go to step #2
+      $scope.$digest();
+      expect(SMC.selectedTab).to.equal('repository');
+
+      SMC.state.selectedStack = {
+        key: 'ruby_ror',
+        selectedVersion: '2.0'
+      };
+      SMC.goToNextStep(); // Step #2
       $scope.$digest();
       expect(SMC.selectedTab).to.equal('commands');
-      sinon.assert.notCalled(fetchDockerfileFromSourceStub);
-
-      SMC.goToNextStep();
-      $scope.$digest();
-      expect(SMC.selectedTab).to.equal(null);
-      SMC.createServer = sinon.stub().returns($q.when(true));
-
-      SMC.goToNextStep();
-      $scope.$digest();
-      expect(SMC.selectedTab).to.equal('logs');
-      sinon.assert.calledOnce(SMC.createServer);
     });
 
-  });
+ });
 
   describe('Close Modal', function () {
 
@@ -529,11 +568,12 @@ describe('setupServerModalController'.bold.underline.blue, function () {
           name: 'branchName'
         }
       };
-      SMC.actions.createAndBuild = sinon.stub().returns($q.when(dockerfile));
+      SMC.actions.createAndBuild = sinon.stub().returns($q.when(newBuild));
       SMC.actions.deleteServer = sinon.stub().returns($q.when(true));
       SMC.state.selectedStack = {
         key: 'ruby_ror'
       };
+      SMC.resetStateContextVersion = sinon.stub();
       SMC.selectRepo(repo);
 
       SMC.state.repo = repo;
@@ -541,6 +581,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       sinon.assert.notCalled(updateDockerfileFromStateStub);
       SMC.createServerAndClose();
       $scope.$digest();
+      sinon.assert.calledOnce(SMC.resetStateContextVersion);
       sinon.assert.calledOnce(closeSpy);
     });
   });

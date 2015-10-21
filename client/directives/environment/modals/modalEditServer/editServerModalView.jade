@@ -5,7 +5,7 @@
     name = "editServerForm"
     ng-class = "{\
       'ace-active': (SMC.selectedTab === 'buildfiles' || SMC.selectedTab === 'env'),\
-      'disabled': SMC.building || $root.isLoading.editServerModal,\
+      'disabled': SMC.isBuilding || $root.isLoading.editServerModal,\
       'xl': (SMC.selectedTab === 'buildfiles' || SMC.selectedTab === 'env' || SMC.selectedTab === 'logs')\
     }"
   )
@@ -140,7 +140,7 @@
         ng-if = "!SMC.state.advanced"
         ng-include = "'viewFormFiles'"
         ng-show = "SMC.selectedTab === 'files'"
-        ng-init = "CFC.init({ state: SMC.state })"
+        ng-init = "CFC.init({ state: SMC.state, getDisplayName: SMC.getDisplayName })"
       )
       .modal-form(
         ng-if = "SMC.state.repo"
@@ -169,25 +169,25 @@
     footer.modal-footer.clearfix
       //- disabled if no changes
       button.btn.green.btn-spinner(
-        ng-class = "{'in': SMC.building}"
+        ng-class = "{'in': SMC.isBuilding }"
         ng-click = "editServerForm.$invalid || SMC.getUpdatePromise()"
         ng-disabled = "(!SMC.state.advanced && (SMC.state.selectedStack | selectedStackInvalid)) || !SMC.isDockerfileValid()"
         type = "submit"
       )
         //- spinner
         .spinner-wrapper.spinner-sm.spinner-white.in(
-          ng-if = "SMC.building"
+          ng-if = "SMC.isBuilding"
           ng-include = "'spinner'"
         )
         //- if built…text should only say "Save"
         span.btn-text(
-          ng-if = "!SMC.building"
+          ng-if = "!SMC.isBuilding"
         ) {{ (SMC.validation.env.length) ? (SMC.validation.env.length) + ' env errors' : 'Save & Rebuild'}}
         span.btn-text(
-          ng-if = "SMC.building"
+          ng-if = "SMC.isBuilding"
         ) Saving
        button.btn.white.btn-cancel(
-          ng-disabled = "SMC.building"
+          ng-disabled = "SMC.isBuilding"
           pop-over
           pop-over-template = "closeConfigureModalPopoverView"
           pop-over-trigger = "activeAttr"
