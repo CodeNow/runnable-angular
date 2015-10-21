@@ -35,6 +35,11 @@ describe('fetchStackAnalysisService'.bold.underline.blue, function () {
       .then(function (result) {
         expect(result, '2nd').to.equal(value);
         expect(result, '2nd').to.not.equal(value2);
+        return fetchStackAnalysis('1111');
+      })
+      .then(function (result) {
+        expect(result, 'new 1st').to.equal(value2);
+        expect(result, 'new 1st').to.not.equal(value);
         done();
       });
     $rootScope.$digest();
