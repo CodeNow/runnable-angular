@@ -1,26 +1,19 @@
 .popover-add-branches {
+  color: #555;
+  line-height: 1.2;
   max-width: 240px;
   padding: 6px 12px 9px;
-  line-height: 1.2;
-  color: #555;
 
+  // override default popover arrow to match dark popovers
   .arrow.arrow.arrow {
-    border-top-width: 0;
-    border-bottom-width: 9px;
-    border-right-width: 9px;
-    border-left-width: 9px;
+    border-width: 9px;
+    border-top-width: 0; // non-alphabetical to override border-width
     margin-left: -9px;
     top: -9px;
   }
 
-  .popover-footer {
-    margin: 9px -12px 0;
-    padding: 3px 12px 0;
-  }
-
   .btn {
-    font-weight: $weight-bold;
-    margin: 8px 0 3px;
+    margin: 9px 0 3px;
     width: 100%;
   }
 }

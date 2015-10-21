@@ -10,7 +10,6 @@
   ) Make sure you’re done configuring&#32;
     strong.strong pd-php-test
     small.small . This will create containers for its active branches.
-  .popover-footer(
+  button.btn.btn-xs.green(
     ng-if = "$root.featureFlags.webhooksToggling && !$root.featureFlags.webhooksAdminAbsent && !$root.featureFlags.webhooksContainerDown"
-  )
-    button.btn.btn-xs.green Launch Branches
+  ) Launch Branches

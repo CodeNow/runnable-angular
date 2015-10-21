@@ -1,46 +1,40 @@
 .popover-dark {
-  color: $gray-dark;
+  background: $gray-dark;
+  border: 0;
+  box-shadow: none;
+  color: $gray-lightest;
   line-height: 1.2;
   max-width: 240px;
   padding: 6px 12px 9px;
-  background: #555;
-  border: 0;
-  box-shadow: none;
-  color: #f0f0f0;
-  transform: scale3d(1,1,1);
-  transition: opacity .075s ease-in;
+  transition: opacity .075s ease-in; // override scaling popover transition
+  transform: scale3d(1,1,1); // override scaling popover transition
 
   .btn {
     background: $gray;
     color: $white;
+    font-weight: $weight-bold;
+    margin: 9px 0 3px;
+    width: 100%;
 
     &:hover {
       background: rgba($gray,.75);
     }
 
     &:active {
-      background: $gray-dark;
+      background: rgba($gray,.5);
     }
   }
 
-  .btn {
-    font-weight: $weight-bold;
-    margin: 8px 0 3px;
-    width: 100%;
-  }
-
-  // override popover default arrow color
+  // override default popover arrow to fit size of tooltip
   .arrow.arrow.arrow {
-    border-bottom-color: #555;
-    border-top-width: 0;
-    border-bottom-width: 9px;
-    border-right-width: 9px;
-    border-left-width: 9px;
+    border-bottom-color: $gray-dark;
+    border-width: 9px;
+    border-top-width: 0; // non-alphabetical to override border-width
     margin-left: -9px;
     top: -9px;
 
     &::after {
-      border-bottom-color: #555;
+      border-bottom-color: $gray-dark;
     }
   }
 }
