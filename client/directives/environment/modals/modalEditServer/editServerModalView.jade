@@ -140,7 +140,7 @@
         ng-if = "!SMC.state.advanced"
         ng-include = "'viewFormFiles'"
         ng-show = "SMC.selectedTab === 'files'"
-        ng-init = "CFC.init({ state: SMC.state })"
+        ng-init = "CFC.init({ state: SMC.state, getDisplayName: SMC.getDisplayName })"
       )
       .modal-form(
         ng-if = "SMC.state.repo"

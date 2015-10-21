@@ -14,6 +14,7 @@ function explorer(
     controller: 'FilePopoverController as FPC',
     scope: {
       instance: '=',
+      getDisplayName: '=?',
       openItems: '=',
       fileModel: '=',
       rootDir: '=',

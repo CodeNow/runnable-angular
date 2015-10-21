@@ -30,7 +30,8 @@ function fileTreeDir(
       showRepoFolder: '=',
       isRootDir: '=?',
       state: '=?',
-      loadingPromisesTarget: '='
+      loadingPromisesTarget: '=',
+      getDisplayName: '=?'
     },
     templateUrl: 'fileTreeDirView',
     link: function ($scope, element) {
@@ -264,12 +265,14 @@ function fileTreeDir(
       };
       $scope.popoverEditRepoCommit = {
         data: {
-          gitDataOnly: true
+          gitDataOnly: true,
+          getDisplayName: $scope.getDisplayName
         }
       };
       $scope.popoverFilesRepositoryCommitToggle = {
         data: {
-          gitDataOnly: true
+          gitDataOnly: true,
+          getDisplayName: $scope.getDisplayName
         },
         actions: {
           create: function (repo) {

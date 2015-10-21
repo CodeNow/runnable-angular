@@ -296,7 +296,8 @@ function ContainerFilesController(
       self.repositoryPopover.data = {
         repo: repo.clone(),
         instance: self.state.instance,
-        appCodeVersions: self.state.contextVersion.appCodeVersions.models
+        appCodeVersions: self.state.contextVersion.appCodeVersions.models,
+        getDisplayName: self.getDisplayName
       };
       self.repositoryPopover.active = true;
     },
