@@ -28,11 +28,11 @@
     .input-col
       .btn.btn-block.white.text-overflow(
         ng-click = "goToPanel('commit')"
-      ) {{ repoSelector.data.useLatest && $root.featureFlags.additionalRepositories ? 'Always update to latest commit' : repoSelector.data.commit.attrs.commit.message }}
+      ) {{ repoSelector.data.useLatest && 'Always update to latest commit' }}
         small.small(
           ng-if = "repoSelector.data.useLatest"
         ) on new builds of&#32;
-          strong.strong {{ data.instance.getDisplayName() }}
+          strong.strong {{ data.getDisplayName() || data.instance.getDisplayName() }}
         small.small(
           ng-if = "!repoSelector.data.useLatest"
         ) {{ repoSelector.data.commit.attrs.author.login }} authored {{ repoSelector.data.commit.attrs.commit.author.date | timeFrom }}

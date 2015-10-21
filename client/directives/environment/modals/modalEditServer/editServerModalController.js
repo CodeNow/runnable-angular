@@ -101,7 +101,8 @@ function EditServerModalController(
       }
     }),
     build: instance.build,
-    getElasticHostname: instance.getElasticHostname.bind(instance)
+    getElasticHostname: instance.getElasticHostname.bind(instance),
+    getDisplayName: instance.getDisplayName.bind(instance)
   });
   SMC.modalActions = SMC.actions;
   loading.reset(SMC.name);

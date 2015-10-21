@@ -157,7 +157,7 @@ section.modal-body(
     .modal-form(
       ng-controller = "ContainerFilesController as CFC"
       ng-include = "'viewFormFiles'"
-      ng-init = "CFC.init({ state: SMC.state })"
+      ng-init = "CFC.init({ state: SMC.state, getDisplayName: SMC.getDisplayName })"
       ng-show = "SMC.selectedTab === 'files'"
     )
     // Find & Replace
