@@ -122,6 +122,21 @@ function SetupServerModalController (
   $scope.data = data; // This needs to go away soon.
   loading.reset(SMC.name);
 
+  $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
+    $event.stopPropagation();
+    loading.reset(SMC.name);
+    if (showSpinner) {
+      loading(SMC.name, true);
+    }
+    SMC.resetStateContextVersion(contextVersion, showSpinner)
+      .catch(errs.handler)
+      .finally(function () {
+        if (showSpinner) {
+          loading(SMC.name, false);
+        }
+      });
+  });
+
   fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
     .then(function (repoList) {
       SMC.data.githubRepos = repoList;

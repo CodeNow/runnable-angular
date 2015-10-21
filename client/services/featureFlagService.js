@@ -7,7 +7,6 @@ function featureFlags(
   $localStorage
 ) {
   var defaultFeatureFlags = {
-    additionalRepositories: true,
     billing: false,
     cardStatus: false,
     debugStartCmd: false, // debug mode for start CMD (in CMD Logs)
@@ -17,7 +16,6 @@ function featureFlags(
     hostnameTool: false,
     imAfraidOfTheDark: false, // toggles theme
     internalDebugging: false,
-    isolationDnsMappings: true,
     isolationNav: false, // for isolation nav
     isolationUI: false, // for isolation UI
     newNavigation: true, // for isolation UI
