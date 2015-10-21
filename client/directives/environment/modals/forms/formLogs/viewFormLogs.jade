@@ -4,7 +4,7 @@
     $root.featureFlags.newVerificationFlow && \
     SMC.name === 'setupServerModal' && \
     SMC.instance && \
-    SMC.isDirty() && SMC.instance.status() !== 'buildFailed' \
+    SMC.isDirty()\
   "
 ) Rebuild to see changes you’ve made.
   button.btn.btn-xxs.gray(
@@ -17,7 +17,7 @@
     $root.featureFlags.newVerificationFlow && \
     SMC.name === 'setupServerModal' && \
     !SMC.isBuilding && \
-    SMC.instance && SMC.instance.status() === 'buildFailed' \
+    SMC.instance && !SMC.isDirty() && SMC.instance.status() === 'buildFailed'  \
   "
 ) Having build problems? Some errors can be resolved by rebuilding the container.
   button.btn.btn-xxs.orange(
