@@ -29,7 +29,13 @@ div(
   ) {{DC.instance.getBranchName()}}
     small.small (Debug)
 
-  button.btn.btn-xs.btn-badge.gray.float-right(
+  div.btn-save-wrapper(
+    instance = "instance"
+    open-items = "openItems"
+    save-open-items-button
+  )
+
+  button.btn.btn-xs.btn-badge.gray(
     ng-if = "$root.featureFlags.isolationUI"
   ) Isolated
 
