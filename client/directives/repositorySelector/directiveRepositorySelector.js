@@ -66,6 +66,7 @@ function repositorySelector(
       }
 
       $scope.repoSelector.data.instance = $scope.data.instance;
+      $scope.repoSelector.data.getDisplayName = $scope.data.getDisplayName;
       $scope.$on('commit::selected', function () {
         if (!$scope.data.gitDataOnly) {
           $scope.$broadcast('go-to-panel', 'repoOptions', 'back');

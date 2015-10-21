@@ -5,7 +5,9 @@ require('app')
 
 function SetupServerModalController (
   $scope,
+  $controller,
   $q,
+  $filter,
   createNewBuild,
   $rootScope,
   errs,
@@ -28,18 +30,30 @@ function SetupServerModalController (
   close
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
-  // This needs to go away soon.
-  $scope.data = data;
-  loadingPromises.clear('setupServerModal');
-  loading.reset('setupServerModal');
-
-  var mainRepoContainerFile = new cardInfoTypes.MainRepository();
-
+  var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
+    'insertHostName': parentController.insertHostName.bind(SMC),
+    'isDirty': parentController.isDirty.bind(SMC),
+    'openDockerfile': parentController.openDockerfile.bind(SMC),
+    'populateStateFromData': parentController.populateStateFromData.bind(SMC),
+    'rebuildAndOrRedeploy': parentController.rebuildAndOrRedeploy.bind(SMC),
+    'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
+    'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
+  });
+  var mainRepoContainerFile = new cardInfoTypes.MainRepository();
+  // Set initial state
+  angular.extend(SMC, {
+    name: 'setupServerModal',
     isLoading: $rootScope.isLoading,
     portsSet: false,
     isNewContainer: true,
     openItems: new OpenItems(),
+    getDisplayName: function () {
+      if (SMC.instance) {
+        return SMC.instance.getDisplayName();
+      }
+      return SMC.state.repo.attrs.name;
+    },
     getElasticHostname: function () {
       if (keypather.get(SMC, 'state.repo.attrs')) {
         // NOTE: Is SMC the best way to get the hostname?
@@ -65,6 +79,7 @@ function SetupServerModalController (
       opts: {
         masterPod: true,
         name: '',
+        env: []
       },
       selectedStack: null,
       step: 1
@@ -104,6 +119,8 @@ function SetupServerModalController (
     data: data,
     selectedTab: 'repository'
   });
+  $scope.data = data; // This needs to go away soon.
+  loading.reset(SMC.name);
 
   fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
     .then(function (repoList) {
@@ -149,43 +166,40 @@ function SetupServerModalController (
   SMC.goToNextStep = function () {
     SMC.state.step += 1;
     // Update step in setup-confirm-button directive
-    $scope.$broadcast('updateStep', SMC.state.step);
     if (SMC.state.step === 2) {
       SMC.changeTab('commands');
     }
     else if (SMC.state.step === 3) {
-      loading('setupServerModal', true);
+      loading(SMC.name, true);
       return loadAllOptions() // When stack is selected, load dockerfile, etc
         .then(function () {
           SMC.changeTab(null);
-          loading('setupServerModal', false);
+          loading(SMC.name, false);
         });
     }
     else if (SMC.state.step === 4) {
-      loading('setupServerModal', true);
+      loading(SMC.name, true);
       return SMC.createServer()
         .then(function () {
           // Go on to step 4 (logs)
+          loading(SMC.name, false);
           SMC.changeTab('logs');
-          loading('setupServerModal', false);
+        })
+        .catch(function (err) {
+          SMC.state.step = 3; // Revert step
+          SMC.changeTab(SMC.selectedTab);
+          loading(SMC.name, false);
+          errs.handler(err);
         });
     } else if (SMC.state.step > 4) {
-      return close();
+      if (SMC.isDirty()) {
+        // If the state, is dirty save it as we would in the EditServerModalController
+        return SMC.getUpdatePromise();
+      } else {
+        return close();
+      }
     }
   };
-
-  function openDockerfile() {
-    return promisify(SMC.state.contextVersion, 'fetchFile')('/Dockerfile')
-      .then(function (dockerfile) {
-        if (SMC.state.dockerfile) {
-          SMC.openItems.remove(SMC.state.dockerfile);
-        }
-        if (dockerfile) {
-          SMC.openItems.add(dockerfile);
-        }
-        SMC.state.dockerfile = dockerfile;
-      });
-  }
 
   function loadPorts () {
     var portsStr = keypather.get(SMC, 'state.selectedStack.ports');
@@ -213,11 +227,42 @@ function SetupServerModalController (
         return SMC.openItems.updateAllFiles();
       })
       .then(function () {
-        return openDockerfile();
+        return SMC.openDockerfile(SMC.state, SMC.openItems);
       });
   }
 
+  SMC.rebuild = function (noCache) {
+    loading(SMC.name, true);
+    return SMC.rebuildAndOrRedeploy(noCache)
+      .then(function () {
+        return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
+      })
+      .then(function (whatIsThis) {
+        return SMC;
+      })
+      .catch(errs.handler)
+      .finally(function () {
+        loading(SMC.name, false);
+      });
+  };
+
   SMC.changeTab = function (tabname) {
+    if (!SMC.state.advanced) {
+      if ($filter('selectedStackInvalid')(SMC.state.selectedStack)) {
+        tabname = 'repository';
+      } else if (!SMC.state.startCommand) {
+        tabname = 'commands';
+      }
+    } else if (SMC.setupServerForm.$invalid) {
+      if (keypather.get(SMC, 'setupServerForm.$error.required.length')) {
+        var firstRequiredError = SMC.setupServerForm.$error.required[0].$name;
+        tabname = firstRequiredError.split('.')[0];
+      }
+    }
+    if (SMC.state.step === 2 && tabname === 'repository') {
+       SMC.state.step = 1;
+    }
+    $scope.$broadcast('updateStep', SMC.state.step);
     SMC.selectedTab = tabname;
   };
 
@@ -226,7 +271,9 @@ function SetupServerModalController (
   };
 
   SMC.createServer = function () {
-    var createPromise = loadingPromises.finished('setupServerModal')
+    // Wait until all changes to the context version have been resolved to
+    // create the server
+    var createPromise = loadingPromises.finished(SMC.name)
       .then(function () {
         if (!SMC.state.advanced) {
           return updateDockerfileFromState(SMC.state, false, true);
@@ -255,9 +302,22 @@ function SetupServerModalController (
         return SMC.actions.createAndBuild(createPromise, SMC.state.opts.name);
       })
       .then(function (instance) {
-        SMC.instance = instance;
-        SMC.state.instance = instance;
+        if (instance && instance.contextVersion) {
+          SMC.instance = instance;
+          SMC.state.instance = instance;
+          return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
+        }
+        return $q.reject(new Error('Instance not created properly'));
+      })
+      .then(function () {
         return SMC;
+      })
+      .catch(function (err) {
+        // If creating the server fails, reset the context version
+        return SMC.resetStateContextVersion(SMC.state.contextVersion, true)
+          .then(function () {
+            return $q.reject(err);
+          });
       });
   };
 
@@ -280,6 +340,9 @@ function SetupServerModalController (
       .then(function (buildWithVersion) {
         SMC.state.build = buildWithVersion;
         SMC.state.contextVersion = buildWithVersion.contextVersion;
+        // Since we have a new context version, we need to clear all promises
+        // tied to any other context version (Usually handled by `resetStateContextVersion`)
+        loadingPromises.clear(SMC.name);
         SMC.state.advanced = false;
         SMC.state.promises.contextVersion = $q.when(buildWithVersion.contextVersion);
         return promisify(repo, 'fetchBranch')(repo.attrs.default_branch);
@@ -338,4 +401,20 @@ function SetupServerModalController (
           });
       });
   };
+
+  SMC.getUpdatePromise = function () {
+    SMC.isBuilding = true; // `isBuilding` is used for adding spinner to 'Start Build' button
+    return SMC.saveInstanceAndRefreshCards()
+      .then(function () {
+         return close();
+      })
+      .catch(function (err) {
+        errs.handler(err);
+        return SMC.resetStateContextVersion(SMC.state.contextVersion, false);
+      })
+      .finally(function () {
+        SMC.isBuilding = false;
+      });
+  };
+
 }
