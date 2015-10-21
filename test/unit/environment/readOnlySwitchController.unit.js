@@ -18,7 +18,7 @@ var dockerfile = {
   }
 };
 
-describe.only('ReadOnlySwitchController'.bold.underline.blue, function () {
+describe('ReadOnlySwitchController'.bold.underline.blue, function () {
   var ctx = {};
   function setup() {
 
@@ -122,7 +122,8 @@ describe.only('ReadOnlySwitchController'.bold.underline.blue, function () {
         promises: {
           contextVersion: $q.when(ctx.contextVersion)
         },
-        instance: ctx.instance
+        instance: ctx.instance,
+        contextVersion: ctx.contextVersion
       };
     });
     it('should be a getter', function () {
@@ -173,7 +174,8 @@ describe.only('ReadOnlySwitchController'.bold.underline.blue, function () {
         promises: {
           contextVersion: $q.when(ctx.contextVersion)
         },
-        instance: ctx.instance
+        instance: ctx.instance,
+        contextVersion: ctx.contextVersion
       };
     });
     it('should rollback the cv', function () {
@@ -219,7 +221,8 @@ describe.only('ReadOnlySwitchController'.bold.underline.blue, function () {
         promises: {
           contextVersion: $q.reject(ctx.contextVersion)
         },
-        instance: ctx.instance
+        instance: ctx.instance,
+        contextVersion: ctx.contextVersion
       };
     });
     it('should attempt to update the cv', function () {
