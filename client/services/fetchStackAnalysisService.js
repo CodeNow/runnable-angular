@@ -15,7 +15,7 @@ function fetchStackAnalysis(
   return function (fullRepoName) {
     if (!stackAnalysisCache[fullRepoName]) {
       stackAnalysisCache[fullRepoName] =
-        apiClientBridge.client.pGet('/actions/analyze?repo=' + fullRepoName);
+        apiClientBridge.client.getAsync('/actions/analyze?repo=' + fullRepoName);
     }
     return stackAnalysisCache[fullRepoName];
   };

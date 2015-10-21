@@ -16,7 +16,7 @@ require('app')
   ) {
     var runnable = new Runnable(configAPIHost, { userContentDomain: configUserContentDomain });
     runnable.client.request = new AngularHttpRequest($http, report.error);
-    runnable.client.pGet = $q.promisify(runnable.client.get);
+    runnable.client.getAsync = $q.promisify(runnable.client.get);
     // We need to debounce here because we could get a lot of messages from the socket and we don't want to refresh constantly
     var triggerDigest = debounce(function () {
       $timeout(angular.noop);

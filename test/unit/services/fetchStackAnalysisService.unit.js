@@ -25,11 +25,11 @@ describe('fetchStackAnalysisService'.bold.underline.blue, function () {
     var value2 = {
       hello2: 'hi2'
     };
-    sinon.stub(apiClientBridge.client, 'pGet').returns($q.when(value));
+    sinon.stub(apiClientBridge.client, 'getAsync').returns($q.when(value));
     fetchStackAnalysis('sadfsdf')
       .then(function (result) {
         expect(result, '1st').to.equal(value);
-        apiClientBridge.client.pGet.returns($q.when(value2));
+        apiClientBridge.client.getAsync.returns($q.when(value2));
         return fetchStackAnalysis('sadfsdf');
       })
       .then(function (result) {
@@ -41,7 +41,7 @@ describe('fetchStackAnalysisService'.bold.underline.blue, function () {
   });
   it('should throw a catch on an error', function (done) {
     var error = new Error('Hey');
-    sinon.stub(apiClientBridge.client, 'pGet').returns($q.reject(error));
+    sinon.stub(apiClientBridge.client, 'getAsync').returns($q.reject(error));
     fetchStackAnalysis('sadfsdf')
       .then(function () {
         done(new Error('NO, shouldnt have come here!'));
