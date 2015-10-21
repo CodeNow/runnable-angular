@@ -15,7 +15,8 @@ function readOnlySwitch(
     bindToController: true,
     scope: {
       loadingPromisesTarget: '@',
-      state: '='
+      state: '=',
+      isDirty: '=?'
     }
   };
 }
