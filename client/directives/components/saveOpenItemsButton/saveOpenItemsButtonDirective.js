@@ -19,10 +19,10 @@ function saveOpenItemsButton(
     bindToController: true,
     scope: {
       instance: '=',
-      openItems: '='
+      openItems: '=',
+      hideRestart: '@?'
     },
-    link: function ($scope, elem, attrs) {
-      $scope.hideRestart = attrs.hasOwnProperty('hideRestart');
+    link: function ($scope) {
       $scope.save = function (andRestart) {
         $scope.loading = true;
         $scope.SOIBC.saveChanges(andRestart)

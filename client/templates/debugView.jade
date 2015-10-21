@@ -30,7 +30,7 @@ div(
     small.small (Debug)
 
   div.btn-save-wrapper(
-    hide-restart
+    hide-restart = "true"
     instance = "DC.instance"
     ng-if = "!$root.featureFlags.saveToolbar && !DC.openItems.isClean()"
     open-items = "DC.openItems"
