@@ -158,9 +158,9 @@ function EnvironmentController(
           return instance;
         })
         .catch(function (err) {
-          errs.handler(err);
           // Remove it from the servers list
           instance.dealloc();
+          return $q.reject(err);
         })
         .finally(function () {
           $rootScope.dataApp.creatingInstance = false;
