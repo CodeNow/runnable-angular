@@ -7,13 +7,22 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   var $scope;
   var $rootScope;
   var keypather;
+  var loadingPromises;
   var $q;
   var featureFlags;
   var MockFetch = require('../fixtures/mockFetch');
   var apiMocks = require('../apiMocks/index');
+  var apiClientMockFactory = require('../../unit/apiMocks/apiClientMockFactory');
+  var VersionFileModel = require('runnable/lib/models/context/version/file');
+  var fileObj = {'path':'/home','name':'defined','isDir':false,'body':'adsf','state':{'from':'File'}};
+  var fileModel = new VersionFileModel(fileObj, { noStore: true });
 
   var stacks = angular.copy(apiMocks.stackInfo);
   var dockerfile = {
+    state: {
+      type: 'File',
+      body: angular.copy(apiMocks.files.dockerfile)
+    },
     attrs: {
       body: angular.copy(apiMocks.files.dockerfile)
     }
@@ -130,11 +139,13 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       _$controller_,
       _$rootScope_,
       _keypather_,
+      _loadingPromises_,
       _$q_
     ) {
       $controller = _$controller_;
       keypather = _keypather_;
       $rootScope = _$rootScope_;
+      loadingPromises = _loadingPromises_;
       $q = _$q_;
 
       keypather.set($rootScope, 'dataApp.data.activeAccount.oauthName', sinon.mock().returns('myOauthName'));
@@ -584,6 +595,65 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(SMC.resetStateContextVersion);
       sinon.assert.calledOnce(closeSpy);
     });
+  });
+
+  describe('isDirty', function () {
+
+    beforeEach(function () {
+      SMC.state.acv = acv;
+      SMC.state.branch = branch;
+      SMC.state.contextVersion = {};
+      SMC.actions.createAndBuild = sinon.stub().returns($q.when(newBuild));
+      SMC.actions.deleteServer = sinon.stub().returns($q.when(true));
+      createNewBuildMock.returns(newBuild);
+    });
+
+    it('should return false if there is no context version set', function () {
+      SMC.state.contextVersion = null;
+      SMC.state.opts.env.push('HELLO=1');
+      expect(SMC.isDirty()).to.equal(false);
+      SMC.state.contextVersion = {};
+      expect(SMC.isDirty()).to.equal(true);
+    });
+
+    it('should not be dirty until a change is made', function () {
+      expect(SMC.isDirty()).to.equal(false);
+      SMC.selectRepo(repo);
+      $scope.$digest();
+      expect(SMC.isDirty()).to.equal(false);
+      SMC.state.opts.env.push('HELLO=1');
+      expect(SMC.isDirty()).to.equal(true);
+    });
+
+    describe('Changes', function () {
+
+      beforeEach(function () {
+        SMC.selectRepo(repo);
+      });
+
+      it('should be dirty when an ENV variables has changes', function () {
+        expect(SMC.isDirty()).to.equal(false);
+        SMC.state.opts.env.push('HELLO=1');
+        expect(SMC.isDirty()).to.equal(true);
+      });
+
+      it('should be dirty when a loading promises is added', function () {
+        expect(SMC.isDirty()).to.equal(false);
+        loadingPromises.add(SMC.name, $q.when(true));
+        $scope.$digest();
+        expect(SMC.isDirty()).to.equal(true);
+      });
+
+      it('should be dirty when a file is added', function () {
+        expect(SMC.isDirty()).to.equal(false);
+        SMC.openItems.add(fileModel);
+        fileModel.attrs.body = 'FROM nodejs\nCMD echo "1";';
+        $scope.$digest();
+        expect(SMC.isDirty()).to.equal(true);
+      });
+
+    });
+
   });
 
 });
