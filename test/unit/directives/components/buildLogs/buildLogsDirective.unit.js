@@ -63,12 +63,12 @@ describe('BuildLogsDirective'.bold.underline.blue, function () {
     it('should recalculate scroll position on new content', function () {
       scrollHelperSpy.reset();
       mockBuildLogsController.buildLogs.push({
-        content: [],
+        lineCount: 2,
         command: 'Hello'
       });
       $scope.$digest();
       scrollHelperSpy.reset();
-      mockBuildLogsController.buildLogs[0].content.push('New Content!');
+      mockBuildLogsController.buildLogs[0].lineCount = 4;
       $scope.$digest();
       sinon.assert.calledOnce(scrollHelperSpy);
     });

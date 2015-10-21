@@ -53,9 +53,16 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       activeCommit: sinon.spy(),
       branchCommits: sinon.spy()
     };
+    var FilePopoverController = function () {
+      this.actions = {
+        rename: sinon.spy()
+      };
+      ctx.mockFilePopoverController = this;
+    };
     createFsMock = sinon.spy();
     angular.mock.module('app');
-    angular.mock.module(function ($provide) {
+    angular.mock.module(function ($provide, $controllerProvider) {
+      $controllerProvider.register('FilePopoverController', FilePopoverController);
       $provide.value('helperCreateFSpromise', createFsMock);
       $provide.value('errs', errs);
       $provide.value('Upload', uploadMock);
@@ -112,8 +119,9 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       $elScope.dir.rename = sinon.spy();
       inputElement.value = '123';
       $elScope.actions.closeFolderNameInput();
-      expect($elScope.dir.rename.calledOnce).to.equal(true);
-      expect($elScope.dir.rename.calledWith('123', errs.handler)).to.equal(true);
+
+      sinon.assert.calledOnce(ctx.mockFilePopoverController.actions.rename);
+      sinon.assert.calledWith(ctx.mockFilePopoverController.actions.rename, $elScope.dir, '123');
     });
 
     it('should trigger close if the user hits enter', function () {
@@ -513,7 +521,8 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
         }
       };
       $elScope.actions.closeFileNameInput(event, file);
-      expect(file.rename.calledOnce).to.equal(true);
+      sinon.assert.calledOnce(ctx.mockFilePopoverController.actions.rename);
+      sinon.assert.calledWith(ctx.mockFilePopoverController.actions.rename, file, 'Bar');
     });
 
     it('should not change the file name if it has not been modified', function () {

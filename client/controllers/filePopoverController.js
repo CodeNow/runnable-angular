@@ -36,6 +36,10 @@ function FilePopoverController(
         .catch(errs.handler);
       $rootScope.$broadcast('close-popovers');
     },
+    rename: function (fileOrDir, newValue) {
+      return loadingPromises.add(self.loadingPromisesTarget, promisify(fileOrDir, 'rename')(newValue))
+        .catch(errs.handler);
+    },
     renameFolder: function () {
       $scope.editFolderName = true;
       $scope.actions.focusInputElement();

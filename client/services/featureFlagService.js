@@ -7,10 +7,8 @@ function featureFlags(
   $localStorage
 ) {
   var defaultFeatureFlags = {
-    additionalRepositories: true,
     billing: false,
     cardStatus: false,
-    debugMode: true,
     debugStartCmd: false, // debug mode for start CMD (in CMD Logs)
     fullScreen: false,  // toggles full screen
     fullScreenToggle: false,  // toggles the button that toggles full screen
@@ -18,7 +16,6 @@ function featureFlags(
     hostnameTool: false,
     imAfraidOfTheDark: false, // toggles theme
     internalDebugging: false,
-    isolationDnsMappings: true,
     isolationNav: false, // for isolation nav
     isolationUI: false, // for isolation UI
     newNavigation: true, // for isolation UI
@@ -31,7 +28,6 @@ function featureFlags(
     saveToolbar: false,
     teamUI: false, // changes text from org to team in account menu
     themeToggle: false, // toggles the button that toggles theme
-    updatedBuildLogs: true,
     updatedSlackValidation: false,
     editAnyInstance: false
   };

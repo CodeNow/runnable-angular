@@ -1,5 +1,6 @@
 .modal-backdrop.in
-  .modal-dialog.modal-edit(
+  form.modal-dialog.modal-edit(
+    name = "SMC.setupServerForm"
     ng-if = "SMC.state.repo"
     ng-include = "'verifyServerSectionView'"
     ng-class = "{\

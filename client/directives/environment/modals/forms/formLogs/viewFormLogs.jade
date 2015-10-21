@@ -55,17 +55,10 @@ pre.pre.log-wrapper(
     ng-show = "SMC.showDebugCmd"
     ng-include = "'viewToolbar'"
   )
-  .term-js.term-log(
-    log-term
-    instance = 'SMC.instance'
-    controller = "BuildLogController"
-    ng-if = "!$root.featureFlags.updatedBuildLogs"
-    ng-show = "page === 'build'"
-  )
   .build-log-wrapper(
     build-logs
     instance = 'SMC.instance'
-    ng-if = "$root.featureFlags.updatedBuildLogs && SMC.instance"
+    ng-if = "SMC.instance"
     ng-show = "page === 'build'"
     ng-style = "($root.featureFlags.themeToggle || $root.featureFlags.fullScreenToggle) && {'padding-right': '42px'}"
   )
