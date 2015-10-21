@@ -135,15 +135,28 @@
         )
         .username.text-overflow {{teammate.username}}
         .small.text-overflow {{teammate.email}}
-        button.btn.btn-xs.gray(
-          ng-class = "{'active': permissionsPopover.data.show}"
-          pop-over
-          pop-over-active = "permissionsPopover.data.show"
-          pop-over-options = "{\"right\":0,\"top\":35}"
-          pop-over-template = "permissionsPopoverView"
-        )
-          span.float-left {{teammate.permission}}
-          svg.iconnables.icons-arrow-down
-            use(
-              xlink:href = "#icons-arrow-down"
-            )
+        .btn-wrapper
+          button.btn.btn-xs.gray(
+            ng-class = "{'active': permissionsPopover.data.show}"
+            pop-over
+            pop-over-active = "permissionsPopover.data.show"
+            pop-over-options = "{\"right\":0,\"top\":35}"
+            pop-over-template = "permissionsPopoverView"
+          )
+            span.float-left {{teammate.permission}}
+            svg.iconnables.icons-arrow-down
+              use(
+                xlink:href = "#icons-arrow-down"
+              )
+
+          button.btn.btn-xs.white.float-right(
+            ng-class = "{'active': teammateOptionsPopover.data.show}"
+            pop-over
+            pop-over-active = "teammateOptionsPopover.data.show"
+            pop-over-options = "{\"right\":0,\"top\":35}"
+            pop-over-template = "teammateOptionsPopoverView"
+          )
+            svg.iconnables.icons-overflow
+              use(
+                xlink:href = "#icons-overflow"
+              )

@@ -49,6 +49,17 @@
       top: 16px;
     }
 
+    // overflow for permissions and overflow
+    .text-overflow {
+      padding-right: 111px;
+    }
+
+    // overflow
+    .icons-overflow {
+      top: -2px;
+      width: 15px;
+    }
+
     // permissions button
     .gray {
       text-align: left;
@@ -63,14 +74,9 @@
       margin-top: 15px;
     }
 
-    // additional padding for overflow button
+    // additional padding for send button
     .text-overflow {
-      padding-right: 36px;
-    }
-
-    .icons-overflow {
-      top: -2px;
-      width: 15px;
+      padding-right: 120px;
     }
   }
 
