@@ -26,8 +26,31 @@
         )
         .username.text-overflow cflynn07
         .small.text-overflow Invite requested…
-        .btn-wrapper
-          button.btn.btn-xs.green Send Invite
+        .btn-wrapper(
+          ng-init = "state.inviteSent = null"
+        )
+          button.btn.btn-xs.green(
+            ng-click = "state.inviteSent = true"
+            ng-if = "!state.inviteSent"
+          ) Send Invite
+
+          .send-confirmation.load(
+            ng-if = "state.inviteSent"
+          )
+            svg.iconnables.icons-check.float-left(
+              viewbox = '0 0 14.5 10'
+            )
+              path.path(
+                d = 'M1,4.5L5.5,9l8-8'
+                fill = 'none',
+                stroke = '#3ccb5a',
+                stroke-linecap = 'round',
+                stroke-linejoin = 'round',
+                stroke-miterlimit = '10',
+                stroke-width = '2',
+              )
+            | Sent
+
           button.btn.btn-xs.white.float-right(
             ng-class = "{'active': requestInvitePopover.data.show}"
             pop-over
@@ -90,7 +113,8 @@
           pop-over-active = "permissionsPopover.data.show"
           pop-over-options = "{\"right\":0,\"top\":35}"
           pop-over-template = "permissionsPopoverView"
-        ) {{teammate.permission}}
+        )
+          span.float-left {{teammate.permission}}
           svg.iconnables.icons-arrow-down
             use(
               xlink:href = "#icons-arrow-down"
