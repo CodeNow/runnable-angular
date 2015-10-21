@@ -41,8 +41,8 @@ function ServerModalController (
     }
     return loadingPromises.count(SMC.name) > 0 ||
       !angular.equals(
-        keypather.get(SMC, 'instance.attrs.env'),
-        keypather.get(SMC, 'state.opts.env')
+        keypather.get(SMC, 'instance.attrs.env') || [],
+        keypather.get(SMC, 'state.opts.env') || []
       ) ||
       !SMC.openItems.isClean();
   };
