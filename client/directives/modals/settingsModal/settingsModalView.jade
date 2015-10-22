@@ -23,7 +23,11 @@
             )
           .btn-text Billing
         button.btn.btn-radio(
-          ng-class = "{'active': currentTab === 'teamManagement'}"
+          data-badge-count = "1"
+          ng-class = "{\
+            'active': currentTab === 'teamManagement',\
+            'badge': true\
+          }"
           ng-click = "currentTab = 'teamManagement'"
           ng-show = "$root.featureFlags.teamManagement"
         )

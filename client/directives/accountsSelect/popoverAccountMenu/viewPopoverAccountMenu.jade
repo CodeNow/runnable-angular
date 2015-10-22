@@ -56,7 +56,9 @@
                 )
               | Billing
             li.list-item.popover-list-item(
+              data-badge-count = "1"
               internal-modal-helper = "settingsModalView"
+              ng-class = "{'badge': true}"
               ng-if = "$root.featureFlags.teamManagement"
             )
               svg.iconnables
