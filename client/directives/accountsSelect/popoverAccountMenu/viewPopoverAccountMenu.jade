@@ -25,7 +25,7 @@
           ul.list.popover-list(
             ng-if = "data.showIntegrations"
           )
-            li.list-item.popover-list-item.small.disabled {{data.activeAccount.oauthName()}} {{$root.featureFlags.teamManagement ? '' : 'Settings'}}
+            li.list-item.popover-list-item.small.disabled {{data.activeAccount.oauthName()}} Settings
             li.list-item.popover-list-item(
               modal
               modal-actions = "actions.actionsModalIntegrations"
@@ -65,7 +65,7 @@
                 use(
                   xlink:href = "#icons-team"
                 )
-              | Manage Team
+              | Teammates
             li.list-item.popover-list-item(
               internal-modal-helper = "settingsModalView"
               ng-if = "$root.featureFlags.billing"
