@@ -12,7 +12,7 @@
   //- if default container is running but there's no admin present
   small.small(
     ng-if = "$root.featureFlags.webhooks && $root.featureFlags.webhooksContainerRunning && !$root.featureFlags.webhooksAdminPresent"
-  ) Congrats on your running container! Now we just need permission from a GitHub admin.
+  ) Well done! Your default container is running. Now we just need permission from a GitHub admin.
   button.btn.btn-xs(
     modal
     modal-template = "inviteAdminModalView"
