@@ -216,3 +216,13 @@ EventTracking.prototype.update = function () {
   return this;
 };
 
+/**
+ * Track clicks on the page
+ * @param data
+ * @returns {EventTracking}
+ */
+EventTracking.prototype.trackClicked = function (data) {
+  this._mixpanel('track', 'clicked', data);
+  return this;
+};
+
