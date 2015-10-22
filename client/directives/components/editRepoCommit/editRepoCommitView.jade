@@ -41,7 +41,7 @@
       ng-click = "$event.stopPropagation()"
       ng-if = "!acv.attrs.additionalRepo && $root.featureFlags.webhooks && !$root.featureFlags.webhooksAdminPresent"
       pop-over
-      pop-over-options = "{\"top\":29,\"left\":-107}"
+      pop-over-options = "{\"top\":29,\"centered\":true}"
       pop-over-template = "autoDeployPopoverView"
     ) Auto Deploy
       .toggle-group.toggle-xs
