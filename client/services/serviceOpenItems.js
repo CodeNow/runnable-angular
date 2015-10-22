@@ -253,7 +253,8 @@ function openItemsFactory(
 
   OpenItems.prototype.isFile = function (model) {
     return (model instanceof VersionFileModel ||
-      model instanceof ContainerFileModel);
+      model instanceof ContainerFileModel ||
+      model instanceof DebugFileModel);
   };
 
   OpenItems.prototype.newModel = newModel;
