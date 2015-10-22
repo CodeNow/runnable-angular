@@ -1,6 +1,9 @@
 // instance header: status, dns mappings, container url, save (deprecated)
 .instance-header {
+  background: $white;
   flex: 0 0 auto;
+  position: relative;
+  z-index: $z-views-header;
 }
 
 .instance-header-title {
