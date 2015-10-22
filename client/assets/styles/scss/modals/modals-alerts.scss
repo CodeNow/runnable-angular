@@ -1,19 +1,22 @@
 .modal-alert {
+  color: $gray-dark;
   max-width: 420px;
   top: 10%;
 
   .modal-body {
-    padding: 45px 36px 30px 33px;
+    padding: 33px 30px 30px;
   }
 
-  // text
-  // title
   .p {
-    font-size: 15px;
 
+    // title
     &.strong {
       font-size: 18px;
-      margin-bottom: 6px;
+      color: $gray-darker;
+    }
+
+    + .p {
+      margin-top: 9px;
     }
   }
 }
