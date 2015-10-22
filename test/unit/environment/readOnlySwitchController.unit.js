@@ -19,7 +19,7 @@ var dockerfile = {
   }
 };
 
-describe.only('ReadOnlySwitchController'.bold.underline.blue, function () {
+describe('ReadOnlySwitchController'.bold.underline.blue, function () {
   var ctx = {};
   function setup() {
 
@@ -74,41 +74,39 @@ describe.only('ReadOnlySwitchController'.bold.underline.blue, function () {
       runnable,
       apiMocks.contextVersions.setup
     );
+    ctx.thirdContextVersion = mockFactory.contextVersion(
+      runnable,
+      apiMocks.contextVersions.angular
+    );
     ctx.theFirstContextVersion = mockFactory.contextVersion(
       runnable,
       apiMocks.contextVersions.angular
     );
     ctx.instance.contextVersion = ctx.theFirstContextVersion;
-    sinon.stub(ctx.contextVersion, 'fetch', function (cb) {
-      $rootScope.$evalAsync(function () {
-        cb(null, ctx.contextVersion);
-      });
-      return ctx.contextVersion;
-    });
-    sinon.stub(ctx.contextVersion, 'update', function (opts, cb) {
-      $rootScope.$evalAsync(function () {
-        cb(null, ctx.contextVersion);
-      });
-      return ctx.contextVersion;
-    });
-    sinon.stub(ctx.contextVersion, 'rollback', function (opts, cb) {
-      $rootScope.$evalAsync(function () {
-        cb(null, ctx.newContextVersion);
-      });
-      return ctx.newContextVersion;
-    });
-    sinon.stub(ctx.contextVersion, 'fetchFile', function (opts, cb) {
-      $rootScope.$evalAsync(function () {
-        cb(null, dockerfile);
-      });
-      return ctx.newContextVersion;
-    });
-    sinon.stub(ctx.contextVersion, 'deepCopy', function (cb) {
-      $rootScope.$evalAsync(function () {
-        cb(null, ctx.newContextVersion);
-      });
-      return ctx.contextVersion;
-    });
+    var returnArg = function (returnArg, callbackArg) {
+      return function () {
+        var args = Array.prototype.slice.call(arguments);
+        var cb = args[args.length - 1]; // The callback will be the last argument
+        $rootScope.$evalAsync(function () {
+          if (callbackArg !== undefined) {
+            cb(null, callbackArg);
+          } else {
+            cb(null, returnArg);
+          }
+        });
+        return returnArg;
+      };
+    };
+    sinon.stub(ctx.contextVersion, 'fetch', returnArg(ctx.contextVersion));
+    sinon.stub(ctx.contextVersion, 'update', returnArg(ctx.contextVersion));
+    sinon.stub(ctx.contextVersion, 'rollback', returnArg(ctx.newContextVersion));
+    sinon.stub(ctx.contextVersion, 'deepCopy', returnArg(ctx.newContextVersion));
+    sinon.stub(ctx.contextVersion, 'fetchFile', returnArg(ctx.newContextVersion, dockerfile));
+    // newContextVersion
+    sinon.stub(ctx.newContextVersion, 'fetch', returnArg(ctx.contextVersion));
+    sinon.stub(ctx.newContextVersion, 'update', returnArg(ctx.contextVersion));
+    sinon.stub(ctx.newContextVersion, 'deepCopy', returnArg(ctx.newContextVersion));
+    sinon.stub(ctx.newContextVersion, 'fetchFile', returnArg(ctx.newContextVersion, dockerfile));
 
     readOnlySwitchController = $controller('ReadOnlySwitchController', {
       '$scope': $scope
@@ -181,24 +179,6 @@ describe.only('ReadOnlySwitchController'.bold.underline.blue, function () {
           .to.equal(ctx.newContextVersion.attrs.created);
       });
 
-      it('should switch revert back to the original context version when switching back to simple mode', function () {
-        var simpleCVId = keypather.get(readOnlySwitchController, 'state.contextVersion.attrs._id');
-        readOnlySwitchController.state.advanced = false;
-        expect(simpleCVId).to.be.a.string;
-
-        // Switch to advanced mode
-        readOnlySwitchController.readOnly(true);
-        $scope.$digest();
-        var advancedCVId = keypather.get(readOnlySwitchController, 'state.contextVersion.attrs._id');
-        expect(advancedCVId).to.not.equal(simpleCVId);
-
-        // Switch back to simple mode
-        readOnlySwitchController.readOnly(true);
-        $scope.$digest();
-        var newSimpleCVId = keypather.get(readOnlySwitchController, 'state.contextVersion.attrs._id');
-        expect(newSimpleCVId).to.equal(simpleCVId);
-      });
-
     });
 
     describe('With No Instance', function () {
@@ -221,8 +201,8 @@ describe.only('ReadOnlySwitchController'.bold.underline.blue, function () {
         $scope.$digest();
         $scope.$digest();
         sinon.assert.calledOnce(ctx.loadingPromiseMock.add);
-        sinon.assert.calledOnce(ctx.contextVersion.update);
-        sinon.assert.calledOnce(ctx.contextVersion.fetch);
+        sinon.assert.calledOnce(ctx.newContextVersion.update);
+        sinon.assert.calledOnce(ctx.newContextVersion.fetch);
         expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.true;
         expect(keypather.get(readOnlySwitchController, 'state.allContextVersions.simple')).to.be.an.object;
         // `lastBuiltSimpleContextVersion` is not necessary when there is not instance
@@ -241,58 +221,79 @@ describe.only('ReadOnlySwitchController'.bold.underline.blue, function () {
         expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.false;
       });
 
+      it('should switch revert back to the original context version when switching back to simple mode', function () {
+        $scope.$emit = sinon.spy(function (eventName, contextVersion) {
+          readOnlySwitchController.state.contextVersion = ctx.thirdContextVersion;
+        });
+
+        var simpleCVId = keypather.get(readOnlySwitchController, 'state.contextVersion.attrs._id');
+        readOnlySwitchController.state.advanced = false;
+        expect(simpleCVId).to.be.a.string;
+
+        // Switch to advanced mode
+        readOnlySwitchController.readOnly(true);
+        $scope.$digest();
+        var advancedCVId = keypather.get(readOnlySwitchController, 'state.contextVersion.attrs._id');
+        expect(advancedCVId).to.not.equal(simpleCVId);
+        expect(keypather.get(readOnlySwitchController, 'state.advanced')).to.equal(true);
+
+        // Switch back to simple mode with a new context version
+        readOnlySwitchController.readOnly(false);
+        $scope.$digest();
+        var newSimpleCVId = keypather.get(readOnlySwitchController, 'state.contextVersion.attrs._id');
+        expect(newSimpleCVId).to.not.equal(simpleCVId);
+        expect(newSimpleCVId).to.not.equal(advancedCVId);
+        expect(keypather.get(readOnlySwitchController, 'state.advanced')).to.equal(false);
+      });
+
     });
 
   });
 
   describe('rollback'.blue, function () {
 
-    describe('With Instance', function () {
+    beforeEach(function () {
+      readOnlySwitchController.state = {
+        advanced: true,
+        promises: {
+          contextVersion: $q.when(ctx.contextVersion)
+        },
+        instance: ctx.instance,
+        contextVersion: ctx.contextVersion
+      };
+    });
 
-      beforeEach(function () {
-        readOnlySwitchController.state = {
-          advanced: true,
-          promises: {
-            contextVersion: $q.when(ctx.contextVersion)
-          },
-          instance: ctx.instance,
-          contextVersion: ctx.contextVersion
-        };
+    it('should rollback the cv', function () {
+      readOnlySwitchController.state.advanced = true;
+      expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.true;
+      var resetStateContextVersionMock = sinon.spy();
+      $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
+        resetStateContextVersionMock(contextVersion, showSpinner);
       });
+      readOnlySwitchController.readOnly(false);
+      $scope.$digest();
+      sinon.assert.calledOnce(ctx.contextVersion.rollback);
+      sinon.assert.calledWith(resetStateContextVersionMock, ctx.newContextVersion, true);
+    });
 
-      it('should rollback the cv', function () {
-        readOnlySwitchController.state.advanced = true;
-        expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.true;
-        var resetStateContextVersionMock = sinon.spy();
-        $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
-          resetStateContextVersionMock(contextVersion, showSpinner);
-        });
-        readOnlySwitchController.readOnly(false);
-        $scope.$digest();
-        sinon.assert.calledOnce(ctx.contextVersion.rollback);
-        sinon.assert.calledWith(resetStateContextVersionMock, ctx.newContextVersion, true);
+    it('should rollback to the old CV when rollback fails', function () {
+      readOnlySwitchController.state.advanced = true;
+      expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.true;
+      var resetStateContextVersionMock = sinon.spy();
+      $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
+        resetStateContextVersionMock(contextVersion, showSpinner);
       });
-
-      it('should rollback to the old CV when rollback fails', function () {
-        readOnlySwitchController.state.advanced = true;
-        expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.true;
-        var resetStateContextVersionMock = sinon.spy();
-        $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
-          resetStateContextVersionMock(contextVersion, showSpinner);
+      ctx.contextVersion.rollback = function () {};
+      sinon.stub(ctx.contextVersion, 'rollback', function (opts, cb) {
+        $rootScope.$evalAsync(function () {
+          cb(new Error('asdasdasdasd'));
         });
-        ctx.contextVersion.rollback = function () {};
-        sinon.stub(ctx.contextVersion, 'rollback', function (opts, cb) {
-          $rootScope.$evalAsync(function () {
-            cb(new Error('asdasdasdasd'));
-          });
-          return new Error('asdasdasdasd');
-        });
-        readOnlySwitchController.readOnly(false);
-        $scope.$digest();
-        sinon.assert.calledOnce(ctx.contextVersion.rollback);
-        sinon.assert.calledWith(resetStateContextVersionMock, ctx.contextVersion, true);
+        return new Error('asdasdasdasd');
       });
-
+      readOnlySwitchController.readOnly(false);
+      $scope.$digest();
+      sinon.assert.calledOnce(ctx.contextVersion.rollback);
+      sinon.assert.calledWith(resetStateContextVersionMock, ctx.contextVersion, true);
     });
 
   });
