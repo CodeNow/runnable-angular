@@ -70,7 +70,7 @@
 .tooltip-text {
   background: $gray-darker;
   border-radius: 3px;
-  color: $gray-lightest;
+  color: $white;
   font-size: 13px;
   line-height: 1;
   padding: 12px;
@@ -113,7 +113,7 @@
 .tooltip-plus {
   background: $gray-darker;
   border-radius: 3px;
-  color: $gray-lightest;
+  color: $white;
   display: none;
   font-size: 13px;
   line-height: 1;
@@ -217,7 +217,7 @@
     }
 
     .p.p {
-      border-top: 1px solid $gray-darker;
+      border-top: 1px solid $gray-dark;
       line-height: 1.2;
       margin: 6px 0 0;
       padding-top: 6px;
@@ -239,7 +239,7 @@
 
   // don't inherit these from parent styles
   .small {
-    color: $gray-lightest;
+    color: $gray-light;
     display: block;
     padding: 0; // overrides…until tooltips are refactored
   }

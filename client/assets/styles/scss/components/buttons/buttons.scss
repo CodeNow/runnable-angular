@@ -411,15 +411,7 @@
     &.active:hover {
       border-color: $purple-light;
       color: $purple-light;
-
-      .icons-round {
-        background: $purple-light;
-      }
     }
-  }
-
-  .icons-round {
-    background: $gray-light;
   }
 }
 

@@ -1,5 +1,4 @@
 .modal-alert {
-  color: $gray-dark;
   max-width: 420px;
   top: 10%;
 
@@ -8,6 +7,7 @@
   }
 
   .p {
+    color: $gray-dark;
 
     // title
     &.strong {

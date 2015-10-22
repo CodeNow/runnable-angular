@@ -36,7 +36,7 @@
       )
       .toggle-group.toggle-xs
 
-    //- pre-webhooks
+    //- if admin is not present
     label.toggle-wrapper.float-right.disabled(
       ng-click = "$event.stopPropagation()"
       ng-if = "!acv.attrs.additionalRepo && $root.featureFlags.webhooks && !$root.featureFlags.webhooksAdminPresent"
