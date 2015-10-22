@@ -46,15 +46,11 @@ function ReadOnlySwitchController(
             return updateDockerfileFromState(ROSC.state, true, true)
               .then(function () {
                 // Save copy of simple mode CV to state
-                ROSC.state.allContextVersions = {
-                  'simple': ROSC.state.contextVersion
-                };
+                ROSC.state.previousSimpleContextVersion =  ROSC.state.contextVersion;
                 return promisify(ROSC.state.contextVersion, 'deepCopy')();
               })
               .then(function (contextVersion) {
                 ROSC.state.contextVersion = contextVersion;
-                // Set advanced CV
-                ROSC.state.allContextVersions.advanced = contextVersion;
                 ROSC.state.acv = contextVersion.getMainAppCodeVersion();
                 ROSC.state.repo = keypather.get(contextVersion, 'getMainAppCodeVersion().githubRepo');
                 return contextVersion;
@@ -106,8 +102,8 @@ function ReadOnlySwitchController(
             return modal.close.then(function (confirmed) {
               if (confirmed) {
                 ROSC.state.advanced = false;
-                keypather.set(ROSC, 'state.allContextVersions.simple.attrs.advanced', false);
-                $scope.$emit('resetStateContextVersion', ROSC.state.allContextVersions.simple, true);
+                keypather.set(ROSC, 'state.previousSimpleContextVersion.attrs.advanced', false);
+                $scope.$emit('resetStateContextVersion', ROSC.state.previousSimpleContextVersion, true);
                 return false;
               }
               return true;
