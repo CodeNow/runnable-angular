@@ -118,7 +118,6 @@
 @import "modals/modals-forms";
 
 // modal specific
-@import "modals/modals-add-branches";
 @import "modals/modals-edit";
 @import "modals/modals-edit-ace";
 @import "modals/modals-error";
@@ -132,8 +131,8 @@
 
 // popovers
 @import "popover/popover";
-@import "popover/popover-admin-needed";
 @import "popover/popover-arrows";
+@import "popover/popover-tooltip";
 @import "popover/popover-fixed";
 @import "popover/popover-more-containers";
 @import "popover/popover-select";

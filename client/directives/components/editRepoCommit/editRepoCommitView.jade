@@ -1,4 +1,3 @@
-.small.strong.text-overflow {{ acv.attrs.repo | fixRepositoryName }}
 .btn.gray(
   ng-click = "actions.openRepoDetailsModal()"
 )
@@ -17,8 +16,8 @@
     //- we don't want to trigger the popover to open because this is an external link
     label.toggle-wrapper.float-right(
       ng-click = "$event.stopPropagation()"
-      ng-if = "!acv.attrs.additionalRepo"
-      tooltip = "Disabling Auto Deploy will stop your container from automatically updating with new changes to your repositories."
+      ng-if = "!acv.attrs.additionalRepo && !$root.featureFlags.webhooks || $root.featureFlags.webhooksAdminPresent"
+      tooltip = "Auto Deploy automatically updates your container with new commits."
       tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-6,\"top\":18}"
     ) Auto Deploy
       input.toggle-input(
@@ -31,13 +30,13 @@
       )
       .toggle-group.toggle-xs
 
-    //- pre-webhooks
+    //- if admin is not present
     label.toggle-wrapper.float-right.disabled(
       ng-click = "$event.stopPropagation()"
-      ng-if = "!acv.attrs.additionalRepo && $root.featureFlags.webhooksOff"
+      ng-if = "!acv.attrs.additionalRepo && $root.featureFlags.webhooks && !$root.featureFlags.webhooksAdminPresent"
       pop-over
-      pop-over-options = "{\"verticallyCentered\":true,\"left\":102}"
-      pop-over-template = "adminNeededPopoverView"
+      pop-over-options = "{\"top\":29,\"left\":-107}"
+      pop-over-template = "autoDeployPopoverView"
     ) Auto Deploy
       .toggle-group.toggle-xs
 

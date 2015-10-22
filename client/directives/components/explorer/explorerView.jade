@@ -1,5 +1,6 @@
 //- on container sidebar
 .sidebar-section-heading.strong(
+  ng-if = "!editExplorer || debugContainer"
   ng-include = "'explorerSectionHeading'"
 )
 
@@ -23,9 +24,7 @@
         xlink:href = "#icons-add"
       )
 
-.sidebar-section-content(
-  ng-if = "(editExplorer || debugContainer)"
-)
+.sidebar-section-content
   .well.in(
     ng-if = "!debugContainer && !editExplorer && !fileModel.running()"
   ) Your files are unavailable when the container is not running.

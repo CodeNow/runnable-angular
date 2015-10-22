@@ -30,8 +30,9 @@ function featureFlags(
     teamManagement: false, // changes text from org to team in account menu
     themeToggle: false, // toggles the button that toggles theme
     updatedSlackValidation: false,
-    webhooksOff: false,
-    webhooksToggling: false
+    webhooksAdminPresent: false,
+    webhooksContainerRunning: false,
+    webhooks: false
   };
 
   var _featureFlags = {};

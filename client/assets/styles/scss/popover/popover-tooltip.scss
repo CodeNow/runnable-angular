@@ -1,0 +1,47 @@
+.popover-tooltip {
+  background: $gray-darker;
+  border: 0;
+  box-shadow: none;
+  color: $white;
+  line-height: 1.2;
+  max-width: 240px;
+  padding: 6px 12px 9px;
+  transition: opacity .075s ease-in; // override scaling popover transition
+  transform: scale3d(1,1,1); // override scaling popover transition
+
+  .btn {
+    background: $gray;
+    color: $white;
+    font-weight: $weight-bold;
+    margin: 9px 0 3px;
+    width: 100%;
+
+    &:hover {
+      background: rgba($gray,.75);
+    }
+
+    &:active {
+      background: rgba($gray,.5);
+    }
+  }
+
+  // override default popover arrow to match color and size of tooltip arrow
+  &.right .arrow.arrow {
+    border-right-color: $gray-darker;
+    left: -6px;
+
+    &::after {
+      display: none;
+    }
+  }
+
+  &.bottom .arrow.arrow {
+    border-bottom-color: $gray-darker;
+    left: 197px;
+    top: -6px;
+
+    &::after {
+      display: none;
+    }
+  }
+}

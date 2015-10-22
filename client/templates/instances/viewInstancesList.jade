@@ -57,29 +57,21 @@
               xlink:href = "#icons-overflow"
             )
 
-  button.btn.btn-xs.white.btn-add-branches(
-    modal
-    modal-template = "addBranchesModalView"
-    ng-if = "$root.featureFlags.webhooksToggling && !$root.featureFlags.webhooksOff"
-  )
-    svg.iconnables.icons-add.icons-round.float-left
-      use(
-        xlink:href = "#icons-add"
-      )
-    span.float-right Branches
-
+  //- if default container is not running or if no admin is present
   //- popover should appear on hover
   button.btn.btn-xs.white.btn-add-branches.disabled(
     pop-over
-    pop-over-options = "{\"verticallyCentered\":true,\"left\":90}"
-    pop-over-template = "adminNeededPopoverView"
-    ng-if = "$root.featureFlags.webhooksToggling && $root.featureFlags.webhooksOff"
-  )
-    svg.iconnables.icons-add.icons-round.float-left
-      use(
-        xlink:href = "#icons-add"
-      )
-    span.float-right Branches
+    pop-over-options = "{\"verticallyCentered\": true, \"left\": 129}"
+    pop-over-template = "enableBranchesPopoverView"
+    ng-if = "$root.featureFlags.webhooks && (!$root.featureFlags.webhooksContainerRunning || !$root.featureFlags.webhooksAdminPresent)"
+  ) Enable Branches…
+
+  //- if default container is running and admin is present
+  button.btn.btn-xs.white.btn-add-branches(
+    modal
+    modal-template = "enableBranchesModalView"
+    ng-if = "$root.featureFlags.webhooks && $root.featureFlags.webhooksContainerRunning && $root.featureFlags.webhooksAdminPresent"
+  ) Enable Branches…
 
   //- nav list filter
   .btn.btn-xxs.btn-more-containers(
