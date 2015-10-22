@@ -12,7 +12,9 @@ function ReadOnlySwitchController(
   promisify,
   ModalService,
   keypather,
+  fetchUser,
   updateDockerfileFromState,
+  $rootScope,
   $q
 ) {
   var ROSC = this;
@@ -48,6 +50,21 @@ function ReadOnlySwitchController(
                 // Save copy of simple mode CV to state
                 ROSC.state.previousSimpleContextVersion =  ROSC.state.contextVersion;
                 return promisify(ROSC.state.contextVersion, 'deepCopy')();
+              })
+              .then(function (contextVersion) {
+                return fetchUser()
+                  .then(function (user) {
+                    return promisify(user, 'createBuild')({
+                      contextVersions: [contextVersion.id()],
+                      owner: {
+                        github: $rootScope.dataApp.data.activeAccount.oauthId()
+                      }
+                    });
+                  })
+                .then(function (build) {
+                  ROSC.state.build = build;
+                  return contextVersion;
+                });
               })
               .then(function (contextVersion) {
                 ROSC.state.contextVersion = contextVersion;
