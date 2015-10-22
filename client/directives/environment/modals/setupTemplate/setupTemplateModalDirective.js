@@ -10,7 +10,6 @@ function setupTemplateModal(
   return {
     restrict: 'A',
     templateUrl: 'setupTemplateModalView',
-    scope: {
-    }
+    scope: true
   };
 }

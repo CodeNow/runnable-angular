@@ -4,6 +4,7 @@ require('app')
   .directive('saveOpenItemsButton', saveOpenItemsButton);
 /**
  * @ngInject
+ *
  */
 function saveOpenItemsButton(
 ) {
@@ -16,7 +17,8 @@ function saveOpenItemsButton(
     bindToController: true,
     scope: {
       instance: '=',
-      openItems: '='
+      openItems: '=',
+      hideRestart: '@?'
     },
     link: function ($scope) {
       $scope.save = function (andRestart) {

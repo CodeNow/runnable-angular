@@ -5,15 +5,14 @@ require('app')
 /**
  * @ngInject
  */
-function explorer(
-  $localStorage
-) {
+function explorer() {
   return {
     restrict: 'A',
     templateUrl: 'explorerView',
     controller: 'FilePopoverController as FPC',
     scope: {
       instance: '=',
+      getDisplayName: '=?',
       openItems: '=',
       fileModel: '=',
       rootDir: '=',
@@ -27,9 +26,6 @@ function explorer(
     },
     link: function ($scope) {
       $scope.dir = $scope.rootDir;
-      $scope.$storage = $localStorage.$default({
-        explorerIsClosed: false
-      });
       $scope.state = {};
 
       $scope.filePopover = {

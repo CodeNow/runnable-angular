@@ -13,9 +13,11 @@ var apiMocks = require('./../../../apiMocks/index');
 describe('instanceHeaderDirective'.bold.underline.blue, function () {
   var ctx;
   var mockInstance;
+  var mockInstance1;
   var promisifyMock;
   var mockMainACV;
   var mockOpenItems;
+  var mockFetchPr;
 
   beforeEach(function () {
     ctx = {};
@@ -31,17 +33,46 @@ describe('instanceHeaderDirective'.bold.underline.blue, function () {
 
     ctx.loadingMock = sinon.spy();
     angular.mock.module('app', function ($provide) {
-      $provide.value('errs', ctx.errsMock);
-      $provide.value('fetchPullRequest', function () {
-        return $q.when(ctx.fetchPullRequestMock);
+
+      $provide.factory('instanceBoxNameDirective', function () {
+        return {
+          priority: 100000,
+          terminal: true,
+          link: angular.noop
+        };
       });
-      $provide.factory('promisify', function ($q) {
-        promisifyMock = sinon.spy(function (obj, key) {
-          return function () {
-            return $q.when(obj[key].apply(obj, arguments));
-          };
-        });
-        return promisifyMock;
+      $provide.value('errs', ctx.errsMock);
+      $provide.factory('fetchPullRequest', function ($q) {
+        mockFetchPr = sinon.stub().returns($q.when(ctx.fetchPullRequestMock));
+        return mockFetchPr;
+      });
+      $provide.factory('containerStatusButtonDirective', function () {
+        return {
+          priority: 100000,
+          terminal: true,
+          link: angular.noop
+        };
+      });
+      $provide.factory('containerUrlDirective', function () {
+        return {
+          priority: 100000,
+          terminal: true,
+          link: angular.noop
+        };
+      });
+      $provide.factory('saveOpenItemsButtonDirective', function () {
+        return {
+          priority: 100000,
+          terminal: true,
+          link: angular.noop
+        };
+      });
+      $provide.factory('dnsConfigurationDirective', function () {
+        return {
+          priority: 100000,
+          terminal: true,
+          link: angular.noop
+        };
       });
     });
     angular.mock.inject(function (_$compile_, _$timeout_, _$rootScope_, _$q_) {
@@ -56,6 +87,9 @@ describe('instanceHeaderDirective'.bold.underline.blue, function () {
         }
       };
       mockInstance = {
+        attrs: {
+          name: 'foo'
+        },
         restart: sinon.spy(),
         fetch: sinon.spy(),
         status: sinon.stub().returns('running'),
@@ -66,8 +100,35 @@ describe('instanceHeaderDirective'.bold.underline.blue, function () {
         },
         contextVersion: {
           getMainAppCodeVersion: sinon.stub().returns(mockMainACV)
-        }
+        },
+        fetchDependencies: sinon.stub().returns({
+          models: []
+        }),
+        on: sinon.spy()
       };
+      mockInstance1 = {
+        attrs: {
+          name: 'foo123'
+        },
+        restart: sinon.spy(),
+        fetch: sinon.spy(),
+        status: sinon.stub().returns('running'),
+        stop: sinon.spy(),
+        start: sinon.spy(),
+        build: {
+          deepCopy: sinon.spy()
+        },
+        contextVersion: {
+          getMainAppCodeVersion: sinon.stub().returns(mockMainACV)
+        },
+        fetchDependencies: sinon.stub().returns({
+          models: []
+        }),
+        on: sinon.spy()
+      };
+
+      $scope.instance = mockInstance;
+
       mockOpenItems = {};
 
       mockOpenItems.getAllFileModels = sinon.stub().returns(mockOpenItems.models);
@@ -77,8 +138,9 @@ describe('instanceHeaderDirective'.bold.underline.blue, function () {
         'open-items': 'openItems'
       });
       $rootScope.featureFlags = {
-        newNavigation: false
+        newNavigation: true
       };
+
       element = $compile(template)($scope);
       $scope.$digest();
       $elScope = element.isolateScope();
@@ -87,8 +149,10 @@ describe('instanceHeaderDirective'.bold.underline.blue, function () {
 
   describe('watching instance', function () {
     it('update the pr', function () {
-      $scope.instance = mockInstance;
+      $scope.instance = mockInstance1;
+      mockFetchPr.reset();
       $scope.$digest();
+      sinon.assert.calledOnce(mockFetchPr);
       $elScope.pr = ctx.fetchPullRequestMock;
     });
   });

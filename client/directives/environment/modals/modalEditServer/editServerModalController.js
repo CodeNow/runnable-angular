@@ -19,6 +19,7 @@ var tabVisibility = {
  */
 function EditServerModalController(
   $scope,
+  $controller,
   $q,
   $filter,
   $rootScope,
@@ -27,15 +28,11 @@ function EditServerModalController(
   fetchInstancesByPod,
   fetchStackInfo,
   fetchSourceContexts,
-  fetchUser,
   findLinkedServerVariables,
   hasKeypaths,
-  helpCards,
   keypather,
   loading,
-  loadingPromises,
   OpenItems,
-  parseDockerfileForCardInfoFromInstance,
   promisify,
   updateDockerfileFromState,
   ModalService,
@@ -45,6 +42,18 @@ function EditServerModalController(
   close
 ) {
   var SMC = this;
+
+  var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
+  angular.extend(SMC, {
+    'insertHostName': parentController.insertHostName.bind(SMC),
+    'isDirty': parentController.isDirty.bind(SMC),
+    'openDockerfile': parentController.openDockerfile.bind(SMC),
+    'populateStateFromData': parentController.populateStateFromData.bind(SMC),
+    'rebuildAndOrRedeploy': parentController.rebuildAndOrRedeploy.bind(SMC),
+    'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
+    'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
+  });
+
   SMC.instance = instance;
   SMC.selectedTab = tab;
   angular.extend(SMC, {
@@ -72,7 +81,7 @@ function EditServerModalController(
     actions: angular.extend(actions, {
       close: function () {
         $rootScope.$broadcast('close-popovers');
-        if (isDirty() && !SMC.saveTriggered) {
+        if (SMC.isDirty() && !SMC.saveTriggered) {
           ModalService.showModal({
             controller: 'ConfirmationModalController',
             controllerAs: 'CMC',
@@ -92,7 +101,8 @@ function EditServerModalController(
       }
     }),
     build: instance.build,
-    getElasticHostname: instance.getElasticHostname.bind(instance)
+    getElasticHostname: instance.getElasticHostname.bind(instance),
+    getDisplayName: instance.getDisplayName.bind(instance)
   });
   SMC.modalActions = SMC.actions;
   loading.reset(SMC.name);
@@ -108,28 +118,6 @@ function EditServerModalController(
       SMC.data.sourceContexts = contexts;
     });
 
-
-  function isDirty () {
-    /*!
-     * The `1` in this line refers to the loading promise added by running
-     * `resetContextVersion` when instanstiating this controller. Loading
-     * promises are clear when the modal is saved or cancelled.
-     */
-    return loadingPromises.count(SMC.name) > 1 ||
-      !angular.equals(
-        keypather.get(SMC, 'instance.attrs.env'),
-        keypather.get(SMC, 'state.opts.env')
-      ) ||
-      !SMC.openItems.isClean();
-  }
-
-  SMC.updateDockerfileFromState = function () {
-    // Only update from state if not in advanced mode
-    if (!keypather.get(SMC, 'instance.contextVersion.attrs.advanced')) {
-      return loadingPromises.add(SMC.name, updateDockerfileFromState(SMC.state));
-    }
-  };
-
   $scope.$on('debug-cmd-status', function (evt, status) {
     SMC.showDebugCmd = status;
   });
@@ -141,114 +129,29 @@ function EditServerModalController(
     SMC.linkedEnvResults = findLinkedServerVariables(SMC.state.opts.env);
   });
 
-  function afterParsingDockerfile(data, contextVersion) {
-    Object.keys(data).forEach(function (key) {
-      SMC.instance[key] = data[key];
-    });
-    if (typeof data.ports === 'string') {
-      var portsStr = data.ports.replace(/,/gi, '');
-      var ports = (portsStr || '').split(' ');
-      // We need to keep the reference to the ports array
-      if (SMC.state.ports.length > 0) {
-        SMC.state.ports.splice(0, SMC.state.ports.length);
-      }
-      ports.forEach(function (port) {
-        // After adding initially adding ports here, ports can no longer be
-        // added/removed since they are managed by the `ports-form` directive
-        // and will get overwritten.
-        SMC.state.ports.push(port);
-      });
-    }
-
-    // Once ports are set, start listening to changes
-    $scope.$watchCollection(function () {
-      return SMC.state.ports;
-    }, function (newPortsArray, oldPortsArray) {
-      if (!angular.equals(newPortsArray, oldPortsArray)) {
-        // Only update the Dockerfile if the ports have actually changed
-        SMC.updateDockerfileFromState();
-      }
-    });
-
-    SMC.state.packages = data.packages;
-    SMC.state.startCommand = data.startCommand;
-    SMC.state.selectedStack = data.selectedStack;
-
-    function mapContainerFiles(model) {
-      var cloned = model.clone();
-      if (model.type === 'Main Repository') {
-        SMC.state.mainRepoContainerFile = cloned;
-      }
-      return cloned;
-    }
-
-    if (data.containerFiles) {
-      SMC.state.containerFiles = data.containerFiles.map(mapContainerFiles);
-    }
-  }
-
-  SMC.resetStateContextVersion = function (contextVersion, showSpinner) {
+   $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
+    $event.stopPropagation();
     loading.reset(SMC.name);
     if (showSpinner) {
       loading(SMC.name, true);
     }
-    SMC.state.advanced = keypather.get(contextVersion, 'attrs.advanced') || false;
-    SMC.state.promises.contextVersion = loadingPromises.add(
-      SMC.name,
-      promisify(contextVersion, 'deepCopy')()
-        .then(function (contextVersion) {
-          SMC.state.contextVersion = contextVersion;
-          SMC.state.acv = contextVersion.getMainAppCodeVersion();
-          SMC.state.repo = keypather.get(contextVersion, 'getMainAppCodeVersion().githubRepo');
-          return promisify(contextVersion, 'fetch')();
-        })
-    );
-    // We only set showSpinner to true when an error has not occurred, so we should only
-    // parse dockerfile info when this is true
-    if (showSpinner) {
-      SMC.state.promises.contextVersion
-        .then(function (contextVersion) {
-          return parseDockerfileForCardInfoFromInstance(SMC.instance, contextVersion)
-            .then(function (data) {
-              return afterParsingDockerfile(data, contextVersion);
-            });
-        })
-        .then(function () {
+    SMC.resetStateContextVersion(contextVersion, showSpinner)
+      .catch(errs.handler)
+      .finally(function () {
+        if (showSpinner) {
           loading(SMC.name, false);
-        });
-    }
-
-    return SMC.state.promises.contextVersion
-      .then(function () {
-        return openDockerfile();
-      })
-      .then(function () {
-        return fetchUser();
-      })
-      .then(function (user) {
-        return promisify(user, 'createBuild')({
-          contextVersions: [SMC.state.contextVersion.id()],
-          owner: {
-            github: $rootScope.dataApp.data.activeAccount.oauthId()
-          }
-        });
-      })
-      .then(function (build) {
-        SMC.state.build = build;
-      })
-      .catch(function (err) {
-        errs.handler(err);
+        }
       });
-  };
-
-  $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
-    $event.stopPropagation();
-    SMC.resetStateContextVersion(contextVersion, showSpinner);
   });
 
-  function resetState(instance, fromError) {
-    loadingPromises.clear(SMC.name);
-    return SMC.resetStateContextVersion(instance.contextVersion, !fromError);
+  function loadInitialState(instance) {
+    loading.reset(SMC.name);
+    loading(SMC.name, true);
+    return SMC.resetStateContextVersion(instance.contextVersion, true)
+      .catch(errs.handler)
+      .finally(function () {
+        loading(SMC.name, false);
+      });
   }
 
   SMC.changeTab = function (tabname) {
@@ -299,109 +202,6 @@ function EditServerModalController(
     });
   };
 
-
-  SMC.insertHostName = function (opts) {
-    if (!opts) {
-      return;
-    }
-    var hostName = '';
-    if (opts.protocol) {
-      hostName += opts.protocol;
-    }
-    if (opts.server) {
-      hostName += opts.server.getElasticHostname();
-    }
-    if (opts.port) {
-      hostName += ':' + opts.port;
-    }
-    $rootScope.$broadcast('eventPasteLinkedInstance', hostName);
-  };
-
-  SMC.getUpdatePromise = function () {
-    SMC.saveTriggered = true;
-    $rootScope.$broadcast('close-popovers');
-    SMC.building = true;
-
-    var toRebuild;
-    var toRedeploy;
-    // So we should do this watchPromise step first so that any tab that relies on losing focus
-    // to change something will have enough time to add its promises to LoadingPromises
-    return SMC.state.promises.contextVersion
-      .then(function () {
-        return loadingPromises.finished(SMC.name);
-      })
-      .then(function (promiseArrayLength) {
-        // Since the initial deepCopy should be in here, we only care about > 1
-        toRebuild = promiseArrayLength > 1 || SMC.openItems.getAllFileModels(true).length;
-
-        toRedeploy = !toRebuild &&
-          keypather.get(SMC, 'instance.attrs.env') !== keypather.get(SMC, 'state.opts.env');
-
-        // If we are redeploying and the build is not finished we need to rebuild or suffer errors from API.
-        if (toRedeploy && ['building', 'buildFailed', 'neverStarted'].includes(keypather.get(SMC, 'instance.status()'))) {
-          toRedeploy = false;
-          toRebuild = true;
-        }
-
-        if (!SMC.openItems.isClean()) {
-          return SMC.openItems.updateAllFiles();
-        }
-      })
-      .then(function () {
-        if (toRebuild) {
-          return buildBuild(SMC.state);
-        }
-        return SMC.state;
-      })
-      .then(function (state) {
-        if (toRebuild || toRedeploy) {
-          return promisify(SMC.instance, 'update')(state.opts);
-        }
-      })
-      .then(function () {
-        if (toRedeploy) {
-          return promisify(SMC.instance, 'redeploy')();
-        }
-      })
-      .then(function () {
-        helpCards.refreshActiveCard();
-        close();
-        $rootScope.$broadcast('alert', {
-          type: 'success',
-          text: 'Container updated successfully.'
-        });
-      })
-      .catch(function (err) {
-        errs.handler(err);
-        resetState(SMC.state, true)
-          .finally(function () {
-            SMC.building = false;
-          });
-      });
-  };
-
-  function buildBuild(state) {
-    eventTracking.triggeredBuild(false);
-    return promisify(state.build, 'build')({ message: 'manual' })
-      .then(function (build) {
-        state.opts.build = build.id();
-        return state;
-      });
-  }
-
-  function openDockerfile() {
-    return promisify(SMC.state.contextVersion, 'fetchFile')('/Dockerfile')
-      .then(function (dockerfile) {
-        if (SMC.state.dockerfile) {
-         SMC.openItems.remove(SMC.state.dockerfile);
-        }
-        if (dockerfile) {
-          SMC.openItems.add(dockerfile);
-        }
-        SMC.state.dockerfile = dockerfile;
-      });
-  }
-
   SMC.isDockerfileValid = function () {
     if (!SMC.state.advanced || !keypather.get(SMC, 'state.dockerfile.validation.criticals.length')) {
       return true;
@@ -411,5 +211,22 @@ function EditServerModalController(
     }));
   };
 
-  resetState(SMC.instance);
+  SMC.getUpdatePromise = function () {
+    SMC.saveTriggered = true;
+    SMC.isBuilding = true;
+    return SMC.saveInstanceAndRefreshCards()
+      .then(function () {
+        return close();
+      })
+      .catch(function (err) {
+        errs.handler(err);
+        return SMC.resetStateContextVersion(SMC.state.contextVersion, false)
+          .finally(function () {
+            // Only turn off `isBuilding` if there is an error and we have to revert back 
+            SMC.isBuilding = false;
+          });
+      });
+  };
+
+  loadInitialState(SMC.instance);
 }

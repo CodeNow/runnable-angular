@@ -1,0 +1,128 @@
+.modal-invite-admin {
+  width: 390px;
+
+  // modal description
+  .p {
+    color: $gray;
+    padding: 0 15px;
+
+    .strong {
+      color: darken($gray,10);
+    }
+  }
+
+  // admin list
+  .list {
+    background: $white;
+    margin: 18px 0 3px;
+  }
+
+  // admin list items
+  .list-item {
+    color: $gray-dark;
+    cursor: pointer;
+    height: 57px; // 27px gravatar + (15px padding * 2)
+    overflow: hidden;
+    padding: 0 15px;
+    transition: height .15s;
+
+    &:hover:not(.active) {
+      background-color: rgba($gray-lighterest,.5);
+    }
+
+    &:active:not(.active) {
+      background-color: $gray-lighterest;
+    }
+
+    &.inactive {
+      border: 0;
+      height: 0;
+    }
+
+    &.active {
+      border: 0;
+      cursor: auto;
+      height: 309px;
+
+      .username {
+        margin-top: 17px;
+      }
+
+      // not using ng-hide because this element affects layout
+      .small {
+        opacity: 0;
+        pointer-events: none;
+      }
+    }
+
+    // loading state
+    &.spinner-wrapper {
+      pointer-events: none;
+      position: relative;
+    }
+
+    // override
+    > .btn-sm {
+      position: relative;
+      right: 0;
+      top: 0;
+    }
+  }
+
+  // override gravatar margin
+  .gravatar {
+    margin: 15px 12px 0 0;
+  }
+
+  .username {
+    font-weight: $weight-bold;
+    margin-top: 7px;
+    transition: margin-top .15s;
+  }
+
+  // email address
+  .small {
+    color: $gray;
+    transition: opacity .15s;
+  }
+
+  // username and email
+  .text-overflow {
+    padding-right: 30px;
+  }
+
+  .iconnables {
+    height: 27px;
+    position: absolute;
+    right: 12px;
+    top: 15px;
+  }
+
+  .icons-check {
+    color: $green;
+  }
+
+  .icons-arrow-forward {
+    color: $gray-light;
+  }
+
+  .input,
+  .textarea {
+    font-size: 14px;
+  }
+
+  .textarea {
+    height: 135px;
+    margin: 12px 0;
+    padding: 6px;
+  }
+
+  // transition for invitation details
+  .js-animate {
+    transition: opacity .15s;
+  }
+
+  .ng-hide {
+    opacity: 0;
+  }
+}

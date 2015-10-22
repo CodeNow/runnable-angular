@@ -1,10 +1,5 @@
 //- on container sidebar
 .sidebar-section-heading.strong(
-  ng-class = "{\
-    'closed': $storage.explorerIsClosed && !debugContainer,\
-    'disabled': debugContainer\
-  }"
-  ng-click = "$storage.explorerIsClosed = !$storage.explorerIsClosed"
   ng-if = "!editExplorer || debugContainer"
   ng-include = "'explorerSectionHeading'"
 )
@@ -29,9 +24,7 @@
         xlink:href = "#icons-add"
       )
 
-.sidebar-section-content(
-  ng-if = "(editExplorer || !$storage.explorerIsClosed || debugContainer)"
-)
+.sidebar-section-content
   .well.in(
     ng-if = "!debugContainer && !editExplorer && !fileModel.running()"
   ) Your files are unavailable when the container is not running.
@@ -52,4 +45,5 @@
       read-only = "readOnly"
       show-repo-folder = "showRepoFolder"
       state = "state"
+      get-display-name = "getDisplayName"
     )

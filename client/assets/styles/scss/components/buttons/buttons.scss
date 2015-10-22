@@ -58,19 +58,6 @@
     top: 6px;
     width: 21px;
   }
-
-  // icons
-  .icons-round {
-    margin: 9px 0; // standard size buttons
-
-    &:first-child {
-      margin-right: 6px;
-    }
-
-    &:last-child {
-      margin-left: 6px;
-    }
-  }
 }
 
 // button sizes
@@ -301,18 +288,7 @@
         color: currentColor;
         transition: transform .15s;
       }
-
-      .icons-round {
-        background: $purple-light;
-        color: $white;
-      }
     }
-  }
-
-  // icons
-  .icons-round {
-    background: $gray;
-    color: $white;
   }
 }
 
@@ -335,13 +311,6 @@
     &.active:hover {
       background: $green;
       transition: none;
-    }
-
-    // icons
-    .icons-round {
-      background: $white;
-      color: $green;
-      float: left;
     }
   }
 }

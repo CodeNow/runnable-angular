@@ -11,7 +11,7 @@
       'gray': !data.showIntegrations || (data.showIntegrations && data.currentPanelName !== 'accountMenu'),\
       'white': data.showIntegrations && data.currentPanelName === 'accountMenu'\
     }"
-    style = "{{$root.featureFlags.newNavigation ? 'top: 18px' : 'left: 191px'}}"
+    style = "{{$root.featureFlags.newNavigation ? 'top: 20px' : 'left: 191px'}}"
   )
   animated-panel-container.popover-views
     animated-panel(
@@ -88,7 +88,7 @@
           ul.list.popover-list.list-secondary
             li.list-item.popover-list-item(
               ng-click = "goToPanel('featureFlags')"
-              ng-if = "$root.featureFlags.newNavigation"
+              ng-if = "$root.canEditFeatureFlags() && $root.featureFlags.newNavigation"
             ) Feature Flags
               svg.iconnables.icons-arrow-forward.anchor-right
                 use(
