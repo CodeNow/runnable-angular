@@ -1,6 +1,6 @@
 {
   "name": "runnable-angular",
-  "version": "3.6.3",
+  "version": "3.6.5",
   "private": true,
   "description": "Frontend for Runnable.io",
   "scripts": {
@@ -47,6 +47,7 @@
     "angular-clipboard": "^1.1.1",
     "angular-drag-and-drop-lists": "git://github.com/cmlenz/angular-drag-and-drop-lists.git#handle-support",
     "angular-modal-service": "git://github.com/Runnable/angular-modal-service.git#master",
+    "angular-q-promisify": "^1.1.0",
     "angular-sanitize": "1.4.2",
     "angular-scroll": "0.7.1",
     "angular-ui-ace": "git://github.com/Runnable/ui-ace.git#v0.2.0",
