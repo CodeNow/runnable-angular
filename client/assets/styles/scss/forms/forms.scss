@@ -46,20 +46,21 @@
     float: none;
     padding-right: 0;
 
+    &.with-icon .small {
+      margin-right: 24px;
+
+      &::after {
+        right: -21px;
+      }
+    }
+
     > .small,
     > .error {
       margin-top: 12px;
     }
 
-    // errors
-    .error {
+    > .error {
       color: $red;
-      margin-right: 24px;
-
-      // error badge
-      &::after {
-        right: -21px;
-      }
     }
 
     // external link
