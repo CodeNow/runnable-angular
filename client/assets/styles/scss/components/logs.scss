@@ -19,6 +19,7 @@
   min-height: 39px;
   overflow: hidden;
   position: relative;
+  z-index: 1; // set default
 
   &:target {
     box-shadow: // bottom-right,top-right,bottom-left,top-left
