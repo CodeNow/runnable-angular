@@ -126,7 +126,7 @@ function openItemsFactory(
 
     var models;
     this.retrieveTabs = function(container) {
-      models = keypather.get($localStorage, this.keys.instanceId + '.' + this.keys.buildId);
+      models = keypather.get($localStorage, this.keys.instanceId);
       if (Array.isArray(models)) {
         this.previouslyActiveTab = models.find(function (m) {
           return keypather.get(m, 'state.active');
@@ -344,6 +344,28 @@ function openItemsFactory(
     return this;
   };
 
+  /**
+   *
+   * @param index
+   * @param oldModel in case the model values have changed, we may need to use the original
+   * @returns {OpenItems}
+   */
+  OpenItems.prototype.removeAtIndex = function (index, oldModel) {
+    if (this.models.length > index) {
+      var model = this.models[index];
+      model.state.open = false;
+      BaseCollection.prototype.remove.call(this, model);
+      this.activeHistory.remove(model);
+      if (model !== oldModel) {
+        BaseCollection.prototype.remove.call(this, oldModel);
+        this.activeHistory.remove(oldModel);
+      }
+      this.saveState();
+      return this;
+    }
+  };
+
+
   OpenItems.prototype.removeAllButLogs = function () {
     var models = this.models.slice();
     for (var i = 0; i < models.length; i++) {
@@ -386,8 +408,7 @@ function openItemsFactory(
     if (!this.keys.instanceId) {
       return;
     }
-    var state = {};
-    state[this.keys.buildId] = this.toJSON();
+    var state = this.toJSON();
     $localStorage[this.keys.instanceId] = state;
   };
 

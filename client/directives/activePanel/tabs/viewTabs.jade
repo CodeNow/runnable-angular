@@ -21,7 +21,7 @@ ul.tabs
     ) {{ item.attrs.name }}
     .icons-dirty *
     button.btn.white.btn-icon.btn-close(
-      ng-click = "actions.removeItem($event, item)"
+      ng-click = "actions.removeItem($event, $index, item)"
       ng-if = "!item.state.alwaysOpen && instance.containers.models[0].running() || debugContainer"
     )
       svg.iconnables.icons-close
