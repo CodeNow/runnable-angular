@@ -61,27 +61,18 @@
   //- popover should appear on hover
   button.btn.btn-xs.white.btn-add-branches.disabled(
     pop-over
-    pop-over-options = "{\"top\":33}"
-    pop-over-template = "addBranchesPopoverView"
+    pop-over-options = "{\"verticallyCentered\": true, \"left\": 129}"
+    pop-over-template = "enableBranchesPopoverView"
     ng-if = "$root.featureFlags.webhooks && !$root.featureFlags.webhooksContainerRunning || !$root.featureFlags.webhooksAdminPresent"
-  )
-    svg.iconnables.icons-add.icons-round.float-left
-      use(
-        xlink:href = "#icons-add"
-      )
-    span.float-right Branches…
+  ) Enable Branches…
+    //- pop-over-options = "{\"top\":33}"
 
   //- if default container is running and admin is present
   button.btn.btn-xs.white.btn-add-branches(
     modal
-    modal-template = "addBranchesModalView"
+    modal-template = "enableBranchesModalView"
     ng-if = "$root.featureFlags.webhooks && $root.featureFlags.webhooksContainerRunning && $root.featureFlags.webhooksAdminPresent"
-  )
-    svg.iconnables.icons-add.icons-round.float-left
-      use(
-        xlink:href = "#icons-add"
-      )
-    span.float-right Branches…
+  ) Enable Branches…
 
   //- nav list filter
   .btn.btn-xxs.btn-more-containers(
