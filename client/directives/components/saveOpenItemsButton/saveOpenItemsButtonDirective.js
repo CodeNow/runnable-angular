@@ -5,8 +5,6 @@ require('app')
 /**
  * @ngInject
  *
- * Attrs:
- *  hideRestart: Hides the dropdown arrow to allow the user to save and restart
  */
 function saveOpenItemsButton(
 ) {
