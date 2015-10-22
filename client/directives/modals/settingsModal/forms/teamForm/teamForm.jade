@@ -123,9 +123,7 @@
     .clearfix
       .label-col.full-width Teammates
         a.small.link.float-right(
-          pop-over
-          pop-over-active = "invitePopover.data.show"
-          pop-over-template = "invitePopoverView"
+          internal-modal-helper = "invitePopoverView"
         ) Invite…
     ol.list.list-bordered.list-teammates
       li.list-item(
