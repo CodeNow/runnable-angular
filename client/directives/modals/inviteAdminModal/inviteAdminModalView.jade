@@ -70,6 +70,7 @@
           //-   )
 
           //- focus on this if there's no value
+          //- required
           input.input.input-sm.input-validate.validate-on-blur.js-animate(
             ng-model = "admin.email"
             ng-show = "state.activeItem === $index"
@@ -78,6 +79,7 @@
             spellcheck = "false"
             type = "email"
           )
+          //- not required
           textarea.textarea.js-animate(
             ng-show = "state.activeItem === $index"
             placeholder = "Message"
@@ -90,6 +92,7 @@
             "
             ng-show = "state.activeItem === $index"
           ) Cancel
+          //- disable this button if email input is empty or invalid
           .btn.btn-sm.btn-spinner.green.float-right.js-animate(
             ng-class = "{'in': state.sending}"
             ng-click = "\
