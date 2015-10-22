@@ -90,7 +90,7 @@
           ul.list.popover-list.list-secondary
             li.list-item.popover-list-item(
               ng-click = "goToPanel('featureFlags')"
-              ng-if = "$root.featureFlags.newNavigation"
+              ng-if = "$root.canEditFeatureFlags() && $root.featureFlags.newNavigation"
             ) Feature Flags
               svg.iconnables.icons-arrow-forward.anchor-right
                 use(
