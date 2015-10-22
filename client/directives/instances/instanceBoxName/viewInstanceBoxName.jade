@@ -1,3 +1,5 @@
+//- ************************
+//- deprecated file; remove with $root.featureFlags.newNavigation
 .container-heading
 
   strong.strong {{instance.getRepoName() || instance.getDisplayName()}}
@@ -43,3 +45,5 @@ span(
   span(
     ng-repeat = "(key, value) in instance.containers.models[0].attrs.ports"
   ) {{key}}:{{value[0].HostPort}} |&#32;
+//- end deprecated file
+//- ************************

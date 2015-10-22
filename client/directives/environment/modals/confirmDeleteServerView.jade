@@ -1,13 +1,7 @@
 .modal-backdrop.in
   .modal-dialog.modal-alert
     header.modal-body
-      svg.iconnables.icons-close(
-        ng-click = "CMC.actions.cancel()"
-      )
-        use(
-          xlink:href = "#icons-close"
-        )
-      p.p.strong.popover-title Are you sure you want to delete this container?
+      p.p.strong Are you sure you want to delete this container?
       p.p Deleting this container cannot be undone.
     footer.modal-footer.clearfix
       button.btn.red.float-right(
