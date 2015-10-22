@@ -25,13 +25,25 @@
     }
   }
 
-  // override default popover arrow to fit size of tooltip
-  .arrow.arrow.arrow {
+  // override default popover arrow to match color and size of tooltip arrow
+  &.right .arrow.arrow.arrow {
+    border-right-color: $gray-darker;
+    border-width: 6px;
+    border-left-width: 0; // non-alphabetical to override border-width
+    margin-top: -6px;
+    left: -6px;
+
+    &::after {
+      border-right-color: $gray-darker;
+    }
+  }
+
+  &.bottom .arrow.arrow.arrow {
     border-bottom-color: $gray-darker;
-    border-width: 9px;
+    border-width: 6px;
     border-top-width: 0; // non-alphabetical to override border-width
-    margin-left: -9px;
-    top: -9px;
+    margin-left: -6px;
+    top: -6px;
 
     &::after {
       border-bottom-color: $gray-darker;
