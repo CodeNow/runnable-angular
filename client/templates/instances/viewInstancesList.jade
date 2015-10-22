@@ -63,7 +63,7 @@
     pop-over
     pop-over-options = "{\"verticallyCentered\": true, \"left\": 129}"
     pop-over-template = "enableBranchesPopoverView"
-    ng-if = "$root.featureFlags.webhooks && !$root.featureFlags.webhooksContainerRunning || !$root.featureFlags.webhooksAdminPresent"
+    ng-if = "$root.featureFlags.webhooks && (!$root.featureFlags.webhooksContainerRunning || !$root.featureFlags.webhooksAdminPresent)"
   ) Enable Branches…
 
   //- if default container is running and admin is present
