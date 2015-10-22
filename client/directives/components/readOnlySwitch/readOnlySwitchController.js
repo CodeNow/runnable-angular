@@ -58,7 +58,6 @@ function ReadOnlySwitchController(
                 ROSC.state.acv = contextVersion.getMainAppCodeVersion();
                 ROSC.state.repo = keypather.get(contextVersion, 'getMainAppCodeVersion().githubRepo');
                 return contextVersion;
-                //return promisify(contextVersion, 'fetch')();
               });
           }
           return ROSC.state.contextVersion;
