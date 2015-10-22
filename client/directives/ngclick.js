@@ -16,7 +16,7 @@ function ngClick(
         if (element[0] !== $document[0].body) {
           var cleanedAttrs = {};
           Object.keys(attrs).forEach(function (key) {
-            if (key.indexOf('$') !== 0) {
+            if (key[0] !== '$') {
               cleanedAttrs[key] = attrs[key];
             }
           });
