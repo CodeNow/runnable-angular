@@ -57,10 +57,6 @@
     width: 18px;
   }
 
-  &.icons-round {
-    border-radius: 50%;
-  }
-
   // flip
   &.icons-arrow-forward {
     transform: rotate(-90deg);
@@ -72,6 +68,29 @@
 
   &.icons-file-tree {
     color: $gray;
+  }
+}
+
+// round
+.icons-round {
+  background: currentColor;
+  border-radius: 50%;
+  fill: $white; // fill instead of color so background can be currentColor
+
+  .green & {
+    fill: $green;
+  }
+
+  .orange & {
+    fill: $orange-light;
+  }
+
+  .purple & {
+    fill: $purple-light;
+  }
+
+  .red & {
+    fill: $red;
   }
 }
 

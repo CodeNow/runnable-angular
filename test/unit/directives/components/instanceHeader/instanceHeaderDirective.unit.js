@@ -46,13 +46,33 @@ describe('instanceHeaderDirective'.bold.underline.blue, function () {
         mockFetchPr = sinon.stub().returns($q.when(ctx.fetchPullRequestMock));
         return mockFetchPr;
       });
-      $provide.factory('promisify', function ($q) {
-        promisifyMock = sinon.spy(function (obj, key) {
-          return function () {
-            return $q.when(obj[key].apply(obj, arguments));
-          };
-        });
-        return promisifyMock;
+      $provide.factory('containerStatusButtonDirective', function () {
+        return {
+          priority: 100000,
+          terminal: true,
+          link: angular.noop
+        };
+      });
+      $provide.factory('containerUrlDirective', function () {
+        return {
+          priority: 100000,
+          terminal: true,
+          link: angular.noop
+        };
+      });
+      $provide.factory('saveOpenItemsButtonDirective', function () {
+        return {
+          priority: 100000,
+          terminal: true,
+          link: angular.noop
+        };
+      });
+      $provide.factory('dnsConfigurationDirective', function () {
+        return {
+          priority: 100000,
+          terminal: true,
+          link: angular.noop
+        };
       });
     });
     angular.mock.inject(function (_$compile_, _$timeout_, _$rootScope_, _$q_) {
@@ -118,7 +138,7 @@ describe('instanceHeaderDirective'.bold.underline.blue, function () {
         'open-items': 'openItems'
       });
       $rootScope.featureFlags = {
-        newNavigation: false
+        newNavigation: true
       };
 
       element = $compile(template)($scope);

@@ -1,6 +1,9 @@
 // instance header: status, dns mappings, container url, save (deprecated)
 .instance-header {
+  background: $white;
   flex: 0 0 auto;
+  position: relative;
+  z-index: $z-views-header;
 }
 
 .instance-header-title {
@@ -54,13 +57,6 @@
     }
   }
 
-  // isolation badge
-  .btn.float-right {
-    position: absolute;
-    right: 12px;
-    top: 15px;
-  }
-
   // for debug view
   .btn-status {
     left: 12px;
@@ -79,6 +75,24 @@
     line-height: 1;
     position: relative;
     top: -3px;
+  }
+
+  // isolation badge
+  .btn-badge {
+    position: absolute;
+    right: 12px;
+    top: 15px;
+  }
+
+  // save button in debug
+  .btn-save-wrapper {
+    position: absolute;
+    right: 12px;
+    top: 9px;
+
+    + .btn-badge {
+      right: 90px;
+    }
   }
 }
 

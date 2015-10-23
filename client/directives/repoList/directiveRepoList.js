@@ -6,8 +6,6 @@ require('app')
 function repoList(
   eventTracking,
   promisify,
-  $localStorage,
-  keypather,
   loading,
   errs
 ) {
@@ -18,10 +16,6 @@ function repoList(
       instance: '='
     },
     link: function ($scope) {
-      $scope.$storage = $localStorage.$default({
-        repoListIsClosed: false
-      });
-
       // add-repo-popover
       // Object to pass reference instead of value
       // into child directive

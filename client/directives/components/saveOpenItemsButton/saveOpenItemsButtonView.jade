@@ -19,6 +19,7 @@
     ) #{''} and Restart
 
   button.btn.btn-sm.white.btn-icon.btn-icon-sm.btn-save-options(
+    ng-if = "!SOIBC.hideRestart"
     ng-class = "{active: SOIBC.popoverActive}"
     ng-disabled = "loading"
     pop-over

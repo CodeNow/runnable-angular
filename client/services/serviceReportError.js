@@ -4,7 +4,8 @@ require('app')
   .factory('report', report);
 
 function report(
-  keypather
+  keypather,
+  $window
 ) {
   var levels = ['critical', 'error', 'warning', 'info', 'debug'];
   var reporter = function (level, message, options) {
@@ -12,9 +13,9 @@ function report(
       return;
     }
 
-    console.log(message);
+    console.log(message, level, options);
     if (levels.indexOf(level) === -1) {
-      window.Rollbar.warning('Attempt to report invalid level of error '+ level + ' with message '+JSON.stringify(message));
+      window.Rollbar.warning('Attempt to report invalid level of error ' + level + ' with message ' + JSON.stringify(message));
       return;
     }
     if (level === 'error' && window.NREUM) {
@@ -22,6 +23,9 @@ function report(
     }
     if (window.Rollbar) {
       window.Rollbar[level](message, options);
+    }
+    if ($window.trackJs) {
+      $window.trackJs.track(message);
     }
   };
 
@@ -42,6 +46,12 @@ function report(
         payload: {
           person: setUser
         }
+      });
+    }
+    if ($window.trackJs) {
+      $window.trackJs.configure({
+        userId: keypather.get(user, 'attrs.email'),
+        sessionId: keypather.get(user, 'oauthName()')
       });
     }
   };

@@ -10,6 +10,7 @@ function featureFlags(
     billing: false,
     cardStatus: false,
     debugStartCmd: false, // debug mode for start CMD (in CMD Logs)
+    editAnyInstance: false,
     fullScreen: false,  // toggles full screen
     fullScreenToggle: false,  // toggles the button that toggles full screen
     hostnameNotifications: false,
@@ -18,10 +19,10 @@ function featureFlags(
     internalDebugging: false,
     isolationNav: false, // for isolation nav
     isolationUI: false, // for isolation UI
-    newNavigation: true, // for isolation UI
     multilineFnR: false,
     nameContainer: false,
     navListFilter: false,
+    newNavigation: true, // for isolation UI
     newVerificationFlow: false,
     newVerificationFlowStackSelector: false,
     renameContainer: false,
@@ -29,7 +30,9 @@ function featureFlags(
     teamUI: false, // changes text from org to team in account menu
     themeToggle: false, // toggles the button that toggles theme
     updatedSlackValidation: false,
-    editAnyInstance: false
+    webhooksAdminPresent: false,
+    webhooksContainerRunning: false,
+    webhooks: false
   };
 
   var _featureFlags = {};

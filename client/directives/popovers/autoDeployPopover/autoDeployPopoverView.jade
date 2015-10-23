@@ -1,0 +1,10 @@
+.popover.popover-tooltip.bottom(
+  ng-class = "{'in': active}"
+  ng-style = "popoverStyle.getStyle()"
+)
+  .arrow
+  small.small We need permission from a GitHub admin to automatically update your container with new commits.
+  button.btn.btn-xs(
+    modal
+    modal-template = "inviteAdminModalView"
+  ) Invite an Admin…
