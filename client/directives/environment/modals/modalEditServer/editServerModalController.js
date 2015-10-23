@@ -20,21 +20,16 @@ var tabVisibility = {
 function EditServerModalController(
   $scope,
   $controller,
-  $q,
   $filter,
   $rootScope,
   errs,
-  eventTracking,
   fetchInstancesByPod,
-  fetchStackInfo,
   fetchSourceContexts,
   findLinkedServerVariables,
   hasKeypaths,
   keypather,
   loading,
   OpenItems,
-  promisify,
-  updateDockerfileFromState,
   ModalService,
   tab,
   instance,
@@ -129,7 +124,7 @@ function EditServerModalController(
     SMC.linkedEnvResults = findLinkedServerVariables(SMC.state.opts.env);
   });
 
-   $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
+  $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
     $event.stopPropagation();
     loading.reset(SMC.name);
     if (showSpinner) {
