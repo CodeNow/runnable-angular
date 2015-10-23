@@ -222,7 +222,7 @@ EventTracking.prototype.update = function () {
  * @returns {EventTracking}
  */
 EventTracking.prototype.trackClicked = function (data) {
-  this._mixpanel('track', 'clicked', data);
+  this._mixpanel('track', 'clicked - ' + data.text, data);
   return this;
 };
 
