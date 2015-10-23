@@ -45,7 +45,7 @@ html.home(
           network: { error: false },
           onError: function (payload, error) {
             payload.network = payload.network.filter(function (item) {
-              return item.url.indexOf('mixpanel') !== -1;
+              return item.url.indexOf('mixpanel') === -1;
             });
             return true;
           },
