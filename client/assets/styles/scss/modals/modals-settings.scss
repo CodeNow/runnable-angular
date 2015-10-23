@@ -35,6 +35,16 @@
 
   .list-teammates {
 
+    // delete transition
+    &.ng-leave {
+      overflow: hidden;
+      transition: all .3s;
+    }
+
+    &.ng-leave-active {
+      border-width: 0;
+    }
+
     .btn-wrapper {
       position: absolute;
       right: 14px;
@@ -77,6 +87,39 @@
     // additional padding for send button
     .text-overflow {
       padding-right: 120px;
+    }
+  }
+
+  .list-item {
+
+    // add transition
+    &.ng-enter {
+      border-width: 0;
+      height: 0;
+      opacity: 0;
+      padding: 0;
+      overflow: hidden;
+      transition: all .3s;
+    }
+
+    &.ng-enter-active {
+      border-width: 1px;
+      height: 57px;
+      opacity: 1;
+      padding: 8px 15px;
+    }
+
+    // delete transition
+    &.ng-leave {
+      overflow: hidden;
+      transition: all .3s;
+    }
+
+    &.ng-leave-active {
+      border-width: 0;
+      height: 0;
+      opacity: 0;
+      padding: 0;
     }
   }
 

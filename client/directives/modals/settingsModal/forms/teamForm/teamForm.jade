@@ -2,21 +2,26 @@
   ng-init = "\
     requested = [\
       {username: 'cflynn07', gravatarUrl: 'https://avatars2.githubusercontent.com/u/467885', email: 'casey@runnable.com'},\
-      {username: 'ykumar6', gravatarUrl: 'https://avatars0.githubusercontent.com/u/1085792', email: 'yash@runnable.com'},\
+      {username: 'ykumar6', gravatarUrl: 'https://avatars0.githubusercontent.com/u/1085792', email: 'yash@runnable.com'}\
     ];\
     pending = [\
       {username: 'anandkumarpatel', gravatarUrl: 'https://avatars0.githubusercontent.com/u/2194285', email: 'anand@runnable.com'},\
-      {username: 'bkendall', gravatarUrl: 'https://avatars0.githubusercontent.com/u/160236', email: 'bryan@runnable.com'},\
+      {username: 'bkendall', gravatarUrl: 'https://avatars0.githubusercontent.com/u/160236', email: 'bryan@runnable.com'}\
     ];\
     team = [\
       {username: 'runnabro', gravatarUrl: 'https://avatars2.githubusercontent.com/u/5341618', email: 'tony@runnable.com', permission: 'User'},\
       {username: 'taylordolan', gravatarUrl: 'https://avatars0.githubusercontent.com/u/7440805', email: 'taylor@runnable.com', permission: 'Admin'},\
       {username: 'thejsj', gravatarUrl: 'https://avatars0.githubusercontent.com/u/1981198', email: 'jorge@runnable.com', permission: 'Admin'}\
     ];\
+    state.inviteSending = null;\
+    state.inviteSent = null;\
+    state.swapLists = null;\
   "
 )
 
   //- pending team
+  //- all of this logic is messed up, but what I want to show is that if you click 'send invite' to yash is that...
+    - an item is removed from the requested invite list and added to the invite sent list with a transition
   .label
     .clearfix
       .label-col.full-width Pending Invites
@@ -25,7 +30,8 @@
         ) Requests
 
     ol.list.list-bordered.list-teammates.list-teammates-pending
-      li.list-item(
+      li.list-item.js-animate(
+        ng-if = "state.swapLists !== $index"
         ng-repeat = "teammate in requested"
       )
         img.gravatar(
@@ -35,39 +41,20 @@
         )
         .username.text-overflow {{teammate.username}}
         .small.text-overflow Invite requested…
-        .btn-wrapper(
-          ng-init = "\
-            state.inviteSending = null;\
-            state.inviteSent = null;\
-          "
-        )
+        .btn-wrapper
           button.btn.btn-xs.green(
-            ng-click = "state.inviteSending = true"
-            ng-if = "!state.inviteSending"
+            ng-click = "state.inviteSending = $index"
+            ng-if = "!state.inviteSending && state.inviteSending !== $index"
           ) Send Invite
           //- sending…
           .spinner-wrapper.spinner-sm.spinner-gray.in(
-            ng-click = "state.inviteSent = true"
-            ng-if = "state.inviteSending && !state.inviteSent"
+            ng-click = "\
+              state.inviteSent = $index;\
+              state.swapLists = $index;\
+            "
+            ng-if = "state.inviteSending === $index && !state.inviteSent"
             ng-include = "'spinner'"
           )
-          //- send confirmation
-          .send-confirmation.load(
-            ng-if = "state.inviteSent"
-          )
-            svg.iconnables.icons-check.float-left(
-              viewbox = '0 0 14.5 10'
-            )
-              path.path(
-                d = 'M1,4.5L5.5,9l8-8'
-                fill = 'none',
-                stroke = '#3ccb5a',
-                stroke-linecap = 'round',
-                stroke-linejoin = 'round',
-                stroke-miterlimit = '10',
-                stroke-width = '2',
-              )
-            | Sent
 
           button.btn.btn-xs.white.float-right(
             ng-class = "{'active': requestInvitePopover.data.show}"
@@ -83,6 +70,47 @@
 
     //- show in the order of invites sent (newest first)
     ol.list.list-bordered.list-teammates.list-teammates-pending
+
+      //- adding to this list
+      li.list-item.js-animate(
+        ng-if = "state.swapLists"
+      )
+        img.gravatar(
+          height = "27"
+          ng-src = "https://avatars2.githubusercontent.com/u/467885"
+          width = "27"
+        )
+        .username.text-overflow cflynn07
+        //- show email that the invite was sent to
+        .small.text-overflow casey@runnable.com
+        .btn-wrapper
+          //- send confirmation
+          .send-confirmation.loaded
+            svg.iconnables.icons-check.float-left(
+              viewbox = '0 0 14.5 10'
+            )
+              path.path(
+                d = 'M1,4.5L5.5,9l8-8'
+                fill = 'none',
+                stroke = '#3ccb5a',
+                stroke-linecap = 'round',
+                stroke-linejoin = 'round',
+                stroke-miterlimit = '10',
+                stroke-width = '2',
+              )
+            | Sent
+          button.btn.btn-xs.white.float-right(
+            ng-class = "{'active': pendingInvitePopover.data.show}"
+            pop-over
+            pop-over-active = "pendingInvitePopover.data.show"
+            pop-over-options = "{\"right\":0,\"top\":35}"
+            pop-over-template = "pendingInvitePopoverView"
+          )
+            svg.iconnables.icons-overflow
+              use(
+                xlink:href = "#icons-overflow"
+              )
+
       li.list-item(
         ng-repeat = "teammate in pending"
       )
