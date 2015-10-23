@@ -33,7 +33,6 @@ function EditServerModalController(
   ModalService,
   tab,
   instance,
-  actions,
   close
 ) {
   var SMC = this;
@@ -73,7 +72,7 @@ function EditServerModalController(
       cmd = cmd || '';
       return cmd.replace('until grep -q ethwe /proc/net/dev; do sleep 1; done;', '');
     },
-    actions: angular.extend(actions, {
+    actions: {
       close: function () {
         $rootScope.$broadcast('close-popovers');
         if (SMC.isDirty() && !SMC.saveTriggered) {
@@ -94,7 +93,7 @@ function EditServerModalController(
           close();
         }
       }
-    }),
+    },
     build: instance.build,
     getElasticHostname: instance.getElasticHostname.bind(instance),
     getDisplayName: instance.getDisplayName.bind(instance)

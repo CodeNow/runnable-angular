@@ -6,7 +6,11 @@ require('app')
  * @ngInject
  */
 function serverStatusCardHeader(
-  $rootScope
+  $rootScope,
+  errs,
+  helpCards,
+  ModalService,
+  promisify
 ) {
   return {
     restrict: 'E',
@@ -14,8 +18,6 @@ function serverStatusCardHeader(
     scope: {
       instance: '= instance',
       noTouching: '=? noTouching',
-      openEditServerModal: '=? openEditServerModal',
-      actions: '= actions',
       inModal: '=? inModal'
     },
     templateUrl: function (elem, attrs) {
@@ -28,10 +30,36 @@ function serverStatusCardHeader(
       $scope.popoverServerActions = {
         openEditServerModal: function (defaultTab) {
           $rootScope.$broadcast('close-popovers');
-          $scope.openEditServerModal(defaultTab);
+          ModalService.showModal({
+            controller: 'EditServerModalController',
+            controllerAs: 'SMC',
+            templateUrl: 'editServerModalView',
+            inputs: {
+              tab: defaultTab,
+              instance: $scope.instance
+            }
+          })
+            .catch(errs.handler);
         },
         deleteServer: function () {
-          $scope.actions.deleteServer($scope.instance);
+          var instance = $scope.instance;
+          $rootScope.$broadcast('close-popovers');
+          return ModalService.showModal({
+            controller: 'ConfirmationModalController',
+            controllerAs: 'CMC',
+            templateUrl: 'confirmDeleteServerView'
+          })
+            .then(function (modal) {
+              return modal.close.then(function (confirmed) {
+                if (confirmed) {
+                  promisify(instance, 'destroy')()
+                    .catch(errs.handler);
+                  helpCards.refreshAllCards();
+                }
+                return confirmed;
+              });
+            })
+            .catch(errs.handler);
         }
       };
     }

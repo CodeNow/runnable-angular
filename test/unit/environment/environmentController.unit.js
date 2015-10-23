@@ -126,25 +126,4 @@ describe('environmentController'.bold.underline.blue, function () {
       expect($scope.data.instances, 'masterPods').to.equal(ctx.masterPods);
     });
   });
-
-  describe('actions', function () {
-    it('should delete a server', function () {
-      setup();
-      $rootScope.$digest();
-      var instance = runnable.newInstance(
-        apiMocks.instances.running,
-        {noStore: true}
-      );
-      instance.destroy = sinon.spy(function (cb) {
-        cb();
-      });
-      var closePopoverSpy = sinon.spy();
-      $rootScope.$on('close-popovers', closePopoverSpy);
-      $scope.actions.deleteServer(instance);
-      $rootScope.$digest();
-      sinon.assert.calledOnce(closePopoverSpy);
-      sinon.assert.calledOnce(ctx.showModalStub);
-      sinon.assert.calledOnce(instance.destroy);
-    });
-  });
 });

@@ -34,8 +34,7 @@ require('app')
             templateUrl: 'editServerModalView',
             inputs: {
               tab: defaultTab,
-              instance: $scope.instance,
-              actions: $scope.actions,
+              instance: $scope.instance
             }
           })
             .catch(errs.handler);
