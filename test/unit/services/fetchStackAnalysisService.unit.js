@@ -44,6 +44,21 @@ describe('fetchStackAnalysisService'.bold.underline.blue, function () {
       });
     $rootScope.$digest();
   });
+  it('should return the last value of the array', function (done) {
+    var value = {
+      hello: 'hi'
+    };
+    var value2 = {
+      hello2: 'hi2'
+    };
+    sinon.stub(apiClientBridge.client, 'getAsync').returns($q.when([value, value2]));
+    fetchStackAnalysis('sadfsdf')
+      .then(function (result) {
+        expect(result, 'should get 2nd value').to.equal(value2);
+        done();
+      });
+    $rootScope.$digest();
+  });
   it('should throw a catch on an error', function (done) {
     var error = new Error('Hey');
     sinon.stub(apiClientBridge.client, 'getAsync').returns($q.reject(error));
