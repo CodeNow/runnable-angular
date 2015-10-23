@@ -44,6 +44,7 @@ html(
         window._trackJs = {
           token: 'ea5e26c7ec2d486e9c66bcf4fefa0f4b',
           version: "#{locals.version}",
+          application: "production",
           onError: function (payload, error) {
             payload.network.filter(function (item) {
               payload.network = payload.network.filter(function (item) {
