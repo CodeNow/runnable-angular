@@ -9,6 +9,7 @@ require('app')
  * @returns {Function} fetchStackAnalysis
  */
 function fetchStackAnalysis(
+  $q,
   apiClientBridge
 ) {
   var stackAnalysisCache = {};
@@ -20,7 +21,7 @@ function fetchStackAnalysis(
           if (Array.isArray(headerAndData) && headerAndData.length === 2) {
             return headerAndData[1];
           }
-          return headerAndData;
+          return $q.reject(new Error('malformed response from actions analyze'));
         });
     }
     return stackAnalysisCache[fullRepoName];
