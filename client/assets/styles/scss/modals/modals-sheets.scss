@@ -41,13 +41,18 @@
     }
   }
 
-  .modal-footer {
-    flex: 0 0 auto;
+  .modal-body {
+    min-height: 90px;
+    position: relative;
   }
 
   // spinner
   .spinner-backdrop {
     background: transparent; // for background clipping in safari
+  }
+
+  .spinner-wrapper {
+    margin: 0;
   }
 }
 
