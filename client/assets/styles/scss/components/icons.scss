@@ -94,6 +94,21 @@
   }
 }
 
+// .icons-round in light-colored buttons
+.btn.gray,
+.btn.white {
+
+  .icons-round {
+    fill: $white;
+    background: $gray-light;
+  }
+
+  &:active .icons-round,
+  &.active .icons-round {
+    background: currentColor;
+  }
+}
+
 // fat check
 .icons-fat-check {
   background: $gray-light;
