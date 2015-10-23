@@ -1,13 +1,17 @@
 .modal-form(
   ng-init = "\
-    team = [\
-      {username: 'runnabro', gravatarUrl: 'https://avatars2.githubusercontent.com/u/5341618', email: 'tony@runnable.com', permission: 'User'},\
-      {username: 'taylordolan', gravatarUrl: 'https://avatars0.githubusercontent.com/u/7440805', email: 'taylor@runnable.com', permission: 'Admin'},\
-      {username: 'thejsj', gravatarUrl: 'https://avatars0.githubusercontent.com/u/1981198', email: 'jorge@runnable.com', permission: 'Admin'}\
+    requested = [\
+      {username: 'cflynn07', gravatarUrl: 'https://avatars2.githubusercontent.com/u/467885', email: 'casey@runnable.com'},\
+      {username: 'ykumar6', gravatarUrl: 'https://avatars0.githubusercontent.com/u/1085792', email: 'yash@runnable.com'},\
     ];\
     pending = [\
       {username: 'anandkumarpatel', gravatarUrl: 'https://avatars0.githubusercontent.com/u/2194285', email: 'anand@runnable.com'},\
       {username: 'bkendall', gravatarUrl: 'https://avatars0.githubusercontent.com/u/160236', email: 'bryan@runnable.com'},\
+    ];\
+    team = [\
+      {username: 'runnabro', gravatarUrl: 'https://avatars2.githubusercontent.com/u/5341618', email: 'tony@runnable.com', permission: 'User'},\
+      {username: 'taylordolan', gravatarUrl: 'https://avatars0.githubusercontent.com/u/7440805', email: 'taylor@runnable.com', permission: 'Admin'},\
+      {username: 'thejsj', gravatarUrl: 'https://avatars0.githubusercontent.com/u/1981198', email: 'jorge@runnable.com', permission: 'Admin'}\
     ];\
   "
 )
@@ -21,13 +25,15 @@
         ) Requests
 
     ol.list.list-bordered.list-teammates.list-teammates-pending
-      li.list-item
+      li.list-item(
+        ng-repeat = "teammate in requested"
+      )
         img.gravatar(
           height = "27"
-          src = "https://avatars2.githubusercontent.com/u/467885"
+          ng-src = "{{teammate.gravatarUrl}}"
           width = "27"
         )
-        .username.text-overflow cflynn07
+        .username.text-overflow {{teammate.username}}
         .small.text-overflow Invite requested…
         .btn-wrapper(
           ng-init = "\
@@ -75,6 +81,7 @@
                 xlink:href = "#icons-overflow"
               )
 
+    //- show in the order of invites sent (newest first)
     ol.list.list-bordered.list-teammates.list-teammates-pending
       li.list-item(
         ng-repeat = "teammate in pending"
