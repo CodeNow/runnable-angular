@@ -76,6 +76,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
             return ctx.fileModels;
           });
           this.updateAllFiles = sinon.stub().returns($q.when(true));
+          this.removeAndReopen = sinon.stub();
         };
         return ctx.openItemsMock;
       });

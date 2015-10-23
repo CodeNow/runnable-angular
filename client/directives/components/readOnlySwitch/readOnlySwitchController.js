@@ -47,39 +47,15 @@ function ReadOnlySwitchController(
             // Save changes to the context version
             return updateDockerfileFromState(ROSC.state, true, true)
               .then(function () {
-                // Save copy of simple mode CV to state
-                ROSC.state.previousSimpleContextVersion =  ROSC.state.contextVersion;
                 return promisify(ROSC.state.contextVersion, 'deepCopy')();
               })
-              .then(function (contextVersion) {
-                return fetchUser()
-                  .then(function (user) {
-                    return promisify(user, 'createBuild')({
-                      contextVersions: [contextVersion.id()],
-                      owner: {
-                        github: $rootScope.dataApp.data.activeAccount.oauthId()
-                      }
-                    });
-                  })
-                .then(function (build) {
-                  ROSC.state.build = build;
-                  return contextVersion;
-                });
-              })
-              .then(function (contextVersion) {
-                ROSC.state.contextVersion = contextVersion;
-                ROSC.state.acv = contextVersion.getMainAppCodeVersion();
-                ROSC.state.repo = keypather.get(contextVersion, 'getMainAppCodeVersion().githubRepo');
-                return contextVersion;
+              .then(function (contextVersionCopy) {
+                // Save copy of simple mode CV to state
+                ROSC.state.previousSimpleContextVersion = contextVersionCopy;
+                return ROSC.state.contextVersion;
               });
           }
           return ROSC.state.contextVersion;
-        })
-        .then(function (contextVersion) {
-          return promisify(contextVersion, 'fetchFile', true)('/Dockerfile')
-            .then(function (dockerfile) {
-              return contextVersion;
-            });
         })
         .then(function (contextVersion) {
           if (ROSC.state.instance && !ROSC.state.instance.attrs.lastBuiltSimpleContextVersion) {

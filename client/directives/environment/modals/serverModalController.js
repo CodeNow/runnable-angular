@@ -196,6 +196,9 @@ function ServerModalController (
         return SMC.openDockerfile(SMC.state, SMC.openItems);
       })
       .then(function () {
+        return SMC.openItems.removeAndReopen(SMC.state.contextVersion);
+      })
+      .then(function () {
         return fetchUser();
       })
       .then(function (user) {

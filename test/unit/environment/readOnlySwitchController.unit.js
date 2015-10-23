@@ -201,10 +201,9 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
         $scope.$digest();
         $scope.$digest();
         sinon.assert.calledOnce(ctx.loadingPromiseMock.add);
-        sinon.assert.calledOnce(ctx.newContextVersion.update);
-        sinon.assert.calledOnce(ctx.newContextVersion.fetch);
+        sinon.assert.calledOnce(ctx.contextVersion.deepCopy);
         expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.true;
-        expect(keypather.get(readOnlySwitchController, 'state.allContextVersions.simple')).to.be.an.object;
+        expect(keypather.get(readOnlySwitchController, 'state.previousSimpleContextVersion')).to.be.an.object;
         // `lastBuiltSimpleContextVersion` is not necessary when there is not instance
         expect(ctx.instance.attrs.lastBuiltSimpleContextVersion, 'lastBuiltSimpleContextVersion').to.not.be.ok;
       });
@@ -234,7 +233,10 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
         readOnlySwitchController.readOnly(true);
         $scope.$digest();
         var advancedCVId = keypather.get(readOnlySwitchController, 'state.contextVersion.attrs._id');
-        expect(advancedCVId).to.not.equal(simpleCVId);
+        var simpleCVCopy = keypather.get(readOnlySwitchController, 'state.previousSimpleContextVersion.attrs._id');
+        // We will only modify the current CV and create a copy of it
+        expect(advancedCVId).to.equal(simpleCVId);
+        expect(simpleCVCopy).to.not.equal(simpleCVId);
         expect(keypather.get(readOnlySwitchController, 'state.advanced')).to.equal(true);
 
         // Switch back to simple mode with a new context version
@@ -242,7 +244,8 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
         $scope.$digest();
         var newSimpleCVId = keypather.get(readOnlySwitchController, 'state.contextVersion.attrs._id');
         expect(newSimpleCVId).to.not.equal(simpleCVId);
-        expect(newSimpleCVId).to.not.equal(advancedCVId);
+        // `resetStateContextVersion` should deepCopy our stored copy
+        expect(simpleCVCopy).to.not.equal(newSimpleCVId);
         expect(keypather.get(readOnlySwitchController, 'state.advanced')).to.equal(false);
       });
 
