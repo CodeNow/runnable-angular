@@ -24,9 +24,10 @@
       }
     }
 
-    // invite button
+    // invite and send buttons
     .green {
       top: 15px;
+      width: 50px;
     }
 
     // close icon
@@ -58,17 +59,21 @@
 
     .input {
       font-size: 14px;
+      margin-left: -6px; // line up send button with invite
       padding-right: 54px;
+      width: 306px; // line up send button with invite
+
+      // send
+      ~ .green {
+        bottom: 13px;
+        margin: 6px;
+        right: 9px; // line up send button with invite
+        top: auto;
+      }
     }
 
     .icons-check {
       color: $green;
-    }
-
-    // send
-    .green.float-right {
-      margin: 6px;
-      top: auto;
     }
 
     // sending invite
