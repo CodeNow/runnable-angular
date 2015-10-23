@@ -16,8 +16,9 @@ function fetchStackAnalysis(
     if (!stackAnalysisCache[fullRepoName]) {
       stackAnalysisCache[fullRepoName] = apiClientBridge.client.getAsync('/actions/analyze?repo=' + fullRepoName)
         .then(function (headerAndData) {
-          if (Array.isArray(headerAndData)) {
-            return headerAndData[headerAndData.length - 1];
+          // should be an array of [res, body], we want body
+          if (Array.isArray(headerAndData) && headerAndData.length === 2) {
+            return headerAndData[1];
           }
           return headerAndData;
         });
