@@ -412,8 +412,8 @@
   z-index: $z-popover-content;
 
   > .btn-sm {
-    display: table;
-    margin: 6px auto 12px;
+    display: block;
+    margin: 6px 9px 12px;
 
     &:active .icons-add {
       background: currentColor;
