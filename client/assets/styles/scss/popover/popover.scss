@@ -415,6 +415,10 @@
     display: table;
     margin: 6px auto 12px;
 
+    &:active .icons-add {
+      background: currentColor;
+    }
+
     .icons-add {
       background: $gray-light;
       height: 18px;
