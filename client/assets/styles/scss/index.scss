@@ -116,12 +116,14 @@
 @import "modals/modals";
 @import "modals/modals-alerts";
 @import "modals/modals-forms";
+@import "modals/modals-sheets";
 
 // modal specific
 @import "modals/modals-edit";
 @import "modals/modals-edit-ace";
 @import "modals/modals-error";
 @import "modals/modals-integrations";
+@import "modals/modals-invite";
 @import "modals/modals-invite-admin";
 @import "modals/modals-isolation";
 @import "modals/modals-rename";
@@ -146,7 +148,6 @@
 @import "popover/popover-debug";
 @import "popover/popover-dns-mappings";
 @import "popover/popover-files";
-@import "popover/popover-invite";
 @import "popover/popover-new-server";
 @import "popover/popover-permissions";
 @import "popover/popover-primary-options";

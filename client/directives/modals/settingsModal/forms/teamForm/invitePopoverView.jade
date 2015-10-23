@@ -1,5 +1,5 @@
 .modal-backdrop.in
-  .popover.popover-fixed.popover-invite.in(
+  .modal-dialog.modal-sheet.modal-invite.in(
     ng-init = "\
       uninvitedUsers = [\
         {username: 'dpletter', gravatarUrl: 'https://avatars2.githubusercontent.com/u/4671202', email: null},\
@@ -14,7 +14,7 @@
       state.sending = false;\
     "
   )
-    .popover-header Invite Users
+    .modal-header Invite Users
       svg.iconnables.icons-close(
         ng-click = "closePopover()"
       )
@@ -22,7 +22,7 @@
           xlink:href = "#icons-close"
         )
 
-    .popover-content
+    .modal-body
 
       .spinner-wrapper.spinner-gray.spinner-sm.in.spinner-center(
         ng-click = "state.loading = !state.loading"
