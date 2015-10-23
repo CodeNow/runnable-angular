@@ -203,7 +203,7 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
         sinon.assert.calledOnce(ctx.loadingPromiseMock.add);
         sinon.assert.calledOnce(ctx.contextVersion.deepCopy);
         expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.true;
-        expect(keypather.get(readOnlySwitchController, 'state.previousSimpleContextVersion')).to.be.an.object;
+        expect(keypather.get(readOnlySwitchController, 'state.simpleContextVersionCopy')).to.be.an.object;
         // `lastBuiltSimpleContextVersion` is not necessary when there is not instance
         expect(ctx.instance.attrs.lastBuiltSimpleContextVersion, 'lastBuiltSimpleContextVersion').to.not.be.ok;
       });
@@ -233,7 +233,7 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
         readOnlySwitchController.readOnly(true);
         $scope.$digest();
         var advancedCVId = keypather.get(readOnlySwitchController, 'state.contextVersion.attrs._id');
-        var simpleCVCopy = keypather.get(readOnlySwitchController, 'state.previousSimpleContextVersion.attrs._id');
+        var simpleCVCopy = keypather.get(readOnlySwitchController, 'state.simpleContextVersionCopy.attrs._id');
         // We will only modify the current CV and create a copy of it
         expect(advancedCVId).to.equal(simpleCVId);
         expect(simpleCVCopy).to.not.equal(simpleCVId);

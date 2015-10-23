@@ -50,8 +50,8 @@ function ReadOnlySwitchController(
                 return promisify(ROSC.state.contextVersion, 'deepCopy')();
               })
               .then(function (contextVersionCopy) {
-                // Save copy of simple mode CV to state
-                ROSC.state.previousSimpleContextVersion = contextVersionCopy;
+                // Save a copy of our last simple mode CV to state
+                ROSC.state.simpleContextVersionCopy = contextVersionCopy;
                 return ROSC.state.contextVersion;
               });
           }
@@ -95,8 +95,8 @@ function ReadOnlySwitchController(
             return modal.close.then(function (confirmed) {
               if (confirmed) {
                 ROSC.state.advanced = false;
-                keypather.set(ROSC, 'state.previousSimpleContextVersion.attrs.advanced', false);
-                $scope.$emit('resetStateContextVersion', ROSC.state.previousSimpleContextVersion, true);
+                keypather.set(ROSC, 'state.simpleContextVersionCopy.attrs.advanced', false);
+                $scope.$emit('resetStateContextVersion', ROSC.state.simpleContextVersionCopy, true);
                 return false;
               }
               return true;
