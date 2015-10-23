@@ -288,33 +288,72 @@ function SetupServerModalController (
   SMC.createServer = function () {
     // Wait until all changes to the context version have been resolved to
     // create the server
-    var createPromise = loadingPromises.finished(SMC.name)
-      .then(function () {
-        if (!SMC.state.advanced) {
-          return updateDockerfileFromState(SMC.state, false, true);
-        }
-        return true;
-      })
-      .then(function () {
-        if (SMC.state.acv.attrs.branch !== SMC.state.branch.attrs.name) {
-          return promisify(SMC.state.acv, 'update')({
-            repo: SMC.state.repo.attrs.full_name,
-            branch: SMC.state.branch.attrs.name,
-            commit: SMC.state.branch.attrs.commit.sha
-          });
-        }
-      })
-      .then(function () {
-        return SMC.state;
-      });
+    function generateCreatePromise () {
+      return loadingPromises.finished(SMC.name)
+        .then(function () {
+          if (!SMC.state.advanced) {
+            return updateDockerfileFromState(SMC.state, false, true);
+          }
+          return true;
+        })
+        .then(function () {
+          if (SMC.state.acv.attrs.branch !== SMC.state.branch.attrs.name) {
+            return promisify(SMC.state.acv, 'update')({
+              repo: SMC.state.repo.attrs.full_name,
+              branch: SMC.state.branch.attrs.name,
+              commit: SMC.state.branch.attrs.commit.sha
+            });
+          }
+        })
+        .then(function () {
+          return SMC.state;
+        });
+    }
 
     // We need to make sure that ports are loaded when the server is created
     if (Array.isArray(SMC.state.ports) && SMC.state.ports.length === 0) {
       SMC.state.ports = loadPorts();
     }
-    return SMC.openItems.updateAllFiles()
+
+    return $q.when(true)
       .then(function () {
-        return SMC.actions.createAndBuild(createPromise, SMC.state.opts.name);
+        if (SMC.state.advanced && SMC.state.simpleContextVersionCopy) {
+          var advancedContexVersion = SMC.state.contextVersion;
+          return SMC.resetStateContextVersion(SMC.state.simpleContextVersionCopy, true)
+            .then(function () {
+              return SMC.actions.createAndBuild(generateCreatePromise(), SMC.state.opts.name)
+                .then(function (instance) {
+                  if (instance && instance.contextVersion) {
+                    SMC.instance = instance;
+                    SMC.state.instance = instance;
+                    return instance;
+                  }
+                  return $q.reject(new Error('Instance not created properly'));
+                });
+            })
+            .then(function () {
+              return SMC.resetStateContextVersion(advancedContexVersion, true);
+            });
+        }
+        return true;
+      })
+    // if there is an existing SimpleCV
+    //   Load that CV into `SMC.state` through `resetContextVersion`
+    //   Create a `createPromise`
+    //   Send the `createPromise` and the name to `createAndBuild`
+    //   `resetContextVersion` to AdvancedCV
+
+      .then(function () {
+        console.log('SMC.instance', SMC.instance);
+        return SMC.openItems.updateAllFiles();
+      })
+      .then(function () {
+        if (SMC.instance) {
+          console.log('REBUILD');
+          return SMC.rebuildAndOrRedeploy();
+        }
+        console.log('CREATE AND BUILD');
+        return SMC.actions.createAndBuild(generateCreatePromise(), SMC.state.opts.name);
       })
       .then(function (instance) {
         if (instance && instance.contextVersion) {
