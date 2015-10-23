@@ -415,12 +415,7 @@
     display: block;
     margin: 6px 9px 12px;
 
-    &:active .icons-add {
-      background: currentColor;
-    }
-
     .icons-add {
-      background: $gray-light;
       height: 18px;
       margin-right: 6px;
       top: 7px;
