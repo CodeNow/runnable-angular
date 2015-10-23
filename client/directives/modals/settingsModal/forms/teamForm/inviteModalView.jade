@@ -34,10 +34,7 @@
         ng-if = "!state.loading"
       )
         li.list-item(
-          ng-class = "{\
-            'active': state.activeItem === $index,\
-            'inactive': state.activeItem && state.activeItem !== $index\
-          }"
+          ng-class = "{'active': state.activeItem === $index}"
           ng-if = "!state.loading"
           ng-repeat = "user in uninvitedUsers"
         )

@@ -9,14 +9,7 @@
     overflow: hidden;
     transition: height .15s, padding .15s;
 
-    &.inactive {
-      border: 0;
-      height: 0;
-      padding: 0 15px;
-    }
-
     &.active {
-      border: 0;
       cursor: auto;
       height: 107px;
 
