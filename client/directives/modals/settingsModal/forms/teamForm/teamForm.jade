@@ -87,12 +87,13 @@
         .username.text-overflow {{teammate.username}}
         //- show email that the invite was sent to
         .small.text-overflow {{teammate.email}}
-        //- sending…
-        //- .spinner-wrapper.spinner-sm.spinner-gray.in(
-        //-   ng-include = "'spinner'"
-        //- )
-        //- send confirmation
-        //- .send-confirmation.load
+        .btn-wrapper
+          //- sending…
+          //- .spinner-wrapper.spinner-sm.spinner-gray.in(
+          //-   ng-include = "'spinner'"
+          //- )
+          //- send confirmation
+          .send-confirmation.loaded
             svg.iconnables.icons-check.float-left(
               viewbox = '0 0 14.5 10'
             )
@@ -106,17 +107,17 @@
                 stroke-width = '2',
               )
             | Sent
-        button.btn.btn-xs.white(
-          ng-class = "{'active': pendingInvitePopover.data.show}"
-          pop-over
-          pop-over-active = "pendingInvitePopover.data.show"
-          pop-over-options = "{\"right\":0,\"top\":35}"
-          pop-over-template = "pendingInvitePopoverView"
-        )
-          svg.iconnables.icons-overflow
-            use(
-              xlink:href = "#icons-overflow"
-            )
+          button.btn.btn-xs.white.float-right(
+            ng-class = "{'active': pendingInvitePopover.data.show}"
+            pop-over
+            pop-over-active = "pendingInvitePopover.data.show"
+            pop-over-options = "{\"right\":0,\"top\":35}"
+            pop-over-template = "pendingInvitePopoverView"
+          )
+            svg.iconnables.icons-overflow
+              use(
+                xlink:href = "#icons-overflow"
+              )
 
   //- for existing team
   .label
