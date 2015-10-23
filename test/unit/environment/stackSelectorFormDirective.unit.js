@@ -16,22 +16,6 @@ var MockFetch = require('../fixtures/mockFetch');
 
 function makeDefaultScope() {
   return {
-    data: {
-      instances: [apiMocks.instances.building, apiMocks.instances.running],
-      activeAccount: ctx.fakeuser,
-      orgs: {models: [ctx.fakeOrg1, ctx.fakeOrg2]},
-      user: ctx.fakeuser,
-      stacks: [
-        {
-          key: 'chicken',
-          value: 'cooked'
-        },
-        {
-          key: 'bbq',
-          value: 'cooked chicken with sauce'
-        }
-      ]
-    },
     state: {
       selectedStack: {
         key: 'chicken'
@@ -53,10 +37,24 @@ describe('stackSelectorForm'.bold.underline.blue, function () {
       runnable,
       apiMocks.contextVersions.running
     );
+    ctx.fetchStackInfo = [
+      {
+        key: 'chicken',
+        value: 'cooked'
+      },
+      {
+        key: 'bbq',
+        value: 'cooked chicken with sauce'
+      }
+    ];
     angular.mock.module('app', function ($provide) {
       $provide.factory('createDockerfileFromSource', ctx.createDockerfileFromSourceMock.fetch());
       $provide.factory('updateDockerfileFromState', function () {
         return ctx.updateDockerfileFromStateMock;
+      });
+      $provide.factory('fetchStackInfo', function ($q) {
+        ctx.mockFetchStackInfo = sinon.stub().returns($q.when(ctx.fetchStackInfo));
+        return ctx.mockFetchStackInfo;
       });
     });
 
@@ -78,7 +76,6 @@ describe('stackSelectorForm'.bold.underline.blue, function () {
       angular.extend($scope, addToScope);
     }
     ctx.template = directiveTemplate.attribute('stack-selector-form', {
-      'data': 'data',
       'state': 'state',
       'loading-promises-target': 'hello'
     });
@@ -93,8 +90,9 @@ describe('stackSelectorForm'.bold.underline.blue, function () {
       injectSetupCompile();
     });
     it('should have everything on the scope that was given', function () {
-      expect($elScope.data).to.be.ok;
       // Actions was modified, so just verify it exists
+      sinon.assert.calledOnce(ctx.mockFetchStackInfo);
+      expect($elScope.stacks).to.equal(ctx.fetchStackInfo);
       expect($elScope.state).to.be.ok;
       expect($elScope.state.selectedStack).to.be.ok;
       expect($elScope.temp).to.be.ok;
@@ -104,7 +102,6 @@ describe('stackSelectorForm'.bold.underline.blue, function () {
     });
 
     it('should set selectedStack to new value of temp', function () {
-
       $elScope.temp.stackKey = 'bbq';
       $scope.$digest();
       expect($elScope.state.selectedStack.key).to.equal('bbq');
