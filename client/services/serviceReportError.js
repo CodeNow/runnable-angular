@@ -50,7 +50,8 @@ function report(
     }
     if ($window.trackJs) {
       $window.trackJs.configure({
-        userId: keypather.get(user, 'oauthName()')
+        userId: keypather.get(user, 'attrs.email'),
+        sessionId: keypather.get(user, 'oauthName()')
       });
     }
   };
