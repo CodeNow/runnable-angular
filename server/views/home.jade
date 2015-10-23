@@ -42,11 +42,8 @@ html.home(
           token: 'ea5e26c7ec2d486e9c66bcf4fefa0f4b',
           version: "#{locals.version}",
           onError: function (payload, error) {
-            payload.network.filter(function (item) {
-              if (item.url.indexOf('mixpanel') !== -1) {
-                return false;
-              }
-              return true;
+            payload.network = payload.network.filter(function (item) {
+              return item.url.indexOf('mixpanel') !== -1;
             });
             return true;
           }

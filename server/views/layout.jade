@@ -46,9 +46,9 @@ html(
           version: "#{locals.version}",
           onError: function (payload, error) {
             payload.network.filter(function (item) {
-              if (item.url.indexOf('mixpanel') !== -1) {
-                return false;
-              }
+              payload.network = payload.network.filter(function (item) {
+                return item.url.indexOf('mixpanel') !== -1;
+              });
               return true;
             });
             return true;
