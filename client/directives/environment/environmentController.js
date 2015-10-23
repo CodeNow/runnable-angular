@@ -11,11 +11,9 @@ require('app')
 function EnvironmentController(
   $scope,
   $timeout,
-  errs,
   favico,
   fetchInstancesByPod,
   pageName,
-  promisify,
   $rootScope,
   helpCards,
   $window,
@@ -28,10 +26,7 @@ function EnvironmentController(
       return ModalService.showModal({
         controller: 'NewContainerModalController',
         controllerAs: 'NCMC',
-        templateUrl: 'newContainerModalView',
-        inputs: {
-          data: $scope.data
-        }
+        templateUrl: 'newContainerModalView'
       });
     },
     repoContainer: function () {
@@ -39,10 +34,7 @@ function EnvironmentController(
       ModalService.showModal({
         controller: 'SetupServerModalController',
         controllerAs: 'SMC',
-        templateUrl: 'setupServerModalView',
-        inputs: {
-          data: $scope.data
-        }
+        templateUrl: 'setupServerModalView'
       });
     }
   };
@@ -115,28 +107,6 @@ function EnvironmentController(
         helpCards.setActiveCard(help);
         $rootScope.$broadcast('close-popovers');
       }
-    }
-  };
-
-  $scope.actions = {
-    deleteServer: function (instance) {
-      $rootScope.$broadcast('close-popovers');
-      return ModalService.showModal({
-        controller: 'ConfirmationModalController',
-        controllerAs: 'CMC',
-        templateUrl: 'confirmDeleteServerView'
-      })
-        .then(function (modal) {
-          return modal.close.then(function (confirmed) {
-            if (confirmed) {
-              promisify(instance, 'destroy')()
-                .catch(errs.handler);
-              helpCards.refreshAllCards();
-            }
-            return confirmed;
-          });
-        })
-        .catch(errs.handler);
     }
   };
 

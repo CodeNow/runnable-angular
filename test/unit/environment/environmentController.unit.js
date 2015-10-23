@@ -108,8 +108,6 @@ describe('environmentController'.bold.underline.blue, function () {
       expect($scope).to.have.property('state');
       expect($scope.state).to.have.property('validation');
       expect($scope.state.validation).to.have.property('env');
-      expect($scope).to.have.property('actions');
-      expect($scope.actions.deleteServer, 'deleteServer').to.be.ok;
 
       var templateInstances = runnable.newInstances(
         [apiMocks.instances.running, apiMocks.instances.stopped],

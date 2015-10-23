@@ -5,7 +5,6 @@ require('app')
 
 function NewContainerModalController(
   ModalService,
-  data,
   close
 ) {
   var NCMC = this;
@@ -15,10 +14,7 @@ function NewContainerModalController(
     ModalService.showModal({
       controller: 'SetupServerModalController',
       controllerAs: 'SMC',
-      templateUrl: 'setupServerModalView',
-      inputs: {
-        data: data
-      }
+      templateUrl: 'setupServerModalView'
     });
   };
   NCMC.newTemplateContainer = function () {

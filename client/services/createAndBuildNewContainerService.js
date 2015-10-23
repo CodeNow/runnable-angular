@@ -17,20 +17,22 @@ function createAndBuildNewContainer(
     eventTracking.triggeredBuild(false);
     // Save this in case it changes
     var cachedActiveAccount = $rootScope.dataApp.data.activeAccount;
+    var instance = null;
     return $q.all({
       masterInstances: fetchInstancesByPod(cachedActiveAccount.oauthName()),
-      user: fetchUser(),
-      newServerModel: createPromise
+      user: fetchUser()
     })
       .then(function (response) {
-        var instance = response.user.newInstance({
+        instance = response.user.newInstance({
           name: containerName,
           owner: {
             username: cachedActiveAccount.oauthName()
           }
-        }, { warn: false });
+        }, {warn: false});
         response.masterInstances.add(instance);
-
+        return createPromise;
+      })
+      .then(function (newServerModel) {
         $rootScope.$broadcast('alert', {
           type: 'success',
           text: 'Your new container is building.'
@@ -38,19 +40,19 @@ function createAndBuildNewContainer(
         helpCards.hideActiveCard();
         return createNewInstance(
           cachedActiveAccount,
-          response.newServerModel.build,
-          response.newServerModel.opts,
+          newServerModel.build,
+          newServerModel.opts,
           instance
-        )
-          .then(function (instance) {
-            helpCards.refreshAllCards();
-            return instance;
-          })
-          .catch(function (err) {
-            // Remove it from the servers list
-            instance.dealloc();
-            return $q.reject(err);
-          });
+        );
+      })
+      .then(function (instance) {
+        helpCards.refreshAllCards();
+        return instance;
+      })
+      .catch(function (err) {
+        // Remove it from the servers list
+        instance.dealloc();
+        return $q.reject(err);
       });
   };
 }

@@ -15,7 +15,7 @@ var helpCardsMock = require('../apiMocks/HelpCardServiceMock');
 
 var thisUser = runnable.newUser(apiMocks.user);
 
-describe('createAndBuildNewContainer'.bold.underline.blue, function () {
+describe.only('createAndBuildNewContainer'.bold.underline.blue, function () {
   var ctx = {};
 
   function createMasterPods() {
@@ -100,6 +100,8 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
         instance: instance
       };
       createAndBuildNewContainer($q.when(server), 'newName');
+      $rootScope.$digest();
+
       fetchInstancesByPodMock.triggerPromise(instances);
       $rootScope.$digest();
 
@@ -139,14 +141,23 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
 
       var error = new Error('Oops');
       createAndBuildNewContainer($q.reject(error), 'newName');
-      fetchInstancesByPodMock.triggerPromise(instances);
       $rootScope.$digest();
 
-      sinon.assert.notCalled(ctx.fakeUser.newInstance);
+      fetchInstancesByPodMock.triggerPromise(instances);
+      $rootScope.$digest();
+      sinon.assert.calledWith(ctx.fakeUser.newInstance, {
+        name: 'newName',
+        owner: {
+          username: ctx.fakeOrg1.oauthName()
+        }
+      }, { warn: false });
+
+
+      sinon.assert.calledOnce(ctx.fakeUser.newInstance);
+      sinon.assert.calledOnce(instances.add);
 
       sinon.assert.notCalled(createNewInstanceMock.getFetchSpy());
       sinon.assert.calledOnce(ctx.eventTracking.triggeredBuild);
-      sinon.assert.notCalled(instances.add);
     });
     it('should fail successfully the createNewInstance promise fails', function (done) {
       setup();
@@ -175,9 +186,10 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
           sinon.assert.calledOnce(instance.dealloc);
           done();
         });
-      fetchInstancesByPodMock.triggerPromise(instances);
       $rootScope.$digest();
 
+      fetchInstancesByPodMock.triggerPromise(instances);
+      $rootScope.$digest();
       sinon.assert.calledWith(ctx.fakeUser.newInstance, {
         name: 'newName',
         owner: {
@@ -185,8 +197,8 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
         }
       }, { warn: false });
 
-      sinon.assert.calledOnce(ctx.helpCards.hideActiveCard);
       sinon.assert.calledOnce(instances.add);
+      sinon.assert.calledOnce(ctx.helpCards.hideActiveCard);
       sinon.assert.calledOnce(ctx.eventTracking.triggeredBuild);
 
       createNewInstanceMock.triggerPromiseError(error);
