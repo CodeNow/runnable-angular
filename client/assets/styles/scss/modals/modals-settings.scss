@@ -30,41 +30,113 @@
   }
 }
 
-//- integrations form
-.form-integrations {
-  height: 364px; // height for empty state
-}
+// team form
+.form-team {
 
-//- billing form
-.form-billing {
+  .list-teammates {
 
-  // link to all plans & errors
-  .label-col {
-    float: none;
-    padding-right: 0;
-
-    > .small,
-    > .error {
-      margin-top: 12px;
+    // delete transition
+    &.ng-leave {
+      overflow: hidden;
+      transition: all .3s;
     }
 
-    // errors
-    .error {
-      color: $red;
-      margin-right: 24px;
+    &.ng-leave-active {
+      border-width: 0;
+    }
 
-      // error badge
-      &::after {
-        right: -21px;
+    .btn-wrapper {
+      position: absolute;
+      right: 14px;
+      top: 0;
+
+      .float-right {
+        margin-left: 6px;
       }
     }
 
-    // external link
-    .iconnables {
-      float: right;
-      height: 13px;
+    .btn-xs {
+      top: 16px;
+    }
+
+    // overflow for permissions and overflow
+    .text-overflow {
+      padding-right: 111px;
+    }
+
+    // overflow
+    .icons-overflow {
+      top: -2px;
+      width: 15px;
+    }
+
+    // permissions button
+    .btn-permission {
+      text-align: left;
+      width: 75px;
     }
   }
+
+  .list-teammates-pending {
+    background-image: repeating-linear-gradient(60deg, #f9f9f9, #f9f9f9 18px, transparent 18px, transparent 36px);
+
+    + .list-teammates-pending {
+      margin-top: 15px;
+    }
+
+    // additional padding for send button
+    .text-overflow {
+      padding-right: 120px;
+    }
+  }
+
+  .list-item {
+
+    // add transition
+    &.ng-enter {
+      border-width: 0;
+      height: 0;
+      opacity: 0;
+      padding: 0;
+      overflow: hidden;
+      transition: all .3s;
+    }
+
+    &.ng-enter-active {
+      border-width: 1px;
+      height: 57px;
+      opacity: 1;
+      padding: 8px 15px;
+    }
+
+    // delete transition
+    &.ng-leave {
+      overflow: hidden;
+      transition: all .3s;
+    }
+
+    &.ng-leave-active {
+      border-width: 0;
+      height: 0;
+      opacity: 0;
+      padding: 0;
+    }
+  }
+
+  // send
+  .spinner-wrapper,
+  .send-confirmation {
+    float: left;
+    margin: 18px 6px 0 0;
+  }
+
+  .spinner-wrapper {
+    margin-top: 20px;
+  }
+}
+
+// billing form
+.form-billing {
 
   // plan and payment area
   .well {

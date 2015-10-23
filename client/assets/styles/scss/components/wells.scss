@@ -49,6 +49,12 @@
     }
   }
 
+  &.red {
+    background-color: rgba($red,.05);
+    border-color: $red;
+    box-shadow: inset 0 0 0 1px $red;
+  }
+
   .label-checkbox {
     height: 36px;
     line-height: 36px;
