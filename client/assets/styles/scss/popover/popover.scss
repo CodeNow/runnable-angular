@@ -410,6 +410,18 @@
   padding: 6px;
   position: relative;
   z-index: $z-popover-content;
+
+  > .btn-sm {
+    display: table;
+    margin: 6px auto 12px;
+
+    .icons-add {
+      background: $gray-light;
+      height: 18px;
+      margin-right: 6px;
+      top: 7px;
+    }
+  }
 }
 
 //- footer.popover-footer

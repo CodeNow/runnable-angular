@@ -155,6 +155,14 @@
                 width = "24"
               )
               | {{account.oauthName()}}
+          a.btn.btn-sm.gray(
+            href = "/welcome"
+          )
+            svg.iconnables.icons-round.icons-add.float-left
+              use(
+                xlink:href = "#icons-add"
+              )
+            | Create New Team
 
     animated-panel(
       name = "featureFlags"
