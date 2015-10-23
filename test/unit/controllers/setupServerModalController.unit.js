@@ -34,15 +34,15 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   var updateDockerfileFromStateStub;
   var populateDockerfileStub;
   var fetchDockerfileFromSourceStub;
-  var createAndBuildNewContainerStub;
-  var data;
+  var fetchInstancesByPodStub;
   var closeSpy;
   var showModalStub;
   var closeModalStub;
 
+  var createAndBuildNewContainerMock;
+
   var helpCardsMock;
 
-  var createAndBuildNewContainerMockValue;
 
   var branches;
   var repo;
@@ -51,6 +51,8 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   var mainACV;
   var acv;
   var branch;
+  var instances
+  var mockInstance;
 
   function initState() {
     helpCardsMock = {
@@ -59,20 +61,21 @@ describe('setupServerModalController'.bold.underline.blue, function () {
     fetchStackAnalysisMock = new MockFetch();
     createNewBuildMock = sinon.stub();
     populateDockerfileStub = sinon.stub();
+    createAndBuildNewContainerMock = new MockFetch();
 
     angular.mock.module('app');
-    createAndBuildNewContainerMockValue = {};
     angular.mock.module(function ($provide) {
       $provide.factory('fetchStackAnalysis', fetchStackAnalysisMock.fetch());
       $provide.value('helpCards', helpCardsMock);
+      $provide.factory('fetchInstancesByPod', function ($q) {
+        fetchInstancesByPodStub = sinon.stub().returns($q.when(instances));
+        return fetchInstancesByPodStub;
+      });
       $provide.factory('updateDockerfileFromState', function ($q) {
         updateDockerfileFromStateStub = sinon.stub().returns($q.when(dockerfile));
         return updateDockerfileFromStateStub;
       });
-      $provide.factory('createAndBuildNewContainer', function ($q) {
-        createAndBuildNewContainerStub = sinon.stub().returns($q.when(createAndBuildNewContainerMockValue));
-        return createAndBuildNewContainerStub;
-      });
+      $provide.factory('createAndBuildNewContainer', createAndBuildNewContainerMock.fetch());
       $provide.factory('repositoryFormDirective', function () {
         return {
           priority: 100000,
@@ -115,19 +118,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       $provide.value('close', closeSpy);
 
       $provide.value('actions', {});
-      data = {
-        stacks: stacks,
-        instances: [{
-          getRepoName: sinon.stub().returns(mocks.repoList[0].full_name.split('/')[1])
-        },{
-          getRepoName: sinon.spy(),
-          attrs: {
-            name: 'foo'
-          }
-        }]
-      };
-      $provide.value('data', data);
-
       $provide.factory('fetchDockerfileFromSource', function ($q) {
         fetchDockerfileFromSourceStub = sinon.stub().returns($q.when(dockerfile));
         return fetchDockerfileFromSourceStub;
@@ -148,13 +138,11 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       });
     });
 
-    angular.mock.inject(function (
-      _$controller_,
-      _$rootScope_,
-      _keypather_,
-      _loadingPromises_,
-      _$q_
-    ) {
+    angular.mock.inject(function (_$controller_,
+                                  _$rootScope_,
+                                  _keypather_,
+                                  _loadingPromises_,
+                                  _$q_) {
       $controller = _$controller_;
       keypather = _keypather_;
       $rootScope = _$rootScope_;
@@ -165,9 +153,10 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       $scope = $rootScope.$new();
       SMC = $controller('SetupServerModalController', {
         $scope: $scope
-       });
+      });
     });
-
+  }
+  function initializeValues() {
     // Set variables for initial state
     branches = {
       models: [
@@ -262,7 +251,36 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       }
     };
 
+    mockInstance = {
+      build: newBuild,
+      contextVersion: {
+        attrs: {
+          asdfasdf: 'asdfasdf'
+        }
+      },
+      attrs: {
+        contextVersion: {
+          context: 'context1234'
+        },
+        owner: {
+          username: 'orgName'
+        }
+      },
+      getRepoName: sinon.stub().returns('mainRepo')
+    };
+    instances = [
+      mockInstance,
+      {
+        getRepoName: sinon.stub().returns(mocks.repoList[0].full_name.split('/')[1])
+      }, {
+        getRepoName: sinon.spy(),
+        attrs: {
+          name: 'foo'
+      }
+    }];
+
   }
+  beforeEach(initializeValues);
   beforeEach(initState);
 
   it('should fetch the repo list on load', function () {
@@ -270,7 +288,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
     sinon.assert.called($rootScope.dataApp.data.activeAccount.oauthName);
     sinon.assert.calledOnce(fetchOwnerRepoStub);
     expect(SMC.data.githubRepos.models).to.exist;
-    sinon.assert.called(data.instances[0].getRepoName);
+    sinon.assert.called(SMC.data.instances[0].getRepoName);
     expect(SMC.data.githubRepos.models[0]).to.have.property('isAdded');
   });
 
@@ -347,13 +365,12 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         SMC.state.acv = acv;
         SMC.state.branch = branch;
 
-        SMC.actions.deleteServer = sinon.stub().returns($q.when(true));
         SMC.state.selectedStack = {
           key: 'ruby_ror',
           ports: '8000, 900, 80'
         };
         SMC.selectRepo(repo);
-        SMC.resetStateContextVersion = sinon.stub();
+        SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
 
         SMC.state.repo = repo;
         SMC.state.dst = '/foo';
@@ -371,12 +388,15 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         expect(populateDockerfileOpts.containerFiles[0].type).to.equal('Main Repository');
         expect(populateDockerfileOpts.ports).to.eql(['8000', '900', '80']);
         $scope.$digest();
-        
-        sinon.assert.calledOnce(createAndBuildNewContainerStub);
-        expect(createAndBuildNewContainerStub.lastCall.args[1]).to.equal(repo.attrs.name);
+
+        createAndBuildNewContainerMock.triggerPromise(mockInstance);
+        $scope.$digest();
+
+        sinon.assert.calledOnce(createAndBuildNewContainerMock.getFetchSpy());
+        expect(createAndBuildNewContainerMock.getFetchSpy().lastCall.args[1]).to.equal(repo.attrs.name);
 
         sinon.assert.calledOnce(SMC.resetStateContextVersion);
-        sinon.assert.calledWith(SMC.resetStateContextVersion, newBuild.contextVersion, true);
+        sinon.assert.calledWith(SMC.resetStateContextVersion, mockInstance.contextVersion, true);
       });
 
       it('should not update the dockerfile from state, if in advanced mode', function () {
@@ -384,27 +404,63 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         $scope.$watch = sinon.stub();
         SMC.state.acv = acv;
         SMC.state.branch = branch;
-        SMC.actions.deleteServer = sinon.stub().returns($q.when(true));
         SMC.state.selectedStack = {
           key: 'ruby_ror'
         };
-        SMC.resetStateContextVersion = sinon.stub();
+        SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
 
         SMC.selectRepo(repo);
         SMC.state.repo = repo;
         SMC.state.dst = '/foo';
         sinon.assert.notCalled(updateDockerfileFromStateStub);
         SMC.state.advanced = true;
+
+
         SMC.createServer();
         $scope.$digest();
+        createAndBuildNewContainerMock.triggerPromise(mockInstance);
+        $scope.$digest();
         sinon.assert.notCalled(updateDockerfileFromStateStub);
-        sinon.assert.calledOnce(createAndBuildNewContainerStub);
-        expect(createAndBuildNewContainerStub.lastCall.args[1]).to.equal(repo.attrs.name);
+        sinon.assert.calledOnce(createAndBuildNewContainerMock.getFetchSpy());
+        expect(createAndBuildNewContainerMock.getFetchSpy().lastCall.args[1]).to.equal(repo.attrs.name);
 
         sinon.assert.calledOnce(SMC.resetStateContextVersion);
-        sinon.assert.calledWith(SMC.resetStateContextVersion, newBuild.contextVersion, true);
+        sinon.assert.calledWith(SMC.resetStateContextVersion, mockInstance.contextVersion, true);
       });
 
+      it('should call resetStateContextVersion if something fails', function (done) {
+        updateDockerfileFromStateStub.reset();
+        $scope.$watch = sinon.stub();
+        SMC.state.acv = acv;
+        SMC.state.branch = branch;
+        SMC.state.selectedStack = {
+          key: 'ruby_ror'
+        };
+        SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
+
+        SMC.selectRepo(repo);
+        SMC.state.repo = repo;
+        SMC.state.dst = '/foo';
+        sinon.assert.notCalled(updateDockerfileFromStateStub);
+        SMC.state.advanced = true;
+        SMC.state.contextVersion = {};
+
+        var error = new Error('asdasdas');
+        SMC.createServer()
+          .catch(function (err) {
+            expect(error, 'error').to.equal(err);
+            sinon.assert.notCalled(updateDockerfileFromStateStub);
+            sinon.assert.calledOnce(createAndBuildNewContainerMock.getFetchSpy());
+            expect(createAndBuildNewContainerMock.getFetchSpy().lastCall.args[1]).to.equal(repo.attrs.name);
+
+            sinon.assert.calledOnce(SMC.resetStateContextVersion);
+            sinon.assert.calledWith(SMC.resetStateContextVersion, SMC.state.contextVersion, true);
+            done();
+          });
+        $scope.$digest();
+        createAndBuildNewContainerMock.triggerPromiseError(error);
+        $scope.$digest();
+      });
     });
 
     describe('getElasticHostname', function () {
@@ -476,7 +532,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         selectedVersion: '2.0'
       };
       SMC.state.startCommand = 'echo "1";';
-      SMC.resetStateContextVersion = sinon.stub();
+      SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
 
       SMC.selectRepo(repo);
       $scope.$digest();
@@ -502,6 +558,10 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       expect(SMC.state.dockerfile).to.equal(dockerfile);
       SMC.goToNextStep(); // Step #4
       $scope.$digest();
+
+      createAndBuildNewContainerMock.triggerPromise(mockInstance);
+      $scope.$digest();
+
       expect(SMC.selectedTab).to.equal('logs');
     });
 
@@ -605,18 +665,18 @@ describe('setupServerModalController'.bold.underline.blue, function () {
           name: 'branchName'
         }
       };
-      SMC.actions.createAndBuild = sinon.stub().returns($q.when(dockerfile));
-      SMC.actions.deleteServer = sinon.stub().returns($q.when(true));
       SMC.state.selectedStack = {
         key: 'ruby_ror'
       };
-      SMC.resetStateContextVersion = sinon.stub();
+      SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
       SMC.selectRepo(repo);
 
       SMC.state.repo = repo;
       SMC.state.dst = '/foo';
       sinon.assert.notCalled(updateDockerfileFromStateStub);
       SMC.createServerAndClose();
+      $scope.$digest();
+      createAndBuildNewContainerMock.triggerPromise(mockInstance);
       $scope.$digest();
       sinon.assert.calledOnce(SMC.resetStateContextVersion);
       sinon.assert.calledOnce(closeSpy);

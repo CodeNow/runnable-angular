@@ -8,12 +8,10 @@ function ServerModalController (
   $rootScope,
   $scope,
   eventTracking,
-  errs,
   fetchUser,
   helpCards,
   parseDockerfileForCardInfoFromInstance,
   keypather,
-  loading,
   loadingPromises,
   promisify,
   updateDockerfileFromState

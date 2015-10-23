@@ -12,6 +12,7 @@ function SetupServerModalController(
   $rootScope,
   createAndBuildNewContainer,
   errs,
+  fetchInstancesByPod,
   fetchOwnerRepos,
   fetchStackAnalysis,
   hasKeypaths,
@@ -27,7 +28,6 @@ function SetupServerModalController(
   OpenItems,
   fetchStackInfo,
   ModalService,
-  data,
   close
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
@@ -126,16 +126,20 @@ function SetupServerModalController(
           .catch(errs.handler);
       }
     },
-    data: data,
+    data: {},
     selectedTab: 'repository'
   });
   loading.reset(SMC.name);
 
-  fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
-    .then(function (repoList) {
-      SMC.data.githubRepos = repoList;
+  $q.all({
+    instances: fetchInstancesByPod(),
+    repoList: fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
+  })
+    .then(function (data) {
+      SMC.data.instances = data.instances;
+      SMC.data.githubRepos = data.repoList;
       SMC.data.githubRepos.models.forEach(function (repo) {
-         repo.isAdded = SMC.isRepoAdded(repo);
+        repo.isAdded = SMC.isRepoAdded(repo, data.instances);
       });
     })
     .catch(errs.handler)
@@ -156,12 +160,9 @@ function SetupServerModalController(
     return repo.attrs.name.replace(/[^a-zA-Z0-9-]/g, '-');
   }
 
-  SMC.isRepoAdded = function (repo) {
+  SMC.isRepoAdded = function (repo, instances) {
     // Since the newServers may have faked repos (just containing names), just check the name
-    var instances = keypather.get(SMC, 'data.instances');
-    if (!instances) {
-      return false;
-    }
+
     return !!instances.find(function (instance) {
       var repoName = instance.getRepoName();
       if (repoName) {
