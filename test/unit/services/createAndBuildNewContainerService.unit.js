@@ -15,7 +15,7 @@ var helpCardsMock = require('../apiMocks/HelpCardServiceMock');
 
 var thisUser = runnable.newUser(apiMocks.user);
 
-describe.only('createAndBuildNewContainer'.bold.underline.blue, function () {
+describe('createAndBuildNewContainer'.bold.underline.blue, function () {
   var ctx = {};
 
   function createMasterPods() {
