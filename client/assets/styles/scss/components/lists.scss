@@ -21,6 +21,14 @@
       border-top: 1px solid $gray-lighter;
     }
   }
+
+  // divider
+  .divider {
+    background: $gray-lightest;
+    border-bottom: 1px solid $gray-lighter;
+    border-top: 1px solid $gray-lighter;
+    height: 7px;
+  }
 }
 
 // .list-item-link {

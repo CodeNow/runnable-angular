@@ -173,6 +173,10 @@
     border-width: 2px;
     padding: 0;
     position: relative;
+
+    .build-log {
+      z-index: auto; // reset
+    }
   }
 
   .views-toolbar-wrapper {

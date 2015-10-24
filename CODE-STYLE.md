@@ -1,6 +1,11 @@
 Code Style
 =============
 
+## File Naming standards
+
+The type of file is put at the end, it's `fancySelectView` not `viewFancySelect` and it's `environmentController` not `controllerEnvironment`. 
+File names are camel cased, no dashes or underscores.
+
 ## Javascript
 
 `var` is only used to define one var, no multiline statements.

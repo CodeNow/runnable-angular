@@ -1,3 +1,4 @@
+// key frames
 @keyframes alert {
   0% {
     opacity: 0;
@@ -30,6 +31,30 @@
   100% {
     opacity: 0;
     transform: scale3d(.5,.5,1);
+  }
+}
+
+@keyframes check-in {
+
+  0% {
+    transform: scale3d(.75,.75,1);
+  }
+
+  30% {
+    stroke-dashoffset: 0;
+    transform: scale3d(1.1,1.1,1);
+  }
+
+  75% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+    transform: scale3d(1.1,1.1,1);
+  }
+
+  100% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+    transform: scale3d(1.1,1.1,1);
   }
 }
 
@@ -174,5 +199,48 @@
 @keyframes tooltip {
   100% {
     opacity: 1;
+  }
+}
+
+// send-confirmation
+
+// .small.send-confirmation.load
+//   svg.iconnables.icons-check.float-left(
+//     viewbox = '0 0 14.5 10'
+//   )
+//     path.path(
+//       d = 'M1,4.5L5.5,9l8-8'
+//       fill = 'none',
+//       stroke = '#3ccb5a',
+//       stroke-linecap = 'round',
+//       stroke-linejoin = 'round',
+//       stroke-miterlimit = '10',
+//       stroke-width = '2',
+//     )
+//   | Sent
+
+.send-confirmation {
+  color: $green;
+  font-size: 13px;
+  font-weight: $weight-bold;
+  line-height: 18px;
+
+  &.load .path {
+    animation: check-in 1.5s .3s ease-out forwards;
+  }
+
+  &.loaded .path {
+    stroke-dashoffset: 0;
+  }
+
+  .icons-check {
+    padding: 6px;
+    top: -3px;
+  }
+
+  .path {
+    stroke-dasharray: 18;
+    stroke-dashoffset: 18;
+    transform-origin: 50% 50%;
   }
 }

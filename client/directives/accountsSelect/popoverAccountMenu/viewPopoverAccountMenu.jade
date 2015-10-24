@@ -25,7 +25,7 @@
           ul.list.popover-list(
             ng-if = "data.showIntegrations"
           )
-            li.list-item.popover-list-item.small.disabled {{data.activeAccount.oauthName()}} {{$root.featureFlags.teamUI ? '' : 'Settings'}}
+            li.list-item.popover-list-item.small.disabled {{data.activeAccount.oauthName()}} Settings
             li.list-item.popover-list-item(
               modal
               modal-actions = "actions.actionsModalIntegrations"
@@ -40,7 +40,7 @@
               )
               | Slack Integration
             //- *****************
-            //- $root.featureFlags.billing
+            //- $root.featureFlags.billing && $root.featureFlags.teamManagement
             li.list-item.popover-list-item(
               data-badge-count = "!"
               internal-modal-helper = "settingsModalView"
@@ -55,15 +55,17 @@
                   xlink:href = "#icons-billing"
                 )
               | Billing
-            //- li.list-item.popover-list-item(
-            //-   internal-modal-helper = "settingsModalView"
-            //-   ng-if = "$root.featureFlags.billing"
-            //- )
+            li.list-item.popover-list-item(
+              data-badge-count = "1"
+              internal-modal-helper = "settingsModalView"
+              ng-class = "{'badge': true}"
+              ng-if = "$root.featureFlags.teamManagement"
+            )
               svg.iconnables
                 use(
                   xlink:href = "#icons-team"
                 )
-              | Team
+              | Teammates
             li.list-item.popover-list-item(
               internal-modal-helper = "settingsModalView"
               ng-if = "$root.featureFlags.billing"
@@ -83,7 +85,7 @@
                   xlink:href = "#icons-advanced"
                 )
               | Settings
-            //- $root.featureFlags.billing
+            //- $root.featureFlags.billing && $root.featureFlags.teamManagement
             //- *****************
           ul.list.popover-list.list-secondary
             li.list-item.popover-list-item(
@@ -96,7 +98,7 @@
                 )
             li.list-item.popover-list-item(
               ng-click = "goToPanel('changeOrganization')"
-            ) Change {{$root.featureFlags.teamUI ? 'Team' : 'Organization'}}
+            ) Change {{$root.featureFlags.teamManagement ? 'Team' : 'Organization'}}
               svg.iconnables.icons-arrow-forward.anchor-right
                 use(
                   xlink:href = "#icons-arrow-down"
@@ -128,7 +130,7 @@
             use(
               xlink:href = "#icons-arrow-down"
             )
-          | {{$root.featureFlags.teamUI ? 'Your Teams' : 'Organizations'}}
+          | {{$root.featureFlags.teamManagement ? 'Your Teams' : 'Organizations'}}
 
         .popover-content.fade(
           ng-class = "{'in': isActivePanel()}"
@@ -153,6 +155,14 @@
                 width = "24"
               )
               | {{account.oauthName()}}
+          a.btn.btn-sm.gray(
+            href = "/welcome"
+          )
+            svg.iconnables.icons-round.icons-add.float-left
+              use(
+                xlink:href = "#icons-add"
+              )
+            | Create New Team
 
     animated-panel(
       name = "featureFlags"

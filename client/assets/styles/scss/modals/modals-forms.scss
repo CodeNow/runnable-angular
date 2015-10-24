@@ -249,6 +249,11 @@
 .modal-form.empty {
   padding: 30px 30px 60px;
 
+  // well
+  &.well {
+    margin: 0;
+  }
+
   // placeholder
   .img {
     margin: 0 auto;

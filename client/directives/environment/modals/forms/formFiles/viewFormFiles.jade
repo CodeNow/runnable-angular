@@ -35,8 +35,10 @@
   .label-col Files & SSH Keys
   .input-col.clearfix
     button.btn.btn-xs.white.float-right(
+      ng-class = "{'active': filePopover.data.show}"
       pop-over
       pop-over-actions = "CFC.actions"
+      pop-over-active = "filePopover.data.show"
       pop-over-options = "{\"right\":0,\"top\":35}"
       pop-over-template = "viewPopoverAddFile"
     )

@@ -44,14 +44,16 @@ html(
         window._trackJs = {
           token: 'ea5e26c7ec2d486e9c66bcf4fefa0f4b',
           version: "#{locals.version}",
+          application: "production",
+          network: { error: false },
           onError: function (payload, error) {
-            payload.network.filter(function (item) {
-              payload.network = payload.network.filter(function (item) {
-                return item.url.indexOf('mixpanel') !== -1;
-              });
-              return true;
+            payload.network = payload.network.filter(function (item) {
+              return item.url.indexOf('mixpanel') === -1;
             });
             return true;
+          },
+          serialize: function (payload) {
+            return JSON.stringify(payload);
           }
         };
       script(type="text/javascript" src="https://d2zah9y47r7bi2.cloudfront.net/releases/current/tracker.js")

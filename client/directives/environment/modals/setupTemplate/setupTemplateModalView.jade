@@ -1,31 +1,32 @@
-.modal-dialog
-  header.modal-header
-    h1.modal-heading New Non-Repository Container
-    svg.iconnables.icons-close(
-      ng-click = "defaultActions.cancel()"
-    )
-      use(
-        xlink:href = "#icons-close"
+.modal-backdrop.in
+  .modal-dialog
+    header.modal-header
+      h1.modal-heading New Non-Repository Container
+      svg.iconnables.icons-close(
+        ng-click = "STMC.close()"
       )
-
-  section.modal-body
-    .spinner-wrapper.spinner-md.in(
-      ng-if = "!data.allDependencies.models"
-      ng-include = "'spinner'"
-    )
-
-    ul.list.list-servers.list-tiled
-      li.list-item(
-        ng-click = "addServerFromTemplate(dependency)"
-        ng-repeat = "\
-          dependency in data.allDependencies.models | \
-          removeTemplateInstances | \
-          orderBy:'attrs.name'\
-        "
-      )
-        img.img(
-          height = "36"
-          ng-src = "/build/images/logos/logo-icon-{{dependency.attrs.name.toLowerCase()}}.png"
-          width = "36"
+        use(
+          xlink:href = "#icons-close"
         )
-        | {{dependency.attrs.name}}
+
+    section.modal-body
+      .spinner-wrapper.spinner-md.in(
+        ng-if = "!STMC.templateServers.models.length"
+        ng-include = "'spinner'"
+      )
+
+      ul.list.list-servers.list-tiled
+        li.list-item(
+          ng-click = "STMC.addServerFromTemplate(dependency)"
+          ng-repeat = "\
+            dependency in STMC.templateServers.models | \
+            removeTemplateInstances | \
+            orderBy:'attrs.name'\
+          "
+        )
+          img.img(
+            height = "36"
+            ng-src = "/build/images/logos/logo-icon-{{dependency.attrs.name.toLowerCase()}}.png"
+            width = "36"
+          )
+          | {{dependency.attrs.name}}
