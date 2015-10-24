@@ -8,6 +8,7 @@ require('app')
 function ReadOnlySwitchController(
   $scope,
   errs,
+  loading,
   loadingPromises,
   promisify,
   ModalService,
@@ -39,7 +40,8 @@ function ReadOnlySwitchController(
   this.readOnly = function (newAdvancedMode) {
     if (newAdvancedMode === true) {
       ROSC.state.advanced = newAdvancedMode;
-      return $q.when(true)
+      loading(ROSC.loadingPromisesTarget, true);
+      ROSC.switchModePromise = $q.when(true)
         .then(function () {
           // If there is not instance, we need to copy this context version and
           // keep a reference to the original CV
@@ -82,7 +84,12 @@ function ReadOnlySwitchController(
               });
           }
           return true;
+        })
+        .then(function () {
+          loading(ROSC.loadingPromisesTarget, false);
+          return true;
         });
+      return ROSC.switchModePromise;
     }
     if (newAdvancedMode === false) {
       if (!ROSC.state.instance) {
@@ -94,10 +101,14 @@ function ReadOnlySwitchController(
           .then(function (modal) {
             return modal.close.then(function (confirmed) {
               if (confirmed) {
-                ROSC.state.advanced = false;
-                keypather.set(ROSC, 'state.simpleContextVersionCopy.attrs.advanced', false);
-                $scope.$emit('resetStateContextVersion', ROSC.state.simpleContextVersionCopy, true);
-                return false;
+                return $q.when(ROSC.switchModePromise)
+                  .then(function () {
+                    ROSC.state.advanced = false;
+                    keypather.set(ROSC, 'state.simpleContextVersionCopy.attrs.advanced', false);
+                    $scope.$emit('resetStateContextVersion', ROSC.state.simpleContextVersionCopy, true);
+                    loading(ROSC.loadingPromisesTarget, false);
+                    return false;
+                  });
               }
               return true;
             });
