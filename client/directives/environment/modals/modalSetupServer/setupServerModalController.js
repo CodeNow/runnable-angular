@@ -174,10 +174,24 @@ function SetupServerModalController(
   };
 
   SMC.goToNextStep = function () {
+
+    var nextStepErrorHandler = function (err) {
+      SMC.state.step -= 1; // Revert step
+      SMC.changeTab(SMC.selectedTab);
+      loading(SMC.name, false);
+      errs.handler(err);
+    };
+
     SMC.state.step += 1;
     // Update step in setup-confirm-button directive
     if (SMC.state.step === 2) {
-      SMC.changeTab('commands');
+      loading(SMC.name, true);
+      loadingPromises.finished(SMC.name) // Wait for the start command to load
+        .then(function () {
+          SMC.changeTab('commands');
+          loading(SMC.name, false);
+        })
+        .catch(nextStepErrorHandler);
     }
     else if (SMC.state.step === 3) {
       loading(SMC.name, true);
@@ -185,7 +199,8 @@ function SetupServerModalController(
         .then(function () {
           SMC.changeTab(null);
           loading(SMC.name, false);
-        });
+        })
+        .catch(nextStepErrorHandler);
     }
     else if (SMC.state.step === 4) {
       loading(SMC.name, true);
@@ -195,12 +210,7 @@ function SetupServerModalController(
           loading(SMC.name, false);
           SMC.changeTab('logs');
         })
-        .catch(function (err) {
-          SMC.state.step = 3; // Revert step
-          SMC.changeTab(SMC.selectedTab);
-          loading(SMC.name, false);
-          errs.handler(err);
-        });
+        .catch(nextStepErrorHandler);
     } else if (SMC.state.step > 4) {
       if (SMC.isDirty()) {
         // If the state, is dirty save it as we would in the EditServerModalController
@@ -260,7 +270,7 @@ function SetupServerModalController(
     if (!SMC.state.advanced) {
       if ($filter('selectedStackInvalid')(SMC.state.selectedStack)) {
         tabname = 'repository';
-      } else if (!SMC.state.startCommand) {
+      } else if (!SMC.state.startCommand && tabname !== 'repository') {
         tabname = 'commands';
       }
     } else if (SMC.setupServerForm.$invalid) {
@@ -270,7 +280,7 @@ function SetupServerModalController(
       }
     }
     if (SMC.state.step === 2 && tabname === 'repository') {
-       SMC.state.step = 1;
+      SMC.state.step = 1;
     }
     $scope.$broadcast('updateStep', SMC.state.step);
     SMC.selectedTab = tabname;
