@@ -20,25 +20,19 @@ var tabVisibility = {
 function EditServerModalController(
   $scope,
   $controller,
-  $q,
   $filter,
   $rootScope,
   errs,
-  eventTracking,
   fetchInstancesByPod,
-  fetchStackInfo,
   fetchSourceContexts,
   findLinkedServerVariables,
   hasKeypaths,
   keypather,
   loading,
   OpenItems,
-  promisify,
-  updateDockerfileFromState,
   ModalService,
   tab,
   instance,
-  actions,
   close
 ) {
   var SMC = this;
@@ -78,7 +72,7 @@ function EditServerModalController(
       cmd = cmd || '';
       return cmd.replace('until grep -q ethwe /proc/net/dev; do sleep 1; done;', '');
     },
-    actions: angular.extend(actions, {
+    actions: {
       close: function () {
         $rootScope.$broadcast('close-popovers');
         if (SMC.isDirty() && !SMC.saveTriggered) {
@@ -99,7 +93,7 @@ function EditServerModalController(
           close();
         }
       }
-    }),
+    },
     build: instance.build,
     getElasticHostname: instance.getElasticHostname.bind(instance),
     getDisplayName: instance.getDisplayName.bind(instance)
@@ -111,11 +105,6 @@ function EditServerModalController(
   fetchInstancesByPod()
     .then(function (instances) {
       SMC.data.instances = instances;
-    });
-
-  fetchStackInfo()
-    .then(function (stackInfo) {
-      SMC.data.stacks = stackInfo;
     });
 
   fetchSourceContexts()
@@ -134,7 +123,7 @@ function EditServerModalController(
     SMC.linkedEnvResults = findLinkedServerVariables(SMC.state.opts.env);
   });
 
-   $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
+  $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
     $event.stopPropagation();
     loading.reset(SMC.name);
     if (showSpinner) {

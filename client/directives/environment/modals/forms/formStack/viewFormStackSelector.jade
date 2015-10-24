@@ -6,7 +6,7 @@
     ng-if = "isNewContainer && $root.featureFlags.newVerificationFlowStackSelector"
   )
     label.btn.btn-radio.white(
-      ng-repeat = "framework in data.stacks track by framework.key"
+      ng-repeat = "framework in stacks track by framework.key"
       ng-class = "{\
         'active': temp.stackKey === framework.key,\
         'no-touching': temp.stackKey === framework.key,\
@@ -40,7 +40,7 @@
       ng-if = "$parent.state.repo.stackAnalysis.languageFramework"
     ) Suggested stack type
     fancy-option(
-      ng-repeat = "framework in $parent.data.stacks | filter: { key: $parent.state.repo.stackAnalysis.languageFramework } track by framework.key "
+      ng-repeat = "framework in $parent.stacks | filter: { key: $parent.state.repo.stackAnalysis.languageFramework } track by framework.key "
       value = "framework.key"
     )
       img.iconnables(
@@ -54,7 +54,7 @@
       ng-if = "$parent.state.repo.stackAnalysis.languageFramework"
     )
     fancy-option(
-      ng-repeat = "framework in $parent.data.stacks | filter: { key: '!' + $parent.state.repo.stackAnalysis.languageFramework } | orderBy:'name' track by framework.key "
+      ng-repeat = "framework in $parent.stacks | filter: { key: '!' + $parent.state.repo.stackAnalysis.languageFramework } | orderBy:'name' track by framework.key "
       value = "framework.key"
     )
       img.iconnables(

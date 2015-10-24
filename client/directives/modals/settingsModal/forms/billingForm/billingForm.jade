@@ -1,7 +1,7 @@
 .modal-form
   .label
     .clearfix
-      .label-col Current Plan
+      .label-col.full-width Current Plan
         a.link.small.float-right View all plans
           svg.iconnables
             use(
@@ -23,14 +23,14 @@
     ng-init = "data.showCcForm = false"
   )
     .clearfix
-      .label-col Payment
+      .label-col.full-width Payment
         //- hide errors when updating cc info
         .small.error.float-right.badge.badge-red(
           data-badge-count = "!"
           ng-if = "!data.showCcForm"
         ) Your card has expired
 
-    .well.in(
+    .well.in.red(
       ng-if = "!data.showCcForm"
     )
       p.p.clearfix
@@ -106,4 +106,5 @@
         .cell.text-right {{month}}/13/{{month > 10 ? '2014' : '2015'}}
 
     //- if there's something older to load
-    a.small.link Load Older
+    .label
+      a.small.link Load Older

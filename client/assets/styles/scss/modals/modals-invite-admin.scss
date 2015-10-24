@@ -2,29 +2,19 @@
   width: 390px;
 
   // modal description
-  .p {
-    color: $gray;
-    padding: 0 15px;
+  .label .small{
+    padding: 6px 15px 0;
 
     .strong {
       color: darken($gray,10);
     }
   }
 
-  // admin list
-  .list {
-    background: $white;
-    margin: 18px 0 3px;
-  }
-
   // admin list items
   .list-item {
-    color: $gray-dark;
     cursor: pointer;
-    height: 57px; // 27px gravatar + (15px padding * 2)
     overflow: hidden;
-    padding: 0 15px;
-    transition: height .15s;
+    transition: height .15s, padding .15s;
 
     &:hover:not(.active) {
       background-color: rgba($gray-lighterest,.5);
@@ -37,6 +27,7 @@
     &.inactive {
       border: 0;
       height: 0;
+      padding: 0 15px;
     }
 
     &.active {
@@ -45,7 +36,7 @@
       height: 309px;
 
       .username {
-        margin-top: 17px;
+        margin-top: 9px;
       }
 
       // not using ng-hide because this element affects layout
@@ -67,28 +58,15 @@
       right: 0;
       top: 0;
     }
-  }
 
-  // override gravatar margin
-  .gravatar {
-    margin: 15px 12px 0 0;
+    // email address
+    .small {
+      transition: opacity .15s;
+    }
   }
 
   .username {
-    font-weight: $weight-bold;
-    margin-top: 7px;
     transition: margin-top .15s;
-  }
-
-  // email address
-  .small {
-    color: $gray;
-    transition: opacity .15s;
-  }
-
-  // username and email
-  .text-overflow {
-    padding-right: 30px;
   }
 
   .iconnables {

@@ -40,6 +40,36 @@
       margin-left: 6px;
     }
   }
+
+  // link to all plans & errors
+  &.full-width {
+    float: none;
+    padding-right: 0;
+
+    > .small {
+      margin-top: 12px;
+    }
+
+    // .small.error
+    > .error {
+      color: $red;
+    }
+
+    // .small.badge
+    > .badge {
+      margin-right: 24px;
+
+      &::after {
+        right: -21px;
+      }
+    }
+
+    // external link
+    .iconnables {
+      float: right;
+      height: 13px;
+    }
+  }
 }
 
 // remove width limit if on its own row

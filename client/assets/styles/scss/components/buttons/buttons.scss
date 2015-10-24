@@ -248,14 +248,14 @@
 %blue {
   color: $gray-light;
 
-  &.btn {
+  &.btn:not([disabled]):not(.disabled) {
 
-    &:hover:not([disabled]):not(.disabled),
+    &:hover,
     &.hover {
       color: $blue;
     }
 
-    &:active:not([disabled]):not(.disabled),
+    &:active,
     &.active,
     &.active:hover {
       color: $blue;
@@ -269,15 +269,15 @@
   border-color: $gray-lighter;
   color: $gray-dark;
 
-  &.btn {
+  &.btn:not([disabled]):not(.disabled) {
 
-    &:hover:not([disabled]):not(.disabled),
+    &:hover,
     &.hover {
       background: $white;
       border-color: $gray-light;
     }
 
-    &:active:not([disabled]):not(.disabled),
+    &:active,
     &.active,
     &.active:hover {
       background: $white;
@@ -298,15 +298,14 @@
   background: #5fd377; // rgba($green,.81);
   border-color: $green;
 
-  &.btn {
+  &.btn:not([disabled]):not(.disabled) {
 
-    // states
-    &:hover:not([disabled]):not(.disabled),
+    &:hover,
     &.hover {
       background: #8ae09c; // rgba($green,.6);
     }
 
-    &:active:not([disabled]):not(.disabled),
+    &:active,
     &.active,
     &.active:hover {
       background: $green;
@@ -320,14 +319,14 @@
   background: $orange-light;
   border-color: $orange;
 
-  &.btn {
+  &.btn:not([disabled]):not(.disabled) {
 
-    &:hover:not([disabled]):not(.disabled),
+    &:hover,
     &.hover {
       background: $orange-lighter;
     }
 
-    &:active:not([disabled]):not(.disabled),
+    &:active,
     &.active,
     &.active:hover {
       background: $orange;
@@ -345,16 +344,19 @@
     border-color: $white;
     color: $white;
 
-    &:hover:not([disabled]):not(.disabled),
-    &.hover {
-      background: rgba($white,.1);
-    }
+    &:not([disabled]):not(.disabled) {
 
-    &:active:not([disabled]):not(.disabled),
-    &.active,
-    &.active:hover {
-      background: $white;
-      color: $purple-light;
+      &:hover
+      &.hover {
+        background: rgba($white,.1);
+      }
+
+      &:active,
+      &.active,
+      &.active:hover {
+        background: $white;
+        color: $purple-light;
+      }
     }
   }
 
@@ -380,15 +382,18 @@
     border-color: $red-dark;
     color: $white;
 
-    &:hover:not([disabled]):not(.disabled),
-    &.hover {
-      background: $red-light;
-    }
+    &:not([disabled]):not(.disabled) {
 
-    &:active:not([disabled]):not(.disabled),
-    &.active,
-    &.active:hover {
-      background: $red-dark;
+      &:hover,
+      &.hover {
+        background: $red-light;
+      }
+
+      &:active,
+      &.active,
+      &.active:hover {
+        background: $red-dark;
+      }
     }
   }
 }
@@ -401,16 +406,23 @@
   &.btn {
     background: $white;
 
-    &:hover:not([disabled]):not(.disabled),
-    &.hover {
-      border-color: $gray-light;
-    }
+    &:not([disabled]):not(.disabled) {
 
-    &:active:not([disabled]):not(.disabled),
-    &.active,
-    &.active:hover {
-      border-color: $purple-light;
-      color: $purple-light;
+      &:hover,
+      &.hover {
+        border-color: $gray-light;
+      }
+
+      &:active,
+      &.active,
+      &.active:hover {
+        border-color: $purple-light;
+        color: $purple-light;
+
+        .icons-round {
+          background: $purple-light;
+        }
+      }
     }
   }
 }

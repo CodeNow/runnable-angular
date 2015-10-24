@@ -22,12 +22,13 @@ function featureFlags(
     multilineFnR: false,
     nameContainer: false,
     navListFilter: false,
+    newContainerModal: true, // for isolation UI
     newNavigation: true, // for isolation UI
     newVerificationFlow: false,
     newVerificationFlowStackSelector: false,
     renameContainer: false,
     saveToolbar: false,
-    teamUI: false, // changes text from org to team in account menu
+    teamManagement: false, // changes text from org to team in account menu
     themeToggle: false, // toggles the button that toggles theme
     updatedSlackValidation: false,
     webhooksAdminPresent: false,

@@ -3,17 +3,20 @@
 require('app')
   .controller('SetupServerModalController', SetupServerModalController);
 
-function SetupServerModalController (
+function SetupServerModalController(
   $scope,
   $controller,
   $q,
   $filter,
   createNewBuild,
   $rootScope,
+  createAndBuildNewContainer,
   errs,
+  fetchInstancesByPod,
   fetchOwnerRepos,
   fetchStackAnalysis,
   hasKeypaths,
+  helpCards,
   keypather,
   loading,
   loadingPromises,
@@ -25,8 +28,6 @@ function SetupServerModalController (
   OpenItems,
   fetchStackInfo,
   ModalService,
-  data,
-  actions,
   close
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
@@ -84,15 +85,24 @@ function SetupServerModalController (
       selectedStack: null,
       step: 1
     },
-    actions: angular.extend(actions, {
+    actions: {
       close: function () {
         if (SMC.instance) {
-          return SMC.actions.deleteServer(SMC.instance, 'confirmDiscardServerView')
-            .then(function (confirmed) {
-              if (confirmed) {
-                close();
-              }
-            });
+          return ModalService.showModal({
+            controller: 'ConfirmationModalController',
+            controllerAs: 'CMC',
+            templateUrl: 'confirmDiscardServerView'
+          })
+            .then(function (modal) {
+              return modal.close.then(function (confirmed) {
+                if (confirmed) {
+                  close();
+                  helpCards.refreshAllCards();
+                  return promisify(SMC.instance, 'destroy')();
+                }
+              });
+            })
+            .catch(errs.handler);
         }
         if (SMC.state.repo) {
           return SMC.actions.closeWithConfirmation();
@@ -101,25 +111,24 @@ function SetupServerModalController (
       },
       closeWithConfirmation: function () {
         $rootScope.$broadcast('close-popovers');
-          ModalService.showModal({
-            controller: 'ConfirmationModalController',
-            controllerAs: 'CMC',
-            templateUrl: 'confirmCloseEditServer'
+        ModalService.showModal({
+          controller: 'ConfirmationModalController',
+          controllerAs: 'CMC',
+          templateUrl: 'confirmCloseEditServer'
+        })
+          .then(function (modal) {
+            modal.close.then(function (confirmed) {
+              if (confirmed) {
+                close();
+              }
+            });
           })
-            .then(function (modal) {
-              modal.close.then(function (confirmed) {
-                if (confirmed) {
-                  close();
-                }
-              });
-            })
-            .catch(errs.handler);
-      },
-    }),
-    data: data,
+          .catch(errs.handler);
+      }
+    },
+    data: {},
     selectedTab: 'repository'
   });
-  $scope.data = data; // This needs to go away soon.
   loading.reset(SMC.name);
 
   $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
@@ -137,11 +146,15 @@ function SetupServerModalController (
       });
   });
 
-  fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
-    .then(function (repoList) {
-      SMC.data.githubRepos = repoList;
+  $q.all({
+    instances: fetchInstancesByPod(),
+    repoList: fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
+  })
+    .then(function (data) {
+      SMC.data.instances = data.instances;
+      SMC.data.githubRepos = data.repoList;
       SMC.data.githubRepos.models.forEach(function (repo) {
-         repo.isAdded = SMC.isRepoAdded(repo);
+        repo.isAdded = SMC.isRepoAdded(repo, data.instances);
       });
     })
     .catch(errs.handler)
@@ -162,12 +175,9 @@ function SetupServerModalController (
     return repo.attrs.name.replace(/[^a-zA-Z0-9-]/g, '-');
   }
 
-  SMC.isRepoAdded = function (repo) {
+  SMC.isRepoAdded = function (repo, instances) {
     // Since the newServers may have faked repos (just containing names), just check the name
-    var instances = keypather.get(SMC, 'data.instances');
-    if (!instances) {
-      return false;
-    }
+
     return !!instances.find(function (instance) {
       var repoName = instance.getRepoName();
       if (repoName) {
@@ -314,7 +324,7 @@ function SetupServerModalController (
     }
     return SMC.openItems.updateAllFiles()
       .then(function () {
-        return SMC.actions.createAndBuild(createPromise, SMC.state.opts.name);
+        return createAndBuildNewContainer(createPromise, SMC.state.opts.name);
       })
       .then(function (instance) {
         if (instance && instance.contextVersion) {

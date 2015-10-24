@@ -8,15 +8,8 @@
   width: $layout-navigation-width;
 
   // if feature flags are on
-  &.feature-flag-on::before {
+  &.feature-flag-on {
     background-image: repeating-linear-gradient(36deg, darken($purple-light,2.5%), darken($purple-light,2.5%) 18px, transparent 18px, transparent 36px);
-    content: '';
-    height: 100%;
-    left: 0;
-    pointer-events: none;
-    position: absolute;
-    width: 100%;
-    z-index: -1;
   }
 
   // if navigation is open

@@ -1,0 +1,25 @@
+// team list
+.list-teammates {
+  background: $white;
+  flex: 0 0 auto;
+
+  .list-item {
+    color: $gray-dark;
+    height: 57px; // 27px gravatar + (15px padding * 2)
+    padding: 8px 15px;
+  }
+
+  .gravatar {
+    margin: 7px 0;
+  }
+
+  // email address
+  .small {
+    color: $gray;
+  }
+
+  // username and email
+  .text-overflow {
+    padding: 0 30px 0 9px;
+  }
+}

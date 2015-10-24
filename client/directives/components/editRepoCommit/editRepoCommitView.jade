@@ -1,11 +1,6 @@
 .btn.gray(
   ng-click = "actions.openRepoDetailsModal()"
 )
-  .repository-info.text-overflow {{ acv.attrs.repo | fixRepositoryName }}
-    svg.iconnables.icons-repository
-      use(
-        xlink:href = "#icons-repository"
-      )
   .repository-info.text-overflow.js-repository-branch {{ acv.attrs.branch }}
     svg.iconnables.icons-branch
       use(
@@ -18,7 +13,6 @@
       )
   .repository-info.small
     span.float-left {{ activeCommit.attrs.commit.author.date | timeFrom }}
-
     //- we don't want to trigger the popover to open because this is an external link
     label.toggle-wrapper.float-right(
       ng-click = "$event.stopPropagation()"
