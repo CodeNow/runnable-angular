@@ -4,6 +4,14 @@ require('app')
   .factory('createAndBuildNewContainer', createAndBuildNewContainer);
 
 
+ /**
+  * Given a `state` object, create a build for the specified context version
+  *
+  * @param createPromise {Promise} - A promise that returns a `state`object
+  * with a `build` and a `opts` property.
+  * @param container {String}
+  * @return instancePromise {Promise} - Promise that returns a new instance
+  */
 function createAndBuildNewContainer(
   $q,
   $rootScope,

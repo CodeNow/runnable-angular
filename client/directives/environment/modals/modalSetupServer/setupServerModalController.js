@@ -306,8 +306,8 @@ function SetupServerModalController(
   };
 
   SMC.createServer = function () {
-    // Wait until all changes to the context version have been resolved to
-    // create the server
+    // Wait until all changes to the context version have been resolved before
+    // creating a build with that context version
     function generateCreatePromise () {
       return loadingPromises.finished(SMC.name)
         .then(function () {
@@ -341,7 +341,7 @@ function SetupServerModalController(
           var advancedContexVersion = SMC.state.contextVersion;
           return SMC.resetStateContextVersion(SMC.state.simpleContextVersionCopy, true)
             .then(function () {
-              return SMC.actions.createAndBuild(generateCreatePromise(), SMC.state.opts.name)
+              return createAndBuildNewContainer(generateCreatePromise(), SMC.state.opts.name)
                 .then(function (instance) {
                   if (instance && instance.contextVersion) {
                     SMC.instance = instance;
@@ -373,7 +373,7 @@ function SetupServerModalController(
           return SMC.rebuildAndOrRedeploy();
         }
         console.log('CREATE AND BUILD');
-        return SMC.actions.createAndBuild(generateCreatePromise(), SMC.state.opts.name);
+        return createAndBuildNewContainer(generateCreatePromise(), SMC.state.opts.name);
       })
       .then(function (instance) {
         if (instance && instance.contextVersion) {

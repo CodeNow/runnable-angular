@@ -41,6 +41,7 @@ function ReadOnlySwitchController(
     if (newAdvancedMode === true) {
       ROSC.state.advanced = newAdvancedMode;
       loading(ROSC.loadingPromisesTarget, true);
+      // Store a promise for when we have properly switched to advanced mode
       ROSC.switchModePromise = $q.when(true)
         .then(function () {
           // If there is not instance, we need to copy this context version and
