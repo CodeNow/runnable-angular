@@ -116,7 +116,8 @@ function fancySelect(
       }
 
       $scope.actions = {
-        toggleSelect: function () {
+        toggleSelect: function ($event) {
+          $event.preventDefault();
           if (exists($scope.toggleObject)) {
             return;
           }
