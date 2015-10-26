@@ -62,7 +62,11 @@ function ServerModalController (
         return loadingPromises.finished(SMC.name);
       })
       .then(function (promiseArrayLength) {
-        toRebuild = !!(promiseArrayLength > 0 || SMC.openItems.getAllFileModels(true).length);
+        toRebuild = !!(
+          promiseArrayLength > 0 ||
+          SMC.openItems.getAllFileModels(true).length ||
+          keypather.get(SMC, 'instance.contextVersion.id()') !== keypather.get(SMC, 'state.contextVersion.id()')
+        );
 
         toRedeploy = !toRebuild && !angular.equals(
           keypather.get(SMC, 'instance.attrs.env'),
