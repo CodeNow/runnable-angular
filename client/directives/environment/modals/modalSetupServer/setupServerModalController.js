@@ -131,6 +131,21 @@ function SetupServerModalController(
   });
   loading.reset(SMC.name);
 
+  $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
+    $event.stopPropagation();
+    loading.reset(SMC.name);
+    if (showSpinner) {
+      loading(SMC.name, true);
+    }
+    SMC.resetStateContextVersion(contextVersion, showSpinner)
+      .catch(errs.handler)
+      .finally(function () {
+        if (showSpinner) {
+          loading(SMC.name, false);
+        }
+      });
+  });
+
   $q.all({
     instances: fetchInstancesByPod(),
     repoList: fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())

@@ -8,9 +8,14 @@ require('app')
 function ReadOnlySwitchController(
   $scope,
   errs,
+  loading,
   loadingPromises,
   promisify,
   ModalService,
+  keypather,
+  fetchUser,
+  updateDockerfileFromState,
+  $rootScope,
   $q
 ) {
   var ROSC = this;
@@ -33,83 +38,114 @@ function ReadOnlySwitchController(
 
   // Getter/setter
   this.readOnly = function (newAdvancedMode) {
-    if (newAdvancedMode !== undefined) {
-      return $q.when(true)
+    if (newAdvancedMode === true) {
+      ROSC.state.advanced = newAdvancedMode;
+      loading(ROSC.loadingPromisesTarget, true);
+      ROSC.switchModePromise = $q.when(true)
         .then(function () {
-          // If there is not instance, we need the user to confirm that he can't
-          // revert back to simple mode
+          // If there is not instance, we need to copy this context version and
+          // keep a reference to the original CV
           if (!ROSC.state.instance) {
-            return ModalService.showModal({
-              controller: 'ConfirmationModalController',
-              controllerAs: 'CMC',
-              templateUrl: 'confirmSetupAdvancedModalView'
-            })
-            .then(function (modal) {
-              return modal.close;
-            });
+            // Save changes to the context version
+            return updateDockerfileFromState(ROSC.state, true, true)
+              .then(function () {
+                return promisify(ROSC.state.contextVersion, 'deepCopy')();
+              })
+              .then(function (contextVersionCopy) {
+                // Save a copy of our last simple mode CV to state
+                ROSC.state.simpleContextVersionCopy = contextVersionCopy;
+                return ROSC.state.contextVersion;
+              });
+          }
+          return ROSC.state.contextVersion;
+        })
+        .then(function (contextVersion) {
+          if (ROSC.state.instance && !ROSC.state.instance.attrs.lastBuiltSimpleContextVersion) {
+            // Grab off of the instance, since it's the original one, and hasn't been modified
+            ROSC.state.instance.attrs.lastBuiltSimpleContextVersion = {
+              id: ROSC.state.instance.contextVersion.attrs.id,
+              created: ROSC.state.instance.contextVersion.attrs.created
+            };
+          }
+          if (ROSC.state.promises) {
+            return ROSC.state.promises.contextVersion
+              .then(function () {
+                return loadingPromises.add(ROSC.loadingPromisesTarget,
+                  promisify(contextVersion, 'update')({
+                    advanced: newAdvancedMode
+                  })
+                  .then(function () {
+                    return promisify(contextVersion, 'fetch')();
+                  }));
+              })
+              .catch(function (err) {
+                errs.handler(err);
+                ROSC.state.advanced = !newAdvancedMode;
+              });
           }
           return true;
         })
-        .then(function (advancedModeConfirmed) {
-          if (advancedModeConfirmed) {
-            if (newAdvancedMode === true) {
-              // when setting to readOnly
-              ROSC.state.advanced = newAdvancedMode;
-              if (ROSC.state.instance && !ROSC.state.instance.attrs.lastBuiltSimpleContextVersion) {
-                // Grab off of the instance, since it's the original one, and hasn't been modified
-                ROSC.state.instance.attrs.lastBuiltSimpleContextVersion = {
-                  id: ROSC.state.instance.contextVersion.attrs.id,
-                  created: ROSC.state.instance.contextVersion.attrs.created
-                };
-              }
-              if (ROSC.state.promises) {
-                return ROSC.state.promises.contextVersion
-                  .then(function (contextVersion) {
-                    return loadingPromises.add(ROSC.loadingPromisesTarget,
-                      promisify(contextVersion, 'update')({
-                        advanced: newAdvancedMode
-                      })
-                      .then(function () {
-                        return promisify(contextVersion, 'fetch')()
-                        .then(function (_contextVersion) {
-                          return _contextVersion;
-                        });
-                      }));
-                  })
-                  .catch(function (err) {
-                    errs.handler(err);
-                    ROSC.state.advanced = !newAdvancedMode;
-                  });
-              }
-              return true;
-            }
-            // If switching from advanced to basic
-            return ROSC.state.promises.contextVersion
-              .then(function (contextVersion) {
-                ModalService.showModal({
-                  controller: 'ConfirmRollbackModalController',
-                  controllerAs: 'CMC',
-                  templateUrl: 'confirmRollbackModalView',
-                  inputs: {
-                    instance: ROSC.state.instance
-                  }
-                })
-                  .then(function (modal) {
-                    modal.close.then(function (confirmed) {
-                      if (confirmed) {
-                        performRollback(contextVersion);
-                      } else {
-                        ROSC.state.advanced = true;
-                      }
-                    });
-                  })
-                  .catch(errs.handler);
-              });
+        .then(function () {
+          loading(ROSC.loadingPromisesTarget, false);
+          return true;
+        });
+      return ROSC.switchModePromise;
+    }
+    if (newAdvancedMode === false) {
+      // If switching from advanced to basic
+      return $q.when(true)
+        .then(function () {
+          if (!ROSC.state.instance) {
+            return {
+              templateUrl: 'confirmSwitchToSimpleModeView',
+              inputs: {}
+            };
           }
+          return {
+            templateUrl: 'confirmRollbackModalView',
+            inputs: {
+              instance: ROSC.state.instance
+            }
+          };
+        })
+        .then(function (opts) {
+          return ROSC.state.promises.contextVersion
+            .then(function (contextVersion) {
+              return ModalService.showModal({
+                controller: 'ConfirmationModalController',
+                controllerAs: 'CMC',
+                templateUrl: opts.templateUrl,
+                inputs: opts.inputs
+              })
+              .then(function (modal) {
+                return modal.close;
+              })
+              .then(function (confirmed) {
+                if (!ROSC.state.instance) {
+                  if (confirmed) {
+                    return $q.when(ROSC.switchModePromise)
+                      .then(function () {
+                        ROSC.state.advanced = false;
+                        keypather.set(ROSC, 'state.simpleContextVersionCopy.attrs.advanced', false);
+                        $scope.$emit('resetStateContextVersion', ROSC.state.simpleContextVersionCopy, true);
+                        loading(ROSC.loadingPromisesTarget, false);
+                        return false;
+                      });
+                  }
+                  return true;
+                }
+                if (confirmed) {
+                  return performRollback(contextVersion);
+                } else {
+                  ROSC.state.advanced = false;
+                  return false;
+                }
+              });
+            });
         })
         .catch(errs.handler);
-    } else {
-      return ROSC.state.advanced;
     }
+    return ROSC.state.advanced;
   };
 }
+
