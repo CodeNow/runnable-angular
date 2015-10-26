@@ -22,7 +22,7 @@ function tabs(
       $scope.popoverAddTab = helperAddTab($scope.openItems);
       $scope.actions = {
         removeItem: function (event, index, model) {
-          $scope.openItems.removeAtIndex(index, model);
+          $scope.openItems.remove(model);
 
           //We need to stop propagation, so we need to manually trigger close-popovers
           $rootScope.$broadcast('close-popovers');

@@ -1,6 +1,5 @@
 'use strict';
 
-var BaseCollection = require('runnable/lib/collections/base');
 var BaseModel = require('runnable/lib/models/base');
 var VersionFileModel = require('runnable/lib/models/context/version/file');
 var ContainerFileModel = require('runnable/lib/models/instance/container/file');
@@ -78,12 +77,8 @@ function openItemsFactory(
   };
 
   function ActiveHistory(models) {
-    BaseCollection.call(this, models, {
-      noStore: true
-    });
+    this.models = models || [];
   }
-
-  util.inherits(ActiveHistory, BaseCollection);
 
   ActiveHistory.prototype.instanceOfModel = instanceOfModel;
 
@@ -98,8 +93,8 @@ function openItemsFactory(
       this.last().state.active = false;
     }
     model.state.active = true;
-    if (!this.contains(model)) {
-      BaseCollection.prototype.add.call(this, model);
+    if (!this.models.includes(model)) {
+      this.models.push(model);
     } else {
       this.remove(model);
       this.add(model);
@@ -108,8 +103,9 @@ function openItemsFactory(
   };
 
   ActiveHistory.prototype.remove = function (model) {
-    if (this.contains(model)) {
-      BaseCollection.prototype.remove.apply(this, arguments);
+    if (this.models.includes(model)) {
+      var index = this.models.indexOf(model);
+      this.models.splice(index, 1);
       if (model.state.active) {
         model.state.active = false;
         if (this.last()) {
@@ -119,47 +115,50 @@ function openItemsFactory(
     }
   };
 
+  ActiveHistory.prototype.last = function () {
+    if (this.models.length) {
+      return this.models[this.models.length - 1];
+    }
+  };
+
+  ActiveHistory.prototype.reset = function () {
+    this.models.splice(0, this.models.length);
+  };
   function OpenItems() {
     this.keys = {};
+    this.models = [];
     this.activeHistory = new ActiveHistory();
     this.previouslyActiveTab = null;
-
-    var models;
-    this.retrieveTabs = function(container) {
-      models = keypather.get($localStorage, this.keys.instanceId);
-      if (Array.isArray(models)) {
-        this.previouslyActiveTab = models.find(function (m) {
-          return keypather.get(m, 'state.active');
-        });
-      }
-      if (models && models.length) {
-        this.fromCache = true;
-        models = models.map(function (model) {
-          var from = keypather.get(model, 'state.from');
-          if (tabTypes[from]) {
-            if (from === 'File') {
-              // safe to assume ContainerFileModel,
-              // caching not present on instance.instanceEdit
-              model = container.newFile(model);
-            } else {
-              model = new tabTypes[from](model, {
-                noStore: true
-              });
-            }
-          }
-          return model;
-        });
-        this.reset([]);
-        this.add(models);
-      }
-    };
-
-    BaseCollection.call(this, models, {
-      noStore: true
-    });
   }
 
-  util.inherits(OpenItems, BaseCollection);
+  OpenItems.prototype.retrieveTabs = function(container) {
+    var models = keypather.get($localStorage, this.keys.instanceId);
+    if (Array.isArray(models)) {
+      this.previouslyActiveTab = models.find(function (m) {
+        return keypather.get(m, 'state.active');
+      });
+    }
+    if (models && models.length) {
+      this.fromCache = true;
+      models = models.map(function (model) {
+        var from = keypather.get(model, 'state.from');
+        if (tabTypes[from]) {
+          if (from === 'File') {
+            // safe to assume ContainerFileModel,
+            // caching not present on instance.instanceEdit
+            model = container.newFile(model);
+          } else {
+            model = new tabTypes[from](model, {
+              noStore: true
+            });
+          }
+        }
+        return model;
+      });
+      this.reset([]);
+      this.add(models);
+    }
+  };
 
   // Set item in localStorage serialized cache to active
   // after other tabs have been added
@@ -179,9 +178,10 @@ function openItemsFactory(
     this.retrieveTabs(container);
   };
 
-  OpenItems.prototype.reset = function () {
-    BaseCollection.prototype.reset.apply(this.activeHistory, arguments);
-    BaseCollection.prototype.reset.apply(this, arguments);
+  OpenItems.prototype.reset = function (models) {
+    this.models.splice(0, this.models.length);
+    this.activeHistory.reset();
+    this.add(models);
   };
 
   OpenItems.prototype.addTerminal = function (data) {
@@ -299,7 +299,7 @@ function openItemsFactory(
       model.state.reset();
     }
     this.activeHistory.add(model);
-    BaseCollection.prototype.add.apply(this, arguments);
+    this.models.push(model);
     return this;
   };
 
@@ -336,35 +336,14 @@ function openItemsFactory(
 
   OpenItems.prototype.remove = function (model) {
     model.state.open = false;
-    if (this.contains(model)) {
-      BaseCollection.prototype.remove.call(this, model);
-    }
-    this.activeHistory.remove(model);
-    this.saveState();
-    return this;
-  };
-
-  /**
-   *
-   * @param index
-   * @param oldModel in case the model values have changed, we may need to use the original
-   * @returns {OpenItems}
-   */
-  OpenItems.prototype.removeAtIndex = function (index, oldModel) {
-    if (this.models.length > index) {
-      var model = this.models[index];
-      model.state.open = false;
-      BaseCollection.prototype.remove.call(this, model);
+    if (this.models.includes(model)) {
+      var index = this.models.indexOf(model);
+      this.models.splice(index, 1);
       this.activeHistory.remove(model);
-      if (model !== oldModel) {
-        BaseCollection.prototype.remove.call(this, oldModel);
-        this.activeHistory.remove(oldModel);
-      }
       this.saveState();
       return this;
     }
   };
-
 
   OpenItems.prototype.removeAllButLogs = function () {
     var models = this.models.slice();

@@ -1,15 +1,17 @@
+/*global runnable:true, mocks: true, directiveTemplate: true, xdescribe: true, helpCardsMock */
 'use strict';
 
 var VersionFileModel = require('runnable/lib/models/context/version/file');
 
-describe.skip('serviceOpenItems'.bold.underline.blue, function () {
+describe('serviceOpenItems'.bold.underline.blue, function () {
   var $localStorage, keypather, OpenItems;
   var fileObj = {"path":"/home","name":"defined","isDir":false,"body":"adsf","state":{"from":"File"}};
   var fileModel = new VersionFileModel(fileObj, { noStore: true });
-
+  var apiMocks = require('../apiMocks/index');
+  var apiClientMockFactory = require('../../unit/apiMocks/apiClientMockFactory');
   var fileObj2 = {"path":"/home2","name":"defined2","isDir":false,"body":"adsf","state":{"from":"File"}};
   var fileModel2 = new VersionFileModel(fileObj2, { noStore: true });
-
+  var mockContextVersion;
   function initState () {
     angular.mock.module('app', function ($provide) {
       $provide.value('$localStorage', {
@@ -20,6 +22,11 @@ describe.skip('serviceOpenItems'.bold.underline.blue, function () {
       OpenItems = _OpenItems_;
       $localStorage = _$localStorage_;
     });
+    runnable.reset(apiMocks.user);
+    mockContextVersion = apiClientMockFactory.contextVersion(
+      runnable,
+      apiMocks.contextVersions.angular
+    );
   }
   beforeEach(initState);
 
@@ -78,19 +85,24 @@ describe.skip('serviceOpenItems'.bold.underline.blue, function () {
 
         expect(result).to.deep.eql(oldStream);
       });
-    })
+    });
   });
 
   describe('hitting cache'.blue, function () {
     it('Should set fromCache to true', function () {
-      var oi = new OpenItems('test');
-
+      var oi = new OpenItems();
+      oi.restoreTabs({
+        instanceId: 'test'
+      }, mockContextVersion);
       expect(oi.fromCache).to.be.true;
     });
 
     it('Should initalize with cached items', function () {
-      var oi = new OpenItems('test');
+      var oi = new OpenItems();
 
+      oi.restoreTabs({
+        instanceId: 'test'
+      }, mockContextVersion);
       expect(oi).to.be.ok;
       expect(oi.models).to.be.an('array');
       expect(oi.models.length).to.eql(1);
@@ -110,13 +122,20 @@ describe.skip('serviceOpenItems'.bold.underline.blue, function () {
 
     it('Should preserve active state of each tab', function () {
       var oi = new OpenItems('abc123');
+      oi.restoreTabs({
+        instanceId: 'abc123'
+      }, mockContextVersion);
       oi.add(fileModel);
       oi.add(fileModel2); //fileModel2.state.active = true
+      oi.saveState();
 
       expect(fileModel.state.active).to.eql(false);
       expect(fileModel2.state.active).to.eql(true);
 
       var oi2 = new OpenItems('abc123');
+      oi2.restoreTabs({
+        instanceId: 'abc123'
+      }, mockContextVersion);
       oi2.restoreActiveTab();
       expect(oi2.previouslyActiveTab.name).to.eql(fileModel2.attrs.name);
 
@@ -125,6 +144,9 @@ describe.skip('serviceOpenItems'.bold.underline.blue, function () {
       oi.saveState();
 
       var oi3 = new OpenItems('abc123');
+      oi3.restoreTabs({
+        instanceId: 'abc123'
+      }, mockContextVersion);
       expect(oi3.previouslyActiveTab.name).to.eql(fileModel.attrs.name);
 
     });
