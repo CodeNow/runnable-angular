@@ -24,7 +24,6 @@ function EditServerModalController(
   $rootScope,
   errs,
   fetchInstancesByPod,
-  fetchSourceContexts,
   findLinkedServerVariables,
   hasKeypaths,
   keypather,
@@ -211,7 +210,7 @@ function EditServerModalController(
         errs.handler(err);
         return SMC.resetStateContextVersion(SMC.state.contextVersion, false)
           .finally(function () {
-            // Only turn off `isBuilding` if there is an error and we have to revert back 
+            // Only turn off `isBuilding` if there is an error and we have to revert back
             SMC.isBuilding = false;
           });
       });
