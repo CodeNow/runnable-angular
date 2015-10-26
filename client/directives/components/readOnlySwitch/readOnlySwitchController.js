@@ -94,44 +94,50 @@ function ReadOnlySwitchController(
       return ROSC.switchModePromise;
     }
     if (newAdvancedMode === false) {
-      if (!ROSC.state.instance) {
-        return ModalService.showModal({
-          controller: 'ConfirmationModalController',
-          controllerAs: 'CMC',
-          templateUrl: 'confirmSwitchToSimpleModeView'
-        })
-          .then(function (modal) {
-            return modal.close.then(function (confirmed) {
-              if (confirmed) {
-                return $q.when(ROSC.switchModePromise)
-                  .then(function () {
-                    ROSC.state.advanced = false;
-                    keypather.set(ROSC, 'state.simpleContextVersionCopy.attrs.advanced', false);
-                    $scope.$emit('resetStateContextVersion', ROSC.state.simpleContextVersionCopy, true);
-                    loading(ROSC.loadingPromisesTarget, false);
-                    return false;
-                  });
-              }
-              return true;
-            });
-          })
-          .catch(errs.handler);
-      }
       // If switching from advanced to basic
-      return ROSC.state.promises.contextVersion
-        .then(function (contextVersion) {
-          ModalService.showModal({
-            controller: 'ConfirmRollbackModalController',
-            controllerAs: 'CMC',
+      return $q.when(true)
+        .then(function () {
+          if (!ROSC.state.instance) {
+            return {
+              templateUrl: 'confirmSwitchToSimpleModeView',
+              inputs: {}
+            };
+          }
+          return {
             templateUrl: 'confirmRollbackModalView',
             inputs: {
               instance: ROSC.state.instance
             }
-          })
-            .then(function (modal) {
-              modal.close.then(function (confirmed) {
+          };
+        })
+        .then(function (opts) {
+          return ROSC.state.promises.contextVersion
+            .then(function (contextVersion) {
+              return ModalService.showModal({
+                controller: 'ConfirmationModalController',
+                controllerAs: 'CMC',
+                templateUrl: opts.templateUrl,
+                inputs: opts.inputs
+              })
+              .then(function (modal) {
+                return modal.close;
+              })
+              .then(function (confirmed) {
+                if (!ROSC.state.instance) {
+                  if (confirmed) {
+                    return $q.when(ROSC.switchModePromise)
+                      .then(function () {
+                        ROSC.state.advanced = false;
+                        keypather.set(ROSC, 'state.simpleContextVersionCopy.attrs.advanced', false);
+                        $scope.$emit('resetStateContextVersion', ROSC.state.simpleContextVersionCopy, true);
+                        loading(ROSC.loadingPromisesTarget, false);
+                        return false;
+                      });
+                  }
+                  return true;
+                }
                 if (confirmed) {
-                  performRollback(contextVersion);
+                  return performRollback(contextVersion);
                 } else {
                   ROSC.state.advanced = false;
                   return false;
@@ -139,7 +145,7 @@ function ReadOnlySwitchController(
               });
             });
         })
-      .catch(errs.handler);
+        .catch(errs.handler);
     }
     return ROSC.state.advanced;
   };
