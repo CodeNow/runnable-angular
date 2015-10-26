@@ -1,7 +1,7 @@
 /*global runnable:true, mocks: true, directiveTemplate: true, xdescribe: true, helpCardsMock */
 'use strict';
 
-describe('editServerModalController'.bold.underline.blue, function () {
+describe.only('editServerModalController'.bold.underline.blue, function () {
   var SMC;
   var ctx;
   var $timeout;
@@ -609,6 +609,62 @@ describe('editServerModalController'.bold.underline.blue, function () {
         expect(SMC.state.startCommand, 'state startCommand').to.not.equal(oldStartCommand);
         expect(SMC.state.selectedStack, 'state selectedStack').to.not.equal(oldSelectedStack);
         expect(SMC.state.containerFiles, 'state containerFiles').to.not.equal(oldContainerFiles);
+
+      });
+      it('should not parse dockerfile with an advanced cv', function () {
+        var alertSpy = sinon.spy();
+        var closePopoverSpy = sinon.spy();
+        $rootScope.$on('close-popovers', closePopoverSpy);
+        $rootScope.$on('alert', function (event, opts) {
+          expect(opts).to.be.deep.equal({
+            type: 'success',
+            text: 'Container updated successfully.'
+          });
+        });
+        $scope.$digest();
+        ctx.loadingPromiseFinishedValue = 2;
+        ctx.newContextVersion.fetchFile.reset();
+
+        SMC.state.advanced = false;
+        ctx.rollbackContextVersion.attrs.advanced = true;
+
+        SMC.openItems.add.reset();
+        loadingService.reset();
+        ctx.fakeOrg1.createBuild.reset();
+        expect(SMC.state.advanced, 'advanced flag').to.be.false;
+        var oldAcv = SMC.state.acv;
+        var oldRepo = SMC.state.repo;
+
+        var newContainerFile = {
+          name: 'hello',
+          clone: sinon.spy(function () {
+            return newContainerFile;
+          })
+        };
+        ctx.parseDockerfileResponseMock.reset();
+        SMC.resetStateContextVersion(ctx.rollbackContextVersion, true);
+        $scope.$digest();
+        sinon.assert.called(loadingService.reset);
+        expect(SMC.state.advanced, 'advanced flag').to.be.true;
+        sinon.assert.called(ctx.loadingPromiseMock.add);
+        sinon.assert.called(ctx.rollbackContextVersion.deepCopy);
+        $scope.$digest();
+        sinon.assert.calledOnce(ctx.rollbackContextVersion.fetchFile);
+        sinon.assert.calledOnce(SMC.openItems.remove);
+        sinon.assert.calledOnce(SMC.openItems.add);
+        $scope.$digest();
+        expect(SMC.state.build, 'build').to.be.ok;
+        sinon.assert.calledWith(ctx.fakeOrg1.createBuild, {
+          contextVersions: [ctx.rollbackContextVersion.id()],
+          owner: {
+            github: ctx.fakeOrg1.oauthId()
+          }
+        });
+        $scope.$digest();
+        sinon.assert.notCalled(ctx.parseDockerfileResponseMock);
+        expect(SMC.state.contextVersion, 'state cv').to.equal(ctx.rollbackContextVersion);
+        expect(SMC.state.acv, 'state acv').to.not.equal(oldAcv);
+        expect(SMC.state.repo, 'state repo').to.not.equal(oldRepo);
 
       });
     });

@@ -107,11 +107,6 @@ function EditServerModalController(
       SMC.data.instances = instances;
     });
 
-  fetchSourceContexts()
-    .then(function (contexts) {
-      SMC.data.sourceContexts = contexts;
-    });
-
   $scope.$on('debug-cmd-status', function (evt, status) {
     SMC.showDebugCmd = status;
   });

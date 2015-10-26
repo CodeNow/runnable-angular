@@ -177,7 +177,7 @@ function ServerModalController (
         })
     );
     // Only parse the Dockerfile info when no error has occurred
-    if (shouldParseDockerfile) {
+    if (shouldParseDockerfile  && !SMC.state.advanced) {
       SMC.state.promises.contextVersion
         .then(function (contextVersion) {
           return parseDockerfileForCardInfoFromInstance(SMC.instance, contextVersion)
