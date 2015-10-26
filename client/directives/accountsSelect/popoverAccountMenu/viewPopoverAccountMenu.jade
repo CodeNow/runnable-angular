@@ -157,6 +157,7 @@
               | {{account.oauthName()}}
           a.btn.btn-sm.gray(
             href = "/welcome"
+            ng-if = "$root.featureFlags.teamManagement"
           )
             svg.iconnables.icons-round.icons-add.float-left
               use(
