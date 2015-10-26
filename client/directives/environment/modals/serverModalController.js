@@ -11,6 +11,7 @@ function ServerModalController (
   fetchUser,
   helpCards,
   parseDockerfileForCardInfoFromInstance,
+  createBuildFromContextVersionId,
   keypather,
   loadingPromises,
   promisify,
@@ -197,15 +198,7 @@ function ServerModalController (
         return SMC.openItems.removeAndReopen(SMC.state.contextVersion);
       })
       .then(function () {
-        return fetchUser();
-      })
-      .then(function (user) {
-        return promisify(user, 'createBuild')({
-          contextVersions: [SMC.state.contextVersion.id()],
-          owner: {
-            github: $rootScope.dataApp.data.activeAccount.oauthId()
-          }
-        });
+        return createBuildFromContextVersionId(SMC.state.contextVersion.id());
       })
       .then(function (build) {
         SMC.state.build = build;

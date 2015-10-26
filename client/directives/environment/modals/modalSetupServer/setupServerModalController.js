@@ -11,6 +11,7 @@ function SetupServerModalController(
   createNewBuild,
   $rootScope,
   createAndBuildNewContainer,
+  createBuildFromContextVersionId,
   errs,
   fetchInstancesByPod,
   fetchOwnerRepos,
@@ -329,6 +330,14 @@ function SetupServerModalController(
           return SMC.state;
         });
     }
+    function instanceSetHandler (instance, b, c) {
+        if (instance) {
+          SMC.instance = instance;
+          SMC.state.instance = instance;
+          return instance;
+        }
+        return $q.reject(new Error('Instance not created properly'));
+      }
 
     // We need to make sure that ports are loaded when the server is created
     if (Array.isArray(SMC.state.ports) && SMC.state.ports.length === 0) {
@@ -338,53 +347,29 @@ function SetupServerModalController(
     return $q.when(true)
       .then(function () {
         if (SMC.state.advanced && SMC.state.simpleContextVersionCopy) {
-          var advancedContexVersion = SMC.state.contextVersion;
-          return SMC.resetStateContextVersion(SMC.state.simpleContextVersionCopy, true)
-            .then(function () {
-              return createAndBuildNewContainer(generateCreatePromise(), SMC.state.opts.name)
-                .then(function (instance) {
-                  if (instance && instance.contextVersion) {
-                    SMC.instance = instance;
-                    SMC.state.instance = instance;
-                    return instance;
-                  }
-                  return $q.reject(new Error('Instance not created properly'));
-                });
-            })
-            .then(function () {
-              return SMC.resetStateContextVersion(advancedContexVersion, true);
-            });
+          return createAndBuildNewContainer($q.all({
+            build: createBuildFromContextVersionId(SMC.state.simpleContextVersionCopy.id()),
+            opts: SMC.state.opts
+          }), SMC.state.opts.name)
+              .then(instanceSetHandler);
         }
         return true;
       })
-    // if there is an existing SimpleCV
-    //   Load that CV into `SMC.state` through `resetContextVersion`
-    //   Create a `createPromise`
-    //   Send the `createPromise` and the name to `createAndBuild`
-    //   `resetContextVersion` to AdvancedCV
-
       .then(function () {
-        console.log('SMC.instance', SMC.instance);
         return SMC.openItems.updateAllFiles();
       })
       .then(function () {
         if (SMC.instance) {
-          console.log('REBUILD');
           return SMC.rebuildAndOrRedeploy();
         }
-        console.log('CREATE AND BUILD');
-        return createAndBuildNewContainer(generateCreatePromise(), SMC.state.opts.name);
-      })
-      .then(function (instance) {
-        if (instance && instance.contextVersion) {
-          SMC.instance = instance;
-          SMC.state.instance = instance;
-          return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
-        }
-        return $q.reject(new Error('Instance not created properly'));
+        return createAndBuildNewContainer(generateCreatePromise(), SMC.state.opts.name)
+          .then(instanceSetHandler);
       })
       .then(function () {
-        return SMC;
+        return SMC.resetStateContextVersion(SMC.state.contextVersion, true);
+      })
+      .then(function () {
+         return SMC;
       })
       .catch(function (err) {
         // If creating the server fails, reset the context version

@@ -7,6 +7,7 @@ require('app')
  */
 function ReadOnlySwitchController(
   $scope,
+  createBuildFromContextVersionId,
   errs,
   loading,
   loadingPromises,

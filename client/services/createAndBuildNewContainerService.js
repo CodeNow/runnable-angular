@@ -21,7 +21,7 @@ function createAndBuildNewContainer(
   fetchUser,
   helpCards
 ) {
-  return function (createPromise, containerName) {
+  return function (createPromiseForState, containerName) {
     eventTracking.triggeredBuild(false);
     // Save this in case it changes
     var cachedActiveAccount = $rootScope.dataApp.data.activeAccount;
@@ -38,7 +38,7 @@ function createAndBuildNewContainer(
           }
         }, {warn: false});
         response.masterInstances.add(instance);
-        return createPromise;
+        return $q.when(createPromiseForState);
       })
       .then(function (newServerModel) {
         $rootScope.$broadcast('alert', {
