@@ -20,25 +20,18 @@ var tabVisibility = {
 function EditServerModalController(
   $scope,
   $controller,
-  $q,
   $filter,
   $rootScope,
   errs,
-  eventTracking,
   fetchInstancesByPod,
-  fetchStackInfo,
-  fetchSourceContexts,
   findLinkedServerVariables,
   hasKeypaths,
   keypather,
   loading,
   OpenItems,
-  promisify,
-  updateDockerfileFromState,
   ModalService,
   tab,
   instance,
-  actions,
   close
 ) {
   var SMC = this;
@@ -78,7 +71,7 @@ function EditServerModalController(
       cmd = cmd || '';
       return cmd.replace('until grep -q ethwe /proc/net/dev; do sleep 1; done;', '');
     },
-    actions: angular.extend(actions, {
+    actions: {
       close: function () {
         $rootScope.$broadcast('close-popovers');
         if (SMC.isDirty() && !SMC.saveTriggered) {
@@ -99,7 +92,7 @@ function EditServerModalController(
           close();
         }
       }
-    }),
+    },
     build: instance.build,
     getElasticHostname: instance.getElasticHostname.bind(instance),
     getDisplayName: instance.getDisplayName.bind(instance)
@@ -113,16 +106,6 @@ function EditServerModalController(
       SMC.data.instances = instances;
     });
 
-  fetchStackInfo()
-    .then(function (stackInfo) {
-      SMC.data.stacks = stackInfo;
-    });
-
-  fetchSourceContexts()
-    .then(function (contexts) {
-      SMC.data.sourceContexts = contexts;
-    });
-
   $scope.$on('debug-cmd-status', function (evt, status) {
     SMC.showDebugCmd = status;
   });
@@ -134,7 +117,7 @@ function EditServerModalController(
     SMC.linkedEnvResults = findLinkedServerVariables(SMC.state.opts.env);
   });
 
-   $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
+  $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
     $event.stopPropagation();
     loading.reset(SMC.name);
     if (showSpinner) {
@@ -227,7 +210,7 @@ function EditServerModalController(
         errs.handler(err);
         return SMC.resetStateContextVersion(SMC.state.contextVersion, false)
           .finally(function () {
-            // Only turn off `isBuilding` if there is an error and we have to revert back 
+            // Only turn off `isBuilding` if there is an error and we have to revert back
             SMC.isBuilding = false;
           });
       });

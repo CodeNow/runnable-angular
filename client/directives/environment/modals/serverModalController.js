@@ -8,12 +8,10 @@ function ServerModalController (
   $rootScope,
   $scope,
   eventTracking,
-  errs,
   fetchUser,
   helpCards,
   parseDockerfileForCardInfoFromInstance,
   keypather,
-  loading,
   loadingPromises,
   promisify,
   updateDockerfileFromState
@@ -179,9 +177,10 @@ function ServerModalController (
         })
     );
     // Only parse the Dockerfile info when no error has occurred
-    if (shouldParseDockerfile) {
+    if (shouldParseDockerfile  && !SMC.state.advanced) {
       SMC.state.promises.contextVersion
         .then(function (contextVersion) {
+          // This function updates/changes the contents of `startCommand`, `ports`, etc.
           return parseDockerfileForCardInfoFromInstance(SMC.instance, contextVersion)
             .then(function (data) {
               angular.extend(SMC, data);
@@ -193,6 +192,9 @@ function ServerModalController (
     return SMC.state.promises.contextVersion
       .then(function () {
         return SMC.openDockerfile(SMC.state, SMC.openItems);
+      })
+      .then(function () {
+        return SMC.openItems.removeAndReopen(SMC.state.contextVersion);
       })
       .then(function () {
         return fetchUser();

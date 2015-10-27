@@ -25,11 +25,13 @@ describe('fetchStackAnalysisService'.bold.underline.blue, function () {
     var value2 = {
       hello2: 'hi2'
     };
-    sinon.stub(apiClientBridge.client, 'getAsync').returns($q.when(value));
+    var response = [{asd: 1}, value];
+    var response2 = [{asd: 1}, value2];
+    sinon.stub(apiClientBridge.client, 'getAsync').returns($q.when(response));
     fetchStackAnalysis('sadfsdf')
       .then(function (result) {
         expect(result, '1st').to.equal(value);
-        apiClientBridge.client.getAsync.returns($q.when(value2));
+        apiClientBridge.client.getAsync.returns($q.when(response2));
         return fetchStackAnalysis('sadfsdf');
       })
       .then(function (result) {
@@ -40,6 +42,22 @@ describe('fetchStackAnalysisService'.bold.underline.blue, function () {
       .then(function (result) {
         expect(result, 'new 1st').to.equal(value2);
         expect(result, 'new 1st').to.not.equal(value);
+        done();
+      });
+    $rootScope.$digest();
+  });
+  it('should throw an error if it doesn\'t get a valid response', function (done) {
+    var res = {
+      hello: 'hi'
+    };
+    sinon.stub(apiClientBridge.client, 'getAsync').returns($q.when(res));
+    fetchStackAnalysis('sadfsdf')
+      .then(function () {
+        done(new Error('NO, shouldnt have come here!'));
+      })
+      .catch(function (error) {
+        expect(error.message, 'malformed response from actions analyze')
+            .to.equal('malformed response from actions analyze');
         done();
       });
     $rootScope.$digest();

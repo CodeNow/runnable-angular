@@ -15,21 +15,27 @@
             'badge-red': true\
           }"
           ng-click = "currentTab = 'billing'"
+          ng-show = "$root.featureFlags.billing"
         )
           svg.iconnables
             use(
               xlink:href = "#icons-billing"
             )
           .btn-text Billing
-        //- button.btn.btn-radio(
-        //-   disabled
-        //- )
-        //-   svg.iconnables
-        //-     use(
-        //-       xlink:href = "#icons-team"
-        //-     )
-        //-   .btn-text Team
-        //-     .btn.btn-xxs.orange.no-touching Coming Soon
+        button.btn.btn-radio(
+          data-badge-count = "1"
+          ng-class = "{\
+            'active': currentTab === 'teamManagement',\
+            'badge': true\
+          }"
+          ng-click = "currentTab = 'teamManagement'"
+          ng-show = "$root.featureFlags.teamManagement"
+        )
+          svg.iconnables
+            use(
+              xlink:href = "#icons-team"
+            )
+          .btn-text Teammates
         button.btn.btn-radio(
           ng-class = "{'active': currentTab === 'slackIntegration'}"
           ng-click = "currentTab = 'slackIntegration'"
@@ -60,6 +66,12 @@
       .form-billing(
         ng-if = "currentTab === 'billing'"
         ng-include = "'billingForm'"
+      )
+
+      //- team
+      .form-team(
+        ng-if = "currentTab === 'teamManagement'"
+        ng-include = "'teamForm'"
       )
 
       //- slack integration

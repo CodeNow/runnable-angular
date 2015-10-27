@@ -11,24 +11,33 @@ require('app')
 function EnvironmentController(
   $scope,
   $timeout,
-  createNewInstance,
-  errs,
-  eventTracking,
   favico,
-  fetchContexts,
-  fetchInstances,
   fetchInstancesByPod,
-  fetchStackInfo,
-  keypather,
   pageName,
-  promisify,
   $rootScope,
-  $q,
   helpCards,
   $window,
   $state,
   ModalService
 ) {
+  var EC = this;
+  EC.triggerModal = {
+    newContainer: function () {
+      return ModalService.showModal({
+        controller: 'NewContainerModalController',
+        controllerAs: 'NCMC',
+        templateUrl: 'newContainerModalView'
+      });
+    },
+    repoContainer: function () {
+      $rootScope.$broadcast('close-popovers');
+      ModalService.showModal({
+        controller: 'SetupServerModalController',
+        controllerAs: 'SMC',
+        templateUrl: 'setupServerModalView'
+      });
+    }
+  };
   $scope.$state = $state;
   favico.reset();
   pageName.setTitle('Configure - Runnable');
@@ -100,96 +109,5 @@ function EnvironmentController(
       }
     }
   };
-
-  $scope.actions = {
-    deleteServer: function (instance, templateUrl) {
-      if (!templateUrl) {
-        templateUrl = 'confirmDeleteServerView';
-      }
-      $rootScope.$broadcast('close-popovers');
-      return ModalService.showModal({
-        controller: 'ConfirmationModalController',
-        controllerAs: 'CMC',
-        templateUrl: templateUrl
-      })
-        .then(function (modal) {
-          return modal.close.then(function (confirmed) {
-            if (confirmed) {
-              promisify(instance, 'destroy')()
-                .catch(errs.handler);
-              helpCards.refreshAllCards();
-            }
-            return confirmed;
-          });
-        })
-        .catch(errs.handler);
-    },
-    createAndBuild: function (createPromise, name) {
-
-      eventTracking.triggeredBuild(false);
-      // Save this in case it changes
-      var cachedActiveAccount = $rootScope.dataApp.data.activeAccount;
-      var instance = $rootScope.dataApp.data.user.newInstance({
-        name: name,
-        owner: {
-          username: cachedActiveAccount.oauthName()
-        }
-      }, { warn: false });
-      $rootScope.dataApp.creatingInstance = !keypather.get($scope, 'data.instances.models.length');
-      $scope.data.instances.add(instance);
-      helpCards.hideActiveCard();
-
-      $rootScope.$broadcast('alert', {
-        type: 'success',
-        text: 'Your new container is building.'
-      });
-
-      return createPromise
-        .then(function (newServerModel) {
-          return createNewInstance(
-            cachedActiveAccount,
-            newServerModel.build,
-            newServerModel.opts,
-            instance
-          );
-        })
-        .then(function (instance) {
-          helpCards.refreshAllCards();
-          return instance;
-        })
-        .catch(function (err) {
-          // Remove it from the servers list
-          instance.dealloc();
-          return $q.reject(err);
-        })
-        .finally(function () {
-          $rootScope.dataApp.creatingInstance = false;
-        });
-    },
-    setupRepoServer: function () {
-      $rootScope.$broadcast('close-popovers');
-      ModalService.showModal({
-        controller: 'SetupServerModalController',
-        controllerAs: 'SMC',
-        templateUrl: 'setupServerModalView',
-        inputs: {
-          data: $scope.data,
-          actions: $scope.actions
-        }
-      });
-    }
-  };
-
-  $q.all({
-    deps: fetchInstances({ githubUsername: 'HelloRunnable' }),
-    sourceContexts: fetchContexts({ isSource: true }),
-    stacks: fetchStackInfo()
-  })
-    .then(function (data) {
-      $scope.data.allDependencies = data.deps;
-      $scope.data.stacks = data.stacks;
-      $scope.data.sourceContexts = data.sourceContexts;
-    })
-    .catch(errs.handler);
 
 }

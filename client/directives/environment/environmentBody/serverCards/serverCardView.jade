@@ -8,10 +8,8 @@
   ng-class = "{'deprecated': !$root.featureFlags.cardStatus}"
 )
   server-status-card-header(
-    actions = "actions"
     instance= "server.instance"
     no-touching = "showSpinner()"
-    open-edit-server-modal = "openEditServerModal"
   )
 
 //- loading state

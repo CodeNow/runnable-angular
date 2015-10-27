@@ -23,7 +23,7 @@
   //- when locking the dockerfile, prompt with modal template: viewModalLockDockerfile
   //- ✅ if repository (can simple mode) && previous simple build exists (can simple mode)
   label.toggle-wrapper.show-icons(
-    loading-promises-target = "editServerModal"
+    loading-promises-target = "{{ SMC.name }}"
     read-only-switch
     state = "SMC.state"
   )

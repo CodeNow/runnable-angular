@@ -8,10 +8,10 @@
 
 //- empty state
 .card.gray.disabled.load.empty(
-  ng-if = "data.instances && !isLoading.sidebar && !data.instances.models.length"
+  ng-if = "data.instances && !$root.isLoading.sidebar && !data.instances.models.length"
 )
   svg.iconnables(
-    ng-click = "actions.setupRepoServer()"
+    ng-click = "EC.triggerModal.repoContainer()"
   )
     use(
       xlink:href = "#icons-new-repository-server"

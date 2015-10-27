@@ -6,7 +6,6 @@ ul.tabs
   li.tab-wrapper(
     ng-class = "{\
       'active': item.state.active,\
-      'always-open': item.state.alwaysOpen,\
       'dirty': (item.state.isDirty)\
     }"
     ng-click = "\
@@ -21,8 +20,8 @@ ul.tabs
     ) {{ item.attrs.name }}
     .icons-dirty *
     button.btn.white.btn-icon.btn-close(
-      ng-click = "actions.removeItem($event, $index, item)"
-      ng-if = "!item.state.alwaysOpen && instance.containers.models[0].running() || debugContainer"
+      ng-click = "actions.removeItem($event, item)"
+      ng-if = "instance.containers.models[0].running() || debugContainer"
     )
       svg.iconnables.icons-close
         use(
