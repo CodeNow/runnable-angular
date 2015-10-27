@@ -9,7 +9,8 @@ require('app')
     updateDockerfileFromState,
     parseDockerfileForDefaults,
     report,
-    watchOncePromise
+    watchOncePromise,
+    helpCards
   ) {
     return {
       restrict: 'A',
@@ -21,6 +22,7 @@ require('app')
         ngShow: '&'
       },
       link: function ($scope, element, attrs) {
+        $scope.helpCards = helpCards;
         $scope.data = {
           cacheCommand: false
         };

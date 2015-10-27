@@ -3,7 +3,7 @@
 require('app')
   .controller('ServerModalController', ServerModalController);
 
-function ServerModalController (
+function ServerModalController(
   $q,
   $rootScope,
   $scope,
@@ -16,7 +16,6 @@ function ServerModalController (
   promisify,
   updateDockerfileFromState
 ) {
-
   this.openDockerfile = function (state, openItems) {
     return promisify(state.contextVersion, 'fetchFile')('/Dockerfile')
       .then(function (dockerfile) {
@@ -56,7 +55,7 @@ function ServerModalController (
     // to change something will have enough time to add its promises to LoadingPromises
     return SMC.state.promises.contextVersion
       .then(function () {
-        // Wait until all changes to the context version have been resolved to 
+        // Wait until all changes to the context version have been resolved to
         // rebuild and/or redeploy the instance
         return loadingPromises.finished(SMC.name);
       })
@@ -235,7 +234,7 @@ function ServerModalController (
     var SMC = this;
     $rootScope.$broadcast('close-popovers');
     return SMC.rebuildAndOrRedeploy()
-     .then(function () {
+      .then(function () {
         helpCards.refreshActiveCard();
         $rootScope.$broadcast('alert', {
           type: 'success',

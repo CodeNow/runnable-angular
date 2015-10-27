@@ -31,6 +31,7 @@ function SetupServerModalController(
   close
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
+  SMC.helpCards = helpCards;
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
     'insertHostName': parentController.insertHostName.bind(SMC),
@@ -39,7 +40,7 @@ function SetupServerModalController(
     'populateStateFromData': parentController.populateStateFromData.bind(SMC),
     'rebuildAndOrRedeploy': parentController.rebuildAndOrRedeploy.bind(SMC),
     'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
-    'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
+    'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC)
   });
   var mainRepoContainerFile = new cardInfoTypes.MainRepository();
   // Set initial state
