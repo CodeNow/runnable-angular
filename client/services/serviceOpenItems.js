@@ -296,7 +296,9 @@ function openItemsFactory(
       model.state.reset();
     }
     this.activeHistory.add(model);
-    this.models.push(model);
+    if (!this.models.includes(model)) {
+      this.models.push(model);
+    }
     return this;
   };
 
