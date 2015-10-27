@@ -103,8 +103,8 @@ function openItemsFactory(
   };
 
   ActiveHistory.prototype.remove = function (model) {
-    if (this.models.includes(model)) {
-      var index = this.models.indexOf(model);
+    var index = this.models.indexOf(model);
+    if (index >= 0) {
       this.models.splice(index, 1);
       if (model.state.active) {
         model.state.active = false;
@@ -133,12 +133,10 @@ function openItemsFactory(
 
   OpenItems.prototype.retrieveTabs = function(container) {
     var models = keypather.get($localStorage, this.keys.instanceId);
-    if (Array.isArray(models)) {
+    if (Array.isArray(models) && models.length) {
       this.previouslyActiveTab = models.find(function (m) {
         return keypather.get(m, 'state.active');
       });
-    }
-    if (models && models.length) {
       this.fromCache = true;
       models = models.map(function (model) {
         var from = keypather.get(model, 'state.from');
@@ -155,8 +153,7 @@ function openItemsFactory(
         }
         return model;
       });
-      this.reset([]);
-      this.add(models);
+      this.reset(models);
     }
   };
 
@@ -164,8 +161,8 @@ function openItemsFactory(
   // after other tabs have been added
   OpenItems.prototype.restoreActiveTab = function () {
     if (this.previouslyActiveTab) {
-      var model = this.models.find(function (m) {
-        return (m.id() === keypather.get(this, 'previouslyActiveTab._id'));
+      var model = this.models.find(function (model) {
+        return (model.id() === keypather.get(this, 'previouslyActiveTab._id'));
       }.bind(this));
       if (model) {
         this.activeHistory.add(model);
