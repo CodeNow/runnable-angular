@@ -351,7 +351,13 @@ function SetupServerModalController(
             build: createBuildFromContextVersionId(SMC.state.simpleContextVersionCopy.id()),
             opts: SMC.state.opts
           }), SMC.state.opts.name)
-              .then(instanceSetHandler);
+              .then(instanceSetHandler)
+              .then(function (instance) { // Add `lastBuiltSimpleContextVersion`
+                instance.lastBuiltSimpleContextVersion = {
+                  id: instance.contextVersion.attrs.id,
+                  created: instance.contextVersion.attrs.created
+                };
+              });
         }
         return true;
       })
