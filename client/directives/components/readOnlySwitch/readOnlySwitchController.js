@@ -99,11 +99,12 @@ function ReadOnlySwitchController(
         .then(function () {
           if (!ROSC.state.instance) {
             return {
-              templateUrl: 'confirmSwitchToSimpleModeView',
-              inputs: {}
+              controller: 'ConfirmationModalController',
+              templateUrl: 'confirmSwitchToSimpleModeView'
             };
           }
           return {
+            controller: 'ConfirmRollbackModalController',
             templateUrl: 'confirmRollbackModalView',
             inputs: {
               instance: ROSC.state.instance
@@ -114,7 +115,7 @@ function ReadOnlySwitchController(
           return ROSC.state.promises.contextVersion
             .then(function (contextVersion) {
               return ModalService.showModal({
-                controller: 'ConfirmationModalController',
+                controller: opts.controller,
                 controllerAs: 'CMC',
                 templateUrl: opts.templateUrl,
                 inputs: opts.inputs
