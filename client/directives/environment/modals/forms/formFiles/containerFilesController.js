@@ -3,7 +3,6 @@
 require('app').controller('ContainerFilesController', ContainerFilesController);
 
 function ContainerFilesController(
-  $scope,
   loadingPromises,
   promisify,
   errs,
@@ -12,7 +11,6 @@ function ContainerFilesController(
   configAPIHost,
   cardInfoTypes,
   hasKeypaths,
-  $timeout,
   updateDockerfileFromState,
   keypather
 ) {
