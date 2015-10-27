@@ -217,10 +217,8 @@ function ControllerInstance(
     // DOM will have message when instance w/ containers fetched
     data.showFinishMessageWhenContainerFetched = true;
     // instance not deployed yet
-    if (!data.openItems.hasOpen('BuildStream')) {
-      data.openItems.addBuildStream();
-    }
-    return;
+
+    data.openItems.addBuildStream();
   }
 
   function boxLogsOnly () {
@@ -230,16 +228,9 @@ function ControllerInstance(
       out: true,
       in: false
     };
-    if (data.openItems.hasOpen('LogView')) {
-      // make it selected
-      var logView = data.openItems.find(function (m) {
-        return m.constructor.name === 'LogView';
-      });
-      data.openItems.activeHistory.add(logView);
-    } else {
-      // add it
-      data.openItems.addLogs();
-    }
+
+    data.openItems.addBuildStream();
+    data.openItems.addLogs(); // Add this last so that it's selected
   }
 
   function restoreOrOpenDefaultTabs () {

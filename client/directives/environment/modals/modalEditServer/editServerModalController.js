@@ -24,7 +24,6 @@ function EditServerModalController(
   $rootScope,
   errs,
   fetchInstancesByPod,
-  fetchSourceContexts,
   findLinkedServerVariables,
   hasKeypaths,
   keypather,
@@ -105,11 +104,6 @@ function EditServerModalController(
   fetchInstancesByPod()
     .then(function (instances) {
       SMC.data.instances = instances;
-    });
-
-  fetchSourceContexts()
-    .then(function (contexts) {
-      SMC.data.sourceContexts = contexts;
     });
 
   $scope.$on('debug-cmd-status', function (evt, status) {
@@ -216,7 +210,7 @@ function EditServerModalController(
         errs.handler(err);
         return SMC.resetStateContextVersion(SMC.state.contextVersion, false)
           .finally(function () {
-            // Only turn off `isBuilding` if there is an error and we have to revert back 
+            // Only turn off `isBuilding` if there is an error and we have to revert back
             SMC.isBuilding = false;
           });
       });
