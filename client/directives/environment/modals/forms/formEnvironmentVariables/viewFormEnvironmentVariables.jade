@@ -1,6 +1,6 @@
 //- help things
 .help-container(
-  ng-if = "SMC.helpCards.getActiveCard().helpPopover.environmentVariables"
+  ng-if = "SMC.helpCards.getActiveCard().helpPopover.environmentVariables && SMC.helpCards.cardIsActiveOnThisContainer(SMC.instance)"
   ng-hide = "$root.featureFlags.fullScreen"
 )
   .help(
