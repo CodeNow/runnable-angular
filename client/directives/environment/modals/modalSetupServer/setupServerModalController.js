@@ -344,6 +344,9 @@ function SetupServerModalController(
 
     return $q.when(true)
       .then(function () {
+        return SMC.openItems.updateAllFiles();
+      })
+      .then(function () {
         if (SMC.state.advanced && SMC.state.simpleContextVersionCopy) {
           return $q.when(true)
             .then(function (build) {
@@ -355,9 +358,6 @@ function SetupServerModalController(
             .then(instanceSetHandler); // Set instance
         }
         return true;
-      })
-      .then(function () {
-        return SMC.openItems.updateAllFiles();
       })
       .then(function () {
         if (SMC.instance) {
