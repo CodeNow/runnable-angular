@@ -328,7 +328,6 @@ function SetupServerModalController(
         .then(function () {
           return SMC.state;
         });
-    };
     function instanceSetHandler (instance) {
         if (instance) {
           SMC.instance = instance;
