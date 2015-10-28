@@ -136,7 +136,7 @@ function ReadOnlySwitchController(
                 if (confirmed) {
                   return performRollback(contextVersion);
                 } else {
-                  ROSC.state.advanced = false;
+                  ROSC.state.advanced = true;
                   return false;
                 }
               });
