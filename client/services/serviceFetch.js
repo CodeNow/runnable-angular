@@ -41,6 +41,8 @@ function fetchUser(
           // Catch an unauth'd request and send 'em back
           if (keypather.get(err, 'data.statusCode') === 401) {
             $window.location = '/';
+            // Return a never completing function since we are redirecting!
+            return $q(angular.noop);
           }
           // Allow other .catch blocks to grab it
           return $q.reject(err);
@@ -50,7 +52,7 @@ function fetchUser(
   };
 }
 
-function fetchOrgs (
+function fetchOrgs(
   fetchUser,
   promisify
 ) {
