@@ -334,9 +334,9 @@ function openItemsFactory(
   };
 
   OpenItems.prototype.remove = function (model) {
-    model.state.open = false;
-    if (this.models.includes(model)) {
-      var index = this.models.indexOf(model);
+    var index = this.models.indexOf(model);
+    if (index >= 0) {
+      keypather.set(model, 'state.open', false);
       this.models.splice(index, 1);
       this.activeHistory.remove(model);
       this.saveState();
