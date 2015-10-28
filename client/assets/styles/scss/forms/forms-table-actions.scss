@@ -71,7 +71,6 @@
     overflow: visible;
     padding: 9px 72px 9px 9px;
     position: relative;
-    z-index: $z-sidebar + 1; // for tooltip…
 
     &.in {
       height: 72px;

@@ -30,11 +30,13 @@ function EditServerModalController(
   loading,
   OpenItems,
   ModalService,
+  helpCards,
   tab,
   instance,
   close
 ) {
   var SMC = this;
+  SMC.helpCards = helpCards;
 
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {

@@ -7,7 +7,8 @@ require('app')
     parseDiffResponse,
     promisify,
     testAllTransformRules,
-    $document
+    $document,
+    helpCards
   ) {
     return {
       restrict: 'A',
@@ -18,6 +19,7 @@ require('app')
         data: '=?'
       },
       link: function ($scope, elem, attrs) {
+        $scope.helpCards = helpCards;
         $scope.$watch('state.contextVersion', function (contextVersion) {
           if (contextVersion &&
               (keypather.get(contextVersion, 'getMainAppCodeVersion().attrs.transformRules.replace.length') ||

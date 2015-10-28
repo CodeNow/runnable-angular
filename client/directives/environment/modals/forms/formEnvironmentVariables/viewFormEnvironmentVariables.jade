@@ -1,10 +1,10 @@
 //- help things
 .help-container(
-  ng-if = "helpCards.getActiveCard().helpPopover.environmentVariables"
+  ng-if = "SMC.helpCards.getActiveCard().helpPopover.environmentVariables && SMC.helpCards.cardIsActiveOnThisContainer(SMC.instance)"
   ng-hide = "$root.featureFlags.fullScreen"
 )
   .help(
-    ng-bind-html = "helpCards.getActiveCard().helpPopover.environmentVariables"
+    ng-bind-html = "SMC.helpCards.getActiveCard().helpPopover.environmentVariables"
   )
 
 //- begin form
