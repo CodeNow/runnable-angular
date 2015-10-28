@@ -115,28 +115,25 @@ $z-views: 1000;
 $z-views-active-panel: 1001;
 $z-views-header: 1002;
 
-// sidebars
-$z-sidebar: 2000;
-
 // modals
-$z-modal-backdrop: 3000;
-$z-modal: 3001;
+$z-modal-backdrop: 2000;
+$z-modal: 2001;
 
 // popovers
-$z-popover: 4000;
-$z-popover-context-menu: 4001;
-$z-popover-content: 4002;
-$z-popover-fixed: 4003;
-$z-popover-arrow: 4004;
+$z-popover: 3000;
+$z-popover-context-menu: 3001;
+$z-popover-content: 3002;
+$z-popover-fixed: 3003;
+$z-popover-arrow: 3004;
 
 // alerts
-$z-alert: 5000;
+$z-alert: 4000;
 
 // tooltips
-$z-tooltip: 6000;
+$z-tooltip: 5000;
 
 // spinners
-$z-spinner: 7000;
+$z-spinner: 6000;
 
 // **********
 // dimensions
