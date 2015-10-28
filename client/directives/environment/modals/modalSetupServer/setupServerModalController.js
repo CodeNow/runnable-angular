@@ -309,8 +309,7 @@ function SetupServerModalController(
   SMC.createServer = function () {
     // Wait until all changes to the context version have been resolved before
     // creating a build with that context version
-    function generateCreatePromise () {
-      return loadingPromises.finished(SMC.name)
+    var createPromise = loadingPromises.finished(SMC.name)
         .then(function () {
           if (!SMC.state.advanced) {
             return updateDockerfileFromState(SMC.state, false, true);
@@ -329,8 +328,8 @@ function SetupServerModalController(
         .then(function () {
           return SMC.state;
         });
-    }
-    function instanceSetHandler (instance, b, c) {
+    };
+    function instanceSetHandler (instance) {
         if (instance) {
           SMC.instance = instance;
           SMC.state.instance = instance;
@@ -347,17 +346,14 @@ function SetupServerModalController(
     return $q.when(true)
       .then(function () {
         if (SMC.state.advanced && SMC.state.simpleContextVersionCopy) {
-          return createAndBuildNewContainer($q.all({
-            build: createBuildFromContextVersionId(SMC.state.simpleContextVersionCopy.id()),
-            opts: SMC.state.opts
-          }), SMC.state.opts.name)
-              .then(instanceSetHandler)
-              .then(function (instance) { // Add `lastBuiltSimpleContextVersion`
-                instance.lastBuiltSimpleContextVersion = {
-                  id: instance.contextVersion.attrs.id,
-                  created: instance.contextVersion.attrs.created
-                };
-              });
+          return $q.when(true)
+            .then(function (build) {
+              return createAndBuildNewContainer($q.all({ // This changes the infracodeversion
+                build: createBuildFromContextVersionId(SMC.state.simpleContextVersionCopy.id()),
+                opts: SMC.state.opts
+              }), SMC.state.opts.name, SMC.state.simpleContextVersionCopy);
+            })
+            .then(instanceSetHandler); // Set instance
         }
         return true;
       })
@@ -366,16 +362,14 @@ function SetupServerModalController(
       })
       .then(function () {
         if (SMC.instance) {
-          return SMC.rebuildAndOrRedeploy();
+          // Rebuild the build
+          return SMC.rebuildAndOrRedeploy(true);
         }
-        return createAndBuildNewContainer(generateCreatePromise(), SMC.state.opts.name)
+        return createAndBuildNewContainer(createPromise, SMC.state.opts.name)
           .then(instanceSetHandler);
       })
       .then(function () {
-        return SMC.resetStateContextVersion(SMC.state.contextVersion, true);
-      })
-      .then(function () {
-         return SMC;
+        return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
       })
       .catch(function (err) {
         // If creating the server fails, reset the context version

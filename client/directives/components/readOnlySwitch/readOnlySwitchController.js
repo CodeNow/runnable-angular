@@ -40,28 +40,19 @@ function ReadOnlySwitchController(
   // Getter/setter
   this.readOnly = function (newAdvancedMode) {
     if (newAdvancedMode === true) {
-      ROSC.state.advanced = newAdvancedMode;
       loading(ROSC.loadingPromisesTarget, true);
       // Store a promise for when we have properly switched to advanced mode
-      ROSC.switchModePromise = $q.when(true)
+      ROSC.switchModePromise = loadingPromises.finished(ROSC.loadingPromisesTarget)
         .then(function () {
           // If there is not instance, we need to copy this context version and
           // keep a reference to the original CV
           if (!ROSC.state.instance) {
             // Save changes to the context version
-            return updateDockerfileFromState(ROSC.state, true, true)
-              .then(function () {
-                return promisify(ROSC.state.contextVersion, 'deepCopy')();
-              })
-              .then(function (contextVersionCopy) {
-                // Save a copy of our last simple mode CV to state
-                ROSC.state.simpleContextVersionCopy = contextVersionCopy;
-                return ROSC.state.contextVersion;
-              });
+            ROSC.state.simpleContextVersionCopy = ROSC.state.contextVersion;
+            $scope.$emit('resetStateContextVersion', ROSC.state.contextVersion, true);
           }
-          return ROSC.state.contextVersion;
         })
-        .then(function (contextVersion) {
+        .then(function () {
           if (ROSC.state.instance && !ROSC.state.instance.attrs.lastBuiltSimpleContextVersion) {
             // Grab off of the instance, since it's the original one, and hasn't been modified
             ROSC.state.instance.attrs.lastBuiltSimpleContextVersion = {
@@ -71,7 +62,11 @@ function ReadOnlySwitchController(
           }
           if (ROSC.state.promises) {
             return ROSC.state.promises.contextVersion
-              .then(function () {
+              .then(function (contextVersion) {
+                ROSC.state.advanced = newAdvancedMode;
+                if (ROSC.state.simpleContextVersionCopy) {
+                  keypather.set(ROSC, 'state.simpleContextVersionCopy.attrs.advanced', false);
+                }
                 return loadingPromises.add(ROSC.loadingPromisesTarget,
                   promisify(contextVersion, 'update')({
                     advanced: newAdvancedMode
@@ -85,6 +80,7 @@ function ReadOnlySwitchController(
                 ROSC.state.advanced = !newAdvancedMode;
               });
           }
+          ROSC.state.advanced = newAdvancedMode;
           return true;
         })
         .then(function () {

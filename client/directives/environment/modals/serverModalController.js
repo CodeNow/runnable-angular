@@ -186,6 +186,7 @@ function ServerModalController (
       SMC.state.promises.contextVersion
         .then(function (contextVersion) {
           // This function updates/changes the contents of `startCommand`, `ports`, etc.
+          // Fetch Dockerfile and update `state` with it
           return parseDockerfileForCardInfoFromInstance(SMC.instance, contextVersion)
             .then(function (data) {
               angular.extend(SMC, data);
