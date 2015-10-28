@@ -28,24 +28,23 @@ function fetchUser(
   report
 ) {
   var fetchedUser = null;
-  var socket = null;
   // For consistency with other promise fetchers
   return function () {
     if (!fetchedUser) {
       fetchedUser = promisify(apiClientBridge, 'fetchUser')('me')
-      .then(function (_user) {
-        socket = _user.createSocket();
-        report.setUser(_user);
-        return _user;
-      })
-      .catch(function (err) {
-        // Catch an unauth'd request and send 'em back
-        if (keypather.get(err, 'data.statusCode') === 401) {
-          $window.location = '/';
-        }
-        // Allow other .catch blocks to grab it
-        return $q.reject(err);
-      });
+        .then(function (_user) {
+          _user.createSocket();
+          report.setUser(_user);
+          return _user;
+        })
+        .catch(function (err) {
+          // Catch an unauth'd request and send 'em back
+          if (keypather.get(err, 'data.statusCode') === 401) {
+            $window.location = '/';
+          }
+          // Allow other .catch blocks to grab it
+          return $q.reject(err);
+        });
     }
     return fetchedUser;
   };
@@ -59,9 +58,9 @@ function fetchOrgs (
   return function () {
     if (!fetchedOrgs) {
       fetchedOrgs = fetchUser()
-      .then(function (user) {
-        return promisify(user, 'fetchGithubOrgs')();
-      });
+        .then(function (user) {
+          return promisify(user, 'fetchGithubOrgs')();
+        });
     }
     return fetchedOrgs;
   };
@@ -119,7 +118,7 @@ function fetchInstances(
 function fetchInstance(
   fetchUser,
   promisify
-){
+) {
   return function (instanceId) {
     return fetchUser()
       .then(function (user) {
@@ -257,13 +256,11 @@ function fetchOwnerRepos(fetchUser, promisify) {
 
 function fetchRepoBranches(fetchUser, promisify) {
   return function (repo) {
-    var user;
-    var repoType;
     var allBranches = [];
 
     function fetchPage(page) {
       return promisify(repo, 'fetchBranches')({
-        page: page,
+        page: page
       }).then(function (branchesCollection) {
         allBranches = allBranches.concat(branchesCollection.models);
         // recursive until result set returns fewer than
@@ -315,28 +312,28 @@ function fetchSettings(
         githubUsername: $state.params.userName
       });
     })
-    .then(function (settingsCollection) {
-      var userSettings = settingsCollection.models[0];
-      if (userSettings) {
-        integrationsCache[$state.params.userName] = {
-          settings: userSettings,
-          /*!
-           * We store a copy of Slack and GitHub settings in order to
-           * correctly determine if the cache on these should be thrown away
-           */
-          notificationsSettings: angular.copy(keypather.get(userSettings, 'attrs.notifications'))
-        };
-      }
-      return userSettings;
-    });
+      .then(function (settingsCollection) {
+        var userSettings = settingsCollection.models[0];
+        if (userSettings) {
+          integrationsCache[$state.params.userName] = {
+            settings: userSettings,
+            /*!
+             * We store a copy of Slack and GitHub settings in order to
+             * correctly determine if the cache on these should be thrown away
+             */
+            notificationsSettings: angular.copy(keypather.get(userSettings, 'attrs.notifications'))
+          };
+        }
+        return userSettings;
+      });
   };
 }
 
-function integrationsCache () {
+function integrationsCache() {
   return {};
 }
 
-function fetchSlackMembers (
+function fetchSlackMembers(
   $http,
   $q
 ) {
@@ -346,22 +343,22 @@ function fetchSlackMembers (
       url: 'https://slack.com/api/users.list?token=' + token,
       'withCredentials': false
     })
-    .then(function(data) {
-      if (data.data.error) {
-        if (data.data.error === 'invalid_auth' && !data.data.ok) {
-           // Throw a more descriptive error
-          return $q.reject(new Error('Provided API key is invalid'));
+      .then(function (data) {
+        if (data.data.error) {
+          if (data.data.error === 'invalid_auth' && !data.data.ok) {
+             // Throw a more descriptive error
+            return $q.reject(new Error('Provided API key is invalid'));
+          }
+          return $q.reject(new Error(data.data.error));
         }
-        return $q.reject(new Error(data.data.error));
-      }
-      return data.data.members.filter(function(member) {
-        return !member.is_bot;
+        return data.data.members.filter(function (member) {
+          return !member.is_bot;
+        });
       });
-    });
   };
 }
 
-function fetchGitHubMembers (
+function fetchGitHubMembers(
   $http,
   configAPIHost
 ) {
@@ -375,7 +372,7 @@ function fetchGitHubMembers (
   };
 }
 
-function fetchGitHubUser (
+function fetchGitHubUser(
   $http,
   configAPIHost
 ) {
@@ -389,7 +386,7 @@ function fetchGitHubUser (
   };
 }
 
-function fetchPullRequest (
+function fetchPullRequest(
   $http,
   configAPIHost,
   keypather,
