@@ -3,7 +3,7 @@
 
 var VersionFileModel = require('runnable/lib/models/context/version/file');
 
-describe('serviceOpenItems'.bold.underline.blue, function () {
+describe.only('serviceOpenItems'.bold.underline.blue, function () {
   var $localStorage, keypather, OpenItems;
   var fileObj = {"path":"/home","name":"defined","isDir":false,"body":"adsf","state":{"from":"File"}};
   var fileModel = new VersionFileModel(fileObj, { noStore: true });
@@ -13,6 +13,10 @@ describe('serviceOpenItems'.bold.underline.blue, function () {
   var fileModel2 = new VersionFileModel(fileObj2, { noStore: true });
   var mockContextVersion;
   function initState () {
+    fileObj = {"path":"/home","name":"defined","isDir":false,"body":"adsf","state":{"from":"File"}};
+    fileModel = new VersionFileModel(fileObj, { noStore: true });
+    fileObj2 = {"path":"/home2","name":"defined2","isDir":false,"body":"adsf","state":{"from":"File"}};
+    fileModel2 = new VersionFileModel(fileObj2, {noStore: true});
     angular.mock.module('app', function ($provide) {
       $provide.value('$localStorage', {
         test: [fileObj]
@@ -154,6 +158,15 @@ describe('serviceOpenItems'.bold.underline.blue, function () {
   });
 
   describe('adding and removing files'.blue, function () {
+    beforeEach(function () {
+      sinon.spy(fileModel, 'on');
+      sinon.spy(fileModel, 'once');
+      sinon.spy(fileModel, 'off');
+
+      sinon.spy(fileModel2, 'on');
+      sinon.spy(fileModel2, 'once');
+      sinon.spy(fileModel2, 'off');
+    });
     it('Should add a file', function () {
       var oi = new OpenItems('123456');
 
@@ -162,6 +175,8 @@ describe('serviceOpenItems'.bold.underline.blue, function () {
       expect(oi.models.length).to.eql(0);
 
       oi.add(fileModel);
+      sinon.assert.calledWith(fileModel.on, 'update', oi.boundSaveState);
+      sinon.assert.calledWith(fileModel.once, 'destroy', oi.boundRemove);
 
       expect(oi).to.be.ok;
       expect(oi.models).to.be.an('array');
@@ -184,9 +199,11 @@ describe('serviceOpenItems'.bold.underline.blue, function () {
       var oi = new OpenItems('123456');
 
       oi.add(fileModel);
-
+      sinon.assert.calledWith(fileModel.on, 'update', oi.boundSaveState);
+      sinon.assert.calledWith(fileModel.once, 'destroy', oi.boundRemove);
       oi.remove(fileModel);
-
+      expect(fileModel.off.getCall(0).calledWith('update', oi.boundSaveState)).to.be.true;
+      expect(fileModel.off.getCall(1).calledWith('destroy', oi.boundRemove)).to.be.true;
       expect(oi).to.be.ok;
       expect(oi.models.length).to.eql(0);
       expect(oi.activeHistory.models.length).to.eql(0);
@@ -196,15 +213,27 @@ describe('serviceOpenItems'.bold.underline.blue, function () {
       var oi = new OpenItems();
 
       oi.add(fileModel2);
+      sinon.assert.calledWith(fileModel2.on, 'update', oi.boundSaveState);
+      sinon.assert.calledWith(fileModel2.once, 'destroy', oi.boundRemove);
       expect(oi).to.be.ok;
       expect(oi.models.length).to.eql(1);
       expect(oi.activeHistory.models.length).to.eql(1);
 
       oi.reset([]);
+      expect(fileModel2.off.getCall(0).calledWith('update', oi.boundSaveState)).to.be.true;
+      expect(fileModel2.off.getCall(1).calledWith('destroy', oi.boundRemove)).to.be.true;
       expect(oi.models.length).to.eql(0);
       expect(oi.activeHistory.models.length).to.eql(0);
 
+      fileModel2.off.reset();
+      fileModel2.on.reset();
+      fileModel2.once.reset();
+
       oi.reset([fileModel, fileModel2]);
+      sinon.assert.calledWith(fileModel.on, 'update', oi.boundSaveState);
+      sinon.assert.calledWith(fileModel.once, 'destroy', oi.boundRemove);
+      sinon.assert.calledWith(fileModel2.on, 'update', oi.boundSaveState);
+      sinon.assert.calledWith(fileModel2.once, 'destroy', oi.boundRemove);
       expect(oi.models.length).to.eql(2);
       expect(oi.activeHistory.models.length).to.eql(2);
     });

@@ -129,6 +129,10 @@ function openItemsFactory(
     this.models = [];
     this.activeHistory = new ActiveHistory();
     this.previouslyActiveTab = null;
+
+    // Use these for the event emitters, so it's easily to remove them
+    this.boundRemove = this.remove.bind(this);
+    this.boundSaveState = this.saveState.bind(this);
   }
 
   OpenItems.prototype.retrieveTabs = function(container) {
@@ -176,6 +180,7 @@ function openItemsFactory(
   };
 
   OpenItems.prototype.reset = function (models) {
+    this.models.forEach(this.unbindFileModel.bind(this));
     this.models.splice(0, this.models.length);
     this.activeHistory.reset();
     this.add(models);
@@ -290,6 +295,7 @@ function openItemsFactory(
       model.state.reset = function () {
         model.state.body = model.attrs.body;
       };
+      this.bindFileModel(model);
     }
     if (!model.state.open) {
       model.state.open = true;
@@ -333,10 +339,23 @@ function openItemsFactory(
     }));
   };
 
+  OpenItems.prototype.unbindFileModel = function (model) {
+    var self = this;
+    model.off('update', self.boundSaveState);
+    model.off('destroy', self.boundRemove);
+  };
+
+  OpenItems.prototype.bindFileModel = function (model) {
+    var self = this;
+    model.once('destroy', self.boundRemove);
+    model.on('update', self.boundSaveState);
+  };
+
   OpenItems.prototype.remove = function (model) {
     var index = this.models.indexOf(model);
     if (index >= 0) {
       keypather.set(model, 'state.open', false);
+      this.unbindFileModel(model);
       this.models.splice(index, 1);
       this.activeHistory.remove(model);
       this.saveState();
@@ -383,7 +402,7 @@ function openItemsFactory(
   };
 
   OpenItems.prototype.saveState = function () {
-    if (!this.keys.instanceId) {
+    if (!keypather.get(this, 'keys.instanceId')){
       return;
     }
     var state = this.toJSON();
