@@ -363,7 +363,7 @@ function SetupServerModalController(
       .then(function () {
         if (SMC.instance) {
           // Rebuild the build
-          return SMC.rebuildAndOrRedeploy(true);
+          return SMC.rebuildAndOrRedeploy(true, true);
         }
         return createAndBuildNewContainer(createPromise, SMC.state.opts.name)
           .then(instanceSetHandler);

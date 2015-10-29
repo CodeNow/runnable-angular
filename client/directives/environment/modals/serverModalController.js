@@ -45,10 +45,13 @@ function ServerModalController(
       !SMC.openItems.isClean();
   };
 
-  this.rebuildAndOrRedeploy = function (noCache) {
+  this.rebuildAndOrRedeploy = function (noCache, forceRebuild) {
     var SMC = this;
     if (!noCache) {
       noCache = false;
+    }
+    if (!forceRebuild) {
+      forceRebuild = false;
     }
     var toRebuild;
     var toRedeploy;
@@ -62,9 +65,9 @@ function ServerModalController(
       })
       .then(function (promiseArrayLength) {
         toRebuild = !!(
+          forceRebuild ||
           promiseArrayLength > 0 ||
-          SMC.openItems.getAllFileModels(true).length ||
-          keypather.get(SMC, 'instance.contextVersion.id()') !== keypather.get(SMC, 'state.contextVersion.id()')
+          SMC.openItems.getAllFileModels(true).length
         );
 
         toRedeploy = !toRebuild && !angular.equals(
