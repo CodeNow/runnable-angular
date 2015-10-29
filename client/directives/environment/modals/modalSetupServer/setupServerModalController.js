@@ -453,4 +453,23 @@ function SetupServerModalController(
       });
   };
 
+  SMC.openRenameModal = function () {
+    return ModalService.showModal({
+      controller: 'RenameContainerModalController',
+      controllerAs: 'RCMC',
+      templateUrl: 'renameContainerModalView',
+      inputs: {
+        name: SMC.state.opts.name
+      }
+    })
+    .then(function (modal) {
+      return modal.close
+        .then(function (confirmedValue) {
+          if (confirmedValue) {
+             SMC.state.opts.name = confirmedValue;
+          }
+        });
+    });
+  };
+
 }

@@ -3,10 +3,8 @@ header.modal-header
   .container-title-wrapper.title-verification
     span.text-overflow.container-title {{SMC.state.repo.attrs.name}}
     button.btn.btn-xxs.gray(
+      ng-click = "SMC.openRenameModal()"
       ng-if = "$root.featureFlags.nameContainer"
-      pop-over
-      pop-over-options = "{\"left\":0,\"top\":0}"
-      pop-over-template = "viewPopoverRenameContainer"
     ) Rename
 
   //- tabs

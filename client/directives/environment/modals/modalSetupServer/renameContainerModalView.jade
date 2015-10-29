@@ -1,0 +1,52 @@
+.modal-overlay
+  form.modal-dialog.modal-sheet.modal-rename(
+    name = "RCMC.renameForm"
+    ng-if = "true"
+    ng-class = "{'in': active}"
+    ng-style = "popoverStyle.getStyle()"
+  )
+    section.modal-body
+      h3.modal-title Rename Container
+
+      //- wrapper for validation
+      div(
+        ng-class = "{\
+          'ng-invalid': RCMC.renameForm.$error.maxlength,\
+          'validate-length': RCMC.renameForm.$error.maxlength,\
+          'validate-sm': RCMC.renameForm.$error.maxlength\
+        }"
+        ng-attr-data-length = "{{19 - RCMC.renameForm.newName.$viewValue.length}}"
+      )
+        input.input.input-sm.input-validate(
+          autocomplete = "off"
+          name = "newName"
+          ng-maxlength = "19"
+          ng-model = "RCMC.name"
+          ng-pattern = "/^[a-zA-Z0-9-]*$/"
+          spellcheck = "false"
+        )
+
+      ul.list.list-bulleted.list-validation
+        li.list-item Choose a unique name in your Sandbox --{{ RCMC.name }}!!
+        li.list-item(
+          ng-class = "{'ng-invalid': RCMC.renameForm.$error.pattern}"
+        ) Use letters, numbers, and hyphens (-)
+        li.list-item(
+          ng-class = "{'ng-invalid': RCMC.renameForm.$error.maxlength}"
+        ) Use 19 characters or less
+
+      small.small.gray(
+        ng-if = "$root.featureFlags.renameContainer"
+      ) Your hostname will be updated to
+        br
+        strong.strong {{RCMC.renameForm.newName.$viewValue}}
+        | -staging.codenow.runnableapp.com
+
+    .modal-footer.clearfix
+      button.btn.btn-sm.green(
+        ng-disabled = "!RCMC.renameForm.newName.$viewValue.length || RCMC.renameForm.$invalid"
+        ng-click = "RCMC.confirm()"
+      ) Rename Container
+      button.btn.btn-sm.gray.btn-cancel(
+        ng-click = "RCMC.cancel()"
+      ) Cancel
