@@ -8,10 +8,10 @@ require('app')
 /**
  * Update the Dockerfile in a state from the properties in the state object.
  *
- * @param {Object} state - Globa `state` object
+ * @param {Object} state - Global `state` object
  * @param {Object} state.dockerfile - Dockerfile model object
  * @param {Object} state.sourceDockerfile - Dockerfile model object
- * @param {Object} state.selectedStac - Selected stack
+ * @param {Object} state.selectedStack - Selected stack
  * @param {String} state.selectedStack.key - Selected stack key
  * @param {Boolean} shouldFetchSourceDockerfile - Force to fetch the source Dockerfile
  * @param {Boolean} saveDockerfile - Whether the Dockerfile should be saved
