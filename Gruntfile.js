@@ -27,6 +27,8 @@ module.exports = function(grunt) {
     'server/**/*.js'
   //  'test/**/*.js'
   ];
+  
+  //asd
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
