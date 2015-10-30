@@ -16,9 +16,12 @@ function PopOverController(
   $localStorage
 ) {
   var POC = this;
+  POC.$localStorage = $localStorage;
+
   POC.unbindDocumentClick = angular.noop;
   POC.unbindPopoverOpened = angular.noop;
-  POC.removePopoverFromDOM = function () {
+
+  POC.closePopover = function () {
     // trigger a digest because we are setting active to false!
     $timeout(angular.noop);
     $scope.active = false;
@@ -37,14 +40,14 @@ function PopOverController(
       }, 500);
     }(POC.popoverElementScope, POC.popoverElement));
   };
-  POC.createPopoverAndAttach = function () {
-    $scope.popoverOptions = $scope.popoverOptions || {};
+  POC.openPopover = function () {
+    POC.popoverOptions = POC.popoverOptions || {};
 
-    if (!exists($scope.popoverOptions.top) && !exists($scope.popoverOptions.bottom)) {
-      $scope.popoverOptions.top = 0;
+    if (!exists(POC.popoverOptions.top) && !exists(POC.popoverOptions.bottom)) {
+      POC.popoverOptions.top = 0;
     }
-    if (!exists($scope.popoverOptions.left) && !exists($scope.popoverOptions.right)) {
-      $scope.popoverOptions.left = 0;
+    if (!exists(POC.popoverOptions.left) && !exists(POC.popoverOptions.right)) {
+      POC.popoverOptions.left = 0;
     }
 
     $rootScope.$broadcast('close-popovers');
@@ -55,12 +58,12 @@ function PopOverController(
       // Otherwise we should keep the popover alive.
       POC.unbindDocumentClick = $scope.$on('app-document-click', function (event, target) {
         if (!target || (target && $document[0].contains(target) && !POC.popoverElement[0].contains(target))) {
-          POC.removePopoverFromDOM();
+          POC.closePopover();
         }
       });
     }, 0);
     POC.unbindPopoverOpened = $scope.$on('close-popovers', function () {
-      POC.removePopoverFromDOM();
+      POC.closePopover();
     });
 
     var template = $templateCache.get($scope.template);

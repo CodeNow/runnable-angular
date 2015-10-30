@@ -36,6 +36,8 @@ function popOver(
     controllerAs: 'POC',
     scope: scopeVars,
     link: function ($scope, element, attrs) {
+      var previousStyle = {};
+      var POC = $scope.POC;
       if ($scope.controller) {
         var controllerName = attrs.popOverController;
         if ($scope.controllerAs) {
@@ -46,9 +48,17 @@ function popOver(
         }
         $scope[controllerName] = $scope.controller;
       }
-      var previousStyle = {};
-      var POC = $scope.POC;
 
+      if (!$scope.template) {
+        // Check if the string is set by checking the attrs
+        if (attrs.popOverTemplate) {
+          $scope.template = attrs.popOverTemplate;
+        } else {
+          return $log.error('Pop over needs a template');
+        }
+      }
+      $scope.popoverOptions = $scope.popoverOptions || {};
+      $scope.active = $scope.active || false;
       $scope.popoverStyle = {
         getStyle: function () {
           if (!$scope.active) {
@@ -100,20 +110,7 @@ function popOver(
           return style;
         }
       };
-      $scope.closePopover = POC.removePopoverFromDOM;
-      $scope.openPopover = POC.createPopoverAndAttach;
 
-      $scope.$localStorage = $localStorage;
-      if (!$scope.template) {
-        // Check if the string is set by checking the attrs
-        if (attrs.popOverTemplate) {
-          $scope.template = attrs.popOverTemplate;
-        } else {
-          return $log.error('Pop over needs a template');
-        }
-      }
-      $scope.popoverOptions = $scope.popoverOptions || {};
-      $scope.active = $scope.active || false;
       function clickHandler(event) {
         event.stopPropagation(); // If we don't stop prop we will immediately close ourselves!
         event.preventDefault();
@@ -121,7 +118,7 @@ function popOver(
           return;
         }
         if ($scope.active) {
-          $scope.closePopover();
+          POC.closePopover();
           return;
         }
         // Skip broadcasting if we're in a modal
@@ -136,7 +133,7 @@ function popOver(
             bottom: event.pageY
           }
         };
-        $scope.openPopover($scope.options);
+        POC.openPopover($scope.options);
       }
       var trigger = attrs.popOverTrigger || 'click';
       switch (trigger) {
@@ -158,10 +155,10 @@ function popOver(
         case 'activeAttr':
           var unwatchActive = $scope.$watch('active', function (newVal, oldVal) {
             if (newVal) {
-              $scope.openPopover();
+              POC.openPopover();
             } else if (POC.popoverElementScope) {
               // Only close if we have opened a popover, it's not possible to open a popover without setting up the elementScope!
-              $scope.closePopover();
+              POC.closePopover();
             }
           });
           $scope.$on('$destroy', function () {
@@ -177,7 +174,7 @@ function popOver(
 
       $scope.$on('$destroy', function () {
         if ($scope.active) {
-          $scope.closePopover();
+          POC.closePopover();
         }
       });
     }

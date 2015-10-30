@@ -15,6 +15,8 @@ function popOverHover(
     replace: 'true',
     link: function ($scope, element, attrs, POC) {
       var initialMouseEvent = null;
+      var popoverAngle1 = null;
+      var popoverAngle2 = null;
       function getAngleOfMovement(firstPoint, secondPoint) {
         return Math.tan((firstPoint.pageY - secondPoint.pageY) / (firstPoint.pageX - secondPoint.pageX));
       }
@@ -26,9 +28,6 @@ function popOverHover(
         if (POC.popoverElement.hasClass('bottom')) {
           return [{
             pageX: boundingRect.left,
-            pageY: boundingRect.top
-          }, {
-            pageX: boundingRect.right,
             pageY: boundingRect.top
           }, {
             pageX: boundingRect.right,
@@ -64,9 +63,11 @@ function popOverHover(
         if (e.pageX === initialMouseEvent.pageX && e.pageY === initialMouseEvent.pageY) {
           return true;
         }
-        var popoverPoints = getPointsFromPopover();
-        var popoverAngle1 = getAngleOfMovement(initialMouseEvent, popoverPoints[0]);
-        var popoverAngle2 = getAngleOfMovement(initialMouseEvent, popoverPoints[1]);
+        if (!popoverAngle1) {
+          var popoverPoints = getPointsFromPopover();
+          popoverAngle1 = getAngleOfMovement(initialMouseEvent, popoverPoints[0]);
+          popoverAngle2 = getAngleOfMovement(initialMouseEvent, popoverPoints[1]);
+        }
         var mouseAngle = getAngleOfMovement(initialMouseEvent, e);
         var result = (popoverAngle1 <= mouseAngle && popoverAngle2 >= mouseAngle);
         console.log('isHeadingTowardPopover', result, popoverAngle1, popoverAngle2, mouseAngle);
@@ -84,6 +85,8 @@ function popOverHover(
         if (POC.popoverElement) {
           POC.popoverElement.off('mouseleave');
         }
+        popoverAngle1 = null;
+        popoverAngle2 = null;
         POC.removePopoverFromDOM();
         $document.off('mousemove', checkAngleOnMouseMove);
       }
