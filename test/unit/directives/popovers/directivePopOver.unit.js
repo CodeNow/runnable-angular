@@ -97,14 +97,14 @@ describe('directivePopOver'.bold.underline.blue, function() {
       });
 
       it('should destroy the child scope that was created when the element is destroyed', function() {
-        $elScope.popoverElementScope.$destroy = sinon.spy();
-        $elScope.popoverElement.remove = sinon.spy();
+        $elScope.POC.popoverElementScope.$destroy = sinon.spy();
+        $elScope.POC.popoverElement.remove = sinon.spy();
         window.helpers.click(ctx.element[0]);
         $scope.$digest();
         expect($scope.popOverActive, 'pop over is active').to.equal(false);
         $timeout.flush(500);
-        expect($elScope.popoverElementScope.$destroy.calledOnce, 'destroyed popoverElementScope').to.equal(true);
-        expect($elScope.popoverElement.remove.calledOnce, 'removed element from the page').to.equal(true);
+        expect($elScope.POC.popoverElementScope.$destroy.calledOnce, 'destroyed popoverElementScope').to.equal(true);
+        expect($elScope.POC.popoverElement.remove.calledOnce, 'removed element from the page').to.equal(true);
       });
 
       it('should close when the close-popovers event is broadcasted', function () {

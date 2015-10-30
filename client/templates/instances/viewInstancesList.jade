@@ -63,13 +63,18 @@
     pop-over
     pop-over-options = "{\"verticallyCentered\": true, \"left\": 129}"
     pop-over-template = "enableBranchesPopoverView"
+    pop-over-trigger = "hover"
+    pop-over-hover
     ng-if = "$root.featureFlags.webhooks && (!$root.featureFlags.webhooksContainerRunning || !$root.featureFlags.webhooksAdminPresent)"
   ) Enable Branches…
 
   //- if default container is running and admin is present
   button.btn.btn-xs.white.btn-add-branches(
-    modal
-    modal-template = "enableBranchesModalView"
+    pop-over
+    pop-over-options = "{\"verticallyCentered\": true, \"left\": 129}"
+    pop-over-template = "enableBranchesPopoverView"
+    pop-over-trigger = "hover"
+    pop-over-hover
     ng-if = "$root.featureFlags.webhooks && $root.featureFlags.webhooksContainerRunning && $root.featureFlags.webhooksAdminPresent"
   ) Enable Branches…
 

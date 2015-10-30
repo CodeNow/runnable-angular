@@ -16,7 +16,8 @@ function tooltip(
   $templateCache,
   $compile,
   $document,
-  $timeout
+  $timeout,
+  $window
 ) {
 
   return {
@@ -57,6 +58,16 @@ function tooltip(
           newPosition.left = (rect.left + options.left) + 'px';
           newPosition.right = 'auto';
         }
+        if (options.centered) {
+          newPosition.right = null;
+          newPosition.left = (-rect.offsetWidth / 2 + newPosition.left + (newPosition.right - newPosition.left) / 2) + 'px';
+        }
+
+        if (options.verticallyCentered) {
+          newPosition.bottom = null;
+          newPosition.top = (-rect.offsetHeight / 2 + newPosition.top + (newPosition.bottom - newPosition.top) / 2) + 'px';
+        }
+
 
         return newPosition;
       };
@@ -68,6 +79,11 @@ function tooltip(
         $scope.toolTip.toolTipText = attrs.tooltip;
         if (attrs.tooltipEval) {
           $scope.toolTip.toolTipText = $scope.$eval(attrs.tooltipEval);
+        }
+        if (attrs.hasOwnProperty('tooltipWithButton')) {
+          bind($document, 'mousemove', function (e) {
+            console.log('zHEY', e.pageX, e.pageY);
+          });
         }
         $tooltipElement = $compile($template)($scope);
         $tooltipElement.addClass(options.class);
@@ -84,13 +100,16 @@ function tooltip(
       } else {
         bind(element, 'mouseover', createTooltipAndAttach);
       }
-      bind(element, 'mouseout', function () {
+      function removeToolTip() {
         if (!$tooltipElement) {
           return;
         }
         $tooltipElement.remove();
         $tooltipElement = null;
-      });
+      }
+      if (!attrs.hasOwnProperty('tooltipWithButton')) {
+        bind(element, 'mouseout', removeToolTip);
+      }
 
       $scope.$on('$destroy', function () {
         if ($tooltipElement) {
