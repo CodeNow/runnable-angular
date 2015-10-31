@@ -10,8 +10,6 @@ function PopOverController(
   $templateCache,
   $compile,
   $timeout,
-  keypather,
-  $log,
   exists,
   $localStorage
 ) {
@@ -41,13 +39,13 @@ function PopOverController(
     }(POC.popoverElementScope, POC.popoverElement));
   };
   POC.openPopover = function () {
-    POC.popoverOptions = POC.popoverOptions || {};
+    $scope.popoverOptions = $scope.popoverOptions || {};
 
-    if (!exists(POC.popoverOptions.top) && !exists(POC.popoverOptions.bottom)) {
-      POC.popoverOptions.top = 0;
+    if (!exists($scope.popoverOptions.top) && !exists($scope.popoverOptions.bottom)) {
+      $scope.popoverOptions.top = 0;
     }
-    if (!exists(POC.popoverOptions.left) && !exists(POC.popoverOptions.right)) {
-      POC.popoverOptions.left = 0;
+    if (!exists($scope.popoverOptions.left) && !exists($scope.popoverOptions.right)) {
+      $scope.popoverOptions.left = 0;
     }
 
     $rootScope.$broadcast('close-popovers');

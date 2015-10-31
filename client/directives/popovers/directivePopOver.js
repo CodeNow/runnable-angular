@@ -22,13 +22,9 @@ var scopeVars = {
 function popOver(
   $rootScope,
   $document,
-  $templateCache,
-  $compile,
-  $timeout,
   keypather,
   $log,
-  exists,
-  $localStorage
+  exists
 ) {
   return {
     restrict: 'A',
