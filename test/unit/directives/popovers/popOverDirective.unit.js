@@ -152,7 +152,7 @@ describe('directivePopOver'.bold.underline.blue, function() {
 
           $scope.$digest();
         }
-        expect(startup).to.throw('Tried to initialize a popover with a name which would override islated scope variable');
+        expect(startup).to.throw('Tried to initialize a popover with a name which would override isolated scope variable');
       });
       it('should error without a template', function () {
         initialize();
@@ -223,34 +223,34 @@ describe('directivePopOver'.bold.underline.blue, function() {
         expect($scope.popOverActive, 'pop over is active').to.equal(true);
       });
     });
-
-    describe('hover', function () {
-      beforeEach(function () {
-        injectSetupCompile({
-          hover: true
-        });
-      });
-
-      it('should open when hovered', function() {
-        sinon.assert.calledOnce($elScope.POC.openPopover);
-        expect($scope.popOverActive, 'pop over is active').to.equal(true);
-      });
-
-      it('should do nothing if the element that was clicked is disabled', function() {
-        ctx.element.prop('disabled', true);
-        $elScope.POC.openPopover.reset();
-        window.helpers.hover(ctx.element[0]);
-        $scope.$digest();
-        sinon.assert.notCalled($elScope.POC.openPopover);
-        expect($scope.popOverActive, 'pop over is active').to.equal(true);
-      });
-
-      it('should remove watchers on destroy of the scope', function() {
-        ctx.element.off = sinon.spy();
-        $elScope.$destroy();
-        expect(ctx.element.off.calledWith('mouseover'), 'unbound click handler').to.equal(false);
-      });
-    });
+    //
+    //describe('hover', function () {
+    //  beforeEach(function () {
+    //    injectSetupCompile({
+    //      hover: true
+    //    });
+    //  });
+    //
+    //  it('should open when hovered', function() {
+    //    sinon.assert.calledOnce($elScope.POC.openPopover);
+    //    expect($scope.popOverActive, 'pop over is active').to.equal(true);
+    //  });
+    //
+    //  it('should do nothing if the element that was clicked is disabled', function() {
+    //    ctx.element.prop('disabled', true);
+    //    $elScope.POC.openPopover.reset();
+    //    window.helpers.hover(ctx.element[0]);
+    //    $scope.$digest();
+    //    sinon.assert.notCalled($elScope.POC.openPopover);
+    //    expect($scope.popOverActive, 'pop over is active').to.equal(true);
+    //  });
+    //
+    //  it('should remove watchers on destroy of the scope', function() {
+    //    ctx.element.off = sinon.spy();
+    //    $elScope.$destroy();
+    //    expect(ctx.element.off.calledWith('mouseover'), 'unbound click handler').to.equal(false);
+    //  });
+    //});
 
 
     describe('right click', function () {
