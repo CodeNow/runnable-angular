@@ -143,10 +143,6 @@ function popOver(
           });
           break;
         case 'hover':
-          element.on('mouseover', clickHandler);
-          $scope.$on('$destroy', function () {
-            element.off('mouseover', clickHandler);
-          });
           break;
         case 'activeAttr':
           var unwatchActive = $scope.$watch('active', function (newVal, oldVal) {
