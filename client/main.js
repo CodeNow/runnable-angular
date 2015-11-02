@@ -33,6 +33,7 @@ app.config(function ($httpProvider, $animateProvider) {
   $httpProvider.defaults.withCredentials = true;
   $httpProvider.defaults.headers.delete = { 'Content-Type' : 'application/json' };
   $httpProvider.useApplyAsync(true);
+  $httpProvider.interceptors.push('logHttpTid');
   $animateProvider.classNameFilter(/js-animate/);
 });
 
