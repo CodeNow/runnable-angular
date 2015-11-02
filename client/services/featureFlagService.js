@@ -17,6 +17,7 @@ function featureFlags(
     hostnameTool: false,
     imAfraidOfTheDark: false, // toggles theme
     internalDebugging: false,
+    inviteFlows: false,
     isolationNav: false, // for isolation nav
     isolationUI: false, // for isolation UI
     multilineFnR: false,

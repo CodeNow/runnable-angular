@@ -43,8 +43,10 @@
       ng-include = "'viewCardGrid'"
     )
 
-  footer.environment-footer.small.text-center
-      a.link(
-        internal-modal-helper = "inviteModalView"
-      ) Invite a teammate
-      | &#32;to help you set up your stack.
+  footer.environment-footer.small.text-center(
+    ng-if = "$root.featureFlags.inviteFlows"
+  )
+    a.link(
+      internal-modal-helper = "inviteModalView"
+    ) Invite a teammate
+    | &#32;to help you set up your stack.
