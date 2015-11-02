@@ -30,6 +30,7 @@
         ng-include = "'spinner'"
       )
 
+      //- list of teammates (from github) that are not on runnable
       ul.list.list-bordered.list-teammates(
         ng-if = "!state.loading"
       )
@@ -46,18 +47,13 @@
           .username.text-overflow.strong {{user.username}}
           .small.text-overflow {{user.email.length ? user.email : "—"}}
 
-          //- invites if email is available, otherwise prompt for invite
-          button.btn.btn-xs.green(
-            ng-click = "state.inviteSending = $index"
-            ng-if = "state.activeItem !== $index && user.email.length && state.inviteSending !== $index"
-          ) Invite
-
+          //- invite button always prompts for email address
           button.btn.btn-xs.green(
             ng-click = "state.activeItem = $index"
-            ng-if = "state.activeItem !== $index && !user.email.length"
+            ng-if = "state.activeItem !== $index && state.inviteSending !== $index"
           ) Invite
 
-          //- exit invite
+          //- cancel invite
           svg.iconnables.icons-close(
             ng-click = "state.activeItem = null"
             ng-if = "state.activeItem === $index"
@@ -65,6 +61,27 @@
             use(
               xlink:href = "#icons-close"
             )
+
+           //- autofocus on this
+          input.input.input-sm.input-validate.validate-on-blur.js-animate(
+            ng-model = "user.email"
+            ng-show = "state.activeItem === $index"
+            placeholder = "Email Address"
+            required
+            spellcheck = "false"
+            type = "email"
+          )
+
+          //- disabled when invalid
+          button.btn.btn-xs.green.js-animate(
+            ng-class = "{'in': state.sending}"
+            ng-click = "\
+              state.activeItem = null;\
+              state.inviteSending = $index;\
+            "
+            ng-disabled = "!user.email"
+            ng-show = "state.activeItem === $index"
+          ) Send
 
           //- invite sending
           .spinner-wrapper.spinner-sm.spinner-gray.in(
@@ -89,21 +106,6 @@
                 stroke-width = '2',
               )
             | Sent
-
-          //- autofocus
-          input.input.input-sm.input-validate.validate-on-blur.js-animate(
-            ng-show = "state.activeItem === $index"
-            placeholder = "Email Address"
-            required
-            spellcheck = "false"
-            type = "email"
-          )
-
-          button.btn.btn-xs.green.js-animate(
-            ng-class = "{'in': state.sending}"
-            ng-click = "state.activeItem = null"
-            ng-show = "state.activeItem === $index"
-          ) Send
 
       .label.text-center(
         ng-if = "!state.loading"
