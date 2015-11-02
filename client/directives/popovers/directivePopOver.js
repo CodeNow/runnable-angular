@@ -40,7 +40,7 @@ function popOver(
           controllerName = $scope.controllerAs;
         }
         if (Object.keys(scopeVars).includes(controllerName)) {
-          throw new Error('Tried to initialize a popover with a name which would override islated scope variable');
+          throw new Error('Tried to initialize a popover with a name which would override isolated scope variable');
         }
         $scope[controllerName] = $scope.controller;
       }
