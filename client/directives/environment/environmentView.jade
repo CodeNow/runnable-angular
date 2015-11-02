@@ -13,31 +13,36 @@
       )
     | {{alert.text}}
 
-header.environment-header.clearfix(
-  ng-include = "'viewEnvironmentHeader'"
-  ng-init = "state.helpButton = {active: false}"
-)
+.environment-wrapper
+  header.environment-header.clearfix(
+    ng-include = "'viewEnvironmentHeader'"
+    ng-init = "state.helpButton = {active: false}"
+  )
 
-.environment-body.clearfix
-  .help-container(
-    ng-class = "{\
-      'deprecated': !$root.featureFlags.newNavigation,\
-      'fixed': helpUndock, top: helpUndock\
-    }"
-    ng-if = "helpCards.getActiveCard()"
-  )
-    .help(
-      ng-if = "helpCards.getActiveCard().targets.newContainer && state.newServerButton.active"
-      ng-bind-html = "helpCards.getActiveCard().helpPopover.newContainer"
+  .environment-body.clearfix
+    .help-container(
+      ng-class = "{\
+        'deprecated': !$root.featureFlags.newNavigation,\
+        'fixed': helpUndock, top: helpUndock\
+      }"
+      ng-if = "helpCards.getActiveCard()"
     )
-    .help(
-      ng-if = "!(helpCards.getActiveCard().targets.newContainer && state.newServerButton.active)"
+      .help(
+        ng-if = "helpCards.getActiveCard().targets.newContainer && state.newServerButton.active"
+        ng-bind-html = "helpCards.getActiveCard().helpPopover.newContainer"
+      )
+      .help(
+        ng-if = "!(helpCards.getActiveCard().targets.newContainer && state.newServerButton.active)"
+        ng-bind-html = "helpCards.getActiveCard().helpTop"
+      )
+    .help-padding.no-touching(
       ng-bind-html = "helpCards.getActiveCard().helpTop"
+      ng-if = "helpCards.getActiveCard()"
     )
-  .help-padding.no-touching(
-    ng-bind-html = "helpCards.getActiveCard().helpTop"
-    ng-if = "helpCards.getActiveCard()"
-  )
-  .card-grid.clearfix(
-    ng-include = "'viewCardGrid'"
-  )
+    .card-grid.clearfix(
+      ng-include = "'viewCardGrid'"
+    )
+
+  footer.environment-footer.small.text-center You don’t have to do this alone,&#32;
+      a.link invite a teammate
+      | &#32;to help you.
