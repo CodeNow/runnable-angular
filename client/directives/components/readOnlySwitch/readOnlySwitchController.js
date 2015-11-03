@@ -40,13 +40,13 @@ function ReadOnlySwitchController(
   // Getter/setter
   this.readOnly = function (newAdvancedMode) {
     if (newAdvancedMode === true) {
-      loading(ROSC.loadingPromisesTarget, true);
       // Store a promise for when we have properly switched to advanced mode
       ROSC.switchModePromise = loadingPromises.finished(ROSC.loadingPromisesTarget)
         .then(function () {
           // If there is not instance, we need to copy this context version and
           // keep a reference to the original CV
           if (!ROSC.state.instance) {
+            loading(ROSC.loadingPromisesTarget, true);
             return updateDockerfileFromState(ROSC.state, true, true)
               .then(function () {
                 // Save changes to the context version
@@ -86,9 +86,10 @@ function ReadOnlySwitchController(
           ROSC.state.advanced = newAdvancedMode;
           return true;
         })
-        .then(function () {
-          loading(ROSC.loadingPromisesTarget, false);
-          return true;
+        .finally(function () {
+          if (!ROSC.state.instance) {
+            loading(ROSC.loadingPromisesTarget, false);
+          }
         });
       return ROSC.switchModePromise;
     }
