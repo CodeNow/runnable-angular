@@ -14,7 +14,7 @@
   //- close button
   svg.btn.btn-sm.iconnables.icons-close.fade(
     ng-class = "{'in': isActivePanel()}"
-    ng-click = "closePopover()"
+    ng-click = "POC.closePopover()"
   )
     use(
       xlink:href = "#icons-close"
@@ -74,7 +74,7 @@
     type = "submit"
   ) {{ repoSelector.data.fromServer ? 'Save' : 'Add Repository' }}
   button.btn.btn-sm.gray.btn-cancel(
-    ng-click = "closePopover()"
+    ng-click = "POC.closePopover()"
     ng-disabled = "state.saving"
     type = "button"
   ) Cancel

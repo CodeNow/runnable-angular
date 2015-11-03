@@ -6,7 +6,7 @@
   )
     .popover-header Add SSH Key
       svg.iconnables.icons-close(
-        ng-click = "closePopover()"
+        ng-click = "POC.closePopover()"
       )
         use(
           xlink:href = "#icons-close"
@@ -44,6 +44,6 @@
         ng-disabled = "sshForm.$invalid"
       ) Add Key
       button.btn.btn-sm.gray.float-left(
-        ng-click = "closePopover()"
+        ng-click = "POC.closePopover()"
         type = "button"
       ) Cancel

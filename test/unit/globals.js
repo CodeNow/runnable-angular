@@ -75,5 +75,20 @@ window.helpers = {
       augmentCb(event);
     }
     el.dispatchEvent(event);
+  },
+  hover: function (el, augmentCb) {
+    var event = document.createEvent('MouseEvent');
+    event.initMouseEvent(
+      'mouseover',
+      true /* bubble */, false /* cancelable */,
+      window, null,
+      0, 0, 0, 0, /* coordinates */
+      false, false, false, false, /* modifier keys */
+      null /*left*/, null
+    );
+    if (augmentCb) {
+      augmentCb(event);
+    }
+    el.dispatchEvent(event);
   }
 };
