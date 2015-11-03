@@ -350,14 +350,11 @@ function SetupServerModalController(
       })
       .then(function () {
         if (SMC.state.advanced && SMC.state.simpleContextVersionCopy) {
-          return $q.when(true)
-            .then(function (build) {
-              return createAndBuildNewContainer($q.all({ // This changes the infracodeversion
-                build: createBuildFromContextVersionId(SMC.state.simpleContextVersionCopy.id()),
-                opts: SMC.state.opts
-              }), SMC.state.opts.name, SMC.state.simpleContextVersionCopy);
-            })
-            .then(instanceSetHandler); // Set instance
+            return createAndBuildNewContainer($q.all({ // This changes the infracodeversion
+              build: createBuildFromContextVersionId(SMC.state.simpleContextVersionCopy.id()),
+              opts: SMC.state.opts
+            }), SMC.state.opts.name, SMC.state.simpleContextVersionCopy)
+              .then(instanceSetHandler); // Set instance
         }
         return true;
       })
