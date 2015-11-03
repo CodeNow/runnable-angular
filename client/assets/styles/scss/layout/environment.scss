@@ -7,9 +7,28 @@
 
 // styles specific to notifications in environment
 .notification.environment-notification {
-  background: radial-gradient($white 0%,rgba($white,0) 90%);
-  margin: 12px 0;
-  min-width: 0;
+  animation: none; // reset default
+  background: radial-gradient($white 0%, rgba($white,0) 90%);
+  right: 6px;
+  top: 18px;
+
+  &.ng-enter {
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+  }
+
+  &.ng-enter-active {
+    opacity: 1;
+  }
+
+  &.ng-leave {
+    opacity: 1;
+    transition: opacity .3s ease-in-out;
+  }
+
+  &.ng-leave-active {
+    opacity: 0;
+  }
 
   // text color
   &.fail {

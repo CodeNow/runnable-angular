@@ -243,6 +243,4 @@ function ServerModalController(
         return true;
       });
   };
-
 }
-
