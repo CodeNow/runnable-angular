@@ -55,7 +55,9 @@ function BuildLogController(
   };
 
   $scope.createStream = function () {
-    $scope.stream = primus.createBuildStream($scope.build);
+    if (keypather.get($scope, 'build.contextVersions.models[0].id()')) {
+      $scope.stream = primus.createBuildStream($scope.build);
+    }
   };
 
   $scope.$on('$destroy', function () {
