@@ -82,7 +82,6 @@ describe('PopOverController'.bold.underline.blue, function() {
 
       it('should open normally', function () {
         injectSetupCompile({});
-        expect(POC.$localStorage, '$localStorage').to.be.ok;
         sinon.stub($templateCache, 'get').returns({});
         POC.openPopover();
         expect($scope.popoverOptions.top, 'popoverOptions.top').to.equal(0);

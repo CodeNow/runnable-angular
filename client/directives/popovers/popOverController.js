@@ -10,12 +10,9 @@ function PopOverController(
   $templateCache,
   $compile,
   $timeout,
-  exists,
-  $localStorage
+  exists
 ) {
   var POC = this;
-  POC.$localStorage = $localStorage;
-
   POC.unbindDocumentClick = angular.noop;
   POC.unbindPopoverOpened = angular.noop;
 
