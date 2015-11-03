@@ -29,6 +29,30 @@
       top: 0;
     }
   }
+
+  .repository-info {
+    padding-left: 21px;
+    position: relative;
+
+    .toggle-wrapper.disabled {
+      cursor: not-allowed;
+      opacity: .5;
+    }
+
+    .toggle-group {
+      display: inline-block;
+      margin-left: 4px;
+      top: 3px;
+    }
+
+    .iconnables {
+      height: 14px;
+      left: 0;
+      position: absolute;
+      top: 5px;
+      width: 14px;
+    }
+  }
 }
 
 .sidebar-section {
