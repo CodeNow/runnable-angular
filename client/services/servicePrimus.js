@@ -46,7 +46,9 @@ RunnablePrimus.prototype.createBuildStreamFromContextVersionId = function (conte
 };
 
 RunnablePrimus.prototype.createBuildStream = function (build) {
-  return this.createBuildStreamFromContextVersionId(build.contextVersions.models[0].id());
+  if (build && build.contextVersions && build.contextVersions.models && build.contextVersions.models[0]) {
+    return this.createBuildStreamFromContextVersionId(build.contextVersions.models[0].id());
+  }
 };
 
 RunnablePrimus.prototype.createTermStreams = function (container, uniqueId) {
