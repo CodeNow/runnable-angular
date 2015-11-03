@@ -33,6 +33,7 @@ function SetupServerModalController(
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
   SMC.helpCards = helpCards;
+  window.SMC = SMC;
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
     'insertHostName': parentController.insertHostName.bind(SMC),
@@ -330,13 +331,13 @@ function SetupServerModalController(
           return SMC.state;
         });
     function instanceSetHandler (instance) {
-        if (instance) {
-          SMC.instance = instance;
-          SMC.state.instance = instance;
-          return instance;
-        }
-        return $q.reject(new Error('Instance not created properly'));
+      if (instance) {
+        SMC.instance = instance;
+        SMC.state.instance = instance;
+        return instance;
       }
+      return $q.reject(new Error('Instance not created properly'));
+    }
 
     // We need to make sure that ports are loaded when the server is created
     if (Array.isArray(SMC.state.ports) && SMC.state.ports.length === 0) {
