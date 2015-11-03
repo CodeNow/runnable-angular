@@ -176,10 +176,12 @@ function ServerModalController(
       SMC.name,
       promisify(contextVersion, 'deepCopy')()
         .then(function (contextVersion) {
+          if (!SMC.state.contextVersion) {
+            loadingPromises.clear(SMC.name);
+          }
           SMC.state.contextVersion = contextVersion;
           SMC.state.acv = contextVersion.getMainAppCodeVersion();
           SMC.state.repo = keypather.get(contextVersion, 'getMainAppCodeVersion().githubRepo');
-          loadingPromises.clear(SMC.name);
           return promisify(contextVersion, 'fetch')();
         })
     );
