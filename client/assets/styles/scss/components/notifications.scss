@@ -1,27 +1,66 @@
 .notification {
-  animation: alert .3s ease-in forwards;
-  border-radius: 6px;
-  bottom: 6px;
-  box-shadow: 0 0 30px rgba($black,.12);
-  max-width: 420px;
-  min-width: 345px;
-  padding: 15px;
   position: fixed;
-  right: 6px;
-  transition: all .15s ease-in;
   z-index: $z-alert;
 
-  &:active {
-    box-shadow: 0 0 30px rgba($black,.12);
+  // sizes
+  &.notification-sm {
+    border-radius: $input-border-radius;
+    height: $input-sm;
+    line-height: $input-sm;
+    padding: 0 15px;
   }
 
-  // active styles for alerts
+  &.notification-md {
+    border-radius: $input-border-radius;
+    height: $input-md;
+    line-height: $input-md;
+    padding: 0 15px;
+  }
+
+  &.notification-lg {
+    border-radius: $input-border-radius-lg;
+    max-width: 420px;
+    min-width: 345px;
+    padding: 15px;
+  }
+
+  // position
+  &.top-left {
+    animation: slide-right .3s ease-in forwards;
+    left: 6px;
+    top: 6px;
+  }
+
+  &.top-right {
+    animation: slide-left .3s ease-in forwards;
+    right: 6px;
+    top: 6px;
+  }
+
+  &.bottom-right {
+    animation: slide-left .3s ease-in forwards;
+    bottom: 6px;
+    right: 6px;
+  }
+
+  &.bottom-left {
+    animation: slide-right .3s ease-in forwards;
+    bottom: 6px;
+    left: 6px;
+  }
+
+  // colors
+  &.green,
   &.orange {
-    background: $orange;
+    box-shadow: 0 0 30px rgba($black,.12);
   }
 
   &.green {
     background: $green;
+  }
+
+  &.orange {
+    background: $orange;
   }
 
   // anchor image

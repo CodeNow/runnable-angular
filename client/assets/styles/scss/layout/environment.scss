@@ -1,161 +1,65 @@
-// environment header
-.environment-header {
+.environment-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
   padding: 15px;
-  position: relative;
+}
 
-  // help button
-  .btn-icon {
+// styles specific to notifications in environment
+.notification.environment-notification {
+  animation: none; // reset default
+  font-size: 15px;
+  font-weight: $weight-normal;
+  right: 6px;
+  top: 18px;
+
+  &.ng-enter {
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+  }
+
+  &.ng-enter-active {
+    opacity: 1;
+  }
+
+  &.ng-leave {
+    opacity: 1;
+    transition: opacity .3s ease-in-out;
+  }
+
+  &.ng-leave-active {
+    opacity: 0;
+  }
+
+  // text color
+  &.gray,
+  &.green,
+  &.red {
+    background: radial-gradient($white 0%, rgba($white,0) 90%);
     border: 0;
-    left: 15px;
-    padding: 0 12px;
-    position: absolute;
-
-    &:active,
-    &.active {
-      color: $blue;
-    }
-
-    .iconnables {
-      height: 100%;
-      width: 100%;
-    }
+    box-shadow: none;
   }
 
-  // new server button
-  .green {
-    display: table;
-    margin: 0 auto;
-    text-align: left;
-
-    &.hint {
-      animation: scale .4s ease;
-    }
-
-    .icons-add {
-      height: 18px;
-      margin: 10px 6px 0 0;
-      width: 18px;
-    }
+  &.gray {
+    color: $gray;
   }
-}
 
-// environment body
-.environment-body {
-  margin: 0 15px;
-}
+  &.green {
+    color: $green;
+  }
 
-// card grid
-// max-width on config cards
-.card-grid {
+  &.red {
+    color: $red;
+  }
 
-  .card {
-    float: left;
-    height: 450px;
-    margin-bottom: 15px;
-    min-width: 0;
+  .iconnables {
+    color: currentColor;
+    margin-top: 6px;
+  }
 
-    + .card {
-      margin-left: 15px;
-    }
-
-    // center if only child
-    &:only-child {
-      float: none;
-      margin: 0 auto;
-    }
-
-    @include media(xxl) {
-      width: calc(20% - 12px);
-
-      // on the 6th card + 5 thereafter
-      &:nth-child(5n+6) {
-        margin-left: 0;
-      }
-    }
-
-    @include media(xl) {
-      width: calc(25% - 12px);
-
-      // on the 6th card + 5 thereafter
-      &:nth-child(5n+6) {
-        margin-left: 15px;
-      }
-
-      // on the 5th card + 4 thereafter
-      &:nth-child(4n+5) {
-        margin-left: 0;
-      }
-    }
-
-    @include media(lg) {
-      width: calc(33.333% - 10px);
-
-      // on the 6th card + 5 thereafter
-      &:nth-child(5n+6) {
-        margin-left: 15px;
-      }
-
-      // on the 5th card + 4 thereafter
-      &:nth-child(4n+5) {
-        margin-left: 15px;
-      }
-
-      // on the 4th card + 3 thereafter
-      &:nth-child(3n+4) {
-        margin-left: 0;
-      }
-    }
-
-    @include media(md) {
-      width: calc(50% - 8px);
-
-      // on the 6th card + 5 thereafter
-      &:nth-child(5n+6) {
-        margin-left: 15px;
-      }
-
-      // on the 5th card + 4 thereafter
-      &:nth-child(4n+5) {
-        margin-left: 15px;
-      }
-
-      // on the 4th card + 3 thereafter
-      &:nth-child(3n+4) {
-        margin-left: 15px; // override media(xl)
-      }
-
-      // no the 3rd card + 2 thereafter
-      &:nth-child(2n+3) {
-        margin-left: 0;
-      }
-    }
-
-    @include media(xs) {
-      width: 100%;
-
-      // on the 6th card + 5 thereafter
-      &:nth-child(5n+6) {
-        margin-left: 15px;
-      }
-
-      // on the 5th card + 4 thereafter
-      &:nth-child(4n+5) {
-        margin-left: 15px;
-      }
-
-      // on the 4th card + 3 thereafter
-      &:nth-child(3n+4) {
-        margin-left: 15px; // override media(xl)
-      }
-
-      // no the 3rd card + 2 thereafter
-      &:nth-child(2n+3) {
-        margin-left: 0;
-      }
-
-      + .card {
-        margin-left: 0;
-      }
-    }
+  // undo
+  .link {
+    color: $gray-dark;
+    margin-left: 6px;
   }
 }
