@@ -344,10 +344,7 @@ function SetupServerModalController(
       SMC.state.ports = loadPorts();
     }
 
-    return $q.when(true)
-      .then(function () {
-        return SMC.openItems.updateAllFiles();
-      })
+    return SMC.openItems.updateAllFiles()
       .then(function () {
         if (SMC.state.advanced && SMC.state.simpleContextVersionCopy) {
             return createAndBuildNewContainer($q.all({ // This changes the infracodeversion
