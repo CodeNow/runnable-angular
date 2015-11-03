@@ -1,16 +1,4 @@
 // key frames
-@keyframes alert {
-  0% {
-    opacity: 0;
-    transform: translate3d(50%,0,0);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translate3d(0,0,0);
-  }
-}
-
 @keyframes check {
 
   0% {
@@ -183,6 +171,30 @@
   100% {
     opacity: 1;
     transform: scale3d(1,1,1);
+  }
+}
+
+@keyframes slide-right {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50%,0,0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0,0,0);
+  }
+}
+
+@keyframes slide-left {
+  0% {
+    opacity: 0;
+    transform: translate3d(50%,0,0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0,0,0);
   }
 }
 

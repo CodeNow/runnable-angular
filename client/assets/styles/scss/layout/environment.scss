@@ -4,3 +4,15 @@
   min-height: 100%;
   padding: 15px;
 }
+
+// styles specific to notifications in environment
+.environment-notification {
+  color: $gray;
+  margin: 9px; // 6px + 9px = 15px to align
+  min-width: 0;
+
+  .icons-check {
+    color: $green;
+    margin-top: 9px;
+  }
+}

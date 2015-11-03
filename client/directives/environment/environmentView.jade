@@ -1,6 +1,26 @@
-//- alerts
+//- new alerts
+  ng-if = "$root.featureFlags.inviteFlows && alert"
+.notification.notification-sm.top-right.environment-notification(
+  ng-if = "alert.type === 'success'"
+)
+  svg.iconnables.icons-check.float-left(
+  )
+    use(
+      xlink:href = "#icons-check"
+    )
+  span(
+    ng-if = "alert.text === 'Your new container is building.'"
+  ) Created
+  span(
+    ng-if = "\
+      alert.text === 'Container updated successfully.'\
+    "
+  ) Saved
+
+//- old alerts
 .help-container.fixed.bottom(
   ng-class = "{'deprecated': !$root.featureFlags.newNavigation}"
+  ng-if = "!$root.featureFlags.inviteFlows"
 )
   .help(
     ng-if = "alert"
@@ -13,6 +33,7 @@
       )
     | {{alert.text}}
 
+//- environment page
 .environment-wrapper
   header.environment-header.clearfix(
     ng-include = "'viewEnvironmentHeader'"
