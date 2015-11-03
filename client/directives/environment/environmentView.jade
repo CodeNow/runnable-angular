@@ -1,24 +1,26 @@
 //- new alerts
-.notification.notification-sm.environment-notification.js-animate(
+.notification.notification-sm.environment-notification.js-animate.gray(
   ng-class = "{\
-    'fail': alert.type === 'fail',\
-    'success': alert.type === 'success'\
+    'green': alert.type === 'success',\
+    'gray': alert.type === 'deleted'\
   }"
   ng-if = "$root.featureFlags.inviteFlows && alert"
 )
-  svg.iconnables.icons-check.float-left(
-    ng-if = "alert.type === 'success'"
-  )
+  svg.iconnables.icons-check.float-left
     use(
       xlink:href = "#icons-check"
     )
   //- omg
   span(
     ng-if = "alert.text === 'Your new container is building.'"
-  ) Created
+  ) Container Created
   span(
     ng-if = "alert.text === 'Container updated successfully.'"
-  ) Saved
+  ) Changes Saved
+  span(
+    ng-if = "deleted"
+  ) Container Deleted
+    a.link Undo
 
 //- old alerts
 .help-container.fixed.bottom(

@@ -8,7 +8,8 @@
 // styles specific to notifications in environment
 .notification.environment-notification {
   animation: none; // reset default
-  background: radial-gradient($white 0%, rgba($white,0) 90%);
+  font-size: 15px;
+  font-weight: $weight-normal;
   right: 6px;
   top: 18px;
 
@@ -31,16 +32,34 @@
   }
 
   // text color
-  &.fail {
-    color: $red;
+  &.gray,
+  &.green,
+  &.red {
+    background: radial-gradient($white 0%, rgba($white,0) 90%);
+    border: 0;
+    box-shadow: none;
   }
 
-  &.success {
+  &.gray {
+    color: $gray;
+  }
+
+  &.green {
     color: $green;
+  }
+
+  &.red {
+    color: $red;
   }
 
   .iconnables {
     color: currentColor;
     margin-top: 6px;
+  }
+
+  // undo
+  .link {
+    color: $gray-dark;
+    margin-left: 6px;
   }
 }
