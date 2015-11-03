@@ -46,8 +46,10 @@
 @import "layout/instance-body";
 
 // environment layout
+@import "layout/environment";
 @import "layout/environment-header";
 @import "layout/environment-body";
+@import "layout/environment-footer";
 
 // buttons
 @import "components/buttons/buttons";
