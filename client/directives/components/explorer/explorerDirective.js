@@ -43,7 +43,7 @@ function explorer() {
 
       function initRootDirState (rootDir) {
         rootDir.state = rootDir.state || {};
-        rootDir.state.open = true;
+        rootDir.state.open = Date.now();
       }
     }
   };
