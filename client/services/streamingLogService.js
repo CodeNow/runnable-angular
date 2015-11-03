@@ -1,7 +1,9 @@
 'use strict';
 
 var Convert = require('ansi-to-html');
-var convert = new Convert();
+var convert = new Convert({
+  escapeXML: true
+});
 
 require('app').factory('streamingLog', streamingLog);
 
@@ -37,7 +39,10 @@ function streamingLog(
             imageId: data.imageId,
             expanded: false,
             time: new Date(data.timestamp || new Date()),
-            converter: new Convert({ stream: true }),
+            converter: new Convert({
+              stream: true,
+              escapeXML: true
+            }),
             trustedContent: $sce.trustAsHtml(''),
             hasContent: false,
             getProcessedHtml: function () {
