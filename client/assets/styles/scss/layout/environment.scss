@@ -6,13 +6,22 @@
 }
 
 // styles specific to notifications in environment
-.environment-notification {
-  color: $gray;
-  margin: 9px; // 6px + 9px = 15px to align
+.notification.environment-notification {
+  background: radial-gradient($white 0%,rgba($white,0) 90%);
+  margin: 12px 0;
   min-width: 0;
 
-  .icons-check {
+  // text color
+  &.fail {
+    color: $red;
+  }
+
+  &.success {
     color: $green;
-    margin-top: 9px;
+  }
+
+  .iconnables {
+    color: currentColor;
+    margin-top: 6px;
   }
 }

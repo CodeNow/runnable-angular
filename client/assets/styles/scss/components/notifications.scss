@@ -5,6 +5,13 @@
   // sizes
   &.notification-sm {
     border-radius: $input-border-radius;
+    height: $input-sm;
+    line-height: $input-sm;
+    padding: 0 15px;
+  }
+
+  &.notification-md {
+    border-radius: $input-border-radius;
     height: $input-md;
     line-height: $input-md;
     padding: 0 15px;
