@@ -10,16 +10,23 @@ function DNSConfigurationController(
   getInstanceMaster,
   keypather,
   $scope,
-  debounce
+  debounce,
+  $timeout
 ) {
   var DCC = this;
   DCC.instanceDependencyMap = {};
 
   var refreshDependencies = debounce(function () {
-    loading('dns', true);
-    DCC.filteredDependencies = [];
+    // Delay showing loading state for 1 second. To allow DNS mappings to fetch.
+    // If they don't fetch in 1 second we can show a loading state.
+    var timeout = $timeout(function () {
+      DCC.filteredDependencies = [];
+      loading('dns', true);
+    }, 1000);
+
     promisify(DCC.instance, 'fetchDependencies')()
       .then(function (dependencies) {
+        $timeout.cancel(timeout);
         DCC.filteredDependencies = dependencies.models.filter(function (dep) {
           return !dep.instance.destroyed && keypather.get(dep.instance, 'contextVersion.getMainAppCodeVersion()');
         });
@@ -30,7 +37,7 @@ function DNSConfigurationController(
       })
       .catch(errs.handler)
       .finally(function () {
-        loading('dns', false);
+        loading.reset('dns');
       });
     $scope.$applyAsync();
   }, 500, true);
@@ -43,6 +50,8 @@ function DNSConfigurationController(
   }
 
   // Fetch dependencies
+  // Loading state immediately
+  loading('dns', true);
   refreshDependencies();
   DCC.instance.on('update', refreshDependencies);
   $scope.$on('$destroy', function () {
