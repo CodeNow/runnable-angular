@@ -1,6 +1,5 @@
 // key frames
 @keyframes check {
-
   0% {
     transform: scale3d(.75,.75,1);
   }
@@ -23,7 +22,6 @@
 }
 
 @keyframes check-in {
-
   0% {
     transform: scale3d(.75,.75,1);
   }
@@ -174,10 +172,10 @@
   }
 }
 
-@keyframes slide-right {
+@keyframes slide-left {
   0% {
     opacity: 0;
-    transform: translate3d(-50%,0,0);
+    transform: translate3d(50%,0,0);
   }
 
   100% {
@@ -186,10 +184,10 @@
   }
 }
 
-@keyframes slide-left {
+@keyframes slide-right {
   0% {
     opacity: 0;
-    transform: translate3d(50%,0,0);
+    transform: translate3d(-50%,0,0);
   }
 
   100% {
