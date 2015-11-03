@@ -1,20 +1,23 @@
 //- new alerts
-  ng-if = "$root.featureFlags.inviteFlows && alert"
 .notification.notification-sm.top-right.environment-notification(
-  ng-if = "alert.type === 'success'"
+  ng-class = "{\
+    'fail': alert.type === 'fail',\
+    'success': alert.type === 'success'\
+  }"
+  ng-if = "$root.featureFlags.inviteFlows && alert"
 )
   svg.iconnables.icons-check.float-left(
+    ng-if = "alert.type === 'success'"
   )
     use(
       xlink:href = "#icons-check"
     )
+  //- omg
   span(
     ng-if = "alert.text === 'Your new container is building.'"
   ) Created
   span(
-    ng-if = "\
-      alert.text === 'Container updated successfully.'\
-    "
+    ng-if = "alert.text === 'Container updated successfully.'"
   ) Saved
 
 //- old alerts
