@@ -9,7 +9,7 @@ function logHttpTid(
   keypather
 ) {
   function logResponse(response) {
-    if ($window.trackJs && (keypather(response, 'config.url') || '').indexOf(configAPIHost) === 0) {
+    if ($window.trackJs && (keypather.get(response, 'config.url') || '').indexOf(configAPIHost) === 0) {
       $window.trackJs.console.info(keypather.get(response, 'config.method') +
         ' ' +
         keypather.get(response, 'config.url') +
