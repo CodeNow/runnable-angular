@@ -47,9 +47,12 @@ function ReadOnlySwitchController(
           // If there is not instance, we need to copy this context version and
           // keep a reference to the original CV
           if (!ROSC.state.instance) {
-            // Save changes to the context version
-            ROSC.state.simpleContextVersionCopy = ROSC.state.contextVersion;
-            $scope.$emit('resetStateContextVersion', ROSC.state.contextVersion, true);
+            return updateDockerfileFromState(ROSC.state, true, true)
+              .then(function () {
+                // Save changes to the context version
+                ROSC.state.simpleContextVersionCopy = ROSC.state.contextVersion;
+                $scope.$emit('resetStateContextVersion', ROSC.state.contextVersion, true);
+              });
           }
         })
         .then(function () {
