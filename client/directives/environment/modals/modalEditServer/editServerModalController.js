@@ -30,6 +30,7 @@ function EditServerModalController(
   loading,
   OpenItems,
   ModalService,
+  loadingPromises,
   helpCards,
   tab,
   instance,
@@ -206,6 +207,7 @@ function EditServerModalController(
     SMC.state.isBuilding = true;
     return SMC.saveInstanceAndRefreshCards()
       .then(function () {
+        loadingPromises.clear(SMC.name);
         return close();
       })
       .catch(function (err) {

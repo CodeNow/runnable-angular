@@ -275,6 +275,10 @@ function SetupServerModalController(
       .then(function () {
         return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
       })
+      .then(function (contextVersion) {
+        loadingPromises.clear(SMC.name);
+        return contextVersion;
+      })
       .catch(errs.handler)
       .finally(function () {
         loading(SMC.name, false);
@@ -362,6 +366,10 @@ function SetupServerModalController(
       })
       .then(function () {
         return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
+      })
+      .then(function (contextVersion) {
+        loadingPromises.clear(SMC.name);
+        return contextVersion;
       })
       .catch(function (err) {
         // If creating the server fails, reset the context version
@@ -457,7 +465,8 @@ function SetupServerModalController(
     SMC.state.isBuilding = true; // `state.isBuilding` is used for adding spinner to 'Start Build' button
     return SMC.saveInstanceAndRefreshCards()
       .then(function () {
-         return close();
+        loadingPromises.clear(SMC.name);
+        return close();
       })
       .catch(function (err) {
         errs.handler(err);
