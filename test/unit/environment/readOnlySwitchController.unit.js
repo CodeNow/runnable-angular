@@ -126,7 +126,7 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
 
   describe('readOnly'.blue, function () {
 
-    describe.only('With Instance', function () {
+    describe('With Instance', function () {
 
       beforeEach(function () {
         readOnlySwitchController.state = {
