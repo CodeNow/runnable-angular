@@ -126,7 +126,6 @@ function ReadOnlySwitchController(
                       .then(function () {
                         ROSC.state.advanced = false;
                         $scope.$emit('resetStateContextVersion', ROSC.state.simpleContextVersionCopy, true);
-                        loading(ROSC.loadingPromisesTarget, false);
                         return false;
                       });
                   }
