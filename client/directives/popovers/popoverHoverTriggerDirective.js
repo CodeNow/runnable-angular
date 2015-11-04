@@ -79,8 +79,8 @@ function popOverHoverTrigger(
           return [
             elementRect.bottomLeft,
             elementRect.topLeft,
-            addTolerance(popoverRect.bottomLeft, [tolerance, -tolerance]),
-            addTolerance(popoverRect.topLeft, [tolerance, tolerance])
+            addTolerance(popoverRect.topLeft, [tolerance, -tolerance]),
+            addTolerance(popoverRect.bottomLeft, [tolerance, tolerance])
           ];
         }
       };
@@ -107,11 +107,16 @@ function popOverHoverTrigger(
         console.log('element mouseleave');
         element.off('mouseleave', onElementMouseLeave);
         $document.on('mousemove', checkAngleOnMouseMove);
+        POC.popoverElement.on('mouseenter', function () {
+          // When the user enters the popover, we should stop listening for the mouse movements
+          $document.off('mousemove', checkAngleOnMouseMove);
+        });
       }
 
       function cleanUp() {
         if (POC.popoverElement) {
-          POC.popoverElement.off('mouseleave', cleanUp);
+          POC.popoverElement.off('mouseleave');
+          POC.popoverElement.off('mouseenter');
         }
         POC.closePopover();
         $document.off('mousemove', checkAngleOnMouseMove);
