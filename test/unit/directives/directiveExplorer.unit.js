@@ -58,7 +58,7 @@ describe('directiveExplorer'.bold.underline.blue, function () {
     expect($elScope.filePopover.data.show).to.be.false;
     $scope.$digest();
 
-    expect($elScope.rootDir.state.open).to.be.ok;
+    expect($elScope.rootDir.state.open).to.be.true;
 
   });
 });
