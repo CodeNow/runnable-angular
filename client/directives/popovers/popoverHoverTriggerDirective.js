@@ -19,31 +19,69 @@ function popOverHoverTrigger(
       var boundaryValues = null;
 
       $scope.getPolygon = function () {
-        var boundingRect = POC.popoverElement[0].getBoundingClientRect();
+        var popoverClientRect = POC.popoverElement[0].getBoundingClientRect();
+        var elementClientRect = element[0].getBoundingClientRect();
 
+        /**
+         * Adds tolerances to values in the array.  To subtract, send a negative value
+         * @param sourceArray
+         * @param valuesToAddArray
+         * @returns {*}
+         */
+        function addTolerance(sourceArray, valuesToAddArray) {
+          if (sourceArray.length !== valuesToAddArray.length) {
+            throw new Error('AddTolerance inputs should be the same length');
+          }
+          return sourceArray.map(function (preToleranceValue, index) {
+            return preToleranceValue + valuesToAddArray[index];
+          });
+        }
+        // Tolerance is used to adjust how accurate the hovering needs to be.
         var tolerance = attrs.popOverHoverTolerance || 10;
-        var mousePositionVerticalTolerance = [
-          [initialMouseEvent.pageX, initialMouseEvent.pageY + tolerance],
-          [initialMouseEvent.pageX, initialMouseEvent.pageY - tolerance]
-        ];
-        var mousePositionHorizontalTolerance = [
-          [initialMouseEvent.pageX - tolerance, initialMouseEvent.pageY],
-          [initialMouseEvent.pageX + tolerance, initialMouseEvent.pageY]
-        ];
 
-        var topLeft = [boundingRect.left - tolerance, boundingRect.top - tolerance];
-        var topRight = [boundingRect.right + tolerance, boundingRect.top - tolerance];
-        var bottomLeft = [boundingRect.left - tolerance, boundingRect.bottom + tolerance];
-        var bottomRight = [boundingRect.right + tolerance, boundingRect.bottom + tolerance];
+        // We add/subtract tolerance to
+        var popoverRect = {
+          topLeft : [popoverClientRect.left, popoverClientRect.top],
+          topRight: [popoverClientRect.right, popoverClientRect.top],
+          bottomLeft : [popoverClientRect.left, popoverClientRect.bottom],
+          bottomRight: [popoverClientRect.right, popoverClientRect.bottom]
+        };
+        var elementRect = {
+          topLeft : [elementClientRect.left, elementClientRect.top],
+          topRight: [elementClientRect.right, elementClientRect.top],
+          bottomLeft : [elementClientRect.left, elementClientRect.bottom],
+          bottomRight: [elementClientRect.right, elementClientRect.bottom]
+        };
+
 
         if (POC.popoverElement.hasClass('bottom')) {
-          return mousePositionHorizontalTolerance.concat([topLeft, topRight]);
+          return [
+            elementRect.topLeft,
+            elementRect.topRight,
+            addTolerance(popoverRect.topLeft, [-tolerance, tolerance]),
+            addTolerance(popoverRect.topRight, [tolerance, tolerance])
+          ];
         } else if (POC.popoverElement.hasClass('top')) {
-          return mousePositionHorizontalTolerance.concat([bottomLeft, bottomRight]);
+          return [
+            elementRect.bottomLeft,
+            elementRect.bottomRight,
+            addTolerance(popoverRect.bottomLeft, [-tolerance, -tolerance]),
+            addTolerance(popoverRect.bottomRight, [tolerance, -tolerance])
+          ];
         } else if (POC.popoverElement.hasClass('left')) {
-          return mousePositionVerticalTolerance.concat([topRight, bottomRight]);
+          return [
+            elementRect.topRight,
+            elementRect.bottomRight,
+            addTolerance(popoverRect.topRight, [-tolerance, -tolerance]),
+            addTolerance(popoverRect.bottomRight, [-tolerance, tolerance])
+          ];
         } else if (POC.popoverElement.hasClass('right')) {
-          return mousePositionVerticalTolerance.concat([bottomLeft, topLeft]);
+          return [
+            elementRect.bottomLeft,
+            elementRect.topLeft,
+            addTolerance(popoverRect.bottomLeft, [tolerance, -tolerance]),
+            addTolerance(popoverRect.topLeft, [tolerance, tolerance])
+          ];
         }
       };
 
