@@ -33,7 +33,6 @@ function SetupServerModalController(
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
   SMC.helpCards = helpCards;
-  window.SMC = SMC;
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
     'insertHostName': parentController.insertHostName.bind(SMC),
