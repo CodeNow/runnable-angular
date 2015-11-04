@@ -72,6 +72,7 @@ function ReadOnlySwitchController(
                     advanced: newAdvancedMode
                   })
                   .then(function () {
+                    return promisify(contextVersion, 'fetch')();
                   }));
               })
               .catch(function (err) {
@@ -120,22 +121,18 @@ function ReadOnlySwitchController(
                 return modal.close;
               })
               .then(function (confirmed) {
-                if (!ROSC.state.instance) {
-                  if (confirmed) {
+                if (confirmed) {
+                  if (!ROSC.state.instance) {
                     return $q.when(ROSC.switchModePromise)
                       .then(function () {
-                        ROSC.state.advanced = false;
                         $scope.$emit('resetStateContextVersion', ROSC.state.simpleContextVersionCopy, true);
                         return false;
                       });
                   }
-                  return true;
-                }
-                if (confirmed) {
                   return performRollback(contextVersion);
                 } else {
                   ROSC.state.advanced = true;
-                  return false;
+                  return ROSC.state.advanced;
                 }
               });
             });
