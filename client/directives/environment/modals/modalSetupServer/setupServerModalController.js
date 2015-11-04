@@ -137,13 +137,13 @@ function SetupServerModalController(
     $event.stopPropagation();
     loading.reset(SMC.name);
     if (showSpinner) {
-      SMC.state.isBuilding = true;
+      loading(SMC.name + 'IsBuilding', true);
     }
     SMC.resetStateContextVersion(contextVersion, showSpinner)
       .catch(errs.handler)
       .finally(function () {
         if (showSpinner) {
-          SMC.state.isBuilding = false;
+          loading(SMC.name + 'IsBuilding', false);
         }
       });
   });
@@ -461,7 +461,7 @@ function SetupServerModalController(
   };
 
   SMC.getUpdatePromise = function () {
-    SMC.state.isBuilding = true; // `state.isBuilding` is used for adding spinner to 'Start Build' button
+    loading(SMC.name + 'IsBuilding', true); // `state.IsBuilding` is used for adding spinner to 'Start Build' button
     return SMC.saveInstanceAndRefreshCards()
       .then(function () {
         loadingPromises.clear(SMC.name);
@@ -472,7 +472,7 @@ function SetupServerModalController(
         return SMC.resetStateContextVersion(SMC.state.contextVersion, false);
       })
       .finally(function () {
-        SMC.state.isBuilding = false;
+        loading(SMC.name + 'IsBuilding', false);
       });
   };
 

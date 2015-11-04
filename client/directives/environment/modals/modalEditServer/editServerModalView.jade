@@ -5,7 +5,7 @@
     name = "editServerForm"
     ng-class = "{\
       'ace-active': (SMC.selectedTab === 'buildfiles' || SMC.selectedTab === 'env'),\
-      'disabled': SMC.state.isBuilding || $root.isLoading.editServerModal,\
+      'disabled': $root.isLoading.editServerModalIsBuilding || $root.isLoading.editServerModal,\
       'xl': (SMC.selectedTab === 'buildfiles' || SMC.selectedTab === 'env' || SMC.selectedTab === 'logs')\
     }"
   )
@@ -168,25 +168,25 @@
     footer.modal-footer.clearfix
       //- disabled if no changes
       button.btn.green.btn-spinner(
-        ng-class = "{'in': SMC.state.isBuilding }"
+        ng-class = "{'in': $root.isLoading.editServerModalIsBuilding }"
         ng-click = "editServerForm.$invalid || SMC.getUpdatePromise()"
         ng-disabled = "(!SMC.state.advanced && (SMC.state.selectedStack | selectedStackInvalid)) || !SMC.isDockerfileValid()"
         type = "submit"
       )
         //- spinner
         .spinner-wrapper.spinner-sm.spinner-white.in(
-          ng-if = "SMC.state.isBuilding"
+          ng-if = "$root.isLoading.editServerModalIsBuilding"
           ng-include = "'spinner'"
         )
         //- if built…text should only say "Save"
         span.btn-text(
-          ng-if = "!SMC.state.isBuilding"
+          ng-if = "!$root.isLoading.editServerModalIsBuilding"
         ) {{ (SMC.validation.env.length) ? (SMC.validation.env.length) + ' env errors' : 'Save & Rebuild'}}
         span.btn-text(
-          ng-if = "SMC.state.isBuilding"
+          ng-if = "$root.isLoading.editServerModalIsBuilding"
         ) Saving
        button.btn.white.btn-cancel(
-          ng-disabled = "SMC.state.isBuilding"
+          ng-disabled = "$root.isLoading.editServerModalIsBuilding"
           pop-over
           pop-over-template = "closeConfigureModalPopoverView"
           pop-over-trigger = "activeAttr"
