@@ -67,9 +67,6 @@ function ReadOnlySwitchController(
             return ROSC.state.promises.contextVersion
               .then(function (contextVersion) {
                 ROSC.state.advanced = newAdvancedMode;
-                if (ROSC.state.simpleContextVersionCopy) {
-                  keypather.set(ROSC, 'state.simpleContextVersionCopy.attrs.advanced', false);
-                }
                 return loadingPromises.add(ROSC.loadingPromisesTarget,
                   promisify(contextVersion, 'update')({
                     advanced: newAdvancedMode
@@ -128,7 +125,6 @@ function ReadOnlySwitchController(
                     return $q.when(ROSC.switchModePromise)
                       .then(function () {
                         ROSC.state.advanced = false;
-                        keypather.set(ROSC, 'state.simpleContextVersionCopy.attrs.advanced', false);
                         $scope.$emit('resetStateContextVersion', ROSC.state.simpleContextVersionCopy, true);
                         loading(ROSC.loadingPromisesTarget, false);
                         return false;
