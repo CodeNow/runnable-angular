@@ -185,33 +185,30 @@ function ServerModalController(
           return promisify(contextVersion, 'fetch')();
         })
     );
-    // Only parse the Dockerfile info when no error has occurred
-    if (shouldParseDockerfile  && !SMC.state.advanced) {
-      SMC.state.promises.contextVersion
-        .then(function (contextVersion) {
-          // This function updates/changes the contents of `startCommand`, `ports`, etc.
-          // Fetch Dockerfile and update `state` with it
+
+    return SMC.state.promises.contextVersion
+      .then(function (contextVersion) {
+        // Only parse the Dockerfile info when no error has occurred
+        if (shouldParseDockerfile  && !SMC.state.advanced) {
           return parseDockerfileForCardInfoFromInstance(SMC.instance, contextVersion)
             .then(function (data) {
               angular.extend(SMC, data);
-              return SMC.populateStateFromData(data, contextVersion);
+              SMC.populateStateFromData(data, contextVersion);
+              return contextVersion;
             });
-        });
-    }
-
-    return SMC.state.promises.contextVersion
+        }
+        return contextVersion;
+      })
       .then(function () {
         return SMC.openDockerfile(SMC.state, SMC.openItems);
       })
       .then(function () {
-        return SMC.openItems.removeAndReopen(SMC.state.contextVersion);
-      })
-      .then(function () {
+        SMC.openItems.removeAndReopen(SMC.state.contextVersion);
         return createBuildFromContextVersionId(SMC.state.contextVersion.id());
       })
       .then(function (build) {
         SMC.state.build = build;
-        return SMC;
+        return SMC.state.contextVersion;
       });
   };
 
