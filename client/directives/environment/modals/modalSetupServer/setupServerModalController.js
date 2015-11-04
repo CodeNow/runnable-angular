@@ -457,7 +457,7 @@ function SetupServerModalController(
   };
 
   SMC.getUpdatePromise = function () {
-    SMC.isBuilding = true; // `isBuilding` is used for adding spinner to 'Start Build' button
+    SMC.state.isBuilding = true; // `state.isBuilding` is used for adding spinner to 'Start Build' button
     return SMC.saveInstanceAndRefreshCards()
       .then(function () {
          return close();
@@ -467,7 +467,7 @@ function SetupServerModalController(
         return SMC.resetStateContextVersion(SMC.state.contextVersion, false);
       })
       .finally(function () {
-        SMC.isBuilding = false;
+        SMC.state.isBuilding = false;
       });
   };
 
