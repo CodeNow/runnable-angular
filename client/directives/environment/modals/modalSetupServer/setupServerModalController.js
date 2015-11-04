@@ -137,13 +137,13 @@ function SetupServerModalController(
     $event.stopPropagation();
     loading.reset(SMC.name);
     if (showSpinner) {
-      loading(SMC.name + 'IsBuilding', true);
+      loading(SMC.name, true);
     }
     SMC.resetStateContextVersion(contextVersion, showSpinner)
       .catch(errs.handler)
       .finally(function () {
         if (showSpinner) {
-          loading(SMC.name + 'IsBuilding', false);
+          loading(SMC.name, false);
         }
       });
   });
