@@ -194,6 +194,7 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
         };
         $scope.$emit = sinon.spy(function (eventName, contextVersion) {
           readOnlySwitchController.state.contextVersion = ctx.thirdContextVersion;
+          readOnlySwitchController.state.advanced = !readOnlySwitchController.state.advanced;
         });
       });
 
