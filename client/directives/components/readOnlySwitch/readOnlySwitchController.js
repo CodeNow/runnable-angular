@@ -46,7 +46,7 @@ function ReadOnlySwitchController(
           // If there is not instance, we need to copy this context version and
           // keep a reference to the original CV
           if (!ROSC.state.instance) {
-            loading(ROSC.loadingPromisesTarget, true);
+            ROSC.state.isBuilding = true;
             return updateDockerfileFromState(ROSC.state, true, true)
               .then(function () {
                 // Save changes to the context version
@@ -75,7 +75,6 @@ function ReadOnlySwitchController(
                     advanced: newAdvancedMode
                   })
                   .then(function () {
-                    return promisify(contextVersion, 'fetch')();
                   }));
               })
               .catch(function (err) {
@@ -88,7 +87,7 @@ function ReadOnlySwitchController(
         })
         .finally(function () {
           if (!ROSC.state.instance) {
-            loading(ROSC.loadingPromisesTarget, false);
+            ROSC.state.isBuilding = false;
           }
         });
       return ROSC.switchModePromise;

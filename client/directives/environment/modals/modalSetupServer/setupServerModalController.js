@@ -138,13 +138,13 @@ function SetupServerModalController(
     $event.stopPropagation();
     loading.reset(SMC.name);
     if (showSpinner) {
-      loading(SMC.name, true);
+      SMC.state.isBuilding = true;
     }
     SMC.resetStateContextVersion(contextVersion, showSpinner)
       .catch(errs.handler)
       .finally(function () {
         if (showSpinner) {
-          loading(SMC.name, false);
+          SMC.state.isBuilding = false;
         }
       });
   });
@@ -274,9 +274,6 @@ function SetupServerModalController(
     return SMC.rebuildAndOrRedeploy(noCache)
       .then(function () {
         return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
-      })
-      .then(function (whatIsThis) {
-        return SMC;
       })
       .catch(errs.handler)
       .finally(function () {
