@@ -66,6 +66,12 @@ function ReadOnlySwitchController(
           if (ROSC.state.promises) {
             return ROSC.state.promises.contextVersion
               .then(function (contextVersion) {
+                if (!ROSC.state.instance && (ROSC.state.simpleContextVersionCopy.id() === contextVersion.id)) {
+                  return $q.reject(new Error(
+                    'simpleContextVersionCopy was not properly copied.' +
+                    'ContextVersion ID and simpleContextVersionCopy ID are the same.'
+                  ));
+                }
                 ROSC.state.advanced = newAdvancedMode;
                 return loadingPromises.add(ROSC.loadingPromisesTarget,
                   promisify(contextVersion, 'update')({
