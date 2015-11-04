@@ -1,108 +1,66 @@
 'use strict';
 require('app').directive('popOverHoverTrigger', popOverHoverTrigger);
 
-
 /**
- * popOverHoverTrigger
+ *
  * @param $document
+ * @param pointInPolygon
  * @returns {{restrict: string, require: string, link: Function}}
  */
 function popOverHoverTrigger(
-  $document
+  $document,
+  pointInPolygon
 ) {
   return {
     restrict: 'A',
     require: '^popOver',
     link: function ($scope, element, attrs, POC) {
       var initialMouseEvent = null;
-      var popoverAngle1 = null;
-      var popoverAngle2 = null;
+      var boundaryValues = null;
 
-      function getAngleOfMovement(firstPoint, secondPoint) {
-        return Math.tan((firstPoint.pageY - secondPoint.pageY) / (firstPoint.pageX - secondPoint.pageX));
-      }
-
-      function getCenterPoint(start, finish) {
-        return start + (finish - start);
-      }
-
-      /**
-       *  slopeInvert: Standard slope is y/x, so when we use the y coordinate instead of the x,
-       *  we need to flip it
-       * @returns {{boundary: *, slope}}
-       */
-      function getBoundaryValues() {
+      $scope.getPolygon = function () {
         var boundingRect = POC.popoverElement[0].getBoundingClientRect();
+
+        var tolerance = attrs.popOverHoverTolerance || 10;
+        var mousePositionVerticalTolerance = [
+          [initialMouseEvent.pageX, initialMouseEvent.pageY + tolerance],
+          [initialMouseEvent.pageX, initialMouseEvent.pageY - tolerance]
+        ];
+        var mousePositionHorizontalTolerance = [
+          [initialMouseEvent.pageX - tolerance, initialMouseEvent.pageY],
+          [initialMouseEvent.pageX + tolerance, initialMouseEvent.pageY]
+        ];
+
+        var topLeft = [boundingRect.left - tolerance, boundingRect.top - tolerance];
+        var topRight = [boundingRect.right + tolerance, boundingRect.top - tolerance];
+        var bottomLeft = [boundingRect.left - tolerance, boundingRect.bottom + tolerance];
+        var bottomRight = [boundingRect.right + tolerance, boundingRect.bottom + tolerance];
+
         if (POC.popoverElement.hasClass('bottom')) {
-          return {
-            boundary: getCenterPoint(boundingRect.top, boundingRect.bottom),
-            slopeInvert: true
-          };
-        }
-      }
-      function getValues() {
-        if (!POC.popoverElement) {
-          return;
-        }
-        var boundingRect = POC.popoverElement[0].getBoundingClientRect();
-        if (POC.popoverElement.hasClass('bottom')) {
-          return [{pageX: boundingRect.left, pageY: boundingRect.top}, {
-            pageX: boundingRect.right,
-            pageY: boundingRect.top
-          }];
+          return mousePositionHorizontalTolerance.concat([topLeft, topRight]);
         } else if (POC.popoverElement.hasClass('top')) {
-          return [{pageX: boundingRect.left, pageY: boundingRect.bottom}, {
-            pageX: boundingRect.right,
-            pageY: boundingRect.bottom
-          }];
-        }
-      }
-
-      function getPointsFromPopover() {
-        if (!POC.popoverElement) {
-          return;
-        }
-        var boundingRect = POC.popoverElement[0].getBoundingClientRect();
-        if (POC.popoverElement.hasClass('bottom')) {
-          return [{pageX: boundingRect.left, pageY: boundingRect.top}, {
-            pageX: boundingRect.right,
-            pageY: boundingRect.top
-          }];
-        } else if (POC.popoverElement.hasClass('top')) {
-          return [{pageX: boundingRect.left, pageY: boundingRect.bottom}, {
-            pageX: boundingRect.right,
-            pageY: boundingRect.bottom
-          }];
+          return mousePositionHorizontalTolerance.concat([bottomLeft, bottomRight]);
+        } else if (POC.popoverElement.hasClass('left')) {
+          return mousePositionVerticalTolerance.concat([topRight, bottomRight]);
         } else if (POC.popoverElement.hasClass('right')) {
-          return [{pageX: boundingRect.left, pageY: boundingRect.top}, {
-            pageX: boundingRect.left,
-            pageY: boundingRect.bottom
-          }];
-        } else if (POC.popoverElement.hasClass('right')) {
-          return [{pageX: boundingRect.right, pageY: boundingRect.top}, {
-            pageX: boundingRect.right,
-            pageY: boundingRect.bottom
-          }];
+          return mousePositionVerticalTolerance.concat([bottomLeft, topLeft]);
         }
-      }
+      };
 
-      function isHeadingTowardPopover(e) {
+      $scope.isInsidePolygon = function (e) {
         if (e.pageX === initialMouseEvent.pageX && e.pageY === initialMouseEvent.pageY) {
           return true;
         }
-        if (!popoverAngle1) {
-          var popoverPoints = getPointsFromPopover();
-          popoverAngle1 = getAngleOfMovement(initialMouseEvent, popoverPoints[0]);
-          popoverAngle2 = getAngleOfMovement(initialMouseEvent, popoverPoints[1]);
+        if (!boundaryValues) {
+          boundaryValues = $scope.getPolygon();
         }
-        var mouseAngle = getAngleOfMovement(initialMouseEvent, e);
-        var result = (popoverAngle1 <= mouseAngle && popoverAngle2 >= mouseAngle);
-        console.log('isHeadingTowardPopover', result, popoverAngle1, popoverAngle2, mouseAngle);
-        return result;
-      }
+        console.log('pointInPolygon', [e.pageX, e.pageY], JSON.stringify(boundaryValues));
+        return pointInPolygon([e.pageX, e.pageY], boundaryValues);
+      };
 
       function checkAngleOnMouseMove(event) {
-        if (!isHeadingTowardPopover(event)) {
+        if (!$scope.isInsidePolygon(event)) {
+          console.log('OUT OF BOUNDARY');
           cleanUp();
         }
       }
@@ -123,6 +81,8 @@ function popOverHoverTrigger(
 
       function onActivateHover(e) {
         initialMouseEvent = e;
+        boundaryValues = null;
+        console.log('onActivateHover');
         element.on('mouseleave', onElementMouseLeave);
         POC.popoverElement.on('mouseleave', cleanUp);
       }
@@ -132,8 +92,6 @@ function popOverHoverTrigger(
           // If the element is already there, don't do anything
           return;
         }
-        popoverAngle1 = null;
-        popoverAngle2 = null;
         POC.openPopover(e);
         onActivateHover(e);
       }
