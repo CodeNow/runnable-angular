@@ -104,6 +104,8 @@ function EditServerModalController(
   loading.reset(SMC.name);
   loading(SMC.name, true);
 
+  loadingPromises.clear(SMC.name);
+
   fetchInstancesByPod()
     .then(function (instances) {
       SMC.data.instances = instances;
@@ -141,6 +143,7 @@ function EditServerModalController(
     return SMC.resetStateContextVersion(instance.contextVersion, true)
       .catch(errs.handler)
       .finally(function () {
+        loadingPromises.clear(SMC.name);
         loading(SMC.name, false);
       });
   }
@@ -207,6 +210,7 @@ function EditServerModalController(
     loading(SMC.name + 'IsBuilding', true);
     return SMC.saveInstanceAndRefreshCards()
       .then(function () {
+        loading(SMC.name + 'IsBuilding', false);
         loadingPromises.clear(SMC.name);
         return close();
       })

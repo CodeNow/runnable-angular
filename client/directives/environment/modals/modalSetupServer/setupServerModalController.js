@@ -132,6 +132,7 @@ function SetupServerModalController(
     selectedTab: 'repository'
   });
   loading.reset(SMC.name);
+  loadingPromises.clear(SMC.name);
 
   $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
     $event.stopPropagation();
