@@ -29,10 +29,9 @@
           span.span.text-overflow(
             title = "{{instance.getRepoName()}}"
           ) {{instance.getRepoName()}}
-
           | {{instance.children.length}}
 
-          fancy-select(
+          fancy-select.btn-xs.gray(
             value = "ICMC.instanceBranchMapping[instance.attrs.contextVersion.context]"
           )
             fancy-option(
