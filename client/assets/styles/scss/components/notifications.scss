@@ -2,6 +2,15 @@
   position: fixed;
   z-index: $z-alert;
 
+  // default animations
+  &.ng-enter {
+    animation: fade-in .3s ease-out;
+  }
+
+  &.ng-leave {
+    animation: fade-in .3s ease-out reverse;
+  }
+
   // sizes
   &.notification-sm {
     border-radius: $input-border-radius;
@@ -26,27 +35,43 @@
 
   // position
   &.top-left {
-    animation: slide-right .3s ease-in forwards;
     left: 6px;
     top: 6px;
+
+    // override default
+    &.ng-enter {
+      animation-name: slide-right;
+    }
   }
 
   &.top-right {
-    animation: slide-left .3s ease-in forwards;
     right: 6px;
     top: 6px;
+
+    // override default
+    &.ng-enter {
+      animation-name: slide-left;
+    }
   }
 
   &.bottom-right {
-    animation: slide-left .3s ease-in forwards;
     bottom: 6px;
     right: 6px;
+
+    // override default
+    &.ng-enter {
+      animation-name: slide-left;
+    }
   }
 
   &.bottom-left {
-    animation: slide-right .3s ease-in forwards;
     bottom: 6px;
     left: 6px;
+
+    // override default
+    &.ng-enter {
+      animation-name: slide-right;
+    }
   }
 
   // colors
