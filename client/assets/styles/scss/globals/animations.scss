@@ -175,7 +175,7 @@
 @keyframes slide-left {
   0% {
     opacity: 0;
-    transform: translate3d(50%,0,0);
+    transform: translate3d(100%,0,0);
   }
 
   100% {
@@ -187,7 +187,7 @@
 @keyframes slide-right {
   0% {
     opacity: 0;
-    transform: translate3d(-50%,0,0);
+    transform: translate3d(-100%,0,0);
   }
 
   100% {
