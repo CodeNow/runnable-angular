@@ -36,13 +36,12 @@
     }
   }
 
-  // reset .list-item .btn-xs
-  .btn-select {
-    display: flex;
-    flex: 0 0 185px;
-    left: 0;
-    position: relative;
-    top: 0;
+  .btn-xs {
+    flex: 0 0 186px;
+    position: relative; // reset .list-item > .btn-xs
+    right: 0; // reset .list-item > .btn-xs
+    text-align: left;
+    top: 0; // reset .list-item > .btn-xs
 
     &.modded {
       top: -6px;
