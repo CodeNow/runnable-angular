@@ -336,6 +336,10 @@ function SetupServerModalController(
       if (instance) {
         SMC.instance = instance;
         SMC.state.instance = instance;
+        // Reset the opts, in the same way as `EditServerModalController`
+        SMC.state.opts  = {
+          env: keypather.get(instance, 'attrs.env') || []
+        };
         return instance;
       }
       return $q.reject(new Error('Instance not created properly'));
