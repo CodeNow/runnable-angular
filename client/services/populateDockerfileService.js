@@ -24,6 +24,10 @@ function updateDockerfileFromState(
   promisify
 ) {
   return function (state, shouldFetchSourceDockerfile, saveDockerfile) {
+    if (state.advanced) {
+      // Don't update the dockerfile when in advanced mode
+      return $q.when(true);
+    }
     if (!state.dockerfile) {
       return $q.reject(new Error('No destination dockerfile given'));
     }

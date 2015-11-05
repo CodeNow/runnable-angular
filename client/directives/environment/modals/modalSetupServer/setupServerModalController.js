@@ -133,6 +133,7 @@ function SetupServerModalController(
   });
   loading.reset(SMC.name);
   loadingPromises.clear(SMC.name);
+  loading.reset(SMC.name + 'IsBuilding');
 
   $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
     $event.stopPropagation();

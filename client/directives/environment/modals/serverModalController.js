@@ -120,6 +120,11 @@ function ServerModalController(
             if (toRedeploy) {
               return promisify(SMC.instance, 'redeploy')();
             }
+          })
+          .catch(function (err) {
+            // If we get an error, we need to wipe the loadingPromises, since it could have an error
+            loadingPromises.clear(SMC.name);
+            return $q.reject(err);
           });
       });
   };

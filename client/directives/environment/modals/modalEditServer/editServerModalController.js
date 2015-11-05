@@ -105,6 +105,7 @@ function EditServerModalController(
   loading(SMC.name, true);
 
   loadingPromises.clear(SMC.name);
+  loading.reset(SMC.name + 'IsBuilding');
 
   fetchInstancesByPod()
     .then(function (instances) {
@@ -210,8 +211,6 @@ function EditServerModalController(
     loading(SMC.name + 'IsBuilding', true);
     return SMC.saveInstanceAndRefreshCards()
       .then(function () {
-        loading(SMC.name + 'IsBuilding', false);
-        loadingPromises.clear(SMC.name);
         return close();
       })
       .catch(function (err) {
