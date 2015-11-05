@@ -7,16 +7,12 @@ require('app')
  */
 function ReadOnlySwitchController(
   $scope,
-  createBuildFromContextVersionId,
   errs,
   loading,
   loadingPromises,
   promisify,
   ModalService,
-  keypather,
-  fetchUser,
   updateDockerfileFromState,
-  $rootScope,
   $q
 ) {
   var ROSC = this;
@@ -51,7 +47,7 @@ function ReadOnlySwitchController(
               .then(function () {
                 // Save changes to the context version
                 ROSC.state.simpleContextVersionCopy = ROSC.state.contextVersion;
-                $scope.$emit('resetStateContextVersion', ROSC.state.contextVersion, true);
+                $scope.$emit('resetStateContextVersion', ROSC.state.contextVersion, false);
               });
           }
         })
@@ -87,12 +83,13 @@ function ReadOnlySwitchController(
               });
           }
           ROSC.state.advanced = newAdvancedMode;
-          return true;
+          return newAdvancedMode;
         })
         .finally(function () {
           if (!ROSC.state.instance) {
             loading(ROSC.loadingPromisesTarget + 'IsBuilding', false);
           }
+          return ROSC.state.advanced;
         });
       return ROSC.switchModePromise;
     }
@@ -123,24 +120,24 @@ function ReadOnlySwitchController(
                 templateUrl: opts.templateUrl,
                 inputs: opts.inputs
               })
-              .then(function (modal) {
-                return modal.close;
-              })
-              .then(function (confirmed) {
-                if (confirmed) {
-                  if (!ROSC.state.instance) {
-                    return $q.when(ROSC.switchModePromise)
-                      .then(function () {
-                        $scope.$emit('resetStateContextVersion', ROSC.state.simpleContextVersionCopy, true);
-                        return false;
-                      });
+                .then(function (modal) {
+                  return modal.close;
+                })
+                .then(function (confirmed) {
+                  if (confirmed) {
+                    if (!ROSC.state.instance) {
+                      return $q.when(ROSC.switchModePromise)
+                        .then(function () {
+                          $scope.$emit('resetStateContextVersion', ROSC.state.simpleContextVersionCopy, true);
+                          return false;
+                        });
+                    }
+                    return performRollback(contextVersion);
+                  } else {
+                    ROSC.state.advanced = contextVersion.attrs.advanced;
+                    return ROSC.state.advanced;
                   }
-                  return performRollback(contextVersion);
-                } else {
-                  ROSC.state.advanced = true;
-                  return ROSC.state.advanced;
-                }
-              });
+                });
             });
         })
         .catch(errs.handler);

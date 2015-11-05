@@ -8,7 +8,6 @@ function ServerModalController(
   $rootScope,
   $scope,
   eventTracking,
-  fetchUser,
   helpCards,
   parseDockerfileForCardInfoFromInstance,
   createBuildFromContextVersionId,
@@ -196,11 +195,11 @@ function ServerModalController(
         }
         return contextVersion;
       })
-      .then(function () {
+      .then(function (contextVersion) {
+        SMC.openItems.removeAndReopen(contextVersion);
         return SMC.openDockerfile(SMC.state, SMC.openItems);
       })
       .then(function () {
-        SMC.openItems.removeAndReopen(SMC.state.contextVersion);
         return createBuildFromContextVersionId(SMC.state.contextVersion.id());
       })
       .then(function (build) {
