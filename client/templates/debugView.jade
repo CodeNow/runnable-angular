@@ -1,7 +1,11 @@
-div.text-overflow
+.instance-header-title.text-overflow
   span.span {{DC.instance.getRepoName() || DC.instance.attrs.name}}/
   strong.strong
     | {{DC.instance.getBranchName()}}
+    small.small (Debug)
+
+  span.span {{DC.instance.getRepoName() || DC.instance.attrs.name}}/
+  strong.strong {{DC.instance.getBranchName()}}
     small.small (Debug)
 
   div.btn-save-wrapper(
