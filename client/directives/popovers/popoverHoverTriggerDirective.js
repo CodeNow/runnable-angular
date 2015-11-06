@@ -15,7 +15,6 @@ function popOverHoverTrigger(
     restrict: 'A',
     require: '^popOver',
     link: function ($scope, element, attrs, POC) {
-      var initialMouseEvent = null;
       var boundaryValues = null;
 
       $scope.getPolygon = function () {
@@ -37,7 +36,7 @@ function popOverHoverTrigger(
           });
         }
         // Tolerance is used to adjust how accurate the hovering needs to be.
-        var tolerance = attrs.popOverHoverTolerance || 10;
+        var tolerance = (attrs.popOverHoverTolerance) ? $scope.$eval(attrs.popOverHoverTolerance) : 10;
 
         // We add/subtract tolerance to
         var popoverRect = {
@@ -77,34 +76,28 @@ function popOverHoverTrigger(
           ];
         } else if (POC.popoverElement.hasClass('right')) {
           return [
-            elementRect.bottomLeft,
             elementRect.topLeft,
+            elementRect.bottomLeft,
             addTolerance(popoverRect.topLeft, [tolerance, -tolerance]),
             addTolerance(popoverRect.bottomLeft, [tolerance, tolerance])
           ];
         }
       };
 
-      $scope.isInsidePolygon = function (e) {
-        if (e.pageX === initialMouseEvent.pageX && e.pageY === initialMouseEvent.pageY) {
-          return true;
-        }
+      function isInsidePolygon(e) {
         if (!boundaryValues) {
           boundaryValues = $scope.getPolygon();
         }
-        console.log('pointInPolygon', [e.pageX, e.pageY], JSON.stringify(boundaryValues));
         return pointInPolygon([e.pageX, e.pageY], boundaryValues);
-      };
+      }
 
       function checkAngleOnMouseMove(event) {
-        if (!$scope.isInsidePolygon(event)) {
-          console.log('OUT OF BOUNDARY');
+        if (!isInsidePolygon(event)) {
           cleanUp();
         }
       }
 
       function onElementMouseLeave() {
-        console.log('element mouseleave');
         element.off('mouseleave', onElementMouseLeave);
         $document.on('mousemove', checkAngleOnMouseMove);
         POC.popoverElement.on('mouseenter', function () {
@@ -122,10 +115,8 @@ function popOverHoverTrigger(
         $document.off('mousemove', checkAngleOnMouseMove);
       }
 
-      function onActivateHover(e) {
-        initialMouseEvent = e;
+      function onActivateHover() {
         boundaryValues = null;
-        console.log('onActivateHover');
         element.on('mouseleave', onElementMouseLeave);
         POC.popoverElement.on('mouseleave', cleanUp);
       }
@@ -141,6 +132,7 @@ function popOverHoverTrigger(
 
       element.on('mouseenter', onMouseOver);
       $scope.$on('$destroy', function () {
+        console.log('dsafasdfasdf');
         cleanUp();
         element.off('mouseenter', onMouseOver);
       });

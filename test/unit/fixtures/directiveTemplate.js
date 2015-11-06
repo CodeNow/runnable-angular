@@ -23,7 +23,6 @@ function directiveTemplate (templateName, attrs) {
   ].join('');
 }
 module.exports.attribute = directiveTemplateAttribute;
-module.exports.attributeWithParent = directiveTemplateAttributeWithParent;
 
 function directiveTemplateAttribute (templateName, attrs) {
   if (!attrs) {
@@ -32,24 +31,6 @@ function directiveTemplateAttribute (templateName, attrs) {
   return [
     '<button ',
     templateName,
-    Object.keys(attrs).reduce(function (str, key) {
-      if (typeof attrs[key] !== 'string' && typeof attrs[key] !== 'boolean') {
-        throw new Error('Value must be a string or boolean, got ' + attrs[key]);
-      }
-      return str + " " + key + '="' + attrs[key] + '"';
-    }, ''),
-    '>',
-    '</button>'
-  ].join('');
-}
-function directiveTemplateAttributeWithParent (templateName, parent, attrs) {
-  if (!attrs) {
-    attrs = {};
-  }
-  return [
-    '<button ',
-    templateName,
-    parent,
     Object.keys(attrs).reduce(function (str, key) {
       if (typeof attrs[key] !== 'string' && typeof attrs[key] !== 'boolean') {
         throw new Error('Value must be a string or boolean, got ' + attrs[key]);

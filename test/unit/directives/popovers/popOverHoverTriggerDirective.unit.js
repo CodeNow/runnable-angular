@@ -8,40 +8,27 @@ var $timeout;
 var $scope;
 var $elScope;
 var $rootScope;
+var element;
 
 describe('popOverHoverTriggerDirective'.bold.underline.blue, function() {
   var ctx;
 
   describe('Functionality', function() {
-    var popoverOptions;
-
     function initialize() {
       ctx = {};
-      ctx.PopOverController  = function () {
-        ctx.POC = this;
-        this.closePopover = sinon.spy(function () {
+      ctx.PopOverController = {
+        closePopover: sinon.spy(function () {
           $elScope.active = false;
-        });
-        this.openPopover = sinon.spy(function () {
+        }),
+        openPopover: sinon.spy(function () {
           $elScope.active = true;
-        });
-        this.popoverElement = [{}];
-        this.popoverElementScope = {};
+        }),
+        isPopoverActive: sinon.stub().returns(false)
       };
-      ctx.mockLog = {
-        error: sinon.spy()
-      };
+      ctx.pointInPolygonMock = sinon.stub();
       angular.mock.module('app', function ($provide, $controllerProvider) {
         $controllerProvider.register('PopOverController', ctx.PopOverController);
-        $provide.value('$log', ctx.mockLog);
-        $provide.factory('popOverDirective', function () {
-          return {
-            priority: 100000,
-            terminal: true,
-            controller: ctx.PopOverController,
-            link: angular.noop
-          };
-        });
+        $provide.value('pointInPolygon',  ctx.pointInPolygonMock);
       });
       angular.mock.inject(function (
         _$rootScope_,
@@ -56,90 +43,441 @@ describe('popOverHoverTriggerDirective'.bold.underline.blue, function() {
         $timeout = _$timeout_;
       });
     }
-    function injectSetupCompile (options) {
+
+    function createPopoverElement(position, elementLocation) {
+      ctx.popoverElement = $compile('<div></div>')($scope);
+      ctx.popoverElement.addClass(position);
+      if (elementLocation) {
+        sinon.stub(ctx.popoverElement[0], 'getBoundingClientRect').returns(elementLocation);
+      }
+      return ctx.popoverElement;
+    }
+    function injectSetupCompile(options) {
       initialize();
 
-      $scope.$destroy = sinon.spy();
+      ctx.template = directiveTemplate.attribute('pop-over-hover-trigger', options);
+      element = angular.element(ctx.template);
+      element.data('$popOverController', ctx.PopOverController);
+      ctx.element = $compile(element)($scope);
 
-      $scope.popOverData = {
-        content: 'foo'
-      };
-      $scope.popOverActions = {
-        action1: sinon.spy()
-      };
-      $scope.popOverActive = false;
-      $scope.popOverOptions = {};
-      if (options.popOverOptions) {
-        $scope.popOverOptions = options.popOverOptions;
-      }
-
-      popoverOptions = {
-        'pop-over-no-broadcast': options.noBroadcast || false,
-        'pop-over-actions':  'popOverActions',
-        'pop-over-active': 'popOverActive',
-        'pop-over-template': 'viewPopoverFileExplorerFileMenu',
-        'pop-over-options': 'popOverOptions'
-      };
-
-      if (options.rightClick) {
-        popoverOptions['pop-over-trigger'] = 'rightClick';
-      } else if (options.hover) {
-        popoverOptions['pop-over-trigger'] = 'hover';
-      } else if (options.activeAttr) {
-        popoverOptions['pop-over-trigger'] = 'activeAttr';
-      }
-
-      ctx.template = directiveTemplate.attributeWithParent('pop-over-hover-trigger', 'pop-over', popoverOptions);
-      ctx.element = $compile(ctx.template)($scope);
-      $elScope = ctx.element.isolateScope();
+      $elScope = ctx.element.scope();
 
       $scope.$digest();
-
-      // We need to digest because this is a user event, a click happened which triggers
-      //    a digest internally. It doesn't when we are in tests!
-      $scope.$digest();
-
-      //Flush timeouts so we actually set popOverActive
-      $timeout.flush(0);
     }
+    describe('events', function () {
+      beforeEach(function () {
+        injectSetupCompile();
+        ctx.PopOverController.popoverElement = createPopoverElement('top');
+        sinon.spy(ctx.PopOverController.popoverElement, 'on');
+        sinon.spy(ctx.PopOverController.popoverElement, 'off');
 
-    describe('popoverStyle', function () {
-      it('just a regular style', function () {
-        injectSetupCompile({
-          popOverOptions: {
-            top: 100,
-            left: 10
-          }
+        sinon.spy($document, 'on');
+        sinon.spy($document, 'off');
+
+      });
+      it('shouldnt open when the popover is already active', function () {
+        $scope.$digest();
+        ctx.PopOverController.isPopoverActive.returns(true);
+        window.helpers.hover(ctx.element[0]);
+        $scope.$digest();
+
+        sinon.assert.calledOnce(ctx.PopOverController.isPopoverActive);
+        sinon.assert.notCalled(ctx.PopOverController.openPopover);
+        sinon.assert.notCalled($document.on);
+      });
+      it('should open the popover on hover', function () {
+        $scope.$digest();
+        window.helpers.hover(ctx.element[0]);
+        $scope.$digest();
+
+        sinon.assert.calledOnce(ctx.PopOverController.isPopoverActive);
+        sinon.assert.calledOnce(ctx.PopOverController.openPopover);
+        sinon.assert.calledWith(ctx.PopOverController.popoverElement.on, 'mouseleave');
+
+        window.helpers.mouseleave(ctx.element[0]);
+        sinon.assert.calledWith(ctx.PopOverController.popoverElement.on, 'mouseleave');
+        sinon.assert.calledOnce($document.on);
+        sinon.assert.calledWith($document.on, 'mousemove');
+      });
+      describe('mimicing activity', function () {
+        it('should open popover, hover over it, then go away', function () {
+          $scope.$digest();
+          window.helpers.hover(ctx.element[0]);
+          $scope.$digest();
+
+          sinon.assert.calledOnce(ctx.PopOverController.isPopoverActive);
+          sinon.assert.calledOnce(ctx.PopOverController.openPopover);
+          sinon.assert.calledWith(ctx.PopOverController.popoverElement.on, 'mouseleave');
+          $scope.$digest();
+
+          window.helpers.mouseleave(ctx.element[0]);
+          $scope.$digest();
+          sinon.assert.calledOnce($document.on);
+          sinon.assert.calledWith($document.on, 'mousemove');
+
+          var getPolygonMock = {};
+          sinon.stub($elScope, 'getPolygon').returns(getPolygonMock);
+          ctx.pointInPolygonMock.returns(true);
+          $document.triggerHandler({
+            type : 'mousemove',
+            pageX: 48,
+            pageY: 102
+          });
+          $scope.$digest();
+          sinon.assert.calledOnce(ctx.pointInPolygonMock);
+          sinon.assert.calledOnce($elScope.getPolygon);
+          sinon.assert.calledWith(ctx.pointInPolygonMock, [48, 102], getPolygonMock);
+          $scope.$digest();
+          ctx.PopOverController.popoverElement.on.reset();
+          ctx.PopOverController.popoverElement.triggerHandler({
+            type : 'mouseenter',
+            pageX: 48,
+            pageY: 102
+          });
+          ctx.PopOverController.popoverElement.triggerHandler({
+            type : 'mouseleave',
+            pageX: 48,
+            pageY: 102
+          });
+
+          sinon.assert.calledTwice(ctx.PopOverController.popoverElement.off);
+          sinon.assert.calledWith(ctx.PopOverController.popoverElement.off, 'mouseleave');
+          sinon.assert.calledWith(ctx.PopOverController.popoverElement.off, 'mouseenter');
+          sinon.assert.calledOnce(ctx.PopOverController.closePopover);
+          sinon.assert.calledWith($document.off, 'mousemove');
         });
-        //sinon.stub(ctx.element[0], 'getBoundingClientRect').returns({
-        //  top: 20,
-        //  bottom: 40,
-        //  right: 20,
-        //  left: 40
-        //});
-        //ctx.POC.popoverElement[0].offsetWidth = 10;
-        //ctx.POC.popoverElement[0].offsetHeight = 10;
-        //$elScope.active = true;
-        //$scope.$digest();
-        //var styleResult = $elScope.popoverStyle.getStyle();
-        //
-        //expect(styleResult.top, 'styleResult.top').to.equal('130px'); // 100 + 20 + 10
-        //expect(styleResult.left, 'styleResult.left').to.equal('50px'); // 10 + 40
-        //expect(styleResult.bottom, 'styleResult.bottom').to.equal('auto');
-        //expect(styleResult.right, 'styleResult.right').to.equal('auto');
-        //
-        //$elScope.active = false;
-        //ctx.POC.popoverElement[0].offsetWidth = 40;
-        //ctx.POC.popoverElement[0].offsetHeight = 40;
-        //$scope.$digest();
-        //
-        //// Since the popover is no longer active, it will just use the previousStyle
-        //styleResult = $elScope.popoverStyle.getStyle();
-        //expect(styleResult.top, 'styleResult.top').to.equal('130px'); // 100 + 20 + 10
-        //expect(styleResult.left, 'styleResult.left').to.equal('50px'); // 10 + 40
-        //expect(styleResult.bottom, 'styleResult.bottom').to.equal('auto');
-        //expect(styleResult.right, 'styleResult.right').to.equal('auto');
+        it('should open popover, hover over it, then go away, then come back', function () {
+          $scope.$digest();
+          window.helpers.hover(ctx.element[0]);
+          $scope.$digest();
 
+          sinon.assert.calledOnce(ctx.PopOverController.isPopoverActive);
+          sinon.assert.calledOnce(ctx.PopOverController.openPopover);
+          sinon.assert.calledWith(ctx.PopOverController.popoverElement.on, 'mouseleave');
+          $scope.$digest();
+
+          window.helpers.mouseleave(ctx.element[0]);
+          $scope.$digest();
+          sinon.assert.calledOnce($document.on);
+          sinon.assert.calledWith($document.on, 'mousemove');
+
+
+          var getPolygonMock = {};
+          sinon.stub($elScope, 'getPolygon').returns(getPolygonMock);
+          ctx.pointInPolygonMock.returns(true);
+          $document.triggerHandler({
+            type : 'mousemove',
+            pageX: 48,
+            pageY: 102
+          });
+          $scope.$digest();
+          sinon.assert.calledOnce(ctx.pointInPolygonMock);
+          sinon.assert.calledOnce($elScope.getPolygon);
+          sinon.assert.calledWith(ctx.pointInPolygonMock, [48, 102], getPolygonMock);
+
+          $scope.$digest();
+          ctx.PopOverController.popoverElement.on.reset();
+          ctx.PopOverController.popoverElement.triggerHandler({
+            type : 'mouseenter',
+            pageX: 48,
+            pageY: 102
+          });
+          ctx.PopOverController.popoverElement.triggerHandler({
+            type : 'mouseleave',
+            pageX: 48,
+            pageY: 102
+          });
+
+          sinon.assert.calledTwice(ctx.PopOverController.popoverElement.off);
+          sinon.assert.calledWith(ctx.PopOverController.popoverElement.off, 'mouseleave');
+          sinon.assert.calledWith(ctx.PopOverController.popoverElement.off, 'mouseenter');
+          sinon.assert.calledOnce(ctx.PopOverController.closePopover);
+          sinon.assert.calledWith($document.off, 'mousemove');
+
+          // reset the stubs
+          ctx.PopOverController.popoverElement.off.reset();
+          ctx.PopOverController.popoverElement.on.reset();
+          $document.on.reset();
+          $document.off.reset();
+          ctx.PopOverController.isPopoverActive.reset();
+          ctx.PopOverController.openPopover.reset();
+
+          // Now go back
+          window.helpers.hover(ctx.element[0]);
+          $scope.$digest();
+
+          sinon.assert.calledOnce(ctx.PopOverController.isPopoverActive);
+          sinon.assert.calledOnce(ctx.PopOverController.openPopover);
+          sinon.assert.calledWith(ctx.PopOverController.popoverElement.on, 'mouseleave');
+          $scope.$digest();
+        });
+
+        it('should open popover, but go outside permitted area and close', function () {
+          $scope.$digest();
+          window.helpers.hover(ctx.element[0]);
+          $scope.$digest();
+
+          sinon.assert.calledOnce(ctx.PopOverController.isPopoverActive);
+          sinon.assert.calledOnce(ctx.PopOverController.openPopover);
+          sinon.assert.calledWith(ctx.PopOverController.popoverElement.on, 'mouseleave');
+
+          window.helpers.mouseleave(ctx.element[0]);
+          $scope.$digest();
+          sinon.assert.calledOnce($document.on);
+          sinon.assert.calledWith($document.on, 'mousemove');
+
+          var getPolygonMock = {};
+          sinon.stub($elScope, 'getPolygon').returns(getPolygonMock);
+          ctx.pointInPolygonMock.returns(false);
+          $document.triggerHandler({
+            type : 'mousemove',
+            pageX: 48,
+            pageY: 102
+          });
+
+          $scope.$digest();
+          sinon.assert.calledOnce(ctx.pointInPolygonMock);
+          sinon.assert.calledOnce($elScope.getPolygon);
+          sinon.assert.calledWith(ctx.pointInPolygonMock, [48, 102], getPolygonMock);
+
+          sinon.assert.calledTwice(ctx.PopOverController.popoverElement.off);
+          sinon.assert.calledWith(ctx.PopOverController.popoverElement.off, 'mouseleave');
+          sinon.assert.calledWith(ctx.PopOverController.popoverElement.off, 'mouseenter');
+          sinon.assert.calledOnce(ctx.PopOverController.closePopover);
+          sinon.assert.calledWith($document.off, 'mousemove');
+        });
+
+        it('should open popover, but go outside permitted area and close', function () {
+          $scope.$digest();
+          window.helpers.hover(ctx.element[0]);
+          $scope.$digest();
+
+          sinon.assert.calledOnce(ctx.PopOverController.isPopoverActive);
+          sinon.assert.calledOnce(ctx.PopOverController.openPopover);
+          sinon.assert.calledWith(ctx.PopOverController.popoverElement.on, 'mouseleave');
+
+          window.helpers.mouseleave(ctx.element[0]);
+          $scope.$digest();
+          sinon.assert.calledOnce($document.on);
+          sinon.assert.calledWith($document.on, 'mousemove');
+
+          var getPolygonMock = {};
+          sinon.stub($elScope, 'getPolygon').returns(getPolygonMock);
+          ctx.pointInPolygonMock.returns(false);
+          $document.triggerHandler({
+            type : 'mousemove',
+            pageX: 48,
+            pageY: 102
+          });
+
+          $scope.$digest();
+          sinon.assert.calledOnce(ctx.pointInPolygonMock);
+          sinon.assert.calledOnce($elScope.getPolygon);
+
+          sinon.assert.calledWith(ctx.pointInPolygonMock, [48, 102], getPolygonMock);
+
+          sinon.assert.calledTwice(ctx.PopOverController.popoverElement.off);
+          sinon.assert.calledWith(ctx.PopOverController.popoverElement.off, 'mouseleave');
+          sinon.assert.calledWith(ctx.PopOverController.popoverElement.off, 'mouseenter');
+          sinon.assert.calledOnce(ctx.PopOverController.closePopover);
+          sinon.assert.calledWith($document.off, 'mousemove');
+        });
+      });
+    });
+    describe('cleanUp', function () {
+      beforeEach(function () {
+        injectSetupCompile();
+
+        sinon.spy($document, 'on');
+        sinon.spy($document, 'off');
+
+      });
+      it('shouldnt clean up successfully even if the popoverElement never existed', function () {
+        $scope.$digest();
+        $elScope.$destroy();
+        sinon.assert.calledOnce(ctx.PopOverController.closePopover);
+        sinon.assert.calledWith($document.off, 'mousemove');
+        $scope.$digest();
+        window.helpers.hover(ctx.element[0]);
+        $scope.$digest();
+
+        sinon.assert.notCalled(ctx.PopOverController.isPopoverActive);
+        sinon.assert.notCalled(ctx.PopOverController.openPopover);
+      });
+    });
+    describe('getPolygon', function () {
+      it('top', function () {
+        injectSetupCompile();
+
+        sinon.stub(ctx.element[0], 'getBoundingClientRect').returns({
+          left:   50,
+          right:  60,
+          top:    100,
+          bottom: 120
+        });
+        ctx.PopOverController.popoverElement = createPopoverElement('top', {
+          left:   20,
+          right:  90,
+          top:    40,
+          bottom: 80
+        });
+        //    _________
+        // __|_________|__
+        // \ |_popover_| /
+        //  \___________/
+        //   |__button_|
+
+        var boundary = $elScope.getPolygon();
+        expect(boundary[0], 'element bottomLeft').to.deep.equal([50, 120]);
+        expect(boundary[1], 'element bottomRight').to.deep.equal([60, 120]);
+        expect(boundary[2], 'popoverRect bottomLeft').to.deep.equal([10, 70]);
+        expect(boundary[3], 'popoverRect bottomRight').to.deep.equal([100, 70]);
+      });
+      it('bottom (with double the tolerance)', function () {
+        injectSetupCompile({
+          'pop-over-hover-tolerance': '20'
+        });
+
+        sinon.stub(ctx.element[0], 'getBoundingClientRect').returns({
+          left:   50,
+          right:  60,
+          top:    100,
+          bottom: 120
+        });
+        ctx.PopOverController.popoverElement = createPopoverElement('bottom', {
+          left:   20,
+          right:  90,
+          top:    160,
+          bottom: 200
+        });
+
+        //    _________
+        //   |__button_|
+        //  / _________ \
+        // /_|_________|_\
+        //   |_popover_|
+
+
+        var boundary = $elScope.getPolygon();
+        expect(boundary[0], 'element topLeft').to.deep.equal([50, 100]);
+        expect(boundary[1], 'element topRight').to.deep.equal([60, 100]);
+        expect(boundary[2], 'popoverRect topLeft').to.deep.equal([0, 180]);
+        expect(boundary[3], 'popoverRect topRight').to.deep.equal([110, 180]);
+      });
+      it('left', function () {
+        injectSetupCompile();
+        sinon.stub(ctx.element[0], 'getBoundingClientRect').returns({
+          left:   50,
+          right:  60,
+          top:    100,
+          bottom: 120
+        });
+        ctx.PopOverController.popoverElement = createPopoverElement('left', {
+          left:   0,
+          right:  20,
+          top:    80,
+          bottom: 140
+        });
+        //
+        //     |\
+        //  ___|_ \
+        // |   | |  \ _________
+        // | po| |   |__button_|
+        // |__ |_|  /
+        //     |  /
+        //     |/
+        var boundary = $elScope.getPolygon();
+        expect(boundary[0], 'element topRight').to.deep.equal([60, 100]);
+        expect(boundary[1], 'element bottomRight').to.deep.equal([60, 120]);
+        expect(boundary[2], 'popoverRect topRight').to.deep.equal([10, 70]);
+        expect(boundary[3], 'popoverRect bottomRight').to.deep.equal([10, 150]);
+      });
+      it('right', function () {
+        injectSetupCompile();
+        sinon.stub(ctx.element[0], 'getBoundingClientRect').returns({
+          left:   50,
+          right:  60,
+          top:    100,
+          bottom: 120
+        });
+        ctx.PopOverController.popoverElement = createPopoverElement('right', {
+          left:   80,
+          right:  120,
+          top:    80,
+          bottom: 140
+        });
+        //                 /|
+        //               / _|____
+        //    _________ / | |    |
+        //   |__button_|  | | po |
+        //              \ |_|____|
+        //               \  |
+        //                 \|
+
+        var boundary = $elScope.getPolygon();
+        expect(boundary[0], 'element topLeft').to.deep.equal([50, 100]);
+        expect(boundary[1], 'element bottomLeft').to.deep.equal([50, 120]);
+        expect(boundary[2], 'popoverRect topLeft').to.deep.equal([90, 70]);
+        expect(boundary[3], 'popoverRect bottomLeft').to.deep.equal([90, 150]);
+      });
+      it('top (with 0 tolerance', function () {
+        injectSetupCompile({
+          'pop-over-hover-tolerance': '0'
+        });
+
+        sinon.stub(ctx.element[0], 'getBoundingClientRect').returns({
+          left:   50,
+          right:  60,
+          top:    100,
+          bottom: 120
+        });
+        ctx.PopOverController.popoverElement = createPopoverElement('top', {
+          left:   20,
+          right:  90,
+          top:    40,
+          bottom: 80
+        });
+        //    _________
+        // __|_________|__
+        // \ |_popover_| /
+        //  \___________/
+        //   |__button_|
+
+        var boundary = $elScope.getPolygon();
+        expect(boundary[0], 'element bottomLeft').to.deep.equal([50, 120]);
+        expect(boundary[1], 'element bottomRight').to.deep.equal([60, 120]);
+        expect(boundary[2], 'popoverRect bottomLeft').to.deep.equal([20, 80]);
+        expect(boundary[3], 'popoverRect bottomRight').to.deep.equal([90, 80]);
+      });
+    });
+
+    describe('isInsidePolygon', function () {
+      it('first time', function () {
+        injectSetupCompile();
+
+        sinon.stub(ctx.element[0], 'getBoundingClientRect').returns({
+          left:   50,
+          right:  60,
+          top:    100,
+          bottom: 120
+        });
+        ctx.PopOverController.popoverElement = createPopoverElement('top', {
+          left:   20,
+          right:  90,
+          top:    40,
+          bottom: 80
+        });
+        //    _________
+        // __|_________|__
+        // \ |_popover_| /
+        //  \___________/
+        //   |__button_|
+
+        var boundary = $elScope.getPolygon();
+        expect(boundary[0], 'element bottomLeft').to.deep.equal([50, 120]);
+        expect(boundary[1], 'element bottomRight').to.deep.equal([60, 120]);
+        expect(boundary[2], 'popoverRect bottomLeft').to.deep.equal([10, 70]);
+        expect(boundary[3], 'popoverRect bottomRight').to.deep.equal([100, 70]);
       });
     });
   });
