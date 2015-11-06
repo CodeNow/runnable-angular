@@ -2,9 +2,7 @@
   ng-class = "{'in': active}"
   ng-style = "popoverStyle.getStyle()"
 )
-  .arrow.white(
-    style = "{{$root.featureFlags.newNavigation ? null : 'left: auto; right: 9px;'}}"
-  )
+  .arrow.white
   .popover-content
     //- if build files are out of date
     .well.well-popover.orange.text-center(

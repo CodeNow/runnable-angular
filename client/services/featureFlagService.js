@@ -23,7 +23,6 @@ function featureFlags(
     multilineFnR: false,
     nameContainer: false,
     navListFilter: false,
-    newNavigation: true, // for isolation UI
     newVerificationFlow: true,
     newVerificationFlowStackSelector: false,
     renameContainer: false,
