@@ -4,6 +4,19 @@ require('app')
   .factory('updateDockerfileFromState', updateDockerfileFromState)
   .factory('populateDockerfile', populateDockerfile);
 
+
+/**
+ * Update the Dockerfile in a state from the properties in the state object.
+ *
+ * @param {Object} state - Global `state` object
+ * @param {Object} state.dockerfile - Dockerfile model object
+ * @param {Object} state.sourceDockerfile - Dockerfile model object
+ * @param {Object} state.selectedStack - Selected stack
+ * @param {String} state.selectedStack.key - Selected stack key
+ * @param {Boolean} shouldFetchSourceDockerfile - Force to fetch the source Dockerfile
+ * @param {Boolean} saveDockerfile - Whether the Dockerfile should be saved
+ * @returns dockerfilePromise {Promise} - Promise that returns the dockerfile
+ */
 function updateDockerfileFromState(
   $q,
   fetchDockerfileFromSource,
@@ -11,6 +24,10 @@ function updateDockerfileFromState(
   promisify
 ) {
   return function (state, shouldFetchSourceDockerfile, saveDockerfile) {
+    if (state.advanced) {
+      // Don't update the dockerfile when in advanced mode
+      return $q.when(true);
+    }
     if (!state.dockerfile) {
       return $q.reject(new Error('No destination dockerfile given'));
     }
@@ -45,6 +62,20 @@ function updateDockerfileFromState(
   };
 }
 
+/**
+ * Populate the Dockerfile with the options from the state
+ *
+ * @param {Object} sourceDockerfile - Dockerifle model
+ * @param {Object} state - State object
+ * @param {Object[]} state.dependencies
+ * @param {Object} state.contextVersion
+ * @param {Object[]} state.packages
+ * @param {Object[]} state.containerFiles
+ * @param {string[]} state.ports
+ * @param {string} state.dst
+ * @param {string} state.startCommand
+ * @param {Object} destDockerfile
+ */
 function populateDockerfile(
   $q,
   regexpQuote,

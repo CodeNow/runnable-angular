@@ -215,29 +215,6 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
       sinon.assert.notCalled(fileMock.update);
     });
 
-
-    it('Should update after receiving an event over the scope', function () {
-      initState(true);
-      fileFetchCb();
-      $scope.$apply();
-
-      fileMock.state.body = '';
-      $scope.$apply();
-      sinon.assert.notCalled(fileMock.update);
-
-      $scope.$broadcast('EDITOR::SAVE', true);
-      $scope.$apply();
-      sinon.assert.calledOnce(fileMock.update);
-      sinon.assert.calledWith(fileMock.update, {
-        json: {
-          body: ''
-        }
-      });
-      fileUpdateCb();
-      $scope.$apply();
-      expect(fileMock.state.isDirty, 'fileMock.state.isDirty').to.not.be.ok;
-    });
-
   });
 
   describe('state', function () {

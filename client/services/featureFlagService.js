@@ -23,7 +23,7 @@ function featureFlags(
     multilineFnR: false,
     nameContainer: false,
     navListFilter: false,
-    newVerificationFlow: false,
+    newVerificationFlow: true,
     newVerificationFlowStackSelector: false,
     renameContainer: false,
     saveToolbar: false,

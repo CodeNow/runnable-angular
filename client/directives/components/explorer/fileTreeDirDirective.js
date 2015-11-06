@@ -363,8 +363,13 @@ function fileTreeDir(
         });
       }
       actions.fetchDirFiles = fetchDirFiles;
-      $scope.$watch('dir.state.open', function (newVal) {
-        if (newVal) {
+      $scope.$watchCollection(function () {
+        return {
+          dir: $scope.dir,
+          open: keypather.get($scope, 'dir.state.open')
+        };
+      }, function (newVal, oldVal) {
+        if (newVal.open) {
           fetchDirFiles();
         }
       });

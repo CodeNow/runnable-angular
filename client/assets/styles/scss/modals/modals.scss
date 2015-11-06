@@ -83,8 +83,9 @@
     }
 
     &.orange {
-      background: $orange-lighter;
-      color: $white;
+      background: $orange-lightest;
+      border-color: $orange-lighter;
+      color: $orange;
     }
 
     .btn-xxs {
