@@ -98,7 +98,7 @@ require('app')
 
               return loadingPromises.add('editServerModal', createTransformRule(mainAcv, rule)
                 .then(function () {
-                  if (shouldUpdateDockerfile) {
+                  if (shouldUpdateDockerfile && !$scope.state.advanced) {
                     return updateDockerfileFromState($scope.state);
                   }
                 })

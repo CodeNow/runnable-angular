@@ -30,6 +30,7 @@ function EditServerModalController(
   loading,
   OpenItems,
   ModalService,
+  loadingPromises,
   helpCards,
   tab,
   instance,
@@ -103,6 +104,9 @@ function EditServerModalController(
   loading.reset(SMC.name);
   loading(SMC.name, true);
 
+  loadingPromises.clear(SMC.name);
+  loading.reset(SMC.name + 'IsBuilding');
+
   fetchInstancesByPod()
     .then(function (instances) {
       SMC.data.instances = instances;
@@ -140,6 +144,7 @@ function EditServerModalController(
     return SMC.resetStateContextVersion(instance.contextVersion, true)
       .catch(errs.handler)
       .finally(function () {
+        loadingPromises.clear(SMC.name);
         loading(SMC.name, false);
       });
   }
@@ -203,7 +208,7 @@ function EditServerModalController(
 
   SMC.getUpdatePromise = function () {
     SMC.saveTriggered = true;
-    SMC.isBuilding = true;
+    loading(SMC.name + 'IsBuilding', true);
     return SMC.saveInstanceAndRefreshCards()
       .then(function () {
         return close();
@@ -212,8 +217,8 @@ function EditServerModalController(
         errs.handler(err);
         return SMC.resetStateContextVersion(SMC.state.contextVersion, false)
           .finally(function () {
-            // Only turn off `isBuilding` if there is an error and we have to revert back
-            SMC.isBuilding = false;
+            // Only turn off `IsBuilding` if there is an error and we have to revert back
+            loading(SMC.name + 'IsBuilding', false);
           });
       });
   };
