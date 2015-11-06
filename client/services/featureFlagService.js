@@ -25,7 +25,7 @@ function featureFlags(
     navListFilter: false,
     newNavigation: true, // for isolation UI
     newVerificationFlow: true,
-    newVerificationFlowStackSelector: false,
+    newVerificationFlowStackSelector: true,
     renameContainer: false,
     saveToolbar: false,
     teamManagement: false, // changes text from org to team in account menu
