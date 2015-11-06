@@ -24,7 +24,7 @@ function featureFlags(
     nameContainer: false,
     navListFilter: false,
     newNavigation: true, // for isolation UI
-    newVerificationFlow: false,
+    newVerificationFlow: true,
     newVerificationFlowStackSelector: false,
     renameContainer: false,
     saveToolbar: false,
