@@ -1,9 +1,19 @@
 //- instance list
 .instances-list(
   ng-class = "{'in': !CIS.$storage.instanceListIsClosed}"
-  ng-if = "$root.featureFlags.newNavigation"
+  ng-if = "$root.featureFlags.newNavigation && CIS.instancesByPod"
   ng-include = "'viewInstancesList'"
+  scroll-offset = "200"
+  scroll-to = "a.list-item-container.active"
 )
+
+.instances-list(
+  ng-class = "{'in': !CIS.$storage.instanceListIsClosed}"
+  ng-if = "$root.featureFlags.newNavigation && !CIS.instancesByPod"
+)
+  .spinner-wrapper.spinner-md.spinner-gray.spinner-center.in(
+    ng-include = "'spinner'"
+  )
 
 //- deprecated, old list of containers
 nav.sidebar.sidebar-containers-deprecated(

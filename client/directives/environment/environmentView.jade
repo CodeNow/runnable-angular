@@ -1,6 +1,31 @@
-//- alerts
+//- new alerts
+.notification.notification-sm.environment-notification.js-animate.gray(
+  ng-class = "{\
+    'green': alert.type === 'success',\
+    'gray': alert.type === 'deleted'\
+  }"
+  ng-if = "$root.featureFlags.inviteFlows && alert"
+)
+  svg.iconnables.icons-check.float-left
+    use(
+      xlink:href = "#icons-check"
+    )
+  //- omg
+  span(
+    ng-if = "alert.text === 'Your new container is building.'"
+  ) Container Created
+  span(
+    ng-if = "alert.text === 'Container updated successfully.'"
+  ) Changes Saved
+  //- span(
+  //-   ng-if = "deleted"
+  //- ) Container Deleted
+    a.link Undo
+
+//- old alerts
 .help-container.fixed.bottom(
   ng-class = "{'deprecated': !$root.featureFlags.newNavigation}"
+  ng-if = "!$root.featureFlags.inviteFlows"
 )
   .help(
     ng-if = "alert"
@@ -13,6 +38,7 @@
       )
     | {{alert.text}}
 
+//- environment page
 .environment-wrapper
   header.environment-header.clearfix(
     ng-include = "'viewEnvironmentHeader'"

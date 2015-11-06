@@ -4,3 +4,62 @@
   min-height: 100%;
   padding: 15px;
 }
+
+// styles specific to notifications in environment
+.notification.environment-notification {
+  animation: none; // reset default
+  font-size: 15px;
+  font-weight: $weight-normal;
+  right: 6px;
+  top: 18px;
+
+  &.ng-enter {
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+  }
+
+  &.ng-enter-active {
+    opacity: 1;
+  }
+
+  &.ng-leave {
+    opacity: 1;
+    transition: opacity .3s ease-in-out;
+  }
+
+  &.ng-leave-active {
+    opacity: 0;
+  }
+
+  // text color
+  &.gray,
+  &.green,
+  &.red {
+    background: radial-gradient($white 0%, rgba($white,0) 90%);
+    border: 0;
+    box-shadow: none;
+  }
+
+  &.gray {
+    color: $gray;
+  }
+
+  &.green {
+    color: $green;
+  }
+
+  &.red {
+    color: $red;
+  }
+
+  .iconnables {
+    color: currentColor;
+    margin-top: 6px;
+  }
+
+  // undo
+  .link {
+    color: $gray-dark;
+    margin-left: 6px;
+  }
+}

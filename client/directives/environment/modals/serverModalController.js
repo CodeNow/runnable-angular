@@ -8,9 +8,9 @@ function ServerModalController(
   $rootScope,
   $scope,
   eventTracking,
-  fetchUser,
   helpCards,
   parseDockerfileForCardInfoFromInstance,
+  createBuildFromContextVersionId,
   keypather,
   loadingPromises,
   promisify,
@@ -44,10 +44,13 @@ function ServerModalController(
       !SMC.openItems.isClean();
   };
 
-  this.rebuildAndOrRedeploy = function (noCache) {
+  this.rebuildAndOrRedeploy = function (noCache, forceRebuild) {
     var SMC = this;
     if (!noCache) {
       noCache = false;
+    }
+    if (!forceRebuild) {
+      forceRebuild = false;
     }
     var toRebuild;
     var toRedeploy;
@@ -60,7 +63,11 @@ function ServerModalController(
         return loadingPromises.finished(SMC.name);
       })
       .then(function (promiseArrayLength) {
-        toRebuild = !!(promiseArrayLength > 0 || SMC.openItems.getAllFileModels(true).length);
+        toRebuild = !!(
+          forceRebuild ||
+          promiseArrayLength > 0 ||
+          SMC.openItems.getAllFileModels(true).length
+        );
 
         toRedeploy = !toRebuild && !angular.equals(
           keypather.get(SMC, 'instance.attrs.env'),
@@ -113,6 +120,11 @@ function ServerModalController(
             if (toRedeploy) {
               return promisify(SMC.instance, 'redeploy')();
             }
+          })
+          .catch(function (err) {
+            // If we get an error, we need to wipe the loadingPromises, since it could have an error
+            loadingPromises.clear(SMC.name);
+            return $q.reject(err);
           });
       });
   };
@@ -171,44 +183,33 @@ function ServerModalController(
           SMC.state.contextVersion = contextVersion;
           SMC.state.acv = contextVersion.getMainAppCodeVersion();
           SMC.state.repo = keypather.get(contextVersion, 'getMainAppCodeVersion().githubRepo');
-          loadingPromises.clear(SMC.name);
           return promisify(contextVersion, 'fetch')();
         })
     );
-    // Only parse the Dockerfile info when no error has occurred
-    if (shouldParseDockerfile  && !SMC.state.advanced) {
-      SMC.state.promises.contextVersion
-        .then(function (contextVersion) {
-          // This function updates/changes the contents of `startCommand`, `ports`, etc.
+
+    return SMC.state.promises.contextVersion
+      .then(function (contextVersion) {
+        // Only parse the Dockerfile info when no error has occurred
+        if (shouldParseDockerfile  && !SMC.state.advanced) {
           return parseDockerfileForCardInfoFromInstance(SMC.instance, contextVersion)
             .then(function (data) {
               angular.extend(SMC, data);
-              return SMC.populateStateFromData(data, contextVersion);
+              SMC.populateStateFromData(data, contextVersion);
+              return contextVersion;
             });
-        });
-    }
-
-    return SMC.state.promises.contextVersion
-      .then(function () {
+        }
+        return contextVersion;
+      })
+      .then(function (contextVersion) {
+        SMC.openItems.removeAndReopen(contextVersion);
         return SMC.openDockerfile(SMC.state, SMC.openItems);
       })
       .then(function () {
-        return SMC.openItems.removeAndReopen(SMC.state.contextVersion);
-      })
-      .then(function () {
-        return fetchUser();
-      })
-      .then(function (user) {
-        return promisify(user, 'createBuild')({
-          contextVersions: [SMC.state.contextVersion.id()],
-          owner: {
-            github: $rootScope.dataApp.data.activeAccount.oauthId()
-          }
-        });
+        return createBuildFromContextVersionId(SMC.state.contextVersion.id());
       })
       .then(function (build) {
         SMC.state.build = build;
-        return SMC;
+        return SMC.state.contextVersion;
       });
   };
 
@@ -243,6 +244,4 @@ function ServerModalController(
         return true;
       });
   };
-
 }
-

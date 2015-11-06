@@ -4,6 +4,14 @@ require('app')
   .factory('createAndBuildNewContainer', createAndBuildNewContainer);
 
 
+ /**
+  * Given a `state` object, create a build for the specified context version
+  *
+  * @param createPromise {Promise} - A promise that returns a `state`object
+  * with a `build` and a `opts` property.
+  * @param container {String}
+  * @return instancePromise {Promise} - Promise that returns a new instance
+  */
 function createAndBuildNewContainer(
   $q,
   $rootScope,
@@ -13,7 +21,7 @@ function createAndBuildNewContainer(
   fetchUser,
   helpCards
 ) {
-  return function (createPromise, containerName) {
+  return function (createPromiseForState, containerName) {
     eventTracking.triggeredBuild(false);
     // Save this in case it changes
     var cachedActiveAccount = $rootScope.dataApp.data.activeAccount;
@@ -30,7 +38,7 @@ function createAndBuildNewContainer(
           }
         }, {warn: false});
         response.masterInstances.add(instance);
-        return createPromise;
+        return $q.when(createPromiseForState);
       })
       .then(function (newServerModel) {
         $rootScope.$broadcast('alert', {

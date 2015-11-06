@@ -15,8 +15,7 @@ function fileEditor(
   modelist,
   promisify,
   loadingPromises,
-  validateDockerfile,
-  watchOncePromise
+  validateDockerfile
 ) {
   return {
     restrict: 'A',
@@ -32,11 +31,11 @@ function fileEditor(
       var session = null;
       $scope.actions = {
         setAceMode: function (editor) {
-          var unwatch = $scope.$watch('file.attrs.name', function (name) {
-            if (name) {
+          var unwatch = $scope.$watch('file.state.body', function (body) {
+            if (typeof body === 'string') {
               unwatch();
               modelist.then(function (modelist) {
-                var mode = modelist.getModeForPath(name).mode;
+                var mode = modelist.getModeForPath($scope.file.attrs.name).mode;
                 editor.getSession().setMode(mode);
                 session = editor.getSession();
                 updateDockerfileValidation($scope.file);
@@ -83,13 +82,14 @@ function fileEditor(
       }
       var updateFileDebounce = debounce(updateFile, 1000);
 
-      function updateDockerfileValidation (){
+      function updateDockerfileValidation() {
         var isDockerfile = $scope.file.attrs.name === 'Dockerfile';
         if (!isDockerfile) {
           return;
         }
 
-        var validation = validateDockerfile($scope.file.state.body);
+        var body = $scope.file.state ? $scope.file.state.body : $scope.file.attrs.body;
+        var validation = validateDockerfile(body);
         if (validation.errors) {
           validation.errors = validation.errors.filter(function (error) {
             return error.line;
@@ -113,16 +113,23 @@ function fileEditor(
         }
       }
 
-      watchOncePromise($scope, 'file', true)
-        .then(function (file) {
-          keypather.set(file, 'state.isDirty', false);
-          $scope.$on('EDITOR::SAVE', updateFile);
-          if (!$scope.useAutoUpdate) {
-            keypather.set(file, 'actions.saveChanges', updateFile);
-          }
-          return fetchFile().then(function () {
-            $scope.$watch('file.state.body', function (newVal) {
-              if (typeof newVal === 'string' && newVal !== $scope.file.attrs.body) {
+      var fileBodyWatch = angular.noop;
+      $scope.$watch('file', function (file) {
+        if (!file) {
+          return;
+        }
+        keypather.set(file, 'state.isDirty', false);
+        if (!$scope.useAutoUpdate) {
+          keypather.set(file, 'actions.saveChanges', updateFile);
+        }
+        return fetchFile()
+          .then(function () {
+            fileBodyWatch();
+            fileBodyWatch = $scope.$watch('file.state.body', function (newVal) {
+              // We should never get undefined back unless a fresh value from the server has been loaded
+              if (newVal === undefined) {
+                resetFileBodyState();
+              } else if (typeof newVal === 'string' && newVal !== $scope.file.attrs.body) {
                 updateDockerfileValidation($scope.file);
                 keypather.set($scope.file, 'state.isDirty', true);
                 if ($scope.useAutoUpdate) {
@@ -133,7 +140,7 @@ function fileEditor(
               $scope.$emit('FETCH_FILE_SUCCESSFUL', file, updateFile);
             });
           });
-        });
+      });
     }
 
   };
