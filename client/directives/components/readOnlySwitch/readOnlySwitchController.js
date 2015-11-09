@@ -12,10 +12,7 @@ function ReadOnlySwitchController(
   loadingPromises,
   promisify,
   ModalService,
-  keypather,
-  fetchUser,
   updateDockerfileFromState,
-  $rootScope,
   $q
 ) {
   var ROSC = this;
@@ -39,27 +36,22 @@ function ReadOnlySwitchController(
   // Getter/setter
   this.readOnly = function (newAdvancedMode) {
     if (newAdvancedMode === true) {
-      ROSC.state.advanced = newAdvancedMode;
-      loading(ROSC.loadingPromisesTarget, true);
-      ROSC.switchModePromise = $q.when(true)
+      // Store a promise for when we have properly switched to advanced mode
+      ROSC.switchModePromise = loadingPromises.finished(ROSC.loadingPromisesTarget)
         .then(function () {
           // If there is not instance, we need to copy this context version and
           // keep a reference to the original CV
           if (!ROSC.state.instance) {
-            // Save changes to the context version
+            loading(ROSC.loadingPromisesTarget + 'IsBuilding', true);
             return updateDockerfileFromState(ROSC.state, true, true)
               .then(function () {
-                return promisify(ROSC.state.contextVersion, 'deepCopy')();
-              })
-              .then(function (contextVersionCopy) {
-                // Save a copy of our last simple mode CV to state
-                ROSC.state.simpleContextVersionCopy = contextVersionCopy;
-                return ROSC.state.contextVersion;
+                // Save changes to the context version
+                ROSC.state.simpleContextVersionCopy = ROSC.state.contextVersion;
+                $scope.$emit('resetStateContextVersion', ROSC.state.contextVersion, false);
               });
           }
-          return ROSC.state.contextVersion;
         })
-        .then(function (contextVersion) {
+        .then(function () {
           if (ROSC.state.instance && !ROSC.state.instance.attrs.lastBuiltSimpleContextVersion) {
             // Grab off of the instance, since it's the original one, and hasn't been modified
             ROSC.state.instance.attrs.lastBuiltSimpleContextVersion = {
@@ -69,7 +61,14 @@ function ReadOnlySwitchController(
           }
           if (ROSC.state.promises) {
             return ROSC.state.promises.contextVersion
-              .then(function () {
+              .then(function (contextVersion) {
+                if (!ROSC.state.instance && (ROSC.state.simpleContextVersionCopy.id() === contextVersion.id)) {
+                  return $q.reject(new Error(
+                    'simpleContextVersionCopy was not properly copied.' +
+                    'ContextVersion ID and simpleContextVersionCopy ID are the same.'
+                  ));
+                }
+                ROSC.state.advanced = newAdvancedMode;
                 return loadingPromises.add(ROSC.loadingPromisesTarget,
                   promisify(contextVersion, 'update')({
                     advanced: newAdvancedMode
@@ -83,11 +82,14 @@ function ReadOnlySwitchController(
                 ROSC.state.advanced = !newAdvancedMode;
               });
           }
-          return true;
+          ROSC.state.advanced = newAdvancedMode;
+          return newAdvancedMode;
         })
-        .then(function () {
-          loading(ROSC.loadingPromisesTarget, false);
-          return true;
+        .finally(function () {
+          if (!ROSC.state.instance) {
+            loading(ROSC.loadingPromisesTarget + 'IsBuilding', false);
+          }
+          return ROSC.state.advanced;
         });
       return ROSC.switchModePromise;
     }
@@ -97,11 +99,12 @@ function ReadOnlySwitchController(
         .then(function () {
           if (!ROSC.state.instance) {
             return {
-              templateUrl: 'confirmSwitchToSimpleModeView',
-              inputs: {}
+              controller: 'ConfirmationModalController',
+              templateUrl: 'confirmSwitchToSimpleModeView'
             };
           }
           return {
+            controller: 'ConfirmRollbackModalController',
             templateUrl: 'confirmRollbackModalView',
             inputs: {
               instance: ROSC.state.instance
@@ -112,35 +115,29 @@ function ReadOnlySwitchController(
           return ROSC.state.promises.contextVersion
             .then(function (contextVersion) {
               return ModalService.showModal({
-                controller: 'ConfirmationModalController',
+                controller: opts.controller,
                 controllerAs: 'CMC',
                 templateUrl: opts.templateUrl,
                 inputs: opts.inputs
               })
-              .then(function (modal) {
-                return modal.close;
-              })
-              .then(function (confirmed) {
-                if (!ROSC.state.instance) {
+                .then(function (modal) {
+                  return modal.close;
+                })
+                .then(function (confirmed) {
                   if (confirmed) {
-                    return $q.when(ROSC.switchModePromise)
-                      .then(function () {
-                        ROSC.state.advanced = false;
-                        keypather.set(ROSC, 'state.simpleContextVersionCopy.attrs.advanced', false);
-                        $scope.$emit('resetStateContextVersion', ROSC.state.simpleContextVersionCopy, true);
-                        loading(ROSC.loadingPromisesTarget, false);
-                        return false;
-                      });
+                    if (!ROSC.state.instance) {
+                      return $q.when(ROSC.switchModePromise)
+                        .then(function () {
+                          $scope.$emit('resetStateContextVersion', ROSC.state.simpleContextVersionCopy, true);
+                          return false;
+                        });
+                    }
+                    return performRollback(contextVersion);
+                  } else {
+                    ROSC.state.advanced = contextVersion.attrs.advanced;
+                    return ROSC.state.advanced;
                   }
-                  return true;
-                }
-                if (confirmed) {
-                  return performRollback(contextVersion);
-                } else {
-                  ROSC.state.advanced = false;
-                  return false;
-                }
-              });
+                });
             });
         })
         .catch(errs.handler);

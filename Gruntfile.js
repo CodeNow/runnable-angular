@@ -7,12 +7,15 @@ var async   = require('async');
 var envIs   = require('101/env-is');
 var timer   = require('grunt-timer');
 var version = require('./package.json').version;
+var historyApiFallback = require('connect-history-api-fallback');
 
 
 var config = {};
 
 module.exports = function(grunt) {
-  timer.init(grunt);
+  timer.init(grunt, {
+    friendlyTime: true
+  });
 
   var sassDir   = 'client/assets/styles/scss';
   var sassIndex = path.join(sassDir, 'index.scss');
@@ -32,7 +35,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     concurrent: {
       dev: {
-        tasks: ['watch:images', 'watch:javascripts', 'watch:templates', 'watch:styles', 'watch:jade', 'watch:compress', 'nodemon'],
+        tasks: ['watch:images', 'watch:javascripts', 'watch:templates', 'watch:styles', 'watch:jade'],
         options: {
           limit: 10,
           logConcurrentOutput: true
@@ -323,6 +326,40 @@ module.exports = function(grunt) {
           'client/build/js/bundle.js': ['client/build/js/bundle.js']
         }
       }
+    },
+    browserSync: {
+      dev: {
+        bsFiles: {
+          src : [
+            'client/build/js/*.js',
+            'client/build/css/*.css',
+            'client/build/*.html'
+          ]
+        },
+        options: {
+          watchTask: true,
+          server: {
+            baseDir: 'client/build/',
+            middleware: [
+              historyApiFallback({
+                index: '/app.html',
+                rewrites: [
+                  {
+                    from : /^\/$/,
+                    to: '/index.html'
+                  },
+                  {
+                    from: /^\/build\//,
+                    to: function (context) {
+                      return context.parsedUrl.pathname.replace('/build', '');
+                    }
+                  }
+                ]
+              })
+            ]
+          }
+        }
+      }
     }
   });
 
@@ -480,6 +517,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-jsbeautifier');
     grunt.loadNpmTasks('grunt-istanbul');
     grunt.loadNpmTasks('grunt-istanbul-coverage');
+    grunt.loadNpmTasks('grunt-browser-sync');
   }
 
   grunt.registerTask('test:watch', ['bgShell:karma-watch']);
@@ -503,7 +541,7 @@ module.exports = function(grunt) {
     'generateConfigs',
     'browserify:watch',
     'jade:compile',
-    'compress:build',
+    'browserSync',
     'concurrent'
   ]);
   grunt.registerTask('server', [
@@ -516,7 +554,7 @@ module.exports = function(grunt) {
     'generateConfigs',
     'browserify:watch',
     'jade:compile',
-    'compress:build',
+    'browserSync',
     'concurrent'
   ]);
   grunt.registerTask('deploy', [

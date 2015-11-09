@@ -23,10 +23,8 @@ function featureFlags(
     multilineFnR: false,
     nameContainer: false,
     navListFilter: false,
-    newContainerModal: true, // for isolation UI
-    newNavigation: true, // for isolation UI
-    newVerificationFlow: false,
-    newVerificationFlowStackSelector: false,
+    newVerificationFlow: true,
+    newVerificationFlowStackSelector: true,
     renameContainer: false,
     saveToolbar: false,
     teamManagement: false, // changes text from org to team in account menu

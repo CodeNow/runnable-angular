@@ -9,17 +9,11 @@ require('app')
 function instanceHeader(
   $localStorage,
   $stateParams,
-  $rootScope,
   fetchPullRequest
 ) {
   return {
     restrict: 'A',
-    templateUrl: function () {
-      if ($rootScope.featureFlags.newNavigation) {
-        return 'instanceHeaderView';
-      }
-      return 'viewInstancePrimaryActions';
-    },
+    templateUrl: 'instanceHeaderView',
     scope: {
       instance: '=',
       openItems: '='

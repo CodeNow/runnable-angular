@@ -1,29 +1,20 @@
 //- instance list
 .instances-list(
   ng-class = "{'in': !CIS.$storage.instanceListIsClosed}"
-  ng-if = "$root.featureFlags.newNavigation"
+  ng-if = "CIS.instancesByPod"
   ng-include = "'viewInstancesList'"
+  scroll-offset = "200"
+  scroll-to = "a.list-item-container.active"
 )
 
-//- deprecated, old list of containers
-nav.sidebar.sidebar-containers-deprecated(
-  ng-if = "!$root.featureFlags.newNavigation"
+.instances-list(
+  ng-class = "{'in': !CIS.$storage.instanceListIsClosed}"
+  ng-if = "!CIS.instancesByPod"
 )
-  section.containers(
-    ng-if = "!CIS.instancesByPod"
-  )
-    .spinner-wrapper.spinner-md.spinner-gray.spinner-center.in(
-      ng-include = "'spinner'"
-    )
-
-  section.containers(
-    ng-if = "CIS.instancesByPod"
-    ng-include = "'viewInstanceList'"
-    scroll-offset = "200"
-    scroll-to = "a.list-item-container.active"
+  .spinner-wrapper.spinner-md.spinner-gray.spinner-center.in(
+    ng-include = "'spinner'"
   )
 
 .instance-wrapper(
-  ng-class = "{'deprecated': !$root.featureFlags.newNavigation}"
   ui-view
 )

@@ -98,15 +98,15 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
       };
     };
     sinon.stub(ctx.contextVersion, 'fetch', returnArg(ctx.contextVersion));
+    sinon.stub(ctx.contextVersion, 'fetchFile', returnArg(ctx.contextVersion, dockerfile));
     sinon.stub(ctx.contextVersion, 'update', returnArg(ctx.contextVersion));
     sinon.stub(ctx.contextVersion, 'rollback', returnArg(ctx.newContextVersion));
     sinon.stub(ctx.contextVersion, 'deepCopy', returnArg(ctx.newContextVersion));
-    sinon.stub(ctx.contextVersion, 'fetchFile', returnArg(ctx.newContextVersion, dockerfile));
     // newContextVersion
-    sinon.stub(ctx.newContextVersion, 'fetch', returnArg(ctx.contextVersion));
-    sinon.stub(ctx.newContextVersion, 'update', returnArg(ctx.contextVersion));
-    sinon.stub(ctx.newContextVersion, 'deepCopy', returnArg(ctx.newContextVersion));
+    sinon.stub(ctx.newContextVersion, 'fetch', returnArg(ctx.newContextVersion));
+    sinon.stub(ctx.newContextVersion, 'update', returnArg(ctx.newContextVersion));
     sinon.stub(ctx.newContextVersion, 'fetchFile', returnArg(ctx.newContextVersion, dockerfile));
+    sinon.stub(ctx.newContextVersion, 'deepCopy', returnArg(ctx.thirdContextVersion));
 
     readOnlySwitchController = $controller('ReadOnlySwitchController', {
       '$scope': $scope
@@ -192,6 +192,17 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
           instance: false,
           contextVersion: ctx.contextVersion
         };
+        ctx.resetCVHandler = sinon.spy(function (event, contextVersion) {
+          return $q(function (resolve, reject) {
+            contextVersion.deepCopy(function (err, newContextVersion) {
+              readOnlySwitchController.state.contextVersion = newContextVersion;
+              readOnlySwitchController.state.advanced = !readOnlySwitchController.state.advanced;
+              readOnlySwitchController.state.promises.contextVersion = $q.when(newContextVersion);
+              resolve(newContextVersion);
+            });
+          });
+        });
+        $scope.$on('resetStateContextVersion', ctx.resetCVHandler);
       });
 
       it('should attempt to update the cv, but not set the `lastBuiltSimpleContextVersion`', function () {
@@ -201,30 +212,32 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
         $scope.$digest();
         $scope.$digest();
         sinon.assert.calledOnce(ctx.loadingPromiseMock.add);
-        sinon.assert.calledOnce(ctx.contextVersion.deepCopy);
+        sinon.assert.calledOnce(ctx.resetCVHandler);
+        sinon.assert.calledWith(ctx.resetCVHandler, sinon.match.any, ctx.contextVersion);
+        sinon.assert.calledOnce(ctx.newContextVersion.update);
+        sinon.assert.calledOnce(ctx.newContextVersion.fetch);
         expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.true;
         expect(keypather.get(readOnlySwitchController, 'state.simpleContextVersionCopy')).to.be.an.object;
         // `lastBuiltSimpleContextVersion` is not necessary when there is not instance
         expect(ctx.instance.attrs.lastBuiltSimpleContextVersion, 'lastBuiltSimpleContextVersion').to.not.be.ok;
+        expect(keypather.get(readOnlySwitchController, 'state.advanced')).to.equal(true);
+        expect(readOnlySwitchController.state.contextVersion).to.equal(ctx.newContextVersion);
       });
 
       it('should attempt to update the cv, and not change the existing lastBuiltSimpleContextVersion', function () {
-        $scope.$emit = sinon.stub();
         readOnlySwitchController.state.advanced = true;
+        readOnlySwitchController.state.simpleContextVersionCopy = ctx.contextVersion;
         expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.true;
         readOnlySwitchController.readOnly(false);
         $scope.$digest();
         sinon.assert.calledOnce(ModalService.showModal);
-        sinon.assert.calledOnce($scope.$emit);
-        sinon.assert.calledWith($scope.$emit, 'resetStateContextVersion');
+        sinon.assert.calledOnce(ctx.resetCVHandler);
+        sinon.assert.calledWith(ctx.resetCVHandler, sinon.match.any, ctx.contextVersion);
         expect(readOnlySwitchController.readOnly(), 'readOnly').to.be.false;
+        expect(readOnlySwitchController.state.contextVersion).to.equal(ctx.newContextVersion);
       });
 
       it('should switch revert back to the original context version when switching back to simple mode', function () {
-        $scope.$emit = sinon.spy(function (eventName, contextVersion) {
-          readOnlySwitchController.state.contextVersion = ctx.thirdContextVersion;
-        });
-
         var simpleCVId = keypather.get(readOnlySwitchController, 'state.contextVersion.attrs._id');
         readOnlySwitchController.state.advanced = false;
         expect(simpleCVId).to.be.a.string;
@@ -232,16 +245,27 @@ describe('ReadOnlySwitchController'.bold.underline.blue, function () {
         // Switch to advanced mode
         readOnlySwitchController.readOnly(true);
         $scope.$digest();
+        sinon.assert.calledOnce(ctx.resetCVHandler);
+        // The CV should be reset with what will now become the simple CV
+        sinon.assert.calledWith(ctx.resetCVHandler, sinon.match.any, readOnlySwitchController.state.simpleContextVersionCopy);
+        sinon.assert.calledOnce(readOnlySwitchController.state.simpleContextVersionCopy.deepCopy);
+        sinon.assert.calledOnce(ctx.newContextVersion.update);
+        sinon.assert.calledOnce(ctx.newContextVersion.fetch);
         var advancedCVId = keypather.get(readOnlySwitchController, 'state.contextVersion.attrs._id');
         var simpleCVCopy = keypather.get(readOnlySwitchController, 'state.simpleContextVersionCopy.attrs._id');
         // We will only modify the current CV and create a copy of it
-        expect(advancedCVId).to.equal(simpleCVId);
-        expect(simpleCVCopy).to.not.equal(simpleCVId);
+        expect(advancedCVId).to.not.equal(simpleCVId);
+        expect(simpleCVCopy).to.equal(simpleCVId);
         expect(keypather.get(readOnlySwitchController, 'state.advanced')).to.equal(true);
 
         // Switch back to simple mode with a new context version
+        ctx.resetCVHandler.reset();
         readOnlySwitchController.readOnly(false);
         $scope.$digest();
+        sinon.assert.calledOnce(ctx.resetCVHandler);
+        // Reset the CV back to the Simple CV
+        sinon.assert.calledWith(ctx.resetCVHandler, sinon.match.any, readOnlySwitchController.state.simpleContextVersionCopy);
+        sinon.assert.calledTwice(readOnlySwitchController.state.simpleContextVersionCopy.deepCopy);
         var newSimpleCVId = keypather.get(readOnlySwitchController, 'state.contextVersion.attrs._id');
         expect(newSimpleCVId).to.not.equal(simpleCVId);
         // `resetStateContextVersion` should deepCopy our stored copy

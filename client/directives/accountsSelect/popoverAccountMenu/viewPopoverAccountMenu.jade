@@ -1,17 +1,13 @@
-.popover.menu.popover-account-menu(
-  ng-class = "{\
-    'bottom': !$root.featureFlags.newNavigation,\
-    'in': active,\
-    'right': $root.featureFlags.newNavigation\
-  }"
-  style = "{{$root.featureFlags.newNavigation ? 'left: 68px; transform-origin: 0 0; top: 18px' : 'left: auto; right: 9px; transform-origin: 95% 0; top: 60px'}}"
+.popover.menu.popover-account-menu.right(
+  ng-class = "{'in': active}"
+  style = "left: 68px; transform-origin: 0 0; top: 18px"
 )
   .arrow.js-animate(
     ng-class = "{\
       'gray': !data.showIntegrations || (data.showIntegrations && data.currentPanelName !== 'accountMenu'),\
       'white': data.showIntegrations && data.currentPanelName === 'accountMenu'\
     }"
-    style = "{{$root.featureFlags.newNavigation ? 'top: 20px' : 'left: 191px'}}"
+    style = "top: 20px"
   )
   animated-panel-container.popover-views
     animated-panel(
@@ -90,7 +86,7 @@
           ul.list.popover-list.list-secondary
             li.list-item.popover-list-item(
               ng-click = "goToPanel('featureFlags')"
-              ng-if = "$root.canEditFeatureFlags() && $root.featureFlags.newNavigation"
+              ng-if = "$root.canEditFeatureFlags()"
             ) Feature Flags
               svg.iconnables.icons-arrow-forward.anchor-right
                 use(

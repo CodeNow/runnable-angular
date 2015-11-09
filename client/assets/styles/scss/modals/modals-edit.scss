@@ -37,7 +37,8 @@
     .input,
     .label,
     .textarea,
-    .tr-action {
+    .tr,
+    .table-actions {
       @extend %no-touching;
       opacity: .6 !important;
     }

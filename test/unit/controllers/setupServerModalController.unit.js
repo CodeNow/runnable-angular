@@ -51,7 +51,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   var mainACV;
   var acv;
   var branch;
-  var instances
+  var instances;
   var mockInstance;
 
   function initState() {
