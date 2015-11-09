@@ -17,63 +17,62 @@
 
     .btn {
       text-align: left;
+    }
+  }
 
-      &:first-child {
-        border-radius: $input-border-radius;
-        color: $gray;
-        font-size: 15px;
-        font-weight: $weight-normal;
-        height: auto;
-        line-height: 1.4;
-        padding: 6px 30px 6px 9px;
+  .btn-repository {
+    border-radius: $input-border-radius;
+    color: $gray;
+    font-size: 15px;
+    font-weight: $weight-normal;
+    height: auto;
+    line-height: 1.4;
+    padding: 6px 30px 6px 9px;
 
-        &:hover,
-        &:active {
-          z-index: 1; // on top of second button
-        }
-      }
-
-      &:last-child {
-        background: $gray-lightest;
-        border: 2px solid $gray-lighter;
-        border-top-width: 1px;
-        color: $gray;
-        cursor: default;
-        font-size: 13px;
-        padding: 0 9px;
-
-        .icons-sync {
-          height: 100%;
-          margin-right: 6px;
-          width: 15px;
-        }
-
-        .underline {
-          line-height: 1.2;
-          margin-top: 8px;
-        }
-
-        .toggle-wrapper {
-          top: 9px;
-
-          &.disabled {
-            cursor: not-allowed;
-            opacity: .5;
-          }
-        }
-      }
+    &:hover,
+    &:active {
+      z-index: 1; // on top of second button
     }
 
-    // text for commit/branch
     .row {
       height: 21px;
       line-height: 21px;
 
       // icon for commmit/branch
       .iconnables {
-        height: 21px;
-        margin-right: 6px;
+        height: 15px;
+        margin: 3px 6px 0 0 ;
         width: 15px;
+      }
+    }
+  }
+
+  .btn-sync {
+    background: $gray-lightest;
+    border: 2px solid $gray-lighter;
+    border-top-width: 1px;
+    color: $gray;
+    cursor: default;
+    font-size: 13px;
+    padding: 0 9px;
+
+    .icons-sync {
+      height: 100%;
+      margin-right: 6px;
+      width: 15px;
+    }
+
+    .underline {
+      line-height: 1.2;
+      margin-top: 8px;
+    }
+
+    .toggle-wrapper {
+      top: 9px;
+
+      &.disabled {
+        cursor: not-allowed;
+        opacity: .5;
       }
     }
   }

@@ -1,9 +1,18 @@
 .btn-group-vertical
 
   //- repository
-  .btn.gray.clearfix(
+  .btn.gray.btn-repository.clearfix(
     ng-click = "actions.openRepoDetailsModal()"
   )
+    //- only show branch if additional repository
+    .row.text-overflow.js-repository-branch(
+      ng-if = "acv.attrs.additionalRepo"
+    )
+      svg.iconnables.icons-branch.float-left
+        use(
+          xlink:href = "#icons-branch-alt"
+        )
+      | {{ acv.attrs.branch }}
 
     .row.text-overflow.js-repository-commit
       svg.iconnables.icons-commit.float-left
@@ -16,15 +25,6 @@
       svg.iconnables.float-left
       span.small {{ activeCommit.attrs.commit.author.date | timeFrom }}
 
-    //- only show branch if additional repository
-    .row.text-overflow.js-repository-branch(
-      ng-if = "acv.attrs.additionalRepo"
-    )
-      svg.iconnables.icons-branch.float-left
-        use(
-          xlink:href = "#icons-branch"
-        )
-      | {{ acv.attrs.branch }}
 
     svg.iconnables.icons-arrow-forward
       use(
@@ -32,7 +32,7 @@
       )
 
   //- sync commits
-  .btn.btn-sm(
+  .btn.btn-sm.btn-sync(
     ng-if = "!acv.attrs.additionalRepo && !$root.featureFlags.webhooks || $root.featureFlags.webhooksAdminPresent"
   )
     svg.iconnables.icons-sync.float-left
