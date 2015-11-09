@@ -7,7 +7,11 @@ var async   = require('async');
 var envIs   = require('101/env-is');
 var timer   = require('grunt-timer');
 var version = require('./package.json').version;
-var historyApiFallback = require('connect-history-api-fallback');
+
+var historyApiFallback = function () {};
+if (!envIs('production', 'staging')) {
+  historyApiFallback = require('connect-history-api-fallback');
+}
 
 
 var config = {};
