@@ -2,6 +2,13 @@
 require('app').directive('popOverHoverTrigger', popOverHoverTrigger);
 
 /**
+ * PopoverHoverTrigger is a popover trigger that activates a popover when the user hovers over
+ * the element, and keeps it open as long as the user heads toward the popover, until they hover off
+ * of the popover, or go outside the triangle.  This directive handles all the events necessary to
+ * make a popover activate this way, and all of the cleanup.
+ *
+ * The popOverTrigger attr for the popover needs to be set to 'hover'.
+ *
  *
  * @param $document
  * @param pointInPolygon
@@ -115,24 +122,19 @@ function popOverHoverTrigger(
         $document.off('mousemove', checkAngleOnMouseMove);
       }
 
-      function onActivateHover() {
-        boundaryValues = null;
-        element.on('mouseleave', onElementMouseLeave);
-        POC.popoverElement.on('mouseleave', cleanUp);
-      }
-
       function onMouseOver(e) {
         if (POC.isPopoverActive()) {
           // If the element is already there, don't do anything
           return;
         }
+        boundaryValues = null;
         POC.openPopover(e);
-        onActivateHover(e);
+        element.on('mouseleave', onElementMouseLeave);
+        POC.popoverElement.on('mouseleave', cleanUp);
       }
 
       element.on('mouseenter', onMouseOver);
       $scope.$on('$destroy', function () {
-        console.log('dsafasdfasdf');
         cleanUp();
         element.off('mouseenter', onMouseOver);
       });
