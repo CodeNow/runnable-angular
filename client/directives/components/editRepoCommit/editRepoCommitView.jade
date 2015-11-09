@@ -34,8 +34,18 @@
         )
       | {{activeCommit.attrs.commit.message}}
 
-    .row.text-overflow
+    .row.row-author.text-overflow
       svg.iconnables.float-left
+      img.gravatar.float-left(
+        alt = "Runnabro"
+        height = "15"
+        ng-if = "$root.featureFlags.inviteFlows"
+        src = "https://avatars2.githubusercontent.com/u/5341618?v=3&s=40"
+        width = "15"
+      )
+      span.small(
+        ng-if = "$root.featureFlags.inviteFlows"
+      ) Runnabro—
       span.small {{activeCommit.attrs.commit.author.date | timeFrom}}
 
 
