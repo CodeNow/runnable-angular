@@ -27,15 +27,14 @@
     font-weight: $weight-normal;
     height: auto;
     line-height: 1.4;
-    padding: 6px 30px 6px 9px;
+    padding: 6px 24px 6px 9px;
 
     &:hover,
     &:active {
       z-index: 1; // on top of second button
 
       .row-commit::after {
-        background: $white;
-        box-shadow: -3px 0px 0 3px rgba($white,.5);
+        background: linear-gradient(to right, rgba($white,0), $white);
       }
     }
 
@@ -59,13 +58,14 @@
       white-space: normal;
 
       &::after {
-        background: $gray-lighterest;
-        box-shadow: -3px 0px 0 3px rgba($gray-lighterest,.5);
-        bottom: 3px;
-        content: '…';
+        background: linear-gradient(to right, rgba($gray-lighterest,0), $gray-lighterest);
+        bottom: 0;
+        content: '';
         display: block;
+        height: 21px;
         position: absolute;
         right: 0;
+        width: 30px;
       }
     }
   }
@@ -103,7 +103,7 @@
   .icons-arrow-forward {
     height: 100%;
     position: absolute;
-    right: 0;
+    right: 3px;
     top: 0;
   }
 }
