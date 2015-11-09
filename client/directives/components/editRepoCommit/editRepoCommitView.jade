@@ -25,7 +25,9 @@
         )
       | {{acv.attrs.branch}}
 
-    .row.row-commit.js-repository-commit
+    .row.row-commit.js-repository-commit(
+      title = "{{activeCommit.attrs.commit.message}}"
+    )
       svg.iconnables.icons-commit.float-left
         use(
           xlink:href = "#icons-commit-alt"
