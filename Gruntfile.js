@@ -541,7 +541,6 @@ module.exports = function(grunt) {
     'generateConfigs',
     'browserify:watch',
     'jade:compile',
-    'compress:build',
     'browserSync',
     'concurrent'
   ]);
