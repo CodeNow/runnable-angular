@@ -24,51 +24,64 @@
         font-weight: $weight-normal;
         height: auto;
         line-height: 1.4;
-        padding: 6px 30px 36px 9px;
+        padding: 6px 30px 6px 9px;
 
-        // .icons-arrow-forward {
-        //   color: $gray-light;
-        //   height: 100%;
-        //   position: absolute;
-        //   right: 9px;
-        //   top: 0;
-        // }
+        &:hover,
+        &:active {
+          z-index: 1; // on top of second button
+        }
       }
 
       &:last-child {
         background: $gray-lightest;
-        border-top: 1px solid $gray-lighter;
-        bottom: $input-border;
+        border: 2px solid $gray-lighter;
+        border-top-width: 1px;
+        color: $gray;
+        cursor: default;
         font-size: 13px;
-        left: $input-border;
-        position: absolute;
-        width: 271px;
+        padding: 0 9px;
+
+        .icons-sync {
+          height: 100%;
+          margin-right: 6px;
+          width: 15px;
+        }
+
+        .underline {
+          line-height: 1.2;
+          margin-top: 8px;
+        }
+
+        .toggle-wrapper {
+          top: 9px;
+
+          &.disabled {
+            cursor: not-allowed;
+            opacity: .5;
+          }
+        }
+      }
+    }
+
+    // text for commit/branch
+    .row {
+      height: 21px;
+      line-height: 21px;
+
+      // icon for commmit/branch
+      .iconnables {
+        height: 21px;
+        margin-right: 6px;
+        width: 15px;
       }
     }
   }
 
-  .repository-info {
-    padding-left: 21px;
-    position: relative;
-
-    .toggle-wrapper.disabled {
-      cursor: not-allowed;
-      opacity: .5;
-    }
-
-    .toggle-group {
-      display: inline-block;
-      margin-left: 4px;
-      top: 3px;
-    }
-
-    .iconnables {
-      height: 14px;
-      left: 0;
-      position: absolute;
-      top: 5px;
-      width: 14px;
-    }
+  .icons-arrow-forward {
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 }
 

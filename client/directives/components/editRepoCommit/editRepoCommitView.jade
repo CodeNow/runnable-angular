@@ -1,49 +1,55 @@
-.btn-group-vertical(
-  ng-click = "actions.openRepoDetailsModal()"
-)
+.btn-group-vertical
 
-  .btn.gray
-    .repository-info.text-overflow.js-repository-commit {{ activeCommit.attrs.commit.message}}
-      svg.iconnables.icons-commit
+  //- repository
+  .btn.gray.clearfix(
+    ng-click = "actions.openRepoDetailsModal()"
+  )
+
+    .row.text-overflow.js-repository-commit
+      svg.iconnables.icons-commit.float-left
         use(
-          xlink:href = "#icons-commit"
+          xlink:href = "#icons-commit-alt"
         )
-    .repository-info.small
-      span.float-left {{ activeCommit.attrs.commit.author.date | timeFrom }}
-      //- we don't want to trigger the popover to open because this is an external link
+      | {{ activeCommit.attrs.commit.message}}
 
-      //- //- if admin is not present
-      //- label.toggle-wrapper.float-right.disabled(
-      //-   ng-click = "$event.stopPropagation()"
-      //-   ng-if = "!acv.attrs.additionalRepo && $root.featureFlags.webhooks && !$root.featureFlags.webhooksAdminPresent"
-      //-   pop-over
-      //-   pop-over-options = "{\"top\":29,\"centered\":true}"
-      //-   pop-over-template = "autoDeployPopoverView"
-      //- ) Auto Deploy
-      //-   .toggle-group.toggle-xs
+    .row.text-overflow
+      svg.iconnables.float-left
+      span.small {{ activeCommit.attrs.commit.author.date | timeFrom }}
 
-  //- svg.iconnables.icons-arrow-forward
-  //-   use(
-  //-     xlink:href = "#icons-arrow-down"
-  //-   )
-
-  //- .repository-info.text-overflow.js-repository-branch {{ acv.attrs.branch }}
-    svg.iconnables.icons-branch
-      use(
-        xlink:href = "#icons-branch"
-      )
-  label.btn.btn-sm.toggle-wrapper(
-    ng-click = "$event.stopPropagation()"
-    ng-if = "!acv.attrs.additionalRepo && !$root.featureFlags.webhooks || $root.featureFlags.webhooksAdminPresent"
-    tooltip = "Auto Deploy automatically updates your container with new commits."
-    tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":-6,\"top\":18}"
-  ) Auto Deploy
-    input.toggle-input(
-      ng-false-value = "true"
-      ng-model = "autoDeploy"
-      ng-model-options = "{getterSetter: true}"
-      ng-true-value = "false"
-      type = "checkbox"
-      ng-disabled = "$root.isLoading.autoDeploy"
+    //- only show branch if additional repository
+    .row.text-overflow.js-repository-branch(
+      ng-if = "acv.attrs.additionalRepo"
     )
-    .toggle-group.toggle-xs.float-right
+      svg.iconnables.icons-branch.float-left
+        use(
+          xlink:href = "#icons-branch"
+        )
+      | {{ acv.attrs.branch }}
+
+    svg.iconnables.icons-arrow-forward
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+
+  //- sync commits
+  .btn.btn-sm(
+    ng-if = "!acv.attrs.additionalRepo && !$root.featureFlags.webhooks || $root.featureFlags.webhooksAdminPresent"
+  )
+    svg.iconnables.icons-sync.float-left
+      use(
+        xlink:href = "#icons-sync"
+      )
+    span.underline.float-left(
+      tooltip = "Automatically rebuild your container when new commits are made."
+      tooltip-options = "{\"class\":\"bottom\",\"left\":-6,\"top\":18}"
+    ) Sync Commits
+    .toggle-wrapper.float-right
+      input.toggle-input(
+        ng-false-value = "true"
+        ng-model = "autoDeploy"
+        ng-model-options = "{getterSetter: true}"
+        ng-true-value = "false"
+        type = "checkbox"
+        ng-disabled = "$root.isLoading.autoDeploy"
+      )
+      .toggle-group.toggle-xs
