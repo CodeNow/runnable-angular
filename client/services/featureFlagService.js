@@ -24,7 +24,7 @@ function featureFlags(
     nameContainer: false,
     navListFilter: false,
     newVerificationFlow: true,
-    newVerificationFlowStackSelector: false,
+    newVerificationFlowStackSelector: true,
     renameContainer: false,
     saveToolbar: false,
     teamManagement: false, // changes text from org to team in account menu
