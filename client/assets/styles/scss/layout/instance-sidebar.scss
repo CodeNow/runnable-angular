@@ -34,16 +34,11 @@
       z-index: 1; // on top of second button
     }
 
-    .row {
-      height: 21px;
-      line-height: 21px;
-
-      // icon for commmit/branch
-      .iconnables {
-        height: 15px;
-        margin: 3px 6px 0 0 ;
-        width: 15px;
-      }
+    // icon for commmit/branch
+    .row .iconnables {
+      height: 15px;
+      margin: 3px 6px 0 0 ;
+      width: 15px;
     }
   }
 

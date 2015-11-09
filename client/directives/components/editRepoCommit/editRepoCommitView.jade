@@ -4,26 +4,37 @@
   .btn.gray.btn-repository.clearfix(
     ng-click = "actions.openRepoDetailsModal()"
   )
+
+    //- replaces branch .row
+    .row.text-overflow(
+      ng-if = "acv.attrs.additionalRepo && $root.featureFlags.inviteFlows"
+    )
+      svg.iconnables.icons-repository-alt.float-left
+        use(
+          xlink:href = "#icons-repository-alt"
+        )
+      | repoName/{{acv.attrs.branch}}
+
     //- only show branch if additional repository
     .row.text-overflow.js-repository-branch(
-      ng-if = "acv.attrs.additionalRepo"
+      ng-if = "acv.attrs.additionalRepo && !$root.featureFlags.inviteFlows"
     )
       svg.iconnables.icons-branch.float-left
         use(
           xlink:href = "#icons-branch-alt"
         )
-      | {{ acv.attrs.branch }}
+      | {{acv.attrs.branch}}
 
     .row.text-overflow.js-repository-commit
       svg.iconnables.icons-commit.float-left
         use(
           xlink:href = "#icons-commit-alt"
         )
-      | {{ activeCommit.attrs.commit.message}}
+      | {{activeCommit.attrs.commit.message}}
 
     .row.text-overflow
       svg.iconnables.float-left
-      span.small {{ activeCommit.attrs.commit.author.date | timeFrom }}
+      span.small {{activeCommit.attrs.commit.author.date | timeFrom}}
 
 
     svg.iconnables.icons-arrow-forward
@@ -45,11 +56,11 @@
     ) Sync Commits
     .toggle-wrapper.float-right
       input.toggle-input(
+        ng-disabled = "$root.isLoading.autoDeploy"
         ng-false-value = "true"
         ng-model = "autoDeploy"
         ng-model-options = "{getterSetter: true}"
         ng-true-value = "false"
         type = "checkbox"
-        ng-disabled = "$root.isLoading.autoDeploy"
       )
       .toggle-group.toggle-xs
