@@ -3,7 +3,8 @@
   flex: 0 0 auto;
 
   > .btn {
-    font-family: $sans-serif; // override monospace fonts
+    font: $system; // override monospace fonts
+    line-height: $input-line-height-xs;
 
     // extra padding for icon
     &:first-child {

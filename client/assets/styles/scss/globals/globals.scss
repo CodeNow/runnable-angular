@@ -6,7 +6,7 @@ html {
 
 body {
   color: $gray-darker;
-  font-family: $sans-serif;
+  font: $system;
   font-feature-settings: 'kern';
   font-size: 16px;
   font-weight: 400;
@@ -17,6 +17,11 @@ body {
 
   &.modal-open {
     overflow: hidden;
+  }
+
+  // workaround to use system font for iOS, since it doesn't support 'font: caption'
+  &.ios {
+    font-family: "-apple-system", "HelveticaNeue", sans-serif;
   }
 }
 
