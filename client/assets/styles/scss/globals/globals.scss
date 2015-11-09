@@ -15,13 +15,13 @@ body {
   overflow-x: hidden;
   text-rendering: optimizeLegibility; // kerning magic
 
-  &.modal-open {
-    overflow: hidden;
-  }
-
   // workaround to use system font for iOS, since it doesn't support 'font: caption'
   &.ios {
-    font-family: "-apple-system", "HelveticaNeue", sans-serif;
+    font-family: '-apple-system', 'HelveticaNeue', sans-serif;
+  }
+
+  &.modal-open {
+    overflow: hidden;
   }
 }
 
