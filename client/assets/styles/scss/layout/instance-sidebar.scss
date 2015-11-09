@@ -42,6 +42,7 @@
     // icon for commmit/branch
     .row {
       padding-left: 21px;
+      position: relative;
 
       .iconnables {
         height: 15px;
@@ -55,7 +56,6 @@
     .row-commit {
       max-height: 42px; // 2 rows
       overflow: hidden;
-      position: relative;
       white-space: normal;
 
       &::after {
