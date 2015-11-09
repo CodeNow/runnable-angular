@@ -13,6 +13,7 @@
   // override button and fancy-select styles
   .btn-group-vertical {
     display: block;
+    overflow: hidden;
 
     .btn {
       text-align: left;
