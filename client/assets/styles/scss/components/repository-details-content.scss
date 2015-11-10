@@ -80,6 +80,16 @@
     }
   }
 
+  .row-author {
+    height: 21px;
+    line-height: 21px;
+
+    .gravatar {
+      margin: 3px 3px 0 0;
+      opacity: .5;
+    }
+  }
+
   .icons-fat-check {
     position: absolute;
     right: 12px;
