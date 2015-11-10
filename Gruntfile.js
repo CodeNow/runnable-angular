@@ -40,6 +40,13 @@ module.exports = function(grunt) {
           limit: 10,
           logConcurrentOutput: true
         }
+      },
+      devNoBS: {
+        tasks: ['watch:images', 'watch:javascripts', 'watch:templates', 'watch:styles', 'watch:jade', 'watch:compress', 'nodemon'],
+        options: {
+          limit: 10,
+          logConcurrentOutput: true
+        }
       }
     },
     nodemon: {
@@ -546,6 +553,20 @@ module.exports = function(grunt) {
     'jade:compile',
     'browserSync',
     'concurrent'
+  ]);
+  grunt.registerTask('no-bs', [ // No browser sync
+    'bgShell:npm-install',
+    'copy',
+    'sass:dev',
+    'autoprefixer',
+    'jade2js',
+    'jshint:dev',
+    'autoBundleDependencies',
+    'generateConfigs',
+    'browserify:watch',
+    'jade:compile',
+    'compress:build',
+    'concurrent:devNoBS'
   ]);
   grunt.registerTask('server', [
     'copy',
