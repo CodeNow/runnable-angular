@@ -450,35 +450,5 @@ describe('popOverHoverTriggerDirective'.bold.underline.blue, function() {
         expect(boundary[3], 'popoverRect bottomRight').to.deep.equal([90, 80]);
       });
     });
-
-    describe('isInsidePolygon', function () {
-      it('first time', function () {
-        injectSetupCompile();
-
-        sinon.stub(ctx.element[0], 'getBoundingClientRect').returns({
-          left:   50,
-          right:  60,
-          top:    100,
-          bottom: 120
-        });
-        ctx.PopOverController.popoverElement = createPopoverElement('top', {
-          left:   20,
-          right:  90,
-          top:    40,
-          bottom: 80
-        });
-        //    _________
-        // __|_________|__
-        // \ |_popover_| /
-        //  \___________/
-        //   |__button_|
-
-        var boundary = $elScope.getPolygon();
-        expect(boundary[0], 'element bottomLeft').to.deep.equal([50, 120]);
-        expect(boundary[1], 'element bottomRight').to.deep.equal([60, 120]);
-        expect(boundary[2], 'popoverRect bottomLeft').to.deep.equal([10, 70]);
-        expect(boundary[3], 'popoverRect bottomRight').to.deep.equal([100, 70]);
-      });
-    });
   });
 });
