@@ -36,18 +36,20 @@
 
     .row.row-author.text-overflow
       svg.iconnables.float-left
-      img.gravatar.float-left(
-        alt = "Runnabro"
-        height = "15"
+
+      //- if invite flows
+      .btn-user.float-left(
         ng-if = "$root.featureFlags.inviteFlows"
-        src = "https://avatars2.githubusercontent.com/u/5341618?v=3&s=40"
-        width = "15"
+        ng-include = "'userButtonView'"
       )
       span.small(
         ng-if = "$root.featureFlags.inviteFlows"
-      ) Runnabro—
-      span.small {{activeCommit.attrs.commit.author.date | timeFrom}}
+      ) —{{activeCommit.attrs.commit.author.date | timeFrom}}
 
+      //- else
+      span.small(
+        ng-if = "!$root.featureFlags.inviteFlows"
+      ) {{activeCommit.attrs.commit.author.date | timeFrom}}
 
     svg.iconnables.icons-arrow-forward
       use(

@@ -38,6 +38,14 @@
       }
     }
 
+    &:active,
+    &.active {
+
+      .row-author {
+        color: $purple-light;
+      }
+    }
+
     // icon for commmit/branch
     .row {
       padding-left: 21px;
@@ -70,11 +78,7 @@
     }
 
     .row-author {
-      opacity: .5;
-
-      .gravatar {
-        margin: 4px 3px 0 0;
-      }
+      color: $gray-light;
     }
   }
 

@@ -32,18 +32,23 @@ ul.list.list-servers
     ng-if = "!fetchingCommits"
     ng-repeat = "commit in BCSC.data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
   ) {{commit.attrs.commit.message}}
-    .row.row-author.clearfix
-      .small.float-left(
-        ng-attr-title = "{{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}"
+    .row.row-author.clearfix(
+      ng-attr-title = "{{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}"
+    )
+      //- if invite flows...
+      .btn-user.float-left(
+        ng-if = "$root.featureFlags.inviteFlows"
+        ng-include = "'userButtonView'"
       )
-        img.gravatar.float-left(
-          alt = "Runnabro"
-          height = "15"
-          ng-if = "$root.featureFlags.inviteFlows"
-          src = "https://avatars2.githubusercontent.com/u/5341618?v=3&s=40"
-          width = "15"
-        )
-        | {{commit.attrs.author.login}}—{{commit.attrs.commit.committer.date | timeFrom}}
+      span.small.float-left(
+        ng-if = "$root.featureFlags.inviteFlows"
+      ) —{{commit.attrs.commit.committer.date | timeFrom}}
+
+      //- else
+      span.small.float-left(
+        ng-if = "!$root.featureFlags.inviteFlows"
+      ) {{commit.attrs.author.login}}—{{commit.attrs.commit.committer.date | timeFrom}}
+
       a.small.link.monospace.float-right(
         ng-click = "$event.stopPropagation()"
         ng-href = "{{commit.attrs.html_url}}"

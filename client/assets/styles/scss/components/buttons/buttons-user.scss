@@ -1,0 +1,19 @@
+.btn-user {
+  cursor: pointer;
+  display: inline-block;
+
+  &:hover,
+  &:active {
+
+    .gravatar {
+      opacity: 1;
+    }
+  }
+
+  .gravatar {
+    margin: 0 3px 0 0;
+    opacity: .5;
+    position: relative;
+    top: 3px;
+  }
+}
