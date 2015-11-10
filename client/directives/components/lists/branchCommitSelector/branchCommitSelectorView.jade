@@ -37,8 +37,13 @@ ul.list.list-servers
     )
       //- if invite flows...
       .btn-user.float-left(
+        ng-class = "{'active': state.active}"
         ng-if = "$root.featureFlags.inviteFlows"
         ng-include = "'userButtonView'"
+        pop-over
+        pop-over-active = "state.active"
+        pop-over-options = "{\"right\":-3,\"top\":35}"
+        pop-over-template = "userPopoverView"
       )
       span.small.float-left(
         ng-if = "$root.featureFlags.inviteFlows"
