@@ -36,12 +36,13 @@
     }
   }
 
+  // reset .list-item > .btn-xs
   .btn-xs {
     flex: 0 0 186px;
-    position: relative; // reset .list-item > .btn-xs
-    right: 0; // reset .list-item > .btn-xs
+    position: relative;
+    right: 0;
     text-align: left;
-    top: 0; // reset .list-item > .btn-xs
+    top: 0;
 
     &.modded {
       top: -6px;
