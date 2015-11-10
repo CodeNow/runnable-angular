@@ -345,9 +345,6 @@ module.exports = function(grunt) {
         },
         options: {
           watchTask: true,
-          snippetOptions: {
-            blacklist: ['**/*?disable-browsersync']
-          },
           server: {
             baseDir: 'client/build/',
             middleware: [
