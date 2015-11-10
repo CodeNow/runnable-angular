@@ -189,7 +189,7 @@ footer.modal-footer.clearfix
     ng-class = "{ \
       'white': !buttonClosesModal, \
       'green': buttonClosesModal, \
-      'in': SMC.isBuilding \
+      'in': $root.isLoading.setupServerModalIsBuilding \
     }"
     ng-disabled = "\
       SMC.setupServerForm.$invalid || \
@@ -202,7 +202,7 @@ footer.modal-footer.clearfix
   )
     //- spinner
     .spinner-wrapper.spinner-sm.in(
-      ng-if = "SMC.isBuilding"
+      ng-if = "$root.isLoading.setupServerModalIsBuilding"
       ng-class = "{ \
         'spinner-gray': !buttonClosesModal, \
         'spinner-white': buttonClosesModal \
@@ -220,7 +220,7 @@ footer.modal-footer.clearfix
     ng-if="!$root.featureFlags.newVerificationFlow"
   ) Start Build
   button.btn.white.btn-cancel(
-    ng-disabled = "SMC.isBuilding"
+    ng-disabled = "$root.isLoading.setupServerModalIsBuilding"
     ng-click = "SMC.actions.close()"
     type = "button"
   ) Cancel

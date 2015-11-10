@@ -58,6 +58,10 @@ describe('editServerModalController'.bold.underline.blue, function () {
         return ctx.helpCards;
       });
       $provide.factory('fetchUser', mockUserFetch.autoTrigger(ctx.fakeOrg1));
+      $provide.factory('createBuildFromContextVersionId', function () {
+        ctx.createBuildFromContextVersionId = sinon.stub().returns($q.when(ctx.build));
+        return ctx.createBuildFromContextVersionId;
+      });
       $provide.factory('actions', function () {
         return {
           close: sinon.stub(),
@@ -290,36 +294,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         hello: 1
       }
     }];
-    sinon.stub(ctx.contextVersion, 'deepCopy', function (cb) {
-      $rootScope.$evalAsync(function () {
-        cb(null, ctx.newContextVersion);
-      });
-      return ctx.newContextVersion;
-    });
-    sinon.stub(ctx.newContextVersion, 'deepCopy', function (cb) {
-      $rootScope.$evalAsync(function () {
-        cb(null, ctx.contextVersion);
-      });
-      return ctx.contextVersion;
-    });
-    sinon.stub(ctx.rollbackContextVersion, 'deepCopy', function (cb) {
-      $rootScope.$evalAsync(function () {
-        cb(null, ctx.rollbackContextVersion);
-      });
-      return ctx.rollbackContextVersion;
-    });
-    sinon.stub(ctx.contextVersion, 'fetch', function (cb) {
-      $rootScope.$evalAsync(function () {
-        cb(null, ctx.contextVersion);
-      });
-      return ctx.contextVersion;
-    });
-    sinon.stub(ctx.rollbackContextVersion, 'fetch', function (cb) {
-      $rootScope.$evalAsync(function () {
-        cb(null, ctx.rollbackContextVersion);
-      });
-      return ctx.rollbackContextVersion;
-    });
 
     ctx.instance.contextVersion = ctx.contextVersion;
 
@@ -336,47 +310,46 @@ describe('editServerModalController'.bold.underline.blue, function () {
     ctx.anotherDockerfile = {
       attrs: apiMocks.files.anotherDockerfile
     };
-    sinon.stub(ctx.newContextVersion, 'fetch', function (cb) {
-      $rootScope.$evalAsync(function () {
-        cb(null, ctx.newContextVersion);
-      });
-      return ctx.newContextVersion;
-    });
-    sinon.stub(ctx.newContextVersion, 'fetchFile', function (opts, cb) {
-      $rootScope.$evalAsync(function () {
-        cb(null, ctx.dockerfile);
-      });
-      return ctx.dockerfile;
-    });
-    sinon.stub(ctx.contextVersion, 'fetchFile', function (opts, cb) {
-      $rootScope.$evalAsync(function () {
-        cb(null, ctx.anotherDockerfile);
-      });
-      return ctx.anotherDockerfile;
-    });
-    sinon.stub(ctx.rollbackContextVersion, 'fetchFile', function (opts, cb) {
-      $rootScope.$evalAsync(function () {
-        cb(null, ctx.anotherDockerfile);
-      });
-      return ctx.anotherDockerfile;
-    });
-    sinon.stub(ctx.newContextVersion, 'update', function (opts, cb) {
-      $rootScope.$evalAsync(function () {
-        cb(null, ctx.newContextVersion);
-      });
-      return ctx.newContextVersion;
-    });
-    sinon.stub(ctx.rollbackContextVersion, 'update', function (opts, cb) {
-      $rootScope.$evalAsync(function () {
-        cb(null, ctx.rollbackContextVersion);
-      });
-      return ctx.rollbackContextVersion;
-    });
+
+
+    var returnArg = function (returnArg, callbackArg) {
+      return function () {
+        var args = Array.prototype.slice.call(arguments);
+        var cb = args[args.length - 1]; // The callback will be the last argument
+        $rootScope.$evalAsync(function () {
+          if (callbackArg !== undefined) {
+            cb(null, callbackArg);
+          } else {
+            cb(null, returnArg);
+          }
+        });
+        return returnArg;
+      };
+    };
+
+    sinon.stub(ctx.contextVersion, 'deepCopy', returnArg(ctx.newContextVersion));
+    sinon.stub(ctx.newContextVersion, 'deepCopy', returnArg(ctx.contextVersion));
+    sinon.stub(ctx.rollbackContextVersion, 'deepCopy', returnArg(ctx.contextVersion));
+
+    sinon.stub(ctx.contextVersion, 'fetch', returnArg(ctx.contextVersion));
+    sinon.stub(ctx.newContextVersion, 'fetch', returnArg(ctx.newContextVersion));
+    sinon.stub(ctx.rollbackContextVersion, 'fetch', returnArg(ctx.rollbackContextVersion));
+
+    sinon.stub(ctx.contextVersion, 'fetchFile', returnArg(ctx.anotherDockerfile));
+    sinon.stub(ctx.newContextVersion, 'fetchFile', returnArg(ctx.dockerfile));
+    sinon.stub(ctx.rollbackContextVersion, 'fetchFile', returnArg(ctx.anotherDockerfile));
+
+    sinon.stub(ctx.contextVersion, 'update', returnArg(ctx.contextVersion));
+    sinon.stub(ctx.newContextVersion, 'update', returnArg(ctx.newContextVersion));
+    sinon.stub(ctx.rollbackContextVersion, 'update', returnArg(ctx.rollbackContextVersion));
+
     ctx.build = apiClientMockFactory.build(runnable, apiMocks.contextVersions.running);
+
     sinon.stub(ctx.build, 'build', function (opts, cb) {
       return cb();
     });
   });
+
   describe('getUpdatePromise', function () {
     describe('basic mode', function () {
       beforeEach(function () {
@@ -395,7 +368,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
             text: 'Container updated successfully.'
           });
         });
-
+        $scope.$digest();
         SMC.getUpdatePromise();
         $scope.$digest();
         sinon.assert.called(closePopoverSpy);
@@ -551,11 +524,10 @@ describe('editServerModalController'.bold.underline.blue, function () {
             text: 'Container updated successfully.'
           });
         });
-        $scope.$digest();
         ctx.loadingPromiseFinishedValue = 2;
-        ctx.newContextVersion.fetchFile.reset();
         SMC.state.advanced = true;
         ctx.rollbackContextVersion.attrs.advanced = false;
+        ctx.newContextVersion.fetchFile.reset();
         SMC.openItems.add.reset();
         loadingService.reset();
         ctx.fakeOrg1.createBuild.reset();
@@ -583,7 +555,15 @@ describe('editServerModalController'.bold.underline.blue, function () {
           }
         };
 
+        // Force a digest and reset all stubs so we can isolate the function
+        // calls for `resetStateContextVersion`
+        $scope.$digest();
         ctx.parseDockerfileResponseMock.reset();
+        ctx.contextVersion.fetchFile.reset();
+        SMC.openItems.remove.reset();
+        SMC.openItems.add.reset();
+
+        // `resetStateContextVersion` will reset the context version to `ctx.contextVersion`
         SMC.resetStateContextVersion(ctx.rollbackContextVersion, true);
         $scope.$digest();
         sinon.assert.called(loadingService.reset);
@@ -591,20 +571,15 @@ describe('editServerModalController'.bold.underline.blue, function () {
         sinon.assert.called(ctx.loadingPromiseMock.add);
         sinon.assert.called(ctx.rollbackContextVersion.deepCopy);
         $scope.$digest();
-        sinon.assert.calledOnce(ctx.rollbackContextVersion.fetchFile);
+        sinon.assert.calledOnce(ctx.contextVersion.fetchFile);
         sinon.assert.calledOnce(SMC.openItems.remove);
-        sinon.assert.calledOnce(SMC.openItems.add);
+        sinon.assert.called(SMC.openItems.add);
         $scope.$digest();
         expect(SMC.state.build, 'build').to.be.ok;
-        sinon.assert.calledWith(ctx.fakeOrg1.createBuild, {
-          contextVersions: [ctx.rollbackContextVersion.id()],
-          owner: {
-            github: ctx.fakeOrg1.oauthId()
-          }
-        });
+        sinon.assert.calledWith(ctx.createBuildFromContextVersionId, ctx.contextVersion.id());
         $scope.$digest();
         sinon.assert.calledOnce(ctx.parseDockerfileResponseMock);
-        expect(SMC.state.contextVersion, 'state cv').to.equal(ctx.rollbackContextVersion);
+        expect(SMC.state.contextVersion, 'state cv').to.equal(ctx.contextVersion);
         expect(SMC.state.acv, 'state acv').to.not.equal(oldAcv);
         expect(SMC.state.repo, 'state repo').to.not.equal(oldRepo);
         expect(SMC.state.startCommand, 'state startCommand').to.not.equal(oldStartCommand);
@@ -642,7 +617,16 @@ describe('editServerModalController'.bold.underline.blue, function () {
             return newContainerFile;
           })
         };
+
+        // Force a digest and reset all stubs so we can isolate the function
+        // calls for `resetStateContextVersion`
+        $scope.$digest();
         ctx.parseDockerfileResponseMock.reset();
+        ctx.contextVersion.fetchFile.reset();
+        SMC.openItems.remove.reset();
+        SMC.openItems.add.reset();
+
+        // `resetStateContextVersion` will reset the context version to `ctx.contextVersion`
         SMC.resetStateContextVersion(ctx.rollbackContextVersion, true);
         $scope.$digest();
         sinon.assert.called(loadingService.reset);
@@ -650,20 +634,15 @@ describe('editServerModalController'.bold.underline.blue, function () {
         sinon.assert.called(ctx.loadingPromiseMock.add);
         sinon.assert.called(ctx.rollbackContextVersion.deepCopy);
         $scope.$digest();
-        sinon.assert.calledOnce(ctx.rollbackContextVersion.fetchFile);
+        sinon.assert.calledOnce(ctx.contextVersion.fetchFile);
         sinon.assert.calledOnce(SMC.openItems.remove);
         sinon.assert.calledOnce(SMC.openItems.add);
         $scope.$digest();
         expect(SMC.state.build, 'build').to.be.ok;
-        sinon.assert.calledWith(ctx.fakeOrg1.createBuild, {
-          contextVersions: [ctx.rollbackContextVersion.id()],
-          owner: {
-            github: ctx.fakeOrg1.oauthId()
-          }
-        });
+        sinon.assert.calledWith(ctx.createBuildFromContextVersionId, ctx.contextVersion.id());
         $scope.$digest();
         sinon.assert.notCalled(ctx.parseDockerfileResponseMock);
-        expect(SMC.state.contextVersion, 'state cv').to.equal(ctx.rollbackContextVersion);
+        expect(SMC.state.contextVersion, 'state cv').to.equal(ctx.contextVersion);
         expect(SMC.state.acv, 'state acv').to.not.equal(oldAcv);
         expect(SMC.state.repo, 'state repo').to.not.equal(oldRepo);
 

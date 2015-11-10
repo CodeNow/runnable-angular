@@ -1,19 +1,10 @@
 //- navigation bar (purple)
 nav.layout-navigation(
   ng-class = "{'feature-flag-on': CA.featureFlagsChanged()}"
-  ng-if = "$root.featureFlags.newNavigation"
   ng-include = "'viewNav'"
-)
-
-//- deprecated, pre-isolation
-header.header-app(
-  ng-class = "{'feature-flag-on': CA.featureFlagsChanged()}"
-  ng-if = "!$root.featureFlags.newNavigation"
-  ng-include = "'viewHeader'"
 )
 
 //- second .content...
 main.layout-main(
-  ng-class = "{'deprecated': !$root.featureFlags.newNavigation}"
   ui-view
 )

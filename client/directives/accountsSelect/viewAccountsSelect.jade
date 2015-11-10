@@ -1,29 +1,3 @@
-//- ************************
-//- deprecated element, delete with $root.featureFlags.newNavigation
-a.btn.btn-sm.purple.btn-accounts(
-  ng-class = "{'no-touching': data.accountsDisabled()}"
-  ng-if = "!$root.featureFlags.newNavigation"
-  ng-show = "data.activeAccount"
-  pop-over
-  pop-over-actions = "popoverAccountMenu.actions"
-  pop-over-active = "state.active"
-  pop-over-data = "popoverAccountMenu.data"
-  pop-over-template = "viewPopoverAccountMenu"
-)
-  img.gravatar(
-    alt = "{{data.activeAccount.oauthName()}}"
-    height = "24"
-    ng-src = "{{data.activeAccount.gravitar()}}"
-    width = "24"
-  )
-  span.span.float-left {{data.activeAccount.oauthName()}}
-  svg.iconnables.icons-arrow-down.anchor-right
-    use(
-      xlink:href = "#icons-arrow-down"
-    )
-//- end deprecated element, delete with $root.featureFlags.newNavigation
-//- ************************
-
 //- show highest priority badge
 div(
   data-badge-count = "!"
@@ -32,7 +6,6 @@ div(
     'badge-red': $root.featureFlags.billing,\
     'no-touching': data.accountsDisabled()\
   }"
-  ng-if = "$root.featureFlags.newNavigation"
   ng-show = "data.activeAccount"
   pop-over
   pop-over-actions = "popoverAccountMenu.actions"

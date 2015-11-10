@@ -14,10 +14,6 @@
   // for debug
   &.full-height {
     height: calc(100vh - 55px);
-
-    &.deprecated {
-      height: calc(100vh - 72px);
-    }
   }
 
   .icons-status {

@@ -24,7 +24,6 @@
 
 //- old alerts
 .help-container.fixed.bottom(
-  ng-class = "{'deprecated': !$root.featureFlags.newNavigation}"
   ng-if = "!$root.featureFlags.inviteFlows"
 )
   .help(
@@ -48,8 +47,8 @@
   .environment-body.clearfix
     .help-container(
       ng-class = "{\
-        'deprecated': !$root.featureFlags.newNavigation,\
-        'fixed': helpUndock, top: helpUndock\
+        'fixed': helpUndock,\
+        'top': helpUndock\
       }"
       ng-if = "helpCards.getActiveCard()"
     )
