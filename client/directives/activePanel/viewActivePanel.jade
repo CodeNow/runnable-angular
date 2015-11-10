@@ -32,6 +32,7 @@
     ng-include = "'viewFloatingControls'"
   )
 
+  //- build logs
   .build-log-wrapper(
     build-logs
     instance = 'instance'
@@ -44,6 +45,7 @@
     ng-style = "($root.featureFlags.themeToggle || $root.featureFlags.fullScreenToggle) && {'padding-right': '42px'}"
   )
 
+  //- cmd logs
   .term-js.term-log(
     log-term
     instance = 'instance'
@@ -68,6 +70,15 @@
     loading = "loading"
     ng-if = "item.state.type === 'File'"
     use-auto-update = "useAutoUpdate"
+  )
+
+  //- backup
+  .term-js.term-log(
+    log-term
+    instance = 'instance'
+    debug-container = "debugContainer"
+    controller = "BoxLogController"
+    ng-if = "item.state.type === 'BackupStream'"
   )
 
   div(
