@@ -38,7 +38,9 @@
 
   // reset .list-item > .btn-xs
   .btn-xs {
+    display: flex; // so button text won't overflow
     flex: 0 0 186px;
+    overflow: visible; // override .text-overflow so ::after element isn't hidden
     position: relative;
     right: 0;
     text-align: left;
