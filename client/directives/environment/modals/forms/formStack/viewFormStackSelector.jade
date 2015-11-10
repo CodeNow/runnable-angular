@@ -70,6 +70,9 @@
     ng-required = "true"
     on-update = "updateDockerfile"
     placeholder = "Select Version"
+    ng-class = "{ \
+      focus: state.selectedStack && !state.selectedStack.selectedVersion \
+    }"
     value = "state.selectedStack.selectedVersion"
   )
     li.list-item.popover-list-item.small.disabled(
