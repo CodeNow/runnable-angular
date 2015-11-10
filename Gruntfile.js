@@ -7,7 +7,11 @@ var async   = require('async');
 var envIs   = require('101/env-is');
 var timer   = require('grunt-timer');
 var version = require('./package.json').version;
-var historyApiFallback = require('connect-history-api-fallback');
+
+var historyApiFallback = function () {};
+if (!envIs('production', 'staging')) {
+  historyApiFallback = require('connect-history-api-fallback');
+}
 
 
 var config = {};
@@ -36,6 +40,13 @@ module.exports = function(grunt) {
     concurrent: {
       dev: {
         tasks: ['watch:images', 'watch:javascripts', 'watch:templates', 'watch:styles', 'watch:jade'],
+        options: {
+          limit: 10,
+          logConcurrentOutput: true
+        }
+      },
+      devNoBS: {
+        tasks: ['watch:images', 'watch:javascripts', 'watch:templates', 'watch:styles', 'watch:jade', 'watch:compress', 'nodemon'],
         options: {
           limit: 10,
           logConcurrentOutput: true
@@ -543,6 +554,20 @@ module.exports = function(grunt) {
     'jade:compile',
     'browserSync',
     'concurrent'
+  ]);
+  grunt.registerTask('no-bs', [ // No browser sync
+    'bgShell:npm-install',
+    'copy',
+    'sass:dev',
+    'autoprefixer',
+    'jade2js',
+    'jshint:dev',
+    'autoBundleDependencies',
+    'generateConfigs',
+    'browserify:watch',
+    'jade:compile',
+    'compress:build',
+    'concurrent:devNoBS'
   ]);
   grunt.registerTask('server', [
     'copy',

@@ -485,20 +485,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
     });
 
-    it('should correctly return whehter the stack and version are selected', function () {
-      expect(SMC.areStackAndVersionSelected()).to.equal(false);
-      createNewBuildMock.returns(newBuild);
-      SMC.state.selectedStack = {
-        key: 'ruby_ror',
-        selectedVersion: true
-      };
-      SMC.selectRepo(repo);
-      $scope.$digest();
-      fetchStackAnalysisMock.triggerPromise(analysisMockData);
-      $scope.$digest();
-      expect(SMC.areStackAndVersionSelected()).to.equal(true);
-    });
-
     describe('Ports', function () {
 
       it('should update the dockerfile form state when ports are updated', function () {
