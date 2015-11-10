@@ -49,6 +49,9 @@ require('app')
     types['SSH Key'] = types.SSHKey;
     return types;
   })
+  .factory('pointInPolygon', function () {
+    return require('point-in-polygon');
+  })
   .service('keypather', [require('keypather')])
   .service('uuid', function () {
     return require('node-uuid');
