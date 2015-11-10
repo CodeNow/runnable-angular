@@ -26,6 +26,7 @@ ul.list.list-servers
     ng-include = "'spinner'"
   )
   li.list-item(
+    ng-attr-title = "{{commit.attrs.commit.message}}"
     ng-class = "{active: BCSC.data.commit === commit, 'disabled': BCSC.isLatestCommit()}"
     ng-click = "BCSC.selectCommit(commit)"
     ng-if = "!fetchingCommits"
@@ -47,7 +48,7 @@ ul.list.list-servers
         ng-click = "$event.stopPropagation()"
         ng-href = "{{commit.attrs.html_url}}"
         target = "_blank"
-        title = "view on GitHub"
+        title = "View on GitHub"
       ) {{::commit.attrs.sha | limitTo:7}}
     svg.iconnables.icons-fat-check
       use(
