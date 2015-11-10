@@ -1,5 +1,53 @@
-.popover.bottom(
+.popover.bottom.popover-user.list.list-bordered.list-teammates.list-teammates-pending(
   ng-class = "{'in': active}"
   ng-style = "popoverStyle.getStyle()"
+  style = "transform-origin: 5% 0;"
 )
-  .popover-content empty
+  .popover-content.list-item
+    img.gravatar.float-left(
+      alt = "Runnabro"
+      height = "27"
+      src = "https://avatars2.githubusercontent.com/u/5341618?v=3&s=40"
+      width = "27"
+    )
+    .username.text-overflow Runnabro
+    .small.text-overflow tony@runnable.com
+    .btn-wrapper(
+      ng-init = "\
+        state.inviteSending = null;\
+        state.inviteSent = null;\
+      "
+    )
+      //- if the user has not yet joined runnable
+      button.btn.btn-xs.green(
+        ng-click = "state.inviteSending = true"
+        ng-if = "!state.inviteSending && !state.inviteSent"
+      ) Send Invite
+
+      //- sending…
+      .spinner-wrapper.spinner-sm.spinner-gray.in(
+        ng-click = "\
+          state.inviteSent = true;\
+          state.inviteSending = false;\
+        "
+        ng-if = "state.inviteSending"
+        ng-include = "'spinner'"
+      )
+
+      //- sent
+      .send-confirmation.load(
+        ng-if = "state.inviteSent"
+      )
+        svg.iconnables.icons-check.float-left(
+          viewbox = '0 0 14.5 10'
+        )
+          path.path(
+            d = 'M1,4.5L5.5,9l8-8'
+            fill = 'none',
+            stroke = '#3ccb5a',
+            stroke-linecap = 'round',
+            stroke-linejoin = 'round',
+            stroke-miterlimit = '10',
+            stroke-width = '2',
+          )
+        | Sent

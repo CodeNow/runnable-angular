@@ -1,0 +1,19 @@
+.popover-user {
+  border-radius: $input-border-radius-lg;
+  min-width: 300px;
+
+  .btn-wrapper {
+    position: absolute;
+    right: 14px;
+    top: 16px;
+  }
+
+  .spinner-wrapper,
+  .send-confirmation {
+    margin: 5px 0;
+  }
+
+  .text-overflow {
+    padding-right: 84px;
+  }
+}
