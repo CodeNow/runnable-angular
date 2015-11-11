@@ -65,20 +65,21 @@
     padding: 6px 130px 6px 15px;
     white-space: nowrap; // reset .multi-line default
 
-    &:hover {
+    &:hover:not(.disabled) {
       background: $white;
       border-color: $gray-lighter;
     }
 
-    &.no-touching {
+    &.disabled {
       color: $gray-light;
+      cursor: default;
 
       > .small {
         color: $gray-light;
       }
     }
 
-    &:active,
+    &:active:not(.disabled),
     &.active {
       background: $white;
       border-color: currentColor;
@@ -95,6 +96,19 @@
       .modal-dialog & {
         min-height: 60px;
       }
+    }
+  }
+
+  .row-author {
+    height: 21px;
+    line-height: 21px;
+
+    .btn-user {
+      line-height: 19px;
+    }
+
+    .small {
+      display: inline; // reset .multi-line
     }
   }
 

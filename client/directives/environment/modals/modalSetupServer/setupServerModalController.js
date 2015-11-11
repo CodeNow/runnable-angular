@@ -387,7 +387,7 @@ function SetupServerModalController(
   };
 
   SMC.selectRepo = function (repo) {
-    if (SMC.repoSelected) { return; }
+    if (SMC.repoSelected || SMC.isRepoAdded) { return; }
     SMC.state.mainRepoContainerFile.name = repo.attrs.name;
     SMC.repoSelected = true;
     repo.loading = true;
