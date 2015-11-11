@@ -1,0 +1,25 @@
+//- backup script
+.clearfix(
+  ng-hide = "$root.featureFlags.fullScreen"
+)
+  .label-col Backup Script
+.ace-container.ace-environment-variables(
+  ng-class = "{\
+    'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+    'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+  }"
+)
+  .ace_editor
+
+//- restore script
+.clearfix(
+  ng-hide = "$root.featureFlags.fullScreen"
+)
+  .label-col Restore Script
+.ace-container.ace-environment-variables(
+  ng-class = "{\
+    'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+    'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+  }"
+)
+  .ace_editor
