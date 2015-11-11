@@ -16,4 +16,23 @@
   .text-overflow {
     padding-right: 84px;
   }
+
+  .btn-xs.green {
+    top: 0;
+  }
+
+  .input {
+    font-size: 14px;
+    margin-left: -6px; // line up send button with invite
+    padding-right: 54px;
+    width: 278px;
+
+    // send
+    ~ .btn-xs.green {
+      bottom: 14px;
+      margin: 6px;
+      right: 9px; // line up send button with invite
+      top: auto;
+    }
+  }
 }

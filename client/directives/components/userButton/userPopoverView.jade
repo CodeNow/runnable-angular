@@ -3,7 +3,15 @@
   ng-style = "popoverStyle.getStyle()"
   style = "transform-origin: 5% 0;"
 )
-  .popover-content.list-item
+  .popover-content.list-item(
+    ng-class = "{'active': state.inviteForm}"
+    ng-init = "\
+      user.email = 'tony@runnable.com';\
+      state.inviteForm = null;\
+      state.inviteSending = null;\
+      state.inviteSent = null;\
+    "
+  )
     img.gravatar.float-left(
       alt = "Runnabro"
       height = "27"
@@ -12,18 +20,42 @@
     )
     .username.text-overflow Runnabro
     .small.text-overflow tony@runnable.com
-    .btn-wrapper(
-      ng-init = "\
-        state.inviteSending = null;\
-        state.inviteSent = null;\
-      "
-    )
-      //- if the user has not yet joined runnable
-      button.btn.btn-xs.green(
-        ng-click = "state.inviteSending = true"
-        ng-if = "!state.inviteSending && !state.inviteSent"
-      ) Send Invite
+    //- if the user has not yet joined runnable
+    button.btn.btn-xs.green(
+      ng-click = "state.inviteForm = true"
+      ng-if = "!state.inviteSending && !state.inviteSent && !state.inviteForm"
+    ) Invite
 
+    //- cancel invite
+    svg.iconnables.icons-close(
+      ng-click = "state.inviteForm = false"
+      ng-if = "state.inviteForm"
+    )
+      use(
+        xlink:href = "#icons-close"
+      )
+
+     //- autofocus on this
+    input.input.input-sm.input-validate.validate-on-blur.js-animate(
+      ng-model = "user.email"
+      ng-show = "state.inviteForm"
+      placeholder = "Email Address"
+      required
+      spellcheck = "false"
+      type = "email"
+    )
+
+    //- disabled when invalid
+    button.btn.btn-xs.green.js-animate(
+      ng-click = "\
+        state.inviteForm = false;\
+        state.inviteSending = true;\
+      "
+      ng-disabled = "!user.email"
+      ng-show = "state.inviteForm"
+    ) Send
+
+    .btn-wrapper
       //- sending…
       .spinner-wrapper.spinner-sm.spinner-gray.in(
         ng-click = "\
