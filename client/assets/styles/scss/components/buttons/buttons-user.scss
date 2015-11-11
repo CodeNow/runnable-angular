@@ -1,6 +1,6 @@
 .btn-user {
   cursor: pointer;
-  display: inline-block;
+  display: inherit; // flex
 
   &:hover,
   &:active,
@@ -15,7 +15,20 @@
   .gravatar {
     margin: 0 3px 0 0;
     opacity: .5;
-    position: relative;
-    top: 3px;
+  }
+}
+
+// optional wrapper for .btn-user
+.row-author {
+  align-items: center;
+  display: flex;
+
+  > .iconnables,
+  > .small {
+    flex: 0 0 auto;
+  }
+
+  > .btn-user {
+    flex: 0 1 auto;
   }
 }

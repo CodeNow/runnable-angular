@@ -99,17 +99,9 @@
     }
   }
 
-  .row-author {
-    height: 21px;
-    line-height: 21px;
-
-    .btn-user {
-      line-height: 19px;
-    }
-
-    .small {
-      display: inline; // reset .multi-line
-    }
+  .row-author > .small:not(.monospace) {
+    flex: 1 1 auto; // pushes .monospace to the right
+    margin-right: 6px;
   }
 
   // empty state

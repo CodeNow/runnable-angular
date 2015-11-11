@@ -51,14 +51,14 @@
     ) {{ repo.attrs.name}}
 
       //- if invite flows...
-      .row.row-author.clearfix(
+      .row.row-author(
         ng-if = "$root.featureFlags.inviteFlows"
       )
-        .btn-user.float-left.no-touching(
+        .btn-user.text-overflow.no-touching(
           ng-class = "{'active': state.active}"
           ng-include = "'userButtonView'"
         )
-        span.small.float-left(
+        span.small(
           ng-if = "$root.featureFlags.inviteFlows"
         ) —{{repo.attrs.updated_at | timeFrom}}
 

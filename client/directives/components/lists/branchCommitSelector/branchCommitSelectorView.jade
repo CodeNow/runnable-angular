@@ -36,7 +36,7 @@ ul.list.list-servers
       ng-attr-title = "{{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}"
     )
       //- if invite flows...
-      .btn-user.float-left(
+      .btn-user.text-overflow(
         ng-class = "{'active': state.active}"
         ng-if = "$root.featureFlags.inviteFlows"
         ng-include = "'userButtonView'"
@@ -45,16 +45,16 @@ ul.list.list-servers
         pop-over-options = "{\"left\":-21,\"top\":24}"
         pop-over-template = "userPopoverView"
       )
-      span.small.float-left(
+      span.small(
         ng-if = "$root.featureFlags.inviteFlows"
       ) —{{commit.attrs.commit.committer.date | timeFrom}}
 
       //- else
-      span.small.float-left(
+      span.small(
         ng-if = "!$root.featureFlags.inviteFlows"
       ) {{commit.attrs.author.login}}—{{commit.attrs.commit.committer.date | timeFrom}}
 
-      a.small.link.monospace.float-right(
+      a.small.link.monospace(
         ng-click = "$event.stopPropagation()"
         ng-href = "{{commit.attrs.html_url}}"
         target = "_blank"

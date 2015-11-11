@@ -34,11 +34,12 @@
         )
       | {{activeCommit.attrs.commit.message}}
 
-    .row.row-author.text-overflow
-      svg.iconnables.float-left
+    .row.row-author
+      //- empty
+      svg.iconnables
 
       //- if invite flows
-      .btn-user.float-left(
+      .btn-user.text-overflow(
         ng-class = "{'active': state.active}"
         ng-if = "$root.featureFlags.inviteFlows"
         ng-include = "'userButtonView'"
