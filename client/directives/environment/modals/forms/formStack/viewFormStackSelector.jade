@@ -28,7 +28,7 @@
         ng-disabled = "saving"
       )
 
-  fancy-select(
+  fancy-select.btn-sm.white(
     ng-disabled = "saving"
     ng-if = "!isNewContainer || !$root.featureFlags.newVerificationFlowStackSelector"
     ng-required = "true"
@@ -65,7 +65,7 @@
       | {{$parent.framework.name}}
 
 
-  fancy-select(
+  fancy-select.btn-sm.white(
     ng-disabled = "!state.selectedStack"
     ng-required = "true"
     on-update = "updateDockerfile"
@@ -91,7 +91,7 @@
   ng-repeat = "depStack in state.selectedStack.dependencies"
 )
   .small {{depStack.name}}
-  fancy-select(
+  fancy-select.btn-sm.white(
     ng-required = "state.selectedStack.dependencies.length"
     on-update = "updateDockerfile"
     placeholder = "Select Version"

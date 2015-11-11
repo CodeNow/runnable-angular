@@ -193,8 +193,7 @@ footer.modal-footer.clearfix
     }"
     ng-disabled = "\
       SMC.setupServerForm.$invalid || \
-      selectedStackInvalid || \
-      !SMC.areStackAndVersionSelected() \
+      (SMC.state.selectedStack | selectedStackInvalid) \
     "
     ng-if="$root.featureFlags.newVerificationFlow"
     ng-click = "SMC.goToNextStep()"
@@ -213,8 +212,7 @@ footer.modal-footer.clearfix
   button.btn.green(
     ng-disabled = "\
       SMC.setupServerForm.$invalid || \
-      selectedStackInvalid || \
-      !SMC.areStackAndVersionSelected() \
+      (SMC.state.selectedStack | selectedStackInvalid)\
     "
     ng-click = "SMC.createServerAndClose()"
     ng-if="!$root.featureFlags.newVerificationFlow"

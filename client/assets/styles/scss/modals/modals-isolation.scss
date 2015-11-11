@@ -19,9 +19,7 @@
   .list-item {
     align-items: center;
     background: $white;
-    color: $gray-dark;
     display: flex;
-    font-weight: $weight-bold;
     height: 45px;
     padding: 0 12px;
 
@@ -30,48 +28,33 @@
       flex: 0 0 21px;
     }
 
+    // container names
     > .span {
       flex: 1 1 auto;
+      font-weight: $weight-bold;
       padding: 0 6px;
     }
   }
 
-  // reset .list-item .btn-xs
-  .btn-select {
-    display: flex;
+  // reset .list-item > .btn-xs
+  .btn-xs {
     flex: 0 0 185px;
-    left: 0;
     position: relative;
+    right: 0;
+    text-align: left;
     top: 0;
 
     &.modded {
       top: -6px;
-
-      &::after {
-        color: $gray;
-        content: 'Branch uses a modified configuration';
-        display: block;
-        font-size: 11px;
-        font-weight: $weight-normal;
-        left: 0;
-        pointer-events: none;
-        position: absolute;
-        top: 19px;
-      }
     }
+  }
 
-    .text-overflow {
-      flex: 1 1 auto;
-    }
-
-    // isolated text
-    .em {
-      color: $gray;
-      font-size: 11px;
-    }
-
-    .icons-arrow-down {
-      flex: 0 0 auto;
-    }
+  // "Branch uses a modified configuration"
+  .small {
+    bottom: 1px;
+    color: $gray;
+    font-size: 11px;
+    position: absolute;
+    right: 12px;
   }
 }

@@ -23,6 +23,7 @@ function directiveTemplate (templateName, attrs) {
   ].join('');
 }
 module.exports.attribute = directiveTemplateAttribute;
+
 function directiveTemplateAttribute (templateName, attrs) {
   if (!attrs) {
     attrs = {};
