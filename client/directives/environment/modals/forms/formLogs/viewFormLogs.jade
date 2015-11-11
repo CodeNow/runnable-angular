@@ -11,7 +11,7 @@
     ng-click = "SMC.rebuild(false)"
   ) Rebuild
 
-// alert appears during a build failure AND no changes have been made
+//- alert appears during a build failure AND no changes have been made
 .alert.orange(
   ng-if = "\
     $root.featureFlags.newVerificationFlow && \
@@ -35,10 +35,15 @@
     ng-click = "page = 'build'"
   ) Build Logs
   button.btn.btn-xs.white(
-    ng-disabled = "!SMC.instance.containers.models.length"
     ng-class = "{active: page === 'run'}"
     ng-click = "page = 'run'"
+    ng-disabled = "!SMC.instance.containers.models.length"
   ) CMD Logs
+  button.btn.btn-xs.white(
+    ng-class = "{active: page === 'backup'}"
+    ng-click = "page = 'backup'"
+    ng-show = "!SMC.state.repo"
+  ) Backup Logs
 
 //- logs
 pre.pre.log-wrapper(
@@ -55,9 +60,10 @@ pre.pre.log-wrapper(
       'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
     }"
     ng-if = "page === 'run'"
-    ng-show = "SMC.showDebugCmd"
     ng-include = "'viewToolbar'"
+    ng-show = "SMC.showDebugCmd"
   )
+  //- build logs page
   .build-log-wrapper(
     build-logs
     instance = 'SMC.instance'
@@ -65,12 +71,18 @@ pre.pre.log-wrapper(
     ng-show = "page === 'build'"
     ng-style = "($root.featureFlags.themeToggle || $root.featureFlags.fullScreenToggle) && {'padding-right': '42px'}"
   )
+  //- cmd logs page
   .term-js.term-log(
-    log-term
-    instance = 'SMC.instance'
     controller = "BoxLogController"
+    instance = 'SMC.instance'
+    log-term
     ng-if = "SMC.instance.containers.models.length"
     ng-show = "page === 'run'"
+  )
+  //- backup logs page
+  .term-js.term-log(
+    ng-if = "!SMC.state.repo"
+    ng-show = "page === 'backup'"
   )
 
   .floating-controls(
