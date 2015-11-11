@@ -13,7 +13,7 @@
     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
-  ng-show = "$root.featureFlags.saveToolbar || showDebugCmd"
+  ng-show = "$root.featureFlags.saveToolbar || showDebugCmd || $root.featureFlags.backup"
   ng-include = "'viewToolbar'"
 )
 
