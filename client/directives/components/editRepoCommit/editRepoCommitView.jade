@@ -61,18 +61,18 @@
         xlink:href = "#icons-arrow-down"
       )
 
-  //- sync commits
-  .btn.btn-sm.btn-sync(
+  //- auto-deploy
+  .btn.btn-sm.btn-auto-deploy(
     ng-if = "!acv.attrs.additionalRepo && !$root.featureFlags.webhooks || $root.featureFlags.webhooksAdminPresent"
   )
-    svg.iconnables.icons-sync.float-left
+    svg.iconnables.icons-launch.float-left
       use(
-        xlink:href = "#icons-sync"
+        xlink:href = "#icons-launch"
       )
     span.underline.float-left(
       tooltip = "Automatically rebuild your container when new commits are made."
-      tooltip-options = "{\"class\":\"bottom center text-center tooltip-definition\",\"left\":-78,\"top\":18}"
-    ) Sync Commits
+      tooltip-options = "{\"class\":\"bottom center text-center tooltip-definition\",\"left\":-85,\"top\":18}"
+    ) Auto-Deploy
     label.toggle-wrapper.float-right
       input.toggle-input(
         ng-disabled = "$root.isLoading.autoDeploy"

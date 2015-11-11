@@ -3,7 +3,9 @@
   display: inline-block;
 
   &:hover,
-  &:active {
+  &:active,
+  &.active {
+    text-decoration: underline;
 
     .gravatar {
       opacity: 1;
