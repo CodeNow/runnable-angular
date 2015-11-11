@@ -16,6 +16,9 @@ function PopOverController(
   POC.unbindDocumentClick = angular.noop;
   POC.unbindPopoverOpened = angular.noop;
 
+  POC.isPopoverActive = function () {
+    return $scope.active;
+  };
   POC.closePopover = function () {
     // trigger a digest because we are setting active to false!
     $timeout(angular.noop);

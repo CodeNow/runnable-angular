@@ -306,10 +306,6 @@ function SetupServerModalController(
     SMC.selectedTab = tabname;
   };
 
-  SMC.areStackAndVersionSelected = function () {
-    return !!(SMC.state.selectedStack && SMC.state.selectedStack.selectedVersion);
-  };
-
   SMC.createServer = function () {
     // Wait until all changes to the context version have been resolved before
     // creating a build with that context version
