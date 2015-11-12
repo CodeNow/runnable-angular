@@ -369,6 +369,9 @@ function SetupServerModalController(
         return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
       })
       .then(function (contextVersion) {
+        SMC.instance.on('update', function () {
+          SMC.page = ((['building', 'buildFailed', 'neverStarted'].indexOf(SMC.instance.status()) === -1) ? 'run' : 'build');
+        });
         loadingPromises.clear(SMC.name);
         return contextVersion;
       })
@@ -461,17 +464,6 @@ function SetupServerModalController(
           });
       });
   };
-
-  $scope.$watch(function () {
-    if (!SMC.instance || !SMC.instance.status) {
-       return null;
-    }
-    return SMC.instance.status();
-  }, function (newVal, oldVal) {
-    if (newVal !== oldVal && SMC.instance) {
-      SMC.page = ((['building', 'buildFailed', 'neverStarted'].indexOf(SMC.instance.status()) === -1) ? 'run' : 'build');
-    }
-  });
 
   SMC.getUpdatePromise = function () {
     loading(SMC.name + 'IsBuilding', true); // `state.IsBuilding` is used for adding spinner to 'Start Build' button
