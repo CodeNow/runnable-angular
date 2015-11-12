@@ -91,9 +91,12 @@
     padding: 0 9px;
 
     .icons-launch {
+      filter: grayscale(100%);
+      font-size: 14px;
       height: 100%;
       margin-right: 6px;
-      padding: 0 2px;
+      opacity: .75;
+      text-align: center;
       width: 15px;
     }
 
