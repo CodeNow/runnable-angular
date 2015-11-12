@@ -1,7 +1,7 @@
 label.label(
-  ng-hide = "BCSC.hideBranchSelector"
   branch-selector
   loading-promises-target = "editServerModal"
+  ng-hide = "BCSC.hideBranchSelector"
   state = "BCSC.data"
 )
 
@@ -12,10 +12,10 @@ label.toggle-wrapper(
   ng-show = "!BCSC.data.acv || BCSC.data.acv.attrs.additionalRepo"
 ) Always update to latest commit
   .small.float-left on new builds of&#32;
-    strong.strong {{ BCSC.data.getDisplayName() || BCSC.data.instance.getDisplayName() }}
+    strong.strong {{BCSC.data.getDisplayName() || BCSC.data.instance.getDisplayName()}}
   input.toggle-input(
     ng-model = "BCSC.isLatestCommit"
-    ng-model-options = "{ getterSetter: true }"
+    ng-model-options = "{getterSetter: true}"
     type = "checkbox"
   )
   .toggle-group.toggle-sm
@@ -26,21 +26,40 @@ ul.list.list-servers
     ng-include = "'spinner'"
   )
   li.list-item(
+    ng-attr-title = "{{commit.attrs.commit.message}}"
     ng-class = "{active: BCSC.data.commit === commit, 'disabled': BCSC.isLatestCommit()}"
     ng-click = "BCSC.selectCommit(commit)"
     ng-if = "!fetchingCommits"
     ng-repeat = "commit in BCSC.data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
   ) {{commit.attrs.commit.message}}
-    .small
+    .row.row-author.clearfix(
+      ng-attr-title = "{{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}"
+    )
+      //- if invite flows...
+      .btn-user.text-overflow(
+        ng-class = "{'active': state.active}"
+        ng-if = "$root.featureFlags.inviteFlows"
+        ng-include = "'userButtonView'"
+        pop-over
+        pop-over-active = "state.active"
+        pop-over-options = "{\"left\":-21,\"top\":24}"
+        pop-over-template = "userPopoverView"
+      )
+      span.small(
+        ng-if = "$root.featureFlags.inviteFlows"
+      ) —{{commit.attrs.commit.committer.date | timeFrom}}
+
+      //- else
+      span.small(
+        ng-if = "!$root.featureFlags.inviteFlows"
+      ) {{commit.attrs.author.login}}—{{commit.attrs.commit.committer.date | timeFrom}}
+
       a.small.link.monospace(
         ng-click = "$event.stopPropagation()"
-        ng-href = "{{ commit.attrs.html_url }}"
+        ng-href = "{{commit.attrs.html_url}}"
         target = "_blank"
-        title = "view on GitHub"
-      ) {{ ::commit.attrs.sha | limitTo:7 }}
-      .text-overflow(
-        ng-attr-title = "{{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}"
-      ) —{{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}
+        title = "View on GitHub"
+      ) {{::commit.attrs.sha | limitTo:7}}
     svg.iconnables.icons-fat-check
       use(
         xlink:href = "#icons-fat-check"

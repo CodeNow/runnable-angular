@@ -25,6 +25,11 @@
     margin-right: 6px;
   }
 
+  // bottom with arrow centered
+  &.bottom.center::before {
+    margin: 0 auto;
+  }
+
   // .right
   &.right {
 

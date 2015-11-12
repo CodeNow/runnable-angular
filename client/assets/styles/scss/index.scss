@@ -35,6 +35,7 @@
 //           .instance-header-title
 //           .instance-header-properties
 //         .instance-body (1 1 auto)
+//          .instance-sidebar
 
 // global layout
 @import "layout/layout";
@@ -44,6 +45,7 @@
 @import "layout/instance";
 @import "layout/instance-header";
 @import "layout/instance-body";
+@import "layout/instance-sidebar";
 
 // environment layout
 @import "layout/environment";
@@ -59,6 +61,7 @@
 // specific buttons
 @import "components/buttons/buttons-debug";
 @import "components/buttons/buttons-toolbar";
+@import "components/buttons/buttons-user";
 
 // components
 @import "components/animated-panel";
@@ -101,10 +104,6 @@
 
 // sidebar
 @import "sidebar/sidebar";
-
-// server
-@import "server/server-sidebar";
-@import "server/server-sidebar-repositories";
 
 // views
 @import "views/views";
@@ -155,6 +154,7 @@
 @import "popover/popover-primary-options";
 @import "popover/popover-rename";
 @import "popover/popover-rules";
+@import "popover/popover-user";
 
 // pages
 @import "pages/server-selection";
