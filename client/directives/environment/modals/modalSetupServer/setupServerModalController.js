@@ -463,7 +463,10 @@ function SetupServerModalController(
   };
 
   $scope.$watch(function () {
-     return SMC.instance.status();
+    if (!SMC.instance || !SMC.instance.status) {
+       return null;
+    }
+    return SMC.instance.status();
   }, function (newVal, oldVal) {
     if (newVal !== oldVal && SMC.instance) {
       SMC.page = ((['building', 'buildFailed', 'neverStarted'].indexOf(SMC.instance.status()) === -1) ? 'run' : 'build');
