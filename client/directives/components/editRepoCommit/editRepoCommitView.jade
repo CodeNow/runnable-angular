@@ -64,14 +64,17 @@
 
   //- auto-deploy
   .btn.btn-sm.btn-auto-deploy(
-    ng-if = "!acv.attrs.additionalRepo && !$root.featureFlags.webhooks || $root.featureFlags.webhooksAdminPresent"
+    ng-if = "!acv.attrs.additionalRepo"
   )
     .iconnables.icons-launch.float-left 🚀
     span.underline.float-left(
       tooltip = "Automatically rebuild your container when new commits are made."
       tooltip-options = "{\"class\":\"bottom center text-center tooltip-definition\",\"left\":-85,\"top\":18}"
     ) Auto-Deploy
-    label.toggle-wrapper.float-right
+    label.toggle-wrapper.float-right(
+      ng-class = "'disabled': $root.featureFlags.webhooks && !$root.featureFlags.webhooksAdminPresent"
+      ng-if = "!$root.featureFlags.webhooks || $root.featureFlags.webhooksAdminPresent"
+    )
       input.toggle-input(
         ng-disabled = "$root.isLoading.autoDeploy"
         ng-false-value = "true"
@@ -80,4 +83,14 @@
         ng-true-value = "false"
         type = "checkbox"
       )
+      .toggle-group.toggle-xs
+
+    label.toggle-wrapper.float-right.disabled(
+      ng-if = "$root.featureFlags.webhooks && !$root.featureFlags.webhooksAdminPresent"
+      pop-over
+      pop-over-options = "{\"top\":29,\"centered\":true}"
+      pop-over-template = "autoDeployPopoverView"
+      pop-over-trigger = "hover"
+      pop-over-hover-trigger
+    )
       .toggle-group.toggle-xs
