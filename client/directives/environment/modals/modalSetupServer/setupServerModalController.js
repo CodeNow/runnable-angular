@@ -462,6 +462,14 @@ function SetupServerModalController(
       });
   };
 
+  $scope.$watch(function () {
+     return SMC.instance.status();
+  }, function (newVal, oldVal) {
+    if (newVal !== oldVal && SMC.instance) {
+      SMC.page = ((['building', 'buildFailed', 'neverStarted'].indexOf(SMC.instance.status()) === -1) ? 'run' : 'build');
+    }
+  });
+
   SMC.getUpdatePromise = function () {
     loading(SMC.name + 'IsBuilding', true); // `state.IsBuilding` is used for adding spinner to 'Start Build' button
     return SMC.saveInstanceAndRefreshCards()
