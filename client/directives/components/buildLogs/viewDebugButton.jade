@@ -11,15 +11,15 @@ a.btn.btn-xs.purple.btn-toolbar.float-right(
 
 //- button only appears if it in the toolbar
 button.btn.btn-xs.purple.btn-toolbar.float-right(
-  ng-class = "{active: state.active}"
+  ng-class = "{'active': state.active}"
+  ng-disabled = "BLC.generatingDebug"
+  ng-if = "BLC.buildLogs.length > 2"
   pop-over
   pop-over-actions = "BLC.actions"
   pop-over-active = "state.active"
   pop-over-data = "BLC.buildLogs"
   pop-over-options = "{\"right\":-3,\"top\":35}"
   pop-over-template = "viewPopoverDebug"
-  ng-disabled = "BLC.generatingDebug"
-  ng-if = "BLC.buildLogs.length > 2"
 )
   svg.iconnables.icons-arrow-down
     use(

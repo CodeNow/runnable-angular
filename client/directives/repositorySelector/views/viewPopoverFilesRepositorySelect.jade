@@ -49,7 +49,24 @@
         orderBy: '-attrs.updated_at'\
       "
     ) {{ repo.attrs.name}}
-      small.small Updated {{ repo.attrs.updated_at | timeFrom }}
+
+      //- if invite flows...
+      .row.row-author(
+        ng-if = "$root.featureFlags.inviteFlows"
+      )
+        .btn-user.text-overflow.no-touching(
+          ng-class = "{'active': state.active}"
+          ng-include = "'userButtonView'"
+        )
+        span.small(
+          ng-if = "$root.featureFlags.inviteFlows"
+        ) —{{repo.attrs.updated_at | timeFrom}}
+
+      //- else
+      small.small(
+        ng-if = "!$root.featureFlags.inviteFlows"
+      ) Updated {{ repo.attrs.updated_at | timeFrom }}
+
       svg.iconnables.icons-arrow-down(
         ng-if = "!repo.loading"
       )

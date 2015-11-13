@@ -46,7 +46,7 @@ section.modal-body.clearfix
     li.list-item.multi-line.text-overflow(
       ng-class = "{\
         'active': repo.loading,\
-        'no-touching': repo.isAdded || SMC.repoSelected\
+        'disabled': repo.isAdded || SMC.repoSelected\
       }"
       ng-click = "SMC.selectRepo(repo)"
       ng-repeat = "\
@@ -55,7 +55,27 @@ section.modal-body.clearfix
         orderBy: '-attrs.updated_at' as noResults\
       "
     ) {{repo.attrs.name}}
-      small.small Updated {{repo.attrs.updated_at | timeFrom}}
+      .row.row-author(
+        ng-if = "$root.featureFlags.inviteFlows"
+      )
+        //- if invite flows...
+        .btn-user.text-overflow(
+          ng-class = "{'active': state.active}"
+          ng-include = "'userButtonView'"
+          pop-over
+          pop-over-active = "state.active"
+          pop-over-options = "{\"left\":-21,\"top\":24}"
+          pop-over-template = "userPopoverView"
+        )
+        span.small(
+          ng-if = "$root.featureFlags.inviteFlows"
+        ) —{{repo.attrs.updated_at | timeFrom}}
+
+      //- else
+      small.small(
+        ng-if = "!$root.featureFlags.inviteFlows"
+      ) Updated {{repo.attrs.updated_at | timeFrom}}
+
       button.btn.btn-xs(
         ng-class = "{\
           'disabled gray': repo.isAdded,\

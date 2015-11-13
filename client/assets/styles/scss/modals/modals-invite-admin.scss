@@ -13,8 +13,6 @@
   // admin list items
   .list-item {
     cursor: pointer;
-    overflow: hidden;
-    transition: height .15s, padding .15s;
 
     &:hover:not(.active) {
       background-color: rgba($gray-lighterest,.5);
@@ -32,18 +30,7 @@
 
     &.active {
       border: 0;
-      cursor: auto;
       height: 309px;
-
-      .username {
-        margin-top: 9px;
-      }
-
-      // not using ng-hide because this element affects layout
-      .small {
-        opacity: 0;
-        pointer-events: none;
-      }
     }
 
     // loading state
@@ -63,10 +50,6 @@
     .small {
       transition: opacity .15s;
     }
-  }
-
-  .username {
-    transition: margin-top .15s;
   }
 
   .iconnables {
@@ -93,14 +76,5 @@
     height: 135px;
     margin: 12px 0;
     padding: 6px;
-  }
-
-  // transition for invitation details
-  .js-animate {
-    transition: opacity .15s;
-  }
-
-  .ng-hide {
-    opacity: 0;
   }
 }
