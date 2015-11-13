@@ -81,7 +81,7 @@ module.exports = [
           .then(function (user) {
             //eventTracking.boot(user)
             console.log('BOOT', user);
-            eventTracking.boot(user).update();
+            eventTracking.boot(user);
           });
       },
       orgs: function (fetchOrgs) {
