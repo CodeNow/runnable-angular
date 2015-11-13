@@ -79,7 +79,9 @@ module.exports = [
       intercom: function (eventTracking, fetchUser) {
         return fetchUser()
           .then(function (user) {
-            return eventTracking.boot(user);
+            //eventTracking.boot(user)
+            console.log('BOOT');
+            return eventTracking.boot(user).update();
           });
       },
       orgs: function (fetchOrgs) {
