@@ -57,8 +57,7 @@ function ControllerInstance(
   fetchUser().then(function (user) {
     $scope.user = user;
     // product team - track visits to instance page & referrer
-    console.log('visitedState');
-    eventTracking.visitedState();
+    console.log('visitedState nope');
     return $q.all({
       instance: fetchInstances({ name: $stateParams.instanceName }, true),
       settings: fetchSettings()
