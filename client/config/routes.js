@@ -76,6 +76,12 @@ module.exports = [
       user: function (fetchUser) {
         return fetchUser();
       },
+      intercom: function (eventTracking, fetchUser) {
+        return fetchUser()
+          .then(function (user) {
+            return eventTracking.boot(user);
+          });
+      },
       orgs: function (fetchOrgs) {
         return fetchOrgs();
       },

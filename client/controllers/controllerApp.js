@@ -27,9 +27,6 @@ function ControllerApp(
   orgs,
   activeAccount
 ) {
-  eventTracking.boot(user);
-
-
   // Load ace after 5 seconds. Should improve user experience overall..
   $timeout(function () {
     $ocLazyLoad.load('ui.ace');
