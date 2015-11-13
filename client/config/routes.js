@@ -80,8 +80,8 @@ module.exports = [
         return fetchUser()
           .then(function (user) {
             //eventTracking.boot(user)
-            console.log('BOOT');
-            return eventTracking.boot(user).update();
+            console.log('BOOT', user);
+            eventTracking.boot(user).update();
           });
       },
       orgs: function (fetchOrgs) {
