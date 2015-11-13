@@ -257,6 +257,13 @@
   line-height: 22px;
 }
 
+// expand image override
+.ace_line .ace_fold {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAASCAYAAAA+PQxvAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIBJREFUeNpiYBgFo4BM8P//fwEgPk9F886DzCRVkwEQ3wfi/1R0yH+omQbEaggA4vdQjdR2yH+o2QGEFBf8RwM0cAgMFOBSOP8//cF8mP1MgzWnNNAxahoIaUigQ2JNICX7vqeBQ94TnX0HVYFGwECQr94TyycWDM5cMwqAACDAAMCfYHTKdjbsAAAAAElFTkSuQmCC) !important;
+  background-size: 17px 9px;
+  border-color: $white;
+}
+
 // editor
 .ace-tm .ace_editor {
   position: relative;
@@ -344,11 +351,6 @@
   .ace_marker-layer .ace_selected-word {
     border: 1px solid #d6d6d6;
     border-radius: 2px;
-  }
-
-  .ace_fold {
-    background-color: #4271ae;
-    border-color: $gray-darker;
   }
 
   .ace_keyword {
@@ -534,11 +536,6 @@
     background: transparent;
     border: 1px solid #77607d;
     border-radius: 2px;
-  }
-
-  .ace_fold {
-    background-color: #efefef;
-    border-color: $white;
   }
 
   .ace_keyword,
