@@ -45,6 +45,7 @@
     &.red {
       background-color: $red-lighter;
       border: 1px solid rgba($red,.3);
+      box-shadow: none;
       color: $red;
     }
   }
