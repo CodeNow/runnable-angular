@@ -160,7 +160,12 @@
       .label-col.full-width Teammates
         a.small.link.float-right(
           internal-modal-helper = "inviteModalView"
-        ) Invite…
+        )
+          svg.iconnables.icons-team-invite
+            use(
+              xlink:href = "#icons-team-invite"
+            )
+          | Invite…
     ol.list.list-bordered.list-teammates
       li.list-item(
         ng-repeat = "teammate in team"
