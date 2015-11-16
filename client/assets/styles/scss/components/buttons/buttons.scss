@@ -291,19 +291,21 @@
 .gray-dark,
 %gray-dark {
   background: $gray-dark;
-  border-color: #a7a9ac;
+  border-color: $gray-darker;
 
   &.btn:not([disabled]):not(.disabled) {
 
     &:hover,
     &.hover {
       background: $gray-darker;
+      border-color: $black;
     }
 
     &:active,
     &.active,
     &.active:hover {
       background: $black;
+      border-color: $black;
     }
   }
 }
