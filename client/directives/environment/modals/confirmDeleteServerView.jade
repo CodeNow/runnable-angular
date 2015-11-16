@@ -4,9 +4,9 @@
       p.p.strong Are you sure you want to delete this container?
       p.p Deleting this container cannot be undone.
     footer.modal-footer.clearfix
+      button.btn.white.float-left(
+        ng-click = "CMC.actions.cancel()"
+      ) Cancel
       button.btn.red.float-right(
         ng-click = "CMC.actions.confirm()"
       ) Delete Container
-      button.btn.white.btn-cancel(
-        ng-click = "CMC.actions.cancel()"
-      ) Cancel

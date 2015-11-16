@@ -51,7 +51,7 @@
           ng-class = "{'in': isActivePanel()}"
         )
           //- disable this when name is taken too
-          button.btn.green.btn-spinner(
+          button.btn.green.btn-spinner.float-right(
             ng-class = "{'in': loading}"
             ng-click = "\
               data.currentPanelName = 'githubAuth';\
@@ -112,7 +112,7 @@
                 )
               h4.h4 Organizations and Teams
               p.p This information is used to manage your team.
-        footer.modal-footer.fade(
+        footer.modal-footer.fade.clearfix(
           ng-class = "{'in': isActivePanel()}"
         )
           a.btn.green.btn-center(

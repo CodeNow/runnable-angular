@@ -13,10 +13,10 @@
       data = "RDMC.data"
       hide-branch-selector = "!RDMC.data.acv.attrs.additionalRepo"
     )
-    section.modal-footer
-      button.btn.white.btn-cancel(
+    section.modal-footer.clearfix
+      button.btn.white.float-left(
         ng-click = "RDMC.close()"
       ) Cancel
-      button.btn.green(
+      button.btn.green.float-right(
         ng-click = "RDMC.updateInstance()"
       ) Save & Rebuild

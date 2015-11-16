@@ -189,6 +189,12 @@
       )
 
     footer.modal-footer.clearfix
+      button.btn.white.float-left(
+        ng-click = "cancel()"
+        ng-disabled = "building"
+        type = "button"
+      ) Cancel
+
       //- disabled if no changes
       //- disabled on steps 1 & 2 if required fields are empty
       button.btn.btn-spinner.float-right(
@@ -220,8 +226,3 @@
         span.btn-text(
           ng-if = "newContainer.step === 4"
         ) Save
-      button.btn.white.btn-cancel(
-        ng-click = "cancel()"
-        ng-disabled = "building"
-        type = "button"
-      ) Cancel

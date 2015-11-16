@@ -3,8 +3,8 @@
     section.modal-body
       p.p.strong Make sure you’ve finished configuring optimus before continuing.
       p.p This will create containers for all its active branches.
-    section.modal-footer
-      button.btn.btn-sm.green Enable Branches
-      button.btn.btn-sm.btn-cancel.white(
+    section.modal-footer.clearfix
+      button.btn.btn-sm.white.float-left(
         ng-click = "defaultActions.cancel()"
       ) Cancel
+      button.btn.btn-sm.green.float-right Enable Branches

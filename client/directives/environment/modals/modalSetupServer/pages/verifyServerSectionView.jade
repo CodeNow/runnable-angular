@@ -183,8 +183,14 @@ section.modal-body(
     )
 
 footer.modal-footer.clearfix
+  button.btn.white.float-left(
+    ng-disabled = "$root.isLoading.setupServerModalIsBuilding"
+    ng-click = "SMC.actions.close()"
+    type = "button"
+  ) Cancel
+
   //- disabled if there is no value in the command input
-  button.btn.btn-spinner(
+  button.btn.btn-spinner.float-right(
     setup-confirm-button
     ng-class = "{ \
       'white': !buttonClosesModal, \
@@ -209,7 +215,8 @@ footer.modal-footer.clearfix
       ng-include = "'spinner'"
     )
     span.btn-text {{ buttonText }}
-  button.btn.green(
+
+  button.btn.green.float-right(
     ng-disabled = "\
       SMC.setupServerForm.$invalid || \
       (SMC.state.selectedStack | selectedStackInvalid)\
@@ -217,8 +224,4 @@ footer.modal-footer.clearfix
     ng-click = "SMC.createServerAndClose()"
     ng-if="!$root.featureFlags.newVerificationFlow"
   ) Start Build
-  button.btn.white.btn-cancel(
-    ng-disabled = "$root.isLoading.setupServerModalIsBuilding"
-    ng-click = "SMC.actions.close()"
-    type = "button"
-  ) Cancel
+

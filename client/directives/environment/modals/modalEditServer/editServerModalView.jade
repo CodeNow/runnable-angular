@@ -166,6 +166,11 @@
       )
 
     footer.modal-footer.clearfix
+
+      button.btn.white.btn-cancel.float-left(
+        ng-if = "$root.featureFlags.rebuildFlow"
+      ) Close
+
       button.btn.gray-dark.float-right(
         ng-class = "{'in': $root.isLoading.editServerModalIsBuilding }"
         ng-click = "editServerForm.$invalid || SMC.getUpdatePromise()"
@@ -173,7 +178,7 @@
         ng-if = "$root.featureFlags.rebuildFlow"
         type = "submit"
       )
-        svg.iconnables
+        svg.iconnables.float-left
           use(
             xlink:href = "#icons-log"
           )
@@ -184,12 +189,21 @@
         //- if save triggers a build
         //- span.btn-text Save & Build
 
-      button.btn.white.btn-cancel(
-        ng-if = "$root.featureFlags.rebuildFlow"
-      ) Close
-
       //- disabled if no changes
-      button.btn.green.btn-spinner(
+
+      button.btn.white.float-left(
+        ng-disabled = "$root.isLoading.editServerModalIsBuilding"
+        ng-click = "SMC.actions.close()"
+        ng-if = "!$root.featureFlags.rebuildFlow"
+        pop-over
+        pop-over-template = "closeConfigureModalPopoverView"
+        pop-over-trigger = "activeAttr"
+        pop-over-active = "SMC.confirmClose.active"
+        pop-over-actions = "SMC.confirmClose.actions"
+        type = "button"
+      ) Cancel
+
+      button.btn.green.btn-spinner.float-right(
         ng-class = "{'in': $root.isLoading.editServerModalIsBuilding }"
         ng-click = "editServerForm.$invalid || SMC.getUpdatePromise()"
         ng-disabled = "(!SMC.state.advanced && (SMC.state.selectedStack | selectedStackInvalid)) || !SMC.isDockerfileValid()"
@@ -208,14 +222,3 @@
         span.btn-text(
           ng-if = "$root.isLoading.editServerModalIsBuilding"
         ) Saving
-       button.btn.white.btn-cancel(
-          ng-disabled = "$root.isLoading.editServerModalIsBuilding"
-          ng-click = "SMC.actions.close()"
-          ng-if = "!$root.featureFlags.rebuildFlow"
-          pop-over
-          pop-over-template = "closeConfigureModalPopoverView"
-          pop-over-trigger = "activeAttr"
-          pop-over-active = "SMC.confirmClose.active"
-          pop-over-actions = "SMC.confirmClose.actions"
-          type = "button"
-        ) Cancel

@@ -48,10 +48,10 @@
             strong.strong {{rename.newName.$viewValue}}
             | -staging.codenow.runnableapp.com
 
-  footer.modal-footer
-    button.btn.green(
-      ng-disabled = "!rename.newName.$viewValue.length || rename.$invalid"
-    ) Rename Container
-    button.btn.white.btn-cancel(
+  footer.modal-footer.clearfix
+    button.btn.white.float-left(
       ng-click = "defaultActions.close()"
     ) Cancel
+    button.btn.green.float-right(
+      ng-disabled = "!rename.newName.$viewValue.length || rename.$invalid"
+    ) Rename Container

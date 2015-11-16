@@ -3,9 +3,9 @@
     header.modal-body
       p.p.strong Are you sure you want to discard this container?
     footer.modal-footer.clearfix
+      button.btn.white.float-left(
+        ng-click = "CMC.actions.cancel()"
+      ) Cancel
       button.btn.red.float-right(
         ng-click = "CMC.actions.confirm()"
       ) Discard and Exit
-      button.btn.white.btn-cancel(
-        ng-click = "CMC.actions.cancel()"
-      ) Cancel
