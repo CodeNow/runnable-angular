@@ -162,6 +162,14 @@ module.exports = function(grunt) {
         dest: 'client/build/images/',
         flatten: false,
         filter: 'isFile'
+      },
+      intercom: {
+        expand: true,
+        cwd: 'server/intercom/',
+        src: 'intercom.js',
+        dest: 'client/build/js/',
+        flatten: false,
+        filter: 'isFile'
       }
     },
     watch: {
