@@ -8,6 +8,7 @@
     height: 57px; // 27px gravatar + (15px padding * 2)
     overflow: hidden;
     padding: 8px 15px;
+    position: relative;
     transition: height .15s, padding .15s;
 
     &.active {
@@ -43,10 +44,15 @@
       }
     }
 
-    // invite and send buttons
-    .btn-xs.green {
-      min-width: 50px;
-      top: 15px;
+    .btn-wrapper {
+      position: absolute;
+      right: 14px;
+      top: 16px;
+
+      // invite and send buttons
+      .btn-xs {
+        min-width: 50px;
+      }
     }
   }
 
