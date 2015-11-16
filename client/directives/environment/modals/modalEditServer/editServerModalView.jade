@@ -166,7 +166,7 @@
       )
 
     footer.modal-footer.clearfix
-      button.btn.gray.float-right(
+      button.btn.gray-dark.float-right(
         ng-class = "{'in': $root.isLoading.editServerModalIsBuilding }"
         ng-click = "editServerForm.$invalid || SMC.getUpdatePromise()"
         ng-disabled = "(!SMC.state.advanced && (SMC.state.selectedStack | selectedStackInvalid)) || !SMC.isDockerfileValid()"
