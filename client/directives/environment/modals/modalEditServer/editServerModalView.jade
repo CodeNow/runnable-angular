@@ -166,11 +166,34 @@
       )
 
     footer.modal-footer.clearfix
+      button.btn.gray.float-right(
+        ng-class = "{'in': $root.isLoading.editServerModalIsBuilding }"
+        ng-click = "editServerForm.$invalid || SMC.getUpdatePromise()"
+        ng-disabled = "(!SMC.state.advanced && (SMC.state.selectedStack | selectedStackInvalid)) || !SMC.isDockerfileValid()"
+        ng-if = "$root.featureFlags.rebuildFlow"
+        type = "submit"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-log"
+          )
+
+        //- if save doesn't trigger a build
+        span.btn-text Save
+
+        //- if save triggers a build
+        //- span.btn-text Save & Build
+
+      button.btn.white.btn-cancel(
+        ng-if = "$root.featureFlags.rebuildFlow"
+      ) Close
+
       //- disabled if no changes
       button.btn.green.btn-spinner(
         ng-class = "{'in': $root.isLoading.editServerModalIsBuilding }"
         ng-click = "editServerForm.$invalid || SMC.getUpdatePromise()"
         ng-disabled = "(!SMC.state.advanced && (SMC.state.selectedStack | selectedStackInvalid)) || !SMC.isDockerfileValid()"
+        ng-if = "!$root.featureFlags.rebuildFlow"
         type = "submit"
       )
         //- spinner
@@ -187,11 +210,12 @@
         ) Saving
        button.btn.white.btn-cancel(
           ng-disabled = "$root.isLoading.editServerModalIsBuilding"
+          ng-click = "SMC.actions.close()"
+          ng-if = "!$root.featureFlags.rebuildFlow"
           pop-over
           pop-over-template = "closeConfigureModalPopoverView"
           pop-over-trigger = "activeAttr"
           pop-over-active = "SMC.confirmClose.active"
           pop-over-actions = "SMC.confirmClose.actions"
           type = "button"
-          ng-click = "SMC.actions.close()"
         ) Cancel
