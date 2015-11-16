@@ -1,8 +1,8 @@
 .modal-invite {
   width: 360px;
 
-  .modal-body {
-    min-height: 90px; // for spinner
+  .list-teammates {
+    margin-bottom: 15px;
   }
 
   .list-item {
@@ -32,16 +32,6 @@
       position: absolute;
       right: 21px;
       top: 21px;
-    }
-  }
-
-  // description
-  .label {
-    flex: 0 0 auto;
-    margin: 0;
-
-    .small {
-      margin: 6px 8px;
     }
   }
 }
