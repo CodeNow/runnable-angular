@@ -4,9 +4,9 @@
       p.p.strong Disable editing and restore past configuration?
       p.p Disabling will restore your container’s configuration from when editing was initially enabled {{CMC.instance.attrs.lastBuiltSimpleContextVersion.created | date : 'MMM d, y h:mm a'}}. You can’t undo this action.
     footer.modal-footer.clearfix
-      button.btn.white.float-left(
+      button.btn.btn-sm.white.float-left(
         ng-click = "CMC.actions.cancel()"
       ) Cancel
-      button.btn.red.float-right(
+      button.btn.btn-sm.red.float-right(
         ng-click = "CMC.actions.confirm()"
       ) Disable and Restore

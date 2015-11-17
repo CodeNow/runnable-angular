@@ -290,21 +290,21 @@
 
 .gray-dark,
 %gray-dark {
-  background: $gray-dark;
-  border-color: $gray-darker;
+  background: $gray;
+  border-color: $gray-dark;
 
   &.btn:not([disabled]):not(.disabled) {
 
     &:hover,
     &.hover {
-      background: $gray-darker;
-      border-color: $black;
+      background: $gray-dark;
+      border-color: $gray-darker;
     }
 
     &:active,
     &.active,
     &.active:hover {
-      background: $black;
+      background: $gray-darker;
       border-color: $black;
     }
   }

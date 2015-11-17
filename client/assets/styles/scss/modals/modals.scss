@@ -279,8 +279,7 @@
   .btn-group,
   .btn {
 
-    + .btn-group,
-    + .btn {
+    &.float-right + .float-right {
       margin-right: 6px;
     }
 

@@ -168,15 +168,15 @@
     footer.modal-footer.clearfix
 
       button.btn.white.btn-cancel.float-left(
+        internal-modal-helper = "confirmCloseEditServer"
         ng-if = "$root.featureFlags.rebuildFlow"
+        type = "button"
       ) Close
 
+      //- disable if nothing to save
       button.btn.gray-dark.float-right(
-        ng-class = "{'in': $root.isLoading.editServerModalIsBuilding }"
-        ng-click = "editServerForm.$invalid || SMC.getUpdatePromise()"
-        ng-disabled = "(!SMC.state.advanced && (SMC.state.selectedStack | selectedStackInvalid)) || !SMC.isDockerfileValid()"
+        ng-click = "SMC.changeTab('logs')"
         ng-if = "$root.featureFlags.rebuildFlow"
-        type = "submit"
       )
         svg.iconnables.float-left
           use(
@@ -184,10 +184,10 @@
           )
 
         //- if save doesn't trigger a build
-        span.btn-text Save
+        //- span.btn-text Save
 
         //- if save triggers a build
-        //- span.btn-text Save & Build
+        span.btn-text Save & Build
 
       //- disabled if no changes
 
@@ -208,7 +208,6 @@
         ng-click = "editServerForm.$invalid || SMC.getUpdatePromise()"
         ng-disabled = "(!SMC.state.advanced && (SMC.state.selectedStack | selectedStackInvalid)) || !SMC.isDockerfileValid()"
         ng-if = "!$root.featureFlags.rebuildFlow"
-        type = "submit"
       )
         //- spinner
         .spinner-wrapper.spinner-sm.spinner-white.in(
