@@ -6,8 +6,8 @@
 
   // border and bg not shown by default
   &.in {
-    background: rgba($black,.025);
-    border: 1px solid rgba($black,.1);
+    background: $gray-lighterest;
+    border: 1px solid $gray-lighter;
   }
 
   // code sample
@@ -45,6 +45,7 @@
     &.red {
       background-color: $red-lighter;
       border: 1px solid rgba($red,.3);
+      box-shadow: none;
       color: $red;
     }
   }

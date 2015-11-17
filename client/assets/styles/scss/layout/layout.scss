@@ -6,6 +6,7 @@
   position: fixed;
   top: 0;
   width: $layout-navigation-width;
+  z-index: 1;
 
   // if feature flags are on
   &.feature-flag-on {
