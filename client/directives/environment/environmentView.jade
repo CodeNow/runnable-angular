@@ -1,8 +1,8 @@
 //- new alerts
-.notification.notification-sm.environment-notification.js-animate.gray(
+.notification.notification-sm.environment-notification.js-animate(
   ng-class = "{\
     'green': alert.type === 'success',\
-    'gray': alert.type === 'deleted'\
+    'red': alert.type === 'deleted'\
   }"
   ng-if = "$root.featureFlags.inviteFlows && alert"
 )
@@ -17,9 +17,9 @@
   span(
     ng-if = "alert.text === 'Container updated successfully.'"
   ) Changes Saved
-  //- span(
-  //-   ng-if = "deleted"
-  //- ) Container Deleted
+  span(
+    ng-if = "deleted"
+  ) Container Deleted
     a.link Undo
 
 //- old alerts
