@@ -1,7 +1,7 @@
 /*global runnable:true, mocks: true, directiveTemplate: true, xdescribe: true, helpCardsMock */
 'use strict';
 
-describe.only('editServerModalController'.bold.underline.blue, function () {
+describe('editServerModalController'.bold.underline.blue, function () {
   var SMC;
   var ctx;
   var $timeout;
