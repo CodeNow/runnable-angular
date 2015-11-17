@@ -1,6 +1,21 @@
+//- tabs
+.btn-group.btn-toggle.btn-toggle-xs(
+  ng-hide = "$root.featureFlags.fullScreen"
+  ng-init = "page = 'backup'"
+)
+  button.btn.btn-xs.white(
+    ng-class = "{active: page === 'backup'}"
+    ng-click = "page = 'backup'"
+  ) Backup
+  button.btn.btn-xs.white(
+    ng-class = "{active: page === 'restore'}"
+    ng-click = "page = 'restore'"
+  ) Restore
+
 //- backup script
 .clearfix(
   ng-hide = "$root.featureFlags.fullScreen"
+  ng-if = "page === 'backup'"
 )
   .label-col Backup Script
 .ace-container.ace-environment-variables(
@@ -8,12 +23,14 @@
     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
+  ng-if = "page === 'backup'"
 )
   .ace_editor
 
 //- restore script
 .clearfix(
   ng-hide = "$root.featureFlags.fullScreen"
+  ng-if = "page === 'restore'"
 )
   .label-col Restore Script
 .ace-container.ace-environment-variables(
@@ -21,5 +38,6 @@
     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
+  ng-if = "page === 'restore'"
 )
   .ace_editor
