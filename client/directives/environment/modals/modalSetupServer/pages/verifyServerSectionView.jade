@@ -183,45 +183,55 @@ section.modal-body(
     )
 
 footer.modal-footer.clearfix
+
+  //- use "Close" copy for consistency with edit modal
+  //- after the first build, should use the same behavior as the "Close" button on the edit modal
   button.btn.white.float-left(
     ng-disabled = "$root.isLoading.setupServerModalIsBuilding"
     ng-click = "SMC.actions.close()"
     type = "button"
-  ) Cancel
+  ) {{$root.featureFlags.rebuildFlow ? 'Close' : 'Cancel'}}
 
   //- disabled if there is no value in the command input
+  //- always green for consistency with edit modal
+  //- should say "Build" on step 3
+  //- after the first build, should use the same behavior as the "Save/Save & Build" button on the edit modal
   button.btn.btn-spinner.float-right(
-    setup-confirm-button
     ng-class = "{ \
-      'white': !buttonClosesModal, \
-      'green': buttonClosesModal, \
+      'white': !buttonClosesModal && !$root.featureFlags.rebuildFlow, \
+      'green': buttonClosesModal || $root.featureFlags.rebuildFlow, \
       'in': $root.isLoading.setupServerModalIsBuilding \
     }"
+    ng-click = "SMC.goToNextStep()"
     ng-disabled = "\
       SMC.setupServerForm.$invalid || \
       (SMC.state.selectedStack | selectedStackInvalid) \
     "
-    ng-if="$root.featureFlags.newVerificationFlow"
-    ng-click = "SMC.goToNextStep()"
-    type="submit"
+    ng-if = "$root.featureFlags.newVerificationFlow"
+    setup-confirm-button
   )
     //- spinner
     .spinner-wrapper.spinner-sm.in(
-      ng-if = "$root.isLoading.setupServerModalIsBuilding"
       ng-class = "{ \
         'spinner-gray': !buttonClosesModal, \
         'spinner-white': buttonClosesModal \
       }"
+      ng-if = "$root.isLoading.setupServerModalIsBuilding"
       ng-include = "'spinner'"
     )
-    span.btn-text {{ buttonText }}
+    svg.iconnables.float-left(
+      ng-if = "$root.featureFlags.rebuildFlow && SMC.state.step > 2"
+    )
+      use(
+        xlink:href = "#icons-log"
+      )
+    span.btn-text {{buttonText}}
 
   button.btn.green.float-right(
+    ng-click = "SMC.createServerAndClose()"
     ng-disabled = "\
       SMC.setupServerForm.$invalid || \
       (SMC.state.selectedStack | selectedStackInvalid)\
     "
-    ng-click = "SMC.createServerAndClose()"
-    ng-if="!$root.featureFlags.newVerificationFlow"
+    ng-if = "!$root.featureFlags.newVerificationFlow"
   ) Start Build
-
