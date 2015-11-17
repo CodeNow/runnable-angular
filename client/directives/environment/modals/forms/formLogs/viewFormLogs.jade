@@ -39,11 +39,6 @@
     ng-click = "page = 'run'"
     ng-disabled = "!SMC.instance.containers.models.length"
   ) CMD Logs
-  button.btn.btn-xs.white(
-    ng-class = "{active: page === 'backup'}"
-    ng-click = "page = 'backup'"
-    ng-show = "!SMC.state.repo"
-  ) Backup Logs
 
 //- logs
 pre.pre.log-wrapper(
@@ -78,11 +73,6 @@ pre.pre.log-wrapper(
     log-term
     ng-if = "SMC.instance.containers.models.length"
     ng-show = "page === 'run'"
-  )
-  //- backup logs page
-  .term-js.term-log(
-    ng-if = "!SMC.state.repo"
-    ng-show = "page === 'backup'"
   )
 
   .floating-controls(
