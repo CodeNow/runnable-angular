@@ -186,7 +186,7 @@ EventTracking.prototype.triggeredBuild = function (cache) {
   var eventData = this.extendEventData({
     cache: cache
   });
-  //this._Intercom('trackEvent', eventName, eventData);
+  this._Intercom('trackEvent', eventName, eventData);
   this._mixpanel('track', eventName, eventData);
   return this;
 };
@@ -212,7 +212,7 @@ EventTracking.prototype.visitedState = function () {
  * @return this
  */
 EventTracking.prototype.update = function () {
-  //this._Intercom('update');
+  this._Intercom('update');
   return this;
 };
 
