@@ -1,7 +1,7 @@
 /*global runnable:true, mocks: true, directiveTemplate: true, xdescribe: true, helpCardsMock */
 'use strict';
 
-describe('editServerModalController'.bold.underline.blue, function () {
+describe.only('editServerModalController'.bold.underline.blue, function () {
   var SMC;
   var ctx;
   var $timeout;
@@ -113,8 +113,8 @@ describe('editServerModalController'.bold.underline.blue, function () {
         };
       });
       $provide.factory('updateDockerfileFromState', function ($q) {
-        return ctx.updateDockerfileFromStateMock
-          .returns($q.when(true));
+        ctx.updateDockerfileFromStateMock.returns($q.when(true));
+        return ctx.updateDockerfileFromStateMock;
       });
       ctx.parseDockerfileResponse = {
         ports: '80 900 90',
@@ -1101,6 +1101,37 @@ describe('editServerModalController'.bold.underline.blue, function () {
       SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
       $scope.$emit('resetStateContextVersion');
       expect(SMC.resetStateContextVersion.calledOnce).to.be.true;
+    });
+
+  });
+
+  describe('Ports', function () {
+
+    beforeEach(function () {
+      setup({
+        currentModel: ctx.instance,
+        selectedTab: 'env'
+      });
+    });
+
+    it('should correctly update the dockerfile when the ports have changed ', function () {
+      $scope.$digest();
+      ctx.loadingPromiseMock.add.reset();
+      SMC.state.ports = ['20', '12321'];
+      $scope.$digest();
+      sinon.assert.calledOnce(ctx.loadingPromiseMock.add);
+      sinon.assert.calledOnce(ctx.updateDockerfileFromStateMock);
+      sinon.assert.calledWith(
+        ctx.updateDockerfileFromStateMock,
+        SMC.state,
+        true,
+        true
+      );
+      sinon.assert.calledWith(
+        ctx.loadingPromiseMock.add,
+        'editServerModal',
+        ctx.updateDockerfileFromStateMock()
+      );
     });
 
   });
