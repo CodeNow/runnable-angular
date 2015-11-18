@@ -13,6 +13,10 @@ require('app')
   .factory('fetchSlackMembers', fetchSlackMembers)
   .factory('fetchGitHubMembers', fetchGitHubMembers)
   .factory('fetchGitHubUser', fetchGitHubUser)
+  .factory('fetchGitHubAdminsByRepo', fetchGitHubAdminsByRepo)
+  .factory('fetchGitHubTeamsByRepo', fetchGitHubTeamsByRepo)
+  .factory('fetchGitHubTeamMembersByTeam', fetchGitHubTeamMembersByTeam)
+  .factory('fetchInstance', fetchInstance)
   .factory('integrationsCache', integrationsCache)
   .factory('fetchPullRequest', fetchPullRequest)
   .factory('fetchDebugContainer', fetchDebugContainer)
@@ -384,6 +388,62 @@ function fetchGitHubUser(
       url: configAPIHost + '/github/users/' + memberName
     }).then(function (user) {
       return user.data;
+    });
+  };
+}
+
+function fetchGitHubAdminsByRepo(
+  $q,
+  fetchGitHubTeamsByRepo,
+  fetchGitHubTeamMembersByTeam
+) {
+  return function (orgName, repoName) {
+    return fetchGitHubTeamsByRepo(orgName, repoName)
+      .then(function (teams) {
+        return $q.all(teams.map(fetchGitHubTeamMembersByTeam));
+      })
+      .then(function (arrayOfTeamMembers) {
+        var uniqueMembers = {};
+        arrayOfTeamMembers.forEach(function (members) {
+          members.forEach(function (member) {
+            if (!uniqueMembers[member.login]) {
+              uniqueMembers[member.login] = member;
+            }
+          });
+        });
+        return uniqueMembers;
+      });
+  };
+}
+
+function fetchGitHubTeamsByRepo(
+  $http,
+  configAPIHost
+) {
+  return function (orgName, repoName) {
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/github/repos/' + orgName + '/' + repoName + '/teams'
+    }).then(function (teams) {
+      return teams.data.filter(function (team) {
+        return team.permission === 'admin';
+      });
+    });
+  };
+}
+
+function fetchGitHubTeamMembersByTeam(
+  $http,
+  configAPIHost
+) {
+  return function (team) {
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/github/teams/' + team.id + '/members'
+    }).then(function (members) {
+      return members.data.filter(function (member) {
+        return member.state !== 'pending';
+      });
     });
   };
 }
