@@ -4,7 +4,6 @@ require('app')
   .controller('InviteAdminModalController', InviteAdminModalController);
 
 function InviteAdminModalController(
-  $scope,
   $state,
   $timeout,
   errs,
@@ -31,7 +30,7 @@ function InviteAdminModalController(
 
   IAMC.sendEmail = function (user) {
     IAMC.sending = true;
-    $timeout(angular.noop, 2000)
+    $timeout(angular.noop, 1000)
       .then(function () {
         IAMC.sending = false;
         IAMC.activeItem = null;
