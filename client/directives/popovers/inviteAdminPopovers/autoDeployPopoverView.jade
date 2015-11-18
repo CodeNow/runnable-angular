@@ -5,6 +5,5 @@
   .arrow
   small.small We need permission from a GitHub admin to automatically update your container with new commits.
   button.btn.btn-xs(
-    modal
-    modal-template = "inviteAdminModalView"
+    ng-click = "ADPC.openInviteAdminModal(data); POC.closePopover();"
   ) Invite an Admin…
