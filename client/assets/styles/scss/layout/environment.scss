@@ -16,7 +16,7 @@
   &.gray,
   &.green,
   &.red {
-    background: $white;
+    background: rgba($white,.95);
     box-shadow: none;
   }
 
@@ -35,10 +35,10 @@
 
   // if a modal is open
   .modal-open & {
+    box-shadow: 0 0 30px rgba($black,.12);
     display: table;
     left: 0;
     margin: 0 auto;
-    position: absolute;
     right: 0;
     text-align: center;
     top: 9px;
