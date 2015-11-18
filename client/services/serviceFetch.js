@@ -395,7 +395,8 @@ function fetchGitHubUser(
 function fetchGitHubAdminsByRepo(
   $q,
   fetchGitHubTeamsByRepo,
-  fetchGitHubTeamMembersByTeam
+  fetchGitHubTeamMembersByTeam,
+  fetchGitHubUser
 ) {
   return function (orgName, repoName) {
     return fetchGitHubTeamsByRepo(orgName, repoName)
@@ -412,6 +413,12 @@ function fetchGitHubAdminsByRepo(
           });
         });
         return uniqueMembers;
+      })
+      .then(function (mapOfMembers) {
+        Object.keys(mapOfMembers).forEach(function (key) {
+          mapOfMembers[key] = fetchGitHubUser(key);
+        });
+        return $q.all(mapOfMembers);
       });
   };
 }

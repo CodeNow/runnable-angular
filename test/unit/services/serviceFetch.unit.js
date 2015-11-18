@@ -682,6 +682,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
     var fetchGitHubTeamsByRepoMock;
     var fetchGitHubTeamMembersByTeamMock;
+    var fetchGitHubUserMock;
     var members = [
       {
         name: 'member1',
@@ -711,6 +712,9 @@ describe('serviceFetch'.bold.underline.blue, function () {
       team3: [
         members[0],
         members[2]
+      ],
+      team4: [
+        members[0]
       ]
     };
     var teams = Object.keys(membersByTeam);
@@ -727,6 +731,14 @@ describe('serviceFetch'.bold.underline.blue, function () {
             return $q.when((membersByTeam[teamName]));
           });
           return fetchGitHubTeamMembersByTeamMock;
+        });
+        $provide.factory('fetchGitHubUser', function ($q) {
+          fetchGitHubUserMock = sinon.spy(function (memberName) {
+            return $q.when(({
+              name: memberName
+            }));
+          });
+          return fetchGitHubUserMock;
         });
       });
       angular.mock.inject(function (
@@ -746,6 +758,9 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
       fetchGitHubAdminsByRepo(orgName, repoName)
         .then(function (uniqueMembers) {
+          expect(fetchGitHubTeamsByRepoMock.callCount).to.eql(1);
+          expect(fetchGitHubTeamMembersByTeamMock.callCount).to.eql(4);
+          expect(fetchGitHubUserMock.callCount).to.eql(3);
           expect(Object.keys(uniqueMembers).length).to.eql(3);
           done();
         });
