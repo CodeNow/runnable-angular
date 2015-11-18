@@ -184,13 +184,12 @@ section.modal-body(
 
 footer.modal-footer.clearfix
 
-  //- use "Close" copy for consistency with edit modal
   //- after the first build, should use the same behavior as the "Close" button on the edit modal
   button.btn.white.float-left(
     ng-disabled = "$root.isLoading.setupServerModalIsBuilding"
     ng-click = "SMC.actions.close()"
     type = "button"
-  ) {{$root.featureFlags.rebuildFlow ? 'Close' : 'Cancel'}}
+  ) {{$root.featureFlags.rebuildFlow && SMC.state.step >  3 ? 'Close' : 'Cancel'}}
 
   //- disabled if there is no value in the command input
   //- always green for consistency with edit modal
