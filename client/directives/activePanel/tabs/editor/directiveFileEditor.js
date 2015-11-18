@@ -29,6 +29,7 @@ function fileEditor(
     link: function ($scope, element, attrs) {
       var useValidation = false;
       var session = null;
+      $scope.protectedText = 'The contents of this file are protected and cannot be shown';
       $scope.actions = {
         setAceMode: function (editor) {
           var unwatch = $scope.$watch('file.state.body', function (body) {
