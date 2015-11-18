@@ -5,7 +5,8 @@
 
   // focus except when invalid and always when pristine
   &:focus,
-  &.focus {
+  &.focus,
+  &.focus:not([disabled]):not(.disabled):hover {
 
     &:not(.ng-invalid),
     &.ng-invalid.ng-pristine,

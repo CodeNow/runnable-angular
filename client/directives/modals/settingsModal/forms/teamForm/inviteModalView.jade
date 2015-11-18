@@ -47,12 +47,6 @@
           .username.text-overflow.strong {{user.username}}
           .small.text-overflow {{user.email.length ? user.email : "—"}}
 
-          //- invite button always prompts for email address
-          button.btn.btn-xs.green(
-            ng-click = "state.activeItem = $index"
-            ng-if = "state.activeItem !== $index && state.inviteSending !== $index"
-          ) Invite
-
           //- cancel invite
           svg.iconnables.icons-close(
             ng-click = "state.activeItem = null"
@@ -83,6 +77,13 @@
             ng-show = "state.activeItem === $index"
           ) Send
 
+          .btn-wrapper
+            //- invite button always prompts for email address
+            button.btn.btn-xs.green(
+              ng-click = "state.activeItem = $index"
+              ng-if = "state.activeItem !== $index && state.inviteSending !== $index"
+            ) Invite
+
           //- invite sending
           .spinner-wrapper.spinner-sm.spinner-gray.in(
             ng-click = "state.inviteSent = $index"
@@ -107,7 +108,3 @@
               )
             | Sent
 
-      .label.text-center(
-        ng-if = "!state.loading"
-      )
-        small.small Invites are sent to the user’s email address.

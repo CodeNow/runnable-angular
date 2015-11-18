@@ -2,12 +2,6 @@
   border-radius: $input-border-radius-lg;
   min-width: 300px;
 
-  .btn-wrapper {
-    position: absolute;
-    right: 14px;
-    top: 16px;
-  }
-
   .spinner-wrapper,
   .send-confirmation {
     margin: 5px 0;
@@ -17,10 +11,6 @@
     padding-right: 84px;
   }
 
-  .btn-xs.green {
-    top: 0;
-  }
-
   .input {
     font-size: 14px;
     margin-left: -6px; // line up send button with invite
@@ -28,7 +18,7 @@
     width: 278px;
 
     // send
-    ~ .btn-xs.green {
+    ~ .btn-xs {
       bottom: 14px;
       margin: 6px;
       right: 9px; // line up send button with invite

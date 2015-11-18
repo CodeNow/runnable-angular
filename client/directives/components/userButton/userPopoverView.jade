@@ -3,6 +3,9 @@
   ng-style = "popoverStyle.getStyle()"
   style = "transform-origin: 5% 0;"
 )
+  .arrow.white(
+    style = "left: 29px;"
+  )
   .popover-content.list-item(
     ng-class = "{'active': state.inviteForm}"
     ng-init = "\
@@ -20,11 +23,6 @@
     )
     .username.text-overflow Runnabro
     .small.text-overflow tony@runnable.com
-    //- if the user has not yet joined runnable
-    button.btn.btn-xs.green(
-      ng-click = "state.inviteForm = true"
-      ng-if = "!state.inviteSending && !state.inviteSent && !state.inviteForm"
-    ) Invite
 
     //- cancel invite
     svg.iconnables.icons-close(
@@ -45,7 +43,9 @@
       type = "email"
     )
 
+    //- send button visible after pressing invite (with input)
     //- disabled when invalid
+    //- says "Resend" if an invite has already been sent
     button.btn.btn-xs.green.js-animate(
       ng-click = "\
         state.inviteForm = false;\
@@ -56,6 +56,17 @@
     ) Send
 
     .btn-wrapper
+      //- if the user has not yet joined runnable
+      button.btn.btn-xs.green(
+        ng-click = "state.inviteForm = true"
+        ng-if = "!state.inviteSending && !state.inviteSent && !state.inviteForm"
+      ) Invite
+
+      //- if already in runnable
+      //- button.btn.btn-xs.white(
+      //-   internal-modal-helper = "settingsModalView"
+      //- ) View Team
+
       //- sending…
       .spinner-wrapper.spinner-sm.spinner-gray.in(
         ng-click = "\
