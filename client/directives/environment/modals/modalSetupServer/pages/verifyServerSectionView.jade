@@ -199,7 +199,7 @@ footer.modal-footer.clearfix
     ng-class = "{\
       'white': !buttonClosesModal && !$root.featureFlags.rebuildFlow,\
       'green': buttonClosesModal || $root.featureFlags.rebuildFlow,\
-      'in': $root.isLoading.setupServerModalIsBuilding || ifTriggersBuild\
+      'in': $root.isLoading.setupServerModalIsBuilding || data.ifTriggersBuild\
     }"
     ng-click = "SMC.goToNextStep()"
     ng-disabled = "\
@@ -220,13 +220,13 @@ footer.modal-footer.clearfix
     )
     span.btn-text {{buttonText}}
     svg.iconnables.icons-arrow-forward.float-right.fade.js-animate(
-      ng-if = "$root.featureFlags.rebuildFlow && ifTriggersBuild"
+      ng-if = "$root.featureFlags.rebuildFlow && data.ifTriggersBuild"
     )
       use(
         xlink:href = "#icons-arrow-down"
       )
     svg.iconnables.icons-log.float-right.fade.js-animate(
-      ng-if = "$root.featureFlags.rebuildFlow && ifTriggersBuild"
+      ng-if = "$root.featureFlags.rebuildFlow && data.ifTriggersBuild"
     )
       use(
         xlink:href = "#icons-log"

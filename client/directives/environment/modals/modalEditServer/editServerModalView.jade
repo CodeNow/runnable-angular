@@ -161,7 +161,7 @@
       )
 
     footer.modal-footer.clearfix(
-      ng-init = "ifTriggersBuild = null"
+      ng-init = "state.ifTriggersBuild = null"
     )
 
       button.btn.white.btn-cancel.float-left(
@@ -171,14 +171,14 @@
       ) Close
 
       button.btn.white.float-left(
-        ng-click = "ifTriggersBuild = !ifTriggersBuild"
+        ng-click = "state.ifTriggersBuild = !state.ifTriggersBuild"
         ng-if = "$root.featureFlags.rebuildFlow"
         style = "margin-left: 6px;"
       ) Show "& Build"
 
       //- disable if nothing to save
       button.btn.green.float-right(
-        ng-class = "{'in': ifTriggersBuild}"
+        ng-class = "{'in': state.ifTriggersBuild}"
         ng-click = "SMC.changeTab('logs')"
         ng-if = "$root.featureFlags.rebuildFlow"
         tooltip = "You’ve made changes that require a rebuild."
@@ -188,17 +188,17 @@
         span.btn-text Save
           //- if save triggers a build
           span.fade.js-animate(
-            ng-if = "!$root.featureFlags.rebuildFlow || ifTriggersBuild"
+            ng-if = "!$root.featureFlags.rebuildFlow || state.ifTriggersBuild"
           ) &#32;& Build
 
         svg.iconnables.icons-arrow-forward.float-right.fade.js-animate(
-          ng-if = "$root.featureFlags.rebuildFlow && ifTriggersBuild"
+          ng-if = "$root.featureFlags.rebuildFlow && state.ifTriggersBuild"
         )
           use(
             xlink:href = "#icons-arrow-down"
           )
         svg.iconnables.icons-log.float-right.fade.js-animate(
-          ng-if = "$root.featureFlags.rebuildFlow && ifTriggersBuild"
+          ng-if = "$root.featureFlags.rebuildFlow && state.ifTriggersBuild"
         )
           use(
             xlink:href = "#icons-log"
