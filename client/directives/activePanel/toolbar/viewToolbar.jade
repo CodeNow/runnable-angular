@@ -45,13 +45,13 @@
   ng-if = "$root.featureFlags.backup"
 )
   //- if backup was successful
-  small.small.text-overflow Backup created 10 hours ago. Daily backups occur at 12 a.m.
+  small.small.text-overflow Next scheduled backup at 3:00 AM.
 
   //- if backup was successful, but container was down during last scheduled backup time.
   //- small.small.text-overflow Backup created 3 days ago. Scheduled backups were skipped while this container was down.
 
   //- if backup was successful
-  button.btn.btn-xs.purple.btn-spinner.btn-toolbar.float-right Create Backup
+  button.btn.btn-xs.purple.btn-spinner.btn-toolbar.float-right Back Up Now
 
   //- if backup failed
   //- small.small The backup script failed.
