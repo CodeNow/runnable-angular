@@ -25,7 +25,7 @@
     ng-attr-title = "{{(instance.getRepoName() || instance.attrs.name)}}"
   ) {{(instance.getRepoName() || instance.attrs.name)}}
 
-  //- only appears if container is unsaved
+  //- only appears if container is unsaved and only in the modal
   span.text-overflow.container-title(
      ng-if = "$root.featureFlags.rebuildFlow"
   ) —Unsaved
