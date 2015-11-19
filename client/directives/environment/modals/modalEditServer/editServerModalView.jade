@@ -170,16 +170,18 @@
         type = "button"
       ) Close
 
-      button.btn.white.float-left(
-        ng-click = "state.ifTriggersBuild = !state.ifTriggersBuild"
-        ng-if = "$root.featureFlags.rebuildFlow"
-        style = "margin-left: 6px;"
-      ) Show "& Build"
+      //- test save /& build transition
+      //- button.btn.white.float-left(
+      //-   ng-click = "state.ifTriggersBuild = !state.ifTriggersBuild"
+      //-   ng-if = "$root.featureFlags.rebuildFlow"
+      //-   style = "margin-left: 6px;"
+      //- ) Show "& Build"
 
       //- disable if nothing to save
       button.btn.green.float-right(
         ng-class = "{'in': state.ifTriggersBuild}"
         ng-click = "SMC.changeTab('logs')"
+        ng-disabled = "$root.featureFlags.rebuildFlow && !state.ifTriggersBuild"
         ng-if = "$root.featureFlags.rebuildFlow"
         tooltip = "You’ve made changes that require a rebuild."
         tooltip-options = "{\"class\":\"no-arrow text-center\",\"right\":0,\"top\":-39}"
@@ -223,6 +225,7 @@
         ng-click = "editServerForm.$invalid || SMC.getUpdatePromise()"
         ng-disabled = "(!SMC.state.advanced && (SMC.state.selectedStack | selectedStackInvalid)) || !SMC.isDockerfileValid()"
         ng-if = "!$root.featureFlags.rebuildFlow"
+        style = "{{!$root.featureFlags.rebuildFlow ? 'width: auto;' : ''}}"
       )
         //- spinner
         .spinner-wrapper.spinner-sm.spinner-white.in(
