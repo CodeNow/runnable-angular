@@ -161,7 +161,7 @@
       )
 
     footer.modal-footer.clearfix(
-      ng-init = "state.ifTriggersBuild = null"
+      ng-init = "SMC.state.ifTriggersBuild = null"
     )
 
       button.btn.white.btn-cancel.float-left(
@@ -172,7 +172,7 @@
 
       //- test save /& build transition
       //- button.btn.white.float-left(
-      //-   ng-click = "state.ifTriggersBuild = !state.ifTriggersBuild"
+      //-   ng-click = "SMC.state.ifTriggersBuild = !SMC.state.ifTriggersBuild"
       //-   ng-if = "$root.featureFlags.rebuildFlow"
       //-   style = "margin-left: 6px;"
       //- ) Show "& Build"
@@ -185,11 +185,11 @@
           .text-next
       button.btn.green.float-right(
         ng-class = "{\
-          'text-save': !state.ifTriggersBuild,\
-          'text-save-build': state.ifTriggersBuild\
+          'text-save': !SMC.state.ifTriggersBuild,\
+          'text-save-build': SMC.state.ifTriggersBuild\
         }"
         ng-click = "SMC.changeTab('logs')"
-        ng-disabled = "$root.featureFlags.rebuildFlow && !state.ifTriggersBuild"
+        ng-disabled = "$root.featureFlags.rebuildFlow && !SMC.state.ifTriggersBuild"
         ng-if = "$root.featureFlags.rebuildFlow"
         tooltip = "You’ve made changes that require a rebuild."
         tooltip-options = "{\"class\":\"no-arrow text-center\",\"right\":0,\"top\":-39}"
@@ -198,17 +198,17 @@
         span.btn-text.float-left Save
           //- if save triggers a build
           span.fade.js-animate(
-            ng-if = "!$root.featureFlags.rebuildFlow || state.ifTriggersBuild"
+            ng-if = "!$root.featureFlags.rebuildFlow || SMC.state.ifTriggersBuild"
           ) &#32;& Build
 
         svg.iconnables.icons-arrow-forward.float-right.fade.js-animate(
-          ng-if = "$root.featureFlags.rebuildFlow && state.ifTriggersBuild"
+          ng-if = "$root.featureFlags.rebuildFlow && SMC.state.ifTriggersBuild"
         )
           use(
             xlink:href = "#icons-arrow-down"
           )
         svg.iconnables.icons-log.float-right.fade.js-animate(
-          ng-if = "$root.featureFlags.rebuildFlow && state.ifTriggersBuild"
+          ng-if = "$root.featureFlags.rebuildFlow && SMC.state.ifTriggersBuild"
         )
           use(
             xlink:href = "#icons-log"
