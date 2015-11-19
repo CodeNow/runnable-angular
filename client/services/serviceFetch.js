@@ -12,6 +12,8 @@ require('app')
   .factory('fetchSettings', fetchSettings)
   .factory('fetchSlackMembers', fetchSlackMembers)
   .factory('fetchGitHubMembers', fetchGitHubMembers)
+  .factory('fetchOrgRegisteredMembers', fetchOrgRegisteredMembers)
+  .factory('fetchOrgMembers', fetchOrgMembers)
   .factory('fetchGitHubUser', fetchGitHubUser)
   .factory('integrationsCache', integrationsCache)
   .factory('fetchPullRequest', fetchPullRequest)
@@ -370,6 +372,76 @@ function fetchGitHubMembers(
       url: configAPIHost + '/github/orgs/' + teamName + '/members'
     }).then(function (team) {
       return team.data;
+    });
+  };
+}
+
+/**
+ * Get all members of a Github organization registered to Runnable
+ *
+ * @param {String}
+ * @resolves {Array}
+ * @returns {Promise}
+ */
+function fetchOrgRegisteredMembers(
+  $http,
+  configAPIHost
+) {
+  return function (teamName) {
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/users/',
+      params: { githubOrgName: teamName }
+    }).then(function (response) {
+      return response.data;
+    });
+  };
+}
+
+
+/**
+ * Get an object with all members for an organization, all registered members (
+ * registered in Runnable), and all unregistered members.
+ *
+ * @param {String}
+ * @resolves {Object}
+ * @returns {Promise}
+ */
+function fetchOrgMembers(
+  $q,
+  fetchGitHubMembers,
+  fetchOrgRegisteredMembers
+) {
+  return function (teamName) {
+    return $q.all([
+      fetchGitHubMembers(teamName),
+      fetchOrgRegisteredMembers(teamName)
+    ])
+    .then(function (responseArray) {
+      var githubMembers = responseArray[0];
+      var runnableUsersArray = responseArray[1];
+      var registeredGithubMembers = [];
+      var unRegisteredGithubMembers = [];
+      var runnableUsers = {};
+      runnableUsersArray.forEach(function (member) {
+        var username = member.accounts.github.username;
+        if (username) {
+          runnableUsers[username] = member;
+        }
+      });
+      githubMembers.forEach(function (member) {
+        if (runnableUsers[member.login]) {
+          member.runnableUser = runnableUsers[member.login];
+          registeredGithubMembers.push(member);
+        } else {
+          unRegisteredGithubMembers.push(member);
+        }
+      });
+      return {
+        registered: registeredGithubMembers,
+        unregistered: unRegisteredGithubMembers,
+        all: githubMembers
+      };
     });
   };
 }
