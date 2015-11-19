@@ -152,7 +152,7 @@ function ServerModalController(
     }, function (newPortsArray, oldPortsArray) {
       if (!angular.equals(newPortsArray, oldPortsArray)) {
         // Only update the Dockerfile if the ports have actually changed
-        updateDockerfileFromState(SMC.state, true, true);
+        loadingPromises.add(SMC.name, updateDockerfileFromState(SMC.state, true, true));
       }
     });
 

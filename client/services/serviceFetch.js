@@ -15,6 +15,9 @@ require('app')
   .factory('fetchOrgRegisteredMembers', fetchOrgRegisteredMembers)
   .factory('fetchOrgMembers', fetchOrgMembers)
   .factory('fetchGitHubUser', fetchGitHubUser)
+  .factory('fetchGitHubAdminsByRepo', fetchGitHubAdminsByRepo)
+  .factory('fetchGitHubTeamsByRepo', fetchGitHubTeamsByRepo)
+  .factory('fetchGitHubTeamMembersByTeam', fetchGitHubTeamMembersByTeam)
   .factory('integrationsCache', integrationsCache)
   .factory('fetchPullRequest', fetchPullRequest)
   .factory('fetchDebugContainer', fetchDebugContainer)
@@ -458,6 +461,96 @@ function fetchGitHubUser(
     }).then(function (user) {
       return user.data;
     });
+  };
+}
+
+/**
+ * Given an org name and a repo name, fetch all github users who have admin access to a repo.  This
+ * returns a promise containing a map of all of the users, indexed by their github login.
+ * @param $q
+ * @param fetchGitHubTeamsByRepo
+ * @param fetchGitHubTeamMembersByTeam
+ * @param fetchGitHubUser
+ * @returns {Function} promise containing a map of github admins indexed by login
+ */
+function fetchGitHubAdminsByRepo(
+  $q,
+  fetchGitHubTeamsByRepo,
+  fetchGitHubTeamMembersByTeam,
+  fetchGitHubUser
+) {
+  return function (orgName, repoName) {
+    return fetchGitHubTeamsByRepo(orgName, repoName)
+      .then(function (teams) {
+        return $q.all(teams.map(fetchGitHubTeamMembersByTeam));
+      })
+      .then(function (arrayOfTeamMembers) {
+        var uniqueMembers = {};
+        arrayOfTeamMembers.forEach(function (members) {
+          members.forEach(function (member) {
+            if (!uniqueMembers[member.login]) {
+              uniqueMembers[member.login] = member;
+            }
+          });
+        });
+        return uniqueMembers;
+      })
+      .then(function (mapOfMembers) {
+        Object.keys(mapOfMembers).forEach(function (key) {
+          mapOfMembers[key] = fetchGitHubUser(key);
+        });
+        return $q.all(mapOfMembers);
+      });
+  };
+}
+
+/**
+ * Given an org name and a repo name, fetch all teams with admin permissions.  These teams can then
+ * be queried to fetch users with admin permissions.
+ * @param $http
+ * @param configAPIHost
+ * @returns {Function} promise containing team objects with admin permissions
+ */
+function fetchGitHubTeamsByRepo(
+  $http,
+  configAPIHost
+) {
+  return function (orgName, repoName) {
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/github/repos/' + orgName + '/' + repoName + '/teams'
+    })
+      .then(function (teamsResponse) {
+        return teamsResponse.data.filter(function (team) {
+          return team.permission === 'admin';
+        });
+      });
+  };
+}
+
+/**
+ * Given either a team object (like from fetchGitHubTeamsByRepo), or a teamId, fetch all active team
+ * members.  All users with pending statuses are removed.  The user model that comes back isn't a
+ * full user model from github, so if any user-specific info is needed, you must use fetchGitHubUser
+ * @param $http
+ * @param configAPIHost
+ * @returns {Function}
+ */
+function fetchGitHubTeamMembersByTeam(
+  $http,
+  configAPIHost
+) {
+  return function (team) {
+    var teamId = (typeof team === 'object') ? team.id : team;
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/github/teams/' + teamId + '/members'
+    })
+      .then(function (members) {
+        return members.data.filter(function (member) {
+          return member.state !== 'pending';
+        });
+      });
   };
 }
 

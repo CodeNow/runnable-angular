@@ -10,7 +10,8 @@ label.label(
     * the edit modal (in the Containers view) for modifying an additional repo on a specific Container
 label.toggle-wrapper(
   ng-show = "!BCSC.data.acv || BCSC.data.acv.attrs.additionalRepo"
-) Always update to latest commit
+)
+  div Always update to latest commit
   .small.float-left on new builds of&#32;
     strong.strong {{BCSC.data.getDisplayName() || BCSC.data.instance.getDisplayName()}}
   input.toggle-input(

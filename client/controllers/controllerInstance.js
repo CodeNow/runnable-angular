@@ -23,6 +23,7 @@ function ControllerInstance(
   fetchUser,
   pageName,
   setLastInstance,
+  fetchGitHubAdminsByRepo,
   loading
 ) {
   var dataInstance = $scope.dataInstance = {
