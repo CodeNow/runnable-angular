@@ -392,6 +392,15 @@ function fetchGitHubUser(
   };
 }
 
+/**
+ * Given an org name and a repo name, fetch all github users who have admin access to a repo.  This
+ * returns a promise containing a map of all of the users, indexed by their github login.
+ * @param $q
+ * @param fetchGitHubTeamsByRepo
+ * @param fetchGitHubTeamMembersByTeam
+ * @param fetchGitHubUser
+ * @returns {Function} promise containing a map of github admins indexed by login
+ */
 function fetchGitHubAdminsByRepo(
   $q,
   fetchGitHubTeamsByRepo,
@@ -423,6 +432,13 @@ function fetchGitHubAdminsByRepo(
   };
 }
 
+/**
+ * Given an org name and a repo name, fetch all teams with admin permissions.  These teams can then
+ * be queried to fetch users with admin permissions.
+ * @param $http
+ * @param configAPIHost
+ * @returns {Function} promise containing team objects with admin permissions
+ */
 function fetchGitHubTeamsByRepo(
   $http,
   configAPIHost
@@ -431,27 +447,38 @@ function fetchGitHubTeamsByRepo(
     return $http({
       method: 'get',
       url: configAPIHost + '/github/repos/' + orgName + '/' + repoName + '/teams'
-    }).then(function (teams) {
-      return teams.data.filter(function (team) {
-        return team.permission === 'admin';
+    })
+      .then(function (teamsResponse) {
+        return teamsResponse.data.filter(function (team) {
+          return team.permission === 'admin';
+        });
       });
-    });
   };
 }
 
+/**
+ * Given either a team object (like from fetchGitHubTeamsByRepo), or a teamId, fetch all active team
+ * members.  All users with pending statuses are removed.  The user model that comes back isn't a
+ * full user model from github, so if any user-specific info is needed, you must use fetchGitHubUser
+ * @param $http
+ * @param configAPIHost
+ * @returns {Function}
+ */
 function fetchGitHubTeamMembersByTeam(
   $http,
   configAPIHost
 ) {
   return function (team) {
+    var teamId = (typeof team === 'object') ? team.id : team;
     return $http({
       method: 'get',
-      url: configAPIHost + '/github/teams/' + team.id + '/members'
-    }).then(function (members) {
-      return members.data.filter(function (member) {
-        return member.state !== 'pending';
+      url: configAPIHost + '/github/teams/' + teamId + '/members'
+    })
+      .then(function (members) {
+        return members.data.filter(function (member) {
+          return member.state !== 'pending';
+        });
       });
-    });
   };
 }
 

@@ -602,7 +602,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
       });
     });
 
-    it('should get the GitHub user from the API', function () {
+    it('should accept a team object to get the GitHub user from the API', function () {
       var localRes;
       var team = {
         name: 'team',
@@ -620,6 +620,32 @@ describe('serviceFetch'.bold.underline.blue, function () {
         }
       ];
       fetchGitHubTeamMembersByTeam(team)
+        .then(function (_res) {
+          localRes = _res;
+        });
+
+      $rootScope.$digest();
+      expect(localRes).to.deep.eql([data[0]]); // member2 is pending and should be removed
+      expect(res.args[0].url).to.have.string('/github/teams/' + team.id + '/members');
+    });
+    it('should accept an id to get the GitHub user from the API', function () {
+      var localRes;
+      var team = {
+        name: 'team',
+        id: 123123123
+      };
+
+      data = [
+        {
+          name: 'member1',
+          state: 'active'
+        },
+        {
+          name: 'member2',
+          state: 'pending'
+        }
+      ];
+      fetchGitHubTeamMembersByTeam(team.id)
         .then(function (_res) {
           localRes = _res;
         });
