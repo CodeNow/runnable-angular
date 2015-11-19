@@ -11,7 +11,8 @@ function BoxLogController(
   $scope,
   through,
   streamBuffers,
-  primus
+  primus,
+  report
 ) {
 
   $scope.clearTermOnReconnect = true;
@@ -54,7 +55,14 @@ function BoxLogController(
   var buffer;
   $scope.createStream = function () {
     var container = keypather.get($scope, 'instance.containers.models[0]');
-    $scope.stream = primus.createLogStream(container);
+    if (container) {
+      $scope.stream = primus.createLogStream(container);
+    } else {
+      report.warning('Attmpted to render box logs for an instance that doesn\'t have a container!', {
+        instanceId: keypather.get($scope, 'instance.id()'),
+        instanceStatus: keypather.get($scope, 'instance.status()')
+      });
+    }
   };
 
   $scope.$on('$destroy', function () {
