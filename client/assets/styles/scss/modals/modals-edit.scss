@@ -197,9 +197,40 @@
     }
   }
 
-  // footer
+  // footer save/save & build button
   .modal-footer > .green {
-    padding-right: 12px;
+    overflow: hidden;
+    text-align: left;
+    transition: width .15s ease-in-out;
+    white-space: nowrap;
+    width: 75px;
+
+    &.in {
+      padding-right: 9px;
+      width: 180px;
+    }
+
+    // speed up animation for & build
+    .fade {
+      transition: opacity .3s ease-in-out;
+
+      // don't combine these
+      &.ng-enter {
+        opacity: 0;
+      }
+
+      &.ng-enter-active {
+        opacity: 1;
+      }
+
+      &.ng-leave {
+        opacity: 1;
+      }
+
+      &.ng-leave-active {
+        opacity: 0;
+      }
+    }
 
     .icons-log {
       margin-left: 9px;

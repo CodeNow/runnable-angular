@@ -156,7 +156,7 @@ section.modal-body(
     .modal-form(
       ng-controller = "ContainerFilesController as CFC"
       ng-include = "'viewFormFiles'"
-      ng-init = "CFC.init({ state: SMC.state, getDisplayName: SMC.getDisplayName })"
+      ng-init = "CFC.init({state: SMC.state, getDisplayName: SMC.getDisplayName})"
       ng-show = "SMC.selectedTab === 'files'"
     )
     // Find & Replace
@@ -196,35 +196,37 @@ footer.modal-footer.clearfix
   //- should say "Build" on step 3
   //- after the first build, should use the same behavior as the "Save/Save & Build" button on the edit modal
   button.btn.btn-spinner.float-right(
-    ng-class = "{ \
-      'white': !buttonClosesModal && !$root.featureFlags.rebuildFlow, \
-      'green': buttonClosesModal || $root.featureFlags.rebuildFlow, \
-      'in': $root.isLoading.setupServerModalIsBuilding \
+    ng-class = "{\
+      'white': !buttonClosesModal && !$root.featureFlags.rebuildFlow,\
+      'green': buttonClosesModal || $root.featureFlags.rebuildFlow,\
+      'in': $root.isLoading.setupServerModalIsBuilding || ifTriggersBuild\
     }"
     ng-click = "SMC.goToNextStep()"
     ng-disabled = "\
-      SMC.setupServerForm.$invalid || \
-      (SMC.state.selectedStack | selectedStackInvalid) \
+      SMC.setupServerForm.$invalid ||\
+      (SMC.state.selectedStack | selectedStackInvalid)\
     "
     ng-if = "$root.featureFlags.newVerificationFlow"
     setup-confirm-button
   )
     //- spinner
     .spinner-wrapper.spinner-sm.in(
-      ng-class = "{ \
-        'spinner-gray': !buttonClosesModal, \
-        'spinner-white': buttonClosesModal \
+      ng-class = "{\
+        'spinner-gray': !buttonClosesModal,\
+        'spinner-white': buttonClosesModal\
       }"
       ng-if = "$root.isLoading.setupServerModalIsBuilding"
       ng-include = "'spinner'"
     )
     span.btn-text {{buttonText}}
-    svg.iconnables.icons-arrow-forward.float-right
+    svg.iconnables.icons-arrow-forward.float-right.fade.js-animate(
+      ng-if = "$root.featureFlags.rebuildFlow && ifTriggersBuild"
+    )
       use(
         xlink:href = "#icons-arrow-down"
       )
-    svg.iconnables.icons-log.float-right(
-      ng-if = "$root.featureFlags.rebuildFlow && SMC.state.step > 2"
+    svg.iconnables.icons-log.float-right.fade.js-animate(
+      ng-if = "$root.featureFlags.rebuildFlow && ifTriggersBuild"
     )
       use(
         xlink:href = "#icons-log"
@@ -233,7 +235,7 @@ footer.modal-footer.clearfix
   button.btn.green.float-right(
     ng-click = "SMC.createServerAndClose()"
     ng-disabled = "\
-      SMC.setupServerForm.$invalid || \
+      SMC.setupServerForm.$invalid ||\
       (SMC.state.selectedStack | selectedStackInvalid)\
     "
     ng-if = "!$root.featureFlags.newVerificationFlow"
