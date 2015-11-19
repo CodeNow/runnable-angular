@@ -13,11 +13,11 @@
   ) Restore
 
 //- backup script
-.clearfix(
+.label-col(
   ng-hide = "$root.featureFlags.fullScreen"
   ng-if = "page === 'backup'"
-)
-  .label-col Backup Script
+) Backup Script
+  .small Backups are created daily by running this script at 3:00 AM.
 .views-toolbar-wrapper(
   ng-class = "{\
     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
@@ -26,12 +26,6 @@
   ng-if = "page === 'backup'"
 )
   .views-toolbar
-    small.small Backups are created daily by running this script at&#32;
-      button.btn.btn-xs.time-select 3:00 AM
-        svg.iconnables.icons-arrow-down
-          use(
-            xlink:href = "#icons-arrow-down"
-          )
     button.btn.btn-xs.btn-purple.float-right.btn-toolbar.purple Run Script
 .ace-container.field-short(
   ng-class = "{\
@@ -84,11 +78,13 @@
         .build-log-header-text Backup successfully created 10 hours ago
 
 //- restore script
-.clearfix(
+.label-col(
   ng-hide = "$root.featureFlags.fullScreen"
   ng-if = "page === 'restore'"
-)
-  .label-col Restore Script
+) Restore Script
+  .small This script runs during every build, restoring from the most recent backup.&#32;
+    a.link Learn how to restore from older backups
+    | .
 .ace-container.field-medium(
   ng-class = "{\
     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
@@ -102,9 +98,3 @@
     state-model = "SMC.state.opts"
     validation = "validation.env"
   )
-small.small(
-  ng-hide = "$root.featureFlags.fullScreen"
-  ng-if = "page === 'restore'"
-) This script runs during every build, restoring from the most recent backup.&#32;
-  a.link Learn how to restore from older backups
-  | .

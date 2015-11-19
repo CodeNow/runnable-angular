@@ -15,27 +15,16 @@
   color: $gray;
   float: left;
   font-weight: 500;
-  height: $input-sm;
-  line-height: $input-sm;
+  margin-bottom: 12px;
   padding-right: 15px;
-  width: 240px;
   word-break: break-word;
-
-  @include media(md) {
-    width: 210px;
-  }
 
   @include media(xs) {
     float: none;
     text-align: left;
     width: 100%;
-  }
 
-  > .small.small {
-    line-height: 1;
-    margin-top: -6px;
-
-    @include media(xs) {
+    .small.small {
       display: inline;
       margin-left: 6px;
     }
@@ -79,11 +68,6 @@
       width: 18px;
     }
   }
-}
-
-// remove width limit if on its own row
-.clearfix > .label-col {
-  width: auto;
 }
 
 // input column (right)
@@ -133,12 +117,6 @@
 // .label-row: override .label-col for 2 or more inputs on a row
 .label-row {
   display: flex;
-
-  .label-col {
-    flex: 1 1 auto;
-    height: auto;
-    padding: 0;
-  }
 
   // equal sign between inputs
   .span-col {
