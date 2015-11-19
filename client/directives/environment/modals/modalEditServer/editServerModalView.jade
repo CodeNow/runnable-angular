@@ -161,7 +161,7 @@
         data = "SMC.data"
         translation-rules
       )
-      .modal-form(
+      .modal-form.modal-backup(
         ng-if = "!SMC.state.repo"
         ng-include = "'viewFormBackup'"
         ng-show = "SMC.selectedTab === 'backup'"

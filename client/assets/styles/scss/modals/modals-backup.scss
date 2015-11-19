@@ -1,0 +1,88 @@
+.modal-backup {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  padding: 15px 30px;
+
+  @include media(xs) {
+    padding: 15px;
+  }
+
+  .field-short {
+    border-bottom: 0;
+    border-radius: 3px;
+    border-width: 1px;
+    margin-bottom: 30px;
+    min-height: 114px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .field-medium {
+    border-bottom: 0;
+    border-radius: 3px;
+    border-width: 1px;
+    min-height: 270px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .field-tall {
+    border-bottom: 0;
+    border-radius: 3px;
+    border-width: 1px;
+    min-height: 360px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  // .small {
+  //   margin-bottom: 15px;
+  // }
+
+  .log-wrapper.log-wrapper {
+    border-radius: 3px;
+    border-width: 0;
+  }
+
+  .views-toolbar-wrapper {
+
+    + .field-short,
+    + .field-tall {
+      border-radius: 0 0 3px 3px;
+      border-top-width: 0;
+    }
+  }
+
+  .views-toolbar {
+    align-items: center;
+    display: flex;
+  }
+
+  .time-select {
+    color: rgba($white,.6);
+    font-weight: $weight-bold;
+    margin-left: 1px;
+    padding: 0 0 0 1px;
+
+    &:hover {
+      color: rgba($white,.75);
+    }
+
+    &:active {
+      color: rgba($white,.9);
+    }
+
+    .icons-arrow-down {
+      height: 19px;
+      margin-left: 0;
+      width: 15px;
+    }
+  }
+
+  // .btn-toolbar {
+  //   position: absolute;
+  //   right: 6px;
+  //   top: 5px;
+  // }
+}

@@ -18,14 +18,70 @@
   ng-if = "page === 'backup'"
 )
   .label-col Backup Script
-.ace-container.ace-environment-variables(
+.views-toolbar-wrapper(
   ng-class = "{\
     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
   ng-if = "page === 'backup'"
 )
-  .ace_editor
+  .views-toolbar
+    small.small Backups are created daily by running this script at&#32;
+      button.btn.btn-xs.time-select 3:00 AM
+        svg.iconnables.icons-arrow-down
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
+    button.btn.btn-xs.btn-purple.float-right.btn-toolbar.purple Run Script
+.ace-container.field-short(
+  ng-class = "{\
+    'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+    'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+  }"
+  ng-if = "page === 'backup'"
+)
+  .ace_editor(
+    current-model = "SMC.instance.attrs"
+    env-vars
+    state-model = "SMC.state.opts"
+    validation = "validation.env"
+  )
+
+.clearfix(
+  ng-hide = "$root.featureFlags.fullScreen"
+  ng-if = "page === 'backup'"
+)
+  .label-col Backup Logs
+.log-wrapper.field-tall(
+  ng-class = "{\
+    'logs-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+    'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+  }"
+  ng-if = "page === 'backup'"
+)
+  .build-log-wrapper
+    .div
+    .pre.build-log.build-log-toggle.in
+      //- .build-log-header
+      //-   .build-log-header-text ???
+      .build-log-content
+        | Created client/dist/css/error.css (2534 bytes)
+        | Created client/dist/css/error.css.map (1408 bytes)
+        p(style='color:#df4f3e')
+          | no hostkey alg
+        p(style='color:#df4f3e')
+        | Created client/dist/css/home.css.map (6140 bytes)
+        p(style='color:#df4f3e')
+        | Created client/dist/css/index.css (55977 bytes)
+        p(style='color:#df4f3e')
+          | no hostkey alg
+        p(style='color:#df4f3e')
+        | Created client/dist/css/index.css.map (38294 bytes)
+        | Created client/dist/images/favicon-gray.png (1048 bytes)
+        | &#32;
+    .pre.build-log.green
+      .build-log-header
+        .build-log-header-text Backup successfully created 10 hours ago
 
 //- restore script
 .clearfix(
@@ -33,11 +89,22 @@
   ng-if = "page === 'restore'"
 )
   .label-col Restore Script
-.ace-container.ace-environment-variables(
+.ace-container.field-medium(
   ng-class = "{\
     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
   ng-if = "page === 'restore'"
 )
-  .ace_editor
+  .ace_editor(
+    current-model = "SMC.instance.attrs"
+    env-vars
+    state-model = "SMC.state.opts"
+    validation = "validation.env"
+  )
+small.small(
+  ng-hide = "$root.featureFlags.fullScreen"
+  ng-if = "page === 'restore'"
+) This script runs during every build, restoring from the most recent backup.&#32;
+  a.link Learn how to restore from older backups
+  | .
