@@ -377,7 +377,8 @@ function fetchGitHubMembers(
 }
 
 /**
- * Get all members of a Github organization registered to Runnable
+ * Get all Runnable users (logged in through GH) that belong to a particular
+ * Github organization.
  *
  * @param {String}
  * @resolves {Array}
@@ -387,11 +388,11 @@ function fetchOrgRegisteredMembers(
   $http,
   configAPIHost
 ) {
-  return function (teamName) {
+  return function (orgName) {
     return $http({
       method: 'get',
       url: configAPIHost + '/users/',
-      params: { githubOrgName: teamName }
+      params: { githubOrgName: orgName }
     }).then(function (response) {
       return response.data;
     });
