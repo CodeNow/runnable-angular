@@ -64,8 +64,7 @@
 
   //- if default container is running and admin is present
   button.btn.btn-xs.white.btn-add-branches(
-    modal
-    modal-template = "enableBranchesModalView"
+    ng-click = "CIS.openEnableBranchesModal(masterInstance)"
     ng-if = "$root.featureFlags.webhooks && $root.featureFlags.webhooksContainerRunning && $root.featureFlags.webhooksAdminPresent"
   ) Enable Branches…
 
