@@ -196,6 +196,19 @@
       border-top: 0;
     }
   }
+
+  // footer
+  .modal-footer > .green {
+    padding-right: 12px;
+
+    .icons-log {
+      margin-left: 9px;
+    }
+
+    .icons-arrow-forward {
+      left: -3px;
+    }
+  }
 }
 
 // full screen mode

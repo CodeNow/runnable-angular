@@ -173,16 +173,24 @@
         ng-click = "SMC.changeTab('logs')"
         ng-if = "$root.featureFlags.rebuildFlow"
       )
-        svg.iconnables.float-left
-          use(
-            xlink:href = "#icons-log"
-          )
-
         //- if save doesn't trigger a build
         //- span.btn-text Save
 
         //- if save triggers a build
         span.btn-text Save & Build
+
+        svg.iconnables.icons-arrow-forward.float-right(
+          ng-if = "$root.featureFlags.rebuildFlow"
+        )
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
+        svg.iconnables.icons-log.float-right(
+          ng-if = "$root.featureFlags.rebuildFlow"
+        )
+          use(
+            xlink:href = "#icons-log"
+          )
 
       //- disabled if no changes
 

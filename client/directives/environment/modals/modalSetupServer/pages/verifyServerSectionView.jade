@@ -218,13 +218,17 @@ footer.modal-footer.clearfix
       ng-if = "$root.isLoading.setupServerModalIsBuilding"
       ng-include = "'spinner'"
     )
-    svg.iconnables.float-left(
+    span.btn-text {{buttonText}}
+    svg.iconnables.icons-arrow-forward.float-right
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+    svg.iconnables.icons-log.float-right(
       ng-if = "$root.featureFlags.rebuildFlow && SMC.state.step > 2"
     )
       use(
         xlink:href = "#icons-log"
       )
-    span.btn-text {{buttonText}}
 
   button.btn.green.float-right(
     ng-click = "SMC.createServerAndClose()"

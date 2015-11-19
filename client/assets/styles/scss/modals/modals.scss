@@ -285,8 +285,15 @@
 
     .iconnables {
       height: 100%;
-      margin-right: 6px;
       width: 18px;
+
+      &:first-child {
+        margin-right: 6px;
+      }
+
+      &:last-child {
+        margin-left: 6px;
+      }
     }
   }
 
