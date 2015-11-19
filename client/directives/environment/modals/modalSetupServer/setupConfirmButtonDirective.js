@@ -14,11 +14,11 @@ require('app')
         var step4ClosesModal;
         if ($rootScope.featureFlags.rebuildFlow) {
           step3Copy = 'Save & Build';
-          step4Copy = 'Save & Build'
+          step4Copy = 'Save & Build';
           step4ClosesModal = false;
         } else {
           step3Copy = 'Start Build';
-          step4Copy = 'Create Container'
+          step4Copy = 'Create Container';
           step4ClosesModal = true;
         }
 
