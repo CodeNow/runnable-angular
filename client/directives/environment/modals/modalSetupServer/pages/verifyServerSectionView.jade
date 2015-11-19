@@ -193,19 +193,56 @@ footer.modal-footer.clearfix
 
   //- disabled if there is no value in the command input or no changes (after build)
   //- after the first build, should use the same behavior as the "Save/Save & Build" button on the edit modal
-  button.btn.float-right(
+
+  //- next, next, save & build button
+    - classes change depending on text for width:
+      .text-save-build
+      .text-save
+      .text-next
+  button.btn.green.float-right(
     ng-class = "{\
-      'btn-spinner': !$root.featureFlags.rebuildFlow,\
-      'white': !buttonClosesModal && !$root.featureFlags.rebuildFlow,\
-      'green': buttonClosesModal || $root.featureFlags.rebuildFlow,\
-      'in': $root.isLoading.setupServerModalIsBuilding || ($root.featureFlags.rebuildFlow && SMC.state.step > 2)\
+      'text-next': SMC.state.step < 3,\
+      'text-save-build': SMC.state.step === 3\
     }"
     ng-click = "SMC.goToNextStep()"
     ng-disabled = "\
       SMC.setupServerForm.$invalid ||\
       (SMC.state.selectedStack | selectedStackInvalid)\
     "
-    ng-if = "$root.featureFlags.newVerificationFlow"
+    ng-if = "$root.featureFlags.rebuildFlow"
+    setup-confirm-button
+  )
+    //- text should read "Next" for steps 1, 2
+    //- changes to "Save & Build" starting from step 3 (or save)
+    span.btn-text.float-left {{buttonText}}
+
+    //- arrow is visible for steps 1-3, then only if "Save & Rebuild"
+    svg.iconnables.icons-arrow-forward.float-right.fade.js-animate
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+
+    //- doesn't appear for "Next" buttons
+    svg.iconnables.icons-log.float-right.fade.js-animate(
+      ng-if = "$root.featureFlags.rebuildFlow && SMC.state.step > 2"
+    )
+      use(
+        xlink:href = "#icons-log"
+      )
+
+  //- next, next, start build, create container button (old)
+  button.btn.btn-spinner.float-right(
+    ng-class = "{\
+      'white': !buttonClosesModal,\
+      'green': buttonClosesModal,\
+      'in': $root.isLoading.setupServerModalIsBuilding\
+    }"
+    ng-click = "SMC.goToNextStep()"
+    ng-disabled = "\
+      SMC.setupServerForm.$invalid ||\
+      (SMC.state.selectedStack | selectedStackInvalid)\
+    "
+    ng-if = "$root.featureFlags.newVerificationFlow && !$root.featureFlags.rebuildFlow"
     setup-confirm-button
     style = "{{!$root.featureFlags.rebuildFlow ? 'width: auto;' : ''}}"
   )
@@ -220,20 +257,9 @@ footer.modal-footer.clearfix
     )
     //- text should read "Next" for steps 1, 2
     //- changes to "Save & Build" starting from step 3
-    span.btn-text.float-left {{buttonText}}
-    svg.iconnables.icons-arrow-forward.float-right.fade.js-animate(
-      ng-if = "$root.featureFlags.rebuildFlow"
-    )
-      use(
-        xlink:href = "#icons-arrow-down"
-      )
-    svg.iconnables.icons-log.float-right.fade.js-animate(
-      ng-if = "$root.featureFlags.rebuildFlow"
-    )
-      use(
-        xlink:href = "#icons-log"
-      )
+    span.btn-text {{buttonText}}
 
+  //- start build button (old/pre-verification-flow)
   button.btn.green.float-right(
     ng-click = "SMC.createServerAndClose()"
     ng-disabled = "\

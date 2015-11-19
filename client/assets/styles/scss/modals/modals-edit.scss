@@ -203,9 +203,17 @@
     text-align: left;
     transition: width .15s ease-in-out;
     white-space: nowrap;
-    width: 75px;
 
-    &.in {
+    &.text-next {
+      padding-right: 6px;
+      width: 88px;
+    }
+
+    &.text-save {
+      width: 75px;
+    }
+
+    &.text-save-build {
       padding-right: 9px;
       width: 180px;
     }

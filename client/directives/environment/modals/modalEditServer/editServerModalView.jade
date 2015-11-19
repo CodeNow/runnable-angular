@@ -177,9 +177,17 @@
       //-   style = "margin-left: 6px;"
       //- ) Show "& Build"
 
-      //- disable if nothing to save
+      //- save/save & build button
+        - disable if nothing to save
+        - classes change depending on text for width:
+          .text-save-build
+          .text-save
+          .text-next
       button.btn.green.float-right(
-        ng-class = "{'in': state.ifTriggersBuild}"
+        ng-class = "{\
+          'text-save': !state.ifTriggersBuild,\
+          'text-save-build': state.ifTriggersBuild\
+        }"
         ng-click = "SMC.changeTab('logs')"
         ng-disabled = "$root.featureFlags.rebuildFlow && !state.ifTriggersBuild"
         ng-if = "$root.featureFlags.rebuildFlow"
@@ -220,6 +228,7 @@
         type = "button"
       ) Cancel
 
+      //- save & rebuild button (old)
       button.btn.green.btn-spinner.float-right(
         ng-class = "{'in': $root.isLoading.editServerModalIsBuilding }"
         ng-click = "editServerForm.$invalid || SMC.getUpdatePromise()"
