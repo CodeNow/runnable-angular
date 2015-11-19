@@ -12,8 +12,8 @@
   border-right: 1px solid $gray-lighter;
   cursor: pointer;
   display: inline-block;
-  padding-left: 12px;
   position: relative;
+  text-align: center;
   width: 120px;
 
   &:hover {
@@ -88,8 +88,7 @@
 
 // span.tab-name
 .tab-name {
-  display: block;
-  float: left;
+  display: inline-block;
   font-size: 14px;
   height: $input-md;
   line-height: $input-md;
