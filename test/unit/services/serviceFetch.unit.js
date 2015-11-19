@@ -147,8 +147,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
       });
       angular.mock.inject(function (
         _fetchOrgs_,
-        _$rootScope_,
-        $q
+        _$rootScope_
       ) {
         fetchOrgs = _fetchOrgs_;
         $rootScope = _$rootScope_;
@@ -957,11 +956,9 @@ describe('serviceFetch'.bold.underline.blue, function () {
       });
       angular.mock.inject(function (
         _$rootScope_,
-        _$q_,
         _fetchOrgMembers_
       ) {
         $rootScope = _$rootScope_;
-        $q = _$q_;
         fetchOrgMembers = _fetchOrgMembers_;
       });
     });
