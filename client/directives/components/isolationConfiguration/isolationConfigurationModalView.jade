@@ -58,10 +58,10 @@
             span.span.text-overflow {{instance.getDisplayName()}}
 
     section.modal-footer.clearfix
-      button.btn.green(
+      button.btn.white.float-left(
+        ng-click = "ICMC.close()"
+      ) Cancel
+      button.btn.green.float-right(
         ng-disabled = "$root.isLoading.createIsolation"
         ng-click = "ICMC.createIsolation()"
       ) {{$root.isLoading.createIsolation ? 'Isolating...' : 'Enter Isolation'}}
-      button.btn.white.btn-cancel(
-        ng-click = "ICMC.close()"
-      ) Cancel

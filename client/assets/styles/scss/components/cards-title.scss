@@ -75,6 +75,11 @@
         color: $gray-dark;
       }
     }
+
+    + .container-title {
+      color: $gray-light;
+      margin: 0;
+    }
   }
 
   .icons-warning,

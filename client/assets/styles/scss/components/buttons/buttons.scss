@@ -220,6 +220,7 @@
 
 .blue,
 .gray,
+.gray-dark,
 .green,
 .orange,
 .purple,
@@ -287,6 +288,27 @@
   }
 }
 
+.gray-dark,
+%gray-dark {
+  background: $gray;
+  border-color: $gray-dark;
+
+  &.btn:not([disabled]):not(.disabled) {
+
+    &:hover,
+    &.hover {
+      background: $gray-dark;
+      border-color: $gray-darker;
+    }
+
+    &:active,
+    &.active,
+    &.active:hover {
+      background: $gray-darker;
+      border-color: $black;
+    }
+  }
+}
 
 .green,
 %green {

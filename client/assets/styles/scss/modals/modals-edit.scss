@@ -196,6 +196,59 @@
       border-top: 0;
     }
   }
+
+  // footer save/save & build button
+  .modal-footer > .green {
+    overflow: hidden;
+    text-align: left;
+    transition: padding .2s ease-in-out, width .2s ease-in-out;
+    white-space: nowrap;
+
+    &.text-next {
+      padding-right: 6px;
+      width: 88px;
+    }
+
+    &.text-save {
+      width: 75px;
+    }
+
+    &.text-save-build {
+      padding-right: 9px;
+      width: 180px;
+    }
+
+    // speed up animation for & build
+    .fade {
+      transition: opacity .2s ease-in-out;
+
+      // don't combine these
+      &.ng-enter {
+        opacity: 0;
+      }
+
+      &.ng-enter-active {
+        opacity: 1;
+      }
+
+      &.ng-leave {
+        opacity: 1;
+      }
+
+      &.ng-leave-active {
+        opacity: 0;
+      }
+    }
+
+    .icons-log {
+      margin-left: 9px;
+      position: absolute;
+    }
+
+    .icons-arrow-forward {
+      left: -3px;
+    }
+  }
 }
 
 // full screen mode
