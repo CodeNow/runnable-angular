@@ -1,7 +1,6 @@
 // div.modal-backdrop
 .modal-backdrop {
   align-items: center;
-  background: rgba($white,.9);
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -12,6 +11,18 @@
   width: 100vw;
   z-index: $z-modal;
 
+  &::before {
+    animation: fade .15s linear;
+    background: rgba($white,.9);
+    content: '';
+    display: block;
+    height: 100vh;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+  }
+
   @include media(sm) {
     padding: 15px;
   }
@@ -21,13 +32,14 @@
   }
 
   // if there's a second modal, show no background
-  + .modal-backdrop {
+  + .modal-backdrop::before {
     background: none;
   }
 }
 
 // div.modal-dialog
 .modal-dialog {
+  animation: scale-in-modal .15s ease-in-out;
   background: $gray-lighterest;
   border: $input-border solid $gray-lighter;
   border-radius: $input-border-radius-lg;
