@@ -71,6 +71,25 @@ describe('serviceFetch'.bold.underline.blue, function () {
       url: 'https://api.github.com/users/' + githubUsername
     };
   };
+  var generateGithubOrgObject = function (githubOrgName, githubOrgId) {
+    if (githubOrgName) {
+      githubOrgName = 'CodeNow';
+    }
+    if (githubOrgId) {
+      githubOrgId = 1223344;
+    }
+    return {
+      avatar_url: 'https://avatars.githubusercontent.com/u/' + githubOrgId + '?v=3',
+      description: null,
+      events_url: 'https://api.github.com/orgs/' + githubOrgName + '/events',
+      id: githubOrgId,
+      login: '' + githubOrgName + '',
+      members_url: 'https://api.github.com/orgs/' + githubOrgName + '/members{/member}',
+      public_members_url: 'https://api.github.com/orgs/' + githubOrgName + '/public_members{/member}',
+      repos_url: 'https://api.github.com/orgs/' + githubOrgName + '/repos',
+      url: 'https://api.github.com/orgs/' + githubOrgName + ''
+    };
+  };
 
   describe('factory fetchUser', function () {
     var $state;
@@ -1104,6 +1123,50 @@ describe('serviceFetch'.bold.underline.blue, function () {
       expect(fetchRepoBranchesPromise).to.eventually.have.length(100 + numberOfBranches);
       expect(fetchRepoBranchesPromise).to.eventually.include(99);
       expect(fetchRepoBranchesPromise).to.eventually.include(5);
+    });
+  });
+
+  describe('factory fetchGithubOrgId', function () {
+    var $rootScope;
+    var fetchGithubOrgId;
+    var orgName1 = 'CodeNow';
+    var orgId1 = 1;
+    var orgName2 = 'Runnable';
+    var orgId2 = 2;
+    var fetchOrgsResponse = {
+      models: [
+        { attrs: generateGithubOrgObject(orgName1, orgId1) },
+        { attrs: generateGithubOrgObject(orgName2, orgId2) }
+      ],
+      filter: function (filterFunc) {
+        return this.models.filter(filterFunc);
+      }
+    };
+
+    beforeEach(function () {
+      angular.mock.module('app');
+      angular.mock.module(function ($provide) {
+        $provide.factory('fetchOrgs', function ($q) {
+          return function () {
+            return $q.when(fetchOrgsResponse);
+          };
+        });
+      });
+      angular.mock.inject(function (
+        _$rootScope_,
+        _fetchGithubOrgId_
+      ) {
+        $rootScope = _$rootScope_;
+        fetchGithubOrgId = _fetchGithubOrgId_;
+      });
+    });
+
+    it('should fetch the correct github ID for a given github organization name', function () {
+      var fetchGithubOrgIdPromise1 = fetchGithubOrgId(orgName1);
+      var fetchGithubOrgIdPromise2 = fetchGithubOrgId(orgName2);
+      $rootScope.$digest();
+      expect(fetchGithubOrgIdPromise1).to.eventually.equal(orgId1);
+      expect(fetchGithubOrgIdPromise2).to.eventually.equal(orgId2);
     });
   });
 
