@@ -1108,13 +1108,27 @@ describe('serviceFetch'.bold.underline.blue, function () {
   });
 
   describe('factory fetchOrgRegisteredMembers', function () {
+    var user;
     var $rootScope;
     var fetchOrgRegisteredMembers;
 
     beforeEach(function () {
+      user = {
+        fetchUsers: sinon.spy(function (opts, cb) {
+          cb({
+            models: [
+              { attrs: generateUserObject() }
+            ]
+          });
+        })
+      };
       angular.mock.module('app');
       angular.mock.module(function ($provide) {
-        $provide.factory('$http', httpFactory);
+        $provide.factory('fetchUser', function ($q) {
+          return function () {
+            return $q.when(user);
+          };
+        });
       });
       angular.mock.inject(function (
         _$rootScope_,
@@ -1126,9 +1140,9 @@ describe('serviceFetch'.bold.underline.blue, function () {
     });
 
     it('should fetch all members in an org', function () {
-      data = [generateUserObject()];
       var fetchMembersPromise = fetchOrgRegisteredMembers('CodeNow');
       $rootScope.$digest();
+      sinon.assert.calledOnce(user.fetchUsers);
       expect(fetchMembersPromise).to.eventually.be.an('array');
       expect(fetchMembersPromise).to.eventually.have.length(1);
       expect(fetchMembersPromise).to.eventually.have.property('[0]email', 'email@company.com');
@@ -1143,12 +1157,14 @@ describe('serviceFetch'.bold.underline.blue, function () {
     var username3 = 'anotherUser';
     var $rootScope;
     var fetchOrgMembers;
-    var fetchOrgRegisteredMembersResponse = [generateUserObject(username1)];
-    var fetchGitHubMembersResponse = [
-      generateGithubUserObject(username1),
-      generateGithubUserObject(username2),
-      generateGithubUserObject(username3)
-    ];
+    var fetchGitHubMembersResponse = [generateGithubUserObject(username1)];
+    var fetchOrgRegisteredMembersResponse = {
+      models: [
+        { attrs: generateUserObject(username1) },
+        { attrs: generateUserObject(username2) },
+        { attrs: generateUserObject(username3) }
+      ]
+    };
     var fetchOrgRegisteredMembersStub;
     var fetchGitHubMembersStub;
     var fetchOrgRegisteredMembersFactory;
@@ -1206,14 +1222,14 @@ describe('serviceFetch'.bold.underline.blue, function () {
       expect(fetchMembersPromise).to.eventually.have.property('registeredUsers[0].login', username1);
     });
 
-    it('should populate the `runnableUser` property for registered users', function () {
+    it('should populate the `userModel` property for registered users', function () {
       var fetchMembersPromise = fetchOrgMembers('CodeNow');
       $rootScope.$digest();
       expect(fetchMembersPromise).to.eventually.be.an('object');
       // Runnable Users
       expect(fetchMembersPromise).to.eventually.have.property('registeredUsers[0].login', username1);
-      expect(fetchMembersPromise).to.eventually.have.property('registeredUsers[0].runnableUser');
-      var path = 'registeredUsers[0].runnableUser.accounts.github.username';
+      expect(fetchMembersPromise).to.eventually.have.property('registeredUsers[0].userModel');
+      var path = 'registeredUsers[0].userModel.accounts.github.username';
       expect(fetchMembersPromise).to.eventually.have.property(path, username1);
     });
   });

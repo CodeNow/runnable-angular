@@ -384,24 +384,19 @@ function fetchGitHubMembers(
  * Github organization.
  *
  * @param {String}
- * @resolves {Array}
+ * @resolves {Object} Collection
  * @returns {Promise}
  */
 function fetchOrgRegisteredMembers(
-  $http,
-  configAPIHost
+  fetchUser,
+  promisify
 ) {
   return function (orgName) {
-    return $http({
-      method: 'get',
-      url: configAPIHost + '/users/',
-      params: { githubOrgName: orgName }
-    }).then(function (response) {
-      return response.data;
+    return fetchUser().then(function (user) {
+      return promisify(user, 'fetchUsers')({ githubOrgName: orgName });
     });
   };
 }
-
 
 /**
  * Get an object with all members for an organization, all registered members (
@@ -423,19 +418,19 @@ function fetchOrgMembers(
     ])
     .then(function (responseArray) {
       var githubMembers = responseArray[0];
-      var runnableUsersArray = responseArray[1];
+      var runnableUsersCollection = responseArray[1];
       var registeredGithubMembers = [];
       var unRegisteredGithubMembers = [];
       var runnableUsers = {};
-      runnableUsersArray.forEach(function (member) {
-        var username = member.accounts.github.username;
+      runnableUsersCollection.models.forEach(function (memberModel) {
+        var username = memberModel.attrs.accounts.github.username;
         if (username) {
-          runnableUsers[username] = member;
+          runnableUsers[username] = memberModel;
         }
       });
       githubMembers.forEach(function (member) {
         if (runnableUsers[member.login]) {
-          member.runnableUser = runnableUsers[member.login];
+          member.userModel = runnableUsers[member.login];
           registeredGithubMembers.push(member);
         } else {
           unRegisteredGithubMembers.push(member);
