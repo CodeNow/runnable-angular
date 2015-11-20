@@ -2,6 +2,7 @@
 
 require('app')
   .controller('InviteAdminModalController', InviteAdminModalController);
+var DEFAULT_MESSAGE = 'Join my Sandbox on Runnable, where we can run the code in CodeNow\'s repositories on demand.\n\nI need your admin permissions to enable some features. Thanks!';
 
 function InviteAdminModalController(
   $state,
@@ -15,9 +16,7 @@ function InviteAdminModalController(
   var IAMC = this;
   IAMC.close = close;
   IAMC.isFromAutoDeploy = isFromAutoDeploy || false;
-  IAMC.DEFAULT_MESSAGE = 'Join my Sandbox on Runnable, where we can run the code in CodeNow\'s repositories on demand.\n\nI need your admin permissions to enable some features. Thanks!';
-
-  IAMC.repoName = instance.getRepoName();
+  IAMC.repoName = (instance.getRepoName) ? instance.getRepoName() : instance.attrs.name;
   var username = $state.params.userName;
   fetchGitHubAdminsByRepo(username, IAMC.repoName)
     .then(function (admins) {
@@ -39,7 +38,7 @@ function InviteAdminModalController(
   };
 
   IAMC.selectUser = function (user) {
-    user.emailMessage = IAMC.DEFAULT_MESSAGE;
+    user.emailMessage = DEFAULT_MESSAGE;
     IAMC.activeItem = user.login;
   };
 }

@@ -31,13 +31,13 @@
         )
         li.list-item(
           ng-class = "{\
-            'active': IAMC.activeItem === githubLogin,\
-            'inactive': IAMC.activeItem && IAMC.activeItem !== githubLogin\
+            'active': IAMC.activeItem === admin.login,\
+            'inactive': IAMC.activeItem && IAMC.activeItem !== admin.login\
           }"
           ng-click = "IAMC.selectUser(admin)"
           ng-form = "inviteAdminForm"
           ng-if = "IAMC.admins"
-          ng-repeat = "(githubLogin, admin) in IAMC.admins track by admin.login"
+          ng-repeat = "admin in IAMC.admins track by admin.login"
         )
           img.gravatar(
             height = "27"
@@ -49,7 +49,7 @@
 
           //- if invitation *hasn't* been sent to this admin
           svg.iconnables.icons-arrow-forward.js-animate(
-            ng-hide = "IAMC.activeItem === githubLogin || admin.emailSent"
+            ng-hide = "IAMC.activeItem === admin.login || admin.emailSent"
           )
             use(
               xlink:href = "#icons-arrow-down"
@@ -57,7 +57,7 @@
 
             //- if invitation *has* been sent to this admin
           svg.iconnables.icons-check.js-animate(
-            ng-show = "IAMC.activeItem !== githubLogin  && admin.emailSent"
+            ng-show = "IAMC.activeItem !== admin.login  && admin.emailSent"
           )
             use(
               xlink:href = "#icons-check"
@@ -71,7 +71,7 @@
             }"
             name = "emailTextInput"
             ng-model = "admin.email"
-            ng-show = "IAMC.activeItem === githubLogin"
+            ng-show = "IAMC.activeItem === admin.login"
             placeholder = "Email Address"
             required
             spellcheck = "false"
@@ -81,7 +81,7 @@
           textarea.textarea.js-animate(
             name = "emailMessageTextArea"
             ng-model = "admin.emailMessage"
-            ng-show = "IAMC.activeItem === githubLogin"
+            ng-show = "IAMC.activeItem === admin.login"
             placeholder = "Message"
             spellcheck = "false"
           )
@@ -90,7 +90,7 @@
               IAMC.activeItem = null;\
               $event.stopPropagation();\
             "
-            ng-show = "IAMC.activeItem === githubLogin"
+            ng-show = "IAMC.activeItem === admin.login"
           ) Cancel
           //- disable this button if email input is empty or invalid
           .btn.btn-sm.btn-spinner.green.float-right.js-animate(
@@ -101,7 +101,7 @@
               $event.stopPropagation();\
             "
             ng-disabled = "inviteAdminForm.$invalid"
-            ng-show = "IAMC.activeItem === githubLogin"
+            ng-show = "IAMC.activeItem === admin.login"
           )
             .spinner-wrapper.spinner-sm.spinner-white(
               ng-if = "IAMC.sending"

@@ -10,6 +10,7 @@ var $elScope;
 var $controller;
 var $rootScope;
 var $templateCache;
+var DEFAULT_MESSAGE = 'Join my Sandbox on Runnable, where we can run the code in CodeNow\'s repositories on demand.\n\nI need your admin permissions to enable some features. Thanks!';
 
 describe('InviteAdminModalController'.bold.underline.blue, function () {
   var ctx;
@@ -138,7 +139,7 @@ describe('InviteAdminModalController'.bold.underline.blue, function () {
         injectSetupCompile(instance, false);
         IAMC.selectUser(ctx.admins.hello);
 
-        expect(ctx.admins.hello.emailMessage, 'emailMessage').to.eql(IAMC.DEFAULT_MESSAGE);
+        expect(ctx.admins.hello.emailMessage, 'emailMessage').to.eql(DEFAULT_MESSAGE);
         expect(IAMC.activeItem, 'activeItem').to.eql('hello');
       });
     });
