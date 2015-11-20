@@ -1,6 +1,8 @@
 // div.modal-backdrop
 .modal-backdrop {
+  animation: fade .15s;
   align-items: center;
+  background: rgba($white,.9);
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -11,18 +13,6 @@
   width: 100vw;
   z-index: $z-modal;
 
-  &::before {
-    animation: fade .15s linear;
-    background: rgba($white,.9);
-    content: '';
-    display: block;
-    height: 100vh;
-    left: 0;
-    position: fixed;
-    top: 0;
-    width: 100vw;
-  }
-
   @include media(sm) {
     padding: 15px;
   }
@@ -32,7 +22,7 @@
   }
 
   // if there's a second modal, show no background
-  + .modal-backdrop::before {
+  + .modal-backdrop {
     background: none;
   }
 }
