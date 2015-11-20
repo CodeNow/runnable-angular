@@ -220,11 +220,6 @@
         ng-disabled = "$root.isLoading.editServerModalIsBuilding"
         ng-click = "SMC.actions.close()"
         ng-if = "!$root.featureFlags.rebuildFlow"
-        pop-over
-        pop-over-template = "closeConfigureModalPopoverView"
-        pop-over-trigger = "activeAttr"
-        pop-over-active = "SMC.confirmClose.active"
-        pop-over-actions = "SMC.confirmClose.actions"
         type = "button"
       ) Cancel
 
