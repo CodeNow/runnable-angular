@@ -2,27 +2,33 @@
 var jsonHash = require('json-hash');
 
 require('app')
+  // User + Orgs
   .factory('fetchUser', fetchUser)
   .factory('fetchOrgs', fetchOrgs)
-  .factory('fetchInstances', fetchInstances)
-  .factory('fetchBuild', fetchBuild)
-  .factory('fetchOwnerRepos', fetchOwnerRepos)
-  .factory('fetchRepoBranches', fetchRepoBranches)
-  .factory('fetchContexts', fetchContexts)
-  .factory('fetchSettings', fetchSettings)
-  .factory('fetchSlackMembers', fetchSlackMembers)
-  .factory('fetchGitHubMembers', fetchGitHubMembers)
+  .factory('fetchGithubOrgId', fetchGithubOrgId)
   .factory('fetchOrgRegisteredMembers', fetchOrgRegisteredMembers)
   .factory('fetchOrgMembers', fetchOrgMembers)
+  .factory('fetchOrgTeammateInvitations', fetchOrgTeammateInvitations)
+  // Containers
+  .factory('fetchInstances', fetchInstances)
+  .factory('fetchInstance', fetchInstance)
+  .factory('fetchInstancesByPod', fetchInstancesByPod)
+  .factory('fetchBuild', fetchBuild)
+  .factory('fetchRepoBranches', fetchRepoBranches)
+  .factory('fetchContexts', fetchContexts)
+  .factory('fetchDebugContainer', fetchDebugContainer)
+  // Github API
   .factory('fetchGitHubUser', fetchGitHubUser)
+  .factory('fetchGitHubMembers', fetchGitHubMembers)
   .factory('fetchGitHubAdminsByRepo', fetchGitHubAdminsByRepo)
   .factory('fetchGitHubTeamsByRepo', fetchGitHubTeamsByRepo)
   .factory('fetchGitHubTeamMembersByTeam', fetchGitHubTeamMembersByTeam)
-  .factory('integrationsCache', integrationsCache)
+  .factory('fetchOwnerRepos', fetchOwnerRepos)
   .factory('fetchPullRequest', fetchPullRequest)
-  .factory('fetchDebugContainer', fetchDebugContainer)
-  .factory('fetchInstance', fetchInstance)
-  .factory('fetchInstancesByPod', fetchInstancesByPod);
+  // Settings
+  .factory('fetchSlackMembers', fetchSlackMembers)
+  .factory('fetchSettings', fetchSettings)
+  .factory('integrationsCache', integrationsCache);
 
 function fetchUser(
   keypather,
@@ -384,7 +390,7 @@ function fetchGitHubMembers(
  * Github organization.
  *
  * @param {String}
- * @resolves {Object} Collection
+ * @resolves {Collection}
  * @returns {Promise}
  */
 function fetchOrgRegisteredMembers(
@@ -399,8 +405,71 @@ function fetchOrgRegisteredMembers(
 }
 
 /**
+ * Given an Github organization names, get the organizations ID if the current
+ * user hast access to that organization
+ *
+ * @param {String}
+ * @resolves {Number}
+ * @return {Promise}
+ */
+function fetchGithubOrgId(
+  fetchOrgs,
+  $q
+) {
+  return function (orgNameOrId) {
+    return fetchOrgs(orgNameOrId)
+      .then(function (orgsCollection) {
+        var orgs = orgsCollection.filter(function (org) {
+          return org.attrs.login === orgNameOrId;
+        });
+        if (orgs.length > 0) {
+          return orgs[0].attrs.id;
+        }
+        return $q.reject('No Github organization found for org name provided');
+      });
+  };
+}
+
+/**
+ * Fetch all the teammate invitations for a particular Github organization
+ *
+ * @param {String|Number}
+ * @resolves {Collection}
+ * @return {Promise}
+ */
+function fetchOrgTeammateInvitations(
+  fetchUser,
+  fetchGithubOrgId,
+  promisify,
+  $q
+) {
+  return function (orgNameOrId) {
+    return $q.when(true)
+      .then(function () {
+        if (typeof orgNameOrId === 'string') {
+          return fetchGithubOrgId(orgNameOrId);
+        }
+        if (typeof orgNameOrId === 'number') {
+          return orgNameOrId;
+        }
+        return $q.reject(new TypeError(
+          'Github organization ID or name must be provided. ' +
+          'Parameter was neither a number nor a string.'
+        ));
+      })
+      .then(function (githubOrgId) {
+        return fetchUser()
+         .then(function (user) {
+           return promisify(user, 'fetchTeammateInvitations')({ orgGithubId: githubOrgId });
+         });
+      });
+  };
+}
+
+/**
  * Get an object with all members for an organization, all registered members (
- * registered in Runnable), and all unregistered members.
+ * registered in Runnable), all unregistered members who have been invited, and 
+ * all unregistered members who have not been invited.
  *
  * @param {String}
  * @resolves {Object}
@@ -409,36 +478,54 @@ function fetchOrgRegisteredMembers(
 function fetchOrgMembers(
   $q,
   fetchGitHubMembers,
-  fetchOrgRegisteredMembers
+  fetchOrgRegisteredMembers,
+  fetchOrgTeammateInvitations
 ) {
   return function (teamName) {
     return $q.all([
       fetchGitHubMembers(teamName),
-      fetchOrgRegisteredMembers(teamName)
+      fetchOrgRegisteredMembers(teamName),
+      fetchOrgTeammateInvitations(teamName)
     ])
     .then(function (responseArray) {
       var githubMembers = responseArray[0];
       var runnableUsersCollection = responseArray[1];
+      var teammateInvitationCollection = responseArray[2];
+
       var registeredGithubMembers = [];
-      var unRegisteredGithubMembers = [];
+      var invitedGithubMembers = [];
+      var uninvitedGithubMembers = [];
+
       var runnableUsers = {};
-      runnableUsersCollection.models.forEach(function (memberModel) {
+      var invitedUsers = {};
+      runnableUsersCollection.forEach(function (memberModel) {
         var username = memberModel.attrs.accounts.github.username;
         if (username) {
           runnableUsers[username] = memberModel;
         }
       });
+      teammateInvitationCollection.forEach(function (invitationModel) {
+        var githubId = invitationModel.attrs.recipient.github;
+        if (githubId) {
+          invitedUsers[githubId] = invitationModel;
+        }
+      });
+
       githubMembers.forEach(function (member) {
         if (runnableUsers[member.login]) {
           member.userModel = runnableUsers[member.login];
           registeredGithubMembers.push(member);
+        } else if (invitedUsers[member.id]) {
+          member.userInvitation = invitedUsers[member.id];
+          invitedGithubMembers.push(member);
         } else {
-          unRegisteredGithubMembers.push(member);
+          uninvitedGithubMembers.push(member);
         }
       });
       return {
         registered: registeredGithubMembers,
-        unregistered: unRegisteredGithubMembers,
+        invited: invitedGithubMembers,
+        uninvited: uninvitedGithubMembers,
         all: githubMembers
       };
     });
