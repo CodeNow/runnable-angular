@@ -1,6 +1,15 @@
 .animated-panel-container {
   overflow: hidden;
   position: relative;
+
+  .fade {
+    opacity: 0;
+    transition: opacity 3s linear;
+
+    &.in {
+      opacity: 1;
+    }
+  }
 }
 
 .animated-panel {
@@ -23,14 +32,5 @@
 
   &.out.back {
     transform: translate3d(-100%,0,0);
-  }
-}
-
-.fade {
-  opacity: 0;
-  transition: opacity 3s linear;
-
-  &.in {
-    opacity: 1;
   }
 }

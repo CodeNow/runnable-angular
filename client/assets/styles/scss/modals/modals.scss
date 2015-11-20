@@ -273,27 +273,28 @@
   z-index: 1; // footer overlaps body
 
   .btn-group,
-  .green,
-  .orange,
-  .white {
-    float: right;
+  .btn {
 
-    + .btn-group,
-    + .green,
-    + .orange,
-    + .white {
+    &.float-right + .float-right {
       margin-right: 6px;
     }
 
     + .link {
       margin-top: 12px;
     }
-  }
 
-  // cancel buttons left
-  .btn-cancel,
-  .btn-group .btn:first-child {
-    float: left;
+    .iconnables {
+      height: 100%;
+      width: 18px;
+
+      &:first-child {
+        margin-right: 6px;
+      }
+
+      &:last-child {
+        margin-left: 6px;
+      }
+    }
   }
 
   .label-checkbox {
