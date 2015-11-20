@@ -2,7 +2,7 @@
 'use strict';
 var instances = require('../apiMocks').instances;
 
-describe('serviceFetch'.bold.underline.blue, function () {
+describe.only('serviceFetch'.bold.underline.blue, function () {
   var data;
   var res;
   var httpFactory = function ($q) {
@@ -1189,17 +1189,39 @@ describe('serviceFetch'.bold.underline.blue, function () {
     });
 
     it('should fetch the correct github ID for a given github organization name', function () {
-      var fetchGithubOrgIdPromise1 = fetchGithubOrgId(orgName1);
-      var fetchGithubOrgIdPromise2 = fetchGithubOrgId(orgName2);
+      var result1;
+      var result2;
+      fetchGithubOrgId(orgName1)
+        .then(function (res) {
+          result1 = res;
+        });
+      fetchGithubOrgId(orgName2)
+        .then(function (res) {
+          result2 = res;
+        });
       $rootScope.$digest();
-      expect(fetchGithubOrgIdPromise1).to.eventually.equal(orgId1);
-      expect(fetchGithubOrgIdPromise2).to.eventually.equal(orgId2);
+      expect(result1).to.equal(orgId1);
+      expect(result2).to.equal(orgId2);
     });
 
     it('should return a reject promise if there is no org with that name', function () {
       var fetchGithubOrgIdPromise = fetchGithubOrgId('orgThatDoesntExist');
       $rootScope.$digest();
       expect(fetchGithubOrgIdPromise).to.be.rejectedWith(TypeError);
+    });
+
+    it('should return the same result for an already queried org', function () {
+      var result1;
+      var result2;
+      fetchGithubOrgId(orgName1)
+        .then(function (res) {
+          result1 = res;
+        });
+      fetchGithubOrgId(orgName1)
+        .then(function (res) {
+          result2 = res;
+        });
+      expect(result2).to.equal(result1);
     });
   });
 

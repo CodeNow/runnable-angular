@@ -414,16 +414,23 @@ function fetchOrgRegisteredMembers(
  */
 function fetchGithubOrgId(
   fetchOrgs,
+  keypather,
   $q
 ) {
+  var githubOrgIdCache = {};
   return function (orgNameOrId) {
+    if (githubOrgIdCache[orgNameOrId]) {
+      return githubOrgIdCache[orgNameOrId];
+    }
     return fetchOrgs(orgNameOrId)
       .then(function (orgsCollection) {
         var orgs = orgsCollection.filter(function (org) {
-          return org.attrs.login === orgNameOrId;
+          return keypather.get(org, 'attrs.login') === orgNameOrId;
         });
         if (orgs.length > 0) {
-          return orgs[0].attrs.id;
+          var orgId = orgs[0].attrs.id;
+          githubOrgIdCache[orgNameOrId] = orgId;
+          return orgId;
         }
         return $q.reject('No Github organization found for org name provided');
       });
@@ -444,7 +451,7 @@ function fetchOrgTeammateInvitations(
   $q
 ) {
   return function (orgNameOrId) {
-    return $q.when(true)
+    return $q.when()
       .then(function () {
         if (typeof orgNameOrId === 'string') {
           return fetchGithubOrgId(orgNameOrId);
@@ -477,6 +484,7 @@ function fetchOrgTeammateInvitations(
  */
 function fetchOrgMembers(
   $q,
+  keypather,
   fetchGitHubMembers,
   fetchOrgRegisteredMembers,
   fetchOrgTeammateInvitations
@@ -499,13 +507,13 @@ function fetchOrgMembers(
       var runnableUsers = {};
       var invitedUsers = {};
       runnableUsersCollection.forEach(function (memberModel) {
-        var username = memberModel.attrs.accounts.github.username;
+        var username = keypather.get(memberModel, 'attrs.accounts.github.username');
         if (username) {
           runnableUsers[username] = memberModel;
         }
       });
       teammateInvitationCollection.forEach(function (invitationModel) {
-        var githubId = invitationModel.attrs.recipient.github;
+        var githubId = keypather.get(invitationModel, 'attrs.recipient.github');
         if (githubId) {
           invitedUsers[githubId] = invitationModel;
         }
