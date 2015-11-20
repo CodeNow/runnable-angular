@@ -2,7 +2,7 @@
 'use strict';
 var instances = require('../apiMocks').instances;
 
-describe.only('serviceFetch'.bold.underline.blue, function () {
+describe('serviceFetch'.bold.underline.blue, function () {
   var data;
   var res;
   var httpFactory = function ($q) {
