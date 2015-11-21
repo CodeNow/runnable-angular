@@ -20,6 +20,17 @@
     opacity: 1;
   }
 
+  // trial badge
+  .btn-badge {
+    background: $gray-light;
+    border-radius: $input-border-radius;
+    color: $white;
+
+    &.red {
+      background: $red;
+    }
+  }
+
   // view-1 styles
   .list {
 

@@ -41,8 +41,8 @@
               data-badge-count = "!"
               internal-modal-helper = "settingsModalView"
               ng-class = "{\
-                'badge': true,\
-                'badge-red': true\
+                'badge': !$root.featureFlags.trial,\
+                'badge-red': !$root.featureFlags.trial\
               }"
               ng-if = "$root.featureFlags.billing"
             )
@@ -51,6 +51,12 @@
                   xlink:href = "#icons-billing"
                 )
               | Billing
+
+              //- add .red class once trial is down to 5 days (show as badge on gravatar)
+              btn.btn-xxs.btn-badge.anchor-right(
+                ng-if = "$root.featureFlags.trial"
+                title = "12 days left in your trial"
+              ) 12 Days
             li.list-item.popover-list-item(
               data-badge-count = "1"
               internal-modal-helper = "settingsModalView"
