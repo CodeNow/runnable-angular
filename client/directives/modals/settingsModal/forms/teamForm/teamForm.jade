@@ -1,24 +1,13 @@
 .modal-form(
-  ng-init = "\
-    requested = [\
-      {username: 'cflynn07', gravatarUrl: 'https://avatars2.githubusercontent.com/u/467885', email: 'casey@runnable.com'},\
-      {username: 'ykumar6', gravatarUrl: 'https://avatars0.githubusercontent.com/u/1085792', email: 'yash@runnable.com'}\
-    ];\
-    pending = [\
-      {username: 'anandkumarpatel', gravatarUrl: 'https://avatars0.githubusercontent.com/u/2194285', email: 'anand@runnable.com'},\
-      {username: 'bkendall', gravatarUrl: 'https://avatars0.githubusercontent.com/u/160236', email: 'bryan@runnable.com'}\
-    ];\
-    team = [\
-      {username: 'runnabro', gravatarUrl: 'https://avatars2.githubusercontent.com/u/5341618', email: 'tony@runnable.com', permission: 'User'},\
-      {username: 'taylordolan', gravatarUrl: 'https://avatars0.githubusercontent.com/u/7440805', email: 'taylor@runnable.com', permission: 'Admin'},\
-      {username: 'thejsj', gravatarUrl: 'https://avatars0.githubusercontent.com/u/1981198', email: 'jorge@runnable.com', permission: 'Admin'}\
-    ];\
-    state.inviteSending = null;\
-    state.inviteSent = null;\
-    state.swapLists = null;\
-  "
+  ng-if="SEMC.loading['teamManagement']"
 )
+  .spinner-wrapper.spinner-md.in(
+     ng-include = "'spinner'"
+  )
 
+.modal-form(
+  ng-if="!SEMC.loading['teamManagement']"
+)
   //- pending team
   //- all of this logic is messed up, but what I want to show is that if you click 'send invite' to yash is that...
     - an item is removed from the requested invite list and added to the invite sent list with a transition
@@ -26,12 +15,14 @@
     .clearfix
       .label-col.full-width Pending Invites
         .small.float-right.badge(
-          data-badge-count = "1"
+          ng-if = "$root.featureFlags.teamManagementAdvanced"
+          data-badge-count = "{{ SEMC.members.invited.length }}"
         ) Requests
 
     ol.list.list-bordered.list-teammates.list-teammates-pending
+
       li.list-item.js-animate(
-        ng-if = "state.swapLists !== $index"
+        ng-if = "$root.featureFlags.teamManagementAdvanced && gstate.swapLists !== $index"
         ng-repeat = "teammate in requested"
       )
         img.gravatar(
@@ -70,7 +61,9 @@
               )
 
     //- show in the order of invites sent (newest first)
-    ol.list.list-bordered.list-teammates.list-teammates-pending
+    ol.list.list-bordered.list-teammates.list-teammates-pending(
+      ng-if = "$root.featureFlags.teamManagementAdvanced"
+    )
 
       //- adding to this list
       li.list-item.js-animate(
@@ -114,14 +107,14 @@
               )
 
       li.list-item(
-        ng-repeat = "teammate in pending"
+        ng-repeat = "teammate in SEMC.members.invited"
       )
         img.gravatar(
           height = "27"
-          ng-src = "{{teammate.gravatarUrl}}"
+          ng-src = "{{teammate.avatar_url}}"
           width = "27"
         )
-        .username.text-overflow {{teammate.username}}
+        .username.text-overflow {{teammate.login}}
         //- show email that the invite was sent to
         .small.text-overflow {{teammate.email}}
 
@@ -162,7 +155,7 @@
     .clearfix
       .label-col.full-width Teammates
         a.small.link.float-right(
-          internal-modal-helper = "inviteModalView"
+          ng-click = "SEMC.openInvitationModal()"
         )
           svg.iconnables.icons-team-invite
             use(
@@ -171,14 +164,14 @@
           | Invite…
     ol.list.list-bordered.list-teammates
       li.list-item(
-        ng-repeat = "teammate in team"
+        ng-repeat = "teammate in SEMC.members.registered"
       )
         img.gravatar(
           height = "27"
-          ng-src = "{{teammate.gravatarUrl}}"
+          ng-src = "{{teammate.avatar_url}}"
           width = "27"
         )
-        .username.text-overflow {{teammate.username}}
+        .username.text-overflow {{teammate.login}}
         .small.text-overflow {{teammate.email}}
         .btn-wrapper
 

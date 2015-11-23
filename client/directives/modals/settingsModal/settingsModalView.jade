@@ -1,7 +1,5 @@
 .modal-backdrop.in
-  .modal-dialog.modal-settings(
-    ng-init = "currentTab = 'billing'"
-  )
+  .modal-dialog.modal-settings
     header.modal-header
       .container-title-wrapper.no-touching
         .container-title CodeNow Settings
@@ -10,11 +8,11 @@
         button.btn.btn-radio(
           data-badge-count = "!"
           ng-class = "{\
-            'active': currentTab === 'billing',\
+            'active': SEMC.currentTab === 'billing',\
             'badge': true,\
             'badge-red': true\
           }"
-          ng-click = "currentTab = 'billing'"
+          ng-click = "SEMC.currentTab = 'billing'"
           ng-show = "$root.featureFlags.billing"
         )
           svg.iconnables
@@ -23,12 +21,10 @@
             )
           .btn-text Billing
         button.btn.btn-radio(
-          data-badge-count = "1"
           ng-class = "{\
-            'active': currentTab === 'teamManagement',\
-            'badge': true\
+            'active': SEMC.currentTab === 'teamManagement',\
           }"
-          ng-click = "currentTab = 'teamManagement'"
+          ng-click = "SEMC.currentTab = 'teamManagement'"
           ng-show = "$root.featureFlags.teamManagement"
         )
           svg.iconnables
@@ -37,8 +33,9 @@
             )
           .btn-text Teammates
         button.btn.btn-radio(
-          ng-class = "{'active': currentTab === 'slackIntegration'}"
-          ng-click = "currentTab = 'slackIntegration'"
+          ng-class = "{'active': SEMC.currentTab === 'slackIntegration'}"
+          ng-click = "SEMC.currentTab = 'slackIntegration'"
+          ng-show = "$root.featureFlags.billing"
         )
           img.img.iconnables(
             height = "24"
@@ -57,6 +54,7 @@
         //-     .btn.btn-xxs.orange.no-touching Coming Soon
 
     section.modal-body.js-animate
+    section.modal-body.js-animate
       //- loading spinner
       //- .spinner-wrapper.spinner-md.in(
       //-   ng-include = "'spinner'"
@@ -64,25 +62,25 @@
 
       //- billing
       .form-billing(
-        ng-if = "currentTab === 'billing'"
+        ng-if = "SEMC.currentTab === 'billing'"
         ng-include = "'billingForm'"
       )
 
       //- team
       .form-team(
-        ng-if = "currentTab === 'teamManagement'"
+        ng-if = "SEMC.currentTab === 'teamManagement'"
         ng-include = "'teamForm'"
       )
 
       //- slack integration
       form.form-integrations(
-        ng-if = "currentTab === 'slackIntegration'"
+        ng-if = "SEMC.currentTab === 'slackIntegration'"
         ng-include = "'integrationsForm'"
         ng-init = "data.verified = false"
       )
 
     footer.modal-footer.clearfix
       button.btn.white(
-        ng-click = "defaultActions.close()"
+        ng-click = "SEMC.close()"
         type = "button"
       ) Done

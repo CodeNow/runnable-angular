@@ -38,12 +38,7 @@
             //- *****************
             //- $root.featureFlags.billing && $root.featureFlags.teamManagement
             li.list-item.popover-list-item(
-              data-badge-count = "!"
-              internal-modal-helper = "settingsModalView"
-              ng-class = "{\
-                'badge': true,\
-                'badge-red': true\
-              }"
+              ng-click = "actions.openSettingsModal('billing')"
               ng-if = "$root.featureFlags.billing"
             )
               svg.iconnables
@@ -52,9 +47,7 @@
                 )
               | Billing
             li.list-item.popover-list-item(
-              data-badge-count = "1"
-              internal-modal-helper = "settingsModalView"
-              ng-class = "{'badge': true}"
+              ng-click = "actions.openSettingsModal('teamManagement')"
               ng-if = "$root.featureFlags.teamManagement"
             )
               svg.iconnables
@@ -63,7 +56,7 @@
                 )
               | Teammates
             li.list-item.popover-list-item(
-              internal-modal-helper = "settingsModalView"
+              ng-click = "actions.openSettingsModal('teamManagement')"
               ng-if = "$root.featureFlags.billing"
             )
               img.iconnables(
