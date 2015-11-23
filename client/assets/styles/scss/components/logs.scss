@@ -95,6 +95,11 @@
     white-space: nowrap;
   }
 
+  // "view script" button for failed restore step
+  > .btn-toolbar {
+    margin-right: 3px;
+  }
+
   // cached state
   > .build-log-header-state {
     color: $logs-runnable-dark-magenta;
