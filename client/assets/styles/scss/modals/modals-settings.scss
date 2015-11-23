@@ -157,6 +157,7 @@
       right: 0;
     }
 
+    // need specificity to override .p.empty
     .p.empty {
       margin-bottom: 0;
     }
