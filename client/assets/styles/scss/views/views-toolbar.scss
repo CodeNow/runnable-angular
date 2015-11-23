@@ -26,7 +26,7 @@
 .views-toolbar {
   align-items: center;
   display: flex;
-  height: $input-sm;
+  height: $input-md;
   padding: 0 9px; // match toggle and log padding
 
   // when there are multiple
@@ -43,6 +43,13 @@
     .span {
       padding-left: 9px;
     }
+  }
+
+  .p {
+    font-size: 15px;
+    flex: 1 1 auto;
+    line-height: 37px;
+    padding-right: 9px;
   }
 
   // buttons

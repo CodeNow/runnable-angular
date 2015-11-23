@@ -87,10 +87,15 @@
 
   // dark
   .ace-runnable-dark & {
-    background: $purple-dark;
+    // background: $purple-dark;
+    background: #3D294A;
     border-color: $purple-darker;
 
     .small {
+      color: $purple-lighter;
+    }
+
+    .p {
       color: $purple-lighter;
     }
 
