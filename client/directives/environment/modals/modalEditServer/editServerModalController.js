@@ -55,6 +55,7 @@ function EditServerModalController(
   angular.extend(SMC, {
     name: 'editServerModal',
     showDebugCmd: false,
+    page: 'build',
     data: {},
     state:  {
       ports: [],

@@ -369,6 +369,7 @@ function SetupServerModalController(
         return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
       })
       .then(function (contextVersion) {
+        SMC.page = 'build';
         SMC.instance.on('update', function () {
           SMC.page = ((['building', 'buildFailed', 'neverStarted'].indexOf(SMC.instance.status()) === -1) ? 'run' : 'build');
         });
