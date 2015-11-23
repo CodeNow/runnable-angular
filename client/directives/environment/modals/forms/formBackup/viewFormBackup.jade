@@ -18,15 +18,14 @@
   ng-if = "page === 'backup'"
 ) Backup Script
   .small Backups are created daily by running this script at 3:00 AM.
-.views-toolbar-wrapper(
+.views-toolbar(
   ng-class = "{\
     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
   ng-if = "page === 'backup'"
 )
-  .views-toolbar
-    button.btn.btn-xs.btn-purple.float-right.btn-toolbar.purple Run Script
+  button.btn.btn-xs.btn-purple.btn-toolbar.purple Back Up Now
 .ace-container.field-short(
   ng-class = "{\
     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\

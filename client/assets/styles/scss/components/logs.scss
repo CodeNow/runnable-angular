@@ -114,7 +114,7 @@
 }
 
 // shift fixed position if there's a toolbar (36px)
-.views-toolbar-wrapper + .active-panel .fixed {
+.views-toolbar + .active-panel .fixed {
   top: 210px;
 
   // if in modal

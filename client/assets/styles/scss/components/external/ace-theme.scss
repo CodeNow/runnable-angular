@@ -67,7 +67,7 @@
 .views-toolbar {
 
   // light
-  .ace-runnable-light & {
+  &.ace-runnable-light {
     background: $white;
     border-color: $gray-lighter;
 
@@ -86,7 +86,7 @@
   }
 
   // dark
-  .ace-runnable-dark & {
+  &.ace-runnable-dark {
     // background: $purple-dark;
     background: #3D294A;
     border-color: $purple-darker;

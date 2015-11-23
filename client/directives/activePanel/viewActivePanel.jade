@@ -7,15 +7,15 @@
 )
 
 //- toolbar
-.views-toolbar-wrapper(
+.views-toolbar(
   ng-class = "{\
-    'toolbar-lg': $root.featureFlags.saveToolbar && showDebugCmd,\
     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
   ng-show = "$root.featureFlags.saveToolbar || showDebugCmd || $root.featureFlags.backup"
   ng-include = "'viewToolbar'"
 )
+  //- 'toolbar-lg': $root.featureFlags.saveToolbar && showDebugCmd,\
 
 //- active panel
 .active-panel(

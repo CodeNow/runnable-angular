@@ -45,18 +45,13 @@
     border-width: 0;
   }
 
-  .views-toolbar-wrapper {
+  .views-toolbar {
 
     + .field-short,
     + .field-tall {
       border-radius: 0 0 3px 3px;
       border-top-width: 0;
     }
-  }
-
-  .views-toolbar {
-    align-items: center;
-    display: flex;
   }
 
   .time-select {
