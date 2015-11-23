@@ -25,6 +25,10 @@
     background: $blue;
   }
 
+  &.badge-gray::after {
+    background: $gray;
+  }
+
   &.badge-green::after {
     background: $green;
   }
