@@ -12,11 +12,12 @@
     font-weight: $weight-bold;
     height: $input-xxs;
     line-height: $input-xxs;
+    min-width: $input-xxs;
+    padding: 0 3px;
     position: absolute;
     right: -6px;
     text-align: center;
     top: -3px;
-    width: $input-xxs;
   }
 
   // colors
