@@ -1269,10 +1269,11 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
     it('should return an error if an non-string or non-number is passed', function () {
       var promise1 = fetchOrgTeammateInvitations([1, 2, 3]);
-      expect(promise1).to.be.rejectedWith(TypeError);
       var promise2 = fetchOrgTeammateInvitations({ hello: 'world' });
-      expect(promise2).to.be.rejectedWith(TypeError);
       var promise3 = fetchOrgTeammateInvitations(true);
+      $rootScope.$digest();
+      expect(promise1).to.be.rejectedWith(TypeError);
+      expect(promise2).to.be.rejectedWith(TypeError);
       expect(promise3).to.be.rejectedWith(TypeError);
       sinon.assert.notCalled(fetchUser);
       sinon.assert.notCalled(fetchGithubOrgId);
