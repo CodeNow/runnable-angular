@@ -8,11 +8,11 @@
 
       .row.modal-tabs.clearfix
         button.btn.btn-radio(
-          data-badge-count = "!"
+          ng-attr-data-badge-count = "{{$root.featureFlags.trial ? '12' : '!'}}"
           ng-class = "{\
             'active': currentTab === 'billing',\
-            'badge': true,\
-            'badge-red': true\
+            'badge': $root.featureFlags.billing || $root.featureFlags.trial,\
+            'badge-red': $root.featureFlags.billing && !$root.featureFlags.trial\
           }"
           ng-click = "currentTab = 'billing'"
           ng-show = "$root.featureFlags.billing"
@@ -82,7 +82,7 @@
       )
 
     footer.modal-footer.clearfix
-      button.btn.white(
+      button.btn.white.float-right(
         ng-click = "defaultActions.close()"
         type = "button"
       ) Done

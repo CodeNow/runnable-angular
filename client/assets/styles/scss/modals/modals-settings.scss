@@ -138,8 +138,33 @@
 // billing form
 .form-billing {
 
+  // empty state
+  .empty {
+
+    .icons-calendar {
+      height: 90px;
+      margin: 0 auto;
+      position: relative;
+      width: 90px;
+    }
+
+    .h2 {
+      bottom: 9px;
+      color: $purple;
+      font-size: 42px;
+      left: 0;
+      position: absolute;
+      right: 0;
+    }
+
+    // need specificity to override .p.empty
+    .p.empty {
+      margin-bottom: 0;
+    }
+  }
+
   // plan and payment area
-  .well {
+  .well:not(.empty) {
     margin: 0;
     padding: 15px;
 

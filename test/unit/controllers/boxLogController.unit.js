@@ -23,11 +23,15 @@ describe('BoxLogController'.bold.underline.blue, function () {
     ctx.errs = {
       handler: sinon.spy()
     };
+    ctx.report = {
+      warning: sinon.spy()
+    };
     angular.mock.module('app', function ($provide) {
       $provide.value('dockerStreamCleanser', ctx.streamCleanserMock);
       $provide.value('primus', mockPrimus);
       $provide.value('$log', ctx.$log);
       $provide.value('errs', ctx.errs);
+      $provide.value('report', ctx.report);
     });
     angular.mock.inject(function (
       _$controller_,
@@ -66,7 +70,8 @@ describe('BoxLogController'.bold.underline.blue, function () {
         ]
       }
     };
-    var ca = $controller('BoxLogController', {
+    $scope.instance = ctx.instance;
+    $controller('BoxLogController', {
       '$scope': $scope
     });
   }
@@ -86,7 +91,17 @@ describe('BoxLogController'.bold.underline.blue, function () {
       expect($scope.stream).to.not.be.ok;
       expect($scope.createStream, 'createStream').to.be.ok;
       $scope.createStream();
+      sinon.assert.notCalled(ctx.report.warning);
       expect($scope.stream).to.be.ok;
+    });
+    it('should refuse to create the stream when the instance has no containers', function () {
+      $scope.instance = {};
+      $rootScope.$digest();
+      expect($scope.stream).to.not.be.ok;
+      expect($scope.createStream, 'createStream').to.be.ok;
+      $scope.createStream();
+      sinon.assert.calledOnce(ctx.report.warning);
+      expect($scope.stream).to.not.be.ok;
     });
     it('should connect the stream when requested', function () {
       $rootScope.$digest();

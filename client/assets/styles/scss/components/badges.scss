@@ -4,7 +4,7 @@
 
   &::after {
     background: $gray-light;
-    border-radius: 50%;
+    border-radius: $input-xxs;
     color: $white;
     content: attr(data-badge-count);
     display: block;
@@ -12,16 +12,22 @@
     font-weight: $weight-bold;
     height: $input-xxs;
     line-height: $input-xxs;
+    min-width: $input-xxs;
+    padding: 0 3px;
     position: absolute;
     right: -6px;
     text-align: center;
+    text-indent: 1px;
     top: -3px;
-    width: $input-xxs;
   }
 
   // colors
   &.badge-blue::after {
     background: $blue;
+  }
+
+  &.badge-gray::after {
+    background: $gray;
   }
 
   &.badge-green::after {

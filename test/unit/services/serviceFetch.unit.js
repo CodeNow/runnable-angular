@@ -1,7 +1,8 @@
+/*global runnable:true, user:true, before:true */
+'use strict';
 var instances = require('../apiMocks').instances;
 
 describe('serviceFetch'.bold.underline.blue, function () {
-  'use strict';
   var data;
   var res;
   var httpFactory = function ($q) {
@@ -13,6 +14,109 @@ describe('serviceFetch'.bold.underline.blue, function () {
       return $q.when(_res);
     };
   };
+  var generateUserObject = function (githubUsername, githubgithubUserId) {
+   if (!githubUsername) {
+      githubUsername = 'thejsj';
+    }
+    if (!githubgithubUserId) {
+      githubgithubUserId = 12345;
+    }
+    return {
+      '_id': '54d3c216c0f345d650d00123',
+      'accounts': {
+        'github': {
+          'provider': 'github',
+          'id': githubgithubUserId,
+          'displayName': 'Jorge Silva',
+          'username': githubUsername,
+          'profileUrl': 'https:\/\/github.com\/' + githubUsername,
+          'emails': [
+            {
+              'value': 'jorge.silva@thejsj.com'
+            }
+        ]
+        }
+      },
+      'gravatar': 'https:\/\/avatars.githubusercontent.com\/u\/1981198?v=3',
+      'email': 'email@company.com',
+      'routes': [ ],
+      'created': '2015-02-18T00:00:00.000Z',
+      'showEmail': false
+    };
+  };
+  var generateGithubUserObject = function (githubUsername, githubUserId) {
+    if (!githubUsername) {
+      githubUsername = 'thejsj';
+    }
+    if (!githubUserId) {
+      githubUserId = 12345;
+    }
+    return {
+      avatar_url: 'https://avatars.githubusercontent.com/u/1981198?v=3',
+      events_url: 'https://api.github.com/users/' + githubUsername + '/events{/privacy}',
+      followers_url: 'https://api.github.com/users/' + githubUsername + '/followers',
+      following_url: 'https://api.github.com/users/' + githubUsername + '/following{/other_user}',
+      gists_url: 'https://api.github.com/users/' + githubUsername + '/gists{/gist_id}',
+      gravatar_id: '',
+      html_url: 'https://github.com/' + githubUsername,
+      id: githubUserId,
+      login: githubUsername,
+      organizations_url: 'https://api.github.com/users/' + githubUsername + '/orgs',
+      received_events_url: 'https://api.github.com/users/' + githubUsername + '/received_events',
+      repos_url: 'https://api.github.com/users/' + githubUsername + '/repos',
+      site_admin: false,
+      starred_url: 'https://api.github.com/users/' + githubUsername + '/starred{/owner}{/repo}',
+      subscriptions_url: 'https://api.github.com/users/' + githubUsername + '/subscriptions',
+      type: 'User',
+      url: 'https://api.github.com/users/' + githubUsername
+    };
+  };
+  var generateGithubOrgObject = function (githubOrgName, githubOrgId) {
+    if (!githubOrgName) {
+      githubOrgName = 'CodeNow';
+    }
+    if (!githubOrgId) {
+      githubOrgId = 1223344;
+    }
+    return {
+      avatar_url: 'https://avatars.githubusercontent.com/u/' + githubOrgId + '?v=3',
+      description: null,
+      events_url: 'https://api.github.com/orgs/' + githubOrgName + '/events',
+      id: githubOrgId,
+      login: githubOrgName,
+      members_url: 'https://api.github.com/orgs/' + githubOrgName + '/members{/member}',
+      public_members_url: 'https://api.github.com/orgs/' + githubOrgName + '/public_members{/member}',
+      repos_url: 'https://api.github.com/orgs/' + githubOrgName + '/repos',
+      url: 'https://api.github.com/orgs/' + githubOrgName + ''
+    };
+  };
+  var generateTeammateInvitationObject = function (orgGithubId, recipientGihtubId, recipientEmail) {
+    var user = generateUserObject();
+    if (!orgGithubId) {
+      orgGithubId = generateGithubOrgObject().id;
+    }
+    if (!recipientGihtubId) {
+      recipientGihtubId = user.id;
+    }
+    if (!recipientEmail) {
+      recipientEmail = user.accounts.github.emails[0].value;
+    }
+    return {
+      _id: '564e76f4ecb1e41e0096b5d7',
+      created: '2015-11-20T01:27:16.193Z',
+      organization: {
+        github: orgGithubId
+      },
+      owner: {
+        github: 1981198
+      },
+      recipient: {
+        email: recipientEmail,
+        github: recipientGihtubId
+      }
+    };
+  };
+
 
   describe('factory fetchUser', function () {
     var $state;
@@ -89,8 +193,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
       });
       angular.mock.inject(function (
         _fetchOrgs_,
-        _$rootScope_,
-        $q
+        _$rootScope_
       ) {
         fetchOrgs = _fetchOrgs_;
         $rootScope = _$rootScope_;
@@ -516,7 +619,9 @@ describe('serviceFetch'.bold.underline.blue, function () {
   });
 
   describe('factory fetchGitHubUser', function () {
-    var $rootScope, fetchGitHubuser, configAPIHost;
+    var $rootScope;
+    var fetchGitHubUser;
+    var configAPIHost;
 
     beforeEach(function () {
       angular.mock.module('app');
@@ -580,6 +685,218 @@ describe('serviceFetch'.bold.underline.blue, function () {
       expect(localRes).to.eql(data);
       expect(res.args[0].url).to.have.string('orgs');
       expect(res.args[0].url).to.have.string(teamName);
+    });
+  });
+
+  describe('factory fetchGitHubTeamMembersByTeam', function () {
+    var $rootScope, fetchGitHubTeamMembersByTeam, configAPIHost;
+
+    beforeEach(function () {
+      angular.mock.module('app');
+      angular.mock.module(function ($provide) {
+        $provide.factory('$http', httpFactory);
+      });
+      angular.mock.inject(function (
+        _$rootScope_,
+        _fetchGitHubTeamMembersByTeam_,
+        _configAPIHost_
+      ) {
+        $rootScope = _$rootScope_;
+        fetchGitHubTeamMembersByTeam = _fetchGitHubTeamMembersByTeam_;
+        configAPIHost = _configAPIHost_;
+      });
+    });
+
+    it('should accept a team object to get the GitHub user from the API', function () {
+      var localRes;
+      var team = {
+        name: 'team',
+        id: 123123123
+      };
+
+      data = [
+        {
+          name: 'member1',
+          state: 'active'
+        },
+        {
+          name: 'member2',
+          state: 'pending'
+        }
+      ];
+      fetchGitHubTeamMembersByTeam(team)
+        .then(function (_res) {
+          localRes = _res;
+        });
+
+      $rootScope.$digest();
+      expect(localRes).to.deep.eql([data[0]]); // member2 is pending and should be removed
+      expect(res.args[0].url).to.have.string('/github/teams/' + team.id + '/members');
+    });
+    it('should accept an id to get the GitHub user from the API', function () {
+      var localRes;
+      var team = {
+        name: 'team',
+        id: 123123123
+      };
+
+      data = [
+        {
+          name: 'member1',
+          state: 'active'
+        },
+        {
+          name: 'member2',
+          state: 'pending'
+        }
+      ];
+      fetchGitHubTeamMembersByTeam(team.id)
+        .then(function (_res) {
+          localRes = _res;
+        });
+
+      $rootScope.$digest();
+      expect(localRes).to.deep.eql([data[0]]); // member2 is pending and should be removed
+      expect(res.args[0].url).to.have.string('/github/teams/' + team.id + '/members');
+    });
+  });
+
+  describe('factory fetchGitHubTeamsByRepo', function () {
+    var $rootScope, fetchGitHubTeamsByRepo, configAPIHost;
+
+    beforeEach(function () {
+      angular.mock.module('app');
+      angular.mock.module(function ($provide) {
+        $provide.factory('$http', httpFactory);
+      });
+      angular.mock.inject(function (
+        _$rootScope_,
+        _fetchGitHubTeamsByRepo_,
+        _configAPIHost_
+      ) {
+        $rootScope = _$rootScope_;
+        fetchGitHubTeamsByRepo = _fetchGitHubTeamsByRepo_;
+        configAPIHost = _configAPIHost_;
+      });
+    });
+
+    it('should get the GitHub user from the API', function () {
+      var localRes;
+      var orgName = 'team';
+      var repoName = 'repo';
+
+      data = [
+        {
+          name: 'team1',
+          permission: 'user'
+        },
+        {
+          name: 'team2',
+          permission: 'admin'
+        }
+      ];
+      fetchGitHubTeamsByRepo(orgName, repoName)
+        .then(function (_res) {
+          localRes = _res;
+        });
+
+      $rootScope.$digest();
+      expect(localRes).to.deep.eql([data[1]]); // member2 is pending and should be removed
+
+      expect(res.args[0].url).to.have.string('/github/repos/' + orgName + '/' + repoName + '/teams');
+    });
+  });
+
+
+  describe('factory fetchGitHubAdminsByRepo', function () {
+    var $rootScope, fetchGitHubAdminsByRepo, configAPIHost;
+
+    var fetchGitHubTeamsByRepoMock;
+    var fetchGitHubTeamMembersByTeamMock;
+    var fetchGitHubUserMock;
+    var members = [
+      {
+        name: 'member1',
+        login: 'member1',
+        state: 'active'
+      },
+      {
+        name: 'member2',
+        login: 'member2',
+        state: 'active'
+      },
+      {
+        name: 'member3',
+        login: 'member3',
+        state: 'active'
+      }
+    ];
+    var membersByTeam = {
+      team1: [
+        members[0],
+        members[1]
+      ],
+      team2: [
+        members[1],
+        members[2]
+      ],
+      team3: [
+        members[0],
+        members[2]
+      ],
+      team4: [
+        members[0]
+      ]
+    };
+    var teams = Object.keys(membersByTeam);
+
+    beforeEach(function () {
+      angular.mock.module('app');
+      angular.mock.module(function ($provide) {
+        $provide.factory('fetchGitHubTeamsByRepo', function ($q) {
+          fetchGitHubTeamsByRepoMock = sinon.stub().returns($q.when(teams));
+          return fetchGitHubTeamsByRepoMock;
+        });
+        $provide.factory('fetchGitHubTeamMembersByTeam', function ($q) {
+          fetchGitHubTeamMembersByTeamMock = sinon.spy(function (teamName) {
+            return $q.when((membersByTeam[teamName]));
+          });
+          return fetchGitHubTeamMembersByTeamMock;
+        });
+        $provide.factory('fetchGitHubUser', function ($q) {
+          fetchGitHubUserMock = sinon.spy(function (memberName) {
+            return $q.when(({
+              name: memberName
+            }));
+          });
+          return fetchGitHubUserMock;
+        });
+      });
+      angular.mock.inject(function (
+        _$rootScope_,
+        _fetchGitHubAdminsByRepo_,
+        _configAPIHost_
+      ) {
+        $rootScope = _$rootScope_;
+        fetchGitHubAdminsByRepo = _fetchGitHubAdminsByRepo_;
+        configAPIHost = _configAPIHost_;
+      });
+    });
+
+    it('should get a list of unique admins for a repo', function (done) {
+      var orgName = 'team';
+      var repoName = 'repo';
+
+      fetchGitHubAdminsByRepo(orgName, repoName)
+        .then(function (uniqueMembers) {
+          expect(fetchGitHubTeamsByRepoMock.callCount).to.eql(1);
+          expect(fetchGitHubTeamMembersByTeamMock.callCount).to.eql(4);
+          expect(fetchGitHubUserMock.callCount).to.eql(3);
+          expect(Object.keys(uniqueMembers).length).to.eql(3);
+          done();
+        });
+
+      $rootScope.$digest();
     });
   });
 
@@ -836,4 +1153,365 @@ describe('serviceFetch'.bold.underline.blue, function () {
     });
   });
 
+  describe('factory fetchGithubOrgId', function () {
+    var $rootScope;
+    var fetchGithubOrgId;
+    var orgName1 = 'CodeNow';
+    var orgId1 = 1;
+    var orgName2 = 'Runnable';
+    var orgId2 = 2;
+    var fetchOrgsResponse = {
+      models: [
+        { attrs: generateGithubOrgObject(orgName1, orgId1) },
+        { attrs: generateGithubOrgObject(orgName2, orgId2) }
+      ],
+      filter: function (filterFunc) {
+        return this.models.filter(filterFunc);
+      }
+    };
+
+    beforeEach(function () {
+      angular.mock.module('app');
+      angular.mock.module(function ($provide) {
+        $provide.factory('fetchOrgs', function ($q) {
+          return function () {
+            return $q.when(fetchOrgsResponse);
+          };
+        });
+      });
+      angular.mock.inject(function (
+        _$rootScope_,
+        _fetchGithubOrgId_
+      ) {
+        $rootScope = _$rootScope_;
+        fetchGithubOrgId = _fetchGithubOrgId_;
+      });
+    });
+
+    it('should fetch the correct github ID for a given github organization name', function () {
+      var result1;
+      var result2;
+      fetchGithubOrgId(orgName1)
+        .then(function (res) {
+          result1 = res;
+        });
+      fetchGithubOrgId(orgName2)
+        .then(function (res) {
+          result2 = res;
+        });
+      $rootScope.$digest();
+      expect(result1).to.equal(orgId1);
+      expect(result2).to.equal(orgId2);
+    });
+
+    it('should return a reject promise if there is no org with that name', function () {
+      var fetchGithubOrgIdPromise = fetchGithubOrgId('orgThatDoesntExist');
+      $rootScope.$digest();
+      expect(fetchGithubOrgIdPromise).to.be.rejectedWith(TypeError);
+    });
+
+    it('should return the same result for an already queried org', function () {
+      var result1;
+      var result2;
+      fetchGithubOrgId(orgName1)
+        .then(function (res) {
+          result1 = res;
+        });
+      fetchGithubOrgId(orgName1)
+        .then(function (res) {
+          result2 = res;
+        });
+      expect(result2).to.equal(result1);
+    });
+  });
+
+  describe('factory fetchOrgTeammateInvitations', function () {
+    var user;
+    var $rootScope;
+    var fetchOrgTeammateInvitations;
+    var fetchGithubOrgId;
+    var fetchUser;
+
+    beforeEach(function () {
+      user = {
+        fetchTeammateInvitations: sinon.spy(function (opts, cb) {
+          var response = {
+            models: [
+              { attrs: generateTeammateInvitationObject(opts.orgGithubId) }
+            ]
+          };
+          $rootScope.$evalAsync(function () {
+            cb(null, response);
+          });
+          return response;
+        })
+      };
+      angular.mock.module('app');
+      angular.mock.module(function ($provide) {
+        $provide.factory('fetchGithubOrgId', function ($q) {
+          var org = generateGithubOrgObject();
+          fetchGithubOrgId = sinon.stub().returns($q.when(org.id));
+          return fetchGithubOrgId;
+        });
+        $provide.factory('fetchUser', function ($q) {
+          fetchUser = sinon.stub().returns($q.when(user));
+          return fetchUser;
+        });
+      });
+      angular.mock.inject(function (
+        _$rootScope_,
+        _fetchOrgTeammateInvitations_
+      ) {
+        $rootScope = _$rootScope_;
+        fetchOrgTeammateInvitations = _fetchOrgTeammateInvitations_;
+      });
+    });
+
+    it('should return an error if an non-string or non-number is passed', function () {
+      var promise1 = fetchOrgTeammateInvitations([1, 2, 3]);
+      var promise2 = fetchOrgTeammateInvitations({ hello: 'world' });
+      var promise3 = fetchOrgTeammateInvitations(true);
+      $rootScope.$digest();
+      expect(promise1).to.be.rejectedWith(TypeError);
+      expect(promise2).to.be.rejectedWith(TypeError);
+      expect(promise3).to.be.rejectedWith(TypeError);
+      sinon.assert.notCalled(fetchUser);
+      sinon.assert.notCalled(fetchGithubOrgId);
+      sinon.assert.notCalled(user.fetchTeammateInvitations);
+    });
+
+    it('should fetch the user and the invitations', function () {
+      var org = generateGithubOrgObject();
+      var result;
+      fetchOrgTeammateInvitations(org.id)
+        .then(function (res) {
+          result = res;
+        });
+      $rootScope.$digest();
+      sinon.assert.calledOnce(fetchUser);
+      sinon.assert.notCalled(fetchGithubOrgId);
+      sinon.assert.calledOnce(user.fetchTeammateInvitations);
+      expect(result).to.be.an('object');
+      expect(result.models).to.be.an('array');
+      expect(result.models[0].attrs).to.be.an('object');
+      var attrs = result.models[0].attrs;
+      expect(attrs.organization).to.be.an('object');
+      expect(attrs.organization.github).to.be.a('number');
+      expect(attrs.organization.github).to.equal(org.id);
+    });
+
+    it('should fetch the id when passed an orgName', function () {
+      var org = generateGithubOrgObject();
+      var result;
+      fetchOrgTeammateInvitations(org.login)
+        .then(function (res) {
+          result = res;
+        });
+      $rootScope.$digest();
+      sinon.assert.calledOnce(fetchUser);
+      sinon.assert.calledOnce(fetchGithubOrgId);
+      sinon.assert.calledOnce(user.fetchTeammateInvitations);
+      expect(result).to.be.an('object');
+      expect(result.models).to.be.an('array');
+      expect(result.models[0].attrs).to.be.an('object');
+      var attrs = result.models[0].attrs;
+      expect(attrs.organization).to.be.an('object');
+      expect(attrs.organization.github).to.be.a('number');
+      expect(attrs.organization.github).to.equal(org.id);
+    });
+  });
+
+  describe('factory fetchOrgRegisteredMembers', function () {
+    var user;
+    var $rootScope;
+    var fetchOrgRegisteredMembers;
+
+    beforeEach(function () {
+      user = {
+        fetchUsers: sinon.spy(function (opts, cb) {
+          var response = {
+            models: [
+              { attrs: generateUserObject() }
+            ]
+          };
+          $rootScope.$evalAsync(function () {
+            cb(null, response);
+          });
+          return response;
+        })
+      };
+      angular.mock.module('app');
+      angular.mock.module(function ($provide) {
+        $provide.factory('fetchUser', function ($q) {
+          return function () {
+            return $q.when(user);
+          };
+        });
+      });
+      angular.mock.inject(function (
+        _$rootScope_,
+        _fetchOrgRegisteredMembers_
+      ) {
+        $rootScope = _$rootScope_;
+        fetchOrgRegisteredMembers = _fetchOrgRegisteredMembers_;
+      });
+    });
+
+    it('should fetch all members in an org', function () {
+      var result;
+      fetchOrgRegisteredMembers('CodeNow')
+        .then(function (res) {
+          result = res;
+        });
+      $rootScope.$digest();
+      sinon.assert.calledOnce(user.fetchUsers);
+      expect(result).to.be.an('object');
+      expect(result.models).to.be.an('array');
+      expect(result.models).to.have.length(1);
+      expect(result.models[0]).to.be.an('object');
+      expect(result.models[0].attrs).to.be.an('object');
+      var attrs = result.models[0].attrs;
+      expect(attrs.email).to.be.an('string');
+      expect(attrs.email).to.equal('email@company.com');
+      expect(attrs.accounts.github).to.be.an('object');
+      expect(attrs.accounts.github.id).to.be.an('number');
+      expect(attrs.accounts.github.id).to.equal(12345);
+      expect(attrs.accounts.github.username).to.be.a('string');
+      expect(attrs.accounts.github.username).to.equal('thejsj');
+    });
+  });
+
+  describe('factory fetchOrgMembers', function () {
+    var username1 = 'thejsj';
+    var userId1 = 1;
+    var username2 = 'superUser';
+    var userId2 = 2;
+    var username3 = 'anotherUser';
+    var userId3 = 3;
+    var orgId = 789;
+    var $rootScope;
+    var fetchOrgMembers;
+    var fetchGitHubMembersResponse = [
+      generateGithubUserObject(username1, userId1),
+      generateGithubUserObject(username2, userId2),
+      generateGithubUserObject(username3, userId3)
+    ];
+    var fetchOrgRegisteredMembersResponse = {
+      models: [
+        { attrs: generateUserObject(username1, userId1) }
+      ],
+      forEach: function (cb) {
+        return this.models.forEach(cb);
+      }
+    };
+    var fetchOrgTeammateInvitationResponse = {
+      models: [
+        { attrs: generateTeammateInvitationObject(orgId, userId1) },
+        { attrs: generateTeammateInvitationObject(orgId, userId2) }
+      ],
+      forEach: function (cb) {
+        return this.models.forEach(cb);
+      }
+    };
+    var fetchOrgRegisteredMembersStub;
+    var fetchGitHubMembersStub;
+    var fetchOrgRegisteredMembersFactory;
+    var fetchGitHubMembersFactory;
+    var fetchOrgTeammateInvitationsStub;
+
+    beforeEach(function () {
+      angular.mock.module('app');
+      angular.mock.module(function ($provide) {
+        $provide.factory('fetchOrgRegisteredMembers', function ($q) {
+          fetchOrgRegisteredMembersStub = sinon.stub().returns($q.when(fetchOrgRegisteredMembersResponse));
+          return fetchOrgRegisteredMembersStub;
+        });
+        $provide.factory('fetchGitHubMembers', function ($q) {
+          fetchGitHubMembersStub = sinon.stub().returns($q.when(fetchGitHubMembersResponse));
+          return fetchGitHubMembersStub;
+        });
+        $provide.factory('fetchOrgTeammateInvitations', function ($q) {
+          fetchOrgTeammateInvitationsStub = sinon.stub().returns($q.when(fetchOrgTeammateInvitationResponse));
+          return fetchOrgTeammateInvitationsStub;
+        });
+      });
+      angular.mock.inject(function (
+        _$rootScope_,
+        _fetchOrgMembers_
+      ) {
+        $rootScope = _$rootScope_;
+        fetchOrgMembers = _fetchOrgMembers_;
+      });
+    });
+
+    it('should call the write functions', function () {
+      var result;
+      fetchOrgMembers('CodeNow')
+        .then(function (res) {
+          result = res;
+        });
+      $rootScope.$digest();
+      expect(result).to.be.an('object');
+      sinon.assert.calledOnce(fetchOrgRegisteredMembersStub);
+      sinon.assert.calledOnce(fetchOrgTeammateInvitationsStub);
+      sinon.assert.calledOnce(fetchGitHubMembersStub);
+    });
+
+    it('should correctly fetch the users from the API', function () {
+      var result;
+      fetchOrgMembers('CodeNow')
+        .then(function (res) {
+          result = res;
+        });
+      $rootScope.$digest();
+      expect(result).to.be.an('object');
+      // Should have 4 properties
+      expect(result).to.have.property('all');
+      expect(result).to.have.property('registered');
+      expect(result).to.have.property('invited');
+      expect(result).to.have.property('uninvited');
+    });
+
+    it('should know whether the user is registered or not', function () {
+      var result;
+      fetchOrgMembers('CodeNow')
+        .then(function (res) {
+          result = res;
+        });
+      $rootScope.$digest();
+      expect(result).to.be.an('object');
+     // Should have the right amount of elements
+      expect(result.all).to.be.an('array');
+      expect(result.registered).to.be.an('array');
+      expect(result.invited).to.be.an('array');
+      expect(result.uninvited).to.be.an('array');
+      expect(result.all.length).to.equal(3);
+      expect(result.registered.length).to.equal(1);
+      expect(result.invited.length).to.equal(1);
+      expect(result.uninvited.length).to.equal(1);
+      // Should be populated property
+      expect(result.registered[0].login).to.equal(username1);
+      expect(result.invited[0].login).to.equal(username2);
+      expect(result.uninvited[0].login).to.equal(username3);
+    });
+
+    it('should populate the `userModel` property for registered users', function () {
+      var result;
+      fetchOrgMembers('CodeNow')
+        .then(function (res) {
+          result = res;
+        });
+      $rootScope.$digest();
+      expect(result).to.be.an('object');
+      // Runnable Users
+      expect(result.registered[0]).to.be.an('object');
+      var registeredUser = result.registered[0];
+      expect(registeredUser).to.have.property('login', username1);
+      expect(registeredUser).to.have.property('userModel');
+      expect(registeredUser.userModel).to.have.property('attrs');
+      expect(registeredUser.userModel.attrs).to.be.an('object');
+      expect(registeredUser.userModel.attrs).to.have.deep.property('accounts.github.username');
+      expect(registeredUser.userModel.attrs.accounts.github.username).to.equal(username1);
+    });
+  });
 });
