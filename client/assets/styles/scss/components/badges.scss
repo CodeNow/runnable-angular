@@ -4,7 +4,7 @@
 
   &::after {
     background: $gray-light;
-    border-radius: 50%;
+    border-radius: $input-xxs;
     color: $white;
     content: attr(data-badge-count);
     display: block;
@@ -17,6 +17,7 @@
     position: absolute;
     right: -6px;
     text-align: center;
+    text-indent: 1px;
     top: -3px;
   }
 
