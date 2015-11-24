@@ -55,6 +55,7 @@ function EditServerModalController(
   angular.extend(SMC, {
     name: 'editServerModal',
     showDebugCmd: false,
+    page: 'build',
     data: {},
     state:  {
       ports: [],
@@ -205,6 +206,10 @@ function EditServerModalController(
       message: 'Missing or misplaced FROM'
     }));
   };
+
+  SMC.instance.on('update', function () {
+    SMC.page = ((['building', 'buildFailed', 'neverStarted'].indexOf(SMC.instance.status()) === -1) ? 'run' : 'build');
+  });
 
   SMC.getUpdatePromise = function () {
     SMC.saveTriggered = true;

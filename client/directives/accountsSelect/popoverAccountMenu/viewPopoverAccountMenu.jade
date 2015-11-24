@@ -38,7 +38,12 @@
             //- *****************
             //- $root.featureFlags.billing && $root.featureFlags.teamManagement
             li.list-item.popover-list-item(
-              ng-click = "actions.openSettingsModal('billing')"
+              data-badge-count = "!"
+              internal-modal-helper = "settingsModalView"
+              ng-class = "{\
+                'badge': !$root.featureFlags.trial,\
+                'badge-red': !$root.featureFlags.trial\
+              }"
               ng-if = "$root.featureFlags.billing"
             )
               svg.iconnables
@@ -46,6 +51,12 @@
                   xlink:href = "#icons-billing"
                 )
               | Billing
+
+              //- add .red class once trial is down to 5 days (show as badge on gravatar)
+              btn.btn-xxs.btn-badge.anchor-right(
+                ng-if = "$root.featureFlags.trial"
+                title = "12 days left in your trial"
+              ) 12 Days
             li.list-item.popover-list-item(
               ng-click = "actions.openSettingsModal('teamManagement')"
               ng-if = "$root.featureFlags.teamManagement"

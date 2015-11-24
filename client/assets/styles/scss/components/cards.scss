@@ -271,6 +271,7 @@
     // notifications
     .btn-badge {
       background: $gray-light;
+      border-radius: $input-border-radius;
       color: $white;
       position: absolute;
       right: 30px;

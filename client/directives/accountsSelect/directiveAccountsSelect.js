@@ -48,6 +48,7 @@ function accountsSelect (
             }).catch(errs.handler);
           },
           openSettingsModal: function (tabName) {
+            $rootScope.$broadcast('close-popovers');
             ModalService.showModal({
               controller: 'SettingsModalController',
               controllerAs: 'SEMC',

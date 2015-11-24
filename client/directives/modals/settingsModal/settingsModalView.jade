@@ -6,11 +6,11 @@
 
       .row.modal-tabs.clearfix
         button.btn.btn-radio(
-          data-badge-count = "!"
+          ng-attr-data-badge-count = "{{$root.featureFlags.trial ? '12' : '!'}}"
           ng-class = "{\
             'active': SEMC.currentTab === 'billing',\
-            'badge': true,\
-            'badge-red': true\
+            'badge': $root.featureFlags.billing || $root.featureFlags.trial,\
+            'badge-red': $root.featureFlags.billing && !$root.featureFlags.trial\
           }"
           ng-click = "SEMC.currentTab = 'billing'"
           ng-show = "$root.featureFlags.billing"
@@ -80,7 +80,12 @@
       )
 
     footer.modal-footer.clearfix
+<<<<<<< HEAD
       button.btn.white(
         ng-click = "SEMC.close()"
+=======
+      button.btn.white.float-right(
+        ng-click = "defaultActions.close()"
+>>>>>>> ba1704ec41d2f4c561df3ddeb0a015faf4443b82
         type = "button"
       ) Done

@@ -1,8 +1,8 @@
 .modal-dialog.modal-alert
   section.modal-body
     p.p.strong Are you sure you want to delete your private Sandbox?
-  footer.modal-footer
-    button.btn.red.float-right Delete Private Sandbox
-    button.btn.white.btn-cancel(
+  footer.modal-footer.clearfix
+    button.btn.btn-sm.gray.float-left(
       ng-click = "defaultActions.close()"
     ) Cancel
+    button.btn.btn-sm.red.float-right Delete Private Sandbox
