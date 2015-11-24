@@ -26,7 +26,7 @@ function SettingsModalController(
 
   fetchOrgMembers($state.params.userName)
     .then(function (members) {
-      // SEMC.loading.teamManagement = false;
+      SEMC.loading.teamManagement = false;
       SEMC.members = members;
 
       // Populate emails
