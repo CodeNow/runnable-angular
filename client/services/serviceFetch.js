@@ -395,8 +395,11 @@ function fetchGitHubUser(
  * Given an org name and a repo name, fetch all github users who have admin access to a repo.  This
  * returns a promise containing a map of all of the users, indexed by their github login.
  * @param $http
+ * @param $q
  * @param configAPIHost
- * @returns {Function} promise containing a map of github admins indexed by login
+ * @param fetchGitHubUser
+ * @param keypather
+ * @returns {Function} promise containing an map of github admins indexed by login
  */
 function fetchGitHubAdminsByRepo(
   $http,
