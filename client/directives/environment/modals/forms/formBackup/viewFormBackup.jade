@@ -37,7 +37,9 @@
   }"
   ng-if = "page === 'backup'"
 )
-  button.btn.btn-xs.btn-purple.btn-toolbar.purple Back Up Now
+  //- only show revert button if script differs from default
+  button.btn.btn-purple.btn-toolbar.purple Revert to Default
+  button.btn.btn-purple.btn-toolbar.purple Back Up Now
 .ace-container.field-short(
   ng-class = "{\
     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
@@ -62,7 +64,7 @@
     'logs-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
     'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
-  ng-if = "page === 'backup'"
+  ng-if = "page === 'backup' && showLogs"
 )
   .build-log-wrapper
     .div
