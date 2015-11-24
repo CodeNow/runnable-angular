@@ -29,6 +29,7 @@ function featureFlags(
     renameContainer: false,
     saveToolbar: false,
     teamManagement: false, // changes text from org to team in account menu
+    trial: false,
     themeToggle: false, // toggles the button that toggles theme
     updatedSlackValidation: false,
     webhooksAdminPresent: false,
