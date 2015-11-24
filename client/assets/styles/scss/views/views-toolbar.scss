@@ -23,6 +23,7 @@
   border-style: solid;
   border-width: 0 0 1px;
   display: flex;
+  flex: 0 0 auto;
   height: $input-md;
   justify-content: flex-end;
   padding: 0 9px; // match toggle and log padding
