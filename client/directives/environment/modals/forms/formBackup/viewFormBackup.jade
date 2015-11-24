@@ -39,6 +39,7 @@
     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
   ng-if = "page === 'backup'"
+  ng-include = "'backupToolbarView'"
 )
   //- only show revert button if script differs from default
   //- button.btn.btn-purple.btn-toolbar.purple Revert to Default
@@ -109,6 +110,7 @@
 //-     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
 //-   }"
 //-   ng-if = "page === 'restore'"
+//-   ng-include = "'backupToolbarView'"
 //- )
 //-   button.btn.btn-purple.btn-toolbar.purple Revert to Default
 .ace-container.ace-restore(

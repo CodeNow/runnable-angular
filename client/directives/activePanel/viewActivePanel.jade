@@ -6,16 +6,35 @@
   tabs
 )
 
-//- toolbar
+//- save toolbar
 .views-toolbar(
   ng-class = "{\
     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
-  ng-show = "$root.featureFlags.saveToolbar || showDebugCmd || $root.featureFlags.backup"
-  ng-include = "'viewToolbar'"
+  ng-if = "$root.featureFlags.saveToolbar"
+  ng-include = "'saveToolbarView'"
 )
-  //- 'toolbar-lg': $root.featureFlags.saveToolbar && showDebugCmd,\
+
+//- debug toolbar
+.views-toolbar(
+  ng-class = "{\
+    'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+    'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+  }"
+  ng-if = "showDebugCmd"
+  ng-include = "'debugToolbarView'"
+)
+
+//- backup toolbar
+.views-toolbar(
+  ng-class = "{\
+    'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+    'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+  }"
+  ng-if = "$root.featureFlags.backup"
+  ng-include = "'backupToolbarView'"
+)
 
 //- active panel
 .active-panel(

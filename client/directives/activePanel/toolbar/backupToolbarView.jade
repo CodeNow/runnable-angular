@@ -1,0 +1,16 @@
+p.p.text-overflow(
+  ng-if = "$root.featureFlags.backup"
+) Next scheduled backup at 3:00 AM.
+
+//- if backup was successful, but container was down during last scheduled backup time.
+//- small.small.text-overflow Backup created 3 days ago. Scheduled backups were skipped while this container was down.
+
+//- if backup was successful
+button.btn.purple.btn-toolbar(
+  ng-if = "$root.featureFlags.backup"
+) Back Up Now
+
+//- if backup failed
+//- small.small The backup script failed.
+//- button.btn.btn-xs.purple.btn-spinner.btn-toolbar.float-right
+//-   span.btn-text View Script
