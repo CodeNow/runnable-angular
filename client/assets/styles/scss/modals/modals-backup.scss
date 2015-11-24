@@ -1,129 +1,54 @@
 .modal-backup {
-  display: flex;
-  flex: 1 0 auto;
-  flex-direction: column;
   margin-bottom: -15px;
-  padding: 15px 30px 0;
+  padding-bottom: 0;
 
-  @include media(xs) {
-    padding: 15px;
+  //- backup script
+  .ace-backup {
+    min-height: 120px;
   }
 
-  .field-short {
-    border-bottom: 0;
-    border-radius: 3px;
-    border-width: 1px;
-    margin-bottom: 30px;
-    min-height: 114px;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .field-medium {
-    border-bottom: 0;
-    border-radius: 3px;
-    border-width: 1px;
-    min-height: 270px;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .field-tall {
-    border-bottom: 0;
-    border-radius: 3px;
-    border-width: 1px;
+  //- backup logs
+  .log-wrapper {
+    margin-bottom: 24px;
     min-height: 360px;
-    overflow: hidden;
-    position: relative;
   }
 
+  //- restore script
+  .ace-restore {
+    min-height: 270px;
+  }
+
+  // time selection button
   .btn-xxs {
-    line-height: 13px;
-    margin-left: 5px;
-    padding: 0 4px;
-    top: 3px;
-
-    .span {
-      float: left;
-    }
+    margin: -1px 0 0 4px;
+    top: 2px;
 
     .icons-arrow-down {
-      float: right;
-      margin: 0 -3px 0 1px;
-      opacity: .75;
-      stroke: $gray-dark;
-      stroke-width: .5px;
-      width: 13px;
-    }
-  }
-
-  .log-wrapper.log-wrapper {
-    border-radius: 3px;
-    border-width: 0;
-  }
-
-  .views-toolbar {
-
-    + .field-short,
-    + .field-tall,
-    + .field-medium {
-      border-radius: 0 0 3px 3px;
-      border-top-width: 0;
-    }
-  }
-
-  .time-select {
-    color: rgba($white,.6);
-    font-weight: $weight-bold;
-    margin-left: 1px;
-    padding: 0 0 0 1px;
-
-    &:hover {
-      color: rgba($white,.75);
-    }
-
-    &:active {
-      color: rgba($white,.9);
-    }
-
-    .icons-arrow-down {
-      height: 19px;
-      margin-left: 0;
+      margin-right: -2px;
       width: 15px;
     }
   }
 
   .logs-label {
     border-top: 1px solid $gray-lighter;
-    margin: 0;
-    padding: 12px 0 14px;
+    cursor: pointer;
+    margin-top: 24px;
+    padding: 12px 0 7px;
     position: relative;
 
     &:hover {
-      color: rgba($gray-dark,.8);
-      cursor: pointer;
-
-      &::before {
-        border-top-color: rgba($gray-dark,.8);
-      }
+      color: $gray-light;
     }
 
     &:active {
       color: $purple-light;
-
-      &::before {
-        border-top-color: $purple-light;
-      }
     }
 
     &::before {
+      border: 4px solid transparent;
       border-bottom: 0;
-      border-left: 4px solid transparent;
-      border-right: 4px solid transparent;
-      border-top: 6px solid transparent;
-      border-top-color: $gray;
+      border-top: 6px solid currentColor;
       content: '';
-      display: block;
       left: -15px;
       pointer-events: none;
       position: absolute;
@@ -134,16 +59,7 @@
     }
 
     &.in::before {
-      color: $gray;
       transform: rotate3d(0, 0, 1, 0deg);
-    }
-
-    &.in {
-      color: $gray;
-    }
-
-    + .log-wrapper {
-      margin-bottom: 30px;
     }
   }
 }

@@ -162,6 +162,10 @@
         translation-rules
       )
       .modal-form.modal-backup(
+        ng-class = "{\
+          'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+          'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+        }"
         ng-if = "!SMC.state.repo"
         ng-include = "'viewFormBackup'"
         ng-show = "SMC.selectedTab === 'backup'"

@@ -43,7 +43,7 @@
   //- only show revert button if script differs from default
   //- button.btn.btn-purple.btn-toolbar.purple Revert to Default
   button.btn.btn-purple.btn-toolbar.purple Back Up Now
-.ace-container.field-short(
+.ace-container.ace-backup(
   ng-class = "{\
     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
@@ -111,7 +111,7 @@
 //-   ng-if = "page === 'restore'"
 //- )
 //-   button.btn.btn-purple.btn-toolbar.purple Revert to Default
-.ace-container.field-medium(
+.ace-container.ace-restore(
   ng-class = "{\
     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\

@@ -28,6 +28,17 @@
   justify-content: flex-end;
   padding: 0 9px; // match toggle and log padding
 
+  .modal-form & {
+    border-radius: 3px 3px 0 0;
+  }
+
+  + .logs-wrapper,
+  + .ace-container {
+    border-radius: 0 0 3px 3px;
+    border-top-width: 0;
+  }
+
+  // TODO: remove this
   // path/title
   .small {
     flex: 1 1 auto;
@@ -46,11 +57,6 @@
     padding-right: 9px;
   }
 
-  // buttons
-  .btn-toolbar {
-    flex: 0 0 auto;
-  }
-
   .btn-group .btn + .btn {
     margin-left: -1px;
     min-width: 26px;
@@ -59,9 +65,5 @@
   // save buttons
   .btn + .btn {
     margin-left: 6px;
-  }
-
-  .modal-form & {
-    border-radius: 3px 3px 0 0;
   }
 }
