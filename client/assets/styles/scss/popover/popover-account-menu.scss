@@ -1,7 +1,7 @@
 .popover-account-menu {
   min-height: 102px;
   position: fixed;
-  width: 216px;
+  width: 240px;
   z-index: $z-spinner + 1; // to appear above instance view spinner
 
   .popover-list-item {
@@ -18,6 +18,17 @@
 
   .no-touching .icons-fat-check {
     opacity: 1;
+  }
+
+  // trial badge
+  .btn-badge {
+    background: $gray-light;
+    border-radius: $input-border-radius;
+    color: $white;
+
+    &.red {
+      background: $red;
+    }
   }
 
   // view-1 styles

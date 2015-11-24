@@ -52,9 +52,9 @@
       &::after {
         height: 15px;
         line-height: 15px;
+        min-width: 15px;
         right: 15px;
         top: 10px;
-        width: 15px;
       }
     }
   }
@@ -127,12 +127,15 @@
 
     &.btn-xxs {
       height: $input-xxs;
-      max-width: $input-xxs;
       padding: 0 3px;
       pointer-events: auto;
       position: absolute; // because this element doesn't live within .list-item
       right: 6px; // line up with arrows
       top: 9px;
+
+      &:not(.btn-badge) {
+        max-width: $input-xxs;
+      }
 
       &.icons-cog {
         padding: 0 2px;
