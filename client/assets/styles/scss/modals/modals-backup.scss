@@ -2,7 +2,8 @@
   display: flex;
   flex: 1 0 auto;
   flex-direction: column;
-  padding: 15px 30px;
+  margin-bottom: -15px;
+  padding: 15px 30px 0;
 
   @include media(xs) {
     padding: 15px;
@@ -92,9 +93,57 @@
     }
   }
 
-  // .btn-toolbar {
-  //   position: absolute;
-  //   right: 6px;
-  //   top: 5px;
-  // }
+  .logs-label {
+    border-top: 1px solid $gray-lighter;
+    margin: 0;
+    padding: 12px 0 14px;
+    position: relative;
+
+    &:hover {
+      color: rgba($gray-dark,.8);
+      cursor: pointer;
+
+      &::before {
+        border-top-color: rgba($gray-dark,.8);
+      }
+    }
+
+    &:active {
+      color: $purple-light;
+
+      &::before {
+        border-top-color: $purple-light;
+      }
+    }
+
+    &::before {
+      border-bottom: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 6px solid transparent;
+      border-top-color: $gray;
+      content: '';
+      display: block;
+      left: -15px;
+      pointer-events: none;
+      position: absolute;
+      top: 21px;
+      transform: rotate3d(0,0,1,-90deg);
+      transform-origin: 4px 2px;
+      transition: transform .15s;
+    }
+
+    &.in::before {
+      color: $gray;
+      transform: rotate3d(0, 0, 1, 0deg);
+    }
+
+    &.in {
+      color: $gray;
+    }
+
+    + .log-wrapper {
+      margin-bottom: 30px;
+    }
+  }
 }

@@ -1,7 +1,10 @@
 //- tabs
 .btn-group.btn-toggle.btn-toggle-xs(
   ng-hide = "$root.featureFlags.fullScreen"
-  ng-init = "page = 'backup'"
+  ng-init = "\
+    page = 'backup';\
+    state.showLogs = false;\
+  "
 )
   button.btn.btn-xs.white(
     ng-class = "{active: page === 'backup'}"
@@ -38,7 +41,7 @@
   ng-if = "page === 'backup'"
 )
   //- only show revert button if script differs from default
-  button.btn.btn-purple.btn-toolbar.purple Revert to Default
+  //- button.btn.btn-purple.btn-toolbar.purple Revert to Default
   button.btn.btn-purple.btn-toolbar.purple Back Up Now
 .ace-container.field-short(
   ng-class = "{\
@@ -54,17 +57,18 @@
     validation = "validation.env"
   )
 
-.clearfix(
+.label-col.logs-label(
+  ng-class = "{'in': state.showLogs}"
+  ng-click = "state.showLogs = !state.showLogs"
   ng-hide = "$root.featureFlags.fullScreen"
   ng-if = "page === 'backup'"
-)
-  .label-col Backup Logs
+) Backup Logs
 .log-wrapper.field-tall(
   ng-class = "{\
     'logs-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
     'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
-  ng-if = "page === 'backup' && showLogs"
+  ng-if = "page === 'backup' && state.showLogs"
 )
   .build-log-wrapper
     .div
@@ -98,6 +102,15 @@
   .small This script runs during every build, restoring from the most recent backup.&#32;
     a.link Learn how to restore from older backups
     | .
+//- only show toolbar and revert button if script differs from default
+//- .views-toolbar(
+//-   ng-class = "{\
+//-     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+//-     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+//-   }"
+//-   ng-if = "page === 'restore'"
+//- )
+//-   button.btn.btn-purple.btn-toolbar.purple Revert to Default
 .ace-container.field-medium(
   ng-class = "{\
     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
