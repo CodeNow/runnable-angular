@@ -15,7 +15,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
     };
   };
   var generateUserObject = function (githubUsername, githubgithubUserId) {
-   if (!githubUsername) {
+    if (!githubUsername) {
       githubUsername = 'thejsj';
     }
     if (!githubgithubUserId) {
