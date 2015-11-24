@@ -1,6 +1,6 @@
 var instances = require('../apiMocks').instances;
 
-describe.only('serviceFetch'.bold.underline.blue, function () {
+describe('serviceFetch'.bold.underline.blue, function () {
   'use strict';
   var data;
   var res;
