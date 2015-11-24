@@ -19,10 +19,11 @@
           data-badge-count = "{{ SEMC.members.invited.length }}"
         ) Requests
 
-    ol.list.list-bordered.list-teammates.list-teammates-pending
+    ol.list.list-bordered.list-teammates.list-teammates-pending(
+      ng-if = "$root.featureFlags.teamManagementAdvanced && gstate.swapLists !== $index"
+    )
 
       li.list-item.js-animate(
-        ng-if = "$root.featureFlags.teamManagementAdvanced && gstate.swapLists !== $index"
         ng-repeat = "teammate in requested"
       )
         img.gravatar(
@@ -61,13 +62,11 @@
               )
 
     //- show in the order of invites sent (newest first)
-    ol.list.list-bordered.list-teammates.list-teammates-pending(
-      ng-if = "$root.featureFlags.teamManagementAdvanced"
-    )
+    ol.list.list-bordered.list-teammates.list-teammates-pending
 
       //- adding to this list
       li.list-item.js-animate(
-        ng-if = "state.swapLists"
+        ng-if = "$root.featureFlags.teamManagementAdvanced && state.swapLists"
       )
         img.gravatar(
           height = "27"
@@ -173,7 +172,9 @@
         )
         .username.text-overflow {{teammate.login}}
         .small.text-overflow {{teammate.email}}
-        .btn-wrapper
+        .btn-wrapper(
+          ng-if = "$root.featureFlags.teamManagementAdvanced"
+        )
 
           button.btn.btn-xs.white.btn-permission(
             ng-class = "{'active': permissionsPopover.data.show}"
