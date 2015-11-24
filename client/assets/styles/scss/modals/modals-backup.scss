@@ -36,9 +36,25 @@
     position: relative;
   }
 
-  // .small {
-  //   margin-bottom: 15px;
-  // }
+  .btn-xxs {
+    line-height: 13px;
+    margin-left: 5px;
+    padding: 0 4px;
+    top: 3px;
+
+    .span {
+      float: left;
+    }
+
+    .icons-arrow-down {
+      float: right;
+      margin: 0 -3px 0 1px;
+      opacity: .75;
+      stroke: $gray-dark;
+      stroke-width: .5px;
+      width: 13px;
+    }
+  }
 
   .log-wrapper.log-wrapper {
     border-radius: 3px;
