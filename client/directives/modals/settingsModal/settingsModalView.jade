@@ -55,9 +55,10 @@
 
     section.modal-body.js-animate
       //- loading spinner
-      //- .spinner-wrapper.spinner-md.in(
-      //-   ng-include = "'spinner'"
-      //- )
+      .spinner-wrapper.spinner-md.in(
+        ng-if = "SEMC.loading['teamManagement']"
+        ng-include = "'spinner'"
+      )
 
       //- billing
       .form-billing(
@@ -67,7 +68,7 @@
 
       //- team
       .form-team(
-        ng-if = "SEMC.currentTab === 'teamManagement'"
+        ng-if = "SEMC.currentTab === 'teamManagement' && !SEMC.loading['teamManagement']"
         ng-include = "'teamForm'"
       )
 

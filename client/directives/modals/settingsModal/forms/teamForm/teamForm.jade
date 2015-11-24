@@ -1,18 +1,4 @@
-//- loading spinner
-.spinner-wrapper.spinner-md.in(
-  ng-include = "'spinner'"
-)
-
-.modal-form(
-  ng-if="SEMC.loading['teamManagement']"
-)
-  .spinner-wrapper.spinner-md.in(
-     ng-include = "'spinner'"
-  )
-
-.modal-form(
-  ng-if="!SEMC.loading['teamManagement']"
-)
+.modal-form
   //- pending team
   //- all of this logic is messed up, but what I want to show is that if you click 'send invite' to yash is that...
     - an item is removed from the requested invite list and added to the invite sent list with a transition
