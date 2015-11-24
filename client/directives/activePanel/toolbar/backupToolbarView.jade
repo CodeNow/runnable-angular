@@ -1,12 +1,14 @@
-p.p.text-overflow Next scheduled backup at 3:00 AM.
-
-//- if backup was successful, but container was down during last scheduled backup time.
-//- small.small.text-overflow Backup created 3 days ago. Scheduled backups were skipped while this container was down.
-
 //- if backup was successful
+p.p.text-overflow Next scheduled backup at 3:00 AM.
+//- if backup was successful, but container was down during last scheduled backup time.
+//- p.p.text-overflow  Scheduled backups were skipped because this container was down.
+//- in either of the above cases
 button.btn.purple.btn-toolbar Back Up Now
+//- disable the above button and add tooltip if the container is down
+//- tooltip = "You can’t backup a database if its container isn’t running."
+//- tooltip-options = "{\"class\":\"left\",\"right\":123,\"top\":-3}"
 
-//- if backup failed
-//- small.small The backup script failed.
-//- button.btn.purple.btn-toolbar
-//-   span.btn-text View Script
+//- //- if backup failed
+//- p.p It looks like your backup failed. There may be a problem with the backup script.
+//- button.btn.purple.btn-toolbar View Script
+
