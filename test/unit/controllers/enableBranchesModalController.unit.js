@@ -70,18 +70,19 @@ describe('EnableBranchesModalController'.bold.underline.blue, function () {
       $rootScope.$digest();
 
     }
+    var instance;
+    beforeEach(function () {
+      instance = {
+        id: 'hello',
+        update: sinon.stub(),
+        getRepoName: sinon.stub().returns('checkmate')
+      };
+
+      injectSetupCompile(instance);
+    });
 
     describe('on creation', function () {
       it('should set properties', function () {
-        var instance = {
-          id: 'hello',
-          update: sinon.stub(),
-          getRepoName: sinon.spy(function () {
-            return 'checkmate';
-          })
-        };
-
-        injectSetupCompile(instance);
         expect(EBMC.close, 'close').to.be.function;
         expect(EBMC.close, 'close').to.equal(ctx.closeMock);
         sinon.assert.calledOnce(instance.getRepoName);
@@ -91,17 +92,7 @@ describe('EnableBranchesModalController'.bold.underline.blue, function () {
     });
 
     describe('enableBranches', function () {
-
       it('should perform update', function () {
-        var instance = {
-          id: 'hello',
-          update: sinon.stub(),
-          getRepoName: sinon.spy(function () {
-            return 'checkmate';
-          })
-        };
-
-        injectSetupCompile(instance);
         var deferedUpdate = $q.defer();
         instance.update.returns(deferedUpdate.promise);
 
@@ -120,15 +111,6 @@ describe('EnableBranchesModalController'.bold.underline.blue, function () {
         sinon.assert.calledWith(ctx.loadingMock, 'main', false);
       });
       it('should alert the user on error', function () {
-        var instance = {
-          id: 'hello',
-          update: sinon.stub(),
-          getRepoName: sinon.spy(function () {
-            return 'checkmate';
-          })
-        };
-
-        injectSetupCompile(instance);
         var deferedUpdate = $q.defer();
         instance.update.returns(deferedUpdate.promise);
 
