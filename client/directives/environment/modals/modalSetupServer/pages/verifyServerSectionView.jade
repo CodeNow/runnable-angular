@@ -222,14 +222,6 @@ footer.modal-footer.clearfix
         xlink:href = "#icons-arrow-down"
       )
 
-    //- doesn't appear for "Next" buttons
-    svg.iconnables.icons-log.float-right.fade.js-animate(
-      ng-if = "$root.featureFlags.rebuildFlow && SMC.state.step > 2"
-    )
-      use(
-        xlink:href = "#icons-log"
-      )
-
   //- next, next, start build, create container button (old)
   button.btn.btn-spinner.float-right(
     ng-class = "{\

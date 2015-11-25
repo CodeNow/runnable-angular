@@ -215,7 +215,7 @@
 
     &.text-save-build {
       padding-right: 9px;
-      width: 180px;
+      width: 158px;
     }
 
     // speed up animation for & build
@@ -238,11 +238,6 @@
       &.ng-leave-active {
         opacity: 0;
       }
-    }
-
-    .icons-log {
-      margin-left: 9px;
-      position: absolute;
     }
 
     .icons-arrow-forward {
