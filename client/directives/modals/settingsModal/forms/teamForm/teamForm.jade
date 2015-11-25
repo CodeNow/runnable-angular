@@ -139,7 +139,9 @@ div
             button.btn.btn-xs.white.float-right(
               ng-class = "{'active': pendingInvitePopover.data.show}"
               pop-over
+              pop-over-actions = "TMMC.popoverActions"
               pop-over-active = "pendingInvitePopover.data.show"
+              pop-over-data = "teammate"
               pop-over-options = "{\"right\":0,\"top\":35}"
               pop-over-template = "pendingInvitePopoverView"
             )

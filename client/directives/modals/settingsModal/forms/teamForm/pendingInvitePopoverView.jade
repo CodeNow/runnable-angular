@@ -8,7 +8,9 @@
   )
   .popover-content
     ul.popover-list
-      li.list-item.popover-list-item
+      li.list-item.popover-list-item(
+        ng-click = "actions.resendInvitation(data)"
+      )
         svg.iconnables
         | Resend Invite
       // Needed for when we have more advanced team management functionality
