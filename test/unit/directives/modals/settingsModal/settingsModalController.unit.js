@@ -1,5 +1,5 @@
 'use strict';
-var mockUserFetch = new (require('../fixtures/mockFetch'))();
+var mockUserFetch = new (require('../../../fixtures/mockFetch.js'))();
 
 var $controller;
 var $scope;
