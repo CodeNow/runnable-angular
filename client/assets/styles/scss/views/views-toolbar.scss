@@ -17,12 +17,16 @@
 .views-toolbar {
   align-items: center;
   border-style: solid;
-  border-width: 0 0 1px;
+  border-width: 1px 0;
   display: flex;
   flex: 0 0 auto;
   height: $input-md;
   justify-content: flex-end;
   padding: 0 9px; // match toggle and log padding
+
+  + .views-toolbar {
+    margin-top: -1px;
+  }
 
   + .logs-wrapper,
   + .ace-container {
@@ -30,8 +34,9 @@
     border-top-width: 0;
   }
 
-  .modal-form & {
+  .modal-dialog & {
     border-radius: 3px 3px 0 0;
+    border-width: 1px;
   }
 
   .p {
