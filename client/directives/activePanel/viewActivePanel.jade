@@ -98,10 +98,8 @@
       'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
     }"
     ng-if = "item.state.type === 'BackupStream'"
+    ng-include = "'backupLogsView'"
   )
-    div(
-      ng-include = "'backupLogsView'"
-    )
 
   div(
     current-model = "instance.attrs"
