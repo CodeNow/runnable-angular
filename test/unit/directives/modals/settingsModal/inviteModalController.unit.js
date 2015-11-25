@@ -128,7 +128,7 @@ describe('InviteModalController'.bold.underline.blue, function () {
       });
     });
 
-    it.only('should display any errors to the user and reset the `sending` state', function () {
+    it('should display any errors to the user and reset the `sending` state', function () {
       /// Force function to throw an error
       user.createTeammateInvitation = sinon.spy(function (opts, cb) {
         $rootScope.$evalAsync(function () {
