@@ -834,11 +834,6 @@ describe('serviceFetch'.bold.underline.blue, function () {
         }
       }
     ];
-    var collabList = [
-      members[0],
-      members[1],
-      members[2]
-    ];
 
     beforeEach(function () {
       angular.mock.module('app');
@@ -868,7 +863,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
       var orgName = 'team';
       var repoName = 'repo';
 
-      data = collabList;
+      data = members;
       fetchGitHubAdminsByRepo(orgName, repoName)
         .then(function (uniqueMembers) {
           expect(fetchGitHubUserMock.callCount).to.eql(2);
