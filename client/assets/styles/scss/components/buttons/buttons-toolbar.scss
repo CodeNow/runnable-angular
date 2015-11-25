@@ -2,11 +2,14 @@
 .btn-toolbar {
   border-width: 1px;
   flex: 0 0 auto;
-  font-family: $sans-serif; // override monospace fonts inside log header
   font-size: 15px;
   height: 30px;
   line-height: 28px;
   padding: 0 9px;
+
+  .build-log-header & {
+    font-family: $sans-serif; // override monospace fonts inside log header
+  }
 
   // toolbar theme
   // purple
