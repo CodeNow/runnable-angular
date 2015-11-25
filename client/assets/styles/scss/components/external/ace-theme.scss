@@ -51,13 +51,12 @@
 .views {
 
   // light theme
-  .ace-runnable-light .views-toolbar {
-    border-bottom: 1px solid $gray-lighter;
-    border-top: 1px solid $gray-lighter;
+  .ace-runnable-light.views-toolbar {
+    border-width: 1px 0 0;
   }
 
   // dark theme
-  .ace-runnable-dark .views-toolbar {
+  .ace-runnable-dark.views-toolbar {
     border-bottom: 1px solid $purple-darker;
     border-top: 1px solid $purple-darker;
   }
@@ -70,24 +69,20 @@
   &.ace-runnable-light {
     background: $white;
     border-color: $gray-lighter;
+    border-width: 1px;
 
     // gray in modals
     .modal-dialog & {
       background: $gray-lighterest;
     }
 
-    .small {
+    .p {
       color: $gray;
-    }
-
-    .span {
-      color: $gray-light;
     }
   }
 
   // dark
   &.ace-runnable-dark {
-    // background: $purple-dark;
     background: #3D294A;
     border-color: $purple-darker;
 
