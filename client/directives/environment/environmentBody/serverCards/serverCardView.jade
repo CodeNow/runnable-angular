@@ -133,7 +133,7 @@ ul.card-body.load(
   //- backup & restore
   li.btn.white(
     ng-click = "openEditServerModal('backup')"
-    ng-if = "!server.repo"
+    ng-if = "!server.repo && $root.featureFlags.backup"
   )
     svg.iconnables
       use(

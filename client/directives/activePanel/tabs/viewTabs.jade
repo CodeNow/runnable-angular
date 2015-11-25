@@ -16,14 +16,14 @@ ul.tabs
       ng-if = "item.state.isDirty"
     ) *
     //- only show close button on extra terminal tabs and file tabs
-    //- button.btn.btn-icon.btn-close(
-    //-   ng-click = "actions.removeItem($event, item)"
-    //-   ng-if = "instance.containers.models[0].running() || debugContainer"
-    //- )
-    //-   svg.iconnables.icons-close
-    //-     use(
-    //-       xlink:href = "#icons-close"
-    //-     )
+    button.btn.btn-icon.btn-close(
+      ng-click = "actions.removeItem($event, item)"
+      ng-if = "instance.containers.models[0].running() || debugContainer"
+    )
+      svg.iconnables.icons-close
+        use(
+          xlink:href = "#icons-close"
+        )
     //- show on Backup tab if the backup script has failed
     //- svg.iconnables.icons-notification.icons-round
     //-   use(

@@ -86,7 +86,7 @@
         button.btn.btn-radio(
           ng-class = "{'active': SMC.selectedTab === 'backup'}"
           ng-click = "SMC.changeTab('backup')"
-          ng-if = "!SMC.state.repo"
+          ng-if = "!SMC.state.repo && $root.featureFlags.backup"
         )
           svg.iconnables
             use(
@@ -166,7 +166,7 @@
           'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
           'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
         }"
-        ng-if = "!SMC.state.repo"
+        ng-if = "!SMC.state.repo && !root.featureFlags.backup"
         ng-include = "'viewFormBackup'"
         ng-show = "SMC.selectedTab === 'backup'"
       )
