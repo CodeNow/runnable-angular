@@ -9,13 +9,9 @@
 
 // toolbar tabs
 .btn-add-tab {
-  flex: 0 0 42px;
+  flex: 0 0 $input-md;
   height: $input-md;
-
-  .icons-add {
-    top: 1px;
-    width: 21px;
-  }
+  padding: 9px;
 }
 
 .views-toolbar {
@@ -28,14 +24,14 @@
   justify-content: flex-end;
   padding: 0 9px; // match toggle and log padding
 
-  .modal-form & {
-    border-radius: 3px 3px 0 0;
-  }
-
   + .logs-wrapper,
   + .ace-container {
     border-radius: 0 0 3px 3px;
     border-top-width: 0;
+  }
+
+  .modal-form & {
+    border-radius: 3px 3px 0 0;
   }
 
   .p {

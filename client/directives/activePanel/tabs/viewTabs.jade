@@ -1,8 +1,5 @@
 //- tabs
 ul.tabs
-  //- apply .disabled class when server is not running EXCEPT on build logs tab
-  //- apply .error class on build logs tab
-  //- disable ng-click events when disabled
   li.tab-wrapper(
     ng-class = "{'active': item.state.active}"
     ng-click = "\
@@ -11,22 +8,22 @@ ul.tabs
     "
     ng-repeat = "item in openItems.models"
   )
-    .tab-name(
-      ng-data-title = "{{ item.attrs.name }}"
-      title = "{{ item.filepath() }}"
+    .tab-name.text-overflow(
+      ng-data-title = "{{item.attrs.name}}"
+      title = "{{item.filepath()}}"
     ) {{ item.attrs.name }}
     .icons-dirty(
       ng-if = "item.state.isDirty"
     ) *
-    //- only show on extra terminal tabs and file tabs
-    button.btn.white.btn-icon.btn-close(
-      ng-click = "actions.removeItem($event, item)"
-      ng-if = "instance.containers.models[0].running() || debugContainer"
-    )
-      svg.iconnables.icons-close
-        use(
-          xlink:href = "#icons-close"
-        )
+    //- only show close button on extra terminal tabs and file tabs
+    //- button.btn.btn-icon.btn-close(
+    //-   ng-click = "actions.removeItem($event, item)"
+    //-   ng-if = "instance.containers.models[0].running() || debugContainer"
+    //- )
+    //-   svg.iconnables.icons-close
+    //-     use(
+    //-       xlink:href = "#icons-close"
+    //-     )
     //- show on Backup tab if the backup script has failed
     //- svg.iconnables.icons-notification.icons-round
     //-   use(
@@ -34,7 +31,7 @@ ul.tabs
     //-   )
 
 //- add tab popover
-//- apply [disabled] attribute when server is not running EXCEPT on build logs tab
+//- apply [disabled] attribute when server is not running
 button.btn.btn-xs.btn-icon.btn-add-tab(
   ng-if = "popoverAddTab"
   ng-class = "{active: popoverAddTab.data.show}"

@@ -15,12 +15,14 @@
 
   //- restore script
   .ace-restore {
+    border-radius: 3px;
+    margin-bottom: 30px;
     min-height: 270px;
   }
 
   // time selection button
   .btn-xxs {
-    margin-top: -1px;
+    margin-top: -3px;
     top: 2px;
 
     .icons-arrow-down {
@@ -33,6 +35,7 @@
     border-top: 1px solid $gray-lighter;
     cursor: pointer;
     margin-top: 24px;
+    min-height: 42px;
     padding: 12px 0 7px;
     position: relative;
 
