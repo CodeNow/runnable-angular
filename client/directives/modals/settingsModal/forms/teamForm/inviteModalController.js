@@ -19,17 +19,17 @@ function InviteModalController(
   var IMC = this;
   angular.extend(IMC, {
     unInvitedMembers: unInvitedMembers,
-    activeUserIndex: null,
-    sendingInviteUserIndex: null,
+    activeUserId: null,
+    sendingInviteUserId: null,
     sending: false,
     invitesSent: 0
   });
 
-  IMC.sendInvitation = function (user, userIndex) {
-    IMC.sendingInviteUserIndex = userIndex;
-    IMC.activeUserIndex = null;
+  IMC.sendInvitation = function (user) {
+    IMC.sendingInviteUserId = user.id;
     IMC.sendingInvitation = true;
-    $q.all({
+    IMC.setActiveUserId(null);
+    return $q.all({
       user: fetchUser(),
       githubOrgId: fetchGithubOrgId(teamName)
     })
@@ -48,17 +48,19 @@ function InviteModalController(
     .then(function (invitation) {
       user.inviteSent = true;
       IMC.sendingInvitation = false;
-      IMC.sendingInviteUserIndex = null;
+      IMC.sendingInviteUserId = null;
+      return invitation;
     })
     .catch(function (err) {
+      console.log('CATCH');
       errs.handler(err);
       IMC.sendingInvitation = false;
-      IMC.sendingInviteUserIndex = null;
+      IMC.sendingInviteUserId = null;
     });
   };
 
-  IMC.setActiveItem = function (userIndex) {
-    IMC.activeUserIndex = userIndex;
+  IMC.setActiveUserId = function (userId) {
+    IMC.activeUserId = userId;
   };
 
   IMC.close = function () {

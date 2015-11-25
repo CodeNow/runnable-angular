@@ -14,7 +14,7 @@
       //- list of teammates (from github) that are not on runnable
       ul.list.list-bordered.list-teammates
         li.list-item(
-          ng-class = "{'active': IMC.activeUserIndex === $index}"
+          ng-class = "{'active': IMC.activeUserId === user.id}"
           ng-repeat = "user in IMC.unInvitedMembers"
         )
           img.gravatar(
@@ -23,12 +23,12 @@
             width = "27"
           )
           .username.text-overflow.strong {{user.login}}
-          .small.text-overflow {{user.email.length ? user.email : "—"}}
+          .small.text-overflow {{user.email.length ? user.email : "—"}} {{user.id}}
 
           //- cancel invite
           svg.iconnables.icons-close(
-            ng-click = "IMC.setActiveItem(null)"
-            ng-if = "IMC.activeUserIndex === $index"
+            ng-click = "IMC.setActiveUserId(null)"
+            ng-if = "IMC.activeUserId === user.id"
           )
             use(
               xlink:href = "#icons-close"
@@ -37,7 +37,7 @@
            //- autofocus on this
           input.input.input-sm.input-validate.validate-on-blur.js-animate(
             ng-model = "user.inviteEmail"
-            ng-show = "IMC.activeUserIndex === $index"
+            ng-show = "IMC.activeUserId === user.id"
             placeholder = "Email Address"
             required
             spellcheck = "false"
@@ -49,19 +49,19 @@
             ng-class = "{'in': IMC.sendingInvitation}"
             ng-click = "IMC.sendInvitation(user, $index)"
             ng-disabled = "!user.inviteEmail"
-            ng-show = "IMC.activeUserIndex === $index"
+            ng-show = "IMC.activeUserId === user.id"
           ) Send
 
           .btn-wrapper
             //- invite button always prompts for email address
             button.btn.btn-xs.green(
-              ng-click = "IMC.setActiveItem($index)"
-              ng-if = "IMC.activeUserIndex !== $index && IMC.sendingInviteUserIndex !== $index && !user.inviteSent"
+              ng-click = "IMC.setActiveUserId(user.id)"
+              ng-if = "IMC.activeUserId !== user.id && IMC.sendingInviteUserId !== user.id && !user.inviteSent"
             ) Invite
 
           //- invite sending
           .spinner-wrapper.spinner-sm.spinner-gray.in(
-            ng-if = "IMC.sendingInviteUserIndex === $index && !user.inviteSent"
+            ng-if = "IMC.sendingInviteUserId === user.id && !user.inviteSent"
             ng-include = "'spinner'"
           )
 
