@@ -73,8 +73,13 @@ module.exports = [
     controller: 'ControllerApp',
     controllerAs: 'CA',
     resolve: {
-      user: function (fetchUser) {
-        return fetchUser();
+      user: function (eventTracking, fetchUser) {
+        var userFetch = fetchUser();
+        userFetch
+          .then(function(user) {
+            eventTracking.boot(user);
+          });
+        return userFetch;
       },
       orgs: function (fetchOrgs) {
         return fetchOrgs();

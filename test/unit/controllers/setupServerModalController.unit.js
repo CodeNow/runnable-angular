@@ -266,7 +266,8 @@ describe('setupServerModalController'.bold.underline.blue, function () {
           username: 'orgName'
         }
       },
-      getRepoName: sinon.stub().returns('mainRepo')
+      getRepoName: sinon.stub().returns('mainRepo'),
+      on: sinon.stub()
     };
     instances = [
       mockInstance,

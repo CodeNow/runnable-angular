@@ -240,6 +240,11 @@
     margin-right: 11px;
   }
 
+  // well
+  .well.in {
+    background: $gray-lightest;
+  }
+
   // **********
   // end styles
   // **********
@@ -249,8 +254,7 @@
 .modal-form.empty {
   padding: 30px 30px 60px;
 
-  // well
-  &.well {
+  &.well.in {
     background: $gray-lightest;
     margin: 0;
   }

@@ -23,6 +23,7 @@ function ControllerInstance(
   fetchUser,
   pageName,
   setLastInstance,
+  fetchGitHubAdminsByRepo,
   loading
 ) {
   var dataInstance = $scope.dataInstance = {
@@ -57,7 +58,7 @@ function ControllerInstance(
   fetchUser().then(function (user) {
     $scope.user = user;
     // product team - track visits to instance page & referrer
-    eventTracking.boot(user).visitedState();
+    eventTracking.visitedState();
     return $q.all({
       instance: fetchInstances({ name: $stateParams.instanceName }, true),
       settings: fetchSettings()

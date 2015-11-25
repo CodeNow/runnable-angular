@@ -10,15 +10,10 @@
     }"
   )
     header.modal-header
-      server-status-card-header.no-touching(
+      server-status-card-header(
         in-modal = "true"
         instance = "SMC.instance"
-        ng-if = "!$root.featureFlags.cardStatus"
-        no-touching = "true"
-      )
-      div(
-        ng-if = "$root.featureFlags.cardStatus"
-        ng-include = "'serverStatusCardHeaderViewCardStatus'"
+        no-touching = "$root.featureFlags.cardStatus ? showSpinner() : true"
       )
 
       .row.modal-tabs.tabs-all.clearfix
@@ -58,7 +53,7 @@
         )
           svg.iconnables
             use(
-              xlink:href = "#icons-start-cmd"
+              xlink:href = "#icons-packages"
             )
           .btn-text Commands
             br
@@ -186,13 +181,76 @@
         ng-include = "'spinner'"
       )
 
-    footer.modal-footer.clearfix
+    footer.modal-footer.clearfix(
+      ng-init = "SMC.state.ifTriggersBuild = null"
+    )
+
+      button.btn.white.btn-cancel.float-left(
+        internal-modal-helper = "confirmCloseEditServer"
+        ng-if = "$root.featureFlags.rebuildFlow"
+        type = "button"
+      ) Close
+
+      //- test save /& build transition
+      //- button.btn.white.float-left(
+      //-   ng-click = "SMC.state.ifTriggersBuild = !SMC.state.ifTriggersBuild"
+      //-   ng-if = "$root.featureFlags.rebuildFlow"
+      //-   style = "margin-left: 6px;"
+      //- ) Show "& Build"
+
+      //- save/save & build button
+        - disable if nothing to save
+        - classes change depending on text for width:
+          .text-save-build
+          .text-save
+          .text-next
+      button.btn.green.float-right(
+        ng-class = "{\
+          'text-save': !SMC.state.ifTriggersBuild,\
+          'text-save-build': SMC.state.ifTriggersBuild\
+        }"
+        ng-click = "SMC.changeTab('logs')"
+        ng-disabled = "$root.featureFlags.rebuildFlow && !SMC.state.ifTriggersBuild"
+        ng-if = "$root.featureFlags.rebuildFlow"
+        tooltip = "You’ve made changes that require a rebuild."
+        tooltip-options = "{\"class\":\"no-arrow text-center\",\"right\":0,\"top\":-39}"
+      )
+
+        span.btn-text.float-left Save
+          //- if save triggers a build
+          span.fade.js-animate(
+            ng-if = "!$root.featureFlags.rebuildFlow || SMC.state.ifTriggersBuild"
+          ) &#32;& Build
+
+        svg.iconnables.icons-arrow-forward.float-right.fade.js-animate(
+          ng-if = "$root.featureFlags.rebuildFlow && SMC.state.ifTriggersBuild"
+        )
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
+        svg.iconnables.icons-log.float-right.fade.js-animate(
+          ng-if = "$root.featureFlags.rebuildFlow && SMC.state.ifTriggersBuild"
+        )
+          use(
+            xlink:href = "#icons-log"
+          )
+
       //- disabled if no changes
-      button.btn.green.btn-spinner(
+
+      button.btn.white.float-left(
+        ng-disabled = "$root.isLoading.editServerModalIsBuilding"
+        ng-click = "SMC.actions.close()"
+        ng-if = "!$root.featureFlags.rebuildFlow"
+        type = "button"
+      ) Cancel
+
+      //- save & rebuild button (old)
+      button.btn.green.btn-spinner.float-right(
         ng-class = "{'in': $root.isLoading.editServerModalIsBuilding }"
         ng-click = "editServerForm.$invalid || SMC.getUpdatePromise()"
         ng-disabled = "(!SMC.state.advanced && (SMC.state.selectedStack | selectedStackInvalid)) || !SMC.isDockerfileValid()"
-        type = "submit"
+        ng-if = "!$root.featureFlags.rebuildFlow"
+        style = "{{!$root.featureFlags.rebuildFlow ? 'width: auto;' : ''}}"
       )
         //- spinner
         .spinner-wrapper.spinner-sm.spinner-white.in(
@@ -206,13 +264,3 @@
         span.btn-text(
           ng-if = "$root.isLoading.editServerModalIsBuilding"
         ) Saving
-       button.btn.white.btn-cancel(
-          ng-disabled = "$root.isLoading.editServerModalIsBuilding"
-          pop-over
-          pop-over-template = "closeConfigureModalPopoverView"
-          pop-over-trigger = "activeAttr"
-          pop-over-active = "SMC.confirmClose.active"
-          pop-over-actions = "SMC.confirmClose.actions"
-          type = "button"
-          ng-click = "SMC.actions.close()"
-        ) Cancel

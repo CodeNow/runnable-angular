@@ -1,17 +1,4 @@
-var Kinvey = require('kinvey');
-var kinveyConfig = {
-  appKey    : 'kid_-1IVLi7tNg',
-  appSecret : '90556f04389143758834ad75a800687f',
-  masterSecret: 'cec3e35ff5b6457c9ed0b2e58f059ff5'
-};
-var initialized = Kinvey.init({
-  appKey: kinveyConfig.appKey,
-  appSecret: kinveyConfig.appSecret
-});
-
-var kinveyUser = initialized.then(function () {
- return Kinvey.User.login(kinveyConfig.appKey, kinveyConfig.masterSecret);
-});
+'use strict';
 
 require('array.prototype.find');
 var config = require('./ghost.conf.js');
@@ -22,12 +9,12 @@ Promise.promisifyAll(GhostInspector);
 
 var suitesPromise = GhostInspector.getSuitesAsync();
 
-function getSuiteId(suiteName){
+function getSuiteId(suiteName) {
   return suitesPromise
     .then(function (suites) {
       return suites.find(function (suite) {
         return suite.name === suiteName;
-      })
+      });
     })
     .then(function (suite) {
       if (!suite) {
@@ -38,19 +25,18 @@ function getSuiteId(suiteName){
 }
 
 
-function getTestUser(){
-  return kinveyUser
-    .then(function () {
-      return Kinvey.execute('checkoutUser');
-    });
+function getTestUser() {
+  return Promise.resolve({
+    username: 'RunnableTest20'
+  });
 }
 
 
-function handleTestResults (testResults) {
+function handleTestResults(testResults) {
   var testList = testResults[0];
   var testPassing = testResults[1];
-  if(!testPassing){
-    var lastTest = testList[testList.length-1];
+  if (!testPassing) {
+    var lastTest = testList[testList.length - 1];
     throw 'Failed test: ' + lastTest.testName + ' --> https://app.ghostinspector.com/tests/' + lastTest.test;
   }
   console.log(testList.length + ' Test(s) Passed!');
@@ -81,7 +67,7 @@ userPromise.then(function (user) {
   });
 
 
-  function teardownTests(){
+  function teardownTests() {
     console.log('Start Teardown');
     return getSuiteId(config.teardown)
       .then(function (suiteId) {
@@ -91,8 +77,8 @@ userPromise.then(function (user) {
       .catch(function (err) {
         console.error('Error tearing down tests!!!!');
         console.error(err);
-        throw(err);
-      })
+        throw err;
+      });
   }
 
   testPromise
@@ -100,30 +86,19 @@ userPromise.then(function (user) {
       return teardownTests()
         .then(function () {
           console.log('All Tests Finished!');
-          stopTests(user);
         })
         .then(function () {
           process.exit(0);
         })
         .catch(function () {
           process.exit(1);
-        })
+        });
     })
     .catch(function (e) {
       console.error(e);
       teardownTests()
         .finally(function () {
-          stopTests(user)
-            .then(function () {
-              process.exit(1);
-            });
-        })
+          process.exit(1);
+        });
     });
 });
-
-
-function stopTests(user){
-  console.log('Unlocking user: ' + user.username);
-  user.used = false;
-  return Kinvey.DataStore.save('github-accounts', user);
-}

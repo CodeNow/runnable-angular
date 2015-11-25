@@ -28,11 +28,10 @@
 //- tabs
 .btn-group.btn-toggle.btn-toggle-xs(
   ng-hide = "$root.featureFlags.fullScreen"
-  ng-init = "page = (['building', 'buildFailed', 'neverStarted'].indexOf(SMC.instance.status()) === -1) ? 'run' : 'build'"
 )
   button.btn.btn-xs.white(
-    ng-class = "{active: page === 'build'}"
-    ng-click = "page = 'build'"
+    ng-class = "{active: SMC.page === 'build'}"
+    ng-click = "SMC.page = 'build'"
   ) Build Logs
   button.btn.btn-xs.white(
     ng-class = "{active: page === 'run'}"
@@ -47,13 +46,14 @@ pre.pre.log-wrapper(
     'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
 )
-  //- toolbar
+  //- debug toolbar
   .views-toolbar(
     ng-class = "{\
       'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
       'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
     }"
     ng-include = "'debugToolbarView'"
+    ng-if = "SMC.page === 'run'"
     ng-show = "SMC.showDebugCmd"
   )
   //- build logs page
@@ -61,7 +61,7 @@ pre.pre.log-wrapper(
     build-logs
     instance = 'SMC.instance'
     ng-if = "SMC.instance"
-    ng-show = "page === 'build'"
+    ng-show = "SMC.page === 'build'"
     ng-style = "($root.featureFlags.themeToggle || $root.featureFlags.fullScreenToggle) && {'padding-right': '42px'}"
   )
   //- cmd logs page
@@ -70,7 +70,7 @@ pre.pre.log-wrapper(
     instance = 'SMC.instance'
     log-term
     ng-if = "SMC.instance.containers.models.length"
-    ng-show = "page === 'run'"
+    ng-show = "SMC.page === 'run'"
   )
 
   .floating-controls(
