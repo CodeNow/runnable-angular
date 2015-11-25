@@ -113,21 +113,6 @@
   }
 }
 
-// shift fixed position if there's a toolbar (36px)
-.views-toolbar + .active-panel .fixed {
-  top: 210px;
-
-  // if in modal
-  .modal-edit & {
-    top: 199 + $input-sm;
-  }
-
-  // if full-screen
-  .full-screen & {
-    top: 177px + $input-sm;
-  }
-}
-
 // logs scroll horizontally
 .build-log-content {
   padding: 9px 9px 0 24px;
