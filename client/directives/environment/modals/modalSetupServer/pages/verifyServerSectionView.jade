@@ -138,9 +138,9 @@ section.modal-body(
     // Default messages
     p.p.empty(
       ng-if = "SMC.state.step === 3 && SMC.selectedTab === null"
-    ) You’re ready to start this container’s first build!
+    ) You’re ready to build this container!
         br
-        small.small Or select a tab to continue configuring your container.
+        small.small Or select a tool to continue configuring your container.
     // Ports
     .modal-form(
       ng-show = "SMC.selectedTab === 'ports'"
