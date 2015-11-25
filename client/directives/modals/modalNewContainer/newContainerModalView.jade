@@ -1,7 +1,7 @@
 .modal-backdrop.in
   .modal-dialog.modal-server-select
     header.modal-header
-      h1.modal-heading New Container From…
+      h1.modal-heading New Container For…
       svg.iconnables.icons-close(
         ng-click = "NCMC.close()"
       )
@@ -19,7 +19,7 @@
               xlink:href = "#icons-new-repository-server"
             )
           | Repository
-          small.small Create a container from a repository on Github
+          small.small Create a container for a repository on Github
         button.btn.btn-huge.white(
           ng-click = "NCMC.newTemplateContainer()"
         )
@@ -27,5 +27,5 @@
             use(
               xlink:href = "#icons-server-new"
             )
-          | Template
-          small.small Create a container from a service or database
+          | Services
+          small.small Create a container for a service or database
