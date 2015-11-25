@@ -61,9 +61,11 @@ function TeamManagementController(
     .then(function (modal) {
       return modal.close;
     })
-    .then(function () {
-      TMMC.loading = true;
-      return fetchMembers();
+    .then(function (plusOneInviteSent) {
+      if (plusOneInviteSent) {
+        TMMC.loading = true;
+        return fetchMembers();
+      }
     });
   };
 
