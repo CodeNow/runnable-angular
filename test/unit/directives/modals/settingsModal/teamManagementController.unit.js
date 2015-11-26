@@ -1,35 +1,150 @@
 'use strict';
 var mockUserFetch = new (require('../../../fixtures/mockFetch.js'))();
+var apiMocks = require('../../../apiMocks');
+var generateUserObject = apiMocks.generateUserObject;
+var generateTeammateInvitationObject = apiMocks.generateTeammateInvitationObject;
+var generateGithubUserObject = apiMocks.gh.generateGithubUserObject;
+var generateGithubOrgObject = apiMocks.gh.generateGithubOrgObject;
 
+var $rootScope;
 var $controller;
 var $scope;
 var $q;
+var keypather;
 
 describe('TeamManagementController'.bold.underline.blue, function () {
 
   var TMMC;
-  var fetchUserStub;
+  var fetchOrgMembersStub;
+  var showModalStub;
+  var showModalStubObject;
+  var errs;
 
-  beforeEach(function (done) {
+  var user;
+  var orgName = 'PurpleNow';
+  var registeredUsername = 'registered';
+  var invitedUsername = 'invited';
+  var uninvitedUsername = 'uninvited';
+  var inviteEmail = 'invited@invited.com';
+  var registered;
+  var invited;
+  var uninvited;
 
+  beforeEach(function () {
     angular.mock.module('app', function ($provide) {
-      $provide.factory('fetchUser', mockUserFetch.fetch());
+      $provide.factory('fetchOrgMembers', function ($q) {
+        registered = generateGithubUserObject(registeredUsername, 1);
+        registered.userModel = { attrs: generateUserObject(registeredUsername, 1) };
+        invited = generateGithubUserObject('invited', 2);
+        invited.userInvitation = { attrs: generateTeammateInvitationObject(123, 2, inviteEmail) };
+        uninvited = generateGithubUserObject('uninvited', 3);
+        var response = {
+          all: [registered, invited, uninvited],
+          registered: [registered],
+          invited: [invited],
+          uninvited: [uninvited]
+        };
+        fetchOrgMembersStub = sinon.stub().returns($q.when(response));
+        return fetchOrgMembersStub;
+      });
+      $provide.factory('ModalService', function ($q) {
+        showModalStubObject = {};
+        showModalStubObject.close = false;
+        showModalStub = sinon.stub().returns($q.when(showModalStubObject));
+        return {
+          showModal: showModalStub
+        };
+      });
+      $provide.value('$state', { params: { userName: orgName } });
+      $provide.factory('errs', function () {
+        errs = {
+          handler: sinon.stub()
+        };
+        return errs;
+      });
     });
     angular.mock.inject(function (
       _$controller_,
       _$rootScope_,
       _$q_,
-      _$timeout_
+      _keypather_
     ) {
       $controller = _$controller_;
-      $scope = _$rootScope_.$new();
+      $rootScope = _$rootScope_;
+      $scope = $rootScope.$new();
       $q = _$q_;
+      keypather = _keypather_;
     });
-
     TMMC = $controller('TeamManagementController', { $scope: $scope }, true)();
   });
 
-  describe('', function () {
+  describe('Init', function () {
 
+    it('should set the initial state before fetching members', function () {
+      expect(TMMC.loading).to.equal(true);
+      expect(TMMC.members).to.equal(null);
+    });
+
+    it('should fetch the members of an org when being instanstiated', function () {
+      $scope.$digest();
+      sinon.assert.calledOnce(fetchOrgMembersStub);
+      sinon.assert.calledWith(fetchOrgMembersStub, orgName);
+      expect(TMMC.loading).to.equal(false);
+      expect(TMMC.members).to.be.an('object');
+      expect(TMMC.members.all).to.be.an('array');
+      expect(TMMC.members.registered).to.be.an('array');
+      expect(TMMC.members.invited).to.be.an('array');
+      expect(TMMC.members.uninvited).to.be.an('array');
+      expect(TMMC.members.all.length).to.equal(3);
+      expect(TMMC.members.registered.length).to.equal(1);
+      expect(TMMC.members.invited.length).to.equal(1);
+      expect(TMMC.members.uninvited.length).to.equal(1);
+    });
+
+    it('should set the emails addresses for registered and uninvited members from GitHub', function () {
+      $scope.$digest();
+      expect(TMMC.members.registered[0].email).to.be.a('string');
+      expect(TMMC.members.registered[0].email).to.equal('jorge.silva@thejsj.com');
+      expect(TMMC.members.uninvited[0].email).to.equal(null);
+      expect(TMMC.members.invited[0].email).to.equal(inviteEmail);
+    });
+  });
+
+  describe('openInvitationModal', function () {
+    beforeEach(function () {
+      TMMC.fetchMembers = sinon.stub();
+    });
+
+    it('should invoke the modal and not fetch the members if no invites have been sent', function () {
+      $scope.$digest();
+      sinon.assert.calledOnce(fetchOrgMembersStub);
+      TMMC.openInvitationModal();
+      $scope.$digest();
+      sinon.assert.calledOnce(showModalStub);
+      sinon.assert.calledOnce(fetchOrgMembersStub);
+      expect(TMMC.loading).to.equal(false);
+    });
+
+    it('should invoke the modal and not fetch the members if no invites have been sent', function () {
+      showModalStubObject.close = true;
+      $scope.$digest();
+      sinon.assert.calledOnce(fetchOrgMembersStub);
+      TMMC.openInvitationModal();
+      $scope.$digest();
+      sinon.assert.calledOnce(showModalStub);
+      sinon.assert.calledTwice(fetchOrgMembersStub);
+    });
+  });
+
+  describe('popoverActions', function () {
+    describe('resendInvitation', function () {
+      it('should close all popovers when resending an invitation', function () {
+        var popoversClosed = false;
+        $rootScope.$on('close-popovers', function () {
+          popoversClosed = true;
+        });
+        TMMC.popoverActions.resendInvitation();
+      });
+    });
   });
 });

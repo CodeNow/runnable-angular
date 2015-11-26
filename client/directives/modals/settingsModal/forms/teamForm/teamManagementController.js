@@ -32,21 +32,23 @@ function TeamManagementController(
 
         // Populate emails
         var setEmail = function (property) {
-          if (!property) {
-            property = 'userModel.attrs.accounts.github.emails[0].value';
-          }
           return function (member) {
-            var firstEmail = keypather.get(member, property);
-            if (typeof firstEmail === 'string') {
+            var firstEmail;
+            if (!property) {
+              firstEmail = null;
+            } else {
+              firstEmail = keypather.get(member, property);
+            }
+            if (typeof firstEmail === 'string' || firstEmail === null) {
               member.email = firstEmail;
             }
           };
         };
         TMMC.members.invited.forEach(setEmail('userInvitation.attrs.recipient.email'));
-        TMMC.members.registered.forEach(setEmail());
-        TMMC.members.uninvited.forEach(setEmail());
+        TMMC.members.registered.forEach(setEmail('userModel.attrs.accounts.github.emails[0].value'));
+        TMMC.members.uninvited.forEach(setEmail(null));
       });
-  };
+  }
 
   TMMC.openInvitationModal = function () {
     ModalService.showModal({

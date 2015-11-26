@@ -74,7 +74,7 @@ describe('InviteModalController'.bold.underline.blue, function () {
     IMC = $controller('InviteModalController', { $scope: $scope }, true)();
   });
 
-  it('should set the right variables and call the right methods on init', function () {
+  it('should instanstiate the controller correctly', function () {
     expect(IMC.sending).to.equal(false);
     expect(IMC.invitesSent).to.equal(0);
     expect(IMC.activeUserId).to.equal(null);
