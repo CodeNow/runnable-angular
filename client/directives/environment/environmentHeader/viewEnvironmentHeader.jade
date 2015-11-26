@@ -1,7 +1,7 @@
 button.btn.btn-icon.blue(
   data-badge-count = "{{helpCards.cards.triggered.length}}"
   ng-class = "{\
-    'active': state.helpButton.active || helpCards.cards.triggered.length > 0,\
+    'active': state.helpButton.active || !state.helpButton.active && helpCards.cards.triggered.length > 0 && !helpCards.getActiveCard(),\
     'badge': helpCards.cards.triggered.length > 0,\
     'badge-blue': helpCards.cards.triggered.length > 0\
   }"
