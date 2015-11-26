@@ -97,4 +97,17 @@ function ControllerInstances(
     })
       .catch(errs.handler);
   };
+
+  this.openInviteAdminModal = function (instance) {
+    ModalService.showModal({
+      controller: 'InviteAdminModalController',
+      controllerAs: 'IAMC',
+      templateUrl: 'inviteAdminModalView',
+      inputs: {
+        instance: instance,
+        isFromAutoDeploy: false
+      }
+    })
+      .catch(errs.handler);
+  };
 }

@@ -557,39 +557,37 @@ function fetchGitHubUser(
 /**
  * Given an org name and a repo name, fetch all github users who have admin access to a repo.  This
  * returns a promise containing a map of all of the users, indexed by their github login.
+ * @param $http
  * @param $q
- * @param fetchGitHubTeamsByRepo
- * @param fetchGitHubTeamMembersByTeam
+ * @param configAPIHost
  * @param fetchGitHubUser
- * @returns {Function} promise containing a map of github admins indexed by login
+ * @param keypather
+ * @returns {Function} promise containing an map of github admins indexed by login
  */
 function fetchGitHubAdminsByRepo(
+  $http,
   $q,
-  fetchGitHubTeamsByRepo,
-  fetchGitHubTeamMembersByTeam,
-  fetchGitHubUser
+  configAPIHost,
+  fetchGitHubUser,
+  keypather
 ) {
   return function (orgName, repoName) {
-    return fetchGitHubTeamsByRepo(orgName, repoName)
-      .then(function (teams) {
-        return $q.all(teams.map(fetchGitHubTeamMembersByTeam));
-      })
-      .then(function (arrayOfTeamMembers) {
-        var uniqueMembers = {};
-        arrayOfTeamMembers.forEach(function (members) {
-          members.forEach(function (member) {
-            if (!uniqueMembers[member.login]) {
-              uniqueMembers[member.login] = member;
-            }
-          });
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/github/repos/' + orgName + '/' + repoName + '/collaborators',
+      headers: {
+        Accept: 'application/vnd.github.ironman-preview+json'
+      }
+    })
+      .then(function (collaboratorsResponse) {
+        return collaboratorsResponse.data.filter(function (user) {
+          return keypather.get(user, 'permissions.admin');
         });
-        return uniqueMembers;
       })
-      .then(function (mapOfMembers) {
-        Object.keys(mapOfMembers).forEach(function (key) {
-          mapOfMembers[key] = fetchGitHubUser(key);
-        });
-        return $q.all(mapOfMembers);
+      .then(function (userArray) {
+        return $q.all(userArray.map(function (user) {
+          return fetchGitHubUser(user.login);
+        }));
       });
   };
 }

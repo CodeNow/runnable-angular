@@ -46,6 +46,18 @@ function editRepoCommit(
             }
           })
             .catch(errs.handler);
+        },
+        openInviteAdminModal: function () {
+          ModalService.showModal({
+            controller: 'InviteAdminModalController',
+            controllerAs: 'IAMC',
+            templateUrl: 'inviteAdminModalView',
+            inputs: {
+              instance: $scope.instance,
+              isFromAutoDeploy: true
+            }
+          })
+            .catch(errs.handler);
         }
       };
       $scope.popoverRepositoryToggle = {
