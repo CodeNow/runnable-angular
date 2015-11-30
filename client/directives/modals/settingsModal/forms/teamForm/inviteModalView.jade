@@ -23,7 +23,7 @@
             width = "27"
           )
           .username.text-overflow.strong {{user.login}}
-          .small.text-overflow {{user.email.length ? user.email : "—"}} {{user.id}}
+          .small.text-overflow {{user.email.length ? user.email : "" }}
 
           //- cancel invite
           svg.iconnables.icons-close(
