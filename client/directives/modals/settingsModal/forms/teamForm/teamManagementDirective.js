@@ -6,7 +6,6 @@ require('app')
 function teamManagement() {
   return {
     restrict: 'AE',
-    replace: true,
     scope: {},
     controller: 'TeamManagementController as TMMC',
     bindToController: true,
