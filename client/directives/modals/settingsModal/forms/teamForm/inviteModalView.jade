@@ -34,7 +34,6 @@
               xlink:href = "#icons-close"
             )
 
-           //- autofocus on this
           input.input.input-sm.input-validate.validate-on-blur.js-animate(
             ng-model = "user.inviteEmail"
             ng-show = "IMC.activeUserId === user.id"
@@ -42,9 +41,9 @@
             required
             spellcheck = "false"
             type = "email"
+            autofocus
           )
 
-          //- disabled when invalid
           button.btn.btn-xs.green.js-animate(
             ng-class = "{'in': IMC.sendingInvitation}"
             ng-click = "IMC.sendInvitation(user, $index)"

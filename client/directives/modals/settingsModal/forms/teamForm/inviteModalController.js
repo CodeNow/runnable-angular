@@ -52,7 +52,6 @@ function InviteModalController(
       return invitation;
     })
     .catch(function (err) {
-      console.log('CATCH');
       errs.handler(err);
       IMC.sendingInvitation = false;
       IMC.sendingInviteUserId = null;
