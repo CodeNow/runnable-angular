@@ -63,19 +63,21 @@
       //- )
 
       //- billing
-      .form-billing(
+      .modal-form.form-billing(
+        ng-class = "{'empty well in': $root.featureFlags.trial}"
         ng-if = "currentTab === 'billing'"
         ng-include = "'billingForm'"
       )
 
       //- team
-      .form-team(
+      .modal-form.form-team(
         ng-if = "currentTab === 'teamManagement'"
         ng-include = "'teamForm'"
       )
 
       //- slack integration
-      form.form-integrations(
+      form.modal-form.form-integrations(
+        ng-class = "{'empty well in': !data.verified}"
         ng-if = "currentTab === 'slackIntegration'"
         ng-include = "'integrationsForm'"
         ng-init = "data.verified = false"
