@@ -16,7 +16,6 @@ function SlackIntegrationFormController (
   $q
 ) {
   var SIFC = this;
-  window.SIFC = SIFC;
   angular.extend(SIFC, {
     verified: false,
     verifying: false,
