@@ -7,11 +7,11 @@
   "
 )
   button.btn.btn-xs.white(
-    ng-class = "{active: page === 'backup'}"
+    ng-class = "{'active': page === 'backup'}"
     ng-click = "page = 'backup'"
   ) Backup
   button.btn.btn-xs.white(
-    ng-class = "{active: page === 'restore'}"
+    ng-class = "{'active': page === 'restore'}"
     ng-click = "page = 'restore'"
   ) Restore
 
@@ -30,8 +30,8 @@
     )
       fancy-option(
         ng-repeat = "hour in $parent.hours"
-        value = "hour"
         style = "text-align: right;"
+        value = "hour"
       ) {{$parent.hour}} PST
 .views-toolbar(
   ng-class = "{\

@@ -30,11 +30,11 @@
   ng-hide = "$root.featureFlags.fullScreen"
 )
   button.btn.btn-xs.white(
-    ng-class = "{active: SMC.page === 'build'}"
+    ng-class = "{'active': SMC.page === 'build'}"
     ng-click = "SMC.page = 'build'"
   ) Build Logs
   button.btn.btn-xs.white(
-    ng-class = "{active: page === 'run'}"
+    ng-class = "{'active': page === 'run'}"
     ng-click = "page = 'run'"
     ng-disabled = "!SMC.instance.containers.models.length"
   ) CMD Logs
