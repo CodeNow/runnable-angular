@@ -27,7 +27,17 @@
               modal-actions = "actions.actionsModalIntegrations"
               modal-data = "data.dataModalIntegrations"
               modal-template = "viewOpenModalIntegrations"
-              ng-if = "!$root.featureFlags.billing"
+              ng-if = "!$root.featureFlags.teamManagement"
+            )
+              img.iconnables(
+                height = "24"
+                src = "/build/images/logos/logo-icon-slack.svg"
+                width = "24"
+              )
+              | Slack Integration
+            li.list-item.popover-list-item(
+              ng-click = "actions.openSettingsModal('slackIntegration')"
+              ng-if = "$root.featureFlags.teamManagement"
             )
               img.iconnables(
                 height = "24"
@@ -66,16 +76,6 @@
                   xlink:href = "#icons-team"
                 )
               | Teammates
-            li.list-item.popover-list-item(
-              ng-click = "actions.openSettingsModal('teamManagement')"
-              ng-if = "$root.featureFlags.billing"
-            )
-              img.iconnables(
-                height = "24"
-                src = "/build/images/logos/logo-icon-slack.svg"
-                width = "24"
-              )
-              | Slack Integration
             //- li.list-item.popover-list-item(
             //-   internal-modal-helper = "settingsModalView"
             //-   ng-if = "$root.featureFlags.billing"

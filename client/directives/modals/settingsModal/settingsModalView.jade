@@ -35,7 +35,7 @@
         button.btn.btn-radio(
           ng-class = "{'active': SEMC.currentTab === 'slackIntegration'}"
           ng-click = "SEMC.currentTab = 'slackIntegration'"
-          ng-show = "$root.featureFlags.billing"
+          ng-show = "$root.featureFlags.teamManagement"
         )
           img.img.iconnables(
             height = "24"
@@ -75,8 +75,9 @@
       //- slack integration
       form.form-integrations(
         ng-if = "SEMC.currentTab === 'slackIntegration'"
-        ng-include = "'integrationsForm'"
-        ng-init = "data.verified = false"
+        slack-integration-form
+        //- ng-include = "'integrationsForm'"
+        //- ng-init = "data.verified = false"
       )
 
     footer.modal-footer.clearfix
