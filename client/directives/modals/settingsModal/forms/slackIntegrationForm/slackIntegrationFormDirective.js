@@ -9,9 +9,6 @@ function slackIntegrationForm() {
     scope: {},
     controller: 'SlackIntegrationFormController as SIFC',
     bindToController: true,
-    templateUrl: 'slackIntegrationFormView',
-    link: function () {
-      console.log('SlackIntegrationForm LINK');
-    }
+    templateUrl: 'slackIntegrationFormView'
   };
 }

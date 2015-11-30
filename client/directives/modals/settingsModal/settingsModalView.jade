@@ -73,11 +73,9 @@
       )
 
       //- slack integration
-      form.form-integrations(
+      form.form-integrations.modal-integrations(
         ng-if = "SEMC.currentTab === 'slackIntegration'"
         slack-integration-form
-        //- ng-include = "'integrationsForm'"
-        //- ng-init = "data.verified = false"
       )
 
     footer.modal-footer.clearfix
