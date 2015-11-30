@@ -7,19 +7,24 @@
     style = "left: auto; right: 0"
   )
   .popover-content
-    ul.popover-list
+    ul.popover-list(
+      ng-if = "!$root.featureFlags.teamManagementAdvanced"
+    )
       li.list-item.popover-list-item(
         ng-click = "actions.resendInvitation(data)"
       )
         svg.iconnables
         | Resend Invite
-      // Needed for when we have more advanced team management functionality
-      li.divider(
-        ng-if = "$root.featureFlags.teamManagementAdvanced"
+    ul.popover-list(
+      ng-if = "$root.featureFlags.teamManagementAdvanced"
+    )
+      li.list-item.popover-list-item(
+        ng-click = "actions.resendInvitation(data)"
       )
-      li.list-item.popover-list-item (
-        ng-if = "$root.featureFlags.teamManagementAdvanced"
-      )
+        svg.iconnables
+        | Resend Invite
+      li.divider
+      li.list-item.popover-list-item
         svg.iconnables
           use(
             xlink:href = "#icons-delete"

@@ -9,7 +9,9 @@
   //- pending team
   //- all of this logic is messed up, but what I want to show is that if you click 'send invite' to yash is that...
     - an item is removed from the requested invite list and added to the invite sent list with a transition
-  .label
+  .label(
+    ng-if ="TMMC.members.invited > 0"
+  )
     .clearfix
       .label-col.full-width Pending Invites
         .small.float-right.badge(
