@@ -80,6 +80,7 @@
           input.toggle-input(
             ng-disabled = "!SIFC.settings.attrs.notifications.slack.enabled"
             ng-model = "member.slackOn"
+            ng-change = "SIFC.saveSlack()"
             type = "checkbox"
           )
           .toggle-group.toggle-sm(
@@ -96,6 +97,7 @@
             ng-if = "!member.found"
             ng-model = "member.ghName"
             ng-options = "ghMember for ghMember in SIFC.ghMembers"
+            ng-change = "SIFC.saveSlack()"
           )
             option(
               disabled

@@ -11,6 +11,7 @@ function SlackIntegrationFormController (
   verifyChatIntegration,
   keypather,
   fetchSettings,
+  debounce,
   errs,
   promisify,
   $q
@@ -77,7 +78,7 @@ function SlackIntegrationFormController (
       });
   };
 
-  SIFC.saveSlack = function () {
+  SIFC.saveSlack = debounce(function () {
     var slackData = {
       apiToken: SIFC.settings.attrs.notifications.slack.apiToken,
       enabled: SIFC.settings.attrs.notifications.slack.enabled
@@ -103,8 +104,7 @@ function SlackIntegrationFormController (
       }
     })
       .catch(errs.handler);
-  };
-
+  }, 250);
 }
 
 
