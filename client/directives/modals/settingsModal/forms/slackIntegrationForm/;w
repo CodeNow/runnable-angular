@@ -82,6 +82,7 @@ function SlackIntegrationFormController (
   };
 
   SIFC.deleteAPIToken = function () {
+    console.log('DELTE API TOKEN');
     SIFC.verified = false;
     SIFC.verifying = true;
     var slackData = {
@@ -97,6 +98,7 @@ function SlackIntegrationFormController (
   };
 
   SIFC.saveSlack = debounce(function () {
+    console.log('slack', SIFC.settings.attrs.notifications.slack);
     var slackData = {
       apiToken: SIFC.settings.attrs.notifications.slack.apiToken,
       enabled: SIFC.settings.attrs.notifications.slack.enabled

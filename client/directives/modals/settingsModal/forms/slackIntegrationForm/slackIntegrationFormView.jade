@@ -31,10 +31,7 @@
     | .
   button.btn.green.btn-spinner(
     ng-class = "{in: SIFC.verifying}"
-    ng-click = "\
-      SIFC.verifySlack();\
-      SIFC.verified = true;\
-    "
+    ng-click = "SIFC.verifySlack();"
     ng-disabled = "SIFC.verifying || !SIFC.settings.attrs.notifications.slack.apiToken.length"
   )
     .spinner-wrapper.spinner-sm.spinner-white.in(
@@ -111,5 +108,5 @@
     - disables all inputs, but preserves their states
   .label.label-footer
     button.btn.btn-xs.red(
-      ng-click = "SIFC.verified = false"
+      ng-click = "SIFC.deleteAPIToken()"
     ) Delete Slack Integration
