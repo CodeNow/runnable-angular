@@ -8,6 +8,11 @@ ul.tabs
     "
     ng-repeat = "item in openItems.models"
   )
+    //- show on Backup tab if the backup script has failed
+    //- svg.iconnables.icons-notification
+    //-   use(
+    //-     xlink:href = "#icons-warning"
+    //-   )
     .tab-name.text-overflow(
       ng-data-title = "{{item.attrs.name}}"
       title = "{{item.filepath()}}"
@@ -24,11 +29,6 @@ ul.tabs
         use(
           xlink:href = "#icons-close"
         )
-    //- show on Backup tab if the backup script has failed
-    //- svg.iconnables.icons-notification.icons-round
-    //-   use(
-    //-     xlink:href = "#icons-notification"
-    //-   )
 
 //- add tab popover
 //- apply [disabled] attribute when server is not running

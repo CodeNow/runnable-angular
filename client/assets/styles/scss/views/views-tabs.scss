@@ -1,5 +1,6 @@
 // ul.tabs
 .tabs {
+  display: flex;
   flex: 1 1 auto;
   height: $input-md;
   overflow-x: auto;
@@ -9,20 +10,19 @@
 
 // li.tab-wrapper
 .tab-wrapper {
+  align-items: center;
   border-right: 1px solid $gray-lighter;
+  color: $gray-dark;
   cursor: pointer;
-  display: inline-block;
-  padding: 0 21px;
-  position: relative;
+  display: flex;
+  height: $input-md;
+  justify-content: center;
+  max-width: 300px;
+  padding: 0 15px;
   text-align: center;
-  width: 135px;
 
   &:hover {
-    color: $gray-dark;
-
-    .btn-close {
-      opacity: 1;
-    }
+    color: $gray-darker;
   }
 
   &:active,
@@ -32,33 +32,29 @@
   }
 
   .icons-dirty {
-    display: inline-block;
+    color: $gray;
+    flex: 0 0 auto;
     font-size: 21px;
-    opacity: .5;
-    pointer-events: none;
-    position: relative;
-    top: -15px;
+    font-weight: $weight-normal;
     user-select: none;
     z-index: 1;
   }
 
   .icons-notification {
     color: $red;
-    height: 12px;
-    margin-left: 4px;
-    top: 1px;
-    width: 12px;
+    flex: 0 0 auto;
+    height: 15px;
+    margin-right: 1px;
+    width: 15px;
   }
 
   .btn-close {
     border: 0;
     color: $gray;
-    height: 15px;
-    opacity: 0;
-    position: absolute;
-    right: 6px;
-    top: 14px;
-    width: 15px;
+    flex: 0 0 auto;
+    height: 17px;
+    left: 5px;
+    width: 17px;
 
     &:hover {
       color: $gray-dark;
@@ -78,9 +74,14 @@
 
 // span.tab-name
 .tab-name {
-  display: inline-block;
-  font-size: 14px;
-  height: $input-md;
-  line-height: $input-md;
-  max-width: 100%;
+  font-size: 15px;
+  margin-top: 20px;
+
+  &::after {
+    content: attr(ng-data-title);
+    display: block;
+    font-weight: 500;
+    opacity: 0;
+    pointer-events: none;
+  }
 }
