@@ -1,7 +1,13 @@
-.spinner-wrapper.spinner-md.in(
-  ng-if = "TMMC.loading"
-  ng-include = "'spinner'"
-)
+//- pending team
+//- all of this logic is messed up, but what I want to show is that if you click 'send invite' to yash is that...
+//- an item is removed from the requested invite list and added to the invite sent list with a transition
+
+.label
+  .clearfix
+    .label-col.full-width Pending Invites
+      .small.float-right.badge(
+        data-badge-count = "1"
+      ) Requests
 
 .modal-form(
   ng-if = "!TMMC.loading"
@@ -61,95 +67,95 @@
                 xlink:href = "#icons-overflow"
               )
 
-    //- show in the order of invites sent (newest first)
-    ol.list.list-bordered.list-teammates.list-teammates-pending
+  //- show in the order of invites sent (newest first)
+  ol.list.list-bordered.list-teammates.list-teammates-pending
 
-      //- adding to this list
-      li.list-item.js-animate(
-        ng-if = "$root.featureFlags.teamManagementAdvanced && state.swapLists"
+    //- adding to this list
+    li.list-item.js-animate(
+      ng-if = "$root.featureFlags.teamManagementAdvanced && state.swapLists"
+    )
+      img.gravatar(
+        height = "27"
+        ng-src = "https://avatars2.githubusercontent.com/u/467885"
+        width = "27"
       )
-        img.gravatar(
-          height = "27"
-          ng-src = "https://avatars2.githubusercontent.com/u/467885"
-          width = "27"
-        )
-        .username.text-overflow cflynn07
-        //- show email that the invite was sent to
-        .small.text-overflow casey@runnable.com
+      .username.text-overflow cflynn07
+      //- show email that the invite was sent to
+      .small.text-overflow casey@runnable.com
 
-        .btn-wrapper
-          //- send confirmation
-          .send-confirmation.loaded
-            svg.iconnables.icons-check.float-left(
-              viewbox = '0 0 14.5 10'
-            )
-              path.path(
-                d = 'M1,4.5L5.5,9l8-8'
-                fill = 'none',
-                stroke = '#3ccb5a',
-                stroke-linecap = 'round',
-                stroke-linejoin = 'round',
-                stroke-miterlimit = '10',
-                stroke-width = '2',
-              )
-            | Sent
-          button.btn.btn-xs.white.float-right(
-            ng-class = "{'active': pendingInvitePopover.data.show}"
-            pop-over
-            pop-over-active = "pendingInvitePopover.data.show"
-            pop-over-options = "{\"right\":0,\"top\":35}"
-            pop-over-template = "pendingInvitePopoverView"
+      .btn-wrapper
+        //- send confirmation
+        .send-confirmation.loaded
+          svg.iconnables.icons-check.float-left(
+            viewbox = '0 0 14.5 10'
           )
-            svg.iconnables.icons-overflow
-              use(
-                xlink:href = "#icons-overflow"
-              )
+            path.path(
+              d = 'M1,4.5L5.5,9l8-8'
+              fill = 'none',
+              stroke = '#3ccb5a',
+              stroke-linecap = 'round',
+              stroke-linejoin = 'round',
+              stroke-miterlimit = '10',
+              stroke-width = '2',
+            )
+          | Sent
+        button.btn.btn-xs.white.float-right(
+          ng-class = "{'active': pendingInvitePopover.data.show}"
+          pop-over
+          pop-over-active = "pendingInvitePopover.data.show"
+          pop-over-options = "{\"right\":0,\"top\":35}"
+          pop-over-template = "pendingInvitePopoverView"
+        )
+          svg.iconnables.icons-overflow
+            use(
+              xlink:href = "#icons-overflow"
+            )
 
-      li.list-item(
-        ng-repeat = "teammate in TMMC.members.invited"
+    li.list-item(
+      ng-repeat = "teammate in TMMC.members.invited"
+    )
+      img.gravatar(
+        height = "27"
+        ng-src = "{{teammate.avatar_url}}"
+        width = "27"
       )
-        img.gravatar(
-          height = "27"
-          ng-src = "{{teammate.avatar_url}}"
-          width = "27"
-        )
-        .username.text-overflow {{teammate.login}}
-        //- show email that the invite was sent to
-        .small.text-overflow {{teammate.email}}
+      .username.text-overflow {{teammate.login}}
+      //- show email that the invite was sent to
+      .small.text-overflow {{teammate.email}}
 
-        .btn-wrapper
-          //- sending…
-          //- .spinner-wrapper.spinner-sm.spinner-gray.in(
-          //-   ng-include = "'spinner'"
-          //- )
-          //- send confirmation
-          .send-confirmation.loaded
-            svg.iconnables.icons-check.float-left(
-              viewbox = '0 0 14.5 10'
-            )
-              path.path(
-                d = 'M1,4.5L5.5,9l8-8'
-                fill = 'none',
-                stroke = '#3ccb5a',
-                stroke-linecap = 'round',
-                stroke-linejoin = 'round',
-                stroke-miterlimit = '10',
-                stroke-width = '2',
-              )
-            | Sent
-          button.btn.btn-xs.white.float-right(
-            ng-class = "{'active': pendingInvitePopover.data.show}"
-            pop-over
-            pop-over-actions = "TMMC.popoverActions"
-            pop-over-active = "pendingInvitePopover.data.show"
-            pop-over-data = "teammate"
-            pop-over-options = "{\"right\":0,\"top\":35}"
-            pop-over-template = "pendingInvitePopoverView"
+      .btn-wrapper
+        //- sending…
+        //- .spinner-wrapper.spinner-sm.spinner-gray.in(
+        //-   ng-include = "'spinner'"
+        //- )
+        //- send confirmation
+        .send-confirmation.loaded
+          svg.iconnables.icons-check.float-left(
+            viewbox = '0 0 14.5 10'
           )
-            svg.iconnables.icons-overflow
-              use(
-                xlink:href = "#icons-overflow"
-              )
+            path.path(
+              d = 'M1,4.5L5.5,9l8-8'
+              fill = 'none',
+              stroke = '#3ccb5a',
+              stroke-linecap = 'round',
+              stroke-linejoin = 'round',
+              stroke-miterlimit = '10',
+              stroke-width = '2',
+            )
+          | Sent
+        button.btn.btn-xs.white.float-right(
+          ng-class = "{'active': pendingInvitePopover.data.show}"
+          pop-over
+          pop-over-actions = "TMMC.popoverActions"
+          pop-over-active = "pendingInvitePopover.data.show"
+          pop-over-data = "teammate"
+          pop-over-options = "{\"right\":0,\"top\":35}"
+          pop-over-template = "pendingInvitePopoverView"
+        )
+          svg.iconnables.icons-overflow
+            use(
+              xlink:href = "#icons-overflow"
+            )
 
   //- for existing team
   .label
@@ -158,12 +164,12 @@
         a.small.link.float-right(
           ng-click = "TMMC.openInvitationModal()"
           ng-if = "TMMC.members.uninvited.length > 0"
-        )
-          svg.iconnables.icons-team-invite
-            use(
-              xlink:href = "#icons-team-invite"
-            )
-          | Invite…
+      )
+        svg.iconnables.icons-team-invite
+          use(
+            xlink:href = "#icons-team-invite"
+          )
+        | Invite…
     ol.list.list-bordered.list-teammates
       li.list-item(
         ng-repeat = "teammate in TMMC.members.registered"
@@ -178,7 +184,6 @@
         .btn-wrapper(
           ng-if = "$root.featureFlags.teamManagementAdvanced"
         )
-
           button.btn.btn-xs.white.btn-permission(
             ng-class = "{'active': permissionsPopover.data.show}"
             pop-over

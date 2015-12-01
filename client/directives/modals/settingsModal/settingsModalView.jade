@@ -61,19 +61,22 @@
       //- )
 
       //- billing
-      .form-billing(
+      .modal-form.form-billing(
+        ng-class = "{'empty well in': $root.featureFlags.trial}"
         ng-if = "SEMC.currentTab === 'billing'"
         ng-include = "'billingForm'"
       )
 
       //- team
-      .form-team(
+      .modal-form.form-team(
         team-management
         ng-if = "SEMC.currentTab === 'teamManagement' && !SEMC.loading['teamManagement']"
       )
 
       //- slack integration
-      form.form-integrations(
+      form.modal-form.form-integrations(
+        ng-class = "{'empty well in': !data.verified}"
+        ng-if = "currentTab === 'slackIntegration'"
         ng-if = "SEMC.currentTab === 'slackIntegration'"
         ng-include = "'integrationsForm'"
         ng-init = "data.verified = false"
