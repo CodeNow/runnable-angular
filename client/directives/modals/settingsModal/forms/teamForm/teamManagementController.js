@@ -68,6 +68,15 @@ function TeamManagementController(
         teamName: $state.params.userName,
         unInvitedMembers: TMMC.members.uninvited
       }
+    })
+    .then(function (modal) {
+      return modal.close;
+    })
+    .then(function (plusOneInviteSent) {
+      if (plusOneInviteSent) {
+        // Asynchronously re-fetch all members
+        fetchMembers();
+      }
     });
   };
 
