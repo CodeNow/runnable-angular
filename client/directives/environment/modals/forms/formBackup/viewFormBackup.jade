@@ -16,109 +16,118 @@
   ) Restore
 
 //- backup script
-.label-col(
+.label(
   ng-hide = "$root.featureFlags.fullScreen"
   ng-if = "page === 'backup'"
   ng-init = "\
     hours = ['12:00 AM','1:00 AM','2:00 AM','3:00 AM','4:00 AM','5:00 AM','6:00 AM','7:00 AM','8:00 AM','9:00 AM','10:00 AM','11:00 AM','12:00 PM','1:00 PM','2:00 PM','3:00 PM','4:00 PM','5:00 PM','6:00 PM','7:00 PM','8:00 PM','9:00 PM','10:00 PM','11:00 PM'];\
     selectedHour = '3:00 AM';\
   "
-) Backup Script
-  .small Backups are created daily by running this script at&#32;
-    fancy-select.btn.btn-xxs.white(
-      value = "selectedHour"
-    )
-      fancy-option(
-        ng-repeat = "hour in $parent.hours"
-        value = "hour"
-        style = "text-align: right;"
-      ) {{$parent.hour}} PST
-.views-toolbar(
-  ng-class = "{\
-    'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
-    'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
-  }"
-  ng-if = "page === 'backup'"
 )
-  //- only show revert button if script differs from default
-  //- button.btn.btn-purple.btn-toolbar.purple Revert to Default
-  button.btn.btn-purple.btn-toolbar.purple Back Up Now
-.ace-container.ace-backup(
-  ng-class = "{\
-    'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
-    'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
-  }"
-  ng-if = "page === 'backup'"
-)
-  .ace_editor(
-    current-model = "SMC.instance.attrs"
-    env-vars
-    state-model = "SMC.state.opts"
-    validation = "validation.env"
+  .clearfix
+    .label-col Backup Script
+      .small Backups are created daily by running this script at&#32;
+        fancy-select.btn.btn-xxs.white(
+          value = "selectedHour"
+        )
+          fancy-option(
+            ng-repeat = "hour in $parent.hours"
+            value = "hour"
+            style = "text-align: right;"
+          ) {{$parent.hour}} PST
+  .views-toolbar(
+    ng-class = "{\
+      'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+      'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+    }"
+    ng-if = "page === 'backup'"
   )
+    //- only show revert button if script differs from default
+    //- button.btn.btn-purple.btn-toolbar.purple Revert to Default
+    button.btn.btn-purple.btn-toolbar.purple Back Up Now
+  .ace-container.ace-backup(
+    ng-class = "{\
+      'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+      'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+    }"
+    ng-if = "page === 'backup'"
+  )
+    .ace_editor(
+      current-model = "SMC.instance.attrs"
+      env-vars
+      state-model = "SMC.state.opts"
+      validation = "validation.env"
+    )
 
-.label-col.logs-label(
-  ng-class = "{'in': state.showLogs}"
-  ng-click = "state.showLogs = !state.showLogs"
+//- backup logs
+.label(
   ng-hide = "$root.featureFlags.fullScreen"
   ng-if = "page === 'backup'"
-) Backup Logs
-.log-wrapper.field-tall(
-  ng-class = "{\
-    'logs-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
-    'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
-  }"
-  ng-if = "page === 'backup' && state.showLogs"
 )
-  .build-log-wrapper
-    .pre.build-log.build-log-toggle.in
-      .build-log-content
-        | Created client/dist/css/error.css (2534 bytes)
-        | Created client/dist/css/error.css.map (1408 bytes)
-        p(style='color:#df4f3e')
-          | no hostkey alg
-        p(style='color:#df4f3e')
-        | Created client/dist/css/home.css.map (6140 bytes)
-        p(style='color:#df4f3e')
-        | Created client/dist/css/index.css (55977 bytes)
-        p(style='color:#df4f3e')
-          | no hostkey alg
-        p(style='color:#df4f3e')
-        | Created client/dist/css/index.css.map (38294 bytes)
-        | Created client/dist/images/favicon-gray.png (1048 bytes)
-        | &#32;
-    .pre.build-log.green
-      .build-log-header
-        .build-log-header-text Backup successfully created 10 hours ago
+  .clearfix
+    .label-col Backup Logs&#32;
+      button.btn.btn-xxs.white(
+        ng-click = "state.showLogs = true"
+        ng-hide = "state.showLogs"
+      ) Show
+  .log-wrapper.field-tall(
+    ng-class = "{\
+      'logs-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+      'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+    }"
+    ng-if = "page === 'backup' && state.showLogs"
+  )
+    .build-log-wrapper
+      .pre.build-log.build-log-toggle.in
+        .build-log-content
+          | Created client/dist/css/error.css (2534 bytes)
+          | Created client/dist/css/error.css.map (1408 bytes)
+          p(style='color:#df4f3e')
+            | no hostkey alg
+          p(style='color:#df4f3e')
+          | Created client/dist/css/home.css.map (6140 bytes)
+          p(style='color:#df4f3e')
+          | Created client/dist/css/index.css (55977 bytes)
+          p(style='color:#df4f3e')
+            | no hostkey alg
+          p(style='color:#df4f3e')
+          | Created client/dist/css/index.css.map (38294 bytes)
+          | Created client/dist/images/favicon-gray.png (1048 bytes)
+          | &#32;
+      .pre.build-log.green
+        .build-log-header
+          .build-log-header-text Backup successfully created 10 hours ago
 
 //- restore script
-.label-col(
+.label(
   ng-hide = "$root.featureFlags.fullScreen"
   ng-if = "page === 'restore'"
-) Restore Script
-  .small This script runs during every build, restoring from the most recent backup.&#32;
-    a.link Learn how to restore from older backups
-    | .
-//- only show toolbar and revert button if script differs from default
-//- .views-toolbar(
-//-   ng-class = "{\
-//-     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
-//-     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
-//-   }"
-//-   ng-if = "page === 'restore'"
-//-   ng-include = "'backupToolbarView'"
-//- )
-//-   button.btn.btn-purple.btn-toolbar.purple Revert to Default
-.ace-container.ace-restore(
-  ng-class = "{\
-    'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
-    'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
-  }"
-  ng-if = "page === 'restore'"
 )
-  .ace_editor(
-    current-model = "SMC.instance.attrs"
-    env-vars
-    state-model = "SMC.state.opts"
-    validation = "validation.env"
+  .clearfix
+    .label-col Restore Script
+      .small This script runs during every build, restoring from the most recent backup.&#32;
+        a.link Learn how to restore from older backups
+        | .
+  //- only show toolbar and revert button if script differs from default
+  //- .views-toolbar(
+  //-   ng-class = "{\
+  //-     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+  //-     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+  //-   }"
+  //-   ng-if = "page === 'restore'"
+  //-   ng-include = "'backupToolbarView'"
+  //- )
+  //-   button.btn.btn-purple.btn-toolbar.purple Revert to Default
+  .ace-container.ace-restore(
+    ng-class = "{\
+      'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+      'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+    }"
+    ng-if = "page === 'restore'"
   )
+    .ace_editor(
+      current-model = "SMC.instance.attrs"
+      env-vars
+      state-model = "SMC.state.opts"
+      validation = "validation.env"
+    )
