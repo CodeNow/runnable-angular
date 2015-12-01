@@ -40,12 +40,12 @@
     z-index: 1;
   }
 
-  .icons-notification {
+  .icons-warning {
     color: $red;
     flex: 0 0 auto;
-    height: 15px;
-    margin-right: 1px;
-    width: 15px;
+    height: 14px;
+    margin-right: 3px;
+    width: 14px;
   }
 
   .btn-close {
@@ -75,7 +75,7 @@
 // span.tab-name
 .tab-name {
   font-size: 15px;
-  margin-top: 20px;
+  margin-top: 21px;
 
   &::after {
     content: attr(ng-data-title);
