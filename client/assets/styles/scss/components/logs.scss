@@ -95,9 +95,20 @@
     white-space: nowrap;
   }
 
-  // "view script" button for failed restore step
-  > .btn-toolbar {
-    margin-right: 3px;
+  // debug and "view script" buttons
+  .btn-xs {
+    background: $purple;
+    border: 1px solid $purple-darker;
+    font-family: $sans-serif;
+
+    &:hover:not([disabled]) {
+      background: $purple-light;
+      color: $white;
+    }
+
+    + .btn-debug {
+      margin-left: 4px;
+    }
   }
 
   // cached state

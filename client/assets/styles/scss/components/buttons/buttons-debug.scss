@@ -7,6 +7,11 @@
     padding: 0 21px 0 6px;
   }
 
+  // override
+  > .btn:last-child {
+    margin-left: -1px;
+  }
+
   .iconnables {
     height: 100%;
     position: absolute;

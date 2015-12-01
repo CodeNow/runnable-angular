@@ -1,5 +1,5 @@
 //- opens in new window
-a.btn.purple.btn-toolbar(
+a.btn.purple.btn-xs(
   ng-if = "BLC.buildLogs[$index - 1].imageId"
   ng-click = "BLC.actions.launchDebugContainer($event, BLC.buildLogs[$index - 1])"
   ng-disabled = "BLC.generatingDebug"
@@ -10,7 +10,7 @@ a.btn.purple.btn-toolbar(
     )
 
 //- button only appears if it in the toolbar
-button.btn.purple.btn-toolbar(
+button.btn.purple.btn-xs(
   ng-class = "{'active': state.active}"
   ng-disabled = "BLC.generatingDebug"
   ng-if = "BLC.buildLogs.length > 2"

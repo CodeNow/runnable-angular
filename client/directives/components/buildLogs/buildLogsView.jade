@@ -49,7 +49,7 @@
     ) {{getCommandDuration(command, $index)}}
 
     //- opens restore script in configure modal. only show if non-repo container failed to build on restore script step
-    button.btn.btn-toolbar.purple(
+    button.btn.btn-xs.purple(
       ng-if = "BLC.showDebug && !BLC.debugContainer && BLC.buildLogs[$index - 1].imageId && $last"
     ) View Script
 
