@@ -1,5 +1,5 @@
 .popover.help(
-  ng-class = "{in: active}"
+  ng-class = "{'in': active}"
   ng-style = "popoverStyle.getStyle()"
 )
   .help-lists-wrapper
@@ -56,12 +56,22 @@
               use(
                 xlink:href = "#icons-link-external"
               )
-              
-  //- TODO: remove less-help class
+
   button.btn(
     ng-click = "POC.closePopover()"
-  ) Less Help
-    svg.iconnables
+  )
+    svg.iconnables(
+      ng-if = '!data.triggered.length'
+    )
+      use(
+        xlink:href = "#icons-close"
+      )
+
+    | {{data.triggered.length ? 'Less Help' : 'Close'}}
+
+    svg.iconnables(
+      ng-if = 'data.triggered.length'
+    )
       use(
         xlink:href = "#icons-arrow-down"
       )
