@@ -7,6 +7,7 @@ require('app')
  * @ngInject
  */
 function InviteModalController(
+  $rootScope,
   $q,
   fetchUser,
   fetchGithubOrgId,
@@ -45,11 +46,14 @@ function InviteModalController(
         }
       });
     })
-    .then(function (invitation) {
+    .then(function (invitationModel) {
       user.inviteSent = true;
+      // Append invitation to user
+      user.userInvitation = invitationModel;
+      $rootScope.$broadcast('newInvitedAdded', user);
       IMC.sendingInvitation = false;
       IMC.sendingInviteUserId = null;
-      return invitation;
+      return invitationModel;
     })
     .catch(function (err) {
       errs.handler(err);

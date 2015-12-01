@@ -7,9 +7,9 @@ require('app')
  * @ngInject
  */
 function TeamManagementController(
+  $rootScope,
   $q,
   $state,
-  $rootScope,
   errs,
   fetchOrgMembers,
   keypather,
@@ -23,6 +23,15 @@ function TeamManagementController(
 
   // Load initial state
   fetchMembers();
+
+  $rootScope.$on('newInvitedAdded', function (event, user) {
+    var index = TMMC.members.uninvited.indexOf(user);
+    TMMC.members.uninvited.splice(index, 1);
+    TMMC.members.invited.push(user);
+    TMMC.members.invited = TMMC.members.invited.sort(function (a, b) {
+      return a.login > b.login;
+    });
+  });
 
   function fetchMembers () {
     return fetchOrgMembers($state.params.userName)
@@ -58,15 +67,6 @@ function TeamManagementController(
       inputs: {
         teamName: $state.params.userName,
         unInvitedMembers: TMMC.members.uninvited
-      }
-    })
-    .then(function (modal) {
-      return modal.close;
-    })
-    .then(function (plusOneInviteSent) {
-      if (plusOneInviteSent) {
-        TMMC.loading = true;
-        return fetchMembers();
       }
     });
   };
