@@ -110,6 +110,53 @@ describe('TeamManagementController'.bold.underline.blue, function () {
     });
   });
 
+  describe('newInvitationAdded event', function () {
+
+    it('should remove the newly invited user from the uninvited users', function () {
+      $scope.$digest();
+      var uninvitedLength = TMMC.members.uninvited.length;
+      var newlyInvitedUser = TMMC.members.uninvited[0];
+      $rootScope.$broadcast('newInvitedAdded', newlyInvitedUser);
+      $scope.$digest();
+      expect(TMMC.members.uninvited.length).to.equal(uninvitedLength - 1);
+      expect(TMMC.members.uninvited.indexOf(newlyInvitedUser)).to.equal(-1);
+    });
+
+    it('should add the newly invited user from the invited users', function () {
+      $scope.$digest();
+      var invitedLength = TMMC.members.invited.length;
+      var newlyInvitedUser = TMMC.members.uninvited[0];
+      $rootScope.$broadcast('newInvitedAdded', newlyInvitedUser);
+      $scope.$digest();
+      expect(TMMC.members.invited.length).to.equal(invitedLength + 1);
+      expect(TMMC.members.invited.indexOf(newlyInvitedUser)).to.not.equal(-1);
+    });
+
+    it('should sort the users by their github login name', function () {
+      $scope.$digest();
+      var invitedLength = TMMC.members.invited.length;
+      var logins = TMMC.members.invited.map(function (member) {
+        return member.login;
+      });
+      var sortedLogins = logins.sort(function (a, b) {
+        return a.login > b.login;
+      });
+      expect(logins).to.deep.equal(sortedLogins);
+      var newlyInvitedUser = TMMC.members.uninvited[0];
+      $rootScope.$broadcast('newInvitedAdded', newlyInvitedUser);
+      $scope.$digest();
+      expect(TMMC.members.invited.length).to.equal(invitedLength + 1);
+      var logins2 = TMMC.members.invited.map(function (member) {
+        return member.login;
+      });
+      var sortedLogins2 = logins2.sort(function (a, b) {
+        return a.login > b.login;
+      });
+      expect(logins2).to.deep.equal(sortedLogins2);
+    });
+
+  });
+
   describe('openInvitationModal', function () {
     beforeEach(function () {
       TMMC.fetchMembers = sinon.stub();

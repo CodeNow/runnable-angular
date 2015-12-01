@@ -54,26 +54,23 @@
         //-     .btn.btn-xxs.orange.no-touching Coming Soon
 
     section.modal-body.js-animate
-      //- loading spinner
-      //- .spinner-wrapper.spinner-md.in(
-        //- ng-if = "SEMC.loading['teamManagement']"
-        //- ng-include = "'spinner'"
-      //- )
 
       //- billing
-      .form-billing(
+      .modal-form.form-billing(
+        ng-class = "{'empty well in': $root.featureFlags.trial}"
         ng-if = "SEMC.currentTab === 'billing'"
         ng-include = "'billingForm'"
       )
 
       //- team
-      .form-team(
+      .modal-form.form-team(
         team-management
         ng-if = "SEMC.currentTab === 'teamManagement' && !SEMC.loading['teamManagement']"
       )
 
       //- slack integration
       form.form-integrations.modal-integrations(
+        ng-class = "{'empty well in': !data.verified}"
         ng-if = "SEMC.currentTab === 'slackIntegration'"
         slack-integration-form
       )

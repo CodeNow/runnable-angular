@@ -139,7 +139,7 @@
 .form-billing {
 
   // empty state
-  .empty {
+  &.empty {
 
     .icons-calendar {
       height: 90px;
@@ -164,7 +164,7 @@
   }
 
   // plan and payment area
-  .well:not(.empty) {
+  .well {
     margin: 0;
     padding: 15px;
 
