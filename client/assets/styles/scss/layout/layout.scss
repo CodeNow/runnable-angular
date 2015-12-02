@@ -1,5 +1,6 @@
 // layout navigation
 .layout-navigation {
+  backface-visibility: hidden; // http://benfrain.com/improving-css-performance-fixed-position-elements/
   background: $purple-light;
   border-right: 1px solid $purple;
   height: 100vh;
