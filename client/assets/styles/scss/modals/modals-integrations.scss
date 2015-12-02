@@ -64,9 +64,10 @@
   }
 
   // badge
-  .badge-warning {
+  .badge-notification {
     animation: scale-in .15s ease-in forwards;
     background: $white;
+    border: 1px solid currentColor;
     border-radius: 50%;
     color: $orange;
     height: 16px;
@@ -77,10 +78,10 @@
     z-index: 1;
   }
 
-  .icons-warning {
-    height: 21px;
-    top: -8px;
-    width: 18px;
+  .icons-notification {
+    height: 14px;
+    top: -13px;
+    width: 14px;
   }
 
   // well

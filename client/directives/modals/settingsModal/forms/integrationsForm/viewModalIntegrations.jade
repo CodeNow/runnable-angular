@@ -79,16 +79,16 @@ form.modal-dialog.modal-integrations(
             }"
             ng-repeat = "member in data.slackMembers"
           )
-            .badge-warning(
+            .badge-notification(
               ng-if = "\
                 !member.found && \
                 member.slackOn && \
                 !member.ghName && data.settings.attrs.notifications.slack.enabled\
               "
             )
-              svg.iconnables.icons-warning
+              svg.iconnables.icons-notification
                 use(
-                  xlink:href = "#icons-warning"
+                  xlink:href = "#icons-notification"
                 )
             img.gravatar(
               height = "21"
