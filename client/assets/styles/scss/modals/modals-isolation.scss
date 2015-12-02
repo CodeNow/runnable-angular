@@ -65,4 +65,9 @@
       right: 12px;
     }
   }
+
+  // for testing only
+  .list + .list .list-item:last-child .btn-xs {
+    display: none;
+  }
 }
