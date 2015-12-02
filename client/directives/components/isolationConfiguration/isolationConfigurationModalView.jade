@@ -51,14 +51,23 @@
         .list-item(
           ng-repeat = "instance in ICMC.nonRepoInstances"
         )
-            svg.iconnables.icons-server-new
+          svg.iconnables.icons-server-new
+            use(
+              xlink:href = "#icons-server-new"
+            )
+          span.span.text-overflow {{instance.getDisplayName()}}
+          button.btn.btn-xs.gray.btn-permission(
+            ng-class = "{'active': permissionsPopover.data.show}"
+            pop-over
+            pop-over-options = "{\"right\":0,\"top\":35}"
+            pop-over-template = "isolationBackupPopoverView"
+          )
+            span.float-left Restore from backup
+            svg.iconnables.icons-arrow-down
               use(
-                xlink:href = "#icons-server-new"
+                xlink:href = "#icons-arrow-down"
               )
-            span.span.text-overflow {{instance.getDisplayName()}}
-      small.small(
-        ng-if = "$root.featureFlags.backup"
-      ) New non-repository containers will be created from their latest backups, if any backups exist.
+      small.small New database containers can be restored from existing backups.
 
     section.modal-footer.clearfix
       button.btn.white.float-left(
