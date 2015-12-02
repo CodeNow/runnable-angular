@@ -57,11 +57,11 @@
     width: 17px;
 
     &:hover {
-      color: $gray-dark;
+      color: $red;
     }
 
     &:active {
-      color: $red;
+      color: $red-dark;
     }
 
     .icons-close {
