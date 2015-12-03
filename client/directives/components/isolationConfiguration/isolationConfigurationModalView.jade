@@ -56,18 +56,12 @@
               xlink:href = "#icons-server-new"
             )
           span.span.text-overflow {{instance.getDisplayName()}}
-          button.btn.btn-xs.gray.btn-permission(
-            ng-class = "{'active': permissionsPopover.data.show}"
-            pop-over
-            pop-over-options = "{\"right\":0,\"top\":35}"
-            pop-over-template = "isolationBackupPopoverView"
-          )
-            span.float-left Restore from backup
-            svg.iconnables.icons-arrow-down
-              use(
-                xlink:href = "#icons-arrow-down"
-              )
-      small.small New database containers can be restored from existing backups.
+
+          //- show on containers that have a backup
+          button.btn.btn-xs.btn-badge.gray From Backup
+
+          //- show on containers that don't have any backups
+          //- button.btn.btn-xs.btn-badge.white No Backups
 
     section.modal-footer.clearfix
       button.btn.white.float-left(

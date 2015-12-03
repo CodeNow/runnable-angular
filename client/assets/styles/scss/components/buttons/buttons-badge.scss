@@ -10,7 +10,8 @@
   }
 
   // colors
-  &.gray {
+  &.gray,
+  &.white {
     border-color: $gray-lighter;
     color: $gray-light;
     font-style: italic;
