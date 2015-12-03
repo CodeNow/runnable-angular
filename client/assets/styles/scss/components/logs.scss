@@ -263,7 +263,7 @@
   }
 
   .build-log-toggle .build-log-header {
-    background: #3d294a; // rgba($white,.03);
+    background: #3d294a; // match toolbar header
     border-bottom: 1px solid $purple-darker;
 
     &:hover:not(.in-progress) {

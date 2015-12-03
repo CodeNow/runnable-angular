@@ -65,8 +65,8 @@
 
   // dark
   &.ace-runnable-dark {
-    background: #3d294a; // match build log header
-    border-color: $purple-darker;
+    background: #3d294a;
+    border-color: $purple-darkest;
 
     .p {
       color: $purple-lighter;
@@ -95,7 +95,7 @@
 
   // dark theme
   &.ace-runnable-dark {
-    border: 2px solid $purple-darker;
+    border: 2px solid $purple-darkest;
 
     .spinner-wrapper {
       background: $ace-bg;
