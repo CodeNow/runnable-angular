@@ -53,13 +53,22 @@
     //- .ace_editor(
     //-   env-vars
     //- )
-  .build-log-wrapper.logs-runnable-dark.js-animate(
+  .build-log-wrapper.js-animate(
     ng-if = "showLogs"
     ng-include = "'backupLogsView'"
+    ng-class = "{\
+      'logs-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+      'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+    }"
   )
   button.btn.btn-xs.btn-logs(
     ng-click = "showLogs = !showLogs"
-    ng-class = "{'in': showLogs}"
+    ng-class = "{\
+        'in': showLogs,\
+        'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+        'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+      }"
+
   ) {{showLogs ? 'Hide Logs' : 'View Logs'}}
     svg.iconnables.icons-arrow-down
       use(
