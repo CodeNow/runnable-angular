@@ -35,19 +35,19 @@
   - <h4> "Build Restarting"
   - <.small> "We’ve run into an issue and are migrating your container to a healthy server. Your container will rebuild automatically."
 
-//- if migrating a starting container
+//- if migrating a starting container (and pulling)
   - <h4> "Starting Container"
-  - <.small> "We’ve run into an issue and are migrating your container to a healthy server. Starting your container may take longer than usual."
+  - <.small> "We’ve run into an issue and are migrating your container to a healthy server. This may take a few minutes."
 
 //- if migrating a running container
   - <h4> "Container Temporarily Unavailable"
-  - <.small> "We’ve run into an issue and are migrating your container to a healthy server. Your container will be unavailble until migration is complete."
+  - <.small> "We’ve run into an issue and are migrating your container to a healthy server. This may take a few minutes."
 
 //- if migrating a stopping container (and attempted to start),
 //- if migrating a stopped container (and attempted to start)
 //- if migrating a crashed container (and attempted to start)
   - <h4> "Starting Container"
-  - <.small> "We’ve run into an issue and are migrating your container to a healthy server. Your container will take longer than normal to complete this action"
+  - <.small> "We’ve run into an issue and are migrating your container to a healthy server. This may take a few minutes."
 
 h4.h4.text-overflow(
   ng-if = "$root.featureFlags.migrationNotification"
@@ -56,6 +56,14 @@ h4.h4.text-overflow(
 .small(
   ng-if = "$root.featureFlags.migrationNotification"
 ) We’ve run into an issue and are migrating your container to a healthy server. Your container will be unavailble until migration is complete.
+
+a.small.link(
+  ng-if = "$root.featureFlags.migrationNotification"
+) What is this?
+  svg.iconnables.icons-link-external
+    use(
+      xlink:href = "#icons-link-external"
+    )
 
 h4.h4.text-overflow(
   ng-if = "!$root.featureFlags.migrationNotification"

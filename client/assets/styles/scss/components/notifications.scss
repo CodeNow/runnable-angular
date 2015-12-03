@@ -127,6 +127,16 @@
   .small {
     font-size: 14px;
     line-height: 1.2;
+
+    &.link {
+      display: block;
+      margin-top: 9px;
+    }
+  }
+
+  .icons-link-external {
+    height: 13px;
+    top: 2px;
   }
 
   // link
