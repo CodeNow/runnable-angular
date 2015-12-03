@@ -1,0 +1,36 @@
+//- for theme and full-screen controls
+.floating-controls(
+  ng-include = "'viewFloatingControls'"
+)
+
+p.p(
+  ng-if = "$root.featureFlags.migrationNotification"
+) Container Temporarily Unavailable
+
+ul.blank-panel-group(
+  ng-if = "!$root.featureFlags.migrationNotification"
+)
+  li.btn.btn-sm(
+    ng-click = "openItems.addTerminal()"
+  )
+    svg.iconnables
+      use(
+        xlink:href = "#icons-start-cmd"
+      )
+    | Terminal
+  li.btn.btn-sm(
+    ng-click = "openItems.addBuildStream()"
+  )
+    svg.iconnables
+      use(
+        xlink:href = "#icons-build-logs"
+      )
+    | Build Logs
+  li.btn.btn-sm(
+    ng-click = "openItems.addLogs()"
+  )
+    svg.iconnables.icons-server
+      use(
+        xlink:href = "#icons-cmd-logs"
+      )
+    | CMD Logs
