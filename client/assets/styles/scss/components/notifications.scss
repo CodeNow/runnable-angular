@@ -28,9 +28,10 @@
 
   &.notification-lg {
     border-radius: $input-border-radius-lg;
+    border-width: 1px;
     max-width: 420px;
     min-width: 345px;
-    padding: 15px;
+    padding: 15px 45px 15px 54px;
   }
 
   // position
@@ -77,27 +78,54 @@
   // colors
   &.green,
   &.orange {
-    box-shadow: 0 0 30px rgba($black,.12);
+    box-shadow: 0 2px 6px rgba($black,.2);
   }
 
   &.green {
-    background: $green;
+    background: #64cc7a;
+
+    .btn-close:hover {
+      background: $green-dark;
+    }
+
+    .btn-close:active {
+      background: $green-darker;
+    }
   }
 
   &.orange {
-    background: $orange;
+    background: $orange-light;
+
+    .anchor-left {
+      color: $orange;
+    }
+
+    .btn-close:hover {
+      background: $orange;
+    }
+
+    .btn-close:active {
+      background: $orange-dark;
+    }
   }
 
-  // anchor image
-  .gravatar {
-    float: left;
-    margin-right: 12px;
+  // anchor for gravatar/icons
+  .anchor-left {
+    left: 15px;
+    position: absolute;
+    top: 15px;
   }
 
   // title
   .h4 {
     font-size: 16px;
-    height: 19px;
+    line-height: 1.4;
+    margin-bottom: 3px;
+  }
+
+  // small
+  .small {
+    line-height: 1.2;
   }
 
   // link
@@ -106,43 +134,36 @@
     display: inline-block;
   }
 
-  // buttons
-  .orange {
-    background: rgba($orange-dark,.75);
-  }
-
-  .green {
-    background: rgba($green-dark,.75);
-  }
-
   // close button
   .btn-close {
-    float: right;
     height: 21px;
+    position: absolute;
+    right: 15px;
+    top: 15px;
     width: 21px;
+  }
 
-    .icons-close {
-      left: 0;
-      position: absolute;
-      top: 0;
-    }
+  .icons-close {
+    left: 0;
+    position: absolute;
+    top: 0;
   }
 
   // success animation
   .btn-state {
     background: $white;
     border-radius: 50%;
-    height: 19px;
-    left: 9px;
+    height: 15px;
+    left: -6px;
+    line-height: 1;
     position: absolute;
-    top: 36px;
-    width: 19px;
+    top: 16px;
+    width: 15px;
 
     .iconnables {
       animation: scale-in-bounce .3s ease-in;
-      height: 19px;
-      top: -6px;
-      width: 19px;
+      height: 15px;
+      width: 15px;
     }
 
     .icons-warning {
@@ -151,7 +172,6 @@
 
     .icons-check {
       color: $green;
-      left: 0;
     }
   }
 
