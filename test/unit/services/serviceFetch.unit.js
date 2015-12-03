@@ -15,7 +15,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
     };
   };
   var generateUserObject = function (githubUsername, githubgithubUserId) {
-   if (!githubUsername) {
+    if (!githubUsername) {
       githubUsername = 'thejsj';
     }
     if (!githubgithubUserId) {
@@ -810,59 +810,35 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
   describe('factory fetchGitHubAdminsByRepo', function () {
     var $rootScope, fetchGitHubAdminsByRepo, configAPIHost;
-
-    var fetchGitHubTeamsByRepoMock;
-    var fetchGitHubTeamMembersByTeamMock;
     var fetchGitHubUserMock;
     var members = [
       {
         name: 'member1',
         login: 'member1',
-        state: 'active'
+        permissions: {
+          admin: true
+        }
       },
       {
         name: 'member2',
         login: 'member2',
-        state: 'active'
+        permissions: {
+          admin: false
+        }
       },
       {
         name: 'member3',
         login: 'member3',
-        state: 'active'
+        permissions: {
+          admin: true
+        }
       }
     ];
-    var membersByTeam = {
-      team1: [
-        members[0],
-        members[1]
-      ],
-      team2: [
-        members[1],
-        members[2]
-      ],
-      team3: [
-        members[0],
-        members[2]
-      ],
-      team4: [
-        members[0]
-      ]
-    };
-    var teams = Object.keys(membersByTeam);
 
     beforeEach(function () {
       angular.mock.module('app');
       angular.mock.module(function ($provide) {
-        $provide.factory('fetchGitHubTeamsByRepo', function ($q) {
-          fetchGitHubTeamsByRepoMock = sinon.stub().returns($q.when(teams));
-          return fetchGitHubTeamsByRepoMock;
-        });
-        $provide.factory('fetchGitHubTeamMembersByTeam', function ($q) {
-          fetchGitHubTeamMembersByTeamMock = sinon.spy(function (teamName) {
-            return $q.when((membersByTeam[teamName]));
-          });
-          return fetchGitHubTeamMembersByTeamMock;
-        });
+        $provide.factory('$http', httpFactory);
         $provide.factory('fetchGitHubUser', function ($q) {
           fetchGitHubUserMock = sinon.spy(function (memberName) {
             return $q.when(({
@@ -887,12 +863,11 @@ describe('serviceFetch'.bold.underline.blue, function () {
       var orgName = 'team';
       var repoName = 'repo';
 
+      data = members;
       fetchGitHubAdminsByRepo(orgName, repoName)
         .then(function (uniqueMembers) {
-          expect(fetchGitHubTeamsByRepoMock.callCount).to.eql(1);
-          expect(fetchGitHubTeamMembersByTeamMock.callCount).to.eql(4);
-          expect(fetchGitHubUserMock.callCount).to.eql(3);
-          expect(Object.keys(uniqueMembers).length).to.eql(3);
+          expect(fetchGitHubUserMock.callCount).to.eql(2);
+          expect(Object.keys(uniqueMembers).length).to.eql(2);
           done();
         });
 

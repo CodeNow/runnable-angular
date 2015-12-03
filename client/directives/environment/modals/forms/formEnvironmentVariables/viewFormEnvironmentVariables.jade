@@ -16,7 +16,7 @@
 //- table actions
 .table-actions.clearfix(
   ng-class = "{'in': SMC.state.showHostName}"
-  ng-if = "SMC.data.instances.models.length >= 2"
+  ng-if = "(!SMC.instance && SMC.data.instances.models.length >= 1) || SMC.data.instances.models.length >= 2"
   ng-include = "'viewEnvironmentVariableActions'"
 )
 
