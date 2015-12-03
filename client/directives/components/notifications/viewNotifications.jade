@@ -31,24 +31,6 @@
       xlink:href = "#icons-alert-alt"
     )
 
-//- if migrating a building container
-  - <h4> "Build Restarting"
-  - <.small> "We’ve run into an issue and are migrating your container to a healthy server. Your container will rebuild automatically."
-
-//- if migrating a starting container (and pulling)
-  - <h4> "Starting Container"
-  - <.small> "We’ve run into an issue and are migrating your container to a healthy server. This may take a few minutes."
-
-//- if migrating a running container
-  - <h4> "Container Temporarily Unavailable"
-  - <.small> "We’ve run into an issue and are migrating your container to a healthy server. This may take a few minutes."
-
-//- if migrating a stopping container (and attempted to start),
-//- if migrating a stopped container (and attempted to start)
-//- if migrating a crashed container (and attempted to start)
-  - <h4> "Starting Container"
-  - <.small> "We’ve run into an issue and are migrating your container to a healthy server. This may take a few minutes."
-
 h4.h4.text-overflow(
   ng-if = "$root.featureFlags.migrationNotification"
 ) Container Temporarily Unavailable
