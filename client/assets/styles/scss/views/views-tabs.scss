@@ -28,6 +28,7 @@
   &:active,
   &.active {
     color: $purple-light;
+    cursor: default;
     font-weight: 500;
   }
 
