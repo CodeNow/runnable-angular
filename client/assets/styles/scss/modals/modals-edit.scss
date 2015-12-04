@@ -198,24 +198,53 @@
   }
 
   // footer save/save & build button
-  .modal-footer > .green {
+  .modal-footer {
     overflow: hidden;
-    text-align: left;
-    transition: padding .2s ease-in-out, width .2s ease-in-out;
-    white-space: nowrap;
 
-    &.text-next {
-      padding-right: 6px;
-      width: 88px;
+    .btn-primary {
+      overflow: hidden;
+      text-align: left;
+      transition: width .2s ease-in-out;
+      white-space: nowrap;
+
+      &.text-next {
+        padding-right: 6px;
+        width: 88px;
+      }
+
+      &.text-save {
+        width: 76px;
+      }
+
+      &.text-save-build {
+        width: 140px;
+      }
     }
 
-    &.text-save {
-      width: 75px;
+    .btn-done {
+      transition: margin .2s ease-in-out;
+
+      &.ng-enter {
+        margin-right: -78px;
+      }
+
+      &.ng-enter-active {
+        margin-right: 0;
+      }
     }
 
-    &.text-save-build {
-      padding-right: 9px;
-      width: 158px;
+    .btn-cancel {
+      transition: opacity .2s ease-in-out, transform .2s ease-in-out;
+
+      &.ng-leave {
+        opacity: 1;
+        transform: translate3d(0,0,0);
+      }
+
+      &.ng-leave-active {
+        opacity: 0;
+        transform: translate3d(-50%,0,0);
+      }
     }
 
     // speed up animation for & build
@@ -237,6 +266,18 @@
 
       &.ng-leave-active {
         opacity: 0;
+      }
+    }
+
+    .small {
+      color: $gray;
+      line-height: $input-md;
+      padding-right: 6px;
+      position: relative;
+      top: 2px;
+
+      @include media(sm) {
+        display: none;
       }
     }
 
