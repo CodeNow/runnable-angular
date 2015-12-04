@@ -41,6 +41,10 @@
     stroke: currentColor;
   }
 
+  &.spinner-blue .path {
+    stroke: $blue;
+  }
+
   &.spinner-purple .path {
     stroke: $purple-light;
   }
