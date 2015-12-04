@@ -239,7 +239,21 @@
     }
 
     .btn-cancel {
+      border: 2px solid transparent;
+      color: $gray-dark;
+      font-weight: $weight-bold;
       transition: opacity .2s ease-in-out, transform .2s ease-in-out;
+
+      &:hover {
+        background: $white;
+        border-color: $gray-light;
+      }
+
+      &:active {
+        background: $white;
+        border-color: currentColor;
+        color: $purple-light;
+      }
 
       &.ng-leave {
         opacity: 1;

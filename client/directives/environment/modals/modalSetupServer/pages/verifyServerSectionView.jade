@@ -194,7 +194,7 @@ footer.modal-footer.clearfix
   //- **********
     - new things
     - **********
-  button.btn.btn-cancel.white.float-left.js-animate(
+  button.btn.btn-cancel.float-left.js-animate(
     ng-click = "SMC.actions.close()"
     ng-if = "$root.featureFlags.rebuildFlow && SMC.state.step < 4"
     type = "button"
@@ -240,7 +240,7 @@ footer.modal-footer.clearfix
   //- **********
     - old things
     - **********
-  button.btn.btn-cancel.white.float-left(
+  button.btn.white.float-left(
     ng-click = "SMC.actions.close()"
     ng-if = "!$root.featureFlags.rebuildFlow"
     type = "button"
