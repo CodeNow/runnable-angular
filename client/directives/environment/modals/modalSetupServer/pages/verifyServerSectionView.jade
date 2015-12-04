@@ -9,6 +9,13 @@ header.modal-header
       pop-over-template = "viewPopoverRenameContainer"
     ) Rename
 
+  svg.iconnables.icons-close(
+    ng-if = "$root.featureFlags.rebuildFlow"
+  )
+    use(
+      xlink:href = "#icons-close"
+    )
+
   //- tabs
   .row.modal-tabs.clearfix.js-animate(
     ng-if="$root.featureFlags.newVerificationFlow"

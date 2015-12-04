@@ -16,6 +16,13 @@
         no-touching = "$root.featureFlags.cardStatus ? showSpinner() : true"
       )
 
+      svg.iconnables.icons-close(
+        ng-if = "$root.featureFlags.rebuildFlow"
+      )
+        use(
+          xlink:href = "#icons-close"
+        )
+
       .row.modal-tabs.tabs-all.clearfix
         button.btn.btn-radio(
           ng-class = "{'active': SMC.selectedTab === 'repository'}"

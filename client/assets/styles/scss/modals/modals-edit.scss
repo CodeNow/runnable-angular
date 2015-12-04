@@ -48,6 +48,11 @@
   .modal-header {
     overflow: hidden; // for animation on tabs
     padding: 0; // reset default header padding
+
+    .icons-close {
+      right: 12px;
+      top: 12px;
+    }
   }
 
   // header button
