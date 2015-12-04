@@ -34,15 +34,14 @@
             value = "hour"
           ) {{$parent.hour}} PST
   .views-toolbar(
-    ng-class = "{\
-      'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
-      'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
-    }"
     ng-if = "page === 'backup'"
   )
     //- only show revert button if script differs from default
     //- button.btn.btn-purple.btn-toolbar.purple Revert to Default
+
+    //- automatically open and scroll to logs when this button is clicked
     button.btn.btn-purple.btn-toolbar.purple Back Up Now
+
   .ace-container.ace-backup(
     ng-class = "{\
       'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
@@ -53,6 +52,18 @@
     //- .ace_editor(
     //-   env-vars
     //- )
+
+  //- only show after the backup script has run for the first time. auto-scroll to logs when clicked.
+  button.btn.btn-xs.btn-logs(
+    ng-click = "showLogs = !showLogs"
+    ng-class = "{'in': showLogs}"
+  ) {{showLogs ? 'Hide Logs' : 'View Logs'}}
+    svg.iconnables.icons-arrow-down
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+
+  //- show automatically if the backup failed. otherwise, show when "View Logs" button or "Back Up Now" button is clicked.
   .build-log-wrapper.js-animate(
     ng-if = "showLogs"
     ng-include = "'backupLogsView'"
@@ -61,19 +72,6 @@
       'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
     }"
   )
-  button.btn.btn-xs.btn-logs(
-    ng-click = "showLogs = !showLogs"
-    ng-class = "{\
-        'in': showLogs,\
-        'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
-        'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
-      }"
-
-  ) {{showLogs ? 'Hide Logs' : 'View Logs'}}
-    svg.iconnables.icons-arrow-down
-      use(
-        xlink:href = "#icons-arrow-down"
-      )
 
 //- restore script
 .label(
@@ -87,10 +85,6 @@
         | .
   //- only show toolbar and revert button if script differs from default
   //- .views-toolbar(
-  //-   ng-class = "{\
-  //-     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
-  //-     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
-  //-   }"
   //-   ng-if = "page === 'restore'"
   //-   ng-include = "'backupToolbarView'"
   //- )

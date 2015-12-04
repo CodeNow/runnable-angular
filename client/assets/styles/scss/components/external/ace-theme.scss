@@ -46,31 +46,26 @@
 }
 
 // toolbar themes
-.views-toolbar {
+.views-toolbar,
+.btn-logs {
 
   // light
-  &.ace-runnable-light {
+  .ace-runnable-light & {
     background: $white;
     border-color: $gray-lighter;
+    color: $gray;
 
     // gray in modals
     .modal-dialog & {
       background: $gray-lighterest;
     }
-
-    .p {
-      color: $gray;
-    }
   }
 
   // dark
-  &.ace-runnable-dark {
+  .ace-runnable-dark & {
     background: #3d294a;
     border-color: $purple-darkest;
-
-    .p {
-      color: $purple-lighter;
-    }
+    color: $purple-lighter;
   }
 }
 

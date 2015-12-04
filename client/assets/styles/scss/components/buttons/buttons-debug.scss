@@ -2,14 +2,17 @@
 .btn-debug {
   flex: 0 0 auto;
 
-  // extra padding for icon
-  > .btn:first-child {
-    padding: 0 21px 0 6px;
-  }
+  .btn {
 
-  // override
-  > .btn:last-child {
-    margin-left: -1px;
+    // extra padding for icon
+    &:first-child {
+      padding: 0 21px 0 6px;
+    }
+
+    // override
+    &:last-child {
+      margin-left: -1px;
+    }
   }
 
   .iconnables {

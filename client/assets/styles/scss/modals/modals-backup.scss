@@ -10,23 +10,17 @@
   .btn-logs {
     border-radius: 0 0 3px 3px;
     font-weight: 500;
-    top: -1px;
     width: 100%;
+    border-width: 1px;
+    border-style: solid;
+    line-height: 1.4;
 
-    &.ace-runnable-dark {
-      background: #3d294a; // match toolbar header
-      border: 1px solid $purple-darkest;
-      color: $purple-lighter;
-    }
+    &.in {
+      border-radius: 0;
 
-    &.ace-runnable-light {
-      background: $gray-lighterest;
-      border: 1px solid $gray-lighter;
-      color: $gray;
-    }
-
-    &.in .icons-arrow-down {
-      transform: rotate3d(0,0,1,180deg);
+      .icons-arrow-down {
+        transform: rotate3d(0,0,1,180deg);
+      }
     }
 
     .icons-arrow-down {
@@ -39,21 +33,12 @@
   }
 
   .build-log-wrapper {
+    border-radius: 0 0 3px 3px;
     height: 270px;
     overflow-y: auto;
     padding: 0;
     transition: all .3s;
     width: 100%;
-
-    &.logs-runnable-dark {
-      background: $ace-bg;
-      border: 1px solid $purple-darkest;
-    }
-
-    &.logs-runnable-light {
-      background: $white;
-      border: 1px solid $gray-lighter;
-    }
 
     &.ng-enter {
       height: 0;

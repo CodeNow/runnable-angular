@@ -5,6 +5,7 @@
   overflow: hidden;
   position: relative;
   z-index: $z-views-active-panel;
+  flex-direction: column;
 
   // hide scrollbar (still allows scrolling)
   .ace_scrollbar {
