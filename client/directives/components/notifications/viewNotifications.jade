@@ -1,49 +1,73 @@
-//- if successful, .green; if fail, .orange
-.btn.btn-xxs.btn-icon.btn-state.no-touching
-  //- if updated
-  svg.iconnables.icons-check(
-    ng-if = "dataInstance.data.showUpdatedMessage"
+.anchor-left
+  img.gravatar(
+    height = "27"
+    ng-src = "{{dataInstance.data.commit.attrs.author.avatar_url}}"
+    ng-if = "!$root.featureFlags.migrationNotification"
+    width = "27"
+  )
+  .btn.btn-xxs.btn-icon.btn-state.no-touching(
+    ng-if = "!$root.featureFlags.migrationNotification"
+  )
+    //- if updated
+    svg.iconnables.icons-check(
+      ng-if = "dataInstance.data.showUpdatedMessage"
+    )
+      use(
+        xlink:href = "#icons-fat-check"
+      )
+
+    //- if updating
+    svg.iconnables.icons-warning(
+      ng-if = "dataInstance.data.showUpdatingMessage"
+    )
+      use(
+        xlink:href = "#icons-warning"
+      )
+
+  svg.iconnables.icons-alert(
+    ng-if = "$root.featureFlags.migrationNotification"
   )
     use(
-      xlink:href = "#icons-fat-check"
+      xlink:href = "#icons-alert-alt"
     )
-  //- if updating
-  svg.iconnables.icons-notification(
-    ng-if = "dataInstance.data.showUpdatingMessage"
-  )
+
+h4.h4.text-overflow(
+  ng-if = "$root.featureFlags.migrationNotification"
+) Container Temporarily Unavailable
+
+.small(
+  ng-if = "$root.featureFlags.migrationNotification"
+) We’ve run into an issue and are migrating your container to a healthy server. Your container will be unavailble until migration is complete.
+
+a.small.link(
+  ng-if = "$root.featureFlags.migrationNotification"
+) What is this?
+  svg.iconnables.icons-link-external
     use(
-      xlink:href = "#icons-notification"
+      xlink:href = "#icons-link-external"
     )
-img.gravatar(
-  height = "36"
-  ng-src = "{{dataInstance.data.commit.attrs.author.avatar_url}}"
-  width = "36"
-)
-//- inherit green/orange from .notification
+
+h4.h4.text-overflow(
+  ng-if = "!$root.featureFlags.migrationNotification"
+  title = "{{dataInstance.data.instance.getRepoAndBranchName()}}"
+) {{dataInstance.data.showUpdatedMessage ? 'Deployed' : 'Building' }}&#32;
+  span.strong {{dataInstance.data.instance.getRepoName() || dataInstance.data.instance.getDisplayName()}}
+  span(
+    ng-if = "dataInstance.data.instance.getBranchName()"
+  ) /{{dataInstance.data.instance.getBranchName()}}
+
+.small(
+  ng-if = "!$root.featureFlags.migrationNotification"
+) {{dataInstance.data.commit.attrs.author.login}} pushed&#32;
+  a.link(
+    ng-href = "{{dataInstance.data.commit.attrs.html_url}}"
+    target = "_blank"
+  ) {{dataInstance.data.commit.attrs.sha | limitTo:7}}
+
 button.btn.btn-icon.btn-close(
-  ng-class = "{\
-    'green': dataInstance.data.showUpdatedMessage,\
-    'orange': dataInstance.data.showUpdatingMessage\
-  }"
   ng-click = "dataInstance.data.showUpdatedMessage = false; dataInstance.data.showUpdatingMessage = false"
 )
   svg.iconnables.icons-close
     use(
       xlink:href = "#icons-close"
     )
-//- copy should read:
-    if updating: Updating {{ serverName }}
-    if success: Successful Build
-    if failed: Failed Build
-h4.h4.text-overflow(
-  title = "{{dataInstance.data.instance.getRepoAndBranchName()}}"
-) {{dataInstance.data.showUpdatedMessage ? 'Deployed' : 'Building' }} #{''}
-  span.strong {{dataInstance.data.instance.getRepoName() || dataInstance.data.instance.getDisplayName()}}
-  span(
-    ng-if = "dataInstance.data.instance.getBranchName()"
-  ) /{{dataInstance.data.instance.getBranchName()}}
-small.small {{dataInstance.data.commit.attrs.author.login}} pushed #{''}
-  a.link(
-    ng-href = "{{dataInstance.data.commit.attrs.html_url}}"
-    target = "_blank"
-  ) {{dataInstance.data.commit.attrs.sha  | limitTo:7}}

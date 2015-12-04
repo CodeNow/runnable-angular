@@ -104,34 +104,6 @@
     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
-  ng-if= "openItems.models.length === 0 && !$root.featureFlags.backup"
+  ng-if= "openItems.models.length === 0"
+  ng-include = "'blankPanelView'"
 )
-  .floating-controls(
-    ng-include = "'viewFloatingControls'"
-  )
-
-  ul.blank-panel-group
-    li.btn.btn-sm(
-      ng-click = "openItems.addTerminal()"
-    )
-      svg.iconnables
-        use(
-          xlink:href = "#icons-start-cmd"
-        )
-      | Terminal
-    li.btn.btn-sm(
-      ng-click = "openItems.addBuildStream()"
-    )
-      svg.iconnables
-        use(
-          xlink:href = "#icons-build-logs"
-        )
-      | Build Logs
-    li.btn.btn-sm(
-      ng-click = "openItems.addLogs()"
-    )
-      svg.iconnables.icons-server
-        use(
-          xlink:href = "#icons-cmd-logs"
-        )
-      | CMD Logs

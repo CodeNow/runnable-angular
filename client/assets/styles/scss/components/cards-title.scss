@@ -30,7 +30,7 @@
     }
   }
 
-  .icons-warning,
+  .icons-alert,
   .icons-arrow-down,
   .spinner-wrapper {
     flex: 0 0 21px;
@@ -39,10 +39,10 @@
 
   .spinner-wrapper {
     color: $gray-light;
-    padding: 3px; // sizes element to replace .icons-warning
+    padding: 3px; // sizes element to replace .icons-alert
   }
 
-  .icons-warning {
+  .icons-alert {
     color: $orange;
   }
 }
@@ -82,7 +82,7 @@
     }
   }
 
-  .icons-warning,
+  .icons-alert,
   .icons-arrow-down {
     flex: 0 0 18px;
     height: 18px;

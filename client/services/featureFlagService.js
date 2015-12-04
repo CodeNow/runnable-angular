@@ -21,6 +21,7 @@ function featureFlags(
     inviteFlows: false,
     isolationNav: false, // for isolation nav
     isolationUI: false, // for isolation UI
+    migrationNotification: false,
     multilineFnR: false,
     nameContainer: false,
     navListFilter: false,
