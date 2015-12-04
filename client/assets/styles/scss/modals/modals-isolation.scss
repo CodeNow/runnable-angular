@@ -2,19 +2,24 @@
   color: $gray-dark;
   width: 450px;
 
-  .icons-status {
-    margin-right: 3px;
-  }
-
   // modal description
   .text-center {
     flex: 0 0 auto;
+    margin: 12px 0 24px;
+    padding: 0 13px;
+  }
+
+  .small {
+    color: $gray;
+    flex: 0 0 auto;
+    margin-bottom: 6px;
+    padding: 0 13px;
   }
 
   // container lists
   .list {
     flex: 0 0 auto;
-    margin-top: 15px;
+    margin-bottom: 24px;
   }
 
   .list-item {
@@ -48,22 +53,22 @@
       text-align: left;
     }
 
-    // "No Backups"
+    // "No Backups" badge
     &.white {
-      border: 1px solid transparent;
+      border: 1px solid transparent !important;
     }
 
     &.modded {
       top: -6px;
     }
-  }
 
-  // "Branch uses a modified configuration"
-  .small {
-    bottom: 1px;
-    color: $gray;
-    font-size: 11px;
-    position: absolute;
-    right: 12px;
+    // "Branch uses a modified configuration"
+    + .small {
+      bottom: 1px;
+      color: $gray;
+      font-size: 11px;
+      position: absolute;
+      right: 12px;
+    }
   }
 }

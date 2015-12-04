@@ -9,13 +9,21 @@
           xlink:href = "#icons-close"
         )
     section.modal-body
-      .text-center The following containers will be created to isolate&#32;
+      .text-center.text-overflow
+        | The following containers will be created to isolate&#32;
         br
-        status-icon(
-          instance = "ICMC.instance"
+        span(
+          ng-attr-title = "{{ICMC.instance.getRepoName()}}/{{ICMC.instance.getBranchName()}}"
         )
-        strong.strong {{ICMC.instance.getRepoName()}}/{{ICMC.instance.getBranchName()}}
-        | .
+          status-icon(
+            instance = "ICMC.instance"
+          )
+          | &#32;{{ICMC.instance.getRepoName()}}/
+          strong.strong {{ICMC.instance.getBranchName()}}
+      //- .p We’ll use existing backups to populate your new databases.
+
+      //- repository containers
+      .small.strong Repository Containers
       .list.list-bordered(
         ng-if = "ICMC.repoInstances.length"
       )
@@ -45,6 +53,9 @@
           //- this element should only appear if the selected branch uses a modified configuration
           //- small.small Branch uses a modified configuration
 
+      //- database containers
+      .small.strong Database Containers
+        //- .small We’ll use existing backups to populate your new databases.
       .list.list-bordered(
         ng-if = "ICMC.nonRepoInstances.length"
       )
@@ -58,10 +69,30 @@
           span.span.text-overflow {{instance.getDisplayName()}}
 
           //- show on containers that have a backup
-          button.btn.btn-xs.btn-badge.gray From Backup
+          button.btn.btn-xs.btn-badge.gray(
+            tooltip = "We’ll use the latest MySQL backup to populate this database."
+            tooltip-options = "{\"class\":\"left\",\"right\":102,\"top\":-6}"
+          ) From Backup
+        .list-item
+          svg.iconnables.icons-server-new
+            use(
+              xlink:href = "#icons-server-new"
+            )
+          span.span.text-overflow Redis
+          button.btn.btn-xs.btn-badge.white(
+            tooltip = "This container will start with an empty database."
+            tooltip-options = "{\"class\":\"left\",\"right\":90,\"top\":-6}"
+          ) No Backups
 
-          //- show on containers that don't have any backups
-          //- button.btn.btn-xs.btn-badge.white No Backups
+      //- non-database service containers
+      .small.strong Other Containers
+      .list.list-bordered
+        .list-item
+          svg.iconnables.icons-server-new
+            use(
+              xlink:href = "#icons-server-new"
+            )
+          span.span.text-overflow Consul-Server
 
     section.modal-footer.clearfix
       button.btn.white.float-left(
