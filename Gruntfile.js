@@ -39,14 +39,14 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     concurrent: {
       dev: {
-        tasks: ['watch:images', 'watch:javascripts', 'watch:templates', 'watch:styles', 'watch:jade'],
+        tasks: ['watch:javascripts', 'watch:templates', 'watch:styles', 'watch:jade'],
         options: {
           limit: 10,
           logConcurrentOutput: true
         }
       },
       devNoBS: {
-        tasks: ['watch:images', 'watch:javascripts', 'watch:templates', 'watch:styles', 'watch:jade', 'watch:compress', 'nodemon'],
+        tasks: ['watch:javascripts', 'watch:templates', 'watch:styles', 'watch:jade', 'watch:compress', 'nodemon'],
         options: {
           limit: 10,
           logConcurrentOutput: true
@@ -154,28 +154,7 @@ module.exports = function(grunt) {
         }
       }
     },
-    copy: {
-      images: {
-        expand: true,
-        cwd: 'client/assets/images/',
-        src: '**',
-        dest: 'client/build/images/',
-        flatten: false,
-        filter: 'isFile'
-      }
-    },
     watch: {
-      images: {
-        files: [
-          'client/assets/images/**/*.jpg',
-          'client/assets/images/**/*.jpeg',
-          'client/assets/images/**/*.png',
-          'client/assets/images/**/*.svg'
-        ],
-        tasks: [
-          'newer:copy:images'
-        ]
-      },
       tests: {
         files: [
           'client/build/**/*.js',
@@ -509,7 +488,6 @@ module.exports = function(grunt) {
 
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-bg-shell');
   grunt.loadNpmTasks('grunt-jade-plugin');
@@ -543,7 +521,6 @@ module.exports = function(grunt) {
   grunt.registerTask('test', ['bgShell:karma']);
   grunt.registerTask('default', [
     'bgShell:npm-install',
-    'copy',
     'sass:dev',
     'autoprefixer',
     'jade2js',
@@ -557,7 +534,6 @@ module.exports = function(grunt) {
   ]);
   grunt.registerTask('no-bs', [ // No browser sync
     'bgShell:npm-install',
-    'copy',
     'sass:dev',
     'autoprefixer',
     'jade2js',
@@ -570,7 +546,6 @@ module.exports = function(grunt) {
     'concurrent:devNoBS'
   ]);
   grunt.registerTask('server', [
-    'copy',
     'sass:dev',
     'autoprefixer',
     'jade2js',
@@ -583,7 +558,6 @@ module.exports = function(grunt) {
     'concurrent'
   ]);
   grunt.registerTask('deploy', [
-    'copy',
     'sass:dev',
     'autoprefixer',
     'jade2js',
@@ -595,7 +569,6 @@ module.exports = function(grunt) {
     'compress:build'
   ]);
   grunt.registerTask('deploy:prod', [
-    'copy',
     'sass:dev',
     'autoprefixer',
     'jade2js',
@@ -607,7 +580,6 @@ module.exports = function(grunt) {
     'compress:build'
   ]);
   grunt.registerTask('deploy:staging', [
-    'copy',
     'sass:dev',
     'autoprefixer',
     'jade2js',
