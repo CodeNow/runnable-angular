@@ -1,11 +1,10 @@
 .btn-badge {
   border: 1px solid transparent;
-  font-weight: $weight-bold;
-  pointer-events: none;
+  cursor: auto;
+  font-weight: $weight-normal;
 
   // sizes
   &.btn-xxs {
-    font-weight: $weight-normal;
     line-height: 16px;
   }
 

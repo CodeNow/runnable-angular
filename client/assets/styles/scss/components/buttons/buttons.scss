@@ -270,7 +270,7 @@
   border-color: $gray-lighter;
   color: $gray-dark;
 
-  &.btn:not([disabled]):not(.disabled) {
+  &.btn:not([disabled]):not(.disabled):not(.btn-badge) {
 
     &:hover,
     &.hover {
@@ -423,7 +423,7 @@
   &.btn {
     background: $white;
 
-    &:not([disabled]):not(.disabled) {
+    &:not([disabled]):not(.disabled):not(.btn-badge) {
 
       &:hover,
       &.hover {
