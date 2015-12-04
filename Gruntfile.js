@@ -45,7 +45,7 @@ module.exports = function(grunt) {
         }
       },
       devNoBS: {
-        tasks: ['watch:javascripts', 'watch:templates', 'watch:styles', 'watch:jade', 'watch:compress', 'nodemon'],
+        tasks: ['watch:javascripts', 'watch:templates', 'watch:styles', 'watch:jade', 'nodemon'],
         options: {
           limit: 10,
           logConcurrentOutput: true
@@ -541,7 +541,6 @@ module.exports = function(grunt) {
     'generateConfigs',
     'browserify:watch',
     'jade:compile',
-    'compress:build',
     'concurrent:devNoBS'
   ]);
   grunt.registerTask('server', [
