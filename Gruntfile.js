@@ -13,7 +13,6 @@ if (!envIs('production', 'staging')) {
   historyApiFallback = require('connect-history-api-fallback');
 }
 
-
 var config = {};
 
 module.exports = function(grunt) {
