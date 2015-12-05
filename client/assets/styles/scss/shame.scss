@@ -42,3 +42,14 @@
 .views-toolbar {
   position: relative;
 }
+
+// arrows for nesting div in buttons
+.btn > .js-btn-wrapper {
+  height: 100%;
+
+  > .icons-arrow-down {
+    float: right;
+    height: 100%;
+    margin-right: -6px;
+  }
+}
