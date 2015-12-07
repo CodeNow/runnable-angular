@@ -20,10 +20,9 @@
           )
           | &#32;{{ICMC.instance.getRepoName()}}/
           strong.strong {{ICMC.instance.getBranchName()}}
-      //- .p We’ll use existing backups to populate your new databases.
 
       //- repository containers
-      .small.strong Repository Containers
+      h4.h4 Repository Containers
       .list.list-bordered(
         ng-if = "ICMC.repoInstances.length"
       )
@@ -54,8 +53,7 @@
           //- small.small Branch uses a modified configuration
 
       //- database containers
-      .small.strong Database Containers
-        //- .small We’ll use existing backups to populate your new databases.
+      h4.h4 Database Containers
       .list.list-bordered(
         ng-if = "ICMC.nonRepoInstances.length"
       )
@@ -67,25 +65,24 @@
               xlink:href = "#icons-server-new"
             )
           span.span.text-overflow {{instance.getDisplayName()}}
-
           //- show on containers that have a backup
-          button.btn.btn-xs.btn-badge.gray(
+          small.small(
             tooltip = "We’ll use the latest MySQL backup to populate this database."
-            tooltip-options = "{\"class\":\"left\",\"right\":102,\"top\":-6}"
-          ) From Backup
-        .list-item
-          svg.iconnables.icons-server-new
-            use(
-              xlink:href = "#icons-server-new"
-            )
-          span.span.text-overflow Redis
-          button.btn.btn-xs.btn-badge.white(
-            tooltip = "This container will start with an empty database."
-            tooltip-options = "{\"class\":\"left\",\"right\":90,\"top\":-6}"
-          ) No Backups
+            tooltip-options = "{\"class\":\"left\",\"right\":105,\"top\":-9}"
+          )
+            svg.iconnables.icons-check.float-left
+              use(
+                xlink:href = "#icons-check"
+              )
+            | From Backup
+          //- show on containers that have no backups
+          //- small.small(
+          //-   tooltip = "This container will start with an empty database."
+          //-   tooltip-options = "{\"class\":\"left\",\"right\":80,\"top\":-9}"
+          //- ) No Backups
 
       //- non-database service containers
-      .small.strong Other Containers
+      h4.h4 Other Containers
       .list.list-bordered
         .list-item
           svg.iconnables.icons-server-new

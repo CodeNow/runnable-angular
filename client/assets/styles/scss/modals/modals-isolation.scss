@@ -9,9 +9,11 @@
     padding: 0 13px;
   }
 
-  .small {
+  // list headers
+  .h4 {
     color: $gray;
     flex: 0 0 auto;
+    font-size: 13px;
     margin-bottom: 6px;
     padding: 0 13px;
   }
@@ -33,30 +35,35 @@
     > .iconnables {
       flex: 0 0 21px;
     }
+  }
 
-    // container names
-    > .span {
-      flex: 1 1 auto;
-      font-weight: $weight-bold;
-      padding: 0 6px;
+  // container names
+  .span {
+    flex: 1 1 auto;
+    font-weight: $weight-bold;
+    padding: 0 6px;
+
+    //- backup status
+    + .small {
+      color: $gray-light;
+      cursor: default;
+      font-style: italic;
+      margin-right: 3px;
     }
+  }
+
+  .icons-check {
+    height: 18px;
+    width: 18px;
   }
 
   // reset .list-item > .btn-xs
   .btn-xs {
+    flex: 0 0 185px;
     position: relative;
     right: 0;
+    text-align: left;
     top: 0;
-
-    &:not(.btn-badge) {
-      flex: 0 0 185px;
-      text-align: left;
-    }
-
-    // "No Backups" badge
-    &.white {
-      border: 1px solid transparent !important;
-    }
 
     &.modded {
       top: -6px;
