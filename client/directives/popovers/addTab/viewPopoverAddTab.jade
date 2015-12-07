@@ -50,7 +50,7 @@
       //- only for testing backup tab
       li.list-item.popover-list-item(
         ng-click = "actions.addBackupStream(); POC.closePopover()"
-        ng-if = "data.options.server"
+        ng-if = "data.options.server && $root.featureFlags.backup"
       )
         svg.iconnables
           use(

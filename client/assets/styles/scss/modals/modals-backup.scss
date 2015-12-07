@@ -57,14 +57,11 @@
     }
   }
 
-  .build-log.build-log {
+  .build-log {
+    background: transparent;
     border: 0;
     margin: 18px;
     padding: 0 18px;
-
-    &:not(.green) {
-      background: transparent;
-    }
   }
 
   .build-log-content,
