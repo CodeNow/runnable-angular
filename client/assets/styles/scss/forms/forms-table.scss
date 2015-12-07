@@ -311,13 +311,13 @@
   }
 
   // status icons
-  .icons-warning,
+  .icons-alert,
   .icons-link {
     height: 38px;
     width: 18px;
 
-    // warning icon
-    &.icons-warning {
+    // alert icon
+    &.icons-alert {
       color: $orange;
     }
 
