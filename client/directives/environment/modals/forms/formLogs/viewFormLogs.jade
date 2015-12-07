@@ -52,8 +52,8 @@ pre.pre.log-wrapper(
       'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
       'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
     }"
-    ng-include = "'debugToolbarView'"
     ng-if = "SMC.page === 'run'"
+    ng-include = "'debugToolbarView'"
     ng-show = "SMC.showDebugCmd"
   )
   //- build logs page
