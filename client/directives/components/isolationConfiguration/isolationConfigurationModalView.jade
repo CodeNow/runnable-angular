@@ -22,7 +22,9 @@
           strong.strong {{ICMC.instance.getBranchName()}}
 
       //- repository containers
-      h4.h4 Repository Containers
+      h4.h4(
+        ng-if = "ICMC.repoInstances.length && $root.featureFlags.backup"
+      ) Repository Containers
       .list.list-bordered(
         ng-if = "ICMC.repoInstances.length"
       )
@@ -53,9 +55,11 @@
           //- small.small Branch uses a modified configuration
 
       //- database containers
-      h4.h4 Database Containers
+      h4.h4(
+        ng-if = "ICMC.nonRepoInstances.length && $root.featureFlags.backup"
+      ) Database Containers
       .list.list-bordered(
-        ng-if = "ICMC.nonRepoInstances.length"
+        ng-if = "ICMC.nonRepoInstances.length && $root.featureFlags.backup"
       )
         .list-item(
           ng-repeat = "instance in ICMC.nonRepoInstances"
@@ -81,15 +85,22 @@
           //-   tooltip-options = "{\"class\":\"left\",\"right\":80,\"top\":-9}"
           //- ) No Backups
 
-      //- non-database service containers
-      h4.h4 Other Containers
-      .list.list-bordered
-        .list-item
+      //- before backup and restore feature: service containers
+      //- after backup and restore feature: service containers that aren't databases
+      h4.h4(
+        ng-if = "ICMC.nonRepoInstances.length && $root.featureFlags.backup"
+      ) Other Containers
+      .list.list-bordered(
+        ng-if = "ICMC.nonRepoInstances.length"
+      )
+        .list-item(
+          ng-repeat = "instance in ICMC.nonRepoInstances"
+        )
           svg.iconnables.icons-server-new
             use(
               xlink:href = "#icons-server-new"
             )
-          span.span.text-overflow Consul-Server
+          span.span.text-overflow {{instance.getDisplayName()}}
 
     section.modal-footer.clearfix
       button.btn.white.float-left(
