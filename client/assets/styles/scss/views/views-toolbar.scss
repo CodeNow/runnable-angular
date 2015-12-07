@@ -30,12 +30,12 @@
 
   + .logs-wrapper,
   + .ace-container {
-    border-radius: 0 0 3px 3px;
+    border-radius: 0 0 $input-border-radius $input-border-radius;
     border-top-width: 0;
   }
 
   .modal-dialog & {
-    border-radius: 3px 3px 0 0;
+    border-radius: $input-border-radius $input-border-radius 0 0;
     border-width: 1px;
   }
 

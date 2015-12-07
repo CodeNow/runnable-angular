@@ -8,12 +8,12 @@
   }
 
   .btn-logs {
-    border-radius: 0 0 3px 3px;
-    font-weight: 500;
-    width: 100%;
-    border-width: 1px;
+    border-radius: 0 0 $input-border-radius $input-border-radius;
     border-style: solid;
+    border-width: 1px;
+    font-weight: $weight-normal;
     line-height: 1.4;
+    width: 100%;
 
     &.in {
       border-radius: 0;
