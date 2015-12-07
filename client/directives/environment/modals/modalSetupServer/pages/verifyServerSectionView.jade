@@ -126,7 +126,7 @@ section.modal-body(
   ng-if = "!$root.isLoading.setupServerModal"
 )
   .modal-form
-    // Stack & Branch
+    //- Stack & Branch
     .label(
       is-new-container = "true"
       loading-promises-target = "setupServerModal"
@@ -134,7 +134,7 @@ section.modal-body(
       stack-selector-form
       state = "SMC.state"
     )
-    // Commands
+    //- Commands
     .label(
       loading-promises-target = "setupServerModal"
       ng-if = "!$root.featureFlags.newVerificationFlow || SMC.selectedTab === 'commands'"
@@ -142,31 +142,31 @@ section.modal-body(
       start-command-can-disable = "true"
       state = "SMC.state"
     )
-    // Default messages
+    //- Default messages
     p.p.empty(
       ng-if = "SMC.state.step === 3 && SMC.selectedTab === null"
     ) Your container is ready to build!
         br
         small.small You can use the tools above to make additional changes to your configuration.
-    // Ports
+    //- Ports
     .modal-form(
       ng-show = "SMC.selectedTab === 'ports'"
       ports = "SMC.state.ports"
       ports-form
     )
-    // Environment variables
+    //- Environment variables
     .modal-form(
       ng-include = "'viewFormEnvironmentVariables'"
       ng-show = "SMC.selectedTab === 'env'"
     )
-    // Files & SSH Keys
+    //- Files & SSH Keys
     .modal-form(
       ng-controller = "ContainerFilesController as CFC"
       ng-include = "'viewFormFiles'"
       ng-init = "CFC.init({state: SMC.state, getDisplayName: SMC.getDisplayName})"
       ng-show = "SMC.selectedTab === 'files'"
     )
-    // Find & Replace
+    //- Find & Replace
     .modal-form(
       ng-show = "SMC.selectedTab === 'translation'"
       instance = "SMC.instance"
@@ -174,12 +174,12 @@ section.modal-body(
       data = "SMC.data"
       translation-rules
     )
-    // Dockerfile
+    //- Dockerfile
     .modal-form(
       ng-include = "'viewFormBuildfiles'"
       ng-show = "SMC.selectedTab === 'buildfiles'"
     )
-    // Logs
+    //- Logs
     .modal-form.modal-logs(
       ng-class = "{\
         'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
