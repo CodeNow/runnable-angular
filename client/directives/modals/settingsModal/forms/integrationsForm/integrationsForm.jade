@@ -59,16 +59,16 @@
         }"
         ng-repeat = "member in data.slackMembers"
       )
-        .badge-notification(
+        .badge-warning(
           ng-if = "\
             !member.found && \
             member.slackOn && \
             !member.ghName && data.settings.attrs.notifications.slack.enabled\
           "
         )
-          svg.iconnables.icons-notification
+          svg.iconnables.icons-warning
             use(
-              xlink:href = "#icons-notification"
+              xlink:href = "#icons-warning"
             )
         img.gravatar(
           height = "21"
