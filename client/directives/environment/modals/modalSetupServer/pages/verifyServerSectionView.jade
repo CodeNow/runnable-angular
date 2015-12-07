@@ -206,8 +206,7 @@ footer.modal-footer.clearfix
     type = "button"
   ) Done
 
-  //- disabled if there is no value in the command input or no changes (after build)
-  //- next, next, save & build button
+  //- next, next, save & build button`
     - classes change depending on text for width:
       .text-save-build
       .text-save
@@ -224,6 +223,7 @@ footer.modal-footer.clearfix
     "
     ng-if = "$root.featureFlags.rebuildFlow"
     setup-confirm-button
+    type = "button"
   )
     //- text should read "Next" for steps 1, 2
     //- changes to "Save & Build" starting from step 3 (or save)
