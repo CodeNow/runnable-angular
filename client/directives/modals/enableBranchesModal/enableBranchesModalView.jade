@@ -1,10 +1,12 @@
 .modal-backdrop.in
   .modal-dialog.modal-alert
     section.modal-body
-      p.p.strong Make sure you’ve finished configuring optimus before continuing.
+      p.p.strong Make sure you’ve finished configuring {{EBMC.repoName}} before continuing.
       p.p This will create containers for all its active branches.
     section.modal-footer.clearfix
       button.btn.btn-sm.gray.float-left(
-        ng-click = "defaultActions.cancel()"
+        ng-click = "EBMC.close()"
       ) Cancel
-      button.btn.btn-sm.green.float-right Enable Branches
+      button.btn.btn-sm.green.float-right(
+        ng-click = "EBMC.enableBranches()"
+      ) Enable Branches

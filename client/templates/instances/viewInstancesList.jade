@@ -62,14 +62,13 @@
     pop-over-data = "masterInstance"
     pop-over-trigger = "hover"
     pop-over-hover-trigger
-    ng-if = "$root.featureFlags.webhooks && (!$root.featureFlags.webhooksContainerRunning || !$root.featureFlags.webhooksAdminPresent)"
+    ng-if = "$root.featureFlags.webhooks && masterInstance.status() !== 'running' && !$root.featureFlags.webhooksAdminPresent"
   ) Enable Branches…
 
   //- if default container is running and admin is present
   button.btn.btn-xs.white.btn-add-branches(
-    modal
-    modal-template = "enableBranchesModalView"
-    ng-if = "$root.featureFlags.webhooks && $root.featureFlags.webhooksContainerRunning && $root.featureFlags.webhooksAdminPresent"
+    ng-click = "CIS.openEnableBranchesModal(masterInstance)"
+    ng-if = "$root.featureFlags.webhooks && masterInstance.status() === 'running'"
   ) Enable Branches…
 
   //- nav list filter
