@@ -43,31 +43,22 @@
             width = "24"
           )
           .btn-text Slack Integration
-        //- button.btn.btn-radio(
-        //-   disabled
-        //- )
-        //-   svg.iconnables
-        //-     use(
-        //-       xlink:href = "#icons-advanced"
-        //-     )
-        //-   .btn-text Settings
-        //-     .btn.btn-xxs.orange.no-touching Coming Soon
 
-    section.modal-body.js-animate(
-      ng-if = "SEMC.currentTab === 'billing'"
-      ng-include = "'billingForm'"
-    )
+    section.modal-body.js-animate
 
-    section.modal-body.js-animate(
-      ng-if = "SEMC.currentTab === 'teamManagement'"
-      team-management-form
-    )
+      // This will replaced by a directive when implemented
+      div(
+        ng-if = "SEMC.currentTab === 'billing'"
+        ng-include = "'billingForm'"
+      )
 
-    //- slack integration
-    section.modal-body.js-animate(
-      ng-if = "SEMC.currentTab === 'slackIntegration'"
-      slack-integration-form
-    )
+      team-management-form(
+        ng-if = "SEMC.currentTab === 'teamManagement'"
+      )
+
+      slack-integration-form(
+        ng-if = "SEMC.currentTab === 'slackIntegration'"
+      )
 
     footer.modal-footer.clearfix
       button.btn.white.float-right(
