@@ -9,6 +9,9 @@
 
   .build-log-header & {
     font-family: $sans-serif; // override monospace fonts inside log header
+    font-size: 13px;
+    height: $input-xs;
+    line-height: $input-xs - 2px;
   }
 
   // toolbar theme
