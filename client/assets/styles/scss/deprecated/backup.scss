@@ -1,42 +1,27 @@
 //- ************************
 //- deprecated file, delete with $root.featureFlags.backup
 // .blank-panel
-
 .blank-panel {
-  align-items: center;
-  display: flex;
-  flex: 1 1 auto;
-  justify-content: center;
   margin-top: -1px;
   position: relative;
 
   // dark theme
-  &.ace-runnable-dark {
-    background-color: $ace-bg;
+  &.ace-runnable-dark .btn-sm {
     color: $purple-lighter;
 
-    .btn-sm {
-      color: $purple-lighter;
-
-      &:hover,
-      &:active {
-        color: $white;
-      }
+    &:hover,
+    &:active {
+      color: $white;
     }
   }
 
   // light theme
-  &.ace-runnable-light {
-    background-color: $gray-lighterest;
-    border-top: 1px solid $gray-lighter;
+  &.ace-runnable-light .btn-sm {
+    color: $gray-darker;
 
-    .btn-sm {
-      color: $gray-darker;
-
-      &:hover,
-      &:active {
-        color: $purple-light;
-      }
+    &:hover,
+    &:active {
+      color: $purple-light;
     }
   }
 
