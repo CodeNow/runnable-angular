@@ -34,8 +34,8 @@
     ng-click = "SMC.page = 'build'"
   ) Build Logs
   button.btn.btn-xs.white(
-    ng-class = "{'active': page === 'run'}"
-    ng-click = "page = 'run'"
+    ng-class = "{'active': SMC.page === 'run'}"
+    ng-click = "SMC.page = 'run'"
     ng-disabled = "!SMC.instance.containers.models.length"
   ) CMD Logs
 
@@ -53,7 +53,7 @@ pre.pre.log-wrapper(
       'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
     }"
     ng-if = "SMC.page === 'run'"
-    ng-include = "'debugToolbarView'"
+    ng-include = "'viewToolbar'"
     ng-show = "SMC.showDebugCmd"
   )
   //- build logs page
