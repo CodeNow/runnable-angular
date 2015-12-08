@@ -24,15 +24,16 @@
 )
   .clearfix
     .label-col Backup Script
-      .small Backups are created daily by running this script at&#32;
-        fancy-select.btn.btn-xxs.white(
-          value = "selectedHour"
-        )
-          fancy-option(
-            ng-repeat = "hour in $parent.hours"
-            style = "text-align: right;"
-            value = "hour"
-          ) {{$parent.hour}} PST
+  .small
+    span.float-left Backups are created daily by running this script at
+    fancy-select.btn.btn-xxs.white.float-left(
+      value = "selectedHour"
+    )
+      fancy-option(
+        ng-repeat = "hour in $parent.hours"
+        style = "text-align: right;"
+        value = "hour"
+      ) {{$parent.hour}} PST
 
   .logs-runnable-dark
     .views-toolbar(
@@ -51,9 +52,7 @@
       }"
       ng-if = "page === 'backup'"
     )
-      //- .ace_editor(
-      //-   env-vars
-      //- )
+      //- .ace_editor
 
     //- only show after the backup script has run for the first time. auto-scroll to logs when clicked.
     button.btn.btn-xs.btn-logs(
@@ -66,11 +65,7 @@
         )
 
     //- show automatically if the backup failed. otherwise, show when "View Logs" button or "Back Up Now" button is clicked.
-    .build-log-wrapper.js-animate(
-      ng-class = "{\
-        'logs-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
-        'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
-      }"
+    .build-log-wrapper(
       ng-if = "showLogs"
       ng-include = "'backupLogsView'"
     )
@@ -82,12 +77,12 @@
 )
   .clearfix
     .label-col Restore Script
-      .small This script runs during every build, restoring from the most recent backup.&#32;
-        a.link(
-          href = "#"
-          target = "_blank"
-        ) Learn how to restore from older backups
-        | .
+  .small This script runs during every build, restoring from the most recent backup.&#32;
+    a.link(
+      href = "#"
+      target = "_blank"
+    ) Learn how to restore from older backups
+    | .
   //- only show toolbar and revert button if script differs from default
   //- .views-toolbar(
   //-   ng-if = "page === 'restore'"
@@ -101,6 +96,4 @@
     }"
     ng-if = "page === 'restore'"
   )
-    //- .ace_editor(
-    //-   env-vars
-    //- )
+    //- .ace_editor

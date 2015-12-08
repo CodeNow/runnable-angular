@@ -1,6 +1,23 @@
 .modal-backup {
 
-  // logs wrapper
+  // override
+  .label-col {
+    height: auto;
+    line-height: 1.4;
+  }
+
+  // script descriptions
+  .small {
+    margin-bottom: 9px;
+    overflow: hidden;
+  }
+
+  // time selection button
+  .btn-xxs {
+    margin-left: 3px;
+  }
+
+  // backup script/logs wrapper
   .logs-runnable-dark {
     border-radius: $input-border-radius;
     overflow: hidden;
@@ -8,14 +25,15 @@
 
   // backup script
   .ace-backup {
+    border-radius: 0;
     border-width: 0 1px;
     min-height: 120px;
   }
 
+  // view/hide logs
   .btn-logs {
-    background: #3d294a; // match toolbar header
+    border: 1px solid;
     border-radius: 0;
-    border: 1px solid $purple-darker;
     line-height: $input-xs - 2px; // .btn-xs height - border-width*2 (24px - 1px*2)
     width: 100%;
 
@@ -40,8 +58,10 @@
     }
   }
 
+  //- backup logs
   .build-log-wrapper {
     border-radius: 0 0 $input-border-radius $input-border-radius;
+    overflow: hidden;
     padding: 18px;
   }
 
@@ -61,26 +81,5 @@
   .ace-restore {
     border-radius: 3px;
     min-height: 270px;
-  }
-
-  // override
-  .label-col {
-    height: auto;
-    line-height: 1.4;
-    margin: 9px 0;
-    width: 100%;
-  }
-
-  // override
-  .small.small {
-    display: block;
-    line-height: 1.4;
-    margin: 0;
-
-    // time selection button
-    .btn-xxs {
-      margin-top: -3px;
-      top: 2px;
-    }
   }
 }
