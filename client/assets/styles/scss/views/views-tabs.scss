@@ -16,7 +16,6 @@
   cursor: pointer;
   display: flex;
   height: $input-md;
-  justify-content: center;
   max-width: 300px;
   padding: 0 15px;
   text-align: center;
@@ -53,16 +52,18 @@
     border: 0;
     color: $gray;
     flex: 0 0 auto;
-    height: 17px;
+    height: 16px;
     left: 5px;
-    width: 17px;
+    width: 16px;
 
     &:hover {
-      color: $red;
+      background: $gray-light;
+      color: $white;
     }
 
     &:active {
-      color: $red-dark;
+      background: $red;
+      color: $white;
     }
 
     .icons-close {
