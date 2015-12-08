@@ -8,6 +8,7 @@
 //- integrations form empty state
 .modal-form.empty.well.in.form.form-integrations(
   ng-if = "!SIFC.loading && !SIFC.verified"
+  ng-form = "SIFC.slackApiTokenForm"
 )
   img.img(
     height = "90"
@@ -17,7 +18,7 @@
 
   p.p.empty Get container status updates in Slack
   input.input.input-sm.monospace.text-center.input-validate(
-    ng-model = "SIFC.settings.attrs.notifications.slack.apiToken"
+    ng-model = "SIFC.slackApiToken"
     placeholder = "API Token"
     required
     spellcheck = "false"
@@ -39,7 +40,7 @@
   button.btn.green.btn-spinner(
     ng-class = "{in: SIFC.verifying}"
     ng-click = "SIFC.verifySlack();"
-    ng-disabled = "SIFC.verifying || !SIFC.settings.attrs.notifications.slack.apiToken.length"
+    ng-disabled = "SIFC.verifying || !SIFC.slackApiToken.length"
   )
     .spinner-wrapper.spinner-sm.spinner-white.in(
       ng-include = "'spinner'"
