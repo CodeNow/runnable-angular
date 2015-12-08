@@ -13,6 +13,7 @@ function ControllerInstances(
   setLastOrg,
   errs,
   ModalService,
+  promisify,
 
   fetchInstancesByPod,
   activeAccount,
@@ -119,6 +120,13 @@ function ControllerInstances(
       inputs: {
         instance: instance
       }
+    })
+      .catch(errs.handler);
+  };
+
+  this.markDockRemovedConfirmed = function (instance) {
+    promisify(instance.contextVersion, 'update')({
+      dockRemovedNeedsUserConfirmation: false
     })
       .catch(errs.handler);
   };
