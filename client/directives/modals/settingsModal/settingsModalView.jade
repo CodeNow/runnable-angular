@@ -64,13 +64,12 @@
 
       //- team
       .modal-form.form-team(
+        ng-if = "SEMC.currentTab === 'teamManagement'"
         team-management
-        ng-if = "SEMC.currentTab === 'teamManagement' && !SEMC.loading['teamManagement']"
       )
 
       //- slack integration
-      form.form-integrations.modal-integrations(
-        ng-class = "{'empty well in': !data.verified}"
+      div(
         ng-if = "SEMC.currentTab === 'slackIntegration'"
         slack-integration-form
       )

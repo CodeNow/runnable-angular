@@ -18,62 +18,61 @@ function SlackIntegrationFormController (
 ) {
   var SIFC = this;
   angular.extend(SIFC, {
-    verified: false,
+    loading: true,
     verifying: false,
+    verified: false,
     settings: {},
     ghMembers: [],
     slackMembers: [],
+    slackApiToken: null,
   });
 
-  SIFC.showSlack = true;
-  SIFC.settings = {};
-  SIFC.slackMembers = {};
-  SIFC.settingsFetched = false;
-  SIFC.verified = false;
-  SIFC.slackApiToken = null;
-  SIFC.invalidApiToken = false;
-
   function fetchChatMemberData() {
-    SIFC.invalidApiToken = false;
     return verifyChatIntegration(SIFC.slackApiToken, SIFC.settings, 'slack')
       .then(function (members) {
         keypather.set(SIFC, 'settings.attrs.notifications.slack.apiToken', SIFC.slackApiToken);
         SIFC.slackMembers = members.slack;
         SIFC.ghMembers = members.github;
         SIFC.verified = true;
-        SIFC.invalidApiToken = false;
       })
       .catch(function (err) {
-        SIFC.invalidApiToken = true;
         SIFC.verified = false;
-        SIFC.slackMembers = {};
-        SIFC.ghMembers = {};
         return $q.reject(err);
       });
+  }
+
+  function updateSlackSettings (slackSettingsObject) {
+    return promisify(SIFC.settings, 'update')({
+      json: {
+        notifications: {
+          slack: slackSettingsObject
+        }
+      }
+    });
   }
 
   fetchSettings()
     .then(function (settings) {
       SIFC.settings = settings;
       SIFC.slackApiToken = keypather.get(SIFC, 'settings.attrs.notifications.slack.apiToken');
-      if ( SIFC.slackApiToken &&
-          keypather.get(SIFC, 'settings.attrs.notifications.slack.githubUsernameToSlackIdMap')) {
-        SIFC.showSlack = true;
-        SIFC.loading = true;
-        return fetchChatMemberData();
-      }
+      SIFC.loading = true;
+      return fetchChatMemberData();
     })
     .catch(errs.handler)
     .finally(function () {
       SIFC.loading = false;
-      SIFC.settingsFetched = true;
     });
 
   SIFC.verifySlack = function () {
     SIFC.verifying = true;
-    return fetchChatMemberData()
+    var slackData = {
+      apiToken: SIFC.settings.attrs.notifications.slack.apiToken,
+      enabled: SIFC.settings.attrs.notifications.slack.enabled
+    };
+    return updateSlackSettings(slackData)
       .then(function () {
-        SIFC.verified = true;
+        SIFC.slackApiToken = keypather.get(SIFC, 'settings.attrs.notifications.slack.apiToken');
+        return fetchChatMemberData();
       })
       .catch(errs.handler)
       .finally(function () {
@@ -83,16 +82,16 @@ function SlackIntegrationFormController (
 
   SIFC.deleteAPIToken = function () {
     SIFC.verified = false;
-    SIFC.verifying = true;
+    SIFC.loading = true;
     var slackData = {
       // I would have used `null`, but API complains
       apiToken: '',
       enabled: SIFC.settings.attrs.notifications.slack.enabled
     };
-    SIFC.updateSlackSettings(slackData)
+    return updateSlackSettings(slackData)
       .catch(errs.handler)
       .finally(function () {
-        SIFC.verifying = false;
+        SIFC.loading = false;
       });
   };
 
@@ -114,19 +113,7 @@ function SlackIntegrationFormController (
       }
       return obj;
     }, {});
-    SIFC.updateSlackSettings(slackData)
+    return updateSlackSettings(slackData)
       .catch(errs.handler);
   }, 250);
-
-  SIFC.updateSlackSettings = function (slackSettingsObject) {
-    return promisify(SIFC.settings, 'update')({
-      json: {
-        notifications: {
-          slack: slackSettingsObject
-        }
-      }
-    });
-  };
 }
-
-

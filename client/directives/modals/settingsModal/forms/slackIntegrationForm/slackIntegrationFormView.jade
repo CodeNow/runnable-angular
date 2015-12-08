@@ -1,6 +1,13 @@
+.modal-form(
+  ng-if = "SIFC.loading"
+)
+  .spinner-wrapper.spinner-md.in(
+    ng-include = "'spinner'"
+  )
+
 //- integrations form empty state
-.modal-form.empty.well.in(
-  ng-if = "!SIFC.verified"
+.modal-form.empty.well.in.form.form-integrations.modal-integrations(
+  ng-if = "!SIFC.loading && !SIFC.verified"
 )
   img.img(
     height = "90"
@@ -41,8 +48,8 @@
     | Verify Token
 
 //- integrations form
-.modal-form(
-  ng-if = "SIFC.verified"
+.modal-form.form.form-integrations.modal-integrations(
+  ng-if = "!SIFC.loading && SIFC.verified"
 )
   .label
     .clearfix
