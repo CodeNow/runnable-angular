@@ -9,20 +9,17 @@
           xlink:href = "#icons-close"
         )
     section.modal-body
-      .text-center.text-overflow
+      .text-center
         | The following containers will be created to isolate&#32;
         br
         span(
           ng-attr-title = "{{ICMC.instance.getRepoName()}}/{{ICMC.instance.getBranchName()}}"
         )
-          status-icon(
-            instance = "ICMC.instance"
-          )
           | &#32;{{ICMC.instance.getRepoName()}}/
           strong.strong {{ICMC.instance.getBranchName()}}
 
-      //- repository containers
       h4.h4 Repository Containers
+      //- repository containers
       .list.list-bordered(
         ng-if = "ICMC.repoInstances.length"
       )
@@ -52,8 +49,8 @@
           //- this element should only appear if the selected branch uses a modified configuration
           //- small.small Branch uses a modified configuration
 
-      //- database containers
       h4.h4 Database Containers
+      //- database containers
       .list.list-bordered(
         ng-if = "ICMC.nonRepoInstances.length"
       )
@@ -68,7 +65,7 @@
           //- show on containers that have a backup
           small.small(
             tooltip = "We’ll use the latest MySQL backup to populate this database."
-            tooltip-options = "{\"class\":\"left\",\"right\":105,\"top\":-9}"
+            tooltip-options = "{\"class\":\"bottom bottom-arrow-right\",\"right\":0,\"top\":21}"
           )
             svg.iconnables.icons-check.float-left
               use(
@@ -81,8 +78,8 @@
           //-   tooltip-options = "{\"class\":\"left\",\"right\":80,\"top\":-9}"
           //- ) No Backups
 
-      //- non-database service containers
       h4.h4 Other Containers
+      //- non-database service containers
       .list.list-bordered
         .list-item
           svg.iconnables.icons-server-new
