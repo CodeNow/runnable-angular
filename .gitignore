@@ -5,7 +5,8 @@
 *.rdb
 *.sass-cache/
 node_modules/
-client/build/
+client/build/**/*
+!client/build/images
 client/dist/
 client/config/json/
 client/polyfills/index.js
