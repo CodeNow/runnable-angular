@@ -9,7 +9,10 @@
     )
       li.list-item.popover-list-item.small.disabled Open Tab
       li.list-item.popover-list-item(
-        ng-click = "actions.addTerminal(); POC.closePopover()"
+        ng-click = "\
+          actions.addTerminal();\
+          POC.closePopover();\
+        "
         ng-if = "data.options.term"
       )
         svg.iconnables
@@ -18,7 +21,10 @@
           )
         | Terminal
       li.list-item.popover-list-item(
-        ng-click = "actions.addBuildStream(); POC.closePopover()"
+        ng-click = "\
+          actions.addBuildStream();\
+          POC.closePopover();\
+        "
         ng-if = "data.options.build"
       )
         svg.iconnables
@@ -27,7 +33,10 @@
           )
         | Build Logs
       li.list-item.popover-list-item(
-        ng-click = "actions.addLogs(); POC.closePopover()"
+        ng-click = "\
+          actions.addLogs();\
+          POC.closePopover();\
+        "
         ng-if = "data.options.server"
       )
         svg.iconnables
@@ -39,7 +48,10 @@
       ng-if = "$root.featureFlags.backup"
     )
       li.list-item.popover-list-item(
-        ng-click = "actions.addTerminal(); POC.closePopover()"
+        ng-click = "\
+          actions.addTerminal();\
+          POC.closePopover();\
+        "
         ng-if = "data.options.term"
       )
         svg.iconnables
@@ -49,8 +61,11 @@
         | New Terminal Tab
       //- only for testing backup tab
       li.list-item.popover-list-item(
-        ng-click = "actions.addBackupStream(); POC.closePopover()"
-        ng-if = "data.options.server && $root.featureFlags.backup"
+        ng-click = "\
+          actions.addBackupStream();\
+          POC.closePopover();\
+        "
+        ng-if = "data.options.server"
       )
         svg.iconnables
           use(

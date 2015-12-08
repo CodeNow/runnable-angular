@@ -162,7 +162,7 @@
           'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
         }"
         ng-if = "!SMC.state.repo && !root.featureFlags.backup"
-        ng-include = "'viewFormBackup'"
+        ng-include = "'backupFormView'"
         ng-show = "SMC.selectedTab === 'backup'"
       )
       .modal-form.modal-logs(
