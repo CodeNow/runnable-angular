@@ -1,6 +1,9 @@
 .btn.btn-xs.gray.no-touching URL
 
 input.input.input-sm(
+  pop-over
+  pop-over-options = "{\"left\":-39,\"top\":45}"
+  pop-over-template = "containerUrlPopoverView"
   readonly
   select-all
   value = "{{instance.getContainerHostname()}}{{defaultPort}}"

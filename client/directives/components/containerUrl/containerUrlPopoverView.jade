@@ -1,0 +1,29 @@
+.popover.bottom.popover-url(
+  ng-class = "{'in': active}"
+  ng-style = "popoverStyle.getStyle()"
+  style = "transform-origin: 5% 0;"
+)
+  .arrow.white(
+    style = "left: 18px; right: auto;"
+  )
+  .popover-content
+    h4.h4.strong URL Redirect
+    p.small Your container’s URL will redirect to your Elastic URL.
+    label.label
+      span.small.text-right Container URL
+      input.highlight.small(
+        readonly
+        select-all
+        value = "eo9lxe-api-staging-codenow.runnableapp.com"
+      )
+    label.label
+      span.small.text-right Elastic URL
+      input.highlight.small(
+        readonly
+        select-all
+        value = "api-staging-codenow.runnableapp.com"
+      )
+    //- a.small.link(
+    //-   href = "#"
+    //-   target = "_blank"
+    //- ) Learn more

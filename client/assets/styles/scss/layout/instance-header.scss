@@ -99,8 +99,7 @@
   align-items: top;
   border-bottom: 1px solid rgba($black,.1);
   display: flex;
-  height: 45px;
-  padding: 0 12px;
+  padding: 0 12px 12px;
   width: 100%;
 
   // status, dns mappings, save
@@ -112,7 +111,7 @@
   // container url
   > .input-wrapper {
     align-items: center;
-    background: transparent;
+    background: $gray-lightest;
     border-radius: $input-border-radius;
     display: flex;
     flex: 1 1 auto;
@@ -139,12 +138,13 @@
     }
 
     .input {
-      background: $white;
+      background: transparent;
       border-left: $input-border solid $gray-lighter;
       border-radius: 0 $input-border-radius $input-border-radius 0;
-      color: $gray;
+      color: $gray-light;
       flex: 1 1 auto;
-      font-size: 13px;
+      font-size: 16px;
+      font-weight: $weight-normal;
       height: $input-sm - ($input-border*2);
       min-width: 0;
       width: 100%;

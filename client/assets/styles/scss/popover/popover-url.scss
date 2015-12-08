@@ -1,0 +1,46 @@
+.popover-url {
+  max-width: 420px;
+
+  .popover-content {
+    color: $gray-dark;
+    padding: 15px;
+  }
+
+  .h4 {
+    font-size: 16px;
+
+    + .small {
+      margin: 9px 0;
+    }
+  }
+
+  .label {
+    display: flex;
+    margin: 0;
+
+    + .label {
+      margin-top: 6px;
+    }
+
+    .small {
+
+      &:first-child {
+        flex: 0 0 90px;
+        margin-right: 6px;
+      }
+
+      &:last-child {
+        flex: 1 1 auto;
+      }
+    }
+  }
+
+  .hightlight {
+    white-space: nowrap;
+  }
+
+  .link {
+    display: block;
+    margin-top: 6px;
+  }
+}

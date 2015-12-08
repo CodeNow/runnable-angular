@@ -79,6 +79,15 @@ h4 {
   font-style: normal; // remove italics if em
 }
 
+.highlight {
+  background: $orange-lightest;
+  border: 1px solid $orange-lighter;
+  border-radius: $input-border-radius;
+  display: inline-block;
+  font-style: normal; // remove italics if em
+  padding: 0 3px;
+}
+
 .hr {
   background: rgba($black,.1);
   border: 0;
