@@ -53,26 +53,21 @@
         //-   .btn-text Settings
         //-     .btn.btn-xxs.orange.no-touching Coming Soon
 
-    section.modal-body.js-animate
+    section.modal-body.js-animate(
+      ng-if = "SEMC.currentTab === 'billing'"
+      ng-include = "'billingForm'"
+    )
 
-      //- billing
-      .modal-form.form-billing(
-        ng-class = "{'empty well in': $root.featureFlags.trial}"
-        ng-if = "SEMC.currentTab === 'billing'"
-        ng-include = "'billingForm'"
-      )
+    section.modal-body.js-animate(
+      ng-if = "SEMC.currentTab === 'teamManagement'"
+      team-management
+    )
 
-      //- team
-      .modal-form.form-team(
-        ng-if = "SEMC.currentTab === 'teamManagement'"
-        team-management
-      )
-
-      //- slack integration
-      div(
-        ng-if = "SEMC.currentTab === 'slackIntegration'"
-        slack-integration-form
-      )
+    //- slack integration
+    section.modal-body.js-animate(
+      ng-if = "SEMC.currentTab === 'slackIntegration'"
+      slack-integration-form
+    )
 
     footer.modal-footer.clearfix
       button.btn.white.float-right(
