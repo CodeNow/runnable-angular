@@ -64,7 +64,7 @@
       )
 
   //- show automatically if the backup failed. otherwise, show when "View Logs" button or "Back Up Now" button is clicked.
-  .build-log-wrapper.js-animate(
+  .build-log-wrapper(
     ng-class = "{\
       'logs-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
       'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\

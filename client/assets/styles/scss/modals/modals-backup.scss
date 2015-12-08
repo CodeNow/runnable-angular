@@ -12,7 +12,6 @@
     border-style: solid;
     border-width: 1px;
     font-weight: $weight-normal;
-    line-height: 1.4;
     width: 100%;
 
     &.in {
@@ -34,25 +33,7 @@
 
   .build-log-wrapper {
     border-radius: 0 0 3px 3px;
-    height: 240px;
     padding: 18px;
-    transition: height .15s ease-in;
-
-    &.ng-enter {
-      height: 0;
-    }
-
-    &.ng-enter-active {
-      height: 240px;
-    }
-
-    &.ng-leave {
-      height: 240px;
-    }
-
-    &.ng-leave-active {
-      height: 0;
-    }
   }
 
   .build-log {
