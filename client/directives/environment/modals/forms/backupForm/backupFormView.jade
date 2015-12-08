@@ -33,45 +33,47 @@
             style = "text-align: right;"
             value = "hour"
           ) {{$parent.hour}} PST
-  .views-toolbar(
-    ng-if = "page === 'backup'"
-  )
-    //- only show revert button if script differs from default
-    //- button.btn.btn-purple.btn-toolbar.purple Revert to Default
 
-    //- automatically open and scroll to logs when this button is clicked
-    button.btn.btn-purple.btn-toolbar.purple Back Up Now
+  .logs-runnable-dark
+    .views-toolbar(
+      ng-if = "page === 'backup'"
+    )
+      //- only show revert button if script differs from default
+      //- button.btn.btn-purple.btn-toolbar.purple Revert to Default
 
-  .ace-container.ace-backup(
-    ng-class = "{\
-      'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
-      'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
-    }"
-    ng-if = "page === 'backup'"
-  )
-    //- .ace_editor(
-    //-   env-vars
-    //- )
+      //- automatically open and scroll to logs when this button is clicked
+      button.btn.btn-purple.btn-toolbar.purple Back Up Now
 
-  //- only show after the backup script has run for the first time. auto-scroll to logs when clicked.
-  button.btn.btn-xs.btn-logs(
-    ng-class = "{'in': showLogs}"
-    ng-click = "showLogs = !showLogs"
-  ) {{showLogs ? 'Hide Logs' : 'View Logs'}}
-    svg.iconnables.icons-arrow-down
-      use(
-        xlink:href = "#icons-arrow-down"
-      )
+    .ace-container.ace-backup(
+      ng-class = "{\
+        'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+        'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+      }"
+      ng-if = "page === 'backup'"
+    )
+      //- .ace_editor(
+      //-   env-vars
+      //- )
 
-  //- show automatically if the backup failed. otherwise, show when "View Logs" button or "Back Up Now" button is clicked.
-  .build-log-wrapper(
-    ng-class = "{\
-      'logs-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
-      'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
-    }"
-    ng-if = "showLogs"
-    ng-include = "'backupLogsView'"
-  )
+    //- only show after the backup script has run for the first time. auto-scroll to logs when clicked.
+    button.btn.btn-xs.btn-logs(
+      ng-class = "{'in': showLogs}"
+      ng-click = "showLogs = !showLogs"
+    ) {{showLogs ? 'Hide Logs' : 'View Logs'}}
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+
+    //- show automatically if the backup failed. otherwise, show when "View Logs" button or "Back Up Now" button is clicked.
+    .build-log-wrapper.js-animate(
+      ng-class = "{\
+        'logs-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+        'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+      }"
+      ng-if = "showLogs"
+      ng-include = "'backupLogsView'"
+    )
 
 //- restore script
 .label(

@@ -9,15 +9,12 @@
           xlink:href = "#icons-close"
         )
     section.modal-body
-      .text-center.text-overflow
+      .text-center
         | The following containers will be created to isolate&#32;
         br
         span(
           ng-attr-title = "{{ICMC.instance.getRepoName()}}/{{ICMC.instance.getBranchName()}}"
         )
-          status-icon(
-            instance = "ICMC.instance"
-          )
           | &#32;{{ICMC.instance.getRepoName()}}/
           strong.strong {{ICMC.instance.getBranchName()}}
 
@@ -72,7 +69,7 @@
           //- show on containers that have a backup
           small.small(
             tooltip = "We’ll use the latest MySQL backup to populate this database."
-            tooltip-options = "{\"class\":\"left\",\"right\":105,\"top\":-9}"
+            tooltip-options = "{\"class\":\"bottom bottom-arrow-right\",\"right\":0,\"top\":21}"
           )
             svg.iconnables.icons-check.float-left
               use(
@@ -80,16 +77,16 @@
               )
             | From Backup
           //- show on containers that have no backups
-          //- small.small(
-          //-   tooltip = "This container will start with an empty database."
-          //-   tooltip-options = "{\"class\":\"left\",\"right\":80,\"top\":-9}"
-          //- ) No Backups
+            - small.small(
+            -   tooltip = "This container will start with an empty database."
+            -   tooltip-options = "{\"class\":\"left\",\"right\":80,\"top\":-9}"
+            - ) No Backups
 
-      //- before backup and restore feature: service containers
-      //- after backup and restore feature: service containers that aren't databases
       h4.h4(
         ng-if = "ICMC.nonRepoInstances.length && $root.featureFlags.backup"
       ) Other Containers
+      //- before b&r feature: all service containers
+        - after b&r feature: service containers that aren't databases
       .list.list-bordered(
         ng-if = "ICMC.nonRepoInstances.length"
       )
