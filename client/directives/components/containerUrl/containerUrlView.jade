@@ -1,19 +1,12 @@
-//- container url; [readonly] to inherit css for .input[readonly]
-a.btn.btn-xs(
-  ng-href = "http://{{instance.getContainerHostname()}}{{defaultPort}}"
-  target = "_blank"
-)
-  span.float-left URL
-  svg.iconnables.float-right
-    use(
-      xlink:href = "#icons-link-external"
-    )
-input.input.input-sm.text-center(
+.btn.btn-xs.gray.no-touching URL
+
+input.input.input-sm(
   readonly
   select-all
   value = "{{instance.getContainerHostname()}}{{defaultPort}}"
 )
-button.btn.btn-xs(
+
+button.btn.btn-xs.gray(
   clipboard
   ng-mouseleave = "showToolTip = false"
   ng-show = "shouldShowCopyButton"
