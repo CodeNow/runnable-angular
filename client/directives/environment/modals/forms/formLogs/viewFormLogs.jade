@@ -11,7 +11,7 @@
     ng-click = "SMC.rebuild(false)"
   ) Rebuild
 
-// alert appears during a build failure AND no changes have been made
+//- alert appears during a build failure AND no changes have been made
 .alert.orange(
   ng-if = "\
     $root.featureFlags.newVerificationFlow && \
@@ -30,13 +30,13 @@
   ng-hide = "$root.featureFlags.fullScreen"
 )
   button.btn.btn-xs.white(
-    ng-class = "{active: SMC.page === 'build'}"
+    ng-class = "{'active': SMC.page === 'build'}"
     ng-click = "SMC.page = 'build'"
   ) Build Logs
   button.btn.btn-xs.white(
-    ng-disabled = "!SMC.instance.containers.models.length"
-    ng-class = "{active: SMC.page === 'run'}"
+    ng-class = "{'active': SMC.page === 'run'}"
     ng-click = "SMC.page = 'run'"
+    ng-disabled = "!SMC.instance.containers.models.length"
   ) CMD Logs
 
 //- logs
@@ -46,17 +46,17 @@ pre.pre.log-wrapper(
     'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
 )
-  //- toolbar
-  .views-toolbar-wrapper(
+  //- debug toolbar
+  .views-toolbar(
     ng-class = "{\
-      'toolbar-lg': $root.featureFlags.saveToolbar && showDebugCmd,\
       'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
       'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
     }"
     ng-if = "SMC.page === 'run'"
-    ng-show = "SMC.showDebugCmd"
     ng-include = "'viewToolbar'"
+    ng-show = "SMC.showDebugCmd"
   )
+  //- build logs page
   .build-log-wrapper(
     build-logs
     instance = 'SMC.instance'
@@ -64,10 +64,11 @@ pre.pre.log-wrapper(
     ng-show = "SMC.page === 'build'"
     ng-style = "($root.featureFlags.themeToggle || $root.featureFlags.fullScreenToggle) && {'padding-right': '42px'}"
   )
+  //- cmd logs page
   .term-js.term-log(
-    log-term
-    instance = 'SMC.instance'
     controller = "BoxLogController"
+    instance = 'SMC.instance'
+    log-term
     ng-if = "SMC.instance.containers.models.length"
     ng-show = "SMC.page === 'run'"
   )

@@ -86,6 +86,18 @@
             )
           .btn-text Find & Replace
         button.btn.btn-radio(
+          ng-class = "{'active': SMC.selectedTab === 'backup'}"
+          ng-click = "SMC.changeTab('backup')"
+          ng-if = "!SMC.state.repo && $root.featureFlags.backup"
+        )
+          svg.iconnables
+            use(
+              xlink:href = "#icons-translation"
+            )
+          .btn-text Backup
+            br
+            | & Restore
+        button.btn.btn-radio(
           ng-class = "{'active': SMC.selectedTab === 'logs'}"
           ng-click = "SMC.changeTab('logs')"
         )
@@ -150,6 +162,15 @@
         instance = "SMC.instance"
         data = "SMC.data"
         translation-rules
+      )
+      .modal-form.modal-backup(
+        ng-class = "{\
+          'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+          'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+        }"
+        ng-if = "!SMC.state.repo && !root.featureFlags.backup"
+        ng-include = "'backupFormView'"
+        ng-show = "SMC.selectedTab === 'backup'"
       )
       .modal-form.modal-logs(
         ng-class = "{\

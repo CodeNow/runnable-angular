@@ -1,9 +1,18 @@
 // buttons
 .btn-toolbar {
-  border-radius: $input-border-radius-xxs;
   border-width: 1px;
-  font-size: 12px;
-  line-height: 22px;
+  flex: 0 0 auto;
+  font-size: 15px;
+  height: 30px;
+  line-height: 28px;
+  padding: 0 9px;
+
+  .build-log-header & {
+    font-family: $sans-serif; // override monospace fonts inside log header
+    font-size: 13px;
+    height: $input-xs;
+    line-height: $input-xs - 2px;
+  }
 
   // toolbar theme
   // purple
