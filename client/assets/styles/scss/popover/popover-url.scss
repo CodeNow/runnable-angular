@@ -14,29 +14,15 @@
     }
   }
 
-  .label {
-    display: flex;
-    margin: 0;
+  .input-group {
 
-    + .label {
+    .label {
+      width: 99px;
+    }
+
+    + .input-group {
       margin-top: 6px;
     }
-
-    .small {
-
-      &:first-child {
-        flex: 0 0 90px;
-        margin-right: 6px;
-      }
-
-      &:last-child {
-        flex: 1 1 auto;
-      }
-    }
-  }
-
-  .hightlight {
-    white-space: nowrap;
   }
 
   .link {
