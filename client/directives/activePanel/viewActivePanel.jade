@@ -26,19 +26,6 @@
   ng-repeat = "item in openItems.models"
   ng-show = "item === openItems.activeHistory.last()"
 )
-  //- when build failed to start
-  .views-toolbar(
-    ng-if = "$root.featureFlags.noBuildLogs"
-  )
-    small.small.text-overflow(
-      title = "/node-hello-world/server.js"
-    ) There was an error starting your build.
-    //- disable save buttons until a change a made
-    button.btn.btn-xs.purple.btn-toolbar.float-right(
-      ng-class = "{in: data.saving}"
-      ng-click = "data.saving = !data.saving"
-    ) Rebuild without cache
-
   .floating-controls(
     ng-if = "$root.featureFlags.fullScreenToggle || $root.featureFlags.themeToggle"
     ng-include = "'viewFloatingControls'"
