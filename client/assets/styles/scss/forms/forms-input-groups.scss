@@ -1,0 +1,177 @@
+.input-group {
+  align-items: center;
+  display: flex;
+
+  // colors
+  &.gray {
+    background: $gray-lightest;
+
+    .label,
+    .input,
+    .btn-xs {
+      color: $gray-light;
+    }
+
+    .label {
+      border-color: $gray-lighter;
+    }
+  }
+
+  .label,
+  .input {
+
+    &:not(:first-child):not(:last-child) {
+      border-radius: 0;
+    }
+  }
+
+  .label {
+    border: 0;
+    flex: 0 0 auto;
+    height: 100%;
+    margin: 0;
+
+    &:not(:first-child):not(:last-child),
+    &:first-child {
+      border-right-style: solid;
+      border-right-width: $input-border;
+    }
+
+    &:not(:first-child):not(:last-child),
+    &:last-child {
+      border-left-style: solid;
+      border-left-width: $input-border;
+    }
+  }
+
+  .input {
+    background: transparent;
+    flex: 1 1 auto;
+    font-weight: $weight-normal;
+    padding: 0;
+  }
+}
+
+// sizes
+.input-group-md,
+.input-group-sm,
+.input-group-xs {
+  border-radius: $input-border-radius;
+
+  .label,
+  .input {
+
+    &:first-child {
+      border-radius: $input-border-radius 0 0 $input-border-radius;
+    }
+
+    &:last-child {
+      border-radius: 0 $input-border-radius $input-border-radius 0;
+    }
+  }
+}
+
+.input-group-md,
+.input-group-sm {
+
+  .input {
+    font-size: 16px;
+  }
+}
+
+.input-group-md {
+  height: $input-md;
+
+  .label {
+    font-size: 15px;
+    line-height: $input-line-height-md;
+    padding: 0 9px;
+
+    &:first-child {
+      margin-right: 8px;
+    }
+
+    &:last-child {
+      margin-left: 8px;
+    }
+  }
+
+  .input,
+  .btn-xs {
+
+    &:first-child,
+    &:last-child {
+      margin: 0 8px;
+    }
+  }
+}
+
+.input-group-sm {
+  height: $input-sm;
+
+  .label {
+    font-size: 13px;
+    line-height: $input-line-height-sm;
+    padding: 0 6px;
+
+    &:first-child {
+      margin-right: 5px;
+    }
+
+    &:last-child {
+      margin-left: 5px;
+    }
+  }
+
+  .input,
+  .btn-xs {
+
+    &:first-child,
+    &:last-child {
+      margin: 0 5px;
+    }
+  }
+}
+
+.input-group-xs {
+  height: $input-xs;
+
+  .label,
+  .input {
+    font-size: 13px;
+  }
+
+  .label {
+    line-height: $input-line-height-xs;
+    padding: 0 4px;
+
+    &:first-child {
+      margin-right: 4px;
+    }
+
+    &:last-child {
+      margin-left: 4px;
+    }
+  }
+
+  .input {
+
+    &:first-child,
+    &:last-child {
+      margin: 0 4px;
+    }
+  }
+
+  .btn-xs {
+
+    &:first-child {
+      border-radius: $input-border-radius 0 0 $input-border-radius;
+      margin: 0 4px 0 (-$input-border);
+    }
+
+    &:last-child {
+      border-radius: 0 $input-border-radius $input-border-radius 0;
+      margin: 0 (-$input-border) 0 4px;
+    }
+  }
+}

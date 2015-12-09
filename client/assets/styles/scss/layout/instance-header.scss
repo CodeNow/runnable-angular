@@ -109,46 +109,8 @@
   }
 
   // container url
-  > .input-wrapper {
-    align-items: center;
-    background: $gray-lightest;
-    border-radius: $input-border-radius;
-    display: flex;
+  > .input-group {
     flex: 1 1 auto;
-    height: $input-sm;
-
-    // copy/url in new tab
-    .btn-xs,
-    .input {
-      color: $gray-light;
-    }
-
-    .btn-xs {
-      flex: 0 0 auto;
-
-      &:first-child {
-        border: 0;
-        height: 100%;
-        line-height: 32px;
-      }
-
-      &:last-child {
-        right: 5px;
-      }
-    }
-
-    .input {
-      background: transparent;
-      border-left: $input-border solid $gray-lighter;
-      border-radius: 0 $input-border-radius $input-border-radius 0;
-      color: $gray-light;
-      flex: 1 1 auto;
-      font-size: 16px;
-      font-weight: $weight-normal;
-      height: $input-sm - ($input-border*2);
-      min-width: 0;
-      width: 100%;
-    }
   }
 
   // save
