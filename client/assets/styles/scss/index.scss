@@ -120,6 +120,7 @@
 @import "modals/modals-sheets";
 
 // modal specific
+@import "modals/modals-backup";
 @import "modals/modals-edit";
 @import "modals/modals-edit-ace";
 @import "modals/modals-error";
@@ -162,6 +163,7 @@
 @import "pages/welcome";
 
 //deprecated
+@import "deprecated/backup";
 @import "deprecated/card-status";
 
 // shame 🔔🔔

@@ -107,21 +107,6 @@
   }
 }
 
-// shift fixed position if there's a toolbar (36px)
-.views-toolbar-wrapper + .active-panel .fixed {
-  top: 210px;
-
-  // if in modal
-  .modal-edit & {
-    top: 199 + $input-sm;
-  }
-
-  // if full-screen
-  .full-screen & {
-    top: 177px + $input-sm;
-  }
-}
-
 // logs scroll horizontally
 .build-log-content {
   padding: 9px 9px 0 24px;
@@ -261,7 +246,7 @@
   }
 
   .build-log-toggle .build-log-header {
-    background: #3d294a; // rgba($white,.03);
+    background: #3d294a; // match toolbar header
     border-bottom: 1px solid $purple-darker;
 
     &:hover:not(.in-progress) {

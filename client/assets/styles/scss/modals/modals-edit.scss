@@ -185,23 +185,6 @@
     }
   }
 
-  .views-toolbar-wrapper {
-
-    + .log-wrapper {
-      border-radius: 0 0 3px 3px;
-      border-top: 0;
-    }
-
-    .views-toolbar {
-      border-bottom-width: 1px;
-      border-left: 0;
-      border-radius: 3px 3px 0 0;
-      border-right: 0;
-      border-style: solid;
-      border-top: 0;
-    }
-  }
-
   // footer save/save & build button
   .modal-footer {
     overflow: hidden;

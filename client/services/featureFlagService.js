@@ -7,6 +7,7 @@ function featureFlags(
   $localStorage
 ) {
   var defaultFeatureFlags = {
+    backup: false,
     billing: false,
     cardStatus: false,
     debugStartCmd: false, // debug mode for start CMD (in CMD Logs)
