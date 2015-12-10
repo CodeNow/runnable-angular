@@ -41,11 +41,11 @@ h4.h4.text-overflow(
 
 .small(
   ng-if = "dataInstance.data.instance.contextVersion.attrs.dockRemoved"
-) We’ve run into an issue and are migrating your container to a healthy server. Your container will be unavailble until migration is complete.
+) We are migrating your container to another server. Your container will be unavailable until migration is complete.
 
 .small(
   ng-if = "!dataInstance.data.instance.contextVersion.attrs.dockRemoved && dataInstance.data.instance.contextVersion.attrs.dockRemovedNeedsUserConfirmation"
-) We had an issue and migrated your container to a healthy server
+) We have migrated your container to another server.
 
 a.small.link(
   ng-if = "dataInstance.data.instance.contextVersion.attrs.dockRemoved || dataInstance.data.instance.contextVersion.attrs.dockRemovedNeedsUserConfirmation"
