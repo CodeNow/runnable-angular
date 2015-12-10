@@ -111,6 +111,16 @@
   // container url
   > .input-group {
     flex: 1 1 auto;
+
+    // new tab
+    .link {
+      padding: 0;
+    }
+
+    .icons-link-external {
+      left: 1px;
+      top: -1px;
+    }
   }
 
   // save

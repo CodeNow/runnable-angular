@@ -9,6 +9,16 @@ input.input.input-sm(
   value = "{{instance.getContainerHostname()}}{{defaultPort}}"
 )
 
+a.btn.btn-xs.gray.link(
+  ng-href = "http://{{instance.getContainerHostname()}}{{defaultPort}}"
+  target = "_blank"
+  title = "Open in a new tab"
+)
+  svg.iconnables.icons-link-external
+    use(
+      xlink:href = "#icons-link-external"
+    )
+
 button.btn.btn-xs.gray(
   clipboard
   ng-mouseleave = "showToolTip = false"
