@@ -35,8 +35,8 @@
     'build-log-toggle': command.hasContent || (BLC.buildLogsRunning && $last),\
     'in': (command.hasContent && command.expanded) || (BLC.buildLogsRunning && $last)\
   }"
-  ng-repeat = "command in BLC.getBuildLogs()"
   ng-if = "!$root.featureFlags.internalDebugging && !($root.featureFlags.noBuildLogs && BLC.buildLogs.length === 0 && !BLC.buildLogsRunning)"
+  ng-repeat = "command in BLC.getBuildLogs()"
 )
   .build-log-header(
     ng-class = "{\
