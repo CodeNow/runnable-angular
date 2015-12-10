@@ -117,9 +117,15 @@
       padding: 0;
     }
 
+    .btn-icon-xs {
+      min-width: 24px;
+    }
+
     .icons-link-external {
       left: 1px;
+      margin: 0 3px;
       top: -1px;
+      width: 15px;
     }
   }
 
