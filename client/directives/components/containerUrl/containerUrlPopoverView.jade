@@ -32,7 +32,10 @@
     hr.hr
 
     h4.h4.strong Proxy
-    p.small Your Elastic URL shows you the container you’ve accessed with the Container URL.
+    //- text needs to be manually broken so that the .input-groups can size the popover based on the url length
+    p.small Your Elastic URL shows you the container you’ve
+      br
+      | accessed with the Container URL.
     a.small.link(
       href = "#"
       target = "_blank"
