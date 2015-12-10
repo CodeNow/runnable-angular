@@ -1,6 +1,5 @@
 //- ************************
-//- deprecated file, delete with cardStatus feature flag
-
+//- deprecated file, delete with $root.featureFlags.cardStatus
 .card-header.deprecated {
   margin: 0 15px;
 }
@@ -36,6 +35,5 @@
     margin-top: 12px; // 'vertical center'
   }
 }
-
-//- deprecated file, delete with cardStatus feature flag
+//- end deprecated file
 //- ************************

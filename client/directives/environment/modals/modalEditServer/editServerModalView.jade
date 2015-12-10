@@ -16,6 +16,13 @@
         no-touching = "$root.featureFlags.cardStatus ? showSpinner() : true"
       )
 
+      svg.iconnables.icons-close(
+        ng-if = "$root.featureFlags.rebuildFlow"
+      )
+        use(
+          xlink:href = "#icons-close"
+        )
+
       .row.modal-tabs.tabs-all.clearfix
         button.btn.btn-radio(
           ng-class = "{'active': SMC.selectedTab === 'repository'}"
@@ -78,6 +85,18 @@
               xlink:href = "#icons-translation"
             )
           .btn-text Find & Replace
+        button.btn.btn-radio(
+          ng-class = "{'active': SMC.selectedTab === 'backup'}"
+          ng-click = "SMC.changeTab('backup')"
+          ng-if = "!SMC.state.repo && $root.featureFlags.backup"
+        )
+          svg.iconnables
+            use(
+              xlink:href = "#icons-translation"
+            )
+          .btn-text Backup
+            br
+            | & Restore
         button.btn.btn-radio(
           ng-class = "{'active': SMC.selectedTab === 'logs'}"
           ng-click = "SMC.changeTab('logs')"
@@ -144,6 +163,15 @@
         data = "SMC.data"
         translation-rules
       )
+      .modal-form.modal-backup(
+        ng-class = "{\
+          'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+          'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+        }"
+        ng-if = "!SMC.state.repo && !root.featureFlags.backup"
+        ng-include = "'backupFormView'"
+        ng-show = "SMC.selectedTab === 'backup'"
+      )
       .modal-form.modal-logs(
         ng-class = "{\
           'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
@@ -163,19 +191,22 @@
     footer.modal-footer.clearfix(
       ng-init = "SMC.state.ifTriggersBuild = null"
     )
+      //- **********
+        - new things
+        - **********
 
-      button.btn.white.btn-cancel.float-left(
+      //- test save /& build transition
+      button.btn.white.float-left(
+        ng-click = "SMC.state.ifTriggersBuild = !SMC.state.ifTriggersBuild"
+        ng-if = "$root.featureFlags.rebuildFlow"
+        style = "margin-left: 6px; opacity: 0; position: absolute;"
+      ) Show "& Build"
+
+      button.btn.white.float-right(
         internal-modal-helper = "confirmCloseEditServer"
         ng-if = "$root.featureFlags.rebuildFlow"
         type = "button"
-      ) Close
-
-      //- test save /& build transition
-      //- button.btn.white.float-left(
-      //-   ng-click = "SMC.state.ifTriggersBuild = !SMC.state.ifTriggersBuild"
-      //-   ng-if = "$root.featureFlags.rebuildFlow"
-      //-   style = "margin-left: 6px;"
-      //- ) Show "& Build"
+      ) Done
 
       //- save/save & build button
         - disable if nothing to save
@@ -183,39 +214,28 @@
           .text-save-build
           .text-save
           .text-next
-      button.btn.green.float-right(
+      button.btn.white.btn-primary.float-right(
         ng-class = "{\
           'text-save': !SMC.state.ifTriggersBuild,\
           'text-save-build': SMC.state.ifTriggersBuild\
         }"
         ng-click = "SMC.changeTab('logs')"
-        ng-disabled = "$root.featureFlags.rebuildFlow && !SMC.state.ifTriggersBuild"
+        ng-disabled = "!SMC.state.ifTriggersBuild"
         ng-if = "$root.featureFlags.rebuildFlow"
-        tooltip = "You’ve made changes that require a rebuild."
-        tooltip-options = "{\"class\":\"no-arrow text-center\",\"right\":0,\"top\":-39}"
       )
-
         span.btn-text.float-left Save
           //- if save triggers a build
           span.fade.js-animate(
             ng-if = "!$root.featureFlags.rebuildFlow || SMC.state.ifTriggersBuild"
           ) &#32;& Build
 
-        svg.iconnables.icons-arrow-forward.float-right.fade.js-animate(
-          ng-if = "$root.featureFlags.rebuildFlow && SMC.state.ifTriggersBuild"
-        )
-          use(
-            xlink:href = "#icons-arrow-down"
-          )
-        svg.iconnables.icons-log.float-right.fade.js-animate(
-          ng-if = "$root.featureFlags.rebuildFlow && SMC.state.ifTriggersBuild"
-        )
-          use(
-            xlink:href = "#icons-log"
-          )
+      span.small.float-right.fade.js-animate(
+        ng-if = "SMC.state.ifTriggersBuild"
+      ) You’ve made changes that require a rebuild.
 
-      //- disabled if no changes
-
+      //- **********
+        - old things
+        - **********
       button.btn.white.float-left(
         ng-disabled = "$root.isLoading.editServerModalIsBuilding"
         ng-click = "SMC.actions.close()"

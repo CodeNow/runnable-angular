@@ -2,6 +2,7 @@
 .active-panel {
   display: flex;
   flex: 1 1 auto;
+  flex-direction: column;
   overflow: hidden;
   position: relative;
   z-index: $z-views-active-panel;
@@ -34,22 +35,20 @@
   display: flex;
   flex: 1 1 auto;
   justify-content: center;
-  margin-top: -1px;
-  position: relative;
 
-  .btn-sm {
-    font-size: 14px;
-    height: auto;
-    line-height: inherit;
-    padding: 15px;
-
-    + .btn-sm {
-      margin-left: 6px;
-    }
+   // dark theme
+  &.ace-runnable-dark {
+    background-color: $ace-bg;
+    color: $purple-lighter;
   }
 
-  .iconnables {
-    display: block;
-    margin: 0 auto 6px;
+  // light theme
+  &.ace-runnable-light {
+    background-color: $gray-lighterest;
+    border-top: 1px solid $gray-lighter;
+  }
+
+  .p {
+    color: $purple-lighter;
   }
 }

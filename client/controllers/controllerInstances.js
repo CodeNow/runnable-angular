@@ -13,6 +13,7 @@ function ControllerInstances(
   setLastOrg,
   errs,
   ModalService,
+  promisify,
 
   fetchInstancesByPod,
   activeAccount,
@@ -107,6 +108,25 @@ function ControllerInstances(
         instance: instance,
         isFromAutoDeploy: false
       }
+    })
+      .catch(errs.handler);
+  };
+
+  this.openEnableBranchesModal = function (instance) {
+    ModalService.showModal({
+      controller: 'EnableBranchesModalController',
+      controllerAs: 'EBMC',
+      templateUrl: 'enableBranchesModalView',
+      inputs: {
+        instance: instance
+      }
+    })
+      .catch(errs.handler);
+  };
+
+  this.markDockRemovedConfirmed = function (instance) {
+    promisify(instance.contextVersion, 'update')({
+      dockRemovedNeedsUserConfirmation: false
     })
       .catch(errs.handler);
   };

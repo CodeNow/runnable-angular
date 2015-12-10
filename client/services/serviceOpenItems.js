@@ -25,6 +25,7 @@ function openItemsFactory(
       model instanceof LogView ||
       model instanceof EnvVars ||
       model instanceof DebugFileModel ||
+      model instanceof BackupStream ||
       model instanceof BuildStream);
   }
 
@@ -49,6 +50,13 @@ function openItemsFactory(
     return this;
   }
 
+  function BackupStream(data) {
+    this.collections = [];
+    this.attrs = data || {};
+    this.attrs._id = i++;
+    return this;
+  }
+
   function LogView(data) {
     this.collections = [];
     this.attrs = data || {};
@@ -65,12 +73,14 @@ function openItemsFactory(
 
   util.inherits(Terminal, BaseModel);
   util.inherits(BuildStream, BaseModel);
+  util.inherits(BackupStream, BaseModel);
   util.inherits(LogView, BaseModel);
   util.inherits(EnvVars, BaseModel);
 
   var tabTypes = {
     Terminal: Terminal,
     BuildStream: BuildStream,
+    BackupStream: BackupStream,
     LogView: LogView,
     EnvVars: EnvVars,
     File: ContainerFileModel
@@ -215,6 +225,23 @@ function openItemsFactory(
     return buildStream;
   };
 
+  OpenItems.prototype.addBackupStream = function (data) {
+    if (!data) {
+      data = {};
+    }
+    if (!data.name) {
+      data.name = 'Backup';
+    }
+    if (this.hasOpen('BackupStream')) {
+      var currStream = this.getFirst('BackupStream');
+      this.activeHistory.add(currStream);
+      return currStream;
+    }
+    var backupStream = new BackupStream(data);
+    this.add(backupStream);
+    return backupStream;
+  };
+
   OpenItems.prototype.addLogs = function (data) {
     if (!data) {
       data = {};
@@ -290,6 +317,8 @@ function openItemsFactory(
       model.state.type = 'LogView';
     } else if (model instanceof EnvVars) {
       model.state.type = 'EnvVars';
+    } else if (model instanceof BackupStream) {
+      model.state.type = 'BackupStream';
     } else {
       keypather.set(model, 'state.type', 'File');
       model.state.reset = function () {
