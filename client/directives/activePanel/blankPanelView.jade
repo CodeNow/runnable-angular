@@ -4,11 +4,11 @@
 )
 
 p.p(
-  ng-if = "$root.featureFlags.migrationNotification"
+  ng-if = "instance.contextVersion.attrs.dockRemoved"
 ) Container Temporarily Unavailable
 
 ul(
-  ng-if = "!$root.featureFlags.migrationNotification"
+  ng-if = "!instance.contextVersion.attrs.dockRemoved"
 )
   li.btn.btn-sm(
     ng-click = "openItems.addTerminal()"

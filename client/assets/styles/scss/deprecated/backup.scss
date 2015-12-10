@@ -1,0 +1,45 @@
+//- ************************
+//- deprecated file, delete with $root.featureFlags.backup
+// .blank-panel
+.blank-panel {
+  margin-top: -1px;
+  position: relative;
+
+  // dark theme
+  &.ace-runnable-dark .btn-sm {
+    color: $purple-lighter;
+
+    &:hover,
+    &:active {
+      color: $white;
+    }
+  }
+
+  // light theme
+  &.ace-runnable-light .btn-sm {
+    color: $gray-darker;
+
+    &:hover,
+    &:active {
+      color: $purple-light;
+    }
+  }
+
+  .btn-sm {
+    font-size: 14px;
+    height: auto;
+    line-height: inherit;
+    padding: 15px;
+
+    + .btn-sm {
+      margin-left: 6px;
+    }
+  }
+
+  .iconnables {
+    display: block;
+    margin: 0 auto 6px;
+  }
+}
+//- end deprecated file
+//- ************************

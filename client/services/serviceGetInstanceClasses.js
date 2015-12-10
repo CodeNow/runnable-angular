@@ -13,6 +13,9 @@ function getInstanceClasses(
     if (!instance) {
       return {}; //async loading handling
     }
+    if (keypather.get(instance, 'contextVersion.attrs.dockRemoved')) {
+      return 'orange';
+    }
     var h = {};
     h.active = (keypather.get(instance, 'attrs.name') === $state.params.instanceName);
 

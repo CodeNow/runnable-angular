@@ -2,18 +2,27 @@
   color: $gray-dark;
   width: 450px;
 
-  .icons-status {
-    margin-right: 3px;
+  // modal description
+  .text-center {
+    color: $gray-dark;
+    flex: 0 0 auto;
+    font-size: 15px;
+    margin: 9px 0 24px;
+  }
+
+  // list headers
+  .h4 {
+    color: $gray;
+    flex: 0 0 auto;
+    font-size: 13px;
+    font-weight: $weight-normal;
+    padding: 6px 12px;
   }
 
   // container lists
   .list {
     flex: 0 0 auto;
-    margin: 15px 0;
-
-    + .list {
-      margin-top: 0;
-    }
+    margin-bottom: 15px;
   }
 
   .list-item {
@@ -27,13 +36,26 @@
     > .iconnables {
       flex: 0 0 21px;
     }
+  }
 
-    // container names
-    > .span {
-      flex: 1 1 auto;
-      font-weight: $weight-bold;
-      padding: 0 6px;
+  // container names
+  .span {
+    flex: 1 1 auto;
+    font-weight: $weight-bold;
+    padding: 0 6px;
+
+    //- backup status
+    + .small {
+      color: $gray-light;
+      cursor: default;
+      font-style: italic;
+      margin-right: 3px;
     }
+  }
+
+  .icons-check {
+    height: 18px;
+    width: 18px;
   }
 
   // reset .list-item > .btn-xs
@@ -47,14 +69,14 @@
     &.modded {
       top: -6px;
     }
-  }
 
-  // "Branch uses a modified configuration"
-  .small {
-    bottom: 1px;
-    color: $gray;
-    font-size: 11px;
-    position: absolute;
-    right: 12px;
+    // "Branch uses a modified configuration"
+    + .small {
+      bottom: 1px;
+      color: $gray;
+      font-size: 11px;
+      position: absolute;
+      right: 12px;
+    }
   }
 }

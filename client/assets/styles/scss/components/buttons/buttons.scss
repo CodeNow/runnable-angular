@@ -472,6 +472,7 @@
   &:active,
   &.active {
     color: $purple-light;
+    cursor: default;
   }
 
   &.active {

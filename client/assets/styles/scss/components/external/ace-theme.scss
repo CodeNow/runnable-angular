@@ -34,8 +34,7 @@
 
 // theme toggle
 .active-panel,
-.ace-container,
-.blank-panel {
+.ace-container {
 
   &.ace-runnable-dark {
     background-color: $ace-bg;
@@ -43,60 +42,30 @@
 
   &.ace-runnable-light {
     background-color: $gray-lighterest;
-    border-top: 1px solid $gray-lighter;
-  }
-}
-
-// if parent is .views
-.views {
-
-  // light theme
-  .ace-runnable-light .views-toolbar {
-    border-bottom: 1px solid $gray-lighter;
-    border-top: 1px solid $gray-lighter;
-  }
-
-  // dark theme
-  .ace-runnable-dark .views-toolbar {
-    border-bottom: 1px solid $purple-darker;
-    border-top: 1px solid $purple-darker;
   }
 }
 
 // toolbar themes
-.views-toolbar {
+.views-toolbar,
+.btn-logs {
 
   // light
   .ace-runnable-light & {
     background: $white;
     border-color: $gray-lighter;
+    color: $gray;
 
     // gray in modals
     .modal-dialog & {
       background: $gray-lighterest;
     }
-
-    .small {
-      color: $gray;
-    }
-
-    .span {
-      color: $gray-light;
-    }
   }
 
   // dark
   .ace-runnable-dark & {
-    background: $purple-dark;
-    border-color: $purple-darker;
-
-    .small {
-      color: $purple-lighter;
-    }
-
-    .span {
-      color: $white;
-    }
+    background: #3d294a;
+    border-color: $purple-darkest;
+    color: $purple-lighter;
   }
 }
 
@@ -116,36 +85,12 @@
   }
 }
 
-// blank panel
-.blank-panel {
-
-  // light theme
-  &.ace-runnable-light .btn-sm {
-    color: $gray-darker;
-
-    &:hover,
-    &:active {
-      color: $purple-light;
-    }
-  }
-
-  // dark theme
-  &.ace-runnable-dark .btn-sm {
-    color: $purple-lighter;
-
-    &:hover,
-    &:active {
-      color: $white;
-    }
-  }
-}
-
 // ace container
 .ace-container {
 
   // dark theme
   &.ace-runnable-dark {
-    border: 2px solid $purple-darker;
+    border: 2px solid $purple-darkest;
 
     .spinner-wrapper {
       background: $ace-bg;
