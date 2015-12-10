@@ -8,7 +8,7 @@
   )
   .popover-content
     h4.h4.strong URL Redirect
-    p.small Your container’s URL will redirect to your Elastic URL.
+    p.small Your container’s URL redirects to your Elastic URL.
 
     .figure
       svg.iconnables.icons-redirect
@@ -21,17 +21,19 @@
           xlink:href = "#icons-redirect"
         )
 
-      label.input-group.input-group-xs.gray.illo
-        .label.gray.text-center Container URL
-        .input.input-xs.text-right
-          strong.strong.text-green eo9lxe-
-          | api-staging-codenow.runnableapp.com
+      label.input-group.input-group-xs.gray
+        .label.gray Container URL
+        .input.input-xs.text-right eo9lxe-api-staging-codenow.runnableapp.com
 
       label.input-group.input-group-xs.gray
-        .label.gray.text-center Elastic URL
+        .label.gray Elastic URL
         .input.input-xs.text-right api-staging-codenow.runnableapp.com
 
-    //- a.small.link(
-    //-   href = "#"
-    //-   target = "_blank"
-    //- ) Learn more
+    hr.hr
+
+    h4.h4.strong Proxy
+    p.small Your Elastic URL shows you the container you’ve accessed with the Container URL.
+    a.small.link(
+      href = "#"
+      target = "_blank"
+    ) Learn more

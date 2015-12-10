@@ -1,10 +1,10 @@
 .popover-url {
-  max-width: none;
+  max-width: 460px;
   min-width: 390px;
 
   .popover-content {
     color: $gray-dark;
-    padding: 15px;
+    padding: 18px 30px;
   }
 
   .h4 {
@@ -16,9 +16,12 @@
   }
 
   .input-group {
+    background: $gray-lighterest;
+    border-radius: $input-border-radius $input-border-radius 0 0;
 
     + .input-group {
-      margin-top: 6px;
+      border-radius: 0 0 $input-border-radius $input-border-radius;
+      margin-top: -2px;
     }
 
     .label {
@@ -27,32 +30,33 @@
 
     .input-xs {
       border: 0;
+      color: $gray;
       line-height: $input-xs;
+      overflow: auto;
+      white-space: nowrap;
     }
   }
 
   .figure {
-    padding: 0 15px;
     position: relative;
   }
 
   .icons-redirect {
     color: $gray-lighter;
-    height: 36px;
-    left: -1px;
+    height: 28px;
+    left: -15px;
     position: absolute;
     top: 11px;
     width: 16px;
 
     + .icons-redirect {
       left: auto;
-      right: -1px;
+      right: -15px;
       transform: rotate3d(0,1,0,180deg);
     }
   }
 
-  .link {
-    display: block;
-    margin-top: 6px;
+  .hr {
+    margin: 24px 0;
   }
 }
