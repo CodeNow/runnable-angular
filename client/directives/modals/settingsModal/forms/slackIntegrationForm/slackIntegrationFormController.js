@@ -84,7 +84,7 @@ function SlackIntegrationFormController (
         // Token provided by user is valid. Update our settings.
         var slackData = {
           apiToken: SIFC.slackApiToken,
-          enabled: SIFC.settings.attrs.notifications.slack.enabled
+          enabled: keypather.get(SIFC, 'settings.attrs.notifications.slack.enabled')
         };
         return updateSlackSettings(slackData);
       })
@@ -99,7 +99,7 @@ function SlackIntegrationFormController (
     SIFC.loading = true;
     var slackData = {
       apiToken: '', // I would have used `null`, but API complains
-      enabled: SIFC.settings.attrs.notifications.slack.enabled
+      enabled: keypather.get(SIFC, 'settings.attrs.notifications.slack.enabled')
     };
     return updateSlackSettings(slackData)
       .then(function () {
@@ -113,8 +113,8 @@ function SlackIntegrationFormController (
 
   SIFC.saveSlack = debounce(function () {
     var slackData = {
-      apiToken: SIFC.settings.attrs.notifications.slack.apiToken,
-      enabled: SIFC.settings.attrs.notifications.slack.enabled
+      apiToken: keypather.get(SIFC, 'settings.attrs.notifications.slack.apiToken'),
+      enabled: keypather.get(SIFC, 'settings.attrs.notifications.slack.enabled')
     };
     slackData.githubUsernameToSlackIdMap = SIFC.slackMembers.reduce(function (obj, slackMember) {
       if (slackMember.ghName && !slackMember.found && /*keep calm and*/ slackMember.slackOn) {
