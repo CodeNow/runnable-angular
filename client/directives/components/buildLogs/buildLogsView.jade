@@ -1,15 +1,5 @@
-.views-toolbar(
-  ng-if = "$root.featureFlags.noBuildLogs && BLC.buildLogs.length === 0 && !BLC.buildLogsRunning"
-  style="margin-left: -8px; margin-right: -8px; top: -8px;"
-)
-  small.small.text-overflow There was an error starting your build.
-  button.btn.btn-xs.purple.btn-toolbar.float-right(
-    ng-class = "{in: data.saving}"
-    ng-click = "BLC.actions.rebuildWithoutCache()"
-  ) Rebuild without cache
-
 .pre.build-log(
-  ng-if = "$root.featureFlags.internalDebugging"
+  ng-if = "$root.featureFlags.internalDebugging && !($root.featureFlags.noBuildLogs && BLC.buildLogs.length === 0 && !BLC.buildLogsRunning)"
 )
   .build-log-header
     .build-log-header-text INTERNAL DEBUGGING!
@@ -23,7 +13,7 @@
     'build-log-toggle': BLC.buildLogs.length === 0 && BLC.buildLogsRunning,\
     'in': BLC.buildLogs.length === 0 && BLC.buildLogsRunning\
   }"
-  ng-if = "!$root.featureFlags.internalDebugging"
+  ng-if = "!$root.featureFlags.internalDebugging && !($root.featureFlags.noBuildLogs && BLC.buildLogs.length === 0 && !BLC.buildLogsRunning)"
 )
   .build-log-header(
     ng-class = "{'in-progress': BLC.buildLogs.length === 0 && BLC.buildLogsRunning}"
@@ -46,7 +36,7 @@
     'in': (command.hasContent && command.expanded) || (BLC.buildLogsRunning && $last)\
   }"
   ng-repeat = "command in BLC.getBuildLogs()"
-  ng-if = "!$root.featureFlags.internalDebugging"
+  ng-if = "!$root.featureFlags.internalDebugging && !($root.featureFlags.noBuildLogs && BLC.buildLogs.length === 0 && !BLC.buildLogsRunning)"
 )
   .build-log-header(
     ng-class = "{\
@@ -94,7 +84,22 @@
     'green': BLC.buildStatus === 'success',\
     'red': BLC.buildStatus === 'failed'\
   }"
-  ng-if = "!BLC.buildLogsRunning && getBuildMessage().length"
+  ng-if = "!BLC.buildLogsRunning && getBuildMessage().length && !($root.featureFlags.noBuildLogs && BLC.buildLogs.length === 0 && !BLC.buildLogsRunning)"
 )
   .build-log-header
     .build-log-header-text {{getBuildMessage()}}
+
+.blank-panel(
+  ng-class = "{\
+    'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+    'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+  }"
+  ng-if = "$root.featureFlags.noBuildLogs && BLC.buildLogs.length === 0 && !BLC.buildLogsRunning"
+)
+  p.p Your container failed to start building
+    br
+    | because of an internal issue.
+  button.btn.btn-sm.purple Retry Build
+  .small
+    a.link Let us know
+    |&#32;if this issue persists.
