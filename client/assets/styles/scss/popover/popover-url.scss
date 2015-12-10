@@ -1,5 +1,6 @@
 .popover-url {
-  max-width: 420px;
+  max-width: none;
+  min-width: 390px;
 
   .popover-content {
     color: $gray-dark;
@@ -16,12 +17,37 @@
 
   .input-group {
 
+    + .input-group {
+      margin-top: 6px;
+    }
+
     .label {
       width: 99px;
     }
 
-    + .input-group {
-      margin-top: 6px;
+    .input-xs {
+      border: 0;
+      line-height: $input-xs;
+    }
+  }
+
+  .figure {
+    padding: 0 15px;
+    position: relative;
+  }
+
+  .icons-redirect {
+    color: $gray-lighter;
+    height: 36px;
+    left: -1px;
+    position: absolute;
+    top: 11px;
+    width: 16px;
+
+    + .icons-redirect {
+      left: auto;
+      right: -1px;
+      transform: rotate3d(0,1,0,180deg);
     }
   }
 

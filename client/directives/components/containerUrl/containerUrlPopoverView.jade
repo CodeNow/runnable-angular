@@ -10,21 +10,26 @@
     h4.h4.strong URL Redirect
     p.small Your container’s URL will redirect to your Elastic URL.
 
-    label.input-group.input-group-xs.gray
-      .label.gray.text-center Container URL
-      input.input.input-xs(
-        readonly
-        select-all
-        value = "eo9lxe-api-staging-codenow.runnableapp.com"
-      )
+    .figure
+      svg.iconnables.icons-redirect
+        use(
+          xlink:href = "#icons-redirect"
+        )
 
-    label.input-group.input-group-xs.gray
-      .label.gray.text-center Elastic URL
-      input.input.input-xs(
-        readonly
-        select-all
-        value = "api-staging-codenow.runnableapp.com"
-      )
+      svg.iconnables.icons-redirect
+        use(
+          xlink:href = "#icons-redirect"
+        )
+
+      label.input-group.input-group-xs.gray.illo
+        .label.gray.text-center Container URL
+        .input.input-xs.text-right
+          strong.strong.text-green eo9lxe-
+          | api-staging-codenow.runnableapp.com
+
+      label.input-group.input-group-xs.gray
+        .label.gray.text-center Elastic URL
+        .input.input-xs.text-right api-staging-codenow.runnableapp.com
 
     //- a.small.link(
     //-   href = "#"
