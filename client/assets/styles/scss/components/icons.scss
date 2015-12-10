@@ -99,8 +99,8 @@
 .btn.white {
 
   .icons-round {
-    fill: $white;
     background: $gray-light;
+    fill: $white;
   }
 
   &:active .icons-round,
@@ -194,6 +194,11 @@
     position: absolute;
     width: 18px;
   }
+}
+
+// external link icons
+.link .icons-link-external {
+  padding: 0 5px;
 }
 
 // new server status icons, remove old ones once finalized
