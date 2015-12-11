@@ -9,15 +9,13 @@
 
     .input {
       font-size: 14px;
-      margin-left: -6px; // line up send button with invite
       padding-right: 54px;
-      width: 306px; // line up send button with invite
 
       // send
       ~ .green {
         bottom: 13px;
         margin: 6px;
-        right: 9px; // line up send button with invite
+        right: 15px;
         top: auto;
       }
     }
