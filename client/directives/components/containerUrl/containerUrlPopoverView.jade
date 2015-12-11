@@ -3,12 +3,18 @@
   ng-style = "popoverStyle.getStyle()"
   style = "transform-origin: 5% 0;"
 )
-  .arrow.white(
-    style = "left: 20px; right: auto;"
-  )
+  .arrow.white
   .popover-content
-    h4.h4.strong URL Redirect
-    p.small Your Container’s URL redirects to your repository’s Elastic Hostname.
+    h4.h4.strong This URL will redirect…
+    p.small Your Container’s URL redirects to your repository’s Shared URL.
+    a.small.link(
+      href = "https://runnable.zendesk.com/hc/en-us/sections/200552909-Hostnames-and-URLs"
+      target = "_blank"
+    ) Why does this happen?
+      svg.iconnables.icons-link-external
+        use(
+          xlink:href = "#icons-link-external"
+        )
 
     .figure(
       ng-if = "$root.featureFlags.urlPopover"
@@ -28,18 +34,8 @@
         .input.input-xs.text-right eo9lxe-api-staging-codenow.runnableapp.com
 
       label.input-group.input-group-xs.gray
-        .label.gray Elastic Hostname
+        .label.gray Shared URL
         .input.input-xs.text-right api-staging-codenow.runnableapp.com
-
-    a.small.link(
-      href = "https://runnable.zendesk.com/hc/en-us/sections/200552909-Hostnames-and-URLs"
-      ng-if = "!$root.featureFlags.urlPopover"
-      target = "_blank"
-    ) More about hostnames and URLs
-      svg.iconnables.icons-link-external
-        use(
-          xlink:href = "#icons-link-external"
-        )
 
     hr.hr(
       ng-if = "$root.featureFlags.urlPopover"
@@ -47,13 +43,13 @@
 
     h4.h4(
       ng-if = "$root.featureFlags.urlPopover"
-    ) More About URLs
+    ) About Shared URLs
 
     a.small.link(
       href = "#"
       ng-if = "$root.featureFlags.urlPopover"
       target = "_blank"
-    ) Why does my Container URL redirect to the Elastic Hostname?
+    ) How does the Container URL redirect to the Shared URL?
       svg.iconnables.icons-link-external
         use(
           xlink:href = "#icons-link-external"
@@ -63,7 +59,7 @@
       href = "#"
       ng-if = "$root.featureFlags.urlPopover"
       target = "_blank"
-    ) How does the Elastic Hostname work with multiple containers?
+    ) Which URL do I use for that?
       svg.iconnables.icons-link-external
         use(
           xlink:href = "#icons-link-external"

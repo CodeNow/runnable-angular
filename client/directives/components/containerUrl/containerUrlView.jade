@@ -3,6 +3,7 @@
 input.input.input-sm(
   pop-over
   pop-over-options = "{\"left\":-47,\"top\":47}"
+
   pop-over-template = "containerUrlPopoverView"
   readonly
   select-all
@@ -21,6 +22,7 @@ a.btn.btn-xs.btn-icon-xs.gray.link(
 
 button.btn.btn-xs.gray(
   clipboard
+  ng-click = "$event.preventDefault()"
   ng-mouseleave = "showToolTip = false"
   ng-show = "shouldShowCopyButton"
   on-copied = "\
