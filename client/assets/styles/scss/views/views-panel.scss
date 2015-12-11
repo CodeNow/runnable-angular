@@ -45,6 +45,7 @@
   right: 0;
   text-align: center;
   top: 0;
+  padding: 18px;
 
   // override monospace inside build logs
   .modal-logs & {
@@ -58,6 +59,8 @@
 
   .p {
     font-size: 18px;
+    white-space: normal;
+    word-break: break-word;
 
     + .btn {
       margin-top: 12px;

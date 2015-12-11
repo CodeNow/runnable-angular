@@ -92,9 +92,7 @@
 .blank-panel(
   ng-if = "$root.featureFlags.noBuildLogs && BLC.buildLogs.length === 0 && !BLC.buildLogsRunning"
 )
-  p.p Your container failed to start building
-    br
-    | because of an internal issue.
+  p.p We ran into an issue trying to build your container.
   button.btn.btn-sm.purple Retry Build
   .small
     a.link Let us know
