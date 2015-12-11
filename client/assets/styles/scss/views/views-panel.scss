@@ -32,24 +32,20 @@
 // .blank-panel
 .blank-panel {
   align-items: center;
+  bottom: 0;
   display: flex;
   flex-direction: column;
-  font-family: $sans-serif;
-  height: 100%;
+  font-family: $sans-serif; // override monospace inside build logs
   justify-content: center;
-  padding-bottom: 3%;
+  left: 0;
+  position: absolute;
+  right: 0;
   text-align: center;
+  top: 0;
 
    // dark theme
-  &.ace-runnable-dark {
-    background-color: $ace-bg;
+  .ace-runnable-dark & {
     color: $purple-lighter;
-  }
-
-  // light theme
-  &.ace-runnable-light {
-    background-color: $gray-lighterest;
-    border-top: 1px solid $gray-lighter;
   }
 
   .p {

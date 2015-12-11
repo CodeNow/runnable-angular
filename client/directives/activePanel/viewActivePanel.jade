@@ -99,11 +99,13 @@
     span.js-char-width 0
 
 //- blank state
-.blank-panel(
+.active-panel(
   ng-class = "{\
     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
   ng-if= "openItems.models.length === 0"
-  ng-include = "'blankPanelView'"
 )
+  .blank-panel(
+    ng-include = "'blankPanelView'"
+  )
