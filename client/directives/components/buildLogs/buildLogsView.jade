@@ -90,10 +90,6 @@
     .build-log-header-text {{getBuildMessage()}}
 
 .blank-panel(
-  ng-class = "{\
-    'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
-    'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
-  }"
   ng-if = "$root.featureFlags.noBuildLogs && BLC.buildLogs.length === 0 && !BLC.buildLogsRunning"
 )
   p.p Your container failed to start building
