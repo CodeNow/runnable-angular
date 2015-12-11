@@ -35,13 +35,17 @@
   bottom: 0;
   display: flex;
   flex-direction: column;
-  font-family: $sans-serif; // override monospace inside build logs
   justify-content: center;
   left: 0;
   position: absolute;
   right: 0;
   text-align: center;
   top: 0;
+
+  // override monospace inside build logs
+  .modal-form & {
+    font-family: $sans-serif;
+  }
 
    // dark theme
   .ace-runnable-dark & {
