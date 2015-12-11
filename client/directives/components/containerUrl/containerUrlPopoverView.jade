@@ -8,7 +8,7 @@
   )
   .popover-content
     h4.h4.strong URL Redirect
-    p.small Your container’s URL redirects to your Elastic Hostname.
+    p.small Your Container’s URL redirects to your repository’s Elastic Hostname.
 
     .figure(
       ng-if = "$root.featureFlags.urlPopover"
@@ -31,12 +31,27 @@
         .label.gray Elastic Hostname
         .input.input-xs.text-right api-staging-codenow.runnableapp.com
 
-    hr.hr
+    a.small.link(
+      href = "https://runnable.zendesk.com/hc/en-us/sections/200552909-Hostnames-and-URLs"
+      ng-if = "!$root.featureFlags.urlPopover"
+      target = "_blank"
+    ) More about hostnames and URLs
+      svg.iconnables.icons-link-external
+        use(
+          xlink:href = "#icons-link-external"
+        )
 
-    h4.h4 More About URLs
+    hr.hr(
+      ng-if = "$root.featureFlags.urlPopover"
+    )
+
+    h4.h4(
+      ng-if = "$root.featureFlags.urlPopover"
+    ) More About URLs
 
     a.small.link(
       href = "#"
+      ng-if = "$root.featureFlags.urlPopover"
       target = "_blank"
     ) Why does my Container URL redirect to the Elastic Hostname?
       svg.iconnables.icons-link-external
@@ -46,6 +61,7 @@
 
     a.small.link(
       href = "#"
+      ng-if = "$root.featureFlags.urlPopover"
       target = "_blank"
     ) How does the Elastic Hostname work with multiple containers?
       svg.iconnables.icons-link-external
