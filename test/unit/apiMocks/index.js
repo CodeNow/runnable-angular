@@ -35,7 +35,9 @@ module.exports = {
     bitcoinRepoCommits: require('./gh/bitcoinRepoCommits'),
     repos: require('./gh/repos'),
     commits: require('./gh/commits'),
-    compare: require('./gh/compare')
+    compare: require('./gh/compare'),
+    generateGithubUserObject: require('./gh/generateGithubUserObject'),
+    generateGithubOrgObject: require('./gh/generateGithubOrgObject')
   },
   instances: {
     running: require('./instances/running'),
@@ -47,6 +49,8 @@ module.exports = {
   },
   repoList: require('./repoList'),
   user: require('./user'),
+  generateUserObject: require('./generateUserObject'),
+  generateTeammateInvitationObject: require('./generateTeammateInvitationObject'),
   stackInfo: [
     {
       name: 'Rails',

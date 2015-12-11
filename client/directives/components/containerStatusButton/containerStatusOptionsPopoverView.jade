@@ -14,7 +14,7 @@
 
     //- if build failed
     .well.well-popover.red.text-center(
-      ng-if = "CSBC.instance.status() === 'buildFailed'"
+      ng-if = "['buildFailed', 'neverStarted'].includes(CSBC.instance.status())"
     ) Having build problems? Some errors can be resolved by rebuilding.
       button.btn.btn-xs.red(
         ng-click = "actions.rebuildWithoutCache()"
@@ -51,7 +51,7 @@
       )
       li.popover-list-item(
         ng-click = "actions.rebuildWithoutCache()"
-        ng-if = "CSBC.instance.status() !== 'buildFailed'"
+        ng-if = "!['buildFailed', 'neverStarted'].includes(CSBC.instance.status())"
       )
         .iconnables
         | Rebuild Without Cache
