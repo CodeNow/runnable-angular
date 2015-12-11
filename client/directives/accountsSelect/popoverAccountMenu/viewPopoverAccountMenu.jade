@@ -58,9 +58,7 @@
                 title = "12 days left in your trial"
               ) 12 Days
             li.list-item.popover-list-item(
-              data-badge-count = "1"
-              internal-modal-helper = "settingsModalView"
-              ng-class = "{'badge': true}"
+              ng-click = "actions.openSettingsModal('teamManagement')"
               ng-if = "$root.featureFlags.teamManagement"
             )
               svg.iconnables
@@ -69,7 +67,7 @@
                 )
               | Teammates
             li.list-item.popover-list-item(
-              internal-modal-helper = "settingsModalView"
+              ng-click = "actions.openSettingsModal('teamManagement')"
               ng-if = "$root.featureFlags.billing"
             )
               img.iconnables(

@@ -1,6 +1,11 @@
 /*global runnable:true, user:true, before:true */
 'use strict';
-var instances = require('../apiMocks').instances;
+var apiMocks = require('../apiMocks');
+var instances = apiMocks.instances;
+var generateUserObject = apiMocks.generateUserObject;
+var generateTeammateInvitationObject = apiMocks.generateTeammateInvitationObject;
+var generateGithubUserObject = apiMocks.gh.generateGithubUserObject;
+var generateGithubOrgObject = apiMocks.gh.generateGithubOrgObject;
 
 describe('serviceFetch'.bold.underline.blue, function () {
   var data;
@@ -14,110 +19,6 @@ describe('serviceFetch'.bold.underline.blue, function () {
       return $q.when(_res);
     };
   };
-  var generateUserObject = function (githubUsername, githubgithubUserId) {
-    if (!githubUsername) {
-      githubUsername = 'thejsj';
-    }
-    if (!githubgithubUserId) {
-      githubgithubUserId = 12345;
-    }
-    return {
-      '_id': '54d3c216c0f345d650d00123',
-      'accounts': {
-        'github': {
-          'provider': 'github',
-          'id': githubgithubUserId,
-          'displayName': 'Jorge Silva',
-          'username': githubUsername,
-          'profileUrl': 'https:\/\/github.com\/' + githubUsername,
-          'emails': [
-            {
-              'value': 'jorge.silva@thejsj.com'
-            }
-        ]
-        }
-      },
-      'gravatar': 'https:\/\/avatars.githubusercontent.com\/u\/1981198?v=3',
-      'email': 'email@company.com',
-      'routes': [ ],
-      'created': '2015-02-18T00:00:00.000Z',
-      'showEmail': false
-    };
-  };
-  var generateGithubUserObject = function (githubUsername, githubUserId) {
-    if (!githubUsername) {
-      githubUsername = 'thejsj';
-    }
-    if (!githubUserId) {
-      githubUserId = 12345;
-    }
-    return {
-      avatar_url: 'https://avatars.githubusercontent.com/u/1981198?v=3',
-      events_url: 'https://api.github.com/users/' + githubUsername + '/events{/privacy}',
-      followers_url: 'https://api.github.com/users/' + githubUsername + '/followers',
-      following_url: 'https://api.github.com/users/' + githubUsername + '/following{/other_user}',
-      gists_url: 'https://api.github.com/users/' + githubUsername + '/gists{/gist_id}',
-      gravatar_id: '',
-      html_url: 'https://github.com/' + githubUsername,
-      id: githubUserId,
-      login: githubUsername,
-      organizations_url: 'https://api.github.com/users/' + githubUsername + '/orgs',
-      received_events_url: 'https://api.github.com/users/' + githubUsername + '/received_events',
-      repos_url: 'https://api.github.com/users/' + githubUsername + '/repos',
-      site_admin: false,
-      starred_url: 'https://api.github.com/users/' + githubUsername + '/starred{/owner}{/repo}',
-      subscriptions_url: 'https://api.github.com/users/' + githubUsername + '/subscriptions',
-      type: 'User',
-      url: 'https://api.github.com/users/' + githubUsername
-    };
-  };
-  var generateGithubOrgObject = function (githubOrgName, githubOrgId) {
-    if (!githubOrgName) {
-      githubOrgName = 'CodeNow';
-    }
-    if (!githubOrgId) {
-      githubOrgId = 1223344;
-    }
-    return {
-      avatar_url: 'https://avatars.githubusercontent.com/u/' + githubOrgId + '?v=3',
-      description: null,
-      events_url: 'https://api.github.com/orgs/' + githubOrgName + '/events',
-      id: githubOrgId,
-      login: githubOrgName,
-      members_url: 'https://api.github.com/orgs/' + githubOrgName + '/members{/member}',
-      public_members_url: 'https://api.github.com/orgs/' + githubOrgName + '/public_members{/member}',
-      repos_url: 'https://api.github.com/orgs/' + githubOrgName + '/repos',
-      url: 'https://api.github.com/orgs/' + githubOrgName + ''
-    };
-  };
-  var generateTeammateInvitationObject = function (orgGithubId, recipientGihtubId, recipientEmail) {
-    var user = generateUserObject();
-    if (!orgGithubId) {
-      orgGithubId = generateGithubOrgObject().id;
-    }
-    if (!recipientGihtubId) {
-      recipientGihtubId = user.id;
-    }
-    if (!recipientEmail) {
-      recipientEmail = user.accounts.github.emails[0].value;
-    }
-    return {
-      _id: '564e76f4ecb1e41e0096b5d7',
-      created: '2015-11-20T01:27:16.193Z',
-      organization: {
-        github: orgGithubId
-      },
-      owner: {
-        github: 1981198
-      },
-      recipient: {
-        email: recipientEmail,
-        github: recipientGihtubId
-      }
-    };
-  };
-
-
   describe('factory fetchUser', function () {
     var $state;
     var apiClientBridge;
