@@ -7,13 +7,16 @@
     background: $gray-lightest;
 
     .label,
-    .input,
     .btn-xs {
       color: $gray-light;
     }
 
     .label {
       border-color: $gray-lighter;
+    }
+
+    .input {
+      color: $gray;
     }
   }
 
