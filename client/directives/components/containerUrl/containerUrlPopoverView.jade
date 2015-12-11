@@ -10,7 +10,9 @@
     h4.h4.strong URL Redirect
     p.small Your container’s URL redirects to your Elastic Hostname.
 
-    .figure
+    .figure(
+      ng-if = "$root.featureFlags.urlPopover"
+    )
       svg.iconnables.icons-redirect
         use(
           xlink:href = "#icons-redirect"
@@ -21,7 +23,7 @@
           xlink:href = "#icons-redirect"
         )
 
-      label.input-group.input-group-xs.gray
+      label.input-group.input-group-xs.gray()
         .label.gray Container URL
         .input.input-xs.text-right eo9lxe-api-staging-codenow.runnableapp.com
 
