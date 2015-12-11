@@ -1,8 +1,8 @@
 //- tabs
 .views-tabs(
-  open-items = "openItems"
-  instance = "instance"
   debug-container = "debugContainer"
+  instance = "instance"
+  open-items = "openItems"
   tabs
 )
 
@@ -42,8 +42,8 @@
   //- build logs
   .build-log-wrapper(
     build-logs
-    instance = 'instance'
     debug-container = "debugContainer"
+    instance = 'instance'
     ng-class = "{\
       'logs-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
       'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
@@ -54,19 +54,19 @@
 
   //- cmd logs
   .term-js.term-log(
-    log-term
-    instance = 'instance'
-    debug-container = "debugContainer"
     controller = "BoxLogController"
+    debug-container = "debugContainer"
+    instance = 'instance'
+    log-term
     ng-if = "item.state.type === 'LogView'"
   )
 
   //- terminal
   .term-js(
-    log-term
-    instance = 'instance'
-    debug-container = "debugContainer"
     controller = "TermController"
+    debug-container = "debugContainer"
+    instance = 'instance'
+    log-term
     ng-if = "item.state.type === 'Terminal'"
   )
 
