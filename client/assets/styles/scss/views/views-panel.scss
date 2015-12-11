@@ -47,7 +47,7 @@
   top: 0;
 
   // override monospace inside build logs
-  .modal-form & {
+  .modal-logs & {
     font-family: $sans-serif;
   }
 
@@ -58,12 +58,15 @@
 
   .p {
     font-size: 18px;
+
+    + .btn {
+      margin-top: 12px;
+    }
   }
 
   .btn.purple {
     background: $purple;
     border: 1px solid $purple-darker;
-    margin-top: 12px;
 
     &:hover {
       background: $purple-light;
