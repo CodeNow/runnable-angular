@@ -104,6 +104,12 @@ function BuildLogsController(
 
   this.generatingDebug = false;
   this.actions = {
+    openIntercom: function () {
+      window.Intercom(
+        'showNewMessage',
+        'Hello! I have a container that won\'t start building, can you help me?'
+      );
+    },
     rebuildWithoutCache: function () {
       promisify(BLC.instance.build, 'deepCopy')()
         .then(function (build) {

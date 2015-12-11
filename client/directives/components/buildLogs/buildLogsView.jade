@@ -93,7 +93,11 @@
   ng-if = "$root.featureFlags.noBuildLogs && BLC.buildLogs.length === 0 && !BLC.buildLogsRunning && BLC.buildStatus === 'failed'"
 )
   p.p We ran into an issue trying to build your container.
-  button.btn.btn-sm.purple Retry Build
+  button.btn.btn-sm.purple(
+    ng-click = "BLC.actions.rebuildWithoutCache()"
+  ) Retry Build
   .small
-    a.link Let us know
+    a.link(
+      ng-click = "BLC.actions.openIntercom()"
+    ) Let us know
     | &#32;if this issue persists.
