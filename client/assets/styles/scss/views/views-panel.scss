@@ -41,11 +41,11 @@
   flex-direction: column;
   justify-content: center;
   left: 0;
+  padding: 18px;
   position: absolute;
   right: 0;
   text-align: center;
   top: 0;
-  padding: 18px;
 
   // override monospace inside build logs
   .modal-logs & {
