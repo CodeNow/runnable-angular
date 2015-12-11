@@ -7,6 +7,10 @@
   position: relative;
   z-index: $z-views-active-panel;
 
+  &.ace-runnable-light {
+    border-top: 1px solid $gray-lighter;
+  }
+
   // hide scrollbar (still allows scrolling)
   .ace_scrollbar {
     overflow: hidden;
