@@ -83,17 +83,17 @@
       target = "_blank"
     ) Learn how to restore from older backups
     | .
-  //- only show toolbar and revert button if script differs from default
-  //- .views-toolbar(
-  //-   ng-if = "page === 'restore'"
-  //-   ng-include = "'backupToolbarView'"
-  //- )
-  //-   button.btn.btn-purple.btn-toolbar.purple Revert to Default
-  .ace-container.ace-restore(
-    ng-class = "{\
-      'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
-      'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
-    }"
-    ng-if = "page === 'restore'"
-  )
-    //- .ace_editor
+  .logs-runnable-dark
+    //- only show toolbar and revert button if script differs from default
+    //- .views-toolbar(
+    //-   ng-if = "page === 'restore'"
+    //- )
+    //-   button.btn.btn-purple.btn-toolbar.purple Revert to Default
+    .ace-container.ace-restore(
+      ng-class = "{\
+        'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+        'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+      }"
+      ng-if = "page === 'restore'"
+    )
+      //- .ace_editor

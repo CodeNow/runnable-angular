@@ -10,7 +10,7 @@ p.p(
 ul(
   ng-if = "!instance.contextVersion.attrs.dockRemoved"
 )
-  li.btn.btn-sm(
+  li.btn.btn-open-tab(
     ng-click = "openItems.addTerminal()"
   )
     svg.iconnables
@@ -18,7 +18,7 @@ ul(
         xlink:href = "#icons-start-cmd"
       )
     | Terminal
-  li.btn.btn-sm(
+  li.btn.btn-open-tab(
     ng-click = "openItems.addBuildStream()"
   )
     svg.iconnables
@@ -26,7 +26,7 @@ ul(
         xlink:href = "#icons-build-logs"
       )
     | Build Logs
-  li.btn.btn-sm(
+  li.btn.btn-open-tab(
     ng-click = "openItems.addLogs()"
   )
     svg.iconnables.icons-server

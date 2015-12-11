@@ -24,6 +24,8 @@ function streamingLog(
     var streamTimes = {};
     var timingInterval = null;
     var streaming = false;
+    var rawLogs = [];
+    var processedRawLogs = null;
     function handleStreamData(data) {
       if (['docker', 'log'].includes(data.type)) {
         var stepRegex = /^Step [0-9]+ : /;
@@ -105,6 +107,10 @@ function streamingLog(
           }
         }
       }
+      if (data.content) {
+        rawLogs.push(data);
+        processedRawLogs = null;
+      }
 
       if (data.timestamp) {
         streamTimes.latest = new Date(data.timestamp);
@@ -142,6 +148,23 @@ function streamingLog(
     return {
       logs: streamLogs,
       times: streamTimes,
+      getRawLogs: function () {
+        if (!processedRawLogs) {
+          var contentJoined = rawLogs
+            .filter(function (data) {
+              return data.type !== 'heartbeat';
+            })
+            .map(function (data) {
+              if (data.type === 'progress') {
+                return '\n' + JSON.stringify(data.content);
+              }
+              return data.content;
+            })
+            .join('');
+          processedRawLogs = $sce.trustAsHtml(convert.toHtml(contentJoined));
+        }
+        return processedRawLogs;
+      },
       destroy: function () {
         stream.off('data', handleStreamData);
       }
