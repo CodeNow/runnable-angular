@@ -270,9 +270,9 @@ function SetupServerModalController(
       });
   }
 
-  SMC.rebuild = function (noCache) {
+  SMC.rebuild = function (noCache, forceRebuild) {
     loading(SMC.name, true);
-    return SMC.rebuildAndOrRedeploy(noCache)
+    return SMC.rebuildAndOrRedeploy(noCache, forceRebuild)
       .then(function () {
         return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
       })
