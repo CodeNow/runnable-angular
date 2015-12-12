@@ -112,6 +112,10 @@
   > .input-group {
     flex: 1 1 auto;
 
+    .input {
+      overflow-y: auto;
+    }
+
     // new tab
     .link {
       padding: 0;
