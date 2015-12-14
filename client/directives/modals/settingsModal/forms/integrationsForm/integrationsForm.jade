@@ -1,0 +1,118 @@
+//- integrations form empty state
+img.img(
+  height = "90"
+  ng-if = "!data.verified"
+  src = "/build/images/slack-notification.png"
+  width = "270"
+)
+
+p.p.empty(
+  ng-if = "!data.verified"
+) Get container status updates in Slack
+input.input.input-sm.monospace.text-center.input-validate(
+  ng-model = "data.settings.attrs.notifications.slack.apiToken"
+  ng-if = "!data.verified"
+  placeholder = "API Token"
+  required
+  spellcheck = "false"
+)
+.validation-message.text-center(
+  ng-if = "$root.featureFlags.updatedSlackValidation && !data.verified"
+) Invalid API Token
+small.small.text-center(
+  ng-if = "!data.verified"
+) Use an API token from&#32;
+  a.link(
+    href = "//slack.com/services"
+    target = "_blank"
+  ) an existing bot
+  | , or create a&#32;
+  a.link(
+    href = "//slack.com/services/new/bot"
+    target = "_blank"
+  ) new bot
+  | .
+button.btn.green.btn-spinner(
+  ng-class = "{in: data.verifying}"
+  ng-click = "\
+    actions.verifySlack();\
+    data.verified = true;\
+  "
+  ng-disabled = "data.verifying || !data.settings.attrs.notifications.slack.apiToken.length"
+  ng-if = "!data.verified"
+)
+  .spinner-wrapper.spinner-sm.spinner-white.in(
+    ng-include = "'spinner'"
+    ng-if = "data.verifying"
+  )
+  | Verify Token
+
+//- integrations form
+.label(
+  ng-if = "data.verified"
+)
+  .clearfix
+    .label-col Messaging
+  .list.list-bordered
+    label.list-item.text-overflow(
+      ng-class = "{\
+        active: member.slackOn,\
+        disabled: !data.settings.attrs.notifications.slack.enabled,\
+        expanded: !member.found && member.slackOn\
+      }"
+      ng-repeat = "member in data.slackMembers"
+    )
+      .badge-warning(
+        ng-if = "\
+          !member.found && \
+          member.slackOn && \
+          !member.ghName && data.settings.attrs.notifications.slack.enabled\
+        "
+      )
+        svg.iconnables.icons-warning
+          use(
+            xlink:href = "#icons-warning"
+          )
+      img.gravatar(
+        height = "21"
+        ng-src = "{{ member.profile.image_24 }}"
+        width = "21"
+      )
+      | @{{ member.name }}
+      .toggle-wrapper.float-right
+        input.toggle-input(
+          ng-disabled = "!data.settings.attrs.notifications.slack.enabled"
+          ng-model = "member.slackOn"
+          type = "checkbox"
+        )
+        .toggle-group.toggle-sm(
+          ng-class = "{invalid: !member.found && member.slackOn && !member.ghName}"
+        )
+      .well.small(
+        ng-class = "{'no-touching': !data.settings.attrs.notifications.slack.enabled}"
+        ng-click = "$event.preventDefault();"
+        ng-if = "!member.found && member.slackOn"
+      ) We couldn't match this Slack user to a Github username. #{''}
+        br.br
+        | Select their username to enable messaging.
+        select.select(
+          ng-if = "!member.found"
+          ng-model = "member.ghName"
+          ng-options = "ghMember for ghMember in data.ghMembers"
+        )
+          option(
+            disabled
+            selected = "selected"
+            value = ""
+          ) Select Github username
+  small.small Members will receive messages from your bot when their containers are updated.
+
+//- disabling integration:
+  - removes all .active class on labels
+  - disables all inputs, but preserves their states
+.label.label-footer(
+  ng-if = "data.verified"
+)
+  button.btn.btn-xs.red(
+    ng-click = "data.verified = false"
+  ) Delete Slack Integration
