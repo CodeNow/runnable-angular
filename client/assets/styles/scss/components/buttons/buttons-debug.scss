@@ -2,12 +2,16 @@
 .btn-debug {
   flex: 0 0 auto;
 
-  > .btn {
-    font-family: $sans-serif; // override monospace fonts
+  .btn {
 
     // extra padding for icon
     &:first-child {
       padding: 0 21px 0 6px;
+    }
+
+    // override
+    &:last-child {
+      margin-left: -1px;
     }
   }
 

@@ -1,6 +1,6 @@
 .modal-form {
   display: flex;
-  flex: 1 1 auto;
+  flex: 1 0 auto;
   flex-direction: column;
   padding: 15px 30px;
 
@@ -12,6 +12,13 @@
   // layout
   // - define what expands/is fixed
   // ******
+
+  > .spinner-wrapper {
+    align-items: center;
+    color: $gray-light;
+    flex: 1 1 auto;
+    margin: 15px auto;
+  }
 
   // flexible (height)
   // .modal-form > .ace-container
@@ -222,18 +229,28 @@
     }
   }
 
-  // spinner for table
+  // spinner for table…
   .modal-form-spinner {
     color: $gray;
     margin: 60px 0 30px;
     text-align: center;
   }
 
-  .spinner-wrapper:not(.spinner-backdrop) {
-    display: inline-block;
-    height: 12px;
-    margin-right: 6px;
-    width: 12px;
+  // …and preview
+  .input-spinner,
+  .modal-form-spinner {
+
+    .spinner-wrapper {
+      display: inline-block;
+      margin-right: 5px;
+    }
+
+    .spinner {
+      height: 12px;
+      position: relative;
+      top: 1px;
+      width: 12px;
+    }
   }
 
   .btn > .spinner-wrapper {

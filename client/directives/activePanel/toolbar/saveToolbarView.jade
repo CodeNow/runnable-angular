@@ -1,0 +1,24 @@
+p.p.text-overflow(
+  title = "/node-hello-world/server.js"
+) /node-hello-world/server.js
+//- disable save buttons until a change is made
+button.btn.green.btn-spinner.btn-toolbar(
+  ng-class = "{'in': data.saving}"
+  ng-click = "data.saving = !data.saving"
+)
+  //- ng-disabled = "!instance.containers.models[0].running() || loading || saving || modifyingInstance || !canSave()"
+  .spinner-wrapper.spinner-sm.spinner-white.in(
+    ng-if = "saving"
+    ng-include = "'spinner'"
+  )
+  | {{ saving ? 'Saving' : 'Save and Restart'}}
+button.btn.green.btn-spinner.btn-toolbar(
+  ng-class = "{'in': data.saving}"
+  ng-click = "data.saving = !data.saving"
+)
+  //- ng-disabled = "!instance.containers.models[0].running() || loading || saving || modifyingInstance || !canSave()"
+  .spinner-wrapper.spinner-sm.spinner-white.in(
+    ng-if = "data.saving"
+    ng-include = "'spinner'"
+  )
+  | {{ saving ? 'Saving' : 'Save'}}

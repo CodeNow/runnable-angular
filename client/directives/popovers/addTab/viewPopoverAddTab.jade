@@ -4,10 +4,15 @@
 )
   .arrow.white
   .popover-content
-    ul.list.popover-list
+    ul.list.popover-list(
+      ng-if = "!$root.featureFlags.backup"
+    )
       li.list-item.popover-list-item.small.disabled Open Tab
       li.list-item.popover-list-item(
-        ng-click = "actions.addTerminal(); POC.closePopover()"
+        ng-click = "\
+          actions.addTerminal();\
+          POC.closePopover();\
+        "
         ng-if = "data.options.term"
       )
         svg.iconnables
@@ -16,7 +21,10 @@
           )
         | Terminal
       li.list-item.popover-list-item(
-        ng-click = "actions.addBuildStream(); POC.closePopover()"
+        ng-click = "\
+          actions.addBuildStream();\
+          POC.closePopover();\
+        "
         ng-if = "data.options.build"
       )
         svg.iconnables
@@ -25,7 +33,10 @@
           )
         | Build Logs
       li.list-item.popover-list-item(
-        ng-click = "actions.addLogs(); POC.closePopover()"
+        ng-click = "\
+          actions.addLogs();\
+          POC.closePopover();\
+        "
         ng-if = "data.options.server"
       )
         svg.iconnables
@@ -33,3 +44,32 @@
             xlink:href = "#icons-cmd-logs"
           )
         | CMD Logs
+    ul.list.popover-list(
+      ng-if = "$root.featureFlags.backup"
+    )
+      li.list-item.popover-list-item(
+        ng-click = "\
+          actions.addTerminal();\
+          POC.closePopover();\
+        "
+        ng-if = "data.options.term"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-start-cmd"
+          )
+        | New Terminal Tab
+      //- only for testing backup tab
+      li.list-item.popover-list-item(
+        ng-click = "\
+          actions.addBackupStream();\
+          POC.closePopover();\
+        "
+        ng-if = "data.options.server"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-cmd-logs"
+          )
+        | Backup (for test only)
+

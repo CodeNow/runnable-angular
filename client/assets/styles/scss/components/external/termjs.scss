@@ -15,8 +15,9 @@
 .term-js {
   cursor: text;
   display: flex;
+  flex: 1 1 auto;
   overflow-x: hidden;
-  padding: 9px 0 30px;
+  padding: 9px 0 15px;
   width: 100%;
 
   // dark theme

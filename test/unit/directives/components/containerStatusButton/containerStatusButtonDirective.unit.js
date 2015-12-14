@@ -67,7 +67,9 @@ describe('containerStatusButtonDirective'.bold.underline.blue, function () {
           getMainAppCodeVersion: sinon.stub().returns(mockMainACV)
         }
       };
-
+      $rootScope.featureFlags = {
+        internalDebugging: false
+      };
 
       var template = directiveTemplate.attribute('container-status-button', {
         instance: 'instance'
@@ -81,14 +83,14 @@ describe('containerStatusButtonDirective'.bold.underline.blue, function () {
   describe('StatusText', function () {
     it('update the button text correctly', function () {
       var statusMap = {
-        starting: 'Starting container',
-        stopping: 'Stopping Container',
+        starting: 'Starting',
+        stopping: 'Stopping',
         building: 'Building',
         stopped: 'Stopped',
         crashed: 'Crashed',
         running: 'Running',
         buildFailed: 'Build Failed',
-        neverStarted: 'Never Started',
+        neverStarted: 'Build Failed',
         unknown: 'Unknown'
       };
       mockInstance.status = sinon.stub().returns('adsfasdfads');
@@ -102,6 +104,13 @@ describe('containerStatusButtonDirective'.bold.underline.blue, function () {
         expect(statusMap[status], 'status ' + status).to.equal($elScope.getStatusText());
       });
 
+      // Check neverStarted with the feature flag on
+      mockInstance.status.reset();
+      mockInstance.status = sinon.stub().returns('neverStarted');
+      $rootScope.featureFlags.internalDebugging = true;
+
+      $elScope.$digest();
+      expect('Never Started', 'neverStarted').to.equal($elScope.getStatusText());
     });
   });
 
@@ -114,7 +123,7 @@ describe('containerStatusButtonDirective'.bold.underline.blue, function () {
       crashed: ['red'],
       running: ['gray'],
       buildFailed: ['red'],
-      neverStarted: ['gray'],
+      neverStarted: ['red'],
       unknown: ['gray']
     };
     it('update the button text correctly', function () {

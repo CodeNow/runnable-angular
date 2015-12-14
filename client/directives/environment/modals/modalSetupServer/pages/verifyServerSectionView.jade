@@ -9,6 +9,13 @@ header.modal-header
       pop-over-template = "viewPopoverRenameContainer"
     ) Rename
 
+  svg.iconnables.icons-close(
+    ng-if = "$root.featureFlags.rebuildFlow"
+  )
+    use(
+      xlink:href = "#icons-close"
+    )
+
   //- tabs
   .row.modal-tabs.clearfix.js-animate(
     ng-if="$root.featureFlags.newVerificationFlow"
@@ -119,7 +126,7 @@ section.modal-body(
   ng-if = "!$root.isLoading.setupServerModal"
 )
   .modal-form
-    // Stack & Branch
+    //- Stack & Branch
     .label(
       is-new-container = "true"
       loading-promises-target = "setupServerModal"
@@ -127,7 +134,7 @@ section.modal-body(
       stack-selector-form
       state = "SMC.state"
     )
-    // Commands
+    //- Commands
     .label(
       loading-promises-target = "setupServerModal"
       ng-if = "!$root.featureFlags.newVerificationFlow || SMC.selectedTab === 'commands'"
@@ -135,31 +142,31 @@ section.modal-body(
       start-command-can-disable = "true"
       state = "SMC.state"
     )
-    // Default messages
+    //- Default messages
     p.p.empty(
       ng-if = "SMC.state.step === 3 && SMC.selectedTab === null"
-    ) You’re ready to start this container’s first build!
-        br
-        small.small Or select a tab to continue configuring your container.
-    // Ports
+    ) Your container is ready to build!
+      br
+      small.small You can use the tools above to make additional changes to your configuration.
+    //- Ports
     .modal-form(
       ng-show = "SMC.selectedTab === 'ports'"
       ports = "SMC.state.ports"
       ports-form
     )
-    // Environment variables
+    //- Environment variables
     .modal-form(
       ng-include = "'viewFormEnvironmentVariables'"
       ng-show = "SMC.selectedTab === 'env'"
     )
-    // Files & SSH Keys
+    //- Files & SSH Keys
     .modal-form(
       ng-controller = "ContainerFilesController as CFC"
       ng-include = "'viewFormFiles'"
       ng-init = "CFC.init({state: SMC.state, getDisplayName: SMC.getDisplayName})"
       ng-show = "SMC.selectedTab === 'files'"
     )
-    // Find & Replace
+    //- Find & Replace
     .modal-form(
       ng-show = "SMC.selectedTab === 'translation'"
       instance = "SMC.instance"
@@ -167,12 +174,12 @@ section.modal-body(
       data = "SMC.data"
       translation-rules
     )
-    // Dockerfile
+    //- Dockerfile
     .modal-form(
       ng-include = "'viewFormBuildfiles'"
       ng-show = "SMC.selectedTab === 'buildfiles'"
     )
-    // Logs
+    //- Logs
     .modal-form.modal-logs(
       ng-class = "{\
         'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
@@ -184,22 +191,27 @@ section.modal-body(
 
 footer.modal-footer.clearfix
 
-  //- after the first build, should use the same behavior as the "Close" button on the edit modal
-  button.btn.white.float-left(
-    ng-disabled = "$root.isLoading.setupServerModalIsBuilding"
+  //- **********
+    - new things
+    - **********
+  button.btn.white.btn-cancel.float-left.js-animate(
     ng-click = "SMC.actions.close()"
+    ng-if = "$root.featureFlags.rebuildFlow && SMC.state.step < 4"
     type = "button"
-  ) {{$root.featureFlags.rebuildFlow && SMC.state.step >  3 ? 'Close' : 'Cancel'}}
+  ) Cancel
 
-  //- disabled if there is no value in the command input or no changes (after build)
-  //- after the first build, should use the same behavior as the "Save/Save & Build" button on the edit modal
+  button.btn.btn-done.white.float-right.js-animate(
+    ng-click = "SMC.actions.close()"
+    ng-if = "$root.featureFlags.rebuildFlow && SMC.state.step > 3"
+    type = "button"
+  ) Done
 
-  //- next, next, save & build button
+  //- next, next, save & build button`
     - classes change depending on text for width:
       .text-save-build
       .text-save
       .text-next
-  button.btn.green.float-right(
+  button.btn.btn-primary.white.float-right(
     ng-class = "{\
       'text-next': SMC.state.step < 3,\
       'text-save-build': SMC.state.step === 3\
@@ -211,24 +223,28 @@ footer.modal-footer.clearfix
     "
     ng-if = "$root.featureFlags.rebuildFlow"
     setup-confirm-button
+    type = "button"
   )
     //- text should read "Next" for steps 1, 2
     //- changes to "Save & Build" starting from step 3 (or save)
     span.btn-text.float-left {{buttonText}}
 
-    //- arrow is visible for steps 1-3, then only if "Save & Rebuild"
-    svg.iconnables.icons-arrow-forward.float-right.fade.js-animate
+    //- arrow is visible for steps 1-3
+    svg.iconnables.icons-arrow-forward.float-right(
+      ng-if = "SMC.state.step < 3"
+    )
       use(
         xlink:href = "#icons-arrow-down"
       )
 
-    //- doesn't appear for "Next" buttons
-    svg.iconnables.icons-log.float-right.fade.js-animate(
-      ng-if = "$root.featureFlags.rebuildFlow && SMC.state.step > 2"
-    )
-      use(
-        xlink:href = "#icons-log"
-      )
+  //- **********
+    - old things
+    - **********
+  button.btn.white.float-left(
+    ng-click = "SMC.actions.close()"
+    ng-if = "!$root.featureFlags.rebuildFlow"
+    type = "button"
+  ) Cancel
 
   //- next, next, start build, create container button (old)
   button.btn.btn-spinner.float-right(

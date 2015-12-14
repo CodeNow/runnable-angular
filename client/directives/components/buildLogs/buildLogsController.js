@@ -8,7 +8,10 @@ function BuildLogsController(
   primus,
   $rootScope,
   $timeout,
-  launchDebugContainer
+  launchDebugContainer,
+  updateInstanceWithNewBuild,
+  errs,
+  promisify
 ) {
   var BLC = this;
   BLC.showDebug = false;
@@ -77,6 +80,7 @@ function BuildLogsController(
     });
     BLC.buildLogs = streamingBuildLogs.logs;
     BLC.buildLogTiming = streamingBuildLogs.times;
+    BLC.getRawLogs = streamingBuildLogs.getRawLogs;
   }
 
   BLC.getBuildLogs = function () {
@@ -100,6 +104,23 @@ function BuildLogsController(
 
   this.generatingDebug = false;
   this.actions = {
+    openIntercom: function () {
+      window.Intercom(
+        'showNewMessage',
+        'Hello! I have a container that won\'t start building, can you help me?'
+      );
+    },
+    rebuildWithoutCache: function () {
+      promisify(BLC.instance.build, 'deepCopy')()
+        .then(function (build) {
+          return updateInstanceWithNewBuild(
+            BLC.instance,
+            build,
+            true
+          );
+        })
+        .catch(errs.handler);
+    },
     launchDebugContainer: function (event, command) {
       if (BLC.debugContainer) {
         return;
