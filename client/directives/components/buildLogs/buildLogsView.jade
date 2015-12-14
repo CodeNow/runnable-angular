@@ -1,9 +1,19 @@
+.pre.build-log(
+  ng-if = "$root.featureFlags.internalDebugging && !($root.featureFlags.noBuildLogs && BLC.buildLogs.length === 0 && !BLC.buildLogsRunning && BLC.buildStatus === 'failed')"
+)
+  .build-log-header
+    .build-log-header-text INTERNAL DEBUGGING!
+  .build-log-content(
+    ng-bind-html = "BLC.getRawLogs()"
+  )
+
 //- initial output
 .pre.build-log(
   ng-class = "{\
     'build-log-toggle': BLC.buildLogs.length === 0 && BLC.buildLogsRunning,\
     'in': BLC.buildLogs.length === 0 && BLC.buildLogsRunning\
   }"
+  ng-if = "!$root.featureFlags.internalDebugging && !($root.featureFlags.noBuildLogs && BLC.buildLogs.length === 0 && !BLC.buildLogsRunning && BLC.buildStatus === 'failed')"
 )
   .build-log-header(
     ng-class = "{'in-progress': BLC.buildLogs.length === 0 && BLC.buildLogsRunning}"
@@ -25,6 +35,7 @@
     'build-log-toggle': command.hasContent || (BLC.buildLogsRunning && $last),\
     'in': (command.hasContent && command.expanded) || (BLC.buildLogsRunning && $last)\
   }"
+  ng-if = "!$root.featureFlags.internalDebugging && !($root.featureFlags.noBuildLogs && BLC.buildLogs.length === 0 && !BLC.buildLogsRunning && BLC.buildStatus === 'failed')"
   ng-repeat = "command in BLC.getBuildLogs()"
 )
   .build-log-header(
@@ -73,7 +84,20 @@
     'green': BLC.buildStatus === 'success',\
     'red': BLC.buildStatus === 'failed'\
   }"
-  ng-if = "!BLC.buildLogsRunning && getBuildMessage().length"
+  ng-if = "!BLC.buildLogsRunning && getBuildMessage().length && !($root.featureFlags.noBuildLogs && BLC.buildLogs.length === 0 && !BLC.buildLogsRunning && BLC.buildStatus === 'failed')"
 )
   .build-log-header
     .build-log-header-text {{getBuildMessage()}}
+
+.blank-panel(
+  ng-if = "$root.featureFlags.noBuildLogs && BLC.buildLogs.length === 0 && !BLC.buildLogsRunning && BLC.buildStatus === 'failed'"
+)
+  p.p We ran into an issue trying to build your container.
+  button.btn.btn-sm.purple(
+    ng-click = "BLC.actions.rebuildWithoutCache()"
+  ) Retry Build
+  .small
+    a.link(
+      ng-click = "BLC.actions.openIntercom()"
+    ) Let us know
+    | &#32;if this issue persists.

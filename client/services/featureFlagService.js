@@ -7,6 +7,7 @@ function featureFlags(
   $localStorage
 ) {
   var defaultFeatureFlags = {
+    backup: false,
     billing: false,
     cardStatus: false,
     debugStartCmd: false, // debug mode for start CMD (in CMD Logs)
@@ -20,12 +21,12 @@ function featureFlags(
     inviteFlows: false,
     isolationNav: false, // for isolation nav
     isolationUI: false, // for isolation UI
-    migrationNotification: false,
     multilineFnR: false,
     nameContainer: false,
     navListFilter: false,
     newVerificationFlow: true,
     newVerificationFlowStackSelector: true,
+    noBuildLogs: false,
     rebuildFlow: false, // updated rebuild flow
     renameContainer: false,
     saveToolbar: false,

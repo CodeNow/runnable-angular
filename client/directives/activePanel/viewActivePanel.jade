@@ -1,20 +1,9 @@
 //- tabs
 .views-tabs(
-  open-items = "openItems"
-  instance = "instance"
   debug-container = "debugContainer"
+  instance = "instance"
+  open-items = "openItems"
   tabs
-)
-
-//- toolbar
-.views-toolbar-wrapper(
-  ng-class = "{\
-    'toolbar-lg': $root.featureFlags.saveToolbar && showDebugCmd,\
-    'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
-    'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
-  }"
-  ng-show = "$root.featureFlags.saveToolbar || showDebugCmd"
-  ng-include = "'viewToolbar'"
 )
 
 //- active panel
@@ -27,15 +16,34 @@
   ng-show = "item === openItems.activeHistory.last()"
 )
 
+  //- save toolbar
+  .views-toolbar(
+    ng-if = "$root.featureFlags.saveToolbar"
+    ng-include = "'saveToolbarView'"
+  )
+
+  //- debug toolbar
+  .views-toolbar(
+    ng-if = "showDebugCmd"
+    ng-include = "'debugToolbarView'"
+  )
+
+  //- backup toolbar
+  .views-toolbar(
+    ng-if = "$root.featureFlags.backup"
+    ng-include = "'backupToolbarView'"
+  )
+
   .floating-controls(
     ng-if = "$root.featureFlags.fullScreenToggle || $root.featureFlags.themeToggle"
     ng-include = "'viewFloatingControls'"
   )
 
+  //- build logs
   .build-log-wrapper(
     build-logs
-    instance = 'instance'
     debug-container = "debugContainer"
+    instance = 'instance'
     ng-class = "{\
       'logs-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
       'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
@@ -44,20 +52,21 @@
     ng-style = "($root.featureFlags.themeToggle || $root.featureFlags.fullScreenToggle) && {'padding-right': '42px'}"
   )
 
+  //- cmd logs
   .term-js.term-log(
-    log-term
-    instance = 'instance'
-    debug-container = "debugContainer"
     controller = "BoxLogController"
+    debug-container = "debugContainer"
+    instance = 'instance'
+    log-term
     ng-if = "item.state.type === 'LogView'"
   )
 
   //- terminal
   .term-js(
-    log-term
-    instance = 'instance'
-    debug-container = "debugContainer"
     controller = "TermController"
+    debug-container = "debugContainer"
+    instance = 'instance'
+    log-term
     ng-if = "item.state.type === 'Terminal'"
   )
 
@@ -70,6 +79,16 @@
     use-auto-update = "useAutoUpdate"
   )
 
+  //- backup
+  .build-log-wrapper(
+    ng-class = "{\
+      'logs-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+      'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+    }"
+    ng-if = "item.state.type === 'BackupStream'"
+    ng-include = "'backupLogsView'"
+  )
+
   div(
     current-model = "instance.attrs"
     env-vars
@@ -80,11 +99,13 @@
     span.js-char-width 0
 
 //- blank state
-.blank-panel(
+.active-panel(
   ng-class = "{\
     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
-  ng-if= "openItems.models.length === 0"
-  ng-include = "'blankPanelView'"
+  ng-if = "openItems.models.length === 0"
 )
+  .blank-panel(
+    ng-include = "'blankPanelView'"
+  )

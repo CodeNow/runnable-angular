@@ -2,11 +2,11 @@
   img.gravatar(
     height = "27"
     ng-src = "{{dataInstance.data.commit.attrs.author.avatar_url}}"
-    ng-if = "!$root.featureFlags.migrationNotification"
+    ng-if = "!dataInstance.data.instance.contextVersion.attrs.dockRemoved && !dataInstance.data.instance.contextVersion.attrs.dockRemovedNeedsUserConfirmation"
     width = "27"
   )
   .btn.btn-xxs.btn-icon.btn-state.no-touching(
-    ng-if = "!$root.featureFlags.migrationNotification"
+    ng-if = "!dataInstance.data.instance.contextVersion.attrs.dockRemoved && !dataInstance.data.instance.contextVersion.attrs.dockRemovedNeedsUserConfirmation"
   )
     //- if updated
     svg.iconnables.icons-check(
@@ -17,30 +17,38 @@
       )
 
     //- if updating
-    svg.iconnables.icons-warning(
+    svg.iconnables(
       ng-if = "dataInstance.data.showUpdatingMessage"
     )
       use(
-        xlink:href = "#icons-warning"
+        xlink:href = "#icons-alert-round"
       )
 
   svg.iconnables.icons-alert(
-    ng-if = "$root.featureFlags.migrationNotification"
+    ng-if = "dataInstance.data.instance.contextVersion.attrs.dockRemoved || dataInstance.data.instance.contextVersion.attrs.dockRemovedNeedsUserConfirmation"
   )
     use(
       xlink:href = "#icons-alert-alt"
     )
 
 h4.h4.text-overflow(
-  ng-if = "$root.featureFlags.migrationNotification"
+  ng-if = "dataInstance.data.instance.contextVersion.attrs.dockRemoved"
 ) Container Temporarily Unavailable
 
+h4.h4.text-overflow(
+  ng-if = "!dataInstance.data.instance.contextVersion.attrs.dockRemoved && dataInstance.data.instance.contextVersion.attrs.dockRemovedNeedsUserConfirmation"
+) Container Migrated
+
 .small(
-  ng-if = "$root.featureFlags.migrationNotification"
-) We’ve run into an issue and are migrating your container to a healthy server. Your container will be unavailble until migration is complete.
+  ng-if = "dataInstance.data.instance.contextVersion.attrs.dockRemoved"
+) We are migrating your container to another server. Your container will be unavailable until migration is complete.
+
+.small(
+  ng-if = "!dataInstance.data.instance.contextVersion.attrs.dockRemoved && dataInstance.data.instance.contextVersion.attrs.dockRemovedNeedsUserConfirmation"
+) We have migrated your container to another server.
 
 a.small.link(
-  ng-if = "$root.featureFlags.migrationNotification"
+  ng-if = "dataInstance.data.instance.contextVersion.attrs.dockRemoved || dataInstance.data.instance.contextVersion.attrs.dockRemovedNeedsUserConfirmation"
 ) What is this?
   svg.iconnables.icons-link-external
     use(
@@ -48,7 +56,7 @@ a.small.link(
     )
 
 h4.h4.text-overflow(
-  ng-if = "!$root.featureFlags.migrationNotification"
+  ng-if = "!dataInstance.data.instance.contextVersion.attrs.dockRemoved && !dataInstance.data.instance.contextVersion.attrs.dockRemovedNeedsUserConfirmation"
   title = "{{dataInstance.data.instance.getRepoAndBranchName()}}"
 ) {{dataInstance.data.showUpdatedMessage ? 'Deployed' : 'Building' }}&#32;
   span.strong {{dataInstance.data.instance.getRepoName() || dataInstance.data.instance.getDisplayName()}}
@@ -57,14 +65,25 @@ h4.h4.text-overflow(
   ) /{{dataInstance.data.instance.getBranchName()}}
 
 .small(
-  ng-if = "!$root.featureFlags.migrationNotification"
+  ng-if = "!dataInstance.data.instance.contextVersion.attrs.dockRemoved && !dataInstance.data.instance.contextVersion.attrs.dockRemovedNeedsUserConfirmation"
 ) {{dataInstance.data.commit.attrs.author.login}} pushed&#32;
   a.link(
     ng-href = "{{dataInstance.data.commit.attrs.html_url}}"
     target = "_blank"
   ) {{dataInstance.data.commit.attrs.sha | limitTo:7}}
 
+
 button.btn.btn-icon.btn-close(
+  ng-if = "!dataInstance.data.instance.contextVersion.attrs.dockRemoved && dataInstance.data.instance.contextVersion.attrs.dockRemovedNeedsUserConfirmation"
+  ng-click = "CIS.markDockRemovedConfirmed(dataInstance.data.instance)"
+)
+  svg.iconnables.icons-close
+    use(
+    xlink:href = "#icons-close"
+    )
+
+button.btn.btn-icon.btn-close(
+  ng-if = "!dataInstance.data.instance.contextVersion.attrs.dockRemoved && !dataInstance.data.instance.contextVersion.attrs.dockRemovedNeedsUserConfirmation"
   ng-click = "dataInstance.data.showUpdatedMessage = false; dataInstance.data.showUpdatingMessage = false"
 )
   svg.iconnables.icons-close

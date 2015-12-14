@@ -1,5 +1,6 @@
 // ul.tabs
 .tabs {
+  display: flex;
   flex: 1 1 auto;
   height: $input-md;
   overflow-x: auto;
@@ -9,87 +10,58 @@
 
 // li.tab-wrapper
 .tab-wrapper {
-  border-left: 1px solid $gray-lighter;
+  align-items: center;
   border-right: 1px solid $gray-lighter;
+  color: $gray-dark;
   cursor: pointer;
-  display: inline-block;
-  margin-left: -1px;
-  position: relative;
+  display: flex;
+  height: $input-md;
+  max-width: 300px;
+  padding: 0 15px;
+  text-align: center;
 
   &:hover {
-    color: $gray-dark;
+    color: $gray-darker;
   }
 
   &:active,
   &.active {
     color: $purple-light;
+    cursor: default;
     font-weight: 500;
   }
 
-  &.active {
-    box-shadow: 0 0 9px rgba($black,.075);
-
-    &:first-child {
-      box-shadow: -9px 0 0 $white, 0 0 9px rgba($black,.075);
-    }
-
-    &:last-child {
-      box-shadow: 9px 0 0 $white, 0 0 9px rgba($black,.075);
-    }
-  }
-
-  &.dirty .icons-dirty {
-    opacity: .5;
-    visibility: visible;
-  }
-
-  &:last-child {
-    border-right: 0;
-  }
-
-  &:only-child {
-    border: 1px solid #e6e6e6; // rgba($black,.1);
-    border-top: 0;
-  }
-
-  &.disabled {
-    cursor: not-allowed;
-    opacity: .5;
-  }
-
-  &.error {
-    color: $red;
-  }
-
   .icons-dirty {
-    display: inline-block;
-    float: left;
+    color: $gray;
+    flex: 0 0 auto;
     font-size: 21px;
-    line-height: 1.9;
-    opacity: 0;
-    pointer-events: none;
-    position: relative;
+    font-weight: $weight-normal;
     user-select: none;
-    visibility: hidden;
     z-index: 1;
+  }
+
+  .icons-alert {
+    color: $red;
+    flex: 0 0 auto;
+    height: 16px;
+    margin-right: 6px;
+    width: 16px;
   }
 
   .btn-close {
     border: 0;
-    color: $gray-light;
-    float: right;
-    height: 15px;
-    margin-right: 6px;
-    position: relative;
-    top: 14px;
-    width: 15px;
+    color: $gray;
+    flex: 0 0 auto;
+    height: 16px;
+    left: 5px;
+    width: 16px;
 
-    &:hover:not([disabled]):not(.disabled) {
+    &:hover {
       background: $gray-light;
       color: $white;
     }
 
-    &:active:not([disabled]):not(.disabled) {
+    &:active {
       background: $red;
       color: $white;
     }
@@ -104,13 +76,8 @@
 
 // span.tab-name
 .tab-name {
-  display: block;
-  float: left;
-  font-size: 14px;
-  height: $input-md;
-  line-height: $input-md;
-  padding: 0 1px 0 9px;
-  text-align: center;
+  font-size: 15px;
+  margin-top: 21px;
 
   &::after {
     content: attr(ng-data-title);
