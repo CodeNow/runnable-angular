@@ -1104,7 +1104,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
     });
   });
 
-  describe.only('Rebuild', function () {
+  describe('Rebuild', function () {
     beforeEach(function () {
       setup({
         currentModel: ctx.instance
