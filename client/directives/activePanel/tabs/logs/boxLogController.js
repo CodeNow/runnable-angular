@@ -37,8 +37,9 @@ function BoxLogController(
       $scope.$emit('WRITE_TO_TERM', '\x1b[33;1m' + error.message + '\x1b[0m');
     } else if (container.attrs.dockerContainer) {
       // prepend log command to terminal
-      var cleanCommands = (keypather.get(container, 'attrs.inspect.Config.Cmd.join(" ")') || '')
-        .replace('/bin/sh -c until grep -q ethwe /proc/net/dev; do sleep 1; done;', '');
+      var allCommands = (keypather.get(container, 'attrs.inspect.Config.Cmd') || []).join(' ');
+      var firstDoneSemicolon = allCommands.indexOf('done;');
+      var cleanCommands = allCommands.substring(firstDoneSemicolon + 5);
       $scope.$emit('WRITE_TO_TERM',
         '\x1b[33;1mroot@' +
         keypather.get(container, 'attrs.inspect.Config.Hostname') +
