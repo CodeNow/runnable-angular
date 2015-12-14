@@ -12,7 +12,7 @@ var $scope;
 var $q;
 var keypather;
 
-describe.only('SlackIntegrationFormController'.bold.underline.blue, function () {
+describe('SlackIntegrationFormController'.bold.underline.blue, function () {
 
   var SIFC;
   var verifyChatIntegrationStub;
@@ -241,7 +241,7 @@ describe.only('SlackIntegrationFormController'.bold.underline.blue, function () 
     });
   });
 
-  describe.only('Save Slack', function () {
+  describe('Save Slack', function () {
 
     beforeEach(function () {
       settingsModelStub.attrs.notifications.slack.apiToken = '123';

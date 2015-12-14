@@ -12,7 +12,7 @@ var $scope;
 var $q;
 var keypather;
 
-describe('TeamManagementController'.bold.underline.blue, function () {
+describe('TeamManagementFormController'.bold.underline.blue, function () {
 
   var TMMC;
   var fetchOrgMembersStub;
@@ -75,7 +75,7 @@ describe('TeamManagementController'.bold.underline.blue, function () {
       $q = _$q_;
       keypather = _keypather_;
     });
-    TMMC = $controller('TeamManagementController', { $scope: $scope }, true)();
+    TMMC = $controller('TeamManagementFormController', { $scope: $scope }, true)();
   });
 
   describe('Init', function () {
