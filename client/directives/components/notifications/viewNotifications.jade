@@ -25,7 +25,7 @@
       )
 
   svg.iconnables.icons-alert(
-    ng-if = "dataInstance.data.instance.contextVersion.attrs.dockRemoved || dataInstance.data.instance.contextVersion.attrs.dockRemovedNeedsUserConfirmation"
+    ng-if = "dataInstance.data.instance.contextVersion.attrs.dockRemoved"
   )
     use(
       xlink:href = "#icons-alert-alt"
@@ -35,25 +35,9 @@ h4.h4.text-overflow(
   ng-if = "dataInstance.data.instance.contextVersion.attrs.dockRemoved"
 ) Container Temporarily Unavailable
 
-h4.h4.text-overflow(
-  ng-if = "!dataInstance.data.instance.contextVersion.attrs.dockRemoved && dataInstance.data.instance.contextVersion.attrs.dockRemovedNeedsUserConfirmation"
-) Container Migrated
-
 .small(
   ng-if = "dataInstance.data.instance.contextVersion.attrs.dockRemoved"
 ) We are migrating your container to another server. Your container will be unavailable until migration is complete.
-
-.small(
-  ng-if = "!dataInstance.data.instance.contextVersion.attrs.dockRemoved && dataInstance.data.instance.contextVersion.attrs.dockRemovedNeedsUserConfirmation"
-) We have migrated your container to another server.
-
-a.small.link(
-  ng-if = "dataInstance.data.instance.contextVersion.attrs.dockRemoved || dataInstance.data.instance.contextVersion.attrs.dockRemovedNeedsUserConfirmation"
-) What is this?
-  svg.iconnables.icons-link-external
-    use(
-      xlink:href = "#icons-link-external"
-    )
 
 h4.h4.text-overflow(
   ng-if = "!dataInstance.data.instance.contextVersion.attrs.dockRemoved && !dataInstance.data.instance.contextVersion.attrs.dockRemovedNeedsUserConfirmation"
@@ -72,15 +56,6 @@ h4.h4.text-overflow(
     target = "_blank"
   ) {{dataInstance.data.commit.attrs.sha | limitTo:7}}
 
-
-button.btn.btn-icon.btn-close(
-  ng-if = "!dataInstance.data.instance.contextVersion.attrs.dockRemoved && dataInstance.data.instance.contextVersion.attrs.dockRemovedNeedsUserConfirmation"
-  ng-click = "CIS.markDockRemovedConfirmed(dataInstance.data.instance)"
-)
-  svg.iconnables.icons-close
-    use(
-    xlink:href = "#icons-close"
-    )
 
 button.btn.btn-icon.btn-close(
   ng-if = "!dataInstance.data.instance.contextVersion.attrs.dockRemoved && !dataInstance.data.instance.contextVersion.attrs.dockRemovedNeedsUserConfirmation"

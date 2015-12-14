@@ -16,9 +16,9 @@
   .notification.notification-lg.top-right.js-animate(
     ng-class = "{\
       'green': dataInstance.data.showUpdatedMessage,\
-      'orange': dataInstance.data.showUpdatingMessage || dataInstance.data.instance.contextVersion.attrs.dockRemoved || dataInstance.data.instance.contextVersion.attrs.dockRemovedNeedsUserConfirmation\
+      'orange': dataInstance.data.showUpdatingMessage || dataInstance.data.instance.contextVersion.attrs.dockRemoved\
     }"
-    ng-if = "(dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage) || dataInstance.data.instance.contextVersion.attrs.dockRemoved || dataInstance.data.instance.contextVersion.attrs.dockRemovedNeedsUserConfirmation"
+    ng-if = "(dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage) || dataInstance.data.instance.contextVersion.attrs.dockRemoved"
     ng-include = "'viewNotifications'"
   )
 
