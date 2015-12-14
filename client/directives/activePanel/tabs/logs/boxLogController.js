@@ -38,8 +38,9 @@ function BoxLogController(
     } else if (container.attrs.dockerContainer) {
       // prepend log command to terminal
       var allCommands = (keypather.get(container, 'attrs.inspect.Config.Cmd') || []).join(' ');
-      var firstDoneSemicolon = allCommands.indexOf('done;');
-      var cleanCommands = allCommands.substring(firstDoneSemicolon + 5);
+      var doneWithSemi = 'done;'
+      var firstDoneSemicolon = allCommands.indexOf(doneWithSemi);
+      var cleanCommands = allCommands.substring(firstDoneSemicolon + doneWithSemi.length);
       $scope.$emit('WRITE_TO_TERM',
         '\x1b[33;1mroot@' +
         keypather.get(container, 'attrs.inspect.Config.Hostname') +
