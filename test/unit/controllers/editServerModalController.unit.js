@@ -1102,7 +1102,45 @@ describe('editServerModalController'.bold.underline.blue, function () {
       $scope.$emit('resetStateContextVersion');
       expect(SMC.resetStateContextVersion.calledOnce).to.be.true;
     });
+  });
 
+  describe.only('Rebuild', function () {
+    beforeEach(function () {
+      setup({
+        currentModel: ctx.instance
+      });
+    });
+
+    it('should start loading when the rebuild command is executed and stop loading when finished', function () {
+      $scope.$digest();
+      expect($rootScope.isLoading[SMC.name]).to.be.false;
+      SMC.rebuild();
+      expect($rootScope.isLoading[SMC.name]).to.be.true;
+      $scope.$digest();
+      expect($rootScope.isLoading[SMC.name]).to.be.false;
+    });
+
+    it('should reset the context version, stop loading and clear all promises', function () {
+      SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
+      SMC.rebuildAndOrRedeploy = sinon.stub().returns($q.when(true));
+
+      SMC.rebuild();
+      expect($rootScope.isLoading[SMC.name]).to.be.true;
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.resetStateContextVersion);
+      sinon.assert.calledOnce(SMC.rebuildAndOrRedeploy);
+      expect($rootScope.isLoading[SMC.name]).to.be.false;
+    });
+
+    it('should handle the error and stop loading if the context version cannot be reset', function () {
+      SMC.rebuildAndOrRedeploy = sinon.stub().returns($q.reject(new Error('rebuildAndOrRedeploy error')));
+
+      SMC.rebuild();
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.rebuildAndOrRedeploy);
+      sinon.assert.calledOnce(ctx.errsMock.handler);
+      expect($rootScope.isLoading[SMC.name]).to.be.false;
+    });
   });
 
   describe('Ports', function () {
