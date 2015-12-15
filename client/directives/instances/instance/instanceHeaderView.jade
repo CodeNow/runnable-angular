@@ -60,16 +60,15 @@
   )
 
   //- dns button
-  .btn.btn-sm.btn-dns(
+  label.btn.btn-sm.btn-dns.gray(
     dns-configuration
     instance = "instance"
   )
 
-  label.input-wrapper.input.input-sm(
+  label.input-group.input-group-sm.gray(
     container-url
     instance = "instance"
     ng-if = "instance.attrs.name"
-    readonly
   )
 
   div(

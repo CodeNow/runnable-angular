@@ -1,0 +1,67 @@
+.popover.bottom.popover-url(
+  ng-class = "{'in': active}"
+  ng-style = "popoverStyle.getStyle()"
+  style = "transform-origin: 5% 0;"
+)
+  .arrow.white
+  .popover-content
+    h4.h4.strong This URL will redirect…
+    p.small Your Container’s URL redirects to your Elastic URL.
+    a.small.link(
+      href = "https://runnable.zendesk.com/hc/en-us/sections/200552909-Hostnames-and-URLs"
+      ng-if = "$root.featureFlags.urlPopover"
+      target = "_blank"
+    ) Why does this happen?
+      svg.iconnables.icons-link-external
+        use(
+          xlink:href = "#icons-link-external"
+        )
+
+    .figure(
+      ng-if = "$root.featureFlags.urlPopover"
+    )
+      svg.iconnables.icons-redirect
+        use(
+          xlink:href = "#icons-redirect"
+        )
+
+      svg.iconnables.icons-redirect
+        use(
+          xlink:href = "#icons-redirect"
+        )
+
+      label.input-group.input-group-xs.gray()
+        .label.gray Container URL
+        .input.input-xs.text-right eo9lxe-api-staging-codenow.runnableapp.com
+
+      label.input-group.input-group-xs.gray
+        .label.gray Shared URL
+        .input.input-xs.text-right api-staging-codenow.runnableapp.com
+
+    hr.hr(
+      ng-if = "$root.featureFlags.urlPopover"
+    )
+
+    h4.h4(
+      ng-if = "$root.featureFlags.urlPopover"
+    ) About Shared URLs
+
+    a.small.link(
+      href = "#"
+      ng-if = "$root.featureFlags.urlPopover"
+      target = "_blank"
+    ) How does the Container URL redirect to the Shared URL?
+      svg.iconnables.icons-link-external
+        use(
+          xlink:href = "#icons-link-external"
+        )
+
+    a.small.link(
+      href = "#"
+      ng-if = "$root.featureFlags.urlPopover"
+      target = "_blank"
+    ) Which URL do I use for that?
+      svg.iconnables.icons-link-external
+        use(
+          xlink:href = "#icons-link-external"
+        )
