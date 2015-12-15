@@ -6,7 +6,7 @@
   )
 
 //- integrations form empty state
-.modal-form.empty.well.in.form.form-integrations(
+.modal-form.empty.well.in(
   ng-form = "SIFC.slackApiTokenForm"
   ng-if = "!SIFC.loading && !SIFC.verified"
 )
@@ -41,7 +41,7 @@
     ) new bot
     | .
   button.btn.green.btn-spinner(
-    ng-class = "{in: SIFC.verifying}"
+    ng-class = "{'in': SIFC.verifying}"
     ng-click = "SIFC.verifySlack();"
     ng-disabled = "SIFC.verifying || !SIFC.slackApiToken.length"
   )
@@ -52,7 +52,7 @@
     | Verify Token
 
 //- integrations form
-.modal-form.form.form-integrations.modal-integrations(
+.modal-form.form.modal-integrations(
   ng-if = "!SIFC.loading && SIFC.verified"
 )
   .label
