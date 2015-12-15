@@ -45,11 +45,11 @@
 
   .icons-redirect {
     color: $gray-lighter;
-    height: 28px;
+    height: 33px;
     left: -15px;
     position: absolute;
-    top: 11px;
-    width: 16px;
+    top: 12px;
+    width: 15px;
 
     + .icons-redirect {
       left: auto;
@@ -71,8 +71,11 @@
   }
 
   .icons-link-external {
+    color: $gray;
     float: right;
-    height: 13px;
-    top: 2px;
+    height: 12px;
+    margin-left: 3px;
+    top: 3px;
+    width: 12px;
   }
 }
