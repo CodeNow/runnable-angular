@@ -6,9 +6,10 @@
   .arrow.white
   .popover-content
     h4.h4.strong This URL will redirect…
-    p.small Your Container’s URL redirects to your repository’s Shared URL.
+    p.small Your Container’s URL redirects to your Elastic URL.
     a.small.link(
       href = "https://runnable.zendesk.com/hc/en-us/sections/200552909-Hostnames-and-URLs"
+      ng-if = "$root.featureFlags.urlPopover"
       target = "_blank"
     ) Why does this happen?
       svg.iconnables.icons-link-external
