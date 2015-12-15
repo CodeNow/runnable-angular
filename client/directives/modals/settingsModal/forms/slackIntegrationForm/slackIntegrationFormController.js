@@ -24,7 +24,7 @@ function SlackIntegrationFormController (
     settings: {},
     ghMembers: [],
     slackMembers: [],
-    slackApiToken: null,
+    slackApiToken: null
   });
 
   function fetchChatMemberData() {
@@ -33,9 +33,17 @@ function SlackIntegrationFormController (
         SIFC.slackMembers = members.slack;
         SIFC.ghMembers = members.github;
         SIFC.verified = true;
+        if (keypather.get(SIFC, 'slackApiTokenForm.slackApiTokenField.$setValidity')) {
+          SIFC.slackApiTokenForm.slackApiTokenField.$setValidity('tokenValid', true);
+        }
       })
       .catch(function (err) {
         SIFC.verified = false;
+        if (err.message.match(/invalid/i)) {
+          if (keypather.get(SIFC, 'slackApiTokenForm.slackApiTokenField.$setValidity')) {
+            SIFC.slackApiTokenForm.slackApiTokenField.$setValidity('tokenValid', false);
+          }
+        }
         return $q.reject(err);
       });
   }
@@ -56,6 +64,14 @@ function SlackIntegrationFormController (
     });
   }
 
+  function slackErrorHandler (err) {
+    // If the API token is invalid, don't show a popup. Only show the formatting in the UI
+    if (err.message.match(/invalid/i)) {
+      return true;
+    }
+    return errs.handler(err);
+  }
+
   fetchSettings()
     .then(function (settings) {
       SIFC.settings = settings;
@@ -68,14 +84,14 @@ function SlackIntegrationFormController (
       }
       return false;
     })
-    .catch(errs.handler)
+    .catch(slackErrorHandler)
     .finally(function () {
       SIFC.loading = false;
     });
 
   SIFC.verifySlack = function () {
     // Only verify and update the token if it's a valid token
-    if (SIFC.slackApiTokenForm.$invalid) {
+    if (SIFC.slackApiTokenForm.$pristine) {
       return false;
     }
     SIFC.verifying = true;
@@ -88,7 +104,7 @@ function SlackIntegrationFormController (
         };
         return updateSlackSettings(slackData);
       })
-      .catch(errs.handler)
+      .catch(slackErrorHandler)
       .finally(function () {
         SIFC.verifying = false;
       });
@@ -105,7 +121,7 @@ function SlackIntegrationFormController (
       .then(function () {
          SIFC.slackApiToken = '';
       })
-      .catch(errs.handler)
+      .catch(slackErrorHandler)
       .finally(function () {
         SIFC.loading = false;
       });
@@ -130,6 +146,12 @@ function SlackIntegrationFormController (
       return obj;
     }, {});
     return updateSlackSettings(slackData)
-      .catch(errs.handler);
+      .catch(slackErrorHandler);
   }, 250);
+
+  SIFC.setFieldAsValid = function () {
+    if (keypather.get(SIFC, 'slackApiTokenForm.slackApiTokenField.$setValidity')) {
+      SIFC.slackApiTokenForm.slackApiTokenField.$setValidity('tokenValid', true);
+    }
+  };
 }

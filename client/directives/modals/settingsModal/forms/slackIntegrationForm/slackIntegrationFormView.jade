@@ -18,13 +18,16 @@
 
   p.p.empty Get container status updates in Slack
   input.input.input-sm.monospace.text-center.input-validate(
+    name = "slackApiTokenField"
     ng-model = "SIFC.slackApiToken"
+    ng-change = "SIFC.setFieldAsValid()"
+    ng-disabled = "SIFC.verifying"
     placeholder = "API Token"
     required
     spellcheck = "false"
   )
   .validation-message.text-center(
-    ng-if = "$root.featureFlags.updatedSlackValidation"
+    ng-if = "!SIFC.slackApiTokenForm.$pristine && SIFC.slackApiTokenForm.$invalid"
   ) Invalid API Token
   small.small.text-center Use an API token from&#32;
     a.link(
