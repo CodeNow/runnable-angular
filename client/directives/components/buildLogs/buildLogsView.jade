@@ -90,7 +90,12 @@
     .build-log-header-text {{getBuildMessage()}}
 
 .blank-panel(
-  ng-if = "$root.featureFlags.noBuildLogs && BLC.buildLogs.length === 0 && !BLC.buildLogsRunning && BLC.buildStatus === 'failed'"
+  ng-if = "\
+    $root.featureFlags.noBuildLogs && \
+    BLC.buildLogs.length === 0 && \
+    !BLC.buildLogsRunning && \
+    BLC.buildStatus === 'failed' \
+  "
 )
   p.p We ran into an issue trying to build your container.
   button.btn.btn-sm.purple(
