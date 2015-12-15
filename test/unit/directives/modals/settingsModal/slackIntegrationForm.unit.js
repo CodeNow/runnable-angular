@@ -136,13 +136,14 @@ describe('SlackIntegrationFormController'.bold.underline.blue, function () {
     });
 
     it('should not be verified if the the API token is not valid', function () {
-      verifyChatIntegrationStub.returns($q.reject(new Error('Invalid API Token')));
+      verifyChatIntegrationStub.returns($q.reject(new Error('Provided API key is invalid')));
       settingsModelStub.attrs.notifications.slack.apiToken = '123';
 
       $scope.$digest();
       expect(SIFC.slackApiToken).to.equal('123');
       sinon.assert.calledOnce(verifyChatIntegrationStub);
-      sinon.assert.calledOnce(errs.handler);
+      // It shouldn't show the error message to the user
+      sinon.assert.notCalled(errs.handler);
       expect(SIFC.verified).to.equal(false);
     });
 
@@ -157,10 +158,9 @@ describe('SlackIntegrationFormController'.bold.underline.blue, function () {
       $scope.$digest();
       SIFC.settings.update.reset();
     });
-    // beforeEach($scope.$digest.bind($scope));
 
-    it('should not run if the slackApiTokenForm is invalid', function () {
-      SIFC.slackApiTokenForm.$invalid = true;
+    it('should not run if the slackApiTokenForm is pristine (not edited)', function () {
+      SIFC.slackApiTokenForm.$pristine = true;
       settingsModelStub.attrs.notifications.slack.apiToken = null;
 
       SIFC.verifySlack();
@@ -173,7 +173,20 @@ describe('SlackIntegrationFormController'.bold.underline.blue, function () {
     });
 
     it('should not update the Slack settings if the API token is invalid', function () {
-      verifyChatIntegrationStub.returns($q.reject(new Error('Invalid API Token')));
+      verifyChatIntegrationStub.returns($q.reject(new Error('Provided API token is invalid')));
+
+      SIFC.verifySlack();
+      $scope.$digest();
+
+      sinon.assert.calledOnce(verifyChatIntegrationStub);
+      sinon.assert.notCalled(SIFC.settings.update);
+      sinon.assert.notCalled(errs.handler);
+      expect(SIFC.verifying).to.equal(false);
+      expect(SIFC.verified).to.equal(false);
+    });
+
+    it('should not update the Slack settings and notify the user if there is some other error', function () {
+      verifyChatIntegrationStub.returns($q.reject(new Error('Some other error')));
 
       SIFC.verifySlack();
       $scope.$digest();
@@ -184,6 +197,7 @@ describe('SlackIntegrationFormController'.bold.underline.blue, function () {
       expect(SIFC.verifying).to.equal(false);
       expect(SIFC.verified).to.equal(false);
     });
+
 
     it('should update the Slack settings if the API token is valid', function () {
       SIFC.slackApiToken = '456';

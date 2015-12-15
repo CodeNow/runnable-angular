@@ -27,6 +27,8 @@ function SlackIntegrationFormController (
     slackApiToken: null
   });
 
+  var tokenMatchExpression = /(api).*(invalid)/i;
+
   function fetchChatMemberData() {
     return verifyChatIntegration(SIFC.slackApiToken, SIFC.settings, 'slack')
       .then(function (members) {
@@ -39,7 +41,7 @@ function SlackIntegrationFormController (
       })
       .catch(function (err) {
         SIFC.verified = false;
-        if (err.message.match(/invalid/i)) {
+        if (err.message.match(tokenMatchExpression)) {
           if (keypather.get(SIFC, 'slackApiTokenForm.slackApiTokenField.$setValidity')) {
             SIFC.slackApiTokenForm.slackApiTokenField.$setValidity('tokenValid', false);
           }
@@ -66,7 +68,7 @@ function SlackIntegrationFormController (
 
   function slackErrorHandler (err) {
     // If the API token is invalid, don't show a popup. Only show the formatting in the UI
-    if (err.message.match(/invalid/i)) {
+    if (err.message.match(tokenMatchExpression)) {
       return true;
     }
     return errs.handler(err);
