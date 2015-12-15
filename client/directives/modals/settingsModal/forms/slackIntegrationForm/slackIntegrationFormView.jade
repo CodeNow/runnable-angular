@@ -6,9 +6,9 @@
   )
 
 //- integrations form empty state
-.modal-form.empty.well.in.form.form-integrations(
-  ng-if = "!SIFC.loading && !SIFC.verified"
+.modal-form.empty.well.in(
   ng-form = "SIFC.slackApiTokenForm"
+  ng-if = "!SIFC.loading && !SIFC.verified"
 )
   img.img(
     height = "90"
@@ -19,9 +19,9 @@
   p.p.empty Get container status updates in Slack
   input.input.input-sm.monospace.text-center.input-validate(
     name = "slackApiTokenField"
-    ng-model = "SIFC.slackApiToken"
     ng-change = "SIFC.setFieldAsValid()"
     ng-disabled = "SIFC.verifying"
+    ng-model = "SIFC.slackApiToken"
     placeholder = "API Token"
     required
     spellcheck = "false"
@@ -41,7 +41,7 @@
     ) new bot
     | .
   button.btn.green.btn-spinner(
-    ng-class = "{in: SIFC.verifying}"
+    ng-class = "{'in': SIFC.verifying}"
     ng-click = "SIFC.verifySlack();"
     ng-disabled = "SIFC.verifying || !SIFC.slackApiToken.length"
   )
@@ -52,7 +52,7 @@
     | Verify Token
 
 //- integrations form
-.modal-form.form.form-integrations.modal-integrations(
+.modal-form.form.modal-integrations(
   ng-if = "!SIFC.loading && SIFC.verified"
 )
   .label
@@ -61,9 +61,9 @@
     .list.list-bordered
       label.list-item.text-overflow(
         ng-class = "{\
-          active: member.slackOn,\
-          disabled: !SIFC.settings.attrs.notifications.slack.enabled,\
-          expanded: !member.found && member.slackOn\
+          'active': member.slackOn,\
+          'disabled': !SIFC.settings.attrs.notifications.slack.enabled,\
+          'expanded': !member.found && member.slackOn\
         }"
         ng-repeat = "member in SIFC.slackMembers"
       )
@@ -80,19 +80,19 @@
             )
         img.gravatar(
           height = "21"
-          ng-src = "{{ member.profile.image_24 }}"
+          ng-src = "{{member.profile.image_24}}"
           width = "21"
         )
         | @{{ member.name }}
         .toggle-wrapper.float-right
           input.toggle-input(
+            ng-change = "SIFC.saveSlack()"
             ng-disabled = "!SIFC.settings.attrs.notifications.slack.enabled"
             ng-model = "member.slackOn"
-            ng-change = "SIFC.saveSlack()"
             type = "checkbox"
           )
           .toggle-group.toggle-sm(
-            ng-class = "{invalid: !member.found && member.slackOn && !member.ghName}"
+            ng-class = "{'invalid': !member.found && member.slackOn && !member.ghName}"
           )
         .well.small(
           ng-class = "{'no-touching': !SIFC.settings.attrs.notifications.slack.enabled}"
@@ -102,10 +102,10 @@
           br.br
           | Select their username to enable messaging.
           select.select(
+            ng-change = "SIFC.saveSlack()"
             ng-if = "!member.found"
             ng-model = "member.ghName"
             ng-options = "ghMember for ghMember in SIFC.ghMembers"
-            ng-change = "SIFC.saveSlack()"
           )
             option(
               disabled
