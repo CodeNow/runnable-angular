@@ -107,9 +107,11 @@
             ng-model = "member.ghName"
             ng-options = "ghMember for ghMember in SIFC.ghMembers"
           )
+            //- value attribute is required in FF (bug? not automatically taken from the text content)
             option(
               disabled
               selected = "selected"
+              value = ""
             ) Select Github username
     small.small Members will receive messages from your bot when their containers are updated.
 
