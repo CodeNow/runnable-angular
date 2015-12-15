@@ -16,3 +16,13 @@
 .build-log.pre.green
   .build-log-header
     .build-log-header-text Backup successfully created 10 hours ago
+
+//- if backup failed and there is an existing backup
+  - .build-log.pre.red
+  -   .build-log-header
+  -     .build-log-header-text Backup failed. Last successful backup was 3 days ago.
+
+//- if backup failed and no backups exist
+  - .build-log.pre.red
+  -   .build-log-header
+  -     .build-log-header-text Backup failed. This container has no backups.
