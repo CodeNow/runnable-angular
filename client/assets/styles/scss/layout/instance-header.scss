@@ -173,36 +173,19 @@
   margin: 0 6px;
 
   // colored states
-  &.orange,
-  &.red {
-    background: transparent;
-    border: 0;
+  &.gray:active .btn-xxs {
+    background: $purple-light;
+  }
 
-    &:hover:not([disabled]):not(.disabled) {
-      background: transparent;
-    }
+  &.orange .btn-xxs {
+    background: $white;
+    color: $orange;
+  }
 
-    &:active:not([disabled]):not(.disabled) {
-      background: transparent;
-    }
-
-    // orange
-    &.orange {
-      color: $orange;
-
-      .btn-xxs {
-        background: $orange;
-      }
-    }
-
-    // red
-    &.red {
-      color: $red;
-
-      .btn-xxs {
-        background: $red;
-      }
-    }
+  // red
+  &.red .btn-xxs {
+    background: $white;
+    color: $red;
   }
 
   // dns badge
@@ -217,22 +200,5 @@
     min-width: 16px;
     padding: 0 4px;
     top: -2px;
-  }
-
-  // no hover/active state if orange/red
-  &:hover:not(.orange):not(.red) {
-    color: $gray;
-
-    .btn-xxs {
-      background: $gray;
-    }
-  }
-
-  &:active:not(.orange):not(.red) {
-    color: $purple-light;
-
-    .btn-xxs {
-      background: $purple-light;
-    }
   }
 }
