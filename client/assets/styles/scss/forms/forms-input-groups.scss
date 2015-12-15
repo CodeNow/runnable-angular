@@ -6,15 +6,12 @@
   &.gray {
     background: $gray-lightest;
 
-    .label,
-    .btn-xs {
+    .label {
+      border-color: $gray-lighter;
       color: $gray-light;
     }
 
-    .label {
-      border-color: $gray-lighter;
-    }
-
+    .btn,
     .input {
       color: $gray;
     }
