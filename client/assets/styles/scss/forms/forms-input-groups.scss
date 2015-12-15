@@ -34,14 +34,12 @@
     height: 100%;
     margin: 0;
 
-    &:not(:first-child):not(:last-child),
-    &:first-child {
+    &:not(:last-child) {
       border-right-style: solid;
       border-right-width: $input-border;
     }
 
-    &:not(:first-child):not(:last-child),
-    &:last-child {
+    &:not(:first-child) {
       border-left-style: solid;
       border-left-width: $input-border;
     }
