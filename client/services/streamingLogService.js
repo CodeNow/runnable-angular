@@ -27,8 +27,7 @@ function streamingLog(
     var rawLogs = [];
     var processedRawLogs = null;
     function handleStreamData(data) {
-      console.log('data', data);
-      if (['docker', 'log'].includes(data.type) && false) {
+      if (['docker', 'log'].includes(data.type)) {
         var stepRegex = /^Step [0-9]+ : /;
         if (stepRegex.test(data.content)) {
           if (currentCommand) {

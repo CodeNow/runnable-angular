@@ -18,10 +18,13 @@ function BuildLogsController(
 
   function handleUpdate () {
     var status = BLC.instance.status();
-    if (status === 'buildFailed') {
+    if (status === 'buildFailed' || status === 'neverStarted') {
       BLC.buildStatus = 'failed';
       BLC.showDebug = true;
       BLC.buildLogsRunning = false;
+      if (status === 'neverStarted') {
+        BLC.showErrorPanel = true;
+      }
     } else if (status === 'building') {
       BLC.buildStatus = 'running';
       BLC.buildLogsRunning = true;
