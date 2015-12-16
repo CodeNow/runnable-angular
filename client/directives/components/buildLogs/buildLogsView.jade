@@ -2,9 +2,7 @@
   ng-if = "\
     (\
       $root.featureFlags.noBuildLogs && \
-      BLC.buildLogs.length === 0 && \
-      !BLC.buildLogsRunning && \
-      BLC.buildStatus === 'failed' \
+      hasFailedAndHasNoLogs() \
     ) || ( \
       $root.featureFlags.noBuildLogs && \
       BLC.showErrorPanel \
@@ -27,9 +25,7 @@
     !BLC.showErrorPanel && \
     !(\
       $root.featureFlags.noBuildLogs && \
-      BLC.buildLogs.length === 0 && \
-      !BLC.buildLogsRunning && \
-      BLC.buildStatus === 'failed' \
+      hasFailedAndHasNoLogs() \
     ) \
   "
 )
@@ -50,9 +46,7 @@
     !BLC.showErrorPanel && \
     !( \
       $root.featureFlags.noBuildLogs && \
-      BLC.buildLogs.length === 0 && \
-      !BLC.buildLogsRunning && \
-      BLC.buildStatus === 'failed' \
+      hasFailedAndHasNoLogs() \
     ) \
   "
 )
@@ -81,9 +75,7 @@
     !BLC.showErrorPanel && \
     !( \
       $root.featureFlags.noBuildLogs && \
-      BLC.buildLogs.length === 0 && \
-      !BLC.buildLogsRunning && \
-      BLC.buildStatus === 'failed' \
+      hasFailedAndHasNoLogs() \
     ) \
   "
   ng-repeat = "command in BLC.getBuildLogs()"
@@ -140,9 +132,7 @@
     !BLC.showErrorPanel && \
     !(\
       $root.featureFlags.noBuildLogs && \
-      BLC.buildLogs.length === 0 && \
-      !BLC.buildLogsRunning && \
-      BLC.buildStatus === 'failed' \
+      hasFailedAndHasNoLogs() \
     ) \
   "
 )
