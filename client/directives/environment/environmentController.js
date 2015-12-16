@@ -18,6 +18,8 @@ function EnvironmentController(
   helpCards,
   $window,
   $state,
+  errs,
+  fetchOrgMembers,
   ModalService
 ) {
   var EC = this;
@@ -36,6 +38,21 @@ function EnvironmentController(
         controllerAs: 'SMC',
         templateUrl: 'setupServerModalView'
       });
+    },
+    inviteTeammate: function () {
+      return fetchOrgMembers($state.params.userName, true)
+        .then(function (members) {
+          return ModalService.showModal({
+            controller: 'InviteModalController',
+            controllerAs: 'IMC',
+            templateUrl: 'inviteModalView',
+            inputs: {
+              teamName: $state.params.userName,
+              unInvitedMembers: members.uninvited
+            }
+          });
+        })
+        .catch(errs.handler);
     }
   };
   $scope.$state = $state;
