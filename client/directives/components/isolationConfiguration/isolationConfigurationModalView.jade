@@ -9,11 +9,12 @@
           xlink:href = "#icons-close"
         )
     section.modal-body
-      small.small.text-center
-        | Select containers to isolate with&#32;
-        span(
+      .well.in.gray.small.text-center
+        | Selected containers will be created to isolate with&#32;
+        .text-overflow(
           ng-attr-title = "{{ICMC.instance.getRepoName()}}/{{ICMC.instance.getBranchName()}}"
         ) {{ICMC.instance.getRepoName()}}/{{ICMC.instance.getBranchName()}}
+          | .
 
       //- repository containers
       h4.h4(
@@ -59,6 +60,7 @@
           fancy-select.btn-xs.gray(
             value = "ICMC.instanceBranchMapping[instance.attrs.contextVersion.context]"
           )
+            li.list-item.popover-list-item.small.disabled Choose branch
             fancy-option(
               value = "$parent.instance"
             ) {{$parent.$parent.instance.getBranchName()}}

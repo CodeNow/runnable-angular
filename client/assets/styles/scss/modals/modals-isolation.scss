@@ -3,11 +3,12 @@
   width: 450px;
 
   // modal description
-  .text-center {
-    color: $gray-dark;
+  .well {
+    background: $gray-lightest;
+    color: $gray;
     flex: 0 0 auto;
-    font-size: 15px;
-    margin: 9px 0 24px;
+    margin: 0 0 15px;
+    padding: 6px;
   }
 
   // list headers
@@ -36,16 +37,16 @@
     > .iconnables {
       flex: 0 0 21px;
     }
-  }
 
-  // container names
-  .text-overflow:first-child {
-    flex: 1 1 auto;
-    font-weight: $weight-bold;
-    padding-right: 6px;
+    // container names
+    > .text-overflow:first-child {
+      flex: 1 1 auto;
+      font-weight: $weight-bold;
+      padding-right: 6px;
+    }
 
     //- backup status
-    + .small {
+    > .small {
       color: $gray-light;
       cursor: default;
       font-style: italic;
