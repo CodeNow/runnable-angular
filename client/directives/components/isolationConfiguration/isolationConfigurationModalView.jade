@@ -13,13 +13,14 @@
         | Selected containers will be created to isolate with&#32;
         .text-overflow(
           ng-attr-title = "{{ICMC.instance.getRepoName()}}/{{ICMC.instance.getBranchName()}}"
-        ) {{ICMC.instance.getRepoName()}}/{{ICMC.instance.getBranchName()}}
-          | .
+        ) {{ICMC.instance.getRepoName()}}/{{ICMC.instance.getBranchName()}}.
 
       //- repository containers
       h4.h4(
-        ng-if = "ICMC.repoInstances.length && $root.featureFlags.backup"
+        ng-if = "ICMC.repoInstances.length"
       ) Repository Containers
+
+      //- list in alphabetical order
       .list.list-bordered(
         ng-if = "ICMC.repoInstances.length"
       )
@@ -34,7 +35,7 @@
             )
             | {{ICMC.instance.getRepoName()}}
 
-          button.btn.btn-xs.gray(
+          button.btn.btn-xs.gray.text-overflow(
             disabled
           ) {{ICMC.instance.getBranchName()}}
             svg.iconnables.icons-arrow-down
@@ -57,6 +58,8 @@
           //- {{instance.children.length}}
 
           //- this should get the class 'modded' if the selected branch uses a modified configuration
+
+          //- selecting this should automatically check the checkbox
           fancy-select.btn-xs.gray(
             value = "ICMC.instanceBranchMapping[instance.attrs.contextVersion.context]"
           )
@@ -105,7 +108,7 @@
             - ) No Backups
 
       h4.h4(
-        ng-if = "ICMC.nonRepoInstances.length && $root.featureFlags.backup"
+        ng-if = "ICMC.nonRepoInstances.length"
       ) Other Containers
       //- before b&r feature: all service containers
         - after b&r feature: service containers that aren't databases
