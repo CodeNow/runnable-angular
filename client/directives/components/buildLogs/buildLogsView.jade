@@ -92,12 +92,12 @@
 .blank-panel(
   ng-if = "$root.featureFlags.noBuildLogs && BLC.buildLogs.length === 0 && !BLC.buildLogsRunning && BLC.buildStatus === 'failed'"
 )
-  p.p We ran into an issue trying to build your container.
+  p.p Sorry, we ran into an issue trying to build your container.
   button.btn.btn-sm.purple(
     ng-click = "BLC.actions.rebuildWithoutCache()"
   ) Retry Build
   .small
+    | or&#32;
     a.link(
       ng-click = "BLC.actions.openIntercom()"
-    ) Let us know
-    | &#32;if this issue persists.
+    ) chat with a dev
