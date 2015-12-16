@@ -489,7 +489,11 @@ function fetchOrgMembers(
   fetchOrgRegisteredMembers,
   fetchOrgTeammateInvitations
 ) {
+  var orgMembersCache = {};
   return function (teamName) {
+    if (orgMembersCache[teamName]) {
+      return $q.when(orgMembersCache[teamName]);
+    }
     return $q.all([
       fetchGitHubMembers(teamName),
       fetchOrgRegisteredMembers(teamName),
@@ -530,12 +534,14 @@ function fetchOrgMembers(
           uninvitedGithubMembers.push(member);
         }
       });
-      return {
+      var members = {
         registered: registeredGithubMembers,
         invited: invitedGithubMembers,
         uninvited: uninvitedGithubMembers,
         all: githubMembers
       };
+      orgMembersCache[teamName] = members;
+      return orgMembersCache[teamName];
     });
   };
 }
