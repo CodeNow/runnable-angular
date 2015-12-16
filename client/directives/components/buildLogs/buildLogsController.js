@@ -110,7 +110,7 @@ function BuildLogsController(
     openIntercom: function () {
       window.Intercom(
         'showNewMessage',
-        'Hello! I have a container that won\'t start building, can you help me?'
+        'Fudge! This thing won’t build my container. Can you fix it?'
       );
     },
     rebuildWithoutCache: function () {
