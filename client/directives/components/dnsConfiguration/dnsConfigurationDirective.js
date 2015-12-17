@@ -29,7 +29,7 @@ function dnsConfiguration() {
         if (!$scope.DCC.filteredDependencies) {
           return;
         }
-        var worstStatus = '';
+        var worstStatus = 'gray';
         $scope.DCC.filteredDependencies.some(function (dependency) {
           if (dependency.instance.destroyed) {
             return false;

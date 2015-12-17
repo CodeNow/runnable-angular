@@ -60,9 +60,10 @@
   )
 
   //- dns button
-  label.btn.btn-sm.btn-dns.gray(
+  label.btn.btn-sm.btn-dns(
     dns-configuration
     instance = "instance"
+    ng-class = "{'gray': !DCD.worstStatus}"
   )
 
   label.input-group.input-group-sm.gray(
