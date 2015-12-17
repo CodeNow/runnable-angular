@@ -116,7 +116,7 @@
             )
           .btn-text Dockerfile
         button.btn.btn-radio(
-          ng-class = "{'active': SEMC.currentTab === 'whitelist'}"
+          ng-class = "{'active': SMC.selectedTab === 'whitelist'}"
           ng-click = "SMC.changeTab('whitelist')"
           ng-show = "$root.featureFlags.whitelist"
         )
@@ -190,10 +190,10 @@
         ng-include = "'viewFormLogs'"
         ng-show = "SMC.selectedTab === 'logs'"
       )
-      //- white list
       .modal-form(
+        ng-if = "$root.featureFlags.whitelist"
         ng-include = "'whitelistForm'"
-        ng-show = "SMC.selectedTab === 'whitelistForm'"
+        ng-show = "SMC.selectedTab === 'whitelist'"
       )
 
     section.modal-body(
