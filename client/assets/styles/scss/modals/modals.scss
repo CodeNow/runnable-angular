@@ -135,28 +135,29 @@
 .modal-tabs {
   display: block;
   margin: 0 auto;
-  transition: width .15s ease-in-out;
+  transition: max-width .15s ease-in-out;
   white-space: nowrap;
 
   // show 1 tab
   &.tabs-1 {
-    width: 90px;
+    max-width: 90px;
   }
 
   // show 2 tabs
   &.tabs-2 {
-    width: 90px * 2;
+    max-width: 90px * 2;
   }
 
   // show all tabs except logs
   &.tabs-7 {
-    width: 90px * 7;
+    max-width: 90px * 7;
+    overflow-x: auto;
   }
 
   // show all tabs
   &.tabs-all {
+    max-width: 100%;
     overflow-x: auto;
-    width: 100%;
   }
 
   // for animation on .tabs-all

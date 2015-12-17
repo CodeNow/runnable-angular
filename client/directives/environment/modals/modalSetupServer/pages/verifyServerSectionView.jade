@@ -17,7 +17,7 @@ header.modal-header
     )
 
   //- tabs
-  .row.modal-tabs.clearfix.js-animate(
+  .row.modal-tabs.js-animate(
     ng-if="$root.featureFlags.newVerificationFlow"
     ng-class = "{\
       'active': SMC.selectedTab === 'repository',\
