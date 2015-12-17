@@ -25,20 +25,20 @@ function repoList(
 
       // selected repo commit change
       $scope.$on('change-commit', function (event, commitSha) {
+        console.log('change-commit', commitSha);
         // track event w/ mixpanel
         eventTracking.toggledCommit({triggeredBuild: true});
 
 
         loading('main', true);
 
-        /*
-          1. Clone the build
-          2. Fetch the context version
-          3. Find the matching ACV and update it in the new context version
-          4. Build the build
-          5. Update instance w/ Build
+        /**
+         * 1. Clone the build
+         * 2. Fetch the context version
+         * 3. Find the matching ACV and update it in the new context version
+         * 4. Build the build
+         * 5. Update instance w/ Build
          */
-
         return promisify($scope.instance.build, 'deepCopy')() // 1. Clone the build
           .then(function (build) {
             // Nested because we need the build var lower down the chain

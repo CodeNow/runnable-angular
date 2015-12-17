@@ -5,7 +5,9 @@ require('app')
 
 function fetchCommitData (
   errs,
-  promisify
+  promisify,
+  keypather,
+  fetchGitHubUser
 ) {
   return {
     activeBranch: function (acv, branch) {
@@ -18,7 +20,16 @@ function fetchCommitData (
 
     activeCommit: function (acv, commitHash) {
       var activeCommit = acv.githubRepo.newCommit(commitHash || acv.attrs.commit);
-      activeCommit.fetch(errs.handler);
+      promisify(activeCommit, 'fetch')()
+        .then(function (acitveCommit) {
+          var userName = keypather.get(activeCommit, 'attrs.author.login');
+          return fetchGitHubUser(userName)
+            .then(function (user) {
+              keypather.set(activeCommit, 'attrs.author', user);
+              return activeCommit;
+            });
+        })
+        .catch(errs.handler);
       return activeCommit;
     },
 

@@ -66,6 +66,7 @@ function editRepoCommit(
         },
         actions: {
           selectCommit: function (commitSha) {
+            console.log('selectCommit', commitSha);
             $scope.acv.attrs.commit = commitSha;
             $scope.$emit('change-commit', commitSha);
             $scope.$broadcast('close-popovers');
@@ -73,6 +74,7 @@ function editRepoCommit(
         }
       };
       $scope.autoDeploy = function (isLocked) {
+        console.log('autoDeploy');
         if (arguments.length > 0) {
           if ($rootScope.isLoading.autoDeploy) {
             return !isLocked;
