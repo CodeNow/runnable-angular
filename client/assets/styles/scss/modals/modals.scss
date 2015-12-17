@@ -135,6 +135,8 @@
 .modal-tabs {
   display: block;
   margin: 0 auto;
+  overflow-x: auto;
+  padding: 0 6px;
   transition: max-width .15s ease-in-out;
   white-space: nowrap;
 
@@ -151,13 +153,11 @@
   // show all tabs except logs
   &.tabs-7 {
     max-width: 90px * 7;
-    overflow-x: auto;
   }
 
   // show all tabs
   &.tabs-all {
     max-width: 100%;
-    overflow-x: auto;
   }
 
   // for animation on .tabs-all
