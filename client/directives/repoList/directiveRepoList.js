@@ -25,7 +25,6 @@ function repoList(
 
       // selected repo commit change
       $scope.$on('change-commit', function (event, commitSha) {
-        console.log('change-commit', commitSha);
         // track event w/ mixpanel
         eventTracking.toggledCommit({triggeredBuild: true});
 
