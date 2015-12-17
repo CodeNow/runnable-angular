@@ -38,7 +38,8 @@ function featureFlags(
     urlPopover: false,
     webhooksAdminPresent: false,
     webhooksContainerRunning: false,
-    webhooks: false
+    webhooks: false,
+    whitelist: false
   };
 
   var _featureFlags = {};

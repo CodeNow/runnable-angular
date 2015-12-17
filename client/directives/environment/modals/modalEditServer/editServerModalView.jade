@@ -115,6 +115,16 @@
               xlink:href = "#icons-dockerfile"
             )
           .btn-text Dockerfile
+        button.btn.btn-radio(
+          ng-class = "{'active': SEMC.currentTab === 'whitelist'}"
+          ng-click = "SMC.changeTab('whitelist')"
+          ng-show = "$root.featureFlags.whitelist"
+        )
+          svg.iconnables
+            use(
+              xlink:href = "#icons-advanced"
+            )
+          .btn-text IP Whitelist
 
     section.modal-body(
       ng-if = "!$root.isLoading.editServerModal"
@@ -133,9 +143,9 @@
       )
       .modal-form(
         ng-if = "!SMC.state.advanced"
-        ports-form
-        ports = "SMC.state.ports"
         ng-show = "SMC.selectedTab === 'ports'"
+        ports = "SMC.state.ports"
+        ports-form
       )
       .modal-form(
         ng-include = "'viewFormEnvironmentVariables'"
@@ -152,15 +162,15 @@
         ng-controller = "ContainerFilesController as CFC"
         ng-if = "!SMC.state.advanced"
         ng-include = "'viewFormFiles'"
-        ng-show = "SMC.selectedTab === 'files'"
         ng-init = "CFC.init({ state: SMC.state, getDisplayName: SMC.getDisplayName })"
+        ng-show = "SMC.selectedTab === 'files'"
       )
       .modal-form(
+        data = "SMC.data"
+        instance = "SMC.instance"
         ng-if = "SMC.state.repo"
         ng-show = "SMC.selectedTab === 'translation'"
         state = "SMC.state"
-        instance = "SMC.instance"
-        data = "SMC.data"
         translation-rules
       )
       .modal-form.modal-backup(
@@ -179,6 +189,11 @@
         }"
         ng-include = "'viewFormLogs'"
         ng-show = "SMC.selectedTab === 'logs'"
+      )
+      //- white list
+      .modal-form(
+        ng-include = "'whitelistForm'"
+        ng-show = "SMC.selectedTab === 'whitelistForm'"
       )
 
     section.modal-body(
