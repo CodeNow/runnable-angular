@@ -30,7 +30,6 @@ function activePanel(
       // Remove the logView if the container never started
       if ($scope.instance.status() === 'neverStarted') {
         $scope.openItems.models.forEach(function (model) {
-          console.log('Type', keypather.get(model, 'state.type'));
           if (keypather.get(model, 'state.type') === 'LogView') {
             $scope.openItems.remove(model);
           }
