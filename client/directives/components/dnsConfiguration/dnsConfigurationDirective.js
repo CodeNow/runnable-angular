@@ -35,17 +35,16 @@ function dnsConfiguration() {
             return false;
           }
           var status = dependency.instance.status();
-          if (['buildFailed', 'crashed'].includes(status)) {
+          if (['buildFailed', 'crashed', 'neverStarted'].includes(status)) {
             worstStatus = 'red';
             return true;
           }
-          if (worstStatus !== 'red' && ['starting', 'neverStarted', 'building'].includes(status)) {
+          if (worstStatus !== 'red' && ['building', 'starting'].includes(status)) {
             worstStatus = 'orange';
           }
         });
         return worstStatus;
       };
-
     }
   };
 }
