@@ -7,16 +7,16 @@ require('app')
  */
 function editRepoCommit(
   $q,
-  $state,
-  fetchCommitData,
-  keypather,
-  promisify,
-  errs,
-  loading,
   $rootScope,
-  ModalService,
+  $state,
+  errs,
+  fetchCommitData,
+  fetchGithubOrgId,
   fetchUser,
-  fetchGithubOrgId
+  keypather,
+  loading,
+  ModalService,
+  promisify
 ) {
   return {
     restrict: 'A',

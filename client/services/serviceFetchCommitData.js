@@ -6,10 +6,10 @@ require('app')
 function fetchCommitData (
   $q,
   errs,
-  promisify,
-  keypather,
   fetchUser,
-  fetchGitHubUser
+  fetchGitHubUser,
+  keypather,
+  promisify
 ) {
   return {
     activeBranch: function (acv, branch) {
