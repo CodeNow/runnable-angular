@@ -17,16 +17,19 @@
   .tr.clearfix(
     ng-repeat = "address in whitelist"
   )
-    input.input.input-sm.cell(
+    //- these are inputs for editing (in the future…)
+    input.input.input-xs.cell(
       ng-value = "address[0]"
       readonly
     )
-    input.input.input-sm.cell(
+    input.input.input-xs.cell(
       ng-value = "address[1]"
       readonly
     )
-    .cell
-      svg.iconnables.icons-close
+    .cell.cell-action
+      svg.iconnables.icons-close(
+        title = "Remove Address"
+      )
         use(
           xlink:href = "#icons-close"
         )

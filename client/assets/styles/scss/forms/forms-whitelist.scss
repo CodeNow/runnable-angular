@@ -1,3 +1,11 @@
 .table-whitelist {
 
+  .tr {
+    align-items: center;
+  }
+
+  .input {
+    background: transparent;
+    color: $gray;
+  }
 }
