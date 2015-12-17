@@ -7,14 +7,14 @@ require('app')
  * @ngInject
  */
 function SlackIntegrationFormController (
+  $q,
   $scope,
-  verifyChatIntegration,
-  keypather,
-  fetchSettings,
   debounce,
   errs,
+  fetchSettings,
+  keypather,
   promisify,
-  $q
+  verifyChatIntegration
 ) {
   var SIFC = this;
   angular.extend(SIFC, {
