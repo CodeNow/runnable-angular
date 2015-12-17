@@ -9,20 +9,20 @@
   .popover-content.list-item(
     ng-class = "{'active': state.inviteForm}"
     ng-init = "\
-      user.email = 'tony@runnable.com';\
+      user.email = data.email;\
       state.inviteForm = null;\
       state.inviteSending = null;\
       state.inviteSent = null;\
     "
   )
     img.gravatar.float-left(
-      alt = "Runnabro"
+      alt = "{{ data.login }}"
       height = "27"
-      src = "https://avatars2.githubusercontent.com/u/5341618?v=3&s=40"
+      src = "{{ data.avatar_url }}"
       width = "27"
     )
-    .username.text-overflow Runnabro
-    .small.text-overflow tony@runnable.com
+    .username.text-overflow {{ data.login }}
+    .small.text-overflow {{data.email.length ? data.email : "—"}}
 
     //- cancel invite
     svg.iconnables.icons-close(
