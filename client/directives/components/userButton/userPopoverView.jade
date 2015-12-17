@@ -7,13 +7,7 @@
     style = "left: 29px;"
   )
   .popover-content.list-item(
-    ng-class = "{'active': state.inviteForm}"
-    ng-init = "\
-      user.email = data.email;\
-      state.inviteForm = null;\
-      state.inviteSending = null;\
-      state.inviteSent = null;\
-    "
+    ng-class = "{'active': data.showInviteForm && !data.inviteSent && !data.inviteSending}"
   )
     img.gravatar.float-left(
       alt = "{{ data.login }}"
@@ -26,8 +20,8 @@
 
     //- cancel invite
     svg.iconnables.icons-close(
-      ng-click = "state.inviteForm = false"
-      ng-if = "state.inviteForm"
+      ng-click = "data.showInviteForm = false"
+      ng-if = "data.showInviteForm && !data.inviteSent && !data.inviteSending"
     )
       use(
         xlink:href = "#icons-close"
@@ -35,8 +29,8 @@
 
      //- autofocus on this
     input.input.input-sm.input-validate.validate-on-blur.js-animate(
-      ng-model = "user.email"
-      ng-show = "state.inviteForm"
+      ng-model = "data.email"
+      ng-show = "data.showInviteForm && !data.inviteSent && !data.inviteSending"
       placeholder = "Email Address"
       required
       spellcheck = "false"
@@ -47,39 +41,33 @@
     //- disabled when invalid
     //- says "Resend" if an invite has already been sent
     button.btn.btn-xs.green.js-animate(
-      ng-click = "\
-        state.inviteForm = false;\
-        state.inviteSending = true;\
-      "
-      ng-disabled = "!user.email"
-      ng-show = "state.inviteForm"
+      ng-click = "UPA.inviteUser(data)"
+      ng-disabled = "!data.email"
+      ng-show = "data.showInviteForm && !data.inviteSent && !data.inviteSending"
     ) Send
 
     .btn-wrapper
       //- if the user has not yet joined runnable
       button.btn.btn-xs.green(
-        ng-click = "state.inviteForm = true"
-        ng-if = "!state.inviteSending && !state.inviteSent && !state.inviteForm"
+        ng-click = "data.showInviteForm = true"
+        ng-if = "!data.inviteSending && !data.inviteSent && !data.showInviteForm && !data.isRunnableUser"
       ) Invite
 
       //- if already in runnable
-      //- button.btn.btn-xs.white(
-      //-   internal-modal-helper = "settingsModalView"
-      //- ) View Team
+      button.btn.btn-xs.white(
+        ng-click = "UPA.goToTeammatesSettingsModal()"
+        ng-if = "data.isRunnableUser"
+      ) View Team
 
       //- sending…
       .spinner-wrapper.spinner-sm.spinner-gray.in(
-        ng-click = "\
-          state.inviteSent = true;\
-          state.inviteSending = false;\
-        "
-        ng-if = "state.inviteSending"
+        ng-if = "data.inviteSending"
         ng-include = "'spinner'"
       )
 
       //- sent
       .send-confirmation.load(
-        ng-if = "state.inviteSent"
+        ng-if = "data.inviteSent"
       )
         svg.iconnables.icons-check.float-left(
           viewbox = '0 0 14.5 10'

@@ -420,7 +420,7 @@ function fetchGithubOrgId(
   var githubOrgIdCache = {};
   return function (orgNameOrId) {
     if (githubOrgIdCache[orgNameOrId]) {
-      return githubOrgIdCache[orgNameOrId];
+      return $q.when(githubOrgIdCache[orgNameOrId]);
     }
     return fetchOrgs(orgNameOrId)
       .then(function (orgsCollection) {

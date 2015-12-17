@@ -6,13 +6,17 @@ require('app')
  * @ngInject
  */
 function editRepoCommit(
+  $q,
+  $state,
   fetchCommitData,
   keypather,
   promisify,
   errs,
   loading,
   $rootScope,
-  ModalService
+  ModalService,
+  fetchUser,
+  fetchGithubOrgId
 ) {
   return {
     restrict: 'A',
@@ -66,15 +70,53 @@ function editRepoCommit(
         },
         actions: {
           selectCommit: function (commitSha) {
-            console.log('selectCommit', commitSha);
             $scope.acv.attrs.commit = commitSha;
             $scope.$emit('change-commit', commitSha);
             $scope.$broadcast('close-popovers');
           }
         }
       };
+      $scope.userPopoverActions = {
+        inviteUser: function (user) {
+          user.inviteSending = true;
+          return $q.all({
+              user: fetchUser(),
+              githubOrgId: fetchGithubOrgId($state.params.userName)
+            })
+            .then(function (response) {
+              return promisify(response.user, 'createTeammateInvitation')({
+                organization: {
+                  github: response.githubOrgId
+                },
+                recipient: {
+                  email: user.email,
+                  github: user.id
+                }
+              });
+            })
+            .then(function (invitationModel) {
+              user.inviteSent = true;
+              return invitationModel;
+            })
+            .catch(errs.handler)
+            .finally(function () {
+                user.inviteSending = false;
+            });
+
+        },
+        goToTeammatesSettingsModal: function () {
+          $scope.$broadcast('close-popovers');
+          return ModalService.showModal({
+            controller: 'SettingsModalController',
+            controllerAs: 'SEMC',
+            templateUrl: 'settingsModalView',
+            inputs: {
+              tab: 'teamManagement'
+            }
+          });
+        }
+      };
       $scope.autoDeploy = function (isLocked) {
-        console.log('autoDeploy');
         if (arguments.length > 0) {
           if ($rootScope.isLoading.autoDeploy) {
             return !isLocked;
