@@ -26,10 +26,10 @@ function dnsConfiguration() {
       });
 
       $scope.getWorstStatusClass = function () {
-        if (!$scope.DCC.filteredDependencies) {
-          return;
-        }
         var worstStatus = 'gray';
+        if (!$scope.DCC.filteredDependencies) {
+          return worstStatus;
+        }
         $scope.DCC.filteredDependencies.some(function (dependency) {
           if (dependency.instance.destroyed) {
             return false;
