@@ -6,6 +6,7 @@ require('app')
 function loadingPromises(
   $q
 ) {
+  var promiseStartHash = {};
   var promiseHash = {};
 
   function add(namespace, promise) {
@@ -18,13 +19,25 @@ function loadingPromises(
     promiseHash[namespace].push(promise);
     return promise;
   }
-  function clear(namespace) {
+  function start(namespace, promise) {
+    if (!namespace) {
+      return promise;
+    }
+    promiseStartHash[namespace] = promise;
+    promiseHash[namespace] = promiseHash[namespace] || [];
+    return promise;
+  }
+  function clear(namespace, preserveStart) {
     promiseHash[namespace] = [];
+    if (!preserveStart) {
+      promiseStartHash[namespace] = null;
+    }
   }
   function finished(namespace) {
-    return $q.all(promiseHash[namespace])
+    return $q.when(promiseStartHash[namespace])
+      .then($q.all(promiseHash[namespace]))
       .then(function (promiseArray) {
-        return promiseArray.length;
+        return promiseArray ? promiseArray.length : 0;
       });
   }
   function getCount(namespace) {
@@ -38,6 +51,7 @@ function loadingPromises(
     add: add,
     clear: clear,
     finished: finished,
+    start: start,
     count: getCount
   };
 }

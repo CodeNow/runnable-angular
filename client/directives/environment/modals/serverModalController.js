@@ -4,23 +4,27 @@ require('app')
   .controller('ServerModalController', ServerModalController);
 
 function ServerModalController(
+  $filter,
   $q,
   $rootScope,
   $scope,
   eventTracking,
+  errs,
   helpCards,
   parseDockerfileForCardInfoFromInstance,
   createBuildFromContextVersionId,
   keypather,
+  loading,
   loadingPromises,
   promisify,
+  ModalService,
   updateDockerfileFromState
 ) {
   this.openDockerfile = function (state, openItems) {
     return promisify(state.contextVersion, 'fetchFile')('/Dockerfile')
       .then(function (dockerfile) {
         if (state.dockerfile) {
-         openItems.remove(state.dockerfile);
+          openItems.remove(state.dockerfile);
         }
         if (dockerfile) {
           openItems.add(dockerfile);
@@ -29,19 +33,15 @@ function ServerModalController(
       });
   };
 
-  this.isDirty = function  () {
+  this.isDirty = function () {
     // Loading promises are clear when the modal is saved or cancelled.
     var SMC = this;
-    // If there is no CV, there can be no changes
-    if (!SMC.state.contextVersion) {
-      return false;
-    }
-    return loadingPromises.count(SMC.name) > 0 ||
-      !angular.equals(
-        keypather.get(SMC, 'instance.attrs.env') || [],
-        keypather.get(SMC, 'state.opts.env') || []
-      ) ||
-      !SMC.openItems.isClean();
+    var requiresBuild = loadingPromises.count(SMC.name) > 0 || !SMC.openItems.isClean() ? 'build' : false;
+    var requiresUpdate = !angular.equals(
+      keypather.get(SMC, 'instance.attrs.env') || [],
+      keypather.get(SMC, 'state.opts.env') || []
+    ) ? 'update' : false;
+    return requiresBuild || requiresUpdate;
   };
 
   this.rebuildAndOrRedeploy = function (noCache, forceRebuild) {
@@ -123,9 +123,36 @@ function ServerModalController(
           })
           .catch(function (err) {
             // If we get an error, we need to wipe the loadingPromises, since it could have an error
-            loadingPromises.clear(SMC.name);
+            loadingPromises.clear(SMC.name, true);
             return $q.reject(err);
           });
+      });
+  };
+
+  this.closeWithConfirmation = function (close) {
+    var SMC = this;
+    $rootScope.$broadcast('close-popovers');
+    if (!SMC.isDirty()) {
+      return close();
+    }
+    return ModalService.showModal({
+      controller: 'ConfirmCloseServerController',
+      controllerAs: 'CMC',
+      templateUrl: 'confirmCloseServerView',
+      inputs: {
+        instance: SMC.instance
+      }
+    })
+      .then(function (modal) {
+        modal.close.then(function (state) {
+          if (state) {
+            if (state === 'build') {
+              return SMC.getUpdatePromise();
+            }
+            loadingPromises.clear(SMC.name);
+            close();
+          }
+        });
       });
   };
 
@@ -147,9 +174,7 @@ function ServerModalController(
     }
 
     // Once ports are set, start listening to changes
-    $scope.$watchCollection(function () {
-      return SMC.state.ports;
-    }, function (newPortsArray, oldPortsArray) {
+    $scope.$watchCollection('SMC.state.ports', function (newPortsArray, oldPortsArray) {
       if (!angular.equals(newPortsArray, oldPortsArray)) {
         // Only update the Dockerfile if the ports have actually changed
         loadingPromises.add(SMC.name, updateDockerfileFromState(SMC.state, true, true));
@@ -176,7 +201,7 @@ function ServerModalController(
   this.resetStateContextVersion = function (contextVersion, shouldParseDockerfile) {
     var SMC = this;
     SMC.state.advanced = keypather.get(contextVersion, 'attrs.advanced') || false;
-    SMC.state.promises.contextVersion = loadingPromises.add(
+    SMC.state.promises.contextVersion = loadingPromises.start(
       SMC.name,
       promisify(contextVersion, 'deepCopy')()
         .then(function (contextVersion) {
@@ -243,5 +268,38 @@ function ServerModalController(
         });
         return true;
       });
+  };
+
+  this.getUpdatePromise = function () {
+    var SMC = this;
+    loading(this.name + 'IsBuilding', true); // `state.IsBuilding` is used for adding spinner to 'Start Build' button
+    return this.saveInstanceAndRefreshCards()
+      .catch(function (err) {
+        errs.handler(err);
+        return SMC.resetStateContextVersion(SMC.state.contextVersion, false);
+      })
+      .finally(function () {
+        loading(SMC.name + 'IsBuilding', false);
+      });
+  };
+
+  this.changeTab = function (tabname) {
+    if (!this.state.advanced) {
+      if ($filter('selectedStackInvalid')(this.state.selectedStack)) {
+        tabname = 'repository';
+      } else if (!this.state.startCommand && tabname !== 'repository') {
+        tabname = 'commands';
+      }
+    } else if ($scope.SMC.serverForm.$invalid) {
+      if (keypather.get($scope, 'SMC.serverForm.$error.required.length')) {
+        var firstRequiredError = $scope.SMC.serverForm.$error.required[0].$name;
+        tabname = firstRequiredError.split('.')[0];
+      }
+    }
+    if (!this.instance && this.state.step === 2 && tabname === 'repository') {
+      this.state.step = 1;
+      $scope.$broadcast('updateStep', this.state.step);
+    }
+    this.selectedTab = tabname;
   };
 }

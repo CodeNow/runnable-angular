@@ -20,8 +20,6 @@ var tabVisibility = {
 function EditServerModalController(
   $scope,
   $controller,
-  $filter,
-  $rootScope,
   errs,
   fetchInstancesByPod,
   findLinkedServerVariables,
@@ -29,7 +27,6 @@ function EditServerModalController(
   keypather,
   loading,
   OpenItems,
-  ModalService,
   loadingPromises,
   helpCards,
   tab,
@@ -48,6 +45,9 @@ function EditServerModalController(
     'rebuildAndOrRedeploy': parentController.rebuildAndOrRedeploy.bind(SMC),
     'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
     'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
+    'closeWithConfirmation': parentController.closeWithConfirmation.bind(SMC),
+    'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
+    'changeTab': parentController.changeTab.bind(SMC)
   });
 
   SMC.instance = instance;
@@ -76,26 +76,7 @@ function EditServerModalController(
       return cmd.replace('until grep -q ethwe /proc/net/dev; do sleep 1; done;', '');
     },
     actions: {
-      close: function () {
-        $rootScope.$broadcast('close-popovers');
-        if (SMC.isDirty() && !SMC.saveTriggered) {
-          ModalService.showModal({
-            controller: 'ConfirmationModalController',
-            controllerAs: 'CMC',
-            templateUrl: 'confirmCloseEditServer'
-          })
-            .then(function (modal) {
-              modal.close.then(function (confirmed) {
-                if ( confirmed ) {
-                  close();
-                }
-              });
-            })
-            .catch(errs.handler);
-        } else {
-          close();
-        }
-      }
+      close: SMC.closeWithConfirmation.bind(SMC, close)
     },
     build: instance.build,
     getElasticHostname: instance.getElasticHostname.bind(instance),
@@ -145,26 +126,9 @@ function EditServerModalController(
     return SMC.resetStateContextVersion(instance.contextVersion, true)
       .catch(errs.handler)
       .finally(function () {
-        loadingPromises.clear(SMC.name);
         loading(SMC.name, false);
       });
   }
-
-  SMC.changeTab = function (tabname) {
-    if (!SMC.state.advanced) {
-      if ($filter('selectedStackInvalid')(SMC.state.selectedStack)) {
-        tabname = 'repository';
-      } else if (!SMC.state.startCommand) {
-        tabname = 'commands';
-      }
-    } else if ($scope.editServerForm.$invalid) {
-      if (keypather.get($scope, 'editServerForm.$error.required.length')) {
-        var firstRequiredError = $scope.editServerForm.$error.required[0].$name;
-        tabname = firstRequiredError.split('.')[0];
-      }
-    }
-    SMC.selectedTab = tabname;
-  };
   /**
    * This function determines if a tab chooser should be shown
    *
@@ -205,7 +169,6 @@ function EditServerModalController(
         return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
       })
       .then(function (contextVersion) {
-        loadingPromises.clear(SMC.name);
         return contextVersion;
       })
       .catch(errs.handler)
@@ -231,9 +194,6 @@ function EditServerModalController(
     SMC.saveTriggered = true;
     loading(SMC.name + 'IsBuilding', true);
     return SMC.saveInstanceAndRefreshCards()
-      .then(function () {
-        return close();
-      })
       .catch(function (err) {
         errs.handler(err);
         return SMC.resetStateContextVersion(SMC.state.contextVersion, false)

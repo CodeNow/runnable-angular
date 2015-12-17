@@ -1,0 +1,51 @@
+button.btn.white.btn-cancel.float-left.js-animate(
+  ng-click = "SMC.actions.close()"
+  ng-if = "!SMC.instance && SMC.state.step < 4"
+  type = "button"
+) Cancel
+
+button.btn.btn-done.white.float-right.js-animate(
+  ng-click = "SMC.actions.close()"
+  ng-if = "SMC.instance || SMC.state.step > 3"
+  type = "button"
+) Done
+
+button.btn.btn-primary.white.text-next.float-right(
+  ng-click = "SMC.goToNextStep()"
+  ng-if = "SMC.state.step < 3"
+  ng-disabled = "isPrimaryButtonDisabled()"
+  type = "button"
+)
+  span.btn-text.float-left Next
+
+  //- arrow is visible for steps 1-3
+  svg.iconnables.icons-arrow-forward.float-right
+    use(
+      xlink:href = "#icons-arrow-down"
+    )
+
+//- save/save & build button
+  - disable if nothing to save
+  - classes change depending on text for width:
+    .text-save-build
+    .text-save
+    .text-next
+button.btn.white.btn-primary.float-right(
+  ng-class = "{\
+          'text-save': SMC.isDirty() === 'update',\
+          'text-save-build': SMC.isDirty() === 'build'\
+        }"
+  ng-if = "SMC.instance || SMC.state.step > 2"
+  ng-click = "createServerOrUpdate()"
+  ng-disabled = "!SMC.isDirty()"
+)
+  span.btn-text.float-left Save
+    //- if save triggers a build
+    span.fade.js-animate(
+      ng-if = "SMC.isDirty() === 'build'"
+    ) &#32;& Build
+
+span.small.float-right.fade.js-animate(
+  ng-if = "SMC.instance && SMC.isDirty() === 'build'"
+) You’ve made changes that require a rebuild.
+
