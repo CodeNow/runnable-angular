@@ -6,9 +6,7 @@ require('app')
 function teamManagementForm() {
   return {
     restrict: 'AE',
-    scope: {},
     controller: 'TeamManagementFormController as TMMC',
-    bindToController: true,
     templateUrl: 'teamManagementFormView'
   };
 }

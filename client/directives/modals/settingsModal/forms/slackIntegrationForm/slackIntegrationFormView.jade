@@ -19,11 +19,11 @@
   p.p.empty Get container status updates in Slack
   input.input.input-sm.monospace.text-center.input-validate(
     name = "slackApiTokenField"
-    ng-change = "SIFC.setFieldAsValid()"
     ng-disabled = "SIFC.verifying"
     ng-model = "SIFC.slackApiToken"
     placeholder = "API Token"
     required
+    slack-api-token-validator
     spellcheck = "false"
   )
   .validation-message.text-center(
