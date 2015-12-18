@@ -1,13 +1,5 @@
 .blank-panel(
-  ng-if = "\
-    (\
-      $root.featureFlags.noBuildLogs && \
-      hasFailedAndHasNoLogs() \
-    ) || ( \
-      $root.featureFlags.noBuildLogs && \
-      BLC.showErrorPanel \
-    )\
-  "
+  ng-if = "$root.featureFlags.noBuildLogs && (hasFailedAndHasNoLogs() || BLC.showErrorPanel)"
 )
   p.p Sorry, we ran into an issue trying to build your container.
   button.btn.btn-sm.purple(
