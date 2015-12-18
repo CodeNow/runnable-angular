@@ -1,3 +1,42 @@
+.form-whitelist {
+
+  .cell {
+    color: $gray;
+
+    // override modal form default
+    .small {
+      margin: 0;
+    }
+  }
+
+  .input-group {
+    margin: 15px 0 6px;
+
+    // override modal form default
+    .label.label {
+      margin: 0;
+    }
+  }
+
+  .input {
+    border: 0;
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  // range checkbox
+  .label-checkbox {
+    color: $gray;
+    line-height: $input-xs;
+  }
+
+  .checkbox {
+    margin: 0 6px;
+  }
+}
+
 .table-whitelist {
 
   .tr {

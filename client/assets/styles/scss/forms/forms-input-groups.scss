@@ -17,6 +17,20 @@
     }
   }
 
+  &.white {
+    background: $white;
+
+    .label {
+      border-color: transparent;
+      color: $gray-light;
+    }
+
+    .btn,
+    .input {
+      color: $gray;
+    }
+  }
+
   .label,
   .input {
 
@@ -70,14 +84,6 @@
     &:last-child {
       border-radius: 0 $input-border-radius $input-border-radius 0;
     }
-  }
-}
-
-.input-group-md,
-.input-group-sm {
-
-  .input {
-    font-size: 16px;
   }
 }
 

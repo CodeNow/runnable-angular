@@ -190,7 +190,7 @@
         ng-include = "'viewFormLogs'"
         ng-show = "SMC.selectedTab === 'logs'"
       )
-      .modal-form(
+      .modal-form.form-whitelist(
         ng-if = "$root.featureFlags.whitelist"
         ng-include = "'whitelistForm'"
         ng-show = "SMC.selectedTab === 'whitelist'"

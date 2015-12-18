@@ -1,35 +1,54 @@
-.label
-  .clearfix
-    .label-col IP Whitelist
-  //- .small Your IP address is 1.1.1.1
-  //-   button.btn.btn-xxs.white Add to Whitelist
-
-.table.table-whitelist(
-  ng-init = "\
-    whitelist = [\
-      ['1.1.1.1','1.1.1.10'],\
-      ['1.1.1.3'],\
-      ['1.1.1.9'],\
-      ['1.1.1.4','1.1.1.5']\
-    ];\
-  "
-)
-  .tr.clearfix(
-    ng-repeat = "address in whitelist"
-  )
-    //- these are inputs for editing (in the future…)
-    input.input.input-xs.cell(
-      ng-value = "address[0]"
-      readonly
+.label.clearfix
+  .label-col IP Whitelist
+  .input-col
+    .table.table-whitelist(
+      ng-init = "\
+        whitelist = [\
+          ['1.1.1.1','1.1.1.10'],\
+          ['1.1.1.3'],\
+          ['1.1.1.9'],\
+          ['1.1.1.4','1.1.1.5']\
+        ];\
+      "
     )
-    input.input.input-xs.cell(
-      ng-value = "address[1]"
-      readonly
-    )
-    .cell.cell-action
-      svg.iconnables.icons-close(
-        title = "Remove Address"
+      .tr.clearfix(
+        ng-repeat = "address in whitelist"
       )
-        use(
-          xlink:href = "#icons-close"
+        .cell.small {{address[0]}}{{address[1] ? '—' + address[1] : ''}}
+        .cell.cell-action
+          svg.iconnables.icons-close(
+            title = "Remove Address"
+          )
+            use(
+              xlink:href = "#icons-close"
+            )
+
+    .label
+      .input-group.input-group-sm.white
+        .label(
+          ng-if = "isRange"
+        ) FROM
+        input.input.input-xs(
+          maxlength = "45"
+          placeholder = "0.0.0.0"
         )
+        .label(
+          ng-if = "isRange"
+        ) TO
+        input.input.input-xs(
+          maxlength = "45"
+          ng-if = "isRange"
+          placeholder = "0.0.0.0"
+        )
+
+      div
+        label.label-checkbox.small.float-left
+          input.checkbox(
+            ng-model = "isRange"
+            type = "checkbox"
+          )
+          | Add IP Range
+        button.btn.btn-xs.white.float-right(
+          ng-disabled = ""
+          type = "button"
+        ) Add to Whitelist
