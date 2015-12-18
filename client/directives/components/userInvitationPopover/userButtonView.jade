@@ -1,0 +1,9 @@
+img.gravatar(
+  alt = "{{ activeCommit.attrs.author.login }}"
+  height = "15"
+  src = "{{ activeCommit.attrs.author.avatar_url }}"
+  width = "15"
+)
+span.small.text-overflow(
+  title = "{{ activeCommit.attrs.author.login }}"
+) {{ activeCommit.attrs.author.login }}
