@@ -27,15 +27,6 @@ function activePanel(
       debugContainer: '=?'
     },
     link: function ($scope, element, attrs) {
-      // Remove the logView if the container never started
-      if ($scope.instance.status() === 'neverStarted') {
-        $scope.openItems.models.forEach(function (model) {
-          if (keypather.get(model, 'state.type') === 'LogView') {
-            $scope.openItems.remove(model);
-          }
-        });
-      }
-
       $scope.data = {};
 
       // allow iframe to load url
