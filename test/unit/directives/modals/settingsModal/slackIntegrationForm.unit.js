@@ -159,8 +159,8 @@ describe('SlackIntegrationFormController'.bold.underline.blue, function () {
       SIFC.settings.update.reset();
     });
 
-    it('should not run if the slackApiTokenForm is pristine (not edited)', function () {
-      SIFC.slackApiTokenForm.$pristine = true;
+    it('should not run if the slackApiTokenForm is vaild (not edited)', function () {
+      SIFC.slackApiTokenForm.$valid = true;
       settingsModelStub.attrs.notifications.slack.apiToken = null;
 
       SIFC.verifySlack();
