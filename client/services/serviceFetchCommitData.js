@@ -41,7 +41,7 @@ function fetchCommitData (
               login: githubUser.login,
               avatar_url: githubUser.avatar_url,
               email: githubUser.email,
-              isRunnableUser: false, // Boolean(runnableUser.models.length),
+              isRunnableUser: Boolean(runnableUser.models.length),
               showInviteForm: false,
               inviteSending: false,
               inviteSent: false
