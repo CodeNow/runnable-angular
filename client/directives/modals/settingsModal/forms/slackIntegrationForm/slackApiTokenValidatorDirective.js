@@ -15,7 +15,6 @@ require('app')
     restrict: 'A',
     require: 'ngModel',
     link: function ($scope, element, attrs, ctrl) {
-
       // We need to debounce this function, but an asynchronous validator always
       // needs to return a promise
       var _validateApiToken = debounce(function (modelValue, viewValue, cb) {
