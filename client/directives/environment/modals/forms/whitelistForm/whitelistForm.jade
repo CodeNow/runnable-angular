@@ -1,6 +1,12 @@
 .label.clearfix
   .label-col IP Whitelist
   .input-col
+    small.small Whitelist IP addresses to access your container for&#32;
+      em.underline(
+        tooltip = "Like Secure Shell"
+        tooltip-options = "{\"class\":\"bottom center text-center\",\"right\":-9,\"top\":18}"
+      ) headless requests
+      | .
     .table.table-whitelist(
       ng-init = "\
         whitelist = [\
@@ -14,7 +20,7 @@
       .tr.clearfix(
         ng-repeat = "address in whitelist"
       )
-        .cell.small {{address[0]}}{{address[1] ? '—' + address[1] : ''}}
+        .cell {{address[0]}}{{address[1] ? '—' + address[1] : ''}}
         .cell.cell-action
           svg.iconnables.icons-close(
             title = "Remove Address"
