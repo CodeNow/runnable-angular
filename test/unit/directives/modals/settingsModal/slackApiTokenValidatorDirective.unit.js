@@ -10,7 +10,7 @@ var fetchSettingsStub;
 var verifyChatIntegrationStub;
 var mockDebounce;
 
-describe.only('slackApiTokenValidtorDirective'.bold.underline.blue, function () {
+describe('slackApiTokenValidtorDirective'.bold.underline.blue, function () {
   var ctx;
   function setup(slackApiToken, opts) {
     opts = opts || {};
