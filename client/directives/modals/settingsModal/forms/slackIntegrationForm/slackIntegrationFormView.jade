@@ -40,14 +40,15 @@
       target = "_blank"
     ) new bot
     | .
+
   button.btn.green.btn-spinner(
-    ng-class = "{'in': SIFC.verifying}"
+    ng-class = "{'in': SIFC.slackApiTokenForm.$pending || SIFC.verifying}"
     ng-click = "SIFC.verifySlack();"
-    ng-disabled = "SIFC.verifying || !SIFC.slackApiToken.length"
+    ng-disabled = "!SIFC.slackApiTokenForm.$valid || SIFC.slackApiTokenForm.$pending || SIFC.verifying"
   )
     .spinner-wrapper.spinner-sm.spinner-white.in(
       ng-include = "'spinner'"
-      ng-if = "SIFC.verifying"
+      ng-if = "SIFC.slackApiTokenForm.$pending || SIFC.verifying"
     )
     | Verify Token
 

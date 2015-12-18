@@ -85,7 +85,7 @@ function SlackIntegrationFormController (
 
   SIFC.verifySlack = function () {
     // Only verify and update the token if it's a valid token
-    if (SIFC.slackApiTokenForm.$valid) {
+    if (!SIFC.slackApiTokenForm.$valid) {
       return false;
     }
     SIFC.verifying = true;
