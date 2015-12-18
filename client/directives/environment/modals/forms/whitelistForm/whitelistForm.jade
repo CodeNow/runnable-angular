@@ -30,18 +30,25 @@
             )
 
     .label
-      .input-group.input-group-sm.white
+      label.input-group.input-group-sm.white(
+        ng-class = "{'focus': isFocused}"
+      )
         .label(
           ng-if = "isRange"
         ) FROM
         input.input.input-xs(
+          ng-blur = "isFocused = false"
+          ng-focus = "isFocused = true"
           maxlength = "45"
           placeholder = "0.0.0.0"
         )
         .label(
           ng-if = "isRange"
         ) TO
+        //- focus on this isn't working rn
         input.input.input-xs(
+          ng-blur = "isFocused = false"
+          ng-focus = "isFocused = true"
           maxlength = "45"
           ng-if = "isRange"
           placeholder = "0.0.0.0"

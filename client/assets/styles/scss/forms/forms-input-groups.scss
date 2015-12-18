@@ -2,6 +2,10 @@
   align-items: center;
   display: flex;
 
+  &.focus {
+    border-color: $purple-light;
+  }
+
   // colors
   &.gray {
     background: $gray-lightest;
