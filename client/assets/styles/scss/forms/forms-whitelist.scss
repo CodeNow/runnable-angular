@@ -1,8 +1,30 @@
 .form-whitelist {
 
-  .cell {
+  .tr {
     color: $gray;
     font-size: 13px;
+    overflow: hidden;
+    transition: color .2s, max-height .2s ease-in-out;
+
+    &.ng-enter {
+      color: transparent;
+      max-height: 0;
+    }
+
+    &.ng-enter-active {
+      color: $gray;
+      max-height: 39px;
+    }
+
+    &.ng-leave {
+      color: $gray;
+      max-height: 39px;
+    }
+
+    &.ng-leave-active {
+      color: transparent;
+      max-height: 0;
+    }
   }
 
   .input-group {

@@ -17,12 +17,13 @@
         ];\
       "
     )
-      .tr.clearfix(
+      .tr.clearfix.js-animate(
         ng-repeat = "address in whitelist"
       )
         .cell {{address[0]}}{{address[1] ? '—' + address[1] : ''}}
         .cell.cell-action
           svg.iconnables.icons-close(
+            ng-click = "whitelist.splice($index, 1)"
             title = "Remove Address"
           )
             use(
