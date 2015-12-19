@@ -251,7 +251,7 @@ describe('SlackIntegrationFormController'.bold.underline.blue, function () {
       $scope.$digest();
 
       sinon.assert.calledOnce(errs.handler);
-      expect(SIFC.slackApiToken).to.equal('456');
+      expect(SIFC.slackApiToken).to.equal('');
     });
   });
 
