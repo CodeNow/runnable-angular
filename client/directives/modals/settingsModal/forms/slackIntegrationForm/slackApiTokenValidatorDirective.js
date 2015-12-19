@@ -8,8 +8,7 @@ require('app')
   function slackApiTokenValidator(
   $q,
   debounce,
-  fetchSettings,
-  verifyChatIntegration
+  verifySlackAPITokenAndFetchMembers
   ) {
   return {
     restrict: 'A',
@@ -18,10 +17,7 @@ require('app')
       // We need to debounce this function, but an asynchronous validator always
       // needs to return a promise
       var _validateApiToken = debounce(function (modelValue, viewValue, cb) {
-          var promise = fetchSettings()
-            .then(function (settings) {
-              return verifyChatIntegration(viewValue, settings, 'slack');
-            });
+          var promise = verifySlackAPITokenAndFetchMembers(viewValue);
           return cb(null, promise);
         }, 250);
 
