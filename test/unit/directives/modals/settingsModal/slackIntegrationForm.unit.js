@@ -153,14 +153,14 @@ describe('SlackIntegrationFormController'.bold.underline.blue, function () {
 
     beforeEach(function () {
       SIFC.slackApiTokenForm = {
-         $invalid: false
+         $valid: true
       };
       $scope.$digest();
       SIFC.settings.update.reset();
     });
 
-    it('should not run if the slackApiTokenForm is vaild (not edited)', function () {
-      SIFC.slackApiTokenForm.$valid = true;
+    it('should not run if the slackApiTokenForm is invaild', function () {
+      SIFC.slackApiTokenForm.$valid = false;
       settingsModelStub.attrs.notifications.slack.apiToken = null;
 
       SIFC.verifySlack();
