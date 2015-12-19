@@ -23,7 +23,7 @@ describe('serviceVerifyChatIntegration', function () {
 
   beforeEach(function () {
     angular.mock.module('app', function ($provide) {
-      $provide.factory('fetchSlackMembers', function ($q) {
+      $provide.factory('verifySlackAPITokenAndFetchMembers', function ($q) {
         return function (token) {
           return $q.when([{
             real_name: 'bill',

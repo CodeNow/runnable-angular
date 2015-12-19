@@ -26,7 +26,7 @@ require('app')
   .factory('fetchOwnerRepos', fetchOwnerRepos)
   .factory('fetchPullRequest', fetchPullRequest)
   // Settings
-  .factory('fetchSlackMembers', fetchSlackMembers)
+  .factory('verifySlackAPITokenAndFetchMembers', verifySlackAPITokenAndFetchMembers)
   .factory('fetchSettings', fetchSettings)
   .factory('integrationsCache', integrationsCache);
 
@@ -346,7 +346,7 @@ function integrationsCache() {
   return {};
 }
 
-function fetchSlackMembers(
+function verifySlackAPITokenAndFetchMembers(
   $http,
   $q
 ) {

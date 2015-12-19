@@ -4,7 +4,7 @@ require('app')
   .factory('verifyChatIntegration', verifyChatIntegration);
 
 function verifyChatIntegration (
-  fetchSlackMembers,
+  verifySlackAPITokenAndFetchMembers,
   fetchGitHubMembers,
   fetchGitHubUser,
   keypather,
@@ -25,7 +25,7 @@ function verifyChatIntegration (
     var matches = [];
     var members;
     return $q.all({
-      chat: fetchSlackMembers(apiToken),
+      chat: verifySlackAPITokenAndFetchMembers(apiToken),
       github: fetchGitHubMembers($state.params.userName)
     })
     .then(function(_members) {
