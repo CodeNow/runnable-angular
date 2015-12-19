@@ -105,6 +105,7 @@ function SlackIntegrationFormController (
   };
 
   SIFC.deleteAPIToken = function () {
+    SIFC.slackApiToken = '';
     SIFC.verified = false;
     SIFC.loading = true;
     var slackData = {
