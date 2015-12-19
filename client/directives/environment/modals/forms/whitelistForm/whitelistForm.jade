@@ -37,7 +37,7 @@
       label.input-group.input-group-sm.input-validate.white(
         ng-class = "{'focus': isFocused}"
       )
-        .label(
+        .label.slide-in.js-animate(
           ng-if = "isRange"
         ) FROM
         //- this pattern doesn't actaully work for some reason, should validate ipv4
@@ -49,11 +49,11 @@
           maxlength = "15"
           placeholder = "0.0.0.0"
         )
-        .label(
+        .label.fade.js-animate(
           ng-if = "isRange"
         ) TO
         //- focus on this isn't working rn
-        input.input.input-xs(
+        input.input.input-xs.fade.js-animate(
           ng-blur = "isFocused = false"
           ng-focus = "isFocused = true"
           ng-model = "address2"

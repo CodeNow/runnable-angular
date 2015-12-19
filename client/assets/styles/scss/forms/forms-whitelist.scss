@@ -10,6 +10,7 @@
 
     // override modal form default
     .label.label {
+      border: 0;
       margin: 0;
     }
   }
@@ -31,6 +32,58 @@
 
   .checkbox {
     margin: 0 6px;
+  }
+
+  // transitions
+  .fade {
+    transition: opacity .15s ease-in-out;
+
+    // animations
+    &.ng-enter {
+      opacity: 0;
+    }
+
+    &.ng-enter-active {
+      opacity: 1;
+    }
+
+    &.ng-leave {
+      opacity: 1;
+    }
+
+    &.ng-leave-active {
+      opacity: 0;
+    }
+  }
+
+  .slide-in {
+    transition: opacity .2s ease-in-out, padding .2s ease-in-out, width .2s ease-in-out;
+    width: 51px;
+
+    // animations
+    &.ng-enter {
+      opacity: 0;
+      padding: 0;
+      width: 0;
+    }
+
+    &.ng-enter-active {
+      opacity: 1;
+      padding: 0 6px;
+      width: 51px;
+    }
+
+    &.ng-leave {
+      opacity: 1;
+      padding: 0 6px;
+      width: 51px;
+    }
+
+    &.ng-leave-active {
+      opacity: 0;
+      padding: 0;
+      width: 0;
+    }
   }
 }
 
