@@ -3,8 +3,8 @@
   .input-col
     small.small Whitelist IP addresses to access your container for&#32;
       em.underline(
-        tooltip = "Like Secure Shell"
-        tooltip-options = "{\"class\":\"bottom center text-center\",\"right\":-9,\"top\":18}"
+        tooltip = "Non-browser requests (e.g. from an oAuth service or an external server)."
+        tooltip-options = "{\"class\":\"bottom no-arrow\",\"right\":-30,\"top\":18}"
       ) headless requests
       | .
     .table.table-whitelist(
@@ -30,16 +30,23 @@
             )
 
     .label
-      label.input-group.input-group-sm.white(
+      p.validation-message(
+        ng-if = "invalid"
+      ) Invalid IP Address
+      //- apply .ng-invalid when ip address is invalid to .input-group
+      label.input-group.input-group-sm.input-validate.white(
         ng-class = "{'focus': isFocused}"
       )
         .label(
           ng-if = "isRange"
         ) FROM
+        //- this pattern doesn't actaully work for some reason, should validate ipv4
         input.input.input-xs(
           ng-blur = "isFocused = false"
           ng-focus = "isFocused = true"
-          maxlength = "45"
+          ng-model = "address1"
+          ng-pattern = "/((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$/"
+          maxlength = "15"
           placeholder = "0.0.0.0"
         )
         .label(
@@ -49,7 +56,9 @@
         input.input.input-xs(
           ng-blur = "isFocused = false"
           ng-focus = "isFocused = true"
-          maxlength = "45"
+          ng-model = "address2"
+          ng-pattern = "/((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$/"
+          maxlength = "15"
           ng-if = "isRange"
           placeholder = "0.0.0.0"
         )
@@ -60,8 +69,8 @@
             ng-model = "isRange"
             type = "checkbox"
           )
-          | Add IP Range
+          | Use IP Range
         button.btn.btn-xs.white.float-right(
-          ng-disabled = ""
+          ng-disabled = "!address1.length || isRange && !address2.length"
           type = "button"
         ) Add to Whitelist
