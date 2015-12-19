@@ -14,7 +14,7 @@ function SlackIntegrationFormController (
   fetchSettings,
   keypather,
   promisify,
-  verifyChatIntegration
+  fetchChatMembersAndMapToUsers
 ) {
   var SIFC = this;
   angular.extend(SIFC, {
@@ -30,7 +30,7 @@ function SlackIntegrationFormController (
   var tokenMatchExpression = /(api).*(invalid)/i;
 
   function fetchChatMemberData() {
-    return verifyChatIntegration(SIFC.slackApiToken, SIFC.settings, 'slack')
+    return fetchChatMembersAndMapToUsers(SIFC.slackApiToken, SIFC.settings, 'slack')
       .then(function (members) {
         SIFC.slackMembers = members.slack;
         SIFC.ghMembers = members.github;

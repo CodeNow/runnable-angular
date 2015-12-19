@@ -15,7 +15,7 @@ var keypather;
 describe('SlackIntegrationFormController'.bold.underline.blue, function () {
 
   var SIFC;
-  var verifyChatIntegrationStub;
+  var fetchChatMembersAndMapToUsersStub;
   var fetchSettingsStub;
   var settingsModelStub;
   var errs;
@@ -46,7 +46,7 @@ describe('SlackIntegrationFormController'.bold.underline.blue, function () {
       }
     };
     angular.mock.module('app', function ($provide) {
-      $provide.factory('verifyChatIntegration', function ($q) {
+      $provide.factory('fetchChatMembersAndMapToUsers', function ($q) {
         var members = {};
         members.slack = [
           {
@@ -71,8 +71,8 @@ describe('SlackIntegrationFormController'.bold.underline.blue, function () {
           generateGithubUserObject('thejsj', 1),
           generateGithubUserObject('hiphipjorge', 2)
         ];
-        verifyChatIntegrationStub = sinon.stub().returns($q.when(members));
-        return verifyChatIntegrationStub;
+        fetchChatMembersAndMapToUsersStub = sinon.stub().returns($q.when(members));
+        return fetchChatMembersAndMapToUsersStub;
       });
       $provide.factory('fetchSettings', function ($q) {
         fetchSettingsStub = sinon.stub().returns($q.when(settingsModelStub));
@@ -120,7 +120,7 @@ describe('SlackIntegrationFormController'.bold.underline.blue, function () {
 
       $scope.$digest();
       expect(SIFC.slackApiToken).to.equal('123');
-      sinon.assert.calledOnce(verifyChatIntegrationStub);
+      sinon.assert.calledOnce(fetchChatMembersAndMapToUsersStub);
       expect(SIFC.verified).to.equal(true);
       expect(SIFC.ghMembers).to.be.an('array');
       expect(SIFC.slackMembers).to.be.an('array');
@@ -131,17 +131,17 @@ describe('SlackIntegrationFormController'.bold.underline.blue, function () {
 
       expect(SIFC.slackApiToken).to.equal(null);
       $scope.$digest();
-      sinon.assert.notCalled(verifyChatIntegrationStub);
+      sinon.assert.notCalled(fetchChatMembersAndMapToUsersStub);
       expect(SIFC.verified).to.equal(false);
     });
 
     it('should not be verified if the the API token is not valid', function () {
-      verifyChatIntegrationStub.returns($q.reject(new Error('Provided API key is invalid')));
+      fetchChatMembersAndMapToUsersStub.returns($q.reject(new Error('Provided API key is invalid')));
       settingsModelStub.attrs.notifications.slack.apiToken = '123';
 
       $scope.$digest();
       expect(SIFC.slackApiToken).to.equal('123');
-      sinon.assert.calledOnce(verifyChatIntegrationStub);
+      sinon.assert.calledOnce(fetchChatMembersAndMapToUsersStub);
       // It shouldn't show the error message to the user
       sinon.assert.notCalled(errs.handler);
       expect(SIFC.verified).to.equal(false);
@@ -165,7 +165,7 @@ describe('SlackIntegrationFormController'.bold.underline.blue, function () {
 
       SIFC.verifySlack();
       $scope.$digest();
-      sinon.assert.notCalled(verifyChatIntegrationStub);
+      sinon.assert.notCalled(fetchChatMembersAndMapToUsersStub);
       sinon.assert.notCalled(SIFC.settings.update);
       sinon.assert.notCalled(errs.handler);
       expect(SIFC.verifying).to.equal(false);
@@ -173,12 +173,12 @@ describe('SlackIntegrationFormController'.bold.underline.blue, function () {
     });
 
     it('should not update the Slack settings if the API token is invalid', function () {
-      verifyChatIntegrationStub.returns($q.reject(new Error('Provided API token is invalid')));
+      fetchChatMembersAndMapToUsersStub.returns($q.reject(new Error('Provided API token is invalid')));
 
       SIFC.verifySlack();
       $scope.$digest();
 
-      sinon.assert.calledOnce(verifyChatIntegrationStub);
+      sinon.assert.calledOnce(fetchChatMembersAndMapToUsersStub);
       sinon.assert.notCalled(SIFC.settings.update);
       sinon.assert.notCalled(errs.handler);
       expect(SIFC.verifying).to.equal(false);
@@ -186,12 +186,12 @@ describe('SlackIntegrationFormController'.bold.underline.blue, function () {
     });
 
     it('should not update the Slack settings and notify the user if there is some other error', function () {
-      verifyChatIntegrationStub.returns($q.reject(new Error('Some other error')));
+      fetchChatMembersAndMapToUsersStub.returns($q.reject(new Error('Some other error')));
 
       SIFC.verifySlack();
       $scope.$digest();
 
-      sinon.assert.calledOnce(verifyChatIntegrationStub);
+      sinon.assert.calledOnce(fetchChatMembersAndMapToUsersStub);
       sinon.assert.notCalled(SIFC.settings.update);
       sinon.assert.calledOnce(errs.handler);
       expect(SIFC.verifying).to.equal(false);
@@ -206,7 +206,7 @@ describe('SlackIntegrationFormController'.bold.underline.blue, function () {
       SIFC.verifySlack();
       $scope.$digest();
 
-      sinon.assert.calledOnce(verifyChatIntegrationStub);
+      sinon.assert.calledOnce(fetchChatMembersAndMapToUsersStub);
       sinon.assert.calledOnce(SIFC.settings.update);
       sinon.assert.calledOnce(SIFC.settings.update);
       sinon.assert.calledWith(SIFC.settings.update, {

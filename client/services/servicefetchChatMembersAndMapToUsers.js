@@ -1,9 +1,9 @@
 'use strict';
 
 require('app')
-  .factory('verifyChatIntegration', verifyChatIntegration);
+  .factory('fetchChatMembersAndMapToUsers', fetchChatMembersAndMapToUsers);
 
-function verifyChatIntegration (
+function fetchChatMembersAndMapToUsers (
   verifySlackAPITokenAndFetchMembers,
   fetchGitHubMembers,
   fetchGitHubUser,
@@ -41,8 +41,8 @@ function verifyChatIntegration (
               member.ghName = ghUser.login;
               matches.push(ghUser.login);
             }
-            if (keypather.get(settings, 'attrs.notifications.' + chatClient + '.githubUsernameToSlackIdMap.' + ghUser.login) ===
-              member.id) {
+            var propertyName = 'attrs.notifications.' + chatClient + '.githubUsernameToSlackIdMap.' + ghUser.login;
+            if (keypather.get(settings, propertyName) === member.id) {
               member.slackOn = true;
               member.ghName = ghUser.login;
             }

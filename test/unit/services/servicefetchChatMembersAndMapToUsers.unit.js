@@ -1,10 +1,10 @@
 'use strict';
 
-var verifyChatIntegration;
+var fetchChatMembersAndMapToUsers;
 var $rootScope;
 var keypather;
 
-describe('serviceVerifyChatIntegration', function () {
+describe('servicefetchChatMembersAndMapToUsers', function () {
   var mockSettings = {
     attrs: {
       notifications: {
@@ -66,10 +66,10 @@ describe('serviceVerifyChatIntegration', function () {
     });
     angular.mock.inject(function (
       _$rootScope_,
-      _verifyChatIntegration_,
+      _fetchChatMembersAndMapToUsers_,
       _keypather_
     ) {
-      verifyChatIntegration = _verifyChatIntegration_;
+      fetchChatMembersAndMapToUsers = _fetchChatMembersAndMapToUsers_;
       keypather = _keypather_;
       $rootScope = _$rootScope_;
       $rootScope.$apply();
@@ -78,7 +78,7 @@ describe('serviceVerifyChatIntegration', function () {
 
   it('filters regular responses with an empty cache', function (done) {
     var slackApiToken = mockSettings.attrs.notifications.slack.apiToken;
-    verifyChatIntegration(slackApiToken, mockSettings, 'slack')
+    fetchChatMembersAndMapToUsers(slackApiToken, mockSettings, 'slack')
     .then(function (results) {
       expect(results.github).to.deep.equal(['jeb']);
       expect(results.slack).to.deep.equal([{
@@ -105,7 +105,7 @@ describe('serviceVerifyChatIntegration', function () {
   it('returns early if cache is valid', function (done) {
     keypather.set(mockIntegrationsCache, 'Jeb.settings.attrs.notifications.slack.apiToken', '123');
     mockIntegrationsCache.Jeb.github = ['bill'];
-    verifyChatIntegration(mockSettings)
+    fetchChatMembersAndMapToUsers(mockSettings)
     .then(function (results) {
       expect(results).to.deep.equal(mockIntegrationsCache.Jeb);
       done();
