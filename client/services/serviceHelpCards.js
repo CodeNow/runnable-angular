@@ -82,29 +82,29 @@ function helpCardsFactory(
       // when we detect that one existing container depends on another existing contianer
       {
         id: 'missingAssociation',
-        label: 'You may need to update <b>{{instance.getDisplayName()}}</b> with <b>{{association}}’s</b> elastic hostname.</b>',
+        label: 'You may need to update <b>{{instance.getDisplayName()}}</b> with <b>{{association}}’s</b> URL.</b>',
         targets: [
           'environmentVariables',
           'findAndReplace'
         ],
-        helpTop: 'Use <b>Environment Variables</b> or <b>Find and Replace</b> to update <b>{{instance.getDisplayName()}}</b> with <b>{{association}}’s</b> elastic hostname',
+        helpTop: 'Use <b>Environment Variables</b> or <b>Find and Replace</b> to update <b>{{instance.getDisplayName()}}</b> with <b>{{association}}’s</b> URL',
         helpPopover: {
-          'environmentVariables': 'Add or update an environment variable with <b>{{association}}’s</b> elastic hostname.',
-          'findAndReplace': 'Add a string rule to use <b>{{association}}’s</b> elastic hostname in your code.'
+          'environmentVariables': 'Add or update an environment variable with <b>{{association}}’s</b> URL.',
+          'findAndReplace': 'Add a string rule to use <b>{{association}}’s</b> URL in your code.'
         }
       },
       // when the user adds a non-repo container, but we can't detect which containers depend on it
       {
         id: 'missingMapping',
-        label: 'You may need to update some repository containers with <b>{{mapping}}’s</b> elastic hostname.',
+        label: 'You may need to update some repository containers with <b>{{mapping}}’s</b> URL.',
         targets: [
           'environmentVariables',
           'findAndReplace'
         ],
         helpTop: 'Use <b>Environment Variables</b> or <b>Find and Replace</b> to connect one or more of your repository containers to <b>{{mapping}}</b>.',
         helpPopover: {
-          environmentVariables: 'Add or update an environment variable with <b>{{mapping}}’s</b> elastic hostname.',
-          findAndReplace: 'Add a string rule to use <b>{{mapping}}’s</b> elastic hostname in your code.'
+          environmentVariables: 'Add or update an environment variable with <b>{{mapping}}’s</b> URL.',
+          findAndReplace: 'Add a string rule to use <b>{{mapping}}’s</b> URL in your code.'
         },
         highlightRepoContainers: true
       }
