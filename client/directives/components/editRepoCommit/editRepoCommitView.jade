@@ -40,16 +40,8 @@
 
       //- if invite flows
       .btn-user.text-overflow(
-        ng-class = "{'active': state.active}"
-        ng-if = "$root.featureFlags.inviteFlows"
-        ng-include = "'userButtonView'"
-        pop-over
-        pop-over-active = "state.active"
-        pop-over-controller = "userPopoverActions"
-        pop-over-controller-as = "UPA"
-        pop-over-data = "activeCommit.attrs.author"
-        pop-over-options = "{\"left\":-24,\"top\":26}"
-        pop-over-template = "userPopoverView"
+        user-button
+        user = "activeCommit.attrs.author"
       )
       span.small(
         ng-if = "$root.featureFlags.inviteFlows"
