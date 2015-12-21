@@ -1,20 +1,25 @@
 span
+  .spinner-wrapper.spinner-sm.spinner-gray.in(
+    ng-if = "loading"
+    ng-include = "'spinner'"
+  )
   .btn-user.text-overflow(
     ng-class = "{'active': state.active}"
+    ng-if = "!loading"
     pop-over
     pop-over-active = "state.active"
-    pop-over-controller = "userPopoverActions"
+    pop-over-controller = "UBC.actions"
     pop-over-controller-as = "UPA"
-    pop-over-data = "user"
+    pop-over-data = "commitUser"
     pop-over-options = "{\"left\":-24,\"top\":26}"
     pop-over-template = "userPopoverView"
   )
     img.gravatar(
-      alt = "{{ user.login }}"
+      alt = "{{ commitUser.login }}"
       height = "15"
-      ng-src = "{{ user.avatar_url  || '/build/images/runnabear-avatar.png' }}"
+      ng-src = "{{ commitUser.avatar_url  || '/build/images/runnabear-avatar.png' }}"
       width = "15"
     )
     span.small.text-overflow(
-      title = "{{ user.login }}"
-    ) {{ user.login }}
+      title = "{{ commitUser.login }}"
+    ) {{ commitUser.login }}

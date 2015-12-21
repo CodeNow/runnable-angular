@@ -11,18 +11,29 @@ function userButton () {
     replace: true,
     templateUrl: 'userButtonView',
     scope: {
-      user: '=',
       commit: '='
     },
     link: function ($scope) {
+      $scope.loading = true;
 
-      function commitWatchHandler () {
-        if (!$scope.user && $scope.commit) {
-          $scope.UBC.fetchUserForCommit($scope.commit)
-            .then(function (user) {
-              $scope.user = user;
-            });
+      // Listen for changes in the commit
+      $scope.$watch('commit', function commitWatchHandler (newVal, oldVal) {
+        if (newVal !== oldVal) {
+          updateCommitUser();
         }
+      });
+
+      // If there is a commit already set, set our `commitUser`
+      if ($scope.commit) {
+        updateCommitUser();
+      }
+
+      function updateCommitUser() {
+        return $scope.UBC.fetchUserForCommit($scope.commit)
+          .then(function (user) {
+            $scope.commitUser = user;
+            $scope.loading = false;
+          });
       }
     }
   };

@@ -37,14 +37,9 @@ ul.list.list-servers
       ng-attr-title = "{{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}"
     )
       //- if invite flows...
-      .btn-user.text-overflow(
-        ng-class = "{'active': state.active}"
-        ng-if = "$root.featureFlags.inviteFlows"
-        ng-include = "'userButtonView'"
-        pop-over
-        pop-over-active = "state.active"
-        pop-over-options = "{\"left\":-24,\"top\":26}"
-        pop-over-template = "userPopoverView"
+      span(
+        user-button
+        commit = "commit"
       )
       span.small(
         ng-if = "$root.featureFlags.inviteFlows"
