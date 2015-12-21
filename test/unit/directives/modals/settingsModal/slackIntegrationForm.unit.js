@@ -121,7 +121,7 @@ describe('SlackIntegrationFormController'.bold.underline.blue, function () {
       $scope.$digest();
       expect(SIFC.slackApiToken).to.equal('123');
       sinon.assert.calledOnce(fetchChatMembersAndMapToUsersStub);
-      expect(SIFC.verified).to.equal(true);
+      expect(SIFC.state).to.equal('verified');
       expect(SIFC.ghMembers).to.be.an('array');
       expect(SIFC.slackMembers).to.be.an('array');
     });
@@ -132,7 +132,7 @@ describe('SlackIntegrationFormController'.bold.underline.blue, function () {
       expect(SIFC.slackApiToken).to.equal(null);
       $scope.$digest();
       sinon.assert.notCalled(fetchChatMembersAndMapToUsersStub);
-      expect(SIFC.verified).to.equal(false);
+      expect(SIFC.state).to.not.equal('verified');
     });
 
     it('should not be verified if the the API token is not valid', function () {
@@ -144,7 +144,7 @@ describe('SlackIntegrationFormController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(fetchChatMembersAndMapToUsersStub);
       // It shouldn't show the error message to the user
       sinon.assert.notCalled(errs.handler);
-      expect(SIFC.verified).to.equal(false);
+      expect(SIFC.state).to.not.equal('verified');
     });
 
   });
@@ -168,8 +168,8 @@ describe('SlackIntegrationFormController'.bold.underline.blue, function () {
       sinon.assert.notCalled(fetchChatMembersAndMapToUsersStub);
       sinon.assert.notCalled(SIFC.settings.update);
       sinon.assert.notCalled(errs.handler);
-      expect(SIFC.verifying).to.equal(false);
-      expect(SIFC.verified).to.equal(false);
+      expect(SIFC.state).to.not.equal('verifying');
+      expect(SIFC.state).to.not.equal('verified');
     });
 
     it('should not update the Slack settings if the API token is invalid', function () {
@@ -181,8 +181,8 @@ describe('SlackIntegrationFormController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(fetchChatMembersAndMapToUsersStub);
       sinon.assert.notCalled(SIFC.settings.update);
       sinon.assert.notCalled(errs.handler);
-      expect(SIFC.verifying).to.equal(false);
-      expect(SIFC.verified).to.equal(false);
+      expect(SIFC.state).to.not.equal('verifying');
+      expect(SIFC.state).to.not.equal('verified');
     });
 
     it('should not update the Slack settings and notify the user if there is some other error', function () {
@@ -194,8 +194,8 @@ describe('SlackIntegrationFormController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(fetchChatMembersAndMapToUsersStub);
       sinon.assert.notCalled(SIFC.settings.update);
       sinon.assert.calledOnce(errs.handler);
-      expect(SIFC.verifying).to.equal(false);
-      expect(SIFC.verified).to.equal(false);
+      expect(SIFC.state).to.not.equal('verifying');
+      expect(SIFC.state).to.not.equal('verified');
     });
 
 
@@ -217,8 +217,8 @@ describe('SlackIntegrationFormController'.bold.underline.blue, function () {
         }
       });
       sinon.assert.notCalled(errs.handler);
-      expect(SIFC.verifying).to.equal(false);
-      expect(SIFC.verified).to.equal(true);
+      expect(SIFC.state).to.not.equal('verifying');
+      expect(SIFC.state).to.equal('verified');
     });
   });
 

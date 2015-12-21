@@ -18,9 +18,14 @@ function SlackIntegrationFormController (
 ) {
   var SIFC = this;
   angular.extend(SIFC, {
-    loading: true,
-    verifying: false,
-    verified: false,
+    /**
+     * States:
+     * 1. `loading`: The modal is loading data and the spinner is shown
+     * 2. `not-verified`: There is no valid API token saved
+     * 3. `verifying`: Verifying the API token. Showing the spinner in the verify token button
+     * 4. `verified`: There is a verified token and the GH/Slack members are showed
+     */
+    state: 'loading',
     settings: {},
     ghMembers: [],
     slackMembers: [],
@@ -34,10 +39,8 @@ function SlackIntegrationFormController (
       .then(function (members) {
         SIFC.slackMembers = members.slack;
         SIFC.ghMembers = members.github;
-        SIFC.verified = true;
       })
       .catch(function (err) {
-        SIFC.verified = false;
         return $q.reject(err);
       });
   }
@@ -69,18 +72,21 @@ function SlackIntegrationFormController (
   fetchSettings()
     .then(function (settings) {
       SIFC.settings = settings;
-      SIFC.loading = true;
       SIFC.slackApiToken = keypather.get(SIFC, 'settings.attrs.notifications.slack.apiToken');
       if (SIFC.slackApiToken) {
         // If there is an API token, verify it
         // It should not be saved unless it's a valid token
-        return fetchChatMemberData();
+        return fetchChatMemberData()
+          .then(function () {
+            SIFC.state = 'verified';
+          });
       }
+      SIFC.state = 'not-verified';
       return false;
     })
-    .catch(slackErrorHandler)
-    .finally(function () {
-      SIFC.loading = false;
+    .catch(function (err) {
+      SIFC.state = 'not-verified';
+      return slackErrorHandler(err);
     });
 
   SIFC.verifySlack = function () {
@@ -88,7 +94,7 @@ function SlackIntegrationFormController (
     if (!SIFC.slackApiTokenForm.$valid) {
       return false;
     }
-    SIFC.verifying = true;
+    SIFC.state = 'verifying';
     return fetchChatMemberData()
       .then(function () {
         // Token provided by user is valid. Update our settings.
@@ -96,28 +102,31 @@ function SlackIntegrationFormController (
           apiToken: SIFC.slackApiToken,
           enabled: keypather.get(SIFC, 'settings.attrs.notifications.slack.enabled')
         };
-        return updateSlackSettings(slackData);
+        return updateSlackSettings(slackData)
+          .then(function () {
+            SIFC.state = 'verified';
+          });
       })
-      .catch(slackErrorHandler)
-      .finally(function () {
-        SIFC.verifying = false;
+      .catch(function (err) {
+        SIFC.state = 'not-verified';
+        return slackErrorHandler(err);
       });
   };
 
   SIFC.deleteAPIToken = function () {
-    SIFC.loading = true;
+    SIFC.state = 'loading';
     var slackData = {
       apiToken: '', // I would have used `null`, but API complains
       enabled: keypather.get(SIFC, 'settings.attrs.notifications.slack.enabled')
     };
     return updateSlackSettings(slackData)
       .then(function () {
-        SIFC.verified = false;
+        SIFC.state = 'not-verified';
         SIFC.slackApiToken = '';
       })
-      .catch(slackErrorHandler)
-      .finally(function () {
-        SIFC.loading = false;
+      .catch(function (err) {
+        SIFC.state = 'verified';
+        return slackErrorHandler(err);
       });
   };
 
