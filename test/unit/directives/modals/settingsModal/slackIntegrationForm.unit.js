@@ -232,7 +232,6 @@ describe('SlackIntegrationFormController'.bold.underline.blue, function () {
       SIFC.deleteAPIToken();
       $scope.$digest();
 
-      expect(SIFC.slackApiToken).to.equal('');
       expect(SIFC.settings.attrs.notifications.slack.apiToken).to.equal('');
       sinon.assert.calledWith(SIFC.settings.update, {
         json: {
