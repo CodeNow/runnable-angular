@@ -39,9 +39,9 @@
       svg.iconnables
 
       //- if invite flows
-      .btn-user.text-overflow(
+      span(
         user-button
-        user = "activeCommit.attrs.author"
+        commit = "activeCommit"
       )
       span.small(
         ng-if = "$root.featureFlags.inviteFlows"

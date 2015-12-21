@@ -11,11 +11,19 @@ function userButton () {
     replace: true,
     templateUrl: 'userButtonView',
     scope: {
-      user: '='
+      user: '=',
+      commit: '='
     },
     link: function ($scope) {
-      window.$scope = $scope;
-      console.log('UserButton', $scope);
+
+      function commitWatchHandler () {
+        if (!$scope.user && $scope.commit) {
+          $scope.UBC.fetchUserForCommit($scope.commit)
+            .then(function (user) {
+              $scope.user = user;
+            });
+        }
+      }
     }
   };
 }
