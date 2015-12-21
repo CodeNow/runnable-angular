@@ -420,7 +420,7 @@ function fetchGithubOrgId(
   var githubOrgIdCache = {};
   return function (orgNameOrId) {
     if (githubOrgIdCache[orgNameOrId]) {
-      return $q.when(githubOrgIdCache[orgNameOrId]);
+      return githubOrgIdCache[orgNameOrId];
     }
     return fetchOrgs(orgNameOrId)
       .then(function (orgsCollection) {
@@ -489,11 +489,7 @@ function fetchOrgMembers(
   fetchOrgRegisteredMembers,
   fetchOrgTeammateInvitations
 ) {
-  var orgMembersCache = {};
   return function (teamName) {
-    if (orgMembersCache[teamName]) {
-      return $q.when(orgMembersCache[teamName]);
-    }
     return $q.all([
       fetchGitHubMembers(teamName),
       fetchOrgRegisteredMembers(teamName),
@@ -534,14 +530,12 @@ function fetchOrgMembers(
           uninvitedGithubMembers.push(member);
         }
       });
-      var members = {
+      return {
         registered: registeredGithubMembers,
         invited: invitedGithubMembers,
         uninvited: uninvitedGithubMembers,
         all: githubMembers
       };
-      orgMembersCache[teamName] = members;
-      return orgMembersCache[teamName];
     });
   };
 }
