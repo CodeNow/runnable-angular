@@ -243,15 +243,17 @@ describe('SlackIntegrationFormController'.bold.underline.blue, function () {
       });
     });
 
-    it('should display an error if it cant delete the token', function () {
+    it('should display an error and keep the token if it cant delete the token', function () {
       SIFC.slackApiToken = '456';
+      SIFC.verified = true;
       SIFC.settings._throwErrorWhenUpdating = true;
 
       SIFC.deleteAPIToken();
       $scope.$digest();
 
       sinon.assert.calledOnce(errs.handler);
-      expect(SIFC.slackApiToken).to.equal('');
+      expect(SIFC.slackApiToken).to.equal('456');
+      expect(SIFC.verified).to.equal(true);
     });
   });
 

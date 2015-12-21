@@ -105,8 +105,6 @@ function SlackIntegrationFormController (
   };
 
   SIFC.deleteAPIToken = function () {
-    SIFC.slackApiToken = '';
-    SIFC.verified = false;
     SIFC.loading = true;
     var slackData = {
       apiToken: '', // I would have used `null`, but API complains
@@ -114,7 +112,8 @@ function SlackIntegrationFormController (
     };
     return updateSlackSettings(slackData)
       .then(function () {
-         SIFC.slackApiToken = '';
+        SIFC.verified = false;
+        SIFC.slackApiToken = '';
       })
       .catch(slackErrorHandler)
       .finally(function () {
