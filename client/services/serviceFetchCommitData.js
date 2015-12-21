@@ -4,11 +4,7 @@ require('app')
   .factory('fetchCommitData', fetchCommitData);
 
 function fetchCommitData (
-  $q,
   errs,
-  fetchUser,
-  fetchGitHubUser,
-  keypather,
   promisify
 ) {
   return {
@@ -22,35 +18,7 @@ function fetchCommitData (
 
     activeCommit: function (acv, commitHash) {
       var activeCommit = acv.githubRepo.newCommit(commitHash || acv.attrs.commit);
-      // Do not return promise, since we want to update the author asynchronously
-      $q.all({
-        activeCommit: promisify(activeCommit, 'fetch')(),
-        user: fetchUser()
-      })
-        .then(function (response) {
-          var userName = keypather.get(response.activeCommit, 'attrs.author.login');
-          return $q.all([
-            fetchGitHubUser(userName),
-            promisify(response.user, 'fetchUsers')({ githubUsername: userName })
-          ])
-          .then(function (response) {
-            var githubUser = response[0];
-            var runnableUser = response[1];
-            var user = {
-              id: githubUser.id,
-              login: githubUser.login,
-              avatar_url: githubUser.avatar_url,
-              email: githubUser.email,
-              isRunnableUser: Boolean(runnableUser.models.length),
-              showInviteForm: false,
-              inviteSending: false,
-              inviteSent: false
-            };
-            keypather.set(activeCommit, 'attrs.author', user);
-            return activeCommit;
-          });
-        })
-        .catch(errs.handler);
+      activeCommit.fetch(errs.handler);
       return activeCommit;
     },
 
