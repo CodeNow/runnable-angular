@@ -161,6 +161,7 @@ function SetupServerModalController(
       SMC.state.step -= 1; // Revert step
       SMC.changeTab(SMC.selectedTab);
       loading(SMC.name, false);
+      loading($scope.SMC.name + 'isBuilding',  true);
       errs.handler(err);
     };
 
@@ -185,11 +186,11 @@ function SetupServerModalController(
         .catch(nextStepErrorHandler);
     }
     else if (SMC.state.step === 4) {
-      loading(SMC.name, true);
+      loading(SMC.name + 'isBuilding',  true);
       return SMC.createServer()
         .then(function () {
           // Go on to step 4 (logs)
-          loading(SMC.name, false);
+          loading(SMC.name + 'isBuilding',  false);
           SMC.changeTab('logs');
         })
         .catch(nextStepErrorHandler);
@@ -250,24 +251,24 @@ function SetupServerModalController(
     // Wait until all changes to the context version have been resolved before
     // creating a build with that context version
     var createPromise = loadingPromises.finished(SMC.name)
-        .then(function () {
-          if (!SMC.state.advanced) {
-            return updateDockerfileFromState(SMC.state, false, true);
-          }
-          return true;
-        })
-        .then(function () {
-          if (SMC.state.acv.attrs.branch !== SMC.state.branch.attrs.name) {
-            return promisify(SMC.state.acv, 'update')({
-              repo: SMC.state.repo.attrs.full_name,
-              branch: SMC.state.branch.attrs.name,
-              commit: SMC.state.branch.attrs.commit.sha
-            });
-          }
-        })
-        .then(function () {
-          return SMC.state;
-        });
+      .then(function () {
+        if (!SMC.state.advanced) {
+          return updateDockerfileFromState(SMC.state, false, true);
+        }
+        return true;
+      })
+      .then(function () {
+        if (SMC.state.acv.attrs.branch !== SMC.state.branch.attrs.name) {
+          return promisify(SMC.state.acv, 'update')({
+            repo: SMC.state.repo.attrs.full_name,
+            branch: SMC.state.branch.attrs.name,
+            commit: SMC.state.branch.attrs.commit.sha
+          });
+        }
+      })
+      .then(function () {
+        return SMC.state;
+      });
     function instanceSetHandler (instance) {
       if (instance) {
         SMC.instance = instance;
@@ -289,11 +290,11 @@ function SetupServerModalController(
     return SMC.openItems.updateAllFiles()
       .then(function () {
         if (SMC.state.advanced && SMC.state.simpleContextVersionCopy) {
-            return createAndBuildNewContainer($q.all({ // This changes the infracodeversion
-              build: createBuildFromContextVersionId(SMC.state.simpleContextVersionCopy.id()),
-              opts: SMC.state.opts
-            }), SMC.state.opts.name, SMC.state.simpleContextVersionCopy)
-              .then(instanceSetHandler); // Set instance
+          return createAndBuildNewContainer($q.all({ // This changes the infracodeversion
+            build: createBuildFromContextVersionId(SMC.state.simpleContextVersionCopy.id()),
+            opts: SMC.state.opts
+          }), SMC.state.opts.name, SMC.state.simpleContextVersionCopy)
+            .then(instanceSetHandler); // Set instance
         }
         return true;
       })
@@ -306,6 +307,7 @@ function SetupServerModalController(
           .then(instanceSetHandler);
       })
       .then(function () {
+        loadingPromises.clear(SMC.name, true);
         return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
       })
       .then(function (contextVersion) {
@@ -353,7 +355,7 @@ function SetupServerModalController(
           SMC.state.advanced = false;
           return buildWithVersion.contextVersion;
         })
-      );
+    );
 
     return SMC.state.promises.contextVersion
       .then(function () {

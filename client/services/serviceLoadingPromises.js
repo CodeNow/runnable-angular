@@ -35,9 +35,11 @@ function loadingPromises(
   }
   function finished(namespace) {
     return $q.when(promiseStartHash[namespace])
-      .then($q.all(promiseHash[namespace]))
+      .then(function () {
+        return $q.all(promiseHash[namespace]);
+      })
       .then(function (promiseArray) {
-        return promiseArray ? promiseArray.length : 0;
+        return promiseArray.length;
       });
   }
   function getCount(namespace) {

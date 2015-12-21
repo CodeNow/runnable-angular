@@ -63,6 +63,7 @@ function ServerModalController(
         return loadingPromises.finished(SMC.name);
       })
       .then(function (promiseArrayLength) {
+        loadingPromises.clear(SMC.name);
         toRebuild = !!(
           forceRebuild ||
           promiseArrayLength > 0 ||
@@ -121,6 +122,9 @@ function ServerModalController(
               return promisify(SMC.instance, 'redeploy')();
             }
           })
+          .then(function () {
+            loadingPromises.clear(SMC.name, true);
+          })
           .catch(function (err) {
             // If we get an error, we need to wipe the loadingPromises, since it could have an error
             loadingPromises.clear(SMC.name, true);
@@ -146,11 +150,12 @@ function ServerModalController(
       .then(function (modal) {
         modal.close.then(function (state) {
           if (state) {
-            if (state === 'build') {
-              return SMC.getUpdatePromise();
-            }
-            loadingPromises.clear(SMC.name);
-            close();
+            var promise = (state === 'build') ? SMC.getUpdatePromise() : $q.when(true);
+            return promise
+              .then(function () {
+                loadingPromises.clear(SMC.name);
+                close();
+              });
           }
         });
       });
@@ -174,12 +179,16 @@ function ServerModalController(
     }
 
     // Once ports are set, start listening to changes
-    $scope.$watchCollection('SMC.state.ports', function (newPortsArray, oldPortsArray) {
-      if (!angular.equals(newPortsArray, oldPortsArray)) {
-        // Only update the Dockerfile if the ports have actually changed
-        loadingPromises.add(SMC.name, updateDockerfileFromState(SMC.state, true, true));
-      }
-    });
+    if (!SMC.portsUnwatcher) {
+      SMC.portsUnwatcher = $scope.$watchCollection(function () {
+        return SMC.state.ports;
+      }, function (newPortsArray, oldPortsArray) {
+        if (!angular.equals(newPortsArray, oldPortsArray)) {
+          // Only update the Dockerfile if the ports have actually changed
+          loadingPromises.add(SMC.name, updateDockerfileFromState(SMC.state, true, true));
+        }
+      });
+    }
 
     SMC.state.packages = data.packages;
     SMC.state.startCommand = data.startCommand;
@@ -290,7 +299,7 @@ function ServerModalController(
       } else if (!this.state.startCommand && tabname !== 'repository') {
         tabname = 'commands';
       }
-    } else if ($scope.SMC.serverForm.$invalid) {
+    } else if (keypather.get($scope, 'SMC.serverForm.$invalid')) {
       if (keypather.get($scope, 'SMC.serverForm.$error.required.length')) {
         var firstRequiredError = $scope.SMC.serverForm.$error.required[0].$name;
         tabname = firstRequiredError.split('.')[0];

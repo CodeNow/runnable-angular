@@ -4,7 +4,10 @@ button.btn.white.btn-cancel.float-left.js-animate(
   type = "button"
 ) Cancel
 
-button.btn.btn-done.white.float-right.js-animate(
+button.btn.btn-done.white.float-right(
+  ng-class = "{\
+     'js-animate': SMC.state.step > 3\
+   }"
   ng-click = "SMC.actions.close()"
   ng-if = "SMC.instance || SMC.state.step > 3"
   type = "button"
@@ -30,10 +33,10 @@ button.btn.btn-primary.white.text-next.float-right(
     .text-save-build
     .text-save
     .text-next
-button.btn.white.btn-primary.float-right(
+button.btn.white.btn-primary.float-right.js-animate(
   ng-class = "{\
-          'text-save': SMC.isDirty() === 'update',\
-          'text-save-build': SMC.isDirty() === 'build'\
+          'text-save': SMC.isDirty() === 'update' || isBuilding(),\
+          'text-save-build': SMC.isDirty() === 'build' && !isBuilding()\
         }"
   ng-if = "SMC.instance || SMC.state.step > 2"
   ng-click = "createServerOrUpdate()"
@@ -41,11 +44,11 @@ button.btn.white.btn-primary.float-right(
 )
   span.btn-text.float-left Save
     //- if save triggers a build
-    span.fade.js-animate(
-      ng-if = "SMC.isDirty() === 'build'"
+    span.fade(
+      ng-if = "SMC.isDirty() === 'build' && !isBuilding()"
     ) &#32;& Build
 
 span.small.float-right.fade.js-animate(
-  ng-if = "SMC.instance && SMC.isDirty() === 'build'"
+  ng-if = "SMC.instance && SMC.isDirty() === 'build' && !isBuilding()"
 ) You’ve made changes that require a rebuild.
 

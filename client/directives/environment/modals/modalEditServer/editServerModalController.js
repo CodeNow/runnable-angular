@@ -191,16 +191,10 @@ function EditServerModalController(
   });
 
   SMC.getUpdatePromise = function () {
-    SMC.saveTriggered = true;
-    loading(SMC.name + 'IsBuilding', true);
     return SMC.saveInstanceAndRefreshCards()
       .catch(function (err) {
         errs.handler(err);
-        return SMC.resetStateContextVersion(SMC.state.contextVersion, false)
-          .finally(function () {
-            // Only turn off `IsBuilding` if there is an error and we have to revert back
-            loading(SMC.name + 'IsBuilding', false);
-          });
+        return SMC.resetStateContextVersion(SMC.state.contextVersion, false);
       });
   };
 

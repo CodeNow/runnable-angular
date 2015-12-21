@@ -5,6 +5,7 @@ require('app')
 
 function serverModalButtonsDirective(
   $rootScope,
+  errs,
   loading
 ) {
   return {
@@ -20,20 +21,27 @@ function serverModalButtonsDirective(
       isPrimaryButtonDisabled: '&',
       SMC: '=serverModalController'
     },
-    link: function ($scope, elem, attrs) {
+    link: function ($scope) {
       $scope.isBuilding = function () {
-        return loading[$scope.SMC.name + 'isBuilding'];
+        return $rootScope.isLoading[$scope.SMC.name + 'isBuilding'] || $rootScope.isLoading[$scope.SMC.name];
       };
       $scope.createServerOrUpdate = function () {
         if ($scope.isPrimaryButtonDisabled()) {
           return;
         }
-        if ($scope.SMC.instance) {
-          $scope.SMC.changeTab('logs');
-          $scope.SMC.getUpdatePromise();
-        } else if ($scope.SMC.goToNextStep) {
-          $scope.SMC.goToNextStep();
-        }
+        loading($scope.SMC.name + 'isBuilding', true);
+        loading($scope.SMC.name, true);
+        (($scope.SMC.instance) ? $scope.SMC.getUpdatePromise() : $scope.SMC.createServer())
+          .then(function () {
+            $scope.SMC.changeTab('logs');
+            $scope.$emit('resetStateContextVersion', $scope.SMC.state.contextVersion, false);
+          })
+          .catch(errs.handler)
+          .finally(function () {
+            loading($scope.SMC.name + 'isBuilding',  false);
+            loading($scope.SMC.name,  false);
+          });
+
       };
     }
   };

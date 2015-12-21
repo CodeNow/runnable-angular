@@ -205,6 +205,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
             return promise;
           }),
           clear: sinon.spy(),
+          start: sinon.stub().returnsArg(1),
           count: sinon.stub().returns(0),
           finished: sinon.spy(function () {
             return $q.when(ctx.loadingPromiseFinishedValue);
@@ -379,7 +380,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         $scope.$digest();
-        sinon.assert.calledOnce(ctx.closeSpy);
 
         sinon.assert.notCalled(ctx.instance.update);
         sinon.assert.notCalled(ctx.instance.redeploy);
@@ -407,7 +407,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         $scope.$digest();
-        sinon.assert.calledOnce(ctx.closeSpy);
 
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.calledOnce(ctx.instance.redeploy);
@@ -434,7 +433,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         expect(SMC.state.ports).to.be.ok;
         sinon.assert.calledOnce(ctx.build.build);
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
-        sinon.assert.calledOnce(ctx.closeSpy);
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.notCalled(ctx.instance.redeploy);
       });
@@ -468,7 +466,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         $scope.$digest();
-        sinon.assert.calledOnce(ctx.closeSpy);
 
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.notCalled(ctx.instance.redeploy);
@@ -502,7 +499,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         sinon.assert.calledOnce(ctx.build.build);
         expect(SMC.state.opts.build).to.be.ok;
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
-        sinon.assert.calledOnce(ctx.closeSpy);
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.notCalled(ctx.instance.redeploy);
       });
@@ -568,7 +564,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.called(loadingService.reset);
         expect(SMC.state.advanced, 'advanced flag').to.be.false;
-        sinon.assert.called(ctx.loadingPromiseMock.add);
+        sinon.assert.called(ctx.loadingPromiseMock.start);
         sinon.assert.called(ctx.rollbackContextVersion.deepCopy);
         $scope.$digest();
         sinon.assert.calledOnce(ctx.contextVersion.fetchFile);
@@ -631,7 +627,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.called(loadingService.reset);
         expect(SMC.state.advanced, 'advanced flag').to.be.true;
-        sinon.assert.called(ctx.loadingPromiseMock.add);
+        sinon.assert.called(ctx.loadingPromiseMock.start);
         sinon.assert.called(ctx.rollbackContextVersion.deepCopy);
         $scope.$digest();
         sinon.assert.calledOnce(ctx.contextVersion.fetchFile);
@@ -685,7 +681,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         $scope.$digest();
-        sinon.assert.calledOnce(ctx.closeSpy);
 
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.notCalled(ctx.instance.redeploy);
@@ -718,7 +713,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         sinon.assert.calledOnce(ctx.build.build);
         expect(SMC.state.opts.build).to.be.ok;
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
-        sinon.assert.calledOnce(ctx.closeSpy);
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.notCalled(ctx.instance.redeploy);
       });
@@ -744,8 +738,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         $scope.$digest();
-        sinon.assert.calledOnce(ctx.closeSpy);
-
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.calledOnce(ctx.instance.redeploy);
       });
@@ -1045,7 +1037,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
 
     it('should not pop up a confirmation of close when saved', function () {
       SMC.instance.attrs.env = '12345';
-      SMC.saveTriggered = true;
+      SMC.isDirty = sinon.stub().returns(false);
       SMC.actions.close();
       $scope.$digest();
       sinon.assert.notCalled(ctx.showModalStub);
@@ -1054,6 +1046,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
 
     it('pop up a notification when dirty and being closed', function () {
       SMC.instance.attrs.env = '12345';
+      SMC.isDirty = sinon.stub().returns(true);
       $scope.$digest();
       SMC.actions.close();
       $scope.$digest();
@@ -1061,11 +1054,40 @@ describe('editServerModalController'.bold.underline.blue, function () {
       sinon.assert.notCalled(ctx.closeSpy);
     });
 
-    it('should resolve when clean', function () {
+    it('should allow the user to build from the popup', function () {
+      SMC.isDirty = sinon.stub().returns('build');
+      sinon.stub(SMC, 'getUpdatePromise').returns($q.when(true));
+      ctx.showModalStub.returns($q.when({
+        close: $q.when('build')
+      }));
+      ctx.loadingPromiseMock.clear.reset();
+      $scope.$digest();
       SMC.actions.close();
       $scope.$digest();
-      sinon.assert.notCalled(ctx.showModalStub);
+      sinon.assert.calledOnce(ctx.showModalStub);
+      sinon.assert.calledOnce(SMC.getUpdatePromise);
+      $scope.$digest();
       sinon.assert.calledOnce(ctx.closeSpy);
+      sinon.assert.calledOnce(ctx.loadingPromiseMock.clear);
+      sinon.assert.calledWith(ctx.loadingPromiseMock.clear, 'editServerModal');
+    });
+
+    it('should allow the user to just close the modal', function () {
+      SMC.isDirty = sinon.stub().returns('update');
+      sinon.stub(SMC, 'getUpdatePromise').returns($q.when(true));
+      ctx.showModalStub.returns($q.when({
+        close: $q.when(true)
+      }));
+      ctx.loadingPromiseMock.clear.reset();
+      $scope.$digest();
+      SMC.actions.close();
+      $scope.$digest();
+      sinon.assert.calledOnce(ctx.showModalStub);
+      sinon.assert.notCalled(SMC.getUpdatePromise);
+      $scope.$digest();
+      sinon.assert.calledOnce(ctx.closeSpy);
+      sinon.assert.calledOnce(ctx.loadingPromiseMock.clear);
+      sinon.assert.calledWith(ctx.loadingPromiseMock.clear, 'editServerModal');
     });
 
   });
@@ -1101,6 +1123,12 @@ describe('editServerModalController'.bold.underline.blue, function () {
       SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
       $scope.$emit('resetStateContextVersion');
       expect(SMC.resetStateContextVersion.calledOnce).to.be.true;
+    });
+
+    it('should add the promise to loadingPromises.start', function () {
+      SMC.resetStateContextVersion(ctx.contextVersion, false);
+      $scope.$digest();
+      sinon.assert.called(ctx.loadingPromiseMock.start);
     });
   });
 
