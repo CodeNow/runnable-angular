@@ -6,17 +6,13 @@ require('app')
  * @ngInject
  */
 function editRepoCommit(
-  $q,
-  $rootScope,
-  $state,
-  errs,
   fetchCommitData,
-  fetchGithubOrgId,
-  fetchUser,
   keypather,
+  promisify,
+  errs,
   loading,
-  ModalService,
-  promisify
+  $rootScope,
+  ModalService
 ) {
   return {
     restrict: 'A',
@@ -74,46 +70,6 @@ function editRepoCommit(
             $scope.$emit('change-commit', commitSha);
             $scope.$broadcast('close-popovers');
           }
-        }
-      };
-      $scope.userPopoverActions = {
-        inviteUser: function (user) {
-          user.inviteSending = true;
-          return $q.all({
-              user: fetchUser(),
-              githubOrgId: fetchGithubOrgId($state.params.userName)
-            })
-            .then(function (response) {
-              return promisify(response.user, 'createTeammateInvitation')({
-                organization: {
-                  github: response.githubOrgId
-                },
-                recipient: {
-                  email: user.email,
-                  github: user.id
-                }
-              });
-            })
-            .then(function (invitationModel) {
-              user.inviteSent = true;
-              return invitationModel;
-            })
-            .catch(errs.handler)
-            .finally(function () {
-                user.inviteSending = false;
-            });
-
-        },
-        goToTeammatesSettingsModal: function () {
-          $scope.$broadcast('close-popovers');
-          return ModalService.showModal({
-            controller: 'SettingsModalController',
-            controllerAs: 'SEMC',
-            templateUrl: 'settingsModalView',
-            inputs: {
-              tab: 'teamManagement'
-            }
-          });
         }
       };
       $scope.autoDeploy = function (isLocked) {
