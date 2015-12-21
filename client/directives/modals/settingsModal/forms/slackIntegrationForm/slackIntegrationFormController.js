@@ -9,6 +9,7 @@ require('app')
 function SlackIntegrationFormController (
   $q,
   $scope,
+  $timeout,
   debounce,
   errs,
   fetchSettings,
@@ -119,7 +120,12 @@ function SlackIntegrationFormController (
       apiToken: '', // I would have used `null`, but API complains
       enabled: keypather.get(SIFC, 'settings.attrs.notifications.slack.enabled')
     };
-    return updateSlackSettings(slackData)
+    return $q.all([
+      updateSlackSettings(slackData),
+      // Sometimes the settings get update too quickly and makes the UI look
+      // yanky. So let's artificially make sure it takes at least Xms.
+      $timeout(angular.noop, 650)
+    ])
       .then(function () {
         SIFC.state = 'not-verified';
         SIFC.slackApiToken = '';
