@@ -426,9 +426,7 @@ function fetchGithubOrgId(
             return keypather.get(org, 'attrs.login') === orgNameOrId;
           });
           if (orgs.length > 0) {
-            var orgId = orgs[0].attrs.id;
-            githubOrgIdCache[orgNameOrId] = orgId;
-            return orgId;
+            return orgs[0].attrs.id;
           }
           return $q.reject('No Github organization found for org name provided');
         });
