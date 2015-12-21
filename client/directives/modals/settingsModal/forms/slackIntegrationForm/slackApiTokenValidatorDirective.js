@@ -6,27 +6,16 @@ require('app')
  * @ngInject
  */
   function slackApiTokenValidator(
-  $q,
-  debounce,
   verifySlackAPITokenAndFetchMembers
   ) {
   return {
     restrict: 'A',
     require: 'ngModel',
     link: function ($scope, element, attrs, ctrl) {
-      // We need to debounce this function, but an asynchronous validator always
-      // needs to return a promise
-      var _validateApiToken = debounce(function (modelValue, viewValue, cb) {
-          var promise = verifySlackAPITokenAndFetchMembers(viewValue);
-          return cb(null, promise);
-        }, 250);
-
+      // This function should be debounced using `ng-model-options`
+      // https://docs.angularjs.org/api/ng/directive/ngModelOptions
       ctrl.$asyncValidators.validApiToken = function (modelValue, viewValue) {
-        var deferred = $q.defer();
-        _validateApiToken(modelValue, viewValue, function (err, promise) {
-          deferred.resolve(promise);
-        });
-        return deferred.promise;
+        return verifySlackAPITokenAndFetchMembers(viewValue);
       };
     }
   };

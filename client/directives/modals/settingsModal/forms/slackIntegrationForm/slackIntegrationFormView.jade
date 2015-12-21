@@ -21,6 +21,7 @@
     name = "slackApiTokenField"
     ng-disabled = "SIFC.state === 'verifying'"
     ng-model = "SIFC.slackApiToken"
+    ng-model-options = "{ debounce: 250 }"
     placeholder = "API Token"
     required
     slack-api-token-validator

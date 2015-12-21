@@ -14,12 +14,6 @@ describe('slackApiTokenValidtorDirective'.bold.underline.blue, function () {
   function setup(slackApiToken, opts) {
     opts = opts || {};
     angular.mock.module('app', function ($provide) {
-      $provide.factory('debounce', function () {
-        mockDebounce = sinon.spy(function (cb) {
-          return cb;
-        });
-        return mockDebounce;
-      });
       $provide.factory('verifySlackAPITokenAndFetchMembers', function ($q) {
         verifySlackAPITokenAndFetchMembersStub = sinon.spy(function () {
           if (opts.rejectApiToken) {
