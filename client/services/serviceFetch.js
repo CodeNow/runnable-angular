@@ -419,21 +419,21 @@ function fetchGithubOrgId(
 ) {
   var githubOrgIdCache = {};
   return function (orgNameOrId) {
-    if (githubOrgIdCache[orgNameOrId]) {
-      return githubOrgIdCache[orgNameOrId];
-    }
-    return fetchOrgs(orgNameOrId)
-      .then(function (orgsCollection) {
-        var orgs = orgsCollection.filter(function (org) {
-          return keypather.get(org, 'attrs.login') === orgNameOrId;
+    if (!githubOrgIdCache[orgNameOrId]) {
+      githubOrgIdCache[orgNameOrId] = fetchOrgs(orgNameOrId)
+        .then(function (orgsCollection) {
+          var orgs = orgsCollection.filter(function (org) {
+            return keypather.get(org, 'attrs.login') === orgNameOrId;
+          });
+          if (orgs.length > 0) {
+            var orgId = orgs[0].attrs.id;
+            githubOrgIdCache[orgNameOrId] = orgId;
+            return orgId;
+          }
+          return $q.reject('No Github organization found for org name provided');
         });
-        if (orgs.length > 0) {
-          var orgId = orgs[0].attrs.id;
-          githubOrgIdCache[orgNameOrId] = orgId;
-          return orgId;
-        }
-        return $q.reject('No Github organization found for org name provided');
-      });
+    }
+    return githubOrgIdCache[orgNameOrId];
   };
 }
 
@@ -489,54 +489,58 @@ function fetchOrgMembers(
   fetchOrgRegisteredMembers,
   fetchOrgTeammateInvitations
 ) {
+  var orgMembersCache = {};
   return function (teamName) {
-    return $q.all([
-      fetchGitHubMembers(teamName),
-      fetchOrgRegisteredMembers(teamName),
-      fetchOrgTeammateInvitations(teamName)
-    ])
-    .then(function (responseArray) {
-      var githubMembers = responseArray[0];
-      var runnableUsersCollection = responseArray[1];
-      var teammateInvitationCollection = responseArray[2];
+    if (!orgMembersCache[teamName]) {
+      orgMembersCache[teamName] = $q.all([
+        fetchGitHubMembers(teamName),
+        fetchOrgRegisteredMembers(teamName),
+        fetchOrgTeammateInvitations(teamName)
+      ])
+      .then(function (responseArray) {
+        var githubMembers = responseArray[0];
+        var runnableUsersCollection = responseArray[1];
+        var teammateInvitationCollection = responseArray[2];
 
-      var registeredGithubMembers = [];
-      var invitedGithubMembers = [];
-      var uninvitedGithubMembers = [];
+        var registeredGithubMembers = [];
+        var invitedGithubMembers = [];
+        var uninvitedGithubMembers = [];
 
-      var runnableUsers = {};
-      var invitedUsers = {};
-      runnableUsersCollection.forEach(function (memberModel) {
-        var username = keypather.get(memberModel, 'attrs.accounts.github.username');
-        if (username) {
-          runnableUsers[username] = memberModel;
-        }
-      });
-      teammateInvitationCollection.forEach(function (invitationModel) {
-        var githubId = keypather.get(invitationModel, 'attrs.recipient.github');
-        if (githubId) {
-          invitedUsers[githubId] = invitationModel;
-        }
-      });
+        var runnableUsers = {};
+        var invitedUsers = {};
+        runnableUsersCollection.forEach(function (memberModel) {
+          var username = keypather.get(memberModel, 'attrs.accounts.github.username');
+          if (username) {
+            runnableUsers[username] = memberModel;
+          }
+        });
+        teammateInvitationCollection.forEach(function (invitationModel) {
+          var githubId = keypather.get(invitationModel, 'attrs.recipient.github');
+          if (githubId) {
+            invitedUsers[githubId] = invitationModel;
+          }
+        });
 
-      githubMembers.forEach(function (member) {
-        if (runnableUsers[member.login]) {
-          member.userModel = runnableUsers[member.login];
-          registeredGithubMembers.push(member);
-        } else if (invitedUsers[member.id]) {
-          member.userInvitation = invitedUsers[member.id];
-          invitedGithubMembers.push(member);
-        } else {
-          uninvitedGithubMembers.push(member);
-        }
+        githubMembers.forEach(function (member) {
+          if (runnableUsers[member.login]) {
+            member.userModel = runnableUsers[member.login];
+            registeredGithubMembers.push(member);
+          } else if (invitedUsers[member.id]) {
+            member.userInvitation = invitedUsers[member.id];
+            invitedGithubMembers.push(member);
+          } else {
+            uninvitedGithubMembers.push(member);
+          }
+        });
+        return {
+          registered: registeredGithubMembers,
+          invited: invitedGithubMembers,
+          uninvited: uninvitedGithubMembers,
+          all: githubMembers
+        };
       });
-      return {
-        registered: registeredGithubMembers,
-        invited: invitedGithubMembers,
-        uninvited: uninvitedGithubMembers,
-        all: githubMembers
-      };
-    });
+    }
+    return orgMembersCache[teamName];
   };
 }
 
