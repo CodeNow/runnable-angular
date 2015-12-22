@@ -397,10 +397,14 @@ function fetchOrgRegisteredMembers(
   fetchUser,
   promisify
 ) {
+  var fetchOrgRegisteredMembersCache = {};
   return function (orgName) {
-    return fetchUser().then(function (user) {
-      return promisify(user, 'fetchUsers')({ githubOrgName: orgName });
-    });
+    if (!fetchOrgRegisteredMembersCache[orgName]) {
+      fetchOrgRegisteredMembersCache[orgName] = fetchUser().then(function (user) {
+        return promisify(user, 'fetchUsers')({ githubOrgName: orgName });
+      });
+    }
+    return fetchOrgRegisteredMembersCache[orgName];
   };
 }
 
