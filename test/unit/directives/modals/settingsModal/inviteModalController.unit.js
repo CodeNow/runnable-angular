@@ -12,7 +12,7 @@ var $controller;
 var $scope;
 var $q;
 
-describe.only('InviteModalController'.bold.underline.blue, function () {
+describe('InviteModalController'.bold.underline.blue, function () {
 
   var IMC;
   var inviteGithubUserToRunnableStub;

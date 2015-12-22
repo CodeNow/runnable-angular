@@ -1390,4 +1390,120 @@ describe('serviceFetch'.bold.underline.blue, function () {
       expect(registeredUser.userModel.attrs.accounts.github.username).to.equal(username1);
     });
   });
+
+  describe('factory fetchGithubUserForCommit', function () {
+    var fetchGithubUserForCommit;
+    var fetchOrgRegisteredMembersStub;
+    var fetchGitHubUserStub;
+    var $rootScope;
+    var username1 = 'thejsj';
+    var userId1 = 1;
+    var commit;
+    var fetchOrgRegisteredMembersResponse;
+    var $q;
+    beforeEach(function () {
+      commit = {
+          fetch: sinon.spy(function (cb) {
+            var response = {
+              attrs : {
+                author: {
+                  login: username1
+                }
+              }
+            };
+            $rootScope.$evalAsync(function () {
+              cb(null, response);
+            });
+            return response;
+          })
+      };
+      fetchOrgRegisteredMembersResponse = {
+        models: [
+          { attrs: generateUserObject(username1, userId1) }
+        ],
+        forEach: function (cb) {
+          return this.models.forEach(cb);
+        }
+      };
+      angular.mock.module('app');
+      angular.mock.module(function ($provide) {
+        $provide.factory('fetchOrgRegisteredMembers', function ($q) {
+          fetchOrgRegisteredMembersStub = sinon.stub().returns($q.when(fetchOrgRegisteredMembersResponse));
+          return fetchOrgRegisteredMembersStub;
+        });
+        $provide.factory('fetchGitHubUser', function ($q) {
+          fetchGitHubUserStub = sinon.spy(function (memberName) {
+            return $q.when(({
+              name: memberName
+            }));
+          });
+          return fetchGitHubUserStub;
+        });
+      });
+      angular.mock.inject(function (
+        _$rootScope_,
+        _$q_,
+        _fetchGithubUserForCommit_
+      ) {
+        $rootScope = _$rootScope_;
+        $q = _$q_;
+        fetchGithubUserForCommit = _fetchGithubUserForCommit_;
+      });
+
+    });
+
+    it('shoud fetch the commit', function () {
+      var fetchGithubUserForCommitPromise = fetchGithubUserForCommit(commit);
+      $rootScope.$digest();
+      sinon.assert.calledOnce(commit.fetch);
+    });
+
+    it('should user the author login to fetch GH user and Runnable user', function () {
+      var fetchGithubUserForCommitPromise = fetchGithubUserForCommit(commit);
+      $rootScope.$digest();
+      sinon.assert.calledOnce(fetchGitHubUserStub);
+      sinon.assert.calledOnce(fetchOrgRegisteredMembersStub);
+      sinon.assert.calledWith(fetchGitHubUserStub, username1);
+      sinon.assert.calledWith(fetchOrgRegisteredMembersStub, username1);
+    });
+
+    it('should extend the user object with a `isRunnableUser` property', function () {
+      var fetchGithubUserForCommitPromise = fetchGithubUserForCommit(commit);
+      expect(fetchGithubUserForCommitPromise).to.eventually.have.deep.property('isRunnableUser');
+      $rootScope.$digest();
+    });
+
+    it('should have a `isRunnableUser` property that is true if it exists', function () {
+      var fetchGithubUserForCommitPromise = fetchGithubUserForCommit(commit);
+      expect(fetchGithubUserForCommitPromise).to.eventually.have.deep.property('isRunnableUser', true);
+      $rootScope.$digest();
+    });
+
+    it('should have a `isRunnableUser` property that is false if it doesnt exist', function () {
+      fetchOrgRegisteredMembersStub.returns($q.when({ models: [] }));
+      var fetchGithubUserForCommitPromise = fetchGithubUserForCommit(commit);
+      expect(fetchGithubUserForCommitPromise).to.eventually.have.deep.property('isRunnableUser', false);
+      $rootScope.$digest();
+    });
+
+    it('should reject the promise if theres an error fetching the commit', function () {
+      var error = new Error('hello world');
+      commit.fetch = sinon.spy(function (cb) {
+        $rootScope.$evalAsync(function () {
+          cb(error, null);
+        });
+        return;
+      });
+      var fetchGithubUserForCommitPromise = fetchGithubUserForCommit(commit);
+      expect(fetchGithubUserForCommitPromise).to.eventually.be.rejected;
+      expect(fetchGithubUserForCommitPromise).to.eventually.be.rejectedWith(error);
+      $rootScope.$digest();
+    });
+  });
+
+  describe('inviteGithubUserToRunnable', function () {
+
+  });
+
+
 });
