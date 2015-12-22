@@ -26,7 +26,7 @@ function featureFlags(
     navListFilter: false,
     newVerificationFlow: true,
     newVerificationFlowStackSelector: true,
-    noBuildLogs: false,
+    noBuildLogs: true,
     rebuildFlow: false, // updated rebuild flow
     renameContainer: false,
     saveToolbar: false,
