@@ -8,12 +8,8 @@ require('app')
  */
 function InviteModalController(
   $rootScope,
-  $q,
-  fetchUser,
-  fetchGithubOrgId,
-  inviteGithubUserToRunnable,
-  promisify,
   errs,
+  inviteGithubUserToRunnable,
   teamName,
   unInvitedMembers,
   close
