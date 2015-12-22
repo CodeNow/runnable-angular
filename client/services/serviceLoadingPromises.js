@@ -19,6 +19,16 @@ function loadingPromises(
     promiseHash[namespace].push(promise);
     return promise;
   }
+  /**
+   * Start
+   * 
+   * This promise represents the start of a transaction, like the creation of the contextVersion
+   * at the beginning of opening the edit modal.  This promise is still used in the .finished()
+   * result, but isn't included in the promise count.  It does not clear out the promises 
+   * stored in the promiseHash, since it's possible to want to change the start, but keep the
+   * change history
+   * 
+  **/
   function start(namespace, promise) {
     if (!namespace) {
       return promise;
