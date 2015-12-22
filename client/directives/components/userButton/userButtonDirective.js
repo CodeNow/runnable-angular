@@ -15,26 +15,24 @@ function userButton () {
     },
     link: function ($scope) {
       $scope.loading = true;
-
       // Listen for changes in the commit
-      $scope.$watch('commit', function commitWatchHandler (newVal, oldVal) {
-        if (newVal !== oldVal) {
-          updateCommitUser();
-        }
-      });
-
-      // If there is a commit already set, set our `commitUser`
-      if ($scope.commit) {
-        updateCommitUser();
-      }
-
-      function updateCommitUser() {
+      $scope.$watch('commit', function updateCommitUser () {
         return $scope.UBC.fetchUserForCommit($scope.commit)
           .then(function (user) {
             $scope.commitUser = user;
             $scope.loading = false;
           });
-      }
+      });
+
+      $scope.ifShowInviteFormAndInviteNotSent = function () {
+        var user = $scope.commitUser;
+        return user.showInviteForm && !user.inviteSent && !user.inviteSending;
+      };
+
+      $scope.ifNotShowInviteFormAndNotRunnableUser = function () {
+        var user = $scope.commitUser;
+        return !user.inviteSending && !user.inviteSent && !user.showInviteForm && !user.isRunnableUser;
+      };
     }
   };
 }
