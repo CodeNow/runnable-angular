@@ -486,15 +486,29 @@ function fetchOrgMembers(
   $q,
   keypather,
   fetchGitHubMembers,
+  fetchGitHubUser,
   fetchOrgRegisteredMembers,
   fetchOrgTeammateInvitations
 ) {
-  return function (teamName) {
+  return function (teamName, fetchGithubUserEmail) {
     return $q.all([
       fetchGitHubMembers(teamName),
       fetchOrgRegisteredMembers(teamName),
       fetchOrgTeammateInvitations(teamName)
     ])
+    .then(function (responseArray) {
+      if (fetchGithubUserEmail) {
+        return $q.all([
+          $q.all(responseArray[0].map(function (member) {
+            // Fetch the complete user profile, in order to get user email
+            return fetchGitHubUser(member.login);
+          })),
+          responseArray[1],
+          responseArray[2]
+        ]);
+      }
+      return responseArray;
+    })
     .then(function (responseArray) {
       var githubMembers = responseArray[0];
       var runnableUsersCollection = responseArray[1];
