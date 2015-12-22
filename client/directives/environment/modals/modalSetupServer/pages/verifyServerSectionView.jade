@@ -100,6 +100,16 @@ header.modal-header
           xlink:href = "#icons-dockerfile"
         )
       .btn-text Dockerfile
+    button.btn.btn-radio(
+      ng-class = "{'active': SMC.selectedTab === 'whitelist'}"
+      ng-click = "SMC.changeTab('whitelist')"
+      ng-show = "$root.featureFlags.whitelist"
+    )
+      svg.iconnables
+        use(
+          xlink:href = "#icons-ip-whitelist"
+        )
+      .btn-text IP Whitelist
     button.btn.btn-radio.js-animate(
       data-badge-count = "!"
       ng-class = "{\
@@ -187,6 +197,11 @@ section.modal-body(
       }"
       ng-include = "'viewFormLogs'"
       ng-show = "SMC.selectedTab === 'logs'"
+    )
+    .modal-form.form-whitelist(
+      ng-if = "$root.featureFlags.whitelist"
+      ng-include = "'whitelistForm'"
+      ng-show = "SMC.selectedTab === 'whitelist'"
     )
 
 footer.modal-footer.clearfix
