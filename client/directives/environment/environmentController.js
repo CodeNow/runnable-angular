@@ -9,20 +9,30 @@ require('app')
  * @ngInject
  */
 function EnvironmentController(
-  $scope,
-  $timeout,
-  favico,
-  fetchInstancesByPod,
-  pageName,
   $rootScope,
-  helpCards,
-  $window,
+  $scope,
   $state,
+  $timeout,
+  $window,
   errs,
+  favico,
+  fetchUser,
+  fetchInstancesByPod,
   fetchOrgMembers,
-  ModalService
+  helpCards,
+  keypather,
+  ModalService,
+  pageName
 ) {
   var EC = this;
+
+  EC.showInviteButton = false;
+  fetchUser()
+    .then(function (user) {
+      var username = keypather.get(user, 'attrs.accounts.github.username');
+      EC.showInviteButton = (username !== $state.params.userName);
+    });
+
   EC.triggerModal = {
     newContainer: function () {
       return ModalService.showModal({
