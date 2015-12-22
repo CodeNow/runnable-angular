@@ -53,14 +53,14 @@
         .label.fade.js-animate(
           ng-if = "isRange"
         ) TO
-        //- focus on this isn't working rn
+        //- focus doesn't work if we use ng-if ???
         input.input.input-xs.fade.js-animate(
           ng-blur = "isFocused = false"
           ng-focus = "isFocused = true"
           ng-model = "address2"
           ng-pattern = "/((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$/"
+          ng-show = "isRange"
           maxlength = "15"
-          ng-if = "isRange"
           placeholder = "0.0.0.0"
         )
 

@@ -50,6 +50,7 @@
     color: $gray;
     font-size: 13px;
     line-height: $input-xs;
+    user-select: none;
   }
 
   .checkbox {
