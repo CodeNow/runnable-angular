@@ -71,6 +71,12 @@ describe('environmentController'.bold.underline.blue, function () {
       $provide.value('user', thisUser);
       $provide.value('$state', ctx.state);
       $provide.factory('fetchInstancesByPod', fetchInstancesByPodMock.fetch());
+      $provide.factory('fetchUser', function ($q) {
+         var user = {};
+         keypather.set(user, 'attrs.accounts.github.username', 'thejsj');
+         ctx.fetchUser = sinon.stub().returns($q.when(user));
+         return ctx.fetchUser;
+      });
       $provide.factory('fetchOrgMembers', function ($q) {
         ctx.uninvitedUsersArray = [1, 2, 999];
         if (opts.failFetchOrgMembers) {
@@ -141,6 +147,27 @@ describe('environmentController'.bold.underline.blue, function () {
       $rootScope.$digest();
       // this should now be loaded
       expect($scope.data.instances, 'masterPods').to.equal(ctx.masterPods);
+    });
+  });
+
+  describe('showInviteButton', function () {
+    beforeEach(function () {
+      setup();
+    });
+
+    it('should not show the invite button by default', function () {
+      expect(EC.showInviteButton).to.equal(false);
+    });
+
+    it('should show the invite button if the user is an org', function () {
+      $rootScope.$digest();
+      expect(EC.showInviteButton).to.equal(true);
+    });
+
+    it('should not show the user is equal to userName', function () {
+      ctx.state.params.userName = 'thejsj';
+      $rootScope.$digest();
+      expect(EC.showInviteButton).to.equal(false);
     });
   });
 
