@@ -86,7 +86,6 @@ describe('branchCommitSelectorDirective'.bold.underline.blue, function () {
     });
 
     it('Check the scope', function () {
-      console.log('$scope', $scope);
       //Should fetch once the branch is set
       $scope.$digest();
       expect($elScope.BCSC.data.branch, 'data.branch').to.equal(ctx.branch);
