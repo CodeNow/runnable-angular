@@ -194,11 +194,6 @@ function SetupServerModalController(
           SMC.changeTab('logs');
         })
         .catch(nextStepErrorHandler);
-    } else if (SMC.state.step > 4) {
-      if (SMC.isDirty()) {
-        // If the state, is dirty save it as we would in the EditServerModalController
-        return SMC.getUpdatePromise();
-      }
     }
   };
 
@@ -324,11 +319,6 @@ function SetupServerModalController(
             return $q.reject(err);
           });
       });
-  };
-
-  SMC.createServerAndClose = function () {
-    close();
-    return SMC.createServer();
   };
 
   SMC.selectRepo = function (repo) {

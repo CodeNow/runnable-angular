@@ -10,12 +10,7 @@ function serverModalButtonsDirective(
 ) {
   return {
     restrict: 'A',
-    templateUrl: function () {
-      if ($rootScope.featureFlags.rebuildFlow) {
-        return 'serverModalButtonsView';
-      }
-      return 'serverModalButtonsOldView';
-    },
+    templateUrl: 'serverModalButtonsView',
     scope: {
       thisForm: '=',
       isPrimaryButtonDisabled: '&',
