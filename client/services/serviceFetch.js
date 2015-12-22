@@ -544,13 +544,17 @@ function fetchGitHubUser(
   $http,
   configAPIHost
 ) {
+  var fetchGithubUserCache = {};
   return function (memberName) {
-    return $http({
-      method: 'get',
-      url: configAPIHost + '/github/users/' + memberName
-    }).then(function (user) {
-      return user.data;
-    });
+    if (!fetchGithubUserCache[memberName]) {
+      fetchGithubUserCache[memberName] = $http({
+        method: 'get',
+        url: configAPIHost + '/github/users/' + memberName
+      }).then(function (user) {
+        return user.data;
+      });
+    }
+    return fetchGithubUserCache[memberName];
   };
 }
 
