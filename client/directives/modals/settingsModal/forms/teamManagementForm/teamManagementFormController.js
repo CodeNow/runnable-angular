@@ -34,7 +34,7 @@ function TeamManagementFormController(
   });
 
   function fetchMembers () {
-    return fetchOrgMembers($state.params.userName)
+    return fetchOrgMembers($state.params.userName, true)
       .then(function (members) {
         TMMC.loading = false;
         TMMC.members = members;
@@ -44,7 +44,7 @@ function TeamManagementFormController(
           return function (member) {
             var firstEmail;
             if (!property) {
-              firstEmail = null;
+              firstEmail = member.email || null;
             } else {
               firstEmail = keypather.get(member, property);
             }
