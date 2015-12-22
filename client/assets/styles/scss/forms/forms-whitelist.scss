@@ -45,6 +45,12 @@
     }
   }
 
+  .form-add-ip {
+    border-bottom: 1px solid $gray-lighter;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+  }
+
   // range checkbox
   .label-checkbox {
     color: $gray;
@@ -55,6 +61,12 @@
 
   .checkbox {
     margin: 0 6px;
+  }
+
+  // external icon
+  .icons-link-external {
+    height: 13px;
+    top: 3px;
   }
 
   // transitions

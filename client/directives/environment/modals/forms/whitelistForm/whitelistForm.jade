@@ -1,12 +1,51 @@
 .label.clearfix
   .label-col IP Whitelist
   .input-col
-    small.small Whitelist IP addresses to access your container for&#32;
-      em.underline(
-        tooltip = "Non-browser requests (e.g. from an oAuth service or an external server)."
-        tooltip-options = "{\"class\":\"bottom no-arrow\",\"right\":-30,\"top\":18}"
-      ) headless requests
-      | .
+    //- apply .ng-invalid when ip address is invalid to .input-group
+    p.validation-message(
+      ng-if = "invalid"
+    ) Invalid IP Address
+
+    label.input-group.input-group-sm.input-validate.white(
+      ng-class = "{'focus': isFocused}"
+    )
+      .label.slide-in.js-animate(
+        ng-if = "isRange"
+      ) FROM
+      //- this pattern doesn't actaully work for some reason, should validate ipv4
+      input.input.input-xs(
+        ng-blur = "isFocused = false"
+        ng-focus = "isFocused = true"
+        ng-model = "address1"
+        ng-pattern = "/((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$/"
+        maxlength = "15"
+        placeholder = "0.0.0.0"
+      )
+      .label.fade.js-animate(
+        ng-if = "isRange"
+      ) TO
+      //- focus doesn't work if we use ng-if ???
+      input.input.input-xs.fade.js-animate(
+        ng-blur = "isFocused = false"
+        ng-focus = "isFocused = true"
+        ng-model = "address2"
+        ng-pattern = "/((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$/"
+        ng-show = "isRange"
+        maxlength = "15"
+        placeholder = "0.0.0.0"
+      )
+    .form-add-ip.clearfix
+      label.label-checkbox.float-left
+        input.checkbox(
+          ng-model = "isRange"
+          type = "checkbox"
+        )
+        | Use IP Range
+      button.btn.btn-xs.white.float-right(
+        ng-disabled = "!address1.length || isRange && !address2.length"
+        type = "button"
+      ) Add to Whitelist
+
     .table.table-whitelist(
       ng-init = "\
         whitelist = [\
@@ -30,48 +69,17 @@
               xlink:href = "#icons-close"
             )
 
-    .label
-      p.validation-message(
-        ng-if = "invalid"
-      ) Invalid IP Address
-      //- apply .ng-invalid when ip address is invalid to .input-group
-      label.input-group.input-group-sm.input-validate.white(
-        ng-class = "{'focus': isFocused}"
-      )
-        .label.slide-in.js-animate(
-          ng-if = "isRange"
-        ) FROM
-        //- this pattern doesn't actaully work for some reason, should validate ipv4
-        input.input.input-xs(
-          ng-blur = "isFocused = false"
-          ng-focus = "isFocused = true"
-          ng-model = "address1"
-          ng-pattern = "/((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$/"
-          maxlength = "15"
-          placeholder = "0.0.0.0"
-        )
-        .label.fade.js-animate(
-          ng-if = "isRange"
-        ) TO
-        //- focus doesn't work if we use ng-if ???
-        input.input.input-xs.fade.js-animate(
-          ng-blur = "isFocused = false"
-          ng-focus = "isFocused = true"
-          ng-model = "address2"
-          ng-pattern = "/((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$/"
-          ng-show = "isRange"
-          maxlength = "15"
-          placeholder = "0.0.0.0"
-        )
-
-      .clearfix
-        label.label-checkbox.float-left
-          input.checkbox(
-            ng-model = "isRange"
-            type = "checkbox"
+    small.small Whitelist IP addresses to access your container for&#32;
+      em.underline(
+        tooltip = "Non-browser requests (e.g. from an oAuth service or an external server)."
+        tooltip-options = "{\"class\":\"bottom no-arrow\",\"right\":-30,\"top\":18}"
+      ) headless requests
+      | .&#32;
+      a.link(
+        href = "#"
+        target = "_blank"
+      ) Get your IP address
+        svg.iconnables.icons-link-external
+          use(
+            xlink:href = "#icons-link-external"
           )
-          | Use IP Range
-        button.btn.btn-xs.white.float-right(
-          ng-disabled = "!address1.length || isRange && !address2.length"
-          type = "button"
-        ) Add to Whitelist
