@@ -55,11 +55,16 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   var mockInstance;
   var loadingPromiseMock;
   var loadingPromiseFinishedValue;
+  var errsMock;
 
   function initState() {
     helpCardsMock = {
       refreshAllCards: sinon.stub()
     };
+    errsMock = {
+      handler: sinon.spy()
+    };
+
     fetchStackAnalysisMock = new MockFetch();
     createNewBuildMock = sinon.stub();
     populateDockerfileStub = sinon.stub();
@@ -68,6 +73,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
     angular.mock.module('app');
     angular.mock.module(function ($provide) {
+      $provide.value('errs', errsMock);
       $provide.factory('fetchStackAnalysis', fetchStackAnalysisMock.fetch());
       $provide.value('helpCards', helpCardsMock);
       $provide.factory('fetchInstancesByPod', function ($q) {
@@ -373,6 +379,29 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         sinon.assert.notCalled(newBuild.contextVersion.appCodeVersions.create);
       });
 
+    });
+
+    describe('createServerAndReset', function () {
+      it('should reset the context version after successfully creating the server', function () {
+        SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
+        SMC.createServer = sinon.stub().returns($q.when(true));
+
+        SMC.createServerAndReset();
+        $scope.$digest();
+        sinon.assert.calledOnce(SMC.resetStateContextVersion);
+        sinon.assert.calledOnce(SMC.createServer);
+      });
+
+      it('should handle the error if it happens during the creation', function () {
+        SMC.createServer = sinon.stub().returns($q.reject(new Error('rebuildAndOrRedeploy error')));
+        SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
+
+        SMC.createServerAndReset();
+        $scope.$digest();
+        sinon.assert.calledOnce(SMC.createServer);
+        sinon.assert.notCalled(SMC.resetStateContextVersion);
+        sinon.assert.calledOnce(errsMock.handler);
+      });
     });
 
     describe('createServer', function () {

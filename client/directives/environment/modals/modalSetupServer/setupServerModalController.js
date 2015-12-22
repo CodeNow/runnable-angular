@@ -42,6 +42,7 @@ function SetupServerModalController(
     'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
     'closeWithConfirmation': parentController.closeWithConfirmation.bind(SMC),
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
+    'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC),
     'changeTab': parentController.changeTab.bind(SMC)
   });
   var mainRepoContainerFile = new cardInfoTypes.MainRepository();
@@ -240,6 +241,18 @@ function SetupServerModalController(
       .finally(function () {
         loading(SMC.name, false);
       });
+  };
+
+  /**
+   * Creates a container, and resets the state contextVersion
+   * @returns {*}
+   */
+  SMC.createServerAndReset = function () {
+    return SMC.createServer()
+      .then(function () {
+        return SMC.resetStateContextVersion(SMC.state.contextVersion, true);
+      })
+      .catch(errs.handler);
   };
 
   SMC.createServer = function () {

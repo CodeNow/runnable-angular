@@ -366,7 +366,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $rootScope.$on('alert', function (event, opts) {
           expect(opts).to.be.deep.equal({
             type: 'success',
-            text: 'Container updated successfully.'
+            text: 'Changes Saved'
           });
         });
         $scope.$digest();
@@ -392,7 +392,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $rootScope.$on('alert', function (event, opts) {
           expect(opts).to.be.deep.equal({
             type: 'success',
-            text: 'Container updated successfully.'
+            text: 'Changes Saved'
           });
         });
 
@@ -421,7 +421,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $rootScope.$on('alert', function (event, opts) {
           expect(opts).to.be.deep.equal({
             type: 'success',
-            text: 'Container updated successfully.'
+            text: 'Changes Saved'
           });
         });
 
@@ -444,7 +444,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $rootScope.$on('alert', function (event, opts) {
           expect(opts).to.be.deep.equal({
             type: 'success',
-            text: 'Container updated successfully.'
+            text: 'Changes Saved'
           });
         });
         ctx.loadingPromiseFinishedValue = 2;
@@ -477,7 +477,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $rootScope.$on('alert', function (event, opts) {
           expect(opts).to.be.deep.equal({
             type: 'success',
-            text: 'Container updated successfully.'
+            text: 'Changes Saved'
           });
         });
         ctx.loadingPromiseFinishedValue = 1;
@@ -517,7 +517,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $rootScope.$on('alert', function (event, opts) {
           expect(opts).to.be.deep.equal({
             type: 'success',
-            text: 'Container updated successfully.'
+            text: 'Changes Saved'
           });
         });
         ctx.loadingPromiseFinishedValue = 2;
@@ -590,7 +590,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $rootScope.$on('alert', function (event, opts) {
           expect(opts).to.be.deep.equal({
             type: 'success',
-            text: 'Container updated successfully.'
+            text: 'Changes Saved'
           });
         });
         $scope.$digest();
@@ -659,7 +659,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $rootScope.$on('alert', function (event, opts) {
           expect(opts).to.be.deep.equal({
             type: 'success',
-            text: 'Container updated successfully.'
+            text: 'Changes Saved'
           });
         });
         ctx.loadingPromiseFinishedValue = 2;
@@ -692,7 +692,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $rootScope.$on('alert', function (event, opts) {
           expect(opts).to.be.deep.equal({
             type: 'success',
-            text: 'Container updated successfully.'
+            text: 'Changes Saved'
           });
         });
         ctx.loadingPromiseFinishedValue = 1;
@@ -723,7 +723,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $rootScope.$on('alert', function (event, opts) {
           expect(opts).to.be.deep.equal({
             type: 'success',
-            text: 'Container updated successfully.'
+            text: 'Changes Saved'
           });
         });
 
@@ -1168,6 +1168,35 @@ describe('editServerModalController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(SMC.rebuildAndOrRedeploy);
       sinon.assert.calledOnce(ctx.errsMock.handler);
       expect($rootScope.isLoading[SMC.name]).to.be.false;
+    });
+  });
+
+  describe('updateInstanceAndReset', function () {
+    beforeEach(function () {
+      setup({
+        currentModel: ctx.instance
+      });
+    });
+
+    it('should reset the context version after successfully updating', function () {
+      SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
+      SMC.getUpdatePromise = sinon.stub().returns($q.when(true));
+
+      SMC.updateInstanceAndReset();
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.resetStateContextVersion);
+      sinon.assert.calledOnce(SMC.getUpdatePromise);
+    });
+
+    it('should handle the error if it happens during the update', function () {
+      SMC.getUpdatePromise = sinon.stub().returns($q.reject(new Error('rebuildAndOrRedeploy error')));
+      SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
+
+      SMC.updateInstanceAndReset();
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.getUpdatePromise);
+      sinon.assert.notCalled(SMC.resetStateContextVersion);
+      sinon.assert.calledOnce(ctx.errsMock.handler);
     });
   });
 

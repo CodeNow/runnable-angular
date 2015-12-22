@@ -47,6 +47,7 @@ function EditServerModalController(
     'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
     'closeWithConfirmation': parentController.closeWithConfirmation.bind(SMC),
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
+    'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC),
     'changeTab': parentController.changeTab.bind(SMC)
   });
 

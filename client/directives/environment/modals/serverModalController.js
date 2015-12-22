@@ -14,7 +14,6 @@ function ServerModalController(
   parseDockerfileForCardInfoFromInstance,
   createBuildFromContextVersionId,
   keypather,
-  loading,
   loadingPromises,
   promisify,
   ModalService,
@@ -273,22 +272,27 @@ function ServerModalController(
         helpCards.refreshActiveCard();
         $rootScope.$broadcast('alert', {
           type: 'success',
-          text: 'Container updated successfully.'
+          text: 'Changes Saved'
         });
         return true;
       });
   };
 
+  this.updateInstanceAndReset = function () {
+    var SMC = this;
+    return this.getUpdatePromise()
+      .then(function () {
+        return SMC.resetStateContextVersion(SMC.state.contextVersion, false);
+      })
+      .catch(errs.handler);
+  };
+
   this.getUpdatePromise = function () {
     var SMC = this;
-    loading(this.name + 'IsBuilding', true); // `state.IsBuilding` is used for adding spinner to 'Start Build' button
     return this.saveInstanceAndRefreshCards()
       .catch(function (err) {
         errs.handler(err);
         return SMC.resetStateContextVersion(SMC.state.contextVersion, false);
-      })
-      .finally(function () {
-        loading(SMC.name + 'IsBuilding', false);
       });
   };
 

@@ -26,10 +26,9 @@ function serverModalButtonsDirective(
         }
         loading($scope.SMC.name + 'isBuilding', true);
         loading($scope.SMC.name, true);
-        (($scope.SMC.instance) ? $scope.SMC.getUpdatePromise() : $scope.SMC.createServer())
+        (($scope.SMC.instance) ? $scope.SMC.updateInstanceAndReset() : $scope.SMC.createServerAndReset())
           .then(function () {
             $scope.SMC.changeTab('logs');
-            $scope.$emit('resetStateContextVersion', $scope.SMC.state.contextVersion, false);
           })
           .catch(errs.handler)
           .finally(function () {

@@ -12,7 +12,7 @@ var apiMocks = require('./../../../apiMocks/index');
 
 describe('serverModalButtonsDirective'.bold.underline.blue, function () {
   var ctx;
-
+  
   beforeEach(function () {
     ctx = {};
   });
@@ -24,8 +24,8 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
     ctx.serverModalController = {
       name: 'editServerModal',
       instance: ctx.instance,
-      getUpdatePromise: sinon.stub(),
-      createServer: sinon.stub(),
+      updateInstanceAndReset: sinon.stub(),
+      createServerAndReset: sinon.stub(),
       changeTab: sinon.stub(),
       state: {
         contextVersion: ctx.cv
@@ -73,7 +73,7 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
       expect($elScope.isBuilding(), 'isBuilding').to.be.true;
     });
   });
-  describe('createServerOrUpdate', function () {
+  describe('createServerAndResetOrUpdate', function () {
     it('should return immidiately if primary button is disabled', function () {
       $elScope.isPrimaryButtonDisabled = sinon.stub().returns(true);
       $elScope.createServerOrUpdate();
@@ -83,14 +83,12 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
     describe('failures', function () {
       it('should fail safely', function () {
         var error = new Error('I am an error!');
-        ctx.serverModalController.createServer.returns($q.reject(error));
-        var resetStateContextVersionMock = sinon.spy();
+        ctx.serverModalController.createServerAndReset.returns($q.reject(error));
         ctx.instance = null;
         ctx.cv = {
           id: 'hello'
         };
         ctx.serverModalController.state.contextVersion = ctx.cv;
-        $scope.$on('resetStateContextVersion', resetStateContextVersionMock);
 
         $elScope.createServerOrUpdate();
 
@@ -99,11 +97,10 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
         sinon.assert.calledWith(ctx.loadingMock.firstCall, 'editServerModalisBuilding', true);
         sinon.assert.calledWith(ctx.loadingMock.secondCall, 'editServerModal', true);
 
-        sinon.assert.calledOnce(ctx.serverModalController.createServer);
-        sinon.assert.notCalled(ctx.serverModalController.getUpdatePromise);
+        sinon.assert.calledOnce(ctx.serverModalController.createServerAndReset);
+        sinon.assert.notCalled(ctx.serverModalController.updateInstanceAndReset);
 
         sinon.assert.notCalled(ctx.serverModalController.changeTab);
-        sinon.assert.notCalled(resetStateContextVersionMock);
 
         sinon.assert.calledWith(ctx.errsMock.handler, error);
 
@@ -114,14 +111,12 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
     });
     describe('when not disabled', function () {
       it('should attempt to create the server when no instance exists', function () {
-        ctx.serverModalController.createServer.returns($q.when(true));
-        var resetStateContextVersionMock = sinon.spy();
+        ctx.serverModalController.createServerAndReset.returns($q.when(true));
         ctx.instance = null;
         ctx.cv = {
           id: 'hello'
         };
         ctx.serverModalController.state.contextVersion = ctx.cv;
-        $scope.$on('resetStateContextVersion', resetStateContextVersionMock);
 
         $elScope.createServerOrUpdate();
 
@@ -130,26 +125,22 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
         sinon.assert.calledWith(ctx.loadingMock.firstCall, 'editServerModalisBuilding', true);
         sinon.assert.calledWith(ctx.loadingMock.secondCall, 'editServerModal', true);
 
-        sinon.assert.calledOnce(ctx.serverModalController.createServer);
-        sinon.assert.notCalled(ctx.serverModalController.getUpdatePromise);
+        sinon.assert.calledOnce(ctx.serverModalController.createServerAndReset);
+        sinon.assert.notCalled(ctx.serverModalController.updateInstanceAndReset);
 
         sinon.assert.calledOnce(ctx.serverModalController.changeTab);
         sinon.assert.calledWith(ctx.serverModalController.changeTab, 'logs');
-        sinon.assert.calledOnce(resetStateContextVersionMock);
-        sinon.assert.calledWith(resetStateContextVersionMock, sinon.match.object, ctx.cv, false);
 
         sinon.assert.calledWith(ctx.loadingMock.thirdCall, 'editServerModalisBuilding', false);
         sinon.assert.calledWith(ctx.loadingMock.lastCall, 'editServerModal', false);
         $scope.$digest();
       });
       it('should attempt to update the server when an instance exists', function () {
-        ctx.serverModalController.getUpdatePromise.returns($q.when(true));
-        var resetStateContextVersionMock = sinon.spy();
+        ctx.serverModalController.updateInstanceAndReset.returns($q.when(true));
         ctx.instance = {
           id: 'hello'
         };
         ctx.serverModalController.instance = ctx.instance;
-        $scope.$on('resetStateContextVersion', resetStateContextVersionMock);
 
         $elScope.createServerOrUpdate();
 
@@ -158,13 +149,11 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
         sinon.assert.calledWith(ctx.loadingMock.firstCall, 'editServerModalisBuilding', true);
         sinon.assert.calledWith(ctx.loadingMock.secondCall, 'editServerModal', true);
 
-        sinon.assert.notCalled(ctx.serverModalController.createServer);
-        sinon.assert.calledOnce(ctx.serverModalController.getUpdatePromise);
+        sinon.assert.notCalled(ctx.serverModalController.createServerAndReset);
+        sinon.assert.calledOnce(ctx.serverModalController.updateInstanceAndReset);
 
         sinon.assert.calledOnce(ctx.serverModalController.changeTab);
         sinon.assert.calledWith(ctx.serverModalController.changeTab, 'logs');
-        sinon.assert.calledOnce(resetStateContextVersionMock);
-        sinon.assert.calledWith(resetStateContextVersionMock, sinon.match.object, ctx.cv, false);
 
         sinon.assert.calledWith(ctx.loadingMock.thirdCall, 'editServerModalisBuilding', false);
         sinon.assert.calledWith(ctx.loadingMock.lastCall, 'editServerModal', false);
