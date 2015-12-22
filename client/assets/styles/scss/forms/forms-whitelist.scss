@@ -1,32 +1,6 @@
 .form-whitelist {
 
-  .tr {
-    color: $gray;
-    font-size: 13px;
-    overflow: hidden;
-    transition: color .2s, max-height .2s ease-in-out;
-
-    &.ng-enter {
-      color: transparent;
-      max-height: 0;
-    }
-
-    &.ng-enter-active {
-      color: $gray;
-      max-height: 39px;
-    }
-
-    &.ng-leave {
-      color: $gray;
-      max-height: 39px;
-    }
-
-    &.ng-leave-active {
-      color: transparent;
-      max-height: 0;
-    }
-  }
-
+  // ip address form
   .input-group {
     margin: 6px 0;
 
@@ -51,7 +25,6 @@
     padding-bottom: 15px;
   }
 
-  // range checkbox
   .label-checkbox {
     color: $gray;
     font-size: 13px;
@@ -63,13 +36,13 @@
     margin: 0 6px;
   }
 
-  // external icon
+  // in .small text
   .icons-link-external {
     height: 13px;
     top: 3px;
   }
 
-  // transitions
+  // transitions for input range
   .fade {
     transition: opacity .15s ease-in-out;
 
@@ -122,10 +95,35 @@
   }
 }
 
+// ip address table
 .table-whitelist {
 
   .tr {
     align-items: center;
+    color: $gray;
+    font-size: 13px;
+    overflow: hidden;
+    transition: color .2s, max-height .2s ease-in-out;
+
+    &.ng-enter {
+      color: transparent;
+      max-height: 0;
+    }
+
+    &.ng-enter-active {
+      color: $gray;
+      max-height: 39px;
+    }
+
+    &.ng-leave {
+      color: $gray;
+      max-height: 39px;
+    }
+
+    &.ng-leave-active {
+      color: transparent;
+      max-height: 0;
+    }
   }
 
   .input {
