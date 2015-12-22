@@ -29,30 +29,36 @@
       ) new bot
       | .
 
-  input.input.input-sm.monospace.text-center.input-validate(
-    name = "slackApiTokenField"
-    ng-disabled = "SIFC.state === 'verifying'"
-    ng-model = "SIFC.slackApiToken"
-    ng-model-options = "{debounce: 250}"
-    placeholder = "API Token"
-    required
-    slack-api-token-validator
-    spellcheck = "false"
-  )
+  .input-spinner
+    input.input.input-sm.monospace.text-center.input-validate(
+      name = "slackApiTokenField"
+      ng-disabled = "SIFC.state === 'verifying'"
+      ng-model = "SIFC.slackApiToken"
+      ng-model-options = "{debounce: 250}"
+      placeholder = "API Token"
+      required
+      slack-api-token-validator
+      spellcheck = "false"
+    )
+    .spinner-wrapper.spinner-sm.spinner-gray.in(
+      ng-if = "SIFC.slackApiTokenForm.$pending"
+      ng-include = "'spinner'"
+    )
+
   .validation-message.text-center(
     ng-if = "!SIFC.slackApiTokenForm.$pristine && SIFC.slackApiTokenForm.$invalid"
   ) Invalid API Token
 
-  button.btn.green.btn-spinner(
-    ng-class = "{'in': SIFC.slackApiTokenForm.$pending || SIFC.state === 'verifying'}"
+  button.btn.btn-sm.btn-spinner.green(
+    ng-class = "{'in': SIFC.state === 'verifying'}"
     ng-click = "SIFC.verifySlack();"
     ng-disabled = "!SIFC.slackApiTokenForm.$valid || SIFC.slackApiTokenForm.$pending || SIFC.state === 'verifying'"
   )
     .spinner-wrapper.spinner-sm.spinner-white.in(
       ng-include = "'spinner'"
-      ng-if = "SIFC.slackApiTokenForm.$pending || SIFC.state === 'verifying'"
+      ng-if = "SIFC.state === 'verifying'"
     )
-    | Verify Token
+    | Add Slack Integration
 
 //- integrations form
 .modal-form.form.modal-integrations(
