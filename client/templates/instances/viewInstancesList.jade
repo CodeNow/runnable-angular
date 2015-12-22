@@ -54,15 +54,15 @@
   //- if default container is not running or if no admin is present
   //- popover should appear on hover
   button.btn.btn-xs.white.btn-add-branches.disabled(
+    ng-if = "$root.featureFlags.webhooks && masterInstance.status() !== 'running' && !$root.featureFlags.webhooksAdminPresent"
     pop-over
-    pop-over-options = "{\"verticallyCentered\": true, \"left\": 129}"
-    pop-over-template = "enableBranchesPopoverView"
     pop-over-controller = "CIS"
     pop-over-controller-as = "EBPC"
     pop-over-data = "masterInstance"
-    pop-over-trigger = "hover"
     pop-over-hover-trigger
-    ng-if = "$root.featureFlags.webhooks && masterInstance.status() !== 'running' && !$root.featureFlags.webhooksAdminPresent"
+    pop-over-options = "{\"verticallyCentered\": true, \"left\": 129}"
+    pop-over-template = "enableBranchesPopoverView"
+    pop-over-trigger = "hover"
   ) Enable Branches…
 
   //- if default container is running and admin is present

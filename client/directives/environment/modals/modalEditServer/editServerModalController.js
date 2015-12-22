@@ -198,6 +198,22 @@ function EditServerModalController(
     });
   };
 
+  SMC.rebuild = function (noCache, forceRebuild) {
+    loading(SMC.name, true);
+    return SMC.rebuildAndOrRedeploy(noCache, forceRebuild)
+      .then(function () {
+        return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
+      })
+      .then(function (contextVersion) {
+        loadingPromises.clear(SMC.name);
+        return contextVersion;
+      })
+      .catch(errs.handler)
+      .finally(function () {
+        loading(SMC.name, false);
+      });
+  };
+
   SMC.isDockerfileValid = function () {
     if (!SMC.state.advanced || !keypather.get(SMC, 'state.dockerfile.validation.criticals.length')) {
       return true;

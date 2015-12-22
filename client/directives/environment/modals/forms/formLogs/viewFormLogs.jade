@@ -2,7 +2,6 @@
 .alert.gray(
   ng-if = "\
     $root.featureFlags.newVerificationFlow && \
-    SMC.name === 'setupServerModal' && \
     SMC.instance && \
     SMC.isDirty()\
   "
@@ -15,7 +14,6 @@
 .alert.orange(
   ng-if = "\
     $root.featureFlags.newVerificationFlow && \
-    SMC.name === 'setupServerModal' && \
     !$root.isLoading.setupServerModalIsBuilding && \
     !SMC.isDirty() && \
     SMC.instance.status() === 'buildFailed' \

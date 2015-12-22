@@ -24,14 +24,16 @@ function containerUrl(
       instance: '='
     },
     link: function ($scope) {
-      $scope.$watch('instance', function (newValue) {
+      $scope.$watchCollection('instance.containers.models[0].attrs.ports', function (newValue) {
+        $scope.defaultPort = '';
         if (!newValue) {
           return;
         }
-        var ports = extractInstancePorts(newValue);
-        $scope.defaultPort = '';
-        if (ports.length && !ports.includes('80')) {
-          $scope.defaultPort = ':' + ports[0];
+        var ports = extractInstancePorts($scope.instance);
+        if (ports.length) {
+          if (!ports.includes('80')) {
+            $scope.defaultPort = ':' + ports[0];
+          }
         }
       });
       function getModifierKey() {
