@@ -21,11 +21,13 @@ div(
     ng-attr-title = "{{instance.getDisplayName()}}"
   ) {{(instance.getRepoName() || instance.attrs.name)}}
   span.btn-text(
-    ng-attr-title = "{{instance | cardBuildStatusTitle}}"
-  ) {{instance | cardBuildStatusText:true}}
+    ng-attr-title = "{{SMC.isDirty() ? '' : (instance | cardBuildStatusTitle)}}"
+  ) {{SMC.isDirty() ? '—Unsaved' : (instance | cardBuildStatusText:true)}}
+
   svg.iconnables.icons-arrow-down(
     ng-if = "!noTouching"
   )
     use(
       xlink:href = "#icons-arrow-down"
     )
+

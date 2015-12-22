@@ -18,7 +18,8 @@ function serverStatusCardHeader(
     scope: {
       instance: '= instance',
       noTouching: '=? noTouching',
-      inModal: '=? inModal'
+      inModal: '=? inModal',
+      SMC: '=? serverModalController'
     },
     templateUrl: function (elem, attrs) {
       if ($rootScope.featureFlags.cardStatus) {

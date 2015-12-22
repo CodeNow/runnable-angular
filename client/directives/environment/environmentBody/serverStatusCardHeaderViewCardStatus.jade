@@ -27,7 +27,7 @@
 
   //- only appears if container is unsaved and only in the modal
   span.text-overflow.container-title(
-     ng-if = "$root.featureFlags.rebuildFlow"
+     ng-if = "SMC.isDirty()"
   ) —Unsaved
 
   svg.iconnables.icons-arrow-down

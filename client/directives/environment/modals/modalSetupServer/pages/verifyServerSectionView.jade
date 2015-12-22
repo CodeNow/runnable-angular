@@ -2,6 +2,9 @@ header.modal-header
   //- title
   .container-title-wrapper.title-verification
     span.text-overflow.container-title {{SMC.state.repo.attrs.name}}
+    span.text-overflow.container-title(
+      ng-if = "SMC.instance && SMC.isDirty()"
+    ) —Unsaved
     button.btn.btn-xxs.gray(
       ng-if = "$root.featureFlags.nameContainer"
       pop-over

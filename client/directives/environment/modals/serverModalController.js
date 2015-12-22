@@ -35,6 +35,9 @@ function ServerModalController(
   this.isDirty = function () {
     // Loading promises are clear when the modal is saved or cancelled.
     var SMC = this;
+    if ($rootScope.isLoading[$scope.SMC.name + 'isBuilding'] || $rootScope.isLoading[$scope.SMC.name]) {
+      return false;
+    }
     var requiresBuild = loadingPromises.count(SMC.name) > 0 || !SMC.openItems.isClean() ? 'build' : false;
     var requiresUpdate = !angular.equals(
       keypather.get(SMC, 'instance.attrs.env') || [],
@@ -282,7 +285,7 @@ function ServerModalController(
     var SMC = this;
     return this.getUpdatePromise()
       .then(function () {
-        return SMC.resetStateContextVersion(SMC.state.contextVersion, false);
+        return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
       })
       .catch(errs.handler);
   };
