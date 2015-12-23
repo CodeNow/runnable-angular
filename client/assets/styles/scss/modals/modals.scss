@@ -146,14 +146,21 @@
     max-width: 90px;
   }
 
-  // show 2 tabs
   &.tabs-2 {
     max-width: 90px * 2;
   }
 
+  &.tabs-3 {
+    max-width: 90px * 3;
+  }
+
+  &.tabs-4 {
+    max-width: 90px * 4;
+  }
+
   // show all tabs except logs
-  &.tabs-7 {
-    max-width: 90px * 7;
+  &.tabs-8 {
+    max-width: 90px * 8;
   }
 
   // show all tabs
