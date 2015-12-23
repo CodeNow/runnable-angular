@@ -45,7 +45,7 @@
           )
 
           button.btn.btn-xs.green.js-animate(
-            ng-class = "{'in': IMC.sendingInvitation}"
+            ng-class = "{'in': !!IMC.sendingInviteUserId}"
             ng-click = "IMC.sendInvitation(user, $index)"
             ng-disabled = "!user.inviteEmail"
             ng-show = "IMC.activeUserId === user.id"

@@ -25,7 +25,6 @@ function InviteModalController(
 
   IMC.sendInvitation = function (user) {
     IMC.sendingInviteUserId = user.id;
-    IMC.sendingInvitation = true;
     IMC.setActiveUserId(null);
     return inviteGithubUserToRunnable(user.id, user.inviteEmail, teamName)
       .then(function (invitationModel) {
@@ -34,13 +33,11 @@ function InviteModalController(
         // Append invitation to user
         user.userInvitation = invitationModel;
         $rootScope.$broadcast('newInvitedAdded', user);
-        IMC.sendingInvitation = false;
         IMC.sendingInviteUserId = null;
         return invitationModel;
       })
       .catch(function (err) {
         errs.handler(err);
-        IMC.sendingInvitation = false;
         IMC.sendingInviteUserId = null;
       });
   };
