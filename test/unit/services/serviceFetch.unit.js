@@ -1036,6 +1036,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
     var orgId1 = 1;
     var orgName2 = 'Runnable';
     var orgId2 = 2;
+    var $httpStub;
     var fetchOrgsResponse = {
       models: [
         { attrs: generateGithubOrgObject(orgName1, orgId1) },
@@ -1049,10 +1050,11 @@ describe('serviceFetch'.bold.underline.blue, function () {
     beforeEach(function () {
       angular.mock.module('app');
       angular.mock.module(function ($provide) {
-        $provide.factory('fetchOrgs', function ($q) {
-          return function () {
-            return $q.when(fetchOrgsResponse);
+        $provide.factory('$http', function ($q) {
+          $httpStub = function () {
+            return $q.when({ data: { id: orgId1 }});
           };
+          return $httpStub;
         });
       });
       angular.mock.inject(function (
@@ -1066,18 +1068,12 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
     it('should fetch the correct github ID for a given github organization name', function () {
       var result1;
-      var result2;
       fetchGithubOrgId(orgName1)
         .then(function (res) {
           result1 = res;
         });
-      fetchGithubOrgId(orgName2)
-        .then(function (res) {
-          result2 = res;
-        });
       $rootScope.$digest();
       expect(result1).to.equal(orgId1);
-      expect(result2).to.equal(orgId2);
     });
 
     it('should return a reject promise if there is no org with that name', function () {

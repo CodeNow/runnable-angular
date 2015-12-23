@@ -419,11 +419,11 @@ function fetchGithubOrgId(
   keypather
 ) {
   var githubOrgIdCache = {};
-  return function (orgNameOrId) {
-    if (!githubOrgIdCache[orgNameOrId]) {
-      githubOrgIdCache[orgNameOrId] = $http({
+  return function (orgName) {
+    if (!githubOrgIdCache[orgName]) {
+      githubOrgIdCache[orgName] = $http({
         method: 'get',
-        url: configAPIHost + '/github/orgs/' + orgNameOrId
+        url: configAPIHost + '/github/orgs/' + orgName
       })
         .then(function (orgObject) {
           if (keypather.get(orgObject, 'data.id')) {
@@ -432,7 +432,7 @@ function fetchGithubOrgId(
           return $q.reject('No Github organization found for org name provided');
         });
     }
-    return githubOrgIdCache[orgNameOrId];
+    return githubOrgIdCache[orgName];
   };
 }
 
