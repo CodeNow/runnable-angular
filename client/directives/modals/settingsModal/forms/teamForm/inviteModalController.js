@@ -48,6 +48,6 @@ function InviteModalController(
 
   IMC.close = function () {
     // Inform ModalService if any invites were sent
-    close(!!IMC.invitesSent);
+    close(IMC.invitesSent > 0);
   };
 }
