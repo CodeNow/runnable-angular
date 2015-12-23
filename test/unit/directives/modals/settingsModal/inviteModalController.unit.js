@@ -15,8 +15,7 @@ var $q;
 describe('InviteModalController'.bold.underline.blue, function () {
 
   var IMC;
-  var fetchUserStub;
-  var fetchGithubOrgIdStub;
+  var inviteGithubUserToRunnableStub;
   var user;
   var errs;
   var username = 'purpleBear';
@@ -39,22 +38,10 @@ describe('InviteModalController'.bold.underline.blue, function () {
         };
         return errs;
       });
-      $provide.factory('fetchUser', function ($q, $rootScope) {
-        user = generateUserObject(username, userId, {
-          createTeammateInvitation: sinon.spy(function (opts, cb) {
-            var invite = generateTeammateInvitationObject(githubOrg.id, userId, userEmail);
-            $rootScope.$evalAsync(function () {
-              cb(null, { attrs: invite });
-            });
-            return { attrs: invite };
-          })
-        });
-        fetchUserStub = sinon.stub().returns($q.when(user));
-        return fetchUserStub;
-      });
-      $provide.factory('fetchGithubOrgId', function ($q) {
-        fetchGithubOrgIdStub = sinon.stub().returns($q.when(githubOrg.id));
-        return fetchGithubOrgIdStub;
+      $provide.factory('inviteGithubUserToRunnable', function ($q) {
+        var invite = generateTeammateInvitationObject(githubOrg.id, userId, userEmail);
+        inviteGithubUserToRunnableStub = sinon.stub().returns($q.when({ attrs: invite }));
+        return inviteGithubUserToRunnableStub;
       });
       $provide.value('teamName', 'hello');
       $provide.value('unInvitedMembers', unInvitedMembers);
@@ -95,11 +82,9 @@ describe('InviteModalController'.bold.underline.blue, function () {
     it('should correctly set `sending` state', function () {
       IMC.sendInvitation(unInvitedMembers[0]);
       expect(IMC.sendingInviteUserId).to.equal(userId);
-      expect(IMC.sendingInvitation).to.equal(true);
       expect(IMC.activeUserId).to.equal(null);
       $scope.$digest();
       expect(unInvitedMembers[0].inviteSent).to.equal(true);
-      expect(IMC.sendingInvitation).to.equal(false);
       expect(IMC.sendingInviteUserId).to.equal(null);
     });
 
@@ -114,37 +99,20 @@ describe('InviteModalController'.bold.underline.blue, function () {
       expect(invitePromise).to.eventually.have.deep.property('attrs.recipient.github', userId);
       expect(invitePromise).to.eventually.have.deep.property('attrs.recipient.email', userEmail);
       $scope.$digest();
-      sinon.assert.calledOnce(fetchGithubOrgIdStub);
-      sinon.assert.calledOnce(fetchUserStub);
-      sinon.assert.calledOnce(user.createTeammateInvitation);
-      sinon.assert.calledWith(user.createTeammateInvitation, {
-        organization: {
-          github: orgId,
-        },
-        recipient: {
-          email: userEmail,
-          github: userId
-        }
-      });
+      sinon.assert.calledOnce(inviteGithubUserToRunnableStub);
+      sinon.assert.calledWith(inviteGithubUserToRunnableStub, userId, userEmail, 'hello');
     });
 
     it('should display any errors to the user and reset the `sending` state', function () {
       /// Force function to throw an error
-      user.createTeammateInvitation = sinon.spy(function (opts, cb) {
-        $rootScope.$evalAsync(function () {
-          cb(new Error('SuperError'), null);
-        });
-        return $q.reject(new Error('SuperError'));
-      });
+      inviteGithubUserToRunnableStub.returns($q.reject(new Error('SuperError')));
       // Send Invitation
       IMC.sendInvitation(unInvitedMembers[0]);
       expect(IMC.sendingInviteUserId).to.equal(userId);
-      expect(IMC.sendingInvitation).to.equal(true);
       expect(IMC.activeUserId).to.equal(null);
       $scope.$digest();
       sinon.assert.calledOnce(errs.handler);
       expect(unInvitedMembers[0].inviteSent).to.equal(undefined);
-      expect(IMC.sendingInvitation).to.equal(false);
       expect(IMC.sendingInviteUserId).to.equal(null);
     });
   });
