@@ -17,7 +17,9 @@
 
 .label.clearfix
   .label-col IP Whitelist
-  .input-col
+  .input-col(
+    ng-init = "state.addDescription = null"
+  )
     //- apply .ng-invalid when ip address is invalid to .input-group
     p.validation-message(
       ng-if = "invalid"
@@ -50,6 +52,9 @@
         maxlength = "15"
         placeholder = "0.0.0.0"
       )
+    input.input.input-sm(
+      placeholder = "Description (optional)"
+    )
     .form-add-ip.clearfix
       label.label-checkbox.float-left
         input.checkbox(
@@ -57,7 +62,7 @@
           type = "checkbox"
         )
         | Use IP Range
-      button.btn.btn-xs.white.float-right(
+      button.btn.btn-sm.white.float-right(
         ng-disabled = "!address1.length || isRange && !address2.length"
         type = "button"
       ) Add to Whitelist
