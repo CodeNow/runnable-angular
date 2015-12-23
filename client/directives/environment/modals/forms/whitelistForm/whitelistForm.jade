@@ -17,11 +17,11 @@
   .input-col(
     ng-init = "state.addDescription = null"
   )
-    //- apply .ng-invalid when ip address is invalid to .input-group
     p.validation-message(
       ng-if = "invalid"
     ) Invalid IP Address
 
+    //- apply .ng-invalid when ip address is invalid to .input-group
     label.input-group.input-group-sm.input-validate.white(
       ng-class = "{'focus': state.isFocused}"
     )
