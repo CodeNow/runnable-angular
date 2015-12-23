@@ -491,27 +491,26 @@ function inviteGithubUserToRunnable(
  * @return {Promise}
  */
 function fetchGithubOrgId(
-  fetchOrgs,
-  keypather,
-  $q
+  $http,
+  $q,
+  configAPIHost,
+  keypather
 ) {
   var githubOrgIdCache = {};
   return function (orgNameOrId) {
-    if (githubOrgIdCache[orgNameOrId]) {
-      return githubOrgIdCache[orgNameOrId];
-    }
-    return fetchOrgs(orgNameOrId)
-      .then(function (orgsCollection) {
-        var orgs = orgsCollection.filter(function (org) {
-          return keypather.get(org, 'attrs.login') === orgNameOrId;
+    if (!githubOrgIdCache[orgNameOrId]) {
+      githubOrgIdCache[orgNameOrId] = $http({
+        method: 'get',
+        url: configAPIHost + '/github/orgs/' + orgNameOrId
+      })
+        .then(function (orgObject) {
+          if (keypather.get(orgObject, 'data.id')) {
+            return orgObject.data.id;
+          }
+          return $q.reject('No Github organization found for org name provided');
         });
-        if (orgs.length > 0) {
-          var orgId = orgs[0].attrs.id;
-          githubOrgIdCache[orgNameOrId] = orgId;
-          return orgId;
-        }
-        return $q.reject('No Github organization found for org name provided');
-      });
+    }
+    return githubOrgIdCache[orgNameOrId];
   };
 }
 
@@ -564,15 +563,29 @@ function fetchOrgMembers(
   $q,
   keypather,
   fetchGitHubMembers,
+  fetchGitHubUser,
   fetchOrgRegisteredMembers,
   fetchOrgTeammateInvitations
 ) {
-  return function (teamName) {
+  return function (teamName, fetchGithubUserEmail) {
     return $q.all([
       fetchGitHubMembers(teamName),
       fetchOrgRegisteredMembers(teamName),
       fetchOrgTeammateInvitations(teamName)
     ])
+    .then(function (responseArray) {
+      if (fetchGithubUserEmail) {
+        return $q.all([
+          $q.all(responseArray[0].map(function (member) {
+            // Fetch the complete user profile, in order to get user email
+            return fetchGitHubUser(member.login);
+          })),
+          responseArray[1],
+          responseArray[2]
+        ]);
+      }
+      return responseArray;
+    })
     .then(function (responseArray) {
       var githubMembers = responseArray[0];
       var runnableUsersCollection = responseArray[1];
@@ -596,7 +609,6 @@ function fetchOrgMembers(
           invitedUsers[githubId] = invitationModel;
         }
       });
-
       githubMembers.forEach(function (member) {
         if (runnableUsers[member.login]) {
           member.userModel = runnableUsers[member.login];
