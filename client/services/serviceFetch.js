@@ -413,20 +413,21 @@ function fetchOrgRegisteredMembers(
  * @return {Promise}
  */
 function fetchGithubOrgId(
-  fetchOrgs,
-  keypather,
-  $q
+  $http,
+  $q,
+  configAPIHost,
+  keypather
 ) {
   var githubOrgIdCache = {};
   return function (orgNameOrId) {
     if (!githubOrgIdCache[orgNameOrId]) {
-      githubOrgIdCache[orgNameOrId] = fetchOrgs(orgNameOrId)
-        .then(function (orgsCollection) {
-          var orgs = orgsCollection.filter(function (org) {
-            return keypather.get(org, 'attrs.login') === orgNameOrId;
-          });
-          if (orgs.length > 0) {
-            return orgs[0].attrs.id;
+      githubOrgIdCache[orgNameOrId] = $http({
+        method: 'get',
+        url: configAPIHost + '/github/orgs/' + orgNameOrId
+      })
+        .then(function (orgObject) {
+          if (keypather.get(orgObject, 'data.id')) {
+            return orgObject.data.id;
           }
           return $q.reject('No Github organization found for org name provided');
         });
