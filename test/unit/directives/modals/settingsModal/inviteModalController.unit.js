@@ -82,11 +82,9 @@ describe('InviteModalController'.bold.underline.blue, function () {
     it('should correctly set `sending` state', function () {
       IMC.sendInvitation(unInvitedMembers[0]);
       expect(IMC.sendingInviteUserId).to.equal(userId);
-      expect(IMC.sendingInvitation).to.equal(true);
       expect(IMC.activeUserId).to.equal(null);
       $scope.$digest();
       expect(unInvitedMembers[0].inviteSent).to.equal(true);
-      expect(IMC.sendingInvitation).to.equal(false);
       expect(IMC.sendingInviteUserId).to.equal(null);
     });
 
@@ -111,12 +109,10 @@ describe('InviteModalController'.bold.underline.blue, function () {
       // Send Invitation
       IMC.sendInvitation(unInvitedMembers[0]);
       expect(IMC.sendingInviteUserId).to.equal(userId);
-      expect(IMC.sendingInvitation).to.equal(true);
       expect(IMC.activeUserId).to.equal(null);
       $scope.$digest();
       sinon.assert.calledOnce(errs.handler);
       expect(unInvitedMembers[0].inviteSent).to.equal(undefined);
-      expect(IMC.sendingInvitation).to.equal(false);
       expect(IMC.sendingInviteUserId).to.equal(null);
     });
   });
