@@ -62,6 +62,10 @@ function InviteModalController(
       $rootScope.$broadcast('newInvitedAdded', user);
       IMC.sendingInvitation = false;
       IMC.sendingInviteUserId = null;
+      if (IMC.unInvitedMembers.length === 0) {
+        // Close the modal if there are no more invitations left
+        IMC.close();
+      }
       return invitationModel;
     })
     .catch(function (err) {
