@@ -471,7 +471,7 @@ function fetchOrgTeammateInvitations(
       .then(function (githubOrgId) {
         return fetchUser()
           .then(function (user) {
-            return promisify(user, 'fetchTeammateInvitations')({ orgGithubId: githubOrgId });
+            return promisify(user, 'fetchTeammateInvitations', true)({ orgGithubId: githubOrgId });
           });
       });
   };
