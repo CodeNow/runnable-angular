@@ -23,7 +23,8 @@ if (process.env.HTTPS) {
   });
 }
 app.use(function (req, res, next) {
-  res.setHeader('Content-Encoding','gzip');
+  res.setHeader('Content-Encoding', 'gzip');
+  res.setHeader('X-Frame-Options', 'DENY');
   next();
 });
 

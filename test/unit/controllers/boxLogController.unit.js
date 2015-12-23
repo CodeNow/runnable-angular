@@ -167,7 +167,7 @@ describe('BoxLogController'.bold.underline.blue, function () {
       $scope.$on('STREAM_START', startSpy);
       var container = ctx.instance.containers.models[0];
       container.attrs.inspect.Config.Hostname = 'HostName';
-      container.attrs.inspect.Config.Cmd = ['hello', 'everybody'];
+      container.attrs.inspect.Config.Cmd = ['adsfgdsfgsdfgdsfg', 'done;', 'hello', 'everybody'];
       container.attrs.dockerContainer = true;
 
       container.running = function () {
@@ -177,6 +177,11 @@ describe('BoxLogController'.bold.underline.blue, function () {
       $rootScope.$digest();
 
       sinon.assert.calledOnce(writeSpy);
+      sinon.assert.calledWith(writeSpy, sinon.match.object,
+        '\x1b[33;1mroot@HostName' +
+        '\x1b[0m:  ' +
+        'hello everybody' +
+        '\n\r');
       sinon.assert.calledOnce(startSpy);
     });
     it('should put the error message on the term', function (done) {

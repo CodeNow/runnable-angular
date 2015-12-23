@@ -26,26 +26,25 @@ function dnsConfiguration() {
       });
 
       $scope.getWorstStatusClass = function () {
+        var worstStatus = 'gray';
         if (!$scope.DCC.filteredDependencies) {
-          return;
+          return worstStatus;
         }
-        var worstStatus = '';
         $scope.DCC.filteredDependencies.some(function (dependency) {
           if (dependency.instance.destroyed) {
             return false;
           }
           var status = dependency.instance.status();
-          if (['buildFailed', 'crashed'].includes(status)) {
+          if (['buildFailed', 'crashed', 'neverStarted'].includes(status)) {
             worstStatus = 'red';
             return true;
           }
-          if (worstStatus !== 'red' && ['starting', 'neverStarted', 'building'].includes(status)) {
+          if (worstStatus !== 'red' && ['building', 'starting'].includes(status)) {
             worstStatus = 'orange';
           }
         });
         return worstStatus;
       };
-
     }
   };
 }
