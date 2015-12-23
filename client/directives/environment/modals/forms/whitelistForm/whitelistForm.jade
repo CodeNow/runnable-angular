@@ -1,21 +1,18 @@
-.label
+.label(
+  ng-init = "state.whitelist = true"
+)
   label.well.in.gray.toggle-wrapper.clearfix
     input.toggle-input(
+      ng-model = "state.whitelist"
       type = "checkbox"
     )
     .toggle-group.toggle-sm.float-right
-    .small.strong Service Whitelist
-    small.small Enable to whitelist a default list of services.&#32;
-      a.link(
-        href = "#"
-        target = "_blank"
-      ) List of services
-        svg.iconnables.icons-link-external
-          use(
-            xlink:href = "#icons-link-external"
-          )
+    .small.strong IP Whitelist
+    small.small While enabled, only whitelisted IPs can make headless requests to your containers.
 
-.label.clearfix
+.label.clearfix.js-animate(
+  ng-if = "state.whitelist"
+)
   .label-col IP Whitelist
   .input-col(
     ng-init = "state.addDescription = null"
@@ -26,27 +23,27 @@
     ) Invalid IP Address
 
     label.input-group.input-group-sm.input-validate.white(
-      ng-class = "{'focus': isFocused}"
+      ng-class = "{'focus': state.isFocused}"
     )
       .label.slide-in.js-animate(
-        ng-if = "isRange"
+        ng-if = "state.isRange"
       ) FROM
       //- this pattern doesn't actaully work for some reason, should validate ipv4
       input.input.input-xs(
-        ng-blur = "isFocused = false"
-        ng-focus = "isFocused = true"
+        ng-blur = "state.isFocused = false"
+        ng-focus = "state.isFocused = true"
         ng-model = "address1"
         ng-pattern = "/((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$/"
         maxlength = "15"
         placeholder = "0.0.0.0"
       )
       .label.fade.js-animate(
-        ng-if = "isRange"
+        ng-if = "state.isRange"
       ) TO
       input.input.input-xs.fade.js-animate(
-        ng-blur = "$parent.isFocused = false"
-        ng-focus = "$parent.isFocused = true"
-        ng-if = "isRange"
+        ng-blur = "$parent.state.isFocused = false"
+        ng-focus = "$parent.state.isFocused = true"
+        ng-if = "state.isRange"
         ng-model = "$parent.address2"
         ng-pattern = "/((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$/"
         maxlength = "15"
@@ -58,43 +55,14 @@
     .form-add-ip.clearfix
       label.label-checkbox.float-left
         input.checkbox(
-          ng-model = "isRange"
+          ng-model = "state.isRange"
           type = "checkbox"
         )
         | Use IP Range
       button.btn.btn-sm.white.float-right(
-        ng-disabled = "!address1.length || isRange && !address2.length"
+        ng-disabled = "!address1.length || state.isRange && !address2.length"
         type = "button"
       ) Add to Whitelist
-
-    //- empty table state
-    //- .well.in.gray.empty
-      svg.icons-compass(viewBox='0 0 41 50.562')
-        path(fill='#52306C', d='M20.5,10c-2.757,0-5-2.243-5-5s2.243-5,5-5s5,2.243,5,5S23.257,10,20.5,10z M20.5,1c-2.206,0-4,1.794-4,4\s1.794,4,4,4c2.206,0,4-1.794,4-4S22.706,1,20.5,1z')
-        path(fill='#D5D5D5', d='M23.5,10.406c0-1.605-1.343-2.906-3-2.906s-3,1.301-3,2.906v2.344h6V10.406z')
-        path(fill='#52306C', d='M24,13.25h-7v-2.844C17,8.528,18.57,7,20.5,7S24,8.528,24,10.406V13.25z M18,12.25h5v-1.844\C23,9.08,21.879,8,20.5,8C19.122,8,18,9.08,18,10.406V12.25z')
-        path(fill='#D5D5D5', d='M40.5,28.812c0-10.114-8.954-18.312-20-18.312s-20,8.199-20,18.312v2.938c0,10.114,8.954,18.312,20,18.312\s20-8.199,20-18.312V28.812z')
-        path(fill='#52306C', d='M20.5,50.562C9.196,50.562,0,42.123,0,31.75v-2.938C0,18.439,9.196,10,20.5,10S41,18.439,41,28.812v2.938\C41,42.123,31.804,50.562,20.5,50.562z M20.5,11C9.748,11,1,18.991,1,28.812v2.938c0,9.822,8.748,17.812,19.5,17.812\c10.752,0,19.5-7.99,19.5-17.812v-2.938C40,18.991,31.252,11,20.5,11z')
-        ellipse(fill='#C1C1C1', cx='20.5', cy='31.75', rx='20', ry='18.312')
-        path(fill='#52306C', d='M20.5,50.312c-11.166,0-20.25-8.327-20.25-18.562S9.334,13.188,20.5,13.188s20.25,8.327,20.25,18.562\S31.666,50.312,20.5,50.312z M20.5,13.688c-10.89,0-19.75,8.103-19.75,18.062c0,9.96,8.86,18.062,19.75,18.062\c10.891,0,19.75-8.103,19.75-18.062C40.25,21.791,31.391,13.688,20.5,13.688z')
-        path(opacity='0.12', fill='#231F20', d='M17.595,9.715c-0.056,0.223-0.095,0.452-0.095,0.691v2.344h6v-2.344c0-0.24-0.038-0.469-0.095-0.691C22.454,9.588,21.489,9.5,20.5,9.5S18.546,9.588,17.595,9.715z')
-        ellipse(fill='#D5D5D5', cx='20.5', cy='28.812', rx='20', ry='18.312')
-        path(fill='#52306C', d='M20.5,47.375c-11.166,0-20.25-8.327-20.25-18.562S9.334,10.25,20.5,10.25s20.25,8.327,20.25,18.562S31.666,47.375,20.5,47.375z M20.5,10.75c-10.89,0-19.75,8.103-19.75,18.062c0,9.96,8.86,18.062,19.75,18.062c10.891,0,19.75-8.103,19.75-18.062C40.25,18.853,31.391,10.75,20.5,10.75z')
-        ellipse(fill='#FFFFFF', cx='20.5', cy='28.812', rx='18', ry='16.481')
-        path(fill='#52306C', d='M20.5,45.544c-10.063,0-18.25-7.506-18.25-16.731s8.187-16.731,18.25-16.731c10.063,0,18.25,7.506,18.25,16.731S30.563,45.544,20.5,45.544z M20.5,12.581c-9.788,0-17.75,7.281-17.75,16.231s7.962,16.231,17.75,16.231c9.787,0,17.75-7.281,17.75-16.231S30.287,12.581,20.5,12.581z')
-        path(opacity='0.12', fill='#231F20', d='M31.038,19.274l-6.303,3.735l-4.457,2.641c-1.483,0.291-2.649,1.457-2.94,2.94l-2.641,4.457\l-3.735,6.303l6.303-3.735l4.457-2.641c1.483-0.291,2.649-1.457,2.94-2.94l2.641-4.457L31.038,19.274z')
-        polygon(fill='#8BD5F9', points='17.932,26.244 14.197,32.547 10.462,38.851 16.765,35.116 23.068,31.381   ')
-        path(fill='#52306C', d='M10.462,39.101c-0.064,0-0.128-0.025-0.177-0.073c-0.081-0.081-0.097-0.206-0.038-0.305l7.47-12.606c0.039-0.066,0.107-0.111,0.184-0.121c0.076-0.014,0.153,0.016,0.208,0.071l5.137,5.137c0.055,0.055,0.081,0.132,0.071,0.208s-0.054,0.145-0.121,0.184l-12.606,7.47C10.55,39.089,10.506,39.101,10.462,39.101z M17.982,26.648l-6.807,11.489l11.489-6.808L17.982,26.648z')
-        polygon(fill='#F25058', points='23.068,31.381 23.068,31.381 26.803,25.078 30.538,18.774 24.235,22.509 17.932,26.244 17.932,26.244   ')
-        path(fill='#52306C', d='M23.068,31.631c-0.065,0-0.13-0.026-0.177-0.073l-5.137-5.137c-0.055-0.055-0.081-0.132-0.071-0.208c0.01-0.077,0.054-0.145,0.121-0.184l12.606-7.47c0.099-0.059,0.224-0.043,0.305,0.038c0.081,0.081,0.097,0.206,0.038,0.304l-7.47,12.606c-0.039,0.067-0.107,0.111-0.184,0.121C23.089,31.63,23.079,31.631,23.068,31.631z M18.336,26.295l4.682,4.682l6.808-11.489L18.336,26.295z')
-        circle(opacity='0.12', fill='#231F20', cx='20', cy='29.312', r='3.735')
-        circle(opacity='0.12', fill='#231F20', cx='21', cy='28.312', r='3.735')
-        circle(fill='#FFFFFF', cx='20.5', cy='28.812', r='3.735')
-        path(fill='#52306C', d='M20.5,32.798c-2.197,0-3.985-1.788-3.985-3.985s1.788-3.985,3.985-3.985s3.985,1.788,3.985,3.985S22.697,32.798,20.5,32.798z M20.5,25.328c-1.921,0-3.485,1.563-3.485,3.485s1.563,3.485,3.485,3.485c1.922,0,3.485-1.563,3.485-3.485S22.422,25.328,20.5,25.328z')
-        path(opacity='0.06', fill='#231F20', d='M20.5,13.831c9.665,0,17.527,6.98,17.959,15.731c0.012-0.25,0.041-0.497,0.041-0.75c0-9.102-8.059-16.481-18-16.481s-18,7.379-18,16.481c0,0.253,0.029,0.5,0.041,0.75C2.973,20.811,10.835,13.831,20.5,13.831z')
-      p.p.empty Whitelist an address for headless requests.
-      small.small.text-center Start with your address!
-      button.btn.btn-xs.white Add 0.0.0.0 to the Whitelist
 
     //- remove this table if there is nothing on the whitelist
     .table.table-whitelist(
