@@ -1,5 +1,38 @@
 .form-whitelist {
 
+  // service state
+  .label:first-child {
+    margin-bottom: 0;
+  }
+
+  .toggle-wrapper {
+    display: block;
+    margin: 0;
+    padding: 9px;
+  }
+
+  // empty state
+  .well.empty {
+    margin: 0;
+    padding-bottom: 15px;
+
+    .p.empty {
+      margin: 15px 0 6px;
+    }
+  }
+
+  .icons-compass {
+    display: block;
+    height: 90px;
+    margin: 15px auto;
+    width: 90px;
+  }
+
+  .btn-xs {
+    display: table;
+    margin: 0 auto;
+  }
+
   // ip address form
   .input-group {
     margin: 6px 0;
@@ -98,6 +131,7 @@
 // ip address table
 .table-whitelist {
 
+  // rows
   .tr {
     align-items: center;
     color: $gray;
