@@ -167,6 +167,14 @@ function buildLogs(
         };
       };
 
+      $scope.hasFailedAndHasNoLogs = function () {
+        return (
+          $scope.BLC.buildLogs.length === 0 &&
+          !$scope.BLC.buildLogsRunning &&
+          $scope.BLC.buildStatus === 'failed'
+        );
+      };
+
       $scope.getBuildMessage = function () {
 
         var totalBuildTime;

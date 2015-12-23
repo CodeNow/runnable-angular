@@ -18,10 +18,13 @@ function BuildLogsController(
 
   function handleUpdate () {
     var status = BLC.instance.status();
-    if (status === 'buildFailed') {
+    if (status === 'buildFailed' || status === 'neverStarted') {
       BLC.buildStatus = 'failed';
       BLC.showDebug = true;
       BLC.buildLogsRunning = false;
+      if (status === 'neverStarted') {
+        BLC.showErrorPanel = true;
+      }
     } else if (status === 'building') {
       BLC.buildStatus = 'running';
       BLC.buildLogsRunning = true;
@@ -107,7 +110,7 @@ function BuildLogsController(
     openIntercom: function () {
       window.Intercom(
         'showNewMessage',
-        'Hello! I have a container that won\'t start building, can you help me?'
+        'Fudge! This thing won’t build my container. Can you fix it?'
       );
     },
     rebuildWithoutCache: function () {
