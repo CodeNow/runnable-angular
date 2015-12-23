@@ -140,7 +140,7 @@
   // rows
   .tr {
     align-items: center;
-    color: $gray;
+    color: $gray-dark;
     font-size: 13px;
     overflow: hidden;
     transition: color .2s, max-height .2s ease-in-out;
@@ -151,12 +151,12 @@
     }
 
     &.ng-enter-active {
-      color: $gray;
+      color: $gray-dark;
       max-height: 39px;
     }
 
     &.ng-leave {
-      color: $gray;
+      color: $gray-dark;
       max-height: 39px;
     }
 
@@ -164,6 +164,10 @@
       color: transparent;
       max-height: 0;
     }
+  }
+
+  .cell-description {
+    opacity: .5;
   }
 
   .input {

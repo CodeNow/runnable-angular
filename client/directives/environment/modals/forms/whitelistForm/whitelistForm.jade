@@ -100,17 +100,22 @@
     .table.table-whitelist(
       ng-init = "\
         whitelist = [\
-          ['1.1.1.1','1.1.1.10'],\
-          ['1.1.1.3'],\
-          ['1.1.1.9'],\
-          ['1.1.1.4','1.1.1.5']\
+          {address: ['1.1.1.1','1.1.1.10'], description: ''},\
+          {address: ['1.1.1.3'], description: 'Test'},\
+          {address: ['1.1.1.9'], description: 'Runnable'},\
+          {address: ['1.1.1.4','1.1.1.5'], description: ''}\
         ];\
       "
     )
       .tr.clearfix.js-animate(
-        ng-repeat = "address in whitelist"
+        ng-repeat = "ip in whitelist"
       )
-        .cell {{address[0]}}{{address[1] ? '—' + address[1] : ''}}
+        .cell(
+          title = "{{ip.address[0]}}{{ip.address[1] ? '—' + ip.address[1] : ''}}"
+        ) {{ip.address[0]}}{{ip.address[1] ? '—' + ip.address[1] : ''}}
+        .cell.cell-description.text-overflow(
+          title = "{{ip.description}}"
+        ) {{ip.description}}
         .cell.cell-action
           svg.iconnables.icons-close(
             ng-click = "whitelist.splice($index, 1)"
