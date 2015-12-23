@@ -143,27 +143,37 @@
 
   // show 1 tab
   &.tabs-1 {
-    max-width: 90px;
+    max-width: 90px + 12px; // tab width + padding
   }
 
   &.tabs-2 {
-    max-width: 90px * 2;
+    max-width: (90px * 2) + 12px;
   }
 
   &.tabs-3 {
-    max-width: 90px * 3;
+    max-width: (90px * 3) + 12px;
   }
 
   &.tabs-4 {
-    max-width: 90px * 4;
+    max-width: (90px * 4) + 12px;
   }
 
-  // show all tabs except logs
+  &.tabs-5 {
+    max-width: (90px * 5) + 12px;
+  }
+
+  &.tabs-6 {
+    max-width: (90px * 6) + 12px;
+  }
+
+  &.tabs-7 {
+    max-width: (90px * 7) + 12px;
+  }
+
   &.tabs-8 {
-    max-width: 90px * 8;
+    max-width: (90px * 8) + 12px;
   }
 
-  // show all tabs
   &.tabs-all {
     max-width: 100%;
   }

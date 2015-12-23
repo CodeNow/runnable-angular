@@ -20,10 +20,10 @@ header.modal-header
   .row.modal-tabs.js-animate(
     ng-if="$root.featureFlags.newVerificationFlow"
     ng-class = "{\
-      'active': SMC.selectedTab === 'repository',\
       'tabs-1': SMC.state.step === 1,\
       'tabs-2': SMC.state.step === 2,\
-      'tabs-7': SMC.state.step === 3,\
+      'tabs-7': SMC.state.step === 3 && !$root.featureFlags.whitelist,\
+      'tabs-8': SMC.state.step === 3 && $root.featureFlags.whitelist,\
       'tabs-all': SMC.state.step ===  4\
     }"
     style = "{{SMC.state.step > 1 ? 'transition-duration: .3s' : ''}}"
@@ -50,6 +50,16 @@ header.modal-header
       .btn-text Commands
         br
         | & Packages
+    button.btn.btn-radio(
+      ng-class = "{'active': SMC.selectedTab === 'whitelist'}"
+      ng-click = "SMC.changeTab('whitelist')"
+      ng-if = "(SMC.state.step >= 3 && $root.featureFlags.whitelist)"
+    )
+      svg.iconnables
+        use(
+          xlink:href = "#icons-ip-whitelist"
+        )
+      .btn-text Security
     button.btn.btn-radio.js-animate(
       ng-class = "{'active': SMC.selectedTab === 'ports'}"
       ng-click = "SMC.changeTab('ports')"
@@ -100,16 +110,6 @@ header.modal-header
           xlink:href = "#icons-dockerfile"
         )
       .btn-text Dockerfile
-    button.btn.btn-radio(
-      ng-class = "{'active': SMC.selectedTab === 'whitelist'}"
-      ng-click = "SMC.changeTab('whitelist')"
-      ng-show = "$root.featureFlags.whitelist"
-    )
-      svg.iconnables
-        use(
-          xlink:href = "#icons-ip-whitelist"
-        )
-      .btn-text Security
     button.btn.btn-radio.js-animate(
       data-badge-count = "!"
       ng-class = "{\
