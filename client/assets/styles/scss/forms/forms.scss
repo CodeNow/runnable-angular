@@ -102,13 +102,24 @@
   }
 
   // spinner
-  &.input-spinner {
-    margin: 6px 0 0;
+  &.input-col-spinner {
+    margin-top: 6px;
     text-align: right;
 
     .small.small {
       color: $gray;
-      margin: 0;
+      margin-left: 18px;
+    }
+
+    .spinner-wrapper {
+      display: inline-block;
+      margin-top: 2px;
+      position: absolute;
+    }
+
+    .spinner {
+      height: 14px;
+      width: 14px;
     }
   }
 
