@@ -250,3 +250,21 @@ input[type="radio"] {
     padding-left: 12px;
   }
 }
+
+// input spinner
+.input-spinner {
+  position: relative;
+
+  > .input ~ .spinner-wrapper {
+    right: -24px;
+    top: 14px;
+  }
+
+  > .input-sm ~ .spinner-wrapper {
+    top: 11px;
+  }
+
+  > .spinner-wrapper {
+    position: absolute;
+  }
+}
