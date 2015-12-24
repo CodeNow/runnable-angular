@@ -26,29 +26,29 @@ var mockGithub = ['jeb'];
 describe('directiveIntegrations', function () {
   var mockErrsFactory;
   var $q;
-  var verifyChatIntegrationStub;
+  var fetchChatMembersAndMapToUsersStub;
   var $scope;
 
-  function injectSetupCompile (mockSettings, triggerErrorOnVerifyChatIntegration) {
+  function injectSetupCompile (mockSettings, triggerErrorOnfetchChatMembersAndMapToUsers) {
     angular.mock.module('app', function ($provide) {
       $provide.factory('fetchSettings', function ($q) {
         return function () {
           return $q.when(mockSettings);
         };
       });
-      $provide.factory('verifyChatIntegration', function ($q) {
+      $provide.factory('fetchChatMembersAndMapToUsers', function ($q) {
         // Need to do this dance so we can access the stub
-        var verifyChatIntegrationPromise;
-        if (triggerErrorOnVerifyChatIntegration === true)  {
-          verifyChatIntegrationPromise = $q.reject(new Error('Testing erorr handling'));
+        var fetchChatMembersAndMapToUsersPromise;
+        if (triggerErrorOnfetchChatMembersAndMapToUsers === true)  {
+          fetchChatMembersAndMapToUsersPromise = $q.reject(new Error('Testing erorr handling'));
         } else {
-          verifyChatIntegrationPromise = $q.when({
+          fetchChatMembersAndMapToUsersPromise = $q.when({
             github: mockGithub,
             slack: mockSlack
           });
         }
-        verifyChatIntegrationStub = sinon.stub().returns(verifyChatIntegrationPromise);
-        return verifyChatIntegrationStub;
+        fetchChatMembersAndMapToUsersStub = sinon.stub().returns(fetchChatMembersAndMapToUsersPromise);
+        return fetchChatMembersAndMapToUsersStub;
       });
       $provide.factory('errs', function () {
         mockErrsFactory = {
@@ -108,15 +108,15 @@ describe('directiveIntegrations', function () {
       expect($elScope.data.verified).to.be.true;
       expect($elScope.data.slackMembers).to.deep.equal(mockSlack);
       expect($elScope.data.ghMembers).to.deep.equal(mockGithub);
-      sinon.assert.called(verifyChatIntegrationStub);
-      sinon.assert.calledWith(verifyChatIntegrationStub, apiToken);
+      sinon.assert.called(fetchChatMembersAndMapToUsersStub);
+      sinon.assert.calledWith(fetchChatMembersAndMapToUsersStub, apiToken);
     });
 
     it('should call fetchChatMemberData on verify click', function () {
       $elScope.actions.verifySlack();
       $scope.$digest();
-      sinon.assert.called(verifyChatIntegrationStub);
-      sinon.assert.calledWith(verifyChatIntegrationStub, apiToken);
+      sinon.assert.called(fetchChatMembersAndMapToUsersStub);
+      sinon.assert.calledWith(fetchChatMembersAndMapToUsersStub, apiToken);
     });
 
     it('should send correctly-formatted data on save', function () {

@@ -26,7 +26,7 @@ require('app')
   .factory('fetchOwnerRepos', fetchOwnerRepos)
   .factory('fetchPullRequest', fetchPullRequest)
   // Settings
-  .factory('fetchSlackMembers', fetchSlackMembers)
+  .factory('verifySlackAPITokenAndFetchMembers', verifySlackAPITokenAndFetchMembers)
   .factory('fetchSettings', fetchSettings)
   .factory('integrationsCache', integrationsCache);
 
@@ -346,7 +346,7 @@ function integrationsCache() {
   return {};
 }
 
-function fetchSlackMembers(
+function verifySlackAPITokenAndFetchMembers(
   $http,
   $q
 ) {
@@ -397,10 +397,14 @@ function fetchOrgRegisteredMembers(
   fetchUser,
   promisify
 ) {
+  var fetchOrgRegisteredMembersCache = {};
   return function (orgName) {
-    return fetchUser().then(function (user) {
-      return promisify(user, 'fetchUsers')({ githubOrgName: orgName });
-    });
+    if (!fetchOrgRegisteredMembersCache[orgName]) {
+      fetchOrgRegisteredMembersCache[orgName] = fetchUser().then(function (user) {
+        return promisify(user, 'fetchUsers')({ githubOrgName: orgName });
+      });
+    }
+    return fetchOrgRegisteredMembersCache[orgName];
   };
 }
 
@@ -486,15 +490,29 @@ function fetchOrgMembers(
   $q,
   keypather,
   fetchGitHubMembers,
+  fetchGitHubUser,
   fetchOrgRegisteredMembers,
   fetchOrgTeammateInvitations
 ) {
-  return function (teamName) {
+  return function (teamName, fetchGithubUserEmail) {
     return $q.all([
       fetchGitHubMembers(teamName),
       fetchOrgRegisteredMembers(teamName),
       fetchOrgTeammateInvitations(teamName)
     ])
+    .then(function (responseArray) {
+      if (fetchGithubUserEmail) {
+        return $q.all([
+          $q.all(responseArray[0].map(function (member) {
+            // Fetch the complete user profile, in order to get user email
+            return fetchGitHubUser(member.login);
+          })),
+          responseArray[1],
+          responseArray[2]
+        ]);
+      }
+      return responseArray;
+    })
     .then(function (responseArray) {
       var githubMembers = responseArray[0];
       var runnableUsersCollection = responseArray[1];
@@ -544,13 +562,17 @@ function fetchGitHubUser(
   $http,
   configAPIHost
 ) {
+  var fetchGithubUserCache = {};
   return function (memberName) {
-    return $http({
-      method: 'get',
-      url: configAPIHost + '/github/users/' + memberName
-    }).then(function (user) {
-      return user.data;
-    });
+    if (!fetchGithubUserCache[memberName]) {
+      fetchGithubUserCache[memberName] = $http({
+        method: 'get',
+        url: configAPIHost + '/github/users/' + memberName
+      }).then(function (user) {
+        return user.data;
+      });
+    }
+    return fetchGithubUserCache[memberName];
   };
 }
 

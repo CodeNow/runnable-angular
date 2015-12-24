@@ -26,7 +26,7 @@ function featureFlags(
     navListFilter: false,
     newVerificationFlow: true,
     newVerificationFlowStackSelector: true,
-    noBuildLogs: false,
+    noBuildLogs: true,
     rebuildFlow: false, // updated rebuild flow
     renameContainer: false,
     saveToolbar: false,
@@ -35,6 +35,7 @@ function featureFlags(
     trial: false,
     themeToggle: false, // toggles the button that toggles theme
     updatedSlackValidation: false,
+    urlPopover: false,
     webhooksAdminPresent: false,
     webhooksContainerRunning: false,
     webhooks: false

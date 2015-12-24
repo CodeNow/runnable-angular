@@ -2,7 +2,8 @@
   .modal-dialog.modal-alert
     section.modal-body
       p.p.strong Make sure you’ve finished configuring {{EBMC.repoName}} before continuing.
-      p.p This will create containers for all its active branches.
+      p.p From now on, we’ll create a container whenever you commit to a branch that doesn’t have one yet.
+      p.p We’ll start you off with containers for any open pull requests.
     section.modal-footer.clearfix
       button.btn.btn-sm.gray.float-left(
         ng-click = "EBMC.close()"
