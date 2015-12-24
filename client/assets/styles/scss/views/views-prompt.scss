@@ -57,15 +57,15 @@
   }
 
   .btn-close-prompt {
-    color: $gray;
     border: 1px solid transparent;
     border-radius: 50%;
+    color: $gray;
     height: 25px;
     line-height: 33px;
     margin-top: 11px;
+    opacity: .5;
     padding: 0;
     width: 25px;
-    opacity: .5;
 
     &:hover {
       background-color: rgba($black,.08);
