@@ -33,7 +33,7 @@
         button.btn.btn-radio(
           ng-class = "{'active': SEMC.currentTab === 'slackIntegration'}"
           ng-click = "SEMC.currentTab = 'slackIntegration'"
-          ng-show = "$root.featureFlags.billing"
+          ng-show = "$root.featureFlags.updatedSlackValidation"
         )
           img.img.iconnables(
             height = "24"
@@ -44,25 +44,18 @@
 
     section.modal-body.js-animate
 
-      //- billing
-      .modal-form.form-billing(
-        ng-class = "{'empty well in': $root.featureFlags.trial}"
+      //- This will replaced by a directive when implemented
+      div(
         ng-if = "SEMC.currentTab === 'billing'"
         ng-include = "'billingForm'"
       )
 
-      //- team
-      .modal-form.form-team(
-        ng-if = "SEMC.currentTab === 'teamManagement' && !SEMC.loading['teamManagement']"
-        team-management
+      team-management-form(
+        ng-if = "SEMC.currentTab === 'teamManagement'"
       )
 
-      //- slack integration
-      form.modal-form.form-integrations(
-        ng-class = "{'empty well in': !data.verified}"
+      slack-integration-form(
         ng-if = "SEMC.currentTab === 'slackIntegration'"
-        ng-include = "'integrationsForm'"
-        ng-init = "data.verified = false"
       )
 
     footer.modal-footer.clearfix

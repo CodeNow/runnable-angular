@@ -5,7 +5,7 @@
   .arrow.white
   .popover-content
     h4.h4.strong This URL will redirect…
-    p.small Your Container’s URL redirects to your Elastic URL.
+    p.small Your Container’s URL redirects to your Repository URL.
     a.small.link(
       href = "https://runnable.zendesk.com/hc/en-us/sections/200552909-Hostnames-and-URLs"
       ng-if = "$root.featureFlags.urlPopover"
@@ -34,7 +34,7 @@
         .input.input-xs.text-right eo9lxe-api-staging-codenow.runnableapp.com
 
       label.input-group.input-group-xs.gray
-        .label.gray Shared URL
+        .label.gray Repository URL
         .input.input-xs.text-right api-staging-codenow.runnableapp.com
 
     hr.hr(
@@ -43,13 +43,13 @@
 
     h4.h4(
       ng-if = "$root.featureFlags.urlPopover"
-    ) About Shared URLs
+    ) About Repository URLs
 
     a.small.link(
       href = "#"
       ng-if = "$root.featureFlags.urlPopover"
       target = "_blank"
-    ) How does the Container URL redirect to the Shared URL?
+    ) How does the Container URL redirect to the Repository URL?
       svg.iconnables.icons-link-external
         use(
           xlink:href = "#icons-link-external"
