@@ -26,7 +26,7 @@ linters:
     enabled: false
 
   # Ensures color literals are used only in variable declarations.
-  ColorKeyword:
+  ColorVariable:
     enabled: true
 
   # Checks for uses of renderable comments (/* … */)
