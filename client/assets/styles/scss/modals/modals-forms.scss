@@ -286,12 +286,18 @@
     color: $gray-dark;
     font-size: 18px;
     margin: 9px 0 12px;
+
+    > .small {
+      color: $gray;
+      display: block;
+    }
   }
 
   // inputs (like api token)
-  .input {
+  .input-spinner {
     margin: 0 auto;
-    max-width: 340px;
+    max-width: 360px;
+    width: 100%;
   }
 
   // submit buttons (like for api token)

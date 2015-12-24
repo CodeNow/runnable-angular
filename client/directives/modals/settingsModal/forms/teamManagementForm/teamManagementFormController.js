@@ -1,12 +1,12 @@
 'use strict';
 
 require('app')
-  .controller('TeamManagementController', TeamManagementController);
+  .controller('TeamManagementFormController', TeamManagementFormController);
 
 /**
  * @ngInject
  */
-function TeamManagementController(
+function TeamManagementFormController(
   $rootScope,
   $q,
   $state,
