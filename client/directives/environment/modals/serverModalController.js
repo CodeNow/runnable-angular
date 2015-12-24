@@ -65,7 +65,6 @@ function ServerModalController(
         return loadingPromises.finished(SMC.name);
       })
       .then(function (promiseArrayLength) {
-        loadingPromises.clear(SMC.name);
         toRebuild = !!(
           forceRebuild ||
           promiseArrayLength > 0 ||
@@ -286,16 +285,17 @@ function ServerModalController(
     return this.getUpdatePromise()
       .then(function () {
         return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
-      })
-      .catch(errs.handler);
+      });
   };
 
   this.getUpdatePromise = function () {
     var SMC = this;
     return this.saveInstanceAndRefreshCards()
       .catch(function (err) {
-        errs.handler(err);
-        return SMC.resetStateContextVersion(SMC.state.contextVersion, false);
+        return $q.all([
+          SMC.resetStateContextVersion(SMC.state.contextVersion, false),
+          $q.reject(err)
+        ]);
       });
   };
 

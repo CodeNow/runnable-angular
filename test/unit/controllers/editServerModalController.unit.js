@@ -1188,15 +1188,20 @@ describe('editServerModalController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(SMC.getUpdatePromise);
     });
 
-    it('should handle the error if it happens during the update', function () {
-      SMC.getUpdatePromise = sinon.stub().returns($q.reject(new Error('rebuildAndOrRedeploy error')));
+    it('should not handle the error if it happens during the update', function (done) {
+      var error = new Error('rebuildAndOrRedeploy error');
+      SMC.getUpdatePromise = sinon.stub().returns($q.reject(error));
       SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
 
-      SMC.updateInstanceAndReset();
+      SMC.updateInstanceAndReset()
+        .catch(function (err) {
+          expect(err).to.equal(error);
+          sinon.assert.calledOnce(SMC.getUpdatePromise);
+          sinon.assert.notCalled(SMC.resetStateContextVersion);
+          sinon.assert.notCalled(ctx.errsMock.handler);
+          done();
+        });
       $scope.$digest();
-      sinon.assert.calledOnce(SMC.getUpdatePromise);
-      sinon.assert.notCalled(SMC.resetStateContextVersion);
-      sinon.assert.calledOnce(ctx.errsMock.handler);
     });
   });
 
