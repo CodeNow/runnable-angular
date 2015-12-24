@@ -142,6 +142,12 @@ linters:
   # Checks for the use of double colons with pseudo elements.
   PseudoElement:
     enabled: true
+  # Checks for element selectors qualifying id, classe, or attribute selectors.
+  QualifyingElement:
+    enabled: false
+    allow_element_with_attribute: false
+    allow_element_with_class: false
+    allow_element_with_id: false
 
   # Checks that selector names use a specified convention
   SelectorFormat:
