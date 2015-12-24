@@ -9,6 +9,7 @@ require('app')
  * @ngInject
  */
 function EnvironmentController(
+  $q,
   $rootScope,
   $scope,
   $state,
@@ -19,6 +20,7 @@ function EnvironmentController(
   fetchUser,
   fetchInstancesByPod,
   fetchOrgMembers,
+  fetchOrgTeammateInvitations,
   helpCards,
   keypather,
   ModalService,
@@ -27,11 +29,28 @@ function EnvironmentController(
   var EC = this;
 
   EC.showInviteButton = false;
-  fetchUser()
-    .then(function (user) {
-      var username = keypather.get(user, 'attrs.accounts.github.username');
-      EC.showInviteButton = (username !== $state.params.userName);
-    });
+
+  var unbindUpdateTeammateInvitation = $rootScope.$on('updateTeammateInvitations', function (event, invitesCreated) {
+    if (invitesCreated) {
+      updateShowInviteButton();
+    }
+  });
+  $scope.$on('$destroy', unbindUpdateTeammateInvitation);
+
+  function updateShowInviteButton () {
+    return $q.all({
+      user: fetchUser(),
+      members: fetchOrgMembers($state.params.userName)
+    })
+      .then(function (res) {
+        var username = keypather.get(res.user, 'attrs.accounts.github.username');
+        var isOrg = (username !== $state.params.userName);
+        EC.showInviteButton = isOrg && res.members.uninvited.length > 0;
+      });
+  }
+
+  // On init, determine whether to show invites
+  updateShowInviteButton();
 
   EC.triggerModal = {
     newContainer: function () {

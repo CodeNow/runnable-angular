@@ -23,7 +23,7 @@ function InviteModalController(
     activeUserId: null,
     sendingInviteUserId: null,
     sending: false,
-    invitesSent: 0
+    invitesSent: false
   });
 
   IMC.sendInvitation = function (user) {
@@ -35,7 +35,6 @@ function InviteModalController(
       githubOrgId: fetchGithubOrgId(teamName)
     })
     .then(function (response) {
-      IMC.invitesSent += 1;
       return promisify(response.user, 'createTeammateInvitation')({
         organization: {
           github: response.githubOrgId
@@ -47,6 +46,7 @@ function InviteModalController(
       });
     })
     .then(function (invitationModel) {
+      IMC.invitesSent = true;
       user.inviteSent = true;
       // Append invitation to user
       user.userInvitation = invitationModel;
@@ -68,6 +68,7 @@ function InviteModalController(
 
   IMC.close = function () {
     // Inform ModalService if any invites were sent
-    close(!!IMC.invitesSent);
+    $rootScope.$emit('updateTeammateInvitations', IMC.invitesSent);
+    close(IMC.invitesSent);
   };
 }
