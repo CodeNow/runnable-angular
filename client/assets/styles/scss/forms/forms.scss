@@ -14,7 +14,7 @@
 .label-col {
   color: $gray;
   float: left;
-  font-weight: 500;
+  font-weight: $weight-bold;
   height: $input-sm;
   line-height: $input-sm;
   padding-right: 15px;
@@ -151,7 +151,7 @@
 
   // helpful messages
   .small {
-    font-weight: 500;
+    font-weight: $weight-bold;
     line-height: 18px;
     margin: 6px 0 0;
 
