@@ -83,7 +83,7 @@
 
   .btn-auto-deploy {
     background: $gray-lightest;
-    border: 2px solid $gray-lighter;
+    border: $input-border solid $gray-lighter;
     border-top-width: 1px;
     color: $gray;
     cursor: default;

@@ -85,7 +85,7 @@
 .tooltip-text,
 %tooltip-text {
   background: $gray-darker;
-  border-radius: 3px;
+  border-radius: $input-border-radius;
   color: $white;
   font-size: 13px;
   line-height: 1;
@@ -128,7 +128,7 @@
 
 .tooltip-plus {
   background: $gray-darker;
-  border-radius: 3px;
+  border-radius: $input-border-radius;
   color: $white;
   display: none;
   font-size: 13px;
@@ -248,7 +248,7 @@
     // reverse for dark theme
     .ace-runnable-dark & {
       background: $white;
-      border-radius: 3px;
+      border-radius: $input-border-radius;
       color: $purple-dark;
     }
   }

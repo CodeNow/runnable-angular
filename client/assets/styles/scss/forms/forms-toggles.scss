@@ -41,7 +41,7 @@
 // actual toggle
 .toggle-group {
   background: $gray-lighter;
-  border: 2px solid $gray-light;
+  border: $input-border solid $gray-light;
   border-radius: 26px;
   cursor: pointer;
   height: 26px;
@@ -146,7 +146,7 @@
     &:hover,
     &:active {
       background: $gray-lighter;
-      border: 2px solid $gray-light;
+      border: $input-border solid $gray-light;
     }
   }
 

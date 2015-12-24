@@ -35,8 +35,8 @@
 // wraps text area for commands and radio buttons for caching
 .build-commands-wrapper {
   background-color: $white;
-  border: 2px solid $gray-lighter;
-  border-radius: 3px;
+  border: $input-border solid $gray-lighter;
+  border-radius: $input-border-radius;
   clear: both; // keeps it from collapsing when the labels above it are floated at the xs width
   line-height: 21px;
   max-height: 131px; // five lines of text
