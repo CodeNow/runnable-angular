@@ -4,11 +4,6 @@
   .strong {
     line-height: 15px;
 
-    &.disabled {
-      color: $gray-light;
-      cursor: not-allowed;
-    }
-
     @include media(xs) {
       padding-top: 3px;
 
@@ -16,6 +11,11 @@
       .span {
         display: none;
       }
+    }
+
+    &.disabled {
+      color: $gray-light;
+      cursor: not-allowed;
     }
   }
 
