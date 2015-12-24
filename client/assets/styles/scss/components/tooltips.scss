@@ -82,7 +82,8 @@
   }
 }
 
-.tooltip-text {
+.tooltip-text,
+%tooltip-text {
   background: $gray-darker;
   border-radius: 3px;
   color: $white;

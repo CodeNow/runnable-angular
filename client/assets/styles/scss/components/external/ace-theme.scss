@@ -1,3 +1,4 @@
+// scss-lint:disable SelectorFormat ImportantRule
 .ace_editor {
   height: 100%;
   position: relative;
@@ -611,7 +612,7 @@
   }
 
   &::before {
-    @extend .tooltip-text;
+    @extend %tooltip-text;
     content: 'Invalid Env';
     display: block;
     opacity: 0;
