@@ -76,7 +76,7 @@ describe('InviteModalController'.bold.underline.blue, function () {
 
   it('should instanstiate the controller correctly', function () {
     expect(IMC.sending).to.equal(false);
-    expect(IMC.invitesSent).to.equal(0);
+    expect(IMC.invitesSent).to.equal(false);
     expect(IMC.activeUserId).to.equal(null);
     expect(IMC.sendingInviteUserId).to.equal(null);
   });

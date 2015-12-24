@@ -179,6 +179,8 @@ describe('environmentController'.bold.underline.blue, function () {
         });
 
         it('should fetchOrgMembers with the username', function () {
+          $scope.$digest();
+          ctx.fetchOrgMembersStub.reset(); // Gets called on init
           EC.triggerModal.inviteTeammate();
           $scope.$digest();
           sinon.assert.calledOnce(ctx.fetchOrgMembersStub);
