@@ -213,7 +213,7 @@ linters:
 
   # Checks for unnecessary trailing zeros in numeric values with decimal points.
   TrailingZero:
-    enabled: false
+    enabled: true
 
   # Checks for the unnecessary inclusion of a zero-value mantissa in numbers. (e.g. `4.0` could be written as just `4`)
   UnnecessaryMantissa:
