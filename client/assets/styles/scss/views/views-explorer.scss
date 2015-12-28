@@ -37,12 +37,12 @@
 
   &::before {
     background: rgba($purple,.25);
-    border: 2px solid $purple;
+    border: $input-border solid $purple;
   }
 
   &::after {
     background: rgba($gray-dark,.1);
-    border: 2px solid $gray-dark;
+    border: $input-border solid $gray-dark;
     margin-left: -6px;
   }
 }

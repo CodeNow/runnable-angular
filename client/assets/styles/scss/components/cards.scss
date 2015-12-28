@@ -1,6 +1,6 @@
 .card {
   border: 1px solid transparent;
-  border-radius: 3px;
+  border-radius: $input-border-radius;
   display: flex;
   flex-direction: column;
   min-width: 360px;
@@ -120,7 +120,7 @@
   .well {
     background: $white;
     border: 0;
-    border-radius: 0 0 3px 3px;
+    border-radius: 0 0 $input-border-radius $input-border-radius;
     border-top: 1px solid $purple-lighter;
     cursor: default;
     margin: 0;
@@ -200,11 +200,11 @@
     }
 
     &:first-child {
-      border-radius: 3px 3px 0 0;
+      border-radius: $input-border-radius $input-border-radius 0 0;
     }
 
     &:last-child {
-      border-radius: 0 0 3px 3px;
+      border-radius: 0 0 $input-border-radius $input-border-radius;
       padding-right: 45px; // larger padding for lock icon
 
       // icons for dockerfile tool
