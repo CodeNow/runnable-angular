@@ -143,7 +143,12 @@
     }
   }
 
+  .cell:first-child {
+    flex: 0 0 230px;
+  }
+
   .cell-description {
+    flex: 1 1 auto;
     opacity: .5;
   }
 
