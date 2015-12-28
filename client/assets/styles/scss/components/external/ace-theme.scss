@@ -1,3 +1,4 @@
+// scss-lint:disable SelectorFormat ImportantRule
 .ace_editor {
   height: 100%;
   position: relative;
@@ -90,7 +91,7 @@
 
   // dark theme
   &.ace-runnable-dark {
-    border: 2px solid $purple-darkest;
+    border: $input-border solid $purple-darkest;
 
     .spinner-wrapper {
       background: $ace-bg;
@@ -100,7 +101,7 @@
 
   // light theme
   &.ace-runnable-light {
-    border: 2px solid $gray-lighter;
+    border: $input-border solid $gray-lighter;
 
     .spinner-wrapper {
       background: $gray-lighterest;
@@ -176,7 +177,7 @@
 .ace_tooltip {
   background-image: none !important;
   border: 1px solid rgba($black,.1) !important;
-  border-radius: 3px !important;
+  border-radius: $input-border-radius !important;
   box-shadow: 0 1px 10px rgba($black,.1) !important;
   font-family: $sans-serif;
   letter-spacing: .3px !important;
@@ -611,7 +612,7 @@
   }
 
   &::before {
-    @extend .tooltip-text;
+    @extend %tooltip-text;
     content: 'Invalid Env';
     display: block;
     opacity: 0;

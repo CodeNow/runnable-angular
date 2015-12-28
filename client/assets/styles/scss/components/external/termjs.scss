@@ -5,10 +5,12 @@
 // terminal: termjs (this file)
 // *********************
 
-// keeps log on bottom (iterm)
+// keeps log on bottom (iterm), we have to use an id
+// scss-lint:disable IdSelector
 #log {
   height: 10px;
 }
+// scss-lint:enable IdSelector
 
 // terminal
 // wrapper

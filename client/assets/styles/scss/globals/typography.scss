@@ -89,6 +89,7 @@ h4 {
 // override ace
 .pre,
 %pre {
+  // scss-lint:disable ImportantRule
   background: none;
   font-family: $monospace !important;
   font-size: 14px !important;

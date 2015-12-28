@@ -153,10 +153,10 @@
   // "show me" button
   .btn-sm {
     background-color: $white;
-    border: 2px solid $blue;
+    border: $input-border solid $blue;
     color: $blue;
     float: right;
-    font-weight: 500;
+    font-weight: $weight-bold;
     margin: 1px 3px;
 
     &:hover {
