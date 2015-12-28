@@ -142,7 +142,7 @@ linters:
   # Checks for the use of double colons with pseudo elements.
   PseudoElement:
     enabled: true
-  # Checks for element selectors qualifying id, classe, or attribute selectors.
+  # Checks for element selectors qualifying id, class, or attribute selectors.
   QualifyingElement:
     enabled: false
     allow_element_with_attribute: false
