@@ -1,14 +1,20 @@
 .label(
   ng-init = "state.whitelist = true"
 )
-  label.well.in.gray.toggle-wrapper.clearfix
-    input.toggle-input(
-      ng-model = "state.whitelist"
-      type = "checkbox"
-    )
-    .toggle-group.toggle-sm.float-right
+  .well.in.gray.clearfix
+    label.toggle-wrapper.float-right
+      input.toggle-input(
+        ng-model = "state.whitelist"
+        type = "checkbox"
+      )
+      .toggle-group.toggle-sm
     .small.strong IP Whitelist
-    small.small While enabled, only whitelisted IPs can make headless requests to your containers.
+    small.small Only whitelisted IPs can make&#32;
+      em.underline(
+        tooltip = "Non-browser requests (e.g. from an oAuth service or an external server)."
+        tooltip-options = "{\"class\":\"bottom center\",\"right\":-196,\"top\":18}"
+      ) headless
+      | &#32;requests to this container.
 
 .label.clearfix.js-animate(
   ng-if = "state.whitelist"
@@ -92,10 +98,3 @@
             use(
               xlink:href = "#icons-close"
             )
-
-    small.small Whitelist IP addresses to access your container for&#32;
-      em.underline(
-        tooltip = "Non-browser requests (e.g. from an oAuth service or an external server)."
-        tooltip-options = "{\"class\":\"bottom no-arrow\",\"right\":-30,\"top\":18}"
-      ) headless requests
-      | .
