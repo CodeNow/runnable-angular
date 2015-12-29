@@ -144,7 +144,7 @@ function ServerModalController(
       controllerAs: 'CMC',
       templateUrl: 'confirmCloseServerView',
       inputs: {
-        instance: SMC.instance
+        hasInstance: !!SMC.instance
       }
     })
       .then(function (modal) {
