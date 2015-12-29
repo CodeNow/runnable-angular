@@ -111,7 +111,7 @@ header.modal-header
         'badge': !$root.isLoading.setupServerModal && SMC.instance && SMC.isDirty()\
       }"
       ng-click = "SMC.changeTab('logs')"
-      ng-if = "SMC.state.step >= 4"
+      ng-if = "SMC.instance"
     )
       svg.iconnables
         use(

@@ -24,7 +24,6 @@ function serverModalButtonsDirective(
         if ($scope.isPrimaryButtonDisabled()) {
           return;
         }
-        loading($scope.SMC.name + 'isBuilding', true);
         loading($scope.SMC.name, true);
         (($scope.SMC.instance) ? $scope.SMC.updateInstanceAndReset() : $scope.SMC.createServerAndReset())
           .then(function () {
@@ -32,7 +31,6 @@ function serverModalButtonsDirective(
           })
           .catch(errs.handler)
           .finally(function () {
-            loading($scope.SMC.name + 'isBuilding',  false);
             loading($scope.SMC.name,  false);
           });
 

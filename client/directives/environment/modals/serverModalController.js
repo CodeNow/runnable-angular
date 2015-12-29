@@ -9,7 +9,6 @@ function ServerModalController(
   $rootScope,
   $scope,
   eventTracking,
-  errs,
   helpCards,
   parseDockerfileForCardInfoFromInstance,
   createBuildFromContextVersionId,
@@ -151,8 +150,7 @@ function ServerModalController(
       .then(function (modal) {
         modal.close.then(function (state) {
           if (state) {
-            var promise = (state === 'build') ? SMC.getUpdatePromise() : $q.when(true);
-            return promise
+            return $q.when((state === 'build') ? SMC.getUpdatePromise() : $q.when(true))
               .then(function () {
                 loadingPromises.clear(SMC.name);
                 close();
@@ -280,6 +278,11 @@ function ServerModalController(
       });
   };
 
+  /**
+   * Updates the current instance
+   * @returns {Promise} Resolves when the instance update has been started, and the cv has been
+   *        reset.  The error is uncaught, so a catch should be added to this
+   */
   this.updateInstanceAndReset = function () {
     var SMC = this;
     return this.getUpdatePromise()
@@ -288,14 +291,20 @@ function ServerModalController(
       });
   };
 
+  /**
+   * Updates the this.instance with all the states, emits the Changes Saved alert, and refreshes the
+   *  help cards.  If a failure occurs, the cv is reset, and the error propagates.
+   * @returns {Promise} Resolves when the instance update has been started, and the cv has been
+   *        reset.  The error is uncaught, so a catch should be added to this
+   */
   this.getUpdatePromise = function () {
     var SMC = this;
     return this.saveInstanceAndRefreshCards()
       .catch(function (err) {
-        return $q.all([
-          SMC.resetStateContextVersion(SMC.state.contextVersion, false),
-          $q.reject(err)
-        ]);
+        return SMC.resetStateContextVersion(SMC.state.contextVersion, false)
+          .then(function () {
+            return $q.reject(err);
+          });
       });
   };
 

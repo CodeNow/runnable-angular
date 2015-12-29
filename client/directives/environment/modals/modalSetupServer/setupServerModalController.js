@@ -245,14 +245,14 @@ function SetupServerModalController(
 
   /**
    * Creates a container, and resets the state contextVersion
-   * @returns {*}
+   * @returns {Promise} Resolves when the server has been created and the cv has been reset.  The
+   *        error is uncaught, so a catch should be added to this
    */
   SMC.createServerAndReset = function () {
     return SMC.createServer()
       .then(function () {
         return SMC.resetStateContextVersion(SMC.state.contextVersion, true);
-      })
-      .catch(errs.handler);
+      });
   };
 
   SMC.createServer = function () {

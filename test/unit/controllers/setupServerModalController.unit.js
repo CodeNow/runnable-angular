@@ -400,7 +400,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.calledOnce(SMC.createServer);
         sinon.assert.notCalled(SMC.resetStateContextVersion);
-        sinon.assert.calledOnce(errsMock.handler);
+        sinon.assert.notCalled(errsMock.handler);
       });
     });
 

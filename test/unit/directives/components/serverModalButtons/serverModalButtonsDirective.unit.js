@@ -93,9 +93,8 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
         $elScope.createServerOrUpdate();
 
         $scope.$digest();
-        sinon.assert.callCount(ctx.loadingMock, 4);
-        sinon.assert.calledWith(ctx.loadingMock.firstCall, 'editServerModalisBuilding', true);
-        sinon.assert.calledWith(ctx.loadingMock.secondCall, 'editServerModal', true);
+        sinon.assert.callCount(ctx.loadingMock, 2);
+        sinon.assert.calledWith(ctx.loadingMock.firstCall, 'editServerModal', true);
 
         sinon.assert.calledOnce(ctx.serverModalController.createServerAndReset);
         sinon.assert.notCalled(ctx.serverModalController.updateInstanceAndReset);
@@ -104,8 +103,7 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
 
         sinon.assert.calledWith(ctx.errsMock.handler, error);
 
-        sinon.assert.calledWith(ctx.loadingMock.thirdCall, 'editServerModalisBuilding', false);
-        sinon.assert.calledWith(ctx.loadingMock.lastCall, 'editServerModal', false);
+        sinon.assert.calledWith(ctx.loadingMock.secondCall, 'editServerModal', false);
         $scope.$digest();
       });
     });
@@ -121,9 +119,8 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
         $elScope.createServerOrUpdate();
 
         $scope.$digest();
-        sinon.assert.callCount(ctx.loadingMock, 4);
-        sinon.assert.calledWith(ctx.loadingMock.firstCall, 'editServerModalisBuilding', true);
-        sinon.assert.calledWith(ctx.loadingMock.secondCall, 'editServerModal', true);
+        sinon.assert.callCount(ctx.loadingMock, 2);
+        sinon.assert.calledWith(ctx.loadingMock.firstCall, 'editServerModal', true);
 
         sinon.assert.calledOnce(ctx.serverModalController.createServerAndReset);
         sinon.assert.notCalled(ctx.serverModalController.updateInstanceAndReset);
@@ -131,8 +128,7 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
         sinon.assert.calledOnce(ctx.serverModalController.changeTab);
         sinon.assert.calledWith(ctx.serverModalController.changeTab, 'logs');
 
-        sinon.assert.calledWith(ctx.loadingMock.thirdCall, 'editServerModalisBuilding', false);
-        sinon.assert.calledWith(ctx.loadingMock.lastCall, 'editServerModal', false);
+        sinon.assert.calledWith(ctx.loadingMock.secondCall, 'editServerModal', false);
         $scope.$digest();
       });
       it('should attempt to update the server when an instance exists', function () {
@@ -145,9 +141,8 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
         $elScope.createServerOrUpdate();
 
         $scope.$digest();
-        sinon.assert.callCount(ctx.loadingMock, 4);
-        sinon.assert.calledWith(ctx.loadingMock.firstCall, 'editServerModalisBuilding', true);
-        sinon.assert.calledWith(ctx.loadingMock.secondCall, 'editServerModal', true);
+        sinon.assert.callCount(ctx.loadingMock, 2);
+        sinon.assert.calledWith(ctx.loadingMock.firstCall, 'editServerModal', true);
 
         sinon.assert.notCalled(ctx.serverModalController.createServerAndReset);
         sinon.assert.calledOnce(ctx.serverModalController.updateInstanceAndReset);
@@ -155,8 +150,7 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
         sinon.assert.calledOnce(ctx.serverModalController.changeTab);
         sinon.assert.calledWith(ctx.serverModalController.changeTab, 'logs');
 
-        sinon.assert.calledWith(ctx.loadingMock.thirdCall, 'editServerModalisBuilding', false);
-        sinon.assert.calledWith(ctx.loadingMock.lastCall, 'editServerModal', false);
+        sinon.assert.calledWith(ctx.loadingMock.secondCall, 'editServerModal', false);
         $scope.$digest();
       });
     });
