@@ -25,7 +25,9 @@ function explorer() {
       debugContainer: '=?'
     },
     link: function ($scope) {
-      $scope.dir = $scope.rootDir;
+      $scope.$watch('rootDir', function () {
+        $scope.dir = $scope.rootDir;
+      });
       $scope.state = {};
 
       $scope.filePopover = {
