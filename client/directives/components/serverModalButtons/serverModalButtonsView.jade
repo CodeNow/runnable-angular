@@ -35,8 +35,8 @@ button.btn.btn-primary.white.text-next.float-right(
     .text-next
 button.btn.white.btn-primary.float-right.js-animate(
   ng-class = "{\
-          'text-save': SMC.isDirty() === 'update' || isBuilding(),\
-          'text-save-build': SMC.isDirty() === 'build' && !isBuilding()\
+          'text-save': SMC.isDirty() === 'update' || $root.isLoading[$scope.SMC.name],\
+          'text-save-build': SMC.isDirty() === 'build' && !$root.isLoading[$scope.SMC.name]\
         }"
   ng-if = "SMC.instance || SMC.state.step > 2"
   ng-click = "createServerOrUpdate()"
@@ -45,10 +45,10 @@ button.btn.white.btn-primary.float-right.js-animate(
   span.btn-text.float-left Save
     //- if save triggers a build
     span.fade(
-      ng-if = "SMC.isDirty() === 'build' && !isBuilding()"
+      ng-if = "SMC.isDirty() === 'build' && !$root.isLoading[$scope.SMC.name]"
     ) &#32;& Build
 
 span.small.float-right.fade.js-animate(
-  ng-if = "SMC.instance && SMC.isDirty() === 'build' && !isBuilding()"
+  ng-if = "SMC.instance && SMC.isDirty() === 'build' && !$root.isLoading[$scope.SMC.name]"
 ) You’ve made changes that require a rebuild.
 

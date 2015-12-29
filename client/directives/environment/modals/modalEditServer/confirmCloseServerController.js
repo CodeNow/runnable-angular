@@ -5,9 +5,9 @@ require('app')
 
 function ConfirmCloseServerController(
   close,
-  instance
+  hasInstance
 ) {
-  this.hasInstance = instance;
+  this.hasInstance = hasInstance;
   this.actions = {
     goBack: function () {
       close();

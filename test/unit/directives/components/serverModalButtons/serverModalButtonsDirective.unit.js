@@ -25,7 +25,7 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
       name: 'editServerModal',
       instance: ctx.instance,
       updateInstanceAndReset: sinon.stub(),
-      createServerAndReset: sinon.stub(),
+      createServer: sinon.stub(),
       changeTab: sinon.stub(),
       state: {
         contextVersion: ctx.cv
@@ -56,24 +56,24 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
       $elScope = element.isolateScope();
     });
   });
-  describe('isBuilding', function () {
-    it('should return false if both isLoading[name + isBuilding] and isLoading[name] are false', function () {
-      $rootScope.isLoading.editServerModalisBuilding = false;
-      $rootScope.isLoading.editServerModal = false;
-      expect($elScope.isBuilding(), 'isBuilding').to.be.false;
-    });
-    it('should return true if isLoading[name + isBuilding] is true', function () {
-      $rootScope.isLoading.editServerModalisBuilding = true;
-      $rootScope.isLoading.editServerModal = false;
-      expect($elScope.isBuilding(), 'isBuilding').to.be.true;
-    });
-    it('should return true if isLoading[name] is true', function () {
-      $rootScope.isLoading.editServerModalisBuilding = false;
-      $rootScope.isLoading.editServerModal = true;
-      expect($elScope.isBuilding(), 'isBuilding').to.be.true;
-    });
-  });
-  describe('createServerAndResetOrUpdate', function () {
+  //describe('isBuilding', function () {
+  //  it('should return false if both isLoading[name + isBuilding] and isLoading[name] are false', function () {
+  //    $rootScope.isLoading.editServerModalisBuilding = false;
+  //    $rootScope.isLoading.editServerModal = false;
+  //    expect($elScope.isBuilding(), 'isBuilding').to.be.false;
+  //  });
+  //  it('should return true if isLoading[name + isBuilding] is true', function () {
+  //    $rootScope.isLoading.editServerModalisBuilding = true;
+  //    $rootScope.isLoading.editServerModal = false;
+  //    expect($elScope.isBuilding(), 'isBuilding').to.be.true;
+  //  });
+  //  it('should return true if isLoading[name] is true', function () {
+  //    $rootScope.isLoading.editServerModalisBuilding = false;
+  //    $rootScope.isLoading.editServerModal = true;
+  //    expect($elScope.isBuilding(), 'isBuilding').to.be.true;
+  //  });
+  //});
+  describe('createServerOrUpdate', function () {
     it('should return immidiately if primary button is disabled', function () {
       $elScope.isPrimaryButtonDisabled = sinon.stub().returns(true);
       $elScope.createServerOrUpdate();
@@ -83,7 +83,7 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
     describe('failures', function () {
       it('should fail safely', function () {
         var error = new Error('I am an error!');
-        ctx.serverModalController.createServerAndReset.returns($q.reject(error));
+        ctx.serverModalController.createServer.returns($q.reject(error));
         ctx.instance = null;
         ctx.cv = {
           id: 'hello'
@@ -96,7 +96,7 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
         sinon.assert.callCount(ctx.loadingMock, 2);
         sinon.assert.calledWith(ctx.loadingMock.firstCall, 'editServerModal', true);
 
-        sinon.assert.calledOnce(ctx.serverModalController.createServerAndReset);
+        sinon.assert.calledOnce(ctx.serverModalController.createServer);
         sinon.assert.notCalled(ctx.serverModalController.updateInstanceAndReset);
 
         sinon.assert.notCalled(ctx.serverModalController.changeTab);
@@ -109,7 +109,7 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
     });
     describe('when not disabled', function () {
       it('should attempt to create the server when no instance exists', function () {
-        ctx.serverModalController.createServerAndReset.returns($q.when(true));
+        ctx.serverModalController.createServer.returns($q.when(true));
         ctx.instance = null;
         ctx.cv = {
           id: 'hello'
@@ -118,11 +118,17 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
 
         $elScope.createServerOrUpdate();
 
+        ctx.instance = {
+          id: 'hello',
+          on: sinon.spy(),
+          removeListener: sinon.spy()
+        };
+        ctx.serverModalController.instance = ctx.instance;
         $scope.$digest();
         sinon.assert.callCount(ctx.loadingMock, 2);
         sinon.assert.calledWith(ctx.loadingMock.firstCall, 'editServerModal', true);
 
-        sinon.assert.calledOnce(ctx.serverModalController.createServerAndReset);
+        sinon.assert.calledOnce(ctx.serverModalController.createServer);
         sinon.assert.notCalled(ctx.serverModalController.updateInstanceAndReset);
 
         sinon.assert.calledOnce(ctx.serverModalController.changeTab);
@@ -134,7 +140,9 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
       it('should attempt to update the server when an instance exists', function () {
         ctx.serverModalController.updateInstanceAndReset.returns($q.when(true));
         ctx.instance = {
-          id: 'hello'
+          id: 'hello',
+          on: sinon.spy(),
+          removeListener: sinon.spy()
         };
         ctx.serverModalController.instance = ctx.instance;
 
@@ -144,7 +152,7 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
         sinon.assert.callCount(ctx.loadingMock, 2);
         sinon.assert.calledWith(ctx.loadingMock.firstCall, 'editServerModal', true);
 
-        sinon.assert.notCalled(ctx.serverModalController.createServerAndReset);
+        sinon.assert.notCalled(ctx.serverModalController.createServer);
         sinon.assert.calledOnce(ctx.serverModalController.updateInstanceAndReset);
 
         sinon.assert.calledOnce(ctx.serverModalController.changeTab);
@@ -152,6 +160,7 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
 
         sinon.assert.calledWith(ctx.loadingMock.secondCall, 'editServerModal', false);
         $scope.$digest();
+        sinon.assert.calledOnce(ctx.instance.on);
       });
     });
   });

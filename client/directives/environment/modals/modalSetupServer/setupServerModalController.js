@@ -101,7 +101,6 @@ function SetupServerModalController(
 
   $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
     $event.stopPropagation();
-    loading.reset(SMC.name);
     if (showSpinner) {
       loading(SMC.name, true);
     }
@@ -243,18 +242,6 @@ function SetupServerModalController(
       });
   };
 
-  /**
-   * Creates a container, and resets the state contextVersion
-   * @returns {Promise} Resolves when the server has been created and the cv has been reset.  The
-   *        error is uncaught, so a catch should be added to this
-   */
-  SMC.createServerAndReset = function () {
-    return SMC.createServer()
-      .then(function () {
-        return SMC.resetStateContextVersion(SMC.state.contextVersion, true);
-      });
-  };
-
   SMC.createServer = function () {
     // Wait until all changes to the context version have been resolved before
     // creating a build with that context version
@@ -317,13 +304,6 @@ function SetupServerModalController(
       .then(function () {
         loadingPromises.clear(SMC.name, true);
         return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
-      })
-      .then(function (contextVersion) {
-        SMC.page = 'build';
-        SMC.instance.on('update', function () {
-          SMC.page = ((['building', 'buildFailed', 'neverStarted'].indexOf(SMC.instance.status()) === -1) ? 'run' : 'build');
-        });
-        return contextVersion;
       })
       .catch(function (err) {
         // If creating the server fails, reset the context version

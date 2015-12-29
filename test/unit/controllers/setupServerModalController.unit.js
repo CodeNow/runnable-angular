@@ -381,29 +381,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
     });
 
-    describe('createServerAndReset', function () {
-      it('should reset the context version after successfully creating the server', function () {
-        SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
-        SMC.createServer = sinon.stub().returns($q.when(true));
-
-        SMC.createServerAndReset();
-        $scope.$digest();
-        sinon.assert.calledOnce(SMC.resetStateContextVersion);
-        sinon.assert.calledOnce(SMC.createServer);
-      });
-
-      it('should handle the error if it happens during the creation', function () {
-        SMC.createServer = sinon.stub().returns($q.reject(new Error('rebuildAndOrRedeploy error')));
-        SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
-
-        SMC.createServerAndReset();
-        $scope.$digest();
-        sinon.assert.calledOnce(SMC.createServer);
-        sinon.assert.notCalled(SMC.resetStateContextVersion);
-        sinon.assert.notCalled(errsMock.handler);
-      });
-    });
-
     describe('createServer', function () {
 
       it('create server should create and build a new instance', function () {
@@ -650,7 +627,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         controllerAs: 'CMC',
         templateUrl: 'confirmCloseServerView',
         inputs: {
-          instance: SMC.instance
+          hasInstance: true
         }
       });
       sinon.assert.calledOnce(closeSpy);

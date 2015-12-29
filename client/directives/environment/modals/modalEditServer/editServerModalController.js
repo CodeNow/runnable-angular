@@ -108,7 +108,6 @@ function EditServerModalController(
 
   $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
     $event.stopPropagation();
-    loading.reset(SMC.name);
     if (showSpinner) {
       loading(SMC.name, true);
     }
