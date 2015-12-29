@@ -1,6 +1,5 @@
 .modal-edit {
   max-width: 900px;
-  min-height: 360px;
   transition: max-width .3s ease-in-out;
   width: 100%;
 
@@ -48,6 +47,28 @@
   .modal-header {
     overflow: hidden; // for animation on tabs
     padding: 0; // reset default header padding
+    position: relative;
+
+    &::before,
+    &::after {
+      bottom: 0;
+      content: '';
+      display: block;
+      height: 100%;
+      position: absolute;
+      width: 30px;
+      z-index: 1;
+    }
+
+    &::before {
+      background: linear-gradient(90deg, rgba($white,.9), rgba($white,0));
+      left: 0;
+    }
+
+    &::after {
+      background: linear-gradient(90deg, rgba($white,0), rgba($white,.9));
+      right: 0;
+    }
 
     .icons-close {
       right: 12px;

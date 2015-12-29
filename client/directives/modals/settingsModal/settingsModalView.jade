@@ -21,9 +21,7 @@
             )
           .btn-text Billing
         button.btn.btn-radio(
-          ng-class = "{\
-            'active': SEMC.currentTab === 'teamManagement',\
-          }"
+          ng-class = "{'active': SEMC.currentTab === 'teamManagement'}"
           ng-click = "SEMC.currentTab = 'teamManagement'"
           ng-show = "$root.featureFlags.teamManagement"
         )
