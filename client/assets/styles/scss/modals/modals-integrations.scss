@@ -40,7 +40,7 @@
     margin: 0;
     padding: 0 9px;
     position: relative;
-    transition: height .15s ease-in-out, max-height .15s ease-in-out;
+    transition: height .15s ease-in-out;
 
     &.expanded {
       height: 114px;
@@ -48,7 +48,7 @@
 
     &.disabled {
       cursor: not-allowed;
-      max-height: $input-md;
+      height: $input-md;
     }
 
     .gravatar {
