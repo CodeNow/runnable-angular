@@ -1,10 +1,12 @@
-.container-title-wrapper.server-status-card-pop-over(
+.server-status-card-pop-over(
   ng-class = "{'no-touching': noTouching}"
   pop-over
   pop-over-actions = "popoverServerActions"
   pop-over-data = "instance"
+  pop-over-hover-trigger
   pop-over-options = "{\"centered\":true,\"top\":36}"
   pop-over-template = "serverOptionsCardPopover"
+  pop-over-trigger = "hover"
 )
   //- ***********************************
   //- START !$root.featureFlags.cardStatus

@@ -7,7 +7,7 @@
 .card-header(
   ng-class = "{'deprecated': !$root.featureFlags.cardStatus}"
 )
-  server-status-card-header(
+  server-status-card-header.container-title-wrapper(
     instance = "server.instance"
     no-touching = "showSpinner()"
   )

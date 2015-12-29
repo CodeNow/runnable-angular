@@ -1,23 +1,6 @@
 // on cards
 .container-title-wrapper {
-  align-items: center;
-  cursor: pointer;
   display: flex;
-  justify-content: center;
-  margin: 15px auto 0;
-  padding: 0 15px;
-
-  &:hover {
-    color: $gray-darker;
-  }
-
-  &:active {
-    color: $purple-light;
-  }
-
-  &.no-touching {
-    color: $gray;
-  }
 
   // if renaming instead of popover on verification
   &.title-verification {
@@ -26,6 +9,28 @@
     &:hover,
     &:active {
       color: $gray-dark;
+    }
+  }
+
+  .server-status-card-pop-over {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    flex: 0 1 auto;
+    justify-content: center;
+    margin: 15px auto 0;
+    padding: 0 15px;
+
+    &:hover {
+      color: $gray-darker;
+    }
+
+    &:active {
+      color: $purple-light;
+    }
+
+    &.no-touching {
+      color: $gray;
     }
   }
 
@@ -44,6 +49,10 @@
   .icons-alert {
     color: $orange;
     flex: 0 0 15px;
+
+    + .container-title {
+      margin-left: 5px;
+    }
   }
 }
 
@@ -56,12 +65,14 @@
   flex: 0 1 auto;
   font-size: 21px;
   font-weight: $weight-bold;
-  margin-left: 5px;
 }
 
 // on modal
 .modal-dialog .container-title-wrapper {
-  margin: 9px auto 3px;
+
+  .server-status-card-pop-over {
+    margin-bottom: 3px;
+  }
 
   .container-title {
     font-size: 14px;
