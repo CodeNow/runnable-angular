@@ -23,6 +23,15 @@ function InviteModalController(
     invitesSent: 0
   });
 
+  unInvitedMembers.forEach(function (member) {
+    // Set default invite email
+    // We want `email` and `inviteEmail` to be different, since `email` is the
+    // user's dfault GH email and should not be modified
+    if (member.email) {
+      member.inviteEmail = member.email;
+    }
+  });
+
   IMC.sendInvitation = function (user) {
     IMC.sendingInviteUserId = user.id;
     IMC.setActiveUserId(null);

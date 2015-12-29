@@ -6,8 +6,8 @@
   line-height: 1.2;
   max-width: 240px;
   padding: 6px 12px 9px;
-  transition: opacity .075s ease-in; // override scaling popover transition
   transform: scale3d(1,1,1); // override scaling popover transition
+  transition: opacity .075s ease-in; // override scaling popover transition
 
   .btn {
     background: $gray;

@@ -103,6 +103,7 @@
   }
 
   .select {
+    backface-visibility: hidden; // this fixes chrome occasionally clipping the select menu after transitions by forcing rendering to happen on a separate layer
     color: $gray-darker;
     cursor: pointer;
     display: block;

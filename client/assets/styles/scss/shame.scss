@@ -15,6 +15,7 @@
 // https://code.google.com/p/chromium/issues/detail?id=138415
 // https://code.google.com/p/chromium/issues/detail?id=311583
 %webkit-flicker {
+  // scss-lint:disable VendorPrefix
   -webkit-backface-visibility: hidden;
 }
 

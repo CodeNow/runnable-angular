@@ -13,16 +13,6 @@
     margin-bottom: 15px;
     min-width: 0;
 
-    + .card {
-      margin-left: 15px;
-    }
-
-    // center if only child
-    &:only-child {
-      float: none;
-      margin: 0 auto;
-    }
-
     @include media(xxl) {
       width: calc(20% - 12px);
 
@@ -115,6 +105,16 @@
       + .card {
         margin-left: 0;
       }
+    }
+
+    + .card {
+      margin-left: 15px;
+    }
+
+    // center if only child
+    &:only-child {
+      float: none;
+      margin: 0 auto;
     }
   }
 }

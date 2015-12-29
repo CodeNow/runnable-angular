@@ -776,9 +776,9 @@ describe('serviceFetch'.bold.underline.blue, function () {
     });
   });
 
-  describe('factory fetchSlackMembers', function () {
+  describe('factory verifySlackAPITokenAndFetchMembers', function () {
     var $rootScope;
-    var fetchSlackMembers;
+    var verifySlackAPITokenAndFetchMembers;
     var configAPIHost;
 
     beforeEach(function () {
@@ -788,11 +788,11 @@ describe('serviceFetch'.bold.underline.blue, function () {
       });
       angular.mock.inject(function (
         _$rootScope_,
-        _fetchSlackMembers_,
+        _verifySlackAPITokenAndFetchMembers_,
         _configAPIHost_
       ) {
         $rootScope = _$rootScope_;
-        fetchSlackMembers = _fetchSlackMembers_;
+        verifySlackAPITokenAndFetchMembers = _verifySlackAPITokenAndFetchMembers_;
         configAPIHost = _configAPIHost_;
       });
     });
@@ -808,7 +808,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
           is_bot: true
         }]
       };
-      var promise = fetchSlackMembers(token);
+      var promise = verifySlackAPITokenAndFetchMembers(token);
       $rootScope.$digest();
       expect(promise).to.eventually.eql([data.members[0]]);
       expect(res.args[0].url).to.have.string('slack');
@@ -821,9 +821,9 @@ describe('serviceFetch'.bold.underline.blue, function () {
         error: 'invalid_auth',
         ok: false
       };
-      var fetchSlackMembersPromise = fetchSlackMembers(token);
+      var verifySlackAPITokenAndFetchMembersPromise = verifySlackAPITokenAndFetchMembers(token);
       $rootScope.$digest();
-      expect(fetchSlackMembersPromise).to.eventually.be.an.instanceof(Error, 'Provided Api');
+      expect(verifySlackAPITokenAndFetchMembersPromise).to.eventually.be.an.instanceof(Error, 'Provided Api');
     });
     it('should throw an error if the token is invalid', function () {
       var token = 'x123';
@@ -831,9 +831,9 @@ describe('serviceFetch'.bold.underline.blue, function () {
         error: 'not_invalid_auth',
         ok: false
       };
-      var fetchSlackMembersPromise = fetchSlackMembers(token);
+      var verifySlackAPITokenAndFetchMembersPromise = verifySlackAPITokenAndFetchMembers(token);
       $rootScope.$digest();
-      expect(fetchSlackMembersPromise).to.eventually.be.an.instanceof(Error, 'not_invalid_auth');
+      expect(verifySlackAPITokenAndFetchMembersPromise).to.eventually.be.an.instanceof(Error, 'not_invalid_auth');
     });
   });
 
@@ -1294,6 +1294,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
     var fetchOrgRegisteredMembersFactory;
     var fetchGitHubMembersFactory;
     var fetchOrgTeammateInvitationsStub;
+    var fetchGitHubUserStub;
 
     beforeEach(function () {
       angular.mock.module('app');
@@ -1309,6 +1310,14 @@ describe('serviceFetch'.bold.underline.blue, function () {
         $provide.factory('fetchOrgTeammateInvitations', function ($q) {
           fetchOrgTeammateInvitationsStub = sinon.stub().returns($q.when(fetchOrgTeammateInvitationResponse));
           return fetchOrgTeammateInvitationsStub;
+        });
+        $provide.factory('fetchGitHubUser', function ($q, assign) {
+          fetchGitHubUserStub = sinon.spy(function (login) {
+            return assign(generateGithubUserObject(login, userId1), {
+              email: login + '@example.com'
+            });
+          });
+          return fetchGitHubUserStub;
         });
       });
       angular.mock.inject(function (
@@ -1389,6 +1398,33 @@ describe('serviceFetch'.bold.underline.blue, function () {
       expect(registeredUser.userModel.attrs).to.have.deep.property('accounts.github.username');
       expect(registeredUser.userModel.attrs.accounts.github.username).to.equal(username1);
     });
+
+    describe('fetch Github user emails', function () {
+      it('should fetch the github user email for all GH members', function () {
+        var result;
+        fetchOrgMembers('CodeNow', true)
+          .then(function (res) {
+            result = res;
+          });
+        $rootScope.$digest();
+        sinon.assert.called(fetchGitHubUserStub);
+        sinon.assert.calledThrice(fetchGitHubUserStub); // Number of users
+      });
+
+      it('should fetch the github user email for all GH members and add it to user object', function () {
+       var result;
+          fetchOrgMembers('CodeNow', true)
+            .then(function (res) {
+              result = res;
+            });
+        $rootScope.$digest();
+        expect(result.all[0]).to.have.property('email');
+        expect(result.all[0].email).to.equal(result.all[0].login + '@example.com');
+        expect(result.invited[0]).to.have.property('email');
+        expect(result.invited[0].email).to.equal(result.invited[0].login + '@example.com');
+      });
+    });
+
   });
 
   describe('factory fetchGithubUserForCommit', function () {

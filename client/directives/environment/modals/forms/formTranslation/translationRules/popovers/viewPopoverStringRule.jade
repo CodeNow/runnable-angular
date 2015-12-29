@@ -30,7 +30,7 @@
               use(
                 xlink:href = "#icons-server-link"
               )
-            | hostnames to refer to other containers
+            | URLs to refer to other containers
 
       //- ghetto autofocus
       .textarea-wrapper(
@@ -58,7 +58,7 @@
           for = "textarea-replace"
         ) Replace
           //- fancy select
-          button.btn.btn-xxs.gray.float-right Insert Hostname
+          button.btn.btn-xxs.gray.float-right Insert URL
             svg.iconnables.icons-arrow-down
               use(
                 xlink:href = "#icons-arrow-down"
@@ -102,7 +102,7 @@
           )
             li.list-item.popover-list-item.small.disabled(
               ng-click = "$event.stopPropagation()"
-            ) Select hostname
+            ) Select URL
             fancy-option.monospace(
               ng-repeat = "instance in $parent.data.parentData.instances.models | filter:$parent.$parent.data.instanceFilter()"
               title = "{{ instance.getElasticHostname() }}"

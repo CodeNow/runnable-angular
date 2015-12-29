@@ -1,12 +1,12 @@
 'use strict';
 
 require('app')
-  .controller('TeamManagementController', TeamManagementController);
+  .controller('TeamManagementFormController', TeamManagementFormController);
 
 /**
  * @ngInject
  */
-function TeamManagementController(
+function TeamManagementFormController(
   $q,
   $rootScope,
   $scope,
@@ -37,7 +37,7 @@ function TeamManagementController(
   $scope.$on('$destroy', newInviteAddedWatchterUnbind);
 
   function fetchMembers () {
-    return fetchOrgMembers($state.params.userName)
+    return fetchOrgMembers($state.params.userName, true)
       .then(function (members) {
         TMMC.loading = false;
         TMMC.members = members;
@@ -47,7 +47,7 @@ function TeamManagementController(
           return function (member) {
             var firstEmail;
             if (!property) {
-              firstEmail = null;
+              firstEmail = member.email || null;
             } else {
               firstEmail = keypather.get(member, property);
             }
