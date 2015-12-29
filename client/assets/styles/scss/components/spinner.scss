@@ -1,24 +1,48 @@
 .spinner-wrapper {
   display: flex;
 
-  // show small spinner (15px)
-  // show medium spinner (30px)
-  // show large spinner (60px)
-  &.spinner-sm .spinner-sm,
-  &.spinner-md .spinner-md,
-  &.spinner-lg .spinner-lg {
-    display: block;
-  }
-
   .spinner {
     animation: spinner 1s infinite linear;
-    display: none;
+    fill: none;
     margin: 0 auto;
+    stroke-dasharray: 30,6;
+  }
+
+  // sizes
+  &.spinner-sm .spinner {
+    height: 16px;
+    width: 16px;
+
+    .path {
+      stroke-width: 2;
+    }
+  }
+
+  &.spinner-md .spinner {
+    height: 32px;
+    width: 32px;
+
+    .path {
+      stroke-width: 1.25;
+    }
+  }
+
+  &.spinner-lg .spinner {
+    height: 64px;
+    width: 64px;
+
+    .path {
+      stroke-width: .75;
+    }
   }
 
   // colors
   .path {
     stroke: currentColor;
+  }
+
+  &.spinner-blue .path {
+    stroke: $blue;
   }
 
   &.spinner-purple .path {
@@ -83,10 +107,9 @@
   }
 
   .spinner {
-    height: 100%;
+    min-height: 100%;
     left: 9px;
     position: absolute;
-    width: 15px;
   }
 }
 
