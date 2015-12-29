@@ -68,9 +68,8 @@
     .clearfix
       .label-col Messaging
     .list.list-bordered
-      label.list-item.text-overflow(
+      label.list-item.text-overflow.js-animate(
         ng-class = "{\
-          'active': member.slackOn,\
           'disabled': !SIFC.settings.attrs.notifications.slack.enabled,\
           'expanded': !member.found && member.slackOn\
         }"
