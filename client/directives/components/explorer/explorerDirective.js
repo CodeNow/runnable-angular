@@ -25,9 +25,6 @@ function explorer() {
       debugContainer: '=?'
     },
     link: function ($scope) {
-      $scope.$watch('rootDir', function () {
-        $scope.dir = $scope.rootDir;
-      });
       $scope.state = {};
 
       $scope.filePopover = {
@@ -39,6 +36,7 @@ function explorer() {
       };
 
       $scope.$watch('rootDir', function (rootDir) {
+        $scope.dir = $scope.rootDir;
         if (!rootDir) { return; }
         initRootDirState(rootDir);
       });
