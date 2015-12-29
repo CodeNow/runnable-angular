@@ -8,17 +8,23 @@ function BuildLogsController(
   primus,
   $rootScope,
   $timeout,
-  launchDebugContainer
+  launchDebugContainer,
+  updateInstanceWithNewBuild,
+  errs,
+  promisify
 ) {
   var BLC = this;
   BLC.showDebug = false;
 
   function handleUpdate () {
     var status = BLC.instance.status();
-    if (status === 'buildFailed') {
+    if (status === 'buildFailed' || status === 'neverStarted') {
       BLC.buildStatus = 'failed';
       BLC.showDebug = true;
       BLC.buildLogsRunning = false;
+      if (status === 'neverStarted') {
+        BLC.showErrorPanel = true;
+      }
     } else if (status === 'building') {
       BLC.buildStatus = 'running';
       BLC.buildLogsRunning = true;
@@ -77,6 +83,7 @@ function BuildLogsController(
     });
     BLC.buildLogs = streamingBuildLogs.logs;
     BLC.buildLogTiming = streamingBuildLogs.times;
+    BLC.getRawLogs = streamingBuildLogs.getRawLogs;
   }
 
   BLC.getBuildLogs = function () {
@@ -100,6 +107,23 @@ function BuildLogsController(
 
   this.generatingDebug = false;
   this.actions = {
+    openIntercom: function () {
+      window.Intercom(
+        'showNewMessage',
+        'Fudge! This thing won’t build my container. Can you fix it?'
+      );
+    },
+    rebuildWithoutCache: function () {
+      promisify(BLC.instance.build, 'deepCopy')()
+        .then(function (build) {
+          return updateInstanceWithNewBuild(
+            BLC.instance,
+            build,
+            true
+          );
+        })
+        .catch(errs.handler);
+    },
     launchDebugContainer: function (event, command) {
       if (BLC.debugContainer) {
         return;

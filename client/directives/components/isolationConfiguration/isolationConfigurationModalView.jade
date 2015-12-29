@@ -9,32 +9,57 @@
           xlink:href = "#icons-close"
         )
     section.modal-body
-      .text-center The following containers will be created to isolate&#32;
-        br
-        status-icon(
-          instance = "ICMC.instance"
-        )
-        strong.strong {{ICMC.instance.getRepoName()}}/{{ICMC.instance.getBranchName()}}
-        | .
+      .well.in.gray.small.text-center
+        | Selected containers will be created to isolate&#32;
+        .text-overflow(
+          ng-attr-title = "{{ICMC.instance.getRepoName()}}/{{ICMC.instance.getBranchName()}}"
+        ) {{ICMC.instance.getRepoName()}}/{{ICMC.instance.getBranchName()}}.
+
+      //- repository containers
+      h4.h4(
+        ng-if = "ICMC.repoInstances.length"
+      ) Repository Containers
+
+      //- list in alphabetical order
       .list.list-bordered(
         ng-if = "ICMC.repoInstances.length"
       )
+        .list-item
+          label.text-overflow(
+            title = "{{ICMC.instance.getRepoName()}}"
+          )
+            input.checkbox(
+              checked
+              disabled
+              type = "checkbox"
+            )
+            | {{ICMC.instance.getRepoName()}}
+
+          button.btn.btn-xs.gray.text-overflow(
+            disabled
+          ) {{ICMC.instance.getBranchName()}}
+            svg.iconnables.icons-arrow-down
+              use(
+                xlink:href = "#icons-arrow-down"
+              )
+
         .list-item(
           ng-repeat = "instance in ICMC.repoInstances"
         )
-          svg.iconnables.icons-new-repository-server
-            use(
-              xlink:href = "#icons-new-repository-server"
-            )
-          span.span.text-overflow(
+          label.text-overflow(
             title = "{{instance.getRepoName()}}"
-          ) {{instance.getRepoName()}}
-          | {{instance.children.length}}
+          )
+            input.checkbox(
+              type = "checkbox"
+            )
+            | {{instance.getRepoName()}}
 
           //- this should get the class 'modded' if the selected branch uses a modified configuration
+          //- selecting this should automatically check the checkbox
           fancy-select.btn-xs.gray(
             value = "ICMC.instanceBranchMapping[instance.attrs.contextVersion.context]"
           )
+            li.list-item.popover-list-item.small.disabled Choose branch
             fancy-option(
               value = "$parent.instance"
             ) {{$parent.$parent.instance.getBranchName()}}
@@ -45,17 +70,57 @@
           //- this element should only appear if the selected branch uses a modified configuration
           //- small.small Branch uses a modified configuration
 
+      //- database containers
+      h4.h4(
+        ng-if = "ICMC.nonRepoInstances.length && $root.featureFlags.backup"
+      ) Database Containers
+      .list.list-bordered(
+        ng-if = "ICMC.nonRepoInstances.length && $root.featureFlags.backup"
+      )
+        .list-item(
+          ng-repeat = "instance in ICMC.nonRepoInstances"
+        )
+          label.text-overflow(
+            title = "{{instance.getRepoName()}}"
+          )
+            input.checkbox(
+              type = "checkbox"
+            )
+            | {{instance.getDisplayName()}}
+          //- show on containers that have a backup
+          small.small(
+            tooltip = "We’ll use the latest MySQL backup to populate this database."
+            tooltip-options = "{\"class\":\"bottom bottom-arrow-right\",\"right\":0,\"top\":21}"
+          )
+            svg.iconnables.icons-check.float-left
+              use(
+                xlink:href = "#icons-check"
+              )
+            | From Backup
+          //- show on containers that have no backups
+            - small.small(
+            -   tooltip = "This container will start with an empty database."
+            -   tooltip-options = "{\"class\":\"left\",\"right\":80,\"top\":-9}"
+            - ) No Backups
+
+      h4.h4(
+        ng-if = "ICMC.nonRepoInstances.length"
+      ) Other Containers
+      //- before b&r feature: all service containers
+        - after b&r feature: service containers that aren't databases
       .list.list-bordered(
         ng-if = "ICMC.nonRepoInstances.length"
       )
         .list-item(
           ng-repeat = "instance in ICMC.nonRepoInstances"
         )
-            svg.iconnables.icons-server-new
-              use(
-                xlink:href = "#icons-server-new"
-              )
-            span.span.text-overflow {{instance.getDisplayName()}}
+          label.text-overflow(
+            title = "{{instance.getRepoName()}}"
+          )
+            input.checkbox(
+              type = "checkbox"
+            )
+            | {{instance.getDisplayName()}}
 
     section.modal-footer.clearfix
       button.btn.white.float-left(

@@ -22,6 +22,7 @@ body {
 
 // svg files
 .svg-defs {
+  // scss-lint:disable ImportantRule
   height: 0 !important;
   position: absolute !important;
   visibility: hidden !important;
@@ -55,5 +56,6 @@ body {
 // .no-touching 'disables' an element and DOES NOT communicate
 .no-touching,
 %no-touching {
+  // scss-lint:disable ImportantRule
   pointer-events: none !important;
 }

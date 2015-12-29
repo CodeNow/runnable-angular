@@ -114,22 +114,6 @@
     &.active {
       cursor: default;
     }
-
-    // show overflow on hover
-    // show overflow on active
-    // show overflow on active:hover if isolated
-    &:hover > .icons-overflow,
-    &.active > .icons-overflow,
-    &.active:hover > .btn-badge + .icons-overflow {
-      display: block;
-    }
-
-    // hide isolated badge on hover
-    // hide overflow on .active if isolated
-    &:hover > .btn-badge,
-    &.active > .btn-badge + .icons-overflow {
-      display: none;
-    }
   }
 
   // status icon
@@ -153,7 +137,6 @@
 
   .icons-overflow {
     color: $gray;
-    display: none;
     flex: 0 0 auto;
     margin-right: -6px;
     padding: 0 5px;
@@ -200,7 +183,7 @@
   // isolation badge
   .btn-badge.btn-badge {
     flex: 0 0 auto;
-    margin: 0;
     left: 9px;
+    margin: 0;
   }
 }

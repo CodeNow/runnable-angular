@@ -28,7 +28,7 @@ $green-dark: #31b74d; // darken($green,6%);
 $green-darker: #2a9f43; // darken($green,12%);
 $green-darkest: #09200e;
 
-$purple: #5b3777;
+$purple: #71438f;
 $purple-logo: #ccadd2;
 $purple-light: #834fab;
 $purple-lighter: #b6a6bd;
@@ -64,7 +64,9 @@ $blue-dark: #1e7daf;
 // **********
 
 // list all colors (9)
+// scss-lint:disable ColorVariable
 $logs-runnable: black red green yellow blue magenta cyan light-gray white;
+// scss-lint:enable ColorVariable
 
 // dark colors
 $logs-runnable-dark-black: $black;
@@ -167,16 +169,16 @@ $input-border-radius-lg: 6px;
 $input-border-radius-xxs: 2px;
 
 $input-lg: 54px;
-$input-line-height-lg: $input-lg - ($input-border*2);
+$input-line-height-lg: $input-lg - ($input-border * 2);
 
 $input-md: 42px;
-$input-line-height-md: $input-md - ($input-border*2);
+$input-line-height-md: $input-md - ($input-border * 2);
 
 $input-sm: 36px;
-$input-line-height-sm: $input-sm - ($input-border*2);
+$input-line-height-sm: $input-sm - ($input-border * 2);
 
 $input-xs: 24px;
-$input-line-height-xs: $input-xs - ($input-border*2);
+$input-line-height-xs: $input-xs - ($input-border * 2);
 
 $input-xxs: 18px;
-$input-line-height-xxs: $input-xxs - ($input-border*2);
+$input-line-height-xxs: $input-xxs - ($input-border * 2);

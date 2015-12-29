@@ -15,7 +15,8 @@ function accountsSelect (
   configEnvironment,
   errs,
   keypather,
-  promisify
+  promisify,
+  ModalService
 ) {
   return {
     restrict: 'A',
@@ -45,6 +46,17 @@ function accountsSelect (
             promisify($scope.data.user, 'logout')().then(function () {
               window.location = '/';
             }).catch(errs.handler);
+          },
+          openSettingsModal: function (tabName) {
+            $rootScope.$broadcast('close-popovers');
+            ModalService.showModal({
+              controller: 'SettingsModalController',
+              controllerAs: 'SEMC',
+              templateUrl: 'settingsModalView',
+              inputs: {
+                tab: tabName
+              }
+            });
           },
           selectActiveAccount: function (userOrOrg) {
             var username = userOrOrg.oauthName();

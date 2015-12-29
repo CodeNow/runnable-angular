@@ -191,6 +191,7 @@ function ControllerInstance(
   $scope.$watch(checkContainerState, displayTabsForContainerState, true);
 
   function displayTabsForContainerState(containerState) {
+    var jesusBirthday = '0001-01-01T00:00:00Z';
     $timeout(function () {
       favico.setInstanceState(keypather.get($scope, 'dataInstance.data.instance'));
     });
@@ -202,6 +203,9 @@ function ControllerInstance(
       if (keypather.get(containerState, 'inspect.State.Running')) {
         data.sectionClasses.in = data.showExplorer;
         restoreOrOpenDefaultTabs();
+      } else if (keypather.get(containerState, 'inspect.State.StartedAt') === jesusBirthday) {
+        // Never started
+        buildLogsOnly();
       } else {
         boxLogsOnly();
       }

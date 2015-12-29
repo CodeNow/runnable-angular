@@ -1,32 +1,4 @@
-.logo-anchor {
-  display: inline-block;
-  position: relative;
-
-  .sup {
-    color: #bea1d4; // sup color from runnable.com
-    font-size: 11px;
-    position: absolute;
-    right: 0; // width of <sup>
-    text-shadow: 0 -1px 0 rgba(0,0,0,.2);
-    top: 12px;
-    user-select: none;
-  }
-}
-
 .logo {
   margin-left: 12px;
   width: 180px;
-
-  &.logo-icon {
-    height: $input-sm;
-    margin-left: 0;
-    width: $input-sm;
-  }
-
-  &.changed {
-    box-shadow: 0px 0px 10px 3px white;
-    background-color: white;
-    cursor: pointer;
-    /*-webkit-filter: invert(1);*/
-  }
 }

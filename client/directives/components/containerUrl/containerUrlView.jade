@@ -1,27 +1,48 @@
-//- container url; [readonly] to inherit css for .input[readonly]
-a.btn.btn-xs(
-  ng-href = "http://{{instance.getContainerHostname()}}{{defaultPort}}"
-  target = "_blank"
-)
-  span.float-left URL
-  svg.iconnables.float-right
-    use(
-      xlink:href = "#icons-link-external"
-    )
-input.input.input-sm.text-center(
+.label.gray URL
+
+input.input.input-sm(
+  ng-if = "instance.getBranchName()"
+  pop-over
+  pop-over-options = "{\"left\":-47,\"top\":47}"
+  pop-over-template = "containerUrlPopoverView"
   readonly
   select-all
   value = "{{instance.getContainerHostname()}}{{defaultPort}}"
 )
-button.btn.btn-xs(
+
+input.input.input-sm(
+  ng-if = "!instance.getBranchName()"
+  readonly
+  select-all
+  value = "{{instance.getContainerHostname()}}{{defaultPort}}"
+)
+
+a.btn.btn-xs.btn-icon-xs.gray.link(
+  ng-href = "http://{{instance.getContainerHostname()}}{{defaultPort}}"
+  target = "_blank"
+  title = "Open in a new tab"
+)
+  svg.iconnables.icons-link-external
+    use(
+      xlink:href = "#icons-link-external"
+    )
+
+button.btn.btn-xs.gray(
   clipboard
+  ng-click = "$event.preventDefault()"
   ng-mouseleave = "showToolTip = false"
   ng-show = "shouldShowCopyButton"
-  on-copied = "onClipboardEvent(); showToolTip = true;"
-  on-error = "onClipboardEvent(err); showToolTip = true;"
+  on-copied = "\
+    onClipboardEvent();\
+    showToolTip = true;\
+  "
+  on-error = "\
+    onClipboardEvent(err);\
+    showToolTip = true;\
+  "
   text = "instance.getContainerHostname() + defaultPort"
   tooltip
-  tooltip-eval = "clipboardText"
   tooltip-active-attr = "{{showToolTip}}"
+  tooltip-eval = "clipboardText"
   tooltip-options = "{\"class\":\"bottom no-arrow\",\"right\":0,\"top\":27}"
 ) Copy

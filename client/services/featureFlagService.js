@@ -7,6 +7,7 @@ function featureFlags(
   $localStorage
 ) {
   var defaultFeatureFlags = {
+    backup: false,
     billing: false,
     cardStatus: false,
     debugStartCmd: false, // debug mode for start CMD (in CMD Logs)
@@ -25,13 +26,16 @@ function featureFlags(
     navListFilter: false,
     newVerificationFlow: true,
     newVerificationFlowStackSelector: true,
+    noBuildLogs: true,
     rebuildFlow: false, // updated rebuild flow
     renameContainer: false,
     saveToolbar: false,
     teamManagement: false, // changes text from org to team in account menu
+    teamManagementAdvanced: false,
     trial: false,
     themeToggle: false, // toggles the button that toggles theme
     updatedSlackValidation: false,
+    urlPopover: false,
     webhooksAdminPresent: false,
     webhooksContainerRunning: false,
     webhooks: false

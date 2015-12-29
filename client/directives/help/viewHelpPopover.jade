@@ -1,5 +1,5 @@
 .popover.help(
-  ng-class = "{in: active}"
+  ng-class = "{'in': active}"
   ng-style = "popoverStyle.getStyle()"
 )
   .help-lists-wrapper
@@ -34,7 +34,7 @@
             target = "_blank"
             href = "http://www.youtube.com/watch?v=_uwPKIH990E"
           ) View our Getting Started video
-            svg.iconnables
+            svg.iconnables.icons-link-external
               use(
                 xlink:href = "#icons-link-external"
               )
@@ -43,7 +43,7 @@
             target = "_blank"
             href = "https://runnable.zendesk.com/hc/en-us/articles/205184275-How-can-containers-in-my-Runnable-Sandbox-communicate-with-each-other-"
           ) Connect two containers together
-            svg.iconnables
+            svg.iconnables.icons-link-external
               use(
                 xlink:href = "#icons-link-external"
               )
@@ -52,16 +52,26 @@
             target = "_blank"
             href = "http://support.runnable.io"
           ) Documentation
-            svg.iconnables
+            svg.iconnables.icons-link-external
               use(
                 xlink:href = "#icons-link-external"
               )
-              
-  //- TODO: remove less-help class
+
   button.btn(
     ng-click = "POC.closePopover()"
-  ) Less Help
-    svg.iconnables
+  )
+    svg.iconnables(
+      ng-if = '!data.triggered.length'
+    )
+      use(
+        xlink:href = "#icons-close"
+      )
+
+    | {{data.triggered.length ? 'Less Help' : 'Close'}}
+
+    svg.iconnables(
+      ng-if = 'data.triggered.length'
+    )
       use(
         xlink:href = "#icons-arrow-down"
       )

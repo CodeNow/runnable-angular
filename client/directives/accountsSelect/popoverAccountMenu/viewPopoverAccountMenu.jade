@@ -22,19 +22,6 @@
             ng-if = "data.showIntegrations"
           )
             li.list-item.popover-list-item.small.disabled {{data.activeAccount.oauthName()}} Settings
-            li.list-item.popover-list-item(
-              modal
-              modal-actions = "actions.actionsModalIntegrations"
-              modal-data = "data.dataModalIntegrations"
-              modal-template = "viewOpenModalIntegrations"
-              ng-if = "!$root.featureFlags.billing"
-            )
-              img.iconnables(
-                height = "24"
-                src = "/build/images/logos/logo-icon-slack.svg"
-                width = "24"
-              )
-              | Slack Integration
             //- *****************
             //- $root.featureFlags.billing && $root.featureFlags.teamManagement
             li.list-item.popover-list-item(
@@ -58,9 +45,7 @@
                 title = "12 days left in your trial"
               ) 12 Days
             li.list-item.popover-list-item(
-              data-badge-count = "1"
-              internal-modal-helper = "settingsModalView"
-              ng-class = "{'badge': true}"
+              ng-click = "actions.openSettingsModal('teamManagement')"
               ng-if = "$root.featureFlags.teamManagement"
             )
               svg.iconnables
@@ -68,16 +53,6 @@
                   xlink:href = "#icons-team"
                 )
               | Teammates
-            li.list-item.popover-list-item(
-              internal-modal-helper = "settingsModalView"
-              ng-if = "$root.featureFlags.billing"
-            )
-              img.iconnables(
-                height = "24"
-                src = "/build/images/logos/logo-icon-slack.svg"
-                width = "24"
-              )
-              | Slack Integration
             //- li.list-item.popover-list-item(
             //-   internal-modal-helper = "settingsModalView"
             //-   ng-if = "$root.featureFlags.billing"
@@ -89,6 +64,29 @@
               | Settings
             //- $root.featureFlags.billing && $root.featureFlags.teamManagement
             //- *****************
+            li.list-item.popover-list-item(
+              modal
+              modal-actions = "actions.actionsModalIntegrations"
+              modal-data = "data.dataModalIntegrations"
+              modal-template = "viewOpenModalIntegrations"
+              ng-if = "!$root.featureFlags.teamManagement || !$root.featureFlags.updatedSlackValidation"
+            )
+              img.iconnables(
+                height = "24"
+                src = "/build/images/logos/logo-icon-slack.svg"
+                width = "24"
+              )
+              | Slack Integration
+            li.list-item.popover-list-item(
+              ng-click = "actions.openSettingsModal('slackIntegration')"
+              ng-if = "$root.featureFlags.teamManagement && $root.featureFlags.updatedSlackValidation"
+            )
+              img.iconnables(
+                height = "24"
+                src = "/build/images/logos/logo-icon-slack.svg"
+                width = "24"
+              )
+              | Slack Integration
           ul.list.popover-list.list-secondary
             li.list-item.popover-list-item(
               ng-click = "goToPanel('featureFlags')"

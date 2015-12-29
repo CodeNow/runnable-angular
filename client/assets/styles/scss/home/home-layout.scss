@@ -198,8 +198,8 @@
 
 // embed
 .embed-preview {
-  border: 2px solid $purple-light;
-  border-radius: 6px;
+  border: $input-border solid $purple-light;
+  border-radius: $input-border-radius-lg;
   cursor: pointer;
   height: 168px;
   margin: 0 auto 30px;
@@ -245,7 +245,7 @@
   // video
   .link {
     background: rgba($purple-light,.6);
-    border: 2px solid $purple-light;
+    border: $input-border solid $purple-light;
     border-radius: 30px;
     color: rgba($white,.75);
     font-size: 15px;

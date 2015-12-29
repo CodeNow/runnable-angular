@@ -40,7 +40,7 @@
   }
 
   // if .arrow-down
-  > .icons-arrow-down, .server-status-card-pop-over > .icons-arrow-down {
+  > .icons-arrow-down {
     float: right;
     height: 100%;
     margin-right: -6px;
@@ -228,7 +228,7 @@
 .white {
   border: $input-border solid transparent;
   color: $white;
-  font-weight: 500;
+  font-weight: $weight-bold;
   text-decoration: none;
 
   &:active {
@@ -378,8 +378,8 @@
   }
 
   &.btn-group {
-    border: 2px solid $white;
-    border-radius: 3px;
+    border: $input-border solid $white;
+    border-radius: $input-border-radius;
 
     > .btn {
       border: 0;
@@ -472,10 +472,11 @@
   &:active,
   &.active {
     color: $purple-light;
+    cursor: default;
   }
 
   &.active {
-    font-weight: 500;
+    font-weight: $weight-bold;
   }
 
   &:focus {

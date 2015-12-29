@@ -24,35 +24,29 @@
 @mixin media($point) {
   @if $point == xxs {
     @media (max-width: $screen-xxs) { @content; }
-  }
-  @else if $point == xs {
+  } @else if $point == xs {
     @media (max-width: $screen-xs) { @content; }
-  }
-  @else if $point == sm {
+  } @else if $point == sm {
     @media (max-width: $screen-sm) { @content; }
-  }
-  @else if $point == md {
+  } @else if $point == md {
     @media (max-width: $screen-md) { @content; }
 
     .isolation-intercom-flag-on .intercom-messenger-active & {
       @media (max-width: $screen-md + $intercom-width) { @content; }
     }
-  }
-  @else if $point == lg {
+  } @else if $point == lg {
     @media (max-width: $screen-lg) { @content; }
 
     .isolation-intercom-flag-on .intercom-messenger-active & {
       @media (max-width: $screen-lg + $intercom-width) { @content; }
     }
-  }
-  @else if $point == xl {
+  } @else if $point == xl {
     @media (max-width: $screen-xl) { @content; }
 
     .isolation-intercom-flag-on .intercom-messenger-active & {
       @media (max-width: $screen-xl + $intercom-width) { @content; }
     }
-  }
-  @else if $point == xxl {
+  } @else if $point == xxl {
     @media (min-width: $screen-xl) { @content; }
 
     .isolation-intercom-flag-on .intercom-messenger-active & {
@@ -65,8 +59,8 @@
 @mixin depth($depth: 1) {
   $chain: '';
   $item-offset: 15px;
-  $nested-offset: $item-offset*$depth - $item-offset/3;
-  $input-offset: 229px - $depth*$item-offset;
+  $nested-offset: ($item-offset * $depth) - ($item-offset / 3);
+  $input-offset: 229px - ($depth * $item-offset);
 
   @for $i from 0 to $depth {
     $chain: $chain + ' > ul > li';

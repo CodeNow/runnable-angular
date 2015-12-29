@@ -1,6 +1,11 @@
 /*global runnable:true, user:true, before:true */
 'use strict';
-var instances = require('../apiMocks').instances;
+var apiMocks = require('../apiMocks');
+var instances = apiMocks.instances;
+var generateUserObject = apiMocks.generateUserObject;
+var generateTeammateInvitationObject = apiMocks.generateTeammateInvitationObject;
+var generateGithubUserObject = apiMocks.gh.generateGithubUserObject;
+var generateGithubOrgObject = apiMocks.gh.generateGithubOrgObject;
 
 describe('serviceFetch'.bold.underline.blue, function () {
   var data;
@@ -14,110 +19,6 @@ describe('serviceFetch'.bold.underline.blue, function () {
       return $q.when(_res);
     };
   };
-  var generateUserObject = function (githubUsername, githubgithubUserId) {
-   if (!githubUsername) {
-      githubUsername = 'thejsj';
-    }
-    if (!githubgithubUserId) {
-      githubgithubUserId = 12345;
-    }
-    return {
-      '_id': '54d3c216c0f345d650d00123',
-      'accounts': {
-        'github': {
-          'provider': 'github',
-          'id': githubgithubUserId,
-          'displayName': 'Jorge Silva',
-          'username': githubUsername,
-          'profileUrl': 'https:\/\/github.com\/' + githubUsername,
-          'emails': [
-            {
-              'value': 'jorge.silva@thejsj.com'
-            }
-        ]
-        }
-      },
-      'gravatar': 'https:\/\/avatars.githubusercontent.com\/u\/1981198?v=3',
-      'email': 'email@company.com',
-      'routes': [ ],
-      'created': '2015-02-18T00:00:00.000Z',
-      'showEmail': false
-    };
-  };
-  var generateGithubUserObject = function (githubUsername, githubUserId) {
-    if (!githubUsername) {
-      githubUsername = 'thejsj';
-    }
-    if (!githubUserId) {
-      githubUserId = 12345;
-    }
-    return {
-      avatar_url: 'https://avatars.githubusercontent.com/u/1981198?v=3',
-      events_url: 'https://api.github.com/users/' + githubUsername + '/events{/privacy}',
-      followers_url: 'https://api.github.com/users/' + githubUsername + '/followers',
-      following_url: 'https://api.github.com/users/' + githubUsername + '/following{/other_user}',
-      gists_url: 'https://api.github.com/users/' + githubUsername + '/gists{/gist_id}',
-      gravatar_id: '',
-      html_url: 'https://github.com/' + githubUsername,
-      id: githubUserId,
-      login: githubUsername,
-      organizations_url: 'https://api.github.com/users/' + githubUsername + '/orgs',
-      received_events_url: 'https://api.github.com/users/' + githubUsername + '/received_events',
-      repos_url: 'https://api.github.com/users/' + githubUsername + '/repos',
-      site_admin: false,
-      starred_url: 'https://api.github.com/users/' + githubUsername + '/starred{/owner}{/repo}',
-      subscriptions_url: 'https://api.github.com/users/' + githubUsername + '/subscriptions',
-      type: 'User',
-      url: 'https://api.github.com/users/' + githubUsername
-    };
-  };
-  var generateGithubOrgObject = function (githubOrgName, githubOrgId) {
-    if (!githubOrgName) {
-      githubOrgName = 'CodeNow';
-    }
-    if (!githubOrgId) {
-      githubOrgId = 1223344;
-    }
-    return {
-      avatar_url: 'https://avatars.githubusercontent.com/u/' + githubOrgId + '?v=3',
-      description: null,
-      events_url: 'https://api.github.com/orgs/' + githubOrgName + '/events',
-      id: githubOrgId,
-      login: githubOrgName,
-      members_url: 'https://api.github.com/orgs/' + githubOrgName + '/members{/member}',
-      public_members_url: 'https://api.github.com/orgs/' + githubOrgName + '/public_members{/member}',
-      repos_url: 'https://api.github.com/orgs/' + githubOrgName + '/repos',
-      url: 'https://api.github.com/orgs/' + githubOrgName + ''
-    };
-  };
-  var generateTeammateInvitationObject = function (orgGithubId, recipientGihtubId, recipientEmail) {
-    var user = generateUserObject();
-    if (!orgGithubId) {
-      orgGithubId = generateGithubOrgObject().id;
-    }
-    if (!recipientGihtubId) {
-      recipientGihtubId = user.id;
-    }
-    if (!recipientEmail) {
-      recipientEmail = user.accounts.github.emails[0].value;
-    }
-    return {
-      _id: '564e76f4ecb1e41e0096b5d7',
-      created: '2015-11-20T01:27:16.193Z',
-      organization: {
-        github: orgGithubId
-      },
-      owner: {
-        github: 1981198
-      },
-      recipient: {
-        email: recipientEmail,
-        github: recipientGihtubId
-      }
-    };
-  };
-
-
   describe('factory fetchUser', function () {
     var $state;
     var apiClientBridge;
@@ -810,59 +711,35 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
   describe('factory fetchGitHubAdminsByRepo', function () {
     var $rootScope, fetchGitHubAdminsByRepo, configAPIHost;
-
-    var fetchGitHubTeamsByRepoMock;
-    var fetchGitHubTeamMembersByTeamMock;
     var fetchGitHubUserMock;
     var members = [
       {
         name: 'member1',
         login: 'member1',
-        state: 'active'
+        permissions: {
+          admin: true
+        }
       },
       {
         name: 'member2',
         login: 'member2',
-        state: 'active'
+        permissions: {
+          admin: false
+        }
       },
       {
         name: 'member3',
         login: 'member3',
-        state: 'active'
+        permissions: {
+          admin: true
+        }
       }
     ];
-    var membersByTeam = {
-      team1: [
-        members[0],
-        members[1]
-      ],
-      team2: [
-        members[1],
-        members[2]
-      ],
-      team3: [
-        members[0],
-        members[2]
-      ],
-      team4: [
-        members[0]
-      ]
-    };
-    var teams = Object.keys(membersByTeam);
 
     beforeEach(function () {
       angular.mock.module('app');
       angular.mock.module(function ($provide) {
-        $provide.factory('fetchGitHubTeamsByRepo', function ($q) {
-          fetchGitHubTeamsByRepoMock = sinon.stub().returns($q.when(teams));
-          return fetchGitHubTeamsByRepoMock;
-        });
-        $provide.factory('fetchGitHubTeamMembersByTeam', function ($q) {
-          fetchGitHubTeamMembersByTeamMock = sinon.spy(function (teamName) {
-            return $q.when((membersByTeam[teamName]));
-          });
-          return fetchGitHubTeamMembersByTeamMock;
-        });
+        $provide.factory('$http', httpFactory);
         $provide.factory('fetchGitHubUser', function ($q) {
           fetchGitHubUserMock = sinon.spy(function (memberName) {
             return $q.when(({
@@ -887,12 +764,11 @@ describe('serviceFetch'.bold.underline.blue, function () {
       var orgName = 'team';
       var repoName = 'repo';
 
+      data = members;
       fetchGitHubAdminsByRepo(orgName, repoName)
         .then(function (uniqueMembers) {
-          expect(fetchGitHubTeamsByRepoMock.callCount).to.eql(1);
-          expect(fetchGitHubTeamMembersByTeamMock.callCount).to.eql(4);
-          expect(fetchGitHubUserMock.callCount).to.eql(3);
-          expect(Object.keys(uniqueMembers).length).to.eql(3);
+          expect(fetchGitHubUserMock.callCount).to.eql(2);
+          expect(Object.keys(uniqueMembers).length).to.eql(2);
           done();
         });
 
@@ -900,9 +776,9 @@ describe('serviceFetch'.bold.underline.blue, function () {
     });
   });
 
-  describe('factory fetchSlackMembers', function () {
+  describe('factory verifySlackAPITokenAndFetchMembers', function () {
     var $rootScope;
-    var fetchSlackMembers;
+    var verifySlackAPITokenAndFetchMembers;
     var configAPIHost;
 
     beforeEach(function () {
@@ -912,11 +788,11 @@ describe('serviceFetch'.bold.underline.blue, function () {
       });
       angular.mock.inject(function (
         _$rootScope_,
-        _fetchSlackMembers_,
+        _verifySlackAPITokenAndFetchMembers_,
         _configAPIHost_
       ) {
         $rootScope = _$rootScope_;
-        fetchSlackMembers = _fetchSlackMembers_;
+        verifySlackAPITokenAndFetchMembers = _verifySlackAPITokenAndFetchMembers_;
         configAPIHost = _configAPIHost_;
       });
     });
@@ -932,7 +808,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
           is_bot: true
         }]
       };
-      var promise = fetchSlackMembers(token);
+      var promise = verifySlackAPITokenAndFetchMembers(token);
       $rootScope.$digest();
       expect(promise).to.eventually.eql([data.members[0]]);
       expect(res.args[0].url).to.have.string('slack');
@@ -945,9 +821,9 @@ describe('serviceFetch'.bold.underline.blue, function () {
         error: 'invalid_auth',
         ok: false
       };
-      var fetchSlackMembersPromise = fetchSlackMembers(token);
+      var verifySlackAPITokenAndFetchMembersPromise = verifySlackAPITokenAndFetchMembers(token);
       $rootScope.$digest();
-      expect(fetchSlackMembersPromise).to.eventually.be.an.instanceof(Error, 'Provided Api');
+      expect(verifySlackAPITokenAndFetchMembersPromise).to.eventually.be.an.instanceof(Error, 'Provided Api');
     });
     it('should throw an error if the token is invalid', function () {
       var token = 'x123';
@@ -955,9 +831,9 @@ describe('serviceFetch'.bold.underline.blue, function () {
         error: 'not_invalid_auth',
         ok: false
       };
-      var fetchSlackMembersPromise = fetchSlackMembers(token);
+      var verifySlackAPITokenAndFetchMembersPromise = verifySlackAPITokenAndFetchMembers(token);
       $rootScope.$digest();
-      expect(fetchSlackMembersPromise).to.eventually.be.an.instanceof(Error, 'not_invalid_auth');
+      expect(verifySlackAPITokenAndFetchMembersPromise).to.eventually.be.an.instanceof(Error, 'not_invalid_auth');
     });
   });
 
@@ -1418,6 +1294,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
     var fetchOrgRegisteredMembersFactory;
     var fetchGitHubMembersFactory;
     var fetchOrgTeammateInvitationsStub;
+    var fetchGitHubUserStub;
 
     beforeEach(function () {
       angular.mock.module('app');
@@ -1433,6 +1310,14 @@ describe('serviceFetch'.bold.underline.blue, function () {
         $provide.factory('fetchOrgTeammateInvitations', function ($q) {
           fetchOrgTeammateInvitationsStub = sinon.stub().returns($q.when(fetchOrgTeammateInvitationResponse));
           return fetchOrgTeammateInvitationsStub;
+        });
+        $provide.factory('fetchGitHubUser', function ($q, assign) {
+          fetchGitHubUserStub = sinon.spy(function (login) {
+            return assign(generateGithubUserObject(login, userId1), {
+              email: login + '@example.com'
+            });
+          });
+          return fetchGitHubUserStub;
         });
       });
       angular.mock.inject(function (
@@ -1513,5 +1398,32 @@ describe('serviceFetch'.bold.underline.blue, function () {
       expect(registeredUser.userModel.attrs).to.have.deep.property('accounts.github.username');
       expect(registeredUser.userModel.attrs.accounts.github.username).to.equal(username1);
     });
+
+    describe('fetch Github user emails', function () {
+      it('should fetch the github user email for all GH members', function () {
+        var result;
+        fetchOrgMembers('CodeNow', true)
+          .then(function (res) {
+            result = res;
+          });
+        $rootScope.$digest();
+        sinon.assert.called(fetchGitHubUserStub);
+        sinon.assert.calledThrice(fetchGitHubUserStub); // Number of users
+      });
+
+      it('should fetch the github user email for all GH members and add it to user object', function () {
+       var result;
+          fetchOrgMembers('CodeNow', true)
+            .then(function (res) {
+              result = res;
+            });
+        $rootScope.$digest();
+        expect(result.all[0]).to.have.property('email');
+        expect(result.all[0].email).to.equal(result.all[0].login + '@example.com');
+        expect(result.invited[0]).to.have.property('email');
+        expect(result.invited[0].email).to.equal(result.invited[0].login + '@example.com');
+      });
+    });
+
   });
 });

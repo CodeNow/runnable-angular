@@ -13,6 +13,7 @@ function ControllerInstances(
   setLastOrg,
   errs,
   ModalService,
+  promisify,
 
   fetchInstancesByPod,
   activeAccount,
@@ -93,6 +94,31 @@ function ControllerInstances(
         tab: keypather.get(instance, 'contextVersion.attrs.advanced') ? 'env' : 'repository',
         instance: instance,
         actions: {}
+      }
+    })
+      .catch(errs.handler);
+  };
+
+  this.openInviteAdminModal = function (instance) {
+    ModalService.showModal({
+      controller: 'InviteAdminModalController',
+      controllerAs: 'IAMC',
+      templateUrl: 'inviteAdminModalView',
+      inputs: {
+        instance: instance,
+        isFromAutoDeploy: false
+      }
+    })
+      .catch(errs.handler);
+  };
+
+  this.openEnableBranchesModal = function (instance) {
+    ModalService.showModal({
+      controller: 'EnableBranchesModalController',
+      controllerAs: 'EBMC',
+      templateUrl: 'enableBranchesModalView',
+      inputs: {
+        instance: instance
       }
     })
       .catch(errs.handler);

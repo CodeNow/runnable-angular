@@ -26,7 +26,7 @@ require('app')
   .factory('fetchOwnerRepos', fetchOwnerRepos)
   .factory('fetchPullRequest', fetchPullRequest)
   // Settings
-  .factory('fetchSlackMembers', fetchSlackMembers)
+  .factory('verifySlackAPITokenAndFetchMembers', verifySlackAPITokenAndFetchMembers)
   .factory('fetchSettings', fetchSettings)
   .factory('integrationsCache', integrationsCache);
 
@@ -346,7 +346,7 @@ function integrationsCache() {
   return {};
 }
 
-function fetchSlackMembers(
+function verifySlackAPITokenAndFetchMembers(
   $http,
   $q
 ) {
@@ -397,10 +397,14 @@ function fetchOrgRegisteredMembers(
   fetchUser,
   promisify
 ) {
+  var fetchOrgRegisteredMembersCache = {};
   return function (orgName) {
-    return fetchUser().then(function (user) {
-      return promisify(user, 'fetchUsers')({ githubOrgName: orgName });
-    });
+    if (!fetchOrgRegisteredMembersCache[orgName]) {
+      fetchOrgRegisteredMembersCache[orgName] = fetchUser().then(function (user) {
+        return promisify(user, 'fetchUsers')({ githubOrgName: orgName });
+      });
+    }
+    return fetchOrgRegisteredMembersCache[orgName];
   };
 }
 
@@ -486,15 +490,29 @@ function fetchOrgMembers(
   $q,
   keypather,
   fetchGitHubMembers,
+  fetchGitHubUser,
   fetchOrgRegisteredMembers,
   fetchOrgTeammateInvitations
 ) {
-  return function (teamName) {
+  return function (teamName, fetchGithubUserEmail) {
     return $q.all([
       fetchGitHubMembers(teamName),
       fetchOrgRegisteredMembers(teamName),
       fetchOrgTeammateInvitations(teamName)
     ])
+    .then(function (responseArray) {
+      if (fetchGithubUserEmail) {
+        return $q.all([
+          $q.all(responseArray[0].map(function (member) {
+            // Fetch the complete user profile, in order to get user email
+            return fetchGitHubUser(member.login);
+          })),
+          responseArray[1],
+          responseArray[2]
+        ]);
+      }
+      return responseArray;
+    })
     .then(function (responseArray) {
       var githubMembers = responseArray[0];
       var runnableUsersCollection = responseArray[1];
@@ -544,52 +562,54 @@ function fetchGitHubUser(
   $http,
   configAPIHost
 ) {
+  var fetchGithubUserCache = {};
   return function (memberName) {
-    return $http({
-      method: 'get',
-      url: configAPIHost + '/github/users/' + memberName
-    }).then(function (user) {
-      return user.data;
-    });
+    if (!fetchGithubUserCache[memberName]) {
+      fetchGithubUserCache[memberName] = $http({
+        method: 'get',
+        url: configAPIHost + '/github/users/' + memberName
+      }).then(function (user) {
+        return user.data;
+      });
+    }
+    return fetchGithubUserCache[memberName];
   };
 }
 
 /**
  * Given an org name and a repo name, fetch all github users who have admin access to a repo.  This
  * returns a promise containing a map of all of the users, indexed by their github login.
+ * @param $http
  * @param $q
- * @param fetchGitHubTeamsByRepo
- * @param fetchGitHubTeamMembersByTeam
+ * @param configAPIHost
  * @param fetchGitHubUser
- * @returns {Function} promise containing a map of github admins indexed by login
+ * @param keypather
+ * @returns {Function} promise containing an map of github admins indexed by login
  */
 function fetchGitHubAdminsByRepo(
+  $http,
   $q,
-  fetchGitHubTeamsByRepo,
-  fetchGitHubTeamMembersByTeam,
-  fetchGitHubUser
+  configAPIHost,
+  fetchGitHubUser,
+  keypather
 ) {
   return function (orgName, repoName) {
-    return fetchGitHubTeamsByRepo(orgName, repoName)
-      .then(function (teams) {
-        return $q.all(teams.map(fetchGitHubTeamMembersByTeam));
-      })
-      .then(function (arrayOfTeamMembers) {
-        var uniqueMembers = {};
-        arrayOfTeamMembers.forEach(function (members) {
-          members.forEach(function (member) {
-            if (!uniqueMembers[member.login]) {
-              uniqueMembers[member.login] = member;
-            }
-          });
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/github/repos/' + orgName + '/' + repoName + '/collaborators',
+      headers: {
+        Accept: 'application/vnd.github.ironman-preview+json'
+      }
+    })
+      .then(function (collaboratorsResponse) {
+        return collaboratorsResponse.data.filter(function (user) {
+          return keypather.get(user, 'permissions.admin');
         });
-        return uniqueMembers;
       })
-      .then(function (mapOfMembers) {
-        Object.keys(mapOfMembers).forEach(function (key) {
-          mapOfMembers[key] = fetchGitHubUser(key);
-        });
-        return $q.all(mapOfMembers);
+      .then(function (userArray) {
+        return $q.all(userArray.map(function (user) {
+          return fetchGitHubUser(user.login);
+        }));
       });
   };
 }

@@ -24,6 +24,13 @@ function helperAddTab() {
           pat.data.show = false;
           return openItems.addBuildStream();
         },
+        addBackupStream: function () {
+          if (!openItems) {
+            return;
+          }
+          pat.data.show = false;
+          return openItems.addBackupStream();
+        },
         addTerminal: function () {
           if (!openItems) {
             return;

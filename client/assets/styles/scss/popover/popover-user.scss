@@ -13,15 +13,12 @@
 
   .input {
     font-size: 14px;
-    margin-left: -6px; // line up send button with invite
     padding-right: 54px;
-    width: 278px;
 
     // send
     ~ .btn-xs {
       bottom: 14px;
       margin: 6px;
-      right: 9px; // line up send button with invite
       top: auto;
     }
   }

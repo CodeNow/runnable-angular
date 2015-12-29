@@ -2,7 +2,7 @@
 .help.help {
   background: $blue-lighter;
   border: 1px solid $blue-light;
-  border-radius: 3px;
+  border-radius: $input-border-radius;
   box-shadow: 0 1px 3px rgba($blue,.25);
   color: rgba($blue,.8);
 
@@ -18,7 +18,6 @@
 %help-top-card {
   font-size: 15px;
   left: 75px;
-  line-height: 18px;
   max-width: none; // overwrites max-width set in popover.scss
   padding-bottom: 26px;
   position: absolute;
@@ -34,7 +33,7 @@
     border-top-right-radius: 0;
     bottom: 0;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: $weight-bold;
     height: 27px;
     left: 0;
     line-height: 18px;
@@ -52,7 +51,7 @@
 
     .iconnables {
       height: 15px;
-      top: 4px;
+      top: 3px;
       width: 15px;
     }
   }
@@ -154,10 +153,10 @@
   // "show me" button
   .btn-sm {
     background-color: $white;
-    border: 2px solid $blue;
+    border: $input-border solid $blue;
     color: $blue;
     float: right;
-    font-weight: 500;
+    font-weight: $weight-bold;
     margin: 1px 3px;
 
     &:hover {

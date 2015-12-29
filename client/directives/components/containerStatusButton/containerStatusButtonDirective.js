@@ -6,6 +6,7 @@ require('app')
  * @ngInject
  */
 function containerStatusButton(
+  $rootScope,
   errs,
   keypather,
   promisify
@@ -30,16 +31,19 @@ function containerStatusButton(
       });
 
       $scope.getStatusText = function () {
+        if (keypather.get($scope.CSBC, 'instance.contextVersion.attrs.dockRemoved')) {
+          return 'Migrating';
+        }
         var status = keypather.get($scope.CSBC, 'instance.status()');
         var statusMap = {
-          starting: 'Starting container',
-          stopping: 'Stopping Container',
+          starting: 'Starting',
+          stopping: 'Stopping',
           building: 'Building',
           stopped: 'Stopped',
           crashed: 'Crashed',
           running: 'Running',
           buildFailed: 'Build Failed',
-          neverStarted: 'Never Started',
+          neverStarted: ($rootScope.featureFlags.internalDebugging) ? 'Never Started' : 'Build Failed',
           unknown: 'Unknown'
         };
         return statusMap[status] || 'Unknown';
@@ -49,18 +53,26 @@ function containerStatusButton(
         var status = keypather.get($scope.CSBC, 'instance.status()');
 
         var classes = [];
-        if (['running', 'stopped', 'building', 'starting', 'stopping', 'neverStarted', 'unknown'].includes(status)){
+        if (['running', 'stopped', 'building', 'starting', 'stopping', 'unknown'].includes(status)){
           classes.push('gray');
-        } else if (['crashed', 'buildFailed'].includes(status)) {
+        } else if (['crashed', 'buildFailed', 'neverStarted'].includes(status)) {
           classes.push('red');
         }
 
         if (['building', 'starting', 'stopping'].includes(status)) {
           classes.push('in');
         }
+
+        if (keypather.get($scope.CSBC, 'instance.contextVersion.attrs.dockRemoved')) {
+          classes.push('in');
+        }
         return classes;
       };
       $scope.isChanging = function () {
+        if (keypather.get($scope.CSBC, 'instance.contextVersion.attrs.dockRemoved')) {
+          return true;
+        }
+
         var status = keypather.get($scope.CSBC, 'instance.status()');
         return ['starting', 'building', 'stopping'].includes(status);
       };

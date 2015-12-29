@@ -1,6 +1,8 @@
+
 // normalize.css v3.0.1 | MIT License | git.io/normalize
 // Prevent iOS text size adjust after orientation change, without disabling user zoom.
 html {
+  // scss-lint:disable VendorPrefix
   -ms-text-size-adjust: 100;
   -webkit-text-size-adjust: 100%;
 }
@@ -117,9 +119,15 @@ hr {
 }
 
 
+// pre
 // Contain overflow in all browsers.
 pre {
+  display: block;
+  line-height: 1.4;
+  margin: 0;
   overflow: auto;
+  word-break: break-all;
+  word-wrap: break-word;
 }
 
 // Address odd `em`-unit font size rendering in all browsers.
@@ -214,6 +222,7 @@ textarea {
 
 // Define consistent border, margin, and padding.
 fieldset {
+  // scss-lint:disable ColorVariable
   border: 1px solid #c0c0c0;
   margin: 0 2px;
   padding: .35em .625em .75em;
@@ -256,8 +265,8 @@ textarea {
 
 // box model reset
 *,
-*:before,
-*:after {
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -287,15 +296,6 @@ ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
-}
-
-// pre
-pre {
-  display: block;
-  line-height: 1.4;
-  margin: 0;
-  word-break: break-all;
-  word-wrap: break-word;
 }
 
 // p
