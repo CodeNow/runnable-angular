@@ -1,8 +1,8 @@
 %tag,
 .tag {
   background: $white;
-  border: 2px solid transparent;
-  border-radius: 3px;
+  border: $input-border solid transparent;
+  border-radius: $input-border-radius;
   cursor: default;
   display: inline-block;
   margin: 0 2px 1px 0;

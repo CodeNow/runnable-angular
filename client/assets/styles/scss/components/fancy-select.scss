@@ -1,7 +1,7 @@
 .fancy-select {
   background: $white;
-  border: 2px solid $gray-lighter;
-  border-radius: 3px;
+  border: $input-border solid $gray-lighter;
+  border-radius: $input-border-radius;
   box-shadow: 0 2px 3px rgba($black,.1);
   margin-top: 2px;
   max-height: calc(100vh - 48px);
@@ -46,7 +46,7 @@
     margin-right: 6px;
 
     + .span {
-      font-weight: 500;
+      font-weight: $weight-bold;
     }
   }
 }

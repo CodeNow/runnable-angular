@@ -163,7 +163,7 @@
 
     // translation rules
     &.ace-ignored-files {
-      border-radius: 3px;
+      border-radius: $input-border-radius;
       min-height: 210px;
     }
 
@@ -174,9 +174,9 @@
 
   // logs
   .log-wrapper {
-    border-radius: 3px;
+    border-radius: $input-border-radius;
     border-style: solid;
-    border-width: 2px;
+    border-width: $input-border;
     padding: 0;
     position: relative;
 
@@ -223,7 +223,7 @@
 
     .btn-cancel {
       background: transparent;
-      border: 2px solid transparent;
+      border: $input-border solid transparent;
       transition: opacity .2s ease-in-out, transform .2s ease-in-out;
 
       &:hover,

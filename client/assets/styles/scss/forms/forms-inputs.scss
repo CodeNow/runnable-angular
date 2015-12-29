@@ -153,22 +153,13 @@ input[type="radio"] {
   }
 }
 
-// label.btn.btn-checkbox
-.btn-checkbox {
-  font-size: 13px;
-
-  // input.checkbox
-  .checkbox {
-    float: right;
-    margin-left: 12px;
-  }
-}
-
-// hide if upload
+// hide if upload; we have to use an id for labels to work
+// scss-lint:disable IdSelector
 #input-upload {
   position: absolute;
   visibility: hidden;
 }
+// scss-lint:enable IdSelector
 
 // description text
 .label .small {
@@ -184,12 +175,19 @@ input[type="radio"] {
 
 // label.btn-checkbox
 .btn-checkbox {
-  border-radius: 3px;
+  border-radius: $input-border-radius;
   color: $gray;
   display: inline-block;
+  font-size: 13px;
   margin: 9px 0;
   padding: 0 9px;
   text-align: left;
+
+  // input.checkbox
+  .checkbox {
+    float: right;
+    margin-left: 12px;
+  }
 
   .input-checkbox {
     margin: 0 9px 0 0;
@@ -250,5 +248,23 @@ input[type="radio"] {
 
   .input {
     padding-left: 12px;
+  }
+}
+
+// input spinner
+.input-spinner {
+  position: relative;
+
+  > .input ~ .spinner-wrapper {
+    right: -24px;
+    top: 14px;
+  }
+
+  > .input-sm ~ .spinner-wrapper {
+    top: 11px;
+  }
+
+  > .spinner-wrapper {
+    position: absolute;
   }
 }

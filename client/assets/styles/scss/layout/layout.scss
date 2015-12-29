@@ -32,7 +32,7 @@
   }
 
   .a {
-    border: 2px solid transparent;
+    border: $input-border solid transparent;
     border-radius: $input-border-radius-lg;
     color: $purple-lighter;
     cursor: pointer;

@@ -6,7 +6,7 @@ require('app')
 function integrations(
   keypather,
   fetchSettings,
-  verifyChatIntegration,
+  fetchChatMembersAndMapToUsers,
   promisify,
   errs,
   $q
@@ -29,7 +29,7 @@ function integrations(
 
       function fetchChatMemberData() {
         data.invalidApiToken = false;
-        return verifyChatIntegration(data.slackApiToken, data.settings, 'slack')
+        return fetchChatMembersAndMapToUsers(data.slackApiToken, data.settings, 'slack')
           .then(function (members) {
             keypather.set(data, 'settings.attrs.notifications.slack.apiToken', data.slackApiToken);
             data.slackMembers = members.slack;
