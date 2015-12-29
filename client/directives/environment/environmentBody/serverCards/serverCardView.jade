@@ -11,6 +11,10 @@
     instance = "server.instance"
     no-touching = "showSpinner()"
   )
+  .small.card-header-details.text-center.text-overflow(
+    ng-if = "$root.featureFlags.cardStatus"
+    title = "runnabro changed 1 day ago"
+  ) runnabro changed 1 day ago
 
 //- loading state
 ul.card-body.card-loading(
@@ -190,6 +194,3 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-arrow-down"
       )
-  li.gray.small.btn-footer.text-center.text-overflow(
-    title = "runnabro changed 1 day ago"
-  ) runnabro changed 1 day ago

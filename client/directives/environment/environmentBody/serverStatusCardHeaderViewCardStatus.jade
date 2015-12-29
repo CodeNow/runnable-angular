@@ -1,7 +1,7 @@
 .container-title-wrapper.server-status-card-pop-over(
   pop-over
-  pop-over-data = "instance"
   pop-over-actions = "popoverServerActions"
+  pop-over-data = "instance"
   pop-over-options = "{\"centered\":true,\"top\":36}"
   pop-over-template = "serverOptionsCardPopover"
 )
@@ -20,13 +20,13 @@
       xlink:href = "#icons-alert"
     )
 
-  span.text-overflow.container-title(
+  span.container-title.text-overflow(
     ng-if = "$root.featureFlags.cardStatus"
     ng-attr-title = "{{(instance.getRepoName() || instance.attrs.name)}}"
   ) {{(instance.getRepoName() || instance.attrs.name)}}
 
   //- only appears if container is unsaved and only in the modal
-  span.text-overflow.container-title(
+  span.container-title.text-overflow(
      ng-if = "$root.featureFlags.rebuildFlow"
   ) —Unsaved
 

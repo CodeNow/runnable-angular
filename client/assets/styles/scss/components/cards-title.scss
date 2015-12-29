@@ -1,12 +1,11 @@
 // on cards
 .container-title-wrapper {
   align-items: center;
-  color: $gray-dark;
   cursor: pointer;
-  display: inline-flex;
-  height: 30px;
-  margin: 0 auto;
-  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 15px auto 0;
+  padding: 0 15px;
 
   &:hover {
     color: $gray-darker;
@@ -44,15 +43,20 @@
 
   .icons-alert {
     color: $orange;
-    flex: 0 0 18px;
+    flex: 0 0 15px;
   }
+}
+
+.card-header-details {
+  color: $gray;
+  padding: 0 15px;
 }
 
 .container-title {
   flex: 0 1 auto;
   font-size: 21px;
   font-weight: $weight-bold;
-  margin-left: 3px;
+  margin-left: 5px;
 }
 
 // on modal

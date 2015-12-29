@@ -141,18 +141,11 @@
 }
 
 // card layout
-// header
-.card-header {
-  display: flex;
-  justify-content: center;
-  margin: 18px 15px;
-}
-
 // body
 .card-body,
 .card-button {
   flex: 1 1 auto;
-  padding: 0 15px 15px;
+  padding: 15px;
 
   &.empty {
     align-items: center;
@@ -303,18 +296,6 @@
       height: 100%;
       width: 100%;
     }
-  }
-
-  // card list footer
-  .btn-footer {
-    background: $gray-lightest;
-    border-radius: 0 0 $input-border-radius $input-border-radius;
-    color: $gray;
-    font-weight: $weight-normal;
-    height: 30px;
-    line-height: 30px - ($input-border * 2);
-    margin-top: -$input-border;
-    padding: 0 6px;
   }
 }
 

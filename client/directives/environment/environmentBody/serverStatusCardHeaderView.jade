@@ -1,28 +1,18 @@
-div(
-  ng-class = "{\
-    'btn': !$root.featureFlags.cardStatus,\
-    'btn-sm': !$root.featureFlags.cardStatus,\
-    'btn-title': !$root.featureFlags.cardStatus,\
-    'white': !$root.featureFlags.cardStatus && !inModal,\
-    'no-touching': noTouching\
-  }"
+//- deprecated file, remove with $root.featureFlags.cardStatus
+.container-title-wrapper.server-status-card-pop-over(
+  ng-class = "{'no-touching': noTouching}"
   pop-over
   pop-over-actions = "popoverServerActions"
-  pop-over-options = "{\"right\":0,\"top\":47}"
   pop-over-data = "instance"
+  pop-over-options = "{\"centered\":true,\"top\":36}"
   pop-over-template = "serverOptionsCardPopover"
 )
-  //- ************
-  //- deprecated content, remove with $root.featureFlags.cardStatus
   status-icon(
     instance = "instance"
   )
-  span.btn-text.text-overflow(
+  span.container-title.text-overflow(
     ng-attr-title = "{{instance.getDisplayName()}}"
   ) {{(instance.getRepoName() || instance.attrs.name)}}
-  span.btn-text(
-    ng-attr-title = "{{instance | cardBuildStatusTitle}}"
-  ) {{instance | cardBuildStatusText:true}}
   svg.iconnables.icons-arrow-down(
     ng-if = "!noTouching"
   )
