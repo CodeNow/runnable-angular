@@ -50,7 +50,7 @@ userPromise.then(function (user) {
 
   var testOptions = {
     githubUser: user.username,
-    startUrl: 'https://ekxpn1-runnable-angular-staging-codenow.runnableapp.com',
+    startUrl: 'https://runnable-angular-staging-codenow.runnableapp.com',
     customUserAgent: 'e2e-tests'
   };
 
