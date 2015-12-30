@@ -79,13 +79,9 @@ describe('environmentController'.bold.underline.blue, function () {
       });
       $provide.factory('fetchOrgMembers', function ($q) {
         ctx.uninvitedUsersArray = [1, 2, 999];
-        if (opts.failFetchOrgMembers) {
-          ctx.fetchOrgMembersStub = sinon.stub().returns($q.reject(ctx.fetchError));
-        } else {
-          ctx.fetchOrgMembersStub = sinon.stub().returns($q.when({
-            uninvited: ctx.uninvitedUsersArray
-          }));
-        }
+        ctx.fetchOrgMembersStub = sinon.stub().returns($q.when({
+          uninvited: ctx.uninvitedUsersArray
+        }));
         return ctx.fetchOrgMembersStub;
       });
       $provide.value('$log', ctx.$log);
@@ -178,15 +174,6 @@ describe('environmentController'.bold.underline.blue, function () {
           setup();
         });
 
-        it('should fetchOrgMembers with the username', function () {
-          $scope.$digest();
-          ctx.fetchOrgMembersStub.reset(); // Gets called on init
-          EC.triggerModal.inviteTeammate();
-          $scope.$digest();
-          sinon.assert.calledOnce(ctx.fetchOrgMembersStub);
-          sinon.assert.calledWith(ctx.fetchOrgMembersStub, ctx.state.params.userName, true);
-        });
-
         it('should invoke the modal with the username and uninvited members', function () {
           EC.triggerModal.inviteTeammate();
           $scope.$digest();
@@ -197,24 +184,9 @@ describe('environmentController'.bold.underline.blue, function () {
               templateUrl: 'inviteModalView',
               inputs: {
                 teamName: ctx.state.params.userName,
-                unInvitedMembers: ctx.uninvitedUsersArray
+                unInvitedMembers: null
               }
           });
-        });
-      });
-
-      describe('Error Handling', function () {
-        beforeEach(function () {
-          setup({
-            failFetchOrgMembers: true
-          });
-        });
-
-        it('should notify the user if there was any errors', function () {
-          EC.triggerModal.inviteTeammate();
-          $scope.$digest();
-          sinon.assert.calledOnce(ctx.errs.handler);
-          sinon.assert.calledWith(ctx.errs.handler, ctx.fetchError);
         });
       });
     });

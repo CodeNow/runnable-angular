@@ -69,19 +69,15 @@ function EnvironmentController(
       });
     },
     inviteTeammate: function () {
-      return fetchOrgMembers($state.params.userName, true)
-        .then(function (members) {
-          return ModalService.showModal({
-            controller: 'InviteModalController',
-            controllerAs: 'IMC',
-            templateUrl: 'inviteModalView',
-            inputs: {
-              teamName: $state.params.userName,
-              unInvitedMembers: members.uninvited
-            }
-          });
-        })
-        .catch(errs.handler);
+      return ModalService.showModal({
+        controller: 'InviteModalController',
+        controllerAs: 'IMC',
+        templateUrl: 'inviteModalView',
+        inputs: {
+          teamName: $state.params.userName,
+          unInvitedMembers: null
+        }
+      });
     }
   };
   $scope.$state = $state;
