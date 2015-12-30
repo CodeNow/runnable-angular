@@ -4,13 +4,15 @@
   - if building succeeded, and stopped: text says "Stopped"; title attribute shows when the server was stopped "Stopped 2 minutes ago"
   - if building succeeded, and run fails: text says "Crashed"; title attribute shows when the server crashed "Crashed 2 minutes ago"
 
-.card-header(
-  ng-class = "{'deprecated': !$root.featureFlags.cardStatus}"
-)
-  server-status-card-header(
+.card-header
+  server-status-card-header.container-title-wrapper(
     instance = "server.instance"
     no-touching = "showSpinner()"
   )
+  .small.card-header-details.text-center.text-overflow(
+    ng-if = "$root.featureFlags.cardStatus"
+    title = "runnabro changed 1 day ago"
+  ) runnabro changed 1 day ago
 
 //- loading state
 ul.card-body.card-loading(
@@ -146,8 +148,7 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-arrow-down"
       )
-  //- dockerfile
-  li.btn.white(
+  li.btn.white.btn-dockerfile(
     ng-click = "openEditServerModal('buildfiles')"
   )
     svg.iconnables
@@ -187,7 +188,6 @@ ul.card-body.load(
         use(
           xlink:href = "#icons-unlock"
         )
-
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
