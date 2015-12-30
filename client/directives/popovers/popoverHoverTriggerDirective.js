@@ -65,29 +65,29 @@ function popOverHoverTrigger(
           return [
             elementRect.topLeft,
             addTolerance(popoverRect.topLeft, [-tolerance, tolerance]),
-            elementRect.topRight,
-            addTolerance(popoverRect.topRight, [tolerance, tolerance])
+            addTolerance(popoverRect.topRight, [tolerance, tolerance]),
+            elementRect.topRight
           ];
         } else if (POC.popoverElement.hasClass('top')) {
           return [
-            elementRect.bottomLeft,
             addTolerance(popoverRect.bottomLeft, [-tolerance, -tolerance]),
+            elementRect.bottomLeft,
             elementRect.bottomRight,
             addTolerance(popoverRect.bottomRight, [tolerance, -tolerance])
           ];
         } else if (POC.popoverElement.hasClass('left')) {
           return [
-            elementRect.topRight,
+            addTolerance(popoverRect.bottomRight, [-tolerance, tolerance]),
             addTolerance(popoverRect.topRight, [-tolerance, -tolerance]),
-            elementRect.bottomRight,
-            addTolerance(popoverRect.bottomRight, [-tolerance, tolerance])
+            elementRect.topRight,
+            elementRect.bottomRight
           ];
         } else if (POC.popoverElement.hasClass('right')) {
           return [
             elementRect.topLeft,
-            addTolerance(popoverRect.topLeft, [tolerance, -tolerance]),
             elementRect.bottomLeft,
-            addTolerance(popoverRect.bottomLeft, [tolerance, tolerance])
+            addTolerance(popoverRect.bottomLeft, [tolerance, tolerance]),
+            addTolerance(popoverRect.topLeft, [tolerance, -tolerance])
           ];
         }
       };
