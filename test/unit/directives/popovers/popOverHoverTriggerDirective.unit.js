@@ -120,8 +120,8 @@ describe('popOverHoverTriggerDirective'.bold.underline.blue, function() {
           ctx.pointInPolygonMock.returns(true);
           $document.triggerHandler({
             type : 'mousemove',
-            x: 48,
-            y: 102
+            clientX: 48,
+            clientY: 102
           });
           $scope.$digest();
           sinon.assert.calledOnce(ctx.pointInPolygonMock);
@@ -131,13 +131,13 @@ describe('popOverHoverTriggerDirective'.bold.underline.blue, function() {
           ctx.PopOverController.popoverElement.on.reset();
           ctx.PopOverController.popoverElement.triggerHandler({
             type : 'mouseenter',
-            x: 48,
-            y: 102
+            clientX: 48,
+            clientY: 102
           });
           ctx.PopOverController.popoverElement.triggerHandler({
             type : 'mouseleave',
-            x: 48,
-            y: 102
+            clientX: 48,
+            clientY: 102
           });
 
           sinon.assert.calledTwice(ctx.PopOverController.popoverElement.off);
@@ -167,8 +167,8 @@ describe('popOverHoverTriggerDirective'.bold.underline.blue, function() {
           ctx.pointInPolygonMock.returns(true);
           $document.triggerHandler({
             type : 'mousemove',
-            x: 48,
-            y: 102
+            clientX: 48,
+            clientY: 102
           });
           $scope.$digest();
           sinon.assert.calledOnce(ctx.pointInPolygonMock);
@@ -179,13 +179,13 @@ describe('popOverHoverTriggerDirective'.bold.underline.blue, function() {
           ctx.PopOverController.popoverElement.on.reset();
           ctx.PopOverController.popoverElement.triggerHandler({
             type : 'mouseenter',
-            x: 48,
-            y: 102
+            clientX: 48,
+            clientY: 102
           });
           ctx.PopOverController.popoverElement.triggerHandler({
             type : 'mouseleave',
-            x: 48,
-            y: 102
+            clientX: 48,
+            clientY: 102
           });
 
           sinon.assert.calledTwice(ctx.PopOverController.popoverElement.off);
@@ -231,8 +231,8 @@ describe('popOverHoverTriggerDirective'.bold.underline.blue, function() {
           ctx.pointInPolygonMock.returns(false);
           $document.triggerHandler({
             type : 'mousemove',
-            x: 48,
-            y: 102
+            clientX: 48,
+            clientY: 102
           });
 
           $scope.$digest();
@@ -266,8 +266,8 @@ describe('popOverHoverTriggerDirective'.bold.underline.blue, function() {
           ctx.pointInPolygonMock.returns(false);
           $document.triggerHandler({
             type : 'mousemove',
-            x: 48,
-            y: 102
+            clientX: 48,
+            clientY: 102
           });
 
           $scope.$digest();
