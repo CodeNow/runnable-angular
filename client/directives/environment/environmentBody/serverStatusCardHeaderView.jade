@@ -8,11 +8,8 @@
   pop-over-actions = "popoverServerActions"
   pop-over-active = "popoverServerActions.data.show"
   pop-over-data = "instance"
-  pop-over-hover-trigger
-  pop-over-no-broadcast = "true"
   pop-over-options = "{\"centered\":true,\"top\":36}"
   pop-over-template = "serverOptionsCardPopover"
-  pop-over-trigger = "hover"
 )
   //- ***********************************
   //- START !$root.featureFlags.cardStatus
@@ -75,7 +72,7 @@
   //- ***********************************
 
   button.btn.btn-xxs.gray(
-    ng-if = "$root.featureFlags.nameContainer"
+    ng-if = "$root.featureFlags.nameContainer && inModal"
     pop-over
     pop-over-options = "{\"left\":0,\"top\":0}"
     pop-over-template = "viewPopoverRenameContainer"
