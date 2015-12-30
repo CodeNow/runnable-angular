@@ -22,7 +22,8 @@ function explorer() {
       editExplorer: '=?',
       loadingPromisesTarget: '@?',
       readOnly: '=?',
-      debugContainer: '=?'
+      debugContainer: '=?',
+      dir: '=rootDir'
     },
     link: function ($scope) {
       $scope.state = {};
@@ -36,7 +37,6 @@ function explorer() {
       };
 
       $scope.$watch('rootDir', function (rootDir) {
-        $scope.dir = $scope.rootDir;
         if (!rootDir) { return; }
         initRootDirState(rootDir);
       });
