@@ -86,6 +86,13 @@
   width: auto;
 }
 
+.label-description {
+  color: $gray;
+  margin-bottom: 3px;
+  position: relative;
+  top: -6px;
+}
+
 // input column (right)
 .input-col {
   float: right;
@@ -103,11 +110,12 @@
 
   // spinner
   &.input-col-spinner {
-    margin-top: 6px;
+    margin-top: 7px;
     text-align: right;
 
     .small.small {
       color: $gray;
+      font-weight: $weight-bold;
       margin-left: 18px;
     }
 

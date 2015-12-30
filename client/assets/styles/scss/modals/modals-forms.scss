@@ -150,7 +150,6 @@
 
   // input column (right)
   .input-col {
-    margin-bottom: 6px;
 
     // max-width on buttons
     > .btn {
@@ -210,13 +209,6 @@
   > .btn-group {
     display: table;
     margin: 0 auto 15px;
-  }
-
-  // label info
-  > .small {
-    color: $gray;
-    display: inline-block;
-    margin: 6px 0 0;
   }
 
   // label help
