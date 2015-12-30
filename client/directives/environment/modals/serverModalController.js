@@ -320,7 +320,6 @@ function ServerModalController(
     }
     if (!this.instance && this.state.step === 2 && tabname === 'repository') {
       this.state.step = 1;
-      $scope.$broadcast('updateStep', this.state.step);
     }
     this.selectedTab = tabname;
   };
