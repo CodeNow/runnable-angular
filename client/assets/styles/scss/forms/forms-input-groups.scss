@@ -2,6 +2,10 @@
   align-items: center;
   display: flex;
 
+  &.focus {
+    border-color: $purple-light;
+  }
+
   // colors
   &.gray {
     background: $gray-lightest;
@@ -13,6 +17,19 @@
 
     .btn,
     .input {
+      color: $gray;
+    }
+  }
+
+  &.white {
+    background: $white;
+
+    .label {
+      border-color: transparent;
+      color: $gray-light;
+    }
+
+    .btn {
       color: $gray;
     }
   }
@@ -73,14 +90,6 @@
   }
 }
 
-.input-group-md,
-.input-group-sm {
-
-  .input {
-    font-size: 16px;
-  }
-}
-
 .input-group-md {
   height: $input-md;
 
@@ -117,11 +126,11 @@
     padding: 0 6px;
 
     &:first-child {
-      margin-right: 5px;
+      margin-right: 6px;
     }
 
     &:last-child {
-      margin-left: 5px;
+      margin-left: 6px;
     }
   }
 
@@ -130,7 +139,7 @@
 
     &:first-child,
     &:last-child {
-      margin: 0 5px;
+      margin: 0 6px;
     }
   }
 }

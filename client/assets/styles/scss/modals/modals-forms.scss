@@ -72,6 +72,31 @@
     flex: 0 0 auto;
   }
 
+  // transition
+  > .label.js-animate {
+    transition: max-height .3s ease-in-out, opacity .3s ease-in-out;
+
+    &.ng-enter {
+      max-height: 0;
+      opacity: 0;
+    }
+
+    &.ng-enter-active {
+      max-height: 100vh;
+      opacity: 1;
+    }
+
+    &.ng-leave {
+      max-height: 100vh;
+      opacity: 1;
+    }
+
+    &.ng-leave-active {
+      max-height: 0;
+      opacity: 0;
+    }
+  }
+
   // **********
   // end layout
   // **********
@@ -231,11 +256,6 @@
     color: $gray;
     margin: 60px 0 30px;
     text-align: center;
-  }
-
-  // …and preview
-  .input-spinner,
-  .modal-form-spinner {
 
     .spinner-wrapper {
       display: inline-block;

@@ -365,7 +365,7 @@ function verifySlackAPITokenAndFetchMembers(
           return $q.reject(new Error(data.data.error));
         }
         return data.data.members.filter(function (member) {
-          return !member.is_bot;
+          return !member.is_bot && !member.deleted;
         });
       });
   };
@@ -479,7 +479,7 @@ function fetchOrgTeammateInvitations(
 
 /**
  * Get an object with all members for an organization, all registered members (
- * registered in Runnable), all unregistered members who have been invited, and 
+ * registered in Runnable), all unregistered members who have been invited, and
  * all unregistered members who have not been invited.
  *
  * @param {String}
