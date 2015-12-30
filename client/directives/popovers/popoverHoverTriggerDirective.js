@@ -16,6 +16,7 @@ require('app').directive('popOverHoverTrigger', popOverHoverTrigger);
  */
 function popOverHoverTrigger(
   $document,
+  $compile,
   pointInPolygon
 ) {
   return {
@@ -63,29 +64,29 @@ function popOverHoverTrigger(
         if (POC.popoverElement.hasClass('bottom')) {
           return [
             elementRect.topLeft,
-            elementRect.topRight,
             addTolerance(popoverRect.topLeft, [-tolerance, tolerance]),
+            elementRect.topRight,
             addTolerance(popoverRect.topRight, [tolerance, tolerance])
           ];
         } else if (POC.popoverElement.hasClass('top')) {
           return [
             elementRect.bottomLeft,
-            elementRect.bottomRight,
             addTolerance(popoverRect.bottomLeft, [-tolerance, -tolerance]),
+            elementRect.bottomRight,
             addTolerance(popoverRect.bottomRight, [tolerance, -tolerance])
           ];
         } else if (POC.popoverElement.hasClass('left')) {
           return [
             elementRect.topRight,
-            elementRect.bottomRight,
             addTolerance(popoverRect.topRight, [-tolerance, -tolerance]),
+            elementRect.bottomRight,
             addTolerance(popoverRect.bottomRight, [-tolerance, tolerance])
           ];
         } else if (POC.popoverElement.hasClass('right')) {
           return [
             elementRect.topLeft,
-            elementRect.bottomLeft,
             addTolerance(popoverRect.topLeft, [tolerance, -tolerance]),
+            elementRect.bottomLeft,
             addTolerance(popoverRect.bottomLeft, [tolerance, tolerance])
           ];
         }
@@ -95,7 +96,7 @@ function popOverHoverTrigger(
         if (!boundaryValues) {
           boundaryValues = $scope.getPolygon();
         }
-        return pointInPolygon([e.pageX, e.pageY], boundaryValues);
+        return pointInPolygon([e.x, e.y], boundaryValues);
       }
 
       function checkAngleOnMouseMove(event) {
