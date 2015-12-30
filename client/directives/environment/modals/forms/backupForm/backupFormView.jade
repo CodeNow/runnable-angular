@@ -24,7 +24,7 @@
 )
   .clearfix
     .label-col Backup Script
-  .small.clearfix
+  .small.clearfix.label-description
     span.float-left Backups are created daily by running this script at
     fancy-select.btn.btn-xxs.white.float-left(
       value = "selectedHour"
@@ -82,7 +82,7 @@
 )
   .clearfix
     .label-col Restore Script
-  .small This script runs during every build, restoring from the most recent backup.&#32;
+  .small.label-description This script runs during every build, restoring from the most recent backup.&#32;
     a.link(
       href = "#"
       target = "_blank"
