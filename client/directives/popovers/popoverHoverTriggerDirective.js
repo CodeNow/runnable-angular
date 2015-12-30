@@ -16,7 +16,6 @@ require('app').directive('popOverHoverTrigger', popOverHoverTrigger);
  */
 function popOverHoverTrigger(
   $document,
-  $compile,
   pointInPolygon
 ) {
   return {
