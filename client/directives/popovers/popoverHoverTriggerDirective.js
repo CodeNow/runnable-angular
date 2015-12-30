@@ -96,7 +96,7 @@ function popOverHoverTrigger(
         if (!boundaryValues) {
           boundaryValues = $scope.getPolygon();
         }
-        return pointInPolygon([e.x, e.y], boundaryValues);
+        return pointInPolygon([e.clientX, e.clientY], boundaryValues);
       }
 
       function checkAngleOnMouseMove(event) {
