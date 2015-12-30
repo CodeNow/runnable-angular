@@ -34,7 +34,7 @@ ul.tabs
 //- apply [disabled] attribute when server is not running
 button.btn.btn-xs.btn-icon.btn-add-tab(
   ng-if = "popoverAddTab"
-  ng-class = "{active: popoverAddTab.data.show}"
+  ng-class = "{'active': popoverAddTab.data.show}"
   ng-disabled = "!instance.containers.models[0].running() && !debugContainer || instance.contextVersion.attrs.dockRemoved"
   pop-over
   pop-over-actions = "popoverAddTab.actions"

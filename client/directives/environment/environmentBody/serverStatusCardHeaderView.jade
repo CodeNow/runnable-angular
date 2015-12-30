@@ -1,12 +1,15 @@
 .server-status-card-pop-over(
   ng-class = "{\
+    'active': popoverServerActions.data.show,\
     'deprecated': !$root.featureFlags.cardStatus,\
     'no-touching': noTouching\
   }"
   pop-over
   pop-over-actions = "popoverServerActions"
+  pop-over-active = "popoverServerActions.data.show"
   pop-over-data = "instance"
   pop-over-hover-trigger
+  pop-over-no-broadcast = "true"
   pop-over-options = "{\"centered\":true,\"top\":36}"
   pop-over-template = "serverOptionsCardPopover"
   pop-over-trigger = "hover"
