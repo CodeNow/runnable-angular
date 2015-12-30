@@ -1,5 +1,8 @@
 .server-status-card-pop-over(
-  ng-class = "{'no-touching': noTouching}"
+  ng-class = "{\
+    'deprecated': !$root.featureFlags.cardStatus,\
+    'no-touching': noTouching\
+  }"
   pop-over
   pop-over-actions = "popoverServerActions"
   pop-over-data = "instance"

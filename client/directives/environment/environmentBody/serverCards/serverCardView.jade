@@ -4,9 +4,7 @@
   - if building succeeded, and stopped: text says "Stopped"; title attribute shows when the server was stopped "Stopped 2 minutes ago"
   - if building succeeded, and run fails: text says "Crashed"; title attribute shows when the server crashed "Crashed 2 minutes ago"
 
-.card-header(
-  ng-class = "{'deprecated': !$root.featureFlags.cardStatus}"
-)
+.card-header
   server-status-card-header.container-title-wrapper(
     instance = "server.instance"
     no-touching = "showSpinner()"
