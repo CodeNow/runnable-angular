@@ -589,38 +589,3 @@
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAMAAADW3miqAAAAilBMVEUAAACDT6uDT6uDT6uDT6uDT6uDT6uDT6tZGJNcG5VhIphjJppkJplmKZtpLZxrMJ5rMZ5uNKB5QaV7Rad+SKiATKqDT6uDUKyDUq6LWrCNYLSsi8isjMm2mtC5nNDBp9XBqNbBqNfJstrOut7RveDWxePYyOXg0+rg1Ovo3u/q4vLw6fX18fj////7DeaFAAAACHRSTlMAIDBQgI/P7z/UfbUAAAE0SURBVHgBjdT7UvIwEAXwhjaX0n6fUmwAFYV6KSD7/q9nMLOesM04nP9gfpOcziYp0pTa+J8YXRbZKG19EqvV1FRMwCq5jPGZGJWamfXZ2Jk0fyslzUBEwyYq3lH2eadLjlGZaKqpOTwfiMb4s5KbsWlcE9QLNtQZU7d1c+aldEA2Y5Z+WZ8Y2TAv8V3ReP9GtPMxpdjtI5q44sLHaPH9izVM85+nU/irtA6mfuB/BVo9rpL2ebQ50ifaCwRDO7QXCGbfor1AMO4ft0+RuTbzntsjptDCcPsk+ncsAwwGwmPhAY90CgbtEYujMtL5vkf7JBUO3dPlwKIZYhWOb7sP6vULBgvhIty5oGhqTHql+rnbBrMVxipczqjc2kkzYwOVNeLB6LpOPhi3Pz2IApOP2E3P4Tc/EF2Bi8i6UwAAAABJRU5ErkJggg==) !important;
   }
 }
-
-// .ace-validation-error
-.ace-validation-error {
-  position: relative;
-
-  &:hover::before {
-    opacity: 1;
-    transform: translate3d(0,0,0);
-  }
-
-  &::after {
-    background: $red;
-    border-radius: 50%;
-    content: '';
-    height: 10px;
-    left: 4px;
-    position: absolute;
-    top: 4px;
-    width: 10px;
-    z-index: $z-tooltip;
-  }
-
-  &::before {
-    @extend %tooltip-text;
-    content: 'Invalid Env';
-    display: block;
-    opacity: 0;
-    pointer-events: none;
-    position: absolute;
-    right: -90px;
-    top: 24px;
-    transform: translate3d(-3px,-3px,0);
-    transition: all .2s ease-in;
-  }
-}
