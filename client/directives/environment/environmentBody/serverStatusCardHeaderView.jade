@@ -53,17 +53,13 @@
 
   //- only appears if container is unsaved and only in the modal
   span.container-title.text-overflow(
-     ng-if = "$root.featureFlags.rebuildFlow && inModal"
+    ng-attr-title = "{{SMC.isDirty() ? '' : (instance | cardBuildStatusTitle)}}"
+    ng-if = "$root.featureFlags.cardStatus && SMC.isDirty()"
   ) —Unsaved
 
   //- ***********************************
   //- END $root.featureFlags.cardStatus
   //- ***********************************
-
-  span.btn-text(
-    ng-attr-title = "{{SMC.isDirty() ? '' : (instance | cardBuildStatusTitle)}}"
-    ng-if = "$root.featureFlags.cardStatus && !cardStatus.loading"
-  ) {{SMC.isDirty() ? '—Unsaved' : (instance | cardBuildStatusText:true)}}
 
   svg.iconnables.icons-arrow-down(
     ng-if = "!noTouching"
