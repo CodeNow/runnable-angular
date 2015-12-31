@@ -82,29 +82,29 @@ function helpCardsFactory(
       // when we detect that one existing container depends on another existing contianer
       {
         id: 'missingAssociation',
-        label: 'You may need to update <b>{{instance.getDisplayName()}}</b> with <b>{{association}}’s</b> URL.</b>',
+        label: 'You may need to connect <b>{{instance.getDisplayName()}}</b> to <b>{{association}}</b>.',
         targets: [
           'environmentVariables',
           'findAndReplace'
         ],
-        helpTop: 'Use <b>Environment Variables</b> or <b>Find and Replace</b> to update <b>{{instance.getDisplayName()}}</b> with <b>{{association}}’s</b> URL',
+        helpTop: 'Use <b>Environment Variables</b> or <b>Find and Replace</b> to connect <b>{{instance.getDisplayName()}}</b> to <b>{{association}}</b>.',
         helpPopover: {
-          'environmentVariables': 'Add or update an environment variable with <b>{{association}}’s</b> URL.',
-          'findAndReplace': 'Add a string rule to use <b>{{association}}’s</b> URL in your code.'
+          'environmentVariables': 'Connect to <b>{{association}}</b> by using its URL in an environment variable.',
+          'findAndReplace': 'Connect to <b>{{association}}</b> by adding a string rule with its URL.'
         }
       },
       // when the user adds a non-repo container, but we can't detect which containers depend on it
       {
         id: 'missingMapping',
-        label: 'You may need to update some repository containers with <b>{{mapping}}’s</b> URL.',
+        label: 'You may need to connect some repository containers to <b>{{mapping}}</b>.',
         targets: [
           'environmentVariables',
           'findAndReplace'
         ],
         helpTop: 'Use <b>Environment Variables</b> or <b>Find and Replace</b> to connect one or more of your repository containers to <b>{{mapping}}</b>.',
         helpPopover: {
-          environmentVariables: 'Add or update an environment variable with <b>{{mapping}}’s</b> URL.',
-          findAndReplace: 'Add a string rule to use <b>{{mapping}}’s</b> URL in your code.'
+          environmentVariables: 'Connect to <b>{{mapping}}</b> by using its URL in an environment variable.',
+          findAndReplace: 'Connect to <b>{{mapping}}</b> by adding a string rule with its URL.'
         },
         highlightRepoContainers: true
       }
