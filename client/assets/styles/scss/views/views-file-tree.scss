@@ -59,8 +59,8 @@
     }
 
     a {
-      border: 2px solid transparent;
-      border-radius: 3px;
+      border: $input-border solid transparent;
+      border-radius: $input-border-radius;
       display: block;
       margin-bottom: 2px;
       max-height: 28px;
@@ -139,7 +139,8 @@
     background: none !important;
     display: inline-block;
     position: relative !important; // override default position
-    top: -1px;
+    right: 10px;
+    top: 2px;
   }
 }
 

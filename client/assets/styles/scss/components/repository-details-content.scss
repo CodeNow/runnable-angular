@@ -92,15 +92,19 @@
     color: $gray-dark;
     flex: 0 0 auto;
     font-size: 15px;
-    font-weight: 500;
+    font-weight: $weight-bold;
     line-height: 18px;
     margin-bottom: 9px;
     padding: 9px 12px;
+
+    .text-overflow {
+      margin-right: 36px;
+    }
   }
 
   .toggle-group {
-    float: right;
-    position: relative;
-    top: -9px;
+    position: absolute;
+    right: 0;
+    top: 16px;
   }
 }

@@ -36,12 +36,11 @@
         .popover-content(
           ng-if = "$root.isLoaded.dns && DCC.filteredDependencies.length === 0"
         )
-          p.p.empty.text-center.fade-in DNS Mappings are created with elastic hostnames in Environment Variables or Find & Replace.&#32;
+          p.p.empty.text-center.fade-in DNS Mappings are created with Repository URLs in Environment Variables or Find & Replace.&#32;
             a.link(
-              href = "https://runnable.zendesk.com/hc/en-us/articles/204528909-What-is-an-Elastic-Hostname"
+              href = "https://runnable.zendesk.com/hc/en-us/articles/204528909-What-is-a-Repository-URL"
               target = "_blank"
-            ) Learn more
-            | .
+            ) What’s an elastic hostname?
 
         //- begin dns mappings
         .popover-content.load(

@@ -102,7 +102,7 @@
   // hostname insert
   .label {
     border: 1px solid $gray-lighter;
-    border-radius: 3px;
+    border-radius: $input-border-radius;
     margin-bottom: 0;
 
     // hostname button

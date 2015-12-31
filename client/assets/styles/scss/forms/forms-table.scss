@@ -50,12 +50,14 @@
   }
 
   .cell {
+    height: 24px;
+    line-height: 24px;
     overflow: hidden;
   }
 
   .link {
-    overflow-x: auto;
     margin-right: 9px;
+    overflow-x: auto;
     white-space: nowrap;
   }
 
@@ -76,12 +78,6 @@
     &:last-child {
       padding-bottom: 0;
     }
-  }
-
-  // reduce cell height
-  .cell {
-    height: 24px;
-    line-height: 24px;
   }
 
   // checkbox
@@ -197,8 +193,8 @@
   .cell {
     align-items: center;
     display: flex;
-    justify-content: space-between;
     height: 30px;
+    justify-content: space-between;
     padding: 0 6px;
 
     .btn-xs {
@@ -312,19 +308,35 @@
 
   // status icons
   .icons-alert,
+  .icons-close,
   .icons-link {
     height: 38px;
     width: 18px;
+  }
 
-    // alert icon
-    &.icons-alert {
-      color: $orange;
+  // alert icon
+  .icons-alert {
+    color: $orange;
+  }
+
+  // link icon
+  .icons-link {
+    color: $purple-light;
+    width: 15px;
+  }
+
+  // close icon
+  .icons-close {
+    color: $gray-light;
+    cursor: pointer;
+    pointer-events: auto; // reset from .iconnables
+
+    &:hover {
+      color: $red;
     }
 
-    // link icon
-    &.icons-link {
-      color: $purple-light;
-      width: 15px;
+    &:active {
+      color: $red-dark;
     }
   }
 
@@ -381,6 +393,9 @@
   position: relative; // keeps width of DnD placeholder
 }
 
+// disable linting so we can keep table-drag-drop styles together
+// scss-lint:disable MergeableSelector
 .thead + .table-drag-drop {
   border-top: 1px solid $gray-lighter; // border when there's a header
 }
+// scss-lint:enable MergeableSelector

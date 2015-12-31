@@ -34,6 +34,17 @@ app.config(function ($httpProvider, $animateProvider) {
   $httpProvider.defaults.headers.delete = { 'Content-Type' : 'application/json' };
   $httpProvider.useApplyAsync(true);
   $httpProvider.interceptors.push('logHttpTid');
+  $httpProvider.interceptors.push(function ($browser) {
+    return {
+      response: function (response) {
+        var CSRFToken = $browser.cookies()['CSRF-TOKEN'];
+        if (CSRFToken) {
+          $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = CSRFToken;
+        }
+        return response;
+      }
+    };
+  });
   $animateProvider.classNameFilter(/js-animate/);
 });
 

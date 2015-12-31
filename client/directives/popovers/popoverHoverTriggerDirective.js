@@ -63,30 +63,30 @@ function popOverHoverTrigger(
         if (POC.popoverElement.hasClass('bottom')) {
           return [
             elementRect.topLeft,
-            elementRect.topRight,
             addTolerance(popoverRect.topLeft, [-tolerance, tolerance]),
-            addTolerance(popoverRect.topRight, [tolerance, tolerance])
+            addTolerance(popoverRect.topRight, [tolerance, tolerance]),
+            elementRect.topRight
           ];
         } else if (POC.popoverElement.hasClass('top')) {
           return [
+            addTolerance(popoverRect.bottomLeft, [-tolerance, -tolerance]),
             elementRect.bottomLeft,
             elementRect.bottomRight,
-            addTolerance(popoverRect.bottomLeft, [-tolerance, -tolerance]),
             addTolerance(popoverRect.bottomRight, [tolerance, -tolerance])
           ];
         } else if (POC.popoverElement.hasClass('left')) {
           return [
-            elementRect.topRight,
-            elementRect.bottomRight,
+            addTolerance(popoverRect.bottomRight, [-tolerance, tolerance]),
             addTolerance(popoverRect.topRight, [-tolerance, -tolerance]),
-            addTolerance(popoverRect.bottomRight, [-tolerance, tolerance])
+            elementRect.topRight,
+            elementRect.bottomRight
           ];
         } else if (POC.popoverElement.hasClass('right')) {
           return [
             elementRect.topLeft,
             elementRect.bottomLeft,
-            addTolerance(popoverRect.topLeft, [tolerance, -tolerance]),
-            addTolerance(popoverRect.bottomLeft, [tolerance, tolerance])
+            addTolerance(popoverRect.bottomLeft, [tolerance, tolerance]),
+            addTolerance(popoverRect.topLeft, [tolerance, -tolerance])
           ];
         }
       };
@@ -95,7 +95,7 @@ function popOverHoverTrigger(
         if (!boundaryValues) {
           boundaryValues = $scope.getPolygon();
         }
-        return pointInPolygon([e.pageX, e.pageY], boundaryValues);
+        return pointInPolygon([e.clientX, e.clientY], boundaryValues);
       }
 
       function checkAngleOnMouseMove(event) {

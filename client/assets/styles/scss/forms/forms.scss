@@ -14,7 +14,7 @@
 .label-col {
   color: $gray;
   float: left;
-  font-weight: 500;
+  font-weight: $weight-bold;
   height: $input-sm;
   line-height: $input-sm;
   padding-right: 15px;
@@ -102,13 +102,24 @@
   }
 
   // spinner
-  &.input-spinner {
-    margin: 6px 0 0;
+  &.input-col-spinner {
+    margin-top: 6px;
     text-align: right;
 
     .small.small {
       color: $gray;
-      margin: 0;
+      margin-left: 18px;
+    }
+
+    .spinner-wrapper {
+      display: inline-block;
+      margin-top: 2px;
+      position: absolute;
+    }
+
+    .spinner {
+      height: 14px;
+      width: 14px;
     }
   }
 
@@ -119,7 +130,7 @@
     .spinner-wrapper {
       color: $gray-light;
       position: absolute;
-      right: 6px;
+      right: 3px;
       top: 4px;
     }
   }
@@ -151,7 +162,7 @@
 
   // helpful messages
   .small {
-    font-weight: 500;
+    font-weight: $weight-bold;
     line-height: 18px;
     margin: 6px 0 0;
 
