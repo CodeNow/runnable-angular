@@ -37,9 +37,9 @@ app.config(function ($httpProvider, $animateProvider) {
   $httpProvider.interceptors.push(function ($browser) {
     return {
       response: function (response) {
-        var XSRFToken = $browser.cookies()['XSRF-TOKEN'];
-        if (XSRFToken) {
-          $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = XSRFToken;
+        var CSRFToken = $browser.cookies()['CSRF-TOKEN'];
+        if (CSRFToken) {
+          $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = CSRFToken;
         }
         return response;
       }

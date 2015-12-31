@@ -1,13 +1,14 @@
 header.modal-header
   //- title
   .container-title-wrapper.title-verification
-    span.text-overflow.container-title {{SMC.state.repo.attrs.name}}
-    button.btn.btn-xxs.gray(
-      ng-if = "$root.featureFlags.nameContainer"
-      pop-over
-      pop-over-options = "{\"left\":0,\"top\":0}"
-      pop-over-template = "viewPopoverRenameContainer"
-    ) Rename
+    .server-status-card-pop-over.no-touching
+      span.text-overflow.container-title {{SMC.state.repo.attrs.name}}
+      button.btn.btn-xxs.gray(
+        ng-if = "$root.featureFlags.nameContainer"
+        pop-over
+        pop-over-options = "{\"left\":0,\"top\":0}"
+        pop-over-template = "viewPopoverRenameContainer"
+      ) Rename
 
   svg.iconnables.icons-close(
     ng-if = "$root.featureFlags.rebuildFlow"
