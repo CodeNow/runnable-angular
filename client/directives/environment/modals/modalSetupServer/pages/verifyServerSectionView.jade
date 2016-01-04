@@ -3,6 +3,9 @@ header.modal-header
   .container-title-wrapper.title-verification
     .server-status-card-pop-over.no-touching
       span.text-overflow.container-title {{SMC.state.repo.attrs.name}}
+      span.text-overflow.container-title(
+        ng-if = "!$root.isLoading[SMC.name] && SMC.isDirty()"
+      ) —Unsaved
       button.btn.btn-xxs.gray(
         ng-if = "$root.featureFlags.nameContainer"
         pop-over

@@ -34,6 +34,7 @@ function ServerModalController(
   this.isDirty = function () {
     // Loading promises are clear when the modal is saved or cancelled.
     var SMC = this;
+    console.log('count',  loadingPromises.count(SMC.name) > 0, 'isClean', SMC.openItems.isClean());
     var requiresBuild = loadingPromises.count(SMC.name) > 0 || !SMC.openItems.isClean() ? 'build' : false;
     var requiresUpdate = !angular.equals(
       keypather.get(SMC, 'instance.attrs.env') || [],
@@ -61,6 +62,7 @@ function ServerModalController(
         return loadingPromises.finished(SMC.name);
       })
       .then(function (promiseArrayLength) {
+        loadingPromises.clear(SMC.name);
         toRebuild = !!(
           forceRebuild ||
           promiseArrayLength > 0 ||
@@ -119,13 +121,17 @@ function ServerModalController(
               return promisify(SMC.instance, 'redeploy')();
             }
           })
-          .then(function () {
-            loadingPromises.clear(SMC.name, true);
-          })
           .catch(function (err) {
             // If we get an error, we need to wipe the loadingPromises, since it could have an error
-            loadingPromises.clear(SMC.name, true);
-            return $q.reject(err);
+            loadingPromises.clear(SMC.name);
+            // If we redeployed, we shouldn't clone the stateCv, since it never built
+            var cv = toRedeploy ? SMC.state.contextVersion : SMC.instance.contextVersion;
+            return SMC.resetStateContextVersion(cv, false)
+              .then(function () {
+                // Since we failed to build, we need loading promises to have something in it
+                loadingPromises.add(SMC.name, $q.when(true));
+                return $q.reject(err);
+              });
           });
       });
   };
@@ -294,16 +300,7 @@ function ServerModalController(
    * @returns {Promise} Resolves when the instance update has been started, and the cv has been
    *        reset.  The error is uncaught, so a catch should be added to this
    */
-  this.getUpdatePromise = function () {
-    var SMC = this;
-    return this.saveInstanceAndRefreshCards()
-      .catch(function (err) {
-        return SMC.resetStateContextVersion(SMC.state.contextVersion, false)
-          .then(function () {
-            return $q.reject(err);
-          });
-      });
-  };
+  this.getUpdatePromise = this.saveInstanceAndRefreshCards();
 
   this.changeTab = function (tabname) {
     if (!this.state.advanced) {

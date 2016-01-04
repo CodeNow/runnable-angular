@@ -53,8 +53,7 @@
 
   //- only appears if container is unsaved and only in the modal
   span.container-title.text-overflow(
-    ng-attr-title = "{{SMC.isDirty() ? '' : (instance | cardBuildStatusTitle)}}"
-    ng-if = "$root.featureFlags.cardStatus && SMC.isDirty()"
+    ng-if = "!$root.isLoading[SMC.name] && SMC.isDirty()"
   ) —Unsaved
 
   //- ***********************************

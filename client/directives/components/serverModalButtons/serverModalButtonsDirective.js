@@ -4,6 +4,7 @@ require('app')
   .directive('serverModalButtons', serverModalButtonsDirective);
 
 function serverModalButtonsDirective(
+  $rootScope,
   errs,
   loading
 ) {
@@ -21,6 +22,9 @@ function serverModalButtonsDirective(
           return;
         }
         loading($scope.SMC.name, true);
+        if (!$scope.SMC.instance) {
+          $scope.SMC.state.step = 4;
+        }
         (($scope.SMC.instance) ? $scope.SMC.updateInstanceAndReset() : $scope.SMC.createServer())
           .then(function () {
             $scope.SMC.changeTab('logs');

@@ -247,6 +247,7 @@ function SetupServerModalController(
     // creating a build with that context version
     var createPromise = loadingPromises.finished(SMC.name)
       .then(function () {
+        loadingPromises.clear(SMC.name);
         if (!SMC.state.advanced) {
           return updateDockerfileFromState(SMC.state, false, true);
         }
@@ -302,13 +303,14 @@ function SetupServerModalController(
           .then(instanceSetHandler);
       })
       .then(function () {
-        loadingPromises.clear(SMC.name, true);
         return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
       })
       .catch(function (err) {
         // If creating the server fails, reset the context version
         return SMC.resetStateContextVersion(SMC.state.contextVersion, true)
           .then(function () {
+            // Since we failed to build, we need loading promises to have something in it
+            loadingPromises.add(SMC.name, $q.when(true));
             return $q.reject(err);
           });
       });
