@@ -1,4 +1,4 @@
-.modal-dialog(
+.modal-dialog.modal-sm.modal-alert(
   ng-click = "$event.stopPropagation()"
 )
   header.modal-header
@@ -11,7 +11,7 @@
       )
   section.modal-body
     p.modal-description
-      strong {{ data.instance.attrs.name }}
+      strong {{data.instance.attrs.name}}
       | , will be permanently removed.
   footer.modal-footer.clearfix
     button.btn.white.float-left(
