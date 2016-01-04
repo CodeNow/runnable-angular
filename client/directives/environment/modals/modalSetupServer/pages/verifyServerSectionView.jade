@@ -211,11 +211,11 @@ section.modal-body(
     )
 
 footer.modal-footer.clearfix(
-  server-modal-buttons
-  this-form = "SMC.serverForm"
   is-primary-button-disabled = "\
       SMC.serverForm.$invalid ||\
       (SMC.state.selectedStack | selectedStackInvalid)\
     "
+  server-modal-buttons
   server-modal-controller = "SMC"
+  this-form = "SMC.serverForm"
 )

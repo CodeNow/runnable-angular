@@ -15,8 +15,8 @@ button.btn.btn-done.white.float-right(
 
 button.btn.btn-primary.white.text-next.float-right(
   ng-click = "SMC.goToNextStep()"
-  ng-if = "SMC.state.step < 3"
   ng-disabled = "isPrimaryButtonDisabled()"
+  ng-if = "SMC.state.step < 3"
   type = "button"
 )
   span.btn-text.float-left Next
@@ -35,12 +35,12 @@ button.btn.btn-primary.white.text-next.float-right(
     .text-next
 button.btn.white.btn-primary.float-right.js-animate(
   ng-class = "{\
-          'text-save': SMC.isDirty() === 'update' || $root.isLoading[SMC.name],\
-          'text-save-build': SMC.isDirty() === 'build' && !$root.isLoading[SMC.name]\
-        }"
-  ng-if = "SMC.instance || SMC.state.step > 2"
+    'text-save': SMC.isDirty() === 'update' || $root.isLoading[SMC.name],\
+    'text-save-build': SMC.isDirty() === 'build' && !$root.isLoading[SMC.name]\
+  }"
   ng-click = "createServerOrUpdate()"
   ng-disabled = "!SMC.isDirty()"
+  ng-if = "SMC.instance || SMC.state.step > 2"
 )
   span.btn-text.float-left Save
     //- if save triggers a build

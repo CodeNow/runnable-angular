@@ -203,8 +203,11 @@
         ng-include = "'spinner'"
       )
     footer.modal-footer.clearfix(
+      is-primary-button-disabled = "\
+        (!SMC.state.advanced && (SMC.state.selectedStack | selectedStackInvalid)) ||\
+        !SMC.isDockerfileValid()\
+      "
       server-modal-buttons
-      this-form = "SMC.serverForm"
-      is-primary-button-disabled = "(!SMC.state.advanced && (SMC.state.selectedStack | selectedStackInvalid)) || !SMC.isDockerfileValid()"
       server-modal-controller = "SMC"
+      this-form = "SMC.serverForm"
     )

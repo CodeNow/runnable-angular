@@ -1,9 +1,8 @@
 //- new alerts
 .notification.notification-sm.environment-notification.js-animate(
   ng-class = "{\
-    'top-right': alert.type === 'deleted',\
     'green': alert.type === 'success',\
-    'red': alert.type === 'deleted'\
+    'top-right red': alert.type === 'deleted',\
   }"
   ng-if = "alert"
 )
