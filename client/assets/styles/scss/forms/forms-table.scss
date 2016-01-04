@@ -184,7 +184,7 @@
 .thead {
   background: $gray-lightest;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: $weight-bold;
 
   &.divider {
     padding: 3px 0;
