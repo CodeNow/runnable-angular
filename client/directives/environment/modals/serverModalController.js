@@ -300,7 +300,7 @@ function ServerModalController(
    * @returns {Promise} Resolves when the instance update has been started, and the cv has been
    *        reset.  The error is uncaught, so a catch should be added to this
    */
-  this.getUpdatePromise = this.saveInstanceAndRefreshCards();
+  this.getUpdatePromise = this.saveInstanceAndRefreshCards;
 
   this.changeTab = function (tabname) {
     if (!this.state.advanced) {
