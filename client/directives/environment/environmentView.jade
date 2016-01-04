@@ -80,3 +80,8 @@
         )
       | Invite a teammate
     | &#32;to help you set up your stack.
+
+  button.btn.gray(
+    internal-modal-helper = "gettingStartedModalView"
+    ng-if = "$root.featureFlags.gettingStartedModal"
+  ) GSModal

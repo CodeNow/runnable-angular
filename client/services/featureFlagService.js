@@ -14,6 +14,7 @@ function featureFlags(
     editAnyInstance: false,
     fullScreen: false,  // toggles full screen
     fullScreenToggle: false,  // toggles the button that toggles full screen
+    gettingStartedModal: false, // modal for new users
     hostnameNotifications: false,
     hostnameTool: false,
     imAfraidOfTheDark: false, // toggles theme
