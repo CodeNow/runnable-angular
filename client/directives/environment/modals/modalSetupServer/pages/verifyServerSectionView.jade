@@ -114,12 +114,9 @@ header.modal-header
           xlink:href = "#icons-dockerfile"
         )
       .btn-text Dockerfile
-    button.btn.btn-radio.js-animate(
+    button.btn.btn-radio(
       data-badge-count = "!"
-      ng-class = "{\
-        'active': SMC.selectedTab === 'logs',\
-        'badge': !$root.isLoading.setupServerModal && SMC.instance && SMC.isDirty()\
-      }"
+      ng-class = "{'active': SMC.selectedTab === 'logs'}"
       ng-click = "SMC.changeTab('logs')"
       ng-if = "SMC.instance"
     )
