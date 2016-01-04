@@ -7,7 +7,7 @@
   //- )
 
   //- billing form empty state
-  .icons-calendar(
+  .img.icons-calendar(
     ng-if = "$root.featureFlags.trial"
   )
     svg(viewBox='0 0 38.5 36.75')
@@ -22,10 +22,10 @@
       path(fill='#D5D5D5', stroke='#52306C', stroke-width='0.5', stroke-linecap='round', stroke-miterlimit='10', d='M13.75,6.75v-5c0-0.828-0.672-1.5-1.5-1.5c-0.828,0-1.5,0.672-1.5,1.5v5c0,0.828,0.672,1.5,1.5,1.5C13.078,8.25,13.75,7.578,13.75,6.75z')
       path(fill='#D5D5D5', stroke='#52306C', stroke-width='0.5', stroke-linecap='round', stroke-miterlimit='10', d='M27.25,6.75v-5c0-0.828-0.672-1.5-1.5-1.5c-0.828,0-1.5,0.672-1.5,1.5v5c0,0.828,0.672,1.5,1.5,1.5C26.578,8.25,27.25,7.578,27.25,6.75z')
     h2.h2.text-center 12
-  p.p.empty(
+  h3.h3.empty.text-center(
     ng-if = "$root.featureFlags.trial"
   ) You’re on our free trial plan!
-  small.small.text-center(
+  small.small.empty.text-center(
     ng-if = "$root.featureFlags.trial"
   ) You have&#32;
     strong.strong 12 days

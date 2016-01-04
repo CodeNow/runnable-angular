@@ -136,7 +136,9 @@ section.modal-body(
 section.modal-body(
   ng-if = "!$root.isLoading.setupServerModal"
 )
-  .modal-form
+  .modal-form(
+    ng-class = "{'empty': SMC.state.step === 3 && SMC.selectedTab === null}"
+  )
     //- Stack & Branch
     .label(
       is-new-container = "true"
@@ -154,11 +156,12 @@ section.modal-body(
       state = "SMC.state"
     )
     //- Default messages
-    p.p.empty(
+    h3.h3.empty.text-center(
       ng-if = "SMC.state.step === 3 && SMC.selectedTab === null"
     ) Your container is ready to build!
-      br
-      small.small You can use the tools above to make additional changes to your configuration.
+    small.small.empty.text-center(
+      ng-if = "SMC.state.step === 3 && SMC.selectedTab === null"
+    ) You can use the tools above to make additional changes to your configuration.
     //- Ports
     .modal-form(
       ng-show = "SMC.selectedTab === 'ports'"

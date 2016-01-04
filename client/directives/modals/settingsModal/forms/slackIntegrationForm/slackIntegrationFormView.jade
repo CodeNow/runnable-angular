@@ -16,18 +16,18 @@
     width = "270"
   )
 
-  p.p.empty Get container status updates in Slack
-    small.small Use an API token from&#32;
-      a.link(
-        href = "//slack.com/services"
-        target = "_blank"
-      ) an existing bot
-      | , or create a&#32;
-      a.link(
-        href = "//slack.com/services/new/bot"
-        target = "_blank"
-      ) new bot
-      | .
+  h3.h3.empty.text-center Get container status updates in Slack
+  small.small.empty.text-center Use an API token from&#32;
+    a.link(
+      href = "//slack.com/services"
+      target = "_blank"
+    ) an existing bot
+    | , or create a&#32;
+    a.link(
+      href = "//slack.com/services/new/bot"
+      target = "_blank"
+    ) new bot
+    | .
 
   .input-spinner
     input.input.input-sm.monospace.text-center.input-validate(
@@ -49,7 +49,7 @@
     ng-if = "!SIFC.slackApiTokenForm.$pristine && SIFC.slackApiTokenForm.$invalid"
   ) Invalid API Token
 
-  button.btn.btn-sm.btn-spinner.green(
+  button.btn.btn-spinner.green(
     ng-class = "{'in': SIFC.state === 'verifying'}"
     ng-click = "SIFC.verifySlack();"
     ng-disabled = "!SIFC.slackApiTokenForm.$valid || SIFC.slackApiTokenForm.$pending || SIFC.state === 'verifying'"
