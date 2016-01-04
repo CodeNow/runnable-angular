@@ -12,7 +12,7 @@ label.toggle-wrapper(
   ng-show = "!BCSC.data.acv || BCSC.data.acv.attrs.additionalRepo"
 )
   div Always update to latest commit
-  .small.float-left on new builds of&#32;
+  .small.text-overflow on new builds of&#32;
     strong.strong {{BCSC.data.getDisplayName() || BCSC.data.instance.getDisplayName()}}
   input.toggle-input(
     ng-model = "BCSC.isLatestCommit"

@@ -9,9 +9,19 @@
 
   .card {
     float: left;
-    height: 448px;
+    height: 461px;
     margin-bottom: 15px;
     min-width: 0;
+
+    &.deprecated {
+      height: 439px;
+    }
+
+    // sibling styles must appear first to be overridden by media queries
+    // scss-lint:disable DeclarationOrder
+    + .card {
+      margin-left: 15px;
+    }
 
     @include media(xxl) {
       width: calc(20% - 12px);
@@ -82,6 +92,10 @@
     @include media(xs) {
       width: 100%;
 
+      + .card {
+        margin-left: 0;
+      }
+
       // on the 6th card + 5 thereafter
       &:nth-child(5n+6) {
         margin-left: 15px;
@@ -101,14 +115,6 @@
       &:nth-child(2n+3) {
         margin-left: 0;
       }
-
-      + .card {
-        margin-left: 0;
-      }
-    }
-
-    + .card {
-      margin-left: 15px;
     }
 
     // center if only child
@@ -116,5 +122,6 @@
       float: none;
       margin: 0 auto;
     }
+    // scss-lint:enable DeclarationOrder
   }
 }

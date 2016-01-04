@@ -112,14 +112,14 @@ describe('TeamManagementFormController'.bold.underline.blue, function () {
 
   describe('newInvitationAdded event', function () {
 
-    it('should remove the newly invited user from the uninvited users', function () {
+    it('should not remove the newly invited user from the uninvited users', function () {
       $scope.$digest();
       var uninvitedLength = TMMC.members.uninvited.length;
       var newlyInvitedUser = TMMC.members.uninvited[0];
       $rootScope.$broadcast('newInvitedAdded', newlyInvitedUser);
       $scope.$digest();
-      expect(TMMC.members.uninvited.length).to.equal(uninvitedLength - 1);
-      expect(TMMC.members.uninvited.indexOf(newlyInvitedUser)).to.equal(-1);
+      expect(TMMC.members.uninvited.length).to.equal(uninvitedLength);
+      expect(TMMC.members.uninvited.indexOf(newlyInvitedUser)).to.not.equal(-1);
     });
 
     it('should add the newly invited user from the invited users', function () {

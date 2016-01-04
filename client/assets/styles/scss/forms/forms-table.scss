@@ -308,19 +308,35 @@
 
   // status icons
   .icons-alert,
+  .icons-close,
   .icons-link {
     height: 38px;
     width: 18px;
+  }
 
-    // alert icon
-    &.icons-alert {
-      color: $orange;
+  // alert icon
+  .icons-alert {
+    color: $orange;
+  }
+
+  // link icon
+  .icons-link {
+    color: $purple-light;
+    width: 15px;
+  }
+
+  // close icon
+  .icons-close {
+    color: $gray-light;
+    cursor: pointer;
+    pointer-events: auto; // reset from .iconnables
+
+    &:hover {
+      color: $red;
     }
 
-    // link icon
-    &.icons-link {
-      color: $purple-light;
-      width: 15px;
+    &:active {
+      color: $red-dark;
     }
   }
 

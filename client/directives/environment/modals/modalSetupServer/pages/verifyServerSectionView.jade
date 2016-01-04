@@ -1,13 +1,14 @@
 header.modal-header
   //- title
   .container-title-wrapper.title-verification
-    span.text-overflow.container-title {{SMC.state.repo.attrs.name}}
-    button.btn.btn-xxs.gray(
-      ng-if = "$root.featureFlags.nameContainer"
-      pop-over
-      pop-over-options = "{\"left\":0,\"top\":0}"
-      pop-over-template = "viewPopoverRenameContainer"
-    ) Rename
+    .server-status-card-pop-over.no-touching
+      span.text-overflow.container-title {{SMC.state.repo.attrs.name}}
+      button.btn.btn-xxs.gray(
+        ng-if = "$root.featureFlags.nameContainer"
+        pop-over
+        pop-over-options = "{\"left\":0,\"top\":0}"
+        pop-over-template = "viewPopoverRenameContainer"
+      ) Rename
 
   svg.iconnables.icons-close(
     ng-if = "$root.featureFlags.rebuildFlow"
@@ -17,13 +18,13 @@ header.modal-header
     )
 
   //- tabs
-  .row.modal-tabs.clearfix.js-animate(
+  .row.modal-tabs.js-animate(
     ng-if="$root.featureFlags.newVerificationFlow"
     ng-class = "{\
-      'active': SMC.selectedTab === 'repository',\
       'tabs-1': SMC.state.step === 1,\
       'tabs-2': SMC.state.step === 2,\
-      'tabs-7': SMC.state.step === 3,\
+      'tabs-7': SMC.state.step === 3 && !$root.featureFlags.whitelist,\
+      'tabs-8': SMC.state.step === 3 && $root.featureFlags.whitelist,\
       'tabs-all': SMC.state.step ===  4\
     }"
     style = "{{SMC.state.step > 1 ? 'transition-duration: .3s' : ''}}"
@@ -50,6 +51,16 @@ header.modal-header
       .btn-text Commands
         br
         | & Packages
+    button.btn.btn-radio(
+      ng-class = "{'active': SMC.selectedTab === 'whitelist'}"
+      ng-click = "SMC.changeTab('whitelist')"
+      ng-if = "(SMC.state.step >= 3 && $root.featureFlags.whitelist)"
+    )
+      svg.iconnables
+        use(
+          xlink:href = "#icons-ip-whitelist"
+        )
+      .btn-text Security
     button.btn.btn-radio.js-animate(
       ng-class = "{'active': SMC.selectedTab === 'ports'}"
       ng-click = "SMC.changeTab('ports')"
@@ -187,6 +198,11 @@ section.modal-body(
       }"
       ng-include = "'viewFormLogs'"
       ng-show = "SMC.selectedTab === 'logs'"
+    )
+    .modal-form.form-whitelist(
+      ng-if = "$root.featureFlags.whitelist"
+      ng-include = "'whitelistForm'"
+      ng-show = "SMC.selectedTab === 'whitelist'"
     )
 
 footer.modal-footer.clearfix

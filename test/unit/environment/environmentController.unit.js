@@ -13,6 +13,7 @@ var createAndBuildNewContainer = new (require('../fixtures/mockFetch'))();
 
 var stacks = angular.copy(apiMocks.stackInfo);
 var thisUser = runnable.newUser(apiMocks.user);
+var EC;
 
 describe('environmentController'.bold.underline.blue, function () {
   var ctx = {};
@@ -24,16 +25,17 @@ describe('environmentController'.bold.underline.blue, function () {
     );
     ctx.masterPods.githubUsername = thisUser.oauthName();
   }
-  function setup() {
+  function setup(opts) {
+    opts = opts || {};
     ctx = {};
     ctx.$log = {
-      error: sinon.spy()
+      error: sinon.stub()
     };
     ctx.errs = {
-      handler: sinon.spy()
+      handler: sinon.stub()
     };
     ctx.eventTracking = {
-      triggeredBuild: sinon.spy()
+      triggeredBuild: sinon.stub()
     };
     ctx.fakeOrg1 = {
       attrs: angular.copy(apiMocks.user),
@@ -48,13 +50,18 @@ describe('environmentController'.bold.underline.blue, function () {
       }
     };
     ctx.favicoMock = {
-      reset : sinon.spy(),
-      setInstanceState: sinon.spy()
+      reset : sinon.stub(),
+      setInstanceState: sinon.stub()
     };
     ctx.pageNameMock = {
-      setTitle: sinon.spy()
+      setTitle: sinon.stub()
     };
-
+    ctx.state = {
+      params: {
+        userName: 'helloWorld'
+      }
+    };
+    ctx.fetchError = new Error('fetchOrgMembers failed');
 
     runnable.reset(apiMocks.user);
     angular.mock.module('app', function ($provide) {
@@ -62,7 +69,21 @@ describe('environmentController'.bold.underline.blue, function () {
       $provide.value('pageName', ctx.pageNameMock);
       $provide.value('eventTracking', ctx.eventTracking);
       $provide.value('user', thisUser);
+      $provide.value('$state', ctx.state);
       $provide.factory('fetchInstancesByPod', fetchInstancesByPodMock.fetch());
+      $provide.factory('fetchUser', function ($q) {
+         var user = {};
+         keypather.set(user, 'attrs.accounts.github.username', 'thejsj');
+         ctx.fetchUser = sinon.stub().returns($q.when(user));
+         return ctx.fetchUser;
+      });
+      $provide.factory('fetchOrgMembers', function ($q) {
+        ctx.uninvitedUsersArray = [1, 2, 999];
+        ctx.fetchOrgMembersStub = sinon.stub().returns($q.when({
+          uninvited: ctx.uninvitedUsersArray
+        }));
+        return ctx.fetchOrgMembersStub;
+      });
       $provide.value('$log', ctx.$log);
       $provide.value('errs', ctx.errs);
       $provide.factory('ModalService', function ($q) {
@@ -89,7 +110,7 @@ describe('environmentController'.bold.underline.blue, function () {
       keypather = _keypather_;
     });
 
-    var ca = $controller('EnvironmentController', {
+    EC = $controller('EnvironmentController', {
       '$scope': $scope,
       '$rootScope': $rootScope
     });
@@ -122,6 +143,52 @@ describe('environmentController'.bold.underline.blue, function () {
       $rootScope.$digest();
       // this should now be loaded
       expect($scope.data.instances, 'masterPods').to.equal(ctx.masterPods);
+    });
+  });
+
+  describe('showInviteButton', function () {
+    beforeEach(function () {
+      setup();
+    });
+
+    it('should not show the invite button by default', function () {
+      expect(EC.showInviteButton).to.equal(false);
+    });
+
+    it('should show the invite button if the user is an org', function () {
+      $rootScope.$digest();
+      expect(EC.showInviteButton).to.equal(true);
+    });
+
+    it('should not show the user is equal to userName', function () {
+      ctx.state.params.userName = 'thejsj';
+      $rootScope.$digest();
+      expect(EC.showInviteButton).to.equal(false);
+    });
+  });
+
+  describe('Modals', function () {
+    describe('inviteTeammate', function () {
+      describe('Succes Cases', function () {
+        beforeEach(function () {
+          setup();
+        });
+
+        it('should invoke the modal with the username and uninvited members', function () {
+          EC.triggerModal.inviteTeammate();
+          $scope.$digest();
+          sinon.assert.calledOnce(ctx.showModalStub);
+          sinon.assert.calledWith(ctx.showModalStub, {
+              controller: 'InviteModalController',
+              controllerAs: 'IMC',
+              templateUrl: 'inviteModalView',
+              inputs: {
+                teamName: ctx.state.params.userName,
+                unInvitedMembers: null
+              }
+          });
+        });
+      });
     });
   });
 });

@@ -26,7 +26,7 @@
 
   // sizes
   &.card-sm {
-    border-width: 2px;
+    border-width: $input-border;
     min-height: inherit;
     min-width: inherit;
     width: 210px;
@@ -141,18 +141,11 @@
 }
 
 // card layout
-// header
-.card-header {
-  display: flex;
-  justify-content: center;
-  margin: 18px 15px;
-}
-
 // body
 .card-body,
 .card-button {
   flex: 1 1 auto;
-  padding: 0 15px 15px;
+  padding: 15px;
 
   &.empty {
     align-items: center;
@@ -205,23 +198,6 @@
 
     &:last-child {
       border-radius: 0 0 $input-border-radius $input-border-radius;
-      padding-right: 45px; // larger padding for lock icon
-
-      // icons for dockerfile tool
-      // wrapper needed for title text
-      .iconnables-wrapper {
-        height: 100%;
-        position: absolute;
-        right: 30px;
-        top: 0;
-        width: 14px;
-      }
-
-      .icons-unlock,
-      .icons-lock {
-        height: 100%;
-        width: 100%;
-      }
     }
 
     &.hint {
@@ -237,10 +213,10 @@
 
     + .btn {
       border-top-width: 1px;
-      margin-top: -2px;
+      margin-top: -$input-border;
 
       &.hint {
-        border-top-width: 2px;
+        border-top-width: $input-border;
       }
     }
 
@@ -300,9 +276,30 @@
       transform: rotate3d(0,0,1,-90deg);
     }
   }
+
+  // dockerfile tool icons
+  .btn-dockerfile {
+    padding-right: 45px; // larger padding for lock icon
+
+    // icons for dockerfile tool
+    // wrapper needed for title text
+    .iconnables-wrapper {
+      height: 100%;
+      position: absolute;
+      right: 30px;
+      top: 0;
+      width: 14px;
+    }
+
+    .icons-unlock,
+    .icons-lock {
+      height: 100%;
+      width: 100%;
+    }
+  }
 }
 
-//- loading state
+// loading state
 .card-loading {
   align-items: center;
   display: flex;

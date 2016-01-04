@@ -53,7 +53,7 @@
 
     .popover-footer.clearfix
       button.btn.btn-sm.green.btn-spinner(
-        ng-class = "{in: data.saving}"
+        ng-class = "{'in': data.saving}"
         ng-click = "actions.save(data)"
         ng-disabled = "data.saving || (!data.file && !data.name)"
       )

@@ -120,8 +120,8 @@ describe('popOverHoverTriggerDirective'.bold.underline.blue, function() {
           ctx.pointInPolygonMock.returns(true);
           $document.triggerHandler({
             type : 'mousemove',
-            pageX: 48,
-            pageY: 102
+            clientX: 48,
+            clientY: 102
           });
           $scope.$digest();
           sinon.assert.calledOnce(ctx.pointInPolygonMock);
@@ -131,13 +131,13 @@ describe('popOverHoverTriggerDirective'.bold.underline.blue, function() {
           ctx.PopOverController.popoverElement.on.reset();
           ctx.PopOverController.popoverElement.triggerHandler({
             type : 'mouseenter',
-            pageX: 48,
-            pageY: 102
+            clientX: 48,
+            clientY: 102
           });
           ctx.PopOverController.popoverElement.triggerHandler({
             type : 'mouseleave',
-            pageX: 48,
-            pageY: 102
+            clientX: 48,
+            clientY: 102
           });
 
           sinon.assert.calledTwice(ctx.PopOverController.popoverElement.off);
@@ -167,8 +167,8 @@ describe('popOverHoverTriggerDirective'.bold.underline.blue, function() {
           ctx.pointInPolygonMock.returns(true);
           $document.triggerHandler({
             type : 'mousemove',
-            pageX: 48,
-            pageY: 102
+            clientX: 48,
+            clientY: 102
           });
           $scope.$digest();
           sinon.assert.calledOnce(ctx.pointInPolygonMock);
@@ -179,13 +179,13 @@ describe('popOverHoverTriggerDirective'.bold.underline.blue, function() {
           ctx.PopOverController.popoverElement.on.reset();
           ctx.PopOverController.popoverElement.triggerHandler({
             type : 'mouseenter',
-            pageX: 48,
-            pageY: 102
+            clientX: 48,
+            clientY: 102
           });
           ctx.PopOverController.popoverElement.triggerHandler({
             type : 'mouseleave',
-            pageX: 48,
-            pageY: 102
+            clientX: 48,
+            clientY: 102
           });
 
           sinon.assert.calledTwice(ctx.PopOverController.popoverElement.off);
@@ -231,8 +231,8 @@ describe('popOverHoverTriggerDirective'.bold.underline.blue, function() {
           ctx.pointInPolygonMock.returns(false);
           $document.triggerHandler({
             type : 'mousemove',
-            pageX: 48,
-            pageY: 102
+            clientX: 48,
+            clientY: 102
           });
 
           $scope.$digest();
@@ -266,8 +266,8 @@ describe('popOverHoverTriggerDirective'.bold.underline.blue, function() {
           ctx.pointInPolygonMock.returns(false);
           $document.triggerHandler({
             type : 'mousemove',
-            pageX: 48,
-            pageY: 102
+            clientX: 48,
+            clientY: 102
           });
 
           $scope.$digest();
@@ -328,9 +328,9 @@ describe('popOverHoverTriggerDirective'.bold.underline.blue, function() {
         //   |__button_|
 
         var boundary = $elScope.getPolygon();
-        expect(boundary[0], 'element bottomLeft').to.deep.equal([50, 120]);
-        expect(boundary[1], 'element bottomRight').to.deep.equal([60, 120]);
-        expect(boundary[2], 'popoverRect bottomLeft').to.deep.equal([10, 70]);
+        expect(boundary[0], 'popoverRect bottomLeft').to.deep.equal([10, 70]);
+        expect(boundary[1], 'element bottomLeft').to.deep.equal([50, 120]);
+        expect(boundary[2], 'element bottomRight').to.deep.equal([60, 120]);
         expect(boundary[3], 'popoverRect bottomRight').to.deep.equal([100, 70]);
       });
       it('bottom (with double the tolerance)', function () {
@@ -360,9 +360,9 @@ describe('popOverHoverTriggerDirective'.bold.underline.blue, function() {
 
         var boundary = $elScope.getPolygon();
         expect(boundary[0], 'element topLeft').to.deep.equal([50, 100]);
-        expect(boundary[1], 'element topRight').to.deep.equal([60, 100]);
-        expect(boundary[2], 'popoverRect topLeft').to.deep.equal([0, 180]);
-        expect(boundary[3], 'popoverRect topRight').to.deep.equal([110, 180]);
+        expect(boundary[1], 'popoverRect topLeft').to.deep.equal([0, 180]);
+        expect(boundary[2], 'popoverRect topRight').to.deep.equal([110, 180]);
+        expect(boundary[3], 'element topRight').to.deep.equal([60, 100]);
       });
       it('left', function () {
         injectSetupCompile();
@@ -387,10 +387,10 @@ describe('popOverHoverTriggerDirective'.bold.underline.blue, function() {
         //     |  /
         //     |/
         var boundary = $elScope.getPolygon();
-        expect(boundary[0], 'element topRight').to.deep.equal([60, 100]);
-        expect(boundary[1], 'element bottomRight').to.deep.equal([60, 120]);
-        expect(boundary[2], 'popoverRect topRight').to.deep.equal([10, 70]);
-        expect(boundary[3], 'popoverRect bottomRight').to.deep.equal([10, 150]);
+        expect(boundary[0], 'popoverRect bottomRight').to.deep.equal([10, 150]);
+        expect(boundary[1], 'popoverRect topRight').to.deep.equal([10, 70]);
+        expect(boundary[2], 'element topRight').to.deep.equal([60, 100]);
+        expect(boundary[3], 'element bottomRight').to.deep.equal([60, 120]);
       });
       it('right', function () {
         injectSetupCompile();
@@ -417,8 +417,8 @@ describe('popOverHoverTriggerDirective'.bold.underline.blue, function() {
         var boundary = $elScope.getPolygon();
         expect(boundary[0], 'element topLeft').to.deep.equal([50, 100]);
         expect(boundary[1], 'element bottomLeft').to.deep.equal([50, 120]);
-        expect(boundary[2], 'popoverRect topLeft').to.deep.equal([90, 70]);
-        expect(boundary[3], 'popoverRect bottomLeft').to.deep.equal([90, 150]);
+        expect(boundary[2], 'popoverRect bottomLeft').to.deep.equal([90, 150]);
+        expect(boundary[3], 'popoverRect topLeft').to.deep.equal([90, 70]);
       });
       it('top (with 0 tolerance', function () {
         injectSetupCompile({
@@ -444,9 +444,9 @@ describe('popOverHoverTriggerDirective'.bold.underline.blue, function() {
         //   |__button_|
 
         var boundary = $elScope.getPolygon();
-        expect(boundary[0], 'element bottomLeft').to.deep.equal([50, 120]);
-        expect(boundary[1], 'element bottomRight').to.deep.equal([60, 120]);
-        expect(boundary[2], 'popoverRect bottomLeft').to.deep.equal([20, 80]);
+        expect(boundary[0], 'popoverRect bottomLeft').to.deep.equal([20, 80]);
+        expect(boundary[1], 'element bottomLeft').to.deep.equal([50, 120]);
+        expect(boundary[2], 'element bottomRight').to.deep.equal([60, 120]);
         expect(boundary[3], 'popoverRect bottomRight').to.deep.equal([90, 80]);
       });
     });

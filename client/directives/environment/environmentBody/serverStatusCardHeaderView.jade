@@ -1,31 +1,83 @@
-div(
+.server-status-card-pop-over(
   ng-class = "{\
-    'btn': !$root.featureFlags.cardStatus,\
-    'btn-sm': !$root.featureFlags.cardStatus,\
-    'btn-title': !$root.featureFlags.cardStatus,\
-    'white': !$root.featureFlags.cardStatus && !inModal,\
+    'active': popoverServerActions.data.show,\
+    'deprecated': !$root.featureFlags.cardStatus,\
     'no-touching': noTouching\
   }"
   pop-over
   pop-over-actions = "popoverServerActions"
-  pop-over-options = "{\"right\":0,\"top\":47}"
+  pop-over-active = "popoverServerActions.data.show"
   pop-over-data = "instance"
+  pop-over-options = "{\"centered\":true,\"top\":36}"
   pop-over-template = "serverOptionsCardPopover"
 )
-  //- ************
-  //- deprecated content, remove with $root.featureFlags.cardStatus
+  //- ***********************************
+  //- START !$root.featureFlags.cardStatus
+  //- ***********************************
   status-icon(
     instance = "instance"
+    ng-if = "!$root.featureFlags.cardStatus"
   )
-  span.btn-text.text-overflow(
+  span.container-title.text-overflow(
     ng-attr-title = "{{instance.getDisplayName()}}"
+    ng-if = "!$root.featureFlags.cardStatus"
   ) {{(instance.getRepoName() || instance.attrs.name)}}
-  span.btn-text(
-    ng-attr-title = "{{instance | cardBuildStatusTitle}}"
-  ) {{instance | cardBuildStatusText:true}}
+
+  //- ***********************************
+  //- END !$root.featureFlags.cardStatus
+  //- ***********************************
+
+  //- ***********************************
+  //- START $root.featureFlags.cardStatus
+  //- ***********************************
+
+  //- This element should display while the container is building, but not while the card is loading.
+  //- i.e. if the card has a spinner in the middle instead of buttons, this spinner should not show.
+  .spinner-wrapper.spinner-sm.spinner-gray.in(
+    ng-if = "$root.featureFlags.cardStatus && cardStatus.loading"
+    ng-include = "'spinner'"
+  )
+
+  //- This element should replace the spinner if the container has failed to build or run or 5 seconds
+  svg.iconnables.icons-alert(
+    ng-if = "$root.featureFlags.cardStatus && !noTouching"
+  )
+    use(
+      xlink:href = "#icons-alert"
+    )
+
+  span.container-title.text-overflow(
+    ng-attr-title = "{{(instance.getRepoName() || instance.attrs.name)}}"
+    ng-if = "$root.featureFlags.cardStatus"
+  ) {{(instance.getRepoName() || instance.attrs.name)}}
+
+  //- only appears if container is unsaved and only in the modal
+  span.container-title.text-overflow(
+     ng-if = "$root.featureFlags.rebuildFlow && inModal"
+  ) —Unsaved
+
+  //- ***********************************
+  //- END $root.featureFlags.cardStatus
+  //- ***********************************
+
   svg.iconnables.icons-arrow-down(
     ng-if = "!noTouching"
   )
     use(
       xlink:href = "#icons-arrow-down"
     )
+
+  //- ***********************************
+  //- START $root.featureFlags.nameContainer
+  //- ***********************************
+
+  button.btn.btn-xxs.gray(
+    ng-if = "$root.featureFlags.nameContainer && inModal"
+    pop-over
+    pop-over-options = "{\"left\":0,\"top\":0}"
+    pop-over-template = "viewPopoverRenameContainer"
+  ) Rename
+
+  //- ***********************************
+  //- END $root.featureFlags.nameContainer
+  //- ***********************************

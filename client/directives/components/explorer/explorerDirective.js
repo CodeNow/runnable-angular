@@ -22,10 +22,10 @@ function explorer() {
       editExplorer: '=?',
       loadingPromisesTarget: '@?',
       readOnly: '=?',
-      debugContainer: '=?'
+      debugContainer: '=?',
+      dir: '=rootDir'
     },
     link: function ($scope) {
-      $scope.dir = $scope.rootDir;
       $scope.state = {};
 
       $scope.filePopover = {

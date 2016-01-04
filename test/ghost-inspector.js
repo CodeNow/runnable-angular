@@ -49,7 +49,9 @@ userPromise.then(function (user) {
   console.log('Running tests with user:  ' + user.username);
 
   var testOptions = {
-    githubUser: user.username
+    githubUser: user.username,
+    startUrl: 'https://runnable-angular-staging-codenow.runnableapp.com',
+    customUserAgent: 'e2e-tests'
   };
 
   var testPromise = Promise.resolve();

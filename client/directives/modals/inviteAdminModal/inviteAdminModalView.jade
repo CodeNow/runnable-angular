@@ -96,8 +96,7 @@
           .btn.btn-sm.btn-spinner.green.float-right.js-animate(
             ng-class = "{'in': IAMC.sending}"
             ng-click = "\
-            inviteAdminForm.$invalid || \
-              IAMC.sendEmail(admin);\
+              inviteAdminForm.$invalid || IAMC.sendEmail(admin);\
               $event.stopPropagation();\
             "
             ng-disabled = "inviteAdminForm.$invalid"
