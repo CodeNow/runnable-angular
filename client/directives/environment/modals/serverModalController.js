@@ -34,7 +34,6 @@ function ServerModalController(
   this.isDirty = function () {
     // Loading promises are clear when the modal is saved or cancelled.
     var SMC = this;
-    console.log('count',  loadingPromises.count(SMC.name) > 0, 'isClean', SMC.openItems.isClean());
     var requiresBuild = loadingPromises.count(SMC.name) > 0 || !SMC.openItems.isClean() ? 'build' : false;
     var requiresUpdate = !angular.equals(
       keypather.get(SMC, 'instance.attrs.env') || [],
