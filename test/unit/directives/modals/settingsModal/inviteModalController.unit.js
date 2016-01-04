@@ -28,7 +28,7 @@ describe('InviteModalController'.bold.underline.blue, function () {
   beforeEach(function () {
     unInvitedMembers = [generateGithubUserObject(username, userId), generateGithubUserObject()];
     unInvitedMembers.forEach(function (member) {
-      member.inviteEmail = userEmail;
+      member.email = userEmail;
     });
     angular.mock.module('app', function ($provide) {
       var githubOrg = generateGithubOrgObject('OrgName', orgId);

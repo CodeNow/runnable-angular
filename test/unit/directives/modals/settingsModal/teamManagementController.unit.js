@@ -25,7 +25,7 @@ describe('TeamManagementFormController'.bold.underline.blue, function () {
   var registeredUsername = 'registered';
   var invitedUsername = 'invited';
   var uninvitedUsername = 'uninvited';
-  var inviteEmail = 'invited@invited.com';
+  var email = 'invited@invited.com';
   var registered;
   var invited;
   var uninvited;
@@ -36,7 +36,7 @@ describe('TeamManagementFormController'.bold.underline.blue, function () {
         registered = generateGithubUserObject(registeredUsername, 1);
         registered.userModel = { attrs: generateUserObject(registeredUsername, 1) };
         invited = generateGithubUserObject('invited', 2);
-        invited.userInvitation = { attrs: generateTeammateInvitationObject(123, 2, inviteEmail) };
+        invited.userInvitation = { attrs: generateTeammateInvitationObject(123, 2, email) };
         uninvited = generateGithubUserObject('uninvited', 3);
         var response = {
           all: [registered, invited, uninvited],
@@ -106,7 +106,7 @@ describe('TeamManagementFormController'.bold.underline.blue, function () {
       expect(TMMC.members.registered[0].email).to.be.a('string');
       expect(TMMC.members.registered[0].email).to.equal('jorge.silva@thejsj.com');
       expect(TMMC.members.uninvited[0].email).to.equal(null);
-      expect(TMMC.members.invited[0].email).to.equal(inviteEmail);
+      expect(TMMC.members.invited[0].email).to.equal(email);
     });
   });
 
