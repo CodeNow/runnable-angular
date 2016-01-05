@@ -51,7 +51,7 @@
           ng-class = "{'in': isActivePanel()}"
         )
           //- disable this when name is taken too
-          button.btn.green.btn-spinner.float-right(
+          button.btn.btn-md.green.btn-spinner.float-right(
             ng-class = "{'in': loading}"
             ng-click = "\
               data.currentPanelName = 'githubAuth';\
@@ -115,7 +115,7 @@
         footer.modal-footer.fade.clearfix(
           ng-class = "{'in': isActivePanel()}"
         )
-          a.btn.green.btn-center(
+          a.btn.btn-md.green.btn-center(
             href = "#"
             ng-click = "goToPanel('orgSelect')"
             tabindex = "{{isActivePanel() ? '0' : '-1'}}"
@@ -145,7 +145,7 @@
             ) Github organizations
             | &#32; that you’re a part of. Try again with a Github account that’s part of an organization.
 
-            a.btn.green.btn-center(
+            a.btn.btn-md.green.btn-center(
               href = "#"
             )
               svg.iconnables.icons-github
