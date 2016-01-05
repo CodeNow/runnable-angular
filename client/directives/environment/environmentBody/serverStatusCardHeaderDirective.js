@@ -20,12 +20,7 @@ function serverStatusCardHeader(
       noTouching: '=? noTouching',
       inModal: '=? inModal'
     },
-    templateUrl: function (elem, attrs) {
-      if ($rootScope.featureFlags.cardStatus) {
-        return 'serverStatusCardHeaderViewCardStatus';
-      }
-      return 'serverStatusCardHeaderView';
-    },
+    templateUrl: 'serverStatusCardHeaderView',
     link: function ($scope, elem, attrs) {
       $scope.popoverServerActions = {
         openEditServerModal: function (defaultTab) {

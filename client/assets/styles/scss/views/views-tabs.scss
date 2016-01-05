@@ -28,7 +28,7 @@
   &.active {
     color: $purple-light;
     cursor: default;
-    font-weight: 500;
+    font-weight: $weight-bold;
   }
 
   .icons-dirty {
@@ -82,7 +82,7 @@
   &::after {
     content: attr(ng-data-title);
     display: block;
-    font-weight: 500;
+    font-weight: $weight-bold;
     opacity: 0;
     pointer-events: none;
   }

@@ -69,10 +69,10 @@
     )
 
   footer.environment-footer.small.text-center(
-    ng-if = "$root.featureFlags.inviteFlows"
+    ng-if = "$root.featureFlags.inviteFlows && EC.showInviteButton"
   )
     a.link(
-      internal-modal-helper = "inviteModalView"
+      ng-click = "EC.triggerModal.inviteTeammate()"
     )
       svg.iconnables.icons-team-invite
         use(

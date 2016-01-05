@@ -17,6 +17,7 @@ describe('InviteModalController'.bold.underline.blue, function () {
   var IMC;
   var fetchUserStub;
   var fetchGithubOrgIdStub;
+  var fetchOrgMembersStub;
   var user;
   var errs;
   var username = 'purpleBear';
@@ -26,7 +27,7 @@ describe('InviteModalController'.bold.underline.blue, function () {
   var unInvitedMembers;
   var closeStub = sinon.stub();
 
-  beforeEach(function () {
+  function setup (initWithoutUninvitedMembers) {
     unInvitedMembers = [generateGithubUserObject(username, userId), generateGithubUserObject()];
     unInvitedMembers.forEach(function (member) {
       member.inviteEmail = userEmail;
@@ -56,9 +57,23 @@ describe('InviteModalController'.bold.underline.blue, function () {
         fetchGithubOrgIdStub = sinon.stub().returns($q.when(githubOrg.id));
         return fetchGithubOrgIdStub;
       });
+      $provide.factory('fetchOrgMembers', function ($q) {
+        fetchOrgMembersStub = sinon.stub().returns($q.when({ uninvited: unInvitedMembers }));
+        return fetchOrgMembersStub;
+      });
       $provide.value('teamName', 'hello');
-      $provide.value('unInvitedMembers', unInvitedMembers);
+      $provide.value('unInvitedMembers', (function () {
+        if (initWithoutUninvitedMembers) {
+          return null;
+        }
+        return unInvitedMembers;
+      }()));
       $provide.value('close', closeStub);
+      $provide.value('$state', {
+        params: {
+          userName: 'CodeNow'
+        }
+      });
     });
     angular.mock.inject(function (
       _$controller_,
@@ -72,16 +87,52 @@ describe('InviteModalController'.bold.underline.blue, function () {
     });
 
     IMC = $controller('InviteModalController', { $scope: $scope }, true)();
+  }
+
+  describe('Init', function () {
+    beforeEach(function () {
+      setup();
+    });
+
+    it('should instanstiate the controller correctly', function () {
+      expect(IMC.sending).to.equal(false);
+      expect(IMC.invitesSent).to.equal(false);
+      expect(IMC.activeUserId).to.equal(null);
+      expect(IMC.sendingInviteUserId).to.equal(null);
+    });
   });
 
-  it('should instanstiate the controller correctly', function () {
-    expect(IMC.sending).to.equal(false);
-    expect(IMC.invitesSent).to.equal(0);
-    expect(IMC.activeUserId).to.equal(null);
-    expect(IMC.sendingInviteUserId).to.equal(null);
+  describe('Init withtout uninvited members', function () {
+    beforeEach(function () {
+      setup(true);
+    });
+
+    it('should be loading when started and should not be loading when loaded', function () {
+      expect($rootScope.isLoading[IMC.name]).to.equal(true);
+      $scope.$digest();
+      expect($rootScope.isLoading[IMC.name]).to.equal(false);
+    });
+
+    it('should instanstiate the controller correctly, even without unInvitedMembers', function () {
+      expect(IMC.sending).to.equal(false);
+      expect(IMC.invitesSent).to.equal(false);
+      expect(IMC.activeUserId).to.equal(null);
+      expect(IMC.sendingInviteUserId).to.equal(null);
+    });
+
+    it('should load the uninvited user if not passed in', function () {
+      expect(IMC.unInvitedMembers).to.equal(undefined);
+      $scope.$digest();
+      expect(IMC.unInvitedMembers).to.be.an('array');
+      expect(IMC.unInvitedMembers).to.deep.equal(unInvitedMembers);
+    });
   });
 
   describe('setactiveUserId', function () {
+    beforeEach(function () {
+      setup();
+    });
+
     it('should set the correct index for active an active user', function () {
       expect(IMC.activeUserId).to.equal(null);
       IMC.setActiveUserId(0);
@@ -92,6 +143,10 @@ describe('InviteModalController'.bold.underline.blue, function () {
   });
 
   describe('sendInvitation', function () {
+    beforeEach(function () {
+      setup();
+    });
+
     it('should correctly set `sending` state', function () {
       IMC.sendInvitation(unInvitedMembers[0]);
       expect(IMC.sendingInviteUserId).to.equal(userId);

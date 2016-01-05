@@ -1,24 +1,6 @@
 // on cards
 .container-title-wrapper {
-  align-items: center;
-  color: $gray-dark;
-  cursor: pointer;
-  display: inline-flex;
-  height: 30px;
-  margin: 0 auto;
-  max-width: 100%;
-
-  &:hover {
-    color: $gray-darker;
-  }
-
-  &:active {
-    color: $purple-light;
-  }
-
-  &.no-touching {
-    color: $gray;
-  }
+  display: flex;
 
   // if renaming instead of popover on verification
   &.title-verification {
@@ -26,7 +8,31 @@
 
     &:hover,
     &:active {
-      color: $gray-dark;
+      color: $gray-darker;
+    }
+  }
+
+  .server-status-card-pop-over {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    flex: 0 1 auto;
+    justify-content: center;
+    margin: 15px auto 0;
+    max-width: 100%;
+    padding: 0 15px;
+
+    &:hover {
+      color: $gray-darker;
+    }
+
+    &:active,
+    &.active {
+      color: $purple-light;
+    }
+
+    &.no-touching {
+      color: $gray;
     }
   }
 
@@ -44,20 +50,31 @@
 
   .icons-alert {
     color: $orange;
-    flex: 0 0 18px;
+    flex: 0 0 15px;
+
+    + .container-title {
+      margin-left: 5px;
+    }
   }
+}
+
+.card-header-details {
+  color: $gray;
+  padding: 0 15px;
 }
 
 .container-title {
   flex: 0 1 auto;
   font-size: 21px;
   font-weight: $weight-bold;
-  margin-left: 3px;
 }
 
 // on modal
 .modal-dialog .container-title-wrapper {
-  margin: 9px auto 3px;
+
+  .server-status-card-pop-over {
+    margin-bottom: 3px;
+  }
 
   .container-title {
     font-size: 14px;
@@ -85,8 +102,7 @@
 
   .icons-alert,
   .icons-arrow-down {
-    flex: 0 0 15px;
-    height: 18px;
+    height: 15px;
   }
 
   .spinner-wrapper {

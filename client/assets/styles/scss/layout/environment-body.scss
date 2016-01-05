@@ -9,9 +9,13 @@
 
   .card {
     float: left;
-    height: 448px;
+    height: 461px;
     margin-bottom: 15px;
     min-width: 0;
+
+    &.deprecated {
+      height: 439px;
+    }
 
     // sibling styles must appear first to be overridden by media queries
     // scss-lint:disable DeclarationOrder
