@@ -127,8 +127,10 @@ function ServerModalController(
             var cv = toRedeploy ? SMC.state.contextVersion : SMC.instance.contextVersion;
             return SMC.resetStateContextVersion(cv, false)
               .then(function () {
-                // Since we failed to build, we need loading promises to have something in it
-                loadingPromises.add(SMC.name, $q.when(true));
+                if (toRebuild) {
+                  // Since we failed to build, we need loading promises to have something in it again
+                  loadingPromises.add(SMC.name, $q.when(true));
+                }
                 return $q.reject(err);
               });
           });
