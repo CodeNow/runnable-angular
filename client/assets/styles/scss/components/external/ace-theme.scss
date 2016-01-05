@@ -429,7 +429,7 @@
   .ace_tooltip {
     background: rgba($white,.9) !important;
     color: $black !important;
-    font-weight: 400 !important;
+    font-weight: $weight-normal !important;
   }
 
   .ace_gutter {

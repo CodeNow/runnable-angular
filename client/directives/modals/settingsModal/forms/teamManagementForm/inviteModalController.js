@@ -9,31 +9,54 @@ require('app')
 function InviteModalController(
   $rootScope,
   $q,
+  $state,
+  errs,
   fetchUser,
   fetchGithubOrgId,
+  fetchOrgMembers,
+  loading,
   promisify,
-  errs,
+
   teamName,
   unInvitedMembers,
   close
 ) {
   var IMC = this;
   angular.extend(IMC, {
-    unInvitedMembers: unInvitedMembers,
+    name: 'inviteModal',
     activeUserId: null,
     sendingInviteUserId: null,
     sending: false,
-    invitesSent: 0
+    invitesSent: false
   });
 
-  unInvitedMembers.forEach(function (member) {
-    // Set default invite email
-    // We want `email` and `inviteEmail` to be different, since `email` is the
-    // user's dfault GH email and should not be modified
-    if (member.email) {
-      member.inviteEmail = member.email;
-    }
-  });
+  // Load uninvited members if they are not passed in
+  loading(IMC.name, true);
+  $q.when(true)
+    .then(function () {
+      // Empty array is valid input
+      if (!unInvitedMembers && !Array.isArray(unInvitedMembers)) {
+        return fetchOrgMembers($state.params.userName, true)
+          .then(function (members) {
+            return members.uninvited;
+          });
+      }
+      return unInvitedMembers;
+    })
+    .then(function (unInvitedMembers) {
+      unInvitedMembers.forEach(function (member) {
+        // Set default invite email
+        // We want `email` and `inviteEmail` to be different, since `email` is the
+        // user's dfault GH email and should not be modified
+        if (member.email) {
+          member.inviteEmail = member.email;
+        }
+      });
+      IMC.unInvitedMembers = unInvitedMembers;
+      loading(IMC.name, false);
+    })
+    .catch(errs.handler);
+
 
   IMC.sendInvitation = function (user) {
     IMC.sendingInviteUserId = user.id;
@@ -44,7 +67,6 @@ function InviteModalController(
       githubOrgId: fetchGithubOrgId(teamName)
     })
     .then(function (response) {
-      IMC.invitesSent += 1;
       return promisify(response.user, 'createTeammateInvitation')({
         organization: {
           github: response.githubOrgId
@@ -56,6 +78,7 @@ function InviteModalController(
       });
     })
     .then(function (invitationModel) {
+      IMC.invitesSent = true;
       user.inviteSent = true;
       // Append invitation to user
       user.userInvitation = invitationModel;
@@ -77,6 +100,7 @@ function InviteModalController(
 
   IMC.close = function () {
     // Inform ModalService if any invites were sent
-    close(!!IMC.invitesSent);
+    $rootScope.$emit('updateTeammateInvitations', IMC.invitesSent);
+    close(IMC.invitesSent);
   };
 }
