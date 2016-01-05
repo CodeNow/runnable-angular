@@ -64,7 +64,7 @@ function InviteModalController(
     IMC.setActiveUserId(null);
     return inviteGithubUserToRunnable(user.id, user.email, teamName)
       .then(function (invitationModel) {
-        IMC.invitesSent += 1;
+        IMC.invitesSent = true;
         user.inviteSent = true;
         // Append invitation to user
         user.userInvitation = invitationModel;
@@ -85,6 +85,6 @@ function InviteModalController(
   IMC.close = function () {
     // Inform ModalService if any invites were sent
     $rootScope.$emit('updateTeammateInvitations', IMC.invitesSent);
-    close(IMC.invitesSent > 0);
+    close(IMC.invitesSent);
   };
 }
