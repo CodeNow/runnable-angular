@@ -9,18 +9,49 @@ require('app')
  * @ngInject
  */
 function EnvironmentController(
-  $scope,
-  $timeout,
-  favico,
-  fetchInstancesByPod,
-  pageName,
+  $q,
   $rootScope,
-  helpCards,
-  $window,
+  $scope,
   $state,
-  ModalService
+  $timeout,
+  $window,
+  errs,
+  favico,
+  fetchUser,
+  fetchInstancesByPod,
+  fetchOrgMembers,
+  fetchOrgTeammateInvitations,
+  helpCards,
+  keypather,
+  ModalService,
+  pageName
 ) {
   var EC = this;
+
+  EC.showInviteButton = false;
+
+  var unbindUpdateTeammateInvitation = $rootScope.$on('updateTeammateInvitations', function (event, invitesCreated) {
+    if (invitesCreated) {
+      updateShowInviteButton();
+    }
+  });
+  $scope.$on('$destroy', unbindUpdateTeammateInvitation);
+
+  function updateShowInviteButton () {
+    return $q.all({
+      user: fetchUser(),
+      members: fetchOrgMembers($state.params.userName)
+    })
+      .then(function (res) {
+        var username = keypather.get(res.user, 'attrs.accounts.github.username');
+        var isOrg = (username !== $state.params.userName);
+        EC.showInviteButton = isOrg && res.members.uninvited.length > 0;
+      });
+  }
+
+  // On init, determine whether to show invites
+  updateShowInviteButton();
+
   EC.triggerModal = {
     newContainer: function () {
       return ModalService.showModal({
@@ -35,6 +66,17 @@ function EnvironmentController(
         controller: 'SetupServerModalController',
         controllerAs: 'SMC',
         templateUrl: 'setupServerModalView'
+      });
+    },
+    inviteTeammate: function () {
+      return ModalService.showModal({
+        controller: 'InviteModalController',
+        controllerAs: 'IMC',
+        templateUrl: 'inviteModalView',
+        inputs: {
+          teamName: $state.params.userName,
+          unInvitedMembers: null
+        }
       });
     }
   };
