@@ -213,13 +213,13 @@ footer.modal-footer.clearfix
   //- **********
     - new things
     - **********
-  button.btn.white.btn-cancel.float-left.js-animate(
+  button.btn.btn-md.white.btn-cancel.float-left.js-animate(
     ng-click = "SMC.actions.close()"
     ng-if = "$root.featureFlags.rebuildFlow && SMC.state.step < 4"
     type = "button"
   ) Cancel
 
-  button.btn.btn-done.white.float-right.js-animate(
+  button.btn.btn-md.btn-done.white.float-right.js-animate(
     ng-click = "SMC.actions.close()"
     ng-if = "$root.featureFlags.rebuildFlow && SMC.state.step > 3"
     type = "button"
@@ -230,7 +230,7 @@ footer.modal-footer.clearfix
       .text-save-build
       .text-save
       .text-next
-  button.btn.btn-primary.white.float-right(
+  button.btn.btn-md.btn-primary.white.float-right(
     ng-class = "{\
       'text-next': SMC.state.step < 3,\
       'text-save-build': SMC.state.step === 3\
@@ -259,14 +259,14 @@ footer.modal-footer.clearfix
   //- **********
     - old things
     - **********
-  button.btn.white.float-left(
+  button.btn.btn-md.white.float-left(
     ng-click = "SMC.actions.close()"
     ng-if = "!$root.featureFlags.rebuildFlow"
     type = "button"
   ) Cancel
 
   //- next, next, start build, create container button (old)
-  button.btn.btn-spinner.float-right(
+  button.btn.btn-md.btn-spinner.float-right(
     ng-class = "{\
       'white': !buttonClosesModal,\
       'green': buttonClosesModal,\
@@ -295,7 +295,7 @@ footer.modal-footer.clearfix
     span.btn-text {{buttonText}}
 
   //- start build button (old/pre-verification-flow)
-  button.btn.green.float-right(
+  button.btn-md.btn.green.float-right(
     ng-click = "SMC.createServerAndClose()"
     ng-disabled = "\
       SMC.setupServerForm.$invalid ||\

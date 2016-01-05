@@ -168,6 +168,6 @@ html.isolation-intercom-flag-on(
           ng-repeat = "error in dataApp.data.modalError.data.errors track by $index"
           ) {{ error.message }}
         footer.modal-footer
-          button.btn.white.btn-block(
+          button.btn.btn-md.white.btn-block(
             ng-click = "dataApp.data.modalError.actions.close(defaultActions.cancel);"
           ) Dismiss

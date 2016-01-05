@@ -211,13 +211,13 @@
         - **********
 
       //- test save /& build transition
-      button.btn.white.float-left(
+      button.btn.btn-md.white.float-left(
         ng-click = "SMC.state.ifTriggersBuild = !SMC.state.ifTriggersBuild"
         ng-if = "$root.featureFlags.rebuildFlow"
         style = "margin-left: 6px; opacity: 0; position: absolute;"
       ) Show "& Build"
 
-      button.btn.white.float-right(
+      button.btn.btn-md.white.float-right(
         internal-modal-helper = "confirmCloseEditServer"
         ng-if = "$root.featureFlags.rebuildFlow"
         type = "button"
@@ -229,7 +229,7 @@
           .text-save-build
           .text-save
           .text-next
-      button.btn.white.btn-primary.float-right(
+      button.btn.btn-md.white.btn-primary.float-right(
         ng-class = "{\
           'text-save': !SMC.state.ifTriggersBuild,\
           'text-save-build': SMC.state.ifTriggersBuild\
@@ -251,7 +251,7 @@
       //- **********
         - old things
         - **********
-      button.btn.white.float-left(
+      button.btn.btn-md.white.float-left(
         ng-disabled = "$root.isLoading.editServerModalIsBuilding"
         ng-click = "SMC.actions.close()"
         ng-if = "!$root.featureFlags.rebuildFlow"
@@ -259,7 +259,7 @@
       ) Cancel
 
       //- save & rebuild button (old)
-      button.btn.green.btn-spinner.float-right(
+      button.btn.btn-md.green.btn-spinner.float-right(
         ng-class = "{'in': $root.isLoading.editServerModalIsBuilding }"
         ng-click = "editServerForm.$invalid || SMC.getUpdatePromise()"
         ng-disabled = "(!SMC.state.advanced && (SMC.state.selectedStack | selectedStackInvalid)) || !SMC.isDockerfileValid()"

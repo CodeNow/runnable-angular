@@ -1,4 +1,4 @@
-button.btn.btn-icon.blue(
+button.btn.btn-md.btn-icon.blue(
   data-badge-count = "{{helpCards.cards.triggered.length}}"
   ng-class = "{\
     'active': state.helpButton.active || !state.helpButton.active && helpCards.cards.triggered.length > 0 && !helpCards.getActiveCard(),\
@@ -48,7 +48,7 @@ button.btn.btn-icon.blue(
       )
 
 //- new server button
-button.btn.green(
+button.btn.btn-md.green(
   ng-click = "EC.triggerModal.newContainer()"
   ng-class = "{'hint': helpCards.getActiveCard().targets.newContainer}"
 )
