@@ -31,7 +31,7 @@ function containerStatusButton(
       });
 
       $scope.getStatusText = function () {
-        if (keypather.get($scope.CSBC, 'instance.migrating()')) {
+        if (keypather.get($scope.CSBC, 'instance.isMigrating()')) {
           return 'Migrating';
         }
         var status = keypather.get($scope.CSBC, 'instance.status()');
