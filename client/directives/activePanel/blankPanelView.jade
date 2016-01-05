@@ -4,11 +4,11 @@
 )
 
 p.p(
-  ng-if = "instance.contextVersion.attrs.dockRemoved"
+  ng-if = "instance.isMigrating()"
 ) Container Temporarily Unavailable
 
 ul(
-  ng-if = "!instance.contextVersion.attrs.dockRemoved"
+  ng-if = "!instance.isMigrating()"
 )
   li.btn.btn-open-tab(
     ng-click = "openItems.addTerminal()"

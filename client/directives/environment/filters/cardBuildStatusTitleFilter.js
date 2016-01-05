@@ -10,7 +10,7 @@ function cardBuildStatusTitle(
   moment
 ) {
   return function (instance) {
-    if (keypather.get(instance, 'contextVersion.attrs.dockRemoved')) {
+    if (keypather.get(instance, 'isMigrating()')) {
       return 'Migrating Container';
     }
     var status = keypather.get(instance, 'status()');
