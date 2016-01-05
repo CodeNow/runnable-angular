@@ -1,5 +1,5 @@
 .modal-backdrop
-  .modal-dialog.modal-sm
+  .modal-dialog.modal-sm.modal-getting-started
     .modal-body
       svg.iconnables.icons-close
         use(
@@ -10,26 +10,32 @@
         h3.h3.empty.text-center Welcome to Runnable!
         small.small.empty.text-center Your team has started setting up your stack. If they’re not done, help them finish, or dive into using your sandbox.
         hr.hr
-        button.btn.btn-card.white
+        a.btn.btn-card.btn-card-lg.white(
+          href = "//support.runnable.io"
+          target = "_blank"
+        )
           svg.iconnables.float-left
             use(
               xlink:href = "#icons-advanced"
             )
-          h3.h3 Set Up Your Stack
-          small.small Learn how to get your stack running.
-          svg.iconnables.icons-arrow-forward
-            use(
-              xlink:href = "#icons-arrow-down"
-            )
+          .card-text
+            h3.h3 Setting Up Containers
+            small.small Learn how to set up containers, connect them together, and get them running for your stack.
+            button.btn.btn-xxs.green.float-right View Guide
 
-        button.btn.btn-card.white
+        a.btn.btn-card.btn-card-lg.white(
+          href = "//support.runnable.io"
+          target = "_blank"
+        )
           svg.iconnables.float-left
             use(
               xlink:href = "#icons-server"
             )
-          h3.h3 Set Up Your Stack
-          small.small Learn how to get your stack running.
-          svg.iconnables.icons-arrow-forward
-            use(
-              xlink:href = "#icons-arrow-down"
-            )
+          .card-text
+            h3.h3 Using Containers
+            small.small Learn how we work with your code and how you can use containers.
+            button.btn.btn-xxs.green.float-right View Guide
+
+        a.link.small.text-center(
+          href = "#"
+        ) Dismiss
