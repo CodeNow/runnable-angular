@@ -435,6 +435,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.notCalled(ctx.instance.redeploy);
+        sinon.assert.called(ctx.loadingPromiseMock.clear);
       });
 
       it('should build when promises have been made', function () {
@@ -744,7 +745,63 @@ describe('editServerModalController'.bold.underline.blue, function () {
     });
   });
 
-  it('resets the state properly on error', function () {
+  it('resets the state properly on a build error', function (done) {
+    setup({
+      currentModel: ctx.instance
+    });
+
+    var error = new Error('http://c2.staticflickr.com/8/7001/6509400855_aaaf915871_b.jpg');
+
+    SMC.state.instance.attrs = {
+      env: ['quarblax=b']
+    };
+
+    var containerFiles = [
+      {
+        id: 'containerFileID!',
+        clone: sinon.spy()
+      }
+    ];
+    SMC.state.containerFiles = containerFiles;
+
+    ctx.loadingPromiseFinishedValue = 2;
+    ctx.build.build.restore();
+    sinon.stub(ctx.build, 'build', function (opts, cb) {
+      return cb(error);
+    });
+    SMC.state.build = ctx.build;
+    ctx.loadingPromiseMock.add.reset();
+    ctx.loadingPromiseMock.clear.reset();
+
+    SMC.getUpdatePromise()
+      .catch(function (e) {
+        expect(e, 'error').to.equal(error);
+        sinon.assert.notCalled(ctx.errsMock.handler);
+
+        expect(SMC.state.opts.env.length).to.equal(0);
+        expect(SMC.state.containerFiles.length).to.equal(1);
+
+        // No longer need to clone after the original time
+        //sinon.assert.calledOnce(containerFiles[0].clone);
+        sinon.assert.calledOnce(SMC.state.contextVersion.deepCopy);
+        sinon.assert.calledOnce(ctx.newContextVersion.deepCopy);
+        sinon.assert.calledOnce(ctx.contextVersion.fetch);
+
+        expect(SMC.state.dockerfile).to.not.equal(ctx.dockerfile);
+        expect(SMC.state.dockerfile).to.equal(ctx.anotherDockerfile);
+
+        sinon.assert.calledTwice(ctx.loadingPromiseMock.clear);
+        sinon.assert.calledOnce(ctx.loadingPromiseMock.add);
+        done();
+      });
+
+
+    $scope.$digest();
+    $rootScope.$apply();
+
+  });
+
+  it('resets the state properly on an update error', function (done) {
     setup({
       currentModel: ctx.instance
     });
@@ -766,25 +823,22 @@ describe('editServerModalController'.bold.underline.blue, function () {
     ctx.loadingPromiseMock.finished = function () {
       return $q.reject(error);
     };
+    ctx.loadingPromiseMock.count.returns(0);
+    ctx.loadingPromiseMock.add.reset();
+    ctx.loadingPromiseMock.clear.reset();
+    sinon.stub(SMC, 'resetStateContextVersion').returns($q.when(true));
+    SMC.getUpdatePromise()
+      .catch(function (e) {
+        expect(e, 'error').to.equal(error);
+        sinon.assert.notCalled(ctx.errsMock.handler);
+        sinon.assert.notCalled(SMC.resetStateContextVersion);
 
-    SMC.getUpdatePromise();
+        sinon.assert.calledOnce(ctx.loadingPromiseMock.clear);
+        sinon.assert.notCalled(ctx.loadingPromiseMock.add);
+        done();
+      });
 
     $scope.$digest();
-    sinon.assert.called(ctx.errsMock.handler);
-    sinon.assert.calledWith(ctx.errsMock.handler, error);
-
-    $scope.$digest();
-    $scope.$digest();
-    $rootScope.$apply();
-    expect(SMC.state.opts.env.length).to.equal(0);
-    expect(SMC.state.containerFiles.length).to.equal(1);
-    expect(SMC.state.dockerfile).to.not.equal(ctx.dockerfile);
-    expect(SMC.state.dockerfile).to.equal(ctx.anotherDockerfile);
-
-    // No longer need to clone after the original time
-    //sinon.assert.calledOnce(containerFiles[0].clone);
-    sinon.assert.calledOnce(ctx.newContextVersion.deepCopy);
-    sinon.assert.calledOnce(ctx.contextVersion.fetch);
   });
 
   describe('change Tab', function () {

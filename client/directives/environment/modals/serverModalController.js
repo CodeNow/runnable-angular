@@ -119,21 +119,23 @@ function ServerModalController(
             if (toRedeploy) {
               return promisify(SMC.instance, 'redeploy')();
             }
-          })
-          .catch(function (err) {
-            // If we get an error, we need to wipe the loadingPromises, since it could have an error
-            loadingPromises.clear(SMC.name);
-            // If we redeployed, we shouldn't clone the stateCv, since it never built
-            var cv = toRedeploy ? SMC.state.contextVersion : SMC.instance.contextVersion;
-            return SMC.resetStateContextVersion(cv, false)
-              .then(function () {
-                if (toRebuild) {
-                  // Since we failed to build, we need loading promises to have something in it again
-                  loadingPromises.add(SMC.name, $q.when(true));
-                }
-                return $q.reject(err);
-              });
           });
+      })
+      .catch(function (err) {
+        // If we get an error, we need to wipe the loadingPromises, since it could have an error
+        loadingPromises.clear(SMC.name);
+
+        // Don't reset the CV unless we attempted to build
+        if (toRebuild) {
+          return SMC.resetStateContextVersion(SMC.state.contextVersion, false)
+            .then(function () {
+              // Since we failed to build, we need loading promises to have something in it again
+              loadingPromises.add(SMC.name, $q.when(true));
+              return $q.reject(err);
+            });
+        }
+
+        return $q.reject(err);
       });
   };
 

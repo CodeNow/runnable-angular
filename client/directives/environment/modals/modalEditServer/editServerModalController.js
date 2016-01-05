@@ -186,17 +186,5 @@ function EditServerModalController(
     }));
   };
 
-  SMC.instance.on('update', function () {
-    SMC.page = ((['building', 'buildFailed', 'neverStarted'].indexOf(SMC.instance.status()) === -1) ? 'run' : 'build');
-  });
-
-  SMC.getUpdatePromise = function () {
-    return SMC.saveInstanceAndRefreshCards()
-      .catch(function (err) {
-        errs.handler(err);
-        return SMC.resetStateContextVersion(SMC.state.contextVersion, false);
-      });
-  };
-
   loadInitialState(SMC.instance);
 }
