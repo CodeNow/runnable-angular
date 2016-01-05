@@ -17,7 +17,7 @@
   font-weight: $weight-bold;
   height: $input-sm;
   line-height: $input-sm;
-  padding-right: 15px;
+  padding: 0 15px 0 6px;
   width: 240px;
   word-break: break-word;
 
@@ -29,6 +29,10 @@
     float: none;
     text-align: left;
     width: 100%;
+
+    &.float-left-xs {
+      float: left;
+    }
   }
 
   > .small.small {
@@ -97,6 +101,7 @@
 
   .small {
     clear: both;
+    padding-left: 6px;
   }
 }
 
