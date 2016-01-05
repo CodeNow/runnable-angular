@@ -1,13 +1,13 @@
 .label-description.clearfix
   .label-col Find and Replace Rules
-  .small.text-gray Create rules to replace strings or filenames in this repository when it’s copied to your container. Use string rules to connect to other containers.
-    //- ng-if = "state.recalculating"
   .input-col.input-col-spinner(
+    ng-if = "state.recalculating"
   )
     .spinner-wrapper.spinner-sm.spinner-gray.in(
       ng-include = "'spinner'"
     )
     small.small Updating
+  .small.text-gray Create rules to replace strings or filenames in this repository when it’s copied to your container. Use string rules to connect to other containers.
 
 //- string table
 .table.table-merge(
