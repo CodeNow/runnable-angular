@@ -12,6 +12,10 @@
 
   .h3 {
     font-size: 18px; // match modal-form .h3.empty
+
+    + .small {
+      margin-top: 2px;
+    }
   }
 
   .small {
