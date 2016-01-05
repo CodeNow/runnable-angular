@@ -31,7 +31,7 @@ function containerStatusButton(
       });
 
       $scope.getStatusText = function () {
-        if (keypather.get($scope.CSBC, 'instance.contextVersion.attrs.dockRemoved')) {
+        if (keypather.get($scope.CSBC, 'instance.migrating()')) {
           return 'Migrating';
         }
         var status = keypather.get($scope.CSBC, 'instance.status()');
@@ -63,13 +63,13 @@ function containerStatusButton(
           classes.push('in');
         }
 
-        if (keypather.get($scope.CSBC, 'instance.contextVersion.attrs.dockRemoved')) {
+        if (keypather.get($scope.CSBC, 'instance.isMigrating()')) {
           classes.push('in');
         }
         return classes;
       };
       $scope.isChanging = function () {
-        if (keypather.get($scope.CSBC, 'instance.contextVersion.attrs.dockRemoved')) {
+        if (keypather.get($scope.CSBC, 'instance.isMigrating()')) {
           return true;
         }
 
