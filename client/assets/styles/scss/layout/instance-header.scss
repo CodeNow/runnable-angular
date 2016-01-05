@@ -168,37 +168,33 @@
   }
 }
 
-// dns button
-.btn.btn-dns {
+// connections button
+.btn.btn-connections {
   margin: 0 6px;
 
-  // colored states
-  &.gray:active .btn-xxs {
-    background: $purple-light;
-  }
-
-  &.orange .btn-xxs {
-    background: $white;
-    color: $orange;
-  }
-
-  // red
-  &.red .btn-xxs {
-    background: $white;
-    color: $red;
-  }
-
-  // dns badge
-  .btn-xxs {
+  // connections badge
+  .connections-badge {
     background: $gray-light;
+    border: 0; // override borders that come with colors
     border-radius: 16px;
     color: $white;
+    display: inline-block;
     font-size: 12px;
+    font-weight: $weight-bold;
     height: 16px;
     line-height: 16px;
-    margin-right: 3px;
+    margin-right: 4px;
     min-width: 16px;
     padding: 0 4px;
+    position: relative;
     top: -2px;
+
+    &.orange {
+      background: $orange;
+    }
+
+    &.red {
+      background: $red;
+    }
   }
 }
