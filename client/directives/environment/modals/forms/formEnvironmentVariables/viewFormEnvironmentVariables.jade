@@ -8,10 +8,13 @@
   )
 
 //- begin form
-.clearfix(
+.label-description.clearfix(
   ng-hide = "$root.featureFlags.fullScreen"
 )
   .label-col Environment Variables
+  .small.text-gray(
+    ng-hide = "$root.featureFlags.fullScreen"
+  ) Connect to other containers by using their URLs in environment variables.
 
 //- table actions
 .table-actions.clearfix(

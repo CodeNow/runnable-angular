@@ -17,7 +17,7 @@
   font-weight: $weight-bold;
   height: $input-sm;
   line-height: $input-sm;
-  padding-right: 15px;
+  padding: 0 15px 0 9px;
   width: 240px;
   word-break: break-word;
 
@@ -29,6 +29,10 @@
     float: none;
     text-align: left;
     width: 100%;
+
+    &.float-left-xs {
+      float: left;
+    }
   }
 
   > .small.small {
@@ -86,6 +90,21 @@
   width: auto;
 }
 
+// use when label-col has description as sibling
+.label-description {
+  margin-bottom: 9px;
+
+  .label-col {
+    height: auto;
+    line-height: 1.4;
+  }
+
+  .small {
+    clear: both;
+    padding-left: 9px;
+  }
+}
+
 // input column (right)
 .input-col {
   float: right;
@@ -99,28 +118,6 @@
   @include media(xs) {
     float: none;
     width: 100%;
-  }
-
-  // spinner
-  &.input-col-spinner {
-    margin-top: 6px;
-    text-align: right;
-
-    .small.small {
-      color: $gray;
-      margin-left: 18px;
-    }
-
-    .spinner-wrapper {
-      display: inline-block;
-      margin-top: 2px;
-      position: absolute;
-    }
-
-    .spinner {
-      height: 14px;
-      width: 14px;
-    }
   }
 
   // fancy select spinner

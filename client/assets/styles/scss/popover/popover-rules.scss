@@ -1,5 +1,25 @@
 .popover-rules {
 
+  //- override .popover-fixed .popover title
+  .popover-title {
+    margin: 6px 0;
+  }
+
+  .p {
+    margin: 6px 0;
+
+    .iconnables {
+      height: 18px;
+      margin: 0 3px 0 6px;
+      top: 2px;
+      width: 18px;
+    }
+  }
+
+  .list-bulleted {
+    margin-bottom: 12px;
+  }
+
   .label-col {
     position: relative;
 
@@ -14,7 +34,7 @@
     .iconnables {
       height: 18px;
       right: -1px;
-      top: -7px;
+      top: -5px;
     }
   }
 

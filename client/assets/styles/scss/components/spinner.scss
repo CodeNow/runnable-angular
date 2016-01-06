@@ -107,8 +107,8 @@
   }
 
   .spinner {
-    min-height: 100%;
     left: 9px;
+    min-height: 100%;
     position: absolute;
   }
 }
@@ -125,4 +125,15 @@
   top: 0;
   transform-origin: 0 0;
   transition: .3s ease width;
+}
+
+.fnr-spinner {
+  color: $gray-light;
+
+  .spinner-wrapper {
+    display: inline-block;
+    margin-left: 5px;
+    position: relative;
+    top: 2px;
+  }
 }
