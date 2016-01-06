@@ -57,10 +57,14 @@ function fileEditor(
       }
 
       function fetchFile() {
+        delete $scope.hasError;
         $scope.loading = true;
         return promisify($scope.file, 'fetch')()
           .then(resetFileBodyState)
-          .catch(errs.handler)
+          .catch(function (error) {
+            $scope.hasError = true;
+            errs.report(error);
+          })
           .finally(function () {
             $scope.loading = false;
           });

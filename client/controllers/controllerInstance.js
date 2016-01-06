@@ -188,28 +188,25 @@ function ControllerInstance(
     }
     return container;
   }
-  $scope.$watch(checkContainerState, displayTabsForContainerState, true);
+  $scope.$watch('dataInstance.data.instance.status()', displayTabsForContainerState, true);
 
-  function displayTabsForContainerState(containerState) {
-    var jesusBirthday = '0001-01-01T00:00:00Z';
+  function displayTabsForContainerState(status) {
+    if (keypather.get($scope, 'dataInstance.data.instance.isMigrating()')) {
+      // If we're migrating, don't change the tabs
+      return;
+    }
+    if (['building', 'buildFailed', 'neverStarted'].includes(status)) {
+      buildLogsOnly();
+    } else if (['crashed', 'stopped', 'starting', 'stopping'].includes(status)) {
+      boxLogsOnly();
+    } else if (status === 'running') {
+      data.sectionClasses.in = data.showExplorer;
+      restoreOrOpenDefaultTabs();
+    }
+
     $timeout(function () {
       favico.setInstanceState(keypather.get($scope, 'dataInstance.data.instance'));
     });
-    if (!containerState) {
-      return;
-    } else if (containerState.Building) {
-      buildLogsOnly();
-    } else {
-      if (keypather.get(containerState, 'inspect.State.Running')) {
-        data.sectionClasses.in = data.showExplorer;
-        restoreOrOpenDefaultTabs();
-      } else if (keypather.get(containerState, 'inspect.State.StartedAt') === jesusBirthday) {
-        // Never started
-        buildLogsOnly();
-      } else {
-        boxLogsOnly();
-      }
-    }
   }
 
   function buildLogsOnly () {

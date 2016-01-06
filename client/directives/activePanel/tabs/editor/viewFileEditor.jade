@@ -3,10 +3,13 @@
   ng-if = "loading"
   ng-include = "'spinner'"
 )
+p.p(
+  ng-if = "!loading && hasError"
+) We're Sorry, but you're file is in another castle... and that castle just blew up! 😱
 
 .pre(
   lazy-load = "ui.ace"
-  ng-if = "file.attrs.fileType !== 'ssh'"
+  ng-if = "!hasError && file.attrs.fileType !== 'ssh'"
   ng-attr-readonly = "{{readOnly}}"
   ng-model = "file.state.body"
   ui-ace = "{\
@@ -17,7 +20,7 @@
 
 .pre(
   lazy-load = "ui.ace"
-  ng-if = "file.attrs.fileType === 'ssh'"
+  ng-if = "!hasError && file.attrs.fileType === 'ssh'"
   readonly = "true"
   ui-ace = "{\
     onFocus: actions.onFocus,\
@@ -28,5 +31,5 @@
 
 //- readonly button
 button.btn.btn-xs(
-  ng-if = "readOnly || file.attrs.fileType === 'ssh'"
+  ng-if = "!hasError && (readOnly || file.attrs.fileType === 'ssh')"
 ) Read only
