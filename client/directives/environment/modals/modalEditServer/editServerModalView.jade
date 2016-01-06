@@ -28,6 +28,7 @@
           ng-class = "{'active': SMC.selectedTab === 'repository'}"
           ng-click = "SMC.changeTab('repository')"
           ng-if = "SMC.isTabVisible('repository')"
+          type = "{{editServerForm.$invalid ? 'submit' : 'button'}}"
         )
           svg.iconnables
             use(
@@ -38,6 +39,7 @@
           ng-class = "{'active': SMC.selectedTab === 'commands'}"
           ng-click = "SMC.changeTab('commands')"
           ng-if = "SMC.isTabVisible('commands')"
+          type = "{{editServerForm.$invalid ? 'submit' : 'button'}}"
         )
           svg.iconnables
             use(
@@ -50,6 +52,7 @@
           ng-class = "{'active': SMC.selectedTab === 'whitelist'}"
           ng-click = "SMC.changeTab('whitelist')"
           ng-if = "$root.featureFlags.whitelist"
+          type = "{{editServerForm.$invalid ? 'submit' : 'button'}}"
         )
           svg.iconnables
             use(
@@ -60,6 +63,7 @@
           ng-class = "{'active': SMC.selectedTab === 'ports'}"
           ng-click = "SMC.changeTab('ports')"
           ng-if = "SMC.isTabVisible('ports')"
+          type = "{{editServerForm.$invalid ? 'submit' : 'button'}}"
         )
           svg.iconnables
             use(
@@ -69,6 +73,7 @@
         button.btn.btn-radio(
           ng-class = "{'active': SMC.selectedTab === 'env'}"
           ng-click = "SMC.changeTab('env')"
+          type = "{{editServerForm.$invalid ? 'submit' : 'button'}}"
         )
           svg.iconnables
             use(
@@ -79,6 +84,7 @@
           ng-class = "{'active': SMC.selectedTab === 'files'}"
           ng-click = "SMC.changeTab('files')"
           ng-if = "SMC.isTabVisible('files')"
+          type = "{{editServerForm.$invalid ? 'submit' : 'button'}}"
         )
           svg.iconnables
             use(
@@ -89,6 +95,7 @@
           ng-class = "{'active': SMC.selectedTab === 'translation'}"
           ng-click = "SMC.changeTab('translation')"
           ng-if = "SMC.isTabVisible('translation')"
+          type = "{{editServerForm.$invalid ? 'submit' : 'button'}}"
         )
           svg.iconnables
             use(
@@ -99,6 +106,7 @@
           ng-class = "{'active': SMC.selectedTab === 'backup'}"
           ng-click = "SMC.changeTab('backup')"
           ng-if = "!SMC.state.repo && $root.featureFlags.backup"
+          type = "{{editServerForm.$invalid ? 'submit' : 'button'}}"
         )
           svg.iconnables
             use(
@@ -110,6 +118,7 @@
         button.btn.btn-radio(
           ng-class = "{'active': SMC.selectedTab === 'buildfiles'}"
           ng-click = "SMC.changeTab('buildfiles')"
+          type = "{{editServerForm.$invalid ? 'submit' : 'button'}}"
         )
           svg.iconnables
             use(
@@ -119,6 +128,7 @@
         button.btn.btn-radio(
           ng-class = "{'active': SMC.selectedTab === 'logs'}"
           ng-click = "SMC.changeTab('logs')"
+          type = "{{editServerForm.$invalid ? 'submit' : 'button'}}"
         )
           svg.iconnables
             use(
