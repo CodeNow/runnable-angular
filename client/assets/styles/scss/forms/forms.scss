@@ -17,7 +17,7 @@
   font-weight: $weight-bold;
   height: $input-sm;
   line-height: $input-sm;
-  padding: 0 15px 0 6px;
+  padding: 0 15px 0 9px;
   width: 240px;
   word-break: break-word;
 
@@ -92,7 +92,7 @@
 
 // use when label-col has description as sibling
 .label-description {
-  margin-bottom: 6px;
+  margin-bottom: 9px;
 
   .label-col {
     height: auto;
@@ -101,7 +101,7 @@
 
   .small {
     clear: both;
-    padding-left: 6px;
+    padding-left: 9px;
   }
 }
 
