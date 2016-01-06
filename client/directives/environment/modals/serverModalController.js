@@ -36,11 +36,14 @@ function ServerModalController(
   this.isDirty = function () {
     // Loading promises are clear when the modal is saved or cancelled.
     var SMC = this;
-    var requiresBuild = loadingPromises.count(SMC.name) > 0 || !SMC.openItems.isClean() ? 'build' : false;
     var requiresUpdate = !angular.equals(
       keypather.get(SMC, 'instance.attrs.env') || [],
       keypather.get(SMC, 'state.opts.env') || []
     ) ? 'update' : false;
+    var requiresBuild = loadingPromises.count(SMC.name) > 0 || !SMC.openItems.isClean() ? 'build' : false;
+    if (requiresUpdate && ['building', 'buildFailed', 'neverStarted'].includes(keypather.get(SMC, 'instance.status()'))) {
+      requiresBuild = 'build';
+    }
     return requiresBuild || requiresUpdate;
   };
 
@@ -101,6 +104,9 @@ function ServerModalController(
               })
                 .then(function (build) {
                   SMC.state.opts.build = build.id();
+                  // Since the contextVersion could have deduped, we need to reset the state.cv
+                  // to this build's cv.  If true, the duped cv has been deleted
+                  SMC.state.contextVersion = build.contextVersions.models[0];
                   return SMC.state;
                 });
             }
@@ -222,11 +228,11 @@ function ServerModalController(
     SMC.state.promises.contextVersion = loadingPromises.start(
       SMC.name,
       promisify(contextVersion, 'deepCopy')()
-        .then(function (contextVersion) {
-          SMC.state.contextVersion = contextVersion;
-          SMC.state.acv = contextVersion.getMainAppCodeVersion();
-          SMC.state.repo = keypather.get(contextVersion, 'getMainAppCodeVersion().githubRepo');
-          return promisify(contextVersion, 'fetch')();
+        .then(function (newCv) {
+          SMC.state.contextVersion = newCv;
+          SMC.state.acv = newCv.getMainAppCodeVersion();
+          SMC.state.repo = keypather.get(newCv, 'getMainAppCodeVersion().githubRepo');
+          return promisify(newCv, 'fetch')();
         })
     );
 

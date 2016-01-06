@@ -39,7 +39,7 @@ button.btn.white.btn-primary.float-right.js-animate(
     'text-save-build': SMC.isDirty() === 'build' && !$root.isLoading[SMC.name]\
   }"
   ng-click = "createServerOrUpdate()"
-  ng-disabled = "!SMC.isDirty()"
+  ng-disabled = "!SMC.isDirty() || isPrimaryButtonDisabled()"
   ng-if = "SMC.instance || SMC.state.step > 2"
 )
   span.btn-text.float-left Save

@@ -479,7 +479,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
             expect(createAndBuildNewContainerMock.getFetchSpy().lastCall.args[1]).to.equal(repo.attrs.name);
 
             sinon.assert.calledOnce(SMC.resetStateContextVersion);
-            sinon.assert.calledWith(SMC.resetStateContextVersion, SMC.state.contextVersion, true);
+            sinon.assert.calledWith(SMC.resetStateContextVersion, SMC.state.contextVersion, false);
             done();
           });
         $scope.$digest();
@@ -664,6 +664,17 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         expect(SMC.isDirty()).to.equal(false);
         SMC.state.opts.env.push('HELLO=1');
         expect(SMC.isDirty()).to.equal('update');
+      });
+
+      it('should be dirty when an ENV variables has changes, and the instance.status is building', function () {
+        expect(SMC.isDirty()).to.equal(false);
+        SMC.instance = {
+          status: function () {
+            return 'building';
+          }
+        };
+        SMC.state.opts.env.push('HELLO=1');
+        expect(SMC.isDirty()).to.equal('build');
       });
 
       it('should be dirty when a loading promises is added', function () {

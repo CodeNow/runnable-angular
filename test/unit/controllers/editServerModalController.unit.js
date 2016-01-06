@@ -19,6 +19,21 @@ describe('editServerModalController'.bold.underline.blue, function () {
   var MockFetch = require('../fixtures/mockFetch');
   var cardInfoType = require('card-info-types');
 
+  var returnArg = function (returnArg, callbackArg) {
+    return function () {
+      var args = Array.prototype.slice.call(arguments);
+      var cb = args[args.length - 1]; // The callback will be the last argument
+      $rootScope.$evalAsync(function () {
+        if (callbackArg !== undefined) {
+          cb(null, callbackArg);
+        } else {
+          cb(null, returnArg);
+        }
+      });
+      return returnArg;
+    };
+  };
+
   beforeEach(function () {
     ctx = {};
   });
@@ -312,20 +327,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
     };
 
 
-    var returnArg = function (returnArg, callbackArg) {
-      return function () {
-        var args = Array.prototype.slice.call(arguments);
-        var cb = args[args.length - 1]; // The callback will be the last argument
-        $rootScope.$evalAsync(function () {
-          if (callbackArg !== undefined) {
-            cb(null, callbackArg);
-          } else {
-            cb(null, returnArg);
-          }
-        });
-        return returnArg;
-      };
-    };
 
     sinon.stub(ctx.contextVersion, 'deepCopy', returnArg(ctx.newContextVersion));
     sinon.stub(ctx.newContextVersion, 'deepCopy', returnArg(ctx.contextVersion));
@@ -344,6 +345,9 @@ describe('editServerModalController'.bold.underline.blue, function () {
     sinon.stub(ctx.rollbackContextVersion, 'update', returnArg(ctx.rollbackContextVersion));
 
     ctx.build = apiClientMockFactory.build(runnable, apiMocks.contextVersions.running);
+    ctx.build.contextVersions = {
+      models: [ctx.newContextVersion]
+    };
 
     sinon.stub(ctx.build, 'build', function (opts, cb) {
       return cb();
@@ -834,6 +838,56 @@ describe('editServerModalController'.bold.underline.blue, function () {
 
         sinon.assert.calledOnce(ctx.loadingPromiseMock.clear);
         sinon.assert.notCalled(ctx.loadingPromiseMock.add);
+        done();
+      });
+
+    $scope.$digest();
+  });
+
+  it('resets the state properly on an update error, when the build deduped the cv', function (done) {
+    setup({
+      currentModel: ctx.instance
+    });
+
+    var error = new Error('http://c2.staticflickr.com/8/7001/6509400855_aaaf915871_b.jpg');
+
+    SMC.state.instance.attrs = {
+      env: ['quarblax=b']
+    };
+
+    var containerFiles = [
+      {
+        id: 'containerFileID!',
+        clone: sinon.spy()
+      }
+    ];
+    SMC.state.containerFiles = containerFiles;
+    ctx.build.build.restore();
+    ctx.loadingPromiseFinishedValue = 2;
+
+    ctx.build2 = apiClientMockFactory.build(runnable, apiMocks.contextVersions.setup);
+    ctx.build2.contextVersions.models = [ctx.contextVersion];
+
+    sinon.stub(ctx.build, 'build', returnArg(ctx.build2));
+    SMC.state.build = ctx.build;
+    ctx.instance.update.restore();
+    sinon.stub(ctx.instance, 'update', function (opts, cb) {
+      return cb(error);
+    });
+    ctx.loadingPromiseMock.count.returns(2);
+    ctx.loadingPromiseMock.add.reset();
+    ctx.loadingPromiseMock.clear.reset();
+    sinon.stub(SMC, 'resetStateContextVersion').returns($q.when(true));
+    SMC.getUpdatePromise()
+      .catch(function (e) {
+        expect(e, 'error').to.equal(error);
+        sinon.assert.notCalled(ctx.errsMock.handler);
+        sinon.assert.calledOnce(SMC.resetStateContextVersion);
+        expect(SMC.resetStateContextVersion.getCall(0).notCalledWith(ctx.newContextVersion, false), 'not called with newCV').to.be.true;
+        expect(SMC.resetStateContextVersion.getCall(0).calledWith(ctx.contextVersion, false), 'called with cv').to.be.true;
+
+        sinon.assert.calledTwice(ctx.loadingPromiseMock.clear);
+        sinon.assert.calledOnce(ctx.loadingPromiseMock.add);
         done();
       });
 

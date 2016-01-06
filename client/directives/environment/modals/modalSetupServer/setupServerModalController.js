@@ -307,7 +307,7 @@ function SetupServerModalController(
       })
       .catch(function (err) {
         // If creating the server fails, reset the context version
-        return SMC.resetStateContextVersion(SMC.state.contextVersion, true)
+        return SMC.resetStateContextVersion(SMC.state.contextVersion, false)
           .then(function () {
             // Since we failed to build, we need loading promises to have something in it
             loadingPromises.add(SMC.name, $q.when(true));
