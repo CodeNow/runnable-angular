@@ -46,6 +46,11 @@
     }
   }
 
+  // spacing between text
+  .empty + .empty {
+    margin-top: 6px;
+  }
+
   // spacing between text/inputs and submit buttons
   .empty + .green,
   .empty + .input-spinner,
