@@ -34,7 +34,7 @@ input {
   background: $white;
   border: $input-border solid $gray-lighter;
   border-radius: $input-border-radius;
-  padding: 0 9px - $input-border;
+  padding: 0 (9px - $input-border);
   resize: none;
   width: 100%;
   word-break: normal;
