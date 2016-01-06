@@ -235,7 +235,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
     $scope.$digest();
     $scope.stateModel = 'hello';
     sinon.spy(loadingService, 'reset');
-
     keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.fakeOrg1);
 
     ctx.closePopoverSpy = sinon.spy();
@@ -1122,8 +1121,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(SMC.getUpdatePromise);
       $scope.$digest();
       sinon.assert.calledOnce(ctx.closeSpy);
-      sinon.assert.calledOnce(ctx.loadingPromiseMock.clear);
-      sinon.assert.calledWith(ctx.loadingPromiseMock.clear, 'editServerModal');
+      expect(loadingService.editServerModal).to.be.not.ok;
     });
 
     it('should allow the user to just close the modal', function () {
@@ -1140,8 +1138,26 @@ describe('editServerModalController'.bold.underline.blue, function () {
       sinon.assert.notCalled(SMC.getUpdatePromise);
       $scope.$digest();
       sinon.assert.calledOnce(ctx.closeSpy);
-      sinon.assert.calledOnce(ctx.loadingPromiseMock.clear);
-      sinon.assert.calledWith(ctx.loadingPromiseMock.clear, 'editServerModal');
+      expect(loadingService.editServerModal).to.be.not.ok;
+    });
+
+    it('should handle if the rebuild from the popover fails', function () {
+      SMC.isDirty = sinon.stub().returns('build');
+      var error = new Error('an error');
+      sinon.stub(SMC, 'getUpdatePromise').returns($q.reject(error));
+      ctx.showModalStub.returns($q.when({
+        close: $q.when('build')
+      }));
+      ctx.loadingPromiseMock.clear.reset();
+      $scope.$digest();
+      SMC.actions.close();
+      $scope.$digest();
+      sinon.assert.calledOnce(ctx.showModalStub);
+      sinon.assert.calledOnce(SMC.getUpdatePromise);
+      $scope.$digest();
+      sinon.assert.notCalled(ctx.closeSpy);
+      sinon.assert.calledOnce(ctx.errsMock.handler);
+      expect(loadingService.editServerModal).to.be.not.ok;
     });
 
   });

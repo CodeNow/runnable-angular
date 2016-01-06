@@ -8,11 +8,13 @@ function ServerModalController(
   $q,
   $rootScope,
   $scope,
+  errs,
   eventTracking,
   helpCards,
   parseDockerfileForCardInfoFromInstance,
   createBuildFromContextVersionId,
   keypather,
+  loading,
   loadingPromises,
   promisify,
   ModalService,
@@ -123,7 +125,7 @@ function ServerModalController(
       })
       .catch(function (err) {
         // If we get an error, we need to wipe the loadingPromises, since it could have an error
-        loadingPromises.clear(SMC.name);
+        loadingPromises.clear(SMC.name, true);
 
         // Don't reset the CV unless we attempted to build
         if (toRebuild) {
@@ -156,10 +158,12 @@ function ServerModalController(
       .then(function (modal) {
         modal.close.then(function (state) {
           if (state) {
+            loading(SMC.name, true);
             return $q.when((state === 'build') ? SMC.getUpdatePromise() : $q.when(true))
-              .then(function () {
-                loadingPromises.clear(SMC.name);
-                close();
+              .then(close)
+              .catch(errs.handler)
+              .finally(function () {
+                loading(SMC.name, false);
               });
           }
         });
