@@ -146,8 +146,8 @@
         .cell.strong •••• 2135
         .cell.text-right {{month}}/13/{{month > 10 ? '2014' : '2015'}}
 
-  //- if there's something older to load
-  .label(
-    ng-if = "!$root.featureFlags.trial"
-  )
-    a.small.link Load Older
+    //- if there's something older to load
+    .label(
+      ng-if = "!$root.featureFlags.trial"
+    )
+      a.small.link Load Older
