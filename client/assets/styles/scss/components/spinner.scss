@@ -128,12 +128,16 @@
 }
 
 .fnr-spinner {
-  opacity: .6;
+  color: $gray-light;
 
   .spinner-wrapper {
     display: inline-block;
     margin-left: 5px;
     position: relative;
     top: 2px;
+  }
+
+  .path {
+    color: $gray-light;
   }
 }
