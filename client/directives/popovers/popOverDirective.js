@@ -58,6 +58,7 @@ function popOver(
       $scope.popoverStyle = {
         getStyle: function () {
           if (!$scope.active) {
+            console.log('not active');
             return previousStyle;
           }
           var offset = {};
@@ -94,15 +95,17 @@ function popOver(
 
           if (keypather.get($scope, 'popoverOptions.centered')) {
             style.right = null;
-            style.left = (-POC.popoverElement[0].offsetWidth / 2 + offset.left + (offset.right - offset.left) / 2) + 'px';
+            console.log('width', POC.popoverElement[0].clientWidth, POC.popoverElement[0].scrollWidth, 'offsetWidth', POC.popoverElement[0].offsetWidth, 'left', offset.left, 'all', (offset.right - offset.left) / 2);
+            style.left = Math.round((-POC.popoverElement[0].offsetWidth / 2 + offset.left + (offset.right - offset.left) / 2)) + 'px';
           }
 
           if (keypather.get($scope, 'popoverOptions.verticallyCentered')) {
             style.bottom = null;
-            style.top = (-POC.popoverElement[0].offsetHeight / 2 + offset.top + (offset.bottom - offset.top) / 2) + 'px';
+            style.top = Math.round((-POC.popoverElement[0].offsetHeight / 2 + offset.top + (offset.bottom - offset.top) / 2)) + 'px';
           }
 
           previousStyle = style;
+          console.log('style', style);
           return style;
         }
       };
