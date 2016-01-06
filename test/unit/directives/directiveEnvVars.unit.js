@@ -205,6 +205,30 @@ describe('directiveEnvVars'.bold.underline.blue, function() {
       });
     });
 
+    it('should ignore invalid lines', function () {
+      var envs = ['a=b', 'x=y', 'dasdasd=asfa'];
+      initState({
+        currentModel: createEnvModel(envs),
+        stateModel: {}
+      });
+      var addedEnvs = ['lms=asd', ' db=awe ', ' ', ''];
+      var isolatedScope = element.isolateScope();
+      isolatedScope.environmentalVars += addedEnvs.join('\n');
+      var mockAce = createMockAce();
+      isolatedScope.aceLoaded(mockAce);
+
+      $scope.$digest();
+      var expectedEnvs = envs.concat(['lms=asd', ' db=awe ']);
+      var displayedEnvs = envs.concat(addedEnvs);
+
+      var environmentalVars = element.isolateScope().environmentalVars;
+      expect(environmentalVars).to.equal(displayedEnvs.join('\n'));
+      expect($scope.stateModel.env.length).to.equal(expectedEnvs.length);
+      expectedEnvs.forEach(function (env, index) {
+        expect($scope.stateModel.env[index]).to.equal(env);
+      });
+    });
+
     it('should remove some envs, and set them in the stateModel', function () {
       var envs = ['a=b', 'x=y', 'dasdasd=asfa'];
       initState({
