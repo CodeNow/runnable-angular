@@ -45,15 +45,16 @@
 
           //- list of DNS mappings
           ul.list.popover-list
-            li.list-item.popover-list-item.tr.multi-line.clearfix.tr-dns(
+            li.list-item.popover-list-item.small.strong.disabled Repository Containers
+            li.list-item.popover-list-item.multi-line.clearfix.tr-dns(
               ng-click = "DCC.editDependency(dependency); goToPanel('dnsList');"
               ng-if = "$root.isLoaded.dns && !dependency.instance.destroyed"
               ng-repeat = "dependency in DCC.filteredDependencies"
             )
-              .cell.clearfix(
+              .cell.clearfix.text-gray(
                 title = "{{dependency.instance.getRepoName()}}"
               )
-                .text-overflow {{dependency.instance.getRepoName()}}
+                .text-overflow.strong {{dependency.instance.getRepoName()}}
                 small.small.text-overflow(
                   title = "{{dependency.instance.getElasticHostname()}}"
                 ) {{dependency.instance.getElasticHostname()}}
@@ -67,7 +68,7 @@
                   status-icon(
                     instance = "dependency.instance"
                   )
-                  span.span(
+                  span.span.strong(
                     title = "{{dependency.instance.getBranchName()}}"
                   ) {{dependency.instance.getBranchName()}}
 
@@ -97,6 +98,16 @@
                 use(
                   xlink:href = "#icons-arrow-down"
                 )
+          ul.list.popover-list.list-service-containers
+            li.list-item.popover-list-item.small.strong.disabled Service Containers
+            li.list-item.popover-list-item.disabled
+              .text-overflow
+                .icons-status.green
+                span.span.strong MongoDB
+            li.list-item.popover-list-item.disabled
+              .text-overflow
+                .icons-status.green
+                span.span.strong Redis
           .popover-footer.text-center.text-gray.small Connect to containers by using their URLs in Environment Variables or Find & Replace.
 
     animated-panel(
@@ -141,7 +152,7 @@
               status-icon(
                 instance = "instance"
               )
-              span.text-overflow {{instance.getBranchName()}}
+              span.strong.text-overflow {{instance.getBranchName()}}
 
               //- if branch is isolated
               //- don't show this when loading
