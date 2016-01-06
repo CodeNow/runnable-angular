@@ -95,7 +95,6 @@ function popOver(
 
           if (keypather.get($scope, 'popoverOptions.centered')) {
             style.right = null;
-            console.log('width', POC.popoverElement[0].clientWidth, POC.popoverElement[0].scrollWidth, 'offsetWidth', POC.popoverElement[0].offsetWidth, 'left', offset.left, 'all', (offset.right - offset.left) / 2);
             style.left = Math.round((-POC.popoverElement[0].offsetWidth / 2 + offset.left + (offset.right - offset.left) / 2)) + 'px';
           }
 
