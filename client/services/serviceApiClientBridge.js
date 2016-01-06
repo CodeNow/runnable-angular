@@ -83,7 +83,7 @@ methods.forEach(function (method) {
 
       if (status === 0) {
         // CORS failed
-        return cb(new Error('Could not reach server'));
+        return cb(new Error('Could not reach server URL: ' + opts.url));
       }
       var body = data;
       var res = {
