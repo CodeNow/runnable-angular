@@ -6,7 +6,7 @@ var $scope;
 var whitelistFormController;
 
 
-describe.only('WhitelistFormController'.bold.underline.blue, function () {
+describe('WhitelistFormController'.bold.underline.blue, function () {
   function setup() {
     angular.mock.module('app');
     angular.mock.inject(function (
