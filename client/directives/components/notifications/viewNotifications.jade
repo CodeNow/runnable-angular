@@ -2,11 +2,11 @@
   img.gravatar(
     height = "27"
     ng-src = "{{dataInstance.data.commit.attrs.author.avatar_url}}"
-    ng-if = "!dataInstance.data.instance.contextVersion.attrs.dockRemoved && !dataInstance.data.instance.contextVersion.attrs.dockRemovedNeedsUserConfirmation"
+    ng-if = "!dataInstance.data.instance.isMigrating()"
     width = "27"
   )
   .btn.btn-xxs.btn-icon.btn-state.no-touching(
-    ng-if = "!dataInstance.data.instance.contextVersion.attrs.dockRemoved && !dataInstance.data.instance.contextVersion.attrs.dockRemovedNeedsUserConfirmation"
+    ng-if = "!dataInstance.data.instance.isMigrating()"
   )
     //- if updated
     svg.iconnables.icons-check(
@@ -25,22 +25,22 @@
       )
 
   svg.iconnables.icons-alert(
-    ng-if = "dataInstance.data.instance.contextVersion.attrs.dockRemoved"
+    ng-if = "dataInstance.data.instance.isMigrating()"
   )
     use(
       xlink:href = "#icons-alert-alt"
     )
 
 h4.h4.text-overflow(
-  ng-if = "dataInstance.data.instance.contextVersion.attrs.dockRemoved"
+  ng-if = "dataInstance.data.instance.isMigrating()"
 ) Container Temporarily Unavailable
 
 .small(
-  ng-if = "dataInstance.data.instance.contextVersion.attrs.dockRemoved"
+  ng-if = "dataInstance.data.instance.isMigrating()"
 ) We are migrating your container to another server. Your container will be unavailable until migration is complete.
 
 h4.h4.text-overflow(
-  ng-if = "!dataInstance.data.instance.contextVersion.attrs.dockRemoved && !dataInstance.data.instance.contextVersion.attrs.dockRemovedNeedsUserConfirmation"
+  ng-if = "!dataInstance.data.instance.isMigrating()"
   title = "{{dataInstance.data.instance.getRepoAndBranchName()}}"
 ) {{dataInstance.data.showUpdatedMessage ? 'Deployed' : 'Building' }}&#32;
   span.strong {{dataInstance.data.instance.getRepoName() || dataInstance.data.instance.getDisplayName()}}
@@ -49,7 +49,7 @@ h4.h4.text-overflow(
   ) /{{dataInstance.data.instance.getBranchName()}}
 
 .small(
-  ng-if = "!dataInstance.data.instance.contextVersion.attrs.dockRemoved && !dataInstance.data.instance.contextVersion.attrs.dockRemovedNeedsUserConfirmation"
+  ng-if = "!dataInstance.data.instance.isMigrating()"
 ) {{dataInstance.data.commit.attrs.author.login}} pushed&#32;
   a.link(
     ng-href = "{{dataInstance.data.commit.attrs.html_url}}"
@@ -58,7 +58,7 @@ h4.h4.text-overflow(
 
 
 button.btn.btn-md.btn-icon.btn-close(
-  ng-if = "!dataInstance.data.instance.contextVersion.attrs.dockRemoved && !dataInstance.data.instance.contextVersion.attrs.dockRemovedNeedsUserConfirmation"
+  ng-if = "!dataInstance.data.instance.isMigrating()"
   ng-click = "dataInstance.data.showUpdatedMessage = false; dataInstance.data.showUpdatingMessage = false"
 )
   svg.iconnables.icons-close

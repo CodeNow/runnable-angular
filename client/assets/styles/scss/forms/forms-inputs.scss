@@ -232,7 +232,7 @@ input[type="radio"] {
     color: $gray-light;
     content: attr(data-prefix);
     display: block;
-    font-weight: 500;
+    font-weight: $weight-bold;
     height: $input-sm;
     left: 0;
     line-height: $input-sm;

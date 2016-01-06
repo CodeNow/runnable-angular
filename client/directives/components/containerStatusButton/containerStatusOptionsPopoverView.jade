@@ -23,21 +23,21 @@
     //- hide list if build failed
     ul.popover-list
       li.popover-list-item(
-        ng-if = "!CSBC.instance.contextVersion.attrs.dockRemoved && ['stopped', 'crashed'].includes(CSBC.instance.status())"
+        ng-if = "!CSBC.instance.isMigrating() && ['stopped', 'crashed'].includes(CSBC.instance.status())"
         ng-click = "actions.startInstance()"
       )
         .icons-status.green
         | Start
 
       li.popover-list-item(
-        ng-if = "!CSBC.instance.contextVersion.attrs.dockRemoved && ['running'].includes(CSBC.instance.status())"
+        ng-if = "!CSBC.instance.isMigrating() && ['running'].includes(CSBC.instance.status())"
         ng-click = "actions.stopInstance()"
       )
         .icons-status
         | Stop
 
       li.popover-list-item(
-        ng-if = "!CSBC.instance.contextVersion.attrs.dockRemoved && ['running'].includes(CSBC.instance.status())"
+        ng-if = "!CSBC.instance.isMigrating() && ['running'].includes(CSBC.instance.status())"
         ng-click = "actions.restartInstance()"
       )
         svg.iconnables.icons-restart
@@ -47,7 +47,7 @@
         | Restart
 
       li.divider(
-        ng-if = "!CSBC.instance.contextVersion.attrs.dockRemoved && ['running', 'stopped', 'crashed'].includes(CSBC.instance.status())"
+        ng-if = "!CSBC.instance.isMigrating() && ['running', 'stopped', 'crashed'].includes(CSBC.instance.status())"
       )
       li.popover-list-item(
         ng-click = "actions.rebuildWithoutCache()"
