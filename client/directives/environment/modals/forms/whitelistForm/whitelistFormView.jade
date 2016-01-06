@@ -1,10 +1,8 @@
-.label(
-  ng-init = "state.whitelist = true"
-)
+.label
   .well.in.gray.clearfix
     label.toggle-wrapper.float-right
       input.toggle-input(
-        ng-model = "state.whitelist"
+        ng-model = "WFC.whitelistEnabled"
         type = "checkbox"
       )
       .toggle-group.toggle-sm
@@ -17,11 +15,11 @@
       | &#32;requests to this container.
 
 .label.clearfix.js-animate(
-  ng-if = "state.whitelist"
+  ng-if = "WFC.whitelistEnabled"
 )
   .label-col IP Whitelist
   .input-col(
-    ng-init = "state.addDescription = null"
+    ng-form = "ipWhitelistForm"
   )
     p.validation-message(
       ng-if = "invalid"
@@ -32,57 +30,55 @@
       ng-class = "{'focus': state.isFocused}"
     )
       .label.slide-in.js-animate(
-        ng-if = "state.isRange"
+        ng-if = "WFC.isRange"
       ) FROM
-      //- this pattern doesn't actaully work for some reason, should validate ipv4
       input.input.input-xs(
         ng-blur = "state.isFocused = false"
         ng-focus = "state.isFocused = true"
-        ng-model = "address1"
-        ng-pattern = "/((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$/"
+        ng-model = "WFC.fromAddress"
+        ng-pattern = "/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/"
         maxlength = "15"
+        type = "text"
         placeholder = "0.0.0.0"
+        name = "fromAddress"
       )
       .label.fade.js-animate(
-        ng-if = "state.isRange"
+        ng-if = "WFC.isRange"
       ) TO
       input.input.input-xs.fade.js-animate(
-        ng-blur = "$parent.state.isFocused = false"
-        ng-focus = "$parent.state.isFocused = true"
-        ng-if = "state.isRange"
-        ng-model = "$parent.address2"
-        ng-pattern = "/((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$/"
+        ng-blur = "state.isFocused = false"
+        ng-focus = "state.isFocused = true"
+        ng-if = "WFC.isRange"
+        ng-model = "WFC.toAddress"
+        ng-pattern = "/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/"
         maxlength = "15"
+        type = "text"
         placeholder = "0.0.0.0"
+        name = "toAddress"
       )
     input.input.input-sm(
       placeholder = "Description (optional)"
+      ng-model = "WFC.description"
     )
     .form-add-ip.clearfix
       label.label-checkbox.float-left
         input.checkbox(
-          ng-model = "state.isRange"
+          ng-model = "WFC.isRange"
           type = "checkbox"
         )
         | Use IP Range
       button.btn.btn-sm.white.float-right(
-        ng-disabled = "!address1.length || state.isRange && !address2.length"
+        ng-disabled = "ipWhitelistForm.$invalid || !WFC.fromAddress.length || (WFC.isRange && !WFC.toAddress.length)"
         type = "button"
+        ng-click = "WFC.actions.add()"
       ) Add to Whitelist
 
     //- remove this table if there is nothing on the whitelist
     .table.table-whitelist(
-      ng-init = "\
-        whitelist = [\
-          {address: ['1.1.1.1','1.1.1.10'], description: ''},\
-          {address: ['1.1.1.3'], description: 'Test'},\
-          {address: ['1.1.1.9'], description: 'Runnable'},\
-          {address: ['1.1.1.4','1.1.1.5'], description: ''}\
-        ];\
-      "
+      ng-if = "WFC.whitelist.length > 0"
     )
       .tr.clearfix.js-animate(
-        ng-repeat = "ip in whitelist"
+        ng-repeat = "ip in WFC.whitelist"
       )
         .cell(
           title = "{{ip.address[0]}}{{ip.address[1] ? '—' + ip.address[1] : ''}}"
@@ -92,7 +88,7 @@
         ) {{ip.description}}
         .cell.cell-action
           svg.iconnables.icons-close(
-            ng-click = "whitelist.splice($index, 1)"
+            ng-click = "WFC.actions.remove(ip)"
             title = "Remove Address"
           )
             use(

@@ -192,7 +192,8 @@
       )
       .modal-form.form-whitelist(
         ng-if = "$root.featureFlags.whitelist"
-        ng-include = "'whitelistForm'"
+        ip-whitelist
+        whitelist = "SMC.state.whitelist"
         ng-show = "SMC.selectedTab === 'whitelist'"
       )
 
