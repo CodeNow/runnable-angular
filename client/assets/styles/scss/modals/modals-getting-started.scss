@@ -8,9 +8,38 @@
     margin: 30px 0;
   }
 
-  .card-text .green {
-    margin-left: 0;
-    margin-top: 6px;
+  // guides
+  .btn-card-wrapper {
+    display: flex;
+  }
+
+  .btn-card {
+    flex: 1 1;
+    padding: 15px 6px;
+    white-space: normal;
+
+    + .btn-card {
+      margin-left: 9px;
+    }
+
+    .iconnables {
+      height: 30px;
+      width: 30px;
+    }
+
+    .h3 {
+      font-size: 18px;
+      margin-top: 6px;
+    }
+
+    .small {
+      display: block;
+      margin-top: 6px;
+    }
+
+    .green {
+      margin-top: 6px;
+    }
   }
 
   // dismiss link
