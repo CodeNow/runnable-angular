@@ -50,6 +50,7 @@
   }
 
   // sizes
+  &.modal-xl,
   &.modal-lg,
   &.modal-md,
   &.modal-sm,
@@ -57,8 +58,12 @@
     width: 100%;
   }
 
-  &.modal-lg {
+  &.modal-xl {
     max-width: 84vw;
+  }
+
+  &.modal-lg {
+    max-width: 570px;
   }
 
   &.modal-md {
