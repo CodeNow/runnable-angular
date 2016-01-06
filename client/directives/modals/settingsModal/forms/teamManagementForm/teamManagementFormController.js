@@ -25,11 +25,9 @@ function TeamManagementFormController(
   fetchMembers();
 
   $rootScope.$on('newInvitedAdded', function (event, user) {
-    var index = TMMC.members.uninvited.indexOf(user);
-    TMMC.members.uninvited.splice(index, 1);
     TMMC.members.invited.push(user);
     TMMC.members.invited = TMMC.members.invited.sort(function (a, b) {
-      return a.login > b.login;
+      return a.login.toLowerCase() > b.login.toLowerCase();
     });
   });
 

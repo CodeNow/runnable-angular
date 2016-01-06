@@ -184,7 +184,7 @@
 .thead {
   background: $gray-lightest;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: $weight-bold;
 
   &.divider {
     padding: 3px 0;
@@ -195,7 +195,7 @@
     display: flex;
     height: 30px;
     justify-content: space-between;
-    padding: 0 6px;
+    padding: 0 8px; // 9px - 1px border for alignment
 
     .btn-xs {
       flex: 0 0 auto;

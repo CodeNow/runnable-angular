@@ -13,7 +13,7 @@ function getInstanceClasses(
     if (!instance) {
       return {}; //async loading handling
     }
-    if (keypather.get(instance, 'contextVersion.attrs.dockRemoved')) {
+    if (keypather.get(instance, 'isMigrating()')) {
       return 'orange';
     }
     var h = {};

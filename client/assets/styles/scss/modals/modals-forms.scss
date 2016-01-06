@@ -126,7 +126,7 @@
 
     // for rows (full-width) with only small text
     > .small:only-child {
-      margin: 6px;
+      margin: 6px 9px;
     }
   }
 
@@ -156,7 +156,7 @@
       display: block;
       font-size: 16px;
       max-width: 360px;
-      padding-left: 6px;
+      padding-left: 9px - $input-border;
       text-align: left;
       width: 100%;
 
@@ -201,7 +201,7 @@
 
     // small text aligns with button/input padding
     .small {
-      margin: 6px;
+      margin: 6px 9px;
     }
   }
 

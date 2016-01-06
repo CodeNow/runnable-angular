@@ -111,7 +111,7 @@
 
   // empty state
   .empty.empty {
-    font-weight: 400;
+    font-weight: $weight-normal;
     line-height: 1.4;
     margin: 0;
     padding: 15px;
@@ -224,7 +224,7 @@
 
   // host name
   .monospace {
-    font-weight: 400;
+    font-weight: $weight-normal;
     letter-spacing: -.25px;
     margin-top: 6px;
 
