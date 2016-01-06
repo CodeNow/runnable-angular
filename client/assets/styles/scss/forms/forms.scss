@@ -120,28 +120,6 @@
     width: 100%;
   }
 
-  // spinner
-  &.input-col-spinner {
-    text-align: right;
-
-    .small.small {
-      color: $gray;
-      font-weight: $weight-bold;
-      margin-left: 18px;
-    }
-
-    .spinner-wrapper {
-      display: inline-block;
-      margin-top: 2px;
-      position: absolute;
-    }
-
-    .spinner {
-      height: 14px;
-      width: 14px;
-    }
-  }
-
   // fancy select spinner
   .btn {
     position: relative;
