@@ -58,7 +58,6 @@ function popOver(
       $scope.popoverStyle = {
         getStyle: function () {
           if (!$scope.active) {
-            console.log('not active');
             return previousStyle;
           }
           var offset = {};
@@ -104,7 +103,6 @@ function popOver(
           }
 
           previousStyle = style;
-          console.log('style', style);
           return style;
         }
       };
