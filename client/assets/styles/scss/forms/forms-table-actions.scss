@@ -158,3 +158,43 @@
     top: 0;
   }
 }
+
+.table-actions-env-vars {
+
+  .clearfix {
+    display: flex;
+
+    + .clearfix {
+      margin-top: 6px;
+    }
+  }
+
+  .input {
+    flex: 0 1 100%;
+    max-width: 150px;
+  }
+
+  .input-group {
+    flex: 1 1 auto;
+  }
+
+  .monospace {
+    font-size: 14px;
+  }
+
+  // '=' icon
+  .p {
+    color: $gray;
+    font-size: 24px;
+    padding: 0 6px;
+  }
+
+  .small {
+    flex: 1 1 auto;
+    line-height: 24px;
+  }
+
+  .btn + .btn {
+    margin-left: 6px;
+  }
+}

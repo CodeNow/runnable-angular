@@ -1,5 +1,6 @@
 .input-group {
   align-items: center;
+  border-radius: $input-border-radius;
   display: flex;
 
   &.focus {
@@ -10,75 +11,41 @@
   &.gray {
     background: $gray-lightest;
 
-    .label {
-      border-color: $gray-lighter;
-      color: $gray-light;
-    }
-
     .btn,
     .input {
       color: $gray;
+    }
+
+    .label {
+      background: $gray-lighterest;
     }
   }
 
   &.white {
     background: $white;
-
-    .label {
-      border-color: transparent;
-      color: $gray-light;
-    }
-
-    .btn {
-      color: $gray;
-    }
   }
 
-  .label,
-  .input {
-
-    &:not(:first-child):not(:last-child) {
-      border-radius: 0;
-    }
+  .btn,
+  .label {
+    flex: 0 0 auto;
   }
 
   .label {
+    color: $gray-light;
+    font-weight: $weight-bold;
+  }
+
+  // when button size matches input group size, style it like an input
+  .input,
+  .label,
+  &.input-group-md .btn-md,
+  &.input-group-sm .btn-sm,
+  &.input-group-xs .btn-xs {
+    background: transparent;
     border: 0;
-    flex: 0 0 auto;
+    border-color: $gray-lighter;
     height: 100%;
     margin: 0;
-
-    &:not(:last-child) {
-      border-right-style: solid;
-      border-right-width: $input-border;
-    }
-
-    &:not(:first-child) {
-      border-left-style: solid;
-      border-left-width: $input-border;
-    }
-  }
-
-  .input {
-    background: transparent;
-    flex: 1 1 auto;
-    font-weight: $weight-normal;
-    padding: 0;
-  }
-
-  .btn {
-    flex: 0 0 auto;
-  }
-}
-
-// sizes
-.input-group-md,
-.input-group-sm,
-.input-group-xs {
-  border-radius: $input-border-radius;
-
-  .label,
-  .input {
 
     &:first-child {
       border-radius: $input-border-radius 0 0 $input-border-radius;
@@ -87,60 +54,55 @@
     &:last-child {
       border-radius: 0 $input-border-radius $input-border-radius 0;
     }
-  }
-}
 
-.input-group-md {
-  height: $input-md;
-
-  .label {
-    font-size: 15px;
-    line-height: $input-line-height-md;
-    padding: 0 9px;
-
-    &:first-child {
-      margin-right: 8px;
+    &:not(:first-child):not(:last-child) {
+      border-radius: 0;
     }
 
-    &:last-child {
-      margin-left: 8px;
+    &:not(:last-child):not([readonly]) {
+      border-right-style: solid;
+      border-right-width: $input-border;
     }
   }
 
   .input,
-  .btn-xs {
+  &.input-group-md .btn-md,
+  &.input-group-sm .btn-sm,
+  &.input-group-xs .btn-xs {
+    flex: 1 1 100%;
+    font-weight: $weight-normal;
+  }
 
-    &:first-child,
-    &:last-child {
-      margin: 0 8px;
-    }
+  // when button size doesn't match input group size, add margin
+  &.input-group-md .btn:not(.btn-md),
+  &.input-group-sm .btn:not(.btn-sm),
+  &.input-group-xs .btn:not(.btn-xs) {
+    margin-right: 6px;
+  }
+}
+
+// sizes
+.input-group-md {
+  height: $input-md;
+
+  .label,
+  .input,
+  .btn-md {
+    font-size: 18px;
+    line-height: $input-line-height-md;
+    padding: 0 9px;
   }
 }
 
 .input-group-sm {
   height: $input-sm;
 
-  .label {
-    font-size: 13px;
+  .label,
+  .input,
+  .btn-sm {
+    font-size: 16px;
     line-height: $input-line-height-sm;
     padding: 0 6px;
-
-    &:first-child {
-      margin-right: 6px;
-    }
-
-    &:last-child {
-      margin-left: 6px;
-    }
-  }
-
-  .input,
-  .btn-xs {
-
-    &:first-child,
-    &:last-child {
-      margin: 0 6px;
-    }
   }
 }
 
@@ -148,41 +110,10 @@
   height: $input-xs;
 
   .label,
-  .input {
-    font-size: 13px;
-  }
-
-  .label {
-    line-height: $input-line-height-xs;
-    padding: 0 3px;
-
-    &:first-child {
-      margin-right: 3px;
-    }
-
-    &:last-child {
-      margin-left: 3px;
-    }
-  }
-
-  .input {
-
-    &:first-child,
-    &:last-child {
-      margin: 0 3px;
-    }
-  }
-
+  .input,
   .btn-xs {
-
-    &:first-child {
-      border-radius: $input-border-radius 0 0 $input-border-radius;
-      margin: 0 3px 0 (-$input-border);
-    }
-
-    &:last-child {
-      border-radius: 0 $input-border-radius $input-border-radius 0;
-      margin: 0 (-$input-border) 0 3px;
-    }
+    font-size: 13px;
+    line-height: $input-line-height-xs;
+    padding: 0 6px;
   }
 }

@@ -17,7 +17,7 @@
   ) Connect to other containers by using their URLs in environment variables.
 
 //- table actions
-.table-actions.clearfix(
+.table-actions.table-actions-env-vars.clearfix(
   ng-class = "{'in': SMC.state.showHostName}"
   ng-if = "(!SMC.instance && SMC.data.instances.models.length >= 1) || SMC.data.instances.models.length >= 2"
   ng-include = "'viewEnvironmentVariableActions'"

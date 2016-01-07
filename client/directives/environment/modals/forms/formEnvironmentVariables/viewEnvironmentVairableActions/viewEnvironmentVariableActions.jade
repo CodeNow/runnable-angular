@@ -1,11 +1,11 @@
 //- default actions
 //- prefer ng-hide > ng-if for this button
 
-button.btn.btn-xs.gray(
+button.btn.btn-xs.white(
   ng-click = "SMC.state.showHostName = true"
   ng-hide = "SMC.state.showHostName"
   ng-init = "SMC.state.showHostName = false"
-) Insert a URL
+) Connect to a Container
 
 button.btn.btn-xs.gray(
   ng-class = "{'active': SMC.data.toggleSidebar}"
@@ -31,49 +31,60 @@ button.btn.btn-xs.gray(
   | URLs
 
 //- if inserting host names
-.label.label-row.clearfix(
+.clearfix(
   ng-if = "SMC.state.showHostName"
 )
-  fancy-select.input-sm.monospace.text-overflow(
-    placeholder = "Protocol"
+
+  input.input.input-sm.monospace(
+    placeholder = "KEY(required)"
+    spellcheck = "false"
     type = "text"
-    value = "SMC.state.newLink.protocol"
   )
-    li.list-item.popover-list-item.small.disabled(
-    ) Select Protocol (optional)
-    fancy-option(
-      value = "'http://'"
-    ) http:&#47;&#47;
+  
+  p.p =
 
-  fancy-select.input-sm.monospace.text-overflow.btn-sm(
-    placeholder = "hostname"
-    value = "SMC.state.newLink.server"
-  )
-    li.list-item.popover-list-item.small.disabled Select hostname
-    fancy-option.monospace(
-      ng-if = "instance.attrs.shortHash !== $parent.$parent.$parent.SMC.instance.attrs.shortHash"
-      ng-repeat = "instance in $parent.SMC.data.instances.models | orderBy: ['getElasticHostname()']"
-      value = "instance"
-    ) {{ $parent.instance.getElasticHostname() }}
+  .input-group.input-group-sm.white
 
-  fancy-select.input-sm.monospace.text-overflow(
-    placeholder = "Port"
-    type = "text"
-    value = "$parent.SMC.state.newLink.port"
-  )
-    li.list-item.popover-list-item.small.disabled(
-    ) Select Port (optional)
-    fancy-option(
-      ng-repeat = "port in $parent.$parent.SMC.state.newLink.server | extractInstancePorts"
-      value = "port"
-    ) :{{ $parent.port }}
+    fancy-select.input-sm.monospace.text-overflow(
+      placeholder = "Protocol"
+      spellcheck = "false"
+      type = "text"
+      value = "SMC.state.newLink.protocol"
+    )
+      li.list-item.popover-list-item.small.disabled Select Protocol (optional)
+      fancy-option.monospace(
+        value = "'http://'"
+      ) http:&#47;&#47;
 
-.table-footer.clearfix(
+    fancy-select.monospace.text-overflow.btn-sm(
+      placeholder = "URL(required)"
+      value = "SMC.state.newLink.server"
+    )
+      li.list-item.popover-list-item.small.disabled Select URL
+      fancy-option.monospace(
+        ng-if = "instance.attrs.shortHash !== $parent.$parent.$parent.SMC.instance.attrs.shortHash"
+        ng-repeat = "instance in $parent.SMC.data.instances.models | orderBy: ['getElasticHostname()']"
+        value = "instance"
+      ) {{ $parent.instance.getElasticHostname() }}
+
+    fancy-select.input-sm.monospace.text-overflow(
+      placeholder = "Port"
+      type = "text"
+      value = "$parent.SMC.state.newLink.port"
+    )
+      li.list-item.popover-list-item.small.disabled Select Port (optional)
+      fancy-option(
+        ng-repeat = "port in $parent.$parent.SMC.state.newLink.server | extractInstancePorts"
+        value = "port"
+      ) :{{ $parent.port }}
+
+.clearfix(
   ng-if = "SMC.state.showHostName"
 )
-  button.btn.btn-xs.gray(
+  small.small.text-gray Connect to another container by using its URL in an environment variable.
+  button.btn.btn-xs.white(
     ng-click = "SMC.state.showHostName = false"
   ) Cancel
   button.btn.btn-xs.green(
     ng-click = "SMC.state.showHostName = false; SMC.insertHostName(SMC.state.newLink);"
-  ) Insert URL
+  ) Create Connection
