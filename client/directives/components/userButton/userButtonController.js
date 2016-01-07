@@ -50,6 +50,12 @@ function UserButtonController(
           tab: 'teamManagement'
         }
       });
+    },
+    shouldShowUnsentInviteForm: function (user) {
+      return user.showInviteForm && !user.inviteSent && !user.inviteSending;
+    },
+    shouldNotShowInviteForm: function (user) {
+      return !user.showInviteForm && !user.inviteSending && !user.inviteSent && !user.isRunnableUser;
     }
   };
 }

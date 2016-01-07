@@ -26,16 +26,6 @@ function userButton () {
             $scope.loading = false;
           });
       });
-
-      $scope.shouldShowUnsentInviteForm = function () {
-        var user = $scope.commitUser;
-        return user.showInviteForm && !user.inviteSent && !user.inviteSending;
-      };
-
-      $scope.shouldNotShowInviteForm = function () {
-        var user = $scope.commitUser;
-        return !user.showInviteForm && !user.inviteSending && !user.inviteSent && !user.isRunnableUser;
-      };
-    }
+   }
   };
 }
