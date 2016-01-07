@@ -1426,4 +1426,209 @@ describe('serviceFetch'.bold.underline.blue, function () {
     });
 
   });
+
+  describe('factory fetchGithubUserForCommit', function () {
+    var fetchGithubUserForCommit;
+    var fetchOrgRegisteredMembersStub;
+    var fetchGitHubUserStub;
+    var $rootScope;
+    var username1 = 'thejsj';
+    var userId1 = 1;
+    var commit;
+    var fetchOrgRegisteredMembersResponse;
+    var $q;
+    beforeEach(function () {
+      commit = {
+          fetch: sinon.spy(function (cb) {
+            var response = {
+              attrs : {
+                author: {
+                  login: username1
+                }
+              }
+            };
+            $rootScope.$evalAsync(function () {
+              cb(null, response);
+            });
+            return response;
+          })
+      };
+      fetchOrgRegisteredMembersResponse = {
+        models: [
+          { attrs: generateUserObject(username1, userId1) }
+        ],
+        forEach: function (cb) {
+          return this.models.forEach(cb);
+        }
+      };
+      angular.mock.module('app');
+      angular.mock.module(function ($provide) {
+        $provide.factory('fetchOrgRegisteredMembers', function ($q) {
+          fetchOrgRegisteredMembersStub = sinon.stub().returns($q.when(fetchOrgRegisteredMembersResponse));
+          return fetchOrgRegisteredMembersStub;
+        });
+        $provide.factory('fetchGitHubUser', function ($q) {
+          fetchGitHubUserStub = sinon.spy(function (memberName) {
+            return $q.when(({
+              name: memberName
+            }));
+          });
+          return fetchGitHubUserStub;
+        });
+      });
+      angular.mock.inject(function (
+        _$rootScope_,
+        _$q_,
+        _fetchGithubUserForCommit_
+      ) {
+        $rootScope = _$rootScope_;
+        $q = _$q_;
+        fetchGithubUserForCommit = _fetchGithubUserForCommit_;
+      });
+
+    });
+
+    it('shoud fetch the commit', function () {
+      var fetchGithubUserForCommitPromise = fetchGithubUserForCommit(commit);
+      $rootScope.$digest();
+      sinon.assert.calledOnce(commit.fetch);
+    });
+
+    it('should user the author login to fetch GH user and Runnable user', function () {
+      var fetchGithubUserForCommitPromise = fetchGithubUserForCommit(commit);
+      $rootScope.$digest();
+      sinon.assert.calledOnce(fetchGitHubUserStub);
+      sinon.assert.calledOnce(fetchOrgRegisteredMembersStub);
+      sinon.assert.calledWith(fetchGitHubUserStub, username1);
+      sinon.assert.calledWith(fetchOrgRegisteredMembersStub, username1);
+    });
+
+    it('should extend the user object with a `isRunnableUser` property', function () {
+      var fetchGithubUserForCommitPromise = fetchGithubUserForCommit(commit);
+      expect(fetchGithubUserForCommitPromise).to.eventually.have.deep.property('isRunnableUser');
+      $rootScope.$digest();
+    });
+
+    it('should have a `isRunnableUser` property that is true if it exists', function () {
+      var fetchGithubUserForCommitPromise = fetchGithubUserForCommit(commit);
+      expect(fetchGithubUserForCommitPromise).to.eventually.have.deep.property('isRunnableUser', true);
+      $rootScope.$digest();
+    });
+
+    it('should have a `isRunnableUser` property that is false if it doesnt exist', function () {
+      fetchOrgRegisteredMembersStub.returns($q.when({ models: [] }));
+      var fetchGithubUserForCommitPromise = fetchGithubUserForCommit(commit);
+      expect(fetchGithubUserForCommitPromise).to.eventually.have.deep.property('isRunnableUser', false);
+      $rootScope.$digest();
+    });
+
+    it('should reject the promise if theres an error fetching the commit', function () {
+      var error = new Error('hello world');
+      commit.fetch = sinon.spy(function (cb) {
+        $rootScope.$evalAsync(function () {
+          cb(error, null);
+        });
+        return;
+      });
+      var fetchGithubUserForCommitPromise = fetchGithubUserForCommit(commit);
+      expect(fetchGithubUserForCommitPromise).to.eventually.be.rejected;
+      expect(fetchGithubUserForCommitPromise).to.eventually.be.rejectedWith(error);
+      $rootScope.$digest();
+    });
+  });
+
+  describe('inviteGithubUserToRunnable', function () {
+    var user;
+    var fetchGithubOrgIdStub;
+    var fetchUserStub;
+    var $rootScope;
+    var $q;
+    var inviteGithubUserToRunnable;
+
+    var githubUserId = 123;
+    var email = 'jorge@runnable.com';
+    var teamName = 'CodeNow';
+    var stateUserName = 'stateUsername';
+    var orgId = 567;
+    beforeEach(function () {
+      angular.mock.module('app');
+      angular.mock.module(function ($provide) {
+        $provide.factory('fetchUser', function ($q, $rootScope) {
+          user = {
+            createTeammateInvitation: sinon.spy(function (invitationObject, cb) {
+            $rootScope.$evalAsync(function () {
+              cb(null, user);
+            });
+            return user;
+            })
+          };
+          fetchUserStub = sinon.stub().returns($q.when(user));
+          return fetchUserStub;
+        });
+        $provide.factory('fetchGithubOrgId', function ($q) {
+          fetchGithubOrgIdStub = sinon.stub().returns($q.when(orgId));
+          return fetchGithubOrgIdStub;
+        });
+        $provide.value('$state', {
+          params: {
+            userName: stateUserName
+          }
+        });
+      });
+      angular.mock.inject(function (
+        _$rootScope_,
+        _$q_,
+        _inviteGithubUserToRunnable_
+      ) {
+        $rootScope = _$rootScope_;
+        $q = _$q_;
+        inviteGithubUserToRunnable = _inviteGithubUserToRunnable_;
+      });
+    });
+
+    it('should fetch the user and fetch the GH org id', function () {
+      var inviteGithubUserToRunnablePromise = inviteGithubUserToRunnable(githubUserId, email, teamName);
+      $rootScope.$digest();
+      sinon.assert.calledOnce(fetchUserStub);
+      sinon.assert.calledOnce(fetchGithubOrgIdStub);
+    });
+
+    it('should fetch the GH org id with the provided teamName', function () {
+      var inviteGithubUserToRunnablePromise = inviteGithubUserToRunnable(githubUserId, email, teamName);
+      $rootScope.$digest();
+      sinon.assert.calledOnce(fetchGithubOrgIdStub);
+      sinon.assert.calledWith(fetchGithubOrgIdStub, teamName);
+    });
+
+    it('should fetch the GH org id with the $state userName if not teamName is provided', function () {
+      var inviteGithubUserToRunnablePromise = inviteGithubUserToRunnable(githubUserId, email);
+      $rootScope.$digest();
+      sinon.assert.calledOnce(fetchGithubOrgIdStub);
+      sinon.assert.calledWith(fetchGithubOrgIdStub, stateUserName);
+    });
+
+    it('should create a Teammate invitation', function () {
+      var inviteGithubUserToRunnablePromise = inviteGithubUserToRunnable(githubUserId, email);
+      $rootScope.$digest();
+      sinon.assert.calledOnce(user.createTeammateInvitation);
+      sinon.assert.calledWith(user.createTeammateInvitation, {
+        organization: {
+          github: orgId
+        },
+        recipient: {
+         email: email,
+         github: githubUserId
+        }
+      });
+    });
+
+    it('should reject the promise if the invitation isnt created', function () {
+      var err = new Error('hello');
+      user.createTeammateInvitation = sinon.stub().returns($q.reject(err));
+      var inviteGithubUserToRunnablePromise = inviteGithubUserToRunnable(githubUserId, email);
+      expect(inviteGithubUserToRunnablePromise).to.eventually.be.rejected;
+      expect(inviteGithubUserToRunnablePromise).to.eventually.be.rejectedWith(err);
+      $rootScope.$digest();
+    });
+  });
 });
