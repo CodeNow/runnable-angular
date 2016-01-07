@@ -36,7 +36,6 @@
         ng-blur = "state.isFocused = false"
         ng-focus = "state.isFocused = true"
         ng-model = "WFC.fromAddress"
-        ng-pattern = "/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/"
         maxlength = "15"
         type = "text"
         placeholder = "0.0.0.0"
@@ -50,7 +49,6 @@
         ng-focus = "state.isFocused = true"
         ng-if = "WFC.isRange"
         ng-model = "WFC.toAddress"
-        ng-pattern = "/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/"
         maxlength = "15"
         type = "text"
         placeholder = "0.0.0.0"
@@ -68,7 +66,7 @@
         )
         | Use IP Range
       button.btn.btn-sm.white.float-right(
-        ng-disabled = "ipWhitelistForm.$invalid || !WFC.fromAddress.length || (WFC.isRange && !WFC.toAddress.length)"
+        ng-disabled = "!isFormValid()"
         type = "button"
         ng-click = "WFC.actions.add()"
       ) Add to Whitelist
