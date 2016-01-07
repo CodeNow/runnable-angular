@@ -63,6 +63,7 @@
   label.btn.btn-sm.btn-connections(
     dns-configuration
     instance = "instance"
+    ng-class = "{'deprecated': !$root.featureFlags.connections}"
   )
 
   label.input-group.input-group-sm.gray(

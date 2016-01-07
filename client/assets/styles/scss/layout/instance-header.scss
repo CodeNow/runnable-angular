@@ -189,6 +189,10 @@
     position: relative;
     top: -2px;
 
+    &.green {
+      background: $green;
+    }
+
     &.orange {
       background: $orange;
     }

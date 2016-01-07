@@ -7,7 +7,7 @@ button.js-btn-wrapper(
 )
   span.float-left
     //- empty badge until number of connections loads
-    .connections-badge {{ $root.isLoaded.dns ? DCC.filteredDependencies.length : '&nbsp;' }}
+    .connections-badge {{$root.isLoaded.dns ? DCC.filteredDependencies.length : '&nbsp;'}}
     //- change text to 'Connection' if there is only one
     | {{DCC.filteredDependencies.length === 1 ? 'Connection' : 'Connections'}}
   svg.iconnables.icons-arrow-down.float-right

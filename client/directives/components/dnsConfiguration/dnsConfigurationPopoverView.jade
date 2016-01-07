@@ -45,7 +45,9 @@
 
           //- list of DNS mappings
           ul.list.popover-list
-            li.list-item.popover-list-item.small.strong.disabled Repository Containers
+            li.list-item.popover-list-item.small.strong.disabled(
+              ng-if = "$root.featureFlags.connections"
+            ) Repository Containers
             li.list-item.popover-list-item.multi-line.clearfix.tr-dns(
               ng-click = "DCC.editDependency(dependency); goToPanel('dnsList');"
               ng-if = "$root.isLoaded.dns && !dependency.instance.destroyed"
@@ -98,7 +100,9 @@
                 use(
                   xlink:href = "#icons-arrow-down"
                 )
-          ul.list.popover-list.list-service-containers
+          ul.list.popover-list.list-service-containers(
+            ng-if = "$root.featureFlags.connections"
+          )
             li.list-item.popover-list-item.small.strong.disabled Service Containers
             li.list-item.popover-list-item.disabled
               .text-overflow

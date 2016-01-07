@@ -5,7 +5,7 @@ button.btn.btn-xs.white(
   ng-click = "SMC.state.showHostName = true"
   ng-hide = "SMC.state.showHostName"
   ng-init = "SMC.state.showHostName = false"
-) Connect to a Container
+) {{$root.featureFlags.connections ? 'Connect to a Container' : 'Insert a URL'}}
 
 button.btn.btn-xs.gray(
   ng-class = "{'active': SMC.data.toggleSidebar}"
@@ -36,12 +36,15 @@ button.btn.btn-xs.gray(
 )
 
   input.input.input-sm.monospace(
+    ng-if = "$root.featureFlags.connections"
     placeholder = "KEY(required)"
     spellcheck = "false"
     type = "text"
   )
   
-  p.p =
+  p.p(
+    ng-if = "$root.featureFlags.connections"
+  ) =
 
   .input-group.input-group-sm.white
 
@@ -81,10 +84,13 @@ button.btn.btn-xs.gray(
 .clearfix(
   ng-if = "SMC.state.showHostName"
 )
-  small.small.text-gray Connect to another container by using its URL in an environment variable.
+  small.small.text-gray(
+    ng-if = "$root.featureFlags.connections"
+  ) Connect to another container by using its URL in an environment variable.
   button.btn.btn-xs.white(
     ng-click = "SMC.state.showHostName = false"
   ) Cancel
   button.btn.btn-xs.green(
+    ng-class = "{'float-right': !$root.featureFlags.connections}"
     ng-click = "SMC.state.showHostName = false; SMC.insertHostName(SMC.state.newLink);"
-  ) Create Connection
+  ) {{$root.featureFlags.connections ? 'Create Connection' : 'Insert URL'}}
