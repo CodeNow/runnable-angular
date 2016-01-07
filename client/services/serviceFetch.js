@@ -432,11 +432,19 @@ function fetchGithubUserForCommit (
         var userName = keypather.get(commit, 'attrs.author.login');
         return $q.all({
           githubUser: fetchGitHubUser(userName),
-          runnableUser: fetchOrgRegisteredMembers($state.params.userName)
+          isRunnableUser: fetchOrgRegisteredMembers($state.params.userName)
+            .then(function (members) {
+              console.log('members', members);
+              var membersWithLogin = members.models.filter(function (member) {
+                return keypather.get(member, 'attrs.accounts.github.username') === userName;
+              });
+              console.log('membersWithLogin', membersWithLogin);
+              return membersWithLogin.length > 0;
+            })
         })
         .then(function (response) {
           return assign(response.githubUser, {
-            isRunnableUser: Boolean(response.runnableUser.models.length),
+            isRunnableUser: response.isRunnableUser,
           });
         });
       });

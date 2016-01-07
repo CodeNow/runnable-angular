@@ -1401,6 +1401,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
     var commit;
     var fetchOrgRegisteredMembersResponse;
     var $q;
+    var $state;
     beforeEach(function () {
       commit = {
           fetch: sinon.spy(function (cb) {
@@ -1439,6 +1440,10 @@ describe('serviceFetch'.bold.underline.blue, function () {
           });
           return fetchGitHubUserStub;
         });
+        $provide.factory('$state', function () {
+          $state = { params: { userName: 'HelloWorld' }};
+          return $state;
+        });
       });
       angular.mock.inject(function (
         _$rootScope_,
@@ -1458,13 +1463,13 @@ describe('serviceFetch'.bold.underline.blue, function () {
       sinon.assert.calledOnce(commit.fetch);
     });
 
-    it('should user the author login to fetch GH user and Runnable user', function () {
+    it('should use the author login to fetch GH user and Runnable user', function () {
       var fetchGithubUserForCommitPromise = fetchGithubUserForCommit(commit);
       $rootScope.$digest();
       sinon.assert.calledOnce(fetchGitHubUserStub);
       sinon.assert.calledOnce(fetchOrgRegisteredMembersStub);
       sinon.assert.calledWith(fetchGitHubUserStub, username1);
-      sinon.assert.calledWith(fetchOrgRegisteredMembersStub, username1);
+      sinon.assert.calledWith(fetchOrgRegisteredMembersStub, $state.params.userName);
     });
 
     it('should extend the user object with a `isRunnableUser` property', function () {
