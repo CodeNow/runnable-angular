@@ -33,18 +33,20 @@ function SetupServerModalController(
   SMC.helpCards = helpCards;
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
+    'closeWithConfirmation': parentController.closeWithConfirmation.bind(SMC),
+    'changeTab': parentController.changeTab.bind(SMC),
     'insertHostName': parentController.insertHostName.bind(SMC),
     'isDirty': parentController.isDirty.bind(SMC),
+    'isDockerfileValid': parentController.isDockerfileValid.bind(SMC),
+    'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
     'populateStateFromData': parentController.populateStateFromData.bind(SMC),
     'rebuildAndOrRedeploy': parentController.rebuildAndOrRedeploy.bind(SMC),
     'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
     'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
-    'closeWithConfirmation': parentController.closeWithConfirmation.bind(SMC),
-    'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
-    'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC),
-    'changeTab': parentController.changeTab.bind(SMC)
+    'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC)
   });
+
   var mainRepoContainerFile = new cardInfoTypes.MainRepository();
   // Set initial state
   angular.extend(SMC, {

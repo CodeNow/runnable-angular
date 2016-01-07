@@ -210,7 +210,8 @@ section.modal-body(
 footer.modal-footer.clearfix(
   is-primary-button-disabled = "\
       SMC.serverForm.$invalid ||\
-      (SMC.state.selectedStack | selectedStackInvalid)\
+      (SMC.state.selectedStack | selectedStackInvalid) ||\
+      !SMC.isDockerfileValid()\
     "
   server-modal-buttons
   server-modal-controller = "SMC"
