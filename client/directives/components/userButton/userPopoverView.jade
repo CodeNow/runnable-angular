@@ -7,7 +7,7 @@
     style = "left: 29px;"
   )
   .popover-content.list-item(
-    ng-class = "{'active': ifShowInviteFormAndInviteNotSent() }"
+    ng-class = "{'active': shouldShowUnsentInviteForm() }"
   )
     img.gravatar.float-left(
       alt = "{{ data.login }}"
@@ -21,7 +21,7 @@
     //- cancel invite
     svg.iconnables.icons-close(
       ng-click = "data.showInviteForm = false"
-      ng-if = "ifShowInviteFormAndInviteNotSent()"
+      ng-if = "shouldShowUnsentInviteForm()"
     )
       use(
         xlink:href = "#icons-close"
@@ -30,7 +30,7 @@
      //- autofocus on this
     input.input.input-sm.input-validate.validate-on-blur.js-animate(
       ng-model = "data.email"
-      ng-show = "ifShowInviteFormAndInviteNotSent()"
+      ng-show = "shouldShowUnsentInviteForm()"
       placeholder = "Email Address"
       required
       spellcheck = "false"
@@ -43,14 +43,14 @@
     button.btn.btn-xs.green.js-animate(
       ng-click = "UPA.inviteUser(data)"
       ng-disabled = "!data.email"
-      ng-show = "ifShowInviteFormAndInviteNotSent()"
+      ng-show = "shouldShowUnsentInviteForm()"
     ) Send
 
     .btn-wrapper
       //- if the user has not yet joined runnable
       button.btn.btn-xs.green(
         ng-click = "data.showInviteForm = true"
-        ng-if = "ifNotShowInviteFormAndNotRunnableUser()"
+        ng-if = "showNotShowInviteForm()"
       ) Invite
 
       //- if already in runnable

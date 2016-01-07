@@ -17,6 +17,9 @@ function userButton () {
       $scope.loading = true;
       // Listen for changes in the commit
       $scope.$watch('commit', function updateCommitUser () {
+        if (typeof $scope.commit !== 'object') {
+          return;
+        }
         return $scope.UBC.fetchUserForCommit($scope.commit)
           .then(function (user) {
             $scope.commitUser = user;
@@ -24,14 +27,14 @@ function userButton () {
           });
       });
 
-      $scope.ifShowInviteFormAndInviteNotSent = function () {
+      $scope.shouldShowUnsentInviteForm = function () {
         var user = $scope.commitUser;
         return user.showInviteForm && !user.inviteSent && !user.inviteSending;
       };
 
-      $scope.ifNotShowInviteFormAndNotRunnableUser = function () {
+      $scope.shouldNotShowInviteForm = function () {
         var user = $scope.commitUser;
-        return !user.inviteSending && !user.inviteSent && !user.showInviteForm && !user.isRunnableUser;
+        return !user.showInviteForm && !user.inviteSending && !user.inviteSent && !user.isRunnableUser;
       };
     }
   };

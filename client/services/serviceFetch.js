@@ -420,6 +420,7 @@ function fetchOrgRegisteredMembers(
  */
 function fetchGithubUserForCommit (
   $q,
+  $state,
   assign,
   fetchGitHubUser,
   fetchOrgRegisteredMembers,
@@ -432,7 +433,7 @@ function fetchGithubUserForCommit (
         var userName = keypather.get(commit, 'attrs.author.login');
         return $q.all({
           githubUser: fetchGitHubUser(userName),
-          runnableUser: fetchOrgRegisteredMembers(userName)
+          runnableUser: fetchOrgRegisteredMembers($state.params.userName)
         })
         .then(function (response) {
           return assign(response.githubUser, {
