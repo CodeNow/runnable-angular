@@ -18,7 +18,8 @@ function serverStatusCardHeader(
     scope: {
       instance: '= instance',
       noTouching: '=? noTouching',
-      inModal: '=? inModal'
+      inModal: '=? inModal',
+      SMC: '=? serverModalController'
     },
     templateUrl: 'serverStatusCardHeaderView',
     link: function ($scope, elem, attrs) {
@@ -48,6 +49,12 @@ function serverStatusCardHeader(
               return modal.close.then(function (confirmed) {
                 if (confirmed) {
                   promisify(instance, 'destroy')()
+                    .then(function () {
+                      $rootScope.$broadcast('alert', {
+                        type: 'deleted',
+                        text: 'Container Deleted'
+                      });
+                    })
                     .catch(errs.handler);
                   helpCards.refreshAllCards();
                 }
