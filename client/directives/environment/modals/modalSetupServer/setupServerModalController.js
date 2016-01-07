@@ -7,7 +7,6 @@ function SetupServerModalController(
   $scope,
   $controller,
   $q,
-  $filter,
   createNewBuild,
   $rootScope,
   createAndBuildNewContainer,
@@ -28,21 +27,26 @@ function SetupServerModalController(
   cardInfoTypes,
   OpenItems,
   fetchStackInfo,
-  ModalService,
   close
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
   SMC.helpCards = helpCards;
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
+    'closeWithConfirmation': parentController.closeWithConfirmation.bind(SMC),
+    'changeTab': parentController.changeTab.bind(SMC),
     'insertHostName': parentController.insertHostName.bind(SMC),
     'isDirty': parentController.isDirty.bind(SMC),
+    'isDockerfileValid': parentController.isDockerfileValid.bind(SMC),
+    'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
     'populateStateFromData': parentController.populateStateFromData.bind(SMC),
     'rebuildAndOrRedeploy': parentController.rebuildAndOrRedeploy.bind(SMC),
     'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
-    'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC)
+    'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
+    'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC)
   });
+
   var mainRepoContainerFile = new cardInfoTypes.MainRepository();
   // Set initial state
   angular.extend(SMC, {
@@ -88,45 +92,7 @@ function SetupServerModalController(
       step: 1
     },
     actions: {
-      close: function () {
-        if (SMC.instance) {
-          return ModalService.showModal({
-            controller: 'ConfirmationModalController',
-            controllerAs: 'CMC',
-            templateUrl: 'confirmDiscardServerView'
-          })
-            .then(function (modal) {
-              return modal.close.then(function (confirmed) {
-                if (confirmed) {
-                  close();
-                  helpCards.refreshAllCards();
-                  return promisify(SMC.instance, 'destroy')();
-                }
-              });
-            })
-            .catch(errs.handler);
-        }
-        if (SMC.state.repo) {
-          return SMC.actions.closeWithConfirmation();
-        }
-        return close();
-      },
-      closeWithConfirmation: function () {
-        $rootScope.$broadcast('close-popovers');
-        ModalService.showModal({
-          controller: 'ConfirmationModalController',
-          controllerAs: 'CMC',
-          templateUrl: 'confirmCloseEditServer'
-        })
-          .then(function (modal) {
-            modal.close.then(function (confirmed) {
-              if (confirmed) {
-                close();
-              }
-            });
-          })
-          .catch(errs.handler);
-      }
+      close: SMC.closeWithConfirmation.bind(SMC, close)
     },
     data: {},
     selectedTab: 'repository'
@@ -137,7 +103,6 @@ function SetupServerModalController(
 
   $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
     $event.stopPropagation();
-    loading.reset(SMC.name);
     if (showSpinner) {
       loading(SMC.name, true);
     }
@@ -198,6 +163,7 @@ function SetupServerModalController(
       SMC.state.step -= 1; // Revert step
       SMC.changeTab(SMC.selectedTab);
       loading(SMC.name, false);
+      loading($scope.SMC.name + 'isBuilding',  true);
       errs.handler(err);
     };
 
@@ -222,21 +188,14 @@ function SetupServerModalController(
         .catch(nextStepErrorHandler);
     }
     else if (SMC.state.step === 4) {
-      loading(SMC.name, true);
+      loading(SMC.name + 'isBuilding',  true);
       return SMC.createServer()
         .then(function () {
           // Go on to step 4 (logs)
-          loading(SMC.name, false);
+          loading(SMC.name + 'isBuilding',  false);
           SMC.changeTab('logs');
         })
         .catch(nextStepErrorHandler);
-    } else if (SMC.state.step > 4) {
-      if (SMC.isDirty()) {
-        // If the state, is dirty save it as we would in the EditServerModalController
-        return SMC.getUpdatePromise();
-      } else {
-        return close();
-      }
     }
   };
 
@@ -277,7 +236,6 @@ function SetupServerModalController(
         return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
       })
       .then(function (contextVersion) {
-        loadingPromises.clear(SMC.name);
         return contextVersion;
       })
       .catch(errs.handler)
@@ -286,48 +244,29 @@ function SetupServerModalController(
       });
   };
 
-  SMC.changeTab = function (tabname) {
-    if (!SMC.state.advanced) {
-      if ($filter('selectedStackInvalid')(SMC.state.selectedStack)) {
-        tabname = 'repository';
-      } else if (!SMC.state.startCommand && tabname !== 'repository') {
-        tabname = 'commands';
-      }
-    } else if (SMC.setupServerForm.$invalid) {
-      if (keypather.get(SMC, 'setupServerForm.$error.required.length')) {
-        var firstRequiredError = SMC.setupServerForm.$error.required[0].$name;
-        tabname = firstRequiredError.split('.')[0];
-      }
-    }
-    if (SMC.state.step === 2 && tabname === 'repository') {
-      SMC.state.step = 1;
-    }
-    $scope.$broadcast('updateStep', SMC.state.step);
-    SMC.selectedTab = tabname;
-  };
-
   SMC.createServer = function () {
     // Wait until all changes to the context version have been resolved before
     // creating a build with that context version
     var createPromise = loadingPromises.finished(SMC.name)
-        .then(function () {
-          if (!SMC.state.advanced) {
-            return updateDockerfileFromState(SMC.state, false, true);
-          }
-          return true;
-        })
-        .then(function () {
-          if (SMC.state.acv.attrs.branch !== SMC.state.branch.attrs.name) {
-            return promisify(SMC.state.acv, 'update')({
-              repo: SMC.state.repo.attrs.full_name,
-              branch: SMC.state.branch.attrs.name,
-              commit: SMC.state.branch.attrs.commit.sha
-            });
-          }
-        })
-        .then(function () {
-          return SMC.state;
-        });
+      .then(function () {
+        loadingPromises.clear(SMC.name);
+        if (!SMC.state.advanced) {
+          return updateDockerfileFromState(SMC.state, false, true);
+        }
+        return true;
+      })
+      .then(function () {
+        if (SMC.state.acv.attrs.branch !== SMC.state.branch.attrs.name) {
+          return promisify(SMC.state.acv, 'update')({
+            repo: SMC.state.repo.attrs.full_name,
+            branch: SMC.state.branch.attrs.name,
+            commit: SMC.state.branch.attrs.commit.sha
+          });
+        }
+      })
+      .then(function () {
+        return SMC.state;
+      });
     function instanceSetHandler (instance) {
       if (instance) {
         SMC.instance = instance;
@@ -349,11 +288,11 @@ function SetupServerModalController(
     return SMC.openItems.updateAllFiles()
       .then(function () {
         if (SMC.state.advanced && SMC.state.simpleContextVersionCopy) {
-            return createAndBuildNewContainer($q.all({ // This changes the infracodeversion
-              build: createBuildFromContextVersionId(SMC.state.simpleContextVersionCopy.id()),
-              opts: SMC.state.opts
-            }), SMC.state.opts.name, SMC.state.simpleContextVersionCopy)
-              .then(instanceSetHandler); // Set instance
+          return createAndBuildNewContainer($q.all({ // This changes the infracodeversion
+            build: createBuildFromContextVersionId(SMC.state.simpleContextVersionCopy.id()),
+            opts: SMC.state.opts
+          }), SMC.state.opts.name, SMC.state.simpleContextVersionCopy)
+            .then(instanceSetHandler); // Set instance
         }
         return true;
       })
@@ -368,26 +307,15 @@ function SetupServerModalController(
       .then(function () {
         return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
       })
-      .then(function (contextVersion) {
-        SMC.page = 'build';
-        SMC.instance.on('update', function () {
-          SMC.page = ((['building', 'buildFailed', 'neverStarted'].indexOf(SMC.instance.status()) === -1) ? 'run' : 'build');
-        });
-        loadingPromises.clear(SMC.name);
-        return contextVersion;
-      })
       .catch(function (err) {
         // If creating the server fails, reset the context version
-        return SMC.resetStateContextVersion(SMC.state.contextVersion, true)
+        return SMC.resetStateContextVersion(SMC.state.contextVersion, false)
           .then(function () {
+            // Since we failed to build, we need loading promises to have something in it
+            loadingPromises.add(SMC.name, $q.when(true));
             return $q.reject(err);
           });
       });
-  };
-
-  SMC.createServerAndClose = function () {
-    close();
-    return SMC.createServer();
   };
 
   SMC.selectRepo = function (repo) {
@@ -397,18 +325,27 @@ function SetupServerModalController(
     repo.loading = true;
     // Replace any non-word character with a -
     SMC.state.opts.name = normalizeRepoName(repo);
-    return SMC.fetchStackData(repo)
+
+    // Since we have a new context version, we need to clear all promises
+    // tied to any other context version (Usually handled by `resetStateContextVersion`)
+    loadingPromises.clear(SMC.name);
+
+    SMC.state.promises.contextVersion = loadingPromises.start(
+      SMC.name,
+      SMC.fetchStackData(repo)
+        .then(function () {
+          return createNewBuild($rootScope.dataApp.data.activeAccount);
+        })
+        .then(function (buildWithVersion) {
+          SMC.state.build = buildWithVersion;
+          SMC.state.contextVersion = buildWithVersion.contextVersion;
+          SMC.state.advanced = false;
+          return buildWithVersion.contextVersion;
+        })
+    );
+
+    return SMC.state.promises.contextVersion
       .then(function () {
-        return createNewBuild($rootScope.dataApp.data.activeAccount);
-      })
-      .then(function (buildWithVersion) {
-        SMC.state.build = buildWithVersion;
-        SMC.state.contextVersion = buildWithVersion.contextVersion;
-        // Since we have a new context version, we need to clear all promises
-        // tied to any other context version (Usually handled by `resetStateContextVersion`)
-        loadingPromises.clear(SMC.name);
-        SMC.state.advanced = false;
-        SMC.state.promises.contextVersion = $q.when(buildWithVersion.contextVersion);
         return promisify(repo, 'fetchBranch')(repo.attrs.default_branch);
       })
       .then(function (masterBranch) {
@@ -463,22 +400,6 @@ function SetupServerModalController(
               return stack;
             }
           });
-      });
-  };
-
-  SMC.getUpdatePromise = function () {
-    loading(SMC.name + 'IsBuilding', true); // `state.IsBuilding` is used for adding spinner to 'Start Build' button
-    return SMC.saveInstanceAndRefreshCards()
-      .then(function () {
-        loadingPromises.clear(SMC.name);
-        return close();
-      })
-      .catch(function (err) {
-        errs.handler(err);
-        return SMC.resetStateContextVersion(SMC.state.contextVersion, false);
-      })
-      .finally(function () {
-        loading(SMC.name + 'IsBuilding', false);
       });
   };
 

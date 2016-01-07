@@ -2,7 +2,7 @@
   ng-class = "{'full-screen': $root.featureFlags.fullScreen}"
 )
   form.modal-dialog.modal-edit(
-    name = "editServerForm"
+    name = "SMC.serverForm"
     ng-class = "{\
       'ace-active': (SMC.selectedTab === 'buildfiles' || SMC.selectedTab === 'env'),\
       'disabled': $root.isLoading.editServerModalIsBuilding || $root.isLoading.editServerModal,\
@@ -14,10 +14,11 @@
         in-modal = "true"
         instance = "SMC.instance"
         no-touching = "$root.featureFlags.cardStatus ? showSpinner() : true"
+        server-modal-controller = "SMC"
       )
 
       svg.iconnables.icons-close(
-        ng-if = "$root.featureFlags.rebuildFlow"
+        ng-click = "SMC.actions.close()"
       )
         use(
           xlink:href = "#icons-close"
@@ -146,8 +147,7 @@
       .modal-form(
         data = "SMC.data"
         loading-promises-target = "editServerModal"
-        ng-if = "!SMC.state.advanced"
-        ng-show = "SMC.selectedTab === 'repository'"
+        ng-if = "!SMC.state.advanced && SMC.selectedTab === 'repository'"
         stack-selector-form
         state = "SMC.state"
       )
@@ -212,79 +212,12 @@
       .spinner-wrapper.spinner-md.in(
         ng-include = "'spinner'"
       )
-
     footer.modal-footer.clearfix(
-      ng-init = "SMC.state.ifTriggersBuild = null"
+      is-primary-button-disabled = "\
+        (!SMC.state.advanced && (SMC.state.selectedStack | selectedStackInvalid)) ||\
+        !SMC.isDockerfileValid()\
+      "
+      server-modal-buttons
+      server-modal-controller = "SMC"
+      this-form = "SMC.serverForm"
     )
-      //- **********
-        - new things
-        - **********
-
-      //- test save /& build transition
-      button.btn.white.float-left(
-        ng-click = "SMC.state.ifTriggersBuild = !SMC.state.ifTriggersBuild"
-        ng-if = "$root.featureFlags.rebuildFlow"
-        style = "margin-left: 6px; opacity: 0; position: absolute;"
-      ) Show "& Build"
-
-      button.btn.white.float-right(
-        internal-modal-helper = "confirmCloseEditServer"
-        ng-if = "$root.featureFlags.rebuildFlow"
-        type = "button"
-      ) Done
-
-      //- save/save & build button
-        - disable if nothing to save
-        - classes change depending on text for width:
-          .text-save-build
-          .text-save
-          .text-next
-      button.btn.white.btn-primary.float-right(
-        ng-class = "{\
-          'text-save': !SMC.state.ifTriggersBuild,\
-          'text-save-build': SMC.state.ifTriggersBuild\
-        }"
-        ng-click = "SMC.changeTab('logs')"
-        ng-disabled = "!SMC.state.ifTriggersBuild"
-        ng-if = "$root.featureFlags.rebuildFlow"
-      )
-        span.btn-text.float-left Save
-          //- if save triggers a build
-          span.fade.js-animate(
-            ng-if = "!$root.featureFlags.rebuildFlow || SMC.state.ifTriggersBuild"
-          ) &#32;& Build
-
-      span.small.float-right.fade.js-animate(
-        ng-if = "SMC.state.ifTriggersBuild"
-      ) You’ve made changes that require a rebuild.
-
-      //- **********
-        - old things
-        - **********
-      button.btn.white.float-left(
-        ng-disabled = "$root.isLoading.editServerModalIsBuilding"
-        ng-click = "SMC.actions.close()"
-        ng-if = "!$root.featureFlags.rebuildFlow"
-        type = "button"
-      ) Cancel
-
-      //- save & rebuild button (old)
-      button.btn.green.btn-spinner.float-right(
-        ng-class = "{'in': $root.isLoading.editServerModalIsBuilding }"
-        ng-click = "editServerForm.$invalid || SMC.getUpdatePromise()"
-        ng-disabled = "(!SMC.state.advanced && (SMC.state.selectedStack | selectedStackInvalid)) || !SMC.isDockerfileValid()"
-        ng-if = "!$root.featureFlags.rebuildFlow"
-        style = "{{!$root.featureFlags.rebuildFlow ? 'width: auto;' : ''}}"
-      )
-        //- spinner
-        .spinner-wrapper.spinner-sm.spinner-white.in(
-          ng-if = "$root.isLoading.editServerModalIsBuilding"
-          ng-include = "'spinner'"
-        )
-        //- if built…text should only say "Save"
-        span.btn-text(
-          ng-if = "!$root.isLoading.editServerModalIsBuilding"
-        ) {{ (SMC.validation.env.length) ? (SMC.validation.env.length) + ' env errors' : 'Save & Rebuild'}}
-        span.btn-text(
-          ng-if = "$root.isLoading.editServerModalIsBuilding"
-        ) Saving
