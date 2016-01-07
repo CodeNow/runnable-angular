@@ -16,14 +16,20 @@ function errs (
   var noDisplayCodes = [401, 403];
   var errors = [];
 
-  function reportError(err, emitter) {
-    if (err) {
-      if (err.message === 'Bad credentials') {
-        window.location = configAPIHost + '/auth/github?redirect=' + $window.location.protocol + '//' + $window.location.host + '/?auth';
-        return;
-      }
+  function validErrorCheck(err) {
+    if (!err) {
+      return false;
+    }
+    if (err.message === 'Bad credentials') {
+      window.location = configAPIHost + '/auth/github?redirect=' + $window.location.protocol + '//' + $window.location.host + '/?auth';
+      return false;
+    }
 
-      if (~noDisplayCodes.indexOf(keypather.get(err, 'data.statusCode'))) { return; }
+    if (~noDisplayCodes.indexOf(keypather.get(err, 'data.statusCode'))) { return false; }
+    return true;
+  }
+  function reportError(err, emitter) {
+    if (validErrorCheck(err)) {
       if (configEnvironment !== 'production') {
         $log.error(err);
       } else {
@@ -36,7 +42,7 @@ function errs (
 
   return {
     handler: function (err) {
-      if (err) {
+      if (validErrorCheck(err)) {
         reportError(err, 'Error Popup');
         if (!errors.find(hasKeypaths({ 'message': err.message }))) {
           errors.push(err);

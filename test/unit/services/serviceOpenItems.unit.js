@@ -3,7 +3,7 @@
 
 var VersionFileModel = require('runnable/lib/models/context/version/file');
 
-describe('serviceOpenItems'.bold.underline.blue, function () {
+describe.only('serviceOpenItems'.bold.underline.blue, function () {
   var $localStorage, keypather, OpenItems;
   var fileObj = {"path":"/home","name":"defined","isDir":false,"body":"adsf","state":{"from":"File"}};
   var fileModel = new VersionFileModel(fileObj, { noStore: true });
@@ -88,6 +88,82 @@ describe('serviceOpenItems'.bold.underline.blue, function () {
         var result = oi.addLogs();
 
         expect(result).to.deep.eql(oldStream);
+      });
+    });
+  });
+
+
+  describe('remove all but'.blue, function () {
+    describe('BuildLogs'.blue, function() {
+      it('should remove everything but the buildstream', function() {
+        var oi = new OpenItems();
+
+        oi.addBuildStream();
+        oi.addLogs();
+        oi.add(fileModel);
+
+        expect(oi.models.length).to.eql(3);
+
+        oi.removeAllButBuildLogs();
+
+        expect(oi.models.length).to.eql(1);
+        expect(oi.activeHistory.last().state.type).to.eql('BuildStream');
+      });
+      it('should add a buildstream if one did not exist', function() {
+        var oi = new OpenItems();
+
+        oi.addLogs();
+        oi.add(fileModel);
+
+        expect(oi.models.length).to.eql(2);
+
+        oi.removeAllButBuildLogs();
+
+        expect(oi.models.length).to.eql(1);
+        expect(oi.activeHistory.last().state.type).to.eql('BuildStream');
+      });
+    });
+    describe('Logs'.blue, function() {
+      it('should remove everything but the buildstream and logView', function() {
+        var oi = new OpenItems();
+
+        oi.addBuildStream();
+        oi.addLogs();
+        oi.addTerminal();
+        oi.add(fileModel);
+
+        expect(oi.models.length).to.eql(4);
+
+        oi.removeAllButLogs();
+
+        expect(oi.models.length).to.eql(2);
+        expect(oi.activeHistory.last().state.type).to.eql('LogView');
+      });
+      it('should add a buildstream if one did not exist', function() {
+        var oi = new OpenItems();
+
+        oi.addLogs();
+        oi.add(fileModel);
+
+        expect(oi.models.length).to.eql(2);
+
+        oi.removeAllButLogs();
+
+        expect(oi.models.length).to.eql(2);
+        expect(oi.activeHistory.last().state.type).to.eql('LogView');
+      });
+      it('should add a buildstream and logview when nothing exists', function() {
+        var oi = new OpenItems();
+
+        oi.addLogs();
+        oi.add(fileModel);
+
+        expect(oi.models.length).to.eql(2);
+
+        oi.removeAllButLogs();
+
+        expect(oi.models.length).to.eql(2);
+        expect(oi.activeHistory.last().state.type).to.eql('LogView');
       });
     });
   });

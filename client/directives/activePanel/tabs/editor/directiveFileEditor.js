@@ -22,6 +22,7 @@ function fileEditor(
     templateUrl: 'viewFileEditor',
     scope: {
       file: '=',
+      instance: '=?',
       loadingPromisesTarget: '@?',
       readOnly: '=?',
       useAutoUpdate: '=?'
@@ -68,6 +69,23 @@ function fileEditor(
           .finally(function () {
             $scope.loading = false;
           });
+      }
+
+      if ($scope.instance) {
+        $scope.$watch('instance.isMigrating()', function (isMigrating, wasMigrating) {
+          if (!isMigrating && wasMigrating) {
+            // If we were migrating, but just finished, we need to re-fetch these files
+            var backupChanges = $scope.file.state.body;
+            fetchFile()
+              .then(function () {
+                if (!$scope.hasError) {
+                  keypather.set($scope.file, 'state.body', backupChanges);
+                }
+              });
+          } else if (isMigrating && !wasMigrating) {
+            $scope.hasError = true;
+          }
+        });
       }
 
       function updateFile() {

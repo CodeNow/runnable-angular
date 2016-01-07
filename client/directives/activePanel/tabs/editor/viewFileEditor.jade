@@ -3,9 +3,11 @@
   ng-if = "loading"
   ng-include = "'spinner'"
 )
-p.p(
+
+.blank-panel(
   ng-if = "!loading && hasError"
-) We're Sorry, but you're file is in another castle... and that castle just blew up! 😱
+)
+  p.p We're Sorry, but your file is in another castle… and that castle just blew up! 😱
 
 .pre(
   lazy-load = "ui.ace"

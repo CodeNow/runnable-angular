@@ -23,7 +23,6 @@ function ControllerInstance(
   fetchUser,
   pageName,
   setLastInstance,
-  fetchGitHubAdminsByRepo,
   loading
 ) {
   var dataInstance = $scope.dataInstance = {
@@ -42,13 +41,6 @@ function ControllerInstance(
   data.showExplorer = true;
   // loader if saving fs changes
   data.saving = false;
-
-  data.sectionClasses = {
-    // out shows/hides entire toolbar
-    out: true,
-    // in shows/hides file-menu
-    in: false
-  };
 
   data.userIsOrg = function () {
     return $scope.user.oauthName() !== $state.params.userName;
@@ -148,109 +140,24 @@ function ControllerInstance(
     }
   });
 
-  // watch showExplorer (toggle when user clicks file menu)
-  // if no running container, return early (user shouldn't be able to even click
-  // button in this situation)
-  $scope.$watch('dataInstance.data.showExplorer', function (n) {
-    var runningContainer = keypather.get(data, 'instance.containers.models[0].running()');
-    if (!runningContainer) {
-      return;
-    }
-    data.sectionClasses.in = n;
-  });
-
-  // If instance:
-  //   !deployed (includes time when building, and short time after building completes before containers initiated)
-  //     - hide explorer
-  //     - display build logs
-  //   deployed && stopped
-  //     - hide explorer
-  //     - display box logs
-  //   deployed && running
-  //     - show explorer
-  //     - show terminal
-  //     - show box logs (has focus)
-  // watch for deployed/started/stopped instance
-  // all watches necessary, updateDisplayedTabs expectst to be invoked
-  // after fetching instance, fetching container, and cointainer start
-
-  function checkContainerState() {
-    var container = keypather.get($scope, 'dataInstance.data.instance.containers.models[0]');
-    if (!container) {
-      if (keypather.get($scope, 'dataInstance.data.instance.build')) {
-        var completed = keypather.get($scope, 'dataInstance.data.instance.build.attrs.completed');
-        container = {
-          Building: (keypather.get($scope, 'dataInstance.data.instance.build.attrs.started'))
-        };
-      }
-    } else {
-      container = container.attrs;
-    }
-    return container;
-  }
-  $scope.$watch('dataInstance.data.instance.status()', displayTabsForContainerState, true);
-
-  function displayTabsForContainerState(status) {
+  $scope.$watch('dataInstance.data.instance.status()', function (status) {
     if (keypather.get($scope, 'dataInstance.data.instance.isMigrating()')) {
       // If we're migrating, don't change the tabs
       return;
     }
     if (['building', 'buildFailed', 'neverStarted'].includes(status)) {
-      buildLogsOnly();
+      data.openItems.removeAllButBuildLogs();
     } else if (['crashed', 'stopped', 'starting', 'stopping'].includes(status)) {
-      boxLogsOnly();
+      data.openItems.removeAllButLogs();
     } else if (status === 'running') {
-      data.sectionClasses.in = data.showExplorer;
-      restoreOrOpenDefaultTabs();
+      data.openItems.restoreTabs(
+        { instanceId: data.instance.id() },
+        data.instance.containers.models[0]
+      );
     }
 
     $timeout(function () {
       favico.setInstanceState(keypather.get($scope, 'dataInstance.data.instance'));
     });
-  }
-
-  function buildLogsOnly () {
-    data.sectionClasses = {
-      out: true,
-      in: false
-    };
-    data.openItems.reset([]);
-    // Set to true if we see the instance in an undeployed state
-    // DOM will have message when instance w/ containers fetched
-    data.showFinishMessageWhenContainerFetched = true;
-    // instance not deployed yet
-
-    data.openItems.addBuildStream();
-  }
-
-  function boxLogsOnly () {
-    data.openItems.reset([]);
-    data.showExplorer = false;
-    data.sectionClasses = {
-      out: true,
-      in: false
-    };
-
-    data.openItems.addBuildStream();
-    data.openItems.addLogs(); // Add this last so that it's selected
-  }
-
-  function restoreOrOpenDefaultTabs () {
-    data.openItems.reset([]);
-    data.sectionClasses.out = false;
-    if (!data.openItems.hasOpen('BuildStream')) {
-      data.openItems.addBuildStream();
-    }
-    if (!data.openItems.hasOpen('Terminal')) {
-      data.openItems.addTerminal();
-    }
-    if (!data.openItems.hasOpen('LogView')) {
-      data.openItems.addLogs();
-    }
-    data.openItems.restoreTabs(
-      { instanceId: data.instance.id() },
-      data.instance.containers.models[0]
-    );
-    data.openItems.restoreActiveTab();
-  }
+  });
 }

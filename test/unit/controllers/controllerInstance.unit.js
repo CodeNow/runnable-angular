@@ -133,8 +133,6 @@ describe('controllerInstance'.bold.underline.blue, function () {
     expect($scope).to.have.deep.property('dataInstance.data');
     expect($scope).to.have.deep.property('dataInstance.data.openItems');
     expect($scope).to.have.deep.property('dataInstance.data.saving');
-    expect($scope).to.have.deep.property('dataInstance.data.showExplorer');
-    expect($scope).to.have.deep.property('dataInstance.data.sectionClasses');
 
     $scope.$apply();
 
@@ -147,4 +145,22 @@ describe('controllerInstance'.bold.underline.blue, function () {
 
   });
 
+
+  describe('instance status', function () {
+    it('instance ', function () {
+      var oi = new OpenItems();
+
+      oi.addBuildStream();
+      oi.addLogs();
+      oi.addTerminal();
+      oi.add(fileModel);
+
+      expect(oi.models.length).to.eql(4);
+
+      oi.removeAllButLogs();
+
+      expect(oi.models.length).to.eql(2);
+      expect(oi.activeHistory.last().state.type).to.eql('LogView');
+    });
+  });
 });

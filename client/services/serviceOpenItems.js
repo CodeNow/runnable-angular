@@ -380,25 +380,44 @@ function openItemsFactory(
     model.on('update', self.boundSaveState);
   };
 
-  OpenItems.prototype.remove = function (model) {
+  OpenItems.prototype.remove = function (model, ignoreState) {
     var index = this.models.indexOf(model);
     if (index >= 0) {
       keypather.set(model, 'state.open', false);
       this.unbindFileModel(model);
       this.models.splice(index, 1);
       this.activeHistory.remove(model);
-      this.saveState();
+      if (!ignoreState) {
+        this.saveState();
+      }
       return this;
     }
   };
 
-  OpenItems.prototype.removeAllButLogs = function () {
+  OpenItems.prototype.removeAllButBuildLogs = function () {
     var models = this.models.slice();
     for (var i = 0; i < models.length; i++) {
       if (!(models[i] instanceof BuildStream)) {
-        this.remove(models[i]);
+        this.remove(models[i], true);
       }
     }
+    this.addBuildStream();
+  };
+
+  /**
+   * Removes everything from openItems except for the BuildStream and the Box Logs
+   */
+  OpenItems.prototype.removeAllButLogs = function () {
+    var models = this.models.slice();
+    for (var i = 0; i < models.length; i++) {
+      if (!(models[i] instanceof LogView || models[i] instanceof BuildStream)) {
+        this.remove(models[i], true);
+      } else if (models[i] instanceof LogView) {
+        this.activeHistory.add(models[i]);
+      }
+    }
+    this.addBuildStream();
+    this.addLogs();
   };
 
   OpenItems.prototype.removeAndReopen = function (fileModel) {
