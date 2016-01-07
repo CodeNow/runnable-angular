@@ -43,7 +43,7 @@ function createAndBuildNewContainer(
       .then(function (newServerModel) {
         $rootScope.$broadcast('alert', {
           type: 'success',
-          text: 'Your new container is building.'
+          text: 'Container Created'
         });
         helpCards.hideActiveCard();
         return createNewInstance(

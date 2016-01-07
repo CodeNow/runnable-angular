@@ -101,6 +101,7 @@
   position: absolute;
   right: 15px;
   top: 18px;
+  z-index: 2; // fix overlap with container-title-wrapper
 
   &:hover {
     color: $red;
