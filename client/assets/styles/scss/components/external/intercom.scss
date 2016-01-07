@@ -1,3 +1,4 @@
+// scss-lint:disable ImportantRule IdSelector
 // intercom button
 .isolation-intercom-flag-on #intercom-launcher {
   left: 21px !important;
@@ -9,10 +10,10 @@
 
 .isolation-intercom-flag-on .intercom-launcher-button {
   background-color: #704093 !important;
-  border: 2px solid #653984 !important;
-  border-width: 2px !important;
+  border: $input-border solid #653984 !important;
+  border-width: $input-border !important;
   box-shadow: none !important;
-  left: -2px !important;
+  left: -$input-border !important;
 
   &:hover,
   &:active {
@@ -39,6 +40,8 @@
 
 .isolation-intercom-flag-on .intercom-launcher-preview-caret {
 
+  // overriding intercom's styles, use their pseudo element style
+  // scss-lint:disable PseudoElement
   &:after {
     border-left: 0 !important;
     border-right-color: $white !important;
@@ -50,6 +53,7 @@
     border-right-color: #ddd !important;
     left: -6px !important;
   }
+  // scss-lint:enable PseudoElement
 }
 
 // intercom bar

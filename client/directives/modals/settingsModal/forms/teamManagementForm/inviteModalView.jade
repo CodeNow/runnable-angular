@@ -11,8 +11,15 @@
 
     .modal-body
 
+      .spinner-wrapper.spinner-md.in(
+        ng-if = "$root.isLoading.inviteModal"
+        ng-include = "'spinner'"
+      )
+
       //- list of teammates (from github) that are not on runnable
-      ul.list.list-bordered.list-teammates
+      ul.list.list-bordered.list-teammates(
+        ng-if = "!$root.isLoading.inviteModal"
+      )
         li.list-item(
           ng-class = "{'active': IMC.activeUserId === user.id}"
           ng-repeat = "user in IMC.unInvitedMembers"
@@ -35,7 +42,7 @@
             )
 
           input.input.input-sm.input-validate.validate-on-blur.js-animate(
-            ng-model = "user.inviteEmail"
+            ng-model = "user.email"
             ng-show = "IMC.activeUserId === user.id"
             placeholder = "Email Address"
             required
@@ -47,7 +54,7 @@
           button.btn.btn-xs.green.js-animate(
             ng-class = "{'in': !!IMC.sendingInviteUserId}"
             ng-click = "IMC.sendInvitation(user, $index)"
-            ng-disabled = "!user.inviteEmail"
+            ng-disabled = "!user.email"
             ng-show = "IMC.activeUserId === user.id"
           ) Send
 

@@ -776,9 +776,9 @@ describe('serviceFetch'.bold.underline.blue, function () {
     });
   });
 
-  describe('factory fetchSlackMembers', function () {
+  describe('factory verifySlackAPITokenAndFetchMembers', function () {
     var $rootScope;
-    var fetchSlackMembers;
+    var verifySlackAPITokenAndFetchMembers;
     var configAPIHost;
 
     beforeEach(function () {
@@ -788,11 +788,11 @@ describe('serviceFetch'.bold.underline.blue, function () {
       });
       angular.mock.inject(function (
         _$rootScope_,
-        _fetchSlackMembers_,
+        _verifySlackAPITokenAndFetchMembers_,
         _configAPIHost_
       ) {
         $rootScope = _$rootScope_;
-        fetchSlackMembers = _fetchSlackMembers_;
+        verifySlackAPITokenAndFetchMembers = _verifySlackAPITokenAndFetchMembers_;
         configAPIHost = _configAPIHost_;
       });
     });
@@ -808,7 +808,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
           is_bot: true
         }]
       };
-      var promise = fetchSlackMembers(token);
+      var promise = verifySlackAPITokenAndFetchMembers(token);
       $rootScope.$digest();
       expect(promise).to.eventually.eql([data.members[0]]);
       expect(res.args[0].url).to.have.string('slack');
@@ -821,9 +821,9 @@ describe('serviceFetch'.bold.underline.blue, function () {
         error: 'invalid_auth',
         ok: false
       };
-      var fetchSlackMembersPromise = fetchSlackMembers(token);
+      var verifySlackAPITokenAndFetchMembersPromise = verifySlackAPITokenAndFetchMembers(token);
       $rootScope.$digest();
-      expect(fetchSlackMembersPromise).to.eventually.be.an.instanceof(Error, 'Provided Api');
+      expect(verifySlackAPITokenAndFetchMembersPromise).to.eventually.be.an.instanceof(Error, 'Provided Api');
     });
     it('should throw an error if the token is invalid', function () {
       var token = 'x123';
@@ -831,9 +831,9 @@ describe('serviceFetch'.bold.underline.blue, function () {
         error: 'not_invalid_auth',
         ok: false
       };
-      var fetchSlackMembersPromise = fetchSlackMembers(token);
+      var verifySlackAPITokenAndFetchMembersPromise = verifySlackAPITokenAndFetchMembers(token);
       $rootScope.$digest();
-      expect(fetchSlackMembersPromise).to.eventually.be.an.instanceof(Error, 'not_invalid_auth');
+      expect(verifySlackAPITokenAndFetchMembersPromise).to.eventually.be.an.instanceof(Error, 'not_invalid_auth');
     });
   });
 

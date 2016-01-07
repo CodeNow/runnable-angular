@@ -1,7 +1,7 @@
 // div.modal-backdrop
 .modal-backdrop {
-  animation: fade .15s;
   align-items: center;
+  animation: fade .15s;
   background: rgba($white,.9);
   display: flex;
   flex-direction: column;
@@ -90,23 +90,25 @@
       margin-left: 6px;
     }
   }
+}
 
-  // close icon
-  .icons-close {
-    color: $gray-light;
-    cursor: pointer;
-    pointer-events: auto; // reset from .iconnables
-    position: absolute;
-    right: 15px;
-    top: 18px;
+// close
+.modal-header > .icons-close,
+.modal-body > .icons-close {
+  color: $gray-light;
+  cursor: pointer;
+  pointer-events: auto; // reset from .iconnables
+  position: absolute;
+  right: 15px;
+  top: 18px;
+  z-index: 2; // fix overlap with container-title-wrapper
 
-    &:hover {
-      color: $red;
-    }
+  &:hover {
+    color: $red;
+  }
 
-    &:active {
-      color: $red-dark;
-    }
+  &:active {
+    color: $red-dark;
   }
 }
 
@@ -135,28 +137,46 @@
 .modal-tabs {
   display: block;
   margin: 0 auto;
-  transition: width .15s ease-in-out;
+  overflow-x: auto;
+  padding: 0 6px;
+  transition: max-width .15s ease-in-out;
   white-space: nowrap;
 
   // show 1 tab
   &.tabs-1 {
-    width: 90px;
+    max-width: 90px + 12px; // tab width + padding
   }
 
-  // show 2 tabs
   &.tabs-2 {
-    width: 90px * 2;
+    max-width: (90px * 2) + 12px;
   }
 
-  // show all tabs except logs
+  &.tabs-3 {
+    max-width: (90px * 3) + 12px;
+  }
+
+  &.tabs-4 {
+    max-width: (90px * 4) + 12px;
+  }
+
+  &.tabs-5 {
+    max-width: (90px * 5) + 12px;
+  }
+
+  &.tabs-6 {
+    max-width: (90px * 6) + 12px;
+  }
+
   &.tabs-7 {
-    width: 90px * 7;
+    max-width: (90px * 7) + 12px;
   }
 
-  // show all tabs
+  &.tabs-8 {
+    max-width: (90px * 8) + 12px;
+  }
+
   &.tabs-all {
-    overflow-x: auto;
-    width: 100%;
+    max-width: 100%;
   }
 
   // for animation on .tabs-all
@@ -216,7 +236,7 @@
   }
 
   + .list {
-    font-weight: 500;
+    font-weight: $weight-bold;
     margin: 15px 0 15px $input-md;
   }
 }
@@ -249,7 +269,7 @@
   // empty p tag
   .p.empty {
     color: $gray;
-    font-weight: 500;
+    font-weight: $weight-bold;
     margin: 60px 0 30px;
     text-align: center;
 

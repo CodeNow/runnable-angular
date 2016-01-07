@@ -18,14 +18,10 @@ function serverStatusCardHeader(
     scope: {
       instance: '= instance',
       noTouching: '=? noTouching',
-      inModal: '=? inModal'
+      inModal: '=? inModal',
+      SMC: '=? serverModalController'
     },
-    templateUrl: function (elem, attrs) {
-      if ($rootScope.featureFlags.cardStatus) {
-        return 'serverStatusCardHeaderViewCardStatus';
-      }
-      return 'serverStatusCardHeaderView';
-    },
+    templateUrl: 'serverStatusCardHeaderView',
     link: function ($scope, elem, attrs) {
       $scope.popoverServerActions = {
         openEditServerModal: function (defaultTab) {
@@ -53,6 +49,12 @@ function serverStatusCardHeader(
               return modal.close.then(function (confirmed) {
                 if (confirmed) {
                   promisify(instance, 'destroy')()
+                    .then(function () {
+                      $rootScope.$broadcast('alert', {
+                        type: 'deleted',
+                        text: 'Container Deleted'
+                      });
+                    })
                     .catch(errs.handler);
                   helpCards.refreshAllCards();
                 }

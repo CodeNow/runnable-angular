@@ -11,6 +11,7 @@
     border-top: 1px solid $gray-lighter;
   }
 
+  // scss-lint:disable SelectorFormat
   // hide scrollbar (still allows scrolling)
   .ace_scrollbar {
     overflow: hidden;
@@ -31,6 +32,7 @@
       flex: 1 1 auto;
     }
   }
+  // scss-lint:enable SelectorFormat
 }
 
 // .blank-panel

@@ -34,15 +34,26 @@ app.config(function ($httpProvider, $animateProvider) {
   $httpProvider.defaults.headers.delete = { 'Content-Type' : 'application/json' };
   $httpProvider.useApplyAsync(true);
   $httpProvider.interceptors.push('logHttpTid');
+  $httpProvider.interceptors.push(function ($browser) {
+    return {
+      response: function (response) {
+        var CSRFToken = $browser.cookies()['CSRF-TOKEN'];
+        if (CSRFToken) {
+          $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = CSRFToken;
+        }
+        return response;
+      }
+    };
+  });
   $animateProvider.classNameFilter(/js-animate/);
 });
 
 /**
  * Override the default exception handler so we can report the error.
  */
-app.config(function($provide) {
-  $provide.decorator('$exceptionHandler', function($delegate, report) {
-    return function(exception, cause) {
+app.config(function ($provide) {
+  $provide.decorator('$exceptionHandler', function ($delegate, report) {
+    return function (exception, cause) {
       $delegate(exception, cause);
       report.error(exception, {
         cause: cause,

@@ -94,12 +94,12 @@ function popOver(
 
           if (keypather.get($scope, 'popoverOptions.centered')) {
             style.right = null;
-            style.left = (-POC.popoverElement[0].offsetWidth / 2 + offset.left + (offset.right - offset.left) / 2) + 'px';
+            style.left = Math.round((-POC.popoverElement[0].offsetWidth / 2 + offset.left + (offset.right - offset.left) / 2)) + 'px';
           }
 
           if (keypather.get($scope, 'popoverOptions.verticallyCentered')) {
             style.bottom = null;
-            style.top = (-POC.popoverElement[0].offsetHeight / 2 + offset.top + (offset.bottom - offset.top) / 2) + 'px';
+            style.top = Math.round((-POC.popoverElement[0].offsetHeight / 2 + offset.top + (offset.bottom - offset.top) / 2)) + 'px';
           }
 
           previousStyle = style;

@@ -1,14 +1,15 @@
 'use strict';
 
 require('app')
-  .controller('TeamManagementController', TeamManagementController);
+  .controller('TeamManagementFormController', TeamManagementFormController);
 
 /**
  * @ngInject
  */
-function TeamManagementController(
-  $rootScope,
+function TeamManagementFormController(
   $q,
+  $rootScope,
+  $scope,
   $state,
   errs,
   fetchOrgMembers,
@@ -24,14 +25,14 @@ function TeamManagementController(
   // Load initial state
   fetchMembers();
 
-  $rootScope.$on('newInvitedAdded', function (event, user) {
-    var index = TMMC.members.uninvited.indexOf(user);
-    TMMC.members.uninvited.splice(index, 1);
+  var newInviteAddedWatchterUnbind = $rootScope.$on('newInvitedAdded', function (event, user) {
     TMMC.members.invited.push(user);
     TMMC.members.invited = TMMC.members.invited.sort(function (a, b) {
-      return a.login > b.login;
+      return a.login.toLowerCase() > b.login.toLowerCase();
     });
   });
+
+  $scope.$on('$destroy', newInviteAddedWatchterUnbind);
 
   function fetchMembers () {
     return fetchOrgMembers($state.params.userName, true)

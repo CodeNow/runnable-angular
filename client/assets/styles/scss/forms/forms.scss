@@ -14,10 +14,10 @@
 .label-col {
   color: $gray;
   float: left;
-  font-weight: 500;
+  font-weight: $weight-bold;
   height: $input-sm;
   line-height: $input-sm;
-  padding-right: 15px;
+  padding: 0 15px 0 9px;
   width: 240px;
   word-break: break-word;
 
@@ -29,6 +29,10 @@
     float: none;
     text-align: left;
     width: 100%;
+
+    &.float-left-xs {
+      float: left;
+    }
   }
 
   > .small.small {
@@ -86,6 +90,21 @@
   width: auto;
 }
 
+// use when label-col has description as sibling
+.label-description {
+  margin-bottom: 9px;
+
+  .label-col {
+    height: auto;
+    line-height: 1.4;
+  }
+
+  .small {
+    clear: both;
+    padding-left: 9px;
+  }
+}
+
 // input column (right)
 .input-col {
   float: right;
@@ -101,17 +120,6 @@
     width: 100%;
   }
 
-  // spinner
-  &.input-spinner {
-    margin: 6px 0 0;
-    text-align: right;
-
-    .small.small {
-      color: $gray;
-      margin: 0;
-    }
-  }
-
   // fancy select spinner
   .btn {
     position: relative;
@@ -119,7 +127,7 @@
     .spinner-wrapper {
       color: $gray-light;
       position: absolute;
-      right: 6px;
+      right: 3px;
       top: 4px;
     }
   }
@@ -151,7 +159,7 @@
 
   // helpful messages
   .small {
-    font-weight: 500;
+    font-weight: $weight-bold;
     line-height: 18px;
     margin: 6px 0 0;
 

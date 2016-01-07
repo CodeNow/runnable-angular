@@ -228,7 +228,7 @@
 .white {
   border: $input-border solid transparent;
   color: $white;
-  font-weight: 500;
+  font-weight: $weight-bold;
   text-decoration: none;
 
   &:active {
@@ -378,8 +378,8 @@
   }
 
   &.btn-group {
-    border: 2px solid $white;
-    border-radius: 3px;
+    border: $input-border solid $white;
+    border-radius: $input-border-radius;
 
     > .btn {
       border: 0;
@@ -476,7 +476,7 @@
   }
 
   &.active {
-    font-weight: 500;
+    font-weight: $weight-bold;
   }
 
   &:focus {

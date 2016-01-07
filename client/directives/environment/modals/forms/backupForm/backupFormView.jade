@@ -22,18 +22,18 @@
     showLogs = false;\
   "
 )
-  .clearfix
+  .label-description.clearfix
     .label-col Backup Script
-  .small.clearfix
-    span.float-left Backups are created daily by running this script at
-    fancy-select.btn.btn-xxs.white.float-left(
-      value = "selectedHour"
-    )
-      fancy-option(
-        ng-repeat = "hour in $parent.hours"
-        style = "text-align: right;"
-        value = "hour"
-      ) {{$parent.hour}} PST
+    .small.text-gray.clearfix
+      span.float-left Backups are created daily by running this script at
+      fancy-select.btn.btn-xxs.white.float-left(
+        value = "selectedHour"
+      )
+        fancy-option(
+          ng-repeat = "hour in $parent.hours"
+          style = "text-align: right;"
+          value = "hour"
+        ) {{$parent.hour}} PST
 
   .logs-runnable-dark
     .views-toolbar(
@@ -80,14 +80,14 @@
   ng-hide = "$root.featureFlags.fullScreen"
   ng-if = "page === 'restore'"
 )
-  .clearfix
+  .label-description.clearfix
     .label-col Restore Script
-  .small This script runs during every build, restoring from the most recent backup.&#32;
-    a.link(
-      href = "#"
-      target = "_blank"
-    ) Learn how to restore from older backups
-    | .
+    .small.text-gray This script runs during every build, restoring from the most recent backup.&#32;
+      a.link(
+        href = "#"
+        target = "_blank"
+      ) Learn how to restore from older backups
+      | .
   .logs-runnable-dark
     //- only show toolbar and revert button if script differs from default
     //- .views-toolbar(

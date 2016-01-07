@@ -340,8 +340,8 @@ function openItemsFactory(
   OpenItems.prototype.isClean = function () {
     var models = this.models;
     for (var i = 0; i < models.length; i++) {
-      if (models[i].state.type === 'File' &&
-        (models[i].state.isDirty || models[i].state.body !== models[i].attrs.body)) {
+      if (models[i].state.type === 'File' && (models[i].state.isDirty ||
+            models[i].state.body !== undefined && (models[i].state.body !== models[i].attrs.body))) {
         return false;
       }
     }

@@ -35,21 +35,20 @@
     color: $gray-dark;
     cursor: pointer;
     display: block;
+    height: $input-md;
     line-height: $input-md;
     margin: 0;
-    max-height: $input-md;
-    min-height: $input-md;
     padding: 0 9px;
     position: relative;
-    transition: max-height .15s ease-in-out;
+    transition: height .15s ease-in-out;
 
     &.expanded {
-      max-height: 150px;
+      height: 114px;
     }
 
     &.disabled {
       cursor: not-allowed;
-      max-height: $input-md;
+      height: $input-md;
     }
 
     .gravatar {
@@ -103,6 +102,7 @@
   }
 
   .select {
+    backface-visibility: hidden; // this fixes chrome occasionally clipping the select menu after transitions by forcing rendering to happen on a separate layer
     color: $gray-darker;
     cursor: pointer;
     display: block;

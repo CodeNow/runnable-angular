@@ -1,15 +1,3 @@
-//- alert only appears when changes have been made
-.alert.gray(
-  ng-if = "\
-    $root.featureFlags.newVerificationFlow && \
-    SMC.instance && \
-    SMC.isDirty()\
-  "
-) Rebuild to see changes you’ve made.
-  button.btn.btn-xxs.gray(
-    ng-click = "SMC.rebuild(false)"
-  ) Rebuild
-
 //- alert appears during a build failure AND no changes have been made
 .alert.orange(
   ng-if = "\

@@ -2,40 +2,18 @@
 .notification.notification-sm.environment-notification.js-animate(
   ng-class = "{\
     'green': alert.type === 'success',\
-    'red': alert.type === 'deleted'\
+    'top-right red': alert.type === 'deleted',\
   }"
-  ng-if = "$root.featureFlags.inviteFlows && alert"
+  ng-if = "alert"
 )
   svg.iconnables.icons-check.float-left
     use(
       xlink:href = "#icons-check"
     )
-  //- omg
-  span(
-    ng-if = "alert.text === 'Your new container is building.'"
-  ) Container Created
-  span(
-    ng-if = "alert.text === 'Container updated successfully.'"
-  ) Changes Saved
-  span(
-    ng-if = "deleted"
-  ) Container Deleted
-    a.link Undo
-
-//- old alerts
-.help-container.fixed.bottom(
-  ng-if = "!$root.featureFlags.inviteFlows"
-)
-  .help(
-    ng-if = "alert"
-  )
-    svg.iconnables.icons-check(
-      ng-if = "alert.type === 'success'"
-    )
-      use(
-        xlink:href = "#icons-check"
-      )
-    | {{alert.text}}
+  span {{alert.text}}
+  //- a.link(
+  //-  ng-if = "$root.featureFlags.undoDelete
+  //- ) Undo
 
 //- environment page
 .environment-wrapper
@@ -69,10 +47,10 @@
     )
 
   footer.environment-footer.small.text-center(
-    ng-if = "$root.featureFlags.inviteFlows"
+    ng-if = "$root.featureFlags.inviteFlows && EC.showInviteButton"
   )
     a.link(
-      internal-modal-helper = "inviteModalView"
+      ng-click = "EC.triggerModal.inviteTeammate()"
     )
       svg.iconnables.icons-team-invite
         use(

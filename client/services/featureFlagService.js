@@ -27,7 +27,6 @@ function featureFlags(
     newVerificationFlow: true,
     newVerificationFlowStackSelector: true,
     noBuildLogs: true,
-    rebuildFlow: false, // updated rebuild flow
     renameContainer: false,
     saveToolbar: false,
     teamManagement: false, // changes text from org to team in account menu
@@ -38,7 +37,8 @@ function featureFlags(
     urlPopover: false,
     webhooksAdminPresent: false,
     webhooksContainerRunning: false,
-    webhooks: false
+    webhooks: false,
+    whitelist: false
   };
 
   var _featureFlags = {};

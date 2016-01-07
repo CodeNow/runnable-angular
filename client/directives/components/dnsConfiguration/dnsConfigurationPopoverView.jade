@@ -24,7 +24,7 @@
         )
           .fade(
             ng-class = "{'in': isActivePanel()}"
-          ) DNS Mappings
+          ) Connections
 
         //- spinner when loading
         .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
@@ -36,12 +36,7 @@
         .popover-content(
           ng-if = "$root.isLoaded.dns && DCC.filteredDependencies.length === 0"
         )
-          p.p.empty.text-center.fade-in DNS Mappings are created with Repository URLs in Environment Variables or Find & Replace.&#32;
-            a.link(
-              href = "https://runnable.zendesk.com/hc/en-us/articles/204528909-What-is-a-Repository-URL"
-              target = "_blank"
-            ) Learn more
-            | .
+          p.p.empty.text-center.fade-in Connect to containers by using their URLs in Environment Variables or Find & Replace.
 
         //- begin dns mappings
         .popover-content.load(
@@ -102,6 +97,7 @@
                 use(
                   xlink:href = "#icons-arrow-down"
                 )
+          .popover-footer.text-center.text-gray.small Connect to containers by using their URLs in Environment Variables or Find & Replace.
 
     animated-panel(
       name = "dnsList"

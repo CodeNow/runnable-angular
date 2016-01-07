@@ -12,7 +12,7 @@ var $scope;
 var $q;
 var keypather;
 
-describe('TeamManagementController'.bold.underline.blue, function () {
+describe('TeamManagementFormController'.bold.underline.blue, function () {
 
   var TMMC;
   var fetchOrgMembersStub;
@@ -25,7 +25,7 @@ describe('TeamManagementController'.bold.underline.blue, function () {
   var registeredUsername = 'registered';
   var invitedUsername = 'invited';
   var uninvitedUsername = 'uninvited';
-  var inviteEmail = 'invited@invited.com';
+  var email = 'invited@invited.com';
   var registered;
   var invited;
   var uninvited;
@@ -36,7 +36,7 @@ describe('TeamManagementController'.bold.underline.blue, function () {
         registered = generateGithubUserObject(registeredUsername, 1);
         registered.userModel = { attrs: generateUserObject(registeredUsername, 1) };
         invited = generateGithubUserObject('invited', 2);
-        invited.userInvitation = { attrs: generateTeammateInvitationObject(123, 2, inviteEmail) };
+        invited.userInvitation = { attrs: generateTeammateInvitationObject(123, 2, email) };
         uninvited = generateGithubUserObject('uninvited', 3);
         var response = {
           all: [registered, invited, uninvited],
@@ -75,7 +75,7 @@ describe('TeamManagementController'.bold.underline.blue, function () {
       $q = _$q_;
       keypather = _keypather_;
     });
-    TMMC = $controller('TeamManagementController', { $scope: $scope }, true)();
+    TMMC = $controller('TeamManagementFormController', { $scope: $scope }, true)();
   });
 
   describe('Init', function () {
@@ -106,20 +106,20 @@ describe('TeamManagementController'.bold.underline.blue, function () {
       expect(TMMC.members.registered[0].email).to.be.a('string');
       expect(TMMC.members.registered[0].email).to.equal('jorge.silva@thejsj.com');
       expect(TMMC.members.uninvited[0].email).to.equal(null);
-      expect(TMMC.members.invited[0].email).to.equal(inviteEmail);
+      expect(TMMC.members.invited[0].email).to.equal(email);
     });
   });
 
   describe('newInvitationAdded event', function () {
 
-    it('should remove the newly invited user from the uninvited users', function () {
+    it('should not remove the newly invited user from the uninvited users', function () {
       $scope.$digest();
       var uninvitedLength = TMMC.members.uninvited.length;
       var newlyInvitedUser = TMMC.members.uninvited[0];
       $rootScope.$broadcast('newInvitedAdded', newlyInvitedUser);
       $scope.$digest();
-      expect(TMMC.members.uninvited.length).to.equal(uninvitedLength - 1);
-      expect(TMMC.members.uninvited.indexOf(newlyInvitedUser)).to.equal(-1);
+      expect(TMMC.members.uninvited.length).to.equal(uninvitedLength);
+      expect(TMMC.members.uninvited.indexOf(newlyInvitedUser)).to.not.equal(-1);
     });
 
     it('should add the newly invited user from the invited users', function () {

@@ -9,7 +9,6 @@ require('app')
   .factory('fetchOrgRegisteredMembers', fetchOrgRegisteredMembers)
   .factory('fetchOrgMembers', fetchOrgMembers)
   .factory('fetchOrgTeammateInvitations', fetchOrgTeammateInvitations)
-  .factory('inviteGithubUserToRunnable', inviteGithubUserToRunnable)
   // Containers
   .factory('fetchInstances', fetchInstances)
   .factory('fetchInstance', fetchInstance)
@@ -28,7 +27,7 @@ require('app')
   .factory('fetchOwnerRepos', fetchOwnerRepos)
   .factory('fetchPullRequest', fetchPullRequest)
   // Settings
-  .factory('fetchSlackMembers', fetchSlackMembers)
+  .factory('verifySlackAPITokenAndFetchMembers', verifySlackAPITokenAndFetchMembers)
   .factory('fetchSettings', fetchSettings)
   .factory('integrationsCache', integrationsCache);
 
@@ -348,7 +347,7 @@ function integrationsCache() {
   return {};
 }
 
-function fetchSlackMembers(
+function verifySlackAPITokenAndFetchMembers(
   $http,
   $q
 ) {
@@ -367,7 +366,7 @@ function fetchSlackMembers(
           return $q.reject(new Error(data.data.error));
         }
         return data.data.members.filter(function (member) {
-          return !member.is_bot;
+          return !member.is_bot && !member.deleted;
         });
       });
   };
@@ -445,45 +444,6 @@ function fetchGithubUserForCommit (
 }
 
 /**
- * Invite a Github User to Runnable. This will send an email to an arbitrary email
- * address.
- *
- * @param {Number} - Github user ID
- * @param {String} - Email address to whom the email will be sent
- * @param {String} - Github org name
- * @resolves {Object} - Invitation model instance
- * @returns {Promise}
- */
-function inviteGithubUserToRunnable(
-  $q,
-  $state,
-  fetchUser,
-  fetchGithubOrgId,
-  promisify
-) {
-  return function (githubUserID, email, teamName) {
-    if (!teamName) {
-      teamName = $state.params.userName;
-    }
-    return $q.all({
-      user: fetchUser(),
-      githubOrgId: fetchGithubOrgId(teamName)
-    })
-      .then(function (response) {
-        return promisify(response.user, 'createTeammateInvitation')({
-          organization: {
-            github: response.githubOrgId
-          },
-          recipient: {
-            email: email,
-            github: githubUserID
-          }
-        });
-      });
-  };
-}
-
-/**
  * Given an Github organization names, get the organizations ID if the current
  * user hast access to that organization
  *
@@ -544,16 +504,16 @@ function fetchOrgTeammateInvitations(
       })
       .then(function (githubOrgId) {
         return fetchUser()
-         .then(function (user) {
-           return promisify(user, 'fetchTeammateInvitations')({ orgGithubId: githubOrgId });
-         });
+          .then(function (user) {
+            return promisify(user, 'fetchTeammateInvitations', true)({ orgGithubId: githubOrgId });
+          });
       });
   };
 }
 
 /**
  * Get an object with all members for an organization, all registered members (
- * registered in Runnable), all unregistered members who have been invited, and 
+ * registered in Runnable), all unregistered members who have been invited, and
  * all unregistered members who have not been invited.
  *
  * @param {String}
