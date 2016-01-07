@@ -6,8 +6,8 @@ button.btn.white.btn-cancel.float-left.js-animate(
 
 button.btn.btn-done.white.float-right(
   ng-class = "{\
-     'js-animate': SMC.state.step > 3\
-   }"
+    'js-animate': SMC.state.step > 3\
+  }"
   ng-click = "SMC.actions.close()"
   ng-if = "SMC.instance || SMC.state.step > 3"
   type = "button"
@@ -35,8 +35,8 @@ button.btn.btn-primary.white.text-next.float-right(
     .text-next
 button.btn.white.btn-primary.float-right.js-animate(
   ng-class = "{\
-    'text-save': SMC.isDirty() === 'update' || $root.isLoading[SMC.name],\
-    'text-save-build': SMC.isDirty() === 'build' && !$root.isLoading[SMC.name]\
+    'text-save': !showSaveAndBuild(),\
+    'text-save-build': showSaveAndBuild()\
   }"
   ng-click = "createServerOrUpdate()"
   ng-disabled = "!SMC.isDirty() || isPrimaryButtonDisabled()"
@@ -44,8 +44,11 @@ button.btn.white.btn-primary.float-right.js-animate(
 )
   span.btn-text.float-left Save
     //- if save triggers a build
-    span.fade(
-      ng-if = "SMC.isDirty() === 'build' && !$root.isLoading[SMC.name]"
+    span(
+      ng-class = "{\
+        'fade js-animate': !!SMC.instance\
+      }"
+      ng-if = "showSaveAndBuild()"
     ) &#32;& Build
 
 span.small.float-right.fade.js-animate(
