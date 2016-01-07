@@ -7,8 +7,12 @@
         )
 
       .modal-form.empty
-        h2.h2.empty.text-center Welcome to Runnable!
-        small.small.empty.text-gray.text-center Your team has started setting up your stack. If they’re not done, help them finish, or dive into using your sandbox.
+        img.img(
+          height = "150"
+          src = "/build/images/welcome/welcome-mat.svg"
+          width = "208"
+        )
+        small.small.empty.text-gray.text-center Your team has started setting up your stack on Runnable. If they’re not done, help them finish, or dive into using your sandbox.
         hr.hr
         .btn-card-wrapper.text-center
           a.btn.btn-card.white(
@@ -20,8 +24,8 @@
                 xlink:href = "#icons-advanced"
               )
             h3.h3 Setting Up
-            small.small Learn how to set up containers, connect them together, and get them running for your stack.
-            button.btn.btn-xs.green View Guide
+            small.small.text-gray Learn how to set up containers and get them running for your stack.
+            button.btn.btn-sm.green View Guide
 
           a.btn.btn-card.white(
             href = "//support.runnable.io"
@@ -32,9 +36,9 @@
                 xlink:href = "#icons-server"
               )
             h3.h3 Using Containers
-            small.small Learn how we work with your code and how you can use containers.
-            button.btn.btn-xs.green View Guide
+            small.small.text-gray Learn how we work with your code and how you can use containers.
+            button.btn.btn-sm.green View Guide
 
-        a.link.small.text-center(
+        a.link.small.text-center.text-gray(
           href = "#"
         ) Dismiss
