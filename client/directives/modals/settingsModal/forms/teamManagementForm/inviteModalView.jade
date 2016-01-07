@@ -42,7 +42,7 @@
             )
 
           input.input.input-sm.input-validate.validate-on-blur.js-animate(
-            ng-model = "user.inviteEmail"
+            ng-model = "user.email"
             ng-show = "IMC.activeUserId === user.id"
             placeholder = "Email Address"
             required
@@ -52,9 +52,9 @@
           )
 
           button.btn.btn-xs.green.js-animate(
-            ng-class = "{'in': IMC.sendingInvitation}"
+            ng-class = "{'in': !!IMC.sendingInviteUserId}"
             ng-click = "IMC.sendInvitation(user, $index)"
-            ng-disabled = "!user.inviteEmail"
+            ng-disabled = "!user.email"
             ng-show = "IMC.activeUserId === user.id"
           ) Send
 
