@@ -29,7 +29,8 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
       changeTab: sinon.stub(),
       state: {
         contextVersion: ctx.cv
-      }
+      },
+      isDirty: sinon.stub()
     };
 
     ctx.loadingMock = sinon.spy();
@@ -56,23 +57,48 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
       $elScope = element.isolateScope();
     });
   });
-  //describe('isBuilding', function () {
-  //  it('should return false if both isLoading[name + isBuilding] and isLoading[name] are false', function () {
-  //    $rootScope.isLoading.editServerModalisBuilding = false;
-  //    $rootScope.isLoading.editServerModal = false;
-  //    expect($elScope.isBuilding(), 'isBuilding').to.be.false;
-  //  });
-  //  it('should return true if isLoading[name + isBuilding] is true', function () {
-  //    $rootScope.isLoading.editServerModalisBuilding = true;
-  //    $rootScope.isLoading.editServerModal = false;
-  //    expect($elScope.isBuilding(), 'isBuilding').to.be.true;
-  //  });
-  //  it('should return true if isLoading[name] is true', function () {
-  //    $rootScope.isLoading.editServerModalisBuilding = false;
-  //    $rootScope.isLoading.editServerModal = true;
-  //    expect($elScope.isBuilding(), 'isBuilding').to.be.true;
-  //  });
-  //});
+  describe('showSaveAndBuild', function () {
+    describe('with steps', function () {
+      it('should be true when steps are less than 4, and no instance', function () {
+        ctx.serverModalController.state.step = 3;
+        ctx.serverModalController.isDirty.returns(false);
+        $rootScope.isLoading.editServerModal = true;
+        expect($elScope.showSaveAndBuild(), 'showSaveAndBuild').to.be.true;
+      });
+      it('should be false when steps are 4, and no instance', function () {
+        ctx.serverModalController.state.step = 4;
+        ctx.serverModalController.isDirty.returns(false);
+        $rootScope.isLoading.editServerModal = true;
+        expect($elScope.showSaveAndBuild(), 'showSaveAndBuild').to.be.false;
+      });
+    });
+
+    describe('without steps', function () {
+      beforeEach(function () {
+        ctx.serverModalController.instance = {};
+      });
+      it('should be false when an instance exists, dirty state is update, and isLoading', function () {
+        ctx.serverModalController.isDirty.returns('update');
+        $rootScope.isLoading.editServerModal = true;
+        expect($elScope.showSaveAndBuild(), 'showSaveAndBuild').to.be.false;
+      });
+      it('should be false when an instance exists, dirty state is false, and isLoading', function () {
+        ctx.serverModalController.isDirty.returns(false);
+        $rootScope.isLoading.editServerModal = true;
+        expect($elScope.showSaveAndBuild(), 'showSaveAndBuild').to.be.false;
+      });
+      it('should be false when an instance exists, dirty state is build, and isLoading', function () {
+        ctx.serverModalController.isDirty.returns('build');
+        $rootScope.isLoading.editServerModal = true;
+        expect($elScope.showSaveAndBuild(), 'showSaveAndBuild').to.be.false;
+      });
+      it('should be true when an instance exists, dirty state is build, and !isLoading', function () {
+        ctx.serverModalController.isDirty.returns('build');
+        $rootScope.isLoading.editServerModal = false;
+        expect($elScope.showSaveAndBuild(), 'showSaveAndBuild').to.be.true;
+      });
+    });
+  });
   describe('createServerOrUpdate', function () {
     it('should return immidiately if primary button is disabled', function () {
       $elScope.isPrimaryButtonDisabled = sinon.stub().returns(true);

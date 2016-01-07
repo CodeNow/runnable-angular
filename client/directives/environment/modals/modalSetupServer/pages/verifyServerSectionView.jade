@@ -4,7 +4,7 @@ header.modal-header
     .server-status-card-pop-over.no-touching
       span.text-overflow.container-title {{SMC.state.repo.attrs.name}}
       span.text-overflow.container-title(
-        ng-if = "!$root.isLoading[SMC.name] && SMC.isDirty()"
+        ng-if = "SMC.state.step < 4 || (SMC.isDirty() && !$root.isLoading[SMC.name])"
       ) —Unsaved
       button.btn.btn-xxs.gray(
         ng-if = "$root.featureFlags.nameContainer"
@@ -123,7 +123,6 @@ header.modal-header
         )
       .btn-text Dockerfile
     button.btn.btn-radio.js-animate(
-      data-badge-count = "!"
       ng-class = "{'active': SMC.selectedTab === 'logs'}"
       ng-click = "SMC.changeTab('logs')"
       ng-if = "SMC.instance"
