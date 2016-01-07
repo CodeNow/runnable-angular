@@ -66,16 +66,35 @@ ul.table-drag-drop(
       ng-attr-title = "{{ item.replace || item.dest }}"
     ) {{ item.replace || item.dest }}
     //- add .disabled if no warning
-    //- note: the title attribute
     .cell.cell-action.monospace(
       ng-class = "{disabled: !item.warnings.length}"
-      title = "{{ item.warnings[0].message }}"
     )
-      svg.iconnables.icons-alert
+
+      //- show when a rule has no matches
+      svg.iconnables.icons-alert(
+        tooltip = "This rule has no matches."
+        tooltip-options = "{\"class\":\"bottom no-arrow\",\"top\":33,\"right\":-11}"
+      )
         use(
           xlink:href = "#icons-alert-alt"
         )
-      //- svg.iconnables.icons-link
-        use(
-          xlink:href = "#icons-link"
-        )
+
+      //- show when a string rule uses a URL for a branch container
+      //- svg.iconnables.icons-alert(
+      //-   pop-over
+      //-   pop-over-hover-trigger
+      //-   pop-over-options = "{\"top\":33,\"right\":-11}"
+      //-   pop-over-template = "wrongUrlPopoverView"
+      //- )
+      //-   use(
+      //-     xlink:href = "#icons-alert-alt"
+      //-   )
+
+      //- show when a successful connection is made
+      //- svg.iconnables.icons-link(
+      //-   tooltip = "Connected to mavis"
+      //-   tooltip-options = "{\"class\":\"bottom no-arrow\",\"top\":33,\"right\":-11}"
+      //- )
+      //-   use(
+      //-     xlink:href = "#icons-link"
+      //-   )

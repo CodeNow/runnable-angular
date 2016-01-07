@@ -30,6 +30,27 @@
     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
 )
+  //- this is a fake icon to demonstrate the tooltip that appears when a URL for a branch container is used in an environment variable
+  svg.iconnables.icons-alert(
+    pop-over
+    pop-over-hover-trigger
+    pop-over-options = "{\"top\":17,\"left\":-6}"
+    pop-over-template = "wrongUrlPopoverView"
+    style = "width: 12px; height: 12px; pointer-events: auto; color: #f5a11b; position: absolute; left: 4px; top: 2px; z-index: 5;"
+  )
+    use(
+      xlink:href = "#icons-alert-alt"
+    )
+    
+  //- this is a fake icon to demonstrate the tooltip that appears when a connection is successfully created
+  svg.iconnables.icons-link(
+    tooltip = "Connected to mavis"
+    tooltip-options = "{\"class\":\"bottom no-arrow\",\"top\":17,\"left\":-6}"
+    style = "width: 12px; height: 12px; pointer-events: auto; color: #834fab; position: absolute; left: 4px; top: 21px; z-index: 5;"
+  )
+    use(
+      xlink:href = "#icons-link"
+    )
 
   .ace_editor(
     current-model = "SMC.instance.attrs"

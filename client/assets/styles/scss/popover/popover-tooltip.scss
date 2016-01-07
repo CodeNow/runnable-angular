@@ -9,6 +9,10 @@
   transform: scale3d(1,1,1); // override scaling popover transition
   transition: opacity .075s ease-in; // override scaling popover transition
 
+  &.wide {
+    max-width: 300px;
+  }
+
   .btn {
     background: $gray;
     color: $white;
@@ -42,5 +46,13 @@
     &::after {
       display: none;
     }
+  }
+
+  .icons-link-external {
+    height: 13px;
+    margin-left: 4px;
+    position: relative;
+    top: 3px;
+    width: 13px;
   }
 }
