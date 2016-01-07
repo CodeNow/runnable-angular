@@ -287,6 +287,8 @@ function SetupServerModalController(
   };
 
   SMC.changeTab = function (tabname) {
+    tabname = null;
+
     if (!SMC.state.advanced) {
       if ($filter('selectedStackInvalid')(SMC.state.selectedStack)) {
         tabname = 'repository';
