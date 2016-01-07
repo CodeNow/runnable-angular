@@ -1,7 +1,8 @@
 // default styles are in forms-input.scss
 // overrides for those default styles:
 .textarea {
-  padding: 3px 6px; // reduce top/bottom padding vs inputs
+  padding-bottom: 3px;
+  padding-top: 3px;
 }
 
 // wrapper for textarea takes focus state
@@ -40,7 +41,7 @@
   border-bottom: 1px solid $gray-lighter;
   display: block;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: $weight-bold;
   height: 30px;
   line-height: 30px;
   margin: 0 6px;

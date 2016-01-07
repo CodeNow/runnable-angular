@@ -34,7 +34,7 @@ input {
   background: $white;
   border: $input-border solid $gray-lighter;
   border-radius: $input-border-radius;
-  padding: 0 6px;
+  padding: 0 (9px - $input-border);
   resize: none;
   width: 100%;
   word-break: normal;
@@ -232,11 +232,11 @@ input[type="radio"] {
     color: $gray-light;
     content: attr(data-prefix);
     display: block;
-    font-weight: 500;
+    font-weight: $weight-bold;
     height: $input-sm;
     left: 0;
     line-height: $input-sm;
-    padding-left: 8px;
+    padding-left: 9px;
     position: absolute;
     text-align: center;
     top: 0;

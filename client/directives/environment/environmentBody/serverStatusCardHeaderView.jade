@@ -53,7 +53,7 @@
 
   //- only appears if container is unsaved and only in the modal
   span.container-title.text-overflow(
-     ng-if = "$root.featureFlags.rebuildFlow && inModal"
+    ng-if = "!$root.isLoading[SMC.name] && SMC.isDirty()"
   ) —Unsaved
 
   //- ***********************************
@@ -81,3 +81,4 @@
   //- ***********************************
   //- END $root.featureFlags.nameContainer
   //- ***********************************
+

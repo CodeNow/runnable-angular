@@ -7,7 +7,7 @@
 //- on configure modal
 .sidebar-actions(
   ng-controller = "FilePopoverController as FPC"
-  ng-if = "editExplorer && rootDir && !instance.contextVersion.attrs.dockRemoved"
+  ng-if = "editExplorer && rootDir && !instance.isMigrating()"
 )
   button.btn.btn-xs.gray(
     ng-class = "{'active': filePopover.data.show}"
@@ -26,11 +26,11 @@
 
 .sidebar-section-content
   .well.in(
-    ng-if = "!debugContainer && !editExplorer && !fileModel.running() || instance.contextVersion.attrs.dockRemoved"
+    ng-if = "!debugContainer && !editExplorer && !fileModel.running() || instance.isMigrating()"
   ) Your files are unavailable when the container is not running.
 
   ul.file-tree(
-    ng-if = "rootDir && (debugContainer || editExplorer || fileModel.running()) && !instance.contextVersion.attrs.dockRemoved"
+    ng-if = "rootDir && (debugContainer || editExplorer || fileModel.running()) && !instance.isMigrating()"
   )
     //- this is the root dir; there can be only one.
     li(
