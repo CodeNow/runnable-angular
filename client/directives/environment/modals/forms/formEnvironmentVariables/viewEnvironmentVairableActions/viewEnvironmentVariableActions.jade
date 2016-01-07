@@ -5,7 +5,7 @@ button.btn.btn-xs.gray(
   ng-click = "SMC.state.showHostName = true"
   ng-hide = "SMC.state.showHostName"
   ng-init = "SMC.state.showHostName = false"
-) Insert a URL
+) Insert an Elastic Hostname
 
 button.btn.btn-xs.gray(
   ng-class = "{'active': SMC.data.toggleSidebar}"
@@ -14,12 +14,12 @@ button.btn.btn-xs.gray(
     $root.featureFlags.hostnameTool && \
     !SMC.state.showHostName\
   "
-  title = "Toggle list of URLs"
+  title = "Toggle list of Non-Elastic Hostnames"
 )
   //- show button if notifications
   .btn.btn-xxs.btn-badge(
     ng-if = "$root.featureFlags.hostnameNotifications"
-    title = "999 new URLs"
+    title = "999 new non-elastic hostnames"
   ) 999
   //- show icon if no notifications
   svg.iconnables.icons-sidebar(
@@ -28,7 +28,7 @@ button.btn.btn-xs.gray(
     use(
       xlink:href = "#icons-sidebar"
     )
-  | URLs
+  | Non-Elastic Hostnames
 
 //- if inserting host names
 .label.label-row.clearfix(
@@ -76,4 +76,4 @@ button.btn.btn-xs.gray(
   ) Cancel
   button.btn.btn-xs.green(
     ng-click = "SMC.state.showHostName = false; SMC.insertHostName(SMC.state.newLink);"
-  ) Insert URL
+  ) Insert Elastic Hostname
