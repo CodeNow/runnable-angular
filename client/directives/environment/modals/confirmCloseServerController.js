@@ -5,9 +5,11 @@ require('app')
 
 function ConfirmCloseServerController(
   close,
-  hasInstance
+  hasInstance,
+  shouldDisableSave
 ) {
   this.hasInstance = hasInstance;
+  this.shouldDisableSave = shouldDisableSave;
   this.actions = {
     goBack: function () {
       close();

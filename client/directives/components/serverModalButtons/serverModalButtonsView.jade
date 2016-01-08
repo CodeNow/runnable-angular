@@ -1,10 +1,10 @@
-button.btn.white.btn-cancel.float-left.js-animate(
+button.btn.btn-md.white.btn-cancel.float-left.js-animate(
   ng-click = "SMC.actions.close()"
   ng-if = "!SMC.instance && SMC.state.step < 4"
   type = "button"
 ) Cancel
 
-button.btn.btn-done.white.float-right(
+button.btn.btn-md.btn-done.white.float-right(
   ng-class = "{\
     'js-animate': SMC.state.step > 3\
   }"
@@ -13,7 +13,7 @@ button.btn.btn-done.white.float-right(
   type = "button"
 ) Done
 
-button.btn.btn-primary.white.text-next.float-right(
+button.btn.btn-md.btn-primary.white.text-next.float-right(
   ng-click = "SMC.goToNextStep()"
   ng-disabled = "isPrimaryButtonDisabled()"
   ng-if = "SMC.state.step < 3"
@@ -33,14 +33,15 @@ button.btn.btn-primary.white.text-next.float-right(
     .text-save-build
     .text-save
     .text-next
-button.btn.white.btn-primary.float-right.js-animate(
+button.btn.btn-md.white.btn-primary.float-right.js-animate(
   ng-class = "{\
     'text-save': !showSaveAndBuild(),\
     'text-save-build': showSaveAndBuild()\
   }"
-  ng-click = "createServerOrUpdate()"
+  ng-click = "thisForm.$invalid || createServerOrUpdate()"
   ng-disabled = "!SMC.isDirty() || isPrimaryButtonDisabled()"
   ng-if = "SMC.instance || SMC.state.step > 2"
+  type = "submit"
 )
   span.btn-text.float-left Save
     //- if save triggers a build

@@ -23,6 +23,10 @@
       ) Go Back
       button.btn.btn-sm.gray.float-right(
         ng-click = "CMC.actions.saveAndBuild()"
+        ng-class = "{'disabled': CMC.shouldDisableSave}"
+        tooltip = "You can’t save because you’ve made an invalid change."
+        tooltip-options = "{\"class\":\"top no-arrow\",\"right\":0,\"top\":42}"
+        tooltip-disabled = "!CMC.shouldDisableSave"
       ) Save & Build
       button.btn.btn-sm.red.float-right(
         ng-click = "CMC.actions.discardChanges()"

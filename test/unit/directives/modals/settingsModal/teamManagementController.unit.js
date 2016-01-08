@@ -16,6 +16,7 @@ describe('TeamManagementFormController'.bold.underline.blue, function () {
 
   var TMMC;
   var fetchOrgMembersStub;
+  var inviteGithubUserToRunnableStub;
   var showModalStub;
   var showModalStubObject;
   var errs;
@@ -61,6 +62,10 @@ describe('TeamManagementFormController'.bold.underline.blue, function () {
           handler: sinon.stub()
         };
         return errs;
+      });
+      $provide.factory('inviteGithubUserToRunnable', function ($q) {
+        inviteGithubUserToRunnableStub = sinon.stub().returns($q.when(true));
+        return inviteGithubUserToRunnableStub;
       });
     });
     angular.mock.inject(function (
@@ -190,7 +195,29 @@ describe('TeamManagementFormController'.bold.underline.blue, function () {
         $rootScope.$on('close-popovers', function () {
           popoversClosed = true;
         });
-        TMMC.popoverActions.resendInvitation();
+        TMMC.popoverActions.resendInvitation({});
+        expect(popoversClosed).to.equal(true);
+      });
+
+      it('should send the invitaiton when triggered', function () {
+        var user = {
+          id: 1,
+          email: 'jorge.silva@thejsj.com'
+        };
+        TMMC.popoverActions.resendInvitation(user);
+        sinon.assert.calledOnce(inviteGithubUserToRunnableStub);
+        sinon.assert.calledWith(inviteGithubUserToRunnableStub, user.id, user.email, orgName);
+      });
+
+      it('set the user as sendingInvite while sending invites', function () {
+        var user = {
+          id: 1,
+          email: 'jorge.silva@thejsj.com'
+        };
+        TMMC.popoverActions.resendInvitation(user);
+        expect(user.sendingInvite).to.equal(true);
+        $scope.$digest();
+        expect(user.sendingInvite).to.equal(false);
       });
     });
   });

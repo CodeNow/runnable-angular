@@ -167,8 +167,16 @@ function buildLogs(
         };
       };
 
+      // Timer is here to make sure we don't show the "Sorry we ran into an issue" while we are loading logs
+      // If after our timeout we still haven't gotten our first log we know it's probably not going to show
+      $scope.timerExpired = false;
+      $timeout(function () {
+        $scope.timerExpired = true;
+      }, 500);
+
       $scope.hasFailedAndHasNoLogs = function () {
         return (
+          $scope.timerExpired &&
           $scope.BLC.buildLogs.length === 0 &&
           !$scope.BLC.buildLogsRunning &&
           $scope.BLC.buildStatus === 'failed'

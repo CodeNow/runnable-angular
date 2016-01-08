@@ -82,7 +82,17 @@
             //-   ng-include = "'spinner'"
             //- )
             //- send confirmation
-            .send-confirmation.loaded
+            .spinner-wrapper.spinner-sm.spinner-gray.in(
+              ng-click = "\
+                state.inviteSent = $index;\
+                state.swapLists = $index;\
+              "
+              ng-if = "teammate.sendingInvite"
+              ng-include = "'spinner'"
+            )
+            .send-confirmation.loaded(
+              ng-if = "!teammate.sendingInvite"
+            )
               svg.iconnables.icons-check.float-left(
                 viewbox = '0 0 14.5 10'
               )
@@ -134,7 +144,7 @@
             width = "27"
           )
           .username.text-overflow {{teammate.login}}
-          .small.text-overflow {{teammate.email}}
+          .small.text-overflow {{teammate.email.length ? teammate.email : "—" }}
           .btn-wrapper(
             ng-if = "$root.featureFlags.teamManagementAdvanced"
           )

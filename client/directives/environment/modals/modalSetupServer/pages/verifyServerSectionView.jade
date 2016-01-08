@@ -36,6 +36,7 @@ header.modal-header
       ng-class = "{'active': SMC.selectedTab === 'repository'}"
       ng-click = "SMC.changeTab('repository');"
       ng-if = "(SMC.state.step >= 1 && !SMC.state.advanced)"
+      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables
         use(
@@ -46,6 +47,7 @@ header.modal-header
       ng-class = "{'active': SMC.selectedTab === 'commands'}"
       ng-click = "SMC.changeTab('commands')"
       ng-if = "(SMC.state.step >= 2 && !SMC.state.advanced)"
+      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables
         use(
@@ -58,6 +60,7 @@ header.modal-header
       ng-class = "{'active': SMC.selectedTab === 'whitelist'}"
       ng-click = "SMC.changeTab('whitelist')"
       ng-if = "(SMC.state.step >= 3 && $root.featureFlags.whitelist)"
+      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables
         use(
@@ -68,6 +71,7 @@ header.modal-header
       ng-class = "{'active': SMC.selectedTab === 'ports'}"
       ng-click = "SMC.changeTab('ports')"
       ng-if = "(SMC.state.step >= 3 && !SMC.state.advanced)"
+      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables
         use(
@@ -78,6 +82,7 @@ header.modal-header
       ng-class = "{'active': SMC.selectedTab === 'env'}"
       ng-click = "SMC.changeTab('env')"
       ng-if = "SMC.state.step >= 3"
+      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables
         use(
@@ -88,6 +93,7 @@ header.modal-header
       ng-class = "{'active': SMC.selectedTab === 'files'}"
       ng-click = "SMC.changeTab('files')"
       ng-if = "SMC.state.step >= 3 && !SMC.state.advanced"
+      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables
         use(
@@ -98,6 +104,7 @@ header.modal-header
       ng-class = "{'active': SMC.selectedTab === 'translation'}"
       ng-click = "SMC.changeTab('translation')"
       ng-if = "SMC.state.step >= 3"
+      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables
         use(
@@ -108,6 +115,7 @@ header.modal-header
       ng-class = "{'active': SMC.selectedTab === 'buildfiles'}"
       ng-click = "SMC.changeTab('buildfiles')"
       ng-if = "SMC.state.step >= 3"
+      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables
         use(
@@ -118,6 +126,7 @@ header.modal-header
       ng-class = "{'active': SMC.selectedTab === 'logs'}"
       ng-click = "SMC.changeTab('logs')"
       ng-if = "SMC.instance"
+      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables
         use(
@@ -135,9 +144,8 @@ section.modal-body(
 section.modal-body(
   ng-if = "!$root.isLoading.setupServerModal"
 )
-  .modal-form(
+  .modal-form
     ng-class = "{'empty': SMC.state.step === 3 && SMC.selectedTab === null}"
-    ng-form="SMC.serverForm"
   )
     //- Stack & Branch
     .label(
@@ -210,11 +218,11 @@ section.modal-body(
 
 footer.modal-footer.clearfix(
   is-primary-button-disabled = "\
-      SMC.serverForm.$invalid ||\
+      (SMC.state.step < 3 && serverForm.$invalid) ||\
       (SMC.state.selectedStack | selectedStackInvalid) ||\
       !SMC.isDockerfileValid()\
     "
   server-modal-buttons
   server-modal-controller = "SMC"
-  this-form = "SMC.serverForm"
+  this-form = "serverForm"
 )
