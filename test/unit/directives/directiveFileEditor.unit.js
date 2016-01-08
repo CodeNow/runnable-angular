@@ -19,7 +19,7 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
   var editorMock = {};
 
 
-  function initState(addFileToScope, autoUpdate, state) {
+  function initState(addFileToScope, autoUpdate, state, instance) {
     var updatedBody = null;
     fileMock.fetch = sinon.spy(function (cb) {
       if (updatedBody !== null) {
@@ -68,6 +68,10 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
       };
       if (autoUpdate) {
         attrs['use-auto-update'] = 'true';
+      }
+      if (instance) {
+        attrs.instance = 'instance';
+        $scope.instance = instance;
       }
       if (state) {
         attrs.state = 'state';
@@ -125,6 +129,21 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
       expect(fileMock.state, 'fileMock.state').to.equal($elScope.file.state);
       expect($elScope.loading, 'loading').to.be.false;
       sinon.assert.notCalled(fileMock.update);
+    });
+    it('Should handle a file fetch failure', function () {
+      initState();
+      sinon.assert.notCalled(fileMock.fetch);
+      $scope.file = fileMock;
+      $scope.$apply();
+      sinon.assert.calledOnce(fileMock.fetch);
+      $scope.$apply();
+      expect($elScope.loading, 'loading').to.be.true;
+      var error = new Error('an error');
+      fileFetchCb(error);
+      $scope.$apply();
+
+      expect($elScope.loading, 'loading').to.be.false;
+      expect($elScope.hasError, 'hasError').to.be.true;
     });
   });
 
@@ -252,5 +271,51 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
       expect(fileMock.validation.errors).to.not.be.ok;
       expect(fileMock.validation.criticals).to.not.be.ok;
     });
+  });
+
+  describe('instance', function () {
+    it('should watch for the instance changing to migrating', function () {
+      var instance = {
+        isMigrating: sinon.stub().returns(false)
+      };
+      initState(true, false, {}, instance);
+      fileFetchCb();
+      $scope.$apply();
+      instance.isMigrating.returns(true);
+      $scope.$apply();
+
+      expect($elScope.hasError, 'hasError').to.be.true;
+    });
+    it('should refetch the file when migrating has ceased (and restored the state body)', function () {
+      var instance = {
+        isMigrating: sinon.stub().returns(true)
+      };
+      initState(true, false, {}, instance);
+      fileFetchCb();
+      $scope.$apply();
+      fileMock.state.body = 'FROM nodejs\nCMD npm start';
+      instance.isMigrating.returns(false);
+      $scope.$apply();
+      fileFetchCb();
+
+      $scope.$apply();
+      expect($elScope.file.state.body, 'fileMock.state.body').to.equal('FROM nodejs\nCMD npm start');
+    });
+    it('should set hasError to true when the file fails to fetch after migrating)', function () {
+      var instance = {
+        isMigrating: sinon.stub().returns(true)
+      };
+      initState(true, false, {}, instance);
+      fileMock.state.body = 'FROM nodejs\nCMD npm start';
+      fileFetchCb();
+      $scope.$apply();
+      instance.isMigrating.returns(false);
+      $scope.$apply();
+      fileFetchCb(new Error('hello'));
+      $scope.$apply();
+
+      expect($elScope.hasError, 'hasError').to.be.true;
+    });
+
   });
 });

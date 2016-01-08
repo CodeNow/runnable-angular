@@ -75,10 +75,10 @@ function fileEditor(
         $scope.$watch('instance.isMigrating()', function (isMigrating, wasMigrating) {
           if (!isMigrating && wasMigrating) {
             // If we were migrating, but just finished, we need to re-fetch these files
-            var backupChanges = $scope.file.state.body;
+            var backupChanges = keypather.get($scope.file, 'state.body');
             fetchFile()
               .then(function () {
-                if (!$scope.hasError) {
+                if (!$scope.hasError && backupChanges) {
                   keypather.set($scope.file, 'state.body', backupChanges);
                 }
               });

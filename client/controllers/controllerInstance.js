@@ -141,7 +141,7 @@ function ControllerInstance(
   });
 
   $scope.$watch('dataInstance.data.instance.status()', function (status) {
-    if (keypather.get($scope, 'dataInstance.data.instance.isMigrating()')) {
+    if (!status || keypather.get($scope, 'dataInstance.data.instance.isMigrating()')) {
       // If we're migrating, don't change the tabs
       return;
     }

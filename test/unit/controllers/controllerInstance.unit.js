@@ -14,18 +14,20 @@ var $controller,
     keypather,
     apiClientBridge;
 var runnable = window.runnable;
+var mockFavico;
 
 var mockUserFetch = new (require('../fixtures/mockFetch'))();
 
-describe.only('controllerInstance'.bold.underline.blue, function () {
+describe('controllerInstance'.bold.underline.blue, function () {
   beforeEach(angular.mock.module('app'));
 
   beforeEach(function () {
     angular.mock.module(function ($provide) {
-      $provide.value('favico', {
+      mockFavico = {
         reset : sinon.spy(),
         setInstanceState: sinon.spy()
-      });
+      }
+      $provide.value('favico', mockFavico);
       $provide.factory('fetchUser', mockUserFetch.fetch());
       $provide.factory('fetchCommitData', function () {
         return {
@@ -157,7 +159,7 @@ describe.only('controllerInstance'.bold.underline.blue, function () {
       sinon.stub(OpenItems.prototype, 'restoreTabs').returns();
     });
     beforeEach(function () {
-      var $scope = $rootScope.$new();
+      $scope = $rootScope.$new();
       keypather.set($scope, 'dataApp.actions.setToggled', sinon.spy());
       keypather.set($scope, 'dataApp.data.loading', false);
 
@@ -166,13 +168,113 @@ describe.only('controllerInstance'.bold.underline.blue, function () {
       });
       $rootScope.$digest();
     });
-    it('building', function () {
+    describe('Remove all but build logs', function () {
+      it('building', function () {
+        keypather.set($scope, 'dataInstance.data.instance', {
+          status: sinon.stub().returns('building'),
+          id: sinon.stub().returns(1)
+        });
+        $rootScope.$digest();
+        sinon.assert.calledOnce(OpenItems.prototype.removeAllButBuildLogs);
+        $timeout.flush();
+        sinon.assert.calledOnce(mockFavico.setInstanceState);
+      });
+      it('buildFailed', function () {
+        keypather.set($scope, 'dataInstance.data.instance', {
+          status: sinon.stub().returns('buildFailed'),
+          id: sinon.stub().returns(1)
+        });
+        $rootScope.$digest();
+        sinon.assert.calledOnce(OpenItems.prototype.removeAllButBuildLogs);
+        $timeout.flush();
+        sinon.assert.calledOnce(mockFavico.setInstanceState);
+      });
+      it('neverStarted', function () {
+        keypather.set($scope, 'dataInstance.data.instance', {
+          status: sinon.stub().returns('neverStarted'),
+          id: sinon.stub().returns(1)
+        });
+        $rootScope.$digest();
+        sinon.assert.calledOnce(OpenItems.prototype.removeAllButBuildLogs);
+        $timeout.flush();
+        sinon.assert.calledOnce(mockFavico.setInstanceState);
+      });
+    });
+    describe('Remove all but logs', function () {
+      it('crashed', function () {
+        keypather.set($scope, 'dataInstance.data.instance', {
+          status: sinon.stub().returns('crashed'),
+          id: sinon.stub().returns(1)
+        });
+        $rootScope.$digest();
+        sinon.assert.calledOnce(OpenItems.prototype.removeAllButLogs);
+        $timeout.flush();
+        sinon.assert.calledOnce(mockFavico.setInstanceState);
+      });
+      it('stopped', function () {
+        keypather.set($scope, 'dataInstance.data.instance', {
+          status: sinon.stub().returns('stopped'),
+          id: sinon.stub().returns(1)
+        });
+        $rootScope.$digest();
+        sinon.assert.calledOnce(OpenItems.prototype.removeAllButLogs);
+        $timeout.flush();
+        sinon.assert.calledOnce(mockFavico.setInstanceState);
+      });
+      it('starting', function () {
+        keypather.set($scope, 'dataInstance.data.instance', {
+          status: sinon.stub().returns('starting'),
+          id: sinon.stub().returns(1)
+        });
+        $rootScope.$digest();
+        sinon.assert.calledOnce(OpenItems.prototype.removeAllButLogs);
+        $timeout.flush();
+        sinon.assert.calledOnce(mockFavico.setInstanceState);
+      });
+      it('stopping', function () {
+        keypather.set($scope, 'dataInstance.data.instance', {
+          status: sinon.stub().returns('stopping'),
+          id: sinon.stub().returns(1)
+        });
+        $rootScope.$digest();
+        sinon.assert.calledOnce(OpenItems.prototype.removeAllButLogs);
+        $timeout.flush();
+        sinon.assert.calledOnce(mockFavico.setInstanceState);
+      });
+    });
+    it('should restore tabs when running', function () {
       keypather.set($scope, 'dataInstance.data.instance', {
-        status: sinon.stub().returns('building'),
-        id: sinon.stub().returns(1)
+        status: sinon.stub().returns('running'),
+        id: sinon.stub().returns(1),
+        containers: {
+          models: [{
+            hello: 'hi'
+          }]
+        }
       });
       $rootScope.$digest();
-      sinon.assert.calledOnce(OpenItems.prototype.removeAllButBuildLogs);
+      sinon.assert.calledOnce(OpenItems.prototype.restoreTabs);
+      sinon.assert.calledWith(OpenItems.prototype.restoreTabs, { instanceId: 1 }, {
+        hello: 'hi'
+      });
+      $timeout.flush();
+      sinon.assert.calledOnce(mockFavico.setInstanceState);
+    });
+    it('should ignore status changes when migrating', function () {
+      keypather.set($scope, 'dataInstance.data.instance', {
+        status: sinon.stub().returns('running'),
+        id: sinon.stub().returns(1),
+        containers: {
+          models: [{
+            hello: 'hi'
+          }]
+        },
+        isMigrating: sinon.stub().returns(true)
+      });
+      $rootScope.$digest();
+      sinon.assert.notCalled(OpenItems.prototype.restoreTabs);
+      $timeout.flush();
+      sinon.assert.notCalled(mockFavico.setInstanceState);
     });
   });
 });
