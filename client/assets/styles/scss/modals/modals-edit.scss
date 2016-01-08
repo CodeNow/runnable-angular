@@ -244,14 +244,7 @@
     }
 
     .btn-cancel {
-      background: transparent;
-      border: $input-border solid transparent;
       transition: opacity .2s ease-in-out, transform .2s ease-in-out;
-
-      &:hover,
-      &:active {
-        background: $white;
-      }
 
       &.ng-leave {
         opacity: 1;

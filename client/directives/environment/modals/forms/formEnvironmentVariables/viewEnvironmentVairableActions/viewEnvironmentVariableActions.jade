@@ -31,7 +31,7 @@ button.btn.btn-xs.gray(
   | URLs
 
 //- if inserting host names
-.clearfix(
+.clearfix.side-down.js-animate(
   ng-if = "SMC.state.showHostName"
 )
 
@@ -41,7 +41,7 @@ button.btn.btn-xs.gray(
     spellcheck = "false"
     type = "text"
   )
-  
+
   p.p(
     ng-if = "$root.featureFlags.connections"
   ) =
@@ -59,7 +59,7 @@ button.btn.btn-xs.gray(
         value = "'http://'"
       ) http:&#47;&#47;
 
-    fancy-select.monospace.text-overflow.btn-sm(
+    fancy-select.monospace.btn-sm.select-url(
       placeholder = "URL(required)"
       value = "SMC.state.newLink.server"
     )
@@ -68,7 +68,7 @@ button.btn.btn-xs.gray(
         ng-if = "instance.attrs.shortHash !== $parent.$parent.$parent.SMC.instance.attrs.shortHash"
         ng-repeat = "instance in $parent.SMC.data.instances.models | orderBy: ['getElasticHostname()']"
         value = "instance"
-      ) {{ $parent.instance.getElasticHostname() }}
+      ) {{$parent.instance.getElasticHostname()}}
 
     fancy-select.input-sm.monospace.text-overflow(
       placeholder = "Port"
@@ -79,15 +79,15 @@ button.btn.btn-xs.gray(
       fancy-option(
         ng-repeat = "port in $parent.$parent.SMC.state.newLink.server | extractInstancePorts"
         value = "port"
-      ) :{{ $parent.port }}
+      ) :{{$parent.port}}
 
-.clearfix(
+.clearfix.side-down.js-animate(
   ng-if = "SMC.state.showHostName"
 )
   small.small.text-gray(
     ng-if = "$root.featureFlags.connections"
   ) Connect to another container by using its URL in an environment variable.
-  button.btn.btn-xs.white(
+  button.btn.btn-xs.gray.btn-cancel(
     ng-click = "SMC.state.showHostName = false"
   ) Cancel
   button.btn.btn-xs.green(
