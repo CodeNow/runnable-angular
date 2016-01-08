@@ -7,6 +7,7 @@ var $controller,
     $scope,
     $state,
     $stateParams,
+    $timeout,
     $window,
     OpenItems,
     eventTracking,
@@ -16,7 +17,7 @@ var runnable = window.runnable;
 
 var mockUserFetch = new (require('../fixtures/mockFetch'))();
 
-describe('controllerInstance'.bold.underline.blue, function () {
+describe.only('controllerInstance'.bold.underline.blue, function () {
   beforeEach(angular.mock.module('app'));
 
   beforeEach(function () {
@@ -65,7 +66,8 @@ describe('controllerInstance'.bold.underline.blue, function () {
       _OpenItems_,
       _eventTracking_,
       _keypather_,
-      _apiClientBridge_
+      _apiClientBridge_,
+      _$timeout_
     ) {
       $controller = _$controller_;
       $httpBackend = _$httpBackend_;
@@ -77,6 +79,7 @@ describe('controllerInstance'.bold.underline.blue, function () {
       eventTracking = _eventTracking_;
       keypather = _keypather_;
       apiClientBridge = _apiClientBridge_;
+      $timeout = _$timeout_;
     });
   });
 
@@ -147,20 +150,29 @@ describe('controllerInstance'.bold.underline.blue, function () {
 
 
   describe('instance status', function () {
-    it('instance ', function () {
-      var oi = new OpenItems();
+    var controller;
+    beforeEach(function () {
+      sinon.stub(OpenItems.prototype, 'removeAllButBuildLogs').returns();
+      sinon.stub(OpenItems.prototype, 'removeAllButLogs').returns();
+      sinon.stub(OpenItems.prototype, 'restoreTabs').returns();
+    });
+    beforeEach(function () {
+      var $scope = $rootScope.$new();
+      keypather.set($scope, 'dataApp.actions.setToggled', sinon.spy());
+      keypather.set($scope, 'dataApp.data.loading', false);
 
-      oi.addBuildStream();
-      oi.addLogs();
-      oi.addTerminal();
-      oi.add(fileModel);
-
-      expect(oi.models.length).to.eql(4);
-
-      oi.removeAllButLogs();
-
-      expect(oi.models.length).to.eql(2);
-      expect(oi.activeHistory.last().state.type).to.eql('LogView');
+      controller = $controller('ControllerInstance', {
+        '$scope': $scope
+      });
+      $rootScope.$digest();
+    });
+    it('building', function () {
+      keypather.set($scope, 'dataInstance.data.instance', {
+        status: sinon.stub().returns('building'),
+        id: sinon.stub().returns(1)
+      });
+      $rootScope.$digest();
+      sinon.assert.calledOnce(OpenItems.prototype.removeAllButBuildLogs);
     });
   });
 });
