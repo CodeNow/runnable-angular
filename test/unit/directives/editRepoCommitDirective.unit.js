@@ -24,6 +24,13 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
     };
     angular.mock.module('app', function ($provide) {
       $provide.factory('fetchCommitData', function () { return ctx.fetchCommitData; });
+      $provide.factory('userButtonDirective', function(){
+        return {
+          priority: 100000,
+          terminal: true,
+          link: angular.noop
+        };
+      });
     });
 
     angular.mock.inject(function (

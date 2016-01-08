@@ -59,7 +59,7 @@
           for = "textarea-replace"
         ) Replace
           //- fancy select
-          button.btn.btn-xxs.gray.float-right Insert URL
+          button.btn.btn-xxs.gray.float-right Insert Hostname
             svg.iconnables.icons-arrow-down
               use(
                 xlink:href = "#icons-arrow-down"
@@ -103,7 +103,7 @@
           )
             li.list-item.popover-list-item.small.disabled(
               ng-click = "$event.stopPropagation()"
-            ) Select URL
+            ) Select hostname
             fancy-option.monospace(
               ng-repeat = "instance in $parent.data.parentData.instances.models | filter:$parent.$parent.data.instanceFilter()"
               title = "{{ instance.getElasticHostname() }}"

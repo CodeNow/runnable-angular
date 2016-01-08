@@ -419,25 +419,75 @@ function fetchOrgRegisteredMembers(
  */
 function fetchGithubUserForCommit (
   $q,
+  $rootScope,
   assign,
   fetchGitHubUser,
   fetchOrgRegisteredMembers,
+  fetchOrgTeammateInvitations,
   keypather,
   promisify
 ) {
   return function (commit) {
+    var githubUserNotFoundError = new Error('Githut user not found');
     return promisify(commit, 'fetch')()
       .then(function (commit) {
         var userName = keypather.get(commit, 'attrs.author.login');
+        if (userName === null) {
+          return $q.reject(githubUserNotFoundError);
+        }
+        return userName;
+      })
+      .then(function (userName) {
+        var orgName = keypather.get($rootScope, 'dataApp.data.activeAccount.attrs.login');
+        var orgId = keypather.get($rootScope, 'dataApp.data.activeAccount.attrs.id');
+        var isRunnableUserPromise = fetchOrgRegisteredMembers(orgName)
+          .then(function (members) {
+            var membersWithLogin = members.models.filter(function (member) {
+              return keypather.get(member, 'attrs.accounts.github.username') === userName;
+            });
+            return membersWithLogin.length > 0;
+          });
         return $q.all({
           githubUser: fetchGitHubUser(userName),
-          runnableUser: fetchOrgRegisteredMembers(userName)
+          isRunnableUser: isRunnableUserPromise
         })
-        .then(function (response) {
-          return assign(response.githubUser, {
-            isRunnableUser: Boolean(response.runnableUser.models.length),
+          .then(function (response) {
+            // Check if this is an invited user
+            var userGithubId = keypather.get(response, 'githubUser.id');
+            if (!userGithubId) {
+              throw githubUserNotFoundError;
+            }
+            var userHasBeenInvitedPromise = fetchOrgTeammateInvitations(orgId)
+              .then(function (invitations) {
+                var invitationsForUser = invitations.models.filter(function (invite) {
+                  return keypather.get(invite, 'attrs.recipient.github') === userGithubId;
+                });
+                return invitationsForUser.length > 0;
+              });
+            return $q.all(assign(response, {
+              userHasBeenInvited: userHasBeenInvitedPromise
+            }));
           });
+      })
+      .then(function (response) {
+        return assign(response.githubUser, {
+          isRunnableUser: response.isRunnableUser,
+          inviteSent: response.userHasBeenInvited
         });
+      })
+      .catch(function (err) {
+        if (err === githubUserNotFoundError) {
+          var commitAuthorName = keypather.get(commit, 'attrs.commit.author.name');
+          var userName = keypather.get(commit, 'attrs.author.login');
+          if (userName || commitAuthorName) {
+            return {
+              login: userName || commitAuthorName,
+              isGithubUser: false,
+              isRunnableUser: false
+            };
+          }
+        }
+        return $q.reject(err);
       });
   };
 }
@@ -524,29 +574,15 @@ function fetchOrgMembers(
   $q,
   keypather,
   fetchGitHubMembers,
-  fetchGitHubUser,
   fetchOrgRegisteredMembers,
   fetchOrgTeammateInvitations
 ) {
-  return function (teamName, fetchGithubUserEmail) {
+  return function (teamName) {
     return $q.all([
       fetchGitHubMembers(teamName),
       fetchOrgRegisteredMembers(teamName),
       fetchOrgTeammateInvitations(teamName)
     ])
-    .then(function (responseArray) {
-      if (fetchGithubUserEmail) {
-        return $q.all([
-          $q.all(responseArray[0].map(function (member) {
-            // Fetch the complete user profile, in order to get user email
-            return fetchGitHubUser(member.login);
-          })),
-          responseArray[1],
-          responseArray[2]
-        ]);
-      }
-      return responseArray;
-    })
     .then(function (responseArray) {
       var githubMembers = responseArray[0];
       var runnableUsersCollection = responseArray[1];

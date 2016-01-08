@@ -36,7 +36,7 @@ function TeamManagementFormController(
   $scope.$on('$destroy', newInviteAddedWatchterUnbind);
 
   function fetchMembers () {
-    return fetchOrgMembers($state.params.userName, true)
+    return fetchOrgMembers($state.params.userName)
       .then(function (members) {
         TMMC.loading = false;
         TMMC.members = members;
@@ -46,7 +46,7 @@ function TeamManagementFormController(
           return function (member) {
             var firstEmail;
             if (!property) {
-              firstEmail = member.email || null;
+              firstEmail = null;
             } else {
               firstEmail = keypather.get(member, property);
             }

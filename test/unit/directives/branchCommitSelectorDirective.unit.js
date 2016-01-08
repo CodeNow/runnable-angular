@@ -1,3 +1,4 @@
+/*global directiveTemplate:true */
 'use strict';
 
 describe('branchCommitSelectorDirective'.bold.underline.blue, function () {
@@ -34,6 +35,13 @@ describe('branchCommitSelectorDirective'.bold.underline.blue, function () {
     angular.mock.module('app');
     angular.mock.module(function ($provide) {
       $provide.factory('branchSelectorDirective', function () {
+        return {
+          priority: 100000,
+          terminal: true,
+          link: angular.noop
+        };
+      });
+      $provide.factory('userButtonDirective', function(){
         return {
           priority: 100000,
           terminal: true,
