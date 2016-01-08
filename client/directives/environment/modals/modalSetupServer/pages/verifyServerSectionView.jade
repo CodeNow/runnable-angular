@@ -56,7 +56,7 @@ header.modal-header
       .btn-text Commands
         br
         | & Packages
-    button.btn.btn-radio(
+    button.btn.btn-radio.js-animate(
       ng-class = "{'active': SMC.selectedTab === 'whitelist'}"
       ng-click = "SMC.changeTab('whitelist')"
       ng-if = "(SMC.state.step >= 3 && $root.featureFlags.whitelist)"
@@ -144,7 +144,7 @@ section.modal-body(
 section.modal-body(
   ng-if = "!$root.isLoading.setupServerModal"
 )
-  .modal-form
+  .modal-form(
     ng-class = "{'empty': SMC.state.step === 3 && SMC.selectedTab === null}"
   )
     //- Stack & Branch
@@ -190,10 +190,10 @@ section.modal-body(
     )
     //- Find & Replace
     .modal-form(
-      ng-show = "SMC.selectedTab === 'translation'"
-      instance = "SMC.instance"
-      state = "SMC.state"
       data = "SMC.data"
+      instance = "SMC.instance"
+      ng-show = "SMC.selectedTab === 'translation'"
+      state = "SMC.state"
       translation-rules
     )
     //- Dockerfile
@@ -218,10 +218,10 @@ section.modal-body(
 
 footer.modal-footer.clearfix(
   is-primary-button-disabled = "\
-      (SMC.state.step < 3 && serverForm.$invalid) ||\
-      (SMC.state.selectedStack | selectedStackInvalid) ||\
-      !SMC.isDockerfileValid()\
-    "
+    (SMC.state.step < 3 && serverForm.$invalid) ||\
+    (SMC.state.selectedStack | selectedStackInvalid) ||\
+    !SMC.isDockerfileValid()\
+  "
   server-modal-buttons
   server-modal-controller = "SMC"
   this-form = "serverForm"
