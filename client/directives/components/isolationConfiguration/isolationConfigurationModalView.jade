@@ -123,10 +123,10 @@
             | {{instance.getDisplayName()}}
 
     section.modal-footer.clearfix
-      button.btn.white.float-left(
+      button.btn.btn-md.white.float-left(
         ng-click = "ICMC.close()"
       ) Cancel
-      button.btn.green.float-right(
+      button.btn.btn-md.green.float-right(
         ng-disabled = "$root.isLoading.createIsolation"
         ng-click = "ICMC.createIsolation()"
       ) {{$root.isLoading.createIsolation ? 'Isolating...' : 'Enter Isolation'}}

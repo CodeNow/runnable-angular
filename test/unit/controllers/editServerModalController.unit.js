@@ -1214,6 +1214,24 @@ describe('editServerModalController'.bold.underline.blue, function () {
       expect(loadingService.editServerModal).to.be.not.ok;
     });
 
+    it('should not allow a build if the form is invalid', function () {
+      SMC.isDirty = sinon.stub().returns('build');
+      var error = new Error('an error');
+      sinon.stub(SMC, 'getUpdatePromise').returns($q.reject(error));
+      ctx.showModalStub.returns($q.when({
+        close: $q.when('build')
+      }));
+      keypather.set($scope, 'serverForm.$invalid', true);
+      ctx.loadingPromiseMock.clear.reset();
+      $scope.$digest();
+      SMC.actions.close();
+      $scope.$digest();
+      sinon.assert.calledOnce(ctx.showModalStub);
+      sinon.assert.notCalled(SMC.getUpdatePromise);
+      sinon.assert.notCalled(ctx.closeSpy);
+      expect(loadingService.editServerModal).to.be.not.ok;
+    });
+
   });
 
   describe('resetStateContextVersion', function () {

@@ -612,7 +612,30 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(closeSpy);
     });
 
-    it('should close the modal and delete the server if isDirty()', function () {
+    it('should show the close popover with the save and build button disabled', function () {
+      closeSpy.reset();
+      SMC.instance = {
+        hello: 'world',
+        destroy: sinon.stub()
+      };
+      sinon.stub(SMC, 'isDirty').returns(true);
+      keypather.set($scope, 'serverForm.$invalid', true);
+      SMC.actions.close();
+      $scope.$digest();
+      sinon.assert.calledOnce(showModalStub);
+      expect(showModalStub.lastCall.args[0]).to.deep.equal({
+        controller: 'ConfirmCloseServerController',
+        controllerAs: 'CMC',
+        templateUrl: 'confirmCloseServerView',
+        inputs: {
+          hasInstance: true,
+          shouldDisableSave: true
+        }
+      });
+      sinon.assert.calledOnce(closeSpy);
+    });
+
+    it('should show the close popover normally', function () {
       closeSpy.reset();
       SMC.instance = {
         hello: 'world',
@@ -627,7 +650,8 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         controllerAs: 'CMC',
         templateUrl: 'confirmCloseServerView',
         inputs: {
-          hasInstance: true
+          hasInstance: true,
+          shouldDisableSave: null
         }
       });
       sinon.assert.calledOnce(closeSpy);

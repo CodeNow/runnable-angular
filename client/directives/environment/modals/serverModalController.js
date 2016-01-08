@@ -159,17 +159,21 @@ function ServerModalController(
       controllerAs: 'CMC',
       templateUrl: 'confirmCloseServerView',
       inputs: {
-        hasInstance: !!SMC.instance
+        hasInstance: !!SMC.instance,
+        shouldDisableSave: keypather.get($scope, 'serverForm.$invalid')
       }
     })
       .then(function (modal) {
         modal.close.then(function (state) {
           if (state) {
+            if (state === 'build' && keypather.get($scope, 'serverForm.$invalid')) {
+              return;
+            }
             loading(SMC.name, true);
-            return $q.when((state === 'build') ? SMC.getUpdatePromise() : $q.when(true))
+            return $q.when((state === 'build') ? SMC.getUpdatePromise() : true)
               .then(close)
-              .catch(errs.handler)
-              .finally(function () {
+              .catch(function (err) {
+                errs.handler(err);
                 loading(SMC.name, false);
               });
           }
@@ -320,12 +324,12 @@ function ServerModalController(
     if (!this.state.advanced) {
       if ($filter('selectedStackInvalid')(this.state.selectedStack)) {
         tabname = 'repository';
-      } else if (!this.state.startCommand && tabname !== 'repository') {
+      } else if (!this.state.startCommand) {
         tabname = 'commands';
       }
-    } else if (keypather.get($scope, 'SMC.serverForm.$invalid')) {
-      if (keypather.get($scope, 'SMC.serverForm.$error.required.length')) {
-        var firstRequiredError = $scope.SMC.serverForm.$error.required[0].$name;
+    } else if (keypather.get($scope, 'serverForm.$invalid')) {
+      if (keypather.get($scope, 'serverForm.$error.required.length')) {
+        var firstRequiredError = $scope.serverForm.$error.required[0].$name;
         tabname = firstRequiredError.split('.')[0];
       }
     }
