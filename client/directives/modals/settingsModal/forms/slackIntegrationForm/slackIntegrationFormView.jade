@@ -49,7 +49,7 @@
     ng-if = "!SIFC.slackApiTokenForm.$pristine && SIFC.slackApiTokenForm.$invalid"
   ) Invalid API Token
 
-  button.btn.btn-spinner.green(
+  button.btn.btn-md.btn-spinner.green(
     ng-class = "{'in': SIFC.state === 'verifying'}"
     ng-click = "SIFC.verifySlack();"
     ng-disabled = "!SIFC.slackApiTokenForm.$valid || SIFC.slackApiTokenForm.$pending || SIFC.state === 'verifying'"

@@ -13,6 +13,7 @@ function TeamManagementFormController(
   $state,
   errs,
   fetchOrgMembers,
+  inviteGithubUserToRunnable,
   keypather,
   ModalService
 ) {
@@ -84,11 +85,12 @@ function TeamManagementFormController(
   TMMC.popoverActions = {
     resendInvitation: function (user) {
       $rootScope.$broadcast('close-popovers');
-      return $q.when(true)
+      user.sendingInvite = true;
+      return inviteGithubUserToRunnable(user.id, user.email, $state.params.userName)
         .then(function () {
-          return $q.reject(new Error('Resending invitations not yet implemented.'));
+          user.sendingInvite = false;
         })
-       .catch(errs.handler);
+        .catch(errs.handler);
     }
   };
 }
