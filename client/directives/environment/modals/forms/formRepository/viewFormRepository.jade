@@ -83,7 +83,7 @@ label.label.clearfix
       autocomplete = "off"
       name = "repository.startCommand"
       ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
-      required
+      ng-required = "startCommandCanDisable || ngShow()"
       on-update = "updateDockerfile"
       show-dropdown = "state.selectedStack.startCommand"
       spellcheck = "false"
