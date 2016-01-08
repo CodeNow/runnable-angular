@@ -148,7 +148,7 @@ form.modal-dialog.modal-integrations(
     ng-if = "data.settingsFetched"
   )
     //- before API token verified
-    button.btn.green.btn-spinner.float-right(
+    button.btn.btn-md.green.btn-spinner.float-right(
       ng-class = "{in: data.verifying}"
       ng-click = "actions.verifySlack()"
       ng-disabled = "\
@@ -164,11 +164,11 @@ form.modal-dialog.modal-integrations(
       | Verify API Token
 
     //- if API token has been verified
-    button.btn.green.float-right(
+    button.btn.btn-md.green.float-right(
       ng-click = "defaultActions.close(actions.saveSlack)"
       ng-if = "data.verified"
     ) Save
 
-    button.btn.white.float-left(
+    button.btn.btn-md.white.float-left(
       ng-click = "defaultActions.close()"
     ) Cancel

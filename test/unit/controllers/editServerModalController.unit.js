@@ -19,6 +19,21 @@ describe('editServerModalController'.bold.underline.blue, function () {
   var MockFetch = require('../fixtures/mockFetch');
   var cardInfoType = require('card-info-types');
 
+  var returnArg = function (returnArg, callbackArg) {
+    return function () {
+      var args = Array.prototype.slice.call(arguments);
+      var cb = args[args.length - 1]; // The callback will be the last argument
+      $rootScope.$evalAsync(function () {
+        if (callbackArg !== undefined) {
+          cb(null, callbackArg);
+        } else {
+          cb(null, returnArg);
+        }
+      });
+      return returnArg;
+    };
+  };
+
   beforeEach(function () {
     ctx = {};
   });
@@ -205,6 +220,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
             return promise;
           }),
           clear: sinon.spy(),
+          start: sinon.stub().returnsArg(1),
           count: sinon.stub().returns(0),
           finished: sinon.spy(function () {
             return $q.when(ctx.loadingPromiseFinishedValue);
@@ -234,7 +250,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
     $scope.$digest();
     $scope.stateModel = 'hello';
     sinon.spy(loadingService, 'reset');
-
     keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.fakeOrg1);
 
     ctx.closePopoverSpy = sinon.spy();
@@ -312,20 +327,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
     };
 
 
-    var returnArg = function (returnArg, callbackArg) {
-      return function () {
-        var args = Array.prototype.slice.call(arguments);
-        var cb = args[args.length - 1]; // The callback will be the last argument
-        $rootScope.$evalAsync(function () {
-          if (callbackArg !== undefined) {
-            cb(null, callbackArg);
-          } else {
-            cb(null, returnArg);
-          }
-        });
-        return returnArg;
-      };
-    };
 
     sinon.stub(ctx.contextVersion, 'deepCopy', returnArg(ctx.newContextVersion));
     sinon.stub(ctx.newContextVersion, 'deepCopy', returnArg(ctx.contextVersion));
@@ -344,6 +345,9 @@ describe('editServerModalController'.bold.underline.blue, function () {
     sinon.stub(ctx.rollbackContextVersion, 'update', returnArg(ctx.rollbackContextVersion));
 
     ctx.build = apiClientMockFactory.build(runnable, apiMocks.contextVersions.running);
+    ctx.build.contextVersions = {
+      models: [ctx.newContextVersion]
+    };
 
     sinon.stub(ctx.build, 'build', function (opts, cb) {
       return cb();
@@ -365,7 +369,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $rootScope.$on('alert', function (event, opts) {
           expect(opts).to.be.deep.equal({
             type: 'success',
-            text: 'Container updated successfully.'
+            text: 'Changes Saved'
           });
         });
         $scope.$digest();
@@ -379,7 +383,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         $scope.$digest();
-        sinon.assert.calledOnce(ctx.closeSpy);
 
         sinon.assert.notCalled(ctx.instance.update);
         sinon.assert.notCalled(ctx.instance.redeploy);
@@ -392,7 +395,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $rootScope.$on('alert', function (event, opts) {
           expect(opts).to.be.deep.equal({
             type: 'success',
-            text: 'Container updated successfully.'
+            text: 'Changes Saved'
           });
         });
 
@@ -407,7 +410,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         $scope.$digest();
-        sinon.assert.calledOnce(ctx.closeSpy);
 
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.calledOnce(ctx.instance.redeploy);
@@ -422,7 +424,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $rootScope.$on('alert', function (event, opts) {
           expect(opts).to.be.deep.equal({
             type: 'success',
-            text: 'Container updated successfully.'
+            text: 'Changes Saved'
           });
         });
 
@@ -434,9 +436,9 @@ describe('editServerModalController'.bold.underline.blue, function () {
         expect(SMC.state.ports).to.be.ok;
         sinon.assert.calledOnce(ctx.build.build);
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
-        sinon.assert.calledOnce(ctx.closeSpy);
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.notCalled(ctx.instance.redeploy);
+        sinon.assert.called(ctx.loadingPromiseMock.clear);
       });
 
       it('should build when promises have been made', function () {
@@ -446,7 +448,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $rootScope.$on('alert', function (event, opts) {
           expect(opts).to.be.deep.equal({
             type: 'success',
-            text: 'Container updated successfully.'
+            text: 'Changes Saved'
           });
         });
         ctx.loadingPromiseFinishedValue = 2;
@@ -468,7 +470,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         $scope.$digest();
-        sinon.assert.calledOnce(ctx.closeSpy);
 
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.notCalled(ctx.instance.redeploy);
@@ -480,7 +481,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $rootScope.$on('alert', function (event, opts) {
           expect(opts).to.be.deep.equal({
             type: 'success',
-            text: 'Container updated successfully.'
+            text: 'Changes Saved'
           });
         });
         ctx.loadingPromiseFinishedValue = 1;
@@ -502,7 +503,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         sinon.assert.calledOnce(ctx.build.build);
         expect(SMC.state.opts.build).to.be.ok;
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
-        sinon.assert.calledOnce(ctx.closeSpy);
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.notCalled(ctx.instance.redeploy);
       });
@@ -521,7 +521,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $rootScope.$on('alert', function (event, opts) {
           expect(opts).to.be.deep.equal({
             type: 'success',
-            text: 'Container updated successfully.'
+            text: 'Changes Saved'
           });
         });
         ctx.loadingPromiseFinishedValue = 2;
@@ -568,7 +568,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.called(loadingService.reset);
         expect(SMC.state.advanced, 'advanced flag').to.be.false;
-        sinon.assert.called(ctx.loadingPromiseMock.add);
+        sinon.assert.called(ctx.loadingPromiseMock.start);
         sinon.assert.called(ctx.rollbackContextVersion.deepCopy);
         $scope.$digest();
         sinon.assert.calledOnce(ctx.contextVersion.fetchFile);
@@ -594,7 +594,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $rootScope.$on('alert', function (event, opts) {
           expect(opts).to.be.deep.equal({
             type: 'success',
-            text: 'Container updated successfully.'
+            text: 'Changes Saved'
           });
         });
         $scope.$digest();
@@ -631,7 +631,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.called(loadingService.reset);
         expect(SMC.state.advanced, 'advanced flag').to.be.true;
-        sinon.assert.called(ctx.loadingPromiseMock.add);
+        sinon.assert.called(ctx.loadingPromiseMock.start);
         sinon.assert.called(ctx.rollbackContextVersion.deepCopy);
         $scope.$digest();
         sinon.assert.calledOnce(ctx.contextVersion.fetchFile);
@@ -663,7 +663,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $rootScope.$on('alert', function (event, opts) {
           expect(opts).to.be.deep.equal({
             type: 'success',
-            text: 'Container updated successfully.'
+            text: 'Changes Saved'
           });
         });
         ctx.loadingPromiseFinishedValue = 2;
@@ -685,7 +685,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         $scope.$digest();
-        sinon.assert.calledOnce(ctx.closeSpy);
 
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.notCalled(ctx.instance.redeploy);
@@ -697,7 +696,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $rootScope.$on('alert', function (event, opts) {
           expect(opts).to.be.deep.equal({
             type: 'success',
-            text: 'Container updated successfully.'
+            text: 'Changes Saved'
           });
         });
         ctx.loadingPromiseFinishedValue = 1;
@@ -718,7 +717,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         sinon.assert.calledOnce(ctx.build.build);
         expect(SMC.state.opts.build).to.be.ok;
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
-        sinon.assert.calledOnce(ctx.closeSpy);
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.notCalled(ctx.instance.redeploy);
       });
@@ -729,7 +727,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $rootScope.$on('alert', function (event, opts) {
           expect(opts).to.be.deep.equal({
             type: 'success',
-            text: 'Container updated successfully.'
+            text: 'Changes Saved'
           });
         });
 
@@ -744,15 +742,69 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         $scope.$digest();
-        sinon.assert.calledOnce(ctx.closeSpy);
-
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.calledOnce(ctx.instance.redeploy);
       });
     });
   });
 
-  it('resets the state properly on error', function () {
+  it('resets the state properly on a build error', function (done) {
+    setup({
+      currentModel: ctx.instance
+    });
+
+    var error = new Error('http://c2.staticflickr.com/8/7001/6509400855_aaaf915871_b.jpg');
+
+    SMC.state.instance.attrs = {
+      env: ['quarblax=b']
+    };
+
+    var containerFiles = [
+      {
+        id: 'containerFileID!',
+        clone: sinon.spy()
+      }
+    ];
+    SMC.state.containerFiles = containerFiles;
+
+    ctx.loadingPromiseFinishedValue = 2;
+    ctx.build.build.restore();
+    sinon.stub(ctx.build, 'build', function (opts, cb) {
+      return cb(error);
+    });
+    SMC.state.build = ctx.build;
+    ctx.loadingPromiseMock.add.reset();
+    ctx.loadingPromiseMock.clear.reset();
+
+    SMC.getUpdatePromise()
+      .catch(function (e) {
+        expect(e, 'error').to.equal(error);
+        sinon.assert.notCalled(ctx.errsMock.handler);
+
+        expect(SMC.state.opts.env.length).to.equal(0);
+        expect(SMC.state.containerFiles.length).to.equal(1);
+
+        // No longer need to clone after the original time
+        //sinon.assert.calledOnce(containerFiles[0].clone);
+        sinon.assert.calledOnce(SMC.state.contextVersion.deepCopy);
+        sinon.assert.calledOnce(ctx.newContextVersion.deepCopy);
+        sinon.assert.calledOnce(ctx.contextVersion.fetch);
+
+        expect(SMC.state.dockerfile).to.not.equal(ctx.dockerfile);
+        expect(SMC.state.dockerfile).to.equal(ctx.anotherDockerfile);
+
+        sinon.assert.calledTwice(ctx.loadingPromiseMock.clear);
+        sinon.assert.calledOnce(ctx.loadingPromiseMock.add);
+        done();
+      });
+
+
+    $scope.$digest();
+    $rootScope.$apply();
+
+  });
+
+  it('resets the state properly on an update error', function (done) {
     setup({
       currentModel: ctx.instance
     });
@@ -774,25 +826,72 @@ describe('editServerModalController'.bold.underline.blue, function () {
     ctx.loadingPromiseMock.finished = function () {
       return $q.reject(error);
     };
+    ctx.loadingPromiseMock.count.returns(0);
+    ctx.loadingPromiseMock.add.reset();
+    ctx.loadingPromiseMock.clear.reset();
+    sinon.stub(SMC, 'resetStateContextVersion').returns($q.when(true));
+    SMC.getUpdatePromise()
+      .catch(function (e) {
+        expect(e, 'error').to.equal(error);
+        sinon.assert.notCalled(ctx.errsMock.handler);
+        sinon.assert.notCalled(SMC.resetStateContextVersion);
 
-    SMC.getUpdatePromise();
+        sinon.assert.calledOnce(ctx.loadingPromiseMock.clear);
+        sinon.assert.notCalled(ctx.loadingPromiseMock.add);
+        done();
+      });
 
     $scope.$digest();
-    sinon.assert.called(ctx.errsMock.handler);
-    sinon.assert.calledWith(ctx.errsMock.handler, error);
+  });
+
+  it('resets the state properly on an update error, when the build deduped the cv', function (done) {
+    setup({
+      currentModel: ctx.instance
+    });
+
+    var error = new Error('http://c2.staticflickr.com/8/7001/6509400855_aaaf915871_b.jpg');
+
+    SMC.state.instance.attrs = {
+      env: ['quarblax=b']
+    };
+
+    var containerFiles = [
+      {
+        id: 'containerFileID!',
+        clone: sinon.spy()
+      }
+    ];
+    SMC.state.containerFiles = containerFiles;
+    ctx.build.build.restore();
+    ctx.loadingPromiseFinishedValue = 2;
+
+    ctx.build2 = apiClientMockFactory.build(runnable, apiMocks.contextVersions.setup);
+    ctx.build2.contextVersions.models = [ctx.contextVersion];
+
+    sinon.stub(ctx.build, 'build', returnArg(ctx.build2));
+    SMC.state.build = ctx.build;
+    ctx.instance.update.restore();
+    sinon.stub(ctx.instance, 'update', function (opts, cb) {
+      return cb(error);
+    });
+    ctx.loadingPromiseMock.count.returns(2);
+    ctx.loadingPromiseMock.add.reset();
+    ctx.loadingPromiseMock.clear.reset();
+    sinon.stub(SMC, 'resetStateContextVersion').returns($q.when(true));
+    SMC.getUpdatePromise()
+      .catch(function (e) {
+        expect(e, 'error').to.equal(error);
+        sinon.assert.notCalled(ctx.errsMock.handler);
+        sinon.assert.calledOnce(SMC.resetStateContextVersion);
+        expect(SMC.resetStateContextVersion.getCall(0).notCalledWith(ctx.newContextVersion, false), 'not called with newCV').to.be.true;
+        expect(SMC.resetStateContextVersion.getCall(0).calledWith(ctx.contextVersion, false), 'called with cv').to.be.true;
+
+        sinon.assert.calledTwice(ctx.loadingPromiseMock.clear);
+        sinon.assert.calledOnce(ctx.loadingPromiseMock.add);
+        done();
+      });
 
     $scope.$digest();
-    $scope.$digest();
-    $rootScope.$apply();
-    expect(SMC.state.opts.env.length).to.equal(0);
-    expect(SMC.state.containerFiles.length).to.equal(1);
-    expect(SMC.state.dockerfile).to.not.equal(ctx.dockerfile);
-    expect(SMC.state.dockerfile).to.equal(ctx.anotherDockerfile);
-
-    // No longer need to clone after the original time
-    //sinon.assert.calledOnce(containerFiles[0].clone);
-    sinon.assert.calledOnce(ctx.newContextVersion.deepCopy);
-    sinon.assert.calledOnce(ctx.contextVersion.fetch);
   });
 
   describe('change Tab', function () {
@@ -1045,7 +1144,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
 
     it('should not pop up a confirmation of close when saved', function () {
       SMC.instance.attrs.env = '12345';
-      SMC.saveTriggered = true;
+      SMC.isDirty = sinon.stub().returns(false);
       SMC.actions.close();
       $scope.$digest();
       sinon.assert.notCalled(ctx.showModalStub);
@@ -1054,6 +1153,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
 
     it('pop up a notification when dirty and being closed', function () {
       SMC.instance.attrs.env = '12345';
+      SMC.isDirty = sinon.stub().returns(true);
       $scope.$digest();
       SMC.actions.close();
       $scope.$digest();
@@ -1061,11 +1161,75 @@ describe('editServerModalController'.bold.underline.blue, function () {
       sinon.assert.notCalled(ctx.closeSpy);
     });
 
-    it('should resolve when clean', function () {
+    it('should allow the user to build from the popup', function () {
+      SMC.isDirty = sinon.stub().returns('build');
+      sinon.stub(SMC, 'getUpdatePromise').returns($q.when(true));
+      ctx.showModalStub.returns($q.when({
+        close: $q.when('build')
+      }));
+      ctx.loadingPromiseMock.clear.reset();
+      $scope.$digest();
       SMC.actions.close();
       $scope.$digest();
-      sinon.assert.notCalled(ctx.showModalStub);
+      sinon.assert.calledOnce(ctx.showModalStub);
+      sinon.assert.calledOnce(SMC.getUpdatePromise);
+      $scope.$digest();
       sinon.assert.calledOnce(ctx.closeSpy);
+      expect(loadingService.editServerModal).to.be.not.ok;
+    });
+
+    it('should allow the user to just close the modal', function () {
+      SMC.isDirty = sinon.stub().returns('update');
+      sinon.stub(SMC, 'getUpdatePromise').returns($q.when(true));
+      ctx.showModalStub.returns($q.when({
+        close: $q.when(true)
+      }));
+      ctx.loadingPromiseMock.clear.reset();
+      $scope.$digest();
+      SMC.actions.close();
+      $scope.$digest();
+      sinon.assert.calledOnce(ctx.showModalStub);
+      sinon.assert.notCalled(SMC.getUpdatePromise);
+      $scope.$digest();
+      sinon.assert.calledOnce(ctx.closeSpy);
+      expect(loadingService.editServerModal).to.be.not.ok;
+    });
+
+    it('should handle if the rebuild from the popover fails', function () {
+      SMC.isDirty = sinon.stub().returns('build');
+      var error = new Error('an error');
+      sinon.stub(SMC, 'getUpdatePromise').returns($q.reject(error));
+      ctx.showModalStub.returns($q.when({
+        close: $q.when('build')
+      }));
+      ctx.loadingPromiseMock.clear.reset();
+      $scope.$digest();
+      SMC.actions.close();
+      $scope.$digest();
+      sinon.assert.calledOnce(ctx.showModalStub);
+      sinon.assert.calledOnce(SMC.getUpdatePromise);
+      $scope.$digest();
+      sinon.assert.notCalled(ctx.closeSpy);
+      sinon.assert.calledOnce(ctx.errsMock.handler);
+      expect(loadingService.editServerModal).to.be.not.ok;
+    });
+
+    it('should not allow a build if the form is invalid', function () {
+      SMC.isDirty = sinon.stub().returns('build');
+      var error = new Error('an error');
+      sinon.stub(SMC, 'getUpdatePromise').returns($q.reject(error));
+      ctx.showModalStub.returns($q.when({
+        close: $q.when('build')
+      }));
+      keypather.set($scope, 'serverForm.$invalid', true);
+      ctx.loadingPromiseMock.clear.reset();
+      $scope.$digest();
+      SMC.actions.close();
+      $scope.$digest();
+      sinon.assert.calledOnce(ctx.showModalStub);
+      sinon.assert.notCalled(SMC.getUpdatePromise);
+      sinon.assert.notCalled(ctx.closeSpy);
+      expect(loadingService.editServerModal).to.be.not.ok;
     });
 
   });
@@ -1101,6 +1265,12 @@ describe('editServerModalController'.bold.underline.blue, function () {
       SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
       $scope.$emit('resetStateContextVersion');
       expect(SMC.resetStateContextVersion.calledOnce).to.be.true;
+    });
+
+    it('should add the promise to loadingPromises.start', function () {
+      SMC.resetStateContextVersion(ctx.contextVersion, false);
+      $scope.$digest();
+      sinon.assert.called(ctx.loadingPromiseMock.start);
     });
   });
 
@@ -1140,6 +1310,40 @@ describe('editServerModalController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(SMC.rebuildAndOrRedeploy);
       sinon.assert.calledOnce(ctx.errsMock.handler);
       expect($rootScope.isLoading[SMC.name]).to.be.false;
+    });
+  });
+
+  describe('updateInstanceAndReset', function () {
+    beforeEach(function () {
+      setup({
+        currentModel: ctx.instance
+      });
+    });
+
+    it('should reset the context version after successfully updating', function () {
+      SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
+      SMC.getUpdatePromise = sinon.stub().returns($q.when(true));
+
+      SMC.updateInstanceAndReset();
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.resetStateContextVersion);
+      sinon.assert.calledOnce(SMC.getUpdatePromise);
+    });
+
+    it('should not handle the error if it happens during the update', function (done) {
+      var error = new Error('rebuildAndOrRedeploy error');
+      SMC.getUpdatePromise = sinon.stub().returns($q.reject(error));
+      SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
+
+      SMC.updateInstanceAndReset()
+        .catch(function (err) {
+          expect(err).to.equal(error);
+          sinon.assert.calledOnce(SMC.getUpdatePromise);
+          sinon.assert.notCalled(SMC.resetStateContextVersion);
+          sinon.assert.notCalled(ctx.errsMock.handler);
+          done();
+        });
+      $scope.$digest();
     });
   });
 

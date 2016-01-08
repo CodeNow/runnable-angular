@@ -28,7 +28,6 @@ function featureFlags(
     newVerificationFlow: true,
     newVerificationFlowStackSelector: true,
     noBuildLogs: true,
-    rebuildFlow: false, // updated rebuild flow
     renameContainer: false,
     saveToolbar: false,
     teamManagement: false, // changes text from org to team in account menu

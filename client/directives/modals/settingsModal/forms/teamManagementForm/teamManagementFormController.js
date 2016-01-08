@@ -7,11 +7,13 @@ require('app')
  * @ngInject
  */
 function TeamManagementFormController(
-  $rootScope,
   $q,
+  $rootScope,
+  $scope,
   $state,
   errs,
   fetchOrgMembers,
+  inviteGithubUserToRunnable,
   keypather,
   ModalService
 ) {
@@ -24,12 +26,14 @@ function TeamManagementFormController(
   // Load initial state
   fetchMembers();
 
-  $rootScope.$on('newInvitedAdded', function (event, user) {
+  var newInviteAddedWatchterUnbind = $rootScope.$on('newInvitedAdded', function (event, user) {
     TMMC.members.invited.push(user);
     TMMC.members.invited = TMMC.members.invited.sort(function (a, b) {
       return a.login.toLowerCase() > b.login.toLowerCase();
     });
   });
+
+  $scope.$on('$destroy', newInviteAddedWatchterUnbind);
 
   function fetchMembers () {
     return fetchOrgMembers($state.params.userName, true)
@@ -81,11 +85,12 @@ function TeamManagementFormController(
   TMMC.popoverActions = {
     resendInvitation: function (user) {
       $rootScope.$broadcast('close-popovers');
-      return $q.when(true)
+      user.sendingInvite = true;
+      return inviteGithubUserToRunnable(user.id, user.email, $state.params.userName)
         .then(function () {
-          return $q.reject(new Error('Resending invitations not yet implemented.'));
+          user.sendingInvite = false;
         })
-       .catch(errs.handler);
+        .catch(errs.handler);
     }
   };
 }

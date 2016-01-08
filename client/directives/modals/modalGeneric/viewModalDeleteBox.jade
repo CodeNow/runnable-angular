@@ -14,10 +14,10 @@
       strong {{ data.instance.attrs.name }}
       | , will be permanently removed.
   footer.modal-footer.clearfix
-    button.btn.white.float-left(
+    button.btn.btn-md.white.float-left(
       ng-click = "defaultActions.cancel()"
     ) Go Back
-    button.btn.red.float-right(
+    button.btn.btn-md.red.float-right(
       ng-click = "\
         actions.deleteInstance(data.deleteLinked);\
         defaultActions.cancel();\
