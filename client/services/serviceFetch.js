@@ -419,34 +419,75 @@ function fetchOrgRegisteredMembers(
  */
 function fetchGithubUserForCommit (
   $q,
-  $state,
+  $rootScope,
   assign,
   fetchGitHubUser,
   fetchOrgRegisteredMembers,
+  fetchOrgTeammateInvitations,
   keypather,
   promisify
 ) {
   return function (commit) {
+    var githubUserNotFoundError = new Error('Githut user not found');
     return promisify(commit, 'fetch')()
       .then(function (commit) {
         var userName = keypather.get(commit, 'attrs.author.login');
+        if (userName === null) {
+          return $q.reject(githubUserNotFoundError);
+        }
+        return userName;
+      })
+      .then(function (userName) {
+        var orgName = keypather.get($rootScope, 'dataApp.data.activeAccount.attrs.login');
+        var orgId = keypather.get($rootScope, 'dataApp.data.activeAccount.attrs.id');
+        var isRunnableUserPromise = fetchOrgRegisteredMembers(orgName)
+          .then(function (members) {
+            var membersWithLogin = members.models.filter(function (member) {
+              return keypather.get(member, 'attrs.accounts.github.username') === userName;
+            });
+            return membersWithLogin.length > 0;
+          });
         return $q.all({
           githubUser: fetchGitHubUser(userName),
-          isRunnableUser: fetchOrgRegisteredMembers($state.params.userName)
-            .then(function (members) {
-              console.log('members', members);
-              var membersWithLogin = members.models.filter(function (member) {
-                return keypather.get(member, 'attrs.accounts.github.username') === userName;
-              });
-              console.log('membersWithLogin', membersWithLogin);
-              return membersWithLogin.length > 0;
-            })
+          isRunnableUser: isRunnableUserPromise
         })
-        .then(function (response) {
-          return assign(response.githubUser, {
-            isRunnableUser: response.isRunnableUser,
+          .then(function (response) {
+            // Check if this is an invited user
+            var userGithubId = keypather.get(response, 'githubUser.id');
+            if (!userGithubId) {
+              throw githubUserNotFoundError;
+            }
+            var userHasBeenInvitedPromise = fetchOrgTeammateInvitations(orgId)
+              .then(function (invitations) {
+                var invitationsForUser = invitations.models.filter(function (invite) {
+                  return keypather.get(invite, 'attrs.recipient.github') === userGithubId;
+                });
+                return invitationsForUser.length > 0;
+              });
+            return $q.all(assign(response, {
+              userHasBeenInvited: userHasBeenInvitedPromise
+            }));
           });
+      })
+      .then(function (response) {
+        return assign(response.githubUser, {
+          isRunnableUser: response.isRunnableUser,
+          inviteSent: response.userHasBeenInvited
         });
+      })
+      .catch(function (err) {
+        if (err === githubUserNotFoundError) {
+          var commitAuthorName = keypather.get(commit, 'attrs.commit.author.name');
+          var userName = keypather.get(commit, 'attrs.author.login');
+          if (userName || commitAuthorName) {
+            return {
+              login: userName || commitAuthorName,
+              isGithubUser: false,
+              isRunnableUser: false
+            };
+          }
+        }
+        return $q.reject(err);
       });
   };
 }

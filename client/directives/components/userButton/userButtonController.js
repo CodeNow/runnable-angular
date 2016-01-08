@@ -20,7 +20,7 @@ function UserButtonController(
         return assign(user, {
           showInviteForm: false,
           inviteSending: false,
-          inviteSent: false
+          inviteSent: user.inviteSent || false
         });
       })
       .catch(errs.handler);
@@ -51,10 +51,10 @@ function UserButtonController(
         }
       });
     },
-    shouldShowUnsentInviteForm: function (user) {
+    shouldShowInviteForm: function (user) {
       return user.showInviteForm && !user.inviteSent && !user.inviteSending;
     },
-    shouldNotShowInviteForm: function (user) {
+    shouldShowInviteButton: function (user) {
       return !user.showInviteForm && !user.inviteSending && !user.inviteSent && !user.isRunnableUser;
     }
   };

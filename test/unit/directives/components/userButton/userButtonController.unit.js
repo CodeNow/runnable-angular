@@ -156,4 +156,62 @@ describe('UserButtonController'.bold.underline.blue, function () {
       });
     });
   });
+
+  describe('shouldShowInviteForm', function () {
+    var user;
+    beforeEach(function () {
+      setup();
+      user = {
+        showInviteForm: true,
+        inviteSent: false,
+        inviteSending: false
+      };
+    });
+
+    it('should return true if it should show the invite form and its not sending an invite', function () {
+      expect(UBC.actions.shouldShowInviteForm(user)).to.equal(true);
+    });
+
+    it('should return false if it should show the invite form and its sending an invite', function () {
+      user.inviteSending = true;
+      expect(UBC.actions.shouldShowInviteForm(user)).to.equal(false);
+    });
+
+    it('should return false if it should not show the invite form', function () {
+      user.showInviteForm = false;
+      expect(UBC.actions.shouldShowInviteForm(user)).to.equal(false);
+    });
+  });
+
+  describe('shouldShowInviteButton', function () {
+    var user;
+    beforeEach(function () {
+      setup();
+      user = {
+        inviteSent: false,
+        inviteSending: false,
+        showInviteForm: false,
+        isRunnableUser: false
+      };
+    });
+    // return user.showInviteForm && !user.inviteSent && !user.inviteSending;
+    it('should return true if it should show the invite form and its not sending an invite', function () {
+      expect(UBC.actions.shouldShowInviteButton(user)).to.equal(true);
+    });
+
+    it('should return false if it should show the invite form and its sending an invite', function () {
+      user.inviteSending = true;
+      expect(UBC.actions.shouldShowInviteButton(user)).to.equal(false);
+    });
+
+    it('should return false if it should not show the invite form', function () {
+      user.showInviteForm = true;
+      expect(UBC.actions.shouldShowInviteButton(user)).to.equal(false);
+    });
+
+    it('should return false if it the user is not a Runnable user', function () {
+      user.isRunnableUser = true;
+      expect(UBC.actions.shouldShowInviteButton(user)).to.equal(false);
+    });
+  });
 });
