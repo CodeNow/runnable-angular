@@ -159,7 +159,8 @@ function ServerModalController(
       controllerAs: 'CMC',
       templateUrl: 'confirmCloseServerView',
       inputs: {
-        hasInstance: !!SMC.instance
+        hasInstance: !!SMC.instance,
+        shouldDisableSave: keypather.get($scope, 'serverForm.$invalid')
       }
     })
       .then(function (modal) {
