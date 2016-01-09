@@ -8,13 +8,8 @@
         type = "checkbox"
       )
       .toggle-group.toggle-sm
-    .small.strong IP Whitelist
-    small.small Only whitelisted IPs can make&#32;
-      em.underline(
-        tooltip = "Non-browser requests (e.g. from an oAuth service or an external server)."
-        tooltip-options = "{\"class\":\"bottom center\",\"right\":-196,\"top\":18}"
-      ) headless
-      | &#32;requests to this container.
+    .small.strong Make Private
+    small.small Restrict access to this container so only your team can access it.
 
 .label.clearfix.js-animate(
   ng-if = "state.whitelist"
@@ -98,3 +93,12 @@
             use(
               xlink:href = "#icons-close"
             )
+    small.small Whitelist IP addresses to make exceptions to your privacy settings. &#32;
+      a.link(
+        href = "//google.com/webhp?hl=en#hl=en&q=ip"
+        target = "_blank"
+      ) Your IP address
+        svg.iconnables.icons-link-external
+          use(
+            xlink:href = "#icons-link-external"
+          )
