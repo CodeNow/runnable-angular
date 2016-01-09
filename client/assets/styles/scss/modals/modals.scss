@@ -36,18 +36,46 @@
   display: flex;
   flex-direction: column;
   max-height: 100%;
-  max-width: 84vw;
   min-width: 360px;
   position: relative;
   transition: all .3s ease-in-out;
 
   @include media(sm) {
-    min-width: 360px;
     width: 100%;
   }
 
+  // expands modal
   &.xl {
     flex: 1 1 auto;
+  }
+
+  // sizes
+  &.modal-xl,
+  &.modal-lg,
+  &.modal-md,
+  &.modal-sm,
+  &.modal-xs {
+    width: 100%;
+  }
+
+  &.modal-xl {
+    max-width: 84vw;
+  }
+
+  &.modal-lg {
+    max-width: 570px;
+  }
+
+  &.modal-md {
+    max-width: 510px;
+  }
+
+  &.modal-sm {
+    max-width: 450px;
+  }
+
+  &.modal-xs {
+    max-width: 390px;
   }
 
   // search
@@ -205,7 +233,7 @@
     }
 
     // animation leave state
-    &.ng-enter.ng-enter-active {
+    &.ng-enter-active {
       opacity: 1;
     }
 
@@ -264,18 +292,6 @@
 
   .label-checkbox {
     transition: padding .15s ease-in;
-  }
-
-  // empty p tag
-  .p.empty {
-    color: $gray;
-    font-weight: $weight-bold;
-    margin: 60px 0 30px;
-    text-align: center;
-
-    &:only-child {
-      margin-bottom: 60px;
-    }
   }
 
   // nested footer
