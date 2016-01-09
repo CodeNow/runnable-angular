@@ -21,7 +21,7 @@ function errs (
       return false;
     }
     if (err.message === 'Bad credentials') {
-      window.location = configAPIHost + '/auth/github?redirect=' + $window.location.protocol + '//' + $window.location.host + '/?auth';
+      $window.location = configAPIHost + '/auth/github?redirect=' + $window.location.protocol + '//' + $window.location.host + '/?auth';
       return false;
     }
 
