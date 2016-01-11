@@ -85,7 +85,13 @@ function SetupServerModalController(
         env: []
       },
       selectedStack: null,
-      step: 1
+      step: 1,
+      whitelist: [
+        {address: ['1.1.1.1', '1.1.1.10'], description: ''},
+        {address: ['1.1.1.3'], description: 'Test'},
+        {address: ['1.1.1.9'], description: 'Runnable'},
+        {address: ['1.1.1.4', '1.1.1.5'], description: ''}
+      ]
     },
     actions: {
       close: function () {

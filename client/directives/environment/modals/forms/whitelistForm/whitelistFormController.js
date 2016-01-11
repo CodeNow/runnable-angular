@@ -16,13 +16,6 @@ function WhitelistFormController() {
   WFC.whitelistEnabled = true;
   resetForm();
 
-  WFC.whitelist = [
-    {address: ['1.1.1.1', '1.1.1.10'], description: ''},
-    {address: ['1.1.1.3'], description: 'Test'},
-    {address: ['1.1.1.9'], description: 'Runnable'},
-    {address: ['1.1.1.4', '1.1.1.5'], description: ''}
-  ];
-
   WFC.actions = {
     add: function () {
       var address = [];

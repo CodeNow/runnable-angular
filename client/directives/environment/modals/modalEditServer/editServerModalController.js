@@ -64,7 +64,13 @@ function EditServerModalController(
       },
       promises: {},
       instance: instance,
-      newLink: {}
+      newLink: {},
+      whitelist: [
+        {address: ['1.1.1.1', '1.1.1.10'], description: ''},
+        {address: ['1.1.1.3'], description: 'Test'},
+        {address: ['1.1.1.9'], description: 'Runnable'},
+        {address: ['1.1.1.4', '1.1.1.5'], description: ''}
+      ]
     },
     validation: {
       env: null

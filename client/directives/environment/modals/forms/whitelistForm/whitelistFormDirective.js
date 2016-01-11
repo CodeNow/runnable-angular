@@ -9,9 +9,9 @@ function ipWhitelistDirective() {
     templateUrl: 'whitelistFormView',
     controller: 'WhitelistFormController',
     controllerAs: 'WFC',
-    bindtoController: true,
+    bindToController: true,
     scope: {
-      whitelist: '= whitelist'
+      whitelist: '='
     },
     link: function ($scope, elem, attrs) {
       $scope.state = {
