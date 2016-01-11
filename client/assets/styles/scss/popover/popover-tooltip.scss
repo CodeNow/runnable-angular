@@ -9,10 +9,6 @@
   transform: scale3d(1,1,1); // override scaling popover transition
   transition: opacity .075s ease-in; // override scaling popover transition
 
-  &.wide {
-    max-width: 300px;
-  }
-
   .btn {
     background: $gray;
     color: $white;
