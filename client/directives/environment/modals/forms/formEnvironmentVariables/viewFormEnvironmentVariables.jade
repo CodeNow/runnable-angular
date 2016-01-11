@@ -60,7 +60,6 @@
 label.label.label-help(
   ng-hide = "$root.featureFlags.fullScreen"
 )
-  //- this needs to say "Container URL:" if this container is not a repository container.
   small.small.strong(
     ng-if = "SMC.instance.getBranchName()"
   ) Repository URL:
