@@ -4,25 +4,5 @@
   display: block;
   padding: 0 1px;
 }
-
-// connections button
-.btn.btn-connections.deprecated {
-  margin: 0 6px;
-
-  // colored states
-  &.gray:active .connections-badge {
-    background: $purple-light;
-  }
-
-  &.orange .connections-badge {
-    background: $white;
-    color: $orange;
-  }
-
-  &.red .connections-badge {
-    background: $white;
-    color: $red;
-  }
-}
 //- end deprecated file
 //- ************************
