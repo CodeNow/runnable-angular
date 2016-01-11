@@ -16,6 +16,17 @@ function WhitelistFormController() {
   WFC.whitelistEnabled = true;
   resetForm();
 
+  var verificationPattern = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+  WFC.isFormValid = function () {
+    if (!verificationPattern.test(WFC.fromAddress)) {
+      return false;
+    }
+    if (WFC.isRange && !verificationPattern.test(WFC.toAddress)) {
+      return false;
+    }
+    return true;
+  };
+
   WFC.actions = {
     add: function () {
       var address = [];

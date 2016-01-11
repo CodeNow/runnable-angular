@@ -25,12 +25,43 @@ describe('WhitelistFormController'.bold.underline.blue, function () {
   beforeEach(setup);
 
   describe('basics'.blue, function () {
-
     it('should exist', function () {
       expect(whitelistFormController, 'whitelistFormController').to.be.ok;
       expect(whitelistFormController.isRange, 'isRange').to.equal(false);
     });
   });
+
+  describe('isFormValid', function () {
+    it('should fail when the ip does not match the pattern', function (done) {
+      whitelistFormController.isRange = false;
+      whitelistFormController.fromAddress = '266.12.12.12';
+      whitelistFormController.toAddress = '';
+      expect(whitelistFormController.isFormValid()).to.equal(false);
+      done();
+    });
+
+    it('should fail if range is selected but there is no second ip', function (done) {
+      whitelistFormController.isRange = true;
+      whitelistFormController.fromAddress = '123.123.123.123';
+      whitelistFormController.toAddress = '';
+      expect(whitelistFormController.isFormValid()).to.equal(false);
+      done();
+    });
+    it('should pass if there is just a single ip', function (done) {
+      whitelistFormController.isRange = false;
+      whitelistFormController.fromAddress = '123.123.123.123';
+      whitelistFormController.toAddress = '';
+      expect(whitelistFormController.isFormValid()).to.equal(true);
+      done();
+    });
+    it('should pass if there is a range and both ips are specified', function (done) {
+      whitelistFormController.isRange = true;
+      whitelistFormController.fromAddress = '123.123.123.123';
+      whitelistFormController.toAddress = '123.123.123.123';
+      expect(whitelistFormController.isFormValid()).to.equal(true);
+      done();
+    });
+  })
 
   describe('actions', function () {
     describe('add', function () {
