@@ -174,7 +174,7 @@
 
     &.ng-enter {
       opacity: 0;
-      transform: translate3d(0,-44px,0);
+      transform: translate3d(0,-50%,0);
     }
 
     &.ng-enter-active {
@@ -189,7 +189,7 @@
 
     &.ng-leave-active {
       opacity: 0;
-      transform: translate3d(0,-44px,0);
+      transform: translate3d(0,-50%,0);
     }
 
     + .clearfix {
