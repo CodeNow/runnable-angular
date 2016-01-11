@@ -160,50 +160,43 @@
 }
 
 .table-actions-env-vars {
-  position: relative;
-
-  // action
-  > .btn {
-    position: absolute;
-    right: 6px;
-  }
 
   .clearfix {
     display: flex;
-    transition: opacity .15s ease-in-out, transform .15s ease-in-out;
-
-    &.ng-enter {
-      opacity: 0;
-      transform: translate3d(0,-50%,0);
-    }
-
-    &.ng-enter-active {
-      opacity: 1;
-      transform: translate3d(0,0,0);
-    }
-
-    &.ng-leave {
-      opacity: 1;
-      transform: translate3d(0,0,0);
-    }
-
-    &.ng-leave-active {
-      opacity: 0;
-      transform: translate3d(0,-50%,0);
-    }
 
     + .clearfix {
       margin-top: 6px;
     }
   }
 
+  // key, protocol, port
   .input {
-    flex: 0 1 100%;
-    max-width: 150px;
+    flex: 0 1 150px;
+    padding: 0 9px;
+
+    &:first-child {
+      margin-left: -2px;
+    }
+
+    &:last-child {
+      margin-right: -2px;
+    }
+  }
+
+  .input-group {
+    flex: 1 1 240px;
+  }
+
+  .small {
+    flex: 1 1 auto;
+    line-height: 24px;
+    padding-right: 12px;
   }
 
   // url
   .select-url {
+    flex: 1 1 60%;
+    font-size: 14px;
     padding-right: 21px;
 
     .float-left {
@@ -212,24 +205,16 @@
     }
   }
 
-  .input-group {
-    flex: 1 1 auto;
-  }
-
-  .monospace {
-    font-size: 14px;
-  }
-
   // '=' icon
   .p {
-    color: $gray;
     font-size: 24px;
     padding: 0 6px;
   }
 
-  .small {
-    flex: 1 1 auto;
-    line-height: 24px;
+  .p,
+  .btn.green,
+  .btn.white {
+    flex: 0 0 auto;
   }
 
   .btn + .btn {

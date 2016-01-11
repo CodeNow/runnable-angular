@@ -31,7 +31,7 @@ button.btn.btn-xs.gray(
   | URLs
 
 //- if inserting host names
-.clearfix.side-down.js-animate(
+.clearfix(
   ng-if = "SMC.state.showHostName"
 )
 
@@ -42,7 +42,7 @@ button.btn.btn-xs.gray(
     type = "text"
   )
 
-  p.p(
+  p.p.text-gray(
     ng-if = "$root.featureFlags.connections"
   ) =
 
@@ -81,13 +81,14 @@ button.btn.btn-xs.gray(
         value = "port"
       ) :{{$parent.port}}
 
-.clearfix.side-down.js-animate(
+.clearfix(
   ng-if = "SMC.state.showHostName"
 )
   small.small.text-gray(
     ng-if = "$root.featureFlags.connections"
+    title = "Connect to another container by using its URL in an environment variable."
   ) Connect to another container by using its URL in an environment variable.
-  button.btn.btn-xs.gray.btn-cancel(
+  button.btn.btn-xs.white(
     ng-click = "SMC.state.showHostName = false"
   ) Cancel
   button.btn.btn-xs.green(
