@@ -1,4 +1,4 @@
-.modal-dialog.modals-rename
+.modal-dialog.modal-sm.modals-rename
   section.modal-body
     svg.iconnables.icons-close(
       ng-click = "defaultActions.cancel()"
@@ -49,9 +49,9 @@
             | -staging.codenow.runnableapp.com
 
   footer.modal-footer.clearfix
-    button.btn.white.float-left(
+    button.btn.btn-md.white.float-left(
       ng-click = "defaultActions.close()"
     ) Cancel
-    button.btn.green.float-right(
+    button.btn.btn-md.green.float-right(
       ng-disabled = "!rename.newName.$viewValue.length || rename.$invalid"
     ) Rename Container

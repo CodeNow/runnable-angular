@@ -126,7 +126,7 @@
 
     // for rows (full-width) with only small text
     > .small:only-child {
-      margin: 6px;
+      margin: 6px 9px;
     }
   }
 
@@ -150,14 +150,13 @@
 
   // input column (right)
   .input-col {
-    margin-bottom: 6px;
 
     // max-width on buttons
     > .btn {
       display: block;
       font-size: 16px;
       max-width: 360px;
-      padding-left: 6px;
+      padding-left: 9px - $input-border;
       text-align: left;
       width: 100%;
 
@@ -202,7 +201,7 @@
 
     // small text aligns with button/input padding
     .small {
-      margin: 6px;
+      margin: 6px 9px;
     }
   }
 
@@ -210,13 +209,6 @@
   > .btn-group {
     display: table;
     margin: 0 auto 15px;
-  }
-
-  // label info
-  > .small {
-    color: $gray;
-    display: inline-block;
-    margin: 6px 0 0;
   }
 
   // label help
@@ -282,44 +274,4 @@
   // **********
   // end styles
   // **********
-}
-
-// .modal-form.empty
-.modal-form.empty {
-  padding: 30px 30px 60px;
-
-  &.well.in {
-    background: $gray-lightest;
-    margin: 0;
-  }
-
-  // placeholder
-  .img {
-    margin: 0 auto;
-  }
-
-  // for 'title' text
-  .p.empty {
-    color: $gray-dark;
-    font-size: 18px;
-    margin: 9px 0 12px;
-
-    > .small {
-      color: $gray;
-      display: block;
-    }
-  }
-
-  // inputs (like api token)
-  .input-spinner {
-    margin: 0 auto;
-    max-width: 360px;
-    width: 100%;
-  }
-
-  // submit buttons (like for api token)
-  .green {
-    display: table;
-    margin: 15px auto 0;
-  }
 }

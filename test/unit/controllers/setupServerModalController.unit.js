@@ -53,18 +53,27 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   var branch;
   var instances;
   var mockInstance;
+  var loadingPromiseMock;
+  var loadingPromiseFinishedValue;
+  var errsMock;
 
   function initState() {
     helpCardsMock = {
       refreshAllCards: sinon.stub()
     };
+    errsMock = {
+      handler: sinon.spy()
+    };
+
     fetchStackAnalysisMock = new MockFetch();
     createNewBuildMock = sinon.stub();
     populateDockerfileStub = sinon.stub();
     createAndBuildNewContainerMock = new MockFetch();
+    loadingPromiseFinishedValue = null;
 
     angular.mock.module('app');
     angular.mock.module(function ($provide) {
+      $provide.value('errs', errsMock);
       $provide.factory('fetchStackAnalysis', fetchStackAnalysisMock.fetch());
       $provide.value('helpCards', helpCardsMock);
       $provide.factory('fetchInstancesByPod', function ($q) {
@@ -121,6 +130,18 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       $provide.factory('fetchDockerfileFromSource', function ($q) {
         fetchDockerfileFromSourceStub = sinon.stub().returns($q.when(dockerfile));
         return fetchDockerfileFromSourceStub;
+      });
+      $provide.factory('loadingPromises', function ($q) {
+        loadingPromiseMock = {
+          add: sinon.stub().returnsArg(1),
+          clear: sinon.spy(),
+          start: sinon.stub().returnsArg(1),
+          count: sinon.stub().returns(0),
+          finished: sinon.spy(function () {
+            return $q.when(loadingPromiseFinishedValue);
+          })
+        };
+        return loadingPromiseMock;
       });
 
       $provide.value('createNewBuild', createNewBuildMock);
@@ -376,6 +397,9 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         SMC.state.repo = repo;
         SMC.state.dst = '/foo';
         sinon.assert.notCalled(updateDockerfileFromStateStub);
+
+        createNewBuildMock.returns(newBuild);
+
         SMC.createServer();
         $scope.$digest();
 
@@ -455,7 +479,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
             expect(createAndBuildNewContainerMock.getFetchSpy().lastCall.args[1]).to.equal(repo.attrs.name);
 
             sinon.assert.calledOnce(SMC.resetStateContextVersion);
-            sinon.assert.calledWith(SMC.resetStateContextVersion, SMC.state.contextVersion, true);
+            sinon.assert.calledWith(SMC.resetStateContextVersion, SMC.state.contextVersion, false);
             done();
           });
         $scope.$digest();
@@ -552,40 +576,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       expect(SMC.selectedTab).to.equal('logs');
     });
 
-    it('should close the modal if it reached the last step and there have been no changes made', function () {
-      expect(SMC.selectedTab).to.equal('repository');
-
-      SMC.goToNextStep(); // Step #2
-      $scope.$digest();
-      SMC.goToNextStep(); // Step #3
-      $scope.$digest();
-      SMC.goToNextStep(); // Step #4
-      $scope.$digest();
-      SMC.goToNextStep(); // Close
-      $scope.$digest();
-      sinon.assert.calledOnce(closeSpy);
-      sinon.assert.notCalled(SMC.getUpdatePromise);
-    });
-
-    it('should update the instance if changes have been made before closing', function () {
-      expect(SMC.selectedTab).to.equal('repository');
-
-      SMC.goToNextStep(); // Step #2
-      $scope.$digest();
-      SMC.goToNextStep(); // Step #3
-      $scope.$digest();
-      SMC.goToNextStep(); // Step #4
-      $scope.$digest();
-
-      // Something changes
-      SMC.state.opts.env.push('WOW=1');
-
-      SMC.goToNextStep(); // Close
-      $scope.$digest();
-      sinon.assert.notCalled(closeSpy);
-      sinon.assert.calledOnce(SMC.getUpdatePromise);
-    });
-
     it('should not go to the `commands` tab if the stack and the version are not selected', function () {
       SMC.state.selectedStack = {};
       expect(SMC.selectedTab).to.equal('repository');
@@ -614,58 +604,56 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
   describe('Close Modal', function () {
 
-    it('should close the modal and and not delete the server if there is no instance', function () {
+    it('should close the modal if the controller is not dirty', function () {
       closeSpy.reset();
-      SMC.instance = null;
+      sinon.stub(SMC, 'isDirty').returns(false);
       SMC.actions.close();
       $scope.$digest();
       sinon.assert.calledOnce(closeSpy);
     });
 
-    it('should close the modal and delete the server if there is an instance', function () {
+    it('should show the close popover with the save and build button disabled', function () {
       closeSpy.reset();
       SMC.instance = {
         hello: 'world',
         destroy: sinon.stub()
       };
-      SMC.actions.deleteServer = sinon.stub().returns($q.when(true));
+      sinon.stub(SMC, 'isDirty').returns(true);
+      keypather.set($scope, 'serverForm.$invalid', true);
       SMC.actions.close();
       $scope.$digest();
       sinon.assert.calledOnce(showModalStub);
       expect(showModalStub.lastCall.args[0]).to.deep.equal({
-        controller: 'ConfirmationModalController',
+        controller: 'ConfirmCloseServerController',
         controllerAs: 'CMC',
-        templateUrl: 'confirmDiscardServerView'
+        templateUrl: 'confirmCloseServerView',
+        inputs: {
+          hasInstance: true,
+          shouldDisableSave: true
+        }
       });
-      sinon.assert.calledOnce(helpCardsMock.refreshAllCards);
       sinon.assert.calledOnce(closeSpy);
     });
 
-    it('should close the modal automatically when creating the server', function () {
-      SMC.state.acv = {
-        attrs: {
-          branch: 'branchName'
-        }
+    it('should show the close popover normally', function () {
+      closeSpy.reset();
+      SMC.instance = {
+        hello: 'world',
+        destroy: sinon.stub()
       };
-      SMC.state.branch = {
-        attrs: {
-          name: 'branchName'
-        }
-      };
-      SMC.state.selectedStack = {
-        key: 'ruby_ror'
-      };
-      SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
-      SMC.selectRepo(repo);
-
-      SMC.state.repo = repo;
-      SMC.state.dst = '/foo';
-      sinon.assert.notCalled(updateDockerfileFromStateStub);
-      SMC.createServerAndClose();
+      sinon.stub(SMC, 'isDirty').returns(true);
+      SMC.actions.close();
       $scope.$digest();
-      createAndBuildNewContainerMock.triggerPromise(mockInstance);
-      $scope.$digest();
-      sinon.assert.calledOnce(SMC.resetStateContextVersion);
+      sinon.assert.calledOnce(showModalStub);
+      expect(showModalStub.lastCall.args[0]).to.deep.equal({
+        controller: 'ConfirmCloseServerController',
+        controllerAs: 'CMC',
+        templateUrl: 'confirmCloseServerView',
+        inputs: {
+          hasInstance: true,
+          shouldDisableSave: null
+        }
+      });
       sinon.assert.calledOnce(closeSpy);
     });
   });
@@ -681,21 +669,13 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       createNewBuildMock.returns(newBuild);
     });
 
-    it('should return false if there is no context version set', function () {
-      SMC.state.contextVersion = null;
-      SMC.state.opts.env.push('HELLO=1');
-      expect(SMC.isDirty()).to.equal(false);
-      SMC.state.contextVersion = {};
-      expect(SMC.isDirty()).to.equal(true);
-    });
-
     it('should not be dirty until a change is made', function () {
       expect(SMC.isDirty()).to.equal(false);
       SMC.selectRepo(repo);
       $scope.$digest();
       expect(SMC.isDirty()).to.equal(false);
       SMC.state.opts.env.push('HELLO=1');
-      expect(SMC.isDirty()).to.equal(true);
+      expect(SMC.isDirty()).to.equal('update');
     });
 
     describe('Changes', function () {
@@ -707,14 +687,25 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       it('should be dirty when an ENV variables has changes', function () {
         expect(SMC.isDirty()).to.equal(false);
         SMC.state.opts.env.push('HELLO=1');
-        expect(SMC.isDirty()).to.equal(true);
+        expect(SMC.isDirty()).to.equal('update');
+      });
+
+      it('should be dirty when an ENV variables has changes, and the instance.status is building', function () {
+        expect(SMC.isDirty()).to.equal(false);
+        SMC.instance = {
+          status: function () {
+            return 'building';
+          }
+        };
+        SMC.state.opts.env.push('HELLO=1');
+        expect(SMC.isDirty()).to.equal('build');
       });
 
       it('should be dirty when a loading promises is added', function () {
         expect(SMC.isDirty()).to.equal(false);
-        loadingPromises.add(SMC.name, $q.when(true));
+        loadingPromises.count.returns(1);
         $scope.$digest();
-        expect(SMC.isDirty()).to.equal(true);
+        expect(SMC.isDirty()).to.equal('build');
       });
 
       it('should be dirty when a file is added', function () {
@@ -722,7 +713,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         SMC.openItems.add(fileModel);
         fileModel.attrs.body = 'FROM nodejs\nCMD echo "1";';
         $scope.$digest();
-        expect(SMC.isDirty()).to.equal(true);
+        expect(SMC.isDirty()).to.equal('build');
       });
 
     });

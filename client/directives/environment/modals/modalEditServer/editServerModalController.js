@@ -20,16 +20,12 @@ var tabVisibility = {
 function EditServerModalController(
   $scope,
   $controller,
-  $filter,
-  $rootScope,
   errs,
   fetchInstancesByPod,
   findLinkedServerVariables,
-  hasKeypaths,
   keypather,
   loading,
   OpenItems,
-  ModalService,
   loadingPromises,
   helpCards,
   tab,
@@ -41,13 +37,18 @@ function EditServerModalController(
 
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
+    'closeWithConfirmation': parentController.closeWithConfirmation.bind(SMC),
+    'changeTab': parentController.changeTab.bind(SMC),
     'insertHostName': parentController.insertHostName.bind(SMC),
     'isDirty': parentController.isDirty.bind(SMC),
+    'isDockerfileValid': parentController.isDockerfileValid.bind(SMC),
+    'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
     'populateStateFromData': parentController.populateStateFromData.bind(SMC),
     'rebuildAndOrRedeploy': parentController.rebuildAndOrRedeploy.bind(SMC),
     'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
     'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
+    'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC)
   });
 
   SMC.instance = instance;
@@ -82,26 +83,7 @@ function EditServerModalController(
       return cmd.replace('until grep -q ethwe /proc/net/dev; do sleep 1; done;', '');
     },
     actions: {
-      close: function () {
-        $rootScope.$broadcast('close-popovers');
-        if (SMC.isDirty() && !SMC.saveTriggered) {
-          ModalService.showModal({
-            controller: 'ConfirmationModalController',
-            controllerAs: 'CMC',
-            templateUrl: 'confirmCloseEditServer'
-          })
-            .then(function (modal) {
-              modal.close.then(function (confirmed) {
-                if ( confirmed ) {
-                  close();
-                }
-              });
-            })
-            .catch(errs.handler);
-        } else {
-          close();
-        }
-      }
+      close: SMC.closeWithConfirmation.bind(SMC, close)
     },
     build: instance.build,
     getElasticHostname: instance.getElasticHostname.bind(instance),
@@ -132,7 +114,6 @@ function EditServerModalController(
 
   $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
     $event.stopPropagation();
-    loading.reset(SMC.name);
     if (showSpinner) {
       loading(SMC.name, true);
     }
@@ -151,26 +132,9 @@ function EditServerModalController(
     return SMC.resetStateContextVersion(instance.contextVersion, true)
       .catch(errs.handler)
       .finally(function () {
-        loadingPromises.clear(SMC.name);
         loading(SMC.name, false);
       });
   }
-
-  SMC.changeTab = function (tabname) {
-    if (!SMC.state.advanced) {
-      if ($filter('selectedStackInvalid')(SMC.state.selectedStack)) {
-        tabname = 'repository';
-      } else if (!SMC.state.startCommand) {
-        tabname = 'commands';
-      }
-    } else if ($scope.editServerForm.$invalid) {
-      if (keypather.get($scope, 'editServerForm.$error.required.length')) {
-        var firstRequiredError = $scope.editServerForm.$error.required[0].$name;
-        tabname = firstRequiredError.split('.')[0];
-      }
-    }
-    SMC.selectedTab = tabname;
-  };
   /**
    * This function determines if a tab chooser should be shown
    *
@@ -211,42 +175,11 @@ function EditServerModalController(
         return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
       })
       .then(function (contextVersion) {
-        loadingPromises.clear(SMC.name);
         return contextVersion;
       })
       .catch(errs.handler)
       .finally(function () {
         loading(SMC.name, false);
-      });
-  };
-
-  SMC.isDockerfileValid = function () {
-    if (!SMC.state.advanced || !keypather.get(SMC, 'state.dockerfile.validation.criticals.length')) {
-      return true;
-    }
-    return !SMC.state.dockerfile.validation.criticals.find(hasKeypaths({
-      message: 'Missing or misplaced FROM'
-    }));
-  };
-
-  SMC.instance.on('update', function () {
-    SMC.page = ((['building', 'buildFailed', 'neverStarted'].indexOf(SMC.instance.status()) === -1) ? 'run' : 'build');
-  });
-
-  SMC.getUpdatePromise = function () {
-    SMC.saveTriggered = true;
-    loading(SMC.name + 'IsBuilding', true);
-    return SMC.saveInstanceAndRefreshCards()
-      .then(function () {
-        return close();
-      })
-      .catch(function (err) {
-        errs.handler(err);
-        return SMC.resetStateContextVersion(SMC.state.contextVersion, false)
-          .finally(function () {
-            // Only turn off `IsBuilding` if there is an error and we have to revert back
-            loading(SMC.name + 'IsBuilding', false);
-          });
       });
   };
 

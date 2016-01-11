@@ -23,6 +23,7 @@ require('app')
   .factory('fetchGitHubAdminsByRepo', fetchGitHubAdminsByRepo)
   .factory('fetchGitHubTeamsByRepo', fetchGitHubTeamsByRepo)
   .factory('fetchGitHubTeamMembersByTeam', fetchGitHubTeamMembersByTeam)
+  .factory('fetchGithubUserForCommit', fetchGithubUserForCommit)
   .factory('fetchOwnerRepos', fetchOwnerRepos)
   .factory('fetchPullRequest', fetchPullRequest)
   // Settings
@@ -405,6 +406,39 @@ function fetchOrgRegisteredMembers(
       });
     }
     return fetchOrgRegisteredMembersCache[orgName];
+  };
+}
+
+/**
+ * Given a user commit model, fetch the GH who made the commit. Also return an
+ * `isRunnableUser` property pointing to whether the user is a Runnable user.
+ *
+ * @param {Object} commit
+ * @resolves {Object} - GitHub User
+ * @returns {Promise}
+ */
+function fetchGithubUserForCommit (
+  $q,
+  assign,
+  fetchGitHubUser,
+  fetchOrgRegisteredMembers,
+  keypather,
+  promisify
+) {
+  return function (commit) {
+    return promisify(commit, 'fetch')()
+      .then(function (commit) {
+        var userName = keypather.get(commit, 'attrs.author.login');
+        return $q.all({
+          githubUser: fetchGitHubUser(userName),
+          runnableUser: fetchOrgRegisteredMembers(userName)
+        })
+        .then(function (response) {
+          return assign(response.githubUser, {
+            isRunnableUser: Boolean(response.runnableUser.models.length),
+          });
+        });
+      });
   };
 }
 

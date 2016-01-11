@@ -4,23 +4,28 @@ require('app')
   .controller('ServerModalController', ServerModalController);
 
 function ServerModalController(
+  $filter,
   $q,
   $rootScope,
   $scope,
+  errs,
   eventTracking,
   helpCards,
   parseDockerfileForCardInfoFromInstance,
   createBuildFromContextVersionId,
   keypather,
+  hasKeypaths,
+  loading,
   loadingPromises,
   promisify,
+  ModalService,
   updateDockerfileFromState
 ) {
   this.openDockerfile = function (state, openItems) {
     return promisify(state.contextVersion, 'fetchFile')('/Dockerfile')
       .then(function (dockerfile) {
         if (state.dockerfile) {
-         openItems.remove(state.dockerfile);
+          openItems.remove(state.dockerfile);
         }
         if (dockerfile) {
           openItems.add(dockerfile);
@@ -29,19 +34,18 @@ function ServerModalController(
       });
   };
 
-  this.isDirty = function  () {
+  this.isDirty = function () {
     // Loading promises are clear when the modal is saved or cancelled.
     var SMC = this;
-    // If there is no CV, there can be no changes
-    if (!SMC.state.contextVersion) {
-      return false;
+    var requiresUpdate = !angular.equals(
+      keypather.get(SMC, 'instance.attrs.env') || [],
+      keypather.get(SMC, 'state.opts.env') || []
+    ) ? 'update' : false;
+    var requiresBuild = loadingPromises.count(SMC.name) > 0 || !SMC.openItems.isClean() ? 'build' : false;
+    if (requiresUpdate && ['building', 'buildFailed', 'neverStarted'].includes(keypather.get(SMC, 'instance.status()'))) {
+      requiresBuild = 'build';
     }
-    return loadingPromises.count(SMC.name) > 0 ||
-      !angular.equals(
-        keypather.get(SMC, 'instance.attrs.env') || [],
-        keypather.get(SMC, 'state.opts.env') || []
-      ) ||
-      !SMC.openItems.isClean();
+    return requiresBuild || requiresUpdate;
   };
 
   this.rebuildAndOrRedeploy = function (noCache, forceRebuild) {
@@ -63,6 +67,7 @@ function ServerModalController(
         return loadingPromises.finished(SMC.name);
       })
       .then(function (promiseArrayLength) {
+        loadingPromises.clear(SMC.name);
         toRebuild = !!(
           forceRebuild ||
           promiseArrayLength > 0 ||
@@ -100,6 +105,9 @@ function ServerModalController(
               })
                 .then(function (build) {
                   SMC.state.opts.build = build.id();
+                  // Since the contextVersion could have deduped, we need to reset the state.cv
+                  // to this build's cv.  If true, the duped cv has been deleted
+                  SMC.state.contextVersion = build.contextVersions.models[0];
                   return SMC.state;
                 });
             }
@@ -120,12 +128,56 @@ function ServerModalController(
             if (toRedeploy) {
               return promisify(SMC.instance, 'redeploy')();
             }
-          })
-          .catch(function (err) {
-            // If we get an error, we need to wipe the loadingPromises, since it could have an error
-            loadingPromises.clear(SMC.name);
-            return $q.reject(err);
           });
+      })
+      .catch(function (err) {
+        // If we get an error, we need to wipe the loadingPromises, since it could have an error
+        loadingPromises.clear(SMC.name, true);
+
+        // Don't reset the CV unless we attempted to build
+        if (toRebuild) {
+          return SMC.resetStateContextVersion(SMC.state.contextVersion, false)
+            .then(function () {
+              // Since we failed to build, we need loading promises to have something in it again
+              loadingPromises.add(SMC.name, $q.when(true));
+              return $q.reject(err);
+            });
+        }
+
+        return $q.reject(err);
+      });
+  };
+
+  this.closeWithConfirmation = function (close) {
+    var SMC = this;
+    $rootScope.$broadcast('close-popovers');
+    if (!SMC.isDirty()) {
+      return close();
+    }
+    return ModalService.showModal({
+      controller: 'ConfirmCloseServerController',
+      controllerAs: 'CMC',
+      templateUrl: 'confirmCloseServerView',
+      inputs: {
+        hasInstance: !!SMC.instance,
+        shouldDisableSave: keypather.get($scope, 'serverForm.$invalid')
+      }
+    })
+      .then(function (modal) {
+        modal.close.then(function (state) {
+          if (state) {
+            if (state === 'build' && keypather.get($scope, 'serverForm.$invalid')) {
+              return;
+            }
+            loading(SMC.name, true);
+            return $q.when((state === 'build') ? SMC.getUpdatePromise() : true)
+              .then(close)
+              .catch(function (err) {
+                errs.handler(err);
+                loading(SMC.name, false);
+              });
+          }
+        });
       });
   };
 
@@ -147,14 +199,16 @@ function ServerModalController(
     }
 
     // Once ports are set, start listening to changes
-    $scope.$watchCollection(function () {
-      return SMC.state.ports;
-    }, function (newPortsArray, oldPortsArray) {
-      if (!angular.equals(newPortsArray, oldPortsArray)) {
-        // Only update the Dockerfile if the ports have actually changed
-        loadingPromises.add(SMC.name, updateDockerfileFromState(SMC.state, true, true));
-      }
-    });
+    if (!SMC.portsUnwatcher) {
+      SMC.portsUnwatcher = $scope.$watchCollection(function () {
+        return SMC.state.ports;
+      }, function (newPortsArray, oldPortsArray) {
+        if (!angular.equals(newPortsArray, oldPortsArray)) {
+          // Only update the Dockerfile if the ports have actually changed
+          loadingPromises.add(SMC.name, updateDockerfileFromState(SMC.state, true, true));
+        }
+      });
+    }
 
     SMC.state.packages = data.packages;
     SMC.state.startCommand = data.startCommand;
@@ -176,14 +230,14 @@ function ServerModalController(
   this.resetStateContextVersion = function (contextVersion, shouldParseDockerfile) {
     var SMC = this;
     SMC.state.advanced = keypather.get(contextVersion, 'attrs.advanced') || false;
-    SMC.state.promises.contextVersion = loadingPromises.add(
+    SMC.state.promises.contextVersion = loadingPromises.start(
       SMC.name,
       promisify(contextVersion, 'deepCopy')()
-        .then(function (contextVersion) {
-          SMC.state.contextVersion = contextVersion;
-          SMC.state.acv = contextVersion.getMainAppCodeVersion();
-          SMC.state.repo = keypather.get(contextVersion, 'getMainAppCodeVersion().githubRepo');
-          return promisify(contextVersion, 'fetch')();
+        .then(function (newCv) {
+          SMC.state.contextVersion = newCv;
+          SMC.state.acv = newCv.getMainAppCodeVersion();
+          SMC.state.repo = keypather.get(newCv, 'getMainAppCodeVersion().githubRepo');
+          return promisify(newCv, 'fetch')();
         })
     );
 
@@ -239,9 +293,63 @@ function ServerModalController(
         helpCards.refreshActiveCard();
         $rootScope.$broadcast('alert', {
           type: 'success',
-          text: 'Container updated successfully.'
+          text: 'Changes Saved'
         });
         return true;
       });
+  };
+
+  /**
+   * Updates the current instance
+   * @returns {Promise} Resolves when the instance update has been started, and the cv has been
+   *        reset.  The error is uncaught, so a catch should be added to this
+   */
+  this.updateInstanceAndReset = function () {
+    var SMC = this;
+    return this.getUpdatePromise()
+      .then(function () {
+        return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
+      });
+  };
+
+  /**
+   * Updates the this.instance with all the states, emits the Changes Saved alert, and refreshes the
+   *  help cards.  If a failure occurs, the cv is reset, and the error propagates.
+   * @returns {Promise} Resolves when the instance update has been started, and the cv has been
+   *        reset.  The error is uncaught, so a catch should be added to this
+   */
+  this.getUpdatePromise = this.saveInstanceAndRefreshCards;
+
+  this.changeTab = function (tabname) {
+    if (!this.state.advanced) {
+      if ($filter('selectedStackInvalid')(this.state.selectedStack)) {
+        tabname = 'repository';
+      } else if (!this.state.startCommand) {
+        tabname = 'commands';
+      }
+    } else if (keypather.get($scope, 'serverForm.$invalid')) {
+      if (keypather.get($scope, 'serverForm.$error.required.length')) {
+        var firstRequiredError = $scope.serverForm.$error.required[0].$name;
+        tabname = firstRequiredError.split('.')[0];
+      }
+    }
+    if (!this.instance && this.state.step === 2 && tabname === 'repository') {
+      this.state.step = 1;
+    }
+    this.selectedTab = tabname;
+  };
+
+  /** Returns whether the dockerfile is considered 'valid' enough for building.  Currently, only
+   * missing the FROM line is considered invalid
+   *
+   * @returns {boolean} True if the dockerfile is valid enough to build
+   */
+  this.isDockerfileValid = function () {
+    if (!this.state.advanced || !keypather.get(this, 'state.dockerfile.validation.criticals.length')) {
+      return true;
+    }
+    return !this.state.dockerfile.validation.criticals.find(hasKeypaths({
+      message: 'Missing or misplaced FROM'
+    }));
   };
 }
