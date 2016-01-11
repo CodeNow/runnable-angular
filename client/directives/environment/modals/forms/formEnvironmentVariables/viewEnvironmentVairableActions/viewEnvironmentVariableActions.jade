@@ -31,7 +31,7 @@ button.btn.btn-xs.gray(
   | URLs
 
 //- if inserting host names
-.clearfix(
+.clearfix.slide-down.js-animate(
   ng-if = "SMC.state.showHostName"
 )
 
@@ -81,7 +81,7 @@ button.btn.btn-xs.gray(
         value = "port"
       ) :{{$parent.port}}
 
-.clearfix(
+.clearfix.slide-down.js-animate(
   ng-if = "SMC.state.showHostName"
 )
   small.small.text-gray.text-overflow(

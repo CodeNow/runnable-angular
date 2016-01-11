@@ -165,11 +165,32 @@
   // action
   > .btn {
     position: absolute;
-    right: 6px;
+    right: 9px;
   }
 
   .clearfix {
     display: flex;
+    transition: opacity .15s ease-in-out, transform .15s ease-in-out;
+
+    &.ng-enter {
+      opacity: 0;
+      transform: translate3d(0,-44px,0);
+    }
+
+    &.ng-enter-active {
+      opacity: 1;
+      transform: translate3d(0,0,0);
+    }
+
+    &.ng-leave {
+      opacity: 1;
+      transform: translate3d(0,0,0);
+    }
+
+    &.ng-leave-active {
+      opacity: 0;
+      transform: translate3d(0,-44px,0);
+    }
 
     + .clearfix {
       margin-top: 6px;
