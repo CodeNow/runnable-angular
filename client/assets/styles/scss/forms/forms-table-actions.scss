@@ -180,18 +180,18 @@
   .input {
     flex: 0 1 150px;
     padding: 0 9px;
-
-    &:first-child {
-      margin-left: -2px;
-    }
-
-    &:last-child {
-      margin-right: -2px;
-    }
   }
 
   .input-group {
     flex: 1 1 240px;
+
+    .input:first-child {
+      margin-left: -2px;
+    }
+
+    .input:last-child {
+      margin-right: -2px;
+    }
   }
 
   .small {
