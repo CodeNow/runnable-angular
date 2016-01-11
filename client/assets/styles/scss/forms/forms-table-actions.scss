@@ -200,11 +200,12 @@
   // key, protocol, port
   .input {
     flex: 0 1 150px;
+    min-width: 0;
     padding: 0 9px;
   }
 
   .input-group {
-    flex: 1 1 240px;
+    flex: 1 1 600px;
 
     .input:first-child {
       margin-left: -2px;
@@ -226,6 +227,13 @@
     flex: 1 1 60%;
     font-size: 14px;
     padding-right: 21px;
+
+    // min font-size for mobile
+    @include retina() {
+      @media (max-width: 500px) {
+        font-size: 16px;
+      }
+    }
 
     .float-left {
       @extend %text-overflow;

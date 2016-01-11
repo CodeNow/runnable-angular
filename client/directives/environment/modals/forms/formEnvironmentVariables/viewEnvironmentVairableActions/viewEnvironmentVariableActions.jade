@@ -37,9 +37,10 @@ button.btn.btn-xs.gray(
 
   input.input.input-sm.monospace(
     ng-if = "$root.featureFlags.connections"
-    placeholder = "KEY(required)"
+    placeholder = "Key (required)"
     spellcheck = "false"
     type = "text"
+    title = "Key (required)"
   )
 
   p.p.text-gray(
@@ -51,6 +52,7 @@ button.btn.btn-xs.gray(
     fancy-select.input-sm.monospace.text-overflow(
       placeholder = "Protocol"
       spellcheck = "false"
+      title = "Protocol (optional)"
       type = "text"
       value = "SMC.state.newLink.protocol"
     )
@@ -60,7 +62,8 @@ button.btn.btn-xs.gray(
       ) http:&#47;&#47;
 
     fancy-select.monospace.btn-sm.select-url(
-      placeholder = "URL(required)"
+      placeholder = "URL (required)"
+      title = "URL (required)"
       value = "SMC.state.newLink.server"
     )
       li.list-item.popover-list-item.small.disabled Select URL
@@ -72,6 +75,7 @@ button.btn.btn-xs.gray(
 
     fancy-select.input-sm.monospace.text-overflow(
       placeholder = "Port"
+      title = "Port (optional)"
       type = "text"
       value = "$parent.SMC.state.newLink.port"
     )
