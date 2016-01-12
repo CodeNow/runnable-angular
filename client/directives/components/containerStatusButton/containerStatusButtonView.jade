@@ -10,7 +10,7 @@ button.btn.btn-md.btn-spinner.btn-status(
     ng-if ="!isChanging()"
   ) {{getStatusText()}}
   //- if stopping, starting, or restarting
-  .spinner-wrapper.spinner-sm.spinner-gray.float-left.in(
+  .spinner-wrapper.spinner-sm.float-left.in(
     ng-if = "isChanging()"
     ng-include = "'spinner'"
   )
