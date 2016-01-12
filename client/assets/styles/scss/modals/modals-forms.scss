@@ -73,7 +73,8 @@
   }
 
   // transition
-  > .label.js-animate {
+  > .label.js-animate,
+  > .slide.js-animate {
     transition: max-height .3s ease-in-out, opacity .3s ease-in-out;
 
     &.ng-enter {
