@@ -64,6 +64,7 @@
         ) TO
         input.input.input-xs.fade.js-animate(
           ng-blur = "$parent.state.isFocused = false"
+          ng-click = "$event.preventDefault()"
           ng-focus = "$parent.state.isFocused = true"
           ng-if = "state.isRange"
           ng-model = "$parent.address2"
