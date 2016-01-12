@@ -206,6 +206,7 @@
 
   .input-group {
     flex: 1 1 600px;
+    min-width: 0;
 
     .input:first-child {
       margin-left: -2px;
