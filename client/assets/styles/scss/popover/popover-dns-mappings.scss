@@ -79,6 +79,14 @@
     font-size: 12px;
     margin: 0 9px;
     padding: 15px 9px 18px;
+
+    &.empty {
+      border: 0;
+    }
+  }
+
+  .link:active {
+    color: $purple-light;
   }
 }
 

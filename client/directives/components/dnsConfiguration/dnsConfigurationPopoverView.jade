@@ -36,15 +36,14 @@
         .popover-content(
           ng-if = "$root.isLoaded.dns && DCC.filteredDependencies.length === 0"
         )
-          p.p.empty.text-center.fade-in Connect to containers by using their URLs in Environment Variables or Find & Replace.
 
         //- begin dns mappings
-        .popover-content.load(
-          ng-if = "isActivePanel() && DCC.filteredDependencies.length !== 0"
-        )
+        .popover-content
 
           //- list of DNS mappings
-          ul.list.popover-list
+          ul.list.popover-list(
+            ng-if = "isActivePanel() && DCC.filteredDependencies.length !== 0"
+          )
             li.list-item.popover-list-item.small.strong.disabled(
               ng-if = "$root.featureFlags.connections"
             ) Repository Containers
@@ -101,7 +100,7 @@
                   xlink:href = "#icons-arrow-down"
                 )
           ul.list.popover-list.list-service-containers(
-            ng-if = "$root.featureFlags.connections"
+            ng-if = "isActivePanel() && DCC.filteredDependencies.length !== 0 && $root.featureFlags.connections"
           )
             li.list-item.popover-list-item.small.strong.disabled Service Containers
             li.list-item.popover-list-item.disabled
@@ -112,7 +111,22 @@
               .text-overflow
                 .icons-status.green
                 span.span.strong Redis
-          .popover-footer.text-center.text-gray.small Connect to containers by using their URLs in Environment Variables or Find & Replace.
+
+          .popover-footer.text-center.text-gray.small(
+            ng-if = "!$root.featureFlags.connections"
+            ng-class = "{'empty': !(isActivePanel() && DCC.filteredDependencies.length !== 0)}"
+          ) Connect to containers by using their URLs in Environment Variables or Find & Replace.
+
+          .popover-footer.text-center.text-gray.small(
+            ng-if = "$root.featureFlags.connections"
+            ng-class = "{'empty': !(isActivePanel() && DCC.filteredDependencies.length !== 0)}"
+          ) Connect to containers by using their URLs in&#32;
+            //- link directly to enviroment variables tool
+            a.link Environment Variables
+            | &#32;or&#32;
+            //- link directly to find & replace tool
+            a.link Find & Replace
+            | .
 
     animated-panel(
       name = "dnsList"
