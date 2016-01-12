@@ -6,59 +6,68 @@
         type = "checkbox"
       )
       .toggle-group.toggle-sm
-    .small.strong IP Whitelist
-    small.small Only whitelisted IPs can make&#32;
-      em.underline(
-        tooltip = "Non-browser requests (e.g. from an oAuth service or an external server)."
-        tooltip-options = "{\"class\":\"bottom center\",\"right\":-196,\"top\":18}"
-      ) headless
-      | &#32;requests to this container.
+    .small.strong Restrict Access
+    small.small Restrict access to this container so only your organization can access it.
 
-.label.clearfix.js-animate(
+.label.slide.js-animate(
   ng-if = "WFC.whitelistEnabled"
 )
-  .label-col IP Whitelist
-  .input-col(
+  .label-description.clearfix
+    .label-col IP Whitelist
+    small.small.text-gray Whitelist IP addresses to make exceptions to your restrictions. &#32;
+      a.link(
+        href = "//google.com/webhp?hl=en#hl=en&q=ip"
+        target = "_blank"
+      ) What’s my IP address?
+        svg.iconnables.icons-link-external
+          use(
+            xlink:href = "#icons-link-external"
+          )
+
+  .flex-container.clearfix(
     ng-form = "ipWhitelistForm"
   )
-    p.validation-message(
-      ng-if = "invalid"
-    ) Invalid IP Address
+    .flex-row
+      .flex-col
+        p.validation-message(
+          ng-if = "invalid"
+        ) Invalid IP Address
 
-    //- apply .ng-invalid when ip address is invalid to .input-group
-    label.input-group.input-group-sm.input-validate.white(
-      ng-class = "{'focus': state.isFocused}"
-    )
-      .label.slide-in.js-animate(
-        ng-if = "WFC.isRange"
-      ) FROM
-      input.input.input-xs(
-        ng-blur = "state.isFocused = false"
-        ng-focus = "state.isFocused = true"
-        ng-model = "WFC.fromAddress"
-        maxlength = "15"
-        type = "text"
-        placeholder = "0.0.0.0"
-        name = "fromAddress"
-      )
-      .label.fade.js-animate(
-        ng-if = "WFC.isRange"
-      ) TO
-      input.input.input-xs.fade.js-animate(
-        ng-blur = "state.isFocused = false"
-        ng-focus = "state.isFocused = true"
-        ng-if = "WFC.isRange"
-        ng-model = "WFC.toAddress"
-        maxlength = "15"
-        type = "text"
-        placeholder = "0.0.0.0"
-        name = "toAddress"
-      )
-    input.input.input-sm(
-      placeholder = "Description (optional)"
-      ng-model = "WFC.description"
-    )
-    .form-add-ip.clearfix
+        //- apply .ng-invalid when ip address is invalid to .input-group
+        label.input-group.input-group-sm.input-validate.white(
+          ng-class = "{'focus': state.isFocused}"
+        )
+          .label.slide-in.js-animate(
+            ng-if = "WFC.isRange"
+          ) FROM
+          //- this pattern doesn't actaully work for some reason, should validate ipv4
+          input.input.input-xs(
+            maxlength = "15"
+            name = "fromAddress"
+            ng-blur = "state.isFocused = false"
+            ng-focus = "state.isFocused = true"
+            ng-model = "WFC.fromAddress"
+            placeholder = "0.0.0.0"
+          )
+          .label.fade.js-animate(
+            ng-if = "WFC.isRange"
+          ) TO
+          input.input.input-xs.fade.js-animate(
+            maxlength = "15"
+            ng-blur = "$parent.state.isFocused = false"
+            ng-click = "$event.preventDefault()"
+            ng-focus = "$parent.state.isFocused = true"
+            ng-if = "WFC.isRange"
+            ng-model = "WFC.toAddress"
+            placeholder = "0.0.0.0"
+          )
+      .flex-col
+        input.input.input-sm(
+          ng-model = "WFC.description"
+          placeholder = "Description (optional)"
+        )
+
+    .row.clearfix
       label.label-checkbox.float-left
         input.checkbox(
           ng-model = "WFC.isRange"
@@ -66,10 +75,14 @@
         )
         | Use IP Range
       button.btn.btn-sm.white.float-right(
+        ng-click = "WFC.actions.add()"
         ng-disabled = "!WFC.isFormValid()"
         type = "button"
-        ng-click = "WFC.actions.add()"
       ) Add to Whitelist
+
+    hr.hr(
+      ng-if = "whitelist.length"
+    )
 
     //- remove this table if there is nothing on the whitelist
     .table.table-whitelist(
