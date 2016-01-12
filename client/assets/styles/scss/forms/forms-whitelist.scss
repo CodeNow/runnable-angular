@@ -1,5 +1,15 @@
 .form-whitelist {
 
+  // service state
+  .label:first-child {
+    margin-bottom: 0;
+  }
+
+  .well {
+    margin: 0;
+    padding: 9px;
+  }
+
   // layout
   .flex-row {
     display: flex;
@@ -28,16 +38,6 @@
 
   .hr {
     margin: 15px 0;
-  }
-
-  // service state
-  .label:first-child {
-    margin-bottom: 0;
-  }
-
-  .well {
-    margin: 0;
-    padding: 9px;
   }
 
   // ip address form
