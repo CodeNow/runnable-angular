@@ -53,3 +53,11 @@
     margin-right: -6px;
   }
 }
+
+// Issue in Safari 9.0.2 where max-height didn't animate properly in the security tab
+// The animation would happen normally, revert to the ng-enter/ng-leave state, then revert back to normal.
+// This makes the opening animation in safari happen immediately while not affecting Chrome and Firefox animations...
+// Not entirely sure about why/how, but it works...for now.
+.modal-edit .form-whitelist .label {
+  max-height: 100vh;
+}
