@@ -93,7 +93,9 @@
   )
 
   //- remove this table if there is nothing on the whitelist
-  .table.table-whitelist
+  .table.table-whitelist(
+    ng-if = "whitelist.length"
+  )
     .tr.clearfix.js-animate(
       ng-repeat = "ip in whitelist"
     )
