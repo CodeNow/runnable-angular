@@ -1,6 +1,6 @@
 {
   "name": "runnable-angular",
-  "version": "3.10.3",
+  "version": "3.10.6",
   "private": true,
   "description": "Frontend for Runnable.io",
   "scripts": {
@@ -93,7 +93,7 @@
     "point-in-polygon": "^1.0.0",
     "qs": "2.4.2",
     "regexp-quote": "0.0.0",
-    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v4.9.0",
+    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v4.9.1",
     "stream-buffers": "git://github.com/Runnable/node-stream-buffer.git#v2.2.1",
     "term.js": "git://github.com/Runnable/term.js.git#v0.1.9",
     "through": "2.3.8",

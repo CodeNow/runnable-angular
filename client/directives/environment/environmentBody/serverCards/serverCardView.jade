@@ -44,6 +44,24 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-arrow-down"
       )
+  //- commands
+  li.btn.white(
+    ng-click = "openEditServerModal('commands')"
+    ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.commands}"
+    ng-if = "server.repo && !server.advanced"
+  )
+    svg.iconnables
+      use(
+        xlink:href = "#icons-packages"
+      )
+    h3.h3.text-overflow Commands & Packages
+    small.small.text-overflow(
+      title = "{{server.startCommand}}"
+    ) {{server.startCommand}}
+    svg.iconnables.icons-arrow-down
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
   //- exposed ports
   li.btn.white(
     ng-click = "openEditServerModal('ports')"
@@ -78,24 +96,6 @@ ul.card-body.load(
       ng-if = "$root.featureFlags.hostnameNotifications"
       title = "999 new URLs"
     ) 999
-    svg.iconnables.icons-arrow-down
-      use(
-        xlink:href = "#icons-arrow-down"
-      )
-  //- commands
-  li.btn.white(
-    ng-click = "openEditServerModal('commands')"
-    ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.commands}"
-    ng-if = "server.repo && !server.advanced"
-  )
-    svg.iconnables
-      use(
-        xlink:href = "#icons-packages"
-      )
-    h3.h3.text-overflow Commands & Packages
-    small.small.text-overflow(
-      title = "{{server.startCommand}}"
-    ) {{server.startCommand}}
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"

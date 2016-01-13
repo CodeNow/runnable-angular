@@ -8,57 +8,77 @@
         type = "checkbox"
       )
       .toggle-group.toggle-sm
-    .small.strong IP Whitelist
-    small.small Only whitelisted IPs can make&#32;
-      em.underline(
-        tooltip = "Non-browser requests (e.g. from an oAuth service or an external server)."
-        tooltip-options = "{\"class\":\"bottom center\",\"right\":-196,\"top\":18}"
-      ) headless
-      | &#32;requests to this container.
+    .small.strong Restrict Access
+    small.small Restrict access to this container so only your organization can access it.
 
-.label.clearfix.js-animate(
+.label.js-animate.slide(
   ng-if = "state.whitelist"
 )
-  .label-col IP Whitelist
-  .input-col(
-    ng-init = "state.addDescription = null"
+  .label-description.clearfix(
   )
-    p.validation-message(
-      ng-if = "invalid"
-    ) Invalid IP Address
+    .label-col IP Whitelist
+    small.small.text-gray Whitelist IP addresses to make exceptions to your restrictions. &#32;
+      a.link(
+        href = "//google.com/webhp?hl=en#hl=en&q=ip"
+        target = "_blank"
+      ) What’s my IP address?
+        svg.iconnables.icons-link-external
+          use(
+            xlink:href = "#icons-link-external"
+          )
 
-    //- apply .ng-invalid when ip address is invalid to .input-group
-    label.input-group.input-group-sm.input-validate.white(
-      ng-class = "{'focus': state.isFocused}"
-    )
-      .label.slide-in.js-animate(
-        ng-if = "state.isRange"
-      ) FROM
-      //- this pattern doesn't actaully work for some reason, should validate ipv4
-      input.input.input-xs(
-        ng-blur = "state.isFocused = false"
-        ng-focus = "state.isFocused = true"
-        ng-model = "address1"
-        ng-pattern = "/((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$/"
-        maxlength = "15"
-        placeholder = "0.0.0.0"
-      )
-      .label.fade.js-animate(
-        ng-if = "state.isRange"
-      ) TO
-      input.input.input-xs.fade.js-animate(
-        ng-blur = "$parent.state.isFocused = false"
-        ng-focus = "$parent.state.isFocused = true"
-        ng-if = "state.isRange"
-        ng-model = "$parent.address2"
-        ng-pattern = "/((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$/"
-        maxlength = "15"
-        placeholder = "0.0.0.0"
-      )
-    input.input.input-sm(
-      placeholder = "Description (optional)"
-    )
-    .form-add-ip.clearfix
+  .flex-container.clearfix(
+    ng-init = "\
+      state.addDescription = null;\
+      whitelist = [\
+        {address: ['1.1.1.1','1.1.1.10'], description: ''},\
+        {address: ['1.1.1.3'], description: 'Test'},\
+        {address: ['1.1.1.9'], description: 'Runnable'},\
+        {address: ['1.1.1.4','1.1.1.5'], description: ''}\
+      ];\
+    "
+  )
+    .flex-row
+      .flex-col
+        p.validation-message(
+          ng-if = "invalid"
+        ) Invalid IP Address
+
+        //- apply .ng-invalid when ip address is invalid to .input-group
+        label.input-group.input-group-sm.input-validate.white(
+          ng-class = "{'focus': state.isFocused}"
+        )
+          .label.slide-in.js-animate(
+            ng-if = "state.isRange"
+          ) FROM
+          //- this pattern doesn't actaully work for some reason, should validate ipv4
+          input.input.input-xs(
+            ng-blur = "state.isFocused = false"
+            ng-focus = "state.isFocused = true"
+            ng-model = "address1"
+            ng-pattern = "/((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$/"
+            maxlength = "15"
+            placeholder = "0.0.0.0"
+          )
+          .label.fade.js-animate(
+            ng-if = "state.isRange"
+          ) TO
+          input.input.input-xs.fade.js-animate(
+            ng-blur = "$parent.state.isFocused = false"
+            ng-click = "$event.preventDefault()"
+            ng-focus = "$parent.state.isFocused = true"
+            ng-if = "state.isRange"
+            ng-model = "$parent.address2"
+            ng-pattern = "/((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$/"
+            maxlength = "15"
+            placeholder = "0.0.0.0"
+          )
+      .flex-col
+        input.input.input-sm(
+          placeholder = "Description (optional)"
+        )
+
+    .row.clearfix
       label.label-checkbox.float-left
         input.checkbox(
           ng-model = "state.isRange"
@@ -70,16 +90,13 @@
         type = "button"
       ) Add to Whitelist
 
+    hr.hr(
+      ng-if = "whitelist.length"
+    )
+
     //- remove this table if there is nothing on the whitelist
     .table.table-whitelist(
-      ng-init = "\
-        whitelist = [\
-          {address: ['1.1.1.1','1.1.1.10'], description: ''},\
-          {address: ['1.1.1.3'], description: 'Test'},\
-          {address: ['1.1.1.9'], description: 'Runnable'},\
-          {address: ['1.1.1.4','1.1.1.5'], description: ''}\
-        ];\
-      "
+      ng-if = "whitelist.length"
     )
       .tr.clearfix.js-animate(
         ng-repeat = "ip in whitelist"

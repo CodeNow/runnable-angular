@@ -8,6 +8,10 @@
 
   .popover-content {
     max-height: calc(100vh - 176px);
+
+    .empty {
+      margin: 15px 0;
+    }
   }
 
   .icons-status {

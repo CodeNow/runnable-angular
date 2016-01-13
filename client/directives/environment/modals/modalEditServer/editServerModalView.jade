@@ -2,7 +2,7 @@
   ng-class = "{'full-screen': $root.featureFlags.fullScreen}"
 )
   form.modal-dialog.modal-edit(
-    name = "SMC.serverForm"
+    name = "serverForm"
     ng-class = "{\
       'ace-active': (SMC.selectedTab === 'buildfiles' || SMC.selectedTab === 'env'),\
       'disabled': $root.isLoading.editServerModalIsBuilding || $root.isLoading.editServerModal,\
@@ -29,6 +29,7 @@
           ng-class = "{'active': SMC.selectedTab === 'repository'}"
           ng-click = "SMC.changeTab('repository')"
           ng-if = "SMC.isTabVisible('repository')"
+          type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
         )
           svg.iconnables
             use(
@@ -39,6 +40,7 @@
           ng-class = "{'active': SMC.selectedTab === 'commands'}"
           ng-click = "SMC.changeTab('commands')"
           ng-if = "SMC.isTabVisible('commands')"
+          type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
         )
           svg.iconnables
             use(
@@ -51,16 +53,18 @@
           ng-class = "{'active': SMC.selectedTab === 'whitelist'}"
           ng-click = "SMC.changeTab('whitelist')"
           ng-if = "$root.featureFlags.whitelist"
+          type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
         )
           svg.iconnables
             use(
-              xlink:href = "#icons-ip-whitelist"
+              xlink:href = "#icons-security"
             )
           .btn-text Security
         button.btn.btn-radio(
           ng-class = "{'active': SMC.selectedTab === 'ports'}"
           ng-click = "SMC.changeTab('ports')"
           ng-if = "SMC.isTabVisible('ports')"
+          type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
         )
           svg.iconnables
             use(
@@ -70,6 +74,7 @@
         button.btn.btn-radio(
           ng-class = "{'active': SMC.selectedTab === 'env'}"
           ng-click = "SMC.changeTab('env')"
+          type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
         )
           svg.iconnables
             use(
@@ -80,6 +85,7 @@
           ng-class = "{'active': SMC.selectedTab === 'files'}"
           ng-click = "SMC.changeTab('files')"
           ng-if = "SMC.isTabVisible('files')"
+          type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
         )
           svg.iconnables
             use(
@@ -90,6 +96,7 @@
           ng-class = "{'active': SMC.selectedTab === 'translation'}"
           ng-click = "SMC.changeTab('translation')"
           ng-if = "SMC.isTabVisible('translation')"
+          type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
         )
           svg.iconnables
             use(
@@ -100,6 +107,7 @@
           ng-class = "{'active': SMC.selectedTab === 'backup'}"
           ng-click = "SMC.changeTab('backup')"
           ng-if = "!SMC.state.repo && $root.featureFlags.backup"
+          type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
         )
           svg.iconnables
             use(
@@ -111,6 +119,7 @@
         button.btn.btn-radio(
           ng-class = "{'active': SMC.selectedTab === 'buildfiles'}"
           ng-click = "SMC.changeTab('buildfiles')"
+          type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
         )
           svg.iconnables
             use(
@@ -120,6 +129,7 @@
         button.btn.btn-radio(
           ng-class = "{'active': SMC.selectedTab === 'logs'}"
           ng-click = "SMC.changeTab('logs')"
+          type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
         )
           svg.iconnables
             use(
@@ -209,5 +219,5 @@
       "
       server-modal-buttons
       server-modal-controller = "SMC"
-      this-form = "SMC.serverForm"
+      this-form = "serverForm"
     )
