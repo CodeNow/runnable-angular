@@ -1,31 +1,31 @@
 li(
-  file-tree-dir
-  ng-repeat = "\
-    fs in dir.contents.models \
-   | filter: { attrs: { isDir: true } } \
-   | orderBy:actions.normalizeMixedDataValue\
-  "
   dir = "fs"
-  parent-dir = "dir"
   file-model = "fileModel"
-  open = "fs.state.open"
-  open-items = "openItems"
-  read-only = "readOnly"
+  file-tree-dir
   getDisplayName = "getDisplayName"
-)
-li.file(
-  ng-click = "actions.openFile(fs)"
-  draggable
   ng-repeat = "\
     fs in dir.contents.models \
-    | filter: { attrs: { isDir: false } } \
+    | filter: {attrs: {isDir: true}} \
     | orderBy:actions.normalizeMixedDataValue\
   "
+  open = "fs.state.open"
+  open-items = "openItems"
+  parent-dir = "dir"
+  read-only = "readOnly"
+)
+li.file(
+  draggable
   ng-class = "{\
-    active: fs.state.active && !state.showAddRepo && !isEditingRepo(),\
-    dirty: (fs.state.body !== fs.attrs.body),\
+    'active': fs.state.active && !state.showAddRepo && !isEditingRepo(),\
+    'dirty': (fs.state.body !== fs.attrs.body),\
     'in-progress': fs.state.uploading\
   }"
+  ng-click = "actions.openFile(fs)"
+  ng-repeat = "\
+    fs in dir.contents.models \
+    | filter: {attrs: {isDir: false}} \
+    | orderBy:actions.normalizeMixedDataValue\
+  "
 )
   //- We don't want to initialize the pop-over for Dockerfile. :(
   a(
@@ -35,10 +35,10 @@ li.file(
       use(
         xlink:href = "#icons-file-dockerfile"
       )
-    span.item-name {{ fs.attrs.name }}
+    span.item-name {{fs.attrs.name}}
     span.btn.btn-file-errors.red(
       ng-if = "fs.validation.errors.length"
-    ) {{ fs.validation.errors.length }}
+    ) {{fs.validation.errors.length}}
 
 
   a(
@@ -66,15 +66,15 @@ li.file(
         xlink:href = "#icons-file"
       )
     input.tree-input(
-      name = "{{ fs.id() }}"
+      name = "{{fs.id()}}"
+      ng-blur = "actions.closeFileNameInput($event, fs)"
       ng-click = "actions.handleClickOnFileInput($event, fs)"
       ng-keyup = "actions.shouldCloseFileNameInput($event, fs)"
-      ng-blur = "actions.closeFileNameInput($event, fs)"
       ng-readonly = "!fs.state.renaming"
       select-on = "fs.state.renaming"
-      value = "{{ fs.attrs.name }}"
-    ) {{ fs.attrs.name }}
-    span.item-name {{ fs.attrs.name }}
+      value = "{{fs.attrs.name}}"
+    ) {{fs.attrs.name}}
+    span.item-name {{fs.attrs.name}}
 
 li.folder.in(
   ng-if = "$root.featureFlags.emptyFolder"
