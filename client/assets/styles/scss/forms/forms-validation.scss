@@ -20,6 +20,11 @@
     border-color: $red;
   }
 
+  // warning
+  &.ng-warning {
+    border-color: $orange;
+  }
+
   // pristine
   &.ng-pristine {
     border-color: $gray-lighter;
@@ -113,13 +118,21 @@
 }
 
 // when you need to return a message to the user
-.validation-message {
-  color: $red;
+.invalid-message,
+.warning-message {
   display: block;
   font-size: 13px;
   font-weight: $weight-bold;
   line-height: 1.2;
   margin: 6px 0 0 6px;
+}
+
+.invalid-message {
+  color: $red;
+}
+
+.warning-message {
+  color: $orange;
 }
 
 // when there are multiple requirements, appears below an input
