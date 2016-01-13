@@ -168,8 +168,12 @@
     right: 9px;
   }
 
-  .clearfix {
+  // first row
+  .flex-row {
     display: flex;
+  }
+
+  .clearfix {
     transition: opacity .15s ease-in-out, transform .15s ease-in-out;
 
     &.ng-enter {
@@ -194,67 +198,92 @@
 
     + .clearfix {
       margin-top: 6px;
+      padding: 0 1px;
     }
   }
 
-  // key, protocol, port
+  // variable name
   .input {
-    flex: 0 1 150px;
+    flex: 0 1 180px;
     min-width: 0;
     padding: 0 9px;
   }
 
   .input-group {
-    flex: 1 1 600px;
+    flex: 1 1 360px;
     min-width: 0;
 
-    .input:first-child {
-      margin-left: -2px;
-    }
+    // port
+    .input {
+      border-left-width: 0;
+      margin: 0;
+      margin-left: 1px;
+      margin-right: -$input-border;
+      position: relative;
 
-    .input:last-child {
-      margin-right: -2px;
-    }
-  }
-
-  .small {
-    flex: 1 1 auto;
-    line-height: 24px;
-    padding-right: 12px;
-  }
-
-  // url
-  .select-url {
-    flex: 1 1 60%;
-    font-size: 14px;
-    padding-right: 21px;
-
-    // min font-size for mobile
-    @include retina() {
-      @media (max-width: 500px) {
-        font-size: 16px;
+      &:focus {
+        box-shadow: -2px 0 $purple-light;
       }
-    }
-
-    .float-left {
-      @extend %text-overflow;
-      float: none;
     }
   }
 
   // '=' icon
   .p {
-    font-size: 24px;
+    flex: 0 0 auto;
+    font-size: 27px;
+    line-height: $input-line-height-sm;
     padding: 0 6px;
   }
 
-  .p,
-  .btn.green,
   .btn-cancel {
-    flex: 0 0 auto;
+    margin-right: 6px;
+  }
+}
+
+// url
+.btn.select-url {
+  border-radius: 3px 0 0 3px;
+  border-right-width: 0;
+  box-shadow: 1px 0 $gray-lighter;
+  color: $gray-dark;
+  flex: 1 1 180px;
+  font-size: 14px;
+  margin-left: -$input-border;
+  margin-right: 1px;
+  padding: 0 9px;
+
+  // min font-size for mobile
+  @include retina() {
+    @media (max-width: 500px) {
+      font-size: 16px;
+    }
   }
 
-  .btn + .btn {
-    margin-left: 6px;
+  &:hover {
+    box-shadow: $input-border 0 $gray-light;
+  }
+
+  &:active {
+    box-shadow: $input-border 0 $purple-light;
+
+    .icons-arrow-down {
+      color: $purple-light;
+    }
+  }
+
+  .float-left {
+    @extend %text-overflow;
+    display: inline-block;
+    float: none;
+    vertical-align: top;
+  }
+
+  .icons-arrow-down {
+    color: $gray;
+    display: inline-block;
+    float: none;
+    margin: 0;
+    position: relative;
+    right: 0;
   }
 }
