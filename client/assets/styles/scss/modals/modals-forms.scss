@@ -65,7 +65,7 @@
   > .table-actions,
   > .label,
   > .btn-group,
-  > .label,
+  > .label-description,
   > .clearfix,
   > .help-container,
   > .table {
@@ -73,7 +73,8 @@
   }
 
   // transition
-  > .label.js-animate {
+  > .label.js-animate,
+  > .slide.js-animate {
     transition: max-height .3s ease-in-out, opacity .3s ease-in-out;
 
     &.ng-enter {
@@ -274,44 +275,4 @@
   // **********
   // end styles
   // **********
-}
-
-// .modal-form.empty
-.modal-form.empty {
-  padding: 30px 30px 60px;
-
-  &.well.in {
-    background: $gray-lightest;
-    margin: 0;
-  }
-
-  // placeholder
-  .img {
-    margin: 0 auto;
-  }
-
-  // for 'title' text
-  .p.empty {
-    color: $gray-dark;
-    font-size: 18px;
-    margin: 9px 0 12px;
-
-    > .small {
-      color: $gray;
-      display: block;
-    }
-  }
-
-  // inputs (like api token)
-  .input-spinner {
-    margin: 0 auto;
-    max-width: 360px;
-    width: 100%;
-  }
-
-  // submit buttons (like for api token)
-  .green {
-    display: table;
-    margin: 15px auto 0;
-  }
 }
