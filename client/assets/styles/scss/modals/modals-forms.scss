@@ -153,7 +153,8 @@
   .input-col {
 
     // max-width on buttons
-    > .btn {
+    > .btn,
+    .btn-wrapped {
       display: block;
       font-size: 16px;
       max-width: 360px;
