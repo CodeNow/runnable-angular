@@ -30,7 +30,7 @@ button.btn.btn-xs.gray(
     )
   | URLs
 
-//- if inserting host names
+//- if inserting URLs
 .clearfix.flex-row.js-animate(
   ng-if = "SMC.state.showHostName"
 )
@@ -87,6 +87,7 @@ button.btn.btn-xs.gray(
 .clearfix.js-animate(
   ng-if = "SMC.state.showHostName"
 )
+  //- clear the form when either of these buttons are clicked
   button.btn.btn-xs.green.float-right(
     ng-class = "{'float-right': !$root.featureFlags.connections}"
     ng-click = "SMC.state.showHostName = false; SMC.insertHostName(SMC.state.newLink);"
