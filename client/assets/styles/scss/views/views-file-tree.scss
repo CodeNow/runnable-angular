@@ -13,7 +13,6 @@
 
   // files & folders
   li {
-    cursor: pointer;
     line-height: 26px;
     padding: 0;
     position: relative;
@@ -61,6 +60,7 @@
     a {
       border: $input-border solid transparent;
       border-radius: $input-border-radius;
+      cursor: pointer;
       display: block;
       margin-bottom: 2px;
       max-height: 28px;
@@ -131,6 +131,11 @@
         max-height: 0;
         overflow: hidden;
       }
+    }
+
+    &.file.empty {
+      color: $gray-light;
+      font-style: italic;
     }
   }
 

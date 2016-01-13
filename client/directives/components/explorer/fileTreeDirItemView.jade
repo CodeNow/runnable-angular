@@ -75,3 +75,17 @@ li.file(
       value = "{{ fs.attrs.name }}"
     ) {{ fs.attrs.name }}
     span.item-name {{ fs.attrs.name }}
+
+li.folder.in(
+  ng-if = "$root.featureFlags.emptyFolder"
+)
+  a
+    svg.iconnables.filetypes.icons-folder
+      use(
+        xlink:href = "#icons-folder"
+      )
+    span.item-name folder
+  ul
+    li.file.disabled.empty
+      a
+        span.item-name empty folder

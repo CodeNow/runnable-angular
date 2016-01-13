@@ -12,6 +12,7 @@ function featureFlags(
     cardStatus: false,
     debugStartCmd: false, // debug mode for start CMD (in CMD Logs)
     editAnyInstance: false,
+    emptyFolder: false, // shows empty folder markup
     fullScreen: false,  // toggles full screen
     fullScreenToggle: false,  // toggles the button that toggles full screen
     hostnameNotifications: false,
