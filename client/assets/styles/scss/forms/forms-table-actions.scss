@@ -158,3 +158,132 @@
     top: 0;
   }
 }
+
+.table-actions-env-vars {
+  position: relative;
+
+  // action
+  > .btn {
+    position: absolute;
+    right: 9px;
+  }
+
+  // first row
+  .flex-row {
+    display: flex;
+  }
+
+  .clearfix {
+    transition: opacity .15s ease-in-out, transform .15s ease-in-out;
+
+    &.ng-enter {
+      opacity: 0;
+      transform: translate3d(0,-50%,0);
+    }
+
+    &.ng-enter-active {
+      opacity: 1;
+      transform: translate3d(0,0,0);
+    }
+
+    &.ng-leave {
+      opacity: 1;
+      transform: translate3d(0,0,0);
+    }
+
+    &.ng-leave-active {
+      opacity: 0;
+      transform: translate3d(0,-50%,0);
+    }
+
+    + .clearfix {
+      margin-top: 6px;
+      padding: 0 1px;
+    }
+  }
+
+  // variable name
+  .input {
+    flex: 0 1 180px;
+    min-width: 0;
+    padding: 0 9px;
+  }
+
+  .input-group {
+    flex: 1 1 360px;
+    min-width: 0;
+
+    // port
+    .input {
+      border-left-width: 0;
+      height: $input-sm;
+      margin-left: 1px;
+      margin-right: -$input-border;
+      position: relative;
+
+      &:focus {
+        box-shadow: -2px 0 $purple-light;
+      }
+    }
+  }
+
+  // '=' icon
+  .p {
+    flex: 0 0 auto;
+    font-size: 27px;
+    line-height: $input-line-height-sm;
+    padding: 0 6px;
+  }
+
+  .btn-cancel {
+    margin-right: 6px;
+  }
+}
+
+// url
+.btn.select-url {
+  border-radius: 3px 0 0 3px;
+  border-right-width: 0;
+  box-shadow: 1px 0 $gray-lighter;
+  color: $gray-dark;
+  flex: 1 1 180px;
+  font-size: 14px;
+  margin-left: -$input-border;
+  margin-right: 1px;
+  padding: 0 9px;
+
+  // min font-size for mobile
+  @include retina() {
+    @media (max-width: 500px) {
+      font-size: 16px;
+    }
+  }
+
+  &:hover {
+    box-shadow: $input-border 0 $gray-light;
+  }
+
+  &:active {
+    box-shadow: $input-border 0 $purple-light;
+
+    .icons-arrow-down {
+      color: $purple-light;
+    }
+  }
+
+  .float-left {
+    @extend %text-overflow;
+    display: inline-block;
+    float: none;
+    vertical-align: top;
+  }
+
+  .icons-arrow-down {
+    color: $gray;
+    display: inline-block;
+    float: none;
+    margin: 0;
+    position: relative;
+    right: 0;
+  }
+}

@@ -10,6 +10,7 @@ function featureFlags(
     backup: false,
     billing: false,
     cardStatus: false,
+    connections: false,
     debugStartCmd: false, // debug mode for start CMD (in CMD Logs)
     editAnyInstance: false,
     fullScreen: false,  // toggles full screen

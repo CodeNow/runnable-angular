@@ -2,12 +2,12 @@ button.js-btn-wrapper(
   ng-click = "DCC.lastModifiedDNS = null;"
   pop-over
   pop-over-controller = "DCC"
-  pop-over-options = "{\"centered\":true,\"top\":45}"
+  pop-over-options = "{\"right\":-173,\"top\":45}"
   pop-over-template = "dnsConfigurationPopoverView"
 )
   span.float-left
     //- empty badge until number of connections loads
-    .btn.btn-xxs {{$root.isLoaded.dns ? DCC.filteredDependencies.length : '&nbsp;'}}
+    .badge-connections {{$root.isLoaded.dns ? DCC.filteredDependencies.length : '&nbsp;'}}
     //- change text to 'Connection' if there is only one
     | {{DCC.filteredDependencies.length === 1 ? 'Connection' : 'Connections'}}
   svg.iconnables.icons-arrow-down.float-right

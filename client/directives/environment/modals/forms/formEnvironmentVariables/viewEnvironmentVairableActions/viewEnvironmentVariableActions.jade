@@ -1,11 +1,11 @@
 //- default actions
 //- prefer ng-hide > ng-if for this button
 
-button.btn.btn-xs.gray(
+button.btn.btn-xs.white(
   ng-click = "SMC.state.showHostName = true"
   ng-hide = "SMC.state.showHostName"
   ng-init = "SMC.state.showHostName = false"
-) Insert a URL
+) {{$root.featureFlags.connections ? 'Connect to a Container' : 'Insert a URL'}}
 
 button.btn.btn-xs.gray(
   ng-class = "{'active': SMC.data.toggleSidebar}"
@@ -30,50 +30,68 @@ button.btn.btn-xs.gray(
     )
   | URLs
 
-//- if inserting host names
-.label.label-row.clearfix(
+//- if inserting URLs
+.clearfix.flex-row.js-animate(
   ng-if = "SMC.state.showHostName"
 )
-  fancy-select.input-sm.monospace.text-overflow(
-    placeholder = "Protocol"
+
+  input.input.input-sm.monospace(
+    ng-if = "$root.featureFlags.connections"
+    placeholder = "Variable Name"
+    spellcheck = "false"
     type = "text"
-    value = "SMC.state.newLink.protocol"
+    title = "Variable Name (required)"
   )
-    li.list-item.popover-list-item.small.disabled(
-    ) Select Protocol (optional)
-    fancy-option(
-      value = "'http://'"
-    ) http:&#47;&#47;
 
-  fancy-select.input-sm.monospace.text-overflow.btn-sm(
-    placeholder = "hostname"
-    value = "SMC.state.newLink.server"
-  )
-    li.list-item.popover-list-item.small.disabled Select hostname
-    fancy-option.monospace(
-      ng-if = "instance.attrs.shortHash !== $parent.$parent.$parent.SMC.instance.attrs.shortHash"
-      ng-repeat = "instance in $parent.SMC.data.instances.models | orderBy: ['getElasticHostname()']"
-      value = "instance"
-    ) {{ $parent.instance.getElasticHostname() }}
+  p.p.text-gray(
+    ng-if = "$root.featureFlags.connections"
+  ) =
 
-  fancy-select.input-sm.monospace.text-overflow(
-    placeholder = "Port"
-    type = "text"
-    value = "$parent.SMC.state.newLink.port"
-  )
-    li.list-item.popover-list-item.small.disabled(
-    ) Select Port (optional)
-    fancy-option(
-      ng-repeat = "port in $parent.$parent.SMC.state.newLink.server | extractInstancePorts"
-      value = "port"
-    ) :{{ $parent.port }}
+  .input-group.input-group-sm.white
+    
+    //- fancy-select.input-sm.monospace.text-overflow(
+    //-   placeholder = "Protocol"
+    //-   spellcheck = "false"
+    //-   title = "Protocol (optional)"
+    //-   type = "text"
+    //-   value = "SMC.state.newLink.protocol"
+    //- )
+    //-   li.list-item.popover-list-item.small.disabled Select Protocol (optional)
+    //-   fancy-option.monospace(
+    //-     value = "'http://'"
+    //-   ) http:&#47;&#47;
 
-.table-footer.clearfix(
+    fancy-select.monospace.btn-sm.white.select-url(
+      placeholder = "Select a URL"
+      title = "Select a URL (required)"
+      value = "SMC.state.newLink.server"
+    )
+      li.list-item.popover-list-item.small.disabled Select a URL to connect to
+      fancy-option.monospace(
+        ng-if = "instance.attrs.shortHash !== $parent.$parent.$parent.SMC.instance.attrs.shortHash"
+        ng-repeat = "instance in $parent.SMC.data.instances.models | orderBy: ['getElasticHostname()']"
+        value = "instance"
+      ) {{$parent.instance.getElasticHostname()}}
+    fancy-select.input-sm.monospace.text-overflow(
+      placeholder = "Port (optional)"
+      title = "Port (optional)"
+      type = "text"
+      value = "$parent.SMC.state.newLink.port"
+    )
+      li.list-item.popover-list-item.small.disabled Select Port (optional)
+      fancy-option(
+        ng-repeat = "port in $parent.$parent.SMC.state.newLink.server | extractInstancePorts"
+        value = "port"
+      ) :{{$parent.port}}
+
+.clearfix.js-animate(
   ng-if = "SMC.state.showHostName"
 )
-  button.btn.btn-xs.gray(
-    ng-click = "SMC.state.showHostName = false"
-  ) Cancel
-  button.btn.btn-xs.green(
+  //- clear the form when either of these buttons are clicked
+  button.btn.btn-xs.green.float-right(
+    ng-class = "{'float-right': !$root.featureFlags.connections}"
     ng-click = "SMC.state.showHostName = false; SMC.insertHostName(SMC.state.newLink);"
-  ) Insert URL
+  ) {{$root.featureFlags.connections ? 'Create Connection' : 'Insert URL'}}
+  button.btn.btn-xs.gray.btn-cancel.float-right(
+  ng-click = "SMC.state.showHostName = false"
+  ) Cancel
