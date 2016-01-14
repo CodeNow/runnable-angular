@@ -145,13 +145,20 @@ function openItemsFactory(
     this.boundSaveState = this.saveState.bind(this);
   }
 
+  var defaultTabs = {
+    'BuildStream': 'Build Logs',
+    'LogView': 'CMD Logs',
+    'Terminal': 'Terminal'
+  };
   OpenItems.prototype.retrieveTabs = function(container) {
-    var models = keypather.get($localStorage, this.keys.instanceId);
-    if (Array.isArray(models) && models.length) {
+    var models = keypather.get($localStorage, this.keys.instanceId) || [];
+    var missingTabs = Object.keys(defaultTabs).slice(); // clone
+    if (models.length) {
       this.previouslyActiveTab = models.find(function (m) {
         return keypather.get(m, 'state.active');
       });
       this.fromCache = true;
+
       models = models.map(function (model) {
         var from = keypather.get(model, 'state.from');
         if (tabTypes[from]) {
@@ -160,6 +167,9 @@ function openItemsFactory(
             // caching not present on instance.instanceEdit
             model = container.newFile(model);
           } else {
+            if (missingTabs.includes(from)) {
+              missingTabs.splice(missingTabs.indexOf(from), 1);
+            }
             model = new tabTypes[from](model, {
               noStore: true
             });
@@ -167,8 +177,16 @@ function openItemsFactory(
         }
         return model;
       });
-      this.reset(models);
     }
+    var missingModels = missingTabs.map(function (type) {
+      return new tabTypes[type]({
+        name: defaultTabs[type]
+      }, {
+        noStore: true
+      });
+    });
+    models = models.concat(missingModels);
+    this.reset(models);
   };
 
   // Set item in localStorage serialized cache to active
@@ -201,7 +219,7 @@ function openItemsFactory(
       data = {};
     }
     if (!data.name) {
-      data.name = 'Terminal';
+      data.name = defaultTabs.Terminal;
     }
     var terminal = new Terminal(data);
     this.add(terminal);
@@ -213,7 +231,7 @@ function openItemsFactory(
       data = {};
     }
     if (!data.name) {
-      data.name = 'Build Logs';
+      data.name = defaultTabs.BuildStream;
     }
     if (this.hasOpen('BuildStream')) {
       var currStream = this.getFirst('BuildStream');
@@ -247,7 +265,7 @@ function openItemsFactory(
       data = {};
     }
     if (!data.name) {
-      data.name = 'CMD Logs';
+      data.name = defaultTabs.LogView;
     }
     if (this.hasOpen('LogView')) {
       var currStream = this.getFirst('LogView');

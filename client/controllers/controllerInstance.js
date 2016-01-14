@@ -152,7 +152,8 @@ function ControllerInstance(
     } else if (status === 'running') {
       data.openItems.restoreTabs(
         { instanceId: data.instance.id() },
-        data.instance.containers.models[0]
+        data.instance.containers.models[0],
+        true
       );
     }
 

@@ -82,7 +82,7 @@ function fileEditor(
                   keypather.set($scope.file, 'state.body', backupChanges);
                 }
               });
-          } else if (isMigrating && !wasMigrating) {
+          } else if (isMigrating) {
             $scope.hasError = true;
           }
         });

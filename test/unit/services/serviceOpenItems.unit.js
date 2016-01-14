@@ -184,8 +184,13 @@ describe('serviceOpenItems'.bold.underline.blue, function () {
         instanceId: 'test'
       }, mockContextVersion);
       expect(oi).to.be.ok;
+      // It should have also include the build logs, box logs, and terminal
       expect(oi.models).to.be.an('array');
-      expect(oi.models.length).to.eql(1);
+      expect(oi.models.length).to.eql(4);
+      expect(oi.models[0].constructor.name, 'File').to.eql('File');
+      expect(oi.models[1].constructor.name, 'BuildStream').to.eql('BuildStream');
+      expect(oi.models[2].constructor.name, 'LogView').to.eql('LogView');
+      expect(oi.models[3].constructor.name, 'Terminal').to.eql('Terminal');
 
       var model = oi.models[0];
       expect(model.constructor.name).to.eql('File');
@@ -195,7 +200,8 @@ describe('serviceOpenItems'.bold.underline.blue, function () {
       expect(ah).to.be.ok;
       expect(ah.constructor.name).to.eql('ActiveHistory');
       expect(ah.models).to.be.an('array');
-      expect(ah.models.length).to.eql(1);
+
+      expect(ah.models.length).to.eql(4);
 
       expect(oi.fromCache).to.be.true;
     });
