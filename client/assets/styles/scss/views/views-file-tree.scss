@@ -136,6 +136,10 @@
     &.file.empty {
       color: $gray-light;
       font-style: italic;
+
+      .item-name {
+        margin-left: 7px;
+      }
     }
   }
 
