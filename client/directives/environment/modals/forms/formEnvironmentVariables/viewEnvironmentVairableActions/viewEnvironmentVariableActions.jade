@@ -35,8 +35,10 @@ button.btn.btn-xs.gray(
   ng-if = "SMC.state.showHostName"
 )
 
-  input.input.input-sm.monospace(
+  //- add 'ng-invalid' class if the user inputs an invalid variable name
+  input.input.input-sm.monospace.input-validate(
     ng-if = "$root.featureFlags.connections"
+    ng-class = "{'ng-invalid': false}"
     placeholder = "Variable Name"
     spellcheck = "false"
     type = "text"
