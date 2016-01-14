@@ -1,4 +1,4 @@
-fancy-select.btn-sm.white(
+fancy-select.btn-sm.white.btn-wrapped(
   ng-disabled = "branchFetching || !state.repo.branches.models.length"
   ng-required = "true"
   on-update = "onBranchChange"
@@ -18,4 +18,3 @@ fancy-select.btn-sm.white(
         xlink:href = "#icons-branch"
       )
     | {{$parent.branch.attrs.name}}
-small.small Select the branch you would like to use to build your first container.

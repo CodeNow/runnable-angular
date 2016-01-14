@@ -36,24 +36,26 @@
         .popover-content(
           ng-if = "$root.isLoaded.dns && DCC.filteredDependencies.length === 0"
         )
-          p.p.empty.text-center.fade-in Connect to containers by using their URLs in Environment Variables or Find & Replace.
 
         //- begin dns mappings
-        .popover-content.load(
-          ng-if = "isActivePanel() && DCC.filteredDependencies.length !== 0"
-        )
+        .popover-content
 
           //- list of DNS mappings
-          ul.list.popover-list
-            li.list-item.popover-list-item.tr.multi-line.clearfix.tr-dns(
+          ul.list.popover-list(
+            ng-if = "isActivePanel() && DCC.filteredDependencies.length !== 0"
+          )
+            li.list-item.popover-list-item.small.strong.disabled(
+              ng-if = "$root.featureFlags.connections"
+            ) Repository Containers
+            li.list-item.popover-list-item.multi-line.clearfix.tr-dns(
               ng-click = "DCC.editDependency(dependency); goToPanel('dnsList');"
               ng-if = "$root.isLoaded.dns && !dependency.instance.destroyed"
               ng-repeat = "dependency in DCC.filteredDependencies"
             )
-              .cell.clearfix(
+              .cell.clearfix.text-gray(
                 title = "{{dependency.instance.getRepoName()}}"
               )
-                .text-overflow {{dependency.instance.getRepoName()}}
+                .text-overflow.strong {{dependency.instance.getRepoName()}}
                 small.small.text-overflow(
                   title = "{{dependency.instance.getElasticHostname()}}"
                 ) {{dependency.instance.getElasticHostname()}}
@@ -67,7 +69,7 @@
                   status-icon(
                     instance = "dependency.instance"
                   )
-                  span.span(
+                  span.span.strong(
                     title = "{{dependency.instance.getBranchName()}}"
                   ) {{dependency.instance.getBranchName()}}
 
@@ -97,7 +99,34 @@
                 use(
                   xlink:href = "#icons-arrow-down"
                 )
-          .popover-footer.text-center.text-gray.small Connect to containers by using their URLs in Environment Variables or Find & Replace.
+          ul.list.popover-list.list-service-containers(
+            ng-if = "isActivePanel() && DCC.filteredDependencies.length !== 0 && $root.featureFlags.connections"
+          )
+            li.list-item.popover-list-item.small.strong.disabled Service Containers
+            li.list-item.popover-list-item.disabled
+              .text-overflow
+                .icons-status.green
+                span.span.strong MongoDB
+            li.list-item.popover-list-item.disabled
+              .text-overflow
+                .icons-status.green
+                span.span.strong Redis
+
+          .popover-footer.text-center.text-gray.small(
+            ng-if = "!$root.featureFlags.connections"
+            ng-class = "{'empty': !(isActivePanel() && DCC.filteredDependencies.length !== 0)}"
+          ) Connect to containers by using their URLs in Environment Variables or Find & Replace.
+
+          .popover-footer.text-center.text-gray.small(
+            ng-if = "$root.featureFlags.connections"
+            ng-class = "{'empty': !(isActivePanel() && DCC.filteredDependencies.length !== 0)}"
+          ) Connect to containers by using their URLs in&#32;
+            //- link directly to enviroment variables tool
+            a.link Environment Variables
+            | &#32;or&#32;
+            //- link directly to find & replace tool
+            a.link Find & Replace
+            | .
 
     animated-panel(
       name = "dnsList"
@@ -130,6 +159,7 @@
           ul.list.popover-list.list-branches(
             ng-if = "$root.isLoaded.dnsDepData"
           )
+            li.list-item.popover-list-item.small.strong.disabled Select a branch to connect to
             //li.list-item.popover-list-item.small.disabled anton-jul8’s Containers
             li.list-item.popover-list-item.text-overflow(
               ng-class = "{'no-touching': instance === DCC.modifyingDNS.current.instance}"
@@ -141,7 +171,7 @@
               status-icon(
                 instance = "instance"
               )
-              span.text-overflow {{instance.getBranchName()}}
+              span.strong.text-overflow {{instance.getBranchName()}}
 
               //- if branch is isolated
               //- don't show this when loading

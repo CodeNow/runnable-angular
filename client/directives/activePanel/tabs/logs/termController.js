@@ -29,7 +29,7 @@ function TermController(
     } else if ($scope.debugContainer) {
       streamModel = $scope.debugContainer.attrs.inspect;
     }
-    var streams = primus.createTermStreams(streamModel, uniqueId);
+    var streams = primus.createTermStreams(streamModel, uniqueId, !!$scope.debugContainer);
     uniqueId = streams.uniqueId;
     $scope.stream = streams.termStream;
     $scope.eventStream = streams.eventStream;

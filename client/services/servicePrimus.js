@@ -51,7 +51,7 @@ RunnablePrimus.prototype.createBuildStream = function (build) {
   }
 };
 
-RunnablePrimus.prototype.createTermStreams = function (container, uniqueId) {
+RunnablePrimus.prototype.createTermStreams = function (container, uniqueId, isDebugContainer) {
   container = container.json ? container.json() : container;
   var streamId = container.dockerContainer;
   if (!uniqueId) {
@@ -63,6 +63,7 @@ RunnablePrimus.prototype.createTermStreams = function (container, uniqueId) {
     data: {
       dockHost: container.dockerHost,
       type: 'filibuster',
+      isDebugContainer: isDebugContainer,
       containerId: container.dockerContainer,
       terminalStreamId: uniqueId,
       eventStreamId: uniqueId + 'events'
