@@ -143,7 +143,7 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
       $scope.$apply();
 
       expect($elScope.loading, 'loading').to.be.false;
-      expect($elScope.hasError, 'hasError').to.be.true;
+      expect($elScope.hasError, 'hasError').to.equal('failure');
     });
   });
 
