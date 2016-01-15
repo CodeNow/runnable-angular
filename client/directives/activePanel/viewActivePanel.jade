@@ -58,7 +58,7 @@
     debug-container = "debugContainer"
     instance = 'instance'
     log-term
-    ng-if = "item.state.type === 'LogView'"
+    ng-if = "item.state.type === 'LogView' && !instance.isMigrating()"
   )
 
   //- terminal
@@ -67,7 +67,7 @@
     debug-container = "debugContainer"
     instance = 'instance'
     log-term
-    ng-if = "item.state.type === 'Terminal'"
+    ng-if = "item.state.type === 'Terminal' && !instance.isMigrating()"
   )
 
   //- files
@@ -76,9 +76,13 @@
     file-editor
     instance = "instance"
     loading = "loading"
-    ng-if = "item.state.type === 'File'"
+    ng-if = "item.state.type === 'File' && !instance.isMigrating()"
     use-auto-update = "useAutoUpdate"
   )
+  .blank-panel(
+    ng-if = "['LogView', 'Terminal', 'File'].includes(item.state.type) && instance.isMigrating()"
+  )
+    p.p Container Temporarily Unavailable
 
   //- backup
   .build-log-wrapper(

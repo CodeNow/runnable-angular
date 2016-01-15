@@ -63,7 +63,7 @@ function fileEditor(
         return promisify($scope.file, 'fetch')()
           .then(resetFileBodyState)
           .catch(function (error) {
-            $scope.hasError = true;
+            $scope.hasError = 'failure';
             errs.report(error);
           })
           .finally(function () {
@@ -83,7 +83,7 @@ function fileEditor(
                 }
               });
           } else if (isMigrating) {
-            $scope.hasError = true;
+            $scope.hasError = 'migrating';
           }
         });
       }

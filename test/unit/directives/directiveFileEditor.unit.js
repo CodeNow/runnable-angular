@@ -284,7 +284,7 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
       instance.isMigrating.returns(true);
       $scope.$apply();
 
-      expect($elScope.hasError, 'hasError').to.be.true;
+      expect($elScope.hasError, 'hasError').to.equal('migrating');
     });
     it('should refetch the file when migrating has ceased (and restored the state body)', function () {
       var instance = {
@@ -314,7 +314,7 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
       fileFetchCb(new Error('hello'));
       $scope.$apply();
 
-      expect($elScope.hasError, 'hasError').to.be.true;
+      expect($elScope.hasError, 'hasError').to.equal('failure');
     });
 
   });
