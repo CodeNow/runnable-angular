@@ -29,7 +29,7 @@
       color: $gray-light;
     }
 
-    .btn {
+    .btn-xs {
       color: $gray;
     }
   }
@@ -63,6 +63,8 @@
     background: transparent;
     flex: 1 1 auto;
     font-weight: $weight-normal;
+    height: 100%;
+    line-height: inherit;
     padding: 0;
   }
 

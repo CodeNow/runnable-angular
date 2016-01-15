@@ -10,9 +10,38 @@
     padding: 9px;
   }
 
+  // layout
+  .flex-row {
+    display: flex;
+
+    @include media(xxs) {
+      flex-wrap: wrap;
+    }
+  }
+
+  .flex-col {
+    flex: 1 1 50%;
+
+    @include media(xxs) {
+      flex: 1 1 100%;
+    }
+
+    + .flex-col {
+      margin-left: 6px;
+
+      @include media(xxs) {
+        margin-left: 0;
+        margin-top: 6px;
+      }
+    }
+  }
+
+  .hr {
+    margin: 15px 0;
+  }
+
   // ip address form
   .input-group {
-    margin-bottom: 6px;
 
     // override modal form default
     .label.label {
@@ -35,10 +64,8 @@
     font-size: 13px;
   }
 
-  .form-add-ip {
-    border-bottom: 1px solid $gray-lighter;
+  .row {
     margin: 6px 0 15px;
-    padding-bottom: 15px;
   }
 
   .label-checkbox {

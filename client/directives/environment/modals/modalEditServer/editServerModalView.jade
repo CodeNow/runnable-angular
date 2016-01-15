@@ -57,7 +57,7 @@
         )
           svg.iconnables
             use(
-              xlink:href = "#icons-ip-whitelist"
+              xlink:href = "#icons-security"
             )
           .btn-text Security
         button.btn.btn-radio(
@@ -202,7 +202,8 @@
       )
       .modal-form.form-whitelist(
         ng-if = "$root.featureFlags.whitelist"
-        ng-include = "'whitelistForm'"
+        ip-whitelist
+        whitelist = "SMC.state.whitelist"
         ng-show = "SMC.selectedTab === 'whitelist'"
       )
 
