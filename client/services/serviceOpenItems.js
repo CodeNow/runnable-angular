@@ -47,6 +47,7 @@ function openItemsFactory(
     this.collections = [];
     this.attrs = data || {};
     this.attrs._id = i++;
+    this.hideClose = true;
     return this;
   }
 
@@ -61,6 +62,7 @@ function openItemsFactory(
     this.collections = [];
     this.attrs = data || {};
     this.attrs._id = i++;
+    this.hideClose = true;
     return this;
   }
 
