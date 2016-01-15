@@ -45,9 +45,8 @@ function ControllerApp(
 
   var dataApp = $rootScope.dataApp = $scope.dataApp = {
     data: {
-      user: user,
       orgs: orgs,
-      allAccounts: [user].concat(orgs.models),
+      allAccounts: orgs.models,
       instances: null,
       activeAccount: activeAccount,
       configAPIHost: configAPIHost,

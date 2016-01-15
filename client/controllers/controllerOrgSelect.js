@@ -5,10 +5,9 @@ require('app')
 function ControllerOrgSelect(
   $scope,
   $state,
-  user,
   orgs
 ) {
-  this.allAccounts = [user].concat(orgs.models);
+  this.allAccounts = orgs.models;
   $scope.actions = {
     selectAccount: function (account) {
       $scope.$emit('close-modal');

@@ -40,9 +40,6 @@ module.exports = [
     controller: 'ControllerOrgSelect',
     controllerAs: 'COS',
     resolve: {
-      user: function (fetchUser) {
-        return fetchUser();
-      },
       orgs: function (fetchOrgs) {
         return fetchOrgs();
       }
@@ -84,11 +81,8 @@ module.exports = [
       orgs: function (fetchOrgs) {
         return fetchOrgs();
       },
-      activeAccount: function ($q, $stateParams, $state, user, orgs, $timeout) {
+      activeAccount: function ($q, $stateParams, $state, orgs, $timeout) {
         var lowerAccountName = $stateParams.userName.toLowerCase();
-        if (user.oauthName().toLowerCase() === lowerAccountName) {
-          return user;
-        }
 
         var matchedOrg = orgs.find(function (org) {
           return org.oauthName().toLowerCase() === lowerAccountName;
