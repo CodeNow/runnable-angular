@@ -442,6 +442,17 @@
   }
 }
 
+// transparent to white
+.btn-cancel {
+  background: transparent;
+  border: $input-border solid transparent;
+
+  &:hover,
+  &:active {
+    background: $white;
+  }
+}
+
 // .btn-label
 .btn-label {
   font-size: 12px;

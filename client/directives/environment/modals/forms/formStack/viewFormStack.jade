@@ -4,9 +4,11 @@
 
 .label.clearfix
   .label-col Branch
-  .input-col(
-    auto-update = "true"
-    branch-selector
-    loading-promises-target = "editServerModal"
-    state = "state"
-  )
+  .input-col
+    div(
+      auto-update = "true"
+      branch-selector
+      loading-promises-target = "editServerModal"
+      state = "state"
+    )
+    small.small Select the branch you would like to use to build your first container.
