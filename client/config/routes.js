@@ -81,8 +81,17 @@ module.exports = [
       orgs: function (fetchOrgs) {
         return fetchOrgs();
       },
-      activeAccount: function ($q, $stateParams, $state, orgs, $timeout) {
+      manuallyWhitelistedUsers: function (fetchManuallyWhitelistedUsers) {
+        return fetchManuallyWhitelistedUsers();
+      },
+      activeAccount: function ($q, $stateParams, $state, orgs, $timeout, user, manuallyWhitelistedUsers) {
         var lowerAccountName = $stateParams.userName.toLowerCase();
+        var userName = user.oauthName().toLowerCase();
+        if (userName === lowerAccountName) {
+          if (manuallyWhitelistedUsers.indexOf(userName) !== -1) {
+            return user;
+          }
+        }
 
         var matchedOrg = orgs.find(function (org) {
           return org.oauthName().toLowerCase() === lowerAccountName;

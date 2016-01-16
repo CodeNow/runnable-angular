@@ -45,6 +45,7 @@ function ControllerApp(
 
   var dataApp = $rootScope.dataApp = $scope.dataApp = {
     data: {
+      user: user,
       orgs: orgs,
       allAccounts: orgs.models,
       instances: null,
