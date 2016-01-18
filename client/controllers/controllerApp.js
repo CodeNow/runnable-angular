@@ -43,11 +43,18 @@ function ControllerApp(
 
   $rootScope.ModalService = ModalService;
 
+  var allAccounts;
+  if (user.isManuallyWhitelisted) {
+    allAccounts = [user].concat(orgs.models);
+  } else {
+    allAccounts = orgs.models;
+  }
+
   var dataApp = $rootScope.dataApp = $scope.dataApp = {
     data: {
       user: user,
       orgs: orgs,
-      allAccounts: orgs.models,
+      allAccounts: allAccounts,
       instances: null,
       activeAccount: activeAccount,
       configAPIHost: configAPIHost,

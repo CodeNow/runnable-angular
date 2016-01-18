@@ -9,7 +9,7 @@ require('app')
   .factory('fetchOrgRegisteredMembers', fetchOrgRegisteredMembers)
   .factory('fetchOrgMembers', fetchOrgMembers)
   .factory('fetchOrgTeammateInvitations', fetchOrgTeammateInvitations)
-  .factory('fetchManuallyWhitelistedUsers', fetchManuallyWhitelistedUsers)
+  .value('manuallyWhitelistedUsers', ['jdloft', 'HelloRunnable', 'thejsj'])
   // Containers
   .factory('fetchInstances', fetchInstances)
   .factory('fetchInstance', fetchInstance)
@@ -728,13 +728,5 @@ function fetchDebugContainer(
     return fetchUser().then(function (user) {
       return promisify(user, 'fetchDebugContainer')(containerId);
     });
-  };
-}
-
-function fetchManuallyWhitelistedUsers(
-  $q
-) {
-  return function () {
-    return $q.when(['jdloft', 'HelloRunnable']);
   };
 }

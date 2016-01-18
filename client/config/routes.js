@@ -70,8 +70,13 @@ module.exports = [
     controller: 'ControllerApp',
     controllerAs: 'CA',
     resolve: {
-      user: function (eventTracking, fetchUser) {
-        var userFetch = fetchUser();
+      user: function (eventTracking, fetchUser, manuallyWhitelistedUsers) {
+        var userFetch = fetchUser()
+          .then(function (user) {
+            var userName = user.oauthName().toLowerCase();
+            user.isManuallyWhitelisted = (manuallyWhitelistedUsers.indexOf(userName) !== -1);
+            return user;
+          });
         userFetch
           .then(function(user) {
             eventTracking.boot(user);
@@ -80,9 +85,6 @@ module.exports = [
       },
       orgs: function (fetchOrgs) {
         return fetchOrgs();
-      },
-      manuallyWhitelistedUsers: function (fetchManuallyWhitelistedUsers) {
-        return fetchManuallyWhitelistedUsers();
       },
       activeAccount: function ($q, $stateParams, $state, orgs, $timeout, user, manuallyWhitelistedUsers) {
         var lowerAccountName = $stateParams.userName.toLowerCase();
