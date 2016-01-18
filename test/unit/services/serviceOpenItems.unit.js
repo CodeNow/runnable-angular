@@ -92,6 +92,82 @@ describe('serviceOpenItems'.bold.underline.blue, function () {
     });
   });
 
+
+  describe('remove all but'.blue, function () {
+    describe('BuildLogs'.blue, function() {
+      it('should remove everything but the buildstream', function() {
+        var oi = new OpenItems();
+
+        oi.addBuildStream();
+        oi.addLogs();
+        oi.add(fileModel);
+
+        expect(oi.models.length).to.eql(3);
+
+        oi.removeAllButBuildLogs();
+
+        expect(oi.models.length).to.eql(1);
+        expect(oi.activeHistory.last().state.type).to.eql('BuildStream');
+      });
+      it('should add a buildstream if one did not exist', function() {
+        var oi = new OpenItems();
+
+        oi.addLogs();
+        oi.add(fileModel);
+
+        expect(oi.models.length).to.eql(2);
+
+        oi.removeAllButBuildLogs();
+
+        expect(oi.models.length).to.eql(1);
+        expect(oi.activeHistory.last().state.type).to.eql('BuildStream');
+      });
+    });
+    describe('Logs'.blue, function() {
+      it('should remove everything but the buildstream and logView', function() {
+        var oi = new OpenItems();
+
+        oi.addBuildStream();
+        oi.addLogs();
+        oi.addTerminal();
+        oi.add(fileModel);
+
+        expect(oi.models.length).to.eql(4);
+
+        oi.removeAllButLogs();
+
+        expect(oi.models.length).to.eql(2);
+        expect(oi.activeHistory.last().state.type).to.eql('LogView');
+      });
+      it('should add a buildstream if one did not exist', function() {
+        var oi = new OpenItems();
+
+        oi.addLogs();
+        oi.add(fileModel);
+
+        expect(oi.models.length).to.eql(2);
+
+        oi.removeAllButLogs();
+
+        expect(oi.models.length).to.eql(2);
+        expect(oi.activeHistory.last().state.type).to.eql('LogView');
+      });
+      it('should add a buildstream and logview when nothing exists', function() {
+        var oi = new OpenItems();
+
+        oi.addLogs();
+        oi.add(fileModel);
+
+        expect(oi.models.length).to.eql(2);
+
+        oi.removeAllButLogs();
+
+        expect(oi.models.length).to.eql(2);
+        expect(oi.activeHistory.last().state.type).to.eql('LogView');
+      });
+    });
+  });
+
   describe('hitting cache'.blue, function () {
     it('Should set fromCache to true', function () {
       var oi = new OpenItems();
@@ -108,8 +184,13 @@ describe('serviceOpenItems'.bold.underline.blue, function () {
         instanceId: 'test'
       }, mockContextVersion);
       expect(oi).to.be.ok;
+      // It should have also include the build logs, box logs, and terminal
       expect(oi.models).to.be.an('array');
-      expect(oi.models.length).to.eql(1);
+      expect(oi.models.length).to.eql(4);
+      expect(oi.models[0].constructor.name, 'File').to.eql('File');
+      expect(oi.models[1].constructor.name, 'BuildStream').to.eql('BuildStream');
+      expect(oi.models[2].constructor.name, 'LogView').to.eql('LogView');
+      expect(oi.models[3].constructor.name, 'Terminal').to.eql('Terminal');
 
       var model = oi.models[0];
       expect(model.constructor.name).to.eql('File');
@@ -119,7 +200,8 @@ describe('serviceOpenItems'.bold.underline.blue, function () {
       expect(ah).to.be.ok;
       expect(ah.constructor.name).to.eql('ActiveHistory');
       expect(ah.models).to.be.an('array');
-      expect(ah.models.length).to.eql(1);
+
+      expect(ah.models.length).to.eql(4);
 
       expect(oi.fromCache).to.be.true;
     });
