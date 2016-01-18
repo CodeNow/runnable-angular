@@ -90,7 +90,7 @@ module.exports = [
         var lowerAccountName = $stateParams.userName.toLowerCase();
         var userName = user.oauthName().toLowerCase();
         if (userName === lowerAccountName) {
-          if (manuallyWhitelistedUsers.includes(userName)) {
+          if (user.isManuallyWhitelisted) {
             return user;
           }
         }
