@@ -74,7 +74,7 @@ module.exports = [
         var userFetch = fetchUser()
           .then(function (user) {
             var userName = user.oauthName().toLowerCase();
-            user.isManuallyWhitelisted = (manuallyWhitelistedUsers.indexOf(userName) !== -1);
+            user.isManuallyWhitelisted = manuallyWhitelistedUsers.includes(userName);
             return user;
           });
         userFetch
@@ -90,7 +90,7 @@ module.exports = [
         var lowerAccountName = $stateParams.userName.toLowerCase();
         var userName = user.oauthName().toLowerCase();
         if (userName === lowerAccountName) {
-          if (manuallyWhitelistedUsers.indexOf(userName) !== -1) {
+          if (manuallyWhitelistedUsers.includes(userName)) {
             return user;
           }
         }
