@@ -393,7 +393,11 @@ module.exports = function(grunt) {
           var indexPath = path.join(workingPath, 'index.js');
 
           find.file(/\.js$/, workingPath, function (files) {
-            var newFileString = files
+            var newFileString = '';
+            // Add use strict to file
+            newFileString += '\'use strict\';\n';
+            // Add file require
+            newFileString += files
               .map(function (item) {
                 return item.replace(workingPath, '.').replace(/\.js$/, '');
               })
@@ -410,7 +414,7 @@ module.exports = function(grunt) {
                   if (fileString.trim() === newFileString.trim()) {
                     return cb();
                   }
-                  grunt.log.writeln('writing new', subDir, 'index.js');
+                  grunt.log.writeln('writing new', subDir, 'index.js (cached)');
                   fs.writeFile(indexPath, newFileString, cb);
                 });
               } else {
