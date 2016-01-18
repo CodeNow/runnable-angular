@@ -9,7 +9,7 @@ require('app')
   .factory('fetchOrgRegisteredMembers', fetchOrgRegisteredMembers)
   .factory('fetchOrgMembers', fetchOrgMembers)
   .factory('fetchOrgTeammateInvitations', fetchOrgTeammateInvitations)
-  .value('manuallyWhitelistedUsers', ['jdloft', 'HelloRunnable'])
+  .value('manuallyWhitelistedUsers', ['jdloft', 'HelloRunnable', 'EvandroZanatta'])
   // Containers
   .factory('fetchInstances', fetchInstances)
   .factory('fetchInstance', fetchInstance)
