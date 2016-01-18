@@ -40,9 +40,6 @@ module.exports = [
     controller: 'ControllerOrgSelect',
     controllerAs: 'COS',
     resolve: {
-      user: function (fetchUser) {
-        return fetchUser();
-      },
       orgs: function (fetchOrgs) {
         return fetchOrgs();
       }
@@ -73,8 +70,13 @@ module.exports = [
     controller: 'ControllerApp',
     controllerAs: 'CA',
     resolve: {
-      user: function (eventTracking, fetchUser) {
-        var userFetch = fetchUser();
+      user: function (eventTracking, fetchUser, manuallyWhitelistedUsers) {
+        var userFetch = fetchUser()
+          .then(function (user) {
+            var userName = user.oauthName().toLowerCase();
+            user.isManuallyWhitelisted = manuallyWhitelistedUsers.includes(userName);
+            return user;
+          });
         userFetch
           .then(function(user) {
             eventTracking.boot(user);
@@ -84,10 +86,13 @@ module.exports = [
       orgs: function (fetchOrgs) {
         return fetchOrgs();
       },
-      activeAccount: function ($q, $stateParams, $state, user, orgs, $timeout) {
+      activeAccount: function ($q, $stateParams, $state, orgs, $timeout, user, manuallyWhitelistedUsers) {
         var lowerAccountName = $stateParams.userName.toLowerCase();
-        if (user.oauthName().toLowerCase() === lowerAccountName) {
-          return user;
+        var userName = user.oauthName().toLowerCase();
+        if (userName === lowerAccountName) {
+          if (user.isManuallyWhitelisted) {
+            return user;
+          }
         }
 
         var matchedOrg = orgs.find(function (org) {
