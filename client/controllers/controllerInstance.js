@@ -145,18 +145,24 @@ function ControllerInstance(
       // If we're migrating, don't change the tabs
       return;
     }
-    if (['building', 'buildFailed', 'neverStarted'].includes(status)) {
-      data.openItems.removeAllButBuildLogs();
-    } else if (['crashed', 'stopped', 'starting', 'stopping'].includes(status)) {
-      data.openItems.removeAllButLogs();
-    } else if (status === 'running') {
-      data.openItems.restoreTabs(
-        { instanceId: data.instance.id() },
-        data.instance.containers.models[0],
-        true
-      );
+    switch (status) {
+      case 'running':
+        data.openItems.restoreTabs(
+          { instanceId: data.instance.id() },
+          data.instance.containers.models[0],
+          true
+        );
+        break;
+      case 'crashed':
+      case 'stopped':
+      case 'starting':
+      case 'stopping':
+        data.openItems.removeAllButLogs();
+        break;
+      default:
+        data.openItems.removeAllButBuildLogs();
+        break;
     }
-
     $timeout(function () {
       favico.setInstanceState(keypather.get($scope, 'dataInstance.data.instance'));
     });
