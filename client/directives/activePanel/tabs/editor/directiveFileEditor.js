@@ -22,6 +22,7 @@ function fileEditor(
     templateUrl: 'viewFileEditor',
     scope: {
       file: '=',
+      instance: '=?',
       loadingPromisesTarget: '@?',
       readOnly: '=?',
       useAutoUpdate: '=?'
@@ -57,13 +58,34 @@ function fileEditor(
       }
 
       function fetchFile() {
+        delete $scope.hasError;
         $scope.loading = true;
         return promisify($scope.file, 'fetch')()
           .then(resetFileBodyState)
-          .catch(errs.handler)
+          .catch(function (error) {
+            $scope.hasError = 'failure';
+            errs.report(error);
+          })
           .finally(function () {
             $scope.loading = false;
           });
+      }
+
+      if ($scope.instance) {
+        $scope.$watch('instance.isMigrating()', function (isMigrating, wasMigrating) {
+          if (!isMigrating && wasMigrating) {
+            // If we were migrating, but just finished, we need to re-fetch these files
+            var backupChanges = keypather.get($scope.file, 'state.body');
+            fetchFile()
+              .then(function () {
+                if (!$scope.hasError && backupChanges) {
+                  keypather.set($scope.file, 'state.body', backupChanges);
+                }
+              });
+          } else if (isMigrating) {
+            $scope.hasError = 'migrating';
+          }
+        });
       }
 
       function updateFile() {

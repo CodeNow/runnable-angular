@@ -47,6 +47,7 @@ function openItemsFactory(
     this.collections = [];
     this.attrs = data || {};
     this.attrs._id = i++;
+    this.hideClose = true;
     return this;
   }
 
@@ -61,6 +62,7 @@ function openItemsFactory(
     this.collections = [];
     this.attrs = data || {};
     this.attrs._id = i++;
+    this.hideClose = true;
     return this;
   }
 
@@ -145,13 +147,20 @@ function openItemsFactory(
     this.boundSaveState = this.saveState.bind(this);
   }
 
+  var defaultTabs = {
+    'BuildStream': 'Build Logs',
+    'LogView': 'CMD Logs',
+    'Terminal': 'Terminal'
+  };
   OpenItems.prototype.retrieveTabs = function(container) {
-    var models = keypather.get($localStorage, this.keys.instanceId);
-    if (Array.isArray(models) && models.length) {
+    var models = keypather.get($localStorage, this.keys.instanceId) || [];
+    var missingTabs = Object.keys(defaultTabs).slice(); // clone
+    if (models.length) {
       this.previouslyActiveTab = models.find(function (m) {
         return keypather.get(m, 'state.active');
       });
       this.fromCache = true;
+
       models = models.map(function (model) {
         var from = keypather.get(model, 'state.from');
         if (tabTypes[from]) {
@@ -160,6 +169,9 @@ function openItemsFactory(
             // caching not present on instance.instanceEdit
             model = container.newFile(model);
           } else {
+            if (missingTabs.includes(from)) {
+              missingTabs.splice(missingTabs.indexOf(from), 1);
+            }
             model = new tabTypes[from](model, {
               noStore: true
             });
@@ -167,8 +179,16 @@ function openItemsFactory(
         }
         return model;
       });
-      this.reset(models);
     }
+    var missingModels = missingTabs.map(function (type) {
+      return new tabTypes[type]({
+        name: defaultTabs[type]
+      }, {
+        noStore: true
+      });
+    });
+    models = models.concat(missingModels);
+    this.reset(models);
   };
 
   // Set item in localStorage serialized cache to active
@@ -201,7 +221,7 @@ function openItemsFactory(
       data = {};
     }
     if (!data.name) {
-      data.name = 'Terminal';
+      data.name = defaultTabs.Terminal;
     }
     var terminal = new Terminal(data);
     this.add(terminal);
@@ -213,7 +233,7 @@ function openItemsFactory(
       data = {};
     }
     if (!data.name) {
-      data.name = 'Build Logs';
+      data.name = defaultTabs.BuildStream;
     }
     if (this.hasOpen('BuildStream')) {
       var currStream = this.getFirst('BuildStream');
@@ -247,7 +267,7 @@ function openItemsFactory(
       data = {};
     }
     if (!data.name) {
-      data.name = 'CMD Logs';
+      data.name = defaultTabs.LogView;
     }
     if (this.hasOpen('LogView')) {
       var currStream = this.getFirst('LogView');
@@ -380,25 +400,44 @@ function openItemsFactory(
     model.on('update', self.boundSaveState);
   };
 
-  OpenItems.prototype.remove = function (model) {
+  OpenItems.prototype.remove = function (model, ignoreState) {
     var index = this.models.indexOf(model);
     if (index >= 0) {
       keypather.set(model, 'state.open', false);
       this.unbindFileModel(model);
       this.models.splice(index, 1);
       this.activeHistory.remove(model);
-      this.saveState();
+      if (!ignoreState) {
+        this.saveState();
+      }
       return this;
     }
   };
 
-  OpenItems.prototype.removeAllButLogs = function () {
+  OpenItems.prototype.removeAllButBuildLogs = function () {
     var models = this.models.slice();
     for (var i = 0; i < models.length; i++) {
       if (!(models[i] instanceof BuildStream)) {
-        this.remove(models[i]);
+        this.remove(models[i], true);
       }
     }
+    this.addBuildStream();
+  };
+
+  /**
+   * Removes everything from openItems except for the BuildStream and the Box Logs
+   */
+  OpenItems.prototype.removeAllButLogs = function () {
+    var models = this.models.slice();
+    for (var i = 0; i < models.length; i++) {
+      if (!(models[i] instanceof LogView || models[i] instanceof BuildStream)) {
+        this.remove(models[i], true);
+      } else if (models[i] instanceof LogView) {
+        this.activeHistory.add(models[i]);
+      }
+    }
+    this.addBuildStream();
+    this.addLogs();
   };
 
   OpenItems.prototype.removeAndReopen = function (fileModel) {
