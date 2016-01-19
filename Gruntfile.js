@@ -434,7 +434,6 @@ module.exports = function(grunt) {
     async.parallel([
       function (cb) {
         var configObj = {};
-        // `//` defaults to browser's protocol which might be http
         configObj.host = process.env.API_URL || 'https://api-staging-codenow.runnableapp.com/';
         configObj.userContentDomain = process.env.USER_CONTENT_DOMAIN || 'runnableapp.com';
 
