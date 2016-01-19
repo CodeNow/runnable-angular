@@ -11,7 +11,6 @@ function featureFlags(
     billing: false,
     cardStatus: false,
     connections: false,
-    debugStartCmd: false, // debug mode for start CMD (in CMD Logs)
     editAnyInstance: false,
     emptyFolder: false, // shows empty folder markup
     fullScreen: false,  // toggles full screen

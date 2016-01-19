@@ -23,7 +23,7 @@ function debugCmd(
           var streamingBuildLogs = streamingLog(stream);
           stream.on('end', function () {
             var command = streamingBuildLogs.logs[streamingBuildLogs.logs.length - 2];
-            if(command && command.imageId){
+            if (command && command.imageId) {
               lastBeforeCMD = command;
               $scope.$emit('debug-cmd-status', true);
             } else {
