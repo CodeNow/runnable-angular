@@ -11,8 +11,8 @@ function featureFlags(
     billing: false,
     cardStatus: false,
     connections: false,
-    debugStartCmd: false, // debug mode for start CMD (in CMD Logs)
     editAnyInstance: false,
+    emptyFolder: false, // shows empty folder markup
     fullScreen: false,  // toggles full screen
     fullScreenToggle: false,  // toggles the button that toggles full screen
     hostnameNotifications: false,
@@ -30,7 +30,7 @@ function featureFlags(
     noBuildLogs: true,
     renameContainer: false,
     saveToolbar: false,
-    teamManagement: false, // changes text from org to team in account menu
+    teamManagement: true, // changes text from org to team in account menu
     teamManagementAdvanced: false,
     trial: false,
     themeToggle: false, // toggles the button that toggles theme

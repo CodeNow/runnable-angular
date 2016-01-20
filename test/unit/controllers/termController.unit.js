@@ -41,13 +41,20 @@ describe('TermController'.bold.underline.blue, function () {
         ]
       }
     };
+    ctx.debugContainer = {
+      attrs: apiMocks.instances.running.containers[0]
+    };
     $controller('TermController', {
       '$scope': $scope
     });
   }
   describe('basics'.blue, function () {
+    beforeEach(setup);
     beforeEach(function () {
-      setup();
+      sinon.spy(mockPrimus, 'createTermStreams');
+    });
+    afterEach(function () {
+      mockPrimus.createTermStreams.restore();
     });
     it('should not set anything up without a valid instance on the scope', function () {
       var streamStartListener = sinon.spy();
@@ -74,6 +81,13 @@ describe('TermController'.bold.underline.blue, function () {
       $scope.$digest();
       expect($scope.stream, 'stream').to.be.ok;
       expect($scope.eventStream, 'eventsStream').to.be.ok;
+      sinon.assert.calledOnce(mockPrimus.createTermStreams);
+      sinon.assert.calledWith(
+        mockPrimus.createTermStreams,
+        ctx.instance.containers.models[0],
+        sinon.match.any,
+        false
+      );
     });
     it('should connect the stream when requested', function () {
       $rootScope.$digest();
@@ -87,6 +101,25 @@ describe('TermController'.bold.underline.blue, function () {
       $rootScope.$digest();
       sinon.assert.calledOnce($scope.stream.on);
       sinon.assert.calledOnce(term.on);
+    });
+    it('should create the debug container stream', function () {
+      $scope.debugContainer = ctx.debugContainer;
+      $rootScope.$digest();
+      expect($scope.stream, 'stream').to.not.be.ok;
+      expect($scope.eventStream, 'eventsStream').to.not.be.ok;
+      expect($scope.createStream, 'createStream').to.be.ok;
+      $scope.createStream();
+      $rootScope.$digest();
+      $scope.$digest();
+      expect($scope.stream, 'stream').to.be.ok;
+      expect($scope.eventStream, 'eventsStream').to.be.ok;
+      sinon.assert.calledOnce(mockPrimus.createTermStreams);
+      sinon.assert.calledWith(
+        mockPrimus.createTermStreams,
+        ctx.debugContainer.attrs.inspect,
+        sinon.match.any,
+        true
+      );
     });
   });
 

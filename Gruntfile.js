@@ -393,7 +393,11 @@ module.exports = function(grunt) {
           var indexPath = path.join(workingPath, 'index.js');
 
           find.file(/\.js$/, workingPath, function (files) {
-            var newFileString = files
+            var newFileString = '';
+            // Add use strict to file
+            newFileString += '\'use strict\';\n';
+            // Add file require
+            newFileString += files
               .map(function (item) {
                 return item.replace(workingPath, '.').replace(/\.js$/, '');
               })
@@ -410,7 +414,7 @@ module.exports = function(grunt) {
                   if (fileString.trim() === newFileString.trim()) {
                     return cb();
                   }
-                  grunt.log.writeln('writing new', subDir, 'index.js');
+                  grunt.log.writeln('writing new', subDir, 'index.js (cached)');
                   fs.writeFile(indexPath, newFileString, cb);
                 });
               } else {
@@ -430,7 +434,7 @@ module.exports = function(grunt) {
     async.parallel([
       function (cb) {
         var configObj = {};
-        configObj.host = process.env.API_HOST || '//api-staging-codenow.runnableapp.com/';
+        configObj.host = process.env.API_URL || 'https://api-staging-codenow.runnableapp.com/';
         configObj.userContentDomain = process.env.USER_CONTENT_DOMAIN || 'runnableapp.com';
 
         if (configObj.host.charAt(configObj.host.length - 1) === '/') {
