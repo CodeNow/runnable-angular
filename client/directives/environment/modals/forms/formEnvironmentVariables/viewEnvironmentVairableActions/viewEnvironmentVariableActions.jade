@@ -105,10 +105,10 @@ button.btn.btn-xs.gray(
   //-   title = "Only letters, numbers, and hyphens (-) are allowed."
   //- ) Only letters, numbers, and hyphens (-) are allowed.
   //- clear the form when either of these buttons are clicked
-  button.btn.btn-xs.gray.btn-cancel.float-right(
-    ng-click = "SMC.state.showHostName = false"
-  ) Cancel
   button.btn.btn-xs.green.float-right(
     ng-class = "{'float-right': !$root.featureFlags.connections}"
     ng-click = "SMC.state.showHostName = false; SMC.insertHostName(SMC.state.newLink);"
   ) {{$root.featureFlags.connections ? 'Create Connection' : 'Insert URL'}}
+  button.btn.btn-xs.gray.btn-cancel.float-right(
+    ng-click = "SMC.state.showHostName = false"
+  ) Cancel
