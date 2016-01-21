@@ -98,7 +98,7 @@
                 )
             li.list-item.popover-list-item(
               ng-click = "goToPanel('changeOrganization')"
-            ) Change {{$root.featureFlags.teamManagement ? 'Team' : 'Organization'}}
+            ) Change {{$root.featureFlags.teamManagementAdvanced ? 'Team' : 'Organization'}}
               svg.iconnables.icons-arrow-forward.anchor-right
                 use(
                   xlink:href = "#icons-arrow-down"
@@ -130,7 +130,7 @@
             use(
               xlink:href = "#icons-arrow-down"
             )
-          | {{$root.featureFlags.teamManagement ? 'Your Teams' : 'Organizations'}}
+          | {{$root.featureFlags.teamManagementAdvanced ? 'Your Teams' : 'Organizations'}}
 
         .popover-content.fade(
           ng-class = "{'in': isActivePanel()}"
@@ -157,7 +157,7 @@
               | {{account.oauthName()}}
           a.btn.btn-sm.gray(
             href = "/welcome"
-            ng-if = "$root.featureFlags.teamManagement"
+            ng-if = "$root.featureFlags.teamManagementAdvanced"
           )
             svg.iconnables.icons-round.icons-add.float-left
               use(

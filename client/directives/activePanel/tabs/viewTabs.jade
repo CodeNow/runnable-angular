@@ -23,7 +23,7 @@ ul.tabs
     //- only show close button on extra terminal tabs and file tabs
     button.btn.btn-md.btn-icon.btn-close(
       ng-click = "actions.removeItem($event, item)"
-      ng-if = "instance.containers.models[0].running() || debugContainer"
+      ng-if = "!item.hideClose"
     )
       svg.iconnables.icons-close
         use(

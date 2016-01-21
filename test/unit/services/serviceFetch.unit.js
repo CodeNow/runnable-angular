@@ -390,7 +390,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
     var fetchInstancesStub;
     var $rootScope;
     var rawInstances;
-    var addInstance;
+    var resetInstance;
     var $state;
     var _$q;
     var reporter;
@@ -414,11 +414,11 @@ describe('serviceFetch'.bold.underline.blue, function () {
           return reporter;
         });
         $provide.factory('fetchUser', function ($q) {
-          addInstance = sinon.stub();
+          resetInstance = sinon.stub()
           return sinon.stub().returns(
             $q.when({
               newInstances: sinon.stub().returns({
-                add: addInstance
+                reset: resetInstance
               })
             })
           );
@@ -437,15 +437,15 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
     it('should fetch all the instances in one go', function (done) {
       fetchInstancesByPod().then(function (instancesByPod) {
-        expect(instancesByPod).to.deep.equal({add: addInstance, githubUsername: $state.params.userName});
+        expect(instancesByPod).to.deep.equal({reset: resetInstance, githubUsername: $state.params.userName});
         done();
       });
       $rootScope.$digest();
       sinon.assert.calledOnce(fetchInstancesStub);
       sinon.assert.calledOnce(user.newInstances);
-      sinon.assert.calledOnce(addInstance);
+      sinon.assert.calledOnce(resetInstance);
 
-      var instanceList = addInstance.lastCall.args[0];
+      var instanceList = resetInstance.lastCall.args[0];
       var last = rawInstances.models[rawInstances.length-1];
       var masterInstance = instanceList.find(function (instance) {
         return instance.attrs.contextVersion === last.attrs.contextVersion;
@@ -1412,11 +1412,11 @@ describe('serviceFetch'.bold.underline.blue, function () {
       });
 
       it('should fetch the github user email for all GH members and add it to user object', function () {
-       var result;
-          fetchOrgMembers('CodeNow', true)
-            .then(function (res) {
-              result = res;
-            });
+        var result;
+        fetchOrgMembers('CodeNow', true)
+          .then(function (res) {
+            result = res;
+          });
         $rootScope.$digest();
         expect(result.all[0]).to.have.property('email');
         expect(result.all[0].email).to.equal(result.all[0].login + '@example.com');

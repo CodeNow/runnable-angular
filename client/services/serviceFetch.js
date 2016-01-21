@@ -9,6 +9,8 @@ require('app')
   .factory('fetchOrgRegisteredMembers', fetchOrgRegisteredMembers)
   .factory('fetchOrgMembers', fetchOrgMembers)
   .factory('fetchOrgTeammateInvitations', fetchOrgTeammateInvitations)
+  // All whitelisted usernames must be in lowercase
+  .value('manuallyWhitelistedUsers', ['jdloft', 'hellorunnable', 'evandrozanatta'])
   // Containers
   .factory('fetchInstances', fetchInstances)
   .factory('fetchInstance', fetchInstance)
@@ -157,42 +159,6 @@ function fetchInstancesByPod(
         githubUsername: username
       })
         .then(function (allInstances) {
-          var instanceMapping = {};
-          allInstances.forEach(function (instance) {
-            var ctxVersion = instance.attrs.contextVersion.context;
-            instanceMapping[ctxVersion] = instanceMapping[ctxVersion] || {};
-            if (instance.attrs.masterPod) {
-              instanceMapping[ctxVersion].master = instance;
-            } else {
-              instanceMapping[ctxVersion].children = instanceMapping[ctxVersion].children || [];
-              instanceMapping[ctxVersion].children.push(instance);
-            }
-          });
-
-          var masterInstances = [];
-          Object.keys(instanceMapping).forEach(function (ctxVersion) {
-            var master = instanceMapping[ctxVersion].master;
-            var children = instanceMapping[ctxVersion].children || [];
-
-            // Handle the case where we have an extra instance that has no parents.
-            if (!master || !master.children) {
-              if (children && children.length) {
-                children.forEach(function (child) {
-                  report.info('Orphaned child detected', {
-                    child: child.id(),
-                    name: child.attrs.name,
-                    owner: child.attrs.owner
-                  });
-                });
-              }
-              return;
-            }
-
-
-            masterInstances.push(master);
-            master.children.add(children);
-          });
-
           return userPromise.then(function (user) {
             var instances = user.newInstances([], {
               qs: {
@@ -200,8 +166,51 @@ function fetchInstancesByPod(
                 githubUsername: username
               }
             });
+            function sortAllInstances(allInstances) {
+              var instanceMapping = {};
+              allInstances.forEach(function (instance) {
+                var ctxVersion = instance.attrs.contextVersion.context;
+                instanceMapping[ctxVersion] = instanceMapping[ctxVersion] || {};
+                if (instance.attrs.masterPod) {
+                  instanceMapping[ctxVersion].master = instance;
+                } else {
+                  instanceMapping[ctxVersion].children = instanceMapping[ctxVersion].children || [];
+                  instanceMapping[ctxVersion].children.push(instance);
+                }
+              });
+
+              var masterInstances = [];
+              Object.keys(instanceMapping).forEach(function (ctxVersion) {
+                var master = instanceMapping[ctxVersion].master;
+                var children = instanceMapping[ctxVersion].children || [];
+
+                // Handle the case where we have an extra instance that has no parents.
+                if (!master || !master.children) {
+                  if (children && children.length) {
+                    children.forEach(function (child) {
+                      report.info('Orphaned child detected', {
+                        child: child.id(),
+                        name: child.attrs.name,
+                        owner: child.attrs.owner
+                      });
+                    });
+                  }
+                  return;
+                }
+
+                masterInstances.push(master);
+                master.children.reset(children);
+              });
+              return masterInstances;
+            }
+
+            allInstances.refreshOnDisconnect = true;
+            allInstances.on('reconnection', function () {
+              var masterInstances = sortAllInstances(allInstances);
+              instances.reset(masterInstances);
+            });
             instances.githubUsername = username;
-            instances.add(masterInstances);
+            instances.reset(sortAllInstances(allInstances));
             return instances;
           });
         });
