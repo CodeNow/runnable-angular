@@ -83,6 +83,10 @@ methods.forEach(function (method) {
 
       if (status === 0) {
         // CORS failed
+        self.report.debug('Could not reach server. \nJSON: '  + JSON.stringify(opts, false, 2), {
+          emitter: 'Manual',
+          source: 'client/services/serviceUser.js'
+        });
         return cb(new Error('Could not reach server'));
       }
       var body = data;
