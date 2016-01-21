@@ -3,6 +3,7 @@
   ng-style = "popoverStyle.getStyle()"
 )
   .arrow
-  .popover-list.list-bulleted
-    .list-item.small Use only letters, numbers, and underscores.
-    .list-item.small Do not begin with a number.
+  .popover-list.list-bulleted.list-validation
+    //- add .ng-invalid to the corresponding list item if the input is invalid
+    .list-item Variables can't start with a number.
+    .list-item Only use alphanumeric characters and underscores.
