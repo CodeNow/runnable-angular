@@ -36,14 +36,25 @@ button.btn.btn-xs.gray(
 )
 
   //- add 'ng-invalid' class if the user inputs an invalid variable name
-  input.input.input-sm.monospace.input-validate(
+  .input-wrapper(
     ng-if = "$root.featureFlags.connections"
-    ng-class = "{'ng-invalid': false}"
-    placeholder = "Variable Name"
-    spellcheck = "false"
-    type = "text"
-    title = "Variable Name (required)"
   )
+    input.input.input-sm.monospace.input-validate(
+      ng-class = "{'ng-invalid': false}"
+      placeholder = "Variable Name"
+      spellcheck = "false"
+      type = "text"
+      title = "Variable Name (required)"
+    )
+    svg.iconnables.icons-help(
+      pop-over
+      pop-over-hover-trigger
+      pop-over-options = "{\"top\":39,\"centered\":true}"
+      pop-over-template = "environmentVariableValidationPopoverView"
+    )
+      use(
+        xlink:href = "#icons-help"
+      )
 
   p.p.text-gray(
     ng-if = "$root.featureFlags.connections"
@@ -89,11 +100,15 @@ button.btn.btn-xs.gray(
 .clearfix.js-animate(
   ng-if = "SMC.state.showHostName"
 )
+  //- show if the user inputs an invalid variable name
+  //- .invalid-message.text-overflow(
+  //-   title = "Only letters, numbers, and hyphens (-) are allowed."
+  //- ) Only letters, numbers, and hyphens (-) are allowed.
   //- clear the form when either of these buttons are clicked
+  button.btn.btn-xs.gray.btn-cancel.float-right(
+    ng-click = "SMC.state.showHostName = false"
+  ) Cancel
   button.btn.btn-xs.green.float-right(
     ng-class = "{'float-right': !$root.featureFlags.connections}"
     ng-click = "SMC.state.showHostName = false; SMC.insertHostName(SMC.state.newLink);"
   ) {{$root.featureFlags.connections ? 'Create Connection' : 'Insert URL'}}
-  button.btn.btn-xs.gray.btn-cancel.float-right(
-  ng-click = "SMC.state.showHostName = false"
-  ) Cancel
