@@ -16,7 +16,7 @@ function cardBuildStatusText(
       crashed: 'Crashed',
       buildFailed: 'Build Failed',
       building: 'Building',
-      neverStarted: 'Building',
+      neverStarted: 'Build Failed',
       starting: 'Starting',
       stopping: 'Stopping'
     };
