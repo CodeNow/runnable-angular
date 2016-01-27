@@ -118,9 +118,9 @@ function streamingLog(
 
         if (data.timestamp) {
           streamTimes.latest = new Date(data.timestamp);
-          clearInterval(timingInterval);
+          $interval.cancel(timingInterval);
           streamTimes.currentMachineTime = streamTimes.latest;
-          timingInterval = setInterval(function () {
+          timingInterval = $interval(function () {
             streamTimes.currentMachineTime = new Date(streamTimes.currentMachineTime.getTime() + 1000);
           }, 1000);
           if (!streamTimes.start) {
@@ -144,7 +144,7 @@ function streamingLog(
     stream.on('data', handleStreamData);
     stream.on('end', function () {
       streaming = false;
-      clearInterval(timingInterval);
+      $interval.cancel(timingInterval);
       $interval.cancel(checkExpandingInterval);
       setLastOpenedCommand();
       streamTimes.end = streamTimes.latest;
