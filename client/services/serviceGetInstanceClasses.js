@@ -26,7 +26,7 @@ function getInstanceClasses(
       'running': 'green',
       'buildFailed': 'red',
       'building': 'orange',
-      'neverStarted': 'orange',
+      'neverStarted': 'red',
       'unknown': '',
       'starting': 'orange',
       'stopping': 'green'
