@@ -61,9 +61,7 @@ describe('streamingLogService'.blue.underline.bold, function () {
         timestamp: moment().subtract(.5,'hours').format()
       }
     ];
-    streamOfData.forEach(function (data) {
-      stream.emit('data', data);
-    });
+    stream.emit('data', streamOfData);
 
     stream.emit('end');
 
