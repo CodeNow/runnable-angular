@@ -379,6 +379,33 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         sinon.assert.notCalled(newBuild.contextVersion.appCodeVersions.create);
       });
 
+      it('should show an error to the user if there wasn an error getting the repo', function () {
+        var err = new Error('hello world');
+        newBuild.contextVersion.appCodeVersions.create.yields(err);
+        createNewBuildMock.returns(newBuild);
+
+        SMC.selectRepo(repo);
+        $scope.$digest();
+        fetchStackAnalysisMock.triggerPromise(analysisMockData);
+        $scope.$digest();
+
+        sinon.assert.calledOnce(errsMock.handler);
+        sinon.assert.calledWith(errsMock.handler, err);
+      });
+
+      it('should show a special error if it wasnt able to create webhooks', function () {
+        var err = new Error('Github repo something/something not be found.');
+        newBuild.contextVersion.appCodeVersions.create.yields(err);
+        createNewBuildMock.returns(newBuild);
+
+        SMC.selectRepo(repo);
+        $scope.$digest();
+        fetchStackAnalysisMock.triggerPromise(analysisMockData);
+        $scope.$digest();
+
+        sinon.assert.calledOnce(errsMock.handler);
+        expect(errsMock.handler.args[0][0].message).to.match(/failed.*webhooks.*owner.*github/ig);
+      });
     });
 
     describe('createServer', function () {
