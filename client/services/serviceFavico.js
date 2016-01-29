@@ -23,7 +23,7 @@ require('app')
 
     var icons = {
       building: images.orange,
-      neverStarted: images.orange,
+      neverStarted: images.red,
       running: images.green,
       stopped: images.gray,
       buildFailed: images.red,
