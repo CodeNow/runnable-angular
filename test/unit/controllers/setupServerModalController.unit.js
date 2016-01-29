@@ -404,7 +404,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
 
         sinon.assert.calledOnce(errsMock.handler);
-        expect(errsMock.handler.args[0][0].message).to.match(/failed.*webhooks.*owner.*github/ig);
+        expect(errsMock.handler.args[0][0].message).to.match(/failed.*webhooks.*owner.*runnable/ig);
       });
     });
 
