@@ -369,7 +369,7 @@ function SetupServerModalController(
       })
       .catch(function (err) {
         if (err.message.match(/repo.*not.*found/ig)) {
-          var message = 'Failed to add webhooks. User must be an org owner/admin in order to add a GitHub repository.';
+          var message = 'We failed to create webhooks for this repo. You must be an org owner/admin in your Githug organization in order to do this.';
           errs.handler(new Error(message));
         } else {
           errs.handler(err);
