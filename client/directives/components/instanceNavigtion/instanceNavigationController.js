@@ -52,6 +52,9 @@ function InstanceNavigationController(
         modal.close.then(function (confirmed) {
           if (confirmed) {
             promisify(INC.instance.isolation, 'destroy')()
+              .then(function () {
+                INC.instance.fetch();
+              })
               .catch(errs.handler);
           }
         });

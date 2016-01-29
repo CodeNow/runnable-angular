@@ -12,7 +12,7 @@
   )
 
   button.btn.btn-xs.btn-badge.gray(
-    ng-if = "$root.featureFlags.isolationUI"
+    ng-if = "DC.instance.attrs.isolated"
   ) Isolated
 
 section.sidebar.instance-sidebar.full-height.load
