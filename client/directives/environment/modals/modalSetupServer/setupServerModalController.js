@@ -369,7 +369,7 @@ function SetupServerModalController(
       })
       .catch(function (err) {
         if (err.message.match(/repo.*not.*found/ig)) {
-          var message = 'We failed to create webhooks for this repo. You must be an org owner/admin in your Githug organization in order to do this.';
+          var message = 'Failed to add Webhooks. Please invite a member of this repository\'s owners team to add it to Runnable for the first time';
           errs.handler(new Error(message));
         } else {
           errs.handler(err);
