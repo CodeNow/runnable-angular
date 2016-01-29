@@ -18,7 +18,7 @@ function IsolationConfigurationModalController(
 
   ICMC.createIsolation = function () {
 
-    var isolatedChildren = []
+    var isolatedChildren = [];
     Object.keys(ICMC.instanceCheckboxes).forEach(function (instanceId) {
       var repoInstance = ICMC.repoInstances.find(function (instance) {
         return instance.id() === instanceId;
