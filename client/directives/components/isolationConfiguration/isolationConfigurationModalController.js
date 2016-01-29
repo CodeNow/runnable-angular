@@ -36,7 +36,7 @@ function IsolationConfigurationModalController(
       });
 
       if (nonRepoInstance) {
-        return isolatedChildren.push({instanceId: instance.id()});
+        return isolatedChildren.push({instance: nonRepoInstance.id()});
       }
     });
 
