@@ -367,7 +367,14 @@ function SetupServerModalController(
         SMC.state.acv = SMC.state.contextVersion.getMainAppCodeVersion();
         SMC.state.repo = repo;
       })
-      .catch(errs.handler)
+      .catch(function (err) {
+        if (err.message.match(/repo.*not.*found/ig)) {
+          var message = 'Failed to add webhooks. User must be an org owner/admin in order to add a GitHub repository.';
+          errs.handler(new Error(message));
+        } else {
+          errs.handler(err);
+        }
+      })
       .finally(function () {
         repo.loading = false;
         SMC.repoSelected = false;
