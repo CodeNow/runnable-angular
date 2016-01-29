@@ -95,7 +95,7 @@ describe('filterCardBuildStatusTitle', function () {
         };
       });
       it('returns Building', function() {
-        expect(filterCardBuildStatusTitle(instance)).to.equal('Building for a few seconds');
+        expect(filterCardBuildStatusTitle(instance)).to.equal('Failed a few seconds ago');
       });
     });
   });
