@@ -93,11 +93,11 @@ describe('filteCardbuildStatusText', function () {
         };
       });
       it('returns Building', function () {
-        expect(filterCardBuildStatusText(instance)).to.equal('Building');
+        expect(filterCardBuildStatusText(instance)).to.equal('Build Failed');
       });
 
       it('prepends a dash when set', function () {
-        expect(filterCardBuildStatusText(instance, true)).to.equal('— Building');
+        expect(filterCardBuildStatusText(instance, true)).to.equal('— Build Failed');
       });
     });
   });

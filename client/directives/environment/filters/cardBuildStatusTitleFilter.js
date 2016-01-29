@@ -22,7 +22,7 @@ function cardBuildStatusTitle(
       running: 'Running for',
       buildFailed: 'Failed',
       building: 'Building for',
-      neverStarted: 'Building for',
+      neverStarted: 'Failed',
       unknown: 'unknown'
     };
 
@@ -38,9 +38,9 @@ function cardBuildStatusTitle(
         time = keypather.get(instance, 'containers.models[0].attrs.inspect.State.FinishedAt');
         break;
       case 'buildFailed':
+      case 'neverStarted':
         time = keypather.get(instance, 'build.attrs.completed');
         break;
-      case 'neverStarted':
       case 'building':
         noAgo = true;
         time = keypather.get(instance, 'build.attrs.started');
