@@ -5,16 +5,16 @@
   .arrow.white
   .popover-content
     //- if build files are out of date
-    .well.well-popover.orange.text-center(
-        ng-if = "CSBC.instance.configStatusValid && !CSBC.instance.cachedConfigStatus"
+    .well.well-popover.orange.text-center.deprecated(
+        ng-if = "CSBC.instance.configStatusValid && !CSBC.instance.cachedConfigStatus && !$root.featureFlags.deletedCommit"
     ) This container’s configuration has changed since the current build.
       button.btn.btn-xs.orange(
         ng-click = "actions.updateConfigToMatchMaster()"
       ) Update & Rebuild
 
     //- if build failed
-    .well.well-popover.red.text-center(
-      ng-if = "['buildFailed', 'neverStarted'].includes(CSBC.instance.status())"
+    .well.well-popover.red.text-center.deprecated(
+      ng-if = "['buildFailed', 'neverStarted'].includes(CSBC.instance.status()) && !$root.featureFlags.deletedCommit"
     ) Having build problems? Some errors can be resolved by rebuilding.
       button.btn.btn-xs.red(
         ng-click = "actions.rebuildWithoutCache()"
@@ -31,27 +31,38 @@
 
       li.popover-list-item(
         ng-if = "!CSBC.instance.isMigrating() && ['running'].includes(CSBC.instance.status())"
+        ng-click = "actions.restartInstance()"
+      )
+        .icons-status.green
+        | Restart
+
+      li.popover-list-item(
+        ng-if = "!CSBC.instance.isMigrating() && ['running'].includes(CSBC.instance.status())"
         ng-click = "actions.stopInstance()"
       )
         .icons-status
         | Stop
 
-      li.popover-list-item(
-        ng-if = "!CSBC.instance.isMigrating() && ['running'].includes(CSBC.instance.status())"
-        ng-click = "actions.restartInstance()"
-      )
-        svg.iconnables.icons-restart
-          use(
-            xlink:href = "#icons-restart"
-          )
-        | Restart
-
       li.divider(
         ng-if = "!CSBC.instance.isMigrating() && ['running', 'stopped', 'crashed'].includes(CSBC.instance.status())"
       )
+
       li.popover-list-item(
         ng-click = "actions.rebuildWithoutCache()"
-        ng-if = "!['buildFailed', 'neverStarted'].includes(CSBC.instance.status())"
+        ng-if = "!['buildFailed', 'neverStarted'].includes(CSBC.instance.status()) || $root.featureFlags.deletedCommit"
       )
-        .iconnables
+        .icons-status.orange
         | Rebuild Without Cache
+
+    .well.well-popover.orange.text-center(
+      ng-if = "$root.featureFlags.deletedCommit"
+    ) The current commit no longer exists. Rebuild to use the latest commit.
+
+    .well.well-popover.orange.text-center(
+      ng-if = "$root.featureFlags.deletedCommit"
+    ) This container’s configuration has been changed. Rebuild to update.
+
+    //- only show if the configuration has not been changed
+    .well.well-popover.orange.text-center(
+      ng-if = "$root.featureFlags.deletedCommit"
+    ) Having build problems? Some errors can be resolved by rebuilding.
