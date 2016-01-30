@@ -144,13 +144,13 @@ html.home(
         .modal-dialog.modal-xs.home-modal-dialog(
           ng-click = "$event.stopPropagation();"
         )
-          svg.iconnables.icons-close(
-            ng-click = "data.hideUnauthorizedModal = true"
-          )
-            use(
-              xlink:href = "#icons-close"
-            )
           section.modal-body
+            svg.iconnables.icons-close(
+              ng-click = "data.hideUnauthorizedModal = true"
+            )
+              use(
+                xlink:href = "#icons-close"
+              )
             h1.h1 We’re sorry, but your GitHub account doesn’t have access to the Runnable preview.
             a.btn.btn-md.green(
               href = "mailto:support@runnable.com?subject=Please send me an invite for a preview of Runnable!"
