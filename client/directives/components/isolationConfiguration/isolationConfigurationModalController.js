@@ -40,7 +40,6 @@ function IsolationConfigurationModalController(
         return isolatedChildren.push({instance: nonRepoInstance.id()});
       }
     });
-
     loading('createIsolation', true);
     createIsolation(ICMC.instance, isolatedChildren)
       .then(function () {

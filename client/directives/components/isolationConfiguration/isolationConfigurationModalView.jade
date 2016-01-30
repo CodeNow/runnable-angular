@@ -121,6 +121,7 @@
           )
             input.checkbox(
               type = "checkbox"
+              ng-model = "ICMC.instanceCheckboxes[instance.id()]"
             )
             | {{instance.getDisplayName()}}
 
