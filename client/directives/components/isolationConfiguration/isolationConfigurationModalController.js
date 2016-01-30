@@ -7,6 +7,7 @@ function IsolationConfigurationModalController(
   loading,
   createIsolation,
   errs,
+  promisify,
 
   instance,
   close
@@ -47,8 +48,13 @@ function IsolationConfigurationModalController(
       })
       .catch(errs.handler)
       .finally(function () {
-        ICMC.instance.fetch();
-        loading('createIsolation', false);
+        promisify(ICMC.instance, 'fetch')()
+          .then(function () {
+            return promisify(ICMC.instance.isolation.containers, 'fetch')();
+          })
+          .finally(function () {
+            loading('createIsolation', false);
+          });
       });
   };
 
