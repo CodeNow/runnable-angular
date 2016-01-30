@@ -367,7 +367,14 @@ function SetupServerModalController(
         SMC.state.acv = SMC.state.contextVersion.getMainAppCodeVersion();
         SMC.state.repo = repo;
       })
-      .catch(errs.handler)
+      .catch(function (err) {
+        if (err.message.match(/repo.*not.*found/ig)) {
+          var message = 'Failed to add Webhooks. Please invite a member of this repository\'s owners team to add it to Runnable for the first time';
+          errs.handler(new Error(message));
+        } else {
+          errs.handler(err);
+        }
+      })
       .finally(function () {
         repo.loading = false;
         SMC.repoSelected = false;
