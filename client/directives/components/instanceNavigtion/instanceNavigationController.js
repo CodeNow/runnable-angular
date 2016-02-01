@@ -7,9 +7,34 @@ function InstanceNavigationController(
   ModalService,
   errs,
   keypather,
-  promisify
+  promisify,
+  $timeout
 ) {
   var INC = this;
+  function processContainers() {
+    if (!keypather.get(INC, 'instance.isolation.containers')) {
+      $timeout(processContainers, 10);
+      return;
+    }
+    var hasContainers = keypather.get(INC, 'instance.isolation.containers.models.length') > 0;
+    if (!hasContainers) {
+      console.log('Fetching isolation');
+      promisify(INC.instance.isolation.containers, 'fetch')()
+        .then(function () {
+          INC.instance.isolation.containers.nonRepo = INC.instance.isolation.containers.models.filter(function (instance) {
+            return !instance.getRepoName();
+          });
+          INC.instance.isolation.containers.repo = INC.instance.isolation.containers.models.filter(function (instance) {
+            return !!instance.getRepoName();
+          });
+        })
+        .catch(errs.handler);
+    }
+  }
+
+  if (INC.instance.isolation) {
+    processContainers();
+  }
 
   INC.setupIsolation = function () {
     $rootScope.$broadcast('close-popovers');

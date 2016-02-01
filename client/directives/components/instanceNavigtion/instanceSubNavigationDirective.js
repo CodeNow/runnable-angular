@@ -1,13 +1,13 @@
 'use strict';
 
-require('app').directive('instanceNavigation', instanceNavigation);
+require('app').directive('instanceSubNavigation', instanceSubNavigation);
 
-function instanceNavigation(
+function instanceSubNavigation(
   $state
 ) {
   return {
     restrict: 'A',
-    templateUrl: 'instanceNavigationView',
+    templateUrl: 'instanceSubNavigationView',
     controller: 'InstanceNavigationController',
     controllerAs: 'INC',
     bindToController: true,
