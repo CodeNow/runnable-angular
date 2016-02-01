@@ -83,6 +83,10 @@
     margin-top: 12px;
   }
 
+  .icons-intercom::after {
+    opacity: .6;
+  }
+
   .link {
 
     .ace-runnable-dark &:active {
