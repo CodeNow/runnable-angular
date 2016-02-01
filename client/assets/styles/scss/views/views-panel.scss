@@ -83,10 +83,7 @@
     margin-top: 12px;
   }
 
-  .icons-intercom::after {
-    opacity: .6;
-  }
-
+  // .link.icons-intercom
   .link {
 
     .ace-runnable-dark &:active {
@@ -95,6 +92,11 @@
 
     .ace-runnable-light &:active {
       color: $purple-light;
+    }
+
+    // intercom icon
+    &::after {
+      opacity: .6;
     }
   }
 }
