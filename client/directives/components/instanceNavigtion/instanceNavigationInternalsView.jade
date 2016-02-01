@@ -17,24 +17,24 @@ a.list-item-container(
   ) Isolated
 
   svg.iconnables.icons-overflow(
+    ng-class = "{'active': INC.popoverShown}"
     ng-if = "$root.featureFlags.isolationUI &&\
       (INC.masterInstance !== INC.instance && INC.instance.getBranchName())\
       ||\
       (!INC.instance.attrs.isIsolationGroupMaster && INC.instance.attrs.isolated)"
-    ng-class = "{'active': INC.popoverShown}"
     pop-over
     pop-over-active = "INC.popoverShown"
+    pop-over-controller = "INC"
     pop-over-options = "{\"verticallyCentered\":true,\"left\":28}"
     pop-over-template = "instanceNavigationPopoverView"
-    pop-over-controller = "INC"
   )
     use(
       xlink:href = "#icons-overflow"
     )
 
   svg.iconnables.icons-advanced(
-    ng-if = "$root.featureFlags.editAnyInstance || INC.instance.attrs.masterPod && !INC.instance.getBranchName()"
     ng-click="INC.editInstance($event)"
+    ng-if = "$root.featureFlags.editAnyInstance || INC.instance.attrs.masterPod && !INC.instance.getBranchName()"
     title = "Configure"
   )
     use(
