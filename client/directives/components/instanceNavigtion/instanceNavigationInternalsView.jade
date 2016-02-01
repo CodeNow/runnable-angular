@@ -45,7 +45,7 @@ a.list-item-container(
 .list.list-isolated(
   ng-if = "$root.featureFlags.isolationUI && $state.params.instanceName === INC.instance.attrs.name && INC.instance.isolation.containers.models.length"
 )
-  .list-item(
+  div(
     ng-if = "INC.instance.isolation.containers.repo.length"
     ng-repeat = "container in INC.instance.isolation.containers.repo"
     instance-navigation
@@ -53,7 +53,7 @@ a.list-item-container(
     instance = "container"
   )
 
-  .list-item(
+  div(
     ng-if = "INC.instance.isolation.containers.nonRepo.length"
     ng-repeat = "container in INC.instance.isolation.containers.nonRepo"
     instance-navigation
