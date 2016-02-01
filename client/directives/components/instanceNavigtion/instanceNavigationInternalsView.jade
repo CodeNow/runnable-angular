@@ -10,14 +10,17 @@ a.list-item-container(
   )
   .text-overflow(
     title = "{{INC.instance.getBranchName() || INC.instance.attrs.name}}"
-  ) {{INC.instance.getBranchName() || INC.instance.attrs.name}}
+  ) {{ INC.instance.getRepoAndBranchName() }}
 
   .btn.btn-xxs.btn-badge.gray(
     ng-if = "$root.featureFlags.isolationUI && INC.instance.attrs.isIsolationGroupMaster"
   ) Isolated
 
   svg.iconnables.icons-overflow(
-    ng-if = "$root.featureFlags.isolationUI && INC.masterInstance !== INC.instance && INC.instance.getBranchName()"
+    ng-if = "$root.featureFlags.isolationUI &&\
+      (INC.masterInstance !== INC.instance && INC.instance.getBranchName())\
+      ||\
+      (!INC.instance.attrs.isIsolationGroupMaster && INC.instance.attrs.isolated)"
     ng-class = "{'active': INC.popoverShown}"
     pop-over
     pop-over-active = "INC.popoverShown"

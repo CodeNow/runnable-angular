@@ -18,7 +18,6 @@ function InstanceNavigationController(
     }
     var hasContainers = keypather.get(INC, 'instance.isolation.containers.models.length') > 0;
     if (!hasContainers) {
-      console.log('Fetching isolation');
       promisify(INC.instance.isolation.containers, 'fetch')()
         .then(function () {
           INC.instance.isolation.containers.nonRepo = INC.instance.isolation.containers.models.filter(function (instance) {
