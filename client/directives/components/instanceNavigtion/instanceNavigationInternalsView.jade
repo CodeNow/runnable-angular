@@ -46,13 +46,15 @@ a.list-item-container(
   .list-item(
     ng-if = "INC.instance.isolation.containers.repo.length"
     ng-repeat = "container in INC.instance.isolation.containers.repo"
-    instance-sub-navigation
+    instance-navigation
+    active-account = "INC.activeAccount"
     instance = "container"
   )
 
   .list-item(
     ng-if = "INC.instance.isolation.containers.nonRepo.length"
     ng-repeat = "container in INC.instance.isolation.containers.nonRepo"
-    instance-sub-navigation
+    instance-navigation
+    active-account = "INC.activeAccount"
     instance = "container"
   )
