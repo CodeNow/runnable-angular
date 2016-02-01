@@ -143,6 +143,17 @@
   .link {
     color: $white;
     display: inline-block;
+
+    &.icons-intercom {
+      display: inline-block; // override .small.link
+      margin-left: 18px;
+
+      &::after {
+        left: -24px;
+        position: absolute;
+        top: 3px;
+      }
+    }
   }
 
   // close button
