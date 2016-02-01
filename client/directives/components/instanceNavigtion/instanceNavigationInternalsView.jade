@@ -1,8 +1,8 @@
 a.list-item-container(
   ui-sref = "\
-      base.instances.instance({ userName: INC.activeAccount.oauthName(), \
-      instanceName: INC.instance.attrs.name })\
-    "
+    base.instances.instance({userName: INC.activeAccount.oauthName(),\
+    instanceName: INC.instance.attrs.name})\
+  "
   ui-sref-active = "active"
 )
   status-icon(
@@ -38,3 +38,21 @@ a.list-item-container(
     use(
       xlink:href = "#icons-advanced"
     )
+
+//- list of isolated containers
+.list.list-isolated(
+  ng-if = "$root.featureFlags.isolationUI && $state.params.instanceName === INC.instance.attrs.name && INC.instance.isolation.containers.models.length"
+)
+  .list-item(
+    ng-if = "INC.instance.isolation.containers.repo.length"
+    ng-repeat = "container in INC.instance.isolation.containers.repo"
+    instance-sub-navigation
+    instance = "container"
+  )
+
+  .list-item(
+    ng-if = "INC.instance.isolation.containers.nonRepo.length"
+    ng-repeat = "container in INC.instance.isolation.containers.nonRepo"
+    instance-sub-navigation
+    instance = "container"
+  )
