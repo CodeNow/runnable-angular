@@ -12,9 +12,8 @@ a.list-item-container(
     title = "{{INC.instance.getBranchName() || INC.instance.attrs.name}}"
   ) {{INC.instance.getBranchName() || INC.instance.attrs.name}}
 
-  //- hide badge if popover is open
   .btn.btn-xxs.btn-badge.gray(
-    ng-if = "$root.featureFlags.isolationUI && !INC.popoverShown && INC.instance.attrs.isIsolationGroupMaster"
+    ng-if = "$root.featureFlags.isolationUI && INC.instance.attrs.isIsolationGroupMaster"
   ) Isolated
 
   svg.iconnables.icons-overflow(
