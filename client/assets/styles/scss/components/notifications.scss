@@ -118,14 +118,14 @@
 
   // title
   .h4 {
-    font-size: 16px;
+    font-size: 17px;
     line-height: 1.4;
     margin-bottom: 3px;
   }
 
   // small
   .small {
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.2;
 
     &.link {
@@ -136,13 +136,24 @@
 
   .icons-link-external {
     height: 13px;
-    top: 2px;
+    top: 3px;
   }
 
   // link
   .link {
     color: $white;
     display: inline-block;
+
+    &.icons-intercom {
+      display: inline-block; // override .small.link
+      margin-left: 18px;
+
+      &::after {
+        left: -24px;
+        position: absolute;
+        top: 3px;
+      }
+    }
   }
 
   // close button
@@ -185,7 +196,7 @@
   // nag
   .p {
     border-top: 2px solid rgba($white,.3);
-    font-size: 14px;
+    font-size: 15px;
     margin-top: 12px;
     padding-top: 6px;
 

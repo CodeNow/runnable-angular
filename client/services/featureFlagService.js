@@ -19,6 +19,7 @@ function featureFlags(
     hostnameNotifications: false,
     hostnameTool: false,
     imAfraidOfTheDark: false, // toggles theme
+    intercomOnMigration: false, // adds intercom link to migration message
     internalDebugging: false,
     inviteFlows: false,
     isolationUI: false, // for isolation UI
