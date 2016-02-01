@@ -17,24 +17,27 @@ a.list-item-container(
   ) Isolated
 
   svg.iconnables.icons-overflow(
-    ng-if = "$root.featureFlags.isolationUI &&\
+    ng-class = "{'active': INC.popoverShown}"
+    ng-if = "\
+      $root.featureFlags.isolationUI\
+      &&\
       (INC.masterInstance !== INC.instance && INC.instance.getBranchName())\
       ||\
-      (!INC.instance.attrs.isIsolationGroupMaster && INC.instance.attrs.isolated)"
-    ng-class = "{'active': INC.popoverShown}"
+      (!INC.instance.attrs.isIsolationGroupMaster && INC.instance.attrs.isolated)\
+    "
     pop-over
     pop-over-active = "INC.popoverShown"
+    pop-over-controller = "INC"
     pop-over-options = "{\"verticallyCentered\":true,\"left\":28}"
     pop-over-template = "instanceNavigationPopoverView"
-    pop-over-controller = "INC"
   )
     use(
       xlink:href = "#icons-overflow"
     )
 
   svg.iconnables.icons-advanced(
-    ng-if = "$root.featureFlags.editAnyInstance || INC.instance.attrs.masterPod && !INC.instance.getBranchName()"
     ng-click="INC.editInstance($event)"
+    ng-if = "$root.featureFlags.editAnyInstance || INC.instance.attrs.masterPod && !INC.instance.getBranchName()"
     title = "Configure"
   )
     use(
@@ -46,17 +49,17 @@ a.list-item-container(
   ng-if = "$root.featureFlags.isolationUI && $state.params.instanceName === INC.instance.attrs.name && INC.instance.isolation.containers.models.length"
 )
   div(
-    ng-if = "INC.instance.isolation.containers.repo.length"
-    ng-repeat = "container in INC.instance.isolation.containers.repo"
-    instance-navigation
     active-account = "INC.activeAccount"
     instance = "container"
+    instance-navigation
+    ng-if = "INC.instance.isolation.containers.repo.length"
+    ng-repeat = "container in INC.instance.isolation.containers.repo"
   )
 
   div(
-    ng-if = "INC.instance.isolation.containers.nonRepo.length"
-    ng-repeat = "container in INC.instance.isolation.containers.nonRepo"
-    instance-navigation
     active-account = "INC.activeAccount"
     instance = "container"
+    instance-navigation
+    ng-if = "INC.instance.isolation.containers.nonRepo.length"
+    ng-repeat = "container in INC.instance.isolation.containers.nonRepo"
   )
