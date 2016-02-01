@@ -68,8 +68,11 @@ html.home(
         for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
         mixpanel.init("abed31a0844a1bf389205355edfda4c2");
 
+    // Intercom
     if env === 'production'
       script(type="text/javascript" src="https://widget.intercom.io/widget/wqzm3rju")
+    else
+      script(type="text/javascript" src="https://widget.intercom.io/widget/xs5g95pd")
 
     if (env === 'production')
       script.
