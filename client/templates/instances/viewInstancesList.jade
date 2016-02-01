@@ -18,14 +18,14 @@
 
   //- if isolated add .isolated
   //- if sub item is active add open class.
-  div(
+  .list-item(
     active-account = "CIS.activeAccount"
     instance = "masterInstance"
     instance-navigation
     master-instance = "masterInstance"
   )
 
-  div(
+  .list-item(
     active-account = "CIS.activeAccount"
     instance = "childInstance"
     instance-navigation
@@ -66,7 +66,7 @@
 .list(
   ng-show = "nonRepoInstances.length"
 )
-  div(
+  .list-item(
     instance-navigation
     instance = "masterInstance"
     active-account = "CIS.activeAccount"
