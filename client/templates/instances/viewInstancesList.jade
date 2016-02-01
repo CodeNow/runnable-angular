@@ -16,8 +16,6 @@
         xlink:href = "#icons-advanced"
       )
 
-  //- if isolated add .isolated
-  //- if sub item is active add open class.
   div(
     active-account = "CIS.activeAccount"
     instance = "masterInstance"
@@ -30,7 +28,10 @@
     instance = "childInstance"
     instance-navigation
     master-instance = "masterInstance"
-    ng-class = "{'active': branch.selected, isolated: childInstance.attrs.isolated}"
+    ng-class = "{\
+      'active': branch.selected,\
+      'isolated': childInstance.attrs.isolated\
+    }"
     ng-repeat = "childInstance in masterInstance.children.models | orderBy: ['attrs.name']"
   )
 
