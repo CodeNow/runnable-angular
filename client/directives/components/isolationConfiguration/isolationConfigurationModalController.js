@@ -49,7 +49,7 @@ function IsolationConfigurationModalController(
       .finally(function () {
         promisify(ICMC.instance, 'fetch')()
           .then(function () {
-            return promisify(ICMC.instance.isolation.containers, 'fetch')();
+            return promisify(ICMC.instance.isolation.instances, 'fetch')();
           })
           .finally(function () {
             loading('createIsolation', false);

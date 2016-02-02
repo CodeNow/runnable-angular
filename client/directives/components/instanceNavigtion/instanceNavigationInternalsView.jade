@@ -46,20 +46,20 @@ a.list-item-container(
 
 //- list of isolated containers
 .list.list-isolated(
-  ng-if = "$root.featureFlags.isolationUI && INC.shouldExpand && INC.instance.isolation.containers.models.length"
+  ng-if = "$root.featureFlags.isolationUI && INC.shouldExpand && INC.instance.isolation.instances.models.length"
 )
   div(
     active-account = "INC.activeAccount"
     instance = "container"
     instance-navigation
-    ng-if = "INC.instance.isolation.containers.repo.length"
-    ng-repeat = "container in INC.instance.isolation.containers.repo"
+    ng-if = "INC.instance.isolation.instances.repo.length"
+    ng-repeat = "container in INC.instance.isolation.instances.repo"
   )
 
   div(
     active-account = "INC.activeAccount"
     instance = "container"
     instance-navigation
-    ng-if = "INC.instance.isolation.containers.nonRepo.length"
-    ng-repeat = "container in INC.instance.isolation.containers.nonRepo"
+    ng-if = "INC.instance.isolation.instances.nonRepo.length"
+    ng-repeat = "container in INC.instance.isolation.instances.nonRepo"
   )

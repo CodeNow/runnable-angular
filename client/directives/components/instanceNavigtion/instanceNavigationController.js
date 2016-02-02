@@ -21,19 +21,19 @@ function InstanceNavigationController(
       INC.shouldExpand = false;
       return;
     }
-    if (!keypather.get(INC, 'instance.isolation.containers')) {
+    if (!keypather.get(INC, 'instance.isolation.instances')) {
       $timeout(processContainers, 10);
       return;
     }
     INC.shouldExpand = true;
-    var hasContainers = keypather.get(INC, 'instance.isolation.containers.models.length') > 0;
+    var hasContainers = keypather.get(INC, 'instance.isolation.instances.models.length') > 0;
     if (!hasContainers) {
-      promisify(INC.instance.isolation.containers, 'fetch')()
+      promisify(INC.instance.isolation.instances, 'fetch')()
         .then(function () {
-          INC.instance.isolation.containers.nonRepo = INC.instance.isolation.containers.models.filter(function (instance) {
+          INC.instance.isolation.instances.nonRepo = INC.instance.isolation.instances.models.filter(function (instance) {
             return !instance.getRepoName();
           });
-          INC.instance.isolation.containers.repo = INC.instance.isolation.containers.models.filter(function (instance) {
+          INC.instance.isolation.instances.repo = INC.instance.isolation.instances.models.filter(function (instance) {
             return !!instance.getRepoName();
           });
         })
