@@ -31,14 +31,6 @@ function InstanceNavigationController(
     var hasContainers = keypather.get(INC, 'instance.isolation.instances.models.length') > 0;
     if (!hasContainers) {
       promisify(INC.instance.isolation.instances, 'fetch')()
-        .then(function () {
-          INC.instance.isolation.instances.nonRepo = INC.instance.isolation.instances.models.filter(function (instance) {
-            return !instance.getRepoName();
-          });
-          INC.instance.isolation.instances.repo = INC.instance.isolation.instances.models.filter(function (instance) {
-            return !!instance.getRepoName();
-          });
-        })
         .catch(errs.handler);
     }
   }
@@ -115,8 +107,8 @@ function InstanceNavigationController(
       .then(function (modal) {
         modal.close.then(function (confirmed) {
           if (confirmed) {
-            // TODO: Implement
-            console.log('Deleting container');
+            promisify(INC.instance, 'destroy')()
+              .catch(errs.handler);
           }
         });
       })

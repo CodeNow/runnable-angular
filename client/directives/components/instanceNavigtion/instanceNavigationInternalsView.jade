@@ -50,16 +50,16 @@ a.list-item-container(
 )
   div(
     active-account = "INC.activeAccount"
-    instance = "container"
+    instance = "instance"
     instance-navigation
     ng-if = "INC.instance.isolation.instances.repo.length"
-    ng-repeat = "container in INC.instance.isolation.instances.repo"
+    ng-repeat = "instance in INC.instance.isolation.instances | instanceHasRepo:true"
   )
 
   div(
     active-account = "INC.activeAccount"
-    instance = "container"
+    instance = "instance"
     instance-navigation
     ng-if = "INC.instance.isolation.instances.nonRepo.length"
-    ng-repeat = "container in INC.instance.isolation.instances.nonRepo"
+    ng-repeat = "instance in INC.instance.isolation.instances | instanceHasRepo:false"
   )
