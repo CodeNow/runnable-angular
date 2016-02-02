@@ -9,7 +9,7 @@ a.list-item-container(
     instance = "INC.instance"
   )
   .text-overflow(
-    title = "{{INC.instance.getBranchName() || INC.instance.attrs.name}}"
+    title = "{{ INC.instance.isolation && !INC.instance.attrs.isIsolationGroupMaster ? INC.instance.getRepoAndBranchName() : INC.instance.getDisplayName() }}"
   ) {{ INC.instance.isolation && !INC.instance.attrs.isIsolationGroupMaster ? INC.instance.getRepoAndBranchName() : INC.instance.getDisplayName() }}
 
   .btn.btn-xxs.btn-badge.gray(
