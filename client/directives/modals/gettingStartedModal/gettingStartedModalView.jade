@@ -1,5 +1,5 @@
 .modal-backdrop
-  .modal-dialog.modal-lg.modal-getting-started
+  .modal-dialog.modal-lg.modal-getting-started.noscroll
     img.img(
       height = "250"
       src = "/build/images/runnabear-jumping.png"
@@ -11,11 +11,11 @@
           xlink:href = "#icons-close"
         )
 
-      .modal-form.empty
-        small.small.empty.text-gray.text-center Your team has already started setting up on Runnable. Help them setup if they’re not finished before using your sandbox.
+      .grid-block.vertical.modal-form.empty
+        p.grid-content.shrink.p.empty.text-gray Your team is already using Runnable. Help them setup if they’re not finished before using your sandbox.
 
-        .btn-card-wrapper.text-center
-          a.btn.btn-card.white(
+        .grid-block.shrink.btn-group
+          a.grid-block.btn.btn-card.white(
             href = "//support.runnable.io"
             target = "_blank"
           )
@@ -27,7 +27,7 @@
             small.small.text-gray Learn how to set up containers and get them running for your stack.
             button.btn.btn-xs.green View Guide
 
-          a.btn.btn-card.white(
+          a.grid-block.btn.btn-card.white(
             href = "//support.runnable.io"
             target = "_blank"
           )
@@ -39,6 +39,6 @@
             small.small.text-gray Learn how we work with your code and how you can use containers.
             button.btn.btn-xs.green View Guide
 
-        a.link.small.text-center.text-gray(
+        a.grid-content.align-center.link.small.text-gray(
           href = "#"
         ) Dismiss

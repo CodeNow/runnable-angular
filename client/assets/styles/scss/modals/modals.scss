@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  overflow: hidden;
+  overflow: auto;
   padding: 90px 15px;
   position: fixed;
   top: 0;
@@ -14,10 +14,6 @@
   z-index: $z-modal;
 
   @include media(sm) {
-    padding: 15px;
-  }
-
-  @media (max-height: 768px) {
     padding: 15px;
   }
 
@@ -34,6 +30,7 @@
   border: $input-border solid $gray-lighter;
   border-radius: $input-border-radius-lg;
   display: flex;
+  flex: 0 1 auto;
   flex-direction: column;
   max-height: 100%;
   min-width: 360px;
@@ -42,6 +39,13 @@
 
   @include media(sm) {
     width: 100%;
+  }
+
+  // scroll backdrop
+  &.noscroll {
+    display: block;
+    margin-bottom: 15px;
+    max-height: none;
   }
 
   // expands modal

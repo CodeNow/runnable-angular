@@ -1,5 +1,9 @@
 .modal-getting-started {
-  top: 195px;
+  top: 150px;
+
+  @include media(sm) {
+    top: 195px;
+  }
 
   // runnabear
   > .img {
@@ -10,23 +14,28 @@
     top: -195px;
   }
 
-  .small.empty {
-    font-size: 16px;
-    margin: 15px 0 30px;
+  .p.empty {
+    margin: 9px 0 30px;
   }
 
-  // guides
-  .btn-card-wrapper {
+  .btn-group {
     display: flex;
   }
 
   .btn-card {
-    flex: 1 1;
-    padding: 15px 6px;
+    padding: 15px 12px;
     white-space: normal;
 
-    + .btn-card {
-      margin-left: 9px;
+    @include media(xxs) {
+      &:first-child {
+        border-radius: $input-border-radius $input-border-radius 0 0;
+      }
+
+      &:last-child {
+        border-radius: 0 0 $input-border-radius $input-border-radius;
+        margin-left: 0;
+        margin-top: -$input-border;
+      }
     }
 
     .iconnables {
@@ -52,5 +61,9 @@
   // dismiss link
   .link {
     margin-top: 15px;
+
+    @include media(xxs) {
+      @extend %text-center;
+    }
   }
 }
