@@ -1,11 +1,18 @@
 .modal-getting-started {
+  top: 195px;
+
+  // runnabear
+  > .img {
+    left: 0;
+    margin: 0 auto;
+    position: absolute;
+    right: 0;
+    top: -195px;
+  }
 
   .small.empty {
     font-size: 16px;
-  }
-
-  .hr {
-    margin: 30px 0;
+    margin: 15px 0 30px;
   }
 
   // guides
@@ -38,7 +45,7 @@
     }
 
     .green {
-      margin-top: 6px;
+      margin-top: 12px;
     }
   }
 

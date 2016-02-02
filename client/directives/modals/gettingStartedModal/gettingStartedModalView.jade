@@ -1,5 +1,10 @@
 .modal-backdrop
   .modal-dialog.modal-lg.modal-getting-started
+    img.img(
+      height = "250"
+      src = "/build/images/runnabear-jumping.png"
+      width = "400"
+    )
     .modal-body
       svg.iconnables.icons-close
         use(
@@ -7,13 +12,8 @@
         )
 
       .modal-form.empty
-        img.img(
-          height = "150"
-          src = "/build/images/welcome/welcome-mat.svg"
-          width = "208"
-        )
-        small.small.empty.text-gray.text-center Your team has started setting up your stack on Runnable. If they’re not done, help them finish, or dive into using your sandbox.
-        hr.hr
+        small.small.empty.text-gray.text-center Your team has already started setting up on Runnable. Help them setup if they’re not finished before using your sandbox.
+
         .btn-card-wrapper.text-center
           a.btn.btn-card.white(
             href = "//support.runnable.io"
@@ -25,7 +25,7 @@
               )
             h3.h3 Setting Up
             small.small.text-gray Learn how to set up containers and get them running for your stack.
-            button.btn.btn-sm.green View Guide
+            button.btn.btn-xs.green View Guide
 
           a.btn.btn-card.white(
             href = "//support.runnable.io"
@@ -37,7 +37,7 @@
               )
             h3.h3 Using Containers
             small.small.text-gray Learn how we work with your code and how you can use containers.
-            button.btn.btn-sm.green View Guide
+            button.btn.btn-xs.green View Guide
 
         a.link.small.text-center.text-gray(
           href = "#"
