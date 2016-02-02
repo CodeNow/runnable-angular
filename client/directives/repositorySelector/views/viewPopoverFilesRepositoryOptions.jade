@@ -28,7 +28,14 @@
     .input-col
       .btn.btn-block.white.text-overflow(
         ng-click = "goToPanel('commit')"
-      ) {{ repoSelector.data.useLatest && 'Always update to latest commit' }}
+      )
+       span(
+          ng-if = "repoSelector.data.useLatest"
+       ) Always update to latest commit
+       span(
+          ng-if = "!repoSelector.data.useLatest"
+       )
+         {{ repoSelector.data.commit.attrs.commit.message}}
         small.small(
           ng-if = "repoSelector.data.useLatest"
         ) on new builds of&#32;
