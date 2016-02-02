@@ -37,7 +37,7 @@ a.list-item-container(
 
   svg.iconnables.icons-advanced(
     ng-click="INC.editInstance($event)"
-    ng-if = "$root.featureFlags.editAnyInstance || INC.instance.attrs.masterPod && !INC.instance.getBranchName()"
+    ng-if = "$root.featureFlags.editAnyInstance || INC.instance.attrs.masterPod && !INC.instance.getBranchName() && !INC.instance.attrs.isolated"
     title = "Configure"
   )
     use(
