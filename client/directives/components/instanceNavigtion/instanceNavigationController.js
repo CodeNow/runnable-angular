@@ -22,6 +22,8 @@ function InstanceNavigationController(
       return;
     }
     if (!keypather.get(INC, 'instance.isolation.instances')) {
+      // The API client's `parse` method is an async operation, and we need that to be called before the
+      // instances will exist on isolation. Keep looping until that parse is finished.
       $timeout(processContainers, 10);
       return;
     }
