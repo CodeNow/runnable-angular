@@ -49,14 +49,18 @@
 
       li.popover-list-item(
         ng-click = "actions.rebuildWithoutCache()"
-        ng-if = "!['buildFailed', 'neverStarted'].includes(CSBC.instance.status()) || $root.featureFlags.deletedCommit"
+        ng-if = "!['buildFailed', 'neverStarted'].includes(CSBC.instance.status()) && !$root.featureFlags.deletedCommit"
       )
         .icons-status.orange
         | Rebuild Without Cache
 
-    .well.well-popover.orange.text-center(
-      ng-if = "$root.featureFlags.deletedCommit"
-    ) The current commit no longer exists. Rebuild to use the latest commit.
+      //- show instead of the above item if the container's current commit doesn't exist
+      li.popover-list-item(
+        internal-modal-helper = "deletedCommitModalView"
+        ng-if = "$root.featureFlags.deletedCommit"
+      )
+        .icons-status.orange
+        | Rebuild Without Cache
 
     .well.well-popover.orange.text-center(
       ng-if = "$root.featureFlags.deletedCommit"
