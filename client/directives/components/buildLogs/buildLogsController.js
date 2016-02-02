@@ -3,21 +3,23 @@
 require('app').controller('BuildLogsController', BuildLogsController);
 
 function BuildLogsController(
-  streamingLog,
   $scope,
-  primus,
   $rootScope,
   $timeout,
-  launchDebugContainer,
-  updateInstanceWithNewBuild,
   errs,
-  promisify
+  launchDebugContainer,
+  loading,
+  updateInstanceWithNewBuild,
+  primus,
+  promisify,
+  streamingLog
 ) {
   var BLC = this;
   BLC.showDebug = false;
 
   function handleUpdate () {
     var status = BLC.instance.status();
+    BLC.showErrorPanel = false;
     if (status === 'buildFailed' || status === 'neverStarted') {
       BLC.buildStatus = 'failed';
       BLC.showDebug = true;
@@ -114,6 +116,7 @@ function BuildLogsController(
       );
     },
     rebuildWithoutCache: function () {
+      loading('buildLogsController', true);
       promisify(BLC.instance.build, 'deepCopy')()
         .then(function (build) {
           return updateInstanceWithNewBuild(
@@ -122,7 +125,10 @@ function BuildLogsController(
             true
           );
         })
-        .catch(errs.handler);
+        .catch(errs.handler)
+        .finally(function () {
+           loading('buildLogsController', false);
+        });
     },
     launchDebugContainer: function (event, command) {
       if (BLC.debugContainer) {

@@ -44,7 +44,7 @@ form.modal-dialog.modal-integrations(
             spellcheck = "false"
           )
           // Not currently working
-          .validation-message(
+          .invalid-message(
             ng-if = "$root.featureFlags.updatedSlackValidation && data.invalidApiToken"
           ) Invalid API Token
           small.small(

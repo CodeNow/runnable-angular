@@ -1,4 +1,4 @@
-button.btn.btn-md.white.btn-cancel.float-left.js-animate(
+button.btn.btn-md.gray.btn-cancel.float-left.js-animate(
   ng-click = "SMC.actions.close()"
   ng-if = "!SMC.instance && SMC.state.step < 4"
   type = "button"
@@ -55,4 +55,3 @@ button.btn.btn-md.white.btn-primary.float-right.js-animate(
 span.small.float-right.fade.js-animate(
   ng-if = "SMC.instance && SMC.isDirty() === 'build' && !$root.isLoading[SMC.name]"
 ) You’ve made changes that require a rebuild.
-

@@ -1,15 +1,23 @@
 .blank-panel(
   ng-if = "$root.featureFlags.noBuildLogs && (hasFailedAndHasNoLogs() || BLC.showErrorPanel)"
 )
-  p.p Sorry, we ran into an issue trying to build your container.
-  button.btn.btn-sm.purple(
-    ng-click = "BLC.actions.rebuildWithoutCache()"
-  ) Retry Build
-  .small
-    | or&#32;
-    a.link(
-      ng-click = "BLC.actions.openIntercom()"
-    ) chat with a dev
+  .spinner-wrapper.spinner-md.in(
+    ng-if = "$root.isLoading.buildLogsController"
+    ng-include = "'spinner'"
+  )
+
+  div(
+    ng-if = "!$root.isLoading.buildLogsController"
+  )
+    p.p Sorry, we ran into an issue trying to build your container.
+    button.btn.btn-sm.purple(
+      ng-click = "BLC.actions.rebuildWithoutCache()"
+    ) Retry Build
+    .small
+      | or&#32;
+      a.link.icons-intercom(
+        ng-click = "BLC.actions.openIntercom()"
+      ) chat with a dev
 
 .pre.build-log(
   ng-if = "\
