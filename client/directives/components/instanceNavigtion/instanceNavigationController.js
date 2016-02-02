@@ -8,14 +8,24 @@ function InstanceNavigationController(
   errs,
   keypather,
   promisify,
-  $timeout
+  $timeout,
+  $state
 ) {
   var INC = this;
+  INC.shouldExpand = false;
   function processContainers() {
+    if (!INC.instance.isolation ||
+        !INC.instance.attrs.isIsolationGroupMaster ||
+        $state.params.instanceName.split('--')[0] !== INC.instance.attrs.shortHash &&
+        $state.params.instanceName !== INC.instance.attrs.name) {
+      INC.shouldExpand = false;
+      return;
+    }
     if (!keypather.get(INC, 'instance.isolation.containers')) {
       $timeout(processContainers, 10);
       return;
     }
+    INC.shouldExpand = true;
     var hasContainers = keypather.get(INC, 'instance.isolation.containers.models.length') > 0;
     if (!hasContainers) {
       promisify(INC.instance.isolation.containers, 'fetch')()
@@ -31,9 +41,10 @@ function InstanceNavigationController(
     }
   }
 
-  if (INC.instance.isolation) {
+  $rootScope.$on('$stateChangeSuccess', function () {
     processContainers();
-  }
+  });
+  processContainers();
 
   INC.setupIsolation = function () {
     $rootScope.$broadcast('close-popovers');

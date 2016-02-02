@@ -1,7 +1,7 @@
 .list-item(
   ng-class = "{\
     'isolated': $root.featureFlags.isolationUI,\
-    'open': $state.params.instanceName === INC.instance.attrs.name\
+    'open': INC.shouldExpand\
   }"
   ng-include = "'instanceNavigationInternalsView'"
 )
