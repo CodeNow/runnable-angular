@@ -52,7 +52,6 @@ a.list-item-container(
     active-account = "INC.activeAccount"
     instance = "instance"
     instance-navigation
-    ng-if = "INC.instance.isolation.instances.repo.length"
     ng-repeat = "instance in INC.instance.isolation.instances | instanceHasRepo:true"
   )
 
@@ -60,6 +59,5 @@ a.list-item-container(
     active-account = "INC.activeAccount"
     instance = "instance"
     instance-navigation
-    ng-if = "INC.instance.isolation.instances.nonRepo.length"
     ng-repeat = "instance in INC.instance.isolation.instances | instanceHasRepo:false"
   )
