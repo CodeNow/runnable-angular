@@ -34,7 +34,6 @@
       //- this triggers deletedCommitModalView instead of rebuilding if the current commit does not exist.
       li.popover-list-item(
         ng-click = "actions.updateConfigToMatchMaster()"
-        ng-if = "!['buildFailed', 'neverStarted'].includes(CSBC.instance.status())"
       )
         .icons-status.orange
         | Rebuild Without Cache
