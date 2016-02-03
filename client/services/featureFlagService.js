@@ -11,7 +11,6 @@ function featureFlags(
     billing: false,
     cardStatus: false,
     connections: false,
-    deletedCommit: false,
     editAnyInstance: false,
     emptyFolder: false, // shows empty folder markup
     fullScreen: false,  // toggles full screen
