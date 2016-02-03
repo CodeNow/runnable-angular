@@ -14,7 +14,7 @@ function InstanceNavigationController(
   var INC = this;
   INC.shouldExpand = false;
   function processContainers() {
-    if (!INC.instance.isolation ||
+    if (!INC.instance.attrs.isolated ||
         !INC.instance.attrs.isIsolationGroupMaster ||
         keypather.get($state, 'params.instanceName.split(\'--\')[0]') !== INC.instance.attrs.shortHash &&
         $state.params.instanceName !== INC.instance.attrs.name) {

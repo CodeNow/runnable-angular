@@ -9,8 +9,8 @@ a.list-item-container(
     instance = "INC.instance"
   )
   .text-overflow(
-    title = "{{ INC.instance.isolation && !INC.instance.attrs.isIsolationGroupMaster ? INC.instance.getRepoAndBranchName() : INC.instance.getDisplayName() }}"
-  ) {{ INC.instance.isolation && !INC.instance.attrs.isIsolationGroupMaster ? INC.instance.getRepoAndBranchName() : INC.instance.getDisplayName() }}
+    title = "{{ INC.instance.attrs.isolated && !INC.instance.attrs.isIsolationGroupMaster ? INC.instance.getRepoAndBranchName() : INC.instance.getDisplayName() }}"
+  ) {{ INC.instance.attrs.isolated && !INC.instance.attrs.isIsolationGroupMaster ? INC.instance.getRepoAndBranchName() : INC.instance.getDisplayName() }}
 
   .btn.btn-xxs.btn-badge.gray(
     ng-if = "$root.featureFlags.isolationUI && INC.instance.attrs.isIsolationGroupMaster"
