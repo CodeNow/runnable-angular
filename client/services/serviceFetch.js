@@ -10,7 +10,7 @@ require('app')
   .factory('fetchOrgMembers', fetchOrgMembers)
   .factory('fetchOrgTeammateInvitations', fetchOrgTeammateInvitations)
   // All whitelisted usernames must be in lowercase
-  .value('manuallyWhitelistedUsers', ['jdloft', 'hellorunnable', 'evandrozanatta'])
+  .value('manuallyWhitelistedUsers', ['jdloft', 'hellorunnable', 'evandrozanatta', 'rsandor'])
   // Containers
   .factory('fetchInstances', fetchInstances)
   .factory('fetchInstance', fetchInstance)
