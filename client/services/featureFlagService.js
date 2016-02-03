@@ -36,7 +36,6 @@ function featureFlags(
     themeToggle: false, // toggles the button that toggles theme
     updatedSlackValidation: false,
     urlPopover: false,
-    newContainerStatusWells: false,
     webhooksAdminPresent: false,
     webhooksContainerRunning: false,
     webhooks: false,
