@@ -45,5 +45,5 @@
 
     //- only show if the configuration has not been changed
     .well.well-popover.orange.text-center(
-      ng-if = "['buildFailed', 'neverStarted'].includes(CSBC.instance.status())"
+      ng-if = "['buildFailed', 'neverStarted'].includes(CSBC.instance.status()) && !(CSBC.instance.configStatusValid && !CSBC.instance.cachedConfigStatus)"
     ) Having build problems? Some errors can be resolved by rebuilding.
