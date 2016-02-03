@@ -435,6 +435,7 @@ module.exports = function(grunt) {
       function (cb) {
         var configObj = {};
         configObj.host = process.env.API_URL || 'https://api-staging-codenow.runnableapp.com/';
+        configObj.socketHost = process.env.API_SOCK_URL || 'https://api-staging-codenow.runnableapp.com/';
         configObj.userContentDomain = process.env.USER_CONTENT_DOMAIN || 'runnableapp.com';
 
         if (configObj.host.charAt(configObj.host.length - 1) === '/') {

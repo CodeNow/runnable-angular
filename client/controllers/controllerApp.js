@@ -11,6 +11,7 @@ function ControllerApp(
   $timeout,
   $window,
   configAPIHost,
+  configAPISockHost,
   configEnvironment,
   configLoginURL,
   debounce,
@@ -56,6 +57,7 @@ function ControllerApp(
       instances: null,
       activeAccount: activeAccount,
       configAPIHost: configAPIHost,
+      configAPISockHost: configAPISockHost,
       minimizeNav: false,
       loginURL: configLoginURL(),
       modalError: {
