@@ -4,22 +4,6 @@
 )
   .arrow.white
   .popover-content
-    //- if build files are out of date
-    .well.well-popover.orange.text-center.deprecated(
-        ng-if = "CSBC.instance.configStatusValid && !CSBC.instance.cachedConfigStatus && !$root.featureFlags.newContainerStatusWells"
-    ) This container’s configuration has changed since the current build.
-      button.btn.btn-xs.orange(
-        ng-click = "actions.updateConfigToMatchMaster()"
-      ) Update & Rebuild
-
-    //- if build failed
-    .well.well-popover.red.text-center.deprecated(
-      ng-if = "['buildFailed', 'neverStarted'].includes(CSBC.instance.status()) && !$root.featureFlags.newContainerStatusWells"
-    ) Having build problems? Some errors can be resolved by rebuilding.
-      button.btn.btn-xs.red(
-        ng-click = "actions.rebuildWithoutCache()"
-      ) Rebuild Without Cache
-
     //- hide list if build failed
     ul.popover-list
       li.popover-list-item(
@@ -47,26 +31,19 @@
         ng-if = "!CSBC.instance.isMigrating() && ['running', 'stopped', 'crashed'].includes(CSBC.instance.status())"
       )
 
+      //- this triggers deletedCommitModalView instead of rebuilding if the current commit does not exist.
       li.popover-list-item(
-        ng-click = "actions.rebuildWithoutCache()"
-        ng-if = "!['buildFailed', 'neverStarted'].includes(CSBC.instance.status()) && !$root.featureFlags.deletedCommit || $root.featureFlags.newContainerStatusWells"
-      )
-        .icons-status.orange
-        | Rebuild Without Cache
-
-      //- show instead of the above item if the container's current commit doesn't exist
-      li.popover-list-item(
-        internal-modal-helper = "deletedCommitModalView"
-        ng-if = "$root.featureFlags.deletedCommit"
+        ng-click = "actions.updateConfigToMatchMaster()"
+        ng-if = "!['buildFailed', 'neverStarted'].includes(CSBC.instance.status())"
       )
         .icons-status.orange
         | Rebuild Without Cache
 
     .well.well-popover.orange.text-center(
-      ng-if = "$root.featureFlags.newContainerStatusWells"
+      ng-if = "CSBC.instance.configStatusValid && !CSBC.instance.cachedConfigStatus"
     ) This container’s configuration has been changed. Rebuild to update.
 
     //- only show if the configuration has not been changed
     .well.well-popover.orange.text-center(
-      ng-if = "$root.featureFlags.newContainerStatusWells"
+      ng-if = "['buildFailed', 'neverStarted'].includes(CSBC.instance.status())"
     ) Having build problems? Some errors can be resolved by rebuilding.
