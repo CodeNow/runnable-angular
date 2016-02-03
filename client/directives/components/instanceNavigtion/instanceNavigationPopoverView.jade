@@ -67,7 +67,7 @@
           )
         | Disable Isolation
       li.list-item.popover-list-item(
-        ng-if = "INC.instance.attrs.isolation && !INC.instance.attrs.isIsolationGroupMaster"
+        ng-if = "INC.instance.attrs.isolated && !INC.instance.attrs.isIsolationGroupMaster"
         ng-click = "INC.deleteContainer()"
       )
         svg.iconnables

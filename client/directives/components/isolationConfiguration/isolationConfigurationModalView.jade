@@ -51,6 +51,7 @@
           )
             input.checkbox(
               type = "checkbox"
+              ng-model = "ICMC.instanceCheckboxes[instance.id()]"
             )
             | {{instance.getRepoName()}}
 
@@ -85,6 +86,7 @@
           )
             input.checkbox(
               type = "checkbox"
+              ng-model = "ICMC.instanceCheckboxes[instance.id()]"
             )
             | {{instance.getDisplayName()}}
           //- show on containers that have a backup
@@ -119,6 +121,7 @@
           )
             input.checkbox(
               type = "checkbox"
+              ng-model = "ICMC.instanceCheckboxes[instance.id()]"
             )
             | {{instance.getDisplayName()}}
 

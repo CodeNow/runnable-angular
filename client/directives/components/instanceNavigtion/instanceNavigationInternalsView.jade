@@ -1,0 +1,63 @@
+a.list-item-container(
+  ui-sref = "\
+    base.instances.instance({userName: INC.activeAccount.oauthName(),\
+    instanceName: INC.instance.attrs.name})\
+  "
+  ui-sref-active = "active"
+)
+  status-icon(
+    instance = "INC.instance"
+  )
+  .text-overflow(
+    title = "{{ INC.instance.attrs.isolated && !INC.instance.attrs.isIsolationGroupMaster ? INC.instance.getRepoAndBranchName() : INC.instance.getDisplayName() }}"
+  ) {{ INC.instance.attrs.isolated && !INC.instance.attrs.isIsolationGroupMaster ? INC.instance.getRepoAndBranchName() : INC.instance.getDisplayName() }}
+
+  .btn.btn-xxs.btn-badge.gray(
+    ng-if = "$root.featureFlags.isolationUI && INC.instance.attrs.isIsolationGroupMaster"
+  ) Isolated
+
+  svg.iconnables.icons-overflow(
+    ng-class = "{'active': INC.popoverShown}"
+    ng-if = "\
+      $root.featureFlags.isolationUI\
+      &&\
+      (INC.masterInstance !== INC.instance && INC.instance.getBranchName())\
+      ||\
+      (!INC.instance.attrs.isIsolationGroupMaster && INC.instance.attrs.isolated)\
+    "
+    pop-over
+    pop-over-active = "INC.popoverShown"
+    pop-over-controller = "INC"
+    pop-over-options = "{\"verticallyCentered\":true,\"left\":28}"
+    pop-over-template = "instanceNavigationPopoverView"
+  )
+    use(
+      xlink:href = "#icons-overflow"
+    )
+
+  svg.iconnables.icons-advanced(
+    ng-click="INC.editInstance($event)"
+    ng-if = "$root.featureFlags.editAnyInstance || INC.instance.attrs.masterPod && !INC.instance.getBranchName() && !INC.instance.attrs.isolated"
+    title = "Configure"
+  )
+    use(
+      xlink:href = "#icons-advanced"
+    )
+
+//- list of isolated containers
+.list.list-isolated(
+  ng-if = "$root.featureFlags.isolationUI && INC.shouldExpand && INC.instance.isolation.instances.models.length"
+)
+  div(
+    active-account = "INC.activeAccount"
+    instance = "instance"
+    instance-navigation
+    ng-repeat = "instance in INC.instance.isolation.instances | instanceHasRepo:true"
+  )
+
+  div(
+    active-account = "INC.activeAccount"
+    instance = "instance"
+    instance-navigation
+    ng-repeat = "instance in INC.instance.isolation.instances | instanceHasRepo:false"
+  )

@@ -16,8 +16,6 @@
         xlink:href = "#icons-advanced"
       )
 
-  //- if isolated add .isolated
-  //- if sub item is active add open class.
   div(
     active-account = "CIS.activeAccount"
     instance = "masterInstance"
@@ -30,26 +28,8 @@
     instance = "childInstance"
     instance-navigation
     master-instance = "masterInstance"
-    ng-class = "{'active': branch.selected}"
     ng-repeat = "childInstance in masterInstance.children.models | orderBy: ['attrs.name']"
   )
-
-    //- list of isolated containers
-    ul.list.list-isolated(
-      ng-if = "$root.featureFlags.isolationUI && branch.isolation && branch.selected"
-    )
-      li.list-item(
-        ng-repeat = "container in isolatedContainers"
-      )
-        .list-item-container
-          .icons-status(
-            ng-class = "{'{{container.name}}': true}"
-          )
-          .text-overflow {{container.name}}
-          svg.iconnables.icons-overflow.icons-overflow-isolated
-            use(
-              xlink:href = "#icons-overflow"
-            )
 
   //- if default container is not running or if no admin is present
   //- popover should appear on hover

@@ -7,6 +7,7 @@ function IsolationConfigurationModalController(
   loading,
   createIsolation,
   errs,
+  promisify,
 
   instance,
   close
@@ -17,20 +18,28 @@ function IsolationConfigurationModalController(
   loading.reset('createIsolation');
 
   ICMC.createIsolation = function () {
-    var isolatedChildren = Object.keys(ICMC.instanceBranchMapping)
-      .map(function (key) {
-        var instance = ICMC.instanceBranchMapping[key];
-        return {
-          branch: instance.getBranchName(),
-          repo: instance.getRepoName(),
-          org: instance.attrs.owner.username
-        };
+
+    var isolatedChildren = [];
+    Object.keys(ICMC.instanceCheckboxes).forEach(function (instanceId) {
+      var repoInstance = ICMC.repoInstances.find(function (instance) {
+        return instance.id() === instanceId;
+      });
+      if (repoInstance) {
+        return isolatedChildren.push({
+          branch: repoInstance.getBranchName(),
+          repo: repoInstance.getRepoName(),
+          org: repoInstance.attrs.owner.username
+        });
+      }
+
+      var nonRepoInstance = ICMC.nonRepoInstances.find(function (instance) {
+        return instance.id() === instanceId;
       });
 
-    ICMC.nonRepoInstances.forEach(function (instance) {
-      isolatedChildren.push(instance.id());
+      if (nonRepoInstance) {
+        return isolatedChildren.push({instance: nonRepoInstance.id()});
+      }
     });
-
     loading('createIsolation', true);
     createIsolation(ICMC.instance, isolatedChildren)
       .then(function () {
@@ -38,12 +47,18 @@ function IsolationConfigurationModalController(
       })
       .catch(errs.handler)
       .finally(function () {
-        loading('createIsolation', false);
+        promisify(ICMC.instance, 'fetch')()
+          .then(function () {
+            return promisify(ICMC.instance.isolation.instances, 'fetch')();
+          })
+          .finally(function () {
+            loading('createIsolation', false);
+          });
       });
   };
 
   ICMC.instanceBranchMapping = {};
-
+  ICMC.instanceCheckboxes = {};
 
   fetchInstancesByPod()
     .then(function (instances) {
