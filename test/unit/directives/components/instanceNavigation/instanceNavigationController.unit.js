@@ -9,7 +9,7 @@ var $q;
 var keypather;
 var $timeout;
 
-describe.only('InstanceNavigationController'.bold.underline.blue, function () {
+describe('InstanceNavigationController'.bold.underline.blue, function () {
   var instanceNavigationController;
   var promisifyStub;
   var mockInstance;
