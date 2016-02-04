@@ -50,7 +50,10 @@
           .btn.btn-sm.btn-block.green(
             ng-click = "INC.setupIsolation()"
           ) Enter Isolation
-            //- only show this if service containers exist
+            //- while we can only isolate with service containers:
+              - only show this if service containers exist
+            //- once we can isolate with service containers and repo containers:
+              - only show this if service containers or *other* repo containers exist
             span(
               ng-if = "true"
             ) …
