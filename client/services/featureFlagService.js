@@ -39,7 +39,8 @@ function featureFlags(
     webhooksAdminPresent: false,
     webhooksContainerRunning: false,
     webhooks: false,
-    whitelist: false
+    whitelist: false,
+    whitelistIpFiltering: false
   };
 
   var _featureFlags = {};
