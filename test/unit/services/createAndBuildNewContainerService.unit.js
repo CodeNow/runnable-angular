@@ -1,10 +1,7 @@
 'use strict';
 
-var $controller,
-    $rootScope,
-    $scope,
-    $q,
-    $timeout;
+var $rootScope;
+var $q;
 var keypather;
 var apiMocks = require('../apiMocks/index');
 var runnable = window.runnable;
@@ -86,7 +83,7 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
       setup();
       $rootScope.$digest();
       var instance = runnable.newInstance(
-        apiMocks.instances.running,
+        apiMocks.instances.running.name,
         {noStore: true}
       );
       var instances = {
@@ -120,6 +117,75 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
       $rootScope.$digest();
       sinon.assert.calledOnce(ctx.helpCards.refreshAllCards);
     });
+
+    it('should create a server with isolation', function () {
+      setup();
+      $rootScope.$digest();
+      var isolation = {
+        id: sinon.stub().returns('1234'),
+        instances: {
+          add: sinon.stub()
+        }
+      }
+      var build = {
+        id: 'fakeBuild'
+      }
+      var fakeServerModal = {
+        opts: {
+          name: 'newName',
+          owner: {
+            username: ctx.fakeOrg1.oauthName()
+          }
+        },
+        build: build
+      };
+      var instance = runnable.newInstance(
+        apiMocks.instances.running.name,
+        {noStore: true},
+        { isolation: isolation }
+      );
+      var instances = {
+        add: sinon.spy()
+      };
+      ctx.fakeUser.newInstance = sinon.spy(function () {
+        return instance;
+      });
+      keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.fakeOrg1);
+      createAndBuildNewContainer($q.when(fakeServerModal), 'newName', {
+        isolation: isolation
+      });
+      $rootScope.$digest();
+
+      fetchInstancesByPodMock.triggerPromise(instances);
+      $rootScope.$digest();
+
+      sinon.assert.calledWith(ctx.fakeUser.newInstance, {
+        name: 'newName',
+        owner: {
+          username: ctx.fakeOrg1.oauthName()
+        }
+      }, { warn: false });
+
+      sinon.assert.calledOnce(ctx.helpCards.hideActiveCard);
+      sinon.assert.calledOnce(ctx.eventTracking.triggeredBuild);
+
+      createNewInstanceMock.triggerPromise(instance);
+      $rootScope.$digest();
+
+      sinon.assert.calledOnce(ctx.helpCards.refreshAllCards);
+
+      sinon.assert.calledOnce(createNewInstanceMock.getFetchSpy());
+      sinon.assert.calledWith(createNewInstanceMock.getFetchSpy(), ctx.fakeOrg1, build, {
+        name: 'newName',
+        owner: {
+          username: ctx.fakeOrg1.oauthName()
+        },
+        isIsolationGroupMaster: false,
+        isolated: '1234'
+      });
+      sinon.assert.calledOnce(isolation.instances.add);
+      sinon.assert.calledOnce(isolation.id);
+    });
   });
 
   describe('failures', function () {
@@ -127,7 +193,7 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
       setup();
       $rootScope.$digest();
       var instance = runnable.newInstance(
-        apiMocks.instances.running,
+        apiMocks.instances.running.name,
         {noStore: true}
       );
       instance.dealloc = sinon.spy();
@@ -163,7 +229,7 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
       setup();
       $rootScope.$digest();
       var instance = runnable.newInstance(
-        apiMocks.instances.running,
+        apiMocks.instances.running.name,
         {noStore: true}
       );
       sinon.stub(instance, 'dealloc');
