@@ -10,7 +10,10 @@
         )
     section.modal-body
       .well.in.gray.small.text-center
+        //- while we can only isolate with service containers:
         | Select containers to create and isolate with&#32;
+        //- once we can isolate with service containers and repo containers:
+          - | Selected containers will be isolated with&#32;
         .text-overflow(
           ng-attr-title = "{{ICMC.instance.getRepoName()}}/{{ICMC.instance.getBranchName()}}"
         ) {{ICMC.instance.getRepoName()}}/{{ICMC.instance.getBranchName()}}.
