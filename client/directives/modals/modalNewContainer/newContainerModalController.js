@@ -22,7 +22,10 @@ function NewContainerModalController(
     ModalService.showModal({
       controller: 'SetupTemplateModalController',
       controllerAs: 'STMC',
-      templateUrl: 'setupTemplateModalView'
+      templateUrl: 'setupTemplateModalView',
+      inputs: {
+        isolation: null
+      }
     });
   };
 }

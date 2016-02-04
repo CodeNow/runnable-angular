@@ -93,8 +93,14 @@ function InstanceNavigationController(
 
   INC.addContainerToIsolation = function () {
     $rootScope.$broadcast('close-popovers');
-    // TODO: Implement
-    console.log('Add container to isolation');
+    ModalService.showModal({
+      controller: 'SetupTemplateModalController',
+      controllerAs: 'STMC',
+      templateUrl: 'setupTemplateModalView',
+      inputs: {
+        isolation: INC.instance.isolation
+      }
+    });
   };
 
   INC.deleteContainer = function () {

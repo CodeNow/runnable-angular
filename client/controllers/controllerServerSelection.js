@@ -80,11 +80,11 @@ function serverSelection (
 
   $scope.fork = function(instance) {
     copyCv(instance, function (build) {
-      var name = getNewForkName(instance, allInstances);
+      var name = getNewForkName(instance.attrs.name, allInstances);
       instance.copy({
         build: build.id(),
         name: name
-      }, function(err) {
+      }, function (err) {
         if (err) { return errs.handler(err); }
         $state.go('base.instances.instance', {
           userName: $stateParams.userName,
