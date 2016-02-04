@@ -273,6 +273,17 @@
     background: $gray-lightest;
   }
 
+  // warning text
+  .small-warning {
+    margin: 15px 0 0 9px;
+
+    .iconnables {
+      height: 15px;
+      margin-right: 3px;
+      width: 15px;
+    }
+  }
+
   // **********
   // end styles
   // **********

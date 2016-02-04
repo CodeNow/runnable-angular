@@ -7,8 +7,15 @@
         type = "checkbox"
       )
       .toggle-group.toggle-sm
-    .small.strong Restrict Access
+    .strong.text-gray Restrict Access
     small.small Restrict access to this container so only your organization can access it.
+  small.small.text-gray.small-warning
+    svg.iconnables.float-left
+      use(
+        xlink:href = "#icons-alert"
+      )
+    | Restrictions for isolated branches are inherited from the default branch.
+
 .label.slide.js-animate(
   ng-if = "WFC.whitelistEnabled && $root.featureFlags.whitelistIpFiltering"
 )
