@@ -52,12 +52,12 @@ a.list-item-container(
     active-account = "INC.activeAccount"
     instance = "instance"
     instance-navigation
-    ng-repeat = "instance in INC.instance.isolation.instances | instanceHasRepo:true"
+    ng-repeat = "instance in INC.instance.isolation.instances | instanceHasRepo:true | orderBy: ['attrs.name']"
   )
 
   div(
     active-account = "INC.activeAccount"
     instance = "instance"
     instance-navigation
-    ng-repeat = "instance in INC.instance.isolation.instances | instanceHasRepo:false"
+    ng-repeat = "instance in INC.instance.isolation.instances | instanceHasRepo:false | orderBy: ['attrs.name']"
   )
