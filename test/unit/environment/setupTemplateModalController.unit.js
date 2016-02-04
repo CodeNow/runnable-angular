@@ -6,7 +6,6 @@ var $rootScope;
 var $scope;
 var $compile;
 var $q;
-var apiMocks = require('../apiMocks/index');
 
 describe('SetupTemplateModalController'.bold.underline.blue, function () {
   var setupTemplateModalController;
@@ -123,7 +122,7 @@ describe('SetupTemplateModalController'.bold.underline.blue, function () {
   describe('basics'.blue, function () {
     beforeEach(setup);
     it('should exist', function () {
-      expect(setupTemplateModalController, 'readOnlySwitchController').to.be.ok;
+      expect(setupTemplateModalController, 'setupTemplateModalController').to.be.ok;
     });
   });
 

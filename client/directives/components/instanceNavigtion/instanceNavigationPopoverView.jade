@@ -27,7 +27,7 @@
     ul.list.popover-list
       li.list-item.popover-list-item(
         ng-if = "INC.instance.attrs.isolated"
-        ng-click = "INC.configureContainer()"
+        ng-click = "INC.editInstance($event)"
       )
         svg.iconnables
           use(

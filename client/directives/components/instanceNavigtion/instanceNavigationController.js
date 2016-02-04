@@ -53,22 +53,6 @@ function InstanceNavigationController(
     });
   };
 
-  INC.configureContainer = function () {
-    $rootScope.$broadcast('close-popovers');
-
-    ModalService.showModal({
-      controller: 'EditServerModalController',
-      controllerAs: 'SMC',
-      templateUrl: 'editServerModalView',
-      inputs: {
-        tab: keypather.get(INC.instance, 'contextVersion.attrs.advanced') ? 'env' : 'repository',
-        instance: INC.instance,
-        actions: {}
-      }
-    })
-      .catch(errs.handler);
-  };
-
   INC.disableIsolation = function () {
     $rootScope.$broadcast('close-popovers');
 
@@ -122,6 +106,7 @@ function InstanceNavigationController(
   };
 
   this.editInstance = function (event) {
+    $rootScope.$broadcast('close-popovers');
     event.stopPropagation();
     event.preventDefault();
     ModalService.showModal({
