@@ -49,7 +49,11 @@
           li.list-item Configure this branch differently from your default.
           .btn.btn-sm.btn-block.green(
             ng-click = "INC.setupIsolation()"
-          ) Set Up Isolation
+          ) Enter Isolation
+            //- only show this if service containers exist
+            span(
+              ng-if = "true"
+            ) …
 
       li.list-item.popover-list-item(
         ng-if = "INC.instance.attrs.isIsolationGroupMaster"
