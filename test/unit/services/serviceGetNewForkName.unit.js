@@ -35,19 +35,19 @@ describe('serviceGetNewForkName'.bold.underline.blue, function () {
   });
   describe('basic operations'.blue, function () {
     it('should just return base -copy name with a null collection of instances', function () {
-      var result = getNewForkName(instances.models[0], null);
+      var result = getNewForkName(instances.models[0].attrs.name, null);
       expect(result).to.equal('instance-copy', true);
     });
     it('should just return base -copy name with no instances matching', function () {
-      var result = getNewForkName(instances.models[0], instances);
+      var result = getNewForkName(instances.models[0].attrs.name, instances);
       expect(result).to.equal('instance-copy', true);
     });
     it('should try to make a name 3 times before getting instance2-copy3', function () {
-      var result = getNewForkName(instances.models[1], instances);
+      var result = getNewForkName(instances.models[1].attrs.name, instances);
       expect(result).to.equal('instance2-copy3', true);
     });
     it('should just add -copy on top of the already added copy', function () {
-      var result = getNewForkName(instances.models[2], instances);
+      var result = getNewForkName(instances.models[2].attrs.name, instances);
       expect(result).to.equal('instance2-copy-copy', true);
     });
   });
