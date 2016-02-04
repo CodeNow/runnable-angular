@@ -23,11 +23,13 @@ function ServerModalController(
 ) {
   this.requiresRedeploy = function () {
     return !!this.instance && (!angular.equals(
-      keypather.get(this, 'instance.attrs.env'),
-      keypather.get(this, 'state.opts.env')
+      keypather.get(this, 'instance.attrs.env') || [],
+      keypather.get(this, 'state.opts.env') // this is pre-filled with a default of []
     ) || !angular.equals(
-      keypather.get(this, 'instance.attrs.ipWhitelist'),
-      keypather.get(this, 'state.opts.ipWhitelist')
+      keypather.get(this, 'instance.attrs.ipWhitelist') || {
+        enabled: false
+      },
+      keypather.get(this, 'state.opts.ipWhitelist') // this is pre-filled with a default of { enabled: false }
     ));
   };
 

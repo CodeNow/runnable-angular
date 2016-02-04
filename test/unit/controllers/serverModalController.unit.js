@@ -355,16 +355,42 @@ describe('serverModalController'.bold.underline.blue, function () {
   });
 
   describe('requiresRedeploy', function () {
-
     beforeEach(function () {
       setup({
         currentModel: ctx.instance,
         selectedTab: 'env'
       });
+
+      keypather.set(SMC, 'state.opts', {
+        env: [],
+        ipWhitelist: {
+          enabled: false
+        }
+      });
     });
 
     it('should alwauys be false when there is no instance', function () {
       SMC.instance = null;
+      $scope.$digest();
+      expect(SMC.requiresRedeploy(), 'requiresRedeploy').to.be.false;
+    });
+
+    it('should be false when the instance is missing the whitelist field', function () {
+      SMC.instance = {
+        env: []
+      };
+      $scope.$digest();
+      expect(SMC.requiresRedeploy(), 'requiresRedeploy').to.be.false;
+    });
+
+    it('should be false when the instance is missing the env field', function () {
+      SMC.instance = {
+        attrs: {
+          ipWhitelist: {
+            enabled: false
+          }
+        }
+      };
       $scope.$digest();
       expect(SMC.requiresRedeploy(), 'requiresRedeploy').to.be.false;
     });
@@ -375,11 +401,6 @@ describe('serverModalController'.bold.underline.blue, function () {
           env: ['asdasd']
         }
       };
-      SMC.state = {
-        opts: {
-          env: ['3423423fdasf']
-        }
-      };
       $scope.$digest();
       expect(SMC.requiresRedeploy(), 'requiresRedeploy').to.be.true;
     });
@@ -387,14 +408,9 @@ describe('serverModalController'.bold.underline.blue, function () {
     it('should be true when the ipWhitelist doesnt match ', function () {
       SMC.instance = {
         attrs: {
-          env: ['asdasd']
-        }
-      };
-      SMC.state = {
-        opts: {
           env: ['asdasd'],
           ipWhitelist: {
-            enable: false
+            enable: true
           }
         }
       };
