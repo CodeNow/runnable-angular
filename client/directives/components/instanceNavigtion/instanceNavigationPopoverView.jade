@@ -42,11 +42,21 @@
       )
         p.p Isolating a branch allows you to…
         ul.list.list-bulleted.small
-          li.list-item Create a separate stack of your containers to use with this branch.
+          //- while we can only isolate with service containers:
+          li.list-item Copy your service containers to use with this branch.
+          //- once we can isolate with service containers and repo containers:
+            - li.list-item Create a separate stack of your containers to use with this branch.
           li.list-item Configure this branch differently from your default.
           .btn.btn-sm.btn-block.green(
             ng-click = "INC.setupIsolation()"
-          ) Set Up Isolation
+          ) Enter Isolation
+            //- while we can only isolate with service containers:
+              - only show this if service containers exist
+            //- once we can isolate with service containers and repo containers:
+              - only show this if service containers or *other* repo containers exist
+            span(
+              ng-if = "true"
+            ) …
 
       li.list-item.popover-list-item(
         ng-if = "INC.instance.attrs.isIsolationGroupMaster"
