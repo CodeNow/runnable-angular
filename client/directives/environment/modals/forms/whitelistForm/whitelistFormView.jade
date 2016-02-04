@@ -9,14 +9,6 @@
       .toggle-group.toggle-sm
     .strong.text-gray Restrict Access
     small.small Restrict access to this container so only your organization can access it.
-  small.small.text-gray.small-warning(
-    ng-if = "WFC.isIsolationGroupMaster"
-  )
-    svg.iconnables.float-left
-      use(
-        xlink:href = "#icons-alert"
-      )
-    | Restrictions for isolated branches are inherited from the default branch.
 
 .label.slide.js-animate(
   ng-if = "WFC.whitelistEnabled && $root.featureFlags.whitelistIpFiltering"
