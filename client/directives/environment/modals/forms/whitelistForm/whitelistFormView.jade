@@ -2,6 +2,7 @@
   .well.in.gray.clearfix
     label.toggle-wrapper.float-right
       input.toggle-input(
+        ng-disabled = "WFC.isIsolationGroupMaster"
         ng-model = "WFC.whitelist.enabled"
         type = "checkbox"
       )
