@@ -10,20 +10,19 @@
         )
     section.modal-body
       .well.in.gray.small.text-center
-        | Selected containers will be created to isolate&#32;
+        | Select containers to create and isolate with&#32;
         .text-overflow(
           ng-attr-title = "{{ICMC.instance.getRepoName()}}/{{ICMC.instance.getBranchName()}}"
         ) {{ICMC.instance.getRepoName()}}/{{ICMC.instance.getBranchName()}}.
 
       //- repository containers
-      h4.h4(
-        ng-if = "ICMC.repoInstances.length"
-      ) Repository Containers
-
+        - h4.h4(
+        -   ng-if = "ICMC.repoInstances.length"
+        - ) Repository Containers
       //- list in alphabetical order
-      .list.list-bordered(
-        ng-if = "ICMC.repoInstances.length"
-      )
+        - .list.list-bordered(
+        -   ng-if = "ICMC.repoInstances.length"
+        - )
         .list-item
           label.text-overflow(
             title = "{{ICMC.instance.getRepoName()}}"
@@ -72,12 +71,12 @@
           //- small.small Branch uses a modified configuration
 
       //- database containers
-      h4.h4(
-        ng-if = "ICMC.nonRepoInstances.length && $root.featureFlags.backup"
-      ) Database Containers
-      .list.list-bordered(
-        ng-if = "ICMC.nonRepoInstances.length && $root.featureFlags.backup"
-      )
+        - h4.h4(
+        -   ng-if = "ICMC.nonRepoInstances.length && $root.featureFlags.backup"
+        - ) Database Containers
+        - .list.list-bordered(
+        -   ng-if = "ICMC.nonRepoInstances.length && $root.featureFlags.backup"
+        - )
         .list-item(
           ng-repeat = "instance in ICMC.nonRepoInstances"
         )
@@ -105,9 +104,6 @@
             -   tooltip-options = "{\"class\":\"left\",\"right\":80,\"top\":-9}"
             - ) No Backups
 
-      h4.h4(
-        ng-if = "ICMC.nonRepoInstances.length"
-      ) Other Containers
       //- before b&r feature: all service containers
         - after b&r feature: service containers that aren't databases
       .list.list-bordered(
