@@ -11,7 +11,8 @@ function InstanceNavigationController(
   $timeout,
   $state,
   fetchInstancesByPod,
-  createIsolation
+  createIsolation,
+  $location
 ) {
   var INC = this;
   INC.shouldExpand = false;
@@ -67,6 +68,7 @@ function InstanceNavigationController(
     } else {
       createIsolation(INC.instance, [])
         .then(function () {
+          $location.path('/' + INC.instance.attrs.owner.username + '/' + INC.instance.attrs.name);
           promisify(INC.instance, 'fetch')()
             .then(function () {
               promisify(INC.instance.isolation.instances, 'fetch')();
