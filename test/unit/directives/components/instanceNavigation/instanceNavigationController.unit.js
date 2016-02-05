@@ -188,7 +188,7 @@ describe('InstanceNavigationController'.bold.underline.blue, function () {
       beforeEach(function () {
         mockInstance.attrs.isIsolationGroupMaster = false;
       });
-      it('should should expand if the url matches', function () {
+      it('should not expand if the url matches', function () {
         mockState.params.instanceName = mockInstance.attrs.name;
         setup();
         expect(instanceNavigationController.shouldExpand).to.equal(true);
