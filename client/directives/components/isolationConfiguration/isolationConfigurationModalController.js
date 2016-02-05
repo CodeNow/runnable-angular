@@ -8,6 +8,7 @@ function IsolationConfigurationModalController(
   createIsolation,
   errs,
   promisify,
+  $location,
 
   instance,
   close
@@ -43,6 +44,7 @@ function IsolationConfigurationModalController(
     loading('createIsolation', true);
     createIsolation(ICMC.instance, isolatedChildren)
       .then(function () {
+        $location.path('/' + ICMC.instance.attrs.owner.username + '/' + ICMC.instance.attrs.name);
         ICMC.close();
       })
       .catch(errs.handler)
