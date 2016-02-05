@@ -46,6 +46,7 @@ function EditServerModalController(
     'openDockerfile': parentController.openDockerfile.bind(SMC),
     'populateStateFromData': parentController.populateStateFromData.bind(SMC),
     'rebuildAndOrRedeploy': parentController.rebuildAndOrRedeploy.bind(SMC),
+    'requiresRedeploy': parentController.requiresRedeploy.bind(SMC),
     'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
     'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
     'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC)
@@ -61,7 +62,10 @@ function EditServerModalController(
     state:  {
       ports: [],
       opts: {
-        env: keypather.get(instance, 'attrs.env') || []
+        env: keypather.get(instance, 'attrs.env') || [],
+        ipWhitelist: angular.copy(keypather.get(instance, 'attrs.ipWhitelist')) || {
+          enabled: false
+        }
       },
       promises: {},
       instance: instance,

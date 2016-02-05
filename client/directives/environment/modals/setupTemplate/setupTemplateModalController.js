@@ -31,7 +31,10 @@ function SetupTemplateModalController(
         var serverModel = {
           opts: {
             name: serverName,
-            masterPod: true
+            masterPod: true,
+            ipWhitelist: {
+              enabled: true
+            }
           }
         };
         close();

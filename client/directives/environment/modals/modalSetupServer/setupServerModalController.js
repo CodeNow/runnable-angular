@@ -42,6 +42,7 @@ function SetupServerModalController(
     'openDockerfile': parentController.openDockerfile.bind(SMC),
     'populateStateFromData': parentController.populateStateFromData.bind(SMC),
     'rebuildAndOrRedeploy': parentController.rebuildAndOrRedeploy.bind(SMC),
+    'requiresRedeploy': parentController.requiresRedeploy.bind(SMC),
     'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
     'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
     'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC)
@@ -86,7 +87,10 @@ function SetupServerModalController(
       opts: {
         masterPod: true,
         name: '',
-        env: []
+        env: [],
+        ipWhitelist: {
+          enabled: false
+        }
       },
       selectedStack: null,
       step: 1,
@@ -279,7 +283,8 @@ function SetupServerModalController(
         SMC.state.instance = instance;
         // Reset the opts, in the same way as `EditServerModalController`
         SMC.state.opts  = {
-          env: keypather.get(instance, 'attrs.env') || []
+          env: keypather.get(instance, 'attrs.env') || [],
+          ipWhitelist: angular.copy(keypather.get(instance, 'attrs.ipWhitelist'))
         };
         return instance;
       }

@@ -11,7 +11,8 @@ function ipWhitelistDirective() {
     controllerAs: 'WFC',
     bindToController: true,
     scope: {
-      whitelist: '='
+      whitelist: '=',
+      isIsolationGroupMaster: '='
     },
     link: function ($scope, elem, attrs) {
       $scope.state = {

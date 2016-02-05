@@ -285,6 +285,9 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         },
         owner: {
           username: 'orgName'
+        },
+        ipWhitelist: {
+          enabled: false
         }
       },
       getRepoName: sinon.stub().returns('mainRepo'),
@@ -693,6 +696,17 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       SMC.state.contextVersion = {};
       SMC.actions.createAndBuild = sinon.stub().returns($q.when(newBuild));
       SMC.actions.deleteServer = sinon.stub().returns($q.when(true));
+      SMC.instance = {
+        attrs: {
+          env: [],
+          ipWhitelist: {
+            enabled: false
+          }
+        },
+        status: function () {
+          return 'running';
+        }
+      };
       createNewBuildMock.returns(newBuild);
     });
 
@@ -712,6 +726,9 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       });
 
       it('should be dirty when an ENV variables has changes', function () {
+        SMC.instance.status = function () {
+          return 'running';
+        };
         expect(SMC.isDirty()).to.equal(false);
         SMC.state.opts.env.push('HELLO=1');
         expect(SMC.isDirty()).to.equal('update');
@@ -719,10 +736,8 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
       it('should be dirty when an ENV variables has changes, and the instance.status is building', function () {
         expect(SMC.isDirty()).to.equal(false);
-        SMC.instance = {
-          status: function () {
-            return 'building';
-          }
+        SMC.instance.status = function () {
+          return 'building';
         };
         SMC.state.opts.env.push('HELLO=1');
         expect(SMC.isDirty()).to.equal('build');

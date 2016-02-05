@@ -221,7 +221,9 @@ describe('editServerModalController'.bold.underline.blue, function () {
           }),
           clear: sinon.spy(),
           start: sinon.stub().returnsArg(1),
-          count: sinon.stub().returns(0),
+          count: sinon.spy(function () {
+            return ctx.loadingPromiseFinishedValue;
+          }),
           finished: sinon.spy(function () {
             return $q.when(ctx.loadingPromiseFinishedValue);
           })
@@ -826,7 +828,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
     ctx.loadingPromiseMock.finished = function () {
       return $q.reject(error);
     };
-    ctx.loadingPromiseMock.count.returns(0);
+    ctx.loadingPromiseFinishedValue = 0;
     ctx.loadingPromiseMock.add.reset();
     ctx.loadingPromiseMock.clear.reset();
     sinon.stub(SMC, 'resetStateContextVersion').returns($q.when(true));
@@ -874,7 +876,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
     sinon.stub(ctx.instance, 'update', function (opts, cb) {
       return cb(error);
     });
-    ctx.loadingPromiseMock.count.returns(2);
     ctx.loadingPromiseMock.add.reset();
     ctx.loadingPromiseMock.clear.reset();
     sinon.stub(SMC, 'resetStateContextVersion').returns($q.when(true));

@@ -135,6 +135,9 @@
     "id": "542c5c069322872e00bd3a5b"
   }],
   "env": [],
+  "ipWhitelist": {
+    "enabled": false
+  },
   "created": "2014-09-30T17:45:20.601Z",
   "public": false,
   "id": "542aec309322872e00bd390d"
