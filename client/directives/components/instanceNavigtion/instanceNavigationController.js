@@ -9,7 +9,9 @@ function InstanceNavigationController(
   keypather,
   promisify,
   $timeout,
-  $state
+  $state,
+  fetchInstancesByPod,
+  createIsolation
 ) {
   var INC = this;
   INC.shouldExpand = false;
@@ -40,17 +42,38 @@ function InstanceNavigationController(
   });
   processContainers();
 
+  INC.shouldShowSetupModal = null;
+
+  fetchInstancesByPod()
+    .then(function (instances) {
+      var nonRepoInstances = instances.filter(function (instance) {
+        return instance.getRepoName();
+      });
+      INC.shouldShowSetupModal = nonRepoInstances.length > 0;
+    });
+
   INC.setupIsolation = function () {
     $rootScope.$broadcast('close-popovers');
 
-    ModalService.showModal({
-      controller: 'IsolationConfigurationModalController',
-      controllerAs: 'ICMC',
-      templateUrl: 'isolationConfigurationModalView',
-      inputs: {
-        instance: INC.instance
-      }
-    });
+    if (INC.shouldShowSetupModal) {
+      ModalService.showModal({
+        controller: 'IsolationConfigurationModalController',
+        controllerAs: 'ICMC',
+        templateUrl: 'isolationConfigurationModalView',
+        inputs: {
+          instance: INC.instance
+        }
+      });
+    } else {
+      createIsolation(INC.instance, [])
+        .then(function () {
+          promisify(INC.instance, 'fetch')()
+            .then(function () {
+              promisify(INC.instance.isolation.instances, 'fetch')();
+            });
+        })
+        .catch(errs.handler);
+    }
   };
 
   INC.configureContainer = function () {
