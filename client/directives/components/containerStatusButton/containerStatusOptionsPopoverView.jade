@@ -31,9 +31,14 @@
         ng-if = "!CSBC.instance.isMigrating() && ['running', 'stopped', 'crashed'].includes(CSBC.instance.status())"
       )
 
-      //- this triggers deletedCommitModalView instead of rebuilding if the current commit does not exist.
+      //- rebuild without cache when no new config exists for this container
       li.popover-list-item(
-        ng-click = "actions.updateConfigToMatchMaster()"
+        ng-click = "\
+          (CSBC.instance.configStatusValid && !CSBC.instance.cachedConfigStatus) ? \
+          actions.updateConfigToMatchMaster() : \
+          actions.rebuildWithoutCache() \
+        "
+        ng-if = "!CSBC.instance.configStatusValid && !CSBC.instance.cachedConfigStatus"
       )
         .icons-status.orange
         | Rebuild Without Cache
