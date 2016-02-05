@@ -11,7 +11,8 @@ function InstanceNavigationController(
   $timeout,
   $state,
   fetchInstancesByPod,
-  createIsolation
+  createIsolation,
+  $location
 ) {
   var INC = this;
   INC.shouldExpand = false;
@@ -20,7 +21,7 @@ function InstanceNavigationController(
         !INC.instance.attrs.isIsolationGroupMaster ||
         keypather.get($state, 'params.instanceName.split(\'--\')[0]') !== INC.instance.attrs.shortHash &&
         $state.params.instanceName !== INC.instance.attrs.name) {
-      INC.shouldExpand = false;
+      INC.shouldExpand = $state.params.instanceName === INC.instance.attrs.name && INC.instance.attrs.isIsolationGroupMaster !== false;
       return;
     }
     if (!keypather.get(INC, 'instance.isolation.instances')) {
@@ -47,7 +48,7 @@ function InstanceNavigationController(
   fetchInstancesByPod()
     .then(function (instances) {
       var nonRepoInstances = instances.filter(function (instance) {
-        return instance.getRepoName();
+        return !instance.getRepoName();
       });
       INC.shouldShowSetupModal = nonRepoInstances.length > 0;
     });
@@ -67,6 +68,7 @@ function InstanceNavigationController(
     } else {
       createIsolation(INC.instance, [])
         .then(function () {
+          $location.path('/' + INC.instance.attrs.owner.username + '/' + INC.instance.attrs.name);
           promisify(INC.instance, 'fetch')()
             .then(function () {
               promisify(INC.instance.isolation.instances, 'fetch')();
@@ -74,22 +76,6 @@ function InstanceNavigationController(
         })
         .catch(errs.handler);
     }
-  };
-
-  INC.configureContainer = function () {
-    $rootScope.$broadcast('close-popovers');
-
-    ModalService.showModal({
-      controller: 'EditServerModalController',
-      controllerAs: 'SMC',
-      templateUrl: 'editServerModalView',
-      inputs: {
-        tab: keypather.get(INC.instance, 'contextVersion.attrs.advanced') ? 'env' : 'repository',
-        instance: INC.instance,
-        actions: {}
-      }
-    })
-      .catch(errs.handler);
   };
 
   INC.disableIsolation = function () {
@@ -116,8 +102,14 @@ function InstanceNavigationController(
 
   INC.addContainerToIsolation = function () {
     $rootScope.$broadcast('close-popovers');
-    // TODO: Implement
-    console.log('Add container to isolation');
+    ModalService.showModal({
+      controller: 'SetupTemplateModalController',
+      controllerAs: 'STMC',
+      templateUrl: 'setupTemplateModalView',
+      inputs: {
+        isolation: INC.instance.isolation
+      }
+    });
   };
 
   INC.deleteContainer = function () {
@@ -139,6 +131,7 @@ function InstanceNavigationController(
   };
 
   this.editInstance = function (event) {
+    $rootScope.$broadcast('close-popovers');
     event.stopPropagation();
     event.preventDefault();
     ModalService.showModal({

@@ -15,7 +15,9 @@ function SetupTemplateModalController(
   errs,
   fetchInstances,
   getNewForkName,
-  close
+  promisify,
+  close,
+  isolation
 ) {
   var STMC = this;
   fetchInstances({ githubUsername: 'HelloRunnable' })
@@ -25,9 +27,19 @@ function SetupTemplateModalController(
     .catch(errs.handler);
   this.close = close;
   this.addServerFromTemplate = function (sourceInstance) {
-    return fetchInstances()
+    var instancesPromise = null;
+    var instanceToForkName = sourceInstance.attrs.name;
+    if (isolation && isolation.instances) {
+      instancesPromise = promisify(isolation.instances, 'fetch')();
+      instanceToForkName = isolation.groupMaster.attrs.shortHash + '--' + instanceToForkName;
+    } else {
+      instancesPromise = fetchInstances();
+    }
+
+    close();
+    return instancesPromise
       .then(function (instances) {
-        var serverName = getNewForkName(sourceInstance, instances, true);
+        var serverName = getNewForkName(instanceToForkName, instances, true);
         var serverModel = {
           opts: {
             name: serverName,
@@ -37,7 +49,6 @@ function SetupTemplateModalController(
             }
           }
         };
-        close();
         return createAndBuildNewContainer(
           copySourceInstance(
             $rootScope.dataApp.data.activeAccount,
@@ -48,7 +59,8 @@ function SetupTemplateModalController(
               serverModel.build = build;
               return serverModel;
             }),
-          serverName
+          serverName,
+          { isolation: isolation }
         );
       })
       .catch(errs.handler);

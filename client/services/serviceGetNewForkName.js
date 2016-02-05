@@ -4,8 +4,8 @@ require('app')
   .factory('getNewForkName', getNewForkName);
 
 function getNewForkName() {
-  return function (instanceToFork, instances, noCopy) {
-    var newForkName = instanceToFork.attrs.name + (noCopy ? '' : '-copy');
+  return function (instanceName, instances, noCopy) {
+    var newForkName = instanceName + (noCopy ? '' : '-copy');
     if (!instances || !instances.models.length) { return newForkName; }
     var numeral = 1;
     function checkInstanceName(instance) {
@@ -13,7 +13,7 @@ function getNewForkName() {
       return (instance.attrs.name.toLowerCase() === nameToCheck.toLowerCase());
     }
     while (instances.models.some(checkInstanceName)) {
-      numeral++;
+      numeral += 1;
     }
     return (numeral > 1) ? newForkName + numeral : newForkName;
   };
