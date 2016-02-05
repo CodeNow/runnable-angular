@@ -191,7 +191,7 @@ describe('InstanceNavigationController'.bold.underline.blue, function () {
       it('should not expand if the url matches', function () {
         mockState.params.instanceName = mockInstance.attrs.name;
         setup();
-        expect(instanceNavigationController.shouldExpand).to.equal(true);
+        expect(instanceNavigationController.shouldExpand).to.equal(false);
         sinon.assert.notCalled(mockInstance.isolation.instances.fetch);
       });
       it('should should not expand if the url does not match', function () {
