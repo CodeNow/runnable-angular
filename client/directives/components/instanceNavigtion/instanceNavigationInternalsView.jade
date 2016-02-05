@@ -46,7 +46,7 @@ a.list-item-container(
 
 //- list of isolated containers
 .list.list-isolated(
-  ng-if = "$root.featureFlags.isolationUI && INC.shouldExpand && INC.instance.isolation.instances.models.length"
+  ng-if = "$root.featureFlags.isolationUI && INC.shouldExpand && INC.instance.isolation.instances.models.length && INC.instance.attrs.isIsolationGroupMaster"
 )
   div(
     active-account = "INC.activeAccount"
