@@ -120,10 +120,10 @@ require('app')
 function primus(
   $log,
   $interval,
-  configAPIHost
+  configAPISockHost
 ) {
   // TODO: make idempotent
-  var url = configAPIHost;
+  var url = configAPISockHost;
   var conn = new RunnablePrimus(url);
   conn.$interval = $interval;
 
