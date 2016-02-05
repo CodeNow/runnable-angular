@@ -16,6 +16,10 @@ describe('InstanceNavigationController'.bold.underline.blue, function () {
   var mockState;
   var mockModalService;
   var modalCloseReturn;
+  var locationStub;
+  var createIsolationStub;
+  var fetchInstancesByPodStub;
+  var mockFetchInstancesByPodResults;
 
   function setup() {
     angular.mock.module('app', function ($provide) {
@@ -37,6 +41,19 @@ describe('InstanceNavigationController'.bold.underline.blue, function () {
         };
         return mockModalService;
       });
+      locationStub = {
+        path: sinon.stub()
+      };
+      $provide.value('$location', locationStub);
+      $provide.factory('createIsolation', function ($q) {
+        createIsolationStub = sinon.stub().returns($q.when({id: 'newIsolation'}));
+        return createIsolationStub;
+      });
+      $provide.factory('fetchInstancesByPod', function ($q) {
+        fetchInstancesByPodStub = sinon.stub().returns($q.when(mockFetchInstancesByPodResults));
+        return fetchInstancesByPodStub;
+      });
+
     });
     angular.mock.inject(function (
       _$compile_,
@@ -75,7 +92,10 @@ describe('InstanceNavigationController'.bold.underline.blue, function () {
     mockInstance = {
       attrs: {
         name: 'mockInstanceName',
-        shortHash: 'shortHash'
+        shortHash: 'shortHash',
+        owner: {
+          username: 'Myztiq'
+        }
       }
     };
     mockState = {
@@ -83,14 +103,40 @@ describe('InstanceNavigationController'.bold.underline.blue, function () {
         instanceName: '1234'
       }
     };
+    mockFetchInstancesByPodResults = [
+      {
+        id: 'nonRepo',
+        getRepoName: sinon.stub().returns(null)
+      },
+      {
+        id: 'repo',
+        getRepoName: sinon.stub().returns('repoName')
+      }
+    ];
   });
 
   describe('basics'.blue, function () {
-    beforeEach(setup);
     it('should exist', function () {
+      setup();
       expect(instanceNavigationController, 'instanceNavigationController').to.be.ok;
       sinon.assert.calledOnce($rootScope.$on);
       sinon.assert.calledWith($rootScope.$on, '$stateChangeSuccess', sinon.match.func);
+    });
+    it('should fetch instances by pod and properly set the show setup modal state to true', function () {
+      setup();
+      sinon.assert.calledOnce(fetchInstancesByPodStub);
+      expect(instanceNavigationController.shouldShowSetupModal).to.equal(true);
+    });
+    it('should fetch instances by pod and properly set the show setup modal state to false', function () {
+      mockFetchInstancesByPodResults = [
+        {
+          id: 'repo',
+          getRepoName: sinon.stub().returns('repoName')
+        }
+      ];
+      setup();
+      sinon.assert.calledOnce(fetchInstancesByPodStub);
+      expect(instanceNavigationController.shouldShowSetupModal).to.equal(false);
     });
   });
 
@@ -185,6 +231,26 @@ describe('InstanceNavigationController'.bold.underline.blue, function () {
           instance: mockInstance
         }
       });
+    });
+    it('should immediately create isolation if there are no non-repo containers', function () {
+      setup();
+      mockInstance.isolation = {
+        instances: {
+          fetch: sinon.stub().returns([{id: 'isolatedChild1'}])
+        }
+      };
+      mockInstance.fetch = sinon.stub().returns({id: 'mockInstanceFetch'})
+      instanceNavigationController.shouldShowSetupModal = false;
+      instanceNavigationController.setupIsolation();
+      $scope.$digest();
+      sinon.assert.calledOnce($rootScope.$broadcast);
+      sinon.assert.calledWith($rootScope.$broadcast, 'close-popovers');
+      sinon.assert.calledOnce(createIsolationStub);
+      sinon.assert.calledWith(createIsolationStub, mockInstance, []);
+      sinon.assert.calledOnce(mockInstance.fetch);
+      sinon.assert.calledOnce(mockInstance.isolation.instances.fetch);
+      sinon.assert.calledOnce(locationStub.path);
+      sinon.assert.calledWith(locationStub.path, '/' + mockInstance.attrs.owner.username + '/' + mockInstance.attrs.name);
     });
   });
 

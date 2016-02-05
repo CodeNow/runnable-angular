@@ -48,7 +48,7 @@ function InstanceNavigationController(
   fetchInstancesByPod()
     .then(function (instances) {
       var nonRepoInstances = instances.filter(function (instance) {
-        return instance.getRepoName();
+        return !instance.getRepoName();
       });
       INC.shouldShowSetupModal = nonRepoInstances.length > 0;
     });
