@@ -155,11 +155,13 @@ describe('SetupTemplateModalController'.bold.underline.blue, function () {
           mockNewForkName,
           { isolation: mockIsolation });
         createAndBuildNewContainerStub.lastCall.args[0].then(function (actualResponse) {
-          console.log(actualResponse);
           expect(actualResponse).to.deep.equal({
             opts: {
               name: mockNewForkName,
-              masterPod: true
+              masterPod: true,
+              ipWhitelist: {
+                enabled: true
+              }
             },
             build: mockSourceInstance
           });
