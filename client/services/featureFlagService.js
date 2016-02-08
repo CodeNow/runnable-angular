@@ -21,7 +21,7 @@ function featureFlags(
     intercomOnMigration: false, // adds intercom link to migration message
     internalDebugging: false,
     inviteFlows: false,
-    isolationUI: false, // for isolation UI
+    isolationUI: true, // for isolation UI
     multilineFnR: false,
     nameContainer: false,
     navListFilter: false,
