@@ -238,6 +238,29 @@ module.exports = function(grunt) {
         tasks: ['newer:jade:compile']
       }
     },
+    'compile-handlebars': {
+      index: {
+        files: [{
+          src: 'runnable.com/index.html',
+          dest: 'client/build/index.html'
+        }],
+        templateData: {
+          apiHost: 'api-staging-codenow.runnableapp.com',
+          env: 'staging',
+          commitHash: 'NOT_VALID',
+          commitTime: 'NOT_VALID'
+        },
+      },
+      helpers: {
+        if_eq: function(a, b, opts) {
+          if (a === b) {
+            return opts.fn(this);
+          } else {
+            return opts.inverse(this);
+          }
+        }
+      }
+    },
     bgShell: {
       karma: {
         bg: false,
@@ -529,6 +552,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jade');
   grunt.loadNpmTasks('grunt-newer');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-compile-handlebars');
 
   if (!envIs('production', 'staging')) {
     grunt.loadNpmTasks('grunt-newer');
