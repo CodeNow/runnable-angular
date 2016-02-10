@@ -265,6 +265,10 @@ module.exports = function(grunt) {
       'npm-install': {
         bg: false,
         cmd: 'echo \'installing dependencies...\n\' && npm install --silent'
+      },
+      copyRunnableStatic: {
+        bg: false,
+        cmd: 'cp -R runnable.com/* client/build/'
       }
     },
     jsbeautifier: {
@@ -320,7 +324,7 @@ module.exports = function(grunt) {
           }
         },
         files: {
-          'client/build/index.html': 'server/views/home.jade',
+          'client/build/old-index.html': 'server/views/home.jade',
           'client/build/app.html': 'server/views/layout.jade'
         }
       }
@@ -557,6 +561,7 @@ module.exports = function(grunt) {
     'generateConfigs',
     'browserify:watch',
     'jade:compile',
+    'bgShell:copyRunnableStatic',
     'browserSync',
     'concurrent'
   ]);
@@ -571,6 +576,7 @@ module.exports = function(grunt) {
     'generateConfigs',
     'browserify:watch',
     'jade:compile',
+    'bgShell:copyRunnableStatic',
     'compress:build',
     'concurrent:devNoBS'
   ]);
@@ -584,6 +590,7 @@ module.exports = function(grunt) {
     'generateConfigs',
     'browserify:watch',
     'jade:compile',
+    'bgShell:copyRunnableStatic',
     'browserSync',
     'concurrent'
   ]);
@@ -597,6 +604,7 @@ module.exports = function(grunt) {
     'browserify:once',
     'uglify:app',
     'jade:compile',
+    'bgShell:copyRunnableStatic',
     'compress:build'
   ]);
   grunt.registerTask('deploy:prod', [
@@ -609,6 +617,7 @@ module.exports = function(grunt) {
     'browserify:once',
     'uglify:app',
     'jade:compile',
+    'bgShell:copyRunnableStatic',
     'compress:build'
   ]);
   grunt.registerTask('deploy:staging', [
@@ -621,6 +630,7 @@ module.exports = function(grunt) {
     'browserify:once',
     'uglify:app',
     'jade:compile',
+    'bgShell:copyRunnableStatic',
     'compress:build'
   ]);
 };
