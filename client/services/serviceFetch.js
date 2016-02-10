@@ -364,7 +364,10 @@ function verifySlackAPITokenAndFetchMembers(
     return $http({
       method: 'get',
       url: 'https://slack.com/api/users.list?token=' + token,
-      'withCredentials': false
+      'withCredentials': false,
+      headers: {
+        'X-CSRF-TOKEN': undefined
+      }
     })
       .then(function (data) {
         if (data.data.error) {
