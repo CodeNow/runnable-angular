@@ -28,11 +28,21 @@ app.use(function (req, res, next) {
   next();
 });
 
+console.log('!!!!', path.join(__dirname + '/../runnable.com/index.html'));
+
 app.use('/build', express.static(path.join(__dirname + '/../client/dist')));
 
 app.route('/').get(function (req, res, next) {
-  res.sendFile(path.join(__dirname + '/../client/dist/index.html'));
+  console.log('Index.thml!!');
+  res.sendFile(path.join(__dirname + '/../runnable.com/index.html'));
 });
+
+app.route('/index.html').get(function (req, res, next) {
+  console.log('**** Index.thml!!');
+  res.sendFile(path.join(__dirname + '/../runnable.com/index.html'));
+});
+
+app.use('/', express.static(path.join(__dirname + '/../runnable.com')));
 
 // load same base view for all valid client-routes
 require('client/config/routes').forEach(function (item) {
