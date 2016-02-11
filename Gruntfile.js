@@ -241,24 +241,17 @@ module.exports = function(grunt) {
     'compile-handlebars': {
       index: {
         files: [{
-          src: 'runnable.com/index.html',
+          src: 'runnable.com/handlebars/index.html',
           dest: 'client/build/index.html'
         }],
         templateData: {
-          apiHost: 'api-staging-codenow.runnableapp.com',
-          env: 'staging',
-          commitHash: 'NOT_VALID',
-          commitTime: 'NOT_VALID'
+          version: version,
+          env: require('./client/config/json/environment.json').environment,
+          commitHash: require('./client/config/json/commit.json').commitHash,
+          commitTime: require('./client/config/json/commit.json').commitTime,
+          apiHost: require('./client/config/json/api.json').host
         },
-      },
-      helpers: {
-        if_eq: function(a, b, opts) {
-          if (a === b) {
-            return opts.fn(this);
-          } else {
-            return opts.inverse(this);
-          }
-        }
+        helpers: 'runnable.com/handlebars/if_eq.js'
       }
     },
     bgShell: {
@@ -586,6 +579,7 @@ module.exports = function(grunt) {
     'browserify:watch',
     'jade:compile',
     'bgShell:copyRunnableStatic',
+    'compile-handlebars',
     'browserSync',
     'concurrent'
   ]);
@@ -601,6 +595,7 @@ module.exports = function(grunt) {
     'browserify:watch',
     'jade:compile',
     'bgShell:copyRunnableStatic',
+    'compile-handlebars',
     'compress:build',
     'concurrent:devNoBS'
   ]);
@@ -615,6 +610,7 @@ module.exports = function(grunt) {
     'browserify:watch',
     'jade:compile',
     'bgShell:copyRunnableStatic',
+    'compile-handlebars',
     'browserSync',
     'concurrent'
   ]);
@@ -629,6 +625,7 @@ module.exports = function(grunt) {
     'uglify:app',
     'jade:compile',
     'bgShell:copyRunnableStatic',
+    'compile-handlebars',
     'compress:build'
   ]);
   grunt.registerTask('deploy:prod', [
@@ -642,6 +639,7 @@ module.exports = function(grunt) {
     'uglify:app',
     'jade:compile',
     'bgShell:copyRunnableStatic',
+    'compile-handlebars',
     'compress:build'
   ]);
   grunt.registerTask('deploy:staging', [
@@ -655,6 +653,7 @@ module.exports = function(grunt) {
     'uglify:app',
     'jade:compile',
     'bgShell:copyRunnableStatic',
+    'compile-handlebars',
     'compress:build'
   ]);
 };

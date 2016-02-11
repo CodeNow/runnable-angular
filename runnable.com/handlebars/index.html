@@ -11,9 +11,58 @@
     <link rel="stylesheet" href="styles/index.css">
 
     <!-- PRODUCTION -->
+    {{#if_eq env 'production'}}
+    <script>
+      window._trackJs = {
+        token: 'ea5e26c7ec2d486e9c66bcf4fefa0f4b',
+        version: '#{locals.version}',
+        application: "production",
+        network: { error: false },
+        onError: function (payload, error) {
+          payload.network = payload.network.filter(function (item) {
+            return item.url.indexOf('mixpanel') === -1;
+          });
+          return true;
+        },
+        serialize: function (payload) {
+          return JSON.stringify(payload);
+        }
+      };
+    </script>
+
+    <script src="https://d2zah9y47r7bi2.cloudfront.net/releases/current/tracker.js"></script>
+
+    <!-- mixpanel -->
+    <script>
+      (function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+      for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
+      mixpanel.init("57260a5b6fc972e9c69184882efd009e");
+    </script>
+
+    <!-- intercom -->
+    <script src="https://widget.intercom.io/widget/wqzm3rju"></script>
+
+    <!-- google analytics -->
+    <script>
+      (function (i, s, o, g, r, a, m) {
+        i["GoogleAnalyticsObject"] = r;
+        i[r] = i[r] || function () {
+          (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+      })(window, document, "script", "//www.google-analytics.com/analytics.js", "ga");
+      ga("create", "UA-59677301-1", "auto");
+      ga("send", "pageview");
+    </script>
+    {{/if_eq}}
     <!-- END PRODUCTION -->
 
     <!-- STAGING -->
+    {{#if_eq env 'staging'}}
     <!-- intercom -->
     <script src="https://widget.intercom.io/widget/xs5g95pd"></script>
 
@@ -23,6 +72,7 @@
       for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
       mixpanel.init("abed31a0844a1bf389205355edfda4c2");
     </script>
+    {{/if_eq}}
     <!-- END STAGING -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
@@ -31,13 +81,13 @@
       var whitelisted = window.location.search !== '?whitelist=false';
       var app = angular.module('homeApp', []);
       app.controller('MainCtrl', function ($scope, $window, $http) {
-        $scope.loginUrl = 'api-staging-codenow.runnableapp.com/auth/github?redirect=' + $window.location.protocol + '//' + $window.location.host + '/?auth';
+        $scope.loginUrl = '{{{apiHost}}}/auth/github?redirect=' + $window.location.protocol + '//' + $window.location.host + '/?auth';
         $scope.data = {
           embedActive: false,
           hideUnauthorizedModal: whitelisted
         };
 
-        $http.get('api-staging-codenow.runnableapp.com/users/me', {
+        $http.get('{{{ apiHost }}}/users/me', {
           withCredentials: true
         })
           .then(function (user) {
@@ -65,7 +115,7 @@
           <img class="img" src="images/runnable-logo.svg" height="36" width="192">
         </a>
         <div class="grid-block shrink">
-          <a ng-href="{{loginUrl}}" class="grid-content btn btn-sm text-white strong">Sign In</a>
+          <a ng-href="\{{loginUrl}}" class="grid-content btn btn-sm text-white strong">Sign In</a>
           <a href="#sign-up" class="grid-content btn btn-sm green">Sign Up</a>
         </div>
       </div>
@@ -246,6 +296,6 @@
       <a href="mailto: info@runnable.com" class="btn btn-xs link strong">Email</a>
       <a href="http://support.runnable.io" class="btn btn-xs link strong">Support</a>
       <img src="images/runnabot-head.png" class="img" height="36" width="36">
-      <a href="https://api-staging-codenow.runnableapp.com/auth/github?redirect=https://runnable.io/?auth" class="btn btn-xs link strong">Sign In</a>
+      <a href="https://{{apiHost}}/auth/github?redirect=https://runnable.io/?auth" class="btn btn-xs link strong">Sign In</a>
       <a href="#sign-up" class="btn btn-xs link strong">Sign Up</a>
     </footer>
