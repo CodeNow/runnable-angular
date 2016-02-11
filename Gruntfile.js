@@ -285,6 +285,10 @@ module.exports = function(grunt) {
       copyRunnableStatic: {
         bg: false,
         cmd: 'cp -R runnable.com/* client/build/'
+      },
+      cleanIndexHtml: {
+        bg: false,
+        cmd: 'rm -rf client/build/index.html'
       }
     },
     jsbeautifier: {
@@ -579,6 +583,7 @@ module.exports = function(grunt) {
     'browserify:watch',
     'jade:compile',
     'bgShell:copyRunnableStatic',
+    'bgShell:cleanIndexHtml',
     'compile-handlebars',
     'browserSync',
     'concurrent'
@@ -595,6 +600,7 @@ module.exports = function(grunt) {
     'browserify:watch',
     'jade:compile',
     'bgShell:copyRunnableStatic',
+    'bgShell:cleanIndexHtml',
     'compile-handlebars',
     'compress:build',
     'concurrent:devNoBS'
@@ -610,6 +616,7 @@ module.exports = function(grunt) {
     'browserify:watch',
     'jade:compile',
     'bgShell:copyRunnableStatic',
+    'bgShell:cleanIndexHtml',
     'compile-handlebars',
     'browserSync',
     'concurrent'
@@ -625,6 +632,7 @@ module.exports = function(grunt) {
     'uglify:app',
     'jade:compile',
     'bgShell:copyRunnableStatic',
+    'bgShell:cleanIndexHtml',
     'compile-handlebars',
     'compress:build'
   ]);
@@ -639,6 +647,7 @@ module.exports = function(grunt) {
     'uglify:app',
     'jade:compile',
     'bgShell:copyRunnableStatic',
+    'bgShell:cleanIndexHtml',
     'compile-handlebars',
     'compress:build'
   ]);
@@ -653,6 +662,7 @@ module.exports = function(grunt) {
     'uglify:app',
     'jade:compile',
     'bgShell:copyRunnableStatic',
+    'bgShell:cleanIndexHtml',
     'compile-handlebars',
     'compress:build'
   ]);
