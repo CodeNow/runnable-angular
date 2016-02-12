@@ -285,9 +285,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         },
         owner: {
           username: 'orgName'
-        },
-        ipWhitelist: {
-          enabled: false
         }
       },
       getRepoName: sinon.stub().returns('mainRepo'),
@@ -452,6 +449,9 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
         sinon.assert.calledOnce(SMC.resetStateContextVersion);
         sinon.assert.calledWith(SMC.resetStateContextVersion, mockInstance.contextVersion, true);
+
+        expect(SMC.isDirty()).to.not.be.ok;
+        expect(SMC.state.opts.ipWhitelist).to.deep.equal({enabled: false});
       });
 
       it('should not update the dockerfile from state, if in advanced mode', function () {
@@ -481,6 +481,8 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
         sinon.assert.calledOnce(SMC.resetStateContextVersion);
         sinon.assert.calledWith(SMC.resetStateContextVersion, mockInstance.contextVersion, true);
+        expect(SMC.isDirty()).to.not.be.ok;
+        expect(SMC.state.opts.ipWhitelist).to.deep.equal({enabled: false});
       });
 
       it('should call resetStateContextVersion if something fails', function (done) {

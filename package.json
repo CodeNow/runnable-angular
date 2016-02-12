@@ -64,7 +64,7 @@
     "docker-stream-cleanser": "0.3.0",
     "es6-symbol": "2.0.1",
     "express": "4.13.1",
-    "favico": "git+ssh://git@github.com:ejci/favico.js.git#0.3.5",
+    "favico.js": "^0.3.10",
     "find": "0.1.7",
     "grunt": "https://registry.npmjs.org/grunt/-/grunt-0.4.5.tgz",
     "grunt-autoprefixer": "2.2.0",
