@@ -284,7 +284,9 @@ function SetupServerModalController(
         // Reset the opts, in the same way as `EditServerModalController`
         SMC.state.opts  = {
           env: keypather.get(instance, 'attrs.env') || [],
-          ipWhitelist: angular.copy(keypather.get(instance, 'attrs.ipWhitelist'))
+          ipWhitelist: angular.copy(keypather.get(instance, 'attrs.ipWhitelist')) || {
+            enabled: false
+          }
         };
         return instance;
       }
