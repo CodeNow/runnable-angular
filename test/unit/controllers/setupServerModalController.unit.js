@@ -408,7 +408,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       });
     });
 
-    describe.only('createServer', function () {
+    describe('createServer', function () {
 
       it('create server should create and build a new instance', function () {
         SMC.state.acv = acv;
