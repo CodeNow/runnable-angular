@@ -30,10 +30,6 @@
     &.active {
       color: $purple-light;
     }
-
-    &.no-touching {
-      color: $gray;
-    }
   }
 
   .icons-alert,
@@ -73,6 +69,7 @@
 .modal-dialog .container-title-wrapper {
 
   .server-status-card-pop-over {
+    color: $gray;
     margin-bottom: 3px;
   }
 
@@ -117,7 +114,6 @@
 
   // rename button for verification flow
   .btn-xxs {
-    margin: 3px 0 0 6px;
-    position: absolute;
+    margin-left: 6px;
   }
 }
