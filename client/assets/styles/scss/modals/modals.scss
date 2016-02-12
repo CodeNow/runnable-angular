@@ -303,11 +303,9 @@
 
 // .modal-footer
 .modal-footer {
-  border-radius: 0 0 3px 3px;
   border-top: 1px solid $gray-lighter;
   flex: 0 0 auto;
-  margin: 0 15px 15px;
-  padding: 12px 0 0;
+  padding: 12px 15px;
   z-index: 1; // footer overlaps body
 
   .btn-group,
