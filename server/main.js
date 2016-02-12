@@ -23,6 +23,7 @@ if (process.env.HTTPS) {
   });
 }
 app.use(function (req, res, next) {
+  res.setHeader('Cache-Control', 'public, max-age=' + (60 * 5)); // Cache for 5 minutes!
   res.setHeader('Content-Encoding', 'gzip');
   res.setHeader('X-Frame-Options', 'DENY');
   next();
