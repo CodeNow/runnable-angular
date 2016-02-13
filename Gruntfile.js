@@ -241,7 +241,7 @@ module.exports = function(grunt) {
     'compile-handlebars': {
       index: {
         files: [{
-          src: 'runnable.com/handlebars/index.html',
+          src: 'runnable.com/handlebars/index.hbs',
           dest: 'client/build/index.html'
         }],
         templateData: function () {
@@ -254,7 +254,7 @@ module.exports = function(grunt) {
             apiHost: envConfig.host
           };
         },
-        helpers: 'runnable.com/handlebars/if_eq.js'
+        helpers: './client/handlebar-helpers/if_eq.js'
       }
     },
     bgShell: {
