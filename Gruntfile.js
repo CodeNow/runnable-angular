@@ -244,12 +244,15 @@ module.exports = function(grunt) {
           src: 'runnable.com/handlebars/index.html',
           dest: 'client/build/index.html'
         }],
-        templateData: {
-          version: version,
-          env: require('./client/config/json/environment.json').environment,
-          commitHash: require('./client/config/json/commit.json').commitHash,
-          commitTime: require('./client/config/json/commit.json').commitTime,
-          apiHost: require('./client/config/json/api.json').host
+        templateData: function () {
+          var envConfig = require('./client/config/json/environment.json');
+          return {
+            version: version,
+            env: envConfig.environment,
+            commitHash: envConfig.commitHash,
+            commitTime: envConfig.commitTime,
+            apiHost: envConfig.host
+          };
         },
         helpers: 'runnable.com/handlebars/if_eq.js'
       }
