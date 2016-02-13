@@ -37,27 +37,22 @@
           hideUnauthorizedModal: whitelisted
         };
 
-        $http.get('api-staging-codenow.runnableapp.com/users/me', {
-          withCredentials: true
-        })
-          .then(function (user) {
-            var org;
-            try {
-              org = user.data.userOptions.uiState.previousLocation.org;
-            } catch (e) {
-              org = user.data.accounts.github.username;
-            }
-            $window.location = '/' + org;
-          });
+      $http.get('api-staging-codenow.runnableapp.com/users/me', {
+        withCredentials: true
+      })
+        .then(function (user) {
+          var org;
+          try {
+            org = user.data.userOptions.uiState.previousLocation.org;
+          } catch (e) {
+            org = user.data.accounts.github.username;
+          }
+          $window.location = '/' + org;
+        });
      });
     </script>
 
-  <body
-    class="page-landing"
-    ng-app = "homeApp"
-    ng-class = "{'modal-open': !data.hideUnauthorizedModal}"
-    ng-controller = "MainCtrl"
-  >
+  <body class="page-landing" ng-app="homeApp" ng-controller="MainCtrl">
 
     <header class="grid-block shrink header">
       <div class="grid-block grid-container align-justify">
