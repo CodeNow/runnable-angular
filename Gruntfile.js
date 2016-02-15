@@ -246,12 +246,14 @@ module.exports = function(grunt) {
         }],
         templateData: function () {
           var envConfig = require('./client/config/json/environment.json');
+          var commitConfig = require('./client/config/json/commit.json');
+          var apiConfig = require('./client/config/json/api.json');
           return {
             version: version,
             env: envConfig.environment,
-            commitHash: envConfig.commitHash,
-            commitTime: envConfig.commitTime,
-            apiHost: envConfig.host
+            commitHash: commitConfig.commitHash,
+            commitTime: commitConfig.commitTime,
+            apiHost: apiConfig.host
           };
         },
         helpers: './client/handlebar-helpers/if_eq.js'
