@@ -2,7 +2,7 @@
 .modal-backdrop {
   align-items: center;
   animation: fade .15s;
-  background: rgba($white,.9);
+  background: rgba($white,.97);
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -31,8 +31,9 @@
 .modal-dialog {
   animation: scale-in-modal .15s ease-in-out;
   background: $gray-lighterest;
-  border: $input-border solid $gray-lighter;
+  border: 1px solid $gray-lighter;
   border-radius: $input-border-radius-lg;
+  box-shadow: 0 0 3px $gray-lighter;
   display: flex;
   flex-direction: column;
   max-height: 100%;
@@ -144,7 +145,7 @@
 .modal-header {
   background: $white;
   border-bottom: 1px solid $gray-lighter;
-  border-radius: $input-border-radius $input-border-radius 0 0;
+  border-radius: $input-border-radius-lg $input-border-radius-lg 0 0;
   flex: 0 0 auto;
   min-height: 60px;
   padding: 0 15px;
@@ -213,17 +214,27 @@
   }
 
   .btn-radio {
-    color: $gray-dark;
-    margin-bottom: 9px;
-    padding: 0 3px;
+    background: none;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    color: $gray;
+    font-weight: $weight-bold;
+    height: 90px;
+    padding: 9px 3px;
 
+    &:hover,
     &:active,
     &.active {
       color: $purple-light;
+    }
 
-      &[disabled] {
-        color: $gray-dark;
-      }
+    &.active {
+      border-color: currentColor;
+    }
+
+    &[disabled] {
+      color: $gray-dark;
     }
 
     // animation start state
