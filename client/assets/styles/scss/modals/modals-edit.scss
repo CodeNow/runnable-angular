@@ -53,7 +53,7 @@
 
     &::before,
     &::after {
-      bottom: 0;
+      bottom: 1px;
       content: '';
       display: block;
       height: 100%;
