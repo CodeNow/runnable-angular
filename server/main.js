@@ -29,6 +29,7 @@ app.use(function (req, res, next) {
 });
 
 app.use('/build', express.static(path.join(__dirname + '/../client/dist')));
+app.use('/', express.static(path.join(__dirname + '/../client/dist')));
 
 app.route('/').get(function (req, res, next) {
   res.sendFile(path.join(__dirname + '/../client/dist/index.html'));

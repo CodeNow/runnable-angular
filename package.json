@@ -72,6 +72,7 @@
     "grunt-browserify": "4.0.0",
     "grunt-cli": "0.1.13",
     "grunt-concurrent": "1.0.1",
+    "grunt-compile-handlebars": "git://github.com/Runnable/grunt-compile-handlebars.git#1f70886f5282086d0eac33d93fad2f2628654f32",
     "grunt-contrib-compress": "^0.13.0",
     "grunt-contrib-copy": "0.8.0",
     "grunt-contrib-jade": "^0.15.0",
