@@ -43,9 +43,12 @@ protractor ./test/protractor.conf.js --params.user SomeKittens --params.password
 
 Currently, this repo depends on the built assets from [runnable.com](github.com/CodeNow/runnable.com). In order to update these assets, just copy them into this repo. This is a temporary solution.
 
-```
-cp y-R  ../runnable.com/dist/* runnable.com/
-```
+# On runnable.com checkout master and run `gulp`
+# On runnable-angular/master create a branch
+# Run `cp -R  ../runnable.com/dist/* runnable.com/`
+# Push and create a PR
+# After merging PR, deploy runnable-angular
+# Deploy
 
 ###Contributors
 <img src="https://avatars3.githubusercontent.com/u/7440805?s=64" width="64">&nbsp;
