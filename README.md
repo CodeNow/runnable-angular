@@ -40,8 +40,8 @@ protractor ./test/protractor.conf.js --params.user SomeKittens --params.password
 ```
 
 ## Tagging
-1. npm version [type]
-2. git push origin --tags
+1. `npm version [type]`
+2. `git push origin --tags`
 
 ## Adding Static Assets
 
