@@ -14,7 +14,7 @@
 <script>
   window._trackJs = {
     token: 'ea5e26c7ec2d486e9c66bcf4fefa0f4b',
-    version: '#{locals.version}',
+    version: '{{{version}}}',
     application: "production",
     network: { error: false },
     onError: function (payload, error) {
@@ -262,6 +262,6 @@
       <a href="mailto: info@runnable.com" class="btn btn-xs link strong">Email</a>
       <a href="http://support.runnable.io" class="btn btn-xs link strong">Support</a>
       <img src="images/runnabot-head.png" class="img" height="36" width="36">
-      <a href="https://{{apiHost}}/auth/github?redirect=https://runnable.io/?auth" class="btn btn-xs link strong">Sign In</a>
+      <a ng-href="\{{loginUrl}}" class="btn btn-xs link strong">Sign In</a>
       <a href="#sign-up" class="btn btn-xs link strong">Sign Up</a>
     </footer>
