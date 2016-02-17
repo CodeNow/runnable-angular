@@ -39,6 +39,10 @@ You can also pass credentials to protractor
 protractor ./test/protractor.conf.js --params.user SomeKittens --params.password hunter2
 ```
 
+## Tagging
+1. `npm version [type]`
+2. `git push origin --tags`
+
 ## Adding Static Assets
 
 Currently, this repo depends on the built assets from [runnable.com](github.com/CodeNow/runnable.com). In order to update these assets, just copy them into this repo. This is a temporary solution.
