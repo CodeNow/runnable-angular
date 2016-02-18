@@ -175,6 +175,9 @@
     }
   ],
   "env": [],
+  "ipWhitelist": {
+    "enabled": false
+  },
   "created": "2014-10-10T22:57:59.959Z",
   "public": false,
   "id": "54386477aebe190e0077c2dc"

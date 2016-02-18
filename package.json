@@ -1,6 +1,6 @@
 {
   "name": "runnable-angular",
-  "version": "3.11.6",
+  "version": "3.16.0",
   "private": true,
   "description": "Frontend for Runnable.io",
   "scripts": {
@@ -64,7 +64,7 @@
     "docker-stream-cleanser": "0.3.0",
     "es6-symbol": "2.0.1",
     "express": "4.13.1",
-    "favico": "git+ssh://git@github.com:ejci/favico.js.git#0.3.5",
+    "favico.js": "^0.3.10",
     "find": "0.1.7",
     "grunt": "https://registry.npmjs.org/grunt/-/grunt-0.4.5.tgz",
     "grunt-autoprefixer": "2.2.0",
@@ -72,6 +72,7 @@
     "grunt-browserify": "4.0.0",
     "grunt-cli": "0.1.13",
     "grunt-concurrent": "1.0.1",
+    "grunt-compile-handlebars": "git://github.com/Runnable/grunt-compile-handlebars.git#1f70886f5282086d0eac33d93fad2f2628654f32",
     "grunt-contrib-compress": "^0.13.0",
     "grunt-contrib-copy": "0.8.0",
     "grunt-contrib-jade": "^0.15.0",
@@ -93,7 +94,7 @@
     "point-in-polygon": "^1.0.0",
     "qs": "2.4.2",
     "regexp-quote": "0.0.0",
-    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v4.11.1",
+    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v4.13.0",
     "stream-buffers": "git://github.com/Runnable/node-stream-buffer.git#v2.2.1",
     "term.js": "git://github.com/Runnable/term.js.git#v0.1.9",
     "through": "2.3.8",

@@ -11,7 +11,6 @@ function featureFlags(
     billing: false,
     cardStatus: false,
     connections: false,
-    deletedCommit: false,
     editAnyInstance: false,
     emptyFolder: false, // shows empty folder markup
     fullScreen: false,  // toggles full screen
@@ -23,7 +22,7 @@ function featureFlags(
     intercomOnMigration: false, // adds intercom link to migration message
     internalDebugging: false,
     inviteFlows: false,
-    isolationUI: false, // for isolation UI
+    isolationUI: true, // for isolation UI
     multilineFnR: false,
     nameContainer: false,
     navListFilter: false,
@@ -41,7 +40,8 @@ function featureFlags(
     webhooksAdminPresent: false,
     webhooksContainerRunning: false,
     webhooks: false,
-    whitelist: false
+    whitelist: true,
+    whitelistIpFiltering: false
   };
 
   var _featureFlags = {};

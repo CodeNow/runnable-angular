@@ -20,6 +20,7 @@
     width: 42px;
 
     .gravatar {
+      border-radius: $input-border-radius;
       height: 100%;
       width: 100%;
     }

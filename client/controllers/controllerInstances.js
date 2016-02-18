@@ -13,7 +13,6 @@ function ControllerInstances(
   setLastOrg,
   errs,
   ModalService,
-  promisify,
 
   fetchInstancesByPod,
   activeAccount,

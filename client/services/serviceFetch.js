@@ -10,7 +10,7 @@ require('app')
   .factory('fetchOrgMembers', fetchOrgMembers)
   .factory('fetchOrgTeammateInvitations', fetchOrgTeammateInvitations)
   // All whitelisted usernames must be in lowercase
-  .value('manuallyWhitelistedUsers', ['jdloft', 'hellorunnable', 'evandrozanatta'])
+  .value('manuallyWhitelistedUsers', ['jdloft', 'hellorunnable', 'evandrozanatta', 'rsandor'])
   // Containers
   .factory('fetchInstances', fetchInstances)
   .factory('fetchInstance', fetchInstance)
@@ -364,7 +364,10 @@ function verifySlackAPITokenAndFetchMembers(
     return $http({
       method: 'get',
       url: 'https://slack.com/api/users.list?token=' + token,
-      'withCredentials': false
+      'withCredentials': false,
+      headers: {
+        'X-CSRF-TOKEN': undefined
+      }
     })
       .then(function (data) {
         if (data.data.error) {

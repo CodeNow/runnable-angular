@@ -214,7 +214,7 @@ section.modal-body(
     .modal-form.form-whitelist(
       ng-if = "$root.featureFlags.whitelist"
       ip-whitelist
-      whitelist = "SMC.state.whitelist"
+      whitelist = "SMC.state.opts.ipWhitelist"
       ng-show = "SMC.selectedTab === 'whitelist'"
     )
 

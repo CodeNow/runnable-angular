@@ -2,15 +2,16 @@
   .well.in.gray.clearfix
     label.toggle-wrapper.float-right
       input.toggle-input(
-        ng-model = "WFC.whitelistEnabled"
+        ng-disabled = "WFC.isIsolationGroupMaster"
+        ng-model = "WFC.whitelist.enabled"
         type = "checkbox"
       )
       .toggle-group.toggle-sm
-    .small.strong Restrict Access
-    small.small Restrict access to this container so only your organization can access it.
+    .strong.text-gray Block External Access
+    small.small Disallows external access to this container. Internal access between containers is still allowed.
 
 .label.slide.js-animate(
-  ng-if = "WFC.whitelistEnabled"
+  ng-if = "WFC.whitelistEnabled && $root.featureFlags.whitelistIpFiltering"
 )
   .label-description.clearfix
     .label-col IP Whitelist

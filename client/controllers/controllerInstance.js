@@ -69,7 +69,6 @@ function ControllerInstance(
           instance.off('destroyed', goHomeOnDestroyHandler);
         });
 
-
         data.hasToken = keypather.get(results, 'settings.attrs.notifications.slack.apiToken');
         setLastInstance($stateParams.instanceName);
         loading('main', false);

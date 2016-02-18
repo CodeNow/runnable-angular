@@ -21,7 +21,8 @@ function createAndBuildNewContainer(
   fetchUser,
   helpCards
 ) {
-  return function (createPromiseForState, containerName) {
+  return function (createPromiseForState, containerName, options) {
+    options = options || {};
     eventTracking.triggeredBuild(false);
     // Save this in case it changes
     var cachedActiveAccount = $rootScope.dataApp.data.activeAccount;
@@ -31,13 +32,18 @@ function createAndBuildNewContainer(
       user: fetchUser()
     })
       .then(function (response) {
-        instance = response.user.newInstance({
+        var instanceOptions = {
           name: containerName,
           owner: {
             username: cachedActiveAccount.oauthName()
           }
-        }, {warn: false});
-        response.masterInstances.add(instance);
+        };
+        instance = response.user.newInstance(instanceOptions, {warn: false});
+        if (options.isolation) {
+          options.isolation.instances.add(instance);
+        } else {
+          response.masterInstances.add(instance);
+        }
         return $q.when(createPromiseForState);
       })
       .then(function (newServerModel) {
@@ -46,6 +52,10 @@ function createAndBuildNewContainer(
           text: 'Container Created'
         });
         helpCards.hideActiveCard();
+        if (options.isolation) {
+          newServerModel.opts.isIsolationGroupMaster = false;
+          newServerModel.opts.isolated = options.isolation.id();
+        }
         return createNewInstance(
           cachedActiveAccount,
           newServerModel.build,

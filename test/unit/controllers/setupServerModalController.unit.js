@@ -449,6 +449,9 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
         sinon.assert.calledOnce(SMC.resetStateContextVersion);
         sinon.assert.calledWith(SMC.resetStateContextVersion, mockInstance.contextVersion, true);
+
+        expect(SMC.isDirty()).to.not.be.ok;
+        expect(SMC.state.opts.ipWhitelist).to.deep.equal({enabled: false});
       });
 
       it('should not update the dockerfile from state, if in advanced mode', function () {
@@ -478,6 +481,8 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
         sinon.assert.calledOnce(SMC.resetStateContextVersion);
         sinon.assert.calledWith(SMC.resetStateContextVersion, mockInstance.contextVersion, true);
+        expect(SMC.isDirty()).to.not.be.ok;
+        expect(SMC.state.opts.ipWhitelist).to.deep.equal({enabled: false});
       });
 
       it('should call resetStateContextVersion if something fails', function (done) {
@@ -693,6 +698,17 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       SMC.state.contextVersion = {};
       SMC.actions.createAndBuild = sinon.stub().returns($q.when(newBuild));
       SMC.actions.deleteServer = sinon.stub().returns($q.when(true));
+      SMC.instance = {
+        attrs: {
+          env: [],
+          ipWhitelist: {
+            enabled: false
+          }
+        },
+        status: function () {
+          return 'running';
+        }
+      };
       createNewBuildMock.returns(newBuild);
     });
 
@@ -712,6 +728,9 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       });
 
       it('should be dirty when an ENV variables has changes', function () {
+        SMC.instance.status = function () {
+          return 'running';
+        };
         expect(SMC.isDirty()).to.equal(false);
         SMC.state.opts.env.push('HELLO=1');
         expect(SMC.isDirty()).to.equal('update');
@@ -719,10 +738,8 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
       it('should be dirty when an ENV variables has changes, and the instance.status is building', function () {
         expect(SMC.isDirty()).to.equal(false);
-        SMC.instance = {
-          status: function () {
-            return 'building';
-          }
+        SMC.instance.status = function () {
+          return 'building';
         };
         SMC.state.opts.env.push('HELLO=1');
         expect(SMC.isDirty()).to.equal('build');

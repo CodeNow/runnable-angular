@@ -21,6 +21,18 @@ function ServerModalController(
   ModalService,
   updateDockerfileFromState
 ) {
+  this.requiresRedeploy = function () {
+    return !!this.instance && (!angular.equals(
+      keypather.get(this, 'instance.attrs.env') || [],
+      keypather.get(this, 'state.opts.env') // this is pre-filled with a default of []
+    ) || !angular.equals(
+      keypather.get(this, 'instance.attrs.ipWhitelist') || {
+        enabled: false
+      },
+      keypather.get(this, 'state.opts.ipWhitelist') // this is pre-filled with a default of { enabled: false }
+    ));
+  };
+
   this.openDockerfile = function (state, openItems) {
     return promisify(state.contextVersion, 'fetchFile')('/Dockerfile')
       .then(function (dockerfile) {
@@ -37,12 +49,9 @@ function ServerModalController(
   this.isDirty = function () {
     // Loading promises are clear when the modal is saved or cancelled.
     var SMC = this;
-    var requiresUpdate = !angular.equals(
-      keypather.get(SMC, 'instance.attrs.env') || [],
-      keypather.get(SMC, 'state.opts.env') || []
-    ) ? 'update' : false;
+    var requiresUpdate = this.requiresRedeploy() ? 'update' : false;
     var requiresBuild = loadingPromises.count(SMC.name) > 0 || !SMC.openItems.isClean() ? 'build' : false;
-    if (requiresUpdate && ['building', 'buildFailed', 'neverStarted'].includes(keypather.get(SMC, 'instance.status()'))) {
+    if (requiresUpdate && (['building', 'buildFailed', 'neverStarted'].includes(keypather.get(SMC, 'instance.status()')))) {
       requiresBuild = 'build';
     }
     return requiresBuild || requiresUpdate;
@@ -66,25 +75,13 @@ function ServerModalController(
         // rebuild and/or redeploy the instance
         return loadingPromises.finished(SMC.name);
       })
-      .then(function (promiseArrayLength) {
-        loadingPromises.clear(SMC.name);
-        toRebuild = !!(
-          forceRebuild ||
-          promiseArrayLength > 0 ||
-          SMC.openItems.getAllFileModels(true).length
-        );
-
-        toRedeploy = !toRebuild && !angular.equals(
-          keypather.get(SMC, 'instance.attrs.env'),
-          keypather.get(SMC, 'state.opts.env')
-        );
-
+      .then(function () {
         // If we are redeploying and the build is not finished we need to rebuild or suffer errors from API.
-        if (toRedeploy && ['building', 'buildFailed', 'neverStarted'].includes(keypather.get(SMC, 'instance.status()'))) {
-          toRedeploy = false;
-          toRebuild = true;
-        }
+        var rebuildOrRedeploy = SMC.isDirty();
+        toRebuild = rebuildOrRedeploy === 'build' || forceRebuild;
+        toRedeploy = !toRebuild && rebuildOrRedeploy === 'update';
 
+        loadingPromises.clear(SMC.name);
         if (!SMC.openItems.isClean()) {
           return SMC.openItems.updateAllFiles();
         }

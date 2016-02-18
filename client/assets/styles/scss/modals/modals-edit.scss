@@ -45,19 +45,21 @@
 
   // nav
   .modal-header {
+    border-bottom: 0;
+    box-shadow: inset 0 -1px 0 $gray-lighter;
     overflow: hidden; // for animation on tabs
     padding: 0; // reset default header padding
     position: relative;
 
     &::before,
     &::after {
-      bottom: 0;
+      bottom: 1px;
       content: '';
       display: block;
       height: 100%;
       pointer-events: none;
       position: absolute;
-      width: 30px;
+      width: 15px;
       z-index: 1;
     }
 

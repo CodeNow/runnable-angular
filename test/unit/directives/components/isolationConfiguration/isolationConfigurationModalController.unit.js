@@ -18,6 +18,7 @@ describe('IsolationConfigurationModalController'.bold.underline.blue, function()
   function injectSetupCompile () {
     mockClose = sinon.spy();
     mockInstance = {
+      id: sinon.stub().returns('a'),
       attrs: {
         contextVersion: {
           context: 'context1234'
@@ -32,6 +33,7 @@ describe('IsolationConfigurationModalController'.bold.underline.blue, function()
       models: [
         mockInstance,
         {
+          id: sinon.stub().returns('b'),
           attrs: {
             contextVersion: {
               context: '1'
@@ -44,6 +46,7 @@ describe('IsolationConfigurationModalController'.bold.underline.blue, function()
           getBranchName: sinon.stub().returns('master')
         },
         {
+          id: sinon.stub().returns('c'),
           attrs: {
             contextVersion: {
               context: '2'
@@ -56,6 +59,7 @@ describe('IsolationConfigurationModalController'.bold.underline.blue, function()
           getBranchName: sinon.stub().returns('master1')
         },
         {
+          id: sinon.stub().returns('d'),
           attrs: {
             contextVersion: {
               context: '3'
@@ -68,7 +72,7 @@ describe('IsolationConfigurationModalController'.bold.underline.blue, function()
           getBranchName: sinon.stub().returns('master2')
         },
         {
-          id: sinon.stub().returns('1234'),
+          id: sinon.stub().returns('e'),
           attrs: {
             contextVersion: {
               context: '4'
@@ -123,6 +127,8 @@ describe('IsolationConfigurationModalController'.bold.underline.blue, function()
   describe('createIsolation', function () {
     it('should create a new isolation', function () {
       $scope.$digest();
+      ICMC.instanceCheckboxes.b = true;
+      ICMC.instanceCheckboxes.e = true;
       ICMC.createIsolation();
       $scope.$digest();
       sinon.assert.calledOnce(mockCreateIsolation);
@@ -136,18 +142,9 @@ describe('IsolationConfigurationModalController'.bold.underline.blue, function()
           org: 'orgName'
         },
         {
-          repo: 'foo1',
-          branch: 'master1',
-          org: 'orgName'
-        },
-        {
-          repo: 'foo2',
-          branch: 'master2',
-          org: 'orgName'
-        },
-        '1234'
+          instance: 'e'
+        }
       ]);
     });
-  })
-
+  });
 });
