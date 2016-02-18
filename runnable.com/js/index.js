@@ -1,11 +1,1 @@
-var articleSignUp = document.getElementsByClassName('article-sign-up')[0];
-var formSignUp = document.getElementsByClassName('form-sign-up')[0];
-
-function formSubmit(e){
-  e.preventDefault();
-  articleSignUp.classList.add('submitted');
-}
-
-window.onload = function(){
-  formSignUp.addEventListener('submit', formSubmit);
-};
+var whitelisted="?whitelist=false"!==window.location.search,app=angular.module("homeApp",[]);app.controller("MainCtrl",function($scope,$window,$http){function markInvalid(e){var thisForm=e.target.getElementsByTagName("input");for(i=0;i<thisForm.length;i++)thisForm[i].validity.valid||thisForm[i].classList.add("invalid")}function makeDirty(e){e.target.classList.remove("pristine","invalid")}function formSubmit(e){formSignUp.checkValidity()||(markInvalid(e),e.preventDefault())}$scope.loginUrl="{{{apiHost}}}/auth/github?redirect="+$window.location.protocol+"//"+$window.location.host+"/?auth",$scope.data={embedActive:!1,hideUnauthorizedModal:whitelisted},whitelisted||(location.hash="#sign-up"),$http.get("{{{apiHost}}}/users/me",{withCredentials:!0}).then(function(user){var org;try{org=user.data.userOptions.uiState.previousLocation.org}catch(e){org=user.data.accounts.github.username}$window.location="/"+org});var formSignUp=document.getElementsByClassName("form-sign-up")[0];document.getElementById("mce-EMAIL"),document.getElementById("mce-GH_ORG");window.onload=function(){formSignUp.addEventListener("change",makeDirty),formSignUp.addEventListener("submit",formSubmit)}});
