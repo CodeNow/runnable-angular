@@ -25,30 +25,71 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
     <script>
       var whitelisted = window.location.search !== '?whitelist=false';
-      var app = angular.module('homeApp', []);
-      app.controller('MainCtrl', function ($scope, $window, $http) {
-        $scope.loginUrl = 'api-staging-codenow.runnableapp.com/auth/github?redirect=' + $window.location.protocol + '//' + $window.location.host + '/?auth';
-        $scope.data = {
-          embedActive: false,
-          hideUnauthorizedModal: whitelisted
-        };
+var app = angular.module('homeApp', []);
 
-      $http.get('api-staging-codenow.runnableapp.com/users/me', {
-        withCredentials: true
-      })
-        .then(function (user) {
-          var org;
-          try {
-            org = user.data.userOptions.uiState.previousLocation.org;
-          } catch (e) {
-            org = user.data.accounts.github.username;
-          }
-          $window.location = '/' + org;
-        });
-     });
+app.controller('MainCtrl', function ($scope, $window, $http) {
+  $scope.loginUrl = 'https://api-staging-codenow.runnableapp.com/auth/github?redirect=' + $window.location.protocol + '//' + $window.location.host + '/?auth';
+  $scope.data = {
+    embedActive: false,
+    hideUnauthorizedModal: whitelisted
+  };
+
+  // scroll to
+  if (!whitelisted) {
+    location.hash = '#sign-up';
+  }
+
+  $http.get('https://api-staging-codenow.runnableapp.com/users/me', {
+    withCredentials: true
+  })
+    .then(function (user) {
+      var org;
+      try {
+        org = user.data.userOptions.uiState.previousLocation.org;
+      } catch (e) {
+        org = user.data.accounts.github.username;
+      }
+      $window.location = '/' + org;
+    });
+
+  // confirming form submit
+  // var articleSignUp = document.getElementsByClassName('article-sign-up')[0];
+  var formSignUp = document.getElementsByClassName('form-sign-up')[0];
+  var inputEmail = document.getElementById('mce-EMAIL');
+  var inputOrg = document.getElementById('mce-GH_ORG');
+
+  function markInvalid(e) {
+    var thisForm = e.target.getElementsByTagName('input');
+
+    for (i = 0; i < thisForm.length; i++) {
+      if (!thisForm[i].validity.valid) {
+        thisForm[i].classList.add('invalid');
+      }
+    }
+  }
+
+  function makeDirty(e){
+    e.target.classList.remove('pristine', 'invalid');
+  }
+
+  function formSubmit(e){
+    if (formSignUp.checkValidity()) {
+      // articleSignUp.classList.add('submitted');
+    } else {
+      markInvalid(e);
+      e.preventDefault();
+    }
+  }
+
+  window.onload = function(){
+    formSignUp.addEventListener('change', makeDirty);
+    formSignUp.addEventListener('submit', formSubmit);
+  };
+});
+
     </script>
 
-  <body class="page-landing" ng-app="homeApp" ng-controller="MainCtrl">
+  <body class="page-landing" ng-app="homeApp" ng-controller="MainCtrl" ontouchstart>
 
     <header class="grid-block shrink header">
       <div class="grid-block grid-container align-justify">
@@ -139,6 +180,10 @@
   </div>
 </article>
       <article class="article article-sign-up" id="sign-up">
+  <div class="well" ng-if="!data.hideUnauthorizedModal">
+    <img class="img float-left" src="images/runnabear-error.png" height="90" width="45">
+    Your organization doesn’t have access to Runnable…yet. Fill out this form and we’ll get in touch soon!
+  </div>
   <!-- initial state -->
   <h1 class="h1 text-center show">Let’s get going.</h1>
   <p class="p text-center show">Runnable was made for teams that use GitHub.
@@ -148,11 +193,15 @@
     <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_a67ad168d3259d6b0f4d103df_504370029e" tabindex="-1" value=""></div>
     <div class="grid-content input-group-vertical">
       <label class="label" for="mce-GH_ORG">Your Email</label>
-      <input class="input input-md input-validate" id="mce-EMAIL" name="EMAIL" type="email" required>
+      <input class="input input-md input-validate pristine" id="mce-EMAIL" name="EMAIL" type="email" required>
     </div>
     <div class="grid-content input-group-vertical">
-      <label class="label" for="mce-GH_ORG">GitHub Organization</label>
-      <input class="input input-md input-validate" id="mce-GH_ORG" name="GH_ORG" required>
+      <label class="label" for="mce-GH_ORG">GitHub Organization
+        <small class="underline popover-trigger">Why<span class="hidden-xxs"> do we need this</span>?
+          <div class="popover top text-center">We’re sending invititations to users that are a part of an organization on GitHub.</div>
+        </small>
+      </label>
+      <input class="input input-md input-validate pristine" id="mce-GH_ORG" name="GH_ORG" required>
     </div>
     <button id="mc-embedded-subscribe" class="grid-content btn btn-md green">Ship It!</button>
   </form>
@@ -166,8 +215,8 @@
       <article class="article article-quick-start">
   <div class="grid-container">
     <h2 class="h2 text-center">We’ve got you covered
-      <br class="visible-xs hidden-xxs">from
-      <br class="visible-xxs"> C++ to Rails.</h2>
+      <br class="visible-sm">from C++ to Rails.
+    </h2>
     <p class="p text-center">Check out our documentation for
       <br class="visible-xs">help on getting started.</p>
     <a href="http://support.runnable.io" class="btn btn-sm gray">View Documentation</a>
@@ -196,6 +245,27 @@
       <a class="a grid-block align-center">
         <img src="images/logos/logo-rails.svg" class="img" height="100" width="100" alt="Ruby on Rails">
       </a>
+    </div>
+    <div class="text-center underline popover-trigger">View Supported Services
+      <div class="popover top">
+        <div class="grid-block grid-2">
+          <ul class="list grid-block vertical">
+            <li class="list-item">Cassandra
+            <li class="list-item">Consul
+            <li class="list-item">ElasticSearch
+            <li class="list-item">HBase
+            <li class="list-item">Memcached
+            <li class="list-item">MongoDB
+          </ul>
+          <ul class="list grid-block vertical">
+            <li class="list-item">MySQL
+            <li class="list-item">Nginx
+            <li class="list-item">PostreSQL
+            <li class="list-item">RabbitMQ
+            <li class="list-item">Redis
+            <li class="list-item">RethinkDB
+          </ul>
+      </div>
     </div>
   </div>
 </article>
