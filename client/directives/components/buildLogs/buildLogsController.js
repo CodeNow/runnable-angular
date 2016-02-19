@@ -58,7 +58,7 @@ function BuildLogsController(
       stream.hasData = true;
     });
 
-    stream.on('end', function () {
+    stream.on('finish', function () {
       if (!stream.hasData) {
         failCount++;
         if (failCount > 10) {

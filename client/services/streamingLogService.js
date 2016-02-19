@@ -142,7 +142,7 @@ function streamingLog(
 
     streaming = true;
     stream.on('data', handleStreamData);
-    stream.on('end', function () {
+    stream.on('finish', function () {
       streaming = false;
       $interval.cancel(timingInterval);
       $interval.cancel(checkExpandingInterval);
