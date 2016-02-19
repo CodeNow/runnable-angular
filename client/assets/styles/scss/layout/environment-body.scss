@@ -92,27 +92,11 @@
     @include media(xs) {
       width: 100%;
 
+      &:nth-child(5n+6),
+      &:nth-child(4n+5),
+      &:nth-child(3n+4),
+      &:nth-child(2n+3),
       + .card {
-        margin-left: 0;
-      }
-
-      // on the 6th card + 5 thereafter
-      &:nth-child(5n+6) {
-        margin-left: 15px;
-      }
-
-      // on the 5th card + 4 thereafter
-      &:nth-child(4n+5) {
-        margin-left: 15px;
-      }
-
-      // on the 4th card + 3 thereafter
-      &:nth-child(3n+4) {
-        margin-left: 15px; // override media(xl)
-      }
-
-      // no the 3rd card + 2 thereafter
-      &:nth-child(2n+3) {
         margin-left: 0;
       }
     }
