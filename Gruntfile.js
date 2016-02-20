@@ -32,7 +32,7 @@ module.exports = function(grunt) {
     '!client/dist/**/*.js',
     '!client/assets/**/*.js',
     'server/**/*.js'
-  //  'test/**/*.js'
+    // 'test/**/*.js'
   ];
 
   grunt.initConfig({
