@@ -123,32 +123,33 @@ app.controller('MainCtrl', function ($scope, $window, $http) {
     <h1 class="h1 text-center">Work in smaller & more
       <br class="hidden-xs">frequent iterations.
     </h1>
-    <div class="grid-block align-center vertical">
-      <h3 class="h3 strong">Always integrating.</h3>
-      <p class="p">Code like a boss, ’cause bosses don’t wait for integration!
-      <ul class="ul">
-        <li class="li">No waiting for <strong class="strong">environments</strong>.
-        <li class="li">No waiting for <strong class="strong">code to build</strong>.
-        <li class="li">No waiting for <strong class="strong">your teammates to build their code</strong>.
-      </ul>
-    </div>
 
-    <div class="grid-block align-center vertical">
-      <h3 class="h3 strong">Always testing.</h3>
-      <p class="p">Test like a bigger boss, one that gets the bigger picture!
-      <ul class="ul">
-        <li class="li">Test <strong class="strong">integrations</strong> before code complete.
-        <li class="li">Test <strong class="strong">E2E</strong>—where it matters the most.
-      </ul>
-    </div>
+    <div class="grid-block card-container">
+      <div class="grid-block vertical card">
+        <img src="images/always-integrating.svg" class="img" height="120" width="120">
+        <h3 class="h3 strong text-center">Always integrating.</h3>
+        <p class="p text-center">Code like a boss, ’cause bosses don’t wait for integration!</p>
+        <ul class="ul">
+          <li class="li">No waiting for <strong class="strong">environments</strong>.
+          <li class="li">No waiting for <strong class="strong">code to build</strong>.
+          <li class="li">No waiting for <strong class="strong">your team to build</strong>.
+        </ul>
+      </div>
 
-    <div class="grid-block align-center vertical">
-      <h3 class="h3 strong">Always sharing.</h3>
-      <p class="p">Share with your <strong class="strong">actual</strong> boss, or whoever you need to!
-      <ul class="ul">
-        <li class="li">Collaborate more frequently when all your code is running in one place.
-        <li class="li">Shoot a link to PMs, QA, or beta-testers—it’s that simple.
-      </ul>
+      <div class="grid-block vertical card">
+        <img src="images/always-testing.svg" class="img" height="120" width="120">
+        <h3 class="h3 strong text-center">Always testing.</h3>
+        <p class="p text-center">Test like a bigger boss, one that gets the bigger picture!</p>
+        <ul class="ul">
+          <li class="li">Test <strong class="strong">integrations</strong> before code complete.
+          <li class="li">Test <strong class="strong">E2E</strong>—where it matters the most.
+        </ul>
+      </div>
+    </div>
+    <div class="grid-block vertical always-sharing">
+      <img src="images/always-sharing.gif" class="img" height="90" width="90">
+      <h3 class="h3 strong text-center">Always sharing.</h3>
+      <p class="p text-center">Share with your <strong class="strong">actual</strong> boss, or whoever you need to! Collaborate more frequently when all your code is running in one place. Shoot a link to PMs, QA, or beta-testers—it’s that simple.
     </div>
   </div>
 </article>
