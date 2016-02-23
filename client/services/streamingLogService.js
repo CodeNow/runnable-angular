@@ -16,7 +16,7 @@ function streamingLog(
   return function (stream) {
     var refreshAngular = debounce(function () {
       $rootScope.$applyAsync();
-    }, 100);
+    }, 100, true);
 
     var checkExpandingInterval;
     var streamLogs = [];
@@ -50,11 +50,13 @@ function streamingLog(
                 escapeXML: true
               }),
               trustedContent: $sce.trustAsHtml(''),
+              trustedLines: [],
+              displayLines: [],
               hasContent: false,
-              getProcessedHtml: function () {
+              processHtml: debounce(function () {
                 var self = this;
                 if (!self.unprocessedContent.length) {
-                  return self.trustedContent;
+                  return;
                 }
                 var joinedContent = self.unprocessedContent.join('');
                 var lastLineIsFinished = joinedContent.slice(-2) === '\n';
@@ -68,19 +70,21 @@ function streamingLog(
                   if (streaming && currentCommand === self && !lastLineIsFinished && index === (lines.length - 1)) {
                     self.lastProcessedLine = self.converter.toHtml(line + '\n');
                   } else {
+                    self.trustedLines.push($sce.trustAsHtml(self.converter.toHtml(line + '\n')));
                     self.processedContent.push(self.converter.toHtml(line + '\n'));
                   }
                 });
                 self.unprocessedContent = [];
+                self.lineCount = self.trustedLines.length;
+                self.displayLines = self.trustedLines;
                 if (self.lastProcessedLine) {
                   self.unprocessedContent.push(lines[lines.length - 1]);
-                  self.trustedContent = $sce.trustAsHtml(self.processedContent.join('') + self.lastProcessedLine);
-                  self.lineCount = self.processedContent.length + 1;
-                } else if (lines.length) {
-                  self.trustedContent = $sce.trustAsHtml(self.processedContent.join(''));
-                  self.lineCount = self.processedContent.length;
                 }
-                return self.trustedContent;
+                $rootScope.$applyAsync();
+              }, 100, true),
+              getProcessedHtml: function () {
+                this.processHtml();
+                return this.displayLines;
               }
             };
             var previous = streamLogs[streamLogs.length - 1];
@@ -118,10 +122,12 @@ function streamingLog(
 
         if (data.timestamp) {
           streamTimes.latest = new Date(data.timestamp);
-          $interval.cancel(timingInterval);
+          clearInterval(timingInterval);
           streamTimes.currentMachineTime = streamTimes.latest;
-          timingInterval = $interval(function () {
+          // Using set interval becasue we DON'T want to trigger a digest cycle.
+          timingInterval = setInterval(function () {
             streamTimes.currentMachineTime = new Date(streamTimes.currentMachineTime.getTime() + 1000);
+            $rootScope.$applyAsync();
           }, 1000);
           if (!streamTimes.start) {
             streamTimes.start = new Date(data.timestamp);
@@ -138,13 +144,13 @@ function streamingLog(
       }
     }
 
-    checkExpandingInterval = $interval(setLastOpenedCommand, 500);
+    checkExpandingInterval = $interval(setLastOpenedCommand, 10000);
 
     streaming = true;
     stream.on('data', handleStreamData);
     stream.on('end', function () {
       streaming = false;
-      $interval.cancel(timingInterval);
+      clearInterval(timingInterval);
       $interval.cancel(checkExpandingInterval);
       setLastOpenedCommand();
       streamTimes.end = streamTimes.latest;
