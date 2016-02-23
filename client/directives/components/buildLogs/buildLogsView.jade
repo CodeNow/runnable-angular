@@ -107,7 +107,10 @@
     )
 
   .build-log-content(
-    ng-class = "{'building': BLC.buildLogsRunning && command.expanded && $last, 'long': command.lineCount > 1000, 'loaded': command.lineCount > 0}"
+    ng-class = "{\
+      'building': BLC.buildLogsRunning && command.expanded && $last,\
+      'long': command.lineCount > 1000, 'loaded': command.lineCount > 0\
+    }"
     ng-if = "(command.expanded && command.hasContent) || (BLC.buildLogsRunning && $last)"
     vs-repeat
   )

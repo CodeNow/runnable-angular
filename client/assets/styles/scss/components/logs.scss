@@ -116,18 +116,22 @@
     padding-bottom: 30px;
   }
 
+  // when logs are over 1000 lines
+  &.long {
+    height: 500px;
+    transition: height 0s;
+  }
+
+  &.loaded {
+    padding: 9px 9px 0 24px;
+  }
+
   &.ng-leave {
     overflow: hidden;
   }
+
   &.ng-leave-active {
     height: 0;
-  }
-  &.long{
-    transition: height 0s;
-    height: 500px;
-  }
-  &.loaded{
-    padding: 9px 9px 0 24px;
   }
 }
 
