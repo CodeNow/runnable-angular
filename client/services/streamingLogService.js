@@ -39,7 +39,6 @@ function streamingLog(
             }
             currentCommand = {
               unprocessedContent: [],
-              processedContent: [],
               command: $sce.trustAsHtml(convert.toHtml(data.content.replace(stepRegex, ''))),
               rawCommand: data.content.replace(stepRegex, ''),
               imageId: data.imageId,
@@ -53,7 +52,7 @@ function streamingLog(
               trustedLines: [],
               displayLines: [],
               hasContent: false,
-              processHtml: debounce(function () {
+              processHtml: function () {
                 var self = this;
                 if (!self.unprocessedContent.length) {
                   return;
@@ -71,17 +70,16 @@ function streamingLog(
                     self.lastProcessedLine = self.converter.toHtml(line + '\n');
                   } else {
                     self.trustedLines.push($sce.trustAsHtml(self.converter.toHtml(line + '\n')));
-                    self.processedContent.push(self.converter.toHtml(line + '\n'));
                   }
                 });
                 self.unprocessedContent = [];
                 self.lineCount = self.trustedLines.length;
                 self.displayLines = self.trustedLines;
                 if (self.lastProcessedLine) {
+                  self.displayLines.push($sce.trustAsHtml(self.lastProcessedLine));
                   self.unprocessedContent.push(lines[lines.length - 1]);
                 }
-                $rootScope.$applyAsync();
-              }, 100, true),
+              },
               getProcessedHtml: function () {
                 this.processHtml();
                 return this.displayLines;
@@ -144,7 +142,7 @@ function streamingLog(
       }
     }
 
-    checkExpandingInterval = $interval(setLastOpenedCommand, 10000);
+    checkExpandingInterval = $interval(setLastOpenedCommand, 100);
 
     streaming = true;
     stream.on('data', handleStreamData);
