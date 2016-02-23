@@ -5,16 +5,21 @@ var streamingLog;
 var moment = require('moment');
 var EventEmitter = require('events').EventEmitter;
 describe('streamingLogService'.blue.underline.bold, function () {
-  var refreshAngularSpy;
   var mockDebounce;
   var stream;
+  var mockInterval;
 
   beforeEach(function () {
     mockDebounce = sinon.spy(function (cb) {
-      return refreshAngularSpy = sinon.spy(function () {
-        cb();
-      });
+      var self = this;
+      return function () {
+        if (!self) {
+          self = this;
+        }
+        cb.apply(self);
+      };
     });
+    mockInterval = sinon.stub(window, 'setInterval');
     stream = new EventEmitter();
     sinon.spy(stream, 'on');
     stream.off = sinon.spy();
@@ -36,6 +41,11 @@ describe('streamingLogService'.blue.underline.bold, function () {
     });
   });
 
+  afterEach(function (done) {
+    window.setInterval.restore();
+    done();
+  });
+
   it('should return an object containing stream times and should contract the previous command', function () {
     var streamLogData = streamingLog(stream);
 
@@ -43,30 +53,28 @@ describe('streamingLogService'.blue.underline.bold, function () {
       {
         type: 'log',
         content: 'Step 1 : This is a step!\n',
-        timestamp: moment().subtract(2,'hours').format()
+        timestamp: moment().subtract(2, 'hours').format()
       },
       {
         type: 'log',
         content: 'Temp Log Data 1\n',
-        timestamp: moment().subtract(1.5,'hours').format()
+        timestamp: moment().subtract(1.5, 'hours').format()
       },
       {
         type: 'log',
         content: 'Temp Log Data 3\n',
-        timestamp: moment().subtract(21,'hours').format()
+        timestamp: moment().subtract(21, 'hours').format()
       },
       {
         type: 'log',
         content: 'Step 2 : This is a step!\n',
-        timestamp: moment().subtract(.5,'hours').format()
+        timestamp: moment().subtract(0.5, 'hours').format()
       }
     ];
     stream.emit('data', streamOfData);
-
     stream.emit('end');
 
-    sinon.assert.calledOnce(mockDebounce);
-    sinon.assert.called(refreshAngularSpy);
+    sinon.assert.calledThrice(mockDebounce);
 
     expect(streamLogData.logs.length).to.equal(2);
     expect(streamLogData.logs[0].expanded).to.equal(false);
@@ -101,8 +109,7 @@ describe('streamingLogService'.blue.underline.bold, function () {
 
     stream.emit('end');
 
-    sinon.assert.calledOnce(mockDebounce);
-    sinon.assert.called(refreshAngularSpy);
+    sinon.assert.calledTwice(mockDebounce);
 
     expect(streamLogData.logs[0].cached).to.be.ok;
     expect(streamLogData.logs[0].imageId).to.equal('321654987321');

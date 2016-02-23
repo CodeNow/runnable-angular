@@ -11,6 +11,7 @@ require('angular-animate');
 require('angular-modal-service');
 require('oclazyload');
 require('angular-clipboard');
+require('angular-vs-repeat');
 
 module.exports = angular.module('app', [
   'ui.router',
@@ -24,7 +25,8 @@ module.exports = angular.module('app', [
   require('angular-sanitize'),
   'oc.lazyLoad',
   'angular-clipboard',
-  require('angular-q-promisify')
+  require('angular-q-promisify'),
+  'vs-repeat'
 ])
   .config(function ($ocLazyLoadProvider) {
     $ocLazyLoadProvider.config({
