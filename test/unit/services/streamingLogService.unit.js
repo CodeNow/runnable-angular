@@ -5,17 +5,19 @@ var streamingLog;
 var moment = require('moment');
 var EventEmitter = require('events').EventEmitter;
 describe('streamingLogService'.blue.underline.bold, function () {
-  var refreshAngularSpy;
   var mockDebounce;
   var stream;
   var mockInterval;
 
   beforeEach(function () {
     mockDebounce = sinon.spy(function (cb) {
-      refreshAngularSpy = sinon.spy(function () {
-        cb();
-      });
-      return refreshAngularSpy;
+      var self = this;
+      return function () {
+        if (!self) {
+          self = this;
+        }
+        cb.apply(self);
+      };
     });
     mockInterval = sinon.stub(window, 'setInterval');
     stream = new EventEmitter();
@@ -72,8 +74,7 @@ describe('streamingLogService'.blue.underline.bold, function () {
     stream.emit('data', streamOfData);
     stream.emit('end');
 
-    sinon.assert.calledOnce(mockDebounce);
-    sinon.assert.called(refreshAngularSpy);
+    sinon.assert.calledThrice(mockDebounce);
 
     expect(streamLogData.logs.length).to.equal(2);
     expect(streamLogData.logs[0].expanded).to.equal(false);
@@ -108,8 +109,7 @@ describe('streamingLogService'.blue.underline.bold, function () {
 
     stream.emit('end');
 
-    sinon.assert.calledOnce(mockDebounce);
-    sinon.assert.called(refreshAngularSpy);
+    sinon.assert.calledTwice(mockDebounce);
 
     expect(streamLogData.logs[0].cached).to.be.ok;
     expect(streamLogData.logs[0].imageId).to.equal('321654987321');

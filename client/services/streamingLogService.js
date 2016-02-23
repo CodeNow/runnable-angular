@@ -81,7 +81,7 @@ function streamingLog(
                 }
               }, 100, true),
               getProcessedHtml: function () {
-                this.processHtml.apply(this);
+                this.processHtml();
                 return this.displayLines;
               }
             };
