@@ -69,6 +69,7 @@
     "find": "0.1.7",
     "grunt": "https://registry.npmjs.org/grunt/-/grunt-0.4.5.tgz",
     "grunt-autoprefixer": "2.2.0",
+    "grunt-aws": "^0.6.1",
     "grunt-bg-shell": "2.3.1",
     "grunt-browserify": "4.0.0",
     "grunt-cli": "0.1.13",

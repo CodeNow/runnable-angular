@@ -46,7 +46,7 @@ module.exports = function(grunt) {
         }
       },
       devNoBS: {
-        tasks: ['watch:images', 'watch:javascripts', 'watch:templates', 'watch:styles', 'watch:jade', 'watch:compress', 'nodemon'],
+        tasks: ['watch:images', 'watch:javascripts', 'watch:templates', 'watch:styles', 'watch:jade', 'nodemon'],
         options: {
           limit: 10,
           logConcurrentOutput: true
@@ -226,10 +226,6 @@ module.exports = function(grunt) {
           'autoprefixer'
         ]
       },
-      compress: {
-        files: ['client/build/**/*'],
-        tasks: ['newer:compress:build']
-      },
       jade: {
         files: [
           'server/views/home.jade',
@@ -319,17 +315,6 @@ module.exports = function(grunt) {
         }
       }
     },
-    compress: {
-      build: {
-        options: {
-          mode: 'gzip'
-        },
-        expand: true,
-        cwd: 'client/build/',
-        src: ['**/*'],
-        dest: 'client/dist/'
-      }
-    },
     jade: {
       compile: {
         options: {
@@ -385,10 +370,6 @@ module.exports = function(grunt) {
                 index: '/app.html',
                 rewrites: [
                   {
-                    from : /^\/$/,
-                    to: '/index.html'
-                  },
-                  {
                     from: /^\/build\//,
                     to: function (context) {
                       return context.parsedUrl.pathname.replace('/build', '');
@@ -399,6 +380,29 @@ module.exports = function(grunt) {
             ]
           }
         }
+      }
+    },
+    s3: {
+      options: {
+        accessKeyId: process.env.AWS_ACCESS_KEY,
+        secretAccessKey: process.env.AWS_SECRET_KEY,
+        bucket: 'app.runnable.io',
+        createBucket: true,
+        enableWeb: true,
+        gzip: true,
+        headers: {
+          ContentEncoding: 'gzip',
+          CacheControl: 60 * 5
+        }
+      },
+      build: {
+        files: [{
+          cwd: 'client/build/',
+          src: '**',
+          dest: 'build/'
+        }, {
+          'index.html': 'client/build/app.html'
+        }]
       }
     }
   });
@@ -466,6 +470,7 @@ module.exports = function(grunt) {
         configObj.host = process.env.API_URL || 'https://api-staging-codenow.runnableapp.com/';
         configObj.socketHost = process.env.API_SOCK_URL || process.env.API_URL;
         configObj.userContentDomain = process.env.USER_CONTENT_DOMAIN || 'runnableapp.com';
+        configObj.corporateUrl = process.env.CORPORATE_URL || 'https://runnable.io';
 
         if (configObj.host.charAt(configObj.host.length - 1) === '/') {
           configObj.host = configObj.host.substr(0, configObj.host.length - 1);
@@ -542,6 +547,7 @@ module.exports = function(grunt) {
 
 
 
+  grunt.loadNpmTasks('grunt-aws');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-browserify');
@@ -550,7 +556,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-autoprefixer');
   grunt.loadNpmTasks('grunt-sass');
   grunt.loadNpmTasks('grunt-concurrent');
-  grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-contrib-jade');
   grunt.loadNpmTasks('grunt-newer');
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -607,7 +612,6 @@ module.exports = function(grunt) {
     'bgShell:copyRunnableStatic',
     'bgShell:cleanIndexHtml',
     'compile-handlebars',
-    'compress:build',
     'concurrent:devNoBS'
   ]);
   grunt.registerTask('server', [
@@ -638,8 +642,7 @@ module.exports = function(grunt) {
     'jade:compile',
     'bgShell:copyRunnableStatic',
     'bgShell:cleanIndexHtml',
-    'compile-handlebars',
-    'compress:build'
+    'compile-handlebars'
   ]);
   grunt.registerTask('deploy:prod', [
     'copy',
@@ -654,7 +657,7 @@ module.exports = function(grunt) {
     'bgShell:copyRunnableStatic',
     'bgShell:cleanIndexHtml',
     'compile-handlebars',
-    'compress:build'
+    's3:build'
   ]);
   grunt.registerTask('deploy:staging', [
     'copy',
@@ -668,7 +671,6 @@ module.exports = function(grunt) {
     'jade:compile',
     'bgShell:copyRunnableStatic',
     'bgShell:cleanIndexHtml',
-    'compile-handlebars',
-    'compress:build'
+    'compile-handlebars'
   ]);
 };

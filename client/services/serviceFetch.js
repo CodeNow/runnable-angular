@@ -1,5 +1,6 @@
 'use strict';
 var jsonHash = require('json-hash');
+var apiConfig = require('../config/api');
 
 require('app')
   // User + Orgs
@@ -54,7 +55,7 @@ function fetchUser(
         .catch(function (err) {
           // Catch an unauth'd request and send 'em back
           if (keypather.get(err, 'data.statusCode') === 401) {
-            $window.location = '/';
+             $window.location = apiConfig.corporateUrl;
             // Return a never completing function since we are redirecting!
             return $q(angular.noop);
           }
