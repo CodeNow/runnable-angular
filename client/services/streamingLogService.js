@@ -52,7 +52,7 @@ function streamingLog(
               trustedLines: [],
               displayLines: [],
               hasContent: false,
-              processHtml: function () {
+              processHtml: debounce(function () {
                 var self = this;
                 if (!self.unprocessedContent.length) {
                   return;
@@ -79,9 +79,9 @@ function streamingLog(
                   self.displayLines.push($sce.trustAsHtml(self.lastProcessedLine));
                   self.unprocessedContent.push(lines[lines.length - 1]);
                 }
-              },
+              }, 100, true),
               getProcessedHtml: function () {
-                this.processHtml();
+                this.processHtml.apply(this);
                 return this.displayLines;
               }
             };
