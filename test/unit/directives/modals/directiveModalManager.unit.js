@@ -37,9 +37,7 @@ function makeDefaultOptions () {
 describe('directiveModalManager'.bold.underline.blue, function () {
   var ctx;
   function injectSetupCompile() {
-    angular.mock.module('app', function ($urlRouterProvider) {
-      $urlRouterProvider.deferIntercept();
-    });
+    angular.mock.module('app');
     angular.mock.inject(function (
       _$templateCache_,
       _$compile_,

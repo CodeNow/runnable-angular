@@ -63,8 +63,7 @@ describe('branchSelectorDirective'.bold.underline.blue, function () {
       }
     };
     runnable.reset(apiMocks.user);
-    angular.mock.module('app', function ($provide, $urlRouterProvider) {
-      $urlRouterProvider.deferIntercept();
+    angular.mock.module('app', function ($provide) {
       $provide.value('errs', ctx.errsMock);
       $provide.factory('fetchRepoBranches', function ($q) {
         return function (repo) {

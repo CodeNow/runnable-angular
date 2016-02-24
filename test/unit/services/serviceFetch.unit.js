@@ -36,8 +36,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
         location: 'foo'
       };
       angular.mock.module('app');
-      angular.mock.module(function ($provide, $urlRouterProvider) {
-        $urlRouterProvider.deferIntercept();
+      angular.mock.module(function ($provide) {
         $provide.value('apiClientBridge', apiClientBridge);
         $provide.value('$window', windowMock);
       });
@@ -86,8 +85,8 @@ describe('serviceFetch'.bold.underline.blue, function () {
     beforeEach(function () {
       user = {};
       angular.mock.module('app');
-      angular.mock.module(function ($provide, $urlRouterProvider) {
-        $urlRouterProvider.deferIntercept();
+      angular.mock.module(function ($provide) {
+
         $provide.factory('fetchUser', function ($q) {
           return function () {
             return $q.when(user);
@@ -128,8 +127,8 @@ describe('serviceFetch'.bold.underline.blue, function () {
         handler: sinon.stub()
       };
       angular.mock.module('app');
-      angular.mock.module(function ($provide, $urlRouterProvider) {
-        $urlRouterProvider.deferIntercept();
+      angular.mock.module(function ($provide) {
+
         $provide.factory('fetchUser', fetchUserFactory);
         $provide.value('errs', errs);
       });
@@ -243,8 +242,8 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
     beforeEach(function () {
       angular.mock.module('app');
-      angular.mock.module(function ($provide, $urlRouterProvider) {
-        $urlRouterProvider.deferIntercept();
+      angular.mock.module(function ($provide) {
+
         $provide.factory('fetchUser', function ($q) {
           user = {
             fetchBuild: sinon.stub().callsArg(1)
@@ -285,8 +284,8 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
     beforeEach(function () {
       angular.mock.module('app');
-      angular.mock.module(function ($provide, $urlRouterProvider) {
-        $urlRouterProvider.deferIntercept();
+      angular.mock.module(function ($provide) {
+
         $provide.factory('fetchUser', function ($q) {
           user = {
             oauthName: sinon.stub().returns('Myztiq'),
@@ -365,8 +364,8 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
     beforeEach(function () {
       angular.mock.module('app');
-      angular.mock.module(function ($provide, $urlRouterProvider) {
-        $urlRouterProvider.deferIntercept();
+      angular.mock.module(function ($provide) {
+
         $provide.factory('fetchUser', function ($q) {
           user = {
             fetchContexts: sinon.stub().callsArgWith(1)
@@ -403,8 +402,8 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
     beforeEach(function () {
       angular.mock.module('app');
-      angular.mock.module(function ($provide, $urlRouterProvider) {
-        $urlRouterProvider.deferIntercept();
+      angular.mock.module(function ($provide) {
+
         $provide.factory('fetchInstances', function ($q) {
           _$q =  $q;
           rawInstances = runnable.newInstances(instances.listWithPods, {
@@ -494,8 +493,8 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
     beforeEach(function () {
       angular.mock.module('app');
-      angular.mock.module(function ($provide, $urlRouterProvider) {
-        $urlRouterProvider.deferIntercept();
+      angular.mock.module(function ($provide) {
+
         $provide.factory('$http', httpFactory);
       });
       angular.mock.inject(function (
@@ -534,8 +533,8 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
     beforeEach(function () {
       angular.mock.module('app');
-      angular.mock.module(function ($provide, $urlRouterProvider) {
-        $urlRouterProvider.deferIntercept();
+      angular.mock.module(function ($provide) {
+
         $provide.factory('$http', httpFactory);
       });
       angular.mock.inject(function (
@@ -569,8 +568,8 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
     beforeEach(function () {
       angular.mock.module('app');
-      angular.mock.module(function ($provide, $urlRouterProvider) {
-        $urlRouterProvider.deferIntercept();
+      angular.mock.module(function ($provide) {
+
         $provide.factory('$http', httpFactory);
       });
       angular.mock.inject(function (
@@ -604,8 +603,8 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
     beforeEach(function () {
       angular.mock.module('app');
-      angular.mock.module(function ($provide, $urlRouterProvider) {
-        $urlRouterProvider.deferIntercept();
+      angular.mock.module(function ($provide) {
+
         $provide.factory('$http', httpFactory);
       });
       angular.mock.inject(function (
@@ -678,8 +677,8 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
     beforeEach(function () {
       angular.mock.module('app');
-      angular.mock.module(function ($provide, $urlRouterProvider) {
-        $urlRouterProvider.deferIntercept();
+      angular.mock.module(function ($provide) {
+
         $provide.factory('$http', httpFactory);
       });
       angular.mock.inject(function (
@@ -750,8 +749,8 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
     beforeEach(function () {
       angular.mock.module('app');
-      angular.mock.module(function ($provide, $urlRouterProvider) {
-        $urlRouterProvider.deferIntercept();
+      angular.mock.module(function ($provide) {
+
         $provide.factory('$http', httpFactory);
         $provide.factory('fetchGitHubUser', function ($q) {
           fetchGitHubUserMock = sinon.spy(function (memberName) {
@@ -796,8 +795,8 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
     beforeEach(function () {
       angular.mock.module('app');
-      angular.mock.module(function ($provide, $urlRouterProvider) {
-        $urlRouterProvider.deferIntercept();
+      angular.mock.module(function ($provide) {
+
         $provide.factory('$http', httpFactory);
       });
       angular.mock.inject(function (
@@ -864,8 +863,8 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
     beforeEach(function () {
       angular.mock.module('app');
-      angular.mock.module(function ($provide, $urlRouterProvider) {
-        $urlRouterProvider.deferIntercept();
+      angular.mock.module(function ($provide) {
+
         $provide.factory('$http', httpFactory);
         $provide.factory('fetchUser', function ($q) {
           return function () {
@@ -961,8 +960,8 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
     beforeEach(function () {
       angular.mock.module('app');
-      angular.mock.module(function ($provide, $urlRouterProvider) {
-        $urlRouterProvider.deferIntercept();
+      angular.mock.module(function ($provide) {
+
         $provide.factory('$http', httpFactory);
         $provide.factory('fetchUser', function ($q) {
           return function () {
@@ -1064,8 +1063,8 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
     beforeEach(function () {
       angular.mock.module('app');
-      angular.mock.module(function ($provide, $urlRouterProvider) {
-        $urlRouterProvider.deferIntercept();
+      angular.mock.module(function ($provide) {
+
         $provide.factory('fetchOrgs', function ($q) {
           return function () {
             return $q.when(fetchOrgsResponse);
@@ -1140,8 +1139,8 @@ describe('serviceFetch'.bold.underline.blue, function () {
         })
       };
       angular.mock.module('app');
-      angular.mock.module(function ($provide, $urlRouterProvider) {
-        $urlRouterProvider.deferIntercept();
+      angular.mock.module(function ($provide) {
+
         $provide.factory('fetchGithubOrgId', function ($q) {
           var org = generateGithubOrgObject();
           fetchGithubOrgId = sinon.stub().returns($q.when(org.id));
@@ -1235,8 +1234,8 @@ describe('serviceFetch'.bold.underline.blue, function () {
         })
       };
       angular.mock.module('app');
-      angular.mock.module(function ($provide, $urlRouterProvider) {
-        $urlRouterProvider.deferIntercept();
+      angular.mock.module(function ($provide) {
+
         $provide.factory('fetchUser', function ($q) {
           return function () {
             return $q.when(user);
@@ -1317,8 +1316,8 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
     beforeEach(function () {
       angular.mock.module('app');
-      angular.mock.module(function ($provide, $urlRouterProvider) {
-        $urlRouterProvider.deferIntercept();
+      angular.mock.module(function ($provide) {
+
         $provide.factory('fetchOrgRegisteredMembers', function ($q) {
           fetchOrgRegisteredMembersStub = sinon.stub().returns($q.when(fetchOrgRegisteredMembersResponse));
           return fetchOrgRegisteredMembersStub;
@@ -1482,8 +1481,8 @@ describe('serviceFetch'.bold.underline.blue, function () {
         }
       };
       angular.mock.module('app');
-      angular.mock.module(function ($provide, $urlRouterProvider) {
-        $urlRouterProvider.deferIntercept();
+      angular.mock.module(function ($provide) {
+
         $provide.factory('fetchOrgRegisteredMembers', function ($q) {
           fetchOrgRegisteredMembersStub = sinon.stub().returns($q.when(fetchOrgRegisteredMembersResponse));
           return fetchOrgRegisteredMembersStub;
@@ -1573,8 +1572,8 @@ describe('serviceFetch'.bold.underline.blue, function () {
     var orgId = 567;
     beforeEach(function () {
       angular.mock.module('app');
-      angular.mock.module(function ($provide, $urlRouterProvider) {
-        $urlRouterProvider.deferIntercept();
+      angular.mock.module(function ($provide) {
+
         $provide.factory('fetchUser', function ($q, $rootScope) {
           user = {
             createTeammateInvitation: sinon.spy(function (invitationObject, cb) {

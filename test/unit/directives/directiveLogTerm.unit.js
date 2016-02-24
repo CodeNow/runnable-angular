@@ -37,8 +37,7 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
       ctx.resizeHandlerCb = cb;
       return ctx.termMock;
     });
-    angular.mock.module(function ($provide, $controllerProvider, $urlRouterProvider) {
-      $urlRouterProvider.deferIntercept();
+    angular.mock.module(function ($provide, $controllerProvider) {
       $provide.value('primus', mockPrimus);
       $provide.factory('fetchInstances', fixtures.mockFetchInstances.running);
       $provide.value('helperSetupTerminal', ctx.setupTermMock);

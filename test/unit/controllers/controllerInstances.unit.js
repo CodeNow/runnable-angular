@@ -74,8 +74,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
     localStorageData = angular.extend({}, localStorageData, {
       $default: sinon.spy()
     });
-    angular.mock.module('app', function ($provide, $urlRouterProvider) {
-      $urlRouterProvider.deferIntercept();
+    angular.mock.module('app', function ($provide) {
       $provide.factory('fetchInstancesByPod', mockFetch.fetch());
       $provide.value('favico', {
         reset : sinon.spy(),

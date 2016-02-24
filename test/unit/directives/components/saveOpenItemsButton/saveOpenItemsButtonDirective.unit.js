@@ -28,8 +28,7 @@ describe('saveOpenItemsButtonDirective'.bold.underline.blue, function () {
       SOIBC = this;
     };
     ctx.SaveOpenItemsButtonController.saveChanges = function () {};
-    angular.mock.module('app', function ($provide, $controllerProvider, $urlRouterProvider) {
-      $urlRouterProvider.deferIntercept();
+    angular.mock.module('app', function ($provide, $controllerProvider) {
       $controllerProvider.register('SaveOpenItemsButtonController', ctx.SaveOpenItemsButtonController);
     });
     angular.mock.inject(function (_$compile_, _$timeout_, _$rootScope_, _$q_) {

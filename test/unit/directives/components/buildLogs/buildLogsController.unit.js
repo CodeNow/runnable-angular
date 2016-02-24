@@ -61,8 +61,7 @@ describe('BuildLogsController'.bold.underline.blue, function () {
       handler: sinon.spy()
     };
 
-    angular.mock.module('app', function ($provide, $urlRouterProvider) {
-      $urlRouterProvider.deferIntercept();
+    angular.mock.module('app', function ($provide) {
       $provide.value('streamingLog', mockStreamingLog);
       $provide.value('primus', mockPrimus);
       $provide.value('errs', mockErrs);

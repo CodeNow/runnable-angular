@@ -34,4 +34,8 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     item.url = ((typeof item.url === 'string' && item.url[item.url.length - 1] !== '/') ? item.url + '/' : item.url);
     $stateProvider.state(state, item);
   });
+
+  if (window.testingMode) {
+    $urlRouterProvider.deferIntercept();
+  }
 });

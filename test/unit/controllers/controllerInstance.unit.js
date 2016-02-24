@@ -22,8 +22,7 @@ describe('controllerInstance'.bold.underline.blue, function () {
   beforeEach(angular.mock.module('app'));
 
   beforeEach(function () {
-    angular.mock.module(function ($provide, $urlRouterProvider) {
-      $urlRouterProvider.deferIntercept();
+    angular.mock.module(function ($provide) {
       mockFavico = {
         reset : sinon.spy(),
         setInstanceState: sinon.spy()

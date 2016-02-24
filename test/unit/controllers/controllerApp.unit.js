@@ -51,8 +51,7 @@ describe('controllerApp'.bold.underline.blue, function () {
       clearErrors: sinon.spy(),
       errors: []
     };
-    angular.mock.module('app', function ($provide, $urlRouterProvider) {
-      $urlRouterProvider.deferIntercept();
+    angular.mock.module('app', function ($provide) {
       $provide.factory('fetchInstancesByPod', ctx.fetchInstancesByPodMock.autoTrigger(createMasterPods()));
       $provide.value('$stateParams', ctx.stateParams);
       $provide.value('user', ctx.fakeuser);
