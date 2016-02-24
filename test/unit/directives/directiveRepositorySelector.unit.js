@@ -65,7 +65,8 @@ describe('directiveRepositorySelector'.bold.underline.blue, function () {
     };
 
     angular.mock.module('app');
-    angular.mock.module(function ($provide) {
+    angular.mock.module(function ($provide, $urlRouterProvider) {
+      $urlRouterProvider.deferIntercept();
       $provide.factory('fetchOwnerRepos', function ($q) {
         runnable.reset(mocks.user);
         fetchOwnerRepoStub = sinon.stub().returns(

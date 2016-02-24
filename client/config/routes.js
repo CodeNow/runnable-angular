@@ -35,7 +35,7 @@ module.exports = [
   }, {
     state: 'index',
     abstract: false,
-    url: '^/$',
+    url: '^/',
     templateUrl: 'viewOrgSelect',
     controller: 'ControllerOrgSelect',
     controllerAs: 'COS',
