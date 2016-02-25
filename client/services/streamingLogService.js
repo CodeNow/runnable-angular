@@ -60,6 +60,7 @@ function streamingLog(
                 var joinedContent = self.unprocessedContent.join('');
                 var lastLineIsFinished = joinedContent.slice(-2) === '\n';
                 var lines = joinedContent.split('\n');
+                var oldProcessedLine = self.lastProcessedLine;
                 self.lastProcessedLine = null;
                 lines.forEach(function (line, index) {
                   if (line.length > 1000) {
@@ -72,14 +73,18 @@ function streamingLog(
                     self.trustedLines.push($sce.trustAsHtml(self.converter.toHtml(line + '\n')));
                   }
                 });
+                // Short circuit. Don't make a new array since nothing has changed.
+                if (oldProcessedLine === self.lastProcessedLine && self.lastProcessedLine) {
+                  return;
+                }
                 self.unprocessedContent = [];
                 self.lineCount = self.trustedLines.length;
-                self.displayLines = self.trustedLines;
+                self.displayLines = [].concat(self.trustedLines);
                 if (self.lastProcessedLine) {
                   self.displayLines.push($sce.trustAsHtml(self.lastProcessedLine));
                   self.unprocessedContent.push(lines[lines.length - 1]);
                 }
-              }, 100, true),
+              }, 10, true),
               getProcessedHtml: function () {
                 this.processHtml();
                 return this.displayLines;
