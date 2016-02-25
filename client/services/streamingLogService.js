@@ -31,7 +31,7 @@ function streamingLog(
         dataArray = [dataArray];
       }
       dataArray.forEach(function (data) {
-        if (['docker', 'log'].includes(data.type)) {
+        if (['docker', 'log', 'error'].includes(data.type)) {
           var stepRegex = /^Step [0-9]+ : /;
           if (stepRegex.test(data.content)) {
             if (currentCommand) {
