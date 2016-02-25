@@ -22,6 +22,8 @@ function streamingLog(
     var streamLogs = [];
     var currentCommand = null;
     var streamTimes = {};
+    // we only care about last error
+    var streamError;
     var timingInterval = null;
     var streaming = false;
     var rawLogs = [];
@@ -31,7 +33,9 @@ function streamingLog(
         dataArray = [dataArray];
       }
       dataArray.forEach(function (data) {
-        if (['docker', 'log', 'error'].includes(data.type)) {
+        if (data.type === 'error') {
+          streamError = data.content;
+        } else if (['docker', 'log'].includes(data.type)) {
           var stepRegex = /^Step [0-9]+ : /;
           if (stepRegex.test(data.content)) {
             if (currentCommand) {
@@ -158,6 +162,7 @@ function streamingLog(
     return {
       logs: streamLogs,
       times: streamTimes,
+      error: streamError,
       getRawLogs: function () {
         if (!processedRawLogs) {
           var contentJoined = rawLogs

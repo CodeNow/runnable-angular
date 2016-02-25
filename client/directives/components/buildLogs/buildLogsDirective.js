@@ -189,11 +189,13 @@ function buildLogs(
         if ($scope.BLC.buildLogTiming.start && $scope.BLC.buildLogTiming.end){
           totalBuildTime = getTimeDiff($scope.BLC.buildLogTiming.end, $scope.BLC.buildLogTiming.start);
         }
-        var buildMessage = '';
+        var buildMessage = 'Build ';
         if ($scope.BLC.buildStatus === 'failed') {
-          buildMessage += 'Build failed';
+          var timeoutRegex = /^Runnable: build timeout/;
+          var errType = timeoutRegex.test($scope.BLC.buildLogError) ? 'timed out' : 'failed';
+          buildMessage += errType;
         } else if ($scope.BLC.buildStatus === 'success') {
-          buildMessage += 'Build finished successfully';
+          buildMessage += 'finished successfully';
         } else {
           return;
         }
