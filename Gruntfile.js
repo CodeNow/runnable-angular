@@ -354,7 +354,7 @@ module.exports = function(grunt) {
       options: {
         accessKeyId: process.env.AWS_ACCESS_KEY,
         secretAccessKey: process.env.AWS_SECRET_KEY,
-        bucket: 'app.runnable.io',
+        bucket: process.env.AWS_BUCKET,
         createBucket: true,
         enableWeb: true,
         gzip: true,
@@ -438,7 +438,7 @@ module.exports = function(grunt) {
         configObj.host = process.env.API_URL || 'https://api-staging-codenow.runnableapp.com/';
         configObj.socketHost = process.env.API_SOCK_URL || process.env.API_URL;
         configObj.userContentDomain = process.env.USER_CONTENT_DOMAIN || 'runnableapp.com';
-        configObj.corporateUrl = process.env.CORPORATE_URL || 'https://runnable.io';
+        configObj.corporateUrl = process.env.MARKETING_URL || 'https://runnable.io';
 
         if (configObj.host.charAt(configObj.host.length - 1) === '/') {
           configObj.host = configObj.host.substr(0, configObj.host.length - 1);
