@@ -117,6 +117,22 @@ describe('BuildLogsController'.bold.underline.blue, function () {
         mockInstance.on.lastCall.args[1]();
         expect(BLC.buildLogsRunning).to.not.be.ok;
       });
+      it('should set error message', function () {
+        var testErr = 'thatsDope';
+        mockInstance.attrs.contextVersion.build.error = {
+          message: testErr
+        }
+        mockInstance.status.returns('buildFailed');
+        mockInstance.on.lastCall.args[1]();
+        expect(BLC.failReason).to.equal(testErr)
+        expect(BLC.buildStatus).to.equal('failed')
+      });
+      it('should set failed if no error message', function () {
+        mockInstance.status.returns('buildFailed');
+        mockInstance.on.lastCall.args[1]();
+        expect(BLC.failReason).to.equal('failed')
+        expect(BLC.buildStatus).to.equal('failed')
+      });
       it('should handle toggling debug mode', function () {
         mockInstance.on.lastCall.args[1]();
         expect(BLC.showDebug).to.not.be.ok;
