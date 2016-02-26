@@ -13,7 +13,6 @@ if (!envIs('production', 'staging')) {
   historyApiFallback = require('connect-history-api-fallback');
 }
 
-
 var config = {};
 
 module.exports = function(grunt) {
@@ -46,7 +45,7 @@ module.exports = function(grunt) {
         }
       },
       devNoBS: {
-        tasks: ['watch:images', 'watch:javascripts', 'watch:templates', 'watch:styles', 'watch:jade', 'watch:compress', 'nodemon'],
+        tasks: ['watch:images', 'watch:javascripts', 'watch:templates', 'watch:styles', 'watch:jade', 'nodemon'],
         options: {
           limit: 10,
           logConcurrentOutput: true
@@ -226,37 +225,11 @@ module.exports = function(grunt) {
           'autoprefixer'
         ]
       },
-      compress: {
-        files: ['client/build/**/*'],
-        tasks: ['newer:compress:build']
-      },
       jade: {
         files: [
-          'server/views/home.jade',
-          'server/views/layout.jade'
+          'layout.jade'
         ],
         tasks: ['newer:jade:compile']
-      }
-    },
-    'compile-handlebars': {
-      index: {
-        files: [{
-          src: 'runnable.com/handlebars/index.hbs',
-          dest: 'client/build/index.html'
-        }],
-        templateData: function () {
-          var envConfig = require('./client/config/json/environment.json');
-          var commitConfig = require('./client/config/json/commit.json');
-          var apiConfig = require('./client/config/json/api.json');
-          return {
-            version: version,
-            env: envConfig.environment,
-            commitHash: commitConfig.commitHash,
-            commitTime: commitConfig.commitTime,
-            apiHost: apiConfig.host
-          };
-        },
-        helpers: './client/handlebar-helpers/if_eq.js'
       }
     },
     bgShell: {
@@ -286,14 +259,6 @@ module.exports = function(grunt) {
       'npm-install': {
         bg: false,
         cmd: 'echo \'installing dependencies...\n\' && npm install --silent'
-      },
-      copyRunnableStatic: {
-        bg: false,
-        cmd: 'cp -R runnable.com/* client/build/'
-      },
-      cleanIndexHtml: {
-        bg: false,
-        cmd: 'rm -rf client/build/index.html'
       }
     },
     jsbeautifier: {
@@ -319,17 +284,6 @@ module.exports = function(grunt) {
         }
       }
     },
-    compress: {
-      build: {
-        options: {
-          mode: 'gzip'
-        },
-        expand: true,
-        cwd: 'client/build/',
-        src: ['**/*'],
-        dest: 'client/dist/'
-      }
-    },
     jade: {
       compile: {
         options: {
@@ -349,8 +303,7 @@ module.exports = function(grunt) {
           }
         },
         files: {
-          'client/build/old-index.html': 'server/views/home.jade',
-          'client/build/app.html': 'server/views/layout.jade'
+          'client/build/app.html': 'layout.jade'
         }
       }
     },
@@ -385,10 +338,6 @@ module.exports = function(grunt) {
                 index: '/app.html',
                 rewrites: [
                   {
-                    from : /^\/$/,
-                    to: '/index.html'
-                  },
-                  {
                     from: /^\/build\//,
                     to: function (context) {
                       return context.parsedUrl.pathname.replace('/build', '');
@@ -399,6 +348,29 @@ module.exports = function(grunt) {
             ]
           }
         }
+      }
+    },
+    s3: {
+      options: {
+        accessKeyId: process.env.AWS_ACCESS_KEY,
+        secretAccessKey: process.env.AWS_SECRET_KEY,
+        bucket: process.env.AWS_BUCKET,
+        createBucket: true,
+        enableWeb: true,
+        gzip: true,
+        headers: {
+          ContentEncoding: 'gzip',
+          CacheControl: 60 * 5
+        }
+      },
+      build: {
+        files: [{
+          cwd: 'client/build/',
+          src: '**',
+          dest: 'build/'
+        }, {
+          'index.html': 'client/build/app.html'
+        }]
       }
     }
   });
@@ -466,6 +438,7 @@ module.exports = function(grunt) {
         configObj.host = process.env.API_URL || 'https://api-staging-codenow.runnableapp.com/';
         configObj.socketHost = process.env.API_SOCK_URL || process.env.API_URL;
         configObj.userContentDomain = process.env.USER_CONTENT_DOMAIN || 'runnableapp.com';
+        configObj.corporateUrl = process.env.MARKETING_URL || 'https://runnable.io';
 
         if (configObj.host.charAt(configObj.host.length - 1) === '/') {
           configObj.host = configObj.host.substr(0, configObj.host.length - 1);
@@ -542,6 +515,7 @@ module.exports = function(grunt) {
 
 
 
+  grunt.loadNpmTasks('grunt-aws');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-browserify');
@@ -550,7 +524,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-autoprefixer');
   grunt.loadNpmTasks('grunt-sass');
   grunt.loadNpmTasks('grunt-concurrent');
-  grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-contrib-jade');
   grunt.loadNpmTasks('grunt-newer');
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -587,9 +560,6 @@ module.exports = function(grunt) {
     'generateConfigs',
     'browserify:watch',
     'jade:compile',
-    'bgShell:copyRunnableStatic',
-    'bgShell:cleanIndexHtml',
-    'compile-handlebars',
     'browserSync',
     'concurrent'
   ]);
@@ -604,10 +574,6 @@ module.exports = function(grunt) {
     'generateConfigs',
     'browserify:watch',
     'jade:compile',
-    'bgShell:copyRunnableStatic',
-    'bgShell:cleanIndexHtml',
-    'compile-handlebars',
-    'compress:build',
     'concurrent:devNoBS'
   ]);
   grunt.registerTask('server', [
@@ -620,9 +586,6 @@ module.exports = function(grunt) {
     'generateConfigs',
     'browserify:watch',
     'jade:compile',
-    'bgShell:copyRunnableStatic',
-    'bgShell:cleanIndexHtml',
-    'compile-handlebars',
     'browserSync',
     'concurrent'
   ]);
@@ -636,10 +599,6 @@ module.exports = function(grunt) {
     'browserify:once',
     'uglify:app',
     'jade:compile',
-    'bgShell:copyRunnableStatic',
-    'bgShell:cleanIndexHtml',
-    'compile-handlebars',
-    'compress:build'
   ]);
   grunt.registerTask('deploy:prod', [
     'copy',
@@ -651,10 +610,7 @@ module.exports = function(grunt) {
     'browserify:once',
     'uglify:app',
     'jade:compile',
-    'bgShell:copyRunnableStatic',
-    'bgShell:cleanIndexHtml',
-    'compile-handlebars',
-    'compress:build'
+    's3:build'
   ]);
   grunt.registerTask('deploy:staging', [
     'copy',
@@ -666,9 +622,5 @@ module.exports = function(grunt) {
     'browserify:once',
     'uglify:app',
     'jade:compile',
-    'bgShell:copyRunnableStatic',
-    'bgShell:cleanIndexHtml',
-    'compile-handlebars',
-    'compress:build'
   ]);
 };

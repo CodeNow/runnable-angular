@@ -33,6 +33,38 @@ module.exports = [
       }
     }
   }, {
+    state: 'index',
+    abstract: false,
+    url: '^/',
+    templateUrl: 'viewOrgSelect',
+    controller: 'ControllerOrgSelect',
+    controllerAs: 'COS',
+    resolve: {
+      orgs: function (fetchOrgs, user) {
+        return fetchOrgs();
+      },
+      user: function (fetchUser, keypather, $state) {
+        return fetchUser()
+          .then(function (user) {
+            var prevLocation = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.org');
+            var prevInstance = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.instance');
+            if (prevLocation) {
+              if (prevInstance) {
+                $state.go('base.instances.instance', {
+                  userName: prevLocation,
+                  instanceName: prevInstance
+                });
+              } else {
+                $state.go('base.instances', {
+                  userName: prevLocation
+                });
+              }
+            }
+            return user;
+          });
+      }
+    }
+  }, {
     state: 'orgSelect',
     abstract: false,
     url: '^/orgSelect',
