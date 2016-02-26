@@ -27,7 +27,8 @@ describe('BuildLogsController'.bold.underline.blue, function () {
       id: sinon.stub().returns('instanceID'),
       attrs: {
         contextVersion: {
-          _id: 'ctxId'
+          _id: 'ctxId',
+          build: {}
         }
       }
     };
