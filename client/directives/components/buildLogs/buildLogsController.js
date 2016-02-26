@@ -87,7 +87,6 @@ function BuildLogsController(
     });
     BLC.buildLogs = streamingBuildLogs.logs;
     BLC.buildLogTiming = streamingBuildLogs.times;
-    BLC.buildLogError = streamingBuildLogs.error;
     BLC.getRawLogs = streamingBuildLogs.getRawLogs;
   }
 
