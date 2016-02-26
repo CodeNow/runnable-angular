@@ -21,7 +21,9 @@ function BuildLogsController(
     var status = BLC.instance.status();
     BLC.showErrorPanel = false;
     if (status === 'buildFailed' || status === 'neverStarted') {
-      BLC.buildStatus = 'failed';
+      var buildError = BLC.instance.attrs.contextVersion.build.error || {};
+      BLC.buildStatus ='failed';
+      BLC.failReason = buildError.message || 'failed';
       BLC.showDebug = true;
       BLC.buildLogsRunning = false;
       if (status === 'neverStarted') {

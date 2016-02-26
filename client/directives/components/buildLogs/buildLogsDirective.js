@@ -191,9 +191,7 @@ function buildLogs(
         }
         var buildMessage = 'Build ';
         if ($scope.BLC.buildStatus === 'failed') {
-          var timeoutRegex = /^Runnable: build timeout/;
-          var errType = timeoutRegex.test($scope.BLC.buildLogError) ? 'timed out' : 'failed';
-          buildMessage += errType;
+          buildMessage += $scope.BLC.failReason;
         } else if ($scope.BLC.buildStatus === 'success') {
           buildMessage += 'finished successfully';
         } else {
