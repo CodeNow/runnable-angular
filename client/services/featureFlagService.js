@@ -22,6 +22,7 @@ function featureFlags(
     internalDebugging: false,
     inviteFlows: false,
     isolationUI: true, // for isolation UI
+    isolationRepos: false, // for isolation UI
     multilineFnR: false,
     nameContainer: false,
     navListFilter: false,
