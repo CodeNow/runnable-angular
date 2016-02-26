@@ -21,7 +21,7 @@
       h4.h4(
         ng-if = "$root.featureFlags.isolationRepos && ICMC.repoInstances.length"
       ) Repository Containers
-      list.list-bordered(
+      .list.list-bordered(
         ng-if = "$root.featureFlags.isolationRepos && ICMC.repoInstances.length"
       )
         .list-item
@@ -107,6 +107,9 @@
 
       //- before b&r feature: all service containers
         - after b&r feature: service containers that aren't databases
+      h4.h4(
+        ng-if = "ICMC.nonRepoInstances.length"
+      ) Non-Repository Containers
       .list.list-bordered(
         ng-if = "ICMC.nonRepoInstances.length"
       )
