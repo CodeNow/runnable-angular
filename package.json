@@ -6,7 +6,7 @@
   "scripts": {
     "gruntDeploy": "./node_modules/.bin/grunt deploy:prod",
     "grunt": "./node_modules/.bin/grunt deploy",
-    "start": "./node_modules/.bin/grunt",
+    "start": "./node_modules/.bin/grunt no-bs",
     "e2e": "./node_modules/.bin/grunt test:e2e",
     "unit": "./node_modules/.bin/grunt test:unit"
   },

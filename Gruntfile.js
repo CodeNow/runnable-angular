@@ -621,6 +621,6 @@ module.exports = function(grunt) {
     'generateConfigs:staging',
     'browserify:once',
     'uglify:app',
-    'jade:compile',
+    'jade:compile'
   ]);
 };
