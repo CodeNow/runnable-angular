@@ -598,7 +598,7 @@ module.exports = function(grunt) {
     'generateConfigs',
     'browserify:once',
     'uglify:app',
-    'jade:compile',
+    'jade:compile'
   ]);
   grunt.registerTask('deploy:prod', [
     'copy',
@@ -620,7 +620,6 @@ module.exports = function(grunt) {
     'autoBundleDependencies',
     'generateConfigs:staging',
     'browserify:once',
-    'uglify:app',
     'jade:compile'
   ]);
 };
