@@ -22,6 +22,7 @@
           small.small Create a container for a repository on Github
         button.btn.btn-huge.white(
           ng-click = "NCMC.newTemplateContainer()"
+          ng-class = "{ help: NCMC.servicesActive }"
         )
           svg.iconnables
             use(
