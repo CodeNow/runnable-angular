@@ -117,6 +117,12 @@ EventTracking.prototype.boot = function (user) {
 
   if (user.attrs._beingModerated) {
     user = new User(user.attrs._beingModerated, { noStore: true });
+  } else {
+    if (window.fbq) {
+      window.fbq('track', 'ViewContent', {
+        action: 'LoggedIn'
+      });
+    }
   }
 
   this._user = user;
