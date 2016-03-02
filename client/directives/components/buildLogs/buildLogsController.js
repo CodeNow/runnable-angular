@@ -12,7 +12,8 @@ function BuildLogsController(
   updateInstanceWithNewBuild,
   primus,
   promisify,
-  streamingLog
+  streamingLog,
+  watchOncePromise
 ) {
   var BLC = this;
   BLC.showDebug = false;
@@ -42,24 +43,32 @@ function BuildLogsController(
   var failCount = 0;
   var streamDelay = 500;
 
-  function setupStream () {
+  function setupStream() {
     BLC.streamFailure = false;
     var stream = null;
     if (BLC.instance) {
-      stream = primus.createBuildStream(BLC.instance.build);
-      handleUpdate();
-      BLC.instance.on('update', handleUpdate);
-      $scope.$on('$destroy', function () {
-        BLC.instance.off('update', handleUpdate);
-      });
+      BLC.buildStatus = 'starting';
+      BLC.buildLogs = [];
+      BLC.buildLogTiming = {};
+      watchOncePromise($scope, 'BLC.instance.attrs.contextVersion.build.dockerContainer', true)
+        .then(function () {
+          stream = primus.createBuildStream(BLC.instance.build);
+          handleUpdate();
+          BLC.instance.on('update', handleUpdate);
+          $scope.$on('$destroy', function () {
+            BLC.instance.off('update', handleUpdate);
+          });
+          connectListenersToStream(stream);
+        });
     } else if (BLC.debugContainer) {
       stream = primus.createBuildStreamFromContextVersionId(BLC.debugContainer.attrs.contextVersion);
+      connectListenersToStream(stream);
     }
-
+  }
+  function connectListenersToStream(stream) {
     stream.on('data', function () {
       stream.hasData = true;
     });
-
     stream.on('end', function () {
       if (!stream.hasData) {
         failCount++;
@@ -83,6 +92,8 @@ function BuildLogsController(
     });
     var streamingBuildLogs = streamingLog(stream);
     $scope.$on('$destroy', function () {
+      stream.end();
+      BLC.buildLogsRunning = false;
       streamingBuildLogs.destroy();
     });
     BLC.buildLogs = streamingBuildLogs.logs;
