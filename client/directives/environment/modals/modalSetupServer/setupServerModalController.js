@@ -12,6 +12,7 @@ function SetupServerModalController(
   createAndBuildNewContainer,
   createBuildFromContextVersionId,
   errs,
+  eventTracking,
   fetchInstancesByPod,
   fetchOwnerRepos,
   fetchStackAnalysis,
@@ -318,6 +319,7 @@ function SetupServerModalController(
           .then(instanceSetHandler);
       })
       .then(function () {
+        eventTracking.createdRepoContainer(SMC.instance.attrs.owner.github, SMC.state.acv.repo);
         return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
       })
       .catch(function (err) {
