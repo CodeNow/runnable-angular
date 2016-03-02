@@ -98,14 +98,12 @@ require('app')
               $scope.server.building = false;
 
               var fullRepoName = keypather.get($scope.server.instance, 'contextVersion.getMainAppCodeVersion().attrs.repo');
-              console.log(fullRepoName);
               if (fullRepoName) {
                 fetchStackAnalysis(fullRepoName)
                   .then(function (stackAnalysis) {
                     if (!stackAnalysis.serviceDependencies) { return; }
 
                     var calculateHelpCards = function () {
-                      console.log('Calculating help cards');
                       // This may be a newInstance... just a placeholder
                       helpCards.removeByInstance(instance);
 
@@ -223,7 +221,6 @@ require('app')
 
         $scope.$watchCollection('instance.attrs', function (n) {
           if (n) {
-            console.log('Handle new instance.');
             handleNewInstance($scope.instance);
           }
         });
