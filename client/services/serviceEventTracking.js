@@ -36,10 +36,8 @@ function EventTracking (
   _$location = $location;
 
   this._Intercom = $window.Intercom;
-  this._baseEventData = {};
   this._user = null;
-  // store events invoked before boot
-  this._preBootEventQueue = [];
+  this.$window = $window;
 
   /**
    * Extend per-event data with specific properties
@@ -246,8 +244,8 @@ EventTracking.prototype.createdRepoContainer = function (org, repo) {
     });
   }
 
-  if (window.fbq) {
-    window.fbq('track', 'ViewContent', {
+  if (this.$window.fbq) {
+    this.$window.fbq('track', 'ViewContent', {
       action: 'CreateContainer',
       type: 'Repo'
     });
@@ -266,8 +264,8 @@ EventTracking.prototype.createdNonRepoContainer = function (containerName) {
     });
   }
 
-  if (window.fbq) {
-    window.fbq('track', 'ViewContent', {
+  if (this.$window.fbq) {
+    this.$window.fbq('track', 'ViewContent', {
       action: 'CreateContainer',
       type: 'NonRepo'
     });
