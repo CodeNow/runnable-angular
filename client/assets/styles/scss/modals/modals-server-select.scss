@@ -168,6 +168,10 @@
         color: $green;
       }
 
+      &.btn-hint {
+        @extend %btn-hint;
+      }
+
       // anchor image
       .img {
         display: block;

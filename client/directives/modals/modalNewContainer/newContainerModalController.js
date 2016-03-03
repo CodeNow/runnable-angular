@@ -5,9 +5,13 @@ require('app')
 
 function NewContainerModalController(
   ModalService,
+  keypather,
+  helpCards,
   close
 ) {
   var NCMC = this;
+  var helpCard = helpCards.getActiveCard();
+  NCMC.servicesActive = keypather.get(helpCard, 'id') === 'missingDependency';
   NCMC.close = close;
   NCMC.newRepositoryContainer = function () {
     close();

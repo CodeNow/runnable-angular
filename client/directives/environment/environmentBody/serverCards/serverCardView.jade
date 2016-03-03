@@ -29,7 +29,7 @@ ul.card-body.load(
   //- repository
   li.btn.white(
     ng-click = "openEditServerModal('repository')"
-    ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.repository}"
+    ng-class = "{'btn-hint': helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.repository}"
     ng-if = "server.repo && !server.advanced"
   )
     svg.iconnables
@@ -47,7 +47,7 @@ ul.card-body.load(
   //- commands
   li.btn.white(
     ng-click = "openEditServerModal('commands')"
-    ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.commands}"
+    ng-class = "{'btn-hint': helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.commands}"
     ng-if = "server.repo && !server.advanced"
   )
     svg.iconnables
@@ -65,7 +65,7 @@ ul.card-body.load(
   //- exposed ports
   li.btn.white(
     ng-click = "openEditServerModal('ports')"
-    ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.exposedPorts}"
+    ng-class = "{'btn-hint': helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.exposedPorts}"
     ng-if = "server.repo && !server.advanced"
   )
     svg.iconnables
@@ -82,7 +82,7 @@ ul.card-body.load(
   li.btn.white(
     ng-click = "openEditServerModal('env')"
     ng-class = "{\
-      'hint': helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.environmentVariables,\
+      'btn-hint': helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.environmentVariables,\
       'active-notification': $root.featureFlags.hostnameNotifications\
     }"
   )
@@ -103,7 +103,7 @@ ul.card-body.load(
   //- container files
   li.btn.white(
     ng-click = "openEditServerModal('files')"
-    ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.containerFiles}"
+    ng-class = "{'btn-hint': helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.containerFiles}"
     ng-if = "server.repo && !server.advanced"
   )
     svg.iconnables
@@ -119,7 +119,7 @@ ul.card-body.load(
   //- find & replace
   li.btn.white(
     ng-click = "openEditServerModal('translation')"
-    ng-class = "{hint: helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.findAndReplace}"
+    ng-class = "{'btn-hint': helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.findAndReplace}"
     ng-if = "server.repo"
   )
     svg.iconnables
