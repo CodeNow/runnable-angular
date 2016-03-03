@@ -23,7 +23,7 @@
             removeTemplateInstances | \
             orderBy:'attrs.name'\
           "
-          ng-class = "{ help: dependency.attrs.lowerName === STMC.helpCard.data.dependency }"
+          ng-class = "{'btn-hint': dependency.attrs.lowerName === STMC.helpCard.data.dependency}"
         )
           img.img(
             height = "36"
