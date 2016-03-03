@@ -262,18 +262,6 @@
     }
   }
 
-  &.hint {
-    color: $blue;
-
-    &:hover {
-      background: $blue-lighter;
-    }
-
-    .small {
-      color: rgba($blue,.8);
-    }
-  }
-
   .gravatar,
   .iconnables {
     color: $gray;
