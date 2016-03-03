@@ -172,28 +172,6 @@
   }
 }
 
-// change how we scale the "new container button" so this doesn't conflict
-.btn.btn-hint.btn-hint.btn-hint.btn-hint {
-  border-color: rgba($blue,.45);
-  box-shadow: 0 0 6px rgba($blue,.35);
-  z-index: 1;
-
-  &:hover {
-    border-color: rgba($blue,.6);
-    box-shadow: none;
-  }
-
-  &:active {
-    border-color: currentColor;
-    box-shadow: none;
-    color: $purple-light;
-  }
-
-  .card-body .btn + & {
-    border-top-width: $input-border;
-  }
-}
-
 .btn-close {
   border-radius: 50%;
 
@@ -459,6 +437,26 @@
         .icons-round {
           background: $purple-light;
         }
+      }
+    }
+
+    &.btn-hint.btn-hint {
+      border-color: rgba($blue,.45);
+      box-shadow: 0 0 6px rgba($blue,.35);
+
+      &:hover {
+        border-color: rgba($blue,.6);
+        box-shadow: none;
+      }
+
+      &:active {
+        border-color: currentColor;
+        box-shadow: none;
+      }
+
+      .card-body & {
+        border-top-width: $input-border;
+        z-index: 2;
       }
     }
   }

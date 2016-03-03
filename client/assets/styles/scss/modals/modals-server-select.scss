@@ -171,7 +171,6 @@
       &.btn-hint {
         border-color: rgba($blue,.45);
         box-shadow: 0 0 6px rgba($blue,.35);
-        z-index: 1;
 
         &:hover {
           border-color: rgba($blue,.6);
@@ -181,7 +180,6 @@
         &:active {
           border-color: currentColor;
           box-shadow: none;
-          color: $purple-light;
         }
       }
 
