@@ -261,7 +261,7 @@ describe('BuildLogsController'.bold.underline.blue, function () {
         expect(BLC.buildLogsRunning).to.not.be.ok;
       });
     });
-    describe.only('on stream disconnect', function () {
+    describe('on stream disconnect', function () {
       it('should reload everything', function () {
         sinon.assert.calledOnce(mockPrimus.createBuildStream);
         mockStream.emit('disconnection');
