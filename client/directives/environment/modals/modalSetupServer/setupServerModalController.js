@@ -319,7 +319,7 @@ function SetupServerModalController(
           .then(instanceSetHandler);
       })
       .then(function () {
-        eventTracking.createdRepoContainer(SMC.instance.attrs.owner.github, SMC.state.acv.repo);
+        eventTracking.createdRepoContainer(SMC.instance.attrs.owner.github, SMC.state.repo.attrs.name);
         return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
       })
       .catch(function (err) {
