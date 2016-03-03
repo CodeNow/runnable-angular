@@ -62,7 +62,8 @@ describe('BuildLogsController'.bold.underline.blue, function () {
       })
     };
     mockErrs = {
-      handler: sinon.spy()
+      handler: sinon.spy(),
+      report: sinon.spy()
     };
 
     angular.mock.module('app', function ($provide) {
@@ -260,13 +261,26 @@ describe('BuildLogsController'.bold.underline.blue, function () {
         expect(BLC.buildLogsRunning).to.not.be.ok;
       });
     });
-  });
-  describe('on stream disconnect', function () {
-    it('should reload everything', function () {
-      sinon.assert.calledOnce(mockPrimus.createBuildStream);
-      mockStream.emit('disconnection');
-      $scope.$digest();
-      sinon.assert.calledTwice(mockPrimus.createBuildStream);
+    describe.only('on stream disconnect', function () {
+      it('should reload everything', function () {
+        sinon.assert.calledOnce(mockPrimus.createBuildStream);
+        mockStream.emit('disconnection');
+        $scope.$digest();
+        sinon.assert.calledTwice(mockPrimus.createBuildStream);
+      });
+      it('should not create 2 streams accidentally', function () {
+        sinon.assert.calledOnce(mockPrimus.createBuildStream);
+        delete BLC.instance.attrs.contextVersion.build.dockerContainer;
+        mockPrimus.createBuildStream.reset();
+        mockStream.emit('disconnection');
+        $scope.$digest();
+        mockStream.emit('disconnection');
+        $scope.$digest();
+        BLC.instance.attrs.contextVersion.build.dockerContainer = 'asdasdasda';
+        $scope.$digest();
+        sinon.assert.calledOnce(mockPrimus.createBuildStream);
+        sinon.assert.calledOnce(mockErrs.report);
+      });
     });
   });
   describe('with a debug container', function () {
