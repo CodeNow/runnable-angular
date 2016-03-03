@@ -2,6 +2,7 @@
 
 var $controller;
 var $scope;
+var $rootScope;
 var $q;
 var $timeout;
 var EventEmitter = require('events').EventEmitter;
@@ -28,7 +29,9 @@ describe('BuildLogsController'.bold.underline.blue, function () {
       attrs: {
         contextVersion: {
           _id: 'ctxId',
-          build: {}
+          build: {
+            dockerContainer: 'asdsdfsd'
+          }
         }
       }
     };
@@ -79,6 +82,7 @@ describe('BuildLogsController'.bold.underline.blue, function () {
     ) {
       $controller = _$controller_;
       $scope = _$rootScope_.$new();
+      $rootScope = _$rootScope_;
       $q = _$q_;
       $timeout = _$timeout_;
     });
@@ -93,16 +97,19 @@ describe('BuildLogsController'.bold.underline.blue, function () {
     }
 
     BLC = laterController();
+    $scope.BLC = BLC;
   }
   describe('with an instance', function () {
     beforeEach(function () {
       setup(true);
+      $rootScope.$digest();
     });
     it('should create the build stream and send it to streamingLog', function () {
 
       sinon.assert.calledWith(mockPrimus.createBuildStream, mockInstance.build);
 
-      sinon.assert.calledOnce(mockStreamingLog);sinon.assert.calledOnce(mockPrimus.createBuildStream);
+      sinon.assert.calledOnce(mockStreamingLog);
+      sinon.assert.calledOnce(mockPrimus.createBuildStream);
       sinon.assert.calledWith(mockStreamingLog, mockStream);
     });
     it('should handle destroy events', function () {

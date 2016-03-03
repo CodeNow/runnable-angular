@@ -92,7 +92,9 @@ function BuildLogsController(
     });
     var streamingBuildLogs = streamingLog(stream);
     $scope.$on('$destroy', function () {
-      stream.end();
+      if (stream && stream.end) {
+        stream.end();
+      }
       BLC.buildLogsRunning = false;
       streamingBuildLogs.destroy();
     });
