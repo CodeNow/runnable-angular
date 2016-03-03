@@ -19,7 +19,7 @@ describe('BuildLogsController'.bold.underline.blue, function () {
   var mockDebugContainer;
   var mockErrs;
 
-  function setup(useInstance) {
+  function setup(useInstance, dontIncludeBuildDockerContainer) {
     mockInstance = {
       build: 'This is a test build!',
       status: sinon.stub().returns('building'),
@@ -30,7 +30,7 @@ describe('BuildLogsController'.bold.underline.blue, function () {
         contextVersion: {
           _id: 'ctxId',
           build: {
-            dockerContainer: 'asdsdfsd'
+            dockerContainer: dontIncludeBuildDockerContainer ? undefined : 'asdsdfsd'
           }
         }
       }
@@ -99,6 +99,26 @@ describe('BuildLogsController'.bold.underline.blue, function () {
     BLC = laterController();
     $scope.BLC = BLC;
   }
+  describe('with an instance without a ready build', function () {
+    beforeEach(function () {
+      setup(true, true);
+      $rootScope.$digest();
+    });
+    it('shouldn\'t create the build stream until the dockerContainer is populated', function () {
+      sinon.assert.notCalled(mockPrimus.createBuildStream);
+
+      sinon.assert.notCalled(mockStreamingLog);
+      sinon.assert.notCalled(mockPrimus.createBuildStream);
+      sinon.assert.notCalled(mockStreamingLog);
+      BLC.instance.attrs.contextVersion.build.dockerContainer = 'asdasd';
+      $rootScope.$digest();
+      sinon.assert.calledWith(mockPrimus.createBuildStream, mockInstance.build);
+
+      sinon.assert.calledOnce(mockStreamingLog);
+      sinon.assert.calledOnce(mockPrimus.createBuildStream);
+      sinon.assert.calledWith(mockStreamingLog, mockStream);
+    });
+  });
   describe('with an instance', function () {
     beforeEach(function () {
       setup(true);
