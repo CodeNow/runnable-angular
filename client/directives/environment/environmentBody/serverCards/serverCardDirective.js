@@ -71,7 +71,7 @@ require('app')
             messages.push(keys + ' Keys');
           }
 
-          if(messages.length){
+          if (messages.length) {
             return messages.join(', ');
           }
           return '—';
@@ -81,7 +81,7 @@ require('app')
         $scope.server = {};
         $scope.activeAccount = $rootScope.dataApp.data.activeAccount;
 
-        function scrollIntoView(){
+        function scrollIntoView() {
           $document.scrollToElement(ele, 100, 200);
         }
 
@@ -100,104 +100,104 @@ require('app')
               var fullRepoName = keypather.get($scope.server.instance, 'contextVersion.getMainAppCodeVersion().attrs.repo');
               if (fullRepoName) {
                 fetchStackAnalysis(fullRepoName)
-                .then(function (stackAnalysis) {
-                  if (!stackAnalysis.serviceDependencies) { return; }
+                  .then(function (stackAnalysis) {
+                    if (!stackAnalysis.serviceDependencies) { return; }
 
-                  var calculateHelpCards = function () {
-                    // This may be a newInstance... just a placeholder
-                    helpCards.removeByInstance(instance);
+                    var calculateHelpCards = function () {
+                      // This may be a newInstance... just a placeholder
+                      helpCards.removeByInstance(instance);
 
-                    stackAnalysis.serviceDependencies.forEach(function (dependency) {
-                      var matchedInstance = $scope.data.instances.find(function (instance) {
-                        return instance.attrs.lowerName === dependency;
-                      });
-
-                      if (matchedInstance) {
-                        var matchedDependency = dependencies.find(function (dep) {
-                          return dep.attrs.shortHash === matchedInstance.attrs.shortHash;
+                      stackAnalysis.serviceDependencies.forEach(function (dependency) {
+                        var matchedInstance = $scope.data.instances.find(function (instance) {
+                          return instance.attrs.lowerName === dependency;
                         });
 
-                        if (matchedDependency) { return; }
-                        if (instance.attrs.owner.username !== $state.params.userName) {
-                          return;
-                        }
-                        helpCards.triggerCard('missingAssociation', {
-                          instance: $scope.server.instance,
-                          association: matchedInstance.attrs.name
-                        })
-                          .then(function (helpCard) {
-                            if (!helpCard) { return; }
-                            listeners.push({
-                              obj: helpCard,
-                              key: 'refresh',
-                              value: calculateHelpCards
-                            });
-                            listeners.push({
-                              obj: helpCard,
-                              key: 'activate',
-                              value: scrollIntoView
-                            });
-                            helpCard
-                              .on('refresh', calculateHelpCards)
-                              .on('activate', scrollIntoView);
+                        if (matchedInstance) {
+                          var matchedDependency = dependencies.find(function (dep) {
+                            return dep.attrs.shortHash === matchedInstance.attrs.shortHash;
+                          });
+
+                          if (matchedDependency) { return; }
+                          if (instance.attrs.owner.username !== $state.params.userName) {
+                            return;
+                          }
+                          helpCards.triggerCard('missingAssociation', {
+                            instance: $scope.server.instance,
+                            association: matchedInstance.attrs.name
+                          })
+                            .then(function (helpCard) {
+                              if (!helpCard) { return; }
+                              listeners.push({
+                                obj: helpCard,
+                                key: 'refresh',
+                                value: calculateHelpCards
+                              });
+                              listeners.push({
+                                obj: helpCard,
+                                key: 'activate',
+                                value: scrollIntoView
+                              });
+                              helpCard
+                                .on('refresh', calculateHelpCards)
+                                .on('activate', scrollIntoView);
                             }).catch(errs.handler);
-                      } else {
-                        if (instance.attrs.owner.username !== $state.params.userName) {
-                          return;
-                        }
-                        helpCards.triggerCard('missingDependency', {
-                          instance: $scope.server.instance,
-                          dependency: dependency
-                        })
-                          .then(function (helpCard) {
-                            if (!helpCard) { return; }
-                            listeners.push({
-                              obj: helpCard,
-                              key: 'refresh',
-                              value: calculateHelpCards
-                            });
-                            helpCard
-                              .on('refresh', calculateHelpCards);
-                          }).catch(errs.handler);
+                        } else {
+                          if (instance.attrs.owner.username !== $state.params.userName) {
+                            return;
+                          }
+                          helpCards.triggerCard('missingDependency', {
+                            instance: $scope.server.instance,
+                            dependency: dependency
+                          })
+                            .then(function (helpCard) {
+                              if (!helpCard) { return; }
+                              listeners.push({
+                                obj: helpCard,
+                                key: 'refresh',
+                                value: calculateHelpCards
+                              });
+                              helpCard
+                                .on('refresh', calculateHelpCards);
+                            }).catch(errs.handler);
                         }
                       });
                     };
                     calculateHelpCards();
                   }).catch(errs.handler);
-                } else {
-                  var calculateHelpCards = function () {
-                    var instancePromises = $scope.data.instances
-                      .filter(function (instance) {
-                        return instance !== $scope.server.instance && keypather.get(instance, 'attrs._id');
-                      })
-                      .map(function (instance) {
-                        if (keypather.get(instance, 'dependencies.models.length')) {
-                          return $q.when(instance.dependencies);
-                        }
-                        return promisify(instance, 'fetchDependencies')();
-                      });
-                    $q.all(instancePromises)
-                      .then(function (dependencyList) {
-                        return dependencyList.find(function (depList) {
-                          return depList.find(function (dep) {
-                            return dep.attrs.name === $scope.server.instance.attrs.name;
-                          });
+              } else {
+                var calculateHelpCards = function () {
+                  var instancePromises = $scope.data.instances
+                    .filter(function (instance) {
+                      return instance !== $scope.server.instance && keypather.get(instance, 'attrs._id');
+                    })
+                    .map(function (instance) {
+                      if (keypather.get(instance, 'dependencies.models.length')) {
+                        return $q.when(instance.dependencies);
+                      }
+                      return promisify(instance, 'fetchDependencies')();
+                    });
+                  $q.all(instancePromises)
+                    .then(function (dependencyList) {
+                      return dependencyList.find(function (depList) {
+                        return depList.find(function (dep) {
+                          return dep.attrs.name === $scope.server.instance.attrs.name;
                         });
-                      })
-                      .then(function (foundMatch) {
-                        if (!foundMatch) {
-                          var foundInstanceWithMainACV = $scope.data.instances.find(function (instance) {
-                            return keypather.get(instance, 'contextVersion.getMainAppCodeVersion()');
-                          });
-                          if (!foundInstanceWithMainACV) {
-                            return;
-                          }
+                      });
+                    })
+                    .then(function (foundMatch) {
+                      if (!foundMatch) {
+                        var foundInstanceWithMainACV = $scope.data.instances.find(function (instance) {
+                          return keypather.get(instance, 'contextVersion.getMainAppCodeVersion()');
+                        });
+                        if (!foundInstanceWithMainACV) {
+                          return;
+                        }
 
-                          if (instance.attrs.owner.username !== $state.params.userName) {
-                            return;
-                          }
-                          helpCards.triggerCard('missingMapping', {
-                            mapping: $scope.server.instance.attrs.name
+                        if (instance.attrs.owner.username !== $state.params.userName) {
+                          return;
+                        }
+                        helpCards.triggerCard('missingMapping', {
+                          mapping: $scope.server.instance.attrs.name
                         })
                           .then(function (helpCard) {
                             if (!helpCard) { return; }
@@ -213,7 +213,6 @@ require('app')
                       }
                     });
                 };
-
                 calculateHelpCards();
               }
             })
