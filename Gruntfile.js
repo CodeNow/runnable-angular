@@ -436,7 +436,7 @@ module.exports = function(grunt) {
       function (cb) {
         var configObj = {};
         configObj.host = process.env.API_URL || 'https://api-staging-codenow.runnableapp.com/';
-        configObj.socketHost = process.env.API_SOCK_URL || process.env.API_URL;
+        configObj.socketHost = process.env.API_SOCK_URL || configObj.host;
         configObj.userContentDomain = process.env.USER_CONTENT_DOMAIN || 'runnableapp.com';
         configObj.corporateUrl = process.env.MARKETING_URL || 'https://runnable.io';
 

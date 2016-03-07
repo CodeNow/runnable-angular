@@ -13,17 +13,19 @@ function BuildLogsController(
   primus,
   promisify,
   streamingLog,
-  watchOncePromise
+  WatchOnlyOnce
 ) {
   var BLC = this;
   BLC.showDebug = false;
+
+  var watchOnlyOnce = new WatchOnlyOnce($scope);
 
   function handleUpdate () {
     var status = BLC.instance.status();
     BLC.showErrorPanel = false;
     if (status === 'buildFailed' || status === 'neverStarted') {
       var buildError = BLC.instance.attrs.contextVersion.build.error || {};
-      BLC.buildStatus ='failed';
+      BLC.buildStatus = 'failed';
       BLC.failReason = buildError.message || 'failed';
       BLC.showDebug = true;
       BLC.buildLogsRunning = false;
@@ -42,7 +44,6 @@ function BuildLogsController(
 
   var failCount = 0;
   var streamDelay = 500;
-  var watchDockerContainerIdPromise = null;
 
   function setupStream() {
     BLC.streamFailure = false;
@@ -51,16 +52,8 @@ function BuildLogsController(
       BLC.buildStatus = 'starting';
       BLC.buildLogs = [];
       BLC.buildLogTiming = {};
-      watchDockerContainerIdPromise =
-        watchOncePromise($scope, 'BLC.instance.attrs.contextVersion.build.dockerContainer', true);
-      watchDockerContainerIdPromise
+      watchOnlyOnce.watchPromise('BLC.instance.attrs.contextVersion.build.dockerContainer', true)
         .then(function () {
-          if (!watchDockerContainerIdPromise) {
-            // we should not have this happen, so if it does, report it, and leave
-            errs.report(new Error('Attempted to connect to a stream twice'));
-            return;
-          }
-          watchDockerContainerIdPromise = null;
           stream = primus.createBuildStream(BLC.instance.build);
           handleUpdate();
           BLC.instance.on('update', handleUpdate);

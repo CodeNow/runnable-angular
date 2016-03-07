@@ -279,7 +279,6 @@ describe('BuildLogsController'.bold.underline.blue, function () {
         BLC.instance.attrs.contextVersion.build.dockerContainer = 'asdasdasda';
         $scope.$digest();
         sinon.assert.calledOnce(mockPrimus.createBuildStream);
-        sinon.assert.calledOnce(mockErrs.report);
       });
     });
   });
