@@ -16,6 +16,7 @@ function SetupTemplateModalController(
   fetchInstances,
   getNewForkName,
   promisify,
+  eventTracking,
   helpCards,
   close,
   isolation
@@ -59,6 +60,7 @@ function SetupTemplateModalController(
           )
             .then(function (build) {
               serverModel.build = build;
+              eventTracking.createdNonRepoContainer(instanceToForkName);
               return serverModel;
             }),
           serverName,
