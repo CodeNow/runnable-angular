@@ -4,7 +4,6 @@ var $rootScope;
 var $scope;
 var $q;
 var WatchOnlyOnceConstructor;
-var WatchOnlyOnceConstructor2;
 
 describe('watchOnlyOncePromiseService'.bold.underline.blue, function () {
   beforeEach(function () {
@@ -18,11 +17,6 @@ describe('watchOnlyOncePromiseService'.bold.underline.blue, function () {
       $rootScope = _$rootScope_;
       $scope = _$rootScope_.$new();
       WatchOnlyOnceConstructor = _WatchOnlyOnce_;
-    });
-    angular.mock.inject(function (
-      _WatchOnlyOnce_
-    ) {
-      WatchOnlyOnceConstructor2 = _WatchOnlyOnce_;
     });
   });
 
@@ -78,7 +72,7 @@ describe('watchOnlyOncePromiseService'.bold.underline.blue, function () {
 
   it('multiple watchers should impact each other', function (done) {
     var watcher = new WatchOnlyOnceConstructor($scope);
-    var watcher2 = new WatchOnlyOnceConstructor2($scope);
+    var watcher2 = new WatchOnlyOnceConstructor($scope);
     watcher.watchPromise('beans', true)
       .then(function () {
         done(new Error('This should not have been called'));
