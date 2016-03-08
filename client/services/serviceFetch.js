@@ -77,7 +77,6 @@ function fetchWhitelistedOrgs(
     if (!fetchedOrgs) {
       fetchedOrgs = fetchUser()
         .then(function (user) {
-          console.log('Call methods');
           return $q.all({
             whitelistedOrgs: promisify(user, 'fetchUserWhitelists')(),
             orgs: promisify(user, 'fetchGithubOrgs')(),
