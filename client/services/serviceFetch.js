@@ -5,7 +5,6 @@ var apiConfig = require('../config/api');
 require('app')
   // User + Orgs
   .factory('fetchUser', fetchUser)
-  .factory('fetchOrgs', fetchOrgs)
   .factory('fetchWhitelistedOrgs', fetchWhitelistedOrgs)
   .factory('fetchGithubOrgId', fetchGithubOrgId)
   .factory('fetchOrgRegisteredMembers', fetchOrgRegisteredMembers)
@@ -68,26 +67,9 @@ function fetchUser(
   };
 }
 
-function fetchOrgs(
-  fetchUser,
-  promisify
-) {
-  var fetchedOrgs;
-  return function () {
-    if (!fetchedOrgs) {
-      fetchedOrgs = fetchUser()
-        .then(function (user) {
-          return promisify(user, 'fetchGithubOrgs')();
-        });
-    }
-    return fetchedOrgs;
-  };
-}
-
 function fetchWhitelistedOrgs(
   $q,
   fetchUser,
-  fetchOrgs,
   promisify
 ) {
   var fetchedOrgs;
@@ -97,7 +79,7 @@ function fetchWhitelistedOrgs(
         .then(function (user) {
           return $q.all({
             whitelistedOrgs: promisify(user, 'fetchUserWhitelists')(),
-            orgs: fetchOrgs()
+            orgs: promisify(user, 'fetchGithubOrgs')()
           })
           .then(function (res) {
             var whitelistedOrgNames = res.whitelistedOrgs.map(function (org) {
