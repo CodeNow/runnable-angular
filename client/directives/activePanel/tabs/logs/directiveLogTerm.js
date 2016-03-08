@@ -47,7 +47,7 @@ function logTerm(
         terminal.writeln('');
         terminal.writeln('\n******************************');
         terminal.writeln('* LOST CONNECTION - RETRYING *');
-        terminal.writeln('******************************\n');
+        terminal.writeln('******************************');
       }
       bind(primus, 'offline', disconnected);
       bind(primus, 'reconnect', disconnected);
