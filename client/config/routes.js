@@ -40,8 +40,8 @@ module.exports = [
     controller: 'ControllerOrgSelect',
     controllerAs: 'COS',
     resolve: {
-      orgs: function (fetchOrgs, user) {
-        return fetchOrgs();
+      orgs: function (fetchWhitelistedOrgs, user) {
+        return fetchWhitelistedOrgs();
       },
       user: function (fetchUser, keypather, $state) {
         return fetchUser()
@@ -72,8 +72,8 @@ module.exports = [
     controller: 'ControllerOrgSelect',
     controllerAs: 'COS',
     resolve: {
-      orgs: function (fetchOrgs) {
-        return fetchOrgs();
+      orgs: function (fetchWhitelistedOrgs) {
+        return fetchWhitelistedOrgs();
       }
     }
   }, {
@@ -115,8 +115,8 @@ module.exports = [
           });
         return userFetch;
       },
-      orgs: function (fetchOrgs) {
-        return fetchOrgs();
+      orgs: function (fetchWhitelistedOrgs) {
+        return fetchWhitelistedOrgs();
       },
       activeAccount: function ($q, $stateParams, $state, orgs, $timeout, user, manuallyWhitelistedUsers) {
         var lowerAccountName = $stateParams.userName.toLowerCase();
