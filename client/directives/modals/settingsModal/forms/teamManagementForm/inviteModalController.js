@@ -16,7 +16,6 @@ function InviteModalController(
   fetchOrgMembers,
   inviteGithubUserToRunnable,
   loading,
-  promisify,
 
   teamName,
   unInvitedMembers,

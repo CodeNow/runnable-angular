@@ -77,9 +77,10 @@ function fetchWhitelistedOrgs(
     if (!fetchedOrgs) {
       fetchedOrgs = fetchUser()
         .then(function (user) {
+          console.log('Call methods');
           return $q.all({
             whitelistedOrgs: promisify(user, 'fetchUserWhitelists')(),
-            orgs: promisify(user, 'fetchGithubOrgs')()
+            orgs: promisify(user, 'fetchGithubOrgs')(),
           })
           .then(function (res) {
             var whitelistedOrgNames = res.whitelistedOrgs.map(function (org) {
@@ -479,7 +480,7 @@ function fetchGithubUserForCommit (
  * @return {Promise}
  */
 function fetchGithubOrgId(
-  fetchOrgs,
+  fetchWhitelistedOrgs,
   keypather,
   $q
 ) {
@@ -488,7 +489,7 @@ function fetchGithubOrgId(
     if (githubOrgIdCache[orgNameOrId]) {
       return githubOrgIdCache[orgNameOrId];
     }
-    return fetchOrgs(orgNameOrId)
+    return fetchWhitelistedOrgs()
       .then(function (orgsCollection) {
         var orgs = orgsCollection.filter(function (org) {
           return keypather.get(org, 'attrs.login') === orgNameOrId;
