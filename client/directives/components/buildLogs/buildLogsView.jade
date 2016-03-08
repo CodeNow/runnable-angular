@@ -136,6 +136,7 @@
     'red': BLC.buildStatus === 'failed'\
   }"
   ng-if = "\
+    BLC.buildStatus !== 'starting' && \
     !BLC.buildLogsRunning && \
     getBuildMessage().length && \
     !BLC.showErrorPanel && \
