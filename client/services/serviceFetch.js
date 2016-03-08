@@ -6,6 +6,7 @@ require('app')
   // User + Orgs
   .factory('fetchUser', fetchUser)
   .factory('fetchOrgs', fetchOrgs)
+  .factory('fetchWhitelistedOrgs', fetchWhitelistedOrgs)
   .factory('fetchGithubOrgId', fetchGithubOrgId)
   .factory('fetchOrgRegisteredMembers', fetchOrgRegisteredMembers)
   .factory('fetchOrgMembers', fetchOrgMembers)
@@ -77,6 +78,38 @@ function fetchOrgs(
       fetchedOrgs = fetchUser()
         .then(function (user) {
           return promisify(user, 'fetchGithubOrgs')();
+        });
+    }
+    return fetchedOrgs;
+  };
+}
+
+function fetchWhitelistedOrgs(
+  $q,
+  fetchUser,
+  fetchOrgs,
+  promisify
+) {
+  var fetchedOrgs;
+  return function () {
+    if (!fetchedOrgs) {
+      fetchedOrgs = fetchUser()
+        .then(function (user) {
+          return $q.all({
+            whitelistedOrgs: promisify(user, 'fetchUserWhitelists')(),
+            orgs: fetchOrgs()
+          })
+          .then(function (res) {
+            var whitelistedOrgNames = res.whitelistedOrgs.map(function (org) {
+              return org.attrs.lowerName;
+            });
+            res.orgs.models = res.orgs.models.filter(function (org) {
+              return whitelistedOrgNames.indexOf(
+                org.attrs.login.toLowerCase()
+              ) !== -1;
+            });
+            return res.orgs;
+          });
         });
     }
     return fetchedOrgs;
