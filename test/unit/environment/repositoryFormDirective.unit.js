@@ -349,5 +349,28 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
       expect($elScope.state.containerFiles[0].commands[1].body, 'main repo command 0').to.equal('dsfasdfredasfadsfgw34r2 3r');
       expect($elScope.state.containerFiles[0].path, 'main repo path').to.equal('cheese');
     });
+
+    it('should fetch default commands with runnable-cache, and update scope.data.cacheCommand', function () {
+      ctx.parseDockerfileResults = {
+        run: ['dfadsfa # runnable-cache', 'dsfasdfredasfadsfgw34r2 3r'],
+        dst: []
+      };
+      $elScope.state.selectedStack = {
+        key: 'hello'
+      };
+      $elScope.state.opts = {
+        name: 'cheese'
+      };
+      $scope.$digest();
+      var dockerfile = {attrs: 'dockerfile'};
+
+      ctx.fetchDockerfileFromSourceMock.triggerPromise(dockerfile);
+      $scope.$digest();
+
+      expect($elScope.state.containerFiles[0].commands[0].body, 'main repo command 0').to.equal('dfadsfa');
+      expect($elScope.state.containerFiles[0].commands[0].cache, 'main repo command 0 cache').to.be.true;
+      expect($elScope.state.containerFiles[0].commands[1].body, 'main repo command 1').to.equal('dsfasdfredasfadsfgw34r2 3r');
+      expect($elScope.cacheCommand(), 'cache command').to.be.true;
+    });
   });
 });
