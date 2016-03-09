@@ -1,6 +1,6 @@
 'use strict';
 
-var User = require('runnable/lib/models/user');
+var User = require('@runnable/api-client/lib/models/user');
 var apiMocks = require('../apiMocks/index');
 var keypather = require('keypather')();
 

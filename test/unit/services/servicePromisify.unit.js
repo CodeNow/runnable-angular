@@ -3,7 +3,7 @@
 var promisify,
     $timeout,
     mockExceptionHandler,
-    UserModel = require('runnable/lib/models/user'),
+    UserModel = require('@runnable/api-client/lib/models/user'),
     $rootScope;
 
 describe('servicePromisify'.underline.bold.blue, function () {

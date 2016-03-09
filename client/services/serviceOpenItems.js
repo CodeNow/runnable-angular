@@ -1,9 +1,9 @@
 'use strict';
 
-var BaseModel = require('runnable/lib/models/base');
-var VersionFileModel = require('runnable/lib/models/context/version/file');
-var ContainerFileModel = require('runnable/lib/models/instance/container/file');
-var DebugFileModel = require('runnable/lib/models/debug-container/file');
+var BaseModel = require('@runnable/api-client/lib/models/base');
+var VersionFileModel = require('@runnable/api-client/lib/models/context/version/file');
+var ContainerFileModel = require('@runnable/api-client/lib/models/instance/container/file');
+var DebugFileModel = require('@runnable/api-client/lib/models/debug-container/file');
 var util = require('util');
 
 require('app')

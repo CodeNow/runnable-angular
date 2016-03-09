@@ -8,7 +8,7 @@
 
 require('app')
   .service('eventTracking', EventTracking);
-var User = require('runnable/lib/models/user');
+var User = require('@runnable/api-client/lib/models/user');
 var _keypather;
 var _$location;
 var INTERCOM_APP_ID;

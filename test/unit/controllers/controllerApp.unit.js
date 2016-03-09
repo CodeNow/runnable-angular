@@ -6,10 +6,10 @@ var $controller,
     $window;
 var keypather;
 
-var User = require('runnable/lib/models/user');
+var User = require('@runnable/api-client/lib/models/user');
 var apiMocks = require('../apiMocks/index');
 var keypather = require('keypather')();
-var User = require('runnable/lib/models/user');
+var User = require('@runnable/api-client/lib/models/user');
 var user = require('../apiMocks').user;
 
 describe('controllerApp'.bold.underline.blue, function () {
