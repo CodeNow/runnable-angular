@@ -26,15 +26,19 @@ require('app')
         $scope.data = {
           cacheCommand: false
         };
+        function checkForCacheCommand() {
+          // Use every because it will short circuit when it finds something that returns false
+          $scope.data.cacheCommand = !$scope.state.mainRepoContainerFile.commands.every(function (cmd) {
+            return !cmd.cache;
+          });
+        }
         watchOncePromise($scope, 'state.containerFiles', true)
           .then(function (containerFiles) {
             $scope.state.mainRepoContainerFile = containerFiles.find(function (containerFile) {
               return containerFile.type === 'Main Repository';
             });
             $scope.state.mainRepoContainerFile.commands = $scope.state.mainRepoContainerFile.commands || [];
-            $scope.data.cacheCommand = $scope.state.mainRepoContainerFile.commands.some(function (cmd) {
-              return cmd.cache;
-            });
+            checkForCacheCommand();
             // Clear out the start command (only in setup, but this will change)
             if ($scope.startCommandCanDisable && $scope.state.mainRepoContainerFile) {
               $scope.$watch('state.selectedStack.key', function (newStackKey, oldStackKey) {
@@ -56,6 +60,7 @@ require('app')
                         return new cardInfoTypes.Command('RUN ' + run);
                       });
                       $scope.state.mainRepoContainerFile.path = (defaults.dst.length ? defaults.dst[0] : repoName).replace('/', '');
+                      checkForCacheCommand();
                     })
                     .catch(report.error);
                 }
