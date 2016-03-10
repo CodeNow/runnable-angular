@@ -47,7 +47,7 @@ function InstanceNavigationController(
 
   fetchInstancesByPod()
     .then(function (instances) {
-      INC.shouldShowSetupModal = instances.length > 1;
+      INC.shouldShowSetupModal = instances.models.length > 1;
     });
 
   INC.setupIsolation = function () {
