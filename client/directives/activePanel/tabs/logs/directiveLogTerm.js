@@ -44,7 +44,7 @@ function logTerm(
       function disconnected() {
         if (reconnecting) { return; }
         reconnecting = true;
-        terminal.writeln('')
+        terminal.writeln('');
         terminal.writeln('* Lost Connection — Retrying… *');
       }
       bind(primus, 'offline', disconnected);
@@ -55,7 +55,7 @@ function logTerm(
         if ($scope.clearTermOnReconnect) {
           terminal.reset();
         }
-        terminal.writeln('')
+        terminal.writeln('');
         terminal.writeln('* Connection Regained — Thanks for your patience! *');
         $timeout(function () {
           initializeStream(true);
