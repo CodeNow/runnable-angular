@@ -86,9 +86,7 @@ function fetchWhitelistedOrgs(
               return org.attrs.lowerName;
             });
             res.orgs.models = res.orgs.models.filter(function (org) {
-              return whitelistedOrgNames.indexOf(
-                org.attrs.login.toLowerCase()
-              ) !== -1;
+              return whitelistedOrgNames.includes(org.attrs.login.toLowerCase());
             });
             return res.orgs;
           });
