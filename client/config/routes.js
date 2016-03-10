@@ -130,7 +130,6 @@ module.exports = [
         var matchedOrg = orgs.find(function (org) {
           return org.oauthName().toLowerCase() === lowerAccountName;
         });
-
         if (!matchedOrg) {
           // There is a bug in ui-router and a timeout is the workaround
           return $timeout(function () {

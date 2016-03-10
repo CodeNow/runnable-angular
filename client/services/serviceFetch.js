@@ -1,6 +1,7 @@
 'use strict';
 var jsonHash = require('json-hash');
 var apiConfig = require('../config/api');
+var GithubOrgCollection = require('@runnable/api-client/lib/collections/github-orgs.js');
 
 require('app')
   // User + Orgs
@@ -77,19 +78,13 @@ function fetchWhitelistedOrgs(
     if (!fetchedOrgs) {
       fetchedOrgs = fetchUser()
         .then(function (user) {
-          return $q.all({
-            whitelistedOrgs: promisify(user, 'fetchUserWhitelists')(),
-            orgs: promisify(user, 'fetchGithubOrgs')(),
-          })
-          .then(function (res) {
-            var whitelistedOrgNames = res.whitelistedOrgs.map(function (org) {
-              return org.attrs.lowerName;
+          return promisify(user, 'fetchUserWhitelists')()
+            .then(function (res) {
+              var githubOrgs = res.map(function (userWhitelistModel) {
+                return userWhitelistModel.attrs.org;
+              });
+              return new GithubOrgCollection(githubOrgs, { client: user.client });
             });
-            res.orgs.models = res.orgs.models.filter(function (org) {
-              return whitelistedOrgNames.includes(org.attrs.login.toLowerCase());
-            });
-            return res.orgs;
-          });
         });
     }
     return fetchedOrgs;
