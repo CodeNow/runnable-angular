@@ -27,10 +27,10 @@ function TermController(
   $scope.createStream = function () {
     var streamModel = null;
     if ($scope.instance) {
-      streamModel = $scope.instance.containers.models[0];
+      streamModel = $scope.instance.attrs.container;
       if (!streamModel) {
         // If we don't have a container watch until we have one, when we do then create a stream
-        return watchOnlyOnce.watchPromise('instance.containers.models.length', $scope.createStream);
+        return watchOnlyOnce.watchPromise('instance.attrs.container', $scope.createStream);
       }
     } else if ($scope.debugContainer) {
       streamModel = $scope.debugContainer.attrs.inspect;
