@@ -55,7 +55,6 @@ function logTerm(
         if ($scope.clearTermOnReconnect) {
           terminal.reset();
         }
-        terminal.writeln('');
         terminal.writeln('* Connection Regained — Thanks for your patience! *');
         $timeout(function () {
           initializeStream(true);
