@@ -69,7 +69,6 @@ function fetchUser(
 }
 
 function fetchWhitelistedOrgs(
-  $q,
   fetchUser,
   promisify
 ) {
