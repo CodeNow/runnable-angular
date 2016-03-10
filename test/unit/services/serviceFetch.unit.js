@@ -86,16 +86,16 @@ describe('serviceFetch'.bold.underline.blue, function () {
     beforeEach(function () {
       user = {
         fetchUserWhitelists: sinon.stub().returns([
-          { attrs: { lowerName: 'a' } },
-          { attrs: { lowerName: 'b' } },
-          { attrs: { lowerName: 'c' } }
+          { attrs: {
+            lowerName: 'a',
+            org: {  _id: 1, login: 'A' },
+          } },
+          { attrs: {
+            lowerName: 'b',
+            org: { _id: 2, login: 'D' }
+          } }
         ]),
-        fetchGithubOrgs: sinon.stub().returns({
-          models: [
-            { attrs: { login: 'A' } },
-            { attrs: { login: 'D' } }
-          ]
-        })
+        client: {}
       };
       angular.mock.module('app');
       angular.mock.module(function ($provide) {
@@ -134,12 +134,15 @@ describe('serviceFetch'.bold.underline.blue, function () {
       var fetchWhitelistedOrgsPromise = fetchWhitelistedOrgs();
       expect(fetchWhitelistedOrgsPromise).to.eventually.be.fulfilled.and.notify(done);
       expect(fetchWhitelistedOrgsPromise).to.eventually.be.fulfilled.then(function (res) {
+        expect(res.models).to.be.an('array');
+        expect(res.models).to.have.length(2);
         expect(res.models[0]).to.have.deep.property('attrs');
         expect(res.models[0]).to.have.deep.property('attrs.login');
         expect(res.models[0]).to.have.deep.property('attrs.login', 'A');
+        expect(res.models[1]).to.have.deep.property('attrs');
+        expect(res.models[1]).to.have.deep.property('attrs.login');
+        expect(res.models[1]).to.have.deep.property('attrs.login', 'D');
       });
-      expect(fetchWhitelistedOrgsPromise).to.eventually.be.an('array');
-      expect(fetchWhitelistedOrgsPromise).to.eventually.have.length(3);
       $rootScope.$digest();
     });
   });
