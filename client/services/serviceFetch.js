@@ -79,9 +79,13 @@ function fetchWhitelistedOrgs(
         .then(function (user) {
           return promisify(user, 'fetchUserWhitelists')()
             .then(function (res) {
-              var githubOrgs = res.map(function (userWhitelistModel) {
-                return userWhitelistModel.attrs.org;
-              });
+              var githubOrgs = res
+                .map(function (userWhitelistModel) {
+                  return userWhitelistModel.attrs.org;
+                })
+                .filter(function (githubOrg) {
+                  return !!githubOrg;
+                });
               return new GithubOrgCollection(githubOrgs, { client: user.client });
             });
         });
