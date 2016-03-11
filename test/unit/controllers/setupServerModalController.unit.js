@@ -13,7 +13,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   var MockFetch = require('../fixtures/mockFetch');
   var apiMocks = require('../apiMocks/index');
   var apiClientMockFactory = require('../../unit/apiMocks/apiClientMockFactory');
-  var VersionFileModel = require('runnable/lib/models/context/version/file');
+  var VersionFileModel = require('@runnable/api-client/lib/models/context/version/file');
   var fileObj = {'path':'/home','name':'defined','isDir':false,'body':'adsf','state':{'from':'File'}};
   var fileModel = new VersionFileModel(fileObj, { noStore: true });
 
