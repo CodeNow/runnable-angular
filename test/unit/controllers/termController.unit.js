@@ -32,14 +32,10 @@ describe('TermController'.bold.underline.blue, function () {
     });
 
     ctx.instance = {
-      attrs: apiMocks.instances.runningWithContainers,
-      containers: {
-        models: [
-          {
-            attrs: apiMocks.instances.runningWithContainers[0].container
-          }
-        ]
-      }
+      attrs: apiMocks.instances.runningWithContainers
+    };
+    ctx.instance.attrs.container = {
+      attrs: apiMocks.instances.runningWithContainers[0].container
     };
     ctx.debugContainer = {
       attrs: apiMocks.instances.running.containers[0]
@@ -84,7 +80,7 @@ describe('TermController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(mockPrimus.createTermStreams);
       sinon.assert.calledWith(
         mockPrimus.createTermStreams,
-        ctx.instance.containers.models[0],
+        ctx.instance.attrs.container,
         sinon.match.any,
         false
       );
@@ -130,7 +126,7 @@ describe('TermController'.bold.underline.blue, function () {
     it('should put the starting stuff on term', function () {
       var startSpy = sinon.spy();
       $scope.$on('STREAM_START', startSpy);
-      var container = ctx.instance.containers.models[0];
+      var container = ctx.instance.attrs.container;
 
       container.running = function () {
         return true;
