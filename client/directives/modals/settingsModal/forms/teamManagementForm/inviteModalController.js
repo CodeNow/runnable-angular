@@ -12,11 +12,9 @@ function InviteModalController(
   $state,
   errs,
   fetchUser,
-  fetchGithubOrgId,
   fetchOrgMembers,
   inviteGithubUserToRunnable,
   loading,
-  promisify,
 
   teamName,
   unInvitedMembers,

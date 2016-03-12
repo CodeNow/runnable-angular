@@ -1,7 +1,7 @@
 /*global runnable:true, mocks: true, directiveTemplate: true, xdescribe: true, helpCardsMock */
 'use strict';
 
-var VersionFileModel = require('runnable/lib/models/context/version/file');
+var VersionFileModel = require('@runnable/api-client/lib/models/context/version/file');
 
 describe('serviceOpenItems'.bold.underline.blue, function () {
   var $localStorage, keypather, OpenItems;

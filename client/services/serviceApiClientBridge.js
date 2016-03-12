@@ -1,6 +1,6 @@
 'use strict';
 
-var Runnable = require('runnable');
+var Runnable = require('@runnable/api-client');
 var qs = require('qs');
 require('app')
   .factory('apiClientBridge', function (

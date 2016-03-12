@@ -12,17 +12,20 @@ function BuildLogsController(
   updateInstanceWithNewBuild,
   primus,
   promisify,
-  streamingLog
+  streamingLog,
+  WatchOnlyOnce
 ) {
   var BLC = this;
   BLC.showDebug = false;
+
+  var watchOnlyOnce = new WatchOnlyOnce($scope);
 
   function handleUpdate () {
     var status = BLC.instance.status();
     BLC.showErrorPanel = false;
     if (status === 'buildFailed' || status === 'neverStarted') {
       var buildError = BLC.instance.attrs.contextVersion.build.error || {};
-      BLC.buildStatus ='failed';
+      BLC.buildStatus = 'failed';
       BLC.failReason = buildError.message || 'failed';
       BLC.showDebug = true;
       BLC.buildLogsRunning = false;
@@ -42,24 +45,32 @@ function BuildLogsController(
   var failCount = 0;
   var streamDelay = 500;
 
-  function setupStream () {
+  function setupStream() {
     BLC.streamFailure = false;
     var stream = null;
     if (BLC.instance) {
-      stream = primus.createBuildStream(BLC.instance.build);
-      handleUpdate();
-      BLC.instance.on('update', handleUpdate);
-      $scope.$on('$destroy', function () {
-        BLC.instance.off('update', handleUpdate);
-      });
+      BLC.buildStatus = 'starting';
+      BLC.buildLogs = [];
+      BLC.buildLogTiming = {};
+      watchOnlyOnce.watchPromise('BLC.instance.attrs.contextVersion.build.dockerContainer', true)
+        .then(function () {
+          stream = primus.createBuildStream(BLC.instance.build);
+          handleUpdate();
+          BLC.instance.on('update', handleUpdate);
+          $scope.$on('$destroy', function () {
+            BLC.instance.off('update', handleUpdate);
+          });
+          connectListenersToStream(stream);
+        });
     } else if (BLC.debugContainer) {
       stream = primus.createBuildStreamFromContextVersionId(BLC.debugContainer.attrs.contextVersion);
+      connectListenersToStream(stream);
     }
-
+  }
+  function connectListenersToStream(stream) {
     stream.on('data', function () {
       stream.hasData = true;
     });
-
     stream.on('end', function () {
       if (!stream.hasData) {
         failCount++;
@@ -83,6 +94,10 @@ function BuildLogsController(
     });
     var streamingBuildLogs = streamingLog(stream);
     $scope.$on('$destroy', function () {
+      if (stream && stream.end) {
+        stream.end();
+      }
+      BLC.buildLogsRunning = false;
       streamingBuildLogs.destroy();
     });
     BLC.buildLogs = streamingBuildLogs.logs;

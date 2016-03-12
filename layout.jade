@@ -58,6 +58,29 @@ html.isolation-intercom-flag-on(
       script(type="text/javascript" src="https://d2zah9y47r7bi2.cloudfront.net/releases/current/tracker.js")
 
     if env === 'production'
+      //- Facebook Events
+      script.
+        !function (f, b, e, v, n, t, s) {
+          if (f.fbq)return;
+          n = f.fbq = function () {
+            n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+          };
+          if (!f._fbq)f._fbq = n;
+          n.push = n;
+          n.loaded = !0;
+          n.version = '2.0';
+          n.queue = [];
+          t = b.createElement(e);
+          t.async = !0;
+          t.src = v;
+          s = b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t, s)
+        }(window, document, 'script', '//connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '761302660669573');
+        fbq('track', "PageView");
+
+      //- Rollbar
       script.
         var _rollbarConfig = {
           accessToken: "07537af868d741b495dbaaaf1bcb77f5",
