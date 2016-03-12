@@ -103,16 +103,18 @@ describe('InstanceNavigationController'.bold.underline.blue, function () {
         instanceName: '1234'
       }
     };
-    mockFetchInstancesByPodResults = [
-      {
-        id: 'nonRepo',
-        getRepoName: sinon.stub().returns(null)
-      },
-      {
-        id: 'repo',
-        getRepoName: sinon.stub().returns('repoName')
-      }
-    ];
+    mockFetchInstancesByPodResults = {
+      models: [
+        {
+          id: 'nonRepo',
+          getRepoName: sinon.stub().returns(null)
+        },
+        {
+          id: 'repo',
+          getRepoName: sinon.stub().returns('repoName')
+        }
+      ]
+    };
   });
 
   describe('basics'.blue, function () {
@@ -128,12 +130,14 @@ describe('InstanceNavigationController'.bold.underline.blue, function () {
       expect(instanceNavigationController.shouldShowSetupModal).to.equal(true);
     });
     it('should fetch instances by pod and properly set the show setup modal state to false', function () {
-      mockFetchInstancesByPodResults = [
-        {
-          id: 'repo',
-          getRepoName: sinon.stub().returns('repoName')
-        }
-      ];
+      mockFetchInstancesByPodResults = {
+        models: [
+          {
+            id: 'repo',
+            getRepoName: sinon.stub().returns('repoName')
+          }
+        ]
+      };
       setup();
       sinon.assert.calledOnce(fetchInstancesByPodStub);
       expect(instanceNavigationController.shouldShowSetupModal).to.equal(false);

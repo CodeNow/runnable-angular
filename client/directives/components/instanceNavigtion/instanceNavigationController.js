@@ -47,10 +47,7 @@ function InstanceNavigationController(
 
   fetchInstancesByPod()
     .then(function (instances) {
-      var nonRepoInstances = instances.filter(function (instance) {
-        return !instance.getRepoName();
-      });
-      INC.shouldShowSetupModal = nonRepoInstances.length > 0;
+      INC.shouldShowSetupModal = instances.models.length > 1;
     });
 
   INC.setupIsolation = function () {

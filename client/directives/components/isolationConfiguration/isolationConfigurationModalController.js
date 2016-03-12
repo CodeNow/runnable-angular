@@ -27,7 +27,7 @@ function IsolationConfigurationModalController(
       });
       if (repoInstance) {
         return isolatedChildren.push({
-          branch: repoInstance.getBranchName(),
+          branch: ICMC.instanceBranchMapping[repoInstance.attrs.contextVersion.context].getBranchName(),
           repo: repoInstance.getRepoName(),
           org: repoInstance.attrs.owner.username
         });
