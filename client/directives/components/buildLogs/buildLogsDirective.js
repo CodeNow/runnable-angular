@@ -18,22 +18,11 @@ function buildLogs(
       debugContainer: '='
     },
     link: function ($scope, element) {
-      var atBottom = true;
-      var lockThreshold = 30;
-
-      var scrollHelper = debounce(function (manual) {
+      var scrollHelper = debounce(function () {
         if (!element[0]) {
           return;
         }
         var currentScroll = element[0].scrollTop;
-        var maxScroll = element[0].scrollHeight - element[0].offsetHeight;
-
-        if (manual) {
-          atBottom = maxScroll < currentScroll + lockThreshold;
-        } else if (atBottom) {
-          element[0].scrollTop = 100000000;
-          currentScroll = element[0].scrollTop;
-        }
 
         var children = element.children();
         var foundChild = null;
@@ -42,7 +31,7 @@ function buildLogs(
           titleHeight = angular.element(children[0]).children()[0].offsetHeight;
         }
 
-        for(var i=0;i<children.length;i++){
+        for (var i=0; i<children.length; i++) {
           var child = children[i];
           if (currentScroll >= child.offsetTop) {
             foundChild = i;
@@ -55,7 +44,6 @@ function buildLogs(
           command.fixed = false;
           command.absolute = false;
         });
-
 
         var foundCommand = $scope.BLC.buildLogs[foundChild - 1];
         // If the command is found AND the fixed height hasn't scrolled past its containing element
@@ -73,7 +61,7 @@ function buildLogs(
       $scope.$watch(function() {
         return {
           buildLogs: $scope.BLC.buildLogs.length,
-          childLogs: keypather.get($scope.BLC.buildLogs[$scope.BLC.buildLogs.length-1], 'lineCount')
+          childLogs: keypather.get($scope.BLC.buildLogs[$scope.BLC.buildLogs.length - 1], 'lineCount')
         };
       }, function () {
         scrollHelper();
@@ -93,16 +81,21 @@ function buildLogs(
         }
       });
 
-      element.on('scroll', function () {
-        scrollHelper(true);
-      });
+      element.on('scroll', scrollHelper);
 
       $scope.actions = {
         toggleCommand: function (event, command) {
-          if (!command.hasContent || ($scope.BLC.buildLogs.indexOf(command) === ($scope.BLC.buildLogs.length - 1) && $scope.BLC.buildLogsRunning)) {
+          var index = $scope.BLC.buildLogs.indexOf(command);
+          if (!command.hasContent || (index === ($scope.BLC.buildLogs.length - 1) && $scope.BLC.buildLogsRunning)) {
             return;
           }
           command.expanded = !command.expanded;
+          if (command.expanded) {
+            $timeout(function () {
+              var logElement = angular.element(event.target).parent().parent().children()[1];
+              logElement.scrollTop = logElement.scrollHeight;
+            }, 0);
+          }
         }
       };
 
