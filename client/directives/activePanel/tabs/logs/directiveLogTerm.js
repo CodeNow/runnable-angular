@@ -131,6 +131,9 @@ function logTerm(
       });
 
       function initializeStream(reconnecting) {
+        if ($scope.handleReconnect && reconnecting) {
+          return $scope.handleReconnect();
+        }
         killCurrentStream();
         $scope.createStream();
         $scope.connectStreams(terminal);

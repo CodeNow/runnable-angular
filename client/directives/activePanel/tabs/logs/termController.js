@@ -47,6 +47,10 @@ function TermController(
     terminal.on('data', termOnFn);
     $scope.stream.on('data', streamOnFn);
   };
+
+  $scope.handleReconnect = function () {
+    console.log('Handling reconnect!');
+  };
 }
 
 
