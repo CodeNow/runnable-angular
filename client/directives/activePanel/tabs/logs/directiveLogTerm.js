@@ -18,7 +18,8 @@ function logTerm(
     controller: '@',
     scope: {
       instance: '=? instance',
-      debugContainer: '=? debugContainer'
+      debugContainer: '=? debugContainer',
+      tabItem: '=? tabItem'
     },
     link: function ($scope, elem, attrs) {
       /**

@@ -9,8 +9,7 @@ function TermController(
   $scope,
   primus,
   $timeout,
-  WatchOnlyOnce,
-  $localStorage
+  WatchOnlyOnce
 ) {
   var termOnFn;
   var streamOnFn;
@@ -26,26 +25,22 @@ function TermController(
 
   $scope.createStream = function () {
     var streamModel = null;
-    var localStorageId = null;
     if ($scope.instance) {
       streamModel = $scope.instance.attrs.container;
       if (!streamModel) {
         // If we don't have a container watch until we have one, when we do then create a stream
         return watchOnlyOnce.watchPromise('instance.attrs.container', $scope.createStream);
       }
-      localStorageId = streamModel.dockerContainer;
     } else if ($scope.debugContainer) {
       streamModel = $scope.debugContainer.attrs.inspect;
-      localStorageId = streamModel.dockerContainer;
     }
-    var localStorageKey = 'terminal-' + localStorageId;
-    var streams = primus.createTermStreams(streamModel, undefined, !!$scope.debugContainer, $localStorage[localStorageKey]);
+    var streams = primus.createTermStreams(streamModel, undefined, !!$scope.debugContainer, $scope.tabItem.attrs.terminalId);
     $scope.stream = streams.termStream;
     $scope.eventStream = streams.eventStream;
 
     function checkForTerminalCreation(streamData) {
       if (streamData.event === 'TERMINAL_STREAM_CREATED' && streamData.data.substreamId === streams.uniqueId) {
-        $localStorage[localStorageKey] = streamData.data.terminalId;
+        $scope.tabItem.attrs.terminalId = streamData.data.terminalId;
         primus.off('data', checkForTerminalCreation);
       }
     }
