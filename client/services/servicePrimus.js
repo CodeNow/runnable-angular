@@ -66,7 +66,6 @@ RunnablePrimus.prototype.createTermStreams = function (container, uniqueId, isDe
     eventStreamId: uniqueId + 'events',
     terminalId: terminalId
   };
-  console.log('Creating terminal stream.', { terminalId:  terminalId, substreamId: uniqueId});
   this.write({
     id: 1,
     event: 'terminal-stream',

@@ -20,7 +20,6 @@ function TermController(
     cursorBlink: true
   };
 
-
   $timeout(function () {
     $scope.$emit('STREAM_START', null, true);
   });
@@ -37,7 +36,6 @@ function TermController(
       localStorageId = streamModel.dockerContainer;
     } else if ($scope.debugContainer) {
       streamModel = $scope.debugContainer.attrs.inspect;
-      console.log(streamModel);
       localStorageId = streamModel.dockerContainer;
     }
     var localStorageKey = 'terminal-' + localStorageId;
@@ -47,7 +45,6 @@ function TermController(
 
     function checkForTerminalCreation(streamData) {
       if (streamData.event === 'TERMINAL_STREAM_CREATED' && streamData.data.substreamId === streams.uniqueId) {
-        console.log('Terminal Connected', streamData.data);
         $localStorage[localStorageKey] = streamData.data.terminalId;
         primus.off('data', checkForTerminalCreation);
       }
