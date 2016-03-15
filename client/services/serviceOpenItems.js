@@ -148,8 +148,6 @@ function openItemsFactory(
   }
 
   var defaultTabs = {
-    'BuildStream': 'Build Logs',
-    'LogView': 'CMD Logs',
     'Terminal': 'Terminal'
   };
   OpenItems.prototype.retrieveTabs = function(container) {

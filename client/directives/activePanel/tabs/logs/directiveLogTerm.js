@@ -21,7 +21,6 @@ function logTerm(
       debugContainer: '=? debugContainer'
     },
     link: function ($scope, elem, attrs) {
-
       /**
        * Creates instance of Terminal w/ default
        * settings and attaches to elem.
@@ -131,9 +130,6 @@ function logTerm(
       });
 
       function initializeStream(reconnecting) {
-        if ($scope.handleReconnect && reconnecting) {
-          return $scope.handleReconnect();
-        }
         killCurrentStream();
         $scope.createStream();
         $scope.connectStreams(terminal);

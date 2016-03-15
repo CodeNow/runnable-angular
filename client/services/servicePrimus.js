@@ -51,23 +51,26 @@ RunnablePrimus.prototype.createBuildStream = function (build) {
   }
 };
 
-RunnablePrimus.prototype.createTermStreams = function (container, uniqueId, isDebugContainer) {
+RunnablePrimus.prototype.createTermStreams = function (container, uniqueId, isDebugContainer, terminalId) {
   container = container.json ? container.json() : container;
   var streamId = container.dockerContainer;
   if (!uniqueId) {
     uniqueId = makeUniqueId(streamId);
   }
+  var streamData = {
+    dockHost: container.dockerHost,
+    type: 'filibuster',
+    isDebugContainer: isDebugContainer,
+    containerId: container.dockerContainer,
+    terminalStreamId: uniqueId,
+    eventStreamId: uniqueId + 'events',
+    terminalId: terminalId
+  };
+  console.log('Creating terminal stream.', { terminalId:  terminalId, substreamId: uniqueId});
   this.write({
     id: 1,
     event: 'terminal-stream',
-    data: {
-      dockHost: container.dockerHost,
-      type: 'filibuster',
-      isDebugContainer: isDebugContainer,
-      containerId: container.dockerContainer,
-      terminalStreamId: uniqueId,
-      eventStreamId: uniqueId + 'events'
-    }
+    data: streamData
   });
   return {
     termStream: this.substream(uniqueId),
