@@ -4,6 +4,7 @@ require('app')
   .factory('fetchCommitData', fetchCommitData);
 
 function fetchCommitData (
+  $q,
   errs,
   promisify
 ) {
@@ -30,7 +31,14 @@ function fetchCommitData (
     },
 
     branchCommits: function (branch) {
-      branch.commits.fetch(angular.noop);
+      return $q(function (resolve, reject) {
+        branch.commits.fetch(function (err, commits) {
+          if (err) {
+            return reject();
+          }
+          return resolve(commits);
+        });
+      });
     }
   };
 }
