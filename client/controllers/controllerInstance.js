@@ -19,6 +19,7 @@ function ControllerInstance(
   fetchCommitData,
   fetchInstances,
   fetchSettings,
+  getCommitForCurrentlyBuildingBuild,
   keypather,
   fetchUser,
   pageName,
@@ -59,57 +60,12 @@ function ControllerInstance(
       .then(function (results) {
         var instance = results.instance;
         data.instance = instance;
-        //
-        //
-        //
+        getCommitForCurrentlyBuildingBuild(instance)
+          .then(function (commit) {
+            data.commit = commit;
+            data.showUpdatingMessage = true;
+          });
 
-        function getInstanceBuidldsForBranch (instance, branchName) {
-          return fetchUser()
-            .then(function () {
-              return promisify(user, 'fetchContext')(keypather.get(instance, 'attrs.contextVersion.context'));
-            })
-            .then(function (context) {
-              return promisify(context, 'fetchVersions')( {
-                build: {
-                  completed: false
-                },
-                repo: keypather.get(instance, 'contextVersion.attrs.appCodeVersions[0].repo'),
-                branch: branchName
-              });
-            })
-            .then(function (contextVersionCollection) {
-              return contextVersionCollection
-                .map(function (contextVersion) {
-                  return contextVersion.attrs.build;
-                });
-            });
-        }
-
-        var contextVersion = keypather.get(instance, 'attrs.contextVersion');
-        var currentBuild = keypather.get(contextVersion, 'build');
-        var acv = keypather.get(contextVersion, 'appCodeVersions[0]');
-        var branchName = keypather.get(acv, 'branch');
-        var currentCommit = keypather.get(acv, 'commit');
-        var isLocked = keypather.get(instance, 'attrs.locked');
-        if (!isLocked && acv && branchName) {
-          console.log('Checking builds...');
-          getInstanceBuidldsForBranch(instance, branchName)
-            .then(function (builds) {
-              console.log('builds for branch', builds.length);
-              builds = builds.filter(function (build) {
-                return build.started &&
-                  !build.completed &&
-                  build.started > currentBuild.started &&
-                  build.message !== 'manual';
-              });
-              console.log('builds', builds);
-            });
-        } else {
-          console.log('Instance Locked');
-        }
-
-        //
-        //
         pageName.setTitle(instance.attrs.name);
         data.instance.state = {};
 
