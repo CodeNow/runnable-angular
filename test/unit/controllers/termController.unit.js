@@ -9,7 +9,7 @@ var keypather;
 var apiMocks = require('../apiMocks/index');
 var mockPrimus = new fixtures.MockPrimus();
 
-describe('TermController'.bold.underline.blue, function () {
+describe.only('TermController'.bold.underline.blue, function () {
   var ctx = {};
   function setup() {
 
@@ -119,6 +119,20 @@ describe('TermController'.bold.underline.blue, function () {
         sinon.match.any,
         true
       );
+    });
+    it('should check for terminal connection when there is a data event', function () {
+      $scope.createStream();
+      $rootScope.$digest();
+      var returnedStreams = mockPrimus.createTermStreams.returnValues[0];
+      mockPrimus.emit('data', {
+        event: 'TERMINAL_STREAM_CREATED',
+        data: {
+          substreamId: returnedStreams.uniqueId,
+          terminalId: 'terminalId'
+        }
+      });
+      $rootScope.$digest();
+      expect($scope.tabItem.attrs.terminalId).to.equal('terminalId');
     });
   });
 
