@@ -62,46 +62,25 @@ function ControllerInstance(
         //
         //
         //
-        function getCommitsForContextVersion (instance, contextVersion) {
-          var acv = keypather.get(contextVersion, '.appCodeVersions[0]');
-          return fetchUser()
-            .then(function (user) {
-              return promisify($scope.user, 'fetchContext')(keypather.get(instance, 'attrs.contextVersion.context'));
-            })
-            .then(function (context) {
-              return promisify(context, 'fetchVersion')(contextVersion._id);
-            })
-            .then(function (contextVersion) {
-              return promisify(contextVersion, 'fetchAppCodeVersion')(acv._id);
-            })
-            .then(function (acv) {
-              var branch = fetchCommitData.activeBranch(acv);
-              return fetchCommitData.branchCommits(branch);
-            });
-        }
 
-        function getInstanceBuidldsForCommit (instance, branchName) {
+        function getInstanceBuidldsForBranch (instance, branchName) {
           return fetchUser()
             .then(function () {
               return promisify(user, 'fetchContext')(keypather.get(instance, 'attrs.contextVersion.context'));
             })
             .then(function (context) {
-              return promisify(context, 'fetchVersions')();
+              return promisify(context, 'fetchVersions')( {
+                build: {
+                  completed: false
+                },
+                repo: keypather.get(instance, 'contextVersion.attrs.appCodeVersions[0].repo'),
+                branch: branchName
+              });
             })
             .then(function (contextVersionCollection) {
               return contextVersionCollection
-                .filter(function (model) {
-                  var acv = model.attrs.appCodeVersions[0];
-                  return acv.branch === branchName;
-                })
                 .map(function (contextVersion) {
                   return contextVersion.attrs.build;
-                })
-                .filter(function (build) {
-                  return build.started && build.failed !== true;
-                })
-                .sort(function (a, b) {
-                  return a.started > b.started;
                 });
             });
         }
@@ -113,24 +92,17 @@ function ControllerInstance(
         var currentCommit = keypather.get(acv, 'commit');
         var isLocked = keypather.get(instance, 'attrs.locked');
         if (!isLocked && acv && branchName) {
-          getCommitsForContextVersion(instance, contextVersion)
-            .then(function (commits) {
-              if (commits[0].sha === currentCommit) {
-                console.log('Commit is up to date');
-              } else {
-                console.log('Commit is NOT up to date', commits[0].sha, currentCommit);
-                console.log('Checking builds...');
-                getInstanceBuidldsForCommit(instance, branchName, currentCommit)
-                .then(function (builds) {
-                  console.log('builds for the same branch', builds);
-                  console.log('builds built after current build', builds.filter(function (build) {
-                    return build.started && build.started > currentBuild.started;
-                  }));
-                  console.log('non-completed builds built after current build', builds.filter(function (build) {
-                    return build.started && build.started > currentBuild.started && !build.completed;
-                  }));
-                });
-              }
+          console.log('Checking builds...');
+          getInstanceBuidldsForBranch(instance, branchName)
+            .then(function (builds) {
+              console.log('builds for branch', builds.length);
+              builds = builds.filter(function (build) {
+                return build.started &&
+                  !build.completed &&
+                  build.started > currentBuild.started &&
+                  build.message !== 'manual';
+              });
+              console.log('builds', builds);
             });
         } else {
           console.log('Instance Locked');
