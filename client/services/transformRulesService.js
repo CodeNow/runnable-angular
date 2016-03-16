@@ -12,10 +12,10 @@ require('app')
 
 function checkErrorCallback(reject, cb) {
   return function (err, res, body) {
+    if (err) {
+      return reject(err);
+    }
     if (!body) {
-      if (err) {
-        return reject(err);
-      }
       return reject(new Error('There was an error processing your transformation rules.'));
     }
     if (body.message) {
