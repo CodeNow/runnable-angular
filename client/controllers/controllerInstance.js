@@ -60,10 +60,13 @@ function ControllerInstance(
       .then(function (results) {
         var instance = results.instance;
         data.instance = instance;
+        var currentCommit = keypather.get(instance, 'attrs.contextVersion.appCodeVersions[0].commit');
         getCommitForCurrentlyBuildingBuild(instance)
           .then(function (commit) {
-            data.commit = commit;
-            data.showUpdatingMessage = true;
+            if (commit && currentCommit !== commit) {
+              data.commit = commit;
+              data.showUpdatingMessage = true;
+            }
           });
 
         pageName.setTitle(instance.attrs.name);
