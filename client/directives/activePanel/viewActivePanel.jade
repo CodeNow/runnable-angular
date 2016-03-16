@@ -5,6 +5,24 @@
   open-items = "openItems"
   tabs
 )
+.active-panel(
+  ng-class = "{\
+    'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+    'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+  }"
+  ng-if = "openItems.activeHistory.last().state.type === 'BuildStream' && (instance || debugContainer)"
+)
+  .build-log-wrapper(
+    build-logs
+    debug-container = "debugContainer"
+    instance = 'instance'
+    ng-class = "{\
+      'logs-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+      'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+    }"
+    ng-style = "($root.featureFlags.themeToggle || $root.featureFlags.fullScreenToggle) && {'padding-right': '42px'}"
+    scroll-glue
+  )
 
 //- active panel
 .active-panel(
@@ -38,21 +56,6 @@
     ng-if = "$root.featureFlags.fullScreenToggle || $root.featureFlags.themeToggle"
     ng-include = "'viewFloatingControls'"
   )
-
-  //- build logs
-  .build-log-wrapper(
-    build-logs
-    scroll-glue
-    debug-container = "debugContainer"
-    instance = 'instance'
-    ng-class = "{\
-      'logs-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
-      'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
-    }"
-    ng-if = "item.state.type === 'BuildStream' && (instance || debugContainer)"
-    ng-style = "($root.featureFlags.themeToggle || $root.featureFlags.fullScreenToggle) && {'padding-right': '42px'}"
-  )
-
   //- cmd logs
   .term-js.term-log(
     controller = "BoxLogController"

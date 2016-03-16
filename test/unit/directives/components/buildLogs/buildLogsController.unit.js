@@ -126,9 +126,7 @@ describe('BuildLogsController'.bold.underline.blue, function () {
       $rootScope.$digest();
     });
     it('should create the build stream and send it to streamingLog', function () {
-
       sinon.assert.calledWith(mockPrimus.createBuildStream, mockInstance.build);
-
       sinon.assert.calledOnce(mockStreamingLog);
       sinon.assert.calledOnce(mockPrimus.createBuildStream);
       sinon.assert.calledWith(mockStreamingLog, mockStream);
@@ -136,6 +134,20 @@ describe('BuildLogsController'.bold.underline.blue, function () {
     it('should handle destroy events', function () {
       $scope.$destroy();
       sinon.assert.calledOnce(mockStreamingLogContents.destroy);
+    });
+    it('should destroy the old stream, and create a new one', function () {
+      sinon.assert.calledWith(mockPrimus.createBuildStream, mockInstance.build);
+      sinon.assert.calledOnce(mockStreamingLog);
+      sinon.assert.calledOnce(mockPrimus.createBuildStream);
+      sinon.assert.calledWith(mockStreamingLog, mockStream);
+      sinon.assert.calledOnce(BLC.instance.off);
+      sinon.assert.calledOnce(BLC.instance.on);
+      BLC.instance.off.reset();
+      BLC.instance.on.reset();
+      BLC.instance.attrs.contextVersion.build.dockerContainer = 'asd3e3rdfafads';
+      $scope.$digest();
+      sinon.assert.calledTwice(BLC.instance.off);
+      sinon.assert.calledOnce(BLC.instance.on);
     });
     describe('handleUpdate', function () {
       it('should handle build logs running status', function () {
