@@ -40,6 +40,9 @@ describe('TermController'.bold.underline.blue, function () {
     ctx.debugContainer = {
       attrs: apiMocks.instances.running.containers[0]
     };
+    $scope.tabItem = {
+      attrs: {}
+    };
     $controller('TermController', {
       '$scope': $scope
     });
