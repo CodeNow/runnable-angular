@@ -9,7 +9,7 @@ var keypather;
 var apiMocks = require('../apiMocks/index');
 var mockPrimus = new fixtures.MockPrimus();
 
-describe.only('TermController'.bold.underline.blue, function () {
+describe('TermController'.bold.underline.blue, function () {
   var ctx = {};
   function setup() {
 
@@ -84,7 +84,6 @@ describe.only('TermController'.bold.underline.blue, function () {
       sinon.assert.calledWith(
         mockPrimus.createTermStreams,
         ctx.instance.attrs.container,
-        sinon.match.any,
         false
       );
     });
@@ -116,7 +115,6 @@ describe.only('TermController'.bold.underline.blue, function () {
       sinon.assert.calledWith(
         mockPrimus.createTermStreams,
         ctx.debugContainer.attrs.inspect,
-        sinon.match.any,
         true
       );
     });

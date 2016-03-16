@@ -34,7 +34,7 @@ function TermController(
     } else if ($scope.debugContainer) {
       streamModel = $scope.debugContainer.attrs.inspect;
     }
-    var streams = primus.createTermStreams(streamModel, undefined, !!$scope.debugContainer, $scope.tabItem.attrs.terminalId);
+    var streams = primus.createTermStreams(streamModel, !!$scope.debugContainer, $scope.tabItem.attrs.terminalId);
     $scope.stream = streams.termStream;
     $scope.eventStream = streams.eventStream;
 
