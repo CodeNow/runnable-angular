@@ -106,20 +106,23 @@ function ControllerInstance(
         return;
       }
       if (data.instance.contextVersion.getMainAppCodeVersion()) {
-        data.commit = fetchCommitData.activeCommit(
+        fetchCommitData.activeCommit(
           data.instance.contextVersion.getMainAppCodeVersion(),
           keypather.get(n, 'triggeredAction.appCodeVersion.commit')
-        );
-        var updateBuildHash = n.hash;
-        unwatchNewCv = $scope.$watch(function () {
-          return keypather.get($scope, 'dataInstance.data.instance.contextVersion.attrs.build.hash') === updateBuildHash &&
-            keypather.get($scope, 'dataInstance.data.instance.containers.models[0].running()');
-        }, function (n) {
-          if (n) {
-            unwatchNewCv();
-            data.showUpdatingMessage = false;
-            data.showUpdatedMessage = true;
-          }
+        )
+        .then(function (commit) {
+          data.commit = commit;
+          var updateBuildHash = n.hash;
+          unwatchNewCv = $scope.$watch(function () {
+            return keypather.get($scope, 'dataInstance.data.instance.contextVersion.attrs.build.hash') === updateBuildHash &&
+              keypather.get($scope, 'dataInstance.data.instance.containers.models[0].running()');
+          }, function (n) {
+            if (n) {
+              unwatchNewCv();
+              data.showUpdatingMessage = false;
+              data.showUpdatedMessage = true;
+            }
+          });
         });
       }
     }
@@ -137,12 +140,15 @@ function ControllerInstance(
         return;
       }
       if (data.instance.contextVersion.getMainAppCodeVersion()) {
-        data.commit = fetchCommitData.activeCommit(
+        fetchCommitData.activeCommit(
           data.instance.contextVersion.getMainAppCodeVersion(),
           keypather.get(n, 'triggeredAction.appCodeVersion.commit')
-        );
-        data.showUpdatedMessage = false;
-        data.showUpdatingMessage = true;
+        )
+          .then(function (commit) {
+            data.commit = commit;
+            data.showUpdatedMessage = false;
+            data.showUpdatingMessage = true;
+          });
       }
     }
   });

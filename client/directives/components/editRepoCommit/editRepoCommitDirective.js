@@ -24,7 +24,10 @@ function editRepoCommit(
     link: function ($scope) {
       $scope.$watch('acv', function (newAcv) {
         if (newAcv) {
-          $scope.activeCommit = fetchCommitData.activeCommit($scope.acv);
+          fetchCommitData.activeCommit($scope.acv)
+            .then(function (commit) {
+              $scope.activeCommit = commit;
+            });
         }
       });
 

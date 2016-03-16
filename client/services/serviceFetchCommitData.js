@@ -19,8 +19,8 @@ function fetchCommitData (
 
     activeCommit: function (acv, commitHash) {
       var activeCommit = acv.githubRepo.newCommit(commitHash || acv.attrs.commit);
-      activeCommit.fetch(errs.handler);
-      return activeCommit;
+      return promisify(activeCommit, 'fetch')()
+        .catch(errs.handler);
     },
 
     offset: function (acv, activeCommit) {
@@ -31,14 +31,7 @@ function fetchCommitData (
     },
 
     branchCommits: function (branch) {
-      return $q(function (resolve, reject) {
-        branch.commits.fetch(function (err, commits) {
-          if (err) {
-            return reject();
-          }
-          return resolve(commits);
-        });
-      });
+      return promisify(branch.commits, 'fetch')();
     }
   };
 }
