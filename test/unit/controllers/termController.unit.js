@@ -41,7 +41,10 @@ describe('TermController'.bold.underline.blue, function () {
       attrs: apiMocks.instances.running.containers[0]
     };
     $scope.tabItem = {
-      attrs: {}
+      attrs: {},
+      state: {
+        saveState: sinon.spy()
+      }
     };
     $controller('TermController', {
       '$scope': $scope
@@ -130,6 +133,7 @@ describe('TermController'.bold.underline.blue, function () {
         }
       });
       $rootScope.$digest();
+      sinon.assert.calledOnce($scope.tabItem.state.saveState);
       expect($scope.tabItem.attrs.terminalId).to.equal('terminalId');
     });
   });

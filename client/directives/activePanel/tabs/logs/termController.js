@@ -42,6 +42,7 @@ function TermController(
       if (streamData.event === 'TERMINAL_STREAM_CREATED' && streamData.data.substreamId === streams.uniqueId) {
         $scope.tabItem.attrs.terminalId = streamData.data.terminalId;
         primus.off('data', checkForTerminalCreation);
+        $scope.tabItem.state.saveState();
       }
     }
     primus.on('data', checkForTerminalCreation);
