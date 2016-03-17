@@ -44,7 +44,7 @@ function logTerm(
       var $disconnected = null
       $scope.$watch('disconnected', function (val) {
         if (val === true) {
-          $disconnected = angular.element('<div class="disconnected">Connection interrupted. Attempting to reconnect</div>');
+          $disconnected = angular.element('<div class="disconnected">Connection interrupted. Attempting to reconnect...</div>');
           angular.element(elem).prepend($disconnected);
         } else if ($disconnected) {
           $disconnected.remove();
