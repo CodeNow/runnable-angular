@@ -1,7 +1,7 @@
 'use strict';
 
 require('app')
-  .factory('getUncompleteBuidldsForInstanceBranch', getUncompleteBuidldsForInstanceBranch)
+  .factory('getIncompleteBuidldsForInstanceBranch', getIncompleteBuidldsForInstanceBranch)
   .factory('getCommitForCurrentlyBuildingBuild', getCommitForCurrentlyBuildingBuild);
 
 /**
@@ -13,7 +13,7 @@ require('app')
  * @resolves {Array} Builds - Array of builds objects
  * @returns {Promise}
  */
-function getUncompleteBuidldsForInstanceBranch (
+function getIncompleteBuidldsForInstanceBranch (
   fetchUser,
   keypather,
   promisify
@@ -62,7 +62,7 @@ function getUncompleteBuidldsForInstanceBranch (
 function getCommitForCurrentlyBuildingBuild (
   $q,
   fetchCommitData,
-  getUncompleteBuidldsForInstanceBranch,
+  getIncompleteBuidldsForInstanceBranch,
   keypather
 ) {
   return function (instance) {
@@ -72,7 +72,7 @@ function getCommitForCurrentlyBuildingBuild (
     var branchName = keypather.get(acv, 'branch');
     var isLocked = keypather.get(instance, 'attrs.locked');
     if (!isLocked && acv && branchName) {
-      return getUncompleteBuidldsForInstanceBranch(instance, branchName)
+      return getIncompleteBuidldsForInstanceBranch(instance, branchName)
         .then(function (res) {
           if (res.length > 0 && res[0].build.started > currentBuild.started) {
             return fetchCommitData.activeCommit(
@@ -83,6 +83,6 @@ function getCommitForCurrentlyBuildingBuild (
           return false;
         });
     }
-    return $q.resolve(false);
+    return $q.when(false);
   };
 }
