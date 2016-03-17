@@ -16,6 +16,7 @@ function logTerm(
     replace: true,
     transclude: true,
     controller: '@',
+    controllerAs: 'CTRL',
     scope: {
       instance: '=? instance',
       debugContainer: '=? debugContainer',
@@ -40,12 +41,26 @@ function logTerm(
       }
       var terminal = helperSetupTerminal($scope, elem, $scope.termOpts, resizeHandler);
 
+      var $disconnected = null
+      $scope.$watch('disconnected', function (val) {
+        if (val === true) {
+          $disconnected = angular.element('<div class="disconnected">Connection interrupted. Attempting to reconnect</div>');
+          angular.element(elem).prepend($disconnected);
+        } else if ($disconnected) {
+          $disconnected.remove();
+        }
+      });
+
       var reconnecting = false;
       function disconnected() {
         if (reconnecting) { return; }
         reconnecting = true;
-        terminal.writeln('');
-        terminal.writeln('* Lost Connection — Retrying… *');
+        if ($scope.handleDisconnect) {
+          $scope.handleDisconnect();
+        } else {
+          terminal.writeln('');
+          terminal.writeln('* Lost Connection — Retrying… *');
+        }
       }
       bind(primus, 'offline', disconnected);
       bind(primus, 'reconnect', disconnected);
@@ -55,7 +70,11 @@ function logTerm(
         if ($scope.clearTermOnReconnect) {
           terminal.reset();
         }
-        terminal.writeln('* Connection Regained — Thanks for your patience! *');
+        if ($scope.handleReconnect) {
+          $scope.handleReconnect();
+        } else {
+          terminal.writeln('* Connection Regained — Thanks for your patience! *');
+        }
         $timeout(function () {
           initializeStream(true);
         });
@@ -63,6 +82,9 @@ function logTerm(
 
       $scope.$on('$destroy', function () {
         killCurrentStream();
+        if ($disconnected) {
+          $disconnected.remove();
+        }
       });
 
       $scope.$on('STREAM_START', function (event, newModel, clearTerminal) {

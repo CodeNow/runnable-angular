@@ -12,7 +12,6 @@ function TermController(
   WatchOnlyOnce
 ) {
   var termOnFn;
-  var streamOnFn;
   var watchOnlyOnce = new WatchOnlyOnce($scope);
   $scope.termOpts = {
     hideCursor: false,
@@ -48,11 +47,28 @@ function TermController(
     primus.on('data', checkForTerminalCreation);
   };
 
+  var hasHandledReconnection = true;
   $scope.connectStreams = function (terminal) {
     termOnFn = $scope.stream.write.bind($scope.stream);
-    streamOnFn = terminal.write.bind(terminal);
     terminal.on('data', termOnFn);
-    $scope.stream.on('data', streamOnFn);
+    $scope.stream.on('data', function (data) {
+      if (!hasHandledReconnection) {
+        hasHandledReconnection = true;
+        return;
+      }
+      terminal.write(data);
+    });
+
+  };
+
+  $scope.disconnected = true;
+
+  $scope.handleDisconnect = function () {
+    $scope.disconnected = true;
+  };
+  $scope.handleReconnect = function () {
+    $scope.disconnected = false;
+    hasHandledReconnection = false;
   };
 }
 
