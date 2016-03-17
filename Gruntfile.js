@@ -555,7 +555,6 @@ module.exports = function(grunt) {
     'sass:dev',
     'autoprefixer',
     'jade2js',
-    'jshint:dev',
     'autoBundleDependencies',
     'generateConfigs',
     'browserify:watch',

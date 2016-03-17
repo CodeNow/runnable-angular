@@ -40,6 +40,9 @@ describe('TermController'.bold.underline.blue, function () {
     ctx.debugContainer = {
       attrs: apiMocks.instances.running.containers[0]
     };
+    $scope.tabItem = {
+      attrs: {}
+    };
     $controller('TermController', {
       '$scope': $scope
     });
@@ -81,7 +84,6 @@ describe('TermController'.bold.underline.blue, function () {
       sinon.assert.calledWith(
         mockPrimus.createTermStreams,
         ctx.instance.attrs.container,
-        sinon.match.any,
         false
       );
     });
@@ -113,9 +115,22 @@ describe('TermController'.bold.underline.blue, function () {
       sinon.assert.calledWith(
         mockPrimus.createTermStreams,
         ctx.debugContainer.attrs.inspect,
-        sinon.match.any,
         true
       );
+    });
+    it('should check for terminal connection when there is a data event', function () {
+      $scope.createStream();
+      $rootScope.$digest();
+      var returnedStreams = mockPrimus.createTermStreams.returnValues[0];
+      mockPrimus.emit('data', {
+        event: 'TERMINAL_STREAM_CREATED',
+        data: {
+          substreamId: returnedStreams.uniqueId,
+          terminalId: 'terminalId'
+        }
+      });
+      $rootScope.$digest();
+      expect($scope.tabItem.attrs.terminalId).to.equal('terminalId');
     });
   });
 

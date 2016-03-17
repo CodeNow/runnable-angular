@@ -11,7 +11,6 @@ function TermController(
   $timeout,
   WatchOnlyOnce
 ) {
-  var uniqueId;
   var termOnFn;
   var streamOnFn;
   var watchOnlyOnce = new WatchOnlyOnce($scope);
@@ -35,10 +34,17 @@ function TermController(
     } else if ($scope.debugContainer) {
       streamModel = $scope.debugContainer.attrs.inspect;
     }
-    var streams = primus.createTermStreams(streamModel, uniqueId, !!$scope.debugContainer);
-    uniqueId = streams.uniqueId;
+    var streams = primus.createTermStreams(streamModel, !!$scope.debugContainer, $scope.tabItem.attrs.terminalId);
     $scope.stream = streams.termStream;
     $scope.eventStream = streams.eventStream;
+
+    function checkForTerminalCreation(streamData) {
+      if (streamData.event === 'TERMINAL_STREAM_CREATED' && streamData.data.substreamId === streams.uniqueId) {
+        $scope.tabItem.attrs.terminalId = streamData.data.terminalId;
+        primus.off('data', checkForTerminalCreation);
+      }
+    }
+    primus.on('data', checkForTerminalCreation);
   };
 
   $scope.connectStreams = function (terminal) {
