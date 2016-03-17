@@ -57,6 +57,11 @@ describe('controllerInstance'.bold.underline.blue, function () {
           return $q.when({});
         };
       });
+      $provide.factory('getCommitForCurrentlyBuildingBuild', function ($q) {
+        return function () {
+          return $q.when(false);
+        };
+      });
     });
     angular.mock.inject(function (
       _$controller_,

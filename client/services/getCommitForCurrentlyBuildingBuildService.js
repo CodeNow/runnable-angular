@@ -39,14 +39,9 @@ function getUncompleteBuidldsForInstanceBranch (
         });
       })
       .then(function (contextVersionCollection) {
-        console.log('contextVersionCollection', contextVersionCollection);
-        console.log('commit', contextVersionCollection.models.map(function (model) {
-          return model.attrs.appCodeVersions[0].commit;
-        }));
         return contextVersionCollection
           .map(function (contextVersion) {
             return {
-              created: contextVersion.attrs.created,
               build: contextVersion.attrs.build,
               commit: keypather.get(contextVersion, 'attrs.appCodeVersions[0].commit')
             };
@@ -79,7 +74,6 @@ function getCommitForCurrentlyBuildingBuild (
     if (!isLocked && acv && branchName) {
       return getUncompleteBuidldsForInstanceBranch(instance, branchName)
         .then(function (res) {
-          console.log('res', res.length, res);
           if (res.length > 0 && res[0].build.started > currentBuild.started) {
             return fetchCommitData.activeCommit(
               instance.contextVersion.getMainAppCodeVersion(),
