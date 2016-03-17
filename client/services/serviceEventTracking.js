@@ -8,7 +8,7 @@
 
 require('app')
   .service('eventTracking', EventTracking);
-var User = require('runnable/lib/models/user');
+var User = require('@runnable/api-client/lib/models/user');
 var _keypather;
 var _$location;
 var INTERCOM_APP_ID;
@@ -36,10 +36,8 @@ function EventTracking (
   _$location = $location;
 
   this._Intercom = $window.Intercom;
-  this._baseEventData = {};
   this._user = null;
-  // store events invoked before boot
-  this._preBootEventQueue = [];
+  this.$window = $window;
 
   /**
    * Extend per-event data with specific properties
@@ -117,6 +115,12 @@ EventTracking.prototype.boot = function (user) {
 
   if (user.attrs._beingModerated) {
     user = new User(user.attrs._beingModerated, { noStore: true });
+  } else {
+    if (this.$window.fbq) {
+      this.$window.fbq('track', 'ViewContent', {
+        action: 'LoggedIn'
+      });
+    }
   }
 
   this._user = user;
@@ -226,3 +230,44 @@ EventTracking.prototype.trackClicked = function (data) {
   return this;
 };
 
+/**
+ * Track creating repo containers
+ * @param {String} orgName
+ * @param {String} repoName
+ * @returns {EventTracking}
+ */
+EventTracking.prototype.createdRepoContainer = function (org, repo) {
+  if (this._mixpanel) {
+    this._mixpanel('track', 'createRepoContainer', {
+      org: org,
+      repo: repo
+    });
+  }
+
+  if (this.$window.fbq) {
+    this.$window.fbq('track', 'ViewContent', {
+      action: 'CreateContainer',
+      type: 'Repo'
+    });
+  }
+};
+
+/**
+ * Track creating non repo containers
+ * @param {String} containerName
+ * @returns {EventTracking}
+ */
+EventTracking.prototype.createdNonRepoContainer = function (containerName) {
+  if (this._mixpanel) {
+    this._mixpanel('track', 'createNonRepoContainer', {
+      containerName: containerName
+    });
+  }
+
+  if (this.$window.fbq) {
+    this.$window.fbq('track', 'ViewContent', {
+      action: 'CreateContainer',
+      type: 'NonRepo'
+    });
+  }
+};

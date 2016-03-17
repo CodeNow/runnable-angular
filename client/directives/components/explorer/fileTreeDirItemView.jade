@@ -7,6 +7,7 @@ li(
     fs in dir.contents.models \
     | filter: {attrs: {isDir: true}} \
     | orderBy:actions.normalizeMixedDataValue\
+    track by fs.attrs.name\
   "
   open = "fs.state.open"
   open-items = "openItems"
@@ -25,6 +26,7 @@ li.file(
     fs in dir.contents.models \
     | filter: {attrs: {isDir: false}} \
     | orderBy:actions.normalizeMixedDataValue\
+    track by fs.attrs.name\
   "
 )
   //- We don't want to initialize the pop-over for Dockerfile. :(

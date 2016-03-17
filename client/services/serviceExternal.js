@@ -3,9 +3,6 @@ require('app')
   .factory('assign', function () {
     return require('101/assign');
   })
-  .factory('callbackCount', function () {
-    return require('callback-count');
-  })
   .factory('debounce', function () {
     return require('debounce');
   })
@@ -59,5 +56,5 @@ require('app')
   .service('jsonHash', function (){
     return require('json-hash');
   })
-  .value('modelStore', require('runnable/lib/stores/model-store'))
-  .value('collectionStore', require('runnable/lib/stores/collection-store'));
+  .value('modelStore', require('@runnable/api-client/lib/stores/model-store'))
+  .value('collectionStore', require('@runnable/api-client/lib/stores/collection-store'));

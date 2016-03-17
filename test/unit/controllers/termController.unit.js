@@ -32,17 +32,19 @@ describe('TermController'.bold.underline.blue, function () {
     });
 
     ctx.instance = {
-      attrs: apiMocks.instances.runningWithContainers,
-      containers: {
-        models: [
-          {
-            attrs: apiMocks.instances.runningWithContainers[0].container
-          }
-        ]
-      }
+      attrs: apiMocks.instances.runningWithContainers
+    };
+    ctx.instance.attrs.container = {
+      attrs: apiMocks.instances.runningWithContainers[0].container
     };
     ctx.debugContainer = {
       attrs: apiMocks.instances.running.containers[0]
+    };
+    $scope.tabItem = {
+      attrs: {},
+      state: {
+        saveState: sinon.spy()
+      }
     };
     $controller('TermController', {
       '$scope': $scope
@@ -84,8 +86,7 @@ describe('TermController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(mockPrimus.createTermStreams);
       sinon.assert.calledWith(
         mockPrimus.createTermStreams,
-        ctx.instance.containers.models[0],
-        sinon.match.any,
+        ctx.instance.attrs.container,
         false
       );
     });
@@ -117,9 +118,23 @@ describe('TermController'.bold.underline.blue, function () {
       sinon.assert.calledWith(
         mockPrimus.createTermStreams,
         ctx.debugContainer.attrs.inspect,
-        sinon.match.any,
         true
       );
+    });
+    it('should check for terminal connection when there is a data event', function () {
+      $scope.createStream();
+      $rootScope.$digest();
+      var returnedStreams = mockPrimus.createTermStreams.returnValues[0];
+      mockPrimus.emit('data', {
+        event: 'TERMINAL_STREAM_CREATED',
+        data: {
+          substreamId: returnedStreams.uniqueId,
+          terminalId: 'terminalId'
+        }
+      });
+      $rootScope.$digest();
+      sinon.assert.calledOnce($scope.tabItem.state.saveState);
+      expect($scope.tabItem.attrs.terminalId).to.equal('terminalId');
     });
   });
 
@@ -130,7 +145,7 @@ describe('TermController'.bold.underline.blue, function () {
     it('should put the starting stuff on term', function () {
       var startSpy = sinon.spy();
       $scope.$on('STREAM_START', startSpy);
-      var container = ctx.instance.containers.models[0];
+      var container = ctx.instance.attrs.container;
 
       container.running = function () {
         return true;

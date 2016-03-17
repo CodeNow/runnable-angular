@@ -18,10 +18,10 @@ function logTerm(
     controller: '@',
     scope: {
       instance: '=? instance',
-      debugContainer: '=? debugContainer'
+      debugContainer: '=? debugContainer',
+      tabItem: '=? tabItem'
     },
     link: function ($scope, elem, attrs) {
-
       /**
        * Creates instance of Terminal w/ default
        * settings and attaches to elem.
@@ -45,9 +45,7 @@ function logTerm(
         if (reconnecting) { return; }
         reconnecting = true;
         terminal.writeln('');
-        terminal.writeln('☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹');
-        terminal.writeln('☹ LOST CONNECTION - RETRYING ☹');
-        terminal.writeln('☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹');
+        terminal.writeln('* Lost Connection — Retrying… *');
       }
       bind(primus, 'offline', disconnected);
       bind(primus, 'reconnect', disconnected);
@@ -57,9 +55,7 @@ function logTerm(
         if ($scope.clearTermOnReconnect) {
           terminal.reset();
         }
-        terminal.writeln('\n★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★');
-        terminal.writeln('★ Connection regained.  Thank you for your patience ★');
-        terminal.writeln('★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★\n');
+        terminal.writeln('* Connection Regained — Thanks for your patience! *');
         $timeout(function () {
           initializeStream(true);
         });

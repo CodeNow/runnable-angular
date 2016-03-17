@@ -12,16 +12,21 @@ function BuildLogsController(
   updateInstanceWithNewBuild,
   primus,
   promisify,
-  streamingLog
+  streamingLog,
+  WatchOnlyOnce
 ) {
   var BLC = this;
   BLC.showDebug = false;
+
+  var watchOnlyOnce = new WatchOnlyOnce($scope);
 
   function handleUpdate () {
     var status = BLC.instance.status();
     BLC.showErrorPanel = false;
     if (status === 'buildFailed' || status === 'neverStarted') {
+      var buildError = BLC.instance.attrs.contextVersion.build.error || {};
       BLC.buildStatus = 'failed';
+      BLC.failReason = buildError.message || 'failed';
       BLC.showDebug = true;
       BLC.buildLogsRunning = false;
       if (status === 'neverStarted') {
@@ -40,24 +45,58 @@ function BuildLogsController(
   var failCount = 0;
   var streamDelay = 500;
 
-  function setupStream () {
+  function closeStream(stream) {
+    if (stream && stream.end) {
+      stream.end();
+    }
+    if (BLC.instance) {
+      BLC.instance.off('update', handleUpdate);
+    }
+    BLC.buildLogsRunning = false;
+  }
+  var unWatchDockerContainer = angular.noop;
+  function setupStream(oldStream) {
+    if (oldStream) {
+      closeStream(oldStream);
+    }
     BLC.streamFailure = false;
     var stream = null;
     if (BLC.instance) {
-      stream = primus.createBuildStream(BLC.instance.build);
-      handleUpdate();
-      BLC.instance.on('update', handleUpdate);
-      $scope.$on('$destroy', function () {
-        BLC.instance.off('update', handleUpdate);
-      });
+      BLC.buildStatus = 'starting';
+      BLC.buildLogs = [];
+      BLC.buildLogTiming = {};
+      unWatchDockerContainer();
+      unWatchDockerContainer = $scope.$watch(
+        'BLC.instance.attrs.contextVersion.build.dockerContainer',
+        function (cvContainerId, oldCvContainerId) {
+          if (cvContainerId && cvContainerId !== oldCvContainerId) {
+            // When the build changes
+            setupStream(stream);
+          } else if (cvContainerId) {
+            // This happens the first time
+            stream = primus.createBuildStream(BLC.instance.build);
+            // first time running
+            BLC.instance.off('update', handleUpdate);
+            BLC.instance.on('update', handleUpdate);
+            connectListenersToStream(stream);
+            handleUpdate();
+          }
+        }
+      );
     } else if (BLC.debugContainer) {
       stream = primus.createBuildStreamFromContextVersionId(BLC.debugContainer.attrs.contextVersion);
+      connectListenersToStream(stream);
     }
-
+  }
+  function connectListenersToStream(stream) {
+    var streamingBuildLogs = null;
+    $scope.$on('$destroy', function () {
+      streamingBuildLogs.destroy();
+      closeStream(stream);
+    });
     stream.on('data', function () {
       stream.hasData = true;
     });
-
     stream.on('end', function () {
       if (!stream.hasData) {
         failCount++;
@@ -67,7 +106,7 @@ function BuildLogsController(
         } else {
           streamDelay = Math.floor(streamDelay * 1.3);
           $timeout(function () {
-            setupStream();
+            setupStream(stream);
           }, streamDelay);
         }
       } else {
@@ -79,10 +118,7 @@ function BuildLogsController(
       setupStream();
       $scope.$applyAsync();
     });
-    var streamingBuildLogs = streamingLog(stream);
-    $scope.$on('$destroy', function () {
-      streamingBuildLogs.destroy();
-    });
+    streamingBuildLogs = streamingLog(stream);
     BLC.buildLogs = streamingBuildLogs.logs;
     BLC.buildLogTiming = streamingBuildLogs.times;
     BLC.getRawLogs = streamingBuildLogs.getRawLogs;

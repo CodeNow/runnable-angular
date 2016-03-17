@@ -1,9 +1,9 @@
 'use strict';
 
-var BaseModel = require('runnable/lib/models/base');
-var VersionFileModel = require('runnable/lib/models/context/version/file');
-var ContainerFileModel = require('runnable/lib/models/instance/container/file');
-var DebugFileModel = require('runnable/lib/models/debug-container/file');
+var BaseModel = require('@runnable/api-client/lib/models/base');
+var VersionFileModel = require('@runnable/api-client/lib/models/context/version/file');
+var ContainerFileModel = require('@runnable/api-client/lib/models/instance/container/file');
+var DebugFileModel = require('@runnable/api-client/lib/models/debug-container/file');
 var util = require('util');
 
 require('app')
@@ -321,13 +321,17 @@ function openItemsFactory(
   };
 
   OpenItems.prototype.addOne = function (model) {
+    var self = this;
     if (!this.instanceOfModel(model)) {
       throw new Error('Trying to add a non-model');
     }
     model.state = model.state || {
-      reset: function () {
-        model.state.body = model.attrs.body;
-      }
+        reset: function () {
+          model.state.body = model.attrs.body;
+        },
+        saveState: function () {
+          self.saveState();
+        }
     };
     if (model instanceof Terminal) {
       model.state.type = 'Terminal';

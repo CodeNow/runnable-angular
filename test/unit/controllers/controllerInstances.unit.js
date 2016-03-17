@@ -235,7 +235,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
         instanceName: 'spaaace'
       });
 
-      var runnable2 = new (require('runnable'))('http://example3.com/');
+      var runnable2 = new (require('@runnable/api-client'))('http://example3.com/');
       var many2 = runnable2.newInstances(
         [],
         {noStore: true, reset: true}

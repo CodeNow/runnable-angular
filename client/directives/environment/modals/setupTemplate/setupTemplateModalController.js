@@ -16,6 +16,8 @@ function SetupTemplateModalController(
   fetchInstances,
   getNewForkName,
   promisify,
+  eventTracking,
+  helpCards,
   close,
   isolation
 ) {
@@ -25,8 +27,9 @@ function SetupTemplateModalController(
       STMC.templateServers = servers;
     })
     .catch(errs.handler);
-  this.close = close;
-  this.addServerFromTemplate = function (sourceInstance) {
+  STMC.helpCard = helpCards.getActiveCard();
+  STMC.close = close;
+  STMC.addServerFromTemplate = function (sourceInstance) {
     var instancesPromise = null;
     var instanceToForkName = sourceInstance.attrs.name;
     if (isolation && isolation.instances) {
@@ -57,6 +60,7 @@ function SetupTemplateModalController(
           )
             .then(function (build) {
               serverModel.build = build;
+              eventTracking.createdNonRepoContainer(instanceToForkName);
               return serverModel;
             }),
           serverName,

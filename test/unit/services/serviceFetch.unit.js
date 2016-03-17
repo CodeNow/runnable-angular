@@ -73,19 +73,40 @@ describe('serviceFetch'.bold.underline.blue, function () {
       var fetchUserPromise = fetchUser();
       $rootScope.$digest();
       expect(fetchUserPromise, 'Returned err').to.eventually.rejectedWith(err);
-      expect(windowMock.location).to.equal('/');
+      expect(windowMock.location).to.equal('https://runnable.io');
     });
   });
 
-  describe('factory fetchOrgs', function () {
+  describe('factory fetchWhitelistedOrgs', function () {
     var user;
     var $rootScope;
-    var fetchOrgs;
+    var fetchWhitelistedOrgs;
+    var promisifyStub;
 
     beforeEach(function () {
-      user = {};
+      user = {
+        fetchUserWhitelists: sinon.stub().returns([
+          { attrs: {
+            lowerName: 'a',
+            org: {  _id: 1, login: 'A' },
+          } },
+          { attrs: {
+            lowerName: 'b',
+            org: { _id: 2, login: 'D' }
+          } }
+        ]),
+        client: {}
+      };
       angular.mock.module('app');
       angular.mock.module(function ($provide) {
+        $provide.factory('promisify', function ($q) {
+          promisifyStub = sinon.spy(function (obj, key) {
+            return function () {
+              return $q.when(obj[key]());
+            };
+          });
+          return promisifyStub;
+        });
         $provide.factory('fetchUser', function ($q) {
           return function () {
             return $q.when(user);
@@ -93,21 +114,36 @@ describe('serviceFetch'.bold.underline.blue, function () {
         });
       });
       angular.mock.inject(function (
-        _fetchOrgs_,
+        _fetchWhitelistedOrgs_,
         _$rootScope_
       ) {
-        fetchOrgs = _fetchOrgs_;
+        fetchWhitelistedOrgs = _fetchWhitelistedOrgs_;
         $rootScope = _$rootScope_;
-
-        user.fetchGithubOrgs = sinon.stub().returns('some value, perhaps');
       });
     });
 
-    it('should call the fetchGithubOrgs method of the user service', function () {
-      var fetchOrgsPromise = fetchOrgs();
+    it('should call the fetchGithubOrgs and fetchUserWhitelists methods of the user service', function () {
+      var fetchWhitelistedOrgsPromise = fetchWhitelistedOrgs();
+      expect(fetchWhitelistedOrgsPromise).to.eventually.be.fulfilled.then(function (res) {
+        sinon.assert.calledOnce(user.fetchUserWhitelists);
+        sinon.assert.calledOnce(user.fetchGithubOrgs);
+      });
+    });
+
+    it('should get the right orgs', function (done) {
+      var fetchWhitelistedOrgsPromise = fetchWhitelistedOrgs();
+      expect(fetchWhitelistedOrgsPromise).to.eventually.be.fulfilled.and.notify(done);
+      expect(fetchWhitelistedOrgsPromise).to.eventually.be.fulfilled.then(function (res) {
+        expect(res.models).to.be.an('array');
+        expect(res.models).to.have.length(2);
+        expect(res.models[0]).to.have.deep.property('attrs');
+        expect(res.models[0]).to.have.deep.property('attrs.login');
+        expect(res.models[0]).to.have.deep.property('attrs.login', 'A');
+        expect(res.models[1]).to.have.deep.property('attrs');
+        expect(res.models[1]).to.have.deep.property('attrs.login');
+        expect(res.models[1]).to.have.deep.property('attrs.login', 'D');
+      });
       $rootScope.$digest();
-      expect(fetchOrgsPromise, 'Returned orgs').to.eventually.equal('some value, perhaps');
-      sinon.assert.calledOnce(user.fetchGithubOrgs);
     });
   });
 
@@ -414,7 +450,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
           return reporter;
         });
         $provide.factory('fetchUser', function ($q) {
-          resetInstance = sinon.stub()
+          resetInstance = sinon.stub();
           return sinon.stub().returns(
             $q.when({
               newInstances: sinon.stub().returns({
@@ -1036,7 +1072,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
     var orgId1 = 1;
     var orgName2 = 'Runnable';
     var orgId2 = 2;
-    var fetchOrgsResponse = {
+    var fetchWhitelistedOrgsResponse = {
       models: [
         { attrs: generateGithubOrgObject(orgName1, orgId1) },
         { attrs: generateGithubOrgObject(orgName2, orgId2) }
@@ -1049,9 +1085,9 @@ describe('serviceFetch'.bold.underline.blue, function () {
     beforeEach(function () {
       angular.mock.module('app');
       angular.mock.module(function ($provide) {
-        $provide.factory('fetchOrgs', function ($q) {
+        $provide.factory('fetchWhitelistedOrgs', function ($q) {
           return function () {
-            return $q.when(fetchOrgsResponse);
+            return $q.when(fetchWhitelistedOrgsResponse);
           };
         });
       });

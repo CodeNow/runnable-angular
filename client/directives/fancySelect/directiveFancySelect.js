@@ -33,7 +33,8 @@ function fancySelect(
       toggleAttribute: '@?',
       spinnerFlag: '=?'
     },
-    link: function ($scope, element, attrs, controller, transcludeFn){
+    link: function ($scope, element, attrs, controller, transcludeFn) {
+      var closeTimeout;
       var type = 'button';
       if ($scope.type === 'text') {
         type = 'text';
@@ -47,22 +48,31 @@ function fancySelect(
       $scope.isOpen = false;
 
       var positionDropdown = false;
+      var closing = false;
 
       var unbindDocumentClick = angular.noop;
 
       function openDropdown() {
-        if($scope.showDropdown === false){
+        if ($scope.showDropdown === false) {
           return;
         }
-        if (positionDropdown){
+        if (positionDropdown && !closing) {
           return;
         }
+        if (closing) {
+          $timeout.cancel(closeTimeout);
+        }
+        closing = false;
         $scope.isOpen = true;
         positionDropdown = true;
         $document.find('body').append(list);
 
         unbindDocumentClick = $scope.$on('app-document-click', function (event, target) {
-          if(!target || (target && $document.find('body')[0].contains(target) && !list[0].contains(target) && list[0] !== target) && !element[0].contains(target) && element[0] !== target){
+          if (!target || (target && $document.find('body')[0].contains(target) &&
+              !list[0].contains(target) &&
+              list[0] !== target) &&
+              !element[0].contains(target) &&
+              element[0] !== target) {
             closeDropdown();
             unbindDocumentClick();
           }
@@ -74,9 +84,10 @@ function fancySelect(
       });
 
       function closeDropdown() {
+        closing = true;
         $scope.isOpen = false;
         unbindDocumentClick();
-        $timeout(function () {
+        closeTimeout = $timeout(function () {
           list.detach();
           positionDropdown = false;
         }, 200);
@@ -116,6 +127,9 @@ function fancySelect(
       }
 
       $scope.actions = {
+        focused: function () {
+          openDropdown();
+        },
         toggleSelect: function ($event) {
           $event.preventDefault();
           if (exists($scope.toggleObject)) {

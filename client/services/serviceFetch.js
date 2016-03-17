@@ -1,10 +1,12 @@
 'use strict';
 var jsonHash = require('json-hash');
+var apiConfig = require('../config/api');
+var GithubOrgCollection = require('@runnable/api-client/lib/collections/github-orgs.js');
 
 require('app')
   // User + Orgs
   .factory('fetchUser', fetchUser)
-  .factory('fetchOrgs', fetchOrgs)
+  .factory('fetchWhitelistedOrgs', fetchWhitelistedOrgs)
   .factory('fetchGithubOrgId', fetchGithubOrgId)
   .factory('fetchOrgRegisteredMembers', fetchOrgRegisteredMembers)
   .factory('fetchOrgMembers', fetchOrgMembers)
@@ -54,7 +56,7 @@ function fetchUser(
         .catch(function (err) {
           // Catch an unauth'd request and send 'em back
           if (keypather.get(err, 'data.statusCode') === 401) {
-            $window.location = '/';
+             $window.location = apiConfig.corporateUrl;
             // Return a never completing function since we are redirecting!
             return $q(angular.noop);
           }
@@ -66,7 +68,7 @@ function fetchUser(
   };
 }
 
-function fetchOrgs(
+function fetchWhitelistedOrgs(
   fetchUser,
   promisify
 ) {
@@ -75,7 +77,17 @@ function fetchOrgs(
     if (!fetchedOrgs) {
       fetchedOrgs = fetchUser()
         .then(function (user) {
-          return promisify(user, 'fetchGithubOrgs')();
+          return promisify(user, 'fetchUserWhitelists')()
+            .then(function (res) {
+              var githubOrgs = res
+                .map(function (userWhitelistModel) {
+                  return userWhitelistModel.attrs.org;
+                })
+                .filter(function (githubOrg) {
+                  return !!githubOrg;
+                });
+              return new GithubOrgCollection(githubOrgs, { client: user.client });
+            });
         });
     }
     return fetchedOrgs;
@@ -463,7 +475,7 @@ function fetchGithubUserForCommit (
  * @return {Promise}
  */
 function fetchGithubOrgId(
-  fetchOrgs,
+  fetchWhitelistedOrgs,
   keypather,
   $q
 ) {
@@ -472,7 +484,7 @@ function fetchGithubOrgId(
     if (githubOrgIdCache[orgNameOrId]) {
       return githubOrgIdCache[orgNameOrId];
     }
-    return fetchOrgs(orgNameOrId)
+    return fetchWhitelistedOrgs()
       .then(function (orgsCollection) {
         var orgs = orgsCollection.filter(function (org) {
           return keypather.get(org, 'attrs.login') === orgNameOrId;

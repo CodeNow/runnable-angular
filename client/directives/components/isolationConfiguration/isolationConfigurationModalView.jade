@@ -18,14 +18,12 @@
           ng-attr-title = "{{ICMC.instance.getRepoName()}}/{{ICMC.instance.getBranchName()}}"
         ) {{ICMC.instance.getRepoName()}}/{{ICMC.instance.getBranchName()}}.
 
-      //- repository containers
-        - h4.h4(
-        -   ng-if = "ICMC.repoInstances.length"
-        - ) Repository Containers
-      //- list in alphabetical order
-        - .list.list-bordered(
-        -   ng-if = "ICMC.repoInstances.length"
-        - )
+      h4.h4(
+        ng-if = "$root.featureFlags.isolationRepos && ICMC.repoInstances.length"
+      ) Repository Containers
+      .list.list-bordered(
+        ng-if = "$root.featureFlags.isolationRepos && ICMC.repoInstances.length"
+      )
         .list-item
           label.text-overflow(
             title = "{{ICMC.instance.getRepoName()}}"
@@ -54,6 +52,7 @@
             input.checkbox(
               type = "checkbox"
               ng-model = "ICMC.instanceCheckboxes[instance.id()]"
+              ng-disabled = "$root.isLoading.createIsolation"
             )
             | {{instance.getRepoName()}}
 
@@ -61,6 +60,7 @@
           //- selecting this should automatically check the checkbox
           fancy-select.btn-xs.gray(
             value = "ICMC.instanceBranchMapping[instance.attrs.contextVersion.context]"
+            ng-disabled = "$root.isLoading.createIsolation"
           )
             li.list-item.popover-list-item.small.disabled Choose branch
             fancy-option(
@@ -70,45 +70,12 @@
               ng-repeat = "child in $parent.instance.children.models"
               value = "child"
             ) {{$parent.child.getBranchName()}}
-          //- this element should only appear if the selected branch uses a modified configuration
-          //- small.small Branch uses a modified configuration
+        //- this element should only appear if the selected branch uses a modified configuration
+        //- small.small Branch uses a modified configuration
 
-      //- database containers
-        - h4.h4(
-        -   ng-if = "ICMC.nonRepoInstances.length && $root.featureFlags.backup"
-        - ) Database Containers
-        - .list.list-bordered(
-        -   ng-if = "ICMC.nonRepoInstances.length && $root.featureFlags.backup"
-        - )
-        .list-item(
-          ng-repeat = "instance in ICMC.nonRepoInstances"
-        )
-          label.text-overflow(
-            title = "{{instance.getRepoName()}}"
-          )
-            input.checkbox(
-              type = "checkbox"
-              ng-model = "ICMC.instanceCheckboxes[instance.id()]"
-            )
-            | {{instance.getDisplayName()}}
-          //- show on containers that have a backup
-          small.small(
-            tooltip = "We’ll use the latest MySQL backup to populate this database."
-            tooltip-options = "{\"class\":\"bottom bottom-arrow-right\",\"right\":0,\"top\":21}"
-          )
-            svg.iconnables.icons-check.float-left
-              use(
-                xlink:href = "#icons-check"
-              )
-            | From Backup
-          //- show on containers that have no backups
-            - small.small(
-            -   tooltip = "This container will start with an empty database."
-            -   tooltip-options = "{\"class\":\"left\",\"right\":80,\"top\":-9}"
-            - ) No Backups
-
-      //- before b&r feature: all service containers
-        - after b&r feature: service containers that aren't databases
+      h4.h4(
+        ng-if = "ICMC.nonRepoInstances.length"
+      ) Non-Repository Containers
       .list.list-bordered(
         ng-if = "ICMC.nonRepoInstances.length"
       )
@@ -121,12 +88,14 @@
             input.checkbox(
               type = "checkbox"
               ng-model = "ICMC.instanceCheckboxes[instance.id()]"
+              ng-disabled = "$root.isLoading.createIsolation"
             )
             | {{instance.getDisplayName()}}
 
     section.modal-footer.clearfix
       button.btn.btn-md.white.float-left(
         ng-click = "ICMC.close()"
+        ng-disabled = "$root.isLoading.createIsolation"
       ) Cancel
       button.btn.btn-md.green.float-right(
         ng-disabled = "$root.isLoading.createIsolation"

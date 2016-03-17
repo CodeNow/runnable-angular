@@ -107,10 +107,20 @@
     )
 
   .build-log-content(
-    ng-bind-html = "command.getProcessedHtml()"
-    ng-class = "{'building': BLC.buildLogsRunning && command.expanded && $last}"
+    ng-class = "{\
+      'building': BLC.buildLogsRunning && command.expanded && $last,\
+      'long': command.lineCount > 1000, 'loaded': command.lineCount > 0\
+    }"
     ng-if = "(command.expanded && command.hasContent) || (BLC.buildLogsRunning && $last)"
+    vs-repeat
+    scroll-glue="command.lineCount > 1000 && BLC.buildLogsRunning && $last"
   )
+    div(
+      ng-repeat = "commandContent in command.getProcessedHtml()"
+    )
+      div(
+        ng-bind-html = "commandContent"
+      )
 
   .log-spinner(
     ng-if = "BLC.buildLogsRunning && $last"
@@ -127,6 +137,7 @@
     'red': BLC.buildStatus === 'failed'\
   }"
   ng-if = "\
+    BLC.buildStatus !== 'starting' && \
     !BLC.buildLogsRunning && \
     getBuildMessage().length && \
     !BLC.showErrorPanel && \

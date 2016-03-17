@@ -33,6 +33,38 @@ module.exports = [
       }
     }
   }, {
+    state: 'index',
+    abstract: false,
+    url: '^/',
+    templateUrl: 'viewOrgSelect',
+    controller: 'ControllerOrgSelect',
+    controllerAs: 'COS',
+    resolve: {
+      orgs: function (fetchWhitelistedOrgs, user) {
+        return fetchWhitelistedOrgs();
+      },
+      user: function (fetchUser, keypather, $state) {
+        return fetchUser()
+          .then(function (user) {
+            var prevLocation = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.org');
+            var prevInstance = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.instance');
+            if (prevLocation) {
+              if (prevInstance) {
+                $state.go('base.instances.instance', {
+                  userName: prevLocation,
+                  instanceName: prevInstance
+                });
+              } else {
+                $state.go('base.instances', {
+                  userName: prevLocation
+                });
+              }
+            }
+            return user;
+          });
+      }
+    }
+  }, {
     state: 'orgSelect',
     abstract: false,
     url: '^/orgSelect',
@@ -40,8 +72,8 @@ module.exports = [
     controller: 'ControllerOrgSelect',
     controllerAs: 'COS',
     resolve: {
-      orgs: function (fetchOrgs) {
-        return fetchOrgs();
+      orgs: function (fetchWhitelistedOrgs) {
+        return fetchWhitelistedOrgs();
       }
     }
   }, {
@@ -83,8 +115,8 @@ module.exports = [
           });
         return userFetch;
       },
-      orgs: function (fetchOrgs) {
-        return fetchOrgs();
+      orgs: function (fetchWhitelistedOrgs) {
+        return fetchWhitelistedOrgs();
       },
       activeAccount: function ($q, $stateParams, $state, orgs, $timeout, user, manuallyWhitelistedUsers) {
         var lowerAccountName = $stateParams.userName.toLowerCase();
@@ -98,7 +130,6 @@ module.exports = [
         var matchedOrg = orgs.find(function (org) {
           return org.oauthName().toLowerCase() === lowerAccountName;
         });
-
         if (!matchedOrg) {
           // There is a bug in ui-router and a timeout is the workaround
           return $timeout(function () {

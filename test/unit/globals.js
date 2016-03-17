@@ -17,7 +17,7 @@ window.userContentDomain = require('../../client/config/json/api.json').userCont
 
 window.testingMode = true;
 
-window.runnable = new (require('runnable'))(window.host, {
+window.runnable = new (require('@runnable/api-client'))(window.host, {
   socket: true,
   warn: false,
   requestDefaults: {
@@ -36,8 +36,8 @@ window.expect = chai.expect;
 window.sinon = require('sinon'); // Stuff to create spyable functions
 window.mocks = require('./apiMocks'); // JSON mocks for API responses
 window.directiveTemplate = require('./fixtures/directiveTemplate');
-window.modelStore = require('runnable/lib/stores/model-store');
-window.collectionStore = require('runnable/lib/stores/collection-store');
+window.modelStore = require('@runnable/api-client/lib/stores/model-store');
+window.collectionStore = require('@runnable/api-client/lib/stores/collection-store');
 window.fixtures = {
   MockPrimus: require('./fixtures/MockPrimus'),
   MockFetchBuild: require('./fixtures/MockFetchBuild'),

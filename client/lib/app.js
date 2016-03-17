@@ -11,6 +11,8 @@ require('angular-animate');
 require('angular-modal-service');
 require('oclazyload');
 require('angular-clipboard');
+require('angular-vs-repeat');
+require('angularjs-scroll-glue');
 
 module.exports = angular.module('app', [
   'ui.router',
@@ -24,7 +26,9 @@ module.exports = angular.module('app', [
   require('angular-sanitize'),
   'oc.lazyLoad',
   'angular-clipboard',
-  require('angular-q-promisify')
+  require('angular-q-promisify'),
+  'vs-repeat',
+  'luegg.directives' // Scroll-glue
 ])
   .config(function ($ocLazyLoadProvider) {
     $ocLazyLoadProvider.config({

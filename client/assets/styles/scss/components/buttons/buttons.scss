@@ -229,6 +229,10 @@
   font-weight: $weight-bold;
   text-decoration: none;
 
+  &:not([disabled]):not(.disabled).btn-hint {
+    @extend %btn-hint;
+  }
+
   &:active {
     transition: none;
   }
@@ -438,6 +442,14 @@
           background: $purple-light;
         }
       }
+
+      &.btn-hint {
+
+        .card-body & {
+          border-top-width: $input-border;
+          z-index: 2;
+        }
+      }
     }
   }
 }
@@ -451,6 +463,23 @@
   &:hover,
   &:active {
     background: $white;
+  }
+}
+
+// hint glow
+%btn-hint,
+.btn-hint {
+  border-color: rgba($blue,.45);
+  box-shadow: 0 0 6px rgba($blue,.35);
+
+  &:hover {
+    border-color: rgba($blue,.6);
+    box-shadow: none;
+  }
+
+  &:active {
+    border-color: currentColor;
+    box-shadow: none;
   }
 }
 
