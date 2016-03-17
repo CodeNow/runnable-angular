@@ -321,13 +321,17 @@ function openItemsFactory(
   };
 
   OpenItems.prototype.addOne = function (model) {
+    var self = this;
     if (!this.instanceOfModel(model)) {
       throw new Error('Trying to add a non-model');
     }
     model.state = model.state || {
-      reset: function () {
-        model.state.body = model.attrs.body;
-      }
+        reset: function () {
+          model.state.body = model.attrs.body;
+        },
+        saveState: function () {
+          self.saveState();
+        }
     };
     if (model instanceof Terminal) {
       model.state.type = 'Terminal';
