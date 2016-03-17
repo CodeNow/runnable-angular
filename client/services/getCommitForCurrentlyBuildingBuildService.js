@@ -26,22 +26,30 @@ function getUncompleteBuidldsForInstanceBranch (
       .then(function (context) {
         return promisify(context, 'fetchVersions')( {
           build: {
-            completed: false
+            completed: false,
+            started: true,
+            triggeredAction: {
+              manual: false
+            }
           },
           repo: keypather.get(instance, 'contextVersion.attrs.appCodeVersions[0].repo'),
-          branch: branchName
+          branch: branchName,
+          limit: 1,
+          sort: '-created',
         });
       })
       .then(function (contextVersionCollection) {
+        console.log('contextVersionCollection', contextVersionCollection);
+        console.log('commit', contextVersionCollection.models.map(function (model) {
+          return model.attrs.appCodeVersions[0].commit;
+        }));
         return contextVersionCollection
           .map(function (contextVersion) {
             return {
+              created: contextVersion.attrs.created,
               build: contextVersion.attrs.build,
               commit: keypather.get(contextVersion, 'attrs.appCodeVersions[0].commit')
             };
-          })
-          .sort(function (a, b) {
-            return keypather.get(a, 'build.stared') > keypather.get(b, 'build.started');
           });
       });
   };
@@ -71,17 +79,11 @@ function getCommitForCurrentlyBuildingBuild (
     if (!isLocked && acv && branchName) {
       return getUncompleteBuidldsForInstanceBranch(instance, branchName)
         .then(function (res) {
-          var notCompletedBuilds = res.filter(function (val) {
-            var build = val.build;
-            return build.started &&
-              !build.completed &&
-              build.started > currentBuild.started &&
-              build.message !== 'manual';
-          });
-          if (notCompletedBuilds.length > 0) {
+          console.log('res', res.length, res);
+          if (res.length > 0 && res[0].build.started > currentBuild.started) {
             return fetchCommitData.activeCommit(
               instance.contextVersion.getMainAppCodeVersion(),
-              notCompletedBuilds[0].commit
+              res[0].commit
             );
           }
           return false;
