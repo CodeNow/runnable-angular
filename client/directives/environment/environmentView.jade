@@ -17,9 +17,9 @@
 
 //- environment page
 .environment-wrapper
-  .grid-block.vertical.well.help(
+  .grid-block.vertical.new-user.js-animate(
     ng-if = "$root.featureFlags.newUserPrompt"
-    ng-include = "'environmentGuides'"
+    ng-include = "'newUserPrompt'"
   )
 
   header.environment-header.clearfix(

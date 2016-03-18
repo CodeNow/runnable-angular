@@ -37,6 +37,10 @@ $purple-dark: #402754; // darken($purple,10%);
 $purple-darker: #261731; // darken($purple,20%);
 $purple-darkest: #1b0f24;
 
+// from marketing
+$purple-faded: #866f98;
+$purple-light-faded: #f8f5fc;
+
 // purple ace theme
 $ace-bg: #311d40;
 $ace-border: $purple-darker;
@@ -152,6 +156,7 @@ $intercom-width: 370px;
 $header-height: 60px;
 
 // screen sizes
+$screen-xxxs: 350px + $layout-navigation-width;
 $screen-xxs: 400px + $layout-navigation-width;
 $screen-xs: 600px + $layout-navigation-width;
 $screen-sm: 768px + $layout-navigation-width;

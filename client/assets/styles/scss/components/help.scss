@@ -129,6 +129,7 @@
 
 .triggered-help-item {
   border-bottom: 1px solid rgba($blue-light,.4);
+  flex-flow: row; // override grid xxs media query
   line-height: 1.2;
   overflow: visible;
   padding: 15px 15px 15px 39px;
