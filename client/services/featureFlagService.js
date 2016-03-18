@@ -15,7 +15,6 @@ function featureFlags(
     emptyFolder: false, // shows empty folder markup
     fullScreen: false,  // toggles full screen
     fullScreenToggle: false,  // toggles the button that toggles full screen
-    gettingStartedModal: false, // modal for new users
     hostnameNotifications: false,
     hostnameTool: false,
     imAfraidOfTheDark: false, // toggles theme
@@ -27,6 +26,7 @@ function featureFlags(
     multilineFnR: false,
     nameContainer: false,
     navListFilter: false,
+    newUserPrompt: false, // modal for new users
     newVerificationFlow: true,
     newVerificationFlowStackSelector: true,
     noBuildLogs: true,

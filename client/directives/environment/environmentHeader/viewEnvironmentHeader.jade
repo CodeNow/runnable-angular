@@ -1,4 +1,4 @@
-button.btn.btn-md.btn-icon.blue(
+button.btn.btn-md.btn-icon.btn-help(
   data-badge-count = "{{helpCards.cards.triggered.length}}"
   ng-class = "{\
     'active': state.helpButton.active || !state.helpButton.active && helpCards.cards.triggered.length > 0 && !helpCards.getActiveCard(),\
@@ -25,7 +25,7 @@ button.btn.btn-md.btn-icon.blue(
 )
   .help-lists-wrapper
     ul.triggered-help-list
-      li.triggered-help-item.clearfix
+      li.grid-block.triggered-help-item.clearfix
         button.btn.btn-icon.btn-icon-xs(
           ng-click = "helpPopover.actions.ignoreHelp(helpCards.cards.triggered[0])"
         )
@@ -36,7 +36,7 @@ button.btn.btn-md.btn-icon.blue(
         p.p(
           ng-bind-html = "helpCards.cards.triggered[0].label"
         )
-        button.btn.btn-sm(
+        button.btn.btn-xs.blue(
           ng-click = "helpPopover.actions.getHelp(helpCards.cards.triggered[0])"
         ) Show Me
   button.btn(

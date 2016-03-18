@@ -14,6 +14,23 @@
   }
 }
 
+.btn-help {
+  color: $gray-light;
+
+  @include media(xxs) {
+    left: 0;
+  }
+
+  &:hover {
+    color: lighten($blue,10%);
+  }
+
+  &:active,
+  &.active {
+    color: $blue;
+  }
+}
+
 .help-top-card,
 %help-top-card {
   font-size: 15px;
@@ -112,67 +129,39 @@
 
 .triggered-help-item {
   border-bottom: 1px solid rgba($blue-light,.4);
-  color: rgba($blue,.8);
-  font-size: 15px;
-  line-height: 18px;
-  padding: 12px 0;
+  line-height: 1.2;
+  overflow: visible;
+  padding: 15px 15px 15px 39px;
   position: relative;
 
   // "x" button for triggered help items
   .btn-icon {
-    color: rgba($blue,.45);
-    font-size: 15px;
-    height: 21px;
-    left: -9px;
+    height: 24px;
+    left: 6px;
+    opacity: .5;
     padding: 0;
     position: absolute;
     top: 12px;
-    width: 21px;
+    width: 24px;
 
     &:hover {
-      color: rgba($blue,.75);
+      opacity: .75;
     }
 
     &:active {
-      color: $blue;
-    }
-
-    .iconnables {
-      height: 18px;
-      width: 18px;
+      opacity: 1;
     }
   }
 
-  // text in triggered help items
-  .p {
-    float: left;
-    margin-left: 15px;
-    width: 240px;
-  }
-
-  // "show me" button
-  .btn-sm {
-    background-color: $white;
-    border: $input-border solid $blue;
-    color: $blue;
-    float: right;
-    font-weight: $weight-bold;
-    margin: 1px 3px;
-
-    &:hover {
-      border-color: rgba($blue,.7);
-    }
-
-    &:active {
-      border-color: $blue;
-    }
+  // 'show me' btn
+  .btn-xs {
+    margin-left: 9px;
   }
 }
 
 .help-lists-wrapper {
   max-height: calc(100vh - 120px);
   overflow-y: auto;
-  padding: 0 12px;
 }
 
 .general-help-container {

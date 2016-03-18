@@ -17,6 +17,11 @@
 
 //- environment page
 .environment-wrapper
+  .grid-block.vertical.well.help(
+    ng-if = "$root.featureFlags.newUserPrompt"
+    ng-include = "'environmentGuides'"
+  )
+
   header.environment-header.clearfix(
     ng-include = "'viewEnvironmentHeader'"
     ng-init = "state.helpButton = {active: false}"
@@ -58,8 +63,3 @@
         )
       | Invite a teammate
     | &#32;to help you set up your stack.
-
-  button.btn.gray(
-    internal-modal-helper = "gettingStartedModalView"
-    ng-if = "$root.featureFlags.gettingStartedModal"
-  ) GSModal

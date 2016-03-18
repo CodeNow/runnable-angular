@@ -3,6 +3,81 @@
   flex-direction: column;
   min-height: 100%;
   padding: 15px;
+
+  // new user well
+  .well {
+    margin: 160px auto 30px;
+    max-width: 600px;
+    overflow: visible;
+    padding: 45px 30px 21px;
+    position: relative;
+
+    @include media(xxs) {
+      margin-top: 135px;
+      padding: 45px 15px 15px;
+    }
+
+    // button wrapper
+    > .grid-block {
+      margin: 0 auto;
+
+      @include media(xxs) {
+        flex-direction: row;
+      }
+    }
+
+    .btn + .btn {
+      margin-left: 6px;
+
+      @include media(xxs) {
+        margin-top: 0;
+      }
+    }
+
+    // runnabear
+    .img {
+      left: 0;
+      margin: 0 auto;
+      position: absolute;
+      right: 0;
+      top: -146px;
+
+      @include media(xxs) {
+        height: auto;
+        top: -117px;
+        width: 240px;
+      }
+    }
+
+    .icons-close {
+      cursor: pointer;
+      pointer-events: auto; // reset from .iconnables
+      position: absolute;
+      right: 15px;
+      top: 18px;
+
+      &:hover {
+        color: $red;
+      }
+
+      &:active {
+        color: $red-dark;
+      }
+    }
+
+    .h1 {
+      font-size: 24px;
+
+      @include media(xxs) {
+        font-size: 21px;
+      }
+    }
+
+    .p {
+      margin: 9px auto 15px;
+      max-width: 420px;
+    }
+  }
 }
 
 // styles specific to notifications in environment
