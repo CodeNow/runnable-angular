@@ -298,8 +298,7 @@ module.exports = function(grunt) {
             locals.rollbarEnv = locals.env;
             if (locals.apiHost === '//api.runnable-beta.com') {
               locals.rollbarEnv = 'production-beta';
-            }
-            if (locals.apiHost === '//api.runnable-gamma.com') {
+            } else if (locals.apiHost === '//api.runnable-gamma.com') {
               locals.rollbarEnv = 'production-gamma';
             }
             return locals;
