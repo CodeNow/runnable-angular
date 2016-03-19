@@ -1,19 +1,29 @@
 //- title of container
 .instance-header-title.text-overflow
 
-  //- toggle container nav
-  button.btn.btn-md.float-left(
-    ng-class = "{'active': !$storage.instanceListIsClosed}"
-    ng-click = "$storage.instanceListIsClosed = !$storage.instanceListIsClosed"
-  )
-    svg.iconnables.icons-arrow-backward
-      use(
-        xlink:href = "#icons-arrow-down"
-      )
-    svg.iconnables.icons-hamburger
-      use(
-        xlink:href = "#icons-hamburger"
-      )
+  .grid-block.header-btn-group
+    //- toggle container nav
+    button.btn.btn-md.btn-icon-md(
+      ng-class = "{'active': !$storage.instanceListIsClosed}"
+      ng-click = "$storage.instanceListIsClosed = !$storage.instanceListIsClosed"
+      tooltip = "Toggle Sidebar"
+      tooltip-options = "{\"class\":\"bottom center\",\"left\":6,\"top\":36}"
+    )
+      svg.iconnables.icons-sidebar-left
+        use(
+          xlink:href = "#icons-sidebar-left"
+        )
+
+    a.btn.btn-md.btn-icon-md(
+      href = "//support.runnable.io"
+      target = "_blank"
+      tooltip = "Support (opens in a new tab)"
+      tooltip-options = "{\"class\":\"bottom center\",\"left\":-78,\"top\":36}"
+    )
+      svg.iconnables.icons-help-box
+        use(
+          xlink:href = "#icons-help-box"
+          )
 
   //- container title
     - repository in .span

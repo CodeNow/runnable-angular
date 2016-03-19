@@ -16,30 +16,28 @@
   text-align: center;
   width: 100%;
 
-  // containers list toggle
-  .btn.float-left {
-    color: $gray-light;
-    height: 55px;
-    left: 0;
-    padding-left: 0;
+  .header-btn-group {
+    align-items: center;
+    height: $input-lg;
+    left: 12px;
     position: absolute;
 
-    &:hover {
-      color: $gray;
+    .btn {
+      color: $gray-light;
+      padding: 0 6px;
+
+      &:hover {
+        color: $gray;
+      }
+
+      &:active,
+      &.active {
+        color: $purple-light;
+      }
     }
 
-    &:active,
-    &.active {
-      color: $purple-light;
-    }
-
-    .icons-hamburger {
-      top: 9px;
-    }
-
-    .icons-arrow-backward {
-      left: 4px;
-      top: 5px;
+    .iconnables {
+      height: 100%;
       width: 21px;
     }
   }
