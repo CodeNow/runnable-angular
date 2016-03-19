@@ -31,7 +31,7 @@
     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
   ng-repeat = "item in openItems.models"
-  ng-show = "item === openItems.activeHistory.last()"
+  ng-show = "item === openItems.activeHistory.last() && item.state.type !== 'BuildStream'"
 )
 
   //- save toolbar
