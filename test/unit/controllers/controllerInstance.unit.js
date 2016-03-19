@@ -1,3 +1,4 @@
+/*global fixtures:true, host:true, mocks:true */
 'use strict';
 
 // injector-provided
@@ -15,6 +16,11 @@ var $controller,
     apiClientBridge;
 var runnable = window.runnable;
 var mockFavico;
+var instance;
+var container;
+var commitHash;
+var getCommitForCurrentlyBuildingBuild;
+var q;
 
 var mockUserFetch = new (require('../fixtures/mockFetch'))();
 
@@ -26,9 +32,16 @@ describe('controllerInstance'.bold.underline.blue, function () {
       mockFavico = {
         reset : sinon.spy(),
         setInstanceState: sinon.spy()
-      }
+      };
       $provide.value('favico', mockFavico);
-      $provide.factory('fetchUser', mockUserFetch.fetch());
+      $provide.factory('fetchUser', function ($q) {
+        return function () {
+          return $q.when({});
+        };
+      });
+      $provide.factory('setLastInstance', function ($q) {
+        return function () { };
+      });
       $provide.factory('fetchCommitData', function () {
         return {
           activeCommit: sinon.spy(function () {
@@ -43,24 +56,45 @@ describe('controllerInstance'.bold.underline.blue, function () {
           })
         };
       });
-      $provide.factory('fetchInstances', fixtures.mockFetchInstances.runningWithExtras({
-        contextVersion: {
-          appCodeVersions: {
-            models: [
-              {}
-            ]
-          }
-        }
-      }));
+      $provide.factory('fetchInstances', function ($q) {
+        container = {
+          hello: 'hi',
+          running: sinon.stub()
+        };
+        commitHash = 'asdfasdfasdf1234234'
+        instance = {
+          id: sinon.stub().returns(1),
+          attrs: {
+            name: 'hello'
+          },
+          containers: {
+            models: [container]
+          },
+          contextVersion: {
+            appCodeVersions: {
+              models: [
+                {
+                  commit: commitHash
+                }
+              ]
+            }
+          },
+          status: sinon.stub().returns('building'),
+          on: sinon.stub()
+        };
+        return function ($q) {
+          return instance;
+        };
+      });
       $provide.factory('fetchSettings', function ($q) {
         return function () {
           return $q.when({});
         };
       });
       $provide.factory('getCommitForCurrentlyBuildingBuild', function ($q) {
-        return function () {
-          return $q.when(false);
-        };
+        q = $q;
+        getCommitForCurrentlyBuildingBuild = sinon.stub().returns($q.when(false));
+        return getCommitForCurrentlyBuildingBuild;
       });
     });
     angular.mock.inject(function (
@@ -146,9 +180,6 @@ describe('controllerInstance'.bold.underline.blue, function () {
 
     $scope.$apply();
 
-    mockUserFetch.triggerPromise(apiClientBridge);
-    $rootScope.$digest();
-
     // mixpanel tracking user visit to instance page
     expect(eventTracking.visitedState.callCount).to.equal(1);
     eventTracking.visitedState.restore();
@@ -171,34 +202,49 @@ describe('controllerInstance'.bold.underline.blue, function () {
       controller = $controller('ControllerInstance', {
         '$scope': $scope
       });
-      $rootScope.$digest();
+    });
+    describe('Check for building containers', function () {
+      it('should check if there is a currently building build', function () {
+        $rootScope.$digest();
+        sinon.assert.calledOnce(getCommitForCurrentlyBuildingBuild);
+        sinon.assert.calledWith(getCommitForCurrentlyBuildingBuild, instance);
+      });
+      it('should not set the commit if there is no commit returned', function () {
+        var newCommitHash = '23423234';
+        getCommitForCurrentlyBuildingBuild.returns(q.when(newCommitHash));
+        $rootScope.$digest();
+        sinon.assert.calledOnce(getCommitForCurrentlyBuildingBuild);
+        sinon.assert.calledWith(getCommitForCurrentlyBuildingBuild, instance);
+        expect($scope.dataInstance.data.commit).to.equal(newCommitHash);
+        expect($scope.dataInstance.data.showUpdatingMessage).to.equal(true);
+      });
+      it('should set the commit if there is aa commit returned', function () {
+        var newCommitHash = false;
+        getCommitForCurrentlyBuildingBuild.returns(q.when(newCommitHash));
+        $rootScope.$digest();
+        sinon.assert.calledOnce(getCommitForCurrentlyBuildingBuild);
+        sinon.assert.calledWith(getCommitForCurrentlyBuildingBuild, instance);
+        expect($scope.dataInstance.data.commit).to.equal(undefined);
+        expect($scope.dataInstance.data.showUpdatingMessage).to.equal(undefined);
+      });
     });
     describe('Remove all but build logs', function () {
       it('building', function () {
-        keypather.set($scope, 'dataInstance.data.instance', {
-          status: sinon.stub().returns('building'),
-          id: sinon.stub().returns(1)
-        });
+        instance.status = sinon.stub().returns('building');
         $rootScope.$digest();
         sinon.assert.calledOnce(OpenItems.prototype.removeAllButBuildLogs);
         $timeout.flush();
         sinon.assert.calledOnce(mockFavico.setInstanceState);
       });
       it('buildFailed', function () {
-        keypather.set($scope, 'dataInstance.data.instance', {
-          status: sinon.stub().returns('buildFailed'),
-          id: sinon.stub().returns(1)
-        });
+        instance.status = sinon.stub().returns('buildFailed');
         $rootScope.$digest();
         sinon.assert.calledOnce(OpenItems.prototype.removeAllButBuildLogs);
         $timeout.flush();
         sinon.assert.calledOnce(mockFavico.setInstanceState);
       });
       it('neverStarted', function () {
-        keypather.set($scope, 'dataInstance.data.instance', {
-          status: sinon.stub().returns('neverStarted'),
-          id: sinon.stub().returns(1)
-        });
+        instance.status = sinon.stub().returns('neverStarted');
         $rootScope.$digest();
         sinon.assert.calledOnce(OpenItems.prototype.removeAllButBuildLogs);
         $timeout.flush();
@@ -207,40 +253,31 @@ describe('controllerInstance'.bold.underline.blue, function () {
     });
     describe('Remove all but logs', function () {
       it('crashed', function () {
-        keypather.set($scope, 'dataInstance.data.instance', {
-          status: sinon.stub().returns('crashed'),
-          id: sinon.stub().returns(1)
-        });
+        instance.status = sinon.stub().returns('crashed');
+        sinon.assert.notCalled(OpenItems.prototype.removeAllButLogs);
         $rootScope.$digest();
         sinon.assert.calledOnce(OpenItems.prototype.removeAllButLogs);
         $timeout.flush();
         sinon.assert.calledOnce(mockFavico.setInstanceState);
       });
       it('stopped', function () {
-        keypather.set($scope, 'dataInstance.data.instance', {
-          status: sinon.stub().returns('stopped'),
-          id: sinon.stub().returns(1)
-        });
+        instance.status = sinon.stub().returns('stopped');
+        sinon.assert.notCalled(OpenItems.prototype.removeAllButLogs);
         $rootScope.$digest();
         sinon.assert.calledOnce(OpenItems.prototype.removeAllButLogs);
         $timeout.flush();
         sinon.assert.calledOnce(mockFavico.setInstanceState);
       });
       it('starting', function () {
-        keypather.set($scope, 'dataInstance.data.instance', {
-          status: sinon.stub().returns('starting'),
-          id: sinon.stub().returns(1)
-        });
+        instance.status = sinon.stub().returns('starting');
+        sinon.assert.notCalled(OpenItems.prototype.removeAllButLogs);
         $rootScope.$digest();
         sinon.assert.calledOnce(OpenItems.prototype.removeAllButLogs);
         $timeout.flush();
         sinon.assert.calledOnce(mockFavico.setInstanceState);
       });
       it('stopping', function () {
-        keypather.set($scope, 'dataInstance.data.instance', {
-          status: sinon.stub().returns('stopping'),
-          id: sinon.stub().returns(1)
-        });
+        instance.status = sinon.stub().returns('stopping');
         $rootScope.$digest();
         sinon.assert.calledOnce(OpenItems.prototype.removeAllButLogs);
         $timeout.flush();
@@ -248,34 +285,16 @@ describe('controllerInstance'.bold.underline.blue, function () {
       });
     });
     it('should restore tabs when running', function () {
-      keypather.set($scope, 'dataInstance.data.instance', {
-        status: sinon.stub().returns('running'),
-        id: sinon.stub().returns(1),
-        containers: {
-          models: [{
-            hello: 'hi'
-          }]
-        }
-      });
+      instance.status = sinon.stub().returns('running');
       $rootScope.$digest();
       sinon.assert.calledOnce(OpenItems.prototype.restoreTabs);
-      sinon.assert.calledWith(OpenItems.prototype.restoreTabs, { instanceId: 1 }, {
-        hello: 'hi'
-      });
+      sinon.assert.calledWith(OpenItems.prototype.restoreTabs, { instanceId: 1 }, container);
       $timeout.flush();
       sinon.assert.calledOnce(mockFavico.setInstanceState);
     });
     it('should ignore status changes when migrating', function () {
-      keypather.set($scope, 'dataInstance.data.instance', {
-        status: sinon.stub().returns('running'),
-        id: sinon.stub().returns(1),
-        containers: {
-          models: [{
-            hello: 'hi'
-          }]
-        },
-        isMigrating: sinon.stub().returns(true)
-      });
+      instance.status = sinon.stub().returns('running');
+      instance.isMigrating = sinon.stub().returns(true);
       $rootScope.$digest();
       sinon.assert.notCalled(OpenItems.prototype.restoreTabs);
       $timeout.flush();

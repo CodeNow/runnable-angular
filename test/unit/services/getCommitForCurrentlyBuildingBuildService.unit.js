@@ -7,7 +7,7 @@ var generateTeammateInvitationObject = apiMocks.generateTeammateInvitationObject
 var generateGithubUserObject = apiMocks.gh.generateGithubUserObject;
 var generateGithubOrgObject = apiMocks.gh.generateGithubOrgObject;
 
-describe.only('getIncompleteBuidldsForInstanceBranch'.bold.underline.blue, function () {
+describe('getIncompleteBuidldsForInstanceBranch'.bold.underline.blue, function () {
   var promisifyStub;
   var fetchUser;
   var $rootScope;
@@ -113,7 +113,7 @@ describe.only('getIncompleteBuidldsForInstanceBranch'.bold.underline.blue, funct
   });
 });
 
-describe.only('getCommitForCurrentlyBuildingBuild'.bold.underline.blue, function () {
+describe('getCommitForCurrentlyBuildingBuild'.bold.underline.blue, function () {
   var $rootScope;
   var getCommitForCurrentlyBuildingBuild;
   var getIncompleteBuidldsForInstanceBranch;
