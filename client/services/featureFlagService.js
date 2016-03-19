@@ -35,7 +35,7 @@ function featureFlags(
     teamManagementAdvanced: false,
     trial: false,
     themeToggle: false, // toggles the button that toggles theme
-    updatedSlackValidation: false,
+    updatedSlackValidation: true,
     urlPopover: false,
     webhooksAdminPresent: false,
     webhooksContainerRunning: false,
