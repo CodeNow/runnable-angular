@@ -346,9 +346,9 @@
 
     &:not([disabled]):not(.disabled) {
 
-      &:hover
+      &:hover,
       &.hover {
-        background: $purple-lighter;
+        background: lighten($purple-light,10%);
       }
 
       &:active,
