@@ -128,6 +128,9 @@ function fancySelect(
 
       $scope.actions = {
         focused: function () {
+          if (exists($scope.toggleObject) && exists($scope.toggleAttribute)) {
+            return;
+          }
           openDropdown();
         },
         toggleSelect: function ($event) {
