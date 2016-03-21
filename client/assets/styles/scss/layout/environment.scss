@@ -48,20 +48,24 @@
     .btn {
       width: 60px;
 
+      @include media(xxs) {
+        &:nth-child(-n+2) {
+          margin-bottom: 2px;
+        }
+      }
+
       @include media(xxxs) {
         font-size: 16px;
         height: $input-sm;
         line-height: $input-line-height-sm;
-        margin: 0 2px;
+        margin-left: 2px;
+        margin-right: 2px;
+        margin-top: 0;
         width: 90px;
       }
 
       + .btn {
         margin-left: 6px;
-
-        @include media(xxs) {
-          margin-top: 0;
-        }
 
         @include media(xxxs) {
           margin-left: 2px;
