@@ -25,10 +25,13 @@ function RepositoryDetailsModalController(
     repo: RDMC.appCodeVersion.githubRepo,
     acv: RDMC.appCodeVersion,
     branch: fetchCommitData.activeBranch(RDMC.appCodeVersion),
-    commit: fetchCommitData.activeCommit(RDMC.appCodeVersion),
     useLatest: RDMC.appCodeVersion.attrs.useLatest,
     instance: RDMC.instance
   };
+  fetchCommitData.activeCommit(RDMC.appCodeVersion)
+    .then(function (commit) {
+      RDMC.data.commit = commit;
+    });
   RDMC.updateInstance = function () {
     loading('main', true);
     RDMC.close(
