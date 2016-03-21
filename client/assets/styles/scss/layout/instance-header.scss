@@ -20,6 +20,7 @@
     align-items: center;
     height: $input-lg;
     left: 12px;
+    overflow: hidden; // fix scroll bar appearing in firefox
     position: absolute;
 
     .btn {
