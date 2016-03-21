@@ -93,7 +93,9 @@ function buildLogs(
           if (command.expanded) {
             $timeout(function () {
               var logElement = angular.element(event.target).parent().parent().children()[1];
-              logElement.scrollTop = logElement.scrollHeight;
+              if (logElement) {
+                logElement.scrollTop = logElement.scrollHeight;
+              }
             }, 0);
           }
         }
