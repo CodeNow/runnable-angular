@@ -33,7 +33,7 @@
 
     @include media(xxs) {
       &:nth-child(-n+2) {
-        margin-bottom: 2px;
+        margin-bottom: 4px;
       }
     }
 
@@ -49,6 +49,7 @@
 
     + .btn {
       margin-left: 6px;
+      margin-top: 0;
 
       @include media(xxxs) {
         margin-left: 2px;
@@ -76,6 +77,11 @@
     right: 15px;
     top: 18px;
     width: $input-sm;
+
+    @include media(xxs) {
+      right: 6px;
+      top: 6px;
+    }
 
     &:hover {
       color: $red;

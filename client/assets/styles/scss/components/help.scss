@@ -17,7 +17,7 @@
 .btn-help {
   border: 0;
   color: $gray-light;
-  left: 15px;
+  left: 0;
   padding: 0 12px;
   position: absolute;
 
@@ -134,11 +134,6 @@
   overflow: visible;
   padding: 15px 15px 15px 39px;
   position: relative;
-
-  // because adding .grid-content to this element collapses spaces in its content
-  > .p {
-    flex: 1 1 auto;
-  }
 
   // "x" button for triggered help items
   .btn-icon {
