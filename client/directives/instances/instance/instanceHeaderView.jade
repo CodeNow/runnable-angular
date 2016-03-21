@@ -6,19 +6,24 @@
     button.btn.btn-md.btn-icon-md(
       ng-class = "{'active': !$storage.instanceListIsClosed}"
       ng-click = "$storage.instanceListIsClosed = !$storage.instanceListIsClosed"
-      tooltip = "Toggle Sidebar"
-      tooltip-options = "{\"class\":\"bottom center\",\"left\":6,\"top\":36}"
+      pop-over
+      pop-over-hover-trigger
+      pop-over-options = "{\"top\":39,\"centered\":true}"
+      pop-over-template = "sidebarTooltip"
+      pop-over-trigger = "hover"
     )
       svg.iconnables.icons-sidebar-left
         use(
           xlink:href = "#icons-sidebar-left"
         )
-
     a.btn.btn-md.btn-icon-md(
       href = "//support.runnable.io"
       target = "_blank"
-      tooltip = "Support (opens in a new tab)"
-      tooltip-options = "{\"class\":\"bottom center\",\"left\":-78,\"top\":36}"
+      pop-over
+      pop-over-hover-trigger
+      pop-over-options = "{\"top\":39,\"centered\":true}"
+      pop-over-template = "documentationTooltip"
+      pop-over-trigger = "hover"
     )
       svg.iconnables.icons-help-box
         use(
