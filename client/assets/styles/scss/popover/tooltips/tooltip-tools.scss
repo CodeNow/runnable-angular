@@ -2,11 +2,6 @@
   font-size: 13px;
   width: 240px;
 
-  &::before {
-    left: 30px;
-    right: auto;
-  }
-
   .list {
     border-bottom: 1px solid $gray-dark;
     margin-bottom: 6px;
