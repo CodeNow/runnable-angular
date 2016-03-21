@@ -4,6 +4,7 @@ require('app')
   .factory('fetchCommitData', fetchCommitData);
 
 function fetchCommitData (
+  $q,
   errs,
   promisify
 ) {
@@ -18,8 +19,8 @@ function fetchCommitData (
 
     activeCommit: function (acv, commitHash) {
       var activeCommit = acv.githubRepo.newCommit(commitHash || acv.attrs.commit);
-      activeCommit.fetch(errs.handler);
-      return activeCommit;
+      return promisify(activeCommit, 'fetch')()
+        .catch(errs.handler);
     },
 
     offset: function (acv, activeCommit) {
@@ -30,7 +31,7 @@ function fetchCommitData (
     },
 
     branchCommits: function (branch) {
-      branch.commits.fetch(angular.noop);
+      return promisify(branch.commits, 'fetch')();
     }
   };
 }
