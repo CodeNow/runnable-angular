@@ -1,5 +1,4 @@
-.grid-block,
-.grid-content {
+.grid-block {
   align-items: stretch;
   display: flex;
   flex: 1 1 auto;
@@ -43,7 +42,7 @@
 
 // horizontal grid
 .grid-content {
-  display: flex;
+  display: block;
   flex: 1 1 auto;
 
   @include media(xxs) {

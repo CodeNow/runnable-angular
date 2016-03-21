@@ -15,11 +15,11 @@
 }
 
 .btn-help {
+  border: 0;
   color: $gray-light;
-
-  @include media(xxs) {
-    left: 0;
-  }
+  left: 0;
+  padding: 0 12px;
+  position: absolute;
 
   &:hover {
     color: lighten($blue,10%);
@@ -34,7 +34,7 @@
 .help-top-card,
 %help-top-card {
   font-size: 15px;
-  left: 75px;
+  left: 60px;
   max-width: none; // overwrites max-width set in popover.scss
   padding-bottom: 26px;
   position: absolute;

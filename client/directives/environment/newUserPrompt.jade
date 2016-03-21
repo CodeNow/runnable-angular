@@ -1,4 +1,6 @@
-svg.iconnables.icons-close
+svg.iconnables.icons-close(
+  ng-click = "$root.featureFlags.newUserPrompt = !$root.featureFlags.newUserPrompt"
+)
   use(
     xlink:href = "#icons-close"
   )

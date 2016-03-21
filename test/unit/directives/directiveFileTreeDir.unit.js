@@ -48,11 +48,7 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       handler: sinon.spy()
     };
 
-    fetchCommitDataMock = {
-      activeBranch: sinon.spy(),
-      activeCommit: sinon.spy(),
-      branchCommits: sinon.spy()
-    };
+    fetchCommitDataMock = {};
     var FilePopoverController = function () {
       this.actions = {
         rename: sinon.spy()
@@ -66,7 +62,14 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
       $provide.value('helperCreateFSpromise', createFsMock);
       $provide.value('errs', errs);
       $provide.value('Upload', uploadMock);
-      $provide.value('fetchCommitData', fetchCommitDataMock);
+      $provide.factory('fetchCommitData', function ($q) {
+        angular.extend(fetchCommitDataMock, {
+          activeBranch: sinon.stub(),
+          activeCommit: sinon.stub().returns($q.when({})),
+          branchCommits: sinon.spy()
+        });
+        return fetchCommitDataMock;
+      });
       $provide.value('loadingPromises', loadingPromisesMock);
     });
 
