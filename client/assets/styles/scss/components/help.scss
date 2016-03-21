@@ -15,11 +15,11 @@
 }
 
 .btn-help {
+  border: 0;
   color: $gray-light;
-
-  @include media(xxs) {
-    left: 0;
-  }
+  left: 15px;
+  padding: 0 12px;
+  position: absolute;
 
   &:hover {
     color: lighten($blue,10%);
