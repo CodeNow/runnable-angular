@@ -135,6 +135,11 @@
   padding: 15px 15px 15px 39px;
   position: relative;
 
+  // because adding .grid-content to this element collapses spaces in its content
+  > .p {
+    flex: 1 1 auto;
+  }
+
   // "x" button for triggered help items
   .btn-icon {
     height: 24px;
