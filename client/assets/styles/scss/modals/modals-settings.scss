@@ -52,6 +52,17 @@
       .float-right {
         margin-left: 6px;
       }
+
+      // send
+      .spinner-wrapper,
+      .send-confirmation {
+        float: left;
+        margin: 18px 6px 0 0;
+      }
+
+      .spinner-wrapper {
+        margin-top: 20px;
+      }
     }
 
     .btn-xs {
@@ -120,17 +131,6 @@
       opacity: 0;
       padding: 0;
     }
-  }
-
-  // send
-  .spinner-wrapper,
-  .send-confirmation {
-    float: left;
-    margin: 18px 6px 0 0;
-  }
-
-  .spinner-wrapper {
-    margin-top: 20px;
   }
 }
 
