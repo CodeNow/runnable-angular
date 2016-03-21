@@ -10,7 +10,7 @@
   color: $gray-darker;
   font-size: 24px;
   font-weight: $weight-normal;
-  line-height: 54px;
+  line-height: $input-lg;
   padding: 0 72px; // for text-overflow, must be even so that text is centered properly
   position: relative;
   text-align: center;
@@ -39,6 +39,11 @@
     .iconnables {
       height: 100%;
       width: 21px;
+    }
+
+    .btn-documentation {
+      border: 1px solid $gray-light;
+      border-radius: $input-border-radius;
     }
   }
 
