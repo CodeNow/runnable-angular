@@ -1,16 +1,22 @@
-.modal-dialog.modal-sm.modal-welcome.in
-  section.modal-body.card-body
-    h1.modal-heading Welcome to Runnable!
-    p.p Choose an organization to get started
-    small.small (You can change your organization later)
-    ul.list
-      li.card.card-sm.load(
-        ng-click = "actions.selectAccount(org)"
-        ng-repeat = "org in data.allAccounts"
-      )
-        img.img.gravatar(
-          height = "30"
-          ng-src = "{{ org.gravitar() }}"
-          width = "30"
+.welcome.welcome-select-org
+  img.img.runnabear(
+    height = "130"
+    src = "/build/images/runnabear-waving-2.png"
+    width = "230"
+  )
+  .modal-dialog.panel-orgs
+    section.modal-body
+      h3.h3 Welcome to Runnable!
+      p.p Choose an organization to get started with.
+        small.small (You can change your organization later)
+      ul.list
+        li.list-item.btn.white.text-overflow.js-animate(
+          ng-click = "actions.selectAccount(org)"
+          ng-repeat = "org in data.allAccounts"
         )
-        span.text-overflow {{ org.oauthName() }}
+          img.img(
+            height = "45"
+            ng-src = "{{org.gravitar()}}"
+            width = "45"
+          )
+          | {{org.oauthName()}}
