@@ -41,10 +41,10 @@ function logTerm(
       }
       var terminal = helperSetupTerminal($scope, elem, $scope.termOpts, resizeHandler);
 
-      var $disconnected = null
+      var $disconnected = null;
       $scope.$watch('disconnected', function (val) {
         if (val === true) {
-          $disconnected = angular.element('<div class="disconnected">Connection interrupted. Attempting to reconnect...</div>');
+          $disconnected = angular.element('<div class="views-toolbar"><svg class="iconnables icons-lightning"><use xlink:href="#icons-lightning"></svg> Connection Lost! Retrying.</div>');
           angular.element(elem).prepend($disconnected);
         } else if ($disconnected) {
           $disconnected.remove();
