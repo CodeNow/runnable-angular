@@ -4,14 +4,16 @@
   display: flex;
   flex: 0 0 $input-md;
   overflow: visible;
+  padding-right: 12px;
   position: relative;
 }
 
 // toolbar tabs
 .btn-add-tab {
-  flex: 0 0 $input-md;
-  height: $input-md;
-  padding: 9px;
+  align-self: center;
+  flex: 0 0 $input-xs;
+  line-height: 1; // reset to center
+  padding: 1px;
 }
 
 .views-toolbar {

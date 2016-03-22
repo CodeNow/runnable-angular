@@ -153,16 +153,10 @@
 
   // for add buttons next to section headings, like in File Explorer
   .btn {
-    height: 54px;
-    transition: opacity .15s ease-in-out;
-
-    &.ng-hide {
-      opacity: 0;
-    }
-
-    .iconnables {
-      width: 24px;
-    }
+    line-height: 1; // reset to center icon
+    padding: 1px;
+    top: 15px; // center button
+    width: $input-xs;
   }
 }
 
