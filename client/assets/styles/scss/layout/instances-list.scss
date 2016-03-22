@@ -140,9 +140,7 @@
 
   .icons-overflow {
     color: $gray;
-    flex: 0 0 auto;
-    margin-right: -6px;
-    padding: 0 5px;
+    flex: 0 0 14px;
 
     &:hover {
       color: $gray-dark;
@@ -186,7 +184,6 @@
   // isolation badge
   .btn-badge.btn-badge {
     flex: 0 0 auto;
-    left: 3px;
-    margin: 0;
+    margin: 0 0 0 5px;
   }
 }
