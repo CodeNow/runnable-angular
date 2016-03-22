@@ -156,12 +156,7 @@
     line-height: 1; // reset to center icon
     padding: 1px;
     top: 15px; // center button
-    transition: opacity .15s ease-in-out;
     width: $input-xs;
-
-    &.ng-hide {
-      opacity: 0;
-    }
   }
 }
 
