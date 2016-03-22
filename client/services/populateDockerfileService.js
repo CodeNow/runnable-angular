@@ -122,7 +122,7 @@ function populateDockerfile(
       );
 
       var dockerSectionArray = [];
-      if (keypather.get(state, 'opts.env')) {
+      if (keypather.get(state, 'opts.env.length')) {
         dockerSectionArray.push('ENV ' + state.opts.env.join(' '));
       }
 

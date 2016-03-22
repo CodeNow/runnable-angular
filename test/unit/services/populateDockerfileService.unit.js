@@ -50,6 +50,12 @@ describe('populateDockerfileService'.bold.underline.blue, function () {
     expect(destDockerfile.state.body).to.contain('ENV asdasd=22123 asd=1123 aqsd=1231');
   });
 
+  it('should not put ENV in the dockerfile when the array is empty', function () {
+    state.opts.env = [];
+    populateDockerfile(nodeSourceDockerfile, state, destDockerfile);
+    expect(destDockerfile.state.body).to.not.contain('ENV');
+  });
+
   it('should populate a standard dockerfile', function () {
     populateDockerfile(nodeSourceDockerfile, state, destDockerfile);
 
