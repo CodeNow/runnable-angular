@@ -168,6 +168,9 @@
 @import "popover/popover-user";
 @import "popover/popover-validation";
 
+// tooltip popover specific
+@import "popover/tooltips/tooltip-tools";
+
 // pages
 @import "pages/server-selection";
 @import "pages/welcome";
