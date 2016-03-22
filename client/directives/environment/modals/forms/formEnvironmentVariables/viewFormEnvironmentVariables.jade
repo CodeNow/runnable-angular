@@ -3,9 +3,17 @@
   ng-if = "SMC.helpCards.getActiveCard().helpPopover.environmentVariables && SMC.helpCards.cardIsActiveOnThisContainer(SMC.instance)"
   ng-hide = "$root.featureFlags.fullScreen"
 )
-  .help(
-    ng-bind-html = "SMC.helpCards.getActiveCard().helpPopover.environmentVariables"
-  )
+  .help
+    button.btn.btn-xs.btn-icon(
+      ng-click = "SMC.helpCards.hideActiveCard()"
+    )
+      svg.iconnables.icons-close
+        use(
+          xlink:href = "#icons-close"
+        )
+    span(
+      ng-bind-html = "SMC.helpCards.getActiveCard().helpPopover.environmentVariables"
+    )
 
 //- begin form
 .label-description.clearfix(
