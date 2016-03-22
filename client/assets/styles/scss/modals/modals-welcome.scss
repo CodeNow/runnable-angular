@@ -10,6 +10,11 @@
     min-width: 0;
   }
 
+  @include media(xxxs) {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
   // override welcome modal
   .modal-dialog {
     width: 100%;

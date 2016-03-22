@@ -195,6 +195,15 @@
       margin: $gutter;
     }
 
+    @include media(xxxs) {
+      flex: 0 0 100%;
+      margin: 0;
+
+      + .list-item {
+        margin-top: 6px;
+      }
+    }
+
     &:hover {
       box-shadow: inset 0 0 0 $input-border $gray-light;
     }
