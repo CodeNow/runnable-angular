@@ -56,6 +56,7 @@ function logTerm(
         if (reconnecting) { return; }
         reconnecting = true;
         if ($scope.handleDisconnect) {
+          terminal.hideCursor = true;
           $scope.handleDisconnect();
         } else {
           terminal.writeln('');
@@ -72,6 +73,7 @@ function logTerm(
         }
         if ($scope.handleReconnect) {
           $scope.handleReconnect();
+          terminal.hideCursor = false;
         } else {
           terminal.writeln('* Connection Regained — Thanks for your patience! *');
         }
