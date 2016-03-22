@@ -4,7 +4,7 @@
 )
   .help-lists-wrapper
     ul.triggered-help-list
-      li.triggered-help-item.clearfix(
+      li.grid-block.triggered-help-item.clearfix(
         ng-repeat = "helpItem in data.triggered"
       )
         button.btn.btn-icon.btn-icon-xs(
@@ -14,10 +14,10 @@
             use(
               xlink:href = "#icons-close"
             )
-        p.p(
+        p.p.grid-content(
           ng-bind-html= "helpItem.label"
         )
-        button.btn.btn-sm(
+        button.btn.btn-xs.blue.grid-content(
           ng-click = "actions.getHelp(helpItem)"
         ) Show Me
     .general-help-container

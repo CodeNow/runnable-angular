@@ -15,6 +15,8 @@
 @import "globals/var";
 @import "globals/mixins";
 @import "globals/reset";
+
+@import "globals/grid";
 @import "globals/globals";
 @import "globals/animations";
 @import "globals/images";
@@ -86,6 +88,7 @@
 
 // components specific
 @import "components/lists-teammates";
+@import "components/new-user-prompt";
 
 // external components
 @import "components/external/ace-theme";
@@ -164,6 +167,9 @@
 @import "popover/popover-url";
 @import "popover/popover-user";
 @import "popover/popover-validation";
+
+// tooltip popover specific
+@import "popover/tooltips/tooltip-tools";
 
 // pages
 @import "pages/server-selection";
