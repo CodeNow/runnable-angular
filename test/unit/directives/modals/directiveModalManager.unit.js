@@ -123,16 +123,6 @@ describe('directiveModalManager'.bold.underline.blue, function () {
       var closedModal = ctx.element[0].querySelector('.modal-backdrop');
       expect(closedModal).to.not.exist;
     });
-
-    it('should work with a non-generic template', function () {
-      injectSetupCompile();
-      var modalOptions = makeDefaultOptions();
-      modalOptions.template = 'viewModalIntegrations';
-      $rootScope.$emit('open-modal', modalOptions);
-
-      var openedModal = ctx.element[0].querySelector('.modal-dialog');
-      expect(openedModal).to.exist;
-    })
   });
 
   describe('default actions', function () {
