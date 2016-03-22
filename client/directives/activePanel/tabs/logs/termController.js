@@ -67,10 +67,12 @@ function TermController(
 
   $scope.handleDisconnect = function () {
     $scope.disconnected = true;
+    $scope.$applyAsync();
   };
   $scope.handleReconnect = function () {
     $scope.disconnected = false;
     hasHandledReconnection = false;
+    $scope.$applyAsync();
   };
 }
 
