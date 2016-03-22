@@ -61,7 +61,7 @@ function TermController(
 
   };
 
-  $scope.disconnected = true;
+  $scope.disconnected = false;
 
   $scope.handleDisconnect = function () {
     $scope.disconnected = true;
