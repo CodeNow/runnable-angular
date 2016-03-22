@@ -8,6 +8,11 @@
     padding: 0 15px;
   }
 
+  // override border-radius
+  .gravatar {
+    border-radius: $input-border-radius;
+  }
+
   // active state
   .icons-fat-check {
     left: 10px;

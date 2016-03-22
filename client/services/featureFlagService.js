@@ -26,6 +26,7 @@ function featureFlags(
     multilineFnR: false,
     nameContainer: false,
     navListFilter: false,
+    newUserPrompt: false, // modal for new users
     newVerificationFlow: true,
     newVerificationFlowStackSelector: true,
     noBuildLogs: true,
@@ -35,7 +36,7 @@ function featureFlags(
     teamManagementAdvanced: false,
     trial: false,
     themeToggle: false, // toggles the button that toggles theme
-    updatedSlackValidation: false,
+    updatedSlackValidation: true,
     urlPopover: false,
     webhooksAdminPresent: false,
     webhooksContainerRunning: false,

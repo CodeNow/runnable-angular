@@ -10,37 +10,41 @@
   color: $gray-darker;
   font-size: 24px;
   font-weight: $weight-normal;
-  line-height: 54px;
+  line-height: $input-lg;
   padding: 0 72px; // for text-overflow, must be even so that text is centered properly
   position: relative;
   text-align: center;
   width: 100%;
 
-  // containers list toggle
-  .btn.float-left {
-    color: $gray-light;
-    height: 55px;
-    left: 0;
-    padding-left: 0;
+  .header-btn-group {
+    align-items: center;
+    height: $input-lg;
+    left: 12px;
+    overflow: hidden; // fix scroll bar appearing in firefox
     position: absolute;
 
-    &:hover {
-      color: $gray;
+    .btn {
+      color: $gray-light;
+      padding: 0 6px;
+
+      &:hover {
+        color: $gray;
+      }
+
+      &:active,
+      &.active {
+        color: $purple-light;
+      }
     }
 
-    &:active,
-    &.active {
-      color: $purple-light;
-    }
-
-    .icons-hamburger {
-      top: 9px;
-    }
-
-    .icons-arrow-backward {
-      left: 4px;
-      top: 5px;
+    .iconnables {
+      height: 100%;
       width: 21px;
+    }
+
+    .btn-documentation {
+      border: 1px solid $gray-light;
+      border-radius: $input-border-radius;
     }
   }
 

@@ -150,28 +150,6 @@
   }
 }
 
-// help
-.btn-help {
-  background: rgba($white,.6);
-  border: 1px solid $gray-light;
-  border-radius: 50%;
-  color: $gray;
-  height: 24px;
-  text-decoration: none;
-  width: 24px;
-
-  &:hover {
-    border-color: currentColor;
-    color: rgba($blue,.6);
-  }
-
-  &:active,
-  &.active {
-    border-color: currentColor;
-    color: $blue;
-  }
-}
-
 .btn-close {
   border-radius: 50%;
 
@@ -252,16 +230,19 @@
   color: $gray-light;
 
   &.btn:not([disabled]):not(.disabled) {
+    background: $blue;
+    border-color: $blue-dark;
+    color: $white;
 
     &:hover,
     &.hover {
-      color: $blue;
+      background: lighten($blue,10%);
     }
 
     &:active,
     &.active,
     &.active:hover {
-      color: $blue;
+      background: $blue;
     }
   }
 }
@@ -360,21 +341,20 @@
 
   &.btn {
     background: $purple-light;
-    border-color: $white;
+    border-color: $purple;
     color: $white;
 
     &:not([disabled]):not(.disabled) {
 
-      &:hover
+      &:hover,
       &.hover {
-        background: rgba($white,.1);
+        background: lighten($purple-light,10%);
       }
 
       &:active,
       &.active,
       &.active:hover {
-        background: $white;
-        color: $purple-light;
+        background: $purple;
       }
     }
   }
