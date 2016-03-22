@@ -52,6 +52,8 @@ function TermController(
     termOnFn = $scope.stream.write.bind($scope.stream);
     terminal.on('data', termOnFn);
     $scope.stream.on('data', function (data) {
+      // The backend will send the last message it had sent on re-connection (this handles reloading the page)
+      // We don't want to show duplicate messages to the users so we hide this message.
       if (!hasHandledReconnection) {
         hasHandledReconnection = true;
         return;
