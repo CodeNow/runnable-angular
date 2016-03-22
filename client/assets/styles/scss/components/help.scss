@@ -116,13 +116,39 @@
     box-shadow: none;
     display: table;
     margin: 0 auto;
-    padding: 6px 24px;
+    padding: 6px 24px 6px 36px;
+    position: relative;
     text-align: center;
 
     // anchor icon
     .iconnables {
       float: left;
       margin-right: 3px;
+    }
+  }
+
+  // close button
+  .btn {
+    left: 6px;
+    opacity: .5;
+    position: absolute;
+    top: 6px;
+    width: $input-xs;
+
+    &:hover {
+      color: $red;
+      opacity: 1;
+    }
+
+    &:active {
+      color: $red-dark;
+      opacity: 1;
+    }
+
+    .iconnables {
+      height: 100%;
+      margin-right: 0;
+      width: 100%;
     }
   }
 }
