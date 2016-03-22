@@ -23,7 +23,6 @@ function EditServerModalController(
   errs,
   fetchInstancesByPod,
   findLinkedServerVariables,
-  instance,
   keypather,
   loading,
   OpenItems,
@@ -31,6 +30,7 @@ function EditServerModalController(
   helpCards,
   tab,
   updateDockerfileFromState,
+  instance,
   close
 ) {
   var SMC = this;
