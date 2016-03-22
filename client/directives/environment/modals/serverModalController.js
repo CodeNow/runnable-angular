@@ -22,15 +22,17 @@ function ServerModalController(
   updateDockerfileFromState
 ) {
   this.requiresRedeploy = function () {
-    return !!this.instance && (!angular.equals(
-      keypather.get(this, 'instance.attrs.env') || [],
-      keypather.get(this, 'state.opts.env') // this is pre-filled with a default of []
-    ) || !angular.equals(
-      keypather.get(this, 'instance.attrs.ipWhitelist') || {
-        enabled: false
-      },
+    return !!this.instance && !angular.equals(
+      keypather.get(this, 'instance.attrs.ipWhitelist') || { enabled: false },
       keypather.get(this, 'state.opts.ipWhitelist') // this is pre-filled with a default of { enabled: false }
-    ));
+    );
+  };
+  this.requiresRebuild = function () {
+    return loadingPromises.count(this.name) > 0 || !this.openItems.isClean() ||
+      !angular.equals(
+        keypather.get(this, 'instance.attrs.env') || [],
+        keypather.get(this, 'state.opts.env') // this is pre-filled with a default of []
+      );
   };
 
   this.openDockerfile = function (state, openItems) {
@@ -50,7 +52,7 @@ function ServerModalController(
     // Loading promises are clear when the modal is saved or cancelled.
     var SMC = this;
     var requiresUpdate = this.requiresRedeploy() ? 'update' : false;
-    var requiresBuild = loadingPromises.count(SMC.name) > 0 || !SMC.openItems.isClean() ? 'build' : false;
+    var requiresBuild = this.requiresRebuild() ? 'build' : false;
     if (requiresUpdate && (['building', 'buildFailed', 'neverStarted'].includes(keypather.get(SMC, 'instance.status()')))) {
       requiresBuild = 'build';
     }

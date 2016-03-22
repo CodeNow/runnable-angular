@@ -390,33 +390,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         sinon.assert.notCalled(ctx.instance.redeploy);
       });
 
-      it('should only update the instance when only envs have changed', function () {
-        var alertSpy = sinon.spy();
-        var closePopoverSpy = sinon.spy();
-        $rootScope.$on('close-popovers', closePopoverSpy);
-        $rootScope.$on('alert', function (event, opts) {
-          expect(opts).to.be.deep.equal({
-            type: 'success',
-            text: 'Changes Saved'
-          });
-        });
-
-        SMC.state.opts.env = ['asdasd', 'sadfsdfasdfasdf'];
-        SMC.getUpdatePromise();
-        $scope.$digest();
-        sinon.assert.called(closePopoverSpy);
-        sinon.assert.called(ctx.loadingPromiseMock.finished);
-        expect(SMC.state.ports).to.be.ok;
-        $scope.$digest();
-        sinon.assert.notCalled(ctx.build.build);
-        $scope.$digest();
-        sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
-        $scope.$digest();
-
-        sinon.assert.calledOnce(ctx.instance.update);
-        sinon.assert.calledOnce(ctx.instance.redeploy);
-      });
-
       it('should redeploy update the instance when only envs have changed and build is building', function () {
         ctx.instance.status = sinon.stub().returns('building');
         $scope.$digest();
@@ -721,31 +694,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.notCalled(ctx.instance.redeploy);
-      });
-      it('should only update the instance when only envs have changed', function () {
-        var alertSpy = sinon.spy();
-        var closePopoverSpy = sinon.spy();
-        $rootScope.$on('close-popovers', closePopoverSpy);
-        $rootScope.$on('alert', function (event, opts) {
-          expect(opts).to.be.deep.equal({
-            type: 'success',
-            text: 'Changes Saved'
-          });
-        });
-
-        SMC.state.opts.env = ['asdasd', 'sadfsdfasdfasdf'];
-        SMC.getUpdatePromise();
-        $scope.$digest();
-        sinon.assert.called(closePopoverSpy);
-        sinon.assert.called(ctx.loadingPromiseMock.finished);
-        expect(SMC.state.ports).to.be.ok;
-        $scope.$digest();
-        sinon.assert.notCalled(ctx.build.build);
-        $scope.$digest();
-        sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
-        $scope.$digest();
-        sinon.assert.calledOnce(ctx.instance.update);
-        sinon.assert.calledOnce(ctx.instance.redeploy);
       });
     });
   });
@@ -1377,6 +1325,33 @@ describe('editServerModalController'.bold.underline.blue, function () {
       );
     });
 
+  });
+  describe('Env change', function () {
+
+    beforeEach(function () {
+      setup({
+        currentModel: ctx.instance,
+        selectedTab: 'env'
+      });
+    });
+
+    it('should correctly update the dockerfile when the envs have changed ', function () {
+      $scope.$digest();
+      ctx.loadingPromiseMock.add.reset();
+      SMC.state.opts.env = ['asdasd=123'];
+      $scope.$digest();
+      sinon.assert.calledOnce(ctx.updateDockerfileFromStateMock);
+      sinon.assert.calledWith(
+        ctx.updateDockerfileFromStateMock,
+        SMC.state,
+        true,
+        true
+      );
+      ctx.updateDockerfileFromStateMock.reset();
+      SMC.state.opts.env = ['asdasd=123', 'asdasdas=1'];
+      $scope.$digest();
+      sinon.assert.calledOnce(ctx.updateDockerfileFromStateMock);
+    });
   });
 
   describe('Help Cards', function () {

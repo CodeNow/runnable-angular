@@ -121,8 +121,11 @@ function populateDockerfile(
         keypather.get(state, 'contextVersion.getMainAppCodeVersion().attrs.transformRules.exclude.length')
       );
 
-
       var dockerSectionArray = [];
+      if (keypather.get(state, 'opts.env')) {
+        dockerSectionArray.push('ENV ' + state.opts.env.join(' '));
+      }
+
       dockerSectionArray.push(keypather.get(state, 'packages'));
       var containerFiles = keypather.get(state, 'containerFiles') || [];
       dockerSectionArray = dockerSectionArray.concat(containerFiles);

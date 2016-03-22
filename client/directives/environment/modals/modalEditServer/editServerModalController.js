@@ -23,13 +23,14 @@ function EditServerModalController(
   errs,
   fetchInstancesByPod,
   findLinkedServerVariables,
+  instance,
   keypather,
   loading,
   OpenItems,
   loadingPromises,
   helpCards,
   tab,
-  instance,
+  updateDockerfileFromState,
   close
 ) {
   var SMC = this;
@@ -46,6 +47,7 @@ function EditServerModalController(
     'openDockerfile': parentController.openDockerfile.bind(SMC),
     'populateStateFromData': parentController.populateStateFromData.bind(SMC),
     'rebuildAndOrRedeploy': parentController.rebuildAndOrRedeploy.bind(SMC),
+    'requiresRebuild': parentController.requiresRebuild.bind(SMC),
     'requiresRedeploy': parentController.requiresRedeploy.bind(SMC),
     'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
     'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
@@ -109,11 +111,15 @@ function EditServerModalController(
     SMC.showDebugCmd = status;
   });
 
-  $scope.$watch(function () {
-    return SMC.state.opts.env.join();
-  }, function (n) {
-    if (!n) { return; }
+  $scope.$watchCollection(function () {
+    return SMC.state.opts.env;
+  }, function (newEnvArray, oldEnvArray) {
+    if (!newEnvArray) { return; }
     SMC.linkedEnvResults = findLinkedServerVariables(SMC.state.opts.env);
+    if (!angular.equals(newEnvArray, oldEnvArray)) {
+      // Only update the Dockerfile if the envs have actually changed
+      updateDockerfileFromState(SMC.state, true, true);
+    }
   });
 
   $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {

@@ -43,6 +43,7 @@ function SetupServerModalController(
     'openDockerfile': parentController.openDockerfile.bind(SMC),
     'populateStateFromData': parentController.populateStateFromData.bind(SMC),
     'rebuildAndOrRedeploy': parentController.rebuildAndOrRedeploy.bind(SMC),
+    'requiresRebuild': parentController.requiresRebuild.bind(SMC),
     'requiresRedeploy': parentController.requiresRedeploy.bind(SMC),
     'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
     'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
@@ -147,6 +148,16 @@ function SetupServerModalController(
   }, function (newPortsArray, oldPortsArray) {
     if (!angular.equals(newPortsArray, oldPortsArray)) {
       // Only update the Dockerfile if the ports have actually changed
+      updateDockerfileFromState(SMC.state, true, true);
+    }
+  });
+
+  $scope.$watchCollection(function () {
+    return SMC.state.opts.env;
+  }, function (newEnvArray, oldEnvArray) {
+    console.log('new', newEnvArray, oldEnvArray);
+    if (!angular.equals(newEnvArray, oldEnvArray)) {
+      // Only update the Dockerfile if the envs have actually changed
       updateDockerfileFromState(SMC.state, true, true);
     }
   });
