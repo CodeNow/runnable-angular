@@ -98,7 +98,7 @@
     "stream-buffers": "git://github.com/Runnable/node-stream-buffer.git#v2.2.1",
     "term.js": "git://github.com/Runnable/term.js.git#v0.1.9",
     "through": "2.3.8",
-    "validate-dockerfile": "git://github.com/Runnable/validate-dockerfile.git#Allow-multiple-envs-on-one-line"
+    "validate-dockerfile": "1.8.x"
   },
   "devDependencies": {
     "angular-mocks": "1.3.15",
