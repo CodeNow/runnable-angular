@@ -12,7 +12,6 @@ function TermController(
   WatchOnlyOnce
 ) {
   var termOnFn;
-  var streamOnFn;
   var watchOnlyOnce = new WatchOnlyOnce($scope);
   $scope.termOpts = {
     hideCursor: false,
@@ -48,11 +47,32 @@ function TermController(
     primus.on('data', checkForTerminalCreation);
   };
 
+  var hasHandledReconnection = true;
   $scope.connectStreams = function (terminal) {
     termOnFn = $scope.stream.write.bind($scope.stream);
-    streamOnFn = terminal.write.bind(terminal);
     terminal.on('data', termOnFn);
-    $scope.stream.on('data', streamOnFn);
+    $scope.stream.on('data', function (data) {
+      // The backend will send the last message it had sent on re-connection (this handles reloading the page)
+      // We don't want to show duplicate messages to the users so we hide this message.
+      if (!hasHandledReconnection) {
+        hasHandledReconnection = true;
+        return;
+      }
+      terminal.write(data);
+    });
+
+  };
+
+  $scope.disconnected = false;
+
+  $scope.handleDisconnect = function () {
+    $scope.disconnected = true;
+    $scope.$applyAsync();
+  };
+  $scope.handleReconnect = function () {
+    $scope.disconnected = false;
+    hasHandledReconnection = false;
+    $scope.$applyAsync();
   };
 }
 
