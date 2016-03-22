@@ -13,7 +13,7 @@
   width: 100vw;
   z-index: $z-modal;
 
-  @include media(sm) {
+  @media (max-height: $screen-xs), (max-width: $screen-sm) {
     padding: 15px;
   }
 
