@@ -190,7 +190,7 @@
     padding: 15px 6px;
     transition: flex .25s, height .25s;
 
-    @include media(xs) {
+    @include media(sm) {
       flex: 0 0 $col-2;
       margin: $gutter;
     }
