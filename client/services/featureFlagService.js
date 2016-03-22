@@ -26,6 +26,7 @@ function featureFlags(
     multilineFnR: false,
     nameContainer: false,
     navListFilter: false,
+    newUserPrompt: false, // modal for new users
     newVerificationFlow: true,
     newVerificationFlowStackSelector: true,
     noBuildLogs: true,

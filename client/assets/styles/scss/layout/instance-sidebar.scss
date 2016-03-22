@@ -147,7 +147,7 @@
 }
 
 .sidebar-section-heading {
-  color: $gray-darker;
+  color: darken($gray-light,10%);
   line-height: 54px;
   position: relative;
 
