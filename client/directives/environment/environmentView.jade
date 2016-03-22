@@ -17,6 +17,11 @@
 
 //- environment page
 .environment-wrapper
+  .grid-block.vertical.new-user-prompt(
+    ng-if = "$root.featureFlags.newUserPrompt"
+    ng-include = "'newUserPrompt'"
+  )
+
   header.environment-header.clearfix(
     ng-include = "'viewEnvironmentHeader'"
     ng-init = "state.helpButton = {active: false}"

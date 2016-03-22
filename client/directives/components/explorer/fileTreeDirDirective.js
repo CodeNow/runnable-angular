@@ -246,7 +246,10 @@ function fileTreeDir(
             repo.acv = acv;
             repo.repo = acv.githubRepo;
             repo.branch = fetchCommitData.activeBranch(acv);
-            repo.commit = fetchCommitData.activeCommit(acv);
+            fetchCommitData.activeCommit(acv)
+              .then(function (commit) {
+                repo.commit = commit;
+              });
             fetchCommitData.branchCommits(repo.branch);
 
             repo.useLatest = acv.attrs.useLatest;

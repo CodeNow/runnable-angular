@@ -1,19 +1,34 @@
 //- title of container
 .instance-header-title.text-overflow
 
-  //- toggle container nav
-  button.btn.btn-md.float-left(
-    ng-class = "{'active': !$storage.instanceListIsClosed}"
-    ng-click = "$storage.instanceListIsClosed = !$storage.instanceListIsClosed"
-  )
-    svg.iconnables.icons-arrow-backward
-      use(
-        xlink:href = "#icons-arrow-down"
-      )
-    svg.iconnables.icons-hamburger
-      use(
-        xlink:href = "#icons-hamburger"
-      )
+  .grid-block.header-btn-group
+    //- toggle container nav
+    button.btn.btn-md.btn-icon-md(
+      ng-class = "{'active': !$storage.instanceListIsClosed}"
+      ng-click = "$storage.instanceListIsClosed = !$storage.instanceListIsClosed"
+      pop-over
+      pop-over-hover-trigger
+      pop-over-options = "{\"top\":45,\"centered\":true}"
+      pop-over-template = "sidebarTooltip"
+      pop-over-trigger = "hover"
+    )
+      svg.iconnables.icons-sidebar-left
+        use(
+          xlink:href = "#icons-sidebar-left"
+        )
+    a.btn.btn-md.btn-icon-md(
+      href = "//support.runnable.io"
+      target = "_blank"
+      pop-over
+      pop-over-hover-trigger
+      pop-over-options = "{\"top\":45,\"centered\":true}"
+      pop-over-template = "documentationTooltip"
+      pop-over-trigger = "hover"
+    )
+      svg.iconnables.icons-help-box
+        use(
+          xlink:href = "#icons-help-box"
+          )
 
   //- container title
     - repository in .span

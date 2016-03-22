@@ -1,6 +1,8 @@
-button.btn.btn-xs.btn-control.tooltip-plus-wrapper(
+button.btn.btn-xs.btn-control(
   ng-click = "$root.featureFlags.fullScreen = !$root.featureFlags.fullScreen"
   ng-if = "$root.featureFlags.fullScreenToggle"
+  tooltip = "Full Screen"
+  tooltip-options = "{\"class\":\"left\",\"right\":30,\"top\":-6}"
 )
   svg.iconnables(
     ng-if = "!$root.featureFlags.fullScreen"
@@ -15,19 +17,13 @@ button.btn.btn-xs.btn-control.tooltip-plus-wrapper(
       xlink:href = "#icons-minimize"
     )
 
-  .tooltip-plus.tooltip-text.left(
-    style = "right: 32px; top: -4px;"
-  ) Full Screen
-
-button.btn.btn-xs.btn-control.tooltip-plus-wrapper(
+button.btn.btn-xs.btn-control(
   ng-click = "$root.featureFlags.imAfraidOfTheDark = !$root.featureFlags.imAfraidOfTheDark"
   ng-if = "$root.featureFlags.themeToggle"
+  tooltip = "Toggle Theme"
+  tooltip-options = "{\"class\":\"left\",\"right\":30,\"top\":-6}"
 )
   svg.iconnables.icons-theme
     use(
       xlink:href = "#icons-theme"
     )
-
-  .tooltip-plus.tooltip-text.left(
-    style = "right: 32px; top: -4px;"
-  ) Change Theme

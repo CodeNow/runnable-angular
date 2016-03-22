@@ -146,6 +146,7 @@ section.modal-body(
 )
   .modal-form(
     ng-class = "{'empty': SMC.state.step === 3 && SMC.selectedTab === null}"
+    ng-form="SMC.serverForm"
   )
     //- Stack & Branch
     .label(

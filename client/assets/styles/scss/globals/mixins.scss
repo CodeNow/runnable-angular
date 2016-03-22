@@ -22,7 +22,9 @@
 
 // standard mixin, overriden when intercom is open
 @mixin media($point) {
-  @if $point == xxs {
+  @if $point == xxxs {
+    @media (max-width: $screen-xxxs) { @content; }
+  } @else if $point == xxs {
     @media (max-width: $screen-xxs) { @content; }
   } @else if $point == xs {
     @media (max-width: $screen-xs) { @content; }

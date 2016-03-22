@@ -12,18 +12,18 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
     ctx = {};
     ctx.branch = {attrs: apiMocks.branches.bitcoinRepoBranches[0]};
     ctx.commit = {attrs: apiMocks.commit.bitcoinRepoCommit1};
-    ctx.fetchCommitData = {
-      activeBranch: sinon.spy(function () {
-        return ctx.branch;
-      }),
-      activeCommit: sinon.spy(function () {
-        return ctx.commit;
-      }),
-      offset: sinon.spy(),
-      branchCommits: sinon.spy()
-    };
     angular.mock.module('app', function ($provide) {
-      $provide.factory('fetchCommitData', function () { return ctx.fetchCommitData; });
+      $provide.factory('fetchCommitData', function ($q) {
+        ctx.fetchCommitData = {
+          activeBranch: sinon.spy(function () {
+            return ctx.branch;
+          }),
+          activeCommit: sinon.stub().returns($q.when(ctx.commit)),
+          offset: sinon.spy(),
+          branchCommits: sinon.spy()
+        };
+        return ctx.fetchCommitData;
+      });
     });
 
     angular.mock.inject(function (

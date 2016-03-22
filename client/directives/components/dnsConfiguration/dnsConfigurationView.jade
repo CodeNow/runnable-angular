@@ -5,11 +5,10 @@ button.js-btn-wrapper(
   pop-over-options = "{\"right\":-173,\"top\":45}"
   pop-over-template = "dnsConfigurationPopoverView"
 )
+  //- change text to 'Connection' if there is only one
   span.float-left
-    //- empty badge until number of connections loads
-    .badge-connections {{$root.isLoaded.dns ? DCC.filteredDependencies.length : '&nbsp;'}}
-    //- change text to 'Connection' if there is only one
-    | {{DCC.filteredDependencies.length === 1 ? 'Connection' : 'Connections'}}
+    {{$root.isLoaded.dns ? DCC.filteredDependencies.length : ''}}&#32;
+    {{DCC.filteredDependencies.length === 1 ? 'Connection' : 'Connections'}}
   svg.iconnables.icons-arrow-down.float-right
     use(
       xlink:href = "#icons-arrow-down"
