@@ -108,6 +108,7 @@ function EventTracking(
  * @return this
  */
 EventTracking.prototype.boot = function (user, opts) {
+  opts = opts || {};
   if (this._user) { return this; }
   if (!(user instanceof User)) {
     throw new Error('arguments[0] must be instance of User');
