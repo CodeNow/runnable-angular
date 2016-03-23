@@ -2,16 +2,10 @@
   max-width: 642px;
   transition: max-height .15s ease-in;
 
-  // unverified state
-  &.unverified {
-    max-height: 400px;
-  }
-
-  // header slack logo
-  .modal-heading .img {
-    margin-right: 9px;
-    position: relative;
-    top: 5px;
+  @include media(xxs) {
+    .label-footer .br {
+      display: none;
+    }
   }
 
   // api token
@@ -108,11 +102,5 @@
     display: block;
     font-size: 16px;
     margin: 6px 0 15px;
-  }
-
-  @include media(xxs) {
-    .label-footer .br {
-      display: none;
-    }
   }
 }

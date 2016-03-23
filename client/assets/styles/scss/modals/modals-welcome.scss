@@ -1,34 +1,41 @@
-.modal-welcome {
-  padding: 15px 0;
+.welcome.welcome-select-org {
+  min-width: 570px;
+  padding-top: 88px;
 
-  .modal-heading {
-    font-size: 24px;
-    line-height: 1.4;
+  @include media(sm) {
+    padding: 163px;
   }
 
-  .modal-body {
-    text-align: center;
+  @include media(xs) {
+    min-width: 0;
+  }
+
+  @include media(xxxs) {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  // override welcome modal
+  .modal-dialog {
+    width: 100%;
+  }
+
+  // overlap modal
+  > .img {
+    z-index: 1;
   }
 
   .small {
     display: block;
-    margin-bottom: 15px;
   }
 
-  .card {
-    align-items: center;
-    flex-direction: row;
-    float: left;
-    margin-bottom: 6px;
-    padding: 15px;
-    width: calc(50% - 3px);
-
-    &:nth-child(odd) {
-      margin-left: 6px;
-    }
+  // 2 column grid
+  .list-item {
+    height: 150px;
+    padding: 39px 9px;
   }
 
-  .gravatar {
-    flex: 0 0 auto;
+  .img.img {
+    margin-bottom: 9px;
   }
 }
