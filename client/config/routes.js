@@ -102,7 +102,7 @@ module.exports = [
     controller: 'ControllerApp',
     controllerAs: 'CA',
     resolve: {
-      user: function (eventTracking, fetchUser, manuallyWhitelistedUsers) {
+      user: function (eventTracking, fetchUser, manuallyWhitelistedUsers, $stateParams) {
         var userFetch = fetchUser()
           .then(function (user) {
             var userName = user.oauthName().toLowerCase();
@@ -110,8 +110,8 @@ module.exports = [
             return user;
           });
         userFetch
-          .then(function(user) {
-            eventTracking.boot(user);
+          .then(function (user) {
+            eventTracking.boot(user, {orgName: $stateParams.userName});
           });
         return userFetch;
       },
