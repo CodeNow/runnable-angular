@@ -161,6 +161,10 @@
   padding: 15px 15px 15px 39px;
   position: relative;
 
+  .p {
+    padding-top: 2px;
+  }
+
   // "x" button for triggered help items
   .btn-icon {
     height: 24px;
@@ -168,7 +172,7 @@
     opacity: .5;
     padding: 0;
     position: absolute;
-    top: 12px;
+    top: 15px;
     width: 24px;
 
     &:hover {
