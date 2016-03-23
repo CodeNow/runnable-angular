@@ -157,6 +157,11 @@ function logTerm(
       function initializeStream(reconnecting) {
         killCurrentStream();
         $scope.createStream();
+        // If we can't create a stream don't try again, let the user refresh to get it.
+        // We should have reported the error already.
+        if (!$scope.stream) {
+          return;
+        }
         $scope.connectStreams(terminal);
         showTerminalSpinner(reconnecting);
 
