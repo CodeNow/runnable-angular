@@ -17,7 +17,7 @@ var INTERCOM_APP_ID;
  * EventTracking
  * @class
  */
-function EventTracking (
+function EventTracking(
   $location,
   $log,
   $state,
@@ -38,11 +38,6 @@ function EventTracking (
   this._Intercom = $window.Intercom;
   this._user = null;
   this.$window = $window;
-
-
-  if ($stateParams.userName) {
-    this.orgName = $stateParams.userName;
-  }
 
   /**
    * Extend per-event data with specific properties
@@ -112,7 +107,8 @@ function EventTracking (
  * @param {Object} user - User Model instance
  * @return this
  */
-EventTracking.prototype.boot = function (user) {
+EventTracking.prototype.boot = function (user, opts) {
+  opts = opts || {};
   if (this._user) { return this; }
   if (!(user instanceof User)) {
     throw new Error('arguments[0] must be instance of User');
@@ -135,10 +131,10 @@ EventTracking.prototype.boot = function (user) {
     created_at: new Date(user.attrs.created) / 1000 || 0,
     app_id: INTERCOM_APP_ID
   };
-  if (this.orgName) {
+  if (opts.orgName) {
     data.company = {
-      id: this.orgName,
-      name: this.orgName
+      id: opts.orgName,
+      name: opts.orgName
     };
   }
 
