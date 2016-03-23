@@ -13,9 +13,7 @@ require('app')
  * @returns {Function}
  */
 function updateInstanceWithNewBuild(
-  $state,
   keypather,
-  $q,
   eventTracking,
   promisify
 ) {
@@ -46,12 +44,8 @@ function updateInstanceWithNewBuild(
  * @returns {Function}
  */
 function updateInstanceWithNewAcvData(
-  $state,
-  $q,
   errs,
   eventTracking,
-  hasKeypaths,
-  keypather,
   promisify,
   updateInstanceWithNewBuild
 ) {
@@ -73,6 +67,9 @@ function updateInstanceWithNewAcvData(
             var mainAcv = contextVersion.appCodeVersions.models.find(function (newAcv) {
               return newAcv.attrs.branch === acv.attrs.branch && newAcv.attrs.commit === acv.attrs.commit;
             });
+            if (!mainAcv) {
+              throw new Error('Unable to find main app code version.');
+            }
             return promisify(mainAcv, 'update')({
               branch: repoObject.branch.attrs.name,
               commit: repoObject.commit.attrs.sha,
