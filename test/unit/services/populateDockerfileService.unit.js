@@ -21,6 +21,9 @@ describe('populateDockerfileService'.bold.underline.blue, function () {
     state = {
       ports: ['80', '8000'],
       packages: 'package 1',
+      opts: {
+        env: ['asdasd=22123', 'asd=1123']
+      },
       containerFiles: [
         {
           type: 'Main Repository',
@@ -41,6 +44,18 @@ describe('populateDockerfileService'.bold.underline.blue, function () {
     });
   });
 
+  it('should populate the whole list of envs', function () {
+    state.opts.env.push('aqsd=1231')
+    populateDockerfile(nodeSourceDockerfile, state, destDockerfile);
+    expect(destDockerfile.state.body).to.contain('ENV asdasd=22123 asd=1123 aqsd=1231');
+  });
+
+  it('should not put ENV in the dockerfile when the array is empty', function () {
+    state.opts.env = [];
+    populateDockerfile(nodeSourceDockerfile, state, destDockerfile);
+    expect(destDockerfile.state.body).to.not.contain('ENV');
+  });
+
   it('should populate a standard dockerfile', function () {
     populateDockerfile(nodeSourceDockerfile, state, destDockerfile);
 
@@ -48,6 +63,7 @@ describe('populateDockerfileService'.bold.underline.blue, function () {
 
     expect(destDockerfile.state.body).to.contain('FROM node:0.10.35');
     expect(destDockerfile.state.body).to.contain('EXPOSE 80 8000');
+    expect(destDockerfile.state.body).to.contain('ENV asdasd=22123 asd=1123');
     expect(destDockerfile.state.body).to.contain('package 1');
     expect(destDockerfile.state.body).to.contain('Main Repo');
     expect(destDockerfile.state.body).to.contain('WORKDIR /foo');

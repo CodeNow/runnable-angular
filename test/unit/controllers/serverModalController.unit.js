@@ -80,24 +80,8 @@ describe('serverModalController'.bold.underline.blue, function () {
       $provide.factory('actions', function () {
         return {
           close: sinon.stub(),
-          createAndBuild: sinon.stub(),
+          createAndBuild: sinon.stub()
         };
-      });
-      $provide.factory('OpenItems', function ($q) {
-        ctx.openItemsMock = function () {
-          this.models = [];
-          this.add = sinon.spy();
-          this.remove = sinon.spy();
-          this.isClean = sinon.spy(function () {
-            return !ctx.fileModels.length;
-          });
-          this.getAllFileModels = sinon.spy(function () {
-            return ctx.fileModels;
-          });
-          this.updateAllFiles = sinon.stub().returns($q.when(true));
-          this.removeAndReopen = sinon.stub();
-        };
-        return ctx.openItemsMock;
       });
       $provide.value('findLinkedServerVariables', sinon.spy());
       $provide.value('eventTracking', ctx.eventTracking);
@@ -216,17 +200,14 @@ describe('serverModalController'.bold.underline.blue, function () {
       $provide.factory('populateDockerfile', ctx.populateDockerfile.fetch());
       $provide.factory('loadingPromises', function ($q) {
         ctx.loadingPromiseMock = {
-          add: sinon.spy(function (namespace, promise) {
-            return promise;
-          }),
+          add: sinon.stub().returnsArg(1),
           clear: sinon.spy(),
           start: sinon.stub().returnsArg(1),
-          count: sinon.spy(function () {
-            return ctx.loadingPromiseFinishedValue;
-          }),
+          count: sinon.stub().returns(ctx.loadingPromiseFinishedValue),
           finished: sinon.spy(function () {
             return $q.when(ctx.loadingPromiseFinishedValue);
           })
+
         };
         return ctx.loadingPromiseMock;
       });
@@ -251,7 +232,6 @@ describe('serverModalController'.bold.underline.blue, function () {
     });
     $scope.$digest();
     $scope.stateModel = 'hello';
-    sinon.spy(loadingService, 'reset');
     keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.fakeOrg1);
 
     ctx.closePopoverSpy = sinon.spy();
@@ -263,6 +243,7 @@ describe('serverModalController'.bold.underline.blue, function () {
     SMC = $controller('ServerModalController', {
       $scope: $scope
     });
+    SMC.openItems = ctx.openItemsMock;
   }
 
   beforeEach(function () {
@@ -349,8 +330,123 @@ describe('serverModalController'.bold.underline.blue, function () {
       models: [ctx.newContextVersion]
     };
 
-    sinon.stub(ctx.build, 'build', function (opts, cb) {
-      return cb();
+    var OpenItemsMock = function () {
+      this.models = [];
+      this.add = sinon.spy();
+      this.remove = sinon.spy();
+      this.isClean = sinon.stub().returns(true);
+      this.getAllFileModels = sinon.spy(function () {
+        return ctx.fileModels;
+      });
+      this.updateAllFiles = sinon.stub().returns();
+      this.removeAndReopen = sinon.stub();
+    };
+    ctx.openItemsMock = new OpenItemsMock();
+  });
+  describe('isDirty', function () {
+    beforeEach(function () {
+      setup({
+        currentModel: ctx.instance,
+        selectedTab: 'env'
+      });
+    });
+
+    it('should not be dirty when it doesn\'t require redeploy or rebuild, and status is running', function () {
+      SMC.instance = ctx.instance;
+      sinon.stub(SMC, 'requiresRedeploy').returns(false);
+      sinon.stub(SMC, 'requiresRebuild').returns(false);
+      sinon.stub(SMC.instance, 'status').returns('running');
+      expect(SMC.isDirty()).to.equal(false);
+    });
+
+    describe('Changes', function () {
+      it('should be "update" when it requires a redeploy', function () {
+        SMC.instance = ctx.instance;
+        sinon.stub(SMC, 'requiresRedeploy').returns(true);
+        sinon.stub(SMC, 'requiresRebuild').returns(false);
+        sinon.stub(SMC.instance, 'status').returns('running');
+        expect(SMC.isDirty()).to.equal('update');
+      });
+
+      it('should be "update" when needs redeploy, but build when the instance.status is [building, buildFailed, neverStarted]', function () {
+        SMC.instance = ctx.instance;
+        sinon.stub(SMC, 'requiresRedeploy').returns(true);
+        sinon.stub(SMC, 'requiresRebuild').returns(false);
+        expect(SMC.isDirty()).to.equal('update');
+        sinon.stub(SMC.instance, 'status').returns('building');
+        expect(SMC.isDirty()).to.equal('build');
+        SMC.instance.status.returns('buildFailed');
+        expect(SMC.isDirty()).to.equal('build');
+        SMC.instance.status.returns('neverStarted');
+        expect(SMC.isDirty()).to.equal('build');
+        SMC.instance.status.returns('stopped');
+        expect(SMC.isDirty()).to.equal('update');
+      });
+
+      it('should be "build" when needs rebuild', function () {
+        sinon.stub(SMC, 'requiresRedeploy').returns(false);
+        sinon.stub(SMC, 'requiresRebuild').returns(true);
+        expect(SMC.isDirty()).to.equal('build');
+      });
+    });
+  });
+  describe('requiresRebuild', function () {
+    beforeEach(function () {
+      setup({
+        currentModel: ctx.instance,
+        selectedTab: 'env'
+      });
+
+      keypather.set(SMC, 'state.opts', {
+        env: [],
+        ipWhitelist: {
+          enabled: false
+        }
+      });
+    });
+
+    it('should require rebuild when a loading promises is added', function () {
+      expect(SMC.requiresRebuild()).to.equal(false);
+      ctx.loadingPromiseMock.count.returns(1);
+      $scope.$digest();
+      expect(SMC.requiresRebuild()).to.equal(true);
+    });
+
+    it('should require rebuild when a file is added', function () {
+      SMC.openItems.isClean.returns(true);
+      ctx.loadingPromiseMock.count.returns(0);
+      expect(SMC.requiresRebuild()).to.equal(false);
+      SMC.openItems.isClean.returns(false);
+      $scope.$digest();
+      expect(SMC.requiresRebuild()).to.equal(true);
+    });
+
+    it('should always be false when there is no instance', function () {
+      SMC.instance = null;
+      $scope.$digest();
+      expect(SMC.requiresRebuild(), 'requiresRebuild').to.be.false;
+    });
+
+    it('should be false when the instance is missing the env field', function () {
+      SMC.instance = {
+        attrs: {
+          ipWhitelist: {
+            enabled: false
+          }
+        }
+      };
+      $scope.$digest();
+      expect(SMC.requiresRebuild(), 'requiresRebuild').to.be.false;
+    });
+
+    it('should be true when the envs dont match ', function () {
+      SMC.instance = {
+        attrs: {
+          env: ['asdasd']
+        }
+      };
+      $scope.$digest();
+      expect(SMC.requiresRebuild(), 'requiresRebuild').to.be.true;
     });
   });
 
@@ -393,16 +489,6 @@ describe('serverModalController'.bold.underline.blue, function () {
       };
       $scope.$digest();
       expect(SMC.requiresRedeploy(), 'requiresRedeploy').to.be.false;
-    });
-
-    it('should be true when the envs dont match ', function () {
-      SMC.instance = {
-        attrs: {
-          env: ['asdasd']
-        }
-      };
-      $scope.$digest();
-      expect(SMC.requiresRedeploy(), 'requiresRedeploy').to.be.true;
     });
 
     it('should be true when the ipWhitelist doesnt match ', function () {

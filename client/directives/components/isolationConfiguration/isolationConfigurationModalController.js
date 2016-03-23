@@ -9,6 +9,7 @@ function IsolationConfigurationModalController(
   errs,
   promisify,
   $location,
+  keypather,
 
   instance,
   close
@@ -65,7 +66,7 @@ function IsolationConfigurationModalController(
   fetchInstancesByPod()
     .then(function (instances) {
       instances = instances.models.filter(function (instance) {
-        return instance.attrs.contextVersion.context !== ICMC.instance.attrs.contextVersion.context;
+        return keypather.get(instance, 'attrs.contextVersion.context') !== keypather.get(ICMC, 'instance.attrs.contextVersion.context');
       });
 
       ICMC.repoInstances = instances

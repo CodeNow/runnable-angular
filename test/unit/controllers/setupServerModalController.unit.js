@@ -314,7 +314,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
     expect(SMC.data.githubRepos.models[0]).to.have.property('isAdded');
   });
 
- describe('methods', function(){
+  describe('methods', function(){
     describe('fetchStackData', function () {
       it('should fetch stack data', function () {
 
@@ -690,78 +690,22 @@ describe('setupServerModalController'.bold.underline.blue, function () {
     });
   });
 
-  describe('isDirty', function () {
-
-    beforeEach(function () {
-      SMC.state.acv = acv;
-      SMC.state.branch = branch;
-      SMC.state.contextVersion = {};
-      SMC.actions.createAndBuild = sinon.stub().returns($q.when(newBuild));
-      SMC.actions.deleteServer = sinon.stub().returns($q.when(true));
-      SMC.instance = {
-        attrs: {
-          env: [],
-          ipWhitelist: {
-            enabled: false
-          }
-        },
-        status: function () {
-          return 'running';
-        }
-      };
-      createNewBuildMock.returns(newBuild);
-    });
-
-    it('should not be dirty until a change is made', function () {
-      expect(SMC.isDirty()).to.equal(false);
-      SMC.selectRepo(repo);
+  describe('Env change', function () {
+    it('should correctly update the dockerfile when the envs have changed ', function () {
       $scope.$digest();
-      expect(SMC.isDirty()).to.equal(false);
-      SMC.state.opts.env.push('HELLO=1');
-      expect(SMC.isDirty()).to.equal('update');
+      SMC.state.opts.env = ['asdasd=123'];
+      $scope.$digest();
+      sinon.assert.calledOnce(updateDockerfileFromStateStub);
+      sinon.assert.calledWith(
+        updateDockerfileFromStateStub,
+        SMC.state,
+        true,
+        true
+      );
+      updateDockerfileFromStateStub.reset();
+      SMC.state.opts.env = ['asdasd=123', 'asdasdas=1'];
+      $scope.$digest();
+      sinon.assert.calledOnce(updateDockerfileFromStateStub);
     });
-
-    describe('Changes', function () {
-
-      beforeEach(function () {
-        SMC.selectRepo(repo);
-      });
-
-      it('should be dirty when an ENV variables has changes', function () {
-        SMC.instance.status = function () {
-          return 'running';
-        };
-        expect(SMC.isDirty()).to.equal(false);
-        SMC.state.opts.env.push('HELLO=1');
-        expect(SMC.isDirty()).to.equal('update');
-      });
-
-      it('should be dirty when an ENV variables has changes, and the instance.status is building', function () {
-        expect(SMC.isDirty()).to.equal(false);
-        SMC.instance.status = function () {
-          return 'building';
-        };
-        SMC.state.opts.env.push('HELLO=1');
-        expect(SMC.isDirty()).to.equal('build');
-      });
-
-      it('should be dirty when a loading promises is added', function () {
-        expect(SMC.isDirty()).to.equal(false);
-        loadingPromises.count.returns(1);
-        $scope.$digest();
-        expect(SMC.isDirty()).to.equal('build');
-      });
-
-      it('should be dirty when a file is added', function () {
-        expect(SMC.isDirty()).to.equal(false);
-        SMC.openItems.add(fileModel);
-        fileModel.attrs.body = 'FROM nodejs\nCMD echo "1";';
-        $scope.$digest();
-        expect(SMC.isDirty()).to.equal('build');
-      });
-
-    });
-
   });
-
 });
