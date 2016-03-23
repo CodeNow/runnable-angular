@@ -44,7 +44,7 @@ function EventTracking (
     this.orgName = $stateParams.userName;
   }
 
-    /**
+  /**
    * Extend per-event data with specific properties
    * to be sent w/ all events
    * @param {Object} data - data for given event to be extended
