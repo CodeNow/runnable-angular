@@ -40,7 +40,7 @@
   position: absolute;
   transition: none;
   width: 400px;
-  z-index: 1; // TODO: variable-ize this
+  z-index: $z-popover; // default for popover
 
   // "more help" and "less help" buttons
   > .btn {
@@ -83,10 +83,11 @@
   left: $layout-navigation-width + 15px;
   position: absolute;
   right: 15px;
-  z-index: 1; // TODO: variable-ize this
+  z-index: $z-popover - 1;
 
   &.fixed {
     position: fixed;
+    z-index: $z-popover + 1;
 
     .help {
       box-shadow: 0 1px 3px rgba($blue,.25);
