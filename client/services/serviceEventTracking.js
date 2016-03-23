@@ -39,7 +39,12 @@ function EventTracking (
   this._user = null;
   this.$window = $window;
 
-  /**
+
+  if ($stateParams.userName) {
+    this.orgName = $stateParams.userName;
+  }
+
+    /**
    * Extend per-event data with specific properties
    * to be sent w/ all events
    * @param {Object} data - data for given event to be extended
@@ -127,9 +132,15 @@ EventTracking.prototype.boot = function (user) {
   var data = {
     name: user.oauthName(),
     email: user.attrs.email,
-    created_at: new Date(user.attrs.created) / 1000 | 0,
+    created_at: new Date(user.attrs.created) / 1000 || 0,
     app_id: INTERCOM_APP_ID
   };
+  if (this.orgName) {
+    data.company = {
+      id: this.orgName,
+      name: this.orgName
+    };
+  }
 
   // Mixpanel uses a string GUID to track anon users
   // If we're still tracking the user via GUID, we need to alias
