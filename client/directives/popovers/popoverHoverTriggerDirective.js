@@ -25,6 +25,9 @@ function popOverHoverTrigger(
       var boundaryValues = null;
 
       $scope.getPolygon = function () {
+        if (!POC.popoverElement) {
+          return;
+        }
         var popoverClientRect = POC.popoverElement[0].getBoundingClientRect();
         var elementClientRect = element[0].getBoundingClientRect();
 
