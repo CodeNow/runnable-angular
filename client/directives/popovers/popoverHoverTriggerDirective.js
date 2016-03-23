@@ -98,6 +98,9 @@ function popOverHoverTrigger(
         if (!boundaryValues) {
           boundaryValues = $scope.getPolygon();
         }
+        if (!boundaryValues) {
+          return false;
+        }
         return pointInPolygon([e.clientX, e.clientY], boundaryValues);
       }
 
