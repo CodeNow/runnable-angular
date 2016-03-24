@@ -187,10 +187,22 @@
           ) Reset
         .popover-content.fade.list.popover-list(
           ng-class = "{'in': isActivePanel()}"
-          style = "max-height: calc(100vh - 81px); overflow-y: auto;"
+          style = "height: calc(100vh - 81px); overflow-y: auto;"
         )
+          .list-item(
+            style = "padding: 9px;"
+          )
+            input.input.input-xs.input-search(
+              ng-model = "searchText"
+              ng-model-option = "{updateOn: 'change'}"
+              placeholder = "Search"
+              required
+              style = "background-position: 6px center !important; padding-left: 24px !important;"
+              type = "search"
+            )
           label.list-item.popover-list-item.text-overflow(
             ng-repeat = "(flag, value) in $root.featureFlags"
+            ng-show = "!searchText || flag.indexOf(searchText) > -1"
             style = "border-top: 1px solid #f0f0f0; color: $gray-dark; display: block; padding: 0 39px 0 15px;"
           ) {{flag}}
             .toggle-wrapper(
