@@ -40,7 +40,7 @@
   position: absolute;
   transition: none;
   width: 400px;
-  z-index: 1; // TODO: variable-ize this
+  z-index: $z-popover; // default for popover
 
   // "more help" and "less help" buttons
   > .btn {
@@ -83,10 +83,11 @@
   left: $layout-navigation-width + 15px;
   position: absolute;
   right: 15px;
-  z-index: 1; // TODO: variable-ize this
+  z-index: $z-popover - 1;
 
   &.fixed {
     position: fixed;
+    z-index: $z-popover + 1;
 
     .help {
       box-shadow: 0 1px 3px rgba($blue,.25);
@@ -116,7 +117,8 @@
     box-shadow: none;
     display: table;
     margin: 0 auto;
-    padding: 6px 24px;
+    padding: 6px 24px 6px 36px;
+    position: relative;
     text-align: center;
 
     // anchor icon
@@ -125,6 +127,36 @@
       margin-right: 3px;
     }
   }
+
+  // close button
+  .btn {
+    left: 6px;
+    opacity: .5;
+    position: absolute;
+    top: 6px;
+    width: $input-xs;
+
+    &:hover {
+      color: $red;
+      opacity: 1;
+    }
+
+    &:active {
+      color: $red-dark;
+      opacity: 1;
+    }
+
+    .iconnables {
+      height: 100%;
+      margin-right: 0;
+      width: 100%;
+    }
+  }
+}
+
+// hide the initial help alert when a modal is open
+.modal-open .environment-wrapper .help-container {
+  visibility: hidden;
 }
 
 .triggered-help-item {
@@ -135,6 +167,11 @@
   padding: 15px 15px 15px 39px;
   position: relative;
 
+  .p {
+    line-height: 1.4;
+    padding: 2px 0;
+  }
+
   // "x" button for triggered help items
   .btn-icon {
     height: 24px;
@@ -142,7 +179,7 @@
     opacity: .5;
     padding: 0;
     position: absolute;
-    top: 12px;
+    top: 15px;
     width: 24px;
 
     &:hover {

@@ -1,9 +1,17 @@
 .help-container(
   ng-if = "SMC.helpCards.getActiveCard().helpPopover.containerFiles"
 )
-  .help(
-    ng-bind-html = "SMC.helpCards.getActiveCard().helpPopover.containerFiles"
-  )
+  .help
+    button.btn.btn-xs.btn-icon(
+      ng-click = "SMC.helpCards.hideActiveCard()"
+    )
+      svg.iconnables.icons-close
+        use(
+          xlink:href = "#icons-close"
+        )
+    span(
+      ng-bind-html = "SMC.helpCards.getActiveCard().helpPopover.containerFiles"
+    )
 
 .table-actions.table-toggle
   svg.iconnables.float-left
