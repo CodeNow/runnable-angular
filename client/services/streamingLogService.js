@@ -113,7 +113,7 @@ function streamingLog(
               } else if (/^\s---> [a-z0-9]{12}/.test(data.content)) {
                 currentCommand.imageId = /^\s---> ([a-z0-9]{12})/.exec(data.content)[1];
               } else if (data.type === 'error') {
-                // Only include error logs if there's no previous message for this command
+                // Only include error logs if there's no previous log for this command
                 if (!currentCommand.hasContent) {
                   currentCommand.hasContent = true;
                   currentCommand.unprocessedContent.push(clc.red(data.content));
