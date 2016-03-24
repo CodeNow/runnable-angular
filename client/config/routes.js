@@ -102,23 +102,19 @@ module.exports = [
     controller: 'ControllerApp',
     controllerAs: 'CA',
     resolve: {
-      user: function (eventTracking, fetchUser, manuallyWhitelistedUsers, $stateParams) {
+      user: function (fetchUser, manuallyWhitelistedUsers) {
         var userFetch = fetchUser()
           .then(function (user) {
             var userName = user.oauthName().toLowerCase();
             user.isManuallyWhitelisted = manuallyWhitelistedUsers.includes(userName);
             return user;
           });
-        userFetch
-          .then(function (user) {
-            eventTracking.boot(user, {orgName: $stateParams.userName});
-          });
         return userFetch;
       },
       orgs: function (fetchWhitelistedOrgs) {
         return fetchWhitelistedOrgs();
       },
-      activeAccount: function ($q, $stateParams, $state, orgs, $timeout, user, manuallyWhitelistedUsers) {
+      activeAccount: function ($q, $stateParams, $state, orgs, $timeout, user, eventTracking) {
         var lowerAccountName = $stateParams.userName.toLowerCase();
         var userName = user.oauthName().toLowerCase();
         if (userName === lowerAccountName) {
@@ -137,6 +133,7 @@ module.exports = [
             return $q.reject(new Error('User Unauthorized for Organization'));
           });
         }
+        eventTracking.boot(user, {orgName: $stateParams.userName});
         return matchedOrg;
       }
     }
