@@ -11,7 +11,6 @@ function fetchSourceContexts(
     if (!sourceContextsPromise) {
       sourceContextsPromise = fetchContexts({ isSource: true })
         .then(function (contexts) {
-          sourceContextsPromise = contexts;
           return contexts;
         });
     }
