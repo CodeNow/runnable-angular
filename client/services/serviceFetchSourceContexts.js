@@ -4,19 +4,17 @@ require('app')
   .factory('fetchSourceContexts', fetchSourceContexts);
 
 function fetchSourceContexts(
-  $q,
   fetchContexts
 ) {
-  var sourceContexts;
+  var sourceContextsPromise;
   return function () {
-    if (sourceContexts) {
-      return $q.when(sourceContexts);
+    if (!sourceContextsPromise) {
+      sourceContextsPromise = fetchContexts({ isSource: true })
+        .then(function (contexts) {
+          sourceContextsPromise = contexts;
+          return contexts;
+        });
     }
-
-    return fetchContexts({ isSource: true })
-      .then(function (contexts) {
-        sourceContexts = contexts;
-        return contexts;
-      });
+    return sourceContextsPromise;
   };
 }
