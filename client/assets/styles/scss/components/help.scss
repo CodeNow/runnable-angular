@@ -107,10 +107,8 @@
   }
 
   .modal-form & {
-    left: auto;
     margin-bottom: 15px;
-    position: relative;
-    right: auto;
+    position: static;
   }
 
   .help {
