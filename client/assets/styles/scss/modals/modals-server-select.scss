@@ -1,5 +1,49 @@
 .modal-server-select {
 
+  &.modal-lg {
+    max-width: 630px; // custom size for tabs
+  }
+
+  // header buttons
+  .modal-header {
+    align-items: center;
+    flex: 0 0 90px;
+
+    .btn {
+      align-items: center;
+      border: $input-border solid transparent;
+      display: flex;
+      font-size: 15px;
+      height: 60px;
+      line-height: 1.2;
+      padding: 0 21px;
+
+      &:hover {
+        border-color: $gray-lighter;
+      }
+
+      &:active,
+      &.active {
+        border-color: currentColor;
+        color: $purple;
+      }
+
+      + .btn {
+        margin-left: 15px;
+      }
+
+      .iconnables {
+        height: 100%;
+        margin-right: 9px;
+      }
+
+      .small {
+        display: block;
+        opacity: .5;
+      }
+    }
+  }
+
   // search
   .input-search {
     background-position: 57px center;

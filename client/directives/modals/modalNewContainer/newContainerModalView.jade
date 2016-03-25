@@ -1,7 +1,19 @@
 .modal-backdrop.in
-  .modal-dialog.modal-sm.modal-server-select
-    header.modal-header
-      h1.modal-heading New Container
+  .modal-dialog.modal-lg.modal-server-select
+    header.modal-header.grid-block.align-center
+      button.grid-block.shrink.btn.active
+        svg.iconnables.icons-repository.grid-block.shrink
+          use(
+            xlink:href = "#icons-new-repository-server"
+          )
+        .btn-text.grid-block Create from a repository
+      button.grid-block.shrink.btn
+        svg.iconnables.icons-template.grid-block.shrink
+          use(
+            xlink:href = "#icons-server-new"
+          )
+        .btn-text.grid-block.vertical.text-left Create from a template
+          small.small For services and databases
       svg.iconnables.icons-close(
         ng-click = "NCMC.close()"
       )
