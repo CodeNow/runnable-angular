@@ -1,6 +1,7 @@
 'use strict';
 
 var Convert = require('ansi-to-html');
+var clc = require('cli-color');
 var convert = new Convert({
   escapeXML: true
 });
@@ -111,6 +112,12 @@ function streamingLog(
                 currentCommand.cached = true;
               } else if (/^\s---> [a-z0-9]{12}/.test(data.content)) {
                 currentCommand.imageId = /^\s---> ([a-z0-9]{12})/.exec(data.content)[1];
+              } else if (data.type === 'error') {
+                // Only include error logs if there's no previous log for this command
+                if (!currentCommand.hasContent) {
+                  currentCommand.hasContent = true;
+                  currentCommand.unprocessedContent.push(clc.red(data.content));
+                }
               } else {
                 currentCommand.hasContent = true;
                 currentCommand.unprocessedContent.push(data.content);
