@@ -1,17 +1,18 @@
 .modal-server-select {
 
   &.modal-lg {
-    max-width: 630px; // custom size for tabs
+    max-width: 600px; // custom size for tabs
   }
 
   // header buttons
   .modal-header {
     align-items: center;
-    flex: 0 0 90px;
+    flex: 0 0 120px;
 
     .btn {
       align-items: center;
       border: $input-border solid transparent;
+      border-radius: $input-border-radius-lg;
       display: flex;
       font-size: 15px;
       height: 60px;
@@ -44,68 +45,74 @@
     }
   }
 
-  // search
-  .input-search {
-    background-position: 57px center;
-    line-height: 23px;
-    margin-bottom: 15px;
-    padding-left: 73px;
-    width: 210px;
+  // sort and search
+  .list-header {
+    align-items: center;
+    padding: 0 15px 15px;
 
-    &:focus,
-    &:valid {
-      background-position: 8px center;
+    // sort
+    .small {
+      color: $gray-light;
+    }
+
+    // search
+    .input-search {
+      margin: 0;
+      width: 150px;
     }
   }
 
   //- empty state (if there are no repositories)
-  .p.empty {
-    margin-top: 30px;
+  .well {
+    background: $gray-lightest;
+    border-width: 1px;
+    margin: 0;
   }
 
-  // select type of container
-  .btn-huge {
-    color: $gray;
-    float: left;
-    font-size: 16px;
-    height: 210px;
-    line-height: 1.4;
-    margin: 4% 2% 2%;
-    white-space: normal;
-    width: 46%;
+  .list-servers {
 
-    &:last-child {
-      background: url(/build/images/other-containers.png) no-repeat center center $white;
-      background-size: cover;
+    // add button
+    .btn-icon {
+      border-radius: $input-border-radius;
+      padding: 3px;
+      right: 10px;
+      top: 10px; // to center
+      width: $input-sm;
     }
 
-    .iconnables {
-      display: block;
-      margin: 0 auto;
+    .icons-dockerfile,
+    .icons-server {
+      height: 14px;
+      margin-left: 6px;
+      pointer-events: auto;
+      top: 2px;
+      width: 14px;
+    }
+  }
+
+  .list-item {
+
+    &:active .btn-icon {
+      @extend %green;
+      color: $white;
     }
 
-    .small {
-      display: block;
+    .spinner-wrapper {
+      right: 21px;
     }
   }
 }
 
 // repository/template list
 .list-servers {
-  max-width: 540px;
-
-  @include media(sm) {
-    max-width: none;
-  }
 
   > .list-item {
     border: $input-border solid transparent;
-    border-radius: $input-border-radius;
+    border-radius: $input-border-radius-lg;
     cursor: pointer;
     font-size: 18px;
     font-weight: $weight-bold;
-    margin: 3px 0 0;
-    padding: 6px 130px 6px 15px;
+    padding: 6px 60px 6px 15px;
     white-space: nowrap; // reset .multi-line default
 
     &:hover:not(.disabled) {
@@ -140,6 +147,10 @@
         min-height: 60px;
       }
     }
+
+    + .list-item {
+      margin-top: 3px;
+    }
   }
 
   .row-author > .small:not(.monospace) {
@@ -150,19 +161,6 @@
   // empty state
   .empty {
     word-break: break-all;
-  }
-
-  // add button
-  .btn-xs {
-    font-size: 14px;
-    line-height: 1;
-    right: 9px;
-    top: 15px;
-    width: 110px;
-
-    &.disabled {
-      opacity: .3;
-    }
   }
 
   // next arrow
