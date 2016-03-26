@@ -91,6 +91,16 @@
   }
 
   .list-item {
+    height: 60px;
+
+    // template list
+    &.grid-block {
+      align-items: center;
+
+      .img {
+        margin-right: 15px;
+      }
+    }
 
     &:active .btn-icon {
       @extend %green;

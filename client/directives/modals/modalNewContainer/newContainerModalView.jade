@@ -1,13 +1,21 @@
 .modal-backdrop.in
   .modal-dialog.modal-lg.modal-server-select
-    header.modal-header.grid-block.align-center
-      button.grid-block.shrink.btn.active
+    header.modal-header.grid-block.align-center(
+      ng-init = "state.addRepoTab = true"
+    )
+      button.grid-block.shrink.btn(
+        ng-class = "{'active': state.addRepoTab}"
+        ng-click = "state.addRepoTab = true"
+      )
         svg.iconnables.icons-repository.grid-block.shrink
           use(
             xlink:href = "#icons-new-repository-server"
           )
         .btn-text.grid-block Create from a repository
-      button.grid-block.shrink.btn
+      button.grid-block.shrink.btn(
+        ng-class = "{'active': !state.addRepoTab}"
+        ng-click = "state.addRepoTab = false"
+      )
         svg.iconnables.icons-template.grid-block.shrink
           use(
             xlink:href = "#icons-server-new"
@@ -28,7 +36,7 @@
 
       //- hide this when loading
       .grid-block.align-justify.list-header
-        small.small By last updated
+        small.small {{state.addRepoTab ? 'By last updated' : ''}}
 
         //- search
           - disable while loading
@@ -53,8 +61,10 @@
           | .
 
 
-      //- list of repositories
-      ul.list.list-servers
+      //- list of repositories (mock up, we already have a template for this)
+      ul.list.list-servers(
+        ng-if = "state.addRepoTab"
+      )
         //- li.p.empty(
         //-   ng-if = "!noResults.length"
         //- ) We couldn’t find any repositories named
@@ -148,3 +158,48 @@
           //- .spinner-wrapper.spinner-sm.spinner-green.in(
           //-   ng-include = "'spinner'"
           //- )
+
+      //- list of templates (mock up, we already have a template for this)
+      ul.list.list-servers(
+        ng-if = "!state.addRepoTab"
+      )
+        //- ng-class = "{'btn-hint': dependency.attrs.lowerName === STMC.helpCard.data.dependency}"
+        li.list-item.grid-block(
+        )
+          img.img(
+            height = "36"
+            ng-src = "/build/images/logos/logo-icon-cassandra.png"
+            width = "36"
+          )
+          | Cassandra
+          button.btn.btn-sm.btn-icon
+            svg.iconnables.icons-add
+              use(
+                xlink:href = "#icons-add"
+              )
+        li.list-item.grid-block(
+        )
+          img.img(
+            height = "36"
+            ng-src = "/build/images/logos/logo-icon-consul-server.png"
+            width = "36"
+          )
+          | Consul-Server
+          button.btn.btn-sm.btn-icon
+            svg.iconnables.icons-add
+              use(
+                xlink:href = "#icons-add"
+              )
+        li.list-item.grid-block(
+        )
+          img.img(
+            height = "36"
+            ng-src = "/build/images/logos/logo-icon-elasticsearch.png"
+            width = "36"
+          )
+          | ElasticSearch
+          button.btn.btn-sm.btn-icon
+            svg.iconnables.icons-add
+              use(
+                xlink:href = "#icons-add"
+              )
