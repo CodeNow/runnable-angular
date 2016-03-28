@@ -47,7 +47,14 @@
       )
     .grid-content
       div Dockerfile Syncing
-      small.small Syncing: reponame/path/to/dockerfile
+      small.small
+        //- icon and text for errors
+        //- svg.iconnables.icons-alert-alt.float-left
+          use(
+            xlink:href = "#icons-alert-alt"
+          )
+        //- | Error: File not found
+        | Syncing: reponame/path/to/dockerfile
         button.btn.btn-xxs.gray(
           internal-modal-helper = "viewModalSync"
         ) Change…
