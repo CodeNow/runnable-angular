@@ -1,3 +1,80 @@
 //- .spinner-wrapper.spinner-md.in(
 //-   ng-include = "'spinner'"
 //- )
+
+.grid-content.list.list-bordered
+  label.grid-block.list-item(
+    ng-class = "{'active': dockerfile.selection === 'ansible/docker-files/base/Dockerfile'}"
+  )
+    svg.grid-content.shrink.iconnables.icons-dockerfile
+      use(
+        xlink:href = "#icons-dockerfile"
+      )
+    .grid-content
+      .text-left.text-overflow(
+        title = "ansible/docker-files/base/Dockerfile"
+      ) ansible/docker-files/base/Dockerfile
+      a.small.link(
+        href = "#"
+        target = "_blank"
+      ) View on Github
+    //- if there is only one, [check] by default
+    input.checkbox(
+      name = "dockerfile"
+      ng-model = "dockerfile.selection"
+      type = "radio"
+      value = "ansible/docker-files/base/Dockerfile"
+    )
+    button.btn.btn-xs.btn-icon
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )
+  label.list-item.grid-block(
+    ng-class = "{'active': dockerfile.selection === 'ansible/docker-files/main/Dockerfile'}"
+  )
+    svg.grid-content.shrink.iconnables.icons-dockerfile
+      use(
+        xlink:href = "#icons-dockerfile"
+      )
+    .grid-content
+      .text-left.text-overflow(
+        title = "ansible/docker-files/main/Dockerfile"
+      ) ansible/docker-files/main/Dockerfile
+      a.small.link(
+        href = "#"
+        target = "_blank"
+      ) View on Github
+    input.checkbox(
+      name = "dockerfile"
+      ng-model = "dockerfile.selection"
+      type = "radio"
+      value = "ansible/docker-files/main/Dockerfile"
+    )
+    button.btn.btn-xs.btn-icon
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )
+
+.grid-content.list.list-bordered
+  label.grid-block.list-item(
+    ng-class = "{'active': dockerfile.selection === '0'}"
+  )
+    svg.grid-content.shrink.iconnables.icons-dockerfile
+      use(
+        xlink:href = "#icons-file-new"
+      )
+    .grid-content Create a new Dockerfile
+    //- if there is only one, [check] by default
+    input.checkbox(
+      name = "dockerfile"
+      ng-model = "dockerfile.selection"
+      type = "radio"
+      value = "0"
+    )
+    button.btn.btn-xs.btn-icon
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )

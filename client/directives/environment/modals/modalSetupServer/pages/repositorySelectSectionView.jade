@@ -46,7 +46,6 @@ section.modal-body.clearfix(
     ng-if = "SMC.data.githubRepos.models && SMC.data.githubRepos.models.length"
   )
     li.p.empty(
-      ng-click = "goToPanel('dockerfileImport')"
       ng-if = "!noResults.length"
     ) We couldn’t find any repositories named
       br
@@ -154,7 +153,9 @@ ul.list.list-servers(
   //- ) We couldn’t find any repositories named
   //-   br
   //-   | ‘{{SMC.data.repoFilter}}’.
-  li.list-item.multi-line.text-overflow runnable-api
+  li.list-item.multi-line.text-overflow(
+    ng-click = "goToPanel('dockerfileImport')"
+  ) runnable-api
     .row.row-author(
       ng-if = "$root.featureFlags.inviteFlows"
     )
@@ -179,7 +180,9 @@ ul.list.list-servers(
           xlink:href = "#icons-add"
         )
 
-  li.list-item.multi-line.text-overflow runnable-angular
+  li.list-item.multi-line.text-overflow(
+    ng-click = "goToPanel('dockerfileImport')"
+  ) runnable-angular
     .row.row-author(
       ng-if = "$root.featureFlags.inviteFlows"
     )

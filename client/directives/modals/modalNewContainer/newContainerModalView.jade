@@ -92,6 +92,12 @@
       name = "dockerfileImport"
     )
       header.modal-header
+        svg.iconnables.icons-arrow-backward(
+          ng-click = "goToPanel('containerSelection', 'back')"
+        )
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
         h1.modal-heading Import Dockerfile
         svg.iconnables.icons-close(
           ng-click = "NCMC.close()"
@@ -100,9 +106,19 @@
             xlink:href = "#icons-close"
           )
 
-      .modal-body(
+      .grid-block.vertical.modal-body(
+        ng-init = "dockerfile.selection = null"
         ng-include = "'dockerfileImportView'"
       )
+
+      .modal-footer.clearfix
+        button.btn.btn-md.white.float-left(
+          ng-click = "NCMC.close()"
+        ) Cancel
+        button.btn.btn-md.green.float-right(
+          ng-disabled = "!dockerfile.selection"
+        ) Next Step{{dockerfile.selection === '0' ? ': Create' : ': Review'}}
+
   //-
   //- end $root.featureFlags.dockerfileImport
   //-

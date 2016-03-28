@@ -134,23 +134,39 @@
   }
 }
 
-// close
+// back and close
 .modal-header > .icons-close,
-.modal-body > .icons-close {
+.modal-body > .icons-close,
+.modal-header > .icons-arrow-backward {
   color: $gray-light;
   cursor: pointer;
   pointer-events: auto; // reset from .iconnables
   position: absolute;
-  right: 15px;
   top: 18px;
   z-index: 2; // fix overlap with container-title-wrapper
 
-  &:hover {
-    color: $red;
+  &.icons-arrow-backward {
+    left: 15px;
+
+    &:hover {
+      color: $gray;
+    }
+
+    &:active {
+      color: $purple-light;
+    }
   }
 
-  &:active {
-    color: $red-dark;
+  &.icons-close {
+    right: 15px;
+
+    &:hover {
+      color: $red;
+    }
+
+    &:active {
+      color: $red-dark;
+    }
   }
 }
 
