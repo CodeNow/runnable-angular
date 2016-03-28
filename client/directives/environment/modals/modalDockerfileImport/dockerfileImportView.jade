@@ -57,7 +57,9 @@
           xlink:href = "#icons-check"
         )
 
-.grid-content.list.list-bordered
+.grid-content.list.list-bordered(
+  ng-if = "!fromTool"
+)
   label.grid-block.list-item(
     ng-class = "{'active': dockerfile.selection === '0'}"
   )

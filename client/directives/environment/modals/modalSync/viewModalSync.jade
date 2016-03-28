@@ -1,0 +1,20 @@
+.popover-overlay
+  .popover.popover-fixed.in.modal-import-dockerfile(
+    ng-class = "{'in': active}"
+  )
+    .popover-header Sync Dockerfile
+      svg.iconnables.icons-close
+        use(
+          xlink:href = "#icons-close"
+        )
+
+    .grid-block.vertical.modal-body(
+      ng-init = "dockerfile.selection = null"
+      ng-include = "'dockerfileImportView'"
+      onload = "fromTool = true"
+    )
+    footer.modal-footer.clearfix
+      button.btn.btn-md.white.float-left Cancel
+      button.btn.btn-md.green.float-right(
+        ng-disabled = "!dockerfile.selection"
+      ) Sync

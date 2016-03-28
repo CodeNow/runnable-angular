@@ -38,7 +38,9 @@
       state = "SMC.state"
     )
 
-  .grid-block
+  .grid-block(
+    ng-if = "$root.featureFlags.dockerfileSync"
+  )
     svg.grid-content.shrink.iconnables.icons-dockerfile
       use(
         xlink:href = "#icons-dockerfile"
@@ -46,6 +48,9 @@
     .grid-content
       div Dockerfile Syncing
       small.small Syncing: reponame/path/to/dockerfile
+        button.btn.btn-xxs.gray(
+          internal-modal-helper = "viewModalSync"
+        ) Change…
     label.toggle-wrapper
       input.toggle-input(
         type = "checkbox"

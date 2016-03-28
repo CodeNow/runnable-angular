@@ -208,35 +208,39 @@
 
   // show 1 tab
   &.tabs-1 {
-    max-width: $tab-width + 12px; // tab width + padding
+    max-width: $tab-width + 30px; // tab width + padding
   }
 
   &.tabs-2 {
-    max-width: ($tab-width * 2) + 12px + ($tab-margin * 1);
+    max-width: ($tab-width * 2) + 30px + ($tab-margin * 1);
   }
 
   &.tabs-3 {
-    max-width: ($tab-width * 3) + 12px + ($tab-margin * 2);
+    max-width: ($tab-width * 3) + 30px + ($tab-margin * 2);
   }
 
   &.tabs-4 {
-    max-width: ($tab-width * 4) + 12px + ($tab-margin * 3);
+    max-width: ($tab-width * 4) + 30px + ($tab-margin * 3);
   }
 
   &.tabs-5 {
-    max-width: ($tab-width * 5) + 12px + ($tab-margin * 4);
+    max-width: ($tab-width * 5) + 30px + ($tab-margin * 4);
   }
 
   &.tabs-6 {
-    max-width: ($tab-width * 6) + 12px + ($tab-margin * 5);
+    max-width: ($tab-width * 6) + 30px + ($tab-margin * 5);
   }
 
   &.tabs-7 {
-    max-width: ($tab-width * 7) + 12px + ($tab-margin * 6);
+    max-width: ($tab-width * 7) + 30px + ($tab-margin * 6);
   }
 
   &.tabs-8 {
-    max-width: ($tab-width * 8) + 12px;
+    max-width: ($tab-width * 8) + 30px + ($tab-margin * 7);
+  }
+
+  &.tabs-9 {
+    max-width: ($tab-width * 9) + 30px + ($tab-margin * 8);
   }
 
   &.tabs-all {
