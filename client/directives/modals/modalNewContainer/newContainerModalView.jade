@@ -27,7 +27,7 @@
           small.small Create a container for a repository on Github
         button.btn.btn-huge.white(
           ng-click = "NCMC.newTemplateContainer()"
-          ng-class = "{ 'btn-hint': NCMC.servicesActive }"
+          ng-class = "{'btn-hint': NCMC.servicesActive}"
         )
           svg.iconnables
             use(
@@ -62,7 +62,10 @@
             )
           .btn-text.grid-block Create from a repository
         button.grid-block.shrink.btn(
-          ng-class = "{'active': !state.addRepoTab}"
+          ng-class = "{\
+            'active': !state.addRepoTab,\
+            'btn-hint': NCMC.servicesActive\
+          }"
           ng-click = "state.addRepoTab = false"
         )
           svg.iconnables.icons-template.grid-block.shrink

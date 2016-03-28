@@ -65,7 +65,8 @@ ul.list.list-servers(
   ng-if = "!state.addRepoTab && $root.featureFlags.dockerfileImport"
 )
   //- ng-class = "{'btn-hint': dependency.attrs.lowerName === STMC.helpCard.data.dependency}"
-  li.list-item.grid-block
+  li.list-item.grid-block(
+  )
     img.img(
       height = "36"
       ng-src = "/build/images/logos/logo-icon-cassandra.png"
@@ -77,7 +78,9 @@ ul.list.list-servers(
         use(
           xlink:href = "#icons-add"
         )
-  li.list-item.grid-block
+  //- ng-class = "{'btn-hint': dependency.attrs.lowerName === STMC.helpCard.data.dependency}"
+  li.list-item.grid-block(
+  )
     img.img(
       height = "36"
       ng-src = "/build/images/logos/logo-icon-consul-server.png"
@@ -89,7 +92,9 @@ ul.list.list-servers(
         use(
           xlink:href = "#icons-add"
         )
-  li.list-item.grid-block
+  //- ng-class = "{'btn-hint': dependency.attrs.lowerName === STMC.helpCard.data.dependency}"
+  li.list-item.grid-block(
+  )
     img.img(
       height = "36"
       ng-src = "/build/images/logos/logo-icon-elasticsearch.png"

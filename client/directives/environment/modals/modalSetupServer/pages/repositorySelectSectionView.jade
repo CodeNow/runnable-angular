@@ -143,7 +143,6 @@ footer.modal-footer.clearfix(
     ) let us know
     | .
 
-
 //- list of repositories (mock up, we already have a template for this)
 ul.list.list-servers(
   ng-if = "state.addRepoTab && $root.featureFlags.dockerfileImport"
@@ -153,9 +152,7 @@ ul.list.list-servers(
   //- ) We couldn’t find any repositories named
   //-   br
   //-   | ‘{{SMC.data.repoFilter}}’.
-  li.list-item.multi-line.text-overflow(
-    ng-click = "goToPanel('dockerfileImport')"
-  ) runnable-api
+  li.list-item.multi-line.text-overflow runnable-api
     .row.row-author(
       ng-if = "$root.featureFlags.inviteFlows"
     )
