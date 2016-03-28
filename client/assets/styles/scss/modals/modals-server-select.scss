@@ -1,8 +1,5 @@
 .modal-server-select {
-
-  &.modal-lg {
-    max-width: 600px; // custom size for tabs
-  }
+  width: 600px; // must set for animated panel
 
   // header buttons
   .modal-header {
