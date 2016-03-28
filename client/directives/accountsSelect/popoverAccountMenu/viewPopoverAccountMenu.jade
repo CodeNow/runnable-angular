@@ -209,8 +209,8 @@
               style = "position: absolute; right: 15px; top: 11px;"
             )
               input.toggle-input(
-                ng-model = "$root.featureFlags[flag]"
                 ng-change = "FFC.$localStorage.featureFlags[flag] = $root.featureFlags[flag]"
+                ng-model = "$root.featureFlags[flag]"
                 type = "checkbox"
               )
               .toggle-group.toggle-xs

@@ -1,4 +1,3 @@
-
 .modal-backdrop.in
   //-
   //- start !$root.featureFlags.dockerfileImport
@@ -48,7 +47,7 @@
   )
     animated-panel.grid-block.vertical.modal-server-select(
       default = "true"
-      name = "container-selection"
+      name = "containerSelection"
     )
       header.modal-header.grid-block.align-center(
         ng-init = "state.addRepoTab = true"
@@ -89,10 +88,21 @@
         ng-include = "'setupTemplateModalView'"
       )
 
-      //- animated-panel.grid-block.vertical
-      //-   div(
-      //-     ng-include = ""
-      //-   )
+    animated-panel.grid-block.vertical.modal-import-dockerfile(
+      name = "dockerfileImport"
+    )
+      header.modal-header
+        h1.modal-heading Import Dockerfile
+        svg.iconnables.icons-close(
+          ng-click = "NCMC.close()"
+        )
+          use(
+            xlink:href = "#icons-close"
+          )
+
+      .modal-body(
+        ng-include = "'dockerfileImportView'"
+      )
   //-
   //- end $root.featureFlags.dockerfileImport
   //-

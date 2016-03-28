@@ -89,6 +89,7 @@
 
   .list-item {
     height: 60px;
+    overflow: hidden;
 
     // template list
     &.grid-block {
