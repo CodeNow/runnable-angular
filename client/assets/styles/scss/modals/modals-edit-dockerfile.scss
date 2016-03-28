@@ -1,0 +1,29 @@
+.modal-dockerfile {
+
+  > .well {
+    margin: 0 0 15px;
+    padding: 3px 0;
+
+    > .grid-block {
+      align-items: center;
+      color: $gray-dark;
+      height: $input-lg;
+      margin: 0 9px;
+      padding: 0 9px;
+
+      + .grid-block {
+        border-top: 1px solid $gray-lighter;
+      }
+    }
+
+    // text
+    .grid-content {
+      line-height: 1;
+    }
+
+    // small text
+    .small {
+      color: $gray;
+    }
+  }
+}

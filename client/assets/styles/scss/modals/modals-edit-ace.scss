@@ -244,6 +244,7 @@
 .ace-build-files {
   background: $white;
   border-radius: $input-border-radius;
+  min-height: 50vh;
 
   // override sidebar
   .sidebar {
@@ -256,7 +257,7 @@
   }
 
   .sidebar-actions {
-    background: #f0f0f0;
+    background: $gray-lightest;
     border-bottom: 1px solid $gray-lighter;
     flex: 0 0 auto;
     padding: 6px;
@@ -280,6 +281,10 @@
   .ace_editor {
     border-bottom-right-radius: 3px;
     margin: -1px -1px -1px 0;
+
+    &.readonly {
+      opacity: .6;
+    }
   }
   // scss-lint:enable SelectorFormat
 }

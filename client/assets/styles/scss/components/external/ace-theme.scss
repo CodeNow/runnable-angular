@@ -5,24 +5,24 @@
 
   // read only button
   > .btn-xs {
-    bottom: 6px;
     cursor: default;
     font-family: $sans-serif; // use default font stack
     position: absolute;
     right: 6px;
+    top: 6px;
     transition: opacity .15s ease-in-out;
     z-index: $z-views-active-panel + 1; // on top of the active panel
 
     // light theme
     .ace-runnable-light & {
-      background: $gray-light;
+      background: rgba($gray-light,.75);
       border: 1px solid rgba($black,.15);
       color: $white;
     }
 
     // dark theme
     .ace-runnable-dark & {
-      background: $purple-darker;
+      background: rgba($purple-darker,.75);
       border: 1px solid rgba($white,.15);
     }
 

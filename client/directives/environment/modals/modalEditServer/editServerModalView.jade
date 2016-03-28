@@ -140,7 +140,7 @@
     section.modal-body(
       ng-if = "!$root.isLoading.editServerModal"
     )
-      .modal-form(
+      .modal-form.modal-dockerfile(
         ng-include = "'viewFormBuildfiles'"
         ng-show = "SMC.selectedTab === 'buildfiles'"
       )
