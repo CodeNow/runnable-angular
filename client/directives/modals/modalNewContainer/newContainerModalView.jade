@@ -1,5 +1,51 @@
+
 .modal-backdrop.in
-  animated-panel-container.modal-dialog.modal-lg
+  //-
+  //- start !$root.featureFlags.dockerfileImport
+  //-
+  .modal-dialog.modal-sm.modal-server-select(
+    ng-if = "!$root.featureFlags.dockerfileImport"
+  )
+    header.modal-header
+      h1.modal-heading New Container
+      svg.iconnables.icons-close(
+        ng-click = "NCMC.close()"
+      )
+        use(
+          xlink:href = "#icons-close"
+        )
+
+    .modal-body
+      .clearfix
+        button.btn.btn-huge.white(
+          ng-click = "NCMC.newRepositoryContainer()"
+        )
+          svg.iconnables
+            use(
+              xlink:href = "#icons-new-repository-server"
+            )
+          | Repository
+          small.small Create a container for a repository on Github
+        button.btn.btn-huge.white(
+          ng-click = "NCMC.newTemplateContainer()"
+          ng-class = "{ 'btn-hint': NCMC.servicesActive }"
+        )
+          svg.iconnables
+            use(
+              xlink:href = "#icons-server-new"
+            )
+          | Services
+          small.small Create a container for a service or database
+  //-
+  //- end !$root.featureFlags.dockerfileImport
+  //-
+
+  //-
+  //- start $root.featureFlags.dockerfileImport
+  //-
+  animated-panel-container.modal-dialog.modal-lg(
+    ng-if = "$root.featureFlags.dockerfileImport"
+  )
     animated-panel.grid-block.vertical.modal-server-select(
       default = "true"
       name = "container-selection"
@@ -47,3 +93,6 @@
       //-   div(
       //-     ng-include = ""
       //-   )
+  //-
+  //- end $root.featureFlags.dockerfileImport
+  //-
