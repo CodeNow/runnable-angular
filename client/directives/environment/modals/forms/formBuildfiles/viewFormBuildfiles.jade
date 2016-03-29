@@ -30,6 +30,10 @@
           pop-over-trigger = "hover"
         ) Some features
         | &nbsp;are not available with editing enabled.
+        button.btn.btn-xxs.gray(
+          internal-modal-helper = "confirmMirroringEnd"
+          ng-if = "state.syncing"
+        ) TEST MODAL
     //- when locking the dockerfile, prompt with modal template: viewModalLockDockerfile
     //- ✅ if repository (can simple mode) && previous simple build exists (can simple mode)
     label.toggle-wrapper(
