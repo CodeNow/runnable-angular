@@ -158,7 +158,7 @@ ul.card-body.load(
     h3.h3.text-overflow Dockerfile
     small.small(
       ng-if = "!server.advanced"
-    ) —
+    ) {{$root.featureFlags.dockerfileSync ? 'Last updated 1m ago' : '—'}}
     small.small(
       ng-if = "server.advanced"
     )
@@ -177,7 +177,15 @@ ul.card-body.load(
       ng-if = "!server.advanced"
       title = "Editing disabled"
     )
-      svg.iconnables.icons-lock
+      svg.iconnables.icons-sync(
+        ng-if = "$root.featureFlags.dockerfileSync"
+      )
+        use(
+          xlink:href = "#icons-sync"
+        )
+      svg.iconnables.icons-lock(
+        ng-if = "!$root.featureFlags.dockerfileSync"
+      )
         use(
           xlink:href = "#icons-lock"
         )
