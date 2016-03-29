@@ -48,16 +48,23 @@
     .grid-content
       div Dockerfile Syncing
       small.small
-        //- icon and text for errors
+        //- when syncing has not yet been set up
+        //- | Sync with a Dockerfile from this repo on Github.
+
+        //- when there's an error
         //- svg.iconnables.icons-alert-alt.float-left
           use(
             xlink:href = "#icons-alert-alt"
           )
         //- | Error: File not found
+
+        //- when syncing is working
         | Syncing: reponame/path/to/dockerfile
         button.btn.btn-xxs.gray(
           internal-modal-helper = "viewModalSync"
         ) Change…
+
+    //- this should open the 'viewModalSync' view when syncing has not been set up
     label.toggle-wrapper
       input.toggle-input(
         type = "checkbox"
