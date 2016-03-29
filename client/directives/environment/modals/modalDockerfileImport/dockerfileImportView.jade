@@ -2,6 +2,10 @@
 //-   ng-include = "'spinner'"
 //- )
 
+//- empty state
+//- .grid-content.well.in.empty.text-center
+  p.p We couldn’t find a Dockerfile in this repository.
+
 .grid-content.list.list-bordered
   label.grid-block.list-item(
     ng-class = "{'active': dockerfile.selection === 'ansible/docker-files/base/Dockerfile'}"
@@ -67,7 +71,7 @@
       use(
         xlink:href = "#icons-file-new"
       )
-    .grid-content Create a new Dockerfile
+    .grid-content Create a new configuration
     //- if there is only one, [check] by default
     input.checkbox(
       name = "dockerfile"
