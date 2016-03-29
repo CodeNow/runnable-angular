@@ -118,9 +118,14 @@
         button.btn.btn-md.white.float-left(
           ng-click = "NCMC.close()"
         ) Cancel
-        button.btn.btn-md.green.float-right(
+        button.btn.btn-md.green.float-right.btn-spinner(
           ng-disabled = "!dockerfile.selection"
-        ) Next Step{{dockerfile.selection === '0' ? ': Create' : ': Review'}}
+        )
+          //- add the 'in' class to .btn-spinner when spinning!
+          //- .spinner-wrapper.spinner-white.spinner-sm.in(
+          //-   ng-include = "'spinner'"
+          //- )
+          | Next Step{{dockerfile.selection === '0' ? ': Create' : ': Review'}}
 
   //-
   //- end $root.featureFlags.dockerfileImport

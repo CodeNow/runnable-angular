@@ -15,6 +15,11 @@
     )
     footer.modal-footer.clearfix
       button.btn.btn-md.white.float-left Cancel
-      button.btn.btn-md.green.float-right(
+      button.btn.btn-md.green.float-right.btn-spinner(
         ng-disabled = "!dockerfile.selection"
-      ) Sync
+      )
+        //- add the 'in' class to .btn-spinner when spinning!
+        //- .spinner-wrapper.spinner-white.spinner-sm.in(
+        //-   ng-include = "'spinner'"
+        //- )
+        | Sync
