@@ -116,7 +116,7 @@ footer.modal-footer.clearfix(
 //- )
 
 //- hide this when loading
-.grid-block.align-justify.list-header(
+.grid-block.justify-justified.list-header(
   ng-if = "$root.featureFlags.dockerfileImport"
 )
   small.small {{state.addRepoTab ? 'By last updated' : ''}}
@@ -132,7 +132,7 @@ footer.modal-footer.clearfix(
   )
 
 //- show this if there are no repositories to add
-//- .grid-block.well.gray.align-center
+//- .grid-block.well.gray.justify-center
   //- empty state
   .p.empty
     .h3.strong Uh oh!
