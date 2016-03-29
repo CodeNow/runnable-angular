@@ -1,6 +1,20 @@
 .modal-import-dockerfile {
   width: 600px; // must set for animated panel
 
+  //- empty state
+  .empty {
+    border-radius: $input-border-radius-lg;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+
+    .iconnables {
+      height: 18px;
+      margin-right: 6px;
+      width: 18px;
+    }
+  }
+
   .list {
     background: $white;
   }

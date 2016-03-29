@@ -3,8 +3,18 @@
 //- )
 
 //- empty state
-//- .grid-content.well.in.empty.text-center
-  p.p We couldn’t find a Dockerfile in this repository.
+//- .grid-content.well.in.empty
+  p.p.text-center We couldn’t find a Dockerfile in this repository.
+
+//- if coming from dockerfile tool AND dockerfile editing was enabled
+//- .grid-content.well.in.empty.align-center.justify-center(
+//-   ng-if = "fromTool"
+//- )
+  svg.iconnables.icons-alert-alt
+    use(
+      xlink:href = "#icons-alert-alt"
+    )
+  | Syncing will replace your current Dockerfile. Save your changes before proceeding.
 
 .grid-content.list.list-bordered
   label.grid-block.list-item(
