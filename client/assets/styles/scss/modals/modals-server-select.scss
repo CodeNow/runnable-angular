@@ -81,9 +81,14 @@
     .icons-server {
       height: 14px;
       margin-left: 6px;
+      opacity: .75;
       pointer-events: auto;
       top: 2px;
       width: 14px;
+
+      &:hover {
+        opacity: 1;
+      }
     }
   }
 

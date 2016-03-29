@@ -1,0 +1,29 @@
+.modal-server-select.deprecated {
+
+  .modal-header {
+    flex: 0 0 auto;
+  }
+
+  .modal-body {
+    flex-direction: row;
+  }
+
+  .btn-huge {
+    color: $gray;
+    display: flex;
+    font-size: 16px;
+    height: 210px;
+    line-height: 1.4;
+    margin: 0 6px;
+    white-space: normal;
+
+    &:last-child {
+      background: url(/build/images/other-containers.png) no-repeat center center $white;
+      background-size: cover;
+    }
+  }
+
+  .iconnables {
+    margin: 0 auto;
+  }
+}

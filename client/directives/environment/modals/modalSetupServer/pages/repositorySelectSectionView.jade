@@ -210,16 +210,6 @@ ul.list.list-servers(
     small.small(
       ng-if = "!$root.featureFlags.inviteFlows"
     ) 10 days ago
-      svg.iconnables.icons-dockerfile(
-        pop-over
-        pop-over-hover-trigger
-        pop-over-options = "{\"top\":27,\"centered\":true}"
-        pop-over-template = "viewDockerfileTooltip"
-        pop-over-trigger = "hover"
-      )
-        use(
-          xlink:href= "#icons-dockerfile"
-        )
       svg.iconnables.icons-server(
         pop-over
         pop-over-hover-trigger
