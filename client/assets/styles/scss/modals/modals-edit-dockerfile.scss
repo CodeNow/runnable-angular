@@ -18,6 +18,7 @@
 
     // text
     .grid-content {
+      height: 32px; // prevent shifting when the change button is present
       line-height: 1;
     }
 

@@ -47,26 +47,22 @@
       )
     .grid-content
       div Mirror Dockerfile
-      small.small
-        //- when syncing has not yet been set up
-        //- | Sync with a Dockerfile from this repo on Github.
-
+      small.small {{state.syncing ? 'Mirroring from Github: reponame/path/to/dockerfile' : 'Sync with a Dockerfile from this repo on Github.'}}
         //- when there's an error
         //- svg.iconnables.icons-alert-alt.float-left
           use(
             xlink:href = "#icons-alert-alt"
           )
         //- | Error: File not found
-
-        //- when syncing is working
-        | Mirroring from Github: reponame/path/to/dockerfile
         button.btn.btn-xxs.gray(
           internal-modal-helper = "viewModalSync"
+          ng-if = "state.syncing"
         ) Change…
 
     //- this should open the 'viewModalSync' view when syncing has not been set up
     label.toggle-wrapper
       input.toggle-input(
+        ng-model = "state.syncing"
         type = "checkbox"
       )
       .toggle-group.toggle-sm
@@ -80,14 +76,16 @@
     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
+  ng-init = "state.syncing = null"
 )
 
-  .sidebar(
+  .sidebar.js-animate(
     edit-explorer = "true"
     explorer
     explorer-title = "Build Files"
     file-model = "SMC.state.contextVersion"
     loading-promises-target = "editServerModal"
+    ng-if = "!state.syncing"
     open-items = "SMC.openItems"
     read-only = "!SMC.state.advanced"
     root-dir = "SMC.state.contextVersion.rootDir"
