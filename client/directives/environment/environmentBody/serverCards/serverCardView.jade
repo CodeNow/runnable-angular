@@ -172,28 +172,26 @@ ul.card-body.load(
       span.text-overflow &nbsp;are not available with editing enabled.
 
     //- lock/unlock icon to show status of container's dockerfile
-    //- wrapper needed for title text
-    .iconnables-wrapper(
-      ng-if = "!server.advanced"
-      title = "Editing disabled"
-    )
+    //- sync overrides lock
+    .iconnables-wrapper
+      //- only repo containers can sync
       svg.iconnables.icons-sync(
-        ng-if = "$root.featureFlags.dockerfileSync"
+        ng-if = "$root.featureFlags.dockerfileSync && server.repo"
       )
         use(
           xlink:href = "#icons-sync"
         )
+      //- hide lock if syncing
       svg.iconnables.icons-lock(
-        ng-if = "!$root.featureFlags.dockerfileSync"
+        ng-if = "!$root.featureFlags.dockerfileSync && server.advanced"
       )
         use(
           xlink:href = "#icons-lock"
         )
-    .iconnables-wrapper(
-      ng-if = "server.advanced"
-      title = "Editing enabled"
-    )
-      svg.iconnables.icons-unlock
+      //- unlock and sync are mutually exclusive
+      svg.iconnables.icons-unlock(
+        ng-if = "server.advanced"
+      )
         use(
           xlink:href = "#icons-unlock"
         )
