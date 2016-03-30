@@ -13,6 +13,7 @@
   .modal-header {
     align-items: center;
     flex: 0 0 120px;
+    overflow: hidden;
 
     @include media(xs) {
       align-items: flex-end;

@@ -176,21 +176,19 @@ ul.card-body.load(
     .iconnables-wrapper
       //- only repo containers can sync
       svg.iconnables.icons-sync(
-        ng-if = "$root.featureFlags.dockerfileSync && server.repo"
+        ng-if = "$root.featureFlags.dockerfileSync"
       )
         use(
           xlink:href = "#icons-sync"
         )
-      //- hide lock if syncing
       svg.iconnables.icons-lock(
-        ng-if = "!$root.featureFlags.dockerfileSync && server.advanced"
+        ng-if = "!$root.featureFlags.dockerfileSync && !server.advanced"
       )
         use(
           xlink:href = "#icons-lock"
         )
-      //- unlock and sync are mutually exclusive
       svg.iconnables.icons-unlock(
-        ng-if = "server.advanced"
+        ng-if = "!$root.featureFlags.dockerfileSync && server.advanced"
       )
         use(
           xlink:href = "#icons-unlock"

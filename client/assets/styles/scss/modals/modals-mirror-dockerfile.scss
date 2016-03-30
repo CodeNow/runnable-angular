@@ -1,4 +1,4 @@
-.modal-import-dockerfile {
+.modal-mirror-dockerfile {
   width: 600px; // must set for animated panel
 
   @include media(xs) {
@@ -33,6 +33,7 @@
     cursor: pointer;
     height: $input-lg;
     line-height: 1;
+    overflow: hidden;
     padding: 0 15px;
 
     // change cursor if selected
@@ -45,6 +46,7 @@
       width: 18px;
 
       + .grid-content {
+        min-height: 18px;
         overflow: hidden;
 
         @include media(xxs) {

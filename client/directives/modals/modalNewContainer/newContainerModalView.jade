@@ -51,7 +51,7 @@
       header.modal-header.grid-block.justify-center.row-xxs(
         ng-init = "state.addRepoTab = true"
       )
-        button.grid-block.shrink.btn(
+        .grid-block.shrink.btn(
           ng-class = "{'active': state.addRepoTab}"
           ng-click = "state.addRepoTab = true"
         )
@@ -61,7 +61,7 @@
             )
           .btn-text.grid-block Create from a repository
         //- disable this button when loading a repository
-        button.grid-block.shrink.btn(
+        .grid-block.shrink.btn(
           ng-class = "{\
             'active': !state.addRepoTab,\
             'btn-hint': NCMC.servicesActive\
@@ -91,7 +91,7 @@
         ng-include = "'setupTemplateModalView'"
       )
 
-    animated-panel.grid-block.vertical.modal-import-dockerfile(
+    animated-panel.grid-block.vertical.modal-mirror-dockerfile(
       name = "dockerfileImport"
     )
       header.modal-header
