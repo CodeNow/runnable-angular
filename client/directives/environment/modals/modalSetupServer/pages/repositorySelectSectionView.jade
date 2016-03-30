@@ -152,6 +152,8 @@ ul.list.list-servers(
   //- ) We couldn’t find any repositories named
   //-   br
   //-   | ‘{{SMC.data.repoFilter}}’.
+
+  //- add active class when loading
   li.list-item.multi-line.text-overflow runnable-api
     .row.row-author(
       ng-if = "$root.featureFlags.inviteFlows"
@@ -177,6 +179,7 @@ ul.list.list-servers(
           xlink:href = "#icons-add"
         )
 
+  //- add active class when loading
   li.list-item.multi-line.text-overflow(
     ng-click = "goToPanel('dockerfileImport')"
   ) runnable-angular

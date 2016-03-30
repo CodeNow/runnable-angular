@@ -190,6 +190,7 @@
     }
 
     &:active:not(.disabled),
+    &.active:hover,
     &.active {
       background: $white;
       border-color: currentColor;
