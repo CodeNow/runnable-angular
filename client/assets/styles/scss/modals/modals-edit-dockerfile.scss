@@ -14,17 +14,45 @@
       + .grid-block {
         border-top: 1px solid $gray-lighter;
       }
+
+      .iconnables {
+        @include media(xxs) {
+          display: none;
+        }
+      }
+
+      .grid-content {
+        @include media(xxs) {
+          margin-left: 0;
+          margin-right: 6px;
+        }
+      }
     }
 
     // text
-    .grid-content {
-      height: 32px; // prevent shifting when the change button is present
+    .iconnables + .grid-content {
+      display: inline-block;
+      height: 36px; // prevent shifting when the change button is present
       line-height: 1;
+      width: 100%;
+
+      // padding only needed if theres a button here
+      &.padding-right {
+        padding-right: 90px;
+      }
     }
 
     // small text
     .small {
       color: $gray;
+
+      .span {
+        display: inline-block;
+        height: 18px;
+        max-width: 100%;
+        position: relative;
+        top: 3px;
+      }
     }
 
     .icons-alert-alt {

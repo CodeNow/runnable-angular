@@ -9,7 +9,9 @@
 
   // default to vertical at small sizes
   @include media(xxs) {
-    flex-flow: column nowrap;
+    &:not(.row-xxs) {
+      flex-flow: column nowrap;
+    }
   }
 
   // switch orientation to vertical (defaults to horizontal)
@@ -50,8 +52,10 @@
   flex: 1 1 auto;
 
   @include media(xxs) {
-    > .grid-block + .grid-block {
-      margin-top: 15px;
+    &:not(.row-xxs) {
+      > .grid-block + .grid-block {
+        margin-top: 15px;
+      }
     }
   }
 
@@ -63,10 +67,12 @@
     margin-left: 15px;
 
     @include media(xxs) {
-      margin-left: 0;
+      &:not(.row-xxs) {
+        margin-left: 0;
 
-      + .grid-content {
-        margin-top: 15px;
+        + .grid-content {
+          margin-top: 15px;
+        }
       }
     }
   }

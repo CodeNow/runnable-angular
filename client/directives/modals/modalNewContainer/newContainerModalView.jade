@@ -48,7 +48,7 @@
       default = "true"
       name = "containerSelection"
     )
-      header.modal-header.grid-block.justify-center(
+      header.modal-header.grid-block.justify-center.row-xxs(
         ng-init = "state.addRepoTab = true"
       )
         button.grid-block.shrink.btn(
@@ -60,6 +60,7 @@
               xlink:href = "#icons-new-repository-server"
             )
           .btn-text.grid-block Create from a repository
+        //- disable this button when loading a repository
         button.grid-block.shrink.btn(
           ng-class = "{\
             'active': !state.addRepoTab,\

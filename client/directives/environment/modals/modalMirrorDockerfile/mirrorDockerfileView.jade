@@ -16,8 +16,8 @@
     )
   | Syncing will replace your current Dockerfile. Save your changes before proceeding.
 
-.grid-content.list.list-bordered
-  label.grid-block.list-item(
+.grid-content.row-xxs.list.list-bordered
+  label.grid-block.list-item.row-xxs(
     ng-class = "{'active': dockerfile.selection === 'ansible/docker-files/base/Dockerfile'}"
   )
     svg.grid-content.shrink.iconnables.icons-dockerfile
@@ -44,7 +44,7 @@
         use(
           xlink:href = "#icons-check"
         )
-  label.list-item.grid-block(
+  label.list-item.grid-block.row-xxs(
     ng-class = "{'active': dockerfile.selection === 'ansible/docker-files/main/Dockerfile'}"
   )
     svg.grid-content.shrink.iconnables.icons-dockerfile
@@ -71,10 +71,10 @@
           xlink:href = "#icons-check"
         )
 
-.grid-content.list.list-bordered(
+.grid-content.row-xxs.list.list-bordered(
   ng-if = "!fromTool"
 )
-  label.grid-block.list-item(
+  label.grid-block.list-item.row-xxs(
     ng-class = "{'active': dockerfile.selection === '0'}"
   )
     svg.grid-content.shrink.iconnables.icons-dockerfile

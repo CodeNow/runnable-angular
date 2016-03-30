@@ -159,7 +159,7 @@ ul.card-body.load(
     small.small(
       ng-if = "!server.advanced"
     ) {{$root.featureFlags.dockerfileSync ? 'Last updated 1m ago' : '—'}}
-    small.small(
+    small.small.text-overflow(
       ng-if = "server.advanced"
     )
       em.underline(

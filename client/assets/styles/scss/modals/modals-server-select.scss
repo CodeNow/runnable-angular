@@ -1,10 +1,25 @@
 .modal-server-select {
   width: 600px; // must set for animated panel
 
+  @include media(xs) {
+    width: 460px;
+  }
+
+  @include media(xxs) {
+    width: 370px;
+  }
+
   // header buttons
   .modal-header {
     align-items: center;
     flex: 0 0 120px;
+
+    @include media(xs) {
+      align-items: flex-end;
+      flex: 1 1 auto;
+      padding-bottom: 12px;
+      padding-top: 54px;
+    }
 
     .btn {
       align-items: center;
@@ -15,6 +30,18 @@
       height: 60px;
       line-height: 1.2;
       padding: 0 21px;
+
+      @include media(xs) {
+        font-size: 13px;
+        padding: 0 15px;
+      }
+
+      @include media(xxs) {
+        flex: 1 1 50%;
+        height: 126px;
+        padding: 15px;
+        white-space: normal;
+      }
 
       &:hover {
         border-color: $gray-lighter;
@@ -28,11 +55,30 @@
 
       + .btn {
         margin-left: 15px;
+
+        @include media(xs) {
+          margin-left: 6px;
+        }
       }
 
       .iconnables {
         height: 100%;
         margin-right: 9px;
+
+        @include media(xs) {
+          height: 24px;
+          margin-right: 6px;
+        }
+
+        @include media(xxs) {
+          margin: 0 0 6px;
+        }
+      }
+
+      .btn-text {
+        @include media(xxs) {
+          text-align: center;
+        }
       }
 
       .small {
