@@ -1,5 +1,5 @@
 .help-container(
-  ng-if = "SMC.helpCards.getActiveCard().helpPopover.containerFiles"
+  ng-if = "SMC.helpCards.getActiveCard().helpPopover.containerFiles && SMC.helpCards.cardIsActiveOnThisContainer(SMC.instance)"
 )
   .help
     button.btn.btn-xs.btn-icon(
@@ -10,7 +10,7 @@
           xlink:href = "#icons-close"
         )
     span(
-      ng-bind-html = "SMC.helpCards.getActiveCard().helpPopover.containerFiles && SMC.helpCards.cardIsActiveOnThisContainer(SMC.instance)"
+      ng-bind-html = "SMC.helpCards.getActiveCard().helpPopover.containerFiles"
     )
 
 .ng-hide(
