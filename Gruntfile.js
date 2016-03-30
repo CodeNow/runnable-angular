@@ -296,9 +296,9 @@ module.exports = function(grunt) {
               apiHost: require('./client/config/json/api.json').host
             };
             locals.rollbarEnv = locals.env;
-            if (locals.apiHost === '//api.runnable-beta.com') {
+            if (locals.apiHost.indexOf('runnable-beta.com') > -1) {
               locals.rollbarEnv = 'production-beta';
-            } else if (locals.apiHost === '//api.runnable-gamma.com') {
+            } else if (locals.apiHost.indexOf('runnable-gamma.com') > -1) {
               locals.rollbarEnv = 'production-gamma';
             }
             return locals;
