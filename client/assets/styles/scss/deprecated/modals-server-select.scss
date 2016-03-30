@@ -4,8 +4,15 @@
     flex: 0 0 auto;
   }
 
-  .modal-body {
+  .modal-body.grid-block {
     flex-direction: row;
+  }
+
+  // search
+  .input-xs {
+    line-height: $input-xs;
+    margin-bottom: 15px;
+    width: 150px;
   }
 
   .btn-huge {
@@ -13,6 +20,7 @@
     display: flex;
     font-size: 16px;
     height: 210px;
+    justify-content: center;
     line-height: 1.4;
     margin: 0 6px;
     white-space: normal;
@@ -25,5 +33,10 @@
 
   .iconnables {
     margin: 0 auto;
+  }
+
+  // add container button
+  .multi-line .btn-xs {
+    top: 16px;
   }
 }
