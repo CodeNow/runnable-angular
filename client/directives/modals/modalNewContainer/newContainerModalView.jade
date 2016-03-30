@@ -15,7 +15,7 @@
         )
 
     .grid-block.modal-body
-      button.grid-block.vertical.btn.btn-huge.white(
+      .grid-block.vertical.btn.btn-huge.white(
         ng-click = "NCMC.newRepositoryContainer()"
       )
         svg.iconnables
@@ -24,7 +24,7 @@
           )
         | Repository
         small.small Create a container for a repository on Github
-      button.grid-block.vertical.btn.btn-huge.white(
+      .grid-block.vertical.btn.btn-huge.white(
         ng-click = "NCMC.newTemplateContainer()"
         ng-class = "{'btn-hint': NCMC.servicesActive}"
       )
