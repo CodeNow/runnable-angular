@@ -37,6 +37,7 @@
     padding: 0 15px;
 
     // change cursor if selected
+    &.disabled,
     &.active {
       cursor: default;
     }

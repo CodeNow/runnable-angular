@@ -17,6 +17,7 @@
   | Syncing will replace your current Dockerfile. Save your changes before proceeding.
 
 .grid-content.row-xxs.list.list-bordered
+  //- add .disabled class if loading
   label.grid-block.list-item.row-xxs(
     ng-class = "{'active': dockerfile.selection === 'ansible/docker-files/base/Dockerfile'}"
   )
@@ -44,6 +45,8 @@
         use(
           xlink:href = "#icons-check"
         )
+
+  //- add .disabled class if loading
   label.list-item.grid-block.row-xxs(
     ng-class = "{'active': dockerfile.selection === 'ansible/docker-files/main/Dockerfile'}"
   )
