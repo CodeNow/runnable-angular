@@ -106,7 +106,7 @@
           ng-class = "{'no-touching': !SIFC.settings.attrs.notifications.slack.enabled}"
           ng-click = "$event.preventDefault();"
           ng-if = "!member.found && member.slackOn"
-        ) We couldn't match this Slack user to a Github username.&#32;
+        ) We couldn't match this Slack user to a GitHub username.&#32;
           br.br
           | Select their username to enable messaging.
           select.select(
@@ -120,7 +120,7 @@
               disabled
               selected = "selected"
               value = ""
-            ) Select Github username
+            ) Select GitHub username
     small.small Members will receive messages from your bot when their containers are updated.
 
   //- disabling integration:
