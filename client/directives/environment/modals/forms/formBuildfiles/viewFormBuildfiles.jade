@@ -33,6 +33,7 @@
     state = "SMC.state"
   )
   button.btn.btn-sm.white(
+    internal-modal-helper = "confirmSetupAdvancedModalView"
     ng-if = "$root.featureFlags.dockerfileMirroring"
   )
     svg.iconnables.icons-lock
