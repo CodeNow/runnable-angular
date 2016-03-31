@@ -101,7 +101,7 @@
           use(
             xlink:href = "#icons-arrow-down"
           )
-        h1.modal-heading Mirror Dockerfile
+        h1.modal-heading Choose Configuration
         svg.iconnables.icons-close(
           ng-click = "NCMC.close()"
         )
@@ -125,7 +125,7 @@
           //- .spinner-wrapper.spinner-white.spinner-sm.in(
           //-   ng-include = "'spinner'"
           //- )
-          | Next Step{{dockerfile.selection === '0' ? ': Create' : ': Review'}}
+          | Next Step{{dockerfile.selection === '0' ? ': Configure' : ': Review'}}
 
   //-
   //- end $root.featureFlags.dockerfileMirroring
