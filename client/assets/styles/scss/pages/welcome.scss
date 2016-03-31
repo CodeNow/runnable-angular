@@ -17,11 +17,7 @@
     margin: 0 auto;
     position: absolute;
     right: 0;
-    top: 30px;
-
-    @include media(sm) {
-      top: 60px;
-    }
+    top: -120px;
   }
 
   // modal
