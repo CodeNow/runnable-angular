@@ -220,31 +220,60 @@
   }
 
   &.tabs-4 {
-    max-width: ($tab-width * 4) + 30px + ($tab-margin * 3);
+    $tabs-4-width: ($tab-width * 4) + 30px + ($tab-margin * 3);
+    max-width: $tabs-4-width;
+
+    @media (max-width: $tabs-4-width + 30px) {
+      max-width: 100%;
+    }
   }
 
   &.tabs-5 {
+    $tabs-5-width: ($tab-width * 5) + 30px + ($tab-margin * 4);
     max-width: ($tab-width * 5) + 30px + ($tab-margin * 4);
+
+    @media (max-width: $tabs-5-width + 30px) {
+      max-width: 100%;
+    }
   }
 
   &.tabs-6 {
+    $tabs-6-width: ($tab-width * 6) + 30px + ($tab-margin * 5);
     max-width: ($tab-width * 6) + 30px + ($tab-margin * 5);
+
+    @media (max-width: $tabs-6-width + 30px) {
+      max-width: 100%;
+    }
   }
 
   &.tabs-7 {
+    $tabs-7-width: ($tab-width * 7) + 30px + ($tab-margin * 6);
     max-width: ($tab-width * 7) + 30px + ($tab-margin * 6);
+
+    @media (max-width: $tabs-7-width + 30px) {
+      max-width: 100%;
+    }
   }
 
   &.tabs-8 {
+    $tabs-8-width: ($tab-width * 8) + 30px + ($tab-margin * 7);
     max-width: ($tab-width * 8) + 30px + ($tab-margin * 7);
+
+    @media (max-width: $tabs-8-width + 30px) {
+      max-width: 100%;
+    }
   }
 
   &.tabs-9 {
+    $tabs-9-width: ($tab-width * 9) + 30px + ($tab-margin * 8);
     max-width: ($tab-width * 9) + 30px + ($tab-margin * 8);
+
+    @media (max-width: $tabs-9-width + 30px) {
+      max-width: 100%;
+    }
   }
 
   &.tabs-all {
-    justify-content: center;
     max-width: 100%;
   }
 
