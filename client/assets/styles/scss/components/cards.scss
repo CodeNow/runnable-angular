@@ -279,6 +279,11 @@
         height: 100%;
         width: 100%;
       }
+
+      // missing dockerfile error
+      .icons-alert-alt {
+        color: $orange;
+      }
     }
   }
 }

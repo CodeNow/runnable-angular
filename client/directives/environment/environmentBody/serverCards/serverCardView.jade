@@ -159,7 +159,10 @@ ul.card-body.load(
     //- can we get this feature working for non-mirroing (but advanced) too?
     small.small.text-overflow(
       ng-if = "server.advanced"
-    ) {{$root.featureFlags.dockerfileMirroring ? 'Last updated 1m ago' : '—'}}
+    )
+      span.span.float-left {{$root.featureFlags.dockerfileMirroring ? 'Last updated 1m ago' : '—'}}
+      //- span.span.float-left Error: Dockerfile not found
+
 
     small.small.text-overflow(
       ng-if = "!server.advanced"
@@ -182,6 +185,7 @@ ul.card-body.load(
     //- lock/unlock icon to show status of container's dockerfile
     //- sync overrides lock
     .iconnables-wrapper
+
       //- only repo containers can sync
       //- show this instead of the lock, when mirroring
       svg.iconnables.icons-sync(
@@ -189,6 +193,13 @@ ul.card-body.load(
       )
         use(
           xlink:href = "#icons-sync"
+        )
+      //- if dockerfile is missing
+      //- svg.iconnables.icons-alert-alt(
+      //-   ng-if = "$root.featureFlags.dockerfileMirroring && server.advanced && error"
+      //- )
+        use(
+          xlink:href = "#icons-alert-alt"
         )
       svg.iconnables.icons-lock(
         ng-if = "!$root.featureFlags.dockerfileMirroring && !server.advanced"
