@@ -1,5 +1,5 @@
 .popover.bottom.menu.context-menu(
-  ng-class = "{in: active}"
+  ng-class = "{'in': active}"
   ng-style = "popoverStyle.getStyle()"
 )
   .popover-content
@@ -14,7 +14,9 @@
               xlink:href = "#icons-branch"
             )
           | {{data.attrs.branch}}
-        .row.clearfix
+        .row.clearfix(
+          ng-if = "data.attrs.additionalRepo"
+        )
           svg.iconnables
             use(
               xlink:href = "#icons-commit"
