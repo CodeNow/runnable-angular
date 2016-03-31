@@ -6,16 +6,6 @@
 //- .grid-content.well.in.empty
   p.p.text-center We couldn’t find a Dockerfile in this repository.
 
-//- if coming from dockerfile tool AND dockerfile editing was enabled
-//- .grid-content.well.in.empty.align-center.justify-center(
-//-   ng-if = "fromTool"
-//- )
-  svg.iconnables.icons-alert-alt
-    use(
-      xlink:href = "#icons-alert-alt"
-    )
-  | Mirroring will replace your current Runnable Dockerfile.
-
 .grid-content.row-xxs.list.list-bordered
   //- 'thisDockerfile' should be the name of the Dockerfile (ie. 'Dockerfile.prod', or 'Dockerfile.staging') to suppot multiple dockerfiles
   //- add .disabled class to the not selected item if loading
