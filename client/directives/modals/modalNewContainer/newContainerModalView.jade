@@ -1,9 +1,9 @@
 .modal-backdrop.in
   //-
-  //- start !$root.featureFlags.dockerfileImport
+  //- start !$root.featureFlags.dockerfileMirroring
   //-
   .modal-dialog.modal-sm.modal-server-select.deprecated(
-    ng-if = "!$root.featureFlags.dockerfileImport"
+    ng-if = "!$root.featureFlags.dockerfileMirroring"
   )
     header.modal-header
       h1.modal-heading New Container
@@ -35,14 +35,14 @@
         | Services
         small.small Create a container for a service or database
   //-
-  //- end !$root.featureFlags.dockerfileImport
+  //- end !$root.featureFlags.dockerfileMirroring
   //-
 
   //-
-  //- start $root.featureFlags.dockerfileImport
+  //- start $root.featureFlags.dockerfileMirroring
   //-
   animated-panel-container.modal-dialog.modal-lg(
-    ng-if = "$root.featureFlags.dockerfileImport"
+    ng-if = "$root.featureFlags.dockerfileMirroring"
   )
     animated-panel.grid-block.vertical.modal-server-select(
       default = "true"
@@ -92,7 +92,7 @@
       )
 
     animated-panel.grid-block.vertical.modal-mirror-dockerfile(
-      name = "dockerfileImport"
+      name = "dockerfileMirroring"
     )
       header.modal-header
         svg.iconnables.icons-arrow-backward(
@@ -128,5 +128,5 @@
           | Next Step{{dockerfile.selection === '0' ? ': Create' : ': Review'}}
 
   //-
-  //- end $root.featureFlags.dockerfileImport
+  //- end $root.featureFlags.dockerfileMirroring
   //-

@@ -1,5 +1,5 @@
 //-
-//- start $root.featureFlags.dockerfileImport
+//- start $root.featureFlags.dockerfileMirroring
 //-
 
 //- .spinner-wrapper.spinner-md.in(
@@ -7,7 +7,7 @@
 //- )
 
 .grid-block.justify-right.list-header.row-xxs(
-  ng-if = "$root.featureFlags.dockerfileImport"
+  ng-if = "$root.featureFlags.dockerfileMirroring"
 )
   //- search
     - disable while loading
@@ -20,7 +20,7 @@
   )
 
 ul.list.list-servers(
-  ng-if = "!state.addRepoTab && $root.featureFlags.dockerfileImport"
+  ng-if = "!state.addRepoTab && $root.featureFlags.dockerfileMirroring"
 )
   //- ng-class = "{'btn-hint': dependency.attrs.lowerName === STMC.helpCard.data.dependency}"
   li.list-item.grid-block.row-xxs(
@@ -65,5 +65,5 @@ ul.list.list-servers(
           xlink:href = "#icons-add"
         )
 //-
-//- end $root.featureFlags.dockerfileImport
+//- end $root.featureFlags.dockerfileMirroring
 //-

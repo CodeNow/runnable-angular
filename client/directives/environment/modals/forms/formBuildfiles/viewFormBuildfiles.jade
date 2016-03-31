@@ -14,7 +14,7 @@
     )
 
 .grid-block.shrink.align-center.well.gray.in.row-xxs(
-  ng-if = "!SMC.state.advanced || !$root.featureFlags.dockerfileSync"
+  ng-if = "!SMC.state.advanced || !$root.featureFlags.dockerfileMirroring"
 )
   svg.grid-content.row-xxs.shrink.iconnables.icons-dockerfile-lock
     use(
@@ -28,12 +28,12 @@
   //- ✅ if repository (can simple mode) && previous simple build exists (can simple mode)
   label.toggle-wrapper(
     loading-promises-target = "{{SMC.name}}"
-    ng-if = "!$root.featureFlags.dockerfileImport"
+    ng-if = "!$root.featureFlags.dockerfileMirroring"
     read-only-switch
     state = "SMC.state"
   )
   button.btn.btn-sm.white(
-    ng-if = "$root.featureFlags.dockerfileImport"
+    ng-if = "$root.featureFlags.dockerfileMirroring"
   )
     svg.iconnables.icons-lock
       use(
@@ -43,7 +43,7 @@
 
 //- add logic for repository containers only
 .grid-block.shrink.align-center.well.gray.in.row-xxs(
-  ng-if = "$root.featureFlags.dockerfileSync && SMC.state.advanced"
+  ng-if = "$root.featureFlags.dockerfileMirroring && SMC.state.advanced"
 )
   svg.grid-content.row-xxs.shrink.iconnables.icons-sync
     use(

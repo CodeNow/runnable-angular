@@ -1,8 +1,8 @@
 //-
-//- start !$root.featureFlags.dockerfileImport
+//- start !$root.featureFlags.dockerfileMirroring
 //-
 header.modal-header(
-  ng-if = "!$root.featureFlags.dockerfileImport"
+  ng-if = "!$root.featureFlags.dockerfileMirroring"
 )
   h1.modal-heading New Container from Repository
   svg.iconnables.icons-close(
@@ -13,7 +13,7 @@ header.modal-header(
     )
 
 section.modal-body.clearfix(
-  ng-if = "!$root.featureFlags.dockerfileImport"
+  ng-if = "!$root.featureFlags.dockerfileMirroring"
 )
   .spinner-wrapper.spinner-md.in(
     ng-if = "!SMC.data.githubRepos.models"
@@ -98,17 +98,17 @@ section.modal-body.clearfix(
 
 //- if there are no repositories to add
 footer.modal-footer.clearfix(
-  ng-if = "SMC.data.githubRepos.models && !SMC.data.githubRepos.models.length && !$root.featureFlags.dockerfileImport"
+  ng-if = "SMC.data.githubRepos.models && !SMC.data.githubRepos.models.length && !$root.featureFlags.dockerfileMirroring"
 )
   button.btn.btn-md.white.btn-block(
     ng-click = "SMC.actions.close()"
   ) Close
 //-
-//- end !$root.featureFlags.dockerfileImport
+//- end !$root.featureFlags.dockerfileMirroring
 //-
 
 //-
-//- start $root.featureFlags.dockerfileImport
+//- start $root.featureFlags.dockerfileMirroring
 //-
 
 //- .spinner-wrapper.spinner-md.in(
@@ -117,7 +117,7 @@ footer.modal-footer.clearfix(
 
 //- hide this when loading
 .grid-block.justify-justified.list-header.row-xxs(
-  ng-if = "$root.featureFlags.dockerfileImport"
+  ng-if = "$root.featureFlags.dockerfileMirroring"
 )
   small.small {{state.addRepoTab ? 'By last updated' : ''}}
 
@@ -145,7 +145,7 @@ footer.modal-footer.clearfix(
 
 //- list of repositories (mock up, we already have a template for this)
 ul.list.list-servers(
-  ng-if = "state.addRepoTab && $root.featureFlags.dockerfileImport"
+  ng-if = "state.addRepoTab && $root.featureFlags.dockerfileMirroring"
 )
   //- li.p.empty(
   //-   ng-if = "!noResults.length"
@@ -181,7 +181,7 @@ ul.list.list-servers(
 
   //- add active class when loading
   li.list-item.multi-line.text-overflow(
-    ng-click = "goToPanel('dockerfileImport')"
+    ng-click = "goToPanel('dockerfileMirroring')"
   ) runnable-angular
     .row.row-author(
       ng-if = "$root.featureFlags.inviteFlows"
@@ -226,5 +226,5 @@ ul.list.list-servers(
     //-   ng-include = "'spinner'"
     //- )
 //-
-//- end $root.featureFlags.dockerfileImport
+//- end $root.featureFlags.dockerfileMirroring
 //-

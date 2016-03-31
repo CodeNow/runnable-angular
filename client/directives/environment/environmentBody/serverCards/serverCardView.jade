@@ -158,7 +158,7 @@ ul.card-body.load(
     h3.h3.text-overflow Dockerfile
     small.small(
       ng-if = "!server.advanced"
-    ) {{$root.featureFlags.dockerfileSync ? 'Last updated 1m ago' : '—'}}
+    ) {{$root.featureFlags.dockerfileMirroring ? 'Last updated 1m ago' : '—'}}
     small.small.text-overflow(
       ng-if = "server.advanced"
     )
@@ -176,19 +176,19 @@ ul.card-body.load(
     .iconnables-wrapper
       //- only repo containers can sync
       svg.iconnables.icons-sync(
-        ng-if = "$root.featureFlags.dockerfileSync"
+        ng-if = "$root.featureFlags.dockerfileMirroring"
       )
         use(
           xlink:href = "#icons-sync"
         )
       svg.iconnables.icons-lock(
-        ng-if = "!$root.featureFlags.dockerfileSync && !server.advanced"
+        ng-if = "!$root.featureFlags.dockerfileMirroring && !server.advanced"
       )
         use(
           xlink:href = "#icons-lock"
         )
       svg.iconnables.icons-unlock(
-        ng-if = "!$root.featureFlags.dockerfileSync && server.advanced"
+        ng-if = "!$root.featureFlags.dockerfileMirroring && server.advanced"
       )
         use(
           xlink:href = "#icons-unlock"
