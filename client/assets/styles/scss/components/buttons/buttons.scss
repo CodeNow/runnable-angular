@@ -286,7 +286,7 @@
 
 .green,
 %green {
-  background: #5fd377; // rgba($green,.81);
+  background: $green-dark; // rgba($green,.81);
   border-color: $green;
 
   &.btn:not([disabled]):not(.disabled) {

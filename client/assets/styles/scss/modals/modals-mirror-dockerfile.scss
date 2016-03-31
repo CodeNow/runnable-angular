@@ -1,0 +1,97 @@
+.modal-mirror-dockerfile {
+  width: 600px; // must set for animated panel
+
+  @include media(xs) {
+    width: 460px;
+  }
+
+  @include media(xxs) {
+    width: 370px;
+  }
+
+  //- empty state
+  .empty {
+    border-radius: $input-border-radius-lg;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+
+    .iconnables {
+      height: 18px;
+      margin-right: 6px;
+      width: 18px;
+    }
+  }
+
+  .list {
+    background: $white;
+  }
+
+  .list-item {
+    align-items: center;
+    color: $gray-dark;
+    cursor: pointer;
+    height: $input-lg;
+    line-height: 1;
+    overflow: hidden;
+    padding: 0 15px;
+
+    // change cursor if selected
+    &.disabled,
+    &.active {
+      cursor: default;
+    }
+
+    // anchor
+    .iconnables {
+      width: 18px;
+
+      + .grid-content {
+        min-height: 18px;
+        overflow: hidden;
+
+        @include media(xxs) {
+          padding: 0 9px;
+        }
+      }
+    }
+
+    // link to github
+    .link {
+      color: $gray-light;
+    }
+
+    .icons-link {
+      width: 15px;
+    }
+
+    // hidden input
+    .checkbox {
+      position: absolute;
+      visibility: hidden;
+
+      &:checked ~ .btn-icon {
+        @extend %green;
+        color: $white;
+      }
+    }
+
+    // check button
+    .btn-icon {
+      border-radius: 50%;
+      flex: 0 0 auto;
+      pointer-events: none; // let the label parent select
+      position: static;
+      width: $input-xs;
+    }
+
+    .icons-check {
+      top: -3px;
+    }
+  }
+
+  // path
+  .text-left {
+    direction: rtl;
+  }
+}

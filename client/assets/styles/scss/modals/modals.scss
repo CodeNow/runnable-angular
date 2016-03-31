@@ -13,6 +13,11 @@
   width: 100vw;
   z-index: $z-modal;
 
+  @include media(lg) {
+    padding-bottom: 60px;
+    padding-top: 60px;
+  }
+
   @media (max-height: $screen-xs), (max-width: $screen-sm) {
     padding: 15px;
   }
@@ -36,7 +41,7 @@
   max-height: 100%;
   min-width: 360px;
   position: relative;
-  transition: all .3s ease-in-out;
+  transition: max-width .3s ease-in-out;
 
   @include media(sm) {
     width: 100%;
@@ -72,7 +77,7 @@
   }
 
   &.modal-lg {
-    max-width: 570px;
+    max-width: 600px;
   }
 
   &.modal-md {
@@ -129,23 +134,39 @@
   }
 }
 
-// close
+// back and close
 .modal-header > .icons-close,
-.modal-body > .icons-close {
+.modal-body > .icons-close,
+.modal-header > .icons-arrow-backward {
   color: $gray-light;
   cursor: pointer;
   pointer-events: auto; // reset from .iconnables
   position: absolute;
-  right: 15px;
   top: 18px;
   z-index: 2; // fix overlap with container-title-wrapper
 
-  &:hover {
-    color: $red;
+  &.icons-arrow-backward {
+    left: 15px;
+
+    &:hover {
+      color: $gray;
+    }
+
+    &:active {
+      color: $purple-light;
+    }
   }
 
-  &:active {
-    color: $red-dark;
+  &.icons-close {
+    right: 15px;
+
+    &:hover {
+      color: $red;
+    }
+
+    &:active {
+      color: $red-dark;
+    }
   }
 }
 
@@ -172,44 +193,84 @@
 
 // tabs
 .modal-tabs {
-  display: block;
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
   overflow-x: auto;
-  padding: 0 6px;
+  padding: 6px 6px 12px;
   transition: max-width .15s ease-in-out;
-  white-space: nowrap;
+
+  @include media(xxs) {
+    flex-flow: row nowrap;
+  }
+
+  $tab-margin: 5px;
+  $tab-width: 90px;
 
   // show 1 tab
   &.tabs-1 {
-    max-width: 90px + 12px; // tab width + padding
+    max-width: $tab-width + 30px; // tab width + padding
   }
 
   &.tabs-2 {
-    max-width: (90px * 2) + 12px;
+    max-width: ($tab-width * 2) + 30px + ($tab-margin * 1);
   }
 
   &.tabs-3 {
-    max-width: (90px * 3) + 12px;
+    max-width: ($tab-width * 3) + 30px + ($tab-margin * 2);
   }
 
   &.tabs-4 {
-    max-width: (90px * 4) + 12px;
+    $tabs-4-width: ($tab-width * 4) + 30px + ($tab-margin * 3);
+    max-width: $tabs-4-width;
+
+    @media (max-width: $tabs-4-width + 30px) {
+      max-width: 100%;
+    }
   }
 
   &.tabs-5 {
-    max-width: (90px * 5) + 12px;
+    $tabs-5-width: ($tab-width * 5) + 30px + ($tab-margin * 4);
+    max-width: ($tab-width * 5) + 30px + ($tab-margin * 4);
+
+    @media (max-width: $tabs-5-width + 30px) {
+      max-width: 100%;
+    }
   }
 
   &.tabs-6 {
-    max-width: (90px * 6) + 12px;
+    $tabs-6-width: ($tab-width * 6) + 30px + ($tab-margin * 5);
+    max-width: ($tab-width * 6) + 30px + ($tab-margin * 5);
+
+    @media (max-width: $tabs-6-width + 30px) {
+      max-width: 100%;
+    }
   }
 
   &.tabs-7 {
-    max-width: (90px * 7) + 12px;
+    $tabs-7-width: ($tab-width * 7) + 30px + ($tab-margin * 6);
+    max-width: ($tab-width * 7) + 30px + ($tab-margin * 6);
+
+    @media (max-width: $tabs-7-width + 30px) {
+      max-width: 100%;
+    }
   }
 
   &.tabs-8 {
-    max-width: (90px * 8) + 12px;
+    $tabs-8-width: ($tab-width * 8) + 30px + ($tab-margin * 7);
+    max-width: ($tab-width * 8) + 30px + ($tab-margin * 7);
+
+    @media (max-width: $tabs-8-width + 30px) {
+      max-width: 100%;
+    }
+  }
+
+  &.tabs-9 {
+    $tabs-9-width: ($tab-width * 9) + 30px + ($tab-margin * 8);
+    max-width: ($tab-width * 9) + 30px + ($tab-margin * 8);
+
+    @media (max-width: $tabs-9-width + 30px) {
+      max-width: 100%;
+    }
   }
 
   &.tabs-all {
@@ -223,26 +284,22 @@
 
   .btn-radio {
     background: none;
-    border: 0;
-    border-bottom: 2px solid transparent;
-    border-radius: 0;
+    border: 2px solid transparent;
+    border-radius: $input-border-radius-lg;
     color: $gray;
-    font-weight: $weight-bold;
-    height: 90px;
-    padding: 9px 3px;
+    display: flex;
+    flex: 0 0 90px;
+    font-weight: $weight-normal;
+    padding: 9px 3px 6px;
 
-    &:hover,
+    &:hover {
+      border-color: $gray-lighter;
+    }
+
     &:active,
     &.active {
-      color: $purple-light;
-    }
-
-    &.active {
       border-color: currentColor;
-    }
-
-    &[disabled] {
-      color: $gray-dark;
+      color: $purple-light;
     }
 
     // animation start state
@@ -264,11 +321,22 @@
       top: 3px;
     }
 
+    + .btn-radio {
+      margin-left: $tab-margin;
+    }
+
+    .iconnables {
+      height: 21px;
+    }
+
     .btn-text {
+      align-items: center;
+      display: flex;
       font-size: 13px;
-      height: 30px;
-      line-height: 1.2;
-      overflow: hidden;
+      height: 28px;
+      justify-content: center;
+      line-height: 1.1;
+      margin-top: 3px;
       white-space: normal;
     }
   }
@@ -301,7 +369,7 @@
     align-items: center;
     color: $gray-light;
     flex: 1 1 auto;
-    margin: 15px auto;
+    margin: 45px auto;
   }
 
   .btn-checkbox {

@@ -1,0 +1,25 @@
+.popover-overlay
+  .popover.popover-fixed.in.modal-mirror-dockerfile(
+    ng-class = "{'in': active}"
+  )
+    .popover-header Mirror Dockerfile
+      svg.iconnables.icons-close
+        use(
+          xlink:href = "#icons-close"
+        )
+
+    .grid-block.vertical.modal-body(
+      ng-init = "dockerfile.selection = null"
+      ng-include = "'mirrorDockerfileView'"
+      onload = "fromTool = true"
+    )
+    footer.modal-footer.clearfix
+      button.btn.btn-md.white.float-left Cancel
+      button.btn.btn-md.green.float-right.btn-spinner(
+        ng-disabled = "!dockerfile.selection"
+      )
+        //- add the 'in' class to .btn-spinner when spinning!
+        //- .spinner-wrapper.spinner-white.spinner-sm.in(
+        //-   ng-include = "'spinner'"
+        //- )
+        | Start Mirroring

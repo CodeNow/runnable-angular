@@ -1,0 +1,69 @@
+//-
+//- start $root.featureFlags.dockerfileImport
+//-
+
+//- .spinner-wrapper.spinner-md.in(
+//-   ng-include = "'spinner'"
+//- )
+
+.grid-block.justify-right.list-header.row-xxs(
+  ng-if = "$root.featureFlags.dockerfileImport"
+)
+  //- search
+    - disable while loading
+  input.input.input-xs.input-search(
+    autofocus
+    ng-disabled = ""
+    placeholder = "Search"
+    required
+    type = "search"
+  )
+
+ul.list.list-servers(
+  ng-if = "!state.addRepoTab && $root.featureFlags.dockerfileImport"
+)
+  //- ng-class = "{'btn-hint': dependency.attrs.lowerName === STMC.helpCard.data.dependency}"
+  li.list-item.grid-block.row-xxs(
+  )
+    img.img(
+      height = "36"
+      ng-src = "/build/images/logos/logo-icon-cassandra.png"
+      width = "36"
+    )
+    | Cassandra
+    button.btn.btn-sm.btn-icon
+      svg.iconnables.icons-add
+        use(
+          xlink:href = "#icons-add"
+        )
+  //- ng-class = "{'btn-hint': dependency.attrs.lowerName === STMC.helpCard.data.dependency}"
+  li.list-item.grid-block.row-xxs(
+  )
+    img.img(
+      height = "36"
+      ng-src = "/build/images/logos/logo-icon-consul-server.png"
+      width = "36"
+    )
+    | Consul-Server
+    button.btn.btn-sm.btn-icon
+      svg.iconnables.icons-add
+        use(
+          xlink:href = "#icons-add"
+        )
+  //- ng-class = "{'btn-hint': dependency.attrs.lowerName === STMC.helpCard.data.dependency}"
+  li.list-item.grid-block.row-xxs(
+  )
+    img.img(
+      height = "36"
+      ng-src = "/build/images/logos/logo-icon-elasticsearch.png"
+      width = "36"
+    )
+    | ElasticSearch
+    button.btn.btn-sm.btn-icon
+      svg.iconnables.icons-add
+        use(
+          xlink:href = "#icons-add"
+        )
+//-
+//- end $root.featureFlags.dockerfileImport
+//-

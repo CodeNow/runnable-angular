@@ -9,7 +9,9 @@
 
   // default to vertical at small sizes
   @include media(xxs) {
-    flex-flow: column nowrap;
+    &:not(.row-xxs) {
+      flex-flow: column nowrap;
+    }
   }
 
   // switch orientation to vertical (defaults to horizontal)
@@ -23,20 +25,24 @@
   }
 
   // alignment of content (defaults to left)
-  &.align-center {
+  &.justify-center {
     justify-content: center;
   }
 
-  &.align-right {
+  &.justify-right {
     justify-content: flex-end;
   }
 
-  &.align-justify {
+  &.justify-justified {
     justify-content: space-between; // space between blocks is even
   }
 
-  &.align-spaced {
+  &.justify-spaced {
     justify-content: space-around; // space around blocks is even
+  }
+
+  &.align-center {
+    align-items: center;
   }
 }
 
@@ -46,8 +52,10 @@
   flex: 1 1 auto;
 
   @include media(xxs) {
-    > .grid-block + .grid-block {
-      margin-top: 15px;
+    &:not(.row-xxs) {
+      > .grid-block + .grid-block {
+        margin-top: 15px;
+      }
     }
   }
 
@@ -59,10 +67,12 @@
     margin-left: 15px;
 
     @include media(xxs) {
-      margin-left: 0;
+      &:not(.row-xxs) {
+        margin-left: 0;
 
-      + .grid-content {
-        margin-top: 15px;
+        + .grid-content {
+          margin-top: 15px;
+        }
       }
     }
   }

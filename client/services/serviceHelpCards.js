@@ -60,7 +60,7 @@ function helpCardsFactory(
       {
         label: 'Seed a database',
         targets: ['containerFiles'],
-        helpTop: 'Use <b>Container Files</b> to upload seed data and import it using scripts.',
+        helpTop: 'Use <b>Files & SSH Keys</b> to upload seed data and import it using scripts.',
         helpPopover: {
           'containerFiles': 'Click <b>Upload File</b> to select and upload your seed file. Then enter the scripts you need to import the data.'
         }

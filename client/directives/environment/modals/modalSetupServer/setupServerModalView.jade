@@ -9,7 +9,7 @@
       'xl': (SMC.selectedTab === 'buildfiles' || SMC.selectedTab === 'env' || SMC.selectedTab === 'logs')\
     }"
   )
-  .modal-dialog.modal-sm.modal-server-select(
+  .modal-dialog.modal-sm.modal-server-select.deprecated(
     ng-if = "!SMC.state.repo"
     ng-include = "'repositorySelectSectionView'"
   )

@@ -5,10 +5,20 @@
 
   @include media(md) {
     max-width: 810px;
+
+    .tabs-8,
+    .tabs-9 {
+      max-width: 100%;
+    }
   }
 
   @include media(sm) {
     max-width: 720px;
+
+    .tabs-6,
+    .tabs-7 {
+      max-width: 100%;
+    }
   }
 
   &.ace-active {

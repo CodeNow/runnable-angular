@@ -11,6 +11,8 @@ function featureFlags(
     billing: false,
     cardStatus: false,
     connections: false,
+    dockerfileImport: false,
+    dockerfileSync: false,
     editAnyInstance: false,
     emptyFolder: false, // shows empty folder markup
     fullScreen: false,  // toggles full screen

@@ -74,7 +74,7 @@
           ng-class = "{'in': isActivePanel()}"
         )
           h3.h3 Your team is almost ready!
-          p.p We’ll need some permissions from Github to get your code running.
+          p.p We’ll need some permissions from GitHub to get your code running.
           ul.list.list-bordered.list-requirements
             li.list-item
               svg.svg(
@@ -124,7 +124,7 @@
               use(
                 xlink:href = "#icons-github"
               )
-            | Authorize With Github
+            | Authorize With GitHub
 
       //- appears after auth
       animated-panel.panel-orgs(
@@ -135,15 +135,15 @@
           ng-init = "activeItem = null"
         )
           h3.h3 Welcome back!
-          p.p Now that we’re connected to Github, you can choose an organization to use.
+          p.p Now that we’re connected to GitHub, you can choose an organization to use.
 
           //- empty state, hide search and list if empty
           //- p.p Runnable is best used with a team, but we couldn’t find any&#32;
             a.link(
               href = "//help.github.com/articles/about-organizations/"
               target = "_blank"
-            ) Github organizations
-            | &#32; that you’re a part of. Try again with a Github account that’s part of an organization.
+            ) GitHub organizations
+            | &#32; that you’re a part of. Try again with a GitHub account that’s part of an organization.
 
             a.btn.btn-md.green.btn-center(
               href = "#"

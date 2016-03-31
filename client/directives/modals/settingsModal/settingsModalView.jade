@@ -1,12 +1,12 @@
 .modal-backdrop.in
   .modal-dialog.modal-md.modal-settings
-    header.modal-header
+    header.grid-block.vertical.align-center.modal-header
       .container-title-wrapper
         .server-status-card-pop-over.no-touching
           .container-title CodeNow Settings
 
-      .row.modal-tabs.clearfix
-        button.btn.btn-radio(
+      .row.modal-tabs.tabs-all.grid-block.row-xxs.clearfix
+        button.btn.btn-radio.grid-block.vertical(
           ng-attr-data-badge-count = "{{$root.featureFlags.trial ? '12' : '!'}}"
           ng-class = "{\
             'active': SEMC.currentTab === 'billing',\
@@ -16,32 +16,32 @@
           ng-click = "SEMC.currentTab = 'billing'"
           ng-show = "$root.featureFlags.billing"
         )
-          svg.iconnables
+          svg.iconnables.grid-content
             use(
               xlink:href = "#icons-billing"
             )
-          .btn-text Billing
-        button.btn.btn-radio(
+          .btn-text.grid-content Billing
+        button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SEMC.currentTab === 'teamManagement'}"
           ng-click = "SEMC.currentTab = 'teamManagement'"
           ng-show = "$root.featureFlags.teamManagement"
         )
-          svg.iconnables
+          svg.iconnables.grid-content
             use(
               xlink:href = "#icons-team"
             )
-          .btn-text Teammates
-        button.btn.btn-radio(
+          .btn-text.grid-content Teammates
+        button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SEMC.currentTab === 'slackIntegration'}"
           ng-click = "SEMC.currentTab = 'slackIntegration'"
           ng-show = "$root.featureFlags.updatedSlackValidation"
         )
-          img.img.iconnables(
+          img.img.iconnables.grid-content(
             height = "24"
             src = "/build/images/logos/logo-icon-slack.svg"
             width = "24"
           )
-          .btn-text Slack Integration
+          .btn-text.grid-content Slack Integration
 
     section.modal-body.js-animate
 

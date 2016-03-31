@@ -1,4 +1,4 @@
-header.modal-header
+header.grid-block.vertical.align-center.modal-header
   //- title
   .container-title-wrapper.title-verification
     .server-status-card-pop-over.no-touching
@@ -21,118 +21,118 @@ header.modal-header
     )
 
   //- tabs
-  .row.modal-tabs.js-animate(
+  .row.modal-tabs.grid-block.row-xxs.js-animate(
     ng-if="$root.featureFlags.newVerificationFlow"
     ng-class = "{\
       'tabs-1': SMC.state.step === 1,\
       'tabs-2': SMC.state.step === 2,\
       'tabs-7': SMC.state.step === 3 && !$root.featureFlags.whitelist,\
       'tabs-8': SMC.state.step === 3 && $root.featureFlags.whitelist,\
-      'tabs-all': SMC.state.step ===  4\
+      'tabs-9': SMC.state.step ===  4\
     }"
     style = "{{SMC.state.step > 1 ? 'transition-duration: .3s' : ''}}"
   )
-    button.btn.btn-radio(
+    button.btn.btn-radio.grid-block.vertical(
       ng-class = "{'active': SMC.selectedTab === 'repository'}"
       ng-click = "SMC.changeTab('repository');"
       ng-if = "(SMC.state.step >= 1 && !SMC.state.advanced)"
       type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
     )
-      svg.iconnables
+      svg.iconnables.grid-content
         use(
           xlink:href = "#icons-repository"
         )
-      .btn-text Repository
-    button.btn.btn-radio.js-animate(
+      .btn-text.grid-content Repository
+    button.btn.btn-radio.grid-block.vertical.js-animate(
       ng-class = "{'active': SMC.selectedTab === 'commands'}"
       ng-click = "SMC.changeTab('commands')"
       ng-if = "(SMC.state.step >= 2 && !SMC.state.advanced)"
       type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
     )
-      svg.iconnables
+      svg.iconnables.grid-content
         use(
           xlink:href = "#icons-packages"
         )
-      .btn-text Commands
+      .btn-text.grid-content Commands
         br
         | & Packages
-    button.btn.btn-radio.js-animate(
+    button.btn.btn-radio.grid-block.vertical.js-animate(
       ng-class = "{'active': SMC.selectedTab === 'whitelist'}"
       ng-click = "SMC.changeTab('whitelist')"
       ng-if = "(SMC.state.step >= 3 && $root.featureFlags.whitelist)"
       type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
     )
-      svg.iconnables
+      svg.iconnables.grid-content
         use(
           xlink:href = "#icons-security"
         )
-      .btn-text Security
-    button.btn.btn-radio.js-animate(
+      .btn-text.grid-content Security
+    button.btn.btn-radio.grid-block.vertical.js-animate(
       ng-class = "{'active': SMC.selectedTab === 'ports'}"
       ng-click = "SMC.changeTab('ports')"
       ng-if = "(SMC.state.step >= 3 && !SMC.state.advanced)"
       type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
     )
-      svg.iconnables
+      svg.iconnables.grid-content
         use(
           xlink:href = "#icons-ports"
         )
-      .btn-text Exposed Ports
-    button.btn.btn-radio.js-animate(
+      .btn-text.grid-content Exposed Ports
+    button.btn.btn-radio.grid-block.vertical.js-animate(
       ng-class = "{'active': SMC.selectedTab === 'env'}"
       ng-click = "SMC.changeTab('env')"
       ng-if = "SMC.state.step >= 3"
       type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
     )
-      svg.iconnables
+      svg.iconnables.grid-content
         use(
           xlink:href = "#icons-environment-variable"
         )
-      .btn-text Environment Variables
-    button.btn.btn-radio.js-animate(
+      .btn-text.grid-content Environment Variables
+    button.btn.btn-radio.grid-block.vertical.js-animate(
       ng-class = "{'active': SMC.selectedTab === 'files'}"
       ng-click = "SMC.changeTab('files')"
       ng-if = "SMC.state.step >= 3 && !SMC.state.advanced"
       type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
     )
-      svg.iconnables
+      svg.iconnables.grid-content
         use(
           xlink:href = "#icons-keys-files"
         )
-      .btn-text Files & SSH Keys
-    button.btn.btn-radio.js-animate(
+      .btn-text.grid-content Files & SSH Keys
+    button.btn.btn-radio.grid-block.vertical.js-animate(
       ng-class = "{'active': SMC.selectedTab === 'translation'}"
       ng-click = "SMC.changeTab('translation')"
       ng-if = "SMC.state.step >= 3"
       type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
     )
-      svg.iconnables
+      svg.iconnables.grid-content
         use(
           xlink:href = "#icons-translation"
         )
-      .btn-text Find & Replace
-    button.btn.btn-radio.js-animate(
+      .btn-text.grid-content Find & Replace
+    button.btn.btn-radio.grid-block.vertical.js-animate(
       ng-class = "{'active': SMC.selectedTab === 'buildfiles'}"
       ng-click = "SMC.changeTab('buildfiles')"
       ng-if = "SMC.state.step >= 3"
       type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
     )
-      svg.iconnables
+      svg.iconnables.grid-content
         use(
           xlink:href = "#icons-dockerfile"
         )
-      .btn-text Dockerfile
-    button.btn.btn-radio.js-animate(
+      .btn-text.grid-content Dockerfile
+    button.btn.btn-radio.grid-block.vertical.js-animate(
       ng-class = "{'active': SMC.selectedTab === 'logs'}"
       ng-click = "SMC.changeTab('logs')"
       ng-if = "SMC.instance"
       type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
     )
-      svg.iconnables
+      svg.iconnables.grid-content
         use(
           xlink:href = "#icons-log"
         )
-      .btn-text Logs
+      .btn-text.grid-content Logs
 
 section.modal-body(
   ng-if = "$root.isLoading.setupServerModal"
@@ -170,7 +170,7 @@ section.modal-body(
     ) Your container is ready to build!
     small.small.empty.text-center(
       ng-if = "SMC.state.step === 3 && SMC.selectedTab === null"
-    ) You can use the tools above to make additional changes to your configuration.
+    ) You can use the options above to make additional changes to your configuration.
     //- Ports
     .modal-form(
       ng-show = "SMC.selectedTab === 'ports'"
@@ -198,7 +198,7 @@ section.modal-body(
       translation-rules
     )
     //- Dockerfile
-    .modal-form(
+    .modal-form.modal-dockerfile(
       ng-include = "'viewFormBuildfiles'"
       ng-show = "SMC.selectedTab === 'buildfiles'"
     )

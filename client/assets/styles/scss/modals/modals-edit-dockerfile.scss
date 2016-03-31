@@ -1,0 +1,71 @@
+.modal-dockerfile {
+
+  > .well {
+    margin: 0 0 15px;
+    padding: 3px 0;
+
+    > .grid-block {
+      align-items: center;
+      color: $gray-dark;
+      height: $input-lg;
+      margin: 0 9px;
+      padding: 0 9px;
+
+      + .grid-block {
+        border-top: 1px solid $gray-lighter;
+      }
+
+      .iconnables {
+        @include media(xxs) {
+          display: none;
+        }
+      }
+
+      .grid-content {
+        @include media(xxs) {
+          margin-left: 0;
+          margin-right: 6px;
+        }
+      }
+    }
+
+    // text
+    .iconnables + .grid-content {
+      display: inline-block;
+      height: 36px; // prevent shifting when the change button is present
+      line-height: 1;
+      width: 100%;
+
+      // padding only needed if theres a button here
+      &.padding-right {
+        padding-right: 90px;
+      }
+    }
+
+    // small text
+    .small {
+      color: $gray;
+
+      .span {
+        display: inline-block;
+        height: 15px;
+        max-width: 100%;
+        position: relative;
+        top: 3px;
+      }
+    }
+
+    .icons-alert-alt {
+      color: $orange;
+      height: 12px;
+      margin-right: 3px;
+      top: 3px;
+      width: 12px;
+    }
+
+    // change path
+    .btn-xxs {
+      margin-left: 3px;
+    }
+  }
+}

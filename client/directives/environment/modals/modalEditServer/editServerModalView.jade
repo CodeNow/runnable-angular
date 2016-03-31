@@ -9,7 +9,7 @@
       'xl': (SMC.selectedTab === 'buildfiles' || SMC.selectedTab === 'env' || SMC.selectedTab === 'logs')\
     }"
   )
-    header.modal-header
+    header.grid-block.vertical.align-center.modal-header
       server-status-card-header.container-title-wrapper(
         in-modal = "true"
         instance = "SMC.instance"
@@ -24,123 +24,123 @@
           xlink:href = "#icons-close"
         )
 
-      .row.modal-tabs.tabs-all
-        button.btn.btn-radio(
+      .row.modal-tabs.tabs-all.grid-block.row-xxs
+        button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SMC.selectedTab === 'repository'}"
           ng-click = "SMC.changeTab('repository')"
           ng-if = "SMC.isTabVisible('repository')"
           type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
         )
-          svg.iconnables
+          svg.iconnables.grid-content
             use(
               xlink:href = "#icons-repository"
             )
-          .btn-text Repository
-        button.btn.btn-radio(
+          .btn-text.grid-content Repository
+        button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SMC.selectedTab === 'commands'}"
           ng-click = "SMC.changeTab('commands')"
           ng-if = "SMC.isTabVisible('commands')"
           type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
         )
-          svg.iconnables
+          svg.iconnables.grid-content
             use(
               xlink:href = "#icons-packages"
             )
-          .btn-text Commands
+          .btn-text.grid-content Commands
             br
             | & Packages
-        button.btn.btn-radio(
+        button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SMC.selectedTab === 'whitelist'}"
           ng-click = "SMC.changeTab('whitelist')"
           ng-if = "$root.featureFlags.whitelist"
           type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
         )
-          svg.iconnables
+          svg.iconnables.grid-content
             use(
               xlink:href = "#icons-security"
             )
-          .btn-text Security
-        button.btn.btn-radio(
+          .btn-text.grid-content Security
+        button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SMC.selectedTab === 'ports'}"
           ng-click = "SMC.changeTab('ports')"
           ng-if = "SMC.isTabVisible('ports')"
           type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
         )
-          svg.iconnables
+          svg.iconnables.grid-content
             use(
               xlink:href = "#icons-ports"
             )
-          .btn-text Exposed Ports
-        button.btn.btn-radio(
+          .btn-text.grid-content Exposed Ports
+        button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SMC.selectedTab === 'env'}"
           ng-click = "SMC.changeTab('env')"
           type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
         )
-          svg.iconnables
+          svg.iconnables.grid-content
             use(
               xlink:href = "#icons-environment-variable"
             )
-          .btn-text Environment Variables
-        button.btn.btn-radio(
+          .btn-text.grid-content Environment Variables
+        button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SMC.selectedTab === 'files'}"
           ng-click = "SMC.changeTab('files')"
           ng-if = "SMC.isTabVisible('files')"
           type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
         )
-          svg.iconnables
+          svg.iconnables.grid-content
             use(
               xlink:href = "#icons-keys-files"
             )
-          .btn-text Files & SSH Keys
-        button.btn.btn-radio(
+          .btn-text.grid-content Files & SSH Keys
+        button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SMC.selectedTab === 'translation'}"
           ng-click = "SMC.changeTab('translation')"
           ng-if = "SMC.isTabVisible('translation')"
           type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
         )
-          svg.iconnables
+          svg.iconnables.grid-content
             use(
               xlink:href = "#icons-translation"
             )
-          .btn-text Find & Replace
-        button.btn.btn-radio(
+          .btn-text.grid-content Find & Replace
+        button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SMC.selectedTab === 'backup'}"
           ng-click = "SMC.changeTab('backup')"
           ng-if = "!SMC.state.repo && $root.featureFlags.backup"
           type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
         )
-          svg.iconnables
+          svg.iconnables.grid-content
             use(
               xlink:href = "#icons-translation"
             )
-          .btn-text Backup
+          .btn-text.grid-content Backup
             br
             | & Restore
-        button.btn.btn-radio(
+        button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SMC.selectedTab === 'buildfiles'}"
           ng-click = "SMC.changeTab('buildfiles')"
           type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
         )
-          svg.iconnables
+          svg.iconnables.grid-content
             use(
               xlink:href = "#icons-dockerfile"
             )
-          .btn-text Dockerfile
-        button.btn.btn-radio(
+          .btn-text.grid-content Dockerfile
+        button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SMC.selectedTab === 'logs'}"
           ng-click = "SMC.changeTab('logs')"
           type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
         )
-          svg.iconnables
+          svg.iconnables.grid-content
             use(
               xlink:href = "#icons-log"
             )
-          .btn-text Logs
+          .btn-text.grid-content Logs
 
     section.modal-body(
       ng-if = "!$root.isLoading.editServerModal"
     )
-      .modal-form(
+      .modal-form.modal-dockerfile(
         ng-include = "'viewFormBuildfiles'"
         ng-show = "SMC.selectedTab === 'buildfiles'"
       )

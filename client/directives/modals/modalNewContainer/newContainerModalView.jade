@@ -1,5 +1,10 @@
 .modal-backdrop.in
-  .modal-dialog.modal-sm.modal-server-select
+  //-
+  //- start !$root.featureFlags.dockerfileImport
+  //-
+  .modal-dialog.modal-sm.modal-server-select.deprecated(
+    ng-if = "!$root.featureFlags.dockerfileImport"
+  )
     header.modal-header
       h1.modal-heading New Container
       svg.iconnables.icons-close(
@@ -9,24 +14,119 @@
           xlink:href = "#icons-close"
         )
 
-    .modal-body
-      .clearfix
-        button.btn.btn-huge.white(
-          ng-click = "NCMC.newRepositoryContainer()"
+    .grid-block.modal-body
+      .grid-block.vertical.btn.btn-huge.white(
+        ng-click = "NCMC.newRepositoryContainer()"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-new-repository-server"
+          )
+        | Repository
+        small.small Create a container for a repository on GitHub
+      .grid-block.vertical.btn.btn-huge.white(
+        ng-click = "NCMC.newTemplateContainer()"
+        ng-class = "{'btn-hint': NCMC.servicesActive}"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-server-new"
+          )
+        | Services
+        small.small Create a container for a service or database
+  //-
+  //- end !$root.featureFlags.dockerfileImport
+  //-
+
+  //-
+  //- start $root.featureFlags.dockerfileImport
+  //-
+  animated-panel-container.modal-dialog.modal-lg(
+    ng-if = "$root.featureFlags.dockerfileImport"
+  )
+    animated-panel.grid-block.vertical.modal-server-select(
+      default = "true"
+      name = "containerSelection"
+    )
+      header.modal-header.grid-block.justify-center.row-xxs(
+        ng-init = "state.addRepoTab = true"
+      )
+        .grid-block.shrink.btn(
+          ng-class = "{'active': state.addRepoTab}"
+          ng-click = "state.addRepoTab = true"
         )
-          svg.iconnables
+          svg.iconnables.icons-repository.grid-block.shrink
             use(
               xlink:href = "#icons-new-repository-server"
             )
-          | Repository
-          small.small Create a container for a repository on Github
-        button.btn.btn-huge.white(
-          ng-click = "NCMC.newTemplateContainer()"
-          ng-class = "{ 'btn-hint': NCMC.servicesActive }"
+          .btn-text.grid-block Create from a repository
+        //- disable this button when loading a repository
+        .grid-block.shrink.btn(
+          ng-class = "{\
+            'active': !state.addRepoTab,\
+            'btn-hint': NCMC.servicesActive\
+          }"
+          ng-click = "state.addRepoTab = false"
         )
-          svg.iconnables
+          svg.iconnables.icons-template.grid-block.shrink
             use(
               xlink:href = "#icons-server-new"
             )
-          | Services
-          small.small Create a container for a service or database
+          .btn-text.grid-block.vertical.text-left Create from a template
+            small.small For services and databases
+        svg.iconnables.icons-close(
+          ng-click = "NCMC.close()"
+        )
+          use(
+            xlink:href = "#icons-close"
+          )
+
+      .modal-body(
+        ng-if = "state.addRepoTab"
+        ng-include = "'repositorySelectSectionView'"
+      )
+
+      .modal-body(
+        ng-if = "!state.addRepoTab"
+        ng-include = "'templateSelectSectionView'"
+      )
+
+    animated-panel.grid-block.vertical.modal-mirror-dockerfile(
+      name = "dockerfileImport"
+    )
+      header.modal-header
+        svg.iconnables.icons-arrow-backward(
+          ng-click = "goToPanel('containerSelection', 'back')"
+        )
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
+        h1.modal-heading Mirror Dockerfile
+        svg.iconnables.icons-close(
+          ng-click = "NCMC.close()"
+        )
+          use(
+            xlink:href = "#icons-close"
+          )
+
+      .grid-block.vertical.modal-body(
+        ng-init = "dockerfile.selection = null"
+        ng-include = "'mirrorDockerfileView'"
+      )
+
+      .modal-footer.clearfix
+        button.btn.btn-md.white.float-left(
+          ng-click = "NCMC.close()"
+        ) Cancel
+        //- add the 'in' class to .btn-spinner when spinning!
+        button.btn.btn-md.green.float-right.btn-spinner(
+          ng-disabled = "!dockerfile.selection"
+        )
+          //- .spinner-wrapper.spinner-white.spinner-sm.in(
+          //-   ng-include = "'spinner'"
+          //- )
+          | Next Step{{dockerfile.selection === '0' ? ': Create' : ': Review'}}
+
+  //-
+  //- end $root.featureFlags.dockerfileImport
+  //-

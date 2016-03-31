@@ -1,0 +1,99 @@
+//- .spinner-wrapper.spinner-md.in(
+//-   ng-include = "'spinner'"
+//- )
+
+//- empty state
+//- .grid-content.well.in.empty
+  p.p.text-center We couldn’t find a Dockerfile in this repository.
+
+//- if coming from dockerfile tool AND dockerfile editing was enabled
+//- .grid-content.well.in.empty.align-center.justify-center(
+//-   ng-if = "fromTool"
+//- )
+  svg.iconnables.icons-alert-alt
+    use(
+      xlink:href = "#icons-alert-alt"
+    )
+  | Mirroring will replace your current Runnable Dockerfile.
+
+.grid-content.row-xxs.list.list-bordered
+  //- add .disabled class if loading
+  label.grid-block.list-item.row-xxs(
+    ng-class = "{'active': dockerfile.selection === 'ansible/docker-files/base/Dockerfile'}"
+  )
+    svg.grid-content.shrink.iconnables.icons-dockerfile
+      use(
+        xlink:href = "#icons-dockerfile"
+      )
+    .grid-content
+      .text-left.text-overflow(
+        title = "ansible/docker-files/base/Dockerfile"
+      ) ansible/docker-files/base/Dockerfile
+      a.small.link(
+        href = "#"
+        target = "_blank"
+      ) View on GitHub
+    //- if there is only one, [check] by default
+    input.checkbox(
+      name = "dockerfile"
+      ng-model = "dockerfile.selection"
+      type = "radio"
+      value = "ansible/docker-files/base/Dockerfile"
+    )
+    button.btn.btn-xs.btn-icon
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )
+
+  //- add .disabled class if loading
+  label.list-item.grid-block.row-xxs(
+    ng-class = "{'active': dockerfile.selection === 'ansible/docker-files/main/Dockerfile'}"
+  )
+    svg.grid-content.shrink.iconnables.icons-dockerfile
+      use(
+        xlink:href = "#icons-dockerfile"
+      )
+    .grid-content
+      .text-left.text-overflow(
+        title = "ansible/docker-files/main/Dockerfile"
+      ) ansible/docker-files/main/Dockerfile
+      a.small.link(
+        href = "#"
+        target = "_blank"
+      ) View on GitHub
+    input.checkbox(
+      name = "dockerfile"
+      ng-model = "dockerfile.selection"
+      type = "radio"
+      value = "ansible/docker-files/main/Dockerfile"
+    )
+    button.btn.btn-xs.btn-icon
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )
+
+.grid-content.row-xxs.list.list-bordered(
+  ng-if = "!fromTool"
+)
+  label.grid-block.list-item.row-xxs(
+    ng-class = "{'active': dockerfile.selection === '0'}"
+  )
+    svg.grid-content.shrink.iconnables.icons-dockerfile
+      use(
+        xlink:href = "#icons-file-new"
+      )
+    .grid-content Create a new configuration
+    //- if there is only one, [check] by default
+    input.checkbox(
+      name = "dockerfile"
+      ng-model = "dockerfile.selection"
+      type = "radio"
+      value = "0"
+    )
+    button.btn.btn-xs.btn-icon
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )

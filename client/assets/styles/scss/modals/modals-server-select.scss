@@ -1,67 +1,178 @@
 .modal-server-select {
+  width: 600px; // must set for animated panel
 
-  // search
-  .input-search {
-    background-position: 57px center;
-    line-height: 23px;
-    margin-bottom: 15px;
-    padding-left: 73px;
-    width: 210px;
+  @include media(xs) {
+    width: 460px;
+  }
 
-    &:focus,
-    &:valid {
-      background-position: 8px center;
+  @include media(xxs) {
+    width: 370px;
+  }
+
+  // header buttons
+  .modal-header {
+    align-items: center;
+    flex: 0 0 120px;
+    overflow: hidden;
+
+    @include media(xs) {
+      align-items: flex-end;
+      flex: 1 1 auto;
+      padding-bottom: 12px;
+      padding-top: 54px;
+    }
+
+    .btn {
+      align-items: center;
+      border: $input-border solid transparent;
+      border-radius: $input-border-radius-lg;
+      display: flex;
+      font-size: 15px;
+      height: 60px;
+      line-height: 1.2;
+      padding: 0 21px;
+
+      @include media(xs) {
+        font-size: 13px;
+        padding: 0 15px;
+      }
+
+      @include media(xxs) {
+        flex: 1 1 50%;
+        height: 126px;
+        padding: 15px;
+        white-space: normal;
+      }
+
+      &:hover {
+        border-color: $gray-lighter;
+      }
+
+      &:active,
+      &.active {
+        border-color: currentColor;
+        color: $purple;
+      }
+
+      + .btn {
+        margin-left: 15px;
+
+        @include media(xs) {
+          margin-left: 6px;
+        }
+      }
+
+      .iconnables {
+        height: 100%;
+        margin-right: 9px;
+
+        @include media(xs) {
+          height: 24px;
+          margin-right: 6px;
+        }
+
+        @include media(xxs) {
+          margin: 0 0 6px;
+        }
+      }
+
+      .btn-text {
+        @include media(xxs) {
+          text-align: center;
+        }
+      }
+
+      .small {
+        display: block;
+        opacity: .5;
+      }
+    }
+  }
+
+  // sort and search
+  .list-header {
+    align-items: center;
+    padding: 0 15px 15px;
+
+    // sort
+    .small {
+      color: $gray-light;
+    }
+
+    // search
+    .input-search {
+      margin: 0;
+      width: 150px;
     }
   }
 
   //- empty state (if there are no repositories)
-  .p.empty {
-    margin-top: 30px;
+  .well {
+    background: $gray-lightest;
+    border-width: 1px;
+    margin: 0;
   }
 
-  // select type of container
-  .btn-huge {
-    color: $gray;
-    float: left;
-    font-size: 16px;
-    height: 210px;
-    line-height: 1.4;
-    margin: 4% 2% 2%;
-    white-space: normal;
-    width: 46%;
+  .list-servers {
 
-    &:last-child {
-      background: url(/build/images/other-containers.png) no-repeat center center $white;
-      background-size: cover;
+    // add button
+    .btn-icon {
+      border-radius: $input-border-radius;
+      padding: 3px;
+      right: 10px;
+      top: 10px; // to center
+      width: $input-sm;
     }
 
-    .iconnables {
-      display: block;
-      margin: 0 auto;
+    .icons-dockerfile,
+    .icons-server {
+      height: 14px;
+      margin-left: 6px;
+      opacity: .75;
+      pointer-events: auto;
+      top: 2px;
+      width: 14px;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .list-item {
+    height: 60px;
+    overflow: hidden;
+
+    // template list
+    &.grid-block {
+      align-items: center;
+
+      .img {
+        margin-right: 15px;
+      }
     }
 
-    .small {
-      display: block;
+    &:active .btn-icon {
+      @extend %green;
+      color: $white;
+    }
+
+    .spinner-wrapper {
+      right: 21px;
     }
   }
 }
 
 // repository/template list
 .list-servers {
-  max-width: 540px;
-
-  @include media(sm) {
-    max-width: none;
-  }
 
   > .list-item {
     border: $input-border solid transparent;
-    border-radius: $input-border-radius;
+    border-radius: $input-border-radius-lg;
     cursor: pointer;
     font-size: 18px;
     font-weight: $weight-bold;
-    margin: 3px 0 0;
-    padding: 6px 130px 6px 15px;
+    padding: 6px 60px 6px 15px;
     white-space: nowrap; // reset .multi-line default
 
     &:hover:not(.disabled) {
@@ -79,6 +190,7 @@
     }
 
     &:active:not(.disabled),
+    &.active:hover,
     &.active {
       background: $white;
       border-color: currentColor;
@@ -96,6 +208,10 @@
         min-height: 60px;
       }
     }
+
+    + .list-item {
+      margin-top: 3px;
+    }
   }
 
   .row-author > .small:not(.monospace) {
@@ -106,19 +222,6 @@
   // empty state
   .empty {
     word-break: break-all;
-  }
-
-  // add button
-  .btn-xs {
-    font-size: 14px;
-    line-height: 1;
-    right: 9px;
-    top: 15px;
-    width: 110px;
-
-    &.disabled {
-      opacity: .3;
-    }
   }
 
   // next arrow

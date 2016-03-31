@@ -131,11 +131,13 @@
 @import "modals/modals-backup";
 @import "modals/modals-edit";
 @import "modals/modals-edit-ace";
+@import "modals/modals-edit-dockerfile";
 @import "modals/modals-error";
 @import "modals/modals-integrations";
 @import "modals/modals-invite";
 @import "modals/modals-invite-admin";
 @import "modals/modals-isolation";
+@import "modals/modals-mirror-dockerfile";
 @import "modals/modals-rename";
 @import "modals/modals-repository-details";
 @import "modals/modals-server-select";
@@ -179,6 +181,7 @@
 @import "deprecated/card-status";
 @import "deprecated/connections";
 @import "deprecated/deleted-commit";
+@import "deprecated/modals-server-select";
 
 // shame 🔔🔔
 @import "shame";

@@ -8,15 +8,17 @@
   .green {
     display: table;
     margin: 0 auto;
-    text-align: left;
 
     &.scale {
       animation: scale .4s ease;
     }
 
     .icons-add {
+      background: $white;
+      border-radius: $input-border-radius;
+      color: $green;
       height: 18px;
-      margin: 10px 6px 0 0;
+      margin: 10px 9px 0 0;
       width: 18px;
     }
   }

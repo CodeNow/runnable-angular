@@ -128,7 +128,7 @@ function modalManager(
   };
 }
 
-var genericModals = ['viewModalDeleteBox', 'viewModalRenameBox', 'viewModalEnvironmentVariables', 'viewModalRepositorySelect', 'viewModalVerifyServer', 'viewModalEditServer', 'viewModalTemplateSelect', 'confirmBuildFilesModalView', 'viewModalRename', 'viewModalChooseOrganization', 'viewModalIsolation', 'viewModalSetup', 'viewModalDeleteSandbox'];
+var genericModals = ['viewModalDeleteBox', 'viewModalEnvironmentVariables', 'viewModalRepositorySelect', 'viewModalVerifyServer', 'viewModalEditServer', 'viewModalTemplateSelect', 'confirmBuildFilesModalView', 'viewModalRename', 'viewModalChooseOrganization', 'viewModalIsolation', 'viewModalSetup', 'viewModalDeleteSandbox'];
 function checkTemplate(template) {
   return (genericModals.indexOf(template) === -1) ? template : 'viewOpenModalGeneric';
 }
