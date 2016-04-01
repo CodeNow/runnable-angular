@@ -2,9 +2,6 @@
 
 input.input.input-sm(
   ng-if = "instance.getBranchName()"
-  pop-over
-  pop-over-options = "{\"left\":-47,\"top\":47}"
-  pop-over-template = "containerUrlPopoverView"
   readonly
   select-all
   value = "{{instance.getContainerHostname()}}{{defaultPort}}"
