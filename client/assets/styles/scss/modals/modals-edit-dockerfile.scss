@@ -56,6 +56,17 @@
     // change path
     .btn-xxs {
       margin-left: 3px;
+
+      // tooltip
+      &.btn-icon {
+        background: $gray-light;
+        border-radius: 50%;
+        color: $white;
+        line-height: 1;
+        margin-left: 5px;
+        padding: 0 5px;
+        width: 18px;
+      }
     }
 
     // unlock button

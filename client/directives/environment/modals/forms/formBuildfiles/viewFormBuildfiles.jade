@@ -73,13 +73,24 @@
     )
       span.span.text-overflow.float-left(
         title = "reponame/path/to/dockerfile"
-      ) Mirroring from GitHub:reponame/path/to/dockerfile
+      ) Mirroring from GitHub: reponame/path/to/dockerfile
       //- when there's an error
       //- svg.iconnables.icons-alert-alt.float-left
       //-   use(
       //-     xlink:href = "#icons-alert-alt"
       //-   )
       //- span.span.float-left Error: Dockerfile not found
+      //- button.btn.btn-xxs.btn-icon(
+      //-   pop-over
+      //-   pop-over-hover-trigger
+      //-   pop-over-options = "{\"top\":24,\"centered\":true}"
+      //-   pop-over-template = "dockerfileMirroringHelpPopover"
+      //-   pop-over-trigger = "hover"
+      //- )
+        svg.iconnables.icons-help
+          use(
+            xlink:href = "#icons-help"
+          )
       button.btn.btn-xxs.gray(
         internal-modal-helper = "changeMirrorView"
       ) Change…
