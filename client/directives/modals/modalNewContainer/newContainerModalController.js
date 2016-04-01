@@ -7,9 +7,14 @@ function NewContainerModalController(
   $q,
   $rootScope,
   ModalService,
+  copySourceInstance,
+  createAndBuildNewContainer,
   errs,
+  eventTracking,
+  fetchInstances,
   fetchInstancesByPod,
   fetchOwnerRepos,
+  getNewForkName,
   keypather,
   helpCards,
   close
@@ -21,9 +26,11 @@ function NewContainerModalController(
 
   NCMC.state = {
     addRepoTab: true,
-    loadingRepos: true
+    loadingRepos: true,
+    loadingTemplates: true
   };
 
+  // Fetch all repos from Github
   $q.all({
     instances: fetchInstancesByPod(),
     repoList: fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
@@ -54,6 +61,46 @@ function NewContainerModalController(
         return normalizeRepoName(repo) === instance.attrs.name;
       }
     });
+  };
+
+  // Fetch all non-repo containres
+  fetchInstances({ githubUsername: 'HelloRunnable' })
+    .then(function (servers) {
+      NCMC.templateServers = servers;
+      NCMC.state.loadingTemplates = false;
+    });
+
+  NCMC.close = close;
+  NCMC.addServerFromTemplate = function (sourceInstance) {
+    var instanceToForkName = sourceInstance.attrs.name;
+    close();
+    return fetchInstances()
+      .then(function (instances) {
+        var serverName = getNewForkName(instanceToForkName, instances, true);
+        var serverModel = {
+          opts: {
+            name: serverName,
+            masterPod: true,
+            ipWhitelist: {
+              enabled: true
+            }
+          }
+        };
+        return createAndBuildNewContainer(
+          copySourceInstance(
+            $rootScope.dataApp.data.activeAccount,
+            sourceInstance,
+            serverName
+          )
+            .then(function (build) {
+              serverModel.build = build;
+              eventTracking.createdNonRepoContainer(instanceToForkName);
+              return serverModel;
+            }),
+          serverName
+        );
+      })
+      .catch(errs.handler);
   };
 
   // TODO: Remove code when removing `dockerFileMirroing` code
