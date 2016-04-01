@@ -39,7 +39,6 @@ function featureFlags(
     trial: false,
     themeToggle: false, // toggles the button that toggles theme
     updatedSlackValidation: true,
-    urlPopover: false,
     webhooksAdminPresent: false,
     webhooksContainerRunning: false,
     webhooks: false,
