@@ -25,9 +25,11 @@ function NewContainerModalController(
   NCMC.close = close;
 
   NCMC.state = {
+    repoSelected: false,
     addRepoTab: true,
     loadingRepos: true,
-    loadingTemplates: true
+    loadingTemplates: true,
+    opts: {}
   };
 
   // Fetch all repos from Github
@@ -103,15 +105,18 @@ function NewContainerModalController(
       .catch(errs.handler);
   };
 
-  // TODO: Remove code when removing `dockerFileMirroing` code
-  NCMC.newRepositoryContainer = function () {
+  NCMC.selectRepo = function (repo) {
     close();
     ModalService.showModal({
       controller: 'SetupServerModalController',
       controllerAs: 'SMC',
-      templateUrl: 'setupServerModalView'
+      templateUrl: 'setupServerModalView',
+      inputs: {
+        repo: repo
+      }
     });
   };
+  // TODO: Remove code when removing `dockerFileMirroing` code
   NCMC.newTemplateContainer = function () {
     close();
     ModalService.showModal({

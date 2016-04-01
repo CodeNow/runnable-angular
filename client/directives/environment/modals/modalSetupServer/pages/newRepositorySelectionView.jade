@@ -48,6 +48,7 @@ ul.list.list-servers(
 
   //- add active class when loading
   li.list-item.multi-line.text-overflow(
+    ng-click = "NCMC.selectRepo(repo)"
     ng-repeat = "\
       repo in NCMC.githubRepos.models | \
       repos: NCMC.repoFilter | \

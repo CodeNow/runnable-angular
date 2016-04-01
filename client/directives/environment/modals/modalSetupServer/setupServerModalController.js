@@ -28,10 +28,12 @@ function SetupServerModalController(
   cardInfoTypes,
   OpenItems,
   fetchStackInfo,
-  close
+  close,
+  repo
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
   SMC.helpCards = helpCards;
+
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
     'closeWithConfirmation': parentController.closeWithConfirmation.bind(SMC),
@@ -127,23 +129,6 @@ function SetupServerModalController(
       });
   });
 
-  // TODO: Remove code when removing `dockerFileMirroing` code
-  $q.all({
-    instances: fetchInstancesByPod(),
-    repoList: fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
-  })
-    .then(function (data) {
-      SMC.data.instances = data.instances;
-      SMC.data.githubRepos = data.repoList;
-      SMC.data.githubRepos.models.forEach(function (repo) {
-        repo.isAdded = SMC.isRepoAdded(repo, data.instances);
-      });
-    })
-    .catch(errs.handler)
-    .finally(function () {
-      SMC.loading = false;
-    });
-
   $scope.$watchCollection(function () {
     return SMC.state.ports;
   }, function (newPortsArray, oldPortsArray) {
@@ -156,7 +141,6 @@ function SetupServerModalController(
   $scope.$watchCollection(function () {
     return SMC.state.opts.env;
   }, function (newEnvArray, oldEnvArray) {
-    console.log('new', newEnvArray, oldEnvArray);
     if (!angular.equals(newEnvArray, oldEnvArray)) {
       // Only update the Dockerfile if the envs have actually changed
       updateDockerfileFromState(SMC.state, true, true);
@@ -438,5 +422,27 @@ function SetupServerModalController(
           });
       });
   };
+
+  if (repo) {
+    // If a repo is passed into this controller, select that repo
+    SMC.selectRepo(repo);
+  } else {
+    // TODO: Remove code when removing `dockerFileMirroing` code
+    $q.all({
+      instances: fetchInstancesByPod(),
+      repoList: fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
+    })
+      .then(function (data) {
+        SMC.data.instances = data.instances;
+        SMC.data.githubRepos = data.repoList;
+        SMC.data.githubRepos.models.forEach(function (repo) {
+          repo.isAdded = SMC.isRepoAdded(repo, data.instances);
+        });
+      })
+      .catch(errs.handler)
+      .finally(function () {
+        SMC.loading = false;
+      });
+  }
 
 }
