@@ -127,6 +127,7 @@ function SetupServerModalController(
       });
   });
 
+  // TODO: Remove code when removing `dockerFileMirroing` code
   $q.all({
     instances: fetchInstancesByPod(),
     repoList: fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
@@ -162,10 +163,12 @@ function SetupServerModalController(
     }
   });
 
+  // TODO: Remove code when removing `dockerFileMirroing` code
   function normalizeRepoName(repo) {
     return repo.attrs.name.replace(/[^a-zA-Z0-9-]/g, '-');
   }
 
+  // TODO: Remove code when removing `dockerFileMirroing` code
   SMC.isRepoAdded = function (repo, instances) {
     // Since the newServers may have faked repos (just containing names), just check the name
 

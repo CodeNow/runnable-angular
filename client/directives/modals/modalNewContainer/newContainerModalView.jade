@@ -48,12 +48,10 @@
       default = "true"
       name = "containerSelection"
     )
-      header.modal-header.grid-block.justify-center.row-xxs(
-        ng-init = "state.addRepoTab = true"
-      )
+      header.modal-header.grid-block.justify-center.row-xxs
         .grid-block.shrink.btn(
-          ng-class = "{'active': state.addRepoTab}"
-          ng-click = "state.addRepoTab = true"
+          ng-class = "{'active': NCMC.state.addRepoTab}"
+          ng-click = "NCMC.state.addRepoTab = true"
         )
           svg.iconnables.icons-repository.grid-block.shrink
             use(
@@ -63,10 +61,10 @@
         //- disable this button when loading a repository
         .grid-block.shrink.btn(
           ng-class = "{\
-            'active': !state.addRepoTab,\
+            'active': !NCMC.state.addRepoTab,\
             'btn-hint': NCMC.servicesActive\
           }"
-          ng-click = "state.addRepoTab = false"
+          ng-click = "NCMC.state.addRepoTab = false"
         )
           svg.iconnables.icons-template.grid-block.shrink
             use(
@@ -82,12 +80,12 @@
           )
 
       .modal-body(
-        ng-if = "state.addRepoTab"
-        ng-include = "'repositorySelectSectionView'"
+        ng-if = "NCMC.state.addRepoTab"
+        ng-include = "'newRepositorySelectionView'"
       )
 
       .modal-body(
-        ng-if = "!state.addRepoTab"
+        ng-if = "!NCMC.state.addRepoTab"
         ng-include = "'templateSelectSectionView'"
       )
 
