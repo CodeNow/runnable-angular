@@ -6,29 +6,18 @@
 //- .grid-content.well.in.empty
   p.p.text-center We couldn’t find a Dockerfile in this repository.
 
-//- if coming from dockerfile tool AND dockerfile editing was enabled
-//- .grid-content.well.in.empty.align-center.justify-center(
-//-   ng-if = "fromTool"
-//- )
-  svg.iconnables.icons-alert-alt
-    use(
-      xlink:href = "#icons-alert-alt"
-    )
-  | Mirroring will replace your current Runnable Dockerfile.
-
 .grid-content.row-xxs.list.list-bordered
-  //- add .disabled class if loading
+  //- 'thisDockerfile' should be the name of the Dockerfile (ie. 'Dockerfile.prod', or 'Dockerfile.staging') to suppot multiple dockerfiles
+  //- add .disabled class to the not selected item if loading
   label.grid-block.list-item.row-xxs(
-    ng-class = "{'active': dockerfile.selection === 'ansible/docker-files/base/Dockerfile'}"
+    ng-class = "{'active': dockerfile.selection === 'thisDockerfile'}"
   )
     svg.grid-content.shrink.iconnables.icons-dockerfile
       use(
         xlink:href = "#icons-dockerfile"
       )
     .grid-content
-      .text-left.text-overflow(
-        title = "ansible/docker-files/base/Dockerfile"
-      ) ansible/docker-files/base/Dockerfile
+      .text-left Dockerfile
       a.small.link(
         href = "#"
         target = "_blank"
@@ -38,35 +27,7 @@
       name = "dockerfile"
       ng-model = "dockerfile.selection"
       type = "radio"
-      value = "ansible/docker-files/base/Dockerfile"
-    )
-    button.btn.btn-xs.btn-icon
-      svg.iconnables.icons-check
-        use(
-          xlink:href = "#icons-check"
-        )
-
-  //- add .disabled class if loading
-  label.list-item.grid-block.row-xxs(
-    ng-class = "{'active': dockerfile.selection === 'ansible/docker-files/main/Dockerfile'}"
-  )
-    svg.grid-content.shrink.iconnables.icons-dockerfile
-      use(
-        xlink:href = "#icons-dockerfile"
-      )
-    .grid-content
-      .text-left.text-overflow(
-        title = "ansible/docker-files/main/Dockerfile"
-      ) ansible/docker-files/main/Dockerfile
-      a.small.link(
-        href = "#"
-        target = "_blank"
-      ) View on GitHub
-    input.checkbox(
-      name = "dockerfile"
-      ng-model = "dockerfile.selection"
-      type = "radio"
-      value = "ansible/docker-files/main/Dockerfile"
+      value = "thisDockerfile"
     )
     button.btn.btn-xs.btn-icon
       svg.iconnables.icons-check
@@ -77,6 +38,7 @@
 .grid-content.row-xxs.list.list-bordered(
   ng-if = "!fromTool"
 )
+  //- add .disabled class to the not selected item if loading
   label.grid-block.list-item.row-xxs(
     ng-class = "{'active': dockerfile.selection === '0'}"
   )

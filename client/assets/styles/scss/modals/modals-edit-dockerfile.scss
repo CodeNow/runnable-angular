@@ -1,42 +1,29 @@
 .modal-dockerfile {
 
+  // unlock and mirror options
   > .well {
+    color: $gray-dark;
+    height: $input-lg;
     margin: 0 0 15px;
-    padding: 3px 0;
+    padding: 0 9px 0 15px;
 
-    > .grid-block {
-      align-items: center;
-      color: $gray-dark;
-      height: $input-lg;
-      margin: 0 9px;
-      padding: 0 9px;
+    .grid-content {
+      height: 35px;
+      line-height: 1;
 
-      + .grid-block {
-        border-top: 1px solid $gray-lighter;
+      @include media(xxs) {
+        margin-left: 0;
+        margin-right: 6px;
       }
 
-      .iconnables {
+      // icon anchor
+      &.iconnables {
         @include media(xxs) {
           display: none;
         }
       }
 
-      .grid-content {
-        @include media(xxs) {
-          margin-left: 0;
-          margin-right: 6px;
-        }
-      }
-    }
-
-    // text
-    .iconnables + .grid-content {
-      display: inline-block;
-      height: 36px; // prevent shifting when the change button is present
-      line-height: 1;
-      width: 100%;
-
-      // padding only needed if theres a button here
+      // for text if change button is present
       &.padding-right {
         padding-right: 90px;
       }
@@ -45,6 +32,8 @@
     // small text
     .small {
       color: $gray;
+      display: inline-block;
+      width: 100%;
 
       .span {
         display: inline-block;
@@ -55,6 +44,7 @@
       }
     }
 
+    // if error
     .icons-alert-alt {
       color: $orange;
       height: 12px;
@@ -66,6 +56,13 @@
     // change path
     .btn-xxs {
       margin-left: 3px;
+    }
+
+    // unlock button
+    .btn-sm .iconnables {
+      height: 15px;
+      margin-right: 5px;
+      width: 15px;
     }
   }
 }

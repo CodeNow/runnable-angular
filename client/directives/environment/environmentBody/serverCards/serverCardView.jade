@@ -30,7 +30,7 @@ ul.card-body.load(
   li.btn.white(
     ng-click = "openEditServerModal('repository')"
     ng-class = "{'btn-hint': helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.repository}"
-    ng-if = "server.repo && !server.advanced"
+    ng-if = "server.repo && (!server.advanced || $root.featureFlags.dockerfileMirroring)"
   )
     svg.iconnables
       use(
@@ -156,39 +156,59 @@ ul.card-body.load(
         xlink:href = "#icons-dockerfile"
       )
     h3.h3.text-overflow Dockerfile
-    small.small(
-      ng-if = "!server.advanced"
-    ) {{$root.featureFlags.dockerfileSync ? 'Last updated 1m ago' : '—'}}
+    //- can we get this feature working for non-mirroing (but advanced) too?
     small.small.text-overflow(
       ng-if = "server.advanced"
     )
+      span.span.float-left {{$root.featureFlags.dockerfileMirroring ? 'Last updated 1m ago' : '—'}}
+      //- span.span.float-left Error: Dockerfile not found
+
+
+    small.small.text-overflow(
+      ng-if = "!server.advanced"
+    )
       em.underline(
+        ng-if = "!$root.featureFlags.dockerfileMirroring"
         pop-over
         pop-over-hover-trigger
         pop-over-options = "{\"top\":25,\"centered\":true}"
         pop-over-template = "viewTooltipTools"
         pop-over-trigger = "hover"
       ) Some features
-      span.text-overflow &nbsp;are not available with editing enabled.
+      span.text-overflow(
+        ng-if = "!$root.featureFlags.dockerfileMirroring"
+      ) &nbsp;are not available with editing enabled.
+      span(
+        ng-if = "$root.featureFlags.dockerfileMirroring"
+      ) —
 
     //- lock/unlock icon to show status of container's dockerfile
     //- sync overrides lock
     .iconnables-wrapper
+
       //- only repo containers can sync
+      //- show this instead of the lock, when mirroring
       svg.iconnables.icons-sync(
-        ng-if = "$root.featureFlags.dockerfileSync"
+        ng-if = "$root.featureFlags.dockerfileMirroring && server.advanced"
       )
         use(
           xlink:href = "#icons-sync"
         )
+      //- if dockerfile is missing
+      //- svg.iconnables.icons-alert-alt(
+      //-   ng-if = "$root.featureFlags.dockerfileMirroring && server.advanced && error"
+      //- )
+        use(
+          xlink:href = "#icons-alert-alt"
+        )
       svg.iconnables.icons-lock(
-        ng-if = "!$root.featureFlags.dockerfileSync && !server.advanced"
+        ng-if = "!$root.featureFlags.dockerfileMirroring && !server.advanced"
       )
         use(
           xlink:href = "#icons-lock"
         )
       svg.iconnables.icons-unlock(
-        ng-if = "!$root.featureFlags.dockerfileSync && server.advanced"
+        ng-if = "!$root.featureFlags.dockerfileMirroring && server.advanced"
       )
         use(
           xlink:href = "#icons-unlock"

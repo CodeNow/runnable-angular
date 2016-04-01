@@ -33,10 +33,19 @@ li.file(
   a(
     ng-if = "fs.id() === '/Dockerfile'"
   )
-    svg.iconnables.filetypes.icons-file
+    svg.iconnables.filetypes.icons-file(
+      ng-if = "!readOnly"
+    )
       use(
         xlink:href = "#icons-file-dockerfile"
       )
+    svg.iconnables.filetypes.icons-file(
+      ng-if = "readOnly"
+    )
+      use(
+        xlink:href = "#icons-file-dockerfile-lock"
+      )
+
     span.item-name {{fs.attrs.name}}
     span.btn.btn-file-errors.red(
       ng-if = "fs.validation.errors.length"

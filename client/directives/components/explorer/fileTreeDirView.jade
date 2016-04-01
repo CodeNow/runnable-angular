@@ -51,7 +51,7 @@ li.folder(
       )
         svg.iconnables.filetypes.icons-repository
           use(
-            xlink:href = "#icons-repository-additional"
+            xlink:href = "#icons-folder-repository-additional"
           )
         span.item-name …
 
@@ -91,11 +91,11 @@ li.folder(
         )
           use(
             ng-if = "acv.attrs.additionalRepo"
-            xlink:href = "#icons-repository-additional"
+            xlink:href = "#icons-folder-repository-additional"
           )
           use(
             ng-if = "!acv.attrs.additionalRepo"
-            xlink:href = "#icons-repository"
+            xlink:href = "#icons-folder-repository"
           )
         span.item-name {{ normalizeRepoNames(acv.attrs.repo) }}
   ul(
