@@ -6,17 +6,20 @@ require('app')
 function NewContainerModalController(
   $q,
   $rootScope,
-  ModalService,
   copySourceInstance,
+  createNewBuild,
   createAndBuildNewContainer,
   errs,
   eventTracking,
   fetchInstances,
   fetchInstancesByPod,
+  fetchStackData,
   fetchOwnerRepos,
   getNewForkName,
   keypather,
   helpCards,
+  ModalService,
+  promisify,
   close
 ) {
   var NCMC = this;
@@ -111,15 +114,61 @@ function NewContainerModalController(
     return true;
   };
 
-  NCMC.newRepositoryContainer = function (repo) {
+  NCMC.selectRepo = function (repo) {
+    var inputs = {
+      repo: repo,
+      branch: null,
+      build: null
+    };
+    NCMC.loadingRepo = true;
+    fetchStackData(repo)
+      .then(function () {
+        return createNewBuild($rootScope.dataApp.data.activeAccount);
+      })
+      .then(function (buildWithVersion) {
+        inputs.build = buildWithVersion;
+        return buildWithVersion.contextVersion;
+      })
+      .then(function () {
+        return promisify(repo, 'fetchBranch')(repo.attrs.default_branch);
+      })
+      .then(function (masterBranch) {
+        inputs.masterBranch = masterBranch;
+        // Set the repo here so the page change happens after all of these fetches
+        return promisify(inputs.build.contextVersion.appCodeVersions, 'create', true)({
+          repo: repo.attrs.full_name,
+          branch: masterBranch.attrs.name,
+          commit: masterBranch.attrs.commit.sha
+        });
+      })
+      .then(function () {
+        NCMC.newRepositoryContainer(inputs);
+      })
+      .catch(function (err) {
+        if (err.message.match(/repo.*not.*found/ig)) {
+          var message = 'Failed to add Webhooks. Please invite a member of this repository\'s owners team to add it to Runnable for the first time';
+          errs.handler(new Error(message));
+        } else {
+          errs.handler(err);
+        }
+      })
+      .finally(function () {
+        NCMC.loadingRepo = false;
+        NCMC.repoSelected = false;
+      });
+  };
+
+  NCMC.newRepositoryContainer = function (inputs) {
     close();
     ModalService.showModal({
       controller: 'SetupServerModalController',
       controllerAs: 'SMC',
       templateUrl: 'setupServerModalView',
-      inputs: {
-        repo: repo
-      }
+      inputs: angular.extend({
+        repo: null,
+        build: null,
+        masterBranch: null
+      }, inputs)
     });
   };
   // TODO: Remove code when removing `dockerFileMirroing` code

@@ -30,7 +30,9 @@ function SetupServerModalController(
   OpenItems,
   fetchStackInfo,
   close,
-  repo
+  repo,
+  build,
+  masterBranch
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
   SMC.helpCards = helpCards;
@@ -332,6 +334,7 @@ function SetupServerModalController(
       });
   };
 
+  // TODO: Remove code when removing `dockerFileMirroing` code
   SMC.selectRepo = function (repo) {
     if (SMC.repoSelected || repo.isAdded) { return; }
     SMC.state.mainRepoContainerFile.name = repo.attrs.name;
@@ -391,7 +394,16 @@ function SetupServerModalController(
 
   if (repo) {
     // If a repo is passed into this controller, select that repo
-    SMC.selectRepo(repo);
+    SMC.state.mainRepoContainerFile.name = repo.attrs.name;
+    SMC.state.repo = repo;
+    SMC.repoSelected = true;
+    SMC.state.opts.name = normalizeRepoName(repo);
+    SMC.state.build = build;
+    SMC.state.contextVersion = build.contextVersion;
+    SMC.state.advanced = false;
+    SMC.state.branch = masterBranch;
+    SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
+    SMC.state.acv = SMC.state.contextVersion.getMainAppCodeVersion();
   } else {
     // TODO: Remove code when removing `dockerFileMirroing` code
     $q.all({
