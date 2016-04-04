@@ -73,6 +73,7 @@ function NewContainerModalController(
     });
 
   NCMC.close = close;
+
   NCMC.addServerFromTemplate = function (sourceInstance) {
     var instanceToForkName = sourceInstance.attrs.name;
     close();
@@ -105,7 +106,12 @@ function NewContainerModalController(
       .catch(errs.handler);
   };
 
-  NCMC.selectRepo = function (repo) {
+  NCMC.setRepo = function (repo) {
+    NCMC.state.repo = repo;
+    return true;
+  };
+
+  NCMC.newRepositoryContainer = function (repo) {
     close();
     ModalService.showModal({
       controller: 'SetupServerModalController',

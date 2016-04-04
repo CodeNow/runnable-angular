@@ -114,11 +114,12 @@
 
       .modal-footer.clearfix
         button.btn.btn-md.white.float-left(
-          ng-click = "NCMC.close()"
+          ng-click="NCMC.close()"
         ) Cancel
         //- add the 'in' class to .btn-spinner when spinning!
         button.btn.btn-md.green.float-right.btn-spinner(
           ng-disabled = "!dockerfile.selection"
+          ng-click = "NCMC.newRepositoryContainer(NCMC.state.repo)"
         )
           //- .spinner-wrapper.spinner-white.spinner-sm.in(
           //-   ng-include = "'spinner'"

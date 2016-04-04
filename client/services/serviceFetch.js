@@ -21,6 +21,7 @@ require('app')
   .factory('fetchRepoBranches', fetchRepoBranches)
   .factory('fetchContexts', fetchContexts)
   .factory('fetchDebugContainer', fetchDebugContainer)
+  .factory('fetchStackData', fetchStackData)
   // Github API
   .factory('fetchGitHubUser', fetchGitHubUser)
   .factory('fetchGitHubMembers', fetchGitHubMembers)
@@ -752,4 +753,48 @@ function fetchDebugContainer(
       return promisify(user, 'fetchDebugContainer')(containerId);
     });
   };
+}
+
+function fetchStackData(
+  $log,
+  fetchStackInfo,
+  fetchStackAnalysis,
+  hasKeypaths
+) {
+  return function (repo) {
+    function setStackSelectedVersion(stack, versions) {
+      if (versions[stack.key]) {
+        stack.suggestedVersion = versions[stack.key];
+      }
+      if (stack.dependencies) {
+        stack.dependencies.forEach(function (childStack) {
+          setStackSelectedVersion(childStack, versions);
+        });
+      }
+    }
+    return fetchStackInfo()
+      .then(function (stacks) {
+        return fetchStackAnalysis(repo.attrs.full_name)
+          .then(function (data) {
+            if (!data.languageFramework) {
+              $log.warn('No language detected');
+              return;
+            }
+            if (data.languageFramework === 'ruby_ror') {
+              data.languageFramework = 'rails';
+            }
+            repo.stackAnalysis = data;
+
+            var stack = stacks.find(hasKeypaths({
+              'key': data.languageFramework.toLowerCase()
+            }));
+            if (stack) {
+              setStackSelectedVersion(stack, data.version);
+              return stack;
+            }
+          });
+      });
+  };
+
+
 }

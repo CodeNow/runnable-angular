@@ -16,6 +16,7 @@ function SetupServerModalController(
   fetchInstancesByPod,
   fetchOwnerRepos,
   fetchStackAnalysis,
+  fetchStackData,
   hasKeypaths,
   helpCards,
   keypather,
@@ -345,7 +346,7 @@ function SetupServerModalController(
 
     SMC.state.promises.contextVersion = loadingPromises.start(
       SMC.name,
-      SMC.fetchStackData(repo)
+      fetchStackData(repo)
         .then(function () {
           return createNewBuild($rootScope.dataApp.data.activeAccount);
         })
@@ -385,41 +386,6 @@ function SetupServerModalController(
       .finally(function () {
         repo.loading = false;
         SMC.repoSelected = false;
-      });
-  };
-
-  SMC.fetchStackData = function (repo) {
-    function setStackSelectedVersion(stack, versions) {
-      if (versions[stack.key]) {
-        stack.suggestedVersion = versions[stack.key];
-      }
-      if (stack.dependencies) {
-        stack.dependencies.forEach(function (childStack) {
-          setStackSelectedVersion(childStack, versions);
-        });
-      }
-    }
-    return fetchStackInfo()
-      .then(function (stacks) {
-        return fetchStackAnalysis(repo.attrs.full_name)
-          .then(function (data) {
-            if (!data.languageFramework) {
-              $log.warn('No language detected');
-              return;
-            }
-            if (data.languageFramework === 'ruby_ror') {
-              data.languageFramework = 'rails';
-            }
-            repo.stackAnalysis = data;
-
-            var stack = stacks.find(hasKeypaths({
-              'key': data.languageFramework.toLowerCase()
-            }));
-            if (stack) {
-              setStackSelectedVersion(stack, data.version);
-              return stack;
-            }
-          });
       });
   };
 
