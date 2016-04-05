@@ -173,7 +173,10 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       keypather.set($rootScope, 'dataApp.data.activeAccount.oauthName', sinon.mock().returns('myOauthName'));
       $scope = $rootScope.$new();
       SMC = $controller('SetupServerModalController', {
-        $scope: $scope
+        $scope: $scope,
+        repo: null,
+        build: null,
+        masterBranch: null
       });
     });
   }
@@ -315,28 +318,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   });
 
   describe('methods', function(){
-    describe('fetchStackData', function () {
-      it('should fetch stack data', function () {
-
-        SMC.fetchStackData(repo)
-          .then(function (data) {
-            var sourceStack = stacks[0];
-
-            expect(data.key).to.equal(sourceStack.key);
-            expect(data.startCommand).to.equal(sourceStack.startCommand);
-            expect(data.name).to.equal(sourceStack.name);
-            expect(data.suggestedVersion).to.equal('4.1.8');
-            expect(data.dependencies[0].suggestedVersion).to.equal('0.8');
-
-          });
-        $scope.$digest();
-        fetchStackAnalysisMock.triggerPromise(analysisMockData);
-        $scope.$digest();
-
-        expect(repo.stackAnalysis).to.equal(analysisMockData);
-      });
-    });
-
     describe('selectRepo', function () {
 
       it('selectRepo should setup the repo selected view', function () {
