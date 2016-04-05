@@ -221,8 +221,7 @@ section.modal-body(
 footer.modal-footer.clearfix(
   is-primary-button-disabled = "\
     (SMC.state.step < 3 && serverForm.$invalid) ||\
-    (SMC.state.selectedStack | selectedStackInvalid) ||\
-    !SMC.isDockerfileValid()\
+    (SMC.state.selectedStack | selectedStackInvalid)\
   "
   server-modal-buttons
   server-modal-controller = "SMC"
