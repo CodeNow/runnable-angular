@@ -1,17 +1,22 @@
 //-
 //- start $root.featureFlags.dockerfileMirroring
 //-
-
 .spinner-wrapper.spinner-md.in(
-  ng-if = "!NCMC.state.addRepoTab && $root.featureFlags.dockerfileMirroring && NCMC.state.loadingTemplates"
+  ng-if = "\
+    $root.featureFlags.dockerfileMirroring && \
+    NCMC.state.loadingTemplates && \
+    !NCMC.state.addRepoTab \
+  "
   ng-include = "'spinner'"
 )
 
 .grid-block.justify-right.list-header.row-xxs(
-  ng-if = "$root.featureFlags.dockerfileMirroring && !NCMC.state.addRepoTab && !NCMC.state.loadingTemplates"
+  ng-if = "\
+    $root.featureFlags.dockerfileMirroring && \
+    NCMC.state.loadingTemplates && \
+    !NCMC.state.addRepoTab \
+  "
 )
-  //- search
-    - disable while loading
   input.input.input-xs.input-search(
     autofocus
     ng-model = "NCMC.serviceFilter"
@@ -22,10 +27,12 @@
   )
 
 ul.list.list-servers(
-  ng-if = "!NCMC.state.addRepoTab && $root.featureFlags.dockerfileMirroring && !NCMC.state.loadingTemplates"
+  ng-if = "\
+    $root.featureFlags.dockerfileMirroring && \
+    NCMC.state.loadingTemplates && \
+    !NCMC.state.addRepoTab \
+  "
 )
-  //- ng-class = "{'btn-hint': dependency.attrs.lowerName === STMC.helpCard.data.dependency}"
-
   li.list-item.grid-block.row-xxs(
     ng-click = "NCMC.addServerFromTemplate(dependency)"
     ng-repeat = "\

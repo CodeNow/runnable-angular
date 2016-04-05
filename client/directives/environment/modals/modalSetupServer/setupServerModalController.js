@@ -394,16 +394,18 @@ function SetupServerModalController(
 
   if (repo) {
     // If a repo is passed into this controller, select that repo
+    angular.extend(SMC.state, {
+      repo: repo,
+      build: build,
+      contextVersion: build.contextVersion,
+      acv: build.contextVersion.contextVersion.getMainAppCodeVersion(),
+      branch: masterBranch,
+      repoSelected: true,
+      advanced: false
+    });
     SMC.state.mainRepoContainerFile.name = repo.attrs.name;
-    SMC.state.repo = repo;
-    SMC.repoSelected = true;
     SMC.state.opts.name = normalizeRepoName(repo);
-    SMC.state.build = build;
-    SMC.state.contextVersion = build.contextVersion;
-    SMC.state.advanced = false;
-    SMC.state.branch = masterBranch;
     SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
-    SMC.state.acv = SMC.state.contextVersion.getMainAppCodeVersion();
   } else {
     // TODO: Remove code when removing `dockerFileMirroing` code
     $q.all({

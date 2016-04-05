@@ -9,7 +9,11 @@
 
 //- hide this when loading
 .grid-block.justify-justified.list-header.row-xxs(
-  ng-if = "$root.featureFlags.dockerfileMirroring && !NCMC.state.loadingRepos && NCMC.state.addRepoTab"
+  ng-if = "\
+    $root.featureFlags.dockerfileMirroring && \
+    !NCMC.state.loadingRepos && \
+    NCMC.state.addRepoTab \
+  "
 )
   small.small {{NCMC.state.addRepoTab ? 'By last updated' : ''}}
 
@@ -91,11 +95,6 @@ ul.list.list-servers(
         use(
           xlink:href = "#icons-add"
         )
-
-  //- show when loading this repository
-  //- .spinner-wrapper.spinner-sm.spinner-green.in(
-    //- ng-include = "'spinner'"
-  //- )
 //-
 //- end $root.featureFlags.dockerfileMirroring
 //-
