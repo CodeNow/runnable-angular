@@ -134,7 +134,7 @@
   .ace_editor(
     file = "item"
     file-editor
-    loading = "SMC.loading"
+    loading = "$root.isLoading.editServerModal || $root.isLoading.editServerModalIsBuilding"
     loading-promises-target = "editServerModal"
     ng-class = "{'readonly': !SMC.state.advanced || state.syncing}"
     ng-if = "item.state.type === 'File'"

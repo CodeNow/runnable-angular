@@ -145,10 +145,7 @@ function SetupServerModalController(
           repo.isAdded = SMC.isRepoAdded(repo, data.instances);
         });
       })
-      .catch(errs.handler)
-      .finally(function () {
-        SMC.loading = false;
-      });
+      .catch(errs.handler);
   }
 
   $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
