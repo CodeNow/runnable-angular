@@ -112,7 +112,7 @@ function fileEditor(
         }
 
         var body = $scope.file.state ? $scope.file.state.body : $scope.file.attrs.body;
-        var validation = validateDockerfile(body);
+        var validation = validateDockerfile(body, { maxLineLength: 2000 });
         if (validation.errors) {
           validation.errors = validation.errors.filter(function (error) {
             return error.line;
