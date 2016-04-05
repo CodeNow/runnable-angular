@@ -64,13 +64,18 @@ ul.list.list-servers(
 
   //- add active class when loading
   li.list-item.multi-line.text-overflow(
-    ng-click = "NCMC.setRepo(repo) && goToPanel('dockerfileMirroring')"
+    ng-if = "$index < 10"
+    ng-disabled = "repo.isAdded || NCMC.repoSelected"
+    ng-click = "repo.isAdded && NCMC.setRepo(repo) && goToPanel('dockerfileMirroring')"
     ng-repeat = "\
       repo in NCMC.githubRepos.models | \
       repos: NCMC.repoFilter | \
       orderBy: '-attrs.updated_at' as noResults\
     "
-    ng-if="$index < 10"
+    ng-class = "{ \
+      'active': repo.loading, \
+      'disabled': repo.isAdded \
+    }"
   ) {{ repo.attrs.name }}
     .row.row-author(
       ng-if = "$root.featureFlags.inviteFlows"
