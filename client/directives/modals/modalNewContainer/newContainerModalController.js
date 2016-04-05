@@ -36,8 +36,11 @@ function NewContainerModalController(
     }
   });
 
-  // Fetch all repos from Github
+  // Start loading repos and templates
   loading(NCMC.name + 'Repos', true);
+  loading(NCMC.name + 'Templates', true);
+
+  // Fetch all repos from Github
   $q.all({
     instances: fetchInstancesByPod(),
     repoList: fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
@@ -54,6 +57,15 @@ function NewContainerModalController(
       loading(NCMC.name + 'Repos', false);
     });
 
+  // Fetch all non-repo containres
+  fetchInstances({ githubUsername: 'HelloRunnable' })
+    .then(function (servers) {
+      NCMC.templateServers = servers;
+      loading(NCMC.name + 'Templates', false);
+    });
+
+
+
   function normalizeRepoName(repo) {
     return repo.attrs.name.replace(/[^a-zA-Z0-9-]/g, '-');
   }
@@ -69,14 +81,6 @@ function NewContainerModalController(
       }
     });
   };
-
-  // Fetch all non-repo containres
-  loading(NCMC.name + 'Templates', true);
-  fetchInstances({ githubUsername: 'HelloRunnable' })
-    .then(function (servers) {
-      NCMC.templateServers = servers;
-      loading(NCMC.name + 'Templates', false);
-    });
 
   NCMC.close = close;
 
@@ -161,12 +165,6 @@ function NewContainerModalController(
       });
   };
 
-  NCMC.openIntercom = function () {
-    window.Intercom(
-      'showNewMessage',
-      'Fudge! This thing won’t fetch my Github repos. Can you fix it?'
-    );
-  };
   NCMC.newRepositoryContainer = function (inputs) {
     close();
     ModalService.showModal({
