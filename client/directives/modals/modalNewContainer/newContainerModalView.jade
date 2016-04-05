@@ -118,15 +118,15 @@
         ) Cancel
         //- add the 'in' class to .btn-spinner when spinning!
         button.btn.btn-md.green.float-right.btn-spinner(
-          ng-disabled = "NCMC.loadingRepo"
+          ng-disabled = "$root.isLoading.newContainerModalSingleRepo"
           ng-click = "NCMC.selectRepo(NCMC.state.repo)"
           ng-class = "{ \
-            in: NCMC.loadingRepo \
+            in: $root.isLoading.newContainerModalSingleRepo \
           }"
         )
           .spinner-wrapper.spinner-white.spinner-sm.in(
             ng-include = "'spinner'"
-            ng-if = "NCMC.loadingRepo"
+            ng-if = "$root.isLoading.newContainerModalSingleRepo"
           )
           | Next Step{{dockerfile.selection === '0' ? ': Configure' : ': Review'}}
 

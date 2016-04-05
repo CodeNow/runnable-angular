@@ -16,26 +16,28 @@ function NewContainerModalController(
   fetchStackData,
   fetchOwnerRepos,
   getNewForkName,
-  keypather,
   helpCards,
+  keypather,
+  loading,
   ModalService,
   promisify,
   close
 ) {
   var NCMC = this;
   var helpCard = helpCards.getActiveCard();
-  NCMC.servicesActive = keypather.get(helpCard, 'id') === 'missingDependency';
-  NCMC.close = close;
-
-  NCMC.state = {
-    repoSelected: false,
-    addRepoTab: true,
-    loadingRepos: true,
-    loadingTemplates: true,
-    opts: {}
-  };
+  angular.extend(NCMC, {
+    name: 'newContainerModal',
+    servicesActive: keypather.get(helpCard, 'id') === 'missingDependency',
+    close: close,
+    state: {
+      addRepoTab: true,
+      repoSelected: false,
+      opts: {}
+    }
+  });
 
   // Fetch all repos from Github
+  loading(NCMC.name + 'Repos', true);
   $q.all({
     instances: fetchInstancesByPod(),
     repoList: fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
@@ -49,7 +51,7 @@ function NewContainerModalController(
     })
     .catch(errs.handler)
     .finally(function () {
-      NCMC.state.loadingRepos = false;
+      loading(NCMC.name + 'Repos', false);
     });
 
   function normalizeRepoName(repo) {
@@ -69,10 +71,11 @@ function NewContainerModalController(
   };
 
   // Fetch all non-repo containres
+  loading(NCMC.name + 'Templates', true);
   fetchInstances({ githubUsername: 'HelloRunnable' })
     .then(function (servers) {
       NCMC.templateServers = servers;
-      NCMC.state.loadingTemplates = false;
+      loading(NCMC.name + 'Templates', false);
     });
 
   NCMC.close = close;
@@ -120,7 +123,7 @@ function NewContainerModalController(
       branch: null,
       build: null
     };
-    NCMC.loadingRepo = true;
+    loading(NCMC.name + 'SingleRepo', true);
     fetchStackData(repo)
       .then(function () {
         return createNewBuild($rootScope.dataApp.data.activeAccount);
@@ -153,7 +156,7 @@ function NewContainerModalController(
         }
       })
       .finally(function () {
-        NCMC.loadingRepo = false;
+        loading(NCMC.name + 'SingleRepo', false);
         NCMC.repoSelected = false;
       });
   };

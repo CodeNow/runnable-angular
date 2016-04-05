@@ -4,7 +4,7 @@
 .spinner-wrapper.spinner-md.in(
   ng-if = "\
     $root.featureFlags.dockerfileMirroring && \
-    NCMC.state.loadingTemplates && \
+    $root.isLoading.newContainerModalTemplates && \
     !NCMC.state.addRepoTab \
   "
   ng-include = "'spinner'"
@@ -13,7 +13,7 @@
 .grid-block.justify-right.list-header.row-xxs(
   ng-if = "\
     $root.featureFlags.dockerfileMirroring && \
-    NCMC.state.loadingTemplates && \
+    !$root.isLoading.newContainerModalTemplates && \
     !NCMC.state.addRepoTab \
   "
 )
@@ -29,7 +29,7 @@
 ul.list.list-servers(
   ng-if = "\
     $root.featureFlags.dockerfileMirroring && \
-    NCMC.state.loadingTemplates && \
+    !$root.isLoading.newContainerModalTemplates && \
     !NCMC.state.addRepoTab \
   "
 )

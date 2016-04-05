@@ -398,7 +398,7 @@ function SetupServerModalController(
       repo: repo,
       build: build,
       contextVersion: build.contextVersion,
-      acv: build.contextVersion.contextVersion.getMainAppCodeVersion(),
+      acv: build.contextVersion.getMainAppCodeVersion(),
       branch: masterBranch,
       repoSelected: true,
       advanced: false

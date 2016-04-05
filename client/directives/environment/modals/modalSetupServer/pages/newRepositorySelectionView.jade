@@ -3,7 +3,7 @@
 //-
 
 .spinner-wrapper.spinner-md.in(
-  ng-if = "NCMC.state.loadingRepos"
+  ng-if = "$root.isLoading.newContainerModalRepos"
   ng-include = "'spinner'"
 )
 
@@ -11,7 +11,7 @@
 .grid-block.justify-justified.list-header.row-xxs(
   ng-if = "\
     $root.featureFlags.dockerfileMirroring && \
-    !NCMC.state.loadingRepos && \
+    !$root.isLoading.newContainerModalRepos && \
     NCMC.state.addRepoTab \
   "
 )
@@ -32,7 +32,7 @@
 .grid-block.well.gray.justify-center(
   ng-if = "\
     $root.featureFlags.dockerfileMirroring && \
-    !NCMC.state.loadingRepos && \
+    !$root.isLoading.newContainerModalRepos && \
     NCMC.state.addRepoTab && \
     NCMC.githubRepos.models.length === 0 \
   "
@@ -51,7 +51,7 @@
 ul.list.list-servers(
   ng-if = "\
     $root.featureFlags.dockerfileMirroring && \
-    !NCMC.state.loadingRepos && \
+    !$root.isLoading.newContainerModalRepos && \
     NCMC.state.addRepoTab && \
     NCMC.githubRepos.models.length !== 0\
   "
