@@ -158,6 +158,12 @@ function NewContainerModalController(
       });
   };
 
+  NCMC.openIntercom = function () {
+    window.Intercom(
+      'showNewMessage',
+      'Fudge! This thing won’t fetch my Github repos. Can you fix it?'
+    );
+  };
   NCMC.newRepositoryContainer = function (inputs) {
     close();
     ModalService.showModal({
