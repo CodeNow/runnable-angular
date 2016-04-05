@@ -1,7 +1,8 @@
 'use strict';
 
 require('app')
-  .factory('createNewBuild', createNewBuild);
+  .factory('createNewBuild', createNewBuild)
+  .factory('createNewBuildAndFetchBranch', createNewBuildAndFetchBranch);
 
 function createNewBuild(
   fetchUser,
@@ -58,5 +59,51 @@ function createNewBuild(
       .then(createVersion)
       .then(createBuild);
 
+  };
+}
+
+function createNewBuildAndFetchBranch(
+  createNewBuild,
+  errs,
+  fetchStackData,
+  promisify
+)  {
+  return function (activeAccount, repo) {
+    var inputs = {
+      repo: repo,
+      masterBranch: null,
+      build: null
+    };
+    return fetchStackData(repo)
+      .then(function () {
+        return createNewBuild(activeAccount);
+      })
+      .then(function (buildWithVersion) {
+        inputs.build = buildWithVersion;
+        return buildWithVersion.contextVersion;
+      })
+      .then(function () {
+        return promisify(repo, 'fetchBranch')(repo.attrs.default_branch);
+      })
+      .then(function (masterBranch) {
+        inputs.masterBranch = masterBranch;
+        // Set the repo here so the page change happens after all of these fetches
+        return promisify(inputs.build.contextVersion.appCodeVersions, 'create', true)({
+          repo: repo.attrs.full_name,
+          branch: masterBranch.attrs.name,
+          commit: masterBranch.attrs.commit.sha
+        });
+      })
+      .then(function () {
+        return inputs;
+      })
+      .catch(function (err) {
+        if (err.message.match(/repo.*not.*found/ig)) {
+          var message = 'Failed to add Webhooks. Please invite a member of this repository\'s owners team to add it to Runnable for the first time';
+          errs.handler(new Error(message));
+        } else {
+          errs.handler(err);
+        }
+      });
   };
 }

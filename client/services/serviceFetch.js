@@ -795,6 +795,4 @@ function fetchStackData(
           });
       });
   };
-
-
 }

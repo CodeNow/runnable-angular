@@ -7,8 +7,8 @@ function NewContainerModalController(
   $q,
   $rootScope,
   copySourceInstance,
-  createNewBuild,
   createAndBuildNewContainer,
+  createNewBuildAndFetchBranch,
   errs,
   eventTracking,
   fetchInstances,
@@ -63,8 +63,6 @@ function NewContainerModalController(
       NCMC.templateServers = servers;
       loading(NCMC.name + 'Templates', false);
     });
-
-
 
   function normalizeRepoName(repo) {
     return repo.attrs.name.replace(/[^a-zA-Z0-9-]/g, '-');
@@ -122,44 +120,12 @@ function NewContainerModalController(
   };
 
   NCMC.selectRepo = function (repo) {
-    var inputs = {
-      repo: repo,
-      branch: null,
-      build: null
-    };
     loading(NCMC.name + 'SingleRepo', true);
-    fetchStackData(repo)
-      .then(function () {
-        return createNewBuild($rootScope.dataApp.data.activeAccount);
+    return createNewBuildAndFetchBranch($rootScope.dataApp.data.activeAccount, repo)
+      .then(function (repoBuildAndBranch) {
+        NCMC.newRepositoryContainer(repoBuildAndBranch);
       })
-      .then(function (buildWithVersion) {
-        inputs.build = buildWithVersion;
-        return buildWithVersion.contextVersion;
-      })
-      .then(function () {
-        return promisify(repo, 'fetchBranch')(repo.attrs.default_branch);
-      })
-      .then(function (masterBranch) {
-        inputs.masterBranch = masterBranch;
-        // Set the repo here so the page change happens after all of these fetches
-        return promisify(inputs.build.contextVersion.appCodeVersions, 'create', true)({
-          repo: repo.attrs.full_name,
-          branch: masterBranch.attrs.name,
-          commit: masterBranch.attrs.commit.sha
-        });
-      })
-      .then(function () {
-        NCMC.newRepositoryContainer(inputs);
-      })
-      .catch(function (err) {
-        if (err.message.match(/repo.*not.*found/ig)) {
-          var message = 'Failed to add Webhooks. Please invite a member of this repository\'s owners team to add it to Runnable for the first time';
-          errs.handler(new Error(message));
-        } else {
-          errs.handler(err);
-        }
-      })
-      .finally(function () {
+     .finally(function () {
         loading(NCMC.name + 'SingleRepo', false);
         NCMC.repoSelected = false;
       });
