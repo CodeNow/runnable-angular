@@ -118,6 +118,39 @@ function SetupServerModalController(
   loadingPromises.clear(SMC.name);
   loading.reset(SMC.name + 'IsBuilding');
 
+  if (repo) {
+    // If a repo is passed into this controller, select that repo
+    angular.extend(SMC.state, {
+      repo: repo,
+      build: build,
+      contextVersion: build.contextVersion,
+      acv: build.contextVersion.getMainAppCodeVersion(),
+      branch: masterBranch,
+      repoSelected: true,
+      advanced: false
+    });
+    SMC.state.mainRepoContainerFile.name = repo.attrs.name;
+    SMC.state.opts.name = normalizeRepoName(repo);
+    SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
+  } else {
+    // TODO: Remove code when removing `dockerFileMirroing` code
+    $q.all({
+      instances: fetchInstancesByPod(),
+      repoList: fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
+    })
+      .then(function (data) {
+        SMC.data.instances = data.instances;
+        SMC.data.githubRepos = data.repoList;
+        SMC.data.githubRepos.models.forEach(function (repo) {
+          repo.isAdded = SMC.isRepoAdded(repo, data.instances);
+        });
+      })
+      .catch(errs.handler)
+      .finally(function () {
+        SMC.loading = false;
+      });
+  }
+
   $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
     $event.stopPropagation();
     if (showSpinner) {
@@ -391,38 +424,4 @@ function SetupServerModalController(
         SMC.repoSelected = false;
       });
   };
-
-  if (repo) {
-    // If a repo is passed into this controller, select that repo
-    angular.extend(SMC.state, {
-      repo: repo,
-      build: build,
-      contextVersion: build.contextVersion,
-      acv: build.contextVersion.getMainAppCodeVersion(),
-      branch: masterBranch,
-      repoSelected: true,
-      advanced: false
-    });
-    SMC.state.mainRepoContainerFile.name = repo.attrs.name;
-    SMC.state.opts.name = normalizeRepoName(repo);
-    SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
-  } else {
-    // TODO: Remove code when removing `dockerFileMirroing` code
-    $q.all({
-      instances: fetchInstancesByPod(),
-      repoList: fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
-    })
-      .then(function (data) {
-        SMC.data.instances = data.instances;
-        SMC.data.githubRepos = data.repoList;
-        SMC.data.githubRepos.models.forEach(function (repo) {
-          repo.isAdded = SMC.isRepoAdded(repo, data.instances);
-        });
-      })
-      .catch(errs.handler)
-      .finally(function () {
-        SMC.loading = false;
-      });
-  }
-
 }
