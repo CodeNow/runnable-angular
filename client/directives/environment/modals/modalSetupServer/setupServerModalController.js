@@ -118,7 +118,7 @@ function SetupServerModalController(
   loadingPromises.clear(SMC.name);
   loading.reset(SMC.name + 'IsBuilding');
 
-  if (repo) {
+  if (repo && build && masterBranch) {
     // If a repo is passed into this controller, select that repo
     angular.extend(SMC.state, {
       repo: repo,
