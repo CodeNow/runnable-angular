@@ -39,7 +39,6 @@ function fileEditor(
                 var mode = modelist.getModeForPath($scope.file.attrs.name).mode;
                 editor.getSession().setMode(mode);
                 session = editor.getSession();
-                updateDockerfileValidation($scope.file);
               });
             }
           });

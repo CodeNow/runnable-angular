@@ -21,7 +21,6 @@ describe('directiveEnvVars'.bold.underline.blue, function() {
       $scope = $rootScope.$new();
 
       var tpl = directiveTemplate.attribute('env-vars', {
-        'validation': 'validation',
         'current-model': 'currentModel',
         'state-model': 'stateModel'
       });
@@ -274,15 +273,13 @@ describe('directiveEnvVars'.bold.underline.blue, function() {
     });
 
     // New stuff to test
-    // tests validations are added to the gutter
     // test eventPaste
 
     it('should add gutter decorations to mock editor', function () {
       var envs = ['a=b', 'x=y', 'dasdasd=asfa'];
       initState({
         currentModel: createEnvModel(envs),
-        stateModel: {},
-        validation:  {}
+        stateModel: {}
       });
       element.isolateScope().environmentalVars = '';
       $scope.$digest();
@@ -328,8 +325,7 @@ describe('directiveEnvVars'.bold.underline.blue, function() {
       var envs = ['a=b', 'x=y', 'dasdasd=asfa'];
       initState({
         currentModel: createEnvModel(envs),
-        stateModel: {},
-        validation:  {}
+        stateModel: {}
       });
       element.isolateScope().environmentalVars = '';
       $scope.$digest();
@@ -352,8 +348,7 @@ describe('directiveEnvVars'.bold.underline.blue, function() {
       var envs = ['a=b', 'x=y', 'dasdasd=asfa'];
       initState({
         currentModel: createEnvModel(envs),
-        stateModel: {},
-        validation:  {}
+        stateModel: {}
       });
       element.isolateScope().environmentalVars = '';
       $scope.$digest();

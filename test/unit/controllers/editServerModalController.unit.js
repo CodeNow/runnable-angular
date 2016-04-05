@@ -1048,40 +1048,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
 
   });
 
-  describe('Dockerfile Valid', function () {
-
-    var dockerfileStub = {
-      'validation': {
-        'criticals': [
-          { }, { }
-        ]
-      }
-    };
-
-    beforeEach(function () {
-      setup({
-        currentModel: ctx.instance,
-        selectedTab: 'env'
-      });
-    });
-
-    it('should correctly determine whether the dockerfile is valid', function () {
-      SMC.state.advanced = true;
-      SMC.state.dockerfile = dockerfileStub;
-      expect(SMC.isDockerfileValid()).to.be.true;
-    });
-
-    it('should correctly determine whether the dockerfile is invalid', function () {
-      SMC.state.advanced = true;
-      SMC.state.dockerfile = dockerfileStub;
-      SMC.state.dockerfile.validation.criticals.push({
-        message: 'Missing or misplaced FROM'
-      });
-      expect(SMC.isDockerfileValid()).to.be.false;
-    });
-
-  });
-
   describe('modal closing verification', function () {
 
     beforeEach(function () {
