@@ -96,3 +96,7 @@
 #intercom-container .intercom-conversation-preview .intercom-small-announcement-body-container {
   max-height: none !important;
 }
+
+#intercom-container .intercom-conversation-preview .intercom-small-announcement-body-container:after {
+  display: none !important;
+}
