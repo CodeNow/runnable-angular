@@ -31,6 +31,7 @@ require('app')
   .factory('fetchGithubUserForCommit', fetchGithubUserForCommit)
   .factory('fetchOwnerRepos', fetchOwnerRepos)
   .factory('fetchPullRequest', fetchPullRequest)
+  .factory('fetchRepoDockerfiles', fetchRepoDockerfiles)
   // Settings
   .factory('verifySlackAPITokenAndFetchMembers', verifySlackAPITokenAndFetchMembers)
   .factory('fetchSettings', fetchSettings)
@@ -793,6 +794,28 @@ function fetchStackData(
               return stack;
             }
           });
+      });
+  };
+}
+
+function fetchRepoDockerfiles(
+  $http,
+  configAPIHost,
+  keypather
+) {
+  return function (repo) {
+    var fullName = keypather.get(repo, 'attrs.full_name');
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/github/repos/' + fullName + '/contents/Dockerfile?ref=master'
+    })
+      .then(function (res) {
+        var file = res.data;
+        console.log('file', file);
+        if (file.message && file.message.match(/not.found/i)) {
+          return [];
+        }
+        return [file];
       });
   };
 }
