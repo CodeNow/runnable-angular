@@ -811,10 +811,11 @@ function fetchRepoDockerfiles(
     })
       .then(function (res) {
         var file = res.data;
-        console.log('file', file);
         if (file.message && file.message.match(/not.found/i)) {
           return [];
         }
+        // GH doesnt return the '/' when returning a path
+        file.path = '/' + file.path;
         return [file];
       });
   };

@@ -25,10 +25,10 @@
       ) View on GitHub
     //- if there is only one, [check] by default
     input.checkbox(
-      name = "dockerfile"
-      ng-model = "dockerfile.selection"
+      name = "dockerfilePath"
+      ng-model = "NCMC.state.dockerfilePath"
       type = "radio"
-      value = "thisDockerfile"
+      ng-value = "dockerfile.path"
     )
     button.btn.btn-xs.btn-icon
       svg.iconnables.icons-check
@@ -41,7 +41,7 @@
 )
   //- add .disabled class to the not selected item if loading
   label.grid-block.list-item.row-xxs(
-    ng-class = "{'active': dockerfile.selection === '0'}"
+    ng-class = "{'active': NCMC.state.dockerfilePath === false}"
   )
     svg.grid-content.shrink.iconnables.icons-dockerfile
       use(
@@ -50,10 +50,10 @@
     .grid-content Create a new configuration
     //- if there is only one, [check] by default
     input.checkbox(
-      name = "dockerfile"
-      ng-model = "dockerfile.selection"
+      name = "dockerfilePath"
+      ng-model = "NCMC.state.dockerfilePath"
       type = "radio"
-      value = "0"
+      ng-value = "false"
     )
     button.btn.btn-xs.btn-icon
       svg.iconnables.icons-check

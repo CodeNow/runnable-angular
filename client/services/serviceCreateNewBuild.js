@@ -13,7 +13,6 @@ function createNewBuild(
   return function (activeAccount, opts) {
     opts = opts || {};
     var dockerfilePath = opts.dockerfilePath;
-    console.log('opts', opts);
     var thisUser, version;
     function createContext(user) {
       return promisify(user, 'createContext')({
@@ -27,7 +26,6 @@ function createNewBuild(
     function createVersion(context) {
       return promisify(context, 'createVersion')()
         .then(function (version) {
-          console.log('dockerfilePath', dockerfilePath);
           if (dockerfilePath) {
             return promisify(version, 'update')({
               buildDockerfilePath: dockerfilePath
@@ -76,7 +74,6 @@ function createNewBuildAndFetchBranch(
     };
     return fetchStackData(repo)
       .then(function () {
-        console.log('createNewBuildAndFetchBranch', dockerfilePath);
         return createNewBuild(activeAccount, { dockerfilePath: dockerfilePath });
       })
       .then(function (buildWithVersion) {

@@ -110,7 +110,6 @@
           )
 
       .grid-block.vertical.modal-body(
-        ng-init = "dockerfile.selection = null"
         ng-include = "'mirrorDockerfileView'"
       )
 
@@ -121,7 +120,7 @@
         //- add the 'in' class to .btn-spinner when spinning!
         button.btn.btn-md.green.float-right.btn-spinner(
           ng-disabled = "$root.isLoading.newContainerModalSingleRepo"
-          ng-click = "NCMC.createBuildAndGoToNewRepoModal()"
+          ng-click = "NCMC.createBuildAndGoToNewRepoModal(NCMC.state.repo, NCMC.state.dockerfilePath)"
           ng-class = "{ \
             in: $root.isLoading.newContainerModalSingleRepo \
           }"
@@ -130,7 +129,7 @@
             ng-include = "'spinner'"
             ng-if = "$root.isLoading.newContainerModalSingleRepo"
           )
-          | Next Step{{dockerfile.selection === '0' ? ': Configure' : ': Review'}}
+          | Next Step{{NCMC.state.dockerfilePath === false ? ': Configure' : ': Review'}}
 
   //-
   //- end $root.featureFlags.dockerfileMirroring

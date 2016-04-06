@@ -31,6 +31,7 @@ function NewContainerModalController(
     close: close,
     state: {
       addRepoTab: true,
+      dockerfilePath: null,
       opts: {}
     }
   });
@@ -120,7 +121,7 @@ function NewContainerModalController(
     return fetchRepoDockerfiles(repo)
       .then(function (dockerfiles) {
         if (dockerfiles.length === 0) {
-          return NCMC.createBuildAndGoToNewRepoModal()
+          return NCMC.createBuildAndGoToNewRepoModal(repo)
             .then(function () {
               repo.loading = false;
               loading(NCMC.name + 'SingleRepoDockerfile', false);
@@ -133,9 +134,9 @@ function NewContainerModalController(
       });
   };
 
-  NCMC.createBuildAndGoToNewRepoModal = function () {
+  NCMC.createBuildAndGoToNewRepoModal = function (repo, dockerfilePath) {
     loading(NCMC.name + 'SingleRepo', true);
-    return createNewBuildAndFetchBranch($rootScope.dataApp.data.activeAccount, NCMC.state.repo)
+    return createNewBuildAndFetchBranch($rootScope.dataApp.data.activeAccount, repo, dockerfilePath)
       .then(function (repoBuildAndBranch) {
         NCMC.newRepositoryContainer(repoBuildAndBranch);
       })
