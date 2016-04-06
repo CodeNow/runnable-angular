@@ -33,13 +33,10 @@ require('app')
   .factory('through', function () {
     return require('through');
   })
-  .factory('validateDockerfile', function () {
-    return require('validate-dockerfile');
-  })
   .factory('diffParse', function () {
     return require('diff-parse');
   })
-  .factory('cardInfoTypes', function (errs) {
+  .factory('cardInfoTypes', function () {
     var types = require('card-info-types');
     // Legacy
     types['Main Repository'] = types.MainRepository;

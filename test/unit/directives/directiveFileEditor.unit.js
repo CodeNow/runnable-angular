@@ -236,43 +236,6 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
 
   });
 
-  describe('state', function () {
-    it('should set invalidDockerfile on state with p0 error', function () {
-      initState(true, false, {});
-      fileFetchCb();
-      $scope.$apply();
-
-      fileMock.state.body = '';
-      $scope.$apply();
-      expect(fileMock.validation.criticals, 'criticals').to.have.property('length', 1);
-      expect(fileMock.validation.errors, 'errors').to.have.property('length', 1);
-    });
-
-    it('should set invalidDockerfile to false with only p1 error', function () {
-      initState(true, false, {});
-      fileFetchCb();
-      $scope.$apply();
-
-      fileMock.state.body = 'FROM nodejs\nADD asdffdsa';
-      $scope.$apply();
-
-      expect(fileMock.validation.errors).to.have.property('length', 1);
-      expect(fileMock.validation.criticals).to.have.property('length', 0);
-    });
-
-    it('should set invalidDockerfile to false with no err', function () {
-      initState(true, false, {});
-      fileFetchCb();
-      $scope.$apply();
-
-      fileMock.state.body = 'FROM nodejs\nCMD npm start';
-      $scope.$apply();
-
-      expect(fileMock.validation.errors).to.not.be.ok;
-      expect(fileMock.validation.criticals).to.not.be.ok;
-    });
-  });
-
   describe('instance', function () {
     it('should watch for the instance changing to migrating', function () {
       var instance = {

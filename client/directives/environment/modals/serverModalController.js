@@ -337,18 +337,4 @@ function ServerModalController(
     }
     this.selectedTab = tabname;
   };
-
-  /** Returns whether the dockerfile is considered 'valid' enough for building.  Currently, only
-   * missing the FROM line is considered invalid
-   *
-   * @returns {boolean} True if the dockerfile is valid enough to build
-   */
-  this.isDockerfileValid = function () {
-    if (!this.state.advanced || !keypather.get(this, 'state.dockerfile.validation.criticals.length')) {
-      return true;
-    }
-    return !this.state.dockerfile.validation.criticals.find(hasKeypaths({
-      message: 'Missing or misplaced FROM'
-    }));
-  };
 }
