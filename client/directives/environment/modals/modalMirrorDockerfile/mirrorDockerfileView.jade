@@ -6,34 +6,35 @@
 //- .grid-content.well.in.empty
   p.p.text-center We couldn’t find a Dockerfile in this repository.
 
-//- .grid-content.row-xxs.list.list-bordered
-  //- //- 'thisDockerfile' should be the name of the Dockerfile (ie. 'Dockerfile.prod', or 'Dockerfile.staging') to suppot multiple dockerfiles
-  //- //- add .disabled class to the not selected item if loading
-  //- label.grid-block.list-item.row-xxs(
-    //- ng-class = "{'active': dockerfile.selection === 'thisDockerfile'}"
-  //- )
-    //- svg.grid-content.shrink.iconnables.icons-dockerfile
-      //- use(
-        //- xlink:href = "#icons-dockerfile"
-      //- )
-    //- .grid-content
-      //- .text-left Dockerfile
-      //- a.small.link(
-        //- href = "#"
-        //- target = "_blank"
-      //- ) View on GitHub
-    //- //- if there is only one, [check] by default
-    //- input.checkbox(
-      //- name = "dockerfile"
-      //- ng-model = "dockerfile.selection"
-      //- type = "radio"
-      //- value = "thisDockerfile"
-    //- )
-    //- button.btn.btn-xs.btn-icon
-      //- svg.iconnables.icons-check
-        //- use(
-          //- xlink:href = "#icons-check"
-        //- )
+.grid-content.row-xxs.list.list-bordered
+  //- 'thisDockerfile' should be the name of the Dockerfile (ie. 'Dockerfile.prod', or 'Dockerfile.staging') to suppot multiple dockerfiles
+  //- add .disabled class to the not selected item if loading
+  label.grid-block.list-item.row-xxs(
+    ng-class = "{'active': dockerfile.selection === 'thisDockerfile'}"
+    ng-repeat = "dockerfile in NCMC.state.repo.dockerfiles"
+  )
+    svg.grid-content.shrink.iconnables.icons-dockerfile
+      use(
+        xlink:href = "#icons-dockerfile"
+      )
+    .grid-content
+      .text-left Dockerfile
+      a.small.link(
+        href = "#"
+        target = "_blank"
+      ) View on GitHub
+    //- if there is only one, [check] by default
+    input.checkbox(
+      name = "dockerfile"
+      ng-model = "dockerfile.selection"
+      type = "radio"
+      value = "thisDockerfile"
+    )
+    button.btn.btn-xs.btn-icon
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )
 
 .grid-content.row-xxs.list.list-bordered(
   ng-if = "!fromTool"

@@ -14,6 +14,7 @@ function NewContainerModalController(
   fetchInstances,
   fetchInstancesByPod,
   fetchOwnerRepos,
+  fetchRepoDockerfiles,
   getNewForkName,
   helpCards,
   keypather,
@@ -112,14 +113,29 @@ function NewContainerModalController(
       .catch(errs.handler);
   };
 
-  NCMC.setRepo = function (repo) {
+  NCMC.setRepo = function (repo, cb, cbParam) {
+    repo.loading = true;
     NCMC.state.repo = repo;
-    return true;
+    loading(NCMC.name + 'SingleRepoDockerfile', true);
+    return fetchRepoDockerfiles(repo)
+      .then(function (dockerfiles) {
+        if (dockerfiles.length === 0) {
+          return NCMC.createBuildAndGoToNewRepoModal()
+            .then(function () {
+              repo.loading = false;
+              loading(NCMC.name + 'SingleRepoDockerfile', false);
+            });
+        }
+        repo.dockerfiles = dockerfiles;
+        repo.loading = false;
+        loading(NCMC.name + 'SingleRepoDockerfile', false);
+        return cb(cbParam);
+      });
   };
 
-  NCMC.selectRepo = function (repo) {
+  NCMC.createBuildAndGoToNewRepoModal = function () {
     loading(NCMC.name + 'SingleRepo', true);
-    return createNewBuildAndFetchBranch($rootScope.dataApp.data.activeAccount, repo)
+    return createNewBuildAndFetchBranch($rootScope.dataApp.data.activeAccount, NCMC.state.repo)
       .then(function (repoBuildAndBranch) {
         NCMC.newRepositoryContainer(repoBuildAndBranch);
       })

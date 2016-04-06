@@ -26,7 +26,7 @@
         small.small Create a container for a repository on GitHub
       .grid-block.vertical.btn.btn-huge.white(
         ng-click = "NCMC.newTemplateContainer()"
-        ng-class = "{'btn-hint': NCMC.servicesActive}"
+        ng-class = "{ 'btn-hint': NCMC.servicesActive }"
       )
         svg.iconnables
           use(
@@ -60,11 +60,13 @@
           .btn-text.grid-block Create from a repository
         //- disable this button when loading a repository
         .grid-block.shrink.btn(
+          ng-disabled = "$root.isLoading.newContainerModalSingleRepoDockerfile"
           ng-class = "{\
-            'active': !NCMC.state.addRepoTab,\
-            'btn-hint': NCMC.servicesActive\
+            'active': !NCMC.state.addRepoTab, \
+            'btn-hint': NCMC.servicesActive, \
+            'disabled': $root.isLoading.newContainerModalSingleRepoDockerfile \
           }"
-          ng-click = "NCMC.state.addRepoTab = false"
+          ng-click = "!$root.isLoading.newContainerModalSingleRepoDockerfile && (NCMC.state.addRepoTab = false)"
         )
           svg.iconnables.icons-template.grid-block.shrink
             use(
@@ -119,7 +121,7 @@
         //- add the 'in' class to .btn-spinner when spinning!
         button.btn.btn-md.green.float-right.btn-spinner(
           ng-disabled = "$root.isLoading.newContainerModalSingleRepo"
-          ng-click = "NCMC.selectRepo(NCMC.state.repo)"
+          ng-click = "NCMC.createBuildAndGoToNewRepoModal()"
           ng-class = "{ \
             in: $root.isLoading.newContainerModalSingleRepo \
           }"

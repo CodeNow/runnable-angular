@@ -187,12 +187,12 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
   });
 
   describe('Methods', function () {
-    describe('selectRepo', function () {
+    describe('createBuildAndGoToNewRepoModal', function () {
       it('should create a build and fetch the branch', function () {
         var repo = {};
         sinon.stub(NCMC, 'newRepositoryContainer');
 
-        NCMC.selectRepo(repo);
+        NCMC.createBuildAndGoToNewRepoModal(repo);
         $scope.$digest();
         sinon.assert.calledOnce(createNewBuildAndFetchBranch);
         sinon.assert.calledWith(createNewBuildAndFetchBranch, activeAccount, repo);

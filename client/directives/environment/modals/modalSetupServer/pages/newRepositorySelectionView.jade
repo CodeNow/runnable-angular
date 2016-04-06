@@ -22,7 +22,7 @@
   input.input.input-xs.input-search(
     autofocus
     ng-model = "NCMC.repoFilter"
-    ng-disabled = ""
+    ng-disabled = "$root.isLoading.newContainerModalSingleRepoDockerfile"
     placeholder = "Search"
     required
     type = "search"
@@ -66,7 +66,7 @@ ul.list.list-servers(
   li.list-item.multi-line.text-overflow(
     ng-if = "$index < 10"
     ng-disabled = "repo.isAdded"
-    ng-click = "!repo.isAdded && NCMC.setRepo(repo) && goToPanel('dockerfileMirroring')"
+    ng-click = "!repo.isAdded && NCMC.setRepo(repo, goToPanel, 'dockerfileMirroring')"
     ng-repeat = "\
       repo in NCMC.githubRepos.models | \
       repos: NCMC.repoFilter | \
@@ -95,11 +95,17 @@ ul.list.list-servers(
     small.small(
       ng-if = "!$root.featureFlags.inviteFlows"
     ) {{repo.attrs.updated_at | timeFrom}}
-    button.btn.btn-sm.btn-icon
+    button.btn.btn-sm.btn-icon(
+      ng-if = "!repo.loading"
+    )
       svg.iconnables.icons-add
         use(
           xlink:href = "#icons-add"
         )
+    .spinner-wrapper.spinner-sm.spinner-green.in(
+      ng-if = "repo.loading"
+      ng-include = "'spinner'"
+    )
 //-
 //- end $root.featureFlags.dockerfileMirroring
 //-
