@@ -13,7 +13,6 @@ function NewContainerModalController(
   eventTracking,
   fetchInstances,
   fetchInstancesByPod,
-  fetchStackData,
   fetchOwnerRepos,
   getNewForkName,
   helpCards,
@@ -31,7 +30,6 @@ function NewContainerModalController(
     close: close,
     state: {
       addRepoTab: true,
-      repoSelected: false,
       opts: {}
     }
   });
@@ -127,7 +125,6 @@ function NewContainerModalController(
       })
      .finally(function () {
         loading(NCMC.name + 'SingleRepo', false);
-        NCMC.repoSelected = false;
       });
   };
 

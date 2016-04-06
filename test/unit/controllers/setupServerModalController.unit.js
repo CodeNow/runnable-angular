@@ -311,7 +311,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
     describe('Init with passed-in values', function () {
       beforeEach(function (done) {
         initializeValues();
-        console.log(repo, newBuild, branch);
         initState({
           repo: repo,
           build: newBuild,

@@ -65,7 +65,7 @@ ul.list.list-servers(
   //- add active class when loading
   li.list-item.multi-line.text-overflow(
     ng-if = "$index < 10"
-    ng-disabled = "repo.isAdded || NCMC.repoSelected"
+    ng-disabled = "repo.isAdded"
     ng-click = "!repo.isAdded && NCMC.setRepo(repo) && goToPanel('dockerfileMirroring')"
     ng-repeat = "\
       repo in NCMC.githubRepos.models | \
