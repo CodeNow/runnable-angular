@@ -10,7 +10,10 @@ function createNewBuild(
   $q,
   uuid
 ) {
-  return function (activeAccount, context, infraCodeVersionId, appCodeVersions) {
+  return function (activeAccount, opts) {
+    opts = opts || {};
+    var dockerfilePath = opts.dockerfilePath;
+    console.log('opts', opts);
     var thisUser, version;
     function createContext(user) {
       return promisify(user, 'createContext')({
@@ -22,22 +25,19 @@ function createNewBuild(
     }
 
     function createVersion(context) {
-      var body = infraCodeVersionId ? {
-        infraCodeVersion: infraCodeVersionId
-      } : {};
-      return promisify(context, 'createVersion')(body)
-        .then(function (newContextVersion) {
-          version = newContextVersion;
-          if (appCodeVersions) {
-            return $q.all(appCodeVersions.map(function (acvState) {
-              return promisify(version.appCodeVersions, 'create')(acvState);
-            }));
+      return promisify(context, 'createVersion')()
+        .then(function (version) {
+          console.log('dockerfilePath', dockerfilePath);
+          if (dockerfilePath) {
+            return promisify(version, 'update')({
+              buildDockerfilePath: dockerfilePath
+            });
           }
           return version;
         });
     }
 
-    function createBuild() {
+    function createBuild(version) {
       return promisify(thisUser, 'createBuild')({
         contextVersions: [version.id()],
         owner: {
@@ -54,7 +54,7 @@ function createNewBuild(
     return fetchUser()
       .then(function (user) {
         thisUser = user;
-        return context || createContext(user);
+        return createContext(user);
       })
       .then(createVersion)
       .then(createBuild);
@@ -68,7 +68,7 @@ function createNewBuildAndFetchBranch(
   fetchStackData,
   promisify
 )  {
-  return function (activeAccount, repo) {
+  return function (activeAccount, repo, dockerfilePath) {
     var inputs = {
       repo: repo,
       masterBranch: null,
@@ -76,7 +76,8 @@ function createNewBuildAndFetchBranch(
     };
     return fetchStackData(repo)
       .then(function () {
-        return createNewBuild(activeAccount);
+        console.log('createNewBuildAndFetchBranch', dockerfilePath);
+        return createNewBuild(activeAccount, { dockerfilePath: dockerfilePath });
       })
       .then(function (buildWithVersion) {
         inputs.build = buildWithVersion;
