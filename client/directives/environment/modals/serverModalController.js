@@ -320,7 +320,7 @@ function ServerModalController(
   this.getUpdatePromise = this.saveInstanceAndRefreshCards;
 
   this.changeTab = function (tabname) {
-    if (!this.state.advanced) {
+    if (!this.state.advanced && !this.state.isMirroingDockerfile) {
       if ($filter('selectedStackInvalid')(this.state.selectedStack)) {
         tabname = 'repository';
       } else if (!this.state.startCommand) {

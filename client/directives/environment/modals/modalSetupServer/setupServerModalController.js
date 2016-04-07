@@ -13,10 +13,12 @@ function SetupServerModalController(
   createBuildFromContextVersionId,
   errs,
   eventTracking,
+  fetchDockerfileFromSource,
   fetchInstancesByPod,
   fetchOwnerRepos,
   fetchStackAnalysis,
   fetchStackData,
+  fetchUser,
   hasKeypaths,
   helpCards,
   keypather,
@@ -24,7 +26,6 @@ function SetupServerModalController(
   loadingPromises,
   promisify,
   updateDockerfileFromState,
-  fetchDockerfileFromSource,
   $log,
   cardInfoTypes,
   OpenItems,
@@ -132,6 +133,28 @@ function SetupServerModalController(
     SMC.state.mainRepoContainerFile.name = repo.attrs.name;
     SMC.state.opts.name = normalizeRepoName(repo);
     SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
+    if (keypather.get(SMC, 'state.build.contextVersion.attrs.buildDockerfilePath')) {
+      SMC.state.isMirroingDockerfile = true;
+      SMC.state.step = null;
+      SMC.selectedTab = 'buildfiles';
+      var fullpath = keypather.get(SMC, 'state.build.contextVersion.attrs.buildDockerfilePath');
+      // Get everything before the last '/' and add a '/' at the end
+      var path = fullpath.replace(/^(.*)\/.*$/, '$1') + '/';
+      // Get everything after the last '/'
+      var name = fullpath.replace(/^.*\/(.*)$/, '$1');
+      fetchUser()
+        .then(function (user) {
+          // TODO: Match with dockefile path
+          SMC.state.dockerfile = SMC.state.contextVersion.newFile({
+            _id: repo.dockerfiles[0].sha,
+            id: repo.dockerfiles[0].sha,
+            body: atob(repo.dockerfiles[0].content),
+            name: name,
+            path: path
+          });
+          SMC.openItems.add(SMC.state.dockerfile);
+        });
+    }
   } else {
     // TODO: Remove code when removing `dockerFileMirroing` code
     $q.all({

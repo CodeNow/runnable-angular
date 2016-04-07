@@ -123,7 +123,7 @@
     explorer-title = "Build Files"
     file-model = "SMC.state.contextVersion"
     loading-promises-target = "editServerModal"
-    ng-if = "!state.syncing"
+    ng-if = "!state.syncing && !SMC.state.isMirroingDockerfile"
     open-items = "SMC.openItems"
     read-only = "!SMC.state.advanced"
     root-dir = "SMC.state.contextVersion.rootDir"
