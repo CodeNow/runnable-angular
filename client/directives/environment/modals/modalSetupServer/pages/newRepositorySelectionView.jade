@@ -1,21 +1,13 @@
-//-
-//- start $root.featureFlags.dockerfileMirroring
-//-
-
 .spinner-wrapper.spinner-md.in(
   ng-if = "$root.isLoading.newContainerModalRepos"
   ng-include = "'spinner'"
 )
 
 //- hide this when loading
-.grid-block.justify-justified.list-header.row-xxs(
-  ng-if = "\
-    $root.featureFlags.dockerfileMirroring && \
-    !$root.isLoading.newContainerModalRepos && \
-    NCMC.state.addRepoTab \
-  "
+.grid-block.shrink.justify-justified.list-header.row-xxs(
+  ng-if = "!$root.isLoading.newContainerModalRepos"
 )
-  small.small {{NCMC.state.addRepoTab ? 'By last updated' : ''}}
+  small.small {{NCMC.state.tabName === 'repos' ? 'By last updated' : ''}}
 
   //- search
     - disable while loading
@@ -31,9 +23,7 @@
 //- show this if there are no repositories to add
 .grid-block.well.gray.justify-center(
   ng-if = "\
-    $root.featureFlags.dockerfileMirroring && \
     !$root.isLoading.newContainerModalRepos && \
-    NCMC.state.addRepoTab && \
     NCMC.githubRepos.models.length === 0 \
   "
 )
@@ -50,9 +40,7 @@
 //- list of repositories (mock up, we already have a template for this)
 ul.list.list-servers(
   ng-if = "\
-    $root.featureFlags.dockerfileMirroring && \
     !$root.isLoading.newContainerModalRepos && \
-    NCMC.state.addRepoTab && \
     NCMC.githubRepos.models.length !== 0\
   "
 )
@@ -106,6 +94,3 @@ ul.list.list-servers(
       ng-if = "repo.loading"
       ng-include = "'spinner'"
     )
-//-
-//- end $root.featureFlags.dockerfileMirroring
-//-

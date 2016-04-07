@@ -50,8 +50,8 @@
     )
       header.modal-header.grid-block.justify-center.row-xxs
         .grid-block.shrink.btn(
-          ng-class = "{'active': NCMC.state.addRepoTab}"
-          ng-click = "NCMC.state.addRepoTab = true"
+          ng-class = "{'active': NCMC.state.tabName === 'repos'}"
+          ng-click = "NCMC.changeTab('repos')"
         )
           svg.iconnables.icons-repository.grid-block.shrink
             use(
@@ -66,7 +66,7 @@
             'btn-hint': NCMC.servicesActive, \
             'disabled': $root.isLoading.newContainerModalSingleRepoDockerfile \
           }"
-          ng-click = "!$root.isLoading.newContainerModalSingleRepoDockerfile && (NCMC.state.addRepoTab = false)"
+          ng-click = "!$root.isLoading.newContainerModalSingleRepoDockerfile && NCMC.changeTab('services')"
         )
           svg.iconnables.icons-template.grid-block.shrink
             use(
@@ -82,12 +82,12 @@
           )
 
       .modal-body(
-        ng-if = "NCMC.state.addRepoTab"
+        ng-if = "NCMC.state.tabName === 'repos'"
         ng-include = "'newRepositorySelectionView'"
       )
 
       .modal-body(
-        ng-if = "!NCMC.state.addRepoTab"
+        ng-if = "NCMC.state.tabName === 'services'"
         ng-include = "'templateSelectSectionView'"
       )
 
