@@ -62,7 +62,7 @@
         .grid-block.shrink.btn(
           ng-disabled = "$root.isLoading.newContainerModalSingleRepoDockerfile"
           ng-class = "{\
-            'active': !NCMC.state.addRepoTab, \
+            'active': NCMC.state.tabName === 'services', \
             'btn-hint': NCMC.servicesActive, \
             'disabled': $root.isLoading.newContainerModalSingleRepoDockerfile \
           }"

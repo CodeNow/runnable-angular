@@ -197,7 +197,7 @@ function SetupServerModalController(
   $scope.$watchCollection(function () {
     return SMC.state.opts.env;
   }, function (newEnvArray, oldEnvArray) {
-    if (!angular.equals(newEnvArray, oldEnvArray)) {
+    if (!SMC.state.isMirroingDockerfile && !angular.equals(newEnvArray, oldEnvArray)) {
       // Only update the Dockerfile if the envs have actually changed
       updateDockerfileFromState(SMC.state, true, true);
     }
