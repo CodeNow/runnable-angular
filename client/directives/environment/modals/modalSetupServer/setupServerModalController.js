@@ -16,6 +16,7 @@ function SetupServerModalController(
   fetchInstancesByPod,
   fetchOwnerRepos,
   fetchStackAnalysis,
+  fetchStackData,
   hasKeypaths,
   helpCards,
   keypather,
@@ -28,10 +29,14 @@ function SetupServerModalController(
   cardInfoTypes,
   OpenItems,
   fetchStackInfo,
-  close
+  close,
+  repo,
+  build,
+  masterBranch
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
   SMC.helpCards = helpCards;
+
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
     'closeWithConfirmation': parentController.closeWithConfirmation.bind(SMC),
@@ -112,6 +117,36 @@ function SetupServerModalController(
   loadingPromises.clear(SMC.name);
   loading.reset(SMC.name + 'IsBuilding');
 
+  if (repo && build && masterBranch) {
+    // If a repo is passed into this controller, select that repo
+    angular.extend(SMC.state, {
+      repo: repo,
+      build: build,
+      contextVersion: build.contextVersion,
+      acv: build.contextVersion.getMainAppCodeVersion(),
+      branch: masterBranch,
+      repoSelected: true,
+      advanced: false
+    });
+    SMC.state.mainRepoContainerFile.name = repo.attrs.name;
+    SMC.state.opts.name = normalizeRepoName(repo);
+    SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
+  } else {
+    // TODO: Remove code when removing `dockerFileMirroing` code
+    $q.all({
+      instances: fetchInstancesByPod(),
+      repoList: fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
+    })
+      .then(function (data) {
+        SMC.data.instances = data.instances;
+        SMC.data.githubRepos = data.repoList;
+        SMC.data.githubRepos.models.forEach(function (repo) {
+          repo.isAdded = SMC.isRepoAdded(repo, data.instances);
+        });
+      })
+      .catch(errs.handler);
+  }
+
   $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
     $event.stopPropagation();
     if (showSpinner) {
@@ -126,22 +161,6 @@ function SetupServerModalController(
       });
   });
 
-  $q.all({
-    instances: fetchInstancesByPod(),
-    repoList: fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
-  })
-    .then(function (data) {
-      SMC.data.instances = data.instances;
-      SMC.data.githubRepos = data.repoList;
-      SMC.data.githubRepos.models.forEach(function (repo) {
-        repo.isAdded = SMC.isRepoAdded(repo, data.instances);
-      });
-    })
-    .catch(errs.handler)
-    .finally(function () {
-      SMC.loading = false;
-    });
-
   $scope.$watchCollection(function () {
     return SMC.state.ports;
   }, function (newPortsArray, oldPortsArray) {
@@ -154,17 +173,18 @@ function SetupServerModalController(
   $scope.$watchCollection(function () {
     return SMC.state.opts.env;
   }, function (newEnvArray, oldEnvArray) {
-    console.log('new', newEnvArray, oldEnvArray);
     if (!angular.equals(newEnvArray, oldEnvArray)) {
       // Only update the Dockerfile if the envs have actually changed
       updateDockerfileFromState(SMC.state, true, true);
     }
   });
 
+  // TODO: Remove code when removing `dockerFileMirroing` code
   function normalizeRepoName(repo) {
     return repo.attrs.name.replace(/[^a-zA-Z0-9-]/g, '-');
   }
 
+  // TODO: Remove code when removing `dockerFileMirroing` code
   SMC.isRepoAdded = function (repo, instances) {
     // Since the newServers may have faked repos (just containing names), just check the name
 
@@ -343,6 +363,7 @@ function SetupServerModalController(
       });
   };
 
+  // TODO: Remove code when removing `dockerFileMirroing` code
   SMC.selectRepo = function (repo) {
     if (SMC.repoSelected || repo.isAdded) { return; }
     SMC.state.mainRepoContainerFile.name = repo.attrs.name;
@@ -357,7 +378,7 @@ function SetupServerModalController(
 
     SMC.state.promises.contextVersion = loadingPromises.start(
       SMC.name,
-      SMC.fetchStackData(repo)
+      fetchStackData(repo)
         .then(function () {
           return createNewBuild($rootScope.dataApp.data.activeAccount);
         })
@@ -399,40 +420,4 @@ function SetupServerModalController(
         SMC.repoSelected = false;
       });
   };
-
-  SMC.fetchStackData = function (repo) {
-    function setStackSelectedVersion(stack, versions) {
-      if (versions[stack.key]) {
-        stack.suggestedVersion = versions[stack.key];
-      }
-      if (stack.dependencies) {
-        stack.dependencies.forEach(function (childStack) {
-          setStackSelectedVersion(childStack, versions);
-        });
-      }
-    }
-    return fetchStackInfo()
-      .then(function (stacks) {
-        return fetchStackAnalysis(repo.attrs.full_name)
-          .then(function (data) {
-            if (!data.languageFramework) {
-              $log.warn('No language detected');
-              return;
-            }
-            if (data.languageFramework === 'ruby_ror') {
-              data.languageFramework = 'rails';
-            }
-            repo.stackAnalysis = data;
-
-            var stack = stacks.find(hasKeypaths({
-              'key': data.languageFramework.toLowerCase()
-            }));
-            if (stack) {
-              setStackSelectedVersion(stack, data.version);
-              return stack;
-            }
-          });
-      });
-  };
-
 }

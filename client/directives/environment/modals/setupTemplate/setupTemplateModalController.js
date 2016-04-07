@@ -1,5 +1,7 @@
 'use strict';
 
+// TODO: Some of this code could be removed after removing the
+// `dockerFileMirroing` flag, but not a lot because isolation uses this modal
 require('app')
   .controller('SetupTemplateModalController', SetupTemplateModalController);
 /**

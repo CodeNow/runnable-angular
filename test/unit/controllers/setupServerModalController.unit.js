@@ -57,7 +57,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   var loadingPromiseFinishedValue;
   var errsMock;
 
-  function initState() {
+  function initState(opts, done) {
     helpCardsMock = {
       refreshAllCards: sinon.stub()
     };
@@ -173,9 +173,13 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       keypather.set($rootScope, 'dataApp.data.activeAccount.oauthName', sinon.mock().returns('myOauthName'));
       $scope = $rootScope.$new();
       SMC = $controller('SetupServerModalController', {
-        $scope: $scope
+        $scope: $scope,
+        repo: opts.repo || null,
+        build: opts.build || null,
+        masterBranch: opts.masterBranch || null
       });
     });
+    return done();
   }
   function initializeValues() {
     // Set variables for initial state
@@ -300,42 +304,51 @@ describe('setupServerModalController'.bold.underline.blue, function () {
           name: 'foo'
       }
     }];
-
   }
   beforeEach(initializeValues);
-  beforeEach(initState);
 
-  it('should fetch the repo list on load', function () {
-    $scope.$digest();
-    sinon.assert.called($rootScope.dataApp.data.activeAccount.oauthName);
-    sinon.assert.calledOnce(fetchOwnerRepoStub);
-    expect(SMC.data.githubRepos.models).to.exist;
-    sinon.assert.called(SMC.data.instances[0].getRepoName);
-    expect(SMC.data.githubRepos.models[0]).to.have.property('isAdded');
-  });
+  describe('Init', function () {
+    describe('Init with passed-in values', function () {
+      beforeEach(function (done) {
+        initializeValues();
+        initState({
+          repo: repo,
+          build: newBuild,
+          masterBranch: branch
+        }, done);
+      });
 
-  describe('methods', function(){
-    describe('fetchStackData', function () {
-      it('should fetch stack data', function () {
-
-        SMC.fetchStackData(repo)
-          .then(function (data) {
-            var sourceStack = stacks[0];
-
-            expect(data.key).to.equal(sourceStack.key);
-            expect(data.startCommand).to.equal(sourceStack.startCommand);
-            expect(data.name).to.equal(sourceStack.name);
-            expect(data.suggestedVersion).to.equal('4.1.8');
-            expect(data.dependencies[0].suggestedVersion).to.equal('0.8');
-
-          });
+      it('should not fetch the repo list on load', function () {
         $scope.$digest();
-        fetchStackAnalysisMock.triggerPromise(analysisMockData);
-        $scope.$digest();
-
-        expect(repo.stackAnalysis).to.equal(analysisMockData);
+        sinon.assert.notCalled($rootScope.dataApp.data.activeAccount.oauthName);
+        sinon.assert.notCalled(fetchOwnerRepoStub);
+        expect(SMC.state.repo).to.exist;
+        expect(SMC.state.build).to.exist;
+        expect(SMC.state.acv).to.exist;
+        expect(SMC.state.contextVersion).to.exist;
+        expect(SMC.state.branch).to.exist;
+        expect(SMC.state.advanced).to.exist;
+        expect(SMC.state.repoSelected).to.exist;
       });
     });
+
+    describe('Init with fetched values', function () {
+      beforeEach(initState.bind(null, {}));
+
+      it('should fetch the repo list on load', function () {
+        $scope.$digest();
+        sinon.assert.called($rootScope.dataApp.data.activeAccount.oauthName);
+        sinon.assert.calledOnce(fetchOwnerRepoStub);
+        expect(SMC.data.githubRepos.models).to.exist;
+        sinon.assert.called(SMC.data.instances[0].getRepoName);
+        expect(SMC.data.githubRepos.models[0]).to.have.property('isAdded');
+      });
+    });
+  });
+
+
+  describe('methods', function () {
+    beforeEach(initState.bind(null, {}));
 
     describe('selectRepo', function () {
 
@@ -521,7 +534,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
     });
 
     describe('getElasticHostname', function () {
-
       it('should get the elastic hostname of a selected repo', function () {
         createNewBuildMock.returns(newBuild);
         SMC.state.selectedStack = {
@@ -539,11 +551,9 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       it('should return an empty string if there are no repo attrs', function () {
         expect(SMC.getElasticHostname()).to.equal('');
       });
-
     });
 
     describe('Ports', function () {
-
       it('should update the dockerfile form state when ports are updated', function () {
         updateDockerfileFromStateStub.reset();
         $scope.$digest();
@@ -552,12 +562,11 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.calledOnce(updateDockerfileFromStateStub);
       });
-
     });
-
   });
 
   describe('Steps', function () {
+    beforeEach(initState.bind(null, {}));
 
     beforeEach(function () {
       closeSpy.reset();
@@ -631,10 +640,10 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       $scope.$digest();
       expect(SMC.selectedTab).to.equal('commands');
     });
-
  });
 
   describe('Close Modal', function () {
+    beforeEach(initState.bind(null, {}));
 
     it('should close the modal if the controller is not dirty', function () {
       closeSpy.reset();
@@ -691,6 +700,8 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   });
 
   describe('Env change', function () {
+    beforeEach(initState.bind(null, {}));
+
     it('should correctly update the dockerfile when the envs have changed ', function () {
       $scope.$digest();
       SMC.state.opts.env = ['asdasd=123'];

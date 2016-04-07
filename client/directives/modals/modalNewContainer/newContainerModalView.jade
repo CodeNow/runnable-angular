@@ -48,12 +48,10 @@
       default = "true"
       name = "containerSelection"
     )
-      header.modal-header.grid-block.justify-center.row-xxs(
-        ng-init = "state.addRepoTab = true"
-      )
+      header.modal-header.grid-block.justify-center.row-xxs
         .grid-block.shrink.btn(
-          ng-class = "{'active': state.addRepoTab}"
-          ng-click = "state.addRepoTab = true"
+          ng-class = "{'active': NCMC.state.tabName === 'repos'}"
+          ng-click = "NCMC.changeTab('repos')"
         )
           svg.iconnables.icons-repository.grid-block.shrink
             use(
@@ -63,10 +61,10 @@
         //- disable this button when loading a repository
         .grid-block.shrink.btn(
           ng-class = "{\
-            'active': !state.addRepoTab,\
+            'active': NCMC.state.tabName === 'services',\
             'btn-hint': NCMC.servicesActive\
           }"
-          ng-click = "state.addRepoTab = false"
+          ng-click = "NCMC.changeTab('services')"
         )
           svg.iconnables.icons-template.grid-block.shrink
             use(
@@ -82,12 +80,12 @@
           )
 
       .modal-body(
-        ng-if = "state.addRepoTab"
-        ng-include = "'repositorySelectSectionView'"
+        ng-if = "NCMC.state.tabName === 'repos'"
+        ng-include = "'newRepositorySelectionView'"
       )
 
       .modal-body(
-        ng-if = "!state.addRepoTab"
+        ng-if = "NCMC.state.tabName === 'services'"
         ng-include = "'templateSelectSectionView'"
       )
 
@@ -120,11 +118,16 @@
         ) Cancel
         //- add the 'in' class to .btn-spinner when spinning!
         button.btn.btn-md.green.float-right.btn-spinner(
-          ng-disabled = "!dockerfile.selection"
+          ng-disabled = "$root.isLoading.newContainerModalSingleRepo"
+          ng-click = "NCMC.selectRepo(NCMC.state.repo)"
+          ng-class = "{ \
+            in: $root.isLoading.newContainerModalSingleRepo \
+          }"
         )
-          //- .spinner-wrapper.spinner-white.spinner-sm.in(
-          //-   ng-include = "'spinner'"
-          //- )
+          .spinner-wrapper.spinner-white.spinner-sm.in(
+            ng-include = "'spinner'"
+            ng-if = "$root.isLoading.newContainerModalSingleRepo"
+          )
           | Next Step{{dockerfile.selection === '0' ? ': Configure' : ': Review'}}
 
   //-

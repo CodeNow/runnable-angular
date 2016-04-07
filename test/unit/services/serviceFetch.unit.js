@@ -1667,4 +1667,108 @@ describe('serviceFetch'.bold.underline.blue, function () {
       $rootScope.$digest();
     });
   });
+
+  describe('fetchStackData', function () {
+    var fetchStackData;
+    var $rootScope;
+    var $q;
+
+    var stacks = angular.copy(apiMocks.stackInfo);
+    console.log('stacks', stacks);
+    var fetchStackInfoStub;
+    var fetchStackAnalysisStub;
+    var $logStub;
+    var stackAnalysis;
+    var repo = {
+      attrs: {
+        full_name: 'hello'
+      }
+    };
+
+    beforeEach(function () {
+      angular.mock.module('app');
+      angular.mock.module(function ($provide) {
+        $provide.factory('fetchStackInfo', function ($q, $rootScope) {
+          fetchStackInfoStub = sinon.stub().returns($q.when(stacks));
+          return fetchStackInfoStub;
+        });
+        $provide.factory('fetchStackAnalysis', function ($q, $rootScope) {
+          stackAnalysis = {
+            languageFramework: 'rails',
+            version: {
+              'rails': '4.1.8',
+              'ruby': '0.8'
+            }
+          };
+          fetchStackAnalysisStub = sinon.stub().returns($q.when(stackAnalysis));
+          return fetchStackAnalysisStub;
+        });
+        $provide.factory('$log', function ($q, $rootScope) {
+          $logStub = {
+            warn: sinon.stub()
+          };
+          return $logStub;
+        });
+
+      });
+      angular.mock.inject(function (
+        _$rootScope_,
+        _$q_,
+        _fetchStackData_
+      ) {
+        $rootScope = _$rootScope_;
+        $q = _$q_;
+        fetchStackData = _fetchStackData_;
+      });
+    });
+
+    it('should fetch the stack info and the stack analysis', function () {
+      var fetchStackDataPromise = fetchStackData(repo);
+      $rootScope.$digest();
+      sinon.assert.calledOnce(fetchStackInfoStub);
+      sinon.assert.calledOnce(fetchStackInfoStub);
+    });
+
+    it('should warn if there is no framework', function () {
+      fetchStackAnalysisStub.returns($q.when({}));
+      var fetchStackDataPromise = fetchStackData(repo);
+      $rootScope.$digest();
+      sinon.assert.calledOnce($logStub.warn);
+    });
+
+    it('should get the right data', function (done) {
+      var sourceStack = stacks[0];
+      var fetchStackDataPromise = fetchStackData(repo)
+        .then(function (data) {
+          expect(data.key).to.equal(sourceStack.key);
+          expect(data.startCommand).to.equal(sourceStack.startCommand);
+          expect(data.name).to.equal(sourceStack.name);
+          expect(data.suggestedVersion).to.equal('4.1.8');
+          expect(data.dependencies[0].suggestedVersion).to.equal('0.8');
+          done();
+        });
+      $rootScope.$digest();
+    });
+
+    it('should handle rails', function (done) {
+      fetchStackAnalysisStub.returns($q.when({
+        languageFramework: 'ruby_ror',
+        version: {
+          'rails': '4.1.8',
+          'ruby': '0.8'
+        }
+      }));
+      var sourceStack = stacks[0];
+      var fetchStackDataPromise = fetchStackData(repo)
+        .then(function (data) {
+          expect(data.key).to.equal(sourceStack.key);
+          expect(data.startCommand).to.equal(sourceStack.startCommand);
+          expect(data.name).to.equal(sourceStack.name);
+          expect(data.suggestedVersion).to.equal('4.1.8');
+          expect(data.dependencies[0].suggestedVersion).to.equal('0.8');
+          done();
+        });
+      $rootScope.$digest();
+    });
+  });
 });
