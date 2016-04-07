@@ -69,7 +69,7 @@ function NewContainerModalController(
 
   NCMC.changeTab = function (tabName) {
     if (!['repos', 'services'].includes(tabName)) {
-      return 'repos';
+      return;
     }
     NCMC.state.tabName = tabName;
     if (NCMC.state.tabName === 'services' && !NCMC.templateServers) {
