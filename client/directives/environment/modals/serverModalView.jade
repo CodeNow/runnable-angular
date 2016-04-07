@@ -1,7 +1,8 @@
 header.grid-block.vertical.align-center.modal-header
-  server-status-card-header.container-title-wrapper(
+  server-status-card-header.container-title-wrapper.title-verification(
     in-modal = "true"
     instance = "SMC.instance"
+    repo = "SMC.state.repo"
     no-touching = "$root.featureFlags.cardStatus ? showSpinner() : true"
     server-modal-controller = "SMC"
   )
@@ -212,7 +213,7 @@ section.modal-body(
   )
 
 footer.modal-footer.clearfix(
-  is-primary-button-disabled = "SMC.isPrimaryButtonDisabled(selectedStackInvalid)"
+  is-primary-button-disabled = "SMC.isPrimaryButtonDisabled(selectedStackInvalid, serverForm.$invalid)"
   server-modal-buttons
   server-modal-controller = "SMC"
   this-form = "serverForm"
