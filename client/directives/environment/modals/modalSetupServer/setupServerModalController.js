@@ -363,6 +363,16 @@ function SetupServerModalController(
       });
   };
 
+  SMC.getTabContainerClasses = function () {
+    return {
+      'tabs-1': SMC.state.step === 1,
+      'tabs-2': SMC.state.step === 2,
+      'tabs-7': SMC.state.step === 3 && !$rootScope.featureFlags.whitelist,
+      'tabs-8': SMC.state.step === 3 && $rootScope.featureFlags.whitelist,
+      'tabs-9': SMC.state.step ===  4
+    };
+  };
+
   // TODO: Remove code when removing `dockerFileMirroing` code
   SMC.selectRepo = function (repo) {
     if (SMC.repoSelected || repo.isAdded) { return; }

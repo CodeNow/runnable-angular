@@ -192,5 +192,11 @@ function EditServerModalController(
       });
   };
 
+  SMC.isPrimaryButtonDisabled = function (selectedStackInvalid) {
+    return (
+      !SMC.state.advanced && (SMC.state.selectedStack | selectedStackInvalid)
+    );
+  };
+
   loadInitialState(SMC.instance);
 }

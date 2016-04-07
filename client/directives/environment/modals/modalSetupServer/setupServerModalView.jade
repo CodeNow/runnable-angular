@@ -2,7 +2,7 @@
   form.modal-dialog.modal-edit(
     name = "serverForm"
     ng-if = "SMC.state.repo"
-    ng-include = "'verifyServerSectionView'"
+    ng-include = "'serverModalView'"
     ng-class = "{\
       'ace-active': (SMC.selectedTab === 'buildfiles' || SMC.selectedTab === 'env'),\
       'disabled': $root.isLoading.setupServerModal || $root.isLoading.setupServerModalIsBuilding,\
