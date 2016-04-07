@@ -177,6 +177,10 @@ function EditServerModalController(
     });
   };
 
+  SMC.needToBeDirtyToSaved = function () {
+    return true;
+  };
+
   SMC.rebuild = function (noCache, forceRebuild) {
     loading(SMC.name, true);
     return SMC.rebuildAndOrRedeploy(noCache, forceRebuild)

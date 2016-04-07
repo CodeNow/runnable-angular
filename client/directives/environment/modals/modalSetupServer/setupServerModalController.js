@@ -3,6 +3,18 @@
 require('app')
   .controller('SetupServerModalController', SetupServerModalController);
 
+var tabVisibility = {
+  buildfiles: { advanced: true, step: 3 },
+  repository:  { advanced: false, step: 1 },
+  ports:  { advanced: false, step: 3 },
+  env:  { advanced: true, step: 3 },
+  commands:  { advanced: false, step: 2 },
+  files:  { advanced: false, step: 3 },
+  translation:  { advanced: true, step: 3 },
+  logs:  { advanced: true, step: 4 },
+  whitelist:  { advanced: true, step: 3 },
+};
+
 function SetupServerModalController(
   $scope,
   $controller,
@@ -361,6 +373,36 @@ function SetupServerModalController(
             return $q.reject(err);
           });
       });
+  };
+
+ /**
+   * This function determines if a tab chooser should be shown
+   *
+   * @param tabname
+   * @returns {Boolean}
+   */
+  SMC.isTabVisible = function (tabName) {
+    if (!tabVisibility[tabName]) {
+      return false;
+    }
+    if (SMC.state.advanced) {
+      return tabVisibility[tabName].advanced;
+    }
+    return SMC.state.step >= tabVisibility[tabName].step;
+  };
+
+  SMC.isPrimaryButtonDisabled = function (selectedStackInvalid, serverFormValid) {
+    return (
+      (SMC.state.selectedStack | selectedStackInvalid) ||
+      (SMC.state.step < 3 && serverFormValid)
+    );
+  };
+
+  SMC.needToBeDirtyToSaved = function () {
+    if (!SMC.instance) {
+      return false;
+    }
+    return true;
   };
 
   SMC.getTabContainerClasses = function () {
