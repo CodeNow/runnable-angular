@@ -29,16 +29,17 @@ function NewContainerModalController(
     servicesActive: keypather.get(helpCard, 'id') === 'missingDependency',
     close: close,
     state: {
-      addRepoTab: true,
+      tabName: 'repos',
       opts: {}
     }
   });
 
   // Start loading repos and templates
-  loading(NCMC.name + 'Repos', true);
-  loading(NCMC.name + 'Templates', true);
+  loading.reset(NCMC.name + 'Repos');
+  loading.reset(NCMC.name + 'Templates');
 
   // Fetch all repos from Github
+  loading(NCMC.name + 'Repos', true);
   $q.all({
     instances: fetchInstancesByPod(),
     repoList: fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
@@ -55,12 +56,26 @@ function NewContainerModalController(
       loading(NCMC.name + 'Repos', false);
     });
 
-  // Fetch all non-repo containres
-  fetchInstances({ githubUsername: 'HelloRunnable' })
-    .then(function (servers) {
-      NCMC.templateServers = servers;
-      loading(NCMC.name + 'Templates', false);
-    });
+  NCMC.fetchTemplateServers = function () {
+    loading(NCMC.name + 'Templates', true);
+    // Fetch all non-repo containres
+    return fetchInstances({ githubUsername: 'HelloRunnable' })
+      .then(function (servers) {
+        NCMC.templateServers = servers;
+        loading(NCMC.name + 'Templates', false);
+        return servers;
+      });
+  };
+
+  NCMC.changeTab = function (tabName) {
+    if (!['repos', 'services'].includes(tabName)) {
+      return 'repos';
+    }
+    NCMC.state.tabName = tabName;
+    if (NCMC.state.tabName === 'services' && !NCMC.templateServers) {
+      NCMC.fetchTemplateServers();
+    }
+  };
 
   function normalizeRepoName(repo) {
     return repo.attrs.name.replace(/[^a-zA-Z0-9-]/g, '-');
