@@ -23,7 +23,7 @@ header.grid-block.vertical.align-center.modal-header
       ng-class = "{'active': SMC.selectedTab === 'repository'}"
       ng-click = "SMC.changeTab('repository')"
       ng-if = "SMC.isTabVisible('repository')"
-      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables.grid-content
         use(
@@ -34,7 +34,7 @@ header.grid-block.vertical.align-center.modal-header
       ng-class = "{'active': SMC.selectedTab === 'commands'}"
       ng-click = "SMC.changeTab('commands')"
       ng-if = "SMC.isTabVisible('commands')"
-      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables.grid-content
         use(
@@ -47,7 +47,7 @@ header.grid-block.vertical.align-center.modal-header
       ng-class = "{'active': SMC.selectedTab === 'whitelist'}"
       ng-click = "SMC.changeTab('whitelist')"
       ng-if = "SMC.isTabVisible('whitelist') && $root.featureFlags.whitelist"
-      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables.grid-content
         use(
@@ -58,7 +58,7 @@ header.grid-block.vertical.align-center.modal-header
       ng-class = "{'active': SMC.selectedTab === 'ports'}"
       ng-click = "SMC.changeTab('ports')"
       ng-if = "SMC.isTabVisible('ports')"
-      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables.grid-content
         use(
@@ -69,7 +69,7 @@ header.grid-block.vertical.align-center.modal-header
       ng-class = "{'active': SMC.selectedTab === 'env'}"
       ng-click = "SMC.changeTab('env')"
       ng-if = "SMC.isTabVisible('env')"
-      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables.grid-content
         use(
@@ -80,7 +80,7 @@ header.grid-block.vertical.align-center.modal-header
       ng-class = "{'active': SMC.selectedTab === 'files'}"
       ng-click = "SMC.changeTab('files')"
       ng-if = "SMC.isTabVisible('files')"
-      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables.grid-content
         use(
@@ -91,7 +91,7 @@ header.grid-block.vertical.align-center.modal-header
       ng-class = "{'active': SMC.selectedTab === 'translation'}"
       ng-click = "SMC.changeTab('translation')"
       ng-if = "SMC.isTabVisible('translation')"
-      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables.grid-content
         use(
@@ -102,7 +102,7 @@ header.grid-block.vertical.align-center.modal-header
       ng-class = "{'active': SMC.selectedTab === 'backup'}"
       ng-click = "SMC.changeTab('backup')"
       ng-if = "SMC.isTabVisible('backup') && $root.featureFlags.backup"
-      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables.grid-content
         use(
@@ -115,7 +115,7 @@ header.grid-block.vertical.align-center.modal-header
       ng-class = "{'active': SMC.selectedTab === 'buildfiles'}"
       ng-click = "SMC.changeTab('buildfiles')"
       ng-if = "SMC.isTabVisible('buildfiles')"
-      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables.grid-content
         use(
@@ -126,7 +126,7 @@ header.grid-block.vertical.align-center.modal-header
       ng-class = "{'active': SMC.selectedTab === 'logs'}"
       ng-click = "SMC.changeTab('logs')"
       ng-if = "SMC.isTabVisible('logs')"
-      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables.grid-content
         use(
@@ -152,26 +152,26 @@ section.modal-body(
     small.small.empty.text-center You can use the options above to make additional changes to your configuration.
   .modal-form(
     data = "SMC.data"
+    is-new-container = "!SMC.instance"
     loading-promises-target = "SMC.name"
-    ng-if = "!SMC.state.advanced && SMC.selectedTab === 'repository'"
     stack-selector-form
+    ng-show = "SMC.selectedTab === 'repository'"
     state = "SMC.state"
   )
   .modal-form(
     loading-promises-target = "SMC.name"
-    ng-if = "!SMC.state.advanced"
     ng-show = "SMC.selectedTab === 'commands'"
+    ng-form = "SMC.repositoryForm"
     repository-form
+    start-command-can-disable = "!SMC.instance"
     state = "SMC.state"
   )
   .modal-form.form-whitelist(
-    ng-if = "$root.featureFlags.whitelist"
     ip-whitelist
     whitelist = "SMC.state.opts.ipWhitelist"
     ng-show = "SMC.selectedTab === 'whitelist'"
   )
   .modal-form(
-    ng-if = "!SMC.state.advanced"
     ng-show = "SMC.selectedTab === 'ports'"
     ports = "SMC.state.ports"
     ports-form
@@ -182,7 +182,6 @@ section.modal-body(
   )
   .modal-form(
     ng-controller = "ContainerFilesController as CFC"
-    ng-if = "!SMC.state.advanced"
     ng-include = "'viewFormFiles'"
     ng-init = "CFC.init({ state: SMC.state, getDisplayName: SMC.getDisplayName })"
     ng-show = "SMC.selectedTab === 'files'"
@@ -190,7 +189,6 @@ section.modal-body(
   .modal-form(
     data = "SMC.data"
     instance = "SMC.instance"
-    ng-if = "SMC.state.repo"
     ng-show = "SMC.selectedTab === 'translation'"
     state = "SMC.state"
     translation-rules
@@ -200,7 +198,6 @@ section.modal-body(
       'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
       'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
     }"
-    ng-if = "!SMC.state.repo && !root.featureFlags.backup"
     ng-include = "'backupFormView'"
     ng-show = "SMC.selectedTab === 'backup'"
   )
@@ -218,8 +215,8 @@ section.modal-body(
   )
 
 footer.modal-footer.clearfix(
-  is-primary-button-disabled = "SMC.isPrimaryButtonDisabled(selectedStackInvalid, serverForm.$invalid)"
+  is-primary-button-disabled = "SMC.isPrimaryButtonDisabled(SMC.serverForm.$invalid)"
   server-modal-buttons
   server-modal-controller = "SMC"
-  this-form = "serverForm"
+  this-form = "SMC.serverForm"
 )

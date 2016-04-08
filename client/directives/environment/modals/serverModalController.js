@@ -159,13 +159,13 @@ function ServerModalController(
       templateUrl: 'confirmCloseServerView',
       inputs: {
         hasInstance: !!SMC.instance,
-        shouldDisableSave: keypather.get($scope, 'serverForm.$invalid')
+        shouldDisableSave: keypather.get(this, 'serverForm.$invalid')
       }
     })
       .then(function (modal) {
         modal.close.then(function (state) {
           if (state) {
-            if (state === 'build' && keypather.get($scope, 'serverForm.$invalid')) {
+            if (state === 'build' && keypather.get(this, 'serverForm.$invalid')) {
               return;
             }
             loading(SMC.name, true);
@@ -326,9 +326,9 @@ function ServerModalController(
       } else if (!this.state.startCommand) {
         tabname = 'commands';
       }
-    } else if (keypather.get($scope, 'serverForm.$invalid')) {
-      if (keypather.get($scope, 'serverForm.$error.required.length')) {
-        var firstRequiredError = $scope.serverForm.$error.required[0].$name;
+    } else if (keypather.get(this, 'serverForm.$invalid')) {
+      if (keypather.get(this, 'serverForm.$error.required.length')) {
+        var firstRequiredError = this.serverForm.$error.required[0].$name;
         tabname = firstRequiredError.split('.')[0];
       }
     }

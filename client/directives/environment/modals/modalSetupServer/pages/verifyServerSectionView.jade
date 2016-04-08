@@ -36,7 +36,7 @@ header.grid-block.vertical.align-center.modal-header
       ng-class = "{'active': SMC.selectedTab === 'repository'}"
       ng-click = "SMC.changeTab('repository');"
       ng-if = "(SMC.state.step >= 1 && !SMC.state.advanced)"
-      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables.grid-content
         use(
@@ -47,7 +47,7 @@ header.grid-block.vertical.align-center.modal-header
       ng-class = "{'active': SMC.selectedTab === 'commands'}"
       ng-click = "SMC.changeTab('commands')"
       ng-if = "(SMC.state.step >= 2 && !SMC.state.advanced)"
-      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables.grid-content
         use(
@@ -60,7 +60,7 @@ header.grid-block.vertical.align-center.modal-header
       ng-class = "{'active': SMC.selectedTab === 'whitelist'}"
       ng-click = "SMC.changeTab('whitelist')"
       ng-if = "(SMC.state.step >= 3 && $root.featureFlags.whitelist)"
-      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables.grid-content
         use(
@@ -71,7 +71,7 @@ header.grid-block.vertical.align-center.modal-header
       ng-class = "{'active': SMC.selectedTab === 'ports'}"
       ng-click = "SMC.changeTab('ports')"
       ng-if = "(SMC.state.step >= 3 && !SMC.state.advanced)"
-      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables.grid-content
         use(
@@ -82,7 +82,7 @@ header.grid-block.vertical.align-center.modal-header
       ng-class = "{'active': SMC.selectedTab === 'env'}"
       ng-click = "SMC.changeTab('env')"
       ng-if = "SMC.state.step >= 3"
-      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables.grid-content
         use(
@@ -93,7 +93,7 @@ header.grid-block.vertical.align-center.modal-header
       ng-class = "{'active': SMC.selectedTab === 'files'}"
       ng-click = "SMC.changeTab('files')"
       ng-if = "SMC.state.step >= 3 && !SMC.state.advanced"
-      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables.grid-content
         use(
@@ -104,7 +104,7 @@ header.grid-block.vertical.align-center.modal-header
       ng-class = "{'active': SMC.selectedTab === 'translation'}"
       ng-click = "SMC.changeTab('translation')"
       ng-if = "SMC.state.step >= 3"
-      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables.grid-content
         use(
@@ -115,7 +115,7 @@ header.grid-block.vertical.align-center.modal-header
       ng-class = "{'active': SMC.selectedTab === 'buildfiles'}"
       ng-click = "SMC.changeTab('buildfiles')"
       ng-if = "SMC.state.step >= 3"
-      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables.grid-content
         use(
@@ -126,7 +126,7 @@ header.grid-block.vertical.align-center.modal-header
       ng-class = "{'active': SMC.selectedTab === 'logs'}"
       ng-click = "SMC.changeTab('logs')"
       ng-if = "SMC.instance"
-      type = "{{serverForm.$invalid ? 'submit' : 'button'}}"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables.grid-content
         use(
@@ -220,10 +220,10 @@ section.modal-body(
 
 footer.modal-footer.clearfix(
   is-primary-button-disabled = "\
-    (SMC.state.step < 3 && serverForm.$invalid) ||\
+    (SMC.state.step < 3 && SMC.serverForm.$invalid) ||\
     (SMC.state.selectedStack | selectedStackInvalid)\
   "
   server-modal-buttons
   server-modal-controller = "SMC"
-  this-form = "serverForm"
+  this-form = "SMC.serverForm"
 )

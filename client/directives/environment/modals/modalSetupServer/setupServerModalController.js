@@ -18,6 +18,7 @@ var tabVisibility = {
 function SetupServerModalController(
   $scope,
   $controller,
+  $filter,
   $q,
   createNewBuild,
   $rootScope,
@@ -391,10 +392,10 @@ function SetupServerModalController(
     return SMC.state.step >= tabVisibility[tabName].step;
   };
 
-  SMC.isPrimaryButtonDisabled = function (selectedStackInvalid, serverFormValid) {
+  SMC.isPrimaryButtonDisabled = function (serverFormInvalid) {
     return (
-      (SMC.state.selectedStack | selectedStackInvalid) ||
-      (SMC.state.step < 3 && serverFormValid)
+      (SMC.state.step === 2 && SMC.repositoryForm.$invalid) ||
+      $filter('selectedStackInvalid')(SMC.state.selectedStack)
     );
   };
 
