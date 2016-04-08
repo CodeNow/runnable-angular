@@ -5,4 +5,11 @@
   height: 100vh;
   overflow: hidden;
   position: relative;
+
+  > .spinner-wrapper {
+
+    .modal-open & {
+      z-index: $z-modal-backdrop - 1;
+    }
+  }
 }
