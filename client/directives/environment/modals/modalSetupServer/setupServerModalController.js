@@ -6,13 +6,13 @@ require('app')
 var tabVisibility = {
   buildfiles: { advanced: true, step: 3 },
   repository:  { advanced: false, step: 1 },
+  whitelist:  { advanced: true, step: 3, featureFlagName: 'whitelist' },
   ports:  { advanced: false, step: 3 },
   env:  { advanced: true, step: 3 },
   commands:  { advanced: false, step: 2 },
   files:  { advanced: false, step: 3 },
   translation:  { advanced: true, step: 3 },
   logs:  { advanced: true, step: 4 },
-  whitelist:  { advanced: true, step: 3 },
 };
 
 function SetupServerModalController(
@@ -20,8 +20,8 @@ function SetupServerModalController(
   $controller,
   $filter,
   $q,
-  createNewBuild,
   $rootScope,
+  createNewBuild,
   createAndBuildNewContainer,
   createBuildFromContextVersionId,
   errs,
@@ -56,6 +56,7 @@ function SetupServerModalController(
     'changeTab': parentController.changeTab.bind(SMC),
     'insertHostName': parentController.insertHostName.bind(SMC),
     'isDirty': parentController.isDirty.bind(SMC),
+    'getNumberOfOpenTabs': parentController.getNumberOfOpenTabs.bind(SMC),
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
     'populateStateFromData': parentController.populateStateFromData.bind(SMC),
@@ -386,6 +387,9 @@ function SetupServerModalController(
     if (!tabVisibility[tabName]) {
       return false;
     }
+    if (tabVisibility[tabName].featureFlagName && !$rootScope.featureFlags[tabVisibility[tabName].featureFlagName]) {
+      return false;
+    }
     if (SMC.state.advanced) {
       return tabVisibility[tabName].advanced;
     }
@@ -404,16 +408,6 @@ function SetupServerModalController(
       return false;
     }
     return true;
-  };
-
-  SMC.getTabContainerClasses = function () {
-    return {
-      'tabs-1': SMC.state.step === 1,
-      'tabs-2': SMC.state.step === 2,
-      'tabs-7': SMC.state.step === 3 && !$rootScope.featureFlags.whitelist,
-      'tabs-8': SMC.state.step === 3 && $rootScope.featureFlags.whitelist,
-      'tabs-9': SMC.state.step ===  4
-    };
   };
 
   // TODO: Remove code when removing `dockerFileMirroing` code

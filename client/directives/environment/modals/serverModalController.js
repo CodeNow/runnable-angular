@@ -147,6 +147,28 @@ function ServerModalController(
       });
   };
 
+  this.getNumberOfOpenTabs = function () {
+    var tabs = [
+      'repository',
+      'commands',
+      'whitelist',
+      'ports',
+      'env',
+      'files',
+      'translation',
+      'buildfiles',
+      'logs',
+    ];
+    var SMC = this;
+    var count = tabs.reduce(function (previous, current) {
+      return previous + (+SMC.isTabVisible(current));
+    }, 0);
+    if (count === tabs.length) {
+      return 'tab-all';
+    }
+    return 'tabs-' + count;
+  };
+
   this.closeWithConfirmation = function (close) {
     var SMC = this;
     $rootScope.$broadcast('close-popovers');

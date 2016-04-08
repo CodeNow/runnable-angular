@@ -4,13 +4,15 @@ require('app')
   .controller('EditServerModalController', EditServerModalController);
 
 var tabVisibility = {
-  buildfiles: { advanced: true, nonRepo: true, basic: false },
   repository:  { advanced: false, nonRepo: false, basic: true },
   ports:  { advanced: false, nonRepo: false, basic: true },
+  whitelist: { advanced: true, nonRepo: true, basic: true, featureFlagName: 'whitelist' },
   env:  { advanced: true, nonRepo: true, basic: true },
+  backup: { advanced: false, nonRepo: true, basic: false, featureFlagName: 'backup' },
   commands:  { advanced: false, nonRepo: false, basic: true },
   files:  { advanced: false, nonRepo: false, basic: true },
   translation:  { advanced: true, nonRepo: false, basic: true },
+  buildfiles: { advanced: true, nonRepo: true, basic: false },
   logs:  { advanced: true, nonRepo: true, basic: true }
 };
 
@@ -20,6 +22,7 @@ var tabVisibility = {
 function EditServerModalController(
   $scope,
   $controller,
+  $rootScope,
   errs,
   fetchInstancesByPod,
   findLinkedServerVariables,
@@ -42,6 +45,7 @@ function EditServerModalController(
     'changeTab': parentController.changeTab.bind(SMC),
     'insertHostName': parentController.insertHostName.bind(SMC),
     'isDirty': parentController.isDirty.bind(SMC),
+    'getNumberOfOpenTabs': parentController.getNumberOfOpenTabs.bind(SMC),
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
     'populateStateFromData': parentController.populateStateFromData.bind(SMC),
@@ -152,11 +156,14 @@ function EditServerModalController(
    *  basic
    *  basic + nonRepo (Not used)
    *  advanced + nonRepo
-   * @param tabname
+   * @param tabName
    * @returns {*}
    */
-  SMC.isTabVisible = function (tabname) {
-    if (!tabVisibility[tabname]) {
+  SMC.isTabVisible = function (tabName) {
+    if (!tabVisibility[tabName]) {
+      return false;
+    }
+    if (tabVisibility[tabName].featureFlagName && !$rootScope.featureFlags[tabVisibility[tabName].featureFlagName]) {
       return false;
     }
     var currentStatuses = [];
@@ -173,7 +180,7 @@ function EditServerModalController(
       currentStatuses.push('basic');
     }
     return currentStatuses.every(function (status) {
-      return tabVisibility[tabname][status];
+      return tabVisibility[tabName][status];
     });
   };
 

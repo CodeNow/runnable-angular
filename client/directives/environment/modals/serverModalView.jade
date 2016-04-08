@@ -14,10 +14,10 @@ header.grid-block.vertical.align-center.modal-header
       xlink:href = "#icons-close"
     )
 
-  .row.modal-tabs.tabs-all.grid-block.row-xxs.js-animate(
-    ng-if="$root.featureFlags.newVerificationFlow"
-    ng-class = "SMC.getTabContainerClasses()"
-    style = "{{SMC.state.step > 1 ? 'transition-duration: .3s' : ''}}"
+  .row.modal-tabs.grid-block.row-xxs.js-animate(
+    ng-if = "$root.featureFlags.newVerificationFlow"
+    ng-class = "SMC.getNumberOfOpenTabs()"
+    style = "transition-duration: .3s"
   )
     button.btn.btn-radio.grid-block.vertical.js-animate(
       ng-class = "{'active': SMC.selectedTab === 'repository'}"
