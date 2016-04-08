@@ -84,11 +84,15 @@
     }
   }
 
-  .modal-backdrop {
+  .modal-backdrop.modal-backdrop {
     padding-left: $intercom-width + 15px;
 
     @include media(md) {
-      padding-left: 0;
+      padding-left: 15px;
+    }
+
+    @media (max-height: $screen-xs), (max-width: $screen-sm) {
+      padding: 15px;
     }
   }
 
