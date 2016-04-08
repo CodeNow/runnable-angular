@@ -159,13 +159,13 @@ function ServerModalController(
       templateUrl: 'confirmCloseServerView',
       inputs: {
         hasInstance: !!SMC.instance,
-        shouldDisableSave: keypather.get(this, 'serverForm.$invalid')
+        shouldDisableSave: keypather.get(SMC, 'serverForm.$invalid')
       }
     })
       .then(function (modal) {
         modal.close.then(function (state) {
           if (state) {
-            if (state === 'build' && keypather.get(this, 'serverForm.$invalid')) {
+            if (state === 'build' && keypather.get(SMC, 'serverForm.$invalid')) {
               return;
             }
             loading(SMC.name, true);

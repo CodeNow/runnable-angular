@@ -602,7 +602,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
       SMC.goToNextStep(); // Step #3
       $scope.$digest();
-      expect(SMC.selectedTab).to.equal(null);
+      expect(SMC.selectedTab).to.equal('default');
 
       // It should add the new dockerfile
       sinon.assert.calledOnce(SMC.openItems.add);
@@ -660,7 +660,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         destroy: sinon.stub()
       };
       sinon.stub(SMC, 'isDirty').returns(true);
-      keypather.set($scope, 'serverForm.$invalid', true);
+      keypather.set(SMC, 'serverForm.$invalid', true);
       SMC.actions.close();
       $scope.$digest();
       sinon.assert.calledOnce(showModalStub);

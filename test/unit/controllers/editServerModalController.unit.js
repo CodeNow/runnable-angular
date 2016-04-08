@@ -1136,7 +1136,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
       ctx.showModalStub.returns($q.when({
         close: $q.when('build')
       }));
-      keypather.set($scope, 'serverForm.$invalid', true);
+      keypather.set(SMC, 'serverForm.$invalid', true);
       ctx.loadingPromiseMock.clear.reset();
       $scope.$digest();
       SMC.actions.close();
