@@ -16,7 +16,7 @@ header.grid-block.vertical.align-center.modal-header
 
   .row.modal-tabs.tabs-all.grid-block.row-xxs.js-animate(
     ng-if="$root.featureFlags.newVerificationFlow"
-    ng-class = "SMC.getTabContainerClasses()"		
+    ng-class = "SMC.getTabContainerClasses()"
     style = "{{SMC.state.step > 1 ? 'transition-duration: .3s' : ''}}"
   )
     button.btn.btn-radio.grid-block.vertical.js-animate(
@@ -145,16 +145,30 @@ section.modal-body(
 section.modal-body(
   ng-if = "!$root.isLoading[SMC.name]"
 )
-  .modal-form.modal-dockerfile(
-    ng-include = "'viewFormBuildfiles'"
-    ng-show = "SMC.selectedTab === 'buildfiles'"
+  .modal-form.empty(
+    ng-show = "SMC.selectedTab === 'default'"
   )
+    h3.h3.empty.text-center Your container is ready to build!
+    small.small.empty.text-center You can use the options above to make additional changes to your configuration.
   .modal-form(
     data = "SMC.data"
     loading-promises-target = "SMC.name"
     ng-if = "!SMC.state.advanced && SMC.selectedTab === 'repository'"
     stack-selector-form
     state = "SMC.state"
+  )
+  .modal-form(
+    loading-promises-target = "SMC.name"
+    ng-if = "!SMC.state.advanced"
+    ng-show = "SMC.selectedTab === 'commands'"
+    repository-form
+    state = "SMC.state"
+  )
+  .modal-form.form-whitelist(
+    ng-if = "$root.featureFlags.whitelist"
+    ip-whitelist
+    whitelist = "SMC.state.opts.ipWhitelist"
+    ng-show = "SMC.selectedTab === 'whitelist'"
   )
   .modal-form(
     ng-if = "!SMC.state.advanced"
@@ -165,13 +179,6 @@ section.modal-body(
   .modal-form(
     ng-include = "'viewFormEnvironmentVariables'"
     ng-show = "SMC.selectedTab === 'env'"
-  )
-  .modal-form(
-    loading-promises-target = "SMC.name"
-    ng-if = "!SMC.state.advanced"
-    ng-show = "SMC.selectedTab === 'commands'"
-    repository-form
-    state = "SMC.state"
   )
   .modal-form(
     ng-controller = "ContainerFilesController as CFC"
@@ -197,6 +204,10 @@ section.modal-body(
     ng-include = "'backupFormView'"
     ng-show = "SMC.selectedTab === 'backup'"
   )
+  .modal-form.modal-dockerfile(
+    ng-include = "'viewFormBuildfiles'"
+    ng-show = "SMC.selectedTab === 'buildfiles'"
+  )
   .modal-form.modal-logs(
     ng-class = "{\
       'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
@@ -204,12 +215,6 @@ section.modal-body(
     }"
     ng-include = "'viewFormLogs'"
     ng-show = "SMC.selectedTab === 'logs'"
-  )
-  .modal-form.form-whitelist(
-    ng-if = "$root.featureFlags.whitelist"
-    ip-whitelist
-    whitelist = "SMC.state.opts.ipWhitelist"
-    ng-show = "SMC.selectedTab === 'whitelist'"
   )
 
 footer.modal-footer.clearfix(

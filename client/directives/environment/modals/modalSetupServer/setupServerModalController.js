@@ -235,7 +235,7 @@ function SetupServerModalController(
       loading(SMC.name, true);
       return loadAllOptions() // When stack is selected, load dockerfile, etc
         .then(function () {
-          SMC.changeTab(null);
+          SMC.changeTab('default');
           loading(SMC.name, false);
         })
         .catch(nextStepErrorHandler);
