@@ -3,12 +3,25 @@
 require('app')
   .controller('SetupServerModalController', SetupServerModalController);
 
+var tabVisibility = {
+  buildfiles: { advanced: true, step: 3 },
+  repository:  { advanced: false, step: 1 },
+  whitelist:  { advanced: true, step: 3, featureFlagName: 'whitelist' },
+  ports:  { advanced: false, step: 3 },
+  env:  { advanced: true, step: 3 },
+  commands:  { advanced: false, step: 2 },
+  files:  { advanced: false, step: 3 },
+  translation:  { advanced: true, step: 3 },
+  logs:  { advanced: true, step: 4 },
+};
+
 function SetupServerModalController(
   $scope,
   $controller,
+  $filter,
   $q,
-  createNewBuild,
   $rootScope,
+  createNewBuild,
   createAndBuildNewContainer,
   createBuildFromContextVersionId,
   errs,
@@ -44,7 +57,7 @@ function SetupServerModalController(
     'changeTab': parentController.changeTab.bind(SMC),
     'insertHostName': parentController.insertHostName.bind(SMC),
     'isDirty': parentController.isDirty.bind(SMC),
-    'isDockerfileValid': parentController.isDockerfileValid.bind(SMC),
+    'getNumberOfOpenTabs': parentController.getNumberOfOpenTabs.bind(SMC),
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
     'populateStateFromData': parentController.populateStateFromData.bind(SMC),
@@ -247,7 +260,7 @@ function SetupServerModalController(
       loading(SMC.name, true);
       return loadAllOptions() // When stack is selected, load dockerfile, etc
         .then(function () {
-          SMC.changeTab(null);
+          SMC.changeTab('default');
           loading(SMC.name, false);
         })
         .catch(nextStepErrorHandler);
@@ -385,6 +398,39 @@ function SetupServerModalController(
             return $q.reject(err);
           });
       });
+  };
+
+ /**
+   * This function determines if a tab chooser should be shown
+   *
+   * @param tabname
+   * @returns {Boolean}
+   */
+  SMC.isTabVisible = function (tabName) {
+    if (!tabVisibility[tabName]) {
+      return false;
+    }
+    if (tabVisibility[tabName].featureFlagName && !$rootScope.featureFlags[tabVisibility[tabName].featureFlagName]) {
+      return false;
+    }
+    if (SMC.state.advanced) {
+      return tabVisibility[tabName].advanced;
+    }
+    return SMC.state.step >= tabVisibility[tabName].step;
+  };
+
+  SMC.isPrimaryButtonDisabled = function (serverFormInvalid) {
+    return (
+      (SMC.state.step === 2 && SMC.repositoryForm.$invalid) ||
+      $filter('selectedStackInvalid')(SMC.state.selectedStack)
+    );
+  };
+
+  SMC.needToBeDirtyToSaved = function () {
+    if (!SMC.instance) {
+      return false;
+    }
+    return true;
   };
 
   // TODO: Remove code when removing `dockerFileMirroing` code

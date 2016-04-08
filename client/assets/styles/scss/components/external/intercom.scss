@@ -1,4 +1,4 @@
-// scss-lint:disable ImportantRule IdSelector
+// scss-lint:disable ImportantRule IdSelector ColorVariable
 // intercom button
 .isolation-intercom-flag-on #intercom-launcher {
   left: 21px !important;
@@ -84,4 +84,19 @@
       padding-left: 0;
     }
   }
+}
+
+// for "preview" messages
+#intercom-container .intercom-conversation-preview .intercom-composer,
+#intercom-container .intercom-conversation-preview .intercom-sheet-body,
+#intercom-container .intercom-conversation-preview .intercom-sheet-header {
+  opacity: 1 !important;
+}
+
+#intercom-container .intercom-conversation-preview .intercom-small-announcement-body-container {
+  max-height: none !important;
+}
+
+#intercom-container .intercom-conversation-preview .intercom-small-announcement-body-container:after {
+  display: none !important;
 }

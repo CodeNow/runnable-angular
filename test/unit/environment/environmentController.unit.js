@@ -127,8 +127,6 @@ describe('environmentController'.bold.underline.blue, function () {
       // this isn't loaded until stacks
       expect($scope.data).to.not.have.property('instances');
       expect($scope).to.have.property('state');
-      expect($scope.state).to.have.property('validation');
-      expect($scope.state.validation).to.have.property('env');
 
       var templateInstances = runnable.newInstances(
         [apiMocks.instances.running, apiMocks.instances.stopped],

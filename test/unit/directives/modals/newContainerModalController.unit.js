@@ -178,11 +178,9 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
       expect(NCMC.instances).to.equal(instances);
     });
 
-    it('should fetch all templates instances', function () {
+    it('should not fetch all templates instances', function () {
       $scope.$digest();
-      sinon.assert.calledOnce(fetchInstancesStub);
-      sinon.assert.calledWith(fetchInstancesStub, { githubUsername: 'HelloRunnable' });
-      expect(NCMC.templateServers).to.equal(instances);
+      sinon.assert.notCalled(fetchInstancesStub);
     });
   });
 
@@ -295,5 +293,53 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
       });
 
     });
+  });
+
+  describe('fetchTemplateServers', function () {
+    it('should fetch the tempaltes', function () {
+      NCMC.fetchTemplateServers(mockSourceInstance);
+      $scope.$digest();
+      sinon.assert.calledOnce(fetchInstancesStub);
+      sinon.assert.calledWith(fetchInstancesStub, { githubUsername: 'HelloRunnable' });
+      expect(NCMC.templateServers).to.equal(instances);
+    });
+  });
+
+  describe('changeTab', function () {
+    beforeEach(function () {
+      sinon.spy(NCMC, 'fetchTemplateServers');
+    });
+    afterEach(function () {
+      NCMC.fetchTemplateServers.restore();
+    });
+
+    it('should set the tabName', function () {
+      NCMC.changeTab('repos');
+      expect(NCMC.state.tabName).to.equal('repos');
+      NCMC.changeTab('services');
+      expect(NCMC.state.tabName).to.equal('services');
+    });
+
+    it('should not set an invalid tab name', function () {
+      NCMC.changeTab('services');
+      expect(NCMC.state.tabName).to.equal('services');
+      NCMC.changeTab('asdfasdfasdfrepos');
+      expect(NCMC.state.tabName).to.equal('services');
+    });
+
+    it('should fetch the templates if in services', function () {
+      sinon.assert.notCalled(NCMC.fetchTemplateServers);
+      NCMC.changeTab('repos');
+      $scope.$digest();
+      sinon.assert.notCalled(NCMC.fetchTemplateServers);
+      $scope.$digest();
+      NCMC.changeTab('services');
+      $scope.$digest();
+      sinon.assert.calledOnce(NCMC.fetchTemplateServers);
+      NCMC.changeTab('services');
+      $scope.$digest();
+      sinon.assert.calledOnce(NCMC.fetchTemplateServers);
+    });
+
   });
 });

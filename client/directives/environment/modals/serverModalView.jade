@@ -1,0 +1,222 @@
+header.grid-block.vertical.align-center.modal-header
+  server-status-card-header.container-title-wrapper.title-verification(
+    in-modal = "true"
+    instance = "SMC.instance"
+    repo = "SMC.state.repo"
+    no-touching = "$root.featureFlags.cardStatus ? showSpinner() : true"
+    server-modal-controller = "SMC"
+  )
+
+  svg.iconnables.icons-close(
+    ng-click = "SMC.actions.close()"
+  )
+    use(
+      xlink:href = "#icons-close"
+    )
+
+  .row.modal-tabs.grid-block.row-xxs.js-animate(
+    ng-if = "$root.featureFlags.newVerificationFlow"
+    ng-class = "SMC.getNumberOfOpenTabs()"
+    style = "transition-duration: .3s"
+  )
+    button.btn.btn-radio.grid-block.vertical.js-animate(
+      ng-class = "{'active': SMC.selectedTab === 'repository'}"
+      ng-click = "SMC.changeTab('repository')"
+      ng-if = "SMC.isTabVisible('repository')"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
+    )
+      svg.iconnables.grid-content
+        use(
+          xlink:href = "#icons-repository"
+        )
+      .btn-text.grid-content Repository
+    button.btn.btn-radio.grid-block.vertical.js-animate(
+      ng-class = "{'active': SMC.selectedTab === 'commands'}"
+      ng-click = "SMC.changeTab('commands')"
+      ng-if = "SMC.isTabVisible('commands')"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
+    )
+      svg.iconnables.grid-content
+        use(
+          xlink:href = "#icons-packages"
+        )
+      .btn-text.grid-content Commands
+        br
+        | & Packages
+    button.btn.btn-radio.grid-block.vertical.js-animate(
+      ng-class = "{'active': SMC.selectedTab === 'whitelist'}"
+      ng-click = "SMC.changeTab('whitelist')"
+      ng-if = "SMC.isTabVisible('whitelist') && $root.featureFlags.whitelist"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
+    )
+      svg.iconnables.grid-content
+        use(
+          xlink:href = "#icons-security"
+        )
+      .btn-text.grid-content Security
+    button.btn.btn-radio.grid-block.vertical.js-animate(
+      ng-class = "{'active': SMC.selectedTab === 'ports'}"
+      ng-click = "SMC.changeTab('ports')"
+      ng-if = "SMC.isTabVisible('ports')"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
+    )
+      svg.iconnables.grid-content
+        use(
+          xlink:href = "#icons-ports"
+        )
+      .btn-text.grid-content Exposed Ports
+    button.btn.btn-radio.grid-block.vertical.js-animate(
+      ng-class = "{'active': SMC.selectedTab === 'env'}"
+      ng-click = "SMC.changeTab('env')"
+      ng-if = "SMC.isTabVisible('env')"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
+    )
+      svg.iconnables.grid-content
+        use(
+          xlink:href = "#icons-environment-variable"
+        )
+      .btn-text.grid-content Environment Variables
+    button.btn.btn-radio.grid-block.vertical.js-animate(
+      ng-class = "{'active': SMC.selectedTab === 'files'}"
+      ng-click = "SMC.changeTab('files')"
+      ng-if = "SMC.isTabVisible('files')"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
+    )
+      svg.iconnables.grid-content
+        use(
+          xlink:href = "#icons-keys-files"
+        )
+      .btn-text.grid-content Files & SSH Keys
+    button.btn.btn-radio.grid-block.vertical.js-animate(
+      ng-class = "{'active': SMC.selectedTab === 'translation'}"
+      ng-click = "SMC.changeTab('translation')"
+      ng-if = "SMC.isTabVisible('translation')"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
+    )
+      svg.iconnables.grid-content
+        use(
+          xlink:href = "#icons-translation"
+        )
+      .btn-text.grid-content Find & Replace
+    button.btn.btn-radio.grid-block.vertical.js-animate(
+      ng-class = "{'active': SMC.selectedTab === 'backup'}"
+      ng-click = "SMC.changeTab('backup')"
+      ng-if = "SMC.isTabVisible('backup') && $root.featureFlags.backup"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
+    )
+      svg.iconnables.grid-content
+        use(
+          xlink:href = "#icons-translation"
+        )
+      .btn-text.grid-content Backup
+        br
+        | & Restore
+    button.btn.btn-radio.grid-block.vertical.js-animate(
+      ng-class = "{'active': SMC.selectedTab === 'buildfiles'}"
+      ng-click = "SMC.changeTab('buildfiles')"
+      ng-if = "SMC.isTabVisible('buildfiles')"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
+    )
+      svg.iconnables.grid-content
+        use(
+          xlink:href = "#icons-dockerfile"
+        )
+      .btn-text.grid-content Dockerfile
+    button.btn.btn-radio.grid-block.vertical.js-animate(
+      ng-class = "{'active': SMC.selectedTab === 'logs'}"
+      ng-click = "SMC.changeTab('logs')"
+      ng-if = "SMC.isTabVisible('logs')"
+      type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
+    )
+      svg.iconnables.grid-content
+        use(
+          xlink:href = "#icons-log"
+        )
+      .btn-text.grid-content Logs
+
+
+section.modal-body(
+  ng-if = "$root.isLoading[SMC.name]"
+)
+  .spinner-wrapper.spinner-md.spinner-gray.in(
+    ng-include = "'spinner'"
+  )
+
+section.modal-body(
+  ng-if = "!$root.isLoading[SMC.name]"
+)
+  .modal-form.empty(
+    ng-show = "SMC.selectedTab === 'default'"
+  )
+    h3.h3.empty.text-center Your container is ready to build!
+    small.small.empty.text-center You can use the options above to make additional changes to your configuration.
+  .modal-form(
+    data = "SMC.data"
+    is-new-container = "!SMC.instance"
+    loading-promises-target = "SMC.name"
+    stack-selector-form
+    ng-show = "SMC.selectedTab === 'repository'"
+    state = "SMC.state"
+  )
+  .modal-form(
+    loading-promises-target = "SMC.name"
+    ng-show = "SMC.selectedTab === 'commands'"
+    ng-form = "SMC.repositoryForm"
+    repository-form
+    start-command-can-disable = "!SMC.instance"
+    state = "SMC.state"
+  )
+  .modal-form.form-whitelist(
+    ip-whitelist
+    whitelist = "SMC.state.opts.ipWhitelist"
+    ng-show = "SMC.selectedTab === 'whitelist'"
+  )
+  .modal-form(
+    ng-show = "SMC.selectedTab === 'ports'"
+    ports = "SMC.state.ports"
+    ports-form
+  )
+  .modal-form(
+    ng-include = "'viewFormEnvironmentVariables'"
+    ng-show = "SMC.selectedTab === 'env'"
+  )
+  .modal-form(
+    ng-controller = "ContainerFilesController as CFC"
+    ng-include = "'viewFormFiles'"
+    ng-init = "CFC.init({ state: SMC.state, getDisplayName: SMC.getDisplayName })"
+    ng-show = "SMC.selectedTab === 'files'"
+  )
+  .modal-form(
+    data = "SMC.data"
+    instance = "SMC.instance"
+    ng-show = "SMC.selectedTab === 'translation'"
+    state = "SMC.state"
+    translation-rules
+  )
+  .modal-form.modal-backup(
+    ng-class = "{\
+      'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+      'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+    }"
+    ng-include = "'backupFormView'"
+    ng-show = "SMC.selectedTab === 'backup'"
+  )
+  .modal-form.modal-dockerfile(
+    ng-include = "'viewFormBuildfiles'"
+    ng-show = "SMC.selectedTab === 'buildfiles'"
+  )
+  .modal-form.modal-logs(
+    ng-class = "{\
+      'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+      'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+    }"
+    ng-include = "'viewFormLogs'"
+    ng-show = "SMC.selectedTab === 'logs'"
+  )
+
+footer.modal-footer.clearfix(
+  is-primary-button-disabled = "SMC.isPrimaryButtonDisabled(SMC.serverForm.$invalid)"
+  server-modal-buttons
+  server-modal-controller = "SMC"
+  this-form = "SMC.serverForm"
+)

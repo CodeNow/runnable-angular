@@ -15,8 +15,7 @@ function fileEditor(
   hasKeypaths,
   modelist,
   promisify,
-  loadingPromises,
-  validateDockerfile
+  loadingPromises
 ) {
   return {
     restrict: 'A',
@@ -41,7 +40,6 @@ function fileEditor(
                 var mode = modelist.getModeForPath($scope.file.attrs.name).mode;
                 editor.getSession().setMode(mode);
                 session = editor.getSession();
-                updateDockerfileValidation($scope.file);
               });
             }
           });
@@ -109,37 +107,6 @@ function fileEditor(
       }
       var updateFileDebounce = debounce(updateFile, 1000);
 
-      function updateDockerfileValidation() {
-        var isDockerfile = $scope.file.attrs.name === 'Dockerfile';
-        if (!isDockerfile) {
-          return;
-        }
-
-        var body = $scope.file.state ? $scope.file.state.body : $scope.file.attrs.body;
-        var validation = validateDockerfile(body);
-        if (validation.errors) {
-          validation.errors = validation.errors.filter(function (error) {
-            return error.line;
-          });
-          validation.criticals = validation.errors.filter(hasKeypaths({
-            'priority' : 0
-          }));
-          $scope.file.validation = validation;
-          if (session) {
-            var annotations = validation.errors.map(function (error) {
-              return {
-                text: error.message,
-                type: error.priority === 0 ? 'error' : 'warning',
-                row: error.line - 1
-              };
-            });
-            session.setAnnotations(annotations);
-          }
-        } else {
-          $scope.file.validation = {};
-        }
-      }
-
       var fileBodyWatch = angular.noop;
       $scope.$watch('file', function (file) {
         if (!file) {
@@ -157,7 +124,6 @@ function fileEditor(
               if (newVal === undefined) {
                 resetFileBodyState();
               } else if (typeof newVal === 'string' && newVal !== $scope.file.attrs.body) {
-                updateDockerfileValidation($scope.file);
                 keypather.set($scope.file, 'state.isDirty', true);
                 if ($scope.useAutoUpdate) {
                   updateFileDebounce();
