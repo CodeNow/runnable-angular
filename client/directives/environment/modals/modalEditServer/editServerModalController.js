@@ -62,6 +62,7 @@ function EditServerModalController(
       },
       promises: {},
       instance: instance,
+      isNonRepoContainer: !keypather.get(instance, 'contextVersion.getMainAppCodeVersion()'),
       newLink: {},
       whitelist: [
         {address: ['1.1.1.1', '1.1.1.10'], description: ''},
@@ -156,13 +157,12 @@ function EditServerModalController(
     }
     var currentStatuses = [];
     var currentContextVersion = keypather.get(SMC, 'instance.contextVersion');
-    var stateAdvanced = keypather.get(SMC, 'state.advanced');
 
     if (!currentContextVersion.getMainAppCodeVersion()) {
       return SMC.TAB_VISIBILITY[tabName].nonRepo;
     }
     if (
-      stateAdvanced ||
+      SMC.state.advanced ||
       (
         !keypather.get(SMC, 'state.contextVersion') &&
         keypather.get(currentContextVersion, 'attrs.advanced')

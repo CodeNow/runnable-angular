@@ -48,7 +48,7 @@ var TAB_VISIBILITY = {
   },
   buildfiles: {
     advanced: true,
-    miror: true,
+    mirror: true,
     nonRepo: true,
     step: 3
   },
@@ -402,7 +402,7 @@ function ServerModalController(
   this.getUpdatePromise = this.saveInstanceAndRefreshCards;
 
   this.changeTab = function (tabname) {
-    if (!this.state.advanced && !this.state.isMirroingDockerfile) {
+    if (!this.state.advanced && !this.state.isMirroingDockerfile && !this.state.isNonRepoContainer) {
       if ($filter('selectedStackInvalid')(this.state.selectedStack)) {
         tabname = 'repository';
       } else if (!this.state.startCommand) {

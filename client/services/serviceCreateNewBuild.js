@@ -80,7 +80,7 @@ function createNewBuildAndFetchBranch(
       .then(function (buildWithVersion) {
         inputs.build = buildWithVersion;
         if (!inputs.build.contextVersion.source) {
-          return createDockerfileFromSource(inputs.build.contextVersion, 'nodejs');
+          return createDockerfileFromSource(inputs.build.contextVersion, 'blank');
         }
         return buildWithVersion.contextVersion;
       })

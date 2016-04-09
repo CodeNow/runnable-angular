@@ -125,7 +125,7 @@ header.grid-block.vertical.align-center.modal-header
     button.btn.btn-radio.grid-block.vertical.js-animate(
       ng-class = "{'active': SMC.selectedTab === 'logs'}"
       ng-click = "SMC.changeTab('logs')"
-      ng-if = "SMC.isTabVisible('logs')"
+      ng-if = "SMC.instance && SMC.isTabVisible('logs')"
       type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables.grid-content

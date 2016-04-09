@@ -195,28 +195,11 @@ function SetupMirrorServerModalController(
           });
         }
       })
-      .then(function () {
-        return promisify(SMC.state.build, 'build')({
-          message: 'Initial Build'
-        });
-      })
       .then(function (build) {
-        var opts = {
-          masterPod: true,
-          name: SMC.state.name,
-          build: build.id(),
-          owner: {
-            github: $rootScope.dataApp.data.activeAccount.oauthId()
-          },
-          env: [],
-          ipWhitelist: {
-            enabled: false
-          }
-        };
-        return fetchUser().then(function (user) {
-          return promisify(user, 'createInstance')(opts);
-        });
-
+        return createAndBuildNewContainer($q.all({ // This changes the infracodeversion
+          build: SMC.state.build,
+          opts: SMC.state.opts
+        }), SMC.state.opts.name);
       })
       .then(function instanceSetHandler (instance) {
         if (instance) {
@@ -271,7 +254,7 @@ function SetupMirrorServerModalController(
   };
 
   SMC.isPrimaryButtonDisabled = function (serverFormInvalid) {
-    return SMC.repositoryForm && SMC.repositoryForm.$invalid;
+    return !!(SMC.repositoryForm && SMC.repositoryForm.$invalid);
   };
 
   SMC.needToBeDirtyToSaved = function () {
