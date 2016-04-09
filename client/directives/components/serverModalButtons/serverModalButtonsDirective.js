@@ -18,7 +18,11 @@ function serverModalButtonsDirective(
     },
     link: function ($scope) {
       $scope.showSaveAndBuild = function () {
-        return (!$scope.SMC.instance && $scope.SMC.state.step < 4) || ($scope.SMC.isDirty() === 'build' && !$rootScope.isLoading[$scope.SMC.name]);
+        return (
+          (!$scope.SMC.instance && $scope.SMC.isMirroingDockerfile) ||
+          (!$scope.SMC.instance && $scope.SMC.state.step < 4) ||
+          ($scope.SMC.isDirty() === 'build' && !$rootScope.isLoading[$scope.SMC.name])
+        );
       };
       $scope.createServerOrUpdate = function () {
         if ($scope.isPrimaryButtonDisabled()) {

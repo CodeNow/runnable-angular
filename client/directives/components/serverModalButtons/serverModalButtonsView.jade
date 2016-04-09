@@ -1,6 +1,6 @@
 button.btn.btn-md.gray.btn-cancel.float-left.js-animate(
   ng-click = "SMC.actions.close()"
-  ng-if = "!SMC.instance && SMC.state.step < 4"
+  ng-if = "!SMC.instance"
   type = "button"
 ) Cancel
 
@@ -9,14 +9,14 @@ button.btn.btn-md.btn-done.white.float-right(
     'js-animate': SMC.state.step > 3\
   }"
   ng-click = "SMC.actions.close()"
-  ng-if = "SMC.instance || SMC.state.step > 3"
+  ng-if = "SMC.instance"
   type = "button"
 ) Done
 
 button.btn.btn-md.btn-primary.white.text-next.float-right(
   ng-click = "SMC.goToNextStep()"
   ng-disabled = "isPrimaryButtonDisabled()"
-  ng-if = "SMC.state.step < 3"
+  ng-if = "SMC.state.step && SMC.state.step < 3"
   type = "button"
 )
   span.btn-text.float-left Next
@@ -40,7 +40,7 @@ button.btn.btn-md.white.btn-primary.float-right.js-animate(
   }"
   ng-click = "thisForm.$invalid || createServerOrUpdate()"
   ng-disabled = "(SMC.needToBeDirtyToSaved() && !SMC.isDirty()) || isPrimaryButtonDisabled()"
-  ng-if = "SMC.instance || SMC.state.step > 2"
+  ng-if = "SMC.instance || SMC.isTabVisible('buildfiles')"
   type = "submit"
 )
   span.btn-text.float-left Save

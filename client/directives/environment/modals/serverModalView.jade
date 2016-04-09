@@ -154,13 +154,14 @@ section.modal-body(
     data = "SMC.data"
     is-new-container = "!SMC.instance"
     loading-promises-target = "SMC.name"
+    ng-if = "SMC.selectedTab === 'repository'"
     stack-selector-form
-    ng-show = "SMC.selectedTab === 'repository'"
     state = "SMC.state"
+    show-stack-selector = "SMC.showStackSelector()"
   )
   .modal-form(
     loading-promises-target = "SMC.name"
-    ng-show = "SMC.selectedTab === 'commands'"
+    ng-if = "SMC.selectedTab === 'commands'"
     ng-form = "SMC.repositoryForm"
     repository-form
     start-command-can-disable = "!SMC.instance"
@@ -169,27 +170,27 @@ section.modal-body(
   .modal-form.form-whitelist(
     ip-whitelist
     whitelist = "SMC.state.opts.ipWhitelist"
-    ng-show = "SMC.selectedTab === 'whitelist'"
+    ng-if = "SMC.selectedTab === 'whitelist'"
   )
   .modal-form(
-    ng-show = "SMC.selectedTab === 'ports'"
+    ng-if = "SMC.selectedTab === 'ports'"
     ports = "SMC.state.ports"
     ports-form
   )
   .modal-form(
     ng-include = "'viewFormEnvironmentVariables'"
-    ng-show = "SMC.selectedTab === 'env'"
+    ng-if = "SMC.selectedTab === 'env'"
   )
   .modal-form(
     ng-controller = "ContainerFilesController as CFC"
     ng-include = "'viewFormFiles'"
     ng-init = "CFC.init({ state: SMC.state, getDisplayName: SMC.getDisplayName })"
-    ng-show = "SMC.selectedTab === 'files'"
+    ng-if = "SMC.selectedTab === 'files'"
   )
   .modal-form(
     data = "SMC.data"
     instance = "SMC.instance"
-    ng-show = "SMC.selectedTab === 'translation'"
+    ng-if = "SMC.selectedTab === 'translation'"
     state = "SMC.state"
     translation-rules
   )
@@ -199,11 +200,11 @@ section.modal-body(
       'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
     }"
     ng-include = "'backupFormView'"
-    ng-show = "SMC.selectedTab === 'backup'"
+    ng-if = "SMC.selectedTab === 'backup'"
   )
   .modal-form.modal-dockerfile(
     ng-include = "'viewFormBuildfiles'"
-    ng-show = "SMC.selectedTab === 'buildfiles'"
+    ng-if = "SMC.selectedTab === 'buildfiles'"
   )
   .modal-form.modal-logs(
     ng-class = "{\
@@ -211,7 +212,7 @@ section.modal-body(
       'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
     }"
     ng-include = "'viewFormLogs'"
-    ng-show = "SMC.selectedTab === 'logs'"
+    ng-if = "SMC.selectedTab === 'logs'"
   )
 
 footer.modal-footer.clearfix(

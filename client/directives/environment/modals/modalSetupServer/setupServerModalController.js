@@ -433,6 +433,10 @@ function SetupServerModalController(
     return true;
   };
 
+  SMC.showStackSelector = function () {
+    return !SMC.state.advanced;
+  };
+
   // TODO: Remove code when removing `dockerFileMirroing` code
   SMC.selectRepo = function (repo) {
     if (SMC.repoSelected || repo.isAdded) { return; }

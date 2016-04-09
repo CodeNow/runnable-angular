@@ -19,6 +19,7 @@ function stackSelectorForm(
     scope: {
       loadingPromisesTarget: '@?',
       state: '=',
+      showStackSelector: '=',
       isNewContainer: '=?'
     },
     link: function ($scope) {
