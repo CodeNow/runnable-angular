@@ -61,6 +61,7 @@ function createNewBuild(
 }
 
 function createNewBuildAndFetchBranch(
+  createDockerfileFromSource,
   createNewBuild,
   errs,
   fetchStackData,
@@ -78,6 +79,9 @@ function createNewBuildAndFetchBranch(
       })
       .then(function (buildWithVersion) {
         inputs.build = buildWithVersion;
+        if (!inputs.build.contextVersion.source) {
+          return createDockerfileFromSource(inputs.build.contextVersion, 'nodejs');
+        }
         return buildWithVersion.contextVersion;
       })
       .then(function () {

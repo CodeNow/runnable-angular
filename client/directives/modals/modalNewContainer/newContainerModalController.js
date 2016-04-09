@@ -153,7 +153,11 @@ function NewContainerModalController(
     loading(NCMC.name + 'SingleRepo', true);
     return createNewBuildAndFetchBranch($rootScope.dataApp.data.activeAccount, repo, dockerfilePath)
       .then(function (repoBuildAndBranch) {
-        NCMC.newRepositoryContainer(repoBuildAndBranch);
+        if (dockerfilePath) {
+          NCMC.newMirrorRepositoryContainer(repoBuildAndBranch);
+        } else {
+          NCMC.newRepositoryContainer(repoBuildAndBranch);
+        }
       })
      .finally(function () {
         loading(NCMC.name + 'SingleRepo', false);
@@ -166,6 +170,20 @@ function NewContainerModalController(
       controller: 'SetupServerModalController',
       controllerAs: 'SMC',
       templateUrl: 'setupServerModalView',
+      inputs: angular.extend({
+        repo: null,
+        build: null,
+        masterBranch: null
+      }, inputs)
+    });
+  };
+
+  NCMC.newMirrorRepositoryContainer = function (inputs) {
+    close();
+    ModalService.showModal({
+      controller: 'SetupMirrorServerModalController',
+      controllerAs: 'SMC',
+      templateUrl: 'setupMirrorServerModalView',
       inputs: angular.extend({
         repo: null,
         build: null,
