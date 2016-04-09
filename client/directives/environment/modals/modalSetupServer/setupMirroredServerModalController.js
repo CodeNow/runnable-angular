@@ -3,16 +3,6 @@
 require('app')
   .controller('SetupMirrorServerModalController', SetupMirrorServerModalController);
 
-var tabVisibility = {
-  buildfiles: { advanced: true, mirror: true },
-  repository:  { advanced: true, mirror: true },
-  whitelist:  { advanced: true, mirror: 3, featureFlagName: 'whitelist' },
-  ports:  { advanced: false, mirror: false },
-  env:  { advanced: true, mirror: true },
-  translation:  { advanced: true, mirror: false },
-  logs:  { advanced: true, mirror: false },
-};
-
 function SetupMirrorServerModalController(
   $scope,
   $controller,
@@ -54,7 +44,8 @@ function SetupMirrorServerModalController(
     'requiresRedeploy': parentController.requiresRedeploy.bind(SMC),
     'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
     'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
-    'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC)
+    'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC),
+    'TAB_VISIBILITY': parentController.TAB_VISIBILITY
   });
 
   var mainRepoContainerFile = new cardInfoTypes.MainRepository();
@@ -264,17 +255,17 @@ function SetupMirrorServerModalController(
    * @returns {Boolean}
    */
   SMC.isTabVisible = function (tabName) {
-    if (!tabVisibility[tabName]) {
+    if (!SMC.TAB_VISIBILITY[tabName]) {
       return false;
     }
-    if (tabVisibility[tabName].featureFlagName && !$rootScope.featureFlags[tabVisibility[tabName].featureFlagName]) {
+    if (SMC.TAB_VISIBILITY[tabName].featureFlagName && !$rootScope.featureFlags[SMC.TAB_VISIBILITY[tabName].featureFlagName]) {
       return false;
     }
     if (SMC.state.isMirroingDockerfile) {
-      return tabVisibility[tabName].mirror;
+      return SMC.TAB_VISIBILITY[tabName].mirror;
     }
-    if (SMC.state.sadvanced) {
-      return tabVisibility[tabName].advanced;
+    if (SMC.state.advanced) {
+      return SMC.TAB_VISIBILITY[tabName].advanced;
     }
     return false;
   };

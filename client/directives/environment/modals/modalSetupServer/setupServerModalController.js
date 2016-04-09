@@ -3,18 +3,6 @@
 require('app')
   .controller('SetupServerModalController', SetupServerModalController);
 
-var tabVisibility = {
-  buildfiles: { advanced: true, step: 3 },
-  repository:  { advanced: false, step: 1 },
-  whitelist:  { advanced: true, step: 3, featureFlagName: 'whitelist' },
-  ports:  { advanced: false, step: 3 },
-  env:  { advanced: true, step: 3 },
-  commands:  { advanced: false, step: 2 },
-  files:  { advanced: false, step: 3 },
-  translation:  { advanced: true, step: 3 },
-  logs:  { advanced: true, step: 4 },
-};
-
 function SetupServerModalController(
   $scope,
   $controller,
@@ -66,7 +54,8 @@ function SetupServerModalController(
     'requiresRedeploy': parentController.requiresRedeploy.bind(SMC),
     'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
     'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
-    'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC)
+    'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC),
+    'TAB_VISIBILITY': parentController.TAB_VISIBILITY
   });
 
   var mainRepoContainerFile = new cardInfoTypes.MainRepository();
@@ -407,16 +396,16 @@ function SetupServerModalController(
    * @returns {Boolean}
    */
   SMC.isTabVisible = function (tabName) {
-    if (!tabVisibility[tabName]) {
+    if (!SMC.TAB_VISIBILITY[tabName]) {
       return false;
     }
-    if (tabVisibility[tabName].featureFlagName && !$rootScope.featureFlags[tabVisibility[tabName].featureFlagName]) {
+    if (SMC.TAB_VISIBILITY[tabName].featureFlagName && !$rootScope.featureFlags[SMC.TAB_VISIBILITY[tabName].featureFlagName]) {
       return false;
     }
     if (SMC.state.advanced) {
-      return tabVisibility[tabName].advanced;
+      return SMC.TAB_VISIBILITY[tabName].advanced;
     }
-    return SMC.state.step >= tabVisibility[tabName].step;
+    return SMC.state.step >= SMC.TAB_VISIBILITY[tabName].step;
   };
 
   SMC.isPrimaryButtonDisabled = function (serverFormInvalid) {

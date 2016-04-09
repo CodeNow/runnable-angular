@@ -3,19 +3,6 @@
 require('app')
   .controller('EditServerModalController', EditServerModalController);
 
-var tabVisibility = {
-  repository:  { advanced: false, nonRepo: false, basic: true },
-  ports:  { advanced: false, nonRepo: false, basic: true },
-  whitelist: { advanced: true, nonRepo: true, basic: true, featureFlagName: 'whitelist' },
-  env:  { advanced: true, nonRepo: true, basic: true },
-  backup: { advanced: false, nonRepo: true, basic: false, featureFlagName: 'backup' },
-  commands:  { advanced: false, nonRepo: false, basic: true },
-  files:  { advanced: false, nonRepo: false, basic: true },
-  translation:  { advanced: true, nonRepo: false, basic: true },
-  buildfiles: { advanced: true, nonRepo: true, basic: false },
-  logs:  { advanced: true, nonRepo: true, basic: true }
-};
-
 /**
  * @ngInject
  */
@@ -54,7 +41,8 @@ function EditServerModalController(
     'requiresRedeploy': parentController.requiresRedeploy.bind(SMC),
     'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
     'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
-    'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC)
+    'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC),
+    'TAB_VISIBILITY': parentController.TAB_VISIBILITY
   });
 
   SMC.instance = instance;
@@ -160,10 +148,10 @@ function EditServerModalController(
    * @returns {*}
    */
   SMC.isTabVisible = function (tabName) {
-    if (!tabVisibility[tabName]) {
+    if (!SMC.TAB_VISIBILITY[tabName]) {
       return false;
     }
-    if (tabVisibility[tabName].featureFlagName && !$rootScope.featureFlags[tabVisibility[tabName].featureFlagName]) {
+    if (SMC.TAB_VISIBILITY[tabName].featureFlagName && !$rootScope.featureFlags[SMC.TAB_VISIBILITY[tabName].featureFlagName]) {
       return false;
     }
     var currentStatuses = [];
@@ -171,17 +159,18 @@ function EditServerModalController(
     var stateAdvanced = keypather.get(SMC, 'state.advanced');
 
     if (!currentContextVersion.getMainAppCodeVersion()) {
-      currentStatuses.push('nonRepo');
+      return SMC.TAB_VISIBILITY[tabName].nonRepo;
     }
-    if (stateAdvanced ||
-        (!keypather.get(SMC, 'state.contextVersion') && keypather.get(currentContextVersion, 'attrs.advanced'))) {
-      currentStatuses.push('advanced');
-    } else {
-      currentStatuses.push('basic');
+    if (
+      stateAdvanced ||
+      (
+        !keypather.get(SMC, 'state.contextVersion') &&
+        keypather.get(currentContextVersion, 'attrs.advanced')
+      )
+    ) {
+      return SMC.TAB_VISIBILITY[tabName].advanced;
     }
-    return currentStatuses.every(function (status) {
-      return tabVisibility[tabName][status];
-    });
+    return SMC.TAB_VISIBILITY[tabName].basic;
   };
 
   SMC.needToBeDirtyToSaved = function () {
