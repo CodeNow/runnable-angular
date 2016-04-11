@@ -136,7 +136,7 @@ function SetupServerModalController(
     SMC.state.opts.name = normalizeRepoName(repo);
     SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
     if (keypather.get(SMC, 'state.build.contextVersion.attrs.buildDockerfilePath')) {
-      SMC.state.isMirroingDockerfile = true;
+      SMC.state.isMirroringDockerfile = true;
       SMC.state.step = null;
       SMC.selectedTab = 'buildfiles';
       var fullpath = keypather.get(SMC, 'state.build.contextVersion.attrs.buildDockerfilePath');
@@ -158,7 +158,7 @@ function SetupServerModalController(
         });
     }
   } else {
-    // TODO: Remove code when removing `dockerFileMirroing` code
+    // TODO: Remove code when removing `dockerFileMirroring` code
     $q.all({
       instances: fetchInstancesByPod(),
       repoList: fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
@@ -199,18 +199,18 @@ function SetupServerModalController(
   $scope.$watchCollection(function () {
     return SMC.state.opts.env;
   }, function (newEnvArray, oldEnvArray) {
-    if (!SMC.state.isMirroingDockerfile && !angular.equals(newEnvArray, oldEnvArray)) {
+    if (!SMC.state.isMirroringDockerfile && !angular.equals(newEnvArray, oldEnvArray)) {
       // Only update the Dockerfile if the envs have actually changed
       updateDockerfileFromState(SMC.state, true, true);
     }
   });
 
-  // TODO: Remove code when removing `dockerFileMirroing` code
+  // TODO: Remove code when removing `dockerFileMirroring` code
   function normalizeRepoName(repo) {
     return repo.attrs.name.replace(/[^a-zA-Z0-9-]/g, '-');
   }
 
-  // TODO: Remove code when removing `dockerFileMirroing` code
+  // TODO: Remove code when removing `dockerFileMirroring` code
   SMC.isRepoAdded = function (repo, instances) {
     // Since the newServers may have faked repos (just containing names), just check the name
 
@@ -426,7 +426,7 @@ function SetupServerModalController(
     return !SMC.state.advanced;
   };
 
-  // TODO: Remove code when removing `dockerFileMirroing` code
+  // TODO: Remove code when removing `dockerFileMirroring` code
   SMC.selectRepo = function (repo) {
     if (SMC.repoSelected || repo.isAdded) { return; }
     SMC.state.mainRepoContainerFile.name = repo.attrs.name;

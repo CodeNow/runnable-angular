@@ -127,7 +127,7 @@ function SetupMirrorServerModalController(
   SMC.state.mainRepoContainerFile.name = repo.attrs.name;
   SMC.state.opts.name = normalizeRepoName(repo);
   SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
-  SMC.state.isMirroingDockerfile = true;
+  SMC.state.isMirroringDockerfile = true;
   var fullpath = keypather.get(SMC, 'state.build.contextVersion.attrs.buildDockerfilePath');
   // Get everything before the last '/' and add a '/' at the end
   var path = fullpath.replace(/^(.*)\/.*$/, '$1') + '/';
@@ -234,7 +234,7 @@ function SetupMirrorServerModalController(
 
   SMC.changeFromMirrorModeToAdvanced = function () {
     SMC.state.advanced = true;
-    SMC.state.isMirroingDockerfile = false;
+    SMC.state.isMirroringDockerfile = false;
     var dockerfileBody = SMC.state.dockerfile.attrs.body;
     return promisify(SMC.state.contextVersion, 'update')({
         advanced: SMC.state.advanced,
@@ -271,7 +271,7 @@ function SetupMirrorServerModalController(
     if (SMC.TAB_VISIBILITY[tabName].featureFlagName && !$rootScope.featureFlags[SMC.TAB_VISIBILITY[tabName].featureFlagName]) {
       return false;
     }
-    if (SMC.state.isMirroingDockerfile) {
+    if (SMC.state.isMirroringDockerfile) {
       return SMC.TAB_VISIBILITY[tabName].mirror;
     }
     if (SMC.state.advanced) {

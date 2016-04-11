@@ -191,7 +191,7 @@ function NewContainerModalController(
       }, inputs)
     });
   };
-  // TODO: Remove code when removing `dockerFileMirroing` code
+  // TODO: Remove code when removing `dockerFileMirroring` code
   NCMC.newTemplateContainer = function () {
     close();
     ModalService.showModal({

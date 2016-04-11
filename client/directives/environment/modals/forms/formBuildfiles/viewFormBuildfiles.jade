@@ -14,7 +14,7 @@
     )
 
 .grid-block.shrink.align-center.well.gray.in.row-xxs(
-  ng-if = "(!SMC.state.advanced && !SMC.state.isMirroingDockerfile) || !$root.featureFlags.dockerfileMirroring"
+  ng-if = "(!SMC.state.advanced && !SMC.state.isMirroringDockerfile) || !$root.featureFlags.dockerfileMirroring"
 )
   svg.grid-content.row-xxs.shrink.iconnables.icons-dockerfile-lock
     use(
@@ -58,7 +58,7 @@
 
 //- add logic for repository containers only
 .grid-block.shrink.align-center.well.gray.in.row-xxs(
-  ng-if = "$root.featureFlags.dockerfileMirroring && (SMC.state.advanced || SMC.state.isMirroingDockerfile)"
+  ng-if = "$root.featureFlags.dockerfileMirroring && (SMC.state.advanced || SMC.state.isMirroringDockerfile)"
 )
   svg.grid-content.row-xxs.shrink.iconnables.icons-sync
     use(
@@ -69,7 +69,7 @@
   )
     div Mirror Dockerfile
     small.small(
-      ng-if = "state.isMirroingDockerfile"
+      ng-if = "state.isMirroringDockerfile"
     )
       span.span.text-overflow.float-left(
         ng-title = "state.contextVersion.attrs.buildDockerfilePath"
@@ -95,7 +95,7 @@
         internal-modal-helper = "changeMirrorView"
       ) Change…
     small.small(
-      ng-if = "!state.isMirroingDockerfile"
+      ng-if = "!state.isMirroringDockerfile"
     ) Mirror with a Dockerfile from this repo on GitHub.
 
   //- this should open the 'viewModalSync' view when syncing has not been set up
@@ -123,7 +123,7 @@
     explorer-title = "Build Files"
     file-model = "SMC.state.contextVersion"
     loading-promises-target = "editServerModal"
-    ng-if = "!state.syncing && !SMC.state.isMirroingDockerfile"
+    ng-if = "!state.syncing && !SMC.state.isMirroringDockerfile"
     open-items = "SMC.openItems"
     read-only = "!SMC.state.advanced"
     root-dir = "SMC.state.contextVersion.rootDir"
