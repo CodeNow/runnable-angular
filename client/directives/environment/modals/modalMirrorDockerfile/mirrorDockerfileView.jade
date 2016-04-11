@@ -1,17 +1,22 @@
-//- .spinner-wrapper.spinner-md.in(
-//-   ng-include = "'spinner'"
-//- )
+.spinner-wrapper.spinner-md.in(
+  ng-if = "$root.isLoading[MC.name]"
+  ng-include = "'spinner'"
+)
 
 //- empty state
-//- .grid-content.well.in.empty
+.grid-content.well.in.empty(
+  ng-if = "!$root.isLoading[MC.name] && MC.state.repo.dockerfiles.length === 0"
+)
   p.p.text-center We couldn’t find a Dockerfile in this repository.
 
-.grid-content.row-xxs.list.list-bordered
+.grid-content.row-xxs.list.list-bordered(
+  ng-if = "!$root.isLoading[MC.name] && MC.state.repo.dockerfiles.length > 0"
+)
   //- 'thisDockerfile' should be the name of the Dockerfile (ie. 'Dockerfile.prod', or 'Dockerfile.staging') to suppot multiple dockerfiles
   //- add .disabled class to the not selected item if loading
   label.grid-block.list-item.row-xxs(
     ng-class = "{'active': dockerfile.selection === 'thisDockerfile'}"
-    ng-repeat = "dockerfile in NCMC.state.repo.dockerfiles"
+    ng-repeat = "dockerfile in MC.state.repo.dockerfiles"
   )
     svg.grid-content.shrink.iconnables.icons-dockerfile
       use(
@@ -25,10 +30,10 @@
       ) View on GitHub
     //- if there is only one, [check] by default
     input.checkbox(
-      name = "dockerfilePath"
-      ng-model = "NCMC.state.dockerfilePath"
+      name = "dockerfile"
+      ng-model = "MC.state.dockerfile"
       type = "radio"
-      ng-value = "dockerfile.path"
+      ng-value = "dockerfile"
     )
     button.btn.btn-xs.btn-icon
       svg.iconnables.icons-check
@@ -41,7 +46,7 @@
 )
   //- add .disabled class to the not selected item if loading
   label.grid-block.list-item.row-xxs(
-    ng-class = "{'active': NCMC.state.dockerfilePath === false}"
+    ng-class = "{'active': MC.state.dockerfile === false}"
   )
     svg.grid-content.shrink.iconnables.icons-dockerfile
       use(
@@ -50,8 +55,8 @@
     .grid-content Create a new configuration
     //- if there is only one, [check] by default
     input.checkbox(
-      name = "dockerfilePath"
-      ng-model = "NCMC.state.dockerfilePath"
+      name = "dockerfile"
+      ng-model = "MC.state.dockerfile"
       type = "radio"
       ng-value = "false"
     )

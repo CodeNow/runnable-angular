@@ -8,7 +8,7 @@
 )
   input.input.input-xs.input-search(
     autofocus
-    ng-model = "NCMC.serviceFilter"
+    ng-model = "MC.serviceFilter"
     ng-disabled = ""
     placeholder = "Search"
     required
@@ -19,11 +19,11 @@ ul.list.list-servers(
   ng-if = "!$root.isLoading.newContainerModalTemplates"
 )
   li.list-item.grid-block.row-xxs(
-    ng-click = "NCMC.addServerFromTemplate(dependency)"
+    ng-click = "MC.addServerFromTemplate(dependency)"
     ng-repeat = "\
-      dependency in NCMC.templateServers.models | \
+      dependency in MC.templateServers.models | \
       removeTemplateInstances | \
-      repos: NCMC.serviceFilter | \
+      repos: MC.serviceFilter | \
       orderBy:'attrs.name'\
     "
   )

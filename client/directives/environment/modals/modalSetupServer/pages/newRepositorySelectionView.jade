@@ -7,13 +7,13 @@
 .grid-block.shrink.justify-justified.list-header.row-xxs(
   ng-if = "!$root.isLoading.newContainerModalRepos"
 )
-  small.small {{NCMC.state.tabName === 'repos' ? 'By last updated' : ''}}
+  small.small {{MC.state.tabName === 'repos' ? 'By last updated' : ''}}
 
   //- search
     - disable while loading
   input.input.input-xs.input-search(
     autofocus
-    ng-model = "NCMC.repoFilter"
+    ng-model = "MC.repoFilter"
     ng-disabled = "$root.isLoading.newContainerModalSingleRepoDockerfile"
     placeholder = "Search"
     required
@@ -24,7 +24,7 @@
 .grid-block.well.gray.justify-center(
   ng-if = "\
     !$root.isLoading.newContainerModalRepos && \
-    NCMC.githubRepos.models.length === 0 \
+    MC.githubRepos.models.length === 0 \
   "
 )
   .p.empty
@@ -41,23 +41,23 @@
 ul.list.list-servers(
   ng-if = "\
     !$root.isLoading.newContainerModalRepos && \
-    NCMC.githubRepos.models.length !== 0\
+    MC.githubRepos.models.length !== 0\
   "
 )
   li.p.empty(
-    ng-if = "NCMC.githubRepos.models && !noResults.length"
+    ng-if = "MC.githubRepos.models && !noResults.length"
   ) We couldn’t find any repositories named
     br
-    | ‘{{NCMC.repoFilter}}’.
+    | ‘{{MC.repoFilter}}’.
 
   //- add active class when loading
   li.list-item.multi-line.text-overflow(
     ng-if = "$index < 10"
     ng-disabled = "repo.isAdded"
-    ng-click = "!repo.isAdded && NCMC.setRepo(repo, goToPanel, 'dockerfileMirroring')"
+    ng-click = "!repo.isAdded && MC.setRepo(repo, goToPanel, 'dockerfileMirroring')"
     ng-repeat = "\
-      repo in NCMC.githubRepos.models | \
-      repos: NCMC.repoFilter | \
+      repo in MC.githubRepos.models | \
+      repos: MC.repoFilter | \
       orderBy: '-attrs.updated_at' as noResults\
     "
     ng-class = "{ \
@@ -70,10 +70,10 @@ ul.list.list-servers(
     )
       //- if invite flows...
       .btn-user.text-overflow(
-        ng-class = "{'active': NCMC.state.active}"
+        ng-class = "{'active': MC.state.active}"
         ng-include = "'userButtonView'"
         pop-over
-        pop-over-active = "NCMC.state.active"
+        pop-over-active = "MC.state.active"
         pop-over-options = "{\"left\":-24,\"top\":26}"
         pop-over-template = "userPopoverView"
       )
