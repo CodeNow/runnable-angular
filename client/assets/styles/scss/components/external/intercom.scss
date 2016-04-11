@@ -76,12 +76,31 @@
 // classes on body (active window)
 .isolation-intercom-flag-on .intercom-messenger-active {
 
-  .layout-wrapper,
-  .modal-backdrop {
+  .layout-wrapper {
     padding-left: $intercom-width - 1px;
 
     @include media(md) {
       padding-left: 0;
+    }
+  }
+
+  .modal-backdrop.modal-backdrop {
+    padding-left: $intercom-width + 15px;
+
+    @include media(md) {
+      padding-left: 15px;
+    }
+
+    @media (max-height: $screen-xs), (max-width: $screen-sm) {
+      padding: 15px;
+    }
+  }
+
+  .environment-body > .help-container {
+    margin-left: $intercom-width;
+
+    @include media(md) {
+      margin-left: 0;
     }
   }
 }
