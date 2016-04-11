@@ -410,7 +410,7 @@ function SetupServerModalController(
 
   SMC.isPrimaryButtonDisabled = function (serverFormInvalid) {
     return (
-      (SMC.state.step === 2 && SMC.repositoryForm.$invalid) ||
+      (SMC.state.step === 2 && SMC.repositoryForm && SMC.repositoryForm.$invalid) ||
       $filter('selectedStackInvalid')(SMC.state.selectedStack)
     );
   };

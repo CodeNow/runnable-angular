@@ -325,7 +325,7 @@ function ServerModalController(
     return SMC.state.promises.contextVersion
       .then(function (contextVersion) {
         // Only parse the Dockerfile info when no error has occurred
-        if (shouldParseDockerfile  && !SMC.state.advanced) {
+        if (shouldParseDockerfile && !SMC.state.advanced) {
           return parseDockerfileForCardInfoFromInstance(SMC.instance, contextVersion)
             .then(function (data) {
               angular.extend(SMC, data);

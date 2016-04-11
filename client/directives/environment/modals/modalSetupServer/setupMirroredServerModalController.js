@@ -20,6 +20,7 @@ function SetupMirrorServerModalController(
   promisify,
   cardInfoTypes,
   OpenItems,
+  updateDockerfileFromState,
   close,
   repo,
   build,
@@ -228,6 +229,32 @@ function SetupMirrorServerModalController(
             loadingPromises.add(SMC.name, $q.when(true));
             return $q.reject(err);
           });
+      });
+  };
+
+  SMC.changeFromMirrorModeToAdvanced = function () {
+    SMC.state.advanced = true;
+    SMC.state.isMirroingDockerfile = false;
+    var dockerfileBody = SMC.state.dockerfile.attrs.body;
+    return promisify(SMC.state.contextVersion, 'update')({
+        advanced: SMC.state.advanced,
+        buildDockerfilePath: null
+      })
+      .then(function () {
+        return $q.all([
+          promisify(SMC.state.contextVersion, 'fetch')(),
+          SMC.openDockerfile(SMC.state, SMC.openItems)
+        ]);
+      })
+      .then(function () {
+        return promisify(SMC.state.dockerfile, 'update')({
+          json: {
+            body: dockerfileBody
+          }
+        });
+      })
+      .then(function () {
+        return SMC.resetStateContextVersion(SMC.state.contextVersion, false);
       });
   };
 
