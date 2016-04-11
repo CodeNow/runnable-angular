@@ -21,6 +21,7 @@ var TAB_VISIBILITY = {
   whitelist: {
     advanced: true,
     basic: true,
+    mirror: true,
     featureFlagName: 'whitelist',
     nonRepo: true,
     step: 3

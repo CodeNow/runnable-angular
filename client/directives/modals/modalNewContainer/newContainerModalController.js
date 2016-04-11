@@ -31,7 +31,7 @@ function NewContainerModalController(
     close: close,
     state: {
       tabName: 'repos',
-      dockerfilePath: null,
+      dockerfile: null,
       opts: {}
     }
   });
@@ -149,11 +149,11 @@ function NewContainerModalController(
       });
   };
 
-  NCMC.createBuildAndGoToNewRepoModal = function (repo, dockerfilePath) {
+  NCMC.createBuildAndGoToNewRepoModal = function (repo, dockerfile) {
     loading(NCMC.name + 'SingleRepo', true);
-    return createNewBuildAndFetchBranch($rootScope.dataApp.data.activeAccount, repo, dockerfilePath)
+    return createNewBuildAndFetchBranch($rootScope.dataApp.data.activeAccount, repo, dockerfile.path)
       .then(function (repoBuildAndBranch) {
-        if (dockerfilePath) {
+        if (dockerfile) {
           NCMC.newMirrorRepositoryContainer(repoBuildAndBranch);
         } else {
           NCMC.newRepositoryContainer(repoBuildAndBranch);

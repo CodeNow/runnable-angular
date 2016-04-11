@@ -17,6 +17,7 @@ function SetupMirrorServerModalController(
   keypather,
   loading,
   loadingPromises,
+  ModalService,
   promisify,
   cardInfoTypes,
   OpenItems,
@@ -232,12 +233,73 @@ function SetupMirrorServerModalController(
       });
   };
 
+  SMC.swithcBetweenAdavancedAndMirroring = function (newIsMirrorMode, b, c) {
+    if (newIsMirrorMode === false) {
+      return SMC.changeFromMirrorModeToAdvanced()
+        .then(function () {
+          return SMC.state.isMirroringDockerfile;
+        });
+    }
+    if (newIsMirrorMode === true) {
+      return SMC.changeFromAdvancedToMirrorMode()
+        .then(function () {
+          return SMC.state.isMirroringDockerfile;
+        });
+    }
+    return SMC.state.isMirroringDockerfile;
+  };
+
+  SMC.changeFromAdvancedToMirrorMode = function () {
+    return ModalService.showModal({
+      controller: 'ChooseDockerfileModalController',
+      controllerAs: 'MC', // Shared
+      templateUrl: 'changeMirrorView',
+      inputs: {
+        repo: SMC.state.repo
+      }
+    })
+      .then(function (modal) {
+        return modal.close;
+      })
+      .then(function (dockerfile) {
+        if (dockerfile) {
+          loading(SMC.name, true);
+          return promisify(SMC.state.contextVersion, 'update')({
+              advanced: false,
+              buildDockerfilePath: dockerfile.path
+            })
+            .then(function () {
+              return $q.all([
+                promisify(SMC.state.contextVersion, 'fetch')(),
+                SMC.openDockerfile(SMC.state, SMC.openItems)
+              ]);
+            })
+            .then(function () {
+              return promisify(SMC.state.dockerfile, 'update')({
+                json: {
+                  body: atob(dockerfile.content)
+                }
+              });
+            })
+            .then(function () {
+              SMC.state.advanced = false;
+              SMC.state.isMirroringDockerfile = true;
+              return SMC.resetStateContextVersion(SMC.state.contextVersion, false);
+            })
+            .catch(errs.handler)
+            .finally(function () {
+              loading(SMC.name, false);
+            });
+        }
+        return;
+      });
+  };
+
   SMC.changeFromMirrorModeToAdvanced = function () {
-    SMC.state.advanced = true;
-    SMC.state.isMirroringDockerfile = false;
     var dockerfileBody = SMC.state.dockerfile.attrs.body;
+    loading(SMC.name, true);
     return promisify(SMC.state.contextVersion, 'update')({
-        advanced: SMC.state.advanced,
+        advanced: true,
         buildDockerfilePath: null
       })
       .then(function () {
@@ -254,7 +316,13 @@ function SetupMirrorServerModalController(
         });
       })
       .then(function () {
+        SMC.state.advanced = true;
+        SMC.state.isMirroringDockerfile = false;
         return SMC.resetStateContextVersion(SMC.state.contextVersion, false);
+      })
+      .catch(errs.handler)
+      .finally(function () {
+        loading(SMC.name, false);
       });
   };
 

@@ -101,7 +101,8 @@
   //- this should open the 'viewModalSync' view when syncing has not been set up
   label.toggle-wrapper
     input.toggle-input(
-      ng-model = "state.syncing"
+      ng-model = "SMC.swithcBetweenAdavancedAndMirroring"
+      ng-model-options = "{getterSetter: true}"
       type = "checkbox"
     )
     .toggle-group.toggle-sm

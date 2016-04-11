@@ -14,9 +14,12 @@
       onload = "fromTool = true"
     )
     footer.modal-footer.clearfix
-      button.btn.btn-md.white.float-left Cancel
+      button.btn.btn-md.white.float-left(
+        ng-click = "MC.cancel()"
+      ) Cancel
       button.btn.btn-md.green.float-right.btn-spinner(
-        ng-disabled = "!dockerfile.selection"
+        ng-click = "MC.confirm(MC.state.dockerfile)"
+        ng-disabled = "!MC.state.dockerfile"
       )
         //- add the 'in' class to .btn-spinner when spinning!
         //- .spinner-wrapper.spinner-white.spinner-sm.in(
