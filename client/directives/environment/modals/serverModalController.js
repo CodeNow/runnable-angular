@@ -48,6 +48,7 @@ var TAB_VISIBILITY = {
     step: 3
   },
   buildfiles: {
+    basic: true,
     advanced: true,
     mirror: true,
     nonRepo: true,
@@ -312,6 +313,7 @@ function ServerModalController(
   this.resetStateContextVersion = function (contextVersion, shouldParseDockerfile) {
     var SMC = this;
     SMC.state.advanced = keypather.get(contextVersion, 'attrs.advanced') || false;
+    SMC.state.isMirroringDockerfile = !!keypather.get(contextVersion, 'attrs.buildDockerfilePath') || false;
     SMC.state.promises.contextVersion = loadingPromises.start(
       SMC.name,
       promisify(contextVersion, 'deepCopy')()

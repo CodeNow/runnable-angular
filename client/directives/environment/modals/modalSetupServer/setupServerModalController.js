@@ -425,7 +425,7 @@ function SetupServerModalController(
     );
   };
 
-  SMC.needToBeDirtyToSaved = function () {
+  SMC.needsToBeDirtyToSaved = function () {
     if (!SMC.instance) {
       return false;
     }

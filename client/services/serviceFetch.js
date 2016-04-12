@@ -799,15 +799,15 @@ function fetchStackData(
 }
 
 function fetchRepoDockerfiles(
+  $q,
   $http,
   configAPIHost,
   keypather
 ) {
-  return function (repo) {
-    var fullName = keypather.get(repo, 'attrs.full_name');
+  return function (repoFullName) {
     return $http({
       method: 'get',
-      url: configAPIHost + '/github/repos/' + fullName + '/contents/Dockerfile?ref=master'
+      url: configAPIHost + '/github/repos/' + repoFullName + '/contents/Dockerfile?ref=master'
     })
       .then(function (res) {
         var file = res.data;

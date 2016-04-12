@@ -39,7 +39,7 @@ button.btn.btn-md.white.btn-primary.float-right.js-animate(
     'text-save-build': showSaveAndBuild()\
   }"
   ng-click = "thisForm.$invalid || createServerOrUpdate()"
-  ng-disabled = "(SMC.needToBeDirtyToSaved() && !SMC.isDirty()) || isPrimaryButtonDisabled()"
+  ng-disabled = "(SMC.needsToBeDirtyToSaved() && !SMC.isDirty()) || isPrimaryButtonDisabled()"
   ng-if = "SMC.instance || SMC.isTabVisible('buildfiles')"
   type = "submit"
 )

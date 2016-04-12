@@ -133,7 +133,7 @@ function NewContainerModalController(
     repo.loading = true;
     NCMC.state.repo = repo;
     loading(NCMC.name + 'SingleRepoDockerfile', true);
-    return fetchRepoDockerfiles(repo)
+    return fetchRepoDockerfiles(keypather.get(repo, 'attrs.full_name'))
       .then(function (dockerfiles) {
         if (dockerfiles.length === 0) {
           return NCMC.createBuildAndGoToNewRepoModal(repo)

@@ -13,14 +13,15 @@ function EditServerModalController(
   errs,
   fetchInstancesByPod,
   findLinkedServerVariables,
+  helpCards,
+  instance,
   keypather,
   loading,
-  OpenItems,
   loadingPromises,
-  helpCards,
+  ModalService,
+  OpenItems,
   tab,
   updateDockerfileFromState,
-  instance,
   close
 ) {
   var SMC = this;
@@ -41,6 +42,9 @@ function EditServerModalController(
     'requiresRedeploy': parentController.requiresRedeploy.bind(SMC),
     'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
     'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
+    'swithcBetweenAdavancedAndMirroring': parentController.swithcBetweenAdavancedAndMirroring.bind(SMC),
+    'switchToMirrorMode': parentController.switchToMirrorMode.bind(SMC),
+    'switchToAdvancedMode': parentController.switchToAdvancedMode.bind(SMC),
     'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC),
     'TAB_VISIBILITY': parentController.TAB_VISIBILITY
   });
@@ -137,6 +141,7 @@ function EditServerModalController(
         loading(SMC.name, false);
       });
   }
+
   /**
    * This function determines if a tab chooser should be shown
    *
@@ -173,7 +178,64 @@ function EditServerModalController(
     return SMC.TAB_VISIBILITY[tabName].basic;
   };
 
-  SMC.needToBeDirtyToSaved = function () {
+  SMC.enableMirrorMode = function () {
+    return ModalService.showModal({
+      controller: 'ChooseDockerfileModalController',
+      controllerAs: 'MC', // Shared
+      templateUrl: 'changeMirrorView',
+      inputs: {
+        repo: SMC.state.repo,
+        repoFullName: SMC.state.contextVersion.getMainAppCodeVersion().attrs.repo
+      }
+    })
+      .then(function (modal) {
+        return modal.close;
+      })
+      .then(function (dockerfile) {
+        if (dockerfile) {
+          loading(SMC.name, true);
+          return SMC.switchToMirrorMode(SMC.state, SMC.openItems, dockerfile)
+           .catch(errs.handler)
+            .finally(function () {
+              loading(SMC.name, false);
+            });
+        }
+        return;
+      });
+  };
+
+  SMC.disableMirrorMode = function () {
+    loading(SMC.name, true);
+    return loadingPromises.add(SMC.name, SMC.switchToAdvancedMode(SMC.state, SMC.openItems))
+      .catch(errs.handler)
+      .finally(function () {
+        loading(SMC.name, false);
+      });
+  };
+
+  SMC.showAdvancedModeConfirm = function () {
+    return ModalService.showModal({
+      controller: 'ConfirmationModalController',
+      controllerAs: 'CMC', // Shared
+      templateUrl: 'confirmSetupAdvancedModalView'
+    })
+      .then(function (modal) {
+        return modal.close;
+      })
+      .then(function (confirmed) {
+        if (confirmed) {
+          loading(SMC.name, true);
+          return loadingPromises.add(SMC.name, SMC.switchToAdvancedMode(SMC.state, SMC.openItems))
+            .catch(errs.handler)
+            .finally(function () {
+              loading(SMC.name, false);
+            });
+        }
+        return;
+      });
+  };
+
+  SMC.needsToBeDirtyToSaved = function () {
     return true;
   };
 

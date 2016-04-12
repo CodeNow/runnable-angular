@@ -7,9 +7,11 @@ function ChooseDockerfileModalController(
   $timeout,
   errs,
   fetchRepoDockerfiles,
+  keypather,
   loading,
   close,
-  repo
+  repo,
+  repoFullName
 ) {
   var CDMC = this;
   angular.extend(CDMC, {
@@ -20,7 +22,7 @@ function ChooseDockerfileModalController(
   loading.reset(CDMC.name);
 
   loading(CDMC.name, true);
-  fetchRepoDockerfiles(repo)
+  fetchRepoDockerfiles(keypather.get(repo, 'attrs.full_name') || repoFullName)
     .then(function (dockerfiles) {
       CDMC.state.repo.dockerfiles = dockerfiles;
     })
