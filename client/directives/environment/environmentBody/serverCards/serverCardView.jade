@@ -30,7 +30,10 @@ ul.card-body.load(
   li.btn.white(
     ng-click = "openEditServerModal('repository')"
     ng-class = "{'btn-hint': helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.repository}"
-    ng-if = "server.repo && (!server.advanced || $root.featureFlags.dockerfileMirroring)"
+    ng-if = "\
+      server.repo && \
+      (!server.advanced || $root.featureFlags.dockerfileMirroring) \
+    "
   )
     svg.iconnables
       use(
@@ -120,7 +123,10 @@ ul.card-body.load(
   li.btn.white(
     ng-click = "openEditServerModal('translation')"
     ng-class = "{'btn-hint': helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.findAndReplace}"
-    ng-if = "server.repo"
+    ng-if = "\
+      server.repo && \
+      !server.instance.contextVersion.attrs.buildDockerfilePath \
+    "
   )
     svg.iconnables
       use(
@@ -135,7 +141,11 @@ ul.card-body.load(
   //- backup & restore
   li.btn.white(
     ng-click = "openEditServerModal('backup')"
-    ng-if = "!server.repo && $root.featureFlags.backup"
+    ng-if = "\
+      server.repo && \
+      !server.instance.contextVersion.attrs.buildDockerfilePath && \
+      $root.featureFlags.backup \
+    "
   )
     svg.iconnables
       use(
@@ -189,7 +199,11 @@ ul.card-body.load(
       //- only repo containers can sync
       //- show this instead of the lock, when mirroring
       svg.iconnables.icons-sync(
-        ng-if = "$root.featureflags.dockerfilemirroring && server.instance.contextversion.attrs.buildDockerfilePath"
+        ng-if = "\
+          $root.featureFlags.dockerfileMirroring && \
+          server.advanced && \
+          server.instance.contextVersion.attrs.buildDockerfilePath \
+        "
       )
         use(
           xlink:href = "#icons-sync"
@@ -202,13 +216,16 @@ ul.card-body.load(
           xlink:href = "#icons-alert-alt"
         )
       svg.iconnables.icons-lock(
-        ng-if = "!server.advanced && !($root.featureFlags.dockerfileMirroring && server.instance.contextversion.attrs.buildDockerfilePath)"
+        ng-if = "!server.advanced"
       )
         use(
           xlink:href = "#icons-lock"
         )
       svg.iconnables.icons-unlock(
-        ng-if = "server.advanced && !($root.featureFlags.dockerfileMirroring && server.instance.contextversion.attrs.buildDockerfilePath)"
+        ng-if = "\
+          server.advanced && \
+          (!$root.featureFlags.dockerfileMirroring || !server.instance.contextVersion.attrs.buildDockerfilePath) \
+        "
       )
         use(
           xlink:href = "#icons-unlock"
