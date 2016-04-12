@@ -384,7 +384,7 @@ function ServerModalController(
   this.switchToMirrorMode = function (state, openItems, dockerfile) {
     var SMC = this;
     return promisify(state.contextVersion, 'update')({
-        advanced: false,
+        advanced: true,
         buildDockerfilePath: dockerfile.path
       })
       .then(function () {
@@ -401,7 +401,7 @@ function ServerModalController(
         });
       })
       .then(function () {
-        state.advanced = false;
+        state.advanced = true;
         state.isMirroringDockerfile = true;
         return SMC.resetStateContextVersion(state.contextVersion, false);
       });
@@ -473,7 +473,7 @@ function ServerModalController(
   this.getUpdatePromise = this.saveInstanceAndRefreshCards;
 
   this.changeTab = function (tabname) {
-    if (!this.state.advanced && !this.state.isMirroringDockerfile && !this.state.isNonRepoContainer) {
+    if (!this.state.advanced && !this.state.isNonRepoContainer) {
       if ($filter('selectedStackInvalid')(this.state.selectedStack)) {
         tabname = 'repository';
       } else if (!this.state.startCommand) {

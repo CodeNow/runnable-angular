@@ -19,7 +19,7 @@ function serverModalButtonsDirective(
     link: function ($scope) {
       $scope.showSaveAndBuild = function () {
         return (
-          (!$scope.SMC.instance && $scope.SMC.isMirroringDockerfile) ||
+          (!$scope.SMC.instance && $scope.SMC.state.advanced) ||
           (!$scope.SMC.instance && $scope.SMC.state.step < 4) ||
           ($scope.SMC.isDirty() === 'build' && !$rootScope.isLoading[$scope.SMC.name])
         );

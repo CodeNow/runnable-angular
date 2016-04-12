@@ -46,6 +46,7 @@ function SetupMirrorServerModalController(
     'requiresRedeploy': parentController.requiresRedeploy.bind(SMC),
     'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
     'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
+    'swithcBetweenAdavancedAndMirroring': parentController.swithcBetweenAdavancedAndMirroring.bind(SMC),
     'switchToMirrorMode': parentController.switchToMirrorMode.bind(SMC),
     'switchToAdvancedMode': parentController.switchToAdvancedMode.bind(SMC),
     'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC),
@@ -80,12 +81,12 @@ function SetupMirrorServerModalController(
       return '';
     },
     state: {
-      advanced: false,
+      advanced: true,
+      isMirroringDockerfile: true,
       containerFiles: [
         mainRepoContainerFile
       ],
       mainRepoContainerFile: mainRepoContainerFile,
-      ports: [],
       packages: new cardInfoTypes.Packages(),
       promises: {},
       opts: {
@@ -125,12 +126,11 @@ function SetupMirrorServerModalController(
     acv: build.contextVersion.getMainAppCodeVersion(),
     branch: masterBranch,
     repoSelected: true,
-    advanced: false
+    advanced: true
   });
   SMC.state.mainRepoContainerFile.name = repo.attrs.name;
   SMC.state.opts.name = normalizeRepoName(repo);
   SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
-  SMC.state.isMirroringDockerfile = true;
   var fullpath = keypather.get(SMC, 'state.build.contextVersion.attrs.buildDockerfilePath');
   // Get everything before the last '/' and add a '/' at the end
   var path = fullpath.replace(/^(.*)\/.*$/, '$1') + '/';
@@ -250,7 +250,7 @@ function SetupMirrorServerModalController(
       .then(function (dockerfile) {
         if (dockerfile) {
           loading(SMC.name, true);
-          return SMC.switchToMirrorMode(SMC.state, SMC.openFiles, dockerfile)
+          return SMC.switchToMirrorMode(SMC.state, SMC.openItems, dockerfile)
            .catch(errs.handler)
             .finally(function () {
               loading(SMC.name, false);
@@ -262,7 +262,7 @@ function SetupMirrorServerModalController(
 
   SMC.changeFromMirrorModeToAdvanced = function () {
     loading(SMC.name, true);
-    return SMC.switchToAdvancedMode(SMC.state, SMC.openFiles)
+    return SMC.switchToAdvancedMode(SMC.state, SMC.openItems)
       .catch(errs.handler)
       .finally(function () {
         loading(SMC.name, false);
@@ -282,10 +282,10 @@ function SetupMirrorServerModalController(
     if (SMC.TAB_VISIBILITY[tabName].featureFlagName && !$rootScope.featureFlags[SMC.TAB_VISIBILITY[tabName].featureFlagName]) {
       return false;
     }
-    if (SMC.state.isMirroringDockerfile) {
-      return SMC.TAB_VISIBILITY[tabName].mirror;
-    }
     if (SMC.state.advanced) {
+      if (SMC.state.isMirroringDockerfile) {
+        return SMC.TAB_VISIBILITY[tabName].mirror;
+      }
       return SMC.TAB_VISIBILITY[tabName].advanced;
     }
     return false;

@@ -134,16 +134,16 @@ function SetupServerModalController(
       acv: build.contextVersion.getMainAppCodeVersion(),
       branch: masterBranch,
       repoSelected: true,
-      advanced: false
+      advanced: true
     });
     SMC.state.mainRepoContainerFile.name = repo.attrs.name;
     SMC.state.opts.name = normalizeRepoName(repo);
     SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
-    if (keypather.get(SMC, 'state.build.contextVersion.attrs.buildDockerfilePath')) {
+    var fullpath = keypather.get(SMC, 'state.build.contextVersion.attrs.buildDockerfilePath');
+    if (fullpath) {
       SMC.state.isMirroringDockerfile = true;
       SMC.state.step = null;
       SMC.selectedTab = 'buildfiles';
-      var fullpath = keypather.get(SMC, 'state.build.contextVersion.attrs.buildDockerfilePath');
       // Get everything before the last '/' and add a '/' at the end
       var path = fullpath.replace(/^(.*)\/.*$/, '$1') + '/';
       // Get everything after the last '/'
@@ -407,10 +407,10 @@ function SetupServerModalController(
       return false;
     }
     if (SMC.state.advanced) {
+      if (SMC.state.isMirroringDockerfile) {
+        return SMC.TAB_VISIBILITY[tabName].mirror;
+      }
       return SMC.TAB_VISIBILITY[tabName].advanced;
-    }
-    if (SMC.state.isMirroringDockerfile) {
-      return SMC.TAB_VISIBILITY[tabName].mirror;
     }
     return SMC.state.step >= SMC.TAB_VISIBILITY[tabName].step;
   };

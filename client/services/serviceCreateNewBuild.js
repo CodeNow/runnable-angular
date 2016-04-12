@@ -28,6 +28,7 @@ function createNewBuild(
         .then(function (version) {
           if (dockerfilePath) {
             return promisify(version, 'update')({
+              advanced: true,
               buildDockerfilePath: dockerfilePath
             });
           }

@@ -189,7 +189,7 @@ ul.card-body.load(
       //- only repo containers can sync
       //- show this instead of the lock, when mirroring
       svg.iconnables.icons-sync(
-        ng-if = "$root.featureFlags.dockerfileMirroring && server.advanced"
+        ng-if = "$root.featureflags.dockerfilemirroring && server.instance.contextversion.attrs.buildDockerfilePath"
       )
         use(
           xlink:href = "#icons-sync"
@@ -202,13 +202,13 @@ ul.card-body.load(
           xlink:href = "#icons-alert-alt"
         )
       svg.iconnables.icons-lock(
-        ng-if = "!$root.featureFlags.dockerfileMirroring && !server.advanced"
+        ng-if = "!server.advanced && !($root.featureFlags.dockerfileMirroring && server.instance.contextversion.attrs.buildDockerfilePath)"
       )
         use(
           xlink:href = "#icons-lock"
         )
       svg.iconnables.icons-unlock(
-        ng-if = "!$root.featureFlags.dockerfileMirroring && server.advanced"
+        ng-if = "server.advanced && !($root.featureFlags.dockerfileMirroring && server.instance.contextversion.attrs.buildDockerfilePath)"
       )
         use(
           xlink:href = "#icons-unlock"
