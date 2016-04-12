@@ -134,15 +134,18 @@ function SetupServerModalController(
       acv: build.contextVersion.getMainAppCodeVersion(),
       branch: masterBranch,
       repoSelected: true,
-      advanced: true
+      advanced: false
     });
     SMC.state.mainRepoContainerFile.name = repo.attrs.name;
     SMC.state.opts.name = normalizeRepoName(repo);
     SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
     var fullpath = keypather.get(SMC, 'state.build.contextVersion.attrs.buildDockerfilePath');
     if (fullpath) {
-      SMC.state.isMirroringDockerfile = true;
-      SMC.state.step = null;
+      angular.extend(SMC.state, {
+        isMirroringDockerfile: true,
+        advanced: true,
+        step: null
+      });
       SMC.selectedTab = 'buildfiles';
       // Get everything before the last '/' and add a '/' at the end
       var path = fullpath.replace(/^(.*)\/.*$/, '$1') + '/';
