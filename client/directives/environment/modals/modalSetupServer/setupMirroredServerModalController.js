@@ -46,6 +46,8 @@ function SetupMirrorServerModalController(
     'requiresRedeploy': parentController.requiresRedeploy.bind(SMC),
     'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
     'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
+    'switchToMirrorMode': parentController.switchToMirrorMode.bind(SMC),
+    'switchToAdvancedMode': parentController.switchToAdvancedMode.bind(SMC),
     'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC),
     'TAB_VISIBILITY': parentController.TAB_VISIBILITY
   });
@@ -233,22 +235,6 @@ function SetupMirrorServerModalController(
       });
   };
 
-  SMC.swithcBetweenAdavancedAndMirroring = function (newIsMirrorMode, b, c) {
-    if (newIsMirrorMode === false) {
-      return SMC.changeFromMirrorModeToAdvanced()
-        .then(function () {
-          return SMC.state.isMirroringDockerfile;
-        });
-    }
-    if (newIsMirrorMode === true) {
-      return SMC.changeFromAdvancedToMirrorMode()
-        .then(function () {
-          return SMC.state.isMirroringDockerfile;
-        });
-    }
-    return SMC.state.isMirroringDockerfile;
-  };
-
   SMC.changeFromAdvancedToMirrorMode = function () {
     return ModalService.showModal({
       controller: 'ChooseDockerfileModalController',
@@ -264,29 +250,8 @@ function SetupMirrorServerModalController(
       .then(function (dockerfile) {
         if (dockerfile) {
           loading(SMC.name, true);
-          return promisify(SMC.state.contextVersion, 'update')({
-              advanced: false,
-              buildDockerfilePath: dockerfile.path
-            })
-            .then(function () {
-              return $q.all([
-                promisify(SMC.state.contextVersion, 'fetch')(),
-                SMC.openDockerfile(SMC.state, SMC.openItems)
-              ]);
-            })
-            .then(function () {
-              return promisify(SMC.state.dockerfile, 'update')({
-                json: {
-                  body: atob(dockerfile.content)
-                }
-              });
-            })
-            .then(function () {
-              SMC.state.advanced = false;
-              SMC.state.isMirroringDockerfile = true;
-              return SMC.resetStateContextVersion(SMC.state.contextVersion, false);
-            })
-            .catch(errs.handler)
+          return SMC.switchToMirrorMode(SMC.state, SMC.openFiles, dockerfile)
+           .catch(errs.handler)
             .finally(function () {
               loading(SMC.name, false);
             });
@@ -296,30 +261,8 @@ function SetupMirrorServerModalController(
   };
 
   SMC.changeFromMirrorModeToAdvanced = function () {
-    var dockerfileBody = SMC.state.dockerfile.attrs.body;
     loading(SMC.name, true);
-    return promisify(SMC.state.contextVersion, 'update')({
-        advanced: true,
-        buildDockerfilePath: null
-      })
-      .then(function () {
-        return $q.all([
-          promisify(SMC.state.contextVersion, 'fetch')(),
-          SMC.openDockerfile(SMC.state, SMC.openItems)
-        ]);
-      })
-      .then(function () {
-        return promisify(SMC.state.dockerfile, 'update')({
-          json: {
-            body: dockerfileBody
-          }
-        });
-      })
-      .then(function () {
-        SMC.state.advanced = true;
-        SMC.state.isMirroringDockerfile = false;
-        return SMC.resetStateContextVersion(SMC.state.contextVersion, false);
-      })
+    return SMC.switchToAdvancedMode(SMC.state, SMC.openFiles)
       .catch(errs.handler)
       .finally(function () {
         loading(SMC.name, false);

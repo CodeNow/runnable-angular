@@ -47,7 +47,7 @@
     state = "SMC.state"
   )
   button.btn.btn-sm.white(
-    internal-modal-helper = "confirmSetupAdvancedModalView"
+    ng-click = "SMC.showAdvancedModeConfirm()"
     ng-if = "$root.featureFlags.dockerfileMirroring"
   )
     svg.iconnables.icons-lock
@@ -65,15 +65,19 @@
       xlink:href = "#icons-sync"
     )
   .grid-content.row-xxs.text-overflow(
-    ng-class = "{'padding-right': state.syncing}"
+    ng-class = "{'padding-right': SMC.state.isMirroringDockerfile}"
   )
     div Mirror Dockerfile
     small.small(
-      ng-if = "state.isMirroringDockerfile"
+      ng-if = "SMC.state.isMirroringDockerfile"
     )
       span.span.text-overflow.float-left(
-        ng-title = "state.contextVersion.attrs.buildDockerfilePath"
-      ) Mirroring from GitHub: reponame/path/to/dockerfile
+        ng-title = "SMC.state.contextVersion.attrs.buildDockerfilePath"
+        ng-if = "state.isMirroringDockerfile"
+      ) Mirroring from GitHub: {{ SMC.state.contextVersion.attrs.buildDockerfilePath }}
+      small.small(
+        ng-if = "!state.isMirroringDockerfile"
+      ) Mirror with a Dockerfile from this repo on GitHub.
       //- when there's an error
       //- svg.iconnables.icons-alert-alt.float-left
       //-   use(
@@ -91,12 +95,9 @@
           use(
             xlink:href = "#icons-help"
           )
-      button.btn.btn-xxs.gray(
-        internal-modal-helper = "changeMirrorView"
-      ) Change…
-    small.small(
-      ng-if = "!state.isMirroringDockerfile"
-    ) Mirror with a Dockerfile from this repo on GitHub.
+      //- button.btn.btn-xxs.gray(
+        //- internal-modal-helper = "changeMirrorView"
+      //- ) Change…
 
   //- this should open the 'viewModalSync' view when syncing has not been set up
   label.toggle-wrapper
@@ -115,7 +116,6 @@
     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
-  ng-init = "state.syncing = null"
 )
 
   .sidebar(
@@ -124,7 +124,7 @@
     explorer-title = "Build Files"
     file-model = "SMC.state.contextVersion"
     loading-promises-target = "editServerModal"
-    ng-if = "!state.syncing && !SMC.state.isMirroringDockerfile"
+    ng-if = "!SMC.state.isMirroringDockerfile"
     open-items = "SMC.openItems"
     read-only = "!SMC.state.advanced"
     root-dir = "SMC.state.contextVersion.rootDir"
@@ -136,11 +136,11 @@
     file = "item"
     file-editor
     loading-promises-target = "editServerModal"
-    ng-class = "{'readonly': !SMC.state.advanced || state.syncing}"
+    ng-class = "{'readonly': !SMC.state.advanced || SMC.state.isMirroringDockerfile}"
     ng-if = "item.state.type === 'File'"
     ng-repeat = "item in SMC.openItems.models track by item.id()"
     ng-show = "item === SMC.openItems.activeHistory.last()"
-    read-only = "!SMC.state.advanced || state.syncing"
+    read-only = "!SMC.state.advanced || SMC.state.isMirroringDockerfile"
     state = "SMC.state"
   )
 

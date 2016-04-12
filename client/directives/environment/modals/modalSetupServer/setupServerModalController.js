@@ -7,8 +7,10 @@ function SetupServerModalController(
   $scope,
   $controller,
   $filter,
+  $log,
   $q,
   $rootScope,
+  cardInfoTypes,
   createNewBuild,
   createAndBuildNewContainer,
   createBuildFromContextVersionId,
@@ -19,18 +21,17 @@ function SetupServerModalController(
   fetchOwnerRepos,
   fetchStackAnalysis,
   fetchStackData,
+  fetchStackInfo,
   fetchUser,
   hasKeypaths,
   helpCards,
   keypather,
   loading,
   loadingPromises,
+  ModalService,
+  OpenItems,
   promisify,
   updateDockerfileFromState,
-  $log,
-  cardInfoTypes,
-  OpenItems,
-  fetchStackInfo,
   close,
   repo,
   build,
@@ -54,6 +55,9 @@ function SetupServerModalController(
     'requiresRedeploy': parentController.requiresRedeploy.bind(SMC),
     'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
     'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
+    'swithcBetweenAdavancedAndMirroring': parentController.swithcBetweenAdavancedAndMirroring.bind(SMC),
+    'switchToMirrorMode': parentController.switchToMirrorMode.bind(SMC),
+    'switchToAdvancedMode': parentController.switchToAdvancedMode.bind(SMC),
     'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC),
     'TAB_VISIBILITY': parentController.TAB_VISIBILITY
   });
@@ -405,6 +409,9 @@ function SetupServerModalController(
     if (SMC.state.advanced) {
       return SMC.TAB_VISIBILITY[tabName].advanced;
     }
+    if (SMC.state.isMirroringDockerfile) {
+      return SMC.TAB_VISIBILITY[tabName].mirror;
+    }
     return SMC.state.step >= SMC.TAB_VISIBILITY[tabName].step;
   };
 
@@ -424,6 +431,62 @@ function SetupServerModalController(
 
   SMC.showStackSelector = function () {
     return !SMC.state.advanced;
+  };
+
+  SMC.changeFromAdvancedToMirrorMode = function () {
+    return ModalService.showModal({
+      controller: 'ChooseDockerfileModalController',
+      controllerAs: 'MC', // Shared
+      templateUrl: 'changeMirrorView',
+      inputs: {
+        repo: SMC.state.repo
+      }
+    })
+      .then(function (modal) {
+        return modal.close;
+      })
+      .then(function (dockerfile) {
+        if (dockerfile) {
+          loading(SMC.name, true);
+          return SMC.switchToMirrorMode(SMC.state, SMC.openItems, dockerfile)
+           .catch(errs.handler)
+            .finally(function () {
+              loading(SMC.name, false);
+            });
+        }
+        return;
+      });
+  };
+
+  SMC.changeFromMirrorModeToAdvanced = function () {
+    loading(SMC.name, true);
+    return SMC.switchToAdvancedMode(SMC.state, SMC.openItems)
+      .catch(errs.handler)
+      .finally(function () {
+        loading(SMC.name, false);
+      });
+  };
+
+  SMC.showAdvancedModeConfirm = function () {
+    return ModalService.showModal({
+      controller: 'ConfirmationModalController',
+      controllerAs: 'CMC', // Shared
+      templateUrl: 'confirmSetupAdvancedModalView'
+    })
+      .then(function (modal) {
+        return modal.close;
+      })
+      .then(function (confirmed) {
+        if (confirmed) {
+          loading(SMC.name, true);
+          return SMC.switchToAdvancedMode(SMC.state, SMC.openItems)
+            .catch(errs.handler)
+            .finally(function () {
+              loading(SMC.name, false);
+            });
+        }
+        return;
+      });
   };
 
   // TODO: Remove code when removing `dockerFileMirroring` code

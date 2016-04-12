@@ -381,6 +381,76 @@ function ServerModalController(
       });
   };
 
+  this.switchToMirrorMode = function (state, openItems, dockerfile) {
+    var SMC = this;
+    return promisify(state.contextVersion, 'update')({
+        advanced: false,
+        buildDockerfilePath: dockerfile.path
+      })
+      .then(function () {
+        return $q.all([
+          promisify(state.contextVersion, 'fetch')(),
+          SMC.openDockerfile(state, openItems)
+        ]);
+      })
+      .then(function () {
+        return promisify(state.dockerfile, 'update')({
+          json: {
+            body: atob(dockerfile.content)
+          }
+        });
+      })
+      .then(function () {
+        state.advanced = false;
+        state.isMirroringDockerfile = true;
+        return SMC.resetStateContextVersion(state.contextVersion, false);
+      });
+  };
+
+  this.switchToAdvancedMode = function (state, openItems) {
+    var SMC = this;
+    var dockerfileBody = state.dockerfile.attrs.body;
+    return promisify(state.contextVersion, 'update')({
+      advanced: true,
+      buildDockerfilePath: null
+    })
+    .then(function () {
+      return $q.all([
+        promisify(state.contextVersion, 'fetch')(),
+        SMC.openDockerfile(state, openItems)
+      ]);
+    })
+    .then(function () {
+      return promisify(state.dockerfile, 'update')({
+        json: {
+          body: dockerfileBody
+        }
+      });
+    })
+    .then(function () {
+      state.advanced = true;
+      state.isMirroringDockerfile = false;
+      return SMC.resetStateContextVersion(state.contextVersion, false);
+    });
+  };
+
+  this.swithcBetweenAdavancedAndMirroring = function (newIsMirrorMode) {
+    var SMC = this;
+    if (newIsMirrorMode === false) {
+      return SMC.changeFromMirrorModeToAdvanced()
+        .then(function () {
+          return SMC.state.isMirroringDockerfile;
+        });
+    }
+    if (newIsMirrorMode === true) {
+      return SMC.changeFromAdvancedToMirrorMode()
+        .then(function () {
+          return SMC.state.isMirroringDockerfile;
+        });
+    }
+    return SMC.state.isMirroringDockerfile;
+  };
+
   /**
    * Updates the current instance
    * @returns {Promise} Resolves when the instance update has been started, and the cv has been
