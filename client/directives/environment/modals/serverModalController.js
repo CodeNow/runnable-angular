@@ -437,13 +437,13 @@ function ServerModalController(
   this.swithcBetweenAdavancedAndMirroring = function (newIsMirrorMode) {
     var SMC = this;
     if (newIsMirrorMode === false) {
-      return SMC.changeFromMirrorModeToAdvanced()
+      return SMC.disableMirrorMode()
         .then(function () {
           return SMC.state.isMirroringDockerfile;
         });
     }
     if (newIsMirrorMode === true) {
-      return SMC.changeFromAdvancedToMirrorMode()
+      return SMC.enableMirrorMode()
         .then(function () {
           return SMC.state.isMirroringDockerfile;
         });

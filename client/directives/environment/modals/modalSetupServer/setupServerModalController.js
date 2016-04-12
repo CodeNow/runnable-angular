@@ -436,7 +436,7 @@ function SetupServerModalController(
     return !SMC.state.advanced;
   };
 
-  SMC.changeFromAdvancedToMirrorMode = function () {
+  SMC.enableMirrorMode = function () {
     return ModalService.showModal({
       controller: 'ChooseDockerfileModalController',
       controllerAs: 'MC', // Shared
@@ -461,7 +461,7 @@ function SetupServerModalController(
       });
   };
 
-  SMC.changeFromMirrorModeToAdvanced = function () {
+  SMC.disableMirrorMode = function () {
     loading(SMC.name, true);
     return SMC.switchToAdvancedMode(SMC.state, SMC.openItems)
       .catch(errs.handler)
