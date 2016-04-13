@@ -9,8 +9,10 @@ describe('serviceCreateNewBuildAndFetchBranch'.bold.underline.blue, function () 
 
   var fetchStackDataStub;
   var createNewBuildStub;
+  var createDockerfileFromSourceStub;
   var errsStub;
   var stacks = [];
+  var file = {};
   var build = {
     contextVersion:  {
       appCodeVersions: {
@@ -48,6 +50,10 @@ describe('serviceCreateNewBuildAndFetchBranch'.bold.underline.blue, function () 
       $provide.factory('fetchStackData', function ($q, $rootScope) {
         fetchStackDataStub = sinon.stub().returns($q.when(stacks));
         return fetchStackDataStub;
+      });
+      $provide.factory('createDockerfileFromSource', function ($q, $rootScope) {
+        createDockerfileFromSourceStub = sinon.stub().returns($q.when(file));
+        return createDockerfileFromSourceStub;
       });
       $provide.factory('promisify', function ($q) {
         return function (obj, key) {
@@ -115,4 +121,26 @@ describe('serviceCreateNewBuildAndFetchBranch'.bold.underline.blue, function () 
       message: sinon.match(/normal.*error/i)
     }));
   });
+
+  it('createDockerfileFromSource', function () {
+    it('should create a Dockerfile if there is no source', function () {
+       createNewBuildAndFetchBranch({}, repo)
+        .then(function (inputs) {
+          sinon.assert.calledOnce(createDockerfileFromSourceStub);
+          sinon.assert.calledWith(createDockerfileFromSourceStub, sinon.match.object, 'blank');
+        });
+        $rootScope.$digest();
+    });
+
+    it('should not create a Dockerfile if there is a source', function () {
+      build.contextVersion.source = {};
+
+      createNewBuildAndFetchBranch({}, repo)
+        .then(function (inputs) {
+          sinon.assert.notCalled(createDockerfileFromSourceStub);
+        });
+        $rootScope.$digest();
+    });
+  });
+
 });
