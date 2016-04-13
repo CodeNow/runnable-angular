@@ -151,7 +151,7 @@ function NewContainerModalController(
 
   NCMC.createBuildAndGoToNewRepoModal = function (repo, dockerfile) {
     loading(NCMC.name + 'SingleRepo', true);
-    return createNewBuildAndFetchBranch($rootScope.dataApp.data.activeAccount, repo, dockerfile.path)
+    return createNewBuildAndFetchBranch($rootScope.dataApp.data.activeAccount, repo, keypather.get(dockerfile, 'path'))
       .then(function (repoBuildAndBranch) {
         if (dockerfile) {
           NCMC.newMirrorRepositoryContainer(repoBuildAndBranch);
