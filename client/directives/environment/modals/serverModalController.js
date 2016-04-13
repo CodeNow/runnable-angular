@@ -162,11 +162,11 @@ function ServerModalController(
       'logs',
     ];
     var SMC = this;
-    var count = tabs.filter(function (previous, current) {
-      return SMC.isTabVisible(current);
+    var count = tabs.filter(function (tabName) {
+      return SMC.isTabVisible(tabName);
     }).length;
     if (count === tabs.length) {
-      return 'tab-all';
+      return 'tabs-all';
     }
     return 'tabs-' + count;
   };

@@ -343,6 +343,7 @@ describe('serverModalController'.bold.underline.blue, function () {
     };
     ctx.openItemsMock = new OpenItemsMock();
   });
+
   describe('isDirty', function () {
     beforeEach(function () {
       setup({
@@ -390,6 +391,7 @@ describe('serverModalController'.bold.underline.blue, function () {
       });
     });
   });
+
   describe('requiresRebuild', function () {
     beforeEach(function () {
       setup({
@@ -504,6 +506,45 @@ describe('serverModalController'.bold.underline.blue, function () {
       expect(SMC.requiresRedeploy(), 'requiresRedeploy').to.be.true;
     });
 
+  });
+
+  describe('getNumberOfOpenTabs', function () {
+    beforeEach(function () {
+      setup({
+        currentModel: ctx.instance,
+        selectedTab: 'env'
+      });
+      SMC.isTabVisible = function () {};
+    });
+
+    it('should get a acount of 0', function () {
+      console.log('SMC', SMC.isTabVisible);
+      sinon.stub(SMC, 'isTabVisible').returns(false);
+      expect(SMC.getNumberOfOpenTabs()).to.equal('tabs-0');
+    });
+
+    it('should get all tabs', function () {
+      sinon.stub(SMC, 'isTabVisible').returns(true);
+      expect(SMC.getNumberOfOpenTabs()).to.equal('tabs-all');
+    });
+
+    it('should get a tab count of 2', function () {
+      var stub = sinon.stub(SMC, 'isTabVisible');
+      stub.withArgs('buildfiles').returns(true);
+      stub.withArgs('logs').returns(true);
+      stub.returns(false);
+      expect(SMC.getNumberOfOpenTabs()).to.equal('tabs-2');
+    });
+
+    it('should get a tab count of 4', function () {
+      var stub = sinon.stub(SMC, 'isTabVisible');
+      stub.withArgs('buildfiles').returns(true);
+      stub.withArgs('logs').returns(true);
+      stub.withArgs('commands').returns(true);
+      stub.withArgs('env').returns(true);
+      stub.returns(false);
+      expect(SMC.getNumberOfOpenTabs()).to.equal('tabs-4');
+    });
   });
 
 });
