@@ -4,14 +4,14 @@ require('app')
   .controller('SetupServerModalController', SetupServerModalController);
 
 var tabVisibility = {
-  buildfiles: { advanced: true, step: 3 },
   repository:  { advanced: false, step: 1 },
-  whitelist:  { advanced: true, step: 3, featureFlagName: 'whitelist' },
-  ports:  { advanced: false, step: 3 },
-  env:  { advanced: true, step: 3 },
   commands:  { advanced: false, step: 2 },
+  ports:  { advanced: false, step: 3 },
+  whitelist:  { advanced: true, step: 3, featureFlagName: 'whitelist' },
+  env:  { advanced: true, step: 3 },
   files:  { advanced: false, step: 3 },
   translation:  { advanced: true, step: 3 },
+  buildfiles: { advanced: true, step: 3 },
   logs:  { advanced: true, step: 4 },
 };
 
