@@ -956,13 +956,13 @@ describe('editServerModalController'.bold.underline.blue, function () {
     });
     var testingObject = {
       basic: [
-        'repository', 'ports', 'env', 'commands', 'files', 'translation', 'logs'
+        'repository', 'ports', 'env', 'commands', 'files', 'translation', 'buildfiles', 'logs'
       ],
       nonRepoAdvanced: [
         'buildfiles', 'env', 'logs'
       ],
       advanced: [
-        'buildfiles', 'env', 'translation', 'logs'
+        'repository', 'buildfiles', 'env', 'translation', 'logs'
       ]
     };
     Object.keys(testingObject).forEach(function (key) {
@@ -970,7 +970,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         testingSetups[key]();
         $scope.$digest();
         allTabs.forEach(function (tab) {
-          expect(testingObject[key].indexOf(tab) > -1, key + ' -> tab: ' + tab)
+          expect(testingObject[key].includes(tab), key + ' -> tab: ' + tab)
               .to.equal(SMC.isTabVisible(tab));
         });
       });

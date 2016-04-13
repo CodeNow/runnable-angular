@@ -164,7 +164,7 @@ function EditServerModalController(
     var currentContextVersion = keypather.get(SMC, 'instance.contextVersion');
 
     if (!currentContextVersion.getMainAppCodeVersion()) {
-      return SMC.TAB_VISIBILITY[tabName].nonRepo;
+      return !!SMC.TAB_VISIBILITY[tabName].nonRepo;
     }
     if (
       SMC.state.advanced ||
@@ -173,9 +173,9 @@ function EditServerModalController(
         keypather.get(currentContextVersion, 'attrs.advanced')
       )
     ) {
-      return SMC.TAB_VISIBILITY[tabName].advanced;
+      return !!SMC.TAB_VISIBILITY[tabName].advanced;
     }
-    return SMC.TAB_VISIBILITY[tabName].basic;
+    return !!SMC.TAB_VISIBILITY[tabName].basic;
   };
 
   SMC.enableMirrorMode = function () {
