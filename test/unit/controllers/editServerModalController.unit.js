@@ -1381,6 +1381,11 @@ describe('editServerModalController'.bold.underline.blue, function () {
       expect(SMC.isTabVisible('files')).to.equal(false);
       expect(SMC.isTabVisible('logs')).to.equal(true);
     });
+  });
 
+  describe('needsToBeDirtyToSaved', function () {
+    it('should return true', function () {
+      expect(SMC.needsToBeDirtyToSaved()).to.equal(true);
+    });
   });
 });
