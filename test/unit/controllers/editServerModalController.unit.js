@@ -1333,7 +1333,55 @@ describe('editServerModalController'.bold.underline.blue, function () {
       $scope.$digest();
       expect(ctx.helpCards.getActiveCard()).to.equal('abc');
     });
-
   });
 
+  describe('isTabVisible', function () {
+    beforeEach(function () {
+      setup({
+        currentModel: ctx.instance,
+        selectedTab: 'env'
+      });
+    });
+
+    it('should return false for an undefined tab', function () {
+      console.log('isTabVisible', Object.keys(SMC));
+      expect(SMC.isTabVisible('thingthatdoesntexist')).to.equal(false);
+      expect(SMC.isTabVisible('thiasdfng')).to.equal(false);
+    });
+
+    it('should return false for a feature flag that is disabled', function () {
+      SMC.state.advanced = true;
+      keypather.set($rootScope, 'featureFlags.whitelist', true);
+      expect(SMC.isTabVisible('whitelist')).to.equal(true);
+      keypather.set($rootScope, 'featureFlags.whitelist', false);
+      expect(SMC.isTabVisible('whitelist')).to.equal(false);
+    });
+
+    it('should return the correct state when in advanced mode', function () {
+      SMC.state.advanced = true;
+      expect(SMC.isTabVisible('ports')).to.equal(false);
+      expect(SMC.isTabVisible('buildfiles')).to.equal(true);
+      expect(SMC.isTabVisible('files')).to.equal(false);
+    });
+
+    it('should all return true if in basic mode', function () {
+      SMC.state.advanced = false;
+      expect(SMC.isTabVisible('repository')).to.equal(true);
+      expect(SMC.isTabVisible('ports')).to.equal(true);
+      expect(SMC.isTabVisible('buildfiles')).to.equal(true);
+      expect(SMC.isTabVisible('files')).to.equal(true);
+      expect(SMC.isTabVisible('logs')).to.equal(true);
+    });
+
+    it('should all return false for some if dealing with a non-repo container', function () {
+      SMC.state.advanced = false;
+      sinon.stub(SMC.instance.contextVersion, 'getMainAppCodeVersion').returns(false);
+      expect(SMC.isTabVisible('repository')).to.equal(false);
+      expect(SMC.isTabVisible('ports')).to.equal(false);
+      expect(SMC.isTabVisible('buildfiles')).to.equal(true);
+      expect(SMC.isTabVisible('files')).to.equal(false);
+      expect(SMC.isTabVisible('logs')).to.equal(true);
+    });
+
+  });
 });

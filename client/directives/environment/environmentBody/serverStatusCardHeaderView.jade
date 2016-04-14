@@ -17,7 +17,7 @@
   //- ***********************************
   status-icon(
     instance = "instance"
-    ng-if = "instance && !$root.featureFlags.cardStatus"
+    ng-if = "!$root.featureFlags.cardStatus && instance"
   )
   span.container-title.text-overflow(
     ng-attr-title = "{{instance.getDisplayName()}}"

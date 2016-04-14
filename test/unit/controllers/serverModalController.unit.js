@@ -244,6 +244,7 @@ describe('serverModalController'.bold.underline.blue, function () {
       $scope: $scope
     });
     SMC.openItems = ctx.openItemsMock;
+    SMC.state = {};
   }
 
   beforeEach(function () {
@@ -343,6 +344,7 @@ describe('serverModalController'.bold.underline.blue, function () {
     };
     ctx.openItemsMock = new OpenItemsMock();
   });
+
   describe('isDirty', function () {
     beforeEach(function () {
       setup({
@@ -390,6 +392,7 @@ describe('serverModalController'.bold.underline.blue, function () {
       });
     });
   });
+
   describe('requiresRebuild', function () {
     beforeEach(function () {
       setup({
@@ -503,7 +506,129 @@ describe('serverModalController'.bold.underline.blue, function () {
       $scope.$digest();
       expect(SMC.requiresRedeploy(), 'requiresRedeploy').to.be.true;
     });
+  });
 
+  describe('changeTab', function () {
+    beforeEach(function () {
+      setup({
+        currentModel: ctx.instance,
+        selectedTab: 'env'
+      });
+    });
+
+    it('should set the tab to `repository` if no valid stack selected', function () {
+      SMC.state.advanced = false;
+      SMC.state.selectedStack = false;
+
+      SMC.changeTab('logs');
+      expect(SMC.selectedTab).to.equal('repository');
+      SMC.changeTab('commands');
+      expect(SMC.selectedTab).to.equal('repository');
+    });
+
+    it('should set the step to `command` when there is no command', function () {
+      SMC.state.advanced = false;
+      SMC.state.selectedStack = {
+        selectedVersion: true
+      };
+
+      SMC.changeTab('logs');
+      expect(SMC.selectedTab).to.equal('commands');
+      SMC.changeTab('commands');
+      expect(SMC.selectedTab).to.equal('commands');
+    });
+
+    it('should not set anything if theres an error', function () {
+      SMC.state.startCommand = true;
+      SMC.state.advanced = true;
+      SMC.state.selectedStack = {
+        selectedVersion: true
+      };
+      keypather.set(SMC, 'serverForm.$invalid', true);
+      keypather.set(SMC, 'serverForm.$error.required', [{ $name: 'env' }]);
+
+      SMC.changeTab('logs');
+      expect(SMC.selectedTab).to.equal('env');
+      SMC.changeTab('commands');
+      expect(SMC.selectedTab).to.equal('env');
+    });
+
+   it('should set the tab if there are no required errors', function () {
+      SMC.state.startCommand = true;
+      SMC.state.advanced = true;
+      SMC.state.selectedStack = {
+        selectedVersion: true
+      };
+      keypather.set(SMC, 'serverForm.$invalid', true);
+      keypather.set(SMC, 'serverForm.$error.required', []);
+
+      SMC.changeTab('logs');
+      expect(SMC.selectedTab).to.equal('logs');
+      SMC.changeTab('commands');
+      expect(SMC.selectedTab).to.equal('commands');
+    });
+
+    it('should set the step if the tab is `repository`', function () {
+      SMC.state.advanced = false;
+      SMC.state.step = 2;
+      SMC.instance = false;
+      SMC.changeTab('repository');
+      expect(SMC.selectedTab).to.equal('repository');
+      expect(SMC.state.step).to.equal(1);
+    });
+
+    it('should set the tab name otherwise', function () {
+      SMC.state.startCommand = true;
+      SMC.state.advanced = true;
+      SMC.state.selectedStack = {
+        selectedVersion: true
+      };
+      SMC.changeTab('repository');
+      expect(SMC.selectedTab).to.equal('repository');
+      SMC.changeTab('logs');
+      expect(SMC.selectedTab).to.equal('logs');
+      SMC.changeTab('ports');
+      expect(SMC.selectedTab).to.equal('ports');
+    });
+  });
+
+  describe('getNumberOfOpenTabs', function () {
+    beforeEach(function () {
+      setup({
+        currentModel: ctx.instance,
+        selectedTab: 'env'
+      });
+      SMC.isTabVisible = function () {};
+    });
+
+    it('should get a acount of 0', function () {
+      console.log('SMC', SMC.isTabVisible);
+      sinon.stub(SMC, 'isTabVisible').returns(false);
+      expect(SMC.getNumberOfOpenTabs()).to.equal('tabs-0');
+    });
+
+    it('should get all tabs', function () {
+      sinon.stub(SMC, 'isTabVisible').returns(true);
+      expect(SMC.getNumberOfOpenTabs()).to.equal('tabs-all');
+    });
+
+    it('should get a tab count of 2', function () {
+      var stub = sinon.stub(SMC, 'isTabVisible');
+      stub.withArgs('buildfiles').returns(true);
+      stub.withArgs('logs').returns(true);
+      stub.returns(false);
+      expect(SMC.getNumberOfOpenTabs()).to.equal('tabs-2');
+    });
+
+    it('should get a tab count of 4', function () {
+      var stub = sinon.stub(SMC, 'isTabVisible');
+      stub.withArgs('buildfiles').returns(true);
+      stub.withArgs('logs').returns(true);
+      stub.withArgs('commands').returns(true);
+      stub.withArgs('env').returns(true);
+      stub.returns(false);
+      expect(SMC.getNumberOfOpenTabs()).to.equal('tabs-4');
+    });
   });
 
 });
