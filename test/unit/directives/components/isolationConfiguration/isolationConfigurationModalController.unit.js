@@ -129,6 +129,7 @@ describe('IsolationConfigurationModalController'.bold.underline.blue, function()
       $scope.$digest();
       ICMC.instanceCheckboxes.b = true;
       ICMC.instanceCheckboxes.e = true;
+      ICMC.instanceCheckboxes.d = false;
       ICMC.createIsolation();
       $scope.$digest();
       sinon.assert.calledOnce(mockCreateIsolation);
