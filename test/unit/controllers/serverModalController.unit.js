@@ -710,6 +710,54 @@ describe('serverModalController'.bold.underline.blue, function () {
 
   describe('switchToAdvancedMode', function () {
     beforeEach(setup.bind(null, {}));
+    beforeEach(function () {
+      sinon.stub(SMC, 'openDockerfile').returns($q.when(true));
+      sinon.stub(SMC, 'resetStateContextVersion').returns($q.when(true));
+    });
+
+    it('should update the contextVersion', function () {
+      var cv = SMC.state.contextVersion;
+      SMC.switchToAdvancedMode(SMC.state, SMC.openItems, SMC.state.dockerfile);
+      $scope.$digest();
+      sinon.assert.calledOnce(cv.update);
+      sinon.assert.calledWith(cv.update, {
+        advanced: true,
+        buildDockerfilePath: null
+      });
+    });
+
+    it('should open the Dockerfile', function () {
+      SMC.switchToAdvancedMode(SMC.state, SMC.openItems, SMC.state.dockerfile);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.openDockerfile);
+      sinon.assert.calledWith(SMC.openDockerfile, SMC.state, SMC.openItems);
+    });
+
+    it('should update the dockerfile', function () {
+      var text = 'Wow. This is the body.';
+      SMC.state.dockerfile.attrs.body = text;
+      SMC.switchToAdvancedMode(SMC.state, SMC.openItems, SMC.state.dockerfile);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.state.dockerfile.update);
+      sinon.assert.calledWith(SMC.state.dockerfile.update, {
+        json: {
+          body: text
+        }
+      });
+    });
+
+    it('should be in advanced mode and `isMirroringDockerfile`', function () {
+      SMC.switchToAdvancedMode(SMC.state, SMC.openItems, SMC.state.dockerfile);
+      $scope.$digest();
+      expect(SMC.state.advanced).to.equal(true);
+      expect(SMC.state.isMirroringDockerfile).to.equal(false);
+    });
+
+    it('should reset the contextVersion', function () {
+      SMC.switchToAdvancedMode(SMC.state, SMC.openItems, SMC.state.dockerfile);
+      $scope.$digest();
+      sinon.assert.called(SMC.resetStateContextVersion, SMC.state.contextVersion, false);
+    });
   });
 
   describe('swithcBetweenAdavancedAndMirroring', function () {
