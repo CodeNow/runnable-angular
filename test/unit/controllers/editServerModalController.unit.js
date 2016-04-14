@@ -1436,6 +1436,9 @@ describe('editServerModalController'.bold.underline.blue, function () {
         close: $q.when(true)
       }));
     });
+    afterEach(function () {
+      SMC.switchToAdvancedMode.restore();
+    });
 
     it('should show the modal', function () {
       SMC.showAdvancedModeConfirm();
@@ -1478,6 +1481,34 @@ describe('editServerModalController'.bold.underline.blue, function () {
       $scope.$digest();
       sinon.assert.notCalled(SMC.switchToAdvancedMode);
       sinon.assert.notCalled(ctx.errsMock.handler);
+    });
+  });
+
+  describe('disableMirrorMode', function () {
+    beforeEach(setup.bind(null, {}));
+    beforeEach(function () {
+      sinon.stub(SMC, 'switchToAdvancedMode').returns($q.when(true));
+    });
+    afterEach(function () {
+      SMC.switchToAdvancedMode.restore();
+    });
+
+    it('should switch to advanced to mode', function () {
+      SMC.disableMirrorMode();
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.switchToAdvancedMode);
+      sinon.assert.calledWith(SMC.switchToAdvancedMode, SMC.state, SMC.openItems);
+      sinon.assert.notCalled(ctx.errsMock.handler);
+    });
+
+    it('should catch any errors', function () {
+      SMC.switchToAdvancedMode.returns($q.reject(new Error('Super error')));
+
+      SMC.disableMirrorMode();
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.switchToAdvancedMode);
+      sinon.assert.calledWith(SMC.switchToAdvancedMode, SMC.state, SMC.openItems);
+      sinon.assert.calledOnce(ctx.errsMock.handler);
     });
   });
 });
