@@ -440,7 +440,8 @@ function SetupServerModalController(
       controllerAs: 'MC', // Shared
       templateUrl: 'changeMirrorView',
       inputs: {
-        repo: SMC.state.repo
+        repo: SMC.state.repo,
+        repoFullName: SMC.state.repo.attrs.full_name
       }
     })
       .then(function (modal) {

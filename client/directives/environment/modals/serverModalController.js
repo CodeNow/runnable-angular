@@ -392,10 +392,7 @@ function ServerModalController(
         buildDockerfilePath: dockerfile.path
       })
       .then(function () {
-        return $q.all([
-          promisify(state.contextVersion, 'fetch')(),
-          SMC.openDockerfile(state, openItems)
-        ]);
+        return SMC.openDockerfile(state, openItems);
       })
       .then(function () {
         return promisify(state.dockerfile, 'update')({
