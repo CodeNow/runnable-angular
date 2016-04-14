@@ -1429,20 +1429,55 @@ describe('editServerModalController'.bold.underline.blue, function () {
   });
 
   describe('showAdvancedModeConfirm', function () {
-    it('should show the modal', function () {
+    beforeEach(setup.bind(null, {}));
+    beforeEach(function () {
+      sinon.stub(SMC, 'switchToAdvancedMode').returns($q.when(true));
+      ctx.showModalStub.returns($q.when({
+        close: $q.when(true)
+      }));
+    });
 
+    it('should show the modal', function () {
+      SMC.showAdvancedModeConfirm();
+      $scope.$digest();
+      sinon.assert.calledOnce(ctx.showModalStub);
+      sinon.assert.calledWith(ctx.showModalStub, {
+        controller: 'ConfirmationModalController',
+        controllerAs: 'CMC',
+        templateUrl: 'confirmSetupAdvancedModalView'
+      });
     });
 
     it('should switch to advanced mode if confirmed', function () {
-
+      SMC.showAdvancedModeConfirm();
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.switchToAdvancedMode);
+      sinon.assert.calledWith(SMC.switchToAdvancedMode, SMC.state, SMC.openItems);
+      sinon.assert.notCalled(ctx.errsMock.handler);
     });
 
     it('should catch any errors', function () {
+      SMC.switchToAdvancedMode.returns($q.reject(new Error('Hello World')));
 
+      SMC.showAdvancedModeConfirm();
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.switchToAdvancedMode);
+      sinon.assert.calledWith(SMC.switchToAdvancedMode, SMC.state, SMC.openItems);
+      sinon.assert.calledOnce(ctx.errsMock.handler);
     });
 
     it('should return if not confirmed', function () {
+      ctx.showModalStub.returns($q.when({
+        close: $q.when(false)
+      }));
 
+      SMC.showAdvancedModeConfirm()
+        .then(function (res) {
+           expect(res).to.equal(undefined);
+        });
+      $scope.$digest();
+      sinon.assert.notCalled(SMC.switchToAdvancedMode);
+      sinon.assert.notCalled(ctx.errsMock.handler);
     });
   });
 });
