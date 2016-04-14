@@ -4,13 +4,15 @@ require('app')
   .controller('EditServerModalController', EditServerModalController);
 
 var tabVisibility = {
-  buildfiles: { advanced: true, nonRepo: true, basic: false },
   repository:  { advanced: false, nonRepo: false, basic: true },
   ports:  { advanced: false, nonRepo: false, basic: true },
+  whitelist: { advanced: true, nonRepo: true, basic: true, featureFlagName: 'whitelist' },
   env:  { advanced: true, nonRepo: true, basic: true },
+  backup: { advanced: false, nonRepo: true, basic: false, featureFlagName: 'backup' },
   commands:  { advanced: false, nonRepo: false, basic: true },
   files:  { advanced: false, nonRepo: false, basic: true },
   translation:  { advanced: true, nonRepo: false, basic: true },
+  buildfiles: { advanced: true, nonRepo: true, basic: true },
   logs:  { advanced: true, nonRepo: true, basic: true }
 };
 
@@ -20,6 +22,7 @@ var tabVisibility = {
 function EditServerModalController(
   $scope,
   $controller,
+  $rootScope,
   errs,
   fetchInstancesByPod,
   findLinkedServerVariables,
@@ -42,6 +45,7 @@ function EditServerModalController(
     'changeTab': parentController.changeTab.bind(SMC),
     'insertHostName': parentController.insertHostName.bind(SMC),
     'isDirty': parentController.isDirty.bind(SMC),
+    'getNumberOfOpenTabs': parentController.getNumberOfOpenTabs.bind(SMC),
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
     'populateStateFromData': parentController.populateStateFromData.bind(SMC),
@@ -152,11 +156,14 @@ function EditServerModalController(
    *  basic
    *  basic + nonRepo (Not used)
    *  advanced + nonRepo
-   * @param tabname
+   * @param tabName
    * @returns {*}
    */
-  SMC.isTabVisible = function (tabname) {
-    if (!tabVisibility[tabname]) {
+  SMC.isTabVisible = function (tabName) {
+    if (!tabVisibility[tabName]) {
+      return false;
+    }
+    if (tabVisibility[tabName].featureFlagName && !$rootScope.featureFlags[tabVisibility[tabName].featureFlagName]) {
       return false;
     }
     var currentStatuses = [];
@@ -164,17 +171,19 @@ function EditServerModalController(
     var stateAdvanced = keypather.get(SMC, 'state.advanced');
 
     if (!currentContextVersion.getMainAppCodeVersion()) {
-      currentStatuses.push('nonRepo');
+      return tabVisibility[tabName].nonRepo;
     }
-    if (stateAdvanced ||
-        (!keypather.get(SMC, 'state.contextVersion') && keypather.get(currentContextVersion, 'attrs.advanced'))) {
-      currentStatuses.push('advanced');
-    } else {
-      currentStatuses.push('basic');
+    if (
+      stateAdvanced ||
+      (!keypather.get(SMC, 'state.contextVersion') && keypather.get(currentContextVersion, 'attrs.advanced'))
+    ) {
+      return tabVisibility[tabName].advanced;
     }
-    return currentStatuses.every(function (status) {
-      return tabVisibility[tabname][status];
-    });
+    return tabVisibility[tabName].basic;
+  };
+
+  SMC.needToBeDirtyToSaved = function () {
+    return true;
   };
 
   SMC.rebuild = function (noCache, forceRebuild) {
@@ -190,6 +199,12 @@ function EditServerModalController(
       .finally(function () {
         loading(SMC.name, false);
       });
+  };
+
+  SMC.isPrimaryButtonDisabled = function (selectedStackInvalid) {
+    return (
+      !SMC.state.advanced && (SMC.state.selectedStack | selectedStackInvalid)
+    );
   };
 
   loadInitialState(SMC.instance);

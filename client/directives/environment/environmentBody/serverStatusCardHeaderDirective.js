@@ -16,9 +16,10 @@ function serverStatusCardHeader(
     restrict: 'E',
     replace: false,
     scope: {
-      instance: '= instance',
-      noTouching: '=? noTouching',
-      inModal: '=? inModal',
+      instance: '=',
+      repo: '=',
+      noTouching: '=?',
+      inModal: '=?',
       SMC: '=? serverModalController'
     },
     templateUrl: 'serverStatusCardHeaderView',

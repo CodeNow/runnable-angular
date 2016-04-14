@@ -17,12 +17,12 @@
   //- ***********************************
   status-icon(
     instance = "instance"
-    ng-if = "!$root.featureFlags.cardStatus"
+    ng-if = "!$root.featureFlags.cardStatus && instance"
   )
   span.container-title.text-overflow(
     ng-attr-title = "{{instance.getDisplayName()}}"
     ng-if = "!$root.featureFlags.cardStatus"
-  ) {{(instance.getRepoName() || instance.attrs.name)}}
+  ) {{(instance.getRepoName() || instance.attrs.name || repo.attrs.name)}}
 
   //- ***********************************
   //- END !$root.featureFlags.cardStatus
@@ -54,7 +54,7 @@
 
   //- only appears if container is unsaved and only in the modal
   span.container-title.text-overflow(
-    ng-if = "!$root.isLoading[SMC.name] && SMC.isDirty()"
+    ng-if = "instance && !$root.isLoading[SMC.name] && SMC.isDirty()"
   ) —Unsaved
 
   //- ***********************************

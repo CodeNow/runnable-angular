@@ -22,16 +22,18 @@ function ServerModalController(
   updateDockerfileFromState
 ) {
   this.requiresRedeploy = function () {
-    return !!this.instance && !angular.equals(
-      keypather.get(this, 'instance.attrs.ipWhitelist') || { enabled: false },
-      keypather.get(this, 'state.opts.ipWhitelist') // this is pre-filled with a default of { enabled: false }
+    var SMC = this;
+    return !!SMC.instance && !angular.equals(
+      keypather.get(SMC, 'instance.attrs.ipWhitelist') || { enabled: false },
+      keypather.get(SMC, 'state.opts.ipWhitelist') // SMC is pre-filled with a default of { enabled: false }
     );
   };
   this.requiresRebuild = function () {
-    return loadingPromises.count(this.name) > 0 || !this.openItems.isClean() ||
+    var SMC = this;
+    return loadingPromises.count(SMC.name) > 0 || !SMC.openItems.isClean() ||
       !angular.equals(
-        keypather.get(this, 'instance.attrs.env') || [],
-        keypather.get(this, 'state.opts.env') // this is pre-filled with a default of []
+        keypather.get(SMC, 'instance.attrs.env') || [],
+        keypather.get(SMC, 'state.opts.env') // SMC is pre-filled with a default of []
       );
   };
 
@@ -51,8 +53,8 @@ function ServerModalController(
   this.isDirty = function () {
     // Loading promises are clear when the modal is saved or cancelled.
     var SMC = this;
-    var requiresUpdate = this.requiresRedeploy() ? 'update' : false;
-    var requiresBuild = this.requiresRebuild() ? 'build' : false;
+    var requiresUpdate = SMC.requiresRedeploy() ? 'update' : false;
+    var requiresBuild = SMC.requiresRebuild() ? 'build' : false;
     if (requiresUpdate && (['building', 'buildFailed', 'neverStarted'].includes(keypather.get(SMC, 'instance.status()')))) {
       requiresBuild = 'build';
     }
@@ -147,6 +149,28 @@ function ServerModalController(
       });
   };
 
+  this.getNumberOfOpenTabs = function () {
+    var tabs = [
+      'repository',
+      'commands',
+      'whitelist',
+      'ports',
+      'env',
+      'files',
+      'translation',
+      'buildfiles',
+      'logs',
+    ];
+    var SMC = this;
+    var count = tabs.filter(function (tabName) {
+      return SMC.isTabVisible(tabName);
+    }).length;
+    if (count === tabs.length) {
+      return 'tabs-all';
+    }
+    return 'tabs-' + count;
+  };
+
   this.closeWithConfirmation = function (close) {
     var SMC = this;
     $rootScope.$broadcast('close-popovers');
@@ -159,13 +183,13 @@ function ServerModalController(
       templateUrl: 'confirmCloseServerView',
       inputs: {
         hasInstance: !!SMC.instance,
-        shouldDisableSave: keypather.get($scope, 'serverForm.$invalid')
+        shouldDisableSave: keypather.get(SMC, 'serverForm.$invalid')
       }
     })
       .then(function (modal) {
         modal.close.then(function (state) {
           if (state) {
-            if (state === 'build' && keypather.get($scope, 'serverForm.$invalid')) {
+            if (state === 'build' && keypather.get(SMC, 'serverForm.$invalid')) {
               return;
             }
             loading(SMC.name, true);
@@ -305,7 +329,7 @@ function ServerModalController(
    */
   this.updateInstanceAndReset = function () {
     var SMC = this;
-    return this.getUpdatePromise()
+    return SMC.getUpdatePromise()
       .then(function () {
         return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
       });
@@ -320,21 +344,23 @@ function ServerModalController(
   this.getUpdatePromise = this.saveInstanceAndRefreshCards;
 
   this.changeTab = function (tabname) {
-    if (!this.state.advanced) {
-      if ($filter('selectedStackInvalid')(this.state.selectedStack)) {
-        tabname = 'repository';
-      } else if (!this.state.startCommand) {
-        tabname = 'commands';
-      }
-    } else if (keypather.get($scope, 'serverForm.$invalid')) {
-      if (keypather.get($scope, 'serverForm.$error.required.length')) {
-        var firstRequiredError = $scope.serverForm.$error.required[0].$name;
+    var SMC = this;
+    if (keypather.get(SMC, 'serverForm.$invalid')) {
+      if (keypather.get(SMC, 'serverForm.$error.required.length')) {
+        var firstRequiredError = SMC.serverForm.$error.required[0].$name;
         tabname = firstRequiredError.split('.')[0];
       }
     }
-    if (!this.instance && this.state.step === 2 && tabname === 'repository') {
-      this.state.step = 1;
+    if (!SMC.state.advanced) {
+      if ($filter('selectedStackInvalid')(SMC.state.selectedStack)) {
+        tabname = 'repository';
+      } else if (!SMC.state.startCommand) {
+        tabname = 'commands';
+      }
     }
-    this.selectedTab = tabname;
+    if (!SMC.instance && SMC.state.step === 2 && tabname === 'repository') {
+      SMC.state.step = 1;
+    }
+    SMC.selectedTab = tabname;
   };
 }

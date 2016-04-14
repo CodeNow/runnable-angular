@@ -602,7 +602,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
       SMC.goToNextStep(); // Step #3
       $scope.$digest();
-      expect(SMC.selectedTab).to.equal(null);
+      expect(SMC.selectedTab).to.equal('default');
 
       // It should add the new dockerfile
       sinon.assert.calledOnce(SMC.openItems.add);
@@ -660,7 +660,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         destroy: sinon.stub()
       };
       sinon.stub(SMC, 'isDirty').returns(true);
-      keypather.set($scope, 'serverForm.$invalid', true);
+      keypather.set(SMC, 'serverForm.$invalid', true);
       SMC.actions.close();
       $scope.$digest();
       sinon.assert.calledOnce(showModalStub);
@@ -717,6 +717,50 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       SMC.state.opts.env = ['asdasd=123', 'asdasdas=1'];
       $scope.$digest();
       sinon.assert.calledOnce(updateDockerfileFromStateStub);
+    });
+  });
+
+  describe('isTabVisible', function () {
+    beforeEach(initState.bind(null, {}));
+
+    it('should return false for an undefined tab', function () {
+      console.log('isTabVisible', Object.keys(SMC));
+      expect(SMC.isTabVisible('thingthatdoesntexist')).to.equal(false);
+      expect(SMC.isTabVisible('thiasdfng')).to.equal(false);
+    });
+
+    it('should return false for a feature flag that is disabled', function () {
+      SMC.state.advanced = true;
+      keypather.set($rootScope, 'featureFlags.whitelist', true);
+      expect(SMC.isTabVisible('whitelist')).to.equal(true);
+      keypather.set($rootScope, 'featureFlags.whitelist', false);
+      expect(SMC.isTabVisible('whitelist')).to.equal(false);
+    });
+
+    it('should return the correct state when in advanced mode', function () {
+      SMC.state.advanced = true;
+      expect(SMC.isTabVisible('ports')).to.equal(false);
+      expect(SMC.isTabVisible('buildfiles')).to.equal(true);
+      expect(SMC.isTabVisible('files')).to.equal(false);
+    });
+
+    it('should all return false if in basic mode and in the first step', function () {
+      SMC.state.advanced = false;
+      SMC.state.step = 1;
+      expect(SMC.isTabVisible('repository')).to.equal(true);
+      expect(SMC.isTabVisible('ports')).to.equal(false);
+      expect(SMC.isTabVisible('buildfiles')).to.equal(false);
+      expect(SMC.isTabVisible('files')).to.equal(false);
+      expect(SMC.isTabVisible('logs')).to.equal(false);
+    });
+
+    it('should all return true if in basic mode and in the last step', function () {
+      SMC.state.advanced = false;
+      SMC.state.step = 4;
+      expect(SMC.isTabVisible('ports')).to.equal(true);
+      expect(SMC.isTabVisible('buildfiles')).to.equal(true);
+      expect(SMC.isTabVisible('files')).to.equal(true);
+      expect(SMC.isTabVisible('logs')).to.equal(true);
     });
   });
 });
