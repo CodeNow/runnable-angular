@@ -801,4 +801,37 @@ describe('serverModalController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(SMC.disableMirrorMode);
     });
   });
+
+  describe('openDockerfile', function () {
+    beforeEach(setup.bind(null, {}));
+
+    it('should fetch the file', function () {
+      var cv = SMC.state.contextVersion;
+      SMC.openDockerfile(SMC.state, SMC.openItems);
+      $scope.$digest();
+      sinon.assert.calledOnce(cv.fetchFile);
+      sinon.assert.calledWith(cv.fetchFile, '/Dockerfile');
+    });
+
+    it('should remove the dockerfile it exists in the state', function () {
+      var dockerfile = SMC.state.dockerfile;
+      SMC.openDockerfile(SMC.state, SMC.openItems);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.openItems.remove);
+      sinon.assert.calledWith(SMC.openItems.remove, dockerfile);
+    });
+
+    it('should add it if it fetched the file', function () {
+      SMC.openDockerfile(SMC.state, SMC.openItems);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.openItems.add);
+      sinon.assert.calledWith(SMC.openItems.add, ctx.anotherDockerfile);
+    });
+
+    it('should set the dockerfile in the state', function () {
+      SMC.openDockerfile(SMC.state, SMC.openItems);
+      $scope.$digest();
+      expect(SMC.state.dockerfile).to.equal(ctx.anotherDockerfile);
+    });
+  });
 });
