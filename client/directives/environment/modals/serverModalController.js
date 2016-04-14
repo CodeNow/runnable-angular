@@ -455,6 +455,17 @@ function ServerModalController(
     return SMC.state.isMirroringDockerfile;
   };
 
+  this.isTabVisible = function (tabName) {
+    var SMC = this;
+    if (!SMC.TAB_VISIBILITY[tabName]) {
+      return false;
+    }
+    if (SMC.TAB_VISIBILITY[tabName].featureFlagName && !$rootScope.featureFlags[SMC.TAB_VISIBILITY[tabName].featureFlagName]) {
+      return false;
+    }
+    return true;
+  };
+
   /**
    * Updates the current instance
    * @returns {Promise} Resolves when the instance update has been started, and the cv has been

@@ -46,6 +46,7 @@ function SetupServerModalController(
     'changeTab': parentController.changeTab.bind(SMC),
     'insertHostName': parentController.insertHostName.bind(SMC),
     'isDirty': parentController.isDirty.bind(SMC),
+    '_isTabVisible': parentController.isTabVisible.bind(SMC),
     'getNumberOfOpenTabs': parentController.getNumberOfOpenTabs.bind(SMC),
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
@@ -403,10 +404,7 @@ function SetupServerModalController(
    * @returns {Boolean}
    */
   SMC.isTabVisible = function (tabName) {
-    if (!SMC.TAB_VISIBILITY[tabName]) {
-      return false;
-    }
-    if (SMC.TAB_VISIBILITY[tabName].featureFlagName && !$rootScope.featureFlags[SMC.TAB_VISIBILITY[tabName].featureFlagName]) {
+    if (!SMC._isTabVisible(tabName)) {
       return false;
     }
     if (SMC.state.advanced) {

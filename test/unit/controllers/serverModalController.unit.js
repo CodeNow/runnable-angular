@@ -38,7 +38,12 @@ describe('serverModalController'.bold.underline.blue, function () {
     ctx = {};
   });
 
-  function setup(scope) {
+  function setup (scope) {
+    scope  = scope || {};
+    scope = angular.extend(scope, {
+      currentModel: ctx.instance,
+      selectedTab: 'env'
+    });
 
     ctx.fakeOrg1 = {
       attrs: angular.copy(apiMocks.user),
@@ -602,7 +607,6 @@ describe('serverModalController'.bold.underline.blue, function () {
     });
 
     it('should get a acount of 0', function () {
-      console.log('SMC', SMC.isTabVisible);
       sinon.stub(SMC, 'isTabVisible').returns(false);
       expect(SMC.getNumberOfOpenTabs()).to.equal('tabs-0');
     });
@@ -631,4 +635,32 @@ describe('serverModalController'.bold.underline.blue, function () {
     });
   });
 
+  describe('isTabVisible', function () {
+    beforeEach(setup.bind(null, {}));
+
+    it('should return false for an undefined tab', function () {
+      expect(SMC.isTabVisible('thingthatdoesntexist')).to.equal(false);
+      expect(SMC.isTabVisible('thiasdfng')).to.equal(false);
+    });
+
+    it('should return false for a feature flag that is disabled', function () {
+      SMC.state.advanced = true;
+      keypather.set($rootScope, 'featureFlags.whitelist', true);
+      expect(SMC.isTabVisible('whitelist')).to.equal(true);
+      keypather.set($rootScope, 'featureFlags.whitelist', false);
+      expect(SMC.isTabVisible('whitelist')).to.equal(false);
+    });
+  });
+
+  describe('switchToMirrorMode ', function () {
+    beforeEach(setup.bind(null, {}));
+  });
+
+  describe('switchToAdvancedMode ', function () {
+    beforeEach(setup.bind(null, {}));
+  });
+
+  describe('swithcBetweenAdavancedAndMirroring', function () {
+    beforeEach(setup.bind(null, {}));
+  });
 });

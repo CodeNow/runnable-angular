@@ -1344,7 +1344,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
     });
 
     it('should return false for an undefined tab', function () {
-      console.log('isTabVisible', Object.keys(SMC));
       expect(SMC.isTabVisible('thingthatdoesntexist')).to.equal(false);
       expect(SMC.isTabVisible('thiasdfng')).to.equal(false);
     });
