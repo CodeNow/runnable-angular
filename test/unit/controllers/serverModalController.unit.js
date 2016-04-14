@@ -250,6 +250,11 @@ describe('serverModalController'.bold.underline.blue, function () {
     });
     SMC.openItems = ctx.openItemsMock;
     SMC.state = {};
+    angular.extend(SMC.state, {
+      promises: [],
+      contextVersion: ctx.contextVersion,
+      dockerfile: ctx.dockerfile,
+    });
   }
 
   beforeEach(function () {
@@ -303,16 +308,16 @@ describe('serverModalController'.bold.underline.blue, function () {
 
     ctx.dockerfile = {
       attrs: apiMocks.files.dockerfile,
-      update: sinon.spy(function (opts, cb) {
-        $rootScope.$evalAsync(function () {
-          cb(null, ctx.dockerfile);
-        });
-        return ctx.dockerfile;
-      })
+      path: '/Dockerfile',
+      content: btoa('Hello World'),
+      update: sinon.stub().callsArg(1)
     };
 
     ctx.anotherDockerfile = {
-      attrs: apiMocks.files.anotherDockerfile
+      attrs: apiMocks.files.anotherDockerfile,
+      path: '/Dockerfile',
+      content: btoa('Hello World'),
+      update: sinon.stub().callsArg(1)
     };
 
     sinon.stub(ctx.contextVersion, 'deepCopy', returnArg(ctx.newContextVersion));
@@ -348,6 +353,7 @@ describe('serverModalController'.bold.underline.blue, function () {
       this.removeAndReopen = sinon.stub();
     };
     ctx.openItemsMock = new OpenItemsMock();
+
   });
 
   describe('isDirty', function () {
@@ -652,11 +658,57 @@ describe('serverModalController'.bold.underline.blue, function () {
     });
   });
 
-  describe('switchToMirrorMode ', function () {
+  describe('switchToMirrorMode', function () {
     beforeEach(setup.bind(null, {}));
+    beforeEach(function () {
+      sinon.stub(SMC, 'openDockerfile').returns($q.when(true));
+      sinon.stub(SMC, 'resetStateContextVersion').returns($q.when(true));
+    });
+
+    it('should update the contextVersion', function () {
+      var cv = SMC.state.contextVersion;
+      SMC.switchToMirrorMode(SMC.state, SMC.openItems, SMC.state.dockerfile);
+      $scope.$digest();
+      sinon.assert.calledOnce(cv.update);
+      sinon.assert.calledWith(cv.update, {
+        advanced: true,
+        buildDockerfilePath: SMC.state.dockerfile.path
+      });
+    });
+
+    it('should open the Dockerfile', function () {
+      SMC.switchToMirrorMode(SMC.state, SMC.openItems, SMC.state.dockerfile);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.openDockerfile);
+      sinon.assert.calledWith(SMC.openDockerfile, SMC.state, SMC.openItems);
+    });
+
+    it('should update the dockerfile', function () {
+      SMC.switchToMirrorMode(SMC.state, SMC.openItems, SMC.state.dockerfile);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.state.dockerfile.update);
+      sinon.assert.calledWith(SMC.state.dockerfile.update, {
+        json: {
+          body: 'Hello World'
+        }
+      });
+    });
+
+    it('should be in advanced mode and `isMirroringDockerfile`', function () {
+      SMC.switchToMirrorMode(SMC.state, SMC.openItems, SMC.state.dockerfile);
+      $scope.$digest();
+      expect(SMC.state.advanced).to.equal(true);
+      expect(SMC.state.isMirroringDockerfile).to.equal(true);
+    });
+
+    it('should reset the contextVersion', function () {
+      SMC.switchToMirrorMode(SMC.state, SMC.openItems, SMC.state.dockerfile);
+      $scope.$digest();
+      sinon.assert.called(SMC.resetStateContextVersion, SMC.state.contextVersion, false);
+    });
   });
 
-  describe('switchToAdvancedMode ', function () {
+  describe('switchToAdvancedMode', function () {
     beforeEach(setup.bind(null, {}));
   });
 
