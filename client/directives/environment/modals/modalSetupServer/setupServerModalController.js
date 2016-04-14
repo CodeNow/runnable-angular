@@ -411,9 +411,9 @@ function SetupServerModalController(
     }
     if (SMC.state.advanced) {
       if (SMC.state.isMirroringDockerfile) {
-        return SMC.TAB_VISIBILITY[tabName].mirror;
+        return !!SMC.TAB_VISIBILITY[tabName].mirror;
       }
-      return SMC.TAB_VISIBILITY[tabName].advanced;
+      return !!SMC.TAB_VISIBILITY[tabName].advanced;
     }
     return SMC.state.step >= SMC.TAB_VISIBILITY[tabName].step;
   };

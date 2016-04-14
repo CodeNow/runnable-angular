@@ -739,6 +739,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
     it('should return the correct state when in advanced mode', function () {
       SMC.state.advanced = true;
+      SMC.state.isMirroringDockerfile = false;
       expect(SMC.isTabVisible('ports')).to.equal(false);
       expect(SMC.isTabVisible('buildfiles')).to.equal(true);
       expect(SMC.isTabVisible('files')).to.equal(false);
