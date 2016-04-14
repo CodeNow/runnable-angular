@@ -22,26 +22,30 @@ function IsolationConfigurationModalController(
   ICMC.createIsolation = function () {
 
     var isolatedChildren = [];
-    Object.keys(ICMC.instanceCheckboxes).forEach(function (instanceId) {
-      var repoInstance = ICMC.repoInstances.find(function (instance) {
-        return instance.id() === instanceId;
-      });
-      if (repoInstance) {
-        return isolatedChildren.push({
-          branch: ICMC.instanceBranchMapping[repoInstance.attrs.contextVersion.context].getBranchName(),
-          repo: repoInstance.getRepoName(),
-          org: repoInstance.attrs.owner.username
+    Object.keys(ICMC.instanceCheckboxes)
+      .filter(function (instanceId) {
+        return ICMC.instanceCheckboxes[instanceId];
+      })
+      .forEach(function (instanceId) {
+        var repoInstance = ICMC.repoInstances.find(function (instance) {
+          return instance.id() === instanceId;
         });
-      }
+        if (repoInstance) {
+          return isolatedChildren.push({
+            branch: ICMC.instanceBranchMapping[repoInstance.attrs.contextVersion.context].getBranchName(),
+            repo: repoInstance.getRepoName(),
+            org: repoInstance.attrs.owner.username
+          });
+        }
 
-      var nonRepoInstance = ICMC.nonRepoInstances.find(function (instance) {
-        return instance.id() === instanceId;
+        var nonRepoInstance = ICMC.nonRepoInstances.find(function (instance) {
+          return instance.id() === instanceId;
+        });
+
+        if (nonRepoInstance) {
+          return isolatedChildren.push({instance: nonRepoInstance.id()});
+        }
       });
-
-      if (nonRepoInstance) {
-        return isolatedChildren.push({instance: nonRepoInstance.id()});
-      }
-    });
     loading('createIsolation', true);
     createIsolation(ICMC.instance, isolatedChildren)
       .then(function () {
