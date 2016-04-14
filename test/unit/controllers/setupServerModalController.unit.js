@@ -747,7 +747,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
     it('should all return false if in basic mode and in the first step', function () {
       SMC.state.advanced = false;
       SMC.state.step = 1;
-      expect(SMC.isTabVisible('repository')).to.equal();
+      expect(SMC.isTabVisible('repository')).to.equal(true);
       expect(SMC.isTabVisible('ports')).to.equal(false);
       expect(SMC.isTabVisible('buildfiles')).to.equal(false);
       expect(SMC.isTabVisible('files')).to.equal(false);

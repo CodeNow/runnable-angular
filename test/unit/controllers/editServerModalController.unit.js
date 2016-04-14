@@ -956,7 +956,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
     });
     var testingObject = {
       basic: [
-        'repository', 'ports', 'env', 'commands', 'files', 'translation', 'logs'
+        'repository', 'ports', 'env', 'commands', 'files', 'translation', 'buildfiles', 'logs'
       ],
       nonRepoAdvanced: [
         'buildfiles', 'env', 'logs'
