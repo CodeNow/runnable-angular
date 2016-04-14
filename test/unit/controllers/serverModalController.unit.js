@@ -553,6 +553,21 @@ describe('serverModalController'.bold.underline.blue, function () {
       expect(SMC.selectedTab).to.equal('env');
     });
 
+   it('should set the tab if there are no required errors', function () {
+      SMC.state.startCommand = true;
+      SMC.state.advanced = true;
+      SMC.state.selectedStack = {
+        selectedVersion: true
+      };
+      keypather.set(SMC, 'serverForm.$invalid', true);
+      keypather.set(SMC, 'serverForm.$error.required', []);
+
+      SMC.changeTab('logs');
+      expect(SMC.selectedTab).to.equal('logs');
+      SMC.changeTab('commands');
+      expect(SMC.selectedTab).to.equal('commands');
+    });
+
     it('should set the step if the tab is `repository`', function () {
       SMC.state.advanced = false;
       SMC.state.step = 2;
