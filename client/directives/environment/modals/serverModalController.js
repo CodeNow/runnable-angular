@@ -345,16 +345,17 @@ function ServerModalController(
 
   this.changeTab = function (tabname) {
     var SMC = this;
+    if (keypather.get(SMC, 'serverForm.$invalid')) {
+      if (keypather.get(SMC, 'serverForm.$error.required.length')) {
+        var firstRequiredError = SMC.serverForm.$error.required[0].$name;
+        tabname = firstRequiredError.split('.')[0];
+      }
+    }
     if (!SMC.state.advanced) {
       if ($filter('selectedStackInvalid')(SMC.state.selectedStack)) {
         tabname = 'repository';
       } else if (!SMC.state.startCommand) {
         tabname = 'commands';
-      }
-    } else if (keypather.get(SMC, 'serverForm.$invalid')) {
-      if (keypather.get(SMC, 'serverForm.$error.required.length')) {
-        var firstRequiredError = SMC.serverForm.$error.required[0].$name;
-        tabname = firstRequiredError.split('.')[0];
       }
     }
     if (!SMC.instance && SMC.state.step === 2 && tabname === 'repository') {
