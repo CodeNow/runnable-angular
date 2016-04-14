@@ -39,6 +39,10 @@ describe('editServerModalController'.bold.underline.blue, function () {
   });
 
   function setup(scope) {
+    scope  = scope || {};
+    scope = angular.extend({
+      currentModel: ctx.instance
+    }, scope);
 
     ctx.fakeOrg1 = {
       attrs: angular.copy(apiMocks.user),
@@ -1384,8 +1388,61 @@ describe('editServerModalController'.bold.underline.blue, function () {
   });
 
   describe('needsToBeDirtyToSaved', function () {
+    beforeEach(setup.bind(null, {}));
+
     it('should return true', function () {
       expect(SMC.needsToBeDirtyToSaved()).to.equal(true);
+    });
+  });
+
+  describe('isPrimaryButtonDisabled', function () {
+    beforeEach(setup.bind(null, {}));
+
+    it('should return false if in advanced mode', function () {
+      SMC.state.advanced = true;
+      expect(SMC.isPrimaryButtonDisabled()).to.equal(false);
+    });
+
+    it('should return false if there is not selected stack', function () {
+      SMC.state.advanced = false;
+      SMC.state.selectedStack = false;
+      expect(SMC.isPrimaryButtonDisabled()).to.equal(false);
+    });
+
+    it('should return false if the stack is invalid', function () {
+      SMC.state.advanced = false;
+      SMC.state.selectedStack = false;
+      expect(SMC.isPrimaryButtonDisabled(false)).to.equal(false);
+    });
+
+    it('should return true if the there is a selected stack', function () {
+      SMC.state.advanced = false;
+      SMC.state.selectedStack = true;
+      expect(SMC.isPrimaryButtonDisabled(false)).to.equal(true);
+    });
+
+    it('should return true if the stack is valid', function () {
+      SMC.state.advanced = false;
+      SMC.state.selectedStack = false;
+      expect(SMC.isPrimaryButtonDisabled(true)).to.equal(true);
+    });
+  });
+
+  describe('showAdvancedModeConfirm', function () {
+    it('should show the modal', function () {
+
+    });
+
+    it('should switch to advanced mode if confirmed', function () {
+
+    });
+
+    it('should catch any errors', function () {
+
+    });
+
+    it('should return if not confirmed', function () {
+
     });
   });
 });

@@ -253,8 +253,8 @@ function EditServerModalController(
   };
 
   SMC.isPrimaryButtonDisabled = function (selectedStackInvalid) {
-    return (
-      !SMC.state.advanced && (SMC.state.selectedStack | selectedStackInvalid)
+    return !!(
+      !SMC.state.advanced && (SMC.state.selectedStack || selectedStackInvalid)
     );
   };
 
