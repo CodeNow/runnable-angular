@@ -802,4 +802,32 @@ describe('setupServerModalController'.bold.underline.blue, function () {
     });
   });
 
+  describe('isPrimaryButtonDisabled', function () {
+    beforeEach(initState.bind(null, {}));
+
+    it('should return fasle if form is valid', function () {
+      SMC.state.selectedStack = {
+        selectedVersion: 'dfasdfsd'
+      };
+      SMC.state.step = 3;
+      keypather.set(SMC, 'repositoryForm.$invalid', false);
+
+      expect(SMC.isPrimaryButtonDisabled()).to.equal(false);
+    });
+
+    it('should return true if form is invalid and is on step two', function () {
+      SMC.state.step = 2;
+      keypather.set(SMC, 'repositoryForm.$invalid', true);
+
+      expect(SMC.isPrimaryButtonDisabled()).to.equal(true);
+    });
+
+    it('should return true if selected stack is invalid', function () {
+      SMC.state.selectedStack = null;
+      SMC.state.step = 1;
+
+      expect(SMC.isPrimaryButtonDisabled()).to.equal(true);
+    });
+  });
+
 });
