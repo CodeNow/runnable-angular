@@ -830,4 +830,61 @@ describe('setupServerModalController'.bold.underline.blue, function () {
     });
   });
 
+  describe('getDisplayName', function () {
+    beforeEach(initState.bind(null, {}));
+    beforeEach(function () {
+      SMC.instance = {
+        getDisplayName: sinon.stub().returns('world')
+      };
+      keypather.set(SMC, 'state.repo.attrs.name', 'hello');
+    });
+
+    it('should get the displayName if it has an instance', function () {
+      expect(SMC.getDisplayName()).to.equal('world');
+    });
+
+    it('should get the repo name if it has no instance', function () {
+      SMC.instance = null;
+      expect(SMC.getDisplayName()).to.equal('hello');
+    });
+  });
+
+  describe('$on resetStateContextVersion', function () {
+    beforeEach(initState.bind(null, {}));
+    beforeEach(function () {
+      SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
+    });
+
+    it('should load if it should show the spinner', function () {
+      $scope.$digest();
+      $scope.$emit('resetStateContextVersion', SMC.state.contextVersion, true);
+      console.log('$root', $rootScope.isLoading);
+      expect($rootScope.isLoading.setupServerModal).to.equal(true);
+      $scope.$digest();
+      $scope.$digest();
+      expect($rootScope.isLoading.setupServerModal).to.equal(false);
+    });
+
+    it('should not load if it should show not the spinner', function () {
+      $scope.$emit('resetStateContextVersion', SMC.state.contextVersion, false);
+      $scope.$digest();
+      expect($rootScope.isLoading.setupServerModal).to.equal(false);
+    });
+
+    it('should reset the context version', function () {
+      $scope.$emit('resetStateContextVersion', SMC.state.contextVersion, true);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.resetStateContextVersion);
+      sinon.assert.notCalled(errsMock.handler);
+    });
+
+    it('should handle errors', function () {
+      SMC.resetStateContextVersion.returns($q.reject(true));
+
+      $scope.$emit('resetStateContextVersion', SMC.state.contextVersion, true);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.resetStateContextVersion);
+      sinon.assert.calledOnce(errsMock.handler);
+    });
+  });
 });
