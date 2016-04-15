@@ -31,11 +31,13 @@ function EditServerModalController(
   angular.extend(SMC, {
     'closeWithConfirmation': parentController.closeWithConfirmation.bind(SMC),
     'changeTab': parentController.changeTab.bind(SMC),
+    'disableMirrorMode': parentController.disableMirrorMode.bind(SMC),
+    'enableMirrorMode': parentController.enableMirrorMode.bind(SMC),
+    'getNumberOfOpenTabs': parentController.getNumberOfOpenTabs.bind(SMC),
+    'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
     'insertHostName': parentController.insertHostName.bind(SMC),
     'isDirty': parentController.isDirty.bind(SMC),
     '_isTabVisible': parentController.isTabVisible.bind(SMC),
-    'getNumberOfOpenTabs': parentController.getNumberOfOpenTabs.bind(SMC),
-    'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
     'populateStateFromData': parentController.populateStateFromData.bind(SMC),
     'rebuildAndOrRedeploy': parentController.rebuildAndOrRedeploy.bind(SMC),
@@ -43,6 +45,7 @@ function EditServerModalController(
     'requiresRedeploy': parentController.requiresRedeploy.bind(SMC),
     'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
     'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
+    'showAdvancedModeConfirm': parentController.showAdvancedModeConfirm.bind(SMC),
     'swithcBetweenAdavancedAndMirroring': parentController.swithcBetweenAdavancedAndMirroring.bind(SMC),
     'switchToMirrorMode': parentController.switchToMirrorMode.bind(SMC),
     'switchToAdvancedMode': parentController.switchToAdvancedMode.bind(SMC),
@@ -175,63 +178,6 @@ function EditServerModalController(
       return !!SMC.TAB_VISIBILITY[tabName].advanced;
     }
     return !!SMC.TAB_VISIBILITY[tabName].basic;
-  };
-
-  SMC.enableMirrorMode = function () {
-    return ModalService.showModal({
-      controller: 'ChooseDockerfileModalController',
-      controllerAs: 'MC', // Shared
-      templateUrl: 'changeMirrorView',
-      inputs: {
-        repo: SMC.state.repo,
-        repoFullName: SMC.state.contextVersion.getMainAppCodeVersion().attrs.repo
-      }
-    })
-      .then(function (modal) {
-        return modal.close;
-      })
-      .then(function (dockerfile) {
-        if (dockerfile) {
-          loading(SMC.name, true);
-          return SMC.switchToMirrorMode(SMC.state, SMC.openItems, dockerfile)
-           .catch(errs.handler)
-            .finally(function () {
-              loading(SMC.name, false);
-            });
-        }
-        return;
-      });
-  };
-
-  SMC.disableMirrorMode = function () {
-    loading(SMC.name, true);
-    return loadingPromises.add(SMC.name, SMC.switchToAdvancedMode(SMC.state, SMC.openItems))
-      .catch(errs.handler)
-      .finally(function () {
-        loading(SMC.name, false);
-      });
-  };
-
-  SMC.showAdvancedModeConfirm = function () {
-    return ModalService.showModal({
-      controller: 'ConfirmationModalController',
-      controllerAs: 'CMC', // Shared
-      templateUrl: 'confirmSetupAdvancedModalView'
-    })
-      .then(function (modal) {
-        return modal.close;
-      })
-      .then(function (confirmed) {
-        if (confirmed) {
-          loading(SMC.name, true);
-          return loadingPromises.add(SMC.name, SMC.switchToAdvancedMode(SMC.state, SMC.openItems))
-            .catch(errs.handler)
-            .finally(function () {
-              loading(SMC.name, false);
-            });
-        }
-        return;
-      });
   };
 
   SMC.needsToBeDirtyToSaved = function () {

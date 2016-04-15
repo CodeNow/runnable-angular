@@ -432,6 +432,66 @@ function ServerModalController(
     });
   };
 
+  this.enableMirrorMode = function () {
+    var SMC = this;
+    return ModalService.showModal({
+      controller: 'ChooseDockerfileModalController',
+      controllerAs: 'MC', // Shared
+      templateUrl: 'changeMirrorView',
+      inputs: {
+        repo: SMC.state.repo,
+        repoFullName: SMC.state.repo.attrs.full_name
+      }
+    })
+      .then(function (modal) {
+        return modal.close;
+      })
+      .then(function (dockerfile) {
+        if (dockerfile) {
+          loading(SMC.name, true);
+          return SMC.switchToMirrorMode(SMC.state, SMC.openItems, dockerfile)
+           .catch(errs.handler)
+            .finally(function () {
+              loading(SMC.name, false);
+            });
+        }
+        return;
+      });
+  };
+
+  this.disableMirrorMode = function () {
+    var SMC = this;
+    loading(SMC.name, true);
+    return SMC.switchToAdvancedMode(SMC.state, SMC.openItems)
+      .catch(errs.handler)
+      .finally(function () {
+        loading(SMC.name, false);
+      });
+  };
+
+  this.showAdvancedModeConfirm = function () {
+    var SMC = this;
+    return ModalService.showModal({
+      controller: 'ConfirmationModalController',
+      controllerAs: 'CMC', // Shared
+      templateUrl: 'confirmSetupAdvancedModalView'
+    })
+      .then(function (modal) {
+        return modal.close;
+      })
+      .then(function (confirmed) {
+        if (confirmed) {
+          loading(SMC.name, true);
+          return SMC.switchToAdvancedMode(SMC.state, SMC.openItems)
+            .catch(errs.handler)
+            .finally(function () {
+              loading(SMC.name, false);
+            });
+        }
+        return;
+      });
+  };
+
   this.swithcBetweenAdavancedAndMirroring = function (newIsMirrorMode) {
     var SMC = this;
     if (newIsMirrorMode === false) {
