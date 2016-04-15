@@ -740,6 +740,16 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       SMC.state.advanced = true;
       SMC.state.isMirroringDockerfile = false;
       expect(SMC.isTabVisible('ports')).to.equal(false);
+      expect(SMC.isTabVisible('translation')).to.equal(true);
+      expect(SMC.isTabVisible('buildfiles')).to.equal(true);
+      expect(SMC.isTabVisible('files')).to.equal(false);
+    });
+
+    it('should return the correct state when mirroring dockerfile', function () {
+      SMC.state.advanced = true;
+      SMC.state.isMirroringDockerfile = true;
+      expect(SMC.isTabVisible('ports')).to.equal(false);
+      expect(SMC.isTabVisible('translation')).to.equal(false);
       expect(SMC.isTabVisible('buildfiles')).to.equal(true);
       expect(SMC.isTabVisible('files')).to.equal(false);
     });
@@ -761,6 +771,20 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       expect(SMC.isTabVisible('buildfiles')).to.equal(true);
       expect(SMC.isTabVisible('files')).to.equal(true);
       expect(SMC.isTabVisible('logs')).to.equal(true);
+    });
+  });
+
+  describe('needsToBeDirtyToSaved', function () {
+    beforeEach(initState.bind(null, {}));
+
+    it('should return true if there is an instance', function () {
+      SMC.instance = {};
+      expect(SMC.needsToBeDirtyToSaved()).to.equal(true);
+    });
+
+    it('should return false if there is no instance', function () {
+      SMC.instance = null;
+      expect(SMC.needsToBeDirtyToSaved()).to.equal(false);
     });
   });
 });

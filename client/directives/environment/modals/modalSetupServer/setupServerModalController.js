@@ -424,10 +424,7 @@ function SetupServerModalController(
   };
 
   SMC.needsToBeDirtyToSaved = function () {
-    if (!SMC.instance) {
-      return false;
-    }
-    return true;
+    return !!SMC.instance;
   };
 
   SMC.showStackSelector = function () {
