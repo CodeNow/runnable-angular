@@ -4,13 +4,13 @@
 describe('editServerModalController'.bold.underline.blue, function () {
   var SMC;
   var ctx;
+  var $q;
   var $timeout;
   var $scope;
   var $controller;
   var $rootScope;
   var keypather;
   var loadingService;
-  var $q;
 
   var apiClientMockFactory = require('../../unit/apiMocks/apiClientMockFactory');
   var sourceMocks = runnable.newContexts(require('../../unit/apiMocks/sourceContexts'), {noStore: true, warn: false});
@@ -295,6 +295,8 @@ describe('editServerModalController'.bold.underline.blue, function () {
         }
       }
     ];
+    ctx.contextVersion.getMainAppCodeVersion = sinon.stub()
+      .returns(ctx.contextVersion.appCodeVersions.models[0]);
     ctx.newContextVersion = apiClientMockFactory.contextVersion(
       runnable,
       apiMocks.contextVersions.setup
@@ -305,6 +307,8 @@ describe('editServerModalController'.bold.underline.blue, function () {
         asdfasDF: 2
       }
     }];
+    ctx.newContextVersion.getMainAppCodeVersion = sinon.stub()
+      .returns(ctx.newContextVersion.appCodeVersions.models[0]);
     ctx.rollbackContextVersion = apiClientMockFactory.contextVersion(
       runnable,
       apiMocks.contextVersions.angular
@@ -945,6 +949,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         },
         nonRepoAdvanced: function () {
           ctx.instance.contextVersion.appCodeVersions.models = [];
+          ctx.instance.contextVersion.getMainAppCodeVersion.returns(false);
           ctx.instance.contextVersion.attrs.advanced = true;
           setup({
             currentModel: ctx.instance
@@ -1378,7 +1383,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
 
     it('should all return false for some if dealing with a non-repo container', function () {
       SMC.state.advanced = false;
-      sinon.stub(SMC.instance.contextVersion, 'getMainAppCodeVersion').returns(false);
+      SMC.instance.contextVersion.getMainAppCodeVersion.returns(false);
       expect(SMC.isTabVisible('repository')).to.equal(false);
       expect(SMC.isTabVisible('ports')).to.equal(false);
       expect(SMC.isTabVisible('buildfiles')).to.equal(true);
@@ -1508,6 +1513,109 @@ describe('editServerModalController'.bold.underline.blue, function () {
       $scope.$digest();
       sinon.assert.calledOnce(SMC.switchToAdvancedMode);
       sinon.assert.calledWith(SMC.switchToAdvancedMode, SMC.state, SMC.openItems);
+      sinon.assert.calledOnce(ctx.errsMock.handler);
+    });
+  });
+
+  describe('enableMirrorMode', function () {
+    beforeEach(setup.bind(null, {}));
+    beforeEach(function () {
+      SMC.state.repo = { full_name: 'RepoFullName' };
+      SMC.state.contextVersion = ctx.contextVersion;
+      sinon.stub(SMC, 'switchToMirrorMode').returns($q.when(true));
+      ctx.showModalStub.returns($q.when({
+        close: $q.when(true)
+      }));
+    });
+    afterEach(function () {
+      SMC.switchToMirrorMode.restore();
+    });
+
+    it('should show the modal', function () {
+      $scope.$digest();
+      var repoName = SMC.state.contextVersion.getMainAppCodeVersion().attrs.repo;
+      SMC.enableMirrorMode();
+      $scope.$digest();
+      sinon.assert.calledOnce(ctx.showModalStub);
+      sinon.assert.calledWith(ctx.showModalStub, {
+        controller: 'ChooseDockerfileModalController',
+        controllerAs: 'MC', // Shared
+        templateUrl: 'changeMirrorView',
+        inputs: {
+          repo: SMC.state.repo,
+          repoFullName: repoName,
+        }
+      });
+    });
+
+    it('should switch to advanced mode if confirmed', function () {
+      $scope.$digest();
+      SMC.enableMirrorMode();
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.switchToMirrorMode);
+      sinon.assert.calledWith(SMC.switchToMirrorMode, SMC.state, SMC.openItems);
+      sinon.assert.notCalled(ctx.errsMock.handler);
+    });
+
+    it('should catch any errors', function () {
+      SMC.switchToMirrorMode.returns($q.reject(new Error('Hello World')));
+
+      SMC.enableMirrorMode();
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.switchToMirrorMode);
+      sinon.assert.calledWith(SMC.switchToMirrorMode, SMC.state, SMC.openItems);
+      sinon.assert.calledOnce(ctx.errsMock.handler);
+    });
+
+    it('should return if not confirmed', function () {
+      ctx.showModalStub.returns($q.when({
+        close: $q.when(false)
+      }));
+
+      SMC.enableMirrorMode()
+        .then(function (res) {
+           expect(res).to.equal(undefined);
+        });
+      $scope.$digest();
+      sinon.assert.notCalled(SMC.switchToMirrorMode);
+      sinon.assert.notCalled(ctx.errsMock.handler);
+    });
+  });
+
+  describe('$on resetStateContextVersion', function () {
+    beforeEach(setup.bind(null, {}));
+    beforeEach(function () {
+      SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
+    });
+
+    it('should load if it should show the spinner', function () {
+      $scope.$digest();
+      $scope.$emit('resetStateContextVersion', ctx.contextVersion, true);
+      expect($rootScope.isLoading.editServerModal).to.equal(true);
+      $scope.$digest();
+      $scope.$digest();
+      expect($rootScope.isLoading.editServerModal).to.equal(false);
+    });
+
+    it('should not load if it should show not the spinner', function () {
+      $scope.$emit('resetStateContextVersion', ctx.contextVersion, false);
+      $scope.$digest();
+      expect($rootScope.isLoading.editServerModal).to.equal(false);
+    });
+
+    it('should reset the context version', function () {
+      $scope.$emit('resetStateContextVersion', ctx.contextVersion, true);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.resetStateContextVersion);
+      sinon.assert.notCalled(ctx.errsMock.handler);
+    });
+
+    it('should handle errors', function () {
+      SMC.resetStateContextVersion.returns($q.reject(true));
+
+      $scope.$emit('resetStateContextVersion', ctx.contextVersion, true);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.resetStateContextVersion);
       sinon.assert.calledOnce(ctx.errsMock.handler);
     });
   });
