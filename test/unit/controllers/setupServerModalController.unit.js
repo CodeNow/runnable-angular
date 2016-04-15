@@ -653,6 +653,25 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       expect(SMC.selectedTab).to.equal('logs');
     });
 
+    it('should handle errors', function () {
+      var error = new Error('Hello World');
+      sinon.stub(SMC, 'createServer').returns($q.reject(error));
+
+      SMC.goToNextStep(); // Step #2
+      $scope.$digest();
+
+      SMC.goToNextStep(); // Step #3
+      $scope.$digest();
+
+      SMC.goToNextStep(); // Step #4
+      $scope.$digest();
+
+      sinon.assert.calledOnce(errsMock.handler);
+      sinon.assert.calledWith(errsMock.handler, error);
+      expect(SMC.selectedTab).to.equal('default');
+      expect(SMC.state.step).to.equal(3);
+    });
+
     it('should not go to the `commands` tab if the stack and the version are not selected', function () {
       SMC.state.selectedStack = {};
       expect(SMC.selectedTab).to.equal('repository');
