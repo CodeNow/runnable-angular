@@ -787,4 +787,19 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       expect(SMC.needsToBeDirtyToSaved()).to.equal(false);
     });
   });
+
+  describe('showStackSelector', function () {
+    beforeEach(initState.bind(null, {}));
+
+    it('should return true if there is an instance', function () {
+      SMC.state.advanced = true;
+      expect(SMC.showStackSelector()).to.equal(false);
+    });
+
+    it('should return false if there is no instance', function () {
+      SMC.state.advanced = false;
+      expect(SMC.showStackSelector()).to.equal(true);
+    });
+  });
+
 });
