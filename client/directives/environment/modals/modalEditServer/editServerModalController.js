@@ -80,11 +80,6 @@ function EditServerModalController(
       env: null
     },
     openItems: new OpenItems(),
-    startCommand: function () {
-      var cmd = keypather.get(SMC, 'instance.containers.models[0].attrs.inspect.Config.Cmd[2]');
-      cmd = cmd || '';
-      return cmd.replace('until grep -q ethwe /proc/net/dev; do sleep 1; done;', '');
-    },
     actions: {
       close: SMC.closeWithConfirmation.bind(SMC, close)
     },
@@ -142,6 +137,12 @@ function EditServerModalController(
         loading(SMC.name, false);
       });
   }
+
+  SMC.startCommand = function () {
+    var cmd = keypather.get(SMC, 'instance.containers.models[0].attrs.inspect.Config.Cmd[2]');
+    cmd = cmd || '';
+    return cmd.replace('until grep -q ethwe /proc/net/dev; do sleep 1; done;', '');
+  };
 
   /**
    * This function determines if a tab chooser should be shown

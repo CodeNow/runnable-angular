@@ -1619,4 +1619,44 @@ describe('editServerModalController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(ctx.errsMock.handler);
     });
   });
+
+  describe('$on debug-cmd-status', function () {
+    beforeEach(setup.bind(null, {}));
+
+    it('should be true', function () {
+      $scope.$emit('debug-cmd-status', true);
+      $scope.$digest();
+      expect(SMC.showDebugCmd).to.equal(true);
+    });
+
+    it('should be false', function () {
+      $scope.$emit('debug-cmd-status', false);
+      $scope.$digest();
+      expect(SMC.showDebugCmd).to.equal(false);
+    });
+  });
+
+  describe('startCommand', function () {
+    beforeEach(setup.bind(null, {}));
+    beforeEach(function () {
+      keypather.set(
+        SMC,
+        'instance.containers.models[0].attrs.inspect.Config.Cmd[2]',
+        'until grep -q ethwe /proc/net/dev; do sleep 1; done;sleep 1'
+      );
+    })
+
+    it('should replace the command', function () {
+      expect(SMC.startCommand()).to.equal('sleep 1');
+    });
+
+    it('should handle not having a command', function () {
+      keypather.set(
+        SMC,
+        'instance.containers.models[0].attrs.inspect.Config.Cmd[2]',
+        null
+      );
+      expect(SMC.startCommand()).to.equal('');
+    });
+  });
 });
