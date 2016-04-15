@@ -11,6 +11,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   var $q;
   var featureFlags;
   var MockFetch = require('../fixtures/mockFetch');
+  var mockUserFetch = new (require('../fixtures/mockFetch'))();
   var apiMocks = require('../apiMocks/index');
   var apiClientMockFactory = require('../../unit/apiMocks/apiClientMockFactory');
   var VersionFileModel = require('@runnable/api-client/lib/models/context/version/file');
@@ -27,9 +28,19 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       body: angular.copy(apiMocks.files.dockerfile)
     }
   };
+  var org1 = {
+    attrs: angular.copy(apiMocks.user),
+    oauthName: function () {
+      return 'org1';
+    },
+    oauthId: function () {
+      return 'org1';
+    }
+  };
   var createNewBuildMock;
 
   var fetchOwnerRepoStub;
+  var fetchUserStub;
   var fetchStackAnalysisMock;
   var updateDockerfileFromStateStub;
   var populateDockerfileStub;
@@ -38,11 +49,8 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   var closeSpy;
   var showModalStub;
   var closeModalStub;
-
   var createAndBuildNewContainerMock;
-
   var helpCardsMock;
-
 
   var branches;
   var repo;
@@ -76,6 +84,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       $provide.value('errs', errsMock);
       $provide.factory('fetchStackAnalysis', fetchStackAnalysisMock.fetch());
       $provide.value('helpCards', helpCardsMock);
+      $provide.factory('fetchUser', mockUserFetch.autoTrigger(org1));
       $provide.factory('fetchInstancesByPod', function ($q) {
         fetchInstancesByPodStub = sinon.stub().returns($q.when(instances));
         return fetchInstancesByPodStub;
@@ -250,6 +259,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
     newBuild = {
       contextVersion: {
         id: 'foo',
+        attrs: {},
         getMainAppCodeVersion: sinon.stub().returns(mainACV),
         appCodeVersions: {
           create: sinon.stub().callsArg(1)
@@ -331,6 +341,53 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         expect(SMC.state.repoSelected).to.exist;
       });
     });
+
+    describe('Init with passed-in values and dockerfile', function () {
+      beforeEach(function (done) {
+        initializeValues();
+        repo.dockerfiles = [
+          {
+            sha: '123',
+            content: btoa('Hello World')
+          }
+        ];
+        newBuild.contextVersion.attrs.buildDockerfilePath = '/Dockerfile';
+        newBuild.contextVersion.newFile = sinon.stub().returns(repo.dockerfiles[0]);
+        initState({
+          repo: repo,
+          build: newBuild,
+          masterBranch: branch
+        }, done);
+      });
+
+      it('should set the dockerfile', function () {
+        SMC.openItems.add = sinon.stub();
+
+        $scope.$digest();
+        sinon.assert.notCalled($rootScope.dataApp.data.activeAccount.oauthName);
+        sinon.assert.notCalled(fetchOwnerRepoStub);
+        expect(SMC.state.repo).to.exist;
+        expect(SMC.state.build).to.exist;
+        expect(SMC.state.acv).to.exist;
+        expect(SMC.state.contextVersion).to.exist;
+        expect(SMC.state.branch).to.exist;
+        expect(SMC.state.advanced).to.equal(true);
+        expect(SMC.state.isMirroringDockerfile).to.equal(true);
+        expect(SMC.state.step).to.equal(null);
+        expect(SMC.state.repoSelected).to.exist;
+        sinon.assert.calledOnce(SMC.state.contextVersion.newFile);
+        sinon.assert.calledWith(SMC.state.contextVersion.newFile, {
+           _id: '123',
+           id: '123',
+           body: 'Hello World',
+           name: 'Dockerfile',
+           path: '/'
+        });
+        sinon.assert.calledOnce(SMC.openItems.add);
+        sinon.assert.calledWith(SMC.openItems.add, repo.dockerfiles[0]);
+      });
+    });
+
 
     describe('Init with fetched values', function () {
       beforeEach(initState.bind(null, {}));
@@ -913,7 +970,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
     it('should load if it should show the spinner', function () {
       $scope.$digest();
       $scope.$emit('resetStateContextVersion', SMC.state.contextVersion, true);
-      console.log('$root', $rootScope.isLoading);
       expect($rootScope.isLoading.setupServerModal).to.equal(true);
       $scope.$digest();
       $scope.$digest();
