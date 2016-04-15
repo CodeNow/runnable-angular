@@ -565,6 +565,42 @@ describe('setupServerModalController'.bold.underline.blue, function () {
     });
   });
 
+  describe('rebuild', function () {
+    var cv = {};
+    beforeEach(initState.bind(null, {}));
+    beforeEach(function () {
+      keypather.set(SMC, 'instance.contextVersion', cv);
+      SMC.rebuildAndOrRedeploy = sinon.stub().returns($q.when(true));
+      SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
+    });
+    it('should rebuildAndOrRedeploy', function () {
+      $scope.$digest();
+      SMC.rebuild(true, true);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.rebuildAndOrRedeploy);
+      sinon.assert.calledWith(SMC.rebuildAndOrRedeploy, true, true);
+    });
+
+    it('should reset the context version', function () {
+      $scope.$digest();
+      SMC.rebuild(true, true);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.resetStateContextVersion);
+      sinon.assert.calledWith(SMC.resetStateContextVersion, cv, true);
+    });
+
+    it('should handle errors', function () {
+      SMC.rebuildAndOrRedeploy.returns($q.reject(new Error('Hello')));
+
+      $scope.$digest();
+      SMC.rebuild(true, true);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.rebuildAndOrRedeploy);
+      sinon.assert.notCalled(SMC.resetStateContextVersion);
+      sinon.assert.calledOnce(errsMock.handler);
+    });
+  });
+
   describe('Steps', function () {
     beforeEach(initState.bind(null, {}));
 
