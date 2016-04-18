@@ -590,26 +590,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       });
     });
 
-    describe('getElasticHostname', function () {
-      it('should get the elastic hostname of a selected repo', function () {
-        createNewBuildMock.returns(newBuild);
-        SMC.state.selectedStack = {
-          key: 'ruby_ror'
-        };
-        SMC.selectRepo(repo);
-        $scope.$digest();
-        fetchStackAnalysisMock.triggerPromise(analysisMockData);
-        $scope.$digest();
-        var generatedElasticHostname = SMC.getElasticHostname();
-        var manualEleasticHostname = repo.attrs.name + '-staging-' + repo.attrs.owner.login + '.' + repo.opts.userContentDomain;
-        expect(generatedElasticHostname).to.equal(manualEleasticHostname);
-      });
-
-      it('should return an empty string if there are no repo attrs', function () {
-        expect(SMC.getElasticHostname()).to.equal('');
-      });
-    });
-
     describe('Ports', function () {
       it('should update the dockerfile form state when ports are updated', function () {
         updateDockerfileFromStateStub.reset();
@@ -939,25 +919,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       SMC.state.step = 1;
 
       expect(SMC.isPrimaryButtonDisabled()).to.equal(true);
-    });
-  });
-
-  describe('getDisplayName', function () {
-    beforeEach(initState.bind(null, {}));
-    beforeEach(function () {
-      SMC.instance = {
-        getDisplayName: sinon.stub().returns('world')
-      };
-      keypather.set(SMC, 'state.repo.attrs.name', 'hello');
-    });
-
-    it('should get the displayName if it has an instance', function () {
-      expect(SMC.getDisplayName()).to.equal('world');
-    });
-
-    it('should get the repo name if it has no instance', function () {
-      SMC.instance = null;
-      expect(SMC.getDisplayName()).to.equal('hello');
     });
   });
 

@@ -520,6 +520,29 @@ function ServerModalController(
     return true;
   };
 
+  this.getDisplayName = function () {
+    var SMC = this;
+    if (SMC.instance) {
+      return SMC.instance.getDisplayName();
+    }
+    return SMC.state.repo.attrs.name;
+  };
+
+  this.getElasticHostname = function () {
+    var SMC = this;
+    if (keypather.get(SMC, 'state.repo.attrs')) {
+      // NOTE: Is SMC the best way to get the hostname?
+      var repo = SMC.state.repo;
+      var repoName = repo.attrs.name;
+      var repoOwner = repo.attrs.owner.login.toLowerCase();
+      var domain = SMC.state.repo.opts.userContentDomain;
+      // NOTE: How can I know whether it will be staging or not?
+      var hostname = repoName + '-staging-' + repoOwner + '.' + domain;
+      return hostname;
+    }
+    return '';
+  };
+
   /**
    * Updates the current instance
    * @returns {Promise} Resolves when the instance update has been started, and the cv has been

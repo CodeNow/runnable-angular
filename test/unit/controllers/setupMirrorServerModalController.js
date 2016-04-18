@@ -318,6 +318,7 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
   beforeEach(initializeValues);
 
   describe('Init', function () {
+    beforeEach(initState.bind(null, {}));
   });
 
 });

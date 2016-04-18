@@ -67,6 +67,60 @@ describe('serverModalController'.bold.underline.blue, function () {
     ctx.populateDockerfile = new MockFetch();
     runnable.reset(apiMocks.user);
     ctx.fileModels = [];
+    ctx.createNewBuildMock = sinon.stub();
+    ctx.analysisMockData = {
+      languageFramework: 'ruby_ror',
+      version: {
+        rails: '4.1.8',
+        ruby: '0.8'
+      }
+    };
+    ctx.branches = {
+      models: [
+        {
+          attrs: {
+            name: 'master',
+            commit: {
+              sha: 'sha'
+            }
+          }
+        }
+      ]
+    };
+    ctx.repo = {
+      attrs: {
+        name: 'fooo',
+        full_name: 'foo',
+        default_branch: 'master',
+        owner: {
+          login: 'bar'
+        }
+      },
+      opts: {
+        userContentDomain: 'runnable-test.com'
+      },
+      fetchBranch: sinon.spy(function (opts, cb) {
+        $rootScope.$evalAsync(function () {
+          cb(null, ctx.branches.models[0]);
+        });
+        return ctx.branches.models[0];
+      }),
+      newBranch: sinon.spy(function (opts) {
+        ctx.repo.fakeBranch = {
+          attrs: {
+            name: opts
+          },
+          fetch: sinon.spy(function (cb) {
+            $rootScope.$evalAsync(function () {
+              cb(null, ctx.repo.fakeBranch);
+            });
+            return ctx.repo.fakeBranch;
+          })
+        };
+        return ctx.repo.fakeBranch;
+      })
+    };
+    ctx.fetchStackAnalysisMock = new MockFetch();
 
     ctx.errsMock = {
       handler: sinon.spy()
@@ -88,6 +142,7 @@ describe('serverModalController'.bold.underline.blue, function () {
           createAndBuild: sinon.stub()
         };
       });
+      $provide.factory('fetchStackAnalysis', ctx.fetchStackAnalysisMock.fetch());
       $provide.value('findLinkedServerVariables', sinon.spy());
       $provide.value('eventTracking', ctx.eventTracking);
       $provide.value('configAPIHost', '');
@@ -150,6 +205,7 @@ describe('serverModalController'.bold.underline.blue, function () {
         };
       });
       // Yah, I'm mocking this out. Too many templates are being loaded
+      $provide.value('createNewBuild', ctx.createNewBuildMock);
       $provide.factory('ngIncludeDirective', function () {
         return {
           priority: 100000,
@@ -980,6 +1036,41 @@ describe('serverModalController'.bold.underline.blue, function () {
       SMC.openDockerfile(SMC.state, SMC.openItems);
       $scope.$digest();
       expect(SMC.state.dockerfile).to.equal(ctx.anotherDockerfile);
+    });
+  });
+
+  describe('getDisplayName', function () {
+    beforeEach(setup.bind(null, {}));
+    beforeEach(function () {
+      SMC.instance = {
+        getDisplayName: sinon.stub().returns('world')
+      };
+      keypather.set(SMC, 'state.repo.attrs.name', 'hello');
+    });
+
+    it('should get the displayName if it has an instance', function () {
+      expect(SMC.getDisplayName()).to.equal('world');
+    });
+
+    it('should get the repo name if it has no instance', function () {
+      SMC.instance = null;
+      expect(SMC.getDisplayName()).to.equal('hello');
+    });
+  });
+
+  describe('getElasticHostname', function () {
+    beforeEach(setup.bind(null, {}));
+    it('should get the elastic hostname of a selected repo', function () {
+      ctx.createNewBuildMock.returns(ctx.build);
+      SMC.state.repo = ctx.repo;
+      $scope.$digest();
+      var generatedElasticHostname = SMC.getElasticHostname();
+      var manualEleasticHostname = ctx.repo.attrs.name + '-staging-' + ctx.repo.attrs.owner.login + '.' + ctx.repo.opts.userContentDomain;
+      expect(generatedElasticHostname).to.equal(manualEleasticHostname);
+    });
+
+    it('should return an empty string if there are no repo attrs', function () {
+      expect(SMC.getElasticHostname()).to.equal('');
     });
   });
 });

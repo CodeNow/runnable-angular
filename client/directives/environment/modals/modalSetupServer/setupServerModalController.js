@@ -48,6 +48,8 @@ function SetupServerModalController(
     'enableMirrorMode': parentController.enableMirrorMode.bind(SMC),
     'getNumberOfOpenTabs': parentController.getNumberOfOpenTabs.bind(SMC),
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
+    'getDisplayName': parentController.getDisplayName.bind(SMC),
+    'getElasticHostname': parentController.getElasticHostname.bind(SMC),
     'insertHostName': parentController.insertHostName.bind(SMC),
     'isDirty': parentController.isDirty.bind(SMC),
     '_isTabVisible': parentController.isTabVisible.bind(SMC),
@@ -201,27 +203,6 @@ function SetupServerModalController(
   function normalizeRepoName(repo) {
     return repo.attrs.name.replace(/[^a-zA-Z0-9-]/g, '-');
   }
-
-  SMC.getDisplayName = function () {
-    if (SMC.instance) {
-      return SMC.instance.getDisplayName();
-    }
-    return SMC.state.repo.attrs.name;
-  };
-
-  SMC.getElasticHostname = function () {
-    if (keypather.get(SMC, 'state.repo.attrs')) {
-      // NOTE: Is SMC the best way to get the hostname?
-      var repo = SMC.state.repo;
-      var repoName = repo.attrs.name;
-      var repoOwner = repo.attrs.owner.login.toLowerCase();
-      var domain = SMC.state.repo.opts.userContentDomain;
-      // NOTE: How can I know whether it will be staging or not?
-      var hostname = repoName + '-staging-' + repoOwner + '.' + domain;
-      return hostname;
-    }
-    return '';
-  };
 
   // TODO: Remove code when removing `dockerFileMirroring` code
   SMC.isRepoAdded = function (repo, instances) {
