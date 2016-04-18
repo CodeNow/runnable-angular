@@ -36,6 +36,8 @@ function SetupMirrorServerModalController(
     'changeTab': parentController.changeTab.bind(SMC),
     'insertHostName': parentController.insertHostName.bind(SMC),
     'isDirty': parentController.isDirty.bind(SMC),
+    'getDisplayName': parentController.getDisplayName.bind(SMC),
+    'getElasticHostname': parentController.getElasticHostname.bind(SMC),
     'getNumberOfOpenTabs': parentController.getNumberOfOpenTabs.bind(SMC),
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
@@ -60,25 +62,6 @@ function SetupMirrorServerModalController(
     portsSet: false,
     isNewContainer: true,
     openItems: new OpenItems(),
-    getDisplayName: function () {
-      if (SMC.instance) {
-        return SMC.instance.getDisplayName();
-      }
-      return SMC.state.repo.attrs.name;
-    },
-    getElasticHostname: function () {
-      if (keypather.get(SMC, 'state.repo.attrs')) {
-        // NOTE: Is SMC the best way to get the hostname?
-        var repo = SMC.state.repo;
-        var repoName = repo.attrs.name;
-        var repoOwner = repo.attrs.owner.login.toLowerCase();
-        var domain = SMC.state.repo.opts.userContentDomain;
-        // NOTE: How can I know whether it will be staging or not?
-        var hostname = repoName + '-staging-' + repoOwner + '.' + domain;
-        return hostname;
-      }
-      return '';
-    },
     state: {
       advanced: true,
       isMirroringDockerfile: true,
