@@ -34,12 +34,14 @@ function SetupMirrorServerModalController(
   angular.extend(SMC, {
     'closeWithConfirmation': parentController.closeWithConfirmation.bind(SMC),
     'changeTab': parentController.changeTab.bind(SMC),
-    'insertHostName': parentController.insertHostName.bind(SMC),
-    'isDirty': parentController.isDirty.bind(SMC),
+    'disableMirrorMode': parentController.disableMirrorMode.bind(SMC),
+    'enableMirrorMode': parentController.enableMirrorMode.bind(SMC),
     'getDisplayName': parentController.getDisplayName.bind(SMC),
     'getElasticHostname': parentController.getElasticHostname.bind(SMC),
     'getNumberOfOpenTabs': parentController.getNumberOfOpenTabs.bind(SMC),
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
+    'insertHostName': parentController.insertHostName.bind(SMC),
+    'isDirty': parentController.isDirty.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
     'populateStateFromData': parentController.populateStateFromData.bind(SMC),
     'rebuildAndOrRedeploy': parentController.rebuildAndOrRedeploy.bind(SMC),
@@ -214,41 +216,6 @@ function SetupMirrorServerModalController(
             loadingPromises.add(SMC.name, $q.when(true));
             return $q.reject(err);
           });
-      });
-  };
-
-  SMC.enableMirrorMode = function () {
-    return ModalService.showModal({
-      controller: 'ChooseDockerfileModalController',
-      controllerAs: 'MC', // Shared
-      templateUrl: 'changeMirrorView',
-      inputs: {
-        repo: SMC.state.repo,
-        repoFullName: SMC.state.repo.attrs.full_name
-      }
-    })
-      .then(function (modal) {
-        return modal.close;
-      })
-      .then(function (dockerfile) {
-        if (dockerfile) {
-          loading(SMC.name, true);
-          return SMC.switchToMirrorMode(SMC.state, SMC.openItems, dockerfile)
-           .catch(errs.handler)
-            .finally(function () {
-              loading(SMC.name, false);
-            });
-        }
-        return;
-      });
-  };
-
-  SMC.disableMirrorMode = function () {
-    loading(SMC.name, true);
-    return SMC.switchToAdvancedMode(SMC.state, SMC.openItems)
-      .catch(errs.handler)
-      .finally(function () {
-        loading(SMC.name, false);
       });
   };
 
