@@ -3,10 +3,10 @@
 )
   form.modal-dialog.modal-edit(
     name = "SMC.serverForm"
-    ng-include = "'serverModalView'"
     ng-class = "{\
       'ace-active': (SMC.selectedTab === 'buildfiles' || SMC.selectedTab === 'env'),\
       'disabled': $root.isLoading.editServerModalIsBuilding || $root.isLoading.editServerModal,\
       'xl': (SMC.selectedTab === 'buildfiles' || SMC.selectedTab === 'env' || SMC.selectedTab === 'logs')\
     }"
+    ng-include = "'serverModalView'"
   )

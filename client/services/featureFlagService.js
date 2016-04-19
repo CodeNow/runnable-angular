@@ -31,6 +31,7 @@ function featureFlags(
     newVerificationFlow: true,
     newVerificationFlowStackSelector: true,
     noBuildLogs: true,
+    optionsInModal: false, // allows delete in modal
     renameContainer: false,
     saveToolbar: false,
     teamManagement: true, // changes text from org to team in account menu
