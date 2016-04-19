@@ -28,17 +28,21 @@ function SetupMirrorServerModalController(
   masterBranch
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
-  window.SMC =  SMC;
   SMC.helpCards = helpCards;
 
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
     'closeWithConfirmation': parentController.closeWithConfirmation.bind(SMC),
     'changeTab': parentController.changeTab.bind(SMC),
-    'insertHostName': parentController.insertHostName.bind(SMC),
-    'isDirty': parentController.isDirty.bind(SMC),
+    'disableMirrorMode': parentController.disableMirrorMode.bind(SMC),
+    'enableMirrorMode': parentController.enableMirrorMode.bind(SMC),
+    'getDisplayName': parentController.getDisplayName.bind(SMC),
+    'getElasticHostname': parentController.getElasticHostname.bind(SMC),
     'getNumberOfOpenTabs': parentController.getNumberOfOpenTabs.bind(SMC),
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
+    'insertHostName': parentController.insertHostName.bind(SMC),
+    'isDirty': parentController.isDirty.bind(SMC),
+    '_isTabVisible': parentController.isTabVisible.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
     'populateStateFromData': parentController.populateStateFromData.bind(SMC),
     'rebuildAndOrRedeploy': parentController.rebuildAndOrRedeploy.bind(SMC),
@@ -56,30 +60,11 @@ function SetupMirrorServerModalController(
   var mainRepoContainerFile = new cardInfoTypes.MainRepository();
   // Set initial state
   angular.extend(SMC, {
-    name: 'setupServerModal',
+    name: 'setupMirrorServerModal',
     isLoading: $rootScope.isLoading,
     portsSet: false,
     isNewContainer: true,
     openItems: new OpenItems(),
-    getDisplayName: function () {
-      if (SMC.instance) {
-        return SMC.instance.getDisplayName();
-      }
-      return SMC.state.repo.attrs.name;
-    },
-    getElasticHostname: function () {
-      if (keypather.get(SMC, 'state.repo.attrs')) {
-        // NOTE: Is SMC the best way to get the hostname?
-        var repo = SMC.state.repo;
-        var repoName = repo.attrs.name;
-        var repoOwner = repo.attrs.owner.login.toLowerCase();
-        var domain = SMC.state.repo.opts.userContentDomain;
-        // NOTE: How can I know whether it will be staging or not?
-        var hostname = repoName + '-staging-' + repoOwner + '.' + domain;
-        return hostname;
-      }
-      return '';
-    },
     state: {
       advanced: true,
       isMirroringDockerfile: true,
@@ -112,7 +97,6 @@ function SetupMirrorServerModalController(
   });
   loading.reset(SMC.name);
   loadingPromises.clear(SMC.name);
-  loading.reset(SMC.name + 'IsBuilding');
 
   if (!(repo && build && masterBranch)) {
     throw new Error('Repo, build and masterBranch are needed');
@@ -132,6 +116,9 @@ function SetupMirrorServerModalController(
   SMC.state.opts.name = normalizeRepoName(repo);
   SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
   var fullpath = keypather.get(SMC, 'state.build.contextVersion.attrs.buildDockerfilePath');
+  if (!fullpath) {
+    throw new Error('Context Version must have buildDockerfilePath');
+  }
   // Get everything before the last '/' and add a '/' at the end
   var path = fullpath.replace(/^(.*)\/.*$/, '$1') + '/';
   // Get everything after the last '/'
@@ -235,41 +222,6 @@ function SetupMirrorServerModalController(
       });
   };
 
-  SMC.enableMirrorMode = function () {
-    return ModalService.showModal({
-      controller: 'ChooseDockerfileModalController',
-      controllerAs: 'MC', // Shared
-      templateUrl: 'changeMirrorView',
-      inputs: {
-        repo: SMC.state.repo,
-        repoFullName: SMC.state.repo.attrs.full_name
-      }
-    })
-      .then(function (modal) {
-        return modal.close;
-      })
-      .then(function (dockerfile) {
-        if (dockerfile) {
-          loading(SMC.name, true);
-          return SMC.switchToMirrorMode(SMC.state, SMC.openItems, dockerfile)
-           .catch(errs.handler)
-            .finally(function () {
-              loading(SMC.name, false);
-            });
-        }
-        return;
-      });
-  };
-
-  SMC.disableMirrorMode = function () {
-    loading(SMC.name, true);
-    return SMC.switchToAdvancedMode(SMC.state, SMC.openItems)
-      .catch(errs.handler)
-      .finally(function () {
-        loading(SMC.name, false);
-      });
-  };
-
  /**
    * This function determines if a tab chooser should be shown
    *
@@ -277,19 +229,13 @@ function SetupMirrorServerModalController(
    * @returns {Boolean}
    */
   SMC.isTabVisible = function (tabName) {
-    if (!SMC.TAB_VISIBILITY[tabName]) {
+    if (!SMC._isTabVisible(tabName)) {
       return false;
     }
-    if (SMC.TAB_VISIBILITY[tabName].featureFlagName && !$rootScope.featureFlags[SMC.TAB_VISIBILITY[tabName].featureFlagName]) {
-      return false;
+    if (SMC.state.isMirroringDockerfile) {
+      return !!SMC.TAB_VISIBILITY[tabName].mirror;
     }
-    if (SMC.state.advanced) {
-      if (SMC.state.isMirroringDockerfile) {
-        return SMC.TAB_VISIBILITY[tabName].mirror;
-      }
-      return SMC.TAB_VISIBILITY[tabName].advanced;
-    }
-    return false;
+    return !!SMC.TAB_VISIBILITY[tabName].advanced;
   };
 
   SMC.isPrimaryButtonDisabled = function (serverFormInvalid) {
@@ -297,10 +243,6 @@ function SetupMirrorServerModalController(
   };
 
   SMC.needsToBeDirtyToSaved = function () {
-    if (!SMC.instance) {
-      return false;
-    }
-    return true;
+    return !!SMC.instance;
   };
-
 }
