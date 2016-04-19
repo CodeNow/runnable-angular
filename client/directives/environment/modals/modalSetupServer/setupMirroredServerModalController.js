@@ -176,8 +176,10 @@ function SetupMirrorServerModalController(
   SMC.createServer = function () {
     // Wait until all changes to the context version have been resolved before
     // creating a build with that context version
+    console.log('1');
     return loadingPromises.finished(SMC.name)
      .then(function () {
+        console.log('2');
         if (SMC.state.acv.attrs.branch !== SMC.state.branch.attrs.name) {
           return promisify(SMC.state.acv, 'update')({
             repo: SMC.state.repo.attrs.full_name,
@@ -186,7 +188,7 @@ function SetupMirrorServerModalController(
           });
         }
       })
-      .then(function () {
+      .then(function (build) {
         return createAndBuildNewContainer($q.all({ // This changes the infracodeversion
           build: SMC.state.build,
           opts: SMC.state.opts
@@ -199,9 +201,9 @@ function SetupMirrorServerModalController(
           // Reset the opts, in the same way as `EditServerModalController`
           SMC.state.opts  = {
             env: keypather.get(instance, 'attrs.env') || [],
-            ipWhitelist: angular.copy(keypather.get(instance, 'attrs.ipWhitelist') || {
+            ipWhitelist: angular.copy(keypather.get(instance, 'attrs.ipWhitelist')) || {
               enabled: false
-            })
+            }
           };
           return instance;
         }
@@ -245,4 +247,5 @@ function SetupMirrorServerModalController(
   SMC.needsToBeDirtyToSaved = function () {
     return !!SMC.instance;
   };
+
 }

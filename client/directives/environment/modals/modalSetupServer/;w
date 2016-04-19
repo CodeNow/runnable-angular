@@ -203,6 +203,7 @@ function SetupMirrorServerModalController(
               enabled: false
             })
           };
+          console.log('opts', SMC.state.opts);
           return instance;
         }
         return $q.reject(new Error('Instance not created properly'));
