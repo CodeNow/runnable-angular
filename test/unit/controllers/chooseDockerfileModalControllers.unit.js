@@ -1,7 +1,7 @@
 /*global runnable:true, mocks: true, directiveTemplate: true, xdescribe: true, before, xit: true */
 'use strict';
 
-describe.only('chooseDockerfileModalController'.bold.underline.blue, function () {
+describe('chooseDockerfileModalController'.bold.underline.blue, function () {
   var CDMC;
   var $controller;
   var $scope;

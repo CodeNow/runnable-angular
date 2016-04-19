@@ -180,7 +180,7 @@ function EditServerModalController(
     return !!SMC.TAB_VISIBILITY[tabName].basic;
   };
 
-  SMC.needsToBeDirtyToSaved = function () {
+  SMC.needsToBeDirtySaved = function () {
     return true;
   };
 

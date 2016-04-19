@@ -1392,11 +1392,11 @@ describe('editServerModalController'.bold.underline.blue, function () {
     });
   });
 
-  describe('needsToBeDirtyToSaved', function () {
+  describe('needsToBeDirtySaved', function () {
     beforeEach(setup.bind(null, {}));
 
     it('should return true', function () {
-      expect(SMC.needsToBeDirtyToSaved()).to.equal(true);
+      expect(SMC.needsToBeDirtySaved()).to.equal(true);
     });
   });
 

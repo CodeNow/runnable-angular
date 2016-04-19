@@ -549,17 +549,17 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
     });
   });
 
-  describe('needsToBeDirtyToSaved', function () {
+  describe('needsToBeDirtySaved', function () {
     beforeEach(initState.bind(null, {}));
 
     it('should return true if there is a an instance', function () {
       SMC.instance = {};
-      expect(SMC.needsToBeDirtyToSaved()).to.equal(true);
+      expect(SMC.needsToBeDirtySaved()).to.equal(true);
     });
 
     it('should return false if there is no instance', function () {
       SMC.instance = null;
-      expect(SMC.needsToBeDirtyToSaved()).to.equal(false);
+      expect(SMC.needsToBeDirtySaved()).to.equal(false);
     });
   });
 

@@ -409,7 +409,7 @@ function SetupServerModalController(
     );
   };
 
-  SMC.needsToBeDirtyToSaved = function () {
+  SMC.needsToBeDirtySaved = function () {
     return !!SMC.instance;
   };
 

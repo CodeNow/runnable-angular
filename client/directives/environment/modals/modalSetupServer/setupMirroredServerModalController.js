@@ -244,7 +244,7 @@ function SetupMirrorServerModalController(
     return !!(SMC.repositoryForm && SMC.repositoryForm.$invalid);
   };
 
-  SMC.needsToBeDirtyToSaved = function () {
+  SMC.needsToBeDirtySaved = function () {
     return !!SMC.instance;
   };
 
