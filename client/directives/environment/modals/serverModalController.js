@@ -387,10 +387,10 @@ function ServerModalController(
 
   this.switchToMirrorMode = function (state, openItems, dockerfile) {
     var SMC = this;
-    return promisify(state.contextVersion, 'update')({
+    return loadingPromises.add(SMC.name, promisify(state.contextVersion, 'update')({
         advanced: true,
         buildDockerfilePath: dockerfile.path
-      })
+      }))
       .then(function () {
         return SMC.openDockerfile(state, openItems);
       })
@@ -411,10 +411,10 @@ function ServerModalController(
   this.switchToAdvancedMode = function (state, openItems) {
     var SMC = this;
     var dockerfileBody = state.dockerfile.attrs.body;
-    return promisify(state.contextVersion, 'update')({
+    return loadingPromises.add(SMC.name, promisify(state.contextVersion, 'update')({
       advanced: true,
       buildDockerfilePath: null
-    })
+    }))
     .then(function () {
       return SMC.openDockerfile(state, openItems);
     })
