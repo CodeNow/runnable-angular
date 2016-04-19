@@ -42,6 +42,7 @@ function SetupMirrorServerModalController(
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
     'insertHostName': parentController.insertHostName.bind(SMC),
     'isDirty': parentController.isDirty.bind(SMC),
+    '_isTabVisible': parentController.isTabVisible.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
     'populateStateFromData': parentController.populateStateFromData.bind(SMC),
     'rebuildAndOrRedeploy': parentController.rebuildAndOrRedeploy.bind(SMC),
@@ -59,7 +60,7 @@ function SetupMirrorServerModalController(
   var mainRepoContainerFile = new cardInfoTypes.MainRepository();
   // Set initial state
   angular.extend(SMC, {
-    name: 'setupServerModal',
+    name: 'setupMirrorServerModal',
     isLoading: $rootScope.isLoading,
     portsSet: false,
     isNewContainer: true,
@@ -96,7 +97,6 @@ function SetupMirrorServerModalController(
   });
   loading.reset(SMC.name);
   loadingPromises.clear(SMC.name);
-  loading.reset(SMC.name + 'IsBuilding');
 
   if (!(repo && build && masterBranch)) {
     throw new Error('Repo, build and masterBranch are needed');
@@ -116,6 +116,9 @@ function SetupMirrorServerModalController(
   SMC.state.opts.name = normalizeRepoName(repo);
   SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
   var fullpath = keypather.get(SMC, 'state.build.contextVersion.attrs.buildDockerfilePath');
+  if (!fullpath) {
+    throw new Error('Context Version must have buildDockerfilePath');
+  }
   // Get everything before the last '/' and add a '/' at the end
   var path = fullpath.replace(/^(.*)\/.*$/, '$1') + '/';
   // Get everything after the last '/'
@@ -226,19 +229,13 @@ function SetupMirrorServerModalController(
    * @returns {Boolean}
    */
   SMC.isTabVisible = function (tabName) {
-    if (!SMC.TAB_VISIBILITY[tabName]) {
+    if (!SMC._isTabVisible(tabName)) {
       return false;
     }
-    if (SMC.TAB_VISIBILITY[tabName].featureFlagName && !$rootScope.featureFlags[SMC.TAB_VISIBILITY[tabName].featureFlagName]) {
-      return false;
+    if (SMC.state.isMirroringDockerfile) {
+      return !!SMC.TAB_VISIBILITY[tabName].mirror;
     }
-    if (SMC.state.advanced) {
-      if (SMC.state.isMirroringDockerfile) {
-        return SMC.TAB_VISIBILITY[tabName].mirror;
-      }
-      return SMC.TAB_VISIBILITY[tabName].advanced;
-    }
-    return false;
+    return !!SMC.TAB_VISIBILITY[tabName].advanced;
   };
 
   SMC.isPrimaryButtonDisabled = function (serverFormInvalid) {
@@ -246,10 +243,7 @@ function SetupMirrorServerModalController(
   };
 
   SMC.needsToBeDirtyToSaved = function () {
-    if (!SMC.instance) {
-      return false;
-    }
-    return true;
+    return !!SMC.instance;
   };
 
 }

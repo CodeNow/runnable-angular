@@ -1,7 +1,7 @@
 /*global runnable:true, mocks: true, directiveTemplate: true, xdescribe: true, before, xit: true */
 'use strict';
 
-describe('setupMirrorServerModalController'.bold.underline.blue, function () {
+describe.only('setupMirrorServerModalController'.bold.underline.blue, function () {
   var SMC;
   var $controller;
   var $scope;
@@ -64,8 +64,14 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
   var loadingPromiseMock;
   var loadingPromiseFinishedValue;
   var errsMock;
+  var openItemsMock;
 
-  function initState(opts, done) {
+  function initState (opts, done) {
+    opts = opts || {};
+    opts.repo = (opts.repo !== undefined) ? opts.repo : repo;
+    opts.build = (opts.build !== undefined) ? opts.build : newBuild;
+    opts.masterBranch = (opts.masterBranch !== undefined) ? opts.masterBranch: branch;
+
     helpCardsMock = {
       refreshAllCards: sinon.stub()
     };
@@ -99,6 +105,16 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
           priority: 100000,
           link: angular.noop
         };
+      });
+      $provide.factory('OpenItems', function ($q) {
+        openItemsMock = function () {
+          this.models = [];
+          this.add = sinon.stub();
+          this.remove = sinon.stub();
+          this.updateAllFiles = sinon.stub().returns($q.when(true));
+          this.removeAndReopen = sinon.stub();
+        };
+        return openItemsMock;
       });
       $provide.factory('fetchStackInfo', function ($q) {
         return function () {
@@ -181,7 +197,7 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
 
       keypather.set($rootScope, 'dataApp.data.activeAccount.oauthName', sinon.mock().returns('myOauthName'));
       $scope = $rootScope.$new();
-      SMC = $controller('SetupServerModalController', {
+      SMC = $controller('SetupMirrorServerModalController', {
         $scope: $scope,
         repo: opts.repo || null,
         build: opts.build || null,
@@ -216,6 +232,12 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
       opts: {
         userContentDomain: 'runnable-test.com'
       },
+      dockerfiles: [
+        {
+          sha: '123',
+          content: btoa('Hello World')
+        }
+      ],
       fetchBranch: sinon.spy(function (opts, cb) {
         $rootScope.$evalAsync(function () {
           cb(null, branches.models[0]);
@@ -259,11 +281,14 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
     newBuild = {
       contextVersion: {
         id: 'foo',
-        attrs: {},
+        attrs: {
+          buildDockerfilePath: '/Dockerfile'
+        },
         getMainAppCodeVersion: sinon.stub().returns(mainACV),
         appCodeVersions: {
           create: sinon.stub().callsArg(1)
         },
+        newFile: sinon.stub().returns(repo.dockerfiles[0]),
         fetchFile: sinon.spy(function (fileName, cb) {
           $rootScope.$evalAsync(function () {
             cb(null, dockerfile);
@@ -318,7 +343,190 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
   beforeEach(initializeValues);
 
   describe('Init', function () {
-    beforeEach(initState.bind(null, {}));
+    describe('Errors', function () {
+      it('should fail if no repo is passed', function () {
+        expect(function () {
+          initState({ repo: null }, angular.noop);
+          $scope.$digest();
+        }).to.throw();
+      });
+
+      it('should fail if no buildDockerfilePath is passed', function () {
+        newBuild.contextVersion.attrs.buildDockerfilePath = null;
+        expect(function () {
+          initState({}, angular.noop);
+          $scope.$digest();
+        }).to.throw();
+      });
+    });
+
+    describe('Success Cases', function () {
+      beforeEach(initState.bind(null, {}));
+
+      it('should set the repo, be advanced, and have selected repo', function () {
+        expect(SMC.state.repo).to.exist;
+        expect(SMC.state.build).to.exist;
+        expect(SMC.state.acv).to.exist;
+        expect(SMC.state.contextVersion).to.exist;
+        expect(SMC.state.branch).to.exist;
+        expect(SMC.state.advanced).to.equal(true);
+        expect(SMC.state.repoSelected).to.equal(true);
+      });
+
+      it('should create a new file and add it to OpenItems', function () {
+        $scope.$digest();
+        sinon.assert.calledOnce(SMC.state.contextVersion.newFile);
+        sinon.assert.calledWith(SMC.state.contextVersion.newFile, {
+           _id: '123',
+           id: '123',
+           body: 'Hello World',
+           name: 'Dockerfile',
+           path: '/'
+        });
+        sinon.assert.calledOnce(SMC.openItems.add);
+        sinon.assert.calledWith(SMC.openItems.add, repo.dockerfiles[0]);
+      });
+    });
   });
 
+  describe('showStackSelector', function () {
+    beforeEach(initState.bind(null, {}));
+
+    it('should equal false', function () {
+      expect(SMC.showStackSelector()).to.equal(false);
+    });
+  });
+
+  describe('rebuild', function () {
+    var cv = {};
+    beforeEach(initState.bind(null, {}));
+    beforeEach(function () {
+      keypather.set(SMC, 'instance.contextVersion', cv);
+      SMC.rebuildAndOrRedeploy = sinon.stub().returns($q.when(true));
+      SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
+    });
+    it('should rebuildAndOrRedeploy', function () {
+      $scope.$digest();
+      SMC.rebuild(true, true);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.rebuildAndOrRedeploy);
+      sinon.assert.calledWith(SMC.rebuildAndOrRedeploy, true, true);
+    });
+
+    it('should reset the context version', function () {
+      $scope.$digest();
+      SMC.rebuild(true, true);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.resetStateContextVersion);
+      sinon.assert.calledWith(SMC.resetStateContextVersion, cv, true);
+    });
+
+    it('should handle errors', function () {
+      SMC.rebuildAndOrRedeploy.returns($q.reject(new Error('Hello')));
+
+      $scope.$digest();
+      SMC.rebuild(true, true);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.rebuildAndOrRedeploy);
+      sinon.assert.notCalled(SMC.resetStateContextVersion);
+      sinon.assert.calledOnce(errsMock.handler);
+    });
+  });
+
+  describe('createServer', function () {
+
+  });
+
+  describe('isTabVisible', function () {
+    beforeEach(initState.bind(null, {}));
+
+    it('should return false if tab doesn\'t exist', function () {
+      expect(SMC.isTabVisible('asdfasd')).to.equal(false);
+    });
+
+    it('should return false if in mirror mode', function () {
+      expect(SMC.isTabVisible('buildfiles')).to.equal(true);
+      expect(SMC.isTabVisible('translation')).to.equal(false);
+      expect(SMC.isTabVisible('files')).to.equal(false);
+    });
+
+    it('should return true if in advanced mode', function () {
+      SMC.state.isMirroringDockerfile = false;
+      expect(SMC.isTabVisible('buildfiles')).to.equal(true);
+      expect(SMC.isTabVisible('translation')).to.equal(true);
+      expect(SMC.isTabVisible('files')).to.equal(false);
+    });
+  });
+
+  describe('isPrimaryButtonDisabled', function () {
+    beforeEach(initState.bind(null, {}));
+
+    it('should equal true if there is no repository form', function () {
+      SMC.repositoryForm = null;
+      expect(SMC.isPrimaryButtonDisabled()).to.equal(false);
+    });
+
+    it('should equal true if repository form is valid', function () {
+      SMC.repositoryForm = { $invalid: false };
+      expect(SMC.isPrimaryButtonDisabled()).to.equal(false);
+    });
+
+    it('should equal false if repository form is invalid', function () {
+      SMC.repositoryForm = { $invalid: true };
+      expect(SMC.isPrimaryButtonDisabled()).to.equal(true);
+    });
+  });
+
+  describe('needsToBeDirtyToSaved', function () {
+    beforeEach(initState.bind(null, {}));
+
+    it('should return true if there is a an instance', function () {
+      SMC.instance = {};
+      expect(SMC.needsToBeDirtyToSaved()).to.equal(true);
+    });
+
+    it('should return false if there is no instance', function () {
+      SMC.instance = null;
+      expect(SMC.needsToBeDirtyToSaved()).to.equal(false);
+    });
+  });
+
+  describe('$on resetStateContextVersion', function () {
+    beforeEach(initState.bind(null, {}));
+    beforeEach(function () {
+      SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
+    });
+
+    it('should load if it should show the spinner', function () {
+      $scope.$digest();
+      $scope.$emit('resetStateContextVersion', SMC.state.contextVersion, true);
+      expect($rootScope.isLoading.setupMirrorServerModal).to.equal(true);
+      $scope.$digest();
+      $scope.$digest();
+      expect($rootScope.isLoading.setupMirrorServerModal).to.equal(false);
+    });
+
+    it('should not load if it should show not the spinner', function () {
+      $scope.$emit('resetStateContextVersion', SMC.state.contextVersion, false);
+      $scope.$digest();
+      expect($rootScope.isLoading.setupMirrorServerModal).to.equal(false);
+    });
+
+    it('should reset the context version', function () {
+      $scope.$emit('resetStateContextVersion', SMC.state.contextVersion, true);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.resetStateContextVersion);
+      sinon.assert.notCalled(errsMock.handler);
+    });
+
+    it('should handle errors', function () {
+      SMC.resetStateContextVersion.returns($q.reject(true));
+
+      $scope.$emit('resetStateContextVersion', SMC.state.contextVersion, true);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.resetStateContextVersion);
+      sinon.assert.calledOnce(errsMock.handler);
+    });
+  });
 });
+
