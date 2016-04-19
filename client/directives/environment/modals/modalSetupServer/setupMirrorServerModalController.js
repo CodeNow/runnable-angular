@@ -229,6 +229,7 @@ function SetupMirrorServerModalController(
    * @returns {Boolean}
    */
   SMC.isTabVisible = function (tabName) {
+    // First, check if tab exists and tab FF is turned on (if applicable)
     if (!SMC._isTabVisible(tabName)) {
       return false;
     }
