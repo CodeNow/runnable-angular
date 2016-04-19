@@ -125,7 +125,7 @@ ul.card-body.load(
     ng-class = "{'btn-hint': helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.findAndReplace}"
     ng-if = "\
       server.repo && \
-      !server.instance.contextVersion.attrs.buildDockerfilePath \
+      !server.instance.hasDockerfileMirroring() \
     "
   )
     svg.iconnables
@@ -143,7 +143,7 @@ ul.card-body.load(
     ng-click = "openEditServerModal('backup')"
     ng-if = "\
       server.repo && \
-      !server.instance.contextVersion.attrs.buildDockerfilePath && \
+      !server.instance.hasDockerfileMirroring() && \
       $root.featureFlags.backup \
     "
   )
@@ -202,7 +202,7 @@ ul.card-body.load(
         ng-if = "\
           $root.featureFlags.dockerfileMirroring && \
           server.advanced && \
-          server.instance.contextVersion.attrs.buildDockerfilePath \
+          server.instance.hasDockerfileMirroring() \
         "
       )
         use(
@@ -224,7 +224,7 @@ ul.card-body.load(
       svg.iconnables.icons-unlock(
         ng-if = "\
           server.advanced && \
-          (!$root.featureFlags.dockerfileMirroring || !server.instance.contextVersion.attrs.buildDockerfilePath) \
+          (!$root.featureFlags.dockerfileMirroring || !server.instance.hasDockerfileMirroring()) \
         "
       )
         use(
