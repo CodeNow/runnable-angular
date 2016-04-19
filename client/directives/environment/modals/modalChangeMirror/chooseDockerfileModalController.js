@@ -4,16 +4,17 @@ require('app')
   .controller('ChooseDockerfileModalController', ChooseDockerfileModalController);
 
 function ChooseDockerfileModalController(
-  $timeout,
   errs,
   fetchRepoDockerfiles,
   keypather,
   loading,
   close,
-  repo,
-  repoFullName
+  repo
 ) {
   var CDMC = this;
+  if (!repo) {
+    throw new Error('A repo is required for this controller');
+  }
   angular.extend(CDMC, {
     state: {
       repo: repo
@@ -22,7 +23,7 @@ function ChooseDockerfileModalController(
   loading.reset(CDMC.name);
 
   loading(CDMC.name, true);
-  fetchRepoDockerfiles(keypather.get(repo, 'attrs.full_name') || repoFullName)
+  fetchRepoDockerfiles(keypather.get(repo, 'attrs.full_name'))
     .then(function (dockerfiles) {
       CDMC.state.repo.dockerfiles = dockerfiles;
     })
