@@ -58,7 +58,7 @@
 
 //- add logic for repository containers only
 .grid-block.shrink.align-center.well.gray.in.row-xxs(
-  ng-if = "$root.featureFlags.dockerfileMirroring && SMC.state.advanced"
+  ng-if = "$root.featureFlags.dockerfileMirroring && SMC.state.advanced && !SMC.state.isNonRepoContainer"
 )
   svg.grid-content.row-xxs.shrink.iconnables.icons-sync
     use(
