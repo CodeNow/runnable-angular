@@ -3,7 +3,7 @@
   ng-class = "{\
     'active': popoverServerActions.data.show,\
     'deprecated': !$root.featureFlags.cardStatus,\
-    'no-touching': noTouching\
+    'no-touching': noTouching && !$root.featureFlags.nameContainer\
   }"
   pop-over
   pop-over-actions = "popoverServerActions"
@@ -73,10 +73,8 @@
   //- ***********************************
 
   button.btn.btn-xxs.gray(
+    internal-modal-helper = "viewModalRename"
     ng-if = "$root.featureFlags.nameContainer && inModal"
-    pop-over
-    pop-over-options = "{\"left\":0,\"top\":0}"
-    pop-over-template = "viewPopoverRenameContainer"
   ) Rename
 
   //- ***********************************
