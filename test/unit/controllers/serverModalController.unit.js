@@ -964,7 +964,7 @@ describe('serverModalController'.bold.underline.blue, function () {
     });
   });
 
-  describe('swithcBetweenAdavancedAndMirroring', function () {
+  describe('switchBetweenAdvancedAndMirroring', function () {
     beforeEach(setup.bind(null, {}));
     beforeEach(function () {
       SMC.state.isMirroringDockerfile = true;
@@ -982,14 +982,14 @@ describe('serverModalController'.bold.underline.blue, function () {
 
     it('should return the current status if not passed an arg', function () {
       SMC.state.isMirroringDockerfile = true;
-      expect(SMC.swithcBetweenAdavancedAndMirroring()).to.equal(true);
+      expect(SMC.switchBetweenAdvancedAndMirroring()).to.equal(true);
       SMC.state.isMirroringDockerfile = false;
-      expect(SMC.swithcBetweenAdavancedAndMirroring()).to.equal(false);
+      expect(SMC.switchBetweenAdvancedAndMirroring()).to.equal(false);
     });
 
     it('should enable mirrormode if passed `true`', function () {
       SMC.state.isMirroringDockerfile = false;
-      SMC.swithcBetweenAdavancedAndMirroring(true);
+      SMC.switchBetweenAdvancedAndMirroring(true);
       $scope.$digest();
       expect(SMC.state.isMirroringDockerfile).to.equal(true);
       sinon.assert.calledOnce(SMC.enableMirrorMode);
@@ -998,7 +998,7 @@ describe('serverModalController'.bold.underline.blue, function () {
 
     it('should disable mirrormode if passed `false`', function () {
       SMC.state.isMirroringDockerfile = true;
-      SMC.swithcBetweenAdavancedAndMirroring(false);
+      SMC.switchBetweenAdvancedAndMirroring(false);
       $scope.$digest();
       expect(SMC.state.isMirroringDockerfile).to.equal(false);
       sinon.assert.notCalled(SMC.enableMirrorMode);

@@ -492,7 +492,7 @@ function ServerModalController(
       });
   };
 
-  this.swithcBetweenAdavancedAndMirroring = function (newIsMirrorMode) {
+  this.switchBetweenAdvancedAndMirroring = function (newIsMirrorMode) {
     var SMC = this;
     if (newIsMirrorMode === false) {
       return SMC.disableMirrorMode()

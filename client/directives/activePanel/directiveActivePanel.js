@@ -12,6 +12,7 @@ require('app')
  */
 function activePanel(
   $sce,
+  cleanStartCommand,
   keypather
 ) {
   return {
@@ -35,8 +36,7 @@ function activePanel(
 
       $scope.startCommand = function () {
         var cmd = keypather.get($scope, 'instance.containers.models[0].attrs.inspect.Config.Cmd[2]');
-        cmd = cmd || '';
-        return cmd.replace('until grep -q ethwe /proc/net/dev; do sleep 1; done;', '');
+        return cleanStartCommand(cmd);
       };
 
       $scope.showDebugCmd = false;

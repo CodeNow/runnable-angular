@@ -61,7 +61,7 @@ function SetupServerModalController(
     'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
     'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
     'showAdvancedModeConfirm': parentController.showAdvancedModeConfirm.bind(SMC),
-    'swithcBetweenAdavancedAndMirroring': parentController.swithcBetweenAdavancedAndMirroring.bind(SMC),
+    'switchBetweenAdvancedAndMirroring': parentController.switchBetweenAdvancedAndMirroring.bind(SMC),
     'switchToMirrorMode': parentController.switchToMirrorMode.bind(SMC),
     'switchToAdvancedMode': parentController.switchToAdvancedMode.bind(SMC),
     'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC),

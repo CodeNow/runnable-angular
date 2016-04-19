@@ -10,6 +10,7 @@ function EditServerModalController(
   $scope,
   $controller,
   $rootScope,
+  cleanStartCommand,
   errs,
   fetchInstancesByPod,
   findLinkedServerVariables,
@@ -46,7 +47,7 @@ function EditServerModalController(
     'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
     'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
     'showAdvancedModeConfirm': parentController.showAdvancedModeConfirm.bind(SMC),
-    'swithcBetweenAdavancedAndMirroring': parentController.swithcBetweenAdavancedAndMirroring.bind(SMC),
+    'switchBetweenAdvancedAndMirroring': parentController.switchBetweenAdvancedAndMirroring.bind(SMC),
     'switchToMirrorMode': parentController.switchToMirrorMode.bind(SMC),
     'switchToAdvancedMode': parentController.switchToAdvancedMode.bind(SMC),
     'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC),
@@ -143,8 +144,7 @@ function EditServerModalController(
 
   SMC.startCommand = function () {
     var cmd = keypather.get(SMC, 'instance.containers.models[0].attrs.inspect.Config.Cmd[2]');
-    cmd = cmd || '';
-    return cmd.replace('until grep -q ethwe /proc/net/dev; do sleep 1; done;', '');
+    return cleanStartCommand(cmd);
   };
 
   /**
