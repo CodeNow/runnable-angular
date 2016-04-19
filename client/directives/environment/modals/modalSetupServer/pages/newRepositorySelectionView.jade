@@ -83,13 +83,14 @@ ul.list.list-servers(
     small.small(
       ng-if = "!$root.featureFlags.inviteFlows"
     ) {{repo.attrs.updated_at | timeFrom}}
-      //- svg.iconnables.icons-server(
-      //-   pop-over
-      //-   pop-over-hover-trigger
-      //-   pop-over-options = "{\"top\":27,\"centered\":true}"
-      //-   pop-over-template = "viewCountainerTooltip"
-      //-   pop-over-trigger = "hover"
-      //- )
+      svg.iconnables.icons-server(
+        ng-if = "$root.featureFlags.multipleRepositoryContainers"
+        pop-over
+        pop-over-hover-trigger
+        pop-over-options = "{\"top\":27,\"centered\":true}"
+        pop-over-template = "viewCountainerTooltip"
+        pop-over-trigger = "hover"
+      )
         use(
           xlink:href = "#icons-server"
         )
