@@ -73,7 +73,6 @@
     )
       span.span.text-overflow.float-left(
         ng-title = "SMC.state.contextVersion.attrs.buildDockerfilePath"
-        ng-if = "state.isMirroringDockerfile"
       ) Mirroring from GitHub: {{ SMC.state.contextVersion.attrs.buildDockerfilePath }}
     small.small(
       ng-if = "!SMC.state.isMirroringDockerfile"

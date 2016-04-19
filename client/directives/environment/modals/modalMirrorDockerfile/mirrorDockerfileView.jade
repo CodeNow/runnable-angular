@@ -25,7 +25,8 @@
     .grid-content
       .text-left Dockerfile
       a.small.link(
-        href = "#"
+        ng-href = "{{ dockerfile.html_url }}"
+        ng-if = "dockerfile.html_url"
         target = "_blank"
       ) View on GitHub
     //- if there is only one, [check] by default

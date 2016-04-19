@@ -4,6 +4,7 @@ require('app')
   .controller('ChooseDockerfileModalController', ChooseDockerfileModalController);
 
 function ChooseDockerfileModalController(
+  $rootScope,
   errs,
   fetchRepoDockerfiles,
   keypather,
@@ -23,7 +24,10 @@ function ChooseDockerfileModalController(
   loading.reset(CDMC.name);
 
   loading(CDMC.name, true);
-  fetchRepoDockerfiles(keypather.get(repo, 'attrs.full_name'))
+  var oauthName = keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()');
+  var name = keypather.get(repo, 'attrs.name');
+  var fullname = keypather.get(repo, 'attrs.full_name') || (oauthName + '/' + name);
+  fetchRepoDockerfiles(fullname)
     .then(function (dockerfiles) {
       CDMC.state.repo.dockerfiles = dockerfiles;
     })
