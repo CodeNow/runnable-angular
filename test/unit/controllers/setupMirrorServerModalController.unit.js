@@ -360,20 +360,6 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
         expect(SMC.state.advanced).to.equal(true);
         expect(SMC.state.repoSelected).to.equal(true);
       });
-
-      it('should create a new file and add it to OpenItems', function () {
-        $scope.$digest();
-        sinon.assert.calledOnce(SMC.state.contextVersion.newFile);
-        sinon.assert.calledWith(SMC.state.contextVersion.newFile, {
-           _id: '123',
-           id: '123',
-           body: 'Hello World',
-           name: 'Dockerfile',
-           path: '/'
-        });
-        sinon.assert.calledOnce(SMC.openItems.add);
-        sinon.assert.calledWith(SMC.openItems.add, repo.dockerfiles[0]);
-      });
     });
   });
 

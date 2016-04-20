@@ -112,6 +112,7 @@ function SetupMirrorServerModalController(
     repoSelected: true,
     advanced: true
   });
+
   SMC.state.mainRepoContainerFile.name = repo.attrs.name;
   SMC.state.opts.name = normalizeRepoName(repo);
   SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
@@ -119,22 +120,7 @@ function SetupMirrorServerModalController(
   if (!fullpath) {
     throw new Error('Context Version must have buildDockerfilePath');
   }
-  // Get everything before the last '/' and add a '/' at the end
-  var path = fullpath.replace(/^(.*)\/.*$/, '$1') + '/';
-  // Get everything after the last '/'
-  var name = fullpath.replace(/^.*\/(.*)$/, '$1');
-  fetchUser()
-    .then(function (user) {
-      // TODO: Match with dockefile path
-      SMC.state.dockerfile = SMC.state.contextVersion.newFile({
-        _id: repo.dockerfiles[0].sha,
-        id: repo.dockerfiles[0].sha,
-        body: atob(repo.dockerfiles[0].content),
-        name: name,
-        path: path
-      });
-      SMC.openItems.add(SMC.state.dockerfile);
-    });
+  SMC.openDockerfile(SMC.state, SMC.openItems);
 
   $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
     $event.stopPropagation();

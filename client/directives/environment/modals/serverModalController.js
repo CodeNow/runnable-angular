@@ -70,6 +70,7 @@ function ServerModalController(
   $scope,
   errs,
   eventTracking,
+  fetchRepoDockerfiles,
   helpCards,
   parseDockerfileForCardInfoFromInstance,
   createBuildFromContextVersionId,
@@ -100,7 +101,30 @@ function ServerModalController(
   };
 
   this.openDockerfile = function (state, openItems) {
-    return promisify(state.contextVersion, 'fetchFile')('/Dockerfile')
+    var SMC = this;
+    return $q.when(true)
+      .then(function () {
+        var buildDockerfilePath = keypather.get(state, 'contextVersion.attrs.buildDockerfilePath');
+        var repoFullName = keypather.get(state, 'contextVersion.getMainAppCodeVersion().attrs.repo');
+        if (buildDockerfilePath && repoFullName) {
+          // Get everything before the last '/' and add a '/' at the end
+          var path = buildDockerfilePath.replace(/^(.*)\/.*$/, '$1') + '/';
+          // Get everything after the last '/'
+          var name = buildDockerfilePath.replace(/^.*\/(.*)$/, '$1');
+          return fetchRepoDockerfiles(repoFullName)
+            .then(function (dockerfiles) {
+              var dockerfile = dockerfiles[0];
+              return SMC.state.contextVersion.newFile({
+                _id: dockerfile.sha,
+                id: dockerfile.sha,
+                body: atob(dockerfile.content),
+                name: name,
+                path: buildDockerfilePath
+              });
+            });
+        }
+        return promisify(state.contextVersion, 'fetchFile')('/Dockerfile');
+      })
       .then(function (dockerfile) {
         if (state.dockerfile) {
           openItems.remove(state.dockerfile);
@@ -109,6 +133,7 @@ function ServerModalController(
           openItems.add(dockerfile);
         }
         state.dockerfile = dockerfile;
+        return dockerfile;
       });
   };
 
@@ -392,16 +417,6 @@ function ServerModalController(
         buildDockerfilePath: dockerfile.path
       }))
       .then(function () {
-        return SMC.openDockerfile(state, openItems);
-      })
-      .then(function () {
-        return promisify(state.dockerfile, 'update')({
-          json: {
-            body: atob(dockerfile.content)
-          }
-        });
-      })
-      .then(function () {
         state.advanced = true;
         state.isMirroringDockerfile = true;
         return SMC.resetStateContextVersion(state.contextVersion, false);
@@ -419,16 +434,16 @@ function ServerModalController(
       return SMC.openDockerfile(state, openItems);
     })
     .then(function () {
+      state.advanced = true;
+      state.isMirroringDockerfile = false;
+      return SMC.resetStateContextVersion(state.contextVersion, false);
+    })
+    .then(function () {
       return promisify(state.dockerfile, 'update')({
         json: {
           body: dockerfileBody
         }
       });
-    })
-    .then(function () {
-      state.advanced = true;
-      state.isMirroringDockerfile = false;
-      return SMC.resetStateContextVersion(state.contextVersion, false);
     });
   };
 

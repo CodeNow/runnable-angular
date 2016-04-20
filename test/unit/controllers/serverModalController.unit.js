@@ -865,7 +865,6 @@ describe('serverModalController'.bold.underline.blue, function () {
   describe('switchToMirrorMode', function () {
     beforeEach(setup.bind(null, {}));
     beforeEach(function () {
-      sinon.stub(SMC, 'openDockerfile').returns($q.when(true));
       sinon.stub(SMC, 'resetStateContextVersion').returns($q.when(true));
     });
 
@@ -877,24 +876,6 @@ describe('serverModalController'.bold.underline.blue, function () {
       sinon.assert.calledWith(cv.update, {
         advanced: true,
         buildDockerfilePath: SMC.state.dockerfile.path
-      });
-    });
-
-    it('should open the Dockerfile', function () {
-      SMC.switchToMirrorMode(SMC.state, SMC.openItems, SMC.state.dockerfile);
-      $scope.$digest();
-      sinon.assert.calledOnce(SMC.openDockerfile);
-      sinon.assert.calledWith(SMC.openDockerfile, SMC.state, SMC.openItems);
-    });
-
-    it('should update the dockerfile', function () {
-      SMC.switchToMirrorMode(SMC.state, SMC.openItems, SMC.state.dockerfile);
-      $scope.$digest();
-      sinon.assert.calledOnce(SMC.state.dockerfile.update);
-      sinon.assert.calledWith(SMC.state.dockerfile.update, {
-        json: {
-          body: 'Hello World'
-        }
       });
     });
 
