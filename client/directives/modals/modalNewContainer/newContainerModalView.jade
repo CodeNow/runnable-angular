@@ -60,13 +60,13 @@
           .btn-text.grid-block Create from a repository
         //- disable this button when loading a repository
         .grid-block.shrink.btn(
-          ng-disabled = "$root.isLoading.newContainerModalSingleRepoDockerfile"
+          ng-disabled = "$root.isLoading[MC.name + 'SingleRepoDockerfile']"
           ng-class = "{\
             'active': MC.state.tabName === 'services', \
             'btn-hint': MC.servicesActive, \
             'disabled': $root.isLoading[MC.name + 'SingleRepo'] \
           }"
-          ng-click = "$root.isLoading[MC.name + 'SingleRepo'] && MC.changeTab('services')"
+          ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && MC.changeTab('services')"
         )
           svg.iconnables.icons-template.grid-block.shrink
             use(
