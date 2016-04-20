@@ -1408,27 +1408,27 @@ describe('editServerModalController'.bold.underline.blue, function () {
       expect(SMC.isPrimaryButtonDisabled()).to.equal(false);
     });
 
-    it('should return false if there is not selected stack', function () {
+    it('should return true if there is not selected stack', function () {
       SMC.state.advanced = false;
       SMC.state.selectedStack = false;
-      expect(SMC.isPrimaryButtonDisabled()).to.equal(false);
+      expect(SMC.isPrimaryButtonDisabled()).to.equal(true);
     });
 
-    it('should return false if the stack is invalid', function () {
+    it('should return false if the stack is valid', function () {
       SMC.state.advanced = false;
-      SMC.state.selectedStack = false;
+      SMC.state.selectedStack = true;
       expect(SMC.isPrimaryButtonDisabled(false)).to.equal(false);
     });
 
-    it('should return true if the there is a selected stack', function () {
+    it('should return false if the there is a selected stack', function () {
       SMC.state.advanced = false;
       SMC.state.selectedStack = true;
-      expect(SMC.isPrimaryButtonDisabled(false)).to.equal(true);
+      expect(SMC.isPrimaryButtonDisabled(false)).to.equal(false);
     });
 
-    it('should return true if the stack is valid', function () {
+    it('should return true if the stack is invalid', function () {
       SMC.state.advanced = false;
-      SMC.state.selectedStack = false;
+      SMC.state.selectedStack = true;
       expect(SMC.isPrimaryButtonDisabled(true)).to.equal(true);
     });
   });
