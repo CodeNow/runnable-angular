@@ -52,7 +52,6 @@ ul.list.list-servers(
 
   //- add active class when loading
   li.list-item.multi-line.text-overflow(
-    ng-if = "$index < 10"
     ng-disabled = "repo.isAdded || $root.isLoading.newContainerModalSingleRepoDockerfile"
     ng-click = "!(repo.isAdded || $root.isLoading.newContainerModalSingleRepoDockerfile) && MC.setRepo(repo, goToPanel, 'dockerfileMirroring')"
     ng-repeat = "\
