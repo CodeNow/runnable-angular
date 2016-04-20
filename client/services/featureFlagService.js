@@ -25,12 +25,14 @@ function featureFlags(
     isolationUI: true, // for isolation UI
     isolationRepos: true, // for isolation UI
     multilineFnR: false,
+    multipleRepositoryContainers: false, // for adding multiple containers with the same repository
     nameContainer: false,
     navListFilter: false,
     newUserPrompt: false, // modal for new users
     newVerificationFlow: true,
     newVerificationFlowStackSelector: true,
     noBuildLogs: true,
+    optionsInModal: false, // allows delete in modal
     renameContainer: false,
     saveToolbar: false,
     teamManagement: true, // changes text from org to team in account menu

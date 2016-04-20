@@ -2,6 +2,10 @@
 //- deprecated file, delete with $root.featureFlags.cardStatus
 .server-status-card-pop-over.deprecated {
 
+  &.in-modal {
+    cursor: default;
+  }
+
   .icons-status {
     flex: 0 0 auto;
   }
