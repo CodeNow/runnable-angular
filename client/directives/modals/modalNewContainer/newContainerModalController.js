@@ -38,6 +38,7 @@ function NewContainerModalController(
 
   // Start loading repos and templates
   loading.reset(NCMC.name + 'Repos');
+  loading.reset(NCMC.name + 'SingleRepoDockerfile');
   loading.reset(NCMC.name + 'Templates');
 
   // Fetch all repos from Github

@@ -53,8 +53,8 @@ ul.list.list-servers(
   //- add active class when loading
   li.list-item.multi-line.text-overflow(
     ng-if = "$index < 10"
-    ng-disabled = "repo.isAdded"
-    ng-click = "!repo.isAdded && MC.setRepo(repo, goToPanel, 'dockerfileMirroring')"
+    ng-disabled = "repo.isAdded || $root.isLoading.newContainerModalSingleRepoDockerfile"
+    ng-click = "!(repo.isAdded || $root.isLoading.newContainerModalSingleRepoDockerfile) && MC.setRepo(repo, goToPanel, 'dockerfileMirroring')"
     ng-repeat = "\
       repo in MC.githubRepos.models | \
       repos: MC.repoFilter | \
@@ -62,7 +62,7 @@ ul.list.list-servers(
     "
     ng-class = "{ \
       'active': repo.loading, \
-      'disabled': repo.isAdded \
+      'disabled': repo.isAdded || $root.isLoading.newContainerModalSingleRepoDockerfile \
     }"
   ) {{ repo.attrs.name }}
     .row.row-author(
