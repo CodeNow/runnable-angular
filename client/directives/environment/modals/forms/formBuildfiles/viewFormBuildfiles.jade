@@ -95,9 +95,10 @@
           use(
             xlink:href = "#icons-help"
           )
-      //- button.btn.btn-xxs.gray(
-        //- internal-modal-helper = "changeMirrorView"
-      //- ) Change…
+      button.btn.btn-xxs.gray(
+        ng-if = "$root.featureFlags.dockerfileMirroringMultiple"
+        internal-modal-helper = "changeMirrorView"
+      ) Change…
 
   //- this should open the 'viewModalSync' view when syncing has not been set up
   label.toggle-wrapper
