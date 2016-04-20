@@ -1,162 +1,14 @@
-//- card title (not in modal)
 .server-status-card-pop-over(
   ng-class = "{\
     'active': popoverServerActions.data.show,\
     'deprecated': !$root.featureFlags.cardStatus\
   }"
-  ng-if = "!inModal"
   pop-over
   pop-over-actions = "popoverServerActions"
   pop-over-active = "popoverServerActions.data.show"
   pop-over-data = "instance"
   pop-over-options = "{\"centered\":true,\"top\":36}"
   pop-over-template = "serverOptionsCardPopover"
-)
-  //- ***********************************
-  //- START !$root.featureFlags.cardStatus
-  //- ***********************************
-  status-icon(
-    instance = "instance"
-    ng-if = "!$root.featureFlags.cardStatus && instance"
-  )
-  span.container-title.text-overflow(
-    ng-attr-title = "{{instance.getDisplayName()}}"
-    ng-if = "!$root.featureFlags.cardStatus"
-  ) {{(instance.getRepoName() || instance.attrs.name || repo.attrs.name)}}
-
-  //- ***********************************
-  //- END !$root.featureFlags.cardStatus
-  //- ***********************************
-
-  //- ***********************************
-  //- START $root.featureFlags.cardStatus
-  //- ***********************************
-
-  //- This element should display while the container is building, but not while the card is loading.
-  //- i.e. if the card has a spinner in the middle instead of buttons, this spinner should not show.
-  .spinner-wrapper.spinner-sm.spinner-gray.in(
-    ng-if = "$root.featureFlags.cardStatus && cardStatus.loading"
-    ng-include = "'spinner'"
-  )
-
-  //- This element should replace the spinner if the container has failed to build or run or 5 seconds
-  svg.iconnables.icons-alert(
-    ng-if = "$root.featureFlags.cardStatus && !noTouching"
-  )
-    use(
-      xlink:href = "#icons-alert"
-    )
-
-  span.container-title.text-overflow(
-    ng-attr-title = "{{(instance.getRepoName() || instance.attrs.name)}}"
-    ng-if = "$root.featureFlags.cardStatus"
-  ) {{(instance.getRepoName() || instance.attrs.name)}}
-
-  //- only appears if container is unsaved and only in the modal
-  span.container-title.text-overflow(
-    ng-if = "instance && !$root.isLoading[SMC.name] && SMC.isDirty()"
-  ) —Unsaved
-
-  //- ***********************************
-  //- END $root.featureFlags.cardStatus
-  //- ***********************************
-
-  svg.iconnables.icons-arrow-down
-    use(
-      xlink:href = "#icons-arrow-down"
-    )
-
-//- titles in modal
-//- ****************************************
-//- START !$root.featureFlags.optionsInModal
-//- ****************************************
-.server-status-card-pop-over.in-modal(
-  ng-class = "{'deprecated': !$root.featureFlags.cardStatus}"
-  ng-if = "inModal && !$root.featureFlags.optionsInModal"
-)
-  //- ***********************************
-  //- START !$root.featureFlags.cardStatus
-  //- ***********************************
-  status-icon(
-    instance = "instance"
-    ng-if = "!$root.featureFlags.cardStatus && instance"
-  )
-  span.container-title.text-overflow(
-    ng-attr-title = "{{instance.getDisplayName()}}"
-    ng-if = "!$root.featureFlags.cardStatus"
-  ) {{(instance.getRepoName() || instance.attrs.name || repo.attrs.name)}}
-
-  //- ***********************************
-  //- END !$root.featureFlags.cardStatus
-  //- ***********************************
-
-  //- ***********************************
-  //- START $root.featureFlags.cardStatus
-  //- ***********************************
-
-  //- This element should display while the container is building, but not while the card is loading.
-  //- i.e. if the card has a spinner in the middle instead of buttons, this spinner should not show.
-  .spinner-wrapper.spinner-sm.spinner-gray.in(
-    ng-if = "$root.featureFlags.cardStatus && cardStatus.loading"
-    ng-include = "'spinner'"
-  )
-
-  //- This element should replace the spinner if the container has failed to build or run or 5 seconds
-  svg.iconnables.icons-alert(
-    ng-if = "$root.featureFlags.cardStatus && !noTouching"
-  )
-    use(
-      xlink:href = "#icons-alert"
-    )
-
-  span.container-title.text-overflow(
-    ng-attr-title = "{{(instance.getRepoName() || instance.attrs.name)}}"
-    ng-if = "$root.featureFlags.cardStatus"
-  ) {{(instance.getRepoName() || instance.attrs.name)}}
-
-  //- only appears if container is unsaved and only in the modal
-  span.container-title.text-overflow(
-    ng-if = "instance && !$root.isLoading[SMC.name] && SMC.isDirty()"
-  ) —Unsaved
-
-  //- ***********************************
-  //- END $root.featureFlags.cardStatus
-  //- ***********************************
-
-  //- ***********************************
-  //- START $root.featureFlags.nameContainer
-  //- ***********************************
-
-  button.btn.btn-xxs.gray(
-    internal-modal-helper = "viewModalRename"
-    ng-if = "$root.featureFlags.nameContainer"
-  ) Rename
-
-  //- ***********************************
-  //- END $root.featureFlags.nameContainer
-  //- ***********************************
-
-//- **************************************
-//- END !$root.featureFlags.optionsInModal
-//- **************************************
-
-//- ***************************************
-//- START $root.featureFlags.optionsInModal
-//- ***************************************
-.server-status-card-pop-over(
-  ng-class = "{\
-    'active': popoverServerActions.data.show,\
-    'deprecated': !$root.featureFlags.cardStatus\
-  }"
-  ng-if = "inModal && $root.featureFlags.optionsInModal"
-  pop-over
-  pop-over-actions = "popoverServerActions"
-  pop-over-active = "popoverServerActions.data.show"
-  pop-over-data = "instance"
-  pop-over-hover-trigger
-  pop-over-options = "{\"centered\":true,\"top\":36}"
-  pop-over-template = "serverOptionsCardPopover"
-  pop-over-trigger = "hover"
 )
   //- ***********************************
   //- START !$root.featureFlags.cardStatus
@@ -224,7 +76,3 @@
   //- ***********************************
   //- END $root.featureFlags.nameContainer
   //- ***********************************
-
-//- ***************************************
-//- START $root.featureFlags.optionsInModal
-//- ***************************************
