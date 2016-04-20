@@ -28,7 +28,6 @@ function NewContainerModalController(
   angular.extend(NCMC, {
     name: 'newContainerModal',
     servicesActive: keypather.get(helpCard, 'id') === 'missingDependency',
-    close: close,
     state: {
       tabName: 'repos',
       dockerfile: null,
@@ -96,11 +95,15 @@ function NewContainerModalController(
     });
   };
 
-  NCMC.close = close;
+  NCMC.close = function () {
+    if (NCMC.state.closed) { return; }
+    NCMC.state.closed = true;
+    return close();
+  };
 
   NCMC.addServerFromTemplate = function (sourceInstance) {
     var instanceToForkName = sourceInstance.attrs.name;
-    close();
+    NCMC.close();
     return fetchInstances()
       .then(function (instances) {
         var serverName = getNewForkName(instanceToForkName, instances, true);
@@ -167,7 +170,8 @@ function NewContainerModalController(
   };
 
   NCMC.newRepositoryContainer = function (inputs) {
-    close();
+    if (NCMC.state.closed) { return; }
+    NCMC.close();
     ModalService.showModal({
       controller: 'SetupServerModalController',
       controllerAs: 'SMC',
@@ -181,7 +185,8 @@ function NewContainerModalController(
   };
 
   NCMC.newMirrorRepositoryContainer = function (inputs) {
-    close();
+    if (NCMC.state.closed) { return; }
+    NCMC.close();
     ModalService.showModal({
       controller: 'SetupMirrorServerModalController',
       controllerAs: 'SMC',
@@ -195,7 +200,8 @@ function NewContainerModalController(
   };
   // TODO: Remove code when removing `dockerFileMirroring` code
   NCMC.newTemplateContainer = function () {
-    close();
+    if (NCMC.state.closed) { return; }
+    NCMC.close();
     ModalService.showModal({
       controller: 'SetupTemplateModalController',
       controllerAs: 'STMC',
