@@ -12,6 +12,7 @@
       //- This should say "build" if the build failed, or "start" if the Container CMD failed to start and run for 5 seconds.
       | start.
     ul.popover-list
+      //- when we implement $root.featureFlags.optionsInModal, this should be hidden while in the modal
       li.list-item.popover-list-item(
         ng-click="actions.openEditServerModal('logs')"
       )

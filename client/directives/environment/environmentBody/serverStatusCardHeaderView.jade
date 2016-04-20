@@ -1,9 +1,7 @@
-//- for renaming containers, serverOptionsCardPopover MUST BE DISABLED WITHIN THE MODAL (unless/until card status is complete)
 .server-status-card-pop-over(
   ng-class = "{\
     'active': popoverServerActions.data.show,\
-    'deprecated': !$root.featureFlags.cardStatus,\
-    'no-touching': noTouching\
+    'deprecated': !$root.featureFlags.cardStatus\
   }"
   pop-over
   pop-over-actions = "popoverServerActions"
@@ -61,9 +59,7 @@
   //- END $root.featureFlags.cardStatus
   //- ***********************************
 
-  svg.iconnables.icons-arrow-down(
-    ng-if = "!noTouching"
-  )
+  svg.iconnables.icons-arrow-down
     use(
       xlink:href = "#icons-arrow-down"
     )
@@ -73,13 +69,10 @@
   //- ***********************************
 
   button.btn.btn-xxs.gray(
-    ng-if = "$root.featureFlags.nameContainer && inModal"
-    pop-over
-    pop-over-options = "{\"left\":0,\"top\":0}"
-    pop-over-template = "viewPopoverRenameContainer"
+    internal-modal-helper = "viewModalRename"
+    ng-if = "$root.featureFlags.nameContainer"
   ) Rename
 
   //- ***********************************
   //- END $root.featureFlags.nameContainer
   //- ***********************************
-
