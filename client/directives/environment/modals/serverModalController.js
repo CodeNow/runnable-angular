@@ -68,6 +68,7 @@ function ServerModalController(
   $q,
   $rootScope,
   $scope,
+  base64,
   errs,
   eventTracking,
   fetchRepoDockerfiles,
@@ -117,7 +118,7 @@ function ServerModalController(
               return SMC.state.contextVersion.newFile({
                 _id: dockerfile.sha,
                 id: dockerfile.sha,
-                body: atob(dockerfile.content),
+                body: base64.decode(dockerfile.content),
                 name: name,
                 path: buildDockerfilePath
               });

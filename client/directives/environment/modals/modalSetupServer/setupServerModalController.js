@@ -10,6 +10,7 @@ function SetupServerModalController(
   $log,
   $q,
   $rootScope,
+  base64,
   cardInfoTypes,
   createNewBuild,
   createAndBuildNewContainer,
@@ -144,7 +145,7 @@ function SetupServerModalController(
           SMC.state.dockerfile = SMC.state.contextVersion.newFile({
             _id: repo.dockerfiles[0].sha,
             id: repo.dockerfiles[0].sha,
-            body: atob(repo.dockerfiles[0].content),
+            body: base64.decode(repo.dockerfiles[0].content),
             name: name,
             path: path
           });

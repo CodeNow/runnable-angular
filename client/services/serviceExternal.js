@@ -24,6 +24,9 @@ require('app')
   .factory('dockerStreamCleanser', function () {
     return require('docker-stream-cleanser');
   })
+  .factory('base64', function () {
+    return require('js-base64').Base64;
+  })
   .factory('streamBuffers', function () {
     return require('stream-buffers');
   })
