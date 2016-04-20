@@ -64,9 +64,9 @@
           ng-class = "{\
             'active': MC.state.tabName === 'services', \
             'btn-hint': MC.servicesActive, \
-            'disabled': $root.isLoading.newContainerModalSingleRepoDockerfile \
+            'disabled': $root.isLoading[MC.name + 'SingleRepo'] \
           }"
-          ng-click = "!$root.isLoading.newContainerModalSingleRepoDockerfile && MC.changeTab('services')"
+          ng-click = "$root.isLoading[MC.name + 'SingleRepo'] && MC.changeTab('services')"
         )
           svg.iconnables.icons-template.grid-block.shrink
             use(
@@ -96,7 +96,7 @@
     )
       header.modal-header
         svg.iconnables.icons-arrow-backward(
-          ng-click = "goToPanel('containerSelection', 'back')"
+          ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && goToPanel('containerSelection', 'back')"
         )
           use(
             xlink:href = "#icons-arrow-down"
@@ -119,15 +119,15 @@
         ) Cancel
         //- add the 'in' class to .btn-spinner when spinning!
         button.btn.btn-md.green.float-right.btn-spinner(
-          ng-disabled = "$root.isLoading.newContainerModalSingleRepo"
+          ng-disabled = "$root.isLoading[MC.name + 'SingleRepo'] || MC.state.dockerfile === null"
           ng-click = "MC.createBuildAndGoToNewRepoModal(MC.state.repo, MC.state.dockerfile)"
           ng-class = "{ \
-            in: $root.isLoading.newContainerModalSingleRepo \
+            in: $root.isLoading[MC.name + 'SingleRepo'] \
           }"
         )
           .spinner-wrapper.spinner-white.spinner-sm.in(
             ng-include = "'spinner'"
-            ng-if = "$root.isLoading.newContainerModalSingleRepo"
+            ng-if = "$root.isLoading[MC.name + 'SingleRepo']"
           )
           | Next Step{{MC.state.dockerfile === false ? ': Configure' : ': Review'}}
 

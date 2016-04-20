@@ -146,6 +146,7 @@ function NewContainerModalController(
         repo.dockerfiles = dockerfiles;
         repo.loading = false;
         loading(NCMC.name + 'SingleRepoDockerfile', false);
+        NCMC.state.dockerfile = null;
         return cb(cbParam);
       });
   };
