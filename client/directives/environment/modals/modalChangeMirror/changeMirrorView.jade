@@ -3,7 +3,9 @@
     ng-class = "{'in': active}"
   )
     .popover-header Choose Dockerfile
-      svg.iconnables.icons-close
+      svg.iconnables.icons-close(
+        ng-click = "MC.cancel()"
+      )
         use(
           xlink:href = "#icons-close"
         )
