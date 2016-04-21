@@ -24,6 +24,10 @@
     flex: 0 0 auto;
   }
 
+  &.grow {
+    flex: 1 1 100%;
+  }
+
   // alignment of content (defaults to left)
   &.justify-center {
     justify-content: center;
@@ -44,6 +48,14 @@
   &.align-center {
     align-items: center;
   }
+
+  &.align-start {
+    align-items: flex-start;
+  }
+
+  &.align-end {
+    align-items: flex-end;
+  }
 }
 
 // horizontal grid
@@ -61,6 +73,10 @@
 
   &.shrink {
     flex: 0 0 auto;
+  }
+
+  &.grow {
+    flex: 1 1 100%;
   }
 
   + .grid-content {
