@@ -41,7 +41,6 @@
     padding: 6px;
 
     + .icons-arrow-forward {
-      color: $gray-light;
       opacity: 0;
 
       &.in {
@@ -49,6 +48,14 @@
         transition: opacity .15s 1.75s ease-in;
       }
     }
+  }
+
+  // check icon path
+  .path {
+    animation: check 1.5s .3s ease-out forwards;
+    stroke-dasharray: 18;
+    stroke-dashoffset: 18;
+    transform-origin: 50% 50%;
   }
 
   .popover-footer {
