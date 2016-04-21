@@ -40,30 +40,30 @@
         //- begin dns mappings
         .popover-content
 
-          //- list of DNS mappings
-          ul.list.popover-list(
+          //- repository containers
+          ul.list.popover-list.list-repository-containers(
             ng-if = "isActivePanel() && DCC.filteredDependencies.length !== 0"
           )
-            li.list-item.popover-list-item.small.strong.disabled(
+
+            li.list-item.popover-list-item.small.disabled(
               ng-if = "$root.featureFlags.connections"
             ) Repository Containers
-            li.list-item.popover-list-item.multi-line.clearfix.tr-dns(
+
+            li.list-item.popover-list-item.grid-block(
               ng-click = "DCC.editDependency(dependency); goToPanel('dnsList');"
               ng-if = "$root.isLoaded.dns && !dependency.instance.destroyed"
               ng-repeat = "dependency in DCC.filteredDependencies"
             )
-              .cell.clearfix.text-gray(
-                title = "{{dependency.instance.getRepoName()}}"
-              )
-                .text-overflow.strong {{dependency.instance.getRepoName()}}
-                small.small.text-overflow(
+              .grid-block.vertical.grow.justify-center
+                .text-overflow.strong.text-gray(
+                  title = "{{dependency.instance.getRepoName()}}"
+                ) {{dependency.instance.getRepoName()}}
+                small.small.text-overflow.text-gray(
                   title = "{{dependency.instance.getElasticHostname()}}"
                 ) {{dependency.instance.getElasticHostname()}}
-
-              // If not isolated remove .center
-              .cell.clearfix.center(
+              .grid-block.shrink.vertical.justify-center.dns-arrow →
+              .grid-block.grow.vertical.justify-center.align-start(
                 ng-class = "{'fade-in': dependency === DCC.lastModifiedDNS}"
-                title = "{{dependency.instance.getBranchName()}}"
               )
                 .text-overflow
                   status-icon(
@@ -73,13 +73,15 @@
                     title = "{{dependency.instance.getBranchName()}}"
                   ) {{dependency.instance.getBranchName()}}
 
+                //- Show this element if the branch is isolated
+                //- btn.btn-xxs.btn-badge.gray.grid-content.shrink Isolated
 
-                //// Isolated if looking at a staging branch of the name of the initial branch
-                //small.small
-                //  .btn.btn-xxs.btn-badge.gray.text-overflow Isolated
+                //- Show this element if the container is part of an isolated cluster
+                //- Replace 'branch-name' with the name of the main container in the isolated cluster
+                //- .btn.btn-xxs.btn-badge.gray.grid-content.shrink branch-name
 
               //- inline for svg animation
-              svg.iconnables.icons-check.float-right(
+              svg.iconnables.icons-check(
                 ng-if = "dependency === DCC.lastModifiedDNS"
                 viewbox = '0 0 14.5 10'
               )
@@ -92,25 +94,25 @@
                   stroke-miterlimit = '10',
                   stroke-width = '2',
                 )
-
-              svg.iconnables.icons-arrow-forward.float-right(
+              svg.iconnables.icons-arrow-forward(
                 ng-class = "{'in': dependency === DCC.lastModifiedDNS}"
               )
                 use(
                   xlink:href = "#icons-arrow-down"
                 )
-          ul.list.popover-list.list-service-containers(
+
+          //- service containers
+          ul.list.popover-list(
             ng-if = "isActivePanel() && DCC.filteredDependencies.length !== 0 && $root.featureFlags.connections"
           )
-            li.list-item.popover-list-item.small.strong.disabled Service Containers
-            li.list-item.popover-list-item.disabled
+            li.list-item.popover-list-item.small.disabled Service Containers
+            li.list-item.popover-list-item.disabled.grid-block.vertical.align-start
               .text-overflow
                 .icons-status.green
                 span.span.strong MongoDB
-            li.list-item.popover-list-item.disabled
-              .text-overflow
-                .icons-status.green
-                span.span.strong Redis
+              //- Show this element if the container is part of an isolated cluster
+              //- Replace 'branch-name' with the name of the main container in the isolated cluster
+              .btn.btn-xxs.btn-badge.gray.grid-content.shrink branch-name
 
           .popover-footer.text-center.text-gray.small(
             ng-if = "!$root.featureFlags.connections"
@@ -156,12 +158,24 @@
           )
 
           //- organization container list
-          ul.list.popover-list.list-branches(
+          ul.list.popover-list(
+            ng-if = "$root.featureFlags.connections"
+          )
+            li.list-item.popover-list-item.small.disabled branch-name’s Containers
+            li.list-item.popover-list-item.text-overflow.grid-block.align-center
+              .icons-status.green
+              span.strong.text-overflow.grid-content.grow branch-name
+              .btn.btn-xxs.btn-badge.gray.grid-content.shrink Isolated
+              svg.iconnables.icons-fat-check
+                use(
+                  xlink:href = "#icons-fat-check"
+                )
+
+          ul.list.popover-list(
             ng-if = "$root.isLoaded.dnsDepData"
           )
-            li.list-item.popover-list-item.small.strong.disabled Select a branch to connect to
-            //li.list-item.popover-list-item.small.disabled anton-jul8’s Containers
-            li.list-item.popover-list-item.text-overflow(
+            li.list-item.popover-list-item.small.disabled Other Containers
+            li.list-item.popover-list-item.text-overflow.grid-block.align-center(
               ng-class = "{'no-touching': instance === DCC.modifyingDNS.current.instance}"
               ng-click = "DCC.selectInstance(instance); goToPanel('dnsOverview', 'back');"
               ng-repeat = "instance in DCC.modifyingDNS.options"
@@ -171,21 +185,19 @@
               status-icon(
                 instance = "instance"
               )
-              span.strong.text-overflow {{instance.getBranchName()}}
+              span.strong.text-overflow.grid-content.grow {{instance.getBranchName()}}
 
               //- if branch is isolated
               //- don't show this when loading
-              .btn.btn-xxs.btn-badge.gray(
+              .btn.btn-xxs.btn-badge.gray.grid-content.shrink(
                 ng-if = "$root.featureFlags.isolationUI && instance.attrs.isolated"
               ) Isolated
 
               //- when currently selected
               //- don't show this when loading
-              svg.iconnables.icons-fat-check.float-right(
+              svg.iconnables.icons-fat-check(
                 ng-if = "instance === DCC.modifyingDNS.current.instance"
               )
                 use(
                   xlink:href = "#icons-fat-check"
                 )
-            //li.divider
-            //li.list-item.popover-list-item.small.disabled Other Containers
