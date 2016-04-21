@@ -22,8 +22,8 @@ function featureFlags(
     intercomOnMigration: false, // adds intercom link to migration message
     internalDebugging: false,
     inviteFlows: false,
-    isolationUI: true, // for isolation UI
     isolationRepos: true, // for isolation UI
+    isolationUI: true, // for isolation UI
     multilineFnR: false,
     multipleRepositoryContainers: false, // for adding multiple containers with the same repository
     nameContainer: false,
@@ -38,12 +38,12 @@ function featureFlags(
     serviceContainersInConnections: false,
     teamManagement: true, // changes text from org to team in account menu
     teamManagementAdvanced: false,
-    trial: false,
     themeToggle: false, // toggles the button that toggles theme
+    trial: false,
     updatedSlackValidation: true,
+    webhooks: false,
     webhooksAdminPresent: false,
     webhooksContainerRunning: false,
-    webhooks: false,
     whitelist: true,
     whitelistIpFiltering: false
   };
