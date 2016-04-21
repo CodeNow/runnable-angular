@@ -11,15 +11,21 @@
   }
 
   .popover-list {
-    margin: 0 15px;
+    margin: 0 12px;
     padding: 12px 0;
   }
 
   .popover-list-item {
     line-height: 1.4; // override
-    margin: 0 -15px;
+    margin: 0 -12px;
     min-height: 0; // override
     padding: 9px 18px;
+
+    // section headings
+    &.small.disabled {
+      padding-bottom: 3px;
+      padding-top: 6px;
+    }
 
     &:active .small {
       color: inherit;
