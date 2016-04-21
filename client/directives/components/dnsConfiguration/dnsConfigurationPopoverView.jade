@@ -198,7 +198,9 @@
               status-icon(
                 instance = "instance"
               )
-              span.strong.text-overflow.grid-content.grow {{instance.getBranchName()}}
+              span.strong.text-overflow.grid-content.grow(
+                title = "{{instance.getBranchName()}}"
+              ) {{instance.getBranchName()}}
 
               //- Show if the container is the parent of an isolated group
               //- don't show this when loading
