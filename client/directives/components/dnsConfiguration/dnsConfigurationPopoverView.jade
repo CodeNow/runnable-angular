@@ -77,7 +77,7 @@
                 //- btn.btn-xxs.btn-badge.gray.grid-content.shrink Isolated
 
                 //- Show if the container is a child in an isolated group
-                //- Replace 'branch-name' with the branch name of the parent in the isolated group
+                    Replace 'branch-name' with the branch name of the parent in the isolated group
                 //- .btn.btn-xxs.btn-badge.gray.grid-content.shrink branch-name
 
               //- inline for svg animation
@@ -163,21 +163,25 @@
           )
             li.list-item.popover-list-item.small.disabled Select a branch to connect to
 
+            //- If modifying connections for a container that is part of an isolated group,
+                the relevant container within that group should appear at the top of the list
             li.list-item.popover-list-item.text-overflow.grid-block.align-center(
               ng-if = "$root.featureFlags.serviceContainersInConnections"
             )
               .icons-status.green
-              span.strong.text-overflow.grid-content.grow taylor-test
+              span.strong.text-overflow.grid-content.grow master
 
-              //- Show if the container is the parent of an isolated group
-              //- btn.btn-xxs.btn-badge.gray.grid-content.shrink Isolated
+              //- Show if the container is the parent in an isolated group
+                  Don't show this when loading
+              //- .btn.btn-xxs.btn-badge.gray.grid-content.shrink Isolated
 
               //- Show if the container is a child in an isolated group
-              //- Replace 'branch-name' with the branch name of the parent in the isolated group
+                  Replace 'branch-name' with the branch name of the parent in the isolated group
+                  Don't show this when loading
               .btn.btn-xxs.btn-badge.gray.grid-content.shrink branch-name
 
-              //- when currently selected
-              //- don't show this when loading
+              //- When currently selected
+                  Don't show this when loading
               //- svg.iconnables.icons-fat-check
               //-   use(
               //-     xlink:href = "#icons-fat-check"
@@ -198,13 +202,13 @@
               ) {{instance.getBranchName()}}
 
               //- Show if the container is the parent of an isolated group
-              //- don't show this when loading
+                  Don't show this when loading
               .btn.btn-xxs.btn-badge.gray.grid-content.shrink(
                 ng-if = "$root.featureFlags.isolationUI && instance.attrs.isolated"
               ) Isolated
 
-              //- when currently selected
-              //- don't show this when loading
+              //- When currently selected
+                  Don't show this when loading
               svg.iconnables.icons-fat-check(
                 ng-if = "instance === DCC.modifyingDNS.current.instance"
               )
