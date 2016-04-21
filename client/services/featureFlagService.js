@@ -35,7 +35,7 @@ function featureFlags(
     optionsInModal: false, // allows delete in modal
     renameContainer: false,
     saveToolbar: false,
-    serviceContainersInConnections: false,
+    serviceContainersInConnections: false, // shows service containers in the Connections popover
     teamManagement: true, // changes text from org to team in account menu
     teamManagementAdvanced: false,
     themeToggle: false, // toggles the button that toggles theme
