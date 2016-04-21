@@ -46,7 +46,7 @@
           )
 
             li.list-item.popover-list-item.small.disabled(
-              ng-if = "$root.featureFlags.connections"
+              ng-if = "$root.featureFlags.serviceContainersInConnections"
             ) Repository Containers
 
             li.list-item.popover-list-item.grid-block(
@@ -103,7 +103,7 @@
 
           //- service containers
           ul.list.popover-list(
-            ng-if = "isActivePanel() && DCC.filteredDependencies.length !== 0 && $root.featureFlags.connections"
+            ng-if = "isActivePanel() && DCC.filteredDependencies.length !== 0 && $root.featureFlags.serviceContainersInConnections"
           )
             li.list-item.popover-list-item.small.disabled Service Containers
             li.list-item.popover-list-item.disabled.grid-block.vertical.align-start
@@ -157,9 +157,9 @@
             ng-include = "'spinner'"
           )
 
-          //- organization container list
+          //- isolation group's containers
           ul.list.popover-list(
-            ng-if = "$root.featureFlags.connections"
+            ng-if = "$root.featureFlags.serviceContainersInConnections"
           )
             //- Replace 'branch-name' with the branch name of the parent in the isolated group
             li.list-item.popover-list-item.small.disabled branch-name’s Containers
@@ -172,7 +172,7 @@
 
               //- Show if the container is a child in an isolated group
               //- Replace 'branch-name' with the branch name of the parent in the isolated group
-              //- .btn.btn-xxs.btn-badge.gray.grid-content.shrink branch-name
+              .btn.btn-xxs.btn-badge.gray.grid-content.shrink branch-name
 
               //- when currently selected
               //- don't show this when loading
@@ -181,10 +181,13 @@
                   xlink:href = "#icons-fat-check"
                 )
 
+          //- other containers
           ul.list.popover-list(
             ng-if = "$root.isLoaded.dnsDepData"
           )
-            li.list-item.popover-list-item.small.disabled Other Containers
+            li.list-item.popover-list-item.small.disabled(
+              ng-if = "$root.featureFlags.serviceContainersInConnections"
+            ) Other Containers
             li.list-item.popover-list-item.text-overflow.grid-block.align-center(
               ng-class = "{'no-touching': instance === DCC.modifyingDNS.current.instance}"
               ng-click = "DCC.selectInstance(instance); goToPanel('dnsOverview', 'back');"
