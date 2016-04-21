@@ -35,6 +35,7 @@ function featureFlags(
     optionsInModal: false, // allows delete in modal
     renameContainer: false,
     saveToolbar: false,
+    serviceContainersInConnections: false,
     teamManagement: true, // changes text from org to team in account menu
     teamManagementAdvanced: false,
     trial: false,
