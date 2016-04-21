@@ -1,6 +1,6 @@
 .popover-dns-mappings {
   max-width: none;
-  width: 390px;
+  width: 360px;
 
   .popover-view {
     min-height: 80px; // set initial height
@@ -11,13 +11,13 @@
   }
 
   .popover-list {
-    margin: 0 9px;
+    margin: 0 15px;
     padding: 12px 0;
   }
 
   .popover-list-item {
     line-height: 1.4; // override
-    margin: 0 -9px;
+    margin: 0 -15px;
     min-height: 0; // override
     padding: 9px 18px;
 
@@ -62,13 +62,8 @@
     color: $gray-light;
   }
 
-  .popover-footer {
-    padding-left: 30px;
-    padding-right: 30px;
-
-    &.empty {
-      border: 0;
-    }
+  .popover-footer.empty {
+    border: 0;
   }
 }
 
