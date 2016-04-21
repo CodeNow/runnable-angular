@@ -73,11 +73,11 @@
                     title = "{{dependency.instance.getBranchName()}}"
                   ) {{dependency.instance.getBranchName()}}
 
-                //- Show this element if the branch is isolated
+                //- Show if the container is the parent of an isolated group
                 //- btn.btn-xxs.btn-badge.gray.grid-content.shrink Isolated
 
-                //- Show this element if the container is part of an isolated cluster
-                //- Replace 'branch-name' with the name of the main container in the isolated cluster
+                //- Show if the container is a child in an isolated group
+                //- Replace 'branch-name' with the branch name of the parent in the isolated group
                 //- .btn.btn-xxs.btn-badge.gray.grid-content.shrink branch-name
 
               //- inline for svg animation
@@ -110,8 +110,8 @@
               .text-overflow
                 .icons-status.green
                 span.span.strong MongoDB
-              //- Show this element if the container is part of an isolated cluster
-              //- Replace 'branch-name' with the name of the main container in the isolated cluster
+              //- Show if the container is a child in an isolated group
+              //- Replace 'branch-name' with the branch name of the parent in the isolated group
               .btn.btn-xxs.btn-badge.gray.grid-content.shrink branch-name
 
           .popover-footer.text-center.text-gray.small(
@@ -161,11 +161,21 @@
           ul.list.popover-list(
             ng-if = "$root.featureFlags.connections"
           )
+            //- Replace 'branch-name' with the branch name of the parent in the isolated group
             li.list-item.popover-list-item.small.disabled branch-name’s Containers
             li.list-item.popover-list-item.text-overflow.grid-block.align-center
               .icons-status.green
-              span.strong.text-overflow.grid-content.grow branch-name
-              .btn.btn-xxs.btn-badge.gray.grid-content.shrink Isolated
+              span.strong.text-overflow.grid-content.grow taylor-test
+
+              //- Show if the container is the parent of an isolated group
+              //- btn.btn-xxs.btn-badge.gray.grid-content.shrink Isolated
+
+              //- Show if the container is a child in an isolated group
+              //- Replace 'branch-name' with the branch name of the parent in the isolated group
+              //- .btn.btn-xxs.btn-badge.gray.grid-content.shrink branch-name
+
+              //- when currently selected
+              //- don't show this when loading
               svg.iconnables.icons-fat-check
                 use(
                   xlink:href = "#icons-fat-check"
@@ -187,7 +197,7 @@
               )
               span.strong.text-overflow.grid-content.grow {{instance.getBranchName()}}
 
-              //- if branch is isolated
+              //- Show if the container is the parent of an isolated group
               //- don't show this when loading
               .btn.btn-xxs.btn-badge.gray.grid-content.shrink(
                 ng-if = "$root.featureFlags.isolationUI && instance.attrs.isolated"
