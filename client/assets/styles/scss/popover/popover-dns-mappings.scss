@@ -21,6 +21,10 @@
     min-height: 0; // override
     padding: 9px 18px;
 
+    &:active .small {
+      color: inherit;
+    }
+
     .iconnables {
       margin: 0; // override .list-item .iconnables
     }

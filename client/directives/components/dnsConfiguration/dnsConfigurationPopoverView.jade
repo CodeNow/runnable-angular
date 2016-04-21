@@ -54,11 +54,11 @@
               ng-if = "$root.isLoaded.dns && !dependency.instance.destroyed"
               ng-repeat = "dependency in DCC.filteredDependencies"
             )
-              .grid-block.vertical.grow.justify-center
-                .text-overflow.strong.text-gray(
+              .text-gray.grid-block.vertical.grow.justify-center
+                .text-overflow.strong(
                   title = "{{dependency.instance.getRepoName()}}"
                 ) {{dependency.instance.getRepoName()}}
-                small.small.text-overflow.text-gray(
+                small.small.text-overflow(
                   title = "{{dependency.instance.getElasticHostname()}}"
                 ) {{dependency.instance.getElasticHostname()}}
               .grid-block.shrink.vertical.justify-center.dns-arrow →
