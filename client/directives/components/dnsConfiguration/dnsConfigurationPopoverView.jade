@@ -157,13 +157,15 @@
             ng-include = "'spinner'"
           )
 
-          //- isolation group's containers
+          //- list of containers that can be connected to
           ul.list.popover-list(
-            ng-if = "$root.featureFlags.serviceContainersInConnections"
+            ng-if = "$root.isLoaded.dnsDepData"
           )
-            //- Replace 'branch-name' with the branch name of the parent in the isolated group
-            li.list-item.popover-list-item.small.disabled branch-name’s Containers
-            li.list-item.popover-list-item.text-overflow.grid-block.align-center
+            li.list-item.popover-list-item.small.disabled Select a branch to connect to
+
+            li.list-item.popover-list-item.text-overflow.grid-block.align-center(
+              ng-if = "$root.featureFlags.serviceContainersInConnections"
+            )
               .icons-status.green
               span.strong.text-overflow.grid-content.grow taylor-test
 
@@ -181,13 +183,6 @@
               //-     xlink:href = "#icons-fat-check"
               //-   )
 
-          //- other containers
-          ul.list.popover-list(
-            ng-if = "$root.isLoaded.dnsDepData"
-          )
-            li.list-item.popover-list-item.small.disabled(
-              ng-if = "$root.featureFlags.serviceContainersInConnections"
-            ) Other Containers
             li.list-item.popover-list-item.text-overflow.grid-block.align-center(
               ng-class = "{'no-touching': instance === DCC.modifyingDNS.current.instance}"
               ng-click = "DCC.selectInstance(instance); goToPanel('dnsOverview', 'back');"
