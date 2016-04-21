@@ -44,6 +44,11 @@
   // isolation badges
   .btn-badge {
     margin-left: 15px;
+    margin-right: 0; // override
+  }
+
+  .icons-fat-check {
+    margin-left: 9px;
   }
 
   // check icon
