@@ -25,7 +25,8 @@ function EventTracking(
   $window,
   assign,
   keypather,
-  configEnvironment
+  configEnvironment,
+  $browser
 ) {
   if (configEnvironment === 'production') {
     INTERCOM_APP_ID = 'wqzm3rju'; // production ID
@@ -72,7 +73,7 @@ function EventTracking(
    * Stub Intercom when SDK not present
    * (development/staging environments)
    */
-  if (!this._Intercom || window.locaStorage.moderating) {
+  if (!this._Intercom || $browser.cookies().isModerating) {
     // stub intercom if not present
     this._Intercom = angular.noop;
   }
