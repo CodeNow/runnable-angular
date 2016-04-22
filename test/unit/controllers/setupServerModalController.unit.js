@@ -20,12 +20,16 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
   var stacks = angular.copy(apiMocks.stackInfo);
   var dockerfile = {
+    sha: '123',
+    content: btoa('Hello World'),
     state: {
       type: 'File',
       body: angular.copy(apiMocks.files.dockerfile)
     },
     attrs: {
-      body: angular.copy(apiMocks.files.dockerfile)
+      body: angular.copy(apiMocks.files.dockerfile),
+      sha: '123',
+      content: btoa('Hello World')
     }
   };
   var org1 = {
@@ -41,6 +45,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
   var fetchOwnerRepoStub;
   var fetchUserStub;
+  var fetchRepoDockerfilesStub;
   var fetchStackAnalysisMock;
   var updateDockerfileFromStateStub;
   var populateDockerfileStub;
@@ -92,6 +97,10 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       $provide.factory('updateDockerfileFromState', function ($q) {
         updateDockerfileFromStateStub = sinon.stub().returns($q.when(dockerfile));
         return updateDockerfileFromStateStub;
+      });
+      $provide.factory('fetchRepoDockerfiles', function ($q) {
+        fetchRepoDockerfilesStub = sinon.stub().returns($q.when([dockerfile]));
+        return fetchRepoDockerfilesStub;
       });
       $provide.factory('createAndBuildNewContainer', createAndBuildNewContainerMock.fetch());
       $provide.factory('repositoryFormDirective', function () {
@@ -247,6 +256,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
     mainACV = {
       mainACV: true,
       attrs: {
+        repo: 'HelloWorld',
         branch: 'branchName'
       },
       update: sinon.spy(function (opts, cb) {
@@ -345,14 +355,8 @@ describe('setupServerModalController'.bold.underline.blue, function () {
     describe('Init with passed-in values and dockerfile', function () {
       beforeEach(function (done) {
         initializeValues();
-        repo.dockerfiles = [
-          {
-            sha: '123',
-            content: btoa('Hello World')
-          }
-        ];
         newBuild.contextVersion.attrs.buildDockerfilePath = '/Dockerfile';
-        newBuild.contextVersion.newFile = sinon.stub().returns(repo.dockerfiles[0]);
+        newBuild.contextVersion.newFile = sinon.stub().returns(dockerfile);
         initState({
           repo: repo,
           build: newBuild,
@@ -375,16 +379,18 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         expect(SMC.state.isMirroringDockerfile).to.equal(true);
         expect(SMC.state.step).to.equal(null);
         expect(SMC.state.repoSelected).to.exist;
+        sinon.assert.calledOnce(fetchRepoDockerfilesStub);
+        sinon.assert.calledWith(fetchRepoDockerfilesStub, mainACV.attrs.repo, mainACV.attrs.branch);
         sinon.assert.calledOnce(SMC.state.contextVersion.newFile);
         sinon.assert.calledWith(SMC.state.contextVersion.newFile, {
-           _id: '123',
-           id: '123',
-           body: 'Hello World',
-           name: 'Dockerfile',
-           path: '/'
+          _id: '123',
+          id: '123',
+          body: 'Hello World',
+          name: 'Dockerfile',
+          path: '/'
         });
         sinon.assert.calledOnce(SMC.openItems.add);
-        sinon.assert.calledWith(SMC.openItems.add, repo.dockerfiles[0]);
+        sinon.assert.calledWith(SMC.openItems.add, dockerfile);
       });
     });
 

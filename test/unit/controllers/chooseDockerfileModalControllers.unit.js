@@ -55,7 +55,7 @@ describe('chooseDockerfileModalController'.bold.underline.blue, function () {
       CDMC = $controller('ChooseDockerfileModalController', {
         $scope: $scope,
         repo: opts.repo,
-        repoFullName: opts.repoFullName
+        branchName: branch.attrs.name
       });
     });
     return done();

@@ -806,7 +806,7 @@ describe('serverModalController'.bold.underline.blue, function () {
         templateUrl: 'changeMirrorView',
         inputs: {
           repo: SMC.state.repo,
-          repoFullName: SMC.state.repo.attrs.full_name,
+          branchName: 'master',
         }
       });
     });

@@ -122,7 +122,7 @@ function ServerModalController(
                 id: dockerfile.sha,
                 body: base64.decode(dockerfile.content),
                 name: name,
-                path: buildDockerfilePath
+                path: path
               });
             });
         }
