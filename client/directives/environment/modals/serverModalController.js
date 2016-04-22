@@ -68,19 +68,18 @@ function ServerModalController(
   $q,
   $rootScope,
   $scope,
-  base64,
+  createBuildFromContextVersionId,
   errs,
   eventTracking,
-  fetchRepoDockerfiles,
-  helpCards,
-  parseDockerfileForCardInfoFromInstance,
-  createBuildFromContextVersionId,
-  keypather,
+  fetchDockerfileForContextVersion,
   hasKeypaths,
+  helpCards,
+  keypather,
+  ModalService,
   loading,
   loadingPromises,
+  parseDockerfileForCardInfoFromInstance,
   promisify,
-  ModalService,
   updateDockerfileFromState
 ) {
   this.TAB_VISIBILITY = TAB_VISIBILITY;
@@ -103,31 +102,7 @@ function ServerModalController(
 
   this.openDockerfile = function (state, openItems) {
     var SMC = this;
-    return $q.when(true)
-      .then(function () {
-        var buildDockerfilePath = keypather.get(state, 'contextVersion.attrs.buildDockerfilePath');
-        var acv = state.contextVersion.getMainAppCodeVersion();
-        var repoFullName = keypather.get(acv, 'attrs.repo');
-        if (buildDockerfilePath && repoFullName) {
-          // Get everything before the last '/' and add a '/' at the end
-          var path = buildDockerfilePath.replace(/^(.*)\/.*$/, '$1') + '/';
-          // Get everything after the last '/'
-          var name = buildDockerfilePath.replace(/^.*\/(.*)$/, '$1');
-          var branchName = keypather.get(acv, 'attrs.branch');
-          return fetchRepoDockerfiles(repoFullName, branchName)
-            .then(function (dockerfiles) {
-              var dockerfile = dockerfiles[0];
-              return SMC.state.contextVersion.newFile({
-                _id: dockerfile.sha,
-                id: dockerfile.sha,
-                body: base64.decode(dockerfile.content),
-                name: name,
-                path: path
-              });
-            });
-        }
-        return promisify(state.contextVersion, 'fetchFile')('/Dockerfile');
-      })
+    return fetchDockerfileForContextVersion(state.contextVersion)
       .then(function (dockerfile) {
         if (state.dockerfile) {
           openItems.remove(state.dockerfile);
