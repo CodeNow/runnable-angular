@@ -72,12 +72,9 @@ function EventTracking(
    * Stub Intercom when SDK not present
    * (development/staging environments)
    */
-  if (!this._Intercom) {
+  if (!this._Intercom || window.locaStorage.moderating) {
     // stub intercom if not present
-    this._Intercom = function () {
-      // $log.info('Intercom JS SDK stubbed');
-      // $log.info(arguments);
-    };
+    this._Intercom = angular.noop;
   }
 
   /**
@@ -94,9 +91,9 @@ function EventTracking(
     var args = Array.prototype.slice.call(arguments);
     var path = args[0].split('.');
     // contextPath: "foo.bar.biz.bang" -> "foo.bar.biz" || "foo.bar.biz" -> "foo.bar"
-    var contextPath = path.slice(0, path.length-1).join('');
+    var contextPath = path.slice(0, path.length - 1).join('');
     var context = keypather.get($window.mixpanel, contextPath);
-    keypather.get($window, 'mixpanel.'+arguments[0])
+    keypather.get($window, 'mixpanel.' + arguments[0])
       .apply(context, args.slice(1, args.length));
   };
 }
