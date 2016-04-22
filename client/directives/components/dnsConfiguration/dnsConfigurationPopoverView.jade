@@ -45,11 +45,11 @@
             ng-if = "isActivePanel() && DCC.filteredDependencies.length !== 0"
           )
 
-            li.list-item.popover-list-item.small.disabled(
+            li.list-item.small(
               ng-if = "$root.featureFlags.serviceContainersInConnections"
             ) Repository Containers
 
-            li.list-item.popover-list-item.grid-block(
+            li.list-item.popover-list-item.multi-line.grid-block(
               ng-click = "DCC.editDependency(dependency); goToPanel('dnsList');"
               ng-if = "$root.isLoaded.dns && !dependency.instance.destroyed"
               ng-repeat = "dependency in DCC.filteredDependencies"
@@ -105,8 +105,8 @@
           ul.list.popover-list(
             ng-if = "isActivePanel() && DCC.filteredDependencies.length !== 0 && $root.featureFlags.serviceContainersInConnections"
           )
-            li.list-item.popover-list-item.small.disabled Service Containers
-            li.list-item.popover-list-item.disabled.grid-block.vertical.align-start
+            li.list-item.small Service Containers
+            li.list-item.popover-list-item.multi-line.disabled.grid-block.vertical.align-start
               .text-overflow
                 .icons-status.green
                 span.span.strong MongoDB
@@ -161,11 +161,11 @@
           ul.list.popover-list(
             ng-if = "$root.isLoaded.dnsDepData"
           )
-            li.list-item.popover-list-item.small.disabled Select a branch to connect to
+            li.list-item.small Select a branch to connect to
 
             //- If modifying connections for a container that is part of an isolated group,
                 the relevant container within that group should appear at the top of the list
-            li.list-item.popover-list-item.text-overflow.grid-block.align-center(
+            li.list-item.popover-list-item.multi-line.text-overflow.grid-block.align-center(
               ng-if = "$root.featureFlags.serviceContainersInConnections"
             )
               .icons-status.green
@@ -187,7 +187,7 @@
               //-     xlink:href = "#icons-fat-check"
               //-   )
 
-            li.list-item.popover-list-item.text-overflow.grid-block.align-center(
+            li.list-item.popover-list-item.multi-line.text-overflow.grid-block.align-center(
               ng-class = "{'no-touching': instance === DCC.modifyingDNS.current.instance}"
               ng-click = "DCC.selectInstance(instance); goToPanel('dnsOverview', 'back');"
               ng-repeat = "instance in DCC.modifyingDNS.options"

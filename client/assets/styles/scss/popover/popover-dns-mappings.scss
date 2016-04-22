@@ -11,29 +11,21 @@
   }
 
   .popover-list {
-    margin: 0 12px;
     padding: 12px 0;
   }
 
   .popover-list-item {
-    line-height: 1.4; // override
-    margin: 0 -12px;
-    min-height: 0; // override
     padding: 9px 18px;
-
-    // section headings
-    &.small.disabled {
-      padding-bottom: 3px;
-      padding-top: 6px;
-    }
 
     &:active .small {
       color: inherit;
     }
+  }
 
-    .iconnables {
-      margin: 0; // override .list-item .iconnables
-    }
+  // list headings
+  .list-item.small {
+    margin-top: 3px;
+    padding: 3px 18px;
   }
 
   .icons-status {
@@ -77,8 +69,15 @@
     color: $gray-light;
   }
 
-  .popover-footer.empty {
-    border: 0;
+  .popover-footer {
+    background: $gray-lighterest;
+    margin: 0;
+    padding: 18px 15px;
+
+    &.empty {
+      background: none;
+      border: 0;
+    }
   }
 }
 
@@ -89,6 +88,7 @@
 }
 
 .list-repository-containers .iconnables {
+  margin: 0; // override
   position: absolute;
   right: 9px;
   top: 15px;
