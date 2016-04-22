@@ -18,6 +18,7 @@ var INTERCOM_APP_ID;
  * @class
  */
 function EventTracking(
+  $browser,
   $location,
   $log,
   $state,
@@ -25,8 +26,7 @@ function EventTracking(
   $window,
   assign,
   keypather,
-  configEnvironment,
-  $browser
+  configEnvironment
 ) {
   if (configEnvironment === 'production') {
     INTERCOM_APP_ID = 'wqzm3rju'; // production ID
