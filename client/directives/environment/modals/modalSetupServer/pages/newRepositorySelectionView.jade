@@ -95,6 +95,9 @@ ul.list.list-servers(
         )
     button.btn.btn-sm.btn-icon(
       ng-if = "!repo.loading"
+      ng-class = "{\
+        'disabled': repo.isAdded\
+      }"
     )
       svg.iconnables.icons-add
         use(
