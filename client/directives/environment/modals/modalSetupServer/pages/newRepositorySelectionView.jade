@@ -15,6 +15,7 @@
     autofocus
     ng-model = "MC.repoFilter"
     ng-disabled = "$root.isLoading[MC.name + 'SingleRepo']"
+    ng-keyup = "$digest"
     placeholder = "Search"
     required
     type = "search"
