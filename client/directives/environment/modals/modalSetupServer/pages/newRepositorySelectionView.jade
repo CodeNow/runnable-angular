@@ -14,7 +14,7 @@
   input.input.input-xs.input-search(
     autofocus
     ng-model = "MC.repoFilter"
-    ng-disabled = "$root.isLoading.newContainerModalSingleRepoDockerfile"
+    ng-disabled = "$root.isLoading[MC.name + 'SingleRepo']"
     placeholder = "Search"
     required
     type = "search"
@@ -52,8 +52,8 @@ ul.list.list-servers(
 
   //- add active class when loading
   li.list-item.multi-line.text-overflow(
-    ng-disabled = "repo.isAdded || $root.isLoading.newContainerModalSingleRepoDockerfile"
-    ng-click = "!(repo.isAdded || $root.isLoading.newContainerModalSingleRepoDockerfile) && MC.setRepo(repo, goToPanel, 'dockerfileMirroring')"
+    ng-disabled = "repo.isAdded || $root.isLoading[MC.name + 'SingleRepo']"
+    ng-click = "!(repo.isAdded || $root.isLoading[MC.name + 'SingleRepo']) && MC.setRepo(repo, goToPanel, 'dockerfileMirroring')"
     ng-repeat = "\
       repo in MC.githubRepos.models | \
       repos: MC.repoFilter | \
@@ -61,7 +61,7 @@ ul.list.list-servers(
     "
     ng-class = "{ \
       'active': repo.loading, \
-      'disabled': repo.isAdded || $root.isLoading.newContainerModalSingleRepoDockerfile \
+      'disabled': repo.isAdded || $root.isLoading[MC.name + 'SingleRepo'] \
     }"
   ) {{ repo.attrs.name }}
     .row.row-author(

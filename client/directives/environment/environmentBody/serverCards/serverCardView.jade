@@ -224,7 +224,7 @@ ul.card-body.load(
       svg.iconnables.icons-unlock(
         ng-if = "\
           server.advanced && \
-          (!$root.featureFlags.dockerfileMirroring || !server.instance.hasDockerfileMirroring()) \
+          !($root.featureFlags.dockerfileMirroring || server.instance.hasDockerfileMirroring()) \
         "
       )
         use(

@@ -37,8 +37,8 @@ function NewContainerModalController(
 
   // Start loading repos and templates
   loading.reset(NCMC.name + 'Repos');
-  loading.reset(NCMC.name + 'SingleRepoDockerfile');
   loading.reset(NCMC.name + 'Templates');
+  loading.reset(NCMC.name + 'SingleRepo');
 
   // Fetch all repos from Github
   loading(NCMC.name + 'Repos', true);
@@ -136,19 +136,21 @@ function NewContainerModalController(
   NCMC.setRepo = function (repo, cb, cbParam) {
     repo.loading = true;
     NCMC.state.repo = repo;
-    loading(NCMC.name + 'SingleRepoDockerfile', true);
-    return fetchRepoDockerfiles(keypather.get(repo, 'attrs.full_name'))
+    loading(NCMC.name + 'SingleRepo', true);
+    var fullName = keypather.get(repo, 'attrs.full_name');
+    var defaultBranch = keypather.get(repo, 'attrs.default_branch');
+    return fetchRepoDockerfiles(fullName, defaultBranch)
       .then(function (dockerfiles) {
         if (dockerfiles.length === 0) {
           return NCMC.createBuildAndGoToNewRepoModal(repo)
             .then(function () {
               repo.loading = false;
-              loading(NCMC.name + 'SingleRepoDockerfile', false);
+              loading(NCMC.name + 'SingleRepo', false);
             });
         }
         repo.dockerfiles = dockerfiles;
         repo.loading = false;
-        loading(NCMC.name + 'SingleRepoDockerfile', false);
+        loading(NCMC.name + 'SingleRepo', false);
         NCMC.state.dockerfile = null;
         return cb(cbParam);
       });

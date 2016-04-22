@@ -804,10 +804,11 @@ function fetchRepoDockerfiles(
   configAPIHost,
   keypather
 ) {
-  return function (repoFullName) {
+  return function (repoFullName, branchName) {
+    branchName = (branchName) ? branchName : 'master';
     return $http({
       method: 'get',
-      url: configAPIHost + '/github/repos/' + repoFullName + '/contents/Dockerfile?ref=master'
+      url: configAPIHost + '/github/repos/' + repoFullName + '/contents/Dockerfile?ref=' + branchName
     })
       .then(function (res) {
         var file = res.data;

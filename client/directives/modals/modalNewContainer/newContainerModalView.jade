@@ -60,7 +60,7 @@
           .btn-text.grid-block Create from a repository
         //- disable this button when loading a repository
         .grid-block.shrink.btn(
-          ng-disabled = "$root.isLoading[MC.name + 'SingleRepoDockerfile']"
+          ng-disabled = "$root.isLoading[MC.name + 'SingleRepo']"
           ng-class = "{\
             'active': MC.state.tabName === 'services', \
             'btn-hint': MC.servicesActive, \

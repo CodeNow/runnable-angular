@@ -83,7 +83,6 @@ function createNewBuildAndFetchBranch(
         if (!inputs.build.contextVersion.source) {
           return createDockerfileFromSource(inputs.build.contextVersion, 'blank');
         }
-        return buildWithVersion.contextVersion;
       })
       .then(function () {
         return promisify(repo, 'fetchBranch')(repo.attrs.default_branch);

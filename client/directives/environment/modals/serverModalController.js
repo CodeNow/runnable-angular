@@ -106,13 +106,15 @@ function ServerModalController(
     return $q.when(true)
       .then(function () {
         var buildDockerfilePath = keypather.get(state, 'contextVersion.attrs.buildDockerfilePath');
-        var repoFullName = keypather.get(state, 'contextVersion.getMainAppCodeVersion().attrs.repo');
+        var acv = state.contextVersion.getMainAppCodeVersion();
+        var repoFullName = keypather.get(acv, 'attrs.repo');
         if (buildDockerfilePath && repoFullName) {
           // Get everything before the last '/' and add a '/' at the end
           var path = buildDockerfilePath.replace(/^(.*)\/.*$/, '$1') + '/';
           // Get everything after the last '/'
           var name = buildDockerfilePath.replace(/^.*\/(.*)$/, '$1');
-          return fetchRepoDockerfiles(repoFullName)
+          var branchName = keypather.get(acv, 'attrs.branch');
+          return fetchRepoDockerfiles(repoFullName, branchName)
             .then(function (dockerfiles) {
               var dockerfile = dockerfiles[0];
               return SMC.state.contextVersion.newFile({
@@ -450,13 +452,14 @@ function ServerModalController(
 
   this.enableMirrorMode = function () {
     var SMC = this;
+    var branchName = keypather.get(SMC, 'state.contextVersion.getMainAppCodeVersion().attrs.branch');
     return ModalService.showModal({
       controller: 'ChooseDockerfileModalController',
       controllerAs: 'MC', // Shared
       templateUrl: 'changeMirrorView',
       inputs: {
         repo: SMC.state.repo,
-        repoFullName: SMC.state.repo.attrs.full_name
+        branchName: branchName
       }
     })
       .then(function (modal) {
@@ -508,6 +511,10 @@ function ServerModalController(
       });
   };
 
+  /*!
+   * Getter/Setter for whether instance is mirroring dockerfile
+   * @returns {Promise|Boolean}
+   */
   this.switchBetweenAdvancedAndMirroring = function (newIsMirrorMode) {
     var SMC = this;
     if (newIsMirrorMode === false) {

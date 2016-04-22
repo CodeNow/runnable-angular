@@ -10,13 +10,15 @@ function ChooseDockerfileModalController(
   keypather,
   loading,
   close,
-  repo
+  repo,
+  branchName
 ) {
   var CDMC = this;
   if (!repo) {
     throw new Error('A repo is required for this controller');
   }
   angular.extend(CDMC, {
+    name: 'ChooseDockerfileModal',
     state: {
       repo: repo
     }
@@ -27,7 +29,8 @@ function ChooseDockerfileModalController(
   var oauthName = keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()');
   var name = keypather.get(repo, 'attrs.name');
   var fullname = keypather.get(repo, 'attrs.full_name') || (oauthName + '/' + name);
-  fetchRepoDockerfiles(fullname)
+  var defaultBranch = keypather.get(repo, 'attrs.default_branch');
+  fetchRepoDockerfiles(fullname, branchName || defaultBranch)
     .then(function (dockerfiles) {
       CDMC.state.repo.dockerfiles = dockerfiles;
     })
