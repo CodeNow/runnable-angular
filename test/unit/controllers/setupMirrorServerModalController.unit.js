@@ -357,7 +357,7 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
         expect(SMC.state.acv).to.exist;
         expect(SMC.state.contextVersion).to.exist;
         expect(SMC.state.branch).to.exist;
-        expect(SMC.state.advanced).to.equal(true);
+        expect(SMC.state.advanced).to.equal('isMirroringDockerfile');
         expect(SMC.state.repoSelected).to.equal(true);
       });
     });

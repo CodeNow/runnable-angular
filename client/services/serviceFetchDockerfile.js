@@ -51,6 +51,7 @@ function fetchDockerfileForContextVersion (
             _id: dockerfile.sha,
             id: dockerfile.sha,
             body: base64.decode(dockerfile.content),
+            isRemoteCopy: true,
             name: name,
             path: path
           });
