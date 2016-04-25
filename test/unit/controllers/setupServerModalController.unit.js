@@ -385,6 +385,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
           _id: '123',
           id: '123',
           body: 'Hello World',
+          isRemoteCopy: true,
           name: 'Dockerfile',
           path: '/'
         });
