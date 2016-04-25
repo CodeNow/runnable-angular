@@ -41,9 +41,10 @@ function fetchDockerfileForContextVersion (
     if (buildDockerfilePath && repoFullName) {
       var branchName = keypather.get(acv, 'attrs.branch');
       // Get everything before the last '/' and add a '/' at the end
-      var path = buildDockerfilePath.replace(/^(.*)\/.*$/, '$1') + '/';
+      var result = /^([^\/]*)\/([^\/]*)$/.exec(buildDockerfilePath);
+      var path = result && result[1] || '';
       // Get everything after the last '/'
-      var name = buildDockerfilePath.replace(/^.*\/(.*)$/, '$1');
+      var name = result && result[2] || '';
       return fetchRepoDockerfiles(repoFullName, branchName)
         .then(function (dockerfiles) {
           var dockerfile = dockerfiles[0];
@@ -53,7 +54,7 @@ function fetchDockerfileForContextVersion (
             body: base64.decode(dockerfile.content),
             isRemoteCopy: true,
             name: name,
-            path: path
+            path: path + '/'
           });
         });
     }
