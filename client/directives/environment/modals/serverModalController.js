@@ -535,7 +535,6 @@ function ServerModalController(
       var repoName = repo.attrs.name;
       var repoOwner = repo.attrs.owner.login.toLowerCase();
       var domain = SMC.state.repo.opts.userContentDomain;
-      // NOTE: How can I know whether it will be staging or not?
       var hostname = repoName + '-staging-' + repoOwner + '.' + domain;
       return hostname;
     }
