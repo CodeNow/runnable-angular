@@ -8,137 +8,39 @@
 
   .popover-content {
     max-height: calc(100vh - 176px);
-
-    .empty {
-      margin: 15px 0;
-    }
-  }
-
-  .icons-status {
-    flex: 0 0 auto;
-    margin-right: 5px;
-  }
-
-  // specific to branch list
-  .list-branches {
-
-    .list-item {
-      align-items: center;
-      color: $gray;
-      display: flex;
-      font-size: 14px;
-      padding: 0 15px;
-
-      &:active {
-        color: $purple-light;
-      }
-
-      &.small {
-        color: $gray-light;
-        font-weight: $weight-normal;
-      }
-    }
-
-    // name of branch
-    .text-overflow {
-      flex: 1 1 auto;
-    }
-
-    // isolation badge
-    .btn-badge {
-      margin: 0;
-    }
-
-    // spinners
-    .spinner-wrapper {
-      flex: 0 0 auto;
-    }
-
-    // selected branch
-    .icons-fat-check {
-      flex: 0 0 auto;
-      margin: 0 6px;
-    }
   }
 
   .popover-list {
-    margin: 0 9px;
     padding: 12px 0;
   }
 
   .popover-list-item {
-    font-size: 14px;
-    margin: 0 -9px;
+    padding: 9px 18px;
+
+    &:active .small {
+      color: inherit;
+    }
+  }
+
+  // list headings
+  .list-item.small {
+    margin-top: 3px;
     padding: 3px 18px;
-
-    &.small {
-      font-size: 12px;
-      line-height: 21px;
-      min-height: 21px;
-    }
   }
 
-  .popover-footer {
-    border-top: 1px solid $gray-lighter;
-    font-size: 12px;
-    margin: 0 9px;
-    padding: 15px 9px 18px;
-
-    &.empty {
-      border: 0;
-    }
+  .icons-status {
+    flex: 0 0 auto;
+    margin-right: 6px;
   }
 
-  .link:active {
-    color: $purple-light;
-  }
-}
-
-.list-service-containers {
-
-  .popover-list-item {
-    line-height: 24px;
-    min-height: 24px;
-
-    &.small {
-      margin-bottom: 4px;
-    }
-  }
-}
-
-// view-1
-// rows
-.tr-dns {
-  cursor: pointer;
-  padding: 3px 15px;
-
-  &:hover .icons-arrow-forward {
-    color: $gray;
+  // isolation badges
+  .btn-badge {
+    margin-left: 15px;
+    margin-right: 0; // override
   }
 
-  &:active {
-
-    // override .popover-list-item default
-    .small.text-overflow {
-      color: $gray;
-    }
-
-    .cell + .cell,
-    .cell + .cell .small,
-    .icons-arrow-forward {
-      color: $purple-light;
-    }
-  }
-
-  .iconnables {
-    margin: 0;
-    position: absolute;
-    right: 9px;
-    top: 15px;
-  }
-
-  .icons-arrow-forward {
-    color: $gray-light;
+  .icons-fat-check {
+    margin: 0 0 0 9px;
   }
 
   // check icon
@@ -163,61 +65,42 @@
     transform-origin: 50% 50%;
   }
 
-  // cells
-  .cell {
-    flex: 1 1;
-    height: 48px;
-    line-height: 1.4;
-    max-width: 50%;
-    padding: 5px 0;
-    position: relative;
+  .icons-arrow-forward {
+    color: $gray-light;
+  }
 
-    // url cell
-    &:first-child {
-      padding-right: 12px;
+  .popover-footer {
+    background: $gray-lighterest;
+    margin: 0;
+    padding: 18px 15px;
 
-      // arrow
-      &::after {
-        color: $gray-light;
-        content: '→';
-        display: block;
-        font-size: 18px;
-        position: absolute;
-        right: -9px;
-        top: 12px;
-      }
-    }
-
-    // center text if single line
-    &.center {
-      align-items: center;
-      display: flex;
-    }
-
-    .small {
-      font-size: 12px;
-    }
-
-    .btn-badge {
-      font-size: 11px;
-      height: 16px;
-      line-height: 14px;
-      margin-top: 3px;
-      max-width: 100%;
-    }
-
-    // branch cell
-    + .cell {
-      padding: 0 15px;
-
-      .small {
-        margin-left: 14px;
-      }
-    }
-
-    // just changed animation (along with check)
-    &.fade-in {
-      animation: fade-in-half 1s .25s;
+    &.empty {
+      background: none;
+      border: 0;
     }
   }
+}
+
+.dns-arrow {
+  color: $gray-light;
+  font-size: 18px;
+  margin: 0 12px;
+}
+
+.list-repository-containers {
+
+  .btn-badge {
+    align-self: flex-start;
+  }
+
+  .iconnables {
+    margin: 0; // override
+    position: absolute;
+    right: 9px;
+    top: 15px;
+  }
+}
+
+.connected-branch-name {
+  padding-right: 15px;
 }
