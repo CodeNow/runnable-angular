@@ -8,19 +8,21 @@ function SetupMirrorServerModalController(
   $controller,
   $q,
   $rootScope,
+  cardInfoTypes,
   createAndBuildNewContainer,
   createBuildFromContextVersionId,
   errs,
   eventTracking,
   fetchUser,
   helpCards,
+  isTabNameValid,
   keypather,
   loading,
   loadingPromises,
   ModalService,
   promisify,
-  cardInfoTypes,
   OpenItems,
+  TAB_VISIBILITY,
   updateDockerfileFromState,
   close,
   repo,
@@ -42,7 +44,6 @@ function SetupMirrorServerModalController(
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
     'insertHostName': parentController.insertHostName.bind(SMC),
     'isDirty': parentController.isDirty.bind(SMC),
-    '_isTabVisible': parentController.isTabVisible.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
     'populateStateFromData': parentController.populateStateFromData.bind(SMC),
     'rebuildAndOrRedeploy': parentController.rebuildAndOrRedeploy.bind(SMC),
@@ -54,7 +55,6 @@ function SetupMirrorServerModalController(
     'switchToMirrorMode': parentController.switchToMirrorMode.bind(SMC),
     'switchToAdvancedMode': parentController.switchToAdvancedMode.bind(SMC),
     'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC),
-    'TAB_VISIBILITY': parentController.TAB_VISIBILITY
   });
 
   var mainRepoContainerFile = new cardInfoTypes.MainRepository();
@@ -214,13 +214,13 @@ function SetupMirrorServerModalController(
    */
   SMC.isTabVisible = function (tabName) {
     // First, check if tab exists and tab FF is turned on (if applicable)
-    if (!SMC._isTabVisible(tabName)) {
+    if (!isTabNameValid(tabName)) {
       return false;
     }
     if (SMC.state.advanced === 'isMirroringDockerfile') {
-      return !!SMC.TAB_VISIBILITY[tabName].mirror;
+      return !!TAB_VISIBILITY[tabName].mirror;
     }
-    return !!SMC.TAB_VISIBILITY[tabName].advanced;
+    return !!TAB_VISIBILITY[tabName].advanced;
   };
 
   SMC.isPrimaryButtonDisabled = function (serverFormInvalid) {

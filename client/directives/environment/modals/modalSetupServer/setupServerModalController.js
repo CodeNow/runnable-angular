@@ -26,6 +26,7 @@ function SetupServerModalController(
   fetchUser,
   hasKeypaths,
   helpCards,
+  isTabNameValid,
   keypather,
   loading,
   loadingPromises,
@@ -33,6 +34,7 @@ function SetupServerModalController(
   OpenItems,
   promisify,
   updateDockerfileFromState,
+  TAB_VISIBILITY,
   close,
   repo,
   build,
@@ -53,7 +55,6 @@ function SetupServerModalController(
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
     'insertHostName': parentController.insertHostName.bind(SMC),
     'isDirty': parentController.isDirty.bind(SMC),
-    '_isTabVisible': parentController.isTabVisible.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
     'populateStateFromData': parentController.populateStateFromData.bind(SMC),
     'rebuildAndOrRedeploy': parentController.rebuildAndOrRedeploy.bind(SMC),
@@ -65,8 +66,7 @@ function SetupServerModalController(
     'switchBetweenAdvancedAndMirroring': parentController.switchBetweenAdvancedAndMirroring.bind(SMC),
     'switchToMirrorMode': parentController.switchToMirrorMode.bind(SMC),
     'switchToAdvancedMode': parentController.switchToAdvancedMode.bind(SMC),
-    'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC),
-    'TAB_VISIBILITY': parentController.TAB_VISIBILITY
+    'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC)
   });
 
   var mainRepoContainerFile = new cardInfoTypes.MainRepository();
@@ -376,16 +376,16 @@ function SetupServerModalController(
    */
   SMC.isTabVisible = function (tabName) {
     // First, check if tab exists and tab FF is turned on (if applicable)
-    if (!SMC._isTabVisible(tabName)) {
+    if (!isTabNameValid(tabName)) {
       return false;
     }
     if (SMC.state.advanced) {
       if (SMC.state.advanced === 'isMirroringDockerfile') {
-        return !!SMC.TAB_VISIBILITY[tabName].mirror;
+        return !!TAB_VISIBILITY[tabName].mirror;
       }
-      return !!SMC.TAB_VISIBILITY[tabName].advanced;
+      return !!TAB_VISIBILITY[tabName].advanced;
     }
-    return SMC.state.step >= SMC.TAB_VISIBILITY[tabName].step;
+    return SMC.state.step >= TAB_VISIBILITY[tabName].step;
   };
 
   SMC.isPrimaryButtonDisabled = function (serverFormInvalid) {

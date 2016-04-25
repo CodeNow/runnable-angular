@@ -16,12 +16,14 @@ function EditServerModalController(
   findLinkedServerVariables,
   helpCards,
   instance,
+  isTabNameValid,
   keypather,
   loading,
   loadingPromises,
   ModalService,
   OpenItems,
   tab,
+  TAB_VISIBILITY,
   updateDockerfileFromState,
   close
 ) {
@@ -38,7 +40,6 @@ function EditServerModalController(
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
     'insertHostName': parentController.insertHostName.bind(SMC),
     'isDirty': parentController.isDirty.bind(SMC),
-    '_isTabVisible': parentController.isTabVisible.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
     'populateStateFromData': parentController.populateStateFromData.bind(SMC),
     'rebuildAndOrRedeploy': parentController.rebuildAndOrRedeploy.bind(SMC),
@@ -50,8 +51,7 @@ function EditServerModalController(
     'switchBetweenAdvancedAndMirroring': parentController.switchBetweenAdvancedAndMirroring.bind(SMC),
     'switchToMirrorMode': parentController.switchToMirrorMode.bind(SMC),
     'switchToAdvancedMode': parentController.switchToAdvancedMode.bind(SMC),
-    'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC),
-    'TAB_VISIBILITY': parentController.TAB_VISIBILITY
+    'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC)
   });
 
   SMC.instance = instance;
@@ -160,14 +160,14 @@ function EditServerModalController(
    */
   SMC.isTabVisible = function (tabName) {
     // First, check if tab exists and tab FF is turned on (if applicable)
-    if (!SMC._isTabVisible(tabName)) {
+    if (!isTabNameValid(tabName)) {
       return false;
     }
     var currentStatuses = [];
     var currentContextVersion = keypather.get(SMC, 'instance.contextVersion');
 
     if (!currentContextVersion.getMainAppCodeVersion()) {
-      return !!SMC.TAB_VISIBILITY[tabName].nonRepo;
+      return !!TAB_VISIBILITY[tabName].nonRepo;
     }
     if (
       SMC.state.advanced ||
@@ -176,9 +176,9 @@ function EditServerModalController(
         keypather.get(currentContextVersion, 'attrs.advanced')
       )
     ) {
-      return !!SMC.TAB_VISIBILITY[tabName].advanced;
+      return !!TAB_VISIBILITY[tabName].advanced;
     }
-    return !!SMC.TAB_VISIBILITY[tabName].basic;
+    return !!TAB_VISIBILITY[tabName].basic;
   };
 
   SMC.needsToBeDirtySaved = function () {

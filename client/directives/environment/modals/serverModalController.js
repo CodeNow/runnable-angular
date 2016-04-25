@@ -3,66 +3,6 @@
 require('app')
   .controller('ServerModalController', ServerModalController);
 
-var TAB_VISIBILITY = {
-  repository:  {
-    advanced: true,
-    basic: true,
-    mirror: true,
-    step: 1
-  },
-  commands:  {
-    basic: true,
-    step: 2
-  },
-  ports:  {
-    basic: true,
-    step: 3
-  },
-  whitelist: {
-    advanced: true,
-    basic: true,
-    mirror: true,
-    featureFlagName: 'whitelist',
-    nonRepo: true,
-    step: 3
-  },
-  env:  {
-    advanced: true,
-    basic: true,
-    mirror: true,
-    nonRepo: true,
-    step: 3
-  },
-  backup: {
-    featureFlagName: 'backup',
-    nonRepo: true,
-    step: 3
-  },
-  files:  {
-    basic: true,
-    step: 3
-  },
-  translation:  {
-    advanced: true,
-    basic: true,
-    step: 3
-  },
-  buildfiles: {
-    basic: true,
-    advanced: true,
-    mirror: true,
-    nonRepo: true,
-    step: 3
-  },
-  logs: {
-    advanced: true,
-    basic: true,
-    nonRepo: true,
-    mirror: true,
-    step: 4
-  }
-};
-
 function ServerModalController(
   $filter,
   $q,
@@ -82,8 +22,6 @@ function ServerModalController(
   promisify,
   updateDockerfileFromState
 ) {
-  this.TAB_VISIBILITY = TAB_VISIBILITY;
-
   this.requiresRedeploy = function () {
     var SMC = this;
     return !!SMC.instance && !angular.equals(
@@ -506,17 +444,6 @@ function ServerModalController(
         });
     }
     return SMC.state.advanced === 'isMirroringDockerfile';
-  };
-
-  this.isTabVisible = function (tabName) {
-    var SMC = this;
-    if (!SMC.TAB_VISIBILITY[tabName]) {
-      return false;
-    }
-    if (SMC.TAB_VISIBILITY[tabName].featureFlagName && !$rootScope.featureFlags[SMC.TAB_VISIBILITY[tabName].featureFlagName]) {
-      return false;
-    }
-    return true;
   };
 
   this.getDisplayName = function () {

@@ -845,23 +845,6 @@ describe('serverModalController'.bold.underline.blue, function () {
     });
   });
 
-  describe('isTabVisible', function () {
-    beforeEach(setup.bind(null, {}));
-
-    it('should return false for an undefined tab', function () {
-      expect(SMC.isTabVisible('thingthatdoesntexist')).to.equal(false);
-      expect(SMC.isTabVisible('thiasdfng')).to.equal(false);
-    });
-
-    it('should return false for a feature flag that is disabled', function () {
-      SMC.state.advanced = true;
-      keypather.set($rootScope, 'featureFlags.whitelist', true);
-      expect(SMC.isTabVisible('whitelist')).to.equal(true);
-      keypather.set($rootScope, 'featureFlags.whitelist', false);
-      expect(SMC.isTabVisible('whitelist')).to.equal(false);
-    });
-  });
-
   describe('switchToMirrorMode', function () {
     beforeEach(setup.bind(null, {}));
     beforeEach(function () {
