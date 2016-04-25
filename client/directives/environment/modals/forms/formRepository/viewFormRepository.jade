@@ -32,19 +32,19 @@ label.label.clearfix
   .label-col Build Commands
     small.small (optional)
   .input-col
-    label.small.strong.float-right(
-      ng-class = "{'disabled': hasNoCommands()}"
-    ) Cache
-      span.span &#32;a command
-      .toggle-wrapper
-        input.toggle-input(
-          ng-click = "actions.toggleCache()"
-          ng-disabled = "hasNoCommands()"
-          ng-model = "cacheCommand"
-          ng-model-options = "{getterSetter: true}"
-          type = "checkbox"
-        )
-        .toggle-group.toggle-xs
+    .well.small
+      strong.strong Note:&#32;
+      span.span If installing private modules, make sure you add your SSH keys&#32;
+      button.btn.btn-xxs.white(
+        ng-click = "SMC.changeTab('files')"
+        type = "button"
+      )
+        svg.iconnables.icons-files.float-left
+          use(
+            xlink:href = "#icons-keys-files"
+          )
+        | Files & SSH Keys
+    //- removed the cache toggle here, but we still need to remove the rest
     .build-commands-wrapper(
       ng-class = "{'focus': buildCommandFocus}"
     )

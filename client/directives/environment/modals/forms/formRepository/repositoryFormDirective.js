@@ -16,10 +16,11 @@ require('app')
       restrict: 'A',
       templateUrl: 'viewFormRepository',
       scope: {
-        state: '=',
-        startCommandCanDisable: '=?',
         loadingPromisesTarget: '@?',
-        ngShow: '&'
+        ngShow: '&',
+        SMC: '=smc',
+        state: '=',
+        startCommandCanDisable: '=?'
       },
       link: function ($scope, element, attrs) {
         $scope.helpCards = helpCards;
