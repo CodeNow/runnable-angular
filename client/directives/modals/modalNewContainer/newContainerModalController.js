@@ -133,7 +133,7 @@ function NewContainerModalController(
       .catch(errs.handler);
   };
 
-  NCMC.setRepo = function (repo, cb, cbParam) {
+  NCMC.setRepo = function (repo, goToPanelCb, panelName) {
     repo.loading = true;
     NCMC.state.repo = repo;
     loading(NCMC.name + 'SingleRepo', true);
@@ -152,7 +152,7 @@ function NewContainerModalController(
         repo.loading = false;
         loading(NCMC.name + 'SingleRepo', false);
         NCMC.state.dockerfile = null;
-        return cb(cbParam);
+        return goToPanelCb(panelName);
       });
   };
 
