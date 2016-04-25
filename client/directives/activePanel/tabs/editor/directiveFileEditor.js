@@ -11,7 +11,6 @@ function fileEditor(
   debounce,
   errs,
   keypather,
-  hasKeypaths,
   modelist,
   promisify,
   loadingPromises
@@ -61,7 +60,11 @@ function fileEditor(
         return promisify($scope.file, 'fetch')()
           .then(resetFileBodyState)
           .catch(function (error) {
-            $scope.hasError = 'failure';
+            if (keypather.get(error, 'data.res.statusCode') === 413) {
+              $scope.hasError = 'tooLarge';
+            } else {
+              $scope.hasError = 'failure';
+            }
             errs.report(error);
           })
           .finally(function () {

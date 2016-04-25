@@ -9,6 +9,11 @@
 )
   p.p We're Sorry, but your file is in another castle… and that castle just blew up! 😱
 
+.blank-panel(
+  ng-if = "!loading && hasError === 'tooLarge'"
+)
+  p.p The requested file is too large to load.
+
 .pre(
   lazy-load = "ui.ace"
   ng-if = "!hasError && file.attrs.fileType !== 'ssh'"
