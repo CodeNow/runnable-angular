@@ -65,17 +65,17 @@
       xlink:href = "#icons-sync"
     )
   .grid-content.row-xxs.text-overflow(
-    ng-class = "{'padding-right': SMC.state.isMirroringDockerfile}"
+    ng-class = "{'padding-right': SMC.state.advanced === 'isMirroringDockerfile'}"
   )
     div Mirror Dockerfile
     small.small(
-      ng-if = "SMC.state.isMirroringDockerfile"
+      ng-if = "SMC.state.advanced === 'isMirroringDockerfile'"
     )
       span.span.text-overflow.float-left(
         ng-title = "SMC.state.contextVersion.attrs.buildDockerfilePath"
       ) Mirroring from GitHub: {{ SMC.state.contextVersion.attrs.buildDockerfilePath }}
     small.small(
-      ng-if = "!SMC.state.isMirroringDockerfile"
+      ng-if = "SMC.state.advanced !== 'isMirroringDockerfile'"
     )
       span.span.text-overflow.float-left Mirror with a Dockerfile from this repo on GitHub.
       //- when there's an error
@@ -125,7 +125,7 @@
     explorer-title = "Build Files"
     file-model = "SMC.state.contextVersion"
     loading-promises-target = "editServerModal"
-    ng-if = "!SMC.state.isMirroringDockerfile"
+    ng-if = "SMC.state.advanced !== 'isMirroringDockerfile'"
     open-items = "SMC.openItems"
     read-only = "!SMC.state.advanced"
     root-dir = "SMC.state.contextVersion.rootDir"
@@ -137,11 +137,11 @@
     file = "item"
     file-editor
     loading-promises-target = "editServerModal"
-    ng-class = "{'readonly': !SMC.state.advanced || (SMC.state.advanced && SMC.state.isMirroringDockerfile) }"
+    ng-class = "{'readonly': !SMC.state.advanced || (SMC.state.advanced && SMC.state.advanced === 'isMirroringDockerfile') }"
     ng-if = "item.state.type === 'File'"
     ng-repeat = "item in SMC.openItems.models track by item.id()"
     ng-show = "item === SMC.openItems.activeHistory.last()"
-    read-only = "!SMC.state.advanced || (SMC.state.advanced && SMC.state.isMirroringDockerfile)"
+    read-only = "!SMC.state.advanced || SMC.state.advanced === 'isMirroringDockerfile'"
     state = "SMC.state"
   )
 

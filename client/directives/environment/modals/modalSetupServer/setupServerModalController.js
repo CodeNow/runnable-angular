@@ -130,8 +130,7 @@ function SetupServerModalController(
     var fullpath = keypather.get(SMC, 'state.build.contextVersion.attrs.buildDockerfilePath');
     if (fullpath) {
       angular.extend(SMC.state, {
-        isMirroringDockerfile: true,
-        advanced: true,
+        advanced: 'isMirroringDockerfile',
         step: null
       });
       SMC.selectedTab = 'buildfiles';
@@ -179,7 +178,7 @@ function SetupServerModalController(
   $scope.$watchCollection(function () {
     return SMC.state.opts.env;
   }, function (newEnvArray, oldEnvArray) {
-    if (!SMC.state.isMirroringDockerfile && !angular.equals(newEnvArray, oldEnvArray)) {
+    if (SMC.state.advanced !== 'isMirroringDockerfile' && !angular.equals(newEnvArray, oldEnvArray)) {
       // Only update the Dockerfile if the envs have actually changed
       updateDockerfileFromState(SMC.state, true, true);
     }
@@ -381,7 +380,7 @@ function SetupServerModalController(
       return false;
     }
     if (SMC.state.advanced) {
-      if (SMC.state.isMirroringDockerfile) {
+      if (SMC.state.advanced === 'isMirroringDockerfile') {
         return !!SMC.TAB_VISIBILITY[tabName].mirror;
       }
       return !!SMC.TAB_VISIBILITY[tabName].advanced;

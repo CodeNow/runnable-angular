@@ -375,8 +375,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         expect(SMC.state.acv).to.exist;
         expect(SMC.state.contextVersion).to.exist;
         expect(SMC.state.branch).to.exist;
-        expect(SMC.state.advanced).to.equal(true);
-        expect(SMC.state.isMirroringDockerfile).to.equal(true);
+        expect(SMC.state.advanced).to.equal('isMirroringDockerfile');
         expect(SMC.state.step).to.equal(null);
         expect(SMC.state.repoSelected).to.exist;
         sinon.assert.calledOnce(fetchRepoDockerfilesStub);
@@ -836,7 +835,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
     it('should return the correct state when in advanced mode', function () {
       SMC.state.advanced = true;
-      SMC.state.isMirroringDockerfile = false;
       expect(SMC.isTabVisible('ports')).to.equal(false);
       expect(SMC.isTabVisible('translation')).to.equal(true);
       expect(SMC.isTabVisible('buildfiles')).to.equal(true);
@@ -844,8 +842,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
     });
 
     it('should return the correct state when mirroring dockerfile', function () {
-      SMC.state.advanced = true;
-      SMC.state.isMirroringDockerfile = true;
+      SMC.state.advanced = 'isMirroringDockerfile';
       expect(SMC.isTabVisible('ports')).to.equal(false);
       expect(SMC.isTabVisible('translation')).to.equal(false);
       expect(SMC.isTabVisible('buildfiles')).to.equal(true);

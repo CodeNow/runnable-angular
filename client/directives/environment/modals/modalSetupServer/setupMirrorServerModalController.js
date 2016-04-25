@@ -66,8 +66,7 @@ function SetupMirrorServerModalController(
     isNewContainer: true,
     openItems: new OpenItems(),
     state: {
-      advanced: true,
-      isMirroringDockerfile: true,
+      advanced: 'isMirroringDockerfile',
       containerFiles: [
         mainRepoContainerFile
       ],
@@ -109,8 +108,7 @@ function SetupMirrorServerModalController(
     contextVersion: build.contextVersion,
     acv: build.contextVersion.getMainAppCodeVersion(),
     branch: masterBranch,
-    repoSelected: true,
-    advanced: true
+    repoSelected: true
   });
 
   SMC.state.mainRepoContainerFile.name = repo.attrs.name;
@@ -219,7 +217,7 @@ function SetupMirrorServerModalController(
     if (!SMC._isTabVisible(tabName)) {
       return false;
     }
-    if (SMC.state.isMirroringDockerfile) {
+    if (SMC.state.advanced === 'isMirroringDockerfile') {
       return !!SMC.TAB_VISIBILITY[tabName].mirror;
     }
     return !!SMC.TAB_VISIBILITY[tabName].advanced;

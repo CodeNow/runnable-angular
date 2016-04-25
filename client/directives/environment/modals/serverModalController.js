@@ -317,8 +317,11 @@ function ServerModalController(
 
   this.resetStateContextVersion = function (contextVersion, shouldParseDockerfile) {
     var SMC = this;
-    SMC.state.advanced = keypather.get(contextVersion, 'attrs.advanced') || false;
-    SMC.state.isMirroringDockerfile = !!keypather.get(contextVersion, 'attrs.buildDockerfilePath') || false;
+    if (keypather.get(contextVersion, 'attrs.buildDockerfilePath')) {
+      SMC.state.advanced = 'isMirroringDockerfile';
+    } else {
+      SMC.state.advanced = !!keypather.get(contextVersion, 'attrs.advanced');
+    }
     SMC.state.promises.contextVersion = loadingPromises.start(
       SMC.name,
       promisify(contextVersion, 'deepCopy')()
@@ -395,8 +398,7 @@ function ServerModalController(
         buildDockerfilePath: dockerfile.path
       }))
       .then(function () {
-        state.advanced = true;
-        state.isMirroringDockerfile = true;
+        state.advanced = 'isMirroringDockerfile';
         return SMC.resetStateContextVersion(state.contextVersion, false);
       });
   };
@@ -413,7 +415,6 @@ function ServerModalController(
     })
     .then(function () {
       state.advanced = true;
-      state.isMirroringDockerfile = false;
       return SMC.resetStateContextVersion(state.contextVersion, false);
     })
     .then(function () {
@@ -495,16 +496,16 @@ function ServerModalController(
     if (newIsMirrorMode === false) {
       return SMC.disableMirrorMode()
         .then(function () {
-          return SMC.state.isMirroringDockerfile;
+          return SMC.state.advanced === 'isMirroringDockerfile';
         });
     }
     if (newIsMirrorMode === true) {
       return SMC.enableMirrorMode()
         .then(function () {
-          return SMC.state.isMirroringDockerfile;
+          return SMC.state.advanced === 'isMirroringDockerfile';
         });
     }
-    return SMC.state.isMirroringDockerfile;
+    return SMC.state.advanced === 'isMirroringDockerfile';
   };
 
   this.isTabVisible = function (tabName) {

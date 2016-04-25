@@ -503,13 +503,14 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
     });
 
     it('should return false if in mirror mode', function () {
+      SMC.state.advanced = 'isMirroringDockerfile';
       expect(SMC.isTabVisible('buildfiles')).to.equal(true);
       expect(SMC.isTabVisible('translation')).to.equal(false);
       expect(SMC.isTabVisible('files')).to.equal(false);
     });
 
     it('should return true if in advanced mode', function () {
-      SMC.state.isMirroringDockerfile = false;
+      SMC.state.advanced = true;
       expect(SMC.isTabVisible('buildfiles')).to.equal(true);
       expect(SMC.isTabVisible('translation')).to.equal(true);
       expect(SMC.isTabVisible('files')).to.equal(false);
