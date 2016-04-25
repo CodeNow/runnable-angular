@@ -62,14 +62,14 @@
                   title = "{{dependency.instance.getElasticHostname()}}"
                 ) {{dependency.instance.getElasticHostname()}}
               .grid-block.shrink.vertical.justify-center.dns-arrow →
-              .grid-block.grow.vertical.justify-center.align-start(
+              .grid-block.grow.vertical.justify-center(
                 ng-class = "{'fade-in': dependency === DCC.lastModifiedDNS}"
               )
-                .text-overflow
+                .grid-block.align-center
                   status-icon(
                     instance = "dependency.instance"
                   )
-                  span.span.strong(
+                  .strong.text-overflow.connected-branch-name(
                     title = "{{dependency.instance.getBranchName()}}"
                   ) {{dependency.instance.getBranchName()}}
 

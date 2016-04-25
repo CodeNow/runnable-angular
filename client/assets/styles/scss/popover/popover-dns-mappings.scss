@@ -87,9 +87,20 @@
   margin: 0 12px;
 }
 
-.list-repository-containers .iconnables {
-  margin: 0; // override
-  position: absolute;
-  right: 9px;
-  top: 15px;
+.list-repository-containers {
+
+  .btn-badge {
+    align-self: flex-start;
+  }
+
+  .iconnables {
+    margin: 0; // override
+    position: absolute;
+    right: 9px;
+    top: 15px;
+  }
+}
+
+.connected-branch-name {
+  padding-right: 15px;
 }
