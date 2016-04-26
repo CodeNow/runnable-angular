@@ -165,7 +165,7 @@
       }
     }
 
-    &:active .btn-icon {
+    &:active:not(.disabled) .btn-icon {
       @extend %green;
       color: $white;
     }
@@ -199,6 +199,11 @@
 
       > .small {
         color: $gray-light;
+      }
+
+      .btn-icon {
+        cursor: default;
+        opacity: .5;
       }
     }
 
