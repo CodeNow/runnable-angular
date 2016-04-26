@@ -29,7 +29,6 @@ function ServerModalController(
       keypather.get(SMC, 'state.opts.ipWhitelist') // SMC is pre-filled with a default of { enabled: false }
     );
   };
-
   this.requiresRebuild = function () {
     var SMC = this;
     return loadingPromises.count(SMC.name) > 0 || !SMC.openItems.isClean() ||
@@ -319,16 +318,7 @@ function ServerModalController(
   this.saveInstanceAndRefreshCards = function () {
     var SMC = this;
     $rootScope.$broadcast('close-popovers');
-    /**
-     * This code for `noCache` is only here because of a bug in API that doesn't
-     * currently handle `buildDockerfilePath` on failed dedupes. A failed build
-     * that is changed to mirroring would revert back to the failed container.
-     * (SAN-4087)
-     */
-    var stateCv = keypather.get(SMC, 'state.contextVersion');
-    var instanceCv = keypather.get(SMC, 'instance.contextVersion');
-    var noCache = keypather.get(stateCv, 'attrs.buildDockerfilePath') !== keypather.get(instanceCv, 'attrs.buildDockerfilePath');
-    return SMC.rebuildAndOrRedeploy(noCache)
+    return SMC.rebuildAndOrRedeploy()
       .then(function () {
         helpCards.refreshActiveCard();
         $rootScope.$broadcast('alert', {
