@@ -1,46 +1,56 @@
-//- .spinner-wrapper.spinner-md.in(
-//-   ng-include = "'spinner'"
-//- )
+.spinner-wrapper.spinner-md.in(
+  ng-if = "$root.isLoading[MC.name]"
+  ng-include = "'spinner'"
+)
 
 //- empty state
-//- .grid-content.well.in.empty
+.grid-content.well.in.empty(
+  ng-if = "!$root.isLoading[MC.name] && MC.state.repo.dockerfiles.length === 0"
+)
   p.p.text-center We couldn’t find a Dockerfile in this repository.
 
-//- .grid-content.row-xxs.list.list-bordered
-  //- //- 'thisDockerfile' should be the name of the Dockerfile (ie. 'Dockerfile.prod', or 'Dockerfile.staging') to suppot multiple dockerfiles
-  //- //- add .disabled class to the not selected item if loading
-  //- label.grid-block.list-item.row-xxs(
-    //- ng-class = "{'active': dockerfile.selection === 'thisDockerfile'}"
-  //- )
-    //- svg.grid-content.shrink.iconnables.icons-dockerfile
-      //- use(
-        //- xlink:href = "#icons-dockerfile"
-      //- )
-    //- .grid-content
-      //- .text-left Dockerfile
-      //- a.small.link(
-        //- href = "#"
-        //- target = "_blank"
-      //- ) View on GitHub
-    //- //- if there is only one, [check] by default
-    //- input.checkbox(
-      //- name = "dockerfile"
-      //- ng-model = "dockerfile.selection"
-      //- type = "radio"
-      //- value = "thisDockerfile"
-    //- )
-    //- button.btn.btn-xs.btn-icon
-      //- svg.iconnables.icons-check
-        //- use(
-          //- xlink:href = "#icons-check"
-        //- )
+.grid-content.row-xxs.list.list-bordered(
+  ng-if = "!$root.isLoading[MC.name] && MC.state.repo.dockerfiles.length > 0"
+)
+  //- 'thisDockerfile' should be the name of the Dockerfile (ie. 'Dockerfile.prod', or 'Dockerfile.staging') to suppot multiple dockerfiles
+  //- add .disabled class to the not selected item if loading
+  label.grid-block.list-item.row-xxs(
+    ng-class = "{'active': dockerfile.selection === 'thisDockerfile'}"
+    ng-disabled = "$root.isLoading[MC.name + 'SingleRepo']"
+    ng-repeat = "dockerfile in MC.state.repo.dockerfiles"
+  )
+    svg.grid-content.shrink.iconnables.icons-dockerfile
+      use(
+        xlink:href = "#icons-dockerfile"
+      )
+    .grid-content
+      .text-left Dockerfile
+      a.small.link(
+        ng-href = "{{ dockerfile.html_url }}"
+        ng-if = "dockerfile.html_url"
+        target = "_blank"
+        ng-disabled = "$root.isLoading[MC.name + 'SingleRepo']"
+      ) View on GitHub
+    //- if there is only one, [check] by default
+    input.checkbox(
+      name = "dockerfile"
+      ng-model = "MC.state.dockerfile"
+      type = "radio"
+      ng-value = "dockerfile"
+    )
+    button.btn.btn-xs.btn-icon
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )
 
 .grid-content.row-xxs.list.list-bordered(
   ng-if = "!fromTool"
 )
   //- add .disabled class to the not selected item if loading
   label.grid-block.list-item.row-xxs(
-    ng-class = "{'active': dockerfile.selection === '0'}"
+    ng-class = "{'active': MC.state.dockerfile === false}"
+    ng-disabled = "$root.isLoading[MC.name + 'SingleRepo']"
   )
     svg.grid-content.shrink.iconnables.icons-dockerfile
       use(
@@ -50,9 +60,10 @@
     //- if there is only one, [check] by default
     input.checkbox(
       name = "dockerfile"
-      ng-model = "dockerfile.selection"
+      ng-model = "MC.state.dockerfile"
       type = "radio"
-      value = "0"
+      ng-value = "false"
+      ng-disabled = "$root.isLoading[MC.name + 'SingleRepo']"
     )
     button.btn.btn-xs.btn-icon
       svg.iconnables.icons-check

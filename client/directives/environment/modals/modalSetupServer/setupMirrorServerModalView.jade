@@ -1,0 +1,10 @@
+.modal-backdrop.in
+  form.modal-dialog.modal-edit(
+    name = "SMC.serverForm"
+    ng-include = "'serverModalView'"
+    ng-class = "{\
+      'ace-active': (SMC.selectedTab === 'buildfiles' || SMC.selectedTab === 'env'),\
+      'disabled': $root.isLoading[SMC.name] || $root.isLoading[SMC.name + 'IsBuilding'],\
+      'xl': (SMC.selectedTab === 'buildfiles' || SMC.selectedTab === 'env' || SMC.selectedTab === 'logs')\
+    }"
+  )

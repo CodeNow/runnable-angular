@@ -7,6 +7,7 @@ require('app')
  * @ngInject
  */
 function fileEditor(
+  $q,
   $rootScope,
   debounce,
   errs,
@@ -56,6 +57,9 @@ function fileEditor(
 
       function fetchFile() {
         delete $scope.hasError;
+        if ($scope.readOnly && keypather.get($scope.file, 'attrs.isRemoteCopy')) {
+          return $q.when(true);
+        }
         $scope.loading = true;
         return promisify($scope.file, 'fetch')()
           .then(resetFileBodyState)

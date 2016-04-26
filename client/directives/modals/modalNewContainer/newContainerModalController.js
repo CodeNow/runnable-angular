@@ -14,6 +14,7 @@ function NewContainerModalController(
   fetchInstances,
   fetchInstancesByPod,
   fetchOwnerRepos,
+  fetchRepoDockerfiles,
   getNewForkName,
   helpCards,
   keypather,
@@ -27,9 +28,9 @@ function NewContainerModalController(
   angular.extend(NCMC, {
     name: 'newContainerModal',
     servicesActive: keypather.get(helpCard, 'id') === 'missingDependency',
-    close: close,
     state: {
       tabName: 'repos',
+      dockerfile: null,
       opts: {}
     }
   });
@@ -37,6 +38,7 @@ function NewContainerModalController(
   // Start loading repos and templates
   loading.reset(NCMC.name + 'Repos');
   loading.reset(NCMC.name + 'Templates');
+  loading.reset(NCMC.name + 'SingleRepo');
 
   // Fetch all repos from Github
   loading(NCMC.name + 'Repos', true);
@@ -93,11 +95,15 @@ function NewContainerModalController(
     });
   };
 
-  NCMC.close = close;
+  NCMC.close = function () {
+    if (NCMC.state.closed) { return; }
+    NCMC.state.closed = true;
+    return close();
+  };
 
   NCMC.addServerFromTemplate = function (sourceInstance) {
     var instanceToForkName = sourceInstance.attrs.name;
-    close();
+    NCMC.close();
     return fetchInstances()
       .then(function (instances) {
         var serverName = getNewForkName(instanceToForkName, instances, true);
@@ -127,16 +133,38 @@ function NewContainerModalController(
       .catch(errs.handler);
   };
 
-  NCMC.setRepo = function (repo) {
+  NCMC.setRepo = function (repo, goToPanelCb, panelName) {
+    repo.loading = true;
     NCMC.state.repo = repo;
-    return true;
+    loading(NCMC.name + 'SingleRepo', true);
+    var fullName = keypather.get(repo, 'attrs.full_name');
+    var defaultBranch = keypather.get(repo, 'attrs.default_branch');
+    return fetchRepoDockerfiles(fullName, defaultBranch)
+      .then(function (dockerfiles) {
+        if (dockerfiles.length === 0) {
+          return NCMC.createBuildAndGoToNewRepoModal(repo)
+            .then(function () {
+              repo.loading = false;
+              loading(NCMC.name + 'SingleRepo', false);
+            });
+        }
+        repo.dockerfiles = dockerfiles;
+        repo.loading = false;
+        loading(NCMC.name + 'SingleRepo', false);
+        NCMC.state.dockerfile = null;
+        return goToPanelCb(panelName);
+      });
   };
 
-  NCMC.selectRepo = function (repo) {
+  NCMC.createBuildAndGoToNewRepoModal = function (repo, dockerfile) {
     loading(NCMC.name + 'SingleRepo', true);
-    return createNewBuildAndFetchBranch($rootScope.dataApp.data.activeAccount, repo)
+    return createNewBuildAndFetchBranch($rootScope.dataApp.data.activeAccount, repo, keypather.get(dockerfile, 'path'))
       .then(function (repoBuildAndBranch) {
-        NCMC.newRepositoryContainer(repoBuildAndBranch);
+        if (dockerfile) {
+          NCMC.newMirrorRepositoryContainer(repoBuildAndBranch);
+        } else {
+          NCMC.newRepositoryContainer(repoBuildAndBranch);
+        }
       })
      .finally(function () {
         loading(NCMC.name + 'SingleRepo', false);
@@ -144,7 +172,8 @@ function NewContainerModalController(
   };
 
   NCMC.newRepositoryContainer = function (inputs) {
-    close();
+    if (NCMC.state.closed) { return; }
+    NCMC.close();
     ModalService.showModal({
       controller: 'SetupServerModalController',
       controllerAs: 'SMC',
@@ -156,9 +185,25 @@ function NewContainerModalController(
       }, inputs)
     });
   };
-  // TODO: Remove code when removing `dockerFileMirroing` code
+
+  NCMC.newMirrorRepositoryContainer = function (inputs) {
+    if (NCMC.state.closed) { return; }
+    NCMC.close();
+    ModalService.showModal({
+      controller: 'SetupMirrorServerModalController',
+      controllerAs: 'SMC',
+      templateUrl: 'setupMirrorServerModalView',
+      inputs: angular.extend({
+        repo: null,
+        build: null,
+        masterBranch: null
+      }, inputs)
+    });
+  };
+  // TODO: Remove code when removing `dockerFileMirroring` code
   NCMC.newTemplateContainer = function () {
-    close();
+    if (NCMC.state.closed) { return; }
+    NCMC.close();
     ModalService.showModal({
       controller: 'SetupTemplateModalController',
       controllerAs: 'STMC',

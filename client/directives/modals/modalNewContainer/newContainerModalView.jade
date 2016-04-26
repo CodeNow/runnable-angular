@@ -8,7 +8,7 @@
     header.modal-header
       h1.modal-heading New Container
       svg.iconnables.icons-close(
-        ng-click = "NCMC.close()"
+        ng-click = "MC.close()"
       )
         use(
           xlink:href = "#icons-close"
@@ -16,7 +16,7 @@
 
     .grid-block.modal-body
       .grid-block.vertical.btn.btn-huge.white(
-        ng-click = "NCMC.newRepositoryContainer()"
+        ng-click = "MC.newRepositoryContainer()"
       )
         svg.iconnables
           use(
@@ -25,8 +25,8 @@
         | Repository
         small.small Create a container for a repository on GitHub
       .grid-block.vertical.btn.btn-huge.white(
-        ng-click = "NCMC.newTemplateContainer()"
-        ng-class = "{'btn-hint': NCMC.servicesActive}"
+        ng-click = "MC.newTemplateContainer()"
+        ng-class = "{ 'btn-hint': MC.servicesActive }"
       )
         svg.iconnables
           use(
@@ -50,8 +50,8 @@
     )
       header.modal-header.grid-block.justify-center.row-xxs
         .grid-block.shrink.btn(
-          ng-class = "{'active': NCMC.state.tabName === 'repos'}"
-          ng-click = "NCMC.changeTab('repos')"
+          ng-class = "{'active': MC.state.tabName === 'repos'}"
+          ng-click = "MC.changeTab('repos')"
         )
           svg.iconnables.icons-repository.grid-block.shrink
             use(
@@ -60,11 +60,13 @@
           .btn-text.grid-block Create from a repository
         //- disable this button when loading a repository
         .grid-block.shrink.btn(
+          ng-disabled = "$root.isLoading[MC.name + 'SingleRepo']"
           ng-class = "{\
-            'active': NCMC.state.tabName === 'services',\
-            'btn-hint': NCMC.servicesActive\
+            'active': MC.state.tabName === 'services', \
+            'btn-hint': MC.servicesActive, \
+            'disabled': $root.isLoading[MC.name + 'SingleRepo'] \
           }"
-          ng-click = "NCMC.changeTab('services')"
+          ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && MC.changeTab('services')"
         )
           svg.iconnables.icons-template.grid-block.shrink
             use(
@@ -73,19 +75,19 @@
           .btn-text.grid-block.vertical.text-left Create from a template
             small.small For services and databases
         svg.iconnables.icons-close(
-          ng-click = "NCMC.close()"
+          ng-click = "MC.close()"
         )
           use(
             xlink:href = "#icons-close"
           )
 
       .modal-body(
-        ng-if = "NCMC.state.tabName === 'repos'"
+        ng-if = "MC.state.tabName === 'repos'"
         ng-include = "'newRepositorySelectionView'"
       )
 
       .modal-body(
-        ng-if = "NCMC.state.tabName === 'services'"
+        ng-if = "MC.state.tabName === 'services'"
         ng-include = "'templateSelectSectionView'"
       )
 
@@ -94,41 +96,40 @@
     )
       header.modal-header
         svg.iconnables.icons-arrow-backward(
-          ng-click = "goToPanel('containerSelection', 'back')"
+          ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && goToPanel('containerSelection', 'back')"
         )
           use(
             xlink:href = "#icons-arrow-down"
           )
         h1.modal-heading Choose Configuration
         svg.iconnables.icons-close(
-          ng-click = "NCMC.close()"
+          ng-click = "MC.close()"
         )
           use(
             xlink:href = "#icons-close"
           )
 
       .grid-block.vertical.modal-body(
-        ng-init = "dockerfile.selection = null"
         ng-include = "'mirrorDockerfileView'"
       )
 
       .modal-footer.clearfix
         button.btn.btn-md.white.float-left(
-          ng-click = "NCMC.close()"
+          ng-click = "MC.close()"
         ) Cancel
         //- add the 'in' class to .btn-spinner when spinning!
         button.btn.btn-md.green.float-right.btn-spinner(
-          ng-disabled = "$root.isLoading.newContainerModalSingleRepo"
-          ng-click = "NCMC.selectRepo(NCMC.state.repo)"
+          ng-disabled = "$root.isLoading[MC.name + 'SingleRepo'] || MC.state.dockerfile === null"
+          ng-click = "MC.createBuildAndGoToNewRepoModal(MC.state.repo, MC.state.dockerfile)"
           ng-class = "{ \
-            in: $root.isLoading.newContainerModalSingleRepo \
+            in: $root.isLoading[MC.name + 'SingleRepo'] \
           }"
         )
           .spinner-wrapper.spinner-white.spinner-sm.in(
             ng-include = "'spinner'"
-            ng-if = "$root.isLoading.newContainerModalSingleRepo"
+            ng-if = "$root.isLoading[MC.name + 'SingleRepo']"
           )
-          | Next Step{{dockerfile.selection === '0' ? ': Configure' : ': Review'}}
+          | Next Step{{MC.state.dockerfile === false ? ': Configure' : ': Review'}}
 
   //-
   //- end $root.featureFlags.dockerfileMirroring

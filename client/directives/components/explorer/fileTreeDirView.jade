@@ -58,7 +58,7 @@ li.folder(
     li.file(
       ng-class = "{\
         active: acv.editing,\
-        disabled: !acv.id() || readOnly\
+        disabled: !acv.id() || readOnly || (acv.id() === fileModel.getMainAppCodeVersion().id()) \
       }"
       ng-repeat = "acv in fileModel.appCodeVersions.models | orderBy:'attrs.repo'"
       pop-over
@@ -71,9 +71,10 @@ li.folder(
       a(
         ng-class = "{\
           active: acv.editing,\
-          disabled: !acv.id()\
+          disabled: !acv.id() || acv.id() === fileModel.getMainAppCodeVersion().id()\
         }"
         ng-click = "popoverFileExplorerRepository.actions.editRepo(acv)"
+        ng-disabled = "acv.id() === fileModel.getMainAppCodeVersion().id()"
         pop-over
         pop-over-actions = "popoverFilesRepositoryCommitToggle.actions"
         pop-over-active = "acv.editing"

@@ -23,6 +23,7 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
   var showModalStub;
   var fetchOwnerRepoStub;
   var fetchInstancesStub;
+  var fetchRepoDockerfilesStub;
   var copySourceInstanceStub;
 
   // Mocked Values
@@ -59,6 +60,10 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
       $provide.factory('copySourceInstance', function ($q) {
         copySourceInstanceStub = sinon.stub().returns($q.when(mockSourceInstance));
         return copySourceInstanceStub;
+      });
+      $provide.factory('fetchRepoDockerfiles', function ($q) {
+        fetchRepoDockerfilesStub = sinon.stub().returns($q.when([]));
+        return fetchRepoDockerfilesStub;
       });
       $provide.factory('createNewBuildAndFetchBranch', function ($q) {
         repoBuildAndBranch = {
@@ -185,12 +190,12 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
   });
 
   describe('Methods', function () {
-    describe('selectRepo', function () {
+    describe('createBuildAndGoToNewRepoModal', function () {
       it('should create a build and fetch the branch', function () {
         var repo = {};
         sinon.stub(NCMC, 'newRepositoryContainer');
 
-        NCMC.selectRepo(repo);
+        NCMC.createBuildAndGoToNewRepoModal(repo);
         $scope.$digest();
         sinon.assert.calledOnce(createNewBuildAndFetchBranch);
         sinon.assert.calledWith(createNewBuildAndFetchBranch, activeAccount, repo);
@@ -245,6 +250,43 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
         NCMC.setRepo(repo2);
         $scope.$digest();
         expect(NCMC.state.repo).to.equal(repo2);
+      });
+
+      it('should go to the modal if there are no dockerfiles', function () {
+        sinon.stub(NCMC, 'createBuildAndGoToNewRepoModal').returns($q.when(true));
+        var repo = {
+          attrs: {
+            full_name: 'Hello'
+          }
+        };
+        NCMC.setRepo(repo);
+        $scope.$digest();
+        expect(NCMC.state.repo).to.equal(repo);
+        sinon.assert.calledOnce(fetchRepoDockerfilesStub);
+        sinon.assert.calledWith(fetchRepoDockerfilesStub, 'Hello');
+        sinon.assert.calledOnce(NCMC.createBuildAndGoToNewRepoModal);
+        expect(repo.dockerfiles).to.equal(undefined);
+      });
+
+      it('should call the callback if there are dockerfiles returns', function () {
+        fetchRepoDockerfilesStub.returns($q.when([{}]));
+        sinon.stub(NCMC, 'createBuildAndGoToNewRepoModal').returns($q.when(true));
+
+        var repo = {
+          attrs: {
+            full_name: 'Hello'
+          }
+        };
+        var stub = sinon.stub();
+        NCMC.setRepo(repo, stub, 'param');
+        $scope.$digest();
+        expect(NCMC.state.repo).to.equal(repo);
+        sinon.assert.calledOnce(fetchRepoDockerfilesStub);
+        sinon.assert.calledWith(fetchRepoDockerfilesStub, 'Hello');
+        sinon.assert.notCalled(NCMC.createBuildAndGoToNewRepoModal);
+        expect(repo.dockerfiles).to.have.length(1);
+        sinon.assert.calledOnce(stub);
+        sinon.assert.calledWith(stub, 'param');
       });
     });
 

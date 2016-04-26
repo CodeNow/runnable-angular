@@ -8,17 +8,18 @@ function ServerModalController(
   $q,
   $rootScope,
   $scope,
+  createBuildFromContextVersionId,
   errs,
   eventTracking,
-  helpCards,
-  parseDockerfileForCardInfoFromInstance,
-  createBuildFromContextVersionId,
-  keypather,
+  fetchDockerfileForContextVersion,
   hasKeypaths,
+  helpCards,
+  keypather,
+  ModalService,
   loading,
   loadingPromises,
+  parseDockerfileForCardInfoFromInstance,
   promisify,
-  ModalService,
   updateDockerfileFromState
 ) {
   this.requiresRedeploy = function () {
@@ -38,7 +39,8 @@ function ServerModalController(
   };
 
   this.openDockerfile = function (state, openItems) {
-    return promisify(state.contextVersion, 'fetchFile')('/Dockerfile')
+    var SMC = this;
+    return fetchDockerfileForContextVersion(state.contextVersion)
       .then(function (dockerfile) {
         if (state.dockerfile) {
           openItems.remove(state.dockerfile);
@@ -47,6 +49,7 @@ function ServerModalController(
           openItems.add(dockerfile);
         }
         state.dockerfile = dockerfile;
+        return dockerfile;
       });
   };
 
@@ -252,7 +255,11 @@ function ServerModalController(
 
   this.resetStateContextVersion = function (contextVersion, shouldParseDockerfile) {
     var SMC = this;
-    SMC.state.advanced = keypather.get(contextVersion, 'attrs.advanced') || false;
+    if (keypather.get(contextVersion, 'attrs.buildDockerfilePath')) {
+      SMC.state.advanced = 'isMirroringDockerfile';
+    } else {
+      SMC.state.advanced = !!keypather.get(contextVersion, 'attrs.advanced');
+    }
     SMC.state.promises.contextVersion = loadingPromises.start(
       SMC.name,
       promisify(contextVersion, 'deepCopy')()
@@ -267,7 +274,7 @@ function ServerModalController(
     return SMC.state.promises.contextVersion
       .then(function (contextVersion) {
         // Only parse the Dockerfile info when no error has occurred
-        if (shouldParseDockerfile  && !SMC.state.advanced) {
+        if (shouldParseDockerfile && !SMC.state.advanced) {
           return parseDockerfileForCardInfoFromInstance(SMC.instance, contextVersion)
             .then(function (data) {
               angular.extend(SMC, data);
@@ -322,6 +329,145 @@ function ServerModalController(
       });
   };
 
+  this.switchToMirrorMode = function (state, openItems, dockerfile) {
+    var SMC = this;
+    return loadingPromises.add(SMC.name, promisify(state.contextVersion, 'update')({
+        advanced: true,
+        buildDockerfilePath: dockerfile.path
+      }))
+      .then(function () {
+        state.advanced = 'isMirroringDockerfile';
+        return SMC.resetStateContextVersion(state.contextVersion, false);
+      });
+  };
+
+  this.switchToAdvancedMode = function (state, openItems) {
+    var SMC = this;
+    var dockerfileBody = state.dockerfile.attrs.body;
+    return loadingPromises.add(SMC.name, promisify(state.contextVersion, 'update')({
+      advanced: true,
+      buildDockerfilePath: null
+    }))
+    .then(function () {
+      return SMC.openDockerfile(state, openItems);
+    })
+    .then(function () {
+      state.advanced = true;
+      return SMC.resetStateContextVersion(state.contextVersion, false);
+    })
+    .then(function () {
+      return promisify(state.dockerfile, 'update')({
+        json: {
+          body: dockerfileBody
+        }
+      });
+    });
+  };
+
+  this.enableMirrorMode = function () {
+    var SMC = this;
+    var branchName = keypather.get(SMC, 'state.contextVersion.getMainAppCodeVersion().attrs.branch');
+    return ModalService.showModal({
+      controller: 'ChooseDockerfileModalController',
+      controllerAs: 'MC', // Shared
+      templateUrl: 'changeMirrorView',
+      inputs: {
+        repo: SMC.state.repo,
+        branchName: branchName
+      }
+    })
+      .then(function (modal) {
+        return modal.close;
+      })
+      .then(function (dockerfile) {
+        if (dockerfile) {
+          loading(SMC.name, true);
+          return SMC.switchToMirrorMode(SMC.state, SMC.openItems, dockerfile)
+           .catch(errs.handler)
+            .finally(function () {
+              loading(SMC.name, false);
+            });
+        }
+        return;
+      });
+  };
+
+  this.disableMirrorMode = function () {
+    var SMC = this;
+    loading(SMC.name, true);
+    return SMC.switchToAdvancedMode(SMC.state, SMC.openItems)
+      .catch(errs.handler)
+      .finally(function () {
+        loading(SMC.name, false);
+      });
+  };
+
+  this.showAdvancedModeConfirm = function () {
+    var SMC = this;
+    return ModalService.showModal({
+      controller: 'ConfirmationModalController',
+      controllerAs: 'CMC', // Shared
+      templateUrl: 'confirmSetupAdvancedModalView'
+    })
+      .then(function (modal) {
+        return modal.close;
+      })
+      .then(function (confirmed) {
+        if (confirmed) {
+          loading(SMC.name, true);
+          return SMC.switchToAdvancedMode(SMC.state, SMC.openItems)
+            .catch(errs.handler)
+            .finally(function () {
+              loading(SMC.name, false);
+            });
+        }
+        return;
+      });
+  };
+
+  /*!
+   * Getter/Setter for whether instance is mirroring dockerfile
+   * @returns {Promise|Boolean}
+   */
+  this.switchBetweenAdvancedAndMirroring = function (newIsMirrorMode) {
+    var SMC = this;
+    if (newIsMirrorMode === false) {
+      return SMC.disableMirrorMode()
+        .then(function () {
+          return SMC.state.advanced === 'isMirroringDockerfile';
+        });
+    }
+    if (newIsMirrorMode === true) {
+      return SMC.enableMirrorMode()
+        .then(function () {
+          return SMC.state.advanced === 'isMirroringDockerfile';
+        });
+    }
+    return SMC.state.advanced === 'isMirroringDockerfile';
+  };
+
+  this.getDisplayName = function () {
+    var SMC = this;
+    if (SMC.instance) {
+      return SMC.instance.getDisplayName();
+    }
+    return SMC.state.repo.attrs.name;
+  };
+
+  this.getElasticHostname = function () {
+    var SMC = this;
+    if (keypather.get(SMC, 'state.repo.attrs')) {
+      // NOTE: Is SMC the best way to get the hostname?
+      var repo = SMC.state.repo;
+      var repoName = repo.attrs.name;
+      var repoOwner = repo.attrs.owner.login.toLowerCase();
+      var domain = SMC.state.repo.opts.userContentDomain;
+      var hostname = repoName + '-staging-' + repoOwner + '.' + domain;
+      return hostname;
+    }
+    return '';
+  };
+
   /**
    * Updates the current instance
    * @returns {Promise} Resolves when the instance update has been started, and the cv has been
@@ -351,7 +497,7 @@ function ServerModalController(
         tabname = firstRequiredError.split('.')[0];
       }
     }
-    if (!SMC.state.advanced) {
+    if (!SMC.state.advanced && !SMC.state.isNonRepoContainer) {
       if ($filter('selectedStackInvalid')(SMC.state.selectedStack)) {
         tabname = 'repository';
       } else if (!SMC.state.startCommand) {

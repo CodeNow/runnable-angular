@@ -56,7 +56,7 @@ function EnvironmentController(
     newContainer: function () {
       return ModalService.showModal({
         controller: 'NewContainerModalController',
-        controllerAs: 'NCMC',
+        controllerAs: 'MC', // Shared
         templateUrl: 'newContainerModalView'
       });
     },

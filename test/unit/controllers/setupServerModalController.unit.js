@@ -11,6 +11,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   var $q;
   var featureFlags;
   var MockFetch = require('../fixtures/mockFetch');
+  var mockUserFetch = new (require('../fixtures/mockFetch'))();
   var apiMocks = require('../apiMocks/index');
   var apiClientMockFactory = require('../../unit/apiMocks/apiClientMockFactory');
   var VersionFileModel = require('@runnable/api-client/lib/models/context/version/file');
@@ -19,17 +20,32 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
   var stacks = angular.copy(apiMocks.stackInfo);
   var dockerfile = {
+    sha: '123',
+    content: btoa('Hello World'),
     state: {
       type: 'File',
       body: angular.copy(apiMocks.files.dockerfile)
     },
     attrs: {
-      body: angular.copy(apiMocks.files.dockerfile)
+      body: angular.copy(apiMocks.files.dockerfile),
+      sha: '123',
+      content: btoa('Hello World')
+    }
+  };
+  var org1 = {
+    attrs: angular.copy(apiMocks.user),
+    oauthName: function () {
+      return 'org1';
+    },
+    oauthId: function () {
+      return 'org1';
     }
   };
   var createNewBuildMock;
 
   var fetchOwnerRepoStub;
+  var fetchUserStub;
+  var fetchRepoDockerfilesStub;
   var fetchStackAnalysisMock;
   var updateDockerfileFromStateStub;
   var populateDockerfileStub;
@@ -38,11 +54,8 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   var closeSpy;
   var showModalStub;
   var closeModalStub;
-
   var createAndBuildNewContainerMock;
-
   var helpCardsMock;
-
 
   var branches;
   var repo;
@@ -76,6 +89,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       $provide.value('errs', errsMock);
       $provide.factory('fetchStackAnalysis', fetchStackAnalysisMock.fetch());
       $provide.value('helpCards', helpCardsMock);
+      $provide.factory('fetchUser', mockUserFetch.autoTrigger(org1));
       $provide.factory('fetchInstancesByPod', function ($q) {
         fetchInstancesByPodStub = sinon.stub().returns($q.when(instances));
         return fetchInstancesByPodStub;
@@ -83,6 +97,10 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       $provide.factory('updateDockerfileFromState', function ($q) {
         updateDockerfileFromStateStub = sinon.stub().returns($q.when(dockerfile));
         return updateDockerfileFromStateStub;
+      });
+      $provide.factory('fetchRepoDockerfiles', function ($q) {
+        fetchRepoDockerfilesStub = sinon.stub().returns($q.when([dockerfile]));
+        return fetchRepoDockerfilesStub;
       });
       $provide.factory('createAndBuildNewContainer', createAndBuildNewContainerMock.fetch());
       $provide.factory('repositoryFormDirective', function () {
@@ -238,6 +256,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
     mainACV = {
       mainACV: true,
       attrs: {
+        repo: 'HelloWorld',
         branch: 'branchName'
       },
       update: sinon.spy(function (opts, cb) {
@@ -250,6 +269,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
     newBuild = {
       contextVersion: {
         id: 'foo',
+        attrs: {},
         getMainAppCodeVersion: sinon.stub().returns(mainACV),
         appCodeVersions: {
           create: sinon.stub().callsArg(1)
@@ -331,6 +351,49 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         expect(SMC.state.repoSelected).to.exist;
       });
     });
+
+    describe('Init with passed-in values and dockerfile', function () {
+      beforeEach(function (done) {
+        initializeValues();
+        newBuild.contextVersion.attrs.buildDockerfilePath = '/Dockerfile';
+        newBuild.contextVersion.newFile = sinon.stub().returns(dockerfile);
+        initState({
+          repo: repo,
+          build: newBuild,
+          masterBranch: branch
+        }, done);
+      });
+
+      it('should set the dockerfile', function () {
+        SMC.openItems.add = sinon.stub();
+
+        $scope.$digest();
+        sinon.assert.notCalled($rootScope.dataApp.data.activeAccount.oauthName);
+        sinon.assert.notCalled(fetchOwnerRepoStub);
+        expect(SMC.state.repo).to.exist;
+        expect(SMC.state.build).to.exist;
+        expect(SMC.state.acv).to.exist;
+        expect(SMC.state.contextVersion).to.exist;
+        expect(SMC.state.branch).to.exist;
+        expect(SMC.state.advanced).to.equal('isMirroringDockerfile');
+        expect(SMC.state.step).to.equal(null);
+        expect(SMC.state.repoSelected).to.exist;
+        sinon.assert.calledOnce(fetchRepoDockerfilesStub);
+        sinon.assert.calledWith(fetchRepoDockerfilesStub, mainACV.attrs.repo, mainACV.attrs.branch);
+        sinon.assert.calledOnce(SMC.state.contextVersion.newFile);
+        sinon.assert.calledWith(SMC.state.contextVersion.newFile, {
+          _id: '123',
+          id: '123',
+          body: 'Hello World',
+          isRemoteCopy: true,
+          name: 'Dockerfile',
+          path: '/'
+        });
+        sinon.assert.calledOnce(SMC.openItems.add);
+        sinon.assert.calledWith(SMC.openItems.add, dockerfile);
+      });
+    });
+
 
     describe('Init with fetched values', function () {
       beforeEach(initState.bind(null, {}));
@@ -533,26 +596,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       });
     });
 
-    describe('getElasticHostname', function () {
-      it('should get the elastic hostname of a selected repo', function () {
-        createNewBuildMock.returns(newBuild);
-        SMC.state.selectedStack = {
-          key: 'ruby_ror'
-        };
-        SMC.selectRepo(repo);
-        $scope.$digest();
-        fetchStackAnalysisMock.triggerPromise(analysisMockData);
-        $scope.$digest();
-        var generatedElasticHostname = SMC.getElasticHostname();
-        var manualEleasticHostname = repo.attrs.name + '-staging-' + repo.attrs.owner.login + '.' + repo.opts.userContentDomain;
-        expect(generatedElasticHostname).to.equal(manualEleasticHostname);
-      });
-
-      it('should return an empty string if there are no repo attrs', function () {
-        expect(SMC.getElasticHostname()).to.equal('');
-      });
-    });
-
     describe('Ports', function () {
       it('should update the dockerfile form state when ports are updated', function () {
         updateDockerfileFromStateStub.reset();
@@ -562,6 +605,42 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.calledOnce(updateDockerfileFromStateStub);
       });
+    });
+  });
+
+  describe('rebuild', function () {
+    var cv = {};
+    beforeEach(initState.bind(null, {}));
+    beforeEach(function () {
+      keypather.set(SMC, 'instance.contextVersion', cv);
+      SMC.rebuildAndOrRedeploy = sinon.stub().returns($q.when(true));
+      SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
+    });
+    it('should rebuildAndOrRedeploy', function () {
+      $scope.$digest();
+      SMC.rebuild(true, true);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.rebuildAndOrRedeploy);
+      sinon.assert.calledWith(SMC.rebuildAndOrRedeploy, true, true);
+    });
+
+    it('should reset the context version', function () {
+      $scope.$digest();
+      SMC.rebuild(true, true);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.resetStateContextVersion);
+      sinon.assert.calledWith(SMC.resetStateContextVersion, cv, true);
+    });
+
+    it('should handle errors', function () {
+      SMC.rebuildAndOrRedeploy.returns($q.reject(new Error('Hello')));
+
+      $scope.$digest();
+      SMC.rebuild(true, true);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.rebuildAndOrRedeploy);
+      sinon.assert.notCalled(SMC.resetStateContextVersion);
+      sinon.assert.calledOnce(errsMock.handler);
     });
   });
 
@@ -615,6 +694,25 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       $scope.$digest();
 
       expect(SMC.selectedTab).to.equal('logs');
+    });
+
+    it('should handle errors', function () {
+      var error = new Error('Hello World');
+      sinon.stub(SMC, 'createServer').returns($q.reject(error));
+
+      SMC.goToNextStep(); // Step #2
+      $scope.$digest();
+
+      SMC.goToNextStep(); // Step #3
+      $scope.$digest();
+
+      SMC.goToNextStep(); // Step #4
+      $scope.$digest();
+
+      sinon.assert.calledOnce(errsMock.handler);
+      sinon.assert.calledWith(errsMock.handler, error);
+      expect(SMC.selectedTab).to.equal('default');
+      expect(SMC.state.step).to.equal(3);
     });
 
     it('should not go to the `commands` tab if the stack and the version are not selected', function () {
@@ -724,7 +822,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
     beforeEach(initState.bind(null, {}));
 
     it('should return false for an undefined tab', function () {
-      console.log('isTabVisible', Object.keys(SMC));
       expect(SMC.isTabVisible('thingthatdoesntexist')).to.equal(false);
       expect(SMC.isTabVisible('thiasdfng')).to.equal(false);
     });
@@ -740,6 +837,15 @@ describe('setupServerModalController'.bold.underline.blue, function () {
     it('should return the correct state when in advanced mode', function () {
       SMC.state.advanced = true;
       expect(SMC.isTabVisible('ports')).to.equal(false);
+      expect(SMC.isTabVisible('translation')).to.equal(true);
+      expect(SMC.isTabVisible('buildfiles')).to.equal(true);
+      expect(SMC.isTabVisible('files')).to.equal(false);
+    });
+
+    it('should return the correct state when mirroring dockerfile', function () {
+      SMC.state.advanced = 'isMirroringDockerfile';
+      expect(SMC.isTabVisible('ports')).to.equal(false);
+      expect(SMC.isTabVisible('translation')).to.equal(false);
       expect(SMC.isTabVisible('buildfiles')).to.equal(true);
       expect(SMC.isTabVisible('files')).to.equal(false);
     });
@@ -761,6 +867,100 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       expect(SMC.isTabVisible('buildfiles')).to.equal(true);
       expect(SMC.isTabVisible('files')).to.equal(true);
       expect(SMC.isTabVisible('logs')).to.equal(true);
+    });
+  });
+
+  describe('needsToBeDirtySaved', function () {
+    beforeEach(initState.bind(null, {}));
+
+    it('should return true if there is an instance', function () {
+      SMC.instance = {};
+      expect(SMC.needsToBeDirtySaved()).to.equal(true);
+    });
+
+    it('should return false if there is no instance', function () {
+      SMC.instance = null;
+      expect(SMC.needsToBeDirtySaved()).to.equal(false);
+    });
+  });
+
+  describe('showStackSelector', function () {
+    beforeEach(initState.bind(null, {}));
+
+    it('should return true if there is an instance', function () {
+      SMC.state.advanced = true;
+      expect(SMC.showStackSelector()).to.equal(false);
+    });
+
+    it('should return false if there is no instance', function () {
+      SMC.state.advanced = false;
+      expect(SMC.showStackSelector()).to.equal(true);
+    });
+  });
+
+  describe('isPrimaryButtonDisabled', function () {
+    beforeEach(initState.bind(null, {}));
+
+    it('should return fasle if form is valid', function () {
+      SMC.state.selectedStack = {
+        selectedVersion: 'dfasdfsd'
+      };
+      SMC.state.step = 3;
+      keypather.set(SMC, 'repositoryForm.$invalid', false);
+
+      expect(SMC.isPrimaryButtonDisabled()).to.equal(false);
+    });
+
+    it('should return true if form is invalid and is on step two', function () {
+      SMC.state.step = 2;
+      keypather.set(SMC, 'repositoryForm.$invalid', true);
+
+      expect(SMC.isPrimaryButtonDisabled()).to.equal(true);
+    });
+
+    it('should return true if selected stack is invalid', function () {
+      SMC.state.selectedStack = null;
+      SMC.state.step = 1;
+
+      expect(SMC.isPrimaryButtonDisabled()).to.equal(true);
+    });
+  });
+
+  describe('$on resetStateContextVersion', function () {
+    beforeEach(initState.bind(null, {}));
+    beforeEach(function () {
+      SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
+    });
+
+    it('should load if it should show the spinner', function () {
+      $scope.$digest();
+      $scope.$emit('resetStateContextVersion', SMC.state.contextVersion, true);
+      expect($rootScope.isLoading.setupServerModal).to.equal(true);
+      $scope.$digest();
+      $scope.$digest();
+      expect($rootScope.isLoading.setupServerModal).to.equal(false);
+    });
+
+    it('should not load if it should show not the spinner', function () {
+      $scope.$emit('resetStateContextVersion', SMC.state.contextVersion, false);
+      $scope.$digest();
+      expect($rootScope.isLoading.setupServerModal).to.equal(false);
+    });
+
+    it('should reset the context version', function () {
+      $scope.$emit('resetStateContextVersion', SMC.state.contextVersion, true);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.resetStateContextVersion);
+      sinon.assert.notCalled(errsMock.handler);
+    });
+
+    it('should handle errors', function () {
+      SMC.resetStateContextVersion.returns($q.reject(true));
+
+      $scope.$emit('resetStateContextVersion', SMC.state.contextVersion, true);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.resetStateContextVersion);
+      sinon.assert.calledOnce(errsMock.handler);
     });
   });
 });

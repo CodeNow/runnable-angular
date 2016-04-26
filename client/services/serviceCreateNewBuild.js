@@ -10,7 +10,9 @@ function createNewBuild(
   $q,
   uuid
 ) {
-  return function (activeAccount, context, infraCodeVersionId, appCodeVersions) {
+  return function (activeAccount, opts) {
+    opts = opts || {};
+    var dockerfilePath = opts.dockerfilePath;
     var thisUser, version;
     function createContext(user) {
       return promisify(user, 'createContext')({
@@ -22,22 +24,19 @@ function createNewBuild(
     }
 
     function createVersion(context) {
-      var body = infraCodeVersionId ? {
-        infraCodeVersion: infraCodeVersionId
-      } : {};
-      return promisify(context, 'createVersion')(body)
-        .then(function (newContextVersion) {
-          version = newContextVersion;
-          if (appCodeVersions) {
-            return $q.all(appCodeVersions.map(function (acvState) {
-              return promisify(version.appCodeVersions, 'create')(acvState);
-            }));
+      return promisify(context, 'createVersion')()
+        .then(function (version) {
+          if (dockerfilePath) {
+            return promisify(version, 'update')({
+              advanced: true,
+              buildDockerfilePath: dockerfilePath
+            });
           }
           return version;
         });
     }
 
-    function createBuild() {
+    function createBuild(version) {
       return promisify(thisUser, 'createBuild')({
         contextVersions: [version.id()],
         owner: {
@@ -54,7 +53,7 @@ function createNewBuild(
     return fetchUser()
       .then(function (user) {
         thisUser = user;
-        return context || createContext(user);
+        return createContext(user);
       })
       .then(createVersion)
       .then(createBuild);
@@ -63,12 +62,13 @@ function createNewBuild(
 }
 
 function createNewBuildAndFetchBranch(
+  createDockerfileFromSource,
   createNewBuild,
   errs,
   fetchStackData,
   promisify
 )  {
-  return function (activeAccount, repo) {
+  return function (activeAccount, repo, dockerfilePath) {
     var inputs = {
       repo: repo,
       masterBranch: null,
@@ -76,11 +76,13 @@ function createNewBuildAndFetchBranch(
     };
     return fetchStackData(repo)
       .then(function () {
-        return createNewBuild(activeAccount);
+        return createNewBuild(activeAccount, { dockerfilePath: dockerfilePath });
       })
       .then(function (buildWithVersion) {
         inputs.build = buildWithVersion;
-        return buildWithVersion.contextVersion;
+        if (!inputs.build.contextVersion.source) {
+          return createDockerfileFromSource(inputs.build.contextVersion, 'blank');
+        }
       })
       .then(function () {
         return promisify(repo, 'fetchBranch')(repo.attrs.default_branch);

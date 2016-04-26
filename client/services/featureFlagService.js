@@ -12,6 +12,7 @@ function featureFlags(
     cardStatus: false,
     connections: false,
     dockerfileMirroring: false,
+    dockerfileMirroringMultiple: false,
     editAnyInstance: false,
     emptyFolder: false, // shows empty folder markup
     fullScreen: false,  // toggles full screen

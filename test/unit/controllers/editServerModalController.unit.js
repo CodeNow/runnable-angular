@@ -4,13 +4,13 @@
 describe('editServerModalController'.bold.underline.blue, function () {
   var SMC;
   var ctx;
+  var $q;
   var $timeout;
   var $scope;
   var $controller;
   var $rootScope;
   var keypather;
   var loadingService;
-  var $q;
 
   var apiClientMockFactory = require('../../unit/apiMocks/apiClientMockFactory');
   var sourceMocks = runnable.newContexts(require('../../unit/apiMocks/sourceContexts'), {noStore: true, warn: false});
@@ -39,6 +39,10 @@ describe('editServerModalController'.bold.underline.blue, function () {
   });
 
   function setup(scope) {
+    scope  = scope || {};
+    scope = angular.extend({
+      currentModel: ctx.instance
+    }, scope);
 
     ctx.fakeOrg1 = {
       attrs: angular.copy(apiMocks.user),
@@ -291,6 +295,8 @@ describe('editServerModalController'.bold.underline.blue, function () {
         }
       }
     ];
+    ctx.contextVersion.getMainAppCodeVersion = sinon.stub()
+      .returns(ctx.contextVersion.appCodeVersions.models[0]);
     ctx.newContextVersion = apiClientMockFactory.contextVersion(
       runnable,
       apiMocks.contextVersions.setup
@@ -301,6 +307,8 @@ describe('editServerModalController'.bold.underline.blue, function () {
         asdfasDF: 2
       }
     }];
+    ctx.newContextVersion.getMainAppCodeVersion = sinon.stub()
+      .returns(ctx.newContextVersion.appCodeVersions.models[0]);
     ctx.rollbackContextVersion = apiClientMockFactory.contextVersion(
       runnable,
       apiMocks.contextVersions.angular
@@ -941,6 +949,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         },
         nonRepoAdvanced: function () {
           ctx.instance.contextVersion.appCodeVersions.models = [];
+          ctx.instance.contextVersion.getMainAppCodeVersion.returns(false);
           ctx.instance.contextVersion.attrs.advanced = true;
           setup({
             currentModel: ctx.instance
@@ -962,7 +971,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         'buildfiles', 'env', 'logs'
       ],
       advanced: [
-        'buildfiles', 'env', 'translation', 'logs'
+        'repository', 'buildfiles', 'env', 'translation', 'logs'
       ]
     };
     Object.keys(testingObject).forEach(function (key) {
@@ -970,7 +979,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
         testingSetups[key]();
         $scope.$digest();
         allTabs.forEach(function (tab) {
-          expect(testingObject[key].indexOf(tab) > -1, key + ' -> tab: ' + tab)
+          expect(testingObject[key].includes(tab), key + ' -> tab: ' + tab)
               .to.equal(SMC.isTabVisible(tab));
         });
       });
@@ -1344,7 +1353,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
     });
 
     it('should return false for an undefined tab', function () {
-      console.log('isTabVisible', Object.keys(SMC));
       expect(SMC.isTabVisible('thingthatdoesntexist')).to.equal(false);
       expect(SMC.isTabVisible('thiasdfng')).to.equal(false);
     });
@@ -1375,13 +1383,131 @@ describe('editServerModalController'.bold.underline.blue, function () {
 
     it('should all return false for some if dealing with a non-repo container', function () {
       SMC.state.advanced = false;
-      sinon.stub(SMC.instance.contextVersion, 'getMainAppCodeVersion').returns(false);
+      SMC.instance.contextVersion.getMainAppCodeVersion.returns(false);
       expect(SMC.isTabVisible('repository')).to.equal(false);
       expect(SMC.isTabVisible('ports')).to.equal(false);
       expect(SMC.isTabVisible('buildfiles')).to.equal(true);
       expect(SMC.isTabVisible('files')).to.equal(false);
       expect(SMC.isTabVisible('logs')).to.equal(true);
     });
+  });
 
+  describe('needsToBeDirtySaved', function () {
+    beforeEach(setup.bind(null, {}));
+
+    it('should return true', function () {
+      expect(SMC.needsToBeDirtySaved()).to.equal(true);
+    });
+  });
+
+  describe('isPrimaryButtonDisabled', function () {
+    beforeEach(setup.bind(null, {}));
+
+    it('should return false if in advanced mode', function () {
+      SMC.state.advanced = true;
+      expect(SMC.isPrimaryButtonDisabled()).to.equal(false);
+    });
+
+    it('should return true if there is not selected stack', function () {
+      SMC.state.advanced = false;
+      SMC.state.selectedStack = false;
+      expect(SMC.isPrimaryButtonDisabled()).to.equal(true);
+    });
+
+    it('should return false if the stack is valid', function () {
+      SMC.state.advanced = false;
+      SMC.state.selectedStack = true;
+      expect(SMC.isPrimaryButtonDisabled(false)).to.equal(false);
+    });
+
+    it('should return false if the there is a selected stack', function () {
+      SMC.state.advanced = false;
+      SMC.state.selectedStack = true;
+      expect(SMC.isPrimaryButtonDisabled(false)).to.equal(false);
+    });
+
+    it('should return true if the stack is invalid', function () {
+      SMC.state.advanced = false;
+      SMC.state.selectedStack = true;
+      expect(SMC.isPrimaryButtonDisabled(true)).to.equal(true);
+    });
+  });
+
+ describe('$on resetStateContextVersion', function () {
+    beforeEach(setup.bind(null, {}));
+    beforeEach(function () {
+      SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
+    });
+
+    it('should load if it should show the spinner', function () {
+      $scope.$digest();
+      $scope.$emit('resetStateContextVersion', ctx.contextVersion, true);
+      expect($rootScope.isLoading.editServerModal).to.equal(true);
+      $scope.$digest();
+      $scope.$digest();
+      expect($rootScope.isLoading.editServerModal).to.equal(false);
+    });
+
+    it('should not load if it should show not the spinner', function () {
+      $scope.$emit('resetStateContextVersion', ctx.contextVersion, false);
+      $scope.$digest();
+      expect($rootScope.isLoading.editServerModal).to.equal(false);
+    });
+
+    it('should reset the context version', function () {
+      $scope.$emit('resetStateContextVersion', ctx.contextVersion, true);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.resetStateContextVersion);
+      sinon.assert.notCalled(ctx.errsMock.handler);
+    });
+
+    it('should handle errors', function () {
+      SMC.resetStateContextVersion.returns($q.reject(true));
+
+      $scope.$emit('resetStateContextVersion', ctx.contextVersion, true);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.resetStateContextVersion);
+      sinon.assert.calledOnce(ctx.errsMock.handler);
+    });
+  });
+
+  describe('$on debug-cmd-status', function () {
+    beforeEach(setup.bind(null, {}));
+
+    it('should be true', function () {
+      $scope.$emit('debug-cmd-status', true);
+      $scope.$digest();
+      expect(SMC.showDebugCmd).to.equal(true);
+    });
+
+    it('should be false', function () {
+      $scope.$emit('debug-cmd-status', false);
+      $scope.$digest();
+      expect(SMC.showDebugCmd).to.equal(false);
+    });
+  });
+
+  describe('startCommand', function () {
+    beforeEach(setup.bind(null, {}));
+    beforeEach(function () {
+      keypather.set(
+        SMC,
+        'instance.containers.models[0].attrs.inspect.Config.Cmd[2]',
+        'until grep -q ethwe /proc/net/dev; do sleep 1; done;sleep 1'
+      );
+    });
+
+    it('should replace the command', function () {
+      expect(SMC.startCommand()).to.equal('sleep 1');
+    });
+
+    it('should handle not having a command', function () {
+      keypather.set(
+        SMC,
+        'instance.containers.models[0].attrs.inspect.Config.Cmd[2]',
+        null
+      );
+      expect(SMC.startCommand()).to.equal('');
+    });
   });
 });

@@ -3,19 +3,6 @@
 require('app')
   .controller('EditServerModalController', EditServerModalController);
 
-var tabVisibility = {
-  repository:  { advanced: false, nonRepo: false, basic: true },
-  ports:  { advanced: false, nonRepo: false, basic: true },
-  whitelist: { advanced: true, nonRepo: true, basic: true, featureFlagName: 'whitelist' },
-  env:  { advanced: true, nonRepo: true, basic: true },
-  backup: { advanced: false, nonRepo: true, basic: false, featureFlagName: 'backup' },
-  commands:  { advanced: false, nonRepo: false, basic: true },
-  files:  { advanced: false, nonRepo: false, basic: true },
-  translation:  { advanced: true, nonRepo: false, basic: true },
-  buildfiles: { advanced: true, nonRepo: true, basic: true },
-  logs:  { advanced: true, nonRepo: true, basic: true }
-};
-
 /**
  * @ngInject
  */
@@ -23,17 +10,21 @@ function EditServerModalController(
   $scope,
   $controller,
   $rootScope,
+  cleanStartCommand,
   errs,
   fetchInstancesByPod,
   findLinkedServerVariables,
+  helpCards,
+  instance,
+  isTabNameValid,
   keypather,
   loading,
-  OpenItems,
   loadingPromises,
-  helpCards,
+  ModalService,
+  OpenItems,
   tab,
+  TAB_VISIBILITY,
   updateDockerfileFromState,
-  instance,
   close
 ) {
   var SMC = this;
@@ -43,10 +34,12 @@ function EditServerModalController(
   angular.extend(SMC, {
     'closeWithConfirmation': parentController.closeWithConfirmation.bind(SMC),
     'changeTab': parentController.changeTab.bind(SMC),
-    'insertHostName': parentController.insertHostName.bind(SMC),
-    'isDirty': parentController.isDirty.bind(SMC),
+    'disableMirrorMode': parentController.disableMirrorMode.bind(SMC),
+    'enableMirrorMode': parentController.enableMirrorMode.bind(SMC),
     'getNumberOfOpenTabs': parentController.getNumberOfOpenTabs.bind(SMC),
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
+    'insertHostName': parentController.insertHostName.bind(SMC),
+    'isDirty': parentController.isDirty.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
     'populateStateFromData': parentController.populateStateFromData.bind(SMC),
     'rebuildAndOrRedeploy': parentController.rebuildAndOrRedeploy.bind(SMC),
@@ -54,6 +47,10 @@ function EditServerModalController(
     'requiresRedeploy': parentController.requiresRedeploy.bind(SMC),
     'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
     'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
+    'showAdvancedModeConfirm': parentController.showAdvancedModeConfirm.bind(SMC),
+    'switchBetweenAdvancedAndMirroring': parentController.switchBetweenAdvancedAndMirroring.bind(SMC),
+    'switchToMirrorMode': parentController.switchToMirrorMode.bind(SMC),
+    'switchToAdvancedMode': parentController.switchToAdvancedMode.bind(SMC),
     'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC)
   });
 
@@ -74,6 +71,7 @@ function EditServerModalController(
       },
       promises: {},
       instance: instance,
+      isNonRepoContainer: !keypather.get(instance, 'contextVersion.getMainAppCodeVersion()'),
       newLink: {},
       whitelist: [
         {address: ['1.1.1.1', '1.1.1.10'], description: ''},
@@ -86,11 +84,6 @@ function EditServerModalController(
       env: null
     },
     openItems: new OpenItems(),
-    startCommand: function () {
-      var cmd = keypather.get(SMC, 'instance.containers.models[0].attrs.inspect.Config.Cmd[2]');
-      cmd = cmd || '';
-      return cmd.replace('until grep -q ethwe /proc/net/dev; do sleep 1; done;', '');
-    },
     actions: {
       close: SMC.closeWithConfirmation.bind(SMC, close)
     },
@@ -148,6 +141,12 @@ function EditServerModalController(
         loading(SMC.name, false);
       });
   }
+
+  SMC.startCommand = function () {
+    var cmd = keypather.get(SMC, 'instance.containers.models[0].attrs.inspect.Config.Cmd[2]');
+    return cleanStartCommand(cmd);
+  };
+
   /**
    * This function determines if a tab chooser should be shown
    *
@@ -160,29 +159,29 @@ function EditServerModalController(
    * @returns {*}
    */
   SMC.isTabVisible = function (tabName) {
-    if (!tabVisibility[tabName]) {
-      return false;
-    }
-    if (tabVisibility[tabName].featureFlagName && !$rootScope.featureFlags[tabVisibility[tabName].featureFlagName]) {
+    // First, check if tab exists and tab FF is turned on (if applicable)
+    if (!isTabNameValid(tabName)) {
       return false;
     }
     var currentStatuses = [];
     var currentContextVersion = keypather.get(SMC, 'instance.contextVersion');
-    var stateAdvanced = keypather.get(SMC, 'state.advanced');
 
     if (!currentContextVersion.getMainAppCodeVersion()) {
-      return tabVisibility[tabName].nonRepo;
+      return !!TAB_VISIBILITY[tabName].nonRepo;
     }
     if (
-      stateAdvanced ||
-      (!keypather.get(SMC, 'state.contextVersion') && keypather.get(currentContextVersion, 'attrs.advanced'))
+      SMC.state.advanced ||
+      (
+        !keypather.get(SMC, 'state.contextVersion') &&
+        keypather.get(currentContextVersion, 'attrs.advanced')
+      )
     ) {
-      return tabVisibility[tabName].advanced;
+      return !!TAB_VISIBILITY[tabName].advanced;
     }
-    return tabVisibility[tabName].basic;
+    return !!TAB_VISIBILITY[tabName].basic;
   };
 
-  SMC.needToBeDirtyToSaved = function () {
+  SMC.needsToBeDirtySaved = function () {
     return true;
   };
 
@@ -202,8 +201,8 @@ function EditServerModalController(
   };
 
   SMC.isPrimaryButtonDisabled = function (selectedStackInvalid) {
-    return (
-      !SMC.state.advanced && (SMC.state.selectedStack | selectedStackInvalid)
+    return !!(
+      !SMC.state.advanced && (!SMC.state.selectedStack || selectedStackInvalid)
     );
   };
 

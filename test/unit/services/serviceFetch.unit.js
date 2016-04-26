@@ -1674,7 +1674,6 @@ describe('serviceFetch'.bold.underline.blue, function () {
     var $q;
 
     var stacks = angular.copy(apiMocks.stackInfo);
-    console.log('stacks', stacks);
     var fetchStackInfoStub;
     var fetchStackAnalysisStub;
     var $logStub;

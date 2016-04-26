@@ -3,45 +3,38 @@
 require('app')
   .controller('SetupServerModalController', SetupServerModalController);
 
-var tabVisibility = {
-  repository:  { advanced: false, step: 1 },
-  commands:  { advanced: false, step: 2 },
-  ports:  { advanced: false, step: 3 },
-  whitelist:  { advanced: true, step: 3, featureFlagName: 'whitelist' },
-  env:  { advanced: true, step: 3 },
-  files:  { advanced: false, step: 3 },
-  translation:  { advanced: true, step: 3 },
-  buildfiles: { advanced: true, step: 3 },
-  logs:  { advanced: true, step: 4 },
-};
-
 function SetupServerModalController(
   $scope,
   $controller,
   $filter,
+  $log,
   $q,
   $rootScope,
+  base64,
+  cardInfoTypes,
   createNewBuild,
   createAndBuildNewContainer,
   createBuildFromContextVersionId,
   errs,
   eventTracking,
+  fetchDockerfileFromSource,
   fetchInstancesByPod,
   fetchOwnerRepos,
   fetchStackAnalysis,
   fetchStackData,
+  fetchStackInfo,
+  fetchUser,
   hasKeypaths,
   helpCards,
+  isTabNameValid,
   keypather,
   loading,
   loadingPromises,
+  ModalService,
+  OpenItems,
   promisify,
   updateDockerfileFromState,
-  fetchDockerfileFromSource,
-  $log,
-  cardInfoTypes,
-  OpenItems,
-  fetchStackInfo,
+  TAB_VISIBILITY,
   close,
   repo,
   build,
@@ -54,10 +47,14 @@ function SetupServerModalController(
   angular.extend(SMC, {
     'closeWithConfirmation': parentController.closeWithConfirmation.bind(SMC),
     'changeTab': parentController.changeTab.bind(SMC),
-    'insertHostName': parentController.insertHostName.bind(SMC),
-    'isDirty': parentController.isDirty.bind(SMC),
+    'disableMirrorMode': parentController.disableMirrorMode.bind(SMC),
+    'enableMirrorMode': parentController.enableMirrorMode.bind(SMC),
+    'getDisplayName': parentController.getDisplayName.bind(SMC),
+    'getElasticHostname': parentController.getElasticHostname.bind(SMC),
     'getNumberOfOpenTabs': parentController.getNumberOfOpenTabs.bind(SMC),
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
+    'insertHostName': parentController.insertHostName.bind(SMC),
+    'isDirty': parentController.isDirty.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
     'populateStateFromData': parentController.populateStateFromData.bind(SMC),
     'rebuildAndOrRedeploy': parentController.rebuildAndOrRedeploy.bind(SMC),
@@ -65,6 +62,10 @@ function SetupServerModalController(
     'requiresRedeploy': parentController.requiresRedeploy.bind(SMC),
     'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
     'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
+    'showAdvancedModeConfirm': parentController.showAdvancedModeConfirm.bind(SMC),
+    'switchBetweenAdvancedAndMirroring': parentController.switchBetweenAdvancedAndMirroring.bind(SMC),
+    'switchToMirrorMode': parentController.switchToMirrorMode.bind(SMC),
+    'switchToAdvancedMode': parentController.switchToAdvancedMode.bind(SMC),
     'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC)
   });
 
@@ -76,25 +77,6 @@ function SetupServerModalController(
     portsSet: false,
     isNewContainer: true,
     openItems: new OpenItems(),
-    getDisplayName: function () {
-      if (SMC.instance) {
-        return SMC.instance.getDisplayName();
-      }
-      return SMC.state.repo.attrs.name;
-    },
-    getElasticHostname: function () {
-      if (keypather.get(SMC, 'state.repo.attrs')) {
-        // NOTE: Is SMC the best way to get the hostname?
-        var repo = SMC.state.repo;
-        var repoName = repo.attrs.name;
-        var repoOwner = repo.attrs.owner.login.toLowerCase();
-        var domain = SMC.state.repo.opts.userContentDomain;
-        // NOTE: How can I know whether it will be staging or not?
-        var hostname = repoName + '-staging-' + repoOwner + '.' + domain;
-        return hostname;
-      }
-      return '';
-    },
     state: {
       advanced: false,
       containerFiles: [
@@ -145,8 +127,17 @@ function SetupServerModalController(
     SMC.state.mainRepoContainerFile.name = repo.attrs.name;
     SMC.state.opts.name = normalizeRepoName(repo);
     SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
+    var fullpath = keypather.get(SMC, 'state.build.contextVersion.attrs.buildDockerfilePath');
+    if (fullpath) {
+      angular.extend(SMC.state, {
+        advanced: 'isMirroringDockerfile',
+        step: null
+      });
+      SMC.selectedTab = 'buildfiles';
+      SMC.openDockerfile(SMC.state, SMC.openItems);
+    }
   } else {
-    // TODO: Remove code when removing `dockerFileMirroing` code
+    // TODO: Remove code when removing `dockerFileMirroring` code
     $q.all({
       instances: fetchInstancesByPod(),
       repoList: fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
@@ -187,18 +178,18 @@ function SetupServerModalController(
   $scope.$watchCollection(function () {
     return SMC.state.opts.env;
   }, function (newEnvArray, oldEnvArray) {
-    if (!angular.equals(newEnvArray, oldEnvArray)) {
+    if (SMC.state.advanced !== 'isMirroringDockerfile' && !angular.equals(newEnvArray, oldEnvArray)) {
       // Only update the Dockerfile if the envs have actually changed
       updateDockerfileFromState(SMC.state, true, true);
     }
   });
 
-  // TODO: Remove code when removing `dockerFileMirroing` code
+  // TODO: Remove code when removing `dockerFileMirroring` code
   function normalizeRepoName(repo) {
     return repo.attrs.name.replace(/[^a-zA-Z0-9-]/g, '-');
   }
 
-  // TODO: Remove code when removing `dockerFileMirroing` code
+  // TODO: Remove code when removing `dockerFileMirroring` code
   SMC.isRepoAdded = function (repo, instances) {
     // Since the newServers may have faked repos (just containing names), just check the name
 
@@ -384,33 +375,35 @@ function SetupServerModalController(
    * @returns {Boolean}
    */
   SMC.isTabVisible = function (tabName) {
-    if (!tabVisibility[tabName]) {
-      return false;
-    }
-    if (tabVisibility[tabName].featureFlagName && !$rootScope.featureFlags[tabVisibility[tabName].featureFlagName]) {
+    // First, check if tab exists and tab FF is turned on (if applicable)
+    if (!isTabNameValid(tabName)) {
       return false;
     }
     if (SMC.state.advanced) {
-      return tabVisibility[tabName].advanced;
+      if (SMC.state.advanced === 'isMirroringDockerfile') {
+        return !!TAB_VISIBILITY[tabName].mirror;
+      }
+      return !!TAB_VISIBILITY[tabName].advanced;
     }
-    return SMC.state.step >= tabVisibility[tabName].step;
+    return SMC.state.step >= TAB_VISIBILITY[tabName].step;
   };
 
   SMC.isPrimaryButtonDisabled = function (serverFormInvalid) {
     return (
-      (SMC.state.step === 2 && SMC.repositoryForm.$invalid) ||
+      (SMC.state.step === 2 && SMC.repositoryForm && SMC.repositoryForm.$invalid) ||
       $filter('selectedStackInvalid')(SMC.state.selectedStack)
     );
   };
 
-  SMC.needToBeDirtyToSaved = function () {
-    if (!SMC.instance) {
-      return false;
-    }
-    return true;
+  SMC.needsToBeDirtySaved = function () {
+    return !!SMC.instance;
   };
 
-  // TODO: Remove code when removing `dockerFileMirroing` code
+  SMC.showStackSelector = function () {
+    return !SMC.state.advanced;
+  };
+
+  // TODO: Remove code when removing `dockerFileMirroring` code
   SMC.selectRepo = function (repo) {
     if (SMC.repoSelected || repo.isAdded) { return; }
     SMC.state.mainRepoContainerFile.name = repo.attrs.name;

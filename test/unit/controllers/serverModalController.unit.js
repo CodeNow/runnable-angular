@@ -38,7 +38,12 @@ describe('serverModalController'.bold.underline.blue, function () {
     ctx = {};
   });
 
-  function setup(scope) {
+  function setup (scope) {
+    scope  = scope || {};
+    scope = angular.extend({
+      currentModel: ctx.instance,
+      selectedTab: 'env'
+    }, scope);
 
     ctx.fakeOrg1 = {
       attrs: angular.copy(apiMocks.user),
@@ -62,6 +67,60 @@ describe('serverModalController'.bold.underline.blue, function () {
     ctx.populateDockerfile = new MockFetch();
     runnable.reset(apiMocks.user);
     ctx.fileModels = [];
+    ctx.createNewBuildMock = sinon.stub();
+    ctx.analysisMockData = {
+      languageFramework: 'ruby_ror',
+      version: {
+        rails: '4.1.8',
+        ruby: '0.8'
+      }
+    };
+    ctx.branches = {
+      models: [
+        {
+          attrs: {
+            name: 'master',
+            commit: {
+              sha: 'sha'
+            }
+          }
+        }
+      ]
+    };
+    ctx.repo = {
+      attrs: {
+        name: 'fooo',
+        full_name: 'foo',
+        default_branch: 'master',
+        owner: {
+          login: 'bar'
+        }
+      },
+      opts: {
+        userContentDomain: 'runnable-test.com'
+      },
+      fetchBranch: sinon.spy(function (opts, cb) {
+        $rootScope.$evalAsync(function () {
+          cb(null, ctx.branches.models[0]);
+        });
+        return ctx.branches.models[0];
+      }),
+      newBranch: sinon.spy(function (opts) {
+        ctx.repo.fakeBranch = {
+          attrs: {
+            name: opts
+          },
+          fetch: sinon.spy(function (cb) {
+            $rootScope.$evalAsync(function () {
+              cb(null, ctx.repo.fakeBranch);
+            });
+            return ctx.repo.fakeBranch;
+          })
+        };
+        return ctx.repo.fakeBranch;
+      })
+    };
+    ctx.fetchStackAnalysisMock = new MockFetch();
 
     ctx.errsMock = {
       handler: sinon.spy()
@@ -83,6 +142,7 @@ describe('serverModalController'.bold.underline.blue, function () {
           createAndBuild: sinon.stub()
         };
       });
+      $provide.factory('fetchStackAnalysis', ctx.fetchStackAnalysisMock.fetch());
       $provide.value('findLinkedServerVariables', sinon.spy());
       $provide.value('eventTracking', ctx.eventTracking);
       $provide.value('configAPIHost', '');
@@ -145,6 +205,7 @@ describe('serverModalController'.bold.underline.blue, function () {
         };
       });
       // Yah, I'm mocking this out. Too many templates are being loaded
+      $provide.value('createNewBuild', ctx.createNewBuildMock);
       $provide.factory('ngIncludeDirective', function () {
         return {
           priority: 100000,
@@ -245,6 +306,11 @@ describe('serverModalController'.bold.underline.blue, function () {
     });
     SMC.openItems = ctx.openItemsMock;
     SMC.state = {};
+    angular.extend(SMC.state, {
+      promises: [],
+      contextVersion: ctx.contextVersion,
+      dockerfile: ctx.dockerfile,
+    });
   }
 
   beforeEach(function () {
@@ -298,16 +364,16 @@ describe('serverModalController'.bold.underline.blue, function () {
 
     ctx.dockerfile = {
       attrs: apiMocks.files.dockerfile,
-      update: sinon.spy(function (opts, cb) {
-        $rootScope.$evalAsync(function () {
-          cb(null, ctx.dockerfile);
-        });
-        return ctx.dockerfile;
-      })
+      path: '/Dockerfile',
+      content: btoa('Hello World'),
+      update: sinon.stub().callsArg(1)
     };
 
     ctx.anotherDockerfile = {
-      attrs: apiMocks.files.anotherDockerfile
+      attrs: apiMocks.files.anotherDockerfile,
+      path: '/Dockerfile',
+      content: btoa('Hello World'),
+      update: sinon.stub().callsArg(1)
     };
 
     sinon.stub(ctx.contextVersion, 'deepCopy', returnArg(ctx.newContextVersion));
@@ -343,6 +409,7 @@ describe('serverModalController'.bold.underline.blue, function () {
       this.removeAndReopen = sinon.stub();
     };
     ctx.openItemsMock = new OpenItemsMock();
+
   });
 
   describe('isDirty', function () {
@@ -602,7 +669,6 @@ describe('serverModalController'.bold.underline.blue, function () {
     });
 
     it('should get a acount of 0', function () {
-      console.log('SMC', SMC.isTabVisible);
       sinon.stub(SMC, 'isTabVisible').returns(false);
       expect(SMC.getNumberOfOpenTabs()).to.equal('tabs-0');
     });
@@ -631,4 +697,342 @@ describe('serverModalController'.bold.underline.blue, function () {
     });
   });
 
+  describe('showAdvancedModeConfirm', function () {
+    beforeEach(setup.bind(null, {}));
+    beforeEach(function () {
+      sinon.stub(SMC, 'switchToAdvancedMode').returns($q.when(true));
+      ctx.showModalStub.returns($q.when({
+        close: $q.when(true)
+      }));
+    });
+    afterEach(function () {
+      SMC.switchToAdvancedMode.restore();
+    });
+
+    it('should show the modal', function () {
+      SMC.showAdvancedModeConfirm();
+      $scope.$digest();
+      sinon.assert.calledOnce(ctx.showModalStub);
+      sinon.assert.calledWith(ctx.showModalStub, {
+        controller: 'ConfirmationModalController',
+        controllerAs: 'CMC',
+        templateUrl: 'confirmSetupAdvancedModalView'
+      });
+    });
+
+    it('should switch to advanced mode if confirmed', function () {
+      SMC.showAdvancedModeConfirm();
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.switchToAdvancedMode);
+      sinon.assert.calledWith(SMC.switchToAdvancedMode, SMC.state, SMC.openItems);
+      sinon.assert.notCalled(ctx.errsMock.handler);
+    });
+
+    it('should catch any errors', function () {
+      SMC.switchToAdvancedMode.returns($q.reject(new Error('Hello World')));
+
+      SMC.showAdvancedModeConfirm();
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.switchToAdvancedMode);
+      sinon.assert.calledWith(SMC.switchToAdvancedMode, SMC.state, SMC.openItems);
+      sinon.assert.calledOnce(ctx.errsMock.handler);
+    });
+
+    it('should return if not confirmed', function () {
+      ctx.showModalStub.returns($q.when({
+        close: $q.when(false)
+      }));
+
+      SMC.showAdvancedModeConfirm()
+        .then(function (res) {
+           expect(res).to.equal(undefined);
+        });
+      $scope.$digest();
+      sinon.assert.notCalled(SMC.switchToAdvancedMode);
+      sinon.assert.notCalled(ctx.errsMock.handler);
+    });
+  });
+
+  describe('disableMirrorMode', function () {
+    beforeEach(setup.bind(null, {}));
+    beforeEach(function () {
+      sinon.stub(SMC, 'switchToAdvancedMode').returns($q.when(true));
+    });
+    afterEach(function () {
+      SMC.switchToAdvancedMode.restore();
+    });
+
+    it('should switch to advanced to mode', function () {
+      SMC.disableMirrorMode();
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.switchToAdvancedMode);
+      sinon.assert.calledWith(SMC.switchToAdvancedMode, SMC.state, SMC.openItems);
+      sinon.assert.notCalled(ctx.errsMock.handler);
+    });
+
+    it('should catch any errors', function () {
+      SMC.switchToAdvancedMode.returns($q.reject(new Error('Super error')));
+
+      SMC.disableMirrorMode();
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.switchToAdvancedMode);
+      sinon.assert.calledWith(SMC.switchToAdvancedMode, SMC.state, SMC.openItems);
+      sinon.assert.calledOnce(ctx.errsMock.handler);
+    });
+  });
+
+  describe('enableMirrorMode', function () {
+    beforeEach(setup.bind(null, {}));
+    beforeEach(function () {
+      SMC.state.repo = { attrs: { full_name: 'RepoFullName' } };
+      SMC.state.contextVersion = ctx.contextVersion;
+      sinon.stub(SMC, 'switchToMirrorMode').returns($q.when(true));
+      ctx.showModalStub.returns($q.when({
+        close: $q.when(true)
+      }));
+    });
+    afterEach(function () {
+      SMC.switchToMirrorMode.restore();
+    });
+
+    it('should show the modal', function () {
+      $scope.$digest();
+      SMC.enableMirrorMode();
+      $scope.$digest();
+      sinon.assert.calledOnce(ctx.showModalStub);
+      sinon.assert.calledWith(ctx.showModalStub, {
+        controller: 'ChooseDockerfileModalController',
+        controllerAs: 'MC', // Shared
+        templateUrl: 'changeMirrorView',
+        inputs: {
+          repo: SMC.state.repo,
+          branchName: 'master',
+        }
+      });
+    });
+
+    it('should switch to advanced mode if confirmed', function () {
+      $scope.$digest();
+      SMC.enableMirrorMode();
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.switchToMirrorMode);
+      sinon.assert.calledWith(SMC.switchToMirrorMode, SMC.state, SMC.openItems);
+      sinon.assert.notCalled(ctx.errsMock.handler);
+    });
+
+    it('should catch any errors', function () {
+      SMC.switchToMirrorMode.returns($q.reject(new Error('Hello World')));
+
+      SMC.enableMirrorMode();
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.switchToMirrorMode);
+      sinon.assert.calledWith(SMC.switchToMirrorMode, SMC.state, SMC.openItems);
+      sinon.assert.calledOnce(ctx.errsMock.handler);
+    });
+
+    it('should return if not confirmed', function () {
+      ctx.showModalStub.returns($q.when({
+        close: $q.when(false)
+      }));
+
+      SMC.enableMirrorMode()
+        .then(function (res) {
+           expect(res).to.equal(undefined);
+        });
+      $scope.$digest();
+      sinon.assert.notCalled(SMC.switchToMirrorMode);
+      sinon.assert.notCalled(ctx.errsMock.handler);
+    });
+  });
+
+  describe('switchToMirrorMode', function () {
+    beforeEach(setup.bind(null, {}));
+    beforeEach(function () {
+      sinon.stub(SMC, 'resetStateContextVersion').returns($q.when(true));
+    });
+
+    it('should update the contextVersion', function () {
+      var cv = SMC.state.contextVersion;
+      SMC.switchToMirrorMode(SMC.state, SMC.openItems, SMC.state.dockerfile);
+      $scope.$digest();
+      sinon.assert.calledOnce(cv.update);
+      sinon.assert.calledWith(cv.update, {
+        advanced: true,
+        buildDockerfilePath: SMC.state.dockerfile.path
+      });
+    });
+
+    it('should be in advanced mode and `isMirroringDockerfile`', function () {
+      SMC.switchToMirrorMode(SMC.state, SMC.openItems, SMC.state.dockerfile);
+      $scope.$digest();
+      expect(SMC.state.advanced).to.equal('isMirroringDockerfile');
+    });
+
+    it('should reset the contextVersion', function () {
+      SMC.switchToMirrorMode(SMC.state, SMC.openItems, SMC.state.dockerfile);
+      $scope.$digest();
+      sinon.assert.called(SMC.resetStateContextVersion, SMC.state.contextVersion, false);
+    });
+  });
+
+  describe('switchToAdvancedMode', function () {
+    beforeEach(setup.bind(null, {}));
+    beforeEach(function () {
+      sinon.stub(SMC, 'openDockerfile').returns($q.when(true));
+      sinon.stub(SMC, 'resetStateContextVersion').returns($q.when(true));
+    });
+
+    it('should update the contextVersion', function () {
+      var cv = SMC.state.contextVersion;
+      SMC.switchToAdvancedMode(SMC.state, SMC.openItems, SMC.state.dockerfile);
+      $scope.$digest();
+      sinon.assert.calledOnce(cv.update);
+      sinon.assert.calledWith(cv.update, {
+        advanced: true,
+        buildDockerfilePath: null
+      });
+    });
+
+    it('should open the Dockerfile', function () {
+      SMC.switchToAdvancedMode(SMC.state, SMC.openItems, SMC.state.dockerfile);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.openDockerfile);
+      sinon.assert.calledWith(SMC.openDockerfile, SMC.state, SMC.openItems);
+    });
+
+    it('should update the dockerfile', function () {
+      var text = 'Wow. This is the body.';
+      SMC.state.dockerfile.attrs.body = text;
+      SMC.switchToAdvancedMode(SMC.state, SMC.openItems, SMC.state.dockerfile);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.state.dockerfile.update);
+      sinon.assert.calledWith(SMC.state.dockerfile.update, {
+        json: {
+          body: text
+        }
+      });
+    });
+
+    it('should be in advanced mode and `isMirroringDockerfile`', function () {
+      SMC.switchToAdvancedMode(SMC.state, SMC.openItems, SMC.state.dockerfile);
+      $scope.$digest();
+      expect(SMC.state.advanced).to.equal(true);
+    });
+
+    it('should reset the contextVersion', function () {
+      SMC.switchToAdvancedMode(SMC.state, SMC.openItems, SMC.state.dockerfile);
+      $scope.$digest();
+      sinon.assert.called(SMC.resetStateContextVersion, SMC.state.contextVersion, false);
+    });
+  });
+
+  describe('switchBetweenAdvancedAndMirroring', function () {
+    beforeEach(setup.bind(null, {}));
+    beforeEach(function () {
+      SMC.state.advanced = 'isMirroringDockerfile';
+      SMC.disableMirrorMode = angular.noop;
+      SMC.enableMirrorMode = angular.noop;
+      sinon.stub(SMC, 'disableMirrorMode', function () {
+        SMC.state.advanced = true;
+        return $q.when(true);
+      });
+      sinon.stub(SMC, 'enableMirrorMode', function () {
+      SMC.state.advanced = 'isMirroringDockerfile';
+        return $q.when(true);
+      });
+    });
+
+    it('should return the current status if not passed an arg', function () {
+      SMC.state.advanced = 'isMirroringDockerfile';
+      expect(SMC.switchBetweenAdvancedAndMirroring()).to.equal(true);
+      SMC.state.advanced = true;
+      expect(SMC.switchBetweenAdvancedAndMirroring()).to.equal(false);
+    });
+
+    it('should enable mirrormode if passed `true`', function () {
+      SMC.state.advanced = true;
+      SMC.switchBetweenAdvancedAndMirroring(true);
+      $scope.$digest();
+      expect(SMC.state.advanced).to.equal('isMirroringDockerfile');
+      sinon.assert.calledOnce(SMC.enableMirrorMode);
+      sinon.assert.notCalled(SMC.disableMirrorMode);
+    });
+
+    it('should disable mirrormode if passed `false`', function () {
+      SMC.state.advanced = 'isMirroringDockerfile';
+      SMC.switchBetweenAdvancedAndMirroring(false);
+      $scope.$digest();
+      expect(SMC.state.advanced).to.equal(true);
+      sinon.assert.notCalled(SMC.enableMirrorMode);
+      sinon.assert.calledOnce(SMC.disableMirrorMode);
+    });
+  });
+
+  describe('openDockerfile', function () {
+    beforeEach(setup.bind(null, {}));
+
+    it('should fetch the file', function () {
+      var cv = SMC.state.contextVersion;
+      SMC.openDockerfile(SMC.state, SMC.openItems);
+      $scope.$digest();
+      sinon.assert.calledOnce(cv.fetchFile);
+      sinon.assert.calledWith(cv.fetchFile, '/Dockerfile');
+    });
+
+    it('should remove the dockerfile it exists in the state', function () {
+      var dockerfile = SMC.state.dockerfile;
+      SMC.openDockerfile(SMC.state, SMC.openItems);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.openItems.remove);
+      sinon.assert.calledWith(SMC.openItems.remove, dockerfile);
+    });
+
+    it('should add it if it fetched the file', function () {
+      SMC.openDockerfile(SMC.state, SMC.openItems);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.openItems.add);
+      sinon.assert.calledWith(SMC.openItems.add, ctx.anotherDockerfile);
+    });
+
+    it('should set the dockerfile in the state', function () {
+      SMC.openDockerfile(SMC.state, SMC.openItems);
+      $scope.$digest();
+      expect(SMC.state.dockerfile).to.equal(ctx.anotherDockerfile);
+    });
+  });
+
+  describe('getDisplayName', function () {
+    beforeEach(setup.bind(null, {}));
+    beforeEach(function () {
+      SMC.instance = {
+        getDisplayName: sinon.stub().returns('world')
+      };
+      keypather.set(SMC, 'state.repo.attrs.name', 'hello');
+    });
+
+    it('should get the displayName if it has an instance', function () {
+      expect(SMC.getDisplayName()).to.equal('world');
+    });
+
+    it('should get the repo name if it has no instance', function () {
+      SMC.instance = null;
+      expect(SMC.getDisplayName()).to.equal('hello');
+    });
+  });
+
+  describe('getElasticHostname', function () {
+    beforeEach(setup.bind(null, {}));
+    it('should get the elastic hostname of a selected repo', function () {
+      ctx.createNewBuildMock.returns(ctx.build);
+      SMC.state.repo = ctx.repo;
+      $scope.$digest();
+      var generatedElasticHostname = SMC.getElasticHostname();
+      var manualEleasticHostname = ctx.repo.attrs.name + '-staging-' + ctx.repo.attrs.owner.login + '.' + ctx.repo.opts.userContentDomain;
+      expect(generatedElasticHostname).to.equal(manualEleasticHostname);
+    });
+
+    it('should return an empty string if there are no repo attrs', function () {
+      expect(SMC.getElasticHostname()).to.equal('');
+    });
+  });
 });
