@@ -428,6 +428,23 @@
   }
 }
 
+// repository
+.form-repository .input-col .well {
+  padding: 6px 15px 6px 8px;
+
+  @include media(md) {
+    padding: 6px 8px;
+  }
+
+  .btn-xxs {
+    float: right;
+
+    @include media(md) {
+      float: none;
+    }
+  }
+}
+
 // modal-logs
 .modal-logs {
   flex: 1 1 0;
