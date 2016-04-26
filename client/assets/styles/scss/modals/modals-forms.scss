@@ -204,6 +204,40 @@
     .small {
       margin: 6px 9px;
     }
+
+    .link .iconnables {
+      height: 12px;
+      margin-right: 2px;
+      top: 1px;
+      width: 12px;
+    }
+
+    // for even more helpful text
+    .well {
+      background: $gray-lightest;
+      border: 1px solid $gray-lighter;
+      clear: both;
+      margin: 6px 0;
+      padding: 6px 8px;
+      white-space: nowrap;
+
+      @include media(md) {
+        white-space: normal;
+      }
+
+      .btn-xxs {
+        border-width: 1px;
+        color: $gray;
+        font-weight: $weight-normal;
+        line-height: 16px;
+      }
+
+      .iconnables {
+        height: 100%;
+        margin-right: 2px;
+        width: 12px;
+      }
+    }
   }
 
   // center tabs
