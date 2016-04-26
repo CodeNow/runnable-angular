@@ -103,6 +103,14 @@
       margin-left: 0;
     }
   }
+
+  .popover-account-menu {
+    margin-left: $intercom-width + 10px;
+
+    @include media(md) {
+      margin-left: 10px;
+    }
+  }
 }
 
 // for "preview" messages
