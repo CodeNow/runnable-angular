@@ -22,7 +22,6 @@ label.label.clearfix
     input.input.input-sm.monospace(
       ng-disabled = "startCommandCanDisable && !state.selectedStack"
       ng-model = "state.packages.packageList"
-      ng-model-options="{updateOn: 'blur'}"
       ng-change = "updateDockerfile()"
       spellcheck = "false"
     )
@@ -49,7 +48,6 @@ label.label.clearfix
       ng-change = "updateDockerfile()"
       ng-disabled = "startCommandCanDisable && !state.selectedStack"
       ng-model = "state.mainRepoContainerFile.commands"
-      ng-model-options = "{updateOn: 'blur'}"
       ng-trim = "false"
       spellcheck = "false"
     )
