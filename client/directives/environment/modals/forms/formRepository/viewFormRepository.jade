@@ -34,9 +34,10 @@ label.label.clearfix
   .input-col
     .well.small
       strong.strong Note:&#32;
-      span.span Installing private modules? Make sure you add your SSH keys.&#32;
+      span.span Installing private modules? Make sure you add your SSH keys{{!SMC.instance ? ' on the next step' : ''}}.&#32;
       button.btn.btn-xxs.white(
         ng-click = "SMC.changeTab('files')"
+        ng-if = "SMC.instance"
         type = "button"
       )
         svg.iconnables.icons-files.float-left
