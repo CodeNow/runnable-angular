@@ -44,22 +44,15 @@ label.label.clearfix
             xlink:href = "#icons-keys-files"
           )
         | Files & SSH Keys
-    .build-commands-wrapper(
-      ng-class = "{'focus': buildCommandFocus}"
+    textarea.textarea.monospace(
+      command-editor
+      ng-change = "updateDockerfile()"
+      ng-disabled = "startCommandCanDisable && !state.selectedStack"
+      ng-model = "state.mainRepoContainerFile.commands"
+      ng-model-options = "{updateOn: 'blur'}"
+      ng-trim = "false"
+      spellcheck = "false"
     )
-      .flex-wrapper
-        textarea.textarea.monospace(
-          command-editor
-          ng-attr-rows = "{{state.mainRepoContainerFile.commands.length < 3 ? 3 : state.mainRepoContainerFile.commands.length}}"
-          ng-blur = "buildCommandFocus = false"
-          ng-change = "updateDockerfile()"
-          ng-disabled = "startCommandCanDisable && !state.selectedStack"
-          ng-focus = "buildCommandFocus = true"
-          ng-model = "state.mainRepoContainerFile.commands"
-          ng-model-options = "{updateOn: 'blur'}"
-          ng-trim = "false"
-          spellcheck = "false"
-        )
     small.small Add any commands needed to support your application. They’ll be run before the Container CMD from your repository’s root folder.
 
 label.label.clearfix
