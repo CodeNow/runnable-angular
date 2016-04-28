@@ -198,6 +198,14 @@ require('app')
           if (!instance.contextVersion) { return; }
           $scope.server.building = true;
 
+          // Update Dockerfile
+          if (instance.hasDockerfileMirroring() && instance.mirroredDockerfile === undefined) {
+            fetchDockerfileForContextVersion(instance.contextVersion)
+              .then(function (dockerfile) {
+                instance.mirroredDockerfile = dockerfile;
+              });
+          }
+
           return promisify(instance, 'fetchDependencies', true)()
             .then(function (dependencies) {
               $scope.server.building = false;
