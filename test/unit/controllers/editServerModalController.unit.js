@@ -972,6 +972,9 @@ describe('editServerModalController'.bold.underline.blue, function () {
       ],
       advanced: [
         'repository', 'buildfiles', 'env', 'translation', 'logs'
+      ],
+      mirror: [
+        'repository', 'buildfiles', 'env', 'logs'
       ]
     };
     Object.keys(testingObject).forEach(function (key) {
