@@ -163,19 +163,17 @@ function EditServerModalController(
     if (!isTabNameValid(tabName)) {
       return false;
     }
-    var currentStatuses = [];
     var currentContextVersion = keypather.get(SMC, 'instance.contextVersion');
 
     if (!currentContextVersion.getMainAppCodeVersion()) {
       return !!TAB_VISIBILITY[tabName].nonRepo;
     }
-    if (
-      SMC.state.advanced ||
-      (
-        !keypather.get(SMC, 'state.contextVersion') &&
-        keypather.get(currentContextVersion, 'attrs.advanced')
-      )
-    ) {
+    if (SMC.state.advanced ||
+        (!keypather.get(SMC, 'state.contextVersion') &&
+        keypather.get(currentContextVersion, 'attrs.advanced'))) {
+      if (SMC.state.advanced === 'isMirroringDockerfile') {
+        return !!TAB_VISIBILITY[tabName].mirror;
+      }
       return !!TAB_VISIBILITY[tabName].advanced;
     }
     return !!TAB_VISIBILITY[tabName].basic;
