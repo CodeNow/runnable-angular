@@ -960,6 +960,13 @@ describe('editServerModalController'.bold.underline.blue, function () {
           setup({
             currentModel: ctx.instance
           });
+        },
+        mirror: function () {
+          ctx.instance.contextVersion.attrs.advanced = true;
+          ctx.instance.contextVersion.attrs.buildDockerfilePath = 'isMirroringDockerfile';
+          setup({
+            currentModel: ctx.instance
+          });
         }
       };
     });

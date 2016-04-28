@@ -171,6 +171,9 @@ function EditServerModalController(
     if (SMC.state.advanced ||
         (!keypather.get(SMC, 'state.contextVersion') &&
         keypather.get(currentContextVersion, 'attrs.advanced'))) {
+      if (SMC.state.advanced === 'isMirroringDockerfile') {
+        return !!TAB_VISIBILITY[tabName].mirror;
+      }
       return !!TAB_VISIBILITY[tabName].advanced;
     }
     return !!TAB_VISIBILITY[tabName].basic;
