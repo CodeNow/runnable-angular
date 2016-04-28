@@ -38,8 +38,8 @@
 //- initial output
 .pre.build-log(
   ng-class = "{\
-    'build-log-toggle': BLC.buildLogs.length === 0 && BLC.buildLogsRunning,\
-    'in': BLC.buildLogs.length === 0 && BLC.buildLogsRunning\
+    'build-log-toggle': BLC.buildLogs.length > 0,\
+    'in': mainHeaderExpanded && BLC.buildLogs.length > 0\
   }"
   ng-if = "\
     !$root.featureFlags.internalDebugging && \
@@ -52,11 +52,20 @@
 )
   .build-log-header(
     ng-class = "{'in-progress': BLC.buildLogs.length === 0 && BLC.buildLogsRunning}"
+    ng-click = "actions.toggleMainHeader()"
   )
     .build-log-header-text {{BLC.streamFailure ? 'Unable to get build logs.' : 'Starting Build'}}
-  .build-log-content.building(
-    ng-if = "BLC.buildLogs.length === 0 && BLC.buildLogsRunning"
+  .build-log-content(
+    ng-if = "mainHeaderExpanded && BLC.buildLogs.length"
+    ng-class = "{\
+      'building': !(BLC.headerContent.length && BLC.buildLogs.length > 0 && !BLC.buildLogsRunning),\
+      'loaded': BLC.buildLogs.length > 0 && !BLC.buildLogsRunning\
+    }"
   )
+    div(
+      ng-repeat = "content in BLC.headerContent"
+    ) {{content}}
+
   .log-spinner(
     ng-if = "BLC.buildLogs.length === 0 && BLC.buildLogsRunning"
   )
