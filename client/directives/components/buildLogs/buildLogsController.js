@@ -29,6 +29,7 @@ function BuildLogsController(
       BLC.failReason = buildError.message || 'failed';
       BLC.showDebug = true;
       BLC.buildLogsRunning = false;
+      BLC.showNoDockerfileError = (BLC.instance.hasDockerfileMirroring() && BLC.instance.mirroredDockerfile === null);
       if (status === 'neverStarted') {
         BLC.showErrorPanel = true;
       }
