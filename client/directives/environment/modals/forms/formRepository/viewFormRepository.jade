@@ -22,7 +22,6 @@ label.label.clearfix
     input.input.input-sm.monospace(
       ng-disabled = "startCommandCanDisable && !state.selectedStack"
       ng-model = "state.packages.packageList"
-      ng-model-options="{updateOn: 'blur'}"
       ng-change = "updateDockerfile()"
       spellcheck = "false"
     )
@@ -45,43 +44,14 @@ label.label.clearfix
             xlink:href = "#icons-keys-files"
           )
         | Files & SSH Keys
-    //- removed the cache toggle here, but we still need to remove the rest
-    .build-commands-wrapper(
-      ng-class = "{'focus': buildCommandFocus}"
+    textarea.textarea.monospace(
+      command-editor
+      ng-change = "updateDockerfile()"
+      ng-disabled = "startCommandCanDisable && !state.selectedStack"
+      ng-model = "state.mainRepoContainerFile.commands"
+      ng-trim = "false"
+      spellcheck = "false"
     )
-      .flex-wrapper
-        textarea.textarea.monospace(
-          command-editor
-          ng-attr-rows = "{{state.mainRepoContainerFile.commands.length < 3 ? 3 : state.mainRepoContainerFile.commands.length}}"
-          ng-blur = "buildCommandFocus = false"
-          ng-change = "updateDockerfile()"
-          ng-class = "{'margin-right': data.cacheCommand}"
-          ng-disabled = "startCommandCanDisable && !state.selectedStack"
-          ng-focus = "buildCommandFocus = true"
-          ng-model = "state.mainRepoContainerFile.commands"
-          ng-keydown = "cacheCommand(false)"
-          ng-model-options = "{updateOn: 'blur'}"
-          ng-trim = "false"
-          spellcheck = "false"
-        )
-        .cache-column.js-animate(
-          ng-show = "data.cacheCommand"
-        )
-          .cache-border
-          label.radio-wrapper(
-            ng-class = "{ 'no-touching': !command.body }"
-            ng-repeat-start = "command in state.mainRepoContainerFile.commands"
-          )
-            input(
-              name = "cache-radio"
-              ng-checked = "command.cache"
-              ng-click = "actions.updateCache(command)"
-              ng-if = "command.body"
-              type = "radio"
-            )
-          .cache-row(
-            ng-repeat-end
-          )
     small.small Add any commands needed to support your application. They’ll be run before the Container CMD from your repository’s root folder.
 
 label.label.clearfix

@@ -142,123 +142,9 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
         startCommandCanDisable: true
       };
       setup(scope);
-      expect($elScope.data).to.deep.equal({
-        cacheCommand: false
-      });
       expect($elScope.state).to.equal(scope.state);
       expect($elScope.startCommandCanDisable).to.be.true;
       $rootScope.$destroy();
-    });
-
-    it('should disable cache when toggleCache to off', function () {
-      var scope = {
-        data: {
-          stacks: apiMocks.stackInfo
-        },
-        state: {
-          cheese: {
-            hello: 'jello'
-          },
-          containerFiles: [
-            {
-              type: 'Main Repository',
-              commands: [{
-                cache: true,
-                body: 'npm install'
-              }]
-            }
-          ]
-        },
-        startCommandCanDisable: true
-      };
-      setup(scope);
-
-      expect($elScope.data.cacheCommand, 'Cache enabled').to.be.ok;
-      // This is a checkbox so both of these things will happen at the same time!
-      $elScope.cacheCommand(false);
-      $scope.$digest();
-
-      expect($elScope.state.containerFiles[0].commands[0].cache, 'Cached command').to.not.be.ok;
-      sinon.assert.called(ctx.updateDockerfileFromStateMock);
-
-    });
-    it('should enable cache when toggleCache to true', function () {
-      var scope = {
-        data: {
-          stacks: apiMocks.stackInfo
-        },
-        state: {
-          cheese: {
-            hello: 'jello'
-          },
-          containerFiles: [
-            {
-              type: 'Main Repository',
-              commands: [{
-                cache: false,
-                body: 'npm install'
-              }]
-            }
-          ]
-        },
-        startCommandCanDisable: true
-      };
-      setup(scope);
-
-      expect($elScope.data.cacheCommand, 'Cache enabled').to.not.be.ok;
-      // This is a checkbox so both of these things will happen at the same time!
-      $elScope.cacheCommand(true);
-      $scope.$digest();
-
-      expect($elScope.state.containerFiles[0].commands[0].cache, 'Cached command').to.be.ok;
-      sinon.assert.called(ctx.updateDockerfileFromStateMock);
-      ctx.updateDockerfileFromStateMock.reset();
-
-      // should not call updateDockerfile again
-
-      $elScope.cacheCommand(true);
-      sinon.assert.notCalled(ctx.updateDockerfileFromStateMock);
-    });
-
-    it('should enable cache for the first non empty command when toggleCache is set to true', function () {
-      var scope = {
-        data: {
-          stacks: apiMocks.stackInfo
-        },
-        state: {
-          cheese: {
-            hello: 'jello'
-          },
-          containerFiles: [
-            {
-              type: 'Main Repository',
-              commands: [
-                {
-                  cache: false,
-                  body: ''
-                },
-                {
-                  cache: false,
-                  body: 'npm install'
-                }
-              ]
-            }
-          ]
-        },
-        startCommandCanDisable: true
-      };
-      setup(scope);
-
-      expect($elScope.data.cacheCommand, 'Cache enabled').to.not.be.ok;
-      // This is a checkbox so both of these things will happen at the same time!
-      $elScope.cacheCommand(true);
-      $scope.$digest();
-
-      expect($elScope.state.containerFiles[0].commands[0].cache, 'Cached command').to.not.be.ok;
-      expect($elScope.state.containerFiles[0].commands[1].cache, 'Cached command').to.be.ok;
-      sinon.assert.called(ctx.updateDockerfileFromStateMock);
-
-
     });
   });
 
@@ -277,14 +163,12 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
             {
               type: 'Main Repository',
               commands: [{
-                cache: true,
                 body: 'npm install'
               }]
             },
             {
               type: 'Repository',
               commands: [{
-                cache: false,
                 body: 'npm install'
               }]
             }
@@ -348,29 +232,6 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
       expect($elScope.state.containerFiles[0].commands[0].body, 'main repo command 0').to.equal('dfadsfa');
       expect($elScope.state.containerFiles[0].commands[1].body, 'main repo command 0').to.equal('dsfasdfredasfadsfgw34r2 3r');
       expect($elScope.state.containerFiles[0].path, 'main repo path').to.equal('cheese');
-    });
-
-    it('should fetch default commands with runnable-cache, and update scope.data.cacheCommand', function () {
-      ctx.parseDockerfileResults = {
-        run: ['dfadsfa # runnable-cache', 'dsfasdfredasfadsfgw34r2 3r'],
-        dst: []
-      };
-      $elScope.state.selectedStack = {
-        key: 'hello'
-      };
-      $elScope.state.opts = {
-        name: 'cheese'
-      };
-      $scope.$digest();
-      var dockerfile = {attrs: 'dockerfile'};
-
-      ctx.fetchDockerfileFromSourceMock.triggerPromise(dockerfile);
-      $scope.$digest();
-
-      expect($elScope.state.containerFiles[0].commands[0].body, 'main repo command 0').to.equal('dfadsfa');
-      expect($elScope.state.containerFiles[0].commands[0].cache, 'main repo command 0 cache').to.be.true;
-      expect($elScope.state.containerFiles[0].commands[1].body, 'main repo command 1').to.equal('dsfasdfredasfadsfgw34r2 3r');
-      expect($elScope.cacheCommand(), 'cache command').to.be.true;
     });
   });
 });
