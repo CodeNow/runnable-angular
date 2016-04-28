@@ -89,17 +89,18 @@ function EnvironmentController(
   };
   fetchInstancesByPod($state.userName)
     .then(function (instancesCollection) {
-      return $q.all(instancesCollection.models.map(function (instance) {
+      $scope.data.instances = instancesCollection;
+      // Asynchronously fetch the Dockerfile
+      $q.all(instancesCollection.models.map(function (instance) {
         if (instance.hasDockerfileMirroring()) {
           return fetchDockerfileForContextVersion(instance.contextVersion)
             .then(function (dockerfile) {
               instance.mirroredDockerfile = dockerfile;
             });
         }
-      }))
-        .then(function () {
-          $scope.data.instances = instancesCollection;
-        });
+        // Differentiate between non-fetched and non-existing
+        instance.mirroredDockerfile = null;
+      }));
     });
 
   $scope.state = {

@@ -218,7 +218,7 @@ ul.card-body.load(
           $root.featureFlags.dockerfileMirroring && \
           server.advanced && \
           server.instance.hasDockerfileMirroring() && \
-          !server.instance.mirroredDockerfile \
+          server.instance.mirroredDockerfile === null\
         "
       )
         use(
