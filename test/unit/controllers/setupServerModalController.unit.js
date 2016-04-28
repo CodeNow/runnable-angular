@@ -45,6 +45,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
   var fetchOwnerRepoStub;
   var fetchUserStub;
+  var fetchDockerfileForContextVersionStub;
   var fetchRepoDockerfilesStub;
   var fetchStackAnalysisMock;
   var updateDockerfileFromStateStub;
@@ -145,6 +146,10 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       $provide.value('close', closeSpy);
 
       $provide.value('actions', {});
+      $provide.factory('fetchDockerfileForContextVersion', function ($q) {
+        fetchDockerfileForContextVersionStub = sinon.stub().returns($q.when(dockerfile));
+        return fetchDockerfileForContextVersionStub;
+      });
       $provide.factory('fetchDockerfileFromSource', function ($q) {
         fetchDockerfileFromSourceStub = sinon.stub().returns($q.when(dockerfile));
         return fetchDockerfileFromSourceStub;
@@ -378,17 +383,8 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         expect(SMC.state.advanced).to.equal('isMirroringDockerfile');
         expect(SMC.state.step).to.equal(null);
         expect(SMC.state.repoSelected).to.exist;
-        sinon.assert.calledOnce(fetchRepoDockerfilesStub);
-        sinon.assert.calledWith(fetchRepoDockerfilesStub, mainACV.attrs.repo, mainACV.attrs.branch);
-        sinon.assert.calledOnce(SMC.state.contextVersion.newFile);
-        sinon.assert.calledWith(SMC.state.contextVersion.newFile, {
-          _id: '123',
-          id: '123',
-          body: 'Hello World',
-          isRemoteCopy: true,
-          name: 'Dockerfile',
-          path: '/'
-        });
+        sinon.assert.calledOnce(fetchDockerfileForContextVersionStub);
+        sinon.assert.calledWith(fetchDockerfileForContextVersionStub, newBuild.contextVersion);
         sinon.assert.calledOnce(SMC.openItems.add);
         sinon.assert.calledWith(SMC.openItems.add, dockerfile);
       });
