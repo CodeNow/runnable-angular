@@ -4,6 +4,7 @@ var $rootScope;
 var streamingLog;
 var moment = require('moment');
 var EventEmitter = require('events').EventEmitter;
+
 describe('streamingLogService'.blue.underline.bold, function () {
   var mockDebounce;
   var stream;

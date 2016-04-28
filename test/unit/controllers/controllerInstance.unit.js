@@ -61,9 +61,10 @@ describe('controllerInstance'.bold.underline.blue, function () {
           hello: 'hi',
           running: sinon.stub()
         };
-        commitHash = 'asdfasdfasdf1234234'
+        commitHash = 'asdfasdfasdf1234234';
         instance = {
           id: sinon.stub().returns(1),
+          hasDockerfileMirroring: sinon.stub().returns(false),
           attrs: {
             name: 'hello'
           },

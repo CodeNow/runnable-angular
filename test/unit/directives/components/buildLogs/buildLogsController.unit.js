@@ -23,6 +23,7 @@ describe('BuildLogsController'.bold.underline.blue, function () {
     mockInstance = {
       build: 'This is a test build!',
       status: sinon.stub().returns('building'),
+      hasDockerfileMirroring: sinon.stub().returns(true),
       on: sinon.spy(),
       off: sinon.spy(),
       id: sinon.stub().returns('instanceID'),
@@ -161,17 +162,17 @@ describe('BuildLogsController'.bold.underline.blue, function () {
         var testErr = 'thatsDope';
         mockInstance.attrs.contextVersion.build.error = {
           message: testErr
-        }
+        };
         mockInstance.status.returns('buildFailed');
         mockInstance.on.lastCall.args[1]();
-        expect(BLC.failReason).to.equal(testErr)
-        expect(BLC.buildStatus).to.equal('failed')
+        expect(BLC.failReason).to.equal(testErr);
+        expect(BLC.buildStatus).to.equal('failed');
       });
       it('should set failed if no error message', function () {
         mockInstance.status.returns('buildFailed');
         mockInstance.on.lastCall.args[1]();
-        expect(BLC.failReason).to.equal('failed')
-        expect(BLC.buildStatus).to.equal('failed')
+        expect(BLC.failReason).to.equal('failed');
+        expect(BLC.buildStatus).to.equal('failed');
       });
       it('should handle toggling debug mode', function () {
         mockInstance.on.lastCall.args[1]();
@@ -253,7 +254,7 @@ describe('BuildLogsController'.bold.underline.blue, function () {
 
           window.open.restore();
         });
-      })
+      });
     });
     describe('on stream end', function () {
       it('should retry if there was no data sent then fail', function () {
@@ -331,6 +332,6 @@ describe('BuildLogsController'.bold.underline.blue, function () {
         });
         expect(foundThird).to.not.be.ok;
       });
-    })
-  })
+    });
+  });
 });
