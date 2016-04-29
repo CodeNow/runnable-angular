@@ -1,4 +1,4 @@
-// scss-lint:disable ImportantRule IdSelector ColorVariable
+// scss-lint:disable ImportantRule IdSelector ColorVariable PseudoElement
 // intercom button
 #intercom-launcher {
   bottom: 18px !important;
@@ -83,6 +83,10 @@
     @include media(md) {
       padding-left: 0;
     }
+  }
+
+  .btn-docs {
+    bottom: 0;
   }
 
   .modal-backdrop.modal-backdrop {

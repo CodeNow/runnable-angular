@@ -20,11 +20,11 @@
     width: 42px;
 
     &:hover {
-      -webkit-filter: brightness(90%);
+      filter: brightness(90%);
     }
 
     &:active {
-      -webkit-filter: brightness(80%);
+      filter: brightness(80%);
     }
 
     .gravatar {
@@ -79,6 +79,24 @@
       width: 100%;
     }
   }
+
+  .btn-docs {
+    bottom: 72px;
+    left: 7px;
+    position: absolute;
+
+    @media (max-height: 420px) {
+      display: none;
+    }
+
+    .icons-link-external {
+      height: 10px;
+      margin-left: 3px;
+      position: relative;
+      top: 1px;
+      width: 10px;
+    }
+  }
 }
 
 // layout main
@@ -86,28 +104,4 @@
   height: 100vh;
   padding-left: $layout-navigation-width;
   width: 100%;
-}
-
-.btn-docs {
-  bottom: 72px;
-  left: 7px;
-  position: absolute;
-
-  .intercom-messenger-active & {
-    bottom: 0;
-  }
-
-  @media (max-height: 420px) {
-    &.a { // to add specificity
-      display: none;
-    }
-  }
-
-  .icons-link-external {
-    height: 10px;
-    margin-left: 1px;
-    position: relative;
-    top: 1px;
-    width: 10px;
-  }
 }
