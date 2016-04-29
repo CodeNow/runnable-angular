@@ -43,7 +43,7 @@
   .a {
     border: $input-border solid transparent;
     border-radius: $input-border-radius-lg;
-    color: lighten(saturate($purple-lighter,18%),9%);
+    color: $purple-logo;
     cursor: pointer;
     display: block;
     font-size: 12px;
