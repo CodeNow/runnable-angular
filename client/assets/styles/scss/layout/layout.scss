@@ -65,7 +65,7 @@
       opacity: .6;
     }
 
-    .iconnables {
+    > .iconnables {
       height: 27px;
       margin: 12px 0 0;
       width: 100%;
@@ -78,4 +78,18 @@
   height: 100vh;
   padding-left: $layout-navigation-width;
   width: 100%;
+}
+
+.docs-link {
+  bottom: 69px;
+  left: 7px;
+  position: absolute;
+
+  .icons-link-external {
+    height: 10px;
+    margin-left: -2px;
+    position: relative;
+    top: 1px;
+    width: 10px;
+  }
 }
