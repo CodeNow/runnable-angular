@@ -19,6 +19,14 @@
     margin: 18px auto 7px;
     width: 42px;
 
+    &:hover {
+      -webkit-filter: brightness(90%);
+    }
+
+    &:active {
+      -webkit-filter: brightness(80%);
+    }
+
     .gravatar {
       border-radius: $input-border-radius;
       height: 100%;
