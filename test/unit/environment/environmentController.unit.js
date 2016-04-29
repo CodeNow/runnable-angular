@@ -5,7 +5,7 @@ var $controller,
     $scope,
     $q,
     $timeout;
-var keypather;
+var keypather = require('keypather')();
 var apiMocks = require('../apiMocks/index');
 var runnable = window.runnable;
 var fetchInstancesByPodMock = new (require('../fixtures/mockFetch'))();
@@ -14,20 +14,24 @@ var createAndBuildNewContainer = new (require('../fixtures/mockFetch'))();
 var stacks = angular.copy(apiMocks.stackInfo);
 var thisUser = runnable.newUser(apiMocks.user);
 var EC;
+var fetchDockerfileForContextVersionStub;
+var fetchInstancesByPodStub;
 
 describe('environmentController'.bold.underline.blue, function () {
   var ctx = {};
 
-  function createMasterPods() {
-    ctx.masterPods = runnable.newInstances(
-      [apiMocks.instances.building, apiMocks.instances.runningWithContainers[0]],
-      {noStore: true}
-    );
-    ctx.masterPods.githubUsername = thisUser.oauthName();
-  }
   function setup(opts) {
     opts = opts || {};
     ctx = {};
+    var buildingInstance = apiMocks.instances.building;
+    ctx.runningInstance = apiMocks.instances.runningWithContainers[0];
+    keypather.set(ctx.runningInstance, 'contextVersion.buildDockerfilePath', '/Dockerfile');
+    ctx.masterPods = runnable.newInstances(
+      [ buildingInstance, ctx.runningInstance ],
+      {noStore: true}
+    );
+    ctx.masterPods.githubUsername = thisUser.oauthName();
+    ctx.dockerfile = {};
     ctx.$log = {
       error: sinon.stub()
     };
@@ -70,7 +74,14 @@ describe('environmentController'.bold.underline.blue, function () {
       $provide.value('eventTracking', ctx.eventTracking);
       $provide.value('user', thisUser);
       $provide.value('$state', ctx.state);
-      $provide.factory('fetchInstancesByPod', fetchInstancesByPodMock.fetch());
+      $provide.factory('fetchInstancesByPod', function ($q) {
+        fetchInstancesByPodStub = sinon.stub().returns($q.when(ctx.masterPods));
+        return fetchInstancesByPodStub;
+      });
+      $provide.factory('fetchDockerfileForContextVersion', function ($q) {
+        fetchDockerfileForContextVersionStub = sinon.stub().returns($q.when(ctx.dockerfile));
+        return fetchDockerfileForContextVersionStub;
+      });
       $provide.factory('fetchUser', function ($q) {
          var user = {};
          keypather.set(user, 'attrs.accounts.github.username', 'thejsj');
@@ -114,33 +125,30 @@ describe('environmentController'.bold.underline.blue, function () {
       '$scope': $scope,
       '$rootScope': $rootScope
     });
-    createMasterPods();
   }
 
 
   describe('basics', function () {
     it('should attempt all of the required fetches, plus add its actions to the scope', function () {
-
       setup();
       $rootScope.$digest();
       expect($scope).to.have.property('data');
-      // this isn't loaded until stacks
-      expect($scope.data).to.not.have.property('instances');
       expect($scope).to.have.property('state');
-
-      var templateInstances = runnable.newInstances(
-        [apiMocks.instances.running, apiMocks.instances.stopped],
-        {noStore: true}
-      );
-      templateInstances.githubUsername = 'HelloRunnable';
-      fetchInstancesByPodMock.triggerPromise(ctx.masterPods);
-
       sinon.assert.calledWith(ctx.pageNameMock.setTitle, 'Configure - Runnable');
       sinon.assert.calledOnce(ctx.favicoMock.reset);
+      expect($scope.data.instances, 'masterPods').to.equal(ctx.masterPods);
+    });
+  });
 
+  describe('Dockerfile mirroring', function () {
+    it('should attempt all of the required fetches, plus add its actions to the scope', function () {
+      setup();
       $rootScope.$digest();
       // this should now be loaded
       expect($scope.data.instances, 'masterPods').to.equal(ctx.masterPods);
+      sinon.assert.calledOnce(fetchInstancesByPodStub);
+      sinon.assert.calledOnce(fetchDockerfileForContextVersionStub);
+      expect(ctx.masterPods.models[1].mirroredDockerfile).to.equal(ctx.dockerfile);
     });
   });
 
