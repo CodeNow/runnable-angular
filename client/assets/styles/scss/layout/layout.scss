@@ -19,6 +19,14 @@
     margin: 18px auto 7px;
     width: 42px;
 
+    &:hover {
+      filter: brightness(90%);
+    }
+
+    &:active {
+      filter: brightness(80%);
+    }
+
     .gravatar {
       border-radius: $input-border-radius;
       height: 100%;
@@ -35,7 +43,7 @@
   .a {
     border: $input-border solid transparent;
     border-radius: $input-border-radius-lg;
-    color: $purple-lighter;
+    color: $purple-logo;
     cursor: pointer;
     display: block;
     font-size: 12px;
@@ -65,10 +73,28 @@
       opacity: .6;
     }
 
-    .iconnables {
+    > .iconnables {
       height: 27px;
       margin: 12px 0 0;
       width: 100%;
+    }
+  }
+
+  .btn-docs {
+    bottom: 72px;
+    left: 7px;
+    position: absolute;
+
+    @media (max-height: 420px) {
+      display: none;
+    }
+
+    .icons-link-external {
+      height: 10px;
+      margin-left: 3px;
+      position: relative;
+      top: 1px;
+      width: 10px;
     }
   }
 }
