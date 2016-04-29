@@ -91,7 +91,7 @@ function EnvironmentController(
     .then(function (instancesCollection) {
       $scope.data.instances = instancesCollection;
       // Asynchronously fetch the Dockerfile
-      $q.all(instancesCollection.models.map(function (instance) {
+      instancesCollection.forEach(function (instance) {
         if (instance.hasDockerfileMirroring()) {
           return fetchDockerfileForContextVersion(instance.contextVersion)
             .then(function (dockerfile) {
@@ -100,7 +100,7 @@ function EnvironmentController(
         }
         // Differentiate between non-fetched and non-existing
         instance.mirroredDockerfile = null;
-      }));
+      });
     });
 
   $scope.state = {
