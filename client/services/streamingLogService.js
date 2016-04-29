@@ -130,7 +130,8 @@ function streamingLog(
           processedRawLogs = null;
         }
 
-        if (data.timestamp) {
+        // Only start the timer if we have a command
+        if (data.timestamp && currentCommand) {
           streamTimes.latest = new Date(data.timestamp);
           clearInterval(timingInterval);
           streamTimes.currentMachineTime = streamTimes.latest;

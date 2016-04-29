@@ -4,6 +4,7 @@
 // cmd logs: termjs
 // terminal: termjs
 // *********************
+// scss-lint:disable ColorVariable
 
 // build log specific
 .build-log-wrapper {
@@ -109,6 +110,7 @@
 
 // logs scroll horizontally
 .build-log-content {
+  padding: 9px 9px 0 30px;
   transition: height .15s;
   word-wrap: normal;
 
@@ -119,11 +121,7 @@
   // when logs are over 1000 lines
   &.long {
     height: 500px;
-    transition: height 0s;
-  }
-
-  &.loaded {
-    padding: 9px 9px 0 24px;
+    transition: height 0;
   }
 
   &.ng-leave {
@@ -155,7 +153,7 @@
       border-top: 5px solid transparent;
       content: '';
       display: block;
-      left: 8px;
+      left: 12px;
       pointer-events: none;
       position: absolute;
       top: 16px;
@@ -220,6 +218,7 @@
 
 // dark theme
 .logs-runnable-dark {
+  @include logs-runnable-color(dark);
   background: $ace-bg;
   color: $white;
 
@@ -279,12 +278,11 @@
       }
     }
   }
-
-  @include logs-runnable-color(dark);
 }
 
 // light theme
 .logs-runnable-light {
+  @include logs-runnable-color(light);
   background-color: $gray-lighterest;
   color: $gray-darker;
 
@@ -344,16 +342,14 @@
       }
     }
   }
-
-  @include logs-runnable-color(light);
 }
 
 // log spinner
 .log-spinner {
-  bottom: 30px;
+  bottom: 21px;
   font-size: 16px;
-  height: 16px;
-  left: 24px;
+  height: 24px;
+  left: 30px;
   position: relative;
   width: 16px;
 

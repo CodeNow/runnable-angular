@@ -12,13 +12,11 @@ function BuildLogsController(
   updateInstanceWithNewBuild,
   primus,
   promisify,
-  streamingLog,
-  WatchOnlyOnce
+  streamingLog
 ) {
   var BLC = this;
   BLC.showDebug = false;
-
-  var watchOnlyOnce = new WatchOnlyOnce($scope);
+  BLC.headerContent = [];
 
   function handleUpdate () {
     var status = BLC.instance.status();
@@ -94,13 +92,17 @@ function BuildLogsController(
       streamingBuildLogs.destroy();
       closeStream(stream);
     });
-    stream.on('data', function () {
+    stream.on('data', function (data) {
+      if (data.type === 'log' && BLC.buildLogs.length === 0) {
+        BLC.headerContent.push(data.content);
+      }
       stream.hasData = true;
     });
     stream.on('end', function () {
       if (!stream.hasData) {
-        failCount++;
+        failCount += 1;
         if (failCount > 10) {
+          BLC.headerContent = [ ];
           BLC.streamFailure = true;
           BLC.buildLogsRunning = false;
         } else {

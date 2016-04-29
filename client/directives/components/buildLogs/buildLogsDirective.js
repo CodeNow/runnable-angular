@@ -58,6 +58,13 @@ function buildLogs(
       }, 10);
 
 
+      var unwatchForMainHeader = $scope.$watch('BLC.buildLogs.length', function () {
+        if ($scope.BLC.buildLogs.length > 0) {
+          $scope.mainHeaderExpanded = false;
+          unwatchForMainHeader();
+        }
+      });
+
       $scope.$watch(function() {
         return {
           buildLogs: $scope.BLC.buildLogs.length,
@@ -82,8 +89,14 @@ function buildLogs(
       });
 
       element.on('scroll', scrollHelper);
-
+      $scope.mainHeaderExpanded = true;
       $scope.actions = {
+        toggleMainHeader: function () {
+          if ($scope.BLC.buildLogs.length === 0) {
+            return;
+          }
+          $scope.mainHeaderExpanded = !$scope.mainHeaderExpanded;
+        },
         toggleCommand: function (event, command) {
           var index = $scope.BLC.buildLogs.indexOf(command);
           if (!command.hasContent || (index === ($scope.BLC.buildLogs.length - 1) && $scope.BLC.buildLogsRunning)) {
