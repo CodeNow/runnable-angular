@@ -97,6 +97,10 @@
     bottom: 0;
   }
 
+  @media (max-height: 400px) {
+    display: none !important;
+  }
+
   .icons-link-external {
     height: 10px;
     margin-left: -2px;
