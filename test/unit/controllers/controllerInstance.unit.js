@@ -19,7 +19,9 @@ var mockFavico;
 var instance;
 var container;
 var commitHash;
+var dockerfile;
 var getCommitForCurrentlyBuildingBuild;
+var fetchDockerfileForContextVersionStub;
 var q;
 
 var mockUserFetch = new (require('../fixtures/mockFetch'))();
@@ -28,6 +30,33 @@ describe('controllerInstance'.bold.underline.blue, function () {
   beforeEach(angular.mock.module('app'));
 
   beforeEach(function () {
+    container = {
+      hello: 'hi',
+      running: sinon.stub()
+    };
+    commitHash = 'asdfasdfasdf1234234';
+    dockerfile = {};
+    instance = {
+      id: sinon.stub().returns(1),
+      hasDockerfileMirroring: sinon.stub().returns(false),
+      attrs: {
+        name: 'hello'
+      },
+      containers: {
+        models: [container]
+      },
+      contextVersion: {
+        appCodeVersions: {
+          models: [
+            {
+              commit: commitHash
+            }
+          ]
+        }
+      },
+      status: sinon.stub().returns('building'),
+      on: sinon.stub()
+    };
     angular.mock.module(function ($provide) {
       mockFavico = {
         reset : sinon.spy(),
@@ -41,6 +70,10 @@ describe('controllerInstance'.bold.underline.blue, function () {
       });
       $provide.factory('setLastInstance', function ($q) {
         return function () { };
+      });
+      $provide.factory('fetchDockerfileForContextVersion', function ($q) {
+        fetchDockerfileForContextVersionStub = sinon.stub().returns($q.when(dockerfile));
+        return fetchDockerfileForContextVersionStub;
       });
       $provide.factory('fetchCommitData', function () {
         return {
@@ -57,32 +90,6 @@ describe('controllerInstance'.bold.underline.blue, function () {
         };
       });
       $provide.factory('fetchInstances', function ($q) {
-        container = {
-          hello: 'hi',
-          running: sinon.stub()
-        };
-        commitHash = 'asdfasdfasdf1234234';
-        instance = {
-          id: sinon.stub().returns(1),
-          hasDockerfileMirroring: sinon.stub().returns(false),
-          attrs: {
-            name: 'hello'
-          },
-          containers: {
-            models: [container]
-          },
-          contextVersion: {
-            appCodeVersions: {
-              models: [
-                {
-                  commit: commitHash
-                }
-              ]
-            }
-          },
-          status: sinon.stub().returns('building'),
-          on: sinon.stub()
-        };
         return function ($q) {
           return instance;
         };
@@ -160,7 +167,7 @@ describe('controllerInstance'.bold.underline.blue, function () {
       .respond(mocks.gh.bitcoinRepoCommits);
   });
 
-  it('basic', function () {
+  it('Basic', function () {
 
     sinon.spy(eventTracking, 'visitedState');
 
@@ -187,6 +194,22 @@ describe('controllerInstance'.bold.underline.blue, function () {
 
   });
 
+  it('Dockerfile mirroring', function () {
+    instance.hasDockerfileMirroring.returns(true);
+    instance.status.returns('buildFailed');
+
+    var $scope = $rootScope.$new();
+    $controller('ControllerInstance', {
+      '$scope': $scope
+    });
+    $rootScope.$digest();
+
+    sinon.assert.calledOnce(fetchDockerfileForContextVersionStub);
+    sinon.assert.calledWith(fetchDockerfileForContextVersionStub, instance.contextVersion);
+    expect(instance.mirroredDockerfile).to.equal(dockerfile);
+
+    $scope.$apply();
+  });
 
   describe('instance status', function () {
     var controller;
