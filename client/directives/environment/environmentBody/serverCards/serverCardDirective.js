@@ -106,16 +106,8 @@ require('app')
               })
                 .then(function (helpCard) {
                   if (!helpCard) { return; }
-                  addListener([{
-                    eventName: 'refresh',
-                    helpCard: helpCard,
-                    cb: calculateHelpCardsForRepoInstance
-                  }]);
-                  addListener([{
-                    eventName: 'activate',
-                    helpCard: helpCard,
-                    cb: scrollIntoView
-                  }]);
+                  addListener(helpCard, 'refresh', calculateHelpCardsForRepoInstance);
+                  addListener(helpCard, 'activate', scrollIntoView);
                 }).catch(errs.handler);
             }
             // Missing Dependency
@@ -125,11 +117,7 @@ require('app')
             })
               .then(function (helpCard) {
                 if (!helpCard) { return; }
-                addListener([{
-                  eventName: 'refresh',
-                  helpCard: helpCard,
-                  cb: calculateHelpCardsForRepoInstance
-                }]);
+                addListener(helpCard, 'refresh', calculateHelpCardsForRepoInstance);
               }).catch(errs.handler);
           });
         }
@@ -166,28 +154,20 @@ require('app')
               })
                 .then(function (helpCard) {
                   if (!helpCard) { return; }
-                  addListener([{
-                    eventName: 'refresh',
-                    helpCard: helpCard,
-                    cb: calculateHelpCardsForNonRepoContainers
-                  }]);
+                addListener(helpCard, 'refresh', calculateHelpCardsForNonRepoContainers);
                 })
                 .catch(errs.handler);
             });
         }
 
-        function addListener (events) {
-          events.forEach(function (eventObj) {
-            if (!angular.isObject(eventObj)) {
-              listeners.push({
-                obj: eventObj.helpCard,
-                key: eventObj.name,
-                value: eventObj.cb
-              });
-              eventObj.helpCard
-                .on(eventObj.name, eventObj.cb);
-            }
+        function addListener (helpCard, name, cb) {
+          listeners.push({
+            obj: helpCard,
+            key: name,
+            value: cb
           });
+          helpCard
+            .on(name, cb);
         }
 
         function handleNewInstanceUpdate (instance) {
