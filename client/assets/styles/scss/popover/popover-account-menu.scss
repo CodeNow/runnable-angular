@@ -1,5 +1,5 @@
 .popover-account-menu {
-  min-height: 102px;
+  min-height: 189px;
   position: fixed;
   width: 240px;
   z-index: $z-spinner + 1; // to appear above instance view spinner
@@ -47,6 +47,14 @@
     // external links
     .icons-link-external {
       padding: 0 5px;
+    }
+  }
+
+  .list-item-documentation {
+    display: none;
+
+    @media (max-height: 420px) {
+      display: block;
     }
   }
 }
