@@ -171,8 +171,12 @@
         width: 21px;
       }
 
-      .icons-arrow-forward {
+      .icons-arrow-forward,
+      .icons-link-external {
         color: $gray-light;
+      }
+
+      .icons-arrow-forward {
         margin-left: -2px;
       }
     }
