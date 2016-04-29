@@ -93,6 +93,10 @@
   left: 7px;
   position: absolute;
 
+  .intercom-messenger-active & {
+    bottom: 0;
+  }
+
   .icons-link-external {
     height: 10px;
     margin-left: -2px;
