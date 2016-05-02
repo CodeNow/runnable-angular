@@ -137,7 +137,7 @@
   // ports
   .textarea {
     display: block;
-    max-height: 150px;
+    max-height: 210px;
     min-height: 90px;
     overflow-y: auto;
     resize: vertical;
@@ -429,18 +429,35 @@
 }
 
 // repository
-.form-repository .input-col .well {
-  padding: 6px 15px 6px 8px;
+.form-repository .input-col {
+  position: relative;
 
-  @include media(md) {
+  .well {
+    border-left: 0;
+    border-radius: $input-border-radius $input-border-radius 0 0;
+    border-right: 0;
+    border-top: 0;
+    left: $input-border;
+    margin: 0;
     padding: 6px 8px;
+    position: absolute;
+    right: $input-border;
+    top: $input-border;
+
+    .btn-xxs {
+      float: right;
+
+      @include media(md) {
+        float: none;
+      }
+    }
   }
 
-  .btn-xxs {
-    float: right;
+  .textarea {
+    padding-top: 34px;
 
     @include media(md) {
-      float: none;
+      padding-top: 52px;
     }
   }
 }

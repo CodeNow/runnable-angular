@@ -221,6 +221,10 @@
       padding: 6px 8px;
       white-space: nowrap;
 
+      &:first-child {
+        margin-top: 0;
+      }
+
       @include media(md) {
         white-space: normal;
       }
