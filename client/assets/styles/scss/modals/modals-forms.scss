@@ -226,6 +226,7 @@
       }
 
       @include media(xs) {
+        overflow-x: auto;
         white-space: nowrap;
       }
 
