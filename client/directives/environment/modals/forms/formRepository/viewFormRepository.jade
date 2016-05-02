@@ -56,10 +56,27 @@ label.label.clearfix
 
 label.label.label-container-cmd.clearfix
   .label-col Container CMD
-
   .input-col
+    fancy-select.monospace.input-validate(
+      autocomplete = "off"
+      name = "repository.startCommand"
+      ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
+      ng-if = "!$root.featureFlags.multilineStartCmd"
+      ng-required = "startCommandCanDisable || ngShow()"
+      on-update = "updateDockerfile"
+      show-dropdown = "state.selectedStack.startCommand"
+      spellcheck = "false"
+      type = "text"
+      value = "state.startCommand"
+    )
+      li.list-item.popover-list-item.small.disabled Suggested Container CMDs
+      fancy-option(
+        ng-repeat = "startCmd in $parent.state.selectedStack.startCommand"
+        value = "startCmd"
+      ) {{$parent.startCmd}}
+
     .well.well-merged.small(
-      ng-if = "SMC.state.selectedStack.startCommand.length"
+      ng-if = "SMC.state.selectedStack.startCommand.length && $root.featureFlags.multilineStartCmd"
     )
       strong.strong Suggested for {{SMC.state.selectedStack.name}}:&#32;
       span.btn.btn-xxs.white.monospace(
@@ -75,6 +92,7 @@ label.label.label-container-cmd.clearfix
       autocomplete = "off"
       name = "repository.startCommand"
       ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
+      ng-if = "$root.featureFlags.multilineStartCmd"
       ng-required = "startCommandCanDisable || ngShow()"
       on-update = "updateDockerfile"
       spellcheck = "false"

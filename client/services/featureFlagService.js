@@ -26,6 +26,7 @@ function featureFlags(
     isolationRepos: true, // for isolation UI
     isolationUI: true, // for isolation UI
     multilineFnR: false,
+    multilineStartCmd: false,
     multipleRepositoryContainers: false, // for adding multiple containers with the same repository
     nameContainer: false,
     navListFilter: false,
