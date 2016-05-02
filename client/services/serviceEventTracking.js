@@ -131,7 +131,7 @@ EventTracking.prototype.boot = function (user, opts) {
   };
   if (opts.orgName) {
     data.company = {
-      id: opts.orgName,
+      id: opts.orgName.toLowerCase(),
       name: opts.orgName
     };
   }
