@@ -429,36 +429,32 @@
 }
 
 // repository
-.form-repository .input-col {
-  position: relative;
+.label-build-commands,
+.label-container-cmd {
 
-  .well {
-    border-left: 0;
-    border-radius: $input-border-radius $input-border-radius 0 0;
-    border-right: 0;
-    border-top: 0;
-    left: $input-border;
-    margin: 0;
-    padding: 6px 8px;
-    position: absolute;
-    right: $input-border;
-    top: $input-border;
+  .input-col {
+    position: relative;
+  }
 
-    .btn-xxs {
-      float: right;
+  .btn-xxs {
 
-      @include media(md) {
-        float: none;
-      }
+    @include media(md) {
+      float: none;
+    }
+
+    + .btn-xxs {
+      margin-left: 3px;
     }
   }
 
   .textarea {
     padding-top: 34px;
+  }
+}
 
-    @include media(md) {
-      padding-top: 52px;
-    }
+.label-build-commands .textarea {
+  @media (max-width: $screen-md) and (min-width: $screen-xs) {
+    padding-top: 52px;
   }
 }
 
