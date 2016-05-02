@@ -343,7 +343,10 @@ function ServerModalController(
 
   this.switchToAdvancedMode = function (state, openItems) {
     var SMC = this;
-    var dockerfileBody = state.dockerfile.attrs.body;
+    var errorMessage = '';
+    errorMessage += '# There was an error retrieving the Dockerfile from your repo';
+    errorMessage += '# This error occured when disabling mirrorring your Dockerfile';
+    var dockerfileBody = keypather.get(state, 'dockerfile.attrs.body') || errorMessage;
     return loadingPromises.add(SMC.name, promisify(state.contextVersion, 'update')({
       advanced: true,
       buildDockerfilePath: null

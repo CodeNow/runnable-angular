@@ -127,15 +127,6 @@ function SetupServerModalController(
     SMC.state.mainRepoContainerFile.name = repo.attrs.name;
     SMC.state.opts.name = normalizeRepoName(repo);
     SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
-    var fullpath = keypather.get(SMC, 'state.build.contextVersion.attrs.buildDockerfilePath');
-    if (fullpath) {
-      angular.extend(SMC.state, {
-        advanced: 'isMirroringDockerfile',
-        step: null
-      });
-      SMC.selectedTab = 'buildfiles';
-      SMC.openDockerfile(SMC.state, SMC.openItems);
-    }
   } else {
     // TODO: Remove code when removing `dockerFileMirroring` code
     $q.all({

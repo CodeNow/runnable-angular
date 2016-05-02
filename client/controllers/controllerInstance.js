@@ -17,6 +17,7 @@ function ControllerInstance(
   eventTracking,
   favico,
   fetchCommitData,
+  fetchDockerfileForContextVersion,
   fetchInstances,
   fetchSettings,
   getCommitForCurrentlyBuildingBuild,
@@ -59,7 +60,21 @@ function ControllerInstance(
     })
       .then(function (results) {
         var instance = results.instance;
+        // Fetch Dockerfile. Check build didn't fail because there's no Dockerfile
+        if (instance.hasDockerfileMirroring() && instance.status() === 'buildFailed' && instance.mirroredDockerfile === undefined) {
+          return fetchDockerfileForContextVersion(instance.contextVersion)
+            .then(function (dockerfile) {
+              instance.mirroredDockerfile = dockerfile;
+              return results;
+            });
+        }
+        return results;
+      })
+      .then(function (results) {
+        var instance = results.instance;
         data.instance = instance;
+
+        // Check that current commit is not already building
         var currentCommit = keypather.get(instance, 'attrs.contextVersion.appCodeVersions[0].commit');
         getCommitForCurrentlyBuildingBuild(instance)
           .then(function (commit) {

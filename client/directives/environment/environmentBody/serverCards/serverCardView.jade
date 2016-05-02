@@ -170,9 +170,12 @@ ul.card-body.load(
     small.small.text-overflow(
       ng-if = "server.advanced"
     )
-      span.span.float-left —
-      //- span.span.float-left Error: Dockerfile not found
-
+      span.span.float-left(
+        ng-if = "server.instance.mirroredDockerfile.attrs.lastUpdated"
+      ) Last updated {{server.instance.mirroredDockerfile.attrs.lastUpdated}}
+      span.span.float-left(
+        ng-if = "!server.instance.mirroredDockerfile.attrs.lastUpdated"
+      ) —
 
     small.small.text-overflow(
       ng-if = "!server.advanced"
@@ -202,16 +205,22 @@ ul.card-body.load(
         ng-if = "\
           $root.featureFlags.dockerfileMirroring && \
           server.advanced && \
-          server.instance.hasDockerfileMirroring() \
+          server.instance.hasDockerfileMirroring() && \
+          server.instance.mirroredDockerfile \
         "
       )
         use(
           xlink:href = "#icons-sync"
         )
       //- if dockerfile is missing
-      //- svg.iconnables.icons-alert-alt(
-      //-   ng-if = "$root.featureFlags.dockerfileMirroring && server.advanced && error"
-      //- )
+      svg.iconnables.icons-alert-alt(
+        ng-if = " \
+          $root.featureFlags.dockerfileMirroring && \
+          server.advanced && \
+          server.instance.hasDockerfileMirroring() && \
+          server.instance.mirroredDockerfile === null\
+        "
+      )
         use(
           xlink:href = "#icons-alert-alt"
         )
