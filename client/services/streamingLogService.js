@@ -9,10 +9,11 @@ var convert = new Convert({
 require('app').factory('streamingLog', streamingLog);
 
 function streamingLog(
+  $interval,
   $rootScope,
-  debounce,
   $sce,
-  $interval
+  debounce,
+  keypather
 ) {
   return function (stream) {
     var refreshAngular = debounce(function () {
@@ -55,7 +56,7 @@ function streamingLog(
               hasContent: false,
               processHtml: debounce(function () {
                 var self = this;
-                if (!self.unprocessedContent.length) {
+                if (!keypather.get(self, 'unprocessedContent.length')) {
                   return;
                 }
                 var joinedContent = self.unprocessedContent.join('');

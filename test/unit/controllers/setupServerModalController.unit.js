@@ -45,6 +45,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
   var fetchOwnerRepoStub;
   var fetchUserStub;
+  var fetchDockerfileForContextVersionStub;
   var fetchRepoDockerfilesStub;
   var fetchStackAnalysisMock;
   var updateDockerfileFromStateStub;
@@ -145,6 +146,10 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       $provide.value('close', closeSpy);
 
       $provide.value('actions', {});
+      $provide.factory('fetchDockerfileForContextVersion', function ($q) {
+        fetchDockerfileForContextVersionStub = sinon.stub().returns($q.when(dockerfile));
+        return fetchDockerfileForContextVersionStub;
+      });
       $provide.factory('fetchDockerfileFromSource', function ($q) {
         fetchDockerfileFromSourceStub = sinon.stub().returns($q.when(dockerfile));
         return fetchDockerfileFromSourceStub;
@@ -351,49 +356,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         expect(SMC.state.repoSelected).to.exist;
       });
     });
-
-    describe('Init with passed-in values and dockerfile', function () {
-      beforeEach(function (done) {
-        initializeValues();
-        newBuild.contextVersion.attrs.buildDockerfilePath = '/Dockerfile';
-        newBuild.contextVersion.newFile = sinon.stub().returns(dockerfile);
-        initState({
-          repo: repo,
-          build: newBuild,
-          masterBranch: branch
-        }, done);
-      });
-
-      it('should set the dockerfile', function () {
-        SMC.openItems.add = sinon.stub();
-
-        $scope.$digest();
-        sinon.assert.notCalled($rootScope.dataApp.data.activeAccount.oauthName);
-        sinon.assert.notCalled(fetchOwnerRepoStub);
-        expect(SMC.state.repo).to.exist;
-        expect(SMC.state.build).to.exist;
-        expect(SMC.state.acv).to.exist;
-        expect(SMC.state.contextVersion).to.exist;
-        expect(SMC.state.branch).to.exist;
-        expect(SMC.state.advanced).to.equal('isMirroringDockerfile');
-        expect(SMC.state.step).to.equal(null);
-        expect(SMC.state.repoSelected).to.exist;
-        sinon.assert.calledOnce(fetchRepoDockerfilesStub);
-        sinon.assert.calledWith(fetchRepoDockerfilesStub, mainACV.attrs.repo, mainACV.attrs.branch);
-        sinon.assert.calledOnce(SMC.state.contextVersion.newFile);
-        sinon.assert.calledWith(SMC.state.contextVersion.newFile, {
-          _id: '123',
-          id: '123',
-          body: 'Hello World',
-          isRemoteCopy: true,
-          name: 'Dockerfile',
-          path: '/'
-        });
-        sinon.assert.calledOnce(SMC.openItems.add);
-        sinon.assert.calledWith(SMC.openItems.add, dockerfile);
-      });
-    });
-
 
     describe('Init with fetched values', function () {
       beforeEach(initState.bind(null, {}));

@@ -9,7 +9,14 @@
   div(
     ng-if = "!$root.isLoading.buildLogsController"
   )
-    p.p Sorry, we ran into an issue trying to build your container.
+    p.p(
+      ng-if = "!BLC.showNoDockerfileError"
+    ) Sorry, we ran into an issue trying to build your container.
+    p.p(
+      ng-if = "BLC.showNoDockerfileError"
+    )
+      | We couldn't find a Dockerfile to build your container with.
+      | Does it exist in your repository?
     button.btn.btn-sm.purple(
       ng-click = "BLC.actions.rebuildWithoutCache()"
     ) Retry Build

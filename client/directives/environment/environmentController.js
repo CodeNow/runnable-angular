@@ -18,6 +18,7 @@ function EnvironmentController(
   errs,
   favico,
   fetchUser,
+  fetchDockerfileForContextVersion,
   fetchInstancesByPod,
   fetchOrgMembers,
   fetchOrgTeammateInvitations,
@@ -87,8 +88,19 @@ function EnvironmentController(
     helpCards: helpCards
   };
   fetchInstancesByPod($state.userName)
-    .then(function (instances) {
-      $scope.data.instances = instances;
+    .then(function (instancesCollection) {
+      $scope.data.instances = instancesCollection;
+      // Asynchronously fetch the Dockerfile
+      instancesCollection.forEach(function (instance) {
+        if (instance.hasDockerfileMirroring()) {
+          return fetchDockerfileForContextVersion(instance.contextVersion)
+            .then(function (dockerfile) {
+              instance.mirroredDockerfile = dockerfile;
+            });
+        }
+        // Differentiate between non-fetched and non-existing
+        instance.mirroredDockerfile = null;
+      });
     });
 
   $scope.state = {

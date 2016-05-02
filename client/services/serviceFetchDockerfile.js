@@ -2,6 +2,7 @@
 
 require('app')
   .factory('fetchRepoDockerfiles', fetchRepoDockerfiles)
+  .factory('fetchCommitsForFile', fetchCommitsForFile)
   .factory('fetchDockerfileForContextVersion', fetchDockerfileForContextVersion);
 
 function fetchRepoDockerfiles(
@@ -30,8 +31,10 @@ function fetchRepoDockerfiles(
 
 function fetchDockerfileForContextVersion (
   base64,
+  fetchCommitsForFile,
   fetchRepoDockerfiles,
   keypather,
+  moment,
   promisify
 ) {
   return function (contextVersion) {
@@ -51,16 +54,44 @@ function fetchDockerfileForContextVersion (
       return fetchRepoDockerfiles(repoFullName, branchName)
         .then(function (dockerfiles) {
           var dockerfile = dockerfiles[0];
-          return contextVersion.newFile({
-            _id: dockerfile.sha,
-            id: dockerfile.sha,
-            body: base64.decode(dockerfile.content),
-            isRemoteCopy: true,
-            name: name,
-            path: path + '/'
-          });
+          if (!dockerfile) {
+            return null;
+          }
+          return fetchCommitsForFile(repoFullName, branchName, buildDockerfilePath)
+            .then(function (commits) {
+              // Fetch last time file was updated
+              var lastTimeUpdated = keypather.get(commits, '[0].commit.committer.date');
+              return contextVersion.newFile({
+                _id: dockerfile.sha,
+                id: dockerfile.sha,
+                body: base64.decode(dockerfile.content),
+                isRemoteCopy: true,
+                name: name,
+                path: path + '/',
+                lastUpdated: lastTimeUpdated && moment(lastTimeUpdated).fromNow(false)
+              });
+            });
         });
     }
     return promisify(contextVersion, 'fetchFile')('/Dockerfile');
   };
 }
+
+function fetchCommitsForFile(
+  $q,
+  $http,
+  configAPIHost,
+  keypather
+) {
+  return function (repoFullName, branchName, path) {
+    branchName = (branchName) ? branchName : 'master';
+    return $http.get(configAPIHost + '/github/repos/' + repoFullName + '/commits', {
+      path: path,
+      sha: branchName
+    })
+      .then(function (res) {
+        return res.data;
+      });
+  };
+}
+

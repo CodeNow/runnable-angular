@@ -118,7 +118,11 @@ function SetupMirrorServerModalController(
   if (!fullpath) {
     throw new Error('Context Version must have buildDockerfilePath');
   }
-  SMC.openDockerfile(SMC.state, SMC.openItems);
+  loading(SMC.name, true);
+  SMC.openDockerfile(SMC.state, SMC.openItems)
+    .finally(function () {
+      loading(SMC.name, false);
+    });
 
   $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
     $event.stopPropagation();
