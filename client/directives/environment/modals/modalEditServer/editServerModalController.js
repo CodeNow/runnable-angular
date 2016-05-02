@@ -142,6 +142,10 @@ function EditServerModalController(
       });
   }
 
+  SMC.showStackSelector = function () {
+    return !SMC.state.advanced;
+  };
+
   SMC.startCommand = function () {
     var cmd = keypather.get(SMC, 'instance.containers.models[0].attrs.inspect.Config.Cmd[2]');
     return cleanStartCommand(cmd);
