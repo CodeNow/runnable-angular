@@ -137,7 +137,7 @@
   // ports
   .textarea {
     display: block;
-    max-height: 150px;
+    max-height: 210px;
     min-height: 90px;
     overflow-y: auto;
     resize: vertical;
@@ -429,19 +429,32 @@
 }
 
 // repository
-.form-repository .input-col .well {
-  padding: 6px 15px 6px 8px;
+.label-build-commands,
+.label-container-cmd {
 
-  @include media(md) {
-    padding: 6px 8px;
+  .input-col {
+    position: relative;
   }
 
   .btn-xxs {
-    float: right;
 
     @include media(md) {
       float: none;
     }
+
+    + .btn-xxs {
+      margin-left: 3px;
+    }
+  }
+
+  .textarea {
+    padding-top: 35px;
+  }
+}
+
+.label-build-commands .textarea {
+  @media (max-width: $screen-md) and (min-width: $screen-xs) {
+    padding-top: 52px;
   }
 }
 

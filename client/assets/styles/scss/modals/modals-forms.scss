@@ -5,7 +5,7 @@
   padding: 15px 30px;
 
   @include media(xs) {
-    padding: 15px;
+    padding: 9px 0;
   }
 
   // ******
@@ -219,10 +219,27 @@
       clear: both;
       margin: 6px 0;
       padding: 6px 8px;
-      white-space: nowrap;
 
-      @include media(md) {
-        white-space: normal;
+      @include media(xs) {
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+
+      &.well-merged {
+        border-left: 0;
+        border-radius: $input-border-radius $input-border-radius 0 0;
+        border-right: 0;
+        border-top: 0;
+        left: $input-border;
+        margin: 0;
+        padding: 6px 8px;
+        position: absolute;
+        right: $input-border;
+        top: $input-border;
+      }
+
+      &:first-child {
+        margin-top: 0;
       }
 
       .btn-xxs {

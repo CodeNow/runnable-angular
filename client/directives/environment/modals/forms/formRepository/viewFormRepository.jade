@@ -31,10 +31,10 @@ label.label.clearfix
   .label-col Build Commands
     small.small (optional)
   .input-col
-    .well.small
+    .well.well-merged.small
       strong.strong Note:&#32;
       span.span Installing private modules? Make sure you add your SSH keys{{!SMC.instance ? ' on the next step' : ''}}.&#32;
-      button.btn.btn-xxs.white(
+      button.btn.btn-xxs.white.float-right(
         ng-click = "SMC.changeTab('files')"
         ng-if = "SMC.instance"
         type = "button"
@@ -54,14 +54,14 @@ label.label.clearfix
     )
     small.small Add any commands needed to support your application. They’ll be run before the Container CMD from your repository’s root folder.
 
-label.label.clearfix
+label.label.label-container-cmd.clearfix
   .label-col Container CMD
-
   .input-col
     fancy-select.monospace.input-validate(
       autocomplete = "off"
       name = "repository.startCommand"
       ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
+      ng-if = "!$root.featureFlags.multilineStartCmd"
       ng-required = "startCommandCanDisable || ngShow()"
       on-update = "updateDockerfile"
       show-dropdown = "state.selectedStack.startCommand"
@@ -75,6 +75,29 @@ label.label.clearfix
         value = "startCmd"
       ) {{$parent.startCmd}}
 
+    .well.well-merged.small(
+      ng-if = "SMC.state.selectedStack.startCommand.length && $root.featureFlags.multilineStartCmd"
+    )
+      strong.strong Suggested for {{SMC.state.selectedStack.name}}:&#32;
+      span.btn.btn-xxs.white.monospace(
+        ng-click = "$event.preventDefault()"
+        ng-repeat = "startCmd in SMC.state.selectedStack.startCommand"
+        pop-over
+        pop-over-hover-trigger
+        pop-over-options = "{\"top\":25,\"centered\":true}"
+        pop-over-template = "insertTooltip"
+        pop-over-trigger = "hover"
+      ) {{startCmd}}
+    textarea.textarea.monospace(
+      autocomplete = "off"
+      name = "repository.startCommand"
+      ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
+      ng-if = "$root.featureFlags.multilineStartCmd"
+      ng-required = "startCommandCanDisable || ngShow()"
+      on-update = "updateDockerfile"
+      spellcheck = "false"
+      value = "state.startCommand"
+    )
     small.small This is the long-running process that’ll run when your container is launched (e.g. ‘apache’, ‘NPM start’). Your container will stop running if this process terminates. #{''}
       a.link(
         href = "//docs.docker.com/reference/builder/#cmd"
