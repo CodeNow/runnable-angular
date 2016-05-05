@@ -15,9 +15,10 @@ function uniqueValidator() {
           // consider empty models to be valid
           return true;
         }
-        return !$scope.uniqueValidator.map(function (item) {
-          return item.toLowerCase();
-        }).includes(viewValue.toLowerCase());
+        var lowerCaseViewValue = viewValue.toLowerCase();
+        return $scope.uniqueValidator.every(function (item) {
+          return item.toLowerCase() !== lowerCaseViewValue;
+        });
       };
     }
   };
