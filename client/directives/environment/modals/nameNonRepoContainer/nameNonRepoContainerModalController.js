@@ -65,7 +65,7 @@ function NameNonRepoContainerViewModalController(
           close();
         })
         .catch(errs.handler)
-        .then(function () {
+        .finally(function () {
           MC.saving = false;
         });
     },
