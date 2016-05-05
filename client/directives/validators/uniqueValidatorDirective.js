@@ -15,7 +15,9 @@ function uniqueValidator() {
           // consider empty models to be valid
           return true;
         }
-        return !$scope.uniqueValidator.includes(viewValue);
+        return !$scope.uniqueValidator.map(function (item) {
+          return item.toLowerCase();
+        }).includes(viewValue.toLowerCase());
       };
     }
   };

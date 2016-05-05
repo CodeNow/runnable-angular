@@ -19,6 +19,7 @@ function NameNonRepoContainerViewModalController(
 ) {
   var MC = this;
   MC.name = name;
+  MC.instanceToForkName = instanceToForkName;
   MC.saving = false;
   MC.instanceNames = [];
   fetchInstancesByPod()
