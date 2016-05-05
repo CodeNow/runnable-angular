@@ -19,7 +19,6 @@ function NameNonRepoContainerViewModalController(
 ) {
   var MC = this;
   MC.name = name;
-
   MC.saving = false;
   MC.instanceNames = [];
   fetchInstancesByPod()
@@ -28,6 +27,7 @@ function NameNonRepoContainerViewModalController(
         MC.instanceNames.push(instance.attrs.name);
       });
     });
+
   MC.actions = {
     save: function () {
       MC.saving = true;
@@ -68,8 +68,6 @@ function NameNonRepoContainerViewModalController(
           MC.saving = false;
         });
     },
-    cancel: function () {
-      close(false);
-    }
+    cancel: close
   };
 }

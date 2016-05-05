@@ -32,7 +32,7 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
   var mockSourceInstance;
 
   function initState () {
-    helpCardsStub= {
+    helpCardsStub = {
       getActiveCard: sinon.stub()
     };
     errsStub = {
