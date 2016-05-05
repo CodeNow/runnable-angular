@@ -57,11 +57,11 @@
       ) Cancel
       button.btn.btn-md.green.float-right.btn-spinner(
         ng-disabled = "!MC.name.length || nameForm.$invalid || MC.saving"
-        ng-class = "{'in': loading}"
+        ng-class = "{'in': MC.saving}"
         ng-click = "MC.actions.save()"
       )
         .spinner-wrapper.spinner-white.spinner-sm.in(
           ng-include = "'spinner'"
-          ng-if = "loading"
+          ng-if = "MC.saving"
         )
         | Create Container
