@@ -1,5 +1,13 @@
 .modal-backdrop
   .modal-dialog.modal-sm.modals-rename
+    header.modal-header
+      h1.modal-heading.text-overflow Create Container
+      svg.iconnables.icons-close(
+        ng-click = "MC.actions.cancel()"
+      )
+        use(
+          xlink:href = "#icons-close"
+        )
     section.modal-body
       svg.iconnables.icons-close(
         ng-click = "MC.actions.cancel()"
@@ -11,7 +19,7 @@
         name = "nameForm"
       )
         label.label.clearfix
-          .label-col Name Container
+          .label-col Container Name
           .input-col
             div(
             ng-class = "{\
@@ -43,7 +51,7 @@
               ) Use 19 characters or less
 
     footer.modal-footer.clearfix
-      button.btn.btn-md.white.float-left(
+      button.btn.btn-md.gray.btn-cancel.float-left(
         ng-click = "MC.actions.cancel()"
       ) Cancel
       button.btn.btn-md.green.float-right(
