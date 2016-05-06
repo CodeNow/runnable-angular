@@ -11,21 +11,34 @@ describe('SetupTemplateModalController'.bold.underline.blue, function () {
   var setupTemplateModalController;
   var fetchInstancesStub;
   var getNewForkNameStub;
-  var createAndBuildNewContainerStub;
-  var copySourceInstanceStub;
   var closeStub;
+  var closeModalStub;
+  var showModalStub;
   var promisifyStub;
 
   var mockInstances;
   var mockIsolatedInstances;
   var mockIsolation;
   var mockNewForkName;
-  var mockSourceInstance;
-  var mockBuildContainer;
 
   var sourceInstance;
   function setup() {
     angular.mock.module('app', function ($provide) {
+
+      closeStub = sinon.stub();
+      $provide.factory('ModalService', function ($q) {
+        closeModalStub = {
+          close: $q.when(true)
+        };
+        showModalStub = sinon.spy(function () {
+          return $q.when(closeModalStub);
+        });
+        return {
+          showModal: showModalStub
+        };
+      });
+      $provide.value('close', closeStub);
+
       // Make promisify actually easy to work with...
       $provide.factory('promisify', function ($q) {
         promisifyStub = sinon.spy(function (obj, key) {
@@ -45,14 +58,6 @@ describe('SetupTemplateModalController'.bold.underline.blue, function () {
       getNewForkNameStub = sinon.stub().returns(mockNewForkName);
       $provide.value('getNewForkName', getNewForkNameStub);
 
-      $provide.factory('createAndBuildNewContainer', function ($q) {
-        createAndBuildNewContainerStub = sinon.stub().returns($q.when(mockBuildContainer));
-        return createAndBuildNewContainerStub;
-      });
-      $provide.factory('copySourceInstance', function ($q) {
-        copySourceInstanceStub = sinon.stub().returns($q.when(mockSourceInstance));
-        return copySourceInstanceStub;
-      });
       closeStub = sinon.stub();
       $provide.value('close', closeStub);
     });
@@ -112,12 +117,6 @@ describe('SetupTemplateModalController'.bold.underline.blue, function () {
       }
     };
     mockNewForkName = 'mockForkName';
-    mockSourceInstance = {
-      id: 'mockBuild'
-    };
-    mockBuildContainer = {
-      id: 'mockBuildContainer'
-    };
   });
   describe('basics'.blue, function () {
     beforeEach(setup);
@@ -149,29 +148,15 @@ describe('SetupTemplateModalController'.bold.underline.blue, function () {
           newServerName,
           mockIsolatedInstances,
           true);
-        sinon.assert.calledOnce(createAndBuildNewContainerStub);
-        sinon.assert.calledWith(createAndBuildNewContainerStub,
-          sinon.match.object,
-          mockNewForkName,
-          { isolation: mockIsolation });
-        createAndBuildNewContainerStub.lastCall.args[0].then(function (actualResponse) {
-          expect(actualResponse).to.deep.equal({
-            opts: {
-              name: mockNewForkName,
-              masterPod: true,
-              ipWhitelist: {
-                enabled: true
-              }
-            },
-            build: mockSourceInstance
-          });
+        sinon.assert.calledOnce(showModalStub);
+        sinon.assert.calledWithMatch(showModalStub, {
+          controller: 'NameNonRepoContainerViewModalController',
+          controllerAs: 'MC',
+          templateUrl: 'nameNonRepoContainerView'
         });
+        sinon.assert.calledOnce(closeStub);
+
         $rootScope.$digest();
-        sinon.assert.calledOnce(copySourceInstanceStub);
-        sinon.assert.calledWith(copySourceInstanceStub,
-          $rootScope.dataApp.data.activeAccount,
-          sourceInstance,
-          mockNewForkName);
       });
     });
     describe('without isolation', function () {

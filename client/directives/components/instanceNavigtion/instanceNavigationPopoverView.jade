@@ -57,16 +57,6 @@
             span(
               ng-if = "INC.shouldShowSetupModal"
             ) …
-
-      li.list-item.popover-list-item(
-        ng-if = "INC.instance.attrs.isIsolationGroupMaster"
-        ng-click = "INC.addContainerToIsolation()"
-      )
-        svg.iconnables
-          use(
-            xlink:href = "#icons-isolation-enable"
-          )
-        | Add Container to Isolation
       li.list-item.popover-list-item(
         ng-if = "INC.instance.attrs.isIsolationGroupMaster"
         ng-click = "INC.disableIsolation()"
