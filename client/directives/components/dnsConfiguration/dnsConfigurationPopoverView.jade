@@ -145,7 +145,7 @@
             )
           .fade(
             ng-class = "{'in': isActivePanel()}"
-          ) {{DCC.modifyingDNS.current.instance.getRepoName()}} Containers
+          ) {{DCC.modifyingDNS.current.instance.getRepoName() || DCC.modifyingDNS.current.instance.getName()}} Containers
 
         .popover-content.fade(
           ng-class = "{'in': isActivePanel()}"
@@ -191,15 +191,15 @@
               ng-class = "{'no-touching': instance === DCC.modifyingDNS.current.instance}"
               ng-click = "DCC.selectInstance(instance); goToPanel('dnsOverview', 'back');"
               ng-repeat = "instance in DCC.modifyingDNS.options"
-              title = "{{instance.getBranchName()}}"
+              title = "{{instance.getDisplayName()}}"
             )
 
               status-icon(
                 instance = "instance"
               )
               span.strong.text-overflow.grid-content.grow(
-                title = "{{instance.getBranchName()}}"
-              ) {{instance.getBranchName()}}
+                title = "{{instance.getDisplayName()}}"
+              ) {{instance.getDisplayName()}}
 
               //- Show if the container is the parent of an isolated group
                   Don't show this when loading
