@@ -18,14 +18,17 @@ function NameNonRepoContainerViewModalController(
   sourceInstance
 ) {
   var MC = this;
-  MC.name = name;
-  MC.instanceToForkName = instanceToForkName;
-  MC.saving = false;
-  MC.instanceNames = [];
+  angular.extend(MC, {
+    name: name,
+    instanceToForkName: instanceToForkName,
+    saving: false,
+    instanceNames: []
+  });
+
   fetchInstancesByPod()
     .then(function (instanceByPod) {
-      instanceByPod.forEach(function (instance) {
-        MC.instanceNames.push(instance.attrs.name);
+      MC.instanceNames = instanceByPod.map(function (instance) {
+        return instance.attrs.name;
       });
     });
 
