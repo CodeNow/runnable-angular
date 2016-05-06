@@ -46,11 +46,8 @@
                 ng-class = "{'ng-invalid': nameForm.$error.unique}"
               ) Choose a unique name in your Sandbox
               li.list-item(
-                ng-class = "{'ng-invalid': nameForm.$error.pattern}"
-              ) Use letters, numbers, and hyphens (-)
-              li.list-item(
-                ng-class = "{'ng-invalid': nameForm.$error.noDoubleDash}"
-              ) No double hyphens (--)
+                ng-class = "{'ng-invalid': nameForm.$error.pattern || nameForm.$error.noDoubleDash}"
+              ) Use letters, numbers, and single hyphens (-)
               li.list-item(
                 ng-class = "{'ng-invalid': nameForm.$error.maxlength}"
               ) Use 19 characters or less
