@@ -39,6 +39,9 @@ require('app')
   .factory('diffParse', function () {
     return require('diff-parse');
   })
+  .factory('memoize', function () {
+    return require('lodash/memoize');
+  })
   .factory('cardInfoTypes', function () {
     var types = require('card-info-types');
     // Legacy

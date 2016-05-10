@@ -89,6 +89,7 @@
     "jsTag": "git://github.com/Runnable/jsTag.git#v0.3.9",
     "json-hash": "1.1.0",
     "keypather": "1.10.1",
+    "lodash": "^4.12.0",
     "moment": "2.9.0",
     "ng-file-upload": "5.0.9",
     "ngStorage": "git+https://github.com/Runnable/ngStorage.git#v0.4.0",
