@@ -30,10 +30,7 @@ ul.card-body.load(
   li.btn.white(
     ng-click = "openEditServerModal('repository')"
     ng-class = "{'btn-hint': helpCards.cardIsActiveOnThisContainer(instance) && helpCards.getActiveCard().targets.repository}"
-    ng-if = "\
-      server.repo && \
-      (!server.advanced || $root.featureFlags.dockerfileMirroring) \
-    "
+    ng-if = "server.repo && !server.advanced"
   )
     svg.iconnables
       use(
@@ -179,21 +176,7 @@ ul.card-body.load(
 
     small.small.text-overflow(
       ng-if = "!server.advanced"
-    )
-      em.underline(
-        ng-if = "!$root.featureFlags.dockerfileMirroring"
-        pop-over
-        pop-over-hover-trigger
-        pop-over-options = "{\"top\":25,\"centered\":true}"
-        pop-over-template = "viewTooltipTools"
-        pop-over-trigger = "hover"
-      ) Some features
-      span.text-overflow(
-        ng-if = "!$root.featureFlags.dockerfileMirroring"
-      ) &nbsp;are not available with editing enabled.
-      span(
-        ng-if = "$root.featureFlags.dockerfileMirroring"
-      ) —
+    ) —
 
     //- lock/unlock icon to show status of container's dockerfile
     //- sync overrides lock
@@ -203,7 +186,6 @@ ul.card-body.load(
       //- show this instead of the lock, when mirroring
       svg.iconnables.icons-sync(
         ng-if = "\
-          $root.featureFlags.dockerfileMirroring && \
           server.advanced && \
           server.instance.hasDockerfileMirroring() && \
           server.instance.mirroredDockerfile \
@@ -215,7 +197,6 @@ ul.card-body.load(
       //- if dockerfile is missing
       svg.iconnables.icons-alert-alt(
         ng-if = " \
-          $root.featureFlags.dockerfileMirroring && \
           server.advanced && \
           server.instance.hasDockerfileMirroring() && \
           server.instance.mirroredDockerfile === null\
@@ -231,10 +212,7 @@ ul.card-body.load(
           xlink:href = "#icons-lock"
         )
       svg.iconnables.icons-unlock(
-        ng-if = "\
-          server.advanced && \
-          !($root.featureFlags.dockerfileMirroring || server.instance.hasDockerfileMirroring()) \
-        "
+        ng-if = "server.advanced && !server.instance.hasDockerfileMirroring()"
       )
         use(
           xlink:href = "#icons-unlock"

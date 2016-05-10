@@ -1,49 +1,5 @@
 .modal-backdrop.in
-  //-
-  //- start !$root.featureFlags.dockerfileMirroring
-  //-
-  .modal-dialog.modal-sm.modal-server-select.deprecated(
-    ng-if = "!$root.featureFlags.dockerfileMirroring"
-  )
-    header.modal-header
-      h1.modal-heading New Container
-      svg.iconnables.icons-close(
-        ng-click = "MC.close()"
-      )
-        use(
-          xlink:href = "#icons-close"
-        )
-
-    .grid-block.modal-body
-      .grid-block.vertical.btn.btn-huge.white(
-        ng-click = "MC.newRepositoryContainer()"
-      )
-        svg.iconnables
-          use(
-            xlink:href = "#icons-new-repository-server"
-          )
-        | Repository
-        small.small Create a container for a repository on GitHub
-      .grid-block.vertical.btn.btn-huge.white(
-        ng-click = "MC.newTemplateContainer()"
-        ng-class = "{ 'btn-hint': MC.servicesActive }"
-      )
-        svg.iconnables
-          use(
-            xlink:href = "#icons-server-new"
-          )
-        | Services
-        small.small Create a container for a service or database
-  //-
-  //- end !$root.featureFlags.dockerfileMirroring
-  //-
-
-  //-
-  //- start $root.featureFlags.dockerfileMirroring
-  //-
-  animated-panel-container.modal-dialog.modal-lg(
-    ng-if = "$root.featureFlags.dockerfileMirroring"
-  )
+  animated-panel-container.modal-dialog.modal-lg
     animated-panel.grid-block.vertical.modal-server-select(
       default = "true"
       name = "containerSelection"
@@ -131,6 +87,3 @@
           )
           | Next Step{{MC.state.dockerfile === false ? ': Configure' : ': Review'}}
 
-  //-
-  //- end $root.featureFlags.dockerfileMirroring
-  //-
