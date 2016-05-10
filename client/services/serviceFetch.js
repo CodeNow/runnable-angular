@@ -391,16 +391,17 @@ function verifySlackAPITokenAndFetchMembers(
 
 function fetchGitHubMembers(
   $http,
-  configAPIHost
+  configAPIHost,
+  memoize
 ) {
-  return function (teamName) {
+  return memoize(function (teamName) {
     return $http({
       method: 'get',
       url: configAPIHost + '/github/orgs/' + teamName + '/members'
     }).then(function (team) {
       return team.data || [];
     });
-  };
+  });
 }
 
 /**
