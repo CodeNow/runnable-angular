@@ -87,7 +87,12 @@
             ng-include = "'spinner'"
             ng-if = "$root.isLoading[MC.name + 'SingleRepo']"
           )
-          | Next Step{{MC.state.dockerfile === false ? ': Configure' : ': Review'}}
+          span(
+            ng-if = "!$root.featureFlags.nameContainer"
+          ) Next Step: {{MC.state.dockerfile === false ? 'Configure' : 'Review'}}
+          span(
+            ng-if = "$root.featureFlags.nameContainer"
+          ) Next Step: Naming
 
     animated-panel.grid-block.vertical.modals-rename(
       name = "nameContainer"
@@ -99,7 +104,7 @@
           use(
             xlink:href = "#icons-arrow-down"
           )
-        h1.modal-heading.text-overflow Name Container
+        h1.modal-heading.text-overflow Container Name
         svg.iconnables.icons-close(
           ng-click = "MC.close()"
         )
@@ -111,7 +116,6 @@
           name = "nameForm"
         )
           label.label.clearfix
-            .label-col Container Name
             .input-col
               div(
                 ng-attr-data-length = "{{19 - nameForm.newName.$viewValue.length}}"
@@ -157,4 +161,6 @@
             ng-include = "'spinner'"
             ng-if = "MC.saving"
           )
+          //- should say "Next Step: Configure" if a repository container
+          //- should say "Create Container" if its a non-repository container
           | Create Container
