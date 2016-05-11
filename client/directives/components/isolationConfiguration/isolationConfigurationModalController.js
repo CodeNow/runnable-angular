@@ -33,6 +33,7 @@ function IsolationConfigurationModalController(
         if (repoInstance) {
           return isolatedChildren.push({
             branch: ICMC.instanceBranchMapping[repoInstance.attrs.contextVersion.context].getBranchName(),
+            // FIXME: This should be changed to instance ID
             repo: repoInstance.getRepoName(),
             org: repoInstance.attrs.owner.username
           });

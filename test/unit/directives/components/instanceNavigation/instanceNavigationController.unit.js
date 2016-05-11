@@ -106,12 +106,10 @@ describe('InstanceNavigationController'.bold.underline.blue, function () {
     mockFetchInstancesByPodResults = {
       models: [
         {
-          id: 'nonRepo',
-          getRepoName: sinon.stub().returns(null)
+          id: 'nonRepo'
         },
         {
-          id: 'repo',
-          getRepoName: sinon.stub().returns('repoName')
+          id: 'repo'
         }
       ]
     };
@@ -133,8 +131,7 @@ describe('InstanceNavigationController'.bold.underline.blue, function () {
       mockFetchInstancesByPodResults = {
         models: [
           {
-            id: 'repo',
-            getRepoName: sinon.stub().returns('repoName')
+            id: 'repo'
           }
         ]
       };
