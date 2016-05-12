@@ -108,12 +108,8 @@
     )
 
     .build-log-header-state(
-      ng-if = "command.cached"
-    ) Cached
-
-    .build-log-header-state(
-      ng-if = "!command.cached && command.time"
-    ) {{getCommandDuration(command, $index)}}
+      ng-if = "command.cached || getCommandDuration(command, $index).length"
+    ) {{command.cached ? 'Cached' : getCommandDuration(command, $index)}}
 
     .btn-group.btn-debug(
       ng-if = "BLC.showDebug && !BLC.debugContainer && BLC.buildLogs[$index - 1].imageId && $last"
