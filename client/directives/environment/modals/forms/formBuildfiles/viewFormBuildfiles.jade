@@ -14,7 +14,7 @@
     )
 
 .grid-block.shrink.align-center.well.gray.in.row-xxs(
-  ng-if = "!SMC.state.advanced || !$root.featureFlags.dockerfileMirroring"
+  ng-if = "!SMC.state.advanced"
 )
   svg.grid-content.row-xxs.shrink.iconnables.icons-dockerfile-lock
     use(
@@ -23,32 +23,10 @@
   .grid-content.row-xxs.text-overflow
     div Unlock Dockerfile
     small.small
-      span.span.text-overflow.float-left(
-        ng-if = "$root.featureFlags.dockerfileMirroring"
-      ) Editing your Dockerfile is for advanced users and is not reversible.
+      span.span.text-overflow.float-left Editing your Dockerfile is for advanced users and is not reversible.
 
-      em.underline(
-        ng-if = "!$root.featureFlags.dockerfileMirroring"
-        pop-over
-        pop-over-hover-trigger
-        pop-over-options = "{\"top\":25,\"centered\":true}"
-        pop-over-template = "viewTooltipTools"
-        pop-over-trigger = "hover"
-      ) Some features
-      span.text-overflow(
-        ng-if = "!$root.featureFlags.dockerfileMirroring"
-      ) &nbsp;are not available with editing enabled.
-
-  //- ✅ if repository (can simple mode) && previous simple build exists (can simple mode)
-  label.toggle-wrapper.show-icons(
-    loading-promises-target = "{{SMC.name}}"
-    ng-if = "!$root.featureFlags.dockerfileMirroring"
-    read-only-switch
-    state = "SMC.state"
-  )
   button.btn.btn-sm.white(
     ng-click = "SMC.showAdvancedModeConfirm()"
-    ng-if = "$root.featureFlags.dockerfileMirroring"
   )
     svg.iconnables.icons-lock
       use(
@@ -58,7 +36,7 @@
 
 //- add logic for repository containers only
 .grid-block.shrink.align-center.well.gray.in.row-xxs(
-  ng-if = "$root.featureFlags.dockerfileMirroring && SMC.state.advanced && !SMC.state.isNonRepoContainer"
+  ng-if = "SMC.state.advanced && !SMC.state.isNonRepoContainer"
 )
   svg.grid-content.row-xxs.shrink.iconnables.icons-sync
     use(

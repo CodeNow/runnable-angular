@@ -9,12 +9,6 @@
           xlink:href = "#icons-close"
         )
     section.modal-body
-      svg.iconnables.icons-close(
-        ng-click = "MC.actions.cancel()"
-      )
-        use(
-          xlink:href = "#icons-close"
-        )
       form.modal-form(
         name = "nameForm"
       )
@@ -22,12 +16,12 @@
           .label-col Container Name
           .input-col
             div(
-            ng-class = "{\
+              ng-attr-data-length = "{{19 - nameForm.newName.$viewValue.length}}"
+              ng-class = "{\
                 'ng-invalid': nameForm.$error.maxlength,\
                 'validate-length': nameForm.$error.maxlength,\
                 'validate-sm': nameForm.$error.maxlength\
               }"
-              ng-attr-data-length = "{{19 - nameForm.newName.$viewValue.length}}"
             )
               input.input.input-sm.input-validate(
                 autocomplete = "off"

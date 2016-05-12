@@ -1,54 +1,12 @@
 .modal-backdrop.in
-  //-
-  //- start !$root.featureFlags.dockerfileMirroring
-  //-
-  .modal-dialog.modal-sm.modal-server-select.deprecated(
-    ng-if = "!$root.featureFlags.dockerfileMirroring"
-  )
-    header.modal-header
-      h1.modal-heading New Container
-      svg.iconnables.icons-close(
-        ng-click = "MC.close()"
-      )
-        use(
-          xlink:href = "#icons-close"
-        )
-
-    .grid-block.modal-body
-      .grid-block.vertical.btn.btn-huge.white(
-        ng-click = "MC.newRepositoryContainer()"
-      )
-        svg.iconnables
-          use(
-            xlink:href = "#icons-new-repository-server"
-          )
-        | Repository
-        small.small Create a container for a repository on GitHub
-      .grid-block.vertical.btn.btn-huge.white(
-        ng-click = "MC.newTemplateContainer()"
-        ng-class = "{ 'btn-hint': MC.servicesActive }"
-      )
-        svg.iconnables
-          use(
-            xlink:href = "#icons-server-new"
-          )
-        | Services
-        small.small Create a container for a service or database
-  //-
-  //- end !$root.featureFlags.dockerfileMirroring
-  //-
-
-  //-
-  //- start $root.featureFlags.dockerfileMirroring
-  //-
-  animated-panel-container.modal-dialog.modal-lg(
-    ng-if = "$root.featureFlags.dockerfileMirroring"
-  )
+  animated-panel-container.modal-dialog.modal-lg
     animated-panel.grid-block.vertical.modal-server-select(
       default = "true"
       name = "containerSelection"
     )
-      header.modal-header.grid-block.justify-center.row-xxs
+      header.modal-header.grid-block.justify-center.row-xxs(
+        ng-click = "MC.changeTab('nameContainer')"
+      )
         .grid-block.shrink.btn(
           ng-class = "{'active': MC.state.tabName === 'repos'}"
           ng-click = "MC.changeTab('repos')"
@@ -92,6 +50,7 @@
       )
 
     animated-panel.grid-block.vertical.modal-mirror-dockerfile(
+      ng-if = "MC.state.repo"
       name = "dockerfileMirroring"
     )
       header.modal-header
@@ -129,8 +88,81 @@
             ng-include = "'spinner'"
             ng-if = "$root.isLoading[MC.name + 'SingleRepo']"
           )
-          | Next Step{{MC.state.dockerfile === false ? ': Configure' : ': Review'}}
+          span(
+            ng-if = "!$root.featureFlags.nameContainer"
+          ) Next Step: {{MC.state.dockerfile === false ? 'Configure' : 'Review'}}
+          span(
+            ng-if = "$root.featureFlags.nameContainer"
+          ) Next Step: Naming
 
-  //-
-  //- end $root.featureFlags.dockerfileMirroring
-  //-
+    animated-panel.grid-block.vertical.modals-rename(
+      name = "nameContainer"
+      ng-if = "MC.state.repo && $root.featureFlags.nameContainer"
+    )
+      header.modal-header
+        svg.iconnables.icons-arrow-backward(
+          ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && goToPanel('containerSelection', 'back')"
+        )
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
+        h1.modal-heading.text-overflow Container Name
+        svg.iconnables.icons-close(
+          ng-click = "MC.close()"
+        )
+          use(
+            xlink:href = "#icons-close"
+          )
+      section.modal-body
+        form.modal-form(
+          name = "nameForm"
+        )
+          label.label.clearfix
+            .input-col
+              div(
+                ng-attr-data-length = "{{19 - nameForm.newName.$viewValue.length}}"
+                ng-class = "{\
+                  'ng-invalid': nameForm.$error.maxlength,\
+                  'validate-length': nameForm.$error.maxlength,\
+                  'validate-sm': nameForm.$error.maxlength\
+                }"
+              )
+                input.input.input-sm.input-validate(
+                  autocomplete = "off"
+                  name = "newName"
+                  ng-maxlength = "19"
+                  ng-model = "MC.name"
+                  ng-pattern = "/^[a-zA-Z0-9-]*$/"
+                  spellcheck = "false"
+                  unique-validator = "MC.instanceNames"
+                  placeholder = "{{MC.instanceToForkName}}"
+                  no-double-dash-validator
+                )
+
+              ul.list.list-bulleted.list-validation
+                li.list-item(
+                  ng-class = "{'ng-invalid': nameForm.$error.unique}"
+                ) Choose a unique name in your Sandbox
+                li.list-item(
+                  ng-class = "{'ng-invalid': nameForm.$error.pattern || nameForm.$error.noDoubleDash}"
+                ) Use letters, numbers, and single hyphens (-)
+                li.list-item(
+                  ng-class = "{'ng-invalid': nameForm.$error.maxlength}"
+                ) Use 19 characters or less
+
+      footer.modal-footer.clearfix
+        button.btn.btn-md.gray.btn-cancel.float-left(
+          ng-click = "MC.actions.cancel()"
+        ) Cancel
+        button.btn.btn-md.green.float-right.btn-spinner(
+          ng-disabled = "!MC.name.length || nameForm.$invalid || MC.saving"
+          ng-class = "{'in': MC.saving}"
+          ng-click = "MC.actions.save()"
+        )
+          .spinner-wrapper.spinner-white.spinner-sm.in(
+            ng-include = "'spinner'"
+            ng-if = "MC.saving"
+          )
+          //- should say "Next Step: Configure" if a repository container
+          //- should say "Create Container" if its a non-repository container
+          | Create Container

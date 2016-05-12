@@ -694,18 +694,22 @@ function fetchGitHubTeamMembersByTeam(
   configAPIHost,
   memoize
 ) {
-  return memoize(function (team) {
-    var teamId = (typeof team === 'object') ? team.id : team;
-    return $http({
-      method: 'get',
-      url: configAPIHost + '/github/teams/' + teamId + '/members'
-    })
-      .then(function (members) {
-        return members.data.filter(function (member) {
-          return member.state !== 'pending';
+  return function (team) {
+    var fetchByTeamId = memoize(function (teamId) {
+      return $http({
+        method: 'get',
+        url: configAPIHost + '/github/teams/' + teamId + '/members'
+      })
+        .then(function (members) {
+          return members.data.filter(function (member) {
+            return member.state !== 'pending';
+          });
         });
-      });
-  });
+    });
+    // Memoize function by its team id
+    var teamId = (typeof team === 'object') ? team.id : team;
+    return fetchByTeamId(teamId);
+  };
 }
 
 function fetchPullRequest(
