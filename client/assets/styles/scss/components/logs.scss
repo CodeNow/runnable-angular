@@ -111,7 +111,6 @@
 // logs scroll horizontally
 .build-log-content {
   padding: 9px 9px 0 30px;
-  transition: height .15s;
   word-wrap: normal;
 
   &.building {
@@ -121,7 +120,6 @@
   // when logs are over 1000 lines
   &.long {
     height: 500px;
-    transition: height 0;
   }
 
   &.ng-leave {
@@ -159,7 +157,7 @@
       top: 16px;
       transform: rotate3d(0,0,1,-90deg);
       transform-origin: 4px 2px;
-      transition: transform .25s ease-in-out;
+      transition: transform .1s ease-in-out;
     }
 
     // don't toggle if in progress
