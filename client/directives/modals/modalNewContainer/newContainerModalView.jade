@@ -50,6 +50,7 @@
       )
 
     animated-panel.grid-block.vertical.modal-mirror-dockerfile(
+      ng-if = "MC.state.repo"
       name = "dockerfileMirroring"
     )
       header.modal-header
@@ -96,7 +97,7 @@
 
     animated-panel.grid-block.vertical.modals-rename(
       name = "nameContainer"
-      ng-if = "$root.featureFlags.nameContainer"
+      ng-if = "MC.state.repo && $root.featureFlags.nameContainer"
     )
       header.modal-header
         svg.iconnables.icons-arrow-backward(
