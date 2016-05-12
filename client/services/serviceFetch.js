@@ -37,62 +37,55 @@ require('app')
   .factory('integrationsCache', integrationsCache);
 
 function fetchUser(
-  keypather,
-  apiClientBridge,
   $q,
   $window,
+  apiClientBridge,
+  keypather,
+  memoize,
   promisify,
   report
 ) {
-  var fetchedUser = null;
-  // For consistency with other promise fetchers
-  return function () {
-    if (!fetchedUser) {
-      fetchedUser = promisify(apiClientBridge, 'fetchUser')('me')
-        .then(function (_user) {
-          _user.createSocket();
-          report.setUser(_user);
-          return _user;
-        })
-        .catch(function (err) {
-          // Catch an unauth'd request and send 'em back
-          if (keypather.get(err, 'data.statusCode') === 401) {
-             $window.location = apiConfig.corporateUrl;
-            // Return a never completing function since we are redirecting!
-            return $q(angular.noop);
-          }
-          // Allow other .catch blocks to grab it
-          return $q.reject(err);
-        });
-    }
-    return fetchedUser;
-  };
+  return memoize(function () {
+    return promisify(apiClientBridge, 'fetchUser')('me')
+      .then(function (_user) {
+        _user.createSocket();
+        report.setUser(_user);
+        return _user;
+      })
+      .catch(function (err) {
+        // Catch an unauth'd request and send 'em back
+        if (keypather.get(err, 'data.statusCode') === 401) {
+           $window.location = apiConfig.corporateUrl;
+          // Return a never completing function since we are redirecting!
+          return $q(angular.noop);
+        }
+        // Allow other .catch blocks to grab it
+        return $q.reject(err);
+      });
+  });
 }
 
 function fetchWhitelistedOrgs(
   fetchUser,
+  memoize,
   promisify
 ) {
-  var fetchedOrgs;
-  return function () {
-    if (!fetchedOrgs) {
-      fetchedOrgs = fetchUser()
-        .then(function (user) {
-          return promisify(user, 'fetchUserWhitelists')()
-            .then(function (res) {
-              var githubOrgs = res
-                .map(function (userWhitelistModel) {
-                  return userWhitelistModel.attrs.org;
-                })
-                .filter(function (githubOrg) {
-                  return !!githubOrg;
-                });
-              return new GithubOrgCollection(githubOrgs, { client: user.client });
-            });
-        });
-    }
-    return fetchedOrgs;
-  };
+  return memoize(function () {
+    return fetchUser()
+      .then(function (user) {
+        return promisify(user, 'fetchUserWhitelists')()
+          .then(function (res) {
+            var githubOrgs = res
+              .map(function (userWhitelistModel) {
+                return userWhitelistModel.attrs.org;
+              })
+              .filter(function (githubOrg) {
+                return !!githubOrg;
+              });
+            return new GithubOrgCollection(githubOrgs, { client: user.client });
+          });
+      });
+  });
 }
 
 
@@ -335,7 +328,6 @@ function fetchSettings(
   integrationsCache,
   keypather
 ) {
-
   return function () {
     var username = $state.params.userName;
 
@@ -399,16 +391,17 @@ function verifySlackAPITokenAndFetchMembers(
 
 function fetchGitHubMembers(
   $http,
-  configAPIHost
+  configAPIHost,
+  memoize
 ) {
-  return function (teamName) {
+  return memoize(function (teamName) {
     return $http({
       method: 'get',
       url: configAPIHost + '/github/orgs/' + teamName + '/members'
     }).then(function (team) {
       return team.data || [];
     });
-  };
+  });
 }
 
 /**
@@ -421,17 +414,14 @@ function fetchGitHubMembers(
  */
 function fetchOrgRegisteredMembers(
   fetchUser,
+  memoize,
   promisify
 ) {
-  var fetchOrgRegisteredMembersCache = {};
-  return function (orgName) {
-    if (!fetchOrgRegisteredMembersCache[orgName]) {
-      fetchOrgRegisteredMembersCache[orgName] = fetchUser().then(function (user) {
-        return promisify(user, 'fetchUsers')({ githubOrgName: orgName });
-      });
-    }
-    return fetchOrgRegisteredMembersCache[orgName];
-  };
+  return memoize(function (orgName) {
+    return fetchUser().then(function (user) {
+      return promisify(user, 'fetchUsers')({ githubOrgName: orgName });
+    });
+  });
 }
 
 /**
@@ -448,9 +438,10 @@ function fetchGithubUserForCommit (
   fetchGitHubUser,
   fetchOrgRegisteredMembers,
   keypather,
+  memoize,
   promisify
 ) {
-  return function (commit) {
+  return memoize(function (commit) {
     return promisify(commit, 'fetch')()
       .then(function (commit) {
         var userName = keypather.get(commit, 'attrs.author.login');
@@ -464,7 +455,7 @@ function fetchGithubUserForCommit (
           });
         });
       });
-  };
+  });
 }
 
 /**
@@ -478,26 +469,22 @@ function fetchGithubUserForCommit (
 function fetchGithubOrgId(
   fetchWhitelistedOrgs,
   keypather,
+  memoize,
   $q
 ) {
-  var githubOrgIdCache = {};
-  return function (orgNameOrId) {
-    if (githubOrgIdCache[orgNameOrId]) {
-      return githubOrgIdCache[orgNameOrId];
-    }
+  return memoize(function (orgName) {
     return fetchWhitelistedOrgs()
       .then(function (orgsCollection) {
         var orgs = orgsCollection.filter(function (org) {
-          return keypather.get(org, 'attrs.login') === orgNameOrId;
+          return keypather.get(org, 'attrs.login') === orgName;
         });
         if (orgs.length > 0) {
           var orgId = orgs[0].attrs.id;
-          githubOrgIdCache[orgNameOrId] = orgId;
           return orgId;
         }
         return $q.reject('No Github organization found for org name provided');
       });
-  };
+  });
 }
 
 /**
@@ -619,20 +606,17 @@ function fetchOrgMembers(
 
 function fetchGitHubUser(
   $http,
+  memoize,
   configAPIHost
 ) {
-  var fetchGithubUserCache = {};
-  return function (memberName) {
-    if (!fetchGithubUserCache[memberName]) {
-      fetchGithubUserCache[memberName] = $http({
-        method: 'get',
-        url: configAPIHost + '/github/users/' + memberName
-      }).then(function (user) {
-        return user.data;
-      });
-    }
-    return fetchGithubUserCache[memberName];
-  };
+  return memoize(function (memberName) {
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/github/users/' + memberName
+    }).then(function (user) {
+      return user.data;
+    });
+  });
 }
 
 /**
@@ -707,19 +691,24 @@ function fetchGitHubTeamsByRepo(
  */
 function fetchGitHubTeamMembersByTeam(
   $http,
-  configAPIHost
+  configAPIHost,
+  memoize
 ) {
   return function (team) {
-    var teamId = (typeof team === 'object') ? team.id : team;
-    return $http({
-      method: 'get',
-      url: configAPIHost + '/github/teams/' + teamId + '/members'
-    })
-      .then(function (members) {
-        return members.data.filter(function (member) {
-          return member.state !== 'pending';
+    var fetchByTeamId = memoize(function (teamId) {
+      return $http({
+        method: 'get',
+        url: configAPIHost + '/github/teams/' + teamId + '/members'
+      })
+        .then(function (members) {
+          return members.data.filter(function (member) {
+            return member.state !== 'pending';
+          });
         });
-      });
+    });
+    // Memoize function by its team id
+    var teamId = (typeof team === 'object') ? team.id : team;
+    return fetchByTeamId(teamId);
   };
 }
 
