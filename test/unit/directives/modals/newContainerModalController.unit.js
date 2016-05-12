@@ -197,23 +197,6 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
       });
     });
 
-    describe('newTemplateContainer', function () {
-      it('should close the modal and call the new modal', function () {
-        NCMC.newTemplateContainer(repoBuildAndBranch);
-        $scope.$digest();
-        sinon.assert.calledOnce(closeStub);
-        sinon.assert.calledOnce(showModalStub);
-        sinon.assert.calledWith(showModalStub, {
-         controller: 'SetupTemplateModalController',
-          controllerAs: 'STMC',
-          templateUrl: 'setupTemplateModalView',
-          inputs: {
-            isolation: null
-          }
-        });
-      });
-    });
-
     describe('setRepo', function () {
       it('should set the repo', function () {
         var repo1 = {};

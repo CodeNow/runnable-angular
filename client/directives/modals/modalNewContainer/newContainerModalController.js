@@ -185,17 +185,4 @@ function NewContainerModalController(
       }, inputs)
     });
   };
-  // TODO: Remove code when removing `dockerFileMirroring` code
-  NCMC.newTemplateContainer = function () {
-    if (NCMC.state.closed) { return; }
-    NCMC.close();
-    ModalService.showModal({
-      controller: 'SetupTemplateModalController',
-      controllerAs: 'STMC',
-      templateUrl: 'setupTemplateModalView',
-      inputs: {
-        isolation: null
-      }
-    });
-  };
 }
