@@ -55,7 +55,7 @@
 .build-log-header {
   align-items: center;
   display: flex;
-  height: 39px;
+  height: 37px;
   overflow: hidden;
   padding: 0 6px 0 24px;
   position: absolute;
@@ -104,7 +104,7 @@
 
   // change padding if there's a header
   + .build-log-content {
-    margin-top: 39px;
+    margin-top: 37px;
   }
 }
 
@@ -134,13 +134,17 @@
 // add .build-log-toggle to .build-log-header to indicate that you can toggle it
 .build-log-toggle {
 
-  // rotate arrow
-  &.in .build-log-header::before {
-    transform: rotate3d(0,0,1,0);
+  &.in .build-log-header {
+    border-radius: $input-border-radius $input-border-radius 0 0;
+
+    &::before {
+      transform: rotate3d(0,0,1,0); // rotate arrow
+    }
   }
 
   // toggleable .build-log-header
   .build-log-header {
+    border-radius: $input-border-radius;
     cursor: pointer;
 
     // arrow
@@ -251,29 +255,35 @@
     }
   }
 
-  .build-log-toggle .build-log-header {
-    background: #3d294a; // match toolbar header
-    border-bottom: 1px solid $purple-darker;
+  .build-log-toggle {
 
-    &:hover:not(.in-progress) {
-      background: #3f2c4d; // rgba($white,.045);
-    }
+    .build-log-header {
+      background: #3d294a; // match toolbar header
 
-    &:active:not(.in-progress) {
-      background: #422f4f; // rgba($white,.06);
-    }
+      &:hover:not(.in-progress) {
+        background: #3f2c4d; // rgba($white,.045);
+      }
 
-    &::before {
-      border-top-color: $purple-lighter;
-    }
-
-    // arrow states
-    &:hover,
-    &:active {
+      &:active:not(.in-progress) {
+        background: #422f4f; // rgba($white,.06);
+      }
 
       &::before {
-        border-top-color: $purple-lightest;
+        border-top-color: $purple-lighter;
       }
+
+      // arrow states
+      &:hover,
+      &:active {
+
+        &::before {
+          border-top-color: $purple-lightest;
+        }
+      }
+    }
+
+    .build-log-content {
+      border-top: 1px solid $purple-darker;
     }
   }
 }
@@ -315,29 +325,36 @@
     }
   }
 
-  .build-log-toggle .build-log-header {
-    background: rgba($white,.75);
-    border-bottom: 1px solid $gray-lighter;
+  .build-log-toggle {
 
-    &:hover:not(.in-progress) {
-      background: rgba($white,.9);
-    }
+    .build-log-header {
+      background: rgba($white,.75);
+      border-bottom: 1px solid $gray-lighter;
 
-    &:active:not(.in-progress) {
-      background: $white;
-    }
+      &:hover:not(.in-progress) {
+        background: rgba($white,.9);
+      }
 
-    &::before {
-      border-top-color: $gray-light;
-    }
-
-    // arrow states
-    &:hover,
-    &:active {
+      &:active:not(.in-progress) {
+        background: $white;
+      }
 
       &::before {
-        border-top-color: $gray;
+        border-top-color: $gray-light;
       }
+
+      // arrow states
+      &:hover,
+      &:active {
+
+        &::before {
+          border-top-color: $gray;
+        }
+      }
+    }
+
+    .build-log-content {
+      border-top: 1px solid $gray-lighter;
     }
   }
 }
