@@ -42,7 +42,7 @@
 
   // elements
   .build-log {
-    background: #372345; // rgba($white,.03) on $ace-bg
+    background: $purple-dark;
     border-color: $purple-darkest;
 
     // start state
@@ -71,18 +71,34 @@
     }
   }
 
+  .build-log-header-state {
+    color: $logs-runnable-dark-magenta;
+  }
+
   .build-log-toggle {
 
-    .build-log-header {
-      background: #3d294a; // match toolbar header
-      border-color: $purple-darker;
+    &.in .build-log-header {
+      background: lighten($purple-dark,6%);
 
       &:hover:not(.in-progress) {
-        background: #3f2c4d; // rgba($white,.045);
+        background: lighten($purple-dark,9%);
       }
 
       &:active:not(.in-progress) {
-        background: #422f4f; // rgba($white,.06);
+        background: lighten($purple-dark,12%);
+      }
+    }
+
+    .build-log-header {
+      background: $purple-dark;
+      border-color: $purple-darker;
+
+      &:hover:not(.in-progress) {
+        background: lighten($purple-dark,6%);
+      }
+
+      &:active:not(.in-progress) {
+        background: lighten($purple-dark,9%);
       }
 
       &::before {
