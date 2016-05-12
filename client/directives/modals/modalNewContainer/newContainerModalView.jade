@@ -157,6 +157,7 @@
         button.btn.btn-md.green.float-right.btn-spinner(
           ng-disabled = "!MC.name.length || nameForm.$invalid || MC.saving"
           ng-class = "{'in': MC.saving}"
+          ng-click = "MC.createBuildAndGoToNewRepoModal(MC.state.instanceName, MC.state.repo, MC.state.dockerfile)"
           ng-click = "MC.actions.save()"
         )
           .spinner-wrapper.spinner-white.spinner-sm.in(

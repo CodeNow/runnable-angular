@@ -124,14 +124,16 @@ function NewContainerModalController(
     loading(NCMC.name + 'SingleRepo', true);
     var fullName = keypather.get(repo, 'attrs.full_name');
     var defaultBranch = keypather.get(repo, 'attrs.default_branch');
+    NCMC.instanceName = fullName.split('/')[1] || '';
     return fetchRepoDockerfiles(fullName, defaultBranch)
       .then(function (dockerfiles) {
         if (dockerfiles.length === 0) {
-          return NCMC.createBuildAndGoToNewRepoModal(repo)
-            .then(function () {
-              repo.loading = false;
-              loading(NCMC.name + 'SingleRepo', false);
-            });
+          goToPanelCb('nameContainer');
+          // return NCMC.createBuildAndGoToNewRepoModal(repo)
+            // .then(function () {
+              // repo.loading = false;
+              // loading(NCMC.name + 'SingleRepo', false);
+            // });
         }
         repo.dockerfiles = dockerfiles;
         repo.loading = false;
