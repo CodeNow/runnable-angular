@@ -31,35 +31,27 @@
 
 .views-toolbar {
   align-items: center;
-  border-style: solid;
-  border-width: 1px 0;
+  border: 1px solid;
+  border-radius: $input-border-radius;
   display: flex;
   flex: 0 0 auto;
   height: $input-md;
   justify-content: flex-end;
-  padding: 0 9px; // match toggle and log padding
+  margin: 9px 9px 0;
+  padding: 0 9px;
+
+  .modal-dialog & {
+    border-radius: $input-border-radius $input-border-radius 0 0;
+  }
 
   + .views-toolbar {
     margin-top: -1px;
   }
 
-  + .logs-wrapper,
-  + .ace-container {
-    border-radius: 0 0 $input-border-radius $input-border-radius;
-    border-top-width: 0;
-  }
-
-  .modal-dialog & {
-    border-radius: $input-border-radius $input-border-radius 0 0;
-    border-width: 1px;
-  }
-
   // path/title
   .p {
     flex: 1 1 auto;
-    font-size: 15px;
-    line-height: 37px;
-    padding-right: 9px;
+    margin-right: 9px;
   }
 
   .btn-group .btn + .btn {
