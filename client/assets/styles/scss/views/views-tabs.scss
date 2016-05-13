@@ -26,6 +26,7 @@
   color: $white;
   cursor: pointer;
   display: flex;
+  flex: 0 0 auto;
   font-size: 15px;
   height: $input-sm;
   max-width: 300px;
