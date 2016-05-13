@@ -1,18 +1,17 @@
 // ul.tabs
 .tabs {
   align-items: center;
-  background: $ace-bg;
   display: flex;
-  margin-left: -9px;
+  margin-left: -12px;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 0 9px;
+  padding: 0 12px;
   white-space: nowrap;
 
   &::after {
     content: '';
     display: block;
-    flex: 0 0 9px;
+    flex: 0 0 12px;
     height: $input-sm;
   }
 }
@@ -20,10 +19,9 @@
 // li.tab-wrapper
 .tab-wrapper {
   align-items: center;
-  background: $purple-dark;
-  border: 1px solid $purple-darkest;
+  border: 1px solid transparent;
   border-radius: $input-border-radius;
-  color: $white;
+  color: rgba($white,.75);
   cursor: pointer;
   display: flex;
   flex: 0 0 auto;
@@ -33,18 +31,22 @@
   padding: 0 12px;
   text-align: center;
 
-  + .tab-wrapper {
-    margin-left: 9px;
-  }
-
   &:hover {
-    background: lighten($purple-dark,6%);
+    background: $purple-dark;
+    border-color: $purple-darkest;
+    color: $white;
   }
 
   &:active,
   &.active {
     background: lighten($purple-dark,9%);
+    border-color: $purple-darkest;
+    color: $white;
     cursor: default;
+  }
+
+  + .tab-wrapper {
+    margin-left: 6px;
   }
 
   .icons-dirty {

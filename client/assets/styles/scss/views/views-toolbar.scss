@@ -4,9 +4,9 @@
   border-bottom: 1px solid $purple-darkest;
   display: flex;
   flex: 0 0 auto;
-  margin: 0 9px;
+  margin: 0 12px;
   overflow: visible;
-  padding: 9px 0;
+  padding: 12px 0;
   position: relative;
 }
 
@@ -15,9 +15,9 @@
   background: $purple-dark;
   border: 1px solid $purple-darkest;
   color: $purple-lighter;
-  flex: 0 0 $input-sm;
-  line-height: 1; // reset to center
-  padding: 6px;
+  flex: 0 0 $input-xs;
+  padding: 2px;
+  top: 6px;
 
   &:hover {
     background: lighten($purple-dark,6%);
@@ -26,6 +26,11 @@
   &:active,
   &.active {
     background: lighten($purple-dark,9%);
+  }
+
+  .iconnables {
+    height: 100%;
+    width: 100%;
   }
 }
 
@@ -37,8 +42,8 @@
   flex: 0 0 auto;
   height: $input-md;
   justify-content: flex-end;
-  margin: 9px 9px 0;
-  padding: 0 9px;
+  margin: 12px 12px 0;
+  padding: 0 12px;
 
   .modal-dialog & {
     border-radius: $input-border-radius $input-border-radius 0 0;
@@ -51,7 +56,7 @@
   // path/title
   .p {
     flex: 1 1 auto;
-    margin-right: 9px;
+    margin-right: 12px;
   }
 
   .btn-group .btn + .btn {
