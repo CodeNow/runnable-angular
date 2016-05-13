@@ -39,7 +39,7 @@ require('app')
                 if (newStackKey && (newStackKey !== oldStackKey || !commandsPopulated)) {
                   delete $scope.state.startCommand;
                   $scope.state.mainRepoContainerFile.commands = [];
-                  var repoName = keypather.get($scope, 'state.opts.name') || '';
+                  var repoName = keypather.get($scope, 'state.acv.attrs.repo.split("/")[1]')|| '';
                   return fetchDockerfileFromSource(
                     newStackKey
                   )

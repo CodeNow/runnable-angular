@@ -17,7 +17,7 @@ function EnableBranchesModalController(
   EBMC.instance = instance;
   EBMC.close = close;
 
-  EBMC.repoName = instance.getRepoName();
+  EBMC.instanceName = instance.getMasterPodName();
 
   EBMC.enableBranches = function () {
     loading('main', true);

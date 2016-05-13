@@ -56,8 +56,8 @@
             )
               .text-gray.grid-block.vertical.grow.justify-center
                 .text-overflow.strong(
-                  title = "{{dependency.instance.getRepoName()}}"
-                ) {{dependency.instance.getRepoName()}}
+                  title = "{{dependency.instance.getMasterPodName()}}"
+                ) {{dependency.instance.getMasterPodName()}}
                 small.small.text-overflow(
                   title = "{{dependency.instance.getElasticHostname()}}"
                 ) {{dependency.instance.getElasticHostname()}}
@@ -145,7 +145,7 @@
             )
           .fade(
             ng-class = "{'in': isActivePanel()}"
-          ) {{DCC.modifyingDNS.current.instance.getRepoName()}} Containers
+          ) {{DCC.modifyingDNS.current.instance.getMasterPodName()}} Containers
 
         .popover-content.fade(
           ng-class = "{'in': isActivePanel()}"

@@ -22,7 +22,7 @@
   span.container-title.text-overflow(
     ng-attr-title = "{{instance.getDisplayName()}}"
     ng-if = "!$root.featureFlags.cardStatus"
-  ) {{(instance.getRepoName() || instance.attrs.name || repo.attrs.name)}}
+  ) {{instance.getMasterPodName()}}
 
   //- ***********************************
   //- END !$root.featureFlags.cardStatus
@@ -48,9 +48,9 @@
     )
 
   span.container-title.text-overflow(
-    ng-attr-title = "{{(instance.getRepoName() || instance.attrs.name)}}"
+    ng-attr-title = "{{instance.getMasterPodName()}}"
     ng-if = "$root.featureFlags.cardStatus"
-  ) {{(instance.getRepoName() || instance.attrs.name)}}
+  ) {{instance.getMasterPodName()}}
 
   //- only appears if container is unsaved and only in the modal
   span.container-title.text-overflow(
@@ -85,9 +85,9 @@
     ng-if = "!$root.featureFlags.cardStatus && instance"
   )
   span.container-title.text-overflow(
-    ng-attr-title = "{{instance.getDisplayName()}}"
+    ng-attr-title = "{{instance.getMasterPodName()}}"
     ng-if = "!$root.featureFlags.cardStatus"
-  ) {{(instance.getRepoName() || instance.attrs.name || repo.attrs.name)}}
+  ) {{instance.getMasterPodName()}}
 
   //- ***********************************
   //- END !$root.featureFlags.cardStatus
@@ -113,9 +113,9 @@
     )
 
   span.container-title.text-overflow(
-    ng-attr-title = "{{(instance.getRepoName() || instance.attrs.name)}}"
+    ng-attr-title = "{{instane.getMasterPodName()}}"
     ng-if = "$root.featureFlags.cardStatus"
-  ) {{(instance.getRepoName() || instance.attrs.name)}}
+  ) {{instance.getMasterPodName()}}
 
   //- only appears if container is unsaved and only in the modal
   span.container-title.text-overflow(
