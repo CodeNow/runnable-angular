@@ -3,9 +3,18 @@
   align-items: center;
   background: $ace-bg;
   display: flex;
+  margin-left: -9px;
   overflow-x: auto;
   overflow-y: hidden;
+  padding: 0 9px;
   white-space: nowrap;
+
+  &::after {
+    content: '';
+    display: block;
+    flex: 0 0 9px;
+    height: $input-sm;
+  }
 }
 
 // li.tab-wrapper
