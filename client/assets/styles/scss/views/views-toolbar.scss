@@ -19,11 +19,11 @@
   padding: 2px;
   top: 6px;
 
-  &:hover {
+  &:hover:not([disabled]) {
     background: lighten($purple-dark,6%);
   }
 
-  &:active,
+  &:active:not([disabled]),
   &.active {
     background: lighten($purple-dark,9%);
   }
