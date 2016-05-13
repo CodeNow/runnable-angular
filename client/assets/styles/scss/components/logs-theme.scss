@@ -77,18 +77,6 @@
 
   .build-log-toggle {
 
-    &.in .build-log-header {
-      background: lighten($purple-dark,6%);
-
-      &:hover:not(.in-progress) {
-        background: lighten($purple-dark,9%);
-      }
-
-      &:active:not(.in-progress) {
-        background: lighten($purple-dark,12%);
-      }
-    }
-
     .build-log-header {
       background: $purple-dark;
       border-color: $purple-darker;

@@ -8,8 +8,6 @@
 // wrapper per step
 .build-log {
   border: 1px solid transparent;
-  border-radius: $input-border-radius;
-  margin-bottom: 6px;
   min-height: 39px;
   overflow: hidden;
   position: relative;
@@ -22,8 +20,22 @@
       -2px -2px 0 $purple-light;
   }
 
+  &:first-child,
+  &:first-child .build-log-header {
+    border-radius: $input-border-radius $input-border-radius 0 0;
+  }
+
+  &:last-child,
+  &:last-child .build-log-header {
+    border-radius: 0 0 $input-border-radius $input-border-radius;
+  }
+
   &.in {
     height: auto;
+  }
+
+  + .build-log {
+    margin-top: -1px;
   }
 }
 
@@ -91,7 +103,8 @@
 
 // logs scroll horizontally
 .build-log-content {
-  padding: 9px 30px 0;
+  background: rgba($black,.15);
+  padding: 9px 30px;
   word-wrap: normal;
 
   &.building {
@@ -116,7 +129,10 @@
 .build-log-toggle {
 
   &.in .build-log-header {
-    border-radius: $input-border-radius $input-border-radius 0 0;
+
+    &.fixed {
+      border-radius: 0;
+    }
 
     &::before {
       transform: rotate3d(0,0,1,0); // rotate arrow
@@ -125,7 +141,6 @@
 
   // toggleable .build-log-header
   .build-log-header {
-    border-radius: $input-border-radius;
     cursor: pointer;
 
     // arrow
