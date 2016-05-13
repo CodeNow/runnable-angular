@@ -27,6 +27,7 @@ function NewContainerModalController(
     state: {
       tabName: 'repos',
       dockerfile: null,
+      namesForAllInstances: [],
       opts: {}
     }
   });
@@ -44,6 +45,9 @@ function NewContainerModalController(
   })
     .then(function (data) {
       NCMC.instances = data.instances;
+      NCMC.state.namesForAllInstances = NCMC.instances.map(function (instance) {
+        return instance.attrs.name;
+      });
       NCMC.githubRepos = data.repoList;
       NCMC.githubRepos.models.forEach(function (repo) {
         repo.isAdded = NCMC.isRepoAdded(repo, data.instances);
@@ -124,16 +128,11 @@ function NewContainerModalController(
     loading(NCMC.name + 'SingleRepo', true);
     var fullName = keypather.get(repo, 'attrs.full_name');
     var defaultBranch = keypather.get(repo, 'attrs.default_branch');
-    NCMC.instanceName = fullName.split('/')[1] || '';
+    NCMC.state.instanceName = fullName.split('/')[1] || '';
     return fetchRepoDockerfiles(fullName, defaultBranch)
       .then(function (dockerfiles) {
         if (dockerfiles.length === 0) {
           goToPanelCb('nameContainer');
-          // return NCMC.createBuildAndGoToNewRepoModal(repo)
-            // .then(function () {
-              // repo.loading = false;
-              // loading(NCMC.name + 'SingleRepo', false);
-            // });
         }
         repo.dockerfiles = dockerfiles;
         repo.loading = false;
@@ -143,10 +142,11 @@ function NewContainerModalController(
       });
   };
 
-  NCMC.createBuildAndGoToNewRepoModal = function (repo, dockerfile) {
+  NCMC.createBuildAndGoToNewRepoModal = function (instanceName, repo, dockerfile) {
     loading(NCMC.name + 'SingleRepo', true);
     return createNewBuildAndFetchBranch($rootScope.dataApp.data.activeAccount, repo, keypather.get(dockerfile, 'path'))
       .then(function (repoBuildAndBranch) {
+        repoBuildAndBranch.instanceName = instanceName;
         if (dockerfile) {
           NCMC.newMirrorRepositoryContainer(repoBuildAndBranch);
         } else {
@@ -166,6 +166,7 @@ function NewContainerModalController(
       controllerAs: 'SMC',
       templateUrl: 'setupServerModalView',
       inputs: angular.extend({
+        instanceName: null,
         repo: null,
         build: null,
         masterBranch: null
@@ -181,6 +182,7 @@ function NewContainerModalController(
       controllerAs: 'SMC',
       templateUrl: 'setupMirrorServerModalView',
       inputs: angular.extend({
+        instanceName: null,
         repo: null,
         build: null,
         masterBranch: null

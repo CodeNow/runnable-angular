@@ -36,6 +36,7 @@ function SetupServerModalController(
   updateDockerfileFromState,
   TAB_VISIBILITY,
   close,
+  instanceName,
   repo,
   build,
   masterBranch
@@ -88,7 +89,7 @@ function SetupServerModalController(
       promises: {},
       opts: {
         masterPod: true,
-        name: '',
+        name: instanceName,
         env: [],
         ipWhitelist: {
           enabled: false
