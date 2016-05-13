@@ -32,9 +32,8 @@
 .modal-dialog {
   animation: scale-in-modal .15s ease-in-out;
   background: $gray-lighterest;
-  border: 1px solid $gray-lighter;
+  border: $input-border-radius solid $gray-lighter;
   border-radius: $input-border-radius-lg;
-  box-shadow: 0 0 3px $gray-lighter;
   display: flex;
   flex: 0 1 auto;
   flex-direction: column;
