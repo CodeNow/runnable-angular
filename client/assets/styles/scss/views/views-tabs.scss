@@ -65,7 +65,7 @@
   }
 
   .btn-close {
-    border: 0;
+    border: 1px solid transparent;
     border-radius: $input-border-radius;
     color: $purple-lighter;
     flex: 0 0 auto;
@@ -76,11 +76,13 @@
 
     &:hover {
       background: $red;
+      border-color: $purple-darkest;
       color: $white;
     }
 
     &:active {
       background: $red;
+      border-color: $purple-darkest;
       color: $white;
     }
 
