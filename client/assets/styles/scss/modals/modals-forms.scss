@@ -191,6 +191,13 @@
       }
     }
 
+    // checkbox buttons
+    .btn-checkbox {
+      display: inline-block;
+      margin: 6px 0 0;
+      width: auto;
+    }
+
     // labels
     .label {
       margin-bottom: 6px;
@@ -227,15 +234,32 @@
 
       &.well-merged {
         border-left: 0;
-        border-radius: $input-border-radius $input-border-radius 0 0;
         border-right: 0;
-        border-top: 0;
         left: $input-border;
         margin: 0;
         padding: 6px 8px;
         position: absolute;
         right: $input-border;
+      }
+
+      &.well-merged-top {
+        border-radius: $input-border-radius $input-border-radius 0 0;
+        border-top: 0;
         top: $input-border;
+
+        + .textarea {
+          padding-top: 35px;
+        }
+      }
+
+      &.well-merged-bottom {
+        border-bottom: 0;
+        border-radius: $input-border-radius $input-border-radius 0 0;
+        bottom: $input-border;
+
+        + .textarea {
+          padding-bottom: 35px;
+        }
       }
 
       &:first-child {

@@ -137,8 +137,8 @@
   // ports
   .textarea {
     display: block;
-    max-height: 210px;
-    min-height: 90px;
+    max-height: 240px;
+    min-height: 120px;
     overflow-y: auto;
     resize: vertical;
 
@@ -447,8 +447,8 @@
     }
   }
 
-  .textarea {
-    padding-top: 35px;
+  .checkbox {
+    margin: 3px 6px 0 0;
   }
 }
 
