@@ -1,4 +1,6 @@
 .instance-sidebar {
+  border-right: 0;
+  border-top: 1px solid $gray-lighter;
   min-width: 300px;
   overflow-y: auto;
 

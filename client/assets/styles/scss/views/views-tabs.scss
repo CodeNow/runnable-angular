@@ -1,8 +1,8 @@
 // ul.tabs
 .tabs {
+  align-items: center;
+  background: $ace-bg;
   display: flex;
-  flex: 1 1 auto;
-  height: $input-md;
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
@@ -11,33 +11,37 @@
 // li.tab-wrapper
 .tab-wrapper {
   align-items: center;
-  border-right: 1px solid $gray-lighter;
-  color: $gray-dark;
+  background: $purple-dark;
+  border: 1px solid $purple-darkest;
+  border-radius: $input-border-radius;
+  color: $white;
   cursor: pointer;
   display: flex;
-  height: $input-md;
+  font-size: 15px;
+  height: $input-sm;
   max-width: 300px;
-  padding: 0 15px;
+  padding: 0 12px;
   text-align: center;
 
+  + .tab-wrapper {
+    margin-left: 9px;
+  }
+
   &:hover {
-    color: $gray-darker;
+    background: lighten($purple-dark,6%);
   }
 
   &:active,
   &.active {
-    color: $purple-light;
+    background: lighten($purple-dark,9%);
     cursor: default;
-    font-weight: $weight-bold;
   }
 
   .icons-dirty {
-    color: $gray;
     flex: 0 0 auto;
     font-size: 21px;
     font-weight: $weight-normal;
     user-select: none;
-    z-index: 1;
   }
 
   .icons-alert {
@@ -50,14 +54,16 @@
 
   .btn-close {
     border: 0;
-    color: $gray;
+    border-radius: $input-border-radius;
+    color: $purple-lighter;
     flex: 0 0 auto;
-    height: 16px;
+    height: 15px;
     left: 5px;
-    width: 16px;
+    margin: 0 3px;
+    width: 15px;
 
     &:hover {
-      background: $gray-light;
+      background: $red;
       color: $white;
     }
 
@@ -71,19 +77,5 @@
       position: absolute;
       top: 0;
     }
-  }
-}
-
-// span.tab-name
-.tab-name {
-  font-size: 15px;
-  margin-top: 21px;
-
-  &::after {
-    content: attr(ng-data-title);
-    display: block;
-    font-weight: $weight-bold;
-    opacity: 0;
-    pointer-events: none;
   }
 }

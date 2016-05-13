@@ -9,6 +9,7 @@
 .build-log {
   border: 1px solid transparent;
   border-radius: $input-border-radius;
+  margin-bottom: 6px;
   min-height: 39px;
   overflow: hidden;
   position: relative;
@@ -21,20 +22,8 @@
       -2px -2px 0 $purple-light;
   }
 
-  &:last-child {
-    margin-bottom: 30px;
-
-    .modal-edit & {
-      margin-bottom: 9px;
-    }
-  }
-
   &.in {
     height: auto;
-  }
-
-  + .build-log {
-    margin-top: 6px;
   }
 }
 
