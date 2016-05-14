@@ -48,6 +48,11 @@
 
   //- backup toolbar
   .views-toolbar(
+    ng-class = "{\
+      'green': testPassed,\
+      'orange': testInProgress,\
+      'red': testFailed\
+    }"
     ng-if = "$root.featureFlags.backup"
     ng-include = "'backupToolbarView'"
   )

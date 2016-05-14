@@ -4,6 +4,7 @@
   border-bottom: 1px solid $purple-darkest;
   display: flex;
   flex: 0 0 auto;
+  font-weight: $weight-normal;
   margin: 0 12px;
   overflow: visible;
   padding: 12px 0;
@@ -47,6 +48,36 @@
 
   .modal-dialog & {
     border-radius: $input-border-radius $input-border-radius 0 0;
+  }
+
+  &.orange .btn,
+  &.green .btn,
+  &.red .btn {
+    border-color: rgba($white,.5);
+  }
+
+  &.orange {
+    background: $orange;
+
+    .btn {
+      @extend %toolbar-btn-orange;
+    }
+  }
+
+  &.green {
+    background: $green;
+
+    .btn {
+      @extend %toolbar-btn-green;
+    }
+  }
+
+  &.red {
+    background: $red;
+
+    .btn {
+      @extend %toolbar-btn-red;
+    }
   }
 
   + .views-toolbar {

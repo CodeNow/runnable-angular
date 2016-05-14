@@ -14,52 +14,80 @@
     line-height: $input-xs - 2px;
   }
 
-  // toolbar theme
-  // purple
   &.purple {
-    background: lighten($purple-dark,9%);
-    border-color: $purple-darker;
-    color: $purple-lightest;
-
-    &:hover:not([disabled]) {
-      background: lighten($purple-dark,12%);
-    }
-
-    &:active:not([disabled]),
-    &.active:not([disabled]) {
-      background: lighten($purple-dark,15%);
-    }
+    @extend %toolbar-btn-purple;
   }
 
-  // orange
   &.orange {
-    background: $orange;
-    border-color: $purple-darker;
-    color: $orange-lightest;
-
-    &:hover:not([disabled]) {
-      background: lighten($orange,6%);
-    }
-
-    &:active:not([disabled]),
-    &.active:not([disabled]) {
-      background: lighten($orange,12%);
-    }
+    @extend %toolbar-btn-orange;
   }
 
-  // green
   &.green {
-    background: $green-dark;
-    border-color: $purple-darker;
-    color: $green-lighter;
+    @extend %toolbar-btn-green;
+  }
+}
 
-    &:hover {
-      background: $green;
-    }
+// toolbar theme
+// purple
+%toolbar-btn-purple {
+  background: lighten($purple-dark,9%);
+  border-color: $purple-darker;
+  color: $purple-lightest;
 
-    &:active,
-    &.active {
-      background: $white;
-    }
+  &:hover:not([disabled]) {
+    background: lighten($purple-dark,12%);
+  }
+
+  &:active:not([disabled]),
+  &.active:not([disabled]) {
+    background: lighten($purple-dark,15%);
+  }
+}
+
+// orange
+%toolbar-btn-orange {
+  background: $orange;
+  border-color: $purple-darker;
+  color: $orange-lightest;
+
+  &:hover:not([disabled]) {
+    background: lighten($orange,6%);
+  }
+
+  &:active:not([disabled]),
+  &.active:not([disabled]) {
+    background: lighten($orange,12%);
+  }
+}
+
+// green
+%toolbar-btn-green {
+  background: $green-dark;
+  border-color: $purple-darker;
+  color: $green-lighter;
+
+  &:hover {
+    background: lighten($green-dark,3%);
+  }
+
+  &:active,
+  &.active {
+    background: lighten($green-dark,6%);
+  }
+}
+
+// red
+%toolbar-btn-red {
+  background: $red;
+  border-color: $purple-darker;
+  color: $red-lighter;
+
+  &:hover {
+    background: lighten($red,3%);
+  }
+
+  &:active,
+  &.active {
+    background: lighten($red,6%);
   }
 }
