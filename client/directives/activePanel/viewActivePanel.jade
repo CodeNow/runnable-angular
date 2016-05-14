@@ -42,7 +42,7 @@
 
   //- debug toolbar
   .views-toolbar(
-    ng-show = "showDebugCmd"
+    ng-if = "showDebugCmd"
     ng-include = "'debugToolbarView'"
   )
 
@@ -50,6 +50,12 @@
   .views-toolbar(
     ng-if = "$root.featureFlags.backup"
     ng-include = "'backupToolbarView'"
+  )
+
+  //- test toolbar
+  .views-toolbar(
+    ng-if = "$root.featureFlags.testingFeature"
+    ng-include = "'testingToolbarView'"
   )
 
   .floating-controls(

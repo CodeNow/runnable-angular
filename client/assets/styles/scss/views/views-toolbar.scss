@@ -43,14 +43,14 @@
   height: $input-md;
   justify-content: flex-end;
   margin: 12px 12px 0;
-  padding: 0 12px;
+  padding: 0 6px 0 12px;
 
   .modal-dialog & {
     border-radius: $input-border-radius $input-border-radius 0 0;
   }
 
   + .views-toolbar {
-    margin-top: -1px;
+    margin-top: 6px;
   }
 
   // path/title

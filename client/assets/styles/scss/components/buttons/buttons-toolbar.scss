@@ -17,57 +17,49 @@
   // toolbar theme
   // purple
   &.purple {
-    background: $purple;
+    background: lighten($purple-dark,9%);
     border-color: $purple-darker;
     color: $purple-lightest;
 
-    &:hover:not([disabled]):not(.disabled) {
-      background: $purple-light;
-      color: $white;
+    &:hover:not([disabled]) {
+      background: lighten($purple-dark,12%);
     }
 
-    &:active:not([disabled]):not(.disabled),
-    &.active {
-      background: $white;
-      color: $purple-light;
+    &:active:not([disabled]),
+    &.active:not([disabled]) {
+      background: lighten($purple-dark,15%);
     }
   }
 
   // orange
   &.orange {
     background: $orange;
-    border-color: $orange-darkest;
+    border-color: $purple-darker;
     color: $orange-lightest;
 
-    &:hover {
-      background: $orange-lighter;
-      color: $white;
+    &:hover:not([disabled]) {
+      background: lighten($orange,6%);
     }
 
-    &:active,
-    &.active {
-      background: $white;
-      border-color: $white;
-      color: $orange;
+    &:active:not([disabled]),
+    &.active:not([disabled]) {
+      background: lighten($orange,12%);
     }
   }
 
   // green
   &.green {
     background: $green-dark;
-    border-color: $green-darkest;
+    border-color: $purple-darker;
     color: $green-lighter;
 
     &:hover {
       background: $green;
-      color: $white;
     }
 
     &:active,
     &.active {
       background: $white;
-      border-color: $white;
-      color: $green;
     }
   }
 }
