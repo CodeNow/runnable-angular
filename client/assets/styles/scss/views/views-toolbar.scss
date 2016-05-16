@@ -45,6 +45,7 @@
   height: $input-md;
   justify-content: flex-end;
   margin: 12px 12px 0;
+  overflow: hidden;
   padding: 0 6px 0 12px;
 
   .modal-dialog & {
@@ -84,6 +85,7 @@
   }
 
   > .iconnables {
+    flex: 0 0 auto;
     margin-right: 6px;
 
     &.icons-hourglass {

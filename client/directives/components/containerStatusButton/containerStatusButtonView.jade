@@ -4,16 +4,41 @@ button.btn.btn-md.btn-spinner.btn-status(
 )
   status-icon.float-left(
     instance = "CSBC.instance"
-    ng-if = "!isChanging()"
+    ng-if = "!isChanging() && !$root.featureFlags.testingFeature"
   )
   span.float-left(
-    ng-if ="!isChanging()"
+    ng-if ="!isChanging() && !$root.featureFlags.testingFeature"
   ) {{getStatusText()}}
-  //- if stopping, starting, or restarting
+
+  //- if stopping, starting, restarting, or testing
   .spinner-wrapper.spinner-gray.spinner-sm.float-left.in(
     ng-if = "isChanging()"
     ng-include = "'spinner'"
   )
+
+  svg.iconnables.float-left(
+    ng-class = "{\
+      'icons-check': state.test === 'passed',\
+      'icons-close': state.test === 'failed'\
+    }"
+    ng-if = "$root.featureFlags.testingFeature"
+    ng-init = "state.test = 'passed'"
+  )
+    use(
+      ng-if = "state.test === 'passed'"
+      xlink:href = "#icons-check"
+    )
+    use(
+      ng-if = "state.test === 'failed'"
+      xlink:href = "#icons-close"
+    )
+  span.float-left(
+    ng-if = "$root.featureFlags.testingFeature"
+    ng-init = "state.test = 'passed'"
+  ) {{state.test === 'passed' ? 'Tests Passed' : ''}}
+    {{state.test === 'failed' ? 'Tests Failed' : ''}}
+    //- or Tests Running
+
   span.float-left(
     ng-if = "isChanging()"
   ) {{getStatusText()}}

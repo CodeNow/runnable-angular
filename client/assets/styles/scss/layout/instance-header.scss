@@ -164,6 +164,21 @@
     margin-left: 6px;
     width: 15px;
   }
+
+  .icons-check,
+  .icons-close {
+    height: 100%;
+    margin-left: -9px;
+    margin-right: 3px;
+  }
+
+  .icons-check {
+    color: $green;
+  }
+
+  .icons-cose {
+    color: $red;
+  }
 }
 
 // connections button
