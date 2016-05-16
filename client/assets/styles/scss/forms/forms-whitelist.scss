@@ -6,8 +6,8 @@
   }
 
   .well {
+    @extend %padding-sm;
     margin: 0;
-    padding: 9px;
   }
 
   .toggle-wrapper {

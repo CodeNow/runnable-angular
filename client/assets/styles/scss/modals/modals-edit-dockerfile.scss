@@ -2,10 +2,9 @@
 
   // unlock and mirror options
   > .well {
+    @extend %padding-sm;
     color: $gray-dark;
-    height: $input-lg;
     margin: 0 0 15px;
-    padding: 0 9px 0 15px;
 
     .grid-content {
       height: 35px;

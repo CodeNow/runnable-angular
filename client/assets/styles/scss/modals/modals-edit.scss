@@ -21,7 +21,7 @@
     }
   }
 
-  &.ace-active {
+  &.expand {
 
     @include media(xxl) {
       max-width: 1800px;
@@ -122,6 +122,11 @@
   }
 
   // forms
+  // testing well
+  .form-stack .well {
+    @extend %padding-sm;
+  }
+
   // package input
   .input-prefix-monospace {
 
@@ -210,9 +215,14 @@
   .log-wrapper {
     border-radius: $input-border-radius;
     border-style: solid;
-    border-width: $input-border;
-    padding: 0;
+    border-width: 1px;
     position: relative;
+
+    .build-log-wrapper {
+      margin: -1px;
+      padding: 0;
+      width: auto;
+    }
 
     .build-log {
       z-index: auto; // reset

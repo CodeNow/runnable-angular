@@ -13,3 +13,18 @@
       state = "state"
     )
     small.small Select the branch you would like to use to build your first container.
+
+.label.clearfix
+  .grid-block.shrink.well.gray.in.align-center.row-xxs(
+    ng-if = "$root.featureFlags.testingFeature"
+  )
+    .grid-content
+      .strong.text-gray-dark This is a test.
+      small.small We’ll report your test results on your pull-requests on GitHub.
+    label.toggle-wrapper.shrink
+      input.toggle-input(
+        ng-disabled = "WFC.isIsolationGroupMaster"
+        ng-model = "WFC.whitelist.enabled"
+        type = "checkbox"
+      )
+      .toggle-group.toggle-sm
