@@ -53,13 +53,14 @@
   )
 
   //- test toolbar
-  .views-toolbar.green(
+  .views-toolbar(
     ng-class = "{\
-      'green': testPassed,\
-      'orange': testInProgress,\
-      'red': testFailed\
+      'green': state.test === 'passed',\
+      'orange': state.test === 'inProgress',\
+      'red': state.test === 'failed'\
     }"
     ng-if = "$root.featureFlags.testingFeature"
+    ng-init = "state.test = 'passed'"
     ng-include = "'testingToolbarView'"
   )
 

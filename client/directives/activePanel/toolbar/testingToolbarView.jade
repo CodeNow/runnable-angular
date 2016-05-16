@@ -1,10 +1,29 @@
 svg.iconnables.float-left
   use(
     xlink:href = "#icons-check"
+    ng-if = "$parent.state.test === 'passed'"
   )
-//- svg.iconnables.float-left
   use(
     xlink:href = "#icons-alert"
+    ng-if = "$parent.state.test === 'failed'"
   )
-p.p.text-overflow Tests passed (started 3 days ago).
+p.p.text-overflow
+  {{$parent.state.test === 'passed' ? 'Tests passed (started 3 days ago).' : ''}}
+  {{$parent.state.test === 'inProgress' ? 'Tests in progress (started 1 minute ago).' : ''}}
+  {{$parent.state.test === 'failed' ? 'Tests Failed (started 1 hour ago).' : ''}}
+select(
+  ng-model = "$parent.state.test"
+)
+  optgroup(
+    label = "Test state"
+  )
+    option(
+      value = "passed"
+    ) passed
+    option(
+      value = "inProgress"
+    ) inProgress
+    option(
+      value = "failed"
+    ) failed
 button.btn.btn-md.btn-toolbar Rerun Test
