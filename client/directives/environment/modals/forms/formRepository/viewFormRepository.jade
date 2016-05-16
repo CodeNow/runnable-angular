@@ -78,7 +78,7 @@ label.label.label-container-cmd.clearfix(
         value = "startCmd"
       ) {{$parent.startCmd}}
 
-    .well.small(
+    .well.well-merged.well-merged-top.small(
       ng-if = "SMC.state.selectedStack.startCommand.length && $root.featureFlags.multilineStartCmd"
     )
       strong.strong Suggested for {{SMC.state.selectedStack.name}}:&#32;
@@ -91,14 +91,6 @@ label.label.label-container-cmd.clearfix(
         pop-over-template = "insertTooltip"
         pop-over-trigger = "hover"
       ) {{startCmd}}
-    label.well.well-merged.well-merged-bottom.small.grid-block(
-      ng-if = "$root.featureFlags.testingFeature"
-    )
-      input.checkbox.float-left(
-        type = "checkbox"
-      )
-      strong.strong This is a test.&#32;
-      | We’ll display your test results in your pull-requests.
     textarea.textarea.monospace(
       autocomplete = "off"
       name = "repository.startCommand"
