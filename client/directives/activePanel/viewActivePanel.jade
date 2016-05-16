@@ -41,24 +41,24 @@
   )
 
   //- debug toolbar
-  .views-toolbar(
+  .views-toolbar.orange(
     ng-if = "showDebugCmd"
     ng-include = "'debugToolbarView'"
   )
 
   //- backup toolbar
   .views-toolbar(
-    ng-class = "{\
-      'green': testPassed,\
-      'orange': testInProgress,\
-      'red': testFailed\
-    }"
     ng-if = "$root.featureFlags.backup"
     ng-include = "'backupToolbarView'"
   )
 
   //- test toolbar
-  .views-toolbar(
+  .views-toolbar.green(
+    ng-class = "{\
+      'green': testPassed,\
+      'orange': testInProgress,\
+      'red': testFailed\
+    }"
     ng-if = "$root.featureFlags.testingFeature"
     ng-include = "'testingToolbarView'"
   )

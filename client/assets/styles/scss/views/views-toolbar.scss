@@ -41,6 +41,7 @@
   border-radius: $input-border-radius;
   display: flex;
   flex: 0 0 auto;
+  font-weight: $weight-normal;
   height: $input-md;
   justify-content: flex-end;
   margin: 12px 12px 0;
@@ -50,10 +51,8 @@
     border-radius: $input-border-radius $input-border-radius 0 0;
   }
 
-  &.orange .btn,
-  &.green .btn,
-  &.red .btn {
-    border-color: rgba($white,.5);
+  &.purple .btn {
+    @extend %toolbar-btn-purple;
   }
 
   &.orange {
@@ -82,6 +81,10 @@
 
   + .views-toolbar {
     margin-top: 6px;
+  }
+
+  > .iconnables {
+    margin-right: 6px;
   }
 
   // path/title

@@ -1,10 +1,11 @@
 // buttons
 .btn-toolbar {
-  border-width: 1px;
+  border: 2px solid;
   flex: 0 0 auto;
   font-size: 15px;
+  font-weight: $weight-bold;
   height: 30px;
-  line-height: 28px;
+  line-height: 26px;
   padding: 0 9px;
 
   .build-log-header & {
@@ -31,63 +32,68 @@
 // purple
 %toolbar-btn-purple {
   background: lighten($purple-dark,9%);
-  border-color: $purple-darker;
-  color: $purple-lightest;
+  border-color: darken($purple-dark,6%);
+  color: rgba($white,.9);
 
-  &:hover:not([disabled]) {
-    background: lighten($purple-dark,12%);
+  &:hover {
+    border-color: darken($purple-dark,9%);
   }
 
-  &:active:not([disabled]),
-  &.active:not([disabled]) {
-    background: lighten($purple-dark,15%);
+  &:active,
+  &.active {
+    border-color: $white;
+    color: $white;
   }
 }
 
 // orange
 %toolbar-btn-orange {
-  background: $orange;
-  border-color: $purple-darker;
-  color: $orange-lightest;
+  background: lighten($orange,9%);
+  border-color: darken($orange,6%);
+  color: rgba($white,.9);
 
-  &:hover:not([disabled]) {
-    background: lighten($orange,6%);
+  &:hover {
+    background: lighten($orange,9%);
+    border-color: darken($orange,9%);
   }
 
-  &:active:not([disabled]),
-  &.active:not([disabled]) {
-    background: lighten($orange,12%);
+  &:active,
+  &.active {
+    border-color: $white;
+    color: $white;
   }
 }
 
 // green
 %toolbar-btn-green {
-  background: $green-dark;
-  border-color: $purple-darker;
-  color: $green-lighter;
+  background: lighten($green,9%);
+  border-color: darken($green,6%);
+  color: rgba($white,.9);
 
   &:hover {
-    background: lighten($green-dark,3%);
+    border-color: darken($green,9%);
   }
 
   &:active,
   &.active {
-    background: lighten($green-dark,6%);
+    border-color: $white;
+    color: $white;
   }
 }
 
 // red
 %toolbar-btn-red {
-  background: $red;
-  border-color: $purple-darker;
-  color: $red-lighter;
+  background: lighten($red,4%);
+  border-color: desaturate($red-dark,25%);
+  color: rgba($white,.9);
 
   &:hover {
-    background: lighten($red,3%);
+    border-color: darken(desaturate($red-dark,25%),3%);
   }
 
   &:active,
   &.active {
-    background: lighten($red,6%);
+    border-color: $white;
+    color: $white;
   }
 }
