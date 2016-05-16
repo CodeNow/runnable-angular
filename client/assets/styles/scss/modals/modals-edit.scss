@@ -38,10 +38,11 @@
 
   // css override for server building state
   &.disabled {
-    cursor: not-allowed !important;
+    cursor: not-allowed;
 
     .ace-container,
     .btn:not(.btn-cancel),
+    .can-disable,
     .container-title-wrapper,
     .input,
     .label,
@@ -49,7 +50,11 @@
     .tr,
     .table-actions {
       @extend %no-touching;
-      opacity: .6 !important;
+      opacity: .6;
+    }
+
+    .modal-tabs {
+      overflow: hidden;
     }
   }
 
@@ -125,6 +130,7 @@
   // testing well
   .form-stack .well {
     @extend %padding-sm;
+    margin: 0;
   }
 
   // package input

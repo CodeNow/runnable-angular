@@ -13,7 +13,7 @@
       ng-bind-html = "SMC.helpCards.getActiveCard().helpPopover.containerFiles"
     )
 
-.grid-block.shrink.align-center.well.gray.in.row-xxs(
+.grid-block.shrink.align-center.well.gray.in.row-xxs.can-disable(
   ng-if = "!SMC.state.advanced"
 )
   svg.grid-content.row-xxs.shrink.iconnables.icons-dockerfile-lock
@@ -35,7 +35,7 @@
     | Unlock
 
 //- add logic for repository containers only
-.grid-block.shrink.align-center.well.gray.in.row-xxs(
+.grid-block.shrink.align-center.well.gray.in.row-xxs.can-disable(
   ng-if = "SMC.state.advanced && !SMC.state.isNonRepoContainer"
 )
   svg.grid-content.row-xxs.shrink.iconnables.icons-sync
