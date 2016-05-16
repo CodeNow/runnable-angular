@@ -213,8 +213,10 @@ describe('repositoryFormDirective'.bold.underline.blue, function () {
       $elScope.state.selectedStack = {
         key: 'hello'
       };
-      $elScope.state.opts = {
-        name: 'cheese'
+      $elScope.state.acv = {
+        attrs: {
+          repo: 'macaroni-and-/cheese'
+        }
       };
       $scope.$digest();
       var dockerfile = {attrs: 'dockerfile'};

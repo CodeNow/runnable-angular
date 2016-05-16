@@ -1,6 +1,5 @@
 /*global runnable:true, mocks: true, directiveTemplate: true, xdescribe: true, before, xit: true */
 'use strict';
-var MockFetch = require('../../fixtures/mockFetch');
 
 describe('NewContainerModalController'.bold.underline.blue, function () {
   var $scope;
@@ -15,7 +14,6 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
   // Stubs
   var helpCardsStub;
   var errsStub;
-  var createAndBuildNewContainerStub;
   var createNewBuildAndFetchBranch;
   var fetchInstancesByPodStub;
   var closeStub;
@@ -24,26 +22,22 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
   var fetchOwnerRepoStub;
   var fetchInstancesStub;
   var fetchRepoDockerfilesStub;
-  var copySourceInstanceStub;
 
   // Mocked Values
   var instances;
   var mockInstance;
-  var mockBuild;
   var repos;
   var activeAccount;
   var repoBuildAndBranch;
   var mockSourceInstance;
 
   function initState () {
-    helpCardsStub= {
+    helpCardsStub = {
       getActiveCard: sinon.stub()
     };
     errsStub = {
       handler: sinon.spy()
     };
-
-    createAndBuildNewContainerStub = new MockFetch();
 
     angular.mock.module('app');
     angular.mock.module(function ($provide) {
@@ -57,10 +51,6 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
         fetchInstancesStub = sinon.stub().returns($q.when(instances));
         return fetchInstancesStub;
       });
-      $provide.factory('copySourceInstance', function ($q) {
-        copySourceInstanceStub = sinon.stub().returns($q.when(mockSourceInstance));
-        return copySourceInstanceStub;
-      });
       $provide.factory('fetchRepoDockerfiles', function ($q) {
         fetchRepoDockerfilesStub = sinon.stub().returns($q.when([]));
         return fetchRepoDockerfilesStub;
@@ -73,10 +63,6 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
         };
         createNewBuildAndFetchBranch = sinon.stub().returns($q.when(repoBuildAndBranch));
         return createNewBuildAndFetchBranch;
-      });
-      $provide.factory('createAndBuildNewContainer', function ($q) {
-        createAndBuildNewContainerStub = sinon.stub().returns($q.when(mockBuild));
-        return createAndBuildNewContainerStub;
       });
       closeStub = sinon.stub();
       $provide.factory('ModalService', function ($q) {
@@ -155,18 +141,6 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
       id: 'mockBuild',
       attrs: {
         name: 'Hello'
-      }
-    };
-    mockBuild = {
-      contextVersion: {
-        id: 'foo',
-        getMainAppCodeVersion: sinon.stub(),
-        appCodeVersions: {
-          create: sinon.stub().callsArg(1)
-        }
-      },
-      attrs: {
-        env: []
       }
     };
   }
@@ -317,23 +291,13 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.calledOnce(closeStub);
         sinon.assert.calledOnce(fetchInstancesStub);
-        sinon.assert.calledOnce(copySourceInstanceStub);
-        sinon.assert.calledOnce(createAndBuildNewContainerStub);
+        sinon.assert.calledOnce(showModalStub);
+        sinon.assert.calledWithMatch(showModalStub, {
+          controller: 'NameNonRepoContainerViewModalController',
+          controllerAs: 'MC',
+          templateUrl: 'nameNonRepoContainerView'
+        });
       });
-
-      it('should throw an error if there was an error', function () {
-        createAndBuildNewContainerStub.returns($q.reject(new Error('asdfas')));
-
-        fetchInstancesStub.reset();
-        NCMC.addServerFromTemplate(mockSourceInstance);
-        $scope.$digest();
-        sinon.assert.calledOnce(closeStub);
-        sinon.assert.calledOnce(fetchInstancesStub);
-        sinon.assert.calledOnce(copySourceInstanceStub);
-        sinon.assert.calledOnce(createAndBuildNewContainerStub);
-        sinon.assert.calledOnce(errsStub.handler);
-      });
-
     });
   });
 

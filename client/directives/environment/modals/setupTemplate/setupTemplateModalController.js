@@ -11,15 +11,12 @@ require('app')
  * @ngInject
  */
 function SetupTemplateModalController(
-  $rootScope,
-  copySourceInstance,
-  createAndBuildNewContainer,
   errs,
   fetchInstances,
   getNewForkName,
   promisify,
-  eventTracking,
   helpCards,
+  ModalService,
   close,
   isolation
 ) {
@@ -45,29 +42,17 @@ function SetupTemplateModalController(
     return instancesPromise
       .then(function (instances) {
         var serverName = getNewForkName(instanceToForkName, instances, true);
-        var serverModel = {
-          opts: {
+        return ModalService.showModal({
+          controller: 'NameNonRepoContainerViewModalController',
+          controllerAs: 'MC',
+          templateUrl: 'nameNonRepoContainerView',
+          inputs: {
             name: serverName,
-            masterPod: true,
-            ipWhitelist: {
-              enabled: true
-            }
+            instanceToForkName: instanceToForkName,
+            sourceInstance: sourceInstance,
+            isolation: isolation
           }
-        };
-        return createAndBuildNewContainer(
-          copySourceInstance(
-            $rootScope.dataApp.data.activeAccount,
-            sourceInstance,
-            serverName
-          )
-            .then(function (build) {
-              serverModel.build = build;
-              eventTracking.createdNonRepoContainer(instanceToForkName);
-              return serverModel;
-            }),
-          serverName,
-          { isolation: isolation }
-        );
+        });
       })
       .catch(errs.handler);
   };

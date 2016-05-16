@@ -56,8 +56,8 @@
             )
               .text-gray.grid-block.vertical.grow.justify-center
                 .text-overflow.strong(
-                  title = "{{dependency.instance.getRepoName()}}"
-                ) {{dependency.instance.getRepoName()}}
+                  title = "{{dependency.instance.getMasterPodName()}}"
+                ) {{dependency.instance.getMasterPodName()}}
                 small.small.text-overflow(
                   title = "{{dependency.instance.getElasticHostname()}}"
                 ) {{dependency.instance.getElasticHostname()}}
@@ -70,8 +70,8 @@
                     instance = "dependency.instance"
                   )
                   .strong.text-overflow.connected-branch-name(
-                    title = "{{dependency.instance.getDisplayName()}}"
-                  ) {{dependency.instance.getDisplayName()}}
+                    title = "{{dependency.instance.getMasterPodName()}}"
+                  ) {{dependency.instance.getMasterPodName()}}
 
                 //- Show if the container is the parent of an isolated group
                 //- btn.btn-xxs.btn-badge.gray.grid-content.shrink Isolated
@@ -145,7 +145,7 @@
             )
           .fade(
             ng-class = "{'in': isActivePanel()}"
-          ) {{DCC.modifyingDNS.current.instance.getRepoName() || DCC.modifyingDNS.current.instance.getName()}} Containers
+          ) {{DCC.modifyingDNS.current.instance.getMasterPodName()}} Containers
 
         .popover-content.fade(
           ng-class = "{'in': isActivePanel()}"
@@ -191,15 +191,15 @@
               ng-class = "{'no-touching': instance === DCC.modifyingDNS.current.instance}"
               ng-click = "DCC.selectInstance(instance); goToPanel('dnsOverview', 'back');"
               ng-repeat = "instance in DCC.modifyingDNS.options"
-              title = "{{instance.getDisplayName()}}"
+              title = "{{instance.getMasterPodName()}}"
             )
 
               status-icon(
                 instance = "instance"
               )
               span.strong.text-overflow.grid-content.grow(
-                title = "{{instance.getDisplayName()}}"
-              ) {{instance.getDisplayName()}}
+                title = "{{instance.getMasterPodName()}}"
+              ) {{instance.getMasterPodName()}}
 
               //- Show if the container is the parent of an isolated group
                   Don't show this when loading

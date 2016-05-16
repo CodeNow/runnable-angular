@@ -21,7 +21,7 @@
     - repository in .span
     - branch in .strong
 
-  span.span {{instance.getRepoName() || instance.getDisplayName()}}
+  span.span {{instance.getMasterPodName()}}
   strong.strong(
     ng-if = "instance.getBranchName()"
   ) /{{instance.getBranchName()}}

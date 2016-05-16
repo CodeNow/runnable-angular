@@ -6,11 +6,8 @@ require('app')
 function NewContainerModalController(
   $q,
   $rootScope,
-  copySourceInstance,
-  createAndBuildNewContainer,
   createNewBuildAndFetchBranch,
   errs,
-  eventTracking,
   fetchInstances,
   fetchInstancesByPod,
   fetchOwnerRepos,
@@ -20,7 +17,6 @@ function NewContainerModalController(
   keypather,
   loading,
   ModalService,
-  promisify,
   close
 ) {
   var NCMC = this;
@@ -107,28 +103,17 @@ function NewContainerModalController(
     return fetchInstances()
       .then(function (instances) {
         var serverName = getNewForkName(instanceToForkName, instances, true);
-        var serverModel = {
-          opts: {
+        return ModalService.showModal({
+          controller: 'NameNonRepoContainerViewModalController',
+          controllerAs: 'MC',
+          templateUrl: 'nameNonRepoContainerView',
+          inputs: {
             name: serverName,
-            masterPod: true,
-            ipWhitelist: {
-              enabled: true
-            }
+            instanceToForkName: instanceToForkName,
+            sourceInstance: sourceInstance,
+            isolation: false
           }
-        };
-        return createAndBuildNewContainer(
-          copySourceInstance(
-            $rootScope.dataApp.data.activeAccount,
-            sourceInstance,
-            serverName
-          )
-            .then(function (build) {
-              serverModel.build = build;
-              eventTracking.createdNonRepoContainer(instanceToForkName);
-              return serverModel;
-            }),
-          serverName
-        );
+        });
       })
       .catch(errs.handler);
   };
