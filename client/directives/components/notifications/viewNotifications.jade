@@ -48,7 +48,7 @@ h4.h4.text-overflow(
   ng-if = "!dataInstance.data.instance.isMigrating()"
   title = "{{dataInstance.data.instance.getRepoAndBranchName()}}"
 ) {{dataInstance.data.showUpdatedMessage ? 'Deployed' : 'Building' }}&#32;
-  span.strong {{dataInstance.data.instance.getMasterPodName())}}
+  span.strong {{dataInstance.data.instance.getMasterPodName()}}
   span(
     ng-if = "dataInstance.data.instance.getBranchName()"
   ) /{{dataInstance.data.instance.getBranchName()}}
