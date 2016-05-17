@@ -2,11 +2,11 @@
 .list(
   ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
 )
-  //- repository name
+  //- instance name
   .list-item.list-item-header
     span.text-overflow(
-      title = "{{masterInstance.getRepoName()}}"
-    ) {{masterInstance.getRepoName()}}
+      title = "{{masterInstance.getName()}}"
+    ) {{masterInstance.getName()}}
     //- configure button for repo containers
     svg.iconnables.icons-advanced(
       ng-click="CIS.editInstance(masterInstance)"

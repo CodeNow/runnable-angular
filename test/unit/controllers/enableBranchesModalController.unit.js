@@ -75,7 +75,7 @@ describe('EnableBranchesModalController'.bold.underline.blue, function () {
       instance = {
         id: 'hello',
         update: sinon.stub(),
-        getRepoName: sinon.stub().returns('checkmate')
+        getMasterPodName: sinon.stub().returns('checkmate')
       };
 
       injectSetupCompile(instance);
@@ -85,8 +85,8 @@ describe('EnableBranchesModalController'.bold.underline.blue, function () {
       it('should set properties', function () {
         expect(EBMC.close, 'close').to.be.function;
         expect(EBMC.close, 'close').to.equal(ctx.closeMock);
-        sinon.assert.calledOnce(instance.getRepoName);
-        expect(EBMC.repoName, 'repoName').to.eql('checkmate');
+        sinon.assert.calledOnce(instance.getMasterPodName);
+        expect(EBMC.instanceName, 'instanceName').to.eql('checkmate');
         expect(EBMC.instance, 'instance').to.eql(instance);
       });
     });
