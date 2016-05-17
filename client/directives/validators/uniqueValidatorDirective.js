@@ -16,6 +16,9 @@ function uniqueValidator() {
           return true;
         }
         var lowerCaseViewValue = viewValue.toLowerCase();
+        if (!$scope.uniqueValidator) {
+          return true;
+        }
         return $scope.uniqueValidator.every(function (item) {
           return item.toLowerCase() !== lowerCaseViewValue;
         });
