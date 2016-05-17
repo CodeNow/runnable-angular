@@ -131,12 +131,12 @@ function NewContainerModalController(
     NCMC.state.instanceName = fullName.split('/')[1] || '';
     return fetchRepoDockerfiles(fullName, defaultBranch)
       .then(function (dockerfiles) {
+        loading(NCMC.name + 'SingleRepo', false);
+        repo.loading = false;
         if (dockerfiles.length === 0) {
-          goToPanelCb('nameContainer');
+          return goToPanelCb('nameContainer');
         }
         repo.dockerfiles = dockerfiles;
-        repo.loading = false;
-        loading(NCMC.name + 'SingleRepo', false);
         NCMC.state.dockerfile = null;
         return goToPanelCb(panelName);
       });

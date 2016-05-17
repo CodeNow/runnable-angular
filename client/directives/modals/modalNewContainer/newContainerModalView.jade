@@ -131,6 +131,8 @@
                   input.input.input-sm.input-validate(
                     autocomplete = "off"
                     name = "instanceName"
+                    ng-class = "{'in': $root.isLoading[MC.name + 'SingleRepo']}"
+                    ng-disabled = "$root.isLoading[MC.name + 'SingleRepo']"
                     ng-maxlength = "19"
                     ng-model = "MC.state.instanceName"
                     ng-pattern = "/^[a-zA-Z0-9-]*$/"
@@ -156,13 +158,13 @@
             ng-click = "MC.actions.cancel()"
           ) Cancel
           button.btn.btn-md.green.float-right.btn-spinner(
-            ng-disabled = "!MC.name.length || MC.nameForm.$invalid || MC.saving"
-            ng-class = "{'in': MC.saving}"
+            ng-disabled = "!MC.name.length || MC.nameForm.$invalid || $root.isLoading[MC.name + 'SingleRepo']"
+            ng-class = "{'in': $root.isLoading[MC.name + 'SingleRepo']}"
             ng-click = "MC.createBuildAndGoToNewRepoModal(MC.state.instanceName, MC.state.repo, MC.state.dockerfile)"
           )
             .spinner-wrapper.spinner-white.spinner-sm.in(
               ng-include = "'spinner'"
-              ng-if = "MC.saving"
+              ng-if = "$root.isLoading[MC.name + 'SingleRepo']"
             )
             //- should say "Next Step: Configure" if a repository container
             //- should say "Create Container" if its a non-repository container
