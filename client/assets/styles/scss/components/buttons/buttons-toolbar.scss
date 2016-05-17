@@ -1,11 +1,11 @@
 // buttons
 .btn-toolbar {
-  border: 2px solid;
+  border: $input-border solid;
   flex: 0 0 auto;
   font-size: 15px;
   font-weight: $weight-bold;
   height: 30px;
-  line-height: 26px;
+  line-height: 30px - ($input-border * 2);
   padding: 0 9px;
 
   .build-log-header & {

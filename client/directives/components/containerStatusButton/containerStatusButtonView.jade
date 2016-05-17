@@ -2,9 +2,10 @@ button.btn.btn-md.btn-spinner.btn-status(
   ng-class = "getClassForInstance()"
   ng-click = "CSBC.popoverActive = true"
 )
+  //- apply .passed or .failed for testing
   status-icon.float-left(
     instance = "CSBC.instance"
-    ng-if = "!isChanging() && !$root.featureFlags.testingFeature"
+    ng-if = "!isChanging()"
   )
   span.float-left(
     ng-if ="!isChanging() && !$root.featureFlags.testingFeature"
@@ -16,22 +17,6 @@ button.btn.btn-md.btn-spinner.btn-status(
     ng-include = "'spinner'"
   )
 
-  svg.iconnables.float-left(
-    ng-class = "{\
-      'icons-check': state.test === 'passed',\
-      'icons-close': state.test === 'failed'\
-    }"
-    ng-if = "$root.featureFlags.testingFeature"
-    ng-init = "state.test = 'passed'"
-  )
-    use(
-      ng-if = "state.test === 'passed'"
-      xlink:href = "#icons-check"
-    )
-    use(
-      ng-if = "state.test === 'failed'"
-      xlink:href = "#icons-close"
-    )
   span.float-left(
     ng-if = "$root.featureFlags.testingFeature"
     ng-init = "state.test = 'passed'"
