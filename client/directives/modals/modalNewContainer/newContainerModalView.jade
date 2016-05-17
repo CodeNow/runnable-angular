@@ -1,168 +1,169 @@
 .modal-backdrop.in
-  animated-panel-container.modal-dialog.modal-lg
-    animated-panel.grid-block.vertical.modal-server-select(
-      default = "true"
-      name = "containerSelection"
-    )
-      header.modal-header.grid-block.justify-center.row-xxs(
-        ng-click = "MC.changeTab('nameContainer')"
+  .modal-dialog.modal-lg
+    animated-panel-container
+      animated-panel.grid-block.vertical.modal-server-select(
+        default = "true"
+        name = "containerSelection"
       )
-        .grid-block.shrink.btn(
-          ng-class = "{'active': MC.state.tabName === 'repos'}"
-          ng-click = "MC.changeTab('repos')"
+        header.modal-header.grid-block.justify-center.row-xxs(
+          ng-click = "MC.changeTab('nameContainer')"
         )
-          svg.iconnables.icons-repository.grid-block.shrink
-            use(
-              xlink:href = "#icons-new-repository-server"
-            )
-          .btn-text.grid-block Create from a repository
-        //- disable this button when loading a repository
-        .grid-block.shrink.btn(
-          ng-disabled = "$root.isLoading[MC.name + 'SingleRepo']"
-          ng-class = "{\
-            'active': MC.state.tabName === 'services', \
-            'btn-hint': MC.servicesActive, \
-            'disabled': $root.isLoading[MC.name + 'SingleRepo'] \
-          }"
-          ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && MC.changeTab('services')"
-        )
-          svg.iconnables.icons-template.grid-block.shrink
-            use(
-              xlink:href = "#icons-server-new"
-            )
-          .btn-text.grid-block.vertical.text-left Create from a template
-            small.small For services and databases
-        svg.iconnables.icons-close(
-          ng-click = "MC.close()"
-        )
-          use(
-            xlink:href = "#icons-close"
+          .grid-block.shrink.btn(
+            ng-class = "{'active': MC.state.tabName === 'repos'}"
+            ng-click = "MC.changeTab('repos')"
           )
-
-      .modal-body(
-        ng-if = "MC.state.tabName === 'repos'"
-        ng-include = "'newRepositorySelectionView'"
-      )
-
-      .modal-body(
-        ng-if = "MC.state.tabName === 'services'"
-        ng-include = "'templateSelectSectionView'"
-      )
-
-    animated-panel.grid-block.vertical.modal-mirror-dockerfile(
-      ng-if = "MC.state.repo"
-      name = "dockerfileMirroring"
-    )
-      header.modal-header
-        svg.iconnables.icons-arrow-backward(
-          ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && goToPanel('containerSelection', 'back')"
-        )
-          use(
-            xlink:href = "#icons-arrow-down"
-          )
-        h1.modal-heading Choose Configuration
-        svg.iconnables.icons-close(
-          ng-click = "MC.close()"
-        )
-          use(
-            xlink:href = "#icons-close"
-          )
-
-      .grid-block.vertical.modal-body(
-        ng-include = "'mirrorDockerfileView'"
-      )
-
-      .modal-footer.clearfix
-        button.btn.btn-md.white.float-left(
-          ng-click = "MC.close()"
-        ) Cancel
-        //- add the 'in' class to .btn-spinner when spinning!
-        button.btn.btn-md.green.float-right.btn-spinner(
-          ng-disabled = "$root.isLoading[MC.name + 'SingleRepo'] || MC.state.dockerfile === null"
-          ng-click = "($root.featureFlags.nameContainer) ? goToPanel('nameContainer') : MC.createBuildAndGoToNewRepoModal(MC.state.instanceName, MC.state.repo, MC.state.dockerfile)"
-          ng-class = "{ \
-            in: $root.isLoading[MC.name + 'SingleRepo'] \
-          }"
-        )
-          .spinner-wrapper.spinner-white.spinner-sm.in(
-            ng-include = "'spinner'"
-            ng-if = "$root.isLoading[MC.name + 'SingleRepo']"
-          )
-          span(
-            ng-if = "!$root.featureFlags.nameContainer"
-          ) Next Step: {{MC.state.dockerfile === false ? 'Configure' : 'Review'}}
-          span(
-            ng-if = "$root.featureFlags.nameContainer"
-          ) Next Step: Naming
-
-    animated-panel.grid-block.vertical.modals-rename(
-      name = "nameContainer"
-      ng-if = "MC.state.repo && $root.featureFlags.nameContainer"
-    )
-      header.modal-header
-        svg.iconnables.icons-arrow-backward(
-          ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && goToPanel('containerSelection', 'back')"
-        )
-          use(
-            xlink:href = "#icons-arrow-down"
-          )
-        h1.modal-heading.text-overflow Container Name
-        svg.iconnables.icons-close(
-          ng-click = "MC.close()"
-        )
-          use(
-            xlink:href = "#icons-close"
-          )
-      section.modal-body
-        form.modal-form(
-          name = "MC.nameForm"
-        )
-          label.label.clearfix
-            .input-col
-              div(
-                ng-attr-data-length = "{{19 - MC.nameForm.instanceName.$viewValue.length}}"
-                ng-class = "{\
-                  'ng-invalid': MC.nameForm.$error.maxlength,\
-                  'validate-length': MC.nameForm.$error.maxlength,\
-                  'validate-sm': MC.nameForm.$error.maxlength\
-                }"
+            svg.iconnables.icons-repository.grid-block.shrink
+              use(
+                xlink:href = "#icons-new-repository-server"
               )
-                input.input.input-sm.input-validate(
-                  autocomplete = "off"
-                  name = "instanceName"
-                  ng-maxlength = "19"
-                  ng-model = "MC.state.instanceName"
-                  ng-pattern = "/^[a-zA-Z0-9-]*$/"
-                  spellcheck = "false"
-                  unique-validator = "MC.state.namesForAllInstances"
-                  placeholder = "{{MC.instanceToForkName}}"
-                  no-double-dash-validator
-                )
-
-              ul.list.list-bulleted.list-validation
-                li.list-item(
-                  ng-class = "{'ng-invalid': MC.nameForm.$error.unique}"
-                ) Choose a unique name in your Sandbox
-                li.list-item(
-                  ng-class = "{'ng-invalid': MC.nameForm.$error.pattern || MC.nameForm.$error.noDoubleDash}"
-                ) Use letters, numbers, and single hyphens (-)
-                li.list-item(
-                  ng-class = "{'ng-invalid': MC.nameForm.$error.maxlength}"
-                ) Use 19 characters or less
-
-      footer.modal-footer.clearfix
-        button.btn.btn-md.gray.btn-cancel.float-left(
-          ng-click = "MC.actions.cancel()"
-        ) Cancel
-        button.btn.btn-md.green.float-right.btn-spinner(
-          ng-disabled = "!MC.name.length || MC.nameForm.$invalid || MC.saving"
-          ng-class = "{'in': MC.saving}"
-          ng-click = "MC.createBuildAndGoToNewRepoModal(MC.state.instanceName, MC.state.repo, MC.state.dockerfile)"
-        )
-          .spinner-wrapper.spinner-white.spinner-sm.in(
-            ng-include = "'spinner'"
-            ng-if = "MC.saving"
+            .btn-text.grid-block Create from a repository
+          //- disable this button when loading a repository
+          .grid-block.shrink.btn(
+            ng-disabled = "$root.isLoading[MC.name + 'SingleRepo']"
+            ng-class = "{\
+              'active': MC.state.tabName === 'services', \
+              'btn-hint': MC.servicesActive, \
+              'disabled': $root.isLoading[MC.name + 'SingleRepo'] \
+            }"
+            ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && MC.changeTab('services')"
           )
-          //- should say "Next Step: Configure" if a repository container
-          //- should say "Create Container" if its a non-repository container
-          | Create Container
+            svg.iconnables.icons-template.grid-block.shrink
+              use(
+                xlink:href = "#icons-server-new"
+              )
+            .btn-text.grid-block.vertical.text-left Create from a template
+              small.small For services and databases
+          svg.iconnables.icons-close(
+            ng-click = "MC.close()"
+          )
+            use(
+              xlink:href = "#icons-close"
+            )
+
+        .modal-body(
+          ng-if = "MC.state.tabName === 'repos'"
+          ng-include = "'newRepositorySelectionView'"
+        )
+
+        .modal-body(
+          ng-if = "MC.state.tabName === 'services'"
+          ng-include = "'templateSelectSectionView'"
+        )
+
+      animated-panel.grid-block.vertical.modal-mirror-dockerfile(
+        ng-if = "MC.state.repo"
+        name = "dockerfileMirroring"
+      )
+        header.modal-header
+          svg.iconnables.icons-arrow-backward(
+            ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && goToPanel('containerSelection', 'back')"
+          )
+            use(
+              xlink:href = "#icons-arrow-down"
+            )
+          h1.modal-heading Choose Configuration
+          svg.iconnables.icons-close(
+            ng-click = "MC.close()"
+          )
+            use(
+              xlink:href = "#icons-close"
+            )
+
+        .grid-block.vertical.modal-body(
+          ng-include = "'mirrorDockerfileView'"
+        )
+
+        .modal-footer.clearfix
+          button.btn.btn-md.white.float-left(
+            ng-click = "MC.close()"
+          ) Cancel
+          //- add the 'in' class to .btn-spinner when spinning!
+          button.btn.btn-md.green.float-right.btn-spinner(
+            ng-disabled = "$root.isLoading[MC.name + 'SingleRepo'] || MC.state.dockerfile === null"
+            ng-click = "($root.featureFlags.nameContainer) ? goToPanel('nameContainer') : MC.createBuildAndGoToNewRepoModal(MC.state.instanceName, MC.state.repo, MC.state.dockerfile)"
+            ng-class = "{ \
+              in: $root.isLoading[MC.name + 'SingleRepo'] \
+            }"
+          )
+            .spinner-wrapper.spinner-white.spinner-sm.in(
+              ng-include = "'spinner'"
+              ng-if = "$root.isLoading[MC.name + 'SingleRepo']"
+            )
+            span(
+              ng-if = "!$root.featureFlags.nameContainer"
+            ) Next Step: {{MC.state.dockerfile === false ? 'Configure' : 'Review'}}
+            span(
+              ng-if = "$root.featureFlags.nameContainer"
+            ) Next Step: Naming
+
+      animated-panel.grid-block.vertical.modals-rename(
+        name = "nameContainer"
+        ng-if = "MC.state.repo && $root.featureFlags.nameContainer"
+      )
+        header.modal-header
+          svg.iconnables.icons-arrow-backward(
+            ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && goToPanel('containerSelection', 'back')"
+          )
+            use(
+              xlink:href = "#icons-arrow-down"
+            )
+          h1.modal-heading.text-overflow Container Name
+          svg.iconnables.icons-close(
+            ng-click = "MC.close()"
+          )
+            use(
+              xlink:href = "#icons-close"
+            )
+        section.modal-body
+          form.modal-form(
+            name = "MC.nameForm"
+          )
+            label.label.clearfix
+              .input-col
+                div(
+                  ng-attr-data-length = "{{19 - MC.nameForm.instanceName.$viewValue.length}}"
+                  ng-class = "{\
+                    'ng-invalid': MC.nameForm.$error.maxlength,\
+                    'validate-length': MC.nameForm.$error.maxlength,\
+                    'validate-sm': MC.nameForm.$error.maxlength\
+                  }"
+                )
+                  input.input.input-sm.input-validate(
+                    autocomplete = "off"
+                    name = "instanceName"
+                    ng-maxlength = "19"
+                    ng-model = "MC.state.instanceName"
+                    ng-pattern = "/^[a-zA-Z0-9-]*$/"
+                    spellcheck = "false"
+                    unique-validator = "MC.state.namesForAllInstances"
+                    placeholder = "{{MC.instanceToForkName}}"
+                    no-double-dash-validator
+                  )
+
+                ul.list.list-bulleted.list-validation
+                  li.list-item(
+                    ng-class = "{'ng-invalid': MC.nameForm.$error.unique}"
+                  ) Choose a unique name in your Sandbox
+                  li.list-item(
+                    ng-class = "{'ng-invalid': MC.nameForm.$error.pattern || MC.nameForm.$error.noDoubleDash}"
+                  ) Use letters, numbers, and single hyphens (-)
+                  li.list-item(
+                    ng-class = "{'ng-invalid': MC.nameForm.$error.maxlength}"
+                  ) Use 19 characters or less
+
+        footer.modal-footer.clearfix
+          button.btn.btn-md.gray.btn-cancel.float-left(
+            ng-click = "MC.actions.cancel()"
+          ) Cancel
+          button.btn.btn-md.green.float-right.btn-spinner(
+            ng-disabled = "!MC.name.length || MC.nameForm.$invalid || MC.saving"
+            ng-class = "{'in': MC.saving}"
+            ng-click = "MC.createBuildAndGoToNewRepoModal(MC.state.instanceName, MC.state.repo, MC.state.dockerfile)"
+          )
+            .spinner-wrapper.spinner-white.spinner-sm.in(
+              ng-include = "'spinner'"
+              ng-if = "MC.saving"
+            )
+            //- should say "Next Step: Configure" if a repository container
+            //- should say "Create Container" if its a non-repository container
+            | Create Container
