@@ -24,6 +24,7 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
   var fetchRepoDockerfilesStub;
 
   // Mocked Values
+  var instanceName = 'instanceName';
   var instances;
   var mockInstance;
   var repos;
@@ -133,6 +134,9 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
       find: function (predicate) {
         return this.models.find(predicate);
       },
+      map: function (predicate) {
+        return this.models.map(predicate);
+      },
       models: [
         mockInstance
       ]
@@ -169,17 +173,19 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
         var repo = {};
         sinon.stub(NCMC, 'newRepositoryContainer');
 
-        NCMC.createBuildAndGoToNewRepoModal(repo);
+        NCMC.createBuildAndGoToNewRepoModal(instanceName, repo);
         $scope.$digest();
         sinon.assert.calledOnce(createNewBuildAndFetchBranch);
         sinon.assert.calledWith(createNewBuildAndFetchBranch, activeAccount, repo);
         sinon.assert.calledOnce(NCMC.newRepositoryContainer);
         sinon.assert.calledOnce(NCMC.newRepositoryContainer, repoBuildAndBranch);
+        expect(repoBuildAndBranch.instanceName).to.equal(instanceName);
       });
     });
 
     describe('newRepositoryContainer', function () {
       it('should close the modal and call the new modal', function () {
+        repoBuildAndBranch.instanceName = instanceName;
         NCMC.newRepositoryContainer(repoBuildAndBranch);
         $scope.$digest();
         sinon.assert.calledOnce(closeStub);
@@ -189,6 +195,7 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
           controllerAs: 'SMC',
           templateUrl: 'setupServerModalView',
           inputs: {
+            instanceName: instanceName,
             repo: repoBuildAndBranch.repo,
             build: repoBuildAndBranch.build,
             masterBranch: repoBuildAndBranch.masterBranch,
@@ -199,12 +206,23 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
 
     describe('setRepo', function () {
       it('should set the repo', function () {
-        var repo1 = {};
-        var repo2 = {};
-        NCMC.setRepo(repo1);
+        var repo1 = {
+          attrs: {
+            full_name: 'repo1',
+            default_branch: 'master'
+          }
+        };
+        var repo2 = {
+          attrs: {
+            full_name: 'repo2',
+            default_branch: 'master'
+          }
+        };
+        var stub = sinon.stub();
+        NCMC.setRepo(repo1, stub);
         $scope.$digest();
         expect(NCMC.state.repo).to.equal(repo1);
-        NCMC.setRepo(repo2);
+        NCMC.setRepo(repo2, stub);
         $scope.$digest();
         expect(NCMC.state.repo).to.equal(repo2);
       });
@@ -216,12 +234,14 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
             full_name: 'Hello'
           }
         };
-        NCMC.setRepo(repo);
+        var stub = sinon.stub();
+        NCMC.setRepo(repo, stub);
         $scope.$digest();
         expect(NCMC.state.repo).to.equal(repo);
         sinon.assert.calledOnce(fetchRepoDockerfilesStub);
         sinon.assert.calledWith(fetchRepoDockerfilesStub, 'Hello');
-        sinon.assert.calledOnce(NCMC.createBuildAndGoToNewRepoModal);
+        sinon.assert.calledOnce(stub);
+        sinon.assert.calledWith(stub, 'nameContainer');
         expect(repo.dockerfiles).to.equal(undefined);
       });
 

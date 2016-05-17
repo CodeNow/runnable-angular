@@ -1,4 +1,6 @@
+/*global runnable:true, helpCardsMock:true, directiveTemplate:true  */
 'use strict';
+
 describe('serverCardDirective'.bold.underline.blue, function () {
   var ctx;
   var $timeout;
@@ -126,6 +128,7 @@ describe('serverCardDirective'.bold.underline.blue, function () {
     });
 
     it('server object creation, fake instance at start', function() {
+      var instanceName = 'instanceName';
       var instance = runnable.newInstance(
         apiMocks.instances.running,
         {noStore: true}
@@ -141,6 +144,7 @@ describe('serverCardDirective'.bold.underline.blue, function () {
           iunno: angular.noop
         },
         instance: {
+          getMasterPodName: sinon.stub().returns(instanceName),
           attrs: {
             name: 'headsfadsf'
           }
@@ -151,11 +155,7 @@ describe('serverCardDirective'.bold.underline.blue, function () {
       $rootScope.$apply();
 
       expect($elScope.server, 'server').to.be.ok;
-      expect($elScope.server.instance, 'instance').to.deep.equal({
-        attrs: {
-          name: 'headsfadsf'
-        }
-      });
+      expect($elScope.server.instance, 'instance').to.deep.equal(scope.instance);
       expect($elScope.server.build, 'build').to.not.be.ok;
 
       expect($elScope.server.opts.env, 'env').to.not.be.ok;

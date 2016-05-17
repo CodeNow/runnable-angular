@@ -52,6 +52,7 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
   var createAndBuildNewContainerMock;
   var helpCardsMock;
 
+  var instanceName = 'HelloWorldInstanceName';
   var branches;
   var repo;
   var analysisMockData;
@@ -198,6 +199,7 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
       $scope = $rootScope.$new();
       SMC = $controller('SetupMirrorServerModalController', {
         $scope: $scope,
+        instanceName: opts.instanceName || instanceName,
         repo: opts.repo || null,
         build: opts.build || null,
         masterBranch: opts.masterBranch || null
@@ -444,7 +446,7 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
       sinon.assert.calledWith(
         createAndBuildNewContainerMock.getFetchSpy(),
         sinon.match.any,
-        repo.attrs.name
+        instanceName
       );
     });
 

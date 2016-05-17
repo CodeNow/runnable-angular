@@ -58,6 +58,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   var createAndBuildNewContainerMock;
   var helpCardsMock;
 
+  var instanceName = 'instanceName';
   var branches;
   var repo;
   var analysisMockData;
@@ -197,9 +198,10 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       $scope = $rootScope.$new();
       SMC = $controller('SetupServerModalController', {
         $scope: $scope,
-        repo: opts.repo || null,
-        build: opts.build || null,
-        masterBranch: opts.masterBranch || null
+        instanceName: opts.instanceName || instanceName,
+        repo: opts.repo || repo,
+        build: opts.build || newBuild,
+        masterBranch: opts.masterBranch || branch
       });
     });
     return done();
@@ -337,6 +339,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       beforeEach(function (done) {
         initializeValues();
         initState({
+          instanceName: 'instanceName',
           repo: repo,
           build: newBuild,
           masterBranch: branch
@@ -356,110 +359,21 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         expect(SMC.state.repoSelected).to.exist;
       });
     });
-
-    describe('Init with fetched values', function () {
-      beforeEach(initState.bind(null, {}));
-
-      it('should fetch the repo list on load', function () {
-        $scope.$digest();
-        sinon.assert.called($rootScope.dataApp.data.activeAccount.oauthName);
-        sinon.assert.calledOnce(fetchOwnerRepoStub);
-        expect(SMC.data.githubRepos.models).to.exist;
-        sinon.assert.called(SMC.data.instances[0].getRepoName);
-        expect(SMC.data.githubRepos.models[0]).to.have.property('isAdded');
-      });
-    });
   });
 
 
   describe('methods', function () {
     beforeEach(initState.bind(null, {}));
 
-    describe('selectRepo', function () {
-
-      it('selectRepo should setup the repo selected view', function () {
-        newBuild.contextVersion.appCodeVersions.create.reset();
-        newBuild.contextVersion.getMainAppCodeVersion.reset();
-        keypather.set($rootScope, 'dataApp.data.activeAccount', 'activeAcct');
-
-        createNewBuildMock.returns(newBuild);
-
-        SMC.selectRepo(repo);
-        $scope.$digest();
-        fetchStackAnalysisMock.triggerPromise(analysisMockData);
-        $scope.$digest();
-
-        sinon.assert.called(repo.fetchBranch);
-        $scope.$digest();
-
-        sinon.assert.calledOnce(newBuild.contextVersion.appCodeVersions.create);
-        $scope.$digest();
-        sinon.assert.called(newBuild.contextVersion.getMainAppCodeVersion); // Fn also called by watchers
-
-        expect(SMC.state.build).to.equal(newBuild);
-        expect(SMC.state.contextVersion).to.equal(newBuild.contextVersion);
-        expect(SMC.state.branch).to.equal(branches.models[0]);
-        expect(SMC.state.repo).to.equal(repo);
-        expect(SMC.state.acv).to.equal(mainACV);
-        expect(repo.loading).to.equal(false);
-        expect(SMC.repoSelected).to.equal(false);
-      });
-
-      it('should not select a repo if once has already been selected', function () {
-        keypather.set($rootScope, 'dataApp.data.activeAccount', 'activeAcct');
-        newBuild.contextVersion.appCodeVersions.create.reset();
-        createNewBuildMock.returns(newBuild);
-
-        SMC.selectRepo(repo);
-        expect(SMC.selectRepo(repo)).to.equal(undefined);
-        $scope.$digest();
-
-        sinon.assert.notCalled(newBuild.contextVersion.appCodeVersions.create);
-      });
-
-      it('should show an error to the user if there wasn an error getting the repo', function () {
-        var err = new Error('hello world');
-        newBuild.contextVersion.appCodeVersions.create.yields(err);
-        createNewBuildMock.returns(newBuild);
-
-        SMC.selectRepo(repo);
-        $scope.$digest();
-        fetchStackAnalysisMock.triggerPromise(analysisMockData);
-        $scope.$digest();
-
-        sinon.assert.calledOnce(errsMock.handler);
-        sinon.assert.calledWith(errsMock.handler, err);
-      });
-
-      it('should show a special error if it wasnt able to create webhooks', function () {
-        var err = new Error('Github repo something/something not be found.');
-        newBuild.contextVersion.appCodeVersions.create.yields(err);
-        createNewBuildMock.returns(newBuild);
-
-        SMC.selectRepo(repo);
-        $scope.$digest();
-        fetchStackAnalysisMock.triggerPromise(analysisMockData);
-        $scope.$digest();
-
-        sinon.assert.calledOnce(errsMock.handler);
-        expect(errsMock.handler.args[0][0].message).to.match(/failed.*webhooks.*owner.*runnable/ig);
-      });
-    });
-
     describe('createServer', function () {
 
       it('create server should create and build a new instance', function () {
-        SMC.state.acv = acv;
-        SMC.state.branch = branch;
-
         SMC.state.selectedStack = {
           key: 'ruby_ror',
           ports: '8000, 900, 80'
         };
-        SMC.selectRepo(repo);
         SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
 
-        SMC.state.repo = repo;
         SMC.state.dst = '/foo';
         sinon.assert.notCalled(updateDockerfileFromStateStub);
 
@@ -483,7 +397,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
 
         sinon.assert.calledOnce(createAndBuildNewContainerMock.getFetchSpy());
-        expect(createAndBuildNewContainerMock.getFetchSpy().lastCall.args[1]).to.equal(repo.attrs.name);
+        expect(createAndBuildNewContainerMock.getFetchSpy().lastCall.args[1]).to.equal(instanceName);
 
         sinon.assert.calledOnce(SMC.resetStateContextVersion);
         sinon.assert.calledWith(SMC.resetStateContextVersion, mockInstance.contextVersion, true);
@@ -495,15 +409,11 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       it('should not update the dockerfile from state, if in advanced mode', function () {
         updateDockerfileFromStateStub.reset();
         $scope.$watch = sinon.stub();
-        SMC.state.acv = acv;
-        SMC.state.branch = branch;
         SMC.state.selectedStack = {
           key: 'ruby_ror'
         };
         SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
 
-        SMC.selectRepo(repo);
-        SMC.state.repo = repo;
         SMC.state.dst = '/foo';
         sinon.assert.notCalled(updateDockerfileFromStateStub);
         SMC.state.advanced = true;
@@ -515,7 +425,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.notCalled(updateDockerfileFromStateStub);
         sinon.assert.calledOnce(createAndBuildNewContainerMock.getFetchSpy());
-        expect(createAndBuildNewContainerMock.getFetchSpy().lastCall.args[1]).to.equal(repo.attrs.name);
+        expect(createAndBuildNewContainerMock.getFetchSpy().lastCall.args[1]).to.equal(instanceName);
 
         sinon.assert.calledOnce(SMC.resetStateContextVersion);
         sinon.assert.calledWith(SMC.resetStateContextVersion, mockInstance.contextVersion, true);
@@ -526,15 +436,11 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       it('should call resetStateContextVersion if something fails', function (done) {
         updateDockerfileFromStateStub.reset();
         $scope.$watch = sinon.stub();
-        SMC.state.acv = acv;
-        SMC.state.branch = branch;
         SMC.state.selectedStack = {
           key: 'ruby_ror'
         };
         SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
 
-        SMC.selectRepo(repo);
-        SMC.state.repo = repo;
         SMC.state.dst = '/foo';
         sinon.assert.notCalled(updateDockerfileFromStateStub);
         SMC.state.advanced = true;
@@ -546,7 +452,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
             expect(error, 'error').to.equal(err);
             sinon.assert.notCalled(updateDockerfileFromStateStub);
             sinon.assert.calledOnce(createAndBuildNewContainerMock.getFetchSpy());
-            expect(createAndBuildNewContainerMock.getFetchSpy().lastCall.args[1]).to.equal(repo.attrs.name);
+            expect(createAndBuildNewContainerMock.getFetchSpy().lastCall.args[1]).to.equal(instanceName);
 
             sinon.assert.calledOnce(SMC.resetStateContextVersion);
             sinon.assert.calledWith(SMC.resetStateContextVersion, SMC.state.contextVersion, false);
@@ -627,9 +533,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       SMC.state.startCommand = 'echo "1";';
       SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
 
-      SMC.selectRepo(repo);
-      $scope.$digest();
-      fetchStackAnalysisMock.triggerPromise(analysisMockData);
       $scope.$digest();
     });
 
