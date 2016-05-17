@@ -114,6 +114,7 @@ function SetupMirrorServerModalController(
 
   SMC.state.mainRepoContainerFile.name = repo.attrs.name;
   SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
+
   var fullpath = keypather.get(SMC, 'state.build.contextVersion.attrs.buildDockerfilePath');
   if (!fullpath) {
     throw new Error('Context Version must have buildDockerfilePath');

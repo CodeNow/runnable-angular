@@ -129,7 +129,6 @@ function SetupServerModalController(
     advanced: false
   });
   SMC.state.mainRepoContainerFile.name = repo.attrs.name;
-  SMC.state.opts.name = repo.attrs.name;
   SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
 
   $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
