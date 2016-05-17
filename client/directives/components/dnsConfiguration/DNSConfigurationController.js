@@ -28,7 +28,7 @@ function DNSConfigurationController(
       .then(function (dependencies) {
         $timeout.cancel(timeout);
         DCC.filteredDependencies = dependencies.models.filter(function (dep) {
-          return !dep.instance.destroyed && keypather.get(dep.instance, 'contextVersion.getMainAppCodeVersion()');
+          return !dep.instance.destroyed;
         });
 
         DCC.filteredDependencies.forEach(function (dep) {
