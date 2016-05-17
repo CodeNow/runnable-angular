@@ -44,6 +44,9 @@
 // global layout
 @import "layout/layout";
 
+// sidebar
+@import "sidebar/sidebar";
+
 // instance layout
 @import "layout/instances-list";
 @import "layout/instance";
@@ -108,9 +111,6 @@
 @import "forms/forms-toggles";
 @import "forms/forms-validation";
 @import "forms/forms-whitelist";
-
-// sidebar
-@import "sidebar/sidebar";
 
 // views
 @import "views/views";

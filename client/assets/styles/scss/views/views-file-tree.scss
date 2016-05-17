@@ -44,10 +44,11 @@
 
     &.active a,
     &.active a:hover {
-      background: rgba($purple-light,.15);
-      border-color: rgba($purple-light,.15);
+      background: rgba($purple-light,.1);
+      border-color: rgba($purple-light,.3);
       color: $purple-light;
       cursor: default;
+
       font-weight: $weight-bold;
     }
 
@@ -70,8 +71,8 @@
       white-space: nowrap;
 
       &:hover {
-        background: rgba($gray-darker,.125);
-        border-color: rgba($gray-darker,.15);
+        background: $white;
+        border-color: $gray-lighter;
       }
 
       &:active,
