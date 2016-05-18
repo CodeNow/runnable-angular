@@ -7,17 +7,18 @@
 
   // empty states for sections
   .well {
-    color: $gray;
+    color: lighten($gray,15%);
     margin: 0 0 15px;
     padding: 6px 9px;
   }
 
   .btn-repository {
+    @extend %padding-xs;
     display: block;
     font-size: 15px;
     font-weight: $weight-normal;
     min-height: 97px;
-    padding: 6px 24px 6px 9px;
+    padding-right: 24px;
     text-align: left;
 
     &:hover .row-commit::after,
@@ -25,22 +26,30 @@
       background: linear-gradient(to right, rgba($white,0), $white);
     }
 
-    &:active .row-author,
-    &.active .row-author {
-      color: $purple-light;
+    &:active,
+    &.active {
+
+      .row-author {
+        color: rgba($purple-light,.5);
+      }
+
+      .btn-auto-deploy:not(.orange) {
+        border: 1px solid rgba($purple-light,.25);
+        color: rgba($purple-light,.5);
+      }
     }
 
     // icon for commmit/branch
     .row {
-      padding-left: 21px;
+      min-height: 24px;
+      padding-left: 27px;
       position: relative;
 
       .iconnables {
-        height: 15px;
-        left: 0;
-        margin: 3px 6px 0 0;
+        left: 7px;
+        opacity: .5;
         position: absolute;
-        width: 15px;
+        width: 12px;
       }
     }
 
@@ -79,24 +88,25 @@
 }
 
 .btn-auto-deploy {
-  background: $gray-lightest;
   border: 1px solid $gray-lighter;
-  color: $gray;
+  color: lighten($gray,15%);
   font-size: 13px;
-  height: $input-sm;
+  line-height: $input-xs - 2px;
+  margin-top: 3px;
 
-  .icons-launch {
-    filter: grayscale(100%);
+  &.orange,
+  &.orange:hover:not([disabled]),
+  &.orange:active:not([disabled]) {
+    background: $orange-light;
+    border-color: $orange;
+    color: $white;
+  }
+
+  .iconnables {
     height: 100%;
-    margin: 0 6px 0 -3px;
-    opacity: .75;
-    text-align: center;
-    width: 18px;
-
-    @include retina() {
-      margin-left: 0;
-      width: 15px;
-    }
+    margin-right: 4px;
+    opacity: .5;
+    width: 12px;
   }
 }
 

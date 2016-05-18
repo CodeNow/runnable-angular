@@ -47,19 +47,6 @@
 // sidebar
 @import "sidebar/sidebar";
 
-// instance layout
-@import "layout/instances-list";
-@import "layout/instance";
-@import "layout/instance-header";
-@import "layout/instance-body";
-@import "layout/instance-sidebar";
-
-// environment layout
-@import "layout/environment";
-@import "layout/environment-header";
-@import "layout/environment-body";
-@import "layout/environment-footer";
-
 // buttons
 @import "components/buttons/buttons";
 @import "components/buttons/buttons-badge";
@@ -171,6 +158,19 @@
 
 // tooltip popover specific
 @import "popover/tooltips/tooltip-tools";
+
+// instance layout
+@import "layout/instances-list";
+@import "layout/instance";
+@import "layout/instance-header";
+@import "layout/instance-body";
+@import "layout/instance-sidebar";
+
+// environment layout
+@import "layout/environment";
+@import "layout/environment-header";
+@import "layout/environment-body";
+@import "layout/environment-footer";
 
 // pages
 @import "pages/server-selection";
