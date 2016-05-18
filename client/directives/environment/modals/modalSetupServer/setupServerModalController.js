@@ -115,7 +115,7 @@ function SetupServerModalController(
   loading.reset(SMC.name + 'IsBuilding');
 
   if (!repo || !build || !masterBranch) {
-    throw new Error('Repo, build, and masterBranch must be set');
+    return errs.handler(new Error('Repo, build, and masterBranch must be set'));
   }
 
   // If a repo is passed into this controller, select that repo
