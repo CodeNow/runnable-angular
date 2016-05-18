@@ -27,8 +27,7 @@ function NewContainerModalController(
     state: {
       tabName: 'repos',
       dockerfile: null,
-      namesForAllInstances: [],
-      opts: {}
+      namesForAllInstances: []
     }
   });
 
