@@ -1,6 +1,6 @@
 //- repository
 .btn.gray.btn-repository.clearfix(
-  ng-class = "{'padding-bottom': !acv.attrs.additionalRepo}"
+  ng-class = "{'padding-bottom': !acv.attrs.additionalRepo && !$root.featureFlags.isolationCommitSyncing}"
   ng-click = "actions.openRepoDetailsModal()"
 )
 
@@ -58,39 +58,48 @@
       xlink:href = "#icons-arrow-down"
     )
 
-  //- auto-deploy
-  .btn.btn-sm.btn-auto-deploy(
-    ng-if = "!acv.attrs.additionalRepo"
+  //- auto-deploy w/ commit syncing
+  .btn.btn-xs.btn-auto-deploy(
+    ng-if = "!acv.attrs.additionalRepo && $root.featureFlags.isolationCommitSyncing"
+    tooltip = "Automatically rebuild your container when new commits are made."
+    tooltip-options = "{\"class\":\"bottom center text-center tooltip-definition\",\"left\":-85,\"top\":18}"
   )
     .iconnables.icons-launch.float-left 🚀
-    span.underline.float-left(
-      tooltip = "Automatically rebuild your container when new commits are made."
-      tooltip-options = "{\"class\":\"bottom center text-center tooltip-definition\",\"left\":-85,\"top\":18}"
-    ) Auto-Deploy
-    label.toggle-wrapper.float-right
-      //- this would not be enabled when an webhooks admin is not present
-      input.toggle-input(
-        ng-disabled = "$root.isLoading.autoDeploy || ($root.featureFlags.webhooks && !$root.featureFlags.webhooksAdminPresent)"
-        ng-false-value = "true"
-        ng-model = "autoDeploy"
-        ng-model-options = "{getterSetter: true}"
-        ng-true-value = "false"
-        type = "checkbox"
-      )
+    | Auto-Deploy
 
-      .toggle-group.toggle-xs(
-        ng-if = "!$root.featureFlags.webhooks || $root.featureFlags.webhooksAdminPresent"
-      )
+//- auto-deploy w/o commit syncing
+.btn.btn-sm.btn-auto-deploy-deprecated(
+  ng-if = "!acv.attrs.additionalRepo && !$root.featureFlags.isolationCommitSyncing"
+)
+  .iconnables.icons-launch.float-left 🚀
+  span.underline.float-left(
+    tooltip = "Automatically rebuild your container when new commits are made."
+    tooltip-options = "{\"class\":\"bottom center text-center tooltip-definition\",\"left\":-85,\"top\":18}"
+  ) Auto-Deploy
+  label.toggle-wrapper.float-right
+    //- this would not be enabled when an webhooks admin is not present
+    input.toggle-input(
+      ng-disabled = "$root.isLoading.autoDeploy || ($root.featureFlags.webhooks && !$root.featureFlags.webhooksAdminPresent)"
+      ng-false-value = "true"
+      ng-model = "autoDeploy"
+      ng-model-options = "{getterSetter: true}"
+      ng-true-value = "false"
+      type = "checkbox"
+    )
 
-      //- popover if disabled for webhooks
-      .toggle-group.toggle-xs(
-        ng-if = "$root.featureFlags.webhooks && !$root.featureFlags.webhooksAdminPresent"
-        pop-over
-        pop-over-controller = "actions"
-        pop-over-controller-as = "ADPC"
-        pop-over-data = "instance"
-        pop-over-hover-trigger
-        pop-over-options = "{\"top\":29,\"centered\":true}"
-        pop-over-template = "autoDeployPopoverView"
-        pop-over-trigger = "hover"
-      )
+    .toggle-group.toggle-xs(
+      ng-if = "!$root.featureFlags.webhooks || $root.featureFlags.webhooksAdminPresent"
+    )
+
+    //- popover if disabled for webhooks
+    .toggle-group.toggle-xs(
+      ng-if = "$root.featureFlags.webhooks && !$root.featureFlags.webhooksAdminPresent"
+      pop-over
+      pop-over-controller = "actions"
+      pop-over-controller-as = "ADPC"
+      pop-over-data = "instance"
+      pop-over-hover-trigger
+      pop-over-options = "{\"top\":29,\"centered\":true}"
+      pop-over-template = "autoDeployPopoverView"
+      pop-over-trigger = "hover"
+    )
