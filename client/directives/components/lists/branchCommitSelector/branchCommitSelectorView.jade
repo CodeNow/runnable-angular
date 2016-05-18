@@ -1,7 +1,7 @@
 label.label(
   branch-selector
   loading-promises-target = "editServerModal"
-  ng-hide = "BCSC.hideBranchSelector"
+  ng-if = "!BCSC.hideBranchSelector"
   state = "BCSC.data"
 )
 
@@ -9,14 +9,24 @@ label.label(
     * the setup popover for adding a repo to Container Files
     * the edit modal (in the Containers view) for modifying an additional repo on a specific Container
 label.toggle-wrapper(
-  ng-show = "!BCSC.data.acv || BCSC.data.acv.attrs.additionalRepo"
+  ng-if = "!BCSC.data.acv || BCSC.data.acv.attrs.additionalRepo"
 )
-  div Always update to latest commit
+  .strong Always update to latest commit
   .small.text-overflow on new builds of&#32;
     strong.strong {{BCSC.data.getDisplayName() || BCSC.data.instance.getDisplayName()}}
   input.toggle-input(
     ng-model = "BCSC.isLatestCommit"
     ng-model-options = "{getterSetter: true}"
+    type = "checkbox"
+  )
+  .toggle-group.toggle-sm
+
+label.toggle-wrapper(
+  ng-if = "$root.featureFlags.isolationCommitSyncing && !BCSC.data.acv.attrs.additionalRepo"
+)
+  .strong Auto-Deploy
+  .small Rebuild when new commits are pushed to GitHub.
+  input.toggle-input(
     type = "checkbox"
   )
   .toggle-group.toggle-sm
@@ -28,7 +38,10 @@ ul.list.list-servers
   )
   li.list-item(
     ng-attr-title = "{{commit.attrs.commit.message}}"
-    ng-class = "{active: BCSC.data.commit === commit, 'disabled': BCSC.isLatestCommit()}"
+    ng-class = "{\
+      'active': BCSC.data.commit === commit,\
+      'disabled': BCSC.isLatestCommit()\
+    }"
     ng-click = "BCSC.selectCommit(commit)"
     ng-if = "!fetchingCommits"
     ng-repeat = "commit in BCSC.data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
@@ -61,7 +74,9 @@ ul.list.list-servers
         target = "_blank"
         title = "View on GitHub"
       ) {{::commit.attrs.sha | limitTo:7}}
-    svg.iconnables.icons-fat-check
+    svg.iconnables.icons-fat-check(
+      ng-if = "!BCSC.isLatestCommit()"
+    )
       use(
         xlink:href = "#icons-fat-check"
       )

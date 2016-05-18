@@ -97,15 +97,14 @@
   &.orange,
   &.orange:hover:not([disabled]),
   &.orange:active:not([disabled]) {
-    background: $orange-light;
-    border-color: $orange;
-    color: $white;
+    background: lighten($orange-lightest,3%);
+    border-color: lighten($orange-lighter,10%);
+    color: $orange-light;
   }
 
   .iconnables {
     height: 100%;
     margin-right: 4px;
-    opacity: .5;
     width: 12px;
   }
 }
