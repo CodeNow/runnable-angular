@@ -17,9 +17,17 @@
     display: block;
     font-size: 15px;
     font-weight: $weight-normal;
-    min-height: 97px;
+    min-height: 118px;
     padding-right: 24px;
     text-align: left;
+
+    &.grid-block {
+      display: flex; // overwrite default .btn
+    }
+
+    &.main-btn {
+      min-height: 121px;
+    }
 
     &:hover .row-commit::after,
     &:active .row-commit::after {
