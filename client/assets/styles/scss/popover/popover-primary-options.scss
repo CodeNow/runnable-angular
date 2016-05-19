@@ -13,9 +13,19 @@
     margin: 0 9px 9px;
   }
 
-  // save options styles
   .popover-list-item {
     white-space: normal;
+
+    &.multi-line {
+      line-height: 1.4;
+      padding-bottom: 6px;
+      padding-top: 6px;
+
+      .small {
+        color: $gray;
+        margin-left: 27px;
+      }
+    }
   }
 
   .no-actions .label-checkbox {

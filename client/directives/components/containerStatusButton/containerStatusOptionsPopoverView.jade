@@ -32,7 +32,7 @@
       )
 
       //- rebuild without cache when no new config exists for this container
-      li.popover-list-item(
+      li.popover-list-item.multi-line(
         ng-click = "\
           (CSBC.instance.configStatusValid && !CSBC.instance.cachedConfigStatus && !CSBC.instance.attrs.isolated) ? \
           actions.updateConfigToMatchMaster() : \
@@ -40,7 +40,8 @@
         "
       )
         .icons-status.orange
-        | Rebuild Without Cache
+        | {{$root.featureFlags.testingFeature ?  'Rerun Test' : 'Rebuild'}}
+        .small Will rebuild without cache.
 
     .well.well-popover.orange.text-center.padding-xs(
       ng-if = "CSBC.instance.configStatusValid && !CSBC.instance.cachedConfigStatus && !CSBC.instance.attrs.isolated"
