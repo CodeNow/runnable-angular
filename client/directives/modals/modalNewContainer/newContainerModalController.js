@@ -131,6 +131,27 @@ function NewContainerModalController(
       .catch(errs.handler);
   };
 
+  NCMC.addServerFromTemplate = function (sourceInstance) {
+    var instanceToForkName = sourceInstance.attrs.name;
+    NCMC.close();
+    return fetchInstances()
+      .then(function (instances) {
+        var serverName = getNewForkName(instanceToForkName, instances, true);
+        return ModalService.showModal({
+          controller: 'NameNonRepoContainerViewModalController',
+          controllerAs: 'MC',
+          templateUrl: 'nameNonRepoContainerView',
+          inputs: {
+            name: serverName,
+            instanceToForkName: instanceToForkName,
+            sourceInstance: sourceInstance,
+            isolation: false
+          }
+        });
+      })
+      .catch(errs.handler);
+  };
+
   NCMC.setRepo = function (repo, goToPanelCb) {
     repo.loading = true;
     NCMC.state.repo = repo;

@@ -363,6 +363,22 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
         sinon.assert.calledOnce(errsStub.handler);
       });
     });
+
+     describe('addServerFromTemplate', function () {
+      it('should close the modal and call the necessary functions', function () {
+        fetchInstancesStub.reset();
+        NCMC.addServerFromTemplate(mockSourceInstance);
+        $scope.$digest();
+        sinon.assert.calledOnce(closeStub);
+        sinon.assert.calledOnce(fetchInstancesStub);
+        sinon.assert.calledOnce(showModalStub);
+        sinon.assert.calledWithMatch(showModalStub, {
+          controller: 'NameNonRepoContainerViewModalController',
+          controllerAs: 'MC',
+          templateUrl: 'nameNonRepoContainerView'
+        });
+      });
+    });
   });
 
   describe('fetchTemplateServers', function () {
