@@ -114,7 +114,15 @@ function NewContainerModalController(
         loading(NCMC.name + 'SingleRepo', false);
         var serverName = getNewForkName(instanceToForkName, instances, true);
         NCMC.state.instanceName = serverName;
-        // Force digest to update the template
+        /**
+         * Warning: Hack Ahead
+         *
+         * Because of a bug in how animated-panels are rendered in Safari Retina
+         * we added `ng-if`s to some animated panels in order for them to render
+         * correctly. Because of this, we need to force a digest cycle in order
+         * for the `nameContainer` panel to show up and for us to actually be
+         * able to go to that panel.
+         */
         return $timeout(angular.noop)
           .then(function () {
             return goToPanelCb('nameContainer');
