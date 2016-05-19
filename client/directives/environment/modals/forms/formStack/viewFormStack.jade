@@ -14,12 +14,12 @@
     )
     small.small Select the branch you would like to use to build your first container.
 
-.label.clearfix
-  .grid-block.shrink.well.gray.in.align-center.row-xxs(
-    ng-if = "$root.featureFlags.testingFeature"
-  )
+.label.clearfix(
+  ng-if = "$root.featureFlags.testingFeature"
+)
+  .grid-block.shrink.align-center.row-xxs.well.well-600.gray.padding-sm
     .grid-content
-      .strong.text-gray-dark This is a test.
+      .strong.text-gray-dark This is a test container.
       small.small We’ll report your test results on your pull-requests on GitHub.
     label.toggle-wrapper.shrink
       input.toggle-input(
