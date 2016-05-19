@@ -152,7 +152,7 @@ function NewContainerModalController(
       .catch(errs.handler);
   };
 
-  NCMC.setRepo = function (repo, goToPanelCb) {
+  NCMC.setRepo = function (repo, goToPanelCb, createContainerDirectly) {
     repo.loading = true;
     NCMC.state.repo = repo;
     loading(NCMC.name + 'SingleRepo', true);
@@ -161,6 +161,14 @@ function NewContainerModalController(
     NCMC.state.instanceName = fullName.split('/')[1] || '';
     return fetchRepoDockerfiles(fullName, defaultBranch)
       .then(function (dockerfiles) {
+        // TODO: Remove when removing `nameContainer` FF
+        if (dockerfiles.length === 0 && createContainerDirectly) {
+          return NCMC.createBuildAndGoToNewRepoModal(NCMC.state.instanceName, repo)
+            .then(function () {
+              repo.loading = false;
+              loading(NCMC.name + 'SingleRepo', false);
+            });
+        }
         loading(NCMC.name + 'SingleRepo', false);
         repo.loading = false;
         if (dockerfiles.length === 0) {
