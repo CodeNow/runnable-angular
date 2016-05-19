@@ -22,7 +22,7 @@ label.toggle-wrapper(
   .toggle-group.toggle-sm
 
 label.toggle-wrapper(
-  ng-if = "$root.featureFlags.isolationCommitSyncing && !BCSC.data.acv.attrs.additionalRepo"
+  ng-if = "$root.featureFlags.testingFeature && !BCSC.data.acv.attrs.additionalRepo"
 )
   .strong Auto-Deploy
   .small Rebuild when new commits are pushed to GitHub.

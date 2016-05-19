@@ -25,7 +25,6 @@ function featureFlags(
     inviteFlows: false,
     isolationRepos: true, // for isolation UI
     isolationUI: true, // for isolation UI
-    isolationCommitSyncing: false,
     multilineFnR: false,
     multilineStartCmd: false,
     multipleRepositoryContainers: false, // for adding multiple containers with the same repository
