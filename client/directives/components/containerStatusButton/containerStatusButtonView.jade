@@ -8,10 +8,10 @@ button.btn.btn-md.btn-spinner.btn-status(
     ng-if = "!isChanging()"
   )
   span.float-left(
-    ng-if ="!isChanging() && !$root.featureFlags.testingFeature"
+    ng-if = "!isChanging() && !$root.featureFlags.testingFeature"
   ) {{getStatusText()}}
 
-  //- if stopping, starting, restarting, or testing
+  //- if stopping, starting, restarting
   .spinner-wrapper.spinner-gray.spinner-sm.float-left.in(
     ng-if = "isChanging()"
     ng-include = "'spinner'"
