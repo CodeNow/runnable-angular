@@ -21,6 +21,10 @@
       padding-bottom: 6px;
       padding-top: 6px;
 
+      &:active .small {
+        color: currentColor;
+      }
+
       .small {
         color: $gray;
         margin-left: 27px;
