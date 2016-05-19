@@ -99,6 +99,16 @@
     margin-right: 12px;
   }
 
+  // duration
+  > .duration {
+    margin-right: 12px;
+
+    .iconnables {
+      margin-right: 3px;
+      width: 15px;
+    }
+  }
+
   .btn-group .btn + .btn {
     margin-left: -1px;
     min-width: 26px;

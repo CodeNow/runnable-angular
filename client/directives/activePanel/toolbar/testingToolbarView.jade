@@ -14,24 +14,33 @@ svg.iconnables.float-left(
     ng-if = "$parent.state.test === 'failed'"
   )
 p.p.text-overflow
-  {{$parent.state.test === 'passed' ? 'Tests passed (started 3 days ago).' : ''}}
-  {{$parent.state.test === 'inProgress' ? 'Tests in progress (started 1 minute ago).' : ''}}
-  {{$parent.state.test === 'failed' ? 'Tests failed (started 1 hour ago).' : ''}}
-//- for testing only
-select(
-  ng-model = "$parent.state.test"
-  style = "margin-right: 6px;"
-)
-  optgroup(
-    label = "Test state"
+  {{$parent.state.test === 'passed' ? 'Tests Passed' : ''}}
+  {{$parent.state.test === 'inProgress' ? 'Tests Running' : ''}}
+  {{$parent.state.test === 'failed' ? 'Tests Failed' : ''}}
+
+  //- for testing only
+  select(
+    ng-model = "$parent.state.test"
+    style = "margin-right: 6px;"
   )
-    option(
-      value = "passed"
-    ) passed
-    option(
-      value = "inProgress"
-    ) inProgress
-    option(
-      value = "failed"
-    ) failed
+    optgroup(
+      label = "Test state"
+    )
+      option(
+        value = "passed"
+      ) passed
+      option(
+        value = "inProgress"
+      ) inProgress
+      option(
+        value = "failed"
+      ) failed
+
+  .grid-block.align-center.shrink.small.duration
+    svg.iconnables
+      use(
+        xlink:href = "#icons-stopwatch"
+      )
+    | 88:88
+
 button.btn.btn-md.btn-toolbar Rerun Test
