@@ -6,7 +6,9 @@ require('app')
 function NewContainerModalController(
   $q,
   $rootScope,
+  $timeout,
   createNewBuildAndFetchBranch,
+  createNonRepoInstance,
   errs,
   fetchInstances,
   fetchInstancesByPod,
@@ -73,6 +75,9 @@ function NewContainerModalController(
       return;
     }
     NCMC.state.tabName = tabName;
+    // Reset repo and template
+    NCMC.state.templateSource = null;
+    NCMC.state.repo = null;
     if (NCMC.state.tabName === 'services' && !NCMC.templateServers) {
       NCMC.fetchTemplateServers();
     }
@@ -100,28 +105,25 @@ function NewContainerModalController(
     return close();
   };
 
-  NCMC.addServerFromTemplate = function (sourceInstance) {
+  NCMC.setTemplate = function (sourceInstance, goToPanelCb) {
+    NCMC.state.templateSource = sourceInstance;
     var instanceToForkName = sourceInstance.attrs.name;
-    NCMC.close();
+    loading(NCMC.name + 'SingleRepo', true);
     return fetchInstances()
       .then(function (instances) {
+        loading(NCMC.name + 'SingleRepo', false);
         var serverName = getNewForkName(instanceToForkName, instances, true);
-        return ModalService.showModal({
-          controller: 'NameNonRepoContainerViewModalController',
-          controllerAs: 'MC',
-          templateUrl: 'nameNonRepoContainerView',
-          inputs: {
-            name: serverName,
-            instanceToForkName: instanceToForkName,
-            sourceInstance: sourceInstance,
-            isolation: false
-          }
-        });
+        NCMC.state.instanceName = serverName;
+        // Force digest to update the template
+        return $timeout(angular.noop)
+          .then(function () {
+            return goToPanelCb('nameContainer');
+          });
       })
       .catch(errs.handler);
   };
 
-  NCMC.setRepo = function (repo, goToPanelCb, panelName) {
+  NCMC.setRepo = function (repo, goToPanelCb) {
     repo.loading = true;
     NCMC.state.repo = repo;
     loading(NCMC.name + 'SingleRepo', true);
@@ -137,7 +139,7 @@ function NewContainerModalController(
         }
         repo.dockerfiles = dockerfiles;
         NCMC.state.dockerfile = null;
-        return goToPanelCb(panelName);
+        return goToPanelCb('dockerfileMirroring');
       });
   };
 
@@ -155,6 +157,12 @@ function NewContainerModalController(
      .finally(function () {
         loading(NCMC.name + 'SingleRepo', false);
       });
+  };
+
+  NCMC.createBuildFromTemplate = function (instanceName, sourceInstance) {
+    NCMC.close();
+    return createNonRepoInstance(instanceName, sourceInstance)
+      .catch(errs.handler);
   };
 
   NCMC.newRepositoryContainer = function (inputs) {

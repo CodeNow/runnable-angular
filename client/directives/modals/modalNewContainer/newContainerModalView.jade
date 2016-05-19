@@ -98,7 +98,7 @@
 
       animated-panel.grid-block.vertical.modals-rename(
         name = "nameContainer"
-        ng-if = "MC.state.repo && $root.featureFlags.nameContainer"
+        ng-if = "(MC.state.repo || MC.state.templateSource) && $root.featureFlags.nameContainer"
       )
         header.modal-header
           svg.iconnables.icons-arrow-backward(
@@ -160,12 +160,20 @@
           button.btn.btn-md.green.float-right.btn-spinner(
             ng-disabled = "!MC.name.length || MC.nameForm.$invalid || $root.isLoading[MC.name + 'SingleRepo']"
             ng-class = "{'in': $root.isLoading[MC.name + 'SingleRepo']}"
-            ng-click = "MC.createBuildAndGoToNewRepoModal(MC.state.instanceName, MC.state.repo, MC.state.dockerfile)"
+            ng-click = " \
+              (MC.state.repo) ? MC.createBuildAndGoToNewRepoModal(MC.state.instanceName, MC.state.repo, MC.state.dockerfile) : \
+              MC.createBuildFromTemplate(MC.state.instanceName, MC.state.templateSource) \
+            "
           )
+            //- should say "Next Step: Configure" if a repository container
+            //- should say "Create Container" if its a non-repository container
             .spinner-wrapper.spinner-white.spinner-sm.in(
               ng-include = "'spinner'"
               ng-if = "$root.isLoading[MC.name + 'SingleRepo']"
             )
-            //- should say "Next Step: Configure" if a repository container
-            //- should say "Create Container" if its a non-repository container
-            | Create Container
+            span(
+              ng-if = "MC.state.repo"
+            ) Next Step: Configure
+            span(
+              ng-if = "MC.state.templateSource"
+            ) Create Container
