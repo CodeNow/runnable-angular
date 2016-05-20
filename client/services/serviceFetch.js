@@ -93,6 +93,7 @@ var fetchCache = {};
 
 function fetchInstances(
   fetchUser,
+  fetchGithubOrgId,
   promisify,
   keypather,
   $state,
@@ -100,40 +101,41 @@ function fetchInstances(
   $q
 ) {
   return function (opts, resetCache) {
-    if (!opts) {
-      opts = {};
-    }
-    if (!exists(resetCache)) {
-      resetCache = false;
-    }
-    opts.githubUsername = opts.githubUsername || $state.params.userName;
-
-    opts.ignoredFields = [
-      'contextVersions[0].build.log',
-      'contextVersion.build.log'
-    ];
-
-    var fetchKey = jsonHash.digest(opts);
-    if (resetCache || !fetchCache[fetchKey]) {
-      fetchCache[fetchKey] = fetchUser()
-        .then(function (user) {
-          var pFetch = promisify(user, 'fetchInstances');
-          return pFetch(opts);
-        })
-        .then(function (results) {
-          var instance = results;
-          if (opts.name) {
-            instance = keypather.get(results, 'models[0]');
-          }
-
-          if (!instance) {
-            return $q.reject(new Error('Container not found'));
-          }
-          instance.githubUsername = opts.githubUsername;
-          return instance;
-        });
-    }
-    return fetchCache[fetchKey];
+    var githubUsername = opts.githubUsername || $state.params.userName;
+    console.log('fetchInstances', githubUsername, resetCache);
+    return fetchGithubOrgId(githubUsername)
+      .then(function (orgId) {
+        if (!opts) { opts = {}; }
+        if (!exists(resetCache)) {
+          resetCache = false;
+        }
+        delete opts.githubUsername;
+        opts.owner = { github: orgId };
+        opts.ignoredFields = [
+          'contextVersions[0].build.log',
+          'contextVersion.build.log'
+        ];
+        var fetchKey = jsonHash.digest(opts);
+        if (resetCache || !fetchCache[fetchKey]) {
+          fetchCache[fetchKey] = fetchUser()
+            .then(function (user) {
+              var pFetch = promisify(user, 'fetchInstances');
+              return pFetch(opts);
+            })
+            .then(function (results) {
+              var instance = results;
+              if (opts.name) {
+                instance = keypather.get(results, 'models[0]');
+              }
+              if (!instance) {
+                return $q.reject(new Error('Container not found'));
+              }
+              instance.githubUsername = opts.githubUsername;
+              return instance;
+            });
+        }
+        return fetchCache[fetchKey];
+      });
   };
 }
 
@@ -153,19 +155,24 @@ var fetchByPodCache = {};
 
 function fetchInstancesByPod(
   fetchInstances,
+  fetchGithubOrgId,
   $state,
   fetchUser,
+  memoize,
   report
 ) {
   return function (username) {
-    username = username || $state.params.userName;
-    if (!fetchByPodCache[username]) {
-      var userPromise = fetchUser();
-      fetchByPodCache[username] = fetchInstances({
-        githubUsername: username
-      })
+    var _fetchInstancesByPod = memoize(function (username) {
+      return fetchGithubOrgId(username)
+        .then(function (orgId) {
+          return fetchInstances({
+            owner: {
+              github: orgId
+            }
+          });
+        })
         .then(function (allInstances) {
-          return userPromise.then(function (user) {
+          return fetchUser().then(function (user) {
             var instances = user.newInstances([], {
               qs: {
                 masterPod: true,
@@ -220,9 +227,10 @@ function fetchInstancesByPod(
             return instances;
           });
         });
-    }
-
-    return fetchByPodCache[username];
+    });
+    username = username || $state.params.userName;
+    console.log('fetchInstancesByPod', username);
+    return _fetchInstancesByPod(username);
   };
 }
 
@@ -467,10 +475,10 @@ function fetchGithubUserForCommit (
  * @return {Promise}
  */
 function fetchGithubOrgId(
+  $q,
   fetchWhitelistedOrgs,
   keypather,
-  memoize,
-  $q
+  memoize
 ) {
   return memoize(function (orgName) {
     return fetchWhitelistedOrgs()
