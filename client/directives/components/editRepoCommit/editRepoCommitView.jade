@@ -3,7 +3,7 @@
   ng-class = "{\
     'grid-block align-center justify-center': !activeCommit.attrs.commit.message,\
     'main-btn': !acv.attrs.additionalRepo,\
-    'padding-bottom': !acv.attrs.additionalRepo && !$root.featureFlags.testingFeature\
+    'deprecated': !acv.attrs.additionalRepo && !$root.featureFlags.testingFeature\
   }"
   ng-click = "actions.openRepoDetailsModal()"
 )
