@@ -13,7 +13,7 @@
       ng-bind-html = "SMC.helpCards.getActiveCard().helpPopover.containerFiles"
     )
 
-.grid-block.shrink.align-center.well.gray.in.row-xxs(
+.grid-block.shrink.align-center.row-xxs.well.well-600.gray.can-disable.padding-sm(
   ng-if = "!SMC.state.advanced"
 )
   svg.grid-content.row-xxs.shrink.iconnables.icons-dockerfile-lock
@@ -25,7 +25,7 @@
     small.small
       span.span.text-overflow.float-left Editing your Dockerfile is for advanced users and is not reversible.
 
-  button.btn.btn-sm.white(
+  button.grid-content.btn.btn-sm.white(
     ng-click = "SMC.showAdvancedModeConfirm()"
   )
     svg.iconnables.icons-lock
@@ -35,7 +35,7 @@
     | Unlock
 
 //- add logic for repository containers only
-.grid-block.shrink.align-center.well.gray.in.row-xxs(
+.grid-block.shrink.align-center.row-xxs.well.well-600.gray.can-disable.padding-sm(
   ng-if = "SMC.state.advanced && !SMC.state.isNonRepoContainer"
 )
   svg.grid-content.row-xxs.shrink.iconnables.icons-sync
@@ -62,7 +62,7 @@
         SMC.instance && SMC.instance.mirroredDockerfile === null \
       "
     )
-      // when there's an error
+      //- when there's an error
       svg.iconnables.icons-alert-alt.float-left
         use(
           xlink:href = "#icons-alert-alt"
@@ -89,7 +89,7 @@
       ) Change…
 
   //- this should open the 'viewModalSync' view when syncing has not been set up
-  label.toggle-wrapper
+  label.grid-content.toggle-wrapper
     input.toggle-input(
       ng-model = "SMC.switchBetweenAdvancedAndMirroring"
       ng-model-options = "{getterSetter: true}"

@@ -115,29 +115,6 @@
       margin-left: -6px;
     }
   }
-
-  // well
-  .well {
-    background: $white;
-    border: 0;
-    border-radius: 0 0 $input-border-radius $input-border-radius;
-    border-top: 1px solid $purple-lighter;
-    cursor: default;
-    margin: 0;
-    padding: 12px 9px;
-
-    // dismiss
-    .btn-close {
-      float: right;
-      height: 15px;
-      margin-left: 15px;
-      width: 15px;
-    }
-
-    .icon-close {
-      top: -14px;
-    }
-  }
 }
 
 // card layout

@@ -59,7 +59,7 @@ function containerStatusButton(
           classes.push('red');
         }
 
-        if (['building', 'starting', 'stopping'].includes(status)) {
+        if (['starting', 'stopping'].includes(status)) {
           classes.push('in');
         }
 
@@ -74,7 +74,7 @@ function containerStatusButton(
         }
 
         var status = keypather.get($scope.CSBC, 'instance.status()');
-        return ['starting', 'building', 'stopping'].includes(status);
+        return ['starting', 'stopping'].includes(status);
       };
     }
   };

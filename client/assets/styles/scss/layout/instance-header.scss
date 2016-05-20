@@ -7,7 +7,7 @@
 }
 
 .instance-header-title {
-  color: $gray-darker;
+  color: $gray-dark;
   font-size: 24px;
   font-weight: $weight-normal;
   line-height: $input-lg;
@@ -96,7 +96,6 @@
 
 .instance-header-properties {
   align-items: top;
-  border-bottom: 1px solid rgba($black,.1);
   display: flex;
   padding: 0 12px 12px;
   width: 100%;
@@ -163,6 +162,7 @@
   .icons-alert {
     height: 100%;
     margin-left: 6px;
+    opacity: .5;
     width: 15px;
   }
 }

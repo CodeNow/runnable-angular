@@ -118,7 +118,7 @@ describe('containerStatusButtonDirective'.bold.underline.blue, function () {
     var classesMap = {
       starting: ['gray', 'in'],
       stopping: ['gray', 'in'],
-      building: ['gray', 'in'],
+      building: ['gray'],
       stopped: ['gray'],
       crashed: ['red'],
       running: ['gray'],
@@ -174,7 +174,7 @@ describe('containerStatusButtonDirective'.bold.underline.blue, function () {
 
   it('should show the instance as busy if its building', function () {
     $scope.instance.status = sinon.stub().returns('building');
-    expect($elScope.isChanging()).to.be.true;
+    expect($elScope.isChanging()).to.be.false;
     sinon.assert.calledOnce($scope.instance.status);
   });
 

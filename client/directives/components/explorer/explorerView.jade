@@ -1,5 +1,5 @@
 //- on container sidebar
-.sidebar-section-heading(
+.grid-block.justify-right.sidebar-section-heading(
   ng-if = "!editExplorer || debugContainer"
   ng-include = "'explorerSectionHeading'"
 )
@@ -25,9 +25,9 @@
       )
 
 .sidebar-section-content
-  .well.in(
+  .well.text-center.padding-sm(
     ng-if = "!debugContainer && !editExplorer && !fileModel.running() || instance.isMigrating()"
-  ) Your files are unavailable when the container is not running.
+  ) Your files are not available when the container isn’t running.
 
   ul.file-tree(
     ng-if = "rootDir && (debugContainer || editExplorer || fileModel.running()) && !instance.isMigrating()"

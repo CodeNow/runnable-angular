@@ -45,7 +45,7 @@
             use(
               xlink:href = "#icons-link-external"
             )
-    .well.in
+    .well.gray.padding-sm
       p.p
         sup.sup.small $
         span.span 33
@@ -69,7 +69,7 @@
           ng-if = "!data.showCcForm"
         ) Your card has expired
 
-    .well.in.red(
+    .well.red.padding-sm(
       ng-if = "!data.showCcForm"
     )
       p.p.clearfix
@@ -88,7 +88,7 @@
         //-   tooltip-options = "{\"class\":\"bottom bottom-arrow-right no-arrow\",\"right\":0,\"top\":-40}"
         //- ) Update
 
-    form.form-cc.well.in.clearfix(
+    form.form-cc.well.gray.clearfix.padding-sm(
       ng-if = "data.showCcForm"
     )
       //- limit all fields to numbers only

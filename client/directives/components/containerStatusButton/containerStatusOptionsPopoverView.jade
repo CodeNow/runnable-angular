@@ -7,32 +7,32 @@
     //- hide list if build failed
     ul.popover-list
       li.popover-list-item(
-        ng-if = "!CSBC.instance.isMigrating() && ['stopped', 'crashed'].includes(CSBC.instance.status())"
+        ng-if = "!CSBC.instance.isMigrating() && ['stopped', 'crashed'].includes(CSBC.instance.status()) && !$root.featureFlags.testingFeature"
         ng-click = "actions.startInstance()"
       )
         .icons-status.green
         | Start
 
       li.popover-list-item(
-        ng-if = "!CSBC.instance.isMigrating() && ['running'].includes(CSBC.instance.status())"
+        ng-if = "!CSBC.instance.isMigrating() && ['running'].includes(CSBC.instance.status()) && !$root.featureFlags.testingFeature"
         ng-click = "actions.restartInstance()"
       )
         .icons-status.green
         | Restart
 
       li.popover-list-item(
-        ng-if = "!CSBC.instance.isMigrating() && ['running'].includes(CSBC.instance.status())"
+        ng-if = "!CSBC.instance.isMigrating() && ['running'].includes(CSBC.instance.status()) && !$root.featureFlags.testingFeature"
         ng-click = "actions.stopInstance()"
       )
         .icons-status
         | Stop
 
       li.divider(
-        ng-if = "!CSBC.instance.isMigrating() && ['running', 'stopped', 'crashed'].includes(CSBC.instance.status())"
+        ng-if = "!CSBC.instance.isMigrating() && ['running', 'stopped', 'crashed'].includes(CSBC.instance.status()) && !$root.featureFlags.testingFeature"
       )
 
       //- rebuild without cache when no new config exists for this container
-      li.popover-list-item(
+      li.popover-list-item.multi-line(
         ng-click = "\
           (CSBC.instance.configStatusValid && !CSBC.instance.cachedConfigStatus && !CSBC.instance.attrs.isolated) ? \
           actions.updateConfigToMatchMaster() : \
@@ -40,13 +40,14 @@
         "
       )
         .icons-status.orange
-        | Rebuild Without Cache
+        | {{$root.featureFlags.testingFeature ?  'Rerun Test' : 'Rebuild'}}
+        .small Will rebuild without cache.
 
-    .well.well-popover.orange.text-center(
+    .well.well-popover.orange.text-center.padding-xs(
       ng-if = "CSBC.instance.configStatusValid && !CSBC.instance.cachedConfigStatus && !CSBC.instance.attrs.isolated"
     ) This container’s configuration has been changed. Rebuild to update.
 
     //- only show if the configuration has not been changed
-    .well.well-popover.orange.text-center(
+    .well.well-popover.orange.text-center.padding-xs(
       ng-if = "['buildFailed', 'neverStarted'].includes(CSBC.instance.status()) && !(CSBC.instance.configStatusValid && !CSBC.instance.cachedConfigStatus)"
     ) Having build problems? Some errors can be resolved by rebuilding.

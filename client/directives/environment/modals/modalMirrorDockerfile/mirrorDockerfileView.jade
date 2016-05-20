@@ -4,7 +4,7 @@
 )
 
 //- empty state
-.grid-content.well.in.empty(
+.grid-content.well.empty(
   ng-if = "!$root.isLoading[MC.name] && MC.state.repo.dockerfiles.length === 0"
 )
   p.p.text-center We couldn’t find a Dockerfile in this repository.

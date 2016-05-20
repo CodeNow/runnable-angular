@@ -31,7 +31,7 @@ label.label.clearfix
   .label-col Build Commands
     small.small (optional)
   .input-col
-    .well.well-merged.small
+    .well.well-merged.well-merged-top.small
       strong.strong Note:&#32;
       span.span Installing private modules? Make sure you add your SSH keys{{!SMC.instance ? ' on the next step' : ''}}.&#32;
       button.btn.btn-xxs.white.float-right(
@@ -54,11 +54,14 @@ label.label.clearfix
     )
     small.small Add any commands needed to support your application. They’ll be run before the Container CMD from your repository’s root folder.
 
-label.label.label-container-cmd.clearfix
+label.label.label-container-cmd.clearfix(
+  for = "textarea-container-cmd"
+)
   .label-col Container CMD
   .input-col
     fancy-select.monospace.input-validate(
       autocomplete = "off"
+      id = "textarea-container-cmd"
       name = "repository.startCommand"
       ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
       ng-if = "!$root.featureFlags.multilineStartCmd"
@@ -75,7 +78,7 @@ label.label.label-container-cmd.clearfix
         value = "startCmd"
       ) {{$parent.startCmd}}
 
-    .well.well-merged.small(
+    .well.well-merged.well-merged-top.small(
       ng-if = "SMC.state.selectedStack.startCommand.length && $root.featureFlags.multilineStartCmd"
     )
       strong.strong Suggested for {{SMC.state.selectedStack.name}}:&#32;
@@ -98,7 +101,8 @@ label.label.label-container-cmd.clearfix
       spellcheck = "false"
       value = "state.startCommand"
     )
-    small.small This is the long-running process that’ll run when your container is launched (e.g. ‘apache’, ‘NPM start’). Your container will stop running if this process terminates. #{''}
+  .input-col
+    small.small This is the long-running process that’ll run when your container is launched. Your container will stop running if this process terminates. #{''}
       a.link(
         href = "//docs.docker.com/reference/builder/#cmd"
         target = "_blank"

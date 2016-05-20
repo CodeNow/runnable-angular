@@ -1,60 +1,61 @@
 .instance-sidebar {
+  border-right: 0;
+  border-top: 1px solid $gray-lighter;
   min-width: 300px;
   overflow-y: auto;
+  padding: 12px;
 
   // empty states for sections
   .well {
-    color: $gray;
-    margin: 0 0 15px;
-    padding: 6px 9px;
-  }
-
-  // override button and fancy-select styles
-  .btn-group-vertical {
-    display: block;
-    overflow: hidden;
-
-    .btn {
-      text-align: left;
-    }
+    color: lighten($gray,15%);
   }
 
   .btn-repository {
-    border-radius: $input-border-radius;
-    color: $gray;
+    @extend %padding-xs;
+    display: block;
     font-size: 15px;
     font-weight: $weight-normal;
-    min-height: 55px;
-    padding: 6px 24px 6px 9px;
+    min-height: 118px;
+    padding-right: 24px;
+    text-align: left;
 
-    &:hover,
-    &:active {
-      z-index: 1; // on top of second button
+    &.grid-block {
+      display: flex; // overwrite default .btn
+    }
 
-      .row-commit::after {
-        background: linear-gradient(to right, rgba($white,0), $white);
-      }
+    &.main-btn {
+      min-height: 121px;
+    }
+
+    &:hover .row-commit::after,
+    &:active .row-commit::after {
+      background: linear-gradient(to right, rgba($white,0), $white);
     }
 
     &:active,
     &.active {
 
       .row-author {
-        color: $purple-light;
+        color: rgba($purple-light,.5);
+      }
+
+      .btn-auto-deploy:not(.orange) {
+        border: 1px solid rgba($purple-light,.25);
+        color: rgba($purple-light,.5);
       }
     }
 
     // icon for commmit/branch
     .row {
-      padding-left: 21px;
+      min-height: 24px;
+      padding-left: 27px;
       position: relative;
 
       .iconnables {
-        height: 15px;
-        left: 0;
-        margin: 3px 6px 0 0;
+        left: 7px;
+        opacity: .5;
         position: absolute;
-        width: 15px;
+        width: 12px;
       }
     }
 
@@ -80,65 +81,11 @@
     }
   }
 
-  .btn-auto-deploy {
-    background: $gray-lightest;
-    border: $input-border solid $gray-lighter;
-    border-top-width: 1px;
-    color: $gray;
-    cursor: default;
-    font-size: 13px;
-    padding: 0 9px;
-
-    .icons-launch {
-      filter: grayscale(100%);
-      height: 100%;
-      margin: 0 6px 0 -3px;
-      opacity: .75;
-      text-align: center;
-      width: 18px;
-
-      @include retina() {
-        margin-left: 0;
-        width: 15px;
-      }
-    }
-
-    .underline {
-      line-height: 1.2;
-      margin-top: 8px;
-    }
-
-    .toggle-wrapper {
-      top: 9px;
-
-      &.disabled {
-        cursor: not-allowed;
-        opacity: .5;
-      }
-    }
-  }
-
   .icons-arrow-forward {
     height: 100%;
     position: absolute;
     right: 3px;
     top: 0;
-  }
-}
-
-.sidebar-section {
-  flex: 0 0 auto;
-  margin: 0 12px;
-
-  + .sidebar-section {
-    border-top: 1px solid $gray-lighter;
-  }
-}
-
-.explorer-section {
-
-  .sidebar-section-content {
-    padding-bottom: 12px;
   }
 
   .file-tree {
@@ -146,25 +93,53 @@
   }
 }
 
-.sidebar-section-heading {
-  color: darken($gray-light,10%);
-  line-height: 54px;
-  position: relative;
+.btn-auto-deploy {
+  border: 1px solid $gray-lighter;
+  color: lighten($gray,15%);
+  font-size: 13px;
+  line-height: $input-xs - 2px;
+  margin-top: 3px;
 
-  // for add buttons next to section headings, like in File Explorer
-  .btn {
-    line-height: 1; // reset to center icon
-    padding: 1px;
-    top: 15px; // center button
-    width: $input-xs;
+  &.orange,
+  &.orange:hover:not([disabled]),
+  &.orange:active:not([disabled]) {
+    background: lighten($orange-lightest,3%);
+    border-color: lighten($orange-lighter,10%);
+    color: $orange-light;
+  }
+
+  .iconnables {
+    height: 100%;
+    margin-right: 4px;
+    width: 12px;
   }
 }
 
-.sidebar-section-item {
-  margin-bottom: 12px;
+.sidebar-section {
+  flex: 0 0 auto;
+  overflow: hidden;
   position: relative;
 
-  &:last-child {
-    margin-bottom: 18px;
+  .btn-icon {
+    line-height: 1; // reset to center icon
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: $input-xs;
+    z-index: 1;
   }
+}
+
+// spacing for additional repositories
+.sidebar-section-item {
+  position: relative;
+
+  + .sidebar-section-item {
+    margin-top: 12px;
+  }
+}
+
+// spacing for file explorer
+.explorer-section {
+  margin-top: 12px;
 }
