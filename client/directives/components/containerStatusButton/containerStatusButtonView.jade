@@ -7,15 +7,15 @@ button.btn.btn-md.btn-spinner.btn-status(
     instance = "CSBC.instance"
     ng-if = "!isChanging()"
   )
-  span.float-left(
-    ng-if ="!isChanging() && !$root.featureFlags.testingFeature"
-  ) {{getStatusText()}}
-
   //- if stopping, starting, restarting, or testing
   .spinner-wrapper.spinner-gray.spinner-sm.float-left.in(
     ng-if = "isChanging()"
     ng-include = "'spinner'"
   )
+
+  span.float-left(
+    ng-if ="!$root.featureFlags.testingFeature"
+  ) {{getStatusText()}}
 
   span.float-left(
     ng-if = "$root.featureFlags.testingFeature"
@@ -24,9 +24,6 @@ button.btn.btn-md.btn-spinner.btn-status(
     {{state.test === 'failed' ? 'Tests Failed' : ''}}
     //- or Tests Running
 
-  span.float-left(
-    ng-if = "isChanging()"
-  ) {{getStatusText()}}
   svg.iconnables.icons-arrow-down(
     pop-over
     pop-over-actions = "CSBC.actions"
