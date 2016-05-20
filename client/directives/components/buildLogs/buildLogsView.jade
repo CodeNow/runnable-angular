@@ -43,18 +43,12 @@
   )
 
 //- initial output
-.pre.build-log(
-  ng-class = "{\
-    'build-log-toggle': BLC.buildLogs.length > 0,\
-    'in': mainHeaderExpanded && BLC.buildLogs.length > 0\
-  }"
+.pre.build-log.build-log-toggle(
+  ng-class = "{'in': mainHeaderExpanded}"
   ng-if = "\
     !$root.featureFlags.internalDebugging && \
     !BLC.showErrorPanel && \
-    !( \
-      $root.featureFlags.noBuildLogs && \
-      hasFailedAndHasNoLogs() \
-    ) \
+    !($root.featureFlags.noBuildLogs && hasFailedAndHasNoLogs()) \
   "
 )
   .build-log-header(
@@ -63,7 +57,7 @@
   )
     .build-log-header-text {{BLC.streamFailure ? 'Unable to get build logs.' : 'Starting Build'}}
   .build-log-content(
-    ng-if = "mainHeaderExpanded && BLC.buildLogs.length"
+    ng-if = "mainHeaderExpanded"
     ng-class = "{'building': !(BLC.headerContent.length && BLC.buildLogs.length > 0 && !BLC.buildLogsRunning)}"
   )
     div(

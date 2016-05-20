@@ -2,7 +2,6 @@
 
   // unlock and mirror options
   > .well {
-    @extend %padding-sm;
     color: $gray-dark;
     margin: 0 0 15px;
 
@@ -73,6 +72,10 @@
       height: 15px;
       margin-right: 5px;
       width: 15px;
+    }
+
+    .toggle-wrapper {
+      margin-left: 15px;
     }
   }
 }

@@ -43,7 +43,7 @@
 
   .list-item {
     align-items: center;
-    border: 1px solid transparent;
+    border: $input-border solid transparent;
     display: flex;
     flex: 1 1 auto;
     font-size: 15px;

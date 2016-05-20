@@ -1,13 +1,10 @@
 .well {
+  border: 1px solid transparent;
   border-radius: $input-border-radius;
-  color: $gray-darker;
-  margin: 0 6px;
-  padding: 0 3px;
 
-  // border and bg not shown by default
-  &.in {
+  &.gray {
     background: $gray-lighterest;
-    border: 1px solid $gray-lighter;
+    border-color: $gray-lighter;
   }
 
   // code sample
@@ -32,9 +29,7 @@
   &.well-popover {
     font-size: 15px;
     font-weight: $weight-normal;
-    line-height: 18px;
     margin: 9px 9px 3px;
-    padding: 9px 12px;
 
     &.orange {
       background-color: $orange-lightest;

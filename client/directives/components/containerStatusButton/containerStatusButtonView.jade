@@ -7,7 +7,7 @@ button.btn.btn-md.btn-spinner.btn-status(
     instance = "CSBC.instance"
     ng-if = "!isChanging()"
   )
-  //- if stopping, starting, restarting, or testing
+  //- if stopping, starting, restarting
   .spinner-wrapper.spinner-gray.spinner-sm.float-left.in(
     ng-if = "isChanging()"
     ng-include = "'spinner'"
@@ -41,5 +41,5 @@ button.btn.btn-md.btn-spinner.btn-status(
     ng-if = "CSBC.instance.configStatusValid && !CSBC.instance.cachedConfigStatus && !CSBC.instance.attrs.isolated"
   )
     use(
-      xlink:href = "#icons-alert"
+      xlink:href = "#icons-alert-alt"
     )

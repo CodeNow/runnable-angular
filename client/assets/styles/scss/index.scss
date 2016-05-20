@@ -44,18 +44,8 @@
 // global layout
 @import "layout/layout";
 
-// instance layout
-@import "layout/instances-list";
-@import "layout/instance";
-@import "layout/instance-header";
-@import "layout/instance-body";
-@import "layout/instance-sidebar";
-
-// environment layout
-@import "layout/environment";
-@import "layout/environment-header";
-@import "layout/environment-body";
-@import "layout/environment-footer";
+// sidebar
+@import "sidebar/sidebar";
 
 // buttons
 @import "components/buttons/buttons";
@@ -108,9 +98,6 @@
 @import "forms/forms-toggles";
 @import "forms/forms-validation";
 @import "forms/forms-whitelist";
-
-// sidebar
-@import "sidebar/sidebar";
 
 // views
 @import "views/views";
@@ -172,11 +159,25 @@
 // tooltip popover specific
 @import "popover/tooltips/tooltip-tools";
 
+// instance layout
+@import "layout/instances-list";
+@import "layout/instance";
+@import "layout/instance-header";
+@import "layout/instance-body";
+@import "layout/instance-sidebar";
+
+// environment layout
+@import "layout/environment";
+@import "layout/environment-header";
+@import "layout/environment-body";
+@import "layout/environment-footer";
+
 // pages
 @import "pages/server-selection";
 @import "pages/welcome";
 
 //deprecated
+@import "deprecated/btn-auto-deploy";
 @import "deprecated/card-status";
 @import "deprecated/connections";
 @import "deprecated/deleted-commit";

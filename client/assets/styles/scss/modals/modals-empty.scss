@@ -31,9 +31,9 @@
 .modal-form.empty {
   padding: 30px;
 
-  &.well.in {
+  &.well {
     background: $gray-lightest;
-    margin: 0;
+    border-color: $gray-lighter;
   }
 
   // images + spacing between text and images

@@ -5,15 +5,6 @@
     margin-bottom: 0;
   }
 
-  .well {
-    @extend %padding-sm;
-    margin: 0;
-  }
-
-  .toggle-wrapper {
-    min-width: 33px;
-  }
-
   // layout
   .flex-row {
     display: flex;
