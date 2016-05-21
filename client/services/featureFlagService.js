@@ -47,6 +47,7 @@ function featureFlags(
     webhooks: false,
     webhooksAdminPresent: false,
     webhooksContainerRunning: false,
+    welcomeBack: false,
     whitelist: true,
     whitelistIpFiltering: false
   };

@@ -1,0 +1,21 @@
+//- note: this is a modal, but it doesn't have to be when implemented!
+//- if this goes in as a separate page, just remove the .modal-backdrop.in classes
+.modal-backdrop.in.welcome.welcome-back
+  .modal-dialog
+    img.img.runnabear(
+      height = "130"
+      src = "/build/images/runnabear-waving-3.png"
+      width = "230"
+    )
+    section.modal-body
+      h3.h3 Welcome back!
+      p.p We’ve temporarily&#32;
+        span(
+          title = "paws’d"
+        ) paused&#32;
+        | your containers due to inactivity. Give us the go ahead and we’ll get you back up and running.
+    footer.grid-block.vertical.modal-footer
+      button.grid-content.btn.btn-lg.green.icons-intercom Chat Now
+      a.grid-content.link.text-gray.text-center(
+        href = "mailto:support@runnable.com"
+      ) Email Support
