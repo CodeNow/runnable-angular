@@ -40,7 +40,7 @@ function NameNonRepoContainerViewModalController(
           name: MC.name,
           masterPod: true,
           ipWhitelist: {
-            enabled: true
+            enabled: false
           }
         }
       };
