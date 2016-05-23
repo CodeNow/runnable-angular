@@ -22,8 +22,7 @@
     transition: none;
   }
 
-  &[disabled],
-  &.disabled {
+  &[disabled] {
     cursor: not-allowed;
     opacity: .5;
   }
@@ -198,7 +197,7 @@
   font-weight: $weight-bold;
   text-decoration: none;
 
-  &:not([disabled]):not(.disabled).btn-hint {
+  &:not([disabled]).btn-hint {
     @extend %btn-hint;
   }
 
@@ -220,7 +219,7 @@
 %blue {
   color: $gray-light;
 
-  &.btn:not([disabled]):not(.disabled) {
+  &.btn:not([disabled]) {
     background: $blue;
     border-color: $blue-dark;
     color: $white;
@@ -242,9 +241,9 @@
 %gray {
   background: $gray-lighterest;
   border-color: $gray-lighter;
-  color: $gray-dark;
+  color: $gray;
 
-  &.btn:not([disabled]):not(.disabled) {
+  &.btn:not([disabled]) {
 
     &:hover,
     &.hover {
@@ -267,7 +266,7 @@
   background: $gray;
   border-color: $gray-dark;
 
-  &.btn:not([disabled]):not(.disabled) {
+  &.btn:not([disabled]) {
 
     &:hover,
     &.hover {
@@ -289,7 +288,7 @@
   background: $green-dark; // rgba($green,.81);
   border-color: $green;
 
-  &.btn:not([disabled]):not(.disabled) {
+  &.btn:not([disabled]) {
 
     &:hover,
     &.hover {
@@ -310,7 +309,7 @@
   background: $orange-light;
   border-color: $orange;
 
-  &.btn:not([disabled]):not(.disabled) {
+  &.btn:not([disabled]) {
 
     &:hover,
     &.hover {
@@ -335,7 +334,7 @@
     border-color: $purple;
     color: $white;
 
-    &:not([disabled]):not(.disabled) {
+    &:not([disabled]) {
 
       &:hover,
       &.hover {
@@ -372,7 +371,7 @@
     border-color: $red-dark;
     color: $white;
 
-    &:not([disabled]):not(.disabled) {
+    &:not([disabled]) {
 
       &:hover,
       &.hover {
@@ -396,7 +395,7 @@
   &.btn {
     background: $white;
 
-    &:not([disabled]):not(.disabled) {
+    &:not([disabled]) {
 
       &:hover,
       &.hover {

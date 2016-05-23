@@ -41,8 +41,8 @@
   )
 
   //- debug toolbar
-  .views-toolbar(
-    ng-show = "showDebugCmd"
+  .views-toolbar.orange(
+    ng-if = "showDebugCmd"
     ng-include = "'debugToolbarView'"
   )
 
@@ -50,6 +50,18 @@
   .views-toolbar(
     ng-if = "$root.featureFlags.backup"
     ng-include = "'backupToolbarView'"
+  )
+
+  //- test toolbar
+  .views-toolbar(
+    ng-class = "{\
+      'green': state.test === 'passed',\
+      'orange': state.test === 'inProgress',\
+      'red': state.test === 'failed'\
+    }"
+    ng-if = "$root.featureFlags.testingFeature"
+    ng-init = "state.test = 'passed'"
+    ng-include = "'testingToolbarView'"
   )
 
   .floating-controls(

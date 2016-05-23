@@ -39,6 +39,7 @@ function featureFlags(
     serviceContainersInConnections: false, // shows service containers in the Connections popover
     teamManagement: true, // changes text from org to team in account menu
     teamManagementAdvanced: false,
+    testingFeature: false,
     themeToggle: false, // toggles the button that toggles theme
     trial: false,
     updatedSlackValidation: true,

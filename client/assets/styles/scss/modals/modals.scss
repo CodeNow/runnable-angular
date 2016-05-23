@@ -32,9 +32,8 @@
 .modal-dialog {
   animation: scale-in-modal .15s ease-in-out;
   background: $gray-lighterest;
-  border: 1px solid $gray-lighter;
+  border: $input-border-radius solid $gray-lighter;
   border-radius: $input-border-radius-lg;
-  box-shadow: 0 0 3px $gray-lighter;
   display: flex;
   flex: 0 1 auto;
   flex-direction: column;
@@ -196,7 +195,7 @@
   margin-left: auto;
   margin-right: auto;
   overflow-x: auto;
-  padding: 6px 6px 12px;
+  padding: 6px 12px 12px;
   transition: max-width .15s ease-in-out;
 
   @include media(xxs) {
@@ -370,11 +369,6 @@
     color: $gray-light;
     flex: 1 1 auto;
     margin: 45px auto;
-  }
-
-  .btn-checkbox {
-    display: block;
-    margin: 9px;
   }
 
   .label-checkbox {

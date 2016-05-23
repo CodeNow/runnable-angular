@@ -1,22 +1,13 @@
-// *********************
-// logs & terminal
-// build logs: html (this file)
-// cmd logs: termjs
-// terminal: termjs
-// *********************
-// scss-lint:disable ColorVariable
-
 // build log specific
 .build-log-wrapper {
   overflow-y: auto;
-  padding: 9px;
+  padding: 12px;
   width: 100%;
 }
 
 // wrapper per step
 .build-log {
   border: 1px solid transparent;
-  border-radius: $input-border-radius;
   min-height: 39px;
   overflow: hidden;
   position: relative;
@@ -29,12 +20,14 @@
       -2px -2px 0 $purple-light;
   }
 
-  &:last-child {
-    margin-bottom: 30px;
+  &:first-child,
+  &:first-child .build-log-header {
+    border-radius: $input-border-radius $input-border-radius 0 0;
+  }
 
-    .modal-edit & {
-      margin-bottom: 9px;
-    }
+  &:last-child,
+  &:last-child .build-log-header {
+    border-radius: 0 0 $input-border-radius $input-border-radius;
   }
 
   &.in {
@@ -42,7 +35,7 @@
   }
 
   + .build-log {
-    margin-top: 6px;
+    margin-top: -1px;
   }
 }
 
@@ -55,7 +48,7 @@
 .build-log-header {
   align-items: center;
   display: flex;
-  height: 39px;
+  height: 37px;
   overflow: hidden;
   padding: 0 6px 0 24px;
   position: absolute;
@@ -69,6 +62,7 @@
 
   // fixed
   &.fixed {
+    border-bottom: 1px solid;
     position: fixed;
     top: 174px;
     z-index: 1;
@@ -89,29 +83,28 @@
   // text overflow
   .build-log-header-text {
     flex: 1 1 auto;
-    font-size: 13px;
+    margin-right: 6px;
     overflow-x: auto;
-    padding: 0 12px 0 6px;
+    padding: 0 6px;
     white-space: nowrap;
   }
 
   // cached state
   > .build-log-header-state {
-    color: $logs-runnable-dark-magenta;
     flex: 0 0 auto;
     padding: 0 6px;
   }
 
   // change padding if there's a header
   + .build-log-content {
-    margin-top: 39px;
+    margin-top: 37px;
   }
 }
 
 // logs scroll horizontally
 .build-log-content {
-  padding: 9px 9px 0 30px;
-  transition: height .15s;
+  background: rgba($black,.15);
+  padding: 9px 30px;
   word-wrap: normal;
 
   &.building {
@@ -121,7 +114,6 @@
   // when logs are over 1000 lines
   &.long {
     height: 500px;
-    transition: height 0;
   }
 
   &.ng-leave {
@@ -136,9 +128,15 @@
 // add .build-log-toggle to .build-log-header to indicate that you can toggle it
 .build-log-toggle {
 
-  // rotate arrow
-  &.in .build-log-header::before {
-    transform: rotate3d(0,0,1,0);
+  &.in .build-log-header {
+
+    &.fixed {
+      border-radius: 0;
+    }
+
+    &::before {
+      transform: rotate3d(0,0,1,0); // rotate arrow
+    }
   }
 
   // toggleable .build-log-header
@@ -159,7 +157,7 @@
       top: 16px;
       transform: rotate3d(0,0,1,-90deg);
       transform-origin: 4px 2px;
-      transition: transform .25s ease-in-out;
+      transition: transform .1s ease-in-out;
     }
 
     // don't toggle if in progress
@@ -173,184 +171,14 @@
   }
 }
 
-// ***************************
-// log themes
-// reference for code- styles:
-// http://misc.flogisoft.com/bash/tip_colors_and_formatting
-// Not currently supported:
-// - Reverse/inverted
-// - Light colors (and background light colors)
-// ***************************
-.logs-runnable-dark,
-.logs-runnable-light {
-
-  .code-bold {
-    font-weight: 600;
-  }
-
-  .code-dim {
-    opacity: .5;
-  }
-
-  .code-underline {
-    text-decoration: underline;
-  }
-
-  // blinking animation
-  .code-blink {
-    animation: logs-blink 1s infinite;
-
-    // dim blinking animation
-    &.code-dim {
-      animation-name: logs-dim-blink;
-    }
-  }
-
-  .code-hidden {
-    visibility: hidden;
-  }
-
-  // override color for background colors
-  [class^='code-bg'] {
-    color: $white;
-  }
-}
-
-// dark theme
-.logs-runnable-dark {
-  @include logs-runnable-color(dark);
-  background: $ace-bg;
-  color: $white;
-
-  // elements
-  .build-log {
-    background: #372345; // rgba($white,.03) on $ace-bg
-    border-color: $purple-darkest;
-
-    // start state
-    &:first-child > .build-log-header {
-      color: $logs-runnable-dark-yellow;
-    }
-
-    // success state
-    &.green {
-      background: #44c25f;
-    }
-
-    // fail state
-    &.red {
-      background: $red;
-      color: $white;
-    }
-
-    // error
-    &.error {
-      box-shadow: // bottom-right,top-right,bottom-left,top-left
-      2px 2px 0 $logs-runnable-dark-red,
-      2px -2px 0 $logs-runnable-dark-red,
-      -2px 2px 0 $logs-runnable-dark-red,
-      -2px -2px 0 $logs-runnable-dark-red;
-    }
-  }
-
-  .build-log-toggle .build-log-header {
-    background: #3d294a; // match toolbar header
-    border-bottom: 1px solid $purple-darker;
-
-    &:hover:not(.in-progress) {
-      background: #3f2c4d; // rgba($white,.045);
-    }
-
-    &:active:not(.in-progress) {
-      background: #422f4f; // rgba($white,.06);
-    }
-
-    &::before {
-      border-top-color: $purple-lighter;
-    }
-
-    // arrow states
-    &:hover,
-    &:active {
-
-      &::before {
-        border-top-color: $purple-lightest;
-      }
-    }
-  }
-}
-
-// light theme
-.logs-runnable-light {
-  @include logs-runnable-color(light);
-  background-color: $gray-lighterest;
-  color: $gray-darker;
-
-  // start state
-  &:first-child > .build-log-header {
-    color: $logs-runnable-light-yellow;
-  }
-
-  // success state
-  &.green {
-    background: #44c25f;
-  }
-
-  // fail state
-  &.red {
-    background: $red;
-    color: $white;
-  }
-
-  // elements
-  .build-log {
-    background: rgba($white,.6);
-    border-color: $gray-lighter;
-
-    // error
-    &.error {
-      box-shadow: // bottom-right,top-right,bottom-left,top-left
-      2px 2px 0 $logs-runnable-light-red,
-      2px -2px 0 $logs-runnable-light-red,
-      -2px 2px 0 $logs-runnable-light-red,
-      -2px -2px 0 $logs-runnable-light-red;
-    }
-  }
-
-  .build-log-toggle .build-log-header {
-    background: rgba($white,.75);
-    border-bottom: 1px solid $gray-lighter;
-
-    &:hover:not(.in-progress) {
-      background: rgba($white,.9);
-    }
-
-    &:active:not(.in-progress) {
-      background: $white;
-    }
-
-    &::before {
-      border-top-color: $gray-light;
-    }
-
-    // arrow states
-    &:hover,
-    &:active {
-
-      &::before {
-        border-top-color: $gray;
-      }
-    }
-  }
-}
 
 // log spinner
 .log-spinner {
-  bottom: 21px;
+  bottom: 9px;
   font-size: 16px;
   height: 24px;
   left: 30px;
-  position: relative;
+  position: absolute;
   width: 16px;
 
   .spinner-character {
