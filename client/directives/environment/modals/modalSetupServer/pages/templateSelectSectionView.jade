@@ -20,7 +20,7 @@ ul.list.list-servers(
   ng-if = "!$root.isLoading.newContainerModalTemplates"
 )
   li.list-item.grid-block.row-xxs(
-    ng-click = "MC.addServerFromTemplate(dependency)"
+    ng-click = "($root.featureFlags.nameContainer) ? MC.setTemplate(dependency, goToPanel) : MC.addServerFromTemplate(dependency)"
     ng-repeat = "\
       dependency in MC.templateServers.models | \
       removeTemplateInstances | \

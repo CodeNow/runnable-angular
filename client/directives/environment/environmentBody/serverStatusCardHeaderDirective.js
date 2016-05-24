@@ -17,13 +17,19 @@ function serverStatusCardHeader(
     replace: false,
     scope: {
       instance: '=',
-      repo: '=',
+      instanceName: '=?',
       noTouching: '=?',
       inModal: '=?',
       SMC: '=? serverModalController'
     },
     templateUrl: 'serverStatusCardHeaderView',
     link: function ($scope, elem, attrs) {
+      $scope.getName = function () {
+        if ($scope.instance) {
+          return $scope.instance.getMasterPodName();
+        }
+        return $scope.instanceName;
+      };
       $scope.popoverServerActions = {
         openEditServerModal: function (defaultTab) {
           $rootScope.$broadcast('close-popovers');

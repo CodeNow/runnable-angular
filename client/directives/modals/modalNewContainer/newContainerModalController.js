@@ -6,7 +6,9 @@ require('app')
 function NewContainerModalController(
   $q,
   $rootScope,
+  $timeout,
   createNewBuildAndFetchBranch,
+  createNonRepoInstance,
   errs,
   fetchInstances,
   fetchInstancesByPod,
@@ -27,7 +29,7 @@ function NewContainerModalController(
     state: {
       tabName: 'repos',
       dockerfile: null,
-      opts: {}
+      namesForAllInstances: []
     }
   });
 
@@ -44,6 +46,9 @@ function NewContainerModalController(
   })
     .then(function (data) {
       NCMC.instances = data.instances;
+      NCMC.state.namesForAllInstances = NCMC.instances.map(function (instance) {
+        return instance.attrs.name;
+      });
       NCMC.githubRepos = data.repoList;
       NCMC.githubRepos.models.forEach(function (repo) {
         repo.isAdded = NCMC.isRepoAdded(repo, data.instances);
@@ -70,6 +75,9 @@ function NewContainerModalController(
       return;
     }
     NCMC.state.tabName = tabName;
+    // Reset repo and template
+    NCMC.state.templateSource = null;
+    NCMC.state.repo = null;
     if (NCMC.state.tabName === 'services' && !NCMC.templateServers) {
       NCMC.fetchTemplateServers();
     }
@@ -97,6 +105,32 @@ function NewContainerModalController(
     return close();
   };
 
+  NCMC.setTemplate = function (sourceInstance, goToPanelCb) {
+    NCMC.state.templateSource = sourceInstance;
+    var instanceToForkName = sourceInstance.attrs.name;
+    loading(NCMC.name + 'SingleRepo', true);
+    return fetchInstances()
+      .then(function (instances) {
+        loading(NCMC.name + 'SingleRepo', false);
+        var serverName = getNewForkName(instanceToForkName, instances, true);
+        NCMC.state.instanceName = serverName;
+        /**
+         * Warning: Hack Ahead
+         *
+         * Because of a bug in how animated-panels are rendered in Safari Retina
+         * we added `ng-if`s to some animated panels in order for them to render
+         * correctly. Because of this, we need to force a digest cycle in order
+         * for the `nameContainer` panel to show up and for us to actually be
+         * able to go to that panel.
+         */
+        return $timeout(angular.noop)
+          .then(function () {
+            return goToPanelCb('nameContainer');
+          });
+      })
+      .catch(errs.handler);
+  };
+
   NCMC.addServerFromTemplate = function (sourceInstance) {
     var instanceToForkName = sourceInstance.attrs.name;
     NCMC.close();
@@ -118,33 +152,39 @@ function NewContainerModalController(
       .catch(errs.handler);
   };
 
-  NCMC.setRepo = function (repo, goToPanelCb, panelName) {
+  NCMC.setRepo = function (repo, goToPanelCb, createContainerDirectly) {
     repo.loading = true;
     NCMC.state.repo = repo;
     loading(NCMC.name + 'SingleRepo', true);
     var fullName = keypather.get(repo, 'attrs.full_name');
     var defaultBranch = keypather.get(repo, 'attrs.default_branch');
+    NCMC.state.instanceName = fullName.split('/')[1] || '';
     return fetchRepoDockerfiles(fullName, defaultBranch)
       .then(function (dockerfiles) {
-        if (dockerfiles.length === 0) {
-          return NCMC.createBuildAndGoToNewRepoModal(repo)
+        // TODO: Remove when removing `nameContainer` FF
+        if (dockerfiles.length === 0 && createContainerDirectly) {
+          return NCMC.createBuildAndGoToNewRepoModal(NCMC.state.instanceName, repo)
             .then(function () {
               repo.loading = false;
               loading(NCMC.name + 'SingleRepo', false);
             });
         }
-        repo.dockerfiles = dockerfiles;
-        repo.loading = false;
         loading(NCMC.name + 'SingleRepo', false);
+        repo.loading = false;
+        if (dockerfiles.length === 0) {
+          return goToPanelCb('nameContainer');
+        }
+        repo.dockerfiles = dockerfiles;
         NCMC.state.dockerfile = null;
-        return goToPanelCb(panelName);
+        return goToPanelCb('dockerfileMirroring');
       });
   };
 
-  NCMC.createBuildAndGoToNewRepoModal = function (repo, dockerfile) {
+  NCMC.createBuildAndGoToNewRepoModal = function (instanceName, repo, dockerfile) {
     loading(NCMC.name + 'SingleRepo', true);
     return createNewBuildAndFetchBranch($rootScope.dataApp.data.activeAccount, repo, keypather.get(dockerfile, 'path'))
       .then(function (repoBuildAndBranch) {
+        repoBuildAndBranch.instanceName = instanceName;
         if (dockerfile) {
           NCMC.newMirrorRepositoryContainer(repoBuildAndBranch);
         } else {
@@ -156,6 +196,12 @@ function NewContainerModalController(
       });
   };
 
+  NCMC.createBuildFromTemplate = function (instanceName, sourceInstance) {
+    NCMC.close();
+    return createNonRepoInstance(instanceName, sourceInstance)
+      .catch(errs.handler);
+  };
+
   NCMC.newRepositoryContainer = function (inputs) {
     if (NCMC.state.closed) { return; }
     NCMC.close();
@@ -164,6 +210,7 @@ function NewContainerModalController(
       controllerAs: 'SMC',
       templateUrl: 'setupServerModalView',
       inputs: angular.extend({
+        instanceName: null,
         repo: null,
         build: null,
         masterBranch: null
@@ -179,23 +226,11 @@ function NewContainerModalController(
       controllerAs: 'SMC',
       templateUrl: 'setupMirrorServerModalView',
       inputs: angular.extend({
+        instanceName: null,
         repo: null,
         build: null,
         masterBranch: null
       }, inputs)
-    });
-  };
-  // TODO: Remove code when removing `dockerFileMirroring` code
-  NCMC.newTemplateContainer = function () {
-    if (NCMC.state.closed) { return; }
-    NCMC.close();
-    ModalService.showModal({
-      controller: 'SetupTemplateModalController',
-      controllerAs: 'STMC',
-      templateUrl: 'setupTemplateModalView',
-      inputs: {
-        isolation: null
-      }
     });
   };
 }
