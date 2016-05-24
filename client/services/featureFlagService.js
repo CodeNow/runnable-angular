@@ -11,7 +11,6 @@ function featureFlags(
     billing: false,
     cardStatus: false,
     connections: false,
-    dockerfileMirroring: true,
     dockerfileMirroringMultiple: false,
     editAnyInstance: false,
     emptyFolder: false, // shows empty folder markup

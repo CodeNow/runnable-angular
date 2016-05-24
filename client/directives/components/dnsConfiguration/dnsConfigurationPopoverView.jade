@@ -70,8 +70,8 @@
                     instance = "dependency.instance"
                   )
                   .strong.text-overflow.connected-branch-name(
-                    title = "{{dependency.instance.getMasterPodName()}}"
-                  ) {{dependency.instance.getMasterPodName()}}
+                    title = "{{dependency.instance.getDisplayName()}}"
+                  ) {{dependency.instance.getDisplayName()}}
 
                 //- Show if the container is the parent of an isolated group
                 //- btn.btn-xxs.btn-badge.gray.grid-content.shrink Isolated
@@ -191,15 +191,15 @@
               ng-class = "{'no-touching': instance === DCC.modifyingDNS.current.instance}"
               ng-click = "DCC.selectInstance(instance); goToPanel('dnsOverview', 'back');"
               ng-repeat = "instance in DCC.modifyingDNS.options"
-              title = "{{instance.getMasterPodName()}}"
+              title = "{{instance.getBranchName() || instance.getName()}}"
             )
 
               status-icon(
                 instance = "instance"
               )
               span.strong.text-overflow.grid-content.grow(
-                title = "{{instance.getMasterPodName()}}"
-              ) {{instance.getMasterPodName()}}
+                title = "{{instance.getBranchName() || instance.getName()}}"
+              ) {{instance.getBranchName() || instance.getName()}}
 
               //- Show if the container is the parent of an isolated group
                   Don't show this when loading

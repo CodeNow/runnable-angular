@@ -36,6 +36,7 @@ function SetupServerModalController(
   updateDockerfileFromState,
   TAB_VISIBILITY,
   close,
+  instanceName,
   repo,
   build,
   masterBranch
@@ -88,7 +89,7 @@ function SetupServerModalController(
       promises: {},
       opts: {
         masterPod: true,
-        name: '',
+        name: instanceName,
         env: [],
         ipWhitelist: {
           enabled: false
@@ -113,35 +114,22 @@ function SetupServerModalController(
   loadingPromises.clear(SMC.name);
   loading.reset(SMC.name + 'IsBuilding');
 
-  if (repo && build && masterBranch) {
-    // If a repo is passed into this controller, select that repo
-    angular.extend(SMC.state, {
-      repo: repo,
-      build: build,
-      contextVersion: build.contextVersion,
-      acv: build.contextVersion.getMainAppCodeVersion(),
-      branch: masterBranch,
-      repoSelected: true,
-      advanced: false
-    });
-    SMC.state.mainRepoContainerFile.name = repo.attrs.name;
-    SMC.state.opts.name = normalizeRepoName(repo);
-    SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
-  } else {
-    // TODO: Remove code when removing `dockerFileMirroring` code
-    $q.all({
-      instances: fetchInstancesByPod(),
-      repoList: fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
-    })
-      .then(function (data) {
-        SMC.data.instances = data.instances;
-        SMC.data.githubRepos = data.repoList;
-        SMC.data.githubRepos.models.forEach(function (repo) {
-          repo.isAdded = SMC.isRepoAdded(repo, data.instances);
-        });
-      })
-      .catch(errs.handler);
+  if (!repo || !build || !masterBranch) {
+    return errs.handler(new Error('Repo, build, and masterBranch must be set'));
   }
+
+  // If a repo is passed into this controller, select that repo
+  angular.extend(SMC.state, {
+    repo: repo,
+    build: build,
+    contextVersion: build.contextVersion,
+    acv: build.contextVersion.getMainAppCodeVersion(),
+    branch: masterBranch,
+    repoSelected: true,
+    advanced: false
+  });
+  SMC.state.mainRepoContainerFile.name = repo.attrs.name;
+  SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
 
   $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
     $event.stopPropagation();
@@ -175,27 +163,7 @@ function SetupServerModalController(
     }
   });
 
-  // TODO: Remove code when removing `dockerFileMirroring` code
-  function normalizeRepoName(repo) {
-    return repo.attrs.name.replace(/[^a-zA-Z0-9-]/g, '-');
-  }
-
-  // TODO: Remove code when removing `dockerFileMirroring` code
-  SMC.isRepoAdded = function (repo, instances) {
-    // Since the newServers may have faked repos (just containing names), just check the name
-
-    return !!instances.find(function (instance) {
-      var repoName = instance.getRepoName();
-      if (repoName) {
-        return repo.attrs.name === repoName;
-      } else {
-        return normalizeRepoName(repo) === instance.attrs.name;
-      }
-    });
-  };
-
   SMC.goToNextStep = function () {
-
     var nextStepErrorHandler = function (err) {
       SMC.state.step -= 1; // Revert step
       SMC.changeTab(SMC.selectedTab);
@@ -392,63 +360,5 @@ function SetupServerModalController(
 
   SMC.showStackSelector = function () {
     return !SMC.state.advanced;
-  };
-
-  // TODO: Remove code when removing `dockerFileMirroring` code
-  SMC.selectRepo = function (repo) {
-    if (SMC.repoSelected || repo.isAdded) { return; }
-    SMC.state.mainRepoContainerFile.name = repo.attrs.name;
-    SMC.repoSelected = true;
-    repo.loading = true;
-    // Replace any non-word character with a -
-    SMC.state.opts.name = normalizeRepoName(repo);
-
-    // Since we have a new context version, we need to clear all promises
-    // tied to any other context version (Usually handled by `resetStateContextVersion`)
-    loadingPromises.clear(SMC.name);
-
-    SMC.state.promises.contextVersion = loadingPromises.start(
-      SMC.name,
-      fetchStackData(repo)
-        .then(function () {
-          return createNewBuild($rootScope.dataApp.data.activeAccount);
-        })
-        .then(function (buildWithVersion) {
-          SMC.state.build = buildWithVersion;
-          SMC.state.contextVersion = buildWithVersion.contextVersion;
-          SMC.state.advanced = false;
-          return buildWithVersion.contextVersion;
-        })
-    );
-
-    return SMC.state.promises.contextVersion
-      .then(function () {
-        return promisify(repo, 'fetchBranch')(repo.attrs.default_branch);
-      })
-      .then(function (masterBranch) {
-        SMC.state.branch = masterBranch;
-        // Set the repo here so the page change happens after all of these fetches
-        return promisify(SMC.state.contextVersion.appCodeVersions, 'create', true)({
-          repo: repo.attrs.full_name,
-          branch: masterBranch.attrs.name,
-          commit: masterBranch.attrs.commit.sha
-        });
-      })
-      .then(function () {
-        SMC.state.acv = SMC.state.contextVersion.getMainAppCodeVersion();
-        SMC.state.repo = repo;
-      })
-      .catch(function (err) {
-        if (err.message.match(/repo.*not.*found/ig)) {
-          var message = 'Failed to add Webhooks. Please invite a member of this repository\'s owners team to add it to Runnable for the first time';
-          errs.handler(new Error(message));
-        } else {
-          errs.handler(err);
-        }
-      })
-      .finally(function () {
-        repo.loading = false;
-        SMC.repoSelected = false;
-      });
   };
 }

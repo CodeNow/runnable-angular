@@ -25,6 +25,7 @@ function SetupMirrorServerModalController(
   TAB_VISIBILITY,
   updateDockerfileFromState,
   close,
+  instanceName,
   repo,
   build,
   masterBranch
@@ -75,7 +76,7 @@ function SetupMirrorServerModalController(
       promises: {},
       opts: {
         masterPod: true,
-        name: '',
+        name: instanceName,
         env: [],
         ipWhitelist: {
           enabled: false
@@ -112,8 +113,8 @@ function SetupMirrorServerModalController(
   });
 
   SMC.state.mainRepoContainerFile.name = repo.attrs.name;
-  SMC.state.opts.name = normalizeRepoName(repo);
   SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
+
   var fullpath = keypather.get(SMC, 'state.build.contextVersion.attrs.buildDockerfilePath');
   if (!fullpath) {
     throw new Error('Context Version must have buildDockerfilePath');
@@ -137,10 +138,6 @@ function SetupMirrorServerModalController(
         }
       });
   });
-
-  function normalizeRepoName(repo) {
-    return repo.attrs.name.replace(/[^a-zA-Z0-9-]/g, '-');
-  }
 
   SMC.showStackSelector = function () {
     return false;
