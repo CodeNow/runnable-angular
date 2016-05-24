@@ -12,7 +12,7 @@
     font-family: $sans-serif; // override monospace fonts inside log header
     font-size: 13px;
     height: $input-xs;
-    line-height: $input-xs - 2px;
+    line-height: $input-xs - ($input-border * 2);
   }
 
   &.purple {
