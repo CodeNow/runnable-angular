@@ -7,16 +7,10 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   var $scope;
   var $rootScope;
   var keypather;
-  var loadingPromises;
   var $q;
-  var featureFlags;
   var MockFetch = require('../fixtures/mockFetch');
   var mockUserFetch = new (require('../fixtures/mockFetch'))();
   var apiMocks = require('../apiMocks/index');
-  var apiClientMockFactory = require('../../unit/apiMocks/apiClientMockFactory');
-  var VersionFileModel = require('@runnable/api-client/lib/models/context/version/file');
-  var fileObj = {'path':'/home','name':'defined','isDir':false,'body':'adsf','state':{'from':'File'}};
-  var fileModel = new VersionFileModel(fileObj, { noStore: true });
 
   var stacks = angular.copy(apiMocks.stackInfo);
   var dockerfile = {
@@ -43,13 +37,10 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   };
   var createNewBuildMock;
 
-  var fetchOwnerRepoStub;
-  var fetchUserStub;
   var fetchDockerfileForContextVersionStub;
   var fetchRepoDockerfilesStub;
   var fetchStackAnalysisMock;
   var updateDockerfileFromStateStub;
-  var populateDockerfileStub;
   var fetchDockerfileFromSourceStub;
   var fetchInstancesByPodStub;
   var closeSpy;
@@ -61,7 +52,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   var instanceName = 'instanceName';
   var branches;
   var repo;
-  var analysisMockData;
   var newBuild;
   var mainACV;
   var acv;
@@ -82,7 +72,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
     fetchStackAnalysisMock = new MockFetch();
     createNewBuildMock = sinon.stub();
-    populateDockerfileStub = sinon.stub();
     createAndBuildNewContainerMock = new MockFetch();
     loadingPromiseFinishedValue = null;
 
@@ -169,29 +158,15 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       });
 
       $provide.value('createNewBuild', createNewBuildMock);
-      $provide.factory('fetchOwnerRepos', function ($q) {
-        runnable.reset(mocks.user);
-        fetchOwnerRepoStub = sinon.stub().returns(
-          $q.when(
-            runnable.newGithubRepos(
-              mocks.repoList, {
-                noStore: true
-              })
-          )
-        );
-        return fetchOwnerRepoStub;
-      });
     });
 
     angular.mock.inject(function (_$controller_,
                                   _$rootScope_,
                                   _keypather_,
-                                  _loadingPromises_,
                                   _$q_) {
       $controller = _$controller_;
       keypather = _keypather_;
       $rootScope = _$rootScope_;
-      loadingPromises = _loadingPromises_;
       $q = _$q_;
 
       keypather.set($rootScope, 'dataApp.data.activeAccount.oauthName', sinon.mock().returns('myOauthName'));
@@ -253,13 +228,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         return repo.fakeBranch;
       })
     };
-    analysisMockData = {
-      languageFramework: 'ruby_ror',
-      version: {
-        rails: '4.1.8',
-        ruby: '0.8'
-      }
-    };
     mainACV = {
       mainACV: true,
       attrs: {
@@ -286,7 +254,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
             cb(null, dockerfile);
           });
           return dockerfile;
-        }),
+        })
       },
       attrs: {
         env: []
@@ -329,8 +297,9 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         getRepoName: sinon.spy(),
         attrs: {
           name: 'foo'
+        }
       }
-    }];
+    ];
   }
   beforeEach(initializeValues);
 
@@ -349,7 +318,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       it('should not fetch the repo list on load', function () {
         $scope.$digest();
         sinon.assert.notCalled($rootScope.dataApp.data.activeAccount.oauthName);
-        sinon.assert.notCalled(fetchOwnerRepoStub);
         expect(SMC.state.repo).to.exist;
         expect(SMC.state.build).to.exist;
         expect(SMC.state.acv).to.exist;
