@@ -33,6 +33,9 @@ function DNSConfigurationController(
       deps: promisify(DCC.instance, 'fetchDependencies')()
     };
     if (keypather.get(DCC.instance, 'isolation.instances')) {
+      // For now, we need to fetch the isolated instances, so they have their CV model filled
+      // (instance.cv, not instance.attrs.cv).  We need this because we need to know if these
+      // instances are repo or not.  This will soon be fixed by saving this value on the instance
       fetches.isolated = promisify(DCC.instance.isolation.instances, 'fetch', true)();
     }
     $q.all(fetches)

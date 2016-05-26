@@ -9,13 +9,16 @@ require('app')
  *                                        for
  * @returns {Function}
  */
-function getMatchingIsolatedInstance() {
+function getMatchingIsolatedInstance(
+  keypather
+) {
   return function (isolationModel, instanceMasterToMatch) {
-    if (!isolationModel) {
+    if (!keypather.get(isolationModel, 'instances.models.length')) {
       return;
     }
     return isolationModel.instances.models.find(function (dep) {
-      return instanceMasterToMatch.attrs.contextVersion.context === dep.attrs.contextVersion.context;
+      return keypather.get(instanceMasterToMatch, 'attrs.contextVersion.context') ===
+        keypather.get(dep, 'attrs.contextVersion.context');
     });
   };
 }
