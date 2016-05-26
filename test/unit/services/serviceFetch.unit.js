@@ -81,21 +81,97 @@ describe('serviceFetch'.bold.underline.blue, function () {
     var user;
     var $rootScope;
     var fetchWhitelistedOrgs;
+    var fetchWhitelistsStub;
+    var userWhiteListMock;
     var promisifyStub;
 
     beforeEach(function () {
+      userWhiteListMock = [
+        { attrs: {
+          lowerName: 'a',
+          org: {  _id: 1, login: 'A' }
+        } },
+        { attrs: {
+          lowerName: 'b',
+          org: { _id: 2, login: 'D' }
+        } }
+      ];
       user = {
-        fetchUserWhitelists: sinon.stub().returns([
-          { attrs: {
-            lowerName: 'a',
-            org: {  _id: 1, login: 'A' },
-          } },
-          { attrs: {
-            lowerName: 'b',
-            org: { _id: 2, login: 'D' }
-          } }
-        ]),
         client: {}
+      };
+      angular.mock.module('app');
+      angular.mock.module(function ($provide) {
+        $provide.factory('promisify', function ($q) {
+          promisifyStub = sinon.spy(function (obj, key) {
+            return function () {
+              return $q.when(obj[key]());
+            };
+          });
+          return promisifyStub;
+        });
+        $provide.factory('fetchUser', function ($q) {
+          return function () {
+            return $q.when(user);
+          };
+        });
+        $provide.factory('fetchWhitelists', function ($q) {
+          fetchWhitelistsStub = sinon.stub().returns($q.when(userWhiteListMock));
+          return fetchWhitelistsStub;
+        });
+      });
+      angular.mock.inject(function (
+        _fetchWhitelistedOrgs_,
+        _$rootScope_
+      ) {
+        fetchWhitelistedOrgs = _fetchWhitelistedOrgs_;
+        $rootScope = _$rootScope_;
+      });
+    });
+
+    it('should call the fetchGithubOrgs and fetchUserWhitelists methods of the user service', function () {
+      var fetchWhitelistedOrgsPromise = fetchWhitelistedOrgs();
+      expect(fetchWhitelistedOrgsPromise).to.eventually.be.fulfilled.then(function (res) {
+        sinon.assert.calledOnce(fetchWhitelistsStub);
+        sinon.assert.calledOnce(user.fetchGithubOrgs);
+      });
+    });
+
+    it('should get the right orgs', function (done) {
+      var fetchWhitelistedOrgsPromise = fetchWhitelistedOrgs();
+      expect(fetchWhitelistedOrgsPromise).to.eventually.be.fulfilled.and.notify(done);
+      expect(fetchWhitelistedOrgsPromise).to.eventually.be.fulfilled.then(function (res) {
+        expect(res.models).to.be.an('array');
+        expect(res.models).to.have.length(2);
+        expect(res.models[0]).to.have.deep.property('attrs');
+        expect(res.models[0]).to.have.deep.property('attrs.login');
+        expect(res.models[0]).to.have.deep.property('attrs.login', 'A');
+        expect(res.models[1]).to.have.deep.property('attrs');
+        expect(res.models[1]).to.have.deep.property('attrs.login');
+        expect(res.models[1]).to.have.deep.property('attrs.login', 'D');
+      });
+      $rootScope.$digest();
+    });
+  });
+
+  describe('factory fetchWhitelists', function () {
+    var user;
+    var fetchWhitelists;
+    var promisifyStub;
+    var $rootScope;
+
+    beforeEach(function () {
+      user = {
+        fetchUserWhitelists: sinon.stub().returns({
+          models: [
+            { attrs: {
+              lowerName: 'a',
+              org: {  _id: 1, login: 'A' }
+            } },
+            { attrs: {
+              lowerName: 'b'
+            } }
+          ]
+        })
       };
       angular.mock.module('app');
       angular.mock.module(function ($provide) {
@@ -114,34 +190,19 @@ describe('serviceFetch'.bold.underline.blue, function () {
         });
       });
       angular.mock.inject(function (
-        _fetchWhitelistedOrgs_,
+        _fetchWhitelists_,
         _$rootScope_
       ) {
-        fetchWhitelistedOrgs = _fetchWhitelistedOrgs_;
+        fetchWhitelists = _fetchWhitelists_;
         $rootScope = _$rootScope_;
       });
     });
 
-    it('should call the fetchGithubOrgs and fetchUserWhitelists methods of the user service', function () {
-      var fetchWhitelistedOrgsPromise = fetchWhitelistedOrgs();
-      expect(fetchWhitelistedOrgsPromise).to.eventually.be.fulfilled.then(function (res) {
+    it('should fetch user whitelists', function () {
+      var fetchWhitelistsPromise = fetchWhitelists();
+      expect(fetchWhitelistsPromise).to.eventually.be.fulfilled.then(function (res) {
         sinon.assert.calledOnce(user.fetchUserWhitelists);
-        sinon.assert.calledOnce(user.fetchGithubOrgs);
-      });
-    });
-
-    it('should get the right orgs', function (done) {
-      var fetchWhitelistedOrgsPromise = fetchWhitelistedOrgs();
-      expect(fetchWhitelistedOrgsPromise).to.eventually.be.fulfilled.and.notify(done);
-      expect(fetchWhitelistedOrgsPromise).to.eventually.be.fulfilled.then(function (res) {
-        expect(res.models).to.be.an('array');
-        expect(res.models).to.have.length(2);
-        expect(res.models[0]).to.have.deep.property('attrs');
-        expect(res.models[0]).to.have.deep.property('attrs.login');
-        expect(res.models[0]).to.have.deep.property('attrs.login', 'A');
-        expect(res.models[1]).to.have.deep.property('attrs');
-        expect(res.models[1]).to.have.deep.property('attrs.login');
-        expect(res.models[1]).to.have.deep.property('attrs.login', 'D');
+        expect(res.length).to.equal(1);
       });
       $rootScope.$digest();
     });
