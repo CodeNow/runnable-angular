@@ -2,7 +2,7 @@
   padding-top: 210px;
 
   // if modal
-  &.modal-backdrop {
+  &.modal-backdrop.modal-backdrop { // override intercom styles
     background: $white;
 
     @include media(lg) {
@@ -33,8 +33,14 @@
   .modal-dialog {
     background: $white;
     color: $gray-dark;
+    flex: 0 0 auto;
     margin: 0 auto 30px;
+    max-height: none;
     width: 420px;
+  }
+
+  .modal-body {
+    flex: 0 0 auto;
   }
 
   .h3 {

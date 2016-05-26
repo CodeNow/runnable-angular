@@ -7,6 +7,7 @@ require('app')
   // User + Orgs
   .factory('fetchUser', fetchUser)
   .factory('fetchWhitelistedOrgs', fetchWhitelistedOrgs)
+  .factory('fetchWhitelists', fetchWhitelists)
   .factory('fetchGithubOrgId', fetchGithubOrgId)
   .factory('fetchOrgRegisteredMembers', fetchOrgRegisteredMembers)
   .factory('fetchOrgMembers', fetchOrgMembers)
@@ -67,23 +68,37 @@ function fetchUser(
 
 function fetchWhitelistedOrgs(
   fetchUser,
+  fetchWhitelists,
+  memoize
+) {
+  return memoize(function () {
+    return fetchUser()
+      .then(function (user) {
+        return fetchWhitelists()
+          .then(function (userWhitelists) {
+            var githubOrgs = userWhitelists.map(function (userWhitelistModel) {
+              return userWhitelistModel.attrs.org;
+            });
+            return new GithubOrgCollection(githubOrgs, { client: user.client });
+          });
+      });
+  });
+}
+
+function fetchWhitelists(
+  fetchUser,
   memoize,
   promisify
 ) {
   return memoize(function () {
     return fetchUser()
       .then(function (user) {
-        return promisify(user, 'fetchUserWhitelists')()
-          .then(function (res) {
-            var githubOrgs = res
-              .map(function (userWhitelistModel) {
-                return userWhitelistModel.attrs.org;
-              })
-              .filter(function (githubOrg) {
-                return !!githubOrg;
-              });
-            return new GithubOrgCollection(githubOrgs, { client: user.client });
-          });
+        return promisify(user, 'fetchUserWhitelists')();
+      })
+      .then(function (res) {
+        return res.models.filter(function (userWhiteListModel) {
+          return !!userWhiteListModel.attrs.org;
+        });
       });
   });
 }
@@ -92,12 +107,12 @@ function fetchWhitelistedOrgs(
 var fetchCache = {};
 
 function fetchInstances(
-  fetchUser,
-  promisify,
-  keypather,
+  $q,
   $state,
   exists,
-  $q
+  fetchUser,
+  keypather,
+  promisify
 ) {
   return function (opts, resetCache) {
     if (!opts) {
@@ -152,8 +167,8 @@ function fetchInstance(
 var fetchByPodCache = {};
 
 function fetchInstancesByPod(
-  fetchInstances,
   $state,
+  fetchInstances,
   fetchUser,
   report
 ) {
@@ -321,12 +336,12 @@ function fetchContexts(fetchUser, promisify) {
 }
 
 function fetchSettings(
-  $state,
   $q,
+  $state,
   fetchUser,
-  promisify,
   integrationsCache,
-  keypather
+  keypather,
+  promisify
 ) {
   return function () {
     var username = $state.params.userName;
@@ -467,10 +482,10 @@ function fetchGithubUserForCommit (
  * @return {Promise}
  */
 function fetchGithubOrgId(
+  $q,
   fetchWhitelistedOrgs,
   keypather,
-  memoize,
-  $q
+  memoize
 ) {
   return memoize(function (orgName) {
     return fetchWhitelistedOrgs()
@@ -495,10 +510,10 @@ function fetchGithubOrgId(
  * @return {Promise}
  */
 function fetchOrgTeammateInvitations(
-  fetchUser,
+  $q,
   fetchGithubOrgId,
-  promisify,
-  $q
+  fetchUser,
+  promisify
 ) {
   return function (orgNameOrId) {
     return $q.when()
@@ -534,11 +549,11 @@ function fetchOrgTeammateInvitations(
  */
 function fetchOrgMembers(
   $q,
-  keypather,
   fetchGitHubMembers,
   fetchGitHubUser,
   fetchOrgRegisteredMembers,
-  fetchOrgTeammateInvitations
+  fetchOrgTeammateInvitations,
+  keypather
 ) {
   return function (teamName, fetchGithubUserEmail) {
     return $q.all([
@@ -606,8 +621,8 @@ function fetchOrgMembers(
 
 function fetchGitHubUser(
   $http,
-  memoize,
-  configAPIHost
+  configAPIHost,
+  memoize
 ) {
   return memoize(function (memberName) {
     return $http({
@@ -714,9 +729,9 @@ function fetchGitHubTeamMembersByTeam(
 
 function fetchPullRequest(
   $http,
+  $q,
   configAPIHost,
-  keypather,
-  $q
+  keypather
 ) {
   return function (instance) {
     var branch = instance.getBranchName();
@@ -746,8 +761,8 @@ function fetchDebugContainer(
 
 function fetchStackData(
   $log,
-  fetchStackInfo,
   fetchStackAnalysis,
+  fetchStackInfo,
   hasKeypaths
 ) {
   return function (repo) {

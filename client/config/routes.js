@@ -77,6 +77,21 @@ module.exports = [
       }
     }
   }, {
+    state: 'paused',
+    abstract: false,
+    url: '^/paws’d',
+    templateUrl: 'welcomeBackModalView',
+    controller: 'WelcomeBackController',
+    controllerAs: 'WBC',
+    resolve: {
+      user: function (fetchUser) {
+        return fetchUser();
+      },
+      booted: function (eventTracking, user) {
+        return eventTracking.boot(user);
+      }
+    }
+  }, {
     state: 'branchSelection',
     abstract: false,
     url: '^/branchSelection/:hostname',
@@ -102,10 +117,22 @@ module.exports = [
           });
         return userFetch;
       },
+      whitelists: function (fetchWhitelists) {
+        return fetchWhitelists();
+      },
       orgs: function (fetchWhitelistedOrgs) {
         return fetchWhitelistedOrgs();
       },
-      activeAccount: function ($q, $stateParams, $state, orgs, $timeout, user, eventTracking) {
+      activeAccount: function (
+        $q,
+        $stateParams,
+        $state,
+        orgs,
+        whitelists,
+        $timeout,
+        user,
+        eventTracking
+      ) {
         var lowerAccountName = $stateParams.userName.toLowerCase();
         var userName = user.oauthName().toLowerCase();
         if (userName === lowerAccountName) {
@@ -122,6 +149,16 @@ module.exports = [
           return $timeout(function () {
             $state.go('orgSelect');
             return $q.reject(new Error('User Unauthorized for Organization'));
+          });
+        }
+        var foundWhitelist = whitelists.find(function (whitelist) {
+          return whitelist.attrs.lowerName === lowerAccountName;
+        });
+        if (!foundWhitelist.attrs.allowed) {
+          // There is a bug in ui-router and a timeout is the workaround
+          return $timeout(function () {
+            $state.go('paused');
+            return $q.reject(new Error('Account paused'));
           });
         }
         eventTracking.boot(user, {orgName: $stateParams.userName});
