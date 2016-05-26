@@ -45,9 +45,7 @@
             ng-if = "isActivePanel() && DCC.filteredDependencies.length !== 0"
           )
 
-            li.list-item.small(
-              ng-if = "$root.featureFlags.serviceContainersInConnections"
-            ) Repository Containers
+            li.list-item.small Repository Containers
 
             li.list-item.popover-list-item.multi-line.grid-block(
               ng-click = "DCC.editDependency(dependency); goToPanel('dnsList');"
@@ -99,7 +97,7 @@
 
           //- service containers
           ul.list.popover-list(
-            ng-if = "isActivePanel() && DCC.nonRepoDependencies.length !== 0 && $root.featureFlags.serviceContainersInConnections"
+            ng-if = "isActivePanel() && DCC.nonRepoDependencies.length !== 0"
           )
             li.list-item.small Service Containers
             li.list-item.popover-list-item.multi-line.disabled.grid-block.vertical.align-start(

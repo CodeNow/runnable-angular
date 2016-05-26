@@ -97,8 +97,12 @@ function DNSConfigurationController(
     };
     getInstanceMaster(dep.instance)
       .then(function (masterInstance) {
-        DCC.modifyingDNS.options.push(masterInstance);
-        DCC.modifyingDNS.options = DCC.modifyingDNS.options.concat(masterInstance.children.models);
+        if (masterInstance) {
+          // masterInstance may be null if a master instance was deleted, but the isolated instance
+          // has still remained
+          DCC.modifyingDNS.options.push(masterInstance);
+          DCC.modifyingDNS.options = DCC.modifyingDNS.options.concat(masterInstance.children.models);
+        }
 
         // Unshift so its always first
         DCC.modifyingDNS.options.unshift(getMatchingIsolatedInstance(DCC.instance.isolation, dep.instance));

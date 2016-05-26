@@ -153,6 +153,40 @@ describe('DNSConfigurationController'.bold.underline.blue, function() {
       sinon.assert.calledOnce(mockInstance.isolation.instances.fetch);
       expect(DCC.nonRepoDependencies[0].instance).to.deep.equal(mockMasterInstances.models[0].children.models[0]);
     });
+    describe('editDependency', function () {
+      it('should be ok with getInstanceMaster not returning anything', function () {
+        mockMasterInstances.models = [];
+        $scope.$digest();
+        var dep = {
+          instance: mockMasterInstances.models[0]
+        };
+        getMatchingIsolatedInstanceReturnValue = mockIsolatedInstance;
+        DCC.editDependency(dep);
+        expect($rootScope.isLoaded.dnsDepData).to.not.be.ok;
+        $scope.$digest();
+        expect(DCC.lastModifiedDNS).to.not.be.ok;
+        expect(DCC.modifyingDNS.current).to.equal(dep);
+        expect(DCC.modifyingDNS.options[0]).to.equal(mockIsolatedInstance);
+        expect(DCC.modifyingDNS.options).to.not.contain(dep.instance);
+        expect(DCC.modifyingDNS.options).to.not.contain(mockMasterInstances.models[0].children.models[0]);
+      });
+      it('should put the isolated fetch dependencies instances', function () {
+        $scope.$digest();
+        var dep = {
+          instance: mockMasterInstances.models[0]
+        };
+        getMatchingIsolatedInstanceReturnValue = mockIsolatedInstance;
+        DCC.editDependency(dep);
+        expect($rootScope.isLoaded.dnsDepData).to.not.be.ok;
+        $scope.$digest();
+        expect(DCC.lastModifiedDNS).to.not.be.ok;
+        expect(DCC.modifyingDNS.current).to.equal(dep);
+        expect(DCC.modifyingDNS.options[0]).to.equal(mockIsolatedInstance);
+        expect(DCC.modifyingDNS.options).to.contain(dep.instance);
+        expect(DCC.modifyingDNS.options).to.contain(mockMasterInstances.models[0].children.models[0]);
+        expect($rootScope.isLoaded.dnsDepData).to.be.ok;
+      });
+    });
   });
   describe('not isolated', function () {
     beforeEach(function () {
@@ -190,22 +224,6 @@ describe('DNSConfigurationController'.bold.underline.blue, function() {
         $scope.$digest();
         expect(DCC.lastModifiedDNS).to.not.be.ok;
         expect(DCC.modifyingDNS.current).to.equal(dep);
-        expect(DCC.modifyingDNS.options).to.contain(dep.instance);
-        expect(DCC.modifyingDNS.options).to.contain(mockMasterInstances.models[0].children.models[0]);
-        expect($rootScope.isLoaded.dnsDepData).to.be.ok;
-      });
-      it('should put the isolated fetch dependencies instances', function () {
-        $scope.$digest();
-        var dep = {
-          instance: mockMasterInstances.models[0]
-        };
-        getMatchingIsolatedInstanceReturnValue = mockIsolatedInstance;
-        DCC.editDependency(dep);
-        expect($rootScope.isLoaded.dnsDepData).to.not.be.ok;
-        $scope.$digest();
-        expect(DCC.lastModifiedDNS).to.not.be.ok;
-        expect(DCC.modifyingDNS.current).to.equal(dep);
-        expect(DCC.modifyingDNS.options[0]).to.equal(mockIsolatedInstance);
         expect(DCC.modifyingDNS.options).to.contain(dep.instance);
         expect(DCC.modifyingDNS.options).to.contain(mockMasterInstances.models[0].children.models[0]);
         expect($rootScope.isLoaded.dnsDepData).to.be.ok;
