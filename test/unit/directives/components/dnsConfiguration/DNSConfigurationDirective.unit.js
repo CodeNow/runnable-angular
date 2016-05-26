@@ -11,7 +11,7 @@ var runnable = window.runnable;
 var DnsController;
 var mockGetInstanceMaster = require('../../../fixtures/mockGetInstanceMaster');
 
-describe.only('DNSConfigurationDirective'.bold.underline.blue, function() {
+describe('DNSConfigurationDirective'.bold.underline.blue, function() {
   var promisifyMock;
   var mockDepedencies;
   var mockMasterInstances;
