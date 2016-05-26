@@ -1,0 +1,185 @@
+{
+  "_id": "54386477aebe190e0077c2dc",
+  "shortHash": "kevr28",
+  "createdBy": {
+    "github": 1616464
+  },
+  "build": {
+    "_id": "543988508f75990e008d2c76",
+    "createdBy": {
+      "github": 1616464
+    },
+    "owner": {
+      "github": 1616464
+    },
+    "__v": 0,
+    "buildNumber": 57,
+    "started": "2014-10-11T19:43:21.764Z",
+    "completed": "2014-10-11T19:44:05.182Z",
+    "duration": 43418,
+    "failed": false,
+    "created": "2014-10-11T19:43:12.135Z",
+    "erroredContextVersions": [],
+    "contextVersions": [
+      "543988508f75990e008d2c74"
+    ],
+    "contexts": [
+      "543861deaebe190e0077c24b"
+    ],
+    "successful": true,
+    "id": "543988508f75990e008d2c76"
+  },
+  "name": "spaaace",
+  "lowerName": "spaaace",
+  "owner": {
+    "username": "SomeKittens",
+    "github": 1616464
+  },
+  "isolated": "543988508f75990e008d2c74",
+  "__v": 2,
+  "outputViews": [],
+  "contextVersions": [
+    {
+      "_id": "543988508f75990e008d2c74",
+      "appCodeVersions": [
+        {
+          "repo": "SomeKittens/SPACESHIPS",
+          "lowerRepo": "somekittens/spaceships",
+          "branch": "master",
+          "lowerBranch": "master",
+          "commit": "440d4075e71c01734118d312fc3e3cd6c326f711",
+          "_id": "54386459aebe190e0077c2d1",
+          "publicKey": "SomeKittens/SPACESHIPS.key.pub",
+          "privateKey": "SomeKittens/SPACESHIPS.key",
+          "id": "54386459aebe190e0077c2d1"
+        }
+      ],
+      "id": "543988508f75990e008d2c74"
+    }
+  ],
+  "containers": [
+    {
+      "inspect": {
+        "State": {
+          "StartedAt": "2014-10-11T19:43:48.034419605Z",
+          "Running": true,
+          "Restarting": false,
+          "Pid": 3965,
+          "Paused": false,
+          "FinishedAt": "0001-01-01T00:00:00Z",
+          "ExitCode": 0
+        },
+        "ResolvConfPath": "/docker/containers/b35dbbd4c9b3bc1f76acac4b7a490e5b7f78fa47abbb01d5737688eb669aecaa/resolv.conf",
+        "ProcessLabel": "",
+        "Path": "/bin/sh",
+        "NetworkSettings": {
+          "Ports": {
+            "8080/tcp": [
+              {
+                "HostPort": "49399",
+                "HostIp": "0.0.0.0"
+              }
+            ]
+          },
+          "PortMapping": null,
+          "IPPrefixLen": 16,
+          "IPAddress": "172.17.7.221",
+          "Gateway": "172.17.42.1",
+          "Bridge": "docker0"
+        },
+        "Name": "/hungry_blackwell0",
+        "MountLabel": "",
+        "Image": "825bbc639523eada86754aef8d2bee8378291aa9b151b13638cbe63fc381a5c2",
+        "Id": "b35dbbd4c9b3bc1f76acac4b7a490e5b7f78fa47abbb01d5737688eb669aecaa",
+        "HostsPath": "/docker/containers/b35dbbd4c9b3bc1f76acac4b7a490e5b7f78fa47abbb01d5737688eb669aecaa/hosts",
+        "HostnamePath": "/docker/containers/b35dbbd4c9b3bc1f76acac4b7a490e5b7f78fa47abbb01d5737688eb669aecaa/hostname",
+        "HostConfig": {
+          "VolumesFrom": null,
+          "RestartPolicy": {
+            "Name": "",
+            "MaximumRetryCount": 0
+          },
+          "PublishAllPorts": true,
+          "Privileged": false,
+          "PortBindings": null,
+          "NetworkMode": "",
+          "LxcConf": null,
+          "Links": null,
+          "DnsSearch": null,
+          "Dns": null,
+          "Devices": null,
+          "ContainerIDFile": "",
+          "CapDrop": null,
+          "CapAdd": null,
+          "Binds": null
+        },
+        "ExecDriver": "native-0.2",
+        "Driver": "aufs",
+        "Created": "2014-10-11T19:43:47.217374623Z",
+        "Config": {
+          "WorkingDir": "/space",
+          "Volumes": null,
+          "User": "",
+          "Tty": false,
+          "StdinOnce": false,
+          "PortSpecs": null,
+          "OpenStdin": false,
+          "OnBuild": null,
+          "NetworkDisabled": false,
+          "MemorySwap": 0,
+          "Memory": 0,
+          "Image": "825bbc639523",
+          "Hostname": "b35dbbd4c9b3",
+          "Env": [
+            "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            "HOME=/root"
+          ],
+          "Entrypoint": null,
+          "Domainname": "",
+          "Cpuset": "",
+          "CpuShares": 0,
+          "Cmd": [
+            "/bin/sh",
+            "-c",
+            "npm run dev"
+          ],
+          "AttachStdout": false,
+          "AttachStdin": false,
+          "AttachStderr": false
+        },
+        "Args": [
+          "-c",
+          "npm run dev"
+        ]
+      },
+      "context": "543861deaebe190e0077c24b",
+      "version": "543988508f75990e008d2c74",
+      "dockerHost": "http://10.0.1.41:4242",
+      "dockerContainer": "b35dbbd4c9b3bc1f76acac4b7a490e5b7f78fa47abbb01d5737688eb669aecaa",
+      "ports": {
+        "8080/tcp": [
+          {
+            "HostIp": "0.0.0.0",
+            "HostPort": "49399"
+          }
+        ]
+      },
+      "createdBy": {
+        "github": 1616464
+      },
+      "startedBy": {
+        "github": 1616464
+      },
+      "_id": "543988868f75990e008d2c77",
+      "created": "2014-10-11T19:44:06.068Z",
+      "id": "543988868f75990e008d2c77"
+    }
+  ],
+  "env": [],
+  "ipWhitelist": {
+    "enabled": false
+  },
+  "created": "2014-10-10T22:57:59.959Z",
+  "public": false,
+  "id": "54386477aebe190e0077c2dc"
+}

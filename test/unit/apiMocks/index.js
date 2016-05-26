@@ -45,7 +45,8 @@ module.exports = {
     stopped: require('./instances/stopped'),
     runningWithContainers: require('./instances/runningWithContainers'),
     list: require('./instances/list'),
-    listWithPods: require('./instances/listWithPods')
+    listWithPods: require('./instances/listWithPods'),
+    isolated: require('./instances/isolated')
   },
   repoList: require('./repoList'),
   user: require('./user'),

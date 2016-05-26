@@ -4,14 +4,16 @@ require('app')
   .controller('DNSConfigurationController', DNSConfigurationController);
 
 function DNSConfigurationController(
-  loading,
-  errs,
-  promisify,
-  getInstanceMaster,
-  keypather,
+  $q,
   $scope,
+  $timeout,
   debounce,
-  $timeout
+  errs,
+  getInstanceMaster,
+  getMatchingIsolatedInstance,
+  keypather,
+  loading,
+  promisify
 ) {
   var DCC = this;
   DCC.instanceDependencyMap = {};
@@ -20,18 +22,32 @@ function DNSConfigurationController(
     // Delay showing loading state for 1 second. To allow DNS mappings to fetch.
     // If they don't fetch in 1 second we can show a loading state.
     var timeout = $timeout(function () {
+      DCC.nonRepoDependencies = [];
       DCC.filteredDependencies = [];
       loading('dns', true);
     }, 1000);
 
-    promisify(DCC.instance, 'fetchDependencies')()
-      .then(function (dependencies) {
+    var fetches = {
+      deps: promisify(DCC.instance, 'fetchDependencies')()
+    };
+    if (keypather.get(DCC.instance, 'isolation.instances')) {
+      fetches.isolated = promisify(DCC.instance.isolation.instances, 'fetch', true)();
+    }
+    $q.all(fetches)
+      .then(function (results) {
+        var dependencies = results.deps;
         $timeout.cancel(timeout);
-        DCC.filteredDependencies = dependencies.models.filter(function (dep) {
-          return !dep.instance.destroyed;
-        });
-
-        DCC.filteredDependencies.forEach(function (dep) {
+        DCC.nonRepoDependencies = [];
+        DCC.filteredDependencies = [];
+        dependencies.models.forEach(function (dep) {
+          if (dep.instance.destroyed) {
+            return;
+          }
+          if (keypather.get(dep.instance, 'contextVersion.getMainAppCodeVersion()')) {
+            DCC.filteredDependencies.push(dep);
+          } else {
+            DCC.nonRepoDependencies.push(dep);
+          }
           dep.instance.on('destroy', handleDestroyedDepInstance);
         });
       })
@@ -40,10 +56,17 @@ function DNSConfigurationController(
         loading.reset('dns');
       });
     $scope.$applyAsync();
-  }, 500, true);
+  }, 500);
+
+  DCC.getNumberOfConnections = function () {
+    return DCC.nonRepoDependencies.length + DCC.filteredDependencies.length;
+  };
 
   function handleDestroyedDepInstance() {
     DCC.filteredDependencies.forEach(function (dep) {
+      dep.instance.off('destroy', handleDestroyedDepInstance);
+    });
+    DCC.nonRepoDependencies.forEach(function (dep) {
       dep.instance.off('destroy', handleDestroyedDepInstance);
     });
     refreshDependencies();
@@ -71,6 +94,9 @@ function DNSConfigurationController(
       .then(function (masterInstance) {
         DCC.modifyingDNS.options.push(masterInstance);
         DCC.modifyingDNS.options = DCC.modifyingDNS.options.concat(masterInstance.children.models);
+
+        // Unshift so its always first
+        DCC.modifyingDNS.options.unshift(getMatchingIsolatedInstance(DCC.instance.isolation, dep.instance));
         loading('dnsDepData', false);
       });
   };
