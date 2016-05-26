@@ -17,6 +17,8 @@ function DNSConfigurationController(
 ) {
   var DCC = this;
   DCC.instanceDependencyMap = {};
+  DCC.nonRepoDependencies = [];
+  DCC.filteredDependencies = [];
 
   var refreshDependencies = debounce(function () {
     // Delay showing loading state for 1 second. To allow DNS mappings to fetch.
