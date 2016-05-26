@@ -9,11 +9,11 @@ function WelcomeBackController(
 ) {
   var WBC = this;
 
-  $rootScope.dataApp = {}
+  $rootScope.dataApp = {};
   WBC.openIntercom = function () {
     window.Intercom(
       'showNewMessage',
-      'I’m back! Help me get my containers back up and running.'
+      'I’m back! Please get my sandbox back up and running.'
     );
   };
 }
