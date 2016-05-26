@@ -4,12 +4,13 @@ require('app')
   .controller('WelcomeBackController', WelcomeBackController);
 
 function WelcomeBackController(
-  $rootScope,
-  booted
+  $rootScope
 ) {
   var WBC = this;
 
-  $rootScope.dataApp = {}
+  $rootScope.dataApp = {
+    welcomeBack: true
+  }
   WBC.openIntercom = function () {
     window.Intercom(
       'showNewMessage',
