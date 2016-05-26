@@ -83,6 +83,10 @@
     @include media(md) {
       padding-left: 0;
     }
+
+    &.anti-intercom-shift {
+      padding-left: 0;
+    }
   }
 
   .btn-docs {
