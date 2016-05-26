@@ -19,7 +19,7 @@ describe('DNSConfigurationController'.bold.underline.blue, function() {
   var mockIsolatedInstance;
   var getMatchingIsolatedInstanceReturnValue;
 
-  function injectSetupCompile (isolate) {
+  function injectSetupCompile() {
     getMatchingIsolatedInstanceReturnValue = null;
     mockMasterInstances = runnable.newInstances(instances.list, {
       noStore: true
@@ -93,6 +93,11 @@ describe('DNSConfigurationController'.bold.underline.blue, function() {
           return getMatchingIsolatedInstanceReturnValue;
         };
       });
+      $provide.factory('isRepoContainerService', function (keypather) {
+        return function (instance) {
+          return keypather.get(instance, 'contextVersion.getMainAppCodeVersion()');
+        };
+      });
       $provide.factory('promisify', function ($q) {
         promisifyMock = sinon.spy(function (obj, key) {
           return function () {
@@ -123,13 +128,6 @@ describe('DNSConfigurationController'.bold.underline.blue, function() {
       off: sinon.spy(),
       isolation: {}
     };
-    if (isolate) {
-      mockInstance.isolation.instances = {
-        fetch: sinon.stub().returns({
-          models: [mockIsolatedInstance]
-        })
-      };
-    }
 
     laterController.instance.instance = mockInstance;
 
@@ -143,14 +141,12 @@ describe('DNSConfigurationController'.bold.underline.blue, function() {
     it('should fetch the isolation when the instance is part of an isolation', function () {
       $scope.$digest();
       sinon.assert.calledOnce(mockInstance.fetchDependencies);
-      sinon.assert.calledOnce(mockInstance.isolation.instances.fetch);
       expect(DCC.filteredDependencies).to.deep.equal(mockDepedencies.models);
     });
     it('should put non repos in the nonRepoDeps array', function () {
       delete mockMasterInstances.models[0].children.models[0].contextVersion;
       $scope.$digest();
       sinon.assert.calledOnce(mockInstance.fetchDependencies);
-      sinon.assert.calledOnce(mockInstance.isolation.instances.fetch);
       expect(DCC.nonRepoDependencies[0].instance).to.deep.equal(mockMasterInstances.models[0].children.models[0]);
     });
     describe('editDependency', function () {
@@ -158,7 +154,7 @@ describe('DNSConfigurationController'.bold.underline.blue, function() {
         mockMasterInstances.models = [];
         $scope.$digest();
         var dep = {
-          instance: mockMasterInstances.models[0]
+          instance: mockIsolatedInstance
         };
         getMatchingIsolatedInstanceReturnValue = mockIsolatedInstance;
         DCC.editDependency(dep);
@@ -167,8 +163,7 @@ describe('DNSConfigurationController'.bold.underline.blue, function() {
         expect(DCC.lastModifiedDNS).to.not.be.ok;
         expect(DCC.modifyingDNS.current).to.equal(dep);
         expect(DCC.modifyingDNS.options[0]).to.equal(mockIsolatedInstance);
-        expect(DCC.modifyingDNS.options).to.not.contain(dep.instance);
-        expect(DCC.modifyingDNS.options).to.not.contain(mockMasterInstances.models[0].children.models[0]);
+        expect(DCC.modifyingDNS.options.length).to.equal(1);
       });
       it('should put the isolated fetch dependencies instances', function () {
         $scope.$digest();

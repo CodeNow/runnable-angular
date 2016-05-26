@@ -4,14 +4,13 @@ require('app')
   .controller('DNSConfigurationController', DNSConfigurationController);
 
 function DNSConfigurationController(
-  $q,
   $scope,
   $timeout,
   debounce,
   errs,
   getInstanceMaster,
   getMatchingIsolatedInstance,
-  keypather,
+  isRepoContainerService,
   loading,
   promisify
 ) {
@@ -29,18 +28,8 @@ function DNSConfigurationController(
       loading('dns', true);
     }, 1000);
 
-    var fetches = {
-      deps: promisify(DCC.instance, 'fetchDependencies')()
-    };
-    if (keypather.get(DCC.instance, 'isolation.instances')) {
-      // For now, we need to fetch the isolated instances, so they have their CV model filled
-      // (instance.cv, not instance.attrs.cv).  We need this because we need to know if these
-      // instances are repo or not.  This will soon be fixed by saving this value on the instance
-      fetches.isolated = promisify(DCC.instance.isolation.instances, 'fetch', true)();
-    }
-    $q.all(fetches)
-      .then(function (results) {
-        var dependencies = results.deps;
+    promisify(DCC.instance, 'fetchDependencies')()
+      .then(function (dependencies) {
         $timeout.cancel(timeout);
         DCC.nonRepoDependencies = [];
         DCC.filteredDependencies = [];
@@ -48,7 +37,7 @@ function DNSConfigurationController(
           if (dep.instance.destroyed) {
             return;
           }
-          if (keypather.get(dep.instance, 'contextVersion.getMainAppCodeVersion()')) {
+          if (isRepoContainerService(dep.instance)) {
             DCC.filteredDependencies.push(dep);
           } else {
             DCC.nonRepoDependencies.push(dep);
