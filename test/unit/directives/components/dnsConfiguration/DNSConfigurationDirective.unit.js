@@ -8,15 +8,18 @@ var $compile;
 var instances = require('../../../apiMocks').instances;
 var clone = require('101/clone');
 var runnable = window.runnable;
+var DnsController;
 var mockGetInstanceMaster = require('../../../fixtures/mockGetInstanceMaster');
 
-describe('DNSConfigurationDirective'.bold.underline.blue, function() {
+describe.only('DNSConfigurationDirective'.bold.underline.blue, function() {
   var promisifyMock;
   var mockDepedencies;
   var mockMasterInstances;
   var element;
   var mockInstance;
-
+  var DNSConfigurationController = function () {
+    DnsController = this;
+  };
   function injectSetupCompile() {
     mockMasterInstances = runnable.newInstances(instances.list, {
       noStore: true
@@ -70,7 +73,7 @@ describe('DNSConfigurationDirective'.bold.underline.blue, function() {
     };
 
     angular.mock.module('app');
-    angular.mock.module(function ($provide) {
+    angular.mock.module(function ($provide, $controllerProvider) {
 
       // Make debounce not actually do anything.
       $provide.value('debounce', sinon.spy(function (debouncedFunction) {
@@ -79,6 +82,7 @@ describe('DNSConfigurationDirective'.bold.underline.blue, function() {
         };
       }));
 
+      $controllerProvider.register('DNSConfigurationController', DNSConfigurationController);
       $provide.factory('getInstanceMaster', mockGetInstanceMaster(mockMasterInstances.models));
       $provide.factory('promisify', function ($q) {
         promisifyMock = sinon.spy(function (obj, key) {
@@ -99,7 +103,6 @@ describe('DNSConfigurationDirective'.bold.underline.blue, function() {
       $compile = _$compile_;
     });
 
-
     mockInstance = {
       fetchDependencies: sinon.stub().returns(mockDepedencies),
       on: sinon.spy(),
@@ -118,30 +121,50 @@ describe('DNSConfigurationDirective'.bold.underline.blue, function() {
 
   beforeEach(injectSetupCompile);
 
-  describe('setting status class on the element', function () {
-    beforeEach(function () {
-      mockDepedencies.models.forEach(function (dep) {
-        dep.instance.status = sinon.stub().returns('running');
-      });
-    });
+  describe('getWorstStatusClass', function () {
+    var red = {
+      instance: {
+        status: sinon.stub().returns('buildFailed')
+      }
+    };
+    var orange = {
+      instance: {
+        status: sinon.stub().returns('starting')
+      }
+    };
 
-    it('should do nothing if all containers are running', function () {
-      expect(element[0].className).to.not.contain('red');
-      expect(element[0].className).to.not.contain('orange');
-    });
-
-    it('should be set to red when there is a crashed container and a starting container', function () {
-      mockDepedencies.models[0].instance.status.returns('crashed');
-      mockDepedencies.models[1].instance.status.returns('starting');
+    it('should be set to grey when there are no containers', function () {
+      DnsController.filteredDependencies = [];
+      DnsController.nonRepoDependencies = [];
       $scope.$digest();
-      expect(element[0].className).to.contain('red');
+      expect(element[0].className).to.contain('gray');
     });
-
     it('should be set to orange when there is a starting container', function () {
-      mockDepedencies.models[0].instance.status.returns('starting');
+      DnsController.filteredDependencies = [];
+      DnsController.nonRepoDependencies = [orange];
       $scope.$digest();
       expect(element[0].className).to.contain('orange');
     });
-  });
+    it('should take red status from filteredDeps over the orange from non-Repo', function () {
+      DnsController.filteredDependencies = [red];
+      DnsController.nonRepoDependencies = [orange];
 
+      $scope.$digest();
+      expect(element[0].className).to.contain('red');
+    });
+    it('should take red status from non-Repo', function () {
+      DnsController.filteredDependencies = [orange];
+      DnsController.nonRepoDependencies = [red];
+
+      $scope.$digest();
+      expect(element[0].className).to.contain('red');
+    });
+    it('should take red status from filtered when non-Repo os empty', function () {
+      DnsController.filteredDependencies = [orange, red, orange];
+      DnsController.nonRepoDependencies = [];
+
+      $scope.$digest();
+      expect(element[0].className).to.contain('red');
+    });
+  });
 });
