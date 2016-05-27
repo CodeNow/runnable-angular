@@ -86,40 +86,53 @@ require('app')
           $document.scrollToElement(ele, 100, 200);
         }
 
-        function calculateHelpCardsForRepoInstance (instance, dependencies, stackAnalysis) {
+        function calculateHelpCardsForRepoInstance (instance) {
           if (instance.attrs.owner.username !== $state.params.userName) { return; }
           // This may be a newInstance... just a placeholder
           helpCards.removeByInstance(instance);
 
-          stackAnalysis.serviceDependencies.forEach(function (dependency) {
-            var matchedInstance = $scope.data.instances.find(function (instance) {
-              return instance.attrs.lowerName === dependency;
-            });
-            if (matchedInstance) {
-              var matchedDependency = dependencies.find(function (dep) {
-                return dep.attrs.shortHash === matchedInstance.attrs.shortHash;
+          var fullRepoName = keypather.get($scope.server.instance, 'contextVersion.getMainAppCodeVersion().attrs.repo');
+
+          return $q.all({
+            stackAnalysis: fetchStackAnalysis(fullRepoName),
+            dependencies: promisify(instance, 'fetchDependencies', true)()
+          })
+            .then(function (res) {
+              var stackAnalysis = res.stackAnalysis;
+              var dependencies = res.dependencies;
+              if (!stackAnalysis.serviceDependencies) { return; }
+
+              stackAnalysis.serviceDependencies.forEach(function (dependency) {
+                var matchedInstance = $scope.data.instances.find(function (instance) {
+                  return instance.attrs.lowerName === dependency;
+                });
+                if (matchedInstance) {
+                  var matchedDependency = dependencies.find(function (dep) {
+                    return dep.attrs.shortHash === matchedInstance.attrs.shortHash;
+                  });
+                  if (matchedDependency) { return; }
+                  return helpCards.triggerCard('missingAssociation', {
+                    instance: $scope.server.instance,
+                    association: matchedInstance.attrs.name
+                  })
+                    .then(function (helpCard) {
+                      if (!helpCard) { return; }
+                      addListener(helpCard, 'refresh', calculateHelpCardsForRepoInstance.bind(null, instance));
+                      addListener(helpCard, 'activate', scrollIntoView);
+                    }).catch(errs.handler);
+                }
+                // Missing Dependency
+                return helpCards.triggerCard('missingDependency', {
+                  instance: $scope.server.instance,
+                  dependency: dependency
+                })
+                  .then(function (helpCard) {
+                    if (!helpCard) { return; }
+                    addListener(helpCard, 'refresh', calculateHelpCardsForRepoInstance.bind(null, instance));
+                  }).catch(errs.handler);
               });
-              if (matchedDependency) { return; }
-              return helpCards.triggerCard('missingAssociation', {
-                instance: $scope.server.instance,
-                association: matchedInstance.attrs.name
-              })
-                .then(function (helpCard) {
-                  if (!helpCard) { return; }
-                  addListener(helpCard, 'refresh', calculateHelpCardsForRepoInstance);
-                  addListener(helpCard, 'activate', scrollIntoView);
-                }).catch(errs.handler);
-            }
-            // Missing Dependency
-            return helpCards.triggerCard('missingDependency', {
-              instance: $scope.server.instance,
-              dependency: dependency
             })
-              .then(function (helpCard) {
-                if (!helpCard) { return; }
-                addListener(helpCard, 'refresh', calculateHelpCardsForRepoInstance);
-              }).catch(errs.handler);
-          });
+            .catch(errs.handler);
         }
 
         function calculateHelpCardsForNonRepoContainers (instance) {
@@ -154,7 +167,7 @@ require('app')
               })
                 .then(function (helpCard) {
                   if (!helpCard) { return; }
-                addListener(helpCard, 'refresh', calculateHelpCardsForNonRepoContainers);
+                addListener(helpCard, 'refresh', calculateHelpCardsForNonRepoContainers.bind(null, instance));
                 })
                 .catch(errs.handler);
             });
@@ -186,21 +199,12 @@ require('app')
               });
           }
 
-          return promisify(instance, 'fetchDependencies', true)()
-            .then(function (dependencies) {
-              $scope.server.building = false;
-              var fullRepoName = keypather.get($scope.server.instance, 'contextVersion.getMainAppCodeVersion().attrs.repo');
-              if (fullRepoName) {
-                return fetchStackAnalysis(fullRepoName)
-                  .then(function (stackAnalysis) {
-                    if (!stackAnalysis.serviceDependencies) { return; }
-                    return calculateHelpCardsForRepoInstance(instance, dependencies, stackAnalysis);
-                  })
-                  .catch(errs.handler);
-              }
-              return calculateHelpCardsForNonRepoContainers(instance);
-            })
-            .catch(errs.handler);
+          $scope.server.building = false;
+          var fullRepoName = keypather.get($scope.server.instance, 'contextVersion.getMainAppCodeVersion().attrs.repo');
+          if (fullRepoName) {
+            return calculateHelpCardsForRepoInstance(instance);
+          }
+          return calculateHelpCardsForNonRepoContainers(instance);
         }
 
         $scope.$watchCollection('instance.attrs', function (n) {

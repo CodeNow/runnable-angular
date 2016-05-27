@@ -1,21 +1,26 @@
-.btn-group-vertical
-
-  //- repository
-  .btn.gray.btn-repository.clearfix(
-    ng-click = "actions.openRepoDetailsModal()"
+//- repository
+.btn.gray.btn-repository.clearfix(
+  ng-class = "{\
+    'grid-block align-center justify-center': !activeCommit.attrs.commit.message,\
+    'main-btn': !acv.attrs.additionalRepo,\
+    'deprecated': !acv.attrs.additionalRepo && !$root.featureFlags.testingFeature\
+  }"
+  ng-click = "actions.openRepoDetailsModal()"
+)
+  .spinner-wrapper.spinner-sm.spinner-gray.in(
+    ng-if = "!activeCommit.attrs.commit.message"
+    ng-include = "'spinner'"
   )
 
-    //- replaces branch .row
-    .row.text-overflow(
-      ng-if = "acv.attrs.additionalRepo && $root.featureFlags.inviteFlows"
-    )
+  .load(
+    ng-if = "activeCommit.attrs.commit.message"
+  )
+    .row.text-overflow
       svg.iconnables.icons-repository-alt.float-left
         use(
           xlink:href = "#icons-repository-alt"
         )
-      | repoName/{{acv.attrs.branch}}
-
-    //- only show branch if additional repository
+      | {{acv.githubRepo.attrs.name}}
     .row.text-overflow.js-repository-branch(
       ng-if = "acv.attrs.additionalRepo && !$root.featureFlags.inviteFlows"
     )
@@ -24,7 +29,6 @@
           xlink:href = "#icons-branch-alt"
         )
       | {{acv.attrs.branch}}
-
     .row.row-commit.js-repository-commit(
       title = "{{activeCommit.attrs.commit.message}}"
     )
@@ -33,11 +37,9 @@
           xlink:href = "#icons-commit-alt"
         )
       | {{activeCommit.attrs.commit.message}}
-
     .row.row-author
       //- empty
       svg.iconnables
-
       //- if invite flows
       .btn-user.text-overflow(
         ng-class = "{'active': state.active}"
@@ -51,50 +53,70 @@
       span.small(
         ng-if = "$root.featureFlags.inviteFlows"
       ) —{{activeCommit.attrs.commit.author.date | timeFrom}}
-
       //- else
       span.small(
         ng-if = "!$root.featureFlags.inviteFlows"
       ) {{activeCommit.attrs.commit.author.date | timeFrom}}
-
     svg.iconnables.icons-arrow-forward
       use(
         xlink:href = "#icons-arrow-down"
       )
 
-  //- auto-deploy
-  .btn.btn-sm.btn-auto-deploy(
-    ng-if = "!acv.attrs.additionalRepo"
-  )
-    .iconnables.icons-launch.float-left 🚀
-    span.underline.float-left(
-      tooltip = "Automatically rebuild your container when new commits are made."
-      tooltip-options = "{\"class\":\"bottom center text-center tooltip-definition\",\"left\":-85,\"top\":18}"
-    ) Auto-Deploy
-    label.toggle-wrapper.float-right
-      //- this would not be enabled when an webhooks admin is not present
-      input.toggle-input(
-        ng-disabled = "$root.isLoading.autoDeploy || ($root.featureFlags.webhooks && !$root.featureFlags.webhooksAdminPresent)"
-        ng-false-value = "true"
-        ng-model = "autoDeploy"
-        ng-model-options = "{getterSetter: true}"
-        ng-true-value = "false"
-        type = "checkbox"
-      )
+    //- auto-deploy w/ commit syncing
+    //- show alternate text in autoDeployTooltip.jade if disabled
+    .btn.btn-xs.btn-auto-deploy(
+      ng-class = "{'orange': autoDeploy()}"
+      ng-if = "!acv.attrs.additionalRepo && $root.featureFlags.testingFeature"
+      pop-over
+      pop-over-hover-trigger
+      pop-over-options = "{\"top\":30,\"centered\":true}"
+      pop-over-template = "autoDeployTooltip"
+      pop-over-trigger = "hover"
+    )
+      svg.iconnables.float-left
+        use(
+          ng-if = "!autoDeploy()"
+          xlink:href = "#icons-sync-alt"
+        )
+        use(
+          ng-if = "autoDeploy()"
+          xlink:href = "#icons-alert-alt"
+        )
+      | {{autoDeploy() ? 'Auto-Deploy Disabled' : 'Auto-Deploying'}}
 
-      .toggle-group.toggle-xs(
-        ng-if = "!$root.featureFlags.webhooks || $root.featureFlags.webhooksAdminPresent"
-      )
+//- auto-deploy w/o commit syncing
+.btn.btn-sm.btn-auto-deploy-deprecated(
+  ng-if = "!acv.attrs.additionalRepo && !$root.featureFlags.testingFeature"
+)
+  .iconnables.icons-launch.float-left 🚀
+  span.underline.float-left(
+    tooltip = "Automatically rebuild your container when new commits are made."
+    tooltip-options = "{\"class\":\"bottom center text-center tooltip-definition\",\"left\":-85,\"top\":18}"
+  ) Auto-Deploy
+  label.toggle-wrapper.float-right
+    //- this would not be enabled when an webhooks admin is not present
+    input.toggle-input(
+      ng-disabled = "$root.isLoading.autoDeploy || ($root.featureFlags.webhooks && !$root.featureFlags.webhooksAdminPresent)"
+      ng-false-value = "true"
+      ng-model = "autoDeploy"
+      ng-model-options = "{getterSetter: true}"
+      ng-true-value = "false"
+      type = "checkbox"
+    )
 
-      //- popover if disabled for webhooks
-      .toggle-group.toggle-xs(
-        ng-if = "$root.featureFlags.webhooks && !$root.featureFlags.webhooksAdminPresent"
-        pop-over
-        pop-over-controller = "actions"
-        pop-over-controller-as = "ADPC"
-        pop-over-data = "instance"
-        pop-over-hover-trigger
-        pop-over-options = "{\"top\":29,\"centered\":true}"
-        pop-over-template = "autoDeployPopoverView"
-        pop-over-trigger = "hover"
-      )
+    .toggle-group.toggle-xs(
+      ng-if = "!$root.featureFlags.webhooks || $root.featureFlags.webhooksAdminPresent"
+    )
+
+    //- popover if disabled for webhooks
+    .toggle-group.toggle-xs(
+      ng-if = "$root.featureFlags.webhooks && !$root.featureFlags.webhooksAdminPresent"
+      pop-over
+      pop-over-controller = "actions"
+      pop-over-controller-as = "ADPC"
+      pop-over-data = "instance"
+      pop-over-hover-trigger
+      pop-over-options = "{\"top\":29,\"centered\":true}"
+      pop-over-template = "autoDeployPopoverView"
+      pop-over-trigger = "hover"
+    )

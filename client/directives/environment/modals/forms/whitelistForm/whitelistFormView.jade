@@ -1,9 +1,9 @@
 .label
-  .grid-block.shrink.well.gray.in.align-center.row-xxs
+  .grid-block.shrink.align-center.row-xxs.well.well-600.gray.padding-sm
     .grid-content
       .strong.text-gray-dark Block External Access
-      small.small Disallows external access to this container. Internal access between containers is still allowed.
-    label.toggle-wrapper.shrink
+      small.small Prevents external access to this container. Internal access between containers is still allowed.
+    label.grid-content.toggle-wrapper.shrink
       input.toggle-input(
         ng-disabled = "WFC.isIsolationGroupMaster"
         ng-model = "WFC.whitelist.enabled"

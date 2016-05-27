@@ -56,6 +56,10 @@
         visibility: visible;
       }
 
+      &.disabled {
+        padding-right: 15px;
+      }
+
       &.disabled,
       &.disabled:active,
       &.disabled:hover {
@@ -87,15 +91,17 @@
   }
 
   .toggle-wrapper {
+    @extend %padding-sm;
     border-bottom: 1px solid $gray-lighter;
-    border-top: 1px solid $gray-lighter;
-    color: $gray-dark;
+    cursor: pointer;
     flex: 0 0 auto;
     font-size: 15px;
-    font-weight: $weight-bold;
-    line-height: 18px;
     margin-bottom: 9px;
-    padding: 9px 12px;
+    padding-right: 48px;
+
+    &:not(:first-child) {
+      border-top: 1px solid $gray-lighter;
+    }
 
     .text-overflow {
       margin-right: 36px;
@@ -104,7 +110,7 @@
 
   .toggle-group {
     position: absolute;
-    right: 0;
-    top: 16px;
+    right: 12px;
+    top: 25px;
   }
 }

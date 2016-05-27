@@ -27,10 +27,10 @@ function dnsConfiguration() {
 
       $scope.getWorstStatusClass = function () {
         var worstStatus = 'gray';
-        if (!$scope.DCC.filteredDependencies) {
+        if (!$scope.DCC.filteredDependencies || !$scope.DCC.nonRepoDependencies) {
           return worstStatus;
         }
-        $scope.DCC.filteredDependencies.some(function (dependency) {
+        function findWorstStatus(dependency) {
           if (dependency.instance.destroyed) {
             return false;
           }
@@ -42,7 +42,9 @@ function dnsConfiguration() {
           if (worstStatus !== 'red' && ['building', 'starting'].includes(status)) {
             worstStatus = 'orange';
           }
-        });
+        }
+        $scope.DCC.filteredDependencies.some(findWorstStatus);
+        $scope.DCC.nonRepoDependencies.some(findWorstStatus);
         return worstStatus;
       };
     }

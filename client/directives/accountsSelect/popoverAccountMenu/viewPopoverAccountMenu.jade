@@ -189,9 +189,7 @@
           ng-class = "{'in': isActivePanel()}"
           style = "height: calc(100vh - 81px); overflow-y: auto;"
         )
-          .list-item(
-            style = "padding: 9px;"
-          )
+          .list-item.padding-xs
             input.input.input-xs.input-search(
               ng-model = "searchText"
               ng-model-option = "{updateOn: 'change'}"
@@ -206,6 +204,7 @@
             style = "border-top: 1px solid #f0f0f0; color: $gray-dark; display: block; padding: 0 39px 0 15px;"
           ) {{flag}}
             .toggle-wrapper(
+              ng-if = "flag !== 'welcomeBack'"
               style = "position: absolute; right: 15px; top: 11px;"
             )
               input.toggle-input(
@@ -214,3 +213,7 @@
                 type = "checkbox"
               )
               .toggle-group.toggle-xs
+            button.btn.btn-xs.gray(
+              internal-modal-helper = "welcomeBackModalView"
+              ng-if = "flag === 'welcomeBack'"
+            ) Go

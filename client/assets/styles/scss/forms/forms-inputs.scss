@@ -184,14 +184,15 @@ input[type="radio"] {
   padding: 0 9px;
   text-align: left;
 
-  // input.checkbox
-  .checkbox {
-    float: right;
-    margin-left: 12px;
-  }
-
   .input-checkbox {
-    margin: 0 9px 0 0;
+
+    &:first-child {
+      margin-right: 9px;
+    }
+
+    &:last-child {
+      margin-left: 9px;
+    }
   }
 }
 

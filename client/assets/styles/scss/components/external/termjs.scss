@@ -18,27 +18,21 @@
   cursor: text;
   display: flex;
   flex: 1 1 auto;
+  flex-direction: column;
+  margin: 9px 3px 18px;
   overflow-x: hidden;
-  padding-bottom: 18px;
-  padding-top: 12px;
   width: 100%;
 
   // disconnect message
   .views-toolbar {
     background: $red;
-    border-color: $red-dark;
     color: $red-lighter;
     font-size: 14px;
     font-weight: $weight-bold;
     justify-content: center;
-    left: 0;
-    line-height: 1; // reset to center
-    position: absolute;
-    right: 0;
-    top: 0;
+    margin: 0 15px 12px 9px;
 
     + .terminal {
-      margin-top: $input-md;
       opacity: .6;
     }
 

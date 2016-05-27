@@ -159,6 +159,7 @@ function NewContainerModalController(
     var fullName = keypather.get(repo, 'attrs.full_name');
     var defaultBranch = keypather.get(repo, 'attrs.default_branch');
     NCMC.state.instanceName = fullName.split('/')[1] || '';
+    NCMC.state.instanceName = NCMC.state.instanceName.replace(/_/g, '-');
     return fetchRepoDockerfiles(fullName, defaultBranch)
       .then(function (dockerfiles) {
         // TODO: Remove when removing `nameContainer` FF

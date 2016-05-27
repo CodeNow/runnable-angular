@@ -1,73 +1,99 @@
 // buttons
 .btn-toolbar {
-  border-width: 1px;
+  border: $input-border solid;
   flex: 0 0 auto;
   font-size: 15px;
+  font-weight: $weight-bold;
   height: 30px;
-  line-height: 28px;
+  line-height: 30px - ($input-border * 2);
   padding: 0 9px;
 
   .build-log-header & {
     font-family: $sans-serif; // override monospace fonts inside log header
     font-size: 13px;
     height: $input-xs;
-    line-height: $input-xs - 2px;
+    line-height: $input-xs - ($input-border * 2);
   }
 
-  // toolbar theme
-  // purple
   &.purple {
-    background: $purple;
-    border-color: $purple-darker;
-    color: $purple-lightest;
-
-    &:hover:not([disabled]):not(.disabled) {
-      background: $purple-light;
-      color: $white;
-    }
-
-    &:active:not([disabled]):not(.disabled),
-    &.active {
-      background: $white;
-      color: $purple-light;
-    }
+    @extend %toolbar-btn-purple;
   }
 
-  // orange
   &.orange {
-    background: $orange;
-    border-color: $orange-darkest;
-    color: $orange-lightest;
-
-    &:hover {
-      background: $orange-lighter;
-      color: $white;
-    }
-
-    &:active,
-    &.active {
-      background: $white;
-      border-color: $white;
-      color: $orange;
-    }
+    @extend %toolbar-btn-orange;
   }
 
-  // green
   &.green {
-    background: $green-dark;
-    border-color: $green-darkest;
-    color: $green-lighter;
+    @extend %toolbar-btn-green;
+  }
+}
 
-    &:hover {
-      background: $green;
-      color: $white;
-    }
+// toolbar theme
+// purple
+%toolbar-btn-purple {
+  background: lighten($purple-dark,9%);
+  border-color: darken($purple-dark,6%);
+  color: rgba($white,.9);
 
-    &:active,
-    &.active {
-      background: $white;
-      border-color: $white;
-      color: $green;
-    }
+  &:hover {
+    border-color: darken($purple-dark,9%);
+  }
+
+  &:active,
+  &.active {
+    border-color: $white;
+    color: $white;
+  }
+}
+
+// orange
+%toolbar-btn-orange {
+  background: lighten($orange,9%);
+  border-color: darken($orange,6%);
+  color: rgba($white,.9);
+
+  &:hover {
+    background: lighten($orange,9%);
+    border-color: darken($orange,9%);
+  }
+
+  &:active,
+  &.active {
+    border-color: $white;
+    color: $white;
+  }
+}
+
+// green
+%toolbar-btn-green {
+  background: lighten($green,9%);
+  border-color: darken($green,6%);
+  color: rgba($white,.9);
+
+  &:hover {
+    border-color: darken($green,9%);
+  }
+
+  &:active,
+  &.active {
+    border-color: $white;
+    color: $white;
+  }
+}
+
+// red
+%toolbar-btn-red {
+  background: lighten($red,4%);
+  border-color: desaturate($red-dark,25%);
+  color: rgba($white,.9);
+
+  &:hover {
+    border-color: darken(desaturate($red-dark,25%),3%);
+  }
+
+  &:active,
+  &.active {
+    border-color: $white;
+    color: $white;
   }
 }

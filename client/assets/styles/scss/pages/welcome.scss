@@ -1,6 +1,15 @@
 .welcome {
   padding-top: 210px;
 
+  // if modal
+  &.modal-backdrop.modal-backdrop { // override intercom styles
+    background: $white;
+
+    @include media(lg) {
+      padding-top: 180px;
+    }
+  }
+
   // transitions for animated panel
   .animated-panel-container {
     transition: height .15s ease-in-out;
@@ -22,9 +31,16 @@
 
   // modal
   .modal-dialog {
+    background: $white;
     color: $gray-dark;
+    flex: 0 0 auto;
     margin: 0 auto 30px;
+    max-height: none;
     width: 420px;
+  }
+
+  .modal-body {
+    flex: 0 0 auto;
   }
 
   .h3 {
@@ -181,6 +197,7 @@
     $col-3: (100% - ($gutter * 2 * 3)) / 3; // (100% - ($gutter * [left + right margins] * [li]) / [li])
 
     border: 0; // replace borders with box-shadow to reduce transition complexity
+    border-radius: $input-border-radius-lg;
     box-shadow: inset 0 0 0 $input-border $gray-lighter;
     flex: 0 0 $col-3;
     font-size: 15px;
@@ -233,12 +250,7 @@
         margin: $gutter;
         opacity: 1;
         padding: 15px 6px;
-        transition:
-          flex .25s,
-          height .25s,
-          margin .25s,
-          opacity .15s,
-          padding .25s;
+        transition: flex .25s, height .25s, margin .25s, opacity .15s, padding .25s;
 
         &:nth-child(3n) {
           flex: 1 1 100%;
@@ -261,12 +273,7 @@
       // leaving inactive transition
       &.inactive-remove,
       &.inactive-remove-active {
-        transition:
-          flex .25s,
-          height .25s,
-          margin .25s,
-          opacity .5s,
-          padding .25s;
+        transition: flex .25s, height .25s, margin .25s, opacity .5s, padding .25s;
       }
     }
 
@@ -313,5 +320,24 @@
   // empty state
   .btn-center {
     margin-top: 21px;
+  }
+}
+
+.welcome-back {
+
+  .p {
+    margin-bottom: 15px;
+  }
+
+  .link {
+    margin-bottom: 15px;
+  }
+
+  // chat
+  .icons-intercom::after {
+    background-size: 18px;
+    height: 18px;
+    top: 2px;
+    width: 18px;
   }
 }

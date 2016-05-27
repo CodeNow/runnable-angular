@@ -2,21 +2,28 @@ button.btn.btn-md.btn-spinner.btn-status(
   ng-class = "getClassForInstance()"
   ng-click = "CSBC.popoverActive = true"
 )
+  //- apply .passed or .failed for testing
   status-icon.float-left(
     instance = "CSBC.instance"
     ng-if = "!isChanging()"
   )
-  span.float-left(
-    ng-if ="!isChanging()"
-  ) {{getStatusText()}}
-  //- if stopping, starting, or restarting
+  //- if stopping, starting, restarting
   .spinner-wrapper.spinner-gray.spinner-sm.float-left.in(
     ng-if = "isChanging()"
     ng-include = "'spinner'"
   )
+
   span.float-left(
-    ng-if = "isChanging()"
+    ng-if ="!$root.featureFlags.testingFeature"
   ) {{getStatusText()}}
+
+  span.float-left(
+    ng-if = "$root.featureFlags.testingFeature"
+    ng-init = "state.test = 'passed'"
+  ) {{state.test === 'passed' ? 'Tests Passed' : ''}}
+    {{state.test === 'failed' ? 'Tests Failed' : ''}}
+    //- or Tests Running
+
   svg.iconnables.icons-arrow-down(
     pop-over
     pop-over-actions = "CSBC.actions"
@@ -34,5 +41,5 @@ button.btn.btn-md.btn-spinner.btn-status(
     ng-if = "CSBC.instance.configStatusValid && !CSBC.instance.cachedConfigStatus && !CSBC.instance.attrs.isolated"
   )
     use(
-      xlink:href = "#icons-alert"
+      xlink:href = "#icons-alert-alt"
     )

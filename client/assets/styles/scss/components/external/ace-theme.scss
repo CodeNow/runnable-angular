@@ -64,9 +64,9 @@
 
   // dark
   .ace-runnable-dark & {
-    background: #3d294a;
-    border-color: $purple-darkest;
-    color: $purple-lighter;
+    background: $purple-dark;
+    border-color: $purple-darker;
+    color: $white;
   }
 }
 

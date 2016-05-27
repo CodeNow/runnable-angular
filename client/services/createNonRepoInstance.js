@@ -17,7 +17,7 @@ function createNonRepoInstance(
         name: instanceName,
         masterPod: true,
         ipWhitelist: {
-          enabled: true
+          enabled: false
         }
       }
     };

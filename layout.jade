@@ -10,7 +10,6 @@ html(
       content = "width=device-width, initial-scale=1"
       name = "viewport"
     )
-
     title(
       ng-bind = "pageName.title()"
     ) Runnable
@@ -39,7 +38,7 @@ html(
     )
 
     if env !== 'development'
-      script(type="text/javascript").
+      script.
         window._trackJs = {
           token: 'ea5e26c7ec2d486e9c66bcf4fefa0f4b',
           version: "#{locals.version}",
@@ -55,7 +54,9 @@ html(
             return JSON.stringify(payload);
           }
         };
-      script(type="text/javascript" src="https://d2zah9y47r7bi2.cloudfront.net/releases/current/tracker.js")
+      script(
+        src = "https://d2zah9y47r7bi2.cloudfront.net/releases/current/tracker.js"
+      )
 
     if env === 'production'
       //- Facebook Events
@@ -118,9 +119,13 @@ html(
 
     //- Intercom
     if env === 'production'
-      script(type="text/javascript" src="https://widget.intercom.io/widget/wqzm3rju")
+      script(
+        src = "https://widget.intercom.io/widget/wqzm3rju"
+      )
     else
-      script(type="text/javascript" src="https://widget.intercom.io/widget/xs5g95pd")
+      script(
+        src = "https://widget.intercom.io/widget/xs5g95pd"
+      )
 
     if (env === 'production')
       script.
@@ -168,6 +173,7 @@ html(
     //- page
     .layout-wrapper(
       ui-view
+      ng-class = "{'anti-intercom-shift': dataApp.welcomeBack}"
     )
 
     //- error modal
@@ -187,7 +193,7 @@ html(
         section.modal-body.clearfix
           .modal-description.well.well-code.monospace(
           ng-repeat = "error in dataApp.data.modalError.data.errors track by $index"
-          ) {{ error.message }}
+          ) {{error.message}}
         footer.modal-footer
           button.btn.btn-md.white.btn-block(
             ng-click = "dataApp.data.modalError.actions.close(defaultActions.cancel);"

@@ -36,15 +36,16 @@ function featureFlags(
     optionsInModal: false, // allows delete in modal
     renameContainer: false,
     saveToolbar: false,
-    serviceContainersInConnections: false, // shows service containers in the Connections popover
     teamManagement: true, // changes text from org to team in account menu
     teamManagementAdvanced: false,
+    testingFeature: false,
     themeToggle: false, // toggles the button that toggles theme
     trial: false,
     updatedSlackValidation: true,
     webhooks: false,
     webhooksAdminPresent: false,
     webhooksContainerRunning: false,
+    welcomeBack: false,
     whitelist: true,
     whitelistIpFiltering: false
   };
