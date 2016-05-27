@@ -219,8 +219,10 @@ describe('DNSConfigurationController'.bold.underline.blue, function() {
         $scope.$digest();
         expect(DCC.lastModifiedDNS).to.not.be.ok;
         expect(DCC.modifyingDNS.current).to.equal(dep);
+        expect(DCC.modifyingDNS.options.length).to.equal(3);
         expect(DCC.modifyingDNS.options).to.contain(dep.instance);
         expect(DCC.modifyingDNS.options).to.contain(mockMasterInstances.models[0].children.models[0]);
+        expect(DCC.modifyingDNS.options).to.contain(mockMasterInstances.models[0].children.models[1]);
         expect($rootScope.isLoaded.dnsDepData).to.be.ok;
       });
     });
