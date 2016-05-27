@@ -9,6 +9,7 @@ var runnable = window.runnable;
 
 describe('IsolationConfigurationModalController'.bold.underline.blue, function() {
   var ICMC;
+  var mockInstancesByPodId;
   var mockInstance;
   var mockClose;
   var mockInstancesByPod;
@@ -17,6 +18,7 @@ describe('IsolationConfigurationModalController'.bold.underline.blue, function()
 
   function injectSetupCompile () {
     mockClose = sinon.spy();
+    mockInstancesByPodId = 'b';
     mockInstance = {
       id: sinon.stub().returns('a'),
       attrs: {
@@ -33,7 +35,7 @@ describe('IsolationConfigurationModalController'.bold.underline.blue, function()
       models: [
         mockInstance,
         {
-          id: sinon.stub().returns('b'),
+          id: sinon.stub().returns(mockInstancesByPodId),
           attrs: {
             contextVersion: {
               context: '1'
@@ -136,11 +138,9 @@ describe('IsolationConfigurationModalController'.bold.underline.blue, function()
       sinon.assert.calledWith(mockCreateIsolation, mockInstance);
       sinon.assert.calledOnce(mockClose);
       var createList = mockCreateIsolation.lastCall.args[1];
-      expect(createList).to.deep.equal([
-        {
-          repo: 'foo',
+      expect(createList).to.deep.equal([{
+          instance: mockInstancesByPodId,
           branch: 'master',
-          org: 'orgName'
         },
         {
           instance: 'e'
