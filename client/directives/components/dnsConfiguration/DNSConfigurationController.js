@@ -92,9 +92,11 @@ function DNSConfigurationController(
           DCC.modifyingDNS.options.push(masterInstance);
           DCC.modifyingDNS.options = DCC.modifyingDNS.options.concat(masterInstance.children.models);
         }
-
+        var matchingIsolatedInstance = getMatchingIsolatedInstance(DCC.instance.isolation, dep.instance);
         // Unshift so its always first
-        DCC.modifyingDNS.options.unshift(getMatchingIsolatedInstance(DCC.instance.isolation, dep.instance));
+        if (matchingIsolatedInstance) {
+          DCC.modifyingDNS.options.unshift(matchingIsolatedInstance);
+        }
         loading('dnsDepData', false);
       });
   };
