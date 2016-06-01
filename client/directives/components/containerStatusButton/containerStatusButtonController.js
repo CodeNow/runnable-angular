@@ -13,6 +13,9 @@ function ContainerStatusButtonController(
   promisify
 ) {
   var CSBC = this;
+  CSBC.doesMatchMasterPod = function () {
+    return !CSBC.instance.doesMatchMasterPod().isFulfilled() || CSBC.instance.doesMatchMasterPod().value();
+  };
 
   function modInstance(action, opts) {
     $rootScope.$broadcast('close-popovers');

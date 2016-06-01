@@ -74,6 +74,33 @@ describe('containerStatusButtonController'.bold.underline.blue, function () {
     });
   });
 
+  describe('doesMatchMasterPod', function () {
+    it('should return true if fulfilled is false', function () {
+      mockInstance.doesMatchMasterPod = sinon.stub().returns({
+        isFulfilled: sinon.stub().returns(false),
+        value: sinon.stub().returns(new Error('NO'))
+      });
+      $scope.$digest();
+      expect(CSBC.doesMatchMasterPod()).to.be.true;
+    });
+    it('should return true if true', function () {
+      mockInstance.doesMatchMasterPod = sinon.stub().returns({
+        isFulfilled: sinon.stub().returns(true),
+        value: sinon.stub().returns(true)
+      });
+      $scope.$digest();
+      expect(CSBC.doesMatchMasterPod()).to.be.true;
+    });
+    it('should return false if false', function () {
+      mockInstance.doesMatchMasterPod = sinon.stub().returns({
+        isFulfilled: sinon.stub().returns(true),
+        value: sinon.stub().returns(false)
+      });
+      $scope.$digest();
+      expect(CSBC.doesMatchMasterPod()).to.be.false;
+    });
+  });
+
   describe('popoverStatusOptions', function () {
     var closePopoversListener;
     describe('actions', function () {
