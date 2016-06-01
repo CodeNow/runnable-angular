@@ -138,49 +138,4 @@ describe('containerStatusButtonDirective'.bold.underline.blue, function () {
 
     });
   });
-
-  describe('configStatusValid', function () {
-    it('should fetch the parent status everytime the configStatusValid changes', function () {
-      mockInstance.fetchParentConfigStatus = sinon.stub().returns(false);
-      mockInstance.configStatusValid = false;
-      $elScope.$digest();
-
-      sinon.assert.calledOnce(mockInstance.fetchParentConfigStatus);
-      mockInstance.fetchParentConfigStatus.reset();
-      mockInstance.configStatusValid = true;
-      $elScope.$digest();
-
-      sinon.assert.notCalled(mockInstance.fetchParentConfigStatus);
-    });
-  });
-
-  it('should show the instance as busy if its starting', function () {
-    $scope.instance.status = sinon.stub().returns('starting');
-    expect($elScope.isChanging()).to.be.true;
-    sinon.assert.calledOnce($scope.instance.status);
-  });
-
-  it('should show the instance as busy if its starting', function () {
-    $scope.instance.status = sinon.stub().returns('starting');
-    expect($elScope.isChanging()).to.be.true;
-    sinon.assert.calledOnce($scope.instance.status);
-  });
-
-  it('should show the instance as busy if its stopping', function () {
-    $scope.instance.status = sinon.stub().returns('stopping');
-    expect($elScope.isChanging()).to.be.true;
-    sinon.assert.calledOnce($scope.instance.status);
-  });
-
-  it('should show the instance as busy if its building', function () {
-    $scope.instance.status = sinon.stub().returns('building');
-    expect($elScope.isChanging()).to.be.false;
-    sinon.assert.calledOnce($scope.instance.status);
-  });
-
-  it('should show the instance as not busy if its Started', function () {
-    $scope.instance.status = sinon.stub().returns('started');
-    expect($elScope.isChanging()).to.be.false;
-    sinon.assert.calledOnce($scope.instance.status);
-  });
 });
