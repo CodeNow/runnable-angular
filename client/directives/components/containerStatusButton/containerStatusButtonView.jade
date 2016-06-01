@@ -38,7 +38,7 @@ button.btn.btn-md.btn-spinner.btn-status(
     )
   //- if update and rebuild
   svg.iconnables.icons-alert.float-right(
-    ng-if = "CSBC.instance.configStatusValid && !CSBC.instance.cachedConfigStatus && !CSBC.instance.attrs.isolated"
+    ng-if = "!CSBC.instance.doesMatchMasterPod().value()"
   )
     use(
       xlink:href = "#icons-alert-alt"

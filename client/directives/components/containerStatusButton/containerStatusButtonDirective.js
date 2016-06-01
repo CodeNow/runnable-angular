@@ -22,11 +22,13 @@ function containerStatusButton(
       instance: '='
     },
     link: function ($scope) {
-      $scope.$watch('CSBC.instance.configStatusValid', function (configStatusValid) {
-        if ($scope.CSBC.instance && configStatusValid === false) {
-          // This will cause the valid flag to flip, recalling this watcher
-          return promisify($scope.CSBC.instance, 'fetchParentConfigStatus')()
-            .catch(errs.handler);
+      $scope.matchesMasterInstance = true;
+      $scope.$watch('CSBC.instance.configStatusPromise', function (configStatusPromise) {
+        if (configStatusPromise) {
+          $scope.CSBC.instance.doesMatchMasterPod()
+            .then(function (value) {
+              $scope.matchesMasterInstance = value;
+            });
         }
       });
 

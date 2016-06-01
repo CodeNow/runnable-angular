@@ -220,7 +220,7 @@ function fetchInstancesByPod(
                 }
 
                 masterInstances.push(master);
-                master.children.reset(children);
+                master.setChildren(children);
               });
               return masterInstances;
             }
