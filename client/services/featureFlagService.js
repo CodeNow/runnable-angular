@@ -7,6 +7,7 @@ function featureFlags(
   $localStorage
 ) {
   var defaultFeatureFlags = {
+    allowIsolatedUpdate: false,
     backup: false,
     billing: false,
     cardStatus: false,
