@@ -22,16 +22,6 @@ function containerStatusButton(
       instance: '='
     },
     link: function ($scope) {
-      $scope.matchesMasterInstance = true;
-      $scope.$watch('CSBC.instance.configStatusPromise', function (configStatusPromise) {
-        if (configStatusPromise) {
-          $scope.CSBC.instance.doesMatchMasterPod()
-            .then(function (value) {
-              $scope.matchesMasterInstance = value;
-            });
-        }
-      });
-
       $scope.getStatusText = function () {
         if (keypather.get($scope.CSBC, 'instance.isMigrating()')) {
           return 'Migrating';
