@@ -462,9 +462,9 @@
   }
 }
 
-.label-build-commands .textarea {
+.label-build-commands .input-col .well.well-merged-top + .textarea {
   @media (max-width: $screen-md) and (min-width: $screen-xs) {
-    padding-top: 52px;
+    padding-top: 54px;
   }
 }
 
