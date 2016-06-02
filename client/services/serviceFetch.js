@@ -415,12 +415,14 @@ function fetchGitHubMembers(
     }
     return $http({
       method: 'get',
-      url: configAPIHost + '/github/orgs/' + teamName + '/members?page=' + page
+      url: configAPIHost + '/github/orgs/' + teamName + '/members?per_page=100&page=' + page
     }).then(function (res) {
       if (!Array.isArray(res.data)) {
         return [];
       }
       if (res.data.length === 0) {
+        // NOTE: In the future, we might want to use the pagination header
+        // provided by Github instead of checking for an empty array
         return res.data;
       }
       return _fetchGitHubMembers(teamName, page + 1)
