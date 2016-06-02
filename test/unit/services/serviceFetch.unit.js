@@ -8,17 +8,27 @@ var generateGithubUserObject = apiMocks.gh.generateGithubUserObject;
 var generateGithubOrgObject = apiMocks.gh.generateGithubOrgObject;
 
 describe('serviceFetch'.bold.underline.blue, function () {
-  var data;
   var res;
+  var httpQueue;
+  var httpFactoryStub;
   var httpFactory = function ($q) {
-    return function () {
+    httpFactoryStub = sinon.spy(function () {
       var _res = {};
       _res.args = [].slice.call(arguments);
-      _res.data = data || {};
+      if (httpQueue.length === 0) {
+        throw new Error('HTTP queue for $http mock is empty');
+      }
+      _res.data = httpQueue.shift();
       res = _res;
       return $q.when(_res);
-    };
+    });
+    return httpFactoryStub;
   };
+
+  beforeEach(function () {
+    httpQueue = [];
+  });
+
   describe('factory fetchUser', function () {
     var $state;
     var apiClientBridge;
@@ -599,6 +609,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
     });
 
     it('should get pull requests from the API', function () {
+      httpQueue.push({});
       fetchPullRequest(instance);
       $rootScope.$digest();
       sinon.assert.calledOnce(instance.getBranchName);
@@ -610,6 +621,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
     it('should return null if there is no branch', function () {
       var res;
       branch = null;
+      httpQueue.push({});
       var fetchPullRequestPromise = fetchPullRequest(instance);
       $rootScope.$digest();
       expect(fetchPullRequestPromise).to.eventually.equal(null);
@@ -640,9 +652,10 @@ describe('serviceFetch'.bold.underline.blue, function () {
     it('should get the GitHub user from the API', function () {
       var localRes;
       var githubUserName = 'thejsj';
-      data = { // for the http module
+      var data = { // for the http module
          hello: 'world'
       };
+      httpQueue.push(data);
       fetchGitHubUser(githubUserName)
         .then(function (_res) { localRes = _res; });
       $rootScope.$digest();
@@ -654,8 +667,12 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
   describe('factory fetchGitHubMembers', function () {
     var $rootScope, fetchGitHubMembers, configAPIHost;
+    var teamMembers;
 
     beforeEach(function () {
+      teamMembers = [{
+         hello: 'world'
+      }];
       angular.mock.module('app');
       angular.mock.module(function ($provide) {
         $provide.factory('$http', httpFactory);
@@ -674,15 +691,48 @@ describe('serviceFetch'.bold.underline.blue, function () {
     it('should get the GitHub members from the API', function () {
       var localRes;
       var teamName = 'runnable';
-      data = {
-         hello: 'world'
-      };
+      httpQueue.push(teamMembers);
+      httpQueue.push([]); // Add an empty array to signify the end of the member list
       fetchGitHubMembers(teamName)
         .then(function (_res) { localRes = _res; });
       $rootScope.$digest();
-      expect(localRes).to.eql(data);
+      expect(localRes).to.deep.eql(teamMembers);
       expect(res.args[0].url).to.have.string('orgs');
       expect(res.args[0].url).to.have.string(teamName);
+    });
+
+    it('should handle pagination', function () {
+      var localRes;
+      var teamName = 'runnable';
+      httpQueue.push(teamMembers);
+      httpQueue.push(teamMembers);
+      httpQueue.push(teamMembers);
+      httpQueue.push([]); // Add an empty array to signify the end of the member list
+      fetchGitHubMembers(teamName)
+        .then(function (_res) { localRes = _res; });
+      $rootScope.$digest();
+      expect(localRes.length).to.eql(3);
+      expect(localRes[2]).to.eql(teamMembers[0]);
+      expect(res.args[0].url).to.have.string('orgs');
+      expect(res.args[0].url).to.have.string(teamName);
+    });
+
+    it('should correctly memoize GH calls', function () {
+      httpFactoryStub.reset();
+      var localRes;
+      var teamName = 'runnable';
+      httpQueue.push(teamMembers);
+      httpQueue.push(teamMembers);
+      httpQueue.push([]); // Add an empty array to signify the end of the member list
+      fetchGitHubMembers(teamName)
+        .then(function (_res) { localRes = _res; });
+      $rootScope.$digest();
+      expect(localRes.length).to.eql(2);
+      sinon.assert.calledThrice(httpFactoryStub);
+      fetchGitHubMembers(teamName)
+        .then(function (_res) { localRes = _res; });
+      $rootScope.$digest();
+      sinon.assert.calledThrice(httpFactoryStub);
     });
   });
 
@@ -712,7 +762,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
         id: 123123123
       };
 
-      data = [
+      var data = [
         {
           name: 'member1',
           state: 'active'
@@ -722,6 +772,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
           state: 'pending'
         }
       ];
+      httpQueue.push(data);
       fetchGitHubTeamMembersByTeam(team)
         .then(function (_res) {
           localRes = _res;
@@ -738,7 +789,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
         id: 123123123
       };
 
-      data = [
+      var data = [
         {
           name: 'member1',
           state: 'active'
@@ -748,6 +799,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
           state: 'pending'
         }
       ];
+      httpQueue.push(data);
       fetchGitHubTeamMembersByTeam(team.id)
         .then(function (_res) {
           localRes = _res;
@@ -783,7 +835,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
       var orgName = 'team';
       var repoName = 'repo';
 
-      data = [
+      var data = [
         {
           name: 'team1',
           permission: 'user'
@@ -793,6 +845,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
           permission: 'admin'
         }
       ];
+      httpQueue.push(data);
       fetchGitHubTeamsByRepo(orgName, repoName)
         .then(function (_res) {
           localRes = _res;
@@ -861,7 +914,8 @@ describe('serviceFetch'.bold.underline.blue, function () {
       var orgName = 'team';
       var repoName = 'repo';
 
-      data = members;
+      var data = members;
+      httpQueue.push(data);
       fetchGitHubAdminsByRepo(orgName, repoName)
         .then(function (uniqueMembers) {
           expect(fetchGitHubUserMock.callCount).to.eql(2);
@@ -896,7 +950,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
     it('should return all members that are not bots', function () {
       var token = 'x123';
-      data = { // for the http module
+      var data = { // for the http module
         members: [{
           user: 'thejsj',
           is_bot: false
@@ -905,6 +959,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
           is_bot: true
         }]
       };
+      httpQueue.push(data);
       var promise = verifySlackAPITokenAndFetchMembers(token);
       $rootScope.$digest();
       expect(promise).to.eventually.eql([data.members[0]]);
@@ -914,20 +969,22 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
     it('should throw an error if the token is invalid', function () {
       var token = 'x123';
-      data = { // for the http module
+      var data = { // for the http module
         error: 'invalid_auth',
         ok: false
       };
+      httpQueue.push(data);
       var verifySlackAPITokenAndFetchMembersPromise = verifySlackAPITokenAndFetchMembers(token);
       $rootScope.$digest();
       expect(verifySlackAPITokenAndFetchMembersPromise).to.eventually.be.an.instanceof(Error, 'Provided Api');
     });
     it('should throw an error if the token is invalid', function () {
       var token = 'x123';
-      data = { // for the http module
+      var data = { // for the http module
         error: 'not_invalid_auth',
         ok: false
       };
+      httpQueue.push(data);
       var verifySlackAPITokenAndFetchMembersPromise = verifySlackAPITokenAndFetchMembers(token);
       $rootScope.$digest();
       expect(verifySlackAPITokenAndFetchMembersPromise).to.eventually.be.an.instanceof(Error, 'not_invalid_auth');

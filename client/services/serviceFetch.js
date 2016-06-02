@@ -407,16 +407,29 @@ function verifySlackAPITokenAndFetchMembers(
 function fetchGitHubMembers(
   $http,
   configAPIHost,
-  memoize
+  memoizeAll
 ) {
-  return memoize(function (teamName) {
+  var _fetchGitHubMembers = memoizeAll(function (teamName, page) {
+    if (!page) {
+      page = 1;
+    }
     return $http({
       method: 'get',
-      url: configAPIHost + '/github/orgs/' + teamName + '/members'
-    }).then(function (team) {
-      return team.data || [];
+      url: configAPIHost + '/github/orgs/' + teamName + '/members?page=' + page
+    }).then(function (res) {
+      if (!Array.isArray(res.data)) {
+        return [];
+      }
+      if (res.data.length === 0) {
+        return res.data;
+      }
+      return _fetchGitHubMembers(teamName, page + 1)
+        .then(function (teamMembers) {
+          return res.data.concat(teamMembers);
+        });
     });
   });
+  return _fetchGitHubMembers;
 }
 
 /**
