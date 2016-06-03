@@ -13,7 +13,7 @@ a.list-item-container(
   ) {{ getNavigationName() }}
 
   .btn.btn-xxs.btn-badge.gray(
-    ng-if = "$root.featureFlags.isolationUI && INC.instance.attrs.isIsolationGroupMaster"
+    ng-if = "$root.featureFlags.isolationUI && INC.instance.attrs.isIsolationGroupMaster && !$root.featureFlags.autoIsolation"
   ) Isolated
 
   svg.iconnables.icons-overflow(

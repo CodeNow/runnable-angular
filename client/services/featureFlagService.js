@@ -8,6 +8,7 @@ function featureFlags(
 ) {
   var defaultFeatureFlags = {
     allowIsolatedUpdate: false,
+    autoIsolation: false,
     backup: false,
     billing: false,
     cardStatus: false,
