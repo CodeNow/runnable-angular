@@ -190,20 +190,24 @@ function fetchInstancesByPod(
             function sortAllInstances(allInstances) {
               var instanceMapping = {};
               allInstances.forEach(function (instance) {
-                var ctxVersion = instance.attrs.contextVersion.context;
-                instanceMapping[ctxVersion] = instanceMapping[ctxVersion] || {};
+                var parentId = instance.attrs.parent;
                 if (instance.attrs.masterPod) {
-                  instanceMapping[ctxVersion].master = instance;
+                  parentId = instance.attrs.shortHash;
+                }
+
+                instanceMapping[parentId] = instanceMapping[parentId] || {};
+                if (instance.attrs.masterPod) {
+                  instanceMapping[parentId].master = instance;
                 } else {
-                  instanceMapping[ctxVersion].children = instanceMapping[ctxVersion].children || [];
-                  instanceMapping[ctxVersion].children.push(instance);
+                  instanceMapping[parentId].children = instanceMapping[parentId].children || [];
+                  instanceMapping[parentId].children.push(instance);
                 }
               });
 
               var masterInstances = [];
-              Object.keys(instanceMapping).forEach(function (ctxVersion) {
-                var master = instanceMapping[ctxVersion].master;
-                var children = instanceMapping[ctxVersion].children || [];
+              Object.keys(instanceMapping).forEach(function (parentId) {
+                var master = instanceMapping[parentId].master;
+                var children = instanceMapping[parentId].children || [];
 
                 // Handle the case where we have an extra instance that has no parents.
                 if (!master || !master.children) {
