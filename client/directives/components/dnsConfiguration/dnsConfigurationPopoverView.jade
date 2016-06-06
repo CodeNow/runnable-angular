@@ -71,7 +71,7 @@
                     title = "{{dependency.instance.getDisplayName()}}"
                   ) {{dependency.instance.getDisplayName()}}
                 .btn.btn-xxs.btn-badge.gray.grid-content.shrink(
-                  ng-if = "$root.featureFlags.isolationUI && dependency.instance.attrs.isolated"
+                  ng-if = "dependency.instance.attrs.isolated"
                 ) {{dependency.instance.attrs.isIsolationGroupMaster ? "Isolated" : DCC.instance.getBranchName()}}
 
               //- inline for svg animation
@@ -180,7 +180,7 @@
               //- Show if the container is the parent of an isolated group
                   Don't show this when loading
               .btn.btn-xxs.btn-badge.gray.grid-content.shrink(
-                ng-if = "$root.featureFlags.isolationUI && instance.attrs.isolated"
+                ng-if = "instance.attrs.isolated"
               ) {{instance.attrs.isIsolationGroupMaster ? "Isolated" : DCC.instance.getBranchName()}}
 
               //- When currently selected

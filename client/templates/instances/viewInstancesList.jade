@@ -3,12 +3,12 @@
   ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
 )
   //- instance name
-  .list-item.list-item-header
-    span.text-overflow(
+  .grid-block.align-center.list-item.list-item-header
+    span.grid-block.text-overflow(
       title = "{{masterInstance.getName()}}"
     ) {{masterInstance.getName()}}
     //- configure button for repo containers
-    svg.iconnables.icons-advanced(
+    svg.grid-block.shrink.iconnables.icons-advanced(
       ng-click="CIS.editInstance(masterInstance)"
       title = "Configure"
     )
@@ -16,14 +16,14 @@
         xlink:href = "#icons-advanced"
       )
 
-  div(
+  .list-item(
     active-account = "CIS.activeAccount"
     instance = "masterInstance"
     instance-navigation
     master-instance = "masterInstance"
   )
 
-  div(
+  .list-item(
     active-account = "CIS.activeAccount"
     instance = "childInstance"
     instance-navigation
@@ -64,7 +64,7 @@
   ng-if = "!$root.featureFlags.autoIsolation"
   ng-show = "nonRepoInstances.length"
 )
-  div(
+  .list-item(
     instance-navigation
     instance = "masterInstance"
     active-account = "CIS.activeAccount"

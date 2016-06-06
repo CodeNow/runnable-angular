@@ -63,14 +63,6 @@
   display: block;
   flex: 1 1 auto;
 
-  @include media(xxs) {
-    &:not(.row-xxs) {
-      > .grid-block + .grid-block {
-        margin-top: 15px;
-      }
-    }
-  }
-
   &.shrink {
     flex: 0 0 auto;
   }
@@ -103,10 +95,6 @@
     + .grid-content {
       margin-top: 15px;
     }
-  }
-
-  > .grid-block + .grid-block {
-    margin-top: 15px;
   }
 }
 
