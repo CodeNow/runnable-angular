@@ -127,40 +127,6 @@
     }
   }
 
-  // buttons
-  > .btn-sm {
-    position: absolute;
-    right: 15px;
-    top: 15px;
-  }
-
-  > .btn-xs {
-    position: absolute;
-    right: 15px;
-    top: 6px;
-  }
-
-  > .btn-xxs {
-    margin-right: 6px;
-  }
-
-  // icon wrapper
-  > .btn-icon {
-    background: $white;
-    border: 1px solid $gray-lighter;
-    border-radius: 50%;
-    color: $gray-light;
-    padding: 0;
-    transition: none;
-    width: 24px;
-
-    &.active {
-      background: $green;
-      border-color: $green;
-      color: $white;
-    }
-  }
-
   // gravatar
   > .gravatar {
     float: left;

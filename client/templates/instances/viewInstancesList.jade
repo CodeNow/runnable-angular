@@ -4,12 +4,22 @@
 )
   //- instance name
   .grid-block.align-center.list-item.list-item-header
+
     span.grid-block.text-overflow(
       title = "{{masterInstance.getName()}}"
     ) {{masterInstance.getName()}}
-    //- configure button for repo containers
+
+    button.grid-block.shrink.btn.btn-xs.btn-icon.gray(
+      ng-if = "$root.featureFlags.autoIsolation"
+    )
+      svg.iconnables
+        use(
+          xlink:href = "#icons-add"
+        )
+
     svg.grid-block.shrink.iconnables.icons-advanced(
-      ng-click="CIS.editInstance(masterInstance)"
+      ng-click = "CIS.editInstance(masterInstance)"
+      ng-if = "!$root.featureFlags.autoIsolation"
       title = "Configure"
     )
       use(
