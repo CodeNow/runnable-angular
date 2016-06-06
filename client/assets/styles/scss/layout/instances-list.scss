@@ -7,6 +7,7 @@
   float: left;
   height: 100vh;
   overflow-y: auto;
+  position: relative;
   width: $instance-list-width;
 
   &.in {
@@ -100,15 +101,10 @@
       border-radius: 0;
       padding-right: 0;
 
-      // > .grid-block:not(.active) {
-      //   opacity: .6;
-      // }
-
       &:hover,
       &:active {
         background: transparent;
         border-color: transparent;
-        // opacity: 1;
       }
 
       // exclude parent
@@ -128,6 +124,7 @@
 
       &.active {
         background: rgba($purple-light,.1);
+        cursor: default;
         opacity: 1;
       }
     }
@@ -194,7 +191,9 @@
 
   // isolation badge
   .btn-badge.btn-badge {
-    flex: 0 0 auto;
-    margin: 0 0 0 5px;
+    border-color: currentColor;
+    color: currentColor;
+    margin-left: 5px;
+    opacity: .5;
   }
 }
