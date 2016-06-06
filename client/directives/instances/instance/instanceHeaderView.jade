@@ -50,7 +50,7 @@
   //- if a container from an isolated branch, use .btn-badge for the initial branch
     - should say "Isolated" when viewing the isolated branch
   button.btn.btn-xs.btn-badge.gray.float-right(
-    ng-if = "instance.attrs.isolated"
+    ng-if = "!$root.featureFlags.autoIsolation && instance.attrs.isolated"
   ) Isolated
 
 //- properties of container
