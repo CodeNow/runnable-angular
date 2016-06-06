@@ -40,7 +40,7 @@ a.grid-block.align-center.a-sref(
 
 button.grid-block.shrink.btn-overflow(
   ng-class = "{'active': INC.popoverShown}"
-  ng-if = "$root.featureFlags.autoIsolation"
+  ng-if = "$root.featureFlags.autoIsolation && INC.instance.attrs.isIsolationGroupMaster"
   pop-over
   pop-over-active = "INC.popoverShown"
   pop-over-controller = "INC"

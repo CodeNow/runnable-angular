@@ -11,6 +11,8 @@
 
     button.grid-block.shrink.btn.btn-xs.btn-icon.gray(
       ng-if = "$root.featureFlags.autoIsolation"
+      tooltip = "Add Branch"
+      tooltip-options = "{\"class\":\"bottom center text-center\",\"left\":-36,\"top\":24}"
     )
       svg.iconnables
         use(
