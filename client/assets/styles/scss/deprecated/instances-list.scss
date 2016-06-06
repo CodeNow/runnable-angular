@@ -37,6 +37,12 @@
     margin-right: -1px;
   }
 
+  // overflow icon
+  .icons-overflow {
+    flex: 0 0 15px;
+    pointer-events: auto;
+  }
+
   // isolation badge
   .btn-badge.btn-badge {
     border-color: currentColor;

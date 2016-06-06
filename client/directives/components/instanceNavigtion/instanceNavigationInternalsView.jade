@@ -18,7 +18,7 @@ a.grid-block.align-center.a-sref(
 
   svg.grid-block.shrink.iconnables.icons-overflow(
     ng-class = "{'active': INC.popoverShown}"
-    ng-if = "(INC.masterInstance !== INC.instance && INC.instance.getBranchName()) || (!INC.instance.attrs.isIsolationGroupMaster && INC.instance.attrs.isolated)"
+    ng-if = "!$root.featureFlags.autoIsolation && ((INC.masterInstance !== INC.instance && INC.instance.getBranchName()) || (!INC.instance.attrs.isIsolationGroupMaster && INC.instance.attrs.isolated))"
     pop-over
     pop-over-active = "INC.popoverShown"
     pop-over-controller = "INC"
@@ -36,6 +36,20 @@ a.grid-block.align-center.a-sref(
   )
     use(
       xlink:href = "#icons-advanced"
+    )
+
+button.grid-block.shrink.btn-overflow(
+  ng-class = "{'active': INC.popoverShown}"
+  ng-if = "$root.featureFlags.autoIsolation"
+  pop-over
+  pop-over-active = "INC.popoverShown"
+  pop-over-controller = "INC"
+  pop-over-options = "{\"verticallyCentered\":true,\"left\":28}"
+  pop-over-template = "instanceNavigationPopoverView"
+)
+  svg.iconnables
+    use(
+      xlink:href = "#icons-overflow"
     )
 
 //- list of isolated containers

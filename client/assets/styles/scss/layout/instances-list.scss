@@ -42,103 +42,127 @@
 
     .btn-xs {
       line-height: initial;
+      overflow: hidden;
       width: 24px;
     }
   }
 
   .list-item-container {
-    border: $input-border solid transparent;
-    border-radius: $input-border-radius;
-    cursor: pointer;
     display: flex;
     flex: 1 1 auto;
     line-height: 28px;
+    position: relative;
     width: 100%;
+
+    &:hover > .btn-overflow {
+      opacity: 1;
+    }
+
+    &.open {
+      background: rgba($purple-light,.05);
+      border: $input-border solid rgba($purple-light,.3);
+      border-radius: $input-border-radius;
+      flex-wrap: wrap;
+
+      .btn-overflow {
+        opacity: 1;
+      }
+    }
+
+    .btn-overflow {
+      border: 0;
+      height: 32px;
+      opacity: 0;
+      padding: 0 12px;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 38px;
+
+      &:hover,
+      &:active,
+      &.active {
+        opacity: 1;
+      }
+
+      &:active,
+      &.active {
+        color: $purple-light;
+      }
+
+      .iconnables {
+        height: 100%;
+        width: 100%;
+      }
+    }
+  }
+
+  .a-sref {
+    border: $input-border solid transparent;
+    border-radius: $input-border-radius;
+    cursor: pointer;
+    height: 32px;
+    padding-left: 9px;
 
     &:hover {
       background: $white;
       border-color: $gray-lighter;
     }
 
-    // open/active and isolated states
     &:active,
-    &.open {
+    &.active {
       background: rgba($purple-light,.05);
       border-color: rgba($purple-light,.3);
       color: $purple-light;
-      flex-wrap: wrap;
-
-      .icons-overflow-isolated {
-        display: block;
-      }
     }
 
     &.active {
       cursor: default;
     }
+
+    .icons-status {
+      margin-right: 9px;
+    }
   }
 
+  // open state
   .open {
 
-    .list-item-container {
+    .a-sref {
       border: 0;
       border-radius: 0;
-      padding-right: 0;
-
-      &:hover,
-      &:active {
-        background: transparent;
-        border-color: transparent;
-      }
-
-      // exclude parent
-      .a-sref {
-        padding-left: 18px;
-      }
-    }
-
-    .a-sref {
+      color: rgba($purple-light,.75);
+      height: 28px;
       opacity: .75;
 
       &:hover,
       &:active {
         background: rgba($purple-light,.05);
+        color: rgba($purple-light,.84);
         opacity: 1;
       }
 
       &.active {
         background: rgba($purple-light,.1);
+        color: $purple-light;
         cursor: default;
         opacity: 1;
       }
     }
-  }
 
-  .a-sref {
-    padding: 0 9px;
-  }
-
-  // status icon
-  .icons-status {
-    margin-right: 9px;
-  }
-
-  .icons-overflow {
-    color: $gray;
-    flex: 0 0 15px;
-    pointer-events: auto;
-
-    &:hover {
-      color: $gray-dark;
+    > .grid-block .a-sref {
+      padding-left: 18px;
     }
 
-    &:active,
-    &.active {
-      color: $purple-light;
-    }
+    .btn-overflow {
+      color: rgba($purple-light,.75);
+      right: -$input-border;
+      top: -$input-border;
 
-    &.active {
-      display: block;
+      &:hover,
+      &:active {
+        color: $purple-light;
+      }
     }
   }
 }
