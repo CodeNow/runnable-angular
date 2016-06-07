@@ -139,18 +139,13 @@ function SetupServerModalController(
   }, function (newPortsArray, oldPortsArray) {
     if (!angular.equals(newPortsArray, oldPortsArray)) {
       // Only update the Dockerfile if the ports have actually changed
-      updateDockerfileFromState(SMC.state, true, true);
+      updateDockerfileFromState(SMC.state);
     }
   });
 
   $scope.$watchCollection(function () {
     return SMC.state.opts.env;
-  }, function (newEnvArray, oldEnvArray) {
-    if (SMC.state.advanced !== 'isMirroringDockerfile' && !angular.equals(newEnvArray, oldEnvArray)) {
-      // Only update the Dockerfile if the envs have actually changed
-      updateDockerfileFromState(SMC.state, true, true);
-    }
-  });
+  }, parentController.onEnvChange.bind(SMC));
 
   SMC.goToNextStep = function () {
     var nextStepErrorHandler = function (err) {

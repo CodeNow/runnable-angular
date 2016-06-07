@@ -62,6 +62,8 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   var loadingPromiseFinishedValue;
   var errsMock;
 
+  var mockServerModalController;
+
   function initState(opts, done) {
     helpCardsMock = {
       refreshAllCards: sinon.stub()
@@ -70,13 +72,41 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       handler: sinon.spy()
     };
 
+    var ServerModalController = function () {
+      this.closeWithConfirmation = sinon.spy();
+      this.changeTab = sinon.spy();
+      this.disableMirrorMode = sinon.spy();
+      this.enableMirrorMode = sinon.spy();
+      this.getDisplayName = sinon.spy();
+      this.getElasticHostname = sinon.spy();
+      this.getNumberOfOpenTabs = sinon.spy();
+      this.getUpdatePromise = sinon.spy();
+      this.insertHostName = sinon.spy();
+      this.isDirty = sinon.spy();
+      this.openDockerfile = sinon.spy();
+      this.populateStateFromData = sinon.spy();
+      this.rebuildAndOrRedeploy = sinon.spy();
+      this.requiresRebuild = sinon.spy();
+      this.requiresRedeploy = sinon.spy();
+      this.resetStateContextVersion = sinon.spy();
+      this.saveInstanceAndRefreshCards = sinon.spy();
+      this.showAdvancedModeConfirm = sinon.spy();
+      this.switchBetweenAdvancedAndMirroring = sinon.spy();
+      this.switchToMirrorMode = sinon.spy();
+      this.switchToAdvancedMode = sinon.spy();
+      this.updateInstanceAndReset = sinon.spy();
+      // The one I actually care about
+      this.onEnvChange = sinon.spy();
+      mockServerModalController = this;
+    };
     fetchStackAnalysisMock = new MockFetch();
     createNewBuildMock = sinon.stub();
     createAndBuildNewContainerMock = new MockFetch();
     loadingPromiseFinishedValue = null;
 
     angular.mock.module('app');
-    angular.mock.module(function ($provide) {
+    angular.mock.module(function ($provide, $controllerProvider) {
+      $controllerProvider.register('ServerModalController', ServerModalController);
       $provide.value('errs', errsMock);
       $provide.factory('fetchStackAnalysis', fetchStackAnalysisMock.fetch());
       $provide.value('helpCards', helpCardsMock);
@@ -633,21 +663,12 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   describe('Env change', function () {
     beforeEach(initState.bind(null, {}));
 
-    it('should correctly update the dockerfile when the envs have changed ', function () {
+    it('should correctly call onEnvChange when the envs have changed ', function () {
       $scope.$digest();
+      sinon.assert.calledOnce(mockServerModalController.onEnvChange);
       SMC.state.opts.env = ['asdasd=123'];
       $scope.$digest();
-      sinon.assert.calledOnce(updateDockerfileFromStateStub);
-      sinon.assert.calledWith(
-        updateDockerfileFromStateStub,
-        SMC.state,
-        true,
-        true
-      );
-      updateDockerfileFromStateStub.reset();
-      SMC.state.opts.env = ['asdasd=123', 'asdasdas=1'];
-      $scope.$digest();
-      sinon.assert.calledOnce(updateDockerfileFromStateStub);
+      sinon.assert.calledTwice(mockServerModalController.onEnvChange);
     });
   });
 

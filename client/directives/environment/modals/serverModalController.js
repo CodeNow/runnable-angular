@@ -253,6 +253,14 @@ function ServerModalController(
     }
   };
 
+  this.onEnvChange = function (newEnvArray, oldEnvArray) {
+    if (!newEnvArray) { return; }
+    if (!angular.equals(newEnvArray, oldEnvArray)) {
+      // Only update the Dockerfile if the envs have actually changed
+      updateDockerfileFromState(this.state);
+    }
+  };
+
   this.resetStateContextVersion = function (contextVersion, shouldParseDockerfile) {
     var SMC = this;
     if (keypather.get(contextVersion, 'attrs.buildDockerfilePath')) {

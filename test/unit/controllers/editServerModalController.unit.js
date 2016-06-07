@@ -1328,9 +1328,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(ctx.updateDockerfileFromStateMock);
       sinon.assert.calledWith(
         ctx.updateDockerfileFromStateMock,
-        SMC.state,
-        true,
-        true
+        SMC.state
       );
       ctx.updateDockerfileFromStateMock.reset();
       SMC.state.opts.env = ['asdasd=123', 'asdasdas=1'];
