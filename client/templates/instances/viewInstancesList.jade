@@ -10,7 +10,11 @@
     ) {{masterInstance.getName()}}
 
     button.grid-block.shrink.btn.btn-xs.btn-icon.gray(
+      ng-class = "{'active': state.active}"
       ng-if = "$root.featureFlags.autoIsolation"
+      pop-over
+      pop-over-options = "{\"verticallyCentered\":true,\"left\":24}"
+      pop-over-template = "branchMenuPopoverView"
       tooltip = "Add Branch"
       tooltip-options = "{\"class\":\"bottom center text-center\",\"left\":-36,\"top\":24}"
     )
