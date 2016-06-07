@@ -6,7 +6,7 @@
   animated-panel-container.popover-views
     animated-panel(
       default = "true"
-      name = "addBranchMenu"
+      name = "branchMenu"
     )
       .popover-view
         .popover-content.fade(
@@ -14,15 +14,16 @@
         )
           .grid-block.shrink.align-center.well.gray.padding-xs
             .grid-content
-              .strong Add Branches on Push
-              .small Spin-up branches on Runnable as they’re updated on GitHub.
+              .small Automatically add branches as they’re updated on GitHub.
             label.grid-content.shrink.toggle-wrapper
               input.toggle-input(
                 type = "checkbox"
               )
               .toggle-group.toggle-sm
           ul.list.popover-list
-            li.list-item.popover-list-item
+            li.list-item.popover-list-item(
+              ng-click = "goToPanel('addBranch')"
+            )
               svg.iconnables
                 use(
                   xlink:href = "#icons-branch-add"
@@ -38,3 +39,49 @@
                   xlink:href = "#icons-options"
                 )
               | Modify Includes
+    animated-panel(
+      name = "addBranch"
+    )
+      .popover-view.fade(
+        ng-class = "{'in': isActivePanel()}"
+      )
+        .popover-header
+          svg.btn.btn-sm.iconnables.icons-arrow-backward(
+            ng-class = "{'in': isActivePanel()}"
+            ng-click = "goToPanel('branchMenu', 'back');"
+          )
+            use(
+              xlink:href = "#icons-arrow-down"
+            )
+          | Add Branch
+        .popover-content(
+          ng-init = "state.branchesLoaded = null"
+        )
+          .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
+            ng-click = "state.branchesLoaded = true"
+            ng-if = "!state.branchesLoaded"
+            ng-include = "'spinner'"
+          )
+          .padding-xs(
+            ng-if = "state.branchesLoaded"
+          )
+            input.input.input-xs.input-search(
+              placeholder = "Search"
+              required
+              type = "search"
+            )
+          ul.list.popover-list(
+            ng-if = "state.branchesLoaded"
+          )
+            li.list-item.popover-list-item SAN-4377-Cant-add-files
+              button.btn.btn-xs.btn-icon.btn-add
+                svg.iconnables.icons-add
+                  use(
+                    xlink:href = "#icons-add"
+                  )
+            li.list-item.popover-list-item SAN-4342-auto-isolation-setup
+              button.btn.btn-xs.btn-icon.btn-add
+                svg.iconnables.icons-add
+                  use(
+                    xlink:href = "#icons-add"
+                  )

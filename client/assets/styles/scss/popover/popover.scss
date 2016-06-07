@@ -43,19 +43,19 @@
 
     .popover-list-item {
       border-radius: $input-border-radius;
+
+      // icon placement
+      > .iconnables {
+        float: left;
+        height: 36px;
+        margin: 0 9px 0 0;
+        width: 18px;
+      }
     }
 
     .list-secondary {
       margin: 6px -6px -6px;
       padding: 6px 0;
-    }
-
-    // icon placement
-    .iconnables {
-      float: left;
-      height: 36px;
-      margin: 0 9px 0 0;
-      width: 18px;
     }
 
     // badge placement
@@ -280,7 +280,7 @@
   }
 
   .gravatar,
-  .iconnables {
+  > .iconnables {
     color: $gray;
     float: left;
     margin: 6px 9px 0 0;
@@ -331,6 +331,7 @@
 .popover-header {
   background: $gray-lighterest;
   border-bottom: 1px solid $gray-lighter;
+  border-radius: $input-border-radius-lg $input-border-radius-lg 0 0;
   color: $gray;
   display: block;
   font-size: 14px;

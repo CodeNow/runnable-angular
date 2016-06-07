@@ -1,9 +1,13 @@
 .popover-branch-menu {
   max-width: 330px;
-  min-height: 172px;
+  min-height: 150px;
   width: 100%;
 
   .well {
     margin-bottom: 6px;
+  }
+
+  .popover-content {
+    min-height: 90px;
   }
 }
