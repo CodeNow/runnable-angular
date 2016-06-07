@@ -183,10 +183,10 @@ section.modal-body(
     ng-if = "SMC.selectedTab === 'env'"
   )
   .modal-form(
-    ng-controller = "ContainerFilesController as CFC"
-    ng-include = "'viewFormFiles'"
-    ng-init = "CFC.init({ state: SMC.state, getDisplayName: SMC.getDisplayName })"
-    ng-if = "SMC.selectedTab === 'files'"
+    container-files
+    ng-show = "SMC.selectedTab === 'files'"
+    state = "SMC.state"
+    get-display-name = "SMC.getDisplayName"
   )
   .modal-form(
     data = "SMC.data"

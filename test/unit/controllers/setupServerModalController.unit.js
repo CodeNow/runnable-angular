@@ -62,7 +62,9 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   var loadingPromiseFinishedValue;
   var errsMock;
 
-  function initState(opts, done) {
+  var mockServerModalController;
+
+  function initState(opts, replaceSMC, done) {
     helpCardsMock = {
       refreshAllCards: sinon.stub()
     };
@@ -70,13 +72,44 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       handler: sinon.spy()
     };
 
+    var ServerModalController = function () {
+      this.closeWithConfirmation = sinon.spy();
+      this.changeTab = sinon.spy();
+      this.disableMirrorMode = sinon.spy();
+      this.enableMirrorMode = sinon.spy();
+      this.getDisplayName = sinon.spy();
+      this.getElasticHostname = sinon.spy();
+      this.getNumberOfOpenTabs = sinon.spy();
+      this.getUpdatePromise = sinon.spy();
+      this.insertHostName = sinon.spy();
+      this.isDirty = sinon.spy();
+      this.openDockerfile = sinon.spy();
+      this.populateStateFromData = sinon.spy();
+      this.rebuildAndOrRedeploy = sinon.spy();
+      this.requiresRebuild = sinon.spy();
+      this.requiresRedeploy = sinon.spy();
+      this.resetStateContextVersion = sinon.spy();
+      this.saveInstanceAndRefreshCards = sinon.spy();
+      this.showAdvancedModeConfirm = sinon.spy();
+      this.switchBetweenAdvancedAndMirroring = sinon.spy();
+      this.switchToMirrorMode = sinon.spy();
+      this.switchToAdvancedMode = sinon.spy();
+      this.updateInstanceAndReset = sinon.spy();
+      // The ones I actually care about
+      this.onEnvChange = sinon.spy();
+      this.onPortsChange = sinon.spy();
+      mockServerModalController = this;
+    };
     fetchStackAnalysisMock = new MockFetch();
     createNewBuildMock = sinon.stub();
     createAndBuildNewContainerMock = new MockFetch();
     loadingPromiseFinishedValue = null;
 
     angular.mock.module('app');
-    angular.mock.module(function ($provide) {
+    angular.mock.module(function ($provide, $controllerProvider) {
+      if (replaceSMC) {
+        $controllerProvider.register('ServerModalController', ServerModalController);
+      }
       $provide.value('errs', errsMock);
       $provide.factory('fetchStackAnalysis', fetchStackAnalysisMock.fetch());
       $provide.value('helpCards', helpCardsMock);
@@ -312,7 +345,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
           repo: repo,
           build: newBuild,
           masterBranch: branch
-        }, done);
+        }, false, done);
       });
 
       it('should not fetch the repo list on load', function () {
@@ -331,7 +364,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
 
   describe('methods', function () {
-    beforeEach(initState.bind(null, {}));
+    beforeEach(initState.bind(null, {}, null));
 
     describe('createServer', function () {
 
@@ -440,13 +473,17 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         SMC.state.ports = [1,2,3];
         $scope.$digest();
         sinon.assert.calledOnce(updateDockerfileFromStateStub);
+        sinon.assert.calledWith(
+          updateDockerfileFromStateStub,
+          SMC.state
+        );
       });
     });
   });
 
   describe('rebuild', function () {
     var cv = {};
-    beforeEach(initState.bind(null, {}));
+    beforeEach(initState.bind(null, {}, null));
     beforeEach(function () {
       keypather.set(SMC, 'instance.contextVersion', cv);
       SMC.rebuildAndOrRedeploy = sinon.stub().returns($q.when(true));
@@ -481,7 +518,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   });
 
   describe('Steps', function () {
-    beforeEach(initState.bind(null, {}));
+    beforeEach(initState.bind(null, {}, null));
 
     beforeEach(function () {
       closeSpy.reset();
@@ -574,7 +611,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
  });
 
   describe('Close Modal', function () {
-    beforeEach(initState.bind(null, {}));
+    beforeEach(initState.bind(null, {}, null));
 
     it('should close the modal if the controller is not dirty', function () {
       closeSpy.reset();
@@ -631,28 +668,19 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   });
 
   describe('Env change', function () {
-    beforeEach(initState.bind(null, {}));
+    beforeEach(initState.bind(null, {}, true));
 
-    it('should correctly update the dockerfile when the envs have changed ', function () {
+    it('should correctly call onEnvChange when the envs have changed ', function () {
       $scope.$digest();
+      sinon.assert.calledOnce(mockServerModalController.onEnvChange);
       SMC.state.opts.env = ['asdasd=123'];
       $scope.$digest();
-      sinon.assert.calledOnce(updateDockerfileFromStateStub);
-      sinon.assert.calledWith(
-        updateDockerfileFromStateStub,
-        SMC.state,
-        true,
-        true
-      );
-      updateDockerfileFromStateStub.reset();
-      SMC.state.opts.env = ['asdasd=123', 'asdasdas=1'];
-      $scope.$digest();
-      sinon.assert.calledOnce(updateDockerfileFromStateStub);
+      sinon.assert.calledTwice(mockServerModalController.onEnvChange);
     });
   });
 
   describe('isTabVisible', function () {
-    beforeEach(initState.bind(null, {}));
+    beforeEach(initState.bind(null, {}, null));
 
     it('should return false for an undefined tab', function () {
       expect(SMC.isTabVisible('thingthatdoesntexist')).to.equal(false);
@@ -704,7 +732,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   });
 
   describe('needsToBeDirtySaved', function () {
-    beforeEach(initState.bind(null, {}));
+    beforeEach(initState.bind(null, {}, null));
 
     it('should return true if there is an instance', function () {
       SMC.instance = {};
@@ -718,7 +746,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   });
 
   describe('showStackSelector', function () {
-    beforeEach(initState.bind(null, {}));
+    beforeEach(initState.bind(null, {}, null));
 
     it('should return true if there is an instance', function () {
       SMC.state.advanced = true;
@@ -732,7 +760,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   });
 
   describe('isPrimaryButtonDisabled', function () {
-    beforeEach(initState.bind(null, {}));
+    beforeEach(initState.bind(null, {}, null));
 
     it('should return fasle if form is valid', function () {
       SMC.state.selectedStack = {
@@ -760,7 +788,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   });
 
   describe('$on resetStateContextVersion', function () {
-    beforeEach(initState.bind(null, {}));
+    beforeEach(initState.bind(null, {}, null));
     beforeEach(function () {
       SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
     });

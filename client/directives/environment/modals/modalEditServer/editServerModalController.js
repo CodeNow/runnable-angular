@@ -9,22 +9,18 @@ require('app')
 function EditServerModalController(
   $scope,
   $controller,
-  $rootScope,
   cleanStartCommand,
   errs,
   fetchInstancesByPod,
-  findLinkedServerVariables,
   helpCards,
   instance,
   isTabNameValid,
   keypather,
   loading,
   loadingPromises,
-  ModalService,
   OpenItems,
   tab,
   TAB_VISIBILITY,
-  updateDockerfileFromState,
   close
 ) {
   var SMC = this;
@@ -109,14 +105,7 @@ function EditServerModalController(
 
   $scope.$watchCollection(function () {
     return SMC.state.opts.env;
-  }, function (newEnvArray, oldEnvArray) {
-    if (!newEnvArray) { return; }
-    SMC.linkedEnvResults = findLinkedServerVariables(SMC.state.opts.env);
-    if (!angular.equals(newEnvArray, oldEnvArray)) {
-      // Only update the Dockerfile if the envs have actually changed
-      updateDockerfileFromState(SMC.state, true, true);
-    }
-  });
+  }, parentController.onEnvChange.bind(SMC));
 
   $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
     $event.stopPropagation();

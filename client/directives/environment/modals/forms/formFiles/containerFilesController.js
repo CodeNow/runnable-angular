@@ -14,15 +14,7 @@ function ContainerFilesController(
   updateDockerfileFromState,
   keypather
 ) {
-
   var self = this;
-
-  this.init = function (opts) {
-    angular.extend(self, {
-      state: opts.state,
-      getDisplayName: opts.getDisplayName
-    });
-  };
 
   this.repositoryPopover = {
     actions: {
