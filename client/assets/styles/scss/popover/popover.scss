@@ -34,7 +34,7 @@
 
     .popover-content {
       overflow: hidden;
-      padding: 3px;
+      padding: 6px;
     }
 
     .popover-list {
@@ -46,8 +46,8 @@
     }
 
     .list-secondary {
-      margin: 3px -3px -3px;
-      padding: 3px 0;
+      margin: 6px -6px -6px;
+      padding: 6px 0;
     }
 
     // icon placement
@@ -117,7 +117,7 @@
   // li.divider
   .divider {
     background: rgba($black,.1);
-    margin: 3px 0;
+    margin: 6px 0;
     min-height: 1px;
   }
 
