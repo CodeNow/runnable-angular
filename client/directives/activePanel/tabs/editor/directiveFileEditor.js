@@ -57,7 +57,8 @@ function fileEditor(
 
       function fetchFile() {
         delete $scope.hasError;
-        // If the file is a remote copy, or it has changes, for the love of god... DON'T UPDATE!
+        // If the file is a remote copy, or it has changes, for the love of god... DON'T UPDATE!!
+        // All of the changes will be deleted
         if ($scope.readOnly && (keypather.get($scope.file, 'attrs.isRemoteCopy') || keypather.get($scope.file, 'state.body'))) {
           return $q.when(true);
         }
