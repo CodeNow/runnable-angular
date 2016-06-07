@@ -136,12 +136,7 @@ function SetupServerModalController(
 
   $scope.$watchCollection(function () {
     return SMC.state.ports;
-  }, function (newPortsArray, oldPortsArray) {
-    if (!angular.equals(newPortsArray, oldPortsArray)) {
-      // Only update the Dockerfile if the ports have actually changed
-      loadingPromises.add(SMC.name, updateDockerfileFromState(SMC.state));
-    }
-  });
+  }, parentController.onPortsChange.bind(SMC));
 
   $scope.$watchCollection(function () {
     return SMC.state.opts.env;

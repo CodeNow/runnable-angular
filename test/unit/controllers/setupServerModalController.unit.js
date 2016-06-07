@@ -95,8 +95,9 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       this.switchToMirrorMode = sinon.spy();
       this.switchToAdvancedMode = sinon.spy();
       this.updateInstanceAndReset = sinon.spy();
-      // The one I actually care about
+      // The ones I actually care about
       this.onEnvChange = sinon.spy();
+      this.onPortsChange = sinon.spy();
       mockServerModalController = this;
     };
     fetchStackAnalysisMock = new MockFetch();
