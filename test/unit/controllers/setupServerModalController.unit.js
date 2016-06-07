@@ -472,6 +472,10 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         SMC.state.ports = [1,2,3];
         $scope.$digest();
         sinon.assert.calledOnce(updateDockerfileFromStateStub);
+        sinon.assert.calledWith(
+          updateDockerfileFromStateStub,
+          SMC.state
+        );
       });
     });
   });
