@@ -64,7 +64,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
   var mockServerModalController;
 
-  function initState(opts, done) {
+  function initState(opts, replaceSMC, done) {
     helpCardsMock = {
       refreshAllCards: sinon.stub()
     };
@@ -106,7 +106,9 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
     angular.mock.module('app');
     angular.mock.module(function ($provide, $controllerProvider) {
-      $controllerProvider.register('ServerModalController', ServerModalController);
+      if (replaceSMC) {
+        $controllerProvider.register('ServerModalController', ServerModalController);
+      }
       $provide.value('errs', errsMock);
       $provide.factory('fetchStackAnalysis', fetchStackAnalysisMock.fetch());
       $provide.value('helpCards', helpCardsMock);
@@ -342,7 +344,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
           repo: repo,
           build: newBuild,
           masterBranch: branch
-        }, done);
+        }, false, done);
       });
 
       it('should not fetch the repo list on load', function () {
@@ -361,7 +363,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
 
   describe('methods', function () {
-    beforeEach(initState.bind(null, {}));
+    beforeEach(initState.bind(null, {}, null));
 
     describe('createServer', function () {
 
@@ -476,7 +478,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
   describe('rebuild', function () {
     var cv = {};
-    beforeEach(initState.bind(null, {}));
+    beforeEach(initState.bind(null, {}, null));
     beforeEach(function () {
       keypather.set(SMC, 'instance.contextVersion', cv);
       SMC.rebuildAndOrRedeploy = sinon.stub().returns($q.when(true));
@@ -511,7 +513,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   });
 
   describe('Steps', function () {
-    beforeEach(initState.bind(null, {}));
+    beforeEach(initState.bind(null, {}, null));
 
     beforeEach(function () {
       closeSpy.reset();
@@ -604,7 +606,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
  });
 
   describe('Close Modal', function () {
-    beforeEach(initState.bind(null, {}));
+    beforeEach(initState.bind(null, {}, null));
 
     it('should close the modal if the controller is not dirty', function () {
       closeSpy.reset();
@@ -661,7 +663,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   });
 
   describe('Env change', function () {
-    beforeEach(initState.bind(null, {}));
+    beforeEach(initState.bind(null, {}, true));
 
     it('should correctly call onEnvChange when the envs have changed ', function () {
       $scope.$digest();
@@ -673,7 +675,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   });
 
   describe('isTabVisible', function () {
-    beforeEach(initState.bind(null, {}));
+    beforeEach(initState.bind(null, {}, null));
 
     it('should return false for an undefined tab', function () {
       expect(SMC.isTabVisible('thingthatdoesntexist')).to.equal(false);
@@ -725,7 +727,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   });
 
   describe('needsToBeDirtySaved', function () {
-    beforeEach(initState.bind(null, {}));
+    beforeEach(initState.bind(null, {}, null));
 
     it('should return true if there is an instance', function () {
       SMC.instance = {};
@@ -739,7 +741,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   });
 
   describe('showStackSelector', function () {
-    beforeEach(initState.bind(null, {}));
+    beforeEach(initState.bind(null, {}, null));
 
     it('should return true if there is an instance', function () {
       SMC.state.advanced = true;
@@ -753,7 +755,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   });
 
   describe('isPrimaryButtonDisabled', function () {
-    beforeEach(initState.bind(null, {}));
+    beforeEach(initState.bind(null, {}, null));
 
     it('should return fasle if form is valid', function () {
       SMC.state.selectedStack = {
@@ -781,7 +783,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   });
 
   describe('$on resetStateContextVersion', function () {
-    beforeEach(initState.bind(null, {}));
+    beforeEach(initState.bind(null, {}, null));
     beforeEach(function () {
       SMC.resetStateContextVersion = sinon.stub().returns($q.when(true));
     });
