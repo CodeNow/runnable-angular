@@ -252,7 +252,7 @@ function ServerModalController(
 
   this.onPortsChange = function (newPortsArray, oldPortsArray) {
     var SMC = this;
-    if (SMC.state.advanced !== 'isMirroringDockerfile' && !angular.equals(newPortsArray, oldPortsArray)) {
+    if (!SMC.state.advanced && !angular.equals(newPortsArray, oldPortsArray)) {
       // Only update the Dockerfile if the ports have actually changed
       loadingPromises.add(SMC.name, updateDockerfileFromState(SMC.state));
     }
@@ -261,7 +261,7 @@ function ServerModalController(
   this.onEnvChange = function (newEnvArray, oldEnvArray) {
     var SMC = this;
     if (!newEnvArray) { return; }
-    if (SMC.state.advanced !== 'isMirroringDockerfile' && !angular.equals(newEnvArray, oldEnvArray)) {
+    if (!SMC.state.advanced && !angular.equals(newEnvArray, oldEnvArray)) {
       // Only update the Dockerfile if the envs have actually changed
       loadingPromises.add(SMC.name, updateDockerfileFromState(SMC.state));
     }
