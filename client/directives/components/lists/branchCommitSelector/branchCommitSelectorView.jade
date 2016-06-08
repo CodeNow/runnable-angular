@@ -8,24 +8,42 @@ label.label(
 //- this element should appear in:
     * the setup popover for adding a repo to Container Files
     * the edit modal (in the Containers view) for modifying an additional repo on a specific Container
-label.toggle-wrapper(
+.toggle-wrapper(
   ng-if = "!BCSC.data.acv || BCSC.data.acv.attrs.additionalRepo"
 )
   .strong Always update to latest commit
   .small.text-overflow on new builds of&#32;
     strong.strong {{BCSC.data.getDisplayName() || BCSC.data.instance.getDisplayName()}}
+    button.btn.btn-xxs.orange(
+      ng-if = "$root.featureFlags.webhooksNeeded"
+    )
+      svg.iconnables.icons-alert.float-left
+        use(
+          xlink:href = "#icons-alert-alt"
+        )
+      | Permissions Needed
   input.toggle-input(
     ng-model = "BCSC.isLatestCommit"
     ng-model-options = "{getterSetter: true}"
     type = "checkbox"
   )
-  .toggle-group.toggle-sm
+  .toggle-group.toggle-sm(
+    ng-class = "{'invalid': $root.featureFlags.webhooksNeeded}"
+  )
 
-label.toggle-wrapper(
+.toggle-wrapper(
   ng-if = "$root.featureFlags.testingFeature && !BCSC.data.acv.attrs.additionalRepo"
 )
   .strong Auto-Deploy
   .small Rebuild when new commits are pushed to GitHub.
+  button.btn.btn-xxs.orange.btn-permissions(
+    ng-if = "$root.featureFlags.webhooksNeeded"
+  )
+    svg.iconnables.icons-alert.float-left
+      use(
+        xlink:href = "#icons-alert-alt"
+      )
+    | Permissions Needed
   input.toggle-input(
     type = "checkbox"
   )

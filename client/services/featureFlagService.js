@@ -46,6 +46,7 @@ function featureFlags(
     webhooks: false,
     webhooksAdminPresent: false,
     webhooksContainerRunning: false,
+    webhooksNeeded: false,
     welcomeBack: false,
     whitelist: true,
     whitelistIpFiltering: false

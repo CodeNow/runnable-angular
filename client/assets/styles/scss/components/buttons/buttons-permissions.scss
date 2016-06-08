@@ -1,0 +1,14 @@
+.btn-permissions {
+  border-radius: $input-xxs;
+  border-width: 1px;
+  line-height: 16px;
+  margin-top: 6px;
+  padding: 0 9px 0 6px;
+
+  .icons-alert {
+    height: 100%;
+    margin-right: 3px;
+    opacity: .75;
+    width: 12px;
+  }
+}
