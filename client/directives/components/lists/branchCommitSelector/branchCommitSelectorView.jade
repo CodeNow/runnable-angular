@@ -24,13 +24,12 @@ label.label(
         )
       | Permissions Needed
   input.toggle-input(
+    ng-disabled = "$root.featureFlags.webhooks"
     ng-model = "BCSC.isLatestCommit"
     ng-model-options = "{getterSetter: true}"
     type = "checkbox"
   )
-  .toggle-group.toggle-sm(
-    ng-class = "{'invalid': $root.featureFlags.webhooks}"
-  )
+  .toggle-group.toggle-sm
 
 .toggle-wrapper(
   ng-if = "$root.featureFlags.testingFeature && !BCSC.data.acv.attrs.additionalRepo"
@@ -47,11 +46,10 @@ label.label(
       )
     | Permissions Needed
   input.toggle-input(
+    ng-disabled = "$root.featureFlags.webhooks"
     type = "checkbox"
   )
-  .toggle-group.toggle-sm(
-    ng-class = "{'invalid': $root.featureFlags.webhooks}"
-  )
+  .toggle-group.toggle-sm
 
 ul.list.list-servers
   li.spinner-wrapper.spinner-backdrop.spinner-gray.spinner-md.in(

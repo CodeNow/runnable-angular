@@ -26,11 +26,10 @@
                 | Permissions Needed
             label.grid-content.shrink.toggle-wrapper
               input.toggle-input(
+                ng-disabled = "$root.featureFlags.webhooks"
                 type = "checkbox"
               )
-              .toggle-group.toggle-sm(
-                ng-class = "{'invalid': $root.featureFlags.webhooks}"
-              )
+              .toggle-group.toggle-sm
           ul.list.popover-list
             li.list-item.popover-list-item(
               ng-click = "goToPanel('addBranch')"
@@ -51,7 +50,7 @@
                 use(
                   xlink:href = "#icons-options"
                 )
-              | Modify Includes
+              | Include Containers…
     animated-panel(
       name = "addBranch"
     )

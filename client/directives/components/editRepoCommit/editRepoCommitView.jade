@@ -105,15 +105,13 @@
   label.toggle-wrapper.float-right
     //- this would not be enabled when an webhooks admin is not present
     input.toggle-input(
-      ng-disabled = "$root.isLoading.autoDeploy"
+      ng-disabled = "$root.isLoading.autoDeploy || $root.featureFlags.webhooks"
       ng-false-value = "true"
       ng-model = "autoDeploy"
       ng-model-options = "{getterSetter: true}"
       ng-true-value = "false"
       type = "checkbox"
     )
-
     .toggle-group.toggle-xs(
-      ng-class = "{'invalid': $root.featureFlags.webhooks}"
       ng-if = "!$root.featureFlags.webhooks || $root.featureFlags.webhooksAdminPresent"
     )
