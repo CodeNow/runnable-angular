@@ -371,6 +371,19 @@
     margin: 45px auto;
   }
 
+  // modal description
+  .well {
+    background: $gray-lightest;
+
+    &:first-child {
+      margin-bottom: 15px;
+    }
+
+    &:last-child {
+      margin-top: 15px;
+    }
+  }
+
   .label-checkbox {
     transition: padding .15s ease-in;
   }

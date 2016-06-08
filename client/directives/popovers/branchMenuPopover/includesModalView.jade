@@ -1,0 +1,37 @@
+.modal-backdrop.in
+  .modal-dialog.modal-sm.modal-includes
+    header.modal-header
+      h1.modal-heading Include Containers
+      svg.iconnables.icons-close
+        use(
+          xlink:href = "#icons-close"
+        )
+
+    section.modal-body
+      .grid-block.vertical.shrink.text-center.well.gray.small.padding-sm Changes will apply to all branches.
+      h4.grid-block.shrink.h4.text-gray.small.padding-xs Include:
+      .grid-block.vertical.shrink.list.list-bordered
+        .list-item.padding-xs
+          label.grid-block.align-center.text-overflow
+            input.grid-content.shrink.checkbox(
+              checked
+              type = "checkbox"
+            )
+            .grid-content hellonode
+        .list-item.padding-xs
+          label.grid-block.align-center.text-overflow
+            input.grid-content.shrink.checkbox(
+              checked
+              type = "checkbox"
+            )
+            .grid-content migration-tester
+        .list-item.padding-xs
+          label.grid-block.align-center.text-overflow
+            input.grid-content.shrink.checkbox(
+              checked
+              type = "checkbox"
+            )
+            .grid-content redis
+    footer.modal-footer.clearfix
+      button.btn.btn-md.gray.btn-cancel.float-left Cancel
+      button.btn.btn-md.green.float-right Save

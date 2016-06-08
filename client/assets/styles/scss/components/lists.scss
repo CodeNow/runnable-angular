@@ -1,5 +1,6 @@
 // bordered list with line between items
 .list-bordered {
+  background: $white;
   border: 1px solid $gray-lighter;
   border-radius: $input-border-radius-lg;
 

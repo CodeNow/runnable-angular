@@ -12,7 +12,7 @@
         .popover-content.fade(
           ng-class = "{'in': isActivePanel()}"
         )
-          .grid-block.shrink.align-center.well.gray.padding-xs
+          .grid-block.shrink.align-center.well.gray.padding-xxs
             .grid-content
               .small Automatically add branches as they’re updated on GitHub.
             label.grid-content.shrink.toggle-wrapper
@@ -33,7 +33,9 @@
                 use(
                   xlink:href = "#icons-arrow-down"
                 )
-            li.list-item.popover-list-item
+            li.list-item.popover-list-item(
+              internal-modal-helper = "includesModalView"
+            )
               svg.iconnables
                 use(
                   xlink:href = "#icons-options"
@@ -62,7 +64,7 @@
             ng-if = "!state.branchesLoaded"
             ng-include = "'spinner'"
           )
-          .padding-xs(
+          .padding-xxs(
             ng-if = "state.branchesLoaded"
           )
             input.input.input-xs.input-search(

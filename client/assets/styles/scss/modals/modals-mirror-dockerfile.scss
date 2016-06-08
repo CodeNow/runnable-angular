@@ -17,10 +17,6 @@
     margin: 0;
   }
 
-  .list {
-    background: $white;
-  }
-
   .list-item {
     align-items: center;
     color: $gray-dark;
@@ -37,7 +33,7 @@
     }
 
     // anchor
-    .iconnables {
+    > .iconnables {
       width: 18px;
 
       + .grid-content {
@@ -77,10 +73,6 @@
       pointer-events: none; // let the label parent select
       position: static;
       width: $input-xs;
-    }
-
-    .icons-check {
-      top: -3px;
     }
   }
 
