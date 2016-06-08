@@ -48,26 +48,6 @@
     ng-repeat = "childInstance in masterInstance.children.models | orderBy: ['attrs.name']"
   )
 
-  //- if default container is not running or if no admin is present
-  //- popover should appear on hover
-  button.btn.btn-xs.white.btn-add-branches.disabled(
-    ng-if = "$root.featureFlags.webhooks && masterInstance.status() !== 'running' && !$root.featureFlags.webhooksAdminPresent"
-    pop-over
-    pop-over-controller = "CIS"
-    pop-over-controller-as = "EBPC"
-    pop-over-data = "masterInstance"
-    pop-over-hover-trigger
-    pop-over-options = "{\"verticallyCentered\": true, \"left\": 129}"
-    pop-over-template = "enableBranchesPopoverView"
-    pop-over-trigger = "hover"
-  ) Enable Branches…
-
-  //- if default container is running and admin is present
-  button.btn.btn-xs.white.btn-add-branches(
-    ng-click = "CIS.openEnableBranchesModal(masterInstance)"
-    ng-if = "$root.featureFlags.webhooks && masterInstance.status() === 'running'"
-  ) Enable Branches…
-
   //- nav list filter
   .btn.btn-xxs.btn-more-containers(
     ng-if = "$root.featureFlags.navListFilter"

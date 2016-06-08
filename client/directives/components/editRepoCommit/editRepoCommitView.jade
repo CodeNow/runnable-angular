@@ -93,10 +93,19 @@
     tooltip = "Automatically rebuild your container when new commits are made."
     tooltip-options = "{\"class\":\"bottom center text-center tooltip-definition\",\"left\":-85,\"top\":18}"
   ) Auto-Deploy
+  button.btn.btn-xxs.orange.btn-permissions(
+    internal-modal-helper = "inviteAdminModalView"
+    ng-if = "$root.featureFlags.webhooks"
+  )
+    svg.iconnables.icons-alert.float-left
+      use(
+        xlink:href = "#icons-alert-alt"
+      )
+    | Permissions Needed
   label.toggle-wrapper.float-right
     //- this would not be enabled when an webhooks admin is not present
     input.toggle-input(
-      ng-disabled = "$root.isLoading.autoDeploy || ($root.featureFlags.webhooks && !$root.featureFlags.webhooksAdminPresent)"
+      ng-disabled = "$root.isLoading.autoDeploy"
       ng-false-value = "true"
       ng-model = "autoDeploy"
       ng-model-options = "{getterSetter: true}"
@@ -105,18 +114,6 @@
     )
 
     .toggle-group.toggle-xs(
+      ng-class = "{'invalid': $root.featureFlags.webhooks}"
       ng-if = "!$root.featureFlags.webhooks || $root.featureFlags.webhooksAdminPresent"
-    )
-
-    //- popover if disabled for webhooks
-    .toggle-group.toggle-xs(
-      ng-if = "$root.featureFlags.webhooks && !$root.featureFlags.webhooksAdminPresent"
-      pop-over
-      pop-over-controller = "actions"
-      pop-over-controller-as = "ADPC"
-      pop-over-data = "instance"
-      pop-over-hover-trigger
-      pop-over-options = "{\"top\":29,\"centered\":true}"
-      pop-over-template = "autoDeployPopoverView"
-      pop-over-trigger = "hover"
     )

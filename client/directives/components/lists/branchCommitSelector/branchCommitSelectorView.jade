@@ -15,7 +15,8 @@ label.label(
   .small.text-overflow on new builds of&#32;
     strong.strong {{BCSC.data.getDisplayName() || BCSC.data.instance.getDisplayName()}}
     button.btn.btn-xxs.orange(
-      ng-if = "$root.featureFlags.webhooksNeeded"
+      internal-modal-helper = "inviteAdminModalView"
+      ng-if = "$root.featureFlags.webhooks"
     )
       svg.iconnables.icons-alert.float-left
         use(
@@ -28,7 +29,7 @@ label.label(
     type = "checkbox"
   )
   .toggle-group.toggle-sm(
-    ng-class = "{'invalid': $root.featureFlags.webhooksNeeded}"
+    ng-class = "{'invalid': $root.featureFlags.webhooks}"
   )
 
 .toggle-wrapper(
@@ -37,7 +38,8 @@ label.label(
   .strong Auto-Deploy
   .small Rebuild when new commits are pushed to GitHub.
   button.btn.btn-xxs.orange.btn-permissions(
-    ng-if = "$root.featureFlags.webhooksNeeded"
+    internal-modal-helper = "inviteAdminModalView"
+    ng-if = "$root.featureFlags.webhooks"
   )
     svg.iconnables.icons-alert.float-left
       use(
@@ -47,7 +49,9 @@ label.label(
   input.toggle-input(
     type = "checkbox"
   )
-  .toggle-group.toggle-sm
+  .toggle-group.toggle-sm(
+    ng-class = "{'invalid': $root.featureFlags.webhooks}"
+  )
 
 ul.list.list-servers
   li.spinner-wrapper.spinner-backdrop.spinner-gray.spinner-md.in(

@@ -16,7 +16,8 @@
             .grid-content
               .small Automatically add branches as they’re updated on GitHub.
               button.btn.btn-xxs.orange.btn-permissions(
-                ng-if = "$root.featureFlags.webhooksNeeded"
+                internal-modal-helper = "inviteAdminModalView"
+                ng-if = "$root.featureFlags.webhooks"
               )
                 svg.iconnables.icons-alert.float-left
                   use(
@@ -28,7 +29,7 @@
                 type = "checkbox"
               )
               .toggle-group.toggle-sm(
-                ng-class = "{'invalid': $root.featureFlags.webhooksNeeded}"
+                ng-class = "{'invalid': $root.featureFlags.webhooks}"
               )
           ul.list.popover-list
             li.list-item.popover-list-item(

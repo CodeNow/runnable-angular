@@ -9,20 +9,7 @@
           xlink:href = "#icons-close"
         )
     section.modal-body
-      .label
-        small.small The GitHub admins for&#32;
-          strong.strong {{IAMC.repoName}}&#32;
-          span.span are listed below.&#32;
-
-          //- when modal is opened from auto deploy
-          span.span(
-            ng-if = "IAMC.isFromAutoDeploy"
-          ) Invite one to this Sandbox, and we’ll turn on Auto Deploy when they join.
-
-          //- when modal is opened from containers list
-          span.span(
-            ng-if = "!IAMC.isFromAutoDeploy"
-          ) Invite one to this Sandbox, and you can enable branches after they join.
+      .label.small.padding-sm.text-gray.text-center We need an admin from this repository with webhooks permissions in order to trigger new builds.
 
       ul.list.list-bordered.list-teammates
         li.list-item.spinner-wrapper.spinner-gray.spinner-sm.in.spinner-center(
