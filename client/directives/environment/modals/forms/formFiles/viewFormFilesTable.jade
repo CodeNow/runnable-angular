@@ -1,5 +1,5 @@
 .tr.multi-line.clearfix(
-  ng-repeat = "containerFile in SMC.state.containerFiles | filter:{type: 'SSH Key'}"
+  ng-repeat = "containerFile in CFC.state.containerFiles | filter:{type: 'SSH Key'}"
 )
   .cell.cell-action.disabled.no-touching
     svg.iconnables.icons-drag
@@ -29,25 +29,25 @@
 
 //- only show if there's > 0 ssh keys AND > 0 files
 .tr.thead.clearfix.divider(
-  ng-if = "(SMC.state.containerFiles | filter:{type: 'SSH Key'}).length"
+  ng-if = "(CFC.state.containerFiles | filter:{type: 'SSH Key'}).length"
 )
 
 //- dnd-drop needs this to be a list
 ul.table-drag-drop(
   dnd-drop = "CFC.dropContainerFile(event, index, item, type)"
-  dnd-list = "SMC.state.containerFiles"
+  dnd-list = "CFC.state.containerFiles"
 )
   li.tr.multi-line.clearfix(
     dnd-draggable = "containerFile.id"
     dnd-dragstart = "actions.dragstart()"
     dnd-effect-allowed = "move"
-    ng-repeat = "containerFile in SMC.state.containerFiles"
+    ng-repeat = "containerFile in CFC.state.containerFiles"
     ng-show = "containerFile.type !== 'SSH Key'"
   )
     .cell.cell-action(
       ng-class = "{\
-        'disabled': SMC.state.containerFiles.length < 2,\
-        'no-touching': SMC.state.containerFiles.length < 2\
+        'disabled': CFC.state.containerFiles.length < 2,\
+        'no-touching': CFC.state.containerFiles.length < 2\
       }"
       dnd-handle
     )

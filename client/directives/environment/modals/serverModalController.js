@@ -22,6 +22,8 @@ function ServerModalController(
   promisify,
   updateDockerfileFromState
 ) {
+  var parentController = this;
+
   this.requiresRedeploy = function () {
     var SMC = this;
     return !!SMC.instance && !angular.equals(
@@ -162,7 +164,7 @@ function ServerModalController(
       'files',
       'translation',
       'buildfiles',
-      'logs',
+      'logs'
     ];
     var SMC = this;
     var count = tabs.filter(function (tabName) {
@@ -228,12 +230,7 @@ function ServerModalController(
     if (!SMC.portsUnwatcher) {
       SMC.portsUnwatcher = $scope.$watchCollection(function () {
         return SMC.state.ports;
-      }, function (newPortsArray, oldPortsArray) {
-        if (!angular.equals(newPortsArray, oldPortsArray)) {
-          // Only update the Dockerfile if the ports have actually changed
-          loadingPromises.add(SMC.name, updateDockerfileFromState(SMC.state, true, true));
-        }
-      });
+      }, parentController.onPortsChange.bind(SMC));
     }
 
     SMC.state.packages = data.packages;
@@ -250,6 +247,23 @@ function ServerModalController(
 
     if (data.containerFiles) {
       SMC.state.containerFiles = data.containerFiles.map(mapContainerFiles);
+    }
+  };
+
+  this.onPortsChange = function (newPortsArray, oldPortsArray) {
+    var SMC = this;
+    if (!SMC.state.advanced && !angular.equals(newPortsArray, oldPortsArray)) {
+      // Only update the Dockerfile if the ports have actually changed
+      loadingPromises.add(SMC.name, updateDockerfileFromState(SMC.state));
+    }
+  };
+
+  this.onEnvChange = function (newEnvArray, oldEnvArray) {
+    var SMC = this;
+    if (!newEnvArray) { return; }
+    if (!SMC.state.advanced && !angular.equals(newEnvArray, oldEnvArray)) {
+      // Only update the Dockerfile if the envs have actually changed
+      loadingPromises.add(SMC.name, updateDockerfileFromState(SMC.state));
     }
   };
 
@@ -332,9 +346,9 @@ function ServerModalController(
   this.switchToMirrorMode = function (state, openItems, dockerfile) {
     var SMC = this;
     return loadingPromises.add(SMC.name, promisify(state.contextVersion, 'update')({
-        advanced: true,
-        buildDockerfilePath: dockerfile.path
-      }))
+      advanced: true,
+      buildDockerfilePath: dockerfile.path
+    }))
       .then(function () {
         state.advanced = 'isMirroringDockerfile';
         return SMC.resetStateContextVersion(state.contextVersion, false);
@@ -351,20 +365,20 @@ function ServerModalController(
       advanced: true,
       buildDockerfilePath: null
     }))
-    .then(function () {
-      return SMC.openDockerfile(state, openItems);
-    })
-    .then(function () {
-      state.advanced = true;
-      return SMC.resetStateContextVersion(state.contextVersion, false);
-    })
-    .then(function () {
-      return promisify(state.dockerfile, 'update')({
-        json: {
-          body: dockerfileBody
-        }
+      .then(function () {
+        return SMC.openDockerfile(state, openItems);
+      })
+      .then(function () {
+        state.advanced = true;
+        return SMC.resetStateContextVersion(state.contextVersion, false);
+      })
+      .then(function () {
+        return promisify(state.dockerfile, 'update')({
+          json: {
+            body: dockerfileBody
+          }
+        });
       });
-    });
   };
 
   this.enableMirrorMode = function () {

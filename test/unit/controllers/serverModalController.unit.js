@@ -1035,4 +1035,26 @@ describe('serverModalController'.bold.underline.blue, function () {
       expect(SMC.getElasticHostname()).to.equal('');
     });
   });
+
+
+  describe('Env change', function () {
+    beforeEach(setup.bind(null, {}));
+
+    it('should do nothing when the envs are the same ', function () {
+      $scope.$digest();
+      SMC.onEnvChange(['hello'], ['hello']);
+      $scope.$digest();
+      sinon.assert.notCalled(ctx.updateDockerfileFromStateMock);
+    });
+    it('should correctly update the dockerfile when the envs have changed ', function () {
+      $scope.$digest();
+      SMC.onEnvChange(['hello'], ['asdasd=123', 'asdasdas=1']);
+      $scope.$digest();
+      sinon.assert.calledOnce(ctx.updateDockerfileFromStateMock);
+      sinon.assert.calledWith(
+        ctx.updateDockerfileFromStateMock,
+        SMC.state
+      );
+    });
+  });
 });
