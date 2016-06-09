@@ -391,17 +391,6 @@
   padding: 6px;
   position: relative;
   z-index: $z-popover-content;
-
-  > .btn-sm {
-    display: block;
-    margin: 6px 9px 12px;
-
-    .icons-add {
-      height: 18px;
-      margin-right: 6px;
-      top: 7px;
-    }
-  }
 }
 
 //- footer.popover-footer

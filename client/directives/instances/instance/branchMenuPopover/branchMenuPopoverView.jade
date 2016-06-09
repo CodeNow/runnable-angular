@@ -3,7 +3,21 @@
   ng-style = "popoverStyle.getStyle()"
 )
   .arrow.white
-  animated-panel-container.popover-views
+  .grid-block.vertical.popover-content.empty(
+    ng-if = "$root.featureFlags.autoIsolationSetup"
+  )
+    svg.svg.grid-block
+      use(
+        xlink:href = "#icons-branch-burst"
+      )
+    p.grid-block.p.text-center.padding-sm Add branches by setting your settings for the setting of branches.
+    button.grid-block.btn.btn-sm.gray.btn-block(
+      internal-modal-helper = "branchSetupModalView"
+    ) Setup Branches
+
+  animated-panel-container.popover-views(
+    ng-if = "!$root.featureFlags.autoIsolationSetup"
+  )
     animated-panel(
       default = "true"
       name = "branchMenu"
