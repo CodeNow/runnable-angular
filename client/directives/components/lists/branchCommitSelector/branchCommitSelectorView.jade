@@ -14,15 +14,15 @@ label.label(
   .strong Always update to latest commit
   .small.text-overflow on new builds of&#32;
     strong.strong {{BCSC.data.getDisplayName() || BCSC.data.instance.getDisplayName()}}
-    button.btn.btn-xxs.orange(
-      internal-modal-helper = "inviteAdminModalView"
-      ng-if = "$root.featureFlags.webhooks"
-    )
-      svg.iconnables.icons-alert.float-left
-        use(
-          xlink:href = "#icons-alert-alt"
-        )
-      | Permissions Needed
+  button.btn.btn-xxs.orange.btn-permissions(
+    internal-modal-helper = "inviteAdminModalView"
+    ng-if = "$root.featureFlags.webhooks"
+  )
+    svg.iconnables.icons-alert.float-left
+      use(
+        xlink:href = "#icons-alert-alt"
+      )
+    | Permissions Needed
   input.toggle-input(
     ng-disabled = "$root.featureFlags.webhooks"
     ng-model = "BCSC.isLatestCommit"

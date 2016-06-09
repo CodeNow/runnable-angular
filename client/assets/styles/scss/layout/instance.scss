@@ -4,7 +4,12 @@
   flex-direction: column;
   height: 100vh;
   overflow: hidden;
+  overflow-x: auto;
   position: relative;
+
+  > .instance-wrapper {
+    min-width: 600px;
+  }
 
   > .spinner-wrapper {
 
