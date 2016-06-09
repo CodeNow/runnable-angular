@@ -7,28 +7,28 @@
     //- hide list if build failed
     ul.popover-list
       li.popover-list-item(
-        ng-if = "!CSBC.instance.isMigrating() && ['stopped', 'crashed'].includes(CSBC.instance.status()) && !$root.featureFlags.testingFeature"
+        ng-if = "!CSBC.instance.isMigrating() && ['stopped', 'crashed'].includes(CSBC.instance.status()) && !CSBC.instance.attrs.isTesting"
         ng-click = "actions.startInstance()"
       )
         .icons-status.green
         | Start
 
       li.popover-list-item(
-        ng-if = "!CSBC.instance.isMigrating() && ['running'].includes(CSBC.instance.status()) && !$root.featureFlags.testingFeature"
+        ng-if = "!CSBC.instance.isMigrating() && ['running'].includes(CSBC.instance.status()) && !CSBC.instance.attrs.isTesting"
         ng-click = "actions.restartInstance()"
       )
         .icons-status.green
         | Restart
 
       li.popover-list-item(
-        ng-if = "!CSBC.instance.isMigrating() && ['running'].includes(CSBC.instance.status()) && !$root.featureFlags.testingFeature"
+        ng-if = "!CSBC.instance.isMigrating() && ['running'].includes(CSBC.instance.status()) && !CSBC.instance.attrs.isTesting"
         ng-click = "actions.stopInstance()"
       )
         .icons-status
         | Stop
 
       li.divider(
-        ng-if = "!CSBC.instance.isMigrating() && ['running', 'stopped', 'crashed'].includes(CSBC.instance.status()) && !$root.featureFlags.testingFeature"
+        ng-if = "!CSBC.instance.isMigrating() && ['running', 'stopped', 'crashed'].includes(CSBC.instance.status()) && !CSBC.instance.attrs.isTesting"
       )
 
       //- rebuild without cache when no new config exists for this container
@@ -40,7 +40,7 @@
         "
       )
         .icons-status.orange
-        | {{$root.featureFlags.testingFeature ?  'Rerun Test' : 'Rebuild'}}
+        | {{CSBC.instance.attrs.isTesting ? 'Rerun Test' : 'Rebuild'}}
         .small Will rebuild without cache.
 
       //- rebuild without cache when no new config exists for this container

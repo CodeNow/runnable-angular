@@ -183,6 +183,9 @@ function ControllerInstance(
           data.instance.containers.models[0],
           true
         );
+        if (keypather.get($scope, 'dataInstance.data.instance.attrs.isTesting')) {
+          data.openItems.removeAllButLogs();
+        }
         break;
       case 'crashed':
       case 'stopped':

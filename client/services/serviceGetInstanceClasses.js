@@ -31,7 +31,18 @@ function getInstanceClasses(
       'starting': 'orange',
       'stopping': 'green'
     };
-    h[statusMap[status]] = true;
+
+    var testingStatusMap = {
+      stopped: 'passed',
+      crashed: 'failed',
+      running: 'orange'
+    };
+
+    if (keypather.get(instance, 'attrs.isTesting') && testingStatusMap[status]) {
+      h[testingStatusMap[status]] = true;
+    } else {
+      h[statusMap[status]] = true;
+    }
 
     return h;
   };

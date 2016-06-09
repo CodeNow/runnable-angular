@@ -13,7 +13,11 @@ require('app')
 function activePanel(
   $sce,
   cleanStartCommand,
-  keypather
+  errs,
+  keypather,
+  loading,
+  promisify,
+  updateInstanceWithNewBuild
 ) {
   return {
     restrict: 'A',
@@ -43,6 +47,35 @@ function activePanel(
       $scope.$on('debug-cmd-status', function (evt, status) {
         $scope.showDebugCmd = status;
       });
+
+      $scope.getTestingStatus = function () {
+        var status = keypather.get($scope, 'instance.status()');
+        var testingStatusMap = {
+          stopped: 'passed',
+          crashed: 'failed',
+          running: 'inProgress'
+        };
+        if (keypather.get($scope, 'instance.attrs.isTesting') && testingStatusMap[status]) {
+          return testingStatusMap[status];
+        }
+        return null;
+      };
+
+      $scope.rebuildWithoutCache = function () {
+        loading('main', true);
+        promisify($scope.instance.build, 'deepCopy')()
+          .then(function (build) {
+            return updateInstanceWithNewBuild(
+              $scope.instance,
+              build,
+              true
+            );
+          })
+          .catch(errs.handler)
+          .finally(function () {
+            loading('main', false);
+          });
+      };
     }
   };
 }
