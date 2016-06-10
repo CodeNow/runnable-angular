@@ -83,6 +83,10 @@
         .popover-content(
           ng-init = "state.branchesLoaded = null"
         )
+          .text-center.text-gray.small.padding-md(
+            ng-if = "branch.length === 0"
+          ) There are no branches to add.
+
           .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
             ng-click = "state.branchesLoaded = true"
             ng-if = "!state.branchesLoaded"
