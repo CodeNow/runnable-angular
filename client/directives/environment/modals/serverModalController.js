@@ -37,7 +37,8 @@ function ServerModalController(
       !angular.equals(
         keypather.get(SMC, 'instance.attrs.env') || [],
         keypather.get(SMC, 'state.opts.env') // SMC is pre-filled with a default of []
-      );
+      ) ||
+      keypather.get(SMC, 'instance.attrs.isTesting') !== keypather.get(SMC, 'state.opts.isTesting');
   };
 
   this.openDockerfile = function (state, openItems) {
