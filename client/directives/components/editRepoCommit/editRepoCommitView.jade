@@ -93,7 +93,7 @@
     tooltip = "Automatically rebuild your container when new commits are made."
     tooltip-options = "{\"class\":\"bottom center text-center tooltip-definition\",\"left\":-85,\"top\":18}"
   ) Auto-Deploy
-  button.btn.btn-xxs.orange.btn-permissions(
+  button.btn.btn-xxs.orange.btn-permissions.float-right(
     internal-modal-helper = "inviteAdminModalView"
     ng-if = "$root.featureFlags.webhooks"
   )
@@ -101,7 +101,7 @@
       use(
         xlink:href = "#icons-alert-alt"
       )
-    | Permissions Needed
+    | Permissions
   label.toggle-wrapper.float-right
     //- this would not be enabled when an webhooks admin is not present
     input.toggle-input(
