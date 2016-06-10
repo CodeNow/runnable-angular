@@ -1,3 +1,9 @@
+//- empty state for no containers
+.empty.well.gray.padding-md(
+  ng-if = "containers.length === 0"
+)
+  .small.empty.text-center.text-gray Your sandbox doesn’t have any other containers yet, but you can continue and add containers later.
+
 .grid-block.vertical.shrink.list.list-bordered
   .list-item.padding-xs
     label.grid-block.align-center.text-overflow

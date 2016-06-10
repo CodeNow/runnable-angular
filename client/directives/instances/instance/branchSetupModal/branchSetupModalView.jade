@@ -111,8 +111,13 @@
             )
         section.modal-body.fade(
           ng-class = "{'in': isActivePanel()}"
+          ng-init = "containers.length = 1"
         )
-          .grid-block.vertical.shrink.text-center.well.gray.small.padding-sm Select containers from your sandbox to be included with each branch.
+          //- do not show this if there are no containers
+          .grid-block.vertical.shrink.text-center.well.gray.small.padding-sm(
+            ng-if = "containers.length > 0"
+          ) Select containers from your sandbox to be included with each branch.
+
           .grid-block.vertical.shrink(
             ng-include = "'branchSetupListView'"
           )
