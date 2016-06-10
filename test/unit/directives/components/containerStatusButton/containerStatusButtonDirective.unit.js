@@ -4,11 +4,9 @@ var $rootScope,
   $scope;
 var element;
 var $compile;
-var keypather;
 var $q;
 var $elScope;
 var CSBC;
-var readOnlySwitchController;
 var apiMocks = require('./../../../apiMocks/index');
 
 describe('containerStatusButtonDirective'.bold.underline.blue, function () {
@@ -65,6 +63,9 @@ describe('containerStatusButtonDirective'.bold.underline.blue, function () {
         },
         contextVersion: {
           getMainAppCodeVersion: sinon.stub().returns(mockMainACV)
+        },
+        attrs: {
+          isTesting: false
         }
       };
       $rootScope.featureFlags = {
@@ -112,6 +113,34 @@ describe('containerStatusButtonDirective'.bold.underline.blue, function () {
       $elScope.$digest();
       expect('Never Started', 'neverStarted').to.equal($elScope.getStatusText());
     });
+
+    it('should update the button text correctly when testing', function () {
+      mockInstance.attrs.isTesting = true;
+      var testingStatusMap = {
+        building: 'Building',
+        stopped: 'Tests Passed',
+        crashed: 'Tests Failed',
+        running: 'Tests Running'
+      };
+      mockInstance.status = sinon.stub().returns('adsfasdfads');
+      $elScope.$digest();
+      expect('Unknown').to.equal($elScope.getStatusText());
+
+      Object.keys(testingStatusMap).forEach(function (status) {
+        mockInstance.status.reset();
+        mockInstance.status = sinon.stub().returns(status);
+        $elScope.$digest();
+        expect(testingStatusMap[status], 'status ' + status).to.equal($elScope.getStatusText());
+      });
+
+      // Check neverStarted with the feature flag on
+      mockInstance.status.reset();
+      mockInstance.status = sinon.stub().returns('neverStarted');
+      $rootScope.featureFlags.internalDebugging = true;
+
+      $elScope.$digest();
+      expect('Never Started', 'neverStarted').to.equal($elScope.getStatusText());
+    });
   });
 
   describe('getClassForInstance', function () {
@@ -135,7 +164,6 @@ describe('containerStatusButtonDirective'.bold.underline.blue, function () {
         $elScope.$digest();
         expect(classesMap[status], 'status ' + status).to.deep.equal($elScope.getClassForInstance());
       });
-
     });
   });
 });
