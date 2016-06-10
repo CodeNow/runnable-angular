@@ -6,12 +6,18 @@
         name = "setupBranches"
       )
         header.modal-header
-          h1.h1.modal-heading Select Branches
-          svg.iconnables.icons-close
+          h1.h1.modal-heading.fade(
+            ng-class = "{'in': isActivePanel()}"
+          ) Select Branches
+          svg.iconnables.icons-close.fade(
+            ng-class = "{'in': isActivePanel()}"
+          )
             use(
               xlink:href = "#icons-close"
             )
-        section.modal-body
+        section.modal-body.fade(
+          ng-class = "{'in': isActivePanel()}"
+        )
           //- .label.grid-block.shrink.align-center.well.gray.padding-sm
             .small.text-center Select branches to be added. You can choose to add future branches automatically on push.
           .label.grid-block.shrink.align-center.well.gray.padding-sm
@@ -58,8 +64,11 @@
                 )
                 .grid-content SAN-4342-auto-isolation-setup
         footer.modal-footer.clearfix
-          button.btn.btn-md.gray.btn-cancel.float-left Cancel
-          button.btn.btn-md.white.float-right.text-next(
+          button.btn.btn-md.gray.btn-cancel.float-left.fade(
+            ng-class = "{'in': isActivePanel()}"
+          ) Cancel
+          button.btn.btn-md.white.float-right.text-next.fade(
+            ng-class = "{'in': isActivePanel()}"
             ng-click = "goToPanel('setupCluster')"
           )
             span.btn-text.float-left Next
@@ -72,22 +81,33 @@
         name = "setupCluster"
       )
         header.modal-header
-          svg.iconnables.icons-arrow-backward(
+          svg.iconnables.icons-arrow-backward.fade(
+            ng-class = "{'in': isActivePanel()}"
             ng-click = "goToPanel('setupBranches', 'back')"
           )
             use(
               xlink:href = "#icons-arrow-down"
             )
-          h1.h1.modal-heading Select Containers
-          svg.iconnables.icons-close
+          h1.h1.modal-heading.fade(
+            ng-class = "{'in': isActivePanel()}"
+          ) Select Containers
+          svg.iconnables.icons-close.fade(
+            ng-class = "{'in': isActivePanel()}"
+          )
             use(
               xlink:href = "#icons-close"
             )
-        section.modal-body
+        section.modal-body.fade(
+          ng-class = "{'in': isActivePanel()}"
+        )
           .grid-block.vertical.shrink.text-center.well.gray.small.padding-sm Select containers from your sandbox to be included with each branch.
           .grid-block.vertical.shrink(
             ng-include = "'branchSetupListView'"
           )
         footer.modal-footer.clearfix
-          button.btn.btn-md.gray.btn-cancel.float-left Cancel
-          button.btn.btn-md.green.float-right Add Branches
+          button.btn.btn-md.gray.btn-cancel.float-left.fade(
+            ng-class = "{'in': isActivePanel()}"
+          ) Cancel
+          button.btn.btn-md.green.float-right.fade(
+            ng-class = "{'in': isActivePanel()}"
+          ) Add Branches
