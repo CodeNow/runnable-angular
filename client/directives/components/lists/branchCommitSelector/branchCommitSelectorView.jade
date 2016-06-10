@@ -17,12 +17,8 @@ label.label(
   button.btn.btn-xxs.orange.btn-permissions(
     internal-modal-helper = "inviteAdminModalView"
     ng-if = "$root.featureFlags.webhooks"
+    ng-include = "'permissionsButtonView'"
   )
-    svg.iconnables.icons-alert.float-left
-      use(
-        xlink:href = "#icons-alert-alt"
-      )
-    | Permissions Needed
   input.toggle-input(
     ng-disabled = "$root.featureFlags.webhooks"
     ng-model = "BCSC.isLatestCommit"
@@ -39,12 +35,8 @@ label.label(
   button.btn.btn-xxs.orange.btn-permissions(
     internal-modal-helper = "inviteAdminModalView"
     ng-if = "$root.featureFlags.webhooks"
+    ng-include = "'permissionsButtonView'"
   )
-    svg.iconnables.icons-alert.float-left
-      use(
-        xlink:href = "#icons-alert-alt"
-      )
-    | Permissions Needed
   input.toggle-input(
     ng-disabled = "$root.featureFlags.webhooks"
     type = "checkbox"

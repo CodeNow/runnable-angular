@@ -26,12 +26,8 @@
               button.btn.btn-xxs.orange.btn-permissions(
                 internal-modal-helper = "inviteAdminModalView"
                 ng-if = "$root.featureFlags.webhooks"
+                ng-include = "'permissionsButtonView'"
               )
-                svg.iconnables.icons-alert.float-left
-                  use(
-                    xlink:href = "#icons-alert-alt"
-                  )
-                | Permissions Needed
             label.grid-content.shrink.toggle-wrapper
               input.toggle-input(
                 ng-disabled = "$root.featureFlags.webhooks"
