@@ -80,17 +80,16 @@
             ng-show = "IAMC.activeItem === admin.login"
           ) Cancel
           //- disable this button if email input is empty or invalid
-          .btn.btn-sm.btn-spinner.green.float-right.js-animate(
-            ng-class = "{'in': IAMC.sending}"
+          .btn.btn-sm.green.float-right.js-animate(
             ng-click = "\
               inviteAdminForm.$invalid || IAMC.sendEmail(admin);\
               $event.stopPropagation();\
             "
-            ng-disabled = "inviteAdminForm.$invalid"
+            ng-disabled = "inviteAdminForm.$invalid || IAMC.sending"
             ng-show = "IAMC.activeItem === admin.login"
           )
             .spinner-wrapper.spinner-sm.spinner-white(
               ng-if = "IAMC.sending"
               ng-include = "'spinner'"
             )
-            | Send Invitation
+            span Send Invitation

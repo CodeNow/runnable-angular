@@ -14,12 +14,11 @@
       )
     footer.modal-footer.clearfix
       button.btn.btn-md.gray.btn-cancel.float-left Cancel
-      button.btn.btn-md.green.float-right.btn-spinner(
-        ng-class = "{'in': loading}"
+      button.btn.btn-md.green.float-right(
         ng-disabled = "loading"
       )
         .spinner-wrapper.spinner-sm.in(
           ng-if = "loading"
           ng-include = "'spinner'"
         )
-        | Save
+        span Save

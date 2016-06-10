@@ -38,6 +38,22 @@
     }
   }
 
+  // spinner
+  > .spinner-wrapper {
+    align-items: center;
+    display: flex;
+    float: left;
+    height: 100%;
+
+    &:first-child {
+      margin-right: 5px;
+    }
+
+    &:last-child {
+      margin-left: 5px;
+    }
+  }
+
   // fancy select
   .display .iconnables {
     float: left;

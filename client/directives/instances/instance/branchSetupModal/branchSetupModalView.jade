@@ -122,4 +122,10 @@
           ) Cancel
           button.btn.btn-md.green.float-right.fade(
             ng-class = "{'in': isActivePanel()}"
-          ) Add Branches
+            ng-disabled = "loading"
+          )
+            .spinner-wrapper.spinner-sm.spinner-white.in(
+              ng-if = "loading"
+              ng-include = "'spinner'"
+            )
+            span Add Branches
