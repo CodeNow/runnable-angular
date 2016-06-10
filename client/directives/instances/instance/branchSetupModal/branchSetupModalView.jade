@@ -41,6 +41,18 @@
               )
               .toggle-group.toggle-sm
 
+          //- loading state for branches
+          .spinner-wrapper.spinner-md.in(
+            ng-if = "branchesAreLoading"
+            ng-include = "'spinner'"
+          )
+
+          //- empty state for no branches
+          .empty.well.gray.padding-md(
+            ng-if = "branches.length === 0"
+          )
+            .small.empty.text-center.text-gray We couldn’t find any branches for this container, but you can continue and add branches later.
+
           h4.grid-block.shrink.align-center.h4.text-gray.small.padding-xs
             .grid-content Select branches to add:
             input.grid-content.shrink.input.input-xs.input-search(

@@ -382,6 +382,10 @@
     &:last-child {
       margin-top: 15px;
     }
+
+    + .well {
+      margin-top: 0;
+    }
   }
 
   .label-checkbox {
