@@ -34,6 +34,11 @@
     .btn-xs {
       flex: 0 0 18px;
       height: 18px;
+
+      &:hover,
+      &:active {
+        color: $red;
+      }
     }
   }
 
