@@ -20,6 +20,18 @@
     }
   }
 
+  // empty state
+  > .well {
+    background: $white;
+    border-color: $gray-lighter;
+    margin: 12px 12px 0;
+    max-height: 66px;
+
+    .icons-branch {
+      flex: 0 0 30px;
+    }
+  }
+
   .list {
     margin: 0 12px;
     padding: 12px 0;

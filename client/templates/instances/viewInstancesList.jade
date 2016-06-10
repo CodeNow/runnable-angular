@@ -1,3 +1,12 @@
+.grid-block.align-center.well.padding-sm(
+  ng-if = "$root.featureFlags.autoIsolationSetup"
+)
+  svg.grid-content.icons-branch
+    use(
+      xlink:href = "#icons-branch-burst"
+    )
+  .grid-content.small Add your first branch by clicking on the add icon.
+
 //- repository based containers
 .list(
   ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
