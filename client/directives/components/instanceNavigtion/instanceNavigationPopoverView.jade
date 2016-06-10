@@ -7,7 +7,9 @@
     ng-if = "$root.featureFlags.autoIsolation"
   )
     ul.list.popover-list
-      li.list-item.popover-list-item
+      li.list-item.popover-list-item(
+        internal-modal-helper = "confirmBranchRemoveView"
+      )
         svg.iconnables
           use(
             xlink:href = "#icons-delete"
