@@ -52,6 +52,8 @@ function ContainerStatusButtonController(
         });
     },
     updateConfigToMatchMaster: function () {
+      // This function makes a copy the master's cv and build, then applies them to this instance
+      // This basically updates everything to match with Master
       $rootScope.$broadcast('close-popovers');
       loading('main', true);
       var instanceUpdates = {};
@@ -70,13 +72,17 @@ function ContainerStatusButtonController(
           return promisify(instanceUpdates.contextVersion, 'fetch')();
         })
         .then(function () {
-          var currentAcvAttrs = CSBC.instance.contextVersion.getMainAppCodeVersion().attrs;
-          // Delete the transformRules, since we don't want to update what Master had
-          delete currentAcvAttrs.transformRules;
+          var currentAcv = CSBC.instance.contextVersion.getMainAppCodeVersion();
+          var parentAcv = CSBC.instance.contextVersion.getMainAppCodeVersion();
+          if (!currentAcv || !parentAcv) {
+            return;
+          }
+          // Delete the transformRules, since we don't want to update what Master had (erasing the update)
+          delete currentAcv.attrs.transformRules;
           return promisify(
             instanceUpdates.contextVersion.getMainAppCodeVersion(),
             'update'
-          )(CSBC.instance.contextVersion.getMainAppCodeVersion().attrs);
+          )(currentAcv.attrs);
         })
         .then(function () {
           return updateInstanceWithNewBuild(

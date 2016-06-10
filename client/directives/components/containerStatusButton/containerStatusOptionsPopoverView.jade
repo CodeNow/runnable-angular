@@ -34,9 +34,9 @@
       //- rebuild without cache when no new config exists for this container
       li.popover-list-item.multi-line(
         ng-click = "\
-          (!CSBC.instance.attrs.isolated && CSBC.doesMatchMasterPod()) ? \
-          actions.rebuildWithoutCache() : \
-          actions.updateConfigToMatchMaster()\
+          (!CSBC.instance.attrs.isolated && !CSBC.doesMatchMasterPod()) ? \
+          actions.updateConfigToMatchMaster() : \
+          actions.rebuildWithoutCache()\
         "
       )
         .icons-status.orange
