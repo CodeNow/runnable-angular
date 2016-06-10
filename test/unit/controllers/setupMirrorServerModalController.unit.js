@@ -461,7 +461,8 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
         env: ['HELLO=WORLD'],
         ipWhitelist: {
           enabled: false
-        }
+        },
+        isTesting: false
       });
     });
 
