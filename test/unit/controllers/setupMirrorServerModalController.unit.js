@@ -308,6 +308,7 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
         }
       },
       attrs: {
+        isTesting: false,
         contextVersion: {
           context: 'context1234'
         },
