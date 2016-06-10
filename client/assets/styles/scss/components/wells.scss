@@ -2,6 +2,13 @@
   border: 1px solid transparent;
   border-radius: $input-border-radius;
 
+  &.padding-sm,
+  &.padding-md,
+  &.padding-lg,
+  &.padding-xl {
+    border-radius: $input-border-radius-lg;
+  }
+
   &.gray {
     background: $gray-lighterest;
     border-color: $gray-lighter;

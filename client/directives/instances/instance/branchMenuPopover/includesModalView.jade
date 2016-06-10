@@ -9,29 +9,10 @@
 
     section.modal-body
       .grid-block.vertical.shrink.text-center.well.gray.small.padding-sm Changes will apply to all branches of repository-name.
-      h4.grid-block.shrink.h4.text-gray.small.padding-xs Include:
-      .grid-block.vertical.shrink.list.list-bordered
-        .list-item.padding-xs
-          label.grid-block.align-center.text-overflow
-            input.grid-content.shrink.checkbox(
-              checked
-              type = "checkbox"
-            )
-            .grid-content hellonode
-        .list-item.padding-xs
-          label.grid-block.align-center.text-overflow
-            input.grid-content.shrink.checkbox(
-              checked
-              type = "checkbox"
-            )
-            .grid-content migration-tester
-        .list-item.padding-xs
-          label.grid-block.align-center.text-overflow
-            input.grid-content.shrink.checkbox(
-              checked
-              type = "checkbox"
-            )
-            .grid-content redis
+      h4.grid-block.shrink.h4.text-gray.small.padding-xs Include containers:
+      .grid-block.vertical.shrink(
+        ng-include = "'branchSetupListView'"
+      )
     footer.modal-footer.clearfix
       button.btn.btn-md.gray.btn-cancel.float-left Cancel
       button.btn.btn-md.green.float-right Save

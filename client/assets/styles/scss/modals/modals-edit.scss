@@ -239,17 +239,12 @@
       transition: width .2s ease-in-out;
       white-space: nowrap;
 
-      &.text-next {
-        padding-right: 6px;
-        width: 88px;
-      }
-
       &.text-save {
         width: 76px;
       }
 
       &.text-save-build {
-        width: 140px;
+        width: 143px;
       }
     }
 

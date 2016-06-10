@@ -1,0 +1,23 @@
+.modal-branch-setup {
+
+  .animated-panel-container {
+    min-width: 100%;
+  }
+
+  .modal-body {
+    max-height: calc(100vh - 300px);
+
+    @include media(lg) {
+      max-height: calc(100vh - 240px);
+    }
+
+    @media (max-height: $screen-xs), (max-width: $screen-sm) {
+      max-height: calc(100vh - 164px); // (.modal-header height + .modal-backdrop padding-top/bottom + footer)
+    }
+  }
+
+  // list headers and search
+  .input-search {
+    max-width: 150px;
+  }
+}

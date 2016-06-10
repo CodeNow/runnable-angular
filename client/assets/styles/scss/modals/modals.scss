@@ -405,6 +405,11 @@
   .btn-group,
   .btn {
 
+    &.text-next {
+      padding-right: 6px;
+      width: 90px;
+    }
+
     &.float-right + .float-right {
       margin-right: 6px;
     }
