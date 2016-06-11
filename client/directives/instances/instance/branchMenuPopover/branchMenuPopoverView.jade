@@ -92,7 +92,7 @@
             ng-if = "state.branchesLoaded"
           )
             input.input.input-xs.input-search(
-              placeholder = "Search"
+              placeholder = "Filter"
               required
               type = "search"
             )
@@ -111,3 +111,8 @@
                   use(
                     xlink:href = "#icons-add"
                   )
+            li.list-item.grid-block.justify-justified.list-pagination(
+              ng-if = "paginated"
+            )
+              button.btn.btn-xs.gray.grid-content Last 50
+              button.btn.btn-xs.gray.grid-content Next 50

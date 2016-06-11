@@ -7,8 +7,10 @@
     margin-bottom: 6px;
   }
 
-  .popover-content {
+  .popover-content.popover-content {
+    max-height: 330px;
     min-height: 90px;
+    overflow-y: auto;
   }
 
   // empty state
@@ -22,5 +24,10 @@
     .p {
       font-size: 15px;
     }
+  }
+
+  // pagination
+  .list-pagination {
+    padding: 6px;
   }
 }

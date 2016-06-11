@@ -20,4 +20,10 @@
   .input-search {
     max-width: 150px;
   }
+
+  // pagination
+  .list-pagination .link:only-child {
+    flex: 1 1 auto;
+    text-align: right;
+  }
 }

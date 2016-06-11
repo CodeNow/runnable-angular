@@ -52,7 +52,7 @@
           h4.grid-block.shrink.align-center.h4.text-gray.small.padding-xs
             .grid-content Select branches to add:
             input.grid-content.shrink.input.input-xs.input-search(
-              placeholder = "Search"
+              placeholder = "Filter"
               required
               type = "search"
             )
@@ -71,6 +71,10 @@
                   type = "checkbox"
                 )
                 .grid-content SAN-4342-auto-isolation-setup
+          .grid-block.shrink.justify-justified.small.padding-xs.text-gray.list-pagination
+            a.link.grid-content.shrink Last 50
+            a.link.grid-content.shrink Next 50
+
         footer.modal-footer.clearfix
           button.btn.btn-md.gray.btn-cancel.float-left.fade(
             ng-class = "{'in': isActivePanel()}"
