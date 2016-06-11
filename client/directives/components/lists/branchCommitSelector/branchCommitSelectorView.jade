@@ -14,11 +14,6 @@ label.label(
   .strong Always update to latest commit
   .small.text-overflow on new builds of&#32;
     strong.strong {{BCSC.data.getDisplayName() || BCSC.data.instance.getDisplayName()}}
-  button.btn.btn-xxs.orange.btn-permissions(
-    internal-modal-helper = "inviteAdminModalView"
-    ng-if = "$root.featureFlags.webhooks"
-    ng-include = "'permissionsButtonView'"
-  )
   input.toggle-input(
     ng-disabled = "$root.featureFlags.webhooks"
     ng-model = "BCSC.isLatestCommit"
