@@ -96,13 +96,13 @@ describe('containerStatusButtonDirective'.bold.underline.blue, function () {
       };
       mockInstance.status = sinon.stub().returns('adsfasdfads');
       $elScope.$digest();
-      expect('Unknown').to.equal($elScope.getStatusText());
+      expect($elScope.getStatusText()).to.equal('Unknown');
 
       Object.keys(statusMap).forEach(function (status) {
         mockInstance.status.reset();
         mockInstance.status = sinon.stub().returns(status);
         $elScope.$digest();
-        expect(statusMap[status], 'status ' + status).to.equal($elScope.getStatusText());
+        expect($elScope.getStatusText(), 'status ' + status).to.equal(statusMap[status]);
       });
 
       // Check neverStarted with the feature flag on
@@ -111,7 +111,7 @@ describe('containerStatusButtonDirective'.bold.underline.blue, function () {
       $rootScope.featureFlags.internalDebugging = true;
 
       $elScope.$digest();
-      expect('Never Started', 'neverStarted').to.equal($elScope.getStatusText());
+      expect($elScope.getStatusText()).to.equal('Never Started');
     });
 
     it('should update the button text correctly when testing', function () {
@@ -130,7 +130,7 @@ describe('containerStatusButtonDirective'.bold.underline.blue, function () {
         mockInstance.status.reset();
         mockInstance.status = sinon.stub().returns(status);
         $elScope.$digest();
-        expect(testingStatusMap[status], 'status ' + status).to.equal($elScope.getStatusText());
+        expect($elScope.getStatusText(), 'status ' + status).to.equal(testingStatusMap[status]);
       });
 
       // Check neverStarted with the feature flag on
@@ -139,7 +139,7 @@ describe('containerStatusButtonDirective'.bold.underline.blue, function () {
       $rootScope.featureFlags.internalDebugging = true;
 
       $elScope.$digest();
-      expect('Never Started', 'neverStarted').to.equal($elScope.getStatusText());
+      expect($elScope.getStatusText(), 'neverStarted').to.equal('Never Started');
     });
   });
 
@@ -162,7 +162,7 @@ describe('containerStatusButtonDirective'.bold.underline.blue, function () {
         mockInstance.status.reset();
         mockInstance.status = sinon.stub().returns(status);
         $elScope.$digest();
-        expect(classesMap[status], 'status ' + status).to.deep.equal($elScope.getClassForInstance());
+        expect($elScope.getClassForInstance(), 'status ' + status).to.deep.equal(classesMap[status]);
       });
     });
   });
