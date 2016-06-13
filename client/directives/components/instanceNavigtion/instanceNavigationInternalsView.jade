@@ -1,4 +1,5 @@
 a.grid-block.align-center.a-sref(
+  ng-class = "{'padding-right': $root.featureFlags.autoIsolation && INC.instance.attrs.isIsolationGroupMaster}"
   ui-sref = "\
     base.instances.instance({userName: INC.activeAccount.oauthName(),\
     instanceName: INC.instance.attrs.name})\

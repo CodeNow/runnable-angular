@@ -57,10 +57,18 @@
     + .list-item {
       margin-top: 2px;
     }
+
+    .text-overflow {
+      display: inline-block;
+    }
   }
 
   .list-item-header {
     padding: 4px 6px 6px 29px;
+
+    .text-overflow {
+      padding-right: 9px;
+    }
 
     .btn-xs {
       line-height: initial;
@@ -140,6 +148,12 @@
 
     &.active {
       cursor: default;
+    }
+
+    &.padding-right:hover .text-overflow,
+    &.padding-right:active .text-overflow,
+    &.padding-right.active .text-overflow {
+      padding-right: 30px;
     }
 
     .icons-status {
