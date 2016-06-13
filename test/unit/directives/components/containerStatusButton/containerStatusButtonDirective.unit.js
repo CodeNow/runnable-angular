@@ -124,7 +124,7 @@ describe('containerStatusButtonDirective'.bold.underline.blue, function () {
       };
       mockInstance.status = sinon.stub().returns('adsfasdfads');
       $elScope.$digest();
-      expect('Unknown').to.equal($elScope.getStatusText());
+      expect($elScope.getStatusText()).to.equal('Unknown');
 
       Object.keys(testingStatusMap).forEach(function (status) {
         mockInstance.status.reset();
