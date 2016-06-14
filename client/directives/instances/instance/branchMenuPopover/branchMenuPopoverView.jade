@@ -13,7 +13,7 @@
     p.grid-block.p.text-center.padding-sm Add branches by setting your settings for the setting of branches.
     button.grid-block.btn.btn-sm.gray.btn-block(
       internal-modal-helper = "branchSetupModalView"
-    ) Setup Branches
+    ) Set Up Branches
 
   animated-panel-container.popover-views(
     ng-if = "!$root.featureFlags.autoIsolationSetup"
@@ -112,7 +112,7 @@
                     xlink:href = "#icons-add"
                   )
             li.list-item.grid-block.justify-justified.list-pagination(
-              ng-if = "paginated"
             )
+              //- ng-if = "paginated"
               button.btn.btn-xs.gray.grid-content Last 50
               button.btn.btn-xs.gray.grid-content Next 50
