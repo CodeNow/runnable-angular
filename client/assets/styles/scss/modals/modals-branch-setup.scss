@@ -5,10 +5,10 @@
   }
 
   .modal-body {
-    max-height: calc(100vh - 300px);
+    max-height: calc(100vh - 314px);
 
     @include media(lg) {
-      max-height: calc(100vh - 240px);
+      max-height: calc(100vh - 254px);
     }
 
     @media (max-height: $screen-xs), (max-width: $screen-sm) {
