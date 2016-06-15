@@ -99,6 +99,11 @@
           ul.list.popover-list(
             ng-if = "state.branchesLoaded"
           )
+            //- show when loading paginated list
+            //- li.list-item.padding-md
+              .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
+                ng-include = "'spinner'"
+              )
             li.list-item.popover-list-item SAN-4377-Cant-add-files
               button.btn.btn-xs.btn-icon.btn-add
                 svg.iconnables.icons-add
