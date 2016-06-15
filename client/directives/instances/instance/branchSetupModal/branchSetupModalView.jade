@@ -1,0 +1,140 @@
+.modal-backdrop.in
+  .modal-dialog.modal-md.modal-branch-setup
+    animated-panel-container
+      animated-panel.grid-block.vertical(
+        default = "true"
+        name = "setupBranches"
+      )
+        header.modal-header
+          h1.h1.modal-heading.fade(
+            ng-class = "{'in': isActivePanel()}"
+          ) Select Branches
+          svg.iconnables.icons-close.fade(
+            ng-class = "{'in': isActivePanel()}"
+          )
+            use(
+              xlink:href = "#icons-close"
+            )
+        section.modal-body.fade(
+          ng-class = "{'in': isActivePanel()}"
+        )
+          .label.grid-block.shrink.align-center.well.gray.padding-sm
+            .grid-content
+              .small Automatically add branches as they’re updated on GitHub.
+              button.btn.btn-xxs.orange.btn-permissions(
+                internal-modal-helper = "inviteAdminModalView"
+                ng-if = "$root.featureFlags.webhooks"
+                ng-include = "'permissionsButtonView'"
+              )
+            label.grid-content.shrink.toggle-wrapper
+              input.toggle-input(
+                ng-disabled = "$root.featureFlags.webhooks"
+                ng-model = "BCSC.isLatestCommit"
+                ng-model-options = "{getterSetter: true}"
+                type = "checkbox"
+              )
+              .toggle-group.toggle-sm
+
+          //- loading state for branches
+          .spinner-wrapper.spinner-md.in(
+            ng-if = "branchesAreLoading"
+            ng-include = "'spinner'"
+          )
+
+          //- empty state for no branches
+          .empty.well.gray.padding-md(
+            ng-if = "branches.length === 0"
+          )
+            .small.empty.text-center.text-gray We couldn’t find any branches for this container, but you can continue and add branches later.
+
+          //- hide this on initial load, but show when paginating
+          h4.grid-block.shrink.align-center.h4.text-gray.small.padding-xs
+            .grid-content Select branches to add:
+            input.grid-content.shrink.input.input-xs.input-search(
+              placeholder = "Filter"
+              required
+              type = "search"
+            )
+
+          //- show this if pagination is loading
+          //- .grid-block.align-center.justify-center.shrink.list.list-bordered.padding-md
+            .spinner-wrapper.spinner-md.spinner-gray.in(
+              ng-include = "'spinner'"
+            )
+
+          .grid-block.vertical.shrink.list.list-bordered
+            .list-item.padding-xs
+              label.grid-block.align-center.text-overflow
+                input.grid-content.shrink.checkbox(
+                  type = "checkbox"
+                )
+                .grid-content SAN-4377-Cant-add-files
+            .list-item.padding-xs
+              label.grid-block.align-center.text-overflow
+                input.grid-content.shrink.checkbox(
+                  type = "checkbox"
+                )
+                .grid-content SAN-4342-auto-isolation-setup
+          .grid-block.shrink.justify-justified.small.padding-xs.text-gray.list-pagination
+            a.link.grid-content.shrink Last 50
+            a.link.grid-content.shrink Next 50
+
+        footer.modal-footer.clearfix
+          button.btn.btn-md.gray.btn-cancel.float-left.fade(
+            ng-class = "{'in': isActivePanel()}"
+          ) Cancel
+          button.btn.btn-md.white.float-right.text-next.fade(
+            ng-class = "{'in': isActivePanel()}"
+            ng-click = "goToPanel('setupCluster')"
+          )
+            span.btn-text.float-left Next
+            svg.iconnables.icons-arrow-forward.float-right
+              use(
+                xlink:href = "#icons-arrow-down"
+              )
+
+      animated-panel.grid-block.vertical(
+        name = "setupCluster"
+      )
+        header.modal-header
+          svg.iconnables.icons-arrow-backward.fade(
+            ng-class = "{'in': isActivePanel()}"
+            ng-click = "goToPanel('setupBranches', 'back')"
+          )
+            use(
+              xlink:href = "#icons-arrow-down"
+            )
+          h1.h1.modal-heading.fade(
+            ng-class = "{'in': isActivePanel()}"
+          ) Select Containers
+          svg.iconnables.icons-close.fade(
+            ng-class = "{'in': isActivePanel()}"
+          )
+            use(
+              xlink:href = "#icons-close"
+            )
+        section.modal-body.fade(
+          ng-class = "{'in': isActivePanel()}"
+          ng-init = "containers.length = 1"
+        )
+          //- do not show this if there are no containers
+          .grid-block.vertical.shrink.text-center.well.gray.small.padding-sm(
+            ng-if = "containers.length > 0"
+          ) Select containers from your sandbox to be included with each branch.
+
+          .grid-block.vertical.shrink(
+            ng-include = "'branchSetupListView'"
+          )
+        footer.modal-footer.clearfix
+          button.btn.btn-md.gray.btn-cancel.float-left.fade(
+            ng-class = "{'in': isActivePanel()}"
+          ) Cancel
+          button.btn.btn-md.green.float-right.fade(
+            ng-class = "{'in': isActivePanel()}"
+            ng-disabled = "loading"
+          )
+            .spinner-wrapper.spinner-sm.spinner-white.in(
+              ng-if = "loading"
+              ng-include = "'spinner'"
+            )
+            span Add Branches

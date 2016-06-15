@@ -1,0 +1,33 @@
+.popover-branch-menu {
+  max-width: 330px;
+  min-height: 150px;
+  width: 100%;
+
+  .well {
+    margin-bottom: 6px;
+  }
+
+  .popover-content.popover-content {
+    max-height: 330px;
+    min-height: 90px;
+    overflow-y: auto;
+  }
+
+  // empty state
+  .empty {
+
+    .svg {
+      height: 45px;
+      margin-top: 15px;
+    }
+
+    .p {
+      font-size: 15px;
+    }
+  }
+
+  // pagination
+  .list-pagination {
+    padding: 6px;
+  }
+}

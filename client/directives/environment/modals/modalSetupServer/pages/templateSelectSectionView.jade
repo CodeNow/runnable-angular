@@ -3,7 +3,7 @@
   ng-include = "'spinner'"
 )
 
-.grid-block.shrink.justify-right.list-header.row-xxs(
+.grid-block.shrink.justify-right.list-header(
   ng-if = "!$root.isLoading.newContainerModalTemplates"
 )
   input.input.input-xs.input-search(
@@ -19,7 +19,7 @@
 ul.list.list-servers(
   ng-if = "!$root.isLoading.newContainerModalTemplates"
 )
-  li.list-item.grid-block.row-xxs(
+  li.list-item.grid-block(
     ng-click = "($root.featureFlags.nameContainer) ? MC.setTemplate(dependency, goToPanel) : MC.addServerFromTemplate(dependency)"
     ng-repeat = "\
       dependency in MC.templateServers.models | \
@@ -34,7 +34,7 @@ ul.list.list-servers(
       width = "36"
     )
     | {{dependency.attrs.name}}
-    button.btn.btn-sm.btn-icon
+    button.btn.btn-sm.btn-icon.btn-add
       svg.iconnables.icons-add
         use(
           xlink:href = "#icons-add"

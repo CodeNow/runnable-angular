@@ -1,55 +1,66 @@
+.grid-block.align-center.well.padding-sm(
+  ng-if = "$root.featureFlags.autoIsolationSetup"
+)
+  svg.grid-content.icons-branch
+    use(
+      xlink:href = "#icons-branch-burst"
+    )
+  .grid-content.small Add branches by clicking on the add icon.
+  button.grid-content.btn.btn-icon.btn-xs
+    svg.iconnables.icons-close.float-left
+      use(
+        xlink:href = "#icons-close"
+      )
+
 //- repository based containers
 .list(
   ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
 )
   //- instance name
-  .list-item.list-item-header
-    span.text-overflow(
+  .grid-block.align-center.list-item.list-item-header
+
+    span.grid-block.text-overflow(
       title = "{{masterInstance.getName()}}"
     ) {{masterInstance.getName()}}
-    //- configure button for repo containers
-    svg.iconnables.icons-advanced(
-      ng-click="CIS.editInstance(masterInstance)"
+
+    button.grid-block.shrink.btn.btn-xs.btn-icon.gray(
+      ng-class = "{'active': state.active}"
+      ng-if = "$root.featureFlags.autoIsolation"
+      pop-over
+      pop-over-options = "{\"verticallyCentered\":true,\"left\":24}"
+      pop-over-template = "branchMenuPopoverView"
+      tooltip = "Add Branch"
+      tooltip-options = "{\"class\":\"bottom center text-center\",\"left\":-36,\"top\":24}"
+    )
+      svg.iconnables
+        use(
+          xlink:href = "#icons-add"
+        )
+
+    svg.grid-block.shrink.iconnables.icons-advanced(
+      ng-click = "CIS.editInstance(masterInstance)"
+      ng-if = "!$root.featureFlags.autoIsolation"
       title = "Configure"
     )
       use(
         xlink:href = "#icons-advanced"
       )
 
-  div(
+  .list-item(
     active-account = "CIS.activeAccount"
     instance = "masterInstance"
     instance-navigation
+    ng-if = "!$root.featureFlags.autoIsolation"
     master-instance = "masterInstance"
   )
 
-  div(
+  .list-item(
     active-account = "CIS.activeAccount"
     instance = "childInstance"
     instance-navigation
     master-instance = "masterInstance"
     ng-repeat = "childInstance in masterInstance.children.models | orderBy: ['attrs.name']"
   )
-
-  //- if default container is not running or if no admin is present
-  //- popover should appear on hover
-  button.btn.btn-xs.white.btn-add-branches.disabled(
-    ng-if = "$root.featureFlags.webhooks && masterInstance.status() !== 'running' && !$root.featureFlags.webhooksAdminPresent"
-    pop-over
-    pop-over-controller = "CIS"
-    pop-over-controller-as = "EBPC"
-    pop-over-data = "masterInstance"
-    pop-over-hover-trigger
-    pop-over-options = "{\"verticallyCentered\": true, \"left\": 129}"
-    pop-over-template = "enableBranchesPopoverView"
-    pop-over-trigger = "hover"
-  ) Enable Branches…
-
-  //- if default container is running and admin is present
-  button.btn.btn-xs.white.btn-add-branches(
-    ng-click = "CIS.openEnableBranchesModal(masterInstance)"
-    ng-if = "$root.featureFlags.webhooks && masterInstance.status() === 'running'"
-  ) Enable Branches…
 
   //- nav list filter
   .btn.btn-xxs.btn-more-containers(
@@ -61,9 +72,10 @@
 
 //- non-repository based containers
 .list(
+  ng-if = "!$root.featureFlags.autoIsolation"
   ng-show = "nonRepoInstances.length"
 )
-  div(
+  .list-item(
     instance-navigation
     instance = "masterInstance"
     active-account = "CIS.activeAccount"

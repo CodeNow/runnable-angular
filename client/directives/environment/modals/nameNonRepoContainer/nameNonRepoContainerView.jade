@@ -50,13 +50,12 @@
       button.btn.btn-md.gray.btn-cancel.float-left(
         ng-click = "MC.actions.cancel()"
       ) Cancel
-      button.btn.btn-md.green.float-right.btn-spinner(
+      button.btn.btn-md.green.float-right(
         ng-disabled = "!MC.name.length || nameForm.$invalid || MC.saving"
-        ng-class = "{'in': MC.saving}"
         ng-click = "MC.actions.save()"
       )
         .spinner-wrapper.spinner-white.spinner-sm.in(
           ng-include = "'spinner'"
           ng-if = "MC.saving"
         )
-        | Create Container
+        span Create Container

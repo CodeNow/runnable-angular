@@ -1,6 +1,9 @@
 //- instance list
 .instances-list(
-  ng-class = "{'in': !CIS.$storage.instanceListIsClosed}"
+  ng-class = "{\
+    'deprecated': !$root.featureFlags.autoIsolation,\
+    'in': !CIS.$storage.instanceListIsClosed\
+  }"
   ng-if = "CIS.instancesByPod"
   ng-include = "'viewInstancesList'"
   scroll-offset = "200"

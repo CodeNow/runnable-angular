@@ -90,29 +90,6 @@
   }
 }
 
-// on buttons
-.btn-spinner {
-
-  &.in {
-    padding-left: 30px !important;
-
-    &.btn-xs {
-      padding-left: 18px !important;
-
-      .spinner {
-        left: 3px;
-        width: 12px;
-      }
-    }
-  }
-
-  .spinner {
-    left: 9px;
-    min-height: 100%;
-    position: absolute;
-  }
-}
-
 // progress
 .progress {
   background: rgba($blue,.2);

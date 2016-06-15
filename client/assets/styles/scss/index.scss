@@ -56,6 +56,7 @@
 @import "components/buttons/buttons-debug";
 @import "components/buttons/buttons-toolbar";
 @import "components/buttons/buttons-user";
+@import "components/buttons/buttons-permissions";
 
 // components
 @import "components/animated-panel";
@@ -116,6 +117,7 @@
 
 // modal specific
 @import "modals/modals-backup";
+@import "modals/modals-branch-setup";
 @import "modals/modals-edit";
 @import "modals/modals-edit-ace";
 @import "modals/modals-edit-dockerfile";
@@ -143,6 +145,7 @@
 // popover specific
 @import "popover/popover-account-menu";
 @import "popover/popover-add-tab";
+@import "popover/popover-branch-menu";
 @import "popover/popover-card-status";
 @import "popover/popover-container-menu";
 @import "popover/popover-debug";
@@ -181,6 +184,7 @@
 @import "deprecated/card-status";
 @import "deprecated/connections";
 @import "deprecated/deleted-commit";
+@import "deprecated/instances-list";
 
 // shame 🔔🔔
 @import "shame";

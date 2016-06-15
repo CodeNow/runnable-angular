@@ -51,8 +51,7 @@
           ng-class = "{'in': isActivePanel()}"
         )
           //- disable this when name is taken too
-          button.btn.btn-md.green.btn-spinner.float-right(
-            ng-class = "{'in': loading}"
+          button.btn.btn-md.green.float-right(
             ng-click = "\
               data.currentPanelName = 'githubAuth';\
               goToPanel('githubAuth');\
@@ -65,7 +64,7 @@
               ng-if = "loading"
               ng-include = "'spinner'"
             )
-            | Next
+            span Next
 
       animated-panel.panel-auth(
         name = "githubAuth"

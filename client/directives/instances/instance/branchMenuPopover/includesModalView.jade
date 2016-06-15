@@ -1,0 +1,24 @@
+.modal-backdrop.in
+  .modal-dialog.modal-sm.modal-includes
+    header.modal-header
+      h1.modal-heading Select Containers
+      svg.iconnables.icons-close
+        use(
+          xlink:href = "#icons-close"
+        )
+
+    section.modal-body
+      .grid-block.vertical.shrink.text-center.well.gray.small.padding-sm Select containers from your sandbox to be included with each branch. Changes will apply to all branches of repository-name.
+      .grid-block.vertical.shrink(
+        ng-include = "'branchSetupListView'"
+      )
+    footer.modal-footer.clearfix
+      button.btn.btn-md.gray.btn-cancel.float-left Cancel
+      button.btn.btn-md.green.float-right(
+        ng-disabled = "loading"
+      )
+        .spinner-wrapper.spinner-sm.in(
+          ng-if = "loading"
+          ng-include = "'spinner'"
+        )
+        span Save

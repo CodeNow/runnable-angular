@@ -52,8 +52,7 @@
           small.small Add scripts to be run before your container is started.
 
     .popover-footer.clearfix
-      button.btn.btn-sm.green.btn-spinner(
-        ng-class = "{'in': data.saving}"
+      button.btn.btn-sm.green(
         ng-click = "actions.save(data)"
         ng-disabled = "data.saving || (!data.file && !data.name)"
       )

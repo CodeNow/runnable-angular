@@ -3,27 +3,31 @@
   ng-style = "popoverStyle.getStyle()"
 )
   .arrow.white
-  //- menu items:
+  .popover-content(
+    ng-if = "$root.featureFlags.autoIsolation"
+  )
+    ul.list.popover-list
+      li.list-item.popover-list-item(
+        internal-modal-helper = "confirmBranchRemoveView"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-delete"
+          )
+        | Remove Branch
 
-    - for a non-isolated branch:
-      - Set Up Isolation
-      - (divider)
-      - Hide
-
-    - for an isolated branch:
-      - Configure Container
-      - (divider)
-      - Add Container to Isolation
-      - Disable Isolation (triggers confirm)
-      - (divider)
-      - Hide
-
-    - for an isolated branch's containers:
-      - Configure Container
-      - (divider)
-      - Delete Container from Isolation (triggers confirm)
-
-  .popover-content
+  .popover-content(
+    ng-if = "!$root.featureFlags.autoIsolation"
+  )
+    //- menu items:
+      - for an isolated branch:
+        - Configure Container
+        - (divider)
+        - Add Container to Isolation
+        - (divider)
+        - Hide
+      - for an isolated branch's containers:
+        - Configure Container
     ul.list.popover-list
       li.list-item.popover-list-item(
         ng-if = "INC.instance.attrs.isolated"

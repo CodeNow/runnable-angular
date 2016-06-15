@@ -1,5 +1,6 @@
 // bordered list with line between items
 .list-bordered {
+  background: $white;
   border: 1px solid $gray-lighter;
   border-radius: $input-border-radius-lg;
 
@@ -78,6 +79,14 @@
 .list-item {
   position: relative;
 
+  &:active:not(.disabled) .btn-add {
+    @extend %green;
+
+    .iconnables {
+      color: $white;
+    }
+  }
+
   // header
   &.small {
     color: $gray-light;
@@ -127,40 +136,6 @@
     }
   }
 
-  // buttons
-  > .btn-sm {
-    position: absolute;
-    right: 15px;
-    top: 15px;
-  }
-
-  > .btn-xs {
-    position: absolute;
-    right: 15px;
-    top: 6px;
-  }
-
-  > .btn-xxs {
-    margin-right: 6px;
-  }
-
-  // icon wrapper
-  > .btn-icon {
-    background: $white;
-    border: 1px solid $gray-lighter;
-    border-radius: 50%;
-    color: $gray-light;
-    padding: 0;
-    transition: none;
-    width: 24px;
-
-    &.active {
-      background: $green;
-      border-color: $green;
-      color: $white;
-    }
-  }
-
   // gravatar
   > .gravatar {
     float: left;
@@ -174,6 +149,35 @@
     left: 0;
     opacity: 0;
     position: absolute;
+  }
+
+  // add button
+  .btn-add {
+    background: $white;
+    border: 1px solid $gray-lighter;
+    color: $gray-light;
+    line-height: initial;
+    padding: 3px;
+    position: absolute;
+    transition: none;
+
+    &.btn-sm {
+      right: 15px;
+      top: 15px;
+      width: $input-sm;
+    }
+
+    &.btn-xs {
+      right: 6px;
+      top: 6px;
+      width: $input-xs;
+    }
+
+    &.active {
+      background: $green;
+      border-color: $green;
+      color: $white;
+    }
   }
 }
 

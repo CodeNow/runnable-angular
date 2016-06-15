@@ -5,7 +5,7 @@
         default = "true"
         name = "containerSelection"
       )
-        header.modal-header.grid-block.justify-center.row-xxs(
+        header.modal-header.grid-block.justify-center(
           ng-click = "MC.changeTab('nameContainer')"
         )
           .grid-block.shrink.btn(
@@ -77,13 +77,9 @@
           button.btn.btn-md.gray.btn-cancel.float-left(
             ng-click = "MC.close()"
           ) Cancel
-          //- add the 'in' class to .btn-spinner when spinning!
-          button.btn.btn-md.green.float-right.btn-spinner(
+          button.btn.btn-md.green.float-right(
             ng-disabled = "$root.isLoading[MC.name + 'SingleRepo'] || MC.state.dockerfile === null"
             ng-click = "($root.featureFlags.nameContainer) ? goToPanel('nameContainer') : MC.createBuildAndGoToNewRepoModal(MC.state.instanceName, MC.state.repo, MC.state.dockerfile)"
-            ng-class = "{ \
-              in: $root.isLoading[MC.name + 'SingleRepo'] \
-            }"
           )
             .spinner-wrapper.spinner-white.spinner-sm.in(
               ng-include = "'spinner'"
@@ -157,9 +153,8 @@
           button.btn.btn-md.gray.btn-cancel.float-left(
             ng-click = "MC.actions.cancel()"
           ) Cancel
-          button.btn.btn-md.green.float-right.btn-spinner(
+          button.btn.btn-md.green.float-right(
             ng-disabled = "!MC.name.length || MC.nameForm.$invalid || $root.isLoading[MC.name + 'SingleRepo']"
-            ng-class = "{'in': $root.isLoading[MC.name + 'SingleRepo']}"
             ng-click = " \
               (MC.state.repo) ? MC.createBuildAndGoToNewRepoModal(MC.state.instanceName, MC.state.repo, MC.state.dockerfile) : \
               MC.createBuildFromTemplate(MC.state.instanceName, MC.state.templateSource) \
