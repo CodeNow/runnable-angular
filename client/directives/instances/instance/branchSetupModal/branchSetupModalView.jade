@@ -47,6 +47,7 @@
           )
             .small.empty.text-center.text-gray We couldn’t find any branches for this container, but you can continue and add branches later.
 
+          //- hide this on initial load, but show when paginating
           h4.grid-block.shrink.align-center.h4.text-gray.small.padding-xs
             .grid-content Select branches to add:
             input.grid-content.shrink.input.input-xs.input-search(
@@ -54,18 +55,23 @@
               required
               type = "search"
             )
+
+          //- show this if pagination is loading
+          //- .grid-block.align-center.justify-center.shrink.list.list-bordered.padding-md
+            .spinner-wrapper.spinner-md.spinner-gray.in(
+              ng-include = "'spinner'"
+            )
+
           .grid-block.vertical.shrink.list.list-bordered
             .list-item.padding-xs
               label.grid-block.align-center.text-overflow
                 input.grid-content.shrink.checkbox(
-                  checked
                   type = "checkbox"
                 )
                 .grid-content SAN-4377-Cant-add-files
             .list-item.padding-xs
               label.grid-block.align-center.text-overflow
                 input.grid-content.shrink.checkbox(
-                  checked
                   type = "checkbox"
                 )
                 .grid-content SAN-4342-auto-isolation-setup
