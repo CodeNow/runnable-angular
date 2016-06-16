@@ -2,9 +2,7 @@
 
 require('app')
   .factory('getInstanceClasses', getInstanceClasses);
-/**
- * @njInject
- */
+
 function getInstanceClasses(
   $state,
   keypather
