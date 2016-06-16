@@ -23,13 +23,13 @@ function activePanel(
     restrict: 'A',
     templateUrl: 'viewActivePanel',
     scope: {
-      openItems: '=',
-      instance: '=',
       build: '=',
-      validation: '=',
-      stateModel: '=',
+      debugContainer: '=?',
+      instance: '=',
       isEditModal: '=?',
-      debugContainer: '=?'
+      openItems: '=',
+      stateModel: '=',
+      validation: '='
     },
     link: function ($scope, element, attrs) {
       $scope.data = {};
