@@ -61,14 +61,6 @@ function containerStatusButton(
         } else if (['crashed', 'buildFailed', 'neverStarted'].includes(status)) {
           classes.push('red');
         }
-
-        if (['starting', 'stopping'].includes(status)) {
-          classes.push('in');
-        }
-
-        if (keypather.get($scope.CSBC, 'instance.isMigrating()')) {
-          classes.push('in');
-        }
         return classes;
       };
       $scope.isChanging = function () {

@@ -9,20 +9,7 @@
           xlink:href = "#icons-close"
         )
     section.modal-body
-      .label
-        small.small The GitHub admins for&#32;
-          strong.strong {{IAMC.repoName}}&#32;
-          span.span are listed below.&#32;
-
-          //- when modal is opened from auto deploy
-          span.span(
-            ng-if = "IAMC.isFromAutoDeploy"
-          ) Invite one to this Sandbox, and we’ll turn on Auto Deploy when they join.
-
-          //- when modal is opened from containers list
-          span.span(
-            ng-if = "!IAMC.isFromAutoDeploy"
-          ) Invite one to this Sandbox, and you can enable branches after they join.
+      .label.small.padding-sm.text-gray.text-center We need webhooks permissions from an admin of this repository in order to trigger new builds.
 
       ul.list.list-bordered.list-teammates
         li.list-item.spinner-wrapper.spinner-gray.spinner-sm.in.spinner-center(
@@ -93,17 +80,16 @@
             ng-show = "IAMC.activeItem === admin.login"
           ) Cancel
           //- disable this button if email input is empty or invalid
-          .btn.btn-sm.btn-spinner.green.float-right.js-animate(
-            ng-class = "{'in': IAMC.sending}"
+          .btn.btn-sm.green.float-right.js-animate(
             ng-click = "\
               inviteAdminForm.$invalid || IAMC.sendEmail(admin);\
               $event.stopPropagation();\
             "
-            ng-disabled = "inviteAdminForm.$invalid"
+            ng-disabled = "inviteAdminForm.$invalid || IAMC.sending"
             ng-show = "IAMC.activeItem === admin.login"
           )
             .spinner-wrapper.spinner-sm.spinner-white(
               ng-if = "IAMC.sending"
               ng-include = "'spinner'"
             )
-            | Send Invitation
+            span Send Invitation

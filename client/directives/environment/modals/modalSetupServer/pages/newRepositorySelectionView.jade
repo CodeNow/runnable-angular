@@ -4,7 +4,7 @@
 )
 
 //- hide this when loading
-.grid-block.shrink.justify-justified.list-header.row-xxs(
+.grid-block.shrink.justify-justified.list-header(
   ng-if = "!$root.isLoading.newContainerModalRepos"
 )
   small.small {{MC.state.tabName === 'repos' ? 'By last updated' : ''}}
@@ -94,7 +94,7 @@ ul.list.list-servers(
         use(
           xlink:href = "#icons-server"
         )
-    button.btn.btn-sm.btn-icon(
+    button.btn.btn-sm.btn-icon.btn-add(
       ng-if = "!repo.loading"
       ng-class = "{\
         'disabled': repo.isAdded && !$root.featureFlags.nameContainer\

@@ -3,7 +3,6 @@ p.p.text-overflow(
 ) /node-hello-world/server.js
 //- disable save buttons until a change is made
 button.btn.btn-md.green.btn-spinner.btn-toolbar(
-  ng-class = "{'in': data.saving}"
   ng-click = "data.saving = !data.saving"
 )
   //- ng-disabled = "!instance.containers.models[0].running() || loading || saving || modifyingInstance || !canSave()"
@@ -11,9 +10,8 @@ button.btn.btn-md.green.btn-spinner.btn-toolbar(
     ng-if = "saving"
     ng-include = "'spinner'"
   )
-  | {{ saving ? 'Saving' : 'Save and Restart'}}
+  span {{ saving ? 'Saving' : 'Save and Restart'}}
 button.btn.btn-md.green.btn-spinner.btn-toolbar(
-  ng-class = "{'in': data.saving}"
   ng-click = "data.saving = !data.saving"
 )
   //- ng-disabled = "!instance.containers.models[0].running() || loading || saving || modifyingInstance || !canSave()"
@@ -21,4 +19,4 @@ button.btn.btn-md.green.btn-spinner.btn-toolbar(
     ng-if = "data.saving"
     ng-include = "'spinner'"
   )
-  | {{ saving ? 'Saving' : 'Save'}}
+  span {{ saving ? 'Saving' : 'Save'}}

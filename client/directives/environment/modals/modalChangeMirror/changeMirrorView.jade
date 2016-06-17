@@ -19,12 +19,11 @@
       button.btn.btn-md.white.float-left(
         ng-click = "MC.cancel()"
       ) Cancel
-      button.btn.btn-md.green.float-right.btn-spinner(
+      button.btn.btn-md.green.float-right(
         ng-click = "MC.confirm(MC.state.dockerfile)"
         ng-disabled = "!MC.state.dockerfile"
       )
-        //- add the 'in' class to .btn-spinner when spinning!
         //- .spinner-wrapper.spinner-white.spinner-sm.in(
         //-   ng-include = "'spinner'"
         //- )
-        | Start Mirroring
+        span Start Mirroring

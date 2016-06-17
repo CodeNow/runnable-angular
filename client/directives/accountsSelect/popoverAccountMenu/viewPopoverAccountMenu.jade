@@ -185,11 +185,11 @@
             ng-click = "FFC.$localStorage.featureFlags = {}; $root.resetFeatureFlags();"
             style = "font-size: 11px; right: 6px; position: absolute; top: 9px; z-index: 2;"
           ) Reset
-        .popover-content.fade.list.popover-list(
+        .popover-content.fade(
           ng-class = "{'in': isActivePanel()}"
           style = "height: calc(100vh - 81px); overflow-y: auto;"
         )
-          .list-item.padding-xs
+          .list-item.padding-xxs
             input.input.input-xs.input-search(
               ng-model = "searchText"
               ng-model-option = "{updateOn: 'change'}"
@@ -201,11 +201,11 @@
           label.list-item.popover-list-item.text-overflow(
             ng-repeat = "(flag, value) in $root.featureFlags"
             ng-show = "!searchText || flag.indexOf(searchText) > -1"
-            style = "border-top: 1px solid #f0f0f0; color: $gray-dark; display: block; padding: 0 39px 0 15px;"
+            style = "display: block; padding: 0 39px 0 15px;"
           ) {{flag}}
             .toggle-wrapper(
               ng-if = "flag !== 'welcomeBack'"
-              style = "position: absolute; right: 15px; top: 11px;"
+              style = "position: absolute; right: 12px; top: 11px;"
             )
               input.toggle-input(
                 ng-change = "FFC.$localStorage.featureFlags[flag] = $root.featureFlags[flag]"
@@ -216,4 +216,5 @@
             button.btn.btn-xs.gray(
               internal-modal-helper = "welcomeBackModalView"
               ng-if = "flag === 'welcomeBack'"
+              style = "position: absolute; right: 9px; top: 6px;"
             ) Go

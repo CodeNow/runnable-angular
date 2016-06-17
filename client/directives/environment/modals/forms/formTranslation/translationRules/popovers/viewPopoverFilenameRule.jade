@@ -59,11 +59,10 @@
               | #{''} → {{ data.state.nameChanges[0].to }}
 
     .popover-footer.clearfix
-      button.btn.btn-sm.green.btn-spinner(
-        ng-if = "!currentState.searched"
-        ng-class = "{in: currentState.processing}"
+      button.btn.btn-sm.green(
         ng-click = "actions.performCheck(data.state, currentState)"
         ng-disabled = "!popoverRuleForm.$valid || popoverRuleForm.$pristine || currentState.processing"
+        ng-if = "!currentState.searched"
       )
         //- spinner
         .spinner-wrapper.spinner-sm.spinner-white.in(

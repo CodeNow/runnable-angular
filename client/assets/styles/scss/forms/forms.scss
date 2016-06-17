@@ -1,12 +1,15 @@
 // form layout
 // row
 .label {
-  display: block;
   margin-bottom: 21px;
   position: relative;
 
   @include media(xs) {
     margin-bottom: 15px;
+  }
+
+  &:not(.grid-block) {
+    display: block;
   }
 }
 

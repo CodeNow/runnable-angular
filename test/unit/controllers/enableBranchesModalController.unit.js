@@ -12,7 +12,7 @@ var $rootScope;
 var $q;
 var $templateCache;
 
-describe('EnableBranchesModalController'.bold.underline.blue, function () {
+describe.skip('EnableBranchesModalController'.bold.underline.blue, function () {
   var ctx;
   var EBMC;
 

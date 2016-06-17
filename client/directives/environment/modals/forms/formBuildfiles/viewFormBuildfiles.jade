@@ -13,14 +13,14 @@
       ng-bind-html = "SMC.helpCards.getActiveCard().helpPopover.containerFiles"
     )
 
-.grid-block.shrink.align-center.row-xxs.well.well-600.gray.can-disable.padding-sm(
+.grid-block.shrink.align-center.well.well-600.gray.can-disable.padding-sm(
   ng-if = "!SMC.state.advanced"
 )
-  svg.grid-content.row-xxs.shrink.iconnables.icons-dockerfile-lock
+  svg.grid-content.shrink.iconnables.icons-dockerfile-lock
     use(
       xlink:href = "#icons-dockerfile-lock"
     )
-  .grid-content.row-xxs.text-overflow
+  .grid-content.text-overflow
     div Unlock Dockerfile
     small.small
       span.span.text-overflow.float-left Editing your Dockerfile is for advanced users and is not reversible.
@@ -35,14 +35,14 @@
     | Unlock
 
 //- add logic for repository containers only
-.grid-block.shrink.align-center.row-xxs.well.well-600.gray.can-disable.padding-sm(
+.grid-block.shrink.align-center.well.well-600.gray.can-disable.padding-sm(
   ng-if = "SMC.state.advanced && !SMC.state.isNonRepoContainer"
 )
-  svg.grid-content.row-xxs.shrink.iconnables.icons-sync
+  svg.grid-content.shrink.iconnables.icons-sync
     use(
       xlink:href = "#icons-sync"
     )
-  .grid-content.row-xxs.text-overflow(
+  .grid-content.text-overflow(
     ng-class = "{'padding-right': SMC.state.advanced === 'isMirroringDockerfile'}"
   )
     div Mirror Dockerfile

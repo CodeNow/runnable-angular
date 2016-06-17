@@ -371,6 +371,23 @@
     margin: 45px auto;
   }
 
+  // modal description
+  .well {
+    background: $gray-lightest;
+
+    &:first-child {
+      margin-bottom: 15px;
+    }
+
+    &:last-child {
+      margin-top: 15px;
+    }
+
+    + .well {
+      margin-top: 0;
+    }
+  }
+
   .label-checkbox {
     transition: padding .15s ease-in;
   }
@@ -391,6 +408,11 @@
 
   .btn-group,
   .btn {
+
+    &.text-next {
+      padding-right: 6px;
+      width: 90px;
+    }
 
     &.float-right + .float-right {
       margin-right: 6px;

@@ -164,11 +164,6 @@
       }
     }
 
-    &:active:not(.disabled) .btn-icon {
-      @extend %green;
-      color: $white;
-    }
-
     .spinner-wrapper {
       right: 21px;
     }

@@ -1,7 +1,4 @@
-.list-item(
-  ng-class = "{\
-    'isolated': $root.featureFlags.isolationUI,\
-    'open': INC.shouldExpand\
-  }"
+.grid-block.vertical.list-item-container.text-overflow(
+  ng-class = "{'open': INC.shouldExpand}"
   ng-include = "'instanceNavigationInternalsView'"
 )

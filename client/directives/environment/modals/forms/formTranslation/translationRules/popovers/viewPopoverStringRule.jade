@@ -143,8 +143,7 @@
       )
 
     .popover-footer.clearfix
-      button.btn.btn-sm.green.btn-spinner(
-        ng-class = "{in: currentState.processing}"
+      button.btn.btn-sm.green(
         ng-click = "actions.performCheck(data.state, currentState)"
         ng-disabled = "!popoverRuleForm.$valid || popoverRuleForm.$pristine || currentState.processing"
         ng-if = "!currentState.searched"

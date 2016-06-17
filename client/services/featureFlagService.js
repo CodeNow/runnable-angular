@@ -8,6 +8,8 @@ function featureFlags(
 ) {
   var defaultFeatureFlags = {
     allowIsolatedUpdate: false,
+    autoIsolation: false,
+    autoIsolationSetup: false,
     backup: false,
     billing: false,
     cardStatus: false,
@@ -24,7 +26,6 @@ function featureFlags(
     internalDebugging: false,
     inviteFlows: false,
     isolationRepos: true, // for isolation UI
-    isolationUI: true, // for isolation UI
     multilineFnR: false,
     multilineStartCmd: false,
     multipleRepositoryContainers: false, // for adding multiple containers with the same repository
@@ -44,8 +45,6 @@ function featureFlags(
     trial: false,
     updatedSlackValidation: true,
     webhooks: false,
-    webhooksAdminPresent: false,
-    webhooksContainerRunning: false,
     welcomeBack: false,
     whitelist: true,
     whitelistIpFiltering: false

@@ -1,30 +1,25 @@
-a.list-item-container(
+a.grid-block.align-center.a-sref(
+  ng-class = "{'padding-right': $root.featureFlags.autoIsolation && INC.instance.attrs.isIsolationGroupMaster}"
   ui-sref = "\
     base.instances.instance({userName: INC.activeAccount.oauthName(),\
     instanceName: INC.instance.attrs.name})\
   "
   ui-sref-active = "active"
 )
-  status-icon(
+  status-icon.grid-block.shrink(
     instance = "INC.instance"
   )
-  .text-overflow(
-    title = "{{ getNavigationName() }}"
-  ) {{ getNavigationName() }}
+  .grid-block.text-overflow(
+    title = "{{getNavigationName()}}"
+  ) {{getNavigationName()}}
 
-  .btn.btn-xxs.btn-badge.gray(
-    ng-if = "$root.featureFlags.isolationUI && INC.instance.attrs.isIsolationGroupMaster"
+  .grid-block.shrink.btn.btn-xxs.btn-badge(
+    ng-if = "INC.instance.attrs.isIsolationGroupMaster && !$root.featureFlags.autoIsolation"
   ) Isolated
 
-  svg.iconnables.icons-overflow(
+  svg.grid-block.shrink.iconnables.icons-overflow(
     ng-class = "{'active': INC.popoverShown}"
-    ng-if = "\
-      $root.featureFlags.isolationUI\
-      &&\
-      (INC.masterInstance !== INC.instance && INC.instance.getBranchName())\
-      ||\
-      (!INC.instance.attrs.isIsolationGroupMaster && INC.instance.attrs.isolated)\
-    "
+    ng-if = "!$root.featureFlags.autoIsolation && ((INC.masterInstance !== INC.instance && INC.instance.getBranchName()) || (!INC.instance.attrs.isIsolationGroupMaster && INC.instance.attrs.isolated))"
     pop-over
     pop-over-active = "INC.popoverShown"
     pop-over-controller = "INC"
@@ -35,7 +30,7 @@ a.list-item-container(
       xlink:href = "#icons-overflow"
     )
 
-  svg.iconnables.icons-advanced(
+  svg.grid-block.shrink.iconnables.icons-advanced(
     ng-click="INC.editInstance($event)"
     ng-if = "$root.featureFlags.editAnyInstance || INC.instance.attrs.masterPod && !INC.instance.getBranchName() && !INC.instance.attrs.isolated"
     title = "Configure"
@@ -44,20 +39,33 @@ a.list-item-container(
       xlink:href = "#icons-advanced"
     )
 
-//- list of isolated containers
-.list.list-isolated(
-  ng-if = "$root.featureFlags.isolationUI && INC.shouldExpand && INC.instance.isolation.instances.models.length"
+button.grid-block.shrink.btn-overflow(
+  ng-class = "{'active': INC.popoverShown}"
+  ng-if = "$root.featureFlags.autoIsolation && INC.instance.attrs.isIsolationGroupMaster"
+  pop-over
+  pop-over-active = "INC.popoverShown"
+  pop-over-controller = "INC"
+  pop-over-options = "{\"verticallyCentered\":true,\"left\":28}"
+  pop-over-template = "instanceNavigationPopoverView"
 )
-  div(
-    active-account = "INC.activeAccount"
-    instance = "instance"
-    instance-navigation
-    ng-repeat = "instance in INC.instance.isolation.instances | instanceHasRepo:true | orderBy: ['attrs.name']"
-  )
+  svg.iconnables
+    use(
+      xlink:href = "#icons-overflow"
+    )
 
-  div(
-    active-account = "INC.activeAccount"
-    instance = "instance"
-    instance-navigation
-    ng-repeat = "instance in INC.instance.isolation.instances | instanceHasRepo:false | orderBy: ['attrs.name']"
-  )
+//- list of isolated containers
+.grid-block(
+  active-account = "INC.activeAccount"
+  instance = "instance"
+  instance-navigation
+  ng-repeat = "instance in INC.instance.isolation.instances | instanceHasRepo:true | orderBy: ['attrs.name']"
+  ng-if = "INC.shouldExpand && INC.instance.isolation.instances.models.length"
+)
+
+.grid-block(
+  active-account = "INC.activeAccount"
+  instance = "instance"
+  instance-navigation
+  ng-repeat = "instance in INC.instance.isolation.instances | instanceHasRepo:false | orderBy: ['attrs.name']"
+  ng-if = "INC.shouldExpand && INC.instance.isolation.instances.models.length"
+)

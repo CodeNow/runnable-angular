@@ -145,8 +145,8 @@ describe('containerStatusButtonDirective'.bold.underline.blue, function () {
 
   describe('getClassForInstance', function () {
     var classesMap = {
-      starting: ['gray', 'in'],
-      stopping: ['gray', 'in'],
+      starting: ['gray'],
+      stopping: ['gray'],
       building: ['gray'],
       stopped: ['gray'],
       crashed: ['red'],

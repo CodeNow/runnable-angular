@@ -9,6 +9,10 @@
 
     &.in {
       opacity: 1;
+
+      &[disabled] {
+        opacity: .5;
+      }
     }
   }
 }
