@@ -167,17 +167,17 @@
   &.failed {
     background: transparent;
     border: 0;
+    overflow: visible;
 
     &::before {
       background-position: center;
       background-repeat: no-repeat;
-      background-size: 12px 12px;
+      background-size: 100%;
       content: '';
-      height: 12px;
-      left: -2px;
+      height: 100%;
+      left: 0;
       position: absolute;
-      top: -1px;
-      width: 12px;
+      width: 100%;
     }
   }
 
