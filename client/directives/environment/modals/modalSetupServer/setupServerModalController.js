@@ -82,7 +82,8 @@ function SetupServerModalController(
         env: [],
         ipWhitelist: {
           enabled: false
-        }
+        },
+        isTesting: false
       },
       selectedStack: null,
       step: 1,
@@ -260,7 +261,8 @@ function SetupServerModalController(
           env: keypather.get(instance, 'attrs.env') || [],
           ipWhitelist: angular.copy(keypather.get(instance, 'attrs.ipWhitelist')) || {
             enabled: false
-          }
+          },
+          isTesting: keypather.get(instance, 'attrs.isTesting') || false
         };
         return instance;
       }
