@@ -40,7 +40,7 @@ function featureFlags(
     saveToolbar: false,
     teamManagement: true, // changes text from org to team in account menu
     teamManagementAdvanced: false,
-    testingFeature: false,
+    testingFeature: true,
     themeToggle: false, // toggles the button that toggles theme
     trial: false,
     updatedSlackValidation: true,
