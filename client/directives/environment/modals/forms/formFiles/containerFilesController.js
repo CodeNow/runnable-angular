@@ -3,6 +3,7 @@
 require('app').controller('ContainerFilesController', ContainerFilesController);
 
 function ContainerFilesController(
+  $q,
   loadingPromises,
   promisify,
   errs,
@@ -161,25 +162,37 @@ function ContainerFilesController(
       },
       deleteFile: function (containerFile) {
         $rootScope.$broadcast('close-popovers');
-
-        var file = containerFile.fileModel || self.state.contextVersion.rootDir.contents.models.find(function (fileModel) {
-            return fileModel.attrs.name === containerFile.name;
-          });
-        if (file) {
-          var containerIndex = self.state.containerFiles.indexOf(containerFile);
-          if (containerIndex > -1) {
-            self.state.containerFiles.splice(containerIndex, 1);
-          }
-
-          return loadingPromises.add('editServerModal',
-            promisify(file, 'destroy')()
+        return loadingPromises.add(
+          'editServerModal',
+          $q(function (resolve) {
+            if (containerFile.fileModel) {
+              return resolve(containerFile.fileModel);
+            }
+            return promisify(self.state.contextVersion.rootDir.contents, 'fetch')()
               .then(function () {
-                return updateDockerfileFromState(self.state);
-              })
-              .catch(errs.handler)
-          );
-        }
-
+                var file =  self.state.contextVersion.rootDir.contents.models.find(function (fileModel) {
+                  return fileModel.attrs.name === containerFile.name;
+                });
+                resolve(file);
+              });
+          })
+            .then(function (file) {
+              var containerIndex = self.state.containerFiles.indexOf(containerFile);
+              if (containerIndex > -1) {
+                self.state.containerFiles.splice(containerIndex, 1);
+              }
+              if (file) {
+                return promisify(file, 'destroy')()
+                  .then(function () {
+                    return promisify(self.state.contextVersion.rootDir.contents, 'fetch')();
+                  });
+              }
+            })
+            .then(function () {
+              return updateDockerfileFromState(self.state);
+            })
+            .catch(errs.handler)
+        );
       }
     },
     data: {}
@@ -233,33 +246,7 @@ function ContainerFilesController(
           );
           $rootScope.$broadcast('close-popovers');
         },
-        remove: function (sshKeyFile) {
-          var file = sshKeyFile.fileModel || self.state.contextVersion.rootDir.contents.models.find(function (fileModel) {
-            return fileModel.attrs.name === sshKeyFile.name;
-          });
-          var containerIndex = self.state.containerFiles.indexOf(sshKeyFile);
-          if (containerIndex > -1) {
-            self.state.containerFiles.splice(containerIndex, 1);
-          }
-
-          if (file) {
-            loadingPromises.add(
-              'editServerModal',
-              promisify(file, 'destroy')()
-                .then(function () {
-                  return promisify(self.state.contextVersion.rootDir.contents, 'fetch')();
-                })
-                .then(function () {
-                  return updateDockerfileFromState(self.state);
-                })
-                .catch(errs.handler)
-            );
-          } else {
-            loadingPromises.add('editServerModal', updateDockerfileFromState(self.state))
-              .catch(errs.handler);
-          }
-          $rootScope.$broadcast('close-popovers');
-        }
+        remove: this.fileUpload.actions.deleteFile
       }
     },
     getFileDate: function (sshKeyFile) {
