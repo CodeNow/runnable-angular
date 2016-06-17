@@ -164,28 +164,30 @@ function ContainerFilesController(
         $rootScope.$broadcast('close-popovers');
         return loadingPromises.add(
           'editServerModal',
-          $q(function (resolve) {
-            if (containerFile.fileModel) {
-              return resolve(containerFile.fileModel);
-            }
-            return promisify(self.state.contextVersion.rootDir.contents, 'fetch')()
-              .then(function () {
-                var file =  self.state.contextVersion.rootDir.contents.models.find(function (fileModel) {
-                  return fileModel.attrs.name === containerFile.name;
-                });
-                resolve(file);
-              });
-          })
-            .then(function (file) {
-              var containerIndex = self.state.containerFiles.indexOf(containerFile);
-              if (containerIndex > -1) {
-                self.state.containerFiles.splice(containerIndex, 1);
+          $q.when()
+            .then(function () {
+              if (containerFile.fileModel) {
+                return containerFile.fileModel;
               }
+              return promisify(self.state.contextVersion.rootDir.contents, 'fetch')()
+                .then(function () {
+                  return self.state.contextVersion.rootDir.contents.models.find(function (fileModel) {
+                    return fileModel.attrs.name === containerFile.name;
+                  });
+                });
+            })
+            .then(function (file) {
               if (file) {
                 return promisify(file, 'destroy')()
                   .then(function () {
                     return promisify(self.state.contextVersion.rootDir.contents, 'fetch')();
                   });
+              }
+            })
+            .then(function () {
+              var containerIndex = self.state.containerFiles.indexOf(containerFile);
+              if (containerIndex > -1) {
+                self.state.containerFiles.splice(containerIndex, 1);
               }
             })
             .then(function () {

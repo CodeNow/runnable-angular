@@ -84,7 +84,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
         },
         rootDir: {
           contents: {
-            create: sinon.spy(),
+            create: sinon.stub().returns(),
             fetch: sinon.stub().returns()
           }
         }
