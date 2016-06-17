@@ -449,7 +449,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
         sinon.assert.calledOnce(closePopoverSpy);
       });
     });
-    describe.only('deleteFile', function () {
+    describe('deleteFile', function () {
       it('should delete a file when the file model is on the container file', function () {
         var containerFile = {
           id: Math.random(),
@@ -586,7 +586,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
           sinon.assert.calledOnce(loadingPromises.add);
           sinon.assert.calledWith(loadingPromises.add, 'editServerModal');
           sinon.assert.calledOnce(sshKey.fileModel.destroy);
-          sinon.assert.calledTwice(CFC.state.contextVersion.rootDir.contents.fetch);
+          sinon.assert.calledOnce(CFC.state.contextVersion.rootDir.contents.fetch);
           sinon.assert.calledOnce(updateDockerfileFromStateMock);
           sinon.assert.calledOnce(closePopoverSpy);
           expect(CFC.state.containerFiles.length).to.equal(1);
