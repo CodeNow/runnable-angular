@@ -6,29 +6,29 @@
   .popover-content
     //- hide list if build failed
     ul.popover-list
-      li.popover-list-item(
-        ng-if = "CSBC.shouldRenderNormalButtons() && ['stopped', 'crashed'].includes(CSBC.instance.status())"
+  li.popover-list-item(
+        ng-if = "!CSBC.instance.isMigrating() && !CSBC.isTesting() && ['stopped', 'crashed'].includes(CSBC.instance.status())"
         ng-click = "actions.startInstance()"
       )
         .icons-status.green
         | Start
 
       li.popover-list-item(
-        ng-if = "CSBC.shouldRenderNormalButtons() && ['running'].includes(CSBC.instance.status())"
+        ng-if = "!CSBC.instance.isMigrating() && !CSBC.isTesting() && ['running'].includes(CSBC.instance.status())"
         ng-click = "actions.restartInstance()"
       )
         .icons-status.green
         | Restart
 
       li.popover-list-item(
-        ng-if = "CSBC.shouldRenderNormalButtons() && ['running'].includes(CSBC.instance.status())"
+        ng-if = "!CSBC.instance.isMigrating() && !CSBC.isTesting() && ['running'].inc  ludes(CSBC.instance.status())"
         ng-click = "actions.stopInstance()"
       )
         .icons-status
         | Stop
 
       li.divider(
-        ng-if = "CSBC.shouldRenderNormalButtons() && ['running', 'stopped', 'crashed'].includes(CSBC.instance.status())"
+        ng-if = "!CSBC.instance.isMigrating() && !CSBC.isTesting() && ['running', 'stopped', 'crashed'].includes(CSBC.instance.status())"
       )
 
       //- rebuild without cache when no new config exists for this container
@@ -40,8 +40,8 @@
         "
       )
         .icons-status.orange
-        | {{CSBC.instance.isolation.groupMaster.attrs.isTesting || CSBC.instance.attrs.isTesting ? 'Rerun Test' : 'Rebuild'}}
-        .small {{CSBC.instance.isolation.groupMaster.attrs.isTesting || CSBC.instance.attrs.isTesting ? 'Will rerun tests without cache.' : 'Will rebuild without cache.'}}
+        | {{CSBC.instance.isTesting() ? 'Rerun Test' : 'Rebuild'}}
+        .small {{CSBC.instance.isTesting() ? 'Will rerun tests without cache.' : 'Will rebuild without cache.'}}
 
       //- rebuild without cache when no new config exists for this container
       li.popover-list-item.multi-line(

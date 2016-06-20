@@ -26,10 +26,9 @@ function ContainerStatusButtonController(
       .catch(errs.handler);
   }
 
-  CSBC.shouldRenderNormalButtons = function () {
-    return !CSBC.instance.isMigrating() &&
-      !CSBC.instance.isolation.groupMaster.attrs.isTesting &&
-      !CSBC.instance.attrs.isTesting;
+  CSBC.isTesting = function () {
+    return keypather.get(CSBC, 'instance.isolation.groupMaster.attrs.isTesting') ||
+      keypather.get(CSBC, 'instance.attrs.isTesting');
   };
 
   CSBC.actions = {
