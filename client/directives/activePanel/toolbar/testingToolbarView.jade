@@ -7,11 +7,11 @@ svg.iconnables.float-left(
   )
   use(
     xlink:href = "#icons-hourglass"
-    ng-if = "instance.status() === 'crashed'"
+    ng-if = "instance.status() === 'running'"
   )
   use(
     xlink:href = "#icons-close"
-    ng-if = "instance.status() === 'failed'"
+    ng-if = "instance.status() === 'crashed'"
   )
 p.p.text-overflow
   {{ instance.status() === 'stopped' ? 'Tests Passed' : '' }}
