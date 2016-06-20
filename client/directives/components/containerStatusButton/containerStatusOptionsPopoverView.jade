@@ -6,7 +6,7 @@
   .popover-content
     //- hide list if build failed
     ul.popover-list
-  li.popover-list-item(
+      li.popover-list-item(
         ng-if = "!CSBC.instance.isMigrating() && !CSBC.isTesting() && ['stopped', 'crashed'].includes(CSBC.instance.status())"
         ng-click = "actions.startInstance()"
       )
@@ -21,7 +21,7 @@
         | Restart
 
       li.popover-list-item(
-        ng-if = "!CSBC.instance.isMigrating() && !CSBC.isTesting() && ['running'].inc  ludes(CSBC.instance.status())"
+        ng-if = "!CSBC.instance.isMigrating() && !CSBC.isTesting() && ['running'].includes(CSBC.instance.status())"
         ng-click = "actions.stopInstance()"
       )
         .icons-status
