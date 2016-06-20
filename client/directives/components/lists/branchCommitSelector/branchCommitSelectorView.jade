@@ -8,7 +8,7 @@ label.label(
 //- this element should appear in:
     * the setup popover for adding a repo to Container Files
     * the edit modal (in the Containers view) for modifying an additional repo on a specific Container
-.toggle-wrapper(
+label.toggle-wrapper(
   ng-if = "!BCSC.data.acv || BCSC.data.acv.attrs.additionalRepo"
 )
   .strong Always update to latest commit
@@ -23,7 +23,7 @@ label.label(
   .toggle-group.toggle-sm
 
 label.toggle-wrapper(
-  ng-if = "$root.featureFlags.testingFeature && !BCSC.data.acv.attrs.additionalRepo"
+  ng-if = "$root.featureFlags.testingFeature && BCSC.data.acv && !BCSC.data.acv.attrs.additionalRepo"
 )
   .strong Auto-Deploy
   .small Rebuild when new commits are pushed to GitHub.

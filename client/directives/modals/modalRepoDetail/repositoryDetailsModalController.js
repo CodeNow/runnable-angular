@@ -73,8 +73,12 @@ function RepositoryDetailsModalController(
         var repo = mainACV.attrs.repo;
         var branch = mainACV.attrs.branch;
 
-        var childInstances = RDMC.instance.isolation.instances.models;
-        var groupMaster = RDMC.instance.isolation.groupMaster;
+        var isolation = keypather.get(RDMC, 'instance.isolation');
+        if (!isolation) {
+          return true;
+        }
+        var childInstances = isolation.instances.models;
+        var groupMaster = isolation.groupMaster;
         var instances = childInstances.concat(groupMaster);
         var instanceWithSameRepoAndBranch = instances.filter(function (i) {
           if (!i) {
