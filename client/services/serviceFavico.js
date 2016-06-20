@@ -3,7 +3,8 @@
 require('app')
   .factory('favico', function (
     favicojs,
-    $timeout
+    $timeout,
+    keypather
   ) {
     var favico = favicojs({
       animation: 'none'
@@ -38,9 +39,14 @@ require('app')
     };
     var setInstanceState = function (instance) {
       if (instance) {
+        var patchedIcons = angular.copy(icons);
+        if (keypather.get(instance, 'attrs.isTesting')) {
+          patchedIcons.running = images.orange;
+          patchedIcons.stopped = images.green;
+        }
         var state = instance.status();
         if (state !== currentState) {
-          var icon = icons[state];
+          var icon = patchedIcons[state];
           if (icon) {
             favico.image(icon);
           } else {

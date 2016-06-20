@@ -62,4 +62,26 @@ describe('serviceFavico'.bold.underline.blue, function () {
     sinon.assert.called(favjsMock.reset);
   });
 
+  describe('when testing', function () {
+    it('should return orange when status is running', function () {
+      var theSrc = new RegExp('build/images/favicon-orange.png');
+      favico.setInstanceState({
+        attrs: { isTesting: true },
+        status: sinon.stub().returns('running')
+      });
+      // Need to compare exact srcs, so sinon.assert isn't helpful
+      expect(favjsMock.image.getCall(0).args[0].src).to.match(theSrc);
+    });
+
+    it('should return green when status is stopped', function () {
+      var theSrc = new RegExp('build/images/favicon-green.png');
+      favico.setInstanceState({
+        attrs: { isTesting: true },
+        status: sinon.stub().returns('stopped')
+      });
+      // Need to compare exact srcs, so sinon.assert isn't helpful
+      expect(favjsMock.image.getCall(0).args[0].src).to.match(theSrc);
+    });
+  });
+
 });
