@@ -25,7 +25,7 @@ describe('filterCardBuildStatusTitle', function () {
       expect(filterCardBuildStatusTitle(instance)).to.equal('Passed a few seconds ago');
     });
     it('when crashed should report tests failed', function () {
-      instance.status.returns('stopped');
+      instance.status.returns('crashed');
       expect(filterCardBuildStatusTitle(instance)).to.equal('Failed a few seconds ago');
     });
     it('when running should report tests running', function () {
