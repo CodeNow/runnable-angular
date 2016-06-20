@@ -1,22 +1,22 @@
 svg.iconnables.float-left(
-  ng-class = "{'icons-hourglass': getTestingStatus() === 'inProgress'}"
+  ng-class = "{'icons-hourglass': instance.status() === 'running'}"
 )
   use(
     xlink:href = "#icons-check"
-    ng-if = "getTestingStatus() === 'passed'"
+    ng-if = "instance.status() === 'stopped'"
   )
   use(
     xlink:href = "#icons-hourglass"
-    ng-if = "getTestingStatus() === 'inProgress'"
+    ng-if = "instance.status() === 'crashed'"
   )
   use(
     xlink:href = "#icons-close"
-    ng-if = "getTestingStatus() === 'failed'"
+    ng-if = "instance.status() === 'failed'"
   )
 p.p.text-overflow
-  {{ getTestingStatus() === 'passed' ? 'Tests Passed' : '' }}
-  {{ getTestingStatus() === 'inProgress' ? 'Tests Running' : '' }}
-  {{ getTestingStatus() === 'failed' ? 'Tests Failed' : '' }}
+  {{ instance.status() === 'stopped' ? 'Tests Passed' : '' }}
+  {{ instance.status() === 'running' ? 'Tests Running' : '' }}
+  {{ instance.status() === 'crashed' ? 'Tests Failed' : '' }}
 
   // Temporarily turning off until we can get timing working - https://runnable.atlassian.net/browse/SAN-4409
     .grid-block.align-center.shrink.small.duration

@@ -48,19 +48,6 @@ function activePanel(
         $scope.showDebugCmd = status;
       });
 
-      $scope.getTestingStatus = function () {
-        var status = keypather.get($scope, 'instance.status()');
-        var testingStatusMap = {
-          stopped: 'passed',
-          crashed: 'failed',
-          running: 'inProgress'
-        };
-        if (keypather.get($scope, 'instance.attrs.isTesting') && testingStatusMap[status]) {
-          return testingStatusMap[status];
-        }
-        return null;
-      };
-
       $scope.rebuildWithoutCache = function () {
         loading('main', true);
         promisify($scope.instance.build, 'deepCopy')()

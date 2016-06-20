@@ -79,38 +79,6 @@ describe('directiveActivePanel'.bold.underline.blue, function() {
     });
   });
 
-  describe('getTestingStatus', function () {
-    it('should return null if instance is not for testing', function () {
-      instanceMock.attrs.isTesting = false;
-      $scope.$digest();
-      expect($elScope.getTestingStatus()).to.equal(null);
-    });
-
-    it('should return passed if instance is stopped', function () {
-      instanceMock.status.returns('stopped');
-      $scope.$digest();
-      expect($elScope.getTestingStatus()).to.equal('passed');
-    });
-
-    it('should return failed if instance is crashed', function () {
-      instanceMock.status.returns('crashed');
-      $scope.$digest();
-      expect($elScope.getTestingStatus()).to.equal('failed');
-    });
-
-    it('should return inProgress if instance is running', function () {
-      instanceMock.status.returns('running');
-      $scope.$digest();
-      expect($elScope.getTestingStatus()).to.equal('inProgress');
-    });
-
-    it('should return null if instance is building', function () {
-      instanceMock.status.returns('building');
-      $scope.$digest();
-      expect($elScope.getTestingStatus()).to.equal(null);
-    });
-  });
-
   describe('rebuildWithoutCache', function () {
     it('should allow the user to build without cache', function () {
       $elScope.rebuildWithoutCache();
