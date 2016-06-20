@@ -22,7 +22,7 @@ label.label(
   )
   .toggle-group.toggle-sm
 
-.toggle-wrapper(
+label.toggle-wrapper(
   ng-if = "$root.featureFlags.testingFeature && !BCSC.data.acv.attrs.additionalRepo"
 )
   .strong Auto-Deploy
@@ -34,6 +34,8 @@ label.label(
   )
   input.toggle-input(
     ng-disabled = "$root.featureFlags.webhooks"
+    ng-model = "BCSC.autoDeploy"
+    ng-model-options = "{getterSetter: true}"
     type = "checkbox"
   )
   .toggle-group.toggle-sm

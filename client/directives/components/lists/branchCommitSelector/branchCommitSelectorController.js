@@ -5,6 +5,10 @@ require('app')
 
 function BranchCommitSelectorController(
   $scope,
+  $rootScope,
+  errs,
+  loading,
+  promisify,
   keypather
 ) {
   var BCSC = this;
@@ -34,4 +38,23 @@ function BranchCommitSelectorController(
     BCSC.data.commit = commit;
     $scope.$emit('commit::selected', commit);
   };
+
+  this.autoDeploy = function (isLocked) {
+    var instance = BCSC.data.instance;
+    if (angular.isDefined(isLocked)) {
+      if ($rootScope.isLoading.autoDeploy) {
+        return !isLocked;
+      }
+      loading('autoDeploy', true);
+      return promisify(instance, 'update')({
+        locked: isLocked
+      })
+        .catch(errs.handler)
+        .then(function () {
+          loading('autoDeploy', false);
+        });
+    }
+    return keypather.get(instance, 'attrs.locked');
+  };
+
 }
