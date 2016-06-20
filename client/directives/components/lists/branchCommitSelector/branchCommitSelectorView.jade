@@ -47,9 +47,10 @@ ul.list.list-servers
   )
   li.list-item(
     ng-attr-title = "{{commit.attrs.commit.message}}"
+    ng-disabled = "BCSC.isAutoDeployOn() || BCSC.isLastestCommit()"
     ng-class = "{\
       'active': BCSC.data.commit === commit,\
-      'disabled': BCSC.isLatestCommit()\
+      'disabled': BCSC.isAutoDeployOn() || BCSC.isLastestCommit()\
     }"
     ng-click = "BCSC.selectCommit(commit)"
     ng-if = "!fetchingCommits"

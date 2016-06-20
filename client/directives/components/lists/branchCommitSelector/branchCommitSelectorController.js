@@ -13,7 +13,7 @@ function BranchCommitSelectorController(
 ) {
   var BCSC = this;
 
-  this.onCommitFetch = function (commits) {
+  BCSC.onCommitFetch = function (commits) {
     if (!commits.models.length) { return; }
     if (BCSC.data.commit) {
       BCSC.data.commit = commits.models.find(function (otherCommits) {
@@ -21,7 +21,8 @@ function BranchCommitSelectorController(
       }) || commits.models[0];
     }
   };
-  this.isLatestCommit = function (setToLatestCommit) {
+
+  BCSC.isLatestCommit = function (setToLatestCommit) {
     if (arguments.length) {
       BCSC.data.commit = keypather.get(BCSC.data.branch, 'commits.models[0]');
       BCSC.data.useLatest = setToLatestCommit;
@@ -33,28 +34,34 @@ function BranchCommitSelectorController(
     }
   };
 
-  this.selectCommit = function (commit) {
+  BCSC.selectCommit = function (commit) {
     if (BCSC.data.useLatest) { return; }
     BCSC.data.commit = commit;
     $scope.$emit('commit::selected', commit);
   };
 
-  this.autoDeploy = function (isLocked) {
-    var instance = BCSC.data.instance;
+  BCSC.isAutoDeployOn = function () {
+    return !keypather.get(BCSC.data.instance, 'attrs.locked');
+  };
+
+  BCSC.autoDeploy = function (isLocked) {
+    var instance = keypather.get(BCSC, 'data.instance');
     if (angular.isDefined(isLocked)) {
       if ($rootScope.isLoading.autoDeploy) {
         return !isLocked;
       }
       loading('autoDeploy', true);
       return promisify(instance, 'update')({
-        locked: isLocked
+        // We want to set auto-deploy on/off which is the opposite of the
+        // `locked` property. Hence, set `!isLocked`
+        locked: !isLocked
       })
         .catch(errs.handler)
         .then(function () {
           loading('autoDeploy', false);
         });
     }
-    return keypather.get(instance, 'attrs.locked');
+    return BCSC.isAutoDeployOn();
   };
 
 }
