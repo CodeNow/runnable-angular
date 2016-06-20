@@ -1,6 +1,6 @@
 'use strict';
 
-describe.only('RepositoryDetailsModalController'.bold.underline.blue, function () {
+describe('RepositoryDetailsModalController'.bold.underline.blue, function () {
   var $scope;
   var $rootScope;
   var keypather;
