@@ -2,14 +2,10 @@
 
 require('app')
   .directive('containerStatusButton', containerStatusButton);
-/**
- * @ngInject
- */
+
 function containerStatusButton(
   $rootScope,
-  errs,
-  keypather,
-  promisify
+  keypather
 ) {
   return {
     restrict: 'A',
