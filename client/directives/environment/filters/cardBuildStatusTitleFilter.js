@@ -26,6 +26,12 @@ function cardBuildStatusTitle(
       unknown: 'unknown'
     };
 
+    if (keypather.get(instance, 'attrs.isTesting')) {
+      statusMap.stopped = 'Passed';
+      statusMap.running = 'Testing for';
+      statusMap.crashed = 'Failed';
+    }
+
     var time = 0;
     var noAgo = false;
 

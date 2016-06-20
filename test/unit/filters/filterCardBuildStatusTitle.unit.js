@@ -2,102 +2,68 @@
 
 describe('filterCardBuildStatusTitle', function () {
   var filterCardBuildStatusTitle;
-  var keypather;
   beforeEach(function() {
     angular.mock.module('app');
     // Needs to have 'Filter' on the end to be properly injected
-    angular.mock.inject(function(_cardBuildStatusTitleFilter_, _keypather_) {
+    angular.mock.inject(function(_cardBuildStatusTitleFilter_) {
       filterCardBuildStatusTitle = _cardBuildStatusTitleFilter_;
-      keypather = _keypather_;
     });
   });
 
-  describe('crashed instance', function () {
+  describe('if testing', function () {
     var instance;
     beforeEach(function () {
       instance = {
-        status: function () {
-          return 'crashed';
-        }
+        attrs: {
+          isTesting: true
+        },
+        status: sinon.stub()
       };
     });
-    it('returns crashed', function() {
+    it('when stopped should report tests passed', function () {
+      instance.status.returns('stopped');
+      expect(filterCardBuildStatusTitle(instance)).to.equal('Passed a few seconds ago');
+    });
+    it('when crashed should report tests failed', function () {
+      instance.status.returns('stopped');
+      expect(filterCardBuildStatusTitle(instance)).to.equal('Failed a few seconds ago');
+    });
+    it('when running should report tests running', function () {
+      instance.status.returns('running');
+      expect(filterCardBuildStatusTitle(instance)).to.equal('Testing for a few seconds');
+    });
+  });
+
+  describe('if not testing', function () {
+    var instance;
+    beforeEach(function () {
+      instance = {
+        status: sinon.stub()
+      };
+    });
+    it('with a crashed instance returns crashed', function() {
+      instance.status.returns('crashed');
       expect(filterCardBuildStatusTitle(instance)).to.equal('Crashed a few seconds ago');
     });
-  });
-
-
-  describe('stopped instance', function () {
-    var instance;
-    beforeEach(function () {
-      instance = {
-        status: function () {
-          return 'stopped';
-        }
-      };
-    });
-    it('returns stopped', function() {
+    it('with a stopped instance returns stopped', function() {
+      instance.status.returns('stopped');
       expect(filterCardBuildStatusTitle(instance)).to.equal('Stopped a few seconds ago');
     });
-  });
-
-
-  describe('running instance', function () {
-    var instance;
-    beforeEach(function () {
-      instance = {
-        status: function () {
-          return 'running';
-        }
-      };
-    });
-    it('returns running', function () {
+    it('with a running instance returns running', function() {
+      instance.status.returns('running');
       expect(filterCardBuildStatusTitle(instance)).to.equal('Running for a few seconds');
     });
-  });
-
-  describe('failed build instance', function () {
-    var instance;
-    beforeEach(function () {
-      instance = {
-        status: function () {
-          return 'buildFailed';
-        }
-      };
+    it('with a buildFailed instance returns build failed', function() {
+      instance.status.returns('buildFailed');
+      expect(filterCardBuildStatusTitle(instance)).to.equal('Failed a few seconds ago');
     });
-    it('returns Build Failed', function () {
+    it('with building instance returns building', function () {
+      instance.status.returns('building');
+      expect(filterCardBuildStatusTitle(instance)).to.equal('Building for a few seconds');
+    });
+    it('with neverStarted instance returns failed', function () {
+      instance.status.returns('neverStarted');
       expect(filterCardBuildStatusTitle(instance)).to.equal('Failed a few seconds ago');
     });
   });
-
-  describe('building instance', function () {
-    describe('building', function () {
-      var instance;
-      beforeEach(function () {
-        instance = {
-          status: function () {
-            return 'building';
-          }
-        };
-      });
-      it('returns Building', function() {
-        expect(filterCardBuildStatusTitle(instance)).to.equal('Building for a few seconds');
-      });
-    });
-
-    describe('neverStarted', function () {
-      var instance;
-      beforeEach(function () {
-        instance = {
-          status: function () {
-            return 'neverStarted';
-          }
-        };
-      });
-      it('returns Building', function() {
-        expect(filterCardBuildStatusTitle(instance)).to.equal('Failed a few seconds ago');
-      });
-    });
-  });
-
 });
