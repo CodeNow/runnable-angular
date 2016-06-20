@@ -50,22 +50,24 @@ function RepositoryDetailsModalController(
   };
 
   RDMC.updateInstance = function () {
-    var promise = $q.when()
-      .then(function () {
-        loading('main', true);
-        if (RDMC.data.locked === RDMC.instance.attrs.locked) {
-          return;
-        }
-        return promisify(instance, 'update')({
-          locked: RDMC.data.locked
-        });
-      })
-      .then(function () {
-        return updateInstanceWithNewAcvData(RDMC.instance, RDMC.appCodeVersion, RDMC.data);
-      })
-        .finally(function () {
-          loading('main', false);
-        });
+    var updateInstance = function () {
+      return $q.when()
+        .then(function () {
+          loading('main', true);
+          if (RDMC.data.locked === RDMC.instance.attrs.locked) {
+            return;
+          }
+          return promisify(instance, 'update')({
+            locked: RDMC.data.locked
+          });
+        })
+        .then(function () {
+          return updateInstanceWithNewAcvData(RDMC.instance, RDMC.appCodeVersion, RDMC.data);
+        })
+          .finally(function () {
+            loading('main', false);
+          });
+    };
 
     return $q.when()
       .then(function () {
@@ -99,7 +101,7 @@ function RepositoryDetailsModalController(
         if (!confirmed) {
           return;
         }
-        return RDMC.close();
+        return RDMC.close(updateInstance());
       });
   };
 }
