@@ -22,16 +22,6 @@ require('app')
       red: createImage('/build/images/favicon-red.png')
     };
 
-    var icons = {
-      building: images.orange,
-      neverStarted: images.red,
-      running: images.green,
-      stopped: images.gray,
-      buildFailed: images.red,
-      crashed: images.red,
-      starting: images.orange,
-      stopping: images.green
-    };
     var currentState;
     var reset = function () {
       currentState = null;
@@ -39,14 +29,23 @@ require('app')
     };
     var setInstanceState = function (instance) {
       if (instance) {
-        var patchedIcons = angular.copy(icons);
+        var icons = {
+          building: images.orange,
+          neverStarted: images.red,
+          running: images.green,
+          stopped: images.gray,
+          buildFailed: images.red,
+          crashed: images.red,
+          starting: images.orange,
+          stopping: images.green
+        };
         if (keypather.get(instance, 'attrs.isTesting')) {
-          patchedIcons.running = images.orange;
-          patchedIcons.stopped = images.green;
+          icons.running = images.orange;
+          icons.stopped = images.green;
         }
         var state = instance.status();
         if (state !== currentState) {
-          var icon = patchedIcons[state];
+          var icon = icons[state];
           if (icon) {
             favico.image(icon);
           } else {
