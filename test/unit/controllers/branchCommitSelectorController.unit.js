@@ -66,7 +66,7 @@ describe('branchCommitSelectorController'.bold.underline.blue, function () {
   beforeEach(function () {
     initializeCtx();
   });
-  describe('basics', function () {
+  describe('Basics', function () {
     beforeEach(function () {
       initState();
     });
@@ -91,6 +91,7 @@ describe('branchCommitSelectorController'.bold.underline.blue, function () {
       expect(branchCommitSelectorController.data.commit, 'data.commit').to.equal(ctx.commits.models[0]);
       $rootScope.$destroy();
     });
+
     it('should leave the commit if it can find the current one in the list', function () {
       var newCommit = {
         sadsa: 'asdasd'
@@ -179,6 +180,70 @@ describe('branchCommitSelectorController'.bold.underline.blue, function () {
       $scope.$digest();
       expect(branchCommitSelectorController.data.commit, 'data.commit').to.equal(fakeCommit);
       $rootScope.$destroy();
+    });
+
+    describe('isAutoDeployOn', function () {
+      it('should return `useLatest` if its an additional repo', function () {
+        branchCommitSelectorController.data = {
+          useLatests: true,
+          locked: false,
+          acv: {
+            additionalRepo: true
+          }
+        };
+        expect(branchCommitSelectorController.isAutoDeployOn()).to.equal(true);
+        $scope.$digest();
+        $rootScope.$destroy();
+      });
+
+      it('should return `locked` if its not an additional repo', function () {
+        branchCommitSelectorController.data = {
+          useLatests: false,
+          locked: true,
+          acv: {
+            additionalRepo: false
+          }
+        };
+        expect(branchCommitSelectorController.isAutoDeployOn()).to.equal(false);
+        branchCommitSelectorController.data.locked = false;
+        expect(branchCommitSelectorController.isAutoDeployOn()).to.equal(true);
+        $scope.$digest();
+        $rootScope.$destroy();
+      });
+    });
+
+    describe.only('autoDeploy', function () {
+      beforeEach(function () {
+        branchCommitSelectorController.data = {
+          useLatests: false,
+          locked: true,
+          acv: {
+            additionalRepo: false
+          }
+        };
+        sinon.stub(branchCommitSelectorController, 'isAutoDeployOn').returns(true);
+      });
+      afterEach(function () {
+        branchCommitSelectorController.isAutoDeployOn.restore();
+      });
+
+      it('should return `isAutoDeployOn` no arguments are passed', function () {
+        expect(branchCommitSelectorController.autoDeploy()).to.equal(true);
+        sinon.assert.calledOnce(branchCommitSelectorController.isAutoDeployOn);
+        $scope.$digest();
+        $rootScope.$destroy();
+      });
+
+      it('should set the `locked` property if passed', function () {
+        branchCommitSelectorController.autoDeploy(true);
+        expect(branchCommitSelectorController.data.locked).to.equal(false);
+        sinon.assert.calledOnce(branchCommitSelectorController.isAutoDeployOn);
+        branchCommitSelectorController.autoDeploy(false);
+        expect(branchCommitSelectorController.data.locked).to.equal(true);
+        sinon.assert.calledTwice(branchCommitSelectorController.isAutoDeployOn);
+        $scope.$digest();
+        $rootScope.$destroy();
+      });
     });
   });
 });

@@ -40,7 +40,7 @@ function BranchCommitSelectorController(
     if (keypather.get(BCSC, 'data.acv.attrs.additionalRepo')) {
       return BCSC.data.useLatest;
     }
-    return BCSC.data.useLatest || keypather.get(BCSC.data, 'locked') === false;
+    return !keypather.get(BCSC.data, 'locked');
   };
 
   BCSC.autoDeploy = function (isAutoDeployOn) {
