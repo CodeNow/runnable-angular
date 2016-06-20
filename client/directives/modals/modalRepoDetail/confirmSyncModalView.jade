@@ -4,5 +4,9 @@
       p.p.strong Apply changes to other containers?
       p.p There are other containers in this cluster with the same repository. These changes will apply to those containers as well.
     footer.modal-footer.clearfix
-      button.btn.btn-sm.gray.float-left Cancel
-      button.btn.btn-sm.green.float-right Apply to All
+      button.btn.btn-sm.gray.float-left(
+        ng-click = "CMC.actions.cancel()"
+      ) Cancel
+      button.btn.btn-sm.green.float-right(
+        ng-click = "CMC.actions.confirm()"
+      ) Apply to All

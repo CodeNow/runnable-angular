@@ -5,10 +5,6 @@ require('app')
 
 function BranchCommitSelectorController(
   $scope,
-  $rootScope,
-  errs,
-  loading,
-  promisify,
   keypather
 ) {
   var BCSC = this;
@@ -41,25 +37,12 @@ function BranchCommitSelectorController(
   };
 
   BCSC.isAutoDeployOn = function () {
-    return !keypather.get(BCSC.data.instance, 'attrs.locked');
+    return !keypather.get(BCSC.data, 'locked');
   };
 
-  BCSC.autoDeploy = function (isLocked) {
-    var instance = keypather.get(BCSC, 'data.instance');
-    if (angular.isDefined(isLocked)) {
-      if ($rootScope.isLoading.autoDeploy) {
-        return !isLocked;
-      }
-      loading('autoDeploy', true);
-      return promisify(instance, 'update')({
-        // We want to set auto-deploy on/off which is the opposite of the
-        // `locked` property. Hence, set `!isLocked`
-        locked: !isLocked
-      })
-        .catch(errs.handler)
-        .then(function () {
-          loading('autoDeploy', false);
-        });
+  BCSC.autoDeploy = function (isAutoDeployOn) {
+    if (angular.isDefined(isAutoDeployOn)) {
+      BCSC.data.locked = !isAutoDeployOn;
     }
     return BCSC.isAutoDeployOn();
   };
