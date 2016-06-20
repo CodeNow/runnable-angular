@@ -7,28 +7,28 @@
     //- hide list if build failed
     ul.popover-list
       li.popover-list-item(
-        ng-if = "!CSBC.instance.isMigrating() && ['stopped', 'crashed'].includes(CSBC.instance.status()) && !CSBC.instance.isolation.groupMaster.attrs.isTesting && !CSBC.instance.attrs.isTesting"
+        ng-if = "CSBC.shouldRenderNormalButtons() && ['stopped', 'crashed'].includes(CSBC.instance.status())"
         ng-click = "actions.startInstance()"
       )
         .icons-status.green
         | Start
 
       li.popover-list-item(
-        ng-if = "!CSBC.instance.isMigrating() && ['running'].includes(CSBC.instance.status()) && !CSBC.instance.isolation.groupMaster.attrs.isTesting && !CSBC.instance.attrs.isTesting"
+        ng-if = "CSBC.shouldRenderNormalButtons() && ['running'].includes(CSBC.instance.status())"
         ng-click = "actions.restartInstance()"
       )
         .icons-status.green
         | Restart
 
       li.popover-list-item(
-        ng-if = "!CSBC.instance.isMigrating() && ['running'].includes(CSBC.instance.status()) && !CSBC.instance.isolation.groupMaster.attrs.isTesting && !CSBC.instance.attrs.isTesting"
+        ng-if = "CSBC.shouldRenderNormalButtons() && ['running'].includes(CSBC.instance.status())"
         ng-click = "actions.stopInstance()"
       )
         .icons-status
         | Stop
 
       li.divider(
-        ng-if = "!CSBC.instance.isMigrating() && ['running', 'stopped', 'crashed'].includes(CSBC.instance.status()) && !CSBC.instance.isolation.groupMaster.attrs.isTesting && !CSBC.instance.attrs.isTesting"
+        ng-if = "CSBC.shouldRenderNormalButtons() && ['running', 'stopped', 'crashed'].includes(CSBC.instance.status())"
       )
 
       //- rebuild without cache when no new config exists for this container

@@ -26,6 +26,12 @@ function ContainerStatusButtonController(
       .catch(errs.handler);
   }
 
+  CSBC.shouldRenderNormalButtons = function () {
+    return !CSBC.instance.isMigrating() &&
+      !CSBC.instance.isolation.groupMaster.attrs.isTesting &&
+      !CSBC.instance.attrs.isTesting;
+  };
+
   CSBC.actions = {
     stopInstance: function () {
       modInstance('stop');
