@@ -27,17 +27,16 @@ ul.cluster-list.list-setup-cluster(
         xlink:href = "#icons-close"
       )
 
-//- repository based containers
-.list(
+//- branch clusters
+ul.cluster-list(
   ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
 )
-  //- instance name
-  .grid-block.align-center.list-item.list-item-header
-
+  //- cluster list heading
+  li.cluster-list-item.cluster-list-heading.grid-block.align-center
     span.grid-block.text-overflow(
       title = "{{masterInstance.getName()}}"
     ) {{masterInstance.getName()}}
-
+    //- '+' button for adding branches and configuring clusters
     button.grid-block.shrink.btn.btn-xs.btn-icon.gray(
       ng-class = "{'active': state.active}"
       ng-if = "$root.featureFlags.autoIsolation"
@@ -61,7 +60,7 @@ ul.cluster-list.list-setup-cluster(
         xlink:href = "#icons-advanced"
       )
 
-  .list-item(
+  .cluster-list-item.grid-block.align-center(
     active-account = "CIS.activeAccount"
     instance = "masterInstance"
     instance-navigation
@@ -69,7 +68,8 @@ ul.cluster-list.list-setup-cluster(
     master-instance = "masterInstance"
   )
 
-  .list-item(
+  //- wraps a list of containers that belong together in a cluster
+  li.cluster-list-item(
     active-account = "CIS.activeAccount"
     instance = "childInstance"
     instance-navigation
@@ -85,12 +85,12 @@ ul.cluster-list.list-setup-cluster(
     pop-over-template = "viewMoreContainersPopover"
   ) 8 more…
 
-//- non-repository based containers
-.list(
+//- non-repo containers (pre auto-isolation)
+ul.cluster-list(
   ng-if = "!$root.featureFlags.autoIsolation"
   ng-show = "nonRepoInstances.length"
 )
-  .list-item(
+  li.cluster-list-item(
     instance-navigation
     instance = "masterInstance"
     active-account = "CIS.activeAccount"
