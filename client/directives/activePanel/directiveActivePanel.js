@@ -13,19 +13,23 @@ require('app')
 function activePanel(
   $sce,
   cleanStartCommand,
-  keypather
+  errs,
+  keypather,
+  loading,
+  promisify,
+  updateInstanceWithNewBuild
 ) {
   return {
     restrict: 'A',
     templateUrl: 'viewActivePanel',
     scope: {
-      openItems: '=',
-      instance: '=',
       build: '=',
-      validation: '=',
-      stateModel: '=',
+      debugContainer: '=?',
+      instance: '=',
       isEditModal: '=?',
-      debugContainer: '=?'
+      openItems: '=',
+      stateModel: '=',
+      validation: '='
     },
     link: function ($scope, element, attrs) {
       $scope.data = {};
@@ -43,6 +47,22 @@ function activePanel(
       $scope.$on('debug-cmd-status', function (evt, status) {
         $scope.showDebugCmd = status;
       });
+
+      $scope.rebuildWithoutCache = function () {
+        loading('main', true);
+        promisify($scope.instance.build, 'deepCopy')()
+          .then(function (build) {
+            return updateInstanceWithNewBuild(
+              $scope.instance,
+              build,
+              true
+            );
+          })
+          .catch(errs.handler)
+          .finally(function () {
+            loading('main', false);
+          });
+      };
     }
   };
 }

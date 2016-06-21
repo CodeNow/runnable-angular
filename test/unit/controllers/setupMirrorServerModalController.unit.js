@@ -308,6 +308,7 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
         }
       },
       attrs: {
+        isTesting: false,
         contextVersion: {
           context: 'context1234'
         },
@@ -461,7 +462,8 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
         env: ['HELLO=WORLD'],
         ipWhitelist: {
           enabled: false
-        }
+        },
+        isTesting: false
       });
     });
 

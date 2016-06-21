@@ -151,20 +151,33 @@
     background: $red;
   }
 
+  .red & {
+
+    &.icons-status.failed {
+      border: 0;
+      opacity: 1;
+
+      &::before {
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAALNJREFUeNrs2F0KgCAQBGDpBN7/xSPtkeyHIohS2x1zDBeCHmr6otI150b1XDFGv2whnrXu+2b5l4OPEgRqx8hNfkid9FQmVAKzlQakRuUwOVBAokowuUdWElCEgmUhgpA3Zg6EYyzB1TCaC1THKFD1MS9R32AAKDzGgKqHUaBUmOkP/ZL0+v5QfmHNxiBhG6U91TxGOdNT9kKU3SI0i7HJp1sG0S0U6ZbSXD8bRvVQswADAO6f1v6K4GdiAAAAAElFTkSuQmCC);
+      }
+    }
+  }
+
   &.passed,
   &.failed {
     background: transparent;
+    border: 0;
+    overflow: visible;
 
     &::before {
       background-position: center;
       background-repeat: no-repeat;
-      background-size: 12px 12px;
+      background-size: 100%;
       content: '';
-      height: 12px;
-      left: -2px;
+      height: 100%;
+      left: 0;
       position: absolute;
-      top: -1px;
-      width: 12px;
+      width: 100%;
     }
   }
 

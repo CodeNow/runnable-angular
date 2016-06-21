@@ -7,28 +7,28 @@
     //- hide list if build failed
     ul.popover-list
       li.popover-list-item(
-        ng-if = "!CSBC.instance.isMigrating() && ['stopped', 'crashed'].includes(CSBC.instance.status()) && !$root.featureFlags.testingFeature"
+        ng-if = "!CSBC.instance.isMigrating() && !CSBC.isTesting() && ['stopped', 'crashed'].includes(CSBC.instance.status())"
         ng-click = "actions.startInstance()"
       )
         .icons-status.green
         | Start
 
       li.popover-list-item(
-        ng-if = "!CSBC.instance.isMigrating() && ['running'].includes(CSBC.instance.status()) && !$root.featureFlags.testingFeature"
+        ng-if = "!CSBC.instance.isMigrating() && !CSBC.isTesting() && ['running'].includes(CSBC.instance.status())"
         ng-click = "actions.restartInstance()"
       )
         .icons-status.green
         | Restart
 
       li.popover-list-item(
-        ng-if = "!CSBC.instance.isMigrating() && ['running'].includes(CSBC.instance.status()) && !$root.featureFlags.testingFeature"
+        ng-if = "!CSBC.instance.isMigrating() && !CSBC.isTesting() && ['running'].includes(CSBC.instance.status())"
         ng-click = "actions.stopInstance()"
       )
         .icons-status
         | Stop
 
       li.divider(
-        ng-if = "!CSBC.instance.isMigrating() && ['running', 'stopped', 'crashed'].includes(CSBC.instance.status()) && !$root.featureFlags.testingFeature"
+        ng-if = "!CSBC.instance.isMigrating() && !CSBC.isTesting() && ['running', 'stopped', 'crashed'].includes(CSBC.instance.status())"
       )
 
       //- rebuild without cache when no new config exists for this container
@@ -40,8 +40,8 @@
         "
       )
         .icons-status.orange
-        | {{$root.featureFlags.testingFeature ?  'Rerun Test' : 'Rebuild'}}
-        .small Will rebuild without cache.
+        | {{CSBC.isTesting() ? 'Rerun Test' : 'Rebuild'}}
+        .small {{CSBC.isTesting() ? 'Will rerun tests without cache.' : 'Will rebuild without cache.'}}
 
       //- rebuild without cache when no new config exists for this container
       li.popover-list-item.multi-line(

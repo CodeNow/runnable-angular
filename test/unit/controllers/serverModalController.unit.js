@@ -471,7 +471,8 @@ describe('serverModalController'.bold.underline.blue, function () {
         env: [],
         ipWhitelist: {
           enabled: false
-        }
+        },
+        isTesting: false
       });
     });
 

@@ -1,46 +1,31 @@
 svg.iconnables.float-left(
-  ng-class = "{'icons-hourglass': $parent.state.test === 'inProgress'}"
+  ng-class = "{'icons-hourglass': instance.status() === 'running'}"
 )
   use(
     xlink:href = "#icons-check"
-    ng-if = "$parent.state.test === 'passed'"
+    ng-if = "instance.status() === 'stopped'"
   )
   use(
     xlink:href = "#icons-hourglass"
-    ng-if = "$parent.state.test === 'inProgress'"
+    ng-if = "instance.status() === 'running'"
   )
   use(
     xlink:href = "#icons-close"
-    ng-if = "$parent.state.test === 'failed'"
+    ng-if = "instance.status() === 'crashed'"
   )
 p.p.text-overflow
-  {{$parent.state.test === 'passed' ? 'Tests Passed' : ''}}
-  {{$parent.state.test === 'inProgress' ? 'Tests Running' : ''}}
-  {{$parent.state.test === 'failed' ? 'Tests Failed' : ''}}
+  {{ instance.status() === 'stopped' ? 'Tests Passed' : '' }}
+  {{ instance.status() === 'running' ? 'Tests Running' : '' }}
+  {{ instance.status() === 'crashed' ? 'Tests Failed' : '' }}
 
-  //- for testing only
-  select(
-    ng-model = "$parent.state.test"
-    style = "margin-right: 6px;"
-  )
-    optgroup(
-      label = "Test state"
-    )
-      option(
-        value = "passed"
-      ) passed
-      option(
-        value = "inProgress"
-      ) inProgress
-      option(
-        value = "failed"
-      ) failed
+  // Temporarily turning off until we can get timing working - https://runnable.atlassian.net/browse/SAN-4409
+    .grid-block.align-center.shrink.small.duration
+      svg.iconnables
+        use(
+          xlink:href = "#icons-stopwatch"
+        )
+      | 88:88
 
-  .grid-block.align-center.shrink.small.duration
-    svg.iconnables
-      use(
-        xlink:href = "#icons-stopwatch"
-      )
-    | 88:88
-
-button.btn.btn-md.btn-toolbar Rerun Test
+button.btn.btn-md.btn-toolbar(
+  ng-click = "rebuildWithoutCache()"
+) Rerun Test
