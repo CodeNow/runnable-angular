@@ -51,7 +51,7 @@ li.container-list-item.grid-block
     //- config button for non-repo containers (pre auto-isolation)
     svg.grid-block.shrink.iconnables(
       ng-click="INC.editInstance($event)"
-      ng-if = "$root.featureFlags.editAnyInstance || INC.instance.attrs.masterPod && !INC.instance.getBranchName() && !INC.instance.attrs.isolated"
+      ng-if = "$root.featureFlags.editAnyInstance || INC.instance.attrs.masterPod && !INC.instance.getBranchName() && !INC.instance.attrs.isolated && !$root.featureFlags.autoIsolation"
       title = "Configure"
     )
       use(

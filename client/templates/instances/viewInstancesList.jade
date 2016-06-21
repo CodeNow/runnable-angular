@@ -11,6 +11,12 @@ ul.cluster-list.master-cluster(
         master-instance = "masterInstance"
         ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
       )
+      .grid-block(
+        instance-navigation
+        instance = "masterInstance"
+        active-account = "CIS.activeAccount"
+        ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
+      )
 
 //- empty state
 .grid-block.align-center.well.padding-sm.vertical.text-center(
