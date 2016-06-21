@@ -69,9 +69,27 @@
     }
   }
 
-  .btn-add-branches {
-    height: 21px;
-    line-height: 17px;
-    margin: 9px 0 3px 21px;
+  .cluster-list-item {
+    margin-bottom: 5px;
+  }
+
+  .cluster-list-item > .container-list {
+    border: 1px solid transparent;
+    padding: 0;
+    border-radius: 3px;
+
+    &.open {
+      border-color: rgba($purple-light,.3);
+    }
+
+    .a-sref {
+      margin-bottom: 0;
+      border-radius: 0;
+
+      &:active,
+      &.active {
+         background: rgba($purple-light,.1);
+      }
+    }
   }
 }
