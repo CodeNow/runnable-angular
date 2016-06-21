@@ -57,7 +57,7 @@
     ng-class = "{\
       'green': instance.status() === 'stopped',\
       'orange': instance.status() === 'running',\
-      'red': instance.status() === 'scrashed'\
+      'red': instance.status() === 'crashed'\
     }"
     ng-if = "$root.featureFlags.testingFeature && instance.attrs.isTesting"
     ng-include = "'testingToolbarView'"
