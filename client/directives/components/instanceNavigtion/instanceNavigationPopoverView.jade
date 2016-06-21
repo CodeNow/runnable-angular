@@ -7,6 +7,28 @@
     ng-if = "$root.featureFlags.autoIsolation"
   )
     ul.list.popover-list
+      li.list-item.popover-list-item.multi-line
+        svg.iconnables(
+          style="color: #bbb"
+        )
+          use(
+            xlink:href = "#icons-config-modified"
+          )
+        | Configure
+        //- if this is a container in the setup cluster
+        //- .small Affects all [config name] containers
+        //- if this is a container that is not part of the setup cluster
+        .small Only affects this container
+      //- if this container has a modified configuration
+      li.list-item.popover-list-item
+        svg.iconnables(
+          style="color: #bbb"
+        )
+          use(
+            xlink:href = "#icons-config-delete"
+          )
+        | Discard Configuration
+      li.list-item.popover-list-item.divider
       li.list-item.popover-list-item(
         internal-modal-helper = "confirmBranchRemoveView"
       )
