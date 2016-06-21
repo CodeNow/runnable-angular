@@ -40,8 +40,8 @@
         "
       )
         .icons-status.orange
-        | {{CSBC.instance.isTesting() ? 'Rerun Test' : 'Rebuild'}}
-        .small {{CSBC.instance.isTesting() ? 'Will rerun tests without cache.' : 'Will rebuild without cache.'}}
+        | {{CSBC.isTesting() ? 'Rerun Test' : 'Rebuild'}}
+        .small {{CSBC.isTesting() ? 'Will rerun tests without cache.' : 'Will rebuild without cache.'}}
 
       //- rebuild without cache when no new config exists for this container
       li.popover-list-item.multi-line(
