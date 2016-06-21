@@ -1,14 +1,13 @@
 .instances-list.deprecated {
 
-  .list-item-header {
-    padding: 0 11px 0 29px;
+  .cluster-list-heading {
 
-    &:hover .icons-advanced {
+    &:hover .icons-config {
       opacity: .75;
     }
 
     // gear icon
-    .icons-advanced {
+    .icons-config {
       cursor: pointer;
       opacity: .6;
       pointer-events: auto;
@@ -37,8 +36,8 @@
     pointer-events: auto; // override iconnables default
   }
 
-  .icons-advanced {
-    margin-right: -1px;
+  .icons-config {
+    margin-right: 4px;
   }
 
   // overflow icon
@@ -51,7 +50,7 @@
   .btn-badge.btn-badge {
     border-color: currentColor;
     color: currentColor;
-    margin-left: 5px;
+    margin-left: 6px;
     opacity: .5;
   }
 

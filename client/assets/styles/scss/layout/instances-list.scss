@@ -59,7 +59,8 @@
     padding-left: 9px;
 
     &:hover {
-      color: $gray-dark;
+      // color: $gray-dark;
+      background: rgba($black,.05);
     }
 
     &.active {
@@ -163,7 +164,7 @@
 .repo-name-here {
   display: none;
 
-  .list-setup-cluster & {
+  .master-cluster & {
     display: inline;
   }
 }

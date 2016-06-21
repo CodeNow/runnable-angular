@@ -20,7 +20,7 @@ ul.cluster-list.master-cluster(
     use(
       xlink:href = "#icons-branch-burst"
     )
-  .grid-content.small Add branches by clicking on the add icon.
+  .grid-content.small Branches appear below, organized by repository. Use the + buttons to add branches.
   button.grid-content.btn.btn-icon.btn-xs
     svg.iconnables.icons-close.float-left
       use(
@@ -50,14 +50,14 @@ ul.cluster-list(
         use(
           xlink:href = "#icons-add"
         )
-
-    svg.grid-block.shrink.iconnables.icons-advanced(
+    //- repo config button (pre auto-isolation)
+    svg.grid-block.shrink.iconnables.icons-config(
       ng-click = "CIS.editInstance(masterInstance)"
       ng-if = "!$root.featureFlags.autoIsolation"
       title = "Configure"
     )
       use(
-        xlink:href = "#icons-advanced"
+        xlink:href = "#icons-config"
       )
 
   .cluster-list-item.grid-block.align-center(
