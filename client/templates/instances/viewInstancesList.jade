@@ -1,3 +1,18 @@
+//- master cluster
+ul.cluster-list.list-setup-cluster(
+  ng-if = "$root.featureFlags.autoIsolation"
+)
+  li.cluster-list-item
+    ul.container-list.grid-block.vertical.text-overflow.open
+      .grid-block(
+        active-account = "CIS.activeAccount"
+        instance = "masterInstance"
+        instance-navigation
+        master-instance = "masterInstance"
+        ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+      )
+
+//- empty state
 .grid-block.align-center.well.padding-sm(
   ng-if = "$root.featureFlags.autoIsolationSetup"
 )
