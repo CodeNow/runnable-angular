@@ -1,60 +1,65 @@
-a.grid-block.align-center.a-sref(
-  ng-class = "{'padding-right': $root.featureFlags.autoIsolation && INC.instance.attrs.isIsolationGroupMaster}"
-  ui-sref = "\
-    base.instances.instance({userName: INC.activeAccount.oauthName(),\
-    instanceName: INC.instance.attrs.name})\
-  "
-  ui-sref-active = "active"
-)
-  status-icon.grid-block.shrink(
-    instance = "INC.instance"
+li.container-list-item.grid-block
+  a.grid-block.align-center.a-sref(
+    ng-class = "{'padding-right': $root.featureFlags.autoIsolation && INC.instance.attrs.isIsolationGroupMaster}"
+    ui-sref = "\
+      base.instances.instance({userName: INC.activeAccount.oauthName(),\
+      instanceName: INC.instance.attrs.name})\
+    "
+    ui-sref-active = "active"
   )
-  .grid-block.text-overflow(
-    title = "{{getNavigationName()}}"
-  ) {{getNavigationName()}}
-
-  .grid-block.shrink.btn.btn-xxs.btn-badge(
-    ng-if = "INC.instance.attrs.isIsolationGroupMaster && !$root.featureFlags.autoIsolation"
-  ) Isolated
-
-  svg.grid-block.shrink.iconnables.icons-overflow(
-    ng-class = "{'active': INC.popoverShown}"
-    ng-if = "!$root.featureFlags.autoIsolation && ((INC.masterInstance !== INC.instance && INC.instance.getBranchName()) || (!INC.instance.attrs.isIsolationGroupMaster && INC.instance.attrs.isolated))"
-    pop-over
-    pop-over-active = "INC.popoverShown"
-    pop-over-controller = "INC"
-    pop-over-options = "{\"verticallyCentered\":true,\"left\":28}"
-    pop-over-template = "instanceNavigationPopoverView"
-  )
-    use(
-      xlink:href = "#icons-overflow"
+    status-icon.grid-block.shrink(
+      instance = "INC.instance"
     )
-
-  svg.grid-block.shrink.iconnables.icons-advanced(
-    ng-click="INC.editInstance($event)"
-    ng-if = "$root.featureFlags.editAnyInstance || INC.instance.attrs.masterPod && !INC.instance.getBranchName() && !INC.instance.attrs.isolated"
-    title = "Configure"
-  )
-    use(
-      xlink:href = "#icons-advanced"
+    .grid-block.text-overflow(
+      title = "{{getNavigationName()}}"
     )
+      //- only show for master cluster
+      span.repo-name-here {{INC.instance.getName()}}/
+      | {{getNavigationName()}}
 
-button.grid-block.shrink.btn-overflow(
-  ng-class = "{'active': INC.popoverShown}"
-  ng-if = "$root.featureFlags.autoIsolation && INC.instance.attrs.isIsolationGroupMaster"
-  pop-over
-  pop-over-active = "INC.popoverShown"
-  pop-over-controller = "INC"
-  pop-over-options = "{\"verticallyCentered\":true,\"left\":28}"
-  pop-over-template = "instanceNavigationPopoverView"
-)
-  svg.iconnables
-    use(
-      xlink:href = "#icons-overflow"
+    .grid-block.shrink.btn.btn-xxs.btn-badge(
+      ng-if = "INC.instance.attrs.isIsolationGroupMaster && !$root.featureFlags.autoIsolation"
+    ) Isolated
+
+    svg.grid-block.shrink.iconnables.icons-overflow(
+      ng-class = "{'active': INC.popoverShown}"
+      ng-if = "!$root.featureFlags.autoIsolation && ((INC.masterInstance !== INC.instance && INC.instance.getBranchName()) || (!INC.instance.attrs.isIsolationGroupMaster && INC.instance.attrs.isolated))"
+      pop-over
+      pop-over-active = "INC.popoverShown"
+      pop-over-controller = "INC"
+      pop-over-options = "{\"verticallyCentered\":true,\"left\":28}"
+      pop-over-template = "instanceNavigationPopoverView"
     )
+      use(
+        xlink:href = "#icons-overflow"
+      )
 
-//- list of isolated containers
-.grid-block(
+    button.grid-block.shrink.btn-config(
+      ng-class = "{'active': INC.popoverShown}"
+      pop-over
+      pop-over-active = "INC.popoverShown"
+      pop-over-controller = "INC"
+      pop-over-options = "{\"verticallyCentered\":true,\"left\":28}"
+      pop-over-template = "instanceNavigationPopoverView"
+      ng-if = "$root.featureFlags.autoIsolation"
+    )
+      svg.iconnables
+        use(
+          xlink:href = "#icons-config"
+        )
+
+    //- config button for non-repo containers (pre auto-isolation)
+    svg.grid-block.shrink.iconnables(
+      ng-click="INC.editInstance($event)"
+      ng-if = "$root.featureFlags.editAnyInstance || INC.instance.attrs.masterPod && !INC.instance.getBranchName() && !INC.instance.attrs.isolated"
+      title = "Configure"
+    )
+      use(
+        xlink:href = "#icons-config"
+      )
+
+//- wraps repo friends
+.friend-wrapper.grid-block(
   active-account = "INC.activeAccount"
   instance = "instance"
   instance-navigation
@@ -62,7 +67,8 @@ button.grid-block.shrink.btn-overflow(
   ng-if = "INC.shouldExpand && INC.instance.isolation.instances.models.length"
 )
 
-.grid-block(
+//- wraps service friends
+.friend-wrapper.grid-block(
   active-account = "INC.activeAccount"
   instance = "instance"
   instance-navigation

@@ -1,5 +1,5 @@
 //- master cluster
-ul.cluster-list.list-setup-cluster(
+ul.cluster-list.master-cluster(
   ng-if = "$root.featureFlags.autoIsolation"
 )
   li.cluster-list-item
@@ -13,7 +13,7 @@ ul.cluster-list.list-setup-cluster(
       )
 
 //- empty state
-.grid-block.align-center.well.padding-sm(
+.grid-block.align-center.well.padding-sm.vertical.text-center(
   ng-if = "$root.featureFlags.autoIsolationSetup"
 )
   svg.grid-content.icons-branch
