@@ -98,7 +98,7 @@
 .cluster-list-heading {
   height: 27px;
   margin: 6px 0;
-  padding: 0 11px 0 33px;
+  padding: 0 12px 0 33px;
 
   .text-overflow {
     padding-right: 9px;
@@ -128,10 +128,10 @@
   border: 0;
   color: $gray-light;
   display: none;
-  height: 15px;
+  height: 18px;
   margin-right: 9px;
   position: relative;
-  width: 15px;
+  width: 18px;
 
   :hover > &,
   :active > &,
@@ -156,5 +156,6 @@
     position: absolute;
     top: 0;
     width: 100%;
+    padding: 1.5px;
   }
 }
