@@ -4,6 +4,7 @@ ul.cluster-list.master-cluster(
 )
   li.cluster-list-item
     ul.container-list.grid-block.vertical.text-overflow.open
+      //- master repository containers
       .grid-block(
         active-account = "CIS.activeAccount"
         instance = "masterInstance"
@@ -11,6 +12,7 @@ ul.cluster-list.master-cluster(
         master-instance = "masterInstance"
         ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
       )
+      //- master non-repository containers
       .grid-block(
         instance-navigation
         instance = "masterInstance"
@@ -39,6 +41,7 @@ ul.cluster-list(
 )
   //- cluster list heading
   li.cluster-list-item.cluster-list-heading.grid-block.align-center
+    //- repository name
     span.grid-block.text-overflow(
       title = "{{masterInstance.getName()}}"
     ) {{masterInstance.getName()}}
@@ -66,7 +69,8 @@ ul.cluster-list(
         xlink:href = "#icons-gear"
       )
 
-  .cluster-list-item.grid-block.align-center(
+  //- wraps the default branch container for a repo (pre auto-isolation)
+  li.cluster-list-item.grid-block.align-center(
     active-account = "CIS.activeAccount"
     instance = "masterInstance"
     instance-navigation
@@ -74,7 +78,7 @@ ul.cluster-list(
     master-instance = "masterInstance"
   )
 
-  //- wraps a list of containers that belong together in a cluster
+  //- wraps auto-isolated clusters
   li.cluster-list-item(
     active-account = "CIS.activeAccount"
     instance = "childInstance"

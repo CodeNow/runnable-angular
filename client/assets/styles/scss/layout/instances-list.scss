@@ -36,13 +36,14 @@
       height: 30px;
     }
 
+    // 'x' button
     .btn-xs {
       color: $gray-light;
       flex: 0 0 18px;
-      height: 18px;
       position: absolute;
-      right: 0;
+      right: 14px;
       top: 0;
+      width: 18px;
 
       &:hover,
       &:active {
@@ -84,6 +85,7 @@
   }
 }
 
+// wraps the master cluster and each repository section
 .cluster-list {
   border-bottom: 1px solid $gray-lighter;
   padding: 15px 0;
@@ -94,16 +96,17 @@
   }
 }
 
-// repo name and '+' button
 .cluster-list-heading {
   height: 27px;
   margin: 6px 0;
   padding: 0 12px 0 33px;
 
+  // repo name
   .text-overflow {
     padding-right: 9px;
   }
 
+  // '+' button
   .btn-xs {
     line-height: initial;
     overflow: hidden;
@@ -111,7 +114,7 @@
   }
 }
 
-// target direct children because of nesting in markup
+// target only direct children because of nesting in markup
 .cluster-list-item > .container-list {
   border: 1px solid transparent;
   border-radius: $input-border-radius-lg;
@@ -124,7 +127,7 @@
   }
 }
 
-.btn-config {
+.btn-gear {
   border: 0;
   color: $gray-light;
   display: none;

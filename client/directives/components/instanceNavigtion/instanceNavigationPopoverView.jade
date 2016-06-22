@@ -9,22 +9,22 @@
     ul.list.popover-list
 
       //- if this is a container in the master cluster
-      li.list-item.popover-list-item.multi-line
-        svg.iconnables.icons-gear
-          use(
-            xlink:href = "#icons-gear"
-          )
-        | Configure
-        .small Affects all [config-name] containers.
-
-      //- if this is a container that is not part of the master cluster
       //- li.list-item.popover-list-item.multi-line
       //-   svg.iconnables.icons-gear
       //-     use(
-      //-       xlink:href = "#icons-gear-modified"
+      //-       xlink:href = "#icons-gear"
       //-     )
       //-   | Configure
-      //-   .small Only affects this container.
+      //-   .small Affects all [config-name] containers.
+
+      //- if this is a container that is not part of the master cluster
+      li.list-item.popover-list-item.multi-line
+        svg.iconnables.icons-gear
+          use(
+            xlink:href = "#icons-gear-modified"
+          )
+        | Configure
+        .small Only affects this container.
 
       //- if this container has a modified configuration
       //- li.list-item.popover-list-item

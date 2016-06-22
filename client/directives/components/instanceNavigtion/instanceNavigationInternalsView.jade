@@ -1,3 +1,4 @@
+//- wraps indivividual containers
 li.container-list-item.grid-block
   a.grid-block.align-center.a-sref(
     ui-sref = "\
@@ -12,10 +13,11 @@ li.container-list-item.grid-block
     .grid-block.text-overflow(
       title = "{{getNavigationName()}}"
     )
-      //- show repo names for repo containers
+      //- show repo names for repo containers in the master cluster
       span(
         ng-if = "INC.instance.attrs.masterPod && INC.instance.getBranchName() && $root.featureFlags.autoIsolation"
       ) {{INC.instance.getName()}}/
+      //- branch name or service name
       | {{getNavigationName()}}
 
     .grid-block.shrink.btn.btn-xxs.btn-badge(
@@ -35,7 +37,7 @@ li.container-list-item.grid-block
         xlink:href = "#icons-overflow"
       )
 
-    button.grid-block.shrink.btn-config(
+    button.grid-block.shrink.btn-gear(
       ng-class = "{'active': INC.popoverShown}"
       pop-over
       pop-over-active = "INC.popoverShown"
