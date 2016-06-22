@@ -57,13 +57,13 @@ ul.cluster-list(
           xlink:href = "#icons-add"
         )
     //- repo config button (pre auto-isolation)
-    svg.grid-block.shrink.iconnables.icons-config(
+    svg.grid-block.shrink.iconnables.icons-gear(
       ng-click = "CIS.editInstance(masterInstance)"
       ng-if = "!$root.featureFlags.autoIsolation"
       title = "Configure"
     )
       use(
-        xlink:href = "#icons-config"
+        xlink:href = "#icons-gear"
       )
 
   .cluster-list-item.grid-block.align-center(

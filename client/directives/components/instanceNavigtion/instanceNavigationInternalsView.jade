@@ -47,21 +47,21 @@ li.container-list-item.grid-block
       svg.iconnables
         //- if this container's configuration is *not* modified
         use(
-          xlink:href = "#icons-config"
+          xlink:href = "#icons-gear"
         )
         //- if this container's configuration *is* modified
         //- use(
-        //-   xlink:href = "#icons-config-modified"
+        //-   xlink:href = "#icons-gear-modified"
         //- )
 
     //- config button for non-repo containers (pre auto-isolation)
-    svg.grid-block.shrink.iconnables.icons-config(
+    svg.grid-block.shrink.iconnables.icons-gear(
       ng-click="INC.editInstance($event)"
       ng-if = "$root.featureFlags.editAnyInstance || INC.instance.attrs.masterPod && !INC.instance.getBranchName() && !INC.instance.attrs.isolated && !$root.featureFlags.autoIsolation"
       title = "Configure"
     )
       use(
-        xlink:href = "#icons-config"
+        xlink:href = "#icons-gear"
       )
 
 //- wraps repo friends
