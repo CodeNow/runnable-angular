@@ -8,9 +8,10 @@ require('app')
 function ContainerStatusButtonController(
   $rootScope,
   errs,
+  keypather,
   loading,
-  updateInstanceWithNewBuild,
-  promisify
+  promisify,
+  updateInstanceWithNewBuild
 ) {
   var CSBC = this;
   CSBC.doesMatchMasterPod = function () {
@@ -25,6 +26,11 @@ function ContainerStatusButtonController(
       .catch(errs.handler);
   }
 
+  CSBC.isTesting = function () {
+    return keypather.get(CSBC, 'instance.isolation.groupMaster.attrs.isTesting') ||
+      keypather.get(CSBC, 'instance.attrs.isTesting');
+  };
+
   CSBC.actions = {
     stopInstance: function () {
       modInstance('stop');
@@ -38,10 +44,14 @@ function ContainerStatusButtonController(
     rebuildWithoutCache: function () {
       $rootScope.$broadcast('close-popovers');
       loading('main', true);
-      promisify(CSBC.instance.build, 'deepCopy')()
+      var instance = CSBC.instance;
+      if (keypather.get(CSBC, 'instance.isolation.groupMaster.attrs.isTesting')) {
+        instance = keypather.get(CSBC, 'instance.isolation.groupMaster');
+      }
+      promisify(instance.build, 'deepCopy')()
         .then(function (build) {
           return updateInstanceWithNewBuild(
-            CSBC.instance,
+            instance,
             build,
             true
           );

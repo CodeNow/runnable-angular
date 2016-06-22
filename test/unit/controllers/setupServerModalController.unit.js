@@ -403,7 +403,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         sinon.assert.calledOnce(SMC.resetStateContextVersion);
         sinon.assert.calledWith(SMC.resetStateContextVersion, mockInstance.contextVersion, true);
 
-        expect(SMC.isDirty()).to.not.be.ok;
         expect(SMC.state.opts.ipWhitelist).to.deep.equal({enabled: false});
       });
 
@@ -430,7 +429,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
         sinon.assert.calledOnce(SMC.resetStateContextVersion);
         sinon.assert.calledWith(SMC.resetStateContextVersion, mockInstance.contextVersion, true);
-        expect(SMC.isDirty()).to.not.be.ok;
         expect(SMC.state.opts.ipWhitelist).to.deep.equal({enabled: false});
       });
 

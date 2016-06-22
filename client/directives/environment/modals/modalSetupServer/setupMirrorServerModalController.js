@@ -80,7 +80,8 @@ function SetupMirrorServerModalController(
         env: [],
         ipWhitelist: {
           enabled: false
-        }
+        },
+        isTesting: false
       },
       whitelist: [
         {address: ['1.1.1.1', '1.1.1.10'], description: ''},
@@ -186,7 +187,8 @@ function SetupMirrorServerModalController(
             env: keypather.get(instance, 'attrs.env') || [],
             ipWhitelist: angular.copy(keypather.get(instance, 'attrs.ipWhitelist') || {
               enabled: false
-            })
+            }),
+            isTesting: keypather.get(instance, 'attrs.isTesting')
           };
           return instance;
         }
