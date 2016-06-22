@@ -1,23 +1,38 @@
 // isolation setup
-.popover-container-menu .disabled {
+.popover-container-menu {
 
-  .p {
-    color: $gray;
-    font-size: 13px;
-    font-weight: $weight-bold;
-    margin: 9px 15px 15px;
+  .multi-line .iconnables.iconnables {
+    height: 21px;
   }
 
-  .list {
-    margin: 0 15px;
+  .icons-config {
+    color: $gray-light;
   }
 
-  .list-item + .list-item {
-    margin-top: 6px;
+  .small {
+    padding-left: 27px;
   }
 
-  .btn-block {
-    margin: 15px auto;
-    position: static;
+  &.disabled {
+
+    .p {
+      color: $gray;
+      font-size: 13px;
+      font-weight: $weight-bold;
+      margin: 9px 15px 15px;
+    }
+
+    .list {
+      margin: 0 15px;
+    }
+
+    .list-item + .list-item {
+      margin-top: 6px;
+    }
+
+    .btn-block {
+      margin: 15px auto;
+      position: static;
+    }
   }
 }
