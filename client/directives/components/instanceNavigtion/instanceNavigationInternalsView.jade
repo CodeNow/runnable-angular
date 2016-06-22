@@ -14,7 +14,7 @@ li.container-list-item.grid-block
     )
       //- show repo names for repo containers
       span(
-        ng-if = "INC.instance.attrs.masterPod && INC.instance.getBranchName()"
+        ng-if = "INC.instance.attrs.masterPod && INC.instance.getBranchName() && $root.featureFlags.autoIsolation"
       ) {{INC.instance.getName()}}/
       | {{getNavigationName()}}
 
