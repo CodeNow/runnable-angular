@@ -158,12 +158,3 @@
     width: 100%;
   }
 }
-
-// TODO: get rid of this
-.repo-name-here {
-  display: none;
-
-  .master-cluster & {
-    display: inline;
-  }
-}

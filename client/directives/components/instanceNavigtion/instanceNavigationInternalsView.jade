@@ -13,8 +13,10 @@ li.container-list-item.grid-block
     .grid-block.text-overflow(
       title = "{{getNavigationName()}}"
     )
-      //- only show for master cluster
-      span.repo-name-here {{INC.instance.getName()}}/
+      //- show repo names for repo containers
+      span(
+        ng-if = "INC.instance.attrs.masterPod && INC.instance.getBranchName()"
+      ) {{INC.instance.getName()}}/
       | {{getNavigationName()}}
 
     .grid-block.shrink.btn.btn-xxs.btn-badge(
