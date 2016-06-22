@@ -3,12 +3,9 @@
 var $controller,
   $rootScope,
   $scope;
-var element;
-var $compile;
 var keypather;
 var $q;
 var CSBC;
-var readOnlySwitchController;
 var apiMocks = require('./../../../apiMocks/index');
 
 describe('containerStatusButtonController'.bold.underline.blue, function () {
@@ -41,11 +38,18 @@ describe('containerStatusButtonController'.bold.underline.blue, function () {
         return promisifyMock;
       });
     });
-    angular.mock.inject(function (_$controller_, _$timeout_, _$rootScope_, _$q_) {
+    angular.mock.inject(function (
+      _$controller_,
+      _$q_,
+      _$rootScope_,
+      _$timeout_,
+      _keypather_
+    ) {
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
       $controller = _$controller_;
       $q = _$q_;
+      keypather = _keypather_;
 
       mockMainACV = {
         attrs: {
@@ -108,18 +112,21 @@ describe('containerStatusButtonController'.bold.underline.blue, function () {
         closePopoversListener = sinon.spy();
         $scope.$on('close-popovers', closePopoversListener);
       });
+
       it('should allow the user to stop the instance', function () {
         CSBC.actions.stopInstance();
         $scope.$digest();
         sinon.assert.calledOnce(CSBC.instance.stop);
         sinon.assert.calledOnce(closePopoversListener);
       });
+
       it('should allow the user to start the instance', function () {
         CSBC.actions.startInstance();
         $scope.$digest();
         sinon.assert.calledOnce(CSBC.instance.start);
         sinon.assert.calledOnce(closePopoversListener);
       });
+
       it('should allow the user to restart the instance', function () {
         CSBC.actions.restartInstance();
         $scope.$digest();
@@ -136,6 +143,21 @@ describe('containerStatusButtonController'.bold.underline.blue, function () {
         sinon.assert.calledOnce(mockUpdateInstanceWithNewBuild);
         sinon.assert.calledOnce(closePopoversListener);
       });
+
+      it('should allow the user to build without cache from a child test container in isolation', function () {
+        keypather.set(CSBC.instance, 'isolation.groupMaster.attrs.isTesting', true);
+        var buildDeepCopy = sinon.stub();
+        keypather.set(CSBC.instance, 'isolation.groupMaster.build.deepCopy', buildDeepCopy);
+        CSBC.actions.rebuildWithoutCache();
+        $scope.$digest();
+        sinon.assert.calledWith(ctx.loadingMock, 'main', true);
+        sinon.assert.calledWith(ctx.loadingMock, 'main', false);
+        sinon.assert.notCalled(CSBC.instance.build.deepCopy);
+        sinon.assert.calledOnce(buildDeepCopy);
+        sinon.assert.calledOnce(mockUpdateInstanceWithNewBuild);
+        sinon.assert.calledOnce(closePopoversListener);
+      });
+
       it('should allow the user to update the configuration to match master', function () {
         var mainAcv = {
           args: {

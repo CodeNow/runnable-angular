@@ -373,7 +373,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         });
       });
       it('should do nothing if nothing has changed', function () {
-        var alertSpy = sinon.spy();
         var closePopoverSpy = sinon.spy();
         $rootScope.$on('close-popovers', closePopoverSpy);
         $rootScope.$on('alert', function (event, opts) {
@@ -382,18 +381,13 @@ describe('editServerModalController'.bold.underline.blue, function () {
             text: 'Changes Saved'
           });
         });
-        $scope.$digest();
         SMC.getUpdatePromise();
         $scope.$digest();
         sinon.assert.called(closePopoverSpy);
         sinon.assert.called(ctx.loadingPromiseMock.finished);
         expect(SMC.state.ports).to.be.ok;
-        $scope.$digest();
         sinon.assert.notCalled(ctx.build.build);
-        $scope.$digest();
         sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
-        $scope.$digest();
-
         sinon.assert.notCalled(ctx.instance.update);
         sinon.assert.notCalled(ctx.instance.redeploy);
       });
@@ -425,7 +419,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
       });
 
       it('should build when promises have been made', function () {
-        var alertSpy = sinon.spy();
         var closePopoverSpy = sinon.spy();
         $rootScope.$on('close-popovers', closePopoverSpy);
         $rootScope.$on('alert', function (event, opts) {
@@ -458,7 +451,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         sinon.assert.notCalled(ctx.instance.redeploy);
       });
       it('should update the dockerfile when the file is dirty', function () {
-        var alertSpy = sinon.spy();
         var closePopoverSpy = sinon.spy();
         $rootScope.$on('close-popovers', closePopoverSpy);
         $rootScope.$on('alert', function (event, opts) {
@@ -498,7 +490,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         });
       });
       it('should replace everything with stuff based on the new cv', function () {
-        var alertSpy = sinon.spy();
         var closePopoverSpy = sinon.spy();
         $rootScope.$on('close-popovers', closePopoverSpy);
         $rootScope.$on('alert', function (event, opts) {
@@ -571,7 +562,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
 
       });
       it('should not parse dockerfile with an advanced cv', function () {
-        var alertSpy = sinon.spy();
         var closePopoverSpy = sinon.spy();
         $rootScope.$on('close-popovers', closePopoverSpy);
         $rootScope.$on('alert', function (event, opts) {
@@ -640,7 +630,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         ctx.contextVersion.attrs.advanced = true;
       });
       it('should build when promises have been made', function () {
-        var alertSpy = sinon.spy();
         var closePopoverSpy = sinon.spy();
         $rootScope.$on('close-popovers', closePopoverSpy);
         $rootScope.$on('alert', function (event, opts) {
@@ -673,7 +662,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         sinon.assert.notCalled(ctx.instance.redeploy);
       });
       it('should build the dockerfile has been updated', function () {
-        var alertSpy = sinon.spy();
         var closePopoverSpy = sinon.spy();
         $rootScope.$on('close-popovers', closePopoverSpy);
         $rootScope.$on('alert', function (event, opts) {

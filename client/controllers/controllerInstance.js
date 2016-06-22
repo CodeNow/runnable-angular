@@ -24,7 +24,6 @@ function ControllerInstance(
   keypather,
   fetchUser,
   pageName,
-  promisify,
   setLastInstance,
   loading
 ) {
@@ -128,20 +127,20 @@ function ControllerInstance(
           data.instance.contextVersion.getMainAppCodeVersion(),
           keypather.get(n, 'triggeredAction.appCodeVersion.commit')
         )
-        .then(function (commit) {
-          data.commit = commit;
-          var updateBuildHash = n.hash;
-          unwatchNewCv = $scope.$watch(function () {
-            return keypather.get($scope, 'dataInstance.data.instance.contextVersion.attrs.build.hash') === updateBuildHash &&
-              keypather.get($scope, 'dataInstance.data.instance.containers.models[0].running()');
-          }, function (n) {
-            if (n) {
-              unwatchNewCv();
-              data.showUpdatingMessage = false;
-              data.showUpdatedMessage = true;
-            }
+          .then(function (commit) {
+            data.commit = commit;
+            var updateBuildHash = n.hash;
+            unwatchNewCv = $scope.$watch(function () {
+              return keypather.get($scope, 'dataInstance.data.instance.contextVersion.attrs.build.hash') === updateBuildHash &&
+                keypather.get($scope, 'dataInstance.data.instance.containers.models[0].running()');
+            }, function (n) {
+              if (n) {
+                unwatchNewCv();
+                data.showUpdatingMessage = false;
+                data.showUpdatedMessage = true;
+              }
+            });
           });
-        });
       }
     }
   });
@@ -183,6 +182,9 @@ function ControllerInstance(
           data.instance.containers.models[0],
           true
         );
+        if (keypather.get($scope, 'dataInstance.data.instance.attrs.isTesting')) {
+          data.openItems.removeAllButLogs();
+        }
         break;
       case 'crashed':
       case 'stopped':

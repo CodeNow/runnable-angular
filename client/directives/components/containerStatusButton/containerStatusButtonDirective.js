@@ -2,14 +2,10 @@
 
 require('app')
   .directive('containerStatusButton', containerStatusButton);
-/**
- * @ngInject
- */
+
 function containerStatusButton(
   $rootScope,
-  errs,
-  keypather,
-  promisify
+  keypather
 ) {
   return {
     restrict: 'A',
@@ -38,6 +34,17 @@ function containerStatusButton(
           neverStarted: ($rootScope.featureFlags.internalDebugging) ? 'Never Started' : 'Build Failed',
           unknown: 'Unknown'
         };
+
+        var testingStatusMap = {
+          building: 'Building',
+          stopped: 'Tests Passed',
+          crashed: 'Tests Failed',
+          running: 'Tests Running'
+        };
+
+        if (keypather.get($scope.CSBC, 'instance.attrs.isTesting') && testingStatusMap[status]) {
+          return testingStatusMap[status];
+        }
         return statusMap[status] || 'Unknown';
       };
 

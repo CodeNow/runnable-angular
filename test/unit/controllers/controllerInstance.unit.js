@@ -2,19 +2,18 @@
 'use strict';
 
 // injector-provided
-var $controller,
-    $httpBackend,
-    $rootScope,
-    $scope,
-    $state,
-    $stateParams,
-    $timeout,
-    $window,
-    OpenItems,
-    eventTracking,
-    keypather,
-    apiClientBridge;
-var runnable = window.runnable;
+var $controller;
+var $httpBackend;
+var $rootScope;
+var $scope;
+var $state;
+var $stateParams;
+var $timeout;
+var $window;
+var OpenItems;
+var eventTracking;
+var keypather;
+var apiClientBridge;
 var mockFavico;
 var instance;
 var container;
@@ -23,8 +22,6 @@ var dockerfile;
 var getCommitForCurrentlyBuildingBuild;
 var fetchDockerfileForContextVersionStub;
 var q;
-
-var mockUserFetch = new (require('../fixtures/mockFetch'))();
 
 describe('controllerInstance'.bold.underline.blue, function () {
   beforeEach(angular.mock.module('app'));
@@ -68,8 +65,8 @@ describe('controllerInstance'.bold.underline.blue, function () {
           return $q.when({});
         };
       });
-      $provide.factory('setLastInstance', function ($q) {
-        return function () { };
+      $provide.factory('setLastInstance', function () {
+        return sinon.stub();
       });
       $provide.factory('fetchDockerfileForContextVersion', function ($q) {
         fetchDockerfileForContextVersionStub = sinon.stub().returns($q.when(dockerfile));
@@ -89,15 +86,11 @@ describe('controllerInstance'.bold.underline.blue, function () {
           })
         };
       });
-      $provide.factory('fetchInstances', function ($q) {
-        return function ($q) {
-          return instance;
-        };
+      $provide.factory('fetchInstances', function () {
+        return sinon.stub().returns(instance);
       });
       $provide.factory('fetchSettings', function ($q) {
-        return function () {
-          return $q.when({});
-        };
+        return sinon.stub().returns($q.when({}));
       });
       $provide.factory('getCommitForCurrentlyBuildingBuild', function ($q) {
         q = $q;
@@ -212,7 +205,6 @@ describe('controllerInstance'.bold.underline.blue, function () {
   });
 
   describe('instance status', function () {
-    var controller;
     beforeEach(function () {
       sinon.stub(OpenItems.prototype, 'removeAllButBuildLogs').returns();
       sinon.stub(OpenItems.prototype, 'removeAllButLogs').returns();
@@ -223,7 +215,7 @@ describe('controllerInstance'.bold.underline.blue, function () {
       keypather.set($scope, 'dataApp.actions.setToggled', sinon.spy());
       keypather.set($scope, 'dataApp.data.loading', false);
 
-      controller = $controller('ControllerInstance', {
+      $controller('ControllerInstance', {
         '$scope': $scope
       });
     });
@@ -273,6 +265,16 @@ describe('controllerInstance'.bold.underline.blue, function () {
         sinon.assert.calledOnce(OpenItems.prototype.removeAllButBuildLogs);
         $timeout.flush();
         sinon.assert.calledOnce(mockFavico.setInstanceState);
+      });
+      it('isTesting and running', function () {
+        instance.attrs.isTesting = true;
+        $rootScope.$digest();
+        instance.status = sinon.stub().returns('running');
+        $rootScope.$digest();
+        sinon.assert.calledOnce(OpenItems.prototype.removeAllButBuildLogs);
+        $timeout.flush();
+        // Called twice because we digested twice...
+        sinon.assert.calledTwice(mockFavico.setInstanceState);
       });
     });
     describe('Remove all but logs', function () {

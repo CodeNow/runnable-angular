@@ -23,8 +23,7 @@
       small.small We’ll report your test results on your pull-requests on GitHub.
     label.toggle-wrapper.shrink
       input.toggle-input(
-        ng-disabled = "WFC.isIsolationGroupMaster"
-        ng-model = "WFC.whitelist.enabled"
+        ng-model = "state.opts.isTesting"
         type = "checkbox"
       )
       .toggle-group.toggle-sm

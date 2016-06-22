@@ -4,11 +4,9 @@ var $rootScope,
   $scope;
 var element;
 var $compile;
-var keypather;
 var $q;
 var $elScope;
 var CSBC;
-var readOnlySwitchController;
 var apiMocks = require('./../../../apiMocks/index');
 
 describe('containerStatusButtonDirective'.bold.underline.blue, function () {
@@ -65,6 +63,9 @@ describe('containerStatusButtonDirective'.bold.underline.blue, function () {
         },
         contextVersion: {
           getMainAppCodeVersion: sinon.stub().returns(mockMainACV)
+        },
+        attrs: {
+          isTesting: false
         }
       };
       $rootScope.featureFlags = {
@@ -95,13 +96,13 @@ describe('containerStatusButtonDirective'.bold.underline.blue, function () {
       };
       mockInstance.status = sinon.stub().returns('adsfasdfads');
       $elScope.$digest();
-      expect('Unknown').to.equal($elScope.getStatusText());
+      expect($elScope.getStatusText()).to.equal('Unknown');
 
       Object.keys(statusMap).forEach(function (status) {
         mockInstance.status.reset();
         mockInstance.status = sinon.stub().returns(status);
         $elScope.$digest();
-        expect(statusMap[status], 'status ' + status).to.equal($elScope.getStatusText());
+        expect($elScope.getStatusText(), 'status ' + status).to.equal(statusMap[status]);
       });
 
       // Check neverStarted with the feature flag on
@@ -110,7 +111,35 @@ describe('containerStatusButtonDirective'.bold.underline.blue, function () {
       $rootScope.featureFlags.internalDebugging = true;
 
       $elScope.$digest();
-      expect('Never Started', 'neverStarted').to.equal($elScope.getStatusText());
+      expect($elScope.getStatusText()).to.equal('Never Started');
+    });
+
+    it('should update the button text correctly when testing', function () {
+      mockInstance.attrs.isTesting = true;
+      var testingStatusMap = {
+        building: 'Building',
+        stopped: 'Tests Passed',
+        crashed: 'Tests Failed',
+        running: 'Tests Running'
+      };
+      mockInstance.status = sinon.stub().returns('adsfasdfads');
+      $elScope.$digest();
+      expect($elScope.getStatusText()).to.equal('Unknown');
+
+      Object.keys(testingStatusMap).forEach(function (status) {
+        mockInstance.status.reset();
+        mockInstance.status = sinon.stub().returns(status);
+        $elScope.$digest();
+        expect($elScope.getStatusText(), 'status ' + status).to.equal(testingStatusMap[status]);
+      });
+
+      // Check neverStarted with the feature flag on
+      mockInstance.status.reset();
+      mockInstance.status = sinon.stub().returns('neverStarted');
+      $rootScope.featureFlags.internalDebugging = true;
+
+      $elScope.$digest();
+      expect($elScope.getStatusText(), 'neverStarted').to.equal('Never Started');
     });
   });
 
@@ -133,9 +162,8 @@ describe('containerStatusButtonDirective'.bold.underline.blue, function () {
         mockInstance.status.reset();
         mockInstance.status = sinon.stub().returns(status);
         $elScope.$digest();
-        expect(classesMap[status], 'status ' + status).to.deep.equal($elScope.getClassForInstance());
+        expect($elScope.getClassForInstance(), 'status ' + status).to.deep.equal(classesMap[status]);
       });
-
     });
   });
 });

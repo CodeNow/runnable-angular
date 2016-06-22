@@ -37,11 +37,11 @@ function ServerModalController(
       !angular.equals(
         keypather.get(SMC, 'instance.attrs.env') || [],
         keypather.get(SMC, 'state.opts.env') // SMC is pre-filled with a default of []
-      );
+      ) ||
+      (!!SMC.instance && (keypather.get(SMC, 'instance.attrs.isTesting') || false) !== keypather.get(SMC, 'state.opts.isTesting'));
   };
 
   this.openDockerfile = function (state, openItems) {
-    var SMC = this;
     return fetchDockerfileForContextVersion(state.contextVersion)
       .then(function (dockerfile) {
         if (state.dockerfile) {
@@ -209,7 +209,7 @@ function ServerModalController(
       });
   };
 
-  this.populateStateFromData = function (data, contextVersion) {
+  this.populateStateFromData = function (data) {
     var SMC = this;
     if (typeof data.ports === 'string') {
       var portsStr = data.ports.replace(/,/gi, '');
@@ -312,7 +312,6 @@ function ServerModalController(
   };
 
   this.insertHostName = function (opts) {
-    var SMC = this;
     if (!opts) {
       return;
     }
@@ -400,12 +399,11 @@ function ServerModalController(
         if (dockerfile) {
           loading(SMC.name, true);
           return SMC.switchToMirrorMode(SMC.state, SMC.openItems, dockerfile)
-           .catch(errs.handler)
+            .catch(errs.handler)
             .finally(function () {
               loading(SMC.name, false);
             });
         }
-        return;
       });
   };
 
@@ -438,7 +436,6 @@ function ServerModalController(
               loading(SMC.name, false);
             });
         }
-        return;
       });
   };
 
@@ -479,8 +476,7 @@ function ServerModalController(
       var repoName = repo.attrs.name;
       var repoOwner = repo.attrs.owner.login.toLowerCase();
       var domain = SMC.state.repo.opts.userContentDomain;
-      var hostname = repoName + '-staging-' + repoOwner + '.' + domain;
-      return hostname;
+      return repoName + '-staging-' + repoOwner + '.' + domain;
     }
     return '';
   };
