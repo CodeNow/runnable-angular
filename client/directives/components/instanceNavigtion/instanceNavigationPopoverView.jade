@@ -7,18 +7,24 @@
     ng-if = "$root.featureFlags.autoIsolation"
   )
     ul.list.popover-list
+
+      //- if this is a container in the master cluster
       li.list-item.popover-list-item.multi-line
         svg.iconnables.icons-gear
           use(
-            xlink:href = "#icons-gear-modified"
+            xlink:href = "#icons-gear"
           )
         | Configure
+        .small Affects all [config-name] containers.
 
-        //- if this is a container in the setup cluster
-        //- .small Affects all [config-name] containers.
-
-        //- if this is a container that is not part of the setup cluster
-        .grid-block.small Only affects this container.
+      //- if this is a container that is not part of the master cluster
+      //- li.list-item.popover-list-item.multi-line
+      //-   svg.iconnables.icons-gear
+      //-     use(
+      //-       xlink:href = "#icons-gear-modified"
+      //-     )
+      //-   | Configure
+      //-   .small Only affects this container.
 
       //- if this container has a modified configuration
       //- li.list-item.popover-list-item
@@ -28,9 +34,8 @@
       //-     )
       //-   | Discard Configuration
 
-      //- li.list-item.popover-list-item.divider
-
       //- if this is the primary container of an isolated cluster
+      //- li.list-item.popover-list-item.divider
       //- li.list-item.popover-list-item(
       //-   internal-modal-helper = "confirmBranchRemoveView"
       //- )
