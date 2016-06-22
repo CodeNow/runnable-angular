@@ -212,7 +212,7 @@ describe('branchCommitSelectorController'.bold.underline.blue, function () {
       });
     });
 
-    describe.only('autoDeploy', function () {
+    describe('autoDeploy', function () {
       beforeEach(function () {
         branchCommitSelectorController.data = {
           useLatests: false,
