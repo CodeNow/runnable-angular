@@ -110,7 +110,7 @@
   .btn-xs {
     line-height: initial;
     overflow: hidden;
-    width: 24px;
+    width: $input-xs;
   }
 }
 
@@ -156,9 +156,9 @@
   .iconnables {
     height: 100%;
     left: 0;
+    padding: 1.5px;
     position: absolute;
     top: 0;
     width: 100%;
-    padding: 1.5px;
   }
 }

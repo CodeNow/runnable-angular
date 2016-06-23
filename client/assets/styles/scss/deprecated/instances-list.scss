@@ -35,8 +35,8 @@
   // overflow icon
   .icons-overflow {
     flex: 0 0 15px;
-    pointer-events: auto;
     margin-left: 6px;
+    pointer-events: auto;
   }
 
   .text-overflow {
@@ -70,8 +70,8 @@
     margin-bottom: 5px;
 
     > .container-list {
-      border: 2px solid transparent;
-      border-radius: 3px;
+      border: $input-border solid transparent;
+      border-radius: $input-border-radius;
       padding: 0;
 
       .a-sref {
