@@ -1,8 +1,12 @@
 // isolation setup
 .popover-container-menu {
 
-  .multi-line .iconnables.icons-gear {
+  .multi-line .iconnables.iconnables {
     height: 21px;
+  }
+
+  .icons-gear {
+    color: $gray-light;
   }
 
   .small {
