@@ -3,7 +3,7 @@ ul.cluster-list.master-cluster(
   ng-if = "$root.featureFlags.autoIsolation"
 )
   li.cluster-list-item
-    ul.container-list.grid-block.vertical.text-overflow.open
+    ul.grid-block.vertical.container-list.text-overflow.open
       //- master repository containers
       .grid-block(
         active-account = "CIS.activeAccount"
@@ -14,9 +14,9 @@ ul.cluster-list.master-cluster(
       )
       //- master non-repository containers
       .grid-block(
-        instance-navigation
-        instance = "masterInstance"
         active-account = "CIS.activeAccount"
+        instance = "masterInstance"
+        instance-navigation
         ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
       )
 
@@ -40,7 +40,7 @@ ul.cluster-list(
   ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
 )
   //- cluster list heading
-  li.cluster-list-item.cluster-list-heading.grid-block.align-center
+  li.grid-block.align-center.cluster-list-item.cluster-list-heading
     //- repository name
     span.grid-block.text-overflow(
       title = "{{masterInstance.getName()}}"
@@ -70,12 +70,12 @@ ul.cluster-list(
       )
 
   //- wraps the default branch container for a repo (pre auto-isolation)
-  li.cluster-list-item.grid-block.align-center(
+  li.grid-block.align-center.cluster-list-item(
     active-account = "CIS.activeAccount"
     instance = "masterInstance"
     instance-navigation
-    ng-if = "!$root.featureFlags.autoIsolation"
     master-instance = "masterInstance"
+    ng-if = "!$root.featureFlags.autoIsolation"
   )
 
   //- wraps auto-isolated clusters
@@ -101,8 +101,8 @@ ul.cluster-list(
   ng-show = "nonRepoInstances.length"
 )
   li.cluster-list-item(
-    instance-navigation
-    instance = "masterInstance"
     active-account = "CIS.activeAccount"
+    instance = "masterInstance"
+    instance-navigation
     ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
   )
