@@ -57,7 +57,7 @@
     cursor: pointer;
     height: 27px;
     margin-bottom: 2px;
-    padding-left: 9px;
+    padding: 9px;
 
     &:hover {
       background: rgba($black,.05);
@@ -98,8 +98,8 @@
 
 .list-clusters-heading {
   height: 27px;
-  margin: 6px 0;
-  padding: 0 12px 0 33px;
+  margin: 4px 0;
+  padding: 0 10px 0 31px;
 
   // repo name
   .text-overflow {
@@ -132,7 +132,6 @@
   color: $gray-light;
   display: none;
   height: 18px;
-  margin-right: 9px;
   position: relative;
   width: 18px;
 
