@@ -5,7 +5,8 @@
     height: 21px;
   }
 
-  .icons-gear {
+  .icons-gear,
+  .popover-list-item:active .icons-gear {
     color: $gray-light;
   }
 
