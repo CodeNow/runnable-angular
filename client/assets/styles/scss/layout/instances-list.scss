@@ -26,7 +26,7 @@
   > .well {
     background: $white;
     border-color: $gray-lighter;
-    margin: 15px 0;
+    margin-bottom: 15px;
     padding-left: 30px;
     padding-right: 30px;
     position: relative;
@@ -39,10 +39,10 @@
     // 'x' button
     .btn-xs {
       color: $gray-light;
-      flex: 0 0 18px;
+      height: 18px;
       position: absolute;
-      right: 14px;
-      top: 0;
+      right: 12px;
+      top: 12px;
       width: 18px;
 
       &:hover,
@@ -57,7 +57,7 @@
     cursor: pointer;
     height: 27px;
     margin-bottom: 2px;
-    padding: 9px;
+    padding: 0 9px;
 
     &:hover {
       background: rgba($black,.05);
@@ -87,10 +87,9 @@
 
 // wraps the master cluster and each repository section
 .list-clusters {
-  border-bottom: 1px solid $gray-lighter;
   padding: 15px 0;
 
-  // add top border when after empty state
+  + .list-clusters,
   .well + & {
     border-top: 1px solid $gray-lighter;
   }
