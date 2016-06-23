@@ -3,7 +3,7 @@
   ng-if = "$root.featureFlags.autoIsolation"
 )
   .list-item-cluster
-    .list-containers.grid-block.vertical.text-overflow.open
+    .grid-block.list-containers.vertical.text-overflow.open
       //- master repository containers
       .grid-block(
         active-account = "CIS.activeAccount"
@@ -40,7 +40,7 @@
   ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
 )
   //- cluster list heading
-  .list-item-cluster.list-clusters-heading.grid-block.align-center
+  .grid-block.align-center.list-item-cluster.list-clusters-heading
     //- repository name
     span.grid-block.text-overflow(
       title = "{{masterInstance.getName()}}"
@@ -70,7 +70,7 @@
       )
 
   //- wraps the default branch container for a repo (pre auto-isolation)
-  .list-item-cluster.grid-block.align-center(
+  .grid-block.align-center.list-item-cluster(
     active-account = "CIS.activeAccount"
     instance = "masterInstance"
     instance-navigation

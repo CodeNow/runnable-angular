@@ -1,5 +1,5 @@
 //- wraps indivividual containers
-.list-item-container.grid-block
+.grid-block.list-item-container
   a.grid-block.align-center.a-sref(
     ui-sref = "\
       base.instances.instance({userName: INC.activeAccount.oauthName(),\
@@ -67,7 +67,7 @@
       )
 
 //- wraps repo friends
-.friend-wrapper.grid-block(
+.grid-block.friend-wrapper(
   active-account = "INC.activeAccount"
   instance = "instance"
   instance-navigation
@@ -76,7 +76,7 @@
 )
 
 //- wraps service friends
-.friend-wrapper.grid-block(
+.grid-block.friend-wrapper(
   active-account = "INC.activeAccount"
   instance = "instance"
   instance-navigation
