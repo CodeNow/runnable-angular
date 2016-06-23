@@ -9,7 +9,7 @@ function BranchCommitSelectorController(
 ) {
   var BCSC = this;
 
-  this.onCommitFetch = function (commits) {
+  BCSC.onCommitFetch = function (commits) {
     if (!commits.models.length) { return; }
     if (BCSC.data.commit) {
       BCSC.data.commit = commits.models.find(function (otherCommits) {
@@ -17,7 +17,8 @@ function BranchCommitSelectorController(
       }) || commits.models[0];
     }
   };
-  this.isLatestCommit = function (setToLatestCommit) {
+
+  BCSC.isLatestCommit = function (setToLatestCommit) {
     if (arguments.length) {
       BCSC.data.commit = keypather.get(BCSC.data.branch, 'commits.models[0]');
       BCSC.data.useLatest = setToLatestCommit;
@@ -29,9 +30,24 @@ function BranchCommitSelectorController(
     }
   };
 
-  this.selectCommit = function (commit) {
+  BCSC.selectCommit = function (commit) {
     if (BCSC.data.useLatest) { return; }
     BCSC.data.commit = commit;
     $scope.$emit('commit::selected', commit);
   };
+
+  BCSC.isAutoDeployOn = function () {
+    if (keypather.get(BCSC, 'data.acv.attrs.additionalRepo')) {
+      return BCSC.data.useLatest;
+    }
+    return !keypather.get(BCSC.data, 'locked');
+  };
+
+  BCSC.autoDeploy = function (isAutoDeployOn) {
+    if (angular.isDefined(isAutoDeployOn)) {
+      BCSC.data.locked = !isAutoDeployOn;
+    }
+    return BCSC.isAutoDeployOn();
+  };
+
 }

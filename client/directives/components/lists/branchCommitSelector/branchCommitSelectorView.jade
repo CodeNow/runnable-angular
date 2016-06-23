@@ -11,7 +11,7 @@ label.label(
 //- this element should appear in:
     * the setup popover for adding a repo to Container Files
     * the edit modal (in the Containers view) for modifying an additional repo on a specific Container
-.toggle-wrapper(
+label.toggle-wrapper(
   ng-if = "!BCSC.data.acv || BCSC.data.acv.attrs.additionalRepo"
 )
   .strong Always update to latest commit
@@ -25,8 +25,8 @@ label.label(
   )
   .toggle-group.toggle-sm
 
-.toggle-wrapper(
-  ng-if = "$root.featureFlags.testingFeature && !BCSC.data.acv.attrs.additionalRepo"
+label.toggle-wrapper(
+  ng-if = "$root.featureFlags.testingFeature && BCSC.data.acv && !BCSC.data.acv.attrs.additionalRepo"
 )
   .strong Auto-Deploy
   .small Rebuild when new commits are pushed to GitHub.
@@ -37,6 +37,8 @@ label.label(
   )
   input.toggle-input(
     ng-disabled = "$root.featureFlags.webhooks"
+    ng-model = "BCSC.autoDeploy"
+    ng-model-options = "{getterSetter: true}"
     type = "checkbox"
   )
   .toggle-group.toggle-sm
@@ -48,9 +50,10 @@ ul.list.list-servers
   )
   li.list-item(
     ng-attr-title = "{{commit.attrs.commit.message}}"
+    ng-disabled = "BCSC.isAutoDeployOn() || BCSC.isLastestCommit()"
     ng-class = "{\
       'active': BCSC.data.commit === commit,\
-      'disabled': BCSC.isLatestCommit()\
+      'disabled': BCSC.isAutoDeployOn() || BCSC.isLastestCommit()\
     }"
     ng-click = "BCSC.selectCommit(commit)"
     ng-if = "!fetchingCommits"
