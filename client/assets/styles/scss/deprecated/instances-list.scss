@@ -1,6 +1,6 @@
-.instances-list.deprecated {
+.list-instances.deprecated {
 
-  .cluster-list-heading {
+  .list-clusters-heading {
     padding: 0 7px 0 29px;
 
     .icons-gear {
@@ -66,10 +66,10 @@
     }
   }
 
-  .cluster-list-item {
+  .list-item-cluster {
     margin-bottom: 5px;
 
-    > .container-list {
+    > .list-containers {
       border: $input-border solid transparent;
       border-radius: $input-border-radius;
       padding: 0;

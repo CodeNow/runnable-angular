@@ -1,9 +1,9 @@
 //- master cluster
-ul.cluster-list.master-cluster(
+ul.list-clusters.master-cluster(
   ng-if = "$root.featureFlags.autoIsolation"
 )
-  li.cluster-list-item
-    ul.container-list.grid-block.vertical.text-overflow.open
+  li.list-item-cluster
+    ul.list-containers.grid-block.vertical.text-overflow.open
       //- master repository containers
       .grid-block(
         active-account = "CIS.activeAccount"
@@ -36,11 +36,11 @@ ul.cluster-list.master-cluster(
       )
 
 //- branch clusters
-ul.cluster-list(
+ul.list-clusters(
   ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
 )
   //- cluster list heading
-  li.cluster-list-item.cluster-list-heading.grid-block.align-center
+  li.list-item-cluster.list-clusters-heading.grid-block.align-center
     //- repository name
     span.grid-block.text-overflow(
       title = "{{masterInstance.getName()}}"
@@ -70,7 +70,7 @@ ul.cluster-list(
       )
 
   //- wraps the default branch container for a repo (pre auto-isolation)
-  li.cluster-list-item.grid-block.align-center(
+  li.list-item-cluster.grid-block.align-center(
     active-account = "CIS.activeAccount"
     instance = "masterInstance"
     instance-navigation
@@ -79,7 +79,7 @@ ul.cluster-list(
   )
 
   //- wraps auto-isolated clusters
-  li.cluster-list-item(
+  li.list-item-cluster(
     active-account = "CIS.activeAccount"
     instance = "childInstance"
     instance-navigation
@@ -96,11 +96,11 @@ ul.cluster-list(
   ) 8 more…
 
 //- non-repo containers (pre auto-isolation)
-ul.cluster-list(
+ul.list-clusters(
   ng-if = "!$root.featureFlags.autoIsolation"
   ng-show = "nonRepoInstances.length"
 )
-  li.cluster-list-item(
+  li.list-item-cluster(
     instance-navigation
     instance = "masterInstance"
     active-account = "CIS.activeAccount"

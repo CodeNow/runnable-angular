@@ -1,5 +1,5 @@
 // instances list
-.instances-list {
+.list-instances {
   background: $gray-lighterest;
   border-right: 1px solid $gray-lighter;
   color: $gray;
@@ -86,7 +86,7 @@
 }
 
 // wraps the master cluster and each repository section
-.cluster-list {
+.list-clusters {
   border-bottom: 1px solid $gray-lighter;
   padding: 15px 0;
 
@@ -96,7 +96,7 @@
   }
 }
 
-.cluster-list-heading {
+.list-clusters-heading {
   height: 27px;
   margin: 6px 0;
   padding: 0 12px 0 33px;
@@ -115,7 +115,7 @@
 }
 
 // target only direct children because of nesting in markup
-.cluster-list-item > .container-list {
+.list-item-cluster > .list-containers {
   border: 1px solid transparent;
   border-radius: $input-border-radius-lg;
   padding: 5px 5px 2px;
