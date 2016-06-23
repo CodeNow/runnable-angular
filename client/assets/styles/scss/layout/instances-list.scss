@@ -56,7 +56,7 @@
     border-radius: $input-border-radius;
     cursor: pointer;
     height: 27px;
-    margin-bottom: 3px;
+    margin-bottom: 2px;
     padding-left: 9px;
 
     &:hover {
@@ -118,7 +118,7 @@
 .list-item-cluster > .list-containers {
   border: 1px solid transparent;
   border-radius: $input-border-radius-lg;
-  padding: 5px 5px 2px;
+  padding: 3px 3px 1px;
   position: relative;
 
   &.open {
