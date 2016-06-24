@@ -27,7 +27,9 @@
         .small Affects only this container
 
       //- if this container has a modified configuration
-      //- li.list-item.popover-list-item.multi-line
+      //- li.list-item.popover-list-item.multi-line(
+      //-   internal-modal-helper = "confirmConfigDiscardView"
+      //- )
         svg.iconnables.icons-gear
           use(
             xlink:href = "#icons-gear-delete"
@@ -40,11 +42,11 @@
       //- li.list-item.popover-list-item(
       //-   internal-modal-helper = "confirmBranchRemoveView"
       //- )
-      //-   svg.iconnables
-      //-     use(
-      //-       xlink:href = "#icons-delete"
-      //-     )
-      //-   | Remove Branch
+        svg.iconnables
+          use(
+            xlink:href = "#icons-delete"
+          )
+        | Remove Branch
 
   .popover-content(
     ng-if = "!$root.featureFlags.autoIsolation"
