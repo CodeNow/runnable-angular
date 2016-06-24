@@ -1,12 +1,19 @@
 .btn-permissions {
-  border-width: 1px;
-  line-height: 16px;
+  background: lighten($orange-lightest,3%);
+  border: 1px solid lighten($orange-lighter,10%);
+  color: $orange-light;
+  font-size: 13px;
+  line-height: $input-xs - 2px;
   margin-top: 6px;
-  padding: 0 9px 0 6px;
+
+  &:hover,
+  &:active {
+    border-color: $orange-lighter;
+  }
 
   .icons-alert {
     height: 100%;
-    margin-right: 3px;
+    margin-right: 4px;
     opacity: .75;
     width: 12px;
   }
