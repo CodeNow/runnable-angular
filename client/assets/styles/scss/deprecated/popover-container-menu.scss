@@ -1,0 +1,23 @@
+.popover-container-menu .disabled {
+
+  .p {
+    color: $gray;
+    font-size: 13px;
+    font-weight: $weight-bold;
+    margin: 9px 15px 15px;
+  }
+
+  .list {
+    margin: 0 15px;
+    padding: 0;
+  }
+
+  .list-item + .list-item {
+    margin-top: 6px;
+  }
+
+  .btn-block {
+    margin: 15px auto;
+    position: static;
+  }
+}
