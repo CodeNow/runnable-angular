@@ -57,7 +57,7 @@
     cursor: pointer;
     height: 27px;
     margin-bottom: 2px;
-    padding: 0 9px;
+    padding: 0 6px 0 9px;
 
     &:hover {
       background: rgba($black,.05);
@@ -130,9 +130,11 @@
   border: 0;
   color: $gray-light;
   display: none;
-  height: 18px;
+  height: 24px;
+  padding: 4px;
   position: relative;
-  width: 18px;
+  top: -1px;
+  width: 24px;
 
   :hover > &,
   :active > &,
@@ -153,10 +155,6 @@
 
   .iconnables {
     height: 100%;
-    left: 0;
-    padding: 1.5px;
-    position: absolute;
-    top: 0;
     width: 100%;
   }
 }
