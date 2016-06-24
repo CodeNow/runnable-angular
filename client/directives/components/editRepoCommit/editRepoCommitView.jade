@@ -65,7 +65,7 @@
     //- auto-deploy w/ commit syncing
     //- show alternate text in autoDeployTooltip.jade if disabled
     .btn.btn-xs.btn-auto-deploy(
-      ng-class = "{'orange': autoDeploy()}"
+      ng-class = "{'btn-permissions': autoDeploy()}"
       ng-if = "!acv.attrs.additionalRepo && $root.featureFlags.testingFeature"
       pop-over
       pop-over-hover-trigger
@@ -93,7 +93,7 @@
     tooltip = "Automatically rebuild your container when new commits are made."
     tooltip-options = "{\"class\":\"bottom center text-center tooltip-definition\",\"left\":-85,\"top\":18}"
   ) Auto-Deploy
-  button.btn.btn-xxs.orange.btn-permissions.float-right(
+  button.btn.btn-xs.btn-permissions.float-right(
     internal-modal-helper = "inviteAdminModalView"
     ng-if = "$root.featureFlags.webhooks"
   )
