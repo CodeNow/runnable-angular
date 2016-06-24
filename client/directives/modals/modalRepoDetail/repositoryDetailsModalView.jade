@@ -7,9 +7,7 @@
         span.span(
           ng-class = "{'strong': RDMC.data.acv.attrs.additionalRepo}"
         ) {{RDMC.data.repo.attrs.name}}
-        //- when auto-isolation is enabled, this should only show up for
-          - isolated children
-          - additional repositories
+        //- when auto-isolation is enabled, this should only show up for containers in the master cluster
         strong.strong(
           ng-if = "!RDMC.data.acv.attrs.additionalRepo"
         ) /{{RDMC.data.branch.attrs.name}}
