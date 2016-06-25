@@ -1,12 +1,14 @@
 // instances list
-.instances-list {
+.list-instances {
   background: $gray-lighterest;
   border-right: 1px solid $gray-lighter;
   color: $gray;
   display: none;
   float: left;
+  font-size: 15px;
   height: 100vh;
   overflow-y: auto;
+  padding: 0 12px 45px;
   position: relative;
   width: $instance-list-width;
 
@@ -24,16 +26,24 @@
   > .well {
     background: $white;
     border-color: $gray-lighter;
-    margin: 12px 12px 0;
+    margin-bottom: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+    position: relative;
 
     .icons-branch {
       flex: 0 0 30px;
       height: 30px;
     }
 
+    // 'x' button
     .btn-xs {
-      flex: 0 0 18px;
+      color: $gray-light;
       height: 18px;
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      width: 18px;
 
       &:hover,
       &:active {
@@ -42,119 +52,26 @@
     }
   }
 
-  .list {
-    margin: 0 12px;
-    padding: 12px 0;
+  .a-sref {
+    border-radius: $input-border-radius;
+    cursor: pointer;
+    height: 27px;
+    margin-bottom: 2px;
+    padding: 0 6px 0 9px;
 
-    + .list {
-      border-top: 1px solid $gray-lighter;
+    &:hover {
+      background: rgba($black,.05);
     }
-  }
 
-  .list-item {
-    font-size: 15px;
-
-    + .list-item {
-      margin-top: 2px;
+    &.active {
+      background: $purple-lightest;
+      color: $purple-light;
+      cursor: default;
     }
 
     .text-overflow {
       display: inline-block;
-    }
-  }
-
-  .list-item-header {
-    overflow: hidden;
-    padding: 4px 6px 6px 29px;
-
-    .text-overflow {
-      padding-right: 9px;
-    }
-
-    .btn-xs {
-      line-height: initial;
-      overflow: hidden;
-      width: 24px;
-    }
-  }
-
-  .list-item-container {
-    display: flex;
-    flex: 1 1 auto;
-    line-height: 28px;
-    position: relative;
-    width: 100%;
-
-    &:hover > .btn-overflow {
-      opacity: 1;
-    }
-
-    &.open {
-      background: rgba($purple-light,.05);
-      border: $input-border solid rgba($purple-light,.3);
-      border-radius: $input-border-radius;
-      flex-wrap: wrap;
-
-      .btn-overflow {
-        opacity: 1;
-      }
-    }
-
-    .btn-overflow {
-      border: 0;
-      height: 32px;
-      opacity: 0;
-      padding: 0 12px;
-      position: absolute;
-      right: 0;
-      top: 0;
-      width: 38px;
-
-      &:hover,
-      &:active,
-      &.active {
-        opacity: 1;
-      }
-
-      &:active,
-      &.active {
-        color: $purple-light;
-      }
-
-      .iconnables {
-        height: 100%;
-        width: 100%;
-      }
-    }
-  }
-
-  .a-sref {
-    border: $input-border solid transparent;
-    border-radius: $input-border-radius;
-    cursor: pointer;
-    height: 32px;
-    padding-left: 9px;
-
-    &:hover {
-      background: $white;
-      border-color: $gray-lighter;
-    }
-
-    &:active,
-    &.active {
-      background: rgba($purple-light,.05);
-      border-color: rgba($purple-light,.3);
-      color: $purple-light;
-    }
-
-    &.active {
-      cursor: default;
-    }
-
-    &.padding-right:hover .text-overflow,
-    &.padding-right:active .text-overflow,
-    &.padding-right.active .text-overflow {
-      padding-right: 30px;
+      padding-right: 6px;
     }
 
     .icons-status {
@@ -162,44 +79,82 @@
     }
   }
 
-  // open state
-  .open {
+  // extra indentation for isolated friends
+  .friend-wrapper .a-sref {
+    padding-left: 27px;
+  }
+}
 
-    .a-sref {
-      border: 0;
-      border-radius: 0;
-      color: rgba($purple-light,.75);
-      height: 28px;
-      opacity: .75;
+// wraps the master cluster and each repository section
+.list-clusters {
+  padding: 15px 0;
 
-      &:hover,
-      &:active {
-        background: rgba($purple-light,.05);
-        color: rgba($purple-light,.84);
-        opacity: 1;
-      }
+  + .list-clusters,
+  .well + & {
+    border-top: 1px solid $gray-lighter;
+  }
+}
 
-      &.active {
-        background: rgba($purple-light,.1);
-        color: $purple-light;
-        cursor: default;
-        opacity: 1;
-      }
-    }
+.list-clusters-heading {
+  height: 27px;
+  margin: 4px 0;
+  padding: 0 10px 0 31px;
 
-    > .grid-block .a-sref {
-      padding-left: 18px;
-    }
+  // repo name
+  .text-overflow {
+    padding-right: 9px;
+  }
 
-    .btn-overflow {
-      color: rgba($purple-light,.75);
-      right: -$input-border;
-      top: -$input-border;
+  // '+' button
+  .btn-xs {
+    line-height: initial;
+    overflow: hidden;
+    width: $input-xs;
+  }
+}
 
-      &:hover,
-      &:active {
-        color: $purple-light;
-      }
-    }
+// target only direct children because of nesting in markup
+.list-item-cluster > .list-containers {
+  border: 1px solid transparent;
+  border-radius: $input-border-radius-lg;
+  padding: 3px 3px 1px;
+  position: relative;
+
+  &.open {
+    background: $white;
+    border-color: $gray-lighter;
+  }
+}
+
+.btn-gear {
+  border: 0;
+  color: $gray-light;
+  display: none;
+  height: 24px;
+  padding: 4px;
+  position: relative;
+  top: -1px;
+  width: 24px;
+
+  :hover > &,
+  :active > &,
+  .active > &,
+  .master-cluster & {
+    display: block;
+  }
+
+  &:hover {
+    color: $gray;
+  }
+
+  &:active,
+  &.active {
+    color: $purple-light;
+    display: block;
+  }
+
+  .iconnables {
+    height: 100%;
+    width: 100%;
   }
 }

@@ -190,10 +190,8 @@
   }
 }
 
-// gear + arrow-down
-.icons-gear + .icons-arrow-down {
-  margin: 0 0 0 -2px;
-  width: 15px;
+.icons-gear {
+  color: $gray-light;
 }
 
 // intercom icon

@@ -39,7 +39,7 @@
         color: rgba($purple-light,.5);
       }
 
-      .btn-auto-deploy:not(.orange) {
+      .btn-auto-deploy:not(.btn-permissions) {
         border: 1px solid rgba($purple-light,.25);
         color: rgba($purple-light,.5);
       }
@@ -90,28 +90,6 @@
 
   .file-tree {
     margin: 0;
-  }
-}
-
-.btn-auto-deploy {
-  border: 1px solid $gray-lighter;
-  color: lighten($gray,15%);
-  font-size: 13px;
-  line-height: $input-xs - 2px;
-  margin-top: 3px;
-
-  &.orange,
-  &.orange:hover:not([disabled]),
-  &.orange:active:not([disabled]) {
-    background: lighten($orange-lightest,3%);
-    border-color: lighten($orange-lighter,10%);
-    color: $orange-light;
-  }
-
-  .iconnables {
-    height: 100%;
-    margin-right: 4px;
-    width: 12px;
   }
 }
 

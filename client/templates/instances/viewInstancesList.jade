@@ -1,28 +1,51 @@
-.grid-block.align-center.well.padding-sm(
+//- master cluster
+.list-clusters.master-cluster(
+  ng-if = "$root.featureFlags.autoIsolation"
+)
+  .list-item-cluster
+    .grid-block.list-containers.vertical.text-overflow.open
+      //- master repository containers
+      .grid-block(
+        active-account = "CIS.activeAccount"
+        instance = "masterInstance"
+        instance-navigation
+        master-instance = "masterInstance"
+        ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+      )
+      //- master non-repository containers
+      .grid-block(
+        active-account = "CIS.activeAccount"
+        instance = "masterInstance"
+        instance-navigation
+        ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
+      )
+
+//- empty state
+.grid-block.align-center.well.padding-sm.vertical.text-center(
   ng-if = "$root.featureFlags.autoIsolationSetup"
 )
   svg.grid-content.icons-branch
     use(
       xlink:href = "#icons-branch-burst"
     )
-  .grid-content.small Add branches by clicking on the add icon.
-  button.grid-content.btn.btn-icon.btn-xs
+  .grid-content.small Branches appear below, organized by repository. Use the + buttons to add branches.
+  button.btn.btn-icon.btn-xs
     svg.iconnables.icons-close.float-left
       use(
         xlink:href = "#icons-close"
       )
 
-//- repository based containers
-.list(
+//- branch clusters
+.list-clusters(
   ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
 )
-  //- instance name
-  .grid-block.align-center.list-item.list-item-header
-
+  //- cluster list heading
+  .grid-block.align-center.list-item-cluster.list-clusters-heading
+    //- repository name
     span.grid-block.text-overflow(
       title = "{{masterInstance.getName()}}"
     ) {{masterInstance.getName()}}
-
+    //- '+' button for adding branches and configuring clusters
     button.grid-block.shrink.btn.btn-xs.btn-icon.gray(
       ng-class = "{'active': state.active}"
       ng-if = "$root.featureFlags.autoIsolation"
@@ -36,25 +59,27 @@
         use(
           xlink:href = "#icons-add"
         )
-
-    svg.grid-block.shrink.iconnables.icons-advanced(
+    //- repo config button (pre auto-isolation)
+    svg.grid-block.shrink.iconnables.icons-gear(
       ng-click = "CIS.editInstance(masterInstance)"
       ng-if = "!$root.featureFlags.autoIsolation"
       title = "Configure"
     )
       use(
-        xlink:href = "#icons-advanced"
+        xlink:href = "#icons-gear"
       )
 
-  .list-item(
+  //- wraps the default branch container for a repo (pre auto-isolation)
+  .grid-block.align-center.list-item-cluster(
     active-account = "CIS.activeAccount"
     instance = "masterInstance"
     instance-navigation
-    ng-if = "!$root.featureFlags.autoIsolation"
     master-instance = "masterInstance"
+    ng-if = "!$root.featureFlags.autoIsolation"
   )
 
-  .list-item(
+  //- wraps auto-isolated clusters
+  .list-item-cluster(
     active-account = "CIS.activeAccount"
     instance = "childInstance"
     instance-navigation
@@ -70,14 +95,14 @@
     pop-over-template = "viewMoreContainersPopover"
   ) 8 more…
 
-//- non-repository based containers
-.list(
+//- non-repo containers (pre auto-isolation)
+.list-clusters(
   ng-if = "!$root.featureFlags.autoIsolation"
   ng-show = "nonRepoInstances.length"
 )
-  .list-item(
-    instance-navigation
-    instance = "masterInstance"
+  .list-item-cluster(
     active-account = "CIS.activeAccount"
+    instance = "masterInstance"
+    instance-navigation
     ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
   )

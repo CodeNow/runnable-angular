@@ -1,57 +1,53 @@
-.instances-list.deprecated {
+.list-instances.deprecated {
 
-  .list-item-header {
-    padding: 0 11px 0 29px;
+  .list-clusters-heading {
+    padding: 0 7px 0 29px;
 
-    &:hover .icons-advanced {
-      opacity: .75;
-    }
-
-    // gear icon
-    .icons-advanced {
-      cursor: pointer;
-      opacity: .6;
-      pointer-events: auto;
-      transition: opacity .15s, transform .15s;
-
-      &:hover {
-        transform: rotate3d(0,0,1,30deg);
-      }
-
-      &:active {
-        opacity: 1;
-        transform: rotate3d(0,0,1,60deg);
-      }
+    .icons-gear {
+      margin-right: 4px;
     }
   }
 
-  .a-sref {
-    padding-right: 9px;
+  .icons-gear {
+    color: $gray;
+    cursor: pointer;
+    opacity: .6;
+    pointer-events: auto;
+    transition: opacity .15s, transform .15s;
+
+    &:hover {
+      transform: rotate3d(0,0,1,30deg);
+    }
+
+    &:active {
+      opacity: 1;
+      transform: rotate3d(0,0,1,60deg);
+    }
   }
 
   // configure/overflow
   .iconnables {
     cursor: pointer;
     flex: 0 0 15px;
-    margin-left: 5px;
     pointer-events: auto; // override iconnables default
-  }
-
-  .icons-advanced {
-    margin-right: -1px;
   }
 
   // overflow icon
   .icons-overflow {
     flex: 0 0 15px;
+    margin-left: 6px;
     pointer-events: auto;
+  }
+
+  .text-overflow {
+    padding-right: 0;
   }
 
   // isolation badge
   .btn-badge.btn-badge {
     border-color: currentColor;
     color: currentColor;
-    margin-left: 5px;
+    margin-left: 6px;
     opacity: .5;
   }
 
@@ -70,9 +66,40 @@
     }
   }
 
-  .btn-add-branches {
-    height: 21px;
-    line-height: 17px;
-    margin: 9px 0 3px 21px;
+  .list-item-cluster {
+    margin-bottom: 5px;
+
+    > .list-containers {
+      border: $input-border solid transparent;
+      border-radius: $input-border-radius;
+      padding: 0;
+
+      .a-sref {
+        border-radius: 0;
+        margin-bottom: 0;
+        padding-right: 9px;
+      }
+
+      &.open {
+        background: rgba($purple-light,.05);
+        border-color: rgba($purple-light,.3);
+        color: rgba($purple-light,.75);
+
+        .a-sref {
+          opacity: .75;
+
+          &:hover {
+            background: rgba($purple-light,.05);
+            opacity: 1;
+          }
+
+          &.active {
+            background: rgba($purple-light,.1);
+            color: $purple-light;
+            opacity: 1;
+          }
+        }
+      }
+    }
   }
 }
