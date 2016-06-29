@@ -7,17 +7,7 @@
     style = "left: auto; right: 0"
   )
   .popover-content
-    ul.popover-list(
-      ng-if = "!$root.featureFlags.teamManagementAdvanced"
-    )
-      li.list-item.popover-list-item(
-        ng-click = "actions.resendInvitation(data)"
-      )
-        svg.iconnables
-        | Resend Invite
-    ul.popover-list(
-      ng-if = "$root.featureFlags.teamManagementAdvanced"
-    )
+    ul.popover-list
       li.list-item.popover-list-item(
         ng-click = "actions.resendInvitation(data)"
       )
