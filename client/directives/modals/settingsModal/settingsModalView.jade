@@ -24,7 +24,6 @@
         button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SEMC.currentTab === 'teamManagement'}"
           ng-click = "SEMC.currentTab = 'teamManagement'"
-          ng-show = "$root.featureFlags.teamManagement"
         )
           svg.iconnables.grid-content
             use(

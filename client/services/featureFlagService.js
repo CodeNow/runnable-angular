@@ -38,8 +38,8 @@ function featureFlags(
     optionsInModal: false, // allows delete in modal
     renameContainer: false,
     saveToolbar: false,
-    teamManagement: true, // changes text from org to team in account menu
-    teamManagementAdvanced: false,
+    teamManagement: false,
+    teamManagementAdvanced: false, // changes text from org to team in account menu
     testingFeature: false,
     themeToggle: false, // toggles the button that toggles theme
     trial: false,
