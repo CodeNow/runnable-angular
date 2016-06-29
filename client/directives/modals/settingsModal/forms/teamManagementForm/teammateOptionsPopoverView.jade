@@ -8,7 +8,9 @@
   )
   .popover-content
     ul.popover-list
-      li.list-item.popover-list-item
+      li.list-item.popover-list-item(
+        internal-modal-helper = "confirmRemoveTeammateView"
+      )
         svg.iconnables
           use(
             xlink:href = "#icons-delete"
