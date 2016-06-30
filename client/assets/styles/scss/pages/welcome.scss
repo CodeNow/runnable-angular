@@ -35,6 +35,10 @@
 
 .panel-orgs {
 
+  .empty .h3 {
+    margin-bottom: 15px;
+  }
+
   .list {
     flex-wrap: wrap;
     margin: 0 -1%;
