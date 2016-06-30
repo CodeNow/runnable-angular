@@ -53,9 +53,9 @@
               use(
                 xlink:href = "#icons-check"
               )
-    footer.modal-footer.clearfix(
+    footer.grid-block.vertical.modal-footer(
       ng-if = "$root.featureFlags.autoWhitelist"
     )
-      button.btn.btn-md.btn-block.green(
+      button.grid-content.btn.btn-md.green(
         ng-disabled = "org"
       ) Create Sandbox
