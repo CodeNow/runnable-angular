@@ -2,7 +2,10 @@
   .modal-dialog.modal-sm.modal-alert
     header.modal-body
       p.p.strong Are you sure you want to remove this teammate?
-      p.p We will no longer create or update containers for their activity. You will be charged a prorated amount for this user on your next bill.
+      p.p We will no longer create or update containers for their activity.
+        span(
+          ng-if = "!$root.featureFlags.trial"
+        ) &#32;You will be charged a prorated amount for this teammate on your next bill.
     footer.modal-footer.clearfix
       button.btn.btn-sm.gray.float-left Cancel
       button.btn.btn-sm.red.float-right Remove Teammate
