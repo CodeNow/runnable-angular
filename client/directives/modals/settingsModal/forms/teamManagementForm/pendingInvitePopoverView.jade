@@ -13,8 +13,12 @@
       )
         svg.iconnables
         | Resend Invite
-      li.divider
-      li.list-item.popover-list-item
+      li.divider(
+        ng-if = "$root.featureFlags.teamManagement"
+      )
+      li.list-item.popover-list-item(
+        ng-if = "$root.featureFlags.teamManagement"
+      )
         svg.iconnables
           use(
             xlink:href = "#icons-delete"
