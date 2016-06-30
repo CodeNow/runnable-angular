@@ -54,11 +54,11 @@
     flex: 0 0 48%;
     font-size: 15px;
     height: 60px;
-    margin: 1%;
+    margin: 4px 1%;
 
     @include media(xxs) {
       flex: 1 1 100%;
-      margin: 1% 0;
+      margin: 4px 0;
     }
 
     &:only-child {
