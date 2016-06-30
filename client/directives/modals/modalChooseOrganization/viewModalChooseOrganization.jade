@@ -43,6 +43,7 @@
         ng-if = "$root.featureFlags.autoWhitelist"
       )
         //- add .active class if this org is selected
+        //- add [disabled] property when loading NOT class!
         label.grid-block.align-center.list-item.btn.white(
           ng-class = "{'active': isSelected}"
           ng-repeat = "org in data.allAccounts"
@@ -70,6 +71,11 @@
       ng-if = "$root.featureFlags.autoWhitelist"
     )
       //- disabled until an org is selected
-      button.grid-content.btn.btn-md.green(
+      button.grid-block.align-center.justify-center.btn.btn-md.green(
         ng-disabled = "!org"
-      ) Create Sandbox
+      )
+        //- show when loading
+        //- .spinner-wrapper.spinner-white.spinner-sm(
+        //-   ng-include = "'spinner'"
+        //- )
+        | Create Sandbox
