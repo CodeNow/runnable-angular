@@ -1,22 +1,61 @@
 .welcome.welcome-select-org
+  h1.h1.text-center.strong.padding-sm Welcome to Runnable!
   .modal-dialog.panel-orgs
     img.img.runnabear(
       height = "130"
-      src = "/build/images/runnabear-waving-2.png"
+      src = "/build/images/runnabear-waving-3.png"
       width = "230"
     )
     section.modal-body
-      h3.h3 Welcome to Runnable!
-      p.p Choose an organization to get started with.
-        small.small (You can change your organization later)
-      ul.list
-        li.list-item.btn.gray.text-overflow.js-animate(
+      p.p.padding-xs Choose an organization for your Sandbox. If you don’t see your organization,&#32;
+        a.link(
+          href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
+          target = "_blank"
+        ) check if you’ve granted access
+        | .
+      .grid-block.list(
+        ng-if = "!$root.featureFlags.autoWhitelist"
+      )
+        label.grid-block.align-center.list-item.btn.white(
           ng-click = "actions.selectAccount(org)"
           ng-repeat = "org in data.allAccounts"
+          title = "{{org.oauthName()}}"
         )
-          img.img(
-            height = "45"
+          img.grid-block.shrink(
+            height = "24"
             ng-src = "{{org.gravitar()}}"
-            width = "45"
+            width = "24"
           )
-          | {{org.oauthName()}}
+          span.grid-block.text-left.text-overflow {{org.oauthName()}}
+
+      .grid-block.list(
+        ng-if = "$root.featureFlags.autoWhitelist"
+      )
+        //- add .active class if this org is selected
+        label.grid-block.align-center.list-item.btn.white(
+          ng-class = "{'active': isSelected}"
+          ng-repeat = "org in data.allAccounts"
+          title = "{{org.oauthName()}}"
+        )
+          img.grid-block.shrink(
+            height = "24"
+            ng-src = "{{org.gravitar()}}"
+            width = "24"
+          )
+          span.grid-block.text-left.text-overflow {{org.oauthName()}}
+          input.checkbox(
+            name = "org"
+            ng-model = "org"
+            type = "radio"
+          )
+          button.btn.btn-xs.btn-icon.btn-add.no-touching
+            svg.iconnables.icons-check
+              use(
+                xlink:href = "#icons-check"
+              )
+    footer.modal-footer.clearfix(
+      ng-if = "$root.featureFlags.autoWhitelist"
+    )
+      button.btn.btn-md.btn-block.green(
+        ng-disabled = "org"
+      ) Create Sandbox
