@@ -17,7 +17,7 @@
           ) Check if you’ve granted access
           | &#32;to your organization on GitHub. If you don’t have permission to grant access, you’ll have to wait for your admin to give the go ahead.
 
-      //- p.p.padding-xs We’re spinning up a Sandbox for your organization now. It’ll just take a few minutes and this page will reload automatically. We’ll also send an email to jorge@runnable.com when we’re ready.
+      //- p.p.padding-xs We’re spinning up a Sandbox for your organization now—it’ll just take a few minutes. This page will update when we’re ready and we’ll send an email to jorge@runnable.com to let you know.
 
       p.p.padding-xs Choose an organization for your Sandbox. If you don’t see your organization,&#32;
         a.link(
@@ -72,6 +72,9 @@
     footer.grid-block.vertical.modal-footer(
       ng-if = "$root.featureFlags.autoWhitelist"
     )
+      //- show this button when done waiting
+      //- button.grid-block.align-center.justify-center.btn.btn-md.green.btn-wrap Thanks for waiting. Go to your sandbox!
+
       //- disabled until an org is selected
       button.grid-block.align-center.justify-center.btn.btn-md.green(
         ng-disabled = "!org"

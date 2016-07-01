@@ -22,6 +22,10 @@
     margin: 105px auto 0;
     max-height: none;
     max-width: 480px;
+
+    @include media(xxs) {
+      width: auto;
+    }
   }
 
   .modal-body {
@@ -87,6 +91,13 @@
 
   .green {
     display: flex;
+
+    &.btn-wrap {
+      height: auto;
+      line-height: 1.4;
+      padding: 15px;
+      white-space: normal;
+    }
   }
 }
 
