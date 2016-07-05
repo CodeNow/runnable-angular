@@ -1,21 +1,7 @@
 'use strict';
 
 module.exports = [
-  { //- create team flow
-    abstract: false,
-    state: 'welcome',
-    url: '^/welcome',
-    templateUrl: 'viewWelcome',
-    controller: function ($scope, loading, loadingPromises, $rootScope) {
-      window.loading = loading;
-      window.$rootScope = $rootScope;
-      $rootScope.dataApp = $scope.dataApp = true;
-      loading.reset('welcome');
-    },
-    data: {
-      anon: true
-    }
-  }, {
+  {
     state: 'loadingDebug',
     url: '^/loading'
   }, {
