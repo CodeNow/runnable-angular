@@ -1,0 +1,167 @@
+// billing form
+.form-billing {
+
+  // empty state
+  &.empty {
+
+    .icons-calendar {
+      height: 60px;
+      margin: 0 auto;
+      position: relative;
+      width: 60px;
+    }
+
+    .h2 {
+      bottom: 9px;
+      color: $purple;
+      font-size: 25px;
+      left: 0;
+      position: absolute;
+      right: 0;
+    }
+
+    // need specificity to override .p.empty
+    .p.empty {
+      margin-bottom: 0;
+    }
+  }
+
+  // plan and payment area
+  .well {
+    margin: 0;
+
+    // center text
+    .p {
+      line-height: 29px;
+
+      // $
+      .sup {
+        margin-right: 1px;
+        top: -5px;
+      }
+
+      // emphasis on price
+      .span {
+        display: inline-block;
+        font-size: 21px;
+      }
+
+      // /user/month text
+      .small {
+        color: $gray;
+        display: inline;
+        margin-left: 3px;
+      }
+
+      // change/update button
+      .white {
+        float: right;
+        top: 3px;
+      }
+    }
+
+    // card type
+    .iconnables {
+      height: 32px;
+      margin-right: 9px;
+      top: 1px;
+      width: 18px;
+    }
+
+    // exp date
+    .strong + .small {
+      position: relative;
+      top: 2px;
+    }
+  }
+}
+
+// cc form
+.form-cc {
+
+  // flexbox on inputs
+  .row {
+    display: flex;
+    margin-bottom: 9px;
+
+    @include media(xxs) {
+      flex-wrap: wrap;
+    }
+  }
+
+  .input-sm {
+    letter-spacing: .5px;
+    margin: 0;
+    min-width: 0; // fix firefox bug with flexbox and input width
+
+    + .input-sm {
+      margin-left: 9px;
+
+      @include media(xxs) {
+        margin-left: 0;
+      }
+    }
+  }
+
+  .input-cc {
+    flex: 1 1 auto;
+    padding-right: 30px;
+
+    @include media(xxs) {
+      margin-bottom: 9px;
+    }
+
+    &.amex,
+    &.jcb,
+    &.mastercard,
+    &.visa {
+      background-position: 97% 49%;
+      background-repeat: no-repeat;
+      background-size: 21px 17px;
+    }
+
+    &.amex {
+      background-image: url(/build/images/logos/credit-cards/logo-cc-amex.svg);
+    }
+
+    &.jcb {
+      background-image: url(/build/images/logos/credit-cards/logo-cc-jcb.svg);
+    }
+
+    &.mastercard {
+      background-image: url(/build/images/logos/credit-cards/logo-cc-mastercard.svg);
+    }
+
+    &.visa {
+      background-image: url(/build/images/logos/credit-cards/logo-cc-visa.svg);
+    }
+  }
+
+  .input-exp {
+    flex: 0 0 90px;
+
+    @include media(xxs) {
+      margin-right: 9px;
+    }
+  }
+
+  .input-cvc {
+    flex: 0 0 54px;
+  }
+
+  // validation
+  .invalid-message {
+    margin: 0 8px 12px;
+  }
+}
+
+// billing table
+.table-billing {
+  color: $gray-dark;
+  font-size: 15px;
+
+  // date
+  .cell:first-child {
+    max-width: 60px;
+  }
+}
