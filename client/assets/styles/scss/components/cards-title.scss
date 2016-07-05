@@ -68,6 +68,11 @@
 // on modal
 .modal-dialog .container-title-wrapper {
 
+  + .icons-close {
+    right: 12px;
+    top: 12px;
+  }
+
   .server-status-card-pop-over {
     color: $gray;
     margin-bottom: 3px;

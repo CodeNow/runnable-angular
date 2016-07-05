@@ -4,6 +4,12 @@
       .container-title-wrapper
         .server-status-card-pop-over.no-touching
           .container-title CodeNow Settings
+      svg.iconnables.icons-close(
+        ng-click = "SEMC.close()"
+      )
+        use(
+          xlink:href = "#icons-close"
+        )
 
       .row.modal-tabs.tabs-all.grid-block.clearfix
         button.btn.btn-radio.grid-block.vertical(
