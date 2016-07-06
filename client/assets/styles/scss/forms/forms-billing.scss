@@ -1,64 +1,89 @@
 // billing form
-.form-billing {
+.modal-form.form-billing {
+  padding: 0;
+}
 
-  // empty state
-  &.empty {
+// trial state
+.form-trial {
 
-    .icons-calendar {
-      height: 60px;
-      margin: 0 auto;
-      position: relative;
-      width: 60px;
+  .icons-calendar {
+    height: 60px;
+    margin: 0 auto;
+    position: relative;
+    width: 60px;
+  }
+
+  .h2 {
+    bottom: 9px;
+    color: $purple;
+    font-size: 25px;
+    left: 0;
+    position: absolute;
+    right: 0;
+  }
+
+  // need specificity to override .p.empty
+  .p.empty {
+    margin-bottom: 0;
+  }
+
+  .btn {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+// plan select
+.form-plan {
+
+  .well {
+    border: 1px solid $gray-lighter;
+    cursor: pointer;
+    font-size: 19px;
+    position: relative;
+
+    &:hover,
+    &:active,
+    &.active {
+      background: $white;
+      border-color: $green;
+      box-shadow: inset 0 0 0 1px $green;
     }
 
-    .h2 {
-      bottom: 9px;
-      color: $purple;
-      font-size: 25px;
-      left: 0;
-      position: absolute;
-      right: 0;
+    &.active .white {
+      animation: rainbow 1s infinite linear;
+      background-image: linear-gradient(135deg,$purple 0%,$blue 12.5%,$green 25%,$orange 37.5%,$red 50%,$purple 62.5%,$blue 75%,$green 87.5%,$orange 100%);
+      background-size: 400% 100%;
+      border-color: $white;
     }
 
-    // need specificity to override .p.empty
-    .p.empty {
-      margin-bottom: 0;
+    .white {
+      background: $white;
+      border: 1px solid $gray-lighter;
+      border-radius: $input-border-radius-lg;
+      font-size: 30px;
+      height: 75px;
+      margin-right: 15px;
+      width: 75px;
+    }
+
+    .text-gray {
+      margin-top: 6px;
+    }
+
+    .btn-add {
+      border-radius: 50%;
+      top: 0;
     }
   }
+}
+
+// cc form
+.form-cc {
 
   // plan and payment area
   .well {
     margin: 0;
-
-    // center text
-    .p {
-      line-height: 29px;
-
-      // $
-      .sup {
-        margin-right: 1px;
-        top: -5px;
-      }
-
-      // emphasis on price
-      .span {
-        display: inline-block;
-        font-size: 21px;
-      }
-
-      // /user/month text
-      .small {
-        color: $gray;
-        display: inline;
-        margin-left: 3px;
-      }
-
-      // change/update button
-      .white {
-        float: right;
-        top: 3px;
-      }
-    }
 
     // card type
     .icons-card {
@@ -74,40 +99,6 @@
       top: 2px;
     }
   }
-}
-
-// plan select
-.well.plan-well {
-  border: 1px solid $gray-lighter;
-  cursor: pointer;
-  position: relative;
-
-  &:hover,
-  &:active,
-  &.active {
-    background: $white;
-    border-color: $green;
-    box-shadow: inset 0 0 0 1px $green;
-  }
-
-  .white {
-    background: $white;
-    border: 1px solid $gray-lighter;
-    border-radius: $input-border-radius-lg;
-    font-size: 30px;
-    height: 60px;
-    margin-right: 15px;
-    width: 60px;
-  }
-
-  .btn-add {
-    border-radius: 50%;
-    top: 0;
-  }
-}
-
-// cc form
-.form-cc {
 
   // flexbox on inputs
   .row {

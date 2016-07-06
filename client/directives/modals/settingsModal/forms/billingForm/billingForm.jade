@@ -1,6 +1,4 @@
-.modal-form.form-billing(
-  ng-class = "{'empty': $root.featureFlags.trial}"
-)
+.modal-form.form-billing
 
   //- .spinner-wrapper.spinner-md.spinner-gray.in(
   //-   ng-include = "'spinner'"
@@ -14,13 +12,13 @@
       default = "true"
       name = "trialForm"
     )
-      .grid-block.vertical(
+      .grid-block.vertical.form-trial.padding-md(
         ng-include = "'trialForm'"
       )
     animated-panel(
       name = "planForm"
     )
-      .grid-block.vertical(
+      .grid-block.vertical.form-plan(
         ng-include = "'planForm'"
       )
 
