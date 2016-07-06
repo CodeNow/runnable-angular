@@ -6,17 +6,20 @@
     padding: 33px 30px 30px;
   }
 
-  .p {
-    color: $gray-dark;
+  // title
+  .strong {
+    color: $gray-darker;
+    font-size: 18px;
+  }
 
-    // title
-    &.strong {
-      color: $gray-darker;
-      font-size: 18px;
-    }
+  .p + .p,
+  .p + .well,
+  .well + .well {
+    margin-top: 12px;
+  }
 
-    + .p {
-      margin-top: 12px;
-    }
+  .iconnables {
+    height: 18px;
+    width: 18px;
   }
 }

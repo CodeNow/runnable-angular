@@ -1,5 +1,5 @@
 .modal-backdrop.in
-  .modal-dialog.modal-sm.modal-alert
+  .modal-dialog.modal-md.modal-alert
     header.modal-body
 
       //- if removing another user
@@ -10,17 +10,26 @@
       //- p.p We will no longer create or update containers for your activity, unless you log in to this team again.
 
       //- if after trial
-      p.p(
+      .grid-block.well.gray.padding-xs.small(
         ng-if = "!$root.featureFlags.trial"
-      ) &#32;A prorated amount will be applied to the next bill.
-      //- show instead of the above paragraph if this user is removing themself, and they provided the payment method
-      //- p.p(
-      //-   ng-if = "!$root.featureFlags.trial"
-      //- ) &#32;We will still charge the payment method you provided, and a prorated amount will be applied to the next bill.
+      )
+        svg.grid-content.shrink.iconnables
+          use(
+            xlink:href = "#icons-billing"
+          )
+        .grid-content A prorated amount will be applied to the next bill.
+
+      //- if the user is removing themself and they provided the payment method
+      //- .grid-block.well.gray.padding-xs.small
+        svg.grid-content.shrink.iconnables
+          use(
+            xlink:href = "#icons-visa"
+          )
+        .grid-content The payment method you provided will still be used.
 
     footer.modal-footer.clearfix
       button.btn.btn-sm.gray.float-left Cancel
       //- if removing another user
       button.btn.btn-sm.red.float-right Remove Teammate
       //- if removing themself
-      //- button.btn.btn-sm.red.float-right Log Out & Leave Team
+      //- button.btn.btn-sm.red.float-right Leave Team
