@@ -1,5 +1,7 @@
 .modal-backdrop.in
-  .modal-dialog.modal-md.modal-settings
+  .modal-dialog.modal-md.modal-settings(
+    ng-init = "$root.featureFlags.trialFooter = false"
+  )
     header.grid-block.vertical.align-center.modal-header
       .container-title-wrapper
         .server-status-card-pop-over.no-touching
@@ -66,7 +68,7 @@
       )
 
     footer.modal-footer.clearfix.js-animate(
-      ng-if = "$root.featureFlags.trialFooter"
+      ng-if = "!$root.featureFlags.trialFooter"
     )
       button.btn.btn-md.white.float-right(
         ng-click = "SEMC.close()"

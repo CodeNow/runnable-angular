@@ -12,10 +12,16 @@
   )
     animated-panel(
       default = "true"
-      name = "trialStatus"
+      name = "trialForm"
     )
       .grid-block.vertical(
         ng-include = "'trialForm'"
+      )
+    animated-panel(
+      name = "planForm"
+    )
+      .grid-block.vertical(
+        ng-include = "'planForm'"
       )
 
   //- //- billing form
@@ -57,7 +63,7 @@
   //-     ng-if = "!data.showCcForm"
   //-   )
   //-     p.p.clearfix
-  //-       svg.iconnables.float-left
+  //-       svg.iconnables.float-left.icons-card
   //-         use(
   //-           xlink:href = "#icons-visa"
   //-         )

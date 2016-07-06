@@ -61,7 +61,7 @@
     }
 
     // card type
-    .iconnables {
+    .icons-card {
       height: 32px;
       margin-right: 9px;
       top: 1px;
@@ -73,6 +73,36 @@
       position: relative;
       top: 2px;
     }
+  }
+}
+
+// plan select
+.well.plan-well {
+  border: 1px solid $gray-lighter;
+  cursor: pointer;
+  position: relative;
+
+  &:hover,
+  &:active,
+  &.active {
+    background: $white;
+    border-color: $green;
+    box-shadow: inset 0 0 0 1px $green;
+  }
+
+  .white {
+    background: $white;
+    border: 1px solid $gray-lighter;
+    border-radius: $input-border-radius-lg;
+    font-size: 30px;
+    height: 60px;
+    margin-right: 15px;
+    width: 60px;
+  }
+
+  .btn-add {
+    border-radius: 50%;
+    top: 0;
   }
 }
 

@@ -1,0 +1,47 @@
+label.grid-block.align-center.well.padding-sm.plan-well(
+  ng-class = "{'active': model.plan === 'basic'}"
+)
+  .grid-block.align-center.justify-center.shrink.white 😐
+  .grid-block.vertical
+    .grid-block.p.strong 2 Repository Limit
+    .grid-block.p
+      .strong $9.95
+      span /user/month
+    .grid-content.p.small 3 user minimum.
+  input.checkbox.hidden(
+    name = "plan"
+    ng-model = "model.plan"
+    value = "basic"
+    type = "radio"
+  )
+  button.grid-block.shrink.btn.btn-xs.btn-icon.btn-add(
+    ng-class = "{'active': model.plan === 'basic'}"
+  )
+    svg.iconnables.icons-check
+      use(
+        xlink:href = "#icons-check"
+      )
+
+label.grid-block.align-center.well.padding-sm.plan-well(
+  ng-class = "{'active': model.plan === 'unlimited'}"
+)
+  .grid-block.align-center.justify-center.shrink.white 😄
+  .grid-block.vertical
+    .grid-block.p.strong Unlimited Repositories
+    .grid-block.p
+      .strong $49.95
+      span /user/month
+    .grid-content.p.small 3 user minimum.
+  input.checkbox.hidden(
+    name = "plan"
+    ng-model = "model.plan"
+    value = "unlimited"
+    type = "radio"
+  )
+  button.grid-block.shrink.btn.btn-xs.btn-icon.btn-add(
+    ng-class = "{'active': model.plan === 'unlimited'}"
+  )
+    svg.iconnables.icons-check
+      use(
+        xlink:href = "#icons-check"
+      )
