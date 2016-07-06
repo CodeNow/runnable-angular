@@ -49,6 +49,10 @@
   &.align-end {
     align-items: flex-end;
   }
+
+  &.align-baseline {
+    align-items: baseline;
+  }
 }
 
 // horizontal grid

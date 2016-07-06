@@ -78,6 +78,53 @@
   }
 }
 
+.form-payment {
+
+  .well.well-summary {
+    background: $white;
+    border: 1px solid $gray-lighter;
+    border-radius: $input-border-radius-lg;
+    font-size: 16px;
+    padding-right: 15px;
+
+    .white {
+      background-image: linear-gradient(135deg,$purple 0%,$blue 12.5%,$green 25%,$orange 37.5%,$red 50%,$purple 62.5%,$blue 75%,$green 87.5%,$orange 100%);
+      background-size: 400% 100%;
+      border: 0;
+      border-radius: $input-border-radius-lg 0 0 $input-border-radius-lg;
+      font-size: 30px;
+      height: 45px;
+      margin-right: 15px;
+      width: 45px;
+    }
+
+    .text-gray {
+      margin-top: 6px;
+    }
+  }
+
+  // payment summary
+  .well.padding-xxs {
+    background: $gray-lighter;
+  }
+
+  .label-cc {
+    margin-bottom: 15px;
+  }
+
+  .label-payment {
+
+    + .label-payment {
+      margin-left: 6px;
+    }
+
+    .small {
+      margin-bottom: 3px;
+      margin-left: 7px;
+    }
+  }
+}
+
 // cc form
 .form-cc {
 

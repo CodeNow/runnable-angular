@@ -1,0 +1,87 @@
+form.form-payment.padding-md
+
+  label.grid-block.align-center.well.well-summary
+    .grid-block.align-center.justify-center.shrink.white 😄
+    .grid-block.p.strong Unlimited Repositories
+    .grid-block.shrink.p.align-baseline
+      .strong $49.95
+      small.small /user/month
+
+
+  //- limit all fields to numbers only
+  .grid-block.vertical.well.gray.padding-sm
+    label.grid-block.vertical.label-payment.label-cc
+      .small Card Number
+      //- add .visa, .mastercard, .amex, .jcb AFTER cc number is filled out
+      input.grid-content.input.input-md.input-cc.input-validate(
+        autocomplete = "cc-number"
+        inputmode = "numeric"
+        maxlength = "19"
+        ng-class = "{'amex': ccNumber.length === 19}"
+        ng-model = "ccNumber"
+        required
+        spellcheck = "false"
+      )
+    .grid-block
+      label.grid-block.vertical.label-payment.label-expiry
+        .small Expiry
+        //- auto insert " / " after last 2nd number
+          - pressing delete immediately after " / " should delete " / " AND the preceeding number
+          - allow MM / YYYY
+        input.input.input-md.input-exp.input-validate(
+          autocomplete = "cc-exp"
+          inputmode = "numeric"
+          maxlength = "7"
+          placeholder = "MM / YY"
+          required
+          spellcheck = "false"
+        )
+
+      label.grid-block.vertical.label-payment.label-security
+        .small CVC
+        //- change maxlength to 3/4 depending on cc
+        input.input.input-md.input-cvc.input-validate(
+          autocomplete = "cc-csc"
+          inputmode = "numeric"
+          maxlength = "4"
+          required
+          spellcheck = "false"
+        )
+
+      label.grid-block.vertical.label-payment.label-zip
+        .small Zip Code
+        input.input.input-md.input-zip.input-validate(
+          inputmode = "numeric"
+          maxlength = "5"
+          required
+          spellcheck = "false"
+        )
+
+    //- alt text if on the limited plan
+    .grid-block.well.padding-xxs.small.justify-center
+      | You will be charged $299.70 for 6 users.
+      //- | You will not be charged until your trial ends.
+
+  //- 3 users is the minimum amount
+  p.grid-content.p.text-gray.text-center.padding-sm We’ll automatically pro-rate users at the end of the billing period.&#32;
+    a.link(
+      href = "#"
+      target = "_blank"
+    ) Details
+
+  //- p.invalid-message This card was declined!
+
+footer.modal-footer.clearfix
+  button.btn.btn-md.gray.btn-cancel.float-left Cancel
+  //- disable while loading
+  button.btn.btn-md.green.float-right(
+    type = "button"
+  )
+    //- .spinner-wrapper.spinner-sm.spinner-white.in(
+    //-   ng-include = "'spinner'"
+    //- )
+    span  Submit Payment
+  button.btn.btn-md.gray.btn-cancel.float-right(
+    ng-click = "goToPanel('planForm', 'back')"
+    type = "button"
+  ) Back

@@ -12,14 +12,23 @@
       default = "true"
       name = "trialForm"
     )
-      .grid-block.vertical.form-trial.padding-md(
+      .grid-block.vertical.form-trial.padding-md.fade(
+        ng-class = "{'in': isActivePanel()}"
         ng-include = "'trialForm'"
       )
     animated-panel(
       name = "planForm"
     )
-      .grid-block.vertical.form-plan(
+      .grid-block.vertical.form-plan.fade(
+        ng-class = "{'in': isActivePanel()}"
         ng-include = "'planForm'"
+      )
+    animated-panel(
+      name = "paymentForm"
+    )
+      .grid-block.vertical.form-payment.fade(
+        ng-class = "{'in': isActivePanel()}"
+        ng-include = "'paymentForm'"
       )
 
   //- //- billing form

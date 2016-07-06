@@ -57,7 +57,7 @@
       target = "_blank"
     ) Details
 
-footer.modal-footer.clearfix.js-animate
+footer.modal-footer.clearfix
   button.btn.btn-md.gray.btn-cancel.float-left(
     ng-click = "\
       $root.featureFlags.trialFooter = false;\
@@ -66,6 +66,7 @@ footer.modal-footer.clearfix.js-animate
     "
   ) Cancel
   button.btn.btn-md.green.float-right(
+    ng-click = "goToPanel('paymentForm')"
     ng-disabled = "!model.plan"
     type = "button"
   ) Next: Payment
