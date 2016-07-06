@@ -1,11 +1,26 @@
 .modal-backdrop.in
   .modal-dialog.modal-sm.modal-alert
     header.modal-body
+
+      //- if removing another user
       p.p.strong Are you sure you want to remove this teammate?
-      p.p We will no longer create or update containers for their activity.
-        span(
-          ng-if = "!$root.featureFlags.trial"
-        ) &#32;You will be charged a prorated amount for this teammate on your next bill.
+      p.p We will no longer create or update containers for their activity, unless they sign in again.
+      //- if removing themself
+      //- p.p.strong Are you sure you want to leave this team?
+      //- p.p We will no longer create or update containers for your activity, unless you sign in again.
+
+      //- if after trial
+      p.p(
+        ng-if = "!$root.featureFlags.trial"
+      ) &#32;A prorated amount will be applied to the next bill.
+      //- show instead of the above paragraph if this user is removing themself, and they provided the payment method
+      //- p.p(
+      //-   ng-if = "!$root.featureFlags.trial"
+      //- ) &#32;We will still charge the payment method you provided, and a prorated amount will be applied to the next bill.
+
     footer.modal-footer.clearfix
       button.btn.btn-sm.gray.float-left Cancel
+      //- if removing another user
       button.btn.btn-sm.red.float-right Remove Teammate
+      //- if removing themself
+      //- button.btn.btn-sm.red.float-right Remove Teammate
