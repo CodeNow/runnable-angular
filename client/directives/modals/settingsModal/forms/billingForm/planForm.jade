@@ -58,15 +58,15 @@
     ) Details
 
 footer.modal-footer.clearfix
-  button.btn.btn-md.gray.btn-cancel.float-left(
+  button.btn.btn-md.white.float-right(
+    ng-click = "goToPanel('paymentForm')"
+    ng-disabled = "!model.plan"
+    type = "button"
+  ) Next: Payment
+  button.btn.btn-md.gray.btn-cancel.float-right(
     ng-click = "\
       $root.featureFlags.trialFooter = false;\
       goToPanel('trialForm', 'back');\
       model.plan = null;\
     "
-  ) Cancel
-  button.btn.btn-md.green.float-right(
-    ng-click = "goToPanel('paymentForm')"
-    ng-disabled = "!model.plan"
-    type = "button"
-  ) Next: Payment
+  ) Back

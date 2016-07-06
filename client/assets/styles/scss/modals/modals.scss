@@ -14,8 +14,8 @@
   z-index: $z-modal;
 
   @include media(lg) {
-    padding-bottom: 60px;
-    padding-top: 60px;
+    padding-bottom: 30px;
+    padding-top: 30px;
   }
 
   @media (max-height: $screen-xs), (max-width: $screen-sm) {
