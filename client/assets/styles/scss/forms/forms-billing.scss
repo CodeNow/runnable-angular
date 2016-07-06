@@ -103,9 +103,21 @@
     }
   }
 
-  // payment summary
-  .well.padding-xxs {
-    background: $gray-lighter;
+  .well-payment {
+
+    &.invalid {
+      border-color: $red;
+      box-shadow: inset 0 0 0 1px $red;
+
+      > .small {
+        margin-bottom: 15px;
+      }
+    }
+
+    // payment summary
+    .padding-xxs {
+      background: $gray-lighter;
+    }
   }
 
   .label-cc {

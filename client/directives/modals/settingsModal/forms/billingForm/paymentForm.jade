@@ -9,7 +9,9 @@ form.form-payment.padding-md
 
 
   //- limit all fields to numbers only
-  .grid-block.vertical.well.gray.padding-sm
+  //- add .invalid class for errors from stripe
+  .grid-block.vertical.well.gray.padding-sm.well-payment
+    //- p.red.small.text-center Your card was declined!
     label.grid-block.vertical.label-payment.label-cc
       .small Card Number
       //- add .visa, .mastercard, .amex, .jcb AFTER cc number is filled out
@@ -68,8 +70,6 @@ form.form-payment.padding-md
       href = "#"
       target = "_blank"
     ) Details
-
-  //- p.invalid-message This card was declined!
 
 footer.modal-footer.clearfix
   //- disable while loading
