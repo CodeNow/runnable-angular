@@ -173,35 +173,9 @@
 
   .input-cc {
     flex: 1 1 auto;
-    padding-right: 30px;
 
     @include media(xxs) {
       margin-bottom: 9px;
-    }
-
-    &.amex,
-    &.jcb,
-    &.mastercard,
-    &.visa {
-      background-position: 97% 49%;
-      background-repeat: no-repeat;
-      background-size: 21px 17px;
-    }
-
-    &.amex {
-      background-image: url(/build/images/logos/credit-cards/logo-cc-amex.svg);
-    }
-
-    &.jcb {
-      background-image: url(/build/images/logos/credit-cards/logo-cc-jcb.svg);
-    }
-
-    &.mastercard {
-      background-image: url(/build/images/logos/credit-cards/logo-cc-mastercard.svg);
-    }
-
-    &.visa {
-      background-image: url(/build/images/logos/credit-cards/logo-cc-visa.svg);
     }
   }
 
@@ -231,5 +205,35 @@
   // date
   .cell:first-child {
     max-width: 60px;
+  }
+}
+
+// input-cc
+.input-cc {
+  padding-right: 36px;
+
+  &.amex,
+  &.jcb,
+  &.mastercard,
+  &.visa {
+    background-position: 97% 49%;
+    background-repeat: no-repeat;
+    background-size: 21px 17px;
+  }
+
+  &.amex {
+    background-image: url(/build/images/logos/credit-cards/logo-cc-amex.svg);
+  }
+
+  &.jcb {
+    background-image: url(/build/images/logos/credit-cards/logo-cc-jcb.svg);
+  }
+
+  &.mastercard {
+    background-image: url(/build/images/logos/credit-cards/logo-cc-mastercard.svg);
+  }
+
+  &.visa {
+    background-image: url(/build/images/logos/credit-cards/logo-cc-visa.svg);
   }
 }
