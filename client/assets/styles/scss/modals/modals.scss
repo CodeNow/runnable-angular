@@ -13,6 +13,10 @@
   width: 100vw;
   z-index: $z-modal;
 
+  &.modal-blackout {
+    background: $white;
+  }
+
   @include media(lg) {
     padding-bottom: 60px;
     padding-top: 60px;
