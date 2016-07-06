@@ -65,7 +65,9 @@
         ng-if = "SEMC.currentTab === 'slackIntegration'"
       )
 
-    footer.modal-footer.clearfix
+    footer.modal-footer.clearfix.js-animate(
+      ng-if = "$root.featureFlags.trialFooter"
+    )
       button.btn.btn-md.white.float-right(
         ng-click = "SEMC.close()"
         type = "button"

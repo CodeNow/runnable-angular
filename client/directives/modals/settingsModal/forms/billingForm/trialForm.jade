@@ -15,4 +15,6 @@ h3.grid-content.h3.text-center You’re on our trial plan!
 p.grid-content.p.text-center You have&#32;
   strong.strong 12 days
   | &#32;left in your trial. Your plan is limited to 2 repositories, but you can upgrade to add unlimited repositories.
-button.grid-content.btn.btn-md.green Upgrade Plan
+button.grid-content.btn.btn-md.green(
+  ng-click = "$root.featureFlags.trialFooter = !$root.featureFlags.trialFooter"
+) Upgrade Plan

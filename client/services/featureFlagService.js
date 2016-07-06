@@ -44,6 +44,7 @@ function featureFlags(
     testingFeature: false,
     themeToggle: false, // toggles the button that toggles theme
     trial: false,
+    trialFooter: false,
     updatedSlackValidation: true,
     webhooks: false,
     welcomeBack: false,

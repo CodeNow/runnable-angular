@@ -13,10 +13,6 @@
   width: 100vw;
   z-index: $z-modal;
 
-  &.modal-blackout {
-    background: $white;
-  }
-
   @include media(lg) {
     padding-bottom: 60px;
     padding-top: 60px;
@@ -24,6 +20,10 @@
 
   @media (max-height: $screen-xs), (max-width: $screen-sm) {
     padding: 15px;
+  }
+
+  &.modal-blackout {
+    background: $white;
   }
 
   // if there's a second modal, show no background
@@ -409,6 +409,39 @@
   flex: 0 0 auto;
   padding: 12px 15px;
   z-index: 1; // footer overlaps body
+
+  &.js-animate {
+    overflow: hidden;
+    transition: .3s;
+  }
+
+  &.ng-enter {
+    border-width: 0;
+    max-height: 0;
+    opacity: 0;
+    padding: 0 15px;
+  }
+
+  &.ng-enter-active {
+    border-width: 1px;
+    max-height: 67px;
+    opacity: 1;
+    padding: 12px 15px;
+  }
+
+  &.ng-leave {
+    border-width: 1px;
+    max-height: 67px;
+    opacity: 1;
+    padding: 12px 15px;
+  }
+
+  &.ng-leave-active {
+    border-width: 0;
+    max-height: 0;
+    opacity: 0;
+    padding: 0 15px;
+  }
 
   .btn-group,
   .btn {
