@@ -1,6 +1,6 @@
 .padding-md
   label.grid-block.align-center.well.padding-sm(
-    ng-class = "{'active': model.plan === 'basic'}"
+    ng-class = "{'active': model.plan === 'limited'}"
   )
     .grid-block.align-center.justify-center.shrink.white 🙂
     .grid-block.vertical
@@ -12,11 +12,11 @@
     input.checkbox.hidden(
       name = "plan"
       ng-model = "model.plan"
-      value = "basic"
+      value = "limited"
       type = "radio"
     )
     button.grid-block.shrink.btn.btn-xs.btn-icon.btn-add(
-      ng-class = "{'active': model.plan === 'basic'}"
+      ng-class = "{'active': model.plan === 'limited'}"
     )
       svg.iconnables.icons-check
         use(
@@ -47,14 +47,25 @@
           xlink:href = "#icons-check"
         )
 
+  //- 3 users is the minimum amount
+  p.grid-content.p.text-gray.text-center.padding-sm
+    {{model.plan === 'limited' ? 'After your trial, you’ll be charged for ' : 'You’ll be charged for '}}
+    strong.strong 6 users
+    | . We’ll automatically pro-rate additional users at the end of the billing period.&#32;
+    a.link(
+      href = "#"
+      target = "_blank"
+    ) Details
+
 footer.modal-footer.clearfix.js-animate
   button.btn.btn-md.gray.btn-cancel.float-left(
     ng-click = "\
       $root.featureFlags.trialFooter = false;\
       goToPanel('trialForm', 'back');\
+      model.plan = null;\
     "
   ) Cancel
   button.btn.btn-md.green.float-right(
     ng-disabled = "!model.plan"
     type = "button"
-  ) Next
+  ) Next: Payment
