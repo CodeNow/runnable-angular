@@ -1,6 +1,8 @@
 form.form-payment.padding-md
 
-  label.grid-block.align-center.well.well-summary
+  label.grid-block.align-center.well.well-summary(
+    ng-if = "!$root.featureFlags.billingPaymentChange"
+  )
     .grid-block.align-center.justify-center.shrink.white 😄
     .grid-block.p.strong Unlimited Repositories
     .grid-block.shrink.p.align-baseline
@@ -60,24 +62,42 @@ form.form-payment.padding-md
         )
 
     //- alt text if on the limited plan
-    .grid-block.well.padding-xxs.small.justify-center
+    .grid-block.well.padding-xxs.small.justify-center(
+      ng-if = "!$root.featureFlags.billingPaymentChange"
+    )
       | You will be charged $299.70 for 6 users.
       //- | You will not be charged until your trial ends.
 
   //- 3 users is the minimum amount
-  p.grid-content.p.text-gray.text-center.padding-sm We’ll automatically pro-rate users at the end of the billing period.&#32;
+  p.grid-content.p.text-gray.text-center.padding-sm(
+    ng-if = "!$root.featureFlags.billingPaymentChange"
+  ) We’ll automatically pro-rate users at the end of the billing period.&#32;
     a.link(
       href = "#"
       target = "_blank"
     ) Details
 
 footer.modal-footer.clearfix
+  button.btn.btn-md.gray.btn-cancel.float-left(
+    ng-click = "goToPanel('billingForm', 'back')"
+    ng-if = "$root.featureFlags.billingPaymentChange"
+    type = "button"
+  ) Cancel
+  button.btn.btn-md.green.float-right(
+    ng-if = "$root.featureFlags.billingPaymentChange"
+  )
+    //- .spinner-wrapper.spinner-sm.spinner-white.in(
+    //-   ng-include = "'spinner'"
+    //- )
+    span  Update Payment
+
   //- disable while loading
   button.btn.btn-md.green.float-right(
     ng-click = "\
       $root.featureFlags.trial = false;\
       $root.featureFlags.trialFooter = false;\
     "
+    ng-if = "!$root.featureFlags.billingPaymentChange"
     type = "button"
   )
     //- .spinner-wrapper.spinner-sm.spinner-white.in(
@@ -86,5 +106,6 @@ footer.modal-footer.clearfix
     span  Submit Payment
   button.btn.btn-md.gray.btn-cancel.float-right(
     ng-click = "goToPanel('changePlanForm', 'back')"
+    ng-if = "!$root.featureFlags.billingPaymentChange"
     type = "button"
   ) Back

@@ -2,7 +2,7 @@
 .modal-form.form-billing {
   padding: 0;
 
-  // plan summary
+  // plan summary & payment summary
   .well.well-summary {
     background: $white;
     border: 1px solid $gray-lighter;
@@ -23,6 +23,13 @@
 
     .text-gray {
       margin-top: 6px;
+    }
+
+    // cc icon
+    .img {
+      margin-right: 4px;
+      position: relative;
+      top: 4px;
     }
   }
 }

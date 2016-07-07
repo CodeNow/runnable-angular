@@ -24,11 +24,11 @@
         ng-include = "'changePlanForm'"
       )
     animated-panel(
-      name = "paymentForm"
+      name = "changePaymentForm"
     )
       .grid-block.vertical.form-payment.fade(
         ng-class = "{'in': isActivePanel()}"
-        ng-include = "'paymentForm'"
+        ng-include = "'changePaymentForm'"
       )
 
   animated-panel-container(
@@ -44,6 +44,7 @@
       )
       .grid-block.vertical.label.padding-sm.fade(
         ng-class = "{'in': isActivePanel()}"
+        ng-include = "'showPaymentForm'"
       )
       .grid-block.vertical.label.padding-sm.fade(
         ng-class = "{'in': isActivePanel()}"
@@ -56,76 +57,10 @@
         ng-class = "{'in': isActivePanel()}"
         ng-include = "'changePlanForm'"
       )
-
-    //- .label(
-    //-   ng-init = "data.showCcForm = false"
-    //- )
-      .clearfix
-        .label-col.full-width Payment
-          //- hide errors when updating cc info
-          .small.error.float-right.badge.badge-red(
-            data-badge-count = "!"
-            ng-if = "!data.showCcForm"
-          ) Your card has expired
-
-      .well.red.padding-sm(
-        ng-if = "!data.showCcForm"
+    animated-panel(
+      name = "changePaymentForm"
+    )
+      .grid-block.vertical.form-payment.fade(
+        ng-class = "{'in': isActivePanel()}"
+        ng-include = "'changePaymentForm'"
       )
-        p.p.clearfix
-          svg.iconnables.float-left.icons-card
-            use(
-              xlink:href = "#icons-visa"
-            )
-          strong.strong.float-left •••• 2135
-          small.small.float-left 10/2015
-          button.btn.btn-xs.white(
-            ng-click = "data.showCcForm = true"
-          ) Update
-          //- if not admin
-          //- button.btn.btn-xs.white.disabled(
-          //-   tooltip = "Admin Only"
-          //-   tooltip-options = "{\"class\":\"bottom bottom-arrow-right no-arrow\",\"right\":0,\"top\":-40}"
-          //- ) Update
-
-      form.form-cc.well.gray.clearfix.padding-sm(
-        ng-if = "data.showCcForm"
-      )
-        //- limit all fields to numbers only
-        .row
-          //- add .visa, .mastercard, .amex, .jcb AFTER cc number is filled out
-          input.input.input-sm.input-cc.input-validate(
-            autocomplete = "cc-number"
-            inputmode = "numeric"
-            maxlength = "19"
-            ng-class = "{'amex': ccNumber.length === 19}"
-            ng-model = "ccNumber"
-            placeholder = "Card Number"
-            required
-            spellcheck = "false"
-          )
-          //- auto insert " / " after last 2nd number
-            - pressing delete immediately after " / " should delete " / " AND the preceeding number
-            - allow MM / YYYY
-          input.input.input-sm.input-exp.input-validate(
-            autocomplete = "cc-exp"
-            inputmode = "numeric"
-            maxlength = "9"
-            placeholder = "MM / YY"
-            required
-            spellcheck = "false"
-          )
-          //- change maxlength to 3/4 depending on cc
-          input.input.input-sm.input-cvc.input-validate(
-            autocomplete = "cc-csc"
-            inputmode = "numeric"
-            maxlength = "4"
-            placeholder = "CVC"
-            required
-            spellcheck = "false"
-          )
-        p.invalid-message This card was declined!
-        button.btn.btn-xs.green.float-right Save
-        button.btn.btn-xs.white.float-left(
-          ng-click = "data.showCcForm = false"
-          type = "button"
-        ) Cancel

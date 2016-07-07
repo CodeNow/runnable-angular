@@ -14,6 +14,7 @@ function featureFlags(
     backup: false,
     billing: false,
     billingPlanChange: false,
+    billingPaymentChange: false,
     cardStatus: false,
     connections: false,
     dockerfileMirroringMultiple: false,

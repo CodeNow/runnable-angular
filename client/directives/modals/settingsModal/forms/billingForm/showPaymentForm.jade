@@ -1,0 +1,23 @@
+.clearfix
+  .label-col.full-width Payment Info
+label.grid-block.align-center.well.well-summary.padding-sm
+  .grid-block.vertical
+    .p.small Added by:
+    .p.strong sundippatel
+  .grid-block.vertical.shrink.text-right
+    .p.small Expires 11/11
+    .p.small
+      img.img(
+        height = "18"
+        src = "/build/images/logos/credit-cards/logo-cc-amex.svg"
+        width = "18"
+      )
+      | 9233
+.grid-block.align-center.justify-right.padding-xxs
+  button.btn.btn-xs.white(
+    ng-click = "\
+      $root.featureFlags.billingPaymentChange = true;\
+      $root.featureFlags.trialFooter = true;\
+      goToPanel('changePaymentForm');\
+    "
+  ) Change Payment

@@ -1,7 +1,5 @@
 //- changing plans
-.padding-md(
-  ng-if = "$root.featureFlags.trial || ($root.featureFlags.billingPlanChange && !$root.featureFlags.trial)"
-)
+.padding-md
   label.grid-block.align-center.well.well-plan.padding-sm(
     ng-class = "{'active': model.plan === 'limited' || $root.featureFlags.billingPlanChange}"
   )
@@ -88,7 +86,7 @@ footer.modal-footer.clearfix(
 
   //- disabled if no plan is selected
   button.btn.btn-md.white.float-right(
-    ng-click = "goToPanel('paymentForm')"
+    ng-click = "goToPanel('chnagePaymentForm')"
     ng-if = "!$root.featureFlags.billingPlanChange"
     type = "button"
   ) Next: Payment
