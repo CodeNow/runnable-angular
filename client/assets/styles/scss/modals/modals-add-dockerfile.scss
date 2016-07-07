@@ -1,0 +1,16 @@
+.modal-add-dockerfile {
+
+  .input-col {
+    position: relative;
+    width: 100%;
+  }
+
+  .btn-xxs {
+    background: $gray-lightest;
+    border: 1px solid $gray-lighter;
+    color: $gray-light;
+    left: 9px;
+    position: absolute;
+    top: 9px;
+  }
+}

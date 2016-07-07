@@ -1,0 +1,34 @@
+.modal-backdrop
+  .modal-dialog.modal-sm.modal-add-dockerfile
+    header.modal-header
+      h1.modal-heading Add Dockerfile
+      svg.iconnables.icons-close
+        use(
+          xlink:href = "#icons-close"
+        )
+    section.modal-body
+      svg.iconnables.icons-close(
+        ng-click = "defaultActions.cancel()"
+      )
+        use(
+          xlink:href = "#icons-close"
+        )
+      form.modal-form
+        label.label.clearfix
+          .label-col Dockerfile Path
+          .input-col
+            button.btn.btn-xxs repositoryName
+            input.input.input-sm.input-validate(
+              autocomplete = "off"
+              ng-model = "dockerfilePath"
+              spellcheck = "false"
+            )
+            small.small.text-gray helpful text if needed
+
+    footer.modal-footer.clearfix
+      button.btn.btn-md.gray.btn-cancel.float-left(
+        ng-click = "defaultActions.close()"
+      ) Cancel
+      button.btn.btn-md.green.float-right(
+        ng-disabled = "!dockerfilePath"
+      ) Add Dockerfile
