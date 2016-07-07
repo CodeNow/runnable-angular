@@ -1,5 +1,5 @@
 .popover.menu.bottom(
-  ng-class = "{in: active}"
+  ng-class = "{'in': active}"
   ng-style = "popoverStyle.getStyle()"
   style = "transform-origin: 90% 0"
 )
@@ -10,6 +10,4 @@
     ul.popover-list
       li.list-item.popover-list-item(
         ng-click = "actions.resendInvitation(data)"
-      )
-        svg.iconnables
-        | Resend Invite
+      ) Resend Invite
