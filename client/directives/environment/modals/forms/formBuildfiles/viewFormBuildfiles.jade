@@ -68,24 +68,13 @@
           xlink:href = "#icons-alert-alt"
         )
       span.span.float-left Error: Dockerfile not found
-      button.btn.btn-xxs.btn-icon(
-        pop-over
-        pop-over-hover-trigger
-        pop-over-options = "{\"top\":24,\"centered\":true}"
-        pop-over-template = "dockerfileMirroringHelpPopover"
-        pop-over-trigger = "hover"
-      )
-        svg.iconnables.icons-help
-          use(
-            xlink:href = "#icons-help"
-          )
     small.small(
       ng-if = "SMC.state.advanced !== 'isMirroringDockerfile'"
     )
       span.span.text-overflow.float-left Mirror with a Dockerfile from this repo on GitHub.
       button.btn.btn-xxs.gray(
-        ng-if = "$root.featureFlags.dockerfileMirroringMultiple"
         internal-modal-helper = "changeMirrorView"
+        ng-if = "$root.featureFlags.dockerfileMirroringMultiple"
       ) Change…
 
   //- this should open the 'viewModalSync' view when syncing has not been set up
