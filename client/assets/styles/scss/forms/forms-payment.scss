@@ -1,0 +1,70 @@
+.form-payment {
+
+  .well-summary {
+    margin-bottom: 15px;
+  }
+
+  .well-payment {
+
+    &.invalid {
+      border-color: $red;
+      box-shadow: inset 0 0 0 1px $red;
+
+      > .small {
+        margin-bottom: 15px;
+      }
+    }
+
+    // payment summary
+    .padding-xxs {
+      background: $gray-lighter;
+    }
+  }
+
+  .label-cc {
+    margin-bottom: 15px;
+  }
+
+  .label-payment {
+
+    + .label-payment {
+      margin-left: 6px;
+    }
+
+    .small {
+      margin-bottom: 3px;
+      margin-left: 7px;
+    }
+  }
+}
+
+
+// input-cc
+.input-cc {
+  padding-right: 36px;
+
+  &.amex,
+  &.jcb,
+  &.mastercard,
+  &.visa {
+    background-position: 97% 49%;
+    background-repeat: no-repeat;
+    background-size: 21px 17px;
+  }
+
+  &.amex {
+    background-image: url(/build/images/logos/credit-cards/logo-cc-amex.svg);
+  }
+
+  &.jcb {
+    background-image: url(/build/images/logos/credit-cards/logo-cc-jcb.svg);
+  }
+
+  &.mastercard {
+    background-image: url(/build/images/logos/credit-cards/logo-cc-mastercard.svg);
+  }
+
+  &.visa {
+    background-image: url(/build/images/logos/credit-cards/logo-cc-visa.svg);
+  }
+}
