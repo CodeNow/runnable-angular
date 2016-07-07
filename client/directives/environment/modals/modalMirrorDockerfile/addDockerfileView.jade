@@ -16,18 +16,14 @@
       form.modal-form
         label.label.clearfix
           .label-col Dockerfile Path
-          .input-col.input-prefix.input-prefix-monospace(
-            data-prefix = "/"
-          )
+          .input-col.input-prefix.input-prefix-monospace
             //- disable while loading
             input.input.input-sm.input-validate(
               autocomplete = "off"
               ng-model = "dockerfilePath"
               spellcheck = "false"
             )
-            small.small.text-gray Specify the path to your Dockerfile
-              br
-              | (ie. /app/staging/.dockerfile).
+            small.small.text-gray Specify the relative path to your Dockerfile in your repository (e.g. if your Dockerfile is in a root folder named “config”, your path would be “config/Dockerfile”).
 
     footer.modal-footer.clearfix
       button.btn.btn-md.gray.btn-cancel.float-left(
