@@ -6,9 +6,9 @@
   .tr.clearfix(
     ng-repeat = "month in months"
   )
-    .cell $299.70
+    .cell.monospace $299.70
     .cell.small Paid by sundippatel
-    .cell.text-right {{month}}/13/{{month > 10 ? '2014' : '2015'}}
+    .cell.monospace.text-right {{month}}/13/{{month > 10 ? '2014' : '2015'}}
 
 //- if there's something older to load
 .label
