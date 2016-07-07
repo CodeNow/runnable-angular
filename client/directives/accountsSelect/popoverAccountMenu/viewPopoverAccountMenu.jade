@@ -23,7 +23,7 @@
           )
             li.list-item.popover-list-item.small.disabled {{data.activeAccount.oauthName()}} Settings
             //- *****************
-            //- $root.featureFlags.billing && $root.featureFlags.teamManagement
+            //- $root.featureFlags.billing
             li.list-item.popover-list-item(
               data-badge-count = "!"
               internal-modal-helper = "settingsModalView"
@@ -46,7 +46,6 @@
               ) 12 Days
             li.list-item.popover-list-item(
               ng-click = "actions.openSettingsModal('teamManagement')"
-              ng-if = "$root.featureFlags.teamManagement"
             )
               svg.iconnables
                 use(
@@ -62,14 +61,14 @@
                   xlink:href = "#icons-gear"
                 )
               | Settings
-            //- $root.featureFlags.billing && $root.featureFlags.teamManagement
+            //- $root.featureFlags.billing
             //- *****************
             li.list-item.popover-list-item(
               modal
               modal-actions = "actions.actionsModalIntegrations"
               modal-data = "data.dataModalIntegrations"
               modal-template = "viewOpenModalIntegrations"
-              ng-if = "!$root.featureFlags.teamManagement || !$root.featureFlags.updatedSlackValidation"
+              ng-if = "!$root.featureFlags.updatedSlackValidation"
             )
               img.iconnables(
                 height = "24"
@@ -79,7 +78,7 @@
               | Slack Integration
             li.list-item.popover-list-item(
               ng-click = "actions.openSettingsModal('slackIntegration')"
-              ng-if = "$root.featureFlags.teamManagement && $root.featureFlags.updatedSlackValidation"
+              ng-if = "$root.featureFlags.updatedSlackValidation"
             )
               img.iconnables(
                 height = "24"

@@ -2,6 +2,7 @@
   border: 1px solid transparent;
   border-radius: $input-border-radius;
 
+  &.padding-xs,
   &.padding-sm,
   &.padding-md,
   &.padding-lg,
@@ -12,6 +13,7 @@
   &.gray {
     background: $gray-lighterest;
     border-color: $gray-lighter;
+    font-weight: $weight-normal; // override .gray
   }
 
   // code sample

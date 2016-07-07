@@ -8,9 +8,14 @@
   )
   .popover-content
     ul.popover-list
-      li.list-item.popover-list-item
+      li.list-item.popover-list-item(
+        internal-modal-helper = "confirmRemoveTeammateView"
+      )
         svg.iconnables
           use(
             xlink:href = "#icons-delete"
           )
-        | Remove User
+        //- if removing another user
+        | Remove Teammate
+        //- if removing themself
+        //- | Leave Team

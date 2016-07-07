@@ -8,6 +8,61 @@
   div(
     ng-if = "!TMMC.loading"
   )
+
+    //- for existing team
+    .label
+      .clearfix
+        .label-col.full-width Teammates
+          a.small.link.float-right(
+            ng-click = "TMMC.openInvitationModal()"
+            ng-if = "TMMC.members.uninvited.length > 0"
+          )
+            svg.iconnables.icons-team-invite
+              use(
+                xlink:href = "#icons-team-invite"
+              )
+            | Invite…
+
+      ol.list.list-bordered.list-teammates
+        li.list-item(
+          ng-repeat = "teammate in TMMC.members.registered"
+        )
+          img.gravatar(
+            height = "27"
+            ng-src = "{{teammate.avatar_url}}"
+            width = "27"
+          )
+          .username.text-overflow {{teammate.login}}
+          .small.text-overflow {{teammate.email.length ? teammate.email : "—" }}
+          .btn-wrapper
+            button.btn.btn-xs.white.btn-permission(
+              ng-class = "{'active': permissionsPopover.data.show}"
+              ng-if = "$root.featureFlags.teamManagementAdvanced"
+              pop-over
+              pop-over-active = "permissionsPopover.data.show"
+              pop-over-options = "{\"right\":0,\"top\":35}"
+              pop-over-template = "permissionsPopoverView"
+            )
+              span.float-left {{teammate.permission}}
+              svg.iconnables.icons-arrow-down
+                use(
+                  xlink:href = "#icons-arrow-down"
+                )
+
+            button.btn.btn-xs.white.float-right(
+              ng-class = "{'active': teammateOptionsPopover.data.show}"
+              ng-if = "$root.featureFlags.teamManagement"
+              pop-over
+              pop-over-active = "teammateOptionsPopover.data.show"
+              pop-over-options = "{\"right\":0,\"top\":35}"
+              pop-over-template = "teammateOptionsPopoverView"
+            )
+              svg.iconnables.icons-overflow
+                use(
+                  xlink:href = "#icons-overflow"
+                )
+
+    //- pending invites
     .label(
       ng-if ="TMMC.members.invited.length > 0"
     )
@@ -114,59 +169,6 @@
               pop-over-data = "teammate"
               pop-over-options = "{\"right\":0,\"top\":35}"
               pop-over-template = "pendingInvitePopoverView"
-            )
-              svg.iconnables.icons-overflow
-                use(
-                  xlink:href = "#icons-overflow"
-                )
-
-    //- for existing team
-    .label
-      .clearfix
-        .label-col.full-width Teammates
-          a.small.link.float-right(
-            ng-click = "TMMC.openInvitationModal()"
-            ng-if = "TMMC.members.uninvited.length > 0"
-          )
-            svg.iconnables.icons-team-invite
-              use(
-                xlink:href = "#icons-team-invite"
-              )
-            | Invite…
-
-      ol.list.list-bordered.list-teammates
-        li.list-item(
-          ng-repeat = "teammate in TMMC.members.registered"
-        )
-          img.gravatar(
-            height = "27"
-            ng-src = "{{teammate.avatar_url}}"
-            width = "27"
-          )
-          .username.text-overflow {{teammate.login}}
-          .small.text-overflow {{teammate.email.length ? teammate.email : "—" }}
-          .btn-wrapper(
-            ng-if = "$root.featureFlags.teamManagementAdvanced"
-          )
-            button.btn.btn-xs.white.btn-permission(
-              ng-class = "{'active': permissionsPopover.data.show}"
-              pop-over
-              pop-over-active = "permissionsPopover.data.show"
-              pop-over-options = "{\"right\":0,\"top\":35}"
-              pop-over-template = "permissionsPopoverView"
-            )
-              span.float-left {{teammate.permission}}
-              svg.iconnables.icons-arrow-down
-                use(
-                  xlink:href = "#icons-arrow-down"
-                )
-
-            button.btn.btn-xs.white.float-right(
-              ng-class = "{'active': teammateOptionsPopover.data.show}"
-              pop-over
-              pop-over-active = "teammateOptionsPopover.data.show"
-              pop-over-options = "{\"right\":0,\"top\":35}"
-              pop-over-template = "teammateOptionsPopoverView"
             )
               svg.iconnables.icons-overflow
                 use(
