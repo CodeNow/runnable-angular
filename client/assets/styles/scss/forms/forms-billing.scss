@@ -1,6 +1,30 @@
 // billing form
 .modal-form.form-billing {
   padding: 0;
+
+  // plan summary
+  .well.well-summary {
+    background: $white;
+    border: 1px solid $gray-lighter;
+    border-radius: $input-border-radius-lg;
+    font-size: 16px;
+    padding-right: 15px;
+
+    .white {
+      background-image: linear-gradient(135deg,$purple 0%,$blue 12.5%,$green 25%,$orange 37.5%,$red 50%,$purple 62.5%,$blue 75%,$green 87.5%,$orange 100%);
+      background-size: 400% 100%;
+      border: 0;
+      border-radius: $input-border-radius-lg 0 0 $input-border-radius-lg;
+      font-size: 30px;
+      height: 45px;
+      margin-right: 15px;
+      width: 45px;
+    }
+
+    .text-gray {
+      margin-top: 6px;
+    }
+  }
 }
 
 // trial state
@@ -38,9 +62,11 @@
 
   .well {
     border: 1px solid $gray-lighter;
-    cursor: pointer;
-    font-size: 19px;
     position: relative;
+  }
+
+  .well-plan {
+    font-size: 19px;
 
     &:hover,
     &:active,
@@ -48,6 +74,7 @@
       background: $white;
       border-color: $green;
       box-shadow: inset 0 0 0 1px $green;
+      cursor: pointer;
     }
 
     &.active .white {
@@ -55,6 +82,11 @@
       background-image: linear-gradient(135deg,$purple 0%,$blue 12.5%,$green 25%,$orange 37.5%,$red 50%,$purple 62.5%,$blue 75%,$green 87.5%,$orange 100%);
       background-size: 400% 100%;
       border-color: $white;
+
+      &.current::after {
+        color: $white;
+        font-weight: $weight-bold;
+      }
     }
 
     .white {
@@ -64,7 +96,23 @@
       font-size: 30px;
       height: 75px;
       margin-right: 15px;
-      width: 75px;
+      position: relative;
+      width: 80px;
+
+      &.current::after {
+        bottom: 0;
+        color: $gray;
+        content: 'Current Plan';
+        display: block;
+        font-size: 11px;
+        font-weight: $weight-light;
+        left: 0;
+        line-height: $input-xxs;
+        position: absolute;
+        right: 0;
+        text-align: center;
+        width: 78px;
+      }
     }
 
     .text-gray {
@@ -76,31 +124,19 @@
       top: 0;
     }
   }
+
+  .icons-link-external {
+    height: 12px;
+    margin-left: 3px;
+    top: 1px;
+    width: 12px;
+  }
 }
 
 .form-payment {
 
-  .well.well-summary {
-    background: $white;
-    border: 1px solid $gray-lighter;
-    border-radius: $input-border-radius-lg;
-    font-size: 16px;
-    padding-right: 15px;
-
-    .white {
-      background-image: linear-gradient(135deg,$purple 0%,$blue 12.5%,$green 25%,$orange 37.5%,$red 50%,$purple 62.5%,$blue 75%,$green 87.5%,$orange 100%);
-      background-size: 400% 100%;
-      border: 0;
-      border-radius: $input-border-radius-lg 0 0 $input-border-radius-lg;
-      font-size: 30px;
-      height: 45px;
-      margin-right: 15px;
-      width: 45px;
-    }
-
-    .text-gray {
-      margin-top: 6px;
-    }
+  .well-summary {
+    margin-bottom: 15px;
   }
 
   .well-payment {
@@ -137,88 +173,6 @@
   }
 }
 
-// cc form
-.form-cc {
-
-  // plan and payment area
-  .well {
-    margin: 0;
-
-    // card type
-    .icons-card {
-      height: 32px;
-      margin-right: 9px;
-      top: 1px;
-      width: 18px;
-    }
-
-    // exp date
-    .strong + .small {
-      position: relative;
-      top: 2px;
-    }
-  }
-
-  // flexbox on inputs
-  .row {
-    display: flex;
-    margin-bottom: 9px;
-
-    @include media(xxs) {
-      flex-wrap: wrap;
-    }
-  }
-
-  .input-sm {
-    letter-spacing: .5px;
-    margin: 0;
-    min-width: 0; // fix firefox bug with flexbox and input width
-
-    + .input-sm {
-      margin-left: 9px;
-
-      @include media(xxs) {
-        margin-left: 0;
-      }
-    }
-  }
-
-  .input-cc {
-    flex: 1 1 auto;
-
-    @include media(xxs) {
-      margin-bottom: 9px;
-    }
-  }
-
-  .input-exp {
-    flex: 0 0 90px;
-
-    @include media(xxs) {
-      margin-right: 9px;
-    }
-  }
-
-  .input-cvc {
-    flex: 0 0 54px;
-  }
-
-  // validation
-  .invalid-message {
-    margin: 0 8px 12px;
-  }
-}
-
-// billing table
-.table-billing {
-  color: $gray-dark;
-  font-size: 15px;
-
-  // date
-  .cell:first-child {
-    max-width: 60px;
-  }
-}
 
 // input-cc
 .input-cc {
@@ -247,5 +201,16 @@
 
   &.visa {
     background-image: url(/build/images/logos/credit-cards/logo-cc-visa.svg);
+  }
+}
+
+// payment history
+.table-billing {
+  color: $gray-dark;
+  font-size: 15px;
+
+  // date
+  .cell:first-child {
+    flex: 0 0 auto;
   }
 }

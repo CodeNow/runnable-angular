@@ -1,8 +1,11 @@
-.padding-md
-  label.grid-block.align-center.well.padding-sm(
+//- changing plans
+.padding-md(
+  ng-if = "$root.featureFlags.trial || ($root.featureFlags.billingPlanChange && !$root.featureFlags.trial)"
+)
+  label.grid-block.align-center.well.well-plan.padding-sm(
     ng-class = "{'active': model.plan === 'limited'}"
   )
-    .grid-block.align-center.justify-center.shrink.white 🙂
+    .grid-block.align-center.justify-center.shrink.white.current 🙂
     .grid-block.vertical
       .grid-block.p.strong 2 Repository Limit
       .grid-block.p
@@ -23,7 +26,7 @@
           xlink:href = "#icons-check"
         )
 
-  label.grid-block.align-center.well.padding-sm(
+  label.grid-block.align-center.well.well-plan.padding-sm(
     ng-class = "{'active': model.plan === 'unlimited'}"
   )
     .grid-block.align-center.justify-center.shrink.white 😄
@@ -47,20 +50,41 @@
           xlink:href = "#icons-check"
         )
 
+  p.grid-content.p.text-gray.text-center.padding-sm Please&#32;
+    a.link(
+      href = "mailto: billing@runnable.com"
+    ) contact us
+    | &#32;to make changes to your plan.
+
   //- 3 users is the minimum amount
   p.grid-content.p.text-gray.text-center.padding-sm
-    {{model.plan === 'limited' ? 'After your trial, you’ll be charged for ' : 'You’ll be charged for '}}
-    strong.strong 6 users
-    | . We’ll automatically pro-rate additional users at the end of the billing period.&#32;
+    span(
+      ng-if = "!$root.featureFlags.billingPlanChange"
+    ) {{model.plan === 'limited' && $root.featureFlags.trial ? 'After your trial, you’ll be charged for ' : 'You’ll be charged for '}}
+      strong.strong 6 users
+      | .
+    | We’ll automatically pro-rate additional users at the end of the billing period.&#32;
     a.link(
       href = "#"
       target = "_blank"
     ) Details
 
-footer.modal-footer.clearfix
+footer.modal-footer.clearfix(
+  ng-if = "$root.featureFlags.trial || $root.featureFlags.billingPlanChange"
+)
+  button.btn.btn-md.gray.btn-cancel.float-left(
+    ng-if = "$root.featureFlags.billingPlanChange"
+    ng-click = "\
+      $root.featureFlags.billingPlanChange = false;\
+      $root.featureFlags.trialFooter = false;\
+      goToPanel('billingForm', 'back');\
+    "
+  ) Cancel
+
+  //- disabled if no plan is selected
   button.btn.btn-md.white.float-right(
     ng-click = "goToPanel('paymentForm')"
-    ng-disabled = "!model.plan"
+    ng-if = "!$root.featureFlags.billingPlanChange"
     type = "button"
   ) Next: Payment
   button.btn.btn-md.gray.btn-cancel.float-right(
@@ -69,4 +93,5 @@ footer.modal-footer.clearfix
       goToPanel('trialForm', 'back');\
       model.plan = null;\
     "
+    ng-if = "!$root.featureFlags.billingPlanChange"
   ) Back

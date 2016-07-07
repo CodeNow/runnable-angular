@@ -74,6 +74,10 @@ form.form-payment.padding-md
 footer.modal-footer.clearfix
   //- disable while loading
   button.btn.btn-md.green.float-right(
+    ng-click = "\
+      $root.featureFlags.trial = false;\
+      $root.featureFlags.trialFooter = false;\
+    "
     type = "button"
   )
     //- .spinner-wrapper.spinner-sm.spinner-white.in(
@@ -81,6 +85,6 @@ footer.modal-footer.clearfix
     //- )
     span  Submit Payment
   button.btn.btn-md.gray.btn-cancel.float-right(
-    ng-click = "goToPanel('planForm', 'back')"
+    ng-click = "goToPanel('changePlanForm', 'back')"
     type = "button"
   ) Back

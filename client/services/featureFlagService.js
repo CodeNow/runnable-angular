@@ -13,6 +13,7 @@ function featureFlags(
     autoWhitelist: false,
     backup: false,
     billing: false,
+    billingPlanChange: false,
     cardStatus: false,
     connections: false,
     dockerfileMirroringMultiple: false,
