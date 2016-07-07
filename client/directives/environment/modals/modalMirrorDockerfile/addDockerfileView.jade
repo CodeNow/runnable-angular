@@ -16,19 +16,28 @@
       form.modal-form
         label.label.clearfix
           .label-col Dockerfile Path
-          .input-col
-            button.btn.btn-xxs repositoryName
+          .input-col.input-prefix.input-prefix-monospace(
+            data-prefix = "/"
+          )
+            //- disable while loading
             input.input.input-sm.input-validate(
               autocomplete = "off"
               ng-model = "dockerfilePath"
               spellcheck = "false"
             )
-            small.small.text-gray helpful text if needed
+            small.small.text-gray Specify the path to your Dockerfile
+              br
+              | (ie. /app/staging/.dockerfile).
 
     footer.modal-footer.clearfix
       button.btn.btn-md.gray.btn-cancel.float-left(
         ng-click = "defaultActions.close()"
       ) Cancel
+      //- add spinner and disable when loading
       button.btn.btn-md.green.float-right(
         ng-disabled = "!dockerfilePath"
-      ) Add Dockerfile
+      )
+        //- .spinner-wrapper.spinner-sm.spinner-white.in(
+        //-   ng-include = "'spinner'"
+        //- )
+        span Add Dockerfile
