@@ -68,9 +68,9 @@
   .well-plan {
     font-size: 19px;
 
-    &:hover,
-    &:active,
-    &.active {
+    &:hover:not(.disabled),
+    &:active:not(.disabled),
+    &.active:not(.disabled) {
       background: $white;
       border-color: $green;
       box-shadow: inset 0 0 0 1px $green;
@@ -87,6 +87,10 @@
         color: $white;
         font-weight: $weight-bold;
       }
+    }
+
+    &.disabled {
+      cursor: not-allowed;
     }
 
     .white {

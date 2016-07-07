@@ -3,8 +3,9 @@
   ng-if = "$root.featureFlags.trial || ($root.featureFlags.billingPlanChange && !$root.featureFlags.trial)"
 )
   label.grid-block.align-center.well.well-plan.padding-sm(
-    ng-class = "{'active': model.plan === 'limited'}"
+    ng-class = "{'active': model.plan === 'limited' || $root.featureFlags.billingPlanChange}"
   )
+    //- add .current class for current plan
     .grid-block.align-center.justify-center.shrink.white.current 🙂
     .grid-block.vertical
       .grid-block.p.strong 2 Repository Limit
@@ -19,7 +20,7 @@
       type = "radio"
     )
     button.grid-block.shrink.btn.btn-xs.btn-icon.btn-add(
-      ng-class = "{'active': model.plan === 'limited'}"
+      ng-class = "{'active': model.plan === 'limited' || $root.featureFlags.billingPlanChange}"
     )
       svg.iconnables.icons-check
         use(
@@ -27,7 +28,10 @@
         )
 
   label.grid-block.align-center.well.well-plan.padding-sm(
-    ng-class = "{'active': model.plan === 'unlimited'}"
+    ng-class = "{\
+      'active': model.plan === 'unlimited',\
+      'disabled': $root.featureFlags.billingPlanChange\
+    }"
   )
     .grid-block.align-center.justify-center.shrink.white 😄
     .grid-block.vertical
@@ -38,6 +42,7 @@
       .grid-content.p.small.text-gray 3 user minimum.
     input.checkbox.hidden(
       name = "plan"
+      ng-disabled = "$root.featureFlags.billingPlanChange"
       ng-model = "model.plan"
       value = "unlimited"
       type = "radio"
