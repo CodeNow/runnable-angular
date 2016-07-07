@@ -1,3 +1,8 @@
+.modal-servers,
+.modal-servers .animated-panel {
+  min-width: 100%; // fix animated panel container
+}
+
 .modal-server-select {
   width: 600px; // must set for animated panel
 
@@ -39,7 +44,8 @@
 
       @include media(xxs) {
         flex: 1 1 50%;
-        height: 126px;
+        flex-direction: column;
+        height: 96px;
         padding: 15px;
         white-space: normal;
       }
