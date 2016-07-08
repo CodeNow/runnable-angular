@@ -24,6 +24,78 @@ describe('serviceFetchDockerfile'.bold.underline.blue, function () {
     return $httpStub;
   };
 
+  describe('fetchRepoDockerfile', function () {
+    var fetchRepoDockerfiles;
+    beforeEach(function () {
+      angular.mock.module('app');
+      angular.mock.module(function ($provide) {
+        $provide.factory('$http', httpFactory);
+        $provide.value('configAPIHost', configAPIHost);
+      });
+      angular.mock.inject(function (
+        _$q_,
+        _$rootScope_,
+        _fetchRepoDockerfiles_,
+        _configAPIHost_
+      ) {
+        $q = _$q_;
+        $rootScope = _$rootScope_;
+        fetchRepoDockerfiles = _fetchRepoDockerfiles_;
+        configAPIHost = _configAPIHost_;
+      });
+    });
+
+    it('should fetch the contents for a file', function () {
+      var path = '/Dockerfile';
+      var branch = 'staging';
+      fetchRepoDockerfiles('thejsj/hello', branch, path);
+      $rootScope.$digest();
+      sinon.assert.calledOnce($httpStub);
+      sinon.assert.calledWith($httpStub, {
+        method: 'get',
+        url: configAPIHost + '/github/repos/thejsj/hello/contents/Dockerfile?ref=staging'
+      });
+    });
+
+    it('should work when the result is null', function (done) {
+      $httpStub.returns($q.when());
+
+      var path = '/Dockerfile';
+      var branch = 'staging';
+      fetchRepoDockerfiles('thejsj/hello', branch, path)
+        .then(function (res) {
+          sinon.assert.calledOnce($httpStub);
+          sinon.assert.calledWith($httpStub, {
+            method: 'get',
+            url: configAPIHost + '/github/repos/thejsj/hello/contents/Dockerfile?ref=staging'
+          });
+          expect(res).to.deep.equal(undefined);
+          done();
+        });
+      $rootScope.$digest();
+    });
+
+    it('should automatically add a / at the end', function () {
+      var path = 'hello/world';
+      $httpStub.returns($q.when({ data: { path: path }}));
+
+      var branch = 'staging';
+      var res;
+      fetchRepoDockerfiles('thejsj/hello', branch, path)
+        .then(function (_res) {
+          res = _res;
+        });
+      $rootScope.$digest();
+      sinon.assert.calledOnce($httpStub);
+      sinon.assert.calledWith($httpStub, {
+        method: 'get',
+        url: configAPIHost + '/github/repos/thejsj/hello/contents/Dockerfile?ref=staging'
+      });
+      expect(res).to.have.lengthOf(1);
+      expect(res[0].path).to.equal('/' + path);
+    });
+  });
+
   describe('fetchRepoDockerfiles', function () {
     var fetchRepoDockerfiles;
     beforeEach(function () {

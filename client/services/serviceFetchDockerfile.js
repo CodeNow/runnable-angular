@@ -17,7 +17,7 @@ function fetchRepoDockerfile(
       url: configAPIHost + '/github/repos/' + repoFullName + '/contents/' + path + '?ref=' + branchName
     })
       .then(function (res) {
-        return res.data;
+        return res ? res.data : null;
       });
   };
 }
@@ -34,11 +34,12 @@ function fetchRepoDockerfiles(
     }
     var dockerfilePromises = paths.map(function (path) {
       return fetchRepoDockerfile(repoFullName, branchName, path)
-        .catch(angular.noop);
+        .then(doesDockerfileExist)
+        .catch(angular.noop); // this will make all failed fetched dockerfiles null
     });
     return $q.all(dockerfilePromises)
       .then(function (resultArray) {
-        return resultArray.filter(doesDockerfileExist);
+        return resultArray.filter(angular.isDefined); // so they can be filtered out here
       });
   };
 }

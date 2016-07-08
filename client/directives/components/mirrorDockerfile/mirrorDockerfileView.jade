@@ -10,7 +10,7 @@
   p.p.text-center We couldn’t find a Dockerfile in this repository.
 
 .grid-content.list.list-bordered(
-  ng-if = "fromTool"
+  ng-if = "!fromTool && !$root.isLoading[MC.name] "
 )
   //- add .disabled class to the not selected item if loading
   label.grid-block.list-item(

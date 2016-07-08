@@ -1,7 +1,7 @@
 /*global runnable:true, mocks: true, directiveTemplate: true, xdescribe: true, before, xit: true */
 'use strict';
 
-describe('chooseDockerfileModalController'.bold.underline.blue, function () {
+describe('MirrorDockerfileController'.bold.underline.blue, function () {
   var CDMC;
   var $controller;
   var $scope;
@@ -34,6 +34,10 @@ describe('chooseDockerfileModalController'.bold.underline.blue, function () {
       angular.mock.module(function ($provide) {
         $provide.factory('fetchRepoDockerfiles', function ($q) {
           fetchRepoDockerfilesStub = sinon.stub().returns($q.when([ dockerfile ]));
+          return fetchRepoDockerfilesStub;
+        });
+        $provide.factory('fetchRepoDockerfile', function ($q) {
+          fetchRepoDockerfilesStub = sinon.stub().returns($q.when(dockerfile));
           return fetchRepoDockerfilesStub;
         });
         closeSpy = sinon.stub();
@@ -123,6 +127,11 @@ describe('chooseDockerfileModalController'.bold.underline.blue, function () {
 
       it('should set the repo to the state', function () {
          expect(CDMC.state.repo).to.equal(repo);
+      });
+
+      it('should fetch the dockerfile', function () {
+        sinon.assert.calledOnce(fetchRepoDockerfilesStub);
+        sinon.assert.calledWith(fetchRepoDockerfilesStub, repo.attrs.full_name);
       });
     });
   });
