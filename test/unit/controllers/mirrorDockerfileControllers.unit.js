@@ -1,7 +1,7 @@
 /*global runnable:true, mocks: true, directiveTemplate: true, xdescribe: true, before, xit: true */
 'use strict';
 
-describe('MirrorDockerfileController'.bold.underline.blue, function () {
+describe.only('MirrorDockerfileController'.bold.underline.blue, function () {
   var MDC;
   var $controller;
   var $scope;
@@ -11,7 +11,9 @@ describe('MirrorDockerfileController'.bold.underline.blue, function () {
 
   var apiMocks = require('../apiMocks/index');
   var fetchRepoDockerfilesStub;
-
+  var loadingStub;
+  var closeModalStub;
+  var showModalStub;
   var dockerfile = {
     state: {
       type: 'File',
@@ -28,21 +30,39 @@ describe('MirrorDockerfileController'.bold.underline.blue, function () {
 
   function initState(opts, done) {
     opts.repo = (opts.repo !== undefined) ? opts.repo : repo;
+    opts.branch = (opts.branch !== undefined) ? opts.branch : branch.attrs.name;
     opts.repoFullName = (opts.repoFullName !== undefined) ? opts.repo : repo.attrs.full_name;
 
     angular.mock.module('app');
-      angular.mock.module(function ($provide) {
-        $provide.factory('fetchRepoDockerfiles', function ($q) {
-          fetchRepoDockerfilesStub = sinon.stub().returns($q.when([ dockerfile ]));
-          return fetchRepoDockerfilesStub;
+    angular.mock.module(function ($provide) {
+      $provide.factory('fetchRepoDockerfiles', function ($q) {
+        fetchRepoDockerfilesStub = sinon.stub().returns($q.when([ dockerfile ]));
+        return fetchRepoDockerfilesStub;
+      });
+      $provide.factory('fetchRepoDockerfile', function ($q) {
+        fetchRepoDockerfilesStub = sinon.stub().returns($q.when(dockerfile));
+        return fetchRepoDockerfilesStub;
+      });
+      $provide.value('loading', function () {
+        loadingStub = sinon.stub().returns();
+        return loadingStub;
+      });
+
+      $provide.factory('ModalService', function ($q) {
+        closeModalStub = {
+          close: $q.when(true)
+        };
+        showModalStub = sinon.spy(function () {
+          return $q.when(closeModalStub);
         });
-        $provide.factory('fetchRepoDockerfile', function ($q) {
-          fetchRepoDockerfilesStub = sinon.stub().returns($q.when(dockerfile));
-          return fetchRepoDockerfilesStub;
-        });
-        closeSpy = sinon.stub();
-        $provide.value('close', closeSpy);
-     });
+        return {
+          showModal: showModalStub
+        };
+      });
+
+      closeSpy = sinon.stub();
+      $provide.value('close', closeSpy);
+   });
 
     angular.mock.inject(function (
       _$controller_,
@@ -55,13 +75,17 @@ describe('MirrorDockerfileController'.bold.underline.blue, function () {
       $rootScope = _$rootScope_;
       $q = _$q_;
 
-     $scope = $rootScope.$new();
-      MDC = $controller('MirrorDockerfileController', {
-        $scope: $scope
-      });
-      MDC.instance.repo = opts.repo;
-      MDC.instance.branchName = branch.attrs.name;
+      $scope = $rootScope.$new();
     });
+
+    var laterController = $controller('MirrorDockerfileController', {
+      $scope: $scope
+    }, true);
+
+    laterController.instance.repo = opts.repo;
+    laterController.instance.branchName =  opts.branch;
+
+    MDC = laterController();
     return done();
   }
   function initializeValues() {
@@ -122,40 +146,39 @@ describe('MirrorDockerfileController'.bold.underline.blue, function () {
         }).to.throw();
       });
     });
-    describe('Success', function () {
+    describe('Success with both repo and branch', function () {
       beforeEach(initState.bind(null, {}));
 
-      it('should set the repo to the state', function () {
-         expect(MDC.state.repo).to.equal(repo);
+      it('should set the repo and branchName to the controller', function () {
+        expect(MDC.repo).to.equal(repo);
+        expect(MDC.branchName).to.equal(branch.attrs.name);
       });
-
       it('should fetch the dockerfile', function () {
         sinon.assert.calledOnce(fetchRepoDockerfilesStub);
         sinon.assert.calledWith(fetchRepoDockerfilesStub, repo.attrs.full_name);
       });
     });
-  });
 
-  describe('Canel', function () {
-    beforeEach(initState.bind(null, {}));
+    describe('Success with just repo', function () {
+      beforeEach(initState.bind(null, { branch: null }));
 
-    it('should close the modal when canceled', function () {
-      MDC.cancel();
-      sinon.assert.calledOnce(closeSpy);
+      it('should get branch from repo if not provided', function () {
+        expect(MDC.repo).to.equal(repo);
+        expect(MDC.branchName).to.equal(branch.attrs.name);
+      });
     });
   });
-
-  describe('Confirm', function () {
+  describe('fetchRepoDockerfiles', function () {
     beforeEach(initState.bind(null, {}));
 
-    it('should close the modal when canceled', function () {
-      MDC.confirm(dockerfile);
-      sinon.assert.calledOnce(closeSpy);
-      sinon.assert.calledWith(closeSpy, dockerfile);
+    it('should set loading at the beginning', function () {
+      MDC.fetchRepoDockerfiles();
+      sinon.assert.calledWith(loadingStub, 'mirrorDockerfile', true);
     });
 
-    it('should close the modal when canceled', function () {
-      expect(MDC.confirm.bind(MDC, null)).to.throw();
+    it('should fetch the dockerfile', function () {
+      sinon.assert.calledOnce(fetchRepoDockerfilesStub);
+      sinon.assert.calledWith(fetchRepoDockerfilesStub, repo.attrs.full_name, branch.attrs.name);
     });
   });
 });

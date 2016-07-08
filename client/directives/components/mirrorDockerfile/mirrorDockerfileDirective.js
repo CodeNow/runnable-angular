@@ -23,9 +23,14 @@ function mirrorDockerfileDirective(
     link: function ($scope) {
       loading.reset('mirrorDockerfile');
       $scope.dockerfile = {};
-      if (!keypather.get($scope.MDC, 'repo.dockerfiles.length')) {
-        $scope.MDC.fetchRepoDockerfiles();
-      }
+      $scope.$watch('MDC.repo.attrs.name', function () {
+        $scope.MDC.resetDockerfilePaths();
+        loading('mirrorDockerfile', true);
+        $scope.MDC.addDockerfileFromPath('Dockerfile')
+          .finally(function () {
+            loading('mirrorDockerfile', false);
+          });
+      });
     }
   };
 }
