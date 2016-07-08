@@ -86,7 +86,7 @@
       ng-if = "$root.featureFlags.trial"
     ) {{model.plan === 'limited' && $root.featureFlags.trial ? 'After your trial, you’ll be charged for ' : 'You’ll be charged for '}}
       strong.strong 6 users
-      | .
+      | .&#32;
     | We’ll automatically pro-rate additional users at the end of the billing period.&#32;
     a.link(
       href = "#"
