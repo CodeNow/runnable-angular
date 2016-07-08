@@ -6,6 +6,10 @@
   .well {
     border: 1px solid $gray-lighter;
     border-radius: $input-border-radius-lg;
+
+    + .well {
+      margin-top: 15px;
+    }
   }
 
   .well-plan,

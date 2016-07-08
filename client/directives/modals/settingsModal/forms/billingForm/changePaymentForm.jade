@@ -1,20 +1,14 @@
 form.padding-md
 
-  label.grid-block.align-center.well.well-plan.well-summary(
+  label.grid-block.align-center.well.well-plan.well-summary.disabled(
     ng-if = "$root.featureFlags.trial"
+    ng-include = "'planSummaryView'"
   )
-    .grid-block.align-center.justify-center.shrink.white 😄
-    .grid-block.p Unlimited Repos
-      span.hidden-xs itories
-    .grid-block.shrink.p.align-baseline
-      .strong {{$root.featureFlags.billingDiscounted ? '$24.97' : '$49.95'}}
-      small.small /user/month
 
-  label.grid-block.align-center.well.well-plan.well-summary.padding-xs(
+  label.grid-block.align-center.padding-xs.well.well-plan.well-summary.disabled(
     ng-if = "$root.featureFlags.trial && $root.featureFlags.billingDiscounted"
+    ng-include = "'discountView'"
   )
-    .grid-block.small Thanks for being in our preview!
-    .grid-block.shrink.small 50% Off, 1 Year
 
   //- limit all fields to numbers only
   //- add .invalid class for errors from stripe
@@ -82,6 +76,12 @@ form.padding-md
       href = "#"
       target = "_blank"
     ) Details
+
+  p.grid-content.p.text-gray.text-center.padding-sm(
+    ng-if = "!$root.featureFlags.trial"
+  ) Your payment changes will be applied to your next billing date on July 24
+    sup th
+    | , 2016.
 
 footer.modal-footer.clearfix
   button.btn.btn-md.gray.btn-cancel.float-left(
