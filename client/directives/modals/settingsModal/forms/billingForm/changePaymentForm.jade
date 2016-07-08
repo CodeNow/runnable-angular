@@ -93,21 +93,18 @@ footer.modal-footer.clearfix
     //- .spinner-wrapper.spinner-sm.spinner-white.in(
     //-   ng-include = "'spinner'"
     //- )
-    span  Update Payment
+    span Update Payment
 
   //- disable while loading
   button.btn.btn-md.green.float-right(
-    ng-click = "\
-      $root.featureFlags.trial = false;\
-      $root.featureFlags.trialFooter = false;\
-    "
+    ng-click = "goToPanel('confirmationForm')"
     ng-if = "$root.featureFlags.trial"
     type = "button"
   )
     //- .spinner-wrapper.spinner-sm.spinner-white.in(
     //-   ng-include = "'spinner'"
     //- )
-    span  Submit Payment
+    span Submit Payment
   button.btn.btn-md.gray.btn-cancel.float-right(
     ng-click = "goToPanel('changePlanForm', 'back')"
     ng-if = "$root.featureFlags.trial"

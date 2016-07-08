@@ -30,6 +30,13 @@
         ng-class = "{'in': isActivePanel()}"
         ng-include = "'changePaymentForm'"
       )
+    animated-panel(
+      name = "confirmationForm"
+    )
+      .grid-block.vertical.fade(
+        ng-class = "{'in': isActivePanel()}"
+        ng-include = "'confirmationForm'"
+      )
 
   animated-panel-container(
     ng-if = "!$root.featureFlags.trial"

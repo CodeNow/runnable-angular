@@ -15,6 +15,10 @@
   .well-plan,
   .well-summary {
     background: $white;
+
+    &.flash {
+      animation: flash 5s ease-out;
+    }
   }
 
   .well-plan .white {
