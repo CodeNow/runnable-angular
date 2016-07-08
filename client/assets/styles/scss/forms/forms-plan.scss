@@ -9,6 +9,14 @@
   .well-plan {
     font-size: 19px;
 
+    @include media(xxs) {
+      font-size: 16px;
+
+      &.padding-sm {
+        padding: 9px;
+      }
+    }
+
     &:hover:not(.disabled),
     &:active:not(.disabled),
     &.active:not(.disabled) {
