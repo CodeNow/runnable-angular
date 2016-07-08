@@ -42,8 +42,12 @@ function ServerModalController(
   };
 
   this.openDockerfile = function (state, openItems) {
+    var SMC = this;
     return fetchDockerfileForContextVersion(state.contextVersion)
       .then(function (dockerfile) {
+        if (SMC.instance && SMC.instance.hasDockerfileMirroring() && !SMC.instance.mirroredDockerfile) {
+          SMC.instance.mirroredDockerfile = dockerfile;
+        }
         if (state.dockerfile) {
           openItems.remove(state.dockerfile);
         }
