@@ -63,14 +63,14 @@ form.form-payment.padding-md
 
     //- alt text if on the limited plan
     .grid-block.well.padding-xxs.small.justify-center(
-      ng-if = "!$root.featureFlags.billingPaymentChange"
+      ng-if = "$root.featureFlags.trial"
     )
       | You will be charged $299.70 for 6 users.
       //- | You will not be charged until your trial ends.
 
   //- 3 users is the minimum amount
   p.grid-content.p.text-gray.text-center.padding-sm(
-    ng-if = "!$root.featureFlags.billingPaymentChange"
+    ng-if = "$root.featureFlags.trial"
   ) We’ll automatically pro-rate users at the end of the billing period.&#32;
     a.link(
       href = "#"
@@ -80,11 +80,11 @@ form.form-payment.padding-md
 footer.modal-footer.clearfix
   button.btn.btn-md.gray.btn-cancel.float-left(
     ng-click = "goToPanel('billingForm', 'back')"
-    ng-if = "$root.featureFlags.billingPaymentChange"
+    ng-if = "!$root.featureFlags.trial"
     type = "button"
   ) Cancel
   button.btn.btn-md.green.float-right(
-    ng-if = "$root.featureFlags.billingPaymentChange"
+    ng-if = "!$root.featureFlags.trial"
   )
     //- .spinner-wrapper.spinner-sm.spinner-white.in(
     //-   ng-include = "'spinner'"
@@ -97,7 +97,7 @@ footer.modal-footer.clearfix
       $root.featureFlags.trial = false;\
       $root.featureFlags.trialFooter = false;\
     "
-    ng-if = "!$root.featureFlags.billingPaymentChange"
+    ng-if = "$root.featureFlags.trial"
     type = "button"
   )
     //- .spinner-wrapper.spinner-sm.spinner-white.in(
@@ -106,6 +106,6 @@ footer.modal-footer.clearfix
     span  Submit Payment
   button.btn.btn-md.gray.btn-cancel.float-right(
     ng-click = "goToPanel('changePlanForm', 'back')"
-    ng-if = "!$root.featureFlags.billingPaymentChange"
+    ng-if = "$root.featureFlags.trial"
     type = "button"
   ) Back
