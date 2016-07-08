@@ -74,6 +74,10 @@
       border-radius: $input-border-radius;
       padding: 0;
 
+      &:hover {
+        border-color: rgba($black,.15);
+      }
+
       .a-sref {
         border-radius: 0;
         margin-bottom: 0;
