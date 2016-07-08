@@ -1,38 +1,64 @@
 'use strict';
 
 require('app')
+  .factory('fetchRepoDockerfile', fetchRepoDockerfile)
   .factory('fetchRepoDockerfiles', fetchRepoDockerfiles)
+  .factory('doesDockerfileExist', doesDockerfileExist)
   .factory('fetchCommitsForFile', fetchCommitsForFile)
   .factory('fetchDockerfileForContextVersion', fetchDockerfileForContextVersion);
 
-function fetchRepoDockerfiles(
-  $q,
+function fetchRepoDockerfile(
   $http,
-  configAPIHost,
-  keypather
+  configAPIHost
 ) {
-  return function (repoFullName, branchName) {
-    branchName = (branchName) ? branchName : 'master';
+  return function (repoFullName, branchName, path) {
     return $http({
       method: 'get',
-      url: configAPIHost + '/github/repos/' + repoFullName + '/contents/Dockerfile?ref=' + branchName
+      url: configAPIHost + '/github/repos/' + repoFullName + '/contents/' + path + '?ref=' + branchName
     })
       .then(function (res) {
-        var file = res.data;
-        if (file.message && file.message.match(/not.found/i)) {
-          return [];
-        }
-        // GH doesnt return the '/' when returning a path
-        file.path = '/' + file.path;
-        return [file];
+        return res.data;
       });
+  };
+}
+
+function fetchRepoDockerfiles(
+  $q,
+  doesDockerfileExist,
+  fetchRepoDockerfile
+) {
+  return function (repoFullName, branchName, paths) {
+    branchName = (branchName) ? branchName : 'master';
+    if (!paths) {
+      paths = ['Dockerfile'];
+    }
+    var dockerfilePromises = paths.map(function (path) {
+      return fetchRepoDockerfile(repoFullName, branchName, path)
+        .catch(angular.noop);
+    });
+    return $q.all(dockerfilePromises)
+      .then(function (resultArray) {
+        return resultArray.filter(doesDockerfileExist);
+      });
+  };
+}
+
+function doesDockerfileExist() {
+  return function (file) {
+    if (file.message && file.message.match(/not.found/i)) {
+      throw new Error(file.message);
+    }
+    // GH doesnt return the '/' when returning a path
+    file.path = '/' + file.path;
+    return file;
   };
 }
 
 function fetchDockerfileForContextVersion (
   base64,
+  doesDockerfileExist,
   fetchCommitsForFile,
-  fetchRepoDockerfiles,
+  fetchRepoDockerfile,
   keypather,
   moment,
   promisify
@@ -51,9 +77,9 @@ function fetchDockerfileForContextVersion (
       var path = result && result[1] || '';
       // Get everything after the last '/'
       var name = result && result[2] || '';
-      return fetchRepoDockerfiles(repoFullName, branchName)
-        .then(function (dockerfiles) {
-          var dockerfile = dockerfiles[0];
+      return fetchRepoDockerfile(repoFullName, branchName, buildDockerfilePath)
+        .then(doesDockerfileExist)
+        .then(function (dockerfile) {
           if (!dockerfile) {
             return null;
           }
@@ -73,7 +99,7 @@ function fetchDockerfileForContextVersion (
             });
         });
     }
-    return promisify(contextVersion, 'fetchFile')('/Dockerfile');
+    return promisify(contextVersion, 'fetchFile')(buildDockerfilePath || '/Dockerfile');
   };
 }
 

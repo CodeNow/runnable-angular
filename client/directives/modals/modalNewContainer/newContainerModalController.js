@@ -172,9 +172,6 @@ function NewContainerModalController(
         }
         loading(NCMC.name + 'SingleRepo', false);
         repo.loading = false;
-        if (dockerfiles.length === 0) {
-          return goToPanelCb('nameContainer');
-        }
         repo.dockerfiles = dockerfiles;
         NCMC.state.dockerfile = null;
         return goToPanelCb('dockerfileMirroring');
@@ -192,7 +189,7 @@ function NewContainerModalController(
           NCMC.newRepositoryContainer(repoBuildAndBranch);
         }
       })
-     .finally(function () {
+      .finally(function () {
         loading(NCMC.name + 'SingleRepo', false);
       });
   };

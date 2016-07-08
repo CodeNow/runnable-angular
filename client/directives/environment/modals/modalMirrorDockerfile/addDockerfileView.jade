@@ -8,7 +8,7 @@
         )
     section.modal-body
       svg.iconnables.icons-close(
-        ng-click = "defaultActions.cancel()"
+        ng-click = "MC.cancel()"
       )
         use(
           xlink:href = "#icons-close"
@@ -20,18 +20,19 @@
             //- disable while loading
             input.input.input-sm.input-validate(
               autocomplete = "off"
-              ng-model = "dockerfilePath"
+              ng-model = "MC.savedValue"
               spellcheck = "false"
             )
             small.small.text-gray Specify the relative path to your Dockerfile in your repository (e.g. if your Dockerfile is in a root folder named “config”, your path would be “config/Dockerfile”).
 
     footer.modal-footer.clearfix
       button.btn.btn-md.gray.btn-cancel.float-left(
-        ng-click = "defaultActions.close()"
+        ng-click = "MC.cancel()"
       ) Cancel
       //- add spinner and disable when loading
       button.btn.btn-md.green.float-right(
-        ng-disabled = "!dockerfilePath"
+        ng-disabled = "!MC.savedValue"
+        ng-click = "MC.confirm(MC.savedValue)"
       )
         //- .spinner-wrapper.spinner-sm.spinner-white.in(
         //-   ng-include = "'spinner'"
