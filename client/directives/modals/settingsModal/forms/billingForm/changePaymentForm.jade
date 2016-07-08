@@ -1,7 +1,7 @@
 form.form-payment.padding-md
 
   label.grid-block.align-center.well.well-plan.well-summary(
-    ng-if = "!$root.featureFlags.billingPaymentChange"
+    ng-if = "$root.featureFlags.trial"
   )
     .grid-block.align-center.justify-center.shrink.white 😄
     .grid-block.p.strong Unlimited Repositories
@@ -13,10 +13,11 @@ form.form-payment.padding-md
   //- limit all fields to numbers only
   //- add .invalid class for errors from stripe
   .grid-block.vertical.well.gray.padding-sm.well-payment
+    //- display stripe errors here:
     //- p.red.small.text-center Your card was declined!
     label.grid-block.vertical.label-payment.label-cc
       .small Card Number
-      //- add .visa, .mastercard, .amex, .jcb AFTER cc number is filled out
+      //- add .visa, .mastercard, .amex, .jcb to show cc type
       input.grid-content.input.input-md.input-cc.input-validate(
         autocomplete = "cc-number"
         inputmode = "numeric"
@@ -29,9 +30,8 @@ form.form-payment.padding-md
     .grid-block
       label.grid-block.vertical.label-payment.label-expiry
         .small Expiry
-        //- auto insert " / " after last 2nd number
+        //- auto insert " / " after last 2nd number (with the spaces)
           - pressing delete immediately after " / " should delete " / " AND the preceeding number
-          - allow MM / YYYY
         input.input.input-md.input-exp.input-validate(
           autocomplete = "cc-exp"
           inputmode = "numeric"
@@ -43,7 +43,7 @@ form.form-payment.padding-md
 
       label.grid-block.vertical.label-payment.label-security
         .small CVC
-        //- change maxlength to 3/4 depending on cc
+        //- change maxlength to 3/4 depending on cc (4 for amex)
         input.input.input-md.input-cvc.input-validate(
           autocomplete = "cc-csc"
           inputmode = "numeric"

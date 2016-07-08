@@ -13,7 +13,6 @@ function featureFlags(
     autoWhitelist: false,
     backup: false,
     billing: false,
-    billingPlanChange: false,
     billingPaymentChange: false,
     cardStatus: false,
     connections: false,

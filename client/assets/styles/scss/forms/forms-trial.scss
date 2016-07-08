@@ -7,6 +7,7 @@
     width: 60px;
   }
 
+  // trial days left
   .h2 {
     bottom: 9px;
     color: $purple;
@@ -14,11 +15,6 @@
     left: 0;
     position: absolute;
     right: 0;
-  }
-
-  // need specificity to override .p.empty
-  .p.empty {
-    margin-bottom: 0;
   }
 
   .btn {
