@@ -45,7 +45,7 @@ function ServerModalController(
     var SMC = this;
     return fetchDockerfileForContextVersion(state.contextVersion)
       .then(function (dockerfile) {
-        if (SMC.instance && SMC.instance.hasDockerfileMirroring() && !SMC.instance.mirroredDockerfile) {
+        if (keypather.get(SMC, 'instance.hasDockerfileMirroring()') && !SMC.instance.mirroredDockerfile) {
           SMC.instance.mirroredDockerfile = dockerfile;
         }
         if (state.dockerfile) {

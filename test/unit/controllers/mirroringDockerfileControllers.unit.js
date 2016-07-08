@@ -2,7 +2,7 @@
 'use strict';
 
 describe('MirrorDockerfileController'.bold.underline.blue, function () {
-  var CDMC;
+  var MDC;
   var $controller;
   var $scope;
   var $rootScope;
@@ -56,11 +56,11 @@ describe('MirrorDockerfileController'.bold.underline.blue, function () {
       $q = _$q_;
 
      $scope = $rootScope.$new();
-      CDMC = $controller('ChooseDockerfileModalController', {
-        $scope: $scope,
-        repo: opts.repo,
-        branchName: branch.attrs.name
+      MDC = $controller('MirrorDockerfileController', {
+        $scope: $scope
       });
+      MDC.instance.repo = opts.repo;
+      MDC.instance.branchName = branch.attrs.name;
     });
     return done();
   }
@@ -126,7 +126,7 @@ describe('MirrorDockerfileController'.bold.underline.blue, function () {
       beforeEach(initState.bind(null, {}));
 
       it('should set the repo to the state', function () {
-         expect(CDMC.state.repo).to.equal(repo);
+         expect(MDC.state.repo).to.equal(repo);
       });
 
       it('should fetch the dockerfile', function () {
@@ -140,7 +140,7 @@ describe('MirrorDockerfileController'.bold.underline.blue, function () {
     beforeEach(initState.bind(null, {}));
 
     it('should close the modal when canceled', function () {
-      CDMC.cancel();
+      MDC.cancel();
       sinon.assert.calledOnce(closeSpy);
     });
   });
@@ -149,13 +149,13 @@ describe('MirrorDockerfileController'.bold.underline.blue, function () {
     beforeEach(initState.bind(null, {}));
 
     it('should close the modal when canceled', function () {
-      CDMC.confirm(dockerfile);
+      MDC.confirm(dockerfile);
       sinon.assert.calledOnce(closeSpy);
       sinon.assert.calledWith(closeSpy, dockerfile);
     });
 
     it('should close the modal when canceled', function () {
-      expect(CDMC.confirm.bind(CDMC, null)).to.throw();
+      expect(MDC.confirm.bind(MDC, null)).to.throw();
     });
   });
 });
