@@ -28,7 +28,7 @@
   label.grid-block.align-center.well.well-plan.padding-sm(
     ng-class = "{\
       'active': model.plan === 'unlimited',\
-      'disabled': $root.featureFlags.billingPlanChange\
+      'disabled not-allowed': $root.featureFlags.billingPlanChange\
     }"
   )
     .grid-block.align-center.justify-center.shrink.white 😄
@@ -86,7 +86,7 @@ footer.modal-footer.clearfix(
 
   //- disabled if no plan is selected
   button.btn.btn-md.white.float-right(
-    ng-click = "goToPanel('chnagePaymentForm')"
+    ng-click = "goToPanel('changePaymentForm')"
     ng-if = "!$root.featureFlags.billingPlanChange"
     type = "button"
   ) Next: Payment
