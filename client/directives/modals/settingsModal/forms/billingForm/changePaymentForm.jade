@@ -20,8 +20,8 @@ form.padding-md
       input.grid-content.input.input-md.input-cc.input-validate(
         autocomplete = "cc-number"
         inputmode = "numeric"
-        maxlength = "19"
-        ng-class = "{'amex': ccNumber.length === 19}"
+        maxlength = "16"
+        ng-class = "{'amex': ccNumber.length === 16}"
         ng-model = "ccNumber"
         required
         spellcheck = "false"
@@ -35,14 +35,13 @@ form.padding-md
           autocomplete = "cc-exp"
           inputmode = "numeric"
           maxlength = "7"
-          placeholder = "MM / YY"
+          placeholder = "MM/YY"
           required
           spellcheck = "false"
         )
 
       label.grid-block.vertical.label-payment.label-security
         .small CVC
-        //- change maxlength to 3/4 depending on cc (4 for amex)
         input.input.input-md.input-cvc.input-validate(
           autocomplete = "cc-csc"
           inputmode = "numeric"
