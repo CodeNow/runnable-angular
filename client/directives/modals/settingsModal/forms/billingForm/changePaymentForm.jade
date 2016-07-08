@@ -4,12 +4,17 @@ form.padding-md
     ng-if = "$root.featureFlags.trial"
   )
     .grid-block.align-center.justify-center.shrink.white 😄
-    .grid-block.p.strong Unlimited Repos
+    .grid-block.p Unlimited Repos
       span.hidden-xs itories
     .grid-block.shrink.p.align-baseline
-      .strong $49.95
+      .strong {{$root.featureFlags.billingDiscounted ? '$24.97' : '$49.95'}}
       small.small /user/month
 
+  label.grid-block.align-center.well.well-plan.well-summary.padding-xs(
+    ng-if = "$root.featureFlags.trial && $root.featureFlags.billingDiscounted"
+  )
+    .grid-block.small Thanks for being in our preview!
+    .grid-block.shrink.small 50% Off, 1 Year
 
   //- limit all fields to numbers only
   //- add .invalid class for errors from stripe

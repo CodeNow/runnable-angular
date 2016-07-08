@@ -8,10 +8,18 @@
     .grid-block.vertical
       .grid-block.p.strong 2 Repo
         span.hidden-xxs sitory
-        | &#32;Limit
-      .grid-block.p
-        .strong $9.95
-        span /user/month
+        | &nbsp;Limit
+      .grid-block.vertical.p(
+        ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
+      )
+        .grid-block
+          .strong {{$root.featureFlags.billingDiscounted ? '$4.97' : '$9.95'}}
+          span /user/month
+        .small(
+          ng-if = "$root.featureFlags.billingDiscounted"
+        )
+          span.strike.text-red $9.95
+          span.text-gray &#32;50% Off
       .grid-content.p.small.text-gray 3 user minimum.
     input.checkbox.hidden(
       name = "plan"
@@ -37,9 +45,17 @@
     .grid-block.vertical
       .grid-block.p.strong Unlimited Repos
         span.hidden-xxs itories
-      .grid-block.p
-        .strong $49.95
-        span /user/month
+      .grid-block.vertical.p(
+        ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
+      )
+        .grid-block
+          .strong {{$root.featureFlags.billingDiscounted ? '$24.97' : '$49.95'}}
+          span /user/month
+        .small(
+          ng-if = "$root.featureFlags.billingDiscounted"
+        )
+          span.strike.text-red $49.95
+          span.text-gray &#32;50% Off
       .grid-content.p.small.text-gray 3 user minimum.
     input.checkbox.hidden(
       name = "plan"
