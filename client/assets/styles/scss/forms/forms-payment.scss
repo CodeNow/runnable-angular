@@ -1,5 +1,11 @@
 .form-payment {
 
+  @include media(xxs) {
+    > .padding-md {
+      padding: 15px;
+    }
+  }
+
   .well + .well {
     margin-top: 15px;
   }

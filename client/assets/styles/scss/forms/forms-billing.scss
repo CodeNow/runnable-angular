@@ -53,9 +53,18 @@
 .table-billing {
   color: $gray-dark;
   font-size: 15px;
+  white-space: nowrap;
 
-  // date
-  .cell:first-child {
-    flex: 0 0 auto;
+  .cell {
+
+    // cost
+    &:first-child {
+      flex: 0 0 auto;
+    }
+
+    // date
+    &:last-child {
+      max-width: 105px;
+    }
   }
 }

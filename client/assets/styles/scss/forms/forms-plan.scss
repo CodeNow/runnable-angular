@@ -1,5 +1,11 @@
 .form-plan {
 
+  @include media(xxs) {
+    > .padding-md {
+      padding: 15px;
+    }
+  }
+
   .well-plan {
     font-size: 19px;
 
