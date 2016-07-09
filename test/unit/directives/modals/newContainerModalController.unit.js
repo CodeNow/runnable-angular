@@ -237,7 +237,7 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
         expect(NCMC.state.repo).to.equal(repo2);
       });
 
-      it('should call the callback  even if there are no dockerfiles', function () {
+      it('should call the callback even if there are no dockerfiles', function () {
         fetchRepoDockerfilesStub.returns($q.when([]));
         sinon.stub(NCMC, 'createBuildAndGoToNewRepoModal').returns($q.when(true));
         var repo = {

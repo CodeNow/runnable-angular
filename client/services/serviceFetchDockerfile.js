@@ -12,6 +12,7 @@ function fetchRepoDockerfile(
   configAPIHost
 ) {
   return function (repoFullName, branchName, path) {
+    path = path.replace(/^\/*/, ''); // Removes 0-inf / at the start
     return $http({
       method: 'get',
       url: configAPIHost + '/github/repos/' + repoFullName + '/contents/' + path + '?ref=' + branchName
@@ -28,26 +29,25 @@ function fetchRepoDockerfiles(
   fetchRepoDockerfile
 ) {
   return function (repoFullName, branchName, paths) {
-    branchName = (branchName) ? branchName : 'master';
+    branchName = branchName || 'master';
     if (!paths) {
       paths = ['Dockerfile'];
     }
     var dockerfilePromises = paths.map(function (path) {
       return fetchRepoDockerfile(repoFullName, branchName, path)
-        .then(doesDockerfileExist)
-        .catch(angular.noop); // this will make all failed fetched dockerfiles null
+        .then(doesDockerfileExist);
     });
     return $q.all(dockerfilePromises)
       .then(function (resultArray) {
-        return resultArray.filter(angular.isDefined); // so they can be filtered out here
+        return resultArray.filter(angular.isDefined);
       });
   };
 }
 
 function doesDockerfileExist() {
   return function (file) {
-    if (file.message && file.message.match(/not.found/i)) {
-      throw new Error(file.message);
+    if (!file || (file.message && file.message.match(/not.found/i))) {
+      return null;
     }
     // GH doesnt return the '/' when returning a path
     file.path = '/' + file.path;

@@ -40,8 +40,11 @@ function MirrorDockerfileController(
 
   MDC.addDockerfileFromPath = function (newDockerfilePath) {
     if (newDockerfilePath) {
-      newDockerfilePath.replace(/^\/*/, '/'); // Replace 0-inf / at the start
-      MDC.newDockerfilePaths.push(newDockerfilePath);
+      // This replace will make sure every path being added starts with /
+      newDockerfilePath = newDockerfilePath.replace(/^\/*/, '/');
+      if (!MDC.newDockerfilePaths.includes(newDockerfilePath)) {
+        MDC.newDockerfilePaths.push(newDockerfilePath);
+      }
       return MDC.fetchRepoDockerfiles()
         .then(function (dockerfiles) {
           return $timeout(angular.noop)

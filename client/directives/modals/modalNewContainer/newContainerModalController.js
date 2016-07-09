@@ -153,7 +153,7 @@ function NewContainerModalController(
   };
 
   NCMC.setRepo = function (repo, goToPanelCb, createContainerDirectly) {
-    if (repo.attrs.name === keypather.get(NCMC, 'state.repo.attrs.name')) {
+    if (repo.attrs.full_name === keypather.get(NCMC, 'state.repo.attrs.full_name')) {
       return goToPanelCb('dockerfileMirroring');
     }
     repo.loading = true;

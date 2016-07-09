@@ -226,15 +226,23 @@ describe('MirrorDockerfileController'.bold.underline.blue, function () {
       MDC.addDockerfileFromPath(newPath);
       $scope.$digest();
 
-      expect(MDC.newDockerfilePaths).to.deep.equal(['asdasdasdd']);
+      expect(MDC.newDockerfilePaths).to.deep.equal(['/asdasdasdd']);
     });
-    it('should add the new dockerfile to newDockerfilePaths', function () {
+    it('should fetch the dockerfiles', function () {
       var newPath = 'asdasdasdd';
       MDC.newDockerfilePaths = [];
       MDC.addDockerfileFromPath(newPath);
       $scope.$digest();
 
       sinon.assert.calledOnce(MDC.fetchRepoDockerfiles);
+    });
+    it('should not add repeats to the newDockerfilePaths', function () {
+      var newPath = 'asdasdasdd';
+      MDC.newDockerfilePaths = ['/asdasdasdd'];
+      MDC.addDockerfileFromPath(newPath);
+      $scope.$digest();
+
+      expect(MDC.newDockerfilePaths).to.deep.equal(['/asdasdasdd']);
     });
     it('should make the new dockerfile the state.dockerfile', function () {
       var newPath = dockerfile.path;
