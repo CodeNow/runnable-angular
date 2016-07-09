@@ -28,18 +28,19 @@ function MirrorDockerfileController(
   MDC.fetchRepoDockerfiles = function () {
     return fetchRepoDockerfiles(fullname, branch, MDC.newDockerfilePaths)
       .then(function (dockerfiles) {
+        // remove any dead paths by replacing them with the results
         MDC.newDockerfilePaths = dockerfiles.map(function (dockerfile) {
           return dockerfile.path;
         });
-        MDC.state.repo.dockerfiles = dockerfiles;
+        MDC.repo.dockerfiles = dockerfiles;
         return dockerfiles;
       })
       .catch(errs.handler);
   };
 
   MDC.addDockerfileFromPath = function (newDockerfilePath) {
-    if (newDockerfilePath && !MDC.newDockerfilePaths.includes('/' + newDockerfilePath)) {
-      newDockerfilePath = '/' + newDockerfilePath;
+    if (newDockerfilePath) {
+      newDockerfilePath.replace(/^\/*/, '/'); // Replace 0-inf / at the start
       MDC.newDockerfilePaths.push(newDockerfilePath);
       return MDC.fetchRepoDockerfiles()
         .then(function (dockerfiles) {

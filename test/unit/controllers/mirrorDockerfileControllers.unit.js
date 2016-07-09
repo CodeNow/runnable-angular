@@ -1,7 +1,7 @@
 /*global runnable:true, mocks: true, directiveTemplate: true, xdescribe: true, before, xit: true */
 'use strict';
 
-describe.only('MirrorDockerfileController'.bold.underline.blue, function () {
+describe('MirrorDockerfileController'.bold.underline.blue, function () {
   var MDC;
   var $controller;
   var $scope;
@@ -11,18 +11,9 @@ describe.only('MirrorDockerfileController'.bold.underline.blue, function () {
 
   var apiMocks = require('../apiMocks/index');
   var fetchRepoDockerfilesStub;
-  var loadingStub;
   var closeModalStub;
   var showModalStub;
-  var dockerfile = {
-    state: {
-      type: 'File',
-      body: angular.copy(apiMocks.files.dockerfile)
-    },
-    attrs: {
-      body: angular.copy(apiMocks.files.dockerfile)
-    }
-  };
+  var dockerfile;
   var repo;
   var branch;
   var branches;
@@ -35,19 +26,10 @@ describe.only('MirrorDockerfileController'.bold.underline.blue, function () {
 
     angular.mock.module('app');
     angular.mock.module(function ($provide) {
-      $provide.factory('fetchRepoDockerfiles', function ($q) {
-        fetchRepoDockerfilesStub = sinon.stub().returns($q.when([ dockerfile ]));
-        return fetchRepoDockerfilesStub;
-      });
       $provide.factory('fetchRepoDockerfile', function ($q) {
         fetchRepoDockerfilesStub = sinon.stub().returns($q.when(dockerfile));
         return fetchRepoDockerfilesStub;
       });
-      $provide.value('loading', function () {
-        loadingStub = sinon.stub().returns();
-        return loadingStub;
-      });
-
       $provide.factory('ModalService', function ($q) {
         closeModalStub = {
           close: $q.when(true)
@@ -84,6 +66,7 @@ describe.only('MirrorDockerfileController'.bold.underline.blue, function () {
 
     laterController.instance.repo = opts.repo;
     laterController.instance.branchName =  opts.branch;
+    laterController.instance.state =  opts.branch;
 
     MDC = laterController();
     return done();
@@ -96,6 +79,16 @@ describe.only('MirrorDockerfileController'.bold.underline.blue, function () {
         commit: {
           sha: 'sha'
         }
+      }
+    };
+    dockerfile = {
+      state: {
+        type: 'File',
+        body: angular.copy(apiMocks.files.dockerfile)
+      },
+      path: '/Dockerfile',
+      attrs: {
+        body: angular.copy(apiMocks.files.dockerfile)
       }
     };
     branches = {
@@ -153,32 +146,113 @@ describe.only('MirrorDockerfileController'.bold.underline.blue, function () {
         expect(MDC.repo).to.equal(repo);
         expect(MDC.branchName).to.equal(branch.attrs.name);
       });
-      it('should fetch the dockerfile', function () {
-        sinon.assert.calledOnce(fetchRepoDockerfilesStub);
-        sinon.assert.calledWith(fetchRepoDockerfilesStub, repo.attrs.full_name);
-      });
     });
 
-    describe('Success with just repo', function () {
-      beforeEach(initState.bind(null, { branch: null }));
+  });
+
+  describe('fetchRepoDockerfiles', function () {
+    describe('fetching with just repo', function () {
+      beforeEach(initState.bind(null, {branch: null}));
 
       it('should get branch from repo if not provided', function () {
-        expect(MDC.repo).to.equal(repo);
-        expect(MDC.branchName).to.equal(branch.attrs.name);
+        MDC.fetchRepoDockerfiles();
+        $scope.$digest();
+        sinon.assert.calledOnce(fetchRepoDockerfilesStub);
+        sinon.assert.calledWith(fetchRepoDockerfilesStub, repo.attrs.full_name, repo.attrs.default_branch);
+      });
+    });
+    describe('fetching with both branch and repo', function () {
+      beforeEach(initState.bind(null, {}));
+
+      it('should fetch the dockerfile', function () {
+        MDC.fetchRepoDockerfiles();
+        $scope.$digest();
+
+        sinon.assert.calledOnce(fetchRepoDockerfilesStub);
+        sinon.assert.calledWith(fetchRepoDockerfilesStub, repo.attrs.full_name, branch.attrs.name);
+      });
+
+      it('should fill the state.repo with the dockerfile', function () {
+        MDC.fetchRepoDockerfiles();
+        $scope.$digest();
+
+        expect(MDC.newDockerfilePaths).to.deep.equal([dockerfile.path]);
+        expect(MDC.repo.dockerfiles).to.deep.equal([dockerfile]);
       });
     });
   });
-  describe('fetchRepoDockerfiles', function () {
+  describe('addDockerfileModal', function () {
     beforeEach(initState.bind(null, {}));
-
-    it('should set loading at the beginning', function () {
-      MDC.fetchRepoDockerfiles();
-      sinon.assert.calledWith(loadingStub, 'mirrorDockerfile', true);
+    beforeEach(function () {
+      sinon.stub(MDC, 'addDockerfileFromPath').returns();
     });
+    it('should create a modal', function () {
+      MDC.addDockerfileModal();
+      $scope.$digest();
 
-    it('should fetch the dockerfile', function () {
-      sinon.assert.calledOnce(fetchRepoDockerfilesStub);
-      sinon.assert.calledWith(fetchRepoDockerfilesStub, repo.attrs.full_name, branch.attrs.name);
+      sinon.assert.calledOnce(showModalStub);
+      sinon.assert.calledWith(showModalStub, {
+        controller: 'AddDockerfileModalController',
+        controllerAs: 'MC',
+        templateUrl: 'addDockerfileModalView',
+        inputs: {
+          branchName: branch.attrs.name,
+          fullRepo: repo.attrs.full_name
+        }
+      });
+    });
+    it('should call addDockerfileFromPath after the modal closes', function () {
+      MDC.addDockerfileModal();
+      $scope.$digest();
+
+      sinon.assert.calledOnce(MDC.addDockerfileFromPath);
+    });
+  });
+  describe('addDockerfileFromPath', function () {
+    beforeEach(initState.bind(null, {}));
+    beforeEach(function () {
+      sinon.stub(MDC, 'fetchRepoDockerfiles').returns($q.when([dockerfile]));
+    });
+    it('should ignore when given null', function () {
+      MDC.newDockerfilePaths = [];
+      MDC.addDockerfileFromPath();
+      $scope.$digest();
+
+      sinon.assert.notCalled(MDC.fetchRepoDockerfiles);
+    });
+    it('should add the new dockerfile to newDockerfilePaths', function () {
+      var newPath = 'asdasdasdd';
+      MDC.newDockerfilePaths = [];
+      MDC.addDockerfileFromPath(newPath);
+      $scope.$digest();
+
+      expect(MDC.newDockerfilePaths).to.deep.equal(['asdasdasdd']);
+    });
+    it('should add the new dockerfile to newDockerfilePaths', function () {
+      var newPath = 'asdasdasdd';
+      MDC.newDockerfilePaths = [];
+      MDC.addDockerfileFromPath(newPath);
+      $scope.$digest();
+
+      sinon.assert.calledOnce(MDC.fetchRepoDockerfiles);
+    });
+    it('should make the new dockerfile the state.dockerfile', function () {
+      var newPath = dockerfile.path;
+      MDC.newDockerfilePaths = [];
+      MDC.addDockerfileFromPath(newPath);
+      $scope.$digest();
+      $scope.$digest();
+
+      sinon.assert.calledOnce(MDC.fetchRepoDockerfiles);
+    });
+    it('should not set the state.dockerfile if the newDockerfilePath isn\'t returned', function () {
+      var newPath = 'dsasdasdsad';
+      MDC.newDockerfilePaths = [];
+      MDC.addDockerfileFromPath(newPath);
+      $scope.$digest();
+      $scope.$digest();
+
+      sinon.assert.calledOnce(MDC.fetchRepoDockerfiles);
     });
   });
 });
